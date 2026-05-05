@@ -1,0 +1,348 @@
+<?php
+namespace mod_videotrack\local;
+
+defined('MOODLE_INTERNAL') || die();
+
+class tracker {
+    /** Numero massimo di intervalli merged conservati in intervaljson.
+     *  Impedisce la crescita illimitata del campo per utenti che guardano
+     *  molti frammenti brevi e non sovrapposti. */
+    const MAX_INTERVALS = 500;
+
+    public static function normalise_interval(float $start, float $end, float $duration = 0.0): ?array {
+        if ($duration > 0) {
+            $start = max(0.0, min($start, $duration));
+            $end = max(0.0, min($end, $duration));
+        } else {
+            $start = max(0.0, $start);
+            $end = max(0.0, $end);
+        }
+        if ($end <= $start) {
+            return null;
+        }
+        return [round($start, 3), round($end, 3)];
+    }
+
+    public static function decode_intervals(?string $json): array {
+        if (empty($json)) {
+            return [];
+        }
+        $data = json_decode($json, true);
+        return is_array($data) ? $data : [];
+    }
+
+    public static function encode_intervals(array $intervals): string {
+        return json_encode(array_values($intervals));
+    }
+
+    public static function merge_intervals(array $intervals): array {
+        if (!$intervals) {
+            return [];
+        }
+        usort($intervals, static function($a, $b) {
+            return $a[0] <=> $b[0];
+        });
+        $merged = [];
+        foreach ($intervals as $interval) {
+            if (!$merged || $interval[0] > $merged[count($merged) - 1][1]) {
+                $merged[] = $interval;
+                continue;
+            }
+            $merged[count($merged) - 1][1] = max($merged[count($merged) - 1][1], $interval[1]);
+        }
+        return $merged;
+    }
+
+    /**
+     * Se il numero di intervalli supera MAX_INTERVALS, semplifica unendo
+     * quelli con il gap minore tra loro, preservando la copertura totale.
+     */
+    public static function cap_intervals(array $intervals): array {
+        if (count($intervals) <= self::MAX_INTERVALS) {
+            return $intervals;
+        }
+        return self::simplify_intervals($intervals, self::MAX_INTERVALS);
+    }
+
+    /**
+     * Riduce l'array di intervalli al target count senza mai fondere gap non visti.
+     *
+     * Il problema del metodo precedente: univa le coppie con il gap minore,
+     * il che significa che il gap (parte NON vista) veniva inglobato nell'intervallo
+     * risultante, gonfiando artificialmente uniquecoveredseconds.
+     *
+     * Soluzione corretta: invece di unire gli intervalli (che aggiunge copertura falsa),
+     * TRONCHIAMO l'array mantenendo i primi $target intervalli ordinati per lunghezza
+     * decrescente. I frammenti brevi e marginali vengono scartati, ma la copertura
+     * totale non viene mai sovrastimata.
+     *
+     * Nota: questa operazione comporta una perdita di precisione (piccoli frammenti
+     * vengono ignorati), ma è semanticamente corretta: non inventa copertura.
+     * La perdita è limitata: cap_intervals viene chiamata solo quando ci sono >500
+     * intervalli distinti (scenario raro e solo con seek molto frequenti).
+     *
+     * @param array $intervals  Array di [start, end] già merged.
+     * @param int   $target     Numero massimo di intervalli da mantenere.
+     * @return array
+     */
+    public static function simplify_intervals(array $intervals, int $target): array {
+        $intervals = self::merge_intervals($intervals);
+        $n = count($intervals);
+        if ($n <= $target) {
+            return $intervals;
+        }
+        // Ordina per lunghezza decrescente e tieni i $target più lunghi.
+        usort($intervals, function($a, $b) {
+            return ($b[1] - $b[0]) <=> ($a[1] - $a[0]);
+        });
+        $kept = array_slice($intervals, 0, $target);
+        // Ri-ordina per posizione temporale per coerenza.
+        usort($kept, function($a, $b) { return $a[0] <=> $b[0]; });
+        return $kept;
+    }
+
+    public static function covered_seconds(array $intervals): float {
+        $total = 0.0;
+        foreach ($intervals as $interval) {
+            $total += max(0.0, $interval[1] - $interval[0]);
+        }
+        return round($total, 3);
+    }
+
+    public static function reaction_counts(int $videotrackid, int $userid): array {
+        global $DB;
+        $p = ['vtid' => $videotrackid, 'uid' => $userid];
+        $where = "videotrackid = :vtid AND userid = :uid AND isdeleted = 0
+                  AND reactionid > 0 AND (notetype = '' OR notetype IS NULL)";
+        // Due query separate per evitare GROUP_CONCAT (troncato a 1024 chars su MySQL).
+        $row = $DB->get_record_sql(
+            "SELECT COUNT(*) AS eventcount, COUNT(DISTINCT reactionid) AS uniquecount
+               FROM {videotrack_reactev} WHERE $where", $p);
+        $ids = $DB->get_fieldset_sql(
+            "SELECT DISTINCT reactionid FROM {videotrack_reactev} WHERE $where ORDER BY reactionid", $p);
+        return [
+            'eventcount'  => (int)($row->eventcount  ?? 0),
+            'uniquecount' => (int)($row->uniquecount  ?? 0),
+            'uniqueids'   => array_map('intval', $ids),
+        ];
+    }
+
+
+    /**
+     * Returns true when a reaction or note is backed by a recent playback heartbeat.
+     *
+     * The browser UI hides these controls outside PLAYING, but this server-side check
+     * prevents direct AJAX calls from creating reactions/notes at arbitrary timestamps.
+     */
+    public static function has_recent_playback(int $videotrackid, int $userid, string $sessionid,
+            float $videotime, int $recentseconds = 20, float $timetolerance = 8.0): bool {
+        global $DB;
+        // I parametri vtstart/vtend sono lo stesso valore ($videotime), e tolstart/tolend lo stesso.
+        // Usare placeholder distinti evita problemi con driver adodb che non ammettono
+        // lo stesso named param più di una volta nella stessa query.
+        $vt  = max(0.0, $videotime);
+        $tol = max(1.0, $timetolerance);
+        $since = time() - max(5, $recentseconds);
+        $params = [
+            'vtid'  => $videotrackid,
+            'uid'   => $userid,
+            'sid'   => $sessionid,
+            'since' => $since,
+            'vt'    => $vt,
+            'vt2'   => $vt,
+            'tol1'  => $tol,
+            'tol2'  => $tol,
+        ];
+        $params['tolend'] = max($tol, 12.0);
+
+        // A single query covers both the strict interval match and the grace
+        // period used for clicks immediately after PLAYING/seek in high-latency
+        // environments. This avoids duplicate DB checks for each reaction/note.
+        return $DB->record_exists_select('videotrack_seg',
+            'videotrackid = :vtid AND userid = :uid AND sessionid = :sid AND timecreated >= :since
+             AND ((:vt >= (videotimestart - :tol1) AND :vt2 <= (videotimeend + :tol2))
+                  OR ABS(videotimeend - :vt3) <= :tolend)',
+            $params + ['vt3' => $vt]
+        );
+    }
+
+    public static function completion_satisfied(\stdClass $videotrack, ?\stdClass $state, array $reactionsummary, array $requiredreactionids): bool {
+        $checks = [];
+        if (!empty($videotrack->completionpercent)) {
+            $checks[] = !empty($state) && (float)$state->completionpercent >= (float)$videotrack->completionpercent;
+        }
+        if (!empty($videotrack->reactionsrequired) && !empty($videotrack->minreactions)) {
+            $checks[] = $reactionsummary['uniquecount'] >= (int)$videotrack->minreactions;
+        }
+        foreach ($requiredreactionids as $reactionid) {
+            $checks[] = in_array((int)$reactionid, $reactionsummary['uniqueids'], true);
+        }
+        if (!empty($videotrack->requireallreactiontypes)) {
+            global $DB;
+            $allreactionids = array_map('intval', array_keys((array)$DB->get_records_menu('videotrack_react', [
+                'videotrackid' => $videotrack->id,
+                'isdeleted' => 0,
+            ], '', 'id,id')));
+            if ($allreactionids) {
+                $checks[] = count(array_intersect($allreactionids, array_map('intval', $reactionsummary['uniqueids']))) === count($allreactionids);
+            }
+        }
+        if (!$checks) {
+            return false;
+        }
+        $logic = $videotrack->completionlogic ?? 'and';
+        if ($logic === 'or') {
+            return in_array(true, $checks, true);
+        }
+        foreach ($checks as $check) {
+            if (!$check) {
+                return false;
+            }
+        }
+        return true;
+    }
+
+    /**
+     * Aggiorna lo stato aggregato di visione per un utente.
+     * Inserisce il segmento grezzo e aggiorna videotrack_state in un'unica
+     * transazione atomica: se qualcosa fallisce, nessun segmento orfano resta nel DB.
+     *
+     * @param stdClass  $videotrack   Istanza attività.
+     * @param cm_info   $cm           Course module.
+     * @param int       $userid       ID utente.
+     * @param array     $interval     [start, end] normalizzato.
+     * @param float     $lastposition Posizione per il resume.
+     * @param stdClass|null $segment  Record segmento da inserire (null = nessun segmento).
+     * @param int|null  &$segmentid   Viene impostato all'ID del segmento inserito.
+     * @return stdClass               Stato aggiornato.
+     */
+    public static function update_state(\stdClass $videotrack, \cm_info $cm, int $userid,
+            array $interval, float $lastposition, ?\stdClass $segment = null, ?int &$segmentid = null): \stdClass {
+        global $DB;
+        // Transazione per serializzare scritture concorrenti (es. heartbeat + pagehide simultanei).
+        $transaction = $DB->start_delegated_transaction();
+        $state = null;
+        try {
+            // Inserisce il segmento grezzo DENTRO la transazione: atomico con update_state.
+            if ($segment !== null) {
+                $segmentid = $DB->insert_record('videotrack_seg', $segment);
+            }
+            $state = $DB->get_record('videotrack_state', ['videotrackid' => $videotrack->id, 'userid' => $userid]);
+            if (!$state) {
+                $state = (object)[
+                    'videotrackid' => $videotrack->id,
+                    'courseid'     => $videotrack->course,
+                    'cmid'         => $cm->id,
+                    'userid'       => $userid,
+                    'videoid'      => $videotrack->videoid,
+                    'lastposition' => 0,
+                    'durationseconds'      => (float)$videotrack->durationseconds,
+                    'uniquecoveredseconds' => 0,
+                    'completionpercent'    => 0,
+                    'intervaljson'         => '[]',
+                    'iscompleted'          => 0,
+                    'timemodified'         => 0,
+                    'timecreated'          => time(),
+                ];
+            }
+            $intervals = self::decode_intervals($state->intervaljson);
+            $intervals[] = $interval;
+            $intervals = self::merge_intervals($intervals);
+            $intervals = self::cap_intervals($intervals);
+            $covered  = self::covered_seconds($intervals);
+            $duration = max((float)$videotrack->durationseconds, (float)$state->durationseconds);
+            $percent  = $duration > 0 ? min(100.0, round(($covered / $duration) * 100, 2)) : 0.0;
+
+            $requiredreactionids = array_keys(array_filter((array)$DB->get_records_menu('videotrack_react', [
+                'videotrackid'          => $videotrack->id,
+                'requiredforcompletion' => 1,
+                'isdeleted'             => 0,
+            ], '', 'id,id')));
+            $reactionsummary = self::reaction_counts($videotrack->id, $userid);
+
+            // lastposition: posizione di fine del segmento corrente (per il resume automatico).
+            // Usa il valore corrente se il nuovo è maggiore di 2s (evita resume da posizioni irrisorie).
+            // Non usa max() storico: si vuole dove l'utente ha SMESSO di guardare, non il massimo raggiunto.
+            if ($lastposition > 2.0) {
+                $state->lastposition = $lastposition;
+            }
+            $state->durationseconds      = $duration;
+            $state->uniquecoveredseconds = $covered;
+            $state->completionpercent    = $percent;
+            $state->intervaljson         = self::encode_intervals($intervals);
+            $wasCompleted = !empty($state->id) ? (int)($state->iscompleted ?? 0) : 0;
+            $state->iscompleted  = self::completion_satisfied($videotrack, $state, $reactionsummary, $requiredreactionids) ? 1 : 0;
+            $state->timemodified = time();
+
+            if (!empty($state->id)) {
+                $DB->update_record('videotrack_state', $state);
+            } else {
+                $state->id = $DB->insert_record('videotrack_state', $state);
+            }
+            $transaction->allow_commit();
+
+            // Emette activity_completed al primo passaggio 0→1.
+            // Fuori dalla transazione: l'evento non è un dato critico.
+            if (!$wasCompleted && $state->iscompleted) {
+                $completedEvent = \mod_videotrack\event\activity_completed::create([
+                    'objectid' => $state->id,
+                    'context'  => \context_module::instance($cm->id),
+                    'userid'   => $userid,
+                    'other'    => [
+                        'completionpercent'    => $state->completionpercent,
+                        'uniquecoveredseconds' => $state->uniquecoveredseconds,
+                    ],
+                ]);
+                $completedEvent->trigger();
+            }
+        } catch (\Throwable $e) {
+            $transaction->rollback($e);
+            // rollback() rilancia già l'eccezione in Moodle, ma rilanciamo
+            // esplicitamente per garantire che il chiamante non riceva $state=null
+            // silenziosamente in versioni future del framework.
+            throw $e;
+        }
+        return $state;
+    }
+
+    public static function refresh_completion(\stdClass $videotrack, \cm_info $cm, int $userid): \stdClass {
+        global $DB;
+        $state = $DB->get_record('videotrack_state', ['videotrackid' => $videotrack->id, 'userid' => $userid]);
+        if (!$state) {
+            // Primo accesso: crea il record state in una transazione per evitare duplicati
+            // in caso di race condition (es. due richieste simultanee dallo stesso studente).
+            $transaction = $DB->start_delegated_transaction();
+            // Rilegge dentro la TX per evitare doppio insert.
+            $state = $DB->get_record('videotrack_state', ['videotrackid' => $videotrack->id, 'userid' => $userid]);
+            if (!$state) {
+                $state = (object)[
+                    'videotrackid'         => $videotrack->id,
+                    'courseid'             => $videotrack->course,
+                    'cmid'                 => $cm->id,
+                    'userid'               => $userid,
+                    'videoid'              => $videotrack->videoid,
+                    'lastposition'         => 0,
+                    'durationseconds'      => (float)$videotrack->durationseconds,
+                    'uniquecoveredseconds' => 0,
+                    'completionpercent'    => 0,
+                    'intervaljson'         => '[]',
+                    'iscompleted'          => 0,
+                    'timemodified'         => time(),
+                    'timecreated'          => time(),
+                ];
+                $state->id = $DB->insert_record('videotrack_state', $state);
+            }
+            $transaction->allow_commit();
+        }
+        $requiredreactionids = array_keys(array_filter((array)$DB->get_records_menu('videotrack_react', [
+            'videotrackid' => $videotrack->id,
+            'requiredforcompletion' => 1,
+            'isdeleted' => 0,
+        ], '', 'id,id')));
+        $reactionsummary = self::reaction_counts($videotrack->id, $userid);
+        $state->iscompleted = self::completion_satisfied($videotrack, $state, $reactionsummary, $requiredreactionids) ? 1 : 0;
+        $state->timemodified = time();
+        $DB->update_record('videotrack_state', $state);
+        return $state;
+    }
+}

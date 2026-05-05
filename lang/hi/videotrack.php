@@ -1,0 +1,386 @@
+<?php
+
+$string['pluginname'] = 'वीडियो ट्रैक';
+$string['modulename'] = 'वीडियो ट्रैक';
+$string['modulenameplural'] = 'वीडियो ट्रैक गतिविधियाँ';
+$string['pluginadministration'] = 'वीडियो ट्रैक प्रशासन';
+$string['videotrack:addinstance'] = 'नई वीडियो ट्रैक गतिविधि जोड़ें';
+$string['videotrack:view'] = 'वीडियो ट्रैक देखें';
+$string['videotrack:viewreport'] = 'वीडियो ट्रैक रिपोर्ट देखें';
+$string['videotrack:viewownreport'] = 'अपनी वीडियो ट्रैक रिपोर्ट देखें';
+$string['videoname'] = 'गतिविधि का नाम';
+$string['youtubeurl'] = 'YouTube URL';
+$string['youtubeurl_help'] = 'सामान्य YouTube watch URL, short URL या embed URL चिपकाएँ।';
+$string['showcontrols'] = 'प्लेयर नियंत्रण दिखाएँ';
+$string['disablekeyboard'] = 'कीबोर्ड शॉर्टकट अक्षम करें';
+$string['showfullscreen'] = 'पूर्ण स्क्रीन बटन दिखाएँ';
+$string['allowseekforward'] = 'आगे बढ़ने की अनुमति दें';
+$string['allowseekbackward'] = 'पीछे जाने की अनुमति दें';
+$string['allowplaybackratechange'] = 'प्लेबैक गति बदलने की अनुमति दें';
+$string['countbyvideotime'] = 'वीडियो टाइमलाइन के आधार पर कवरेज गिनें';
+$string['countbyvideotime_help'] = 'अनुशंसित। पूर्णता वीडियो टाइमलाइन पर अद्वितीय कवर किए गए सेकंड पर आधारित होती है, बार-बार देखने पर नहीं।';
+$string['completionpercent'] = 'आवश्यक पूर्णता प्रतिशत';
+$string['completiondetail:percent'] = 'वीडियो का कम से कम {$a}% देखना आवश्यक है';
+$string['completiondetail:minreactions'] = 'कम से कम {$a} भिन्न प्रतिक्रियाएँ आवश्यक हैं';
+$string['completiondetail:allreactiontypes'] = 'प्रत्येक कॉन्फ़िगर की गई प्रतिक्रिया प्रकार के लिए कम से कम एक प्रतिक्रिया आवश्यक है';
+$string['reactionsheader'] = 'प्रतिक्रियाएँ';
+$string['reactionsenabled'] = 'प्रतिक्रियाएँ सक्षम करें';
+$string['reactionsrequired'] = 'प्रतिक्रियाएँ अनिवार्य करें';
+$string['minreactions'] = 'भिन्न प्रतिक्रियाओं की न्यूनतम संख्या';
+$string['requireallreactiontypes'] = 'प्रत्येक कॉन्फ़िगर किए गए प्रकार के लिए कम से कम एक प्रतिक्रिया आवश्यक करें';
+$string['completionlogic'] = 'पूर्णता तर्क';
+$string['logicand'] = 'सभी सक्षम शर्तें (AND)';
+$string['logicor'] = 'कोई भी सक्षम शर्त (OR)';
+$string['clusterwindow'] = 'क्लस्टर विंडो (सेकंड)';
+$string['showstudentreport'] = 'विद्यार्थियों को रिपोर्ट दिखाएँ';
+$string['showreactionnotice'] = 'प्रतिक्रिया सूचना दिखाएँ';
+$string['reactionnotice'] = 'प्रतिक्रिया सूचना';
+$string['reactionlabel'] = 'प्रतिक्रिया लेबल';
+$string['reactiondescription'] = 'प्रतिक्रिया विवरण';
+$string['reactionicontype'] = 'आइकन प्रकार';
+$string['reactioniconvalue'] = 'आइकन मान';
+$string['reactioniconvalue_help'] = 'Emoji के लिए emoji अक्षर दर्ज करें। Font Awesome के लिए CSS class दर्ज करें, जैसे fa-regular fa-face-smile। अपलोड की गई आइकन फ़ाइल का उपयोग करते समय यह फ़ील्ड खाली छोड़ें।';
+$string['reactioniconfile'] = 'प्रतिक्रिया आइकन फ़ाइल';
+$string['reactioniconfile_help'] = 'वैकल्पिक छवि फ़ाइल, जिसका उपयोग तब किया जाता है जब आइकन प्रकार “अपलोड की गई फ़ाइल” हो। स्वीकृत प्रारूप Moodle के वेब इमेज समर्थन पर निर्भर करते हैं।';
+$string['reactionrequired'] = 'पूर्णता के लिए आवश्यक';
+$string['icontype:emoji'] = 'Emoji';
+$string['icontype:fa'] = 'Font Awesome class';
+$string['icontype:file'] = 'अपलोड की गई फ़ाइल';
+$string['addreaction'] = 'प्रतिक्रिया जोड़ें';
+$string['invalidyoutubeurl'] = 'अमान्य YouTube URL।';
+$string['err:minreactionsrequired'] = 'भिन्न प्रतिक्रियाओं की न्यूनतम संख्या सेट करें या सभी प्रतिक्रिया प्रकारों की आवश्यकता वाली शर्त सक्षम करें।';
+$string['notice:minreactions'] = 'कम से कम {$a} भिन्न प्रतिक्रियाएँ आवश्यक हैं।';
+$string['notice:requiredtypes'] = 'आवश्यक प्रतिक्रिया प्रकार: {$a}।';
+$string['watch'] = 'देखें';
+$string['report'] = 'रिपोर्ट';
+$string['reportstudent'] = 'मेरी प्रतिक्रियाएँ';
+$string['reportteacher'] = 'शिक्षक रिपोर्ट';
+$string['report:cumulative'] = 'संचयी';
+$string['report:perstudent'] = 'प्रति विद्यार्थी';
+$string['report:userid'] = 'उपयोगकर्ता';
+$string['report:uniquecoveredseconds'] = 'अद्वितीय कवर किए गए सेकंड';
+$string['report:completionpercent'] = 'पूर्णता %';
+$string['report:lastposition'] = 'अंतिम स्थिति';
+$string['report:iscompleted'] = 'पूर्ण';
+$string['report:noattempts'] = 'कोई देखने का डेटा नहीं मिला।';
+$string['report:noreactions'] = 'कोई प्रतिक्रिया डेटा नहीं मिला।';
+$string['report:timestamp'] = 'टाइमस्टैम्प';
+$string['report:reaction'] = 'प्रतिक्रिया';
+$string['report:description'] = 'विवरण';
+$string['report:clicks'] = 'क्लिक';
+$string['report:students'] = 'विद्यार्थी';
+$string['report:replay'] = 'खंड पुनः चलाएँ';
+$string['report:delete'] = 'हटाएँ';
+$string['report:sort'] = 'क्रमबद्ध करें';
+$string['report:sorttime'] = 'टाइमस्टैम्प';
+$string['report:sortreaction'] = 'प्रतिक्रिया';
+$string['report:sortclicks'] = 'क्लिक';
+$string['report:aggregation'] = 'समूहीकरण';
+$string['report:aggregationtype'] = 'विंडो के भीतर समान प्रतिक्रिया';
+$string['report:aggregationpeak'] = 'किसी भी प्रतिक्रिया का शिखर';
+$string['report:exportcsv'] = 'CSV निर्यात करें';
+$string['progress'] = 'प्रगति';
+$string['uniquereactions'] = 'भिन्न प्रतिक्रियाएँ';
+$string['removereaction'] = 'प्रतिक्रिया हटाएँ';
+$string['playerunavailable'] = 'प्लेयर प्रारंभ नहीं किया जा सका।';
+$string['yes'] = 'हाँ';
+$string['no'] = 'नहीं';
+$string['modulename_link'] = 'mod/videotrack/view';
+
+$string['setting:heading_performance'] = 'प्रदर्शन';
+$string['setting:heading_defaults'] = 'नई गतिविधियों के लिए डिफ़ॉल्ट मान';
+$string['setting:heading_defaults_desc'] = 'ये मान डिफ़ॉल्ट के रूप में उपयोग किए जाते हैं जब कोई शिक्षक नई VideoTrack गतिविधि बनाता है। प्रत्येक गतिविधि को फिर भी व्यक्तिगत रूप से कॉन्फ़िगर किया जा सकता है।';
+$string['setting:default_desc'] = 'नई गतिविधियों के लिए डिफ़ॉल्ट मान। शिक्षक द्वारा प्रत्येक गतिविधि के लिए ओवरराइड किया जा सकता है।';
+$string['setting:default_completionpercent_desc'] = 'वीडियो का डिफ़ॉल्ट न्यूनतम प्रतिशत जो छात्र को गतिविधि पूरी करने के लिए देखना होगा। 0 सेट करें ताकि पूर्णता नियम डिफ़ॉल्ट रूप से अक्षम रहे।';
+$string['event:segment_saved'] = 'व्यूइंग सेगमेंट सहेजा गया';
+$string['event:reaction_saved'] = 'प्रतिक्रिया सबमिट की गई';
+$string['event:reaction_deleted'] = 'प्रतिक्रिया हटाई गई';
+$string['setting:heartbeatinterval'] = 'हार्टबीट अंतराल (सेकंड)';
+$string['setting:heartbeatinterval_desc'] = 'निरंतर प्लेबैक के दौरान प्लेयर कितनी बार सर्वर पर वर्तमान व्यूइंग सेगमेंट सहेजता है। कम मान ब्राउज़र क्रैश या नेटवर्क विफलता पर डेटा हानि के जोखिम को कम करते हैं, लेकिन सर्वर लोड बढ़ाते हैं (प्रति छात्र प्रति अंतराल एक AJAX अनुरोध + दो डेटाबेस क्वेरी)। अनुशंसित सीमा: 15–120 सेकंड।';
+
+$string['reactionx'] = 'प्रतिक्रिया {$a}';
+
+$string['err:reactioniconfilerequired'] = 'जब आइकन प्रकार अपलोड की गई फ़ाइल हो, तब एक आइकन फ़ाइल अपलोड करें।';
+
+
+$string['privacy:metadata:common:timecreated'] = 'Time when the record was created.';
+$string['privacy:metadata:common:timemodified'] = 'Time when the record was last modified.';
+$string['privacy:metadata:videotrack_seg'] = 'Stores viewing segments recorded for a user in a video activity.';
+$string['privacy:metadata:videotrack_seg:userid'] = 'The user whose viewing segment was recorded.';
+$string['privacy:metadata:videotrack_seg:sessionid'] = 'Browser session identifier associated with the viewing segment.';
+$string['privacy:metadata:videotrack_seg:wallclockstart'] = 'Server time when the segment started.';
+$string['privacy:metadata:videotrack_seg:wallclockend'] = 'Server time when the segment ended.';
+$string['privacy:metadata:videotrack_seg:videotimestart'] = 'Video timeline position at the start of the segment.';
+$string['privacy:metadata:videotrack_seg:videotimeend'] = 'Video timeline position at the end of the segment.';
+$string['privacy:metadata:videotrack_seg:playbackrate'] = 'Playback speed used during the segment.';
+$string['privacy:metadata:videotrack_seg:endreason'] = 'Reason why the segment ended.';
+$string['privacy:metadata:videotrack_state'] = 'Stores the aggregated viewing state for a user in a video activity.';
+$string['privacy:metadata:videotrack_state:userid'] = 'The user whose aggregate state was stored.';
+$string['privacy:metadata:videotrack_state:lastposition'] = 'Last known position reached by the user in the video timeline.';
+$string['privacy:metadata:videotrack_state:durationseconds'] = 'Duration of the tracked video in seconds.';
+$string['privacy:metadata:videotrack_state:uniquecoveredseconds'] = 'Number of unique timeline seconds covered by the user.';
+$string['privacy:metadata:videotrack_state:completionpercent'] = 'Completion percentage calculated for the user.';
+$string['privacy:metadata:videotrack_state:intervaljson'] = 'Merged intervals used to calculate unique coverage.';
+$string['privacy:metadata:videotrack_state:iscompleted'] = 'Whether the activity is currently marked complete for the user.';
+$string['privacy:metadata:videotrack_reactev'] = 'Stores reaction events recorded while a user watches the video.';
+$string['privacy:metadata:videotrack_reactev:userid'] = 'The user who submitted the reaction.';
+$string['privacy:metadata:videotrack_reactev:sessionid'] = 'Browser session identifier associated with the reaction event.';
+$string['privacy:metadata:videotrack_reactev:reactionkey'] = 'Internal key of the reaction at the time it was recorded.';
+$string['privacy:metadata:videotrack_reactev:reactionlabel'] = 'Reaction label shown to the user when the event was recorded.';
+$string['privacy:metadata:videotrack_reactev:reactiondesc'] = 'Reaction description shown to the user when the event was recorded.';
+$string['privacy:metadata:videotrack_reactev:videotime'] = 'Video timeline position when the reaction was recorded.';
+$string['privacy:metadata:videotrack_reactev:playbackrate'] = 'Playback speed when the reaction was recorded.';
+$string['privacy:metadata:videotrack_reactev:isdeleted'] = 'बताता है कि क्या प्रतिक्रिया घटना उपयोगकर्ता द्वारा हटाई गई थी।';
+
+$string['cap:overrideplayersettings'] = 'प्लेटफ़ॉर्म प्लेयर सेटिंग्स को ओवरराइड करें';
+$string['cap:overrideplayersettings_desc'] = 'शिक्षक को प्रशासक द्वारा निर्धारित प्लेटफ़ॉर्म-व्यापी प्लेयर सेटिंग्स बदलने की अनुमति देता है।';
+$string['cap:overridecompletionsettings'] = 'प्लेटफ़ॉर्म पूर्णता सेटिंग्स को ओवरराइड करें';
+$string['cap:overridecompletionsettings_desc'] = 'शिक्षक को प्रशासक द्वारा निर्धारित प्लेटफ़ॉर्म-व्यापी पूर्णता सेटिंग्स बदलने की अनुमति देता है।';
+$string['setting:lockedbyAdmin'] = 'ये सेटिंग्स प्लेटफ़ॉर्म प्रशासक द्वारा लॉक की गई हैं और व्यक्तिगत गतिविधियों के लिए नहीं बदली जा सकतीं।';
+$string['setting:heading_presets'] = 'प्रतिक्रिया प्रीसेट';
+$string['setting:heading_presets_desc'] = 'साइट-व्यापी प्रतिक्रिया सेट जिन्हें शिक्षक शुरुआती बिंदु के रूप में उपयोग कर सकते हैं।';
+$string['reactionpreset'] = 'प्रतिक्रिया प्रीसेट लागू करें';
+$string['reactionpreset_help'] = 'नीचे प्रतिक्रिया फ़ील्ड को पूर्व-भरने के लिए एक प्रीसेट चुनें। बाद में मान स्वतंत्र रूप से संपादित किए जा सकते हैं।';
+$string['reactionpreset:none'] = '— मैन्युअल रूप से कॉन्फ़िगर करें —';
+$string['presets:manage'] = 'प्रतिक्रिया प्रीसेट प्रबंधित करें';
+$string['presets:pagetitle'] = 'VideoTrack — प्रतिक्रिया प्रीसेट';
+$string['presets:intro'] = 'साइट-व्यापी प्रतिक्रिया प्रीसेट परिभाषित करें जिन्हें शिक्षक शुरुआती बिंदु के रूप में उपयोग कर सकते हैं।';
+$string['presets:addpreset'] = 'प्रीसेट जोड़ें';
+$string['presets:backtolist'] = 'प्रीसेट सूची पर वापस जाएं';
+$string['presets:saved'] = 'प्रीसेट सहेजा गया।';
+$string['presets:deleted'] = 'प्रीसेट हटाया गया।';
+$string['presets:notfound'] = 'प्रीसेट नहीं मिला।';
+$string['presets:noneyet'] = 'अभी तक कोई प्रतिक्रिया प्रीसेट कॉन्फ़िगर नहीं किया गया है।';
+$string['presets:confirmdelete'] = 'क्या आप इस प्रीसेट को हटाना चाहते हैं?';
+$string['presets:presetdetails'] = 'प्रीसेट विवरण';
+$string['presets:name'] = 'प्रीसेट नाम';
+$string['presets:key'] = 'प्रीसेट कुंजी';
+$string['presets:key_help'] = 'अद्वितीय पहचानकर्ता (केवल अक्षर, संख्याएं और अंडरस्कोर)। निर्माण के बाद नहीं बदला जा सकता।';
+$string['presets:reactions'] = 'प्रतिक्रियाएं';
+$string['presets:reactions_help'] = 'किसी पंक्ति को छोड़ने के लिए लेबल खाली छोड़ें।';
+$string['presets:col_name'] = 'नाम';
+$string['presets:col_key'] = 'कुंजी';
+$string['presets:col_reactions'] = 'प्रतिक्रियाएं';
+$string['presets:col_actions'] = 'क्रियाएं';
+$string['setting:heartbeatinterval_min'] = 'न्यूनतम लागू मान: 5 सेकंड।';
+
+$string['reset:userdata'] = 'सभी छात्र दृश्य डेटा हटाएं (सेगमेंट, स्थिति, प्रतिक्रियाएं)';
+$string['report:recalculate'] = 'सभी पूर्णता स्थितियों की पुनर्गणना करें';
+$string['report:recalculated'] = '{$a} उपयोगकर्ताओं के लिए पूर्णता स्थितियों की पुनर्गणना की गई।';
+$string['report:heatmap_desc'] = 'वीडियो टाइमलाइन पर प्रतिक्रिया हीटमैप (बार की ऊंचाई = उस बिंदु पर क्लिक की संख्या):';
+$string['event:activity_completed'] = 'VideoTrack गतिविधि पूर्ण';
+
+$string['reactioniconfile_notice'] = 'छवि को स्वचालित रूप से 64×64 पिक्सेल (केंद्र क्रॉप) में बदल दिया जाएगा। सर्वोत्तम परिणामों के लिए, एक वर्गाकार छवि (1:1 अनुपात) अपलोड करें। स्वीकृत प्रारूप: JPG, PNG, GIF, WebP।';
+$string['reactions_hint'] = 'वीडियो चलते समय उस क्षण अपनी प्रतिक्रिया दर्ज करने के लिए किसी प्रतिक्रिया बटन पर क्लिक करें।';
+
+$string['showgradeto'] = 'छात्र को ग्रेड दिखाएं';
+$string['showgradeto_help'] = 'यदि सक्षम है, तो छात्र सीधे गतिविधि पृष्ठ पर अपना ग्रेड देखेगा।';
+$string['report:grade'] = 'ग्रेड';
+$string['report:gradesaved'] = 'ग्रेड सफलतापूर्वक सहेजा गया।';
+$string['report:gradepass_hint'] = 'उत्तीर्ण अंक: {$a}';
+$string['report:gradenotset'] = 'अभी तक मूल्यांकन नहीं हुआ';
+
+$string['videosource'] = 'वीडियो स्रोत';
+$string['source:youtube'] = 'YouTube';
+$string['source:vimeo'] = 'Vimeo';
+$string['source:upload'] = 'अपलोड (MP4/WebM/MP3)';
+$string['vimeourl'] = 'Vimeo URL';
+$string['vimeourl_help'] = 'Vimeo वीडियो URL पेस्ट करें।';
+$string['invalidvimeourl'] = 'मान्य Vimeo URL नहीं।';
+$string['videofile'] = 'वीडियो/ऑडियो फ़ाइल';
+$string['videofile_help'] = 'MP4, WebM या MP3 अपलोड करें।';
+$string['videofile_notice'] = 'स्वीकृत प्रारूप: MP4, WebM, MP3, M4V, MOV, AAC, M4A।';
+$string['setting:heading_player'] = 'प्लेयर व्यवहार';
+$string['setting:playbackspeeds'] = 'उपलब्ध प्लेबैक गति';
+$string['setting:playbackspeeds_desc'] = 'प्लेटफ़ॉर्म-व्यापी उपलब्ध गति चुनें।';
+$string['setting:playbackspeeds_teacher_desc'] = 'इस गतिविधि के लिए प्लेबैक गति चुनें।';
+$string['setting:speed_normal'] = 'सामान्य';
+$string['setting:distractionfree'] = 'ध्यान-भटकाव मुक्त मोड';
+$string['setting:distractionfree_desc'] = 'देखते समय Moodle हेडर, फुटर और नेविगेशन छुपाता है।';
+$string['intervalbar_title'] = 'देखे गए अंतराल — हरे खंड पहले से देखे गए भाग हैं।';
+$string['outline:percent'] = '{$a}% देखा गया';
+$string['outline:nodata'] = 'कोई डेटा नहीं।';
+$string['coursereport:title'] = 'VideoTrack — पाठ्यक्रम रिपोर्ट';
+$string['coursereport:navlink'] = 'VideoTrack रिपोर्ट';
+$string['coursereport:intro'] = 'पाठ्यक्रम में सभी VideoTrack गतिविधियों का अवलोकन।';
+$string['coursereport:nodata'] = 'कोई VideoTrack गतिविधि नहीं मिली।';
+$string['coursereport:col_activity'] = 'गतिविधि';
+$string['coursereport:col_source'] = 'स्रोत';
+$string['coursereport:col_duration'] = 'अवधि';
+$string['coursereport:col_students_started'] = 'शुरू किए छात्र';
+$string['coursereport:col_avg_percent'] = 'औसत कवरेज';
+$string['coursereport:col_completions'] = 'पूर्णताएं';
+$string['coursereport:col_reactions'] = 'प्रतिक्रियाएं';
+$string['coursereport:col_actions'] = 'क्रियाएं';
+
+$string['grade:pass'] = 'उत्तीर्ण';
+$string['grade:fail'] = 'अनुत्तीर्ण';
+
+$string['autoplay'] = 'स्वचालित प्लेबैक';
+$string['autoplay_help'] = 'पेज लोड होने पर वीडियो स्वचालित रूप से शुरू करें। ब्राउज़र को ऑटोप्ले के लिए म्यूट की आवश्यकता है।';
+$string['loop'] = 'लूप में दोहराएं';
+$string['startmuted'] = 'म्यूट से शुरू करें';
+$string['startmuted_help'] = 'ऑडियो बंद करके प्लेबैक शुरू करें।';
+$string['allowdownload'] = 'डाउनलोड की अनुमति दें (केवल अपलोड स्रोत)';
+$string['setting:allowdownload_desc'] = 'HTML5 प्लेयर में डाउनलोड बटन दिखाएं।';
+$string['setting:heading_playerbehavior'] = 'डिफ़ॉल्ट प्लेयर व्यवहार';
+$string['setting:heading_playerbehavior_desc'] = 'नई गतिविधियों के लिए ऑटोप्ले, लूप, म्यूट और डाउनलोड के डिफ़ॉल्ट मान।';
+$string['setting:heading_html5controls'] = 'HTML5 प्लेयर नियंत्रण (अपलोड स्रोत)';
+$string['setting:heading_html5controls_desc'] = 'HTML5 प्लेयर बार में उपलब्ध नियंत्रण चुनें।';
+$string['setting:html5controls'] = 'उपलब्ध नियंत्रण';
+$string['setting:html5controls_desc'] = 'HTML5 प्लेयर में दिखाने के लिए नियंत्रण चुनें।';
+$string['setting:html5controls_teacher_desc'] = 'इस गतिविधि के लिए नियंत्रण चुनें।';
+$string['ctrl:play'] = 'प्ले/पॉज़';
+$string['ctrl:progress'] = 'प्रगति बार';
+$string['ctrl:current'] = 'वर्तमान समय';
+$string['ctrl:duration'] = 'अवधि';
+$string['ctrl:mute'] = 'म्यूट';
+$string['ctrl:volume'] = 'वॉल्यूम';
+$string['ctrl:speed'] = 'गति';
+$string['ctrl:pip'] = 'पिक्चर-इन-पिक्चर';
+$string['ctrl:fullscreen'] = 'पूर्ण स्क्रीन';
+$string['ctrl:download'] = 'डाउनलोड';
+
+$string['setting:playerwidth'] = 'अधिकतम प्लेयर चौड़ाई (px)';
+$string['setting:playerwidth_desc'] = 'वीडियो प्लेयर की अधिकतम चौड़ाई पिक्सेल में।';
+$string['playerwidth'] = 'अधिकतम प्लेयर चौड़ाई (px)';
+$string['playerwidth_help'] = 'इस गतिविधि के लिए प्लेयर की अधिकतम चौड़ाई। 0 = साइट डिफ़ॉल्ट।';
+$string['setting:rewindstep'] = 'रिवाइंड चरण (सेकंड)';
+$string['setting:rewindstep_desc'] = 'रिवाइंड बटन कितने सेकंड पीछे जाता है। 0 = अक्षम। डिफ़ॉल्ट: 10। महत्वपूर्ण: यदि किसी गतिविधि के लिए "पीछे की ओर जाने की अनुमति" अक्षम है, तो बटन नहीं दिखेगा भले ही यह मान > 0 हो।';
+$string['rewindstep'] = 'रिवाइंड चरण (सेकंड)';
+$string['rewindstep_help'] = 'इस गतिविधि के लिए रिवाइंड सेकंड। 0 = साइट डिफ़ॉल्ट। नोट: यदि "पीछे की ओर जाने की अनुमति" अक्षम है, तो यह मान कुछ भी हो, बटन दिखाई नहीं देगा।';
+$string['setting:fastforwardstep'] = 'फास्ट-फॉरवर्ड चरण (सेकंड)';
+$string['setting:fastforwardstep_desc'] = 'फास्ट-फॉरवर्ड बटन कितने सेकंड आगे जाता है। 0 = अक्षम। डिफ़ॉल्ट: 10। महत्वपूर्ण: यदि किसी गतिविधि के लिए "आगे की ओर जाने की अनुमति" अक्षम है, तो बटन नहीं दिखेगा भले ही यह मान > 0 हो।';
+$string['fastforwardstep'] = 'फास्ट-फॉरवर्ड चरण (सेकंड)';
+$string['fastforwardstep_help'] = 'इस गतिविधि के लिए फास्ट-फॉरवर्ड सेकंड। 0 = साइट डिफ़ॉल्ट। नोट: यदि "आगे की ओर जाने की अनुमति" अक्षम है, तो यह मान कुछ भी हो, बटन दिखाई नहीं देगा।';
+$string['captionsheader'] = 'उपशीर्षक';
+$string['captions'] = 'उपशीर्षक सक्षम करें';
+$string['captions_help'] = 'YouTube, Vimeo या Upload (VTT) के लिए उपशीर्षक सक्षम करें।';
+$string['setting:default_captions_desc'] = 'नई गतिविधियों के लिए डिफ़ॉल्ट रूप से उपशीर्षक सक्षम करें।';
+$string['captionslang'] = 'डिफ़ॉल्ट उपशीर्षक भाषा';
+$string['captionslang_help'] = 'ISO 639-1 भाषा कोड (जैसे hi, en)।';
+$string['setting:captionslang_desc'] = 'डिफ़ॉल्ट उपशीर्षक भाषा (ISO 639-1)।';
+$string['vttfile'] = 'उपशीर्षक फ़ाइल (.vtt)';
+$string['vttfile_help'] = 'WebVTT फ़ाइल अपलोड करें।';
+$string['vttfile_notice'] = 'स्वीकृत प्रारूप: WebVTT (.vtt)।';
+$string['vimeo_captions_notice'] = 'Vimeo उपशीर्षक Vimeo.com पर प्रबंधित किए जाते हैं।';
+$string['ctrl:rewind'] = 'रिवाइंड बटन';
+$string['ctrl:fastforward'] = 'फास्ट-फॉरवर्ड बटन';
+
+$string['playerloading'] = 'वीडियो प्लेयर लोड हो रहा है, कृपया प्रतीक्षा करें…';
+$string['noreactionsyet'] = 'अभी तक कोई प्रतिक्रिया दर्ज नहीं हुई। वीडियो चलते समय प्रतिक्रिया दें।';
+$string['reaction:error'] = 'आपकी प्रतिक्रिया सहेजी नहीं जा सकी। कृपया पुनः प्रयास करें।';
+
+// ── Feature 1: Resume playback ────────────────────────────────────────────
+$string['resumeplayback'] = 'प्लेबैक फिर से शुरू करें';
+$string['resumeplayback_desc'] = 'विद्यार्थी ने पिछली सत्र में जहाँ छोड़ा था, वहाँ से वीडियो स्वतः फिर शुरू करता है।';
+$string['resumeplayback_help'] = 'सक्षम होने पर वीडियो अंतिम सहेजी गई स्थिति से शुरू होगा (यदि वह वीडियो की शुरुआत से 5 सेकंड से अधिक है)। विद्यार्थी हमेशा मैन्युअल रूप से शुरुआत पर जा सकते हैं।';
+$string['setting:resumeplayback'] = 'प्लेबैक फिर से शुरू करें (डिफ़ॉल्ट)';
+$string['setting:resumeplayback_desc'] = 'नई VideoTrack गतिविधियों के लिए डिफ़ॉल्ट सेटिंग। शिक्षक इसे प्रति गतिविधि बदल सकते हैं।';
+
+// ── Feature 6: Max playback rate ──────────────────────────────────────────
+$string['maxplaybackrate'] = 'अधिकतम प्लेबैक गति';
+$string['maxplaybackrate_desc'] = 'विद्यार्थियों द्वारा चुनी जा सकने वाली अधिकतम वीडियो गति सीमित करें। 0 = कोई सीमा नहीं।';
+$string['maxplaybackrate_help'] = 'सेट होने पर विद्यार्थी इस गति से अधिक तेज़ वीडियो नहीं चला सकते, भले ही प्लेयर नियंत्रण उच्च मान दिखाएँ।';
+$string['maxplaybackrate_nolimit'] = 'कोई सीमा नहीं';
+$string['setting:maxplaybackrate'] = 'अधिकतम प्लेबैक गति (डिफ़ॉल्ट)';
+$string['setting:maxplaybackrate_desc'] = 'नई गतिविधियों के लिए डिफ़ॉल्ट अधिकतम गति। शिक्षक इसे प्रति गतिविधि बदल सकते हैं।';
+
+// ── Feature 8: Transcript interattivo ─────────────────────────────────────
+$string['showtranscript'] = 'इंटरैक्टिव ट्रांसक्रिप्ट दिखाएँ';
+$string['showtranscript_desc'] = 'वीडियो के पास स्क्रॉल और क्लिक की जा सकने वाली ट्रांसक्रिप्ट दिखाता है (VTT उपशीर्षक फ़ाइल आवश्यक)।';
+$string['showtranscript_help'] = 'अपलोड की गई VTT फ़ाइल को पढ़कर क्लिक करने योग्य सूची के रूप में दिखाता है। हर प्रविष्टि में टाइमस्टैम्प और पाठ होता है; क्लिक करने पर वीडियो उस स्थान पर जाता है।';
+$string['transcript_title'] = 'ट्रांसक्रिप्ट';
+$string['transcript_loading'] = 'ट्रांसक्रिप्ट लोड हो रही है…';
+
+// ── Feature 3: Autoplay blocked ───────────────────────────────────────────
+$string['autoblockedlabel'] = 'प्लेबैक शुरू करने के लिए वीडियो पर क्लिक करें।';
+
+// ── Feature 4: Vimeo CSP warning ──────────────────────────────────────────
+$string['vimeocspwarnlabel'] = 'Vimeo प्लेयर लोड नहीं हो सका। नेटवर्क कनेक्शन जाँचें या व्यवस्थापक से Content Security Policy में player.vimeo.com की अनुमति देने को कहें।';
+
+// ── Feature 5: Resume label ───────────────────────────────────────────────
+$string['resumelabel'] = 'यहाँ से फिर शुरू';
+// ── Report: azioni studente ──
+$string['report:actions'] = 'कार्रवाइयाँ';
+$string['report:resetstudent'] = 'प्रगति रीसेट करें';
+$string['report:resetstudent_confirm'] = 'क्या आप वाकई इस विद्यार्थी की प्रगति रीसेट करना चाहते हैं? देखने का इतिहास और प्रतिक्रियाएँ हट जाएँगी और यह वापस नहीं किया जा सकेगा।';
+$string['report:studentreset'] = 'विद्यार्थी की प्रगति रीसेट कर दी गई है।';
+// ── Feature 10/11/12 strings ──
+$string['showchapters'] = 'अध्याय नेविगेशन दिखाएँ';
+$string['showchapters_desc'] = 'VTT फ़ाइल से निकाले गए अध्याय मार्करों वाली नेविगेशन पट्टी दिखाता है। अध्याय 80 अक्षरों से कम पाठ वाले VTT cues हैं।';
+$string['showchapters_help'] = 'यदि अपलोड की गई VTT फ़ाइल में छोटे cues हैं, तो उन्हें अध्याय शीर्षक माना जाता है और क्लिक करने योग्य नेविगेशन पट्टी में दिखाया जाता है।';
+$string['chapters_label'] = 'वीडियो अध्याय';
+$string['chapterslabel'] = 'वीडियो अध्याय';
+$string['chapter_label'] = 'अध्याय';
+$string['chapterlabel'] = 'अध्याय';
+$string['studentnotesenabled'] = 'विद्यार्थी नोट्स सक्षम करें';
+$string['studentnotesenabled_desc'] = 'विद्यार्थियों को वीडियो देखते समय टाइमस्टैम्प वाली निजी नोट्स लिखने दें।';
+$string['studentnotesenabled_help'] = 'सक्षम होने पर वीडियो के पास पाठ क्षेत्र दिखता है। विद्यार्थी वर्तमान वीडियो टाइमस्टैम्प पर नोट सहेज सकते हैं। नोट्स केवल लिखने वाले विद्यार्थी और रिपोर्ट में प्रबंधकों को दिखते हैं।';
+$string['setting:studentnotesenabled'] = 'विद्यार्थी नोट्स सक्षम करें (डिफ़ॉल्ट)';
+$string['setting:studentnotesenabled_desc'] = 'नई VideoTrack गतिविधियों के लिए डिफ़ॉल्ट सेटिंग। शिक्षक इसे प्रति गतिविधि बदल सकते हैं।';
+$string['studentnotes_title'] = 'मेरे नोट्स';
+$string['studentnote_placeholder'] = 'वीडियो के इस क्षण पर नोट लिखें…';
+$string['studentnote_save'] = 'नोट सहेजें';
+$string['studentnote_hint'] = 'नोट वर्तमान वीडियो टाइमस्टैम्प पर सहेजा जाएगा। वीडियो चल रहा होना चाहिए।';
+$string['studentnotes_list_label'] = 'सहेजे गए नोट्स';
+$string['studentnote_label'] = 'विद्यार्थी नोट';
+$string['noteerrorlabel'] = 'नोट सहेजा नहीं जा सका। कृपया फिर प्रयास करें।';
+$string['charsremaininglabel'] = 'अक्षर शेष';
+$string['posterimage'] = 'पोस्टर / पूर्वावलोकन छवि';
+$string['posterimage_help'] = 'वीडियो शुरू होने से पहले दिखाने के लिए एक छवि अपलोड करें। स्वीकृत प्रारूप: JPG, PNG, WebP, GIF। अनुशंसित आकार: 1280×720 px (16:9)।';
+$string['posterimage_notice'] = 'पोस्टर छवि प्लेबैक शुरू होने से पहले दिखती है और वीडियो चलने पर स्वतः छिप जाती है।';
+$string['playbutton_label'] = 'वीडियो चलाएँ';
+$string['setting:maxplaybackrate_nolimit'] = 'कोई सीमा नहीं';
+// ── Privacy: campi nuovi notetext/notetype ───────────────────────────────
+$string['privacy:metadata:videotrack_reactev:notetext'] = 'वीडियो के किसी विशिष्ट टाइमस्टैम्प पर विद्यार्थी द्वारा लिखे गए निजी नोट का पाठ।';
+$string['privacy:metadata:videotrack_reactev:notetype'] = 'इवेंट प्रकार: मानक प्रतिक्रियाओं के लिए खाली, विद्यार्थी निजी नोट्स के लिए "note"।';
+
+// ── Errore note disabilitate ──────────────────────────────────────────────
+$string['studentnotesdisabled'] = 'इस गतिविधि के लिए विद्यार्थी नोट्स सक्षम नहीं हैं।';
+// ── C3: no file uploaded ──
+$string['nofilelabel'] = 'इस गतिविधि के लिए कोई वीडियो फ़ाइल अपलोड नहीं की गई है।';
+$string['removenote'] = 'नोट हटाएँ';
+// ── Note toggle + report note ──
+$string['notes_hide'] = 'नोट्स छिपाएँ';
+$string['notes_show'] = 'नोट्स दिखाएँ';
+$string['report:notes_title'] = 'विद्यार्थी नोट्स';
+$string['report:nonotes'] = 'इस गतिविधि के लिए कोई नोट नहीं लिखा गया है।';
+$string['report:notedate'] = 'लिखा गया';
+$string['report:exportnotes_csv'] = 'नोट्स CSV के रूप में निर्यात करें';
+// ── Localisation: skip buttons, dismiss, note remove ──
+$string['dismisslabel'] = 'बंद करें';
+$string['rewindlabel'] = 'पीछे जाएँ';
+$string['fastforwardlabel'] = 'तेज़ आगे';
+$string['secondslabel'] = 'सेकंड';
+$string['removenotelabel'] = 'नोट हटाएँ';
+// ── Help strings ──
+$string['gradepass_help'] = 'इस गतिविधि को पास करने के लिए आवश्यक न्यूनतम ग्रेड। इस या उससे अधिक ग्रेड पाने वाले विद्यार्थी पास माने जाते हैं।';
+
+
+$string['completiondetail:requiredreactions'] = 'इन आवश्यक प्रतिक्रियाओं को शामिल करना होगा: {$a}';
+
+$string['error:playbackrequired'] = 'यह कार्रवाई सहेजने से पहले वीडियो चल रहा होना चाहिए।';
+// ── GD warning strings ──
+$string['setting:gd_missing_title'] = 'PHP GD एक्सटेंशन उपलब्ध नहीं है।';
+$string['setting:gd_missing_desc'] = 'शिक्षकों द्वारा अपलोड की गई प्रतिक्रिया आइकन छवियाँ 64×64 पिक्सेल में स्वतः आकार नहीं बदलेंगी। मूल फ़ाइल वैसी ही दी जाएगी, जिससे बड़ी छवियों के लिए लोडिंग प्रदर्शन प्रभावित हो सकता है। स्वचालित आकार बदलना सक्षम करने के लिए सर्वर व्यवस्थापक से php-gd स्थापित करने को कहें।';
+
+$string['report:heatmap_legend'] = 'प्रतिक्रिया हीटमैप रंग कुंजी';
+
+$string['report:clusterlimitreached'] = 'रिपोर्ट में दिखाए जाने वाले क्लस्टरों की अधिकतम संख्या पहुँच गई है। पूर्ण विश्लेषण के लिए फ़िल्टर या छोटी समय-सीमा का उपयोग करें.';
+
+$string['report:showingrecentreactions'] = 'केवल पहली {$a} प्रतिक्रियाएँ दिखाई जा रही हैं।';
+
+$string['report:viewfullreport'] = 'पूरी रिपोर्ट देखें';
+$string['studentnotes_view_limited'] = 'नवीनतम {$a} नोट्स दिखाए जा रहे हैं। सभी नोट्स देखने के लिए पूरी रिपोर्ट खोलें।';
+$string['report:skiptoheatmaptable'] = 'हीटमैप छोड़ें और डेटा तालिका पर जाएँ';
+$string['report:heatmap_textsummary'] = 'चार्ट में {$a->clusters} क्लस्टर हैं; सबसे बड़े क्लस्टर में {$a->max} क्लिक हैं।';
+$string['err:reactioniconvaluerequired'] = 'एक इमोजी या Font Awesome क्लास दर्ज करें.';
+
+$string['error:reactionratelimit'] = 'कम समय में बहुत अधिक प्रतिक्रियाएँ भेजी गईं। कृपया वीडियो देखना जारी रखें और फिर प्रयास करें।';
+$string['event:student_progress_reset'] = 'विद्यार्थी का VideoTrack डेटा रीसेट किया गया';
+$string['report:timefrom'] = 'सेकंड से';
+$string['report:timeto'] = 'सेकंड तक';
+$string['report:clusterlimitreached_help'] = 'संचयी रिपोर्ट प्रदर्शित किए जा सकने वाले क्लस्टर की सीमा तक पहुँच गई है। आगे के क्लस्टर देखने के लिए उपयोगकर्ता, प्रतिक्रिया या वीडियो समय फ़िल्टर का उपयोग करें।';
+$string['report:topclusterssummary'] = 'इस चयन में सबसे महत्वपूर्ण क्लस्टर:';
+$string['report:topclusteritem'] = '{$a->time}: {$a->reaction}, {$a->clicks} क्लिक';

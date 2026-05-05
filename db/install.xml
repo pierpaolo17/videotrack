@@ -1,0 +1,175 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<XMLDB PATH="mod/videotrack/db" VERSION="2026050235" COMMENT="XMLDB file for mod_videotrack"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:noNamespaceSchemaLocation="../../../lib/xmldb/xmldb.xsd"
+>
+  <TABLES>
+    <TABLE NAME="videotrack" COMMENT="Main table for videotrack instances">
+      <FIELDS>
+        <FIELD NAME="id" TYPE="int" LENGTH="10" NOTNULL="true" SEQUENCE="true"/>
+        <FIELD NAME="course" TYPE="int" LENGTH="10" NOTNULL="true" DEFAULT="0"/>
+        <FIELD NAME="name" TYPE="char" LENGTH="255" NOTNULL="true" DEFAULT=""/>
+        <FIELD NAME="intro" TYPE="text" NOTNULL="false"/>
+        <FIELD NAME="introformat" TYPE="int" LENGTH="4" NOTNULL="true" DEFAULT="0"/>
+        <FIELD NAME="youtubeurl" TYPE="text" NOTNULL="false"/>
+        <FIELD NAME="videoid" TYPE="char" LENGTH="32" NOTNULL="false" DEFAULT=""/>
+        <FIELD NAME="videosource" TYPE="char" LENGTH="20" NOTNULL="true" DEFAULT="youtube" COMMENT="youtube | vimeo | upload"/>
+        <FIELD NAME="videourl" TYPE="text" NOTNULL="false" COMMENT="Vimeo URL or upload filename reference"/>
+        <FIELD NAME="playbackspeeds" TYPE="char" LENGTH="100" NOTNULL="false" DEFAULT="" COMMENT="Comma-separated allowed speeds; empty = site default"/>
+        <FIELD NAME="autoplay" TYPE="int" LENGTH="1" NOTNULL="true" DEFAULT="0" COMMENT="Start video automatically"/>
+        <FIELD NAME="loop" TYPE="int" LENGTH="1" NOTNULL="true" DEFAULT="0" COMMENT="Loop video when ended"/>
+        <FIELD NAME="startmuted" TYPE="int" LENGTH="1" NOTNULL="true" DEFAULT="0" COMMENT="Start video muted"/>
+        <FIELD NAME="allowdownload" TYPE="int" LENGTH="1" NOTNULL="true" DEFAULT="0" COMMENT="Show download control (upload source only)"/>
+        <FIELD NAME="html5controls" TYPE="char" LENGTH="255" NOTNULL="false" DEFAULT="" COMMENT="Comma-separated list of HTML5 player controls; empty = site default"/>
+        <FIELD NAME="playerwidth" TYPE="int" LENGTH="5" NOTNULL="true" DEFAULT="0" COMMENT="Max player width in px; 0 = use site default"/>
+        <FIELD NAME="rewindstep" TYPE="int" LENGTH="3" NOTNULL="true" DEFAULT="0" COMMENT="Rewind seconds per click; 0 = use site default"/>
+        <FIELD NAME="fastforwardstep" TYPE="int" LENGTH="3" NOTNULL="true" DEFAULT="0" COMMENT="Fast-forward seconds per click; 0 = use site default"/>
+        <FIELD NAME="captions" TYPE="int" LENGTH="1" NOTNULL="true" DEFAULT="0" COMMENT="Enable captions/subtitles"/>
+        <FIELD NAME="captionslang" TYPE="char" LENGTH="10" NOTNULL="false" DEFAULT="" COMMENT="Default caption language code (e.g. it, en)"/>
+        <FIELD NAME="durationseconds" TYPE="number" LENGTH="10" DECIMALS="3" NOTNULL="true" DEFAULT="0.000"/>
+        <FIELD NAME="showcontrols" TYPE="int" LENGTH="1" NOTNULL="true" DEFAULT="1"/>
+        <FIELD NAME="disablekeyboard" TYPE="int" LENGTH="1" NOTNULL="true" DEFAULT="0"/>
+        <FIELD NAME="showfullscreen" TYPE="int" LENGTH="1" NOTNULL="true" DEFAULT="1"/>
+        <FIELD NAME="allowseekforward" TYPE="int" LENGTH="1" NOTNULL="true" DEFAULT="1"/>
+        <FIELD NAME="allowseekbackward" TYPE="int" LENGTH="1" NOTNULL="true" DEFAULT="1"/>
+        <FIELD NAME="allowplaybackratechange" TYPE="int" LENGTH="1" NOTNULL="true" DEFAULT="1"/>
+        <FIELD NAME="resumeplayback" TYPE="int" LENGTH="1" NOTNULL="true" DEFAULT="0" COMMENT="Resume playback from last saved position"/>
+        <FIELD NAME="maxplaybackrate" TYPE="int" LENGTH="4" NOTNULL="true" DEFAULT="0" COMMENT="Max playback rate in centesimal (0=no limit, 150=1.5x, 200=2x)"/>
+        <FIELD NAME="showtranscript" TYPE="int" LENGTH="1" NOTNULL="true" DEFAULT="0" COMMENT="Show interactive VTT transcript panel (upload source only)"/>
+        <FIELD NAME="showchapters" TYPE="int" LENGTH="1" NOTNULL="true" DEFAULT="0" COMMENT="Show VTT-based chapter navigation bar (upload source only)"/>
+        <FIELD NAME="studentnotesenabled" TYPE="int" LENGTH="1" NOTNULL="true" DEFAULT="0" COMMENT="Allow students to write personal timestamped notes while watching"/>
+        <FIELD NAME="countbyvideotime" TYPE="int" LENGTH="1" NOTNULL="true" DEFAULT="1"/>
+        <FIELD NAME="completionpercent" TYPE="int" LENGTH="3" NOTNULL="true" DEFAULT="0"/>
+        <FIELD NAME="reactionsenabled" TYPE="int" LENGTH="1" NOTNULL="true" DEFAULT="0"/>
+        <FIELD NAME="reactionsrequired" TYPE="int" LENGTH="1" NOTNULL="true" DEFAULT="0"/>
+        <FIELD NAME="minreactions" TYPE="int" LENGTH="10" NOTNULL="true" DEFAULT="0"/>
+        <FIELD NAME="requireallreactiontypes" TYPE="int" LENGTH="1" NOTNULL="true" DEFAULT="0"/>
+        <FIELD NAME="completionlogic" TYPE="char" LENGTH="10" NOTNULL="true" DEFAULT="and"/>
+        <FIELD NAME="clusterwindow" TYPE="int" LENGTH="3" NOTNULL="true" DEFAULT="30"/>
+        <FIELD NAME="showstudentreport" TYPE="int" LENGTH="1" NOTNULL="true" DEFAULT="1"/>
+        <FIELD NAME="showreactionnotice" TYPE="int" LENGTH="1" NOTNULL="true" DEFAULT="1"/>
+        <FIELD NAME="reactionnoticeformat" TYPE="int" LENGTH="4" NOTNULL="true" DEFAULT="1"/>
+        <FIELD NAME="reactionnotice" TYPE="text" NOTNULL="false"/>
+        <FIELD NAME="grade" TYPE="int" LENGTH="10" NOTNULL="true" DEFAULT="0" COMMENT="0=no grade, &gt;0=max points, &lt;0=scale id (negative)"/>
+        <FIELD NAME="gradepass" TYPE="number" LENGTH="10" DECIMALS="5" NOTNULL="true" DEFAULT="0.00000" COMMENT="Minimum grade to pass (gradepass in gradebook)"/>
+        <FIELD NAME="showgradeto" TYPE="int" LENGTH="1" NOTNULL="true" DEFAULT="0" COMMENT="1=show grade to student in view.php"/>
+        <FIELD NAME="timemodified" TYPE="int" LENGTH="10" NOTNULL="true" DEFAULT="0"/>
+        <FIELD NAME="timecreated" TYPE="int" LENGTH="10" NOTNULL="true" DEFAULT="0"/>
+      </FIELDS>
+      <KEYS>
+        <KEY NAME="primary" TYPE="primary" FIELDS="id"/>
+      </KEYS>
+      <INDEXES>
+        <INDEX NAME="course_idx" UNIQUE="false" FIELDS="course"/>
+        <INDEX NAME="videoid_idx" UNIQUE="false" FIELDS="videoid"/>
+      </INDEXES>
+    </TABLE>
+
+    <TABLE NAME="videotrack_seg" COMMENT="Watched segments">
+      <FIELDS>
+        <FIELD NAME="id" TYPE="int" LENGTH="10" NOTNULL="true" SEQUENCE="true"/>
+        <FIELD NAME="videotrackid" TYPE="int" LENGTH="10" NOTNULL="true" DEFAULT="0"/>
+        <FIELD NAME="courseid" TYPE="int" LENGTH="10" NOTNULL="true" DEFAULT="0"/>
+        <FIELD NAME="cmid" TYPE="int" LENGTH="10" NOTNULL="true" DEFAULT="0"/>
+        <FIELD NAME="userid" TYPE="int" LENGTH="10" NOTNULL="true" DEFAULT="0"/>
+        <FIELD NAME="videoid" TYPE="char" LENGTH="32" NOTNULL="true" DEFAULT=""/>
+        <FIELD NAME="sessionid" TYPE="char" LENGTH="64" NOTNULL="true" DEFAULT=""/>
+        <FIELD NAME="wallclockstart" TYPE="int" LENGTH="10" NOTNULL="true" DEFAULT="0"/>
+        <FIELD NAME="wallclockend" TYPE="int" LENGTH="10" NOTNULL="true" DEFAULT="0"/>
+        <FIELD NAME="videotimestart" TYPE="number" LENGTH="10" DECIMALS="3" NOTNULL="true" DEFAULT="0.000"/>
+        <FIELD NAME="videotimeend" TYPE="number" LENGTH="10" DECIMALS="3" NOTNULL="true" DEFAULT="0.000"/>
+        <FIELD NAME="playbackrate" TYPE="number" LENGTH="6" DECIMALS="3" NOTNULL="true" DEFAULT="1.000"/>
+        <FIELD NAME="endreason" TYPE="char" LENGTH="32" NOTNULL="true" DEFAULT="unknown"/>
+        <FIELD NAME="timecreated" TYPE="int" LENGTH="10" NOTNULL="true" DEFAULT="0"/>
+      </FIELDS>
+      <KEYS>
+        <KEY NAME="primary" TYPE="primary" FIELDS="id"/>
+      </KEYS>
+      <INDEXES>
+        <INDEX NAME="vt_user_idx" UNIQUE="false" FIELDS="videotrackid, userid"/>
+        <INDEX NAME="session_idx" UNIQUE="false" FIELDS="sessionid"/>
+        <INDEX NAME="cm_user_idx" UNIQUE="false" FIELDS="cmid, userid"/>
+      </INDEXES>
+    </TABLE>
+
+    <TABLE NAME="videotrack_state" COMMENT="Aggregated unique coverage per user and activity">
+      <FIELDS>
+        <FIELD NAME="id" TYPE="int" LENGTH="10" NOTNULL="true" SEQUENCE="true"/>
+        <FIELD NAME="videotrackid" TYPE="int" LENGTH="10" NOTNULL="true" DEFAULT="0"/>
+        <FIELD NAME="courseid" TYPE="int" LENGTH="10" NOTNULL="true" DEFAULT="0"/>
+        <FIELD NAME="cmid" TYPE="int" LENGTH="10" NOTNULL="true" DEFAULT="0"/>
+        <FIELD NAME="userid" TYPE="int" LENGTH="10" NOTNULL="true" DEFAULT="0"/>
+        <FIELD NAME="videoid" TYPE="char" LENGTH="32" NOTNULL="true" DEFAULT=""/>
+        <FIELD NAME="lastposition" TYPE="number" LENGTH="10" DECIMALS="3" NOTNULL="true" DEFAULT="0.000"/>
+        <FIELD NAME="durationseconds" TYPE="number" LENGTH="10" DECIMALS="3" NOTNULL="true" DEFAULT="0.000"/>
+        <FIELD NAME="uniquecoveredseconds" TYPE="number" LENGTH="10" DECIMALS="3" NOTNULL="true" DEFAULT="0.000"/>
+        <FIELD NAME="completionpercent" TYPE="number" LENGTH="6" DECIMALS="2" NOTNULL="true" DEFAULT="0.00"/>
+        <FIELD NAME="intervaljson" TYPE="text" NOTNULL="false"/>
+        <FIELD NAME="iscompleted" TYPE="int" LENGTH="1" NOTNULL="true" DEFAULT="0"/>
+        <FIELD NAME="timemodified" TYPE="int" LENGTH="10" NOTNULL="true" DEFAULT="0"/>
+        <FIELD NAME="timecreated" TYPE="int" LENGTH="10" NOTNULL="true" DEFAULT="0"/>
+      </FIELDS>
+      <KEYS>
+        <KEY NAME="primary" TYPE="primary" FIELDS="id"/>
+      </KEYS>
+      <INDEXES>
+        <INDEX NAME="vt_user_uix" UNIQUE="true" FIELDS="videotrackid, userid"/>
+        <INDEX NAME="cm_user_idx" UNIQUE="false" FIELDS="cmid, userid"/>
+      </INDEXES>
+    </TABLE>
+
+    <TABLE NAME="videotrack_react" COMMENT="Configured reactions per activity">
+      <FIELDS>
+        <FIELD NAME="id" TYPE="int" LENGTH="10" NOTNULL="true" SEQUENCE="true"/>
+        <FIELD NAME="videotrackid" TYPE="int" LENGTH="10" NOTNULL="true" DEFAULT="0"/>
+        <FIELD NAME="reactionkey" TYPE="char" LENGTH="100" NOTNULL="true" DEFAULT=""/>
+        <FIELD NAME="label" TYPE="char" LENGTH="255" NOTNULL="true" DEFAULT=""/>
+        <FIELD NAME="description" TYPE="text" NOTNULL="false"/>
+        <FIELD NAME="icontype" TYPE="char" LENGTH="10" NOTNULL="true" DEFAULT="emoji"/>
+        <FIELD NAME="iconvalue" TYPE="char" LENGTH="255" NOTNULL="true" DEFAULT=""/>
+        <FIELD NAME="requiredforcompletion" TYPE="int" LENGTH="1" NOTNULL="true" DEFAULT="0"/>
+        <FIELD NAME="sortorder" TYPE="int" LENGTH="10" NOTNULL="true" DEFAULT="0"/>
+        <FIELD NAME="isdeleted" TYPE="int" LENGTH="1" NOTNULL="true" DEFAULT="0"/>
+        <FIELD NAME="timecreated" TYPE="int" LENGTH="10" NOTNULL="true" DEFAULT="0"/>
+        <FIELD NAME="timemodified" TYPE="int" LENGTH="10" NOTNULL="true" DEFAULT="0"/>
+      </FIELDS>
+      <KEYS>
+        <KEY NAME="primary" TYPE="primary" FIELDS="id"/>
+      </KEYS>
+      <INDEXES>
+        <INDEX NAME="vt_sort_idx" UNIQUE="false" FIELDS="videotrackid, sortorder"/>
+      </INDEXES>
+    </TABLE>
+
+    <TABLE NAME="videotrack_reactev" COMMENT="Reaction click events">
+      <FIELDS>
+        <FIELD NAME="id" TYPE="int" LENGTH="10" NOTNULL="true" SEQUENCE="true"/>
+        <FIELD NAME="videotrackid" TYPE="int" LENGTH="10" NOTNULL="true" DEFAULT="0"/>
+        <FIELD NAME="courseid" TYPE="int" LENGTH="10" NOTNULL="true" DEFAULT="0"/>
+        <FIELD NAME="cmid" TYPE="int" LENGTH="10" NOTNULL="true" DEFAULT="0"/>
+        <FIELD NAME="userid" TYPE="int" LENGTH="10" NOTNULL="true" DEFAULT="0"/>
+        <FIELD NAME="videoid" TYPE="char" LENGTH="32" NOTNULL="true" DEFAULT=""/>
+        <FIELD NAME="sessionid" TYPE="char" LENGTH="64" NOTNULL="true" DEFAULT=""/>
+        <FIELD NAME="reactionid" TYPE="int" LENGTH="10" NOTNULL="true" DEFAULT="0"/>
+        <FIELD NAME="reactionkey" TYPE="char" LENGTH="100" NOTNULL="true" DEFAULT=""/>
+        <FIELD NAME="reactionlabel" TYPE="char" LENGTH="255" NOTNULL="true" DEFAULT=""/>
+        <FIELD NAME="reactiondesc" TYPE="text" NOTNULL="false"/>
+        <FIELD NAME="notetext" TYPE="text" NOTNULL="false" COMMENT="Free text note (only when notetype=note)"/>
+        <FIELD NAME="notetype" TYPE="char" LENGTH="20" NOTNULL="true" DEFAULT="" COMMENT="Empty=reaction; note=student note"/>
+        <FIELD NAME="videotime" TYPE="number" LENGTH="10" DECIMALS="3" NOTNULL="true" DEFAULT="0.000"/>
+        <FIELD NAME="playbackrate" TYPE="number" LENGTH="6" DECIMALS="3" NOTNULL="true" DEFAULT="1.000"/>
+        <FIELD NAME="isdeleted" TYPE="int" LENGTH="1" NOTNULL="true" DEFAULT="0"/>
+        <FIELD NAME="timecreated" TYPE="int" LENGTH="10" NOTNULL="true" DEFAULT="0"/>
+        <FIELD NAME="timemodified" TYPE="int" LENGTH="10" NOTNULL="true" DEFAULT="0"/>
+      </FIELDS>
+      <KEYS>
+        <KEY NAME="primary" TYPE="primary" FIELDS="id"/>
+      </KEYS>
+      <INDEXES>
+        <INDEX NAME="vt_user_idx" UNIQUE="false" FIELDS="videotrackid, userid, isdeleted"/>
+        <INDEX NAME="vt_reaction_idx" UNIQUE="false" FIELDS="videotrackid, reactionid, isdeleted"/>
+        <INDEX NAME="user_vt_idx" UNIQUE="false" FIELDS="userid, videotrackid, isdeleted"/>
+      </INDEXES>
+    </TABLE>
+  </TABLES>
+</XMLDB>

@@ -1,0 +1,35 @@
+<?php
+namespace mod_videotrack\event;
+
+defined('MOODLE_INTERNAL') || die();
+
+/**
+ * Fired when a student's viewing segment is saved to the database.
+ * Logged on every heartbeat, pause, seek, tab-change and page-hide.
+ */
+class segment_saved extends \core\event\base {
+    protected function init(): void {
+        $this->data['objecttable'] = 'videotrack_seg';
+        $this->data['crud']        = 'c';
+        $this->data['edulevel']    = self::LEVEL_PARTICIPATING;
+    }
+
+    public static function get_name(): string {
+        return get_string('event:segment_saved', 'mod_videotrack');
+    }
+
+    public function get_description(): string {
+        return "The user with id '{$this->userid}' saved a viewing segment " .
+               "(start={$this->other['videotimestart']}, end={$this->other['videotimeend']}, " .
+               "reason={$this->other['endreason']}) " .
+               "in the videotrack activity with course module id '{$this->contextinstanceid}'.";
+    }
+
+    public function get_url(): \moodle_url {
+        return new \moodle_url('/mod/videotrack/view.php', ['id' => $this->contextinstanceid]);
+    }
+
+    public static function get_objectid_mapping(): array {
+        return ['db' => 'videotrack_seg', 'restore' => 'videotrack_seg'];
+    }
+}
