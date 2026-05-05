@@ -13,12 +13,25 @@ $export = optional_param('export', '', PARAM_ALPHA);
 $useridfilter = optional_param('userid', 0, PARAM_INT);
 $reactionidfilter = optional_param('reactionid', 0, PARAM_INT);
 $notepage = max(0, optional_param('notepage', 0, PARAM_INT));
+$notecreatedfrom = optional_param('notecreatedfrom', '', PARAM_RAW_TRIMMED);
+$notecreatedto = optional_param('notecreatedto', '', PARAM_RAW_TRIMMED);
 $timefrom = optional_param('timefrom', '', PARAM_RAW_TRIMMED);
 $timeto = optional_param('timeto', '', PARAM_RAW_TRIMMED);
 $timefrom = is_numeric($timefrom) ? max(0.0, (float)$timefrom) : null;
 $timeto = is_numeric($timeto) ? max(0.0, (float)$timeto) : null;
 if ($timefrom !== null && $timeto !== null && $timeto < $timefrom) {
     [$timefrom, $timeto] = [$timeto, $timefrom];
+}
+$notecreatedfromts = $notecreatedfrom !== '' ? strtotime($notecreatedfrom . ' 00:00:00') : 0;
+$notecreatedtots = $notecreatedto !== '' ? strtotime($notecreatedto . ' 23:59:59') : 0;
+if ($notecreatedfromts === false) {
+    $notecreatedfromts = 0;
+}
+if ($notecreatedtots === false) {
+    $notecreatedtots = 0;
+}
+if ($notecreatedfromts && $notecreatedtots && $notecreatedtots < $notecreatedfromts) {
+    [$notecreatedfromts, $notecreatedtots] = [$notecreatedtots, $notecreatedfromts];
 }
 
 $cm = get_coursemodule_from_id('videotrack', $id, 0, false, MUST_EXIST);
@@ -181,6 +194,8 @@ $baseparams = [
     'reactionid' => $reactionidfilter,
     'timefrom' => $timefrom,
     'timeto' => $timeto,
+    'notecreatedfrom' => $notecreatedfrom,
+    'notecreatedto' => $notecreatedto,
 ];
 $baseurl = new moodle_url('/mod/videotrack/report.php', $baseparams);
 
@@ -278,6 +293,14 @@ if ($export === 'notes_csv' && !empty($videotrack->studentnotesenabled)) {
         $notecsv_where .= ' AND userid = :uid';
         $notecsv_params['uid'] = $useridfilter;
     }
+    if ($notecreatedfromts) {
+        $notecsv_where .= ' AND timecreated >= :notecreatedfrom';
+        $notecsv_params['notecreatedfrom'] = $notecreatedfromts;
+    }
+    if ($notecreatedtots) {
+        $notecsv_where .= ' AND timecreated <= :notecreatedto';
+        $notecsv_params['notecreatedto'] = $notecreatedtots;
+    }
     $rs = $DB->get_recordset_select(
         'videotrack_reactev',
         $notecsv_where,
@@ -329,7 +352,7 @@ if ($export === 'csv') {
         }
         if ($clusterlimitreached) {
             fputcsv($fh, []);
-            fputcsv($fh, ['warning', get_string('report:clusterlimitreached', 'mod_videotrack')]);
+            fputcsv($fh, ['warning', get_string('report:clusterlimitreached_csv', 'mod_videotrack')]);
         }
     } else {
         // Usa recordset per iterare riga per riga ed evitare di caricare tutto in memoria.
@@ -538,6 +561,24 @@ echo html_writer::div(
         'type' => 'number', 'step' => '1', 'min' => '0', 'name' => 'timeto',
         'id' => 'id_timeto', 'value' => $timeto === null ? '' : (string)(int)$timeto,
         'class' => 'form-control d-inline-block', 'style' => 'width:7rem',
+    ]),
+    'd-inline-block mr-2'
+);
+echo html_writer::div(
+    html_writer::label(get_string('report:notecreatedfrom', 'mod_videotrack'), 'id_notecreatedfrom') .
+    html_writer::empty_tag('input', [
+        'type' => 'date', 'name' => 'notecreatedfrom',
+        'id' => 'id_notecreatedfrom', 'value' => s($notecreatedfrom),
+        'class' => 'form-control d-inline-block', 'style' => 'width:10rem',
+    ]),
+    'd-inline-block mr-2'
+);
+echo html_writer::div(
+    html_writer::label(get_string('report:notecreatedto', 'mod_videotrack'), 'id_notecreatedto') .
+    html_writer::empty_tag('input', [
+        'type' => 'date', 'name' => 'notecreatedto',
+        'id' => 'id_notecreatedto', 'value' => s($notecreatedto),
+        'class' => 'form-control d-inline-block', 'style' => 'width:10rem',
     ]),
     'd-inline-block mr-2'
 );
@@ -808,6 +849,14 @@ if ($mode === 'student' && !empty($videotrack->studentnotesenabled)) {
     $notewhere = "videotrackid = :vtid AND isdeleted = 0 AND notetype = 'note'" .
         ($useridfilter > 0 ? ' AND userid = :uid' : '');
     $noteparams = array_filter(['vtid' => $videotrack->id, 'uid' => $useridfilter ?: null]);
+    if ($notecreatedfromts) {
+        $notewhere .= ' AND timecreated >= :notecreatedfrom';
+        $noteparams['notecreatedfrom'] = $notecreatedfromts;
+    }
+    if ($notecreatedtots) {
+        $notewhere .= ' AND timecreated <= :notecreatedto';
+        $noteparams['notecreatedto'] = $notecreatedtots;
+    }
     $notelimit = 100;
     $notecount = $DB->count_records_select('videotrack_reactev', $notewhere, $noteparams);
     $notes = $DB->get_records_select(

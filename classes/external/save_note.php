@@ -73,6 +73,20 @@ class save_note extends external_api {
             throw new \moodle_exception('error:playbackrequired', 'mod_videotrack');
         }
 
+        // Global note rate limit: max 5 notes every 10 seconds per user/activity.
+        $recentnotes = $DB->count_records_select(
+            'videotrack_reactev',
+            "videotrackid = :vtid AND userid = :userid AND notetype = 'note' AND isdeleted = 0 AND timecreated > :since",
+            [
+                'vtid' => $videotrack->id,
+                'userid' => (int)$USER->id,
+                'since' => time() - 10,
+            ]
+        );
+        if ($recentnotes >= 5) {
+            throw new \moodle_exception('error:notesratelimit', 'mod_videotrack');
+        }
+
         $now = time();
         $record = (object)[
             'videotrackid' => $videotrack->id,

@@ -384,3 +384,22 @@ $string['report:timeto'] = 'सेकंड तक';
 $string['report:clusterlimitreached_help'] = 'संचयी रिपोर्ट प्रदर्शित किए जा सकने वाले क्लस्टर की सीमा तक पहुँच गई है। आगे के क्लस्टर देखने के लिए उपयोगकर्ता, प्रतिक्रिया या वीडियो समय फ़िल्टर का उपयोग करें।';
 $string['report:topclusterssummary'] = 'इस चयन में सबसे महत्वपूर्ण क्लस्टर:';
 $string['report:topclusteritem'] = '{$a->time}: {$a->reaction}, {$a->clicks} क्लिक';
+$string['error:notesratelimit'] = 'कम समय में बहुत अधिक नोट भेजे गए हैं। अगला नोट जोड़ने से पहले प्रतीक्षा करें।';
+
+$string['privacy:segmentschunk'] = 'वीडियो देखने के खंड - भाग {$a}';
+
+$string['privacy:reactionsactivechunk'] = 'सक्रिय प्रतिक्रियाएँ - भाग {$a}';
+
+$string['privacy:reactionsdeletedchunk'] = 'हटाई गई प्रतिक्रियाएँ - भाग {$a}';
+
+$string['privacy:notesactivechunk'] = 'सक्रिय नोट - भाग {$a}';
+
+$string['privacy:notesdeletedchunk'] = 'हटाए गए नोट - भाग {$a}';
+
+$string['report:clusterlimitreached_csv'] = 'चेतावनी: क्लस्टर सीमा पहुँच गई है। निर्यात अधूरा हो सकता है; उपयोगकर्ता, प्रतिक्रिया या समय फ़िल्टर लगाकर फिर से निर्यात करें।';
+
+$string['report:notecreatedfrom'] = 'इस तारीख से नोट';
+
+$string['report:notecreatedto'] = 'इस तारीख तक नोट';
+
+$string['reactionsavailableonlyduringplayback'] = 'प्रतिक्रियाएँ केवल वीडियो चलने के दौरान उपलब्ध हैं।';

@@ -629,7 +629,11 @@ define(['core/ajax', 'core/log'], function(Ajax, Log) {
 
         document.addEventListener('click', function(e) {
             var reactionbtn = e.target.closest('.videotrack-reaction-btn');
-            if (reactionbtn && reactionbtn.getAttribute('aria-disabled') !== 'true') {
+            if (reactionbtn && reactionbtn.getAttribute('aria-disabled') === 'true') {
+                announceReactionUnavailable();
+                return;
+            }
+            if (reactionbtn) {
                 var currentTime = state.lasttime || 0;
                 reactionbtn.classList.add('videotrack-saving');
                 saveCurrentProgress('reaction').then(function() {

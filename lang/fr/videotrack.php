@@ -384,3 +384,22 @@ $string['report:timeto'] = 'Jusqu’à la seconde';
 $string['report:clusterlimitreached_help'] = 'Le rapport cumulatif a atteint la limite de clusters affichables. Utilisez les filtres par utilisateur, réaction ou temps vidéo pour affiner l’analyse et accéder aux clusters suivants.';
 $string['report:topclusterssummary'] = 'Clusters les plus significatifs dans cette sélection :';
 $string['report:topclusteritem'] = '{$a->time} : {$a->reaction}, {$a->clicks} clics';
+$string['error:notesratelimit'] = 'Trop de notes ont été envoyées en peu de temps. Veuillez attendre avant d’ajouter une autre note.';
+
+$string['privacy:segmentschunk'] = 'Segments de visionnage - partie {$a}';
+
+$string['privacy:reactionsactivechunk'] = 'Réactions actives - partie {$a}';
+
+$string['privacy:reactionsdeletedchunk'] = 'Réactions supprimées - partie {$a}';
+
+$string['privacy:notesactivechunk'] = 'Notes actives - partie {$a}';
+
+$string['privacy:notesdeletedchunk'] = 'Notes supprimées - partie {$a}';
+
+$string['report:clusterlimitreached_csv'] = 'AVERTISSEMENT : la limite des clusters a été atteinte. L’export peut être incomplet ; appliquez des filtres utilisateur, réaction ou temps puis exportez à nouveau.';
+
+$string['report:notecreatedfrom'] = 'Notes à partir de la date';
+
+$string['report:notecreatedto'] = 'Notes jusqu’à la date';
+
+$string['reactionsavailableonlyduringplayback'] = 'Les réactions sont disponibles uniquement pendant la lecture de la vidéo.';

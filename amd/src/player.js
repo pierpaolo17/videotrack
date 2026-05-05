@@ -207,7 +207,13 @@ define(['core/ajax', 'core/log'], function(Ajax, Log) {
         // focus order e vengono annunciati dagli screen reader anche quando inattivi.
         // Il click viene filtrato via JS controllando state.playing.
         document.querySelectorAll('.videotrack-reaction-btn').forEach(function(button) {
+            button.disabled = !playing;
             button.setAttribute('aria-disabled', playing ? 'false' : 'true');
+            if (playing) {
+                button.removeAttribute('tabindex');
+            } else {
+                button.setAttribute('tabindex', '-1');
+            }
             button.classList.toggle('videotrack-reaction-disabled', !playing);
         });
     }
@@ -426,7 +432,11 @@ define(['core/ajax', 'core/log'], function(Ajax, Log) {
         });
         document.addEventListener('click', function(e) {
             var reactionbtn = e.target.closest('.videotrack-reaction-btn');
-            if (reactionbtn && reactionbtn.getAttribute('aria-disabled') !== 'true') {
+            if (reactionbtn && reactionbtn.getAttribute('aria-disabled') === 'true') {
+                announceReactionUnavailable();
+                return;
+            }
+            if (reactionbtn) {
                 var currentTime = player.getCurrentTime();
                 // Feedback visivo immediato: disabilita il bottone durante il salvataggio AJAX.
                 reactionbtn.classList.add('videotrack-saving');

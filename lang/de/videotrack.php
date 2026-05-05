@@ -384,3 +384,22 @@ $string['report:timeto'] = 'Bis Sekunde';
 $string['report:clusterlimitreached_help'] = 'Der kumulative Bericht hat die maximale Anzahl an anzeigbaren Clustern erreicht. Verwenden Sie Filter nach Nutzer, Reaktion oder Videozeit, um die Analyse einzugrenzen und spätere Cluster abzurufen.';
 $string['report:topclusterssummary'] = 'Wichtigste Cluster in dieser Auswahl:';
 $string['report:topclusteritem'] = '{$a->time}: {$a->reaction}, {$a->clicks} Klicks';
+$string['error:notesratelimit'] = 'Es wurden zu viele Notizen in kurzer Zeit gesendet. Bitte warten Sie, bevor Sie eine weitere Notiz hinzufügen.';
+
+$string['privacy:segmentschunk'] = 'Anzeigesegmente - Teil {$a}';
+
+$string['privacy:reactionsactivechunk'] = 'Aktive Reaktionen - Teil {$a}';
+
+$string['privacy:reactionsdeletedchunk'] = 'Gelöschte Reaktionen - Teil {$a}';
+
+$string['privacy:notesactivechunk'] = 'Aktive Notizen - Teil {$a}';
+
+$string['privacy:notesdeletedchunk'] = 'Gelöschte Notizen - Teil {$a}';
+
+$string['report:clusterlimitreached_csv'] = 'WARNUNG: Die Cluster-Grenze wurde erreicht. Der Export kann unvollständig sein; wenden Sie Nutzer-, Reaktions- oder Zeitfilter an und exportieren Sie erneut.';
+
+$string['report:notecreatedfrom'] = 'Notizen ab Datum';
+
+$string['report:notecreatedto'] = 'Notizen bis Datum';
+
+$string['reactionsavailableonlyduringplayback'] = 'Reaktionen sind nur während der Videowiedergabe verfügbar.';
