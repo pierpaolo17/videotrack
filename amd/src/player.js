@@ -203,9 +203,9 @@ define(['core/ajax', 'core/log'], function(Ajax, Log) {
     function setReactionButtons(playing) {
         // Emette evento custom per sincronizzare il bottone note senza riassegnare la funzione.
         document.dispatchEvent(new CustomEvent('videotrack:playstate', { detail: { playing: playing } }));
-        // Usa aria-disabled invece di button.disabled: i bottoni rimangono nel
-        // focus order e vengono annunciati dagli screen reader anche quando inattivi.
-        // Il click viene filtrato via JS controllando state.playing.
+        // Disabilita realmente i bottoni fuori playback: vengono rimossi dal
+        // tab order per evitare controlli non azionabili da tastiera. aria-disabled
+        // rimane come stato semantico ridondante per tecnologie assistive.
         document.querySelectorAll('.videotrack-reaction-btn').forEach(function(button) {
             button.disabled = !playing;
             button.setAttribute('aria-disabled', playing ? 'false' : 'true');

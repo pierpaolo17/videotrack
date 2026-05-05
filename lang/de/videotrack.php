@@ -403,3 +403,9 @@ $string['report:notecreatedfrom'] = 'Notizen ab Datum';
 $string['report:notecreatedto'] = 'Notizen bis Datum';
 
 $string['reactionsavailableonlyduringplayback'] = 'Reaktionen sind nur während der Videowiedergabe verfügbar.';
+
+$string['privacy:state'] = 'Abschlussstatus';
+
+$string['report:clusterlimitrequiresfilters'] = 'Der kumulative Bericht ist unvollständig. Wenden Sie einen Video-Zeitbereichsfilter an, um die verbleibenden Cluster zuverlässig abzurufen.';
+
+$string['report:clusterlimitrequiresfilters_csv'] = 'Der kumulative Export ist unvollständig, weil kein Video-Zeitbereichsfilter angewendet wurde. Wenden Sie Von-Sekunde/Bis-Sekunde-Filter an und exportieren Sie erneut.';

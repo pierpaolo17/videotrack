@@ -403,3 +403,9 @@ $string['report:notecreatedfrom'] = 'Notes from date';
 $string['report:notecreatedto'] = 'Notes to date';
 
 $string['reactionsavailableonlyduringplayback'] = 'Reactions are available only during video playback.';
+
+$string['privacy:state'] = 'Completion state';
+
+$string['report:clusterlimitrequiresfilters'] = 'The cumulative report is partial. Apply a video-time range filter to retrieve the remaining clusters reliably.';
+
+$string['report:clusterlimitrequiresfilters_csv'] = 'The cumulative export is partial because no video-time range filter was applied. Apply From second/To second filters and export again.';

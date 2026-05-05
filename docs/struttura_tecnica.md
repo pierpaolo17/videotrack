@@ -813,3 +813,10 @@ Il payload usa il formato bulk API di Moodle: `JSON.stringify([{methodname, args
 - Il report cumulativo supporta filtri espliciti sul tempo del video (`timefrom`/`timeto`) per restringere dataset molto grandi e recuperare analisi oltre la soglia massima di cluster visualizzati.
 - La heatmap è preceduta da un riepilogo testuale dei cluster più rilevanti.
 - I savepoint senza modifica schema restano intenzionali e documentati, per mantenere tracciabilità tra versioni rilasciate senza alterare il database.
+
+### Aggiornamento 1.0.7
+
+- I pulsanti reazione dei player HTML5 e Vimeo sono allineati al player YouTube: fuori dalla riproduzione sono realmente disabilitati e rimossi dal tab order, mantenendo `aria-disabled` come stato semantico.
+- Il report cumulativo mostra un avviso specifico quando viene raggiunta la soglia cluster senza filtri temporali sul video; anche il CSV mette l'avviso prima dell'intestazione dati.
+- L'export privacy usa una stringa localizzata anche per la sezione dello stato di completamento.
+- La versione numerica Moodle è stata riallineata alla release pubblica 1.0.7.

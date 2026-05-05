@@ -403,3 +403,9 @@ $string['report:notecreatedfrom'] = 'इस तारीख से नोट';
 $string['report:notecreatedto'] = 'इस तारीख तक नोट';
 
 $string['reactionsavailableonlyduringplayback'] = 'प्रतिक्रियाएँ केवल वीडियो चलने के दौरान उपलब्ध हैं।';
+
+$string['privacy:state'] = 'पूर्णता स्थिति';
+
+$string['report:clusterlimitrequiresfilters'] = 'संचयी रिपोर्ट आंशिक है। शेष क्लस्टर विश्वसनीय रूप से प्राप्त करने के लिए वीडियो समय-सीमा फ़िल्टर लागू करें।';
+
+$string['report:clusterlimitrequiresfilters_csv'] = 'संचयी निर्यात आंशिक है क्योंकि वीडियो समय-सीमा फ़िल्टर लागू नहीं किया गया। From second/To second फ़िल्टर लागू करें और फिर से निर्यात करें।';

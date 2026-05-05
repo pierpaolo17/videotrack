@@ -119,7 +119,7 @@ class provider implements
                 unset($state->id, $state->videotrackid, $state->courseid,
                       $state->cmid, $state->userid);
             }
-            $writer->export_data([get_string('watch', 'mod_videotrack'), 'state'], (object)[
+            $writer->export_data([get_string('watch', 'mod_videotrack'), get_string('privacy:state', 'mod_videotrack')], (object)[
                 'state' => $state,
             ]);
 

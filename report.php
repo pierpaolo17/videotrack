@@ -198,6 +198,7 @@ $baseparams = [
     'notecreatedto' => $notecreatedto,
 ];
 $baseurl = new moodle_url('/mod/videotrack/report.php', $baseparams);
+$hasvideotimefilter = ($timefrom !== null || $timeto !== null);
 
 // OPT-1: grade_get_grades caricato una sola volta per tutte le sezioni del report.
 $hasgrade  = !empty($videotrack->grade);
@@ -336,10 +337,18 @@ if ($export === 'csv') {
     header('Content-Disposition: attachment; filename="' . $filename . '"');
     $fh = fopen('php://output', 'w');
     if ($mode === 'cumulative') {
-        fputcsv($fh, ['timestamp', 'reaction', 'clicks', 'students', 'first_timestamp', 'last_timestamp']);
         $eventrs = $geteventrecordset();
         $clusters = $clusterize($eventrs, $window, $aggregation);
         $eventrs->close();
+        if ($clusterlimitreached) {
+            // Put the warning before the data header so spreadsheet users see it immediately.
+            fputcsv($fh, ['warning', get_string('report:clusterlimitreached_csv', 'mod_videotrack')]);
+            if (!$hasvideotimefilter) {
+                fputcsv($fh, ['warning', get_string('report:clusterlimitrequiresfilters_csv', 'mod_videotrack')]);
+            }
+            fputcsv($fh, []);
+        }
+        fputcsv($fh, ['timestamp', 'reaction', 'clicks', 'students', 'first_timestamp', 'last_timestamp']);
         foreach ($clusters as $cluster) {
             fputcsv($fh, [
                 round($cluster['timestamp'], 3),
@@ -349,10 +358,6 @@ if ($export === 'csv') {
                 round($cluster['first'], 3),
                 round($cluster['last'], 3),
             ]);
-        }
-        if ($clusterlimitreached) {
-            fputcsv($fh, []);
-            fputcsv($fh, ['warning', get_string('report:clusterlimitreached_csv', 'mod_videotrack')]);
         }
     } else {
         // Usa recordset per iterare riga per riga ed evitare di caricare tutto in memoria.
@@ -717,10 +722,10 @@ if ($mode === 'student') {
         $eventrs->close();
         if ($clusterlimitreached) {
             echo $OUTPUT->notification(get_string('report:clusterlimitreached', 'mod_videotrack'), 'notifymessage');
-        }
-
-        if ($clusterlimitreached) {
             echo $OUTPUT->notification(get_string('report:clusterlimitreached_help', 'mod_videotrack'), 'notifymessage');
+            if (!$hasvideotimefilter) {
+                echo $OUTPUT->notification(get_string('report:clusterlimitrequiresfilters', 'mod_videotrack'), 'warning');
+            }
         }
 
         if ($clusters) {

@@ -403,3 +403,9 @@ $string['report:notecreatedfrom'] = 'Notas desde la fecha';
 $string['report:notecreatedto'] = 'Notas hasta la fecha';
 
 $string['reactionsavailableonlyduringplayback'] = 'Las reacciones solo están disponibles durante la reproducción del vídeo.';
+
+$string['privacy:state'] = 'Estado de finalización';
+
+$string['report:clusterlimitrequiresfilters'] = 'El informe acumulado es parcial. Aplique un filtro de intervalo temporal del vídeo para recuperar de forma fiable los clústeres restantes.';
+
+$string['report:clusterlimitrequiresfilters_csv'] = 'La exportación acumulada es parcial porque no se aplicó ningún filtro de intervalo temporal del vídeo. Aplique los filtros Desde segundo/Hasta segundo y exporte de nuevo.';
