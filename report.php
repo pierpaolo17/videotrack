@@ -417,6 +417,11 @@ if ($resetaction === 'resetstudent' && $_SERVER['REQUEST_METHOD'] === 'POST') {
     if (!is_enrolled($context, $resetuserid, '', true)) {
         throw new moodle_exception('invaliduserid', 'error');
     }
+    $resetcounts = [
+        'segments' => $DB->count_records('videotrack_seg', ['videotrackid' => $videotrack->id, 'userid' => $resetuserid]),
+        'states' => $DB->count_records('videotrack_state', ['videotrackid' => $videotrack->id, 'userid' => $resetuserid]),
+        'events' => $DB->count_records('videotrack_reactev', ['videotrackid' => $videotrack->id, 'userid' => $resetuserid]),
+    ];
     $DB->delete_records('videotrack_seg',     ['videotrackid' => $videotrack->id, 'userid' => $resetuserid]);
     $DB->delete_records('videotrack_state',   ['videotrackid' => $videotrack->id, 'userid' => $resetuserid]);
     $DB->delete_records('videotrack_reactev', ['videotrackid' => $videotrack->id, 'userid' => $resetuserid]);
@@ -424,6 +429,7 @@ if ($resetaction === 'resetstudent' && $_SERVER['REQUEST_METHOD'] === 'POST') {
         'objectid' => $videotrack->id,
         'context' => $context,
         'relateduserid' => $resetuserid,
+        'other' => $resetcounts,
     ])->trigger();
     // Azzera anche il voto nel gradebook se l'attività prevede valutazione.
     if (!empty($videotrack->grade)) {

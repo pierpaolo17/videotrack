@@ -84,8 +84,30 @@ class restore_videotrack_activity_structure_step extends restore_activity_struct
             $data->userid = $mappeduserid;
         }
         if (!empty($data->reactionid)) {
-            $mappedreactionid = $this->get_mappingid('videotrack_react', $data->reactionid);
-            $data->reactionid = $mappedreactionid ?: 0;
+            $oldreactionid = (int)$data->reactionid;
+            $mappedreactionid = $this->get_mappingid('videotrack_react', $oldreactionid);
+            if (empty($mappedreactionid)) {
+                // Very defensive fallback: normally all referenced reactions are backed up.
+                // If a malformed/partial backup omits one, preserve the historical relation
+                // by creating a hidden placeholder instead of storing reactionid = 0.
+                $now = time();
+                $placeholder = (object)[
+                    'videotrackid' => $data->videotrackid,
+                    'reactionkey' => !empty($data->reactionkey) ? $data->reactionkey : ('restored_' . $oldreactionid),
+                    'label' => !empty($data->reactionlabel) ? $data->reactionlabel : 'Restored reaction',
+                    'description' => $data->reactiondesc ?? '',
+                    'icontype' => 'emoji',
+                    'iconvalue' => '',
+                    'requiredforcompletion' => 0,
+                    'sortorder' => 9999,
+                    'isdeleted' => 1,
+                    'timecreated' => $now,
+                    'timemodified' => $now,
+                ];
+                $mappedreactionid = $DB->insert_record('videotrack_react', $placeholder);
+                $this->set_mapping('videotrack_react', $oldreactionid, $mappedreactionid, true);
+            }
+            $data->reactionid = $mappedreactionid;
         }
         $DB->insert_record('videotrack_reactev', $data);
     }
