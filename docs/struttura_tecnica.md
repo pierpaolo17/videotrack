@@ -820,3 +820,10 @@ Il payload usa il formato bulk API di Moodle: `JSON.stringify([{methodname, args
 - Il report cumulativo mostra un avviso specifico quando viene raggiunta la soglia cluster senza filtri temporali sul video; anche il CSV mette l'avviso prima dell'intestazione dati.
 - L'export privacy usa una stringa localizzata anche per la sezione dello stato di completamento.
 - La versione numerica Moodle è stata riallineata alla release pubblica 1.0.7.
+
+
+### Report cumulativo e limiti dataset
+
+Il report cumulativo usa un limite di sicurezza sul numero di cluster da mantenere in memoria.
+Se il limite viene raggiunto senza un filtro temporale sul video, la visualizzazione e l'export cumulativo vengono bloccati in modo esplicito e viene richiesto al docente di restringere il periodo/segmento di analisi.
+Questa scelta evita esportazioni parziali interpretate come complete e mantiene prevedibile il consumo di memoria.

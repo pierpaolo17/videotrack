@@ -402,7 +402,7 @@
 
 
 
-/* ── 0.5.8: Transcript VTT panel ──────────────────────────────────────────── */
+/* ── VideoTrack transcript panel ─────────────────────────────────────────── */
 .videotrack-transcript-wrap {
     border-top: 1px solid var(--border-color, #dee2e6);
     padding-top: 0.75rem;
@@ -463,8 +463,7 @@
     }
 }
 
-/* ── Feature 8: Transcript VTT interattivo ──────────────────────────────── */
-/* Base panel styles are defined above once. The rules below only style the list/buttons. */
+/* Additional transcript list and button styles. Base panel styles are defined above once. */
 @media (prefers-color-scheme: dark) {
     .videotrack-transcript-panel { background: #1e1e2e; border-color: #444; color: #e0e0e0; }
 }
@@ -485,14 +484,14 @@
 }
 .videotrack-transcript-time { font-variant-numeric: tabular-nums; min-width: 3rem; display: inline-block; }
 
-/* ── Feature 3: Autoplay blocked notice ─────────────────────────────────── */
+/* ── Autoplay blocked notice ─────────────────────────────────────────────── */
 .videotrack-autoplay-notice {
     font-size: .875rem;
     padding: .5rem .75rem;
     margin-top: .5rem;
 }
 
-/* ── Feature 10: Barra capitoli VTT navigabili ──────────────────────────── */
+/* ── Navigable VTT chapters bar ──────────────────────────────────────────── */
 .videotrack-chapters-bar {
     display: flex;
     flex-wrap: wrap;

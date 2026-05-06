@@ -345,6 +345,9 @@ if ($export === 'csv') {
             fputcsv($fh, ['warning', get_string('report:clusterlimitreached_csv', 'mod_videotrack')]);
             if (!$hasvideotimefilter) {
                 fputcsv($fh, ['warning', get_string('report:clusterlimitrequiresfilters_csv', 'mod_videotrack')]);
+                fputcsv($fh, ['warning', get_string('report:clusterexportblocked_csv', 'mod_videotrack')]);
+                fclose($fh);
+                exit;
             }
             fputcsv($fh, []);
         }
@@ -731,6 +734,8 @@ if ($mode === 'student') {
             echo $OUTPUT->notification(get_string('report:clusterlimitreached_help', 'mod_videotrack'), 'notifymessage');
             if (!$hasvideotimefilter) {
                 echo $OUTPUT->notification(get_string('report:clusterlimitrequiresfilters', 'mod_videotrack'), 'warning');
+                echo $OUTPUT->notification(get_string('report:clusterdisplayblocked', 'mod_videotrack'), 'warning');
+                $clusters = [];
             }
         }
 

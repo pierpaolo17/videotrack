@@ -410,3 +410,5 @@ $string['privacy:state'] = 'Completion state';
 $string['report:clusterlimitrequiresfilters'] = 'The cumulative report is partial. Apply a video-time range filter to retrieve the remaining clusters reliably.';
 
 $string['report:clusterlimitrequiresfilters_csv'] = 'The cumulative export is partial because no video-time range filter was applied. Apply From second/To second filters and export again.';
+$string['report:clusterexportblocked_csv'] = 'The export was stopped to avoid returning incomplete data. Apply a video-time range filter and export again.';
+$string['report:clusterdisplayblocked'] = 'The cluster table has been hidden to avoid showing incomplete data. Apply a video-time range filter to continue.';

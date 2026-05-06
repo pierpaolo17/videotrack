@@ -410,3 +410,5 @@ $string['privacy:state'] = 'État d’achèvement';
 $string['report:clusterlimitrequiresfilters'] = 'Le rapport cumulatif est partiel. Appliquez un filtre de plage temporelle vidéo pour récupérer les clusters restants de manière fiable.';
 
 $string['report:clusterlimitrequiresfilters_csv'] = 'L’export cumulatif est partiel car aucun filtre de plage temporelle vidéo n’a été appliqué. Appliquez les filtres Début/Fin en secondes puis relancez l’export.';
+$string['report:clusterexportblocked_csv'] = 'L’export a été arrêté afin d’éviter des données incomplètes. Appliquez un filtre de temps vidéo puis relancez l’export.';
+$string['report:clusterdisplayblocked'] = 'Le tableau des regroupements a été masqué afin d’éviter des données incomplètes. Appliquez un filtre de temps vidéo pour continuer.';
