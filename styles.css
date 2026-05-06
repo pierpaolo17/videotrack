@@ -186,13 +186,16 @@
 
 
 
-/* Quando il video è in pausa i bottoni rimangono nel DOM e nel focus order
- * ma vengono stilizzati come disabilitati. Si usa aria-disabled invece
- * dell'attributo HTML disabled per mantenere accessibilità screen reader. */
+/* Stato non disponibile delle reazioni: i bottoni sono realmente disabilitati
+ * fuori dalla riproduzione e rimossi dal tab order dal JS. Il contrasto visivo
+ * resta percepibile anche senza basarsi solo sul colore. */
+.videotrack-reaction-btn:disabled,
 .videotrack-reaction-btn[aria-disabled="true"],
 .videotrack-reaction-disabled {
-    opacity: 0.5;
+    opacity: 0.55;
     cursor: not-allowed;
+    filter: grayscale(100%);
+    border-style: dashed;
 }
 
 /* ─── Focus visible — tutti i controlli interattivi ─────────────────────── */

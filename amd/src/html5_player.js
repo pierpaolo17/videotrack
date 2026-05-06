@@ -11,6 +11,7 @@ define(['core/ajax', 'core/log'], function(Ajax, Log) {
 
     var media  = null; // The <video> or <audio> DOM element.
     var config = null;
+    var lastReactionAvailabilityAnnouncement = null;
     var HEARTBEAT_INTERVAL = 30;
 
     var state = {
@@ -723,6 +724,24 @@ define(['core/ajax', 'core/log'], function(Ajax, Log) {
             }
             btn.classList.toggle('videotrack-reaction-disabled', !playing);
         });
+        announceReactionAvailability(playing);
+    }
+
+
+    function announceReactionAvailability(playing) {
+        if (lastReactionAvailabilityAnnouncement === playing) {
+            return;
+        }
+        lastReactionAvailabilityAnnouncement = playing;
+        var hint = document.getElementById('videotrack-reactions-hint');
+        if (!hint) {
+            return;
+        }
+        hint.setAttribute('aria-live', 'polite');
+        hint.textContent = playing
+            ? (config.reactionsreadylabel || 'Reactions are now available.')
+            : (config.reactionunavailablelabel || 'Reactions are available only during video playback.');
+        hint.classList.toggle('videotrack-reactions-hint-active', !playing);
     }
 
 
@@ -730,6 +749,7 @@ define(['core/ajax', 'core/log'], function(Ajax, Log) {
         var hint = document.getElementById('videotrack-reactions-hint');
         if (hint) {
             hint.setAttribute('aria-live', 'polite');
+            hint.textContent = config.reactionunavailablelabel || 'Reactions are available only during video playback.';
             hint.classList.add('videotrack-reactions-hint-active');
             window.setTimeout(function() {
                 hint.classList.remove('videotrack-reactions-hint-active');

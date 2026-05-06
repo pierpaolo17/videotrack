@@ -403,6 +403,7 @@ $string['report:notecreatedfrom'] = 'इस तारीख से नोट';
 $string['report:notecreatedto'] = 'इस तारीख तक नोट';
 
 $string['reactionsavailableonlyduringplayback'] = 'प्रतिक्रियाएँ केवल वीडियो चलने के दौरान उपलब्ध हैं।';
+$string['reactionsreadyannounce'] = 'प्रतिक्रियाएँ अब उपलब्ध हैं।';
 
 $string['privacy:state'] = 'पूर्णता स्थिति';
 

@@ -403,6 +403,7 @@ $string['report:notecreatedfrom'] = 'Notas desde la fecha';
 $string['report:notecreatedto'] = 'Notas hasta la fecha';
 
 $string['reactionsavailableonlyduringplayback'] = 'Las reacciones solo están disponibles durante la reproducción del vídeo.';
+$string['reactionsreadyannounce'] = 'Las reacciones ya están disponibles.';
 
 $string['privacy:state'] = 'Estado de finalización';
 

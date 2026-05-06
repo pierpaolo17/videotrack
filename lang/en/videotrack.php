@@ -403,6 +403,7 @@ $string['report:notecreatedfrom'] = 'Notes from date';
 $string['report:notecreatedto'] = 'Notes to date';
 
 $string['reactionsavailableonlyduringplayback'] = 'Reactions are available only during video playback.';
+$string['reactionsreadyannounce'] = 'Reactions are now available.';
 
 $string['privacy:state'] = 'Completion state';
 
