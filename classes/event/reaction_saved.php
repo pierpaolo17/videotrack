@@ -18,9 +18,21 @@ class reaction_saved extends \core\event\base {
     }
 
     public function get_description(): string {
-        return "The user with id '{$this->userid}' submitted reaction '{$this->other['reactionlabel']}' " .
-               "at video time {$this->other['videotime']}s " .
+    $videotime = $this->other['videotime'] ?? 0;
+    $notetype = $this->other['notetype'] ?? 'reaction';
+
+    if ($notetype === 'note') {
+        return "The user with id '{$this->userid}' submitted a note " .
+               "at video time {$videotime}s " .
                "in the videotrack activity with course module id '{$this->contextinstanceid}'.";
+    }
+
+    $reactionlabel = $this->other['reactionlabel'] ??
+        get_string('unknownreaction', 'mod_videotrack');
+
+    return "The user with id '{$this->userid}' submitted reaction '{$reactionlabel}' " .
+           "at video time {$videotime}s " .
+           "in the videotrack activity with course module id '{$this->contextinstanceid}'.";
     }
 
     public function get_url(): \moodle_url {
