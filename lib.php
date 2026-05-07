@@ -1057,9 +1057,15 @@ function videotrack_pluginfile($course, $cm, $context, $filearea, $args, $forced
     if ($context->contextlevel !== CONTEXT_MODULE) {
         return false;
     }
-    if (!in_array($filearea, ['reactionicon', 'videocontent', 'subtitles', 'posterimage'])) {
+    if (!in_array($filearea, ['reactionicon', 'videocontent', 'subtitles', 'posterimage'], true)) {
         return false;
     }
+    $allowedextensions = [
+        'reactionicon' => ['jpg', 'jpeg', 'png', 'gif', 'webp'],
+        'posterimage' => ['jpg', 'jpeg', 'png', 'gif', 'webp'],
+        'subtitles' => ['vtt'],
+        'videocontent' => ['mp4', 'webm', 'mp3', 'm4v', 'mov', 'aac', 'm4a'],
+    ];
     require_login($course, true, $cm);
     if (!has_capability('mod/videotrack:view', $context)) {
         return false;
@@ -1073,6 +1079,17 @@ function videotrack_pluginfile($course, $cm, $context, $filearea, $args, $forced
     $fs = get_file_storage();
     $file = $fs->get_file($context->id, 'mod_videotrack', $filearea, $itemid, $filepath, $filename);
     if (!$file || $file->is_directory()) {
+        return false;
+    }
+    $extension = strtolower(pathinfo($file->get_filename(), PATHINFO_EXTENSION));
+    if (!in_array($extension, $allowedextensions[$filearea], true)) {
+        return false;
+    }
+    if (in_array($filearea, ['reactionicon', 'posterimage'], true)
+            && strpos((string)$file->get_mimetype(), 'image/') !== 0) {
+        return false;
+    }
+    if ($filearea === 'subtitles' && !in_array($file->get_mimetype(), ['text/vtt', 'text/plain'], true)) {
         return false;
     }
     // Uploaded videos: allow 1 hour browser caching. Poster: 5 min. Icons: no cache.

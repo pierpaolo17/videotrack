@@ -413,4 +413,4 @@ $string['report:clusterlimitrequiresfilters'] = 'Der kumulative Bericht ist unvo
 $string['report:clusterlimitrequiresfilters_csv'] = 'Der kumulative Export ist unvollständig, weil kein Video-Zeitbereichsfilter angewendet wurde. Wenden Sie Von-Sekunde/Bis-Sekunde-Filter an und exportieren Sie erneut.';
 $string['report:clusterexportblocked_csv'] = 'Der Export wurde gestoppt, um unvollständige Daten zu vermeiden. Wenden Sie einen Videozeitfilter an und exportieren Sie erneut.';
 $string['report:clusterdisplayblocked'] = 'Die Cluster-Tabelle wurde ausgeblendet, um unvollständige Daten zu vermeiden. Wenden Sie einen Videozeitfilter an, um fortzufahren.';
-$string['unknownreaction'] = 'Unknown reaction';
+$string['unknownreaction'] = 'Unbekannte Reaktion';

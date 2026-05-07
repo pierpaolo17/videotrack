@@ -116,7 +116,6 @@
       <INDEXES>
         <INDEX NAME="vt_user_uix" UNIQUE="true" FIELDS="videotrackid, userid"/>
         <INDEX NAME="cm_user_idx" UNIQUE="false" FIELDS="cmid, userid"/>
-        <INDEX NAME="vt_user_sess_time_idx" UNIQUE="false" FIELDS="videotrackid, userid, sessionid, timecreated"/>
       </INDEXES>
     </TABLE>
 

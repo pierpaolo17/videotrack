@@ -413,4 +413,4 @@ $string['report:clusterlimitrequiresfilters'] = 'O relatório cumulativo está p
 $string['report:clusterlimitrequiresfilters_csv'] = 'A exportação cumulativa está parcial porque não foi aplicado um filtro de intervalo temporal do vídeo. Aplique os filtros De segundo/Até segundo e exporte novamente.';
 $string['report:clusterexportblocked_csv'] = 'A exportação foi interrompida para evitar dados incompletos. Aplique um filtro de tempo do vídeo e exporte novamente.';
 $string['report:clusterdisplayblocked'] = 'A tabela de agrupamentos foi ocultada para evitar dados incompletos. Aplique um filtro de tempo do vídeo para continuar.';
-$string['unknownreaction'] = 'Unknown reaction';
+$string['unknownreaction'] = 'Reação desconhecida';

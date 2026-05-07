@@ -425,9 +425,8 @@ if (!empty($videotrack->reactionsenabled) && $reactions) {
             'data-reactiondesc'     => s($reaction->description),
             'data-reactioniconhtml' => s($icononlyhtml),
             'title'                 => s($reaction->description),
-            // disabled reale e aria-disabled: il bottone rimane nel focus order
-            // e visibile agli screen reader anche quando il video è in pausa.
-            // Il click viene bloccato via JS controllando state.playing.
+            // Real disabled state plus aria-disabled: when the video is not playing,
+            // the JS removes reaction buttons from the tab order and announces the state.
             'aria-disabled'         => 'true',
             'aria-describedby'      => 'videotrack-reactions-hint',
             'aria-label'            => s($reaction->label),

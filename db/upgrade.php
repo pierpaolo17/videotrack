@@ -349,5 +349,14 @@ function xmldb_videotrack_upgrade($oldversion) {
         upgrade_mod_savepoint(true, 2026050511, 'videotrack');
     }
 
+
+    if ($oldversion < 2026050513) {
+        // Version 1.0.13: fixes a fresh-install XMLDB index definition and adds
+        // pluginfile hardening, translation, and documentation polish. Existing
+        // installations do not require a schema change because the invalid state
+        // index could not be created without the missing field.
+        upgrade_mod_savepoint(true, 2026050513, 'videotrack');
+    }
+
     return true;
 }
