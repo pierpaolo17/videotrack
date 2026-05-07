@@ -302,5 +302,31 @@ function xmldb_videotrack_upgrade($oldversion) {
         upgrade_mod_savepoint(true, 2026050507, 'videotrack');
     }
 
+    if ($oldversion < 2026050510) {
+        // Version 1.0.10: adds composite indexes used by playback validation,
+        // reaction burst throttling, and note rate limiting.
+        $segtable = new xmldb_table('videotrack_seg');
+        $index = new xmldb_index('vt_user_sess_time_idx', XMLDB_INDEX_NOTUNIQUE,
+            ['videotrackid', 'userid', 'sessionid', 'timecreated']);
+        if (!$dbman->index_exists($segtable, $index)) {
+            $dbman->add_index($segtable, $index);
+        }
+
+        $reactevtable = new xmldb_table('videotrack_reactev');
+        $index = new xmldb_index('vt_user_sess_time_idx', XMLDB_INDEX_NOTUNIQUE,
+            ['videotrackid', 'userid', 'sessionid', 'timecreated']);
+        if (!$dbman->index_exists($reactevtable, $index)) {
+            $dbman->add_index($reactevtable, $index);
+        }
+
+        $index = new xmldb_index('vt_user_type_time_idx', XMLDB_INDEX_NOTUNIQUE,
+            ['videotrackid', 'userid', 'notetype', 'timecreated']);
+        if (!$dbman->index_exists($reactevtable, $index)) {
+            $dbman->add_index($reactevtable, $index);
+        }
+
+        upgrade_mod_savepoint(true, 2026050510, 'videotrack');
+    }
+
     return true;
 }

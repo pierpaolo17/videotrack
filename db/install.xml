@@ -89,6 +89,7 @@
         <INDEX NAME="vt_user_idx" UNIQUE="false" FIELDS="videotrackid, userid"/>
         <INDEX NAME="session_idx" UNIQUE="false" FIELDS="sessionid"/>
         <INDEX NAME="cm_user_idx" UNIQUE="false" FIELDS="cmid, userid"/>
+        <INDEX NAME="vt_user_sess_time_idx" UNIQUE="false" FIELDS="videotrackid, userid, sessionid, timecreated"/>
       </INDEXES>
     </TABLE>
 
@@ -115,6 +116,7 @@
       <INDEXES>
         <INDEX NAME="vt_user_uix" UNIQUE="true" FIELDS="videotrackid, userid"/>
         <INDEX NAME="cm_user_idx" UNIQUE="false" FIELDS="cmid, userid"/>
+        <INDEX NAME="vt_user_sess_time_idx" UNIQUE="false" FIELDS="videotrackid, userid, sessionid, timecreated"/>
       </INDEXES>
     </TABLE>
 
@@ -169,6 +171,8 @@
         <INDEX NAME="vt_user_idx" UNIQUE="false" FIELDS="videotrackid, userid, isdeleted"/>
         <INDEX NAME="vt_reaction_idx" UNIQUE="false" FIELDS="videotrackid, reactionid, isdeleted"/>
         <INDEX NAME="user_vt_idx" UNIQUE="false" FIELDS="userid, videotrackid, isdeleted"/>
+        <INDEX NAME="vt_user_sess_time_idx" UNIQUE="false" FIELDS="videotrackid, userid, sessionid, timecreated"/>
+        <INDEX NAME="vt_user_type_time_idx" UNIQUE="false" FIELDS="videotrackid, userid, notetype, timecreated"/>
       </INDEXES>
     </TABLE>
   </TABLES>

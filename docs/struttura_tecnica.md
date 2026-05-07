@@ -827,3 +827,9 @@ Il payload usa il formato bulk API di Moodle: `JSON.stringify([{methodname, args
 Il report cumulativo usa un limite di sicurezza sul numero di cluster da mantenere in memoria.
 Se il limite viene raggiunto senza un filtro temporale sul video, la visualizzazione e l'export cumulativo vengono bloccati in modo esplicito e viene richiesto al docente di restringere il periodo/segmento di analisi.
 Questa scelta evita esportazioni parziali interpretate come complete e mantiene prevedibile il consumo di memoria.
+
+
+## Versione 1.0.10
+
+- Aggiunti indici compositi per validazione playback recente, rate limit reazioni e rate limit note.
+- File AMD build riallineati in forma compatta rispetto ai sorgenti.
