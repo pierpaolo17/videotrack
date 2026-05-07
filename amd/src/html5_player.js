@@ -356,11 +356,11 @@ define(['core/ajax', 'core/log'], function(Ajax, Log) {
         var bar = document.createElement('div');
         bar.className = 'videotrack-html5-controls';
         bar.setAttribute('role', 'toolbar');
-        bar.setAttribute('aria-label', 'Video controls');
+        bar.setAttribute('aria-label', config.html5controlslabel || 'Video controls');
 
         // ── Play / Pause ─────────────────────────────────────
         if (controls.indexOf('play') >= 0) {
-            var playBtn = makeBtn('videotrack-ctrl-play', '▶', 'Play');
+            var playBtn = makeBtn('videotrack-ctrl-play', '▶', config.html5playlabel || 'Play');
             playBtn.addEventListener('click', function() {
                 if (media.paused) { media.play(); } else { media.pause(); }
             });
@@ -410,17 +410,26 @@ define(['core/ajax', 'core/log'], function(Ajax, Log) {
             progressBar.min   = '0';
             progressBar.max   = '100';
             progressBar.value = '0';
-            progressBar.setAttribute('aria-label',    'Seek');
+            progressBar.setAttribute('aria-label',    config.html5seeklabel || 'Seek');
             progressBar.setAttribute('aria-valuemin', '0');
             progressBar.setAttribute('aria-valuemax', '100');
             progressBar.setAttribute('aria-valuenow', '0');
             progressBar.setAttribute('aria-valuetext','0:00');
             progressBar.addEventListener('input', function() {
                 if (state.duration) {
-                    var t = (parseFloat(progressBar.value) / 100) * state.duration;
-                    media.currentTime = t;
+                    var requested = (parseFloat(progressBar.value) / 100) * state.duration;
+                    var current = media.currentTime || 0;
+                    var allowed = requested;
+                    if (config.allowseekforward === false && requested > current) {
+                        allowed = current;
+                    }
+                    if (config.allowseekbackward === false && requested < current) {
+                        allowed = current;
+                    }
+                    media.currentTime = allowed;
+                    progressBar.value = state.duration ? String((allowed / state.duration) * 100) : '0';
                     progressBar.setAttribute('aria-valuenow',  String(Math.round(progressBar.value)));
-                    progressBar.setAttribute('aria-valuetext', formatSeconds(t));
+                    progressBar.setAttribute('aria-valuetext', formatSeconds(allowed));
                 }
             });
             progressWrap.appendChild(progressBar);
@@ -450,11 +459,11 @@ define(['core/ajax', 'core/log'], function(Ajax, Log) {
 
         // ── Mute ─────────────────────────────────────────────
         if (controls.indexOf('mute') >= 0) {
-            var muteBtn = makeBtn('videotrack-ctrl-mute', '🔊', 'Mute');
+            var muteBtn = makeBtn('videotrack-ctrl-mute', '🔊', config.html5mutelabel || 'Mute');
             muteBtn.addEventListener('click', function() {
                 media.muted = !media.muted;
                 muteBtn.textContent = media.muted ? '🔇' : '🔊';
-                muteBtn.setAttribute('aria-label', media.muted ? 'Unmute' : 'Mute');
+                muteBtn.setAttribute('aria-label', media.muted ? (config.html5unmutelabel || 'Unmute') : (config.html5mutelabel || 'Mute'));
             });
             bar.appendChild(muteBtn);
         }
@@ -468,7 +477,7 @@ define(['core/ajax', 'core/log'], function(Ajax, Log) {
             volSlider.max   = '1';
             volSlider.step  = '0.05';
             volSlider.value = media.muted ? '0' : '1';
-            volSlider.setAttribute('aria-label', 'Volume');
+            volSlider.setAttribute('aria-label', config.html5volumelabel || 'Volume');
             volSlider.addEventListener('input', function() {
                 media.volume = parseFloat(volSlider.value);
                 media.muted  = (media.volume === 0);
@@ -488,7 +497,7 @@ define(['core/ajax', 'core/log'], function(Ajax, Log) {
                     (speed === 1 ? ' active' : '');
                 btn.textContent = speed + '×';
                 btn.dataset.speed = speed;
-                btn.setAttribute('aria-label', 'Speed ' + speed + 'x');
+                btn.setAttribute('aria-label', (config.html5speedlabel || 'Speed') + ' ' + speed + 'x');
                 btn.addEventListener('click', function() {
                     media.playbackRate = speed;
                     state.playbackrate = speed;
@@ -503,7 +512,7 @@ define(['core/ajax', 'core/log'], function(Ajax, Log) {
 
         // ── PiP ──────────────────────────────────────────────
         if (!isAudio && controls.indexOf('pip') >= 0 && document.pictureInPictureEnabled) {
-            var pipBtn = makeBtn('videotrack-ctrl-pip', '⧉', 'Picture-in-Picture');
+            var pipBtn = makeBtn('videotrack-ctrl-pip', '⧉', config.html5piplabel || 'Picture-in-Picture');
             pipBtn.addEventListener('click', function() {
                 if (document.pictureInPictureElement) {
                     document.exitPictureInPicture();
@@ -516,7 +525,7 @@ define(['core/ajax', 'core/log'], function(Ajax, Log) {
 
         // ── Fullscreen ────────────────────────────────────────
         if (!isAudio && controls.indexOf('fullscreen') >= 0) {
-            var fsBtn = makeBtn('videotrack-ctrl-fs', '⛶', 'Fullscreen');
+            var fsBtn = makeBtn('videotrack-ctrl-fs', '⛶', config.html5fullscreenlabel || 'Fullscreen');
             fsBtn.addEventListener('click', function() {
                 var wrapper = container.closest('.videotrack-player-wrap') || container;
                 if (!document.fullscreenElement) {
@@ -535,7 +544,7 @@ define(['core/ajax', 'core/log'], function(Ajax, Log) {
             dlBtn.download = '';
             dlBtn.className = 'btn btn-sm btn-outline-secondary videotrack-ctrl-download';
             dlBtn.textContent = '⬇';
-            dlBtn.setAttribute('aria-label', 'Download');
+            dlBtn.setAttribute('aria-label', config.html5downloadlabel || 'Download');
             bar.appendChild(dlBtn);
         }
 

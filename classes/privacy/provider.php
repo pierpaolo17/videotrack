@@ -59,6 +59,16 @@ class provider implements
             'timecreated'   => 'privacy:metadata:common:timecreated',
         ], 'privacy:metadata:videotrack_reactev');
 
+        $collection->add_external_location_link('youtube', [
+            'videoid' => 'privacy:metadata:youtube:videoid',
+            'url' => 'privacy:metadata:youtube:url',
+        ], 'privacy:metadata:youtube');
+
+        $collection->add_external_location_link('vimeo', [
+            'videoid' => 'privacy:metadata:vimeo:videoid',
+            'url' => 'privacy:metadata:vimeo:url',
+        ], 'privacy:metadata:vimeo');
+
         return $collection;
     }
 

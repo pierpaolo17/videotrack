@@ -53,6 +53,14 @@ class mod_videotrack_mod_form extends moodleform_mod {
         $mform->addHelpButton('vimeourl', 'vimeourl', 'mod_videotrack');
         $mform->hideIf('vimeourl', 'videosource', 'neq', 'vimeo');
 
+        $mform->addElement('static', 'externalprovider_notice', '',
+            html_writer::tag('small',
+                get_string('externalprovider_notice', 'mod_videotrack'),
+                ['class' => 'text-muted form-text']
+            )
+        );
+        $mform->hideIf('externalprovider_notice', 'videosource', 'eq', 'upload');
+
         // Upload file.
         $fileoptions = [
             'subdirs'        => false,
