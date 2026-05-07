@@ -114,7 +114,12 @@ class save_note extends external_api {
             'objectid' => $record->id,
             'context'  => $context,
             'userid'   => (int)$USER->id,
-            'other'    => ['reactionid' => 0, 'videotime' => $record->videotime, 'notetype' => 'note'],
+            'other'    => [
+                           'reactionid'    => 0,
+                           'reactionlabel' => get_string('studentnote_label', 'mod_videotrack'),
+                           'videotime'     => $record->videotime,
+                           'notetype'      => 'note',
+                          ],
         ]);
         $event->trigger();
 
