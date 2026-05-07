@@ -168,6 +168,7 @@ $string['reset:userdata'] = 'Supprimer toutes les données de visionnage des ét
 $string['report:recalculate'] = 'Recalculer tous les états d\'achèvement';
 $string['report:recalculated'] = 'États d\'achèvement recalculés pour {$a} utilisateurs.';
 $string['report:heatmap_desc'] = 'Carte de chaleur des réactions sur la timeline vidéo (hauteur de barre = nombre de clics à ce point) :';
+$string['report:heatmap_supplementary'] = 'La carte thermique est une visualisation complémentaire. Les données complètes des clusters sont disponibles dans le tableau ci-dessous.';
 $string['event:activity_completed'] = 'Activité VideoTrack terminée';
 
 $string['reactioniconfile_notice'] = 'L\'image sera automatiquement redimensionnée à 64×64 pixels (recadrage centré). Pour de meilleurs résultats, téléversez une image carrée (ratio 1:1). Formats acceptés : JPG, PNG, GIF, WebP.';

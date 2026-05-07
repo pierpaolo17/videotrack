@@ -1,6 +1,6 @@
 # mod_videotrack — Guida alla struttura del codice
 
-**Versione**: 0.9.8 (build 2026050246)  
+**Versione**: 1.0.11 (build 2026050511)
 **Prerequisito di lettura**: conoscenza base di Moodle (plugin system, `$DB`, `$USER`, `cm_info`) e PHP/JavaScript.
 
 ---
@@ -30,7 +30,7 @@ videotrack/
 │   │   ├── html5_player.js    # Player HTML5 nativo (~1327 righe)
 │   │   ├── presets.js         # UI gestione preset (~80 righe)
 │   │   └── report.js          # Modulo AMD report: conferma reset studente
-│   └── build/             # File .min.js (copie dei src, minimizzazione non applicata)
+│   └── build/             # File .min.js compatti generati dai sorgenti AMD
 │
 ├── backup/moodle2/        # Backup e ripristino (API Moodle 2)
 │   ├── backup_videotrack_activity_task.class.php

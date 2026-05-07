@@ -802,6 +802,9 @@ if ($mode === 'student') {
                 }
             }
             $svg .= '</svg>';
+            echo html_writer::tag('p', get_string('report:heatmap_supplementary', 'mod_videotrack'), [
+                'class' => 'small mb-1'
+            ]);
             echo html_writer::link('#videotrack-heatmap-table', get_string('report:skiptoheatmaptable', 'mod_videotrack'), [
                 'class' => 'sr-only sr-only-focusable d-block mb-2'
             ]);

@@ -173,6 +173,8 @@
         <INDEX NAME="user_vt_idx" UNIQUE="false" FIELDS="userid, videotrackid, isdeleted"/>
         <INDEX NAME="vt_user_sess_time_idx" UNIQUE="false" FIELDS="videotrackid, userid, sessionid, timecreated"/>
         <INDEX NAME="vt_user_type_time_idx" UNIQUE="false" FIELDS="videotrackid, userid, notetype, timecreated"/>
+        <INDEX NAME="vt_user_reaction_del_time_idx" UNIQUE="false" FIELDS="videotrackid, userid, reactionid, isdeleted, timecreated"/>
+        <INDEX NAME="vt_user_note_del_time_idx" UNIQUE="false" FIELDS="videotrackid, userid, notetype, isdeleted, timecreated"/>
       </INDEXES>
     </TABLE>
   </TABLES>

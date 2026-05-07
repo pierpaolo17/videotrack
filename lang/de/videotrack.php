@@ -168,6 +168,7 @@ $string['reset:userdata'] = 'Alle Schülervisionsdaten löschen (Segmente, Zust�
 $string['report:recalculate'] = 'Alle Abschlusszustände neu berechnen';
 $string['report:recalculated'] = 'Abschlusszustände für {$a} Benutzer neu berechnet.';
 $string['report:heatmap_desc'] = 'Reaktions-Heatmap auf der Video-Timeline (Balkenhöhe = Anzahl Klicks an diesem Punkt):';
+$string['report:heatmap_supplementary'] = 'Die Heatmap ist eine ergänzende Visualisierung. Die vollständigen Clusterdaten sind in der folgenden Tabelle verfügbar.';
 $string['event:activity_completed'] = 'Video-Track-Aktivität abgeschlossen';
 
 $string['reactioniconfile_notice'] = 'Das Bild wird automatisch auf 64×64 Pixel skaliert (zentrierter Zuschnitt). Für beste Ergebnisse ein quadratisches Bild (1:1) hochladen. Akzeptierte Formate: JPG, PNG, GIF, WebP.';

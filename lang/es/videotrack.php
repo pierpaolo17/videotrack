@@ -168,6 +168,7 @@ $string['reset:userdata'] = 'Eliminar todos los datos de visualización de estud
 $string['report:recalculate'] = 'Recalcular todos los estados de finalización';
 $string['report:recalculated'] = 'Estados de finalización recalculados para {$a} usuarios.';
 $string['report:heatmap_desc'] = 'Mapa de calor de reacciones en la línea de tiempo del vídeo (altura de barra = número de clics en ese punto):';
+$string['report:heatmap_supplementary'] = 'El mapa de calor es una visualización complementaria. Los datos completos de los clústeres están disponibles en la tabla siguiente.';
 $string['event:activity_completed'] = 'Actividad VideoTrack completada';
 
 $string['reactioniconfile_notice'] = 'La imagen se redimensionará automáticamente a 64×64 píxeles (recorte centrado). Para mejores resultados, sube una imagen cuadrada (proporción 1:1). Formatos aceptados: JPG, PNG, GIF, WebP.';

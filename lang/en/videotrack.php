@@ -168,6 +168,7 @@ $string['reset:userdata'] = 'Delete all student viewing data (segments, states, 
 $string['report:recalculate'] = 'Recalculate all completion states';
 $string['report:recalculated'] = 'Completion states recalculated for {$a} users.';
 $string['report:heatmap_desc'] = 'Reaction heatmap on video timeline (bar height = number of clicks at that point):';
+$string['report:heatmap_supplementary'] = 'The heatmap is a supplementary visualisation. The complete cluster data is available in the table below.';
 $string['event:activity_completed'] = 'VideoTrack activity completed';
 
 $string['reactioniconfile_notice'] = 'The image will be automatically resized to 64×64 pixels (center crop). For best results, upload a square image (1:1 ratio). Accepted formats: JPG, PNG, GIF, WebP.';

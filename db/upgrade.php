@@ -328,5 +328,26 @@ function xmldb_videotrack_upgrade($oldversion) {
         upgrade_mod_savepoint(true, 2026050510, 'videotrack');
     }
 
+
+    if ($oldversion < 2026050511) {
+        // Version 1.0.11: adds composite indexes used by duplicate reaction throttling
+        // and note rate limiting with soft-delete filtering.
+        $reactevtable = new xmldb_table('videotrack_reactev');
+
+        $index = new xmldb_index('vt_user_reaction_del_time_idx', XMLDB_INDEX_NOTUNIQUE,
+            ['videotrackid', 'userid', 'reactionid', 'isdeleted', 'timecreated']);
+        if (!$dbman->index_exists($reactevtable, $index)) {
+            $dbman->add_index($reactevtable, $index);
+        }
+
+        $index = new xmldb_index('vt_user_note_del_time_idx', XMLDB_INDEX_NOTUNIQUE,
+            ['videotrackid', 'userid', 'notetype', 'isdeleted', 'timecreated']);
+        if (!$dbman->index_exists($reactevtable, $index)) {
+            $dbman->add_index($reactevtable, $index);
+        }
+
+        upgrade_mod_savepoint(true, 2026050511, 'videotrack');
+    }
+
     return true;
 }

@@ -168,6 +168,7 @@ $string['reset:userdata'] = 'Elimina tutti i dati di visione degli studenti (seg
 $string['report:recalculate'] = 'Ricalcola tutti gli stati di completamento';
 $string['report:recalculated'] = 'Stati di completamento ricalcolati per {$a} utenti.';
 $string['report:heatmap_desc'] = 'Heatmap delle reazioni sul timeline del video (altezza barra = numero di click in quel punto):';
+$string['report:heatmap_supplementary'] = 'La heatmap è una visualizzazione supplementare. I dati completi dei cluster sono disponibili nella tabella seguente.';
 $string['event:activity_completed'] = 'Attività VideoTrack completata';
 
 $string['reactioniconfile_notice'] = 'L\'immagine verrà ridimensionata automaticamente a 64×64 pixel (ritaglio centrato). Per risultati ottimali, carica un\'immagine quadrata (proporzione 1:1). Formati accettati: JPG, PNG, GIF, WebP.';

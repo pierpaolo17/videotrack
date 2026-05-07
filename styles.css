@@ -539,7 +539,7 @@
 }
 .videotrack-chapter-active .videotrack-chapter-num { background: rgba(255,255,255,.25); }
 
-/* ── Feature 11: Note personali studente ────────────────────────────────── */
+/* ── Student notes panel ───────────────────────────────────────────────── */
 .videotrack-notes-panel {
     border: 1px solid #dee2e6;
     border-radius: .375rem;
@@ -573,7 +573,7 @@
 }
 .videotrack-note-text { flex: 1; white-space: pre-wrap; word-break: break-word; }
 
-/* ── Feature 12: Poster/anteprima pre-play ──────────────────────────────── */
+/* ── Poster and pre-play overlay ──────────────────────────────────────── */
 .videotrack-poster-overlay {
     position: absolute;
     inset: 0;
