@@ -413,3 +413,4 @@ $string['report:clusterlimitrequiresfilters'] = 'संचयी रिपोर
 $string['report:clusterlimitrequiresfilters_csv'] = 'संचयी निर्यात आंशिक है क्योंकि वीडियो समय-सीमा फ़िल्टर लागू नहीं किया गया। From second/To second फ़िल्टर लागू करें और फिर से निर्यात करें।';
 $string['report:clusterexportblocked_csv'] = 'अधूरे डेटा से बचने के लिए निर्यात रोक दिया गया। वीडियो समय सीमा फ़िल्टर लागू करें और फिर से निर्यात करें।';
 $string['report:clusterdisplayblocked'] = 'अधूरा डेटा दिखाने से बचने के लिए क्लस्टर तालिका छिपा दी गई है। जारी रखने के लिए वीडियो समय सीमा फ़िल्टर लागू करें।';
+$string['unknownreaction'] = 'Unknown reaction';

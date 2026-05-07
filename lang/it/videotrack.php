@@ -1,4 +1,4 @@
-<?php
+E<?php
 
 $string['pluginname'] = 'VideoTrack';
 $string['modulename'] = 'VideoTrack';
@@ -413,3 +413,4 @@ $string['report:clusterlimitrequiresfilters'] = 'Il report cumulativo è parzial
 $string['report:clusterlimitrequiresfilters_csv'] = 'L’esportazione cumulativa è parziale perché non è stato applicato un filtro sull’intervallo temporale del video. Applica i filtri Da secondo/A secondo e ripeti l’export.';
 $string['report:clusterexportblocked_csv'] = 'L’esportazione è stata interrotta per evitare dati incompleti. Applica un filtro sull’intervallo del video ed esporta di nuovo.';
 $string['report:clusterdisplayblocked'] = 'La tabella dei cluster è stata nascosta per evitare dati incompleti. Applica un filtro sull’intervallo del video per continuare.';
+$string['unknownreaction'] = 'Reazione sconosciuta';
