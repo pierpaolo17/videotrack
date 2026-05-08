@@ -300,8 +300,19 @@ function videotrack_save_reaction_definitions(int $videotrackid, stdClass $data)
     $requireds = $data->reactionrequired ?? [];
     $reactionids = $data->reactionid ?? [];
 
+    // B3 fix: wrap all DB writes in a delegated transaction.
+    // Without this, a failure mid-loop (e.g. on the 3rd of 5 reactions) left the
+    // reaction table in a partially updated state with no rollback path.
+    // File-area operations (file_save_draft_area_files, delete_area_files) are NOT
+    // transactional and must run AFTER allow_commit() — collected in $fileops below.
+    $transaction = $DB->start_delegated_transaction();
     $keptids = [];
     $sort = 1;
+    // O1 fix: collect file operations to execute after the DB transaction commits.
+    // Previously file_get_draft_area_info() was called for every reaction regardless
+    // of icontype, wasting I/O for emoji and Font Awesome reactions.
+    $fileops = []; // Each entry: ['reactionid'=>int, 'context'=>ctx, 'draftitemid'=>int, 'clear'=>bool]
+
     foreach ($labels as $idx => $label) {
         $label = trim((string)$label);
         if ($label === '') {
@@ -336,28 +347,21 @@ function videotrack_save_reaction_definitions(int $videotrackid, stdClass $data)
 
         $keptids[$reactionid] = true;
 
+        // O1 fix: collect file operations — defer until after DB commit.
+        // file_get_draft_area_info() is called only for 'file' icontype.
         if ($context) {
-            $fs = get_file_storage();
             if ($icontype === 'file') {
                 $fieldname   = 'reactioniconfile_' . $idx;
                 $draftitemid = isset($data->{$fieldname}) ? (int)$data->{$fieldname} : 0;
+                // O1 fix: file_get_draft_area_info() now called only for 'file' reactions.
                 $draftinfo   = $draftitemid > 0 ? file_get_draft_area_info($draftitemid) : ['filecount' => 0];
-                // Only replace the existing icon when the teacher actually submitted a
-                // draft file. In edit forms Moodle may validate successfully because an
-                // existing pluginfile is already present; deleting the area unconditionally
-                // would lose that historical icon.
                 if ($draftitemid > 0 && !empty($draftinfo['filecount'])) {
-                    $fs->delete_area_files($context->id, 'mod_videotrack', 'reactionicon', $reactionid);
-                    file_save_draft_area_files($draftitemid, $context->id, 'mod_videotrack', 'reactionicon', $reactionid, [
-                        'subdirs'        => 0,
-                        'maxfiles'       => 1,
-                        'accepted_types' => ['.jpg', '.jpeg', '.png', '.gif', '.webp'],
-                    ]);
-                    // Ridimensiona a 64×64px (crop centrato) dopo il salvataggio.
-                    videotrack_resize_reaction_icon($context, $reactionid, $fs);
+                    $fileops[] = ['reactionid' => $reactionid, 'context' => $context,
+                                  'draftitemid' => $draftitemid, 'clear' => true];
                 }
             } else if ($reactionid > 0) {
-                $fs->delete_area_files($context->id, 'mod_videotrack', 'reactionicon', $reactionid);
+                $fileops[] = ['reactionid' => $reactionid, 'context' => $context,
+                              'draftitemid' => 0, 'clear' => true];
             }
         }
 
@@ -370,6 +374,27 @@ function videotrack_save_reaction_definitions(int $videotrackid, stdClass $data)
             // Historical reports/events may still reference this reaction and should
             // keep rendering the original icon when available.
             $DB->set_field('videotrack_react', 'isdeleted', 1, ['id' => $oldreactionid]);
+        }
+    }
+
+    // B3 fix: commit DB transaction before file operations (files are not transactional).
+    $transaction->allow_commit();
+
+    // Execute file-area operations after the DB commit.
+    if ($fileops) {
+        $fs = get_file_storage();
+        foreach ($fileops as $op) {
+            $fs->delete_area_files($op['context']->id, 'mod_videotrack', 'reactionicon', $op['reactionid']);
+            if ($op['draftitemid'] > 0) {
+                file_save_draft_area_files($op['draftitemid'], $op['context']->id, 'mod_videotrack',
+                    'reactionicon', $op['reactionid'], [
+                        'subdirs'        => 0,
+                        'maxfiles'       => 1,
+                        'accepted_types' => ['.jpg', '.jpeg', '.png', '.gif', '.webp'],
+                    ]);
+                // Ridimensiona a 64×64px (crop centrato) dopo il salvataggio.
+                videotrack_resize_reaction_icon($op['context'], $op['reactionid'], $fs);
+            }
         }
     }
 }

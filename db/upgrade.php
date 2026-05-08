@@ -436,5 +436,13 @@ function xmldb_videotrack_upgrade($oldversion) {
         upgrade_mod_savepoint(true, 2026050524, 'videotrack');
     }
 
+    if ($oldversion < 2026050525) {
+        // v1.0.25: save_segment servergrace dead code removed (B1),
+        // videotrack_save_reaction_definitions wrapped in delegated transaction (B3),
+        // file_get_draft_area_info called only for file-type reactions (O1).
+        // No database schema changes.
+        upgrade_mod_savepoint(true, 2026050525, 'videotrack');
+    }
+
     return true;
 }

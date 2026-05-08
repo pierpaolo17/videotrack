@@ -86,7 +86,12 @@ class save_segment extends external_api {
         );
         $isfirstsegment = empty($lasttimecreated);
         $serverspan = $isfirstsegment ? $heartbeat : max(0, $now - (int)$lasttimecreated);
-        $servergrace = $isfirstsegment ? 10 : 10;
+        // B1 fix: the ternary '? 10 : 10' was dead code — both branches returned 10.
+        // Grace is 10 seconds for all segments: enough to absorb clock skew between
+        // the browser and the server without opening a large anti-cheat window.
+        // First segments use $serverspan = $heartbeat (already generous) so they
+        // do not need a separate, larger grace value.
+        $servergrace = 10;
         $serverallowedvideo = max(2.0, ($serverspan + $servergrace) * $playbackrate);
         if ($videoduration > 2.0 && $videoduration > $serverallowedvideo) {
             // Segmento sospetto: logga silenziosamente e rigetta senza errore visibile.
