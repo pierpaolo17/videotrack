@@ -117,6 +117,9 @@ class save_reaction extends external_api {
             'timemodified' => $now,
         ];
         $eventid = $DB->insert_record('videotrack_reactev', $record);
+        // O1: invalidate per-request cache so subsequent reaction_counts() calls
+        // within this request see the newly inserted record.
+        tracker::invalidate_reaction_counts_cache($videotrack->id, (int)$USER->id);
         // Log dell'evento nei log di Moodle.
         $event = reaction_saved::create([
             'objectid' => $eventid,

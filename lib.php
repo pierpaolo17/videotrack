@@ -1117,11 +1117,14 @@ function videotrack_pluginfile($course, $cm, $context, $filearea, $args, $forced
 function videotrack_recalculate_all_states(int $videotrackid, cm_info $cm): int {
     global $DB;
     $videotrack = $DB->get_record('videotrack', ['id' => $videotrackid], '*', MUST_EXIST);
-    $states     = $DB->get_records('videotrack_state', ['videotrackid' => $videotrackid], '', 'userid');
     $course     = get_course($videotrack->course);
     $completion = new completion_info($course);
     $updated    = 0;
-    foreach ($states as $staterow) {
+    // O2: use get_recordset instead of get_records to avoid loading all state rows into
+    // memory at once. On courses with hundreds of students get_records() would allocate
+    // a large array; get_recordset() streams one row at a time.
+    $rs = $DB->get_recordset('videotrack_state', ['videotrackid' => $videotrackid], '', 'userid');
+    foreach ($rs as $staterow) {
         $state = tracker::refresh_completion($videotrack, $cm, (int)$staterow->userid);
         // Aggiorna anche il completamento Moodle (il tick ✓ nel corso).
         // refresh_completion aggiorna videotrack_state ma non la tabella course_modules_completion.
@@ -1132,5 +1135,6 @@ function videotrack_recalculate_all_states(int $videotrackid, cm_info $cm): int 
         );
         $updated++;
     }
+    $rs->close();
     return $updated;
 }

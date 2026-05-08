@@ -9,6 +9,9 @@ class tracker {
      *  molti frammenti brevi e non sovrapposti. */
     const MAX_INTERVALS = 500;
 
+    /** @var array Per-request cache for reaction_counts(). Keyed by "videotrackid:userid". */
+    private static $reaction_counts_cache = [];
+
     public static function normalise_interval(float $start, float $end, float $duration = 0.0): ?array {
         if ($duration > 0) {
             $start = max(0.0, min($start, $duration));
@@ -111,6 +114,16 @@ class tracker {
 
     public static function reaction_counts(int $videotrackid, int $userid): array {
         global $DB;
+        // O1: per-request cache to avoid repeated identical DB queries within the same
+        // HTTP request (e.g. save_reaction calls this once, then refresh_completion
+        // calls it again internally). Invalidated via invalidate_reaction_counts_cache()
+        // after any insert/delete on videotrack_reactev.
+        // Uses a static class property (not a method-local static) so that
+        // invalidate_reaction_counts_cache() can reliably clear the same variable.
+        $key = $videotrackid . ':' . $userid;
+        if (isset(self::$reaction_counts_cache[$key])) {
+            return self::$reaction_counts_cache[$key];
+        }
         $p = ['vtid' => $videotrackid, 'uid' => $userid];
         $where = "videotrackid = :vtid AND userid = :uid AND isdeleted = 0
                   AND reactionid > 0 AND (notetype = '' OR notetype IS NULL)";
@@ -120,11 +133,26 @@ class tracker {
                FROM {videotrack_reactev} WHERE $where", $p);
         $ids = $DB->get_fieldset_sql(
             "SELECT DISTINCT reactionid FROM {videotrack_reactev} WHERE $where ORDER BY reactionid", $p);
-        return [
+        $result = [
             'eventcount'  => (int)($row->eventcount  ?? 0),
             'uniquecount' => (int)($row->uniquecount  ?? 0),
             'uniqueids'   => array_map('intval', $ids),
         ];
+        self::$reaction_counts_cache[$key] = $result;
+        return $result;
+    }
+
+    /**
+     * Invalidates the per-request cache for reaction_counts.
+     * Must be called after any insert or soft-delete on videotrack_reactev
+     * to ensure subsequent calls within the same request see fresh data.
+     *
+     * @param int $videotrackid
+     * @param int $userid
+     */
+    public static function invalidate_reaction_counts_cache(int $videotrackid, int $userid): void {
+        $key = $videotrackid . ':' . $userid;
+        unset(self::$reaction_counts_cache[$key]);
     }
 
 
