@@ -18,7 +18,12 @@ define(['core/ajax', 'core/log'], function(Ajax, Log) {
         currentReplayEnd: null,
         // Flag anti-loop: attivo per 500ms dopo un seek bloccato per evitare
         // che il polling rilevino di nuovo il rimbalzo come seek anomalo.
-        seekblocked: false
+        seekblocked: false,
+        // B6 fix: flag per seek lanciati dal codice (replay, resume, skip buttons).
+        // Allinea player.js al pattern già usato in vimeo_player.js e html5_player.js.
+        // handleSeekByPolling() lo controlla per non trattare seek programmatici
+        // come seek utente, evitando falsi positivi nel blocco allowseekforward/backward.
+        isProgrammaticSeek: false
     };
 
     function uuid() {
@@ -255,6 +260,8 @@ define(['core/ajax', 'core/log'], function(Ajax, Log) {
             return;
         }
         state.currentReplayEnd = typeof end === 'number' ? end : null;
+        // B6 fix: mark as programmatic so handleSeekByPolling ignores this seek.
+        state.isProgrammaticSeek = true;
         player.seekTo(Math.max(0, start || 0), true);
         if (autoplay !== false) {
             player.playVideo();
@@ -263,6 +270,13 @@ define(['core/ajax', 'core/log'], function(Ajax, Log) {
 
     function handleSeekByPolling() {
         if (!player || typeof player.getCurrentTime !== 'function') {
+            return;
+        }
+        // B6 fix: ignore polling during programmatic seeks (replay, resume, skip buttons).
+        // Reset the flag here so it stays active for exactly one polling cycle.
+        if (state.isProgrammaticSeek) {
+            state.isProgrammaticSeek = false;
+            state.lasttime = player.getCurrentTime();
             return;
         }
         // Se un seek è stato appena bloccato, ignoriamo il polling per 500ms
@@ -699,6 +713,7 @@ define(['core/ajax', 'core/log'], function(Ajax, Log) {
                             typeof config.replayend === 'number' ? config.replayend : null, true);
                     } else if (typeof config.resumeposition === 'number' && config.resumeposition > 2) {
                         // Resume dal punto lasciato (solo se > 2s per non partire da 0:02).
+                        state.isProgrammaticSeek = true; // B6 fix: resume is programmatic.
                         player.seekTo(config.resumeposition, true);
                         showResumeNotice(config.resumeposition);
                     }

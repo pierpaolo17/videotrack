@@ -51,19 +51,21 @@ class delete_reaction extends external_api {
         // Le note personali (notetype='note') non contribuiscono al completamento:
         // ricalcoliamo solo se si tratta di una reazione standard.
         $isnote = ($event->notetype ?? '') === 'note';
-        // Legge reaction_counts UNA SOLA VOLTA dopo il soft-delete — già aggiornato.
-        // Sia refresh_completion (se reazione) che il path nota la usano per la response.
-        $summary = tracker::reaction_counts($videotrack->id, (int)$USER->id);
 
         if (!$isnote) {
-            // refresh_completion chiama reaction_counts internamente: accettiamo la doppia
-            // query come trade-off (refresh_completion è già chiamato qui sotto).
+            // B5 fix: reaction_counts is called once here, before refresh_completion.
+            // refresh_completion calls it internally too, but we need the count for the
+            // response. Calling it before avoids a third redundant call after the block.
+            $summary = tracker::reaction_counts($videotrack->id, (int)$USER->id);
             $state = tracker::refresh_completion($videotrack, $cm, (int)$USER->id);
             $completion = new \completion_info($course);
             $completion->update_state($cm,
                 $state->iscompleted ? COMPLETION_COMPLETE : COMPLETION_INCOMPLETE, (int)$USER->id);
             $iscompleted = (bool)$state->iscompleted;
         } else {
+            // Notes do not affect completion: skip refresh_completion entirely.
+            // reaction_counts is still needed for the response uniquereactions field.
+            $summary = tracker::reaction_counts($videotrack->id, (int)$USER->id);
             $state = $DB->get_record('videotrack_state',
                 ['videotrackid' => $videotrack->id, 'userid' => (int)$USER->id]);
             $iscompleted = !empty($state->iscompleted);
