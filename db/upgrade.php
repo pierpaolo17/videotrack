@@ -419,5 +419,14 @@ function xmldb_videotrack_upgrade($oldversion) {
         upgrade_mod_savepoint(true, 2026050522, 'videotrack');
     }
 
+    if ($oldversion < 2026050523) {
+        // v1.0.23: PLAYBACK_GRACE_SECONDS constant replaces magic 12.0 in
+        // has_recent_playback() (S1), resumedlabel alias removed from playerconfig
+        // and showResumeNotice uses resumelabel directly (O1/U1),
+        // maturity raised from MATURITY_ALPHA to MATURITY_BETA (M1/M2).
+        // No database schema changes.
+        upgrade_mod_savepoint(true, 2026050523, 'videotrack');
+    }
+
     return true;
 }

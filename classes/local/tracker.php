@@ -9,6 +9,14 @@ class tracker {
      *  molti frammenti brevi e non sovrapposti. */
     const MAX_INTERVALS = 500;
 
+    /**
+     * Grace window in seconds for the OR branch of has_recent_playback().
+     * Covers high-latency environments where the segment end timestamp may
+     * lag actual playback end by up to this many seconds. Must be >= the
+     * default $timetolerance parameter (8.0) to be meaningful.
+     */
+    const PLAYBACK_GRACE_SECONDS = 12.0;
+
     /** @var array Per-request cache for reaction_counts(). Keyed by "videotrackid:userid". */
     private static $reaction_counts_cache = [];
 
@@ -171,6 +179,13 @@ class tracker {
         $vt  = max(0.0, $videotime);
         $tol = max(1.0, $timetolerance);
         $since = time() - max(5, $recentseconds);
+        // S1 fix: replace the magic number 12.0 with a named constant.
+        // This grace window covers high-latency environments where the segment
+        // end timestamp may lag the actual end of playback by up to 12 seconds
+        // (e.g. slow mobile connections or deferred heartbeat delivery).
+        // The value is intentionally larger than $timetolerance to accept
+        // reactions/notes triggered just after a segment has nominally ended.
+        $graceseconds = max($tol, self::PLAYBACK_GRACE_SECONDS);
         $params = [
             'vtid'  => $videotrackid,
             'uid'   => $userid,
@@ -180,8 +195,8 @@ class tracker {
             'vt2'   => $vt,
             'tol1'  => $tol,
             'tol2'  => $tol,
+            'tolend' => $graceseconds,
         ];
-        $params['tolend'] = max($tol, 12.0);
 
         // A single query covers both the strict interval match and the grace
         // period used for clicks immediately after PLAYING/seek in high-latency

@@ -173,7 +173,7 @@ define(['core/ajax', 'core/log'], function(Ajax, Log) {
         notice.setAttribute('role', 'status');
         notice.setAttribute('aria-live', 'polite');
         var text = document.createElement('span');
-        text.textContent = (config.resumedlabel || 'Resumed from') + ' ' + formatted + '.';
+        text.textContent = (config.resumelabel || 'Resumed from') + ' ' + formatted + '.';
         notice.appendChild(text);
         var btn = document.createElement('button');
         btn.type = 'button';
