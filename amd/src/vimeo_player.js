@@ -601,7 +601,8 @@ define(['core/ajax', 'core/log'], function(Ajax, Log) {
             }
             el.setAttribute('role', isError ? 'alert' : 'status');
             el.textContent = message;
-            window.setTimeout(function() { el.textContent = ''; }, 4000);
+            // U1 fix: error messages stay visible 8s; info messages 4s.
+            window.setTimeout(function() { el.textContent = ''; }, isError ? 8000 : 4000);
         }
 
         function appendReactionRow(eventid, reaction, videotime) {
@@ -653,6 +654,18 @@ define(['core/ajax', 'core/log'], function(Ajax, Log) {
             tr.appendChild(tddel);
             tbody.appendChild(tr);
         }
+
+        // A1 fix: keydown handler for Enter/Space on aria-disabled reaction buttons.
+        // Browsers do not consistently fire 'click' for Enter/Space on buttons with
+        // aria-disabled=true, so screen reader users got no feedback.
+        document.addEventListener('keydown', function(e) {
+            if (e.key !== 'Enter' && e.key !== ' ') { return; }
+            var reactionbtn = e.target.closest('.videotrack-reaction-btn');
+            if (reactionbtn && reactionbtn.getAttribute('aria-disabled') === 'true') {
+                e.preventDefault();
+                announceReactionUnavailable();
+            }
+        });
 
         document.addEventListener('click', function(e) {
             var reactionbtn = e.target.closest('.videotrack-reaction-btn');
