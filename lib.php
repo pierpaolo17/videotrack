@@ -792,6 +792,14 @@ function videotrack_delete_user_progress(stdClass $videotrack, int $userid): voi
         'videotrackid' => $videotrack->id,
         'userid'       => $userid,
     ]);
+    // B2 fix: delete reactions and personal notes so the reset is complete.
+    // Without this, reactions/notes survive the reset and still appear in the
+    // student view and influence completion. Mirrors the behaviour of the
+    // per-student reset in report.php (which already deletes videotrack_reactev).
+    $DB->delete_records('videotrack_reactev', [
+        'videotrackid' => $videotrack->id,
+        'userid'       => $userid,
+    ]);
 }
 
 /**
