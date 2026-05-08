@@ -91,7 +91,8 @@ define(['core/ajax', 'core/log'], function(Ajax, Log) {
         }
         // Aggiorna la barra visuale degli intervalli guardati.
         if (response.intervaljson) {
-            updateIntervalBar(response.intervaljson);
+            // C1 fix: passa duration come da firma allineata agli altri player.
+            updateIntervalBar(response.intervaljson, response.durationseconds || state.duration);
         }
         return response;
     }
@@ -162,25 +163,41 @@ define(['core/ajax', 'core/log'], function(Ajax, Log) {
 
     // ── Progress bar (interval map) ───────────────────────────────────────
 
-    function updateIntervalBar(intervaljson) {
-        if (!intervaljson || !state.duration) { return; }
+    /**
+     * Ridisegna la barra canvas degli intervalli guardati e aggiorna aria-label.
+     * C1 fix: firma allineata a player.js e vimeo_player.js (parametro duration).
+     * B2/A1 fix: aggiunge calcolo covered e aggiornamento aria-label (WCAG 1.1.1).
+     * @param {string} intervaljson  JSON array di [start,end] pairs.
+     * @param {number} duration      Durata totale in secondi.
+     */
+    function updateIntervalBar(intervaljson, duration) {
+        if (!intervaljson || !duration) { return; }
         try {
             var intervals = JSON.parse(intervaljson);
             var canvas    = document.getElementById('videotrack-interval-bar');
             if (!canvas) { return; }
             var ctx = canvas.getContext('2d');
-            var w   = canvas.width;
+            var w   = canvas.offsetWidth || canvas.width;
             var h   = canvas.height;
+            canvas.width = w;
             ctx.clearRect(0, 0, w, h);
             ctx.fillStyle = '#e9ecef';
             ctx.fillRect(0, 0, w, h);
             ctx.fillStyle = '#28a745';
+            var covered = 0;
             intervals.forEach(function(seg) {
-                var x1 = Math.round((seg[0] / state.duration) * w);
-                var x2 = Math.round((seg[1] / state.duration) * w);
-                ctx.fillRect(x1, 0, Math.max(1, x2 - x1), h);
+                var x1 = Math.round((seg[0] / duration) * w);
+                var x2 = Math.round((seg[1] / duration) * w);
+                ctx.fillRect(x1, 0, Math.max(2, x2 - x1), h);
+                covered += Math.max(0, seg[1] - seg[0]);
             });
-        } catch (e) { /* ignore */ }
+            // B2/A1 fix: aggiorna aria-label con la percentuale corrente.
+            // WCAG 1.1.1: il testo alternativo di un canvas deve aggiornarsi
+            // dinamicamente quando il contenuto visivo cambia.
+            var pct = duration > 0 ? Math.min(100, Math.round((covered / duration) * 100)) : 0;
+            var baseLabel = canvas.getAttribute('title') || '';
+            canvas.setAttribute('aria-label', baseLabel + ' \u2014 ' + pct + '%');
+        } catch (e) { /* JSON malformato: ignora. */ }
     }
 
     // ── Global listeners ──────────────────────────────────────────────────

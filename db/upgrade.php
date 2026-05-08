@@ -428,5 +428,13 @@ function xmldb_videotrack_upgrade($oldversion) {
         upgrade_mod_savepoint(true, 2026050523, 'videotrack');
     }
 
+    if ($oldversion < 2026050524) {
+        // v1.0.24: html5_player.js updateIntervalBar aligned to player.js/vimeo_player.js:
+        // added duration parameter (C1), covered calculation, and aria-label update
+        // after each redraw (B2/A1 — WCAG 1.1.1 Non-text Content).
+        // No database schema changes.
+        upgrade_mod_savepoint(true, 2026050524, 'videotrack');
+    }
+
     return true;
 }
