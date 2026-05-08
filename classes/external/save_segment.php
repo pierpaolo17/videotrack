@@ -85,13 +85,13 @@ class save_segment extends external_api {
             ['vtid' => $videotrack->id, 'uid' => $USER->id, 'sid' => $params['sessionid']]
         );
         $isfirstsegment = empty($lasttimecreated);
-        $serverspan = $isfirstsegment ? min(5, $heartbeat) : max(0, $now - (int)$lasttimecreated);
-        $servergrace = $isfirstsegment ? 2 : 10;
+        $serverspan = $isfirstsegment ? $heartbeat : max(0, $now - (int)$lasttimecreated);
+        $servergrace = $isfirstsegment ? 10 : 10;
         $serverallowedvideo = max(2.0, ($serverspan + $servergrace) * $playbackrate);
         if ($videoduration > 2.0 && $videoduration > $serverallowedvideo) {
             // Segmento sospetto: logga silenziosamente e rigetta senza errore visibile.
-            debugging('mod_videotrack: segment server-side sanity check failed for user ' . $USER->id .
-                ' — video=' . round($videoduration, 1) . 's rate=' . $playbackrate .
+            debugging('mod_videotrack: segment server-side sanity check failed; video=' .
+                round($videoduration, 1) . 's rate=' . $playbackrate .
                 ' serverallowed=' . round($serverallowedvideo, 1) . 's', DEBUG_DEVELOPER);
             return [
                 'accepted'             => false,

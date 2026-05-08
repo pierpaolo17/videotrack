@@ -286,7 +286,7 @@ if ($export === 'notes_csv' && !empty($videotrack->studentnotesenabled)) {
         $headers[] = 'email';
     }
     $headers = array_merge($headers, ['video_timestamp', 'note', 'created']);
-    fputcsv($fh, $headers);
+    fputcsv($fh, videotrack_csv_safe_row($headers));
     // Rispetta il filtro userid del report (GDPR: esporta solo chi è autorizzato vedere).
     $notecsv_where = "videotrackid = :vtid AND isdeleted = 0 AND notetype = 'note'";
     $notecsv_params = ['vtid' => $videotrack->id];
@@ -320,7 +320,7 @@ if ($export === 'notes_csv' && !empty($videotrack->studentnotesenabled)) {
             $note->notetext,
             userdate((int)$note->timecreated),
         ]);
-        fputcsv($fh, $row);
+        fputcsv($fh, videotrack_csv_safe_row($row));
     }
     $rs->close();
     fclose($fh);
@@ -342,25 +342,25 @@ if ($export === 'csv') {
         $eventrs->close();
         if ($clusterlimitreached) {
             // Put the warning before the data header so spreadsheet users see it immediately.
-            fputcsv($fh, ['warning', get_string('report:clusterlimitreached_csv', 'mod_videotrack')]);
+            fputcsv($fh, videotrack_csv_safe_row(['warning', get_string('report:clusterlimitreached_csv', 'mod_videotrack')]));
             if (!$hasvideotimefilter) {
-                fputcsv($fh, ['warning', get_string('report:clusterlimitrequiresfilters_csv', 'mod_videotrack')]);
-                fputcsv($fh, ['warning', get_string('report:clusterexportblocked_csv', 'mod_videotrack')]);
+                fputcsv($fh, videotrack_csv_safe_row(['warning', get_string('report:clusterlimitrequiresfilters_csv', 'mod_videotrack')]));
+                fputcsv($fh, videotrack_csv_safe_row(['warning', get_string('report:clusterexportblocked_csv', 'mod_videotrack')]));
                 fclose($fh);
                 exit;
             }
             fputcsv($fh, []);
         }
-        fputcsv($fh, ['timestamp', 'reaction', 'clicks', 'students', 'first_timestamp', 'last_timestamp']);
+        fputcsv($fh, videotrack_csv_safe_row(['timestamp', 'reaction', 'clicks', 'students', 'first_timestamp', 'last_timestamp']));
         foreach ($clusters as $cluster) {
-            fputcsv($fh, [
+            fputcsv($fh, videotrack_csv_safe_row([
                 round($cluster['timestamp'], 3),
                 $cluster['reactionlabel'],
                 $cluster['count'],
                 $cluster['students'],
                 round($cluster['first'], 3),
                 round($cluster['last'], 3),
-            ]);
+            ]));
         }
     } else {
         // Usa recordset per iterare riga per riga ed evitare di caricare tutto in memoria.
@@ -368,7 +368,7 @@ if ($export === 'csv') {
         if ($hasgrade) {
             $csvheads[] = 'grade';
         }
-        fputcsv($fh, $csvheads);
+        fputcsv($fh, videotrack_csv_safe_row($csvheads));
         $rs = $DB->get_recordset('videotrack_state', $stateparams, 'completionpercent DESC');
         foreach ($rs as $state) {
             $user = $usermap[(int)$state->userid] ?? null;
@@ -385,12 +385,39 @@ if ($export === 'csv') {
             if ($hasgrade) {
                 $row[] = $gradeinfo->items[0]->grades[(int)$state->userid]->grade ?? '';
             }
-            fputcsv($fh, $row);
+            fputcsv($fh, videotrack_csv_safe_row($row));
         }
         $rs->close();
     }
     fclose($fh);
     exit;
+}
+
+
+/**
+ * Escapes values for CSV exports to reduce spreadsheet formula injection risk.
+ *
+ * @param mixed $value Value to export.
+ * @return mixed Sanitised scalar value.
+ */
+function videotrack_csv_safe($value) {
+    if (!is_string($value)) {
+        return $value;
+    }
+    if ($value !== '' && preg_match('/^[=+\-@	]/', $value)) {
+        return "'" . $value;
+    }
+    return $value;
+}
+
+/**
+ * Escapes all values in a CSV row.
+ *
+ * @param array $row CSV row.
+ * @return array Sanitised CSV row.
+ */
+function videotrack_csv_safe_row(array $row): array {
+    return array_map('videotrack_csv_safe', $row);
 }
 
 $action = optional_param('action', '', PARAM_ALPHA);
