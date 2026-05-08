@@ -277,6 +277,12 @@ if ($export === 'notes_csv' && !empty($videotrack->studentnotesenabled)) {
     }
     require_sesskey();
     require_capability('mod/videotrack:viewreport', $context);
+    // S1 fix: validate useridfilter against course enrolment to prevent a teacher
+    // from exporting notes of a user not enrolled in this course by manipulating
+    // the GET parameter. is_enrolled() is already used for reset and grade actions.
+    if ($useridfilter > 0 && !is_enrolled($context, $useridfilter, '', true)) {
+        throw new moodle_exception('invaliduser', 'error');
+    }
     $filename = 'videotrack_notes_' . $cm->id . '.csv';
     header('Content-Type: text/csv; charset=utf-8');
     header('Content-Disposition: attachment; filename="' . $filename . '"');
@@ -404,7 +410,8 @@ function videotrack_csv_safe($value) {
     if (!is_string($value)) {
         return $value;
     }
-    if ($value !== '' && preg_match('/^[=+\-@	]/', $value)) {
+    if ($value !== '' && preg_match('/^[=+\-@	
+]/', $value)) {
         return "'" . $value;
     }
     return $value;

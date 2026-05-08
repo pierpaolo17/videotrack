@@ -126,6 +126,22 @@ class provider implements
                 $state->timemodified = transform::datetime($state->timemodified);
                 $state->timecreated  = transform::datetime($state->timecreated);
                 $state->iscompleted  = transform::yesno((bool)$state->iscompleted);
+                // G1 fix: convert intervaljson from raw JSON to a human-readable string
+                // so the exported data is understandable without technical knowledge.
+                // Format: "0:00-1:23, 2:45-3:10" instead of "[[0,83],[165,190]]".
+                if (!empty($state->intervaljson)) {
+                    $intervals = json_decode($state->intervaljson, true);
+                    if (is_array($intervals)) {
+                        $readable = array_map(function($seg) {
+                            $fmt = function($s) {
+                                $s = (int)round($s);
+                                return sprintf('%d:%02d', intdiv($s, 60), $s % 60);
+                            };
+                            return $fmt($seg[0]) . '-' . $fmt($seg[1]);
+                        }, $intervals);
+                        $state->intervaljson = implode(', ', $readable);
+                    }
+                }
                 unset($state->id, $state->videotrackid, $state->courseid,
                       $state->cmid, $state->userid);
             }
