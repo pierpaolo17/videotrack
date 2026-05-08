@@ -54,17 +54,16 @@ class save_reaction extends external_api {
             throw new \moodle_exception('error:playbackrequired', 'mod_videotrack');
         }
 
-        // Global anti-spam throttle: even if different reaction types are clicked,
-        // a browser session must not be able to create an excessive burst of reaction
-        // events while a single playback segment is still valid.
+        // Global anti-spam throttle: limits reaction bursts per user regardless of
+        // session ID. Filtering by sessionid allowed an attacker to bypass the limit
+        // by rotating session IDs on each AJAX request (B3 fix).
         $burstcount = $DB->count_records_select(
             'videotrack_reactev',
-            "videotrackid = :bvtid AND userid = :buid AND sessionid = :bsid AND isdeleted = 0 " .
+            "videotrackid = :bvtid AND userid = :buid AND isdeleted = 0 " .
                 "AND (notetype = '' OR notetype IS NULL) AND timecreated >= :bsince",
             [
                 'bvtid'  => $videotrack->id,
                 'buid'   => $USER->id,
-                'bsid'   => $params['sessionid'],
                 'bsince' => $now - 10,
             ]
         );

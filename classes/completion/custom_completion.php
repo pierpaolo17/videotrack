@@ -24,9 +24,12 @@ class custom_completion extends \core_completion\activity_custom_completion {
             }
             return (!empty($state) && (float)$state->completionpercent >= (float)$instance->completionpercent)
                 ? COMPLETION_COMPLETE : COMPLETION_INCOMPLETE;
+            // reaction_counts is NOT loaded here: completionpercent does not need it (B4 fix).
         }
 
-        // Reaction-based rules: load summary only when reactions are enabled.
+        // Reaction-based rules: load summary only when reactions are enabled AND needed.
+        // Moved inside the reaction rules block to avoid 2 unnecessary DB queries when
+        // the rule being evaluated is 'completionpercent' (B4 fix).
         if (!empty($instance->reactionsenabled)) {
             $summary = tracker::reaction_counts($this->cm->instance, $this->userid);
         } else {
