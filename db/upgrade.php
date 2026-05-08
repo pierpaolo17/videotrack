@@ -361,5 +361,63 @@ function xmldb_videotrack_upgrade($oldversion) {
         upgrade_mod_savepoint(true, 2026050513, 'videotrack');
     }
 
+    if ($oldversion < 2026050515) {
+        // v1.0.15: fix version format (10 digits), install.xml VERSION aligned,
+        // videotrack_delete_user_progress() now also deletes videotrack_reactev.
+        // No database schema changes.
+        upgrade_mod_savepoint(true, 2026050515, 'videotrack');
+    }
+
+    if ($oldversion < 2026050516) {
+        // v1.0.16: burst-limit no longer filtered by sessionid (B3),
+        // reaction_counts() skipped for completionpercent rule (B4).
+        // No database schema changes.
+        upgrade_mod_savepoint(true, 2026050516, 'videotrack');
+    }
+
+    if ($oldversion < 2026050517) {
+        // v1.0.17: delete_reaction redundant reaction_counts call removed (B5),
+        // player.js isProgrammaticSeek flag added for YouTube seek detection (B6).
+        // No database schema changes.
+        upgrade_mod_savepoint(true, 2026050517, 'videotrack');
+    }
+
+    if ($oldversion < 2026050518) {
+        // v1.0.18: reaction_counts per-request static class cache (O1),
+        // recalculate_all_states uses get_recordset instead of get_records (O2).
+        // No database schema changes.
+        upgrade_mod_savepoint(true, 2026050518, 'videotrack');
+    }
+
+    if ($oldversion < 2026050519) {
+        // v1.0.19: notes_csv export validates useridfilter with is_enrolled() (S1),
+        // intervaljson exported as human-readable MM:SS pairs in GDPR export (G1).
+        // No database schema changes.
+        upgrade_mod_savepoint(true, 2026050519, 'videotrack');
+    }
+
+    if ($oldversion < 2026050520) {
+        // v1.0.20: upgrade.php savepoint 2026050507 comment expanded (M2),
+        // save_note.php now fires dedicated note_saved event instead of reaction_saved (M3).
+        // No database schema changes.
+        upgrade_mod_savepoint(true, 2026050520, 'videotrack');
+    }
+
+    if ($oldversion < 2026050521) {
+        // v1.0.21: showStatusMessage keeps error messages visible 8s instead of 4s (U1),
+        // keydown handler added for Enter/Space on aria-disabled reaction buttons (A1).
+        // No database schema changes.
+        upgrade_mod_savepoint(true, 2026050521, 'videotrack');
+    }
+
+    if ($oldversion < 2026050522) {
+        // v1.0.22: version.php release string corrected to 1.0.21 (C1),
+        // upgrade.php savepoints added for v1.0.15-1.0.21 (C2),
+        // note error handler in all three players now uses showStatusMessage()
+        // for consistent 8s visibility and correct aria role management (B1/B2/B3/A1).
+        // No database schema changes.
+        upgrade_mod_savepoint(true, 2026050522, 'videotrack');
+    }
+
     return true;
 }

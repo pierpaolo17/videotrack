@@ -985,13 +985,9 @@ define(['core/ajax', 'core/log'], function(Ajax, Log) {
                 saveBtn.classList.remove('videotrack-note-save-saving');
                 // Ripristina stato corretto anche in caso di errore.
                 setNoteButtonState(state.playing);
-                // Mostra errore accessibile tramite aria-live region.
-                var statusEl = document.getElementById('videotrack-status-msg');
-                if (statusEl) {
-                    statusEl.setAttribute('role', 'alert');
-                    statusEl.textContent = config.noteerrorlabel || 'Could not save note. Please try again.';
-                    window.setTimeout(function() { statusEl.textContent = ''; }, 4000);
-                }
+                // B1/B2/B3 fix: use showStatusMessage() for consistent 8s visibility
+                // and correct aria role management (avoids direct role mutation).
+                showStatusMessage(config.noteerrorlabel || 'Could not save note. Please try again.', true);
             });
         });
 
