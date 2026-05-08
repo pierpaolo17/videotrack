@@ -11,6 +11,7 @@ use core_external\external_value;
 use core_external\external_warnings;
 use context_module;
 use mod_videotrack\local\tracker;
+use mod_videotrack\event\note_saved;
 
 /**
  * External function: save a personal timestamped note for the current student.
@@ -109,17 +110,16 @@ class save_note extends external_api {
         ];
         $record->id = $DB->insert_record('videotrack_reactev', $record);
 
-        // Trigger evento Moodle (riutilizza reaction_saved — stesso tipo di record).
-        $event = \mod_videotrack\event\reaction_saved::create([
+        // M3 fix: use the dedicated note_saved event instead of reusing reaction_saved.
+        // Distinct events allow Moodle logs and reports to differentiate between
+        // reaction button clicks and personal student notes.
+        $event = note_saved::create([
             'objectid' => $record->id,
             'context'  => $context,
             'userid'   => (int)$USER->id,
             'other'    => [
-                           'reactionid'    => 0,
-                           'reactionlabel' => get_string('studentnote_label', 'mod_videotrack'),
-                           'videotime'     => $record->videotime,
-                           'notetype'      => 'note',
-                          ],
+                'videotime' => $record->videotime,
+            ],
         ]);
         $event->trigger();
 

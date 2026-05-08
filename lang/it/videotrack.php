@@ -96,6 +96,7 @@ $string['setting:default_desc'] = 'Valore predefinito per le nuove attività. Pu
 $string['setting:default_completionpercent_desc'] = 'Percentuale minima predefinita di video che lo studente deve guardare per completare l\'attività. Impostare a 0 per lasciare la regola di completamento disabilitata per impostazione predefinita. Può essere sovrascritta dal docente per ogni singola attività.';
 $string['event:segment_saved'] = 'Segmento di visione salvato';
 $string['event:reaction_saved'] = 'Reazione inviata';
+$string['event:note_saved'] = 'Nota studente salvata';
 $string['event:reaction_deleted'] = 'Reazione eliminata';
 
 $string['reactionx'] = 'Reazione {$a}';

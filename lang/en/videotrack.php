@@ -96,6 +96,7 @@ $string['setting:default_desc'] = 'Default value for new activities. Can be over
 $string['setting:default_completionpercent_desc'] = 'Default minimum percentage of the video the student must watch to complete the activity. Set to 0 to leave the completion rule disabled by default. Can be overridden by the teacher for each individual activity.';
 $string['event:segment_saved'] = 'Viewing segment saved';
 $string['event:reaction_saved'] = 'Reaction submitted';
+$string['event:note_saved'] = 'Student note saved';
 $string['event:reaction_deleted'] = 'Reaction deleted';
 
 $string['reactionx'] = 'Reaction {$a}';

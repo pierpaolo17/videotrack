@@ -296,9 +296,12 @@ function xmldb_videotrack_upgrade($oldversion) {
 
 
     if ($oldversion < 2026050507) {
-        // Version 1.0.7: accessibility parity for reaction buttons, clearer cumulative
-        // report cluster-limit warnings, localized privacy export state section, and
-        // version number aligned with the public release sequence. No database schema changes.
+        // Version 1.0.7: accessibility parity for reaction buttons (aria-label with
+        // timestamp on replay and remove buttons), clearer cumulative report cluster-limit
+        // warnings, localized privacy export state section heading, reaction_counts()
+        // optimised to two separate queries (avoids GROUP_CONCAT truncation on MySQL),
+        // and version number aligned with the public release sequence.
+        // No database schema changes.
         upgrade_mod_savepoint(true, 2026050507, 'videotrack');
     }
 

@@ -94,6 +94,7 @@ $string['setting:default_desc'] = 'Valor padrão para novas atividades. Pode ser
 $string['setting:default_completionpercent_desc'] = 'Percentagem mínima padrão do vídeo que o aluno deve assistir para concluir a atividade. Definir como 0 para deixar a regra de conclusão desativada por padrão.';
 $string['event:segment_saved'] = 'Segmento de visualização guardado';
 $string['event:reaction_saved'] = 'Reação enviada';
+$string['event:note_saved'] = 'Nota do estudante salva';
 $string['event:reaction_deleted'] = 'Reação eliminada';
 $string['setting:heartbeatinterval'] = 'Intervalo de heartbeat (segundos)';
 $string['setting:heartbeatinterval_desc'] = 'Com que frequência o player guarda no servidor o segmento de visualização atual durante a reprodução contínua. Valores mais baixos reduzem o risco de perda de dados em caso de falha do navegador ou queda de rede, mas aumentam a carga do servidor (uma solicitação AJAX + duas consultas ao banco de dados por aluno por intervalo). Intervalo recomendado: 15 a 120 segundos.';

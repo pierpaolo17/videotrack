@@ -94,6 +94,7 @@ $string['setting:default_desc'] = 'Valeur par défaut pour les nouvelles activit
 $string['setting:default_completionpercent_desc'] = 'Pourcentage minimum par défaut de la vidéo que l\'étudiant doit regarder pour terminer l\'activité. Définir sur 0 pour laisser la règle d\'achèvement désactivée par défaut.';
 $string['event:segment_saved'] = 'Segment de visionnage enregistré';
 $string['event:reaction_saved'] = 'Réaction soumise';
+$string['event:note_saved'] = 'Note de l\'étudiant enregistrée';
 $string['event:reaction_deleted'] = 'Réaction supprimée';
 $string['setting:heartbeatinterval'] = 'Intervalle de heartbeat (secondes)';
 $string['setting:heartbeatinterval_desc'] = 'À quelle fréquence le lecteur enregistre le segment de visionnage en cours sur le serveur pendant la lecture continue. Des valeurs plus faibles réduisent le risque de perte de données en cas de plantage du navigateur ou de panne réseau, mais augmentent la charge serveur (une requête AJAX + deux requêtes de base de données par étudiant et par intervalle). Plage recommandée : 15 à 120 secondes.';
