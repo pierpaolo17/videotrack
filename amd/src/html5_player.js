@@ -612,11 +612,11 @@ define(['core/ajax', 'core/log'], function(Ajax, Log) {
 
         media.addEventListener('play', function() {
             var playBtn2 = bar.querySelector('.videotrack-ctrl-play');
-            if (playBtn2) { playBtn2.textContent = '⏸'; playBtn2.setAttribute('aria-label', 'Pause'); }
+            if (playBtn2) { playBtn2.textContent = '⏸'; playBtn2.setAttribute('aria-label', config.html5pauselabel || 'Pause'); }
         });
         media.addEventListener('pause', function() {
             var playBtn2 = bar.querySelector('.videotrack-ctrl-play');
-            if (playBtn2) { playBtn2.textContent = '▶'; playBtn2.setAttribute('aria-label', 'Play'); }
+            if (playBtn2) { playBtn2.textContent = '▶'; playBtn2.setAttribute('aria-label', config.html5playlabel || 'Play'); }
         });
 
         // Append bar after the media element, inside the player wrapper.
@@ -1206,6 +1206,7 @@ define(['core/ajax', 'core/log'], function(Ajax, Log) {
         function setNoteButtonState(playing) {
             if (!saveBtn) { return; }
             saveBtn.setAttribute('aria-disabled', playing ? 'false' : 'true');
+            saveBtn.disabled = !playing;
             saveBtn.classList.toggle('videotrack-note-save-disabled', !playing);
         }
 

@@ -864,6 +864,7 @@ define(['core/ajax', 'core/log'], function(Ajax, Log) {
         function setNoteButtonState(playing) {
             if (!saveBtn) { return; }
             saveBtn.setAttribute('aria-disabled', playing ? 'false' : 'true');
+            saveBtn.disabled = !playing;
             saveBtn.classList.toggle('videotrack-note-save-disabled', !playing);
         }
 
