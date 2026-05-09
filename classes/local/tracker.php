@@ -209,6 +209,43 @@ class tracker {
         );
     }
 
+    /**
+     * Returns true when the requested video time is inside a watched segment.
+     *
+     * This stricter check is used for notes and reactions: the user must have
+     * actually watched the target timestamp, not only have an active playback
+     * session near the end of a previous segment.
+     *
+     * @param int $videotrackid Activity id.
+     * @param int $userid User id.
+     * @param string $sessionid Browser session id.
+     * @param float $videotime Video timestamp in seconds.
+     * @param float $timetolerance Small tolerance for heartbeat/network delay.
+     * @return bool
+     */
+    public static function has_watched_videotime(int $videotrackid, int $userid, string $sessionid,
+            float $videotime, float $timetolerance = 2.0): bool {
+        global $DB;
+
+        $vt = max(0.0, $videotime);
+        $tol = max(0.5, $timetolerance);
+
+        return $DB->record_exists_select('videotrack_seg',
+            'videotrackid = :vtid AND userid = :uid AND sessionid = :sid
+             AND :vt1 >= (videotimestart - :tol1)
+             AND :vt2 <= (videotimeend + :tol2)',
+            [
+                'vtid' => $videotrackid,
+                'uid' => $userid,
+                'sid' => $sessionid,
+                'vt1' => $vt,
+                'vt2' => $vt,
+                'tol1' => $tol,
+                'tol2' => $tol,
+            ]
+        );
+    }
+
     public static function completion_satisfied(\stdClass $videotrack, ?\stdClass $state, array $reactionsummary, array $requiredreactionids): bool {
         $checks = [];
         if (!empty($videotrack->completionpercent)) {

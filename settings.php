@@ -21,6 +21,24 @@ if ($ADMIN->fulltree) {
     }
 
     // -------------------------------------------------------------------------
+    // Privacy and data retention
+    // -------------------------------------------------------------------------
+
+    $settings->add(new admin_setting_heading(
+        'mod_videotrack/heading_privacy',
+        get_string('setting:heading_privacy', 'mod_videotrack'),
+        get_string('setting:heading_privacy_desc', 'mod_videotrack')
+    ));
+
+    $settings->add(new admin_setting_configtext(
+        'mod_videotrack/retentionperioddays',
+        get_string('setting:retentionperioddays', 'mod_videotrack'),
+        get_string('setting:retentionperioddays_desc', 'mod_videotrack'),
+        0,
+        PARAM_INT
+    ));
+
+    // -------------------------------------------------------------------------
     // Performance
     // -------------------------------------------------------------------------
 

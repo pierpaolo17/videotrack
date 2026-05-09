@@ -433,3 +433,12 @@ $string['html5:speed'] = 'Velocità';
 $string['html5:pip'] = 'Picture-in-picture';
 $string['html5:fullscreen'] = 'Schermo intero';
 $string['html5:download'] = 'Scarica';
+
+// GDPR retention and anti-cheat.
+$string['setting:heading_privacy'] = 'Privacy e conservazione dati';
+$string['setting:heading_privacy_desc'] = 'Configura come VideoTrack conserva dati di tracciamento, note e reazioni.';
+$string['setting:retentionperioddays'] = 'Periodo di conservazione dei dati di tracciamento (giorni)';
+$string['setting:retentionperioddays_desc'] = 'Numero di giorni dopo i quali VideoTrack anonimizza i dati vecchi di tracciamento, note e reazioni. Imposta 0 per conservare i dati senza scadenza. Le richieste di oblio dell\'utente sono sempre gestite anonimizzando i dati, senza eliminare le statistiche aggregate.';
+$string['task:cleanup'] = 'Anonimizza i dati VideoTrack scaduti';
+$string['privacy:anonymised'] = '[anonimizzato]';
+$string['error:playbackpositionnotwatched'] = 'Questa posizione del video non risulta ancora visualizzata, quindi l\'azione non può essere salvata.';

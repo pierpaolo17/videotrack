@@ -73,6 +73,9 @@ class save_note extends external_api {
         if (!tracker::has_recent_playback($videotrack->id, (int)$USER->id, $params['sessionid'], $videotime)) {
             throw new \moodle_exception('error:playbackrequired', 'mod_videotrack');
         }
+        if (!tracker::has_watched_videotime($videotrack->id, (int)$USER->id, $params['sessionid'], $videotime)) {
+            throw new \moodle_exception('error:playbackpositionnotwatched', 'mod_videotrack');
+        }
 
         // Global note rate limit: max 5 notes every 10 seconds per user/activity.
         $recentnotes = $DB->count_records_select(

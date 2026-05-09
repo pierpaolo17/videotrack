@@ -13,6 +13,7 @@ use core_privacy\local\request\helper;
 use core_privacy\local\request\transform;
 use core_privacy\local\request\userlist;
 use core_privacy\local\request\writer;
+use mod_videotrack\local\privacy_manager;
 
 class provider implements
     \core_privacy\local\metadata\provider,
@@ -276,27 +277,30 @@ class provider implements
     public static function delete_data_for_user(approved_contextlist $contextlist): void {
         $user = $contextlist->get_user();
         foreach ($contextlist->get_contexts() as $context) {
-            self::delete_records_for_users_in_context($context, [$user->id]);
+            self::anonymise_records_for_users_in_context($context, [$user->id]);
         }
     }
 
     public static function delete_data_for_users(approved_userlist $userlist): void {
-        self::delete_records_for_users_in_context($userlist->get_context(), $userlist->get_userids());
+        self::anonymise_records_for_users_in_context($userlist->get_context(), $userlist->get_userids());
     }
 
-    protected static function delete_records_for_users_in_context(context $context, array $userids): void {
-        global $DB;
-
+    /**
+     * Anonymises user records for GDPR erasure requests.
+     *
+     * The plugin keeps aggregate analytics but removes the link to the real user
+     * and replaces note text with a non-identifying placeholder.
+     *
+     * @param context $context Moodle context.
+     * @param array $userids User ids.
+     */
+    protected static function anonymise_records_for_users_in_context(context $context, array $userids): void {
         if ($context->contextlevel != CONTEXT_MODULE || empty($userids)) {
             return;
         }
 
-        [$insql, $params] = $DB->get_in_or_equal($userids, SQL_PARAMS_NAMED);
-        $params['cmid1'] = $context->instanceid;
-        $params['cmid2'] = $context->instanceid;
-        $params['cmid3'] = $context->instanceid;
-        $DB->delete_records_select('videotrack_seg',    "cmid = :cmid1 AND userid $insql", $params);
-        $DB->delete_records_select('videotrack_state',  "cmid = :cmid2 AND userid $insql", $params);
-        $DB->delete_records_select('videotrack_reactev',"cmid = :cmid3 AND userid $insql", $params);
+        foreach ($userids as $userid) {
+            privacy_manager::anonymise_user_in_context($context, (int)$userid);
+        }
     }
 }

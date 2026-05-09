@@ -53,6 +53,9 @@ class save_reaction extends external_api {
         if (!tracker::has_recent_playback($videotrack->id, (int)$USER->id, $params['sessionid'], $videotime)) {
             throw new \moodle_exception('error:playbackrequired', 'mod_videotrack');
         }
+        if (!tracker::has_watched_videotime($videotrack->id, (int)$USER->id, $params['sessionid'], $videotime)) {
+            throw new \moodle_exception('error:playbackpositionnotwatched', 'mod_videotrack');
+        }
 
         // Global anti-spam throttle: limits reaction bursts per user regardless of
         // session ID. Filtering by sessionid allowed an attacker to bypass the limit

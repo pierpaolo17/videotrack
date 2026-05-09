@@ -433,3 +433,12 @@ $string['html5:speed'] = 'Speed';
 $string['html5:pip'] = 'Picture-in-picture';
 $string['html5:fullscreen'] = 'Fullscreen';
 $string['html5:download'] = 'Download';
+
+// GDPR retention and anti-cheat.
+$string['setting:heading_privacy'] = 'Privacy and data retention';
+$string['setting:heading_privacy_desc'] = 'Configure how VideoTrack stores tracking, notes and reaction data.';
+$string['setting:retentionperioddays'] = 'Retention period for tracking data (days)';
+$string['setting:retentionperioddays_desc'] = 'Number of days after which VideoTrack anonymises old tracking, notes and reaction data. Set to 0 to retain data indefinitely. User erasure requests are always handled by anonymising the user\'s data rather than deleting aggregate analytics.';
+$string['task:cleanup'] = 'Anonymise expired VideoTrack tracking data';
+$string['privacy:anonymised'] = '[anonymised]';
+$string['error:playbackpositionnotwatched'] = 'This video position has not been watched yet, so the action cannot be saved.';
