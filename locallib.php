@@ -211,7 +211,8 @@ function videotrack_render_reaction_icon(stdClass $reaction, ?\context_module $c
         if ($url !== '') {
             $iconhtml = html_writer::empty_tag('img', [
                 'src' => $url,
-                'alt' => $label,
+                'alt' => '',
+                'aria-hidden' => 'true',
                 'class' => 'videotrack-reaction-icon-file',
                 'loading' => 'lazy',
             ]);

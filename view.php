@@ -330,6 +330,7 @@ if (!empty($videotrack->studentnotesenabled)) {
             'id'           => 'videotrack-note-save',
             'class'        => 'btn btn-sm btn-primary videotrack-note-save',
             'aria-disabled'=> 'true',  // Abilitato solo durante play, gestito da JS.
+            'disabled'     => 'disabled',
         ]
     );
     // Contatore caratteri rimanenti — aggiornato in tempo reale da JS.
