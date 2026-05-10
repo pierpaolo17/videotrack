@@ -94,10 +94,8 @@ class save_segment extends external_api {
         $servergrace = 10;
         $serverallowedvideo = max(2.0, ($serverspan + $servergrace) * $playbackrate);
         if ($videoduration > 2.0 && $videoduration > $serverallowedvideo) {
-            // Segmento sospetto: logga silenziosamente e rigetta senza errore visibile.
-            debugging('mod_videotrack: segment server-side sanity check failed; video=' .
-                round($videoduration, 1) . 's rate=' . $playbackrate .
-                ' serverallowed=' . round($serverallowedvideo, 1) . 's', DEBUG_DEVELOPER);
+            // Suspicious segment: reject silently and avoid logging behavioural timing details.
+            debugging('mod_videotrack: segment server-side sanity check failed.', DEBUG_DEVELOPER);
             return [
                 'accepted'             => false,
                 'uniquecoveredseconds' => 0.0,

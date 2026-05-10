@@ -4,9 +4,7 @@ defined('MOODLE_INTERNAL') || die();
 
 if ($ADMIN->fulltree) {
 
-    // ── Avviso GD ─────────────────────────────────────────────────────────────
-    // Mostra un avviso persistente nella pagina impostazioni se GD non è disponibile.
-    // Questo è supplementare all'environment.xml che mostra il check in fase di installazione.
+    // Show a persistent admin warning when GD is not available.
     if (!function_exists('imagecreatefromstring')) {
         $settings->add(new admin_setting_heading(
             'mod_videotrack/gd_missing_warning',
@@ -36,6 +34,13 @@ if ($ADMIN->fulltree) {
         get_string('setting:retentionperioddays_desc', 'mod_videotrack'),
         0,
         PARAM_INT
+    ));
+
+    $settings->add(new admin_setting_configcheckbox(
+        'mod_videotrack/strictsessionvalidation',
+        get_string('setting:strictsessionvalidation', 'mod_videotrack'),
+        get_string('setting:strictsessionvalidation_desc', 'mod_videotrack'),
+        0
     ));
 
     // -------------------------------------------------------------------------

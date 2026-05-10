@@ -23,6 +23,11 @@ class cleanup_task extends \core\task\scheduled_task {
      */
     public function execute(): void {
         $counts = privacy_manager::anonymise_expired_records();
+        if (!empty($counts['skipped'])) {
+            mtrace('VideoTrack GDPR retention: unlimited retention configured; no records anonymised.');
+            return;
+        }
+
         mtrace('VideoTrack GDPR retention: anonymised ' .
             $counts['segments'] . ' segments, ' .
             $counts['states'] . ' states, ' .

@@ -15,6 +15,9 @@ class privacy_manager {
     /** Prefix used for anonymised browser session identifiers. */
     private const ANONYMOUS_SESSION_PREFIX = 'anon-';
 
+    /** Name of the local secret used to make anonymised identifiers non-reversible. */
+    private const ANONYMISATION_SALT_CONFIG = 'anonymisationsalt';
+
     /**
      * Returns the configured retention period in seconds.
      *
@@ -32,13 +35,31 @@ class privacy_manager {
     }
 
     /**
+     * Returns the local anonymisation salt, creating it on first use.
+     *
+     * @return string
+     */
+    private static function anonymisation_salt(): string {
+        $salt = (string)get_config('mod_videotrack', self::ANONYMISATION_SALT_CONFIG);
+        if ($salt === '') {
+            $salt = bin2hex(random_bytes(32));
+            set_config(self::ANONYMISATION_SALT_CONFIG, $salt, 'mod_videotrack');
+        }
+        return $salt;
+    }
+
+    /**
      * Builds a stable negative user id that cannot collide with normal Moodle users.
+     *
+     * The mapping is salted at site level, so the original Moodle user id cannot be
+     * inferred from the anonymised value by database/report viewers.
      *
      * @param int $userid Real user id.
      * @return int Anonymous user id.
      */
     public static function anonymous_userid(int $userid): int {
-        return -1 * (100000000 + ($userid % 800000000));
+        $hash = hash('sha256', self::anonymisation_salt() . ':' . $userid . ':userid');
+        return -1 * (100000000 + (hexdec(substr($hash, 0, 7)) % 800000000));
     }
 
     /**
@@ -49,7 +70,7 @@ class privacy_manager {
      * @return string
      */
     private static function anonymous_sessionid(int $userid, int $cmid): string {
-        return self::ANONYMOUS_SESSION_PREFIX . sha1($userid . ':' . $cmid . ':videotrack');
+        return self::ANONYMOUS_SESSION_PREFIX . hash('sha256', self::anonymisation_salt() . ':' . $userid . ':' . $cmid);
     }
 
     /**
@@ -59,8 +80,6 @@ class privacy_manager {
      * @param int $userid Real user id.
      */
     public static function anonymise_user_in_context(context $context, int $userid): void {
-        global $DB;
-
         if ($context->contextlevel != CONTEXT_MODULE || $userid <= 0) {
             return;
         }
@@ -96,12 +115,7 @@ class privacy_manager {
             $params
         );
 
-        $DB->execute(
-            "UPDATE {videotrack_state}
-                SET userid = :anonuserid
-              WHERE cmid = :cmid AND userid = :userid",
-            $params
-        );
+        self::anonymise_state_rows($userid, $cmid);
 
         $eventparams = $params + ['notetext' => $notetext];
         $DB->execute(
@@ -127,11 +141,11 @@ class privacy_manager {
 
         $retention = self::retention_period_seconds();
         if ($retention <= 0) {
-            return ['segments' => 0, 'states' => 0, 'events' => 0];
+            return ['segments' => 0, 'states' => 0, 'events' => 0, 'skipped' => 1];
         }
 
         $cutoff = time() - $retention;
-        $counts = ['segments' => 0, 'states' => 0, 'events' => 0];
+        $counts = ['segments' => 0, 'states' => 0, 'events' => 0, 'skipped' => 0];
 
         $records = $DB->get_recordset_select(
             'videotrack_seg',
@@ -214,17 +228,7 @@ class privacy_manager {
             'cmid = ? AND userid = ? AND timemodified < ?',
             [$cmid, $userid, $cutoff]
         );
-        $DB->execute(
-            "UPDATE {videotrack_state}
-                SET userid = :anonuserid
-              WHERE cmid = :cmid AND userid = :userid AND timemodified < :cutoff",
-            [
-                'anonuserid' => $anonuserid,
-                'cmid' => $cmid,
-                'userid' => $userid,
-                'cutoff' => $cutoff,
-            ]
-        );
+        self::anonymise_state_rows($userid, $cmid, $cutoff);
 
         $counts['events'] += $DB->count_records_select(
             'videotrack_reactev',
@@ -245,5 +249,113 @@ class privacy_manager {
                 'cutoff' => $cutoff,
             ]
         );
+    }
+
+    /**
+     * Anonymises state rows and safely merges with an existing anonymous state row.
+     *
+     * The state table has a unique index on (videotrackid, userid). If the same
+     * user is anonymised more than once, or if partial retention already created an
+     * anonymous row, a plain UPDATE can violate that index. This method merges the
+     * real row into the anonymous row before deleting only the now-duplicate state
+     * row.
+     *
+     * @param int $userid Real user id.
+     * @param int $cmid Course module id.
+     * @param int|null $cutoff Optional timemodified cutoff for retention task.
+     */
+    private static function anonymise_state_rows(int $userid, int $cmid, ?int $cutoff = null): void {
+        global $DB;
+
+        $select = 'cmid = :cmid AND userid = :userid';
+        $params = ['cmid' => $cmid, 'userid' => $userid];
+        if ($cutoff !== null) {
+            $select .= ' AND timemodified < :cutoff';
+            $params['cutoff'] = $cutoff;
+        }
+
+        $records = $DB->get_records_select('videotrack_state', $select, $params);
+        foreach ($records as $record) {
+            self::anonymise_one_state_row($record);
+        }
+    }
+
+    /**
+     * Anonymises a single state row, merging on unique-key collision.
+     *
+     * @param \stdClass $record Existing real-user state row.
+     */
+    private static function anonymise_one_state_row(\stdClass $record): void {
+        global $DB;
+
+        $anonuserid = self::anonymous_userid((int)$record->userid);
+        $existing = $DB->get_record('videotrack_state', [
+            'videotrackid' => $record->videotrackid,
+            'userid' => $anonuserid,
+        ]);
+
+        if (!$existing) {
+            $DB->set_field('videotrack_state', 'userid', $anonuserid, ['id' => $record->id]);
+            return;
+        }
+
+        $existing->lastposition = max((float)$existing->lastposition, (float)$record->lastposition);
+        $existing->durationseconds = max((float)$existing->durationseconds, (float)$record->durationseconds);
+        $existing->uniquecoveredseconds = max((float)$existing->uniquecoveredseconds, (float)$record->uniquecoveredseconds);
+        $existing->completionpercent = max((float)$existing->completionpercent, (float)$record->completionpercent);
+        $existing->iscompleted = !empty($existing->iscompleted) || !empty($record->iscompleted) ? 1 : 0;
+        $existing->timecreated = min((int)$existing->timecreated, (int)$record->timecreated);
+        $existing->timemodified = max((int)$existing->timemodified, (int)$record->timemodified);
+        $existing->intervaljson = self::merge_interval_json((string)$existing->intervaljson, (string)$record->intervaljson);
+
+        $DB->update_record('videotrack_state', $existing);
+        $DB->delete_records('videotrack_state', ['id' => $record->id]);
+    }
+
+    /**
+     * Merges two JSON interval lists.
+     *
+     * @param string $left First JSON interval list.
+     * @param string $right Second JSON interval list.
+     * @return string Merged JSON interval list.
+     */
+    private static function merge_interval_json(string $left, string $right): string {
+        $intervals = [];
+        foreach ([$left, $right] as $json) {
+            $decoded = json_decode($json, true);
+            if (!is_array($decoded)) {
+                continue;
+            }
+            foreach ($decoded as $interval) {
+                if (!is_array($interval) || count($interval) < 2) {
+                    continue;
+                }
+                $start = (float)$interval[0];
+                $end = (float)$interval[1];
+                if ($end > $start) {
+                    $intervals[] = [$start, $end];
+                }
+            }
+        }
+
+        if (!$intervals) {
+            return '[]';
+        }
+
+        usort($intervals, static function(array $a, array $b): int {
+            return $a[0] <=> $b[0];
+        });
+
+        $merged = [];
+        foreach ($intervals as $interval) {
+            if (!$merged || $interval[0] > $merged[count($merged) - 1][1]) {
+                $merged[] = $interval;
+                continue;
+            }
+            $merged[count($merged) - 1][1] = max($merged[count($merged) - 1][1], $interval[1]);
+        }
+
+        $json = json_encode($merged);
+        return $json === false ? '[]' : $json;
     }
 }

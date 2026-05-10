@@ -212,9 +212,10 @@ class tracker {
     /**
      * Returns true when the requested video time is inside a watched segment.
      *
-     * This stricter check is used for notes and reactions: the user must have
-     * actually watched the target timestamp, not only have an active playback
-     * session near the end of a previous segment.
+     * This check is used for notes and reactions: the target timestamp must fall
+     * inside a recorded watched segment. By default it accepts previous browser
+     * sessions for the same user/activity to avoid false negatives after refreshes;
+     * administrators can enable strict same-session validation in plugin settings.
      *
      * @param int $videotrackid Activity id.
      * @param int $userid User id.
@@ -229,15 +230,38 @@ class tracker {
 
         $vt = max(0.0, $videotime);
         $tol = max(0.5, $timetolerance);
+        $params = [
+            'vtid' => $videotrackid,
+            'uid' => $userid,
+            'sid' => $sessionid,
+            'vt1' => $vt,
+            'vt2' => $vt,
+            'tol1' => $tol,
+            'tol2' => $tol,
+        ];
 
+        $samesessionselect = 'videotrackid = :vtid AND userid = :uid AND sessionid = :sid
+             AND :vt1 >= (videotimestart - :tol1)
+             AND :vt2 <= (videotimeend + :tol2)';
+        if ($DB->record_exists_select('videotrack_seg', $samesessionselect, $params)) {
+            return true;
+        }
+
+        if ((int)get_config('mod_videotrack', 'strictsessionvalidation')) {
+            return false;
+        }
+
+        // UX-friendly fallback: after refreshes or browser changes, allow notes and
+        // reactions for timestamps already watched by the same user in this activity.
+        // This still rejects unwatched positions because the timestamp must fall
+        // inside a recorded segment.
         return $DB->record_exists_select('videotrack_seg',
-            'videotrackid = :vtid AND userid = :uid AND sessionid = :sid
+            'videotrackid = :vtid AND userid = :uid
              AND :vt1 >= (videotimestart - :tol1)
              AND :vt2 <= (videotimeend + :tol2)',
             [
                 'vtid' => $videotrackid,
                 'uid' => $userid,
-                'sid' => $sessionid,
                 'vt1' => $vt,
                 'vt2' => $vt,
                 'tol1' => $tol,
