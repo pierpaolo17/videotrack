@@ -128,7 +128,7 @@ define(['core/ajax', 'core/log'], function(Ajax, Log) {
 
     function ajax(methodname, args) {
         return Ajax.call([{methodname: methodname, args: args}])[0].catch(function(error) {
-            Log.error(error);
+            Log.debug('mod_videotrack: YouTube player event failed');
             return null;
         });
     }
@@ -757,7 +757,7 @@ define(['core/ajax', 'core/log'], function(Ajax, Log) {
                         player.addEventListener('onStateChange', removeNotice);
                     }
                 },
-                onError: function(error) { Log.error(error); }
+                onError: function() { Log.debug('mod_videotrack: YouTube player error'); }
             }
         });
     }

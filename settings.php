@@ -2,6 +2,27 @@
 
 defined('MOODLE_INTERNAL') || die();
 
+if (!class_exists('mod_videotrack_admin_setting_nonnegative_int')) {
+    /**
+     * Admin setting that accepts only non-negative integer values.
+     */
+    class mod_videotrack_admin_setting_nonnegative_int extends admin_setting_configtext {
+        /**
+         * Validate submitted value.
+         *
+         * @param mixed $data Submitted value.
+         * @return true|string True on success, error string on failure.
+         */
+        public function validate($data) {
+            if (!is_numeric($data) || (int)$data < 0) {
+                return get_string('setting:nonnegativeintrequired', 'mod_videotrack');
+            }
+            return true;
+        }
+    }
+}
+
+
 if ($ADMIN->fulltree) {
 
     // Show a persistent admin warning when GD is not available.
@@ -25,7 +46,7 @@ if ($ADMIN->fulltree) {
         get_string('setting:heading_privacy_desc', 'mod_videotrack')
     ));
 
-    $settings->add(new admin_setting_configtext(
+    $settings->add(new mod_videotrack_admin_setting_nonnegative_int(
         'mod_videotrack/retentionperioddays',
         get_string('setting:retentionperioddays', 'mod_videotrack'),
         get_string('setting:retentionperioddays_desc', 'mod_videotrack'),

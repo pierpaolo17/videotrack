@@ -472,5 +472,15 @@ function xmldb_videotrack_upgrade($oldversion) {
         upgrade_mod_savepoint(true, 2026052900, 'videotrack');
     }
 
+
+    if ($oldversion < 2026053000) {
+        // v1.0.30: privacy user lists exclude anonymised pseudo-users,
+        // anonymised ids are scoped per activity, retention/anonymisation
+        // recordsets are processed safely after closing cursors, and report
+        // output hides negative pseudo-user identifiers.
+        // No database schema changes.
+        upgrade_mod_savepoint(true, 2026053000, 'videotrack');
+    }
+
     return true;
 }

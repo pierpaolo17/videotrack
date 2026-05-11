@@ -99,11 +99,11 @@ class provider implements
         $params = ['cmid1' => $context->instanceid, 'cmid2' => $context->instanceid, 'cmid3' => $context->instanceid];
         $sql = "SELECT userid
                   FROM (
-                        SELECT userid FROM {videotrack_state} WHERE cmid = :cmid1
+                        SELECT userid FROM {videotrack_state} WHERE cmid = :cmid1 AND userid > 0
                         UNION
-                        SELECT userid FROM {videotrack_seg} WHERE cmid = :cmid2
+                        SELECT userid FROM {videotrack_seg} WHERE cmid = :cmid2 AND userid > 0
                         UNION
-                        SELECT userid FROM {videotrack_reactev} WHERE cmid = :cmid3
+                        SELECT userid FROM {videotrack_reactev} WHERE cmid = :cmid3 AND userid > 0
                        ) u";
         $userlist->add_from_sql('userid', $sql, $params);
     }

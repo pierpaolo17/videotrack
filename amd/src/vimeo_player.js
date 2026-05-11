@@ -276,7 +276,7 @@ define(['core/ajax', 'core/log'], function(Ajax, Log) {
         script.crossOrigin = 'anonymous';
         script.onload = callback;
         script.onerror = function() {
-            Log.error('mod_videotrack: failed to load Vimeo Player SDK from player.vimeo.com');
+            Log.debug('mod_videotrack: failed to load Vimeo Player SDK from player.vimeo.com');
             // Mostra un messaggio utente leggibile: probabile blocco CSP o rete.
             var wrap = document.getElementById('mod-videotrack-player');
             if (wrap) {
