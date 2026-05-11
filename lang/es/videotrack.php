@@ -39,7 +39,7 @@ $string['reactionlabel'] = 'Etiqueta de la reacción';
 $string['reactiondescription'] = 'Descripción de la reacción';
 $string['reactionicontype'] = 'Tipo de icono';
 $string['reactioniconvalue'] = 'Valor del icono';
-$string['reactioniconvalue_help'] = 'Para Emoji, introduce el carácter emoji. Para Font Awesome, introduce una clase admitida por el tema de Moodle, por ejemplo fa fa-smile para temas con Font Awesome 5 o fa-regular fa-face-smile para temas con Font Awesome 6. Deja este campo vacío si usas un archivo de icono subido.';
+$string['reactioniconvalue_help'] = 'Para Emoji, introduce el carácter emoji. Para Font Awesome, introduce una clase compatible con el tema de Moodle, por ejemplo fa fa-smile para temas con Font Awesome 5 o fa-regular fa-face-smile para temas con Font Awesome 6. La disponibilidad de iconos depende del tema Moodle activo y de la versión de Font Awesome instalada. Deja este campo vacío cuando uses un archivo de icono subido.';
 $string['reactioniconfile'] = 'Archivo de icono de reacción';
 $string['reactioniconfile_help'] = 'Archivo de imagen opcional utilizado cuando el tipo de icono es “Archivo cargado”. Los formatos aceptados dependen del soporte de imágenes web de Moodle.';
 $string['reactionrequired'] = 'Requerido para la finalización';
@@ -133,8 +133,8 @@ $string['privacy:metadata:videotrack_reactev:videotime'] = 'Posición en la lín
 $string['privacy:metadata:videotrack_reactev:playbackrate'] = 'Velocidad de reproducción cuando se registró la reacción.';
 $string['privacy:metadata:videotrack_reactev:isdeleted'] = 'Indica si el usuario eliminó el evento de reacción.';
 
-$string['cap:viewcoursereport'] = 'Ver el informe de VideoTrack a nivel de curso';
-$string['cap:viewcoursereport_desc'] = 'Permite ver el informe agregado de VideoTrack para todo el curso.';
+$string['videotrack:viewcoursereport'] = 'Ver el informe de VideoTrack a nivel de curso';
+$string['videotrack:viewcoursereport_desc'] = 'Permite ver el informe agregado de VideoTrack para todo el curso.';
 $string['videotrack:overrideplayersettings'] = 'Anular configuración del reproductor de la plataforma';
 $string['videotrack:overrideplayersettings_desc'] = 'Permite al docente cambiar las configuraciones del reproductor establecidas por el administrador como valores predeterminados de la plataforma.';
 $string['videotrack:overridecompletionsettings'] = 'Anular configuración de finalización de la plataforma';
@@ -341,7 +341,7 @@ $string['privacy:metadata:videotrack_reactev:notetext'] = 'Texto de una nota per
 $string['privacy:metadata:videotrack_reactev:notetype'] = 'Tipo de evento: vacío para reacciones estándar, "note" para notas personales del estudiante.';
 
 // ── Errore note disabilitate ──────────────────────────────────────────────
-$string['reactionsdisabled'] = 'Las reacciones no están activadas para esta actividad.';
+$string['reactionsdisabled'] = 'Las reacciones están desactivadas para esta actividad de VideoTrack. Pide a tu docente o al administrador del curso que las active si son necesarias.';
 $string['studentnotesdisabled'] = 'Las notas del estudiante no están activadas para esta actividad.';
 // ── C3: no file uploaded ──
 $string['nofilelabel'] = 'No se ha subido ningún archivo de vídeo para esta actividad.';

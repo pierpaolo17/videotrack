@@ -39,7 +39,7 @@ $string['reactionlabel'] = 'Reaction label';
 $string['reactiondescription'] = 'Reaction description';
 $string['reactionicontype'] = 'Icon type';
 $string['reactioniconvalue'] = 'Icon value';
-$string['reactioniconvalue_help'] = 'For Emoji, enter the emoji character. For Font Awesome, enter a class supported by the Moodle theme, for example fa fa-smile for Font Awesome 5 themes or fa-regular fa-face-smile for Font Awesome 6 themes. Leave this field empty when using an uploaded icon file.';
+$string['reactioniconvalue_help'] = 'For Emoji, enter the emoji character. For Font Awesome, enter a class supported by the Moodle theme, for example fa fa-smile for Font Awesome 5 themes or fa-regular fa-face-smile for Font Awesome 6 themes. Icon availability depends on the active Moodle theme and installed Font Awesome version. Leave this field empty when using an uploaded icon file.';
 $string['reactioniconfile'] = 'Reaction icon file';
 $string['reactioniconfile_help'] = 'Optional image file used when the icon type is “Uploaded file”. Accepted formats depend on Moodle web image support.';
 $string['reactionrequired'] = 'Required for completion';
@@ -134,8 +134,8 @@ $string['privacy:metadata:videotrack_reactev:videotime'] = 'Video timeline posit
 $string['privacy:metadata:videotrack_reactev:playbackrate'] = 'Playback speed when the reaction was recorded.';
 $string['privacy:metadata:videotrack_reactev:isdeleted'] = 'Whether the reaction event was deleted by the user.';
 
-$string['cap:viewcoursereport'] = 'View course-level VideoTrack report';
-$string['cap:viewcoursereport_desc'] = 'Allows the user to view the aggregated VideoTrack report for the whole course.';
+$string['videotrack:viewcoursereport'] = 'View course-level VideoTrack report';
+$string['videotrack:viewcoursereport_desc'] = 'Allows the user to view the aggregated VideoTrack report for the whole course.';
 $string['videotrack:overrideplayersettings'] = 'Override platform player settings';
 $string['videotrack:overrideplayersettings_desc'] = 'Allows the teacher to change player settings (seek, rate, controls, keyboard, fullscreen) that the administrator has set as platform-wide defaults. Revoke this capability to enforce a uniform player policy across the site.';
 $string['videotrack:overridecompletionsettings'] = 'Override platform completion settings';
@@ -342,7 +342,7 @@ $string['privacy:metadata:videotrack_reactev:notetext'] = 'The text of a persona
 $string['privacy:metadata:videotrack_reactev:notetype'] = 'The type of event: empty for standard reactions, "note" for personal student notes.';
 
 // ── Errore note disabilitate ──────────────────────────────────────────────
-$string['reactionsdisabled'] = 'Reactions are not enabled for this activity.';
+$string['reactionsdisabled'] = 'Reactions are disabled for this VideoTrack activity. Ask your teacher or course administrator to enable reactions if they are required.';
 $string['studentnotesdisabled'] = 'Student notes are not enabled for this activity.';
 // ── C3: no file uploaded ──
 $string['nofilelabel'] = 'No video file has been uploaded for this activity.';

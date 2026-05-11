@@ -26,18 +26,24 @@ videotrack_view($videotrack, $course, $cm, $context);
 
 $reactions = array_values(videotrack_get_reactions($videotrack->id));
 $state = $DB->get_record('videotrack_state', ['videotrackid' => $videotrack->id, 'userid' => $USER->id]);
+$canviewownreport = has_capability('mod/videotrack:viewownreport', $context);
+$showstudentreport = !empty($videotrack->showstudentreport) && $canviewownreport;
 $eventwhere = "videotrackid = :vtid AND userid = :uid AND isdeleted = 0 AND (notetype = '' OR notetype IS NULL)";
 $eventparams = ['vtid' => $videotrack->id, 'uid' => $USER->id];
-$eventcount = $DB->count_records_select('videotrack_reactev', $eventwhere, $eventparams);
-$events = $DB->get_records_select(
-    'videotrack_reactev',
-    $eventwhere,
-    $eventparams,
-    'videotime ASC',
-    '*',
-    0,
-    200
-);
+$eventcount = 0;
+$events = [];
+if ($showstudentreport) {
+    $eventcount = $DB->count_records_select('videotrack_reactev', $eventwhere, $eventparams);
+    $events = $DB->get_records_select(
+        'videotrack_reactev',
+        $eventwhere,
+        $eventparams,
+        'videotime ASC',
+        '*',
+        0,
+        200
+    );
+}
 $notice = trim((string)$videotrack->reactionnotice);
 if ($notice === '' && !empty($videotrack->showreactionnotice)) {
     $notice = videotrack_build_required_reaction_notice($videotrack, $reactions);
@@ -174,13 +180,12 @@ if (!empty($videotrack->showgradeto) && !empty($videotrack->grade) &&
         if (!empty($videotrack->gradepass)) {
             $passed         = $usergrade >= (float)$videotrack->gradepass;
             $gradepasslabel = html_writer::tag('span',
-                $passed
-                    ? ' ✓ ' . get_string('grade:pass', 'mod_videotrack')
-                    : ' ✗ ' . get_string('grade:fail', 'mod_videotrack'),
-                [
-                    'class' => $passed ? 'text-success ms-2' : 'text-danger ms-2',
-                    'aria-label' => get_string($passed ? 'grade:pass' : 'grade:fail', 'mod_videotrack'),
-                ]
+                html_writer::tag('span', $passed ? '✓' : '✗', ['aria-hidden' => 'true']) . ' ' .
+                    html_writer::tag('span',
+                        get_string($passed ? 'grade:pass' : 'grade:fail', 'mod_videotrack'),
+                        ['class' => $passed ? 'text-success ms-1' : 'text-danger ms-1']
+                    ),
+                ['class' => 'ms-2']
             );
         }
         echo html_writer::div(
@@ -208,10 +213,12 @@ if ($notice !== '') {
 
 $covered = $state ? (float)$state->uniquecoveredseconds : 0.0;
 $percent = $state ? (float)$state->completionpercent : 0.0;
-$uniquereactionids = [];
-foreach ($events as $event) {
-    $uniquereactionids[$event->reactionid] = true;
-}
+$uniquereactionids = array_flip($DB->get_fieldset_select(
+    'videotrack_reactev',
+    'DISTINCT reactionid',
+    $eventwhere . ' AND reactionid > 0',
+    $eventparams
+));
 
 echo html_writer::start_div('videotrack-player-shell',
     ['style' => 'max-width:' . (int)$playerwidth . 'px']);
@@ -423,14 +430,18 @@ echo html_writer::tag('div',
     )
 );
 echo html_writer::tag('div',
-    get_string('report:uniquecoveredseconds', 'mod_videotrack') .
-    ': <span id="videotrack-covered-seconds" aria-live="polite">' .
-    s(videotrack_format_seconds($covered)) . '</span>'
+    get_string('report:uniquecoveredseconds', 'mod_videotrack') . ': ' .
+    html_writer::tag('span',
+        s(videotrack_format_seconds($covered)),
+        ['id' => 'videotrack-covered-seconds', 'aria-live' => 'polite']
+    )
 );
 echo html_writer::tag('div',
-    get_string('uniquereactions', 'mod_videotrack') .
-    ': <span id="videotrack-unique-reactions" aria-live="polite">' .
-    count($uniquereactionids) . '</span>'
+    get_string('uniquereactions', 'mod_videotrack') . ': ' .
+    html_writer::tag('span',
+        (string)count($uniquereactionids),
+        ['id' => 'videotrack-unique-reactions', 'aria-live' => 'polite']
+    )
 );
 echo html_writer::end_div(); // videotrack-progress
 
@@ -463,7 +474,7 @@ if (!empty($videotrack->reactionsenabled) && $reactions) {
     echo html_writer::end_div(); // videotrack-reactions
 }
 
-if (!empty($videotrack->showstudentreport) && has_capability('mod/videotrack:viewownreport', $context)) {
+if ($showstudentreport) {
     // Separazione visiva netta tra note personali e reazioni nella vista studente.
     echo html_writer::tag('h4',
         get_string('reportstudent', 'mod_videotrack'),
