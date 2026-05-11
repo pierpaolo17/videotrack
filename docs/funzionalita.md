@@ -1,6 +1,6 @@
 # mod_videotrack — Funzionalità e potenzialità
 
-**Versione**: 1.0.39 (build 2026060800)
+**Versione**: 1.0.40 (build 2026060900)
 **Compatibilità**: Moodle 5.0+  
 **Lingue incluse**: Italiano, Inglese, Tedesco, Spagnolo, Francese, Portoghese, Hindi, Polacco
 
@@ -298,3 +298,9 @@ Il file `db/mobile.php` dichiara il supporto all'app mobile Moodle. Le funzional
 ## 17. Servizi esterni e CDN
 
 VideoTrack non include librerie di terze parti nel pacchetto. Per i video YouTube e Vimeo il browser dello studente carica le API ufficiali dai rispettivi provider a runtime. Gli amministratori devono valutare policy privacy, cookie e Content Security Policy dell'istituto. Quando il trasferimento verso provider terzi non è consentito, è consigliato usare file video caricati direttamente in Moodle.
+
+
+### Note sicurezza anti-cheat 1.0.40
+
+- Il fallback storico per note e reazioni è limitato dal setting `validationfallbackdays` (default 30 giorni). Impostare `0` significa usare qualsiasi segmento storico già guardato: è utile in ambienti con riprese frequenti da dispositivi diversi, ma rende la validazione anti-cheat più permissiva.
+- Gli identificativi anonimi negativi sono pseudonimi tecnici salted e scoped per attività. La probabilità di collisione è trascurabile nel range intero usato; in caso di collisione teorica i dati restano comunque non collegati ad account Moodle reali.

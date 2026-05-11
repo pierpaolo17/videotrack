@@ -481,6 +481,8 @@ if (!empty($videotrack->reactionsenabled) && $reactions) {
             // Real disabled state plus aria-disabled: when the video is not playing,
             // the JS removes reaction buttons from the tab order and announces the state.
             'aria-disabled'         => 'true',
+            'disabled'              => 'disabled',
+            'tabindex'              => '-1',
             'aria-describedby'      => 'videotrack-reactions-hint',
             'aria-label'            => s($reaction->label),
         ]);

@@ -445,12 +445,13 @@ $string['setting:retentionperioddays'] = 'Retention period for tracking data (da
 $string['setting:retentionperioddays_desc'] = 'Number of days after which VideoTrack anonymises old tracking, notes and reaction data. Set to 0 to retain data indefinitely. User erasure requests are always handled by salted anonymisation rather than deleting aggregate analytics.';
 $string['setting:strictsessionvalidation'] = 'Require same browser session for note and reaction validation';
 $string['setting:validationfallbackdays'] = 'Historical playback validation window (days)';
-$string['setting:validationfallbackdays_desc'] = 'Maximum age, in days, for previously watched segments that may authorise notes and reactions after a refresh or browser change. Set to 0 to allow historical watched segments indefinitely. The same-session and recent-playback checks are always attempted first.';
+$string['setting:validationfallbackdays_desc'] = 'Maximum age, in days, for previously watched segments that may authorise notes and reactions after a refresh or browser change. Set to 0 to allow historical watched segments indefinitely; this improves usability but makes anti-cheat validation more permissive. The same-session and recent-playback checks are always attempted first.';
 $string['setting:strictsessionvalidation_desc'] = 'When enabled, notes and reactions can only be saved for timestamps watched in the current browser session. When disabled, VideoTrack accepts timestamps already watched by the same user in the same activity, improving usability after refreshes or browser changes while still rejecting unwatched timestamps.';
 $string['task:cleanup'] = 'Anonymise expired VideoTrack tracking data';
 $string['privacy:anonymised'] = '[anonymised]';
 $string['error:playbackpositionnotwatched'] = 'This video position has not been watched yet, so the action cannot be saved.';
 
+$string['setting:intrangerequired'] = 'Enter a whole number between {$a->min} and {$a->max}.';
 $string['setting:nonnegativeintrequired'] = 'Enter a whole number greater than or equal to 0.';
 
 $string['report:anonymiseduser'] = 'Anonymised user';
