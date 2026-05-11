@@ -212,25 +212,30 @@ class tracker {
             return false;
         }
 
-        // UX-friendly fallback: after refreshes or browser changes, accept recent
-        // playback for the same user/activity even when the browser session id has
-        // changed. The timestamp must still match a watched interval.
-        return $DB->record_exists_select('videotrack_seg',
-            'videotrackid = :vtid AND userid = :uid AND timecreated >= :since
-             AND ((:vt >= (videotimestart - :tol1) AND :vt2 <= (videotimeend + :tol2))
-                  OR ABS(videotimeend - :vt3) <= :tolend)',
-            [
-                'vtid' => $videotrackid,
-                'uid' => $userid,
-                'since' => $since,
-                'vt' => $vt,
-                'vt2' => $vt,
-                'vt3' => $vt,
-                'tol1' => $tol,
-                'tol2' => $tol,
-                'tolend' => $graceseconds,
-            ]
-        );
+        // UX-friendly fallback: after refreshes, browser changes or a longer pause,
+        // accept playback for the same user/activity even when the browser session id
+        // changed or the heartbeat is no longer recent. The timestamp must still be
+        // inside a watched interval, so direct calls cannot create notes/reactions on
+        // unwatched positions.
+        if ($DB->record_exists_select('videotrack_seg',
+                'videotrackid = :vtid AND userid = :uid AND timecreated >= :since
+                 AND ((:vt >= (videotimestart - :tol1) AND :vt2 <= (videotimeend + :tol2))
+                      OR ABS(videotimeend - :vt3) <= :tolend)',
+                [
+                    'vtid' => $videotrackid,
+                    'uid' => $userid,
+                    'since' => $since,
+                    'vt' => $vt,
+                    'vt2' => $vt,
+                    'vt3' => $vt,
+                    'tol1' => $tol,
+                    'tol2' => $tol,
+                    'tolend' => $graceseconds,
+                ])) {
+            return true;
+        }
+
+        return self::has_watched_videotime($videotrackid, $userid, $sessionid, $videotime);
     }
 
     /**

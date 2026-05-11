@@ -103,7 +103,6 @@ class save_segment extends external_api {
         $serverallowedvideo = max(2.0, ($serverspan + $servergrace) * $playbackrate);
         if ($videoduration > 2.0 && $videoduration > $serverallowedvideo) {
             // Suspicious segment: reject silently and avoid logging behavioural timing details.
-            debugging('mod_videotrack: segment server-side sanity check failed.', DEBUG_DEVELOPER);
             return [
                 'accepted'             => false,
                 'uniquecoveredseconds' => 0.0,

@@ -10,7 +10,6 @@ require_once(__DIR__ . '/locallib.php');
  * @param bool $canviewemail Whether email may be displayed.
  * @return string Safe display label.
  */
-
 function videotrack_report_user_label(int $userid, array $usermap, bool $canviewemail): string {
     if ($userid < 0) {
         return get_string('report:anonymiseduser', 'mod_videotrack');

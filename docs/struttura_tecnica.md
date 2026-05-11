@@ -1,6 +1,6 @@
 # mod_videotrack — Guida alla struttura del codice
 
-**Versione**: 1.0.34 (build 2026060300)
+**Versione**: 1.0.38 (build 2026060700)
 **Prerequisito di lettura**: conoscenza base di Moodle (plugin system, `$DB`, `$USER`, `cm_info`) e PHP/JavaScript.
 
 ---
@@ -215,10 +215,10 @@ Un record per ogni click su un bottone reazione o per ogni nota salvata.
 
 ```php
 $plugin->component = 'mod_videotrack';
-$plugin->version   = 2026060300;
+$plugin->version   = 2026060700;
 $plugin->requires  = 2025041400; // Moodle 5.0.
 $plugin->maturity  = MATURITY_BETA;
-$plugin->release   = '1.0.34';
+$plugin->release   = '1.0.38';
 ```
 
 È il file letto da Moodle per decidere se mostrare l'upgrade dialog. `version` è un intero in formato `YYYYMMDDnn`. `requires` è la build minima di Moodle supportata.
@@ -862,3 +862,11 @@ Questa scelta evita esportazioni parziali interpretate come complete e mantiene 
 - Documentato il comportamento di backup/restore dei record anonimizzati con `userid` negativo.
 - Rafforzata la creazione del salt di anonimizzazione: senza lock Moodle non viene creato un nuovo salt concorrente.
 - Completate le stringhe privacy/retention nelle lingue incluse.
+
+### Storico aggiornamenti: 1.0.38
+
+- Ripristinato il pacchetto lingua polacco e riallineate tutte le lingue incluse.
+- Aggiornata la documentazione alla build 2026060700.
+- Chiarito che la retention automatica opera per coppia utente/attività e che gli identificativi negativi sono pseudonimi tecnici, salted e scoped per attività.
+- Ridotto il logging debug dei segmenti sospetti per evitare rumore e dati comportamentali non necessari.
+- Migliorata l'usabilità anti-cheat: con la validazione di sessione non stretta, note e reazioni possono essere salvate anche dopo pause o refresh purché il timestamp risulti già guardato.
