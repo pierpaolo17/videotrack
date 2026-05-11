@@ -165,12 +165,12 @@ $canviewemail = false;
 if ($alluserids) {
     [$insql, $inparams] = $DB->get_in_or_equal($alluserids, SQL_PARAMS_NAMED);
     // Email visibile solo a chi ha la capability viewreport E ha il diritto di vedere email.
-// Minimizzazione GDPR: per default mostra solo il nome completo.
-$canviewemail = has_capability('moodle/site:viewuseridentity', $context) &&
-                in_array('email', \core_user\fields::get_identity_fields($context, false));
-// Seleziona email solo se necessario: evita di caricare dati personali superflui.
-$userfields = $canviewemail ? 'id,firstname,lastname,email,deleted' : 'id,firstname,lastname,deleted';
-foreach ($DB->get_records_select('user', "id $insql", $inparams, '', $userfields) as $u) {
+    // Minimizzazione GDPR: per default mostra solo il nome completo.
+    $canviewemail = has_capability('moodle/site:viewuseridentity', $context) &&
+            in_array('email', \core_user\fields::get_identity_fields($context, false));
+    // Seleziona email solo se necessario: evita di caricare dati personali superflui.
+    $userfields = $canviewemail ? 'id,firstname,lastname,email,deleted' : 'id,firstname,lastname,deleted';
+    foreach ($DB->get_records_select('user', "id $insql", $inparams, '', $userfields) as $u) {
         $usermap[(int)$u->id] = $u;
     }
 }

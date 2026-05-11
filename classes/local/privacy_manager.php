@@ -87,8 +87,9 @@ class privacy_manager {
      */
     public static function anonymous_userid(int $userid, int $cmid): int {
         $hash = hash('sha256', self::anonymisation_salt() . ':' . $userid . ':' . $cmid . ':userid');
-        $bucket = hexdec(substr($hash, 0, 8)) % 1500000000;
-        return -1 * (500000000 + $bucket);
+        // Use a wide signed-int safe range to make collisions negligible even on large sites.
+        $bucket = hexdec(substr($hash, 0, 15)) % 2000000000;
+        return -1 * (100000000 + $bucket);
     }
 
     /**

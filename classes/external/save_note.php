@@ -42,6 +42,9 @@ class save_note extends external_api {
         $params = self::validate_parameters(self::execute_parameters(), compact(
             'cmid', 'sessionid', 'videotime', 'notetext', 'playbackrate'
         ));
+        if (\core_text::strlen($params['sessionid']) > 64) {
+            throw new \invalid_parameter_exception('Invalid session ID');
+        }
 
         $cmraw  = get_coursemodule_from_id('videotrack', (int)$params['cmid'], 0, false, MUST_EXIST);
         $course = get_course($cmraw->course);

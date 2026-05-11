@@ -44,13 +44,14 @@ class restore_videotrack_activity_structure_step extends restore_activity_struct
         $data->videotrackid = $this->get_new_parentid('videotrack');
         $data->courseid = $this->get_courseid();
         $data->cmid = 0;
-        if (!empty($data->userid)) {
+        if (!empty($data->userid) && (int)$data->userid > 0) {
             $mappeduserid = $this->get_mappingid('user', $data->userid);
             if (empty($mappeduserid)) {
                 return;
             }
             $data->userid = $mappeduserid;
         }
+        // Negative user ids are anonymised aggregate records: preserve them as non-user data.
         $DB->insert_record('videotrack_seg', $data);
     }
 
@@ -60,13 +61,14 @@ class restore_videotrack_activity_structure_step extends restore_activity_struct
         $data->videotrackid = $this->get_new_parentid('videotrack');
         $data->courseid = $this->get_courseid();
         $data->cmid = 0;
-        if (!empty($data->userid)) {
+        if (!empty($data->userid) && (int)$data->userid > 0) {
             $mappeduserid = $this->get_mappingid('user', $data->userid);
             if (empty($mappeduserid)) {
                 return;
             }
             $data->userid = $mappeduserid;
         }
+        // Negative user ids are anonymised aggregate records: preserve them as non-user data.
         $DB->insert_record('videotrack_state', $data);
     }
 
@@ -76,13 +78,14 @@ class restore_videotrack_activity_structure_step extends restore_activity_struct
         $data->videotrackid = $this->get_new_parentid('videotrack');
         $data->courseid = $this->get_courseid();
         $data->cmid = 0;
-        if (!empty($data->userid)) {
+        if (!empty($data->userid) && (int)$data->userid > 0) {
             $mappeduserid = $this->get_mappingid('user', $data->userid);
             if (empty($mappeduserid)) {
                 return;
             }
             $data->userid = $mappeduserid;
         }
+        // Negative user ids are anonymised aggregate records: preserve them as non-user data.
         if (!empty($data->reactionid)) {
             $oldreactionid = (int)$data->reactionid;
             $mappedreactionid = $this->get_mappingid('videotrack_react', $oldreactionid);

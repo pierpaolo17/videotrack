@@ -28,6 +28,9 @@ class save_reaction extends external_api {
     public static function execute(int $cmid, string $sessionid, int $reactionid, float $videotime, float $playbackrate = 1.0): array {
         global $DB, $USER;
         $params = self::validate_parameters(self::execute_parameters(), compact('cmid', 'sessionid', 'reactionid', 'videotime', 'playbackrate'));
+        if (\core_text::strlen($params['sessionid']) > 64) {
+            throw new \invalid_parameter_exception('Invalid session ID');
+        }
         $cmraw  = get_coursemodule_from_id('videotrack', $params['cmid'], 0, false, MUST_EXIST);
         $course = get_course($cmraw->course);
         $videotrack = $DB->get_record('videotrack', ['id' => $cmraw->instance], '*', MUST_EXIST);
