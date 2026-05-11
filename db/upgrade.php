@@ -444,5 +444,33 @@ function xmldb_videotrack_upgrade($oldversion) {
         upgrade_mod_savepoint(true, 2026050525, 'videotrack');
     }
 
+
+    if ($oldversion < 2026052600) {
+        // v1.0.26: mobile icon added, AMD build regenerated, accessibility
+        // state for note/reaction buttons aligned with real disabled controls.
+        // No database schema changes.
+        upgrade_mod_savepoint(true, 2026052600, 'videotrack');
+    }
+
+    if ($oldversion < 2026052700) {
+        // v1.0.27: GDPR retention task and server-side watched-position
+        // validation added. Existing installations need only register the task
+        // and settings; no database schema changes.
+        upgrade_mod_savepoint(true, 2026052700, 'videotrack');
+    }
+
+    if ($oldversion < 2026052800) {
+        // v1.0.28: anonymisation collision handling and UX-friendly
+        // anti-cheat fallback added. No database schema changes.
+        upgrade_mod_savepoint(true, 2026052800, 'videotrack');
+    }
+
+    if ($oldversion < 2026052900) {
+        // v1.0.29: privacy erasure consistently anonymises data, XMLDB
+        // version aligned, task logging and retention batching refined.
+        // No database schema changes.
+        upgrade_mod_savepoint(true, 2026052900, 'videotrack');
+    }
+
     return true;
 }

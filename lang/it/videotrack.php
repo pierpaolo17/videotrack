@@ -442,3 +442,6 @@ $string['setting:retentionperioddays_desc'] = 'Numero di giorni dopo i quali Vid
 $string['task:cleanup'] = 'Anonimizza i dati VideoTrack scaduti';
 $string['privacy:anonymised'] = '[anonimizzato]';
 $string['error:playbackpositionnotwatched'] = 'Questa posizione del video non risulta ancora visualizzata, quindi l\'azione non può essere salvata.';
+
+$string['setting:strictsessionvalidation'] = 'Richiedi la stessa sessione browser per validare note e reazioni';
+$string['setting:strictsessionvalidation_desc'] = 'Se abilitato, note e reazioni possono essere salvate solo per timestamp visualizzati nella sessione browser corrente. Se disabilitato, VideoTrack accetta timestamp già visualizzati dallo stesso utente nella stessa attività, migliorando l\'usabilità dopo aggiornamenti pagina o cambi browser e continuando a rifiutare posizioni non visualizzate.';

@@ -18,10 +18,7 @@ if ($ADMIN->fulltree) {
         ));
     }
 
-    // -------------------------------------------------------------------------
-    // Privacy and data retention
-    // -------------------------------------------------------------------------
-
+    // Privacy and data retention.
     $settings->add(new admin_setting_heading(
         'mod_videotrack/heading_privacy',
         get_string('setting:heading_privacy', 'mod_videotrack'),
@@ -43,10 +40,7 @@ if ($ADMIN->fulltree) {
         0
     ));
 
-    // -------------------------------------------------------------------------
-    // Performance
-    // -------------------------------------------------------------------------
-
+    // Performance.
     $settings->add(new admin_setting_heading(
         'mod_videotrack/heading_performance',
         get_string('setting:heading_performance', 'mod_videotrack'),
@@ -61,10 +55,7 @@ if ($ADMIN->fulltree) {
         PARAM_INT
     ));
 
-    // -------------------------------------------------------------------------
-    // Player behaviour
-    // -------------------------------------------------------------------------
-
+    // Player behaviour.
     $settings->add(new admin_setting_heading(
         'mod_videotrack/heading_player',
         get_string('setting:heading_player', 'mod_videotrack'),

@@ -18,6 +18,9 @@ class privacy_manager {
     /** Name of the local secret used to make anonymised identifiers non-reversible. */
     private const ANONYMISATION_SALT_CONFIG = 'anonymisationsalt';
 
+    /** Maximum number of user/activity pairs processed by one retention task run. */
+    private const RETENTION_BATCH_LIMIT = 500;
+
     /**
      * Returns the configured retention period in seconds.
      *
@@ -41,18 +44,28 @@ class privacy_manager {
      */
     private static function anonymisation_salt(): string {
         $salt = (string)get_config('mod_videotrack', self::ANONYMISATION_SALT_CONFIG);
-        if ($salt === '') {
-            $salt = bin2hex(random_bytes(32));
-            set_config(self::ANONYMISATION_SALT_CONFIG, $salt, 'mod_videotrack');
+        if ($salt !== '') {
+            return $salt;
         }
+
+        try {
+            $salt = bin2hex(random_bytes(32));
+        } catch (\Throwable $e) {
+            if (function_exists('random_string')) {
+                $salt = random_string(64);
+            } else {
+                $salt = sha1(uniqid('', true) . microtime(true) . serialize($_SERVER));
+            }
+        }
+        set_config(self::ANONYMISATION_SALT_CONFIG, $salt, 'mod_videotrack');
         return $salt;
     }
 
     /**
      * Builds a stable negative user id that cannot collide with normal Moodle users.
      *
-     * The mapping is salted at site level, so the original Moodle user id cannot be
-     * inferred from the anonymised value by database/report viewers.
+     * The mapping is salted at site level. It is a deterministic pseudonymous key
+     * used only to preserve aggregate analytics after erasure requests.
      *
      * @param int $userid Real user id.
      * @return int Anonymous user id.
@@ -84,8 +97,45 @@ class privacy_manager {
             return;
         }
 
+        self::anonymise_user_records($userid, (int)$context->instanceid);
+    }
+
+    /**
+     * Anonymises all real users' tracking records in one module context.
+     *
+     * This is used by Moodle privacy erasure for a whole activity context. The
+     * plugin preserves aggregate analytics but removes the link to real users.
+     *
+     * @param context $context Moodle context.
+     */
+    public static function anonymise_all_users_in_context(context $context): void {
+        global $DB;
+
+        if ($context->contextlevel != CONTEXT_MODULE) {
+            return;
+        }
+
         $cmid = (int)$context->instanceid;
-        self::anonymise_user_records($userid, $cmid);
+        $sql = "SELECT DISTINCT userid
+                  FROM {videotrack_seg}
+                 WHERE cmid = :segcmid AND userid > 0
+                 UNION
+                SELECT DISTINCT userid
+                  FROM {videotrack_state}
+                 WHERE cmid = :statecmid AND userid > 0
+                 UNION
+                SELECT DISTINCT userid
+                  FROM {videotrack_reactev}
+                 WHERE cmid = :eventcmid AND userid > 0";
+        $records = $DB->get_recordset_sql($sql, [
+            'segcmid' => $cmid,
+            'statecmid' => $cmid,
+            'eventcmid' => $cmid,
+        ]);
+        foreach ($records as $record) {
+            self::anonymise_user_records((int)$record->userid, $cmid);
+        }
+        $records->close();
     }
 
     /**
@@ -97,6 +147,11 @@ class privacy_manager {
     private static function anonymise_user_records(int $userid, int $cmid): void {
         global $DB;
 
+        if ($userid <= 0) {
+            return;
+        }
+
+        $transaction = $DB->start_delegated_transaction();
         $anonuserid = self::anonymous_userid($userid);
         $sessionid = self::anonymous_sessionid($userid, $cmid);
         $notetext = get_string('privacy:anonymised', 'mod_videotrack');
@@ -125,6 +180,8 @@ class privacy_manager {
               WHERE cmid = :cmid AND userid = :userid",
             $eventparams
         );
+
+        $transaction->allow_commit();
     }
 
     /**
@@ -141,45 +198,37 @@ class privacy_manager {
 
         $retention = self::retention_period_seconds();
         if ($retention <= 0) {
-            return ['segments' => 0, 'states' => 0, 'events' => 0, 'skipped' => 1];
+            return ['segments' => 0, 'states' => 0, 'events' => 0, 'skipped' => 1, 'processed' => 0, 'remaining' => 0];
         }
 
         $cutoff = time() - $retention;
-        $counts = ['segments' => 0, 'states' => 0, 'events' => 0, 'skipped' => 0];
+        $counts = ['segments' => 0, 'states' => 0, 'events' => 0, 'skipped' => 0, 'processed' => 0, 'remaining' => 0];
 
-        $records = $DB->get_recordset_select(
-            'videotrack_seg',
-            'userid > 0 AND timecreated < ?',
-            [$cutoff],
-            '',
-            'DISTINCT userid, cmid'
-        );
-        foreach ($records as $record) {
-            self::anonymise_old_user_rows((int)$record->userid, (int)$record->cmid, $cutoff, $counts);
-        }
-        $records->close();
+        $sql = "SELECT DISTINCT userid, cmid
+                  FROM {videotrack_seg}
+                 WHERE userid > 0 AND timecreated < :segcutoff
+                 UNION
+                SELECT DISTINCT userid, cmid
+                  FROM {videotrack_reactev}
+                 WHERE userid > 0 AND timecreated < :eventcutoff
+                 UNION
+                SELECT DISTINCT userid, cmid
+                  FROM {videotrack_state}
+                 WHERE userid > 0 AND timemodified < :statecutoff";
+        $params = [
+            'segcutoff' => $cutoff,
+            'eventcutoff' => $cutoff,
+            'statecutoff' => $cutoff,
+        ];
 
-        $records = $DB->get_recordset_select(
-            'videotrack_reactev',
-            'userid > 0 AND timecreated < ?',
-            [$cutoff],
-            '',
-            'DISTINCT userid, cmid'
-        );
+        $records = $DB->get_recordset_sql($sql, $params, 0, self::RETENTION_BATCH_LIMIT + 1);
         foreach ($records as $record) {
+            if ($counts['processed'] >= self::RETENTION_BATCH_LIMIT) {
+                $counts['remaining'] = 1;
+                break;
+            }
             self::anonymise_old_user_rows((int)$record->userid, (int)$record->cmid, $cutoff, $counts);
-        }
-        $records->close();
-
-        $records = $DB->get_recordset_select(
-            'videotrack_state',
-            'userid > 0 AND timemodified < ?',
-            [$cutoff],
-            '',
-            'DISTINCT userid, cmid'
-        );
-        foreach ($records as $record) {
-            self::anonymise_old_user_rows((int)$record->userid, (int)$record->cmid, $cutoff, $counts);
+            $counts['processed']++;
         }
         $records->close();
 
@@ -201,6 +250,7 @@ class privacy_manager {
             return;
         }
 
+        $transaction = $DB->start_delegated_transaction();
         $anonuserid = self::anonymous_userid($userid);
         $sessionid = self::anonymous_sessionid($userid, $cmid);
         $notetext = get_string('privacy:anonymised', 'mod_videotrack');
@@ -249,6 +299,8 @@ class privacy_manager {
                 'cutoff' => $cutoff,
             ]
         );
+
+        $transaction->allow_commit();
     }
 
     /**

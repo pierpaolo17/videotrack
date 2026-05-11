@@ -28,9 +28,14 @@ class cleanup_task extends \core\task\scheduled_task {
             return;
         }
 
-        mtrace('VideoTrack GDPR retention: anonymised ' .
+        $message = 'VideoTrack GDPR retention: anonymised ' .
             $counts['segments'] . ' segments, ' .
             $counts['states'] . ' states, ' .
-            $counts['events'] . ' reaction/note events.');
+            $counts['events'] . ' reaction/note events across ' .
+            $counts['processed'] . ' user/activity pairs.';
+        if (!empty($counts['remaining'])) {
+            $message .= ' More records remain and will be processed by a later run.';
+        }
+        mtrace($message);
     }
 }

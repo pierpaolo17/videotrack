@@ -201,11 +201,35 @@ class tracker {
         // A single query covers both the strict interval match and the grace
         // period used for clicks immediately after PLAYING/seek in high-latency
         // environments. This avoids duplicate DB checks for each reaction/note.
+        $select = 'videotrackid = :vtid AND userid = :uid AND sessionid = :sid AND timecreated >= :since
+             AND ((:vt >= (videotimestart - :tol1) AND :vt2 <= (videotimeend + :tol2))
+                  OR ABS(videotimeend - :vt3) <= :tolend)';
+        if ($DB->record_exists_select('videotrack_seg', $select, $params + ['vt3' => $vt])) {
+            return true;
+        }
+
+        if ((int)get_config('mod_videotrack', 'strictsessionvalidation')) {
+            return false;
+        }
+
+        // UX-friendly fallback: after refreshes or browser changes, accept recent
+        // playback for the same user/activity even when the browser session id has
+        // changed. The timestamp must still match a watched interval.
         return $DB->record_exists_select('videotrack_seg',
-            'videotrackid = :vtid AND userid = :uid AND sessionid = :sid AND timecreated >= :since
+            'videotrackid = :vtid AND userid = :uid AND timecreated >= :since
              AND ((:vt >= (videotimestart - :tol1) AND :vt2 <= (videotimeend + :tol2))
                   OR ABS(videotimeend - :vt3) <= :tolend)',
-            $params + ['vt3' => $vt]
+            [
+                'vtid' => $videotrackid,
+                'uid' => $userid,
+                'since' => $since,
+                'vt' => $vt,
+                'vt2' => $vt,
+                'vt3' => $vt,
+                'tol1' => $tol,
+                'tol2' => $tol,
+                'tolend' => $graceseconds,
+            ]
         );
     }
 

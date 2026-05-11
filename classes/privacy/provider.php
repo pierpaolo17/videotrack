@@ -269,9 +269,10 @@ class provider implements
         if ($context->contextlevel != CONTEXT_MODULE) {
             return;
         }
-        $DB->delete_records('videotrack_seg',    ['cmid' => $context->instanceid]);
-        $DB->delete_records('videotrack_state',  ['cmid' => $context->instanceid]);
-        $DB->delete_records('videotrack_reactev',['cmid' => $context->instanceid]);
+
+        // Preserve aggregate analytics while removing links to real users and
+        // note contents, consistent with user erasure requests.
+        privacy_manager::anonymise_all_users_in_context($context);
     }
 
     public static function delete_data_for_user(approved_contextlist $contextlist): void {
