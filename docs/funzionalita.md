@@ -1,6 +1,6 @@
 # mod_videotrack — Funzionalità e potenzialità
 
-**Versione**: 0.8.0 (build 2026050230)  
+**Versione**: 1.0.32 (build 2026060100)
 **Compatibilità**: Moodle 5.0+  
 **Lingue incluse**: Italiano, Inglese, Tedesco, Spagnolo, Francese, Portoghese, Hindi
 
@@ -226,15 +226,18 @@ Il modulo è stato progettato con l'accessibilità come requisito non negoziabil
 
 ---
 
-## 15. Privacy e GDPR
+## 15. Privacy, GDPR e conservazione dati
 
-Il modulo implementa la API privacy di Moodle:
+Il modulo implementa la Privacy API di Moodle e adotta una policy di minimizzazione orientata alla conservazione delle statistiche aggregate:
 
-- Tutti i dati personali sono documentati in `get_metadata()`
-- `export_user_data()` esporta segmenti, stato, reazioni e note in formato leggibile
-- `delete_data_for_user()` cancella tutti i dati in modo atomico
-- Le note personali vengono esportate separatamente dalle reazioni
-- Il poster immagine è caricato dal **docente** (non è un dato personale dello studente) e viene correttamente escluso dall'export privacy
+- Tutti i dati personali sono documentati in `classes/privacy/provider.php::get_metadata()`.
+- `export_user_data()` esporta segmenti, stato aggregato, reazioni e note personali in formato leggibile.
+- Le note personali sono esportate separatamente dalle reazioni e l'esportazione CSV del report mostra un avviso perché può contenere dati personali.
+- Il poster immagine è caricato dal **docente** e non è un dato personale dello studente; viene escluso dall'export privacy dello studente.
+- L'impostazione amministrativa `retentionperioddays` controlla la conservazione automatica: `0` significa conservazione illimitata; un valore positivo indica dopo quanti giorni i dati personali di tracking, note e reazioni vengono anonimizzati.
+- Le richieste di cancellazione/oblio dell'utente non eliminano fisicamente le statistiche aggregate: i dati vengono anonimizzati con identificativi pseudonimi negativi, salted e scoped per attività, in modo da rimuovere il collegamento all'utente reale preservando le analisi aggregate.
+- I record anonimizzati sono esclusi dalle liste utenti della Privacy API e nei report vengono visualizzati come "Utente anonimizzato".
+- Il salt locale di anonimizzazione viene creato una sola volta e protetto da lock Moodle per evitare race condition.
 
 ---
 
@@ -242,10 +245,11 @@ Il modulo implementa la API privacy di Moodle:
 
 Il modulo supporta il sistema backup/restore di Moodle 2:
 
-- Tutti i campi di configurazione vengono salvati
-- Le filearea `videocontent`, `subtitles`, `posterimage`, `reactionicon` vengono incluse nel backup
-- Le reazioni definite, gli eventi, i segmenti e gli stati vengono salvati e ripristinati
-- Le note personali (notetext, notetype) vengono incluse nel backup degli eventi reazione
+- Tutti i campi di configurazione vengono salvati.
+- Le filearea `videocontent`, `subtitles`, `posterimage`, `reactionicon` vengono incluse nel backup.
+- Le reazioni definite, gli eventi, i segmenti, gli stati e le note vengono salvati e ripristinati quando il backup include i dati utente.
+- Le note personali (`notetext`, `notetype`) vengono incluse nei dati utente e restano soggette alla Privacy API.
+- I record già anonimizzati, riconoscibili da `userid` negativo, non sono rimappati su utenti Moodle reali durante il restore: vengono preservati come dati aggregati anonimi/pseudonimi, così i report storici restano coerenti senza re-identificare utenti cancellati.
 
 ---
 
@@ -289,3 +293,8 @@ Il file `db/mobile.php` dichiara il supporto all'app mobile Moodle. Le funzional
 | Poster pre-play | ✓ | ✓ | ✓ |
 | Bottoni skip ⏪⏩ | ✓ | ✓ | ✓ |
 | Download file | ✗ | ✗ | ✓ |
+
+
+## 17. Servizi esterni e CDN
+
+VideoTrack non include librerie di terze parti nel pacchetto. Per i video YouTube e Vimeo il browser dello studente carica le API ufficiali dai rispettivi provider a runtime. Gli amministratori devono valutare policy privacy, cookie e Content Security Policy dell'istituto. Quando il trasferimento verso provider terzi non è consentito, è consigliato usare file video caricati direttamente in Moodle.
