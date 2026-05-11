@@ -39,7 +39,7 @@ $string['reactionlabel'] = 'Reaction label';
 $string['reactiondescription'] = 'Reaction description';
 $string['reactionicontype'] = 'Icon type';
 $string['reactioniconvalue'] = 'Icon value';
-$string['reactioniconvalue_help'] = 'For Emoji, enter the emoji character. For Font Awesome, enter the CSS class, for example fa-regular fa-face-smile. Leave this field empty when using an uploaded icon file.';
+$string['reactioniconvalue_help'] = 'For Emoji, enter the emoji character. For Font Awesome, enter a class supported by the Moodle theme, for example fa fa-smile for Font Awesome 5 themes or fa-regular fa-face-smile for Font Awesome 6 themes. Leave this field empty when using an uploaded icon file.';
 $string['reactioniconfile'] = 'Reaction icon file';
 $string['reactioniconfile_help'] = 'Optional image file used when the icon type is “Uploaded file”. Accepted formats depend on Moodle web image support.';
 $string['reactionrequired'] = 'Required for completion';
@@ -85,6 +85,7 @@ $string['removereaction'] = 'Remove reaction';
 $string['playerunavailable'] = 'The player could not be initialized.';
 $string['yes'] = 'Yes';
 $string['no'] = 'No';
+// Used by Moodle core for the activity help link.
 $string['modulename_link'] = 'mod/videotrack/view';
 
 $string['setting:heartbeatinterval'] = 'Heartbeat interval (seconds)';
@@ -135,10 +136,10 @@ $string['privacy:metadata:videotrack_reactev:isdeleted'] = 'Whether the reaction
 
 $string['cap:viewcoursereport'] = 'View course-level VideoTrack report';
 $string['cap:viewcoursereport_desc'] = 'Allows the user to view the aggregated VideoTrack report for the whole course.';
-$string['cap:overrideplayersettings'] = 'Override platform player settings';
-$string['cap:overrideplayersettings_desc'] = 'Allows the teacher to change player settings (seek, rate, controls, keyboard, fullscreen) that the administrator has set as platform-wide defaults. Revoke this capability to enforce a uniform player policy across the site.';
-$string['cap:overridecompletionsettings'] = 'Override platform completion settings';
-$string['cap:overridecompletionsettings_desc'] = 'Allows the teacher to change completion settings (required percentage, cluster window) that the administrator has set as platform-wide defaults. Revoke this capability to enforce uniform completion thresholds across the site.';
+$string['videotrack:overrideplayersettings'] = 'Override platform player settings';
+$string['videotrack:overrideplayersettings_desc'] = 'Allows the teacher to change player settings (seek, rate, controls, keyboard, fullscreen) that the administrator has set as platform-wide defaults. Revoke this capability to enforce a uniform player policy across the site.';
+$string['videotrack:overridecompletionsettings'] = 'Override platform completion settings';
+$string['videotrack:overridecompletionsettings_desc'] = 'Allows the teacher to change completion settings (required percentage, cluster window) that the administrator has set as platform-wide defaults. Revoke this capability to enforce uniform completion thresholds across the site.';
 $string['setting:lockedbyAdmin'] = 'These settings are locked by the platform administrator and cannot be changed for individual activities.';
 $string['setting:heading_presets'] = 'Reaction presets';
 $string['setting:heading_presets_desc'] = 'Site-wide sets of reactions that teachers can use as a starting point when configuring a new VideoTrack activity.';
