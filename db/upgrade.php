@@ -512,5 +512,12 @@ function xmldb_videotrack_upgrade($oldversion) {
         upgrade_mod_savepoint(true, 2026060300, 'videotrack');
     }
 
+
+    if ($oldversion < 2026060400) {
+        // v1.0.35: security, accessibility and Moodle HQ refinements.
+        // No database schema changes.
+        upgrade_mod_savepoint(true, 2026060400, 'videotrack');
+    }
+
     return true;
 }

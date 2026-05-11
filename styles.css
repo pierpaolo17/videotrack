@@ -200,8 +200,46 @@
 
 /* ─── Focus visible — tutti i controlli interattivi ─────────────────────── */
 
+/* WCAG 2.4.7: fallback :focus for browsers without :focus-visible support. */
+.videotrack-reaction-btn:focus,
+.videotrack-skip-btn:focus,
+.videotrack-ctrl-play:focus,
+.videotrack-ctrl-mute:focus,
+.videotrack-ctrl-pip:focus,
+.videotrack-ctrl-fs:focus,
+.videotrack-ctrl-download:focus,
+.videotrack-speed-btn:focus,
+.videotrack-ctrl-rewind:focus,
+.videotrack-ctrl-ff:focus {
+    outline: 3px solid #005fcc;
+    outline-offset: 2px;
+}
+
+.videotrack-ctrl-progress:focus,
+.videotrack-ctrl-volume:focus {
+    outline: 2px solid #005fcc;
+    outline-offset: 1px;
+}
+
+@supports selector(:focus-visible) {
+    .videotrack-reaction-btn:focus:not(:focus-visible),
+    .videotrack-skip-btn:focus:not(:focus-visible),
+    .videotrack-ctrl-play:focus:not(:focus-visible),
+    .videotrack-ctrl-mute:focus:not(:focus-visible),
+    .videotrack-ctrl-pip:focus:not(:focus-visible),
+    .videotrack-ctrl-fs:focus:not(:focus-visible),
+    .videotrack-ctrl-download:focus:not(:focus-visible),
+    .videotrack-speed-btn:focus:not(:focus-visible),
+    .videotrack-ctrl-rewind:focus:not(:focus-visible),
+    .videotrack-ctrl-ff:focus:not(:focus-visible),
+    .videotrack-ctrl-progress:focus:not(:focus-visible),
+    .videotrack-ctrl-volume:focus:not(:focus-visible) {
+        outline: none;
+    }
+}
+
 /* WCAG 2.4.7: indicatore di focus visibile per navigazione da tastiera.
- * Si usa :focus-visible per non mostrare l'outline al click del mouse. */
+ * Si usa :focus-visible per non mostrare l'outline al click del mouse nei browser moderni. */
 .videotrack-reaction-btn:focus-visible,
 .videotrack-skip-btn:focus-visible,
 .videotrack-ctrl-play:focus-visible,

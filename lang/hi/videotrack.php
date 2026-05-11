@@ -133,6 +133,8 @@ $string['privacy:metadata:videotrack_reactev:videotime'] = 'प्रतिक�
 $string['privacy:metadata:videotrack_reactev:playbackrate'] = 'प्रतिक्रिया रिकॉर्ड होने पर प्लेबैक गति।';
 $string['privacy:metadata:videotrack_reactev:isdeleted'] = 'बताता है कि क्या प्रतिक्रिया घटना उपयोगकर्ता द्वारा हटाई गई थी।';
 
+$string['cap:viewcoursereport'] = 'कोर्स-स्तर की VideoTrack रिपोर्ट देखें';
+$string['cap:viewcoursereport_desc'] = 'पूरे कोर्स के लिए समेकित VideoTrack रिपोर्ट देखने की अनुमति देता है।';
 $string['cap:overrideplayersettings'] = 'प्लेटफ़ॉर्म प्लेयर सेटिंग्स को ओवरराइड करें';
 $string['cap:overrideplayersettings_desc'] = 'शिक्षक को प्रशासक द्वारा निर्धारित प्लेटफ़ॉर्म-व्यापी प्लेयर सेटिंग्स बदलने की अनुमति देता है।';
 $string['cap:overridecompletionsettings'] = 'प्लेटफ़ॉर्म पूर्णता सेटिंग्स को ओवरराइड करें';
@@ -339,6 +341,7 @@ $string['privacy:metadata:videotrack_reactev:notetext'] = 'वीडियो �
 $string['privacy:metadata:videotrack_reactev:notetype'] = 'इवेंट प्रकार: मानक प्रतिक्रियाओं के लिए खाली, विद्यार्थी निजी नोट्स के लिए "note"।';
 
 // ── Errore note disabilitate ──────────────────────────────────────────────
+$string['reactionsdisabled'] = 'इस गतिविधि के लिए प्रतिक्रियाएँ सक्षम नहीं हैं।';
 $string['studentnotesdisabled'] = 'इस गतिविधि के लिए विद्यार्थी नोट्स सक्षम नहीं हैं।';
 // ── C3: no file uploaded ──
 $string['nofilelabel'] = 'इस गतिविधि के लिए कोई वीडियो फ़ाइल अपलोड नहीं की गई है।';

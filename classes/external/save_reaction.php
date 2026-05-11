@@ -41,6 +41,9 @@ class save_reaction extends external_api {
         $context = \context_module::instance($cm->id);
         self::validate_context($context);
         require_capability('mod/videotrack:view', $context);
+        if (empty($videotrack->reactionsenabled)) {
+            throw new \moodle_exception('reactionsdisabled', 'mod_videotrack');
+        }
         // Legge la reazione DOPO l'autenticazione e accetta solo reazioni attive.
         $reaction = $DB->get_record('videotrack_react', [
             'id' => $params['reactionid'],

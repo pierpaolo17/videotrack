@@ -177,7 +177,10 @@ if (!empty($videotrack->showgradeto) && !empty($videotrack->grade) &&
                 $passed
                     ? ' ✓ ' . get_string('grade:pass', 'mod_videotrack')
                     : ' ✗ ' . get_string('grade:fail', 'mod_videotrack'),
-                ['class' => $passed ? 'text-success ms-2' : 'text-danger ms-2']
+                [
+                    'class' => $passed ? 'text-success ms-2' : 'text-danger ms-2',
+                    'aria-label' => get_string($passed ? 'grade:pass' : 'grade:fail', 'mod_videotrack'),
+                ]
             );
         }
         echo html_writer::div(
@@ -251,7 +254,7 @@ if ($posterurl) {
 echo html_writer::end_div(); // videotrack-player-wrap
 
 // Barra visuale degli intervalli guardati (canvas aggiornato dal JS).
-echo html_writer::tag('canvas', '', [
+echo html_writer::tag('canvas', get_string('intervalbar_title', 'mod_videotrack'), [
     'id'         => 'videotrack-interval-bar',
     'width'      => '800',
     'height'     => '12',
@@ -305,6 +308,8 @@ if (!empty($videotrack->studentnotesenabled)) {
             'class'         => 'btn btn-link btn-sm p-0 videotrack-notes-toggle',
             'aria-expanded' => 'true',
             'aria-controls' => 'videotrack-notes-body',
+            'aria-label'    => get_string('notes_hide', 'mod_videotrack') . ': ' .
+                               get_string('studentnotes_title', 'mod_videotrack'),
         ]
     );
     echo html_writer::end_div(); // notes-header
@@ -408,9 +413,14 @@ if (!empty($videotrack->studentnotesenabled)) {
 
 echo html_writer::start_div('videotrack-progress mb-2');
 echo html_writer::tag('div',
-    get_string('progress', 'mod_videotrack') . ': <strong id="videotrack-progress-percent" ' .
-    'aria-live="polite" aria-atomic="true">' .
-    format_float($percent, 2) . '%</strong>'
+    get_string('progress', 'mod_videotrack') . ': ' . html_writer::tag('strong',
+        format_float($percent, 2) . '%',
+        [
+            'id' => 'videotrack-progress-percent',
+            'aria-live' => 'polite',
+            'aria-atomic' => 'true',
+        ]
+    )
 );
 echo html_writer::tag('div',
     get_string('report:uniquecoveredseconds', 'mod_videotrack') .

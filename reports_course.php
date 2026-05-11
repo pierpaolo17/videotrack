@@ -21,8 +21,9 @@ $course   = $DB->get_record('course', ['id' => $courseid], '*', MUST_EXIST);
 require_login($course);
 $context = context_course::instance($courseid);
 // Deliberate architecture: this aggregated report is course-wide, so access is checked
-// at CONTEXT_COURSE. Per-activity reports continue to use CONTEXT_MODULE in report.php.
-require_capability('mod/videotrack:viewreport', $context);
+// with a dedicated CONTEXT_COURSE capability. Per-activity reports continue
+// to use CONTEXT_MODULE in report.php.
+require_capability('mod/videotrack:viewcoursereport', $context);
 
 $PAGE->set_url(new moodle_url('/mod/videotrack/reports_course.php', ['course' => $courseid]));
 $PAGE->set_context($context);
