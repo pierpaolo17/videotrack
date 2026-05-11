@@ -444,3 +444,7 @@ $string['setting:strictsessionvalidation_desc'] = 'When enabled, notes and react
 $string['task:cleanup'] = 'Anonymise expired VideoTrack tracking data';
 $string['privacy:anonymised'] = '[anonymised]';
 $string['error:playbackpositionnotwatched'] = 'This video position has not been watched yet, so the action cannot be saved.';
+
+$string['setting:nonnegativeintrequired'] = 'Geben Sie eine ganze Zahl größer oder gleich 0 ein.';
+$string['report:anonymiseduser'] = 'Anonymisierter Nutzer';
+$string['report:exportnotes_privacywarning'] = 'Dieser Export kann personenbezogene Daten aus Notizen von Teilnehmenden enthalten. Laden und speichern Sie ihn nur bei berechtigtem Zweck und löschen Sie ihn, sobald er nicht mehr benötigt wird.';

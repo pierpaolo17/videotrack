@@ -36,6 +36,14 @@ class save_segment extends external_api {
             int $wallclockend, float $playbackrate, string $endreason, float $durationseconds = 0.0): array {
         global $DB, $USER;
         $params = self::validate_parameters(self::execute_parameters(), compact('cmid', 'sessionid', 'videotimestart', 'videotimeend', 'wallclockstart', 'wallclockend', 'playbackrate', 'endreason', 'durationseconds'));
+        if (\core_text::strlen($params['sessionid']) > 64) {
+            throw new \invalid_parameter_exception('Invalid session ID');
+        }
+        $allowedendreasons = ['heartbeat', 'pause', 'seek', 'ended', 'beforeunload', 'pagehide', 'tab',
+            'visibilitychange', 'reaction', 'note', 'interaction'];
+        if (\core_text::strlen($params['endreason']) > 32 || !in_array($params['endreason'], $allowedendreasons, true)) {
+            throw new \invalid_parameter_exception('Invalid segment end reason');
+        }
         $cmraw  = get_coursemodule_from_id('videotrack', $params['cmid'], 0, false, MUST_EXIST);
         $course = get_course($cmraw->course);
         $videotrack = $DB->get_record('videotrack', ['id' => $cmraw->instance], '*', MUST_EXIST);

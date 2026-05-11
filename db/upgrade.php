@@ -482,5 +482,13 @@ function xmldb_videotrack_upgrade($oldversion) {
         upgrade_mod_savepoint(true, 2026053000, 'videotrack');
     }
 
+
+    if ($oldversion < 2026053100) {
+        // v1.0.31: external input hardening, restore handling for anonymised
+        // aggregate records, language string completion and coding style cleanup.
+        // No database schema changes.
+        upgrade_mod_savepoint(true, 2026053100, 'videotrack');
+    }
+
     return true;
 }

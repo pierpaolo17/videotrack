@@ -14,7 +14,7 @@ if (!class_exists('mod_videotrack_admin_setting_nonnegative_int')) {
          * @return true|string True on success, error string on failure.
          */
         public function validate($data) {
-            if (!is_numeric($data) || (int)$data < 0) {
+            if (!preg_match('/^\d+$/', (string)$data)) {
                 return get_string('setting:nonnegativeintrequired', 'mod_videotrack');
             }
             return true;
@@ -151,9 +151,7 @@ if ($ADMIN->fulltree) {
         0
     ));
 
-    // -------------------------------------------------------------------------
-    // Default player behaviour defaults
-    // -------------------------------------------------------------------------
+    // Default player behaviour.
 
     $settings->add(new admin_setting_heading(
         'mod_videotrack/heading_playerbehavior',
