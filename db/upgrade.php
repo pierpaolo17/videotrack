@@ -519,5 +519,13 @@ function xmldb_videotrack_upgrade($oldversion) {
         upgrade_mod_savepoint(true, 2026060400, 'videotrack');
     }
 
+
+    if ($oldversion < 2026060500) {
+        // v1.0.36: language capability string keys were aligned with Moodle
+        // role UI conventions and Font Awesome help text was clarified.
+        // No database schema changes.
+        upgrade_mod_savepoint(true, 2026060500, 'videotrack');
+    }
+
     return true;
 }
