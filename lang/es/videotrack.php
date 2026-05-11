@@ -444,12 +444,13 @@ $string['setting:retentionperioddays'] = 'Periodo de conservación de datos de s
 $string['setting:retentionperioddays_desc'] = 'Número de días tras los cuales VideoTrack anonimiza datos antiguos de seguimiento, notas y reacciones. Use 0 para conservar los datos indefinidamente. Las solicitudes de supresión del usuario se gestionan siempre mediante anonimización con sal en lugar de borrar las analíticas agregadas.';
 $string['setting:strictsessionvalidation'] = 'Exigir la misma sesión del navegador para validar notas y reacciones';
 $string['setting:validationfallbackdays'] = 'Ventana de validación de reproducción histórica (días)';
-$string['setting:validationfallbackdays_desc'] = 'Edad máxima, en días, de los segmentos ya vistos que pueden autorizar notas y reacciones después de actualizar la página o cambiar de navegador. Use 0 para permitir segmentos históricos vistos sin límite. Las comprobaciones de misma sesión y reproducción reciente se intentan siempre primero.';
+$string['setting:validationfallbackdays_desc'] = 'Edad máxima, en días, de los segmentos ya vistos que pueden autorizar notas y reacciones después de actualizar la página o cambiar de navegador. Use 0 para permitir segmentos históricos vistos sin límite; mejora la usabilidad, pero hace más permisiva la validación anti-trampas. Las comprobaciones de misma sesión y reproducción reciente se intentan siempre primero.';
 $string['setting:strictsessionvalidation_desc'] = 'Si está activado, las notas y reacciones solo pueden guardarse para marcas de tiempo vistas en la sesión actual del navegador. Si está desactivado, VideoTrack acepta marcas de tiempo ya vistas por el mismo usuario en la misma actividad, mejorando la usabilidad tras recargas o cambios de navegador y rechazando posiciones no vistas.';
 $string['task:cleanup'] = 'Anonimizar datos de seguimiento caducados de VideoTrack';
 $string['privacy:anonymised'] = '[anonimizado]';
 $string['error:playbackpositionnotwatched'] = 'Esta posición del vídeo aún no se ha visto, por lo que la acción no puede guardarse.';
 
+$string['setting:intrangerequired'] = 'Introduzca un número entero entre {$a->min} y {$a->max}.';
 $string['setting:nonnegativeintrequired'] = 'Introduzca un número entero mayor o igual que 0.';
 $string['report:anonymiseduser'] = 'Usuario anonimizado';
 $string['report:exportnotes_privacywarning'] = 'Esta exportación puede contener datos personales de notas de estudiantes. Descárguela y guárdela solo cuando tenga una finalidad válida y elimínela cuando ya no sea necesaria.';

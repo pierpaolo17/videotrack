@@ -444,12 +444,13 @@ $string['setting:retentionperioddays'] = 'Okres przechowywania danych śledzenia
 $string['setting:retentionperioddays_desc'] = 'Liczba dni, po których VideoTrack anonimizuje stare dane śledzenia, notatki i reakcje. Ustaw 0, aby przechowywać dane bezterminowo. Żądania usunięcia danych użytkownika są zawsze obsługiwane przez soloną anonimizację zamiast usuwania analityki agregowanej.';
 $string['setting:strictsessionvalidation'] = 'Wymagaj tej samej sesji przeglądarki do walidacji notatek i reakcji';
 $string['setting:validationfallbackdays'] = 'Okno walidacji historycznego odtwarzania (dni)';
-$string['setting:validationfallbackdays_desc'] = 'Maksymalny wiek, w dniach, wcześniej obejrzanych segmentów, które mogą autoryzować notatki i reakcje po odświeżeniu strony lub zmianie przeglądarki. Ustaw 0, aby zezwolić na historyczne obejrzane segmenty bez ograniczenia czasu. Kontrole tej samej sesji i ostatniego odtwarzania są zawsze wykonywane najpierw.';
+$string['setting:validationfallbackdays_desc'] = 'Maksymalny wiek, w dniach, wcześniej obejrzanych segmentów, które mogą autoryzować notatki i reakcje po odświeżeniu strony lub zmianie przeglądarki. Ustaw 0, aby zezwolić na historyczne obejrzane segmenty bez ograniczenia czasu; poprawia to użyteczność, ale czyni walidację anty-cheat bardziej liberalną. Kontrole tej samej sesji i ostatniego odtwarzania są zawsze wykonywane najpierw.';
 $string['setting:strictsessionvalidation_desc'] = 'Gdy włączone, notatki i reakcje mogą być zapisane tylko dla znaczników czasu obejrzanych w bieżącej sesji przeglądarki. Gdy wyłączone, VideoTrack akceptuje znaczniki czasu już obejrzane przez tego samego użytkownika w tej samej aktywności.';
 $string['task:cleanup'] = 'Anonimizuj przeterminowane dane śledzenia VideoTrack';
 $string['privacy:anonymised'] = '[zanonimizowano]';
 $string['error:playbackpositionnotwatched'] = 'Ta pozycja wideo nie została jeszcze obejrzana, więc akcja nie może zostać zapisana.';
 
+$string['setting:intrangerequired'] = 'Wprowadź liczbę całkowitą od {$a->min} do {$a->max}.';
 $string['setting:nonnegativeintrequired'] = 'Wpisz liczbę całkowitą większą lub równą 0.';
 
 $string['report:anonymiseduser'] = 'Użytkownik zanonimizowany';

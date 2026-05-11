@@ -41,18 +41,30 @@ echo html_writer::tag('p', get_string('coursereport:intro', 'mod_videotrack'),
 // separatamente dal recordset dell'istanza caricato sopra, non estratte dalla query aggregata.
 $sql = "
     SELECT vt.id,
-           cm.id                                     AS cmid,
-           COUNT(DISTINCT vs.userid)                 AS students_started,
-           ROUND(AVG(vs.completionpercent), 1)       AS avg_percent,
-           COALESCE(SUM(vs.iscompleted), 0)          AS completions,
-           COUNT(DISTINCT vr.id)                     AS total_reactions
-    FROM {videotrack} vt
-    JOIN {course_modules} cm  ON cm.instance = vt.id
-    JOIN {modules} m          ON m.id = cm.module AND m.name = 'videotrack'
-    LEFT JOIN {videotrack_state}   vs ON vs.videotrackid = vt.id
-    LEFT JOIN {videotrack_reactev} vr ON vr.videotrackid = vt.id AND vr.isdeleted = 0
-    WHERE vt.course = :courseid AND cm.course = :courseid2
-    GROUP BY vt.id, cm.id
+           cm.id                            AS cmid,
+           COALESCE(vs.students_started, 0) AS students_started,
+           COALESCE(vs.avg_percent, 0)      AS avg_percent,
+           COALESCE(vs.completions, 0)      AS completions,
+           COALESCE(vr.total_reactions, 0)  AS total_reactions
+      FROM {videotrack} vt
+      JOIN {course_modules} cm ON cm.instance = vt.id
+      JOIN {modules} m ON m.id = cm.module AND m.name = 'videotrack'
+ LEFT JOIN (
+           SELECT videotrackid,
+                  COUNT(DISTINCT userid) AS students_started,
+                  ROUND(AVG(completionpercent), 1) AS avg_percent,
+                  SUM(CASE WHEN iscompleted <> 0 THEN 1 ELSE 0 END) AS completions
+             FROM {videotrack_state}
+         GROUP BY videotrackid
+           ) vs ON vs.videotrackid = vt.id
+ LEFT JOIN (
+           SELECT videotrackid,
+                  COUNT(id) AS total_reactions
+             FROM {videotrack_reactev}
+            WHERE isdeleted = 0
+         GROUP BY videotrackid
+           ) vr ON vr.videotrackid = vt.id
+     WHERE vt.course = :courseid AND cm.course = :courseid2
 ";
 $aggrows = $DB->get_records_sql($sql, ['courseid' => $courseid, 'courseid2' => $courseid]);
 

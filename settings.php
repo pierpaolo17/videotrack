@@ -22,6 +22,55 @@ if (!class_exists('mod_videotrack_admin_setting_nonnegative_int')) {
     }
 }
 
+if (!class_exists('mod_videotrack_admin_setting_int_range')) {
+    /**
+     * Admin setting that accepts only integer values inside an inclusive range.
+     */
+    class mod_videotrack_admin_setting_int_range extends mod_videotrack_admin_setting_nonnegative_int {
+        /** @var int Minimum accepted value. */
+        protected $min;
+
+        /** @var int Maximum accepted value. */
+        protected $max;
+
+        /**
+         * Constructor.
+         *
+         * @param string $name Setting name.
+         * @param string $visiblename Visible label.
+         * @param string $description Description.
+         * @param int $defaultsetting Default value.
+         * @param int $min Minimum accepted value.
+         * @param int $max Maximum accepted value.
+         */
+        public function __construct($name, $visiblename, $description, $defaultsetting, int $min, int $max) {
+            parent::__construct($name, $visiblename, $description, $defaultsetting, PARAM_INT);
+            $this->min = $min;
+            $this->max = $max;
+        }
+
+        /**
+         * Validate submitted value.
+         *
+         * @param mixed $data Submitted value.
+         * @return true|string True on success, error string on failure.
+         */
+        public function validate($data) {
+            $valid = parent::validate($data);
+            if ($valid !== true) {
+                return $valid;
+            }
+            $value = (int)$data;
+            if ($value < $this->min || $value > $this->max) {
+                return get_string('setting:intrangerequired', 'mod_videotrack', (object)[
+                    'min' => $this->min,
+                    'max' => $this->max,
+                ]);
+            }
+            return true;
+        }
+    }
+}
 
 if ($ADMIN->fulltree) {
 
@@ -76,12 +125,13 @@ if ($ADMIN->fulltree) {
         ''
     ));
 
-    $settings->add(new admin_setting_configtext(
+    $settings->add(new mod_videotrack_admin_setting_int_range(
         'mod_videotrack/heartbeatinterval',
         get_string('setting:heartbeatinterval', 'mod_videotrack'),
         get_string('setting:heartbeatinterval_desc', 'mod_videotrack'),
         30,
-        PARAM_INT
+        5,
+        300
     ));
 
     // Player behaviour.

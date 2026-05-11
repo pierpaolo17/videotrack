@@ -444,12 +444,13 @@ $string['setting:retentionperioddays'] = 'Aufbewahrungsfrist für Trackingdaten 
 $string['setting:retentionperioddays_desc'] = 'Anzahl der Tage, nach denen VideoTrack alte Tracking-, Notiz- und Reaktionsdaten anonymisiert. 0 bedeutet unbegrenzte Aufbewahrung. Löschanfragen von Nutzern werden immer durch gesalzene Anonymisierung statt durch Löschen aggregierter Analysen bearbeitet.';
 $string['setting:strictsessionvalidation'] = 'Gleiche Browser-Sitzung zur Validierung von Notizen und Reaktionen verlangen';
 $string['setting:validationfallbackdays'] = 'Validierungsfenster für bisherigen Wiedergabeverlauf (Tage)';
-$string['setting:validationfallbackdays_desc'] = 'Maximales Alter in Tagen für bereits gesehene Segmente, die nach einer Aktualisierung oder einem Browserwechsel Notizen und Reaktionen erlauben dürfen. 0 erlaubt historische gesehene Segmente ohne Zeitlimit. Prüfungen derselben Sitzung und aktueller Wiedergabe werden immer zuerst versucht.';
+$string['setting:validationfallbackdays_desc'] = 'Maximales Alter in Tagen für bereits gesehene Segmente, die nach einer Aktualisierung oder einem Browserwechsel Notizen und Reaktionen erlauben dürfen. 0 erlaubt historische gesehene Segmente ohne Zeitlimit; dies verbessert die Bedienbarkeit, macht die Anti-Cheat-Prüfung aber permissiver. Prüfungen derselben Sitzung und aktueller Wiedergabe werden immer zuerst versucht.';
 $string['setting:strictsessionvalidation_desc'] = 'Wenn aktiviert, können Notizen und Reaktionen nur für Zeitpunkte gespeichert werden, die in der aktuellen Browser-Sitzung angesehen wurden. Wenn deaktiviert, akzeptiert VideoTrack Zeitpunkte, die derselbe Nutzer in derselben Aktivität bereits angesehen hat, und verbessert so die Bedienbarkeit nach Aktualisieren der Seite oder Browserwechseln, während nicht angesehene Positionen weiterhin abgelehnt werden.';
 $string['task:cleanup'] = 'Abgelaufene VideoTrack-Trackingdaten anonymisieren';
 $string['privacy:anonymised'] = '[anonymisiert]';
 $string['error:playbackpositionnotwatched'] = 'Diese Videoposition wurde noch nicht angesehen, daher kann die Aktion nicht gespeichert werden.';
 
+$string['setting:intrangerequired'] = 'Geben Sie eine ganze Zahl zwischen {$a->min} und {$a->max} ein.';
 $string['setting:nonnegativeintrequired'] = 'Geben Sie eine ganze Zahl größer oder gleich 0 ein.';
 $string['report:anonymiseduser'] = 'Anonymisierter Nutzer';
 $string['report:exportnotes_privacywarning'] = 'Dieser Export kann personenbezogene Daten aus Notizen von Lernenden enthalten. Laden und speichern Sie ihn nur bei berechtigtem Zweck und löschen Sie ihn, wenn er nicht mehr benötigt wird.';

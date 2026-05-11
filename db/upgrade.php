@@ -564,5 +564,13 @@ function xmldb_videotrack_upgrade($oldversion) {
         upgrade_mod_savepoint(true, 2026060800, 'videotrack');
     }
 
+
+    if ($oldversion < 2026060900) {
+        // v1.0.40: course report aggregation fix, initial disabled state for
+        // reaction buttons, stricter heartbeat setting validation and clearer
+        // anti-cheat/privacy documentation. No database schema changes.
+        upgrade_mod_savepoint(true, 2026060900, 'videotrack');
+    }
+
     return true;
 }
