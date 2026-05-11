@@ -505,5 +505,12 @@ function xmldb_videotrack_upgrade($oldversion) {
         upgrade_mod_savepoint(true, 2026060200, 'videotrack');
     }
 
+
+    if ($oldversion < 2026060300) {
+        // v1.0.34: Polish language pack and documentation alignment.
+        // No database schema changes.
+        upgrade_mod_savepoint(true, 2026060300, 'videotrack');
+    }
+
     return true;
 }

@@ -1,8 +1,8 @@
 # mod_videotrack — Funzionalità e potenzialità
 
-**Versione**: 1.0.32 (build 2026060100)
+**Versione**: 1.0.34 (build 2026060300)
 **Compatibilità**: Moodle 5.0+  
-**Lingue incluse**: Italiano, Inglese, Tedesco, Spagnolo, Francese, Portoghese, Hindi
+**Lingue incluse**: Italiano, Inglese, Tedesco, Spagnolo, Francese, Portoghese, Hindi, Polacco
 
 ---
 
@@ -55,11 +55,9 @@ La barra di progresso visiva (canvas verde) mostra esattamente quali parti del v
 
 ### 2.3 Protezione anti-cheat
 
-Il server valida ogni segmento ricevuto con un controllo wallclock:
+Il server valida ogni segmento ricevuto con un controllo server-side basato sull'ultimo segmento accettato nella sessione, sull'heartbeat configurato e sulla velocità di riproduzione. Se un client prova a inviare un intervallo video troppo lungo rispetto al tempo realmente trascorso lato server, il segmento viene rigettato senza salvare dati comportamentali nel log.
 
-> Se il video dura N secondi a velocità R, lo studente deve aver impiegato almeno `(N/R) × 0.5` secondi reali. Segmenti che violano questo vincolo vengono silenziosamente rigettati.
-
-Questo impedisce che script automatici (bot o `fetch` manuali) possano inviare segmenti falsi per simulare la visione del video.
+Questo riduce il rischio che script automatici (bot o `fetch` manuali) possano inviare segmenti falsi per simulare la visione del video. Il controllo è intenzionalmente conservativo: assorbe piccoli ritardi di rete, ma non considera mai affidabili i timestamp wallclock inviati dal browser.
 
 ### 2.4 Blocco seek
 

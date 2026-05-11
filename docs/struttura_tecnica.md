@@ -1,6 +1,6 @@
 # mod_videotrack — Guida alla struttura del codice
 
-**Versione**: 1.0.32 (build 2026060100)
+**Versione**: 1.0.34 (build 2026060300)
 **Prerequisito di lettura**: conoscenza base di Moodle (plugin system, `$DB`, `$USER`, `cm_info`) e PHP/JavaScript.
 
 ---
@@ -52,7 +52,8 @@ videotrack/
 │   │   ├── save_note.php       # Web service: salva una nota personale
 │   │   └── delete_reaction.php # Web service: elimina reazione/nota
 │   ├── local/
-│   │   └── tracker.php         # Core logic: calcolo progresso e completamento
+│   │   ├── tracker.php         # Core logic: calcolo progresso e completamento
+│   │   └── privacy_manager.php # Retention GDPR e anonimizzazione
 │   ├── privacy/
 │   │   └── provider.php        # Privacy API Moodle
 │   └── task/
@@ -73,7 +74,8 @@ videotrack/
     ├── es/videotrack.php   # Spagnolo
     ├── fr/videotrack.php   # Francese
     ├── pt/videotrack.php   # Portoghese
-    └── hi/videotrack.php   # Hindi
+    ├── hi/videotrack.php   # Hindi
+    └── pl/videotrack.php   # Polacco
 ```
 
 ---
@@ -213,10 +215,10 @@ Un record per ogni click su un bottone reazione o per ogni nota salvata.
 
 ```php
 $plugin->component = 'mod_videotrack';
-$plugin->version   = 2026060100;
+$plugin->version   = 2026060300;
 $plugin->requires  = 2025041400; // Moodle 5.0.
 $plugin->maturity  = MATURITY_BETA;
-$plugin->release   = '1.0.32';
+$plugin->release   = '1.0.34';
 ```
 
 È il file letto da Moodle per decidere se mostrare l'upgrade dialog. `version` è un intero in formato `YYYYMMDDnn`. `requires` è la build minima di Moodle supportata.
