@@ -2,6 +2,25 @@
 require_once(__DIR__ . '/../../config.php');
 require_once(__DIR__ . '/locallib.php');
 
+/**
+ * Formats a report user label without exposing anonymised pseudo-user ids.
+ *
+ * @param int $userid User id, potentially an anonymised negative pseudo-id.
+ * @param array $usermap Real Moodle users keyed by id.
+ * @param bool $canviewemail Whether email may be displayed.
+ * @return string Safe display label.
+ */
+function videotrack_report_user_label(int $userid, array $usermap, bool $canviewemail): string {
+    if ($userid < 0) {
+        return get_string('report:anonymiseduser', 'mod_videotrack');
+    }
+    $user = $usermap[$userid] ?? null;
+    if (!$user) {
+        return '#' . $userid;
+    }
+    return fullname($user) . ($canviewemail ? ' (' . s($user->email) . ')' : '');
+}
+
 global $DB, $USER, $CFG, $PAGE, $OUTPUT;
 
 $id = required_param('id', PARAM_INT);
@@ -134,11 +153,13 @@ if (!empty($videotrack->studentnotesenabled)) {
 }
 
 // Carica tutti gli utenti necessari in una sola query invece di N chiamate a core_user::get_user().
-$alluserids = array_unique(array_merge(
+$alluserids = array_values(array_filter(array_unique(array_merge(
     $stateuserids,
     $eventuserids,
     $noteuserids
-));
+)), static function(int $userid): bool {
+    return $userid > 0;
+}));
 $usermap = [];
 $canviewemail = false;
 if ($alluserids) {
@@ -317,7 +338,7 @@ if ($export === 'notes_csv' && !empty($videotrack->studentnotesenabled)) {
     );
     foreach ($rs as $note) {
         $nu = $usermap[(int)$note->userid] ?? null;
-        $row = [$nu ? fullname($nu) : '#' . $note->userid];
+        $row = [videotrack_report_user_label((int)$note->userid, $usermap, false)];
         if ($canviewemail) {
             $row[] = $nu ? $nu->email : '';
         }
@@ -935,7 +956,7 @@ if ($mode === 'student' && !empty($videotrack->studentnotesenabled)) {
     $ntable->attributes['class'] = 'generaltable';
     foreach ($notes as $note) {
         $nuser = $usermap[(int)$note->userid] ?? null;
-        $username = $nuser ? (fullname($nuser) . ($canviewemail ? ' (' . s($nuser->email) . ')' : '')) : '#' . $note->userid;
+        $username = videotrack_report_user_label((int)$note->userid, $usermap, $canviewemail);
         $ntable->data[] = [
             $username,
             videotrack_format_seconds((float)$note->videotime),
@@ -951,6 +972,8 @@ if ($mode === 'student' && !empty($videotrack->studentnotesenabled)) {
         echo $OUTPUT->paging_bar($notecount, $notepage, $notelimit, $pagingurl, 'notepage');
         echo html_writer::table($ntable);
         echo $OUTPUT->paging_bar($notecount, $notepage, $notelimit, $pagingurl, 'notepage');
+
+        echo $OUTPUT->notification(get_string('report:exportnotes_privacywarning', 'mod_videotrack'), 'notifywarning');
 
         // Export CSV note via POST to avoid exposing sesskey in URLs/history.
         $notesexportform = html_writer::start_tag('form', [

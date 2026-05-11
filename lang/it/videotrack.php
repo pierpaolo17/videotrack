@@ -445,3 +445,9 @@ $string['error:playbackpositionnotwatched'] = 'Questa posizione del video non ri
 
 $string['setting:strictsessionvalidation'] = 'Richiedi la stessa sessione browser per validare note e reazioni';
 $string['setting:strictsessionvalidation_desc'] = 'Se abilitato, note e reazioni possono essere salvate solo per timestamp visualizzati nella sessione browser corrente. Se disabilitato, VideoTrack accetta timestamp già visualizzati dallo stesso utente nella stessa attività, migliorando l\'usabilità dopo aggiornamenti pagina o cambi browser e continuando a rifiutare posizioni non visualizzate.';
+
+$string['setting:nonnegativeintrequired'] = 'Inserisci un numero intero maggiore o uguale a 0.';
+
+$string['report:anonymiseduser'] = 'Utente anonimizzato';
+
+$string['report:exportnotes_privacywarning'] = 'Questa esportazione può contenere dati personali presenti nelle note degli studenti. Scaricala e conservala solo se hai una finalità valida ed eliminala quando non è più necessaria.';

@@ -48,17 +48,31 @@ class privacy_manager {
             return $salt;
         }
 
+        $factory = \core\lock\lock_config::get_lock_factory('mod_videotrack_anonymisation');
+        $lock = $factory->get_lock('salt', 10);
         try {
-            $salt = bin2hex(random_bytes(32));
-        } catch (\Throwable $e) {
-            if (function_exists('random_string')) {
-                $salt = random_string(64);
-            } else {
-                $salt = sha1(uniqid('', true) . microtime(true) . serialize($_SERVER));
+            // Re-read after acquiring the lock: another request may have created it.
+            $salt = (string)get_config('mod_videotrack', self::ANONYMISATION_SALT_CONFIG);
+            if ($salt !== '') {
+                return $salt;
+            }
+
+            try {
+                $salt = bin2hex(random_bytes(32));
+            } catch (\Throwable $e) {
+                if (function_exists('random_string')) {
+                    $salt = random_string(64);
+                } else {
+                    $salt = sha1(uniqid('', true) . microtime(true) . serialize($_SERVER));
+                }
+            }
+            set_config(self::ANONYMISATION_SALT_CONFIG, $salt, 'mod_videotrack');
+            return $salt;
+        } finally {
+            if ($lock) {
+                $lock->release();
             }
         }
-        set_config(self::ANONYMISATION_SALT_CONFIG, $salt, 'mod_videotrack');
-        return $salt;
     }
 
     /**
@@ -68,11 +82,13 @@ class privacy_manager {
      * used only to preserve aggregate analytics after erasure requests.
      *
      * @param int $userid Real user id.
+     * @param int $cmid Course module id. Scopes the pseudonymous id to one activity.
      * @return int Anonymous user id.
      */
-    public static function anonymous_userid(int $userid): int {
-        $hash = hash('sha256', self::anonymisation_salt() . ':' . $userid . ':userid');
-        return -1 * (100000000 + (hexdec(substr($hash, 0, 7)) % 800000000));
+    public static function anonymous_userid(int $userid, int $cmid): int {
+        $hash = hash('sha256', self::anonymisation_salt() . ':' . $userid . ':' . $cmid . ':userid');
+        $bucket = hexdec(substr($hash, 0, 8)) % 1500000000;
+        return -1 * (500000000 + $bucket);
     }
 
     /**
@@ -132,10 +148,15 @@ class privacy_manager {
             'statecmid' => $cmid,
             'eventcmid' => $cmid,
         ]);
+        $userids = [];
         foreach ($records as $record) {
-            self::anonymise_user_records((int)$record->userid, $cmid);
+            $userids[(int)$record->userid] = true;
         }
         $records->close();
+
+        foreach (array_keys($userids) as $userid) {
+            self::anonymise_user_records((int)$userid, $cmid);
+        }
     }
 
     /**
@@ -152,7 +173,7 @@ class privacy_manager {
         }
 
         $transaction = $DB->start_delegated_transaction();
-        $anonuserid = self::anonymous_userid($userid);
+        $anonuserid = self::anonymous_userid($userid, $cmid);
         $sessionid = self::anonymous_sessionid($userid, $cmid);
         $notetext = get_string('privacy:anonymised', 'mod_videotrack');
 
@@ -222,15 +243,21 @@ class privacy_manager {
         ];
 
         $records = $DB->get_recordset_sql($sql, $params, 0, self::RETENTION_BATCH_LIMIT + 1);
+        $pairs = [];
         foreach ($records as $record) {
-            if ($counts['processed'] >= self::RETENTION_BATCH_LIMIT) {
+            if (count($pairs) >= self::RETENTION_BATCH_LIMIT) {
                 $counts['remaining'] = 1;
                 break;
             }
-            self::anonymise_old_user_rows((int)$record->userid, (int)$record->cmid, $cutoff, $counts);
-            $counts['processed']++;
+            $key = (int)$record->userid . ':' . (int)$record->cmid;
+            $pairs[$key] = [(int)$record->userid, (int)$record->cmid];
         }
         $records->close();
+
+        foreach ($pairs as $pair) {
+            self::anonymise_old_user_rows($pair[0], $pair[1], $cutoff, $counts);
+            $counts['processed']++;
+        }
 
         return $counts;
     }
@@ -251,7 +278,7 @@ class privacy_manager {
         }
 
         $transaction = $DB->start_delegated_transaction();
-        $anonuserid = self::anonymous_userid($userid);
+        $anonuserid = self::anonymous_userid($userid, $cmid);
         $sessionid = self::anonymous_sessionid($userid, $cmid);
         $notetext = get_string('privacy:anonymised', 'mod_videotrack');
 
@@ -340,7 +367,7 @@ class privacy_manager {
     private static function anonymise_one_state_row(\stdClass $record): void {
         global $DB;
 
-        $anonuserid = self::anonymous_userid((int)$record->userid);
+        $anonuserid = self::anonymous_userid((int)$record->userid, (int)$record->cmid);
         $existing = $DB->get_record('videotrack_state', [
             'videotrackid' => $record->videotrackid,
             'userid' => $anonuserid,
