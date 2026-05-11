@@ -554,7 +554,7 @@ Contiene gli helper privacy usati dal provider e dal task schedulato:
 - `anonymous_userid()` — genera un identificativo negativo, salted e scoped per attività per conservare statistiche aggregate senza riferimento all'utente reale.
 - `anonymise_user_in_context()` — anonimizza segmenti, stato, note e reazioni per un utente in un'attività.
 - `anonymise_all_users_in_context()` — anonimizza tutti gli utenti reali del contesto in batch sicuri.
-- `anonymise_expired_data()` — applica la retention automatica fino al limite batch per esecuzione.
+- `anonymise_expired_records()` — applica la retention automatica fino al limite batch per esecuzione.
 
 I record anonimizzati vengono preservati nei backup/restore come aggregati anonimi/pseudonimi e non sono rimappati su utenti reali.
 
@@ -750,7 +750,7 @@ Tutti i componenti JS che devono reagire al cambio stato play/pausa ascoltano qu
 `update_state` usa `start_delegated_transaction()`. Se un'eccezione viene lanciata, il rollback è automatico. L'evento `activity_completed` viene triggerato **fuori** dalla transazione per non bloccare il commit.
 
 **Soft delete reazioni:**
-Sia i **click evento** (`videotrack_reactev`) che le **definizioni reazione** (`videotrack_react`) non vengono mai cancellati fisicamente: `isdeleted = 1`. Questo preserva la coerenza dei report storici e dei restore da backup: gli eventi continuano a puntare a reactionid validi anche dopo che la reazione viene rimossa dalla configurazione. Questo preserva la storia degli eventi per il report e per l'export GDPR anche dopo che lo studente elimina una reazione.
+Sia i **click evento** (`videotrack_reactev`) che le **definizioni reazione** (`videotrack_react`) non vengono mai cancellati fisicamente: `isdeleted = 1`. Questo preserva la coerenza dei report storici, dell'export GDPR e dei restore da backup: gli eventi continuano a puntare a reactionid validi anche dopo che la reazione viene rimossa dalla configurazione.
 
 **sendBeacon su beforeunload:**
 Il payload usa il formato bulk API di Moodle: `JSON.stringify([{methodname, args}])` inviato come `Blob` con `Content-Type: application/json` all'endpoint `/lib/ajax/service.php?sesskey=...`.
@@ -758,8 +758,6 @@ Il payload usa il formato bulk API di Moodle: `JSON.stringify([{methodname, args
 ---
 
 ## 10. Suggerimenti per chi modifica il codice
-
-8. **Aggiungere un requisito di ambiente** (es. nuova extension PHP): aggiungere un blocco `<PHP_EXTENSION>` in `environment.xml`. Usare `level="optional"` per avvisi non bloccanti, `level="required"` per bloccare l'installazione. Aggiungere le stringhe del messaggio direttamente nell'XML (non in `lang/`), su una sola riga per evitare whitespace extra.
 
 1. **Aggiungere un campo DB**: modificare `install.xml`, aggiungere il blocco `if ($oldversion < N)` in `upgrade.php`, aggiungere a `backup_videotrack_stepslib.php` (lista campi del `backup_nested_element`), aggiornare `lib.php` se serve normalizzazione.
 
@@ -769,14 +767,16 @@ Il payload usa il formato bulk API di Moodle: `JSON.stringify([{methodname, args
 
 4. **Aggiungere logica di tracciamento**: modificare `tracker::update_state()` e `tracker::completion_satisfied()`. Attenzione alla transazione: tutto dentro `try/catch`.
 
+5. **Aggiungere funzionalità al form**: aggiungere il campo in `mod_form.php`, normalizzarlo in `lib.php` (tipicamente in una funzione `videotrack_process_*`), assicurarsi che `data_preprocessing` lo prepari correttamente per la modifica.
+
 6. **Aggiungere logica JS al report**: creare o estendere `amd/src/report.js` e chiamare il metodo da `report.php` con `$PAGE->requires->js_call_amd('mod_videotrack/report', 'nomeMetodo', [$config])`. Copiare in `amd/build/report.min.js`.
 
 7. **Modificare `whitelist_record`**: se si aggiunge un nuovo campo alla tabella `{videotrack}`, non è necessario aggiornare `whitelist_record` — la funzione interroga dinamicamente `$DB->get_columns()` e include automaticamente il nuovo campo. La cache statica si aggiorna alla prossima request.
 
-5. **Aggiungere funzionalità al form**: aggiungere il campo in `mod_form.php`, normalizzarlo in `lib.php` (tipicamente in una funzione `videotrack_process_*`), assicurarsi che `data_preprocessing` lo prepari correttamente per la modifica.
+8. **Aggiungere un requisito di ambiente** (es. nuova extension PHP): aggiungere un blocco `<PHP_EXTENSION>` in `environment.xml`. Usare `level="optional"` per avvisi non bloccanti, `level="required"` per bloccare l'installazione. Aggiungere le stringhe del messaggio direttamente nell'XML (non in `lang/`), su una sola riga per evitare whitespace extra.
 
 
-### Aggiornamento 0.9.9
+### Storico aggiornamenti: 0.9.9
 
 - Il report cumulativo evita il caricamento completo degli eventi grezzi in memoria: usa conteggi/distinct per i filtri, recordset per CSV e clustering, un algoritmo lineare basato sugli ultimi cluster attivi per reazione e una soglia di sicurezza sui cluster prodotti per evitare crescita non controllata su corsi molto grandi.
 - La sezione note studente viene renderizzata tramite recordset, senza raggruppare tutte le note in array PHP.

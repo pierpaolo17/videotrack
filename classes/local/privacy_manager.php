@@ -109,7 +109,8 @@ class privacy_manager {
      * @return string
      */
     private static function anonymous_sessionid(int $userid, int $cmid): string {
-        return self::ANONYMOUS_SESSION_PREFIX . hash('sha256', self::anonymisation_salt() . ':' . $userid . ':' . $cmid);
+        $hash = hash('sha256', self::anonymisation_salt() . ':' . $userid . ':' . $cmid . ':sessionid');
+        return self::ANONYMOUS_SESSION_PREFIX . substr($hash, 0, 59);
     }
 
     /**

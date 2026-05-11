@@ -497,5 +497,13 @@ function xmldb_videotrack_upgrade($oldversion) {
         upgrade_mod_savepoint(true, 2026060100, 'videotrack');
     }
 
+
+    if ($oldversion < 2026060200) {
+        // v1.0.33: anonymised session ids are kept within the database
+        // sessionid length limit and documentation/logging refinements were
+        // applied. No database schema changes.
+        upgrade_mod_savepoint(true, 2026060200, 'videotrack');
+    }
+
     return true;
 }
