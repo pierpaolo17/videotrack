@@ -100,7 +100,8 @@ foreach ($instances as $inst) {
         ['class' => 'btn btn-sm btn-outline-secondary']
     );
 
-    $sourcelabel = get_string('source:' . ($inst->videosource ?: 'youtube'), 'mod_videotrack');
+    $src = in_array($inst->videosource, ['youtube', 'vimeo', 'upload'], true) ? $inst->videosource : 'youtube';
+    $sourcelabel = get_string('source:' . $src, 'mod_videotrack');
     $duration    = $inst->durationseconds > 0
         ? videotrack_format_seconds((float)$inst->durationseconds)
         : '—';
