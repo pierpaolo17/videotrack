@@ -72,7 +72,7 @@ class privacy_manager {
                 if (function_exists('random_string')) {
                     $salt = random_string(64);
                 } else {
-                    $salt = sha1(uniqid('', true) . microtime(true) . serialize($_SERVER));
+                    $salt = sha1(uniqid('', true) . microtime(true));
                 }
             }
             set_config(self::ANONYMISATION_SALT_CONFIG, $salt, 'mod_videotrack');

@@ -10,6 +10,18 @@ require_once(__DIR__ . '/locallib.php');
  * @param bool $canviewemail Whether email may be displayed.
  * @return string Safe display label.
  */
+
+/**
+ * Reads an optional ISO date (YYYY-MM-DD) report filter safely.
+ *
+ * @param string $name Parameter name.
+ * @return string Date string or empty string when invalid/omitted.
+ */
+function videotrack_optional_iso_date_param(string $name): string {
+    $value = optional_param($name, '', PARAM_TEXT);
+    return preg_match('/^\d{4}-\d{2}-\d{2}$/', $value) ? $value : '';
+}
+
 function videotrack_report_user_label(int $userid, array $usermap, bool $canviewemail): string {
     if ($userid < 0) {
         return get_string('report:anonymiseduser', 'mod_videotrack');
@@ -32,8 +44,8 @@ $export = optional_param('export', '', PARAM_ALPHA);
 $useridfilter = optional_param('userid', 0, PARAM_INT);
 $reactionidfilter = optional_param('reactionid', 0, PARAM_INT);
 $notepage = max(0, optional_param('notepage', 0, PARAM_INT));
-$notecreatedfrom = optional_param('notecreatedfrom', '', PARAM_RAW_TRIMMED);
-$notecreatedto = optional_param('notecreatedto', '', PARAM_RAW_TRIMMED);
+$notecreatedfrom = videotrack_optional_iso_date_param('notecreatedfrom');
+$notecreatedto = videotrack_optional_iso_date_param('notecreatedto');
 $timefrom = optional_param('timefrom', '', PARAM_RAW_TRIMMED);
 $timeto = optional_param('timeto', '', PARAM_RAW_TRIMMED);
 $timefrom = is_numeric($timefrom) ? max(0.0, (float)$timefrom) : null;

@@ -308,6 +308,7 @@ function videotrack_save_reaction_definitions(int $videotrackid, stdClass $data)
     $transaction = $DB->start_delegated_transaction();
     $keptids = [];
     $sort = 1;
+    $now = time();
     // O1 fix: collect file operations to execute after the DB transaction commits.
     // Previously file_get_draft_area_info() was called for every reaction regardless
     // of icontype, wasting I/O for emoji and Font Awesome reactions.
@@ -321,9 +322,17 @@ function videotrack_save_reaction_definitions(int $videotrackid, stdClass $data)
 
         $icontype = in_array(($icontypes[$idx] ?? 'emoji'), ['emoji', 'fa', 'file']) ? $icontypes[$idx] : 'emoji';
         $reactionid = (int)($reactionids[$idx] ?? 0);
+        $basekey = clean_param(core_text::strtolower(preg_replace('/[^a-zA-Z0-9_]+/', '_', $label)), PARAM_ALPHANUMEXT);
+        $basekey = trim($basekey, '_');
+        if ($basekey === '') {
+            $basekey = 'reaction';
+        }
+        // Keep keys stable enough for reporting but avoid collisions such as "like!" vs "like_".
+        $reactionkey = core_text::substr($basekey, 0, 80) . '_' . $sort . '_' . substr(sha1($label . ':' . $sort), 0, 8);
+
         $record = (object)[
             'videotrackid' => $videotrackid,
-            'reactionkey' => clean_param(core_text::strtolower(preg_replace('/[^a-zA-Z0-9_]+/', '_', $label)) . '_' . $sort, PARAM_ALPHANUMEXT),
+            'reactionkey' => $reactionkey,
             'label' => $label,
             'description' => trim((string)($descriptions[$idx] ?? '')),
             'icontype' => $icontype,
@@ -331,7 +340,7 @@ function videotrack_save_reaction_definitions(int $videotrackid, stdClass $data)
             'requiredforcompletion' => empty($requireds[$idx]) ? 0 : 1,
             'sortorder' => $sort,
             'isdeleted' => 0,  // Esplicito: resetta soft-delete se la reazione viene riattivata.
-            'timemodified' => time(),
+            'timemodified' => $now,
         ];
         if ($icontype === 'file') {
             $record->iconvalue = '';
@@ -341,7 +350,7 @@ function videotrack_save_reaction_definitions(int $videotrackid, stdClass $data)
             $record->id = $reactionid;
             $DB->update_record('videotrack_react', $record);
         } else {
-            $record->timecreated = time();
+            $record->timecreated = $now;
             $reactionid = $DB->insert_record('videotrack_react', $record);
         }
 
@@ -501,7 +510,7 @@ function videotrack_extend_settings_navigation($settings, $videotracknode) {
  */
 function videotrack_extend_navigation_course($navigation, $course, $context) {
     $node = $navigation->get('coursereports');
-    if ($node && has_capability('mod/videotrack:viewreport', $context)) {
+    if ($node && has_capability('mod/videotrack:viewcoursereport', $context)) {
         $url = new moodle_url('/mod/videotrack/reports_course.php', ['course' => $course->id]);
         $node->add(
             get_string('coursereport:navlink', 'mod_videotrack'),
@@ -979,6 +988,16 @@ function videotrack_reset_course_form_definition($mform) {
     $mform->addElement('checkbox', 'reset_videotrack_userdata',
         get_string('modulename', 'mod_videotrack'),
         get_string('reset:userdata', 'mod_videotrack'));
+}
+
+/**
+ * Returns default values for the VideoTrack course reset form options.
+ *
+ * @param stdClass $course Course record.
+ * @return array Default reset options.
+ */
+function videotrack_reset_course_form_defaults($course) {
+    return ['reset_videotrack_userdata' => 0];
 }
 
 /**

@@ -133,6 +133,8 @@ $string['privacy:metadata:videotrack_reactev:videotime'] = 'Posizione nella time
 $string['privacy:metadata:videotrack_reactev:playbackrate'] = 'Velocità di riproduzione quando la reazione è stata registrata.';
 $string['privacy:metadata:videotrack_reactev:isdeleted'] = 'Indica se l\'evento reazione è stato eliminato dall\'utente.';
 
+$string['cap:viewcoursereport'] = 'Visualizzare il report VideoTrack a livello corso';
+$string['cap:viewcoursereport_desc'] = 'Consente di visualizzare il report aggregato VideoTrack per l’intero corso.';
 $string['cap:overrideplayersettings'] = 'Ignora le impostazioni player della piattaforma';
 $string['cap:overrideplayersettings_desc'] = 'Consente al docente di modificare le impostazioni del player (seek, velocità, controlli, tastiera, schermo intero) impostate dall\'amministratore come default di piattaforma. Revocando questa capability si applica una policy player uniforme su tutto il sito.';
 $string['cap:overridecompletionsettings'] = 'Ignora le impostazioni di completamento della piattaforma';
@@ -339,6 +341,7 @@ $string['privacy:metadata:videotrack_reactev:notetext'] = 'Testo di una nota per
 $string['privacy:metadata:videotrack_reactev:notetype'] = 'Tipo di evento: vuoto per reazioni standard, "note" per note personali dello studente.';
 
 // ── Errore note disabilitate ──────────────────────────────────────────────
+$string['reactionsdisabled'] = 'Le reazioni non sono abilitate per questa attività.';
 $string['studentnotesdisabled'] = 'Le note studente non sono abilitate per questa attività.';
 // ── C3: no file uploaded ──
 $string['nofilelabel'] = 'Nessun file video è stato caricato per questa attività.';
