@@ -50,6 +50,15 @@ class privacy_manager {
 
         $factory = \core\lock\lock_config::get_lock_factory('mod_videotrack_anonymisation');
         $lock = $factory->get_lock('salt', 10);
+        if (!$lock) {
+            // Do not create a salt without the lock: two concurrent requests could
+            // generate different salts and make anonymised identifiers inconsistent.
+            $salt = (string)get_config('mod_videotrack', self::ANONYMISATION_SALT_CONFIG);
+            if ($salt !== '') {
+                return $salt;
+            }
+            throw new \moodle_exception('locktimeout', 'error');
+        }
         try {
             // Re-read after acquiring the lock: another request may have created it.
             $salt = (string)get_config('mod_videotrack', self::ANONYMISATION_SALT_CONFIG);

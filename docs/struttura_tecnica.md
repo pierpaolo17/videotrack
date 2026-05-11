@@ -1,6 +1,6 @@
 # mod_videotrack — Guida alla struttura del codice
 
-**Versione**: 1.0.13 (build 2026050513)
+**Versione**: 1.0.32 (build 2026060100)
 **Prerequisito di lettura**: conoscenza base di Moodle (plugin system, `$DB`, `$USER`, `cm_info`) e PHP/JavaScript.
 
 ---
@@ -10,17 +10,16 @@
 ```
 videotrack/
 ├── version.php            # Metadati del plugin (versione, compatibilità)
-├── lib.php                # Funzioni API obbligatorie Moodle (~1071 righe)
-├── locallib.php           # Funzioni helper non-API (~287 righe)
-├── mod_form.php           # Form di creazione/modifica istanza (~750 righe)
-├── view.php               # Pagina vista dallo studente (~506 righe)
+├── lib.php                # Funzioni API obbligatorie Moodle
+├── locallib.php           # Funzioni helper non-API
+├── mod_form.php           # Form di creazione/modifica istanza
+├── view.php               # Pagina vista dallo studente
 ├── report.php             # Report docente per singola attività
-├── reports_course.php     # Report aggregato a livello corso (~127 righe)
-├── settings.php           # Impostazioni amministratore (~313 righe)
-├── presets.php            # CRUD preset reazioni (~297 righe)
-├── index.php              # Lista attività nel corso (27 righe, standard Moodle)
+├── reports_course.php     # Report aggregato a livello corso
+├── settings.php           # Impostazioni amministratore
+├── presets.php            # CRUD preset reazioni
+├── index.php              # Lista attività nel corso (standard Moodle)
 ├── styles.css             # Stili CSS del modulo
-├── thirdpartylibs.xml     # Dichiara Vimeo SDK come libreria terza parte
 ├── environment.xml        # Requisiti ambiente: GD PHP extension (optional)
 │
 ├── amd/                   # Moduli JavaScript AMD (RequireJS/Moodle AMD)
@@ -54,18 +53,21 @@ videotrack/
 │   │   └── delete_reaction.php # Web service: elimina reazione/nota
 │   ├── local/
 │   │   └── tracker.php         # Core logic: calcolo progresso e completamento
-│   └── privacy/
-│       └── provider.php        # API GDPR Moodle
+│   ├── privacy/
+│   │   └── provider.php        # Privacy API Moodle
+│   └── task/
+│       └── cleanup_task.php    # Scheduled task retention/anonimizzazione
 │
 ├── db/
-│   ├── install.xml    # Schema DB (tabelle e campi)
+│   ├── install.xml    # Schema DB (tabelle, campi e indici)
 │   ├── upgrade.php    # Script di migrazione tra versioni
 │   ├── access.php     # Definizione capabilities
 │   ├── services.php   # Dichiarazione web services
+│   ├── tasks.php      # Registrazione scheduled task
 │   └── mobile.php     # Dichiarazione supporto app mobile
 │
 └── lang/
-    ├── en/videotrack.php   # 325 stringhe in inglese
+    ├── en/videotrack.php   # Stringhe in inglese
     ├── it/videotrack.php   # Italiano
     ├── de/videotrack.php   # Tedesco
     ├── es/videotrack.php   # Spagnolo
@@ -147,7 +149,7 @@ Un record per ogni frammento di video guardato continuamente da uno studente.
 | `wallclockstart` | INT | Timestamp UNIX inizio reale |
 | `wallclockend` | INT | Timestamp UNIX fine reale |
 | `playbackrate` | DECIMAL(5,3) | Velocità di riproduzione (es. `1.500`) |
-| `endreason` | VARCHAR(50) | `pause` \| `seek` \| `ended` \| `heartbeat` \| `beforeunload` \| `pagehide` \| `tab` |
+| `endreason` | VARCHAR(32) | Allowlist server-side: `pause`, `seek`, `ended`, `heartbeat`, `beforeunload`, `pagehide`, `tab`; valori non ammessi diventano `unknown` |
 | `timecreated` | INT | Timestamp UNIX creazione record |
 
 ### 2.3 `{videotrack_state}` — Stato aggregato per studente
@@ -211,11 +213,10 @@ Un record per ogni click su un bottone reazione o per ogni nota salvata.
 
 ```php
 $plugin->component = 'mod_videotrack';
-$plugin->component = 'mod_videotrack';
-$plugin->version   = 2026050245;
-$plugin->requires  = 2025041400; // Moodle 5.0
-$plugin->maturity  = MATURITY_ALPHA;
-$plugin->release   = '0.9.7';
+$plugin->version   = 2026060100;
+$plugin->requires  = 2025041400; // Moodle 5.0.
+$plugin->maturity  = MATURITY_BETA;
+$plugin->release   = '1.0.32';
 ```
 
 È il file letto da Moodle per decidere se mostrare l'upgrade dialog. `version` è un intero in formato `YYYYMMDDnn`. `requires` è la build minima di Moodle supportata.
@@ -535,14 +536,31 @@ Implementa le tre regole personalizzate dichiarate in `get_defined_custom_rules(
 ### 4.7 `classes/privacy/provider.php`
 
 Implementa:
-- `get_metadata()` — documenta tutte le tabelle e i campi che contengono dati personali
-- `get_contexts_for_userid()` — trova tutti i contesti modulo dove l'utente ha dati
-- `get_users_in_context()` — lista utenti con dati in un contesto specifico
-- `export_user_data()` — esporta segmenti, stato, reazioni e note in formato leggibile; note e reazioni sono esportate separatamente; le icone di reazione (`reactionicon`) sono esportate come file, escluse quelle con `reactionid=0` (note)
-- `delete_data_for_all_users_in_context()` — cancella tutto per un contesto
-- `delete_data_for_user()` e `delete_data_for_users()` — cancellano per utente specifico
+- `get_metadata()` — documenta tutte le tabelle e i campi che contengono dati personali.
+- `get_contexts_for_userid()` — trova tutti i contesti modulo dove l'utente ha dati.
+- `get_users_in_context()` — lista solo utenti reali (`userid > 0`) con dati in un contesto; i record anonimizzati non vengono esposti come utenti Moodle.
+- `export_user_data()` — esporta segmenti, stato, reazioni e note in formato leggibile; note e reazioni sono esportate separatamente; le icone di reazione (`reactionicon`) sono esportate come file, escluse quelle con `reactionid=0` (note).
+- `delete_data_for_all_users_in_context()` — anonimizza i dati personali nel contesto preservando aggregati anonimi/pseudonimi.
+- `delete_data_for_user()` e `delete_data_for_users()` — anonimizzano i dati dell'utente richiesto invece di cancellarli fisicamente.
+
+La logica condivisa è in `classes/local/privacy_manager.php`: il salt locale è creato con lock Moodle, l'identificativo anonimo è negativo, salted e scoped per attività, e la retention automatica usa batch per evitare scansioni troppo pesanti.
 
 ---
+
+### 4.8 `classes/local/privacy_manager.php`
+
+Contiene gli helper privacy usati dal provider e dal task schedulato:
+- `retention_period_seconds()` — converte l'impostazione amministrativa `retentionperioddays`; `0` significa conservazione illimitata.
+- `anonymous_userid()` — genera un identificativo negativo, salted e scoped per attività per conservare statistiche aggregate senza riferimento all'utente reale.
+- `anonymise_user_in_context()` — anonimizza segmenti, stato, note e reazioni per un utente in un'attività.
+- `anonymise_all_users_in_context()` — anonimizza tutti gli utenti reali del contesto in batch sicuri.
+- `anonymise_expired_data()` — applica la retention automatica fino al limite batch per esecuzione.
+
+I record anonimizzati vengono preservati nei backup/restore come aggregati anonimi/pseudonimi e non sono rimappati su utenti reali.
+
+### 4.9 `classes/task/cleanup_task.php`
+
+Scheduled task registrato in `db/tasks.php`. Esegue la retention GDPR: se il periodo è `0` scrive un log informativo e non modifica dati; se è positivo anonimizza i dati più vecchi della soglia configurata.
 
 ## 5. Moduli JavaScript AMD (`amd/src/`)
 
@@ -833,3 +851,12 @@ Questa scelta evita esportazioni parziali interpretate come complete e mantiene 
 
 - Aggiunti indici compositi per validazione playback recente, rate limit reazioni e rate limit note.
 - File AMD build riallineati in forma compatta rispetto ai sorgenti.
+
+
+## Versione 1.0.32
+
+- Documentazione aggiornata alla struttura reale del plugin e alla release corrente.
+- Documentata la retention GDPR: `0` indica conservazione illimitata, mentre i valori positivi attivano anonimizzazione automatica dei dati scaduti.
+- Documentato il comportamento di backup/restore dei record anonimizzati con `userid` negativo.
+- Rafforzata la creazione del salt di anonimizzazione: senza lock Moodle non viene creato un nuovo salt concorrente.
+- Completate le stringhe privacy/retention nelle lingue incluse.
