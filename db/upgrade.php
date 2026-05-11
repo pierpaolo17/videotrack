@@ -548,5 +548,14 @@ function xmldb_videotrack_upgrade($oldversion) {
         upgrade_mod_savepoint(true, 2026060600, 'videotrack');
     }
 
+
+    if ($oldversion < 2026060700) {
+        // v1.0.38: restore Polish language pack, update documentation, clarify
+        // retention/pseudonymisation behaviour, reduce noisy debug logging and
+        // make note/reaction validation more usable after pauses without accepting
+        // unwatched timestamps. No database schema changes.
+        upgrade_mod_savepoint(true, 2026060700, 'videotrack');
+    }
+
     return true;
 }

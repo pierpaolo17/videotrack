@@ -1,6 +1,6 @@
 # mod_videotrack — Funzionalità e potenzialità
 
-**Versione**: 1.0.34 (build 2026060300)
+**Versione**: 1.0.38 (build 2026060700)
 **Compatibilità**: Moodle 5.0+  
 **Lingue incluse**: Italiano, Inglese, Tedesco, Spagnolo, Francese, Portoghese, Hindi, Polacco
 
@@ -235,6 +235,8 @@ Il modulo implementa la Privacy API di Moodle e adotta una policy di minimizzazi
 - L'impostazione amministrativa `retentionperioddays` controlla la conservazione automatica: `0` significa conservazione illimitata; un valore positivo indica dopo quanti giorni i dati personali di tracking, note e reazioni vengono anonimizzati.
 - Le richieste di cancellazione/oblio dell'utente non eliminano fisicamente le statistiche aggregate: i dati vengono anonimizzati con identificativi pseudonimi negativi, salted e scoped per attività, in modo da rimuovere il collegamento all'utente reale preservando le analisi aggregate.
 - I record anonimizzati sono esclusi dalle liste utenti della Privacy API e nei report vengono visualizzati come "Utente anonimizzato".
+- La retention automatica opera per coppia utente/attività: quando un record personale supera la soglia configurata, tutti i dati personali di quell'utente in quell'attività vengono anonimizzati insieme. Non viene eseguita una cancellazione parziale dei singoli intervalli storici dentro uno stato aggregato.
+- Gli identificativi anonimi sono pseudonimi tecnici irreversibili per gli operatori ordinari del sito: sono negativi, salted e scoped per attività, quindi non corrispondono ad account Moodle reali e non vanno usati per re-identificare gli utenti.
 - Il salt locale di anonimizzazione viene creato una sola volta e protetto da lock Moodle per evitare race condition.
 
 ---
