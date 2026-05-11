@@ -529,9 +529,8 @@ function xmldb_videotrack_upgrade($oldversion) {
 
 
     if ($oldversion < 2026060600) {
-        // v1.0.37: report/view accessibility refinements, capability language
-        // strings aligned with Moodle role UI conventions, and missing reaction
-        // event indexes are backfilled for upgraded installations.
+        // Backfill indexes introduced in 1.0.36 install.xml but missing from
+        // upgrade.php, plus report/view accessibility refinements.
         $table = new xmldb_table('videotrack_reactev');
         if ($dbman->table_exists($table)) {
             $indexes = [
@@ -555,6 +554,14 @@ function xmldb_videotrack_upgrade($oldversion) {
         // make note/reaction validation more usable after pauses without accepting
         // unwatched timestamps. No database schema changes.
         upgrade_mod_savepoint(true, 2026060700, 'videotrack');
+    }
+
+
+    if ($oldversion < 2026060800) {
+        // v1.0.39: validation fallback age setting, Polish language fixes,
+        // minor accessibility, UX and coding-style refinements.
+        // No database schema changes.
+        upgrade_mod_savepoint(true, 2026060800, 'videotrack');
     }
 
     return true;

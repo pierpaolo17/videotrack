@@ -211,13 +211,13 @@
 .videotrack-speed-btn:focus,
 .videotrack-ctrl-rewind:focus,
 .videotrack-ctrl-ff:focus {
-    outline: 3px solid #005fcc;
+    outline: 3px solid #0040aa;
     outline-offset: 2px;
 }
 
 .videotrack-ctrl-progress:focus,
 .videotrack-ctrl-volume:focus {
-    outline: 2px solid #005fcc;
+    outline: 2px solid #0040aa;
     outline-offset: 1px;
 }
 
@@ -250,13 +250,13 @@
 .videotrack-speed-btn:focus-visible,
 .videotrack-ctrl-rewind:focus-visible,
 .videotrack-ctrl-ff:focus-visible {
-    outline: 3px solid #005fcc;
+    outline: 3px solid #0040aa;
     outline-offset: 2px;
 }
 
 .videotrack-ctrl-progress:focus-visible,
 .videotrack-ctrl-volume:focus-visible {
-    outline: 2px solid #005fcc;
+    outline: 2px solid #0040aa;
     outline-offset: 1px;
 }
 
@@ -467,7 +467,7 @@
 .videotrack-transcript-cue:hover,
 .videotrack-transcript-cue:focus {
     background: rgba(0, 95, 204, 0.08);
-    outline: 2px solid #005fcc;
+    outline: 2px solid #0040aa;
     outline-offset: 1px;
 }
 .videotrack-transcript-active {
@@ -559,8 +559,8 @@
 }
 .videotrack-chapter-btn:hover  { background: #e9ecef; border-color: #adb5bd; }
 .videotrack-chapter-btn.videotrack-chapter-active {
-    background: #005fcc;
-    border-color: #005fcc;
+    background: #0040aa;
+    border-color: #0040aa;
     color: #fff;
     font-weight: 600;
 }
@@ -645,7 +645,7 @@
     content: '';
     border-style: solid;
     border-width: 1rem 0 1rem 1.75rem;
-    border-color: transparent transparent transparent #005fcc;
+    border-color: transparent transparent transparent #0040aa;
     margin-left: .25rem;
 }
 .videotrack-poster-play-btn:hover { background: #fff; transform: scale(1.08); }
@@ -672,7 +672,7 @@
     color: #6c757d;
     text-decoration: none;
 }
-.videotrack-notes-toggle:hover { color: #005fcc; }
+.videotrack-notes-toggle:hover { color: #0040aa; }
 
 .videotrack-notes-body {
     /* Transizione collapse smooth */

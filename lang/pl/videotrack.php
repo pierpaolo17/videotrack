@@ -2,7 +2,7 @@
 
 $string['pluginname'] = 'VideoTrack';
 $string['modulename'] = 'VideoTrack';
-$string['modulenameplural'] = 'VideoTrack';
+$string['modulenameplural'] = 'VideoTracki';
 $string['pluginadministration'] = 'Administracja VideoTrack';
 $string['videotrack:addinstance'] = 'Dodaj nową aktywność VideoTrack';
 $string['videotrack:viewcoursereport'] = 'Wyświetlanie raportu VideoTrack na poziomie kursu';
@@ -169,7 +169,7 @@ $string['setting:heartbeatinterval_min'] = 'Minimum enforced value: 5 seconds.';
 
 $string['reset:userdata'] = 'Delete all student viewing data (segments, states, reactions)';
 $string['report:recalculate'] = 'Przelicz raport';
-$string['report:recalculated'] = 'Raport został przeliczony.';
+$string['report:recalculated'] = 'Stany ukończenia przeliczono dla {$a} użytkowników.';
 $string['report:heatmap_desc'] = 'Mapa cieplna pokazuje miejsca wideo, w których studenci najczęściej reagowali.';
 $string['report:heatmap_supplementary'] = 'Dane mapy cieplnej są dostępne także w tabeli poniżej.';
 $string['event:activity_completed'] = 'Aktywność VideoTrack ukończona';
@@ -181,7 +181,7 @@ $string['showgradeto'] = 'Pokaż ocenę';
 $string['showgradeto_help'] = 'Określa, komu wyświetlać ocenę aktywności.';
 $string['report:grade'] = 'Ocena';
 $string['report:gradesaved'] = 'Ocena zapisana.';
-$string['report:gradepass_hint'] = 'Minimalna ocena wymagana do zaliczenia jest pobierana z dziennika ocen.';
+$string['report:gradepass_hint'] = 'Próg zaliczenia: {$a}';
 $string['report:gradenotset'] = 'Nie ustawiono oceny.';
 
 $string['videosource'] = 'Źródło wideo';
@@ -443,6 +443,8 @@ $string['setting:heading_privacy_desc'] = 'Skonfiguruj sposób przechowywania da
 $string['setting:retentionperioddays'] = 'Okres przechowywania danych śledzenia (dni)';
 $string['setting:retentionperioddays_desc'] = 'Liczba dni, po których VideoTrack anonimizuje stare dane śledzenia, notatki i reakcje. Ustaw 0, aby przechowywać dane bezterminowo. Żądania usunięcia danych użytkownika są zawsze obsługiwane przez soloną anonimizację zamiast usuwania analityki agregowanej.';
 $string['setting:strictsessionvalidation'] = 'Wymagaj tej samej sesji przeglądarki do walidacji notatek i reakcji';
+$string['setting:validationfallbackdays'] = 'Okno walidacji historycznego odtwarzania (dni)';
+$string['setting:validationfallbackdays_desc'] = 'Maksymalny wiek, w dniach, wcześniej obejrzanych segmentów, które mogą autoryzować notatki i reakcje po odświeżeniu strony lub zmianie przeglądarki. Ustaw 0, aby zezwolić na historyczne obejrzane segmenty bez ograniczenia czasu. Kontrole tej samej sesji i ostatniego odtwarzania są zawsze wykonywane najpierw.';
 $string['setting:strictsessionvalidation_desc'] = 'Gdy włączone, notatki i reakcje mogą być zapisane tylko dla znaczników czasu obejrzanych w bieżącej sesji przeglądarki. Gdy wyłączone, VideoTrack akceptuje znaczniki czasu już obejrzane przez tego samego użytkownika w tej samej aktywności.';
 $string['task:cleanup'] = 'Anonimizuj przeterminowane dane śledzenia VideoTrack';
 $string['privacy:anonymised'] = '[zanonimizowano]';

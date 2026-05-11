@@ -447,6 +447,8 @@ $string['privacy:anonymised'] = '[anonimizzato]';
 $string['error:playbackpositionnotwatched'] = 'Questa posizione del video non risulta ancora visualizzata, quindi l\'azione non può essere salvata.';
 
 $string['setting:strictsessionvalidation'] = 'Richiedi la stessa sessione browser per validare note e reazioni';
+$string['setting:validationfallbackdays'] = 'Finestra di validazione dello storico di riproduzione (giorni)';
+$string['setting:validationfallbackdays_desc'] = 'Età massima, in giorni, dei segmenti già guardati che possono autorizzare note e reazioni dopo un refresh o un cambio browser. Imposta 0 per consentire segmenti storici guardati senza limite. I controlli sulla stessa sessione e sulla riproduzione recente vengono sempre tentati per primi.';
 $string['setting:strictsessionvalidation_desc'] = 'Se abilitato, note e reazioni possono essere salvate solo per timestamp visualizzati nella sessione browser corrente. Se disabilitato, VideoTrack accetta timestamp già visualizzati dallo stesso utente nella stessa attività, migliorando l\'usabilità dopo aggiornamenti pagina o cambi browser e continuando a rifiutare posizioni non visualizzate.';
 
 $string['setting:nonnegativeintrequired'] = 'Inserisci un numero intero maggiore o uguale a 0.';

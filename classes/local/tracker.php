@@ -235,7 +235,10 @@ class tracker {
             return true;
         }
 
-        return self::has_watched_videotime($videotrackid, $userid, $sessionid, $videotime);
+        $fallbackdays = (int)get_config('mod_videotrack', 'validationfallbackdays');
+        $maxage = $fallbackdays > 0 ? $fallbackdays * DAYSECS : 0;
+
+        return self::has_watched_videotime($videotrackid, $userid, $sessionid, $videotime, 2.0, $maxage);
     }
 
     /**
@@ -254,7 +257,7 @@ class tracker {
      * @return bool
      */
     public static function has_watched_videotime(int $videotrackid, int $userid, string $sessionid,
-            float $videotime, float $timetolerance = 2.0): bool {
+            float $videotime, float $timetolerance = 2.0, int $maxageseconds = 0): bool {
         global $DB;
 
         $vt = max(0.0, $videotime);
@@ -283,20 +286,25 @@ class tracker {
         // UX-friendly fallback: after refreshes or browser changes, allow notes and
         // reactions for timestamps already watched by the same user in this activity.
         // This still rejects unwatched positions because the timestamp must fall
-        // inside a recorded segment.
-        return $DB->record_exists_select('videotrack_seg',
-            'videotrackid = :vtid AND userid = :uid
+        // inside a recorded segment. A configurable age limit prevents very old
+        // playback from authorising new interactions indefinitely.
+        $fallbackselect = 'videotrackid = :vtid AND userid = :uid
              AND :vt1 >= (videotimestart - :tol1)
-             AND :vt2 <= (videotimeend + :tol2)',
-            [
-                'vtid' => $videotrackid,
-                'uid' => $userid,
-                'vt1' => $vt,
-                'vt2' => $vt,
-                'tol1' => $tol,
-                'tol2' => $tol,
-            ]
-        );
+             AND :vt2 <= (videotimeend + :tol2)';
+        $fallbackparams = [
+            'vtid' => $videotrackid,
+            'uid' => $userid,
+            'vt1' => $vt,
+            'vt2' => $vt,
+            'tol1' => $tol,
+            'tol2' => $tol,
+        ];
+        if ($maxageseconds > 0) {
+            $fallbackselect .= ' AND timecreated >= :fallbacksince';
+            $fallbackparams['fallbacksince'] = time() - $maxageseconds;
+        }
+
+        return $DB->record_exists_select('videotrack_seg', $fallbackselect, $fallbackparams);
     }
 
     public static function completion_satisfied(\stdClass $videotrack, ?\stdClass $state, array $reactionsummary, array $requiredreactionids): bool {

@@ -189,7 +189,10 @@ if (!empty($videotrack->showgradeto) && !empty($videotrack->grade) &&
             );
         }
         echo html_writer::div(
-            html_writer::tag('strong', get_string('grade') . ': ') .
+            html_writer::tag('strong',
+                $OUTPUT->pix_icon('i/grades', '', 'moodle', ['class' => 'me-1', 'aria-hidden' => 'true']) .
+                    get_string('grade') . ': '
+            ) .
             format_float($usergrade, 2) .
             ($grademax !== null ? ' / ' . $grademax : '') .
             $gradepasslabel,
@@ -197,7 +200,10 @@ if (!empty($videotrack->showgradeto) && !empty($videotrack->grade) &&
         );
     } else {
         echo html_writer::div(
-            html_writer::tag('strong', get_string('grade') . ': ') .
+            html_writer::tag('strong',
+                $OUTPUT->pix_icon('i/grades', '', 'moodle', ['class' => 'me-1', 'aria-hidden' => 'true']) .
+                    get_string('grade') . ': '
+            ) .
             get_string('report:gradenotset', 'mod_videotrack'),
             'videotrack-grade-student alert alert-light mt-2'
         );
@@ -213,12 +219,25 @@ if ($notice !== '') {
 
 $covered = $state ? (float)$state->uniquecoveredseconds : 0.0;
 $percent = $state ? (float)$state->completionpercent : 0.0;
-$uniquereactionids = array_flip($DB->get_fieldset_select(
-    'videotrack_reactev',
-    'DISTINCT reactionid',
-    $eventwhere . ' AND reactionid > 0',
-    $eventparams
-));
+$uniquereactionids = [];
+if (!empty($videotrack->reactionsenabled)) {
+    if ($showstudentreport && $eventcount === count($events)) {
+        foreach ($events as $event) {
+            if ((int)$event->reactionid > 0) {
+                $uniquereactionids[(int)$event->reactionid] = true;
+            }
+        }
+    } else {
+        // The separate DISTINCT query is needed when the student report is hidden
+        // or truncated to the latest 200 rows; otherwise the in-memory rows are enough.
+        $uniquereactionids = array_flip($DB->get_fieldset_select(
+            'videotrack_reactev',
+            'DISTINCT reactionid',
+            $eventwhere . ' AND reactionid > 0',
+            $eventparams
+        ));
+    }
+}
 
 echo html_writer::start_div('videotrack-player-shell',
     ['style' => 'max-width:' . (int)$playerwidth . 'px']);
@@ -301,7 +320,8 @@ if (!empty($videotrack->studentnotesenabled)) {
         'role' => 'region',
         'aria-label' => get_string('studentnotes_title', 'mod_videotrack'),
     ]);
-    // Header con bottone toggle show/hide.
+    // Header with show/hide toggle. The initial aria-label is updated synchronously
+    // by the AMD player from sessionStorage before the panel is used.
     echo html_writer::start_div('videotrack-notes-header d-flex align-items-center justify-content-between mb-1');
     echo html_writer::tag('h3',
         get_string('studentnotes_title', 'mod_videotrack'),
@@ -497,7 +517,11 @@ if ($showstudentreport) {
         html_writer::tag('th', get_string('report:delete',      'mod_videotrack'), ['scope' => 'col'])
     );
     echo html_writer::end_tag('thead');
-    echo html_writer::start_tag('tbody', ['id' => 'videotrack-my-reactions', 'aria-live' => 'polite']);
+    echo html_writer::start_tag('tbody', [
+        'id' => 'videotrack-my-reactions',
+        'aria-live' => 'polite',
+        'aria-relevant' => 'additions',
+    ]);
     if (empty($events)) {
         echo html_writer::tag('tr',
             html_writer::tag('td',

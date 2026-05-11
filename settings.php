@@ -61,6 +61,14 @@ if ($ADMIN->fulltree) {
         0
     ));
 
+    $settings->add(new mod_videotrack_admin_setting_nonnegative_int(
+        'mod_videotrack/validationfallbackdays',
+        get_string('setting:validationfallbackdays', 'mod_videotrack'),
+        get_string('setting:validationfallbackdays_desc', 'mod_videotrack'),
+        30,
+        PARAM_INT
+    ));
+
     // Performance.
     $settings->add(new admin_setting_heading(
         'mod_videotrack/heading_performance',

@@ -34,10 +34,10 @@ $reactionidfilter = optional_param('reactionid', 0, PARAM_INT);
 $notepage = max(0, optional_param('notepage', 0, PARAM_INT));
 $notecreatedfrom = videotrack_optional_iso_date_param('notecreatedfrom');
 $notecreatedto = videotrack_optional_iso_date_param('notecreatedto');
-$timefrom = optional_param('timefrom', '', PARAM_RAW_TRIMMED);
-$timeto = optional_param('timeto', '', PARAM_RAW_TRIMMED);
-$timefrom = is_numeric($timefrom) ? max(0.0, (float)$timefrom) : null;
-$timeto = is_numeric($timeto) ? max(0.0, (float)$timeto) : null;
+$timefromparam = optional_param('timefrom', null, PARAM_FLOAT);
+$timetoparam = optional_param('timeto', null, PARAM_FLOAT);
+$timefrom = $timefromparam !== null ? max(0.0, (float)$timefromparam) : null;
+$timeto = $timetoparam !== null ? max(0.0, (float)$timetoparam) : null;
 if ($timefrom !== null && $timeto !== null && $timeto < $timefrom) {
     [$timefrom, $timeto] = [$timeto, $timefrom];
 }
