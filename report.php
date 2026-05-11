@@ -11,17 +11,6 @@ require_once(__DIR__ . '/locallib.php');
  * @return string Safe display label.
  */
 
-/**
- * Reads an optional ISO date (YYYY-MM-DD) report filter safely.
- *
- * @param string $name Parameter name.
- * @return string Date string or empty string when invalid/omitted.
- */
-function videotrack_optional_iso_date_param(string $name): string {
-    $value = optional_param($name, '', PARAM_TEXT);
-    return preg_match('/^\d{4}-\d{2}-\d{2}$/', $value) ? $value : '';
-}
-
 function videotrack_report_user_label(int $userid, array $usermap, bool $canviewemail): string {
     if ($userid < 0) {
         return get_string('report:anonymiseduser', 'mod_videotrack');

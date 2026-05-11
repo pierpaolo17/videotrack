@@ -39,7 +39,7 @@ $string['reactionlabel'] = 'प्रतिक्रिया लेबल';
 $string['reactiondescription'] = 'प्रतिक्रिया विवरण';
 $string['reactionicontype'] = 'आइकन प्रकार';
 $string['reactioniconvalue'] = 'आइकन मान';
-$string['reactioniconvalue_help'] = 'Emoji के लिए emoji वर्ण दर्ज करें। Font Awesome के लिए Moodle theme द्वारा समर्थित class दर्ज करें, उदाहरण के लिए Font Awesome 5 themes के लिए fa fa-smile या Font Awesome 6 themes के लिए fa-regular fa-face-smile। Uploaded icon file का उपयोग करते समय यह field खाली छोड़ें।';
+$string['reactioniconvalue_help'] = 'Emoji के लिए, emoji वर्ण दर्ज करें। Font Awesome के लिए, Moodle थीम द्वारा समर्थित class दर्ज करें, जैसे Font Awesome 5 थीम के लिए fa fa-smile या Font Awesome 6 थीम के लिए fa-regular fa-face-smile। आइकन उपलब्धता सक्रिय Moodle थीम और स्थापित Font Awesome संस्करण पर निर्भर करती है। अपलोड की गई आइकन फ़ाइल का उपयोग करते समय इस फ़ील्ड को खाली छोड़ें।';
 $string['reactioniconfile'] = 'प्रतिक्रिया आइकन फ़ाइल';
 $string['reactioniconfile_help'] = 'वैकल्पिक छवि फ़ाइल, जिसका उपयोग तब किया जाता है जब आइकन प्रकार “अपलोड की गई फ़ाइल” हो। स्वीकृत प्रारूप Moodle के वेब इमेज समर्थन पर निर्भर करते हैं।';
 $string['reactionrequired'] = 'पूर्णता के लिए आवश्यक';
@@ -133,8 +133,8 @@ $string['privacy:metadata:videotrack_reactev:videotime'] = 'प्रतिक�
 $string['privacy:metadata:videotrack_reactev:playbackrate'] = 'प्रतिक्रिया रिकॉर्ड होने पर प्लेबैक गति।';
 $string['privacy:metadata:videotrack_reactev:isdeleted'] = 'बताता है कि क्या प्रतिक्रिया घटना उपयोगकर्ता द्वारा हटाई गई थी।';
 
-$string['cap:viewcoursereport'] = 'कोर्स-स्तर की VideoTrack रिपोर्ट देखें';
-$string['cap:viewcoursereport_desc'] = 'पूरे कोर्स के लिए समेकित VideoTrack रिपोर्ट देखने की अनुमति देता है।';
+$string['videotrack:viewcoursereport'] = 'कोर्स-स्तर की VideoTrack रिपोर्ट देखें';
+$string['videotrack:viewcoursereport_desc'] = 'पूरे कोर्स के लिए समेकित VideoTrack रिपोर्ट देखने की अनुमति देता है।';
 $string['videotrack:overrideplayersettings'] = 'प्लेटफ़ॉर्म प्लेयर सेटिंग्स को ओवरराइड करें';
 $string['videotrack:overrideplayersettings_desc'] = 'शिक्षक को प्रशासक द्वारा निर्धारित प्लेटफ़ॉर्म-व्यापी प्लेयर सेटिंग्स बदलने की अनुमति देता है।';
 $string['videotrack:overridecompletionsettings'] = 'प्लेटफ़ॉर्म पूर्णता सेटिंग्स को ओवरराइड करें';
@@ -341,7 +341,7 @@ $string['privacy:metadata:videotrack_reactev:notetext'] = 'वीडियो �
 $string['privacy:metadata:videotrack_reactev:notetype'] = 'इवेंट प्रकार: मानक प्रतिक्रियाओं के लिए खाली, विद्यार्थी निजी नोट्स के लिए "note"।';
 
 // ── Errore note disabilitate ──────────────────────────────────────────────
-$string['reactionsdisabled'] = 'इस गतिविधि के लिए प्रतिक्रियाएँ सक्षम नहीं हैं।';
+$string['reactionsdisabled'] = 'इस VideoTrack गतिविधि के लिए प्रतिक्रियाएँ अक्षम हैं। यदि प्रतिक्रियाएँ आवश्यक हैं, तो अपने शिक्षक या कोर्स व्यवस्थापक से उन्हें सक्षम करने के लिए कहें।';
 $string['studentnotesdisabled'] = 'इस गतिविधि के लिए विद्यार्थी नोट्स सक्षम नहीं हैं।';
 // ── C3: no file uploaded ──
 $string['nofilelabel'] = 'इस गतिविधि के लिए कोई वीडियो फ़ाइल अपलोड नहीं की गई है।';

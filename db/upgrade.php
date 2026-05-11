@@ -527,5 +527,26 @@ function xmldb_videotrack_upgrade($oldversion) {
         upgrade_mod_savepoint(true, 2026060500, 'videotrack');
     }
 
+
+    if ($oldversion < 2026060600) {
+        // v1.0.37: report/view accessibility refinements, capability language
+        // strings aligned with Moodle role UI conventions, and missing reaction
+        // event indexes are backfilled for upgraded installations.
+        $table = new xmldb_table('videotrack_reactev');
+        if ($dbman->table_exists($table)) {
+            $indexes = [
+                new xmldb_index('vt_user_idx', XMLDB_INDEX_NOTUNIQUE, ['videotrackid', 'userid', 'isdeleted']),
+                new xmldb_index('vt_reaction_idx', XMLDB_INDEX_NOTUNIQUE, ['videotrackid', 'reactionid', 'isdeleted']),
+                new xmldb_index('user_vt_idx', XMLDB_INDEX_NOTUNIQUE, ['userid', 'videotrackid', 'isdeleted']),
+            ];
+            foreach ($indexes as $index) {
+                if (!$dbman->index_exists($table, $index)) {
+                    $dbman->add_index($table, $index);
+                }
+            }
+        }
+        upgrade_mod_savepoint(true, 2026060600, 'videotrack');
+    }
+
     return true;
 }

@@ -865,9 +865,11 @@ define(['core/ajax', 'core/log'], function(Ajax, Log) {
         function setCollapsed(collapsed) {
             body.style.display = collapsed ? 'none' : '';
             btn.setAttribute('aria-expanded', collapsed ? 'false' : 'true');
-            btn.textContent = collapsed
+            var label = collapsed
                 ? (config.noteshowlabel || 'Show notes')
                 : (config.noteshidelabel || 'Hide notes');
+            btn.textContent = label;
+            btn.setAttribute('aria-label', label + ': ' + (config.notespaneltitle || 'Notes'));
             try { window.sessionStorage.setItem(KEY, collapsed ? '1' : '0'); } catch (e) {}
         }
 

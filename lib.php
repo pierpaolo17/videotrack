@@ -328,7 +328,7 @@ function videotrack_save_reaction_definitions(int $videotrackid, stdClass $data)
             $basekey = 'reaction';
         }
         // Keep keys stable enough for reporting but avoid collisions such as "like!" vs "like_".
-        $reactionkey = core_text::substr($basekey, 0, 80) . '_' . $sort . '_' . substr(sha1($label . ':' . $sort), 0, 8);
+        $reactionkey = core_text::substr($basekey, 0, 80) . '_' . $sort . '_' . substr(hash('sha256', $label . ':' . $sort), 0, 8);
 
         $record = (object)[
             'videotrackid' => $videotrackid,
@@ -510,16 +510,18 @@ function videotrack_extend_settings_navigation($settings, $videotracknode) {
  */
 function videotrack_extend_navigation_course($navigation, $course, $context) {
     $node = $navigation->get('coursereports');
-    if ($node && has_capability('mod/videotrack:viewcoursereport', $context)) {
-        $url = new moodle_url('/mod/videotrack/reports_course.php', ['course' => $course->id]);
-        $node->add(
-            get_string('coursereport:navlink', 'mod_videotrack'),
-            $url,
-            navigation_node::TYPE_SETTING,
-            null, null,
-            new pix_icon('i/report', '')
-        );
+    if (!$node || !has_capability('mod/videotrack:viewcoursereport', $context)) {
+        return;
     }
+
+    $url = new moodle_url('/mod/videotrack/reports_course.php', ['course' => $course->id]);
+    $node->add(
+        get_string('coursereport:navlink', 'mod_videotrack'),
+        $url,
+        navigation_node::TYPE_SETTING,
+        null, null,
+        new pix_icon('i/report', '')
+    );
 }
 
 
