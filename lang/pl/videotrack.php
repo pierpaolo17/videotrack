@@ -92,7 +92,7 @@ $string['modulename_link'] = 'mod/videotrack/view';
 $string['setting:heartbeatinterval'] = 'Interwał heartbeat (sekundy)';
 $string['setting:heartbeatinterval_desc'] = 'Jak często odtwarzacz zapisuje bieżący segment oglądania na serwerze podczas ciągłego odtwarzania. Niższe wartości zmniejszają ryzyko utraty danych przy awarii przeglądarki lub sieci, ale zwiększają obciążenie serwera. Zalecany zakres: 15–120 sekund. Minimalna wymuszona wartość: 5 sekund.';
 $string['setting:reactionannouncementinterval'] = 'Interwał dostępnych komunikatów reakcji (milisekundy)';
-$string['setting:reactionannouncementinterval_desc'] = 'Minimalny interwał, w milisekundach, między powtarzanymi komunikatami czytnika ekranu „reakcje niedostępne”. Użyj niższej wartości dla częstszej informacji zwrotnej w krótkich filmach albo wyższej, aby ograniczyć powtarzane komunikaty. Ustaw 0, aby wyłączyć powtarzane komunikaty. Zalecany zakres po włączeniu: 10000–60000 milisekund.';
+$string['setting:reactionannouncementinterval_desc'] = 'Minimalny interwał, w milisekundach, między powtarzanymi komunikatami czytnika ekranu „reakcje niedostępne”. Użyj niższej wartości dla częstszej informacji zwrotnej w krótkich filmach albo wyższej, aby ograniczyć powtarzane komunikaty. Ustaw 0, aby wyłączyć powtarzane komunikaty. Zalecany zakres po włączeniu: 10000–60000 milisekund. Przykłady: 10000 = 10 sekund, 30000 = 30 sekund, 60000 = 1 minuta.';
 $string['setting:reactionreadydebouncems'] = 'Opóźnienie gotowości reakcji (milisekundy)';
 $string['setting:reactionreadydebouncems_desc'] = 'Minimalne opóźnienie, w milisekundach, przed ponownym ogłoszeniem „reakcje dostępne” po szybkiej pauzie i wznowieniu. Ustaw 0, aby wyłączyć ten debounce.';
 $string['setting:heading_performance'] = 'Wydajność';

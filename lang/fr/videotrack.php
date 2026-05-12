@@ -91,9 +91,9 @@ $string['setting:heading_performance'] = 'Performance';
 $string['setting:heading_accessibility'] = 'Accessibilité';
 $string['setting:heading_accessibility_desc'] = 'Réglages pour les annonces des technologies d’assistance et le retour clavier/lecteur d’écran.';
 $string['setting:heading_defaults'] = 'Valeurs par défaut pour les nouvelles activités';
-$string['setting:heading_defaults_desc'] = 'Ces valeurs sont utilisées par défaut lorsqu\'un enseignant crée une nouvelle activité VideoTrack. Chaque activité peut toujours être configurée individuellement.';
+$string['setting:heading_defaults_desc'] = 'Ces valeurs sont utilisées par défaut lorsqu’un enseignant crée une nouvelle activité VideoTrack. Chaque activité peut toujours être configurée individuellement.';
 $string['setting:default_desc'] = 'Valeur par défaut pour les nouvelles activités. Peut être remplacée par l’enseignant pour chaque activité individuelle.';
-$string['setting:default_completionpercent_desc'] = 'Pourcentage minimum par défaut de la vidéo que l’étudiant doit regarder pour terminer l’activité. Définir sur 0 pour laisser la règle d\'achèvement désactivée par défaut.';
+$string['setting:default_completionpercent_desc'] = 'Pourcentage minimum par défaut de la vidéo que l’étudiant doit regarder pour terminer l’activité. Définir sur 0 pour laisser la règle d’achèvement désactivée par défaut.';
 $string['event:segment_saved'] = 'Segment de visionnage enregistré';
 $string['event:reaction_saved'] = 'Réaction soumise';
 $string['event:note_saved'] = 'Note de l’étudiant enregistrée';
@@ -101,7 +101,7 @@ $string['event:reaction_deleted'] = 'Réaction supprimée';
 $string['setting:heartbeatinterval'] = 'Intervalle de heartbeat (secondes)';
 $string['setting:heartbeatinterval_desc'] = 'À quelle fréquence le lecteur enregistre le segment de visionnage en cours sur le serveur pendant la lecture continue. Des valeurs plus faibles réduisent le risque de perte de données en cas de plantage du navigateur ou de panne réseau, mais augmentent la charge serveur (une requête AJAX + deux requêtes de base de données par étudiant et par intervalle). Plage recommandée : 15 à 120 secondes.';
 $string['setting:reactionannouncementinterval'] = 'Intervalle des annonces accessibles des réactions (millisecondes)';
-$string['setting:reactionannouncementinterval_desc'] = 'Intervalle minimal, en millisecondes, entre deux annonces répétées « réactions indisponibles » pour les lecteurs d’écran. Utilisez une valeur plus basse pour des retours fréquents dans les vidéos courtes, ou plus élevée pour réduire les annonces répétées. Définissez 0 pour désactiver les annonces répétées. Plage recommandée lorsque l’option est active : 10000–60000 millisecondes.';
+$string['setting:reactionannouncementinterval_desc'] = 'Intervalle minimal, en millisecondes, entre deux annonces répétées « réactions indisponibles » pour les lecteurs d’écran. Utilisez une valeur plus basse pour des retours fréquents dans les vidéos courtes, ou plus élevée pour réduire les annonces répétées. Définissez 0 pour désactiver les annonces répétées. Plage recommandée lorsque l’option est active : 10000–60000 millisecondes. Exemples : 10000 = 10 secondes, 30000 = 30 secondes, 60000 = 1 minute.';
 $string['setting:reactionreadydebouncems'] = 'Temporisation des réactions disponibles (millisecondes)';
 $string['setting:reactionreadydebouncems_desc'] = 'Délai minimal, en millisecondes, avant de répéter l’annonce « réactions disponibles » après une pause et une reprise rapides. Définissez 0 pour désactiver cette temporisation.';
 
@@ -137,36 +137,36 @@ $string['privacy:metadata:videotrack_reactev:reactionlabel'] = 'Libellé de réa
 $string['privacy:metadata:videotrack_reactev:reactiondesc'] = 'Description de la réaction affichée à l’utilisateur au moment de l’enregistrement.';
 $string['privacy:metadata:videotrack_reactev:videotime'] = 'Position sur la chronologie de la vidéo lors de l’enregistrement de la réaction.';
 $string['privacy:metadata:videotrack_reactev:playbackrate'] = 'Vitesse de lecture lors de l’enregistrement de la réaction.';
-$string['privacy:metadata:videotrack_reactev:isdeleted'] = 'Indique si l\'événement de réaction a été supprimé par l\'utilisateur.';
+$string['privacy:metadata:videotrack_reactev:isdeleted'] = 'Indique si l’événement de réaction a été supprimé par l’utilisateur.';
 
 $string['videotrack:viewcoursereport'] = 'Voir le rapport VideoTrack au niveau du cours';
 $string['videotrack:viewcoursereport_desc'] = 'Permet de consulter le rapport agrégé VideoTrack pour l’ensemble du cours.';
 $string['videotrack:overrideplayersettings'] = 'Remplacer les paramètres du lecteur de la plateforme';
-$string['videotrack:overrideplayersettings_desc'] = 'Permet à l’enseignant de modifier les paramètres du lecteur définis par l\'administrateur comme valeurs par défaut de la plateforme.';
-$string['videotrack:overridecompletionsettings'] = 'Remplacer les paramètres d\'achèvement de la plateforme';
-$string['videotrack:overridecompletionsettings_desc'] = 'Permet à l’enseignant de modifier les paramètres d\'achèvement définis par l\'administrateur comme valeurs par défaut de la plateforme.';
-$string['setting:lockedbyAdmin'] = 'Ces paramètres sont verrouillés par l\'administrateur de la plateforme et ne peuvent pas être modifiés pour les activités individuelles.';
+$string['videotrack:overrideplayersettings_desc'] = 'Permet à l’enseignant de modifier les paramètres du lecteur définis par l’administrateur comme valeurs par défaut de la plateforme.';
+$string['videotrack:overridecompletionsettings'] = 'Remplacer les paramètres d’achèvement de la plateforme';
+$string['videotrack:overridecompletionsettings_desc'] = 'Permet à l’enseignant de modifier les paramètres d’achèvement définis par l’administrateur comme valeurs par défaut de la plateforme.';
+$string['setting:lockedbyAdmin'] = 'Ces paramètres sont verrouillés par l’administrateur de la plateforme et ne peuvent pas être modifiés pour les activités individuelles.';
 $string['setting:heading_presets'] = 'Préréglages de réactions';
-$string['setting:heading_presets_desc'] = 'Ensembles de réactions à l\'échelle du site que les enseignants peuvent utiliser comme point de départ.';
+$string['setting:heading_presets_desc'] = 'Ensembles de réactions à l’échelle du site que les enseignants peuvent utiliser comme point de départ.';
 $string['reactionpreset'] = 'Appliquer un préréglage de réactions';
 $string['reactionpreset_help'] = 'Sélectionnez un préréglage pour préremplir les champs de réaction. Vous pouvez modifier librement les valeurs après.';
 $string['reactionpreset:none'] = '— configurer manuellement —';
 $string['presets:manage'] = 'Gérer les préréglages de réactions';
 $string['presets:pagetitle'] = 'VideoTrack — Préréglages de réactions';
-$string['presets:intro'] = 'Définissez des préréglages de réactions à l\'échelle du site comme point de départ pour les enseignants.';
+$string['presets:intro'] = 'Définissez des préréglages de réactions à l’échelle du site comme point de départ pour les enseignants.';
 $string['presets:addpreset'] = 'Ajouter un préréglage';
 $string['presets:backtolist'] = 'Retour à la liste des préréglages';
 $string['presets:saved'] = 'Préréglage enregistré.';
 $string['presets:deleted'] = 'Préréglage supprimé.';
 $string['presets:notfound'] = 'Préréglage introuvable.';
-$string['presets:noneyet'] = 'Aucun préréglage de réaction n\'a encore été configuré.';
+$string['presets:noneyet'] = 'Aucun préréglage de réaction n’a encore été configuré.';
 $string['presets:confirmdelete'] = 'Êtes-vous sûr de vouloir supprimer ce préréglage ?';
 $string['presets:presetdetails'] = 'Détails du préréglage';
 $string['presets:name'] = 'Nom du préréglage';
 $string['presets:key'] = 'Clé du préréglage';
 $string['presets:key_help'] = 'Identifiant unique (lettres, chiffres et tirets bas uniquement). Ne peut pas être modifié après la création.';
 $string['presets:reactions'] = 'Réactions';
-$string['presets:reactions_help'] = 'Laissez l\'étiquette vide pour ignorer une ligne.';
+$string['presets:reactions_help'] = 'Laissez l’étiquette vide pour ignorer une ligne.';
 $string['presets:col_name'] = 'Nom';
 $string['presets:col_key'] = 'Clé';
 $string['presets:col_reactions'] = 'Réactions';
@@ -174,13 +174,13 @@ $string['presets:col_actions'] = 'Actions';
 $string['setting:heartbeatinterval_min'] = 'Valeur minimale appliquée : 5 secondes.';
 
 $string['reset:userdata'] = 'Supprimer toutes les données de visionnage des étudiants (segments, états, réactions)';
-$string['report:recalculate'] = 'Recalculer tous les états d\'achèvement';
-$string['report:recalculated'] = 'États d\'achèvement recalculés pour {$a} utilisateurs.';
+$string['report:recalculate'] = 'Recalculer tous les états d’achèvement';
+$string['report:recalculated'] = 'États d’achèvement recalculés pour {$a} utilisateurs.';
 $string['report:heatmap_desc'] = 'Carte de chaleur des réactions sur la timeline vidéo (hauteur de barre = nombre de clics à ce point) :';
 $string['report:heatmap_supplementary'] = 'La carte thermique est une visualisation complémentaire. Les données complètes des clusters sont disponibles dans le tableau ci-dessous.';
 $string['event:activity_completed'] = 'Activité VideoTrack terminée';
 
-$string['reactioniconfile_notice'] = 'L\'image sera automatiquement redimensionnée à 64×64 pixels (recadrage centré). Pour de meilleurs résultats, téléversez une image carrée (ratio 1:1). Formats acceptés : JPG, PNG, GIF, WebP.';
+$string['reactioniconfile_notice'] = 'L’image sera automatiquement redimensionnée à 64×64 pixels (recadrage centré). Pour de meilleurs résultats, téléversez une image carrée (ratio 1:1). Formats acceptés : JPG, PNG, GIF, WebP.';
 $string['reactions_hint'] = 'Cliquez sur un bouton de réaction pendant la lecture de la vidéo pour enregistrer votre réaction à cet instant.';
 
 $string['showgradeto'] = 'Afficher la note à l’étudiant';
@@ -195,8 +195,8 @@ $string['source:youtube'] = 'YouTube';
 $string['source:vimeo'] = 'Vimeo';
 $string['source:upload'] = 'Téléverser (MP4/WebM/MP3)';
 $string['vimeourl'] = 'URL Vimeo';
-$string['vimeourl_help'] = 'Collez l\'URL de la vidéo Vimeo.';
-$string['invalidvimeourl'] = 'L\'URL ne semble pas être une URL Vimeo valide.';
+$string['vimeourl_help'] = 'Collez l’URL de la vidéo Vimeo.';
+$string['invalidvimeourl'] = 'L’URL ne semble pas être une URL Vimeo valide.';
 $string['videofile'] = 'Fichier vidéo/audio';
 $string['videofile_help'] = 'Téléversez un fichier MP4, WebM ou MP3.';
 $string['videofile_notice'] = 'Formats acceptés : MP4, WebM, MP3, M4V, MOV, AAC, M4A.';
@@ -206,13 +206,13 @@ $string['setting:playbackspeeds_desc'] = 'Sélectionnez les vitesses disponibles
 $string['setting:playbackspeeds_teacher_desc'] = 'Sélectionnez les vitesses de lecture pour cette activité.';
 $string['setting:speed_normal'] = 'normale';
 $string['setting:distractionfree'] = 'Mode sans distraction';
-$string['setting:distractionfree_desc'] = 'Cache l\'en-tête, le pied de page et la navigation lors du visionnage.';
+$string['setting:distractionfree_desc'] = 'Cache l’en-tête, le pied de page et la navigation lors du visionnage.';
 $string['intervalbar_title'] = 'Intervalles vus — segments verts = parties déjà visionnées.';
 $string['outline:percent'] = '{$a}% visionné';
 $string['outline:nodata'] = 'Aucune donnée de visionnage.';
 $string['coursereport:title'] = 'VideoTrack — Rapport de cours';
 $string['coursereport:navlink'] = 'Rapports VideoTrack';
-$string['coursereport:intro'] = 'Vue d\'ensemble de toutes les activités VideoTrack du cours.';
+$string['coursereport:intro'] = 'Vue d’ensemble de toutes les activités VideoTrack du cours.';
 $string['coursereport:nodata'] = 'Aucune activité VideoTrack trouvée.';
 $string['coursereport:col_activity'] = 'Activité';
 $string['coursereport:col_source'] = 'Source';
@@ -247,7 +247,7 @@ $string['ctrl:duration'] = 'Durée';
 $string['ctrl:mute'] = 'Sourdine';
 $string['ctrl:volume'] = 'Volume';
 $string['ctrl:speed'] = 'Vitesse';
-$string['ctrl:pip'] = 'Image dans l\'image';
+$string['ctrl:pip'] = 'Image dans l’image';
 $string['ctrl:fullscreen'] = 'Plein écran';
 $string['ctrl:download'] = 'Télécharger';
 
@@ -256,13 +256,13 @@ $string['setting:playerwidth_desc'] = 'Largeur maximale du lecteur vidéo en pix
 $string['playerwidth'] = 'Largeur maximale du lecteur (px)';
 $string['playerwidth_help'] = 'Largeur maximale du lecteur pour cette activité. 0 = valeur par défaut.';
 $string['setting:rewindstep'] = 'Pas de rembobinage (secondes)';
-$string['setting:rewindstep_desc'] = 'Secondes reculées par le bouton de rembobinage. 0 = désactivé. Par défaut : 10. Important : si "Autoriser le saut en arrière" est désactivé pour une activité, le bouton n\'apparaîtra pas même si cette valeur est > 0.';
+$string['setting:rewindstep_desc'] = 'Secondes reculées par le bouton de rembobinage. 0 = désactivé. Par défaut : 10. Important : si "Autoriser le saut en arrière" est désactivé pour une activité, le bouton n’apparaîtra pas même si cette valeur est > 0.';
 $string['rewindstep'] = 'Pas de rembobinage (secondes)';
-$string['rewindstep_help'] = 'Secondes de rembobinage pour cette activité. 0 = valeur par défaut. Note : si "Autoriser le saut en arrière" est désactivé, le bouton n\'apparaîtra pas quelle que soit cette valeur.';
-$string['setting:fastforwardstep'] = 'Pas d\'avance rapide (secondes)';
-$string['setting:fastforwardstep_desc'] = 'Secondes avancées par le bouton d\'avance rapide. 0 = désactivé. Par défaut : 10. Important : si "Autoriser le saut en avant" est désactivé pour une activité, le bouton n\'apparaîtra pas même si cette valeur est > 0.';
-$string['fastforwardstep'] = 'Pas d\'avance rapide (secondes)';
-$string['fastforwardstep_help'] = 'Secondes d\'avance pour cette activité. 0 = valeur par défaut. Note : si "Autoriser le saut en avant" est désactivé, le bouton n\'apparaîtra pas quelle que soit cette valeur.';
+$string['rewindstep_help'] = 'Secondes de rembobinage pour cette activité. 0 = valeur par défaut. Note : si "Autoriser le saut en arrière" est désactivé, le bouton n’apparaîtra pas quelle que soit cette valeur.';
+$string['setting:fastforwardstep'] = 'Pas d’avance rapide (secondes)';
+$string['setting:fastforwardstep_desc'] = 'Secondes avancées par le bouton d’avance rapide. 0 = désactivé. Par défaut : 10. Important : si "Autoriser le saut en avant" est désactivé pour une activité, le bouton n’apparaîtra pas même si cette valeur est > 0.';
+$string['fastforwardstep'] = 'Pas d’avance rapide (secondes)';
+$string['fastforwardstep_help'] = 'Secondes d’avance pour cette activité. 0 = valeur par défaut. Note : si "Autoriser le saut en avant" est désactivé, le bouton n’apparaîtra pas quelle que soit cette valeur.';
 $string['captionsheader'] = 'Sous-titres';
 $string['captions'] = 'Activer les sous-titres';
 $string['captions_help'] = 'Active les sous-titres pour YouTube, Vimeo ou Upload (VTT).';
@@ -275,7 +275,7 @@ $string['vttfile_help'] = 'Téléverser un fichier WebVTT.';
 $string['vttfile_notice'] = 'Format accepté : WebVTT (.vtt).';
 $string['vimeo_captions_notice'] = 'Les sous-titres Vimeo sont gérés sur Vimeo.com.';
 $string['ctrl:rewind'] = 'Bouton de rembobinage';
-$string['ctrl:fastforward'] = 'Bouton d\'avance rapide';
+$string['ctrl:fastforward'] = 'Bouton d’avance rapide';
 
 $string['playerloading'] = 'Chargement du lecteur vidéo, veuillez patienter…';
 $string['noreactionsyet'] = 'Aucune réaction enregistrée. Réagissez pendant la lecture de la vidéo.';
@@ -283,8 +283,8 @@ $string['reaction:error'] = 'Impossible de sauvegarder votre réaction. Veuillez
 
 // ── Feature 1: Resume playback ────────────────────────────────────────────
 $string['resumeplayback'] = 'Reprendre la lecture';
-$string['resumeplayback_desc'] = 'Reprend automatiquement la vidéo à l\'endroit où l’étudiant s\'est arrêté lors de sa dernière session.';
-$string['resumeplayback_help'] = 'Si cette option est activée, la vidéo démarre à la dernière position enregistrée (si elle est située à plus de 5 secondes du début). L\'étudiant peut toujours revenir manuellement au début.';
+$string['resumeplayback_desc'] = 'Reprend automatiquement la vidéo à l’endroit où l’étudiant s’est arrêté lors de sa dernière session.';
+$string['resumeplayback_help'] = 'Si cette option est activée, la vidéo démarre à la dernière position enregistrée (si elle est située à plus de 5 secondes du début). L’étudiant peut toujours revenir manuellement au début.';
 $string['setting:resumeplayback'] = 'Reprendre la lecture (par défaut)';
 $string['setting:resumeplayback_desc'] = 'Paramètre par défaut pour les nouvelles activités VideoTrack. Les enseignants peuvent le modifier par activité.';
 
@@ -299,7 +299,7 @@ $string['setting:maxplaybackrate_desc'] = 'Vitesse maximale par défaut pour les
 // ── Feature 8: Transcript interattivo ─────────────────────────────────────
 $string['showtranscript'] = 'Afficher la transcription interactive';
 $string['showtranscript_desc'] = 'Affiche un panneau de transcription défilant et cliquable à côté de la vidéo (nécessite un fichier de sous-titres VTT).';
-$string['showtranscript_help'] = 'Analyse le fichier VTT téléversé et l\'affiche sous forme de liste cliquable. Chaque entrée affiche l\'horodatage et le texte ; un clic déplace la vidéo à ce point. Le segment actif est mis en évidence et affiché automatiquement.';
+$string['showtranscript_help'] = 'Analyse le fichier VTT téléversé et l’affiche sous forme de liste cliquable. Chaque entrée affiche l’horodatage et le texte ; un clic déplace la vidéo à ce point. Le segment actif est mis en évidence et affiché automatiquement.';
 $string['transcript_title'] = 'Transcription';
 $string['transcript_loading'] = 'Chargement de la transcription…';
 
@@ -307,7 +307,7 @@ $string['transcript_loading'] = 'Chargement de la transcription…';
 $string['autoblockedlabel'] = 'Cliquez sur la vidéo pour démarrer la lecture.';
 
 // ── Feature 4: Vimeo CSP warning ──────────────────────────────────────────
-$string['vimeocspwarnlabel'] = 'Le lecteur Vimeo n\'a pas pu être chargé. Vérifiez la connexion réseau ou demandez à l\'administrateur d\'autoriser player.vimeo.com dans la Content Security Policy.';
+$string['vimeocspwarnlabel'] = 'Le lecteur Vimeo n’a pas pu être chargé. Vérifiez la connexion réseau ou demandez à l’administrateur d’autoriser player.vimeo.com dans la Content Security Policy.';
 
 // ── Feature 5: Resume label ───────────────────────────────────────────────
 $string['resumelabel'] = 'Reprise à partir de';
@@ -325,38 +325,38 @@ $string['chapterslabel'] = 'Chapitres vidéo';
 $string['chapter_label'] = 'Chapitre';
 $string['chapterlabel'] = 'Chapitre';
 $string['studentnotesenabled'] = 'Activer les notes des étudiants';
-$string['studentnotesenabled_desc'] = 'Permet aux étudiants d\'écrire des notes personnelles horodatées pendant le visionnage.';
-$string['studentnotesenabled_help'] = 'Si cette option est activée, une zone de texte apparaît à côté de la vidéo. Les étudiants peuvent saisir une note et l\'enregistrer à l\'horodatage actuel. Les notes sont visibles uniquement par l’étudiant qui les a écrites et par les gestionnaires via le rapport.';
+$string['studentnotesenabled_desc'] = 'Permet aux étudiants d’écrire des notes personnelles horodatées pendant le visionnage.';
+$string['studentnotesenabled_help'] = 'Si cette option est activée, une zone de texte apparaît à côté de la vidéo. Les étudiants peuvent saisir une note et l’enregistrer à l’horodatage actuel. Les notes sont visibles uniquement par l’étudiant qui les a écrites et par les gestionnaires via le rapport.';
 $string['setting:studentnotesenabled'] = 'Activer les notes des étudiants (par défaut)';
 $string['setting:studentnotesenabled_desc'] = 'Paramètre par défaut pour les nouvelles activités VideoTrack. Les enseignants peuvent le modifier par activité.';
 $string['studentnotes_title'] = 'Mes notes';
 $string['studentnote_placeholder'] = 'Écrire une note à ce moment de la vidéo…';
 $string['studentnote_save'] = 'Enregistrer la note';
-$string['studentnote_hint'] = 'La note sera enregistrée à l\'horodatage actuel de la vidéo. La vidéo doit être en cours de lecture.';
+$string['studentnote_hint'] = 'La note sera enregistrée à l’horodatage actuel de la vidéo. La vidéo doit être en cours de lecture.';
 $string['studentnotes_list_label'] = 'Notes enregistrées';
 $string['studentnote_label'] = 'Note de l’étudiant';
-$string['noteerrorlabel'] = 'Impossible d\'enregistrer la note. Veuillez réessayer.';
+$string['noteerrorlabel'] = 'Impossible d’enregistrer la note. Veuillez réessayer.';
 $string['charsremaininglabel'] = 'caractères restants';
-$string['posterimage'] = 'Image d\'aperçu / poster';
-$string['posterimage_help'] = 'Téléversez une image à afficher avant le démarrage de la vidéo. Elle reste visible jusqu\'à ce que l’étudiant clique sur lecture. Formats acceptés : JPG, PNG, WebP, GIF. Taille recommandée : 1280×720 px (16:9).';
-$string['posterimage_notice'] = 'L\'image d\'aperçu est affichée avant la lecture et masquée automatiquement lorsque la vidéo démarre.';
+$string['posterimage'] = 'Image d’aperçu / poster';
+$string['posterimage_help'] = 'Téléversez une image à afficher avant le démarrage de la vidéo. Elle reste visible jusqu’à ce que l’étudiant clique sur lecture. Formats acceptés : JPG, PNG, WebP, GIF. Taille recommandée : 1280×720 px (16:9).';
+$string['posterimage_notice'] = 'L’image d’aperçu est affichée avant la lecture et masquée automatiquement lorsque la vidéo démarre.';
 $string['playbutton_label'] = 'Lire la vidéo';
 $string['setting:maxplaybackrate_nolimit'] = 'Aucune limite';
 // ── Privacy: campi nuovi notetext/notetype ───────────────────────────────
-$string['privacy:metadata:videotrack_reactev:notetext'] = 'Texte d\'une note personnelle écrite par l’étudiant à un horodatage vidéo précis.';
-$string['privacy:metadata:videotrack_reactev:notetype'] = 'Type d\'événement : vide pour les réactions standard, "note" pour les notes personnelles des étudiants.';
+$string['privacy:metadata:videotrack_reactev:notetext'] = 'Texte d’une note personnelle écrite par l’étudiant à un horodatage vidéo précis.';
+$string['privacy:metadata:videotrack_reactev:notetype'] = 'Type d’événement : vide pour les réactions standard, "note" pour les notes personnelles des étudiants.';
 
 // ── Errore note disabilitate ──────────────────────────────────────────────
 $string['reactionsdisabled'] = 'Les réactions sont désactivées pour cette activité VideoTrack. Demandez à l’enseignant ou à l’administrateur du cours de les activer si elles sont nécessaires.';
 $string['studentnotesdisabled'] = 'Les notes des étudiants ne sont pas activées pour cette activité.';
 // ── C3: no file uploaded ──
-$string['nofilelabel'] = 'Aucun fichier vidéo n\'a été téléversé pour cette activité.';
+$string['nofilelabel'] = 'Aucun fichier vidéo n’a été téléversé pour cette activité.';
 $string['removenote'] = 'Supprimer la note';
 // ── Note toggle + report note ──
 $string['notes_hide'] = 'Masquer les notes';
 $string['notes_show'] = 'Afficher les notes';
 $string['report:notes_title'] = 'Notes des étudiants';
-$string['report:nonotes'] = 'Aucune note n\'a été écrite pour cette activité.';
+$string['report:nonotes'] = 'Aucune note n’a été écrite pour cette activité.';
 $string['report:notedate'] = 'Écrite le';
 $string['report:exportnotes_csv'] = 'Exporter les notes en CSV';
 // ── Localisation: skip buttons, dismiss, note remove ──
@@ -374,7 +374,7 @@ $string['completiondetail:requiredreactions'] = 'Doit inclure ces réactions obl
 $string['error:playbackrequired'] = 'La vidéo doit être en cours de lecture avant que cette action puisse être enregistrée.';
 // ── GD warning strings ──
 $string['setting:gd_missing_title'] = 'Extension PHP GD non disponible.';
-$string['setting:gd_missing_desc'] = 'Les images téléversées comme icônes de réaction ne seront PAS redimensionnées automatiquement à 64×64 pixels. Le fichier original sera servi tel quel, ce qui peut affecter les performances pour les grandes images. Pour activer le redimensionnement automatique, demandez à l\'administrateur du serveur d\'installer le paquet php-gd.';
+$string['setting:gd_missing_desc'] = 'Les images téléversées comme icônes de réaction ne seront PAS redimensionnées automatiquement à 64×64 pixels. Le fichier original sera servi tel quel, ce qui peut affecter les performances pour les grandes images. Pour activer le redimensionnement automatique, demandez à l’administrateur du serveur d’installer le paquet php-gd.';
 
 $string['report:heatmap_legend'] = 'Légende des couleurs de la heatmap des réactions';
 
