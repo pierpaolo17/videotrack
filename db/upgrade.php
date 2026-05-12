@@ -648,5 +648,18 @@ function xmldb_videotrack_upgrade($oldversion) {
         upgrade_mod_savepoint(true, 2026061700, 'videotrack');
     }
 
+    if ($oldversion < 2026061800) {
+        // v1.0.49: standardise reaction announcement interval storage to milliseconds.
+        $currentinterval = get_config('mod_videotrack', 'reactionannouncementinterval');
+        if ($currentinterval !== false && $currentinterval !== null && $currentinterval !== '') {
+            $currentinterval = (int)$currentinterval;
+            if ($currentinterval > 0 && $currentinterval <= 120) {
+                set_config('reactionannouncementinterval', $currentinterval * 1000, 'mod_videotrack');
+            }
+        }
+
+        upgrade_mod_savepoint(true, 2026061800, 'videotrack');
+    }
+
     return true;
 }

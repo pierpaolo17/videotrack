@@ -100,10 +100,10 @@ $string['event:note_saved'] = 'Nota del estudiante guardada';
 $string['event:reaction_deleted'] = 'Reacción eliminada';
 $string['setting:heartbeatinterval'] = 'Intervalo de heartbeat (segundos)';
 $string['setting:heartbeatinterval_desc'] = 'Con qué frecuencia el reproductor guarda en el servidor el segmento de visualización actual durante la reproducción continua. Los valores más bajos reducen el riesgo de pérdida de datos en caso de fallo del navegador o caída de la red, pero aumentan la carga del servidor (una solicitud AJAX + dos consultas de base de datos por estudiante por intervalo). Rango recomendado: 15–120 segundos.';
-$string['setting:reactionannouncementinterval'] = 'Intervalo de anuncios accesibles de reacciones (segundos)';
-$string['setting:reactionannouncementinterval_desc'] = 'Intervalo mínimo, en segundos, entre anuncios repetidos de lector de pantalla de “reacciones no disponibles”. Use un valor más bajo para recibir comentarios frecuentes en vídeos cortos, o uno más alto para reducir anuncios repetidos. Establezca 0 para desactivar los anuncios repetidos. Rango recomendado si está activado: 10–60 segundos.';
+$string['setting:reactionannouncementinterval'] = 'Intervalo de anuncios accesibles de reacciones (milisegundos)';
+$string['setting:reactionannouncementinterval_desc'] = 'Intervalo mínimo, en milisegundos, entre anuncios repetidos “reacciones no disponibles” para lectores de pantalla. Use un valor más bajo para comentarios frecuentes en vídeos cortos, o más alto para reducir anuncios repetidos. Establezca 0 para desactivar los anuncios repetidos. Rango recomendado cuando está activo: 10000–60000 milisegundos.';
 $string['setting:reactionreadydebouncems'] = 'Antirrebote de reacciones listas (milisegundos)';
-$string['setting:reactionreadydebouncems_desc'] = 'Retraso mínimo, en milisegundos, antes de repetir el aviso de que las reacciones están disponibles tras cambios rápidos de reproducción. Establezca 0 para desactivar este antirrebote.';
+$string['setting:reactionreadydebouncems_desc'] = 'Retraso mínimo, en milisegundos, antes de repetir el anuncio “reacciones disponibles” después de una pausa y reanudación rápidas. Establezca 0 para desactivar este antirrebote.';
 
 $string['reactionx'] = 'Reacción {$a}';
 

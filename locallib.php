@@ -3,6 +3,27 @@
 defined('MOODLE_INTERNAL') || die();
 
 /**
+ * Reads an integer plugin configuration value while preserving explicit zero values.
+ *
+ * Moodle returns false for missing config keys; using null coalescing would therefore
+ * convert a fresh-install default to 0 instead of the intended fallback.
+ *
+ * @param string $name Setting name without component prefix.
+ * @param int $default Default value when the setting is missing or invalid.
+ * @param int $min Inclusive lower bound.
+ * @param int $max Inclusive upper bound.
+ * @return int Bounded integer setting value.
+ */
+function videotrack_get_bounded_int_config(string $name, int $default, int $min, int $max): int {
+    $value = get_config('mod_videotrack', $name);
+    if ($value === false || $value === null || $value === '') {
+        $value = $default;
+    }
+    $value = (int)$value;
+    return max($min, min($max, $value));
+}
+
+/**
  * Extracts the 11-character YouTube video ID from a URL.
  *
  * @param  string      $url

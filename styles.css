@@ -8,7 +8,7 @@
     --videotrack-transcript-hover-bg: rgba(0, 64, 170, 0.10);
     --videotrack-transcript-active-bg: rgba(0, 64, 170, 0.18);
     --videotrack-transcript-playing-bg: rgba(40, 167, 69, 0.12);
-    --videotrack-transcript-active-border: #1e7e34;
+    --videotrack-transcript-playing-border: #1e7e34;
 }
 
 /* ─── Player shell ──────────────────────────────────────────────────────── */
@@ -320,7 +320,7 @@
         --videotrack-transcript-hover-bg: rgba(138, 180, 255, 0.20);
         --videotrack-transcript-active-bg: rgba(138, 180, 255, 0.28);
         --videotrack-transcript-playing-bg: rgba(117, 183, 152, 0.20);
-        --videotrack-transcript-active-border: #9be7b1;
+        --videotrack-transcript-playing-border: #9be7b1;
     }
 
     .videotrack-interval-bar {
@@ -577,7 +577,7 @@
 .videotrack-transcript-active {
     background: var(--videotrack-transcript-playing-bg);
     font-weight: 500;
-    border-left: 3px solid var(--videotrack-transcript-active-border);
+    border-left: 3px solid var(--videotrack-transcript-playing-border);
     padding-left: 6px;
 }
 
