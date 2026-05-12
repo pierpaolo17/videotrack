@@ -98,6 +98,8 @@ $string['event:note_saved'] = 'छात्र नोट सहेजा गय�
 $string['event:reaction_deleted'] = 'प्रतिक्रिया हटाई गई';
 $string['setting:heartbeatinterval'] = 'हार्टबीट अंतराल (सेकंड)';
 $string['setting:heartbeatinterval_desc'] = 'निरंतर प्लेबैक के दौरान प्लेयर कितनी बार सर्वर पर वर्तमान व्यूइंग सेगमेंट सहेजता है। कम मान ब्राउज़र क्रैश या नेटवर्क विफलता पर डेटा हानि के जोखिम को कम करते हैं, लेकिन सर्वर लोड बढ़ाते हैं (प्रति छात्र प्रति अंतराल एक AJAX अनुरोध + दो डेटाबेस क्वेरी)। अनुशंसित सीमा: 15–120 सेकंड।';
+$string['setting:reactionannouncementinterval'] = 'प्रतिक्रिया accessibility घोषणा अंतराल (सेकंड)';
+$string['setting:reactionannouncementinterval_desc'] = 'स्क्रीन रीडर के लिए दोहराई गई “प्रतिक्रियाएँ उपलब्ध नहीं हैं” घोषणाओं के बीच न्यूनतम समय। छोटे वीडियो में बार-बार प्रतिक्रिया के लिए कम मान या दोहराई गई घोषणाएँ कम करने के लिए अधिक मान उपयोग करें। अनुशंसित सीमा: 10–60 सेकंड।';
 
 $string['reactionx'] = 'प्रतिक्रिया {$a}';
 
@@ -374,13 +376,14 @@ $string['report:heatmap_legend'] = 'प्रतिक्रिया हीट�
 
 $string['report:clusterlimitreached'] = 'रिपोर्ट में दिखाए जाने वाले क्लस्टरों की अधिकतम संख्या पहुँच गई है। पूर्ण विश्लेषण के लिए फ़िल्टर या छोटी समय-सीमा का उपयोग करें.';
 
-$string['report:showingrecentreactionsoftotal'] = 'कुल {$a->total} प्रतिक्रियाओं में से सबसे पुरानी {$a->shown} प्रतिक्रियाएँ दिखाई जा रही हैं।';
+$string['report:showingrecentreactionsoftotal'] = '{$a->total} प्रतिक्रियाओं में से {$a->shown} दिखाई जा रही हैं, सबसे पुरानी से सबसे नई तक।';
 
 $string['report:viewfullreport'] = 'पूरी रिपोर्ट देखें';
 $string['studentnotes_view_limited'] = 'नवीनतम {$a} नोट्स दिखाए जा रहे हैं। सभी नोट्स देखने के लिए पूरी रिपोर्ट खोलें।';
 $string['report:skiptoheatmaptable'] = 'हीटमैप छोड़ें और डेटा तालिका पर जाएँ';
 $string['report:heatmap_textsummary'] = 'चार्ट में {$a->clusters} क्लस्टर हैं; सबसे बड़े क्लस्टर में {$a->max} क्लिक हैं।';
 $string['err:reactioniconvaluerequired'] = 'एक इमोजी या Font Awesome क्लास दर्ज करें.';
+$string['err:reactioniconvalueinvalidfa'] = 'केवल मान्य Font Awesome class नाम दर्ज करें, जिनमें अक्षर, अंक, spaces और hyphens हों।';
 
 $string['error:reactionratelimit'] = 'कम समय में बहुत अधिक प्रतिक्रियाएँ भेजी गईं। कृपया वीडियो देखना जारी रखें और फिर प्रयास करें।';
 $string['event:student_progress_reset'] = 'विद्यार्थी का VideoTrack डेटा रीसेट किया गया';
