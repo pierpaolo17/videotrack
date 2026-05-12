@@ -1,6 +1,6 @@
 # mod_videotrack — Guida alla struttura del codice
 
-**Versione**: 1.0.44 (build 2026061300)
+**Versione**: 1.0.45 (build 2026061400)
 **Prerequisito di lettura**: conoscenza base di Moodle (plugin system, `$DB`, `$USER`, `cm_info`) e PHP/JavaScript.
 
 ---
@@ -215,10 +215,10 @@ Un record per ogni click su un bottone reazione o per ogni nota salvata.
 
 ```php
 $plugin->component = 'mod_videotrack';
-$plugin->version   = 2026061300;
+$plugin->version   = 2026061400;
 $plugin->requires  = 2025041400; // Moodle 5.0.
 $plugin->maturity  = MATURITY_BETA;
-$plugin->release   = '1.0.44';
+$plugin->release   = '1.0.45';
 ```
 
 È il file letto da Moodle per decidere se mostrare l'upgrade dialog. `version` è un intero in formato `YYYYMMDDnn`. `requires` è la build minima di Moodle supportata.
@@ -866,7 +866,7 @@ Questa scelta evita esportazioni parziali interpretate come complete e mantiene 
 ### Storico aggiornamenti: 1.0.42
 
 - Ripristinato il pacchetto lingua polacco e riallineate tutte le lingue incluse.
-- Aggiornata la documentazione alla build 2026061300.
+- Aggiornata la documentazione alla build 2026061400.
 - Chiarito che la retention automatica opera per coppia utente/attività e che gli identificativi negativi sono pseudonimi tecnici, salted e scoped per attività.
 - Ridotto il logging debug dei segmenti sospetti per evitare rumore e dati comportamentali non necessari.
 - Migliorata l'usabilità validazione di integrità accademica: con la validazione di sessione non stretta, note e reazioni possono essere salvate anche dopo pause o refresh purché il timestamp risulti già guardato.
@@ -886,6 +886,12 @@ Questa scelta evita esportazioni parziali interpretate come complete e mantiene 
 - Il report corso usa join aggregate filtrate per corso invece di subquery `IN`, riducendo il carico su siti grandi.
 - Il messaggio di reazioni troncate mostra anche il totale reale solo quando serve.
 
+
+### Storico aggiornamenti: 1.0.45
+- Ripristinati i diacritici nelle stringhe multilingua relative al troncamento delle reazioni.
+- Migliorato il contrasto del transcript attivo, dello slider volume e del pulsante velocità attivo in dark mode.
+- Spostata la live region delle reazioni nel markup e reso configurabile via playerconfig l'intervallo minimo degli annunci di indisponibilità.
+- Aggiunta validazione difensiva delle classi Font Awesome per le icone reazione.
 
 ### Storico aggiornamenti: 1.0.44
 

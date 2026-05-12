@@ -125,6 +125,7 @@ $playerconfig = [
     'reactionerrorlabel'     => get_string('reaction:error',     'mod_videotrack'),
     'reactionunavailablelabel' => get_string('reactionsavailableonlyduringplayback', 'mod_videotrack'),
     'reactionsreadylabel'    => get_string('reactionsreadyannounce', 'mod_videotrack'),
+    'reactionannouncementinterval' => 30000,
     'autoblockedlabel'       => get_string('autoblockedlabel',   'mod_videotrack'),
     'vimeocspwarnlabel'      => get_string('vimeocspwarnlabel',  'mod_videotrack'),
     'nofilelabel'            => get_string('nofilelabel',         'mod_videotrack'),
@@ -499,7 +500,7 @@ if (!empty($videotrack->reactionsenabled) && $reactions) {
     // Questo è by-design (punto 4 dei requisiti).
     echo html_writer::tag('p',
         get_string('reactions_hint', 'mod_videotrack'),
-        ['class' => 'videotrack-reactions-hint', 'id' => 'videotrack-reactions-hint']
+        ['class' => 'videotrack-reactions-hint', 'id' => 'videotrack-reactions-hint', 'aria-live' => 'polite']
     );
     echo html_writer::end_div(); // videotrack-reactions
 }

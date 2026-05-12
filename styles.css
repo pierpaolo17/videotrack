@@ -7,6 +7,7 @@
     --videotrack-interval-fill: #28a745;
     --videotrack-transcript-hover-bg: rgba(0, 64, 170, 0.10);
     --videotrack-transcript-active-bg: rgba(0, 64, 170, 0.18);
+    --videotrack-transcript-playing-bg: rgba(40, 167, 69, 0.12);
 }
 
 /* ─── Player shell ──────────────────────────────────────────────────────── */
@@ -317,6 +318,7 @@
         --videotrack-interval-fill: #75b798;
         --videotrack-transcript-hover-bg: rgba(138, 180, 255, 0.20);
         --videotrack-transcript-active-bg: rgba(138, 180, 255, 0.28);
+        --videotrack-transcript-playing-bg: rgba(117, 183, 152, 0.20);
     }
 
     .videotrack-interval-bar {
@@ -327,6 +329,15 @@
     }
     .videotrack-progress {
         color: #dee2e6;
+    }
+
+    .videotrack-ctrl-volume {
+        accent-color: #75b798;
+    }
+
+    .videotrack-html5-controls .videotrack-speed-btn.active {
+        background: #75b798;
+        border-color: #75b798;
     }
     .videotrack-player-wrap {
         background: #1a1a1a;
@@ -532,7 +543,7 @@
     background: var(--videotrack-transcript-hover-bg);
 }
 .videotrack-transcript-active {
-    background: rgba(40, 167, 69, 0.12);
+    background: var(--videotrack-transcript-playing-bg);
     font-weight: 500;
     border-left: 3px solid var(--videotrack-interval-fill);
     padding-left: 6px;

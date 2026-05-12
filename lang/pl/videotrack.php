@@ -373,7 +373,7 @@ $string['report:heatmap_legend'] = 'Legenda kolorów mapy cieplnej reakcji';
 
 $string['report:clusterlimitreached'] = 'Raport osiągnął maksymalną liczbę wyświetlanych klastrów. Użyj filtrów lub węższego zakresu czasu.';
 
-$string['report:showingrecentreactionsoftotal'] = 'Pokazywane jest {$a->shown} najstarszych reakcji z lacznie {$a->total}.';
+$string['report:showingrecentreactionsoftotal'] = 'Pokazywane jest {$a->shown} najstarszych reakcji z łącznie {$a->total}.';
 
 $string['report:viewfullreport'] = 'Wyświetl pełny raport';
 $string['studentnotes_view_limited'] = 'Pokazywane są najnowsze notatki: {$a}. Otwórz pełny raport, aby przejrzeć wszystkie.';
