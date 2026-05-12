@@ -4,6 +4,8 @@ define(['core/ajax', 'core/log'], function(Ajax, Log) {
     var lastReactionAvailabilityAnnouncement = null;
     var reactionReadyAnnounced = false;
     var reactionUnavailableTimer = null;
+    var lastReactionUnavailableAt = 0;
+    var REACTION_UNAVAILABLE_ANNOUNCE_INTERVAL = 30000;
     // HEARTBEAT_INTERVAL viene inizializzato in init() dal valore configurato
     // dall'amministratore in Amministrazione sito → Plugin → Moduli attività → Video track.
     var HEARTBEAT_INTERVAL = 30; // valore di fallback, sovrascritto da config.heartbeatinterval
@@ -249,12 +251,18 @@ define(['core/ajax', 'core/log'], function(Ajax, Log) {
             return;
         }
 
-        if (lastReactionAvailabilityAnnouncement === false || reactionUnavailableTimer) {
+        if (reactionUnavailableTimer) {
+            return;
+        }
+        var now = Date.now();
+        if (lastReactionAvailabilityAnnouncement === false &&
+                now - lastReactionUnavailableAt < REACTION_UNAVAILABLE_ANNOUNCE_INTERVAL) {
             return;
         }
         reactionUnavailableTimer = window.setTimeout(function() {
             reactionUnavailableTimer = null;
             lastReactionAvailabilityAnnouncement = false;
+            lastReactionUnavailableAt = Date.now();
             hint.textContent = config.reactionunavailablelabel || 'Reactions are available only during video playback.';
             hint.classList.toggle('videotrack-reactions-hint-active', true);
         }, 400);
@@ -264,6 +272,16 @@ define(['core/ajax', 'core/log'], function(Ajax, Log) {
     function announceReactionUnavailable() {
         var hint = document.getElementById('videotrack-reactions-hint');
         if (hint) {
+            if (reactionUnavailableTimer) {
+                window.clearTimeout(reactionUnavailableTimer);
+                reactionUnavailableTimer = null;
+            }
+            var now = Date.now();
+            if (lastReactionAvailabilityAnnouncement === false && now - lastReactionUnavailableAt < 1000) {
+                return;
+            }
+            lastReactionAvailabilityAnnouncement = false;
+            lastReactionUnavailableAt = now;
             hint.setAttribute('aria-live', 'polite');
             hint.textContent = config.reactionunavailablelabel || 'Reactions are available only during video playback.';
             hint.classList.add('videotrack-reactions-hint-active');

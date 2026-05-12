@@ -374,7 +374,7 @@ $string['report:heatmap_legend'] = 'Farblegende der Reaktions-Heatmap';
 
 $string['report:clusterlimitreached'] = 'Der Bericht hat die maximale Anzahl angezeigter Cluster erreicht. Verwenden Sie Filter oder ein kleineres Zeitfenster für eine vollständige Analyse.';
 
-$string['report:showingrecentreactionsoftotal'] = 'Es werden nur die ältesten {$a->shown} von {$a->total} Reaktionen angezeigt.';
+$string['report:showingrecentreactionsoftotal'] = 'Es werden die {$a->shown} aeltesten von insgesamt {$a->total} Reaktionen angezeigt.';
 
 $string['report:viewfullreport'] = 'Vollständigen Bericht anzeigen';
 $string['studentnotes_view_limited'] = 'Es werden die letzten {$a} Notizen angezeigt. Öffnen Sie den vollständigen Bericht, um alle Notizen zu prüfen.';

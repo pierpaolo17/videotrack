@@ -374,7 +374,7 @@ $string['report:heatmap_legend'] = 'प्रतिक्रिया हीट�
 
 $string['report:clusterlimitreached'] = 'रिपोर्ट में दिखाए जाने वाले क्लस्टरों की अधिकतम संख्या पहुँच गई है। पूर्ण विश्लेषण के लिए फ़िल्टर या छोटी समय-सीमा का उपयोग करें.';
 
-$string['report:showingrecentreactionsoftotal'] = 'कुल {$a->total} प्रतिक्रियाओं में से केवल सबसे पुरानी {$a->shown} प्रतिक्रियाएँ दिखाई जा रही हैं।';
+$string['report:showingrecentreactionsoftotal'] = 'कुल {$a->total} प्रतिक्रियाओं में से सबसे पुरानी {$a->shown} प्रतिक्रियाएँ दिखाई जा रही हैं।';
 
 $string['report:viewfullreport'] = 'पूरी रिपोर्ट देखें';
 $string['studentnotes_view_limited'] = 'नवीनतम {$a} नोट्स दिखाए जा रहे हैं। सभी नोट्स देखने के लिए पूरी रिपोर्ट खोलें।';

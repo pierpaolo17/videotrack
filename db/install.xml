@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8" ?>
-<XMLDB PATH="mod/videotrack/db" VERSION="2026061200" COMMENT="XMLDB file for mod_videotrack"
+<XMLDB PATH="mod/videotrack/db" VERSION="2026061300" COMMENT="XMLDB file for mod_videotrack"
     xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
     xsi:noNamespaceSchemaLocation="../../../lib/xmldb/xmldb.xsd"
 >
@@ -167,11 +167,9 @@
         <KEY NAME="primary" TYPE="primary" FIELDS="id"/>
       </KEYS>
       <INDEXES>
-        <INDEX NAME="vt_user_idx" UNIQUE="false" FIELDS="videotrackid, userid, isdeleted"/>
         <INDEX NAME="vt_reaction_idx" UNIQUE="false" FIELDS="videotrackid, reactionid, isdeleted"/>
         <INDEX NAME="user_vt_idx" UNIQUE="false" FIELDS="userid, videotrackid, isdeleted"/>
         <INDEX NAME="vt_user_sess_time_idx" UNIQUE="false" FIELDS="videotrackid, userid, sessionid, timecreated"/>
-        <INDEX NAME="vt_user_type_time_idx" UNIQUE="false" FIELDS="videotrackid, userid, notetype, timecreated"/>
         <INDEX NAME="vt_user_del_type_time_idx" UNIQUE="false" FIELDS="videotrackid, userid, isdeleted, notetype, timecreated"/>
         <INDEX NAME="vt_user_reaction_del_time_idx" UNIQUE="false" FIELDS="videotrackid, userid, reactionid, isdeleted, timecreated"/>
         <INDEX NAME="vt_user_note_del_time_idx" UNIQUE="false" FIELDS="videotrackid, userid, notetype, isdeleted, timecreated"/>
