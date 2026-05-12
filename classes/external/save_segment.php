@@ -77,7 +77,7 @@ class save_segment extends external_api {
         $wstart = max(0, min($params['wallclockstart'], $now + 5));
         $wend   = max($wstart, min($params['wallclockend'],   $now + 5));
 
-        // ── Validazione server-side anti-cheat ───────────────────────────────
+        // ── Validazione server-side academic-integrity validation ───────────────────────────────
         // I wallclock inviati dal client sono conservati come dato diagnostico, ma
         // non vengono usati per decidere se accettare il segmento. La validazione
         // si basa solo sul tempo server trascorso dall'ultimo segmento della stessa
@@ -96,7 +96,7 @@ class save_segment extends external_api {
         $serverspan = $isfirstsegment ? $heartbeat : max(0, $now - (int)$lasttimecreated);
         // B1 fix: the ternary '? 10 : 10' was dead code — both branches returned 10.
         // Grace is 10 seconds for all segments: enough to absorb clock skew between
-        // the browser and the server without opening a large anti-cheat window.
+        // the browser and the server without opening a large academic-integrity validation window.
         // First segments use $serverspan = $heartbeat (already generous) so they
         // do not need a separate, larger grace value.
         $servergrace = 10;

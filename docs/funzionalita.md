@@ -1,6 +1,6 @@
 # mod_videotrack — Funzionalità e potenzialità
 
-**Versione**: 1.0.40 (build 2026060900)
+**Versione**: 1.0.41 (build 2026061000)
 **Compatibilità**: Moodle 5.0+  
 **Lingue incluse**: Italiano, Inglese, Tedesco, Spagnolo, Francese, Portoghese, Hindi, Polacco
 
@@ -53,7 +53,7 @@ I segmenti grezzi vengono processati da `tracker::update_state()`:
 
 La barra di progresso visiva (canvas verde) mostra esattamente quali parti del video sono state guardate.
 
-### 2.3 Protezione anti-cheat
+### 2.3 Protezione validazione di integrità accademica
 
 Il server valida ogni segmento ricevuto con un controllo server-side basato sull'ultimo segmento accettato nella sessione, sull'heartbeat configurato e sulla velocità di riproduzione. Se un client prova a inviare un intervallo video troppo lungo rispetto al tempo realmente trascorso lato server, il segmento viene rigettato senza salvare dati comportamentali nel log.
 
@@ -300,7 +300,7 @@ Il file `db/mobile.php` dichiara il supporto all'app mobile Moodle. Le funzional
 VideoTrack non include librerie di terze parti nel pacchetto. Per i video YouTube e Vimeo il browser dello studente carica le API ufficiali dai rispettivi provider a runtime. Gli amministratori devono valutare policy privacy, cookie e Content Security Policy dell'istituto. Quando il trasferimento verso provider terzi non è consentito, è consigliato usare file video caricati direttamente in Moodle.
 
 
-### Note sicurezza anti-cheat 1.0.40
+### Note sicurezza validazione di integrità accademica 1.0.41
 
-- Il fallback storico per note e reazioni è limitato dal setting `validationfallbackdays` (default 30 giorni). Impostare `0` significa usare qualsiasi segmento storico già guardato: è utile in ambienti con riprese frequenti da dispositivi diversi, ma rende la validazione anti-cheat più permissiva.
+- Il fallback storico per note e reazioni è limitato dal setting `validationfallbackdays` (default 30 giorni). Impostare `0` significa usare qualsiasi segmento storico già guardato: è utile in ambienti con riprese frequenti da dispositivi diversi, ma rende la validazione validazione di integrità accademica più permissiva.
 - Gli identificativi anonimi negativi sono pseudonimi tecnici salted e scoped per attività. La probabilità di collisione è trascurabile nel range intero usato; in caso di collisione teorica i dati restano comunque non collegati ad account Moodle reali.

@@ -165,7 +165,7 @@ $string['presets:col_name'] = 'Nazwa';
 $string['presets:col_key'] = 'Klucz';
 $string['presets:col_reactions'] = 'Reakcje';
 $string['presets:col_actions'] = 'Akcje';
-$string['setting:heartbeatinterval_min'] = 'Minimum enforced value: 5 seconds.';
+$string['setting:heartbeatinterval_min'] = 'Minimalna wymuszana wartość: 5 sekund.';
 
 $string['reset:userdata'] = 'Delete all student viewing data (segments, states, reactions)';
 $string['report:recalculate'] = 'Przelicz raport';
@@ -437,14 +437,14 @@ $string['html5:pip'] = 'Obraz w obrazie';
 $string['html5:fullscreen'] = 'Pełny ekran';
 $string['html5:download'] = 'Pobierz';
 
-// GDPR retention and anti-cheat.
+// GDPR retention and academic-integrity.
 $string['setting:heading_privacy'] = 'Prywatność i przechowywanie danych';
 $string['setting:heading_privacy_desc'] = 'Skonfiguruj sposób przechowywania danych śledzenia, notatek i reakcji przez VideoTrack.';
 $string['setting:retentionperioddays'] = 'Okres przechowywania danych śledzenia (dni)';
 $string['setting:retentionperioddays_desc'] = 'Liczba dni, po których VideoTrack anonimizuje stare dane śledzenia, notatki i reakcje. Ustaw 0, aby przechowywać dane bezterminowo. Żądania usunięcia danych użytkownika są zawsze obsługiwane przez soloną anonimizację zamiast usuwania analityki agregowanej.';
 $string['setting:strictsessionvalidation'] = 'Wymagaj tej samej sesji przeglądarki do walidacji notatek i reakcji';
 $string['setting:validationfallbackdays'] = 'Okno walidacji historycznego odtwarzania (dni)';
-$string['setting:validationfallbackdays_desc'] = 'Maksymalny wiek, w dniach, wcześniej obejrzanych segmentów, które mogą autoryzować notatki i reakcje po odświeżeniu strony lub zmianie przeglądarki. Ustaw 0, aby zezwolić na historyczne obejrzane segmenty bez ograniczenia czasu; poprawia to użyteczność, ale czyni walidację anty-cheat bardziej liberalną. Kontrole tej samej sesji i ostatniego odtwarzania są zawsze wykonywane najpierw.';
+$string['setting:validationfallbackdays_desc'] = 'Maksymalny wiek, w dniach, wcześniej obejrzanych segmentów, które mogą autoryzować notatki i reakcje po odświeżeniu strony lub zmianie przeglądarki. Ustaw 0, aby zezwolić na historyczne obejrzane segmenty bez ograniczenia czasu; poprawia to użyteczność, ale czyni walidację integralności akademickiej bardziej liberalną. Kontrole tej samej sesji i ostatniego odtwarzania są zawsze wykonywane najpierw.';
 $string['setting:strictsessionvalidation_desc'] = 'Gdy włączone, notatki i reakcje mogą być zapisane tylko dla znaczników czasu obejrzanych w bieżącej sesji przeglądarki. Gdy wyłączone, VideoTrack akceptuje znaczniki czasu już obejrzane przez tego samego użytkownika w tej samej aktywności.';
 $string['task:cleanup'] = 'Anonimizuj przeterminowane dane śledzenia VideoTrack';
 $string['privacy:anonymised'] = '[zanonimizowano]';

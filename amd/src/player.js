@@ -209,17 +209,11 @@ define(['core/ajax', 'core/log'], function(Ajax, Log) {
     function setReactionButtons(playing) {
         // Emette evento custom per sincronizzare il bottone note senza riassegnare la funzione.
         document.dispatchEvent(new CustomEvent('videotrack:playstate', { detail: { playing: playing } }));
-        // Disabilita realmente i bottoni fuori playback: vengono rimossi dal
-        // tab order per evitare controlli non azionabili da tastiera. aria-disabled
-        // rimane come stato semantico ridondante per tecnologie assistive.
+        // Keep unavailable reaction buttons focusable. aria-disabled blocks the
+        // save action while allowing Enter/Space to trigger explanatory feedback
+        // for keyboard-only and screen-reader users.
         document.querySelectorAll('.videotrack-reaction-btn').forEach(function(button) {
-            button.disabled = !playing;
             button.setAttribute('aria-disabled', playing ? 'false' : 'true');
-            if (playing) {
-                button.removeAttribute('tabindex');
-            } else {
-                button.setAttribute('tabindex', '-1');
-            }
             button.classList.toggle('videotrack-reaction-disabled', !playing);
         });
         announceReactionAvailability(playing);

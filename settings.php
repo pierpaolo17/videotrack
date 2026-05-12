@@ -2,75 +2,8 @@
 
 defined('MOODLE_INTERNAL') || die();
 
-if (!class_exists('mod_videotrack_admin_setting_nonnegative_int')) {
-    /**
-     * Admin setting that accepts only non-negative integer values.
-     */
-    class mod_videotrack_admin_setting_nonnegative_int extends admin_setting_configtext {
-        /**
-         * Validate submitted value.
-         *
-         * @param mixed $data Submitted value.
-         * @return true|string True on success, error string on failure.
-         */
-        public function validate($data) {
-            if (!preg_match('/^\d+$/', (string)$data)) {
-                return get_string('setting:nonnegativeintrequired', 'mod_videotrack');
-            }
-            return true;
-        }
-    }
-}
-
-if (!class_exists('mod_videotrack_admin_setting_int_range')) {
-    /**
-     * Admin setting that accepts only integer values inside an inclusive range.
-     */
-    class mod_videotrack_admin_setting_int_range extends mod_videotrack_admin_setting_nonnegative_int {
-        /** @var int Minimum accepted value. */
-        protected $min;
-
-        /** @var int Maximum accepted value. */
-        protected $max;
-
-        /**
-         * Constructor.
-         *
-         * @param string $name Setting name.
-         * @param string $visiblename Visible label.
-         * @param string $description Description.
-         * @param int $defaultsetting Default value.
-         * @param int $min Minimum accepted value.
-         * @param int $max Maximum accepted value.
-         */
-        public function __construct($name, $visiblename, $description, $defaultsetting, int $min, int $max) {
-            parent::__construct($name, $visiblename, $description, $defaultsetting, PARAM_INT);
-            $this->min = $min;
-            $this->max = $max;
-        }
-
-        /**
-         * Validate submitted value.
-         *
-         * @param mixed $data Submitted value.
-         * @return true|string True on success, error string on failure.
-         */
-        public function validate($data) {
-            $valid = parent::validate($data);
-            if ($valid !== true) {
-                return $valid;
-            }
-            $value = (int)$data;
-            if ($value < $this->min || $value > $this->max) {
-                return get_string('setting:intrangerequired', 'mod_videotrack', (object)[
-                    'min' => $this->min,
-                    'max' => $this->max,
-                ]);
-            }
-            return true;
-        }
-    }
-}
+require_once(__DIR__ . '/classes/admin/setting_nonnegative_int.php');
+require_once(__DIR__ . '/classes/admin/setting_int_range.php');
 
 if ($ADMIN->fulltree) {
 
@@ -95,7 +28,7 @@ if ($ADMIN->fulltree) {
         get_string('setting:heading_privacy_desc', 'mod_videotrack')
     ));
 
-    $settings->add(new mod_videotrack_admin_setting_nonnegative_int(
+    $settings->add(new \mod_videotrack\admin\setting_nonnegative_int(
         'mod_videotrack/retentionperioddays',
         get_string('setting:retentionperioddays', 'mod_videotrack'),
         get_string('setting:retentionperioddays_desc', 'mod_videotrack'),
@@ -110,12 +43,13 @@ if ($ADMIN->fulltree) {
         0
     ));
 
-    $settings->add(new mod_videotrack_admin_setting_nonnegative_int(
+    $settings->add(new \mod_videotrack\admin\setting_int_range(
         'mod_videotrack/validationfallbackdays',
         get_string('setting:validationfallbackdays', 'mod_videotrack'),
         get_string('setting:validationfallbackdays_desc', 'mod_videotrack'),
         30,
-        PARAM_INT
+        0,
+        3650
     ));
 
     // Performance.
@@ -125,7 +59,7 @@ if ($ADMIN->fulltree) {
         ''
     ));
 
-    $settings->add(new mod_videotrack_admin_setting_int_range(
+    $settings->add(new \mod_videotrack\admin\setting_int_range(
         'mod_videotrack/heartbeatinterval',
         get_string('setting:heartbeatinterval', 'mod_videotrack'),
         get_string('setting:heartbeatinterval_desc', 'mod_videotrack'),

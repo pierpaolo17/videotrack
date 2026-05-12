@@ -1,6 +1,6 @@
 # mod_videotrack — Guida alla struttura del codice
 
-**Versione**: 1.0.40 (build 2026060900)
+**Versione**: 1.0.41 (build 2026061000)
 **Prerequisito di lettura**: conoscenza base di Moodle (plugin system, `$DB`, `$USER`, `cm_info`) e PHP/JavaScript.
 
 ---
@@ -215,10 +215,10 @@ Un record per ogni click su un bottone reazione o per ogni nota salvata.
 
 ```php
 $plugin->component = 'mod_videotrack';
-$plugin->version   = 2026060900;
+$plugin->version   = 2026061000;
 $plugin->requires  = 2025041400; // Moodle 5.0.
 $plugin->maturity  = MATURITY_BETA;
-$plugin->release   = '1.0.40';
+$plugin->release   = '1.0.41';
 ```
 
 È il file letto da Moodle per decidere se mostrare l'upgrade dialog. `version` è un intero in formato `YYYYMMDDnn`. `requires` è la build minima di Moodle supportata.
@@ -472,7 +472,7 @@ Web service chiamato dal JS ad ogni fine segmento.
 2. Ignora `durationseconds` fornita dal client per normalizzazione e completion. La durata lato client può servire solo alla UI; il server usa esclusivamente una durata già presente in configurazione/metadati attendibili.
 3. `tracker::normalise_interval` — se restituisce `null`, risponde con `accepted=false`
 4. Clampa i wallclock al `now + 5s` (tolleranza clock skew)
-5. Validazione anti-cheat: usa tempi server-side, ultimo segmento/sessione recente e tolleranze di heartbeat; i wallclock client non determinano da soli la validità
+5. Validazione validazione di integrità accademica: usa tempi server-side, ultimo segmento/sessione recente e tolleranze di heartbeat; i wallclock client non determinano da soli la validità
 6. Inserisce il record in `{videotrack_seg}`
 7. Chiama `tracker::update_state` (transazione atomica)
 8. Triggera evento `segment_saved`
@@ -788,7 +788,7 @@ Il payload usa il formato bulk API di Moodle: `JSON.stringify([{methodname, args
 ### Aggiornamento v1.0.0
 
 - Il backup delle definizioni reazione include anche `isdeleted`, così le reazioni soft-deleted restano storicamente coerenti durante restore con dati utente.
-- Il controllo anti-cheat dei segmenti combina sanity check sul wallclock client con un limite server-side basato sull'ultimo segmento salvato nella stessa sessione.
+- Il controllo validazione di integrità accademica dei segmenti combina sanity check sul wallclock client con un limite server-side basato sull'ultimo segmento salvato nella stessa sessione.
 - Le azioni di grading nel report richiedono esplicitamente POST oltre al sesskey.
 - Le regole CSS del pannello trascrizione sono consolidate per evitare override duplicati.
 
@@ -796,7 +796,7 @@ Il payload usa il formato bulk API di Moodle: `JSON.stringify([{methodname, args
 
 - Export CSV dei report e delle note effettuato via POST per evitare esposizione del sesskey negli URL.
 - La validazione dei segmenti non usa più `durationseconds` inviata dal client.
-- Il controllo anti-cheat lato server si basa sul tempo server e sull'ultimo segmento salvato nella sessione.
+- Il controllo validazione di integrità accademica lato server si basa sul tempo server e sull'ultimo segmento salvato nella sessione.
 - I bottoni reazione sono collegati al testo informativo tramite `aria-describedby`.
 - Il report mostra un avviso quando viene raggiunta la soglia massima di cluster visualizzati.
 
@@ -863,10 +863,18 @@ Questa scelta evita esportazioni parziali interpretate come complete e mantiene 
 - Rafforzata la creazione del salt di anonimizzazione: senza lock Moodle non viene creato un nuovo salt concorrente.
 - Completate le stringhe privacy/retention nelle lingue incluse.
 
-### Storico aggiornamenti: 1.0.40
+### Storico aggiornamenti: 1.0.41
 
 - Ripristinato il pacchetto lingua polacco e riallineate tutte le lingue incluse.
-- Aggiornata la documentazione alla build 2026060900.
+- Aggiornata la documentazione alla build 2026061000.
 - Chiarito che la retention automatica opera per coppia utente/attività e che gli identificativi negativi sono pseudonimi tecnici, salted e scoped per attività.
 - Ridotto il logging debug dei segmenti sospetti per evitare rumore e dati comportamentali non necessari.
-- Migliorata l'usabilità anti-cheat: con la validazione di sessione non stretta, note e reazioni possono essere salvate anche dopo pause o refresh purché il timestamp risulti già guardato.
+- Migliorata l'usabilità validazione di integrità accademica: con la validazione di sessione non stretta, note e reazioni possono essere salvate anche dopo pause o refresh purché il timestamp risulti già guardato.
+
+
+### Storico aggiornamenti: 1.0.41
+
+- I pulsanti reazione non disponibili restano focusable con `aria-disabled`, così gli utenti tastiera e screen reader ricevono feedback tramite live region.
+- Il report corso filtra le sottoquery aggregate per corso, riducendo scansioni inutili su siti grandi.
+- La finestra di validazione storica è limitata a 0–3650 giorni nelle impostazioni amministrative.
+- Le classi custom delle impostazioni admin sono state spostate in `classes/admin/`.

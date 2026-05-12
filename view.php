@@ -28,12 +28,16 @@ $reactions = array_values(videotrack_get_reactions($videotrack->id));
 $state = $DB->get_record('videotrack_state', ['videotrackid' => $videotrack->id, 'userid' => $USER->id]);
 $canviewownreport = has_capability('mod/videotrack:viewownreport', $context);
 $showstudentreport = !empty($videotrack->showstudentreport) && $canviewownreport;
+// Reused by the student report query and by the unique-reaction fallback below.
 $eventwhere = "videotrackid = :vtid AND userid = :uid AND isdeleted = 0 AND (notetype = '' OR notetype IS NULL)";
 $eventparams = ['vtid' => $videotrack->id, 'uid' => $USER->id];
 $eventcount = 0;
 $events = [];
+$eventtruncated = false;
 if ($showstudentreport) {
-    $eventcount = $DB->count_records_select('videotrack_reactev', $eventwhere, $eventparams);
+    // Fetch one extra row instead of running a separate COUNT query. This keeps
+    // the common student view to a single note/reaction query while still
+    // detecting whether the table is truncated.
     $events = $DB->get_records_select(
         'videotrack_reactev',
         $eventwhere,
@@ -41,8 +45,13 @@ if ($showstudentreport) {
         'videotime ASC',
         '*',
         0,
-        200
+        201
     );
+    $eventtruncated = count($events) > 200;
+    if ($eventtruncated) {
+        $events = array_slice($events, 0, 200, true);
+    }
+    $eventcount = $eventtruncated ? 201 : count($events);
 }
 $notice = trim((string)$videotrack->reactionnotice);
 if ($notice === '' && !empty($videotrack->showreactionnotice)) {
@@ -221,7 +230,9 @@ $covered = $state ? (float)$state->uniquecoveredseconds : 0.0;
 $percent = $state ? (float)$state->completionpercent : 0.0;
 $uniquereactionids = [];
 if (!empty($videotrack->reactionsenabled)) {
-    if ($showstudentreport && $eventcount === count($events)) {
+    // When the student report rows are complete, reuse them instead of issuing
+    // a separate DISTINCT query. If rows were truncated, query distinct ids.
+    if ($showstudentreport && !$eventtruncated) {
         foreach ($events as $event) {
             if ((int)$event->reactionid > 0) {
                 $uniquereactionids[(int)$event->reactionid] = true;
@@ -363,6 +374,7 @@ if (!empty($videotrack->studentnotesenabled)) {
             'class'        => 'btn btn-sm btn-primary videotrack-note-save',
             'aria-disabled'=> 'true',  // Abilitato solo durante play, gestito da JS.
             'disabled'     => 'disabled',
+            'tabindex'     => '-1',
         ]
     );
     // Contatore caratteri rimanenti — aggiornato in tempo reale da JS.
@@ -478,11 +490,9 @@ if (!empty($videotrack->reactionsenabled) && $reactions) {
             'data-reactiondesc'     => s($reaction->description),
             'data-reactioniconhtml' => s($icononlyhtml),
             'title'                 => s($reaction->description),
-            // Real disabled state plus aria-disabled: when the video is not playing,
-            // the JS removes reaction buttons from the tab order and announces the state.
+            // Keep aria-disabled buttons focusable: keyboard and screen reader users
+            // can activate them to receive the explanatory live-region feedback.
             'aria-disabled'         => 'true',
-            'disabled'              => 'disabled',
-            'tabindex'              => '-1',
             'aria-describedby'      => 'videotrack-reactions-hint',
             'aria-label'            => s($reaction->label),
         ]);
@@ -539,7 +549,7 @@ if ($showstudentreport) {
     $reactionmap_view = [];
     foreach ($reactions as $r) { $reactionmap_view[(int)$r->id] = $r; }
 
-    if ($eventcount > count($events)) {
+    if ($eventtruncated) {
         $reporturl = new moodle_url('/mod/videotrack/report.php', ['id' => $cm->id, 'mode' => 'student']);
         echo html_writer::tag('tr',
             html_writer::tag('td',

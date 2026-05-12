@@ -55,6 +55,7 @@ $sql = "
                   ROUND(AVG(completionpercent), 1) AS avg_percent,
                   SUM(CASE WHEN iscompleted <> 0 THEN 1 ELSE 0 END) AS completions
              FROM {videotrack_state}
+            WHERE videotrackid IN (SELECT id FROM {videotrack} WHERE course = :courseid3)
          GROUP BY videotrackid
            ) vs ON vs.videotrackid = vt.id
  LEFT JOIN (
@@ -62,16 +63,28 @@ $sql = "
                   COUNT(id) AS total_reactions
              FROM {videotrack_reactev}
             WHERE isdeleted = 0
+              AND videotrackid IN (SELECT id FROM {videotrack} WHERE course = :courseid4)
          GROUP BY videotrackid
            ) vr ON vr.videotrackid = vt.id
      WHERE vt.course = :courseid AND cm.course = :courseid2
 ";
-$aggrows = $DB->get_records_sql($sql, ['courseid' => $courseid, 'courseid2' => $courseid]);
+$aggrows = $DB->get_records_sql($sql, [
+    'courseid' => $courseid,
+    'courseid2' => $courseid,
+    'courseid3' => $courseid,
+    'courseid4' => $courseid,
+]);
+
+$instances = [];
+if (empty($aggrows)) {
+    echo $OUTPUT->notification(get_string('coursereport:nodata', 'mod_videotrack'), 'notifymessage');
+    echo $OUTPUT->footer();
+    exit;
+}
 
 // Carica i record completi delle istanze per avere name, videosource, durationseconds.
 $vtrecords = $DB->get_records('videotrack', ['course' => $courseid], 'name ASC', 'id,name,videosource,durationseconds');
 
-$instances = [];
 foreach ($vtrecords as $vt) {
     if (isset($aggrows[$vt->id])) {
         $row = $aggrows[$vt->id];
