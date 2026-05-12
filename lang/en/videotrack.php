@@ -438,14 +438,14 @@ $string['html5:pip'] = 'Picture-in-picture';
 $string['html5:fullscreen'] = 'Fullscreen';
 $string['html5:download'] = 'Download';
 
-// GDPR retention and anti-cheat.
+// GDPR retention and academic-integrity.
 $string['setting:heading_privacy'] = 'Privacy and data retention';
 $string['setting:heading_privacy_desc'] = 'Configure how VideoTrack stores tracking, notes and reaction data.';
 $string['setting:retentionperioddays'] = 'Retention period for tracking data (days)';
 $string['setting:retentionperioddays_desc'] = 'Number of days after which VideoTrack anonymises old tracking, notes and reaction data. Set to 0 to retain data indefinitely. User erasure requests are always handled by salted anonymisation rather than deleting aggregate analytics.';
 $string['setting:strictsessionvalidation'] = 'Require same browser session for note and reaction validation';
 $string['setting:validationfallbackdays'] = 'Historical playback validation window (days)';
-$string['setting:validationfallbackdays_desc'] = 'Maximum age, in days, for previously watched segments that may authorise notes and reactions after a refresh or browser change. Set to 0 to allow historical watched segments indefinitely; this improves usability but makes anti-cheat validation more permissive. The same-session and recent-playback checks are always attempted first.';
+$string['setting:validationfallbackdays_desc'] = 'Maximum age, in days, for previously watched segments that may authorise notes and reactions after a refresh or browser change. Set to 0 to allow historical watched segments indefinitely; this improves usability but makes academic-integrity validation more permissive. The same-session and recent-playback checks are always attempted first.';
 $string['setting:strictsessionvalidation_desc'] = 'When enabled, notes and reactions can only be saved for timestamps watched in the current browser session. When disabled, VideoTrack accepts timestamps already watched by the same user in the same activity, improving usability after refreshes or browser changes while still rejecting unwatched timestamps.';
 $string['task:cleanup'] = 'Anonymise expired VideoTrack tracking data';
 $string['privacy:anonymised'] = '[anonymised]';

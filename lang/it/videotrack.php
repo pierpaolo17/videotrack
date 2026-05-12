@@ -437,7 +437,7 @@ $string['html5:pip'] = 'Picture-in-picture';
 $string['html5:fullscreen'] = 'Schermo intero';
 $string['html5:download'] = 'Scarica';
 
-// GDPR retention and anti-cheat.
+// GDPR retention and academic-integrity.
 $string['setting:heading_privacy'] = 'Privacy e conservazione dati';
 $string['setting:heading_privacy_desc'] = 'Configura come VideoTrack conserva dati di tracciamento, note e reazioni.';
 $string['setting:retentionperioddays'] = 'Periodo di conservazione dei dati di tracciamento (giorni)';
@@ -448,7 +448,7 @@ $string['error:playbackpositionnotwatched'] = 'Questa posizione del video non ri
 
 $string['setting:strictsessionvalidation'] = 'Richiedi la stessa sessione browser per validare note e reazioni';
 $string['setting:validationfallbackdays'] = 'Finestra di validazione dello storico di riproduzione (giorni)';
-$string['setting:validationfallbackdays_desc'] = 'Età massima, in giorni, dei segmenti già guardati che possono autorizzare note e reazioni dopo un refresh o un cambio browser. Imposta 0 per consentire segmenti storici guardati senza limite; migliora l’usabilità ma rende la validazione anti-cheat più permissiva. I controlli sulla stessa sessione e sulla riproduzione recente vengono sempre tentati per primi.';
+$string['setting:validationfallbackdays_desc'] = 'Età massima, in giorni, dei segmenti già guardati che possono autorizzare note e reazioni dopo un refresh o un cambio browser. Imposta 0 per consentire segmenti storici guardati senza limite; migliora l’usabilità ma rende la validazione di integrità accademica più permissiva. I controlli sulla stessa sessione e sulla riproduzione recente vengono sempre tentati per primi.';
 $string['setting:strictsessionvalidation_desc'] = 'Se abilitato, note e reazioni possono essere salvate solo per timestamp visualizzati nella sessione browser corrente. Se disabilitato, VideoTrack accetta timestamp già visualizzati dallo stesso utente nella stessa attività, migliorando l\'usabilità dopo aggiornamenti pagina o cambi browser e continuando a rifiutare posizioni non visualizzate.';
 
 $string['setting:intrangerequired'] = 'Inserisci un numero intero compreso tra {$a->min} e {$a->max}.';

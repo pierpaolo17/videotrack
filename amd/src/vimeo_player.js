@@ -530,8 +530,8 @@ define(['core/ajax', 'core/log'], function(Ajax, Log) {
     /**
      * Enables or disables the reaction buttons based on playback state.
      * Uses the HTML disabled attribute outside playback so inactive controls
-     * are removed from the keyboard focus order. aria-disabled is kept as a
-     * semantic state for assistive technologies.
+     * remain keyboard focusable. aria-disabled prevents saving and lets the
+     * keydown/click handlers announce why the action is unavailable.
      * By-design: reactions can only be saved while the video is playing.
      *
      * @param {boolean} playing  True = enable buttons; false = disable them.
@@ -539,13 +539,7 @@ define(['core/ajax', 'core/log'], function(Ajax, Log) {
     function setReactionButtons(playing) {
         document.dispatchEvent(new CustomEvent('videotrack:playstate', { detail: { playing: playing } }));
         document.querySelectorAll('.videotrack-reaction-btn').forEach(function(btn) {
-            btn.disabled = !playing;
             btn.setAttribute('aria-disabled', playing ? 'false' : 'true');
-            if (playing) {
-                btn.removeAttribute('tabindex');
-            } else {
-                btn.setAttribute('tabindex', '-1');
-            }
             btn.classList.toggle('videotrack-reaction-disabled', !playing);
         });
         announceReactionAvailability(playing);

@@ -461,7 +461,7 @@ function xmldb_videotrack_upgrade($oldversion) {
 
     if ($oldversion < 2026052800) {
         // v1.0.28: anonymisation collision handling and UX-friendly
-        // anti-cheat fallback added. No database schema changes.
+        // academic-integrity validation fallback added. No database schema changes.
         upgrade_mod_savepoint(true, 2026052800, 'videotrack');
     }
 
@@ -568,8 +568,14 @@ function xmldb_videotrack_upgrade($oldversion) {
     if ($oldversion < 2026060900) {
         // v1.0.40: course report aggregation fix, initial disabled state for
         // reaction buttons, stricter heartbeat setting validation and clearer
-        // anti-cheat/privacy documentation. No database schema changes.
+        // validation/privacy documentation. No database schema changes.
         upgrade_mod_savepoint(true, 2026060900, 'videotrack');
+    }
+
+    if ($oldversion < 2026061000) {
+        // v1.0.41: accessibility, report performance and admin setting hardening.
+        // No database schema changes.
+        upgrade_mod_savepoint(true, 2026061000, 'videotrack');
     }
 
     return true;
