@@ -586,5 +586,18 @@ function xmldb_videotrack_upgrade($oldversion) {
         upgrade_mod_savepoint(true, 2026061100, 'videotrack');
     }
 
+
+    if ($oldversion < 2026061200) {
+        // v1.0.43: accessibility announcements, admin setting class cleanup,
+        // dark-mode friendly interval bars and reaction count index.
+        $table = new xmldb_table('videotrack_reactev');
+        $index = new xmldb_index('vt_user_del_type_time_idx', XMLDB_INDEX_NOTUNIQUE,
+            ['videotrackid', 'userid', 'isdeleted', 'notetype', 'timecreated']);
+        if ($dbman->table_exists($table) && !$dbman->index_exists($table, $index)) {
+            $dbman->add_index($table, $index);
+        }
+        upgrade_mod_savepoint(true, 2026061200, 'videotrack');
+    }
+
     return true;
 }

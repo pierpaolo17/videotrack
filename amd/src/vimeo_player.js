@@ -15,6 +15,7 @@ define(['core/ajax', 'core/log'], function(Ajax, Log) {
     var config  = null;
     var lastReactionAvailabilityAnnouncement = null;
     var reactionReadyAnnounced = false;
+    var reactionUnavailableTimer = null;
     var HEARTBEAT_INTERVAL = 30;
 
     var state = {
@@ -197,6 +198,11 @@ define(['core/ajax', 'core/log'], function(Ajax, Log) {
      * @param {string} intervaljson  JSON array di [start,end] pairs.
      * @param {number} duration      Durata totale del video in secondi.
      */
+    function getIntervalBarColor(canvas, property, fallback) {
+        var value = window.getComputedStyle(canvas).getPropertyValue(property);
+        return value ? value.trim() : fallback;
+    }
+
     function updateIntervalBar(intervaljson, duration) {
         var canvas = document.getElementById('videotrack-interval-bar');
         if (!canvas || !duration) { return; }
@@ -207,9 +213,9 @@ define(['core/ajax', 'core/log'], function(Ajax, Log) {
             var h   = canvas.height;
             canvas.width = w;
             ctx.clearRect(0, 0, w, h);
-            ctx.fillStyle = '#e9ecef';
+            ctx.fillStyle = getIntervalBarColor(canvas, '--videotrack-interval-bg', '#e9ecef');
             ctx.fillRect(0, 0, w, h);
-            ctx.fillStyle = '#28a745';
+            ctx.fillStyle = getIntervalBarColor(canvas, '--videotrack-interval-fill', '#28a745');
             var covered = 0;
             intervals.forEach(function(seg) {
                 var x1 = Math.round((seg[0] / duration) * w);
@@ -396,6 +402,7 @@ define(['core/ajax', 'core/log'], function(Ajax, Log) {
         });
 
         player.on('ended', function() {
+            reactionReadyAnnounced = false;
             stopHeartbeat();
             closeSegment('ended');
             setReactionButtons(false); // Disabilita bottoni a fine video.
@@ -547,25 +554,36 @@ define(['core/ajax', 'core/log'], function(Ajax, Log) {
 
 
     function announceReactionAvailability(playing) {
-        if (playing && reactionReadyAnnounced) {
-            return;
-        }
-        if (lastReactionAvailabilityAnnouncement === playing) {
-            return;
-        }
-        lastReactionAvailabilityAnnouncement = playing;
-        if (playing) {
-            reactionReadyAnnounced = true;
-        }
         var hint = document.getElementById('videotrack-reactions-hint');
         if (!hint) {
             return;
         }
         hint.setAttribute('aria-live', 'polite');
-        hint.textContent = playing
-            ? (config.reactionsreadylabel || 'Reactions are now available.')
-            : (config.reactionunavailablelabel || 'Reactions are available only during video playback.');
-        hint.classList.toggle('videotrack-reactions-hint-active', !playing);
+
+        if (playing) {
+            if (reactionUnavailableTimer) {
+                window.clearTimeout(reactionUnavailableTimer);
+                reactionUnavailableTimer = null;
+            }
+            if (reactionReadyAnnounced || lastReactionAvailabilityAnnouncement === true) {
+                return;
+            }
+            lastReactionAvailabilityAnnouncement = true;
+            reactionReadyAnnounced = true;
+            hint.textContent = config.reactionsreadylabel || 'Reactions are now available.';
+            hint.classList.toggle('videotrack-reactions-hint-active', false);
+            return;
+        }
+
+        if (lastReactionAvailabilityAnnouncement === false || reactionUnavailableTimer) {
+            return;
+        }
+        reactionUnavailableTimer = window.setTimeout(function() {
+            reactionUnavailableTimer = null;
+            lastReactionAvailabilityAnnouncement = false;
+            hint.textContent = config.reactionunavailablelabel || 'Reactions are available only during video playback.';
+            hint.classList.toggle('videotrack-reactions-hint-active', true);
+        }, 400);
     }
 
 

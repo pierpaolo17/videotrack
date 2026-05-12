@@ -135,8 +135,8 @@ foreach ($instances as $inst) {
     $pct    = (float)($inst->avg_percent ?? 0);
     $barw   = max(0, min(100, $pct));
     $barsvg = '<svg width="80" height="14" aria-hidden="true" focusable="false" style="vertical-align:middle;margin-left:4px">'
-        . '<rect x="0" y="3" width="80" height="8" rx="2" fill="#e9ecef"/>'
-        . '<rect x="0" y="3" width="' . round($barw * 0.8) . '" height="8" rx="2" fill="#28a745"/>'
+        . '<rect class="videotrack-course-avgbar-bg" x="0" y="3" width="80" height="8" rx="2"/>'
+        . '<rect class="videotrack-course-avgbar-fill" x="0" y="3" width="' . round($barw * 0.8) . '" height="8" rx="2"/>'
         . '</svg>';
     $avgcell = format_float($pct, 1) . '% ' . $barsvg;
 

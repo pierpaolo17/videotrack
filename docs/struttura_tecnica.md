@@ -1,6 +1,6 @@
 # mod_videotrack — Guida alla struttura del codice
 
-**Versione**: 1.0.42 (build 2026061100)
+**Versione**: 1.0.43 (build 2026061200)
 **Prerequisito di lettura**: conoscenza base di Moodle (plugin system, `$DB`, `$USER`, `cm_info`) e PHP/JavaScript.
 
 ---
@@ -215,10 +215,10 @@ Un record per ogni click su un bottone reazione o per ogni nota salvata.
 
 ```php
 $plugin->component = 'mod_videotrack';
-$plugin->version   = 2026061100;
+$plugin->version   = 2026061200;
 $plugin->requires  = 2025041400; // Moodle 5.0.
 $plugin->maturity  = MATURITY_BETA;
-$plugin->release   = '1.0.42';
+$plugin->release   = '1.0.43';
 ```
 
 È il file letto da Moodle per decidere se mostrare l'upgrade dialog. `version` è un intero in formato `YYYYMMDDnn`. `requires` è la build minima di Moodle supportata.
@@ -866,7 +866,7 @@ Questa scelta evita esportazioni parziali interpretate come complete e mantiene 
 ### Storico aggiornamenti: 1.0.42
 
 - Ripristinato il pacchetto lingua polacco e riallineate tutte le lingue incluse.
-- Aggiornata la documentazione alla build 2026061100.
+- Aggiornata la documentazione alla build 2026061200.
 - Chiarito che la retention automatica opera per coppia utente/attività e che gli identificativi negativi sono pseudonimi tecnici, salted e scoped per attività.
 - Ridotto il logging debug dei segmenti sospetti per evitare rumore e dati comportamentali non necessari.
 - Migliorata l'usabilità validazione di integrità accademica: con la validazione di sessione non stretta, note e reazioni possono essere salvate anche dopo pause o refresh purché il timestamp risulti già guardato.
@@ -885,3 +885,11 @@ Questa scelta evita esportazioni parziali interpretate come complete e mantiene 
 - I pulsanti reazione restano focusable quando non disponibili, usando `aria-disabled` e feedback accessibile da tastiera/screen reader.
 - Il report corso usa join aggregate filtrate per corso invece di subquery `IN`, riducendo il carico su siti grandi.
 - Il messaggio di reazioni troncate mostra anche il totale reale solo quando serve.
+
+
+### Storico aggiornamenti: 1.0.43
+
+- Rigenerati i build AMD minificati.
+- Migliorati gli annunci per tecnologie assistive al replay del video.
+- Aggiunti colori basati su variabili CSS per barre di avanzamento in dark mode.
+- Ripulite stringhe non più usate e documentato il limite degli eventi mostrati.

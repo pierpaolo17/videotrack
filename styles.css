@@ -2,6 +2,13 @@
  * Moodle include questo file automaticamente per ogni pagina del plugin.
  * Non usare !important né selettori globali non prefissati. */
 
+:root {
+    --videotrack-interval-bg: #e9ecef;
+    --videotrack-interval-fill: #28a745;
+    --videotrack-transcript-hover-bg: rgba(0, 64, 170, 0.10);
+    --videotrack-transcript-active-bg: rgba(0, 64, 170, 0.18);
+}
+
 /* ─── Player shell ──────────────────────────────────────────────────────── */
 
 .videotrack-player-shell {
@@ -305,8 +312,15 @@
     .videotrack-ctrl-volume:focus-visible {
         outline-color: #8ab4ff;
     }
+    :root {
+        --videotrack-interval-bg: #343a40;
+        --videotrack-interval-fill: #75b798;
+        --videotrack-transcript-hover-bg: rgba(138, 180, 255, 0.20);
+        --videotrack-transcript-active-bg: rgba(138, 180, 255, 0.28);
+    }
+
     .videotrack-interval-bar {
-        border-color: #495057;
+        border-color: #6c757d;
     }
     .videotrack-reactions-hint {
         color: #adb5bd;
@@ -434,6 +448,14 @@
 
 
 
+.videotrack-course-avgbar-bg {
+    fill: var(--videotrack-interval-bg);
+}
+
+.videotrack-course-avgbar-fill {
+    fill: var(--videotrack-interval-fill);
+}
+
 .videotrack-interval-bar {
     display: block;
     width: 100%;
@@ -508,7 +530,7 @@
 }
 .videotrack-transcript-cue:hover,
 .videotrack-transcript-cue:focus {
-    background: rgba(0, 95, 204, 0.08);
+    background: var(--videotrack-transcript-hover-bg);
     outline: 2px solid #0040aa;
     outline-offset: 1px;
 }
@@ -556,9 +578,9 @@
     color: inherit;
     text-decoration: none;
 }
-.videotrack-transcript-btn:hover  { background: rgba(0,64,170,.10); border-radius: 3px; }
+.videotrack-transcript-btn:hover  { background: var(--videotrack-transcript-hover-bg); border-radius: 3px; }
 .videotrack-transcript-cue.videotrack-transcript-active .videotrack-transcript-btn {
-    background: rgba(0,64,170,.18);
+    background: var(--videotrack-transcript-active-bg);
     border-radius: 3px;
     font-weight: 600;
 }

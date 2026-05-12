@@ -374,8 +374,7 @@ $string['report:heatmap_legend'] = 'Légende des couleurs de la heatmap des réa
 
 $string['report:clusterlimitreached'] = 'Le rapport a atteint le nombre maximal de clusters affichés. Utilisez les filtres ou une fenêtre temporelle plus restreinte pour une analyse complète.';
 
-$string['report:showingrecentreactions'] = 'Seules les {$a} premières réactions sont affichées.';
-$string['report:showingrecentreactionsoftotal'] = 'Seules les {$a->shown} premières réactions sur {$a->total} sont affichées.';
+$string['report:showingrecentreactionsoftotal'] = 'Seules les {$a->shown} réactions les plus anciennes sur {$a->total} sont affichées.';
 
 $string['report:viewfullreport'] = 'Afficher le rapport complet';
 $string['studentnotes_view_limited'] = 'Les {$a} notes les plus récentes sont affichées. Ouvrez le rapport complet pour consulter toutes les notes.';
