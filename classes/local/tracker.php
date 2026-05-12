@@ -235,7 +235,10 @@ class tracker {
             return true;
         }
 
-        $fallbackdays = (int)get_config('mod_videotrack', 'validationfallbackdays');
+        $fallbackconfig = get_config('mod_videotrack', 'validationfallbackdays');
+        $fallbackdays = ($fallbackconfig === false || $fallbackconfig === null || $fallbackconfig === '')
+            ? 30
+            : max(0, min(3650, (int)$fallbackconfig));
         $maxage = $fallbackdays > 0 ? $fallbackdays * DAYSECS : 0;
 
         return self::has_watched_videotime($videotrackid, $userid, $sessionid, $videotime, 2.0, $maxage);

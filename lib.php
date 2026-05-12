@@ -605,9 +605,17 @@ function videotrack_get_player_width(stdClass $videotrack): int {
  */
 function videotrack_get_rewind_step(stdClass $videotrack): int {
     $v = (int)($videotrack->rewindstep ?? 0);
-    if ($v > 0) { return $v; }
-    $s = (int)get_config('mod_videotrack', 'rewindstep');
-    return $s > 0 ? $s : 10;
+    if ($v > 0) {
+        return min(300, $v);
+    }
+
+    $site = get_config('mod_videotrack', 'rewindstep');
+    if ($site === false || $site === null || $site === '') {
+        return 10;
+    }
+
+    // Site-level 0 intentionally disables rewind buttons globally.
+    return max(0, min(300, (int)$site));
 }
 
 /**
@@ -618,9 +626,17 @@ function videotrack_get_rewind_step(stdClass $videotrack): int {
  */
 function videotrack_get_fastforward_step(stdClass $videotrack): int {
     $v = (int)($videotrack->fastforwardstep ?? 0);
-    if ($v > 0) { return $v; }
-    $s = (int)get_config('mod_videotrack', 'fastforwardstep');
-    return $s > 0 ? $s : 10;
+    if ($v > 0) {
+        return min(300, $v);
+    }
+
+    $site = get_config('mod_videotrack', 'fastforwardstep');
+    if ($site === false || $site === null || $site === '') {
+        return 10;
+    }
+
+    // Site-level 0 intentionally disables fast-forward buttons globally.
+    return max(0, min(300, (int)$site));
 }
 
 /**

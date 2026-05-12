@@ -212,22 +212,24 @@ if ($ADMIN->fulltree) {
         0
     ));
 
-    // Rewind step (seconds).
-    $settings->add(new admin_setting_configtext(
+    // Rewind step (seconds). Site value 0 intentionally disables rewind buttons globally.
+    $settings->add(new \mod_videotrack\admin\setting_int_range(
         'mod_videotrack/rewindstep',
         get_string('setting:rewindstep', 'mod_videotrack'),
         get_string('setting:rewindstep_desc', 'mod_videotrack'),
         10,
-        PARAM_INT
+        0,
+        300
     ));
 
-    // Fast-forward step (seconds).
-    $settings->add(new admin_setting_configtext(
+    // Fast-forward step (seconds). Site value 0 intentionally disables fast-forward buttons globally.
+    $settings->add(new \mod_videotrack\admin\setting_int_range(
         'mod_videotrack/fastforwardstep',
         get_string('setting:fastforwardstep', 'mod_videotrack'),
         get_string('setting:fastforwardstep_desc', 'mod_videotrack'),
         10,
-        PARAM_INT
+        0,
+        300
     ));
 
     // Captions / subtitles.
