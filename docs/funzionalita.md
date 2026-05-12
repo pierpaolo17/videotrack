@@ -1,6 +1,6 @@
 # mod_videotrack — Funzionalità e potenzialità
 
-**Versione**: 1.0.43 (build 2026061200)
+**Versione**: 1.0.44 (build 2026061300)
 **Compatibilità**: Moodle 5.0+  
 **Lingue incluse**: Italiano, Inglese, Tedesco, Spagnolo, Francese, Portoghese, Hindi, Polacco
 
@@ -306,7 +306,7 @@ VideoTrack non include librerie di terze parti nel pacchetto. Per i video YouTub
 - Gli identificativi anonimi negativi sono pseudonimi tecnici salted e scoped per attività. La probabilità di collisione è trascurabile nel range intero usato; in caso di collisione teorica i dati restano comunque non collegati ad account Moodle reali.
 
 
-### Storico aggiornamenti: 1.0.43
+### Storico aggiornamenti: 1.0.44
 
 - Rigenerati i build AMD minificati.
 - Migliorati gli annunci per tecnologie assistive al replay del video.

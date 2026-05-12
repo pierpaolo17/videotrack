@@ -58,8 +58,7 @@ class setting_int_range extends setting_nonnegative_int {
     public function validate($data) {
         $basecheck = parent::validate($data);
         if ($basecheck !== true) {
-            return get_string('setting:intrangerequired', 'mod_videotrack',
-                (object)['min' => $this->min, 'max' => $this->max]);
+            return $basecheck;
         }
         $value = (int)trim((string)$data);
         if ($value < $this->min || $value > $this->max) {

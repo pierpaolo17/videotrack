@@ -528,16 +528,13 @@
     padding: 2px 4px;
     transition: background 0.15s ease;
 }
-.videotrack-transcript-cue:hover,
-.videotrack-transcript-cue:focus {
+.videotrack-transcript-cue:hover {
     background: var(--videotrack-transcript-hover-bg);
-    outline: 2px solid #0040aa;
-    outline-offset: 1px;
 }
 .videotrack-transcript-active {
     background: rgba(40, 167, 69, 0.12);
     font-weight: 500;
-    border-left: 3px solid #28a745;
+    border-left: 3px solid var(--videotrack-interval-fill);
     padding-left: 6px;
 }
 

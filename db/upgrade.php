@@ -599,5 +599,27 @@ function xmldb_videotrack_upgrade($oldversion) {
         upgrade_mod_savepoint(true, 2026061200, 'videotrack');
     }
 
+
+    if ($oldversion < 2026061300) {
+        // v1.0.44: remove redundant reaction-event indexes now covered by
+        // more selective composite indexes, and apply accessibility/build
+        // maintenance refinements. No data transformation required.
+        $table = new xmldb_table('videotrack_reactev');
+        if ($dbman->table_exists($table)) {
+            $indexes = [
+                new xmldb_index('vt_user_idx', XMLDB_INDEX_NOTUNIQUE,
+                    ['videotrackid', 'userid', 'isdeleted']),
+                new xmldb_index('vt_user_type_time_idx', XMLDB_INDEX_NOTUNIQUE,
+                    ['videotrackid', 'userid', 'notetype', 'timecreated']),
+            ];
+            foreach ($indexes as $index) {
+                if ($dbman->index_exists($table, $index)) {
+                    $dbman->drop_index($table, $index);
+                }
+            }
+        }
+        upgrade_mod_savepoint(true, 2026061300, 'videotrack');
+    }
+
     return true;
 }

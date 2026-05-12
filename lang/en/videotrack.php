@@ -375,7 +375,7 @@ $string['report:heatmap_legend'] = 'Reaction heatmap colour legend';
 
 $string['report:clusterlimitreached'] = 'The report reached the maximum number of clusters displayed. Use filters or a narrower time window for a complete analysis.';
 
-$string['report:showingrecentreactionsoftotal'] = 'Showing the oldest {$a->shown} of {$a->total} reactions only.';
+$string['report:showingrecentreactionsoftotal'] = 'Showing the {$a->shown} oldest of {$a->total} total reactions.';
 
 $string['report:viewfullreport'] = 'View the full report';
 $string['studentnotes_view_limited'] = 'Showing the latest {$a} notes. Open the full report to review all notes.';

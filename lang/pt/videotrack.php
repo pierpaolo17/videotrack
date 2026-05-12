@@ -374,7 +374,7 @@ $string['report:heatmap_legend'] = 'Legenda de cores do mapa de calor das reaç�
 
 $string['report:clusterlimitreached'] = 'O relatório atingiu o número máximo de clusters apresentados. Utilize filtros ou uma janela temporal mais reduzida para uma análise completa.';
 
-$string['report:showingrecentreactionsoftotal'] = 'São apresentadas apenas as {$a->shown} reações mais antigas de {$a->total}.';
+$string['report:showingrecentreactionsoftotal'] = 'Sao apresentadas as {$a->shown} reacoes mais antigas de um total de {$a->total}.';
 
 $string['report:viewfullreport'] = 'Ver o relatório completo';
 $string['studentnotes_view_limited'] = 'São apresentadas as últimas {$a} notas. Abra o relatório completo para rever todas as notas.';
