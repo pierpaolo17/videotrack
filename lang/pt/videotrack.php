@@ -101,9 +101,9 @@ $string['event:reaction_deleted'] = 'Reação eliminada';
 $string['setting:heartbeatinterval'] = 'Intervalo de heartbeat (segundos)';
 $string['setting:heartbeatinterval_desc'] = 'Com que frequência o player guarda no servidor o segmento de visualização atual durante a reprodução contínua. Valores mais baixos reduzem o risco de perda de dados em caso de falha do navegador ou queda de rede, mas aumentam a carga do servidor (uma solicitação AJAX + duas consultas ao banco de dados por aluno por intervalo). Intervalo recomendado: 15 a 120 segundos.';
 $string['setting:reactionannouncementinterval'] = 'Intervalo dos anúncios acessíveis das reações (segundos)';
-$string['setting:reactionannouncementinterval_desc'] = 'Tempo mínimo entre anúncios repetidos “reações indisponíveis” para leitores de ecrã. Use um valor mais baixo para feedback frequente em vídeos curtos, ou mais alto para reduzir anúncios repetidos. Defina 0 para desativar anúncios repetidos. Intervalo recomendado quando ativo: 10–60 segundos.';
+$string['setting:reactionannouncementinterval_desc'] = 'Intervalo mínimo, em segundos, entre anúncios repetidos de leitor de ecrã de “reações indisponíveis”. Use um valor mais baixo para feedback frequente em vídeos curtos, ou mais alto para reduzir anúncios repetidos. Defina 0 para desativar anúncios repetidos. Intervalo recomendado quando ativo: 10–60 segundos.';
 $string['setting:reactionreadydebouncems'] = 'Debounce das reações prontas (milissegundos)';
-$string['setting:reactionreadydebouncems_desc'] = 'Atraso mínimo antes de repetir o feedback de reações prontas após alterações rápidas de reprodução. Defina 0 para desativar o debounce.';
+$string['setting:reactionreadydebouncems_desc'] = 'Atraso mínimo, em milissegundos, antes de repetir o aviso de que as reações estão disponíveis após mudanças rápidas de reprodução. Defina 0 para desativar este debounce.';
 
 $string['reactionx'] = 'Reação {$a}';
 

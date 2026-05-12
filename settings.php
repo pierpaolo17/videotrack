@@ -72,6 +72,7 @@ if ($ADMIN->fulltree) {
         get_string('setting:heading_accessibility_desc', 'mod_videotrack')
     ));
 
+    // Stored in seconds for admin readability; converted to milliseconds in view.php for the player config.
     $settings->add(new \mod_videotrack\admin\setting_int_range(
         'mod_videotrack/reactionannouncementinterval',
         get_string('setting:reactionannouncementinterval', 'mod_videotrack'),
@@ -81,6 +82,7 @@ if ($ADMIN->fulltree) {
         120
     ));
 
+    // Stored in milliseconds because the debounce window is sub-second and consumed directly by JavaScript.
     $settings->add(new \mod_videotrack\admin\setting_int_range(
         'mod_videotrack/reactionreadydebouncems',
         get_string('setting:reactionreadydebouncems', 'mod_videotrack'),

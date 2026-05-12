@@ -3,6 +3,27 @@ require_once(__DIR__ . '/../../config.php');
 require_once(__DIR__ . '/lib.php');
 require_once(__DIR__ . '/locallib.php');
 
+/**
+ * Reads an integer plugin configuration value while preserving explicit zero values.
+ *
+ * Moodle returns false for missing config keys; using null coalescing would therefore
+ * convert a fresh-install default to 0 instead of the intended fallback.
+ *
+ * @param string $name Setting name without component prefix.
+ * @param int $default Default value when the setting is missing or invalid.
+ * @param int $min Inclusive lower bound.
+ * @param int $max Inclusive upper bound.
+ * @return int Bounded integer setting value.
+ */
+function videotrack_get_bounded_int_config(string $name, int $default, int $min, int $max): int {
+    $value = get_config('mod_videotrack', $name);
+    if ($value === false || $value === null || $value === '') {
+        $value = $default;
+    }
+    $value = (int)$value;
+    return max($min, min($max, $value));
+}
+
 global $DB, $USER, $CFG, $PAGE, $OUTPUT;
 
 $id = optional_param('id', 0, PARAM_INT);
@@ -125,8 +146,8 @@ $playerconfig = [
     'reactionerrorlabel'     => get_string('reaction:error',     'mod_videotrack'),
     'reactionunavailablelabel' => get_string('reactionsavailableonlyduringplayback', 'mod_videotrack'),
     'reactionsreadylabel'    => get_string('reactionsreadyannounce', 'mod_videotrack'),
-    'reactionannouncementinterval' => max(0, (int)(get_config('mod_videotrack', 'reactionannouncementinterval') ?? 30)) * 1000,
-    'reactionreadydebouncems' => max(0, min(2000, (int)(get_config('mod_videotrack', 'reactionreadydebouncems') ?? 400))),
+    'reactionannouncementinterval' => videotrack_get_bounded_int_config('reactionannouncementinterval', 30, 0, 120) * 1000,
+    'reactionreadydebouncems' => videotrack_get_bounded_int_config('reactionreadydebouncems', 400, 0, 2000),
     'autoblockedlabel'       => get_string('autoblockedlabel',   'mod_videotrack'),
     'vimeocspwarnlabel'      => get_string('vimeocspwarnlabel',  'mod_videotrack'),
     'nofilelabel'            => get_string('nofilelabel',         'mod_videotrack'),

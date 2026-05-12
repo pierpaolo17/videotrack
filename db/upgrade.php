@@ -642,5 +642,11 @@ function xmldb_videotrack_upgrade($oldversion) {
         upgrade_mod_savepoint(true, 2026061600, 'videotrack');
     }
 
+    if ($oldversion < 2026061700) {
+        // v1.0.48: accessibility announcement defaults, copy refinements and
+        // rebuilt AMD artefacts. No schema changes.
+        upgrade_mod_savepoint(true, 2026061700, 'videotrack');
+    }
+
     return true;
 }
