@@ -1,6 +1,6 @@
 # mod_videotrack — Funzionalità e potenzialità
 
-**Versione**: 1.0.42 (build 2026061100)
+**Versione**: 1.0.43 (build 2026061200)
 **Compatibilità**: Moodle 5.0+  
 **Lingue incluse**: Italiano, Inglese, Tedesco, Spagnolo, Francese, Portoghese, Hindi, Polacco
 
@@ -304,3 +304,11 @@ VideoTrack non include librerie di terze parti nel pacchetto. Per i video YouTub
 
 - Il fallback storico per note e reazioni è limitato dal setting `validationfallbackdays` (default 30 giorni). Impostare `0` significa usare qualsiasi segmento storico già guardato: è utile in ambienti con riprese frequenti da dispositivi diversi, ma rende la validazione validazione di integrità accademica più permissiva.
 - Gli identificativi anonimi negativi sono pseudonimi tecnici salted e scoped per attività. La probabilità di collisione è trascurabile nel range intero usato; in caso di collisione teorica i dati restano comunque non collegati ad account Moodle reali.
+
+
+### Storico aggiornamenti: 1.0.43
+
+- Rigenerati i build AMD minificati.
+- Migliorati gli annunci per tecnologie assistive al replay del video.
+- Aggiunti colori basati su variabili CSS per barre di avanzamento in dark mode.
+- Ripulite stringhe non più usate e documentato il limite degli eventi mostrati.
