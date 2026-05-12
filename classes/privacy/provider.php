@@ -76,6 +76,8 @@ class provider implements
     public static function get_contexts_for_userid(int $userid): contextlist {
         global $DB;
 
+        // The same userid is bound three times because the SQL joins three tables.
+        // Named placeholders cannot be reused portably across all Moodle DB drivers.
         $params = ['contextmodule' => CONTEXT_MODULE, 'userid1' => $userid, 'userid2' => $userid, 'userid3' => $userid];
         $sql = "SELECT DISTINCT c.id
                   FROM {context} c

@@ -90,6 +90,8 @@ $string['modulename_link'] = 'mod/videotrack/view';
 
 $string['setting:heartbeatinterval'] = 'Heartbeat interval (seconds)';
 $string['setting:heartbeatinterval_desc'] = 'How often the player saves the current viewing segment to the server during continuous playback. Lower values reduce the risk of data loss on browser crash or network failure, but increase server load (one AJAX request + two database queries per student per interval). Recommended range: 15–120 seconds. Minimum enforced value: 5 seconds (values below 5 are automatically raised to 5 by the server).';
+$string['setting:reactionannouncementinterval'] = 'Reaction accessibility announcement interval (seconds)';
+$string['setting:reactionannouncementinterval_desc'] = 'Minimum time between repeated “reactions unavailable” screen-reader announcements. Use a lower value for frequent feedback in short videos, or a higher value to reduce repeated announcements. Recommended range: 10–60 seconds.';
 $string['setting:heading_performance'] = 'Performance';
 $string['setting:heading_defaults'] = 'Default values for new activities';
 $string['setting:heading_defaults_desc'] = 'These values are used as defaults when a teacher creates a new VideoTrack activity. Each activity can still be configured individually.';
@@ -375,13 +377,14 @@ $string['report:heatmap_legend'] = 'Reaction heatmap colour legend';
 
 $string['report:clusterlimitreached'] = 'The report reached the maximum number of clusters displayed. Use filters or a narrower time window for a complete analysis.';
 
-$string['report:showingrecentreactionsoftotal'] = 'Showing {$a->shown} of {$a->total} reactions (oldest first).';
+$string['report:showingrecentreactionsoftotal'] = 'Showing {$a->shown} of {$a->total} reactions, from oldest to newest.';
 
 $string['report:viewfullreport'] = 'View the full report';
 $string['studentnotes_view_limited'] = 'Showing the latest {$a} notes. Open the full report to review all notes.';
 $string['report:skiptoheatmaptable'] = 'Skip heatmap and go to the data table';
 $string['report:heatmap_textsummary'] = 'The chart contains {$a->clusters} clusters; the largest cluster contains {$a->max} clicks.';
 $string['err:reactioniconvaluerequired'] = 'Enter an emoji or a Font Awesome class.';
+$string['err:reactioniconvalueinvalidfa'] = 'Enter only valid Font Awesome class names, using letters, numbers, spaces and hyphens.';
 
 $string['error:reactionratelimit'] = 'Too many reactions were submitted in a short time. Please continue watching the video and try again.';
 $string['event:student_progress_reset'] = 'Student VideoTrack data reset';

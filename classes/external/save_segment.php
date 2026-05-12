@@ -54,10 +54,10 @@ class save_segment extends external_api {
         self::validate_context($context);
         require_capability('mod/videotrack:view', $context);
 
-        // Do not trust or persist durationseconds from a student AJAX call.
-        // The client-provided duration may be useful for the UI, but it must not
-        // influence server-side normalisation/completion until the activity has a
-        // trusted duration stored server-side.
+        // Non considerare attendibile né persistere durationseconds da una chiamata AJAX studente.
+        // La durata inviata dal client può essere utile all'interfaccia, ma non deve
+        // influenzare normalizzazione o completamento finché l'attività non dispone
+        // di una durata attendibile salvata lato server.
         $knownduration = (float)($videotrack->durationseconds ?? 0);
         $normaliseduration = $knownduration > 0 ? min($knownduration, self::MAX_DURATION_SECONDS) : 0.0;
         $interval = tracker::normalise_interval((float)$params['videotimestart'], (float)$params['videotimeend'], $normaliseduration);
@@ -94,11 +94,11 @@ class save_segment extends external_api {
         );
         $isfirstsegment = empty($lasttimecreated);
         $serverspan = $isfirstsegment ? $heartbeat : max(0, $now - (int)$lasttimecreated);
-        // B1 fix: the ternary '? 10 : 10' was dead code — both branches returned 10.
-        // Grace is 10 seconds for all segments: enough to absorb clock skew between
-        // the browser and the server without opening a large academic-integrity validation window.
-        // First segments use $serverspan = $heartbeat (already generous) so they
-        // do not need a separate, larger grace value.
+        // B1 fix: il ternario '? 10 : 10' era dead code: entrambi i rami restituivano 10.
+        // La tolleranza è 10 secondi per tutti i segmenti: sufficiente per assorbire
+        // lo scarto tra browser e server senza aprire una finestra ampia nella
+        // validazione dell'integrità accademica. I primi segmenti usano già
+        // $serverspan = $heartbeat, quindi non richiedono una tolleranza maggiore.
         $servergrace = 10;
         $serverallowedvideo = max(2.0, ($serverspan + $servergrace) * $playbackrate);
         if ($videoduration > 2.0 && $videoduration > $serverallowedvideo) {

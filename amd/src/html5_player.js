@@ -16,6 +16,7 @@ define(['core/ajax', 'core/log'], function(Ajax, Log) {
     var reactionUnavailableTimer = null;
     var lastReactionUnavailableAt = 0;
     var DEFAULT_REACTION_UNAVAILABLE_ANNOUNCE_INTERVAL = 30000;
+    var REACTION_READY_DEBOUNCE_MS = 400;
     var reactionUnavailableAnnounceInterval = DEFAULT_REACTION_UNAVAILABLE_ANNOUNCE_INTERVAL;
     var HEARTBEAT_INTERVAL = 30;
 
@@ -767,6 +768,10 @@ define(['core/ajax', 'core/log'], function(Ajax, Log) {
             if (reactionUnavailableTimer) {
                 window.clearTimeout(reactionUnavailableTimer);
                 reactionUnavailableTimer = null;
+            }
+            if (Date.now() - lastReactionUnavailableAt < REACTION_READY_DEBOUNCE_MS) {
+                lastReactionAvailabilityAnnouncement = true;
+                return;
             }
             if (reactionReadyAnnounced || lastReactionAvailabilityAnnouncement === true) {
                 return;

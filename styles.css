@@ -636,6 +636,13 @@
     color: #fff;
     font-weight: 600;
 }
+@media (prefers-color-scheme: dark) {
+    .videotrack-chapter-btn.videotrack-chapter-active {
+        background: #8ab4ff;
+        border-color: #8ab4ff;
+        color: #0f172a;
+    }
+}
 .videotrack-chapter-num {
     display: inline-flex;
     align-items: center;
@@ -745,6 +752,9 @@
     text-decoration: none;
 }
 .videotrack-notes-toggle:hover { color: #0040aa; }
+@media (prefers-color-scheme: dark) {
+    .videotrack-notes-toggle:hover { color: #8ab4ff; }
+}
 
 .videotrack-notes-body {
     /* Transizione collapse smooth */

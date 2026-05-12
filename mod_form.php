@@ -785,8 +785,13 @@ class mod_videotrack_mod_form extends moodleform_mod {
                     $errors['reactioniconfile_' . $i] =
                         get_string('err:reactioniconfilerequired', 'mod_videotrack');
                 }
-            } else if (trim((string)($data['reactioniconvalue'][$i] ?? '')) === '') {
-                $errors['reactioniconvalue[' . $i . ']'] = get_string('err:reactioniconvaluerequired', 'mod_videotrack');
+            } else {
+                $iconvalue = trim((string)($data['reactioniconvalue'][$i] ?? ''));
+                if ($iconvalue === '') {
+                    $errors['reactioniconvalue[' . $i . ']'] = get_string('err:reactioniconvaluerequired', 'mod_videotrack');
+                } else if ($type === 'fa' && !preg_match('/^[a-z0-9 \-]+$/i', $iconvalue)) {
+                    $errors['reactioniconvalue[' . $i . ']'] = get_string('err:reactioniconvalueinvalidfa', 'mod_videotrack');
+                }
             }
         }
         return $errors;

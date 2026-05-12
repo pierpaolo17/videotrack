@@ -98,6 +98,8 @@ $string['event:note_saved'] = 'Nota del estudiante guardada';
 $string['event:reaction_deleted'] = 'Reacción eliminada';
 $string['setting:heartbeatinterval'] = 'Intervalo de heartbeat (segundos)';
 $string['setting:heartbeatinterval_desc'] = 'Con qué frecuencia el reproductor guarda en el servidor el segmento de visualización actual durante la reproducción continua. Los valores más bajos reducen el riesgo de pérdida de datos en caso de fallo del navegador o caída de la red, pero aumentan la carga del servidor (una solicitud AJAX + dos consultas de base de datos por estudiante por intervalo). Rango recomendado: 15–120 segundos.';
+$string['setting:reactionannouncementinterval'] = 'Intervalo de anuncios accesibles de reacciones (segundos)';
+$string['setting:reactionannouncementinterval_desc'] = 'Tiempo mínimo entre anuncios repetidos de “reacciones no disponibles” para lectores de pantalla. Use un valor más bajo para recibir feedback frecuente en vídeos cortos, o uno más alto para reducir anuncios repetidos. Rango recomendado: 10–60 segundos.';
 
 $string['reactionx'] = 'Reacción {$a}';
 
@@ -374,13 +376,14 @@ $string['report:heatmap_legend'] = 'Leyenda de colores del mapa de calor de reac
 
 $string['report:clusterlimitreached'] = 'El informe alcanzó el número máximo de clústeres mostrados. Usa filtros o una ventana temporal más estrecha para un análisis completo.';
 
-$string['report:showingrecentreactionsoftotal'] = 'Se muestran las {$a->shown} reacciones más antiguas de un total de {$a->total}.';
+$string['report:showingrecentreactionsoftotal'] = 'Se muestran {$a->shown} de {$a->total} reacciones, de la más antigua a la más reciente.';
 
 $string['report:viewfullreport'] = 'Ver el informe completo';
 $string['studentnotes_view_limited'] = 'Se muestran las últimas {$a} notas. Abra el informe completo para revisar todas las notas.';
 $string['report:skiptoheatmaptable'] = 'Omitir el mapa de calor e ir a la tabla de datos';
 $string['report:heatmap_textsummary'] = 'El gráfico contiene {$a->clusters} clústeres; el clúster más grande contiene {$a->max} clics.';
 $string['err:reactioniconvaluerequired'] = 'Introduzca un emoji o una clase de Font Awesome.';
+$string['err:reactioniconvalueinvalidfa'] = 'Introduzca solo nombres de clases Font Awesome válidos, usando letras, números, espacios y guiones.';
 
 $string['error:reactionratelimit'] = 'Se han enviado demasiadas reacciones en poco tiempo. Continúa viendo el vídeo e inténtalo de nuevo.';
 $string['event:student_progress_reset'] = 'Datos VideoTrack del estudiante restablecidos';

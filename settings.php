@@ -65,6 +65,16 @@ if ($ADMIN->fulltree) {
         300
     ));
 
+
+    $settings->add(new \mod_videotrack\admin\setting_int_range(
+        'mod_videotrack/reactionannouncementinterval',
+        get_string('setting:reactionannouncementinterval', 'mod_videotrack'),
+        get_string('setting:reactionannouncementinterval_desc', 'mod_videotrack'),
+        30,
+        1,
+        120
+    ));
+
     // Player behaviour.
     $settings->add(new admin_setting_heading(
         'mod_videotrack/heading_player',

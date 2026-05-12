@@ -91,6 +91,8 @@ $string['modulename_link'] = 'mod/videotrack/view';
 
 $string['setting:heartbeatinterval'] = 'Interwał heartbeat (sekundy)';
 $string['setting:heartbeatinterval_desc'] = 'Jak często odtwarzacz zapisuje bieżący segment oglądania na serwerze podczas ciągłego odtwarzania. Niższe wartości zmniejszają ryzyko utraty danych przy awarii przeglądarki lub sieci, ale zwiększają obciążenie serwera. Zalecany zakres: 15–120 sekund. Minimalna wymuszona wartość: 5 sekund.';
+$string['setting:reactionannouncementinterval'] = 'Interwał dostępnych komunikatów o reakcjach (sekundy)';
+$string['setting:reactionannouncementinterval_desc'] = 'Minimalny czas między powtarzanymi komunikatami czytnika ekranu „reakcje niedostępne”. Użyj niższej wartości dla częstszego feedbacku w krótkich filmach albo wyższej, aby ograniczyć powtarzanie komunikatów. Zalecany zakres: 10–60 sekund.';
 $string['setting:heading_performance'] = 'Wydajność';
 $string['setting:heading_defaults'] = 'Domyślne wartości dla nowych aktywności';
 $string['setting:heading_defaults_desc'] = 'Te wartości są używane jako domyślne, gdy nauczyciel tworzy nową aktywność VideoTrack. Każdą aktywność można nadal skonfigurować indywidualnie.';
@@ -373,13 +375,14 @@ $string['report:heatmap_legend'] = 'Legenda kolorów mapy cieplnej reakcji';
 
 $string['report:clusterlimitreached'] = 'Raport osiągnął maksymalną liczbę wyświetlanych klastrów. Użyj filtrów lub węższego zakresu czasu.';
 
-$string['report:showingrecentreactionsoftotal'] = 'Pokazywane jest {$a->shown} najstarszych reakcji z łącznie {$a->total}.';
+$string['report:showingrecentreactionsoftotal'] = 'Pokazywane jest {$a->shown} z {$a->total} reakcji, od najstarszej do najnowszej.';
 
 $string['report:viewfullreport'] = 'Wyświetl pełny raport';
 $string['studentnotes_view_limited'] = 'Pokazywane są najnowsze notatki: {$a}. Otwórz pełny raport, aby przejrzeć wszystkie.';
 $string['report:skiptoheatmaptable'] = 'Pomiń mapę cieplną i przejdź do tabeli danych';
 $string['report:heatmap_textsummary'] = 'Wykres zawiera {$a->clusters} klastrów; największy klaster zawiera {$a->max} kliknięć.';
 $string['err:reactioniconvaluerequired'] = 'Wpisz emoji albo klasę Font Awesome.';
+$string['err:reactioniconvalueinvalidfa'] = 'Wpisz tylko prawidłowe nazwy klas Font Awesome, używając liter, cyfr, spacji i myślników.';
 
 $string['error:reactionratelimit'] = 'Przesłano zbyt wiele reakcji w krótkim czasie. Kontynuuj oglądanie i spróbuj ponownie.';
 $string['event:student_progress_reset'] = 'Zresetowano dane studenta VideoTrack';

@@ -89,6 +89,8 @@ $string['modulename_link'] = 'mod/videotrack/view';
 
 $string['setting:heartbeatinterval'] = 'Intervallo heartbeat (secondi)';
 $string['setting:heartbeatinterval_desc'] = 'Con quale frequenza il player salva sul server il segmento di visione in corso durante la riproduzione continua. Valori più bassi riducono il rischio di perdita di dati in caso di crash del browser o caduta della connessione, ma aumentano il carico sul server (una richiesta AJAX + due query al database per studente per intervallo). Intervallo consigliato: 15–120 secondi. Valore minimo applicato: 5 secondi (valori inferiori a 5 vengono automaticamente portati a 5 dal server).';
+$string['setting:reactionannouncementinterval'] = 'Intervallo degli annunci accessibili sulle reazioni (secondi)';
+$string['setting:reactionannouncementinterval_desc'] = 'Tempo minimo tra annunci ripetuti “reazioni non disponibili” per screen reader. Usa un valore più basso per feedback frequenti nei video brevi o più alto per ridurre annunci ripetuti. Intervallo consigliato: 10–60 secondi.';
 $string['setting:heading_performance'] = 'Prestazioni';
 $string['setting:heading_defaults'] = 'Valori predefiniti per le nuove attività';
 $string['setting:heading_defaults_desc'] = 'Questi valori vengono usati come predefiniti quando un docente crea una nuova attività VideoTrack. Ogni attività può comunque essere configurata individualmente.';
@@ -374,13 +376,14 @@ $string['report:heatmap_legend'] = 'Legenda colori della heatmap reazioni';
 
 $string['report:clusterlimitreached'] = 'Il report ha raggiunto il numero massimo di cluster visualizzati. Usa i filtri o una finestra temporale più ristretta per un\'analisi completa.';
 
-$string['report:showingrecentreactionsoftotal'] = 'Sono mostrate solo le {$a->shown} reazioni più vecchie su {$a->total} totali.';
+$string['report:showingrecentreactionsoftotal'] = 'Sono mostrate solo {$a->shown} reazioni su {$a->total} totali, dalla più vecchia alla più recente.';
 
 $string['report:viewfullreport'] = 'Visualizza il report completo';
 $string['studentnotes_view_limited'] = 'Sono visualizzate le ultime {$a} note. Apri il report completo per rivederle tutte.';
 $string['report:skiptoheatmaptable'] = 'Salta la heatmap e vai alla tabella dati';
 $string['report:heatmap_textsummary'] = 'Il grafico contiene {$a->clusters} cluster; il cluster più grande contiene {$a->max} clic.';
 $string['err:reactioniconvaluerequired'] = 'Inserire un emoji o una classe Font Awesome.';
+$string['err:reactioniconvalueinvalidfa'] = 'Inserisci solo nomi di classi Font Awesome validi, usando lettere, numeri, spazi e trattini.';
 
 $string['error:reactionratelimit'] = 'Sono state inviate troppe reazioni in poco tempo. Continua la visione del video e riprova.';
 $string['event:student_progress_reset'] = 'Dati VideoTrack dello studente reimpostati';
