@@ -31,7 +31,6 @@ $showstudentreport = !empty($videotrack->showstudentreport) && $canviewownreport
 // Reused by the student report query and by the unique-reaction fallback below.
 $eventwhere = "videotrackid = :vtid AND userid = :uid AND isdeleted = 0 AND (notetype = '' OR notetype IS NULL)";
 $eventparams = ['vtid' => $videotrack->id, 'uid' => $USER->id];
-$eventcount = 0;
 $events = [];
 $eventtruncated = false;
 if ($showstudentreport) {
@@ -51,7 +50,6 @@ if ($showstudentreport) {
     if ($eventtruncated) {
         $events = array_slice($events, 0, 200, true);
     }
-    $eventcount = $eventtruncated ? 201 : count($events);
 }
 $notice = trim((string)$videotrack->reactionnotice);
 if ($notice === '' && !empty($videotrack->showreactionnotice)) {
@@ -550,10 +548,12 @@ if ($showstudentreport) {
     foreach ($reactions as $r) { $reactionmap_view[(int)$r->id] = $r; }
 
     if ($eventtruncated) {
+        $totalreactions = $DB->count_records_select('videotrack_reactev', $eventwhere, $eventparams);
+        $showninfo = (object)['shown' => count($events), 'total' => $totalreactions];
         $reporturl = new moodle_url('/mod/videotrack/report.php', ['id' => $cm->id, 'mode' => 'student']);
         echo html_writer::tag('tr',
             html_writer::tag('td',
-                get_string('report:showingrecentreactions', 'mod_videotrack', count($events)) . ' ' .
+                get_string('report:showingrecentreactionsoftotal', 'mod_videotrack', $showninfo) . ' ' .
                     html_writer::link($reporturl, get_string('report:viewfullreport', 'mod_videotrack')),
                 ['colspan' => '5', 'class' => 'text-muted text-center py-2']
             )

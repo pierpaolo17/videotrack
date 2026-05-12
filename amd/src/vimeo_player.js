@@ -14,6 +14,7 @@ define(['core/ajax', 'core/log'], function(Ajax, Log) {
     var player  = null;
     var config  = null;
     var lastReactionAvailabilityAnnouncement = null;
+    var reactionReadyAnnounced = false;
     var HEARTBEAT_INTERVAL = 30;
 
     var state = {
@@ -529,9 +530,8 @@ define(['core/ajax', 'core/log'], function(Ajax, Log) {
 
     /**
      * Enables or disables the reaction buttons based on playback state.
-     * Uses the HTML disabled attribute outside playback so inactive controls
-     * remain keyboard focusable. aria-disabled prevents saving and lets the
-     * keydown/click handlers announce why the action is unavailable.
+     * Uses only aria-disabled to keep inactive controls keyboard-focusable.
+     * The click/keydown handlers block saving and announce why the action is unavailable.
      * By-design: reactions can only be saved while the video is playing.
      *
      * @param {boolean} playing  True = enable buttons; false = disable them.
@@ -547,10 +547,16 @@ define(['core/ajax', 'core/log'], function(Ajax, Log) {
 
 
     function announceReactionAvailability(playing) {
+        if (playing && reactionReadyAnnounced) {
+            return;
+        }
         if (lastReactionAvailabilityAnnouncement === playing) {
             return;
         }
         lastReactionAvailabilityAnnouncement = playing;
+        if (playing) {
+            reactionReadyAnnounced = true;
+        }
         var hint = document.getElementById('videotrack-reactions-hint');
         if (!hint) {
             return;

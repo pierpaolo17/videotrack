@@ -578,5 +578,13 @@ function xmldb_videotrack_upgrade($oldversion) {
         upgrade_mod_savepoint(true, 2026061000, 'videotrack');
     }
 
+
+    if ($oldversion < 2026061100) {
+        // v1.0.42: hotfix for autoloaded admin setting classes, reaction
+        // accessibility refinements, course report SQL optimisation and
+        // language/documentation cleanup. No database schema changes.
+        upgrade_mod_savepoint(true, 2026061100, 'videotrack');
+    }
+
     return true;
 }

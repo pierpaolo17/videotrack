@@ -375,6 +375,7 @@ $string['report:heatmap_legend'] = 'Farblegende der Reaktions-Heatmap';
 $string['report:clusterlimitreached'] = 'Der Bericht hat die maximale Anzahl angezeigter Cluster erreicht. Verwenden Sie Filter oder ein kleineres Zeitfenster für eine vollständige Analyse.';
 
 $string['report:showingrecentreactions'] = 'Es werden nur die ersten {$a} Reaktionen angezeigt.';
+$string['report:showingrecentreactionsoftotal'] = 'Es werden nur die ersten {$a->shown} von {$a->total} Reaktionen angezeigt.';
 
 $string['report:viewfullreport'] = 'Vollständigen Bericht anzeigen';
 $string['studentnotes_view_limited'] = 'Es werden die letzten {$a} Notizen angezeigt. Öffnen Sie den vollständigen Bericht, um alle Notizen zu prüfen.';
@@ -444,7 +445,7 @@ $string['setting:retentionperioddays'] = 'Aufbewahrungsfrist für Trackingdaten 
 $string['setting:retentionperioddays_desc'] = 'Anzahl der Tage, nach denen VideoTrack alte Tracking-, Notiz- und Reaktionsdaten anonymisiert. 0 bedeutet unbegrenzte Aufbewahrung. Löschanfragen von Nutzern werden immer durch gesalzene Anonymisierung statt durch Löschen aggregierter Analysen bearbeitet.';
 $string['setting:strictsessionvalidation'] = 'Gleiche Browser-Sitzung zur Validierung von Notizen und Reaktionen verlangen';
 $string['setting:validationfallbackdays'] = 'Validierungsfenster für bisherigen Wiedergabeverlauf (Tage)';
-$string['setting:validationfallbackdays_desc'] = 'Maximales Alter in Tagen für bereits gesehene Segmente, die nach einer Aktualisierung oder einem Browserwechsel Notizen und Reaktionen erlauben dürfen. 0 erlaubt historische gesehene Segmente ohne Zeitlimit; dies verbessert die Bedienbarkeit, macht die Anti-Cheat-Prüfung aber permissiver. Prüfungen derselben Sitzung und aktueller Wiedergabe werden immer zuerst versucht.';
+$string['setting:validationfallbackdays_desc'] = 'Maximales Alter in Tagen für bereits gesehene Segmente, die nach einer Aktualisierung oder einem Browserwechsel Notizen und Reaktionen erlauben dürfen. 0 erlaubt historische gesehene Segmente ohne Zeitlimit; dies verbessert die Bedienbarkeit, macht die Überprüfung der akademischen Integrität aber permissiver. Prüfungen derselben Sitzung und aktueller Wiedergabe werden immer zuerst versucht.';
 $string['setting:strictsessionvalidation_desc'] = 'Wenn aktiviert, können Notizen und Reaktionen nur für Zeitpunkte gespeichert werden, die in der aktuellen Browser-Sitzung angesehen wurden. Wenn deaktiviert, akzeptiert VideoTrack Zeitpunkte, die derselbe Nutzer in derselben Aktivität bereits angesehen hat, und verbessert so die Bedienbarkeit nach Aktualisieren der Seite oder Browserwechseln, während nicht angesehene Positionen weiterhin abgelehnt werden.';
 $string['task:cleanup'] = 'Abgelaufene VideoTrack-Trackingdaten anonymisieren';
 $string['privacy:anonymised'] = '[anonymisiert]';

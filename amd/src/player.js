@@ -2,6 +2,7 @@ define(['core/ajax', 'core/log'], function(Ajax, Log) {
     var player = null;
     var config = null;
     var lastReactionAvailabilityAnnouncement = null;
+    var reactionReadyAnnounced = false;
     // HEARTBEAT_INTERVAL viene inizializzato in init() dal valore configurato
     // dall'amministratore in Amministrazione sito → Plugin → Moduli attività → Video track.
     var HEARTBEAT_INTERVAL = 30; // valore di fallback, sovrascritto da config.heartbeatinterval
@@ -221,10 +222,16 @@ define(['core/ajax', 'core/log'], function(Ajax, Log) {
 
 
     function announceReactionAvailability(playing) {
+        if (playing && reactionReadyAnnounced) {
+            return;
+        }
         if (lastReactionAvailabilityAnnouncement === playing) {
             return;
         }
         lastReactionAvailabilityAnnouncement = playing;
+        if (playing) {
+            reactionReadyAnnounced = true;
+        }
         var hint = document.getElementById('videotrack-reactions-hint');
         if (!hint) {
             return;
