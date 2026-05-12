@@ -1512,11 +1512,11 @@ define(['core/ajax', 'core/log'], function(Ajax, Log) {
     return {
         init: function(initConfig) {
             config             = initConfig;
-            // reactionannouncementinterval is provided by PHP in milliseconds.
+            // reactionannouncementinterval is provided by PHP in milliseconds; cap matches settings.php max (120000 ms).
             var interval = parseInt(config.reactionannouncementinterval, 10);
             reactionUnavailableAnnounceInterval = interval === 0 ? Number.MAX_SAFE_INTEGER :
                 Math.max(1000, Math.min(120000, interval || DEFAULT_REACTION_UNAVAILABLE_ANNOUNCE_INTERVAL));
-            // reactionreadydebouncems is intentionally configured in milliseconds.
+            // reactionreadydebouncems is intentionally configured in milliseconds; cap matches settings.php max (2000 ms).
             var debounce = parseInt(config.reactionreadydebouncems, 10);
             reactionReadyDebounceMs = debounce === 0 ? 0 :
                 Math.max(0, Math.min(2000, debounce || DEFAULT_REACTION_READY_DEBOUNCE_MS));
