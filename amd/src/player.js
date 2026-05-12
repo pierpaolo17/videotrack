@@ -5,7 +5,8 @@ define(['core/ajax', 'core/log'], function(Ajax, Log) {
     var reactionReadyAnnounced = false;
     var reactionUnavailableTimer = null;
     var lastReactionUnavailableAt = 0;
-    var REACTION_UNAVAILABLE_ANNOUNCE_INTERVAL = 30000;
+    var DEFAULT_REACTION_UNAVAILABLE_ANNOUNCE_INTERVAL = 30000;
+    var reactionUnavailableAnnounceInterval = DEFAULT_REACTION_UNAVAILABLE_ANNOUNCE_INTERVAL;
     // HEARTBEAT_INTERVAL viene inizializzato in init() dal valore configurato
     // dall'amministratore in Amministrazione sito → Plugin → Moduli attività → Video track.
     var HEARTBEAT_INTERVAL = 30; // valore di fallback, sovrascritto da config.heartbeatinterval
@@ -234,8 +235,6 @@ define(['core/ajax', 'core/log'], function(Ajax, Log) {
         if (!hint) {
             return;
         }
-        hint.setAttribute('aria-live', 'polite');
-
         if (playing) {
             if (reactionUnavailableTimer) {
                 window.clearTimeout(reactionUnavailableTimer);
@@ -256,7 +255,7 @@ define(['core/ajax', 'core/log'], function(Ajax, Log) {
         }
         var now = Date.now();
         if (lastReactionAvailabilityAnnouncement === false &&
-                now - lastReactionUnavailableAt < REACTION_UNAVAILABLE_ANNOUNCE_INTERVAL) {
+                now - lastReactionUnavailableAt < reactionUnavailableAnnounceInterval) {
             return;
         }
         reactionUnavailableTimer = window.setTimeout(function() {
@@ -282,7 +281,6 @@ define(['core/ajax', 'core/log'], function(Ajax, Log) {
             }
             lastReactionAvailabilityAnnouncement = false;
             lastReactionUnavailableAt = now;
-            hint.setAttribute('aria-live', 'polite');
             hint.textContent = config.reactionunavailablelabel || 'Reactions are available only during video playback.';
             hint.classList.add('videotrack-reactions-hint-active');
             window.setTimeout(function() {
@@ -1110,6 +1108,7 @@ define(['core/ajax', 'core/log'], function(Ajax, Log) {
     return {
         init: function(initConfig) {
             config = initConfig;
+            reactionUnavailableAnnounceInterval = Math.max(1000, parseInt(config.reactionannouncementinterval, 10) || DEFAULT_REACTION_UNAVAILABLE_ANNOUNCE_INTERVAL);
             // Legge l'intervallo heartbeat dalla configurazione admin.
             HEARTBEAT_INTERVAL = (config.heartbeatinterval > 0) ? config.heartbeatinterval : 30;
             state.sessionid = uuid();

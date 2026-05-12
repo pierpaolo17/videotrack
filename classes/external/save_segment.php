@@ -77,7 +77,7 @@ class save_segment extends external_api {
         $wstart = max(0, min($params['wallclockstart'], $now + 5));
         $wend   = max($wstart, min($params['wallclockend'],   $now + 5));
 
-        // ── Validazione server-side academic-integrity validation ───────────────────────────────
+        // ── Validazione per l'integrità accademica lato server ───────────────────────────────
         // I wallclock inviati dal client sono conservati come dato diagnostico, ma
         // non vengono usati per decidere se accettare il segmento. La validazione
         // si basa solo sul tempo server trascorso dall'ultimo segmento della stessa

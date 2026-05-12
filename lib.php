@@ -344,6 +344,11 @@ function videotrack_save_reaction_definitions(int $videotrackid, stdClass $data)
         ];
         if ($icontype === 'file') {
             $record->iconvalue = '';
+        } else if ($icontype === 'fa') {
+            $record->iconvalue = clean_param($record->iconvalue, PARAM_NOTAGS);
+            if (!preg_match('/^[a-z0-9 \-]+$/i', $record->iconvalue)) {
+                $record->iconvalue = 'fa-regular fa-circle';
+            }
         }
 
         if ($reactionid > 0 && isset($existing[$reactionid])) {
