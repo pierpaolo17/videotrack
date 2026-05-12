@@ -101,9 +101,9 @@ $string['event:reaction_deleted'] = 'Reaktion gelöscht';
 $string['setting:heartbeatinterval'] = 'Heartbeat-Intervall (Sekunden)';
 $string['setting:heartbeatinterval_desc'] = 'Wie oft der Player das aktuelle Wiedergabesegment während der kontinuierlichen Wiedergabe auf dem Server speichert. Niedrigere Werte reduzieren das Risiko von Datenverlust bei Browser-Absturz oder Netzwerkausfall, erhöhen aber die Serverlast (eine AJAX-Anfrage + zwei Datenbankabfragen pro Student und Intervall). Empfohlener Bereich: 15–120 Sekunden.';
 $string['setting:reactionannouncementinterval'] = 'Intervall für barrierefreie Reaktionsansagen (Sekunden)';
-$string['setting:reactionannouncementinterval_desc'] = 'Mindestzeit zwischen wiederholten Screenreader-Ansagen „Reaktionen nicht verfügbar“. Verwenden Sie einen niedrigeren Wert für häufigeres Feedback in kurzen Videos oder einen höheren Wert, um Wiederholungen zu reduzieren. Setzen Sie 0, um wiederholte Ansagen zu deaktivieren. Empfohlener Bereich bei Aktivierung: 10–60 Sekunden.';
+$string['setting:reactionannouncementinterval_desc'] = 'Mindestintervall in Sekunden zwischen wiederholten Screenreader-Ansagen „Reaktionen nicht verfügbar“. Verwenden Sie einen niedrigeren Wert für häufiges Feedback in kurzen Videos oder einen höheren Wert, um wiederholte Ansagen zu reduzieren. Setzen Sie 0, um wiederholte Ansagen zu deaktivieren. Empfohlener Bereich bei Aktivierung: 10–60 Sekunden.';
 $string['setting:reactionreadydebouncems'] = 'Entprellung für bereite Reaktionen (Millisekunden)';
-$string['setting:reactionreadydebouncems_desc'] = 'Mindestverzögerung, bevor Feedback zu bereiten Reaktionen nach schnellen Wiedergabeänderungen wiederholt wird. Setzen Sie 0, um die Entprellung zu deaktivieren.';
+$string['setting:reactionreadydebouncems_desc'] = 'Mindestverzögerung in Millisekunden, bevor die Rückmeldung „Reaktionen verfügbar“ nach schnellen Wiedergabeänderungen wiederholt wird. Setzen Sie 0, um diese Entprellung zu deaktivieren.';
 
 $string['reactionx'] = 'Reaktion {$a}';
 

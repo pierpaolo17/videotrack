@@ -243,7 +243,6 @@ define(['core/ajax', 'core/log'], function(Ajax, Log) {
                 reactionUnavailableTimer = null;
             }
             if (Date.now() - lastReactionUnavailableAt < reactionReadyDebounceMs) {
-                lastReactionAvailabilityAnnouncement = true;
                 return;
             }
             if (reactionReadyAnnounced || lastReactionAvailabilityAnnouncement === true) {
@@ -1114,11 +1113,14 @@ define(['core/ajax', 'core/log'], function(Ajax, Log) {
     return {
         init: function(initConfig) {
             config = initConfig;
+            // reactionannouncementinterval is provided by PHP in milliseconds.
             var interval = parseInt(config.reactionannouncementinterval, 10);
             reactionUnavailableAnnounceInterval = interval === 0 ? Number.MAX_SAFE_INTEGER :
-                Math.max(1000, interval || DEFAULT_REACTION_UNAVAILABLE_ANNOUNCE_INTERVAL);
+                Math.max(1000, Math.min(120000, interval || DEFAULT_REACTION_UNAVAILABLE_ANNOUNCE_INTERVAL));
+            // reactionreadydebouncems is intentionally configured in milliseconds.
             var debounce = parseInt(config.reactionreadydebouncems, 10);
-            reactionReadyDebounceMs = debounce === 0 ? 0 : Math.max(0, debounce || DEFAULT_REACTION_READY_DEBOUNCE_MS);
+            reactionReadyDebounceMs = debounce === 0 ? 0 :
+                Math.max(0, Math.min(2000, debounce || DEFAULT_REACTION_READY_DEBOUNCE_MS));
             // Legge l'intervallo heartbeat dalla configurazione admin.
             HEARTBEAT_INTERVAL = (config.heartbeatinterval > 0) ? config.heartbeatinterval : 30;
             state.sessionid = uuid();
