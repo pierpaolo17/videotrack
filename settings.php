@@ -65,14 +65,29 @@ if ($ADMIN->fulltree) {
         300
     ));
 
+    // Accessibility and assistive technology announcements.
+    $settings->add(new admin_setting_heading(
+        'mod_videotrack/heading_accessibility',
+        get_string('setting:heading_accessibility', 'mod_videotrack'),
+        get_string('setting:heading_accessibility_desc', 'mod_videotrack')
+    ));
 
     $settings->add(new \mod_videotrack\admin\setting_int_range(
         'mod_videotrack/reactionannouncementinterval',
         get_string('setting:reactionannouncementinterval', 'mod_videotrack'),
         get_string('setting:reactionannouncementinterval_desc', 'mod_videotrack'),
         30,
-        1,
+        0,
         120
+    ));
+
+    $settings->add(new \mod_videotrack\admin\setting_int_range(
+        'mod_videotrack/reactionreadydebouncems',
+        get_string('setting:reactionreadydebouncems', 'mod_videotrack'),
+        get_string('setting:reactionreadydebouncems_desc', 'mod_videotrack'),
+        400,
+        0,
+        2000
     ));
 
     // Player behaviour.

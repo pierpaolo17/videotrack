@@ -88,6 +88,8 @@ $string['no'] = 'No';
 $string['modulename_link'] = 'mod/videotrack/view';
 
 $string['setting:heading_performance'] = 'Rendimiento';
+$string['setting:heading_accessibility'] = 'Accesibilidad';
+$string['setting:heading_accessibility_desc'] = 'Ajustes para anuncios de tecnologías de asistencia y feedback de teclado/lector de pantalla.';
 $string['setting:heading_defaults'] = 'Valores predeterminados para nuevas actividades';
 $string['setting:heading_defaults_desc'] = 'Estos valores se utilizan como predeterminados cuando un docente crea una nueva actividad VideoTrack. Cada actividad puede seguir configurándose individualmente.';
 $string['setting:default_desc'] = 'Valor predeterminado para nuevas actividades. Puede ser reemplazado por el docente para cada actividad individual.';
@@ -99,7 +101,9 @@ $string['event:reaction_deleted'] = 'Reacción eliminada';
 $string['setting:heartbeatinterval'] = 'Intervalo de heartbeat (segundos)';
 $string['setting:heartbeatinterval_desc'] = 'Con qué frecuencia el reproductor guarda en el servidor el segmento de visualización actual durante la reproducción continua. Los valores más bajos reducen el riesgo de pérdida de datos en caso de fallo del navegador o caída de la red, pero aumentan la carga del servidor (una solicitud AJAX + dos consultas de base de datos por estudiante por intervalo). Rango recomendado: 15–120 segundos.';
 $string['setting:reactionannouncementinterval'] = 'Intervalo de anuncios accesibles de reacciones (segundos)';
-$string['setting:reactionannouncementinterval_desc'] = 'Tiempo mínimo entre anuncios repetidos de “reacciones no disponibles” para lectores de pantalla. Use un valor más bajo para recibir feedback frecuente en vídeos cortos, o uno más alto para reducir anuncios repetidos. Rango recomendado: 10–60 segundos.';
+$string['setting:reactionannouncementinterval_desc'] = 'Tiempo mínimo entre anuncios repetidos de “reacciones no disponibles” para lectores de pantalla. Use un valor más bajo para recibir feedback frecuente en vídeos cortos, o uno más alto para reducir anuncios repetidos. Establezca 0 para desactivar los anuncios repetidos. Rango recomendado cuando está activo: 10–60 segundos.';
+$string['setting:reactionreadydebouncems'] = 'Antirrebote de reacciones listas (milisegundos)';
+$string['setting:reactionreadydebouncems_desc'] = 'Retardo mínimo antes de repetir el feedback de reacciones listas tras cambios rápidos de reproducción. Establezca 0 para desactivar el antirrebote.';
 
 $string['reactionx'] = 'Reacción {$a}';
 

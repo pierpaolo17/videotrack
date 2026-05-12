@@ -6,7 +6,8 @@ define(['core/ajax', 'core/log'], function(Ajax, Log) {
     var reactionUnavailableTimer = null;
     var lastReactionUnavailableAt = 0;
     var DEFAULT_REACTION_UNAVAILABLE_ANNOUNCE_INTERVAL = 30000;
-    var REACTION_READY_DEBOUNCE_MS = 400;
+    var DEFAULT_REACTION_READY_DEBOUNCE_MS = 400;
+    var reactionReadyDebounceMs = DEFAULT_REACTION_READY_DEBOUNCE_MS;
     var reactionUnavailableAnnounceInterval = DEFAULT_REACTION_UNAVAILABLE_ANNOUNCE_INTERVAL;
     // HEARTBEAT_INTERVAL viene inizializzato in init() dal valore configurato
     // dall'amministratore in Amministrazione sito → Plugin → Moduli attività → Video track.
@@ -241,7 +242,7 @@ define(['core/ajax', 'core/log'], function(Ajax, Log) {
                 window.clearTimeout(reactionUnavailableTimer);
                 reactionUnavailableTimer = null;
             }
-            if (Date.now() - lastReactionUnavailableAt < REACTION_READY_DEBOUNCE_MS) {
+            if (Date.now() - lastReactionUnavailableAt < reactionReadyDebounceMs) {
                 lastReactionAvailabilityAnnouncement = true;
                 return;
             }
@@ -1113,7 +1114,11 @@ define(['core/ajax', 'core/log'], function(Ajax, Log) {
     return {
         init: function(initConfig) {
             config = initConfig;
-            reactionUnavailableAnnounceInterval = Math.max(1000, parseInt(config.reactionannouncementinterval, 10) || DEFAULT_REACTION_UNAVAILABLE_ANNOUNCE_INTERVAL);
+            var interval = parseInt(config.reactionannouncementinterval, 10);
+            reactionUnavailableAnnounceInterval = interval === 0 ? Number.MAX_SAFE_INTEGER :
+                Math.max(1000, interval || DEFAULT_REACTION_UNAVAILABLE_ANNOUNCE_INTERVAL);
+            var debounce = parseInt(config.reactionreadydebouncems, 10);
+            reactionReadyDebounceMs = debounce === 0 ? 0 : Math.max(0, debounce || DEFAULT_REACTION_READY_DEBOUNCE_MS);
             // Legge l'intervallo heartbeat dalla configurazione admin.
             HEARTBEAT_INTERVAL = (config.heartbeatinterval > 0) ? config.heartbeatinterval : 30;
             state.sessionid = uuid();
