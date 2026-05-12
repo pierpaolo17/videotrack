@@ -655,10 +655,20 @@ function xmldb_videotrack_upgrade($oldversion) {
             $currentinterval = (int)$currentinterval;
             if ($currentinterval > 0 && $currentinterval <= 120) {
                 set_config('reactionannouncementinterval', $currentinterval * 1000, 'mod_videotrack');
+            } else if ($currentinterval > 120 && $currentinterval <= 120000) {
+                // Already looks like a millisecond value; keep it unchanged.
+            } else {
+                // Out-of-range legacy value: reset to the documented default of 30 seconds.
+                set_config('reactionannouncementinterval', 30000, 'mod_videotrack');
             }
         }
 
         upgrade_mod_savepoint(true, 2026061800, 'videotrack');
+    }
+
+    if ($oldversion < 2026061900) {
+        // v1.0.50: language and setting copy refinements. No schema changes.
+        upgrade_mod_savepoint(true, 2026061900, 'videotrack');
     }
 
     return true;
