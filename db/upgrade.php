@@ -678,5 +678,11 @@ function xmldb_videotrack_upgrade($oldversion) {
         upgrade_mod_savepoint(true, 2026062000, 'videotrack');
     }
 
+
+    if ($oldversion < 2026062100) {
+        // v1.0.52: preserve site-level zero values for rewind/fast-forward and harden validation defaults.
+        upgrade_mod_savepoint(true, 2026062100, 'videotrack');
+    }
+
     return true;
 }
