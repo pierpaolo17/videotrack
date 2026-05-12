@@ -88,6 +88,8 @@ $string['no'] = 'Non';
 $string['modulename_link'] = 'mod/videotrack/view';
 
 $string['setting:heading_performance'] = 'Performance';
+$string['setting:heading_accessibility'] = 'Accessibilité';
+$string['setting:heading_accessibility_desc'] = 'Réglages pour les annonces des technologies d’assistance et le retour clavier/lecteur d’écran.';
 $string['setting:heading_defaults'] = 'Valeurs par défaut pour les nouvelles activités';
 $string['setting:heading_defaults_desc'] = 'Ces valeurs sont utilisées par défaut lorsqu\'un enseignant crée une nouvelle activité VideoTrack. Chaque activité peut toujours être configurée individuellement.';
 $string['setting:default_desc'] = 'Valeur par défaut pour les nouvelles activités. Peut être remplacée par l\'enseignant pour chaque activité individuelle.';
@@ -99,7 +101,9 @@ $string['event:reaction_deleted'] = 'Réaction supprimée';
 $string['setting:heartbeatinterval'] = 'Intervalle de heartbeat (secondes)';
 $string['setting:heartbeatinterval_desc'] = 'À quelle fréquence le lecteur enregistre le segment de visionnage en cours sur le serveur pendant la lecture continue. Des valeurs plus faibles réduisent le risque de perte de données en cas de plantage du navigateur ou de panne réseau, mais augmentent la charge serveur (une requête AJAX + deux requêtes de base de données par étudiant et par intervalle). Plage recommandée : 15 à 120 secondes.';
 $string['setting:reactionannouncementinterval'] = 'Intervalle des annonces accessibles des réactions (secondes)';
-$string['setting:reactionannouncementinterval_desc'] = 'Temps minimal entre deux annonces répétées « réactions indisponibles » pour les lecteurs d’écran. Utilisez une valeur plus basse pour des retours fréquents dans les vidéos courtes, ou plus élevée pour réduire les annonces répétées. Plage recommandée : 10–60 secondes.';
+$string['setting:reactionannouncementinterval_desc'] = 'Temps minimal entre deux annonces répétées « réactions indisponibles » pour les lecteurs d’écran. Utilisez une valeur plus basse pour des retours fréquents dans les vidéos courtes, ou plus élevée pour réduire les annonces répétées. Définissez 0 pour désactiver les annonces répétées. Plage recommandée lorsque l’option est active : 10–60 secondes.';
+$string['setting:reactionreadydebouncems'] = 'Temporisation des réactions disponibles (millisecondes)';
+$string['setting:reactionreadydebouncems_desc'] = 'Délai minimal avant de répéter le retour indiquant que les réactions sont disponibles après des changements rapides de lecture. Définissez 0 pour désactiver cette temporisation.';
 
 $string['reactionx'] = 'Réaction {$a}';
 

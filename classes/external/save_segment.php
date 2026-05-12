@@ -102,7 +102,7 @@ class save_segment extends external_api {
         $servergrace = 10;
         $serverallowedvideo = max(2.0, ($serverspan + $servergrace) * $playbackrate);
         if ($videoduration > 2.0 && $videoduration > $serverallowedvideo) {
-            // Suspicious segment: reject silently and avoid logging behavioural timing details.
+            // Segmento sospetto: rigettato silenziosamente senza registrare dettagli temporali comportamentali.
             return [
                 'accepted'             => false,
                 'uniquecoveredseconds' => 0.0,

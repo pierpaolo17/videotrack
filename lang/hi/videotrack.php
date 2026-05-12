@@ -88,6 +88,8 @@ $string['no'] = 'नहीं';
 $string['modulename_link'] = 'mod/videotrack/view';
 
 $string['setting:heading_performance'] = 'प्रदर्शन';
+$string['setting:heading_accessibility'] = 'सुगम्यता';
+$string['setting:heading_accessibility_desc'] = 'सहायक तकनीक घोषणाओं और कीबोर्ड/स्क्रीन रीडर प्रतिक्रिया की सेटिंग्स।';
 $string['setting:heading_defaults'] = 'नई गतिविधियों के लिए डिफ़ॉल्ट मान';
 $string['setting:heading_defaults_desc'] = 'ये मान डिफ़ॉल्ट के रूप में उपयोग किए जाते हैं जब कोई शिक्षक नई VideoTrack गतिविधि बनाता है। प्रत्येक गतिविधि को फिर भी व्यक्तिगत रूप से कॉन्फ़िगर किया जा सकता है।';
 $string['setting:default_desc'] = 'नई गतिविधियों के लिए डिफ़ॉल्ट मान। शिक्षक द्वारा प्रत्येक गतिविधि के लिए ओवरराइड किया जा सकता है।';
@@ -98,8 +100,10 @@ $string['event:note_saved'] = 'छात्र नोट सहेजा गय�
 $string['event:reaction_deleted'] = 'प्रतिक्रिया हटाई गई';
 $string['setting:heartbeatinterval'] = 'हार्टबीट अंतराल (सेकंड)';
 $string['setting:heartbeatinterval_desc'] = 'निरंतर प्लेबैक के दौरान प्लेयर कितनी बार सर्वर पर वर्तमान व्यूइंग सेगमेंट सहेजता है। कम मान ब्राउज़र क्रैश या नेटवर्क विफलता पर डेटा हानि के जोखिम को कम करते हैं, लेकिन सर्वर लोड बढ़ाते हैं (प्रति छात्र प्रति अंतराल एक AJAX अनुरोध + दो डेटाबेस क्वेरी)। अनुशंसित सीमा: 15–120 सेकंड।';
-$string['setting:reactionannouncementinterval'] = 'प्रतिक्रिया accessibility घोषणा अंतराल (सेकंड)';
-$string['setting:reactionannouncementinterval_desc'] = 'स्क्रीन रीडर के लिए दोहराई गई “प्रतिक्रियाएँ उपलब्ध नहीं हैं” घोषणाओं के बीच न्यूनतम समय। छोटे वीडियो में बार-बार प्रतिक्रिया के लिए कम मान या दोहराई गई घोषणाएँ कम करने के लिए अधिक मान उपयोग करें। अनुशंसित सीमा: 10–60 सेकंड।';
+$string['setting:reactionannouncementinterval'] = 'प्रतिक्रिया सुगम्यता घोषणा अंतराल (सेकंड)';
+$string['setting:reactionannouncementinterval_desc'] = 'स्क्रीन रीडर के लिए दोहराई गई “प्रतिक्रियाएँ उपलब्ध नहीं हैं” घोषणाओं के बीच न्यूनतम समय। छोटे वीडियो में बार-बार प्रतिक्रिया के लिए कम मान या दोहराई गई घोषणाएँ कम करने के लिए अधिक मान उपयोग करें. दोहराई गई घोषणाएँ बंद करने के लिए 0 सेट करें। सक्षम होने पर अनुशंसित सीमा: 10–60 सेकंड।';
+$string['setting:reactionreadydebouncems'] = 'तैयार प्रतिक्रियाओं का डिबाउंस (मिलीसेकंड)';
+$string['setting:reactionreadydebouncems_desc'] = 'तेज़ प्लेबैक बदलावों के बाद प्रतिक्रिया तैयार होने का फ़ीडबैक दोहराने से पहले न्यूनतम विलंब। डिबाउंस बंद करने के लिए 0 सेट करें।';
 
 $string['reactionx'] = 'प्रतिक्रिया {$a}';
 
@@ -383,7 +387,7 @@ $string['studentnotes_view_limited'] = 'नवीनतम {$a} नोट्स 
 $string['report:skiptoheatmaptable'] = 'हीटमैप छोड़ें और डेटा तालिका पर जाएँ';
 $string['report:heatmap_textsummary'] = 'चार्ट में {$a->clusters} क्लस्टर हैं; सबसे बड़े क्लस्टर में {$a->max} क्लिक हैं।';
 $string['err:reactioniconvaluerequired'] = 'एक इमोजी या Font Awesome क्लास दर्ज करें.';
-$string['err:reactioniconvalueinvalidfa'] = 'केवल मान्य Font Awesome class नाम दर्ज करें, जिनमें अक्षर, अंक, spaces और hyphens हों।';
+$string['err:reactioniconvalueinvalidfa'] = 'केवल मान्य Font Awesome class नाम दर्ज करें, जिनमें अक्षर, अंक, रिक्त स्थान और हाइफ़न हों।';
 
 $string['error:reactionratelimit'] = 'कम समय में बहुत अधिक प्रतिक्रियाएँ भेजी गईं। कृपया वीडियो देखना जारी रखें और फिर प्रयास करें।';
 $string['event:student_progress_reset'] = 'विद्यार्थी का VideoTrack डेटा रीसेट किया गया';

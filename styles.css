@@ -339,6 +339,36 @@
         background: #75b798;
         border-color: #75b798;
     }
+
+
+    .videotrack-transcript-panel,
+    .videotrack-notes-panel {
+        background: #1e1e2e;
+        border-color: #444;
+        color: #e0e0e0;
+    }
+
+    .videotrack-chapters-bar {
+        background: #2a2a3e;
+        border-color: #444;
+    }
+
+    .videotrack-chapter-btn.videotrack-chapter-active {
+        background: #8ab4ff;
+        border-color: #8ab4ff;
+        color: #0f172a;
+    }
+
+    .videotrack-notes-toggle:hover {
+        color: #8ab4ff;
+    }
+
+    .videotrack-notes-header,
+    .videotrack-reactions-section-heading,
+    .videotrack-notes-report {
+        border-color: #444;
+    }
+
     .videotrack-player-wrap {
         background: #1a1a1a;
     }
@@ -574,9 +604,6 @@
 }
 
 /* Additional transcript list and button styles. Base panel styles are defined above once. */
-@media (prefers-color-scheme: dark) {
-    .videotrack-transcript-panel { background: #1e1e2e; border-color: #444; color: #e0e0e0; }
-}
 .videotrack-transcript-list { padding-left: 0; }
 .videotrack-transcript-cue  { padding: .15rem 0; }
 .videotrack-transcript-btn  {
@@ -613,9 +640,6 @@
     margin-bottom: .25rem;
     overflow-x: auto;
 }
-@media (prefers-color-scheme: dark) {
-    .videotrack-chapters-bar { background: #2a2a3e; border-color: #444; }
-}
 .videotrack-chapter-btn {
     display: inline-flex;
     align-items: center;
@@ -635,13 +659,6 @@
     border-color: #0040aa;
     color: #fff;
     font-weight: 600;
-}
-@media (prefers-color-scheme: dark) {
-    .videotrack-chapter-btn.videotrack-chapter-active {
-        background: #8ab4ff;
-        border-color: #8ab4ff;
-        color: #0f172a;
-    }
 }
 .videotrack-chapter-num {
     display: inline-flex;
@@ -663,9 +680,6 @@
     padding: .5rem .75rem;
     background: #fff;
     font-size: .875rem;
-}
-@media (prefers-color-scheme: dark) {
-    .videotrack-notes-panel { background: #1e1e2e; border-color: #444; color: #e0e0e0; }
 }
 .videotrack-note-input {
     font-size: .85rem;
@@ -743,18 +757,12 @@
     padding-bottom: .35rem;
     margin-bottom: .5rem;
 }
-@media (prefers-color-scheme: dark) {
-    .videotrack-notes-header { border-color: #444; }
-}
 .videotrack-notes-toggle {
     font-size: .8rem;
     color: #6c757d;
     text-decoration: none;
 }
 .videotrack-notes-toggle:hover { color: #0040aa; }
-@media (prefers-color-scheme: dark) {
-    .videotrack-notes-toggle:hover { color: #8ab4ff; }
-}
 
 .videotrack-notes-body {
     /* Transizione collapse smooth */
@@ -768,17 +776,11 @@
     padding-top: .75rem;
     margin-top: 1rem;
 }
-@media (prefers-color-scheme: dark) {
-    .videotrack-reactions-section-heading { border-color: #444; }
-}
 
 /* Sezione note nel report docente */
 .videotrack-notes-report {
     border-top: 2px solid #dee2e6;
     padding-top: 1rem;
-}
-@media (prefers-color-scheme: dark) {
-    .videotrack-notes-report { border-color: #444; }
 }
 
 .videotrack-reactions-hint-active {
