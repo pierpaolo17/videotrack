@@ -70,7 +70,7 @@ $rewindstep  = videotrack_get_rewind_step($videotrack);
 $ffstep      = videotrack_get_fastforward_step($videotrack);
 $vtturl      = ($source === 'upload') ? videotrack_get_vtt_url((int)$cm->id) : null;
 $posterurl   = videotrack_get_poster_url((int)$cm->id);
-$heartbeat   = max(5, (int)(get_config('mod_videotrack', 'heartbeatinterval') ?: 30));
+$heartbeat   = videotrack_get_config_int('heartbeatinterval', 30, 5, 300);
 $distractionfree = !empty(get_config('mod_videotrack', 'distractionfree'));
 
 // Valida intervaljson prima di passarlo al JS: garantisce array JSON valido
