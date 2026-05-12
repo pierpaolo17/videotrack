@@ -188,7 +188,6 @@
 
 /* Stato non disponibile delle reazioni: aria-disabled comunica lo stato,
  * ma i bottoni restano focusable per fornire feedback tastiera/screen reader. */
-.videotrack-reaction-btn:disabled,
 .videotrack-reaction-btn[aria-disabled="true"],
 .videotrack-reaction-disabled {
     opacity: 0.55;
@@ -273,6 +272,13 @@
     .videotrack-speed-btn:focus,
     .videotrack-ctrl-rewind:focus,
     .videotrack-ctrl-ff:focus,
+    .videotrack-notes-toggle:focus,
+    .videotrack-note-save:focus,
+    .btn.videotrack-replay:focus,
+    .btn.videotrack-delete-reaction:focus,
+    .btn.videotrack-delete-note:focus,
+    .videotrack-poster-play-btn:focus,
+    .videotrack-transcript-btn:focus,
     .videotrack-reaction-btn:focus-visible,
     .videotrack-skip-btn:focus-visible,
     .videotrack-ctrl-play:focus-visible,
@@ -282,7 +288,14 @@
     .videotrack-ctrl-download:focus-visible,
     .videotrack-speed-btn:focus-visible,
     .videotrack-ctrl-rewind:focus-visible,
-    .videotrack-ctrl-ff:focus-visible {
+    .videotrack-ctrl-ff:focus-visible,
+    .videotrack-notes-toggle:focus-visible,
+    .videotrack-note-save:focus-visible,
+    .btn.videotrack-replay:focus-visible,
+    .btn.videotrack-delete-reaction:focus-visible,
+    .btn.videotrack-delete-note:focus-visible,
+    .videotrack-poster-play-btn:focus-visible,
+    .videotrack-transcript-btn:focus-visible {
         outline-color: #8ab4ff;
     }
 

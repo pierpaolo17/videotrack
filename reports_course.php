@@ -50,21 +50,21 @@ $sql = "
       JOIN {course_modules} cm ON cm.instance = vt.id
       JOIN {modules} m ON m.id = cm.module AND m.name = 'videotrack'
  LEFT JOIN (
-           SELECT videotrackid,
-                  COUNT(DISTINCT userid) AS students_started,
-                  ROUND(AVG(completionpercent), 1) AS avg_percent,
-                  SUM(CASE WHEN iscompleted <> 0 THEN 1 ELSE 0 END) AS completions
-             FROM {videotrack_state}
-            WHERE videotrackid IN (SELECT id FROM {videotrack} WHERE course = :courseid3)
-         GROUP BY videotrackid
+           SELECT vs2.videotrackid,
+                  COUNT(DISTINCT vs2.userid) AS students_started,
+                  ROUND(AVG(vs2.completionpercent), 1) AS avg_percent,
+                  SUM(CASE WHEN vs2.iscompleted <> 0 THEN 1 ELSE 0 END) AS completions
+             FROM {videotrack_state} vs2
+             JOIN {videotrack} vt2 ON vt2.id = vs2.videotrackid AND vt2.course = :courseid3
+         GROUP BY vs2.videotrackid
            ) vs ON vs.videotrackid = vt.id
  LEFT JOIN (
-           SELECT videotrackid,
-                  COUNT(id) AS total_reactions
-             FROM {videotrack_reactev}
-            WHERE isdeleted = 0
-              AND videotrackid IN (SELECT id FROM {videotrack} WHERE course = :courseid4)
-         GROUP BY videotrackid
+           SELECT vr2.videotrackid,
+                  COUNT(vr2.id) AS total_reactions
+             FROM {videotrack_reactev} vr2
+             JOIN {videotrack} vt3 ON vt3.id = vr2.videotrackid AND vt3.course = :courseid4
+            WHERE vr2.isdeleted = 0
+         GROUP BY vr2.videotrackid
            ) vr ON vr.videotrackid = vt.id
      WHERE vt.course = :courseid AND cm.course = :courseid2
 ";

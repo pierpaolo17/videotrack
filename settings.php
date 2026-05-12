@@ -2,9 +2,6 @@
 
 defined('MOODLE_INTERNAL') || die();
 
-require_once(__DIR__ . '/classes/admin/setting_nonnegative_int.php');
-require_once(__DIR__ . '/classes/admin/setting_int_range.php');
-
 if ($ADMIN->fulltree) {
 
     // Show a persistent admin warning when GD is not available.
