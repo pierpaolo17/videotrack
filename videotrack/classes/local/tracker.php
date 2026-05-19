@@ -235,6 +235,7 @@ class tracker {
             return true;
         }
 
+        // Global helper from locallib.php; the leading backslash selects the global namespace.
         $fallbackdays = \videotrack_get_config_int('validationfallbackdays', 30, 0, 3650);
         $maxage = $fallbackdays > 0 ? $fallbackdays * DAYSECS : 0;
 

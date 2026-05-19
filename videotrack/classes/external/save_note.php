@@ -3,6 +3,8 @@ namespace mod_videotrack\external;
 
 defined('MOODLE_INTERNAL') || die();
 
+global $CFG;
+require_once($CFG->dirroot . '/mod/videotrack/lib.php');
 
 use core_external\external_api;
 use core_external\external_function_parameters;

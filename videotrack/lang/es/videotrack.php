@@ -256,13 +256,13 @@ $string['setting:playerwidth_desc'] = 'Ancho máximo del reproductor de vídeo e
 $string['playerwidth'] = 'Ancho máximo del reproductor (px)';
 $string['playerwidth_help'] = 'Ancho máximo del reproductor para esta actividad. 0 = predeterminado.';
 $string['setting:rewindstep'] = 'Paso de retroceso (segundos)';
-$string['setting:rewindstep_desc'] = 'Segundos que retrocede el botón. 0 = desactivado. Predeterminado: 10. Importante: si "Permitir seek hacia atrás" está desactivado para una actividad, el botón no aparecerá aunque este valor sea > 0.';
+$string['setting:rewindstep_desc'] = 'Cuántos segundos retrocede por defecto el botón de rebobinado. Los docentes pueden cambiarlo para actividades individuales. Establece 0 para ocultar el botón de forma predeterminada; las anulaciones de actividad aún pueden volver a activarlo. Predeterminado: 10. Importante: si "Permitir salto hacia atrás" está desactivado para una actividad, el botón no aparecerá aunque este valor sea > 0.';
 $string['rewindstep'] = 'Paso de retroceso (segundos)';
-$string['rewindstep_help'] = 'Segundos de retroceso para esta actividad. 0 = predeterminado. Nota: si "Permitir seek hacia atrás" está desactivado, el botón no aparecerá independientemente de este valor.';
+$string['rewindstep_help'] = 'Cuántos segundos retrocede el botón para esta actividad. Deja 0 para usar el valor predeterminado de la plataforma. Si ese valor es 0, el botón queda oculto salvo que esta actividad defina su propio valor. Nota: si "Permitir salto hacia atrás" está desactivado para esta actividad, el botón no aparecerá independientemente de este valor; ambas opciones trabajan juntas.';
 $string['setting:fastforwardstep'] = 'Paso de avance rápido (segundos)';
-$string['setting:fastforwardstep_desc'] = 'Segundos que avanza el botón. 0 = desactivado. Predeterminado: 10. Importante: si "Permitir seek hacia adelante" está desactivado para una actividad, el botón no aparecerá aunque este valor sea > 0.';
+$string['setting:fastforwardstep_desc'] = 'Cuántos segundos avanza por defecto el botón de avance rápido. Los docentes pueden cambiarlo para actividades individuales. Establece 0 para ocultar el botón de forma predeterminada; las anulaciones de actividad aún pueden volver a activarlo. Predeterminado: 10. Importante: si "Permitir salto hacia adelante" está desactivado para una actividad, el botón no aparecerá aunque este valor sea > 0.';
 $string['fastforwardstep'] = 'Paso de avance rápido (segundos)';
-$string['fastforwardstep_help'] = 'Segundos de avance para esta actividad. 0 = predeterminado. Nota: si "Permitir seek hacia adelante" está desactivado, el botón no aparecerá independientemente de este valor.';
+$string['fastforwardstep_help'] = 'Cuántos segundos avanza el botón para esta actividad. Deja 0 para usar el valor predeterminado de la plataforma. Si ese valor es 0, el botón queda oculto salvo que esta actividad defina su propio valor. Nota: si "Permitir salto hacia adelante" está desactivado para esta actividad, el botón no aparecerá independientemente de este valor; ambas opciones trabajan juntas.';
 $string['captionsheader'] = 'Subtítulos';
 $string['captions'] = 'Activar subtítulos';
 $string['captions_help'] = 'Activa subtítulos para YouTube, Vimeo o Upload (VTT).';
@@ -458,6 +458,7 @@ $string['privacy:anonymised'] = '[anonimizado]';
 $string['error:playbackpositionnotwatched'] = 'Esta posición del vídeo aún no se ha visto, por lo que la acción no puede guardarse.';
 
 $string['setting:intrangerequired'] = 'Introduzca un número entero entre {$a->min} y {$a->max}.';
+$string['err:playbacksteprequired'] = 'Introduzca un número entero de 0 a 300 segundos, o 0 para usar el valor predeterminado de la plataforma.';
 $string['setting:nonnegativeintrequired'] = 'Introduzca un número entero mayor o igual que 0.';
 $string['report:anonymiseduser'] = 'Usuario anonimizado';
 $string['report:exportnotes_privacywarning'] = 'Esta exportación puede contener datos personales de notas de estudiantes. Descárguela y guárdela solo cuando tenga una finalidad válida y elimínela cuando ya no sea necesaria.';

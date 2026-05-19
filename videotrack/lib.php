@@ -583,7 +583,10 @@ function videotrack_process_player_behavior_fields(stdClass $data): void {
 
 /**
  * Returns the effective max player width in px.
- * 0 = instance uses site default; falls back to 960 if nothing configured.
+ *
+ * Instance value 0 means "use the site default". A site setting of 0 is treated
+ * as "use the built-in default" for backward compatibility with installations
+ * that stored 0 before strict range validation was introduced.
  *
  * @param  stdClass  $videotrack
  * @return int  Width in px.
@@ -591,13 +594,15 @@ function videotrack_process_player_behavior_fields(stdClass $data): void {
 function videotrack_get_player_width(stdClass $videotrack): int {
     $w = (int)($videotrack->playerwidth ?? 0);
     if ($w > 0) {
-        return $w;
+        return min(4096, $w);
     }
-    return videotrack_get_config_int('playerwidth', 960, 1, 4096);
+
+    $sitewidth = videotrack_get_config_int('playerwidth', 960, 0, 4096);
+    return $sitewidth > 0 ? $sitewidth : 960;
 }
 
 /**
- * Returns effective rewind step in seconds (instance → site → 10).
+ * Returns effective rewind step in seconds (instance override → site default → 10).
  *
  * @param  stdClass  $videotrack
  * @return int
@@ -613,12 +618,12 @@ function videotrack_get_rewind_step(stdClass $videotrack): int {
         return 10;
     }
 
-    // Site-level 0 intentionally disables rewind buttons globally.
+    // Site-level 0 disables the default. Activity-level overrides may still re-enable the button.
     return max(0, min(300, (int)$site));
 }
 
 /**
- * Returns effective fast-forward step in seconds (instance → site → 10).
+ * Returns effective fast-forward step in seconds (instance override → site default → 10).
  *
  * @param  stdClass  $videotrack
  * @return int
@@ -634,7 +639,7 @@ function videotrack_get_fastforward_step(stdClass $videotrack): int {
         return 10;
     }
 
-    // Site-level 0 intentionally disables fast-forward buttons globally.
+    // Site-level 0 disables the default. Activity-level overrides may still re-enable the button.
     return max(0, min(300, (int)$site));
 }
 

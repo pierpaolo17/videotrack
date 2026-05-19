@@ -690,5 +690,11 @@ function xmldb_videotrack_upgrade($oldversion) {
         upgrade_mod_savepoint(true, 2026062200, 'videotrack');
     }
 
+
+    if ($oldversion < 2026062300) {
+        // v1.0.54: runtime include hardening, player-width default preservation and teacher-facing copy.
+        upgrade_mod_savepoint(true, 2026062300, 'videotrack');
+    }
+
     return true;
 }

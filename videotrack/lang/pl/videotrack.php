@@ -256,13 +256,13 @@ $string['setting:playerwidth_desc'] = 'Domyślna szerokość odtwarzacza.';
 $string['playerwidth'] = 'Szerokość odtwarzacza';
 $string['playerwidth_help'] = 'Szerokość obszaru wideo.';
 $string['setting:rewindstep'] = 'Krok przewijania wstecz';
-$string['setting:rewindstep_desc'] = 'Liczba sekund dla przycisku przewijania wstecz.';
+$string['setting:rewindstep_desc'] = 'Liczba sekund, o jaką przycisk przewijania wstecz cofa domyślnie. Prowadzący mogą nadpisać tę wartość w pojedynczych aktywnościach. Ustaw 0, aby domyślnie ukryć przycisk; ustawienie aktywności może go ponownie włączyć. Domyślnie: 10.';
 $string['rewindstep'] = 'Krok przewijania wstecz';
-$string['rewindstep_help'] = 'Ile sekund cofa przycisk przewijania wstecz.';
+$string['rewindstep_help'] = 'Liczba sekund cofania w tej aktywności. Pozostaw 0, aby użyć domyślnej wartości platformy. Jeśli domyślna wartość platformy wynosi 0, przycisk pozostaje ukryty, chyba że ta aktywność ustawi własną wartość.';
 $string['setting:fastforwardstep'] = 'Krok przewijania do przodu';
-$string['setting:fastforwardstep_desc'] = 'Liczba sekund dla przycisku przewijania do przodu.';
+$string['setting:fastforwardstep_desc'] = 'Liczba sekund, o jaką przycisk przewijania do przodu przesuwa domyślnie. Prowadzący mogą nadpisać tę wartość w pojedynczych aktywnościach. Ustaw 0, aby domyślnie ukryć przycisk; ustawienie aktywności może go ponownie włączyć. Domyślnie: 10.';
 $string['fastforwardstep'] = 'Krok przewijania do przodu';
-$string['fastforwardstep_help'] = 'Ile sekund przesuwa przycisk przewijania do przodu.';
+$string['fastforwardstep_help'] = 'Liczba sekund przewijania do przodu w tej aktywności. Pozostaw 0, aby użyć domyślnej wartości platformy. Jeśli domyślna wartość platformy wynosi 0, przycisk pozostaje ukryty, chyba że ta aktywność ustawi własną wartość.';
 $string['captionsheader'] = 'Napisy';
 $string['captions'] = 'Napisy';
 $string['captions_help'] = 'Włącz napisy dla przesłanego pliku wideo, używając pliku WebVTT.';
@@ -458,6 +458,7 @@ $string['privacy:anonymised'] = '[zanonimizowano]';
 $string['error:playbackpositionnotwatched'] = 'Ta pozycja wideo nie została jeszcze obejrzana, więc akcja nie może zostać zapisana.';
 
 $string['setting:intrangerequired'] = 'Wprowadź liczbę całkowitą od {$a->min} do {$a->max}.';
+$string['err:playbacksteprequired'] = 'Wprowadź liczbę całkowitą od 0 do 300 sekund albo 0, aby użyć domyślnej wartości platformy.';
 $string['setting:nonnegativeintrequired'] = 'Wpisz liczbę całkowitą większą lub równą 0.';
 
 $string['report:anonymiseduser'] = 'Użytkownik zanonimizowany';
