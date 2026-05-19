@@ -255,6 +255,7 @@ $string['setting:playerwidth'] = 'Ancho máximo del reproductor (px)';
 $string['setting:playerwidth_desc'] = 'Anchura máxima del reproductor de vídeo en píxeles (1–4096). Los docentes pueden cambiarla para actividades individuales (valor 0 en la actividad = usar el valor predeterminado del sitio). Recomendado: 960.';
 $string['playerwidth'] = 'Ancho máximo del reproductor (px)';
 $string['playerwidth_help'] = 'Ancho máximo del reproductor para esta actividad. 0 = predeterminado.';
+$string['playerwidth_zero_note'] = 'Introduce 0 para heredar el valor predeterminado de la plataforma, o un valor de 1 a 4096 píxeles para esta actividad.';
 $string['setting:rewindstep'] = 'Paso de retroceso (segundos)';
 $string['setting:rewindstep_desc'] = 'Cuántos segundos retrocede por defecto el botón de rebobinado. Los docentes pueden cambiarlo para actividades individuales. Establece 0 para ocultar el botón de forma predeterminada; las anulaciones de actividad aún pueden volver a activarlo. Predeterminado: 10. Importante: si "Permitir salto hacia atrás" está desactivado para una actividad, el botón no aparecerá aunque este valor sea > 0.';
 $string['rewindstep'] = 'Paso de retroceso (segundos)';

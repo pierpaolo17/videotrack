@@ -712,5 +712,10 @@ function xmldb_videotrack_upgrade($oldversion) {
         upgrade_mod_savepoint(true, 2026062500, 'videotrack');
     }
 
+    if ($oldversion < 2026062600) {
+        // v1.0.57: Polish language refinements and teacher-facing player width guidance. No schema changes.
+        upgrade_mod_savepoint(true, 2026062600, 'videotrack');
+    }
+
     return true;
 }

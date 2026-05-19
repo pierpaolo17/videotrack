@@ -255,6 +255,7 @@ $string['setting:playerwidth'] = 'Larghezza massima player (px)';
 $string['setting:playerwidth_desc'] = 'Larghezza massima del player video in pixel (1–4096). I docenti possono sovrascrivere per singola attività (valore istanza 0 = usa il default di sito). Consigliato: 960.';
 $string['playerwidth'] = 'Larghezza massima player (px)';
 $string['playerwidth_help'] = 'Larghezza massima del player per questa attività in pixel. Lascia 0 per usare il default di piattaforma.';
+$string['playerwidth_zero_note'] = 'Inserisci 0 per ereditare il valore predefinito della piattaforma, oppure un valore da 1 a 4096 pixel per questa attività.';
 $string['setting:rewindstep'] = 'Passo rewind (secondi)';
 $string['setting:rewindstep_desc'] = 'Quanti secondi salta indietro il pulsante rewind come impostazione predefinita. I docenti possono sovrascrivere il valore per singola attività. Imposta 0 per nascondere il pulsante rewind di default; gli override dell’attività possono comunque riabilitarlo. Default: 10. Importante: se "Permetti seek all’indietro" è disabilitato per un’attività, il pulsante rewind non comparirà anche se questo valore è > 0.';
 $string['rewindstep'] = 'Passo rewind (secondi)';

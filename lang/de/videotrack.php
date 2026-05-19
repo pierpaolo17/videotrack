@@ -255,6 +255,7 @@ $string['setting:playerwidth'] = 'Maximale Playerbreite (px)';
 $string['setting:playerwidth_desc'] = 'Maximale Breite des Videoplayers in Pixeln (1–4096). Lehrende können dies für einzelne Aktivitäten überschreiben (Instanzwert 0 = Standardwert der Website verwenden). Empfohlen: 960.';
 $string['playerwidth'] = 'Maximale Playerbreite (px)';
 $string['playerwidth_help'] = 'Maximale Breite des Players für diese Aktivität. 0 = Plattformstandard.';
+$string['playerwidth_zero_note'] = 'Geben Sie 0 ein, um den Plattformstandard zu übernehmen, oder einen Wert von 1 bis 4096 Pixeln für diese Aktivität.';
 $string['setting:rewindstep'] = 'Rückspulschritt (Sekunden)';
 $string['setting:rewindstep_desc'] = 'Anzahl der Sekunden, die die Rückspultaste standardmäßig zurückspringt. Lehrende können dies für einzelne Aktivitäten überschreiben. 0 blendet die Rückspultaste standardmäßig aus; Aktivitätsüberschreibungen können sie wieder aktivieren. Standard: 10. Wichtig: Wenn "Rückspringen erlauben" für eine Aktivität deaktiviert ist, erscheint die Schaltfläche nicht, auch wenn dieser Wert > 0 ist.';
 $string['rewindstep'] = 'Rückspulschritt (Sekunden)';

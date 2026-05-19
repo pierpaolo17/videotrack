@@ -255,6 +255,7 @@ $string['setting:playerwidth'] = 'Largeur maximale du lecteur (px)';
 $string['setting:playerwidth_desc'] = 'Largeur maximale du lecteur vidéo en pixels (1–4096). Les enseignants peuvent la modifier pour chaque activité (valeur 0 dans l’activité = utiliser la valeur par défaut du site). Recommandé : 960.';
 $string['playerwidth'] = 'Largeur maximale du lecteur (px)';
 $string['playerwidth_help'] = 'Largeur maximale du lecteur pour cette activité. 0 = valeur par défaut.';
+$string['playerwidth_zero_note'] = 'Saisissez 0 pour hériter de la valeur par défaut de la plateforme, ou une valeur de 1 à 4096 pixels pour cette activité.';
 $string['setting:rewindstep'] = 'Pas de rembobinage (secondes)';
 $string['setting:rewindstep_desc'] = 'Nombre de secondes que le bouton de retour arrière recule par défaut. Les enseignants peuvent définir une valeur différente pour chaque activité. Mettez 0 pour masquer le bouton par défaut ; un réglage propre à l’activité peut toujours le réactiver. Valeur par défaut : 10. Important : si "Autoriser le saut en arrière" est désactivé pour une activité, le bouton n’apparaîtra pas même si cette valeur est > 0.';
 $string['rewindstep'] = 'Pas de rembobinage (secondes)';
