@@ -252,7 +252,7 @@ $string['ctrl:fullscreen'] = 'Schermo intero';
 $string['ctrl:download'] = 'Pulsante download';
 
 $string['setting:playerwidth'] = 'Larghezza massima player (px)';
-$string['setting:playerwidth_desc'] = 'Larghezza massima del player video in pixel. I docenti possono sovrascrivere per singola attività (0 = usa questo default di sito). Consigliato: 960.';
+$string['setting:playerwidth_desc'] = 'Larghezza massima del player video in pixel (1–4096). I docenti possono sovrascrivere per singola attività (valore istanza 0 = usa il default di sito). Consigliato: 960.';
 $string['playerwidth'] = 'Larghezza massima player (px)';
 $string['playerwidth_help'] = 'Larghezza massima del player per questa attività in pixel. Lascia 0 per usare il default di piattaforma.';
 $string['setting:rewindstep'] = 'Passo rewind (secondi)';
@@ -459,6 +459,7 @@ $string['setting:validationfallbackdays_desc'] = 'Età massima, in giorni, dei s
 $string['setting:strictsessionvalidation_desc'] = 'Se abilitato, note e reazioni possono essere salvate solo per timestamp visualizzati nella sessione browser corrente. Se disabilitato, VideoTrack accetta timestamp già visualizzati dallo stesso utente nella stessa attività, migliorando l’usabilità dopo aggiornamenti pagina o cambi browser e continuando a rifiutare posizioni non visualizzate.';
 
 $string['setting:intrangerequired'] = 'Inserisci un numero intero compreso tra {$a->min} e {$a->max}.';
+$string['err:playerwidthrequired'] = 'Inserisci 0 per usare il default di piattaforma oppure un numero intero da 1 a 4096 pixel.';
 $string['err:playbacksteprequired'] = 'Inserisci un numero intero da 0 a 300 secondi. Usa 0 per il default di piattaforma.';
 $string['setting:nonnegativeintrequired'] = 'Inserisci un numero intero maggiore o uguale a 0.';
 

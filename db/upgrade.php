@@ -702,5 +702,15 @@ function xmldb_videotrack_upgrade($oldversion) {
         upgrade_mod_savepoint(true, 2026062400, 'videotrack');
     }
 
+    if ($oldversion < 2026062500) {
+        // v1.0.56: player-width validation alignment. Legacy site-level 0 meant "use default 960".
+        $legacywidth = get_config('mod_videotrack', 'playerwidth');
+        if ($legacywidth !== false && $legacywidth !== null && $legacywidth !== '' && (int)$legacywidth === 0) {
+            set_config('playerwidth', 960, 'mod_videotrack');
+        }
+
+        upgrade_mod_savepoint(true, 2026062500, 'videotrack');
+    }
+
     return true;
 }
