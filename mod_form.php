@@ -748,6 +748,16 @@ class mod_videotrack_mod_form extends moodleform_mod {
                 ((int)$data['completionpercent'] < 0 || (int)$data['completionpercent'] > 100)) {
             $errors['completionpercentgroup'] = '0-100';
         }
+
+        foreach (['rewindstep', 'fastforwardstep'] as $stepfield) {
+            if (array_key_exists($stepfield, $data)) {
+                $stepvalue = (int)$data[$stepfield];
+                if ($stepvalue < 0 || $stepvalue > 300) {
+                    $errors[$stepfield] = get_string('setting:intrangerequired', 'mod_videotrack',
+                        (object)['min' => 0, 'max' => 300]);
+                }
+            }
+        }
         if (!empty($data['reactionsrequired']) &&
                 empty($data['minreactions']) && empty($data['requireallreactiontypes'])) {
             $errors['minreactions'] = get_string('err:minreactionsrequired', 'mod_videotrack');

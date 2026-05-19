@@ -684,5 +684,11 @@ function xmldb_videotrack_upgrade($oldversion) {
         upgrade_mod_savepoint(true, 2026062100, 'videotrack');
     }
 
+
+    if ($oldversion < 2026062200) {
+        // v1.0.53: teacher-facing validation and configuration helper consistency. No schema changes.
+        upgrade_mod_savepoint(true, 2026062200, 'videotrack');
+    }
+
     return true;
 }
