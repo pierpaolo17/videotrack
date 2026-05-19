@@ -749,6 +749,13 @@ class mod_videotrack_mod_form extends moodleform_mod {
             $errors['completionpercentgroup'] = '0-100';
         }
 
+        if (array_key_exists('playerwidth', $data)) {
+            $playerwidth = (int)$data['playerwidth'];
+            if ($playerwidth < 0 || $playerwidth > 4096) {
+                $errors['playerwidth'] = get_string('err:playerwidthrequired', 'mod_videotrack');
+            }
+        }
+
         foreach (['rewindstep', 'fastforwardstep'] as $stepfield) {
             if (array_key_exists($stepfield, $data)) {
                 $step = (int)$data[$stepfield];

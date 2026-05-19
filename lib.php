@@ -593,7 +593,7 @@ function videotrack_process_player_behavior_fields(stdClass $data): void {
 function videotrack_get_player_width(stdClass $videotrack): int {
     $w = (int)($videotrack->playerwidth ?? 0);
     if ($w > 0) {
-        return min(4096, $w);
+        return max(1, min(4096, $w));
     }
 
     return videotrack_get_config_int('playerwidth', 960, 1, 4096);

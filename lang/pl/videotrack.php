@@ -90,7 +90,7 @@ $string['no'] = 'Nie';
 $string['modulename_link'] = 'mod/videotrack/view';
 
 $string['setting:heartbeatinterval'] = 'Interwał heartbeat (sekundy)';
-$string['setting:heartbeatinterval_desc'] = 'Jak często odtwarzacz zapisuje bieżący segment oglądania na serwerze podczas ciągłego odtwarzania. Niższe wartości zmniejszają ryzyko utraty danych przy awarii przeglądarki lub sieci, ale zwiększają obciążenie serwera. Zalecany zakres: 15–120 sekund. Minimalna wymuszona wartość: 5 sekund.';
+$string['setting:heartbeatinterval_desc'] = 'Jak często odtwarzacz zapisuje bieżący segment oglądania na serwerze podczas ciągłego odtwarzania. Niższe wartości zmniejszają ryzyko utraty danych przy awarii przeglądarki lub sieci, ale zwiększają obciążenie serwera (jedno żądanie AJAX + dwa zapytania bazy danych na studenta na interwał). Zalecany zakres: 15–120 sekund. Minimalna wymuszona wartość: 5 sekund (wartości poniżej 5 są automatycznie podnoszone do 5 przez serwer).';
 $string['setting:reactionannouncementinterval'] = 'Interwał dostępnych komunikatów reakcji (milisekundy)';
 $string['setting:reactionannouncementinterval_desc'] = 'Minimalny interwał, w milisekundach, między powtarzanymi komunikatami czytnika ekranu „reakcje niedostępne”. Użyj niższej wartości dla częstszej informacji zwrotnej w krótkich filmach albo wyższej, aby ograniczyć powtarzane komunikaty. Ustaw 0, aby wyłączyć powtarzane komunikaty. Zalecany zakres po włączeniu: 10000–60000 milisekund. Przykłady: 10000 = 10 sekund, 30000 = 30 sekund, 60000 = 1 minuta.';
 $string['setting:reactionreadydebouncems'] = 'Opóźnienie gotowości reakcji (milisekundy)';
@@ -153,7 +153,7 @@ $string['reactionpreset_help'] = 'Wybierz zapisany preset, aby wstępnie wypełn
 $string['reactionpreset:none'] = 'Brak presetu';
 $string['presets:manage'] = 'Zarządzaj presetami reakcji';
 $string['presets:pagetitle'] = 'Presety reakcji VideoTrack';
-$string['presets:intro'] = 'Twórz i edytuj zestawy reakcji wielokrotnego użytku.';
+$string['presets:intro'] = 'Definiuj ogólnowitrynowe zestawy reakcji, które prowadzący mogą używać jako punkt startowy przy tworzeniu aktywności VideoTrack. Reakcje są kopiowane do aktywności i mogą być swobodnie edytowane przez prowadzącego.';
 $string['presets:addpreset'] = 'Dodaj preset';
 $string['presets:backtolist'] = 'Powrót do listy presetów';
 $string['presets:saved'] = 'Preset zapisany.';
@@ -202,12 +202,12 @@ $string['videofile_help'] = 'Prześlij plik wideo lub audio obsługiwany przez p
 $string['videofile_notice'] = 'Przesłane pliki są odtwarzane za pomocą natywnego odtwarzacza HTML5.';
 $string['setting:heading_player'] = 'Odtwarzacz';
 $string['setting:playbackspeeds'] = 'Dostępne szybkości odtwarzania';
-$string['setting:playbackspeeds_desc'] = 'Lista dozwolonych szybkości oddzielonych przecinkami, np. 0.75,1,1.25,1.5.';
-$string['setting:playbackspeeds_teacher_desc'] = 'Szybkości odtwarzania dostępne dla studentów.';
+$string['setting:playbackspeeds_desc'] = 'Wybierz, które prędkości odtwarzania są dostępne w całej witrynie. Prowadzący mogą ograniczyć tę listę dla poszczególnych aktywności (jeśli mają odpowiednie uprawnienia). Wartość 1× (normalna) jest zawsze zalecana.';
+$string['setting:playbackspeeds_teacher_desc'] = 'Wybierz, które prędkości odtwarzania mają być dostępne dla tej aktywności. Wyświetlane są tylko prędkości włączone na poziomie witryny. Pozostaw wszystkie zaznaczone, aby użyć domyślnych ustawień witryny.';
 $string['setting:speed_normal'] = 'Normalna';
 $string['setting:distractionfree'] = 'Tryb bez rozpraszania';
 $string['setting:distractionfree_desc'] = 'Ukrywa elementy interfejsu, które mogą rozpraszać podczas oglądania.';
-$string['intervalbar_title'] = 'Obejrzane fragmenty';
+$string['intervalbar_title'] = 'Obejrzane fragmenty — zielone segmenty oznaczają części wideo, które już obejrzałeś(-aś).';
 $string['outline:percent'] = '{$a}% ukończenia';
 $string['outline:nodata'] = 'Brak danych';
 $string['coursereport:title'] = 'Raport kursu VideoTrack';
@@ -239,7 +239,7 @@ $string['setting:heading_html5controls'] = 'Kontrolki HTML5';
 $string['setting:heading_html5controls_desc'] = 'Wybierz kontrolki widoczne w niestandardowym odtwarzaczu HTML5.';
 $string['setting:html5controls'] = 'Kontrolki HTML5';
 $string['setting:html5controls_desc'] = 'Kontrolki dostępne w odtwarzaczu HTML5.';
-$string['setting:html5controls_teacher_desc'] = 'Kontrolki HTML5 widoczne dla studentów.';
+$string['setting:html5controls_teacher_desc'] = 'Wybierz, które kontrolki mają być widoczne w odtwarzaczu. Wyświetlane są tylko kontrolki włączone na poziomie witryny.';
 $string['ctrl:play'] = 'Odtwarzaj/Pauza';
 $string['ctrl:progress'] = 'Pasek postępu';
 $string['ctrl:current'] = 'Bieżący czas';
@@ -252,7 +252,7 @@ $string['ctrl:fullscreen'] = 'Pełny ekran';
 $string['ctrl:download'] = 'Pobierz';
 
 $string['setting:playerwidth'] = 'Szerokość odtwarzacza';
-$string['setting:playerwidth_desc'] = 'Domyślna szerokość odtwarzacza.';
+$string['setting:playerwidth_desc'] = 'Maksymalna szerokość odtwarzacza wideo w pikselach (1–4096). Prowadzący mogą to zmienić dla poszczególnych aktywności (wartość 0 w aktywności = domyślna witryny). Zalecana: 960.';
 $string['playerwidth'] = 'Szerokość odtwarzacza';
 $string['playerwidth_help'] = 'Szerokość obszaru wideo.';
 $string['setting:rewindstep'] = 'Krok przewijania wstecz';
@@ -264,21 +264,21 @@ $string['setting:fastforwardstep_desc'] = 'Liczba sekund, o jaką przycisk przew
 $string['fastforwardstep'] = 'Krok przewijania do przodu';
 $string['fastforwardstep_help'] = 'Liczba sekund przewijania do przodu w tej aktywności. Pozostaw 0, aby użyć domyślnej wartości platformy. Jeśli domyślna wartość platformy wynosi 0, przycisk pozostaje ukryty, chyba że ta aktywność ustawi własną wartość.';
 $string['captionsheader'] = 'Napisy';
-$string['captions'] = 'Napisy';
-$string['captions_help'] = 'Włącz napisy dla przesłanego pliku wideo, używając pliku WebVTT.';
+$string['captions'] = 'Włącz napisy / podpisy';
+$string['captions_help'] = 'Gdy włączone: YouTube — napisy są domyślnie wyświetlane; Vimeo — ścieżka odpowiadająca kodowi języka jest aktywowana (musi być wcześniej załadowana na Vimeo.com); Upload — używany jest załączony plik VTT.';
 $string['setting:default_captions_desc'] = 'Domyślnie włącz napisy dla nowych aktywności.';
 $string['captionslang'] = 'Język napisów';
-$string['captionslang_help'] = 'Kod języka napisów, np. pl, en, it.';
+$string['captionslang_help'] = 'Kod języka ISO 639-1 (np. pl, en, de). Dla YouTube ustawia preferowany język napisów. Dla Vimeo aktywuje pasującą ścieżkę (musi być załadowana na Vimeo.com). Dla przesłanych filmów: pole informacyjne.';
 $string['setting:captionslang_desc'] = 'Domyślny kod języka napisów.';
 $string['vttfile'] = 'Plik napisów WebVTT';
-$string['vttfile_help'] = 'Prześlij plik .vtt z napisami.';
-$string['vttfile_notice'] = 'Napisy WebVTT są używane tylko dla przesłanych plików HTML5.';
-$string['vimeo_captions_notice'] = 'Napisy Vimeo są obsługiwane przez sam odtwarzacz Vimeo.';
+$string['vttfile_help'] = 'Prześlij plik napisów WebVTT (.vtt). Plik zostanie wysłany do przeglądarki studenta i wyświetlony jako napisy w odtwarzaczu wideo.';
+$string['vttfile_notice'] = 'Akceptowany format: WebVTT (.vtt). Obsługiwany jest tylko jeden plik. Plik musi odpowiadać kodowi języka podanemu powyżej.';
+$string['vimeo_captions_notice'] = 'Napisy Vimeo są zarządzane na Vimeo.com. Prześlij tam swoje ścieżki napisów. Podany wyżej kod języka zostanie użyty do automatycznego aktywowania pasującej ścieżki.';
 $string['ctrl:rewind'] = 'Przewiń do tyłu';
 $string['ctrl:fastforward'] = 'Przewiń do przodu';
 
 $string['playerloading'] = 'Ładowanie odtwarzacza…';
-$string['noreactionsyet'] = 'Brak reakcji.';
+$string['noreactionsyet'] = 'Nie zarejestrowano jeszcze żadnych reakcji. Reaguj podczas odtwarzania wideo.';
 $string['reaction:error'] = 'Nie można zapisać reakcji. Spróbuj ponownie.';
 
 // ── Feature 1: Resume playback ────────────────────────────────────────────
@@ -291,7 +291,7 @@ $string['setting:resumeplayback_desc'] = 'Domyślne ustawienie wznawiania odtwar
 // ── Feature 6: Max playback rate ──────────────────────────────────────────
 $string['maxplaybackrate'] = 'Maksymalna szybkość odtwarzania';
 $string['maxplaybackrate_desc'] = 'Najwyższa szybkość odtwarzania dostępna studentom.';
-$string['maxplaybackrate_help'] = 'Ogranicza maksymalną szybkość odtwarzania.';
+$string['maxplaybackrate_help'] = 'Gdy ustawiono, studenci nie mogą odtwarzać wideo szybciej niż ta prędkość, nawet jeśli kontrolki odtwarzacza umożliwiają wyższe wartości. Zniechęca do zbyt szybkiego przeglądania treści.';
 $string['maxplaybackrate_nolimit'] = 'Bez limitu';
 $string['setting:maxplaybackrate'] = 'Maksymalna szybkość odtwarzania';
 $string['setting:maxplaybackrate_desc'] = 'Domyślny limit maksymalnej szybkości odtwarzania.';
@@ -299,7 +299,7 @@ $string['setting:maxplaybackrate_desc'] = 'Domyślny limit maksymalnej szybkośc
 // ── Feature 8: Transcript interattivo ─────────────────────────────────────
 $string['showtranscript'] = 'Pokaż transkrypcję';
 $string['showtranscript_desc'] = 'Wyświetla transkrypcję, jeśli jest dostępna.';
-$string['showtranscript_help'] = 'Pozwala studentom czytać transkrypcję podczas oglądania.';
+$string['showtranscript_help'] = 'Analizuje przesłany plik VTT i wyświetla go jako listę z możliwością klikania. Każdy wpis pokazuje znacznik czasu i tekst; kliknięcie przenosi wideo do tego miejsca. Aktywny cue jest podświetlony i automatycznie przewijany do widoku.';
 $string['transcript_title'] = 'Transkrypcja';
 $string['transcript_loading'] = 'Ładowanie transkrypcji…';
 
@@ -318,8 +318,8 @@ $string['report:resetstudent_confirm'] = 'Czy na pewno chcesz zresetować dane t
 $string['report:studentreset'] = 'Dane studenta zostały zresetowane.';
 // ── Feature 10/11/12 strings ──
 $string['showchapters'] = 'Pokaż rozdziały';
-$string['showchapters_desc'] = 'Włącz listę rozdziałów wideo.';
-$string['showchapters_help'] = 'Rozdziały pomagają studentom poruszać się po treści wideo.';
+$string['showchapters_desc'] = 'Wyświetla pasek nawigacji z markerami rozdziałów wyodrębnionymi z pliku VTT. Rozdziałami są cue VTT z tekstem krótszym niż 80 znaków.';
+$string['showchapters_help'] = 'Jeśli przesłany plik VTT zawiera krótkie cue (poniżej 80 znaków), są one interpretowane jako tytuły rozdziałów i renderowane jako pasek nawigacji z możliwością klikania powyżej kontrolek wideo. Kliknięcie rozdziału przenosi do tego miejsca.';
 $string['chapters_label'] = 'Rozdziały wideo';
 $string['chapterslabel'] = 'Rozdziały';
 $string['chapter_label'] = 'Rozdział';
@@ -458,6 +458,7 @@ $string['privacy:anonymised'] = '[zanonimizowano]';
 $string['error:playbackpositionnotwatched'] = 'Ta pozycja wideo nie została jeszcze obejrzana, więc akcja nie może zostać zapisana.';
 
 $string['setting:intrangerequired'] = 'Wprowadź liczbę całkowitą od {$a->min} do {$a->max}.';
+$string['err:playerwidthrequired'] = 'Wpisz 0, aby użyć domyślnej wartości platformy, albo liczbę całkowitą od 1 do 4096 pikseli.';
 $string['err:playbacksteprequired'] = 'Wprowadź liczbę całkowitą od 0 do 300 sekund. Użyj 0, aby zastosować domyślną wartość platformy.';
 $string['setting:nonnegativeintrequired'] = 'Wpisz liczbę całkowitą większą lub równą 0.';
 

@@ -253,7 +253,7 @@ $string['ctrl:fullscreen'] = 'Fullscreen';
 $string['ctrl:download'] = 'Download button';
 
 $string['setting:playerwidth'] = 'Maximum player width (px)';
-$string['setting:playerwidth_desc'] = 'Maximum width of the video player in pixels. Teachers can override this for individual activities (0 = use this site default). Recommended: 960.';
+$string['setting:playerwidth_desc'] = 'Maximum width of the video player in pixels (1–4096). Teachers can override this for individual activities (instance value 0 means use the site default). Recommended: 960.';
 $string['playerwidth'] = 'Maximum player width (px)';
 $string['playerwidth_help'] = 'Sets the maximum width of the video player for this activity in pixels. Leave 0 to use the platform default.';
 $string['setting:rewindstep'] = 'Rewind step (seconds)';
@@ -459,6 +459,7 @@ $string['privacy:anonymised'] = '[anonymised]';
 $string['error:playbackpositionnotwatched'] = 'This video position has not been watched yet, so the action cannot be saved.';
 
 $string['setting:intrangerequired'] = 'Enter a whole number between {$a->min} and {$a->max}.';
+$string['err:playerwidthrequired'] = 'Enter 0 to use the platform default, or a whole number from 1 to 4096 pixels.';
 $string['err:playbacksteprequired'] = 'Enter a whole number from 0 to 300 seconds. Use 0 for the platform default.';
 $string['setting:nonnegativeintrequired'] = 'Enter a whole number greater than or equal to 0.';
 
