@@ -256,6 +256,7 @@ $string['setting:playerwidth'] = 'Maximum player width (px)';
 $string['setting:playerwidth_desc'] = 'Maximum width of the video player in pixels (1–4096). Teachers can override this for individual activities (instance value 0 means use the site default). Recommended: 960.';
 $string['playerwidth'] = 'Maximum player width (px)';
 $string['playerwidth_help'] = 'Sets the maximum width of the video player for this activity in pixels. Leave 0 to use the platform default.';
+$string['playerwidth_zero_note'] = 'Enter 0 to inherit the platform default, or enter a value from 1 to 4096 pixels for this activity.';
 $string['setting:rewindstep'] = 'Rewind step (seconds)';
 $string['setting:rewindstep_desc'] = 'How many seconds the rewind button skips back by default. Teachers can override this for individual activities. Set 0 to hide rewind buttons by default; activity overrides can still re-enable them. Default: 10. Important: if "Allow seek backward" is disabled for an activity, the rewind button will not appear even if this value is > 0.';
 $string['rewindstep'] = 'Rewind step (seconds)';

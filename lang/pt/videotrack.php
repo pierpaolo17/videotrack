@@ -255,6 +255,7 @@ $string['setting:playerwidth'] = 'Largura máxima do reprodutor (px)';
 $string['setting:playerwidth_desc'] = 'Largura máxima do reprodutor de vídeo em píxeis (1–4096). Os docentes podem alterar este valor para atividades individuais (valor 0 na atividade = usar o valor predefinido do site). Recomendado: 960.';
 $string['playerwidth'] = 'Largura máxima do reprodutor (px)';
 $string['playerwidth_help'] = 'Largura máxima do reprodutor para esta atividade. 0 = padrão.';
+$string['playerwidth_zero_note'] = 'Insira 0 para herdar o padrão da plataforma, ou um valor de 1 a 4096 píxeis para esta atividade.';
 $string['setting:rewindstep'] = 'Passo de retrocesso (segundos)';
 $string['setting:rewindstep_desc'] = 'Quantos segundos o botão de retroceder recua por padrão. Os docentes podem alterar isso em atividades individuais. Defina 0 para ocultar o botão por padrão; substituições da atividade ainda podem reativá-lo. Padrão: 10. Importante: se "Permitir salto para trás" estiver desativado para uma atividade, o botão não aparecerá mesmo que este valor seja > 0.';
 $string['rewindstep'] = 'Passo de retrocesso (segundos)';
