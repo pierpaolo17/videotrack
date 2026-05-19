@@ -256,13 +256,13 @@ $string['setting:playerwidth_desc'] = 'Maximale Breite des Videoplayers in Pixel
 $string['playerwidth'] = 'Maximale Playerbreite (px)';
 $string['playerwidth_help'] = 'Maximale Breite des Players für diese Aktivität. 0 = Plattformstandard.';
 $string['setting:rewindstep'] = 'Rückspulschritt (Sekunden)';
-$string['setting:rewindstep_desc'] = 'Sekunden, um die die Rückspultaste zurückspult. 0 = deaktiviert. Standard: 10. Wichtig: Wenn "Rückspringen erlauben" für eine Aktivität deaktiviert ist, erscheint die Schaltfläche nicht, auch wenn dieser Wert > 0 ist.';
+$string['setting:rewindstep_desc'] = 'Anzahl der Sekunden, die die Rückspultaste standardmäßig zurückspringt. Lehrende können dies für einzelne Aktivitäten überschreiben. 0 blendet die Rückspultaste standardmäßig aus; Aktivitätsüberschreibungen können sie wieder aktivieren. Standard: 10. Wichtig: Wenn "Rückspringen erlauben" für eine Aktivität deaktiviert ist, erscheint die Schaltfläche nicht, auch wenn dieser Wert > 0 ist.';
 $string['rewindstep'] = 'Rückspulschritt (Sekunden)';
-$string['rewindstep_help'] = 'Sekunden für Rückspulen in dieser Aktivität. 0 = Plattformstandard. Hinweis: Wenn "Rückspringen erlauben" deaktiviert ist, erscheint die Schaltfläche nicht, unabhängig von diesem Wert.';
+$string['rewindstep_help'] = 'Sekunden für die Rückspultaste in dieser Aktivität. 0 verwendet den Plattformstandard. Wenn der Plattformstandard 0 ist, bleibt die Schaltfläche ausgeblendet, sofern diese Aktivität keinen eigenen Wert setzt. Hinweis: Wenn "Rückspringen erlauben" deaktiviert ist, erscheint die Schaltfläche unabhängig von diesem Wert nicht — beide Einstellungen wirken zusammen.';
 $string['setting:fastforwardstep'] = 'Vorspulschritt (Sekunden)';
-$string['setting:fastforwardstep_desc'] = 'Sekunden, um die die Vorspultaste vorspult. 0 = deaktiviert. Standard: 10. Wichtig: Wenn "Vorspringen erlauben" für eine Aktivität deaktiviert ist, erscheint die Schaltfläche nicht, auch wenn dieser Wert > 0 ist.';
+$string['setting:fastforwardstep_desc'] = 'Anzahl der Sekunden, die die Vorspultaste standardmäßig vorspringt. Lehrende können dies für einzelne Aktivitäten überschreiben. 0 blendet die Vorspultaste standardmäßig aus; Aktivitätsüberschreibungen können sie wieder aktivieren. Standard: 10. Wichtig: Wenn "Vorspringen erlauben" für eine Aktivität deaktiviert ist, erscheint die Schaltfläche nicht, auch wenn dieser Wert > 0 ist.';
 $string['fastforwardstep'] = 'Vorspulschritt (Sekunden)';
-$string['fastforwardstep_help'] = 'Sekunden für Vorspulen in dieser Aktivität. 0 = Plattformstandard. Hinweis: Wenn "Vorspringen erlauben" deaktiviert ist, erscheint die Schaltfläche nicht, unabhängig von diesem Wert.';
+$string['fastforwardstep_help'] = 'Sekunden für die Vorspultaste in dieser Aktivität. 0 verwendet den Plattformstandard. Wenn der Plattformstandard 0 ist, bleibt die Schaltfläche ausgeblendet, sofern diese Aktivität keinen eigenen Wert setzt. Hinweis: Wenn "Vorspringen erlauben" deaktiviert ist, erscheint die Schaltfläche unabhängig von diesem Wert nicht — beide Einstellungen wirken zusammen.';
 $string['captionsheader'] = 'Untertitel';
 $string['captions'] = 'Untertitel aktivieren';
 $string['captions_help'] = 'Aktiviert Untertitel für YouTube (Standard), Vimeo (vorgeladene Spur) oder Upload (VTT-Datei).';
@@ -458,6 +458,7 @@ $string['privacy:anonymised'] = '[anonymisiert]';
 $string['error:playbackpositionnotwatched'] = 'Diese Videoposition wurde noch nicht angesehen, daher kann die Aktion nicht gespeichert werden.';
 
 $string['setting:intrangerequired'] = 'Geben Sie eine ganze Zahl zwischen {$a->min} und {$a->max} ein.';
+$string['err:playbacksteprequired'] = 'Geben Sie eine ganze Zahl von 0 bis 300 Sekunden ein oder 0, um den Plattformstandard zu verwenden.';
 $string['setting:nonnegativeintrequired'] = 'Geben Sie eine ganze Zahl größer oder gleich 0 ein.';
 $string['report:anonymiseduser'] = 'Anonymisierter Nutzer';
 $string['report:exportnotes_privacywarning'] = 'Dieser Export kann personenbezogene Daten aus Notizen von Lernenden enthalten. Laden und speichern Sie ihn nur bei berechtigtem Zweck und löschen Sie ihn, wenn er nicht mehr benötigt wird.';

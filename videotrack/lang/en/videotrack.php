@@ -257,13 +257,13 @@ $string['setting:playerwidth_desc'] = 'Maximum width of the video player in pixe
 $string['playerwidth'] = 'Maximum player width (px)';
 $string['playerwidth_help'] = 'Sets the maximum width of the video player for this activity in pixels. Leave 0 to use the platform default.';
 $string['setting:rewindstep'] = 'Rewind step (seconds)';
-$string['setting:rewindstep_desc'] = 'How many seconds the rewind button skips back. Teachers can override for individual activities. Set 0 to disable rewind buttons platform-wide. Default: 10. Important: if "Allow seek backward" is also disabled for an activity, the rewind button will not appear even if this value is > 0.';
+$string['setting:rewindstep_desc'] = 'How many seconds the rewind button skips back by default. Teachers can override this for individual activities. Set 0 to hide rewind buttons by default; activity overrides can still re-enable them. Default: 10. Important: if "Allow seek backward" is disabled for an activity, the rewind button will not appear even if this value is > 0.';
 $string['rewindstep'] = 'Rewind step (seconds)';
-$string['rewindstep_help'] = 'How many seconds the rewind button skips back for this activity. Leave 0 to use the platform default, or set 0 in the platform settings to disable rewind entirely. Note: if "Allow seek backward" is disabled for this activity, the rewind button will not appear regardless of this value — the two settings work together.';
+$string['rewindstep_help'] = 'How many seconds the rewind button skips back for this activity. Leave 0 to use the platform default. If the platform default is 0, the button is hidden unless this activity sets its own value. Note: if "Allow seek backward" is disabled for this activity, the rewind button will not appear regardless of this value — the two settings work together.';
 $string['setting:fastforwardstep'] = 'Fast-forward step (seconds)';
-$string['setting:fastforwardstep_desc'] = 'How many seconds the fast-forward button skips ahead. Teachers can override for individual activities. Set 0 to disable fast-forward buttons platform-wide. Default: 10. Important: if "Allow seek forward" is also disabled for an activity, the fast-forward button will not appear even if this value is > 0.';
+$string['setting:fastforwardstep_desc'] = 'How many seconds the fast-forward button skips forward by default. Teachers can override this for individual activities. Set 0 to hide fast-forward buttons by default; activity overrides can still re-enable them. Default: 10. Important: if "Allow seek forward" is disabled for an activity, the fast-forward button will not appear even if this value is > 0.';
 $string['fastforwardstep'] = 'Fast-forward step (seconds)';
-$string['fastforwardstep_help'] = 'How many seconds the fast-forward button skips ahead for this activity. Leave 0 to use the platform default, or set 0 in the platform settings to disable fast-forward entirely. Note: if "Allow seek forward" is disabled for this activity, the fast-forward button will not appear regardless of this value — the two settings work together.';
+$string['fastforwardstep_help'] = 'How many seconds the fast-forward button skips ahead for this activity. Leave 0 to use the platform default. If the platform default is 0, the button is hidden unless this activity sets its own value. Note: if "Allow seek forward" is disabled for this activity, the fast-forward button will not appear regardless of this value — the two settings work together.';
 $string['captionsheader'] = 'Captions and subtitles';
 $string['captions'] = 'Enable captions / subtitles';
 $string['captions_help'] = 'When enabled: YouTube — captions are shown by default; Vimeo — the track matching the language code is activated (must be pre-loaded on Vimeo.com); Upload — the attached VTT file is used.';
@@ -459,6 +459,7 @@ $string['privacy:anonymised'] = '[anonymised]';
 $string['error:playbackpositionnotwatched'] = 'This video position has not been watched yet, so the action cannot be saved.';
 
 $string['setting:intrangerequired'] = 'Enter a whole number between {$a->min} and {$a->max}.';
+$string['err:playbacksteprequired'] = 'Enter a whole number from 0 to 300 seconds, or 0 to use the platform default.';
 $string['setting:nonnegativeintrequired'] = 'Enter a whole number greater than or equal to 0.';
 
 $string['report:anonymiseduser'] = 'Anonymised user';

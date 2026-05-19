@@ -751,10 +751,9 @@ class mod_videotrack_mod_form extends moodleform_mod {
 
         foreach (['rewindstep', 'fastforwardstep'] as $stepfield) {
             if (array_key_exists($stepfield, $data)) {
-                $stepvalue = (int)$data[$stepfield];
-                if ($stepvalue < 0 || $stepvalue > 300) {
-                    $errors[$stepfield] = get_string('setting:intrangerequired', 'mod_videotrack',
-                        (object)['min' => 0, 'max' => 300]);
+                $rawstep = trim((string)$data[$stepfield]);
+                if (!preg_match('/^\d+$/', $rawstep) || (int)$rawstep > 300) {
+                    $errors[$stepfield] = get_string('err:playbacksteprequired', 'mod_videotrack');
                 }
             }
         }

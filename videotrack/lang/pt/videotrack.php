@@ -256,13 +256,13 @@ $string['setting:playerwidth_desc'] = 'Largura máxima do reprodutor de vídeo e
 $string['playerwidth'] = 'Largura máxima do reprodutor (px)';
 $string['playerwidth_help'] = 'Largura máxima do reprodutor para esta atividade. 0 = padrão.';
 $string['setting:rewindstep'] = 'Passo de retrocesso (segundos)';
-$string['setting:rewindstep_desc'] = 'Segundos que o botão recua. 0 = desativado. Padrão: 10. Importante: se "Permitir salto para trás" estiver desativado para uma atividade, o botão não aparecerá mesmo que este valor seja > 0.';
+$string['setting:rewindstep_desc'] = 'Quantos segundos o botão de retroceder recua por padrão. Os docentes podem alterar isso em atividades individuais. Defina 0 para ocultar o botão por padrão; substituições da atividade ainda podem reativá-lo. Padrão: 10. Importante: se "Permitir salto para trás" estiver desativado para uma atividade, o botão não aparecerá mesmo que este valor seja > 0.';
 $string['rewindstep'] = 'Passo de retrocesso (segundos)';
-$string['rewindstep_help'] = 'Segundos de retrocesso para esta atividade. 0 = padrão. Nota: se "Permitir salto para trás" estiver desativado, o botão não aparecerá independentemente deste valor.';
+$string['rewindstep_help'] = 'Quantos segundos o botão retrocede nesta atividade. Deixe 0 para usar o padrão da plataforma. Se o padrão da plataforma for 0, o botão ficará oculto a menos que esta atividade defina seu próprio valor. Nota: se "Permitir salto para trás" estiver desativado nesta atividade, o botão não aparecerá independentemente deste valor — as duas configurações funcionam juntas.';
 $string['setting:fastforwardstep'] = 'Passo de avanço rápido (segundos)';
-$string['setting:fastforwardstep_desc'] = 'Segundos que o botão avança. 0 = desativado. Padrão: 10. Importante: se "Permitir salto para frente" estiver desativado para uma atividade, o botão não aparecerá mesmo que este valor seja > 0.';
+$string['setting:fastforwardstep_desc'] = 'Quantos segundos o botão de avanço rápido avança por padrão. Os docentes podem alterar isso em atividades individuais. Defina 0 para ocultar o botão por padrão; substituições da atividade ainda podem reativá-lo. Padrão: 10. Importante: se "Permitir salto para a frente" estiver desativado para uma atividade, o botão não aparecerá mesmo que este valor seja > 0.';
 $string['fastforwardstep'] = 'Passo de avanço rápido (segundos)';
-$string['fastforwardstep_help'] = 'Segundos de avanço para esta atividade. 0 = padrão. Nota: se "Permitir salto para frente" estiver desativado, o botão não aparecerá independentemente deste valor.';
+$string['fastforwardstep_help'] = 'Quantos segundos o botão avança nesta atividade. Deixe 0 para usar o padrão da plataforma. Se o padrão da plataforma for 0, o botão ficará oculto a menos que esta atividade defina seu próprio valor. Nota: se "Permitir salto para a frente" estiver desativado nesta atividade, o botão não aparecerá independentemente deste valor — as duas configurações funcionam juntas.';
 $string['captionsheader'] = 'Legendas';
 $string['captions'] = 'Ativar legendas';
 $string['captions_help'] = 'Ativa legendas para YouTube, Vimeo ou Upload (VTT).';
@@ -458,6 +458,7 @@ $string['privacy:anonymised'] = '[anonimizado]';
 $string['error:playbackpositionnotwatched'] = 'Esta posição do vídeo ainda não foi vista, por isso a ação não pode ser guardada.';
 
 $string['setting:intrangerequired'] = 'Digite um número inteiro entre {$a->min} e {$a->max}.';
+$string['err:playbacksteprequired'] = 'Digite um número inteiro de 0 a 300 segundos, ou 0 para usar o padrão da plataforma.';
 $string['setting:nonnegativeintrequired'] = 'Introduza um número inteiro maior ou igual a 0.';
 $string['report:anonymiseduser'] = 'Utilizador anonimizado';
 $string['report:exportnotes_privacywarning'] = 'Esta exportação pode conter dados pessoais das notas dos estudantes. Transfira e armazene apenas quando houver uma finalidade válida e elimine quando já não for necessária.';

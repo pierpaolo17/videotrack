@@ -256,13 +256,13 @@ $string['setting:playerwidth_desc'] = 'Largeur maximale du lecteur vidéo en pix
 $string['playerwidth'] = 'Largeur maximale du lecteur (px)';
 $string['playerwidth_help'] = 'Largeur maximale du lecteur pour cette activité. 0 = valeur par défaut.';
 $string['setting:rewindstep'] = 'Pas de rembobinage (secondes)';
-$string['setting:rewindstep_desc'] = 'Secondes reculées par le bouton de rembobinage. 0 = désactivé. Par défaut : 10. Important : si "Autoriser le saut en arrière" est désactivé pour une activité, le bouton n’apparaîtra pas même si cette valeur est > 0.';
+$string['setting:rewindstep_desc'] = 'Nombre de secondes que le bouton de retour arrière recule par défaut. Les enseignants peuvent définir une valeur différente pour chaque activité. Mettez 0 pour masquer le bouton par défaut ; un réglage propre à l’activité peut toujours le réactiver. Valeur par défaut : 10. Important : si "Autoriser le saut en arrière" est désactivé pour une activité, le bouton n’apparaîtra pas même si cette valeur est > 0.';
 $string['rewindstep'] = 'Pas de rembobinage (secondes)';
-$string['rewindstep_help'] = 'Secondes de rembobinage pour cette activité. 0 = valeur par défaut. Note : si "Autoriser le saut en arrière" est désactivé, le bouton n’apparaîtra pas quelle que soit cette valeur.';
+$string['rewindstep_help'] = 'Nombre de secondes de retour arrière pour cette activité. Laissez 0 pour utiliser la valeur par défaut de la plateforme. Si cette valeur par défaut est 0, le bouton reste masqué sauf si cette activité définit sa propre valeur. Note : si "Autoriser le saut en arrière" est désactivé pour cette activité, le bouton n’apparaîtra pas quelle que soit cette valeur — les deux réglages fonctionnent ensemble.';
 $string['setting:fastforwardstep'] = 'Pas d’avance rapide (secondes)';
-$string['setting:fastforwardstep_desc'] = 'Secondes avancées par le bouton d’avance rapide. 0 = désactivé. Par défaut : 10. Important : si "Autoriser le saut en avant" est désactivé pour une activité, le bouton n’apparaîtra pas même si cette valeur est > 0.';
+$string['setting:fastforwardstep_desc'] = 'Nombre de secondes que le bouton d’avance rapide avance par défaut. Les enseignants peuvent définir une valeur différente pour chaque activité. Mettez 0 pour masquer le bouton par défaut ; un réglage propre à l’activité peut toujours le réactiver. Valeur par défaut : 10. Important : si "Autoriser le saut en avant" est désactivé pour une activité, le bouton n’apparaîtra pas même si cette valeur est > 0.';
 $string['fastforwardstep'] = 'Pas d’avance rapide (secondes)';
-$string['fastforwardstep_help'] = 'Secondes d’avance pour cette activité. 0 = valeur par défaut. Note : si "Autoriser le saut en avant" est désactivé, le bouton n’apparaîtra pas quelle que soit cette valeur.';
+$string['fastforwardstep_help'] = 'Nombre de secondes d’avance rapide pour cette activité. Laissez 0 pour utiliser la valeur par défaut de la plateforme. Si cette valeur par défaut est 0, le bouton reste masqué sauf si cette activité définit sa propre valeur. Note : si "Autoriser le saut en avant" est désactivé pour cette activité, le bouton n’apparaîtra pas quelle que soit cette valeur — les deux réglages fonctionnent ensemble.';
 $string['captionsheader'] = 'Sous-titres';
 $string['captions'] = 'Activer les sous-titres';
 $string['captions_help'] = 'Active les sous-titres pour YouTube, Vimeo ou Upload (VTT).';
@@ -458,6 +458,7 @@ $string['privacy:anonymised'] = '[anonymisé]';
 $string['error:playbackpositionnotwatched'] = 'Cette position de la vidéo n’a pas encore été visionnée, l’action ne peut donc pas être enregistrée.';
 
 $string['setting:intrangerequired'] = 'Saisissez un nombre entier compris entre {$a->min} et {$a->max}.';
+$string['err:playbacksteprequired'] = 'Saisissez un nombre entier de 0 à 300 secondes, ou 0 pour utiliser la valeur par défaut de la plateforme.';
 $string['setting:nonnegativeintrequired'] = 'Saisissez un nombre entier supérieur ou égal à 0.';
 $string['report:anonymiseduser'] = 'Utilisateur anonymisé';
 $string['report:exportnotes_privacywarning'] = 'Cette exportation peut contenir des données personnelles provenant des notes des étudiants. Téléchargez-la et conservez-la uniquement avec une finalité valable, puis supprimez-la lorsqu’elle n’est plus nécessaire.';
