@@ -1,6 +1,6 @@
 # mod_videotrack — Guida alla struttura del codice
 
-**Versione**: 1.0.45 (build 2026061400)
+**Versione**: 1.0.53 (build 2026062200)
 **Prerequisito di lettura**: conoscenza base di Moodle (plugin system, `$DB`, `$USER`, `cm_info`) e PHP/JavaScript.
 
 ---
@@ -75,7 +75,8 @@ videotrack/
     ├── fr/videotrack.php   # Francese
     ├── pt/videotrack.php   # Portoghese
     ├── hi/videotrack.php   # Hindi
-    └── pl/videotrack.php   # Polacco
+    ├── pl/videotrack.php   # Polacco
+    └── uk/videotrack.php   # Ucraino
 ```
 
 ---

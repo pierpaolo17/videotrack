@@ -84,8 +84,7 @@ class save_segment extends external_api {
         // sessione e sull'heartbeat configurato.
         $videoduration = $interval[1] - $interval[0];
         $playbackrate  = max(0.25, min(4.0, (float)$params['playbackrate']));
-        $heartbeat = (int)(get_config('mod_videotrack', 'heartbeatinterval') ?: 30);
-        $heartbeat = max(5, min(300, $heartbeat));
+        $heartbeat = \videotrack_get_config_int('heartbeatinterval', 30, 5, 300);
         $lasttimecreated = $DB->get_field_sql(
             "SELECT MAX(timecreated)
                FROM {videotrack_seg}

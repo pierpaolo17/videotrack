@@ -593,8 +593,7 @@ function videotrack_get_player_width(stdClass $videotrack): int {
     if ($w > 0) {
         return $w;
     }
-    $site = (int)get_config('mod_videotrack', 'playerwidth');
-    return $site > 0 ? $site : 960;
+    return videotrack_get_config_int('playerwidth', 960, 1, 4096);
 }
 
 /**

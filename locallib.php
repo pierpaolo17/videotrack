@@ -2,11 +2,12 @@
 
 defined('MOODLE_INTERNAL') || die();
 
+
 /**
  * Reads an integer mod_videotrack configuration value while preserving explicit zero values.
  *
- * Moodle returns false for missing config keys; using null coalescing would therefore
- * convert a fresh-install default to 0 instead of the intended fallback.
+ * This variant returns the default only when the setting is missing or invalid. It is useful
+ * for settings where 0 has a documented meaning, such as disabling a feature.
  *
  * @param string $name mod_videotrack setting name without component prefix.
  * @param int $default Default value when the setting is missing or invalid.
@@ -16,13 +17,12 @@ defined('MOODLE_INTERNAL') || die();
  */
 function videotrack_get_config_int(string $name, int $default, int $min, int $max): int {
     $value = get_config('mod_videotrack', $name);
-    if ($value === false || $value === null || $value === '') {
+    if ($value === false || $value === null || $value === '' || !is_numeric($value)) {
         $value = $default;
     }
     $value = (int)$value;
     return max($min, min($max, $value));
 }
-
 /**
  * Extracts the 11-character YouTube video ID from a URL.
  *
