@@ -459,7 +459,7 @@ $string['setting:validationfallbackdays_desc'] = 'Età massima, in giorni, dei s
 $string['setting:strictsessionvalidation_desc'] = 'Se abilitato, note e reazioni possono essere salvate solo per timestamp visualizzati nella sessione browser corrente. Se disabilitato, VideoTrack accetta timestamp già visualizzati dallo stesso utente nella stessa attività, migliorando l’usabilità dopo aggiornamenti pagina o cambi browser e continuando a rifiutare posizioni non visualizzate.';
 
 $string['setting:intrangerequired'] = 'Inserisci un numero intero compreso tra {$a->min} e {$a->max}.';
-$string['err:playbacksteprequired'] = 'Inserisci un numero intero da 0 a 300 secondi, oppure 0 per usare il default di piattaforma.';
+$string['err:playbacksteprequired'] = 'Inserisci un numero intero da 0 a 300 secondi. Usa 0 per il default di piattaforma.';
 $string['setting:nonnegativeintrequired'] = 'Inserisci un numero intero maggiore o uguale a 0.';
 
 $string['report:anonymiseduser'] = 'Utente anonimizzato';

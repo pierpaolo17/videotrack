@@ -458,7 +458,7 @@ $string['privacy:anonymised'] = '[zanonimizowano]';
 $string['error:playbackpositionnotwatched'] = 'Ta pozycja wideo nie została jeszcze obejrzana, więc akcja nie może zostać zapisana.';
 
 $string['setting:intrangerequired'] = 'Wprowadź liczbę całkowitą od {$a->min} do {$a->max}.';
-$string['err:playbacksteprequired'] = 'Wprowadź liczbę całkowitą od 0 do 300 sekund albo 0, aby użyć domyślnej wartości platformy.';
+$string['err:playbacksteprequired'] = 'Wprowadź liczbę całkowitą od 0 do 300 sekund. Użyj 0, aby zastosować domyślną wartość platformy.';
 $string['setting:nonnegativeintrequired'] = 'Wpisz liczbę całkowitą większą lub równą 0.';
 
 $string['report:anonymiseduser'] = 'Użytkownik zanonimizowany';

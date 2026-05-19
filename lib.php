@@ -584,9 +584,8 @@ function videotrack_process_player_behavior_fields(stdClass $data): void {
 /**
  * Returns the effective max player width in px.
  *
- * Instance value 0 means "use the site default". A site setting of 0 is treated
- * as "use the built-in default" for backward compatibility with installations
- * that stored 0 before strict range validation was introduced.
+ * Instance value 0 means "use the site default". The site setting is now
+ * validated as 1..4096, so invalid legacy values fall back to 960 in one place.
  *
  * @param  stdClass  $videotrack
  * @return int  Width in px.
@@ -597,8 +596,7 @@ function videotrack_get_player_width(stdClass $videotrack): int {
         return min(4096, $w);
     }
 
-    $sitewidth = videotrack_get_config_int('playerwidth', 960, 0, 4096);
-    return $sitewidth > 0 ? $sitewidth : 960;
+    return videotrack_get_config_int('playerwidth', 960, 1, 4096);
 }
 
 /**

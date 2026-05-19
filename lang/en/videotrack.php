@@ -459,7 +459,7 @@ $string['privacy:anonymised'] = '[anonymised]';
 $string['error:playbackpositionnotwatched'] = 'This video position has not been watched yet, so the action cannot be saved.';
 
 $string['setting:intrangerequired'] = 'Enter a whole number between {$a->min} and {$a->max}.';
-$string['err:playbacksteprequired'] = 'Enter a whole number from 0 to 300 seconds, or 0 to use the platform default.';
+$string['err:playbacksteprequired'] = 'Enter a whole number from 0 to 300 seconds. Use 0 for the platform default.';
 $string['setting:nonnegativeintrequired'] = 'Enter a whole number greater than or equal to 0.';
 
 $string['report:anonymiseduser'] = 'Anonymised user';
