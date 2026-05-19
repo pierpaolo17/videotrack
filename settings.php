@@ -176,12 +176,13 @@ if ($ADMIN->fulltree) {
     ));
 
     // Max player width.
-    $settings->add(new admin_setting_configtext(
+    $settings->add(new \mod_videotrack\admin\setting_int_range(
         'mod_videotrack/playerwidth',
         get_string('setting:playerwidth', 'mod_videotrack'),
         get_string('setting:playerwidth_desc', 'mod_videotrack'),
         960,
-        PARAM_INT
+        1,
+        4096
     ));
 
     $settings->add(new admin_setting_configcheckbox(

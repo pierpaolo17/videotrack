@@ -458,7 +458,7 @@ $string['privacy:anonymised'] = '[अनाम]';
 $string['error:playbackpositionnotwatched'] = 'यह वीडियो स्थिति अभी तक नहीं देखी गई है, इसलिए कार्रवाई सहेजी नहीं जा सकती।';
 
 $string['setting:intrangerequired'] = '{$a->min} और {$a->max} के बीच एक पूर्णांक दर्ज करें.';
-$string['err:playbacksteprequired'] = '0 से 300 सेकंड तक की पूर्ण संख्या दर्ज करें, या प्लेटफ़ॉर्म डिफ़ॉल्ट उपयोग करने के लिए 0 दर्ज करें।';
+$string['err:playbacksteprequired'] = '0 से 300 सेकंड तक की पूर्ण संख्या दर्ज करें। प्लेटफ़ॉर्म डिफ़ॉल्ट के लिए 0 उपयोग करें।';
 $string['setting:nonnegativeintrequired'] = '0 या उससे अधिक पूर्ण संख्या दर्ज करें।';
 $string['report:anonymiseduser'] = 'अनाम उपयोगकर्ता';
 $string['report:exportnotes_privacywarning'] = 'इस निर्यात में विद्यार्थियों के नोट से व्यक्तिगत डेटा हो सकता है। इसे केवल वैध उद्देश्य होने पर डाउनलोड और संग्रहीत करें और आवश्यकता समाप्त होने पर हटा दें।';

@@ -458,7 +458,7 @@ $string['privacy:anonymised'] = '[anonimizado]';
 $string['error:playbackpositionnotwatched'] = 'Esta posição do vídeo ainda não foi vista, por isso a ação não pode ser guardada.';
 
 $string['setting:intrangerequired'] = 'Digite um número inteiro entre {$a->min} e {$a->max}.';
-$string['err:playbacksteprequired'] = 'Digite um número inteiro de 0 a 300 segundos, ou 0 para usar o padrão da plataforma.';
+$string['err:playbacksteprequired'] = 'Digite um número inteiro de 0 a 300 segundos. Use 0 para o padrão da plataforma.';
 $string['setting:nonnegativeintrequired'] = 'Introduza um número inteiro maior ou igual a 0.';
 $string['report:anonymiseduser'] = 'Utilizador anonimizado';
 $string['report:exportnotes_privacywarning'] = 'Esta exportação pode conter dados pessoais das notas dos estudantes. Transfira e armazene apenas quando houver uma finalidade válida e elimine quando já não for necessária.';
