@@ -159,12 +159,13 @@ class mod_videotrack_mod_form extends moodleform_mod {
             get_string('setting:heading_playerbehavior', 'mod_videotrack'));
 
         // Max player width (px). 0 = use site default.
-        $mform->addElement('text', 'playerwidth',
+        $playerwidthelement = $mform->addElement('text', 'playerwidth',
             get_string('setting:playerwidth', 'mod_videotrack'), ['size' => 6]);
         $mform->setType('playerwidth', PARAM_INT);
         $mform->setDefault('playerwidth', 0);
         $mform->addHelpButton('playerwidth', 'playerwidth', 'mod_videotrack');
         $mform->addElement('static', 'playerwidthnote', '', get_string('playerwidth_zero_note', 'mod_videotrack'));
+        $playerwidthelement->updateAttributes(['aria-describedby' => 'id_playerwidthnote']);
 
         $mform->addElement('advcheckbox', 'autoplay', get_string('autoplay', 'mod_videotrack'));
         $mform->setDefault('autoplay', (int)(bool)$cfg('default_autoplay', 0));
