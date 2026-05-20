@@ -41,7 +41,7 @@ $string['reactionlabel'] = 'Etykieta reakcji';
 $string['reactiondescription'] = 'Opis reakcji';
 $string['reactionicontype'] = 'Typ ikony';
 $string['reactioniconvalue'] = 'Wartość ikony';
-$string['reactioniconvalue_help'] = 'Dla emoji wpisz znak emoji. Dla Font Awesome wpisz klasę CSS, na przykład fa-regular fa-face-smile. Pozostaw puste, gdy używasz przesłanego pliku ikony.';
+$string['reactioniconvalue_help'] = 'Dla emoji wpisz znak emoji. Dla Font Awesome wpisz klasę obsługiwaną przez motyw Moodle, np. fa fa-smile dla motywów Font Awesome 5 lub fa-regular fa-face-smile dla motywów Font Awesome 6. Dostępność ikon zależy od aktywnego motywu Moodle i zainstalowanej wersji Font Awesome. Pozostaw puste, gdy używasz przesłanego pliku ikony.';
 $string['reactioniconfile'] = 'Plik ikony reakcji';
 $string['reactioniconfile_help'] = 'Opcjonalny plik obrazu używany, gdy typ ikony to „Przesłany plik”. Obsługiwane formaty zależą od obsługi obrazów WWW w Moodle.';
 $string['reactionrequired'] = 'Wymagana do ukończenia';
@@ -180,7 +180,7 @@ $string['report:heatmap_desc'] = 'Mapa cieplna pokazuje miejsca wideo, w któryc
 $string['report:heatmap_supplementary'] = 'Dane mapy cieplnej są dostępne także w tabeli poniżej.';
 $string['event:activity_completed'] = 'Aktywność VideoTrack ukończona';
 
-$string['reactioniconfile_notice'] = 'Przesłane ikony są przechowywane przez Moodle w obszarze plików aktywności.';
+$string['reactioniconfile_notice'] = 'Obraz zostanie automatycznie przeskalowany do 64×64 pikseli (wycinanie ze środka). Najlepsze wyniki daje kwadratowy obraz (proporcje 1:1). Akceptowane formaty: JPG, PNG, GIF, WebP.';
 $string['reactions_hint'] = 'Reakcje są dostępne podczas odtwarzania wideo.';
 
 $string['showgradeto'] = 'Pokaż ocenę';
@@ -195,7 +195,7 @@ $string['source:youtube'] = 'YouTube';
 $string['source:vimeo'] = 'Vimeo';
 $string['source:upload'] = 'Przesłany plik';
 $string['vimeourl'] = 'Adres URL Vimeo';
-$string['vimeourl_help'] = 'Wklej adres URL publicznego lub niepublicznego filmu Vimeo.';
+$string['vimeourl_help'] = 'Wklej adres URL filmu Vimeo (np. https://vimeo.com/123456789).';
 $string['invalidvimeourl'] = 'Nieprawidłowy adres URL Vimeo.';
 $string['videofile'] = 'Plik wideo';
 $string['videofile_help'] = 'Prześlij plik wideo lub audio obsługiwany przez przeglądarkę.';
