@@ -285,13 +285,13 @@ $string['reaction:error'] = 'Nie można zapisać reakcji. Spróbuj ponownie.';
 // ── Feature 1: Resume playback ────────────────────────────────────────────
 $string['resumeplayback'] = 'Wznów odtwarzanie';
 $string['resumeplayback_desc'] = 'Pozwala studentom wznowić oglądanie od ostatniej pozycji.';
-$string['resumeplayback_help'] = 'Gdy włączone, odtwarzacz proponuje powrót do ostatnio zapisanej pozycji.';
+$string['resumeplayback_help'] = 'Gdy włączone, odtwarzacz proponuje powrót do ostatnio zapisanej pozycji (jeśli oglądano więcej niż 5 sekund). Studenci zawsze mogą ręcznie wrócić na początek.';
 $string['setting:resumeplayback'] = 'Wznawianie odtwarzania';
 $string['setting:resumeplayback_desc'] = 'Domyślne ustawienie wznawiania odtwarzania dla nowych aktywności.';
 
 // ── Feature 6: Max playback rate ──────────────────────────────────────────
 $string['maxplaybackrate'] = 'Maksymalna szybkość odtwarzania';
-$string['maxplaybackrate_desc'] = 'Najwyższa szybkość odtwarzania dostępna studentom.';
+$string['maxplaybackrate_desc'] = 'Najwyższa szybkość odtwarzania dostępna studentom. Ustaw 0, aby nie ograniczać szybkości.';
 $string['maxplaybackrate_help'] = 'Gdy ustawiono, studenci nie mogą odtwarzać wideo szybciej niż ta prędkość, nawet jeśli kontrolki odtwarzacza umożliwiają wyższe wartości. Zniechęca do zbyt szybkiego przeglądania treści.';
 $string['maxplaybackrate_nolimit'] = 'Bez limitu';
 $string['setting:maxplaybackrate'] = 'Maksymalna szybkość odtwarzania';
