@@ -202,7 +202,7 @@ $string['videofile_help'] = 'Carregue um ficheiro MP4, WebM ou MP3.';
 $string['videofile_notice'] = 'Formatos aceites: MP4, WebM, MP3, M4V, MOV, AAC, M4A.';
 $string['setting:heading_player'] = 'Comportamento do reprodutor';
 $string['setting:playbackspeeds'] = 'Velocidades de reprodução disponíveis';
-$string['setting:playbackspeeds_desc'] = 'Selecione quais velocidades estão disponíveis em toda a plataforma.';
+$string['setting:playbackspeeds_desc'] = 'Selecione quais velocidades de reprodução estão disponíveis em toda a plataforma. Os docentes podem restringir esta lista para atividades individuais (se tiverem a capacidade de substituição). O valor 1× (normal) é sempre recomendado.';
 $string['setting:playbackspeeds_teacher_desc'] = 'Selecione as velocidades de reprodução para esta atividade.';
 $string['setting:speed_normal'] = 'normal';
 $string['setting:distractionfree'] = 'Modo sem distração';
@@ -320,7 +320,7 @@ $string['report:studentreset'] = 'O progresso do estudante foi reposto.';
 // ── Feature 10/11/12 strings ──
 $string['showchapters'] = 'Mostrar navegação por capítulos';
 $string['showchapters_desc'] = 'Mostra uma barra com marcadores de capítulo extraídos do ficheiro VTT. Os capítulos são cues VTT com texto inferior a 80 caracteres.';
-$string['showchapters_help'] = 'Se o ficheiro VTT carregado contiver cues curtos, estes são interpretados como títulos de capítulos e mostrados numa barra clicável.';
+$string['showchapters_help'] = 'Se o ficheiro VTT carregado contiver cues curtos (menos de 80 caracteres), estes são interpretados como títulos de capítulos e apresentados como uma barra de navegação clicável acima dos controlos de vídeo. Clicar num capítulo salta para esse ponto.';
 $string['chapters_label'] = 'Capítulos do vídeo';
 $string['chapterslabel'] = 'Capítulos do vídeo';
 $string['chapter_label'] = 'Capítulo';

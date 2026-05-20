@@ -728,5 +728,11 @@ function xmldb_videotrack_upgrade($oldversion) {
         upgrade_mod_savepoint(true, 2026062800, 'videotrack');
     }
 
+
+    if ($oldversion < 2026062900) {
+        // v1.0.60: language/help text refinements. No schema changes.
+        upgrade_mod_savepoint(true, 2026062900, 'videotrack');
+    }
+
     return true;
 }

@@ -202,7 +202,7 @@ $string['videofile_help'] = 'MP4, WebM, MP3 hochladen.';
 $string['videofile_notice'] = 'Akzeptierte Formate: MP4, WebM, MP3, M4V, MOV, AAC, M4A.';
 $string['setting:heading_player'] = 'Player-Verhalten';
 $string['setting:playbackspeeds'] = 'Verfügbare Wiedergabegeschwindigkeiten';
-$string['setting:playbackspeeds_desc'] = 'Wählen Sie welche Geschwindigkeiten plattformweit verfügbar sind.';
+$string['setting:playbackspeeds_desc'] = 'Wählen Sie, welche Wiedergabegeschwindigkeiten plattformweit verfügbar sind. Lehrende können diese Liste für einzelne Aktivitäten einschränken (wenn sie die entsprechende Override-Berechtigung haben). Der Wert 1× (normal) wird immer empfohlen.';
 $string['setting:playbackspeeds_teacher_desc'] = 'Wählen Sie die Wiedergabegeschwindigkeiten für diese Aktivität.';
 $string['setting:speed_normal'] = 'normal';
 $string['setting:distractionfree'] = 'Ablenkungsfreier Modus';
@@ -320,7 +320,7 @@ $string['report:studentreset'] = 'Der Fortschritt des Studenten wurde zurückges
 // ── Feature 10/11/12 strings ──
 $string['showchapters'] = 'Kapitel-Navigation anzeigen';
 $string['showchapters_desc'] = 'Zeigt eine Navigationsleiste mit Kapitelmarken aus der VTT-Datei an. Kapitel sind VTT-Cues mit weniger als 80 Zeichen.';
-$string['showchapters_help'] = 'Kurze Cues in der VTT-Datei werden als Kapitelüberschriften interpretiert und als anklickbare Navigationsleiste angezeigt.';
+$string['showchapters_help'] = 'Wenn die hochgeladene VTT-Datei kurze Cues enthält (unter 80 Zeichen), werden sie als Kapitelüberschriften interpretiert und als anklickbare Navigationsleiste über den Videosteuerelementen angezeigt. Ein Klick auf ein Kapitel springt zu dieser Stelle.';
 $string['chapters_label'] = 'Videokapitel';
 $string['chapterslabel'] = 'Videokapitel';
 $string['chapter_label'] = 'Kapitel';
