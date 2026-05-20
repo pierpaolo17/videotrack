@@ -188,36 +188,44 @@ class privacy_manager {
         }
 
         $transaction = $DB->start_delegated_transaction();
-        $anonuserid = self::anonymous_userid($userid, $cmid);
-        $sessionid = self::anonymous_sessionid($userid, $cmid);
-        $notetext = get_string('privacy:anonymised', 'mod_videotrack');
+        try {
+            $anonuserid = self::anonymous_userid($userid, $cmid);
+            $sessionid = self::anonymous_sessionid($userid, $cmid);
+            $notetext = get_string('privacy:anonymised', 'mod_videotrack');
 
-        $params = [
-            'anonuserid' => $anonuserid,
-            'sessionid' => $sessionid,
-            'cmid' => $cmid,
-            'userid' => $userid,
-        ];
+            $params = [
+                'anonuserid' => $anonuserid,
+                'sessionid' => $sessionid,
+                'cmid' => $cmid,
+                'userid' => $userid,
+            ];
 
-        $DB->execute(
-            "UPDATE {videotrack_seg}
-                SET userid = :anonuserid, sessionid = :sessionid
-              WHERE cmid = :cmid AND userid = :userid",
-            $params
-        );
+            $DB->execute(
+                "UPDATE {videotrack_seg}
+                    SET userid = :anonuserid, sessionid = :sessionid
+                  WHERE cmid = :cmid AND userid = :userid",
+                $params
+            );
 
-        self::anonymise_state_rows($userid, $cmid);
+            self::anonymise_state_rows($userid, $cmid);
 
-        $eventparams = $params + ['notetext' => $notetext];
-        $DB->execute(
-            "UPDATE {videotrack_reactev}
-                SET userid = :anonuserid, sessionid = :sessionid,
-                    notetext = CASE WHEN notetype = 'note' THEN :notetext ELSE notetext END
-              WHERE cmid = :cmid AND userid = :userid",
-            $eventparams
-        );
+            $eventparams = $params + ['notetext' => $notetext];
+            $DB->execute(
+                "UPDATE {videotrack_reactev}
+                    SET userid = :anonuserid, sessionid = :sessionid,
+                        notetext = CASE WHEN notetype = 'note' THEN :notetext ELSE notetext END
+                  WHERE cmid = :cmid AND userid = :userid",
+                $eventparams
+            );
 
-        $transaction->allow_commit();
+            $transaction->allow_commit();
+        } catch (\Throwable $e) {
+            debugging('mod_videotrack anonymisation failed for cmid ' . $cmid . ': ' . $e->getMessage(), DEBUG_DEVELOPER);
+            $transaction->rollback($e);
+            // rollback() already rethrows in Moodle; keep an explicit throw for
+            // clarity and for future compatibility with transaction handling.
+            throw $e;
+        }
     }
 
     /**

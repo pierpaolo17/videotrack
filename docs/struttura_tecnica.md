@@ -235,6 +235,7 @@ $plugin->release   = '1.0.62';
 Questo file contiene tutte le funzioni che Moodle chiama direttamente per gestire il ciclo di vita del plugin. Ogni funzione inizia con `videotrack_`.
 
 **Utility DB:**
+- `videotrack_supports($feature)` — dichiara le feature flag obbligatorie del modulo per Moodle: intro/descrizione, completamento su visualizzazione, regole di completamento custom, backup Moodle 2, gradebook e purpose nel chooser attività. È il punto centrale da aggiornare quando si abilita o disabilita il supporto a una capability di modulo.
 - `videotrack_whitelist_record($data)` — restituisce un oggetto con soli i campi della tabella `{videotrack}`, interrogando `$DB->get_columns()` con cache statica per request. Evita che campi extra del form (es. `videofile`, `posterimage`, `reactionlabel_*`) vengano passati a `insert/update_record`, che causerebbe eccezioni DB su colonne inesistenti.
 
 **Lifecycle istanza:**
@@ -274,6 +275,7 @@ Questo file contiene tutte le funzioni che Moodle chiama direttamente per gestir
 - `videotrack_user_complete($course, $user, $mod, $videotrack)` — tabella dettagliata.
 
 **Navigazione:**
+- `videotrack_get_coursemodule_info($coursemodule)` — restituisce un `cached_cm_info` con nome e descrizione formattata per i listing del corso. Chi aggiunge campi visualizzabili nella pagina corso deve estendere questa funzione.
 - `videotrack_extend_settings_navigation()` — aggiunge link "Report" al menu dell'attività.
 - `videotrack_extend_navigation_course()` — aggiunge link ai "Report del corso".
 
@@ -285,6 +287,7 @@ Questo file contiene tutte le funzioni che Moodle chiama direttamente per gestir
 **Reset e pulizia:**
 - `videotrack_reset_course_userdata($data)` — resetta i dati utente quando si resetta un corso.
 - `videotrack_reset_course_form_definition($mform)` — aggiunge checkbox al form di reset corso.
+- `videotrack_reset_course_form_defaults($course)` — ritorna i default per i checkbox del form di reset corso, attualmente `['reset_videotrack_userdata' => 0]`. Completa il trio delle API di reset insieme a `videotrack_reset_course_userdata()` e `videotrack_reset_course_form_definition()`.
 - `videotrack_delete_user_progress($videotrack, $userid)` — cancella state + segmenti di un utente.
 
 **File serving:**

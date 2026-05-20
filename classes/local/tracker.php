@@ -330,6 +330,9 @@ class tracker {
             }
         }
         if (!$checks) {
+            // Returning false here is intentional: when no custom completion
+            // rules are enabled, Moodle falls back to FEATURE_COMPLETION_TRACKS_VIEWS
+            // and treats the page visit as the completion condition at framework level.
             return false;
         }
         $logic = $videotrack->completionlogic ?? 'and';
