@@ -1,6 +1,6 @@
 # mod_videotrack — Guida alla struttura del codice
 
-**Versione**: 1.0.61 (build 2026063000)
+**Versione**: 1.0.62 (build 2026070100)
 **Prerequisito di lettura**: conoscenza base di Moodle (plugin system, `$DB`, `$USER`, `cm_info`) e PHP/JavaScript.
 
 ---
@@ -38,14 +38,19 @@ videotrack/
 │   └── restore_videotrack_stepslib.php
 │
 ├── classes/               # Classi PHP con autoloading PSR-4
+│   ├── admin/
+│   │   ├── setting_nonnegative_int.php
+│   │   └── setting_int_range.php
 │   ├── completion/
 │   │   └── custom_completion.php   # Regole di completamento personalizzate
 │   ├── event/
 │   │   ├── activity_completed.php
 │   │   ├── course_module_viewed.php
+│   │   ├── note_saved.php
 │   │   ├── reaction_deleted.php
 │   │   ├── reaction_saved.php
-│   │   └── segment_saved.php
+│   │   ├── segment_saved.php
+│   │   └── student_progress_reset.php
 │   ├── external/
 │   │   ├── save_segment.php    # Web service: salva segmento di visione
 │   │   ├── save_reaction.php   # Web service: salva una reazione
@@ -215,10 +220,10 @@ Un record per ogni click su un bottone reazione o per ogni nota salvata.
 
 ```php
 $plugin->component = 'mod_videotrack';
-$plugin->version   = 2026063000;
+$plugin->version   = 2026070100;
 $plugin->requires  = 2025041400; // Moodle 5.0.
 $plugin->maturity  = MATURITY_BETA;
-$plugin->release   = '1.0.61';
+$plugin->release   = '1.0.62';
 ```
 
 È il file letto da Moodle per decidere se mostrare l'upgrade dialog. `version` è un intero in formato `YYYYMMDDnn`. `requires` è la build minima di Moodle supportata.
@@ -294,6 +299,14 @@ Questo file contiene tutte le funzioni che Moodle chiama direttamente per gestir
 ### 3.3 `locallib.php` — Helper non-API
 
 Funzioni usate internamente dal plugin ma non richieste dall'API Moodle:
+
+- `videotrack_get_config_int(string $name, int $default, int $min, int $max): int` — helper centrale per impostazioni intere di `mod_videotrack`. Gestisce `false`, `null`, stringa vuota e valori non numerici tornando al default; applica clamp inclusivo `[min, max]`; preserva il valore `0` quando ha semantica esplicita di disabilitazione. È definita in `locallib.php` ed è disponibile ai file che includono `lib.php`.
+- `videotrack_get_max_playback_rate(): float` — legge `maxplaybackrate` in centesimi e restituisce il float corrispondente (`150` → `1.5`) oppure `0.0` quando non c'è limite. Usata da `view.php` per costruire `$playerconfig`.
+- `videotrack_reaction_icon_url(context_module $context, stdClass $reaction): string` — restituisce l'URL `pluginfile.php` dell'icona caricata per una reazione. Restituisce stringa vuota per icone non basate su file e applica una validazione same-origin difensiva sugli URL locali.
+- `videotrack_save_presets(array $presets): void` — serializza i preset in JSON e li salva con `set_config('reaction_presets', ...)`.
+- `videotrack_get_preset_select_options(): array` — costruisce le opzioni per il selector Moodle dei preset, includendo la voce vuota iniziale per non applicare nessun preset.
+- `videotrack_require_preset_amd(int $repeatcount): void` — registra il modulo AMD `mod_videotrack/presets` e passa il numero di righe reazione correnti, così il form può inizializzare correttamente la UI dei preset.
+- `videotrack_optional_iso_date_param(string $name): string` — legge un parametro request come stringa e valida il formato `YYYY-MM-DD` via regex. Restituisce stringa vuota se assente o non valido; viene usata in `reports_course.php` per filtri data senza accettare valori arbitrari.
 
 - `videotrack_extract_videoid($url)` — estrae l'ID YouTube da qualsiasi formato URL (regex su youtu.be, youtube.com/watch, youtube.com/embed, ecc.)
 - `videotrack_extract_vimeo_id($url)` — estrae l'ID Vimeo.
@@ -418,14 +431,24 @@ Riduce gli intervalli al numero target **senza mai inglobare gap non visti**. Or
 `normalise_interval(float $start, float $end, float $duration): ?array`
 Valida e normalizza un segmento `[start, end]`. Clamp a `[0, duration]`. Restituisce `null` se `end <= start` (segmento vuoto).
 
+`decode_intervals(?string $json): array`
+Deserializza il JSON degli intervalli salvato nel DB. Gestisce `null`, stringa vuota e JSON non valido restituendo `[]` senza eccezioni.
+
+`encode_intervals(array $intervals): string`
+Serializza gli intervalli in JSON per `intervaljson`; usa `array_values()` per garantire array indicizzato e output stabile.
+
+`invalidate_reaction_counts_cache(int $videotrackid, int $userid): void`
+Cancella l'entry nella cache statica di `reaction_counts()` per una coppia utente/attività. È chiamata dopo soft-delete di reazioni/note per forzare il ricalcolo al refresh successivo.
+
+`has_watched_videotime(int $videotrackid, int $userid, string $sessionid, float $videotime, float $timetolerance, int $maxageseconds): bool`
+Livello inferiore usato dalla validazione di integrità accademica: controlla che esista un segmento con `videotimestart <= videotime + tolerance` e `videotimeend >= videotime - tolerance`, nella stessa sessione o nel fallback storico configurato. Limita l'età massima tramite `$maxageseconds`.
+
+
 `merge_intervals(array $intervals): array`
 Ordina e fonde gli intervalli sovrapposti o adiacenti. Es.: `[[0,30],[20,50]]` → `[[0,50]]`. Algoritmo classico O(n log n).
 
 `cap_intervals(array $intervals): array`
-Se ci sono più di `MAX_INTERVALS` (500) intervalli, chiama `simplify_intervals` per ridurli unendo le coppie con gap minore.
-
-`simplify_intervals(array $intervals, int $target): array`
-Riduce gli intervalli al numero target unendo iterativamente la coppia con gap minore. O(n×k) con k = numero fusioni necessarie. Sostituisce il precedente approccio con SplMinHeap che aveva bug.
+Se ci sono più di `MAX_INTERVALS` (500) intervalli, chiama `simplify_intervals` per mantenere gli intervalli più lunghi e scartare frammenti minori senza mai creare copertura artificiale.
 
 `covered_seconds(array $intervals): float`
 Somma la lunghezza di tutti gli intervalli → secondi unici guardati.
@@ -485,16 +508,16 @@ Web service chiamato dal JS ad ogni fine segmento.
 
 Web service per il click su un bottone reazione.
 
-**Flusso:**
-1. Auth standard
+**Flusso reale:**
+1. Auth standard e validazione parametri.
 2. Throttle: `count_records_select` per reazioni identiche negli ultimi 3 secondi. Se > 0, restituisce lo stato corrente senza salvare.
-3. Inserisce record in `{videotrack_reactev}`
-4. Triggera evento `reaction_saved`
-5. Verifica `tracker::has_recent_playback()` — lancia `moodle_exception('error:playbackrequired')` se nessun segmento recente nella sessione
-6. `tracker::reaction_counts()` — una sola chiamata prima di `refresh_completion` per evitare la query tripla
-7. `tracker::refresh_completion` — aggiorna `iscompleted`
-8. Aggiorna `completion_info` Moodle
-9. Restituisce `reactioneventid`, `uniquereactions`, `iscompleted`
+3. Inserisce record in `{videotrack_reactev}`.
+4. Triggera evento `reaction_saved`.
+5. Verifica `tracker::has_recent_playback()` — lancia `moodle_exception('error:playbackrequired')` se nessun segmento recente o già guardato è compatibile. Questa verifica avviene dopo l'insert, quindi va considerata quando si ragiona su eventuali transazioni future.
+6. `tracker::reaction_counts()` — una sola chiamata prima di `refresh_completion` per evitare query duplicate.
+7. `tracker::refresh_completion` — aggiorna `iscompleted`.
+8. Aggiorna `completion_info` Moodle.
+9. Restituisce `reactioneventid`, `uniquereactions`, `iscompleted`.
 
 ---
 
@@ -526,10 +549,13 @@ Web service per l'eliminazione di una reazione o nota.
 
 Classe `custom_completion extends core_completion\activity_custom_completion`.
 
-Implementa le tre regole personalizzate dichiarate in `get_defined_custom_rules()`:
-- `completionpercent` — delegata a `{videotrack_state}.completionpercent`
-- `minreactions` — delegata a `tracker::reaction_counts().uniquecount`
-- `allreactiontypes` — intersezione tra reazioni definite e reazioni usate
+Implementa le quattro regole personalizzate dichiarate in `get_defined_custom_rules()`:
+- `completionpercent` — delegata a `{videotrack_state}.completionpercent`.
+- `minreactions` — delegata a `tracker::reaction_counts().uniquecount`.
+- `requiredreactions` — verifica che siano state usate tutte le reazioni marcate `requiredforcompletion`.
+- `allreactiontypes` — intersezione tra tutte le reazioni attive e reazioni usate.
+
+`get_state(string $rule): int` è il metodo principale di valutazione: legge l'istanza, lo stato utente e, solo per regole basate sulle reazioni, il summary di `tracker::reaction_counts()`, poi restituisce `COMPLETION_COMPLETE` o `COMPLETION_INCOMPLETE`.
 
 `get_custom_rule_descriptions()` restituisce le stringhe localizzate mostrate nella scheda completamento.
 
@@ -563,6 +589,59 @@ I record anonimizzati vengono preservati nei backup/restore come aggregati anoni
 ### 4.9 `classes/task/cleanup_task.php`
 
 Scheduled task registrato in `db/tasks.php`. Esegue la retention GDPR: se il periodo è `0` scrive un log informativo e non modifica dati; se è positivo anonimizza i dati più vecchi della soglia configurata.
+
+
+
+### 4.10 `classes/admin/setting_nonnegative_int.php` e `setting_int_range.php`
+
+Classi admin con autoload Moodle per validare impostazioni numeriche lato amministratore.
+
+- `setting_nonnegative_int::validate($data)` — accetta solo stringhe/interi composti da cifre (`/^\d+$/`). Restituisce `true` oppure la stringa localizzata `setting:nonnegativeintrequired`.
+- `setting_int_range::__construct($name, $visiblename, $description, $defaultsetting, $min, $max)` — estende `setting_nonnegative_int` salvando bound inclusivi minimo/massimo.
+- `setting_int_range::validate($data)` — chiama il validator base, poi verifica `min <= value <= max`; in caso di errore restituisce `setting:intrangerequired` con placeholder `{$a->min}` e `{$a->max}`.
+
+Sono usate in `settings.php` per evitare configurazioni fuori range e per fornire messaggi coerenti nell'admin UI.
+
+### 4.11 Eventi Moodle (`classes/event/`)
+
+Gli eventi sono usati per log, report, audit e integrazione con il sistema eventi Moodle.
+
+- `activity_completed` — emesso quando lo studente raggiunge una condizione di completamento dell'attività.
+- `course_module_viewed` — evento standard di visualizzazione attività.
+- `segment_saved` — emesso al salvataggio di un segmento valido.
+- `reaction_saved` — emesso quando uno studente salva una reazione.
+- `reaction_deleted` — emesso quando una reazione/nota viene eliminata logicamente.
+- `note_saved` — emesso da `save_note::execute()` quando viene salvata una nota personale dello studente.
+- `student_progress_reset` — emesso da `report.php` quando un docente azzera i dati di progresso di uno studente; rilevante per accountability e audit GDPR.
+
+Ogni evento implementa almeno `get_name()` e `get_objectid_mapping()` quando serve il remapping backup/restore.
+
+### 4.12 Backup e restore (`backup/moodle2/`)
+
+`backup_videotrack_activity_task` e `restore_videotrack_activity_task` registrano i task standard Moodle. Le classi `*_stepslib.php` contengono la struttura effettiva.
+
+- `backup_videotrack_activity_structure_step::define_structure()` — dichiara la struttura XML del backup: elemento root `videotrack` con campi dell'istanza, sotto-elementi `reactions -> reaction -> reactionevents -> reactionevent`, `segments -> segment` e `states -> state`. Le filearea Moodle sono gestite tramite annotations/restore standard e non sono serializzate come blob nel record principale.
+- `restore_videotrack_activity_structure_step::define_structure()` — mappa gli elementi XML ai metodi `process_*` e dichiara le sources per il remapping degli utenti.
+- `process_videotrack()` — inserisce l'istanza ripristinata e imposta il mapping oldid→newid.
+- `process_videotrack_reaction()` — ripristina le definizioni reazione, incluse quelle soft-deleted necessarie allo storico.
+- `process_videotrack_segment()` — ripristina i segmenti e rimappa `userid` quando disponibile.
+- `process_videotrack_state()` — ripristina lo stato aggregato dell'utente.
+- `process_videotrack_reactionevent()` — ripristina eventi reazione/note collegandoli alla nuova reazione e al nuovo modulo.
+- `after_execute()` — ripristina le filearea `reactionicon`, `videocontent`, `subtitles` e `posterimage`.
+
+I record con `userid` negativo sono pseudonimi tecnici anonimizzati: vengono preservati come aggregati storici e non rimappati su utenti reali.
+
+### 4.13 Metodi privati principali di `privacy_manager`
+
+Questi metodi sono privati perché rappresentano dettagli interni dell'anonimizzazione, ma sono documentati per manutenzione e audit.
+
+- `anonymisation_salt(): string` — recupera o crea il salt locale con lock Moodle (`get_lock`) per evitare race condition multi-processo. Il salt è una stringa random di 64 caratteri esadecimali o fallback documentato.
+- `anonymous_sessionid(int $userid, int $cmid): string` — genera un session id pseudonimo deterministico, lungo al massimo 64 caratteri, coerente fra più record dello stesso utente/attività.
+- `anonymise_user_records(int $userid, int $cmid): void` — coordina l'anonimizzazione di segmenti, stato e reazioni/note in una transazione delegata.
+- `anonymise_old_user_rows(int $userid, int $cmid, int $cutoff, array &$counts): void` — aggiorna in batch segmenti ed eventi più vecchi del cutoff, sostituendo `userid` e `sessionid` reali con pseudonimi e conteggiando le righe.
+- `anonymise_state_rows(int $userid, int $cmid, ?int $cutoff = null): void` — individua record di stato da anonimizzare, opzionalmente filtrati per retention.
+- `anonymise_one_state_row(stdClass $record): void` — processa un singolo record `videotrack_state`, preservando `intervaljson` aggregato e sostituendo identificativi personali.
+- `merge_interval_json(string $left, string $right): string` — fonde due JSON di intervalli quando esiste già un record anonimizzato per la stessa attività; normalizza, ordina e unisce gli intervalli sovrapposti.
 
 ## 5. Moduli JavaScript AMD (`amd/src/`)
 
@@ -649,11 +728,11 @@ Gestione eventi Vimeo:
 
 `isProgrammaticSeek` — flag impostato a `true` prima di ogni `player.setCurrentTime()` lanciato dal codice (replay, resume). Viene resettato nella `.then()`. L'handler `seeked` controlla questo flag per ignorare seek programmatici.
 
-### 5.5 `report.js` — Modulo AMD report
+### 5.4 `report.js` — Modulo AMD report
 
 Modulo AMD leggero, caricato da `report.php` tramite `$PAGE->requires->js_call_amd()`. Inizializza i form di reset/ricalcolo con conferme basate su `core/notification`, evitando azioni distruttive via GET e JS inline.
 
-### 5.4 `html5_player.js` — Player HTML5 nativo
+### 5.5 `html5_player.js` — Player HTML5 nativo
 
 Il più complesso dei tre (1327 righe) perché gestisce anche transcript VTT, capitoli e controlli personalizzati.
 
@@ -899,3 +978,10 @@ Questa scelta evita esportazioni parziali interpretate come complete e mantiene 
 - Migliorati gli annunci per tecnologie assistive al replay del video.
 - Aggiunti colori basati su variabili CSS per barre di avanzamento in dark mode.
 - Ripulite stringhe non più usate e documentato il limite degli eventi mostrati.
+
+
+### Aggiornamento 1.0.62
+
+- Documentati metodi/funzioni mancanti indicati nel controllo qualità della documentazione: helper di configurazione, preset, date ISO, tracker, completamento custom, classi admin, eventi, backup/restore e metodi privati privacy.
+- Corretti errori fattuali nella documentazione: algoritmo reale di `simplify_intervals`, ordine di esecuzione di `save_reaction`, numerazione AMD e mappa directory `classes/event`.
+- Aggiunto savepoint di upgrade senza modifica schema per tracciare il rilascio documentale.
