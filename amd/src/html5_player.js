@@ -1059,9 +1059,9 @@ define(['core/ajax', 'core/log'], function(Ajax, Log) {
         var panel = document.getElementById('videotrack-transcript-content');
         if (!panel) { return; }
 
-        // Fetch del file VTT già servito dal pluginfile Moodle.
-        fetch(config.vtturl)
-            .then(function(r) { return r.ok ? r.text() : Promise.reject(r.status); })
+        // Fetch del file VTT già servito dal pluginfile Moodle, con timeout
+        // per evitare richieste sospese che lasciano transcript/capitoli in stato incerto.
+        fetchTextWithTimeout(config.vtturl)
             .then(function(text) {
                 var cues = parseVTT(text);
                 if (!cues.length) {
@@ -1086,30 +1086,65 @@ define(['core/ajax', 'core/log'], function(Ajax, Log) {
      */
     function parseVTT(text) {
         var cues = [];
-        // Divide per blocchi separati da righe vuote.
-        var blocks = text.split(/\n\s*\n/);
-        var timeRe = /^([\d:]+\.\d+)\s-->\s([\d:]+\.\d+)/;
+        if (!text) { return cues; }
+
+        // Normalizza BOM e CRLF. Ignora header NOTE/STYLE/REGION e cue settings dopo l'end time.
+        var normalized = text.replace(/^\uFEFF/, '').replace(/\r\n?/g, '\n');
+        var blocks = normalized.split(/\n[ \t]*\n/);
+        var timeRe = /^([0-9:.]+)[ \t]*-->[ \t]*([0-9:.]+)(?:[ \t].*)?$/;
+
         blocks.forEach(function(block) {
-            var lines = block.trim().split('\n');
-            // Trova la riga con il timestamp.
+            var lines = block.trim().split('\n').map(function(line) { return line.trim(); });
+            if (!lines.length || /^(WEBVTT|NOTE|STYLE|REGION)(?:\s|$)/i.test(lines[0])) { return; }
+
             var timeLine = -1;
             for (var i = 0; i < lines.length; i++) {
                 if (timeRe.test(lines[i])) { timeLine = i; break; }
             }
             if (timeLine < 0) { return; }
+
             var m = lines[timeLine].match(timeRe);
+            var start = vttTime(m[1]);
+            var end = vttTime(m[2]);
+            if (!isFinite(start) || !isFinite(end) || end <= start) { return; }
+
             var textLines = lines.slice(timeLine + 1).join(' ').replace(/<[^>]+>/g, '').trim();
             if (!textLines) { return; }
-            cues.push({ start: vttTime(m[1]), end: vttTime(m[2]), text: textLines });
+            cues.push({ start: start, end: end, text: textLines });
         });
         return cues;
     }
 
+    /** Fetch testuale con timeout, usato per risorse VTT opzionali. */
+    function fetchTextWithTimeout(url) {
+        var timeout = parseInt(config.vttfetchtimeoutms, 10);
+        timeout = timeout > 0 ? timeout : 10000;
+
+        if (window.AbortController) {
+            var controller = new AbortController();
+            var timer = window.setTimeout(function() { controller.abort(); }, timeout);
+            return fetch(url, {signal: controller.signal})
+                .then(function(r) { return r.ok ? r.text() : Promise.reject(r.status); })
+                .finally(function() { window.clearTimeout(timer); });
+        }
+
+        return Promise.race([
+            fetch(url).then(function(r) { return r.ok ? r.text() : Promise.reject(r.status); }),
+            new Promise(function(resolve, reject) {
+                window.setTimeout(function() { reject('timeout'); }, timeout);
+            })
+        ]);
+    }
+
     /** Converte un timestamp VTT (HH:MM:SS.mmm o MM:SS.mmm) in secondi float. */
     function vttTime(ts) {
-        var parts = ts.split(':').map(parseFloat);
-        if (parts.length === 3) { return parts[0] * 3600 + parts[1] * 60 + parts[2]; }
-        return parts[0] * 60 + parts[1];
+        var parts = ts.split(':');
+        if (parts.length < 2 || parts.length > 3) { return NaN; }
+        var seconds = parseFloat(parts.pop());
+        var minutes = parseInt(parts.pop(), 10);
+        var hours = parts.length ? parseInt(parts.pop(), 10) : 0;
+        if (!isFinite(seconds) || !isFinite(minutes) || !isFinite(hours)) { return NaN; }
+        return hours * 3600 + minutes * 60 + seconds;
     }
 
     /**
@@ -1383,8 +1418,7 @@ define(['core/ajax', 'core/log'], function(Ajax, Log) {
     function buildChaptersBar() {
         if (!config.vtturl || !config.showchapters) { return; }
 
-        fetch(config.vtturl)
-            .then(function(r) { return r.ok ? r.text() : Promise.reject(r.status); })
+        fetchTextWithTimeout(config.vtturl)
             .then(function(text) {
                 var cues = parseVTT(text);
                 // Filtra: considera capitoli solo le cue con testo <= 80 chars.

@@ -1,6 +1,6 @@
 # mod_videotrack — Guida alla struttura del codice
 
-**Versione**: 1.0.64 (build 2026070102)
+**Versione**: 1.0.65 (build 2026070103)
 **Prerequisito di lettura**: conoscenza base di Moodle (plugin system, `$DB`, `$USER`, `cm_info`) e PHP/JavaScript.
 
 ---
@@ -220,10 +220,10 @@ Un record per ogni click su un bottone reazione o per ogni nota salvata.
 
 ```php
 $plugin->component = 'mod_videotrack';
-$plugin->version   = 2026070102;
+$plugin->version   = 2026070103;
 $plugin->requires  = 2025041400; // Moodle 5.0.
 $plugin->maturity  = MATURITY_BETA;
-$plugin->release   = '1.0.64';
+$plugin->release   = '1.0.65';
 ```
 
 È il file letto da Moodle per decidere se mostrare l'upgrade dialog. `version` è un intero in formato `YYYYMMDDnn`. `requires` è la build minima di Moodle supportata.
@@ -985,7 +985,7 @@ Questa scelta evita esportazioni parziali interpretate come complete e mantiene 
 
 ### Aggiornamento 1.0.64
 
-- Allineati `version.php`, `db/install.xml` e documentazione alla build 2026070102.
+- Allineati `version.php`, `db/install.xml` e documentazione alla build 2026070103.
 - Aggiunti savepoint espliciti per le release senza modifica schema 1.0.63 e 1.0.64, rendendo auditabile l'upgrade path.
 
 ### Aggiornamento 1.0.63
@@ -997,3 +997,11 @@ Questa scelta evita esportazioni parziali interpretate come complete e mantiene 
 - Documentati metodi/funzioni mancanti indicati nel controllo qualità della documentazione: helper di configurazione, preset, date ISO, tracker, completamento custom, classi admin, eventi, backup/restore e metodi privati privacy.
 - Corretti errori fattuali nella documentazione: algoritmo reale di `simplify_intervals`, ordine di esecuzione di `save_reaction`, numerazione AMD e mappa directory `classes/event`.
 - Aggiunto savepoint di upgrade senza modifica schema per tracciare il rilascio documentale.
+
+
+### Aggiornamento 1.0.65
+
+- Corretto il build minificato del player HTML5 per il replay delimitato (`currentReplayEnd`).
+- Rafforzato il caricamento VTT con timeout per transcript e capitoli.
+- Reso il parser VTT più tollerante verso BOM, CRLF, cue settings e blocchi WebVTT non testuali.
+- Allineati `version.php`, `db/install.xml` e savepoint alla build 2026070103.
