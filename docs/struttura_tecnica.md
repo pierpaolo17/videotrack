@@ -1,6 +1,6 @@
 # mod_videotrack — Guida alla struttura del codice
 
-**Versione**: 1.0.62 (build 2026070100)
+**Versione**: 1.0.64 (build 2026070102)
 **Prerequisito di lettura**: conoscenza base di Moodle (plugin system, `$DB`, `$USER`, `cm_info`) e PHP/JavaScript.
 
 ---
@@ -220,10 +220,10 @@ Un record per ogni click su un bottone reazione o per ogni nota salvata.
 
 ```php
 $plugin->component = 'mod_videotrack';
-$plugin->version   = 2026070100;
+$plugin->version   = 2026070102;
 $plugin->requires  = 2025041400; // Moodle 5.0.
 $plugin->maturity  = MATURITY_BETA;
-$plugin->release   = '1.0.62';
+$plugin->release   = '1.0.64';
 ```
 
 È il file letto da Moodle per decidere se mostrare l'upgrade dialog. `version` è un intero in formato `YYYYMMDDnn`. `requires` è la build minima di Moodle supportata.
@@ -982,6 +982,15 @@ Questa scelta evita esportazioni parziali interpretate come complete e mantiene 
 - Aggiunti colori basati su variabili CSS per barre di avanzamento in dark mode.
 - Ripulite stringhe non più usate e documentato il limite degli eventi mostrati.
 
+
+### Aggiornamento 1.0.64
+
+- Allineati `version.php`, `db/install.xml` e documentazione alla build 2026070102.
+- Aggiunti savepoint espliciti per le release senza modifica schema 1.0.63 e 1.0.64, rendendo auditabile l'upgrade path.
+
+### Aggiornamento 1.0.63
+
+- Raffinamenti privacy e documentazione senza modifiche allo schema.
 
 ### Aggiornamento 1.0.62
 
