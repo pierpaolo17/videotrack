@@ -1168,6 +1168,7 @@ define(['core/ajax', 'core/log'], function(Ajax, Log) {
         var minutes = parseInt(parts.pop(), 10);
         var hours = parts.length ? parseInt(parts.pop(), 10) : 0;
         if (!isFinite(seconds) || !isFinite(minutes) || !isFinite(hours)) { return NaN; }
+        if (minutes < 0 || minutes >= 60 || seconds < 0 || seconds >= 60 || hours < 0) { return NaN; }
         return hours * 3600 + minutes * 60 + seconds;
     }
 
@@ -1281,10 +1282,10 @@ define(['core/ajax', 'core/log'], function(Ajax, Log) {
             body.style.display = collapsed ? 'none' : '';
             btn.setAttribute('aria-expanded', collapsed ? 'false' : 'true');
             var label = collapsed
-                ? (config.noteshowlabel || 'Show notes')
-                : (config.noteshidelabel || 'Hide notes');
+                ? (config.noteshowlabel)
+                : (config.noteshidelabel);
             btn.textContent = label;
-            btn.setAttribute('aria-label', label + ': ' + (config.notespaneltitle || 'Notes'));
+            btn.setAttribute('aria-label', label + ': ' + (config.notespaneltitle));
             try { window.sessionStorage.setItem(KEY, collapsed ? '1' : '0'); } catch (e) {}
         }
 
@@ -1356,7 +1357,7 @@ define(['core/ajax', 'core/log'], function(Ajax, Log) {
             delBtn.type = 'button';
             delBtn.className = 'btn btn-link btn-sm videotrack-delete-note ms-1';
             delBtn.dataset.noteid = noteid;
-            delBtn.textContent = config.removenotelabel || 'Remove note';
+            delBtn.textContent = config.removenotelabel;
             li.appendChild(delBtn);
             list.appendChild(li);
         }
@@ -1395,7 +1396,7 @@ define(['core/ajax', 'core/log'], function(Ajax, Log) {
                     // Aggiorna il contatore.
                     var panel = document.getElementById('videotrack-notes-panel');
                     var hint  = panel ? panel.querySelector('.videotrack-note-charcount') : null;
-                    if (hint) { hint.textContent = getRemainingNoteChars(textarea) + ' ' + (config.charsremaininglabel || 'chars remaining'); }
+                    if (hint) { hint.textContent = getRemainingNoteChars(textarea) + ' ' + (config.charsremaininglabel); }
                     textarea.focus();
                 }
             }).catch(function() {
@@ -1404,7 +1405,7 @@ define(['core/ajax', 'core/log'], function(Ajax, Log) {
                 setNoteButtonState(state.playing);
                 // B1/B2/B3 fix: use showStatusMessage() for consistent 8s visibility
                 // and correct aria role management (avoids direct role mutation).
-                showStatusMessage(config.noteerrorlabel || 'Could not save note. Please try again.', true);
+                showStatusMessage(config.noteerrorlabel, true);
             });
         });
 
@@ -1447,7 +1448,7 @@ define(['core/ajax', 'core/log'], function(Ajax, Log) {
             var panel = document.getElementById('videotrack-notes-panel');
             var hint  = panel ? panel.querySelector('.videotrack-note-charcount') : null;
             if (hint) {
-                hint.textContent = remaining + ' ' + (config.charsremaininglabel || 'chars remaining');
+                hint.textContent = remaining + ' ' + (config.charsremaininglabel);
             }
         });
     }
@@ -1484,7 +1485,7 @@ define(['core/ajax', 'core/log'], function(Ajax, Log) {
 
         var bar = document.createElement('nav');
         bar.className = 'videotrack-chapters-bar';
-        bar.setAttribute('aria-label', config.chapterslabel || 'Video chapters');
+        bar.setAttribute('aria-label', config.chapterslabel);
         bar.setAttribute('role', 'navigation');
 
         chapters.forEach(function(ch, idx) {
@@ -1494,7 +1495,7 @@ define(['core/ajax', 'core/log'], function(Ajax, Log) {
             btn.dataset.start = ch.start;
             btn.dataset.idx   = idx;
             btn.setAttribute('aria-label',
-                (config.chapterlabel || 'Chapter') + ' ' + (idx + 1) + ': ' + ch.text);
+                (config.chapterlabel) + ' ' + (idx + 1) + ': ' + ch.text);
             // Label visuale: numero + testo breve.
             var numSpan = document.createElement('span');
             numSpan.className = 'videotrack-chapter-num';

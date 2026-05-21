@@ -1,6 +1,6 @@
 # mod_videotrack — Guida alla struttura del codice
 
-**Versione**: 1.0.67 (build 2026070105)
+**Versione**: 1.0.71 (build 2026070109)
 **Prerequisito di lettura**: conoscenza base di Moodle (plugin system, `$DB`, `$USER`, `cm_info`) e PHP/JavaScript.
 
 ---
@@ -220,10 +220,10 @@ Un record per ogni click su un bottone reazione o per ogni nota salvata.
 
 ```php
 $plugin->component = 'mod_videotrack';
-$plugin->version   = 2026070105;
+$plugin->version   = 2026070109;
 $plugin->requires  = 2025041400; // Moodle 5.0.
 $plugin->maturity  = MATURITY_BETA;
-$plugin->release   = '1.0.67';
+$plugin->release   = '1.0.71';
 ```
 
 È il file letto da Moodle per decidere se mostrare l'upgrade dialog. `version` è un intero in formato `YYYYMMDDnn`. `requires` è la build minima di Moodle supportata.
@@ -1048,3 +1048,13 @@ Questa scelta evita esportazioni parziali interpretate come complete e mantiene 
 - Esteso il lock di `videotrack_state` anche a `refresh_completion()`.
 - Reso più rigoroso il parser WebVTT e impostato `credentials: 'same-origin'` sui fetch VTT opzionali.
 - Migliorata la tastierabilità del bottone note e ridotta la verbosità del contatore caratteri per screen reader.
+
+
+### Aggiornamento 1.0.71
+
+- Allineati header e sezioni documentali alla build 2026070109.
+- Migliorati touch target dei controlli HTML5 e dei bottoni velocità per maggiore conformità WCAG 2.2.
+- Rafforzata la validazione dei timestamp WebVTT scartando minuti e secondi fuori intervallo.
+- Ottimizzata la query delle note studente rimuovendo il `COUNT` separato e usando il recupero `limit + 1`.
+- Resa idempotente la cancellazione di note/reazioni già eliminate, evitando update e log Moodle duplicati.
+- Ridotti i fallback inglesi nel player HTML5 usando le stringhe localizzate passate da `view.php`.

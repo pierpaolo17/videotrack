@@ -118,6 +118,8 @@ $playerconfig = [
     'replaylabel'            => get_string('report:replay',      'mod_videotrack'),
     'removelabel'            => get_string('removereaction',     'mod_videotrack'),
     'removenotelabel'        => get_string('removenote',         'mod_videotrack'),
+    'noteerrorlabel'         => get_string('noteerrorlabel',    'mod_videotrack'),
+    'charsremaininglabel'    => get_string('charsremaininglabel', 'mod_videotrack'),
     'dismisslabel'           => get_string('dismisslabel',       'mod_videotrack'),
     'rewindlabel'            => get_string('rewindlabel',        'mod_videotrack'),
     'fastforwardlabel'       => get_string('fastforwardlabel',   'mod_videotrack'),
@@ -398,20 +400,18 @@ if (!empty($videotrack->studentnotesenabled)) {
     ]);
     // Note già salvate: limita la view principale alle ultime note per evitare pagine pesanti.
     $noteslimit = 200;
-    $totalnotes = $DB->count_records('videotrack_reactev', [
-        'videotrackid' => $videotrack->id,
-        'userid'       => $USER->id,
-        'notetype'     => 'note',
-        'isdeleted'    => 0,
-    ]);
     $existingnotes = $DB->get_records('videotrack_reactev', [
         'videotrackid' => $videotrack->id,
         'userid'       => $USER->id,
         'notetype'     => 'note',
         'isdeleted'    => 0,
-    ], 'timecreated DESC', 'id, videotime, notetext', 0, $noteslimit);
+    ], 'timecreated DESC', 'id, videotime, notetext', 0, $noteslimit + 1);
+    $noteslimited = count($existingnotes) > $noteslimit;
+    if ($noteslimited) {
+        array_pop($existingnotes);
+    }
     $existingnotes = array_reverse($existingnotes, true);
-    if ($totalnotes > $noteslimit) {
+    if ($noteslimited) {
         echo html_writer::tag('p',
             get_string('studentnotes_view_limited', 'mod_videotrack', $noteslimit) . ' ' .
             html_writer::link(new moodle_url('/mod/videotrack/report.php', [

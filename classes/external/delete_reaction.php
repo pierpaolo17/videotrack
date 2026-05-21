@@ -14,7 +14,19 @@ defined('MOODLE_INTERNAL') || die();
 global $CFG;
 require_once($CFG->dirroot . '/mod/videotrack/lib.php');
 
+/**
+ * External function that soft-deletes a reaction or personal note owned by the current user.
+ *
+ * @package    mod_videotrack
+ * @copyright  2026
+ * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
+ */
 class delete_reaction extends external_api {
+    /**
+     * Returns the external function parameters.
+     *
+     * @return external_function_parameters
+     */
     public static function execute_parameters(): external_function_parameters {
         return new external_function_parameters([
             'cmid' => new external_value(PARAM_INT, 'Course module ID'),
@@ -22,6 +34,16 @@ class delete_reaction extends external_api {
         ]);
     }
 
+    /**
+     * Soft-deletes a reaction or note owned by the current user.
+     *
+     * Repeated calls for an already deleted record are idempotent and do not
+     * create duplicate Moodle log events.
+     *
+     * @param int $cmid Course module id.
+     * @param int $reactioneventid Reaction/note event id.
+     * @return array
+     */
     public static function execute(int $cmid, int $reactioneventid): array {
         global $DB, $USER;
         $params = self::validate_parameters(self::execute_parameters(), compact('cmid', 'reactioneventid'));
@@ -35,25 +57,27 @@ class delete_reaction extends external_api {
         self::validate_context($context);
         require_capability('mod/videotrack:view', $context);
         $event = $DB->get_record('videotrack_reactev', ['id' => $params['reactioneventid'], 'userid' => $USER->id, 'videotrackid' => $videotrack->id], '*', MUST_EXIST);
-        $event->isdeleted = 1;
-        $event->timemodified = time();
-        $DB->update_record('videotrack_reactev', $event);
-        // O1: invalidate per-request cache so subsequent reaction_counts() calls
-        // within this request see the updated (soft-deleted) record.
-        tracker::invalidate_reaction_counts_cache($videotrack->id, (int)$USER->id);
-        // Log dell'evento nei log di Moodle.
-        $moodleevent = reaction_deleted::create([
-            'objectid' => $event->id,
-            'context'  => $context,
-            'other'    => [
-                'reactionlabel' => $event->reactionlabel,
-            ],
-        ]);
-        $moodleevent->trigger();
-
         // Le note personali (notetype='note') non contribuiscono al completamento:
         // ricalcoliamo solo se si tratta di una reazione standard.
         $isnote = ($event->notetype ?? '') === 'note';
+
+        if (empty($event->isdeleted)) {
+            $event->isdeleted = 1;
+            $event->timemodified = time();
+            $DB->update_record('videotrack_reactev', $event);
+            // O1: invalidate per-request cache so subsequent reaction_counts() calls
+            // within this request see the updated (soft-deleted) record.
+            tracker::invalidate_reaction_counts_cache($videotrack->id, (int)$USER->id);
+            // Log dell'evento nei log di Moodle.
+            $moodleevent = reaction_deleted::create([
+                'objectid' => $event->id,
+                'context'  => $context,
+                'other'    => [
+                    'reactionlabel' => $event->reactionlabel,
+                ],
+            ]);
+            $moodleevent->trigger();
+        }
 
         if (!$isnote) {
             // B5 fix: reaction_counts is called once here, before refresh_completion.
