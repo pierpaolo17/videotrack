@@ -326,6 +326,7 @@ $string['showchapters_desc'] = 'VTT फ़ाइल से निकाले �
 $string['showchapters_help'] = 'यदि अपलोड की गई VTT फ़ाइल में छोटे cues (80 अक्षरों से कम) हैं, तो उन्हें अध्याय शीर्षक माना जाता है और वीडियो नियंत्रणों के ऊपर क्लिक करने योग्य नेविगेशन पट्टी में दिखाया जाता है। किसी अध्याय पर क्लिक करने से वीडियो उस स्थान पर चला जाता है।';
 $string['chapters_label'] = 'वीडियो अध्याय';
 $string['chapterslabel'] = 'वीडियो अध्याय';
+$string['chapters_unavailable'] = 'इस वीडियो के लिए अध्याय उपलब्ध नहीं हैं।';
 $string['chapter_label'] = 'अध्याय';
 $string['chapterlabel'] = 'अध्याय';
 $string['studentnotesenabled'] = 'विद्यार्थी नोट्स सक्षम करें';
@@ -439,8 +440,6 @@ $string['privacy:metadata:vimeo'] = 'जब Vimeo वीडियो उपय�
 $string['privacy:metadata:vimeo:videoid'] = 'इस गतिविधि के लिए कॉन्फ़िगर किया गया Vimeo वीडियो पहचानकर्ता।';
 $string['privacy:metadata:vimeo:url'] = 'इस गतिविधि के लिए कॉन्फ़िगर किया गया Vimeo URL।';
 
-$string['privacy:metadata:browser_session_storage'] = 'यह गतिविधि अस्थायी इंटरफेस प्राथमिकताएँ केवल ब्राउज़र sessionStorage में सहेजती है।';
-$string['privacy:metadata:browser_session_storage:notescollapsed'] = 'क्या व्यक्तिगत नोट्स पैनल वर्तमान ब्राउज़र सत्र में संकुचित है।';
 $string['html5:controls'] = 'वीडियो नियंत्रण';
 $string['html5:play'] = 'चलाएँ';
 $string['html5:pause'] = 'विराम';

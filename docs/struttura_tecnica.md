@@ -1112,7 +1112,16 @@ Questa scelta evita esportazioni parziali interpretate come complete e mantiene 
 - Aggiornati build AMD e metadata release a 1.1.0 / 2026070200.
 
 
-### Versione 1.1.3 / build 2026070203
+
+### Aggiornamento 1.1.4
+
+- Centralizzato `appendIconSafe()` in `amd/src/core/ui.js` per ridurre duplicazioni tra player HTML5, YouTube e Vimeo.
+- Aggiunto feedback localizzato quando la navigazione capitoli VTT è abilitata ma non sono disponibili cue capitolo sufficienti.
+- Migliorato il logging debug dei JSON `intervaljson` non validi nei tre player AMD.
+- Rimosse stringhe privacy obsolete relative a `browser_session_storage`, ora documentato come preferenza temporanea lato browser e non come external location.
+- Aggiornati build AMD e metadata release a 1.1.4 / 2026070204.
+
+### Versione 1.1.4 / build 2026070204
 
 Refactor iniziale dei player AMD:
 - introdotti `amd/src/core/utils.js` e `amd/src/core/ui.js`;

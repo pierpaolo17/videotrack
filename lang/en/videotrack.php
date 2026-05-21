@@ -327,6 +327,7 @@ $string['showchapters_desc'] = 'Display a navigation bar with chapter markers ex
 $string['showchapters_help'] = 'If the uploaded VTT file contains short cues (under 80 characters), they are interpreted as chapter titles and rendered as a clickable navigation bar above the video controls. Clicking a chapter jumps to that point.';
 $string['chapters_label'] = 'Video chapters';
 $string['chapterslabel'] = 'Video chapters';
+$string['chapters_unavailable'] = 'Chapters are not available for this video.';
 $string['chapter_label'] = 'Chapter';
 $string['chapterlabel'] = 'Chapter';
 $string['studentnotesenabled'] = 'Enable student notes';
@@ -438,8 +439,6 @@ $string['privacy:metadata:vimeo'] = 'When a Vimeo video is used, the user browse
 $string['privacy:metadata:vimeo:videoid'] = 'The Vimeo video identifier configured for this activity.';
 $string['privacy:metadata:vimeo:url'] = 'The Vimeo URL configured for this activity.';
 
-$string['privacy:metadata:browser_session_storage'] = 'The activity stores temporary interface preferences in the browser session storage only.';
-$string['privacy:metadata:browser_session_storage:notescollapsed'] = 'Whether the personal notes panel is collapsed for the current browser session.';
 $string['html5:controls'] = 'Video controls';
 $string['html5:play'] = 'Play';
 $string['html5:pause'] = 'Pause';

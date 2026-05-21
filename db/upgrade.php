@@ -831,5 +831,11 @@ function xmldb_videotrack_upgrade($oldversion) {
         upgrade_mod_savepoint(true, 2026070203, 'videotrack');
     }
 
+
+    if ($oldversion < 2026070204) {
+        // 1.1.4: AMD UI helper consolidation, chapters fallback UX and JS diagnostics. No schema changes.
+        upgrade_mod_savepoint(true, 2026070204, 'videotrack');
+    }
+
     return true;
 }

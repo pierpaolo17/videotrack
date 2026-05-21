@@ -326,6 +326,7 @@ $string['showchapters_desc'] = 'Wyświetla pasek nawigacji z markerami rozdział
 $string['showchapters_help'] = 'Jeśli przesłany plik VTT zawiera krótkie cue (poniżej 80 znaków), są one interpretowane jako tytuły rozdziałów i renderowane jako pasek nawigacji z możliwością klikania powyżej kontrolek wideo. Kliknięcie rozdziału przenosi do tego miejsca.';
 $string['chapters_label'] = 'Rozdziały wideo';
 $string['chapterslabel'] = 'Rozdziały';
+$string['chapters_unavailable'] = 'Rozdziały nie są dostępne dla tego filmu.';
 $string['chapter_label'] = 'Rozdział';
 $string['chapterlabel'] = 'Rozdział';
 $string['studentnotesenabled'] = 'Włącz notatki studentów';
@@ -437,8 +438,6 @@ $string['privacy:metadata:vimeo'] = 'Gdy używane jest wideo Vimeo, przeglądark
 $string['privacy:metadata:vimeo:videoid'] = 'Identyfikator wideo Vimeo skonfigurowany dla tej aktywności.';
 $string['privacy:metadata:vimeo:url'] = 'Adres URL Vimeo skonfigurowany dla tej aktywności.';
 
-$string['privacy:metadata:browser_session_storage'] = 'Aktywność zapisuje tymczasowe preferencje interfejsu wyłącznie w sessionStorage przeglądarki.';
-$string['privacy:metadata:browser_session_storage:notescollapsed'] = 'Określa, czy panel osobistych notatek jest zwinięty w bieżącej sesji przeglądarki.';
 $string['html5:controls'] = 'Kontrolki wideo';
 $string['html5:play'] = 'Odtwórz';
 $string['html5:pause'] = 'Pauza';

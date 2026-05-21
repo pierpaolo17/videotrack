@@ -219,7 +219,9 @@ define(['core/ajax', 'core/log', 'mod_videotrack/core/utils', 'mod_videotrack/co
             var pct = duration > 0 ? Math.min(100, Math.round((covered / duration) * 100)) : 0;
             var baseLabel = canvas.getAttribute('title') || '';
             canvas.setAttribute('aria-label', baseLabel + ' — ' + pct + '%');
-        } catch (e) { /* JSON malformato: ignora. */ }
+        } catch (e) {
+            Log.debug('mod_videotrack: invalid interval JSON - ' + e);
+        }
     }
 
     function installGlobalListeners() {
@@ -641,7 +643,7 @@ define(['core/ajax', 'core/log', 'mod_videotrack/core/utils', 'mod_videotrack/co
             var tdicon = document.createElement('td');
             var span = document.createElement('span');
             span.className = 'videotrack-report-icon';
-            appendIconSafe(span, reaction.iconhtml);
+            Ui.appendIconSafe(span, reaction.iconhtml);
             tdicon.appendChild(span);
             tr.appendChild(tdicon);
             // Description
@@ -753,77 +755,7 @@ define(['core/ajax', 'core/log', 'mod_videotrack/core/utils', 'mod_videotrack/co
     }
 
 
-    /**
-     * Inserisce icon HTML in modo sicuro nel nodo target con whitelist esplicita.
-     * Usa DOMParser per il parsing, poi copia solo tag (img, i, span) e attributi
-     * (class, src, alt, aria-hidden) nella whitelist — nessun script/handler può passare.
-     *
-     * @param {HTMLElement} target   Nodo in cui inserire.
-     * @param {string}      iconhtml HTML dell'icona (img, i, span).
-     */
-    function appendIconSafe(target, iconhtml) {
-        if (!iconhtml) { return; }
-        var ALLOWED_TAGS  = {'IMG': true, 'I': true, 'SPAN': true};
-        var ALLOWED_ATTRS = {'class': true, 'src': true, 'alt': true, 'aria-hidden': true};
 
-
-        function isSafeIconSrc(value) {
-            if (!value) { return false; }
-            var trimmed = String(value).trim();
-            var lower = trimmed.toLowerCase();
-            if (lower.indexOf('javascript:') === 0 || lower.indexOf('data:') === 0 || lower.indexOf('vbscript:') === 0) {
-                return false;
-            }
-            try {
-                var url = new URL(trimmed, window.location.origin);
-                if (url.origin !== window.location.origin) {
-                    return false;
-                }
-                return url.pathname.indexOf('/pluginfile.php/') !== -1 ||
-                    url.pathname.indexOf('/webservice/pluginfile.php/') !== -1;
-            } catch (e) {
-                return false;
-            }
-        }
-
-        function sanitizeNode(node) {
-            if (node.nodeType === Node.TEXT_NODE) {
-                return document.createTextNode(node.textContent);
-            }
-            if (node.nodeType !== Node.ELEMENT_NODE || !ALLOWED_TAGS[node.nodeName]) {
-                return null;
-            }
-            var el = document.createElement(node.nodeName.toLowerCase());
-            Array.from(node.attributes).forEach(function(attr) {
-                if (!ALLOWED_ATTRS[attr.name]) {
-                    return;
-                }
-                if (attr.name === 'src') {
-                    if (node.nodeName !== 'IMG' || !isSafeIconSrc(attr.value)) {
-                        return;
-                    }
-                }
-                el.setAttribute(attr.name, attr.value);
-            });
-            Array.from(node.childNodes).forEach(function(child) {
-                var safe = sanitizeNode(child);
-                if (safe) { el.appendChild(safe); }
-            });
-            return el;
-        }
-
-        try {
-            var doc  = (new window.DOMParser()).parseFromString('<div>' + iconhtml + '</div>', 'text/html');
-            var root = doc.body.firstChild;
-            if (!root) { return; }
-            Array.from(root.childNodes).forEach(function(child) {
-                var safe = sanitizeNode(child);
-                if (safe) { target.appendChild(safe); }
-            });
-        } catch (e) {
-            target.textContent = target.textContent || '';
-        }
-    }
 
 
 
