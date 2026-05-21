@@ -503,15 +503,20 @@ define(['core/ajax', 'core/log'], function(Ajax, Log) {
             volSlider.type  = 'range';
             volSlider.className = 'videotrack-ctrl-volume';
             volSlider.min   = '0';
-            volSlider.max   = '1';
-            volSlider.step  = '0.05';
-            volSlider.value = media.muted ? '0' : '1';
+            volSlider.max   = '100';
+            volSlider.step  = '5';
+            volSlider.value = media.muted ? '0' : String(Math.round(media.volume * 100));
             volSlider.setAttribute('aria-label', config.html5volumelabel || 'Volume');
-            volSlider.setAttribute('aria-valuetext', Math.round(parseFloat(volSlider.value) * 100) + '%');
+            volSlider.setAttribute('aria-valuemin', '0');
+            volSlider.setAttribute('aria-valuemax', '100');
+            volSlider.setAttribute('aria-valuetext', volSlider.value + '%');
             volSlider.addEventListener('input', function() {
-                media.volume = parseFloat(volSlider.value);
+                var volumePercent = Math.max(0, Math.min(100, parseFloat(volSlider.value) || 0));
+                media.volume = volumePercent / 100;
                 media.muted  = (media.volume === 0);
-                volSlider.setAttribute('aria-valuetext', Math.round(media.volume * 100) + '%');
+                volSlider.value = String(volumePercent);
+                volSlider.setAttribute('aria-valuenow', String(volumePercent));
+                volSlider.setAttribute('aria-valuetext', volumePercent + '%');
             });
             bar.appendChild(volSlider);
         }
@@ -562,19 +567,19 @@ define(['core/ajax', 'core/log'], function(Ajax, Log) {
 
         // ── Fullscreen ────────────────────────────────────────
         if (!isAudio && controls.indexOf('fullscreen') >= 0) {
+            var fsWrapper = container.closest('.videotrack-player-wrap') || container;
             var fsBtn = makeBtn('videotrack-ctrl-fs', '⛶', config.html5fullscreenlabel || 'Fullscreen');
             fsBtn.setAttribute('aria-pressed', 'false');
             var updateFullscreenPressed = function() {
-                fsBtn.setAttribute('aria-pressed', document.fullscreenElement ? 'true' : 'false');
+                fsBtn.setAttribute('aria-pressed', document.fullscreenElement === fsWrapper ? 'true' : 'false');
             };
             document.addEventListener('fullscreenchange', updateFullscreenPressed);
             fsBtn.addEventListener('click', function() {
-                var wrapper = container.closest('.videotrack-player-wrap') || container;
                 if (!document.fullscreenElement) {
-                    if (wrapper.requestFullscreen) {
-                        wrapper.requestFullscreen().then(updateFullscreenPressed).catch(function() { updateFullscreenPressed(); });
+                    if (fsWrapper.requestFullscreen) {
+                        fsWrapper.requestFullscreen().then(updateFullscreenPressed).catch(function() { updateFullscreenPressed(); });
                     }
-                } else if (document.exitFullscreen) {
+                } else if (document.fullscreenElement === fsWrapper && document.exitFullscreen) {
                     document.exitFullscreen().then(updateFullscreenPressed).catch(function() { updateFullscreenPressed(); });
                 }
             });
@@ -1192,10 +1197,13 @@ define(['core/ajax', 'core/log'], function(Ajax, Log) {
             btn.appendChild(textSpan);
             btn.addEventListener('click', function() {
                 if (!media) { return; }
+                var wasPlaying = !media.paused;
                 state.isSeeking = true;
                 media.currentTime = cue.start;
                 state.isSeeking   = false;
-                media.play();
+                if (wasPlaying) {
+                    media.play();
+                }
             });
             item.appendChild(btn);
             list.appendChild(item);

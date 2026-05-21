@@ -1,6 +1,6 @@
 # mod_videotrack — Guida alla struttura del codice
 
-**Versione**: 1.0.66 (build 2026070104)
+**Versione**: 1.0.67 (build 2026070105)
 **Prerequisito di lettura**: conoscenza base di Moodle (plugin system, `$DB`, `$USER`, `cm_info`) e PHP/JavaScript.
 
 ---
@@ -220,10 +220,10 @@ Un record per ogni click su un bottone reazione o per ogni nota salvata.
 
 ```php
 $plugin->component = 'mod_videotrack';
-$plugin->version   = 2026070104;
+$plugin->version   = 2026070105;
 $plugin->requires  = 2025041400; // Moodle 5.0.
 $plugin->maturity  = MATURITY_BETA;
-$plugin->release   = '1.0.66';
+$plugin->release   = '1.0.67';
 ```
 
 È il file letto da Moodle per decidere se mostrare l'upgrade dialog. `version` è un intero in formato `YYYYMMDDnn`. `requires` è la build minima di Moodle supportata.
@@ -999,9 +999,25 @@ Questa scelta evita esportazioni parziali interpretate come complete e mantiene 
 - Aggiunto savepoint di upgrade senza modifica schema per tracciare il rilascio documentale.
 
 
+### Aggiornamento 1.0.67
+
+- Reso più preciso lo stato `aria-pressed` del fullscreen HTML5: il pulsante risulta premuto solo quando è in fullscreen il wrapper del player corrente.
+- Il click su una cue del transcript mantiene lo stato precedente del player: se il video era in pausa, il seek non avvia automaticamente la riproduzione.
+- Lo slider volume usa una scala 0-100 coerente con la percentuale annunciata dalle tecnologie assistive.
+- Garantita una dimensione minima esplicita dei pulsanti della control bar HTML5.
+- Allineati `version.php`, `db/install.xml` e savepoint alla build 2026070105.
+
 ### Aggiornamento 1.0.66
 
-- Corretto il build minificato del player HTML5 per il replay delimitato (`currentReplayEnd`).
-- Rafforzato il caricamento VTT con timeout per transcript e capitoli.
-- Reso il parser VTT più tollerante verso BOM, CRLF, cue settings e blocchi WebVTT non testuali.
+- Aggiunto `aria-pressed` ai controlli PiP e fullscreen del player HTML5.
+- Aggiunto `aria-valuetext` allo slider volume per annunciare il valore come percentuale.
+- Aggiunti `aria-label` descrittivi ai pulsanti del transcript.
+- Documentato il timeout fisso da 10 secondi usato dal caricamento VTT e il fallback senza `AbortController`.
 - Allineati `version.php`, `db/install.xml` e savepoint alla build 2026070104.
+
+### Aggiornamento 1.0.65
+
+- Corretto il build minificato del player HTML5 per il replay delimitato (`currentReplayEnd`).
+- Rafforzato il caricamento VTT con timeout fisso per transcript e capitoli.
+- Reso il parser VTT più tollerante verso BOM, CRLF, cue settings e blocchi WebVTT non testuali.
+- Allineati `version.php`, `db/install.xml` e savepoint alla build 2026070103.

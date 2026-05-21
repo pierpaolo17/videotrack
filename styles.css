@@ -422,6 +422,12 @@
     z-index: 1;
 }
 
+.videotrack-html5-controls button,
+.videotrack-html5-controls .videotrack-ctrl-download {
+    min-width: 24px;
+    min-height: 24px;
+}
+
 /* Progress bar: stretches to fill available space */
 .videotrack-ctrl-progress-wrap {
     flex: 1 1 120px;

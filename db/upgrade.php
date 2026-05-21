@@ -765,5 +765,10 @@ function xmldb_videotrack_upgrade($oldversion) {
         upgrade_mod_savepoint(true, 2026070104, 'videotrack');
     }
 
+    if ($oldversion < 2026070105) {
+        // v1.0.67: HTML5 accessibility and transcript seek refinements. No schema changes.
+        upgrade_mod_savepoint(true, 2026070105, 'videotrack');
+    }
+
     return true;
 }
