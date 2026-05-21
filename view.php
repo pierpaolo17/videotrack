@@ -72,6 +72,7 @@ $vtturl      = ($source === 'upload') ? videotrack_get_vtt_url((int)$cm->id) : n
 $posterurl   = videotrack_get_poster_url((int)$cm->id);
 $heartbeat   = videotrack_get_config_int('heartbeatinterval', 30, 5, 300);
 $distractionfree = !empty(get_config('mod_videotrack', 'distractionfree'));
+$notemaxlength = videotrack_get_config_int('notemaxlength', 2000, 100, 10000);
 
 // Valida intervaljson prima di passarlo al JS: garantisce array JSON valido
 // anche se il campo DB fosse corrotto o null.
@@ -121,6 +122,7 @@ $playerconfig = [
     'removenotelabel'        => get_string('removenote',         'mod_videotrack'),
     'noteerrorlabel'         => get_string('noteerrorlabel',    'mod_videotrack'),
     'charsremaininglabel'    => get_string('charsremaininglabel', 'mod_videotrack'),
+    'notemaxlength'          => $notemaxlength,
     'dismisslabel'           => get_string('dismisslabel',       'mod_videotrack'),
     'rewindlabel'            => get_string('rewindlabel',        'mod_videotrack'),
     'fastforwardlabel'       => get_string('fastforwardlabel',   'mod_videotrack'),
@@ -371,7 +373,7 @@ if (!empty($videotrack->studentnotesenabled)) {
         'id'          => 'videotrack-note-input',
         'class'       => 'form-control form-control-sm mb-1 videotrack-note-input',
         'rows'        => '3',
-        'maxlength'   => '2000',
+        'maxlength'   => (string)$notemaxlength,
         'placeholder'      => get_string('studentnote_placeholder', 'mod_videotrack'),
         'aria-describedby' => 'videotrack-note-hint videotrack-note-charcount',
     ]);
@@ -385,7 +387,7 @@ if (!empty($videotrack->studentnotesenabled)) {
         ]
     );
     // Contatore caratteri rimanenti — aggiornato in tempo reale da JS.
-    echo html_writer::tag('span', '2000 ' . get_string('charsremaininglabel', 'mod_videotrack'), [
+    echo html_writer::tag('span', $notemaxlength . ' ' . get_string('charsremaininglabel', 'mod_videotrack'), [
         'id'         => 'videotrack-note-charcount',
         'class'      => 'videotrack-note-charcount small text-muted ms-2',
         'aria-atomic'=> 'true',

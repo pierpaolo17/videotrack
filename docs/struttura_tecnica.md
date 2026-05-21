@@ -1,6 +1,6 @@
 # mod_videotrack — Guida alla struttura del codice
 
-**Versione**: 1.1.6 (build 2026070206)
+**Versione**: 1.1.7 (build 2026070207)
 **Prerequisito di lettura**: conoscenza base di Moodle (plugin system, `$DB`, `$USER`, `cm_info`) e PHP/JavaScript.
 
 ---
@@ -221,10 +221,10 @@ Un record per ogni click su un bottone reazione o per ogni nota salvata.
 
 ```php
 $plugin->component = 'mod_videotrack';
-$plugin->version   = 2026070206;
+$plugin->version   = 2026070207;
 $plugin->requires  = 2025041400; // Moodle 5.0.
 $plugin->maturity  = MATURITY_BETA;
-$plugin->release   = '1.1.6';
+$plugin->release   = '1.1.7';
 ```
 
 È il file letto da Moodle per decidere se mostrare l'upgrade dialog. `version` è un intero in formato `YYYYMMDDnn`. `requires` è la build minima di Moodle supportata.
@@ -649,7 +649,7 @@ Questi metodi sono privati perché rappresentano dettagli interni dell'anonimizz
 
 ## 5. Moduli JavaScript AMD (`amd/src/`)
 
-Tutti e tre i player sono moduli AMD Moodle (`define(['core/ajax', 'core/log'], function(Ajax, Log) { ... })`). Ricevono `config` come argomento di `init()` e non usano variabili globali.
+Tutti e tre i player sono moduli AMD Moodle. Gli entrypoint storici (`html5_player`, `player`, `vimeo_player`) ricevono `config` come argomento di `init()` e non usano variabili globali; le funzioni condivise sono state estratte in `amd/src/core/utils.js` e `amd/src/core/ui.js` per ridurre duplicazioni tra player.
 
 ### 5.1 Struttura comune a tutti i player
 
@@ -699,7 +699,28 @@ var state = {
 | `showResumeNotice(seconds)` | Banner "Riprendendo da MM:SS" con auto-dismiss |
 | `appendIconSafe(target, html)` | Inserisce HTML icona con whitelist esplicita: copia solo tag `img`/`i`/`span` e attributi `class`/`src`/`alt`/`aria-hidden` — nessun handler o attributo arbitrario può passare |
 
-### 5.2 `player.js` — YouTube IFrame API
+### 5.2 `core/utils.js` — Helper condivisi
+
+Modulo AMD condiviso usato dai tre player. Esporta helper senza stato globale persistente:
+
+| Funzione | Scopo |
+|---|---|
+| `safeInt(value, fallback)` | Converte valori provenienti da DOM/config in interi sicuri. |
+| `formatSeconds(seconds)` | Formatta timestamp come `MM:SS` o `H:MM:SS`. |
+| `fetchTextWithTimeout(url, timeoutMs)` | Recupera file VTT con timeout, `credentials: same-origin` e header AJAX. |
+| `sessionGet(key)` / `sessionSet(key, value)` | Accesso protetto a `sessionStorage`, con fallback silenzioso e debug log. |
+| `normalisePlayState(value)` | Normalizza lo stato play/pause usato dagli eventi UI. |
+
+### 5.3 `core/ui.js` — Helper UI condivisi
+
+Modulo AMD condiviso per logica visuale/accessibile riusata dai player:
+
+| Funzione | Scopo |
+|---|---|
+| `setReactionButtons(buttons, playing)` | Aggiorna `aria-disabled`, `tabindex` e invia `videotrack:playstate`. |
+| `appendIconSafe(target, html)` | Inserisce icone consentendo solo tag/attributi sicuri (`img`, `i`, `span`). |
+
+### 5.4 `player.js` — YouTube IFrame API
 
 Carica l'API YouTube (`youtube.com/iframe_api`) in modo non-bloccante con `window.onYouTubeIframeAPIReady`.
 
@@ -715,7 +736,7 @@ Carica l'API YouTube (`youtube.com/iframe_api`) in modo non-bloccante con `windo
 
 `installReactionHandler()` — in player.js è un no-op documentato: le reazioni YouTube sono già gestite da `installGlobalListeners()` via event delegation.
 
-### 5.3 `vimeo_player.js` — Vimeo Player SDK
+### 5.5 `vimeo_player.js` — Vimeo Player SDK
 
 Carica il Vimeo SDK da `player.vimeo.com/api/player.js` con `crossOrigin='anonymous'`. In caso di errore (`script.onerror`) mostra un avviso all'utente.
 
@@ -732,11 +753,11 @@ Gestione eventi Vimeo:
 
 `isProgrammaticSeek` — flag impostato a `true` prima di ogni `player.setCurrentTime()` lanciato dal codice (replay, resume). Viene resettato nella `.then()`. L'handler `seeked` controlla questo flag per ignorare seek programmatici.
 
-### 5.4 `report.js` — Modulo AMD report
+### 5.6 `report.js` — Modulo AMD report
 
 Modulo AMD leggero, caricato da `report.php` tramite `$PAGE->requires->js_call_amd()`. Inizializza i form di reset/ricalcolo con conferme basate su `core/notification`, evitando azioni distruttive via GET e JS inline.
 
-### 5.5 `html5_player.js` — Player HTML5 nativo
+### 5.7 `html5_player.js` — Player HTML5 nativo
 
 Il più complesso dei tre (~1590 righe) perché gestisce anche transcript VTT, capitoli, note studente e controlli personalizzati.
 
@@ -1141,3 +1162,10 @@ Refactor iniziale dei player AMD:
 - Rimossi fallback testuali inglesi residui dai player quando le stringhe localizzate sono già passate da `view.php`.
 - Rafforzata la mitigazione CSV formula-injection considerando anche valori con spazi iniziali.
 - Aggiornati `version.php`, `db/install.xml` e savepoint di upgrade alla build 2026070206.
+
+### Aggiornamento 1.1.7
+
+- Rigenerati i build AMD in forma compressa rispetto ai sorgenti, inclusi i moduli `core/`.
+- Aggiunta impostazione amministrativa `notemaxlength` per configurare il limite massimo delle note personali.
+- Rafforzata la gestione della contesa sui lock di `videotrack_state`: in caso di timeout viene restituito l'ultimo stato persistito senza mostrare errori AJAX allo studente.
+- Aggiornati `version.php`, `db/install.xml` e savepoint di upgrade alla build 2026070207.

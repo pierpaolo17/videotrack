@@ -20,6 +20,42 @@ class tracker {
     /** @var array Per-request cache for reaction_counts(). Keyed by "videotrackid:userid". */
     private static $reaction_counts_cache = [];
 
+
+    /**
+     * Returns the current persisted state, or a safe in-memory default when no
+     * state row exists yet. Used as a non-fatal fallback when the per-user state
+     * lock is temporarily contended.
+     *
+     * @param stdClass $videotrack Activity instance.
+     * @param cm_info $cm Course module info.
+     * @param int $userid User id.
+     * @return stdClass
+     */
+    private static function current_state_snapshot(\stdClass $videotrack, \cm_info $cm, int $userid): \stdClass {
+        global $DB;
+
+        $state = $DB->get_record('videotrack_state', ['videotrackid' => $videotrack->id, 'userid' => $userid]);
+        if ($state) {
+            return $state;
+        }
+
+        return (object)[
+            'videotrackid'         => $videotrack->id,
+            'courseid'             => $videotrack->course,
+            'cmid'                 => $cm->id,
+            'userid'               => $userid,
+            'videoid'              => $videotrack->videoid,
+            'lastposition'         => 0,
+            'durationseconds'      => (float)($videotrack->durationseconds ?? 0),
+            'uniquecoveredseconds' => 0,
+            'completionpercent'    => 0,
+            'intervaljson'         => '[]',
+            'iscompleted'          => 0,
+            'timemodified'         => time(),
+            'timecreated'          => time(),
+        ];
+    }
+
     public static function normalise_interval(float $start, float $end, float $duration = 0.0): ?array {
         if ($duration > 0) {
             $start = max(0.0, min($start, $duration));
@@ -389,7 +425,14 @@ class tracker {
         $lockkey = 'state:' . $videotrack->id . ':' . $userid;
         $lock = $lockfactory->get_lock($lockkey, 10);
         if (!$lock) {
-            throw new \moodle_exception('locktimeout', 'error');
+            // Under very high concurrency another request is already updating
+            // the same aggregate row. Avoid surfacing a lock timeout to the
+            // student; return the last committed state and let the next
+            // heartbeat/pagehide retry the write.
+            if ($segment !== null) {
+                $segmentid = 0;
+            }
+            return self::current_state_snapshot($videotrack, $cm, $userid);
         }
 
         // Transazione per serializzare scritture concorrenti (es. heartbeat + pagehide simultanei).
@@ -493,7 +536,10 @@ class tracker {
         $lockkey = 'state:' . $videotrack->id . ':' . $userid;
         $lock = $lockfactory->get_lock($lockkey, 10);
         if (!$lock) {
-            throw new \moodle_exception('locktimeout', 'error');
+            // Non-fatal fallback: completion will be refreshed by the next
+            // successful state/reaction update. This prevents transient lock
+            // contention from becoming a visible AJAX error for students.
+            return self::current_state_snapshot($videotrack, $cm, $userid);
         }
 
         $transaction = $DB->start_delegated_transaction();
