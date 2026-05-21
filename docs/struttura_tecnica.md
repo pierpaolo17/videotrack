@@ -1,6 +1,6 @@
 # mod_videotrack — Guida alla struttura del codice
 
-**Versione**: 1.1.0 (build 2026070200)
+**Versione**: 1.1.1 (build 2026070201)
 **Prerequisito di lettura**: conoscenza base di Moodle (plugin system, `$DB`, `$USER`, `cm_info`) e PHP/JavaScript.
 
 ---
@@ -221,10 +221,10 @@ Un record per ogni click su un bottone reazione o per ogni nota salvata.
 
 ```php
 $plugin->component = 'mod_videotrack';
-$plugin->version   = 2026070200;
+$plugin->version   = 2026070201;
 $plugin->requires  = 2025041400; // Moodle 5.0.
 $plugin->maturity  = MATURITY_BETA;
-$plugin->release   = '1.1.0';
+$plugin->release   = '1.1.1';
 ```
 
 È il file letto da Moodle per decidere se mostrare l'upgrade dialog. `version` è un intero in formato `YYYYMMDDnn`. `requires` è la build minima di Moodle supportata.
@@ -1080,6 +1080,12 @@ Questa scelta evita esportazioni parziali interpretate come complete e mantiene 
 - Aggiornati build AMD e metadata release a 1.0.73 / 2026070111.
 
 
+### Aggiornamento 1.1.1
+
+- Aggiunti i moduli AMD condivisi `amd/src/core/utils.js` e `amd/src/core/ui.js`, con i rispettivi build in `amd/build/core/`.
+- Ripristinata la risoluzione delle dipendenze AMD introdotte nel refactor 1.1.0.
+- Aggiornati metadata release a 1.1.1 / 2026070201.
+
 ### Aggiornamento 1.1.0
 
 - Separata definitivamente la semantica di cancellazione note/reazioni: `delete_reaction` accetta solo reazioni standard, mentre `delete_note` gestisce solo note personali.
@@ -1090,7 +1096,7 @@ Questa scelta evita esportazioni parziali interpretate come complete e mantiene 
 - Aggiornati build AMD e metadata release a 1.1.0 / 2026070200.
 
 
-### Versione 1.1.0 / build 2026070200
+### Versione 1.1.1 / build 2026070201
 
 Refactor iniziale dei player AMD:
 - introdotti `amd/src/core/utils.js` e `amd/src/core/ui.js`;
