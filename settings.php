@@ -167,6 +167,15 @@ if ($ADMIN->fulltree) {
         0
     ));
 
+    $settings->add(new \mod_videotrack\admin\setting_int_range(
+        'mod_videotrack/notemaxlength',
+        get_string('setting:notemaxlength', 'mod_videotrack'),
+        get_string('setting:notemaxlength_desc', 'mod_videotrack'),
+        2000,
+        100,
+        10000
+    ));
+
     // Default player behaviour.
 
     $settings->add(new admin_setting_heading(

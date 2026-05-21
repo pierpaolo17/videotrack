@@ -1346,7 +1346,7 @@ define(['core/ajax', 'core/log', 'mod_videotrack/core/utils', 'mod_videotrack/co
         function getRemainingNoteChars(textarea) {
             var maxLength = parseInt(textarea.getAttribute('maxlength'), 10);
             if (!isFinite(maxLength) || maxLength <= 0) {
-                maxLength = 2000;
+                maxLength = Utils.safeInt(config.notemaxlength, 2000);
             }
             return Math.max(0, maxLength - textarea.value.length);
         }

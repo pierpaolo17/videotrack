@@ -847,5 +847,10 @@ function xmldb_videotrack_upgrade($oldversion) {
         upgrade_mod_savepoint(true, 2026070206, 'videotrack');
     }
 
+    if ($oldversion < 2026070207) {
+        // 1.1.7: AMD build minification, note length setting and lock contention hardening. No schema changes.
+        upgrade_mod_savepoint(true, 2026070207, 'videotrack');
+    }
+
     return true;
 }

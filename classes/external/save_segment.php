@@ -132,9 +132,21 @@ class save_segment extends external_api {
         $segmentid = null;
         $state = tracker::update_state($videotrack, $cm, (int)$USER->id, $interval, $interval[1], $segment, $segmentid);
 
+        if ($segmentid === 0) {
+            return [
+                'accepted'             => false,
+                'uniquecoveredseconds' => (float)$state->uniquecoveredseconds,
+                'completionpercent'    => (float)$state->completionpercent,
+                'iscompleted'          => (bool)$state->iscompleted,
+                'intervaljson'         => (string)($state->intervaljson ?? '[]'),
+                'durationseconds'      => (float)($state->durationseconds ?? 0),
+                'warnings'             => [],
+            ];
+        }
+
         // Logga solo azioni significative — non il heartbeat (genera troppi log).
         $loggable = ['pause', 'seek', 'ended', 'beforeunload', 'pagehide'];
-        if (in_array($params['endreason'], $loggable, true)) {
+        if ($segmentid !== null && in_array($params['endreason'], $loggable, true)) {
             $event = segment_saved::create([
                 'objectid' => $segmentid,
                 'context'  => $context,

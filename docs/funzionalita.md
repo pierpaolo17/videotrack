@@ -1,6 +1,6 @@
 # mod_videotrack — Funzionalità e potenzialità
 
-**Versione**: 1.1.6 (build 2026070206)
+**Versione**: 1.1.7 (build 2026070207)
 **Compatibilità**: Moodle 5.0+
 **Lingue incluse**: Italiano, Inglese, Tedesco, Spagnolo, Francese, Portoghese, Hindi, Polacco
 
@@ -99,7 +99,7 @@ Il sistema impedisce il salvataggio di reazioni duplicate: se lo studente clicca
 Quando il docente abilita le note (configurable anche come default a livello di piattaforma), nella sidebar compare un pannello collassabile con una textarea.
 
 Lo studente può:
-- Scrivere testo libero (max 2000 caratteri)
+- Scrivere testo libero (limite configurabile, 2000 caratteri per impostazione predefinita)
 - Salvare la nota al **timestamp corrente del video** (il video continua a girare durante la digitazione)
 - Vedere l'elenco di tutte le note scritte, con timestamp e testo
 - Eliminare singole note

@@ -32,7 +32,7 @@ class save_note extends external_api {
             'cmid'        => new external_value(PARAM_INT,   'Course module ID'),
             'sessionid'   => new external_value(PARAM_ALPHANUMEXT, 'Session UUID'),
             'videotime'   => new external_value(PARAM_FLOAT, 'Video timestamp in seconds'),
-            'notetext'    => new external_value(PARAM_TEXT,  'Note text (max 2000 chars)'),
+            'notetext'    => new external_value(PARAM_TEXT,  'Note text'),
             'playbackrate'=> new external_value(PARAM_FLOAT, 'Playback rate at time of note', VALUE_DEFAULT, 1.0),
         ]);
     }
@@ -63,8 +63,9 @@ class save_note extends external_api {
             throw new \moodle_exception('studentnotesdisabled', 'mod_videotrack');
         }
 
-        // Sanitize: tronca a 2000 caratteri per evitare abusi.
-        $text = \core_text::substr(trim($params['notetext']), 0, 2000);
+        // Sanitize: tronca al limite configurato per evitare abusi.
+        $notemaxlength = \videotrack_get_config_int('notemaxlength', 2000, 100, 10000);
+        $text = \core_text::substr(trim($params['notetext']), 0, $notemaxlength);
         if ($text === '') {
             throw new \moodle_exception('invaliddata', 'error');
         }
