@@ -1,6 +1,6 @@
 # mod_videotrack — Guida alla struttura del codice
 
-**Versione**: 1.1.2 (build 2026070202)
+**Versione**: 1.1.3 (build 2026070203)
 **Prerequisito di lettura**: conoscenza base di Moodle (plugin system, `$DB`, `$USER`, `cm_info`) e PHP/JavaScript.
 
 ---
@@ -221,10 +221,10 @@ Un record per ogni click su un bottone reazione o per ogni nota salvata.
 
 ```php
 $plugin->component = 'mod_videotrack';
-$plugin->version   = 2026070202;
+$plugin->version   = 2026070203;
 $plugin->requires  = 2025041400; // Moodle 5.0.
 $plugin->maturity  = MATURITY_BETA;
-$plugin->release   = '1.1.2';
+$plugin->release   = '1.1.3';
 ```
 
 È il file letto da Moodle per decidere se mostrare l'upgrade dialog. `version` è un intero in formato `YYYYMMDDnn`. `requires` è la build minima di Moodle supportata.
@@ -1080,6 +1080,14 @@ Questa scelta evita esportazioni parziali interpretate come complete e mantiene 
 - Aggiornati build AMD e metadata release a 1.0.73 / 2026070111.
 
 
+### Aggiornamento 1.1.3
+
+- Validazione difensiva di `intervaljson` in `tracker::decode_intervals()`.
+- Rate limit anti-spam per note e reazioni ora considera anche record soft-deleted nella finestra temporale.
+- Aggiornato il commento di `cap_intervals()` per riflettere la perdita controllata di precisione.
+- Rafforzati gli helper AMD core con playstate booleano e header AJAX esplicito nei fetch VTT.
+- Aggiornati metadata release a 1.1.3 / 2026070203.
+
 ### Aggiornamento 1.1.2
 
 - Corretto `sessionGet()` nei moduli AMD core: ora restituisce un valore sincrono coerente con `sessionStorage`.
@@ -1104,7 +1112,7 @@ Questa scelta evita esportazioni parziali interpretate come complete e mantiene 
 - Aggiornati build AMD e metadata release a 1.1.0 / 2026070200.
 
 
-### Versione 1.1.2 / build 2026070202
+### Versione 1.1.3 / build 2026070203
 
 Refactor iniziale dei player AMD:
 - introdotti `amd/src/core/utils.js` e `amd/src/core/ui.js`;

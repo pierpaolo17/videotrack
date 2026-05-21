@@ -39,7 +39,21 @@ class tracker {
             return [];
         }
         $data = json_decode($json, true);
-        return is_array($data) ? $data : [];
+        if (!is_array($data)) {
+            return [];
+        }
+
+        $intervals = [];
+        foreach ($data as $interval) {
+            if (!is_array($interval) || count($interval) < 2 || !is_numeric($interval[0]) || !is_numeric($interval[1])) {
+                continue;
+            }
+            $normalised = self::normalise_interval((float)$interval[0], (float)$interval[1]);
+            if ($normalised !== null) {
+                $intervals[] = $normalised;
+            }
+        }
+        return $intervals;
     }
 
     public static function encode_intervals(array $intervals): string {
@@ -65,8 +79,10 @@ class tracker {
     }
 
     /**
-     * Se il numero di intervalli supera MAX_INTERVALS, semplifica unendo
-     * quelli con il gap minore tra loro, preservando la copertura totale.
+     * Se il numero di intervalli supera MAX_INTERVALS, semplifica conservando
+     * gli intervalli piu' lunghi e scartando frammenti minori. Questo evita di
+     * inventare copertura guardata fondendo gap non visti, al costo di una
+     * perdita controllata di precisione nei casi estremi.
      */
     public static function cap_intervals(array $intervals): array {
         if (count($intervals) <= self::MAX_INTERVALS) {
