@@ -424,8 +424,8 @@
 
 .videotrack-html5-controls button,
 .videotrack-html5-controls .videotrack-ctrl-download {
-    min-width: 24px;
-    min-height: 24px;
+    min-width: 44px;
+    min-height: 44px;
 }
 
 /* Progress bar: stretches to fill available space */
@@ -464,9 +464,10 @@
     border: 1px solid rgba(255,255,255,0.3);
     color: #fff;
     font-size: 0.9rem;
-    min-width: 32px;
-    padding: 0.2rem 0.45rem;
-    line-height: 1;
+    min-width: 44px;
+    min-height: 44px;
+    padding: 0.35rem 0.55rem;
+    line-height: 1.2;
 }
 
 .videotrack-ctrl-play:hover,
@@ -485,8 +486,9 @@
     border: 1px solid rgba(255,255,255,0.3);
     color: #fff;
     font-size: 0.75rem;
-    min-width: 36px;
-    padding: 0.15rem 0.3rem;
+    min-width: 44px;
+    min-height: 44px;
+    padding: 0.35rem 0.45rem;
 }
 
 .videotrack-html5-controls .videotrack-speed-btn.active {
