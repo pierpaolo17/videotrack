@@ -26,7 +26,7 @@ videotrack/
 │   ├── src/               # Sorgenti leggibili da sviluppatori
 │   │   ├── player.js          # Player YouTube IFrame API (~937 righe)
 │   │   ├── vimeo_player.js    # Player Vimeo SDK (~915 righe)
-│   │   ├── html5_player.js    # Player HTML5 nativo (~1327 righe)
+│   │   ├── html5_player.js    # Player HTML5 nativo (~1590 righe)
 │   │   ├── presets.js         # UI gestione preset (~80 righe)
 │   │   └── report.js          # Modulo AMD report: conferma reset studente
 │   └── build/             # File .min.js compatti generati dai sorgenti AMD
@@ -737,7 +737,7 @@ Modulo AMD leggero, caricato da `report.php` tramite `$PAGE->requires->js_call_a
 
 ### 5.5 `html5_player.js` — Player HTML5 nativo
 
-Il più complesso dei tre (1327 righe) perché gestisce anche transcript VTT, capitoli e controlli personalizzati.
+Il più complesso dei tre (~1590 righe) perché gestisce anche transcript VTT, capitoli, note studente e controlli personalizzati.
 
 `buildPlayer()`:
 1. Check `config.videourl` — se vuoto mostra avviso e return
@@ -757,15 +757,21 @@ Il più complesso dei tre (1327 righe) perché gestisce anche transcript VTT, ca
 - `timeupdate` — aggiorna `lasttime`, gestisce fine replay
 - `ratechange` — enforce maxplaybackrate
 
-`buildCustomControls()` — crea una barra controlli custom HTML (play/pause, skip, progresso, velocità, volume, fullscreen) usando DOM API, accessibile con `aria-label` e `role`.
+`buildCustomControls()` — crea una barra controlli custom HTML (play/pause, skip, progresso, velocità, volume, fullscreen) usando DOM API, accessibile con `aria-label`, `aria-valuetext`, `aria-valuenow` e `role`. Lo slider volume usa scala 0–100, step 5 e normalizza il valore iniziale al multiplo di step più vicino per evitare salti percettivi alla prima interazione keyboard.
 
-`loadTranscript()` — fetch del VTT, parsing con `parseVTT()`, rendering con `renderTranscript()`, sincronizzazione con `syncTranscript()`.
+`loadTranscript()` — fetch del VTT tramite `fetchTextWithTimeout(url)` con timeout fisso di 10 secondi, parsing con `parseVTT()`, rendering con `renderTranscript()`, sincronizzazione con `syncTranscript()`.
 
 `parseVTT(text)` — parser WebVTT puro in JavaScript. Supporta timestamp in formato `HH:MM:SS.mmm` e `MM:SS.mmm`. Stripping tag HTML nelle cue. Restituisce array `[{start, end, text}]`.
 
-`buildChaptersBar()` — fetch dello stesso VTT, filtra le cue con testo ≤ 80 caratteri (titoli capitolo), crea la barra con bottoni. Sync capitolo attivo su `timeupdate`.
+`buildChaptersBar()` — fetch dello stesso VTT tramite `fetchTextWithTimeout(url)`, filtra le cue con testo ≤ 80 caratteri (titoli capitolo), crea la barra con bottoni. Sync capitolo attivo su `timeupdate`.
 
 `isProgrammaticSeek` — flag specifico di html5_player (analogo al Vimeo), necessario perché `seeking` è asincrono rispetto all'assegnazione di `media.currentTime`. Impostato a `true` prima di ogni seek programmatico (replay, capitoli, resume), resettato nell'handler `seeked`.
+
+`fetchTextWithTimeout(url)` — helper per caricamenti testuali VTT: usa `AbortController` quando disponibile e fallback con `Promise.race()` dove non disponibile.
+
+`fsWrapper` — riferimento al wrapper del player corrente usato dalla gestione fullscreen per evitare che più player nella stessa pagina condividano impropriamente lo stato `aria-pressed`.
+
+Transcript seek — il click su una cue usa il pattern `wasPlaying`: memorizza se il media era in riproduzione e riparte solo in quel caso, così un seek da pausa resta in pausa.
 
 ---
 
@@ -998,6 +1004,13 @@ Questa scelta evita esportazioni parziali interpretate come complete e mantiene 
 - Corretti errori fattuali nella documentazione: algoritmo reale di `simplify_intervals`, ordine di esecuzione di `save_reaction`, numerazione AMD e mappa directory `classes/event`.
 - Aggiunto savepoint di upgrade senza modifica schema per tracciare il rilascio documentale.
 
+
+### Aggiornamento 1.0.68
+
+- Normalizzato il valore iniziale dello slider volume HTML5 al multiplo di step più vicino e inizializzato `aria-valuenow`.
+- Il contatore caratteri delle note usa il `maxlength` reale della textarea invece di un valore hardcoded nel reset post-salvataggio.
+- Aggiornata la documentazione tecnica del player HTML5 con funzioni/helper introdotti nelle ultime release.
+- Allineati `version.php`, `db/install.xml` e savepoint alla build 2026070106.
 
 ### Aggiornamento 1.0.67
 

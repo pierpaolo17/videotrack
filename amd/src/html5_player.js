@@ -505,11 +505,14 @@ define(['core/ajax', 'core/log'], function(Ajax, Log) {
             volSlider.min   = '0';
             volSlider.max   = '100';
             volSlider.step  = '5';
-            volSlider.value = media.muted ? '0' : String(Math.round(media.volume * 100));
+            var initialVolumePercent = media.muted ? 0 : Math.round(media.volume * 100 / 5) * 5;
+            initialVolumePercent = Math.max(0, Math.min(100, initialVolumePercent));
+            volSlider.value = String(initialVolumePercent);
             volSlider.setAttribute('aria-label', config.html5volumelabel || 'Volume');
             volSlider.setAttribute('aria-valuemin', '0');
             volSlider.setAttribute('aria-valuemax', '100');
-            volSlider.setAttribute('aria-valuetext', volSlider.value + '%');
+            volSlider.setAttribute('aria-valuenow', String(initialVolumePercent));
+            volSlider.setAttribute('aria-valuetext', initialVolumePercent + '%');
             volSlider.addEventListener('input', function() {
                 var volumePercent = Math.max(0, Math.min(100, parseFloat(volSlider.value) || 0));
                 media.volume = volumePercent / 100;
@@ -1384,7 +1387,7 @@ define(['core/ajax', 'core/log'], function(Ajax, Log) {
                     // Aggiorna il contatore.
                     var panel = document.getElementById('videotrack-notes-panel');
                     var hint  = panel ? panel.querySelector('.videotrack-note-charcount') : null;
-                    if (hint) { hint.textContent = '2000 ' + (config.charsremaininglabel || 'chars remaining'); }
+                    if (hint) { hint.textContent = getRemainingNoteChars(textarea) + ' ' + (config.charsremaininglabel || 'chars remaining'); }
                     textarea.focus();
                 }
             }).catch(function() {
@@ -1421,9 +1424,17 @@ define(['core/ajax', 'core/log'], function(Ajax, Log) {
             }).catch(function() {});
         });
 
+        function getRemainingNoteChars(textarea) {
+            var maxLength = parseInt(textarea.getAttribute('maxlength'), 10);
+            if (!isFinite(maxLength) || maxLength <= 0) {
+                maxLength = 2000;
+            }
+            return Math.max(0, maxLength - textarea.value.length);
+        }
+
         // Conta caratteri rimanenti (feedback accessibile).
         textarea.addEventListener('input', function() {
-            var remaining = 2000 - textarea.value.length;
+            var remaining = getRemainingNoteChars(textarea);
             // Il charcount span è dopo il bottone Salva, non direttamente dopo la textarea.
             var panel = document.getElementById('videotrack-notes-panel');
             var hint  = panel ? panel.querySelector('.videotrack-note-charcount') : null;

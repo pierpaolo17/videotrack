@@ -770,5 +770,11 @@ function xmldb_videotrack_upgrade($oldversion) {
         upgrade_mod_savepoint(true, 2026070105, 'videotrack');
     }
 
+
+    if ($oldversion < 2026070106) {
+        // v1.0.68: HTML5 volume initial state, note counter and documentation refinements. No schema changes.
+        upgrade_mod_savepoint(true, 2026070106, 'videotrack');
+    }
+
     return true;
 }
