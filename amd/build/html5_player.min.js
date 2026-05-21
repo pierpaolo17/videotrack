@@ -397,7 +397,7 @@ define(['core/ajax', 'core/log', 'mod_videotrack/core/utils', 'mod_videotrack/co
                 && config.allowseekbackward !== false) {
             var rwBtn = makeBtn('videotrack-ctrl-rewind',
                 '⏪ ' + config.rewindstep + 's',
-                (config.rewindlabel || 'Rewind') + ' ' + config.rewindstep + ' ' + (config.secondslabel || 'seconds'));
+                config.rewindlabel + ' ' + config.rewindstep + ' ' + config.secondslabel);
             rwBtn.addEventListener('click', function() {
                 media.currentTime = Math.max(0, media.currentTime - config.rewindstep);
             });
@@ -412,7 +412,7 @@ define(['core/ajax', 'core/log', 'mod_videotrack/core/utils', 'mod_videotrack/co
                 && config.allowseekforward !== false) {
             var ffBtn = makeBtn('videotrack-ctrl-ff',
                 config.fastforwardstep + 's ⏩',
-                (config.fastforwardlabel || 'Fast-forward') + ' ' + config.fastforwardstep + ' ' + (config.secondslabel || 'seconds'));
+                config.fastforwardlabel + ' ' + config.fastforwardstep + ' ' + config.secondslabel);
             ffBtn.addEventListener('click', function() {
                 media.currentTime = Math.min(
                     state.duration || media.duration || 1e9,

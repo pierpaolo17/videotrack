@@ -842,5 +842,10 @@ function xmldb_videotrack_upgrade($oldversion) {
         upgrade_mod_savepoint(true, 2026070205, 'videotrack');
     }
 
+    if ($oldversion < 2026070206) {
+        // 1.1.6: UI i18n fallbacks, CSV export hardening and minor JS cleanup. No schema changes.
+        upgrade_mod_savepoint(true, 2026070206, 'videotrack');
+    }
+
     return true;
 }
