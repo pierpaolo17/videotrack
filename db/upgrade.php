@@ -803,5 +803,11 @@ function xmldb_videotrack_upgrade($oldversion) {
         upgrade_mod_savepoint(true, 2026070111, 'videotrack');
     }
 
+
+    if ($oldversion < 2026070112) {
+        // v1.0.74: reaction/note delete semantics, privacy metadata cleanup and JS diagnostics. No schema changes.
+        upgrade_mod_savepoint(true, 2026070112, 'videotrack');
+    }
+
     return true;
 }

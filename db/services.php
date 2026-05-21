@@ -35,7 +35,7 @@ $functions = [
     ],
 
     'mod_videotrack_delete_note' => [
-        'classname' => 'mod_videotrack\external\delete_note',
+        'classname' => 'mod_videotrack\\external\\delete_note',
         'methodname' => 'execute',
         'classpath' => '',
         'description' => 'Delete a personal note from current user.',

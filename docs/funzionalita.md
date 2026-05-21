@@ -104,7 +104,7 @@ Lo studente può:
 - Vedere l'elenco di tutte le note scritte, con timestamp e testo
 - Eliminare singole note
 
-Il pannello è collassabile con toggle show/hide; la preferenza viene salvata in `sessionStorage` per la durata della sessione browser.
+Il pannello è collassabile con toggle show/hide; la preferenza viene salvata in `sessionStorage` per la durata della sessione browser. Questa preferenza resta locale al browser e non viene inviata al server o a servizi esterni.
 
 Le note sono **private**: solo lo studente che le ha scritte può vederle (e il docente nel report dedicato). Non vengono mai mostrate ad altri studenti.
 

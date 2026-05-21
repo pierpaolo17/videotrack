@@ -15,7 +15,7 @@ global $CFG;
 require_once($CFG->dirroot . '/mod/videotrack/lib.php');
 
 /**
- * External function that soft-deletes a reaction or personal note owned by the current user.
+ * External function that soft-deletes a standard reaction owned by the current user.
  *
  * @package    mod_videotrack
  * @copyright  2026
@@ -35,13 +35,13 @@ class delete_reaction extends external_api {
     }
 
     /**
-     * Soft-deletes a reaction or note owned by the current user.
+     * Soft-deletes a standard reaction owned by the current user.
      *
      * Repeated calls for an already deleted record are idempotent and do not
      * create duplicate Moodle log events.
      *
      * @param int $cmid Course module id.
-     * @param int $reactioneventid Reaction/note event id.
+     * @param int $reactioneventid Reaction event id.
      * @return array
      */
     public static function execute(int $cmid, int $reactioneventid): array {
@@ -56,10 +56,14 @@ class delete_reaction extends external_api {
         $context = \context_module::instance($cm->id);
         self::validate_context($context);
         require_capability('mod/videotrack:view', $context);
-        $event = $DB->get_record('videotrack_reactev', ['id' => $params['reactioneventid'], 'userid' => $USER->id, 'videotrackid' => $videotrack->id], '*', MUST_EXIST);
-        // Le note personali (notetype='note') non contribuiscono al completamento:
-        // ricalcoliamo solo se si tratta di una reazione standard.
-        $isnote = ($event->notetype ?? '') === 'note';
+        $event = $DB->get_record_select('videotrack_reactev',
+            'id = :id AND userid = :userid AND videotrackid = :videotrackid AND (notetype IS NULL OR notetype <> :notetype)',
+            [
+                'id' => $params['reactioneventid'],
+                'userid' => $USER->id,
+                'videotrackid' => $videotrack->id,
+                'notetype' => 'note',
+            ], '*', MUST_EXIST);
 
         if (empty($event->isdeleted)) {
             $event->isdeleted = 1;
@@ -79,24 +83,15 @@ class delete_reaction extends external_api {
             $moodleevent->trigger();
         }
 
-        if (!$isnote) {
-            // B5 fix: reaction_counts is called once here, before refresh_completion.
-            // refresh_completion calls it internally too, but we need the count for the
-            // response. Calling it before avoids a third redundant call after the block.
-            $summary = tracker::reaction_counts($videotrack->id, (int)$USER->id);
-            $state = tracker::refresh_completion($videotrack, $cm, (int)$USER->id);
-            $completion = new \completion_info($course);
-            $completion->update_state($cm,
-                $state->iscompleted ? COMPLETION_COMPLETE : COMPLETION_INCOMPLETE, (int)$USER->id);
-            $iscompleted = (bool)$state->iscompleted;
-        } else {
-            // Notes do not affect completion: skip refresh_completion entirely.
-            // reaction_counts is still needed for the response uniquereactions field.
-            $summary = tracker::reaction_counts($videotrack->id, (int)$USER->id);
-            $state = $DB->get_record('videotrack_state',
-                ['videotrackid' => $videotrack->id, 'userid' => (int)$USER->id]);
-            $iscompleted = !empty($state->iscompleted);
-        }
+        // B5 fix: reaction_counts is called once here, before refresh_completion.
+        // refresh_completion calls it internally too, but we need the count for the
+        // response. Calling it before avoids a third redundant call after the block.
+        $summary = tracker::reaction_counts($videotrack->id, (int)$USER->id);
+        $state = tracker::refresh_completion($videotrack, $cm, (int)$USER->id);
+        $completion = new \completion_info($course);
+        $completion->update_state($cm,
+            $state->iscompleted ? COMPLETION_COMPLETE : COMPLETION_INCOMPLETE, (int)$USER->id);
+        $iscompleted = (bool)$state->iscompleted;
         return [
             'deleted'         => true,
             'uniquereactions' => $summary['uniquecount'],

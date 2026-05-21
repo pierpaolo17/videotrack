@@ -105,6 +105,7 @@ $string['setting:default_completionpercent_desc'] = 'Domyślny minimalny procent
 $string['event:segment_saved'] = 'Zapisano segment oglądania';
 $string['event:reaction_saved'] = 'Przesłano reakcję';
 $string['event:note_saved'] = 'Zapisano notatkę studenta';
+$string['event:note_deleted'] = 'Usunięto osobistą notatkę';
 $string['event:reaction_deleted'] = 'Usunięto reakcję';
 
 $string['reactionx'] = 'Reakcja {$a}';

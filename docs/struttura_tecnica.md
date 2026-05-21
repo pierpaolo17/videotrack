@@ -1,6 +1,6 @@
 # mod_videotrack — Guida alla struttura del codice
 
-**Versione**: 1.0.73 (build 2026070111)
+**Versione**: 1.0.74 (build 2026070112)
 **Prerequisito di lettura**: conoscenza base di Moodle (plugin system, `$DB`, `$USER`, `cm_info`) e PHP/JavaScript.
 
 ---
@@ -221,10 +221,10 @@ Un record per ogni click su un bottone reazione o per ogni nota salvata.
 
 ```php
 $plugin->component = 'mod_videotrack';
-$plugin->version   = 2026070111;
+$plugin->version   = 2026070112;
 $plugin->requires  = 2025041400; // Moodle 5.0.
 $plugin->maturity  = MATURITY_BETA;
-$plugin->release   = '1.0.73';
+$plugin->release   = '1.0.74';
 ```
 
 È il file letto da Moodle per decidere se mostrare l'upgrade dialog. `version` è un intero in formato `YYYYMMDDnn`. `requires` è la build minima di Moodle supportata.
@@ -1078,3 +1078,13 @@ Questa scelta evita esportazioni parziali interpretate come complete e mantiene 
 - Aggiunti `setType(..., PARAM_BOOL)` alle checkbox principali del form Moodle.
 - Migliorato il logging tecnico dei catch JS silenziosi senza mostrare errori non necessari all’utente.
 - Aggiornati build AMD e metadata release a 1.0.73 / 2026070111.
+
+
+### Aggiornamento 1.0.74
+
+- Separata definitivamente la semantica di cancellazione note/reazioni: `delete_reaction` accetta solo reazioni standard, mentre `delete_note` gestisce solo note personali.
+- Aggiunto evento Moodle dedicato `note_deleted` per audit log più chiaro.
+- Rimossa la dichiarazione di `sessionStorage` come external location privacy: resta documentata come preferenza UI temporanea lato browser, non come servizio esterno.
+- Uniformata la registrazione del servizio AJAX `delete_note`.
+- Aggiunti log debug per errori di accesso a `sessionStorage` nei player HTML5, YouTube e Vimeo.
+- Aggiornati build AMD e metadata release a 1.0.74 / 2026070112.

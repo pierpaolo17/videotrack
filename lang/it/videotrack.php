@@ -103,6 +103,7 @@ $string['setting:default_completionpercent_desc'] = 'Percentuale minima predefin
 $string['event:segment_saved'] = 'Segmento di visione salvato';
 $string['event:reaction_saved'] = 'Reazione inviata';
 $string['event:note_saved'] = 'Nota studente salvata';
+$string['event:note_deleted'] = 'Nota personale eliminata';
 $string['event:reaction_deleted'] = 'Reazione eliminata';
 
 $string['reactionx'] = 'Reazione {$a}';
