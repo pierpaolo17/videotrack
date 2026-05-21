@@ -820,5 +820,10 @@ function xmldb_videotrack_upgrade($oldversion) {
         upgrade_mod_savepoint(true, 2026070201, 'videotrack');
     }
 
+    if ($oldversion < 2026070202) {
+        // 1.1.2: JavaScript core utility fixes and event/endpoint cleanup. No schema changes.
+        upgrade_mod_savepoint(true, 2026070202, 'videotrack');
+    }
+
     return true;
 }

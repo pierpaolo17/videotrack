@@ -6,7 +6,6 @@ use core_external\external_function_parameters;
 use core_external\external_single_structure;
 use core_external\external_value;
 use core_external\external_warnings;
-use mod_videotrack\local\tracker;
 use mod_videotrack\event\note_deleted;
 
 defined('MOODLE_INTERNAL') || die();
@@ -71,8 +70,6 @@ class delete_note extends external_api {
             $event->isdeleted = 1;
             $event->timemodified = time();
             $DB->update_record('videotrack_reactev', $event);
-            tracker::invalidate_reaction_counts_cache($videotrack->id, (int)$USER->id);
-
             $moodleevent = note_deleted::create([
                 'objectid' => $event->id,
                 'context' => $context,
@@ -83,7 +80,6 @@ class delete_note extends external_api {
             $moodleevent->trigger();
         }
 
-        $summary = tracker::reaction_counts($videotrack->id, (int)$USER->id);
         $state = $DB->get_record('videotrack_state', [
             'videotrackid' => $videotrack->id,
             'userid' => (int)$USER->id,
@@ -91,7 +87,6 @@ class delete_note extends external_api {
 
         return [
             'deleted' => true,
-            'uniquereactions' => $summary['uniquecount'],
             'iscompleted' => !empty($state->iscompleted),
             'warnings' => [],
         ];
@@ -105,7 +100,6 @@ class delete_note extends external_api {
     public static function execute_returns(): external_single_structure {
         return new external_single_structure([
             'deleted' => new external_value(PARAM_BOOL, 'Deleted'),
-            'uniquereactions' => new external_value(PARAM_INT, 'Unique reaction count'),
             'iscompleted' => new external_value(PARAM_BOOL, 'Completion status'),
             'warnings' => new external_warnings(),
         ]);
