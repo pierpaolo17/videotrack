@@ -358,13 +358,17 @@ if (!empty($videotrack->studentnotesenabled)) {
         'data-collapsed' => '0',  // JS sovrascrive con valore da sessionStorage.
     ]);
     // Textarea + bottone Salva — gestita da JS.
+    echo html_writer::tag('label', get_string('studentnotes_title', 'mod_videotrack'), [
+        'for'   => 'videotrack-note-input',
+        'class' => 'form-label small mb-1 videotrack-note-label',
+    ]);
     echo html_writer::tag('textarea', '', [
         'id'          => 'videotrack-note-input',
         'class'       => 'form-control form-control-sm mb-1 videotrack-note-input',
         'rows'        => '3',
         'maxlength'   => '2000',
-        'placeholder' => get_string('studentnote_placeholder', 'mod_videotrack'),
-        'aria-label'  => get_string('studentnotes_title', 'mod_videotrack'),
+        'placeholder'      => get_string('studentnote_placeholder', 'mod_videotrack'),
+        'aria-describedby' => 'videotrack-note-hint videotrack-note-charcount',
     ]);
     echo html_writer::tag('button',
         get_string('studentnote_save', 'mod_videotrack'),

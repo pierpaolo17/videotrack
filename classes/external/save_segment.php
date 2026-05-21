@@ -93,12 +93,10 @@ class save_segment extends external_api {
         );
         $isfirstsegment = empty($lasttimecreated);
         $serverspan = $isfirstsegment ? $heartbeat : max(0, $now - (int)$lasttimecreated);
-        // B1 fix: il ternario '? 10 : 10' era dead code: entrambi i rami restituivano 10.
-        // La tolleranza è 10 secondi per tutti i segmenti: sufficiente per assorbire
-        // lo scarto tra browser e server senza aprire una finestra ampia nella
-        // validazione dell'integrità accademica. I primi segmenti usano già
-        // $serverspan = $heartbeat, quindi non richiedono una tolleranza maggiore.
-        $servergrace = 10;
+        // Il primo segmento non ha ancora un riferimento server precedente: usa
+        // comunque heartbeat come finestra massima, ma con una grace ridotta per
+        // non accreditare heartbeat+10 secondi in una chiamata diretta iniziale.
+        $servergrace = $isfirstsegment ? 2 : 10;
         $serverallowedvideo = max(2.0, ($serverspan + $servergrace) * $playbackrate);
         if ($videoduration > 2.0 && $videoduration > $serverallowedvideo) {
             // Segmento sospetto: rigettato silenziosamente senza registrare dettagli temporali comportamentali.

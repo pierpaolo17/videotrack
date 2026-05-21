@@ -1243,7 +1243,11 @@ define(['core/ajax', 'core/log'], function(Ajax, Log) {
                     var panelRect = panel.getBoundingClientRect();
                     var elRect    = el.getBoundingClientRect();
                     if (elRect.top < panelRect.top || elRect.bottom > panelRect.bottom) {
-                        el.scrollIntoView({ block: 'nearest', behavior: 'smooth' });
+                        var scrollOptions = { block: 'nearest' };
+                        if (!prefersReducedMotion()) {
+                            scrollOptions.behavior = 'smooth';
+                        }
+                        el.scrollIntoView(scrollOptions);
                     }
                 }
             });
@@ -1254,6 +1258,11 @@ define(['core/ajax', 'core/log'], function(Ajax, Log) {
     /** Restituisce il timestamp video corrente per il player HTML5. */
     function getCurrentVideoTime() {
         return media ? media.currentTime : (state.lasttime || 0);
+    }
+
+    /** Restituisce true se l'utente ha richiesto animazioni ridotte. */
+    function prefersReducedMotion() {
+        return !!(window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches);
     }
 
 
@@ -1498,10 +1507,14 @@ define(['core/ajax', 'core/log'], function(Ajax, Log) {
             btn.appendChild(textSpan);
             btn.addEventListener('click', function() {
                 // Seek al capitolo (usa isSeeking per non far scattare il blocco anti-skip).
+                // Mantiene lo stato precedente: se il video era in pausa, il click non avvia la riproduzione.
+                var wasPlaying = state.playing && !media.paused;
                 state.isProgrammaticSeek = true;
                 media.currentTime = ch.start;
                 state.lasttime    = ch.start;
-                media.play().catch(function() {}); // Catch autoplay policy rejection.
+                if (wasPlaying) {
+                    media.play().catch(function() {}); // Catch autoplay policy rejection.
+                }
                 // Aggiorna stato attivo.
                 bar.querySelectorAll('.videotrack-chapter-btn').forEach(function(b) {
                     b.classList.toggle('videotrack-chapter-active', b === btn);
