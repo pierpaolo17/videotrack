@@ -135,13 +135,22 @@ class provider implements
                 if (!empty($state->intervaljson)) {
                     $intervals = json_decode($state->intervaljson, true);
                     if (is_array($intervals)) {
-                        $readable = array_map(function($seg) {
-                            $fmt = function($s) {
-                                $s = (int)round($s);
-                                return sprintf('%d:%02d', intdiv($s, 60), $s % 60);
-                            };
-                            return $fmt($seg[0]) . '-' . $fmt($seg[1]);
-                        }, $intervals);
+                        $fmt = function($s) {
+                            $s = (int)round(max(0, (float)$s));
+                            return sprintf('%d:%02d', intdiv($s, 60), $s % 60);
+                        };
+                        $readable = [];
+                        foreach ($intervals as $seg) {
+                            if (!is_array($seg) || count($seg) < 2 || !is_numeric($seg[0]) || !is_numeric($seg[1])) {
+                                continue;
+                            }
+                            $start = (float)$seg[0];
+                            $end = (float)$seg[1];
+                            if ($end <= $start) {
+                                continue;
+                            }
+                            $readable[] = $fmt($start) . '-' . $fmt($end);
+                        }
                         $state->intervaljson = implode(', ', $readable);
                     }
                 }

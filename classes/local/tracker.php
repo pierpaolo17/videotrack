@@ -364,6 +364,18 @@ class tracker {
     public static function update_state(\stdClass $videotrack, \cm_info $cm, int $userid,
             array $interval, float $lastposition, ?\stdClass $segment = null, ?int &$segmentid = null): \stdClass {
         global $DB;
+
+        // Serializza gli aggiornamenti dello stesso stato utente/attività. La
+        // transazione protegge l'atomicità, ma il lock evita insert concorrenti
+        // sul record unico videotrack_state quando arrivano heartbeat e pagehide
+        // quasi simultanei.
+        $lockfactory = \core\lock\lock_config::get_lock_factory('mod_videotrack');
+        $lockkey = 'state:' . $videotrack->id . ':' . $userid;
+        $lock = $lockfactory->get_lock($lockkey, 10);
+        if (!$lock) {
+            throw new \moodle_exception('locktimeout', 'error');
+        }
+
         // Transazione per serializzare scritture concorrenti (es. heartbeat + pagehide simultanei).
         $transaction = $DB->start_delegated_transaction();
         $state = null;
@@ -425,6 +437,8 @@ class tracker {
                 $state->id = $DB->insert_record('videotrack_state', $state);
             }
             $transaction->allow_commit();
+            $lock->release();
+            $lock = null;
 
             // Emette activity_completed al primo passaggio 0→1.
             // Fuori dalla transazione: l'evento non è un dato critico.
@@ -441,6 +455,9 @@ class tracker {
                 $completedEvent->trigger();
             }
         } catch (\Throwable $e) {
+            if ($lock) {
+                $lock->release();
+            }
             $transaction->rollback($e);
             // rollback() rilancia già l'eccezione in Moodle, ma rilanciamo
             // esplicitamente per garantire che il chiamante non riceva $state=null
