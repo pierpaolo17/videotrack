@@ -1,4 +1,4 @@
-define(['core/ajax', 'core/log'], function(Ajax, Log) {
+define(['core/ajax', 'core/log', 'mod_videotrack/core/utils', 'mod_videotrack/core/ui'], function(Ajax, Log, Utils, Ui) {
     var player = null;
     var config = null;
     var lastReactionAvailabilityAnnouncement = null;
@@ -40,11 +40,6 @@ define(['core/ajax', 'core/log'], function(Ajax, Log) {
         return 'sess' + Date.now() + Math.random().toString(36).substring(2, 12);
     }
 
-    function safeInt(value, fallback) {
-        var parsed = parseInt(value, 10);
-        return Number.isFinite(parsed) ? parsed : fallback;
-    }
-
     function loadApi(callback) {
         if (window.YT && window.YT.Player) {
             callback();
@@ -78,7 +73,7 @@ define(['core/ajax', 'core/log'], function(Ajax, Log) {
             percent.textContent = Number(response.completionpercent).toFixed(2) + '%';
         }
         if (covered && typeof response.uniquecoveredseconds !== 'undefined') {
-            covered.textContent = formatSeconds(response.uniquecoveredseconds);
+            covered.textContent = Utils.formatSeconds(response.uniquecoveredseconds);
         }
         if (typeof response.uniquereactions !== 'undefined') {
             var counter = document.getElementById('videotrack-unique-reactions');
@@ -130,17 +125,6 @@ define(['core/ajax', 'core/log'], function(Ajax, Log) {
             var baseLabel = canvas.getAttribute('title') || '';
             canvas.setAttribute('aria-label', baseLabel + ' — ' + pct + '%');
         } catch (e) { /* JSON malformato: ignora. */ }
-    }
-
-    function formatSeconds(seconds) {
-        seconds = Math.max(0, Math.round(seconds));
-        var hours = Math.floor(seconds / 3600);
-        var minutes = Math.floor((seconds % 3600) / 60);
-        var secs = seconds % 60;
-        if (hours > 0) {
-            return [hours, minutes.toString().padStart(2, '0'), secs.toString().padStart(2, '0')].join(':');
-        }
-        return [minutes.toString().padStart(2, '0'), secs.toString().padStart(2, '0')].join(':');
     }
 
     function ajax(methodname, args) {
@@ -225,14 +209,7 @@ define(['core/ajax', 'core/log'], function(Ajax, Log) {
 
     function setReactionButtons(playing) {
         // Emette evento custom per sincronizzare il bottone note senza riassegnare la funzione.
-        document.dispatchEvent(new CustomEvent('videotrack:playstate', { detail: { playing: playing } }));
-        // Keep unavailable reaction buttons focusable. aria-disabled blocks the
-        // save action while allowing Enter/Space to trigger explanatory feedback
-        // for keyboard-only and screen-reader users.
-        document.querySelectorAll('.videotrack-reaction-btn').forEach(function(button) {
-            button.setAttribute('aria-disabled', playing ? 'false' : 'true');
-            button.classList.toggle('videotrack-reaction-disabled', !playing);
-        });
+        Ui.setReactionButtons(playing);
         announceReactionAvailability(playing);
     }
 
@@ -415,7 +392,7 @@ define(['core/ajax', 'core/log'], function(Ajax, Log) {
     function showResumeNotice(seconds) {
         var existing = document.getElementById('videotrack-resume-notice');
         if (existing) { existing.parentNode.removeChild(existing); }
-        var formatted = formatSeconds(seconds);
+        var formatted = Utils.formatSeconds(seconds);
         var notice = document.createElement('div');
         notice.id = 'videotrack-resume-notice';
         notice.className = 'videotrack-resume-notice alert alert-info alert-dismissible mt-1';
@@ -540,7 +517,7 @@ define(['core/ajax', 'core/log'], function(Ajax, Log) {
                     return ajax('mod_videotrack_save_reaction', {
                         cmid: config.cmid,
                         sessionid: state.sessionid,
-                        reactionid: safeInt(reactionbtn.getAttribute('data-reactionid'), 0),
+                        reactionid: Utils.safeInt(reactionbtn.getAttribute('data-reactionid'), 0),
                         videotime: currentTime,
                         playbackrate: player.getPlaybackRate ? player.getPlaybackRate() : 1
                     });
@@ -576,7 +553,7 @@ define(['core/ajax', 'core/log'], function(Ajax, Log) {
                 var idx   = rows.indexOf(row);
                 ajax('mod_videotrack_delete_reaction', {
                     cmid: config.cmid,
-                    reactioneventid: safeInt(deletebtn.getAttribute('data-eventid'), 0)
+                    reactioneventid: Utils.safeInt(deletebtn.getAttribute('data-eventid'), 0)
                 }).then(updateProgress).then(function(response) {
                     if (response && response.deleted) {
                         var delrow = deletebtn.closest('tr');
@@ -692,7 +669,7 @@ define(['core/ajax', 'core/log'], function(Ajax, Log) {
 
         // Cella timestamp.
         var tdTime = document.createElement('td');
-        tdTime.textContent = formatSeconds(videotime);
+        tdTime.textContent = Utils.formatSeconds(videotime);
         tr.appendChild(tdTime);
 
         // Cella icona + label: iconhtml viene dal server PHP già renderizzato come HTML
@@ -721,7 +698,7 @@ define(['core/ajax', 'core/log'], function(Ajax, Log) {
         replayBtn.dataset.end   = end;
         replayBtn.textContent = config.replaylabel;
         replayBtn.setAttribute('aria-label',
-            (config.replaylabel) + ' — ' + formatSeconds(videotime));
+            (config.replaylabel) + ' — ' + Utils.formatSeconds(videotime));
         tdReplay.appendChild(replayBtn);
         tr.appendChild(tdReplay);
 
@@ -734,7 +711,7 @@ define(['core/ajax', 'core/log'], function(Ajax, Log) {
         delBtn.textContent = config.removelabel;
         // WCAG 2.4.6: aria-label contestuale per distinguere i bottoni identici agli SR.
         delBtn.setAttribute('aria-label',
-            (config.removelabel) + ' — ' + (reaction.label || '') + ' — ' + formatSeconds(videotime));
+            (config.removelabel) + ' — ' + (reaction.label || '') + ' — ' + Utils.formatSeconds(videotime));
         tdDel.appendChild(delBtn);
         tr.appendChild(tdDel);
 
@@ -916,13 +893,13 @@ define(['core/ajax', 'core/log'], function(Ajax, Log) {
                 : (config.noteshidelabel);
             btn.textContent = label;
             btn.setAttribute('aria-label', label + ': ' + (config.notespaneltitle));
-            try { window.sessionStorage.setItem(KEY, collapsed ? '1' : '0'); } catch (e) { Log.debug('mod_videotrack: could not save YouTube notes panel state - ' + e); }
+            Utils.sessionSet(KEY, collapsed ? '1' : '0', 'YouTube notes panel state')
         }
 
         // Applica lo stato IMMEDIATAMENTE prima del primo paint per evitare flash.
         // sessionStorage è sincrono — nessun rischio di flash se letto qui.
         var saved = null;
-        try { saved = window.sessionStorage.getItem(KEY); } catch (e) { Log.debug('mod_videotrack: could not read YouTube notes panel state - ' + e); }
+        saved = Utils.sessionGet(KEY, 'YouTube notes panel state')
         setCollapsed(saved === '1');
 
         btn.addEventListener('click', function() {
@@ -975,7 +952,7 @@ define(['core/ajax', 'core/log'], function(Ajax, Log) {
             // Timestamp.
             var timeSpan = document.createElement('span');
             timeSpan.className = 'videotrack-note-time text-muted me-1 small';
-            timeSpan.textContent = formatSeconds(videotime);
+            timeSpan.textContent = Utils.formatSeconds(videotime);
             li.appendChild(timeSpan);
             // Testo.
             var textSpan = document.createElement('span');
@@ -1043,7 +1020,7 @@ define(['core/ajax', 'core/log'], function(Ajax, Log) {
         document.addEventListener('click', function(e) {
             var delBtn = e.target.closest('.videotrack-delete-note');
             if (!delBtn) { return; }
-            var noteid = safeInt(delBtn.dataset.noteid, 0);
+            var noteid = Utils.safeInt(delBtn.dataset.noteid, 0);
             if (!noteid) { return; }
             // Endpoint dedicato alle note personali (stesso record in videotrack_reactev).
             ajax('mod_videotrack_delete_note', {
