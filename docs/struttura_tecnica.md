@@ -1,6 +1,6 @@
 # mod_videotrack — Guida alla struttura del codice
 
-**Versione**: 1.1.3 (build 2026070203)
+**Versione**: 1.1.5 (build 2026070205)
 **Prerequisito di lettura**: conoscenza base di Moodle (plugin system, `$DB`, `$USER`, `cm_info`) e PHP/JavaScript.
 
 ---
@@ -221,10 +221,10 @@ Un record per ogni click su un bottone reazione o per ogni nota salvata.
 
 ```php
 $plugin->component = 'mod_videotrack';
-$plugin->version   = 2026070203;
+$plugin->version   = 2026070205;
 $plugin->requires  = 2025041400; // Moodle 5.0.
 $plugin->maturity  = MATURITY_BETA;
-$plugin->release   = '1.1.3';
+$plugin->release   = '1.1.5';
 ```
 
 È il file letto da Moodle per decidere se mostrare l'upgrade dialog. `version` è un intero in formato `YYYYMMDDnn`. `requires` è la build minima di Moodle supportata.
@@ -1128,3 +1128,10 @@ Refactor iniziale dei player AMD:
 - spostati helper comuni per formattazione tempo, conversione interi, sessionStorage e fetch VTT con timeout;
 - centralizzata la gestione accessibile dello stato dei bottoni reazione;
 - mantenuti gli entrypoint storici `html5_player`, `player` e `vimeo_player` per compatibilita' Moodle.
+
+### Aggiornamento 1.1.5
+
+- Allineati header e esempi della documentazione alla release corrente 1.1.5 / 2026070205.
+- Aggiornati `version.php`, `db/install.xml` e savepoint di upgrade alla build 2026070205.
+- Ripuliti warning di whitespace e resa piu' leggibile la regex anti formula-injection negli export CSV.
+- Valutate le ipotesi di patch/refactor 1.1.4: le proposte di `core/tracking`, `core/progress` e `core/vtt` non sono state integrate perche' parziali e ad alto rischio per una bugfix release.
