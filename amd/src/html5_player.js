@@ -507,9 +507,11 @@ define(['core/ajax', 'core/log'], function(Ajax, Log) {
             volSlider.step  = '0.05';
             volSlider.value = media.muted ? '0' : '1';
             volSlider.setAttribute('aria-label', config.html5volumelabel || 'Volume');
+            volSlider.setAttribute('aria-valuetext', Math.round(parseFloat(volSlider.value) * 100) + '%');
             volSlider.addEventListener('input', function() {
                 media.volume = parseFloat(volSlider.value);
                 media.muted  = (media.volume === 0);
+                volSlider.setAttribute('aria-valuetext', Math.round(media.volume * 100) + '%');
             });
             bar.appendChild(volSlider);
         }
@@ -542,25 +544,38 @@ define(['core/ajax', 'core/log'], function(Ajax, Log) {
         // ── PiP ──────────────────────────────────────────────
         if (!isAudio && controls.indexOf('pip') >= 0 && document.pictureInPictureEnabled) {
             var pipBtn = makeBtn('videotrack-ctrl-pip', '⧉', config.html5piplabel || 'Picture-in-Picture');
+            pipBtn.setAttribute('aria-pressed', 'false');
+            var updatePipPressed = function() {
+                pipBtn.setAttribute('aria-pressed', document.pictureInPictureElement === media ? 'true' : 'false');
+            };
             pipBtn.addEventListener('click', function() {
                 if (document.pictureInPictureElement) {
-                    document.exitPictureInPicture();
+                    document.exitPictureInPicture().then(updatePipPressed).catch(function() { updatePipPressed(); });
                 } else {
-                    media.requestPictureInPicture().catch(function() {});
+                    media.requestPictureInPicture().then(updatePipPressed).catch(function() { updatePipPressed(); });
                 }
             });
+            media.addEventListener('enterpictureinpicture', updatePipPressed);
+            media.addEventListener('leavepictureinpicture', updatePipPressed);
             bar.appendChild(pipBtn);
         }
 
         // ── Fullscreen ────────────────────────────────────────
         if (!isAudio && controls.indexOf('fullscreen') >= 0) {
             var fsBtn = makeBtn('videotrack-ctrl-fs', '⛶', config.html5fullscreenlabel || 'Fullscreen');
+            fsBtn.setAttribute('aria-pressed', 'false');
+            var updateFullscreenPressed = function() {
+                fsBtn.setAttribute('aria-pressed', document.fullscreenElement ? 'true' : 'false');
+            };
+            document.addEventListener('fullscreenchange', updateFullscreenPressed);
             fsBtn.addEventListener('click', function() {
                 var wrapper = container.closest('.videotrack-player-wrap') || container;
                 if (!document.fullscreenElement) {
-                    wrapper.requestFullscreen && wrapper.requestFullscreen();
-                } else {
-                    document.exitFullscreen && document.exitFullscreen();
+                    if (wrapper.requestFullscreen) {
+                        wrapper.requestFullscreen().then(updateFullscreenPressed).catch(function() { updateFullscreenPressed(); });
+                    }
+                } else if (document.exitFullscreen) {
+                    document.exitFullscreen().then(updateFullscreenPressed).catch(function() { updateFullscreenPressed(); });
                 }
             });
             bar.appendChild(fsBtn);
@@ -1115,10 +1130,9 @@ define(['core/ajax', 'core/log'], function(Ajax, Log) {
         return cues;
     }
 
-    /** Fetch testuale con timeout, usato per risorse VTT opzionali. */
+    /** Fetch testuale con timeout fisso, usato per risorse VTT opzionali. */
     function fetchTextWithTimeout(url) {
-        var timeout = parseInt(config.vttfetchtimeoutms, 10);
-        timeout = timeout > 0 ? timeout : 10000;
+        var timeout = 10000;
 
         if (window.AbortController) {
             var controller = new AbortController();
@@ -1128,6 +1142,8 @@ define(['core/ajax', 'core/log'], function(Ajax, Log) {
                 .finally(function() { window.clearTimeout(timer); });
         }
 
+        // Fallback per browser senza AbortController: la promise va in timeout,
+        // ma il fetch sottostante non può essere cancellato realmente.
         return Promise.race([
             fetch(url).then(function(r) { return r.ok ? r.text() : Promise.reject(r.status); }),
             new Promise(function(resolve, reject) {
@@ -1166,6 +1182,7 @@ define(['core/ajax', 'core/log'], function(Ajax, Log) {
             btn.type = 'button';
             btn.className = 'btn btn-link btn-sm text-start videotrack-transcript-btn';
             btn.dataset.start = cue.start;
+            btn.setAttribute('aria-label', formatSeconds(cue.start) + ' — ' + cue.text);
             var timeSpan = document.createElement('span');
             timeSpan.className = 'videotrack-transcript-time text-muted me-1';
             timeSpan.textContent = formatSeconds(cue.start);
