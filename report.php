@@ -431,7 +431,7 @@ function videotrack_csv_safe($value) {
     if (!is_string($value)) {
         return $value;
     }
-    if ($value !== '' && preg_match('/^[=+\-@\t\r\n]/', $value)) {
+    if ($value !== '' && preg_match('/^[=+\-@\t\r\n]/', ltrim($value))) {
         return "'" . $value;
     }
     return $value;

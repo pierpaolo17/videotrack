@@ -894,7 +894,7 @@ define(['core/ajax', 'core/log', 'mod_videotrack/core/utils', 'mod_videotrack/co
                     // Aggiorna il contatore.
                     var panel = document.getElementById('videotrack-notes-panel');
                     var hint  = panel ? panel.querySelector('.videotrack-note-charcount') : null;
-                    if (hint) { hint.textContent = getRemainingNoteChars(textarea) + ' ' + (config.charsremaininglabel || 'chars remaining'); }
+                    if (hint) { hint.textContent = getRemainingNoteChars(textarea) + ' ' + config.charsremaininglabel; }
                     textarea.focus();
                 }
             }).catch(function() {
@@ -946,7 +946,7 @@ define(['core/ajax', 'core/log', 'mod_videotrack/core/utils', 'mod_videotrack/co
             var panel = document.getElementById('videotrack-notes-panel');
             var hint  = panel ? panel.querySelector('.videotrack-note-charcount') : null;
             if (hint) {
-                hint.textContent = remaining + ' ' + (config.charsremaininglabel || 'chars remaining');
+                hint.textContent = remaining + ' ' + config.charsremaininglabel;
             }
         });
     }

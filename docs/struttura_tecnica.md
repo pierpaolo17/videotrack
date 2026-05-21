@@ -1,6 +1,6 @@
 # mod_videotrack — Guida alla struttura del codice
 
-**Versione**: 1.1.5 (build 2026070205)
+**Versione**: 1.1.6 (build 2026070206)
 **Prerequisito di lettura**: conoscenza base di Moodle (plugin system, `$DB`, `$USER`, `cm_info`) e PHP/JavaScript.
 
 ---
@@ -221,10 +221,10 @@ Un record per ogni click su un bottone reazione o per ogni nota salvata.
 
 ```php
 $plugin->component = 'mod_videotrack';
-$plugin->version   = 2026070205;
+$plugin->version   = 2026070206;
 $plugin->requires  = 2025041400; // Moodle 5.0.
 $plugin->maturity  = MATURITY_BETA;
-$plugin->release   = '1.1.5';
+$plugin->release   = '1.1.6';
 ```
 
 È il file letto da Moodle per decidere se mostrare l'upgrade dialog. `version` è un intero in formato `YYYYMMDDnn`. `requires` è la build minima di Moodle supportata.
@@ -1135,3 +1135,9 @@ Refactor iniziale dei player AMD:
 - Aggiornati `version.php`, `db/install.xml` e savepoint di upgrade alla build 2026070205.
 - Ripuliti warning di whitespace e resa piu' leggibile la regex anti formula-injection negli export CSV.
 - Valutate le ipotesi di patch/refactor 1.1.4: le proposte di `core/tracking`, `core/progress` e `core/vtt` non sono state integrate perche' parziali e ad alto rischio per una bugfix release.
+
+### Aggiornamento 1.1.6
+
+- Rimossi fallback testuali inglesi residui dai player quando le stringhe localizzate sono già passate da `view.php`.
+- Rafforzata la mitigazione CSV formula-injection considerando anche valori con spazi iniziali.
+- Aggiornati `version.php`, `db/install.xml` e savepoint di upgrade alla build 2026070206.
