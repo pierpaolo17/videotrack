@@ -326,6 +326,7 @@ $string['showchapters_desc'] = 'Muestra una barra con marcadores de capítulo ex
 $string['showchapters_help'] = 'Si el archivo VTT subido contiene cues cortos (menos de 80 caracteres), se interpretan como títulos de capítulo y se muestran como una barra de navegación clicable encima de los controles de vídeo. Al hacer clic en un capítulo se salta a ese punto.';
 $string['chapters_label'] = 'Capítulos del vídeo';
 $string['chapterslabel'] = 'Capítulos del vídeo';
+$string['chapters_unavailable'] = 'Los capítulos no están disponibles para este vídeo.';
 $string['chapter_label'] = 'Capítulo';
 $string['chapterlabel'] = 'Capítulo';
 $string['studentnotesenabled'] = 'Activar notas del estudiante';
@@ -439,8 +440,6 @@ $string['privacy:metadata:vimeo'] = 'Cuando se usa un vídeo de Vimeo, el navega
 $string['privacy:metadata:vimeo:videoid'] = 'El identificador del vídeo de Vimeo configurado para esta actividad.';
 $string['privacy:metadata:vimeo:url'] = 'La URL de Vimeo configurada para esta actividad.';
 
-$string['privacy:metadata:browser_session_storage'] = 'La actividad guarda preferencias temporales de interfaz solo en el almacenamiento de sesión del navegador.';
-$string['privacy:metadata:browser_session_storage:notescollapsed'] = 'Indica si el panel de notas personales está contraído durante la sesión actual del navegador.';
 $string['html5:controls'] = 'Controles de vídeo';
 $string['html5:play'] = 'Reproducir';
 $string['html5:pause'] = 'Pausa';

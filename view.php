@@ -108,6 +108,7 @@ $playerconfig = [
     'posterurl'              => $posterurl ? (string)$posterurl : '',
     'chapterslabel'          => get_string('chapters_label', 'mod_videotrack'),
     'chapterlabel'           => get_string('chapter_label', 'mod_videotrack'),
+    'chaptersunavailablelabel' => get_string('chapters_unavailable', 'mod_videotrack'),
     'requiredpercent'        => (int)$videotrack->completionpercent,
     'origin'                 => (string)$CFG->wwwroot,
     'reactionsenabled'       => (bool)$videotrack->reactionsenabled,
