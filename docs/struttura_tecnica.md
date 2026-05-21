@@ -1,6 +1,6 @@
 # mod_videotrack — Guida alla struttura del codice
 
-**Versione**: 1.0.72 (build 2026070110)
+**Versione**: 1.0.73 (build 2026070111)
 **Prerequisito di lettura**: conoscenza base di Moodle (plugin system, `$DB`, `$USER`, `cm_info`) e PHP/JavaScript.
 
 ---
@@ -55,7 +55,8 @@ videotrack/
 │   │   ├── save_segment.php    # Web service: salva segmento di visione
 │   │   ├── save_reaction.php   # Web service: salva una reazione
 │   │   ├── save_note.php       # Web service: salva una nota personale
-│   │   └── delete_reaction.php # Web service: elimina reazione/nota
+│   │   ├── delete_reaction.php # Web service: elimina reazione
+│   │   └── delete_note.php     # Web service: elimina nota personale
 │   ├── local/
 │   │   ├── tracker.php         # Core logic: calcolo progresso e completamento
 │   │   └── privacy_manager.php # Retention GDPR e anonimizzazione
@@ -220,10 +221,10 @@ Un record per ogni click su un bottone reazione o per ogni nota salvata.
 
 ```php
 $plugin->component = 'mod_videotrack';
-$plugin->version   = 2026070110;
+$plugin->version   = 2026070111;
 $plugin->requires  = 2025041400; // Moodle 5.0.
 $plugin->maturity  = MATURITY_BETA;
-$plugin->release   = '1.0.72';
+$plugin->release   = '1.0.73';
 ```
 
 È il file letto da Moodle per decidere se mostrare l'upgrade dialog. `version` è un intero in formato `YYYYMMDDnn`. `requires` è la build minima di Moodle supportata.
@@ -784,7 +785,8 @@ Quattro web service, tutti con `ajax: true` e `loginrequired: true`:
 | `mod_videotrack_save_segment` | `save_segment::execute` | Salva segmento di visione |
 | `mod_videotrack_save_reaction` | `save_reaction::execute` | Salva click reazione |
 | `mod_videotrack_save_note` | `save_note::execute` | Salva nota personale |
-| `mod_videotrack_delete_reaction` | `delete_reaction::execute` | Soft delete reazione o nota |
+| `mod_videotrack_delete_reaction` | `delete_reaction::execute` | Soft delete reazione |
+| `mod_videotrack_delete_note` | `delete_note::execute` | Soft delete nota personale |
 
 Tutti seguono lo stesso pattern di autenticazione:
 ```
@@ -1067,3 +1069,12 @@ Questa scelta evita esportazioni parziali interpretate come complete e mantiene 
 - Migliorato il transcript VTT: messaggio localizzato quando non disponibile e relazione `aria-controls` verso il player.
 - Aggiornata la disclosure privacy per la preferenza UI salvata in `sessionStorage` del browser.
 - Ridotti fallback testuali inglesi nei player AMD, usando le stringhe passate da `view.php`.
+
+
+### Aggiornamento 1.0.73
+
+- Aggiunta classe external `delete_note` per completare l’endpoint AJAX dedicato alle note personali.
+- Rafforzata la validazione JS degli ID reazione/nota con parsing numerico sicuro.
+- Aggiunti `setType(..., PARAM_BOOL)` alle checkbox principali del form Moodle.
+- Migliorato il logging tecnico dei catch JS silenziosi senza mostrare errori non necessari all’utente.
+- Aggiornati build AMD e metadata release a 1.0.73 / 2026070111.

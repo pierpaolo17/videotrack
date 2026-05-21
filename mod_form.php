@@ -109,27 +109,41 @@ class mod_videotrack_mod_form extends moodleform_mod {
         }
 
         $mform->addElement('advcheckbox', 'showcontrols', get_string('showcontrols', 'mod_videotrack'));
+
+        $mform->setType('showcontrols', PARAM_BOOL);
         $mform->setDefault('showcontrols', (int)(bool)$cfg('default_showcontrols', 1));
 
         $mform->addElement('advcheckbox', 'disablekeyboard', get_string('disablekeyboard', 'mod_videotrack'));
+
+        $mform->setType('disablekeyboard', PARAM_BOOL);
         $mform->setDefault('disablekeyboard', (int)(bool)$cfg('default_disablekeyboard', 0));
 
         $mform->addElement('advcheckbox', 'showfullscreen', get_string('showfullscreen', 'mod_videotrack'));
+
+        $mform->setType('showfullscreen', PARAM_BOOL);
         $mform->setDefault('showfullscreen', (int)(bool)$cfg('default_showfullscreen', 1));
 
         $mform->addElement('advcheckbox', 'allowseekforward', get_string('allowseekforward', 'mod_videotrack'));
+
+        $mform->setType('allowseekforward', PARAM_BOOL);
         $mform->setDefault('allowseekforward', (int)(bool)$cfg('default_allowseekforward', 1));
 
         $mform->addElement('advcheckbox', 'allowseekbackward', get_string('allowseekbackward', 'mod_videotrack'));
+
+        $mform->setType('allowseekbackward', PARAM_BOOL);
         $mform->setDefault('allowseekbackward', (int)(bool)$cfg('default_allowseekbackward', 1));
 
         $mform->addElement('advcheckbox', 'allowplaybackratechange', get_string('allowplaybackratechange', 'mod_videotrack'));
+
+        $mform->setType('allowplaybackratechange', PARAM_BOOL);
         $mform->setDefault('allowplaybackratechange', (int)(bool)$cfg('default_allowplaybackratechange', 1));
 
         // Resume playback dal punto lasciato dall'ultima sessione.
         $mform->addElement('advcheckbox', 'resumeplayback',
             get_string('resumeplayback', 'mod_videotrack'),
             get_string('resumeplayback_desc', 'mod_videotrack'));
+
+        $mform->setType('resumeplayback', PARAM_BOOL);
         $mform->setDefault('resumeplayback', (int)get_config('mod_videotrack', 'resumeplayback'));
         $mform->addHelpButton('resumeplayback', 'resumeplayback', 'mod_videotrack');
 
@@ -170,13 +184,19 @@ class mod_videotrack_mod_form extends moodleform_mod {
         }
 
         $mform->addElement('advcheckbox', 'autoplay', get_string('autoplay', 'mod_videotrack'));
+
+        $mform->setType('autoplay', PARAM_BOOL);
         $mform->setDefault('autoplay', (int)(bool)$cfg('default_autoplay', 0));
         $mform->addHelpButton('autoplay', 'autoplay', 'mod_videotrack');
 
         $mform->addElement('advcheckbox', 'loop', get_string('loop', 'mod_videotrack'));
+
+        $mform->setType('loop', PARAM_BOOL);
         $mform->setDefault('loop', (int)(bool)$cfg('default_loop', 0));
 
         $mform->addElement('advcheckbox', 'startmuted', get_string('startmuted', 'mod_videotrack'));
+
+        $mform->setType('startmuted', PARAM_BOOL);
         $mform->setDefault('startmuted', (int)(bool)$cfg('default_startmuted', 0));
         $mform->addHelpButton('startmuted', 'startmuted', 'mod_videotrack');
 
@@ -196,6 +216,8 @@ class mod_videotrack_mod_form extends moodleform_mod {
 
         // allowdownload: visible only for upload source.
         $mform->addElement('advcheckbox', 'allowdownload', get_string('allowdownload', 'mod_videotrack'));
+
+        $mform->setType('allowdownload', PARAM_BOOL);
         $mform->setDefault('allowdownload', (int)(bool)$cfg('default_allowdownload', 0));
         $mform->hideIf('allowdownload', 'videosource', 'neq', 'upload');
 
@@ -213,6 +235,8 @@ class mod_videotrack_mod_form extends moodleform_mod {
             get_string('captionsheader', 'mod_videotrack'));
 
         $mform->addElement('advcheckbox', 'captions', get_string('captions', 'mod_videotrack'));
+
+        $mform->setType('captions', PARAM_BOOL);
         $mform->setDefault('captions', (int)(bool)$cfg('default_captions', 0));
         $mform->addHelpButton('captions', 'captions', 'mod_videotrack');
 
@@ -243,6 +267,8 @@ class mod_videotrack_mod_form extends moodleform_mod {
         $mform->addElement('advcheckbox', 'showtranscript',
             get_string('showtranscript', 'mod_videotrack'),
             get_string('showtranscript_desc', 'mod_videotrack'));
+
+        $mform->setType('showtranscript', PARAM_BOOL);
         $mform->setDefault('showtranscript', 0);
         $mform->addHelpButton('showtranscript', 'showtranscript', 'mod_videotrack');
         $mform->hideIf('showtranscript', 'videosource', 'neq', 'upload');
@@ -252,6 +278,8 @@ class mod_videotrack_mod_form extends moodleform_mod {
         $mform->addElement('advcheckbox', 'showchapters',
             get_string('showchapters', 'mod_videotrack'),
             get_string('showchapters_desc', 'mod_videotrack'));
+
+        $mform->setType('showchapters', PARAM_BOOL);
         $mform->setDefault('showchapters', 0);
         $mform->addHelpButton('showchapters', 'showchapters', 'mod_videotrack');
         $mform->hideIf('showchapters', 'videosource', 'neq', 'upload');
@@ -362,6 +390,8 @@ class mod_videotrack_mod_form extends moodleform_mod {
         }
 
         $mform->addElement('advcheckbox', 'countbyvideotime', get_string('countbyvideotime', 'mod_videotrack'));
+
+        $mform->setType('countbyvideotime', PARAM_BOOL);
         $mform->addHelpButton('countbyvideotime', 'countbyvideotime', 'mod_videotrack');
         $mform->setDefault('countbyvideotime', 1);
 
@@ -370,13 +400,19 @@ class mod_videotrack_mod_form extends moodleform_mod {
         // ----------------------------------------------------------------
         $mform->addElement('header', 'reactionsheader', get_string('reactionsheader', 'mod_videotrack'));
         $mform->addElement('advcheckbox', 'reactionsenabled', get_string('reactionsenabled', 'mod_videotrack'));
+
+        $mform->setType('reactionsenabled', PARAM_BOOL);
         $mform->setDefault('reactionsenabled', 1);
         $mform->addElement('advcheckbox', 'reactionsrequired', get_string('reactionsrequired', 'mod_videotrack'));
+
+        $mform->setType('reactionsrequired', PARAM_BOOL);
         $mform->setDefault('reactionsrequired', 0);
         $mform->addElement('text', 'minreactions', get_string('minreactions', 'mod_videotrack'), ['size' => 3]);
         $mform->setType('minreactions', PARAM_INT);
         $mform->setDefault('minreactions', 0);
         $mform->addElement('advcheckbox', 'requireallreactiontypes', get_string('requireallreactiontypes', 'mod_videotrack'));
+
+        $mform->setType('requireallreactiontypes', PARAM_BOOL);
         $mform->setDefault('requireallreactiontypes', 0);
         $mform->addElement('select', 'completionlogic', get_string('completionlogic', 'mod_videotrack'), [
             'and' => get_string('logicand', 'mod_videotrack'),
@@ -405,15 +441,21 @@ class mod_videotrack_mod_form extends moodleform_mod {
         }
 
         $mform->addElement('advcheckbox', 'showstudentreport', get_string('showstudentreport', 'mod_videotrack'));
+
+        $mform->setType('showstudentreport', PARAM_BOOL);
         $mform->setDefault('showstudentreport', 1);
 
         // Note personali studente.
         $mform->addElement('advcheckbox', 'studentnotesenabled',
             get_string('studentnotesenabled', 'mod_videotrack'),
             get_string('studentnotesenabled_desc', 'mod_videotrack'));
+
+        $mform->setType('studentnotesenabled', PARAM_BOOL);
         $mform->setDefault('studentnotesenabled', (int)get_config('mod_videotrack', 'studentnotesenabled'));
         $mform->addHelpButton('studentnotesenabled', 'studentnotesenabled', 'mod_videotrack');
         $mform->addElement('advcheckbox', 'showreactionnotice', get_string('showreactionnotice', 'mod_videotrack'));
+
+        $mform->setType('showreactionnotice', PARAM_BOOL);
         $mform->setDefault('showreactionnotice', 1);
         $reactionnoticeoptions = [
             'context' => $this->context,
@@ -458,6 +500,8 @@ class mod_videotrack_mod_form extends moodleform_mod {
         // Mostra voto allo studente in view.php.
         $mform->addElement('advcheckbox', 'showgradeto',
             get_string('showgradeto', 'mod_videotrack'));
+
+        $mform->setType('showgradeto', PARAM_BOOL);
         $mform->setDefault('showgradeto', 0);
         $mform->disabledIf('showgradeto', 'grade[modgrade_type]', 'eq', 'none');
 
@@ -526,6 +570,7 @@ class mod_videotrack_mod_form extends moodleform_mod {
 
             $mform->addElement('advcheckbox', 'reactionrequired[' . $i . ']',
                 get_string('reactionrequired', 'mod_videotrack'));
+            $mform->setType('reactionrequired[' . $i . ']', PARAM_BOOL);
 
             $mform->disabledIf('reactioniconvalue[' . $i . ']',
                 'reactionicontype[' . $i . ']', 'eq', 'file');
