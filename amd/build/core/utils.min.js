@@ -59,7 +59,11 @@ define(['core/log'], function(Log) {
             var timer = window.setTimeout(function() {
                 controller.abort();
             }, timeout);
-            return fetch(url, {signal: controller.signal, credentials: 'same-origin'})
+            return fetch(url, {
+                signal: controller.signal,
+                credentials: 'same-origin',
+                headers: {'X-Requested-With': 'XMLHttpRequest'}
+            })
                 .then(function(response) {
                     return response.ok ? response.text() : Promise.reject(response.status);
                 })
@@ -70,7 +74,10 @@ define(['core/log'], function(Log) {
 
         // Browsers without AbortController cannot cancel the underlying fetch.
         return Promise.race([
-            fetch(url, {credentials: 'same-origin'}).then(function(response) {
+            fetch(url, {
+                credentials: 'same-origin',
+                headers: {'X-Requested-With': 'XMLHttpRequest'}
+            }).then(function(response) {
                 return response.ok ? response.text() : Promise.reject(response.status);
             }),
             new Promise(function(resolve, reject) {

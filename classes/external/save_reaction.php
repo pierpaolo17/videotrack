@@ -68,7 +68,7 @@ class save_reaction extends external_api {
         // by rotating session IDs on each AJAX request (B3 fix).
         $burstcount = $DB->count_records_select(
             'videotrack_reactev',
-            "videotrackid = :bvtid AND userid = :buid AND isdeleted = 0 " .
+            "videotrackid = :bvtid AND userid = :buid " .
                 "AND (notetype = '' OR notetype IS NULL) AND timecreated >= :bsince",
             [
                 'bvtid'  => $videotrack->id,
@@ -85,7 +85,7 @@ class save_reaction extends external_api {
         // di eventi dovuto ad automazioni o doppi click rapidi.
         $recentcount = $DB->count_records_select(
             'videotrack_reactev',
-            'videotrackid = :vtid AND userid = :uid AND reactionid = :rid AND isdeleted = 0 AND timecreated >= :since',
+            'videotrackid = :vtid AND userid = :uid AND reactionid = :rid AND timecreated >= :since',
             [
                 'vtid'  => $videotrack->id,
                 'uid'   => $USER->id,

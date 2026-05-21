@@ -825,5 +825,11 @@ function xmldb_videotrack_upgrade($oldversion) {
         upgrade_mod_savepoint(true, 2026070202, 'videotrack');
     }
 
+
+    if ($oldversion < 2026070203) {
+        // 1.1.3: interval validation, anti-spam rate-limit hardening and AMD core robustness. No schema changes.
+        upgrade_mod_savepoint(true, 2026070203, 'videotrack');
+    }
+
     return true;
 }
