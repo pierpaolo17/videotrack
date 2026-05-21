@@ -4,7 +4,11 @@ namespace mod_videotrack\event;
 defined('MOODLE_INTERNAL') || die();
 
 /**
- * Fired when a student submits a reaction or note while watching the video.
+ * Fired when a student submits a reaction while watching the video.
+ *
+ * @package    mod_videotrack
+ * @copyright  2026
+ * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 class reaction_saved extends \core\event\base {
     protected function init(): void {
@@ -19,14 +23,6 @@ class reaction_saved extends \core\event\base {
 
     public function get_description(): string {
         $videotime = $this->other['videotime'] ?? 0;
-        $notetype = $this->other['notetype'] ?? 'reaction';
-
-        if ($notetype === 'note') {
-            return "The user with id '{$this->userid}' submitted a note " .
-                   "at video time {$videotime}s " .
-                   "in the videotrack activity with course module id '{$this->contextinstanceid}'.";
-        }
-
         $reactionlabel = $this->other['reactionlabel'] ??
             get_string('unknownreaction', 'mod_videotrack');
 

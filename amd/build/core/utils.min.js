@@ -103,7 +103,7 @@ define(['core/log'], function(Log) {
      *
      * @param {string} key Storage key.
      * @param {string} context Debug context.
-     * @return {Promise<string|null>}
+     * @return {string|null}
      */
     function sessionGet(key, context) {
         var value = null;
@@ -112,7 +112,7 @@ define(['core/log'], function(Log) {
         } catch (error) {
             Log.debug('mod_videotrack: could not read ' + (context || 'session state') + ' - ' + error);
         }
-        return Promise.resolve(value);
+        return value;
     }
 
     return {

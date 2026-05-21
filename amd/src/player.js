@@ -893,13 +893,13 @@ define(['core/ajax', 'core/log', 'mod_videotrack/core/utils', 'mod_videotrack/co
                 : (config.noteshidelabel);
             btn.textContent = label;
             btn.setAttribute('aria-label', label + ': ' + (config.notespaneltitle));
-            Utils.sessionSet(KEY, collapsed ? '1' : '0', 'YouTube notes panel state')
+            Utils.sessionSet(KEY, collapsed ? '1' : '0', 'YouTube notes panel state');
         }
 
         // Applica lo stato IMMEDIATAMENTE prima del primo paint per evitare flash.
         // sessionStorage è sincrono — nessun rischio di flash se letto qui.
         var saved = null;
-        saved = Utils.sessionGet(KEY, 'YouTube notes panel state')
+        saved = Utils.sessionGet(KEY, 'YouTube notes panel state');
         setCollapsed(saved === '1');
 
         btn.addEventListener('click', function() {
