@@ -377,14 +377,11 @@ if (!empty($videotrack->studentnotesenabled)) {
             'id'           => 'videotrack-note-save',
             'class'        => 'btn btn-sm btn-primary videotrack-note-save',
             'aria-disabled'=> 'true',  // Abilitato solo durante play, gestito da JS.
-            'disabled'     => 'disabled',
-            'tabindex'     => '-1',
         ]
     );
     // Contatore caratteri rimanenti — aggiornato in tempo reale da JS.
     echo html_writer::tag('span', '2000 ' . get_string('charsremaininglabel', 'mod_videotrack'), [
         'class'     => 'videotrack-note-charcount small text-muted ms-2',
-        'aria-live' => 'polite',
         'aria-atomic'=> 'true',
     ]);
     // Avviso: la nota viene salvata al timestamp attuale del video.

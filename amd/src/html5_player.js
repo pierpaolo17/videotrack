@@ -1114,7 +1114,7 @@ define(['core/ajax', 'core/log'], function(Ajax, Log) {
         // Normalizza BOM e CRLF. Ignora header NOTE/STYLE/REGION e cue settings dopo l'end time.
         var normalized = text.replace(/^\uFEFF/, '').replace(/\r\n?/g, '\n');
         var blocks = normalized.split(/\n[ \t]*\n/);
-        var timeRe = /^([0-9:.]+)[ \t]*-->[ \t]*([0-9:.]+)(?:[ \t].*)?$/;
+        var timeRe = /^((?:\d{2}:)?\d{2}:\d{2}\.\d{3})[ \t]*-->[ \t]*((?:\d{2}:)?\d{2}:\d{2}\.\d{3})(?:[ \t].*)?$/;
 
         blocks.forEach(function(block) {
             var lines = block.trim().split('\n').map(function(line) { return line.trim(); });
@@ -1145,7 +1145,7 @@ define(['core/ajax', 'core/log'], function(Ajax, Log) {
         if (window.AbortController) {
             var controller = new AbortController();
             var timer = window.setTimeout(function() { controller.abort(); }, timeout);
-            return fetch(url, {signal: controller.signal})
+            return fetch(url, {signal: controller.signal, credentials: 'same-origin'})
                 .then(function(r) { return r.ok ? r.text() : Promise.reject(r.status); })
                 .finally(function() { window.clearTimeout(timer); });
         }
@@ -1153,7 +1153,7 @@ define(['core/ajax', 'core/log'], function(Ajax, Log) {
         // Fallback per browser senza AbortController: la promise va in timeout,
         // ma il fetch sottostante non può essere cancellato realmente.
         return Promise.race([
-            fetch(url).then(function(r) { return r.ok ? r.text() : Promise.reject(r.status); }),
+            fetch(url, {credentials: 'same-origin'}).then(function(r) { return r.ok ? r.text() : Promise.reject(r.status); }),
             new Promise(function(resolve, reject) {
                 window.setTimeout(function() { reject('timeout'); }, timeout);
             })
@@ -1319,7 +1319,6 @@ define(['core/ajax', 'core/log'], function(Ajax, Log) {
         function setNoteButtonState(playing) {
             if (!saveBtn) { return; }
             saveBtn.setAttribute('aria-disabled', playing ? 'false' : 'true');
-            saveBtn.disabled = !playing;
             saveBtn.classList.toggle('videotrack-note-save-disabled', !playing);
         }
 

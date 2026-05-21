@@ -1034,3 +1034,17 @@ Questa scelta evita esportazioni parziali interpretate come complete e mantiene 
 - Rafforzato il caricamento VTT con timeout fisso per transcript e capitoli.
 - Reso il parser VTT più tollerante verso BOM, CRLF, cue settings e blocchi WebVTT non testuali.
 - Allineati `version.php`, `db/install.xml` e savepoint alla build 2026070103.
+
+### Aggiornamento 1.0.69
+
+- Rafforzata la gestione concorrente dello stato di tracking con lock dedicato durante gli aggiornamenti.
+- Migliorata l'accessibilità del player e delle note studente.
+- Rafforzato l'export privacy dei segmenti di visione con validazione dei dati esportati.
+
+### Aggiornamento 1.0.70
+
+- Allineati `version.php`, `db/install.xml` e upgrade savepoint alla build 2026070108.
+- Aggiunto savepoint esplicito per la release 1.0.69 / build 2026070107.
+- Esteso il lock di `videotrack_state` anche a `refresh_completion()`.
+- Reso più rigoroso il parser WebVTT e impostato `credentials: 'same-origin'` sui fetch VTT opzionali.
+- Migliorata la tastierabilità del bottone note e ridotta la verbosità del contatore caratteri per screen reader.
