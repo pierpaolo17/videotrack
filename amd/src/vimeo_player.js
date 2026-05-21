@@ -47,6 +47,12 @@ define(['core/ajax', 'core/log'], function(Ajax, Log) {
         return 'sess' + Date.now() + Math.random().toString(36).substring(2, 12);
     }
 
+
+    function safeInt(value, fallback) {
+        var parsed = parseInt(value, 10);
+        return Number.isFinite(parsed) ? parsed : fallback;
+    }
+
     function ajax(methodname, args) {
         return Ajax.call([{
             methodname: methodname,
@@ -716,7 +722,7 @@ define(['core/ajax', 'core/log'], function(Ajax, Log) {
                     return ajax('mod_videotrack_save_reaction', {
                         cmid:       config.cmid,
                         sessionid:  state.sessionid,
-                        reactionid: parseInt(reactionbtn.getAttribute('data-reactionid'), 10),
+                        reactionid: safeInt(reactionbtn.getAttribute('data-reactionid'), 0),
                         videotime:  currentTime,
                         playbackrate: state.playbackrate || 1,
                     });
@@ -746,7 +752,7 @@ define(['core/ajax', 'core/log'], function(Ajax, Log) {
                 var idx   = rows.indexOf(row);
                 ajax('mod_videotrack_delete_reaction', {
                     cmid: config.cmid,
-                    reactioneventid: parseInt(deletebtn.getAttribute('data-eventid'), 10),
+                    reactioneventid: safeInt(deletebtn.getAttribute('data-eventid'), 0),
                 }).then(updateProgress).then(function(response) {
                     if (response && response.deleted) {
                         if (row) { row.remove(); }
@@ -995,7 +1001,7 @@ define(['core/ajax', 'core/log'], function(Ajax, Log) {
         document.addEventListener('click', function(e) {
             var delBtn = e.target.closest('.videotrack-delete-note');
             if (!delBtn) { return; }
-            var noteid = parseInt(delBtn.dataset.noteid, 10);
+            var noteid = safeInt(delBtn.dataset.noteid, 0);
             if (!noteid) { return; }
             // Endpoint dedicato alle note personali (stesso record in videotrack_reactev).
             ajax('mod_videotrack_delete_note', {
@@ -1012,7 +1018,7 @@ define(['core/ajax', 'core/log'], function(Ajax, Log) {
                         if (next) { next.focus(); } else if (textarea) { textarea.focus(); }
                     }
                 }
-            }).catch(function() {});
+            }).catch(function(err) { Log.debug('mod_videotrack: note deletion failed - ' + err); });
         });
 
         function getRemainingNoteChars(textarea) {
@@ -1059,7 +1065,7 @@ define(['core/ajax', 'core/log'], function(Ajax, Log) {
             playBtn.addEventListener('click', function() {
                 removePoster();
                 // Avvia la riproduzione con l'API Vimeo SDK (non player.playVideo che è YouTube).
-                if (player && player.play) { player.play().catch(function() {}); }
+                if (player && player.play) { player.play().catch(function(err) { Log.debug('mod_videotrack: play request failed - ' + err); }); }
             });
         }
 

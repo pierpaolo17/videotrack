@@ -797,5 +797,11 @@ function xmldb_videotrack_upgrade($oldversion) {
         upgrade_mod_savepoint(true, 2026070110, 'videotrack');
     }
 
+
+    if ($oldversion < 2026070111) {
+        // v1.0.73: dedicated note deletion external class, form typing and JS robustness hardening. No schema changes.
+        upgrade_mod_savepoint(true, 2026070111, 'videotrack');
+    }
+
     return true;
 }
