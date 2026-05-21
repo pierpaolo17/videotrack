@@ -815,5 +815,10 @@ function xmldb_videotrack_upgrade($oldversion) {
         upgrade_mod_savepoint(true, 2026070200, 'videotrack');
     }
 
+    if ($oldversion < 2026070201) {
+        // 1.1.1: restore shared AMD core modules required by the 1.1.0 JavaScript refactor.
+        upgrade_mod_savepoint(true, 2026070201, 'videotrack');
+    }
+
     return true;
 }
