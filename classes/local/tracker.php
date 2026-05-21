@@ -469,12 +469,19 @@ class tracker {
 
     public static function refresh_completion(\stdClass $videotrack, \cm_info $cm, int $userid): \stdClass {
         global $DB;
-        $state = $DB->get_record('videotrack_state', ['videotrackid' => $videotrack->id, 'userid' => $userid]);
-        if (!$state) {
-            // Primo accesso: crea il record state in una transazione per evitare duplicati
-            // in caso di race condition (es. due richieste simultanee dallo stesso studente).
-            $transaction = $DB->start_delegated_transaction();
-            // Rilegge dentro la TX per evitare doppio insert.
+
+        // Usa lo stesso lock di update_state(): refresh_completion può essere chiamato
+        // da endpoint diversi da save_segment e deve quindi evitare insert concorrenti
+        // sul record unico videotrack_state.
+        $lockfactory = \core\lock\lock_config::get_lock_factory('mod_videotrack');
+        $lockkey = 'state:' . $videotrack->id . ':' . $userid;
+        $lock = $lockfactory->get_lock($lockkey, 10);
+        if (!$lock) {
+            throw new \moodle_exception('locktimeout', 'error');
+        }
+
+        $transaction = $DB->start_delegated_transaction();
+        try {
             $state = $DB->get_record('videotrack_state', ['videotrackid' => $videotrack->id, 'userid' => $userid]);
             if (!$state) {
                 $state = (object)[
@@ -494,17 +501,27 @@ class tracker {
                 ];
                 $state->id = $DB->insert_record('videotrack_state', $state);
             }
+
+            $requiredreactionids = array_keys(array_filter((array)$DB->get_records_menu('videotrack_react', [
+                'videotrackid' => $videotrack->id,
+                'requiredforcompletion' => 1,
+                'isdeleted' => 0,
+            ], '', 'id,id')));
+            $reactionsummary = self::reaction_counts($videotrack->id, $userid);
+            $state->iscompleted = self::completion_satisfied($videotrack, $state, $reactionsummary, $requiredreactionids) ? 1 : 0;
+            $state->timemodified = time();
+            $DB->update_record('videotrack_state', $state);
+
             $transaction->allow_commit();
+            $lock->release();
+            $lock = null;
+            return $state;
+        } catch (\Throwable $e) {
+            if ($lock) {
+                $lock->release();
+            }
+            $transaction->rollback($e);
+            throw $e;
         }
-        $requiredreactionids = array_keys(array_filter((array)$DB->get_records_menu('videotrack_react', [
-            'videotrackid' => $videotrack->id,
-            'requiredforcompletion' => 1,
-            'isdeleted' => 0,
-        ], '', 'id,id')));
-        $reactionsummary = self::reaction_counts($videotrack->id, $userid);
-        $state->iscompleted = self::completion_satisfied($videotrack, $state, $reactionsummary, $requiredreactionids) ? 1 : 0;
-        $state->timemodified = time();
-        $DB->update_record('videotrack_state', $state);
-        return $state;
     }
 }

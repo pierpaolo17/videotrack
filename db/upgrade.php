@@ -776,5 +776,15 @@ function xmldb_videotrack_upgrade($oldversion) {
         upgrade_mod_savepoint(true, 2026070106, 'videotrack');
     }
 
+    if ($oldversion < 2026070107) {
+        // v1.0.69: tracking concurrency, privacy export and accessibility refinements. No schema changes.
+        upgrade_mod_savepoint(true, 2026070107, 'videotrack');
+    }
+
+    if ($oldversion < 2026070108) {
+        // v1.0.70: release metadata, refresh-completion lock and VTT fetch/parser hardening. No schema changes.
+        upgrade_mod_savepoint(true, 2026070108, 'videotrack');
+    }
+
     return true;
 }
