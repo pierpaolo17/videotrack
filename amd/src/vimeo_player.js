@@ -874,13 +874,13 @@ define(['core/ajax', 'core/log'], function(Ajax, Log) {
                 : (config.noteshidelabel);
             btn.textContent = label;
             btn.setAttribute('aria-label', label + ': ' + (config.notespaneltitle));
-            try { window.sessionStorage.setItem(KEY, collapsed ? '1' : '0'); } catch (e) {}
+            try { window.sessionStorage.setItem(KEY, collapsed ? '1' : '0'); } catch (e) { Log.debug('mod_videotrack: could not save Vimeo notes panel state - ' + e); }
         }
 
         // Applica lo stato IMMEDIATAMENTE prima del primo paint per evitare flash.
         // sessionStorage è sincrono — nessun rischio di flash se letto qui.
         var saved = null;
-        try { saved = window.sessionStorage.getItem(KEY); } catch (e) {}
+        try { saved = window.sessionStorage.getItem(KEY); } catch (e) { Log.debug('mod_videotrack: could not read Vimeo notes panel state - ' + e); }
         setCollapsed(saved === '1');
 
         btn.addEventListener('click', function() {

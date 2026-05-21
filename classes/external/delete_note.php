@@ -7,7 +7,7 @@ use core_external\external_single_structure;
 use core_external\external_value;
 use core_external\external_warnings;
 use mod_videotrack\local\tracker;
-use mod_videotrack\event\reaction_deleted;
+use mod_videotrack\event\note_deleted;
 
 defined('MOODLE_INTERNAL') || die();
 
@@ -73,7 +73,7 @@ class delete_note extends external_api {
             $DB->update_record('videotrack_reactev', $event);
             tracker::invalidate_reaction_counts_cache($videotrack->id, (int)$USER->id);
 
-            $moodleevent = reaction_deleted::create([
+            $moodleevent = note_deleted::create([
                 'objectid' => $event->id,
                 'context' => $context,
                 'other' => [

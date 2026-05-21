@@ -77,10 +77,6 @@ class provider implements
             'url' => 'privacy:metadata:vimeo:url',
         ], 'privacy:metadata:vimeo');
 
-        $collection->add_external_location_link('browser_session_storage', [
-            'notescollapsed' => 'privacy:metadata:browser_session_storage:notescollapsed',
-        ], 'privacy:metadata:browser_session_storage');
-
         return $collection;
     }
 

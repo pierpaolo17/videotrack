@@ -97,6 +97,7 @@ $string['setting:default_completionpercent_desc'] = 'Pourcentage minimum par dé
 $string['event:segment_saved'] = 'Segment de visionnage enregistré';
 $string['event:reaction_saved'] = 'Réaction soumise';
 $string['event:note_saved'] = 'Note de l’étudiant enregistrée';
+$string['event:note_deleted'] = 'Note personnelle supprimée';
 $string['event:reaction_deleted'] = 'Réaction supprimée';
 $string['setting:heartbeatinterval'] = 'Intervalle de heartbeat (secondes)';
 $string['setting:heartbeatinterval_desc'] = 'À quelle fréquence le lecteur enregistre le segment de visionnage en cours sur le serveur pendant la lecture continue. Des valeurs plus faibles réduisent le risque de perte de données en cas de plantage du navigateur ou de panne réseau, mais augmentent la charge serveur (une requête AJAX + deux requêtes de base de données par étudiant et par intervalle). Plage recommandée : 15–120 secondes. Valeur minimale appliquée : 5 secondes (les valeurs inférieures à 5 sont automatiquement portées à 5 par le serveur).';

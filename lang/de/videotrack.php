@@ -97,6 +97,7 @@ $string['setting:default_completionpercent_desc'] = 'Standard-Mindestprozentsatz
 $string['event:segment_saved'] = 'Wiedergabesegment gespeichert';
 $string['event:reaction_saved'] = 'Reaktion eingereicht';
 $string['event:note_saved'] = 'Studentennotiz gespeichert';
+$string['event:note_deleted'] = 'Persönliche Notiz gelöscht';
 $string['event:reaction_deleted'] = 'Reaktion gelöscht';
 $string['setting:heartbeatinterval'] = 'Heartbeat-Intervall (Sekunden)';
 $string['setting:heartbeatinterval_desc'] = 'Wie oft der Player das aktuelle Wiedergabesegment während der kontinuierlichen Wiedergabe auf dem Server speichert. Niedrigere Werte reduzieren das Risiko von Datenverlust bei Browser-Absturz oder Netzwerkausfall, erhöhen aber die Serverlast (eine AJAX-Anfrage + zwei Datenbankabfragen pro Student und Intervall). Empfohlener Bereich: 15–120 Sekunden. Mindestwert: 5 Sekunden (Werte unter 5 werden vom Server automatisch auf 5 erhöht).';
