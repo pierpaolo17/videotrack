@@ -302,12 +302,14 @@ $string['showtranscript'] = 'Interaktives Transkript anzeigen';
 $string['showtranscript_desc'] = 'Zeigt neben dem Video ein scrollbar- und anklickbares Transkript an (erfordert eine VTT-Untertiteldatei).';
 $string['showtranscript_help'] = 'Liest die hochgeladene VTT-Datei aus und zeigt sie als anklickbare Liste an. Jeder Eintrag enthält Zeitmarke und Text; ein Klick springt im Video zu dieser Stelle.';
 $string['transcript_title'] = 'Transkript';
+$string['transcript_unavailable'] = 'Für dieses Video ist kein Transkript verfügbar.';
 $string['transcript_loading'] = 'Transkript wird geladen…';
 
 // ── Feature 3: Autoplay blocked ───────────────────────────────────────────
 $string['autoblockedlabel'] = 'Klicken Sie auf das Video, um die Wiedergabe zu starten.';
 
 // ── Feature 4: Vimeo CSP warning ──────────────────────────────────────────
+$string['sdkerrorlabel'] = 'Der Videoplayer konnte nicht geladen werden. Ursache können ein Inhaltsblocker, die Content-Security-Policy oder Netzwerkeinschränkungen sein. Deaktivieren Sie Blocker oder wenden Sie sich an die Administration.';
 $string['vimeocspwarnlabel'] = 'Der Vimeo-Player konnte nicht geladen werden. Prüfen Sie die Netzwerkverbindung oder bitten Sie den Administrator, player.vimeo.com in der Content Security Policy zu erlauben.';
 
 // ── Feature 5: Resume label ───────────────────────────────────────────────
@@ -435,6 +437,9 @@ $string['privacy:metadata:youtube:url'] = 'Die für diese Aktivität konfigurier
 $string['privacy:metadata:vimeo'] = 'Bei Verwendung eines Vimeo-Videos verbindet sich der Browser des Nutzers mit Vimeo, um das Video zu laden und abzuspielen.';
 $string['privacy:metadata:vimeo:videoid'] = 'Die für diese Aktivität konfigurierte Vimeo-Video-ID.';
 $string['privacy:metadata:vimeo:url'] = 'Die für diese Aktivität konfigurierte Vimeo-URL.';
+
+$string['privacy:metadata:browser_session_storage'] = 'Die Aktivität speichert temporäre Oberflächen-Einstellungen nur im Session Storage des Browsers.';
+$string['privacy:metadata:browser_session_storage:notescollapsed'] = 'Gibt an, ob das Panel für persönliche Notizen in der aktuellen Browser-Sitzung eingeklappt ist.';
 $string['html5:controls'] = 'Videosteuerungen';
 $string['html5:play'] = 'Abspielen';
 $string['html5:pause'] = 'Pause';

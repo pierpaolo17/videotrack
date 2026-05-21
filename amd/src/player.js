@@ -250,7 +250,7 @@ define(['core/ajax', 'core/log'], function(Ajax, Log) {
             }
             lastReactionAvailabilityAnnouncement = true;
             reactionReadyAnnounced = true;
-            hint.textContent = config.reactionsreadylabel || 'Reactions are now available.';
+            hint.textContent = config.reactionsreadylabel;
             hint.classList.toggle('videotrack-reactions-hint-active', false);
             return;
         }
@@ -267,7 +267,7 @@ define(['core/ajax', 'core/log'], function(Ajax, Log) {
             reactionUnavailableTimer = null;
             lastReactionAvailabilityAnnouncement = false;
             lastReactionUnavailableAt = Date.now();
-            hint.textContent = config.reactionunavailablelabel || 'Reactions are available only during video playback.';
+            hint.textContent = config.reactionunavailablelabel;
             hint.classList.toggle('videotrack-reactions-hint-active', true);
         }, 400);
     }
@@ -286,7 +286,7 @@ define(['core/ajax', 'core/log'], function(Ajax, Log) {
             }
             lastReactionAvailabilityAnnouncement = false;
             lastReactionUnavailableAt = now;
-            hint.textContent = config.reactionunavailablelabel || 'Reactions are available only during video playback.';
+            hint.textContent = config.reactionunavailablelabel;
             hint.classList.add('videotrack-reactions-hint-active');
             window.setTimeout(function() {
                 hint.classList.remove('videotrack-reactions-hint-active');
@@ -417,12 +417,12 @@ define(['core/ajax', 'core/log'], function(Ajax, Log) {
         notice.setAttribute('role', 'status');
         notice.setAttribute('aria-live', 'polite');
         var text = document.createElement('span');
-        text.textContent = (config.resumelabel || 'Resumed from') + ' ' + formatted + '.';
+        text.textContent = (config.resumelabel) + ' ' + formatted + '.';
         notice.appendChild(text);
         var btn = document.createElement('button');
         btn.type = 'button';
         btn.className = 'btn-close ms-2';
-        btn.setAttribute('aria-label', config.dismisslabel || 'Dismiss');
+        btn.setAttribute('aria-label', config.dismisslabel);
         btn.addEventListener('click', function() { notice.parentNode.removeChild(notice); });
         notice.appendChild(btn);
         var shell = document.querySelector('.videotrack-player-shell');
@@ -552,7 +552,7 @@ define(['core/ajax', 'core/log'], function(Ajax, Log) {
                     reactionbtn.classList.remove('videotrack-saving');
                     // Usa il messaggio del server se disponibile (es. 'Il video deve essere in riproduzione').
                     var msg = (err && err.message) ? err.message :
-                        (config.reactionerrorlabel || 'Could not save reaction.');
+                        (config.reactionerrorlabel);
                     showStatusMessage(msg, true);
                 });
                 return;
@@ -714,9 +714,9 @@ define(['core/ajax', 'core/log'], function(Ajax, Log) {
         replayBtn.className = 'btn btn-secondary btn-sm videotrack-replay';
         replayBtn.dataset.start = start;
         replayBtn.dataset.end   = end;
-        replayBtn.textContent = config.replaylabel || 'Replay';
+        replayBtn.textContent = config.replaylabel;
         replayBtn.setAttribute('aria-label',
-            (config.replaylabel || 'Replay') + ' — ' + formatSeconds(videotime));
+            (config.replaylabel) + ' — ' + formatSeconds(videotime));
         tdReplay.appendChild(replayBtn);
         tr.appendChild(tdReplay);
 
@@ -726,10 +726,10 @@ define(['core/ajax', 'core/log'], function(Ajax, Log) {
         delBtn.type = 'button';
         delBtn.className = 'btn btn-link btn-sm videotrack-delete-reaction';
         delBtn.dataset.eventid = eventid;
-        delBtn.textContent = config.removelabel || 'Remove';
+        delBtn.textContent = config.removelabel;
         // WCAG 2.4.6: aria-label contestuale per distinguere i bottoni identici agli SR.
         delBtn.setAttribute('aria-label',
-            (config.removelabel || 'Remove') + ' — ' + (reaction.label || '') + ' — ' + formatSeconds(videotime));
+            (config.removelabel) + ' — ' + (reaction.label || '') + ' — ' + formatSeconds(videotime));
         tdDel.appendChild(delBtn);
         tr.appendChild(tdDel);
 
@@ -784,7 +784,8 @@ define(['core/ajax', 'core/log'], function(Ajax, Log) {
                         var notice = document.createElement('div');
                         notice.className = 'videotrack-autoplay-notice alert alert-info mt-1';
                         notice.setAttribute('role', 'status');
-                        notice.textContent = config.autoblockedlabel || 'Click the video to start playback.';
+                        notice.setAttribute('aria-live', 'polite');
+                        notice.textContent = config.autoblockedlabel;
                         wrap.appendChild(notice);
                         // Remove notice once the user starts playing.
                         // YouTube IFrame API addEventListener uses 'on' prefix: 'onStateChange'.
@@ -836,7 +837,7 @@ define(['core/ajax', 'core/log'], function(Ajax, Log) {
             rwBtn.appendChild(rwIcon);
             rwBtn.appendChild(document.createTextNode(config.rewindstep + 's'));
             rwBtn.setAttribute('aria-label',
-                (config.rewindlabel || 'Rewind') + ' ' + config.rewindstep + ' ' + (config.secondslabel || 'seconds'));
+                (config.rewindlabel) + ' ' + config.rewindstep + ' ' + (config.secondslabel));
             rwBtn.addEventListener('click', function() {
                 if (player && player.getCurrentTime) {
                     player.seekTo(Math.max(0, player.getCurrentTime() - config.rewindstep), true);
@@ -855,7 +856,7 @@ define(['core/ajax', 'core/log'], function(Ajax, Log) {
             ffIcon.textContent = '⏩';
             ffBtn.appendChild(ffIcon);
             ffBtn.setAttribute('aria-label',
-                (config.fastforwardlabel || 'Fast-forward') + ' ' + config.fastforwardstep + ' ' + (config.secondslabel || 'seconds'));
+                (config.fastforwardlabel) + ' ' + config.fastforwardstep + ' ' + (config.secondslabel));
             ffBtn.addEventListener('click', function() {
                 if (player && player.getCurrentTime && player.getDuration) {
                     player.seekTo(
@@ -906,10 +907,10 @@ define(['core/ajax', 'core/log'], function(Ajax, Log) {
             body.style.display = collapsed ? 'none' : '';
             btn.setAttribute('aria-expanded', collapsed ? 'false' : 'true');
             var label = collapsed
-                ? (config.noteshowlabel || 'Show notes')
-                : (config.noteshidelabel || 'Hide notes');
+                ? (config.noteshowlabel)
+                : (config.noteshidelabel);
             btn.textContent = label;
-            btn.setAttribute('aria-label', label + ': ' + (config.notespaneltitle || 'Notes'));
+            btn.setAttribute('aria-label', label + ': ' + (config.notespaneltitle));
             try { window.sessionStorage.setItem(KEY, collapsed ? '1' : '0'); } catch (e) {}
         }
 
@@ -944,7 +945,6 @@ define(['core/ajax', 'core/log'], function(Ajax, Log) {
         function setNoteButtonState(playing) {
             if (!saveBtn) { return; }
             saveBtn.setAttribute('aria-disabled', playing ? 'false' : 'true');
-            saveBtn.disabled = !playing;
             saveBtn.classList.toggle('videotrack-note-save-disabled', !playing);
         }
 
@@ -982,7 +982,7 @@ define(['core/ajax', 'core/log'], function(Ajax, Log) {
             delBtn.type = 'button';
             delBtn.className = 'btn btn-link btn-sm videotrack-delete-note ms-1';
             delBtn.dataset.noteid = noteid;
-            delBtn.textContent = config.removenotelabel || 'Remove note';
+            delBtn.textContent = config.removenotelabel;
             li.appendChild(delBtn);
             list.appendChild(li);
         }
@@ -1030,7 +1030,7 @@ define(['core/ajax', 'core/log'], function(Ajax, Log) {
                 setNoteButtonState(state.playing);
                 // B1/B2/B3 fix: use showStatusMessage() for consistent 8s visibility
                 // and correct aria role management (avoids direct role mutation).
-                showStatusMessage(config.noteerrorlabel || 'Could not save note. Please try again.', true);
+                showStatusMessage(config.noteerrorlabel, true);
             });
         });
 
@@ -1040,8 +1040,8 @@ define(['core/ajax', 'core/log'], function(Ajax, Log) {
             if (!delBtn) { return; }
             var noteid = parseInt(delBtn.dataset.noteid, 10);
             if (!noteid) { return; }
-            // Riutilizza delete_reaction (stesso record in videotrack_reactev).
-            ajax('mod_videotrack_delete_reaction', {
+            // Endpoint dedicato alle note personali (stesso record in videotrack_reactev).
+            ajax('mod_videotrack_delete_note', {
                 cmid:           config.cmid,
                 reactioneventid: noteid,
             }).then(function(response) {

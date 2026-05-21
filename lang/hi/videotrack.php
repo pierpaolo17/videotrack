@@ -302,12 +302,14 @@ $string['showtranscript'] = 'इंटरैक्टिव ट्रांस�
 $string['showtranscript_desc'] = 'वीडियो के पास स्क्रॉल और क्लिक की जा सकने वाली ट्रांसक्रिप्ट दिखाता है (VTT उपशीर्षक फ़ाइल आवश्यक)।';
 $string['showtranscript_help'] = 'अपलोड की गई VTT फ़ाइल को पढ़कर क्लिक करने योग्य सूची के रूप में दिखाता है। हर प्रविष्टि में टाइमस्टैम्प और पाठ होता है; क्लिक करने पर वीडियो उस स्थान पर जाता है।';
 $string['transcript_title'] = 'ट्रांसक्रिप्ट';
+$string['transcript_unavailable'] = 'इस वीडियो के लिए ट्रांसक्रिप्ट उपलब्ध नहीं है।';
 $string['transcript_loading'] = 'ट्रांसक्रिप्ट लोड हो रही है…';
 
 // ── Feature 3: Autoplay blocked ───────────────────────────────────────────
 $string['autoblockedlabel'] = 'प्लेबैक शुरू करने के लिए वीडियो पर क्लिक करें।';
 
 // ── Feature 4: Vimeo CSP warning ──────────────────────────────────────────
+$string['sdkerrorlabel'] = 'वीडियो प्लेयर लोड नहीं हो सका। इसका कारण ad-blocker, Content Security Policy या नेटवर्क प्रतिबंध हो सकता है। कंटेंट ब्लॉकर बंद करें या व्यवस्थापक से संपर्क करें।';
 $string['vimeocspwarnlabel'] = 'Vimeo प्लेयर लोड नहीं हो सका। नेटवर्क कनेक्शन जाँचें या व्यवस्थापक से Content Security Policy में player.vimeo.com की अनुमति देने को कहें।';
 
 // ── Feature 5: Resume label ───────────────────────────────────────────────
@@ -435,6 +437,9 @@ $string['privacy:metadata:youtube:url'] = 'इस गतिविधि के �
 $string['privacy:metadata:vimeo'] = 'जब Vimeo वीडियो उपयोग किया जाता है, तो उपयोगकर्ता का ब्राउज़र वीडियो लोड और चलाने के लिए Vimeo से जुड़ता है।';
 $string['privacy:metadata:vimeo:videoid'] = 'इस गतिविधि के लिए कॉन्फ़िगर किया गया Vimeo वीडियो पहचानकर्ता।';
 $string['privacy:metadata:vimeo:url'] = 'इस गतिविधि के लिए कॉन्फ़िगर किया गया Vimeo URL।';
+
+$string['privacy:metadata:browser_session_storage'] = 'यह गतिविधि अस्थायी इंटरफेस प्राथमिकताएँ केवल ब्राउज़र sessionStorage में सहेजती है।';
+$string['privacy:metadata:browser_session_storage:notescollapsed'] = 'क्या व्यक्तिगत नोट्स पैनल वर्तमान ब्राउज़र सत्र में संकुचित है।';
 $string['html5:controls'] = 'वीडियो नियंत्रण';
 $string['html5:play'] = 'चलाएँ';
 $string['html5:pause'] = 'विराम';

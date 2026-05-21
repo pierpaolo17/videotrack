@@ -34,6 +34,17 @@ $functions = [
         'capabilities' => 'mod/videotrack:view',
     ],
 
+    'mod_videotrack_delete_note' => [
+        'classname' => 'mod_videotrack\external\delete_note',
+        'methodname' => 'execute',
+        'classpath' => '',
+        'description' => 'Delete a personal note from current user.',
+        'type' => 'write',
+        'ajax' => true,
+        'loginrequired' => true,
+        'capabilities' => 'mod/videotrack:view',
+    ],
+
     'mod_videotrack_save_note' => [
         'classname'     => 'mod_videotrack\\external\\save_note',
         'methodname'    => 'execute',

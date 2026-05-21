@@ -1,6 +1,6 @@
 # mod_videotrack — Guida alla struttura del codice
 
-**Versione**: 1.0.71 (build 2026070109)
+**Versione**: 1.0.72 (build 2026070110)
 **Prerequisito di lettura**: conoscenza base di Moodle (plugin system, `$DB`, `$USER`, `cm_info`) e PHP/JavaScript.
 
 ---
@@ -220,10 +220,10 @@ Un record per ogni click su un bottone reazione o per ogni nota salvata.
 
 ```php
 $plugin->component = 'mod_videotrack';
-$plugin->version   = 2026070109;
+$plugin->version   = 2026070110;
 $plugin->requires  = 2025041400; // Moodle 5.0.
 $plugin->maturity  = MATURITY_BETA;
-$plugin->release   = '1.0.71';
+$plugin->release   = '1.0.72';
 ```
 
 È il file letto da Moodle per decidere se mostrare l'upgrade dialog. `version` è un intero in formato `YYYYMMDDnn`. `requires` è la build minima di Moodle supportata.
@@ -1058,3 +1058,12 @@ Questa scelta evita esportazioni parziali interpretate come complete e mantiene 
 - Ottimizzata la query delle note studente rimuovendo il `COUNT` separato e usando il recupero `limit + 1`.
 - Resa idempotente la cancellazione di note/reazioni già eliminate, evitando update e log Moodle duplicati.
 - Ridotti i fallback inglesi nel player HTML5 usando le stringhe localizzate passate da `view.php`.
+
+
+### Aggiornamento 1.0.72
+- Corretto l'allineamento dei build AMD YouTube/Vimeo con i sorgenti, eliminando riferimenti minificati a variabili non definite.
+- Aggiunto endpoint AJAX dedicato `mod_videotrack_delete_note` per rendere esplicita la semantica di cancellazione delle note personali.
+- Migliorata l'accessibilità delle note con riferimenti `aria-describedby` validi e bottoni nota focusable con `aria-disabled`.
+- Migliorato il transcript VTT: messaggio localizzato quando non disponibile e relazione `aria-controls` verso il player.
+- Aggiornata la disclosure privacy per la preferenza UI salvata in `sessionStorage` del browser.
+- Ridotti fallback testuali inglesi nei player AMD, usando le stringhe passate da `view.php`.

@@ -131,6 +131,8 @@ $playerconfig = [
     'reactionreadydebouncems' => videotrack_get_config_int('reactionreadydebouncems', 400, 0, 2000),
     'autoblockedlabel'       => get_string('autoblockedlabel',   'mod_videotrack'),
     'vimeocspwarnlabel'      => get_string('vimeocspwarnlabel',  'mod_videotrack'),
+    'sdkerrorlabel'          => get_string('sdkerrorlabel',       'mod_videotrack'),
+    'transcriptunavailablelabel' => get_string('transcript_unavailable', 'mod_videotrack'),
     'nofilelabel'            => get_string('nofilelabel',         'mod_videotrack'),
     'html5controlslabel'     => get_string('html5:controls',      'mod_videotrack'),
     'html5playlabel'         => get_string('html5:play',          'mod_videotrack'),
@@ -383,13 +385,14 @@ if (!empty($videotrack->studentnotesenabled)) {
     );
     // Contatore caratteri rimanenti — aggiornato in tempo reale da JS.
     echo html_writer::tag('span', '2000 ' . get_string('charsremaininglabel', 'mod_videotrack'), [
-        'class'     => 'videotrack-note-charcount small text-muted ms-2',
+        'id'         => 'videotrack-note-charcount',
+        'class'      => 'videotrack-note-charcount small text-muted ms-2',
         'aria-atomic'=> 'true',
     ]);
     // Avviso: la nota viene salvata al timestamp attuale del video.
     echo html_writer::tag('p',
         get_string('studentnote_hint', 'mod_videotrack'),
-        ['class' => 'small text-muted mt-1 mb-1']
+        ['id' => 'videotrack-note-hint', 'class' => 'small text-muted mt-1 mb-1']
     );
     // Lista delle note salvate (popolata da JS + server-side).
     echo html_writer::start_tag('ol', [

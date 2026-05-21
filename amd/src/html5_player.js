@@ -228,12 +228,12 @@ define(['core/ajax', 'core/log'], function(Ajax, Log) {
         notice.setAttribute('role', 'status');
         notice.setAttribute('aria-live', 'polite');
         var text = document.createElement('span');
-        text.textContent = (config.resumelabel || 'Resumed from') + ' ' + formatted + '.';
+        text.textContent = (config.resumelabel) + ' ' + formatted + '.';
         notice.appendChild(text);
         var btn = document.createElement('button');
         btn.type = 'button';
         btn.className = 'btn-close ms-2';
-        btn.setAttribute('aria-label', config.dismisslabel || 'Dismiss');
+        btn.setAttribute('aria-label', config.dismisslabel);
         btn.addEventListener('click', function() { notice.parentNode.removeChild(notice); });
         notice.appendChild(btn);
         var shell = document.querySelector('.videotrack-player-shell');
@@ -309,7 +309,7 @@ define(['core/ajax', 'core/log'], function(Ajax, Log) {
                 var nofileMsg = document.createElement('div');
                 nofileMsg.className = 'alert alert-warning mt-2';
                 nofileMsg.setAttribute('role', 'alert');
-                nofileMsg.textContent = config.nofilelabel || 'No video file has been uploaded for this activity.';
+                nofileMsg.textContent = config.nofilelabel;
                 nofileWrap.parentNode.insertBefore(nofileMsg, nofileWrap.nextSibling);
             }
             return;
@@ -330,7 +330,8 @@ define(['core/ajax', 'core/log'], function(Ajax, Log) {
                         var notice = document.createElement('div');
                         notice.className = 'videotrack-autoplay-notice alert alert-info mt-1';
                         notice.setAttribute('role', 'status');
-                        notice.textContent = config.autoblockedlabel || 'Click the video to start playback.';
+                        notice.setAttribute('aria-live', 'polite');
+                        notice.textContent = config.autoblockedlabel;
                         wrap.appendChild(notice);
                     }
                 });
@@ -360,7 +361,7 @@ define(['core/ajax', 'core/log'], function(Ajax, Log) {
             track.kind    = 'subtitles';
             track.src     = config.vtturl;
             track.srclang = config.captionslang || 'und';
-            track.label   = config.captionslang || 'Subtitles';
+            track.label   = config.captionslang;
             track.default = true;
             media.appendChild(track);
         }
@@ -385,11 +386,11 @@ define(['core/ajax', 'core/log'], function(Ajax, Log) {
         var bar = document.createElement('div');
         bar.className = 'videotrack-html5-controls';
         bar.setAttribute('role', 'toolbar');
-        bar.setAttribute('aria-label', config.html5controlslabel || 'Video controls');
+        bar.setAttribute('aria-label', config.html5controlslabel);
 
         // ── Play / Pause ─────────────────────────────────────
         if (controls.indexOf('play') >= 0) {
-            var playBtn = makeBtn('videotrack-ctrl-play', '▶', config.html5playlabel || 'Play');
+            var playBtn = makeBtn('videotrack-ctrl-play', '▶', config.html5playlabel);
             playBtn.addEventListener('click', function() {
                 if (media.paused) { media.play(); } else { media.pause(); }
             });
@@ -439,7 +440,7 @@ define(['core/ajax', 'core/log'], function(Ajax, Log) {
             progressBar.min   = '0';
             progressBar.max   = '100';
             progressBar.value = '0';
-            progressBar.setAttribute('aria-label',    config.html5seeklabel || 'Seek');
+            progressBar.setAttribute('aria-label',    config.html5seeklabel);
             progressBar.setAttribute('aria-valuemin', '0');
             progressBar.setAttribute('aria-valuemax', '100');
             progressBar.setAttribute('aria-valuenow', '0');
@@ -488,11 +489,11 @@ define(['core/ajax', 'core/log'], function(Ajax, Log) {
 
         // ── Mute ─────────────────────────────────────────────
         if (controls.indexOf('mute') >= 0) {
-            var muteBtn = makeBtn('videotrack-ctrl-mute', '🔊', config.html5mutelabel || 'Mute');
+            var muteBtn = makeBtn('videotrack-ctrl-mute', '🔊', config.html5mutelabel);
             muteBtn.addEventListener('click', function() {
                 media.muted = !media.muted;
                 muteBtn.textContent = media.muted ? '🔇' : '🔊';
-                muteBtn.setAttribute('aria-label', media.muted ? (config.html5unmutelabel || 'Unmute') : (config.html5mutelabel || 'Mute'));
+                muteBtn.setAttribute('aria-label', media.muted ? (config.html5unmutelabel) : (config.html5mutelabel));
             });
             bar.appendChild(muteBtn);
         }
@@ -508,7 +509,7 @@ define(['core/ajax', 'core/log'], function(Ajax, Log) {
             var initialVolumePercent = media.muted ? 0 : Math.round(media.volume * 100 / 5) * 5;
             initialVolumePercent = Math.max(0, Math.min(100, initialVolumePercent));
             volSlider.value = String(initialVolumePercent);
-            volSlider.setAttribute('aria-label', config.html5volumelabel || 'Volume');
+            volSlider.setAttribute('aria-label', config.html5volumelabel);
             volSlider.setAttribute('aria-valuemin', '0');
             volSlider.setAttribute('aria-valuemax', '100');
             volSlider.setAttribute('aria-valuenow', String(initialVolumePercent));
@@ -536,7 +537,7 @@ define(['core/ajax', 'core/log'], function(Ajax, Log) {
                     (speed === 1 ? ' active' : '');
                 btn.textContent = speed + '×';
                 btn.dataset.speed = speed;
-                btn.setAttribute('aria-label', (config.html5speedlabel || 'Speed') + ' ' + speed + 'x');
+                btn.setAttribute('aria-label', (config.html5speedlabel) + ' ' + speed + 'x');
                 btn.addEventListener('click', function() {
                     media.playbackRate = speed;
                     state.playbackrate = speed;
@@ -551,7 +552,7 @@ define(['core/ajax', 'core/log'], function(Ajax, Log) {
 
         // ── PiP ──────────────────────────────────────────────
         if (!isAudio && controls.indexOf('pip') >= 0 && document.pictureInPictureEnabled) {
-            var pipBtn = makeBtn('videotrack-ctrl-pip', '⧉', config.html5piplabel || 'Picture-in-Picture');
+            var pipBtn = makeBtn('videotrack-ctrl-pip', '⧉', config.html5piplabel);
             pipBtn.setAttribute('aria-pressed', 'false');
             var updatePipPressed = function() {
                 pipBtn.setAttribute('aria-pressed', document.pictureInPictureElement === media ? 'true' : 'false');
@@ -571,7 +572,7 @@ define(['core/ajax', 'core/log'], function(Ajax, Log) {
         // ── Fullscreen ────────────────────────────────────────
         if (!isAudio && controls.indexOf('fullscreen') >= 0) {
             var fsWrapper = container.closest('.videotrack-player-wrap') || container;
-            var fsBtn = makeBtn('videotrack-ctrl-fs', '⛶', config.html5fullscreenlabel || 'Fullscreen');
+            var fsBtn = makeBtn('videotrack-ctrl-fs', '⛶', config.html5fullscreenlabel);
             fsBtn.setAttribute('aria-pressed', 'false');
             var updateFullscreenPressed = function() {
                 fsBtn.setAttribute('aria-pressed', document.fullscreenElement === fsWrapper ? 'true' : 'false');
@@ -596,7 +597,7 @@ define(['core/ajax', 'core/log'], function(Ajax, Log) {
             dlBtn.download = '';
             dlBtn.className = 'btn btn-sm btn-outline-secondary videotrack-ctrl-download';
             dlBtn.textContent = '⬇';
-            dlBtn.setAttribute('aria-label', config.html5downloadlabel || 'Download');
+            dlBtn.setAttribute('aria-label', config.html5downloadlabel);
             bar.appendChild(dlBtn);
         }
 
@@ -647,11 +648,11 @@ define(['core/ajax', 'core/log'], function(Ajax, Log) {
 
         media.addEventListener('play', function() {
             var playBtn2 = bar.querySelector('.videotrack-ctrl-play');
-            if (playBtn2) { playBtn2.textContent = '⏸'; playBtn2.setAttribute('aria-label', config.html5pauselabel || 'Pause'); }
+            if (playBtn2) { playBtn2.textContent = '⏸'; playBtn2.setAttribute('aria-label', config.html5pauselabel); }
         });
         media.addEventListener('pause', function() {
             var playBtn2 = bar.querySelector('.videotrack-ctrl-play');
-            if (playBtn2) { playBtn2.textContent = '▶'; playBtn2.setAttribute('aria-label', config.html5playlabel || 'Play'); }
+            if (playBtn2) { playBtn2.textContent = '▶'; playBtn2.setAttribute('aria-label', config.html5playlabel); }
         });
 
         // Append bar after the media element, inside the player wrapper.
@@ -801,7 +802,7 @@ define(['core/ajax', 'core/log'], function(Ajax, Log) {
             }
             lastReactionAvailabilityAnnouncement = true;
             reactionReadyAnnounced = true;
-            hint.textContent = config.reactionsreadylabel || 'Reactions are now available.';
+            hint.textContent = config.reactionsreadylabel;
             hint.classList.toggle('videotrack-reactions-hint-active', false);
             return;
         }
@@ -818,7 +819,7 @@ define(['core/ajax', 'core/log'], function(Ajax, Log) {
             reactionUnavailableTimer = null;
             lastReactionAvailabilityAnnouncement = false;
             lastReactionUnavailableAt = Date.now();
-            hint.textContent = config.reactionunavailablelabel || 'Reactions are available only during video playback.';
+            hint.textContent = config.reactionunavailablelabel;
             hint.classList.toggle('videotrack-reactions-hint-active', true);
         }, 400);
     }
@@ -837,7 +838,7 @@ define(['core/ajax', 'core/log'], function(Ajax, Log) {
             }
             lastReactionAvailabilityAnnouncement = false;
             lastReactionUnavailableAt = now;
-            hint.textContent = config.reactionunavailablelabel || 'Reactions are available only during video playback.';
+            hint.textContent = config.reactionunavailablelabel;
             hint.classList.add('videotrack-reactions-hint-active');
             window.setTimeout(function() {
                 hint.classList.remove('videotrack-reactions-hint-active');
@@ -897,9 +898,9 @@ define(['core/ajax', 'core/log'], function(Ajax, Log) {
             var replaybtn = document.createElement('button');
             replaybtn.type = 'button';
             replaybtn.className = 'btn btn-secondary btn-sm videotrack-replay';
-            replaybtn.textContent = config.replaylabel || 'Replay';
+            replaybtn.textContent = config.replaylabel;
             replaybtn.setAttribute('aria-label',
-                (config.replaylabel || 'Replay') + ' — ' + formatSeconds(videotime));
+                (config.replaylabel) + ' — ' + formatSeconds(videotime));
             replaybtn.dataset.start = Math.max(0, videotime - 30);
             replaybtn.dataset.end   = videotime + 30;
             tdreplay.appendChild(replaybtn);
@@ -909,10 +910,10 @@ define(['core/ajax', 'core/log'], function(Ajax, Log) {
             var delbtn = document.createElement('button');
             delbtn.type = 'button';
             delbtn.className = 'btn btn-link btn-sm videotrack-delete-reaction';
-            delbtn.textContent = config.removelabel || 'Remove';
+            delbtn.textContent = config.removelabel;
             delbtn.setAttribute('data-eventid', eventid);
             delbtn.setAttribute('aria-label',
-                (config.removelabel || 'Remove') + ' — ' + (reaction.label || '') + ' — ' + formatSeconds(videotime));
+                (config.removelabel) + ' — ' + (reaction.label || '') + ' — ' + formatSeconds(videotime));
             tddel.appendChild(delbtn);
             tr.appendChild(tddel);
             tbody.appendChild(tr);
@@ -959,7 +960,7 @@ define(['core/ajax', 'core/log'], function(Ajax, Log) {
                 }).catch(function(err) {
                     reactionbtn.classList.remove('videotrack-saving');
                     var msg = (err && err.message) ? err.message :
-                        (config.reactionerrorlabel || 'Could not save reaction.');
+                        (config.reactionerrorlabel);
                     showStatusMessage(msg, true);
                 });
                 return;
@@ -1088,7 +1089,7 @@ define(['core/ajax', 'core/log'], function(Ajax, Log) {
             .then(function(text) {
                 var cues = parseVTT(text);
                 if (!cues.length) {
-                    panel.innerHTML = '';
+                    showTranscriptUnavailable(panel);
                     return;
                 }
                 renderTranscript(panel, cues);
@@ -1096,8 +1097,20 @@ define(['core/ajax', 'core/log'], function(Ajax, Log) {
             })
             .catch(function(err) {
                 Log.debug('mod_videotrack: could not load VTT transcript — ' + err);
-                panel.innerHTML = '';
+                showTranscriptUnavailable(panel);
             });
+    }
+
+
+    /** Mostra un messaggio accessibile quando il transcript non è disponibile. */
+    function showTranscriptUnavailable(panel) {
+        if (!panel) { return; }
+        panel.innerHTML = '';
+        var msg = document.createElement('p');
+        msg.className = 'videotrack-transcript-empty text-muted mb-0';
+        msg.setAttribute('role', 'status');
+        msg.textContent = config.transcriptunavailablelabel;
+        panel.appendChild(msg);
     }
 
     /**
@@ -1192,6 +1205,7 @@ define(['core/ajax', 'core/log'], function(Ajax, Log) {
             btn.className = 'btn btn-link btn-sm text-start videotrack-transcript-btn';
             btn.dataset.start = cue.start;
             btn.setAttribute('aria-label', formatSeconds(cue.start) + ' — ' + cue.text);
+            btn.setAttribute('aria-controls', 'mod-videotrack-player');
             var timeSpan = document.createElement('span');
             timeSpan.className = 'videotrack-transcript-time text-muted me-1';
             timeSpan.textContent = formatSeconds(cue.start);
@@ -1415,8 +1429,8 @@ define(['core/ajax', 'core/log'], function(Ajax, Log) {
             if (!delBtn) { return; }
             var noteid = parseInt(delBtn.dataset.noteid, 10);
             if (!noteid) { return; }
-            // Riutilizza delete_reaction (stesso record in videotrack_reactev).
-            ajax('mod_videotrack_delete_reaction', {
+            // Endpoint dedicato alle note personali (stesso record in videotrack_reactev).
+            ajax('mod_videotrack_delete_note', {
                 cmid:           config.cmid,
                 reactioneventid: noteid,
             }).then(function(response) {
