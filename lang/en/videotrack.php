@@ -303,12 +303,14 @@ $string['showtranscript']           = 'Show interactive transcript';
 $string['showtranscript_desc']      = 'Display a scrollable, clickable transcript panel next to the video (requires a VTT subtitle file).';
 $string['showtranscript_help']      = 'Parses the uploaded VTT subtitle file and renders it as a clickable list. Each entry shows the timestamp and text; clicking jumps the video to that point. The active cue is highlighted and scrolls into view automatically.';
 $string['transcript_title']         = 'Transcript';
+$string['transcript_unavailable'] = 'Transcript is not available for this video.';
 $string['transcript_loading']       = 'Loading transcript…';
 
 // ── Feature 3: Autoplay blocked ───────────────────────────────────────────
 $string['autoblockedlabel']         = 'Click the video to start playback.';
 
 // ── Feature 4: Vimeo CSP warning ──────────────────────────────────────────
+$string['sdkerrorlabel'] = 'The video player could not be loaded. This may be caused by an ad-blocker, Content Security Policy or network restriction. Please disable content blockers or contact your administrator.';
 $string['vimeocspwarnlabel']        = 'The Vimeo player could not be loaded. Please check your network connection, or ask your administrator to allow player.vimeo.com in the Content Security Policy.';
 
 // ── Feature 5: Resume label ───────────────────────────────────────────────
@@ -434,6 +436,9 @@ $string['privacy:metadata:youtube:url'] = 'The YouTube URL configured for this a
 $string['privacy:metadata:vimeo'] = 'When a Vimeo video is used, the user browser connects to Vimeo to load and play the video.';
 $string['privacy:metadata:vimeo:videoid'] = 'The Vimeo video identifier configured for this activity.';
 $string['privacy:metadata:vimeo:url'] = 'The Vimeo URL configured for this activity.';
+
+$string['privacy:metadata:browser_session_storage'] = 'The activity stores temporary interface preferences in the browser session storage only.';
+$string['privacy:metadata:browser_session_storage:notescollapsed'] = 'Whether the personal notes panel is collapsed for the current browser session.';
 $string['html5:controls'] = 'Video controls';
 $string['html5:play'] = 'Play';
 $string['html5:pause'] = 'Pause';

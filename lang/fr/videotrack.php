@@ -302,12 +302,14 @@ $string['showtranscript'] = 'Afficher la transcription interactive';
 $string['showtranscript_desc'] = 'Affiche un panneau de transcription défilant et cliquable à côté de la vidéo (nécessite un fichier de sous-titres VTT).';
 $string['showtranscript_help'] = 'Analyse le fichier VTT téléversé et l’affiche sous forme de liste cliquable. Chaque entrée affiche l’horodatage et le texte ; un clic déplace la vidéo à ce point. Le segment actif est mis en évidence et affiché automatiquement.';
 $string['transcript_title'] = 'Transcription';
+$string['transcript_unavailable'] = 'La transcription n’est pas disponible pour cette vidéo.';
 $string['transcript_loading'] = 'Chargement de la transcription…';
 
 // ── Feature 3: Autoplay blocked ───────────────────────────────────────────
 $string['autoblockedlabel'] = 'Cliquez sur la vidéo pour démarrer la lecture.';
 
 // ── Feature 4: Vimeo CSP warning ──────────────────────────────────────────
+$string['sdkerrorlabel'] = 'Le lecteur vidéo n’a pas pu être chargé. Cela peut être dû à un bloqueur de publicité, à la politique de sécurité du contenu ou à une restriction réseau. Désactivez les bloqueurs ou contactez votre administrateur.';
 $string['vimeocspwarnlabel'] = 'Le lecteur Vimeo n’a pas pu être chargé. Vérifiez la connexion réseau ou demandez à l’administrateur d’autoriser player.vimeo.com dans la Content Security Policy.';
 
 // ── Feature 5: Resume label ───────────────────────────────────────────────
@@ -435,6 +437,9 @@ $string['privacy:metadata:youtube:url'] = 'L’URL YouTube configurée pour cett
 $string['privacy:metadata:vimeo'] = 'Lorsqu’une vidéo Vimeo est utilisée, le navigateur de l’utilisateur se connecte à Vimeo pour charger et lire la vidéo.';
 $string['privacy:metadata:vimeo:videoid'] = 'L’identifiant de la vidéo Vimeo configurée pour cette activité.';
 $string['privacy:metadata:vimeo:url'] = 'L’URL Vimeo configurée pour cette activité.';
+
+$string['privacy:metadata:browser_session_storage'] = 'L’activité stocke des préférences temporaires d’interface uniquement dans le stockage de session du navigateur.';
+$string['privacy:metadata:browser_session_storage:notescollapsed'] = 'Indique si le panneau des notes personnelles est replié pour la session actuelle du navigateur.';
 $string['html5:controls'] = 'Contrôles vidéo';
 $string['html5:play'] = 'Lire';
 $string['html5:pause'] = 'Pause';

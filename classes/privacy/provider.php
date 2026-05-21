@@ -15,6 +15,13 @@ use core_privacy\local\request\userlist;
 use core_privacy\local\request\writer;
 use mod_videotrack\local\privacy_manager;
 
+/**
+ * Privacy provider for video tracking, reactions and personal notes.
+ *
+ * @package    mod_videotrack
+ * @copyright  2026
+ * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
+ */
 class provider implements
     \core_privacy\local\metadata\provider,
     \core_privacy\local\request\plugin\provider,
@@ -69,6 +76,10 @@ class provider implements
             'videoid' => 'privacy:metadata:vimeo:videoid',
             'url' => 'privacy:metadata:vimeo:url',
         ], 'privacy:metadata:vimeo');
+
+        $collection->add_external_location_link('browser_session_storage', [
+            'notescollapsed' => 'privacy:metadata:browser_session_storage:notescollapsed',
+        ], 'privacy:metadata:browser_session_storage');
 
         return $collection;
     }

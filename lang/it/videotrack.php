@@ -302,12 +302,14 @@ $string['showtranscript'] = 'Mostra trascrizione interattiva';
 $string['showtranscript_desc'] = 'Visualizza accanto al video un pannello di trascrizione scorrevole e cliccabile (richiede un file sottotitoli VTT).';
 $string['showtranscript_help'] = 'Analizza il file VTT caricato e lo mostra come elenco cliccabile. Ogni voce contiene timestamp e testo; il clic porta il video a quel punto. Il cue attivo viene evidenziato e portato automaticamente in vista.';
 $string['transcript_title'] = 'Trascrizione';
+$string['transcript_unavailable'] = 'La trascrizione non è disponibile per questo video.';
 $string['transcript_loading'] = 'Caricamento trascrizione…';
 
 // ── Feature 3: Autoplay blocked ───────────────────────────────────────────
 $string['autoblockedlabel'] = 'Fai clic sul video per avviare la riproduzione.';
 
 // ── Feature 4: Vimeo CSP warning ──────────────────────────────────────────
+$string['sdkerrorlabel'] = 'Impossibile caricare il player video. Il problema può dipendere da ad-blocker, Content Security Policy o restrizioni di rete. Disabilita i blocchi dei contenuti o contatta l’amministratore.';
 $string['vimeocspwarnlabel'] = 'Impossibile caricare il player Vimeo. Controlla la connessione di rete o chiedi all’amministratore di consentire player.vimeo.com nella Content Security Policy.';
 
 // ── Feature 5: Resume label ───────────────────────────────────────────────
@@ -433,6 +435,9 @@ $string['privacy:metadata:youtube:url'] = 'URL YouTube configurato per questa at
 $string['privacy:metadata:vimeo'] = 'Quando viene usato un video Vimeo, il browser dell’utente si collega a Vimeo per caricare e riprodurre il video.';
 $string['privacy:metadata:vimeo:videoid'] = 'Identificativo del video Vimeo configurato per questa attività.';
 $string['privacy:metadata:vimeo:url'] = 'URL Vimeo configurato per questa attività.';
+
+$string['privacy:metadata:browser_session_storage'] = 'L’attività salva preferenze temporanee dell’interfaccia solo nel sessionStorage del browser.';
+$string['privacy:metadata:browser_session_storage:notescollapsed'] = 'Indica se il pannello delle note personali è compresso per la sessione corrente del browser.';
 $string['html5:controls'] = 'Controlli video';
 $string['html5:play'] = 'Riproduci';
 $string['html5:pause'] = 'Pausa';

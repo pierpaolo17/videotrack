@@ -302,12 +302,14 @@ $string['showtranscript'] = 'Pokaż transkrypcję';
 $string['showtranscript_desc'] = 'Wyświetla transkrypcję, jeśli jest dostępna.';
 $string['showtranscript_help'] = 'Analizuje przesłany plik VTT i wyświetla go jako listę z możliwością klikania. Każdy wpis pokazuje znacznik czasu i tekst; kliknięcie przenosi wideo do tego miejsca. Aktywny cue jest podświetlony i automatycznie przewijany do widoku.';
 $string['transcript_title'] = 'Transkrypcja';
+$string['transcript_unavailable'] = 'Transkrypcja nie jest dostępna dla tego wideo.';
 $string['transcript_loading'] = 'Ładowanie transkrypcji…';
 
 // ── Feature 3: Autoplay blocked ───────────────────────────────────────────
 $string['autoblockedlabel'] = 'Autoodtwarzanie zostało zablokowane przez przeglądarkę.';
 
 // ── Feature 4: Vimeo CSP warning ──────────────────────────────────────────
+$string['sdkerrorlabel'] = 'Nie można załadować odtwarzacza wideo. Przyczyną może być bloker treści, Content Security Policy lub ograniczenie sieciowe. Wyłącz blokery albo skontaktuj się z administratorem.';
 $string['vimeocspwarnlabel'] = 'Odtwarzacz Vimeo może wymagać zezwolenia w Content Security Policy.';
 
 // ── Feature 5: Resume label ───────────────────────────────────────────────
@@ -433,6 +435,9 @@ $string['privacy:metadata:youtube:url'] = 'Adres URL YouTube skonfigurowany dla 
 $string['privacy:metadata:vimeo'] = 'Gdy używane jest wideo Vimeo, przeglądarka użytkownika łączy się z Vimeo, aby załadować i odtworzyć wideo.';
 $string['privacy:metadata:vimeo:videoid'] = 'Identyfikator wideo Vimeo skonfigurowany dla tej aktywności.';
 $string['privacy:metadata:vimeo:url'] = 'Adres URL Vimeo skonfigurowany dla tej aktywności.';
+
+$string['privacy:metadata:browser_session_storage'] = 'Aktywność zapisuje tymczasowe preferencje interfejsu wyłącznie w sessionStorage przeglądarki.';
+$string['privacy:metadata:browser_session_storage:notescollapsed'] = 'Określa, czy panel osobistych notatek jest zwinięty w bieżącej sesji przeglądarki.';
 $string['html5:controls'] = 'Kontrolki wideo';
 $string['html5:play'] = 'Odtwórz';
 $string['html5:pause'] = 'Pauza';

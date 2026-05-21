@@ -302,12 +302,14 @@ $string['showtranscript'] = 'Mostrar transcripción interactiva';
 $string['showtranscript_desc'] = 'Muestra junto al vídeo un panel de transcripción desplazable y clicable (requiere archivo VTT).';
 $string['showtranscript_help'] = 'Analiza el archivo VTT subido y lo muestra como lista clicable. Cada entrada muestra marca temporal y texto; al hacer clic se salta a ese punto.';
 $string['transcript_title'] = 'Transcripción';
+$string['transcript_unavailable'] = 'La transcripción no está disponible para este vídeo.';
 $string['transcript_loading'] = 'Cargando transcripción…';
 
 // ── Feature 3: Autoplay blocked ───────────────────────────────────────────
 $string['autoblockedlabel'] = 'Haga clic en el vídeo para iniciar la reproducción.';
 
 // ── Feature 4: Vimeo CSP warning ──────────────────────────────────────────
+$string['sdkerrorlabel'] = 'No se pudo cargar el reproductor de vídeo. Puede deberse a un bloqueador, a la política de seguridad de contenido o a una restricción de red. Desactive los bloqueadores o contacte con el administrador.';
 $string['vimeocspwarnlabel'] = 'No se pudo cargar el reproductor de Vimeo. Revise la conexión o pida al administrador que permita player.vimeo.com en la Content Security Policy.';
 
 // ── Feature 5: Resume label ───────────────────────────────────────────────
@@ -435,6 +437,9 @@ $string['privacy:metadata:youtube:url'] = 'La URL de YouTube configurada para es
 $string['privacy:metadata:vimeo'] = 'Cuando se usa un vídeo de Vimeo, el navegador del usuario se conecta a Vimeo para cargar y reproducir el vídeo.';
 $string['privacy:metadata:vimeo:videoid'] = 'El identificador del vídeo de Vimeo configurado para esta actividad.';
 $string['privacy:metadata:vimeo:url'] = 'La URL de Vimeo configurada para esta actividad.';
+
+$string['privacy:metadata:browser_session_storage'] = 'La actividad guarda preferencias temporales de interfaz solo en el almacenamiento de sesión del navegador.';
+$string['privacy:metadata:browser_session_storage:notescollapsed'] = 'Indica si el panel de notas personales está contraído durante la sesión actual del navegador.';
 $string['html5:controls'] = 'Controles de vídeo';
 $string['html5:play'] = 'Reproducir';
 $string['html5:pause'] = 'Pausa';
