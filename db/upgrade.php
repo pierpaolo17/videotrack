@@ -809,5 +809,11 @@ function xmldb_videotrack_upgrade($oldversion) {
         upgrade_mod_savepoint(true, 2026070112, 'videotrack');
     }
 
+
+    if ($oldversion < 2026070200) {
+        // 1.1.0: JavaScript player refactor with shared AMD core modules.
+        upgrade_mod_savepoint(true, 2026070200, 'videotrack');
+    }
+
     return true;
 }
