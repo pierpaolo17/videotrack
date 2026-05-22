@@ -1202,3 +1202,10 @@ Refactor iniziale dei player AMD:
 - Allineata la documentazione tecnica alla struttura AMD `core/utils.js`, `core/ui.js` e `core/player.js`.
 - Aggiornato l'intervallo dichiarato in `version.php` per coprire Moodle 5.0-5.2.
 - Aggiornati `version.php`, `db/install.xml` e savepoint di upgrade alla build 2026070300.
+
+### Aggiornamento 1.2.1
+
+- Ripristinati nel pacchetto i build AMD sotto `amd/build/`, necessari per Moodle in produzione e per la Plugin Directory.
+- Allineati `version.php`, `db/install.xml` e savepoint di upgrade alla build 2026070301.
+- Rafforzata la coerenza del rate limit note usando una finestra temporale inclusiva.
+- Normalizzato il clamp del playback rate delle note con arrotondamento a tre decimali, coerente con le reazioni.
