@@ -1,6 +1,6 @@
 # mod_videotrack — Guida alla struttura del codice
 
-**Versione**: 1.1.8 (build 2026070208)
+**Versione**: 1.1.9 (build 2026070209)
 **Prerequisito di lettura**: conoscenza base di Moodle (plugin system, `$DB`, `$USER`, `cm_info`) e PHP/JavaScript.
 
 ---
@@ -221,10 +221,10 @@ Un record per ogni click su un bottone reazione o per ogni nota salvata.
 
 ```php
 $plugin->component = 'mod_videotrack';
-$plugin->version   = 2026070208;
+$plugin->version   = 2026070209;
 $plugin->requires  = 2025041400; // Moodle 5.0.
 $plugin->maturity  = MATURITY_BETA;
-$plugin->release   = '1.1.8';
+$plugin->release   = '1.1.9';
 ```
 
 È il file letto da Moodle per decidere se mostrare l'upgrade dialog. `version` è un intero in formato `YYYYMMDDnn`. `requires` è la build minima di Moodle supportata.
@@ -652,7 +652,7 @@ Questi metodi sono privati perché rappresentano dettagli interni dell'anonimizz
 
 ## 5. Moduli JavaScript AMD (`amd/src/`)
 
-Tutti e tre i player sono moduli AMD Moodle. Gli entrypoint storici (`html5_player`, `player`, `vimeo_player`) ricevono `config` come argomento di `init()` e non usano variabili globali; le funzioni condivise sono state estratte in `amd/src/core/utils.js` e `amd/src/core/ui.js` per ridurre duplicazioni tra player.
+Tutti e tre i player sono moduli AMD Moodle. Gli entrypoint storici (`html5_player`, `player`, `vimeo_player`) ricevono `config` come argomento di `init()` e non usano variabili globali; le funzioni condivise sono state estratte in `amd/src/core/utils.js`, `amd/src/core/ui.js` e `amd/src/core/player.js` per ridurre duplicazioni tra player.
 
 ### 5.1 Struttura comune a tutti i player
 
@@ -714,7 +714,17 @@ Modulo AMD condiviso usato dai tre player. Esporta helper senza stato globale pe
 | `sessionGet(key)` / `sessionSet(key, value)` | Accesso protetto a `sessionStorage`, con fallback silenzioso e debug log. |
 | `normalisePlayState(value)` | Normalizza lo stato play/pause usato dagli eventi UI. |
 
-### 5.3 `core/ui.js` — Helper UI condivisi
+### 5.3 `core/player.js` — Helper player condivisi
+
+Modulo AMD condiviso per funzioni DOM/player non legate a una specifica API video:
+
+- `uuid()` — genera identificativi sessione lato client;
+- `getIntervalBarColor()` — legge i colori CSS della barra intervalli;
+- `setNoteButtonState()` e `getRemainingNoteChars()` — stato e contatore note;
+- `appendNoteRow()` — inserimento DOM sicuro delle note personali;
+- `removePoster()` e `showResumeNotice()` — UI comune poster/resume.
+
+### 5.4 `core/ui.js` — Helper UI condivisi
 
 Modulo AMD condiviso per logica visuale/accessibile riusata dai player:
 
@@ -756,7 +766,7 @@ Gestione eventi Vimeo:
 
 `isProgrammaticSeek` — flag impostato a `true` prima di ogni `player.setCurrentTime()` lanciato dal codice (replay, resume). Viene resettato nella `.then()`. L'handler `seeked` controlla questo flag per ignorare seek programmatici.
 
-### 5.6 `report.js` — Modulo AMD report
+### 5.7 `report.js` — Modulo AMD report
 
 Modulo AMD leggero, caricato da `report.php` tramite `$PAGE->requires->js_call_amd()`. Inizializza i form di reset/ricalcolo con conferme basate su `core/notification`, evitando azioni distruttive via GET e JS inline.
 
@@ -1173,9 +1183,17 @@ Refactor iniziale dei player AMD:
 - Rafforzata la gestione della contesa sui lock di `videotrack_state`: in caso di timeout viene restituito l'ultimo stato persistito senza mostrare errori AJAX allo studente.
 - Aggiornati `version.php`, `db/install.xml` e savepoint di upgrade alla build 2026070207.
 
-### Aggiornamento 1.1.8
+### Aggiornamento 1.1.9
 
 - Rigenerati i build AMD con mangling degli identificatori locali per ridurre dimensioni e allinearsi alla minificazione standard Moodle.
 - Aggiunto logging debug lato JS quando `save_segment` risponde `accepted=false` per contesa lock non fatale.
 - Documentati `current_state_snapshot()` e le API Moodle principali di `lib.php` non presenti nella sezione tecnica.
-- Aggiornati `version.php`, `db/install.xml` e savepoint di upgrade alla build 2026070208.
+- Aggiornati `version.php`, `db/install.xml` e savepoint di upgrade alla build 2026070209.
+
+
+### Aggiornamento 1.1.9
+
+- Aggiunto `amd/src/core/player.js` per consolidare helper DOM/player condivisi dai player HTML5, YouTube e Vimeo.
+- Uniformata la precisione percentuale della UI YouTube a un decimale come HTML5/Vimeo.
+- Rafforzati i guard di `saveCurrentProgress()` per evitare salvataggi quando il player/media non e' disponibile.
+- Aggiornati build AMD e metadata release alla build 2026070209.

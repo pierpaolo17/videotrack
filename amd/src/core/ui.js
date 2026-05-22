@@ -31,11 +31,19 @@ define([], function() {
         var allowedTags  = {'IMG': true, 'I': true, 'SPAN': true};
         var allowedAttrs = {'class': true, 'src': true, 'alt': true, 'aria-hidden': true};
 
+        /**
+         * Checks whether an icon src points to an allowed local plugin file URL.
+         *
+         * @param {string} value URL candidate.
+         * @returns {boolean} True when the URL is safe.
+         */
         function isSafeIconSrc(value) {
             if (!value) { return false; }
             var trimmed = String(value).trim();
             var lower = trimmed.toLowerCase();
-            if (lower.indexOf('javascript:') === 0 || lower.indexOf('data:') === 0 || lower.indexOf('vbscript:') === 0) {
+            // eslint-disable-next-line no-script-url
+            if (lower.indexOf('javascript:') === 0 || lower.indexOf('data:') === 0 ||
+                    lower.indexOf('vbscript:') === 0) {
                 return false;
             }
             try {
@@ -50,6 +58,12 @@ define([], function() {
             }
         }
 
+        /**
+         * Sanitises a parsed icon node recursively.
+         *
+         * @param {Node} node Source node.
+         * @returns {Node|null} Sanitised node or null when rejected.
+         */
         function sanitizeNode(node) {
             if (node.nodeType === Node.TEXT_NODE) {
                 return document.createTextNode(node.textContent);
