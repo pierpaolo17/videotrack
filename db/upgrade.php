@@ -858,5 +858,10 @@ function xmldb_videotrack_upgrade($oldversion) {
         upgrade_mod_savepoint(true, 2026070208, 'videotrack');
     }
 
+    if ($oldversion < 2026070209) {
+        // 1.1.9: shared AMD player helpers and player UI consistency fixes. No schema changes.
+        upgrade_mod_savepoint(true, 2026070209, 'videotrack');
+    }
+
     return true;
 }

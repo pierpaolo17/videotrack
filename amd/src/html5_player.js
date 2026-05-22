@@ -7,7 +7,7 @@
  *
  * @module mod_videotrack/html5_player
  */
-define(['core/ajax', 'core/log', 'mod_videotrack/core/utils', 'mod_videotrack/core/ui'], function(Ajax, Log, Utils, Ui) {
+define(['core/ajax', 'core/log', 'mod_videotrack/core/utils', 'mod_videotrack/core/ui', 'mod_videotrack/core/player'], function(Ajax, Log, Utils, Ui, PlayerCore) {
 
     var media  = null; // The <video> or <audio> DOM element.
     var config = null;
@@ -40,10 +40,7 @@ define(['core/ajax', 'core/log', 'mod_videotrack/core/utils', 'mod_videotrack/co
     // ── Utilities ─────────────────────────────────────────────────────────
 
     function uuid() {
-        if (window.crypto && window.crypto.randomUUID) {
-            return window.crypto.randomUUID().replace(/-/g, '');
-        }
-        return 'sess' + Date.now() + Math.random().toString(36).substring(2, 12);
+        return PlayerCore.uuid();
     }
 
 
@@ -68,7 +65,7 @@ define(['core/ajax', 'core/log', 'mod_videotrack/core/utils', 'mod_videotrack/co
     }
 
     function saveCurrentProgress(reason) {
-        if (!state.playing || state.segmentstart === null) {
+        if (!state.playing || state.segmentstart === null || !media) {
             return Promise.resolve(null);
         }
         var end = getCurrentVideoTime();
@@ -171,8 +168,7 @@ define(['core/ajax', 'core/log', 'mod_videotrack/core/utils', 'mod_videotrack/co
      * @param {number} duration      Durata totale in secondi.
      */
     function getIntervalBarColor(canvas, property, fallback) {
-        var value = window.getComputedStyle(canvas).getPropertyValue(property);
-        return value ? value.trim() : fallback;
+        return PlayerCore.getIntervalBarColor(canvas, property, fallback);
     }
 
     function updateIntervalBar(intervaljson, duration) {
@@ -210,32 +206,11 @@ define(['core/ajax', 'core/log', 'mod_videotrack/core/utils', 'mod_videotrack/co
     // ── Global listeners ──────────────────────────────────────────────────
 
     /**
-     * Mostra un banner temporaneo per il resume automatico.
-     * @param {number} seconds
+     * Mostra un banner temporaneo che informa lo studente del resume automatico.
+     * @param {number} seconds Posizione di resume in secondi.
      */
     function showResumeNotice(seconds) {
-        var existing = document.getElementById('videotrack-resume-notice');
-        if (existing) { existing.parentNode.removeChild(existing); }
-        var formatted = Utils.formatSeconds(seconds);
-        var notice = document.createElement('div');
-        notice.id = 'videotrack-resume-notice';
-        notice.className = 'videotrack-resume-notice alert alert-info alert-dismissible mt-1';
-        notice.setAttribute('role', 'status');
-        notice.setAttribute('aria-live', 'polite');
-        var text = document.createElement('span');
-        text.textContent = (config.resumelabel) + ' ' + formatted + '.';
-        notice.appendChild(text);
-        var btn = document.createElement('button');
-        btn.type = 'button';
-        btn.className = 'btn-close ms-2';
-        btn.setAttribute('aria-label', config.dismisslabel);
-        btn.addEventListener('click', function() { notice.parentNode.removeChild(notice); });
-        notice.appendChild(btn);
-        var shell = document.querySelector('.videotrack-player-shell');
-        if (shell) { shell.insertBefore(notice, shell.firstChild); }
-        window.setTimeout(function() {
-            if (notice.parentNode) { notice.parentNode.removeChild(notice); }
-        }, 6000);
+        PlayerCore.showResumeNotice(seconds, config, Utils);
     }
 
     function installGlobalListeners() {
@@ -375,6 +350,8 @@ define(['core/ajax', 'core/log', 'mod_videotrack/core/utils', 'mod_videotrack/co
      * @param {boolean} isAudio  True for audio-only files.
      */
     function buildControlBar(isAudio) {
+        var container = document.getElementById('mod-videotrack-player');
+        if (!container) { return; }
         var controls = config.html5controls || [];
         if (!controls.length) { return; }
 
@@ -576,7 +553,9 @@ define(['core/ajax', 'core/log', 'mod_videotrack/core/utils', 'mod_videotrack/co
             fsBtn.addEventListener('click', function() {
                 if (!document.fullscreenElement) {
                     if (fsWrapper.requestFullscreen) {
-                        fsWrapper.requestFullscreen().then(updateFullscreenPressed).catch(function() { updateFullscreenPressed(); });
+                        fsWrapper.requestFullscreen().then(updateFullscreenPressed).catch(function() {
+                            updateFullscreenPressed();
+                        });
                     }
                 } else if (document.fullscreenElement === fsWrapper && document.exitFullscreen) {
                     document.exitFullscreen().then(updateFullscreenPressed).catch(function() { updateFullscreenPressed(); });
@@ -838,28 +817,28 @@ define(['core/ajax', 'core/log', 'mod_videotrack/core/utils', 'mod_videotrack/co
     }
 
 
+
+    function showStatusMessage(message, isError) {
+        var id = 'videotrack-status-msg';
+        var el = document.getElementById(id);
+        if (!el) {
+            el = document.createElement('div');
+            el.id = id;
+            el.className = 'sr-only';
+            el.setAttribute('aria-atomic', 'true');
+            var shell = document.querySelector('.videotrack-player-shell');
+            if (shell) { shell.appendChild(el); }
+        }
+        el.setAttribute('role', isError ? 'alert' : 'status');
+        el.textContent = message;
+        window.setTimeout(function() { el.textContent = ''; }, isError ? 8000 : 4000);
+    }
+
     /**
      * Installs the click handler for reaction buttons and replay buttons.
      * Mirrors the logic of player.js to ensure consistent behaviour across all sources.
      */
     function installReactionHandler() {
-
-        function showStatusMessage(message, isError) {
-            var id = 'videotrack-status-msg';
-            var el = document.getElementById(id);
-            if (!el) {
-                el = document.createElement('div');
-                el.id = id;
-                el.className = 'sr-only';
-                el.setAttribute('aria-atomic', 'true');
-                var shell = document.querySelector('.videotrack-player-shell');
-                if (shell) { shell.appendChild(el); }
-            }
-            el.setAttribute('role', isError ? 'alert' : 'status');
-            el.textContent = message;
-            // U1 fix: error messages stay visible 8s; info messages 4s.
-            window.setTimeout(function() { el.textContent = ''; }, isError ? 8000 : 4000);
-        }
 
         function appendReactionRow(eventid, reaction, videotime) {
             var tbody = document.getElementById('videotrack-my-reactions');
@@ -1231,9 +1210,7 @@ define(['core/ajax', 'core/log', 'mod_videotrack/core/utils', 'mod_videotrack/co
          * @param {boolean} playing
          */
         function setNoteButtonState(playing) {
-            if (!saveBtn) { return; }
-            saveBtn.setAttribute('aria-disabled', playing ? 'false' : 'true');
-            saveBtn.classList.toggle('videotrack-note-save-disabled', !playing);
+            PlayerCore.setNoteButtonState(saveBtn, playing);
         }
 
         // Abilita/disabilita il bottone note in risposta all'evento personalizzato
@@ -1250,29 +1227,7 @@ define(['core/ajax', 'core/log', 'mod_videotrack/core/utils', 'mod_videotrack/co
          * @param {string} text        Testo della nota.
          */
         function appendNoteRow(noteid, videotime, text) {
-            var list = document.getElementById('videotrack-notes-list');
-            if (!list) { return; }
-            var li = document.createElement('li');
-            li.className = 'videotrack-note-item';
-            li.dataset.noteid = noteid;
-            // Timestamp.
-            var timeSpan = document.createElement('span');
-            timeSpan.className = 'videotrack-note-time text-muted me-1 small';
-            timeSpan.textContent = Utils.formatSeconds(videotime);
-            li.appendChild(timeSpan);
-            // Testo.
-            var textSpan = document.createElement('span');
-            textSpan.className = 'videotrack-note-text';
-            textSpan.textContent = text;
-            li.appendChild(textSpan);
-            // Bottone elimina.
-            var delBtn = document.createElement('button');
-            delBtn.type = 'button';
-            delBtn.className = 'btn btn-link btn-sm videotrack-delete-note ms-1';
-            delBtn.dataset.noteid = noteid;
-            delBtn.textContent = config.removenotelabel;
-            li.appendChild(delBtn);
-            list.appendChild(li);
+            PlayerCore.appendNoteRow(noteid, videotime, text, config, Utils);
         }
 
         // Salva nota al click del bottone.
@@ -1309,7 +1264,7 @@ define(['core/ajax', 'core/log', 'mod_videotrack/core/utils', 'mod_videotrack/co
                     // Aggiorna il contatore.
                     var panel = document.getElementById('videotrack-notes-panel');
                     var hint  = panel ? panel.querySelector('.videotrack-note-charcount') : null;
-                    if (hint) { hint.textContent = getRemainingNoteChars(textarea) + ' ' + (config.charsremaininglabel); }
+                    if (hint) { hint.textContent = getRemainingNoteChars(textarea) + ' ' + config.charsremaininglabel; }
                     textarea.focus();
                 }
             }).catch(function() {
@@ -1347,11 +1302,7 @@ define(['core/ajax', 'core/log', 'mod_videotrack/core/utils', 'mod_videotrack/co
         });
 
         function getRemainingNoteChars(textarea) {
-            var maxLength = parseInt(textarea.getAttribute('maxlength'), 10);
-            if (!isFinite(maxLength) || maxLength <= 0) {
-                maxLength = Utils.safeInt(config.notemaxlength, 2000);
-            }
-            return Math.max(0, maxLength - textarea.value.length);
+            return PlayerCore.getRemainingNoteChars(textarea, config, Utils);
         }
 
         // Conta caratteri rimanenti (feedback accessibile).
@@ -1361,7 +1312,7 @@ define(['core/ajax', 'core/log', 'mod_videotrack/core/utils', 'mod_videotrack/co
             var panel = document.getElementById('videotrack-notes-panel');
             var hint  = panel ? panel.querySelector('.videotrack-note-charcount') : null;
             if (hint) {
-                hint.textContent = remaining + ' ' + (config.charsremaininglabel);
+                hint.textContent = remaining + ' ' + config.charsremaininglabel;
             }
         });
     }
@@ -1450,7 +1401,9 @@ define(['core/ajax', 'core/log', 'mod_videotrack/core/utils', 'mod_videotrack/co
                 media.currentTime = ch.start;
                 state.lasttime    = ch.start;
                 if (wasPlaying) {
-                    media.play().catch(function(err) { Log.debug('mod_videotrack: play request failed - ' + err); }); // Catch autoplay policy rejection.
+                    media.play().catch(function(err) {
+                        Log.debug('mod_videotrack: play request failed - ' + err);
+                    }); // Catch autoplay policy rejection.
                 }
                 // Aggiorna stato attivo.
                 bar.querySelectorAll('.videotrack-chapter-btn').forEach(function(b) {
@@ -1498,14 +1451,7 @@ define(['core/ajax', 'core/log', 'mod_videotrack/core/utils', 'mod_videotrack/co
         if (!overlay) { return; } // Nessun poster caricato.
 
         function removePoster() {
-            if (overlay && overlay.parentElement) {
-                overlay.style.opacity = '0';
-                window.setTimeout(function() {
-                    if (overlay && overlay.parentElement) {
-                        overlay.parentElement.removeChild(overlay);
-                    }
-                }, 300); // Fade-out CSS 0.3s.
-            }
+            PlayerCore.removePoster(overlay);
         }
 
         var playBtn = document.getElementById('videotrack-poster-play-btn');
@@ -1513,7 +1459,11 @@ define(['core/ajax', 'core/log', 'mod_videotrack/core/utils', 'mod_videotrack/co
             playBtn.addEventListener('click', function() {
                 removePoster();
                 // Avvia la riproduzione con l'elemento media HTML5 (non player YouTube/Vimeo).
-                if (media) { media.play().catch(function(err) { Log.debug('mod_videotrack: play request failed - ' + err); }); }
+                if (media) {
+                    media.play().catch(function(err) {
+                        Log.debug('mod_videotrack: play request failed - ' + err);
+                    });
+                }
             });
         }
 
