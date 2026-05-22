@@ -49,15 +49,9 @@ class delete_note extends external_api {
         global $DB, $USER;
 
         $params = self::validate_parameters(self::execute_parameters(), compact('cmid', 'reactioneventid'));
-        $cmraw = get_coursemodule_from_id('videotrack', $params['cmid'], 0, false, MUST_EXIST);
-        $course = get_course($cmraw->course);
-        $videotrack = $DB->get_record('videotrack', ['id' => $cmraw->instance], '*', MUST_EXIST);
-
-        require_login($course, false, $cmraw);
-        $cm = \cm_info::create($cmraw);
-        $context = \context_module::instance($cm->id);
-        self::validate_context($context);
-        require_capability('mod/videotrack:view', $context);
+        $loaded = helper::load_and_validate_context((int)$params['cmid']);
+        $videotrack = $loaded['videotrack'];
+        $context = $loaded['context'];
 
         $event = $DB->get_record('videotrack_reactev', [
             'id' => $params['reactioneventid'],

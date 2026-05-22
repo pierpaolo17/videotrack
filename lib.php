@@ -344,6 +344,8 @@ function videotrack_save_reaction_definitions(int $videotrackid, stdClass $data)
         ];
         if ($icontype === 'file') {
             $record->iconvalue = '';
+        } else if ($icontype === 'emoji') {
+            $record->iconvalue = clean_param($record->iconvalue, PARAM_TEXT);
         } else if ($icontype === 'fa') {
             $record->iconvalue = clean_param($record->iconvalue, PARAM_NOTAGS);
             if (!preg_match('/^[a-z0-9 \-]+$/i', $record->iconvalue)) {
@@ -834,8 +836,8 @@ function videotrack_get_poster_url(int $cmid): ?moodle_url {
 /**
  * Deletes the viewing progress for a single user in a videotrack instance.
  * Used by the teacher report when only viewing progress needs to be reset.
- * Removes: videotrack_state and videotrack_seg for this user+instance.
- * Teacher report full reset actions may additionally remove interactions.
+ * Removes: videotrack_state, videotrack_seg, reaction events and personal notes
+ * for this user+instance.
  *
  * @param  stdClass  $videotrack  Instance record.
  * @param  int       $userid      The user whose progress to reset.
@@ -1169,9 +1171,17 @@ function videotrack_pluginfile($course, $cm, $context, $filearea, $args, $forced
     if ($filearea === 'subtitles' && !in_array($file->get_mimetype(), ['text/vtt', 'text/plain'], true)) {
         return false;
     }
+    if ($filearea === 'videocontent') {
+        global $DB;
+        $videotrack = $DB->get_record('videotrack', ['id' => $cm->instance], 'id, allowdownload', MUST_EXIST);
+        if (empty($videotrack->allowdownload) && $forcedownload) {
+            return false;
+        }
+        $forcedownload = !empty($videotrack->allowdownload) ? $forcedownload : false;
+    }
     // Uploaded videos: allow 1 hour browser caching. Poster: 5 min. Icons: no cache.
     $lifetime = ($filearea === 'videocontent') ? 3600 : (($filearea === 'posterimage') ? 300 : 0);
-    send_stored_file($file, $lifetime, 0, false, $options);
+    send_stored_file($file, $lifetime, 0, $forcedownload, $options);
 }
 
 /**

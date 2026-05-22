@@ -471,3 +471,5 @@ $string['err:playbacksteprequired'] = 'Geben Sie eine ganze Zahl von 0 bis 300 S
 $string['setting:nonnegativeintrequired'] = 'Geben Sie eine ganze Zahl größer oder gleich 0 ein.';
 $string['report:anonymiseduser'] = 'Anonymisierter Nutzer';
 $string['report:exportnotes_privacywarning'] = 'Dieser Export kann personenbezogene Daten aus Notizen von Lernenden enthalten. Laden und speichern Sie ihn nur bei berechtigtem Zweck und löschen Sie ihn, wenn er nicht mehr benötigt wird.';
+
+$string['privacy:videoid_export_note'] = 'Video/content identifier: {$a}';

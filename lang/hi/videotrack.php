@@ -471,3 +471,5 @@ $string['err:playbacksteprequired'] = '0 से 300 सेकंड तक क�
 $string['setting:nonnegativeintrequired'] = '0 या उससे अधिक पूर्ण संख्या दर्ज करें।';
 $string['report:anonymiseduser'] = 'अनाम उपयोगकर्ता';
 $string['report:exportnotes_privacywarning'] = 'इस निर्यात में विद्यार्थियों के नोट से व्यक्तिगत डेटा हो सकता है। इसे केवल वैध उद्देश्य होने पर डाउनलोड और संग्रहीत करें और आवश्यकता समाप्त होने पर हटा दें।';
+
+$string['privacy:videoid_export_note'] = 'Video/content identifier: {$a}';

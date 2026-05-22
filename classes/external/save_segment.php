@@ -44,15 +44,10 @@ class save_segment extends external_api {
         if (\core_text::strlen($params['endreason']) > 32 || !in_array($params['endreason'], $allowedendreasons, true)) {
             throw new \invalid_parameter_exception('Invalid segment end reason');
         }
-        $cmraw  = get_coursemodule_from_id('videotrack', $params['cmid'], 0, false, MUST_EXIST);
-        $course = get_course($cmraw->course);
-        $videotrack = $DB->get_record('videotrack', ['id' => $cmraw->instance], '*', MUST_EXIST);
-        require_login($course, false, $cmraw);
-        // cm_info::create va chiamato DOPO require_login: carica dati filtrati per utente.
-        $cm = \cm_info::create($cmraw);
-        $context = \context_module::instance($cm->id);
-        self::validate_context($context);
-        require_capability('mod/videotrack:view', $context);
+        $loaded = helper::load_and_validate_context((int)$params['cmid']);
+        $videotrack = $loaded['videotrack'];
+        $cm = $loaded['cm'];
+        $context = $loaded['context'];
 
         // Non considerare attendibile né persistere durationseconds da una chiamata AJAX studente.
         // La durata inviata dal client può essere utile all'interfaccia, ma non deve

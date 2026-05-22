@@ -47,15 +47,10 @@ class delete_reaction extends external_api {
     public static function execute(int $cmid, int $reactioneventid): array {
         global $DB, $USER;
         $params = self::validate_parameters(self::execute_parameters(), compact('cmid', 'reactioneventid'));
-        $cmraw  = get_coursemodule_from_id('videotrack', $params['cmid'], 0, false, MUST_EXIST);
-        $course = get_course($cmraw->course);
-        $videotrack = $DB->get_record('videotrack', ['id' => $cmraw->instance], '*', MUST_EXIST);
-        require_login($course, false, $cmraw);
-        // cm_info::create va chiamato DOPO require_login: carica dati filtrati per utente.
-        $cm = \cm_info::create($cmraw);
-        $context = \context_module::instance($cm->id);
-        self::validate_context($context);
-        require_capability('mod/videotrack:view', $context);
+        $loaded = helper::load_and_validate_context((int)$params['cmid']);
+        $videotrack = $loaded['videotrack'];
+        $cm = $loaded['cm'];
+        $context = $loaded['context'];
         $event = $DB->get_record_select('videotrack_reactev',
             'id = :id AND userid = :userid AND videotrackid = :videotrackid AND (notetype IS NULL OR notetype <> :notetype)',
             [

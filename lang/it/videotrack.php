@@ -474,3 +474,5 @@ $string['setting:nonnegativeintrequired'] = 'Inserisci un numero intero maggiore
 $string['report:anonymiseduser'] = 'Utente anonimizzato';
 
 $string['report:exportnotes_privacywarning'] = 'Questa esportazione può contenere dati personali presenti nelle note degli studenti. Scaricala e conservala solo se hai una finalità valida ed eliminala quando non è più necessaria.';
+
+$string['privacy:videoid_export_note'] = 'Video/content identifier: {$a}';

@@ -8,8 +8,8 @@ use context;
 /**
  * Privacy helpers for VideoTrack.
  *
- * User initiated erasure requests anonymise tracking data instead of deleting it,
- * preserving aggregate statistics while removing the link to the real user.
+ * User initiated erasure requests delete personal tracking data.
+ * Retention cleanup may still anonymise old records when configured by admins.
  */
 class privacy_manager {
     /** Prefix used for anonymised browser session identifiers. */
@@ -25,7 +25,7 @@ class privacy_manager {
      * Returns the configured retention period in seconds.
      *
      * A value of 0 means unlimited retention: data is kept until a user requests
-     * erasure via Moodle privacy tools, at which point it is anonymised.
+     * erasure via Moodle privacy tools, at which point it is deleted.
      *
      * @return int
      */
@@ -115,6 +115,61 @@ class privacy_manager {
     private static function anonymous_sessionid(int $userid, int $cmid): string {
         $hash = hash('sha256', self::anonymisation_salt() . ':' . $userid . ':' . $cmid . ':sessionid');
         return self::ANONYMOUS_SESSION_PREFIX . substr($hash, 0, 59);
+    }
+
+
+    /**
+     * Permanently deletes all personal tracking records for one user in one module context.
+     *
+     * This is used for Moodle Privacy API erasure requests (GDPR Art. 17). Unlike
+     * retention cleanup, it does not preserve aggregate rows with pseudonymous ids.
+     *
+     * @param context $context Moodle context.
+     * @param int $userid Real user id.
+     */
+    public static function delete_user_data_in_context(context $context, int $userid): void {
+        global $DB;
+
+        if ($context->contextlevel != CONTEXT_MODULE || $userid <= 0) {
+            return;
+        }
+
+        $cmid = (int)$context->instanceid;
+        $transaction = $DB->start_delegated_transaction();
+        try {
+            $DB->delete_records('videotrack_reactev', ['cmid' => $cmid, 'userid' => $userid]);
+            $DB->delete_records('videotrack_seg', ['cmid' => $cmid, 'userid' => $userid]);
+            $DB->delete_records('videotrack_state', ['cmid' => $cmid, 'userid' => $userid]);
+            $transaction->allow_commit();
+        } catch (\Throwable $e) {
+            $transaction->rollback($e);
+            throw $e;
+        }
+    }
+
+    /**
+     * Permanently deletes all personal tracking records in one module context.
+     *
+     * @param context $context Moodle context.
+     */
+    public static function delete_all_user_data_in_context(context $context): void {
+        global $DB;
+
+        if ($context->contextlevel != CONTEXT_MODULE) {
+            return;
+        }
+
+        $cmid = (int)$context->instanceid;
+        $transaction = $DB->start_delegated_transaction();
+        try {
+            $DB->delete_records('videotrack_reactev', ['cmid' => $cmid]);
+            $DB->delete_records('videotrack_seg', ['cmid' => $cmid]);
+            $DB->delete_records('videotrack_state', ['cmid' => $cmid]);
+            $transaction->allow_commit();
+        } catch (\Throwable $e) {
+            $transaction->rollback($e);
+            throw $e;
+        }
     }
 
     /**

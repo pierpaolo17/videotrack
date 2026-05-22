@@ -62,6 +62,18 @@ $PAGE->set_title(format_string($videotrack->name));
 $PAGE->set_heading(format_string($course->fullname));
 $replaystart = optional_param('replaystart', -1, PARAM_INT);
 $replayend   = optional_param('replayend',   -1, PARAM_INT);
+$durationseconds = max(0, (int)($videotrack->durationseconds ?? 0));
+if ($durationseconds > 0) {
+    if ($replaystart >= 0) {
+        $replaystart = min($replaystart, $durationseconds);
+    }
+    if ($replayend >= 0) {
+        $replayend = min($replayend, $durationseconds);
+    }
+    if ($replaystart >= 0 && $replayend >= 0 && $replayend < $replaystart) {
+        $replayend = $replaystart;
+    }
+}
 $source      = $videotrack->videosource ?? 'youtube';
 $speeds      = videotrack_get_playback_speeds($videotrack);
 $html5ctrl   = videotrack_get_html5controls($videotrack);
@@ -119,7 +131,7 @@ $playerconfig = [
     'noteshowlabel'          => get_string('notes_show', 'mod_videotrack'),
     'replaylabel'            => get_string('report:replay',      'mod_videotrack'),
     'removelabel'            => get_string('removereaction',     'mod_videotrack'),
-    'removenotelabel'        => get_string('removenote',         'mod_videotrack'),
+    'removenotelabel'        => get_string('removenotelabel',    'mod_videotrack'),
     'noteerrorlabel'         => get_string('noteerrorlabel',    'mod_videotrack'),
     'charsremaininglabel'    => get_string('charsremaininglabel', 'mod_videotrack'),
     'notemaxlength'          => $notemaxlength,
@@ -278,7 +290,7 @@ echo html_writer::div('', '', ['id' => 'mod-videotrack-player']);
 if ($posterurl) {
     echo html_writer::start_div('videotrack-poster-overlay', [
         'id'         => 'videotrack-poster-overlay',
-        'role'       => 'presentation',
+        'role'       => 'none',
         'aria-hidden'=> 'true',
     ]);
     echo html_writer::empty_tag('img', [
@@ -287,21 +299,24 @@ if ($posterurl) {
         'alt'   => '',  // Decorativa: il player ha già il titolo.
     ]);
     // Pulsante play overlay accessibile.
-    echo html_writer::tag('button', '',  [
-        'type'       => 'button',
-        'class'      => 'videotrack-poster-play-btn',
-        'id'         => 'videotrack-poster-play-btn',
-        'aria-label' => get_string('playbutton_label', 'mod_videotrack'),
-    ]);
+    echo html_writer::tag('button',
+        html_writer::tag('span', '▶', ['class' => 'videotrack-poster-play-icon', 'aria-hidden' => 'true']),
+        [
+            'type'       => 'button',
+            'class'      => 'videotrack-poster-play-btn',
+            'id'         => 'videotrack-poster-play-btn',
+            'aria-label' => get_string('playbutton_label', 'mod_videotrack'),
+        ]
+    );
     echo html_writer::end_div();
 }
 echo html_writer::end_div(); // videotrack-player-wrap
 
 // Barra visuale degli intervalli guardati (canvas aggiornato dal JS).
-echo html_writer::tag('canvas', get_string('intervalbar_title', 'mod_videotrack'), [
+echo html_writer::tag('canvas', '', [
     'id'         => 'videotrack-interval-bar',
     'width'      => '800',
-    'height'     => '12',
+    'height'     => '24',
     'class'      => 'videotrack-interval-bar mt-1',
     'role'       => 'img',
     'title'      => get_string('intervalbar_title', 'mod_videotrack'),
@@ -310,7 +325,7 @@ echo html_writer::tag('canvas', get_string('intervalbar_title', 'mod_videotrack'
 ]);
 echo html_writer::tag('span',
     get_string('intervalbar_title', 'mod_videotrack') . ' — ' . format_float($percent, 1) . '%',
-    ['id' => 'videotrack-interval-bar-status', 'class' => 'sr-only', 'aria-live' => 'polite']
+    ['id' => 'videotrack-interval-bar-status', 'class' => 'sr-only', 'aria-live' => 'polite', 'aria-atomic' => 'true']
 );
 echo html_writer::end_div(); // videotrack-player-section
 
@@ -394,6 +409,7 @@ if (!empty($videotrack->studentnotesenabled)) {
     echo html_writer::tag('span', $notemaxlength . ' ' . get_string('charsremaininglabel', 'mod_videotrack'), [
         'id'         => 'videotrack-note-charcount',
         'class'      => 'videotrack-note-charcount small text-muted ms-2',
+        'aria-live'  => 'polite',
         'aria-atomic'=> 'true',
     ]);
     // Avviso: la nota viene salvata al timestamp attuale del video.

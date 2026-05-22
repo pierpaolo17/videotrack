@@ -161,8 +161,11 @@ class provider implements
                         $state->intervaljson = implode(', ', $readable);
                     }
                 }
+                if (!empty($state->videoid)) {
+                    $state->videoid = get_string('privacy:videoid_export_note', 'mod_videotrack', $state->videoid);
+                }
                 unset($state->id, $state->videotrackid, $state->courseid,
-                      $state->cmid, $state->userid);
+                      $state->cmid, $state->userid, $state->sessionid);
             }
             $writer->export_data([get_string('watch', 'mod_videotrack'), get_string('privacy:state', 'mod_videotrack')], (object)[
                 'state' => $state,
@@ -178,8 +181,11 @@ class provider implements
                 $segment->timecreated    = transform::datetime($segment->timecreated);
                 $segment->wallclockstart = transform::datetime($segment->wallclockstart);
                 $segment->wallclockend   = transform::datetime($segment->wallclockend);
+                if (!empty($segment->videoid)) {
+                    $segment->videoid = get_string('privacy:videoid_export_note', 'mod_videotrack', $segment->videoid);
+                }
                 unset($segment->id, $segment->videotrackid, $segment->courseid,
-                      $segment->cmid, $segment->userid);
+                      $segment->cmid, $segment->userid, $segment->sessionid);
                 $segments[] = $segment;
                 if (count($segments) >= 500) {
                     $writer->export_data([get_string('watch', 'mod_videotrack'), get_string('privacy:segmentschunk', 'mod_videotrack', $chunk)], (object)[
@@ -213,8 +219,12 @@ class provider implements
                 $reactionevent->timemodified = transform::datetime($reactionevent->timemodified);
                 $isdeleted = !empty($reactionevent->isdeleted);
                 $reactionevent->isdeleted = transform::yesno($isdeleted);
+                if (!empty($reactionevent->videoid)) {
+                    $reactionevent->videoid = get_string('privacy:videoid_export_note', 'mod_videotrack', $reactionevent->videoid);
+                }
                 unset($reactionevent->id, $reactionevent->videotrackid, $reactionevent->courseid,
-                      $reactionevent->cmid, $reactionevent->userid, $reactionevent->reactionid);
+                      $reactionevent->cmid, $reactionevent->userid, $reactionevent->reactionid,
+                      $reactionevent->sessionid);
 
                 if (($reactionevent->notetype ?? '') === 'note') {
                     if ($isdeleted) {
@@ -282,44 +292,40 @@ class provider implements
     }
 
     public static function delete_data_for_all_users_in_context(context $context): void {
-        global $DB;
-
         if ($context->contextlevel != CONTEXT_MODULE) {
             return;
         }
 
-        // Preserve aggregate analytics while removing links to real users and
-        // note contents, consistent with user erasure requests.
-        privacy_manager::anonymise_all_users_in_context($context);
+        privacy_manager::delete_all_user_data_in_context($context);
     }
 
     public static function delete_data_for_user(approved_contextlist $contextlist): void {
         $user = $contextlist->get_user();
         foreach ($contextlist->get_contexts() as $context) {
-            self::anonymise_records_for_users_in_context($context, [$user->id]);
+            self::delete_records_for_users_in_context($context, [$user->id]);
         }
     }
 
     public static function delete_data_for_users(approved_userlist $userlist): void {
-        self::anonymise_records_for_users_in_context($userlist->get_context(), $userlist->get_userids());
+        self::delete_records_for_users_in_context($userlist->get_context(), $userlist->get_userids());
     }
 
     /**
-     * Anonymises user records for GDPR erasure requests.
+     * Deletes user records for GDPR erasure requests.
      *
-     * The plugin keeps aggregate analytics but removes the link to the real user
-     * and replaces note text with a non-identifying placeholder.
+     * The plugin removes personal tracking rows rather than pseudonymising them,
+     * so Privacy API erasure matches the expected right-to-erasure semantics.
      *
      * @param context $context Moodle context.
      * @param array $userids User ids.
      */
-    protected static function anonymise_records_for_users_in_context(context $context, array $userids): void {
+    protected static function delete_records_for_users_in_context(context $context, array $userids): void {
         if ($context->contextlevel != CONTEXT_MODULE || empty($userids)) {
             return;
         }
 
         foreach ($userids as $userid) {
-            privacy_manager::anonymise_user_in_context($context, (int)$userid);
+            privacy_manager::delete_user_data_in_context($context, (int)$userid);
         }
     }
 }

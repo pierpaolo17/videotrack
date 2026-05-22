@@ -80,10 +80,16 @@ define([], function() {
         try {
             var intervals = JSON.parse(intervaljson);
             var ctx = canvas.getContext('2d');
-            var w = canvas.offsetWidth || canvas.width;
-            var h = canvas.height;
+            var dpr = window.devicePixelRatio || 1;
+            var cssWidth = canvas.offsetWidth || canvas.width;
+            var cssHeight = canvas.offsetHeight || canvas.height;
+            var w = Math.max(1, Math.round(cssWidth * dpr));
+            var h = Math.max(1, Math.round(cssHeight * dpr));
             var covered = 0;
-            canvas.width = w;
+            if (canvas.width !== w || canvas.height !== h) {
+                canvas.width = w;
+                canvas.height = h;
+            }
             ctx.clearRect(0, 0, w, h);
             ctx.fillStyle = getIntervalBarColor(canvas, '--videotrack-interval-bg', '#e9ecef');
             ctx.fillRect(0, 0, w, h);

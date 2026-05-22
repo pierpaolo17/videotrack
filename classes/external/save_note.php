@@ -11,7 +11,6 @@ use core_external\external_function_parameters;
 use core_external\external_single_structure;
 use core_external\external_value;
 use core_external\external_warnings;
-use context_module;
 use mod_videotrack\local\tracker;
 use mod_videotrack\event\note_saved;
 
@@ -48,15 +47,10 @@ class save_note extends external_api {
             throw new \invalid_parameter_exception('Invalid session ID');
         }
 
-        $cmraw  = get_coursemodule_from_id('videotrack', (int)$params['cmid'], 0, false, MUST_EXIST);
-        $course = get_course($cmraw->course);
-        $videotrack = $DB->get_record('videotrack', ['id' => $cmraw->instance], '*', MUST_EXIST);
-        require_login($course, false, $cmraw);
-        // cm_info::create va chiamato DOPO require_login: carica dati filtrati per utente.
-        $cm      = \cm_info::create($cmraw);
-        $context = context_module::instance($cm->id);
-        self::validate_context($context);
-        require_capability('mod/videotrack:view', $context);
+        $loaded = helper::load_and_validate_context((int)$params['cmid']);
+        $videotrack = $loaded['videotrack'];
+        $cm = $loaded['cm'];
+        $context = $loaded['context'];
 
         // Verifica che le note siano abilitate per questa istanza.
         if (empty($videotrack->studentnotesenabled)) {

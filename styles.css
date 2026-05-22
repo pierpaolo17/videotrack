@@ -218,13 +218,13 @@
 .videotrack-speed-btn:focus,
 .videotrack-ctrl-rewind:focus,
 .videotrack-ctrl-ff:focus {
-    outline: 3px solid #0040aa;
+    outline: 3px solid Highlight;
     outline-offset: 2px;
 }
 
 .videotrack-ctrl-progress:focus,
 .videotrack-ctrl-volume:focus {
-    outline: 2px solid #0040aa;
+    outline: 2px solid Highlight;
     outline-offset: 1px;
 }
 
@@ -257,13 +257,13 @@
 .videotrack-speed-btn:focus-visible,
 .videotrack-ctrl-rewind:focus-visible,
 .videotrack-ctrl-ff:focus-visible {
-    outline: 3px solid #0040aa;
+    outline: 3px solid Highlight;
     outline-offset: 2px;
 }
 
 .videotrack-ctrl-progress:focus-visible,
 .videotrack-ctrl-volume:focus-visible {
-    outline: 2px solid #0040aa;
+    outline: 2px solid Highlight;
     outline-offset: 1px;
 }
 
