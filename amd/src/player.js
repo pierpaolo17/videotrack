@@ -9,14 +9,16 @@ define([
 ], function(Ajax, Log, Utils, Ui, PlayerCore) {
     var player = null;
     var config = null;
-    var lastReactionAvailabilityAnnouncement = null;
-    var reactionReadyAnnounced = false;
-    var reactionUnavailableTimer = null;
-    var lastReactionUnavailableAt = 0;
     var DEFAULT_REACTION_UNAVAILABLE_ANNOUNCE_INTERVAL = 30000;
     var DEFAULT_REACTION_READY_DEBOUNCE_MS = 400;
-    var reactionReadyDebounceMs = DEFAULT_REACTION_READY_DEBOUNCE_MS;
-    var reactionUnavailableAnnounceInterval = DEFAULT_REACTION_UNAVAILABLE_ANNOUNCE_INTERVAL;
+    var reactionState = {
+        timer: null,
+        lastAnnouncement: null,
+        readyAnnounced: false,
+        debounceMs: DEFAULT_REACTION_READY_DEBOUNCE_MS,
+        unavailableInterval: DEFAULT_REACTION_UNAVAILABLE_ANNOUNCE_INTERVAL,
+        lastUnavailableAt: 0
+    };
     // HEARTBEAT_INTERVAL viene inizializzato in init() dal valore configurato
     // dall'amministratore in Amministrazione sito → Plugin → Moduli attività → Video track.
     var HEARTBEAT_INTERVAL = 30; // valore di fallback, sovrascritto da config.heartbeatinterval
@@ -221,65 +223,11 @@ define([
 
 
     function announceReactionAvailability(playing) {
-        var hint = document.getElementById('videotrack-reactions-hint');
-        if (!hint) {
-            return;
-        }
-        if (playing) {
-            if (reactionUnavailableTimer) {
-                window.clearTimeout(reactionUnavailableTimer);
-                reactionUnavailableTimer = null;
-            }
-            if (Date.now() - lastReactionUnavailableAt < reactionReadyDebounceMs) {
-                return;
-            }
-            if (reactionReadyAnnounced || lastReactionAvailabilityAnnouncement === true) {
-                return;
-            }
-            lastReactionAvailabilityAnnouncement = true;
-            reactionReadyAnnounced = true;
-            hint.textContent = config.reactionsreadylabel;
-            hint.classList.toggle('videotrack-reactions-hint-active', false);
-            return;
-        }
-
-        if (reactionUnavailableTimer) {
-            return;
-        }
-        var now = Date.now();
-        if (lastReactionAvailabilityAnnouncement === false &&
-                now - lastReactionUnavailableAt < reactionUnavailableAnnounceInterval) {
-            return;
-        }
-        reactionUnavailableTimer = window.setTimeout(function() {
-            reactionUnavailableTimer = null;
-            lastReactionAvailabilityAnnouncement = false;
-            lastReactionUnavailableAt = Date.now();
-            hint.textContent = config.reactionunavailablelabel;
-            hint.classList.toggle('videotrack-reactions-hint-active', true);
-        }, 400);
+        PlayerCore.announceReactionAvailability(playing, config, reactionState);
     }
 
-
     function announceReactionUnavailable() {
-        var hint = document.getElementById('videotrack-reactions-hint');
-        if (hint) {
-            if (reactionUnavailableTimer) {
-                window.clearTimeout(reactionUnavailableTimer);
-                reactionUnavailableTimer = null;
-            }
-            var now = Date.now();
-            if (lastReactionAvailabilityAnnouncement === false && now - lastReactionUnavailableAt < 1000) {
-                return;
-            }
-            lastReactionAvailabilityAnnouncement = false;
-            lastReactionUnavailableAt = now;
-            hint.textContent = config.reactionunavailablelabel;
-            hint.classList.add('videotrack-reactions-hint-active');
-            window.setTimeout(function() {
-                hint.classList.remove('videotrack-reactions-hint-active');
-            }, 1500);
-        }
+        PlayerCore.announceReactionUnavailable(config, reactionState);
     }
 
     function replayFragment(start, end, autoplay) {
@@ -383,7 +331,7 @@ define([
             setReactionButtons(false); // CRIT-2: disabilita bottoni su pausa
             closeCurrentSegment('pause');
         } else if (event.data === YT.PlayerState.ENDED) {
-            reactionReadyAnnounced = false;
+            reactionState.readyAnnounced = false;
             setReactionButtons(false); // CRIT-2: disabilita bottoni a fine video
             closeCurrentSegment('ended');
         }
@@ -404,10 +352,6 @@ define([
      * @param {string}  message  Testo del messaggio.
      * @param {boolean} isError  Se true usa role=alert (assertive); altrimenti status (polite).
      */
-    function showStatusMessage(message, isError) {
-        PlayerCore.showStatusMessage(message, isError);
-    }
-
     function installGlobalListeners() {
         document.addEventListener('visibilitychange', function() {
             if (document.hidden) {
@@ -503,7 +447,7 @@ define([
                     // Usa il messaggio del server se disponibile (es. 'Il video deve essere in riproduzione').
                     var msg = (err && err.message) ? err.message :
                         (config.reactionerrorlabel);
-                    showStatusMessage(msg, true);
+                    PlayerCore.showStatusMessage(msg, true);
                 });
                 return;
             }
@@ -884,7 +828,7 @@ define([
                     // Aggiorna il contatore.
                     var panel = document.getElementById('videotrack-notes-panel');
                     var hint  = panel ? panel.querySelector('.videotrack-note-charcount') : null;
-                    if (hint) { hint.textContent = getRemainingNoteChars(textarea) + ' ' + config.charsremaininglabel; }
+                    if (hint) { PlayerCore.updateNoteCharCounter(textarea, config, Utils); }
                     textarea.focus();
                 }
             }).catch(function() {
@@ -893,7 +837,7 @@ define([
                 setNoteButtonState(state.playing);
                 // B1/B2/B3 fix: use showStatusMessage() for consistent 8s visibility
                 // and correct aria role management (avoids direct role mutation).
-                showStatusMessage(config.noteerrorlabel, true);
+                PlayerCore.showStatusMessage(config.noteerrorlabel, true);
             });
         });
 
@@ -962,24 +906,21 @@ define([
         // ascoltando l'evento custom già emesso da setReactionButtons.
         // Non riassegniamo onPlayerStateChange (function declaration, non variabile).
         state._posterRemoved = false;
-        document.addEventListener('videotrack:playstate', function onFirstPlay(e) {
-            if (e.detail && e.detail.playing && !state._posterRemoved) {
-                state._posterRemoved = true;
-                removePoster();
-                document.removeEventListener('videotrack:playstate', onFirstPlay);
-            }
-        });
+        state._posterPlayListener = function(e) {
+            PlayerCore.onFirstPlay(e, state, removePoster);
+        };
+        document.addEventListener('videotrack:playstate', state._posterPlayListener);
     }
     return {
         init: function(initConfig) {
             config = initConfig;
             // reactionannouncementinterval is provided by PHP in milliseconds; cap matches settings.php max (120000 ms).
             var interval = parseInt(config.reactionannouncementinterval, 10);
-            reactionUnavailableAnnounceInterval = interval === 0 ? Number.MAX_SAFE_INTEGER :
+            reactionState.unavailableInterval = interval === 0 ? Number.MAX_SAFE_INTEGER :
                 Math.max(1000, Math.min(120000, interval || DEFAULT_REACTION_UNAVAILABLE_ANNOUNCE_INTERVAL));
             // reactionreadydebouncems is intentionally configured in milliseconds; cap matches settings.php max (2000 ms).
             var debounce = parseInt(config.reactionreadydebouncems, 10);
-            reactionReadyDebounceMs = debounce === 0 ? 0 :
+            reactionState.debounceMs = debounce === 0 ? 0 :
                 Math.max(0, Math.min(2000, debounce || DEFAULT_REACTION_READY_DEBOUNCE_MS));
             // Legge l'intervallo heartbeat dalla configurazione admin.
             HEARTBEAT_INTERVAL = (config.heartbeatinterval > 0) ? config.heartbeatinterval : 30;
