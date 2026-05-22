@@ -594,19 +594,7 @@
      * Mirrors the logic of player.js to ensure consistent behaviour across all sources.
      */
     function showStatusMessage(message, isError) {
-        var id = 'videotrack-status-msg';
-        var el = document.getElementById(id);
-        if (!el) {
-            el = document.createElement('div');
-            el.id = id;
-            el.className = 'sr-only';
-            el.setAttribute('aria-atomic', 'true');
-            var shell = document.querySelector('.videotrack-player-shell');
-            if (shell) { shell.appendChild(el); }
-        }
-        el.setAttribute('role', isError ? 'alert' : 'status');
-        el.textContent = message;
-        window.setTimeout(function() { el.textContent = ''; }, isError ? 8000 : 4000);
+        PlayerCore.showStatusMessage(message, isError);
     }
 
 
