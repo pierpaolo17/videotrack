@@ -88,6 +88,9 @@ define(['core/ajax', 'core/log', 'mod_videotrack/core/utils', 'mod_videotrack/co
 
     function updateProgress(response) {
         if (!response) { return response; }
+        if (response.accepted === false) {
+            Log.debug('mod_videotrack: segment write deferred due to lock contention');
+        }
         var pct = document.getElementById('videotrack-progress-percent');
         if (pct) { pct.textContent = parseFloat(response.completionpercent || 0).toFixed(1) + '%'; }
         var sec = document.getElementById('videotrack-covered-seconds');

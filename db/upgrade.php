@@ -852,5 +852,11 @@ function xmldb_videotrack_upgrade($oldversion) {
         upgrade_mod_savepoint(true, 2026070207, 'videotrack');
     }
 
+
+    if ($oldversion < 2026070208) {
+        // 1.1.8: AMD build mangling, deferred segment diagnostics and technical docs refresh. No schema changes.
+        upgrade_mod_savepoint(true, 2026070208, 'videotrack');
+    }
+
     return true;
 }

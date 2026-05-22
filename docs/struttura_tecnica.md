@@ -1,6 +1,6 @@
 # mod_videotrack — Guida alla struttura del codice
 
-**Versione**: 1.1.7 (build 2026070207)
+**Versione**: 1.1.8 (build 2026070208)
 **Prerequisito di lettura**: conoscenza base di Moodle (plugin system, `$DB`, `$USER`, `cm_info`) e PHP/JavaScript.
 
 ---
@@ -221,10 +221,10 @@ Un record per ogni click su un bottone reazione o per ogni nota salvata.
 
 ```php
 $plugin->component = 'mod_videotrack';
-$plugin->version   = 2026070207;
+$plugin->version   = 2026070208;
 $plugin->requires  = 2025041400; // Moodle 5.0.
 $plugin->maturity  = MATURITY_BETA;
-$plugin->release   = '1.1.7';
+$plugin->release   = '1.1.8';
 ```
 
 È il file letto da Moodle per decidere se mostrare l'upgrade dialog. `version` è un intero in formato `YYYYMMDDnn`. `requires` è la build minima di Moodle supportata.
@@ -431,6 +431,9 @@ La classe statica più importante del plugin. Contiene tutta la logica di calcol
 
 `simplify_intervals(array $intervals, int $target): array`
 Riduce gli intervalli al numero target **senza mai inglobare gap non visti**. Ordina per lunghezza decrescente, mantiene i `$target` più lunghi, ri-ordina per posizione temporale. Non inventa copertura: la perdita di precisione (frammenti brevi scartati) è accettabile e semanticamente corretta.
+
+`current_state_snapshot($videotrack, $cm, $userid): stdClass` *(private)*
+Legge lo stato committato dal DB o restituisce un oggetto in-memory con valori zero quando il record non esiste ancora. È usato come fallback non-fatale quando il lock per `videotrack_state` non è acquisibile entro il timeout: il client riceve `accepted=false` e uno snapshot coerente invece di un errore AJAX visibile.
 
 `normalise_interval(float $start, float $end, float $duration): ?array`
 Valida e normalizza un segmento `[start, end]`. Clamp a `[0, duration]`. Restituisce `null` se `end <= start` (segmento vuoto).
@@ -1169,3 +1172,10 @@ Refactor iniziale dei player AMD:
 - Aggiunta impostazione amministrativa `notemaxlength` per configurare il limite massimo delle note personali.
 - Rafforzata la gestione della contesa sui lock di `videotrack_state`: in caso di timeout viene restituito l'ultimo stato persistito senza mostrare errori AJAX allo studente.
 - Aggiornati `version.php`, `db/install.xml` e savepoint di upgrade alla build 2026070207.
+
+### Aggiornamento 1.1.8
+
+- Rigenerati i build AMD con mangling degli identificatori locali per ridurre dimensioni e allinearsi alla minificazione standard Moodle.
+- Aggiunto logging debug lato JS quando `save_segment` risponde `accepted=false` per contesa lock non fatale.
+- Documentati `current_state_snapshot()` e le API Moodle principali di `lib.php` non presenti nella sezione tecnica.
+- Aggiornati `version.php`, `db/install.xml` e savepoint di upgrade alla build 2026070208.
