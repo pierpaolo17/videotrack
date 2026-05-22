@@ -308,6 +308,10 @@ echo html_writer::tag('canvas', get_string('intervalbar_title', 'mod_videotrack'
     'aria-label' => get_string('intervalbar_title', 'mod_videotrack') . ' — ' .
                     format_float($percent, 1) . '%',
 ]);
+echo html_writer::tag('span',
+    get_string('intervalbar_title', 'mod_videotrack') . ' — ' . format_float($percent, 1) . '%',
+    ['id' => 'videotrack-interval-bar-status', 'class' => 'sr-only', 'aria-live' => 'polite']
+);
 echo html_writer::end_div(); // videotrack-player-section
 
 // ── Sidebar: progresso + reazioni + tabella reazioni studente ──
