@@ -31,16 +31,10 @@ class save_reaction extends external_api {
         if (\core_text::strlen($params['sessionid']) > 64) {
             throw new \invalid_parameter_exception('Invalid session ID');
         }
-        $cmraw  = get_coursemodule_from_id('videotrack', $params['cmid'], 0, false, MUST_EXIST);
-        $course = get_course($cmraw->course);
-        $videotrack = $DB->get_record('videotrack', ['id' => $cmraw->instance], '*', MUST_EXIST);
-        // require_login PRIMA di qualsiasi query su dati del plugin (pattern Moodle).
-        require_login($course, false, $cmraw);
-        // cm_info::create va chiamato DOPO require_login: carica dati filtrati per utente.
-        $cm = \cm_info::create($cmraw);
-        $context = \context_module::instance($cm->id);
-        self::validate_context($context);
-        require_capability('mod/videotrack:view', $context);
+        $loaded = helper::load_and_validate_context((int)$params['cmid']);
+        $videotrack = $loaded['videotrack'];
+        $cm = $loaded['cm'];
+        $context = $loaded['context'];
         if (empty($videotrack->reactionsenabled)) {
             throw new \moodle_exception('reactionsdisabled', 'mod_videotrack');
         }

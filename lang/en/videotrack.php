@@ -474,3 +474,5 @@ $string['setting:nonnegativeintrequired'] = 'Enter a whole number greater than o
 $string['report:anonymiseduser'] = 'Anonymised user';
 
 $string['report:exportnotes_privacywarning'] = 'This export may contain personal data from student notes. Download and store it only when you have a valid purpose and delete it when it is no longer needed.';
+
+$string['privacy:videoid_export_note'] = 'Video/content identifier: {$a}';

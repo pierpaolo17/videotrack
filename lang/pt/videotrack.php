@@ -471,3 +471,5 @@ $string['err:playbacksteprequired'] = 'Digite um número inteiro de 0 a 300 segu
 $string['setting:nonnegativeintrequired'] = 'Introduza um número inteiro maior ou igual a 0.';
 $string['report:anonymiseduser'] = 'Utilizador anonimizado';
 $string['report:exportnotes_privacywarning'] = 'Esta exportação pode conter dados pessoais das notas dos estudantes. Transfira e armazene apenas quando houver uma finalidade válida e elimine quando já não for necessária.';
+
+$string['privacy:videoid_export_note'] = 'Video/content identifier: {$a}';

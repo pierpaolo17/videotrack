@@ -471,3 +471,5 @@ $string['err:playbacksteprequired'] = 'Saisissez un nombre entier de 0 à 300 se
 $string['setting:nonnegativeintrequired'] = 'Saisissez un nombre entier supérieur ou égal à 0.';
 $string['report:anonymiseduser'] = 'Utilisateur anonymisé';
 $string['report:exportnotes_privacywarning'] = 'Cette exportation peut contenir des données personnelles provenant des notes des étudiants. Téléchargez-la et conservez-la uniquement avec une finalité valable, puis supprimez-la lorsqu’elle n’est plus nécessaire.';
+
+$string['privacy:videoid_export_note'] = 'Video/content identifier: {$a}';

@@ -154,7 +154,6 @@ class tracker {
      * @return array
      */
     public static function simplify_intervals(array $intervals, int $target): array {
-        $intervals = self::merge_intervals($intervals);
         $n = count($intervals);
         if ($n <= $target) {
             return $intervals;
@@ -418,6 +417,32 @@ class tracker {
      * @param int|null  &$segmentid   Viene impostato all'ID del segmento inserito.
      * @return stdClass               Stato aggiornato.
      */
+    /**
+     * Creates the default aggregate state record for a user/activity pair.
+     *
+     * @param \stdClass $videotrack Activity instance.
+     * @param \cm_info $cm Course module info.
+     * @param int $userid User id.
+     * @return \stdClass Unsaved default state record.
+     */
+    private static function create_default_state(\stdClass $videotrack, \cm_info $cm, int $userid): \stdClass {
+        return (object)[
+            'videotrackid'         => $videotrack->id,
+            'courseid'             => $videotrack->course,
+            'cmid'                 => $cm->id,
+            'userid'               => $userid,
+            'videoid'              => $videotrack->videoid,
+            'lastposition'         => 0,
+            'durationseconds'      => (float)$videotrack->durationseconds,
+            'uniquecoveredseconds' => 0,
+            'completionpercent'    => 0,
+            'intervaljson'         => '[]',
+            'iscompleted'          => 0,
+            'timemodified'         => 0,
+            'timecreated'          => time(),
+        ];
+    }
+
     public static function update_state(\stdClass $videotrack, \cm_info $cm, int $userid,
             array $interval, float $lastposition, ?\stdClass $segment = null, ?int &$segmentid = null): \stdClass {
         global $DB;
@@ -450,21 +475,7 @@ class tracker {
             }
             $state = $DB->get_record('videotrack_state', ['videotrackid' => $videotrack->id, 'userid' => $userid]);
             if (!$state) {
-                $state = (object)[
-                    'videotrackid' => $videotrack->id,
-                    'courseid'     => $videotrack->course,
-                    'cmid'         => $cm->id,
-                    'userid'       => $userid,
-                    'videoid'      => $videotrack->videoid,
-                    'lastposition' => 0,
-                    'durationseconds'      => (float)$videotrack->durationseconds,
-                    'uniquecoveredseconds' => 0,
-                    'completionpercent'    => 0,
-                    'intervaljson'         => '[]',
-                    'iscompleted'          => 0,
-                    'timemodified'         => 0,
-                    'timecreated'          => time(),
-                ];
+                $state = self::create_default_state($videotrack, $cm, $userid);
             }
             $intervals = self::decode_intervals($state->intervaljson);
             $intervals[] = $interval;
@@ -551,21 +562,8 @@ class tracker {
         try {
             $state = $DB->get_record('videotrack_state', ['videotrackid' => $videotrack->id, 'userid' => $userid]);
             if (!$state) {
-                $state = (object)[
-                    'videotrackid'         => $videotrack->id,
-                    'courseid'             => $videotrack->course,
-                    'cmid'                 => $cm->id,
-                    'userid'               => $userid,
-                    'videoid'              => $videotrack->videoid,
-                    'lastposition'         => 0,
-                    'durationseconds'      => (float)$videotrack->durationseconds,
-                    'uniquecoveredseconds' => 0,
-                    'completionpercent'    => 0,
-                    'intervaljson'         => '[]',
-                    'iscompleted'          => 0,
-                    'timemodified'         => time(),
-                    'timecreated'          => time(),
-                ];
+                $state = self::create_default_state($videotrack, $cm, $userid);
+                $state->timemodified = time();
                 $state->id = $DB->insert_record('videotrack_state', $state);
             }
 

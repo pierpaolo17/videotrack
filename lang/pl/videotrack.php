@@ -473,3 +473,5 @@ $string['setting:nonnegativeintrequired'] = 'Wpisz liczbę całkowitą większą
 $string['report:anonymiseduser'] = 'Użytkownik zanonimizowany';
 
 $string['report:exportnotes_privacywarning'] = 'Ten eksport może zawierać dane osobowe z notatek studentów. Pobieraj i przechowuj go tylko wtedy, gdy masz ważny cel, i usuń, gdy nie jest już potrzebny.';
+
+$string['privacy:videoid_export_note'] = 'Video/content identifier: {$a}';
