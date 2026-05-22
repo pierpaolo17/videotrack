@@ -720,13 +720,22 @@ Modulo AMD condiviso usato dai tre player. Esporta helper senza stato globale pe
 
 ### 5.3 `core/player.js` — Helper player condivisi
 
-Modulo AMD condiviso per funzioni DOM/player non legate a una specifica API video:
+Modulo AMD condiviso per funzioni DOM/player non legate a una specifica API video. Centralizza helper usati da YouTube, HTML5 e Vimeo per ridurre duplicazioni e mantenere coerenti UX, accessibilità e comportamento degli annunci `aria-live`.
 
-- `uuid()` — genera identificativi sessione lato client;
-- `getIntervalBarColor()` — legge i colori CSS della barra intervalli;
-- `setNoteButtonState()` e `getRemainingNoteChars()` — stato e contatore note;
-- `appendNoteRow()` — inserimento DOM sicuro delle note personali;
-- `removePoster()` e `showResumeNotice()` — UI comune poster/resume.
+| Funzione | Firma | Scopo |
+|---|---|---|
+| `uuid()` | `uuid(): string` | Genera identificativi sessione lato client. |
+| `getIntervalBarColor()` | `getIntervalBarColor(canvas, property, fallback): string` | Legge i colori CSS della barra intervalli con fallback. |
+| `showResumeNotice()` | `showResumeNotice(seconds, config, Utils): void` | Mostra il banner accessibile di ripresa automatica. |
+| `showStatusMessage()` | `showStatusMessage(message, isError): void` | Pubblica messaggi temporanei in regione live; cancella il timer precedente per non troncare annunci successivi. |
+| `setNoteButtonState()` | `setNoteButtonState(saveBtn, playing): void` | Aggiorna lo stato accessibile del bottone salva nota senza rimuoverlo dal focus order. |
+| `announceReactionAvailability()` | `announceReactionAvailability(playing, config, reactionState): void` | Annuncia disponibilità/indisponibilità reazioni usando stato mutabile passato dal player. |
+| `announceReactionUnavailable()` | `announceReactionUnavailable(config, reactionState): void` | Annuncio immediato quando l'utente prova a reagire fuori playback. |
+| `onFirstPlay()` | `onFirstPlay(e, state, removePosterFn): void` | Rimuove l'overlay poster al primo play e deregistra il listener. |
+| `appendNoteRow()` | `appendNoteRow(noteid, videotime, text, config, Utils): void` | Inserisce in modo sicuro una nota personale nel DOM. |
+| `getRemainingNoteChars()` | `getRemainingNoteChars(textarea, config, Utils): number` | Calcola i caratteri residui della textarea note. |
+| `updateNoteCharCounter()` | `updateNoteCharCounter(textarea, config, Utils): number` | Aggiorna il contatore caratteri condiviso dai tre player. |
+| `removePoster()` | `removePoster(overlay): void` | Rimuove il poster overlay con transizione coerente. |
 
 ### 5.4 `core/ui.js` — Helper UI condivisi
 
@@ -737,7 +746,7 @@ Modulo AMD condiviso per logica visuale/accessibile riusata dai player:
 | `setReactionButtons(buttons, playing)` | Aggiorna `aria-disabled`, `tabindex` e invia `videotrack:playstate`. |
 | `appendIconSafe(target, html)` | Inserisce icone consentendo solo tag/attributi sicuri (`img`, `i`, `span`). |
 
-### 5.4 `player.js` — YouTube IFrame API
+### 5.5 `player.js` — YouTube IFrame API
 
 Carica l'API YouTube (`youtube.com/iframe_api`) in modo non-bloccante con `window.onYouTubeIframeAPIReady`.
 
@@ -753,7 +762,7 @@ Carica l'API YouTube (`youtube.com/iframe_api`) in modo non-bloccante con `windo
 
 `installReactionHandler()` — in player.js è un no-op documentato: le reazioni YouTube sono già gestite da `installGlobalListeners()` via event delegation.
 
-### 5.5 `vimeo_player.js` — Vimeo Player SDK
+### 5.6 `vimeo_player.js` — Vimeo Player SDK
 
 Carica il Vimeo SDK da `player.vimeo.com/api/player.js` con `crossOrigin='anonymous'`. In caso di errore (`script.onerror`) mostra un avviso all'utente.
 
@@ -774,7 +783,7 @@ Gestione eventi Vimeo:
 
 Modulo AMD leggero, caricato da `report.php` tramite `$PAGE->requires->js_call_amd()`. Inizializza i form di reset/ricalcolo con conferme basate su `core/notification`, evitando azioni distruttive via GET e JS inline.
 
-### 5.7 `html5_player.js` — Player HTML5 nativo
+### 5.8 `html5_player.js` — Player HTML5 nativo
 
 Il più complesso dei tre (~1590 righe) perché gestisce anche transcript VTT, capitoli, note studente e controlli personalizzati.
 

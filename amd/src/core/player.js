@@ -7,6 +7,8 @@
  * @module mod_videotrack/core/player
  */
 define([], function() {
+    var statusTimer = null;
+
 
     /**
      * Create a compact session identifier.
@@ -100,8 +102,12 @@ define([], function() {
         }
         el.setAttribute('role', isError ? 'alert' : 'status');
         el.textContent = message || '';
-        window.setTimeout(function() {
+        if (statusTimer) {
+            window.clearTimeout(statusTimer);
+        }
+        statusTimer = window.setTimeout(function() {
             el.textContent = '';
+            statusTimer = null;
         }, isError ? 8000 : 4000);
     }
 
@@ -138,6 +144,96 @@ define([], function() {
         }
         saveBtn.setAttribute('aria-disabled', playing ? 'false' : 'true');
         saveBtn.classList.toggle('videotrack-note-save-disabled', !playing);
+    }
+
+    /**
+     * Announce when reactions become available or unavailable.
+     *
+     * @param {boolean} playing Whether playback is active.
+     * @param {Object} config Player configuration.
+     * @param {Object} reactionState Mutable reaction announcement state.
+     */
+    function announceReactionAvailability(playing, config, reactionState) {
+        var hint = document.getElementById('videotrack-reactions-hint');
+        if (!hint) {
+            return;
+        }
+        if (playing) {
+            if (reactionState.timer) {
+                window.clearTimeout(reactionState.timer);
+                reactionState.timer = null;
+            }
+            if (Date.now() - reactionState.lastUnavailableAt < reactionState.debounceMs) {
+                return;
+            }
+            if (reactionState.readyAnnounced || reactionState.lastAnnouncement === true) {
+                return;
+            }
+            reactionState.lastAnnouncement = true;
+            reactionState.readyAnnounced = true;
+            hint.textContent = config.reactionsreadylabel;
+            hint.classList.toggle('videotrack-reactions-hint-active', false);
+            return;
+        }
+
+        if (reactionState.timer) {
+            return;
+        }
+        var now = Date.now();
+        if (reactionState.lastAnnouncement === false &&
+                now - reactionState.lastUnavailableAt < reactionState.unavailableInterval) {
+            return;
+        }
+        reactionState.timer = window.setTimeout(function() {
+            reactionState.timer = null;
+            reactionState.lastAnnouncement = false;
+            reactionState.lastUnavailableAt = Date.now();
+            hint.textContent = config.reactionunavailablelabel;
+            hint.classList.toggle('videotrack-reactions-hint-active', true);
+        }, 400);
+    }
+
+    /**
+     * Announce that reactions are unavailable immediately.
+     *
+     * @param {Object} config Player configuration.
+     * @param {Object} reactionState Mutable reaction announcement state.
+     */
+    function announceReactionUnavailable(config, reactionState) {
+        var hint = document.getElementById('videotrack-reactions-hint');
+        if (hint) {
+            if (reactionState.timer) {
+                window.clearTimeout(reactionState.timer);
+                reactionState.timer = null;
+            }
+            var now = Date.now();
+            if (reactionState.lastAnnouncement === false && now - reactionState.lastUnavailableAt < 1000) {
+                return;
+            }
+            reactionState.lastAnnouncement = false;
+            reactionState.lastUnavailableAt = now;
+            hint.textContent = config.reactionunavailablelabel;
+            hint.classList.add('videotrack-reactions-hint-active');
+            window.setTimeout(function() {
+                hint.classList.remove('videotrack-reactions-hint-active');
+            }, 1500);
+        }
+    }
+
+    /**
+     * Remove a poster overlay on first playback event.
+     *
+     * @param {Event} e Custom playstate event.
+     * @param {Object} state Player mutable state.
+     * @param {Function} removePosterFn Callback that removes the poster overlay.
+     */
+    function onFirstPlay(e, state, removePosterFn) {
+        if (e.detail && e.detail.playing && !state._posterRemoved) {
+            state._posterRemoved = true;
+            removePosterFn();
+            document.removeEventListener('videotrack:playstate', state._posterPlayListener);
+            state._posterPlayListener = null;
+        }
     }
 
     /**
@@ -216,6 +312,9 @@ define([], function() {
         showResumeNotice: showResumeNotice,
         showStatusMessage: showStatusMessage,
         setNoteButtonState: setNoteButtonState,
+        announceReactionAvailability: announceReactionAvailability,
+        announceReactionUnavailable: announceReactionUnavailable,
+        onFirstPlay: onFirstPlay,
         appendNoteRow: appendNoteRow,
         getRemainingNoteChars: getRemainingNoteChars,
         updateNoteCharCounter: updateNoteCharCounter,
