@@ -580,7 +580,7 @@ Implementa:
 - `get_users_in_context()` — lista solo utenti reali (`userid > 0`) con dati in un contesto; i record anonimizzati non vengono esposti come utenti Moodle.
 - `export_user_data()` — esporta segmenti, stato, reazioni e note in formato leggibile; note e reazioni sono esportate separatamente; le icone di reazione (`reactionicon`) sono esportate come file, escluse quelle con `reactionid=0` (note).
 - `delete_data_for_all_users_in_context()` — anonimizza i dati personali nel contesto preservando aggregati anonimi/pseudonimi.
-- `delete_data_for_user()` e `delete_data_for_users()` — anonimizzano i dati dell'utente richiesto invece di cancellarli fisicamente.
+- `delete_data_for_user()` e `delete_data_for_users()` — eliminano fisicamente i dati personali dell'utente richiesto nel contesto selezionato.
 
 La logica condivisa è in `classes/local/privacy_manager.php`: il salt locale è creato con lock Moodle, l'identificativo anonimo è negativo, salted e scoped per attività, e la retention automatica usa batch per evitare scansioni troppo pesanti.
 
@@ -854,7 +854,7 @@ get_coursemodule_from_id → get_course → get_record(videotrack)
 | `mod/videotrack:view` | studente | Accede all'attività |
 | `mod/videotrack:viewreport` | docente | Vede il report docente |
 | `mod/videotrack:viewownreport` | studente | Vede la propria tabella reazioni |
-| `mod/videotrack:managereactions` | docente | Modifica/cancella reazioni altrui |
+| `mod/videotrack:managereactions` | docente | Gestisce reazioni altrui e azioni di pulizia nel report docente |
 | `mod/videotrack:overrideplayersettings` | manager | Sblocca le impostazioni player |
 | `mod/videotrack:overridecompletionsettings` | manager | Sblocca le impostazioni completamento |
 

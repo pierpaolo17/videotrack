@@ -268,6 +268,7 @@ class privacy_manager {
             $DB->execute(
                 "UPDATE {videotrack_reactev}
                     SET userid = :anonuserid, sessionid = :sessionid,
+                        videotime = 0, playbackrate = 1, reactiondesc = '',
                         notetext = CASE WHEN notetype = 'note' THEN :notetext ELSE notetext END
                   WHERE cmid = :cmid AND userid = :userid",
                 $eventparams
@@ -393,6 +394,7 @@ class privacy_manager {
         $DB->execute(
             "UPDATE {videotrack_reactev}
                 SET userid = :anonuserid, sessionid = :sessionid,
+                    videotime = 0, playbackrate = 1, reactiondesc = '',
                     notetext = CASE WHEN notetype = 'note' THEN :notetext ELSE notetext END
               WHERE cmid = :cmid AND userid = :userid AND timecreated < :cutoff",
             [

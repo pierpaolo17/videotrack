@@ -83,16 +83,25 @@ class provider implements
     public static function get_contexts_for_userid(int $userid): contextlist {
         global $DB;
 
-        // The same userid is bound three times because the SQL joins three tables.
-        // Named placeholders cannot be reused portably across all Moodle DB drivers.
-        $params = ['contextmodule' => CONTEXT_MODULE, 'userid1' => $userid, 'userid2' => $userid, 'userid3' => $userid];
+        // Use a UNION of module ids instead of joining all tracking tables at once.
+        // This gives database optimisers a simpler plan on large installations and
+        // mirrors get_users_in_context().
+        $params = [
+            'contextmodule' => CONTEXT_MODULE,
+            'userid1' => $userid,
+            'userid2' => $userid,
+            'userid3' => $userid,
+        ];
         $sql = "SELECT DISTINCT c.id
                   FROM {context} c
-                  JOIN {course_modules} cm ON cm.id = c.instanceid AND c.contextlevel = :contextmodule
-             LEFT JOIN {videotrack_state} vs ON vs.cmid = cm.id AND vs.userid = :userid1
-             LEFT JOIN {videotrack_seg} vseg ON vseg.cmid = cm.id AND vseg.userid = :userid2
-             LEFT JOIN {videotrack_reactev} vre ON vre.cmid = cm.id AND vre.userid = :userid3
-                 WHERE vs.id IS NOT NULL OR vseg.id IS NOT NULL OR vre.id IS NOT NULL";
+                  JOIN (
+                        SELECT cmid FROM {videotrack_state} WHERE userid = :userid1
+                        UNION
+                        SELECT cmid FROM {videotrack_seg} WHERE userid = :userid2
+                        UNION
+                        SELECT cmid FROM {videotrack_reactev} WHERE userid = :userid3
+                       ) tracked ON tracked.cmid = c.instanceid
+                 WHERE c.contextlevel = :contextmodule";
 
         $contextlist = new contextlist();
         $contextlist->add_from_sql($sql, $params);
