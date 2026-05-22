@@ -863,5 +863,10 @@ function xmldb_videotrack_upgrade($oldversion) {
         upgrade_mod_savepoint(true, 2026070209, 'videotrack');
     }
 
+    if ($oldversion < 2026070210) {
+        // 1.1.10: restore shared player core module and Moodle AMD lint fixes. No schema changes.
+        upgrade_mod_savepoint(true, 2026070210, 'videotrack');
+    }
+
     return true;
 }

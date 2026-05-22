@@ -593,6 +593,23 @@
      * Installs the click handler for reaction buttons and replay buttons.
      * Mirrors the logic of player.js to ensure consistent behaviour across all sources.
      */
+    function showStatusMessage(message, isError) {
+        var id = 'videotrack-status-msg';
+        var el = document.getElementById(id);
+        if (!el) {
+            el = document.createElement('div');
+            el.id = id;
+            el.className = 'sr-only';
+            el.setAttribute('aria-atomic', 'true');
+            var shell = document.querySelector('.videotrack-player-shell');
+            if (shell) { shell.appendChild(el); }
+        }
+        el.setAttribute('role', isError ? 'alert' : 'status');
+        el.textContent = message;
+        window.setTimeout(function() { el.textContent = ''; }, isError ? 8000 : 4000);
+    }
+
+
     function installReactionHandler() {
 
         function appendReactionRow(eventid, reaction, videotime) {
@@ -737,22 +754,6 @@
      * Toggle show/hide del pannello note: gestisce il bottone collapse e persiste
      * la preferenza in sessionStorage per la durata della sessione.
      */
-
-    function showStatusMessage(message, isError) {
-        var id = 'videotrack-status-msg';
-        var el = document.getElementById(id);
-        if (!el) {
-            el = document.createElement('div');
-            el.id = id;
-            el.className = 'sr-only';
-            el.setAttribute('aria-atomic', 'true');
-            var shell = document.querySelector('.videotrack-player-shell');
-            if (shell) { shell.appendChild(el); }
-        }
-        el.setAttribute('role', isError ? 'alert' : 'status');
-        el.textContent = message;
-        window.setTimeout(function() { el.textContent = ''; }, isError ? 8000 : 4000);
-    }
 
     function installNotesToggle() {
         var btn  = document.getElementById('videotrack-notes-toggle');

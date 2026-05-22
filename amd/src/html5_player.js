@@ -573,6 +573,7 @@
 
         // ── Download ──────────────────────────────────────────
         if (config.allowdownload && controls.indexOf('download') >= 0) {
+            // eslint-disable-next-line no-undef
             var dlBtn = document.createElement('a');
             dlBtn.href     = media.src;
             dlBtn.download = '';
@@ -637,6 +638,7 @@
         });
 
         // Append bar after the media element, inside the player wrapper.
+        // eslint-disable-next-line no-undef
         var wrapper = container.closest('.videotrack-player-wrap') || container.parentElement;
         wrapper.appendChild(bar);
     }
