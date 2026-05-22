@@ -1,6 +1,6 @@
 # mod_videotrack — Guida alla struttura del codice
 
-**Versione**: 1.1.11 (build 2026070211)
+**Versione**: 1.2.0 (build 2026070300)
 **Prerequisito di lettura**: conoscenza base di Moodle (plugin system, `$DB`, `$USER`, `cm_info`) e PHP/JavaScript.
 
 ---
@@ -24,12 +24,16 @@ videotrack/
 │
 ├── amd/                   # Moduli JavaScript AMD (RequireJS/Moodle AMD)
 │   ├── src/               # Sorgenti leggibili da sviluppatori
-│   │   ├── player.js          # Player YouTube IFrame API (~937 righe)
-│   │   ├── vimeo_player.js    # Player Vimeo SDK (~915 righe)
-│   │   ├── html5_player.js    # Player HTML5 nativo (~1590 righe)
-│   │   ├── presets.js         # UI gestione preset (~80 righe)
+│   │   ├── core/              # Helper condivisi dai player AMD
+│   │   │   ├── utils.js       # format, safeInt, fetch con timeout, sessionStorage
+│   │   │   ├── ui.js          # icone e stato accessibile dei pulsanti reazione
+│   │   │   └── player.js      # helper DOM/player condivisi dagli entrypoint
+│   │   ├── player.js          # Player YouTube IFrame API
+│   │   ├── vimeo_player.js    # Player Vimeo SDK
+│   │   ├── html5_player.js    # Player HTML5 nativo
+│   │   ├── presets.js         # UI gestione preset
 │   │   └── report.js          # Modulo AMD report: conferma reset studente
-│   └── build/             # File .min.js compatti generati dai sorgenti AMD
+│   └── build/             # File .min.js generati dai sorgenti AMD, inclusi i core/
 │
 ├── backup/moodle2/        # Backup e ripristino (API Moodle 2)
 │   ├── backup_videotrack_activity_task.class.php
@@ -221,10 +225,10 @@ Un record per ogni click su un bottone reazione o per ogni nota salvata.
 
 ```php
 $plugin->component = 'mod_videotrack';
-$plugin->version   = 2026070211;
+$plugin->version   = 2026070300;
 $plugin->requires  = 2025041400; // Moodle 5.0.
 $plugin->maturity  = MATURITY_BETA;
-$plugin->release   = '1.1.11';
+$plugin->release   = '1.2.0';
 ```
 
 È il file letto da Moodle per decidere se mostrare l'upgrade dialog. `version` è un intero in formato `YYYYMMDDnn`. `requires` è la build minima di Moodle supportata.
@@ -1185,15 +1189,16 @@ Refactor iniziale dei player AMD:
 
 ### Aggiornamento 1.1.11
 
+- Aggiunto `amd/src/core/player.js` per consolidare helper DOM/player condivisi dai player HTML5, YouTube e Vimeo.
 - Rigenerati i build AMD con mangling degli identificatori locali per ridurre dimensioni e allinearsi alla minificazione standard Moodle.
 - Aggiunto logging debug lato JS quando `save_segment` risponde `accepted=false` per contesa lock non fatale.
 - Documentati `current_state_snapshot()` e le API Moodle principali di `lib.php` non presenti nella sezione tecnica.
+- Rafforzati i guard di `saveCurrentProgress()` e la coerenza della UI YouTube.
 - Aggiornati `version.php`, `db/install.xml` e savepoint di upgrade alla build 2026070211.
 
+### Aggiornamento 1.2.0
 
-### Aggiornamento 1.1.11
-
-- Aggiunto `amd/src/core/player.js` per consolidare helper DOM/player condivisi dai player HTML5, YouTube e Vimeo.
-- Uniformata la precisione percentuale della UI YouTube a un decimale come HTML5/Vimeo.
-- Rafforzati i guard di `saveCurrentProgress()` per evitare salvataggi quando il player/media non e' disponibile.
-- Aggiornati build AMD e metadata release alla build 2026070211.
+- Inclusi nel pacchetto i file `amd/build/**/*.min.js`, necessari per l'uso in produzione e per la Plugin Directory.
+- Allineata la documentazione tecnica alla struttura AMD `core/utils.js`, `core/ui.js` e `core/player.js`.
+- Aggiornato l'intervallo dichiarato in `version.php` per coprire Moodle 5.0-5.2.
+- Aggiornati `version.php`, `db/install.xml` e savepoint di upgrade alla build 2026070300.
