@@ -86,7 +86,7 @@ class save_note extends external_api {
         // Global note rate limit: max 5 notes every 10 seconds per user/activity.
         $recentnotes = $DB->count_records_select(
             'videotrack_reactev',
-            "videotrackid = :vtid AND userid = :userid AND notetype = 'note' AND timecreated > :since",
+            "videotrackid = :vtid AND userid = :userid AND notetype = 'note' AND timecreated >= :since",
             [
                 'vtid' => $videotrack->id,
                 'userid' => (int)$USER->id,
@@ -112,7 +112,7 @@ class save_note extends external_api {
             'notetext'     => $text,
             'notetype'     => 'note',
             'videotime'    => round($videotime, 3),
-            'playbackrate' => max(0.25, min(4.0, (float)$params['playbackrate'])),
+            'playbackrate' => max(0.25, min(4.0, round((float)$params['playbackrate'], 3))),
             'isdeleted'    => 0,
             'timecreated'  => $now,
             'timemodified' => $now,

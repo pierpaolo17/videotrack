@@ -879,5 +879,11 @@ function xmldb_videotrack_upgrade($oldversion) {
         upgrade_mod_savepoint(true, 2026070300, 'videotrack');
     }
 
+
+    if ($oldversion < 2026070301) {
+        // 1.2.1: production package fix with AMD build files and minor server-side hardening. No schema changes.
+        upgrade_mod_savepoint(true, 2026070301, 'videotrack');
+    }
+
     return true;
 }
