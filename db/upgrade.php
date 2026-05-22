@@ -868,5 +868,10 @@ function xmldb_videotrack_upgrade($oldversion) {
         upgrade_mod_savepoint(true, 2026070210, 'videotrack');
     }
 
+    if ($oldversion < 2026070211) {
+        // 1.1.11: conservative player-core consolidation and interval decode hardening. No schema changes.
+        upgrade_mod_savepoint(true, 2026070211, 'videotrack');
+    }
+
     return true;
 }

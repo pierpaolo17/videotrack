@@ -84,7 +84,12 @@ class tracker {
             if (!is_array($interval) || count($interval) < 2 || !is_numeric($interval[0]) || !is_numeric($interval[1])) {
                 continue;
             }
-            $normalised = self::normalise_interval((float)$interval[0], (float)$interval[1]);
+            $start = (float)$interval[0];
+            $end = (float)$interval[1];
+            if (!is_finite($start) || !is_finite($end)) {
+                continue;
+            }
+            $normalised = self::normalise_interval($start, $end);
             if ($normalised !== null) {
                 $intervals[] = $normalised;
             }

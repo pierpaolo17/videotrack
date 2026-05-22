@@ -1,6 +1,6 @@
 # mod_videotrack — Guida alla struttura del codice
 
-**Versione**: 1.1.10 (build 2026070210)
+**Versione**: 1.1.11 (build 2026070211)
 **Prerequisito di lettura**: conoscenza base di Moodle (plugin system, `$DB`, `$USER`, `cm_info`) e PHP/JavaScript.
 
 ---
@@ -221,10 +221,10 @@ Un record per ogni click su un bottone reazione o per ogni nota salvata.
 
 ```php
 $plugin->component = 'mod_videotrack';
-$plugin->version   = 2026070210;
+$plugin->version   = 2026070211;
 $plugin->requires  = 2025041400; // Moodle 5.0.
 $plugin->maturity  = MATURITY_BETA;
-$plugin->release   = '1.1.10';
+$plugin->release   = '1.1.11';
 ```
 
 È il file letto da Moodle per decidere se mostrare l'upgrade dialog. `version` è un intero in formato `YYYYMMDDnn`. `requires` è la build minima di Moodle supportata.
@@ -1183,17 +1183,17 @@ Refactor iniziale dei player AMD:
 - Rafforzata la gestione della contesa sui lock di `videotrack_state`: in caso di timeout viene restituito l'ultimo stato persistito senza mostrare errori AJAX allo studente.
 - Aggiornati `version.php`, `db/install.xml` e savepoint di upgrade alla build 2026070207.
 
-### Aggiornamento 1.1.10
+### Aggiornamento 1.1.11
 
 - Rigenerati i build AMD con mangling degli identificatori locali per ridurre dimensioni e allinearsi alla minificazione standard Moodle.
 - Aggiunto logging debug lato JS quando `save_segment` risponde `accepted=false` per contesa lock non fatale.
 - Documentati `current_state_snapshot()` e le API Moodle principali di `lib.php` non presenti nella sezione tecnica.
-- Aggiornati `version.php`, `db/install.xml` e savepoint di upgrade alla build 2026070210.
+- Aggiornati `version.php`, `db/install.xml` e savepoint di upgrade alla build 2026070211.
 
 
-### Aggiornamento 1.1.10
+### Aggiornamento 1.1.11
 
 - Aggiunto `amd/src/core/player.js` per consolidare helper DOM/player condivisi dai player HTML5, YouTube e Vimeo.
 - Uniformata la precisione percentuale della UI YouTube a un decimale come HTML5/Vimeo.
 - Rafforzati i guard di `saveCurrentProgress()` per evitare salvataggi quando il player/media non e' disponibile.
-- Aggiornati build AMD e metadata release alla build 2026070210.
+- Aggiornati build AMD e metadata release alla build 2026070211.

@@ -78,6 +78,54 @@ define([], function() {
         }, 6000);
     }
 
+
+    /**
+     * Show an accessible temporary status message in the player shell.
+     *
+     * @param {string} message Message text.
+     * @param {boolean} isError Whether the message should be announced as an error.
+     */
+    function showStatusMessage(message, isError) {
+        var id = 'videotrack-status-msg';
+        var el = document.getElementById(id);
+        if (!el) {
+            el = document.createElement('div');
+            el.id = id;
+            el.className = 'sr-only';
+            el.setAttribute('aria-atomic', 'true');
+            var shell = document.querySelector('.videotrack-player-shell');
+            if (shell) {
+                shell.appendChild(el);
+            }
+        }
+        el.setAttribute('role', isError ? 'alert' : 'status');
+        el.textContent = message || '';
+        window.setTimeout(function() {
+            el.textContent = '';
+        }, isError ? 8000 : 4000);
+    }
+
+    /**
+     * Update the note character counter next to a textarea.
+     *
+     * @param {HTMLTextAreaElement} textarea Note textarea.
+     * @param {Object} config Player configuration.
+     * @param {Object} Utils Utility module.
+     * @returns {number} Remaining characters.
+     */
+    function updateNoteCharCounter(textarea, config, Utils) {
+        if (!textarea) {
+            return 0;
+        }
+        var remaining = getRemainingNoteChars(textarea, config, Utils);
+        var panel = textarea.closest('.videotrack-notes-panel');
+        var hint = panel ? panel.querySelector('.videotrack-note-charcount') : null;
+        if (hint) {
+            hint.textContent = remaining + ' ' + config.charsremaininglabel;
+        }
+        return remaining;
+    }
+
     /**
      * Update the enabled state of the note save button while keeping it focusable.
      *
@@ -166,9 +214,11 @@ define([], function() {
         uuid: uuid,
         getIntervalBarColor: getIntervalBarColor,
         showResumeNotice: showResumeNotice,
+        showStatusMessage: showStatusMessage,
         setNoteButtonState: setNoteButtonState,
         appendNoteRow: appendNoteRow,
         getRemainingNoteChars: getRemainingNoteChars,
+        updateNoteCharCounter: updateNoteCharCounter,
         removePoster: removePoster
     };
 });
