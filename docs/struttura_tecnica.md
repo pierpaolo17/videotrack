@@ -1,6 +1,6 @@
 # mod_videotrack — Guida alla struttura del codice
 
-**Versione**: 1.2.0 (build 2026070300)
+**Versione**: 1.2.2 (build 2026070301)
 **Prerequisito di lettura**: conoscenza base di Moodle (plugin system, `$DB`, `$USER`, `cm_info`) e PHP/JavaScript.
 
 ---
@@ -722,6 +722,8 @@ Modulo AMD condiviso usato dai tre player. Esporta helper senza stato globale pe
 
 Modulo AMD condiviso per funzioni DOM/player non legate a una specifica API video. Centralizza helper usati da YouTube, HTML5 e Vimeo per ridurre duplicazioni e mantenere coerenti UX, accessibilità e comportamento degli annunci `aria-live`.
 
+Nota di stato: `statusTimer` e un timer interno singleton usato da `showStatusMessage()`. L'architettura attuale espone un player attivo alla volta; in scenari futuri con piu player simultanei va spostato in stato per istanza.
+
 | Funzione | Firma | Scopo |
 |---|---|---|
 | `uuid()` | `uuid(): string` | Genera identificativi sessione lato client. |
@@ -735,6 +737,7 @@ Modulo AMD condiviso per funzioni DOM/player non legate a una specifica API vide
 | `appendNoteRow()` | `appendNoteRow(noteid, videotime, text, config, Utils): void` | Inserisce in modo sicuro una nota personale nel DOM. |
 | `getRemainingNoteChars()` | `getRemainingNoteChars(textarea, config, Utils): number` | Calcola i caratteri residui della textarea note. |
 | `updateNoteCharCounter()` | `updateNoteCharCounter(textarea, config, Utils): number` | Aggiorna il contatore caratteri condiviso dai tre player. |
+| `installNoteHandler()` | `installNoteHandler(deps): void` | Centralizza save/delete note personali, stato del bottone e contatore caratteri per i tre player. |
 | `removePoster()` | `removePoster(overlay): void` | Rimuove il poster overlay con transizione coerente. |
 
 ### 5.4 `core/ui.js` — Helper UI condivisi

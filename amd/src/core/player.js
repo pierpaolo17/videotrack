@@ -214,8 +214,12 @@ define([], function() {
             reactionState.lastUnavailableAt = now;
             hint.textContent = config.reactionunavailablelabel;
             hint.classList.add('videotrack-reactions-hint-active');
-            window.setTimeout(function() {
+            if (reactionState.cssTimer) {
+                window.clearTimeout(reactionState.cssTimer);
+            }
+            reactionState.cssTimer = window.setTimeout(function() {
                 hint.classList.remove('videotrack-reactions-hint-active');
+                reactionState.cssTimer = null;
             }, 1500);
         }
     }
@@ -290,6 +294,106 @@ define([], function() {
         return Math.max(0, maxLength - textarea.value.length);
     }
 
+
+    /**
+     * Install the personal note save/delete handlers shared by all player types.
+     *
+     * @param {Object} deps Dependencies and callbacks from the concrete player.
+     * @param {Object} deps.Ajax Ajax module.
+     * @param {Object} deps.Log Log module.
+     * @param {Object} deps.Utils Utility module.
+     * @param {Object} deps.config Player configuration.
+     * @param {Object} deps.state Player mutable state.
+     * @param {Function} deps.getCurrentVideoTime Current video time callback.
+     * @param {Function} deps.saveCurrentProgress Progress persistence callback.
+     */
+    function installNoteHandler(deps) {
+        var Ajax = deps.Ajax;
+        var Log = deps.Log;
+        var Utils = deps.Utils;
+        var config = deps.config;
+        var state = deps.state;
+        var getCurrentVideoTime = deps.getCurrentVideoTime;
+        var saveCurrentProgress = deps.saveCurrentProgress;
+
+        if (!config.studentnotesenabled) { return; }
+
+        var saveBtn = document.getElementById('videotrack-note-save');
+        var textarea = document.getElementById('videotrack-note-input');
+        if (!saveBtn || !textarea) { return; }
+
+        function ajax(methodname, args) {
+            return Ajax.call([{ methodname: methodname, args: args }])[0];
+        }
+
+        function setLocalNoteButtonState(playing) {
+            setNoteButtonState(saveBtn, playing);
+        }
+
+        document.addEventListener('videotrack:playstate', function(e) {
+            setLocalNoteButtonState(e.detail && e.detail.playing);
+        });
+
+        saveBtn.addEventListener('click', function() {
+            if (saveBtn.getAttribute('aria-disabled') === 'true') { return; }
+            var text = textarea.value.trim();
+            if (!text) {
+                textarea.focus();
+                return;
+            }
+            var currentTime = getCurrentVideoTime();
+            saveBtn.setAttribute('aria-disabled', 'true');
+            saveBtn.classList.add('videotrack-note-save-saving');
+            saveCurrentProgress('note').then(function() {
+                return ajax('mod_videotrack_save_note', {
+                    cmid:         config.cmid,
+                    sessionid:    state.sessionid,
+                    videotime:    currentTime,
+                    notetext:     text,
+                    playbackrate: state.playbackrate || 1,
+                });
+            }).then(function(response) {
+                saveBtn.classList.remove('videotrack-note-save-saving');
+                setLocalNoteButtonState(state.playing);
+                if (response && response.noteeventid) {
+                    appendNoteRow(response.noteeventid, currentTime, text, config, Utils);
+                    textarea.value = '';
+                    updateNoteCharCounter(textarea, config, Utils);
+                    textarea.focus();
+                }
+            }).catch(function() {
+                saveBtn.classList.remove('videotrack-note-save-saving');
+                setLocalNoteButtonState(state.playing);
+                showStatusMessage(config.noteerrorlabel, true);
+            });
+        });
+
+        document.addEventListener('click', function(e) {
+            var delBtn = e.target.closest('.videotrack-delete-note');
+            if (!delBtn) { return; }
+            var noteid = Utils.safeInt(delBtn.dataset.noteid, 0);
+            if (!noteid) { return; }
+            ajax('mod_videotrack_delete_note', {
+                cmid:           config.cmid,
+                reactioneventid: noteid,
+            }).then(function(response) {
+                if (response && response.deleted) {
+                    var li = delBtn.closest('li');
+                    if (li) {
+                        var list = li.parentElement;
+                        li.remove();
+                        var next = list ? list.querySelector('.videotrack-note-item button') : null;
+                        if (next) { next.focus(); } else if (textarea) { textarea.focus(); }
+                    }
+                }
+            }).catch(function(err) { Log.debug('mod_videotrack: note deletion failed - ' + err); });
+        });
+
+        textarea.addEventListener('input', function() {
+            updateNoteCharCounter(textarea, config, Utils);
+        });
+    }
+
     /**
      * Remove the poster overlay with the existing fade-out transition.
      *
@@ -318,6 +422,7 @@ define([], function() {
         appendNoteRow: appendNoteRow,
         getRemainingNoteChars: getRemainingNoteChars,
         updateNoteCharCounter: updateNoteCharCounter,
+        installNoteHandler: installNoteHandler,
         removePoster: removePoster
     };
 });
