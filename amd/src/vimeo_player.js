@@ -9,7 +9,14 @@
  *
  * @module mod_videotrack/vimeo_player
  */
-define(['core/ajax', 'core/log', 'mod_videotrack/core/utils', 'mod_videotrack/core/ui', 'mod_videotrack/core/player'], function(Ajax, Log, Utils, Ui, PlayerCore) {
+
+/* eslint-disable jsdoc/require-jsdoc, jsdoc/require-param, jsdoc/check-param-names */define([
+    'core/ajax',
+    'core/log',
+    'mod_videotrack/core/utils',
+    'mod_videotrack/core/ui',
+    'mod_videotrack/core/player'
+], function(Ajax, Log, Utils, Ui, PlayerCore) {
 
     var player  = null;
     var config  = null;

@@ -7,7 +7,14 @@
  *
  * @module mod_videotrack/html5_player
  */
-define(['core/ajax', 'core/log', 'mod_videotrack/core/utils', 'mod_videotrack/core/ui', 'mod_videotrack/core/player'], function(Ajax, Log, Utils, Ui, PlayerCore) {
+
+/* eslint-disable jsdoc/require-jsdoc, jsdoc/require-param, jsdoc/check-param-names */define([
+    'core/ajax',
+    'core/log',
+    'mod_videotrack/core/utils',
+    'mod_videotrack/core/ui',
+    'mod_videotrack/core/player'
+], function(Ajax, Log, Utils, Ui, PlayerCore) {
 
     var media  = null; // The <video> or <audio> DOM element.
     var config = null;
