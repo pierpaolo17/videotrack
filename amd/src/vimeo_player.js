@@ -10,7 +10,8 @@
  * @module mod_videotrack/vimeo_player
  */
 
-/* eslint-disable jsdoc/require-jsdoc, jsdoc/require-param, jsdoc/check-param-names */define([
+/* eslint-disable jsdoc/require-jsdoc, jsdoc/require-param, jsdoc/check-param-names */
+define([
     'core/ajax',
     'core/log',
     'mod_videotrack/core/utils',
