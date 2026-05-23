@@ -146,7 +146,7 @@ define([
                 state.segmentstart   = hbEnd;
                 state.wallclockstart = now;
             }
-        }, 2000);
+        }, Math.min(5000, Math.max(2000, HEARTBEAT_INTERVAL * 250)));
     }
 
     function stopHeartbeat() {

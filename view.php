@@ -537,6 +537,7 @@ if (!empty($videotrack->reactionsenabled) && $reactions) {
             // Keep aria-disabled buttons focusable: keyboard and screen reader users
             // can activate them to receive the explanatory live-region feedback.
             'aria-disabled'         => 'true',
+            'disabled'              => 'disabled',
             'aria-describedby'      => 'videotrack-reactions-hint',
             'aria-label'            => s($reaction->label),
         ]);

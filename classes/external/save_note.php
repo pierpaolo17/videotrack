@@ -43,9 +43,7 @@ class save_note extends external_api {
         $params = self::validate_parameters(self::execute_parameters(), compact(
             'cmid', 'sessionid', 'videotime', 'notetext', 'playbackrate'
         ));
-        if (\core_text::strlen($params['sessionid']) > 64) {
-            throw new \invalid_parameter_exception('Invalid session ID');
-        }
+        $params['sessionid'] = helper::validate_session_id($params['sessionid']);
 
         $loaded = helper::load_and_validate_context((int)$params['cmid']);
         $videotrack = $loaded['videotrack'];
