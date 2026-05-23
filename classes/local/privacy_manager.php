@@ -166,6 +166,11 @@ class privacy_manager {
             $DB->delete_records('videotrack_seg', ['cmid' => $cmid]);
             $DB->delete_records('videotrack_state', ['cmid' => $cmid]);
             $transaction->allow_commit();
+
+            // Context-level erasure removes shared plugin files as well (for example
+            // teacher-uploaded reaction icons, poster images, subtitles and uploaded videos).
+            // Per-user erasure intentionally does not delete these shared activity files.
+            get_file_storage()->delete_area_files($context->id, 'mod_videotrack');
         } catch (\Throwable $e) {
             $transaction->rollback($e);
             throw $e;
@@ -264,11 +269,14 @@ class privacy_manager {
 
             self::anonymise_state_rows($userid, $cmid);
 
-            $eventparams = $params + ['notetext' => $notetext];
+            $eventparams = $params + [
+                'notetext' => $notetext,
+                'reactionlabel' => get_string('privacy:anonymisedreaction', 'mod_videotrack'),
+            ];
             $DB->execute(
                 "UPDATE {videotrack_reactev}
                     SET userid = :anonuserid, sessionid = :sessionid,
-                        videotime = 0, playbackrate = 1, reactiondesc = '',
+                        videotime = 0, playbackrate = 1, reactionlabel = :reactionlabel, reactiondesc = '',
                         notetext = CASE WHEN notetype = 'note' THEN :notetext ELSE notetext END
                   WHERE cmid = :cmid AND userid = :userid",
                 $eventparams
@@ -394,13 +402,14 @@ class privacy_manager {
         $DB->execute(
             "UPDATE {videotrack_reactev}
                 SET userid = :anonuserid, sessionid = :sessionid,
-                    videotime = 0, playbackrate = 1, reactiondesc = '',
+                    videotime = 0, playbackrate = 1, reactionlabel = :reactionlabel, reactiondesc = '',
                     notetext = CASE WHEN notetype = 'note' THEN :notetext ELSE notetext END
               WHERE cmid = :cmid AND userid = :userid AND timecreated < :cutoff",
             [
                 'anonuserid' => $anonuserid,
                 'sessionid' => $sessionid,
                 'notetext' => $notetext,
+                'reactionlabel' => get_string('privacy:anonymisedreaction', 'mod_videotrack'),
                 'cmid' => $cmid,
                 'userid' => $userid,
                 'cutoff' => $cutoff,

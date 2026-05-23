@@ -208,7 +208,7 @@ if (!empty($videotrack->showgradeto) && !empty($videotrack->grade) &&
         if (!empty($videotrack->gradepass)) {
             $passed         = $usergrade >= (float)$videotrack->gradepass;
             $gradepasslabel = html_writer::tag('span',
-                html_writer::tag('span', $passed ? '✓' : '✗', ['aria-hidden' => 'true']) . ' ' .
+                $OUTPUT->pix_icon($passed ? 'i/valid' : 'i/invalid', '', 'moodle', ['aria-hidden' => 'true']) . ' ' .
                     html_writer::tag('span',
                         get_string($passed ? 'grade:pass' : 'grade:fail', 'mod_videotrack'),
                         ['class' => $passed ? 'text-success ms-1' : 'text-danger ms-1']
@@ -300,7 +300,13 @@ if ($posterurl) {
     ]);
     // Pulsante play overlay accessibile.
     echo html_writer::tag('button',
-        html_writer::tag('span', '▶', ['class' => 'videotrack-poster-play-icon', 'aria-hidden' => 'true']),
+        html_writer::tag('span',
+            html_writer::tag('svg',
+                html_writer::tag('path', '', ['d' => 'M8 5v14l11-7z']),
+                ['viewBox' => '0 0 24 24', 'focusable' => 'false', 'aria-hidden' => 'true']
+            ),
+            ['class' => 'videotrack-poster-play-icon', 'aria-hidden' => 'true']
+        ),
         [
             'type'       => 'button',
             'class'      => 'videotrack-poster-play-btn',
