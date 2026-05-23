@@ -339,7 +339,7 @@ define([
             if (!state.playing || state.segmentstart === null || !player) { return; }
             var end   = player.getCurrentTime ? player.getCurrentTime() : state.lasttime;
             var start = state.segmentstart;
-            if (end <= start) { return; }
+            if (end <= start) { return Promise.resolve(null); }
             var url = config.beaconurl || '';
             if (!url || !navigator.sendBeacon) { return; }
             var now = Math.floor(Date.now() / 1000);
@@ -377,10 +377,13 @@ define([
         document.addEventListener('click', function(e) {
             var reactionbtn = e.target.closest('.videotrack-reaction-btn');
             if (reactionbtn && reactionbtn.getAttribute('aria-disabled') === 'true') {
+                e.preventDefault();
+                e.stopPropagation();
                 announceReactionUnavailable();
                 return;
             }
             if (reactionbtn) {
+                e.preventDefault();
                 var currentTime = player.getCurrentTime();
                 // Feedback visivo immediato: disabilita il bottone durante il salvataggio AJAX.
                 reactionbtn.classList.add('videotrack-saving');

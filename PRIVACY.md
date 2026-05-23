@@ -17,3 +17,10 @@ definition identifiers for aggregate reporting.
 
 Context-level erasure also removes plugin-owned files in the module context,
 including uploaded videos, poster images, subtitles and reaction icons.
+
+
+## Browser session data and unload beacons
+
+VideoTrack creates a short browser-session identifier in JavaScript to associate playback heartbeats, reactions and notes with the current activity session. The identifier is not an authentication token and is validated server-side together with the Moodle session, capability checks and recent playback evidence.
+
+When the page is closed, the player may use `navigator.sendBeacon()` to submit the final watched segment to Moodle's own AJAX endpoint using the current Moodle sesskey. This avoids losing progress on page unload; it does not send data to external services. The notes-panel collapsed/expanded preference is stored only in the browser `sessionStorage` and is not exported to the server.
