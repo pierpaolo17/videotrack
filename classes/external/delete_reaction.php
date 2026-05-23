@@ -48,6 +48,7 @@ class delete_reaction extends external_api {
         global $DB, $USER;
         $params = self::validate_parameters(self::execute_parameters(), compact('cmid', 'reactioneventid'));
         $loaded = helper::load_and_validate_context((int)$params['cmid']);
+        $course = $loaded['course'];
         $videotrack = $loaded['videotrack'];
         $cm = $loaded['cm'];
         $context = $loaded['context'];
