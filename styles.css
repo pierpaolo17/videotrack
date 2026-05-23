@@ -744,12 +744,11 @@
     justify-content: center;
     transition: background .15s, transform .15s;
 }
-.videotrack-poster-play-btn::after {
-    content: '';
-    border-style: solid;
-    border-width: 1rem 0 1rem 1.75rem;
-    border-color: transparent transparent transparent #0040aa;
-    margin-left: .25rem;
+.videotrack-poster-play-icon svg {
+    display: block;
+    width: 2.75rem;
+    height: 2.75rem;
+    fill: #0040aa;
 }
 .videotrack-poster-play-btn:hover { background: #fff; transform: scale(1.08); }
 /* Il wrapper del player deve avere position:relative per l'overlay */
@@ -796,4 +795,25 @@
 .videotrack-reactions-hint-active {
     font-weight: 600;
     text-decoration: underline;
+}
+
+
+@media (forced-colors: active) {
+    .videotrack-skip-btn,
+    .videotrack-ctrl-rewind,
+    .videotrack-ctrl-ff,
+    .videotrack-ctrl-play,
+    .videotrack-ctrl-mute,
+    .videotrack-ctrl-pip,
+    .videotrack-ctrl-fs,
+    .videotrack-ctrl-download,
+    .videotrack-html5-controls .videotrack-speed-btn {
+        background: ButtonFace;
+        border-color: ButtonText;
+        color: ButtonText;
+        forced-color-adjust: auto;
+    }
+    .videotrack-poster-play-icon svg {
+        fill: ButtonText;
+    }
 }

@@ -39,21 +39,7 @@ class tracker {
             return $state;
         }
 
-        return (object)[
-            'videotrackid'         => $videotrack->id,
-            'courseid'             => $videotrack->course,
-            'cmid'                 => $cm->id,
-            'userid'               => $userid,
-            'videoid'              => $videotrack->videoid,
-            'lastposition'         => 0,
-            'durationseconds'      => (float)($videotrack->durationseconds ?? 0),
-            'uniquecoveredseconds' => 0,
-            'completionpercent'    => 0,
-            'intervaljson'         => '[]',
-            'iscompleted'          => 0,
-            'timemodified'         => time(),
-            'timecreated'          => time(),
-        ];
+        return self::create_default_state($videotrack, $cm, $userid);
     }
 
     public static function normalise_interval(float $start, float $end, float $duration = 0.0): ?array {
@@ -433,12 +419,12 @@ class tracker {
             'userid'               => $userid,
             'videoid'              => $videotrack->videoid,
             'lastposition'         => 0,
-            'durationseconds'      => (float)$videotrack->durationseconds,
+            'durationseconds'      => (float)($videotrack->durationseconds ?? 0),
             'uniquecoveredseconds' => 0,
             'completionpercent'    => 0,
             'intervaljson'         => '[]',
             'iscompleted'          => 0,
-            'timemodified'         => 0,
+            'timemodified'         => time(),
             'timecreated'          => time(),
         ];
     }
@@ -563,7 +549,6 @@ class tracker {
             $state = $DB->get_record('videotrack_state', ['videotrackid' => $videotrack->id, 'userid' => $userid]);
             if (!$state) {
                 $state = self::create_default_state($videotrack, $cm, $userid);
-                $state->timemodified = time();
                 $state->id = $DB->insert_record('videotrack_state', $state);
             }
 

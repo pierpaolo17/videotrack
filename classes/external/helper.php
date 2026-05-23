@@ -15,12 +15,12 @@ use core_external\external_api;
  * @copyright 2026 videotrack contributors
  * @license   http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
-class helper {
+class helper extends external_api {
     /**
      * Loads the activity and validates login, context and view capability.
      *
      * @param int $cmid Course module id.
-     * @return array{cmraw: \stdClass, course: \stdClass, videotrack: \stdClass, cm: \cm_info, context: \context_module}
+     * @return array{course: \stdClass, videotrack: \stdClass, cm: \cm_info, context: \context_module}
      */
     public static function load_and_validate_context(int $cmid): array {
         global $DB;
@@ -32,11 +32,10 @@ class helper {
         require_login($course, false, $cmraw);
         $cm = \cm_info::create($cmraw);
         $context = \context_module::instance($cm->id);
-        external_api::validate_context($context);
+        self::validate_context($context);
         require_capability('mod/videotrack:view', $context);
 
         return [
-            'cmraw' => $cmraw,
             'course' => $course,
             'videotrack' => $videotrack,
             'cm' => $cm,

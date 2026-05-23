@@ -294,6 +294,10 @@ function videotrack_save_reaction_definitions(int $videotrackid, stdClass $data)
     global $DB;
 
     $context = videotrack_get_module_context_from_data($data, $videotrackid);
+    if (!$context) {
+        debugging('Unable to resolve module context while saving VideoTrack reaction definitions.', DEBUG_DEVELOPER);
+        return;
+    }
     $existing = $DB->get_records('videotrack_react', ['videotrackid' => $videotrackid], '', 'id, sortorder');
     $labels = $data->reactionlabel ?? [];
     $descriptions = $data->reactiondescription ?? [];
@@ -367,20 +371,18 @@ function videotrack_save_reaction_definitions(int $videotrackid, stdClass $data)
 
         // O1 fix: collect file operations — defer until after DB commit.
         // file_get_draft_area_info() is called only for 'file' icontype.
-        if ($context) {
-            if ($icontype === 'file') {
-                $fieldname   = 'reactioniconfile_' . $idx;
-                $draftitemid = isset($data->{$fieldname}) ? (int)$data->{$fieldname} : 0;
-                // O1 fix: file_get_draft_area_info() now called only for 'file' reactions.
-                $draftinfo   = $draftitemid > 0 ? file_get_draft_area_info($draftitemid) : ['filecount' => 0];
-                if ($draftitemid > 0 && !empty($draftinfo['filecount'])) {
-                    $fileops[] = ['reactionid' => $reactionid, 'context' => $context,
-                                  'draftitemid' => $draftitemid, 'clear' => true];
-                }
-            } else if ($reactionid > 0) {
+        if ($icontype === 'file') {
+            $fieldname   = 'reactioniconfile_' . $idx;
+            $draftitemid = isset($data->{$fieldname}) ? (int)$data->{$fieldname} : 0;
+            // O1 fix: file_get_draft_area_info() now called only for 'file' reactions.
+            $draftinfo   = $draftitemid > 0 ? file_get_draft_area_info($draftitemid) : ['filecount' => 0];
+            if ($draftitemid > 0 && !empty($draftinfo['filecount'])) {
                 $fileops[] = ['reactionid' => $reactionid, 'context' => $context,
-                              'draftitemid' => 0, 'clear' => true];
+                              'draftitemid' => $draftitemid, 'clear' => true];
             }
+        } else if ($reactionid > 0) {
+            $fileops[] = ['reactionid' => $reactionid, 'context' => $context,
+                          'draftitemid' => 0, 'clear' => true];
         }
 
         $sort++;
@@ -1175,11 +1177,11 @@ function videotrack_pluginfile($course, $cm, $context, $filearea, $args, $forced
     }
     if ($filearea === 'videocontent') {
         global $DB;
-        $videotrack = $DB->get_record('videotrack', ['id' => $cm->instance], 'id, allowdownload', MUST_EXIST);
-        if (empty($videotrack->allowdownload) && $forcedownload) {
+        $allowdownload = (int)$DB->get_field('videotrack', 'allowdownload', ['id' => $cm->instance], MUST_EXIST);
+        if (empty($allowdownload) && $forcedownload) {
             return false;
         }
-        $forcedownload = !empty($videotrack->allowdownload) ? $forcedownload : false;
+        $forcedownload = !empty($allowdownload) ? $forcedownload : false;
     }
     // Uploaded videos: allow 1 hour browser caching. Poster: 5 min. Icons: no cache.
     $lifetime = ($filearea === 'videocontent') ? 3600 : (($filearea === 'posterimage') ? 300 : 0);
