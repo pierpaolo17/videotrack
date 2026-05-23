@@ -90,9 +90,10 @@ define([], function() {
             return el;
         }
 
-        var template = document.createElement('template');
-        template.innerHTML = iconhtml;
-        Array.from(template.content.childNodes).forEach(function(node) {
+        var parsed = new DOMParser().parseFromString('<div>' + iconhtml + '</div>', 'text/html');
+        var root = parsed.body ? parsed.body.firstElementChild : null;
+        if (!root) { return; }
+        Array.from(root.childNodes).forEach(function(node) {
             var clean = sanitizeNode(node);
             if (clean) {
                 target.appendChild(clean);

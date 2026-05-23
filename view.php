@@ -329,9 +329,20 @@ echo html_writer::tag('canvas', '', [
     'aria-label' => get_string('intervalbar_title', 'mod_videotrack') . ' — ' .
                     format_float($percent, 1) . '%',
 ]);
+echo html_writer::tag('progress', '', [
+    'id' => 'videotrack-interval-progress',
+    'class' => 'videotrack-interval-progress',
+    'value' => format_float($percent, 1),
+    'max' => '100',
+    'aria-label' => get_string('intervalbar_title', 'mod_videotrack'),
+    'aria-valuemin' => '0',
+    'aria-valuemax' => '100',
+    'aria-valuenow' => format_float($percent, 1),
+    'aria-valuetext' => format_float($percent, 1) . '%',
+]);
 echo html_writer::tag('span',
     get_string('intervalbar_title', 'mod_videotrack') . ' — ' . format_float($percent, 1) . '%',
-    ['id' => 'videotrack-interval-bar-status', 'class' => 'sr-only', 'aria-live' => 'polite', 'aria-atomic' => 'true']
+    ['id' => 'videotrack-interval-bar-status', 'class' => 'videotrack-interval-bar-status', 'aria-live' => 'polite', 'aria-atomic' => 'true']
 );
 echo html_writer::end_div(); // videotrack-player-section
 

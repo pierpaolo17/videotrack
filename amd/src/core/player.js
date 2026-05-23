@@ -8,6 +8,7 @@
  */
 define([], function() {
     var statusTimer = null;
+    var intervalBarCache = {json: null, duration: null, width: null, height: null};
 
 
     /**
@@ -86,6 +87,11 @@ define([], function() {
             var w = Math.max(1, Math.round(cssWidth * dpr));
             var h = Math.max(1, Math.round(cssHeight * dpr));
             var covered = 0;
+            if (intervalBarCache.json === intervaljson && intervalBarCache.duration === duration &&
+                    intervalBarCache.width === w && intervalBarCache.height === h) {
+                return;
+            }
+            intervalBarCache = {json: intervaljson, duration: duration, width: w, height: h};
             if (canvas.width !== w || canvas.height !== h) {
                 canvas.width = w;
                 canvas.height = h;
@@ -109,6 +115,12 @@ define([], function() {
             var status = document.getElementById('videotrack-interval-bar-status');
             if (status) {
                 status.textContent = text;
+            }
+            var progress = document.getElementById('videotrack-interval-progress');
+            if (progress) {
+                progress.value = pct;
+                progress.setAttribute('aria-valuenow', String(pct));
+                progress.setAttribute('aria-valuetext', pct + '%');
             }
         } catch (e) {
             if (Log && Log.debug) {
@@ -155,11 +167,7 @@ define([], function() {
         if (shell) {
             shell.insertBefore(notice, shell.firstChild);
         }
-        window.setTimeout(function() {
-            if (notice.parentNode) {
-                notice.parentNode.removeChild(notice);
-            }
-        }, 6000);
+        // Keep the resume notice visible until the user dismisses it or starts interacting.
     }
 
 
@@ -175,7 +183,7 @@ define([], function() {
         if (!el) {
             el = document.createElement('div');
             el.id = id;
-            el.className = 'sr-only';
+            el.className = 'videotrack-status-message alert mt-2';
             el.setAttribute('aria-atomic', 'true');
             var shell = document.querySelector('.videotrack-player-shell');
             if (shell) {
@@ -183,6 +191,8 @@ define([], function() {
             }
         }
         el.setAttribute('role', isError ? 'alert' : 'status');
+        el.classList.toggle('alert-danger', !!isError);
+        el.classList.toggle('alert-info', !isError);
         el.textContent = message || '';
         if (statusTimer) {
             window.clearTimeout(statusTimer);

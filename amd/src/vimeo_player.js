@@ -66,7 +66,7 @@ define([
     }
 
     function saveSegment(start, end, reason) {
-        if (end <= start) { return; }
+        if (end <= start) { return Promise.resolve(null); }
         var now = Math.floor(Date.now() / 1000);
         return ajax('mod_videotrack_save_segment', {
             cmid:            config.cmid,
@@ -565,10 +565,13 @@ define([
         document.addEventListener('click', function(e) {
             var reactionbtn = e.target.closest('.videotrack-reaction-btn');
             if (reactionbtn && reactionbtn.getAttribute('aria-disabled') === 'true') {
+                e.preventDefault();
+                e.stopPropagation();
                 announceReactionUnavailable();
                 return;
             }
             if (reactionbtn) {
+                e.preventDefault();
                 var currentTime = state.lasttime || 0;
                 reactionbtn.classList.add('videotrack-saving');
                 saveCurrentProgress('reaction').then(function() {

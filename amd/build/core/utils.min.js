@@ -51,6 +51,19 @@ define(['core/log'], function(Log) {
      * @param {string} url URL to fetch.
      * @return {Promise<string>}
      */
+    function validateTextResponse(response) {
+        if (!response.ok) {
+            return Promise.reject(response.status);
+        }
+        var contentType = (response.headers.get('content-type') || '').toLowerCase();
+        if (contentType && contentType.indexOf('text/vtt') === -1 &&
+                contentType.indexOf('text/plain') === -1 &&
+                contentType.indexOf('application/octet-stream') === -1) {
+            return Promise.reject('unexpected-content-type');
+        }
+        return response.text();
+    }
+
     function fetchTextWithTimeout(url) {
         var timeout = 10000;
 
@@ -65,7 +78,7 @@ define(['core/log'], function(Log) {
                 headers: {'X-Requested-With': 'XMLHttpRequest'}
             })
                 .then(function(response) {
-                    return response.ok ? response.text() : Promise.reject(response.status);
+                    return validateTextResponse(response);
                 })
                 .finally(function() {
                     window.clearTimeout(timer);
@@ -78,7 +91,7 @@ define(['core/log'], function(Log) {
                 credentials: 'same-origin',
                 headers: {'X-Requested-With': 'XMLHttpRequest'}
             }).then(function(response) {
-                return response.ok ? response.text() : Promise.reject(response.status);
+                return validateTextResponse(response);
             }),
             new Promise(function(resolve, reject) {
                 window.setTimeout(function() {
