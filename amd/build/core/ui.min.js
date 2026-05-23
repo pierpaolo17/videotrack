@@ -50,56 +50,76 @@ define([], function() {
     }
 
     /**
-     * Reads attributes from a single allowed icon tag without handing arbitrary
-     * markup to DOMParser or innerHTML.
+     * Checks whether a Font Awesome class list matches the subset emitted by the
+     * server-side form validation. This avoids parsing arbitrary HTML while still
+     * allowing teacher-configured icon classes.
      *
-     * @param {string} html Source icon markup.
-     * @returns {Object|null} Parsed descriptor or null.
+     * @param {string} value Candidate class list.
+     * @returns {boolean} True when the class list is safe.
      */
-    function parseSingleIcon(html) {
-        var source = String(html || '').trim();
-        var match = source.match(/^<(img|span|i)\b([^>]*)>(?:<\/\1>)?$/i) ||
-            source.match(/^<(img)\b([^>]*)\/?\s*>$/i);
-        if (!match) {
-            return null;
+    function isSafeIconClass(value) {
+        if (!value) {
+            return false;
         }
-        var attrs = {};
-        var attrSource = match[2] || '';
-        var attrPattern = /([a-zA-Z][a-zA-Z0-9:-]*)\s*=\s*("([^"]*)"|'([^']*)')/g;
-        var attr;
-        while ((attr = attrPattern.exec(attrSource)) !== null) {
-            attrs[attr[1].toLowerCase()] = attr[3] !== undefined ? attr[3] : attr[4];
+        var parts = String(value).trim().split(/\s+/);
+        if (parts.length === 0 || parts.length > 4) {
+            return false;
         }
-        return {tag: match[1].toLowerCase(), attrs: attrs};
+        return parts.every(function(part) {
+            return /^(fa|fas|far|fab|fa-[a-z0-9-]+)$/.test(part);
+        });
     }
 
     /**
-     * Safely appends reaction icon markup using a strict single-tag whitelist.
-     * Complex or malformed HTML is rejected completely.
+     * Safely appends a reaction icon from structured data attributes.
+     *
+     * No HTML string is parsed here: the server exposes the selected icon type,
+     * local pluginfile URL, Font Awesome class list, or plain-text fallback as
+     * separate data attributes. This removes the previous regex-based HTML parser
+     * and avoids accepting malformed/custom markup at runtime.
      *
      * @param {HTMLElement} target Target node.
-     * @param {string} iconhtml Icon HTML.
+     * @param {Object|string} icon Icon descriptor or legacy plain text fallback.
      */
-    function appendIconSafe(target, iconhtml) {
-        if (!target || !iconhtml) { return; }
-        var icon = parseSingleIcon(iconhtml);
-        if (!icon) { return; }
-        var el = document.createElement(icon.tag);
-        ['class', 'alt', 'aria-hidden'].forEach(function(name) {
-            if (Object.prototype.hasOwnProperty.call(icon.attrs, name)) {
-                el.setAttribute(name, icon.attrs[name]);
-            }
-        });
-        if (icon.tag === 'img') {
-            if (!isSafeIconSrc(icon.attrs.src)) {
+    function appendIconSafe(target, icon) {
+        if (!target || !icon) {
+            return;
+        }
+        if (typeof icon === 'string') {
+            var legacy = String(icon).trim();
+            if (legacy === '') {
                 return;
             }
-            el.setAttribute('src', icon.attrs.src);
-            if (!Object.prototype.hasOwnProperty.call(icon.attrs, 'alt')) {
-                el.setAttribute('alt', '');
-            }
+            target.appendChild(document.createTextNode(legacy));
+            return;
         }
-        target.appendChild(el);
+
+        var type = String(icon.type || 'emoji');
+        if (type === 'file' && isSafeIconSrc(icon.src)) {
+            var img = document.createElement('img');
+            img.setAttribute('src', String(icon.src));
+            img.setAttribute('alt', '');
+            img.setAttribute('aria-hidden', 'true');
+            img.className = 'videotrack-reaction-icon-file';
+            target.appendChild(img);
+            return;
+        }
+
+        if (type === 'fa' && isSafeIconClass(icon.iconclass)) {
+            var fa = document.createElement('i');
+            fa.className = String(icon.iconclass).trim();
+            fa.setAttribute('aria-hidden', 'true');
+            target.appendChild(fa);
+            return;
+        }
+
+        var text = String(icon.text || '').trim();
+        if (text !== '') {
+            var span = document.createElement('span');
+            span.className = 'videotrack-reaction-icon-text';
+            span.textContent = text;
+            target.appendChild(span);
+        }
     }
 
 

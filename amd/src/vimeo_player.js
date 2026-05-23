@@ -391,8 +391,10 @@ define([
             }
         });
 
+        var root = document.querySelector('.videotrack-player-shell') || document;
+
         // Replay buttons.
-        document.addEventListener('click', function(e) {
+        root.addEventListener('click', function(e) {
             var btn = e.target.closest('.videotrack-replay');
             if (btn && player) {
                 var start = parseFloat(btn.dataset.start) || 0;
@@ -516,7 +518,7 @@ define([
             var tdicon = document.createElement('td');
             var span = document.createElement('span');
             span.className = 'videotrack-report-icon';
-            Ui.appendIconSafe(span, reaction.iconhtml);
+            Ui.appendIconSafe(span, reaction);
             tdicon.appendChild(span);
             tr.appendChild(tdicon);
             // Description
@@ -553,7 +555,7 @@ define([
         // A1 fix: keydown handler for Enter/Space on aria-disabled reaction buttons.
         // Browsers do not consistently fire 'click' for Enter/Space on buttons with
         // aria-disabled=true, so screen reader users got no feedback.
-        document.addEventListener('keydown', function(e) {
+        root.addEventListener('keydown', function(e) {
             if (e.key !== 'Enter' && e.key !== ' ') { return; }
             var reactionbtn = e.target.closest('.videotrack-reaction-btn');
             if (reactionbtn && reactionbtn.getAttribute('aria-disabled') === 'true') {
@@ -562,7 +564,7 @@ define([
             }
         });
 
-        document.addEventListener('click', function(e) {
+        root.addEventListener('click', function(e) {
             var reactionbtn = e.target.closest('.videotrack-reaction-btn');
             if (reactionbtn && reactionbtn.getAttribute('aria-disabled') === 'true') {
                 e.preventDefault();
@@ -586,9 +588,12 @@ define([
                     reactionbtn.classList.remove('videotrack-saving');
                     if (response && response.reactioneventid) {
                         appendReactionRow(response.reactioneventid, {
-                            label:    reactionbtn.getAttribute('data-reactionlabel'),
+                            label: reactionbtn.getAttribute('data-reactionlabel') || '',
                             description: reactionbtn.getAttribute('data-reactiondesc') || '',
-                            iconhtml: reactionbtn.getAttribute('data-reactioniconhtml') || '',
+                            icontype: reactionbtn.getAttribute('data-reactionicontype') || 'emoji',
+                            iconclass: reactionbtn.getAttribute('data-reactioniconclass') || '',
+                            iconsrc: reactionbtn.getAttribute('data-reactioniconsrc') || '',
+                            icontext: reactionbtn.getAttribute('data-reactionicontext') || '',
                         }, currentTime);
                     }
                 }).catch(function(err) {

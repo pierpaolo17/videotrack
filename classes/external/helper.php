@@ -61,6 +61,24 @@ class helper extends external_api {
         return $endreason;
     }
 
+
+    /**
+     * Validates that a float-like parameter is finite and inside a bounded range.
+     *
+     * @param float $value Value to validate.
+     * @param string $name Parameter name for diagnostics.
+     * @param float $min Minimum accepted value.
+     * @param float $max Maximum accepted value.
+     * @return float Rounded validated value.
+     * @throws \invalid_parameter_exception
+     */
+    public static function validate_bounded_float(float $value, string $name, float $min, float $max): float {
+        if (!is_finite($value) || $value < $min || $value > $max) {
+            throw new \invalid_parameter_exception('Invalid ' . $name);
+        }
+        return round($value, 3);
+    }
+
     public static function load_and_validate_context(int $cmid): array {
         global $DB;
 

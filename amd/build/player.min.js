@@ -339,7 +339,7 @@ define([
             if (!state.playing || state.segmentstart === null || !player) { return; }
             var end   = player.getCurrentTime ? player.getCurrentTime() : state.lasttime;
             var start = state.segmentstart;
-            if (end <= start) { return Promise.resolve(null); }
+            if (end <= start) { return; }
             var url = config.beaconurl || '';
             if (!url || !navigator.sendBeacon) { return; }
             var now = Math.floor(Date.now() / 1000);
@@ -360,12 +360,13 @@ define([
             }]);
             navigator.sendBeacon(url, new Blob([payload], {type: 'application/json'}));
         });
+        var root = document.querySelector('.videotrack-player-shell') || document;
         // A1 fix: keydown handler for Enter/Space on aria-disabled reaction buttons.
         // Browsers do not consistently fire 'click' for Enter/Space on buttons with
         // aria-disabled=true, so screen reader users got no feedback when pressing
         // these keys. The handler mirrors the click guard and calls the same
         // announceReactionUnavailable() function.
-        document.addEventListener('keydown', function(e) {
+        root.addEventListener('keydown', function(e) {
             if (e.key !== 'Enter' && e.key !== ' ') { return; }
             var reactionbtn = e.target.closest('.videotrack-reaction-btn');
             if (reactionbtn && reactionbtn.getAttribute('aria-disabled') === 'true') {
@@ -374,7 +375,7 @@ define([
             }
         });
 
-        document.addEventListener('click', function(e) {
+        root.addEventListener('click', function(e) {
             var reactionbtn = e.target.closest('.videotrack-reaction-btn');
             if (reactionbtn && reactionbtn.getAttribute('aria-disabled') === 'true') {
                 e.preventDefault();
@@ -399,9 +400,12 @@ define([
                     reactionbtn.classList.remove('videotrack-saving');
                     if (response && response.reactioneventid) {
                         appendReactionRow(response.reactioneventid, {
-                            label:    reactionbtn.getAttribute('data-reactionlabel'),
+                            label: reactionbtn.getAttribute('data-reactionlabel') || '',
                             description: reactionbtn.getAttribute('data-reactiondesc') || '',
-                            iconhtml: reactionbtn.getAttribute('data-reactioniconhtml') || ''
+                            icontype: reactionbtn.getAttribute('data-reactionicontype') || 'emoji',
+                            iconclass: reactionbtn.getAttribute('data-reactioniconclass') || '',
+                            iconsrc: reactionbtn.getAttribute('data-reactioniconsrc') || '',
+                            icontext: reactionbtn.getAttribute('data-reactionicontext') || ''
                         }, currentTime);
                     }
                 }).catch(function(err) {
@@ -446,7 +450,7 @@ define([
                             if (focusBtn) { focusBtn.focus(); }
                         } else {
                             // Nessuna riga rimasta: sposta focus sulla sezione.
-                            var heading = document.querySelector('[id*="videotrack-my-reactions"]');
+                            var heading = root.querySelector('[id*="videotrack-my-reactions"]');
                             if (heading) {
                                 heading.setAttribute('tabindex', '-1');
                                 heading.focus();
@@ -488,7 +492,7 @@ define([
         var tdReaction = document.createElement('td');
         var iconSpan = document.createElement('span');
         iconSpan.className = 'videotrack-report-icon';
-        Ui.appendIconSafe(iconSpan, reaction.iconhtml);
+        Ui.appendIconSafe(iconSpan, reaction);
         var labelSpan = document.createElement('span');
         labelSpan.textContent = reaction.label || '';
         iconSpan.appendChild(labelSpan);
