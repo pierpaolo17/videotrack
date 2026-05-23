@@ -16,6 +16,8 @@ function videotrack_supports($feature) {
             return true;
         case FEATURE_GRADE_HAS_GRADE:   // Grading support enabled.
             return true;
+        case FEATURE_MOD_ARCHETYPE:     // Activity chooser archetype for a content resource.
+            return MOD_ARCHETYPE_RESOURCE;
         case FEATURE_GROUPS:           // Explicit: groups not supported.
         case FEATURE_GROUPINGS:        // Explicit: groupings not supported.
             return false;

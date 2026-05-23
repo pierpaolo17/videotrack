@@ -45,6 +45,7 @@ class save_segment extends external_api {
             throw new \invalid_parameter_exception('Invalid segment end reason');
         }
         $loaded = helper::load_and_validate_context((int)$params['cmid']);
+        $course = $loaded['course'];
         $videotrack = $loaded['videotrack'];
         $cm = $loaded['cm'];
         $context = $loaded['context'];

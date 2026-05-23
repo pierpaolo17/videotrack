@@ -32,6 +32,7 @@ class save_reaction extends external_api {
             throw new \invalid_parameter_exception('Invalid session ID');
         }
         $loaded = helper::load_and_validate_context((int)$params['cmid']);
+        $course = $loaded['course'];
         $videotrack = $loaded['videotrack'];
         $cm = $loaded['cm'];
         $context = $loaded['context'];
