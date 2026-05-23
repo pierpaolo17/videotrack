@@ -885,5 +885,36 @@ function xmldb_videotrack_upgrade($oldversion) {
         upgrade_mod_savepoint(true, 2026070301, 'videotrack');
     }
 
+
+    if ($oldversion < 2026070400) {
+        // 1.2.2: accessibility and player cleanup. No schema changes.
+        upgrade_mod_savepoint(true, 2026070400, 'videotrack');
+    }
+
+    if ($oldversion < 2026070500) {
+        // 1.2.3: release quality fixes and AMD build packaging. No schema changes.
+        upgrade_mod_savepoint(true, 2026070500, 'videotrack');
+    }
+
+    if ($oldversion < 2026070600) {
+        // 1.2.4: GDPR erasure and download handling hardening. No schema changes.
+        upgrade_mod_savepoint(true, 2026070600, 'videotrack');
+    }
+
+    if ($oldversion < 2026070700) {
+        // 1.2.5: residual GDPR and quality fixes. No schema changes.
+        upgrade_mod_savepoint(true, 2026070700, 'videotrack');
+    }
+
+    if ($oldversion < 2026070800) {
+        // 1.2.7: residual Moodle HQ, GDPR and accessibility cleanup. No schema changes.
+        upgrade_mod_savepoint(true, 2026070800, 'videotrack');
+    }
+
+    if ($oldversion < 2026070900) {
+        // 1.2.8: deletion transaction hardening and report capability cleanup. No schema changes.
+        upgrade_mod_savepoint(true, 2026070900, 'videotrack');
+    }
+
     return true;
 }

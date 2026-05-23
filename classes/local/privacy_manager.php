@@ -166,15 +166,17 @@ class privacy_manager {
             $DB->delete_records('videotrack_seg', ['cmid' => $cmid]);
             $DB->delete_records('videotrack_state', ['cmid' => $cmid]);
             $transaction->allow_commit();
-
-            // Context-level erasure removes shared plugin files as well (for example
-            // teacher-uploaded reaction icons, poster images, subtitles and uploaded videos).
-            // Per-user erasure intentionally does not delete these shared activity files.
-            get_file_storage()->delete_area_files($context->id, 'mod_videotrack');
         } catch (\Throwable $e) {
             $transaction->rollback($e);
             throw $e;
         }
+
+        // Context-level erasure removes shared plugin files as well (for example
+        // teacher-uploaded reaction icons, poster images, subtitles and uploaded videos).
+        // Per-user erasure intentionally does not delete these shared activity files.
+        // File operations are outside the delegated transaction because Moodle file
+        // storage is not rolled back together with database writes.
+        get_file_storage()->delete_area_files($context->id, 'mod_videotrack');
     }
 
     /**
