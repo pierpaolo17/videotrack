@@ -525,14 +525,20 @@ if (!empty($videotrack->reactionsenabled) && $reactions) {
     echo html_writer::start_div('videotrack-reactions', ['id' => 'videotrack-reactions']);
     foreach ($reactions as $reaction) {
         $iconwithlabel  = videotrack_render_reaction_icon($reaction, $context, true);
-        $icononlyhtml   = videotrack_render_reaction_icon($reaction, $context, false);
+        $icontype = clean_param((string)($reaction->icontype ?? 'emoji'), PARAM_ALPHA);
+        $iconvalue = (string)($reaction->iconvalue ?? '');
+        $iconsrc = ($icontype === 'file') ? videotrack_reaction_icon_url($context, $reaction) : '';
+        $icontext = ($icontype === 'emoji') ? ($iconvalue !== '' ? $iconvalue : (string)$reaction->label) : '';
         echo html_writer::tag('button', $iconwithlabel, [
             'type'                  => 'button',
             'class'                 => 'btn btn-outline-secondary videotrack-reaction-btn',
             'data-reactionid'       => $reaction->id,
             'data-reactionlabel'    => s($reaction->label),
             'data-reactiondesc'     => s($reaction->description),
-            'data-reactioniconhtml' => s($icononlyhtml),
+            'data-reactionicontype'  => s($icontype),
+            'data-reactioniconclass' => $icontype === 'fa' ? s($iconvalue) : '',
+            'data-reactioniconsrc'   => $icontype === 'file' ? s($iconsrc) : '',
+            'data-reactionicontext'  => s($icontext),
             'title'                 => s($reaction->description),
             // Keep aria-disabled buttons focusable: keyboard and screen reader users
             // can activate them to receive the explanatory live-region feedback.

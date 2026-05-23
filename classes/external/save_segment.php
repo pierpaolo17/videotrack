@@ -38,6 +38,10 @@ class save_segment extends external_api {
         $params = self::validate_parameters(self::execute_parameters(), compact('cmid', 'sessionid', 'videotimestart', 'videotimeend', 'wallclockstart', 'wallclockend', 'playbackrate', 'endreason', 'durationseconds'));
         $params['sessionid'] = helper::validate_session_id($params['sessionid']);
         $params['endreason'] = helper::validate_end_reason($params['endreason']);
+        $params['videotimestart'] = helper::validate_bounded_float((float)$params['videotimestart'], 'videotimestart', 0.0, self::MAX_DURATION_SECONDS);
+        $params['videotimeend'] = helper::validate_bounded_float((float)$params['videotimeend'], 'videotimeend', 0.0, self::MAX_DURATION_SECONDS);
+        $params['playbackrate'] = helper::validate_bounded_float((float)$params['playbackrate'], 'playbackrate', 0.25, 4.0);
+        $params['durationseconds'] = helper::validate_bounded_float((float)$params['durationseconds'], 'durationseconds', 0.0, self::MAX_DURATION_SECONDS);
         $loaded = helper::load_and_validate_context((int)$params['cmid']);
         $course = $loaded['course'];
         $videotrack = $loaded['videotrack'];

@@ -44,6 +44,8 @@ class save_note extends external_api {
             'cmid', 'sessionid', 'videotime', 'notetext', 'playbackrate'
         ));
         $params['sessionid'] = helper::validate_session_id($params['sessionid']);
+        $params['videotime'] = helper::validate_bounded_float((float)$params['videotime'], 'videotime', 0.0, 86400.0);
+        $params['playbackrate'] = helper::validate_bounded_float((float)$params['playbackrate'], 'playbackrate', 0.25, 4.0);
 
         $loaded = helper::load_and_validate_context((int)$params['cmid']);
         $videotrack = $loaded['videotrack'];
