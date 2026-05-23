@@ -170,7 +170,7 @@ define([
         if (!state.heartbeatid) {
             state.heartbeatid = window.setInterval(function() {
                 if (player) { handleSeekByPolling(); }
-            }, 2000);
+            }, Math.min(5000, Math.max(2000, HEARTBEAT_INTERVAL * 250)));
         }
     }
 
