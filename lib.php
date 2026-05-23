@@ -890,24 +890,37 @@ function videotrack_grade_item_delete(stdClass $videotrack): int {
 
 function videotrack_delete_instance($id) {
     global $DB;
+
     if (!$videotrack = $DB->get_record('videotrack', ['id' => $id])) {
         return false;
     }
+
+    // Remove the gradebook item before deleting the activity record. This keeps
+    // the module instance available while gradebook callbacks resolve metadata.
+    videotrack_grade_item_delete($videotrack);
+
+    $transaction = $DB->start_delegated_transaction();
+    try {
+        $DB->delete_records('videotrack_seg',     ['videotrackid' => $videotrack->id]);
+        $DB->delete_records('videotrack_state',   ['videotrackid' => $videotrack->id]);
+        $DB->delete_records('videotrack_reactev', ['videotrackid' => $videotrack->id]);
+        $DB->delete_records('videotrack_react',   ['videotrackid' => $videotrack->id]);
+        $DB->delete_records('videotrack',         ['id'           => $videotrack->id]);
+        $transaction->allow_commit();
+    } catch (Throwable $e) {
+        $transaction->rollback($e);
+        throw $e;
+    }
+
     $cm = get_coursemodule_from_instance('videotrack', $id, $videotrack->course, false, IGNORE_MISSING);
     if ($cm) {
         $context = context_module::instance($cm->id);
-        $fs = get_file_storage();
-        // Cancella tutte le filearea del plugin per questo contesto.
-        foreach (['reactionicon', 'videocontent', 'subtitles', 'intro', 'posterimage'] as $area) {
-            $fs->delete_area_files($context->id, 'mod_videotrack', $area);
-        }
+        // Delete all plugin file areas for this module context. File storage is
+        // intentionally handled after the DB transaction because files are not
+        // covered by Moodle delegated transactions.
+        get_file_storage()->delete_area_files($context->id, 'mod_videotrack');
     }
-    $DB->delete_records('videotrack_seg',     ['videotrackid' => $videotrack->id]);
-    $DB->delete_records('videotrack_state',   ['videotrackid' => $videotrack->id]);
-    $DB->delete_records('videotrack_reactev', ['videotrackid' => $videotrack->id]);
-    $DB->delete_records('videotrack_react',   ['videotrackid' => $videotrack->id]);
-    $DB->delete_records('videotrack',         ['id'           => $videotrack->id]);
-    videotrack_grade_item_delete($videotrack);
+
     return true;
 }
 

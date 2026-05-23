@@ -223,8 +223,9 @@ $hasvideotimefilter = ($timefrom !== null || $timeto !== null);
 
 // OPT-1: grade_get_grades caricato una sola volta per tutte le sezioni del report.
 $hasgrade  = !empty($videotrack->grade);
+$cangrade = has_capability('mod/videotrack:grade', $context);
 $gradeinfo = null;
-if ($hasgrade && $alluserids) {
+if ($hasgrade && $cangrade && $alluserids) {
     require_once($CFG->libdir . '/gradelib.php');
     $gradeinfo = grade_get_grades(
         $course->id, 'mod', 'videotrack', $videotrack->id,
@@ -392,7 +393,7 @@ if ($export === 'csv') {
     } else {
         // Usa recordset per iterare riga per riga ed evitare di caricare tutto in memoria.
         $csvheads = ['user', 'unique_seconds', 'completion_percent', 'last_position', 'completed'];
-        if ($hasgrade) {
+        if ($hasgrade && $cangrade) {
             $csvheads[] = 'grade';
         }
         fputcsv($fh, videotrack_csv_safe_row($csvheads));
@@ -409,7 +410,7 @@ if ($export === 'csv') {
                 $state->lastposition,
                 $state->iscompleted,
             ];
-            if ($hasgrade) {
+            if ($hasgrade && $cangrade) {
                 $row[] = $gradeinfo->items[0]->grades[(int)$state->userid]->grade ?? '';
             }
             fputcsv($fh, videotrack_csv_safe_row($row));
@@ -668,7 +669,7 @@ if ($mode === 'student') {
             get_string('report:lastposition', 'mod_videotrack'),
             get_string('report:iscompleted', 'mod_videotrack'),
         ];
-        if ($hasgrade) {
+        if ($hasgrade && $cangrade) {
             $heads[] = get_string('report:grade', 'mod_videotrack');
         }
         if (has_capability('mod/videotrack:managereactions', $context)) {
@@ -692,7 +693,7 @@ if ($mode === 'student') {
                 $state->iscompleted ? get_string('yes', 'mod_videotrack') : get_string('no', 'mod_videotrack'),
             ];
 
-            if ($hasgrade) {
+            if ($hasgrade && $cangrade) {
                 // Legge il voto attuale per questo utente.
                 $currentgrade = $gradeinfo->items[0]->grades[(int)$state->userid]->grade ?? '';
                 $gradecell = html_writer::start_tag('form', [
