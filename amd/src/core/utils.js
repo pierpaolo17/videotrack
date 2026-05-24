@@ -102,6 +102,29 @@ define(['core/log'], function(Log) {
         }
     }
 
+    function isSafeBeaconUrl(url) {
+        if (!url) {
+            return false;
+        }
+        var raw = String(url).trim();
+        if (raw === '' || /[\\\r\n]/.test(raw)) {
+            return false;
+        }
+        try {
+            var parsed = new URL(raw, window.location.href);
+            if (parsed.origin !== window.location.origin ||
+                    (parsed.protocol !== 'http:' && parsed.protocol !== 'https:')) {
+                return false;
+            }
+            if (parsed.pathname !== '/lib/ajax/service.php') {
+                return false;
+            }
+            return parsed.searchParams.has('sesskey');
+        } catch (e) {
+            return false;
+        }
+    }
+
     function fetchTextWithTimeout(url) {
         var timeout = 10000;
 
@@ -195,6 +218,7 @@ define(['core/log'], function(Log) {
         safeInt: safeInt,
         formatSeconds: formatSeconds,
         fetchTextWithTimeout: fetchTextWithTimeout,
+        isSafeBeaconUrl: isSafeBeaconUrl,
         sessionSet: sessionSet,
         sessionGet: sessionGet
     };

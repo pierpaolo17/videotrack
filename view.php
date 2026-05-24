@@ -336,7 +336,7 @@ echo html_writer::tag('progress', '', [
     'class' => 'videotrack-interval-progress',
     'value' => $percentattr,
     'max' => '100',
-    'aria-hidden' => 'true',
+    'aria-label' => get_string('intervalbar_title', 'mod_videotrack'),
 ]);
 echo html_writer::tag('span',
     get_string('intervalbar_title', 'mod_videotrack') . ' — ' . format_float($percent, 1) . '%',
