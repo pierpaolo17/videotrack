@@ -170,31 +170,54 @@ define(['core/log'], function(Log) {
 
         if (window.AbortController) {
             var controller = new AbortController();
+            var timer = null;
             options.signal = controller.signal;
-            var timer = window.setTimeout(function() {
+            timer = window.setTimeout(function() {
                 controller.abort();
             }, FETCH_TEXT_TIMEOUT_MS);
             return window.fetch(url, options)
                 .then(function(response) {
                     return validateTextResponse(response);
                 })
-                .finally(function() {
+                .catch(function(error) {
+                    if (error && error.name === 'AbortError') {
+                        return Promise.reject('timeout');
+                    }
+                    return Promise.reject(error);
+                })
+                .then(function(text) {
                     window.clearTimeout(timer);
+                    return text;
+                }, function(error) {
+                    window.clearTimeout(timer);
+                    return Promise.reject(error);
                 });
         }
 
         // Browsers without AbortController cannot cancel the underlying fetch,
         // but the promise is still rejected after the same timeout and the timer
-        // is cleared if the response wins the race.
+        // is cleared for both fulfilled and rejected fetch responses.
         var timeoutId = null;
-        var fetchPromise = window.fetch(url, options).then(function(response) {
-            if (timeoutId !== null) {
-                window.clearTimeout(timeoutId);
-            }
-            return validateTextResponse(response);
-        });
+        var fetchPromise = window.fetch(url, options)
+            .then(function(response) {
+                return validateTextResponse(response);
+            })
+            .then(function(text) {
+                if (timeoutId !== null) {
+                    window.clearTimeout(timeoutId);
+                    timeoutId = null;
+                }
+                return text;
+            }, function(error) {
+                if (timeoutId !== null) {
+                    window.clearTimeout(timeoutId);
+                    timeoutId = null;
+                }
+                return Promise.reject(error);
+            });
         var timeoutPromise = new Promise(function(resolve, reject) {
             timeoutId = window.setTimeout(function() {
+                timeoutId = null;
                 reject('timeout');
             }, FETCH_TEXT_TIMEOUT_MS);
         });
