@@ -312,11 +312,36 @@ define([
         if (typeof getCurrentTime !== 'function' || typeof saveSegment !== 'function') {
             return Promise.resolve(null);
         }
-        var end = Segment.calculateInteractionEnd(state.segmentstart, getCurrentTime(), state.duration, reason);
-        if (end <= state.segmentstart) {
+        var start = normaliseTime(state.segmentstart);
+        var end = Segment.calculateInteractionEnd(start, getCurrentTime(), state.duration, reason);
+        if (end <= start) {
             return Promise.resolve(null);
         }
-        return saveSegment(state.segmentstart, end, Segment.normaliseSaveReason(reason));
+        return Promise.resolve(saveSegment(start, end, Segment.normaliseSaveReason(reason))).then(function(result) {
+            reopenAfterInteractionSave(state, end);
+            return result;
+        });
+    }
+
+    /**
+     * Move the open segment start after a successful interaction save.
+     *
+     * Reaction and note handlers save the current segment before persisting
+     * their own event. Keeping the original segment start after that save makes
+     * the next pause or heartbeat persist the same watched time again. Reopening
+     * from the saved end keeps the tracker monotonic without changing concrete
+     * player code.
+     *
+     * @param {Object} state Mutable player state.
+     * @param {number} end Segment end/current time.
+     * @param {number=} now Optional wallclock timestamp in seconds.
+     */
+    function reopenAfterInteractionSave(state, end, now) {
+        var timestamp = resetHeartbeat(state, now);
+        if (state && state.playing) {
+            state.segmentstart = normaliseTime(end);
+            state.wallclockstart = timestamp;
+        }
     }
 
     /**
@@ -350,6 +375,11 @@ define([
         return Promise.resolve(getCurrentTime()).then(function(currentTime) {
             var heartbeat = captureHeartbeatSegment(state, currentTime);
             if (!heartbeat) {
+                state.heartbeatPending = false;
+                return false;
+            }
+            if (heartbeat.end <= heartbeat.start) {
+                resetHeartbeat(state, timestamp);
                 state.heartbeatPending = false;
                 return false;
             }
@@ -400,6 +430,7 @@ define([
         shouldSaveHeartbeat: shouldSaveHeartbeat,
         saveHeartbeatIfDue: saveHeartbeatIfDue,
         reopenAfterHeartbeat: reopenAfterHeartbeat,
+        reopenAfterInteractionSave: reopenAfterInteractionSave,
         saveCurrentProgress: saveCurrentProgress
     };
 });
