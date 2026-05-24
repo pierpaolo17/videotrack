@@ -5,6 +5,7 @@
  */
 define(['core/log'], function(Log) {
     var MAX_TEXT_RESPONSE_BYTES = 1024 * 1024;
+    var FETCH_TEXT_TIMEOUT_MS = 10000;
 
 
     /**
@@ -97,7 +98,7 @@ define(['core/log'], function(Log) {
                 return false;
             }
             var path = decodeURIComponent(parsed.pathname).toLowerCase();
-            var isTextTrack = /\.(vtt|txt)$/.test(path);
+            var isTextTrack = /(?:^|\/)[^/?#]+\.(?:vtt|txt)$/.test(path);
             var isPluginFile = path.indexOf('/pluginfile.php/') !== -1 ||
                 path.indexOf('/webservice/pluginfile.php/') !== -1;
             return isTextTrack && isPluginFile;
@@ -132,8 +133,6 @@ define(['core/log'], function(Log) {
     }
 
     function fetchTextWithTimeout(url) {
-        var timeout = 10000;
-
         if (typeof window.fetch !== 'function') {
             return Promise.reject('fetch-unavailable');
         }
@@ -142,18 +141,20 @@ define(['core/log'], function(Log) {
             return Promise.reject('unsafe-url');
         }
 
+        var options = {
+            credentials: 'same-origin',
+            mode: 'same-origin',
+            redirect: 'error',
+            headers: {'X-Requested-With': 'XMLHttpRequest'}
+        };
+
         if (window.AbortController) {
             var controller = new AbortController();
+            options.signal = controller.signal;
             var timer = window.setTimeout(function() {
                 controller.abort();
-            }, timeout);
-            return fetch(url, {
-                signal: controller.signal,
-                credentials: 'same-origin',
-                mode: 'same-origin',
-                redirect: 'error',
-                headers: {'X-Requested-With': 'XMLHttpRequest'}
-            })
+            }, FETCH_TEXT_TIMEOUT_MS);
+            return window.fetch(url, options)
                 .then(function(response) {
                     return validateTextResponse(response);
                 })
@@ -162,22 +163,22 @@ define(['core/log'], function(Log) {
                 });
         }
 
-        // Browsers without AbortController cannot cancel the underlying fetch.
-        return Promise.race([
-            fetch(url, {
-                credentials: 'same-origin',
-                mode: 'same-origin',
-                redirect: 'error',
-                headers: {'X-Requested-With': 'XMLHttpRequest'}
-            }).then(function(response) {
-                return validateTextResponse(response);
-            }),
-            new Promise(function(resolve, reject) {
-                window.setTimeout(function() {
-                    reject('timeout');
-                }, timeout);
-            })
-        ]);
+        // Browsers without AbortController cannot cancel the underlying fetch,
+        // but the promise is still rejected after the same timeout and the timer
+        // is cleared if the response wins the race.
+        var timeoutId = null;
+        var fetchPromise = window.fetch(url, options).then(function(response) {
+            if (timeoutId !== null) {
+                window.clearTimeout(timeoutId);
+            }
+            return validateTextResponse(response);
+        });
+        var timeoutPromise = new Promise(function(resolve, reject) {
+            timeoutId = window.setTimeout(function() {
+                reject('timeout');
+            }, FETCH_TEXT_TIMEOUT_MS);
+        });
+        return Promise.race([fetchPromise, timeoutPromise]);
     }
 
     /**

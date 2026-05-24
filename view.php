@@ -331,7 +331,7 @@ echo html_writer::tag('canvas', '', [
                     format_float($percent, 1) . '%',
     'aria-describedby' => 'videotrack-interval-bar-status',
 ]);
-echo html_writer::tag('progress', '', [
+echo html_writer::tag('progress', format_float($percent, 1) . '%', [
     'id' => 'videotrack-interval-progress',
     'class' => 'videotrack-interval-progress',
     'value' => $percentattr,

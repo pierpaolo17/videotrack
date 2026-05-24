@@ -64,6 +64,35 @@ define([], function() {
         return allowed.indexOf(reason) !== -1 ? reason : 'interaction';
     }
 
+
+    /**
+     * Clamp client-side segment times before they are sent to AJAX/beacon endpoints.
+     *
+     * Server-side validation remains authoritative; this helper avoids sending
+     * negative, non-finite, or over-duration values from UI edge cases.
+     *
+     * @param {*} start Segment start candidate.
+     * @param {*} end Segment end candidate.
+     * @param {*} duration Optional known media duration.
+     * @returns {{start: number, end: number}} Clamped and rounded times.
+     */
+    function clampSegmentTimes(start, end, duration) {
+        var max = Math.max(0, Number(duration) || 0);
+        start = Math.max(0, Number(start) || 0);
+        end = Math.max(start, Number(end) || 0);
+        if (max > 0) {
+            start = Math.min(start, max);
+            end = Math.min(end, max);
+        }
+        if (end < start) {
+            end = start;
+        }
+        return {
+            start: Math.round(start * 1000) / 1000,
+            end: Math.round(end * 1000) / 1000
+        };
+    }
+
     /**
      * Save progress for a currently playing segment before an interaction.
      *
@@ -177,6 +206,7 @@ define([], function() {
             var progress = document.getElementById('videotrack-interval-progress');
             if (progress) {
                 progress.value = pct;
+                progress.textContent = pct + '%';
                 progress.setAttribute('aria-valuenow', String(pct));
                 progress.setAttribute('aria-valuetext', pct + '%');
             }
@@ -632,6 +662,7 @@ define([], function() {
 
     return {
         uuid: uuid,
+        clampSegmentTimes: clampSegmentTimes,
         getIntervalBarColor: getIntervalBarColor,
         normaliseSaveReason: normaliseSaveReason,
         saveCurrentProgress: saveCurrentProgress,

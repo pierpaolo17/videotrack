@@ -115,8 +115,9 @@ define([
     }
 
     function saveSegment(start, end, reason) {
-        start = Math.max(0, Number(start) || 0);
-        end = Math.max(start, Number(end) || 0);
+        var times = PlayerCore.clampSegmentTimes(start, end, state.duration || config.duration || 0);
+        start = times.start;
+        end = times.end;
         if (end <= start) {
             return Promise.resolve(null);
         }
@@ -345,6 +346,9 @@ define([
             if (!state.playing || state.segmentstart === null || !player) { return; }
             var end   = player.getCurrentTime ? player.getCurrentTime() : state.lasttime;
             var start = state.segmentstart;
+            var times = PlayerCore.clampSegmentTimes(start, end, state.duration || config.duration || 0);
+            start = times.start;
+            end = times.end;
             if (end <= start) { return; }
             var url = config.beaconurl || '';
             if (!url || !navigator.sendBeacon || !Utils.isSafeBeaconUrl(url)) { return; }
