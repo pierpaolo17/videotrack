@@ -9,8 +9,9 @@ define([
     'mod_videotrack/core/progress',
     'mod_videotrack/core/state',
     'mod_videotrack/core/reactions',
+    'mod_videotrack/core/tracker',
     'mod_videotrack/core/player'
-], function(Log, Ajax, Api, Utils, Ui, Progress, State, Reactions, PlayerCore) {
+], function(Log, Ajax, Api, Utils, Ui, Progress, State, Reactions, Tracker, PlayerCore) {
     var player = null;
     var config = null;
     var reactionState = Reactions.createState();
@@ -84,7 +85,7 @@ define([
         state.segmentstart = player.getCurrentTime();
         state.wallclockstart = Math.floor(Date.now() / 1000);
         state.lasttime = state.segmentstart;
-        state.lastHeartbeatWallclock = state.wallclockstart;
+        Tracker.resetHeartbeat(state, state.wallclockstart);
         // Feature 6: applica il limite massimo di velocità se configurato.
         var currentRate = player.getPlaybackRate ? player.getPlaybackRate() : 1;
         if (config.maxplaybackrate > 0) {
@@ -100,9 +101,9 @@ define([
         setReactionButtons(true);
         // Riavvia il polling se era stato sospeso (tab hidden → visibile di nuovo).
         if (!state.heartbeatid) {
-            state.heartbeatid = window.setInterval(function() {
+            state.heartbeatid = Tracker.startPolling(state, function() {
                 if (player) { handleSeekByPolling(); }
-            }, Math.min(5000, Math.max(2000, HEARTBEAT_INTERVAL * 250)));
+            }, HEARTBEAT_INTERVAL);
         }
     }
 
@@ -174,7 +175,7 @@ define([
             // Seek permesso: apre nuovo segmento dalla posizione corrente.
             state.segmentstart = player.getCurrentTime();
             state.wallclockstart = Math.floor(Date.now() / 1000);
-            state.lastHeartbeatWallclock = state.wallclockstart;
+            Tracker.resetHeartbeat(state, state.wallclockstart);
             state.playing = true;
         }
         state.lasttime = current;
@@ -187,14 +188,12 @@ define([
         // perdita di dati in caso di crash del browser o caduta di connessione (sez. 4.3).
         if (state.playing && state.segmentstart !== null) {
             var now = Math.floor(Date.now() / 1000);
-            if (now - state.lastHeartbeatWallclock >= HEARTBEAT_INTERVAL) {
+            if (Tracker.shouldSaveHeartbeat(state, HEARTBEAT_INTERVAL, now)) {
                 var hbEnd = player.getCurrentTime();
                 var hbStart = state.segmentstart;
                 // Salva il segmento accumulato fino ad ora, poi riapre dal punto corrente.
                 saveSegment(hbStart, hbEnd, 'heartbeat');
-                state.segmentstart = hbEnd;
-                state.wallclockstart = now;
-                state.lastHeartbeatWallclock = now;
+                Tracker.reopenAfterHeartbeat(state, hbEnd, now);
             }
         }
     }
@@ -247,8 +246,7 @@ define([
                 if (state.heartbeatid) {
                     // Sospende il polling heartbeat quando la tab è nascosta.
                     // Riparte in startCurrentSegment() alla successiva riproduzione.
-                    window.clearInterval(state.heartbeatid);
-                    state.heartbeatid = null;
+                    Tracker.stopPolling(state);
                 }
                 closeCurrentSegment('visibilitychange');
                 setReactionButtons(false);
@@ -256,8 +254,7 @@ define([
         });
         window.addEventListener('pagehide', function() {
             if (state.heartbeatid) {
-                window.clearInterval(state.heartbeatid);
-                state.heartbeatid = null;
+                Tracker.stopPolling(state);
             }
             closeCurrentSegment('pagehide');
         });
@@ -674,7 +671,7 @@ define([
             reactionState.debounceMs = debounce === 0 ? 0 :
                 Math.max(0, Math.min(2000, debounce || DEFAULT_REACTION_READY_DEBOUNCE_MS));
             // Legge l'intervallo heartbeat dalla configurazione admin.
-            HEARTBEAT_INTERVAL = (config.heartbeatinterval > 0) ? config.heartbeatinterval : 30;
+            HEARTBEAT_INTERVAL = Tracker.normaliseHeartbeatInterval(config, 30);
             state.sessionid = uuid();
             // Disegna la barra degli intervalli con i dati già salvati (sessioni precedenti).
             if (config.intervaljson && config.duration) {
