@@ -55,12 +55,7 @@ define([
     // ── Segment lifecycle ─────────────────────────────────────────────────
 
     function startSegment() {
-        state.playing               = true;
-        state.segmentstart          = media.currentTime;
-        state.wallclockstart        = Math.floor(Date.now() / 1000);
-        Tracker.resetHeartbeat(state, state.wallclockstart);
-        state.lasttime              = media.currentTime;
-        state.playbackrate          = media.playbackRate || 1;
+        Tracker.openSegment(state, media.currentTime, Math.floor(Date.now() / 1000), media.playbackRate || 1);
     }
 
     /**
@@ -73,11 +68,10 @@ define([
      */
     function closeSegment(reason) {
         if (!state.playing || state.segmentstart === null) { return; }
-        var start = state.segmentstart;   // Cattura PRIMA di azzerare.
-        var end   = media.currentTime;
-        state.playing      = false;
-        state.segmentstart = null;
-        saveSegment(start, end, reason);
+        var closed = Tracker.closeSegment(state, media.currentTime);
+        if (closed) {
+            saveSegment(closed.start, closed.end, reason);
+        }
     }
 
     // ── Heartbeat ─────────────────────────────────────────────────────────
@@ -87,10 +81,10 @@ define([
             if (!state.playing || state.segmentstart === null || state.isSeeking) { return; }
             var now = Math.floor(Date.now() / 1000);
             if (Tracker.shouldSaveHeartbeat(state, HEARTBEAT_INTERVAL, now)) {
-                var hbEnd   = media.currentTime;
-                var hbStart = state.segmentstart;
-                saveSegment(hbStart, hbEnd, 'heartbeat');
-                Tracker.reopenAfterHeartbeat(state, hbEnd, now);
+                var heartbeat = Tracker.captureHeartbeatSegment(state, media.currentTime, now);
+                if (heartbeat) {
+                    saveSegment(heartbeat.start, heartbeat.end, 'heartbeat');
+                }
             }
         }, HEARTBEAT_INTERVAL);
     }
