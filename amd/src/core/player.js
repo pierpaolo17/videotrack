@@ -8,35 +8,22 @@
  */
 define([
     'mod_videotrack/core/segment',
+    'mod_videotrack/core/session',
     'mod_videotrack/core/beacon',
     'mod_videotrack/core/notes',
     'mod_videotrack/core/reactions',
     'mod_videotrack/core/status'
-], function(Segment, Beacon, Notes, Reactions, Status) {
+], function(Segment, Session, Beacon, Notes, Reactions, Status) {
     var intervalBarCache = {json: null, duration: null, width: null, height: null};
 
 
     /**
-     * Create a compact session identifier.
+     * Backwards-compatible facade for the shared session helper.
      *
      * @returns {string} Session identifier.
      */
     function uuid() {
-        if (window.crypto && window.crypto.randomUUID) {
-            return window.crypto.randomUUID().replace(/-/g, '');
-        }
-        if (window.crypto && window.crypto.getRandomValues) {
-            var bytes = new Uint8Array(16);
-            window.crypto.getRandomValues(bytes);
-            return Array.prototype.map.call(bytes, function(byte) {
-                return ('0' + byte.toString(16)).slice(-2);
-            }).join('');
-        }
-        var entropy = '';
-        while (entropy.length < 16) {
-            entropy += Math.random().toString(36).substring(2);
-        }
-        return 'sess' + Date.now().toString(36) + entropy.substring(0, 24);
+        return Session.uuid();
     }
 
     /**
