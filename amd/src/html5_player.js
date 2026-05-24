@@ -11,11 +11,12 @@
 /* eslint-disable jsdoc/require-jsdoc, jsdoc/require-param, jsdoc/check-param-names */
 define([
     'core/log',
+    'core/ajax',
     'mod_videotrack/core/api',
     'mod_videotrack/core/utils',
     'mod_videotrack/core/ui',
     'mod_videotrack/core/player'
-], function(Log, Api, Utils, Ui, PlayerCore) {
+], function(Log, Ajax, Api, Utils, Ui, PlayerCore) {
 
     var media  = null; // The <video> or <audio> DOM element.
     var config = null;
