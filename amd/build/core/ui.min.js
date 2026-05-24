@@ -16,8 +16,11 @@ define([], function() {
      * @param {boolean} playing True when reactions are available.
      */
     function setReactionButtons(playing) {
-        var root = document.querySelector('.videotrack-player-shell') || document;
+        var root = document.querySelector('.videotrack-player-shell');
         document.dispatchEvent(new CustomEvent('videotrack:playstate', {detail: {playing: !!playing}}));
+        if (!root) {
+            return;
+        }
         root.querySelectorAll('.videotrack-reaction-btn').forEach(function(button) {
             button.removeAttribute('disabled');
             button.setAttribute('aria-disabled', playing ? 'false' : 'true');
@@ -92,8 +95,11 @@ define([], function() {
         }
         if (typeof icon === 'string') {
             var legacy = String(icon).trim();
-            if (legacy === '' || legacy.length > 64) {
+            if (legacy === '') {
                 return;
+            }
+            if (legacy.length > 64) {
+                legacy = legacy.substring(0, 64);
             }
             target.appendChild(document.createTextNode(legacy));
             return;

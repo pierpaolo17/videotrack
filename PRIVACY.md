@@ -54,6 +54,7 @@ not sent to the server and is not used to identify a person across activities or
 browser sessions.
 
 When configuring a retention period of `0` days, site administrators should treat
-it as an explicit request to remove/anonymise eligible tracking data immediately
-when the scheduled cleanup task runs. This can reduce auditability and should be
-aligned with the institution's retention policy before enabling it in production.
+it as unlimited automated retention: the scheduled cleanup task does not
+anonymise records solely because of age. Moodle Privacy API erasure requests and
+context deletion still permanently remove the relevant VideoTrack records and
+plugin-owned files as described above.
