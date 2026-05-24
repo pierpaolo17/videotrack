@@ -24,3 +24,9 @@ including uploaded videos, poster images, subtitles and reaction icons.
 VideoTrack creates a short browser-session identifier in JavaScript to associate playback heartbeats, reactions and notes with the current activity session. The identifier is not an authentication token and is validated server-side together with the Moodle session, capability checks and recent playback evidence.
 
 When the page is closed, the player may use `navigator.sendBeacon()` to submit the final watched segment to Moodle's own AJAX endpoint using the current Moodle sesskey. This avoids losing progress on page unload; it does not send data to external services. The notes-panel collapsed/expanded preference is stored only in the browser `sessionStorage` and is not exported to the server.
+
+## Informazioni aggiuntive per esportazioni, session storage e sottotitoli
+
+Il modulo usa `sessionStorage` solo per stato temporaneo del player nel browser; i valori sono limitati alla sessione della scheda/browser e non sono condivisi tra dispositivi. Il fallback `sendBeacon` puo inviare l'ultimo segmento di visione durante la chiusura della pagina per evitare perdita di progresso. Gli URL opzionali di sottotitoli/transcript caricati via JavaScript sono accettati solo da origini locali Moodle/pluginfile.
+
+Le esportazioni CSV dei report possono contenere dati personali degli studenti e devono essere usate solo da utenti con capability di reportistica nel rispetto dell'informativa locale e delle policy di conservazione dell'istituzione.
