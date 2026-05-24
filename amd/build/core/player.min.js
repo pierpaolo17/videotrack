@@ -9,8 +9,9 @@
 define([
     'mod_videotrack/core/segment',
     'mod_videotrack/core/beacon',
-    'mod_videotrack/core/notes'
-], function(Segment, Beacon, Notes) {
+    'mod_videotrack/core/notes',
+    'mod_videotrack/core/reactions'
+], function(Segment, Beacon, Notes, Reactions) {
     var statusTimer = null;
     var intervalBarCache = {json: null, duration: null, width: null, height: null};
 
@@ -352,79 +353,28 @@ define([
     /**
      * Announce when reactions become available or unavailable.
      *
+     * Kept as a backwards-compatible facade for concrete player modules while
+     * the implementation lives in core/reactions.
+     *
      * @param {boolean} playing Whether playback is active.
      * @param {Object} config Player configuration.
      * @param {Object} reactionState Mutable reaction announcement state.
      */
     function announceReactionAvailability(playing, config, reactionState) {
-        var hint = document.getElementById('videotrack-reactions-hint');
-        if (!hint) {
-            return;
-        }
-        if (playing) {
-            if (reactionState.timer) {
-                window.clearTimeout(reactionState.timer);
-                reactionState.timer = null;
-            }
-            if (Date.now() - reactionState.lastUnavailableAt < reactionState.debounceMs) {
-                return;
-            }
-            if (reactionState.readyAnnounced || reactionState.lastAnnouncement === true) {
-                return;
-            }
-            reactionState.lastAnnouncement = true;
-            reactionState.readyAnnounced = true;
-            hint.textContent = config.reactionsreadylabel;
-            hint.classList.toggle('videotrack-reactions-hint-active', false);
-            return;
-        }
-
-        if (reactionState.timer) {
-            return;
-        }
-        var now = Date.now();
-        if (reactionState.lastAnnouncement === false &&
-                now - reactionState.lastUnavailableAt < reactionState.unavailableInterval) {
-            return;
-        }
-        reactionState.timer = window.setTimeout(function() {
-            reactionState.timer = null;
-            reactionState.lastAnnouncement = false;
-            reactionState.lastUnavailableAt = Date.now();
-            hint.textContent = config.reactionunavailablelabel;
-            hint.classList.toggle('videotrack-reactions-hint-active', true);
-        }, 400);
+        Reactions.announceAvailability(playing, config, reactionState);
     }
 
     /**
      * Announce that reactions are unavailable immediately.
      *
+     * Kept as a backwards-compatible facade for concrete player modules while
+     * the implementation lives in core/reactions.
+     *
      * @param {Object} config Player configuration.
      * @param {Object} reactionState Mutable reaction announcement state.
      */
     function announceReactionUnavailable(config, reactionState) {
-        var hint = document.getElementById('videotrack-reactions-hint');
-        if (hint) {
-            if (reactionState.timer) {
-                window.clearTimeout(reactionState.timer);
-                reactionState.timer = null;
-            }
-            var now = Date.now();
-            if (reactionState.lastAnnouncement === false && now - reactionState.lastUnavailableAt < 1000) {
-                return;
-            }
-            reactionState.lastAnnouncement = false;
-            reactionState.lastUnavailableAt = now;
-            hint.textContent = config.reactionunavailablelabel;
-            hint.classList.add('videotrack-reactions-hint-active');
-            if (reactionState.cssTimer) {
-                window.clearTimeout(reactionState.cssTimer);
-            }
-            reactionState.cssTimer = window.setTimeout(function() {
-                hint.classList.remove('videotrack-reactions-hint-active');
-                reactionState.cssTimer = null;
-            }, 1500);
-        }
+        Reactions.announceUnavailable(config, reactionState);
     }
 
     /**
