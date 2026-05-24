@@ -137,38 +137,11 @@ define([
         window.addEventListener('pagehide', function() {
             if (state.playing) { closeSegment('pagehide'); }
         });
-        // sendBeacon: fallback sincrono per browser che cancellano fetch su unload.
+        // sendBeacon: fallback finale centralizzato per browser che cancellano
+        // le normali richieste AJAX durante lo scaricamento della pagina.
         window.addEventListener('beforeunload', function() {
             if (!state.playing || state.segmentstart === null || !media) { return; }
-            var start = state.segmentstart;
-            var end = getCurrentVideoTime();
-            var times = PlayerCore.clampSegmentTimes(start, end, state.duration || config.duration || 0);
-            start = times.start;
-            end = times.end;
-            if (end <= start) { return; }
-            var now = Math.floor(Date.now() / 1000);
-            var beaconUrl = config.beaconurl || '';
-            if (!navigator.sendBeacon || !beaconUrl || !Utils.isSafeBeaconUrl(beaconUrl)) {
-                return;
-            }
-            try {
-                navigator.sendBeacon(
-                    beaconUrl,
-                    new Blob([JSON.stringify([{
-                        methodname: 'mod_videotrack_save_segment',
-                        args: {
-                            cmid: config.cmid, sessionid: state.sessionid,
-                            videotimestart: start, videotimeend: end,
-                            wallclockstart: state.wallclockstart || now, wallclockend: now,
-                            playbackrate: state.playbackrate || 1,
-                            endreason: 'beforeunload',
-                            durationseconds: state.duration || 0,
-                        }
-                    }])], {type: 'application/json'})
-                );
-            } catch (error) {
-                Log.debug('mod_videotrack: sendBeacon failed - ' + error);
-            }
+            PlayerCore.sendBeaconSegment(config, state, state.segmentstart, getCurrentVideoTime(), Utils, Log);
         });
 
         var root = PlayerCore.getPlayerShell(Log);

@@ -276,41 +276,11 @@ define([
             }
             closeCurrentSegment('pagehide');
         });
-        // Feature 5: sendBeacon come fallback finale su beforeunload.
-        // sendBeacon() garantisce la consegna anche quando il browser cancella le
-        // normali richieste AJAX durante lo scaricamento della pagina.
-        // Formato JSON: array di richieste Moodle bulk API (come da /lib/ajax/service.php).
+        // sendBeacon: fallback finale centralizzato per browser che cancellano
+        // le normali richieste AJAX durante lo scaricamento della pagina.
         window.addEventListener('beforeunload', function() {
             if (!state.playing || state.segmentstart === null || !player) { return; }
-            var end = getCurrentVideoTime();
-            var start = state.segmentstart;
-            var times = PlayerCore.clampSegmentTimes(start, end, state.duration || config.duration || 0);
-            start = times.start;
-            end = times.end;
-            if (end <= start) { return; }
-            var url = config.beaconurl || '';
-            if (!url || !navigator.sendBeacon || !Utils.isSafeBeaconUrl(url)) { return; }
-            var now = Math.floor(Date.now() / 1000);
-            // Moodle /lib/ajax/service.php si aspetta un array di richieste.
-            var payload = JSON.stringify([{
-                methodname: 'mod_videotrack_save_segment',
-                args: {
-                    cmid:            config.cmid,
-                    sessionid:       state.sessionid,
-                    videotimestart:  start,
-                    videotimeend:    end,
-                    wallclockstart:  state.wallclockstart || now,
-                    wallclockend:    now,
-                    playbackrate:    state.playbackrate || 1,
-                    endreason:       'beforeunload',
-                    durationseconds: state.duration || 0
-                }
-            }]);
-            try {
-                navigator.sendBeacon(url, new Blob([payload], {type: 'application/json'}));
-            } catch (error) {
-                Log.debug('mod_videotrack: sendBeacon failed - ' + error);
-            }
+            PlayerCore.sendBeaconSegment(config, state, state.segmentstart, getCurrentVideoTime(), Utils, Log);
         });
         var root = PlayerCore.getPlayerShell(Log);
         if (!root) { return; }
