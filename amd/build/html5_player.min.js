@@ -16,8 +16,9 @@ define([
     'mod_videotrack/core/utils',
     'mod_videotrack/core/ui',
     'mod_videotrack/core/progress',
+    'mod_videotrack/core/state',
     'mod_videotrack/core/player'
-], function(Log, Ajax, Api, Utils, Ui, Progress, PlayerCore) {
+], function(Log, Ajax, Api, Utils, Ui, Progress, State, PlayerCore) {
 
     var media  = null; // The <video> or <audio> DOM element.
     var config = null;
@@ -34,23 +35,9 @@ define([
     };
     var HEARTBEAT_INTERVAL = 30;
 
-    var state = {
-        sessionid:              null,
-        playing:                false,
-        segmentstart:           null,
-        wallclockstart:         null,
-        lasttime:               0,
-        duration:               0,
-        playbackrate:           1,
-        heartbeatid:            null,
-        lastHeartbeatWallclock: 0,
-        seekblocked:            false,
-        isSeeking:              false,
-        isProgrammaticSeek:     false, // True per seek lanciati dal codice (replay, capitoli, resume).
-        currentReplayEnd:       null,
-        _posterRemoved:         false,
-        _posterPlayListener:    null,
-    };
+    var state = State.create({
+        isSeeking: false
+    });
 
     // ── Utilities ─────────────────────────────────────────────────────────
 

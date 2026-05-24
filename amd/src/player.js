@@ -7,8 +7,9 @@ define([
     'mod_videotrack/core/utils',
     'mod_videotrack/core/ui',
     'mod_videotrack/core/progress',
+    'mod_videotrack/core/state',
     'mod_videotrack/core/player'
-], function(Log, Ajax, Api, Utils, Ui, Progress, PlayerCore) {
+], function(Log, Ajax, Api, Utils, Ui, Progress, State, PlayerCore) {
     var player = null;
     var config = null;
     var DEFAULT_REACTION_UNAVAILABLE_ANNOUNCE_INTERVAL = 30000;
@@ -25,28 +26,7 @@ define([
     // HEARTBEAT_INTERVAL viene inizializzato in init() dal valore configurato
     // dall'amministratore in Amministrazione sito → Plugin → Moduli attività → Video track.
     var HEARTBEAT_INTERVAL = 30; // valore di fallback, sovrascritto da config.heartbeatinterval
-    var state = {
-        sessionid: null,
-        playing: false,
-        segmentstart: null,
-        wallclockstart: null,
-        lasttime: 0,
-        duration: 0,
-        playbackrate: 1,
-        heartbeatid: null,
-        lastHeartbeatWallclock: 0,
-        currentReplayEnd: null,
-        // Flag anti-loop: attivo per 500ms dopo un seek bloccato per evitare
-        // che il polling rilevino di nuovo il rimbalzo come seek anomalo.
-        seekblocked: false,
-        // B6 fix: flag per seek lanciati dal codice (replay, resume, skip buttons).
-        // Allinea player.js al pattern già usato in vimeo_player.js e html5_player.js.
-        // handleSeekByPolling() lo controlla per non trattare seek programmatici
-        // come seek utente, evitando falsi positivi nel blocco allowseekforward/backward.
-        isProgrammaticSeek: false,
-        _posterRemoved: false,
-        _posterPlayListener: null
-    };
+    var state = State.create();
 
     function uuid() {
         return PlayerCore.uuid();
