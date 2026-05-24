@@ -368,7 +368,11 @@ define([
                     durationseconds: state.duration || 0
                 }
             }]);
-            navigator.sendBeacon(url, new Blob([payload], {type: 'application/json'}));
+            try {
+                navigator.sendBeacon(url, new Blob([payload], {type: 'application/json'}));
+            } catch (error) {
+                Log.debug('mod_videotrack: sendBeacon failed - ' + error);
+            }
         });
         var root = PlayerCore.getPlayerShell(Log);
         if (!root) { return; }

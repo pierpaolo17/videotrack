@@ -32,9 +32,6 @@ define(['core/log', 'core/notification', 'core/str'], function(Log, Notification
      */
     var attachConfirm = function(selector, fallbackMessage, labels) {
         labels = labels || {};
-        labels.confirm = labels.confirm || 'Confirm';
-        labels.yes = labels.yes || 'Yes';
-        labels.cancel = labels.cancel || 'Cancel';
         document.querySelectorAll(selector).forEach(function(form) {
             form.addEventListener('submit', function(e) {
                 if (form.dataset.confirmed === '1') {

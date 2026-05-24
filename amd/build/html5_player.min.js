@@ -194,7 +194,10 @@ define([
             if (end <= start) { return; }
             var now = Math.floor(Date.now() / 1000);
             var beaconUrl = config.beaconurl || '';
-            if (navigator.sendBeacon && beaconUrl && Utils.isSafeBeaconUrl(beaconUrl)) {
+            if (!navigator.sendBeacon || !beaconUrl || !Utils.isSafeBeaconUrl(beaconUrl)) {
+                return;
+            }
+            try {
                 navigator.sendBeacon(
                     beaconUrl,
                     new Blob([JSON.stringify([{
@@ -209,6 +212,8 @@ define([
                         }
                     }])], {type: 'application/json'})
                 );
+            } catch (error) {
+                Log.debug('mod_videotrack: sendBeacon failed - ' + error);
             }
         });
 

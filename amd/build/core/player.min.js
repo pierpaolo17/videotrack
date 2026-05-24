@@ -76,10 +76,15 @@ define([], function() {
      * @param {*} duration Optional known media duration.
      * @returns {{start: number, end: number}} Clamped and rounded times.
      */
+    function finiteSeconds(value) {
+        value = Number(value);
+        return Number.isFinite(value) ? Math.max(0, value) : 0;
+    }
+
     function clampSegmentTimes(start, end, duration) {
-        var max = Math.max(0, Number(duration) || 0);
-        start = Math.max(0, Number(start) || 0);
-        end = Math.max(start, Number(end) || 0);
+        var max = finiteSeconds(duration);
+        start = finiteSeconds(start);
+        end = Math.max(start, finiteSeconds(end));
         if (max > 0) {
             start = Math.min(start, max);
             end = Math.min(end, max);
@@ -207,6 +212,9 @@ define([], function() {
                 progress.max = 100;
                 progress.value = pct;
                 progress.textContent = pct + '%';
+                progress.setAttribute('aria-valuemin', '0');
+                progress.setAttribute('aria-valuemax', '100');
+                progress.setAttribute('aria-valuenow', String(pct));
                 progress.setAttribute('aria-valuetext', pct + '%');
             }
         } catch (e) {
