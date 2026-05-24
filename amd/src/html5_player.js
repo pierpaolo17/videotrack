@@ -830,7 +830,7 @@ define([
                     reactionbtn.classList.remove('videotrack-saving');
                     var msg = (err && err.message) ? err.message :
                         (config.reactionerrorlabel);
-                    PlayerCore.showStatusMessage(msg, true);
+                    PlayerCore.showStatusMessage(msg, true, config.dismisslabel);
                 });
                 return;
             }

@@ -4,6 +4,8 @@
  * @module mod_videotrack/core/utils
  */
 define(['core/log'], function(Log) {
+    var MAX_TEXT_RESPONSE_BYTES = 1024 * 1024;
+
 
     /**
      * Safely parses an integer value.
@@ -57,7 +59,7 @@ define(['core/log'], function(Log) {
         }
         var contentType = (response.headers.get('content-type') || '').toLowerCase();
         var length = parseInt(response.headers.get('content-length') || '0', 10);
-        if (Number.isFinite(length) && length > 1024 * 1024) {
+        if (Number.isFinite(length) && length > MAX_TEXT_RESPONSE_BYTES) {
             return Promise.reject('response-too-large');
         }
         if (contentType && contentType.indexOf('text/vtt') === -1 &&
@@ -65,7 +67,12 @@ define(['core/log'], function(Log) {
                 contentType.indexOf('application/octet-stream') === -1) {
             return Promise.reject('unexpected-content-type');
         }
-        return response.text();
+        return response.text().then(function(text) {
+            if (text.length > MAX_TEXT_RESPONSE_BYTES) {
+                return Promise.reject('response-too-large');
+            }
+            return text;
+        });
     }
 
     function isSafeFetchUrl(url) {
@@ -142,7 +149,10 @@ define(['core/log'], function(Log) {
      */
     function sessionSet(key, value, context) {
         try {
-            window.sessionStorage.setItem(key, value);
+            if (!key || !window.sessionStorage) {
+                return Promise.resolve();
+            }
+            window.sessionStorage.setItem(String(key), String(value));
         } catch (error) {
             Log.debug('mod_videotrack: could not save ' + (context || 'session state') + ' - ' + error);
         }
@@ -159,7 +169,10 @@ define(['core/log'], function(Log) {
     function sessionGet(key, context) {
         var value = null;
         try {
-            value = window.sessionStorage.getItem(key);
+            if (!key || !window.sessionStorage) {
+                return null;
+            }
+            value = window.sessionStorage.getItem(String(key));
         } catch (error) {
             Log.debug('mod_videotrack: could not read ' + (context || 'session state') + ' - ' + error);
         }

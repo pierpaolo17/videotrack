@@ -73,17 +73,39 @@ define([], function() {
      * @param {number} duration Video duration in seconds.
      * @param {Object} Log Moodle log module.
      */
+    function parseIntervals(intervaljson, Log) {
+        if (Array.isArray(intervaljson)) {
+            return intervaljson;
+        }
+        if (typeof intervaljson !== 'string' || intervaljson.trim() === '') {
+            return [];
+        }
+        try {
+            var parsed = JSON.parse(intervaljson);
+            return Array.isArray(parsed) ? parsed : [];
+        } catch (e) {
+            if (Log && Log.debug) {
+                Log.debug('mod_videotrack: invalid interval JSON - ' + e);
+            }
+            return [];
+        }
+    }
+
     function updateIntervalBar(intervaljson, duration, Log) {
         var canvas = document.getElementById('videotrack-interval-bar');
-        if (!canvas || !duration) {
+        duration = Number(duration) || 0;
+        if (!canvas || duration <= 0) {
+            return;
+        }
+        if (document.hidden) {
+            return;
+        }
+        var intervals = parseIntervals(intervaljson, Log);
+        var ctx = canvas.getContext('2d');
+        if (!ctx) {
             return;
         }
         try {
-            if (document.hidden) {
-                return;
-            }
-            var intervals = JSON.parse(intervaljson);
-            var ctx = canvas.getContext('2d');
             var dpr = window.devicePixelRatio || 1;
             var cssWidth = canvas.offsetWidth || canvas.width;
             var cssHeight = canvas.offsetHeight || canvas.height;
@@ -104,8 +126,14 @@ define([], function() {
             ctx.fillRect(0, 0, w, h);
             ctx.fillStyle = getIntervalBarColor(canvas, '--videotrack-interval-fill', '#28a745');
             intervals.forEach(function(seg) {
+                if (!Array.isArray(seg) || seg.length < 2) {
+                    return;
+                }
                 var start = Math.max(0, Number(seg[0]) || 0);
                 var end = Math.min(duration, Math.max(start, Number(seg[1]) || 0));
+                if (end <= start) {
+                    return;
+                }
                 var x1 = Math.round((start / duration) * w);
                 var x2 = Math.round((end / duration) * w);
                 ctx.fillRect(x1, 0, Math.max(2, x2 - x1), h);
@@ -179,25 +207,43 @@ define([], function() {
      *
      * @param {string} message Message text.
      * @param {boolean} isError Whether the message should be announced as an error.
+     * @param {string} dismissLabel Accessible label for the optional dismiss button.
      */
-    function showStatusMessage(message, isError) {
+    function showStatusMessage(message, isError, dismissLabel) {
         var id = 'videotrack-status-msg';
         var el = document.getElementById(id);
         if (!el) {
             el = document.createElement('div');
             el.id = id;
-            el.className = 'videotrack-status-message alert mt-2';
+            el.className = 'videotrack-status-message alert mt-2 d-flex align-items-start justify-content-between gap-2';
             el.setAttribute('aria-atomic', 'true');
             var shell = document.querySelector('.videotrack-player-shell');
             if (shell) {
                 shell.appendChild(el);
             }
         }
-        el.setAttribute('role', isError ? 'alert' : 'log');
+        el.setAttribute('role', isError ? 'alert' : 'status');
         el.setAttribute('aria-live', isError ? 'assertive' : 'polite');
         el.classList.toggle('alert-danger', !!isError);
         el.classList.toggle('alert-info', !isError);
-        el.textContent = message || '';
+        el.textContent = '';
+        var text = document.createElement('span');
+        text.textContent = message || '';
+        el.appendChild(text);
+        if (dismissLabel) {
+            var dismiss = document.createElement('button');
+            dismiss.type = 'button';
+            dismiss.className = 'btn-close ms-2';
+            dismiss.setAttribute('aria-label', dismissLabel);
+            dismiss.addEventListener('click', function() {
+                el.textContent = '';
+                if (statusTimer) {
+                    window.clearTimeout(statusTimer);
+                    statusTimer = null;
+                }
+            });
+            el.appendChild(dismiss);
+        }
         if (statusTimer) {
             window.clearTimeout(statusTimer);
         }
@@ -461,7 +507,7 @@ define([], function() {
             }).catch(function() {
                 saveBtn.classList.remove('videotrack-note-save-saving');
                 setLocalNoteButtonState(state.playing);
-                showStatusMessage(config.noteerrorlabel, true);
+                showStatusMessage(config.noteerrorlabel, true, config.dismisslabel);
             });
         });
 
@@ -531,6 +577,7 @@ define([], function() {
         uuid: uuid,
         getIntervalBarColor: getIntervalBarColor,
         saveCurrentProgress: saveCurrentProgress,
+        parseIntervals: parseIntervals,
         updateIntervalBar: updateIntervalBar,
         showResumeNotice: showResumeNotice,
         showStatusMessage: showStatusMessage,
