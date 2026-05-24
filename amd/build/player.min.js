@@ -2,11 +2,12 @@
 /* eslint-disable jsdoc/require-jsdoc, jsdoc/require-param, jsdoc/check-param-names */
 define([
     'core/log',
+    'core/ajax',
     'mod_videotrack/core/api',
     'mod_videotrack/core/utils',
     'mod_videotrack/core/ui',
     'mod_videotrack/core/player'
-], function(Log, Api, Utils, Ui, PlayerCore) {
+], function(Log, Ajax, Api, Utils, Ui, PlayerCore) {
     var player = null;
     var config = null;
     var DEFAULT_REACTION_UNAVAILABLE_ANNOUNCE_INTERVAL = 30000;
