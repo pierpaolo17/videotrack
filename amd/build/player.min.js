@@ -224,28 +224,16 @@ define([
      * @param {boolean} isError  Se true usa role=alert (assertive); altrimenti status (polite).
      */
     function installGlobalListeners() {
-        document.addEventListener('visibilitychange', function() {
-            if (document.hidden) {
-                if (state.heartbeatid) {
-                    // Sospende il polling heartbeat quando la tab è nascosta.
-                    // Riparte in startCurrentSegment() alla successiva riproduzione.
-                    Tracker.stopPolling(state);
-                }
-                closeCurrentSegment('visibilitychange');
+        Tracker.installLifecycleHandlers({
+            state: state,
+            closeSegment: closeCurrentSegment,
+            onHidden: function() {
                 setReactionButtons(false);
+            },
+            hasPlayer: function() { return !!player; },
+            sendBeacon: function() {
+                PlayerCore.sendBeaconSegment(config, state, state.segmentstart, getCurrentVideoTime(), Utils, Log);
             }
-        });
-        window.addEventListener('pagehide', function() {
-            if (state.heartbeatid) {
-                Tracker.stopPolling(state);
-            }
-            closeCurrentSegment('pagehide');
-        });
-        // sendBeacon: fallback finale centralizzato per browser che cancellano
-        // le normali richieste AJAX durante lo scaricamento della pagina.
-        window.addEventListener('beforeunload', function() {
-            if (!state.playing || state.segmentstart === null || !player) { return; }
-            PlayerCore.sendBeaconSegment(config, state, state.segmentstart, getCurrentVideoTime(), Utils, Log);
         });
         var root = PlayerCore.getPlayerShell(Log);
         if (!root) { return; }
