@@ -62,6 +62,8 @@ define([
     }
 
     function saveSegment(start, end, reason) {
+        start = Math.max(0, Number(start) || 0);
+        end = Math.max(start, Number(end) || 0);
         if (end <= start) { return Promise.resolve(null); }
         var now = Math.floor(Date.now() / 1000);
         return ajax('mod_videotrack_save_segment', {
