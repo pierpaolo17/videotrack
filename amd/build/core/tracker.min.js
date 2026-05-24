@@ -11,6 +11,124 @@
 define([], function() {
 
 
+
+    /**
+     * Convert an arbitrary media time to a safe non-negative number.
+     *
+     * @param {*} value Candidate media time.
+     * @returns {number} Safe media time in seconds.
+     */
+    function normaliseTime(value) {
+        var time = Number(value);
+        if (!isFinite(time) || time < 0) {
+            return 0;
+        }
+        return time;
+    }
+
+    /**
+     * Update the shared last-known playback position.
+     *
+     * @param {Object} state Mutable player state.
+     * @param {number} currentTime Current media time.
+     * @param {number=} playbackRate Optional playback rate.
+     * @returns {number} Normalised current media time.
+     */
+    function syncTime(state, currentTime, playbackRate) {
+        var time = normaliseTime(currentTime);
+        if (state) {
+            state.lasttime = time;
+            if (typeof playbackRate === 'number' && isFinite(playbackRate) && playbackRate > 0) {
+                state.playbackrate = playbackRate;
+            }
+        }
+        return time;
+    }
+
+    /**
+     * Mark the next seek as controlled by the plugin rather than the learner.
+     *
+     * @param {Object} state Mutable player state.
+     */
+    function markProgrammaticSeek(state) {
+        if (state) {
+            state.isProgrammaticSeek = true;
+        }
+    }
+
+    /**
+     * Consume and clear a pending programmatic seek flag.
+     *
+     * @param {Object} state Mutable player state.
+     * @param {number=} currentTime Optional media time to sync while consuming.
+     * @returns {boolean} True when a programmatic seek was consumed.
+     */
+    function consumeProgrammaticSeek(state, currentTime) {
+        if (!state || !state.isProgrammaticSeek) {
+            return false;
+        }
+        state.isProgrammaticSeek = false;
+        if (typeof currentTime !== 'undefined') {
+            syncTime(state, currentTime);
+        }
+        return true;
+    }
+
+    /**
+     * Resolve whether a learner seek is allowed by the configuration.
+     *
+     * @param {Object} state Mutable player state.
+     * @param {number} newTime Requested media time.
+     * @param {Object} config Player configuration.
+     * @param {number=} tolerance Seconds ignored as playback drift.
+     * @returns {Object} Seek decision.
+     */
+    function resolveSeek(state, newTime, config, tolerance) {
+        var oldTime = normaliseTime(state && state.lasttime);
+        var target = normaliseTime(newTime);
+        var drift = typeof tolerance === 'number' ? Math.max(0, tolerance) : 0;
+        var delta = target - oldTime;
+        var forward = delta > drift;
+        var backward = delta < -drift;
+        var blocked = false;
+
+        if (forward && config && config.allowseekforward === false) {
+            blocked = true;
+        }
+        if (backward && config && config.allowseekbackward === false) {
+            blocked = true;
+        }
+
+        return {
+            oldTime: oldTime,
+            newTime: target,
+            delta: delta,
+            forward: forward,
+            backward: backward,
+            changed: forward || backward,
+            blocked: blocked,
+            fallbackTime: oldTime
+        };
+    }
+
+    /**
+     * Check replay end state and clear it when playback reached the limit.
+     *
+     * @param {Object} state Mutable player state.
+     * @param {number} currentTime Current media time.
+     * @returns {boolean} True when playback should be paused.
+     */
+    function shouldStopReplay(state, currentTime) {
+        if (!state || state.currentReplayEnd === null) {
+            return false;
+        }
+        if (normaliseTime(currentTime) >= state.currentReplayEnd) {
+            state.currentReplayEnd = null;
+            return true;
+        }
+        return false;
+    }
+
     /**
      * Open a new watched segment from the current media time.
      *
@@ -183,6 +301,12 @@ define([], function() {
     }
 
     return {
+        normaliseTime: normaliseTime,
+        syncTime: syncTime,
+        markProgrammaticSeek: markProgrammaticSeek,
+        consumeProgrammaticSeek: consumeProgrammaticSeek,
+        resolveSeek: resolveSeek,
+        shouldStopReplay: shouldStopReplay,
         openSegment: openSegment,
         closeSegment: closeSegment,
         captureHeartbeatSegment: captureHeartbeatSegment,
