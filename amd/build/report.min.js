@@ -30,7 +30,8 @@ define(['core/log', 'core/notification', 'core/str'], function(Log, Notification
      * @param {string} selector CSS selector for the form(s).
      * @param {string} fallbackMessage Fallback confirmation text.
      */
-    var attachConfirm = function(selector, fallbackMessage) {
+    var attachConfirm = function(selector, fallbackMessage, labels) {
+        labels = labels || {};
         document.querySelectorAll(selector).forEach(function(form) {
             form.addEventListener('submit', function(e) {
                 if (form.dataset.confirmed === '1') {
@@ -70,9 +71,9 @@ define(['core/log', 'core/notification', 'core/str'], function(Log, Notification
         init: function(config) {
             config = config || {};
             attachConfirm('.videotrack-reset-student-form',
-                config.confirmreset || 'Reset this student?');
+                config.confirmreset, config.labels);
             attachConfirm('.videotrack-recalculate-form',
-                config.confirmrecalculate || 'Recalculate progress?');
+                config.confirmrecalculate, config.labels);
             Log.debug('mod_videotrack/report: initialised');
         }
     };

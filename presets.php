@@ -305,6 +305,11 @@ if ($isediting) {
     echo html_writer::end_tag('form');
 }
 
-$PAGE->requires->js_call_amd('mod_videotrack/presets', 'init');
+$PAGE->requires->js_call_amd('mod_videotrack/presets', 'init', [[
+    'confirmdelete' => get_string('presets:confirmdelete', 'mod_videotrack'),
+    'confirmtitle' => get_string('confirm', 'moodle'),
+    'deletelabel' => get_string('delete', 'moodle'),
+    'cancellabel' => get_string('cancel', 'moodle'),
+]]);
 
 echo $OUTPUT->footer();

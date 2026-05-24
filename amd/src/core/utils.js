@@ -84,6 +84,10 @@ define(['core/log'], function(Log) {
     function fetchTextWithTimeout(url) {
         var timeout = 10000;
 
+        if (typeof window.fetch !== 'function') {
+            return Promise.reject('fetch-unavailable');
+        }
+
         if (!isSafeFetchUrl(url)) {
             return Promise.reject('unsafe-url');
         }
