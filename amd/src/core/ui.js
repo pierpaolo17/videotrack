@@ -122,6 +122,9 @@ define([], function() {
         }
 
         var text = String(icon.text || '').trim();
+        if (text.length > 64) {
+            text = text.substring(0, 64);
+        }
         if (text !== '') {
             var span = document.createElement('span');
             span.className = 'videotrack-reaction-icon-text';

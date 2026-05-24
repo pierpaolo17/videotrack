@@ -235,8 +235,9 @@ define([], function() {
      * @param {string} message Message text.
      * @param {boolean} isError Whether the message should be announced as an error.
      * @param {string} dismissLabel Accessible label for the optional dismiss button.
+     * @param {number=} timeoutMs Optional auto-dismiss timeout in milliseconds.
      */
-    function showStatusMessage(message, isError, dismissLabel) {
+    function showStatusMessage(message, isError, dismissLabel, timeoutMs) {
         var id = 'videotrack-status-msg';
         var el = document.getElementById(id);
         if (!el) {
@@ -274,10 +275,14 @@ define([], function() {
         if (statusTimer) {
             window.clearTimeout(statusTimer);
         }
+        var timeout = Number(timeoutMs);
+        if (!isFinite(timeout) || timeout < 1000) {
+            timeout = isError ? 12000 : 8000;
+        }
         statusTimer = window.setTimeout(function() {
             el.textContent = '';
             statusTimer = null;
-        }, isError ? 12000 : 8000);
+        }, timeout);
     }
 
     /**
@@ -448,6 +453,11 @@ define([], function() {
         li.appendChild(delBtn);
 
         list.appendChild(li);
+
+        var maxRenderedNotes = 100;
+        while (list.children.length > maxRenderedNotes) {
+            list.removeChild(list.firstElementChild);
+        }
     }
 
     /**

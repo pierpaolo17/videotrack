@@ -115,14 +115,16 @@ define([
     }
 
     function saveSegment(start, end, reason) {
-        if (start === null || end === null || end <= start) {
+        start = Math.max(0, Number(start) || 0);
+        end = Math.max(start, Number(end) || 0);
+        if (end <= start) {
             return Promise.resolve(null);
         }
         return ajax('mod_videotrack_save_segment', {
             cmid: config.cmid,
             sessionid: state.sessionid,
-            videotimestart: start,
-            videotimeend: end,
+            videotimestart: Math.round(start * 1000) / 1000,
+            videotimeend: Math.round(end * 1000) / 1000,
             wallclockstart: state.wallclockstart || Math.floor(Date.now() / 1000),
             wallclockend: Math.floor(Date.now() / 1000),
             playbackrate: state.playbackrate || 1,
