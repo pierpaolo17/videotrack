@@ -170,8 +170,8 @@ define([], function() {
             return null;
         }
         var payload = {
-            start: state.segmentstart,
-            end: end
+            start: normaliseTime(state.segmentstart),
+            end: normaliseTime(end)
         };
         state.playing = false;
         state.segmentstart = null;
@@ -195,8 +195,8 @@ define([], function() {
             return null;
         }
         return {
-            start: state.segmentstart,
-            end: end
+            start: normaliseTime(state.segmentstart),
+            end: normaliseTime(end)
         };
     }
 
@@ -278,7 +278,7 @@ define([], function() {
      * @returns {boolean} True when a heartbeat save is due.
      */
     function shouldSaveHeartbeat(state, heartbeatInterval, now) {
-        if (!state || !state.playing || state.segmentstart === null) {
+        if (!state || !state.playing || state.segmentstart === null || state.heartbeatPending) {
             return false;
         }
         var timestamp = typeof now === 'number' ? now : Math.floor(Date.now() / 1000);
@@ -313,15 +313,25 @@ define([], function() {
             return Promise.resolve(false);
         }
 
+        state.heartbeatPending = true;
+
         return Promise.resolve(getCurrentTime()).then(function(currentTime) {
             var heartbeat = captureHeartbeatSegment(state, currentTime);
             if (!heartbeat) {
+                state.heartbeatPending = false;
                 return false;
             }
             return Promise.resolve(saveSegment(heartbeat.start, heartbeat.end, 'heartbeat')).then(function() {
                 reopenAfterHeartbeat(state, heartbeat.end, timestamp);
+                state.heartbeatPending = false;
                 return true;
+            }, function(error) {
+                state.heartbeatPending = false;
+                throw error;
             });
+        }, function(error) {
+            state.heartbeatPending = false;
+            throw error;
         });
     }
 
@@ -335,7 +345,7 @@ define([], function() {
     function reopenAfterHeartbeat(state, end, now) {
         var timestamp = resetHeartbeat(state, now);
         if (state) {
-            state.segmentstart = end;
+            state.segmentstart = normaliseTime(end);
             state.wallclockstart = timestamp;
         }
     }

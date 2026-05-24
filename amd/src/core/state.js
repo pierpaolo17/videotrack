@@ -22,6 +22,7 @@ define([], function() {
             segmentstart: null,
             wallclockstart: null,
             lastHeartbeatWallclock: null,
+            heartbeatPending: false,
             lasttime: 0,
             playbackrate: 1,
             duration: 0,
