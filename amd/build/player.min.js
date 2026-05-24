@@ -345,7 +345,7 @@ define([
             var start = state.segmentstart;
             if (end <= start) { return; }
             var url = config.beaconurl || '';
-            if (!url || !navigator.sendBeacon) { return; }
+            if (!url || !navigator.sendBeacon || !Utils.isSafeBeaconUrl(url)) { return; }
             var now = Math.floor(Date.now() / 1000);
             // Moodle /lib/ajax/service.php si aspetta un array di richieste.
             var payload = JSON.stringify([{

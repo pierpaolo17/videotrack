@@ -188,7 +188,7 @@ define([
             if (end <= start) { return; }
             var now = Math.floor(Date.now() / 1000);
             var beaconUrl = config.beaconurl || '';
-            if (navigator.sendBeacon && beaconUrl) {
+            if (navigator.sendBeacon && beaconUrl && Utils.isSafeBeaconUrl(beaconUrl)) {
                 navigator.sendBeacon(
                     beaconUrl,
                     new Blob([JSON.stringify([{
