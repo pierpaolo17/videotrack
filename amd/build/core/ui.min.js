@@ -21,9 +21,13 @@ define([], function() {
         if (!root) {
             return;
         }
+        var hint = document.getElementById('videotrack-reactions-hint');
         root.querySelectorAll('.videotrack-reaction-btn').forEach(function(button) {
             button.removeAttribute('disabled');
             button.setAttribute('aria-disabled', playing ? 'false' : 'true');
+            if (hint && hint.id) {
+                button.setAttribute('aria-describedby', hint.id);
+            }
             button.classList.toggle('videotrack-reaction-disabled', !playing);
         });
     }

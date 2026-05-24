@@ -66,12 +66,20 @@ define(['core/log'], function(Log) {
         }
         var contentType = (response.headers.get('content-type') || '').toLowerCase();
         var length = parseInt(response.headers.get('content-length') || '0', 10);
+        var responsePath = '';
+        try {
+            responsePath = new URL(response.url || '', window.location.href).pathname.toLowerCase();
+        } catch (e) {
+            responsePath = '';
+        }
         if (Number.isFinite(length) && length > MAX_TEXT_RESPONSE_BYTES) {
             return Promise.reject('response-too-large');
         }
         if (contentType && contentType.indexOf('text/vtt') === -1 &&
-                contentType.indexOf('text/plain') === -1 &&
-                contentType.indexOf('application/octet-stream') === -1) {
+                contentType.indexOf('text/plain') === -1) {
+            return Promise.reject('unexpected-content-type');
+        }
+        if (contentType.indexOf('text/vtt') !== -1 && !/\.vtt$/.test(responsePath)) {
             return Promise.reject('unexpected-content-type');
         }
         return response.text().then(function(text) {
@@ -97,8 +105,8 @@ define(['core/log'], function(Log) {
                     parsed.username || parsed.password || parsed.hash) {
                 return false;
             }
-            var path = decodeURIComponent(parsed.pathname).toLowerCase();
-            if (/(?:^|\/|\\)\.\.(?:\/|\\|$)/.test(path)) {
+            var path = decodeURIComponent(parsed.pathname).replace(/\\/g, '/').replace(/\/+/g, '/').toLowerCase();
+            if (/(?:^|\/)\.\.(?:\/|$)/.test(path)) {
                 return false;
             }
             var isTextTrack = /(?:^|\/)[^/?#]+\.(?:vtt|txt)$/.test(path);
