@@ -1,9 +1,9 @@
 /**
  * Shared reaction UI state helpers for mod_videotrack player modules.
  *
- * This module intentionally keeps only mutable announcement state for now.
- * The concrete player modules still own their DOM event handlers while the
- * 1.3 branch progressively extracts reaction save/delete behaviour.
+ * This module owns the lightweight live-region announcements shared by all
+ * concrete player modules. The concrete modules still own reaction click
+ * handlers while the 1.3 branch progressively extracts reaction behaviour.
  *
  * @module mod_videotrack/core/reactions
  */
@@ -26,7 +26,89 @@ define([], function() {
         };
     }
 
+
+    /**
+     * Announce when reactions become available or unavailable.
+     *
+     * @param {boolean} playing Whether playback is active.
+     * @param {Object} config Player configuration.
+     * @param {Object} reactionState Mutable reaction announcement state.
+     */
+    function announceAvailability(playing, config, reactionState) {
+        var hint = document.getElementById('videotrack-reactions-hint');
+        if (!hint || !reactionState) {
+            return;
+        }
+        if (playing) {
+            if (reactionState.timer) {
+                window.clearTimeout(reactionState.timer);
+                reactionState.timer = null;
+            }
+            if (Date.now() - reactionState.lastUnavailableAt < reactionState.debounceMs) {
+                return;
+            }
+            if (reactionState.readyAnnounced || reactionState.lastAnnouncement === true) {
+                return;
+            }
+            reactionState.lastAnnouncement = true;
+            reactionState.readyAnnounced = true;
+            hint.textContent = config.reactionsreadylabel;
+            hint.classList.toggle('videotrack-reactions-hint-active', false);
+            return;
+        }
+
+        if (reactionState.timer) {
+            return;
+        }
+        var now = Date.now();
+        if (reactionState.lastAnnouncement === false &&
+                now - reactionState.lastUnavailableAt < reactionState.unavailableInterval) {
+            return;
+        }
+        reactionState.timer = window.setTimeout(function() {
+            reactionState.timer = null;
+            reactionState.lastAnnouncement = false;
+            reactionState.lastUnavailableAt = Date.now();
+            hint.textContent = config.reactionunavailablelabel;
+            hint.classList.toggle('videotrack-reactions-hint-active', true);
+        }, 400);
+    }
+
+    /**
+     * Announce that reactions are unavailable immediately.
+     *
+     * @param {Object} config Player configuration.
+     * @param {Object} reactionState Mutable reaction announcement state.
+     */
+    function announceUnavailable(config, reactionState) {
+        var hint = document.getElementById('videotrack-reactions-hint');
+        if (!hint || !reactionState) {
+            return;
+        }
+        if (reactionState.timer) {
+            window.clearTimeout(reactionState.timer);
+            reactionState.timer = null;
+        }
+        var now = Date.now();
+        if (reactionState.lastAnnouncement === false && now - reactionState.lastUnavailableAt < 1000) {
+            return;
+        }
+        reactionState.lastAnnouncement = false;
+        reactionState.lastUnavailableAt = now;
+        hint.textContent = config.reactionunavailablelabel;
+        hint.classList.add('videotrack-reactions-hint-active');
+        if (reactionState.cssTimer) {
+            window.clearTimeout(reactionState.cssTimer);
+        }
+        reactionState.cssTimer = window.setTimeout(function() {
+            hint.classList.remove('videotrack-reactions-hint-active');
+            reactionState.cssTimer = null;
+        }, 1500);
+    }
+
     return {
-        createState: createState
+        createState: createState,
+        announceAvailability: announceAvailability,
+        announceUnavailable: announceUnavailable
     };
 });
