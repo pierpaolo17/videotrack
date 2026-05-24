@@ -10,9 +10,9 @@ define([
     'mod_videotrack/core/segment',
     'mod_videotrack/core/beacon',
     'mod_videotrack/core/notes',
-    'mod_videotrack/core/reactions'
-], function(Segment, Beacon, Notes, Reactions) {
-    var statusTimer = null;
+    'mod_videotrack/core/reactions',
+    'mod_videotrack/core/status'
+], function(Segment, Beacon, Notes, Reactions, Status) {
     var intervalBarCache = {json: null, duration: null, width: null, height: null};
 
 
@@ -265,67 +265,16 @@ define([
     /**
      * Show an accessible temporary status message in the player shell.
      *
+     * Kept as a backwards-compatible facade while timer ownership and DOM
+     * creation live in core/status.
+     *
      * @param {string} message Message text.
      * @param {boolean} isError Whether the message should be announced as an error.
      * @param {string} dismissLabel Accessible label for the optional dismiss button.
      * @param {number=} timeoutMs Optional auto-dismiss timeout in milliseconds.
      */
     function showStatusMessage(message, isError, dismissLabel, timeoutMs) {
-        var id = 'videotrack-status-msg';
-        var el = document.getElementById(id);
-        if (!el) {
-            el = document.createElement('div');
-            el.id = id;
-            el.className = 'videotrack-status-message alert mt-2 d-flex align-items-start justify-content-between gap-2';
-            el.setAttribute('aria-atomic', 'true');
-            var shell = document.querySelector('.videotrack-player-shell');
-            if (shell) {
-                shell.appendChild(el);
-            }
-        }
-        el.setAttribute('role', isError ? 'alert' : 'status');
-        el.setAttribute('aria-live', isError ? 'assertive' : 'polite');
-        el.setAttribute('aria-relevant', 'additions text');
-        el.removeAttribute('aria-hidden');
-        el.classList.toggle('alert-danger', !!isError);
-        el.classList.toggle('alert-info', !isError);
-        el.textContent = '';
-        var text = document.createElement('span');
-        text.textContent = message || '';
-        el.appendChild(text);
-        if (dismissLabel) {
-            var dismiss = document.createElement('button');
-            dismiss.type = 'button';
-            dismiss.className = 'btn-close ms-2';
-            dismiss.setAttribute('aria-label', dismissLabel);
-            dismiss.addEventListener('click', function() {
-                el.textContent = '';
-                el.removeAttribute('aria-hidden');
-                if (statusTimer) {
-                    window.clearTimeout(statusTimer);
-                    statusTimer = null;
-                }
-            });
-            el.appendChild(dismiss);
-        }
-        if (statusTimer) {
-            window.clearTimeout(statusTimer);
-        }
-        var timeout = Number(timeoutMs);
-        if (!isFinite(timeout) || timeout < 1000) {
-            timeout = isError ? 12000 : 8000;
-        }
-        statusTimer = window.setTimeout(function() {
-            statusTimer = null;
-            if (document.activeElement && el.contains(document.activeElement)) {
-                return;
-            }
-            el.setAttribute('aria-hidden', 'true');
-            window.setTimeout(function() {
-                el.textContent = '';
-                el.removeAttribute('aria-hidden');
-            }, 500);
-        }, timeout);
+        Status.show(message, isError, dismissLabel, timeoutMs);
     }
 
     /**
