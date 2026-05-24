@@ -922,5 +922,15 @@ function xmldb_videotrack_upgrade($oldversion) {
         upgrade_mod_savepoint(true, 2026072500, 'videotrack');
     }
 
+    if ($oldversion < 2026072501) {
+        // Release 1.2.29: JavaScript fetch resilience and AMD build alignment. No schema changes.
+        upgrade_mod_savepoint(true, 2026072501, 'videotrack');
+    }
+
+    if ($oldversion < 2026072502) {
+        // Release 1.2.30: compatibility cleanup before the 1.3 refactor branch. No schema changes.
+        upgrade_mod_savepoint(true, 2026072502, 'videotrack');
+    }
+
     return true;
 }
