@@ -32,6 +32,9 @@ define(['core/log', 'core/notification', 'core/str'], function(Log, Notification
      */
     var attachConfirm = function(selector, fallbackMessage, labels) {
         labels = labels || {};
+        labels.confirm = labels.confirm || 'Confirm';
+        labels.yes = labels.yes || 'Yes';
+        labels.cancel = labels.cancel || 'Cancel';
         document.querySelectorAll(selector).forEach(function(form) {
             form.addEventListener('submit', function(e) {
                 if (form.dataset.confirmed === '1') {
@@ -50,8 +53,9 @@ define(['core/log', 'core/notification', 'core/str'], function(Log, Notification
                         form.dataset.confirmed = '1';
                         form.submit();
                     });
-                }).catch(function() {
-                    return Notification.confirm('Confirm', msg, 'Yes', 'Cancel', function() {
+                }).catch(function(error) {
+                    Log.debug('mod_videotrack/report: could not load confirmation strings - ' + error);
+                    return Notification.confirm(labels.confirm, msg, labels.yes, labels.cancel, function() {
                         form.dataset.confirmed = '1';
                         form.submit();
                     });

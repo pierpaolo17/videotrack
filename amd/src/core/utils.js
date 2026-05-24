@@ -56,6 +56,10 @@ define(['core/log'], function(Log) {
             return Promise.reject(response.status);
         }
         var contentType = (response.headers.get('content-type') || '').toLowerCase();
+        var length = parseInt(response.headers.get('content-length') || '0', 10);
+        if (Number.isFinite(length) && length > 1024 * 1024) {
+            return Promise.reject('response-too-large');
+        }
         if (contentType && contentType.indexOf('text/vtt') === -1 &&
                 contentType.indexOf('text/plain') === -1 &&
                 contentType.indexOf('application/octet-stream') === -1) {
@@ -73,9 +77,11 @@ define(['core/log'], function(Log) {
             if (parsed.origin !== window.location.origin) {
                 return false;
             }
-            return /\.(vtt|txt)(?:$|[?#])/.test(parsed.pathname.toLowerCase()) ||
-                parsed.pathname.indexOf('/pluginfile.php/') !== -1 ||
-                parsed.pathname.indexOf('/webservice/pluginfile.php/') !== -1;
+            var path = parsed.pathname.toLowerCase();
+            var isTextTrack = /\.(vtt|txt)$/.test(path);
+            var isPluginFile = path.indexOf('/pluginfile.php/') !== -1 ||
+                path.indexOf('/webservice/pluginfile.php/') !== -1;
+            return isTextTrack && isPluginFile;
         } catch (e) {
             return false;
         }

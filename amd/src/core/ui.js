@@ -6,17 +6,20 @@
 define([], function() {
 
     /**
-     * Enables or disables reaction buttons and mirrors the state to the native
-     * disabled attribute. The live-region hint still announces availability
-     * changes, while disabled buttons are removed from pointer/keyboard action
-     * paths consistently across browsers.
+     * Enables or disables reaction buttons using one accessible state pattern.
+     *
+     * Reaction controls remain keyboard-focusable when unavailable so the
+     * scoped key/click handlers can announce why the action is blocked. For
+     * that reason this helper uses aria-disabled and CSS only, not the native
+     * disabled attribute.
      *
      * @param {boolean} playing True when reactions are available.
      */
     function setReactionButtons(playing) {
+        var root = document.querySelector('.videotrack-player-shell') || document;
         document.dispatchEvent(new CustomEvent('videotrack:playstate', {detail: {playing: !!playing}}));
-        document.querySelectorAll('.videotrack-reaction-btn').forEach(function(button) {
-            button.disabled = !playing;
+        root.querySelectorAll('.videotrack-reaction-btn').forEach(function(button) {
+            button.removeAttribute('disabled');
             button.setAttribute('aria-disabled', playing ? 'false' : 'true');
             button.classList.toggle('videotrack-reaction-disabled', !playing);
         });
@@ -65,7 +68,10 @@ define([], function() {
         if (parts.length === 0 || parts.length > 4) {
             return false;
         }
-        return parts.every(function(part) {
+        var hasIconName = parts.some(function(part) {
+            return /^fa-[a-z0-9-]+$/.test(part);
+        });
+        return hasIconName && parts.every(function(part) {
             return /^(fa|fas|far|fab|fa-[a-z0-9-]+)$/.test(part);
         });
     }
