@@ -1,12 +1,12 @@
 /* global YT */
 /* eslint-disable jsdoc/require-jsdoc, jsdoc/require-param, jsdoc/check-param-names */
 define([
-    'core/ajax',
     'core/log',
+    'mod_videotrack/core/api',
     'mod_videotrack/core/utils',
     'mod_videotrack/core/ui',
     'mod_videotrack/core/player'
-], function(Ajax, Log, Utils, Ui, PlayerCore) {
+], function(Log, Api, Utils, Ui, PlayerCore) {
     var player = null;
     var config = null;
     var DEFAULT_REACTION_UNAVAILABLE_ANNOUNCE_INTERVAL = 30000;
@@ -107,30 +107,10 @@ define([
         PlayerCore.updateIntervalBar(intervaljson, duration, Log);
     }
 
-    function ajax(methodname, args) {
-        return Ajax.call([{methodname: methodname, args: args}])[0].catch(function() {
-            Log.debug('mod_videotrack: YouTube player event failed');
-            return null;
-        });
-    }
-
     function saveSegment(start, end, reason) {
-        var times = PlayerCore.clampSegmentTimes(start, end, state.duration || config.duration || 0);
-        start = times.start;
-        end = times.end;
-        if (end <= start) {
-            return Promise.resolve(null);
-        }
-        return ajax('mod_videotrack_save_segment', {
-            cmid: config.cmid,
-            sessionid: state.sessionid,
-            videotimestart: Math.round(start * 1000) / 1000,
-            videotimeend: Math.round(end * 1000) / 1000,
-            wallclockstart: state.wallclockstart || Math.floor(Date.now() / 1000),
-            wallclockend: Math.floor(Date.now() / 1000),
-            playbackrate: state.playbackrate || 1,
-            endreason: PlayerCore.normaliseSaveReason(reason),
-            durationseconds: state.duration || 0
+        return Api.saveSegment(config, state, start, end, reason, {
+            swallowFailures: true,
+            errorMessage: 'mod_videotrack: YouTube player event failed'
         }).then(updateProgress);
     }
 
