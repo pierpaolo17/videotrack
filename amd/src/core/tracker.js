@@ -285,6 +285,44 @@ define([], function() {
         return timestamp - last >= normaliseHeartbeatInterval({heartbeatinterval: heartbeatInterval}, 30);
     }
 
+
+    /**
+     * Capture and persist a heartbeat segment when due.
+     *
+     * The concrete player modules provide the current media time and persistence
+     * callback; this helper keeps the heartbeat decision, capture and reason
+     * naming in one place. The current-time provider may return either a number
+     * or a Promise resolving to a number.
+     *
+     * @param {Object} state Mutable player state.
+     * @param {number} heartbeatInterval Heartbeat interval in seconds.
+     * @param {Function} getCurrentTime Current-time provider.
+     * @param {Function} saveSegment Segment persistence callback.
+     * @param {number=} now Optional wallclock timestamp in seconds.
+     * @returns {Promise<boolean>} True when a heartbeat segment was saved.
+     */
+    function saveHeartbeatIfDue(state, heartbeatInterval, getCurrentTime, saveSegment, now) {
+        var timestamp = typeof now === 'number' ? now : Math.floor(Date.now() / 1000);
+
+        if (!shouldSaveHeartbeat(state, heartbeatInterval, timestamp)) {
+            return Promise.resolve(false);
+        }
+
+        if (typeof getCurrentTime !== 'function' || typeof saveSegment !== 'function') {
+            return Promise.resolve(false);
+        }
+
+        return Promise.resolve(getCurrentTime()).then(function(currentTime) {
+            var heartbeat = captureHeartbeatSegment(state, currentTime, timestamp);
+            if (!heartbeat) {
+                return false;
+            }
+            return Promise.resolve(saveSegment(heartbeat.start, heartbeat.end, 'heartbeat')).then(function() {
+                return true;
+            });
+        });
+    }
+
     /**
      * Move the open segment start after a successful heartbeat save.
      *
@@ -316,6 +354,7 @@ define([], function() {
         stopPolling: stopPolling,
         resetHeartbeat: resetHeartbeat,
         shouldSaveHeartbeat: shouldSaveHeartbeat,
+        saveHeartbeatIfDue: saveHeartbeatIfDue,
         reopenAfterHeartbeat: reopenAfterHeartbeat
     };
 });

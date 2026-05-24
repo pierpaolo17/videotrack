@@ -73,15 +73,9 @@ define([
     function startHeartbeat() {
         Tracker.startPolling(state, function() {
             if (!state.playing || state.segmentstart === null) { return; }
-            var now = Math.floor(Date.now() / 1000);
-            if (Tracker.shouldSaveHeartbeat(state, HEARTBEAT_INTERVAL, now)) {
-                player.getCurrentTime().then(function(t) {
-                    var heartbeat = Tracker.captureHeartbeatSegment(state, t, now);
-                    if (heartbeat) {
-                        saveSegment(heartbeat.start, heartbeat.end, 'heartbeat');
-                    }
-                });
-            }
+            Tracker.saveHeartbeatIfDue(state, HEARTBEAT_INTERVAL, function() {
+                return player.getCurrentTime();
+            }, saveSegment).catch(Log.debug);
         }, HEARTBEAT_INTERVAL);
     }
 

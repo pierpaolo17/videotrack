@@ -176,15 +176,9 @@ define([
 
         // Heartbeat: salvataggio periodico del segmento in corso per prevenire
         // perdita di dati in caso di crash del browser o caduta di connessione (sez. 4.3).
-        if (state.playing && state.segmentstart !== null) {
-            var now = Math.floor(Date.now() / 1000);
-            if (Tracker.shouldSaveHeartbeat(state, HEARTBEAT_INTERVAL, now)) {
-                var heartbeat = Tracker.captureHeartbeatSegment(state, player.getCurrentTime(), now);
-                if (heartbeat) {
-                    saveSegment(heartbeat.start, heartbeat.end, 'heartbeat');
-                }
-            }
-        }
+        Tracker.saveHeartbeatIfDue(state, HEARTBEAT_INTERVAL, function() {
+            return player.getCurrentTime();
+        }, saveSegment).catch(Log.debug);
     }
 
     function onPlayerStateChange(event) {
