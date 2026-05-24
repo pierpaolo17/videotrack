@@ -20,8 +20,9 @@ define([
     'mod_videotrack/core/progress',
     'mod_videotrack/core/state',
     'mod_videotrack/core/reactions',
+    'mod_videotrack/core/tracker',
     'mod_videotrack/core/player'
-], function(Log, Ajax, Api, Utils, Ui, Progress, State, Reactions, PlayerCore) {
+], function(Log, Ajax, Api, Utils, Ui, Progress, State, Reactions, Tracker, PlayerCore) {
 
     var player  = null;
     var config  = null;
@@ -57,7 +58,7 @@ define([
         state.playing              = true;
         state.segmentstart         = currentTime;
         state.wallclockstart       = Math.floor(Date.now() / 1000);
-        state.lastHeartbeatWallclock = state.wallclockstart;
+        Tracker.resetHeartbeat(state, state.wallclockstart);
         state.lasttime             = currentTime;
     }
 
@@ -73,26 +74,20 @@ define([
     // ── Heartbeat ─────────────────────────────────────────────────────────
 
     function startHeartbeat() {
-        if (state.heartbeatid) { return; }
-        state.heartbeatid = window.setInterval(function() {
+        Tracker.startPolling(state, function() {
             if (!state.playing || state.segmentstart === null) { return; }
             var now = Math.floor(Date.now() / 1000);
-            if (now - state.lastHeartbeatWallclock >= HEARTBEAT_INTERVAL) {
+            if (Tracker.shouldSaveHeartbeat(state, HEARTBEAT_INTERVAL, now)) {
                 player.getCurrentTime().then(function(t) {
                     saveSegment(state.segmentstart, t, 'heartbeat');
-                    state.segmentstart           = t;
-                    state.wallclockstart         = now;
-                    state.lastHeartbeatWallclock = now;
+                    Tracker.reopenAfterHeartbeat(state, t, now);
                 });
             }
-        }, Math.min(5000, Math.max(2000, HEARTBEAT_INTERVAL * 250)));
+        }, HEARTBEAT_INTERVAL);
     }
 
     function stopHeartbeat() {
-        if (state.heartbeatid) {
-            window.clearInterval(state.heartbeatid);
-            state.heartbeatid = null;
-        }
+        Tracker.stopPolling(state);
     }
 
     // ── Global listeners ──────────────────────────────────────────────────
@@ -639,7 +634,7 @@ define([
             var debounce = parseInt(config.reactionreadydebouncems, 10);
             reactionState.debounceMs = debounce === 0 ? 0 :
                 Math.max(0, Math.min(2000, debounce || DEFAULT_REACTION_READY_DEBOUNCE_MS));
-            HEARTBEAT_INTERVAL = (config.heartbeatinterval > 0) ? config.heartbeatinterval : 30;
+            HEARTBEAT_INTERVAL = Tracker.normaliseHeartbeatInterval(config, 30);
             state.sessionid    = uuid();
             installGlobalListeners();
             installReactionHandler();
