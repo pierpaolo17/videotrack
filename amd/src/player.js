@@ -142,7 +142,7 @@ define([
         if (!state.playing || state.segmentstart === null || !player) {
             return;
         }
-        var end = player.getCurrentTime();
+        var end = getCurrentVideoTime();
         var start = state.segmentstart;
         state.playing = false;
         state.segmentstart = null;
@@ -344,7 +344,7 @@ define([
         // Formato JSON: array di richieste Moodle bulk API (come da /lib/ajax/service.php).
         window.addEventListener('beforeunload', function() {
             if (!state.playing || state.segmentstart === null || !player) { return; }
-            var end   = player.getCurrentTime ? player.getCurrentTime() : state.lasttime;
+            var end = getCurrentVideoTime();
             var start = state.segmentstart;
             var times = PlayerCore.clampSegmentTimes(start, end, state.duration || config.duration || 0);
             start = times.start;
@@ -396,7 +396,7 @@ define([
             }
             if (reactionbtn) {
                 e.preventDefault();
-                var currentTime = player.getCurrentTime();
+                var currentTime = getCurrentVideoTime();
                 // Feedback visivo immediato: disabilita il bottone durante il salvataggio AJAX.
                 reactionbtn.classList.add('videotrack-saving');
                 saveCurrentProgress('reaction').then(function() {
@@ -680,7 +680,18 @@ define([
 
     /** Restituisce il timestamp video corrente per il player YouTube. */
     function getCurrentVideoTime() {
-        return player ? player.getCurrentTime() : (state.lasttime || 0);
+        try {
+            if (player && player.getCurrentTime) {
+                var current = player.getCurrentTime();
+                if (isFinite(current)) {
+                    state.lasttime = current;
+                    return current;
+                }
+            }
+        } catch (e) {
+            Log.debug('mod_videotrack: could not read YouTube current time - ' + e);
+        }
+        return state.lasttime || 0;
     }
 
 

@@ -281,6 +281,8 @@ define([], function() {
         }
         el.setAttribute('role', isError ? 'alert' : 'status');
         el.setAttribute('aria-live', isError ? 'assertive' : 'polite');
+        el.setAttribute('aria-relevant', 'additions text');
+        el.removeAttribute('aria-hidden');
         el.classList.toggle('alert-danger', !!isError);
         el.classList.toggle('alert-info', !isError);
         el.textContent = '';
@@ -294,6 +296,7 @@ define([], function() {
             dismiss.setAttribute('aria-label', dismissLabel);
             dismiss.addEventListener('click', function() {
                 el.textContent = '';
+                el.removeAttribute('aria-hidden');
                 if (statusTimer) {
                     window.clearTimeout(statusTimer);
                     statusTimer = null;

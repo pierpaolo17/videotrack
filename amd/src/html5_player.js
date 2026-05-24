@@ -187,7 +187,10 @@ define([
         window.addEventListener('beforeunload', function() {
             if (!state.playing || state.segmentstart === null || !media) { return; }
             var start = state.segmentstart;
-            var end   = media.currentTime;
+            var end = getCurrentVideoTime();
+            var times = PlayerCore.clampSegmentTimes(start, end, state.duration || config.duration || 0);
+            start = times.start;
+            end = times.end;
             if (end <= start) { return; }
             var now = Math.floor(Date.now() / 1000);
             var beaconUrl = config.beaconurl || '';
@@ -1052,7 +1055,15 @@ define([
 
     /** Restituisce il timestamp video corrente per il player HTML5. */
     function getCurrentVideoTime() {
-        return media ? media.currentTime : (state.lasttime || 0);
+        try {
+            if (media && isFinite(media.currentTime)) {
+                state.lasttime = media.currentTime;
+                return media.currentTime;
+            }
+        } catch (e) {
+            Log.debug('mod_videotrack: could not read HTML5 current time - ' + e);
+        }
+        return state.lasttime || 0;
     }
 
     /** Restituisce true se l'utente ha richiesto animazioni ridotte. */
