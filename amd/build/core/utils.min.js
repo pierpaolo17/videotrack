@@ -57,6 +57,9 @@ define(['core/log'], function(Log) {
         if (!response.ok) {
             return Promise.reject(response.status);
         }
+        if (response.url && !isSafeFetchUrl(response.url)) {
+            return Promise.reject('unexpected-response-url');
+        }
         var contentType = (response.headers.get('content-type') || '').toLowerCase();
         var length = parseInt(response.headers.get('content-length') || '0', 10);
         if (Number.isFinite(length) && length > MAX_TEXT_RESPONSE_BYTES) {
@@ -118,6 +121,8 @@ define(['core/log'], function(Log) {
             return fetch(url, {
                 signal: controller.signal,
                 credentials: 'same-origin',
+                mode: 'same-origin',
+                redirect: 'error',
                 headers: {'X-Requested-With': 'XMLHttpRequest'}
             })
                 .then(function(response) {
@@ -132,6 +137,8 @@ define(['core/log'], function(Log) {
         return Promise.race([
             fetch(url, {
                 credentials: 'same-origin',
+                mode: 'same-origin',
+                redirect: 'error',
                 headers: {'X-Requested-With': 'XMLHttpRequest'}
             }).then(function(response) {
                 return validateTextResponse(response);

@@ -52,7 +52,6 @@ $string['err:minreactionsrequired'] = 'Legen Sie eine Mindestanzahl unterschiedl
 $string['notice:minreactions'] = 'Mindestens {$a} unterschiedliche Reaktionen sind erforderlich.';
 $string['notice:requiredtypes'] = 'Erforderliche Reaktionstypen: {$a}.';
 $string['watch'] = 'Ansehen';
-$string['report'] = 'Berichte';
 $string['reportstudent'] = 'Meine Reaktionen';
 $string['reportteacher'] = 'Lehrendenbericht';
 $string['report:cumulative'] = 'Kumulativ';
@@ -172,7 +171,6 @@ $string['presets:col_name'] = 'Name';
 $string['presets:col_key'] = 'Schlüssel';
 $string['presets:col_reactions'] = 'Reaktionen';
 $string['presets:col_actions'] = 'Aktionen';
-$string['setting:heartbeatinterval_min'] = 'Mindest-Durchsetzungswert: 5 Sekunden.';
 
 $string['reset:userdata'] = 'Alle Schülervisionsdaten löschen (Segmente, Zustände, Reaktionen)';
 $string['report:recalculate'] = 'Alle Abschlusszustände neu berechnen';

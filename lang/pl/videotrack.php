@@ -54,7 +54,6 @@ $string['err:minreactionsrequired'] = 'Ustaw minimalną liczbę różnych reakcj
 $string['notice:minreactions'] = 'Wymagane są co najmniej {$a} różne reakcje.';
 $string['notice:requiredtypes'] = 'Wymagane typy reakcji: {$a}.';
 $string['watch'] = 'Oglądaj';
-$string['report'] = 'Raporty';
 $string['reportstudent'] = 'Moje reakcje';
 $string['reportteacher'] = 'Raport nauczyciela';
 $string['report:cumulative'] = 'Skumulowany';
@@ -172,7 +171,6 @@ $string['presets:col_name'] = 'Nazwa';
 $string['presets:col_key'] = 'Klucz';
 $string['presets:col_reactions'] = 'Reakcje';
 $string['presets:col_actions'] = 'Akcje';
-$string['setting:heartbeatinterval_min'] = 'Minimalna wymuszana wartość: 5 sekund.';
 
 $string['reset:userdata'] = 'Usuń wszystkie dane oglądania studentów (segmenty, stany, reakcje)';
 $string['report:recalculate'] = 'Przelicz raport';

@@ -300,6 +300,15 @@ class provider implements
         }
     }
 
+    /**
+     * Deletes all plugin-owned user data for a module context.
+     *
+     * Context-level erasure also removes plugin file areas via the shared
+     * privacy manager. Moodle core owns gradebook privacy/export/erasure for
+     * grade_grades rows linked to this module.
+     *
+     * @param context $context Moodle context.
+     */
     public static function delete_data_for_all_users_in_context(context $context): void {
         if ($context->contextlevel != CONTEXT_MODULE) {
             return;

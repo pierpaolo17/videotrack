@@ -247,6 +247,7 @@ if ($notice !== '') {
 
 $covered = $state ? (float)$state->uniquecoveredseconds : 0.0;
 $percent = $state ? (float)$state->completionpercent : 0.0;
+$percentattr = (string)round($percent, 1);
 $uniquereactionids = [];
 if (!empty($videotrack->reactionsenabled)) {
     // When the student report rows are complete, reuse them instead of issuing
@@ -333,13 +334,9 @@ echo html_writer::tag('canvas', '', [
 echo html_writer::tag('progress', '', [
     'id' => 'videotrack-interval-progress',
     'class' => 'videotrack-interval-progress',
-    'value' => format_float($percent, 1),
+    'value' => $percentattr,
     'max' => '100',
-    'aria-label' => get_string('intervalbar_title', 'mod_videotrack'),
-    'aria-valuemin' => '0',
-    'aria-valuemax' => '100',
-    'aria-valuenow' => format_float($percent, 1),
-    'aria-valuetext' => format_float($percent, 1) . '%',
+    'aria-hidden' => 'true',
 ]);
 echo html_writer::tag('span',
     get_string('intervalbar_title', 'mod_videotrack') . ' — ' . format_float($percent, 1) . '%',
@@ -544,7 +541,6 @@ if (!empty($videotrack->reactionsenabled) && $reactions) {
             // Keep aria-disabled buttons focusable: keyboard and screen reader users
             // can activate them to receive the explanatory live-region feedback.
             'aria-disabled'         => 'true',
-            'disabled'              => 'disabled',
             'aria-describedby'      => 'videotrack-reactions-hint',
             'aria-label'            => s($reaction->label),
         ]);

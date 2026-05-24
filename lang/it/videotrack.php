@@ -52,7 +52,6 @@ $string['err:minreactionsrequired'] = 'Impostare un numero minimo di reazioni di
 $string['notice:minreactions'] = 'Sono richieste almeno {$a} reazioni distinte.';
 $string['notice:requiredtypes'] = 'Tipi di reazione richiesti: {$a}.';
 $string['watch'] = 'Guarda';
-$string['report'] = 'Report';
 $string['reportstudent'] = 'Le mie reazioni';
 $string['reportteacher'] = 'Report docente';
 $string['report:cumulative'] = 'Cumulativo';
@@ -172,7 +171,6 @@ $string['presets:col_name'] = 'Nome';
 $string['presets:col_key'] = 'Chiave';
 $string['presets:col_reactions'] = 'Reazioni';
 $string['presets:col_actions'] = 'Azioni';
-$string['setting:heartbeatinterval_min'] = 'Valore minimo applicato: 5 secondi.';
 
 $string['reset:userdata'] = 'Elimina tutti i dati di visione degli studenti (segmenti, stati, reazioni)';
 $string['report:recalculate'] = 'Ricalcola tutti gli stati di completamento';
