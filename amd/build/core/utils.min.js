@@ -75,16 +75,22 @@ define(['core/log'], function(Log) {
         if (Number.isFinite(length) && length > MAX_TEXT_RESPONSE_BYTES) {
             return Promise.reject('response-too-large');
         }
-        if (contentType && contentType.indexOf('text/vtt') === -1 &&
-                contentType.indexOf('text/plain') === -1) {
+        if (!/\.vtt$/.test(responsePath)) {
             return Promise.reject('unexpected-content-type');
         }
-        if (contentType.indexOf('text/vtt') !== -1 && !/\.vtt$/.test(responsePath)) {
+        if (contentType && contentType.indexOf('text/vtt') === -1 &&
+                contentType.indexOf('text/plain') === -1 &&
+                contentType.indexOf('application/octet-stream') === -1) {
             return Promise.reject('unexpected-content-type');
         }
         return response.text().then(function(text) {
+            var sample;
             if (text.length > MAX_TEXT_RESPONSE_BYTES) {
                 return Promise.reject('response-too-large');
+            }
+            sample = text.replace(/^\uFEFF/, '').trimStart().substring(0, 64).toUpperCase();
+            if (sample.indexOf('WEBVTT') !== 0) {
+                return Promise.reject('unexpected-text-content');
             }
             return text;
         });
@@ -109,7 +115,7 @@ define(['core/log'], function(Log) {
             if (/(?:^|\/)\.\.(?:\/|$)/.test(path)) {
                 return false;
             }
-            var isTextTrack = /(?:^|\/)[^/?#]+\.(?:vtt|txt)$/.test(path);
+            var isTextTrack = /(?:^|\/)[^/?#]+\.vtt$/.test(path);
             var isPluginFile = path.indexOf('/pluginfile.php/') !== -1 ||
                 path.indexOf('/webservice/pluginfile.php/') !== -1;
             return isTextTrack && isPluginFile;
