@@ -57,6 +57,9 @@ define(['core/log'], function(Log) {
         if (!response.ok) {
             return Promise.reject(response.status);
         }
+        if (response.redirected) {
+            return Promise.reject('redirected-response');
+        }
         if (response.url && !isSafeFetchUrl(response.url)) {
             return Promise.reject('unexpected-response-url');
         }
@@ -83,13 +86,14 @@ define(['core/log'], function(Log) {
             return false;
         }
         var raw = String(url).trim();
-        if (raw === '' || /[\\\r\n]/.test(raw)) {
+        if (raw === '' || raw.length > 2048 || /[\\\r\n]/.test(raw)) {
             return false;
         }
         try {
             var parsed = new URL(raw, window.location.href);
             if (parsed.origin !== window.location.origin ||
-                    (parsed.protocol !== 'http:' && parsed.protocol !== 'https:')) {
+                    (parsed.protocol !== 'http:' && parsed.protocol !== 'https:') ||
+                    parsed.username || parsed.password || parsed.hash) {
                 return false;
             }
             var path = decodeURIComponent(parsed.pathname).toLowerCase();
@@ -107,16 +111,18 @@ define(['core/log'], function(Log) {
             return false;
         }
         var raw = String(url).trim();
-        if (raw === '' || /[\\\r\n]/.test(raw)) {
+        if (raw === '' || raw.length > 2048 || /[\\\r\n]/.test(raw)) {
             return false;
         }
         try {
             var parsed = new URL(raw, window.location.href);
             if (parsed.origin !== window.location.origin ||
-                    (parsed.protocol !== 'http:' && parsed.protocol !== 'https:')) {
+                    (parsed.protocol !== 'http:' && parsed.protocol !== 'https:') ||
+                    parsed.username || parsed.password || parsed.hash) {
                 return false;
             }
-            if (parsed.pathname !== '/lib/ajax/service.php') {
+            var path = decodeURIComponent(parsed.pathname).replace(/\/+/g, '/');
+            if (!/\/lib\/ajax\/service\.php$/.test(path)) {
                 return false;
             }
             return parsed.searchParams.has('sesskey');
