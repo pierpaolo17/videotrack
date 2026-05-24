@@ -87,7 +87,7 @@ define([], function() {
         }
         if (typeof icon === 'string') {
             var legacy = String(icon).trim();
-            if (legacy === '') {
+            if (legacy === '' || legacy.length > 64) {
                 return;
             }
             target.appendChild(document.createTextNode(legacy));
@@ -95,6 +95,9 @@ define([], function() {
         }
 
         var type = String(icon.type || 'emoji');
+        if (['emoji', 'file', 'fa', 'text'].indexOf(type) === -1) {
+            return;
+        }
         if (type === 'file' && isSafeIconSrc(icon.src)) {
             var img = document.createElement('img');
             img.setAttribute('src', String(icon.src));

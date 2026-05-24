@@ -264,7 +264,7 @@ $clusterize = function(iterable $events, int $windowseconds, string $aggregation
         }
         $clusters[] = [
             'reactionid' => $reactionid,
-            'reactionlabel' => $event->reactionlabel,
+            'reactionlabel' => format_string($event->reactionlabel, true, ['context' => $context]),
             'reaction' => $reactionmap[$reactionid] ?? null,
             'anchor' => $time,
             'first' => $time,
@@ -802,7 +802,7 @@ if ($mode === 'student') {
             foreach ($topclusters as $topcluster) {
                 $items[] = get_string('report:topclusteritem', 'mod_videotrack', [
                     'time' => videotrack_format_seconds($topcluster['timestamp']),
-                    'reaction' => $topcluster['reactionlabel'],
+                    'reaction' => s($topcluster['reactionlabel']),
                     'clicks' => (int)$topcluster['count'],
                 ]);
             }

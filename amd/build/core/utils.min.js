@@ -64,8 +64,29 @@ define(['core/log'], function(Log) {
         return response.text();
     }
 
+    function isSafeFetchUrl(url) {
+        if (!url) {
+            return false;
+        }
+        try {
+            var parsed = new URL(String(url), window.location.href);
+            if (parsed.origin !== window.location.origin) {
+                return false;
+            }
+            return /\.(vtt|txt)(?:$|[?#])/.test(parsed.pathname.toLowerCase()) ||
+                parsed.pathname.indexOf('/pluginfile.php/') !== -1 ||
+                parsed.pathname.indexOf('/webservice/pluginfile.php/') !== -1;
+        } catch (e) {
+            return false;
+        }
+    }
+
     function fetchTextWithTimeout(url) {
         var timeout = 10000;
+
+        if (!isSafeFetchUrl(url)) {
+            return Promise.reject('unsafe-url');
+        }
 
         if (window.AbortController) {
             var controller = new AbortController();

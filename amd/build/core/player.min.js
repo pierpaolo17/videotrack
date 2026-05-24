@@ -204,7 +204,7 @@ define([], function() {
         statusTimer = window.setTimeout(function() {
             el.textContent = '';
             statusTimer = null;
-        }, isError ? 10000 : 6000);
+        }, isError ? 12000 : 8000);
     }
 
     /**
@@ -465,9 +465,11 @@ define([], function() {
             });
         });
 
-        document.addEventListener('click', function(e) {
-            var delBtn = e.target.closest('.videotrack-delete-note');
-            if (!delBtn) { return; }
+        var noteList = document.getElementById('videotrack-my-notes');
+        if (noteList) {
+            noteList.addEventListener('click', function(e) {
+                var delBtn = e.target.closest('.videotrack-delete-note');
+                if (!delBtn || !noteList.contains(delBtn)) { return; }
             var noteid = Utils.safeInt(delBtn.dataset.noteid, 0);
             if (!noteid) { return; }
             ajax('mod_videotrack_delete_note', {
@@ -483,8 +485,9 @@ define([], function() {
                         if (next) { next.focus(); } else if (textarea) { textarea.focus(); }
                     }
                 }
-            }).catch(function(err) { Log.debug('mod_videotrack: note deletion failed - ' + err); });
-        });
+                }).catch(function(err) { Log.debug('mod_videotrack: note deletion failed - ' + err); });
+            });
+        }
 
         textarea.addEventListener('input', function() {
             updateNoteCharCounter(textarea, config, Utils);
