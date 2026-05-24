@@ -36,6 +36,8 @@ class save_segment extends external_api {
             int $wallclockend, float $playbackrate, string $endreason, float $durationseconds = 0.0): array {
         global $DB, $USER;
         $params = self::validate_parameters(self::execute_parameters(), compact('cmid', 'sessionid', 'videotimestart', 'videotimeend', 'wallclockstart', 'wallclockend', 'playbackrate', 'endreason', 'durationseconds'));
+        helper::require_ajax_sesskey();
+        $params['cmid'] = helper::validate_positive_id((int)$params['cmid'], 'cmid');
         $params['sessionid'] = helper::validate_session_id($params['sessionid']);
         $params['endreason'] = helper::validate_end_reason($params['endreason']);
         $params['videotimestart'] = helper::validate_bounded_float((float)$params['videotimestart'], 'videotimestart', 0.0, self::MAX_DURATION_SECONDS);

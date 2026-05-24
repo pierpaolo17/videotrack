@@ -25,7 +25,8 @@ define(['core/log', 'core/notification', 'core/str'], function(Log, Notification
         /**
          * Initialise preset delete confirmation forms.
          */
-        init: function() {
+        init: function(config) {
+            config = config || {};
             document.querySelectorAll('.videotrack-delete-preset-form').forEach(function(form) {
                 form.addEventListener('submit', function(e) {
                     if (form.dataset.confirmed === '1') {
@@ -33,7 +34,7 @@ define(['core/log', 'core/notification', 'core/str'], function(Log, Notification
                     }
                     e.preventDefault();
                     var button = form.querySelector('[data-confirm]');
-                    var msg = (button && button.getAttribute('data-confirm')) || 'Delete this preset?';
+                    var msg = (button && button.getAttribute('data-confirm')) || config.confirmdelete;
 
                     Str.get_strings([
                         {key: 'confirm', component: 'moodle'},
@@ -44,8 +45,9 @@ define(['core/log', 'core/notification', 'core/str'], function(Log, Notification
                             form.dataset.confirmed = '1';
                             form.submit();
                         });
-                    }).catch(function() {
-                        return Notification.confirm('Confirm', msg, 'Delete', 'Cancel', function() {
+                    }).catch(function(error) {
+                        Log.debug('mod_videotrack/presets: could not load confirmation strings - ' + error);
+                        return Notification.confirm(config.confirmtitle, msg, config.deletelabel, config.cancellabel, function() {
                             form.dataset.confirmed = '1';
                             form.submit();
                         });

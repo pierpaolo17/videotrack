@@ -916,6 +916,11 @@ if ($mode === 'student') {
 $PAGE->requires->js_call_amd('mod_videotrack/report', 'init', [[
     'confirmreset' => get_string('report:resetstudent_confirm', 'mod_videotrack'),
     'confirmrecalculate' => get_string('report:recalculate', 'mod_videotrack'),
+    'labels' => [
+        'confirm' => get_string('confirm', 'moodle'),
+        'yes' => get_string('yes', 'moodle'),
+        'cancel' => get_string('cancel', 'moodle'),
+    ],
 ]]);
 
 // ── Sezione note studenti (solo nella modalità per-studente, solo se le note sono abilitate) ──
