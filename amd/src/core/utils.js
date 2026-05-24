@@ -98,6 +98,9 @@ define(['core/log'], function(Log) {
                 return false;
             }
             var path = decodeURIComponent(parsed.pathname).toLowerCase();
+            if (/(?:^|\/|\\)\.\.(?:\/|\\|$)/.test(path)) {
+                return false;
+            }
             var isTextTrack = /(?:^|\/)[^/?#]+\.(?:vtt|txt)$/.test(path);
             var isPluginFile = path.indexOf('/pluginfile.php/') !== -1 ||
                 path.indexOf('/webservice/pluginfile.php/') !== -1;
@@ -123,6 +126,9 @@ define(['core/log'], function(Log) {
                 return false;
             }
             var path = decodeURIComponent(parsed.pathname).replace(/\/+/g, '/');
+            if (/(?:^|\/|\\)\.\.(?:\/|\\|$)/.test(path)) {
+                return false;
+            }
             if (!/\/lib\/ajax\/service\.php$/.test(path)) {
                 return false;
             }

@@ -86,10 +86,12 @@ class restore_videotrack_activity_structure_step extends restore_activity_struct
             $data->userid = $mappeduserid;
         }
         // Negative user ids are anonymised aggregate records: preserve them as non-user data.
+        $transaction = null;
         if (!empty($data->reactionid)) {
             $oldreactionid = (int)$data->reactionid;
             $mappedreactionid = $this->get_mappingid('videotrack_react', $oldreactionid);
             if (empty($mappedreactionid)) {
+                $transaction = $DB->start_delegated_transaction();
                 // Very defensive fallback: normally all referenced reactions are backed up.
                 // If a malformed/partial backup omits one, preserve the historical relation
                 // by creating a hidden placeholder instead of storing reactionid = 0.
@@ -115,6 +117,9 @@ class restore_videotrack_activity_structure_step extends restore_activity_struct
             $data->reactionid = $mappedreactionid;
         }
         $DB->insert_record('videotrack_reactev', $data);
+        if ($transaction !== null) {
+            $transaction->allow_commit();
+        }
     }
 
     protected function after_execute() {

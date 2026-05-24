@@ -916,5 +916,11 @@ function xmldb_videotrack_upgrade($oldversion) {
         upgrade_mod_savepoint(true, 2026070900, 'videotrack');
     }
 
+
+    if ($oldversion < 2026072500) {
+        // Release 1.2.25 contains code, accessibility and localisation fixes only.
+        upgrade_mod_savepoint(true, 2026072500, 'videotrack');
+    }
+
     return true;
 }

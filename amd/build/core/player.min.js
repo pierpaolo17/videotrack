@@ -84,9 +84,6 @@ define([], function() {
             start = Math.min(start, max);
             end = Math.min(end, max);
         }
-        if (end < start) {
-            end = start;
-        }
         return {
             start: Math.round(start * 1000) / 1000,
             end: Math.round(end * 1000) / 1000
@@ -206,23 +203,10 @@ define([], function() {
                 status.textContent = text;
             }
             var progress = document.getElementById('videotrack-interval-progress');
-            if (!progress && canvas.parentNode) {
-                progress = document.createElement('progress');
-                progress.id = 'videotrack-interval-progress';
-                progress.className = 'videotrack-interval-progress';
-                progress.max = 100;
-                progress.setAttribute('aria-hidden', 'false');
-                progress.setAttribute('aria-label', baseLabel || 'Progress');
-                progress.setAttribute('aria-live', 'polite');
-                canvas.parentNode.insertBefore(progress, canvas.nextSibling);
-            }
             if (progress) {
                 progress.max = 100;
                 progress.value = pct;
                 progress.textContent = pct + '%';
-                progress.setAttribute('aria-valuemin', '0');
-                progress.setAttribute('aria-valuemax', '100');
-                progress.setAttribute('aria-valuenow', String(pct));
                 progress.setAttribute('aria-valuetext', pct + '%');
             }
         } catch (e) {
@@ -329,7 +313,11 @@ define([], function() {
             if (document.activeElement && el.contains(document.activeElement)) {
                 return;
             }
-            el.textContent = '';
+            el.setAttribute('aria-hidden', 'true');
+            window.setTimeout(function() {
+                el.textContent = '';
+                el.removeAttribute('aria-hidden');
+            }, 500);
         }, timeout);
     }
 

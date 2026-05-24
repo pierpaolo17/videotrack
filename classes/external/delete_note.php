@@ -51,8 +51,8 @@ class delete_note extends external_api {
         $params = self::validate_parameters(self::execute_parameters(), compact('cmid', 'reactioneventid'));
         $params['cmid'] = helper::validate_positive_id((int)$params['cmid'], 'cmid');
         $params['reactioneventid'] = helper::validate_positive_id((int)$params['reactioneventid'], 'reactioneventid');
-        helper::require_ajax_sesskey();
         $loaded = helper::load_and_validate_context((int)$params['cmid']);
+        helper::require_ajax_sesskey();
         $videotrack = $loaded['videotrack'];
         $context = $loaded['context'];
 
