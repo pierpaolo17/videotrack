@@ -6,7 +6,7 @@
  *
  * @module mod_videotrack/core/player
  */
-define(['mod_videotrack/core/segment'], function(Segment) {
+define(['mod_videotrack/core/segment', 'mod_videotrack/core/beacon'], function(Segment, Beacon) {
     var statusTimer = null;
     var intervalBarCache = {json: null, duration: null, width: null, height: null};
 
@@ -199,54 +199,19 @@ define(['mod_videotrack/core/segment'], function(Segment) {
     /**
      * Persist the currently open segment with sendBeacon during page unload.
      *
+     * Kept as a backwards-compatible facade for concrete player modules while
+     * the implementation lives in core/beacon.
+     *
      * @param {Object} config Player configuration.
      * @param {Object} state Mutable player state.
-     * @param {number} start Segment start candidate.
-     * @param {number} end Segment end candidate.
+     * @param {*} start Segment start candidate.
+     * @param {*} end Segment end candidate.
      * @param {Object} Utils Shared utility module.
      * @param {Object} Log Moodle log module.
      * @returns {boolean} True when the beacon was queued.
      */
     function sendBeaconSegment(config, state, start, end, Utils, Log) {
-        var times;
-        var url;
-        var now;
-        var payload;
-
-        if (!config || !state || !navigator.sendBeacon) {
-            return false;
-        }
-        url = config.beaconurl || '';
-        if (!url || !Utils || typeof Utils.isSafeBeaconUrl !== 'function' || !Utils.isSafeBeaconUrl(url)) {
-            return false;
-        }
-        times = Segment.clampSegmentTimes(start, end, state.duration || config.duration || 0);
-        if (times.end <= times.start) {
-            return false;
-        }
-        now = Math.floor(Date.now() / 1000);
-        payload = JSON.stringify([{
-            methodname: 'mod_videotrack_save_segment',
-            args: {
-                cmid: config.cmid,
-                sessionid: state.sessionid,
-                videotimestart: times.start,
-                videotimeend: times.end,
-                wallclockstart: state.wallclockstart || now,
-                wallclockend: now,
-                playbackrate: state.playbackrate || 1,
-                endreason: 'beforeunload',
-                durationseconds: state.duration || config.duration || 0
-            }
-        }]);
-        try {
-            return navigator.sendBeacon(url, new Blob([payload], {type: 'application/json'}));
-        } catch (error) {
-            if (Log && Log.debug) {
-                Log.debug('mod_videotrack: sendBeacon failed - ' + error);
-            }
-            return false;
-        }
+        return Beacon.sendSegment(config, state, start, end, Utils, Log);
     }
 
 
