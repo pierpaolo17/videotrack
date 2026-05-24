@@ -133,6 +133,10 @@ $playerconfig = [
     'removelabel'            => get_string('removereaction',     'mod_videotrack'),
     'removenotelabel'        => get_string('removenotelabel',    'mod_videotrack'),
     'noteerrorlabel'         => get_string('noteerrorlabel',    'mod_videotrack'),
+    'notesavedlabel'         => get_string('notesavedlabel',    'mod_videotrack'),
+    'notedeletedlabel'       => get_string('notedeletedlabel',  'mod_videotrack'),
+    'noteplaybackrequiredlabel' => get_string('noteplaybackrequiredlabel', 'mod_videotrack'),
+    'notesmaxrendered'       => 200,
     'charsremaininglabel'    => get_string('charsremaininglabel', 'mod_videotrack'),
     'notemaxlength'          => $notemaxlength,
     'dismisslabel'           => get_string('dismisslabel',       'mod_videotrack'),
@@ -418,6 +422,7 @@ if (!empty($videotrack->studentnotesenabled)) {
             'id'           => 'videotrack-note-save',
             'class'        => 'btn btn-sm btn-primary videotrack-note-save',
             'aria-disabled'=> 'true',  // Abilitato solo durante play, gestito da JS.
+            'aria-describedby' => 'videotrack-note-hint videotrack-note-charcount',
         ]
     );
     // Contatore caratteri rimanenti — aggiornato in tempo reale da JS.
