@@ -204,9 +204,21 @@ define([], function() {
                 status.textContent = text;
             }
             var progress = document.getElementById('videotrack-interval-progress');
+            if (!progress && canvas.parentNode) {
+                progress = document.createElement('progress');
+                progress.id = 'videotrack-interval-progress';
+                progress.className = 'videotrack-interval-progress';
+                progress.max = 100;
+                progress.setAttribute('aria-hidden', 'false');
+                progress.setAttribute('aria-label', baseLabel || 'Progress');
+                canvas.parentNode.insertBefore(progress, canvas.nextSibling);
+            }
             if (progress) {
+                progress.max = 100;
                 progress.value = pct;
                 progress.textContent = pct + '%';
+                progress.setAttribute('aria-valuemin', '0');
+                progress.setAttribute('aria-valuemax', '100');
                 progress.setAttribute('aria-valuenow', String(pct));
                 progress.setAttribute('aria-valuetext', pct + '%');
             }
