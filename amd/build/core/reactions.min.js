@@ -106,8 +106,29 @@ define([], function() {
         }, 1500);
     }
 
+
+    /**
+     * Apply the shared reaction button state and announce availability in one call.
+     *
+     * Concrete player modules still decide when playback is active, but this
+     * helper keeps the DOM state and live-region announcement coupled so they
+     * cannot drift between YouTube, HTML5 and Vimeo implementations.
+     *
+     * @param {boolean} playing Whether reaction controls should be available.
+     * @param {Object} config Player configuration.
+     * @param {Object} reactionState Mutable reaction announcement state.
+     * @param {Object} Ui Shared UI helper module.
+     */
+    function setButtons(playing, config, reactionState, Ui) {
+        if (Ui && typeof Ui.setReactionButtons === 'function') {
+            Ui.setReactionButtons(playing);
+        }
+        announceAvailability(playing, config || {}, reactionState);
+    }
+
     return {
         createState: createState,
+        setButtons: setButtons,
         announceAvailability: announceAvailability,
         announceUnavailable: announceUnavailable
     };

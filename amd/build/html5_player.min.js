@@ -641,14 +641,9 @@ define([
      * @param {boolean} playing  True = enable buttons; false = disable them.
      */
     function setReactionButtons(playing) {
-        Ui.setReactionButtons(playing);
-        announceReactionAvailability(playing);
+        Reactions.setButtons(playing, config, reactionState, Ui);
     }
 
-
-    function announceReactionAvailability(playing) {
-        PlayerCore.announceReactionAvailability(playing, config, reactionState);
-    }
 
     function announceReactionUnavailable() {
         PlayerCore.announceReactionUnavailable(config, reactionState);

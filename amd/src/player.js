@@ -107,15 +107,9 @@ define([
     }
 
     function setReactionButtons(playing) {
-        // Emette evento custom per sincronizzare il bottone note senza riassegnare la funzione.
-        Ui.setReactionButtons(playing);
-        announceReactionAvailability(playing);
+        Reactions.setButtons(playing, config, reactionState, Ui);
     }
 
-
-    function announceReactionAvailability(playing) {
-        PlayerCore.announceReactionAvailability(playing, config, reactionState);
-    }
 
     function announceReactionUnavailable() {
         PlayerCore.announceReactionUnavailable(config, reactionState);
