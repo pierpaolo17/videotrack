@@ -341,6 +341,7 @@ echo html_writer::tag('progress', format_float($percent, 1) . '%', [
     'value' => $percentattr,
     'max' => '100',
     'aria-label' => get_string('intervalbar_title', 'mod_videotrack'),
+    'aria-hidden' => 'true',
 ]);
 echo html_writer::tag('span',
     get_string('intervalbar_title', 'mod_videotrack') . ' — ' . format_float($percent, 1) . '%',
@@ -422,7 +423,7 @@ if (!empty($videotrack->studentnotesenabled)) {
             'id'           => 'videotrack-note-save',
             'class'        => 'btn btn-sm btn-primary videotrack-note-save',
             'aria-disabled'=> 'true',  // Abilitato solo durante play, gestito da JS.
-            'aria-describedby' => 'videotrack-note-hint videotrack-note-charcount',
+            'aria-describedby' => 'videotrack-note-hint',
         ]
     );
     // Contatore caratteri rimanenti — aggiornato in tempo reale da JS.
