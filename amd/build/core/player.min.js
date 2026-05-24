@@ -6,7 +6,11 @@
  *
  * @module mod_videotrack/core/player
  */
-define(['mod_videotrack/core/segment', 'mod_videotrack/core/beacon'], function(Segment, Beacon) {
+define([
+    'mod_videotrack/core/segment',
+    'mod_videotrack/core/beacon',
+    'mod_videotrack/core/notes'
+], function(Segment, Beacon, Notes) {
     var statusTimer = null;
     var intervalBarCache = {json: null, duration: null, width: null, height: null};
 
@@ -332,16 +336,7 @@ define(['mod_videotrack/core/segment', 'mod_videotrack/core/beacon'], function(S
      * @returns {number} Remaining characters.
      */
     function updateNoteCharCounter(textarea, config, Utils) {
-        if (!textarea) {
-            return 0;
-        }
-        var remaining = getRemainingNoteChars(textarea, config, Utils);
-        var panel = textarea.closest('.videotrack-notes-panel');
-        var hint = panel ? panel.querySelector('.videotrack-note-charcount') : null;
-        if (hint) {
-            hint.textContent = remaining + ' ' + config.charsremaininglabel;
-        }
-        return remaining;
+        return Notes.updateCharCounter(textarea, config, Utils);
     }
 
     /**
@@ -351,14 +346,7 @@ define(['mod_videotrack/core/segment', 'mod_videotrack/core/beacon'], function(S
      * @param {boolean} playing Whether playback is active.
      */
     function setNoteButtonState(saveBtn, playing) {
-        if (!saveBtn) {
-            return;
-        }
-        // Keep the control focusable for keyboard and screen-reader users; the
-        // click handler enforces aria-disabled and provides contextual feedback.
-        saveBtn.disabled = false;
-        saveBtn.setAttribute('aria-disabled', playing ? 'false' : 'true');
-        saveBtn.classList.toggle('videotrack-note-save-disabled', !playing);
+        Notes.setButtonState(saveBtn, playing);
     }
 
     /**
@@ -465,38 +453,7 @@ define(['mod_videotrack/core/segment', 'mod_videotrack/core/beacon'], function(S
      * @param {Object} Utils Utility module.
      */
     function appendNoteRow(noteid, videotime, text, config, Utils) {
-        var list = document.getElementById('videotrack-notes-list');
-        if (!list) {
-            return;
-        }
-        var li = document.createElement('li');
-        li.className = 'videotrack-note-item';
-        li.dataset.noteid = noteid;
-
-        var timeSpan = document.createElement('span');
-        timeSpan.className = 'videotrack-note-time text-muted me-1 small';
-        timeSpan.textContent = Utils.formatSeconds(videotime);
-        li.appendChild(timeSpan);
-
-        var textSpan = document.createElement('span');
-        textSpan.className = 'videotrack-note-text';
-        textSpan.textContent = text;
-        li.appendChild(textSpan);
-
-        var delBtn = document.createElement('button');
-        delBtn.type = 'button';
-        delBtn.className = 'btn btn-link btn-sm videotrack-delete-note ms-1';
-        delBtn.dataset.noteid = noteid;
-        delBtn.textContent = config.removenotelabel;
-        delBtn.setAttribute('aria-label', (config.removenotelabel || '') + ' — ' + Utils.formatSeconds(videotime));
-        li.appendChild(delBtn);
-
-        list.appendChild(li);
-
-        var maxRenderedNotes = Utils.safeInt(config.notesmaxrendered, 200);
-        while (list.children.length > maxRenderedNotes) {
-            list.removeChild(list.firstElementChild);
-        }
+        Notes.appendRow(noteid, videotime, text, config, Utils);
     }
 
     /**
@@ -508,11 +465,7 @@ define(['mod_videotrack/core/segment', 'mod_videotrack/core/beacon'], function(S
      * @returns {number} Remaining characters.
      */
     function getRemainingNoteChars(textarea, config, Utils) {
-        var maxLength = parseInt(textarea.getAttribute('maxlength'), 10);
-        if (!isFinite(maxLength) || maxLength <= 0) {
-            maxLength = Utils.safeInt(config.notemaxlength, 2000);
-        }
-        return Math.max(0, maxLength - textarea.value.length);
+        return Notes.getRemainingChars(textarea, config, Utils);
     }
 
 
@@ -529,121 +482,8 @@ define(['mod_videotrack/core/segment', 'mod_videotrack/core/beacon'], function(S
      * @param {Function} deps.saveCurrentProgress Progress persistence callback.
      */
     function installNoteHandler(deps) {
-        var Ajax = deps.Ajax;
-        var Log = deps.Log;
-        var Utils = deps.Utils;
-        var config = deps.config;
-        var state = deps.state;
-        var getCurrentVideoTime = deps.getCurrentVideoTime;
-        var saveCurrentProgress = deps.saveCurrentProgress;
-
-        if (!config.studentnotesenabled) { return; }
-
-        var saveBtn = document.getElementById('videotrack-note-save');
-        var textarea = document.getElementById('videotrack-note-input');
-        var savingNote = false;
-        if (!saveBtn || !textarea) { return; }
-
-        function ajax(methodname, args) {
-            return Ajax.call([{ methodname: methodname, args: args }])[0];
-        }
-
-        function setLocalNoteButtonState(playing) {
-            setNoteButtonState(saveBtn, playing);
-        }
-
-        document.addEventListener('videotrack:playstate', function(e) {
-            setLocalNoteButtonState(e.detail && e.detail.playing);
-        });
-
-        saveBtn.addEventListener('click', function() {
-            if (savingNote || saveBtn.getAttribute('aria-disabled') === 'true') {
-                if (!state.playing) {
-                    showStatusMessage(config.noteplaybackrequiredlabel || config.reactionunavailablelabel, false, config.dismisslabel);
-                }
-                return;
-            }
-            var maxLength = Utils.safeInt(config.notemaxlength, 2000);
-            var text = textarea.value.trim();
-            if (maxLength > 0 && text.length > maxLength) {
-                text = text.substring(0, maxLength);
-                textarea.value = text;
-                updateNoteCharCounter(textarea, config, Utils);
-            }
-            if (!text) {
-                textarea.focus();
-                return;
-            }
-            var currentTime = getCurrentVideoTime();
-            savingNote = true;
-            saveBtn.setAttribute('aria-disabled', 'true');
-            saveBtn.setAttribute('aria-busy', 'true');
-            saveBtn.classList.add('videotrack-note-save-saving');
-            saveCurrentProgress('note').then(function() {
-                return ajax('mod_videotrack_save_note', {
-                    cmid:         config.cmid,
-                    sessionid:    state.sessionid,
-                    videotime:    currentTime,
-                    notetext:     text,
-                    playbackrate: state.playbackrate || 1,
-                });
-            }).then(function(response) {
-                savingNote = false;
-                saveBtn.removeAttribute('aria-busy');
-                saveBtn.classList.remove('videotrack-note-save-saving');
-                setLocalNoteButtonState(state.playing);
-                if (response && response.noteeventid) {
-                    appendNoteRow(response.noteeventid, currentTime, text, config, Utils);
-                    textarea.value = '';
-                    updateNoteCharCounter(textarea, config, Utils);
-                    textarea.focus();
-                    if (config.notesavedlabel) {
-                        showStatusMessage(config.notesavedlabel, false, config.dismisslabel);
-                    }
-                }
-            }).catch(function(error) {
-                savingNote = false;
-                saveBtn.removeAttribute('aria-busy');
-                saveBtn.classList.remove('videotrack-note-save-saving');
-                setLocalNoteButtonState(state.playing);
-                var message = (error && error.message) ? error.message : config.noteerrorlabel;
-                showStatusMessage(message, true, config.dismisslabel);
-            });
-        });
-
-        var noteList = document.getElementById('videotrack-my-notes');
-        if (noteList) {
-            noteList.addEventListener('click', function(e) {
-                var delBtn = e.target.closest('.videotrack-delete-note');
-                if (!delBtn || !noteList.contains(delBtn)) { return; }
-            var noteid = Utils.safeInt(delBtn.dataset.noteid, 0);
-            if (!noteid) { return; }
-            ajax('mod_videotrack_delete_note', {
-                cmid:           config.cmid,
-                reactioneventid: noteid,
-            }).then(function(response) {
-                if (response && response.deleted) {
-                    var li = delBtn.closest('li');
-                    if (li) {
-                        var list = li.parentElement;
-                        li.remove();
-                        var next = list ? list.querySelector('.videotrack-note-item button') : null;
-                        if (next) { next.focus(); } else if (textarea) { textarea.focus(); }
-                        if (config.notedeletedlabel) {
-                            showStatusMessage(config.notedeletedlabel, false, config.dismisslabel);
-                        }
-                    }
-                }
-                }).catch(function(err) {
-                    Log.debug('mod_videotrack: note deletion failed - ' + err);
-                    showStatusMessage(config.noteerrorlabel, true, config.dismisslabel);
-                });
-            });
-        }
-
-        textarea.addEventListener('input', function() {
-            updateNoteCharCounter(textarea, config, Utils);
-        });
+        deps.showStatusMessage = showStatusMessage;
+        Notes.installHandler(deps);
     }
 
     /**
