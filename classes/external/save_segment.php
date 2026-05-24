@@ -36,7 +36,6 @@ class save_segment extends external_api {
             int $wallclockend, float $playbackrate, string $endreason, float $durationseconds = 0.0): array {
         global $DB, $USER;
         $params = self::validate_parameters(self::execute_parameters(), compact('cmid', 'sessionid', 'videotimestart', 'videotimeend', 'wallclockstart', 'wallclockend', 'playbackrate', 'endreason', 'durationseconds'));
-        helper::require_ajax_sesskey();
         $params['cmid'] = helper::validate_positive_id((int)$params['cmid'], 'cmid');
         $params['sessionid'] = helper::validate_session_id($params['sessionid']);
         $params['endreason'] = helper::validate_end_reason($params['endreason']);
@@ -45,6 +44,7 @@ class save_segment extends external_api {
         $params['playbackrate'] = helper::validate_bounded_float((float)$params['playbackrate'], 'playbackrate', 0.25, 4.0);
         $params['durationseconds'] = helper::validate_bounded_float((float)$params['durationseconds'], 'durationseconds', 0.0, self::MAX_DURATION_SECONDS);
         $loaded = helper::load_and_validate_context((int)$params['cmid']);
+        helper::require_ajax_sesskey();
         $course = $loaded['course'];
         $videotrack = $loaded['videotrack'];
         $cm = $loaded['cm'];
@@ -79,7 +79,8 @@ class save_segment extends external_api {
         // si basa solo sul tempo server trascorso dall'ultimo segmento della stessa
         // sessione e sull'heartbeat configurato.
         $videoduration = $interval[1] - $interval[0];
-        $playbackrate  = max(0.25, min(4.0, (float)$params['playbackrate']));
+        // playbackrate is already bounded by helper::validate_bounded_float().
+        $playbackrate  = (float)$params['playbackrate'];
         $heartbeat = \videotrack_get_config_int('heartbeatinterval', 30, 5, 300);
         $lasttimecreated = $DB->get_field_sql(
             "SELECT MAX(timecreated)

@@ -52,7 +52,6 @@ $string['err:minreactionsrequired'] = 'Set a minimum number of distinct reaction
 $string['notice:minreactions'] = 'At least {$a} distinct reactions are required.';
 $string['notice:requiredtypes'] = 'Required reaction types: {$a}.';
 $string['watch'] = 'Watch';
-$string['report'] = 'Reports';
 $string['reportstudent'] = 'My reactions';
 $string['reportteacher'] = 'Teacher report';
 $string['report:cumulative'] = 'Cumulative';
@@ -173,7 +172,6 @@ $string['presets:col_name'] = 'Name';
 $string['presets:col_key'] = 'Key';
 $string['presets:col_reactions'] = 'Reactions';
 $string['presets:col_actions'] = 'Actions';
-$string['setting:heartbeatinterval_min'] = 'Minimum enforced value: 5 seconds.';
 
 $string['reset:userdata'] = 'Delete all student viewing data (segments, states, reactions)';
 $string['report:recalculate'] = 'Recalculate all completion states';

@@ -271,6 +271,10 @@
 
 @media (prefers-color-scheme: dark) {
 
+    .videotrack-interval-bar-status {
+        color: var(--gray-400, #ced4da);
+    }
+
     .videotrack-reaction-btn:focus,
     .videotrack-skip-btn:focus,
     .videotrack-ctrl-play:focus,
@@ -820,17 +824,23 @@
 
 
 .videotrack-interval-progress {
-    display: block;
+    display: none;
     width: 100%;
     height: 0.8rem;
     margin-top: 0.25rem;
+}
+
+@media (forced-colors: active) {
+    .videotrack-interval-progress {
+        display: block;
+    }
 }
 
 .videotrack-interval-bar-status {
     display: block;
     margin-top: 0.25rem;
     font-size: 0.875rem;
-    color: #495057;
+    color: var(--gray-600, #6c757d);
 }
 
 .videotrack-status-message:empty {

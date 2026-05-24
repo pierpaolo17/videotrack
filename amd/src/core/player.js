@@ -27,7 +27,11 @@ define([], function() {
                 return ('0' + byte.toString(16)).slice(-2);
             }).join('');
         }
-        return 'sess' + Date.now().toString(36) + Math.random().toString(36).substring(2, 22);
+        var entropy = '';
+        while (entropy.length < 16) {
+            entropy += Math.random().toString(36).substring(2);
+        }
+        return 'sess' + Date.now().toString(36) + entropy.substring(0, 24);
     }
 
     /**

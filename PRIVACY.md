@@ -30,3 +30,17 @@ When the page is closed, the player may use `navigator.sendBeacon()` to submit t
 Il modulo usa `sessionStorage` solo per stato temporaneo del player nel browser; i valori sono limitati alla sessione della scheda/browser e non sono condivisi tra dispositivi. Il fallback `sendBeacon` puo inviare l'ultimo segmento di visione durante la chiusura della pagina per evitare perdita di progresso. Gli URL opzionali di sottotitoli/transcript caricati via JavaScript sono accettati solo da origini locali Moodle/pluginfile.
 
 Le esportazioni CSV dei report possono contenere dati personali degli studenti e devono essere usate solo da utenti con capability di reportistica nel rispetto dell'informativa locale e delle policy di conservazione dell'istituzione.
+
+
+## Uploaded files and gradebook records
+
+Teacher-managed files such as uploaded videos, poster images, subtitles and
+reaction icons are activity content rather than per-student tracking records.
+They are therefore not included in a single student's Subject Access Request
+export and are not deleted by single-user erasure. They are deleted when Moodle
+processes context-level erasure for the activity.
+
+Gradebook rows for this activity are stored in Moodle core gradebook tables.
+VideoTrack updates and deletes its grade item as part of activity lifecycle
+operations, but privacy export and erasure for individual gradebook records are
+handled by Moodle core's Privacy API provider.

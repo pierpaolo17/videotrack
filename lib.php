@@ -895,12 +895,14 @@ function videotrack_delete_instance($id) {
         return false;
     }
 
-    // Remove the gradebook item before deleting the activity record. This keeps
-    // the module instance available while gradebook callbacks resolve metadata.
-    videotrack_grade_item_delete($videotrack);
-
     $transaction = $DB->start_delegated_transaction();
     try {
+        // Remove the gradebook item while the activity record still exists, so
+        // gradebook callbacks can resolve module metadata. Keeping this inside
+        // the delegated transaction also prevents deleting the module record if
+        // gradebook cleanup throws an exception.
+        videotrack_grade_item_delete($videotrack);
+
         $DB->delete_records('videotrack_seg',     ['videotrackid' => $videotrack->id]);
         $DB->delete_records('videotrack_state',   ['videotrackid' => $videotrack->id]);
         $DB->delete_records('videotrack_reactev', ['videotrackid' => $videotrack->id]);

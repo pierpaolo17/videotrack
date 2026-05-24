@@ -223,8 +223,11 @@ function videotrack_render_reaction_icon(stdClass $reaction, ?\context_module $c
     $label = s($reaction->label ?? '');
     $iconhtml = '';
     if (($reaction->icontype ?? 'emoji') === 'fa' && !empty($reaction->iconvalue)) {
+        // Class names are validated when saved, but sanitise again before output
+        // because reports may render older rows created before that validation.
+        $classes = preg_replace('/[^a-zA-Z0-9_\-\s]/', '', trim((string)$reaction->iconvalue));
         $iconhtml = html_writer::tag('i', '', [
-            'class' => trim((string)$reaction->iconvalue),
+            'class' => s($classes),
             'aria-hidden' => 'true',
         ]);
     } else if (($reaction->icontype ?? 'emoji') === 'file' && $context) {

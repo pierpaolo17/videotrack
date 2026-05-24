@@ -52,7 +52,6 @@ $string['err:minreactionsrequired'] = 'भिन्न प्रतिक्र�
 $string['notice:minreactions'] = 'कम से कम {$a} भिन्न प्रतिक्रियाएँ आवश्यक हैं।';
 $string['notice:requiredtypes'] = 'आवश्यक प्रतिक्रिया प्रकार: {$a}।';
 $string['watch'] = 'देखें';
-$string['report'] = 'रिपोर्ट';
 $string['reportstudent'] = 'मेरी प्रतिक्रियाएँ';
 $string['reportteacher'] = 'शिक्षक रिपोर्ट';
 $string['report:cumulative'] = 'संचयी';
@@ -172,7 +171,6 @@ $string['presets:col_name'] = 'नाम';
 $string['presets:col_key'] = 'कुंजी';
 $string['presets:col_reactions'] = 'प्रतिक्रियाएं';
 $string['presets:col_actions'] = 'क्रियाएं';
-$string['setting:heartbeatinterval_min'] = 'न्यूनतम लागू मान: 5 सेकंड।';
 
 $string['reset:userdata'] = 'सभी छात्र दृश्य डेटा हटाएं (सेगमेंट, स्थिति, प्रतिक्रियाएं)';
 $string['report:recalculate'] = 'सभी पूर्णता स्थितियों की पुनर्गणना करें';
@@ -471,4 +469,4 @@ $string['report:anonymiseduser'] = 'अनाम उपयोगकर्ता'
 $string['report:exportnotes_privacywarning'] = 'इस निर्यात में विद्यार्थियों के नोट से व्यक्तिगत डेटा हो सकता है। इसे केवल वैध उद्देश्य होने पर डाउनलोड और संग्रहीत करें और आवश्यकता समाप्त होने पर हटा दें।';
 
 $string['privacy:videoid_export_note'] = 'Video/content identifier: {$a}';
-$string['privacy:anonymisedreaction'] = 'Anonymised reaction';
+$string['privacy:anonymisedreaction'] = 'अनामित प्रतिक्रिया';
