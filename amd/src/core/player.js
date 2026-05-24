@@ -311,7 +311,9 @@ define([], function() {
         if (!saveBtn) {
             return;
         }
-        saveBtn.disabled = !playing;
+        // Keep the control focusable for keyboard and screen-reader users; the
+        // click handler enforces aria-disabled and provides contextual feedback.
+        saveBtn.disabled = false;
         saveBtn.setAttribute('aria-disabled', playing ? 'false' : 'true');
         saveBtn.classList.toggle('videotrack-note-save-disabled', !playing);
     }
@@ -490,6 +492,7 @@ define([], function() {
 
         var saveBtn = document.getElementById('videotrack-note-save');
         var textarea = document.getElementById('videotrack-note-input');
+        var savingNote = false;
         if (!saveBtn || !textarea) { return; }
 
         function ajax(methodname, args) {
@@ -505,14 +508,27 @@ define([], function() {
         });
 
         saveBtn.addEventListener('click', function() {
-            if (saveBtn.getAttribute('aria-disabled') === 'true') { return; }
+            if (savingNote || saveBtn.getAttribute('aria-disabled') === 'true') {
+                if (!state.playing) {
+                    showStatusMessage(config.noteplaybackrequiredlabel || config.reactionunavailablelabel, false, config.dismisslabel);
+                }
+                return;
+            }
+            var maxLength = Utils.safeInt(config.notemaxlength, 2000);
             var text = textarea.value.trim();
+            if (maxLength > 0 && text.length > maxLength) {
+                text = text.substring(0, maxLength);
+                textarea.value = text;
+                updateNoteCharCounter(textarea, config, Utils);
+            }
             if (!text) {
                 textarea.focus();
                 return;
             }
             var currentTime = getCurrentVideoTime();
+            savingNote = true;
             saveBtn.setAttribute('aria-disabled', 'true');
+            saveBtn.setAttribute('aria-busy', 'true');
             saveBtn.classList.add('videotrack-note-save-saving');
             saveCurrentProgress('note').then(function() {
                 return ajax('mod_videotrack_save_note', {
@@ -523,6 +539,8 @@ define([], function() {
                     playbackrate: state.playbackrate || 1,
                 });
             }).then(function(response) {
+                savingNote = false;
+                saveBtn.removeAttribute('aria-busy');
                 saveBtn.classList.remove('videotrack-note-save-saving');
                 setLocalNoteButtonState(state.playing);
                 if (response && response.noteeventid) {
@@ -532,6 +550,8 @@ define([], function() {
                     textarea.focus();
                 }
             }).catch(function() {
+                savingNote = false;
+                saveBtn.removeAttribute('aria-busy');
                 saveBtn.classList.remove('videotrack-note-save-saving');
                 setLocalNoteButtonState(state.playing);
                 showStatusMessage(config.noteerrorlabel, true, config.dismisslabel);

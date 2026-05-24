@@ -44,3 +44,16 @@ Gradebook rows for this activity are stored in Moodle core gradebook tables.
 VideoTrack updates and deletes its grade item as part of activity lifecycle
 operations, but privacy export and erasure for individual gradebook records are
 handled by Moodle core's Privacy API provider.
+
+
+## Version 1.2.21 clarification
+
+The browser `sessionStorage` value used to remember whether the personal-notes
+panel is collapsed is a UI preference scoped to the current course module. It is
+not sent to the server and is not used to identify a person across activities or
+browser sessions.
+
+When configuring a retention period of `0` days, site administrators should treat
+it as an explicit request to remove/anonymise eligible tracking data immediately
+when the scheduled cleanup task runs. This can reduce auditability and should be
+aligned with the institution's retention policy before enabling it in production.
