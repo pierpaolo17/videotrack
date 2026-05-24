@@ -417,7 +417,7 @@ define([
                     // Usa il messaggio del server se disponibile (es. 'Il video deve essere in riproduzione').
                     var msg = (err && err.message) ? err.message :
                         (config.reactionerrorlabel);
-                    PlayerCore.showStatusMessage(msg, true);
+                    PlayerCore.showStatusMessage(msg, true, config.dismisslabel);
                 });
                 return;
             }

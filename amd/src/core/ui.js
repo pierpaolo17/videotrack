@@ -45,8 +45,7 @@ define([], function() {
                 return false;
             }
             return url.pathname.indexOf('/pluginfile.php/') !== -1 ||
-                url.pathname.indexOf('/webservice/pluginfile.php/') !== -1 ||
-                url.pathname.indexOf('/theme/image.php/') !== -1;
+                url.pathname.indexOf('/webservice/pluginfile.php/') !== -1;
         } catch (e) {
             return false;
         }
