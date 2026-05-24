@@ -126,7 +126,7 @@ define([
             wallclockstart: state.wallclockstart || Math.floor(Date.now() / 1000),
             wallclockend: Math.floor(Date.now() / 1000),
             playbackrate: state.playbackrate || 1,
-            endreason: reason,
+            endreason: PlayerCore.normaliseSaveReason(reason),
             durationseconds: state.duration || 0
         }).then(updateProgress);
     }

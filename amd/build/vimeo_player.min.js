@@ -76,7 +76,7 @@ define([
             wallclockstart:  state.wallclockstart || now,
             wallclockend:    now,
             playbackrate:    state.playbackrate || 1,
-            endreason:       reason,
+            endreason:       PlayerCore.normaliseSaveReason(reason),
             durationseconds: state.duration,
         }).then(updateProgress).catch(Log.debug);
     }
