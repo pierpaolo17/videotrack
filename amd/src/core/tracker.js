@@ -289,6 +289,67 @@ define([
     }
 
 
+
+
+    /**
+     * Install shared page lifecycle handlers for player modules.
+     *
+     * The concrete player modules still provide provider-specific close and
+     * beacon callbacks, but the visibility/pagehide/beforeunload wiring now
+     * lives in one place so behaviour stays consistent across YouTube, HTML5
+     * and Vimeo.
+     *
+     * @param {Object} options Handler options.
+     * @param {Object} options.state Mutable player state.
+     * @param {Function} options.closeSegment Function called with the close reason.
+     * @param {Function=} options.stopPolling Optional polling stop callback.
+     * @param {Function=} options.onHidden Optional callback after hidden close.
+     * @param {Function=} options.sendBeacon Optional beforeunload beacon callback.
+     * @param {Function=} options.hasPlayer Optional player availability callback.
+     */
+    function installLifecycleHandlers(options) {
+        options = options || {};
+        var state = options.state;
+        var closeSegment = typeof options.closeSegment === 'function' ? options.closeSegment : null;
+        var stop = typeof options.stopPolling === 'function' ? options.stopPolling : function() {
+            stopPolling(state);
+        };
+        var onHidden = typeof options.onHidden === 'function' ? options.onHidden : null;
+        var sendBeacon = typeof options.sendBeacon === 'function' ? options.sendBeacon : null;
+        var hasPlayer = typeof options.hasPlayer === 'function' ? options.hasPlayer : function() {
+            return true;
+        };
+
+        document.addEventListener('visibilitychange', function() {
+            if (!document.hidden) {
+                return;
+            }
+            stop();
+            if (closeSegment) {
+                closeSegment('tab');
+            }
+            if (onHidden) {
+                onHidden();
+            }
+        });
+
+        window.addEventListener('pagehide', function() {
+            stop();
+            if (closeSegment) {
+                closeSegment('pagehide');
+            }
+        });
+
+        window.addEventListener('beforeunload', function() {
+            if (!state || !state.playing || state.segmentstart === null || !hasPlayer()) {
+                return;
+            }
+            if (sendBeacon) {
+                sendBeacon();
+            }
+        });
+    }
+
     /**
      * Save progress for a currently playing segment before an interaction.
      *
@@ -430,6 +491,7 @@ define([
         shouldSaveHeartbeat: shouldSaveHeartbeat,
         saveHeartbeatIfDue: saveHeartbeatIfDue,
         reopenAfterHeartbeat: reopenAfterHeartbeat,
+        installLifecycleHandlers: installLifecycleHandlers,
         reopenAfterInteractionSave: reopenAfterInteractionSave,
         saveCurrentProgress: saveCurrentProgress
     };

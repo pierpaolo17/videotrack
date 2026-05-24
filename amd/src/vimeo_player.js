@@ -106,20 +106,17 @@ define([
     }
 
     function installGlobalListeners() {
-        document.addEventListener('visibilitychange', function() {
-            if (document.hidden && state.playing) {
-                closeSegment('tab');
-                setReactionButtons(false); // Disabilita bottoni quando la tab è nascosta.
+        Tracker.installLifecycleHandlers({
+            state: state,
+            closeSegment: closeSegment,
+            stopPolling: stopHeartbeat,
+            onHidden: function() {
+                setReactionButtons(false);
+            },
+            hasPlayer: function() { return !!player; },
+            sendBeacon: function() {
+                PlayerCore.sendBeaconSegment(config, state, state.segmentstart, state.lasttime, Utils, Log);
             }
-        });
-        window.addEventListener('pagehide', function() {
-            if (state.playing) { closeSegment('pagehide'); }
-        });
-        // sendBeacon: fallback finale centralizzato per browser che cancellano
-        // le normali richieste AJAX durante lo scaricamento della pagina.
-        window.addEventListener('beforeunload', function() {
-            if (!state.playing || state.segmentstart === null) { return; }
-            PlayerCore.sendBeaconSegment(config, state, state.segmentstart, state.lasttime, Utils, Log);
         });
     }
 
