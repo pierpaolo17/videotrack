@@ -6,7 +6,7 @@
  *
  * @module mod_videotrack/core/player
  */
-define([], function() {
+define(['mod_videotrack/core/segment'], function(Segment) {
     var statusTimer = null;
     var intervalBarCache = {json: null, duration: null, width: null, height: null};
 
@@ -50,49 +50,29 @@ define([], function() {
 
 
     /**
-     * Normalise segment end reasons before they reach the AJAX endpoint.
+     * Backwards-compatible facade for the shared segment module.
+     *
+     * The concrete player entrypoints still import core/player, but the segment
+     * rules now live in core/segment so the 1.3 branch can test and evolve them
+     * independently from DOM/player UI code.
      *
      * @param {string} reason Candidate reason.
      * @returns {string} Whitelisted reason.
      */
     function normaliseSaveReason(reason) {
-        var allowed = [
-            'heartbeat', 'pause', 'seek', 'ended', 'beforeunload', 'pagehide', 'tab',
-            'visibilitychange', 'reaction', 'note', 'interaction'
-        ];
-        reason = String(reason || 'interaction');
-        return allowed.indexOf(reason) !== -1 ? reason : 'interaction';
+        return Segment.normaliseSaveReason(reason);
     }
 
-
     /**
-     * Clamp client-side segment times before they are sent to AJAX/beacon endpoints.
-     *
-     * Server-side validation remains authoritative; this helper avoids sending
-     * negative, non-finite, or over-duration values from UI edge cases.
+     * Backwards-compatible facade for the shared segment module.
      *
      * @param {*} start Segment start candidate.
      * @param {*} end Segment end candidate.
      * @param {*} duration Optional known media duration.
      * @returns {{start: number, end: number}} Clamped and rounded times.
      */
-    function finiteSeconds(value) {
-        value = Number(value);
-        return Number.isFinite(value) ? Math.max(0, value) : 0;
-    }
-
     function clampSegmentTimes(start, end, duration) {
-        var max = finiteSeconds(duration);
-        start = finiteSeconds(start);
-        end = Math.max(start, finiteSeconds(end));
-        if (max > 0) {
-            start = Math.min(start, max);
-            end = Math.min(end, max);
-        }
-        return {
-            start: Math.round(start * 1000) / 1000,
-            end: Math.round(end * 1000) / 1000
-        };
+        return Segment.clampSegmentTimes(start, end, duration);
     }
 
     /**
@@ -109,17 +89,9 @@ define([], function() {
         if (!state.playing || state.segmentstart === null || !hasPlayer) {
             return Promise.resolve(null);
         }
-        var end = getCurrentTime();
+        var end = Segment.calculateInteractionEnd(state.segmentstart, getCurrentTime(), state.duration, reason);
         if (end <= state.segmentstart) {
-            if (reason === 'reaction' || reason === 'note') {
-                end = state.segmentstart + 0.25;
-                if (state.duration && state.duration > 0) {
-                    end = Math.min(end, state.duration);
-                }
-            }
-            if (end <= state.segmentstart) {
-                return Promise.resolve(null);
-            }
+            return Promise.resolve(null);
         }
         return saveSegment(state.segmentstart, end, normaliseSaveReason(reason));
     }
