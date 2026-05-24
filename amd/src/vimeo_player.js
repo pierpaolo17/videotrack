@@ -17,8 +17,9 @@ define([
     'mod_videotrack/core/api',
     'mod_videotrack/core/utils',
     'mod_videotrack/core/ui',
+    'mod_videotrack/core/progress',
     'mod_videotrack/core/player'
-], function(Log, Ajax, Api, Utils, Ui, PlayerCore) {
+], function(Log, Ajax, Api, Utils, Ui, Progress, PlayerCore) {
 
     var player  = null;
     var config  = null;
@@ -70,24 +71,7 @@ define([
     }
 
     function updateProgress(response) {
-        if (!response) { return response; }
-        if (response.accepted === false) {
-            Log.debug('mod_videotrack: segment write deferred due to lock contention');
-        }
-        var pct = document.getElementById('videotrack-progress-percent');
-        if (pct) { pct.textContent = parseFloat(response.completionpercent || 0).toFixed(1) + '%'; }
-        var sec = document.getElementById('videotrack-covered-seconds');
-        if (sec) { sec.textContent = Utils.formatSeconds(response.uniquecoveredseconds || 0); }
-        // Aggiorna contatore reazioni univoche.
-        if (typeof response.uniquereactions !== 'undefined') {
-            var counter = document.getElementById('videotrack-unique-reactions');
-            if (counter) { counter.textContent = response.uniquereactions; }
-        }
-        // Aggiorna la barra visuale degli intervalli guardati.
-        if (response.intervaljson) {
-            updateIntervalBar(response.intervaljson, response.durationseconds || state.duration);
-        }
-        return response;
+        return Progress.updateProgress(response, state, Utils, PlayerCore, Log);
     }
 
     // ── Segment lifecycle ─────────────────────────────────────────────────
