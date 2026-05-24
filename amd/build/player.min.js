@@ -117,7 +117,7 @@ define([
         }
         state.currentReplayEnd = typeof end === 'number' ? end : null;
         // B6 fix: mark as programmatic so handleSeekByPolling ignores this seek.
-        state.isProgrammaticSeek = true;
+        Tracker.markProgrammaticSeek(state);
         player.seekTo(Math.max(0, start || 0), true);
         if (autoplay !== false) {
             player.playVideo();
@@ -130,9 +130,7 @@ define([
         }
         // B6 fix: ignore polling during programmatic seeks (replay, resume, skip buttons).
         // Reset the flag here so it stays active for exactly one polling cycle.
-        if (state.isProgrammaticSeek) {
-            state.isProgrammaticSeek = false;
-            state.lasttime = player.getCurrentTime();
+        if (Tracker.consumeProgrammaticSeek(state, player.getCurrentTime())) {
             return;
         }
         // Se un seek è stato appena bloccato, ignoriamo il polling per 500ms
@@ -141,7 +139,7 @@ define([
             state.lasttime = player.getCurrentTime();
             return;
         }
-        var current = player.getCurrentTime();
+        var current = Tracker.normaliseTime(player.getCurrentTime());
         var delta = current - state.lasttime;
         if (Math.abs(delta) < 0.2) {
             state.lasttime = current;
@@ -150,17 +148,18 @@ define([
         var rate = player.getPlaybackRate ? player.getPlaybackRate() : 1;
         var threshold = Math.max(2, rate * 3);
         if (state.playing && Math.abs(delta) > threshold) {
-            var oldtime = state.lasttime;
-            var newtime = current;
+            var seek = Tracker.resolveSeek(state, current, config, 0);
+            var oldtime = seek.oldTime;
+            var newtime = seek.newTime;
             closeCurrentSegment('seek');
-            if (!config.allowseekforward && newtime > oldtime) {
+            if (seek.blocked && seek.forward) {
                 state.seekblocked = true;
                 window.setTimeout(function() { state.seekblocked = false; }, 500);
                 player.seekTo(oldtime, true);
                 startCurrentSegment();
                 return;
             }
-            if (!config.allowseekbackward && newtime < oldtime) {
+            if (seek.blocked && seek.backward) {
                 state.seekblocked = true;
                 window.setTimeout(function() { state.seekblocked = false; }, 500);
                 player.seekTo(oldtime, true);
@@ -170,10 +169,9 @@ define([
             // Seek permesso: apre nuovo segmento dalla posizione corrente.
             Tracker.openSegment(state, player.getCurrentTime(), Math.floor(Date.now() / 1000), state.playbackrate);
         }
-        state.lasttime = current;
-        if (state.currentReplayEnd !== null && current >= state.currentReplayEnd) {
+        Tracker.syncTime(state, current);
+        if (Tracker.shouldStopReplay(state, current)) {
             player.pauseVideo();
-            state.currentReplayEnd = null;
         }
 
         // Heartbeat: salvataggio periodico del segmento in corso per prevenire

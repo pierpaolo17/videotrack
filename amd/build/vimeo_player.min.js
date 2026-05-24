@@ -190,7 +190,7 @@ define([
             state.duration = d;
             // Resume automatico dal punto lasciato (lastposition > 2s).
             if (typeof config.resumeposition === 'number' && config.resumeposition > 2) {
-                state.isProgrammaticSeek = true;
+                Tracker.markProgrammaticSeek(state);
                 player.setCurrentTime(config.resumeposition).then(function() {
                     state.isProgrammaticSeek = false;
                     showResumeNotice(config.resumeposition);
@@ -230,7 +230,7 @@ define([
                 if (state._pendingResume && state._pendingResume > 2) {
                     var resumePos = state._pendingResume;
                     state._pendingResume = null;
-                    state.isProgrammaticSeek = true;
+                    Tracker.markProgrammaticSeek(state);
                     player.setCurrentTime(resumePos).then(function() {
                         state.isProgrammaticSeek = false;
                         showResumeNotice(resumePos);
@@ -271,43 +271,31 @@ define([
         player.on('seeked', function(data) {
             // Ignora seek programmatici (replay, resume): non devono triggerare
             // il blocco anti-skip né chiudere il segmento corrente.
-            if (state.seekblocked || state.isProgrammaticSeek) { return; }
-            var newtime = data.seconds;
-            var oldtime = state.lasttime;
+            if (state.seekblocked || Tracker.consumeProgrammaticSeek(state, data.seconds)) { return; }
+            var seek = Tracker.resolveSeek(state, data.seconds, config, 0);
 
             if (state.playing) {
-                if (!config.allowseekforward && newtime > oldtime) {
+                if (seek.blocked) {
                     state.seekblocked = true;
                     window.setTimeout(function() { state.seekblocked = false; }, 600);
-                    state.isProgrammaticSeek = true;
-                    player.setCurrentTime(oldtime).then(function() {
-                        state.isProgrammaticSeek = false;
-                    });
-                    return;
-                }
-                if (!config.allowseekbackward && newtime < oldtime) {
-                    state.seekblocked = true;
-                    window.setTimeout(function() { state.seekblocked = false; }, 600);
-                    state.isProgrammaticSeek = true;
-                    player.setCurrentTime(oldtime).then(function() {
+                    Tracker.markProgrammaticSeek(state);
+                    player.setCurrentTime(seek.fallbackTime).then(function() {
                         state.isProgrammaticSeek = false;
                     });
                     return;
                 }
                 // Valid seek: close current segment, open new one.
-                saveSegment(state.segmentstart, oldtime, 'seek');
-                startSegment(newtime);
+                saveSegment(state.segmentstart, seek.oldTime, 'seek');
+                startSegment(seek.newTime);
             }
         });
 
         player.on('timeupdate', function(data) {
-            state.lasttime     = data.seconds;
-            state.playbackrate = data.playbackRate || 1;
+            Tracker.syncTime(state, data.seconds, data.playbackRate || 1);
 
             // Replay stop.
-            if (state.currentReplayEnd !== null && data.seconds >= state.currentReplayEnd) {
+            if (Tracker.shouldStopReplay(state, data.seconds)) {
                 player.pause();
-                state.currentReplayEnd = null;
             }
         });
 
@@ -322,7 +310,7 @@ define([
                 var end   = parseFloat(btn.dataset.end)   || 0;
                 state.currentReplayEnd = end > 0 ? end : null;
                 // Marca il seek come programmatico per non triggerare il blocco anti-skip.
-                state.isProgrammaticSeek = true;
+                Tracker.markProgrammaticSeek(state);
                 player.setCurrentTime(start).then(function() {
                     state.isProgrammaticSeek = false;
                     player.play();

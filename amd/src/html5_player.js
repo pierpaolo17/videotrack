@@ -567,16 +567,10 @@ define([
                 return;
             }
             if (state.playing) {
-                var newtime = media.currentTime;
-                var oldtime = state.lasttime;
-                if (!config.allowseekforward && newtime > oldtime + 0.5) {
+                var seek = Tracker.resolveSeek(state, media.currentTime, config, 0.5);
+                if (seek.blocked) {
                     state.seekblocked = true;
-                    media.currentTime = oldtime;
-                    return;
-                }
-                if (!config.allowseekbackward && newtime < oldtime - 0.5) {
-                    state.seekblocked = true;
-                    media.currentTime = oldtime;
+                    media.currentTime = seek.fallbackTime;
                     return;
                 }
                 closeSegment('seek');
@@ -588,19 +582,16 @@ define([
             state.isProgrammaticSeek = false; // Resetta anche il flag seek programmatico.
             state.seekblocked        = false;
             if (state.playing) { startSegment(); }
-            if (state.currentReplayEnd !== null && media.currentTime >= state.currentReplayEnd) {
+            if (Tracker.shouldStopReplay(state, media.currentTime)) {
                 media.pause();
-                state.currentReplayEnd = null;
             }
         });
 
         media.addEventListener('timeupdate', function() {
             if (!state.isSeeking) {
-                state.lasttime     = media.currentTime;
-                state.playbackrate = media.playbackRate || 1;
-                if (state.currentReplayEnd !== null && media.currentTime >= state.currentReplayEnd) {
+                Tracker.syncTime(state, media.currentTime, media.playbackRate || 1);
+                if (Tracker.shouldStopReplay(state, media.currentTime)) {
                     media.pause();
-                    state.currentReplayEnd = null;
                 }
             }
         });
