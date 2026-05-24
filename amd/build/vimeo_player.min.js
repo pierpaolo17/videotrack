@@ -576,38 +576,10 @@ define([
 
 
     /**
-     * Toggle show/hide del pannello note: gestisce il bottone collapse e persiste
-     * la preferenza in sessionStorage per la durata della sessione.
+     * Toggle show/hide del pannello note tramite helper condiviso.
      */
-
     function installNotesToggle() {
-        var btn  = document.getElementById('videotrack-notes-toggle');
-        var body = document.getElementById('videotrack-notes-body');
-        if (!btn || !body) { return; }
-
-        var KEY = 'videotrack_notes_collapsed_' + (config.cmid ? String(config.cmid) : 'x');
-
-        function setCollapsed(collapsed) {
-            body.style.display = collapsed ? 'none' : '';
-            btn.setAttribute('aria-expanded', collapsed ? 'false' : 'true');
-            var label = collapsed
-                ? (config.noteshowlabel)
-                : (config.noteshidelabel);
-            btn.textContent = label;
-            btn.setAttribute('aria-label', label + ': ' + (config.notespaneltitle));
-            Utils.sessionSet(KEY, collapsed ? '1' : '0', 'Vimeo notes panel state');
-        }
-
-        // Applica lo stato IMMEDIATAMENTE prima del primo paint per evitare flash.
-        // sessionStorage è sincrono — nessun rischio di flash se letto qui.
-        var saved = null;
-        saved = Utils.sessionGet(KEY, 'Vimeo notes panel state');
-        setCollapsed(saved === '1');
-
-        btn.addEventListener('click', function() {
-            var isCollapsed = btn.getAttribute('aria-expanded') === 'false';
-            setCollapsed(!isCollapsed);
-        });
+        PlayerCore.installNotesToggle(config, Utils, 'Vimeo notes panel state');
     }
 
     /**
