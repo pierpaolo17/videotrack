@@ -142,6 +142,8 @@ define([], function() {
         } catch (e) {
             if (Log && Log.debug) {
                 Log.debug('mod_videotrack: invalid interval JSON - ' + e);
+            } else if (window.console && window.console.warn) {
+                window.console.warn('mod_videotrack: invalid interval JSON', e);
             }
             return [];
         }
@@ -211,6 +213,7 @@ define([], function() {
                 progress.max = 100;
                 progress.setAttribute('aria-hidden', 'false');
                 progress.setAttribute('aria-label', baseLabel || 'Progress');
+                progress.setAttribute('aria-live', 'polite');
                 canvas.parentNode.insertBefore(progress, canvas.nextSibling);
             }
             if (progress) {
@@ -322,8 +325,11 @@ define([], function() {
             timeout = isError ? 12000 : 8000;
         }
         statusTimer = window.setTimeout(function() {
-            el.textContent = '';
             statusTimer = null;
+            if (document.activeElement && el.contains(document.activeElement)) {
+                return;
+            }
+            el.textContent = '';
         }, timeout);
     }
 
@@ -492,11 +498,12 @@ define([], function() {
         delBtn.className = 'btn btn-link btn-sm videotrack-delete-note ms-1';
         delBtn.dataset.noteid = noteid;
         delBtn.textContent = config.removenotelabel;
+        delBtn.setAttribute('aria-label', (config.removenotelabel || '') + ' — ' + Utils.formatSeconds(videotime));
         li.appendChild(delBtn);
 
         list.appendChild(li);
 
-        var maxRenderedNotes = 100;
+        var maxRenderedNotes = Utils.safeInt(config.notesmaxrendered, 200);
         while (list.children.length > maxRenderedNotes) {
             list.removeChild(list.firstElementChild);
         }
@@ -600,13 +607,17 @@ define([], function() {
                     textarea.value = '';
                     updateNoteCharCounter(textarea, config, Utils);
                     textarea.focus();
+                    if (config.notesavedlabel) {
+                        showStatusMessage(config.notesavedlabel, false, config.dismisslabel);
+                    }
                 }
-            }).catch(function() {
+            }).catch(function(error) {
                 savingNote = false;
                 saveBtn.removeAttribute('aria-busy');
                 saveBtn.classList.remove('videotrack-note-save-saving');
                 setLocalNoteButtonState(state.playing);
-                showStatusMessage(config.noteerrorlabel, true, config.dismisslabel);
+                var message = (error && error.message) ? error.message : config.noteerrorlabel;
+                showStatusMessage(message, true, config.dismisslabel);
             });
         });
 
@@ -628,9 +639,15 @@ define([], function() {
                         li.remove();
                         var next = list ? list.querySelector('.videotrack-note-item button') : null;
                         if (next) { next.focus(); } else if (textarea) { textarea.focus(); }
+                        if (config.notedeletedlabel) {
+                            showStatusMessage(config.notedeletedlabel, false, config.dismisslabel);
+                        }
                     }
                 }
-                }).catch(function(err) { Log.debug('mod_videotrack: note deletion failed - ' + err); });
+                }).catch(function(err) {
+                    Log.debug('mod_videotrack: note deletion failed - ' + err);
+                    showStatusMessage(config.noteerrorlabel, true, config.dismisslabel);
+                });
             });
         }
 
