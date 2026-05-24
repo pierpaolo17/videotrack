@@ -223,6 +223,7 @@ define([
         var delta = current - state.lasttime;
         if (Math.abs(delta) < 0.2) {
             state.lasttime = current;
+            return;
         }
         var rate = player.getPlaybackRate ? player.getPlaybackRate() : 1;
         var threshold = Math.max(2, rate * 3);

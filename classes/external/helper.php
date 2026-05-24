@@ -66,7 +66,7 @@ class helper extends external_api {
      * @throws \invalid_parameter_exception
      */
     public static function validate_session_id(string $sessionid): string {
-        if (preg_match('/^(?:[a-f0-9]{32}|sess[0-9a-z]{12,40})$/', $sessionid) !== 1) {
+        if (preg_match('/^(?:[a-f0-9]{32}|sess[0-9a-z]{16,48})$/', $sessionid) !== 1) {
             throw new \invalid_parameter_exception('Invalid session ID');
         }
         return $sessionid;
