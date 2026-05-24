@@ -37,6 +37,22 @@ define([], function() {
     }
 
 
+
+    /**
+     * Normalise segment end reasons before they reach the AJAX endpoint.
+     *
+     * @param {string} reason Candidate reason.
+     * @returns {string} Whitelisted reason.
+     */
+    function normaliseSaveReason(reason) {
+        var allowed = [
+            'heartbeat', 'pause', 'seek', 'ended', 'beforeunload', 'pagehide', 'tab',
+            'visibilitychange', 'reaction', 'note', 'interaction'
+        ];
+        reason = String(reason || 'interaction');
+        return allowed.indexOf(reason) !== -1 ? reason : 'interaction';
+    }
+
     /**
      * Save progress for a currently playing segment before an interaction.
      *
@@ -63,7 +79,7 @@ define([], function() {
                 return Promise.resolve(null);
             }
         }
-        return saveSegment(state.segmentstart, end, reason || 'interaction');
+        return saveSegment(state.segmentstart, end, normaliseSaveReason(reason));
     }
 
     /**
@@ -576,6 +592,7 @@ define([], function() {
     return {
         uuid: uuid,
         getIntervalBarColor: getIntervalBarColor,
+        normaliseSaveReason: normaliseSaveReason,
         saveCurrentProgress: saveCurrentProgress,
         parseIntervals: parseIntervals,
         updateIntervalBar: updateIntervalBar,
