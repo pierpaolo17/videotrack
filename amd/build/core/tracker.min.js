@@ -180,23 +180,24 @@ define([], function() {
     }
 
     /**
-     * Close and immediately reopen the current segment for a heartbeat save.
+     * Capture the current open segment for a heartbeat save.
+     *
+     * The segment is not reopened here. Reopening before the persistence
+     * promise resolves can silently lose watch time when the request fails.
+     * Call reopenAfterHeartbeat only after a successful save.
      *
      * @param {Object} state Mutable player state.
      * @param {number} end Current media time.
-     * @param {number=} now Optional wallclock timestamp in seconds.
      * @returns {{start: number, end: number}|null} Segment payload to persist.
      */
-    function captureHeartbeatSegment(state, end, now) {
+    function captureHeartbeatSegment(state, end) {
         if (!state || !state.playing || state.segmentstart === null) {
             return null;
         }
-        var payload = {
+        return {
             start: state.segmentstart,
             end: end
         };
-        reopenAfterHeartbeat(state, end, now);
-        return payload;
     }
 
     /**
@@ -313,11 +314,12 @@ define([], function() {
         }
 
         return Promise.resolve(getCurrentTime()).then(function(currentTime) {
-            var heartbeat = captureHeartbeatSegment(state, currentTime, timestamp);
+            var heartbeat = captureHeartbeatSegment(state, currentTime);
             if (!heartbeat) {
                 return false;
             }
             return Promise.resolve(saveSegment(heartbeat.start, heartbeat.end, 'heartbeat')).then(function() {
+                reopenAfterHeartbeat(state, heartbeat.end, timestamp);
                 return true;
             });
         });
