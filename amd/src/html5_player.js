@@ -10,12 +10,12 @@
 
 /* eslint-disable jsdoc/require-jsdoc, jsdoc/require-param, jsdoc/check-param-names */
 define([
-    'core/ajax',
     'core/log',
+    'mod_videotrack/core/api',
     'mod_videotrack/core/utils',
     'mod_videotrack/core/ui',
     'mod_videotrack/core/player'
-], function(Ajax, Log, Utils, Ui, PlayerCore) {
+], function(Log, Api, Utils, Ui, PlayerCore) {
 
     var media  = null; // The <video> or <audio> DOM element.
     var config = null;
@@ -57,27 +57,10 @@ define([
     }
 
 
-    function ajax(methodname, args) {
-        return Ajax.call([{ methodname: methodname, args: args }])[0];
-    }
-
     function saveSegment(start, end, reason) {
-        var times = PlayerCore.clampSegmentTimes(start, end, state.duration || config.duration || 0);
-        start = times.start;
-        end = times.end;
-        if (end <= start) { return Promise.resolve(null); }
-        var now = Math.floor(Date.now() / 1000);
-        return ajax('mod_videotrack_save_segment', {
-            cmid:            config.cmid,
-            sessionid:       state.sessionid,
-            videotimestart:  Math.round(start * 1000) / 1000,
-            videotimeend:    Math.round(end   * 1000) / 1000,
-            wallclockstart:  state.wallclockstart || now,
-            wallclockend:    now,
-            playbackrate:    state.playbackrate || 1,
-            endreason:       PlayerCore.normaliseSaveReason(reason),
-            durationseconds: state.duration,
-        }).then(updateProgress).catch(Log.debug);
+        return Api.saveSegment(config, state, start, end, reason)
+            .then(updateProgress)
+            .catch(Log.debug);
     }
 
     function saveCurrentProgress(reason) {
