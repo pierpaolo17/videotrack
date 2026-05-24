@@ -9,11 +9,12 @@
 define([
     'mod_videotrack/core/segment',
     'mod_videotrack/core/session',
+    'mod_videotrack/core/tracker',
     'mod_videotrack/core/beacon',
     'mod_videotrack/core/notes',
     'mod_videotrack/core/reactions',
     'mod_videotrack/core/status'
-], function(Segment, Session, Beacon, Notes, Reactions, Status) {
+], function(Segment, Session, Tracker, Beacon, Notes, Reactions, Status) {
     var intervalBarCache = {json: null, duration: null, width: null, height: null};
 
 
@@ -78,14 +79,7 @@ define([
      * @returns {Promise|null} Save promise or null-equivalent promise.
      */
     function saveCurrentProgress(state, getCurrentTime, saveSegment, reason, hasPlayer) {
-        if (!state.playing || state.segmentstart === null || !hasPlayer) {
-            return Promise.resolve(null);
-        }
-        var end = Segment.calculateInteractionEnd(state.segmentstart, getCurrentTime(), state.duration, reason);
-        if (end <= state.segmentstart) {
-            return Promise.resolve(null);
-        }
-        return saveSegment(state.segmentstart, end, normaliseSaveReason(reason));
+        return Tracker.saveCurrentProgress(state, getCurrentTime, saveSegment, reason, hasPlayer);
     }
 
     /**

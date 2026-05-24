@@ -8,7 +8,9 @@
  *
  * @module mod_videotrack/core/tracker
  */
-define([], function() {
+define([
+    'mod_videotrack/core/segment'
+], function(Segment) {
 
 
 
@@ -288,6 +290,36 @@ define([], function() {
 
 
     /**
+     * Save progress for a currently playing segment before an interaction.
+     *
+     * This keeps interaction-triggered persistence in the tracker layer rather
+     * than in the DOM/UI facade. It is intentionally Promise-based so callers
+     * can chain reaction or note saves after the current segment has been
+     * persisted, while still returning a resolved promise when there is no
+     * active segment to save.
+     *
+     * @param {Object} state Mutable player state.
+     * @param {Function} getCurrentTime Function returning the current video time.
+     * @param {Function} saveSegment Function used to persist the segment.
+     * @param {string} reason Save reason.
+     * @param {boolean} hasPlayer Whether the concrete player is available.
+     * @returns {Promise|null} Save promise or null-equivalent promise.
+     */
+    function saveCurrentProgress(state, getCurrentTime, saveSegment, reason, hasPlayer) {
+        if (!state || !state.playing || state.segmentstart === null || !hasPlayer) {
+            return Promise.resolve(null);
+        }
+        if (typeof getCurrentTime !== 'function' || typeof saveSegment !== 'function') {
+            return Promise.resolve(null);
+        }
+        var end = Segment.calculateInteractionEnd(state.segmentstart, getCurrentTime(), state.duration, reason);
+        if (end <= state.segmentstart) {
+            return Promise.resolve(null);
+        }
+        return saveSegment(state.segmentstart, end, Segment.normaliseSaveReason(reason));
+    }
+
+    /**
      * Capture and persist a heartbeat segment when due.
      *
      * The concrete player modules provide the current media time and persistence
@@ -367,6 +399,7 @@ define([], function() {
         resetHeartbeat: resetHeartbeat,
         shouldSaveHeartbeat: shouldSaveHeartbeat,
         saveHeartbeatIfDue: saveHeartbeatIfDue,
-        reopenAfterHeartbeat: reopenAfterHeartbeat
+        reopenAfterHeartbeat: reopenAfterHeartbeat,
+        saveCurrentProgress: saveCurrentProgress
     };
 });
