@@ -55,19 +55,16 @@ define([
     // ── Segment lifecycle ─────────────────────────────────────────────────
 
     function startSegment(currentTime) {
-        state.playing              = true;
-        state.segmentstart         = currentTime;
-        state.wallclockstart       = Math.floor(Date.now() / 1000);
-        Tracker.resetHeartbeat(state, state.wallclockstart);
-        state.lasttime             = currentTime;
+        Tracker.openSegment(state, currentTime, Math.floor(Date.now() / 1000));
     }
 
     function closeSegment(reason) {
         if (!state.playing || state.segmentstart === null) { return; }
         player.getCurrentTime().then(function(t) {
-            saveSegment(state.segmentstart, t, reason);
-            state.playing      = false;
-            state.segmentstart = null;
+            var closed = Tracker.closeSegment(state, t);
+            if (closed) {
+                saveSegment(closed.start, closed.end, reason);
+            }
         });
     }
 
@@ -79,8 +76,10 @@ define([
             var now = Math.floor(Date.now() / 1000);
             if (Tracker.shouldSaveHeartbeat(state, HEARTBEAT_INTERVAL, now)) {
                 player.getCurrentTime().then(function(t) {
-                    saveSegment(state.segmentstart, t, 'heartbeat');
-                    Tracker.reopenAfterHeartbeat(state, t, now);
+                    var heartbeat = Tracker.captureHeartbeatSegment(state, t, now);
+                    if (heartbeat) {
+                        saveSegment(heartbeat.start, heartbeat.end, 'heartbeat');
+                    }
                 });
             }
         }, HEARTBEAT_INTERVAL);

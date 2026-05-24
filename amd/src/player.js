@@ -72,20 +72,15 @@ define([
         if (!state.playing || state.segmentstart === null || !player) {
             return;
         }
-        var end = getCurrentVideoTime();
-        var start = state.segmentstart;
-        state.playing = false;
-        state.segmentstart = null;
-        state.wallclockstart = null;
-        saveSegment(start, end, reason);
+        var closed = Tracker.closeSegment(state, getCurrentVideoTime());
+        if (closed) {
+            saveSegment(closed.start, closed.end, reason);
+        }
     }
 
     function startCurrentSegment() {
-        state.playing = true;
-        state.segmentstart = player.getCurrentTime();
-        state.wallclockstart = Math.floor(Date.now() / 1000);
-        state.lasttime = state.segmentstart;
-        Tracker.resetHeartbeat(state, state.wallclockstart);
+        var currentTime = player.getCurrentTime();
+        var wallclock = Math.floor(Date.now() / 1000);
         // Feature 6: applica il limite massimo di velocità se configurato.
         var currentRate = player.getPlaybackRate ? player.getPlaybackRate() : 1;
         if (config.maxplaybackrate > 0) {
@@ -97,7 +92,7 @@ define([
                 currentRate = maxRate;
             }
         }
-        state.playbackrate = currentRate;
+        Tracker.openSegment(state, currentTime, wallclock, currentRate);
         setReactionButtons(true);
         // Riavvia il polling se era stato sospeso (tab hidden → visibile di nuovo).
         if (!state.heartbeatid) {
@@ -173,10 +168,7 @@ define([
                 return;
             }
             // Seek permesso: apre nuovo segmento dalla posizione corrente.
-            state.segmentstart = player.getCurrentTime();
-            state.wallclockstart = Math.floor(Date.now() / 1000);
-            Tracker.resetHeartbeat(state, state.wallclockstart);
-            state.playing = true;
+            Tracker.openSegment(state, player.getCurrentTime(), Math.floor(Date.now() / 1000), state.playbackrate);
         }
         state.lasttime = current;
         if (state.currentReplayEnd !== null && current >= state.currentReplayEnd) {
@@ -189,11 +181,10 @@ define([
         if (state.playing && state.segmentstart !== null) {
             var now = Math.floor(Date.now() / 1000);
             if (Tracker.shouldSaveHeartbeat(state, HEARTBEAT_INTERVAL, now)) {
-                var hbEnd = player.getCurrentTime();
-                var hbStart = state.segmentstart;
-                // Salva il segmento accumulato fino ad ora, poi riapre dal punto corrente.
-                saveSegment(hbStart, hbEnd, 'heartbeat');
-                Tracker.reopenAfterHeartbeat(state, hbEnd, now);
+                var heartbeat = Tracker.captureHeartbeatSegment(state, player.getCurrentTime(), now);
+                if (heartbeat) {
+                    saveSegment(heartbeat.start, heartbeat.end, 'heartbeat');
+                }
             }
         }
     }

@@ -10,6 +10,77 @@
  */
 define([], function() {
 
+
+    /**
+     * Open a new watched segment from the current media time.
+     *
+     * @param {Object} state Mutable player state.
+     * @param {number} currentTime Current media time.
+     * @param {number=} wallclock Optional wallclock timestamp in seconds.
+     * @param {number=} playbackRate Optional current playback rate.
+     * @returns {Object|null} Updated state or null when state is missing.
+     */
+    function openSegment(state, currentTime, wallclock, playbackRate) {
+        if (!state) {
+            return null;
+        }
+        var start = Number(currentTime);
+        if (!isFinite(start) || start < 0) {
+            start = 0;
+        }
+        var timestamp = typeof wallclock === 'number' ? wallclock : Math.floor(Date.now() / 1000);
+        state.playing = true;
+        state.segmentstart = start;
+        state.wallclockstart = timestamp;
+        state.lasttime = start;
+        if (typeof playbackRate === 'number' && isFinite(playbackRate) && playbackRate > 0) {
+            state.playbackrate = playbackRate;
+        }
+        resetHeartbeat(state, timestamp);
+        return state;
+    }
+
+    /**
+     * Close the current watched segment and clear the mutable lifecycle state.
+     *
+     * @param {Object} state Mutable player state.
+     * @param {number} end Current media time.
+     * @returns {{start: number, end: number}|null} Closed segment payload.
+     */
+    function closeSegment(state, end) {
+        if (!state || !state.playing || state.segmentstart === null) {
+            return null;
+        }
+        var payload = {
+            start: state.segmentstart,
+            end: end
+        };
+        state.playing = false;
+        state.segmentstart = null;
+        state.wallclockstart = null;
+        return payload;
+    }
+
+    /**
+     * Close and immediately reopen the current segment for a heartbeat save.
+     *
+     * @param {Object} state Mutable player state.
+     * @param {number} end Current media time.
+     * @param {number=} now Optional wallclock timestamp in seconds.
+     * @returns {{start: number, end: number}|null} Segment payload to persist.
+     */
+    function captureHeartbeatSegment(state, end, now) {
+        if (!state || !state.playing || state.segmentstart === null) {
+            return null;
+        }
+        var payload = {
+            start: state.segmentstart,
+            end: end
+        };
+        reopenAfterHeartbeat(state, end, now);
+        return payload;
+    }
+
     /**
      * Resolve the configured heartbeat interval in seconds.
      *
@@ -112,6 +183,9 @@ define([], function() {
     }
 
     return {
+        openSegment: openSegment,
+        closeSegment: closeSegment,
+        captureHeartbeatSegment: captureHeartbeatSegment,
         normaliseHeartbeatInterval: normaliseHeartbeatInterval,
         pollInterval: pollInterval,
         startPolling: startPolling,
