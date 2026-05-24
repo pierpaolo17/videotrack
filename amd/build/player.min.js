@@ -8,21 +8,12 @@ define([
     'mod_videotrack/core/ui',
     'mod_videotrack/core/progress',
     'mod_videotrack/core/state',
+    'mod_videotrack/core/reactions',
     'mod_videotrack/core/player'
-], function(Log, Ajax, Api, Utils, Ui, Progress, State, PlayerCore) {
+], function(Log, Ajax, Api, Utils, Ui, Progress, State, Reactions, PlayerCore) {
     var player = null;
     var config = null;
-    var DEFAULT_REACTION_UNAVAILABLE_ANNOUNCE_INTERVAL = 30000;
-    var DEFAULT_REACTION_READY_DEBOUNCE_MS = 400;
-    var reactionState = {
-        timer: null,
-        lastAnnouncement: null,
-        readyAnnounced: false,
-        debounceMs: DEFAULT_REACTION_READY_DEBOUNCE_MS,
-        unavailableInterval: DEFAULT_REACTION_UNAVAILABLE_ANNOUNCE_INTERVAL,
-        lastUnavailableAt: 0,
-        cssTimer: null
-    };
+    var reactionState = Reactions.createState();
     // HEARTBEAT_INTERVAL viene inizializzato in init() dal valore configurato
     // dall'amministratore in Amministrazione sito → Plugin → Moduli attività → Video track.
     var HEARTBEAT_INTERVAL = 30; // valore di fallback, sovrascritto da config.heartbeatinterval
