@@ -20,39 +20,23 @@
  * @copyright  2024 mod_videotrack contributors
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
-define(['core/log', 'core/notification', 'core/str'], function(Log, Notification, Str) {
+define(['core/log', 'mod_videotrack/core/confirm'], function(Log, Confirm) {
     return {
         /**
          * Initialise preset delete confirmation forms.
          */
         init: function(config) {
             config = config || {};
-            document.querySelectorAll('.videotrack-delete-preset-form').forEach(function(form) {
-                form.addEventListener('submit', function(e) {
-                    if (form.dataset.confirmed === '1') {
-                        return;
-                    }
-                    e.preventDefault();
-                    var button = form.querySelector('[data-confirm]');
-                    var msg = (button && button.getAttribute('data-confirm')) || config.confirmdelete;
-
-                    Str.get_strings([
-                        {key: 'confirm', component: 'moodle'},
-                        {key: 'delete', component: 'moodle'},
-                        {key: 'cancel', component: 'moodle'}
-                    ]).then(function(strings) {
-                        return Notification.confirm(strings[0], msg, strings[1], strings[2], function() {
-                            form.dataset.confirmed = '1';
-                            form.submit();
-                        });
-                    }).catch(function(error) {
-                        Log.debug('mod_videotrack/presets: could not load confirmation strings - ' + error);
-                        return Notification.confirm(config.confirmtitle, msg, config.deletelabel, config.cancellabel, function() {
-                            form.dataset.confirmed = '1';
-                            form.submit();
-                        });
-                    });
-                });
+            Confirm.attachToForms('.videotrack-delete-preset-form', {
+                message: config.confirmdelete,
+                okString: {key: 'delete', component: 'moodle'},
+                fallbackLabels: {
+                    confirm: config.confirmtitle,
+                    ok: config.deletelabel,
+                    cancel: config.cancellabel
+                },
+                logger: Log,
+                logPrefix: 'mod_videotrack/presets'
             });
             Log.debug('mod_videotrack/presets: initialised');
         }

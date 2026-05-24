@@ -22,42 +22,27 @@
  * @copyright  2024 mod_videotrack contributors
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
-define(['core/log', 'core/notification', 'core/str'], function(Log, Notification, Str) {
+define(['core/log', 'mod_videotrack/core/confirm'], function(Log, Confirm) {
 
     /**
      * Attach an accessible Moodle modal confirmation to matching forms.
      *
      * @param {string} selector CSS selector for the form(s).
      * @param {string} fallbackMessage Fallback confirmation text.
+     * @param {Object} labels Fallback button labels from PHP.
      */
     var attachConfirm = function(selector, fallbackMessage, labels) {
         labels = labels || {};
-        document.querySelectorAll(selector).forEach(function(form) {
-            form.addEventListener('submit', function(e) {
-                if (form.dataset.confirmed === '1') {
-                    return;
-                }
-                e.preventDefault();
-                var button = form.querySelector('[data-confirm]');
-                var msg = (button && button.getAttribute('data-confirm')) || fallbackMessage;
-
-                Str.get_strings([
-                    {key: 'confirm', component: 'moodle'},
-                    {key: 'yes', component: 'moodle'},
-                    {key: 'cancel', component: 'moodle'}
-                ]).then(function(strings) {
-                    return Notification.confirm(strings[0], msg, strings[1], strings[2], function() {
-                        form.dataset.confirmed = '1';
-                        form.submit();
-                    });
-                }).catch(function(error) {
-                    Log.debug('mod_videotrack/report: could not load confirmation strings - ' + error);
-                    return Notification.confirm(labels.confirm, msg, labels.yes, labels.cancel, function() {
-                        form.dataset.confirmed = '1';
-                        form.submit();
-                    });
-                });
-            });
+        Confirm.attachToForms(selector, {
+            message: fallbackMessage,
+            okString: {key: 'yes', component: 'moodle'},
+            fallbackLabels: {
+                confirm: labels.confirm,
+                ok: labels.yes,
+                cancel: labels.cancel
+            },
+            logger: Log,
+            logPrefix: 'mod_videotrack/report'
         });
     };
 
