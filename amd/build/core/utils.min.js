@@ -88,7 +88,7 @@ define(['core/log'], function(Log) {
             if (text.length > MAX_TEXT_RESPONSE_BYTES) {
                 return Promise.reject('response-too-large');
             }
-            sample = text.replace(/^\uFEFF/, '').trimStart().substring(0, 64).toUpperCase();
+            sample = text.replace(/^\uFEFF/, '').replace(/^\s+/, '').substring(0, 64).toUpperCase();
             if (sample.indexOf('WEBVTT') !== 0) {
                 return Promise.reject('unexpected-text-content');
             }
