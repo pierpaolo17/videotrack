@@ -502,6 +502,18 @@ define([
         }
     }
 
+
+    /**
+     * Install the personal notes panel collapse/expand toggle.
+     *
+     * @param {Object} config Player configuration.
+     * @param {Object} Utils Shared utility module.
+     * @param {string} contextLabel Log context used by sessionStorage helpers.
+     */
+    function installNotesToggle(config, Utils, contextLabel) {
+        Notes.installToggle(config, Utils, contextLabel);
+    }
+
     /**
      * Returns the player shell used to scope delegated UI events.
      *
@@ -539,6 +551,7 @@ define([
         getRemainingNoteChars: getRemainingNoteChars,
         updateNoteCharCounter: updateNoteCharCounter,
         installNoteHandler: installNoteHandler,
+        installNotesToggle: installNotesToggle,
         removePoster: removePoster
     };
 });
