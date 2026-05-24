@@ -391,7 +391,8 @@ define([
             }
         });
 
-        var root = document.querySelector('.videotrack-player-shell') || document;
+        var root = PlayerCore.getPlayerShell(Log);
+        if (!root) { return; }
 
         // Replay buttons.
         root.addEventListener('click', function(e) {
@@ -501,6 +502,8 @@ define([
 
 
     function installReactionHandler() {
+        var root = PlayerCore.getPlayerShell(Log);
+        if (!root) { return; }
 
         function appendReactionRow(eventid, reaction, videotime) {
             var tbody = document.getElementById('videotrack-my-reactions');

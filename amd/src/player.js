@@ -221,6 +221,9 @@ define([
         }
         var current = player.getCurrentTime();
         var delta = current - state.lasttime;
+        if (Math.abs(delta) < 0.2) {
+            state.lasttime = current;
+        }
         var rate = player.getPlaybackRate ? player.getPlaybackRate() : 1;
         var threshold = Math.max(2, rate * 3);
         if (state.playing && Math.abs(delta) > threshold) {
@@ -360,7 +363,8 @@ define([
             }]);
             navigator.sendBeacon(url, new Blob([payload], {type: 'application/json'}));
         });
-        var root = document.querySelector('.videotrack-player-shell') || document;
+        var root = PlayerCore.getPlayerShell(Log);
+        if (!root) { return; }
         // A1 fix: keydown handler for Enter/Space on aria-disabled reaction buttons.
         // Browsers do not consistently fire 'click' for Enter/Space on buttons with
         // aria-disabled=true, so screen reader users got no feedback when pressing

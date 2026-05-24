@@ -510,6 +510,23 @@ define([], function() {
         }
     }
 
+    /**
+     * Returns the player shell used to scope delegated UI events.
+     *
+     * Event delegation must never fall back to document because multiple
+     * activities or unrelated controls can coexist on the page.
+     *
+     * @param {Object} Log Optional Moodle log module.
+     * @returns {HTMLElement|null} The scoped player shell, when available.
+     */
+    function getPlayerShell(Log) {
+        var shell = document.querySelector('.videotrack-player-shell');
+        if (!shell && Log && Log.debug) {
+            Log.debug('mod_videotrack: player shell not found; delegated handlers not installed');
+        }
+        return shell;
+    }
+
     return {
         uuid: uuid,
         getIntervalBarColor: getIntervalBarColor,
@@ -520,6 +537,7 @@ define([], function() {
         setNoteButtonState: setNoteButtonState,
         announceReactionAvailability: announceReactionAvailability,
         announceReactionUnavailable: announceReactionUnavailable,
+        getPlayerShell: getPlayerShell,
         onFirstPlay: onFirstPlay,
         appendNoteRow: appendNoteRow,
         getRemainingNoteChars: getRemainingNoteChars,
