@@ -9,6 +9,8 @@ define([
     'mod_videotrack/core/segment'
 ], function(Ajax, Log, Segment) {
     var AJAX_TIMEOUT_MS = 15000;
+    var AJAX_RETRY_DELAY_MS = 750;
+    var AJAX_MAX_RETRIES = 1;
     var METHOD_PREFIX = 'mod_videotrack_';
 
     /**
@@ -43,6 +45,39 @@ define([
         var normalised = new Error(message);
         normalised.originalError = error;
         return normalised;
+    }
+
+    /**
+     * Decide whether an AJAX failure is safe to retry once.
+     *
+     * Only short-lived transport/server availability failures are retried;
+     * validation and permission errors continue to fail immediately.
+     *
+     * @param {*} error Normalised AJAX error.
+     * @returns {boolean} True when a retry is allowed.
+     */
+    function isTransientAjaxError(error) {
+        var message = error && error.message ? String(error.message) : String(error || '');
+        var code = error && error.errorcode ? String(error.errorcode) : '';
+        return message === 'ajax-timeout' || code === 'servicenotavailable' || code === 'servererror' ||
+            code === 'networkerror' || message.indexOf('timeout') !== -1 || message.indexOf('network') !== -1;
+    }
+
+    /**
+     * Wait before retrying a transient AJAX failure.
+     *
+     * @param {number} attempt Zero-based retry attempt.
+     * @param {number=} delay Base delay in milliseconds.
+     * @returns {Promise<void>} Promise resolved after the retry delay.
+     */
+    function retryDelay(attempt, delay) {
+        var base = Number(delay);
+        if (!isFinite(base) || base < 0) {
+            base = AJAX_RETRY_DELAY_MS;
+        }
+        return new Promise(function(resolve) {
+            window.setTimeout(resolve, base * Math.max(1, attempt + 1));
+        });
     }
 
     /**
@@ -90,17 +125,46 @@ define([
      * @param {number=} options.timeout Timeout in milliseconds.
      * @param {boolean=} options.swallowFailures Resolve to null on failure.
      * @param {string=} options.errorMessage Debug prefix for swallowed failures.
+     * @param {number=} options.retries Number of transient retries, capped at one.
+     * @param {number=} options.retryDelay Retry delay in milliseconds.
      * @returns {Promise<Object|null>} AJAX response or null when swallowed.
      */
     function call(methodname, args, options) {
         options = options || {};
-        var promise;
+        var safeMethodName;
         try {
-            promise = Ajax.call([{methodname: normaliseMethodName(methodname), args: args || {}}])[0];
+            safeMethodName = normaliseMethodName(methodname);
         } catch (error) {
-            promise = Promise.reject(error);
+            return Promise.reject(error);
         }
-        return withTimeout(Promise.resolve(promise), options.timeout).catch(function(error) {
+
+        var maxRetries = Number(options.retries);
+        if (!isFinite(maxRetries) || maxRetries < 0) {
+            maxRetries = 0;
+        }
+        maxRetries = Math.min(AJAX_MAX_RETRIES, Math.floor(maxRetries));
+
+        function attemptRequest(attempt) {
+            var promise;
+            try {
+                promise = Ajax.call([{methodname: safeMethodName, args: args || {}}])[0];
+            } catch (error) {
+                promise = Promise.reject(error);
+            }
+
+            return withTimeout(Promise.resolve(promise), options.timeout).catch(function(error) {
+                if (attempt < maxRetries && isTransientAjaxError(error)) {
+                    Log.debug('mod_videotrack: retrying transient AJAX failure for ' + safeMethodName +
+                        ' - ' + error.message);
+                    return retryDelay(attempt, options.retryDelay).then(function() {
+                        return attemptRequest(attempt + 1);
+                    });
+                }
+                throw error;
+            });
+        }
+
+        return attemptRequest(0).catch(function(error) {
             if (options.swallowFailures) {
                 Log.debug((options.errorMessage || 'mod_videotrack: AJAX request failed') + ' - ' + error.message);
                 return null;
@@ -149,10 +213,15 @@ define([
      * @param {Object=} options Optional handling flags.
      * @param {boolean=} options.swallowFailures Resolve to null on AJAX failure.
      * @param {string=} options.errorMessage Debug prefix for swallowed failures.
+     * @param {number=} options.retries Number of transient retries, capped at one.
+     * @param {number=} options.retryDelay Retry delay in milliseconds.
      * @returns {Promise<Object|null>} AJAX response or null for empty/skipped segments.
      */
     function saveSegment(config, state, start, end, reason, options) {
         options = options || {};
+        if (typeof options.retries === 'undefined') {
+            options.retries = AJAX_MAX_RETRIES;
+        }
         var args = buildSegmentArgs(config, state, start, end, reason);
         if (!args) {
             return Promise.resolve(null);
@@ -162,6 +231,7 @@ define([
 
     return {
         call: call,
+        isTransientAjaxError: isTransientAjaxError,
         buildSegmentArgs: buildSegmentArgs,
         saveSegment: saveSegment
     };
