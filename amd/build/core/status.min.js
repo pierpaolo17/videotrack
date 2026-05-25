@@ -9,6 +9,35 @@
  */
 define([], function() {
     var timerId = null;
+    var announceTimerId = null;
+
+    /**
+     * Create or reuse a hidden live region for screen-reader announcements.
+     *
+     * @param {boolean} isError Whether assertive announcement is required.
+     * @returns {HTMLElement|null} Live region element.
+     */
+    function getLiveRegion(isError) {
+        var id = isError ? 'videotrack-status-live-assertive' : 'videotrack-status-live-polite';
+        var region = document.getElementById(id);
+        if (region) {
+            return region;
+        }
+
+        var container = getContainer();
+        if (!container) {
+            return null;
+        }
+
+        region = document.createElement('div');
+        region.id = id;
+        region.className = 'sr-only visually-hidden videotrack-status-live-region';
+        region.setAttribute('role', isError ? 'alert' : 'status');
+        region.setAttribute('aria-live', isError ? 'assertive' : 'polite');
+        region.setAttribute('aria-atomic', 'true');
+        container.insertBefore(region, container.firstChild || null);
+        return region;
+    }
 
     /**
      * Remove a node if it is still attached to the document.
@@ -31,6 +60,59 @@ define([], function() {
     }
 
     /**
+     * Announce a message through the shared live region without creating a visible notice.
+     *
+     * @param {string} message Message text.
+     * @param {boolean=} isError Whether assertive announcement is required.
+     */
+    function announce(message, isError) {
+        var text = (message || '').toString().trim();
+        if (!text) {
+            return;
+        }
+
+        var region = getLiveRegion(!!isError);
+        if (!region) {
+            return;
+        }
+
+        if (announceTimerId) {
+            window.clearTimeout(announceTimerId);
+            announceTimerId = null;
+        }
+
+        // Clearing first makes repeated identical messages observable to assistive technology.
+        region.textContent = '';
+        announceTimerId = window.setTimeout(function() {
+            region.textContent = text;
+            announceTimerId = null;
+        }, 30);
+    }
+
+    /**
+     * Clear visible and hidden status messages.
+     */
+    function clear() {
+        if (timerId) {
+            window.clearTimeout(timerId);
+            timerId = null;
+        }
+        if (announceTimerId) {
+            window.clearTimeout(announceTimerId);
+            announceTimerId = null;
+        }
+        remove(document.getElementById('videotrack-status-message'));
+        var polite = document.getElementById('videotrack-status-live-polite');
+        var assertive = document.getElementById('videotrack-status-live-assertive');
+        if (polite) {
+            polite.textContent = '';
+        }
+        if (assertive) {
+            assertive.textContent = '';
+        }
+    }
+
+    /**
      * Show a temporary accessible status message.
      *
      * @param {string} message Message text.
@@ -49,13 +131,9 @@ define([], function() {
             return;
         }
 
-        if (timerId) {
-            window.clearTimeout(timerId);
-            timerId = null;
-        }
+        clear();
 
-        var existing = document.getElementById('videotrack-status-message');
-        remove(existing);
+        announce(text, !!isError);
 
         var notice = document.createElement('div');
         notice.id = 'videotrack-status-message';
@@ -63,6 +141,7 @@ define([], function() {
             (isError ? 'alert-danger' : 'alert-info') + ' alert-dismissible mt-2';
         notice.setAttribute('role', isError ? 'alert' : 'status');
         notice.setAttribute('aria-live', isError ? 'assertive' : 'polite');
+        notice.setAttribute('aria-atomic', 'true');
 
         var span = document.createElement('span');
         span.textContent = text;
@@ -96,6 +175,8 @@ define([], function() {
     }
 
     return {
+        announce: announce,
+        clear: clear,
         show: show
     };
 });

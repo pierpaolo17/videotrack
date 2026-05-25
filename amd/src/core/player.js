@@ -259,6 +259,16 @@ define([
     }
 
     /**
+     * Announce a non-visual status message through the shared live region.
+     *
+     * @param {string} message Message text.
+     * @param {boolean=} isError Whether the message should be assertive.
+     */
+    function announceStatusMessage(message, isError) {
+        Status.announce(message, isError);
+    }
+
+    /**
      * Update the note character counter next to a textarea.
      *
      * @param {HTMLTextAreaElement} textarea Note textarea.
@@ -422,6 +432,7 @@ define([
         sendBeaconSegment: sendBeaconSegment,
         showResumeNotice: showResumeNotice,
         showStatusMessage: showStatusMessage,
+        announceStatusMessage: announceStatusMessage,
         setNoteButtonState: setNoteButtonState,
         announceReactionAvailability: announceReactionAvailability,
         announceReactionUnavailable: announceReactionUnavailable,
