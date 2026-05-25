@@ -46,10 +46,19 @@ define([
     }
 
     function hasMedia(capability) {
+        if (capability === 'currentTime') {
+            return Adapter.canCurrentTime(media, 'html5');
+        }
+        if (capability === 'duration') {
+            return Adapter.canDuration(media, 'html5');
+        }
+        if (capability === 'seek') {
+            return Adapter.canSeek(media, 'html5');
+        }
         if (capability) {
             return Adapter.can(media, 'html5', capability);
         }
-        return Adapter.isAvailable(media, ['play', 'pause']);
+        return Adapter.canPlay(media, 'html5') && Adapter.canPause(media, 'html5');
     }
 
     function saveCurrentProgress(reason) {

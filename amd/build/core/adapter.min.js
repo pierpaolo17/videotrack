@@ -103,6 +103,52 @@ define([], function() {
     }
 
     /**
+     * Convenience capability wrappers used by concrete player modules.
+     *
+     * These helpers keep provider-specific capability names out of callers and
+     * make the adapter layer the single place where capabilities are declared.
+     */
+    function canCurrentTime(provider, providerType) {
+        return can(provider, providerType, 'currentTime');
+    }
+
+    function canDuration(provider, providerType) {
+        return can(provider, providerType, 'duration');
+    }
+
+    function canPlay(provider, providerType) {
+        return can(provider, providerType, 'play');
+    }
+
+    function canPause(provider, providerType) {
+        return can(provider, providerType, 'pause');
+    }
+
+    function canSeek(provider, providerType) {
+        return can(provider, providerType, 'seek');
+    }
+
+    function canPlaybackRate(provider, providerType) {
+        return can(provider, providerType, 'playbackRate');
+    }
+
+    function canVolume(provider, providerType) {
+        return can(provider, providerType, 'volume');
+    }
+
+    function canMute(provider, providerType) {
+        return can(provider, providerType, 'mute');
+    }
+
+    function canPaused(provider, providerType) {
+        return can(provider, providerType, 'paused');
+    }
+
+    function canEnded(provider, providerType) {
+        return can(provider, providerType, 'ended');
+    }
+
+    /**
      * Convert a candidate media time to a safe non-negative number.
      *
      * @param {*} value Candidate media time.
@@ -508,6 +554,16 @@ define([], function() {
         getCapabilities: getCapabilities,
         getCapabilityMethods: getCapabilityMethods,
         can: can,
+        canCurrentTime: canCurrentTime,
+        canDuration: canDuration,
+        canPlay: canPlay,
+        canPause: canPause,
+        canSeek: canSeek,
+        canPlaybackRate: canPlaybackRate,
+        canVolume: canVolume,
+        canMute: canMute,
+        canPaused: canPaused,
+        canEnded: canEnded,
         normaliseTime: normaliseTime,
         normaliseVolume: normaliseVolume,
         resolveSkipTarget: resolveSkipTarget,

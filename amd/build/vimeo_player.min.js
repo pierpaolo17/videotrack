@@ -46,6 +46,15 @@ define([
     }
 
     function hasPlayer(methods, capability) {
+        if (capability === 'currentTime') {
+            return Adapter.canCurrentTime(player, 'vimeo');
+        }
+        if (capability === 'duration') {
+            return Adapter.canDuration(player, 'vimeo');
+        }
+        if (capability === 'seek') {
+            return Adapter.canSeek(player, 'vimeo');
+        }
         if (capability) {
             return Adapter.can(player, 'vimeo', capability);
         }
