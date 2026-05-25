@@ -8,6 +8,106 @@ define([
     'core/log',
     'mod_videotrack/core/segment'
 ], function(Ajax, Log, Segment) {
+    var AJAX_TIMEOUT_MS = 15000;
+    var METHOD_PREFIX = 'mod_videotrack_';
+
+    /**
+     * Validate a Moodle AJAX method name before dispatching the request.
+     *
+     * @param {*} methodname Candidate method name.
+     * @returns {string} Safe method name.
+     */
+    function normaliseMethodName(methodname) {
+        var name = String(methodname || '');
+        if (name.indexOf(METHOD_PREFIX) !== 0 || !/^mod_videotrack_[a-z0-9_]+$/.test(name)) {
+            throw new Error('invalid-method');
+        }
+        return name;
+    }
+
+    /**
+     * Normalise unknown AJAX failures into a compact, log-safe error object.
+     *
+     * @param {*} error Raw Moodle AJAX error.
+     * @returns {Error} Normalised error.
+     */
+    function normaliseAjaxError(error) {
+        var message = 'ajax-error';
+        if (error && error.errorcode) {
+            message = error.errorcode;
+        } else if (error && error.message) {
+            message = error.message;
+        } else if (typeof error === 'string') {
+            message = error;
+        }
+        var normalised = new Error(message);
+        normalised.originalError = error;
+        return normalised;
+    }
+
+    /**
+     * Resolve a promise with a conservative timeout.
+     *
+     * Moodle core/ajax does not expose AbortController handles. The timeout is
+     * therefore intentionally a caller-side guard: it prevents stale UI/tracker
+     * continuations from waiting indefinitely without changing the server API.
+     *
+     * @param {Promise} promise Promise returned by core/ajax.
+     * @param {number} timeout Timeout in milliseconds.
+     * @returns {Promise}
+     */
+    function withTimeout(promise, timeout) {
+        var timeoutMs = Number(timeout);
+        if (!isFinite(timeoutMs) || timeoutMs <= 0) {
+            timeoutMs = AJAX_TIMEOUT_MS;
+        }
+        var timer = null;
+        var timeoutPromise = new Promise(function(resolve, reject) {
+            timer = window.setTimeout(function() {
+                timer = null;
+                reject(new Error('ajax-timeout'));
+            }, timeoutMs);
+        });
+        return Promise.race([promise, timeoutPromise]).then(function(response) {
+            if (timer !== null) {
+                window.clearTimeout(timer);
+            }
+            return response;
+        }, function(error) {
+            if (timer !== null) {
+                window.clearTimeout(timer);
+            }
+            return Promise.reject(normaliseAjaxError(error));
+        });
+    }
+
+    /**
+     * Dispatch a single Moodle AJAX request through the shared hardening layer.
+     *
+     * @param {string} methodname Moodle external function name.
+     * @param {Object=} args Request arguments.
+     * @param {Object=} options Optional handling flags.
+     * @param {number=} options.timeout Timeout in milliseconds.
+     * @param {boolean=} options.swallowFailures Resolve to null on failure.
+     * @param {string=} options.errorMessage Debug prefix for swallowed failures.
+     * @returns {Promise<Object|null>} AJAX response or null when swallowed.
+     */
+    function call(methodname, args, options) {
+        options = options || {};
+        var promise;
+        try {
+            promise = Ajax.call([{methodname: normaliseMethodName(methodname), args: args || {}}])[0];
+        } catch (error) {
+            promise = Promise.reject(error);
+        }
+        return withTimeout(Promise.resolve(promise), options.timeout).catch(function(error) {
+            if (options.swallowFailures) {
+                Log.debug((options.errorMessage || 'mod_videotrack: AJAX request failed') + ' - ' + error.message);
+                return null;
+            }
+            return Promise.reject(error);
+        });
+    }
 
     /**
      * Build the common save_segment payload from a concrete player state.
@@ -57,19 +157,11 @@ define([
         if (!args) {
             return Promise.resolve(null);
         }
-        return Ajax.call([{
-            methodname: 'mod_videotrack_save_segment',
-            args: args
-        }])[0].catch(function(error) {
-            if (options.swallowFailures) {
-                Log.debug((options.errorMessage || 'mod_videotrack: save segment failed') + ' - ' + error);
-                return null;
-            }
-            return Promise.reject(error);
-        });
+        return call('mod_videotrack_save_segment', args, options);
     }
 
     return {
+        call: call,
         buildSegmentArgs: buildSegmentArgs,
         saveSegment: saveSegment
     };
