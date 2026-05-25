@@ -359,7 +359,14 @@ define([
                 ' ' + (config.secondslabel));
             rwBtn.addEventListener('click', function() {
                 player.getCurrentTime().then(function(t) {
-                    player.setCurrentTime(Math.max(0, t - config.rewindstep));
+                    Adapter.seek(
+                        Adapter.resolveSkipTarget(t, -config.rewindstep, state.duration),
+                        function(target) {
+                            return player.setCurrentTime(target);
+                        },
+                        Log,
+                        'Vimeo rewind'
+                    );
                 });
             });
             bar.appendChild(rwBtn);
@@ -379,7 +386,14 @@ define([
                 ' ' + (config.secondslabel));
             ffBtn.addEventListener('click', function() {
                 player.getCurrentTime().then(function(t) {
-                    player.setCurrentTime(Math.min(state.duration || 1e9, t + config.fastforwardstep));
+                    Adapter.seek(
+                        Adapter.resolveSkipTarget(t, config.fastforwardstep, state.duration),
+                        function(target) {
+                            return player.setCurrentTime(target);
+                        },
+                        Log,
+                        'Vimeo fast-forward'
+                    );
                 });
             });
             bar.appendChild(ffBtn);
