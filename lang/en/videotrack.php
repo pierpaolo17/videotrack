@@ -486,3 +486,4 @@ $string['report:exportnotes_confirmrequired'] = 'Confirm the personal-data expor
 
 $string['privacy:videoid_export_note'] = 'Video/content identifier: {$a}';
 $string['privacy:anonymisedreaction'] = 'Anonymised reaction';
+$string['coursereport:avgcoverage'] = 'Average coverage: {$a}%';

@@ -206,8 +206,21 @@ define([], function() {
 
         var button = document.createElement('button');
         button.type = 'button';
-        button.className = 'btn-close ms-2';
+        button.className = 'close btn-close ms-2';
         button.setAttribute('aria-label', normaliseDismissLabel(dismissLabel));
+
+        // Support both Moodle/Bootstrap 4 themes (`close`) and newer Bootstrap 5
+        // themes (`btn-close`) while keeping an explicit text alternative.
+        var closeIcon = document.createElement('span');
+        closeIcon.setAttribute('aria-hidden', 'true');
+        closeIcon.textContent = '\u00d7';
+        button.appendChild(closeIcon);
+
+        var closeText = document.createElement('span');
+        closeText.className = 'sr-only visually-hidden';
+        closeText.textContent = normaliseDismissLabel(dismissLabel);
+        button.appendChild(closeText);
+
         button.addEventListener('click', function() {
             if (timerId) {
                 window.clearTimeout(timerId);

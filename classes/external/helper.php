@@ -17,14 +17,6 @@ use core_external\external_api;
  */
 class helper extends external_api {
     /**
-     * Loads the activity and validates login, context and view capability.
-     *
-     * @param int $cmid Course module id.
-     * @return array{course: \stdClass, videotrack: \stdClass, cm: \cm_info, context: \context_module}
-     */
-
-
-    /**
      * Requires the Moodle session key for browser-originated AJAX mutations.
      *
      * The activity external functions are intended for authenticated Moodle UI
@@ -108,6 +100,12 @@ class helper extends external_api {
         return round($value, 3);
     }
 
+    /**
+     * Loads the activity and validates login, context and view capability.
+     *
+     * @param int $cmid Course module id.
+     * @return array{course: \stdClass, videotrack: \stdClass, cm: \cm_info, context: \context_module}
+     */
     public static function load_and_validate_context(int $cmid): array {
         global $DB;
 

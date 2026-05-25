@@ -477,3 +477,13 @@ $string['report:exportnotes_privacywarning'] = 'Ten eksport może zawierać dane
 
 $string['privacy:videoid_export_note'] = 'Video/content identifier: {$a}';
 $string['privacy:anonymisedreaction'] = 'Zanonimizowana reakcja';
+
+// 1.3.87 accessibility and privacy confirmation strings.
+$string['invalidvideosource'] = 'Invalid video source.';
+$string['report:gradeinputfor'] = 'Grade for {$a}';
+$string['report:savegradefor'] = 'Save grade for {$a}';
+$string['report:gradepassed'] = 'Passed';
+$string['report:gradefailed'] = 'Not passed';
+$string['report:exportnotes_confirm'] = 'I confirm that this notes export may contain personal data and that I have a valid purpose for downloading it.';
+$string['report:exportnotes_confirmrequired'] = 'Confirm the personal-data export notice before downloading notes.';
+$string['coursereport:avgcoverage'] = 'Average coverage: {$a}%';

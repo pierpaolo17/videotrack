@@ -1191,8 +1191,16 @@ function videotrack_pluginfile($course, $cm, $context, $filearea, $args, $forced
             && strpos((string)$file->get_mimetype(), 'image/') !== 0) {
         return false;
     }
-    if ($filearea === 'subtitles' && !in_array($file->get_mimetype(), ['text/vtt', 'text/plain'], true)) {
-        return false;
+    if ($filearea === 'subtitles') {
+        if (!in_array($file->get_mimetype(), ['text/vtt', 'text/plain'], true)) {
+            return false;
+        }
+        // Some servers report .vtt as text/plain; validate the actual WebVTT
+        // signature before serving subtitles to keep the MIME fallback safe.
+        $subtitlecontent = ltrim($file->get_content(), "\xEF\xBB\xBF\t\n\r ");
+        if (strncmp($subtitlecontent, 'WEBVTT', 6) !== 0) {
+            return false;
+        }
     }
     if ($filearea === 'videocontent') {
         global $DB;
