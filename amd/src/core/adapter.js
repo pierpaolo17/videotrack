@@ -60,6 +60,28 @@ define([], function() {
         }
     };
 
+
+    /**
+     * Normalise a provider type to the canonical adapter key.
+     *
+     * @param {string} providerType Candidate provider key.
+     * @returns {string} Canonical provider key or empty string.
+     */
+    function normaliseProviderType(providerType) {
+        var type = String(providerType || '').toLowerCase();
+        return Object.prototype.hasOwnProperty.call(CAPABILITIES, type) ? type : '';
+    }
+
+    /**
+     * Check whether the adapter knows a provider type.
+     *
+     * @param {string} providerType Candidate provider key.
+     * @returns {boolean} True when the provider is registered.
+     */
+    function isKnownProviderType(providerType) {
+        return normaliseProviderType(providerType) !== '';
+    }
+
     /**
      * Resolve a provider capability method list.
      *
@@ -84,7 +106,34 @@ define([], function() {
      * @returns {boolean} True when the provider is available for that capability.
      */
     function can(provider, providerType, capability) {
-        return isAvailable(provider, getCapabilityMethods(providerType, capability));
+        var type = normaliseProviderType(providerType);
+        if (!type) {
+            return false;
+        }
+        return isAvailable(provider, getCapabilityMethods(type, capability));
+    }
+
+    /**
+     * Check a capability or legacy method list with one adapter entry point.
+     *
+     * @param {*} provider Candidate provider object.
+     * @param {string} providerType Provider key: youtube, html5 or vimeo.
+     * @param {string=} capability Optional capability key.
+     * @param {Array<string>=} fallbackMethods Optional legacy method list.
+     * @returns {boolean} True when the provider can perform the operation.
+     */
+    function hasCapability(provider, providerType, capability, fallbackMethods) {
+        if (capability) {
+            return can(provider, providerType, capability);
+        }
+        if (fallbackMethods && fallbackMethods.length) {
+            return isAvailable(provider, fallbackMethods);
+        }
+        var type = normaliseProviderType(providerType);
+        if (!type) {
+            return false;
+        }
+        return isAvailable(provider);
     }
 
     /**
@@ -553,7 +602,10 @@ define([], function() {
     return {
         getCapabilities: getCapabilities,
         getCapabilityMethods: getCapabilityMethods,
+        normaliseProviderType: normaliseProviderType,
+        isKnownProviderType: isKnownProviderType,
         can: can,
+        hasCapability: hasCapability,
         canCurrentTime: canCurrentTime,
         canDuration: canDuration,
         canPlay: canPlay,
