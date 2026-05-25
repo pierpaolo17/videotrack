@@ -146,8 +146,15 @@ define([
                 // Marca il seek come programmatico: l'handler 'seeking' lo ignorerà.
                 // isProgrammaticSeek persiste fino all'evento 'seeked' che lo resetta.
                 state.isProgrammaticSeek = true;
-                media.currentTime = start;
-                media.play().catch(function(err) { Log.debug('mod_videotrack: play request failed - ' + err); });
+                Adapter.seek(start, function(target) {
+                    media.currentTime = target;
+                }, Log, 'HTML5 replay seek');
+                var replayPlay = Adapter.play(function() {
+                    return media.play();
+                }, Log, 'HTML5 replay play');
+                if (replayPlay && typeof replayPlay.catch === 'function') {
+                    replayPlay.catch(function(err) { Log.debug('mod_videotrack: play request failed - ' + err); });
+                }
             }
         });
     }
@@ -254,7 +261,15 @@ define([
         if (controls.indexOf('play') >= 0) {
             var playBtn = makeBtn('videotrack-ctrl-play', '▶', config.html5playlabel);
             playBtn.addEventListener('click', function() {
-                if (media.paused) { media.play(); } else { media.pause(); }
+                if (media.paused) {
+                    Adapter.play(function() {
+                        return media.play();
+                    }, Log, 'HTML5 control play');
+                } else {
+                    Adapter.pause(function() {
+                        return media.pause();
+                    }, Log, 'HTML5 control pause');
+                }
             });
             bar.appendChild(playBtn);
         }
@@ -600,7 +615,9 @@ define([
             if (!state.isSeeking) {
                 Tracker.syncTime(state, media.currentTime, media.playbackRate || 1);
                 if (Tracker.shouldStopReplay(state, media.currentTime)) {
-                    media.pause();
+                    Adapter.pause(function() {
+                        return media.pause();
+                    }, Log, 'HTML5 replay pause');
                 }
             }
         });
