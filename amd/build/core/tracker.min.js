@@ -162,6 +162,27 @@ define([
     }
 
     /**
+     * Read the current transition token for async race guards.
+     *
+     * @param {Object} state Mutable player state.
+     * @returns {number} Monotonic transition token.
+     */
+    function getTransitionToken(state) {
+        return state && typeof state._transitionSerial === 'number' ? state._transitionSerial : 0;
+    }
+
+    /**
+     * Check whether an async continuation still belongs to the active state.
+     *
+     * @param {Object} state Mutable player state.
+     * @param {number} token Token captured before async work started.
+     * @returns {boolean} True when no newer transition happened.
+     */
+    function isTransitionCurrent(state, token) {
+        return !!state && getTransitionToken(state) === token;
+    }
+
+    /**
      * Check whether a transition is allowed.
      *
      * @param {string} from Current state.
@@ -200,6 +221,7 @@ define([
         }
 
         state.trackerstate = next;
+        state._transitionSerial = getTransitionToken(state) + 1;
         if (next === STATES.PLAYING) {
             state.playing = true;
             state.ended = false;
@@ -954,8 +976,16 @@ define([
         }
 
         state.heartbeatPending = true;
+        state._heartbeatSerial = (typeof state._heartbeatSerial === 'number' ? state._heartbeatSerial : 0) + 1;
+        var heartbeatSerial = state._heartbeatSerial;
+        var transitionToken = getTransitionToken(state);
 
         return resolveCurrentTime(getCurrentTime, state).then(function(currentTime) {
+            if (!isTransitionCurrent(state, transitionToken) || state._heartbeatSerial !== heartbeatSerial) {
+                state.heartbeatPending = false;
+                emit(state, 'heartbeat:skipped', {reason: 'stale-state'});
+                return false;
+            }
             var heartbeat = captureHeartbeatSegment(state, currentTime);
             if (!heartbeat) {
                 state.heartbeatPending = false;
@@ -969,6 +999,11 @@ define([
                 return false;
             }
             return Promise.resolve(saveSegment(heartbeat.start, heartbeat.end, 'heartbeat')).then(function() {
+                if (!isTransitionCurrent(state, transitionToken) || state._heartbeatSerial !== heartbeatSerial) {
+                    state.heartbeatPending = false;
+                    emit(state, 'heartbeat:skipped', {reason: 'stale-state'});
+                    return false;
+                }
                 reopenAfterHeartbeat(state, heartbeat.end, timestamp);
                 state.heartbeatPending = false;
                 emit(state, 'heartbeat:saved', {start: heartbeat.start, end: heartbeat.end});
@@ -1002,6 +1037,8 @@ define([
         STATES: STATES,
         normaliseTrackerState: normaliseTrackerState,
         getTrackerState: getTrackerState,
+        getTransitionToken: getTransitionToken,
+        isTransitionCurrent: isTransitionCurrent,
         canTransition: canTransition,
         setTrackerState: setTrackerState,
         markIdle: markIdle,
