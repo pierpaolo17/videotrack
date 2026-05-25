@@ -340,6 +340,9 @@ define([
         }
 
         return attemptRequest(0).catch(function(error) {
+            if (classifyAjaxError(error) === ERROR_CATEGORY_VALIDATION && getErrorMessage(error) === 'invalid-method') {
+                return Promise.reject(error);
+            }
             if (options.swallowFailures) {
                 Log.debug((options.errorMessage || 'mod_videotrack: AJAX request failed') +
                     ' [' + classifyAjaxError(error) + '] - ' + error.message);

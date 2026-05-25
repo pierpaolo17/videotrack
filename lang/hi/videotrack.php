@@ -495,3 +495,4 @@ $string['presets:reactionicontypearia'] = 'प्रतिक्रिया {$a
 $string['presets:reactioniconvaluearia'] = 'प्रतिक्रिया {$a}: आइकन मान';
 $string['presets:reactionrequiredaria'] = 'प्रतिक्रिया {$a}: पूर्णता के लिए आवश्यक';
 $string['err:reactionpresetjson'] = 'प्रतिक्रिया प्रीसेट डेटा अमान्य है। पृष्ठ पुनः लोड करें और फिर प्रयास करें।';
+$string['presets:reactionstablecaption'] = 'Reaction preset rows';

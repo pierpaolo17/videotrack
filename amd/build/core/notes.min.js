@@ -148,9 +148,13 @@ define([], function() {
             setButtonState(saveBtn, playing);
         }
 
-        document.addEventListener('videotrack:playstate', function(e) {
+        var playStateHandler = function(e) {
             setLocalButtonState(e.detail && e.detail.playing);
-        });
+        };
+        document.addEventListener('videotrack:playstate', playStateHandler);
+        window.addEventListener('beforeunload', function() {
+            document.removeEventListener('videotrack:playstate', playStateHandler);
+        }, {once: true});
 
         saveBtn.addEventListener('click', function() {
             if (savingNote || saveBtn.getAttribute('aria-disabled') === 'true') {

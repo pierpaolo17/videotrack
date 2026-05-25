@@ -235,6 +235,7 @@ if ($isediting) {
     // Reactions table.
     echo html_writer::tag('h4', get_string('presets:reactions', 'mod_videotrack'));
     echo html_writer::start_tag('table', ['class' => 'generaltable w-100']);
+    echo html_writer::tag('caption', get_string('presets:reactionstablecaption', 'mod_videotrack'), ['class' => 'sr-only visually-hidden']);
     echo html_writer::start_tag('thead');
     echo html_writer::start_tag('tr');
     foreach ([
@@ -244,7 +245,7 @@ if ($isediting) {
         get_string('reactioniconvalue', 'mod_videotrack'),
         get_string('reactionrequired', 'mod_videotrack'),
     ] as $th) {
-        echo html_writer::tag('th', $th);
+        echo html_writer::tag('th', $th, ['scope' => 'col']);
     }
     echo html_writer::end_tag('tr');
     echo html_writer::end_tag('thead');

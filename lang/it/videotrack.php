@@ -498,3 +498,4 @@ $string['presets:reactionicontypearia'] = 'Reazione {$a}: tipo di icona';
 $string['presets:reactioniconvaluearia'] = 'Reazione {$a}: valore icona';
 $string['presets:reactionrequiredaria'] = 'Reazione {$a}: richiesta per il completamento';
 $string['err:reactionpresetjson'] = 'I dati del preset reazioni non sono validi. Ricarica la pagina e riprova.';
+$string['presets:reactionstablecaption'] = 'Reaction preset rows';

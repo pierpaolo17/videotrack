@@ -763,8 +763,7 @@ if ($mode === 'student') {
                         html_writer::span($passed ? '✓' : '✗', '', ['aria-hidden' => 'true']) .
                             html_writer::span($passlabel, 'sr-only'),
                         ['class' => 'ms-1 ' . ($passed ? 'text-success' : 'text-danger'),
-                         'title' => get_string('report:gradepass_hint', 'mod_videotrack', format_float((float)$videotrack->gradepass, 2)),
-                         'aria-label' => $passlabel]
+                         'title' => get_string('report:gradepass_hint', 'mod_videotrack', format_float((float)$videotrack->gradepass, 2))]
                     );
                 }
 

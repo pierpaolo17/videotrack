@@ -21,11 +21,11 @@
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 define([
-    'core/modal_factory',
+    'core/modal_save_cancel',
     'core/modal_events',
     'core/str',
     'core/log'
-], function(ModalFactory, ModalEvents, Str, Log) {
+], function(ModalSaveCancel, ModalEvents, Str, Log) {
 
     /**
      * Submit a form without re-triggering submit handlers.
@@ -151,8 +151,7 @@ define([
             resolveString(options.okString, labels.ok || 'OK'),
             resolveString(options.cancelString, labels.cancel || 'Cancel')
         ]).then(function(strings) {
-            return ModalFactory.create({
-                type: ModalFactory.types.SAVE_CANCEL,
+            return ModalSaveCancel.create({
                 title: strings[0],
                 body: message
             }).then(function(modal) {

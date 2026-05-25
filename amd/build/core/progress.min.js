@@ -60,7 +60,7 @@ define([], function() {
      *
      * @param {number} percent Progress percentage.
      */
-    function updateFallbackProgress(percent) {
+    function updateFallbackProgress(percent, updateStatus) {
         var fallback = document.getElementById('videotrack-interval-progress');
         var status = document.getElementById('videotrack-interval-bar-status');
         var label = formatPercent(percent);
@@ -68,8 +68,12 @@ define([], function() {
             fallback.value = Math.max(0, Math.min(100, Number(percent) || 0));
             fallback.textContent = label;
         }
-        if (status) {
-            status.textContent = status.textContent.replace(/—\s*[\d.,]+\s*%$/, '— ' + label);
+        if (status && updateStatus !== false) {
+            if (/—\s*[\d.,']+\s*%$/.test(status.textContent)) {
+                status.textContent = status.textContent.replace(/—\s*[\d.,']+\s*%$/, '— ' + label);
+            } else {
+                status.textContent = status.textContent + ' — ' + label;
+            }
         }
     }
 
@@ -97,7 +101,7 @@ define([], function() {
 
         if (percent !== null) {
             updatePercentText(percent);
-            updateFallbackProgress(percent);
+            updateFallbackProgress(percent, !intervaljson);
         }
 
         if (duration !== null && duration > 0 && state) {
