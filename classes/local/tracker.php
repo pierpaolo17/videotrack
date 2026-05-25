@@ -528,6 +528,29 @@ class tracker {
         return $state;
     }
 
+
+    /**
+     * Synchronises Moodle completion only when the persisted completion state
+     * differs from the computed VideoTrack state. This avoids redundant writes
+     * on every heartbeat/reaction while preserving normal completion semantics.
+     *
+     * @param \completion_info $completion Course completion helper.
+     * @param \cm_info $cm Course module info.
+     * @param bool $iscompleted Computed VideoTrack completion state.
+     * @param int $userid User id.
+     */
+    public static function update_moodle_completion_if_changed(\completion_info $completion, \cm_info $cm,
+            bool $iscompleted, int $userid): void {
+        $target = $iscompleted ? COMPLETION_COMPLETE : COMPLETION_INCOMPLETE;
+        $current = $completion->get_data($cm, false, $userid);
+        $currentstate = isset($current->completionstate) ? (int)$current->completionstate : COMPLETION_INCOMPLETE;
+
+        $currentlycomplete = in_array($currentstate, [COMPLETION_COMPLETE, COMPLETION_COMPLETE_PASS, COMPLETION_COMPLETE_FAIL], true);
+        if (($iscompleted && !$currentlycomplete) || (!$iscompleted && $currentstate !== COMPLETION_INCOMPLETE)) {
+            $completion->update_state($cm, $target, $userid);
+        }
+    }
+
     public static function refresh_completion(\stdClass $videotrack, \cm_info $cm, int $userid): \stdClass {
         global $DB;
 

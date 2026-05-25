@@ -145,6 +145,7 @@ if (!$isediting) {
                 'type' => 'submit',
                 'class' => 'btn btn-link p-0 align-baseline text-danger',
                 'data-confirm' => get_string('presets:confirmdelete', 'mod_videotrack'),
+                'aria-label' => get_string('presets:deletearia', 'mod_videotrack', $p['name']),
             ]);
             $deleteform .= html_writer::end_tag('form');
             $actions = html_writer::link($editurl, get_string('edit')) . ' | ' . $deleteform;
@@ -250,18 +251,24 @@ if ($isediting) {
     echo html_writer::start_tag('tbody');
 
     foreach ($defaultreactions as $i => $r) {
+        $rownum = $i + 1;
         echo html_writer::start_tag('tr');
         echo html_writer::tag('td', html_writer::empty_tag('input', [
             'type' => 'text', 'name' => 'rlabel[' . $i . ']',
             'class' => 'form-control form-control-sm', 'value' => s($r['label']),
+            'aria-label' => get_string('presets:reactionlabelaria', 'mod_videotrack', $rownum),
         ]));
         echo html_writer::tag('td', html_writer::empty_tag('input', [
             'type' => 'text', 'name' => 'rdesc[' . $i . ']',
             'class' => 'form-control form-control-sm', 'value' => s($r['description'] ?? ''),
+            'aria-label' => get_string('presets:reactiondescriptionaria', 'mod_videotrack', $rownum),
         ]));
         // Icon type select.
-        $selecthtml = html_writer::start_tag('select',
-            ['name' => 'ricontype[' . $i . ']', 'class' => 'form-control form-control-sm']);
+        $selecthtml = html_writer::start_tag('select', [
+            'name' => 'ricontype[' . $i . ']',
+            'class' => 'form-control form-control-sm',
+            'aria-label' => get_string('presets:reactionicontypearia', 'mod_videotrack', $rownum),
+        ]);
         foreach (['emoji' => get_string('icontype:emoji', 'mod_videotrack'),
                   'fa'    => get_string('icontype:fa', 'mod_videotrack')] as $val => $label) {
             $attrs = ['value' => $val];
@@ -275,11 +282,17 @@ if ($isediting) {
         echo html_writer::tag('td', html_writer::empty_tag('input', [
             'type' => 'text', 'name' => 'riconval[' . $i . ']',
             'class' => 'form-control form-control-sm', 'value' => s($r['iconvalue'] ?? ''),
+            'aria-label' => get_string('presets:reactioniconvaluearia', 'mod_videotrack', $rownum),
         ]));
         $checkedattr = !empty($r['requiredforcompletion']) ? ['checked' => 'checked'] : [];
         echo html_writer::tag('td',
             html_writer::empty_tag('input', array_merge(
-                ['type' => 'checkbox', 'name' => 'rrequired[' . $i . ']', 'value' => '1'],
+                [
+                    'type' => 'checkbox',
+                    'name' => 'rrequired[' . $i . ']',
+                    'value' => '1',
+                    'aria-label' => get_string('presets:reactionrequiredaria', 'mod_videotrack', $rownum),
+                ],
                 $checkedattr
             ))
         );

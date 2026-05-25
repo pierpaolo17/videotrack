@@ -479,7 +479,7 @@ class mod_videotrack_mod_form extends moodleform_mod {
             $mform->addHelpButton('reactionpreset', 'reactionpreset', 'mod_videotrack');
             // Hidden field used by JS to carry preset JSON to the client.
             $mform->addElement('hidden', 'reactionpreset_json', '');
-            $mform->setType('reactionpreset_json', PARAM_RAW);
+            $mform->setType('reactionpreset_json', PARAM_RAW_TRIM);
         }
 
         $this->add_reaction_elements();
@@ -818,6 +818,13 @@ class mod_videotrack_mod_form extends moodleform_mod {
         if (!empty($data['reactionsrequired']) &&
                 empty($data['minreactions']) && empty($data['requireallreactiontypes'])) {
             $errors['minreactions'] = get_string('err:minreactionsrequired', 'mod_videotrack');
+        }
+
+        if (array_key_exists('reactionpreset_json', $data) && trim((string)$data['reactionpreset_json']) !== '') {
+            $presetjson = json_decode((string)$data['reactionpreset_json'], true);
+            if (json_last_error() !== JSON_ERROR_NONE || !is_array($presetjson)) {
+                $errors['reactionpreset'] = get_string('err:reactionpresetjson', 'mod_videotrack');
+            }
         }
 
         $labels = $data['reactionlabel'] ?? [];

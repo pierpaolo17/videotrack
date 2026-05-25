@@ -64,10 +64,12 @@ class delete_reaction extends external_api {
                 'notetype' => 'note',
             ], '*', MUST_EXIST);
 
+        $changed = false;
         if (empty($event->isdeleted)) {
             $event->isdeleted = 1;
             $event->timemodified = time();
             $DB->update_record('videotrack_reactev', $event);
+            $changed = true;
             // O1: invalidate per-request cache so subsequent reaction_counts() calls
             // within this request see the updated (soft-deleted) record.
             tracker::invalidate_reaction_counts_cache($videotrack->id, (int)$USER->id);
@@ -82,15 +84,16 @@ class delete_reaction extends external_api {
             $moodleevent->trigger();
         }
 
-        // B5 fix: reaction_counts is called once here, before refresh_completion.
-        // refresh_completion calls it internally too, but we need the count for the
-        // response. Calling it before avoids a third redundant call after the block.
         $summary = tracker::reaction_counts($videotrack->id, (int)$USER->id);
-        $state = tracker::refresh_completion($videotrack, $cm, (int)$USER->id);
-        $completion = new \completion_info($course);
-        $completion->update_state($cm,
-            $state->iscompleted ? COMPLETION_COMPLETE : COMPLETION_INCOMPLETE, (int)$USER->id);
-        $iscompleted = (bool)$state->iscompleted;
+        if ($changed) {
+            $state = tracker::refresh_completion($videotrack, $cm, (int)$USER->id);
+            $completion = new \completion_info($course);
+            tracker::update_moodle_completion_if_changed($completion, $cm, (bool)$state->iscompleted, (int)$USER->id);
+            $iscompleted = (bool)$state->iscompleted;
+        } else {
+            $state = $DB->get_record('videotrack_state', ['videotrackid' => $videotrack->id, 'userid' => (int)$USER->id]);
+            $iscompleted = $state ? (bool)$state->iscompleted : false;
+        }
         return [
             'deleted'         => true,
             'uniquereactions' => $summary['uniquecount'],

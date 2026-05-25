@@ -487,3 +487,11 @@ $string['report:exportnotes_confirmrequired'] = 'नोट्स डाउनल
 $string['coursereport:avgcoverage'] = 'औसत कवरेज: {$a}%';
 
 $string['report:exportnotes_csv_personaldata'] = 'संभावित व्यक्तिगत डेटा सहित नोट्स को CSV के रूप में निर्यात करें';
+
+$string['presets:deletearia'] = 'प्रीसेट {$a} हटाएँ';
+$string['presets:reactionlabelaria'] = 'प्रतिक्रिया {$a}: लेबल';
+$string['presets:reactiondescriptionaria'] = 'प्रतिक्रिया {$a}: विवरण';
+$string['presets:reactionicontypearia'] = 'प्रतिक्रिया {$a}: आइकन प्रकार';
+$string['presets:reactioniconvaluearia'] = 'प्रतिक्रिया {$a}: आइकन मान';
+$string['presets:reactionrequiredaria'] = 'प्रतिक्रिया {$a}: पूर्णता के लिए आवश्यक';
+$string['err:reactionpresetjson'] = 'प्रतिक्रिया प्रीसेट डेटा अमान्य है। पृष्ठ पुनः लोड करें और फिर प्रयास करें।';
