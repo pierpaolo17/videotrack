@@ -65,16 +65,19 @@ define([
         }).then(updateProgress);
     }
 
-    function hasPlayer(methods) {
+    function hasPlayer(methods, capability) {
+        if (capability) {
+            return Adapter.can(player, 'youtube', capability);
+        }
         return Adapter.isAvailable(player, methods);
     }
 
     function saveCurrentProgress(reason) {
-        return PlayerCore.saveCurrentProgress(state, getCurrentVideoTime, saveSegment, reason, hasPlayer(['getCurrentTime']));
+        return PlayerCore.saveCurrentProgress(state, getCurrentVideoTime, saveSegment, reason, hasPlayer(null, 'currentTime'));
     }
 
     function closeCurrentSegment(reason) {
-        return Tracker.closeAndSaveSegment(state, getCurrentVideoTime, saveSegment, reason, hasPlayer(['getCurrentTime']))
+        return Tracker.closeAndSaveSegment(state, getCurrentVideoTime, saveSegment, reason, hasPlayer(null, 'currentTime'))
             .catch(Log.debug);
     }
 

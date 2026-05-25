@@ -45,12 +45,15 @@ define([
             .catch(Log.debug);
     }
 
-    function hasPlayer(methods) {
+    function hasPlayer(methods, capability) {
+        if (capability) {
+            return Adapter.can(player, 'vimeo', capability);
+        }
         return Adapter.isAvailable(player, methods);
     }
 
     function saveCurrentProgress(reason) {
-        return PlayerCore.saveCurrentProgress(state, getCurrentVideoTime, saveSegment, reason, hasPlayer(['getCurrentTime']));
+        return PlayerCore.saveCurrentProgress(state, getCurrentVideoTime, saveSegment, reason, hasPlayer(null, 'currentTime'));
     }
 
     function updateProgress(response) {
@@ -66,7 +69,7 @@ define([
     function closeSegment(reason) {
         return Tracker.closeAndSaveSegment(state, function() {
             return player ? player.getCurrentTime() : state.lasttime;
-        }, saveSegment, reason, hasPlayer(['getCurrentTime'])).catch(Log.debug);
+        }, saveSegment, reason, hasPlayer(null, 'currentTime')).catch(Log.debug);
     }
 
     // ── Heartbeat ─────────────────────────────────────────────────────────
