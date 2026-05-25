@@ -4,7 +4,7 @@ This document records the post-stable maintenance checks for the 1.3.x line.
 
 ## Scope
 
-The 1.3.82 maintenance checkpoint is intentionally conservative. It does not change database schema, capabilities, privacy API, backup/restore mappings, or runtime player behaviour.
+The 1.3.84 maintenance checkpoint is intentionally conservative. It does not change database schema, capabilities, privacy API, backup/restore mappings, or runtime player behaviour.
 
 ## Maintainer checklist
 
@@ -24,6 +24,7 @@ node tests/rc2_freeze_static_test.js
 node tests/rc3_freeze_static_test.js
 node tests/final_static_test.js
 node tests/maintenance_static_test.js
+node tests/postrelease_static_test.js
 ```
 
 Also run syntax checks for committed JavaScript and PHP files.
