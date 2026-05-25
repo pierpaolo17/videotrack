@@ -169,11 +169,17 @@ define([
             player.pauseVideo();
         }
 
-        // Heartbeat: salvataggio periodico del segmento in corso per prevenire
-        // perdita di dati in caso di crash del browser o caduta di connessione (sez. 4.3).
-        Tracker.saveHeartbeatIfDue(state, HEARTBEAT_INTERVAL, function() {
-            return player.getCurrentTime();
-        }, saveSegment).catch(Log.debug);
+        // Heartbeat: provider-neutral guard and error handling live in core/tracker.
+        Tracker.runHeartbeat({
+            state: state,
+            heartbeatInterval: HEARTBEAT_INTERVAL,
+            getCurrentTime: getCurrentVideoTime,
+            saveSegment: saveSegment,
+            hasPlayer: function() {
+                return !!player;
+            },
+            log: Log
+        });
     }
 
     function onPlayerStateChange(event) {

@@ -326,6 +326,53 @@ define([
 
 
 
+
+
+    /**
+     * Run one provider-neutral heartbeat check.
+     *
+     * Concrete player modules only provide media availability, current-time and
+     * persistence callbacks. This keeps the guard clauses, async error handling
+     * and logging behaviour in the tracker layer, which reduces the chance that
+     * YouTube, HTML5 and Vimeo drift apart again.
+     *
+     * @param {Object} options Heartbeat options.
+     * @param {Object} options.state Mutable player state.
+     * @param {number} options.heartbeatInterval Heartbeat interval in seconds.
+     * @param {Function} options.getCurrentTime Function returning current media time.
+     * @param {Function} options.saveSegment Segment persistence callback.
+     * @param {Function=} options.hasPlayer Optional player availability callback.
+     * @param {Function=} options.shouldSkip Optional extra provider-specific skip callback.
+     * @param {Object=} options.log Optional Moodle log module.
+     * @returns {Promise<boolean>} True when a heartbeat segment was saved.
+     */
+    function runHeartbeat(options) {
+        options = options || {};
+        var state = options.state;
+        var hasPlayer = typeof options.hasPlayer === 'function' ? options.hasPlayer : function() {
+            return true;
+        };
+        var shouldSkip = typeof options.shouldSkip === 'function' ? options.shouldSkip : function() {
+            return false;
+        };
+
+        if (!state || !state.playing || state.segmentstart === null || !hasPlayer() || shouldSkip()) {
+            return Promise.resolve(false);
+        }
+
+        return saveHeartbeatIfDue(
+            state,
+            options.heartbeatInterval,
+            options.getCurrentTime,
+            options.saveSegment
+        ).catch(function(error) {
+            if (options.log && typeof options.log.debug === 'function') {
+                options.log.debug(error);
+            }
+            return false;
+        });
+    }
+
     /**
      * Install shared page lifecycle handlers for player modules.
      *
@@ -526,6 +573,7 @@ define([
         resetHeartbeat: resetHeartbeat,
         shouldSaveHeartbeat: shouldSaveHeartbeat,
         saveHeartbeatIfDue: saveHeartbeatIfDue,
+        runHeartbeat: runHeartbeat,
         reopenAfterHeartbeat: reopenAfterHeartbeat,
         installLifecycleHandlers: installLifecycleHandlers,
         reopenAfterInteractionSave: reopenAfterInteractionSave,
