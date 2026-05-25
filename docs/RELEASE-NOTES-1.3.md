@@ -53,3 +53,5 @@ The plugin metadata currently targets Moodle 5.0+ according to `version.php`. Co
 - `1.3.80`: stable checkpoint after RC/final static verification; no new runtime behaviour beyond the freeze line.
 
 - `1.3.81`: stable maintenance packaging checkpoint; restores/validates stable release documentation and static gate evidence.
+
+- `1.3.82`: stable maintenance checkpoint for packaging/docs static gate consistency.
