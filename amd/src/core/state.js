@@ -35,6 +35,8 @@ define([], function() {
             currentReplayEnd: null,
             ended: false,
             _pendingResume: false,
+            _transitionSerial: 0,
+            _heartbeatSerial: 0,
             _posterRemoved: false,
             _posterPlayListener: null
         };
