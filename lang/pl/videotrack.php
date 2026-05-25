@@ -479,11 +479,13 @@ $string['privacy:videoid_export_note'] = 'Video/content identifier: {$a}';
 $string['privacy:anonymisedreaction'] = 'Zanonimizowana reakcja';
 
 // 1.3.87 accessibility and privacy confirmation strings.
-$string['invalidvideosource'] = 'Invalid video source.';
-$string['report:gradeinputfor'] = 'Grade for {$a}';
-$string['report:savegradefor'] = 'Save grade for {$a}';
-$string['report:gradepassed'] = 'Passed';
-$string['report:gradefailed'] = 'Not passed';
-$string['report:exportnotes_confirm'] = 'I confirm that this notes export may contain personal data and that I have a valid purpose for downloading it.';
-$string['report:exportnotes_confirmrequired'] = 'Confirm the personal-data export notice before downloading notes.';
-$string['coursereport:avgcoverage'] = 'Average coverage: {$a}%';
+$string['invalidvideosource'] = 'Nieprawidłowe źródło wideo.';
+$string['report:gradeinputfor'] = 'Ocena dla {$a}';
+$string['report:savegradefor'] = 'Zapisz ocenę dla {$a}';
+$string['report:gradepassed'] = 'Zaliczone';
+$string['report:gradefailed'] = 'Niezaliczone';
+$string['report:exportnotes_confirm'] = 'Potwierdzam, że ten eksport notatek może zawierać dane osobowe i że mam ważny cel ich pobrania.';
+$string['report:exportnotes_confirmrequired'] = 'Potwierdź informację o eksporcie danych osobowych przed pobraniem notatek.';
+$string['coursereport:avgcoverage'] = 'Średnie pokrycie: {$a}%';
+
+$string['report:exportnotes_csv_personaldata'] = 'Eksportuj notatki jako CSV, w tym możliwe dane osobowe';

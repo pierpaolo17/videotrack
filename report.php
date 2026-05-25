@@ -367,6 +367,7 @@ if ($export === 'csv') {
     require_sesskey();
     $filename = 'videotrack_report_' . $cm->id . '_' . $mode . '.csv';
     header('Content-Type: text/csv; charset=utf-8');
+    header('X-Content-Type-Options: nosniff');
     header('Content-Disposition: attachment; filename="' . $filename . '"');
     $fh = fopen('php://output', 'w');
     if ($mode === 'cumulative') {
@@ -1029,6 +1030,7 @@ if ($mode === 'student' && !empty($videotrack->studentnotesenabled)) {
         $notesexportform .= html_writer::tag('button', get_string('report:exportnotes_csv', 'mod_videotrack'), [
             'type' => 'submit',
             'class' => 'btn btn-sm btn-outline-secondary mt-2',
+            'aria-label' => get_string('report:exportnotes_csv_personaldata', 'mod_videotrack'),
         ]);
         $notesexportform .= html_writer::end_tag('form');
         echo $notesexportform;

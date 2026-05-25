@@ -89,7 +89,7 @@ class privacy_manager {
     }
 
     /**
-     * Builds a stable negative user id that cannot collide with normal Moodle users.
+     * Builds a stable negative user id with collisions that are extremely unlikely in normal Moodle use.
      *
      * The mapping is salted at site level. It is a deterministic pseudonymous key
      * used only to preserve aggregate analytics after erasure requests.
