@@ -1,10 +1,10 @@
 #!/usr/bin/env node
 /*
- * RC1 freeze checks for mod_videotrack.
+ * RC2 freeze checks for mod_videotrack.
  *
- * These checks are intentionally Moodle-independent. They verify that the rc1
- * package advertises release-candidate maturity and that the static release
- * gate remains documented and executable.
+ * These checks are Moodle-independent and keep rc2 focused on release-gate
+ * hardening. They verify that the package remains in RC maturity, documents
+ * the rc2 checkpoint and keeps the existing static test gate available.
  */
 
 const fs = require('fs');
@@ -33,22 +33,24 @@ function assertFile(relativePath) {
 }
 
 function main() {
-    assertContains('version.php', /\$plugin->release\s*=\s*'1\.3\.7[67]-rc[12]'/, 'release-candidate release marker');
+    assertContains('version.php', /\$plugin->release\s*=\s*'1\.3\.77-rc2'/, 'rc2 release marker');
     assertContains('version.php', /\$plugin->maturity\s*=\s*MATURITY_RC/, 'release-candidate maturity');
-    assertContains('version.php', /\$plugin->version\s*=\s*2026052507[67];/, 'incremented plugin version');
+    assertContains('version.php', /\$plugin->version\s*=\s*20260525077;/, 'incremented plugin version');
 
     [
         'docs/RELEASE-CANDIDATE-1.3.md',
         'docs/RELEASE-NOTES-1.3.md',
         'docs/UPGRADE-1.3.md',
-        'tests/release_candidate_static_test.js'
+        'tests/release_candidate_static_test.js',
+        'tests/rc_freeze_static_test.js'
     ].forEach(assertFile);
 
+    assertContains('docs/RELEASE-CANDIDATE-1.3.md', /1\.3\.76-rc1/, 'rc1 checkpoint history');
+    assertContains('docs/RELEASE-CANDIDATE-1.3.md', /1\.3\.77-rc2/, 'rc2 checkpoint history');
+    assertContains('docs/RELEASE-CANDIDATE-1.3.md', /functional freeze/, 'functional freeze reminder');
     assertContains('docs/RELEASE-CANDIDATE-1.3.md', /Manual runtime checks still required/, 'manual runtime caveat');
-    assertContains('docs/RELEASE-CANDIDATE-1.3.md', /Do not introduce database changes/, 'database freeze reminder');
-    assertContains('docs/RELEASE-CANDIDATE-1.3.md', /privacy provider contracts/, 'privacy freeze reminder');
 
-    console.log('RC freeze static checks passed.');
+    console.log('RC2 freeze static checks passed.');
 }
 
 main();
