@@ -41,6 +41,8 @@ function main() {
         'docs/RELEASE-CANDIDATE-1.3.md',
         'docs/FINAL-CHECKS-1.3.md',
         'docs/STABLE-RELEASE-1.3.md',
+        'docs/MAINTENANCE-1.3.md',
+        'docs/POST-RELEASE-1.3.md',
         'tests/smoke_amd.js',
         'tests/tracker_segment_test.js',
         'tests/adapter_test.js',
@@ -52,11 +54,13 @@ function main() {
         'tests/rc_freeze_static_test.js',
         'tests/rc2_freeze_static_test.js',
         'tests/rc3_freeze_static_test.js',
-        'tests/stable_release_static_test.js'
+        'tests/stable_release_static_test.js',
+        'tests/maintenance_static_test.js',
+        'tests/postrelease_static_test.js'
     ].forEach(assertFile);
 
-    assertContains('version.php', /\$plugin->version\s*=\s*202605250(?:79|80|81|82);/, 'final-check plugin version');
-    assertContains('version.php', /\$plugin->release\s*=\s*'(?:1\.3\.79|1\.3\.80|1\.3\.81|1\.3\.82)'/, 'final-check release marker');
+    assertContains('version.php', /\$plugin->version\s*=\s*202605250(?:79|80|81|82|83);/, 'final-check plugin version');
+    assertContains('version.php', /\$plugin->release\s*=\s*'(?:1\.3\.79|1\.3\.80|1\.3\.81|1\.3\.82|1\.3\.83)'/, 'final-check release marker');
     assertContains('version.php', /\$plugin->maturity\s*=\s*MATURITY_(?:RC|STABLE)/, 'release-candidate maturity before stable tag');
 
     assertContains('docs/RELEASE-CANDIDATE-1.3.md', /1\.3\.76-rc1/, 'rc1 checkpoint history');
@@ -65,6 +69,8 @@ function main() {
     assertContains('docs/FINAL-CHECKS-1.3.md', /Manual runtime checks still required/, 'manual runtime caveat');
     assertContains('docs/FINAL-CHECKS-1.3.md', /1\.3\.80/, 'stable checkpoint');
     assertContains('docs/STABLE-RELEASE-1.3.md', /MATURITY_STABLE/, 'stable maturity marker');
+    assertContains('docs/MAINTENANCE-1.3.md', /MATURITY_STABLE/, 'maintenance maturity marker');
+    assertContains('docs/POST-RELEASE-1.3.md', /MATURITY_STABLE/, 'post-release maturity marker');
 
     console.log('Final static checks passed.');
 }
