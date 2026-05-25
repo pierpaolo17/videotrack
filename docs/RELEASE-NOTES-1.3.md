@@ -2,7 +2,7 @@
 
 ## Status
 
-The 1.3 line is still a development/refactor line. It is not yet a final stable release.
+The 1.3 line is in release-candidate validation. It is not yet a final stable release.
 
 ## Highlights
 
@@ -23,6 +23,12 @@ Current development checks include:
 - `tests/backup_restore_static_test.js`
 - `tests/privacy_static_test.js`
 - `tests/lib_test.php`
+- `tests/deprecation_static_test.js`
+- `tests/performance_static_test.js`
+- `tests/release_candidate_static_test.js`
+- `tests/rc_freeze_static_test.js`
+- `tests/rc2_freeze_static_test.js`
+- `tests/rc3_freeze_static_test.js`
 
 ## Manual checks still required before release candidate
 
@@ -36,3 +42,10 @@ Current development checks include:
 ## Compatibility notes
 
 The plugin metadata currently targets Moodle 5.0+ according to `version.php`. Confirm supported versions again before tagging a stable release.
+
+
+## Release candidate checkpoints
+
+- `1.3.76-rc1`: first release-candidate freeze.
+- `1.3.77-rc2`: release-gate hardening and rc2 validation.
+- `1.3.78-rc3`: final planned release-candidate checkpoint before final static verification.

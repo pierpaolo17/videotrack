@@ -1,11 +1,11 @@
 #!/usr/bin/env node
 /*
- * RC2 freeze checks for mod_videotrack.
+ * RC3 freeze checks for mod_videotrack.
  *
- * These checks are Moodle-independent and keep rc2 and later RC checkpoints
- * focused on release-gate hardening. They verify that the package remains in
- * RC maturity, documents the rc2 checkpoint and keeps the static test gate
- * available.
+ * RC3 is the final planned release-candidate checkpoint before final static
+ * verification. These checks keep the package functionally frozen and verify
+ * that the release documentation, previous RC gates and version metadata are
+ * aligned for the rc3 handoff.
  */
 
 const fs = require('fs');
@@ -34,24 +34,26 @@ function assertFile(relativePath) {
 }
 
 function main() {
-    assertContains('version.php', /\$plugin->release\s*=\s*'1\.3\.7[78]-rc[23]'/, 'rc2-or-later release marker');
+    assertContains('version.php', /\$plugin->release\s*=\s*'1\.3\.78-rc3'/, 'rc3 release marker');
     assertContains('version.php', /\$plugin->maturity\s*=\s*MATURITY_RC/, 'release-candidate maturity');
-    assertContains('version.php', /\$plugin->version\s*=\s*2026052507[78];/, 'incremented rc2-or-later plugin version');
+    assertContains('version.php', /\$plugin->version\s*=\s*20260525078;/, 'incremented plugin version');
 
     [
         'docs/RELEASE-CANDIDATE-1.3.md',
         'docs/RELEASE-NOTES-1.3.md',
         'docs/UPGRADE-1.3.md',
         'tests/release_candidate_static_test.js',
-        'tests/rc_freeze_static_test.js'
+        'tests/rc_freeze_static_test.js',
+        'tests/rc2_freeze_static_test.js'
     ].forEach(assertFile);
 
     assertContains('docs/RELEASE-CANDIDATE-1.3.md', /1\.3\.76-rc1/, 'rc1 checkpoint history');
     assertContains('docs/RELEASE-CANDIDATE-1.3.md', /1\.3\.77-rc2/, 'rc2 checkpoint history');
-    assertContains('docs/RELEASE-CANDIDATE-1.3.md', /functional freeze/, 'functional freeze reminder');
+    assertContains('docs/RELEASE-CANDIDATE-1.3.md', /1\.3\.78-rc3/, 'rc3 checkpoint history');
+    assertContains('docs/RELEASE-CANDIDATE-1.3.md', /final planned release-candidate checkpoint/, 'rc3 freeze scope');
     assertContains('docs/RELEASE-CANDIDATE-1.3.md', /Manual runtime checks still required/, 'manual runtime caveat');
 
-    console.log('RC2 freeze static checks passed.');
+    console.log('RC3 freeze static checks passed.');
 }
 
 main();
