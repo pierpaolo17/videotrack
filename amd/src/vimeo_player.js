@@ -68,10 +68,18 @@ define([
 
     function startHeartbeat() {
         Tracker.startPolling(state, function() {
-            if (!state.playing || state.segmentstart === null) { return; }
-            Tracker.saveHeartbeatIfDue(state, HEARTBEAT_INTERVAL, function() {
-                return player.getCurrentTime();
-            }, saveSegment).catch(Log.debug);
+            Tracker.runHeartbeat({
+                state: state,
+                heartbeatInterval: HEARTBEAT_INTERVAL,
+                getCurrentTime: function() {
+                    return player.getCurrentTime();
+                },
+                saveSegment: saveSegment,
+                hasPlayer: function() {
+                    return !!player;
+                },
+                log: Log
+            });
         }, HEARTBEAT_INTERVAL);
     }
 
