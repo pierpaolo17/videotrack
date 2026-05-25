@@ -18,6 +18,7 @@ define([], function() {
     function create(overrides) {
         var state = {
             sessionid: null,
+            trackerstate: 'idle',
             playing: false,
             segmentstart: null,
             wallclockstart: null,
@@ -32,6 +33,7 @@ define([], function() {
             seekblocked: false,
             seekblocktimer: null,
             currentReplayEnd: null,
+            ended: false,
             _pendingResume: false,
             _posterRemoved: false,
             _posterPlayListener: null
