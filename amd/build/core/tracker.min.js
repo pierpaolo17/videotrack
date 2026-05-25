@@ -102,6 +102,152 @@ define([
         Events.emit(state, name, payload);
     }
 
+
+    /**
+     * Tracker state constants used by the 1.3 state machine.
+     *
+     * Concrete players may still expose their own SDK states. This state
+     * machine keeps the provider-neutral lifecycle explicit in the tracker
+     * layer so future phases can reason about transitions without reading
+     * YouTube, HTML5 and Vimeo event details directly.
+     *
+     * @type {Object<string, string>}
+     */
+    var STATES = {
+        IDLE: 'idle',
+        PLAYING: 'playing',
+        PAUSED: 'paused',
+        SEEKING: 'seeking',
+        ENDED: 'ended',
+        DESTROYED: 'destroyed'
+    };
+
+    /**
+     * Allowed provider-neutral state transitions.
+     *
+     * @type {Object<string, Array<string>>}
+     */
+    var TRANSITIONS = {};
+    TRANSITIONS[STATES.IDLE] = [STATES.PLAYING, STATES.PAUSED, STATES.SEEKING, STATES.ENDED, STATES.DESTROYED];
+    TRANSITIONS[STATES.PLAYING] = [STATES.PAUSED, STATES.SEEKING, STATES.ENDED, STATES.DESTROYED];
+    TRANSITIONS[STATES.PAUSED] = [STATES.PLAYING, STATES.SEEKING, STATES.ENDED, STATES.DESTROYED];
+    TRANSITIONS[STATES.SEEKING] = [STATES.PLAYING, STATES.PAUSED, STATES.ENDED, STATES.DESTROYED];
+    TRANSITIONS[STATES.ENDED] = [STATES.IDLE, STATES.PLAYING, STATES.DESTROYED];
+    TRANSITIONS[STATES.DESTROYED] = [];
+
+    /**
+     * Normalise a candidate tracker state.
+     *
+     * @param {*} value Candidate state.
+     * @returns {string} Known tracker state.
+     */
+    function normaliseTrackerState(value) {
+        var stateName = String(value || '').toLowerCase();
+        return Object.keys(STATES).some(function(key) {
+            return STATES[key] === stateName;
+        }) ? stateName : STATES.IDLE;
+    }
+
+    /**
+     * Read the provider-neutral tracker state.
+     *
+     * @param {Object} state Mutable player state.
+     * @returns {string} Current tracker state.
+     */
+    function getTrackerState(state) {
+        if (!state) {
+            return STATES.IDLE;
+        }
+        return normaliseTrackerState(state.trackerstate);
+    }
+
+    /**
+     * Check whether a transition is allowed.
+     *
+     * @param {string} from Current state.
+     * @param {string} to Next state.
+     * @returns {boolean} True when transition is valid.
+     */
+    function canTransition(from, to) {
+        var current = normaliseTrackerState(from);
+        var next = normaliseTrackerState(to);
+        if (current === next) {
+            return true;
+        }
+        return (TRANSITIONS[current] || []).indexOf(next) !== -1;
+    }
+
+    /**
+     * Apply a provider-neutral tracker state transition.
+     *
+     * @param {Object} state Mutable player state.
+     * @param {string} nextState Target state.
+     * @param {Object=} meta Optional transition metadata.
+     * @returns {boolean} True when state was changed or already matched.
+     */
+    function setTrackerState(state, nextState, meta) {
+        if (!state) {
+            return false;
+        }
+        var previous = getTrackerState(state);
+        var next = normaliseTrackerState(nextState);
+        if (!canTransition(previous, next)) {
+            emit(state, 'state:blocked', {from: previous, to: next, meta: meta || {}});
+            return false;
+        }
+        if (previous === next) {
+            return true;
+        }
+
+        state.trackerstate = next;
+        if (next === STATES.PLAYING) {
+            state.playing = true;
+            state.ended = false;
+            state.isSeeking = false;
+        } else if (next === STATES.PAUSED || next === STATES.IDLE) {
+            state.playing = false;
+            state.ended = false;
+            state.isSeeking = false;
+        } else if (next === STATES.SEEKING) {
+            state.isSeeking = true;
+            state.ended = false;
+        } else if (next === STATES.ENDED) {
+            state.playing = false;
+            state.ended = true;
+            state.isSeeking = false;
+        } else if (next === STATES.DESTROYED) {
+            state.playing = false;
+            state.isSeeking = false;
+        }
+
+        emit(state, 'state:change', {from: previous, to: next, meta: meta || {}});
+        return true;
+    }
+
+    function markIdle(state, meta) {
+        return setTrackerState(state, STATES.IDLE, meta);
+    }
+
+    function markPlaying(state, meta) {
+        return setTrackerState(state, STATES.PLAYING, meta);
+    }
+
+    function markPaused(state, meta) {
+        return setTrackerState(state, STATES.PAUSED, meta);
+    }
+
+    function markSeeking(state, meta) {
+        return setTrackerState(state, STATES.SEEKING, meta);
+    }
+
+    function markEnded(state, meta) {
+        return setTrackerState(state, STATES.ENDED, meta);
+    }
+
+    function markDestroyed(state, meta) {
+        return setTrackerState(state, STATES.DESTROYED, meta);
+    }
+
     /**
      * Update the shared last-known playback position.
      *
@@ -152,6 +298,7 @@ define([
     function markProgrammaticSeek(state) {
         if (state) {
             state.isProgrammaticSeek = true;
+            markSeeking(state, {reason: 'programmatic-seek'});
         }
     }
 
@@ -169,6 +316,11 @@ define([
         state.isProgrammaticSeek = false;
         if (typeof currentTime !== 'undefined') {
             syncTime(state, currentTime);
+        }
+        if (state.playing) {
+            markPlaying(state, {reason: 'programmatic-seek-complete'});
+        } else {
+            markPaused(state, {reason: 'programmatic-seek-complete'});
         }
         return true;
     }
@@ -225,11 +377,19 @@ define([
             return;
         }
         state.seekblocked = true;
+        markSeeking(state, {reason: 'seek-blocked'});
         if (state.seekblocktimer) {
             window.clearTimeout(state.seekblocktimer);
         }
         state.seekblocktimer = window.setTimeout(function() {
             state.seekblocked = false;
+        if (state.isSeeking) {
+            if (state.playing) {
+                markPlaying(state, {reason: 'seek-block-cleared'});
+            } else {
+                markPaused(state, {reason: 'seek-block-cleared'});
+            }
+        }
             state.seekblocktimer = null;
         }, typeof delay === 'number' && delay >= 0 ? delay : 500);
     }
@@ -248,6 +408,13 @@ define([
             state.seekblocktimer = null;
         }
         state.seekblocked = false;
+        if (state.isSeeking) {
+            if (state.playing) {
+                markPlaying(state, {reason: 'seek-block-cleared'});
+            } else {
+                markPaused(state, {reason: 'seek-block-cleared'});
+            }
+        }
     }
 
     /**
@@ -263,6 +430,7 @@ define([
         }
         if (normaliseTime(currentTime) >= state.currentReplayEnd) {
             state.currentReplayEnd = null;
+            markEnded(state, {reason: 'replay-limit'});
             return true;
         }
         return false;
@@ -286,7 +454,7 @@ define([
             start = 0;
         }
         var timestamp = typeof wallclock === 'number' ? wallclock : Math.floor(Date.now() / 1000);
-        state.playing = true;
+        markPlaying(state, {reason: 'segment-open'});
         state.segmentstart = start;
         state.wallclockstart = timestamp;
         state.lasttime = start;
@@ -313,9 +481,9 @@ define([
             start: normaliseTime(state.segmentstart),
             end: normaliseTime(end)
         };
-        state.playing = false;
         state.segmentstart = null;
         state.wallclockstart = null;
+        markPaused(state, {reason: 'segment-close'});
         emit(state, 'segment:close', payload);
         return payload;
     }
@@ -432,6 +600,9 @@ define([
         if (state && state.heartbeatid) {
             window.clearInterval(state.heartbeatid);
             state.heartbeatid = null;
+            if (state.playing) {
+                markPaused(state, {reason: 'polling-stopped'});
+            }
         }
     }
 
@@ -828,6 +999,17 @@ define([
     }
 
     return {
+        STATES: STATES,
+        normaliseTrackerState: normaliseTrackerState,
+        getTrackerState: getTrackerState,
+        canTransition: canTransition,
+        setTrackerState: setTrackerState,
+        markIdle: markIdle,
+        markPlaying: markPlaying,
+        markPaused: markPaused,
+        markSeeking: markSeeking,
+        markEnded: markEnded,
+        markDestroyed: markDestroyed,
         normaliseTime: normaliseTime,
         on: on,
         once: once,
