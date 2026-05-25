@@ -478,7 +478,7 @@ define([
             return true;
         };
 
-        document.addEventListener('visibilitychange', function() {
+        var onVisibilityChange = function() {
             if (!document.hidden) {
                 return;
             }
@@ -489,23 +489,60 @@ define([
             if (onHidden) {
                 onHidden();
             }
-        });
+        };
 
-        window.addEventListener('pagehide', function() {
+        var onPageHide = function() {
             stop();
             if (closeSegment) {
                 closeSegment('pagehide');
             }
-        });
+        };
 
-        window.addEventListener('beforeunload', function() {
+        var onBeforeUnload = function() {
             if (!state || !state.playing || state.segmentstart === null || !hasPlayer()) {
                 return;
             }
             if (sendBeacon) {
                 sendBeacon();
             }
-        });
+        };
+
+        document.addEventListener('visibilitychange', onVisibilityChange);
+        window.addEventListener('pagehide', onPageHide);
+        window.addEventListener('beforeunload', onBeforeUnload);
+
+        if (state) {
+            state.lifecycleHandlers = {
+                visibilitychange: onVisibilityChange,
+                pagehide: onPageHide,
+                beforeunload: onBeforeUnload
+            };
+        }
+        return true;
+    }
+
+    /**
+     * Remove lifecycle handlers previously installed for a player state.
+     *
+     * Moodle pages normally initialise each AMD entrypoint once, but keeping a
+     * cleanup helper makes the tracker safer for dynamic reinitialisation and
+     * for future automated tests that mount and unmount players repeatedly.
+     *
+     * @param {Object} state Mutable player state.
+     * @returns {boolean} True when handlers were removed.
+     */
+    function uninstallLifecycleHandlers(state) {
+        if (!state || !state.lifecycleHandlers) {
+            return false;
+        }
+
+        document.removeEventListener('visibilitychange', state.lifecycleHandlers.visibilitychange);
+        window.removeEventListener('pagehide', state.lifecycleHandlers.pagehide);
+        window.removeEventListener('beforeunload', state.lifecycleHandlers.beforeunload);
+
+        state.lifecycleHandlers = null;
+        state.lifecycleHandlersInstalled = false;
+        return true;
     }
 
     /**
@@ -671,6 +708,7 @@ define([
         sendUnloadBeacon: sendUnloadBeacon,
         reopenAfterHeartbeat: reopenAfterHeartbeat,
         installLifecycleHandlers: installLifecycleHandlers,
+        uninstallLifecycleHandlers: uninstallLifecycleHandlers,
         reopenAfterInteractionSave: reopenAfterInteractionSave,
         isPlayerAvailable: isPlayerAvailable,
         saveCurrentProgress: saveCurrentProgress
