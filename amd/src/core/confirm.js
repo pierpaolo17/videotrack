@@ -43,6 +43,59 @@ define([
     };
 
     /**
+     * Return the currently focused element when it is safe to restore focus later.
+     *
+     * @returns {HTMLElement|null} Element to focus after a dialog closes.
+     */
+    var getFocusableElement = function() {
+        var element = document.activeElement;
+        if (!element || element === document.body || typeof element.focus !== 'function') {
+            return null;
+        }
+        return element;
+    };
+
+    /**
+     * Restore focus without throwing when the original element was removed.
+     *
+     * @param {HTMLElement|null} element Element to focus.
+     */
+    var restoreFocus = function(element) {
+        if (!element || typeof element.focus !== 'function' || !document.documentElement.contains(element)) {
+            return;
+        }
+
+        window.setTimeout(function() {
+            try {
+                element.focus({preventScroll: true});
+            } catch (error) {
+                element.focus();
+            }
+        }, 0);
+    };
+
+    /**
+     * Move focus into a Moodle modal if the modal did not already do it.
+     *
+     * @param {Object} modal Moodle modal instance.
+     */
+    var focusModal = function(modal) {
+        window.setTimeout(function() {
+            var root = modal && typeof modal.getRoot === 'function' ? modal.getRoot() : null;
+            var target = null;
+            if (root && typeof root.find === 'function') {
+                target = root.find('.modal-footer .btn-primary, .modal-footer button, .modal-header button, [tabindex]:not([tabindex="-1"])')[0];
+            }
+            if (!target && root && root[0]) {
+                target = root[0].querySelector('button, [href], input, select, textarea, [tabindex]:not([tabindex="-1"])');
+            }
+            if (target && typeof target.focus === 'function') {
+                target.focus();
+            }
+        }, 0);
+    };
+
+    /**
      * Resolve a Moodle string descriptor with a safe fallback.
      *
      * @param {Object|string} descriptor String descriptor or plain string.
@@ -84,12 +137,14 @@ define([
      *
      * @param {HTMLFormElement} form Form to submit.
      * @param {Object} options Confirmation options.
+     * @param {HTMLElement|null=} focusReturnElement Element to restore focus to when cancelled.
      * @returns {Promise<void>} Promise resolved after the dialog is shown.
      */
-    var showModalConfirm = function(form, options) {
+    var showModalConfirm = function(form, options, focusReturnElement) {
         options = options || {};
         var labels = options.fallbackLabels || {};
         var message = options.message || labels.message || '';
+        var submitted = false;
 
         return Promise.all([
             resolveString(options.titleString, labels.confirm || 'Confirm'),
@@ -105,17 +160,28 @@ define([
                 modal.setCancelButtonText(strings[2]);
                 modal.getRoot().on(ModalEvents.save, function(event) {
                     event.preventDefault();
+                    submitted = true;
                     modal.hide();
                     submitForm(form);
                 });
+                if (ModalEvents.hidden) {
+                    modal.getRoot().on(ModalEvents.hidden, function() {
+                        if (!submitted) {
+                            restoreFocus(focusReturnElement);
+                        }
+                    });
+                }
                 modal.show();
+                focusModal(modal);
             });
         }).catch(function(error) {
             var logger = options.logger || Log;
             if (logger && typeof logger.debug === 'function') {
                 logger.debug((options.logPrefix || 'mod_videotrack/core/confirm') + ': modal fallback: ' + error);
             }
-            fallbackConfirm(form, message);
+            if (!fallbackConfirm(form, message)) {
+                restoreFocus(focusReturnElement);
+            }
         });
     };
 
@@ -135,8 +201,9 @@ define([
 
                 form.dataset.videotrackConfirmAttached = '1';
                 form.addEventListener('submit', function(event) {
+                    var focusReturnElement = event.submitter || getFocusableElement();
                     event.preventDefault();
-                    showModalConfirm(form, options);
+                    showModalConfirm(form, options, focusReturnElement);
                 });
             });
         }
