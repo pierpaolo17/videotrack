@@ -227,6 +227,7 @@ define([
             setReactionButtons(false); // CRIT-2: disabilita bottoni su pausa
             closeCurrentSegment('pause');
         } else if (event.data === YT.PlayerState.ENDED) {
+            state.ended = true;
             reactionState.readyAnnounced = false;
             setReactionButtons(false); // CRIT-2: disabilita bottoni a fine video
             closeCurrentSegment('ended');

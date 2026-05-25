@@ -321,6 +321,34 @@ define([], function() {
         return fallback;
     }
 
+
+    /**
+     * Read whether a provider reached the ended state safely.
+     *
+     * @param {Object} state Mutable player state.
+     * @param {Function} getter Provider-specific ended-state getter.
+     * @param {Object=} log Optional Moodle log module.
+     * @param {string=} label Optional log label.
+     * @returns {boolean} True when playback has ended.
+     */
+    function isEnded(state, getter, log, label) {
+        var fallback = state && typeof state.ended === 'boolean' ? state.ended : false;
+        try {
+            if (typeof getter === 'function') {
+                var ended = !!getter();
+                if (state) {
+                    state.ended = ended;
+                }
+                return ended;
+            }
+        } catch (error) {
+            if (log && typeof log.debug === 'function') {
+                log.debug('mod_videotrack: could not read ' + (label || 'player') + ' ended state - ' + error);
+            }
+        }
+        return fallback;
+    }
+
     /**
      * Execute a provider command while keeping SDK exceptions contained.
      *
@@ -398,6 +426,7 @@ define([], function() {
         getPlaybackRate: getPlaybackRate,
         setPlaybackRate: setPlaybackRate,
         isPaused: isPaused,
+        isEnded: isEnded,
         run: run,
         play: play,
         pause: pause,
