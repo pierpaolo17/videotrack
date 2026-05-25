@@ -119,7 +119,13 @@ define([
             },
             hasPlayer: function() { return !!player; },
             sendBeacon: function() {
-                PlayerCore.sendBeaconSegment(config, state, state.segmentstart, state.lasttime, Utils, Log);
+                return Tracker.sendUnloadBeacon({
+                    state: state,
+                    hasPlayer: function() { return !!player; },
+                    sendSegment: function(start, end) {
+                        return PlayerCore.sendBeaconSegment(config, state, start, end, Utils, Log);
+                    }
+                });
             }
         });
     }

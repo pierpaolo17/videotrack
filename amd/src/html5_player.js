@@ -121,7 +121,14 @@ define([
             closeSegment: closeSegment,
             hasPlayer: function() { return !!media; },
             sendBeacon: function() {
-                PlayerCore.sendBeaconSegment(config, state, state.segmentstart, getCurrentVideoTime(), Utils, Log);
+                return Tracker.sendUnloadBeacon({
+                    state: state,
+                    hasPlayer: function() { return !!media; },
+                    getCurrentTime: getCurrentVideoTime,
+                    sendSegment: function(start, end) {
+                        return PlayerCore.sendBeaconSegment(config, state, start, end, Utils, Log);
+                    }
+                });
             }
         });
 
