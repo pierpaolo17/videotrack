@@ -368,9 +368,12 @@ define([
         if (controls.indexOf('mute') >= 0) {
             var muteBtn = makeBtn('videotrack-ctrl-mute', '🔊', config.html5mutelabel);
             muteBtn.addEventListener('click', function() {
-                media.muted = !media.muted;
-                muteBtn.textContent = media.muted ? '🔇' : '🔊';
-                muteBtn.setAttribute('aria-label', media.muted ? (config.html5unmutelabel) : (config.html5mutelabel));
+                var muted = !Adapter.isMuted(state, function() { return media.muted; }, Log, 'HTML5 mute');
+                Adapter.setMuted(muted, function(value) {
+                    media.muted = value;
+                }, state, Log, 'HTML5 mute');
+                muteBtn.textContent = muted ? '🔇' : '🔊';
+                muteBtn.setAttribute('aria-label', muted ? (config.html5unmutelabel) : (config.html5mutelabel));
             });
             bar.appendChild(muteBtn);
         }
@@ -383,7 +386,9 @@ define([
             volSlider.min   = '0';
             volSlider.max   = '100';
             volSlider.step  = '5';
-            var initialVolumePercent = media.muted ? 0 : Math.round(media.volume * 100 / 5) * 5;
+            var initialVolume = Adapter.isMuted(state, function() { return media.muted; }, Log, 'HTML5 volume') ?
+                0 : Adapter.getVolume(state, function() { return media.volume; }, Log, 'HTML5 volume');
+            var initialVolumePercent = Math.round(initialVolume * 100 / 5) * 5;
             initialVolumePercent = Math.max(0, Math.min(100, initialVolumePercent));
             volSlider.value = String(initialVolumePercent);
             volSlider.setAttribute('aria-label', config.html5volumelabel);
@@ -393,8 +398,10 @@ define([
             volSlider.setAttribute('aria-valuetext', initialVolumePercent + '%');
             volSlider.addEventListener('input', function() {
                 var volumePercent = Math.max(0, Math.min(100, parseFloat(volSlider.value) || 0));
-                media.volume = volumePercent / 100;
-                media.muted  = (media.volume === 0);
+                Adapter.setVolume(volumePercent / 100, function(volume) {
+                    media.volume = volume;
+                    media.muted = (volume === 0);
+                }, state, Log, 'HTML5 volume');
                 volSlider.value = String(volumePercent);
                 volSlider.setAttribute('aria-valuenow', String(volumePercent));
                 volSlider.setAttribute('aria-valuetext', volumePercent + '%');
