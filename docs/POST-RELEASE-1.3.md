@@ -48,3 +48,7 @@ maintenance release, manually verify at least:
 ## 1.3.86 maintenance hardening
 
 This maintenance checkpoint resolves static review findings on video source validation, course report aggregation, grade controls accessibility and notes export confirmation. Manual Moodle runtime, theme and assistive-technology checks are still required.
+
+## 1.3.87
+
+Maintenance review fixes after the 1.3.86 audit: language-string completion, export hardening, accessible status dismissal, course-report visibility filtering, and safer subtitle serving. Static regression gate: `node tests/review_fixes_static_test.js`.

@@ -309,8 +309,9 @@ if ($export === 'notes_csv' && !empty($videotrack->studentnotesenabled)) {
     if ($useridfilter > 0 && !is_enrolled($context, $useridfilter, '', true)) {
         throw new moodle_exception('invaliduser', 'error');
     }
-    $filename = 'videotrack_notes_' . $cm->id . '.csv';
+    $filename = 'videotrack_notes_' . $cm->id . '_' . gmdate('Ymd_His') . '.csv';
     header('Content-Type: text/csv; charset=utf-8');
+    header('X-Content-Type-Options: nosniff');
     header('Content-Disposition: attachment; filename="' . $filename . '"');
     $fh = fopen('php://output', 'w');
     $headers = ['user'];

@@ -78,6 +78,7 @@ $aggrows = $DB->get_records_sql($sql, [
 ]);
 
 $instances = [];
+$modinfo = get_fast_modinfo($course);
 if (empty($aggrows)) {
     echo $OUTPUT->notification(get_string('coursereport:nodata', 'mod_videotrack'), 'notifymessage');
     echo $OUTPUT->footer();
@@ -90,6 +91,9 @@ $vtrecords = $DB->get_records('videotrack', ['course' => $courseid], 'name ASC',
 foreach ($vtrecords as $vt) {
     if (isset($aggrows[$vt->id])) {
         $row = $aggrows[$vt->id];
+        if (empty($modinfo->cms[$row->cmid]) || !$modinfo->cms[$row->cmid]->uservisible) {
+            continue;
+        }
         $row->name            = $vt->name;
         $row->videosource     = $vt->videosource;
         $row->durationseconds = $vt->durationseconds;
@@ -140,7 +144,8 @@ foreach ($instances as $inst) {
         . '<rect class="videotrack-course-avgbar-bg" x="0" y="3" width="80" height="8" rx="2"/>'
         . '<rect class="videotrack-course-avgbar-fill" x="0" y="3" width="' . round($barw * 0.8) . '" height="8" rx="2"/>'
         . '</svg>';
-    $avgcell = format_float($pct, 1) . '% ' . $barsvg;
+    $avglabel = get_string('coursereport:avgcoverage', 'mod_videotrack', format_float($pct, 1));
+    $avgcell = html_writer::span($avglabel, 'sr-only visually-hidden') . s(format_float($pct, 1) . '%') . ' ' . $barsvg;
 
     $table->data[] = [
         $link,
