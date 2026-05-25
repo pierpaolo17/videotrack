@@ -53,3 +53,14 @@ Additional rc1 freeze check:
 ```bash
 node tests/rc_freeze_static_test.js
 ```
+
+## RC2 checkpoint
+
+`1.3.77-rc2` is the second release-candidate checkpoint for the 1.3 refactor line.
+It keeps the rc1 functional freeze and is intended only for fixes or release-gate hardening discovered during rc1 validation.
+
+Additional rc2 freeze check:
+
+```bash
+node tests/rc2_freeze_static_test.js
+```
