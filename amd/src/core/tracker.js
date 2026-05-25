@@ -541,6 +541,8 @@ define([
         window.addEventListener('pagehide', onPageHide);
         window.addEventListener('beforeunload', onBeforeUnload);
 
+        emit(state, 'lifecycle:installed', {});
+
         if (state) {
             state.lifecycleHandlers = {
                 visibilitychange: onVisibilityChange,
