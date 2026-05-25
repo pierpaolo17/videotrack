@@ -15,6 +15,9 @@ node tests/privacy_static_test.js
 node tests/deprecation_static_test.js
 node tests/performance_static_test.js
 node tests/release_candidate_static_test.js
+node tests/rc_freeze_static_test.js
+node tests/rc2_freeze_static_test.js
+node tests/rc3_freeze_static_test.js
 find . -name "*.php" -print0 | xargs -0 -n1 php -l
 find amd/src tests -name "*.js" -print0 | xargs -0 -n1 node --check
 ```
@@ -63,4 +66,16 @@ Additional rc2 freeze check:
 
 ```bash
 node tests/rc2_freeze_static_test.js
+```
+
+
+## RC3 checkpoint
+
+`1.3.78-rc3` is the third and final planned release-candidate checkpoint for the 1.3 refactor line before final static verification.
+It preserves the functional freeze from rc1/rc2 and should only accept blocker fixes discovered during Moodle runtime validation.
+
+Additional rc3 freeze check:
+
+```bash
+node tests/rc3_freeze_static_test.js
 ```
