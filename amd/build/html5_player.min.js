@@ -501,7 +501,9 @@ define([
         });
 
         media.addEventListener('loadedmetadata', function() {
-            state.duration = media.duration || 0;
+            state.duration = Adapter.getDuration(state, function() {
+                return media.duration;
+            }, Log, 'HTML5 metadata');
             if (bar._durationEl) {
                 bar._durationEl.textContent = ' / ' + Utils.formatSeconds(state.duration);
             }
