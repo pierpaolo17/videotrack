@@ -81,6 +81,60 @@ define([], function() {
     }
 
     /**
+     * Read media playback rate from a provider safely.
+     *
+     * @param {Object} state Mutable player state.
+     * @param {Function} getter Provider-specific playback-rate getter.
+     * @param {Object=} log Optional Moodle log module.
+     * @param {string=} label Optional log label.
+     * @returns {number} Safe playback rate.
+     */
+    function getPlaybackRate(state, getter, log, label) {
+        var fallback = state && state.playbackrate;
+        try {
+            if (typeof getter === 'function') {
+                var rate = Number(getter());
+                if (isFinite(rate) && rate > 0) {
+                    if (state) {
+                        state.playbackrate = rate;
+                    }
+                    return rate;
+                }
+            }
+        } catch (error) {
+            if (log && typeof log.debug === 'function') {
+                log.debug('mod_videotrack: could not read ' + (label || 'player') + ' playback rate - ' + error);
+            }
+        }
+        var fallbackRate = Number(fallback);
+        return isFinite(fallbackRate) && fallbackRate > 0 ? fallbackRate : 1;
+    }
+
+    /**
+     * Set media playback rate through a provider safely.
+     *
+     * @param {*} rate Candidate playback rate.
+     * @param {Function} setter Provider-specific playback-rate setter.
+     * @param {Object=} state Optional mutable player state.
+     * @param {Object=} log Optional Moodle log module.
+     * @param {string=} label Optional log label.
+     * @returns {*} Provider return value or null on failure.
+     */
+    function setPlaybackRate(rate, setter, state, log, label) {
+        var safeRate = Number(rate);
+        if (!isFinite(safeRate) || safeRate <= 0) {
+            safeRate = 1;
+        }
+        return run(function() {
+            var result = setter(safeRate);
+            if (state) {
+                state.playbackrate = safeRate;
+            }
+            return result;
+        }, log, label || 'set playback rate');
+    }
+
+    /**
      * Execute a provider command while keeping SDK exceptions contained.
      *
      * @param {Function} action Provider-specific command.
@@ -147,6 +201,8 @@ define([], function() {
         normaliseTime: normaliseTime,
         getCurrentTime: getCurrentTime,
         getDuration: getDuration,
+        getPlaybackRate: getPlaybackRate,
+        setPlaybackRate: setPlaybackRate,
         run: run,
         play: play,
         pause: pause,
