@@ -114,9 +114,13 @@ define([
         state.currentReplayEnd = typeof end === 'number' ? end : null;
         // B6 fix: mark as programmatic so handleSeekByPolling ignores this seek.
         Tracker.markProgrammaticSeek(state);
-        player.seekTo(Math.max(0, start || 0), true);
+        Adapter.seek(start || 0, function(target) {
+            player.seekTo(target, true);
+        }, Log, 'YouTube replay seek');
         if (autoplay !== false) {
-            player.playVideo();
+            Adapter.play(function() {
+                return player.playVideo();
+            }, Log, 'YouTube replay play');
         }
     }
 
@@ -150,13 +154,17 @@ define([
             closeCurrentSegment('seek');
             if (seek.blocked && seek.forward) {
                 Tracker.blockSeek(state, 500);
-                player.seekTo(oldtime, true);
+                Adapter.seek(oldtime, function(target) {
+                    player.seekTo(target, true);
+                }, Log, 'YouTube blocked forward seek');
                 startCurrentSegment();
                 return;
             }
             if (seek.blocked && seek.backward) {
                 Tracker.blockSeek(state, 500);
-                player.seekTo(oldtime, true);
+                Adapter.seek(oldtime, function(target) {
+                    player.seekTo(target, true);
+                }, Log, 'YouTube blocked backward seek');
                 startCurrentSegment();
                 return;
             }
@@ -165,7 +173,9 @@ define([
         }
         Tracker.syncTime(state, current);
         if (Tracker.shouldStopReplay(state, current)) {
-            player.pauseVideo();
+            Adapter.pause(function() {
+                return player.pauseVideo();
+            }, Log, 'YouTube replay pause');
         }
 
         // Heartbeat: provider-neutral guard and error handling live in core/tracker.
@@ -451,7 +461,9 @@ define([
                     } else if (typeof config.resumeposition === 'number' && config.resumeposition > 2) {
                         // Resume dal punto lasciato (solo se > 2s per non partire da 0:02).
                         state.isProgrammaticSeek = true; // B6 fix: resume is programmatic.
-                        player.seekTo(config.resumeposition, true);
+                        Adapter.seek(config.resumeposition, function(target) {
+                        player.seekTo(target, true);
+                    }, Log, 'YouTube resume seek');
                         showResumeNotice(config.resumeposition);
                     }
                 },
@@ -520,7 +532,9 @@ define([
                 (config.rewindlabel) + ' ' + config.rewindstep + ' ' + (config.secondslabel));
             rwBtn.addEventListener('click', function() {
                 if (player && player.getCurrentTime) {
-                    player.seekTo(Math.max(0, player.getCurrentTime() - config.rewindstep), true);
+                    Adapter.seek(player.getCurrentTime() - config.rewindstep, function(target) {
+                        player.seekTo(target, true);
+                    }, Log, 'YouTube rewind');
                 }
             });
             bar.appendChild(rwBtn);
@@ -539,8 +553,14 @@ define([
                 (config.fastforwardlabel) + ' ' + config.fastforwardstep + ' ' + (config.secondslabel));
             ffBtn.addEventListener('click', function() {
                 if (player && player.getCurrentTime && player.getDuration) {
-                    player.seekTo(
-                        Math.min(player.getDuration(), player.getCurrentTime() + config.fastforwardstep), true);
+                    Adapter.seek(
+                        Math.min(player.getDuration(), player.getCurrentTime() + config.fastforwardstep),
+                        function(target) {
+                            player.seekTo(target, true);
+                        },
+                        Log,
+                        'YouTube fast-forward'
+                    );
                 }
             });
             bar.appendChild(ffBtn);
@@ -615,7 +635,11 @@ define([
             playBtn.addEventListener('click', function() {
                 removePoster();
                 // Avvia la riproduzione se il player è pronto.
-                if (player && player.playVideo) { player.playVideo(); }
+                if (player && player.playVideo) {
+                    Adapter.play(function() {
+                        return player.playVideo();
+                    }, Log, 'YouTube poster play');
+                }
             });
         }
 

@@ -102,6 +102,31 @@ define([], function() {
         return null;
     }
 
+
+    /**
+     * Execute a provider play command safely.
+     *
+     * @param {Function} action Provider-specific play callback.
+     * @param {Object=} log Optional Moodle log module.
+     * @param {string=} label Optional log label.
+     * @returns {*} Provider return value or null on failure.
+     */
+    function play(action, log, label) {
+        return run(action, log, label || 'play');
+    }
+
+    /**
+     * Execute a provider pause command safely.
+     *
+     * @param {Function} action Provider-specific pause callback.
+     * @param {Object=} log Optional Moodle log module.
+     * @param {string=} label Optional log label.
+     * @returns {*} Provider return value or null on failure.
+     */
+    function pause(action, log, label) {
+        return run(action, log, label || 'pause');
+    }
+
     /**
      * Seek through a provider-specific callback using a normalised target time.
      *
@@ -123,6 +148,8 @@ define([], function() {
         getCurrentTime: getCurrentTime,
         getDuration: getDuration,
         run: run,
+        play: play,
+        pause: pause,
         seek: seek
     };
 });

@@ -296,7 +296,9 @@ define([
 
             // Replay stop.
             if (Tracker.shouldStopReplay(state, data.seconds)) {
-                player.pause();
+                Adapter.pause(function() {
+                    return player.pause();
+                }, Log, 'Vimeo replay pause');
             }
         });
 
@@ -597,9 +599,14 @@ define([
                 removePoster();
                 // Avvia la riproduzione con l'API Vimeo SDK (non player.playVideo che è YouTube).
                 if (player && player.play) {
-                    player.play().catch(function(err) {
-                        Log.debug('mod_videotrack: play request failed - ' + err);
-                    });
+                    var posterPlay = Adapter.play(function() {
+                        return player.play();
+                    }, Log, 'Vimeo poster play');
+                    if (posterPlay && typeof posterPlay.catch === 'function') {
+                        posterPlay.catch(function(err) {
+                            Log.debug('mod_videotrack: play request failed - ' + err);
+                        });
+                    }
                 }
             });
         }
