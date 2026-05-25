@@ -66,19 +66,7 @@ define([
     }
 
     function hasPlayer(methods, capability) {
-        if (capability === 'currentTime') {
-            return Adapter.canCurrentTime(player, 'youtube');
-        }
-        if (capability === 'duration') {
-            return Adapter.canDuration(player, 'youtube');
-        }
-        if (capability === 'seek') {
-            return Adapter.canSeek(player, 'youtube');
-        }
-        if (capability) {
-            return Adapter.can(player, 'youtube', capability);
-        }
-        return Adapter.isAvailable(player, methods);
+        return Adapter.hasCapability(player, 'youtube', capability, methods);
     }
 
     function saveCurrentProgress(reason) {
