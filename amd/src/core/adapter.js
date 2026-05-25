@@ -10,6 +10,98 @@
  */
 define([], function() {
 
+
+
+    /**
+     * Provider capability definitions used by the adapter layer.
+     *
+     * Each capability lists the provider methods that must be available before
+     * callers can safely execute that operation. HTML5 operations that are
+     * property based use an empty method list and therefore only require the
+     * media element to be present.
+     *
+     * @type {Object<string, Object<string, Array<string>>>}
+     */
+    var CAPABILITIES = {
+        youtube: {
+            currentTime: ['getCurrentTime'],
+            duration: ['getDuration'],
+            play: ['playVideo'],
+            pause: ['pauseVideo'],
+            seek: ['seekTo'],
+            playbackRate: ['getPlaybackRate', 'setPlaybackRate'],
+            readPlaybackRate: ['getPlaybackRate'],
+            writePlaybackRate: ['setPlaybackRate'],
+            ended: ['getPlayerState']
+        },
+        html5: {
+            currentTime: [],
+            duration: [],
+            play: ['play'],
+            pause: ['pause'],
+            seek: [],
+            playbackRate: [],
+            readPlaybackRate: [],
+            writePlaybackRate: [],
+            volume: [],
+            mute: [],
+            paused: [],
+            ended: []
+        },
+        vimeo: {
+            currentTime: ['getCurrentTime'],
+            duration: ['getDuration'],
+            play: ['play'],
+            pause: ['pause'],
+            seek: ['setCurrentTime'],
+            playbackRate: ['getPlaybackRate', 'setPlaybackRate'],
+            readPlaybackRate: ['getPlaybackRate'],
+            writePlaybackRate: ['setPlaybackRate']
+        }
+    };
+
+    /**
+     * Resolve a provider capability method list.
+     *
+     * @param {string} providerType Provider key: youtube, html5 or vimeo.
+     * @param {string} capability Capability key.
+     * @returns {Array<string>} Required provider methods.
+     */
+    function getCapabilityMethods(providerType, capability) {
+        var providerCapabilities = CAPABILITIES[String(providerType || '').toLowerCase()];
+        if (!providerCapabilities || !Object.prototype.hasOwnProperty.call(providerCapabilities, capability)) {
+            return [];
+        }
+        return providerCapabilities[capability].slice(0);
+    }
+
+    /**
+     * Check whether a provider supports a named capability.
+     *
+     * @param {*} provider Candidate provider object.
+     * @param {string} providerType Provider key: youtube, html5 or vimeo.
+     * @param {string} capability Capability key.
+     * @returns {boolean} True when the provider is available for that capability.
+     */
+    function can(provider, providerType, capability) {
+        return isAvailable(provider, getCapabilityMethods(providerType, capability));
+    }
+
+    /**
+     * Return a defensive snapshot of the known capabilities for a provider.
+     *
+     * @param {string} providerType Provider key: youtube, html5 or vimeo.
+     * @returns {Object<string, Array<string>>} Capability map.
+     */
+    function getCapabilities(providerType) {
+        var providerCapabilities = CAPABILITIES[String(providerType || '').toLowerCase()] || {};
+        var copy = {};
+        Object.keys(providerCapabilities).forEach(function(key) {
+            copy[key] = providerCapabilities[key].slice(0);
+        });
+        return copy;
+    }
+
     /**
      * Convert a candidate media time to a safe non-negative number.
      *
@@ -413,6 +505,9 @@ define([], function() {
     }
 
     return {
+        getCapabilities: getCapabilities,
+        getCapabilityMethods: getCapabilityMethods,
+        can: can,
         normaliseTime: normaliseTime,
         normaliseVolume: normaliseVolume,
         resolveSkipTarget: resolveSkipTarget,

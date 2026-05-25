@@ -45,12 +45,15 @@ define([
             .catch(Log.debug);
     }
 
-    function hasMedia() {
+    function hasMedia(capability) {
+        if (capability) {
+            return Adapter.can(media, 'html5', capability);
+        }
         return Adapter.isAvailable(media, ['play', 'pause']);
     }
 
     function saveCurrentProgress(reason) {
-        return PlayerCore.saveCurrentProgress(state, getCurrentVideoTime, saveSegment, reason, hasMedia());
+        return PlayerCore.saveCurrentProgress(state, getCurrentVideoTime, saveSegment, reason, hasMedia('currentTime'));
     }
 
     function updateProgress(response) {
@@ -74,7 +77,7 @@ define([
     function closeSegment(reason) {
         return Tracker.closeAndSaveSegment(state, function() {
             return media ? media.currentTime : state.lasttime;
-        }, saveSegment, reason, hasMedia()).catch(Log.debug);
+        }, saveSegment, reason, hasMedia('currentTime')).catch(Log.debug);
     }
 
     // ── Heartbeat ─────────────────────────────────────────────────────────
