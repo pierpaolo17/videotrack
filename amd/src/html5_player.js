@@ -577,7 +577,7 @@ define([
             if (state.playing) {
                 var seek = Tracker.resolveSeek(state, media.currentTime, config, 0.5);
                 if (seek.blocked) {
-                    state.seekblocked = true;
+                    Tracker.blockSeek(state, 500);
                     media.currentTime = seek.fallbackTime;
                     return;
                 }
@@ -588,7 +588,7 @@ define([
         media.addEventListener('seeked', function() {
             state.isSeeking         = false;
             state.isProgrammaticSeek = false; // Resetta anche il flag seek programmatico.
-            state.seekblocked        = false;
+            Tracker.clearSeekBlock(state);
             if (state.playing) { startSegment(); }
             if (Tracker.shouldStopReplay(state, media.currentTime)) {
                 media.pause();

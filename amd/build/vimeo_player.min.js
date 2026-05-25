@@ -277,8 +277,7 @@ define([
 
             if (state.playing) {
                 if (seek.blocked) {
-                    state.seekblocked = true;
-                    window.setTimeout(function() { state.seekblocked = false; }, 600);
+                    Tracker.blockSeek(state, 600);
                     Tracker.markProgrammaticSeek(state);
                     player.setCurrentTime(seek.fallbackTime).then(function() {
                         state.isProgrammaticSeek = false;
