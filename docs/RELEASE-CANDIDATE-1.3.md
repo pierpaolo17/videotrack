@@ -42,3 +42,14 @@ The static checks do not replace Moodle runtime validation. Before rc1, verify a
 ## Current readiness
 
 The 1.3.75-dev checkpoint is intended as the final pre-rc cleanup gate. If all static checks and manual runtime checks pass, the next planned version can move to `1.3.76-rc1`.
+
+## RC1 checkpoint
+
+`1.3.76-rc1` is the first release-candidate checkpoint for the 1.3 refactor line.
+It should remain functionally frozen except for fixes found by the static checks above or by the required Moodle runtime validation.
+
+Additional rc1 freeze check:
+
+```bash
+node tests/rc_freeze_static_test.js
+```

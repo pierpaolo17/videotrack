@@ -45,12 +45,13 @@ function main() {
         'tests/backup_restore_static_test.js',
         'tests/privacy_static_test.js',
         'tests/deprecation_static_test.js',
-        'tests/performance_static_test.js'
+        'tests/performance_static_test.js',
+        'tests/rc_freeze_static_test.js'
     ].forEach(assertFile);
 
-    assertContains('version.php', /\$plugin->release\s*=\s*'1\.3\.75-dev'/, '1.3.75-dev release marker');
+    assertContains('version.php', /\$plugin->release\s*=\s*'1\.3\.76-rc1'/, '1.3.76-rc1 release marker');
     assertContains('docs/RELEASE-CANDIDATE-1.3.md', /Manual runtime checks still required/, 'manual runtime caveat');
-    assertContains('docs/RELEASE-CANDIDATE-1.3.md', /1\.3\.76-rc1/, 'next rc1 target');
+    assertContains('docs/RELEASE-CANDIDATE-1.3.md', /1\.3\.76-rc1/, 'rc1 target');
     assertContains('docs/RELEASE-CANDIDATE-1.3.md', /node tests\/smoke_amd\.js/, 'AMD smoke command');
     assertContains('docs/RELEASE-CANDIDATE-1.3.md', /privacy export\/delete flows/, 'privacy runtime reminder');
     assertContains('docs/RELEASE-CANDIDATE-1.3.md', /backup and restore/, 'backup restore runtime reminder');
