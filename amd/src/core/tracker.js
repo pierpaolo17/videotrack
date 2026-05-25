@@ -47,6 +47,29 @@ define([
         return time;
     }
 
+
+    /**
+     * Resolve a current-time provider safely and normalise its result.
+     *
+     * Providers differ: YouTube/HTML5 usually return synchronously while Vimeo
+     * returns a Promise. Keeping that contract in the tracker prevents small
+     * provider differences from leaking into every lifecycle helper.
+     *
+     * @param {Function} getCurrentTime Function returning current media time.
+     * @param {Object=} state Optional mutable state used as fallback context.
+     * @returns {Promise<number>} Promise resolving to a safe media time.
+     */
+    function resolveCurrentTime(getCurrentTime, state) {
+        if (typeof getCurrentTime !== 'function') {
+            return Promise.resolve(normaliseTime(state && state.lasttime));
+        }
+        return Promise.resolve().then(function() {
+            return getCurrentTime();
+        }).then(function(currentTime) {
+            return normaliseTime(currentTime);
+        });
+    }
+
     /**
      * Mark the next seek as controlled by the plugin rather than the learner.
      *
@@ -204,7 +227,7 @@ define([
             return Promise.resolve(false);
         }
 
-        return Promise.resolve(getCurrentTime()).then(function(currentTime) {
+        return resolveCurrentTime(getCurrentTime, state).then(function(currentTime) {
             var closed = closeSegment(state, currentTime);
             if (!closed || closed.end <= closed.start) {
                 return false;
@@ -471,7 +494,7 @@ define([
 
         var start = normaliseTime(state.segmentstart);
 
-        return Promise.resolve(getCurrentTime()).then(function(currentTime) {
+        return resolveCurrentTime(getCurrentTime, state).then(function(currentTime) {
             var end = Segment.calculateInteractionEnd(start, currentTime, state.duration, reason);
             if (end <= start) {
                 return null;
@@ -532,7 +555,7 @@ define([
 
         state.heartbeatPending = true;
 
-        return Promise.resolve(getCurrentTime()).then(function(currentTime) {
+        return resolveCurrentTime(getCurrentTime, state).then(function(currentTime) {
             var heartbeat = captureHeartbeatSegment(state, currentTime);
             if (!heartbeat) {
                 state.heartbeatPending = false;
@@ -574,6 +597,7 @@ define([
 
     return {
         normaliseTime: normaliseTime,
+        resolveCurrentTime: resolveCurrentTime,
         syncTime: syncTime,
         markProgrammaticSeek: markProgrammaticSeek,
         consumeProgrammaticSeek: consumeProgrammaticSeek,
