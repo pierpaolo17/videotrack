@@ -476,5 +476,13 @@ $string['report:anonymiseduser'] = 'Anonymised user';
 
 $string['report:exportnotes_privacywarning'] = 'This export may contain personal data from student notes. Download and store it only when you have a valid purpose and delete it when it is no longer needed.';
 
+$string['invalidvideosource'] = 'Invalid video source.';
+$string['report:gradeinputfor'] = 'Grade for {$a}';
+$string['report:savegradefor'] = 'Save grade for {$a}';
+$string['report:gradepassed'] = 'Passed';
+$string['report:gradefailed'] = 'Not passed';
+$string['report:exportnotes_confirm'] = 'I confirm that this notes export may contain personal data and that I have a valid purpose for downloading it.';
+$string['report:exportnotes_confirmrequired'] = 'Confirm the personal-data export notice before downloading notes.';
+
 $string['privacy:videoid_export_note'] = 'Video/content identifier: {$a}';
 $string['privacy:anonymisedreaction'] = 'Anonymised reaction';

@@ -49,6 +49,7 @@ $sql = "
       FROM {videotrack} vt
       JOIN {course_modules} cm ON cm.instance = vt.id
       JOIN {modules} m ON m.id = cm.module AND m.name = 'videotrack'
+                        AND cm.deletioninprogress = 0
  LEFT JOIN (
            SELECT vs2.videotrackid,
                   COUNT(DISTINCT vs2.userid) AS students_started,
@@ -64,6 +65,7 @@ $sql = "
              FROM {videotrack_reactev} vr2
              JOIN {videotrack} vt3 ON vt3.id = vr2.videotrackid AND vt3.course = :courseid4
             WHERE vr2.isdeleted = 0
+              AND (vr2.notetype IS NULL OR vr2.notetype = '')
          GROUP BY vr2.videotrackid
            ) vr ON vr.videotrackid = vt.id
      WHERE vt.course = :courseid AND cm.course = :courseid2

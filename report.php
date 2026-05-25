@@ -299,6 +299,10 @@ if ($export === 'notes_csv' && !empty($videotrack->studentnotesenabled)) {
     }
     require_sesskey();
     require_capability('mod/videotrack:viewreport', $context);
+    $confirmnotesexport = optional_param('confirmnotesexport', 0, PARAM_BOOL);
+    if (!$confirmnotesexport) {
+        throw new moodle_exception('report:exportnotes_confirmrequired', 'mod_videotrack');
+    }
     // S1 fix: validate useridfilter against course enrolment to prevent a teacher
     // from exporting notes of a user not enrolled in this course by manipulating
     // the GET parameter. is_enrolled() is already used for reset and grade actions.
@@ -695,6 +699,7 @@ if ($mode === 'student') {
 
             if ($hasgrade && $cangrade) {
                 // Legge il voto attuale per questo utente.
+                $studentname = fullname($user);
                 $currentgrade = $gradeinfo->items[0]->grades[(int)$state->userid]->grade ?? '';
                 $gradecell = html_writer::start_tag('form', [
                     'method' => 'post',
@@ -717,6 +722,7 @@ if ($mode === 'student') {
                         'step'        => 'any',
                         'value'       => ($currentgrade !== '' ? format_float((float)$currentgrade, 2) : ''),
                         'placeholder' => '-',
+                        'aria-label' => get_string('report:gradeinputfor', 'mod_videotrack', $studentname),
                     ]);
                     $gradecell .= html_writer::tag('small', '/ ' . (int)$videotrack->grade,
                         ['class' => 'text-muted ms-1']);
@@ -731,22 +737,32 @@ if ($mode === 'student') {
                     }
                     $gradecell .= html_writer::select($options, 'grade_value',
                         ($currentgrade !== '' ? (int)$currentgrade : ''),
-                        false, ['class' => 'form-control form-control-sm custom-select']);
+                        false, [
+                        'class' => 'form-control form-control-sm custom-select',
+                        'aria-label' => get_string('report:gradeinputfor', 'mod_videotrack', $studentname),
+                    ]);
                 }
 
                 $gradecell .= html_writer::tag('button',
                     get_string('save'),
-                    ['type' => 'submit', 'class' => 'btn btn-sm btn-primary ms-1']
+                    [
+                        'type' => 'submit',
+                        'class' => 'btn btn-sm btn-primary ms-1',
+                        'aria-label' => get_string('report:savegradefor', 'mod_videotrack', $studentname),
+                    ]
                 );
                 $gradecell .= html_writer::end_tag('form');
 
                 // Indicatore visivo sufficienza se configurata.
                 if (!empty($videotrack->gradepass) && $currentgrade !== '') {
                     $passed = (float)$currentgrade >= (float)$videotrack->gradepass;
+                    $passlabel = get_string($passed ? 'report:gradepassed' : 'report:gradefailed', 'mod_videotrack');
                     $gradecell .= html_writer::tag('span',
-                        $passed ? '✓' : '✗',
+                        html_writer::span($passed ? '✓' : '✗', '', ['aria-hidden' => 'true']) .
+                            html_writer::span($passlabel, 'sr-only'),
                         ['class' => 'ms-1 ' . ($passed ? 'text-success' : 'text-danger'),
-                         'title' => get_string('report:gradepass_hint', 'mod_videotrack', format_float((float)$videotrack->gradepass, 2))]
+                         'title' => get_string('report:gradepass_hint', 'mod_videotrack', format_float((float)$videotrack->gradepass, 2)),
+                         'aria-label' => $passlabel]
                     );
                 }
 
@@ -995,6 +1011,20 @@ if ($mode === 'student' && !empty($videotrack->studentnotesenabled)) {
         }
         $notesexportform .= html_writer::empty_tag('input', ['type' => 'hidden', 'name' => 'sesskey', 'value' => sesskey()]);
         $notesexportform .= html_writer::empty_tag('input', ['type' => 'hidden', 'name' => 'export', 'value' => 'notes_csv']);
+        $notesexportform .= html_writer::start_div('form-check mt-2');
+        $notesexportform .= html_writer::empty_tag('input', [
+            'type' => 'checkbox',
+            'name' => 'confirmnotesexport',
+            'value' => 1,
+            'required' => 'required',
+            'class' => 'form-check-input',
+            'id' => 'id_confirmnotesexport',
+        ]);
+        $notesexportform .= html_writer::tag('label',
+            get_string('report:exportnotes_confirm', 'mod_videotrack'),
+            ['class' => 'form-check-label', 'for' => 'id_confirmnotesexport']
+        );
+        $notesexportform .= html_writer::end_div();
         $notesexportform .= html_writer::tag('button', get_string('report:exportnotes_csv', 'mod_videotrack'), [
             'type' => 'submit',
             'class' => 'btn btn-sm btn-outline-secondary mt-2',
