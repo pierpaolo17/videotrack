@@ -51,7 +51,7 @@ function main() {
         'tests/rc3_freeze_static_test.js'
     ].forEach(assertFile);
 
-    assertContains('version.php', /\$plugin->release\s*=\s*'(?:1.3.7[678]-rc[123]|1.3.79|1.3.80)'/, 'release-candidate release marker');
+    assertContains('version.php', /\$plugin->release\s*=\s*'(?:1.3.7[678]-rc[123]|1.3.79|1.3.8[01])'/, 'release-candidate release marker');
     assertContains('docs/RELEASE-CANDIDATE-1.3.md', /Manual runtime checks still required/, 'manual runtime caveat');
     assertContains('docs/RELEASE-CANDIDATE-1.3.md', /1\.3\.76-rc1/, 'rc1 target');
     assertContains('docs/RELEASE-CANDIDATE-1.3.md', /1\.3\.77-rc2/, 'rc2 target');
