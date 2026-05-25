@@ -455,10 +455,19 @@ define([
      * @param {Function=} options.onHidden Optional callback after hidden close.
      * @param {Function=} options.sendBeacon Optional beforeunload beacon callback.
      * @param {Function=} options.hasPlayer Optional player availability callback.
+     * @returns {boolean} True when handlers were installed, false when already installed.
      */
     function installLifecycleHandlers(options) {
         options = options || {};
         var state = options.state;
+
+        if (state && state.lifecycleHandlersInstalled) {
+            return false;
+        }
+        if (state) {
+            state.lifecycleHandlersInstalled = true;
+        }
+
         var closeSegment = typeof options.closeSegment === 'function' ? options.closeSegment : null;
         var stop = typeof options.stopPolling === 'function' ? options.stopPolling : function() {
             stopPolling(state);
