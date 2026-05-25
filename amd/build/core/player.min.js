@@ -243,6 +243,16 @@ define([
     }
 
 
+
+    /**
+     * Configure shared player UI helpers with labels provided by PHP.
+     *
+     * @param {Object=} config Player configuration.
+     */
+    function configureStatus(config) {
+        Status.configure(config || {});
+    }
+
     /**
      * Show an accessible temporary status message in the player shell.
      *
@@ -273,7 +283,7 @@ define([
     function showErrorStatusMessage(error, fallbackMessage, dismissLabel, timeoutMs) {
         var category = error && error.category ? String(error.category) : '';
         var rawMessage = error && error.message ? String(error.message).trim() : '';
-        var message = fallbackMessage || rawMessage || 'Error';
+        var message = fallbackMessage || rawMessage || (error && error.statuserrorlabel) || '';
 
         if (category === 'validation' && rawMessage && rawMessage !== 'invalid-method') {
             message = rawMessage;
@@ -456,6 +466,7 @@ define([
         updateIntervalBar: updateIntervalBar,
         sendBeaconSegment: sendBeaconSegment,
         showResumeNotice: showResumeNotice,
+        configureStatus: configureStatus,
         showStatusMessage: showStatusMessage,
         showErrorStatusMessage: showErrorStatusMessage,
         announceStatusMessage: announceStatusMessage,

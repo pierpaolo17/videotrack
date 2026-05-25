@@ -367,6 +367,8 @@ $string['report:notedate'] = 'लिखा गया';
 $string['report:exportnotes_csv'] = 'नोट्स CSV के रूप में निर्यात करें';
 // ── Localisation: skip buttons, dismiss, note remove ──
 $string['dismisslabel'] = 'बंद करें';
+$string['status:default'] = 'स्थिति अपडेट।';
+$string['status:error'] = 'एक त्रुटि हुई। कृपया फिर से प्रयास करें।';
 $string['rewindlabel'] = 'पीछे जाएँ';
 $string['fastforwardlabel'] = 'तेज़ आगे';
 $string['secondslabel'] = 'सेकंड';

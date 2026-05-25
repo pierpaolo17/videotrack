@@ -649,6 +649,7 @@ define([
     return {
         init: function(initConfig) {
             config             = initConfig;
+            PlayerCore.configureStatus(config);
             // reactionannouncementinterval is provided by PHP in milliseconds; cap matches settings.php max (120000 ms).
             var interval = parseInt(config.reactionannouncementinterval, 10);
             reactionState.unavailableInterval = interval === 0 ? Number.MAX_SAFE_INTEGER :
