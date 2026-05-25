@@ -78,12 +78,16 @@ define([
         var currentTime = player.getCurrentTime();
         var wallclock = Math.floor(Date.now() / 1000);
         // Feature 6: applica il limite massimo di velocità se configurato.
-        var currentRate = player.getPlaybackRate ? player.getPlaybackRate() : 1;
+        var currentRate = Adapter.getPlaybackRate(state, function() {
+            return player.getPlaybackRate ? player.getPlaybackRate() : state.playbackrate;
+        }, Log, 'YouTube');
         if (config.maxplaybackrate > 0) {
             var maxRate = config.maxplaybackrate / 100;
             if (currentRate > maxRate) {
                 if (player.setPlaybackRate) {
-                    player.setPlaybackRate(maxRate);
+                    Adapter.setPlaybackRate(maxRate, function(rate) {
+                        return player.setPlaybackRate(rate);
+                    }, state, Log, 'YouTube max playback rate');
                 }
                 currentRate = maxRate;
             }
@@ -145,7 +149,9 @@ define([
             state.lasttime = current;
             return;
         }
-        var rate = player.getPlaybackRate ? player.getPlaybackRate() : 1;
+        var rate = Adapter.getPlaybackRate(state, function() {
+            return player.getPlaybackRate ? player.getPlaybackRate() : state.playbackrate;
+        }, Log, 'YouTube seek polling');
         var threshold = Math.max(2, rate * 3);
         if (state.playing && Math.abs(delta) > threshold) {
             var seek = Tracker.resolveSeek(state, current, config, 0);
@@ -192,17 +198,22 @@ define([
     }
 
     function onPlayerStateChange(event) {
-        state.duration = player.getDuration ? player.getDuration() : state.duration;
+        state.duration = Adapter.getDuration(state, function() {
+            return player.getDuration ? player.getDuration() : state.duration;
+        }, Log, 'YouTube');
         if (event.data === YT.PlayerState.PLAYING) {
             // Enforce maxplaybackrate: se lo studente ha alzato la velocità oltre il
             // limite configurato, la riportiamo al massimo consentito silenziosamente.
             // config.maxplaybackrate è in centesimi (150 = 1.5×); getPlaybackRate() restituisce float.
             if (config.maxplaybackrate > 0 && player.getPlaybackRate) {
                 var maxRateEnforced = config.maxplaybackrate / 100;
-                var currentRate = player.getPlaybackRate();
+                var currentRate = Adapter.getPlaybackRate(state, function() {
+                    return player.getPlaybackRate();
+                }, Log, 'YouTube');
                 if (currentRate > maxRateEnforced) {
-                    player.setPlaybackRate(maxRateEnforced);
-                    state.playbackrate = maxRateEnforced;
+                    Adapter.setPlaybackRate(maxRateEnforced, function(rate) {
+                        return player.setPlaybackRate(rate);
+                    }, state, Log, 'YouTube enforced playback rate');
                 }
             }
             if (!state.playing) {
@@ -287,7 +298,9 @@ define([
                         sessionid: state.sessionid,
                         reactionid: Utils.safeInt(reactionbtn.getAttribute('data-reactionid'), 0),
                         videotime: currentTime,
-                        playbackrate: player.getPlaybackRate ? player.getPlaybackRate() : 1
+                        playbackrate: Adapter.getPlaybackRate(state, function() {
+                            return player.getPlaybackRate ? player.getPlaybackRate() : state.playbackrate;
+                        }, Log, 'YouTube reaction')
                     });
                 }).then(updateProgress).then(function(response) {
                     reactionbtn.classList.remove('videotrack-saving');
@@ -448,8 +461,12 @@ define([
             },
             events: {
                 onReady: function() {
-                    state.duration = player.getDuration ? player.getDuration() : 0;
-                    state.playbackrate = player.getPlaybackRate ? player.getPlaybackRate() : 1;
+                    state.duration = Adapter.getDuration(state, function() {
+                        return player.getDuration ? player.getDuration() : state.duration;
+                    }, Log, 'YouTube ready');
+                    state.playbackrate = Adapter.getPlaybackRate(state, function() {
+                        return player.getPlaybackRate ? player.getPlaybackRate() : state.playbackrate;
+                    }, Log, 'YouTube ready');
                     setReactionButtons(false); // Disabilitati: video non ancora in play.
                     // Add rewind/ff overlay buttons if configured.
                     buildYouTubeSkipButtons();
