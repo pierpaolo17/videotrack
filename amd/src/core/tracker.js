@@ -42,6 +42,56 @@ define([
     }
 
     /**
+     * Register a tracker event handler that runs at most once.
+     *
+     * @param {Object} state Mutable player state.
+     * @param {string} name Event name.
+     * @param {Function} handler Event handler.
+     * @returns {Function} Unsubscribe callback.
+     */
+    function once(state, name, handler) {
+        return Events.ensure(state).once(name, handler);
+    }
+
+    /**
+     * Remove a tracker event handler from a player state.
+     *
+     * @param {Object} state Mutable player state.
+     * @param {string} name Event name.
+     * @param {Function} handler Event handler.
+     */
+    function off(state, name, handler) {
+        if (state && state.events && typeof state.events.off === 'function') {
+            state.events.off(name, handler);
+        }
+    }
+
+    /**
+     * Count tracker event handlers bound to a player state.
+     *
+     * @param {Object} state Mutable player state.
+     * @param {string=} name Optional event name.
+     * @returns {number} Registered handler count.
+     */
+    function countEvents(state, name) {
+        if (!state || !state.events || typeof state.events.count !== 'function') {
+            return 0;
+        }
+        return state.events.count(name);
+    }
+
+    /**
+     * Remove tracker event handlers bound to a player state.
+     *
+     * @param {Object} state Mutable player state.
+     */
+    function clearEvents(state) {
+        if (state && state.events && typeof state.events.clear === 'function') {
+            state.events.clear();
+        }
+    }
+
+    /**
      * Emit a tracker event when a state-bound event bus exists.
      *
      * @param {Object} state Mutable player state.
@@ -414,12 +464,17 @@ define([
             return Promise.resolve(false);
         }
 
+        emit(state, 'heartbeat:start', {});
+
         return saveHeartbeatIfDue(
             state,
             options.heartbeatInterval,
             options.getCurrentTime,
             options.saveSegment
-        ).catch(function(error) {
+        ).then(function(saved) {
+            emit(state, 'heartbeat:complete', {saved: !!saved});
+            return saved;
+        }).catch(function(error) {
             emit(state, 'heartbeat:error', {error: error});
             if (options.log && typeof options.log.debug === 'function') {
                 options.log.debug(error);
@@ -735,6 +790,10 @@ define([
     return {
         normaliseTime: normaliseTime,
         on: on,
+        once: once,
+        off: off,
+        countEvents: countEvents,
+        clearEvents: clearEvents,
         emit: emit,
         resolveCurrentTime: resolveCurrentTime,
         syncTime: syncTime,
