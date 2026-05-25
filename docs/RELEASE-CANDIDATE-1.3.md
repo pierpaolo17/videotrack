@@ -79,3 +79,10 @@ Additional rc3 freeze check:
 ```bash
 node tests/rc3_freeze_static_test.js
 ```
+
+## 1.3.79 final static-check checkpoint
+
+`1.3.79` is the last planned static verification checkpoint before the stable
+release decision. It keeps `MATURITY_RC`, adds no new runtime behaviour and
+requires `docs/FINAL-CHECKS-1.3.md` plus `tests/final_static_test.js` to pass
+before considering the stable `1.3.80` package.

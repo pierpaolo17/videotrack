@@ -1,10 +1,10 @@
 #!/usr/bin/env node
 /*
- * Release-candidate preparation checks for mod_videotrack.
+ * Final static checks for mod_videotrack 1.3.
  *
- * This script keeps the final pre-rc gate Moodle-independent. It verifies that
- * the accumulated 1.3 release documentation and static test harnesses are
- * present before the branch can move toward rc1.
+ * This is the final Moodle-independent gate before the stable release decision.
+ * It verifies that rc1/rc2/rc3 evidence, documentation and test harnesses are
+ * present and that version metadata has moved to the final-check checkpoint.
  */
 
 const fs = require('fs');
@@ -39,6 +39,7 @@ function main() {
         'docs/DEPRECATIONS-1.3.md',
         'docs/PERFORMANCE-1.3.md',
         'docs/RELEASE-CANDIDATE-1.3.md',
+        'docs/FINAL-CHECKS-1.3.md',
         'tests/smoke_amd.js',
         'tests/tracker_segment_test.js',
         'tests/adapter_test.js',
@@ -46,21 +47,23 @@ function main() {
         'tests/privacy_static_test.js',
         'tests/deprecation_static_test.js',
         'tests/performance_static_test.js',
+        'tests/release_candidate_static_test.js',
         'tests/rc_freeze_static_test.js',
         'tests/rc2_freeze_static_test.js',
         'tests/rc3_freeze_static_test.js'
     ].forEach(assertFile);
 
-    assertContains('version.php', /\$plugin->release\s*=\s*'(?:1.3.7[678]-rc[123]|1.3.79)'/, 'release-candidate release marker');
-    assertContains('docs/RELEASE-CANDIDATE-1.3.md', /Manual runtime checks still required/, 'manual runtime caveat');
-    assertContains('docs/RELEASE-CANDIDATE-1.3.md', /1\.3\.76-rc1/, 'rc1 target');
-    assertContains('docs/RELEASE-CANDIDATE-1.3.md', /1\.3\.77-rc2/, 'rc2 target');
-    assertContains('docs/RELEASE-CANDIDATE-1.3.md', /1\.3\.78-rc3/, 'rc3 target');
-    assertContains('docs/RELEASE-CANDIDATE-1.3.md', /node tests\/smoke_amd\.js/, 'AMD smoke command');
-    assertContains('docs/RELEASE-CANDIDATE-1.3.md', /privacy export\/delete flows/, 'privacy runtime reminder');
-    assertContains('docs/RELEASE-CANDIDATE-1.3.md', /backup and restore/, 'backup restore runtime reminder');
+    assertContains('version.php', /\$plugin->version\s*=\s*20260525079;/, 'final-check plugin version');
+    assertContains('version.php', /\$plugin->release\s*=\s*'1\.3\.79'/, 'final-check release marker');
+    assertContains('version.php', /\$plugin->maturity\s*=\s*MATURITY_RC/, 'release-candidate maturity before stable tag');
 
-    console.log('Release candidate static checks passed.');
+    assertContains('docs/RELEASE-CANDIDATE-1.3.md', /1\.3\.76-rc1/, 'rc1 checkpoint history');
+    assertContains('docs/RELEASE-CANDIDATE-1.3.md', /1\.3\.77-rc2/, 'rc2 checkpoint history');
+    assertContains('docs/RELEASE-CANDIDATE-1.3.md', /1\.3\.78-rc3/, 'rc3 checkpoint history');
+    assertContains('docs/FINAL-CHECKS-1.3.md', /Manual runtime checks still required/, 'manual runtime caveat');
+    assertContains('docs/FINAL-CHECKS-1.3.md', /1\.3\.80/, 'next stable checkpoint');
+
+    console.log('Final static checks passed.');
 }
 
 main();
