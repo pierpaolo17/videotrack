@@ -41,9 +41,11 @@ define([
 
 
     function saveSegment(start, end, reason) {
-        return Api.saveSegment(config, state, start, end, reason)
-            .then(updateProgress)
-            .catch(Log.debug);
+        return Api.saveSegment(config, state, start, end, reason, {
+            swallowFailures: true,
+            errorMessage: 'mod_videotrack: HTML5 player event failed',
+            requestScope: state.ajaxRequestScope
+        }).then(updateProgress);
     }
 
     function hasMedia(capability) {

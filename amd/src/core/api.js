@@ -10,7 +10,7 @@ define([
 ], function(Ajax, Log, Segment) {
     var AJAX_TIMEOUT_MS = 15000;
     var AJAX_RETRY_DELAY_MS = 750;
-    var AJAX_MAX_RETRIES = 1;
+    var AJAX_MAX_RETRIES = 2;
     var METHOD_PREFIX = 'mod_videotrack_';
     var ERROR_CATEGORY_TRANSIENT = 'transient';
     var ERROR_CATEGORY_AUTH = 'auth';
@@ -18,6 +18,30 @@ define([
     var ERROR_CATEGORY_CLIENT = 'client';
     var ERROR_CATEGORY_UNKNOWN = 'unknown';
     var ERROR_CATEGORY_CANCELLED = 'cancelled';
+    var NETWORK_STATE_ONLINE = 'online';
+    var NETWORK_STATE_OFFLINE = 'offline';
+    var NETWORK_STATE_UNKNOWN = 'unknown';
+
+    /**
+     * Return the browser network state without assuming navigator support.
+     *
+     * @returns {string} online, offline or unknown.
+     */
+    function getNetworkState() {
+        if (typeof window === 'undefined' || !window.navigator || typeof window.navigator.onLine === 'undefined') {
+            return NETWORK_STATE_UNKNOWN;
+        }
+        return window.navigator.onLine ? NETWORK_STATE_ONLINE : NETWORK_STATE_OFFLINE;
+    }
+
+    /**
+     * Decide whether the browser is explicitly reporting an offline state.
+     *
+     * @returns {boolean} True when navigator.onLine is available and false.
+     */
+    function isBrowserOffline() {
+        return getNetworkState() === NETWORK_STATE_OFFLINE;
+    }
 
     /**
      * Validate a Moodle AJAX method name before dispatching the request.
@@ -79,9 +103,10 @@ define([
             return ERROR_CATEGORY_CANCELLED;
         }
 
-        if (message === 'ajax-timeout' || code === 'servicenotavailable' || code === 'servererror' ||
-                code === 'networkerror' || message.indexOf('timeout') !== -1 ||
-                message.indexOf('network') !== -1) {
+        if (isBrowserOffline() || message === 'ajax-timeout' || code === 'servicenotavailable' ||
+                code === 'servererror' || code === 'networkerror' || code === 'connectionlost' ||
+                message.indexOf('timeout') !== -1 || message.indexOf('network') !== -1 ||
+                message.indexOf('offline') !== -1 || message.indexOf('connection') !== -1) {
             return ERROR_CATEGORY_TRANSIENT;
         }
 
@@ -152,7 +177,8 @@ define([
             base = AJAX_RETRY_DELAY_MS;
         }
         return new Promise(function(resolve) {
-            window.setTimeout(resolve, base * Math.max(1, attempt + 1));
+            var jitter = Math.floor(Math.random() * 150);
+            window.setTimeout(resolve, (base * Math.max(1, attempt + 1)) + jitter);
         });
     }
 
@@ -256,8 +282,9 @@ define([
      * @param {number=} options.timeout Timeout in milliseconds.
      * @param {boolean=} options.swallowFailures Resolve to null on failure.
      * @param {string=} options.errorMessage Debug prefix for swallowed failures.
-     * @param {number=} options.retries Number of transient retries, capped at one.
+     * @param {number=} options.retries Number of transient retries, capped at two.
      * @param {number=} options.retryDelay Retry delay in milliseconds.
+     * @param {boolean=} options.deferWhenOffline Resolve to null immediately when the browser reports offline.
      * @param {Object=} options.requestScope Optional stale-continuation guard.
      * @returns {Promise<Object|null>} AJAX response or null when swallowed.
      */
@@ -272,6 +299,11 @@ define([
 
         var requestScope = options.requestScope || null;
         var requestToken = requestScope && typeof requestScope.next === 'function' ? requestScope.next() : null;
+
+        if (options.deferWhenOffline && isBrowserOffline()) {
+            Log.debug('mod_videotrack: deferred AJAX request while offline for ' + safeMethodName);
+            return Promise.resolve(null);
+        }
 
         var maxRetries = Number(options.retries);
         if (!isFinite(maxRetries) || maxRetries < 0) {
@@ -357,8 +389,9 @@ define([
      * @param {Object=} options Optional handling flags.
      * @param {boolean=} options.swallowFailures Resolve to null on AJAX failure.
      * @param {string=} options.errorMessage Debug prefix for swallowed failures.
-     * @param {number=} options.retries Number of transient retries, capped at one.
+     * @param {number=} options.retries Number of transient retries, capped at two.
      * @param {number=} options.retryDelay Retry delay in milliseconds.
+     * @param {boolean=} options.deferWhenOffline Resolve to null immediately when the browser reports offline.
      * @param {Object=} options.requestScope Optional stale-continuation guard.
      * @returns {Promise<Object|null>} AJAX response or null for empty/skipped segments.
      */
@@ -377,6 +410,8 @@ define([
     return {
         call: call,
         createRequestScope: createRequestScope,
+        getNetworkState: getNetworkState,
+        isBrowserOffline: isBrowserOffline,
         classifyAjaxError: classifyAjaxError,
         isTransientAjaxError: isTransientAjaxError,
         buildSegmentArgs: buildSegmentArgs,
