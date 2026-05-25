@@ -65,12 +65,16 @@ define([
         }).then(updateProgress);
     }
 
+    function hasPlayer(methods) {
+        return Adapter.isAvailable(player, methods);
+    }
+
     function saveCurrentProgress(reason) {
-        return PlayerCore.saveCurrentProgress(state, getCurrentVideoTime, saveSegment, reason, !!player);
+        return PlayerCore.saveCurrentProgress(state, getCurrentVideoTime, saveSegment, reason, hasPlayer(['getCurrentTime']));
     }
 
     function closeCurrentSegment(reason) {
-        return Tracker.closeAndSaveSegment(state, getCurrentVideoTime, saveSegment, reason, !!player)
+        return Tracker.closeAndSaveSegment(state, getCurrentVideoTime, saveSegment, reason, hasPlayer(['getCurrentTime']))
             .catch(Log.debug);
     }
 
@@ -112,7 +116,7 @@ define([
     }
 
     function replayFragment(start, end, autoplay) {
-        if (!player) {
+        if (!hasPlayer(['seekTo'])) {
             return;
         }
         state.currentReplayEnd = typeof end === 'number' ? end : null;
@@ -129,7 +133,7 @@ define([
     }
 
     function handleSeekByPolling() {
-        if (!player || typeof player.getCurrentTime !== 'function') {
+        if (!hasPlayer(['getCurrentTime'])) {
             return;
         }
         // B6 fix: ignore polling during programmatic seeks (replay, resume, skip buttons).
@@ -191,7 +195,7 @@ define([
             getCurrentTime: getCurrentVideoTime,
             saveSegment: saveSegment,
             hasPlayer: function() {
-                return !!player;
+                return hasPlayer(['getCurrentTime']);
             },
             log: Log
         });
@@ -251,11 +255,11 @@ define([
             onHidden: function() {
                 setReactionButtons(false);
             },
-            hasPlayer: function() { return !!player; },
+            hasPlayer: function() { return hasPlayer(['getCurrentTime']); },
             sendBeacon: function() {
                 return Tracker.sendUnloadBeacon({
                     state: state,
-                    hasPlayer: function() { return !!player; },
+                    hasPlayer: function() { return hasPlayer(['getCurrentTime']); },
                     getCurrentTime: getCurrentVideoTime,
                     sendSegment: function(start, end) {
                         return PlayerCore.sendBeaconSegment(config, state, start, end, Utils, Log);
