@@ -578,6 +578,7 @@ define([
 
     function attachTrackingEvents() {
         media.addEventListener('play', function() {
+            state.ended = false;
             // Avvia un nuovo segmento solo se non c'è già uno in corso.
             // state.playing è sempre false all'arrivo di 'play' perché closeSegment()
             // lo resetta prima (seeking/pause/ended). Il ramo !state.playing è l'unico
@@ -590,6 +591,9 @@ define([
         });
 
         media.addEventListener('pause', function() {
+            if (Adapter.isEnded(state, function() { return media.ended; }, Log, 'HTML5')) {
+                return;
+            }
             if (!state.isSeeking) {
                 stopHeartbeat();
                 closeSegment('pause');
@@ -598,6 +602,7 @@ define([
         });
 
         media.addEventListener('ended', function() {
+            state.ended = true;
             reactionState.readyAnnounced = false;
             stopHeartbeat();
             closeSegment('ended');

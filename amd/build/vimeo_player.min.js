@@ -232,6 +232,7 @@ define([
         buildVimeoSkipButtons();
 
         player.on('play', function() {
+            state.ended = false;
             player.getCurrentTime().then(function(t) {
                 // iOS Safari workaround: setCurrentTime prima del play fallisce.
                 // Riprova il seek alla prima riproduzione se era pendente.
@@ -264,12 +265,16 @@ define([
         });
 
         player.on('pause', function() {
+            if (state.ended) {
+                return;
+            }
             stopHeartbeat();
             closeSegment('pause');
             setReactionButtons(false);
         });
 
         player.on('ended', function() {
+            state.ended = true;
             reactionState.readyAnnounced = false;
             stopHeartbeat();
             closeSegment('ended');
