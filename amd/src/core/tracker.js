@@ -433,6 +433,19 @@ define([
     }
 
     /**
+     * Resolve a boolean or callback-based availability check.
+     *
+     * @param {boolean|Function} hasPlayer Player availability flag or callback.
+     * @returns {boolean} True when the concrete player can be used.
+     */
+    function isPlayerAvailable(hasPlayer) {
+        if (typeof hasPlayer === 'function') {
+            return !!hasPlayer();
+        }
+        return !!hasPlayer;
+    }
+
+    /**
      * Save progress for a currently playing segment before an interaction.
      *
      * This keeps interaction-triggered persistence in the tracker layer rather
@@ -445,24 +458,28 @@ define([
      * @param {Function} getCurrentTime Function returning the current video time.
      * @param {Function} saveSegment Function used to persist the segment.
      * @param {string} reason Save reason.
-     * @param {boolean} hasPlayer Whether the concrete player is available.
-     * @returns {Promise|null} Save promise or null-equivalent promise.
+     * @param {boolean|Function} hasPlayer Whether the concrete player is available.
+     * @returns {Promise} Save promise or null-equivalent promise.
      */
     function saveCurrentProgress(state, getCurrentTime, saveSegment, reason, hasPlayer) {
-        if (!state || !state.playing || state.segmentstart === null || !hasPlayer) {
+        if (!state || !state.playing || state.segmentstart === null || !isPlayerAvailable(hasPlayer)) {
             return Promise.resolve(null);
         }
         if (typeof getCurrentTime !== 'function' || typeof saveSegment !== 'function') {
             return Promise.resolve(null);
         }
+
         var start = normaliseTime(state.segmentstart);
-        var end = Segment.calculateInteractionEnd(start, getCurrentTime(), state.duration, reason);
-        if (end <= start) {
-            return Promise.resolve(null);
-        }
-        return Promise.resolve(saveSegment(start, end, Segment.normaliseSaveReason(reason))).then(function(result) {
-            reopenAfterInteractionSave(state, end);
-            return result;
+
+        return Promise.resolve(getCurrentTime()).then(function(currentTime) {
+            var end = Segment.calculateInteractionEnd(start, currentTime, state.duration, reason);
+            if (end <= start) {
+                return null;
+            }
+            return Promise.resolve(saveSegment(start, end, Segment.normaliseSaveReason(reason))).then(function(result) {
+                reopenAfterInteractionSave(state, end);
+                return result;
+            });
         });
     }
 
@@ -577,6 +594,7 @@ define([
         reopenAfterHeartbeat: reopenAfterHeartbeat,
         installLifecycleHandlers: installLifecycleHandlers,
         reopenAfterInteractionSave: reopenAfterInteractionSave,
+        isPlayerAvailable: isPlayerAvailable,
         saveCurrentProgress: saveCurrentProgress
     };
 });
