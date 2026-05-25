@@ -224,8 +224,8 @@
 
 .videotrack-ctrl-progress:focus,
 .videotrack-ctrl-volume:focus {
-    outline: 2px solid Highlight;
-    outline-offset: 1px;
+    outline: 3px solid Highlight;
+    outline-offset: 2px;
 }
 
 @supports selector(:focus-visible) {
@@ -263,8 +263,8 @@
 
 .videotrack-ctrl-progress:focus-visible,
 .videotrack-ctrl-volume:focus-visible {
-    outline: 2px solid Highlight;
-    outline-offset: 1px;
+    outline: 3px solid Highlight;
+    outline-offset: 2px;
 }
 
 /* ─── Dark mode — media query prefer-color-scheme ───────────────────────── */
@@ -855,4 +855,8 @@
 
 .videotrack-status-message:empty {
     display: none;
+}
+
+.videotrack-course-avglabel {
+    white-space: nowrap;
 }

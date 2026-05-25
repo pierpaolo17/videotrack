@@ -52,3 +52,7 @@ This maintenance checkpoint resolves static review findings on video source vali
 ## 1.3.87
 
 Maintenance review fixes after the 1.3.86 audit: language-string completion, export hardening, accessible status dismissal, course-report visibility filtering, and safer subtitle serving. Static regression gate: `node tests/review_fixes_static_test.js`.
+
+## 1.3.88
+
+Review follow-up after the 1.3.87 static audit: restored the review-fix static gate, completed contextual export accessibility labels, aligned CSV hardening, improved visible average-coverage wording, and widened stable static gates for the maintenance line.

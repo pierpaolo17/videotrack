@@ -145,7 +145,7 @@ foreach ($instances as $inst) {
         . '<rect class="videotrack-course-avgbar-fill" x="0" y="3" width="' . round($barw * 0.8) . '" height="8" rx="2"/>'
         . '</svg>';
     $avglabel = get_string('coursereport:avgcoverage', 'mod_videotrack', format_float($pct, 1));
-    $avgcell = html_writer::span($avglabel, 'sr-only visually-hidden') . s(format_float($pct, 1) . '%') . ' ' . $barsvg;
+    $avgcell = html_writer::span($avglabel, 'videotrack-course-avglabel') . ' ' . $barsvg;
 
     $table->data[] = [
         $link,
