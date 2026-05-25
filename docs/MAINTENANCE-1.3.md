@@ -48,3 +48,7 @@ Maintenance review fixes after the 1.3.86 audit: language-string completion, exp
 ## 1.3.88
 
 Review follow-up after the 1.3.87 static audit: restored the review-fix static gate, completed contextual export accessibility labels, aligned CSV hardening, improved visible average-coverage wording, and widened stable static gates for the maintenance line.
+
+## 1.3.90
+
+Bug-report follow-up after the 1.3.89 audit: modal API deprecation cleanup, per-instance status timers, progress fallback locale handling, preset table accessibility, invalid-method hardening, and report badge ARIA cleanup. The version number remains monotonic with the existing 1.3 maintenance line; do not downgrade Moodle version numbers when normalising future schemes.

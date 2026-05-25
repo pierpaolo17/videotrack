@@ -8,8 +8,26 @@
  * @module mod_videotrack/core/status
  */
 define([], function() {
-    var timerId = null;
-    var announceTimerId = null;
+    var states = [];
+
+    /**
+     * Return timer state for a container without sharing timers across multiple
+     * VideoTrack instances rendered on the same page.
+     *
+     * @param {HTMLElement} container Status container.
+     * @returns {Object} Mutable timer state.
+     */
+    function getState(container) {
+        var i;
+        for (i = 0; i < states.length; i++) {
+            if (states[i].container === container) {
+                return states[i];
+            }
+        }
+        var state = {container: container, timerId: null, announceTimerId: null};
+        states.push(state);
+        return state;
+    }
     var labels = {
         defaultMessage: 'Status update.',
         errorMessage: 'An error occurred. Please try again.',
@@ -49,18 +67,15 @@ define([], function() {
      * @param {boolean} isError Whether assertive announcement is required.
      * @returns {HTMLElement|null} Live region element.
      */
-    function getLiveRegion(isError) {
-        var id = isError ? 'videotrack-status-live-assertive' : 'videotrack-status-live-polite';
-        var region = document.getElementById(id);
-        if (region) {
-            return region;
-        }
-
-        var container = getContainer();
+    function getLiveRegion(isError, container) {
         if (!container) {
             return null;
         }
-
+        var id = isError ? 'videotrack-status-live-assertive' : 'videotrack-status-live-polite';
+        var region = container.querySelector('#' + id);
+        if (region) {
+            return region;
+        }
         region = document.createElement('div');
         region.id = id;
         region.className = 'sr-only visually-hidden videotrack-status-live-region';
@@ -112,13 +127,13 @@ define([], function() {
     function normaliseTimeout(isError, timeoutMs) {
         var timeout = Number(timeoutMs);
         if (!Number.isFinite(timeout) || timeout <= 0) {
-            return isError ? 8000 : 5000;
+            return isError ? 12000 : 8000;
         }
 
         // Keep notices transient but readable; callers can still pass a longer
         // timeout for errors without leaving success messages around forever.
-        var minimum = isError ? 4000 : 2500;
-        var maximum = isError ? 20000 : 10000;
+        var minimum = isError ? 6000 : 4000;
+        var maximum = isError ? 30000 : 20000;
         return Math.min(Math.max(timeout, minimum), maximum);
     }
 
@@ -128,48 +143,59 @@ define([], function() {
      * @param {string} message Message text.
      * @param {boolean=} isError Whether assertive announcement is required.
      */
-    function announce(message, isError) {
+    function announce(message, isError, container) {
+        container = container || getContainer();
+        if (!container) {
+            return;
+        }
         var text = normaliseMessage(message, !!isError);
+        var state = getState(container);
 
-        var region = getLiveRegion(!!isError);
+        var region = getLiveRegion(!!isError, container);
         if (!region) {
             return;
         }
 
-        if (announceTimerId) {
-            window.clearTimeout(announceTimerId);
-            announceTimerId = null;
+        if (state.announceTimerId) {
+            window.clearTimeout(state.announceTimerId);
+            state.announceTimerId = null;
         }
 
         // Clearing first makes repeated identical messages observable to assistive technology.
         region.textContent = '';
-        announceTimerId = window.setTimeout(function() {
+        state.announceTimerId = window.setTimeout(function() {
             region.textContent = text;
-            announceTimerId = null;
+            state.announceTimerId = null;
         }, 30);
     }
 
     /**
      * Clear visible and hidden status messages.
      */
-    function clear() {
-        if (timerId) {
-            window.clearTimeout(timerId);
-            timerId = null;
-        }
-        if (announceTimerId) {
-            window.clearTimeout(announceTimerId);
-            announceTimerId = null;
-        }
-        remove(document.getElementById('videotrack-status-message'));
-        var polite = document.getElementById('videotrack-status-live-polite');
-        var assertive = document.getElementById('videotrack-status-live-assertive');
-        if (polite) {
-            polite.textContent = '';
-        }
-        if (assertive) {
-            assertive.textContent = '';
-        }
+    function clear(container) {
+        var targets = container ? [container] : Array.prototype.map.call(states, function(item) {
+            return item.container;
+        });
+        targets.forEach(function(target) {
+            var state = getState(target);
+            if (state.timerId) {
+                window.clearTimeout(state.timerId);
+                state.timerId = null;
+            }
+            if (state.announceTimerId) {
+                window.clearTimeout(state.announceTimerId);
+                state.announceTimerId = null;
+            }
+            remove(target.querySelector('#videotrack-status-message'));
+            var polite = target.querySelector('#videotrack-status-live-polite');
+            var assertive = target.querySelector('#videotrack-status-live-assertive');
+            if (polite) {
+                polite.textContent = '';
+            }
+            if (assertive) {
+                assertive.textContent = '';
+            }
+        });
     }
 
     /**
@@ -188,9 +214,10 @@ define([], function() {
             return;
         }
 
-        clear();
+        clear(container);
 
-        announce(text, !!isError);
+        var state = getState(container);
+        announce(text, !!isError, container);
 
         var notice = document.createElement('div');
         notice.id = 'videotrack-status-message';
@@ -222,9 +249,9 @@ define([], function() {
         button.appendChild(closeText);
 
         button.addEventListener('click', function() {
-            if (timerId) {
-                window.clearTimeout(timerId);
-                timerId = null;
+            if (state.timerId) {
+                window.clearTimeout(state.timerId);
+                state.timerId = null;
             }
             remove(notice);
         });
@@ -233,9 +260,9 @@ define([], function() {
         container.insertBefore(notice, container.firstChild || null);
 
         var timeout = normaliseTimeout(!!isError, timeoutMs);
-        timerId = window.setTimeout(function() {
+        state.timerId = window.setTimeout(function() {
             remove(notice);
-            timerId = null;
+            state.timerId = null;
         }, timeout);
     }
 
