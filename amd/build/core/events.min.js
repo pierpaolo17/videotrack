@@ -62,9 +62,49 @@ define([], function() {
              * @returns {Array} Handler return values.
              */
             emit: function(name, payload) {
+                var eventPayload = payload || {};
                 return (handlers[name] || []).slice().map(function(handler) {
-                    return handler(payload || {});
+                    try {
+                        return handler(eventPayload);
+                    } catch (error) {
+                        window.setTimeout(function() {
+                            throw error;
+                        }, 0);
+                        return null;
+                    }
                 });
+            },
+
+            /**
+             * Register an event handler that runs at most once.
+             *
+             * @param {string} name Event name.
+             * @param {Function} handler Event handler.
+             * @returns {Function} Unsubscribe callback.
+             */
+            once: function(name, handler) {
+                var unsubscribe = function() {};
+                var wrapped = function(payload) {
+                    unsubscribe();
+                    return handler(payload || {});
+                };
+                unsubscribe = this.on(name, wrapped);
+                return unsubscribe;
+            },
+
+            /**
+             * Count registered handlers for an event, or all handlers.
+             *
+             * @param {string=} name Optional event name.
+             * @returns {number} Handler count.
+             */
+            count: function(name) {
+                if (typeof name === 'string') {
+                    return (handlers[name] || []).length;
+                }
+                return Object.keys(handlers).reduce(function(total, key) {
+                    return total + handlers[key].length;
+                }, 0);
             },
 
             /**
