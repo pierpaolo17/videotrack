@@ -104,6 +104,32 @@ define([], function() {
     }
 
 
+
+
+    /**
+     * Check that a provider object is present and exposes the required methods.
+     *
+     * Keeping this small guard in the adapter layer avoids subtle differences
+     * between YouTube, HTML5 and Vimeo availability checks. A provider may be
+     * truthy while its SDK has not exposed the method needed by a tracker path
+     * yet; in that case callers should skip the operation safely.
+     *
+     * @param {*} provider Candidate provider object.
+     * @param {Array<string>=} methods Required method names.
+     * @returns {boolean} True when the provider is usable for the requested methods.
+     */
+    function isAvailable(provider, methods) {
+        if (!provider) {
+            return false;
+        }
+        if (!methods || !methods.length) {
+            return true;
+        }
+        return methods.every(function(method) {
+            return typeof provider[method] === 'function';
+        });
+    }
+
     /**
      * Convert a candidate volume to a safe range between 0 and 1.
      *
@@ -362,6 +388,7 @@ define([], function() {
         normaliseTime: normaliseTime,
         normaliseVolume: normaliseVolume,
         resolveSkipTarget: resolveSkipTarget,
+        isAvailable: isAvailable,
         getCurrentTime: getCurrentTime,
         getDuration: getDuration,
         getVolume: getVolume,

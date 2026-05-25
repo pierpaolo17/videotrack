@@ -45,8 +45,12 @@ define([
             .catch(Log.debug);
     }
 
+    function hasPlayer(methods) {
+        return Adapter.isAvailable(player, methods);
+    }
+
     function saveCurrentProgress(reason) {
-        return PlayerCore.saveCurrentProgress(state, getCurrentVideoTime, saveSegment, reason, !!player);
+        return PlayerCore.saveCurrentProgress(state, getCurrentVideoTime, saveSegment, reason, hasPlayer(['getCurrentTime']));
     }
 
     function updateProgress(response) {
@@ -62,7 +66,7 @@ define([
     function closeSegment(reason) {
         return Tracker.closeAndSaveSegment(state, function() {
             return player ? player.getCurrentTime() : state.lasttime;
-        }, saveSegment, reason, !!player).catch(Log.debug);
+        }, saveSegment, reason, hasPlayer(['getCurrentTime'])).catch(Log.debug);
     }
 
     // ── Heartbeat ─────────────────────────────────────────────────────────
@@ -77,7 +81,7 @@ define([
                 },
                 saveSegment: saveSegment,
                 hasPlayer: function() {
-                    return !!player;
+                    return hasPlayer(['getCurrentTime']);
                 },
                 log: Log
             });
@@ -118,11 +122,11 @@ define([
             onHidden: function() {
                 setReactionButtons(false);
             },
-            hasPlayer: function() { return !!player; },
+            hasPlayer: function() { return hasPlayer(['getCurrentTime']); },
             sendBeacon: function() {
                 return Tracker.sendUnloadBeacon({
                     state: state,
-                    hasPlayer: function() { return !!player; },
+                    hasPlayer: function() { return hasPlayer(['getCurrentTime']); },
                     sendSegment: function(start, end) {
                         return PlayerCore.sendBeaconSegment(config, state, start, end, Utils, Log);
                     }

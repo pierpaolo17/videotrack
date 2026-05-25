@@ -45,8 +45,12 @@ define([
             .catch(Log.debug);
     }
 
+    function hasMedia() {
+        return Adapter.isAvailable(media, ['play', 'pause']);
+    }
+
     function saveCurrentProgress(reason) {
-        return PlayerCore.saveCurrentProgress(state, getCurrentVideoTime, saveSegment, reason, !!media);
+        return PlayerCore.saveCurrentProgress(state, getCurrentVideoTime, saveSegment, reason, hasMedia());
     }
 
     function updateProgress(response) {
@@ -70,7 +74,7 @@ define([
     function closeSegment(reason) {
         return Tracker.closeAndSaveSegment(state, function() {
             return media ? media.currentTime : state.lasttime;
-        }, saveSegment, reason, !!media).catch(Log.debug);
+        }, saveSegment, reason, hasMedia()).catch(Log.debug);
     }
 
     // ── Heartbeat ─────────────────────────────────────────────────────────
@@ -85,7 +89,7 @@ define([
                 },
                 saveSegment: saveSegment,
                 hasPlayer: function() {
-                    return !!media;
+                    return hasMedia();
                 },
                 shouldSkip: function() {
                     return state.isSeeking;
@@ -120,11 +124,11 @@ define([
         Tracker.installLifecycleHandlers({
             state: state,
             closeSegment: closeSegment,
-            hasPlayer: function() { return !!media; },
+            hasPlayer: function() { return hasMedia(); },
             sendBeacon: function() {
                 return Tracker.sendUnloadBeacon({
                     state: state,
-                    hasPlayer: function() { return !!media; },
+                    hasPlayer: function() { return hasMedia(); },
                     getCurrentTime: getCurrentVideoTime,
                     sendSegment: function(start, end) {
                         return PlayerCore.sendBeaconSegment(config, state, start, end, Utils, Log);
@@ -941,7 +945,7 @@ define([
             btn.appendChild(timeSpan);
             btn.appendChild(textSpan);
             btn.addEventListener('click', function() {
-                if (!media) { return; }
+                if (!hasMedia()) { return; }
                 var wasPlaying = !Adapter.isPaused(state, function() { return media.paused; }, Log, 'HTML5 transcript');
                 state.isSeeking = true;
                 media.currentTime = cue.start;
@@ -963,7 +967,7 @@ define([
      * @param {Array} cues  Array di cue objects (già parsati).
      */
     function syncTranscript(cues) {
-        if (!media) { return; }
+        if (!hasMedia()) { return; }
         var lastActive = -1;
         media.addEventListener('timeupdate', function() {
             var t = media.currentTime;
