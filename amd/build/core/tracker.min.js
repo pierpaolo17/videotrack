@@ -9,8 +9,9 @@
  * @module mod_videotrack/core/tracker
  */
 define([
-    'mod_videotrack/core/segment'
-], function(Segment) {
+    'mod_videotrack/core/segment',
+    'mod_videotrack/core/events'
+], function(Segment, Events) {
 
 
 
@@ -26,6 +27,29 @@ define([
             return 0;
         }
         return time;
+    }
+
+    /**
+     * Register a tracker event handler bound to a player state.
+     *
+     * @param {Object} state Mutable player state.
+     * @param {string} name Event name.
+     * @param {Function} handler Event handler.
+     * @returns {Function} Unsubscribe callback.
+     */
+    function on(state, name, handler) {
+        return Events.ensure(state).on(name, handler);
+    }
+
+    /**
+     * Emit a tracker event when a state-bound event bus exists.
+     *
+     * @param {Object} state Mutable player state.
+     * @param {string} name Event name.
+     * @param {Object=} payload Event payload.
+     */
+    function emit(state, name, payload) {
+        Events.emit(state, name, payload);
     }
 
     /**
@@ -180,6 +204,7 @@ define([
             state.playbackrate = playbackRate;
         }
         resetHeartbeat(state, timestamp);
+        emit(state, 'segment:open', {start: start, wallclock: timestamp});
         return state;
     }
 
@@ -201,6 +226,7 @@ define([
         state.playing = false;
         state.segmentstart = null;
         state.wallclockstart = null;
+        emit(state, 'segment:close', payload);
         return payload;
     }
 
@@ -234,6 +260,7 @@ define([
             }
             return Promise.resolve(saveSegment(closed.start, closed.end, Segment.normaliseSaveReason(reason)))
                 .then(function() {
+                    emit(state, 'segment:saved', {start: closed.start, end: closed.end, reason: Segment.normaliseSaveReason(reason)});
                     return true;
                 });
         });
@@ -483,6 +510,7 @@ define([
                 return;
             }
             stop();
+            emit(state, 'lifecycle:hidden', {});
             if (closeSegment) {
                 closeSegment('tab');
             }
@@ -493,6 +521,7 @@ define([
 
         var onPageHide = function() {
             stop();
+            emit(state, 'lifecycle:pagehide', {});
             if (closeSegment) {
                 closeSegment('pagehide');
             }
@@ -502,6 +531,7 @@ define([
             if (!state || !state.playing || state.segmentstart === null || !hasPlayer()) {
                 return;
             }
+            emit(state, 'lifecycle:beforeunload', {});
             if (sendBeacon) {
                 sendBeacon();
             }
@@ -542,6 +572,7 @@ define([
 
         state.lifecycleHandlers = null;
         state.lifecycleHandlersInstalled = false;
+        emit(state, 'lifecycle:uninstalled', {});
         return true;
     }
 
@@ -649,16 +680,19 @@ define([
             var heartbeat = captureHeartbeatSegment(state, currentTime);
             if (!heartbeat) {
                 state.heartbeatPending = false;
+                emit(state, 'heartbeat:skipped', {reason: 'empty'});
                 return false;
             }
             if (heartbeat.end <= heartbeat.start) {
                 resetHeartbeat(state, timestamp);
                 state.heartbeatPending = false;
+                emit(state, 'heartbeat:skipped', {reason: 'zero-duration'});
                 return false;
             }
             return Promise.resolve(saveSegment(heartbeat.start, heartbeat.end, 'heartbeat')).then(function() {
                 reopenAfterHeartbeat(state, heartbeat.end, timestamp);
                 state.heartbeatPending = false;
+                emit(state, 'heartbeat:saved', {start: heartbeat.start, end: heartbeat.end});
                 return true;
             }, function(error) {
                 state.heartbeatPending = false;
@@ -687,6 +721,8 @@ define([
 
     return {
         normaliseTime: normaliseTime,
+        on: on,
+        emit: emit,
         resolveCurrentTime: resolveCurrentTime,
         syncTime: syncTime,
         markProgrammaticSeek: markProgrammaticSeek,
