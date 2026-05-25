@@ -367,6 +367,8 @@ $string['report:notedate'] = 'Escrita el';
 $string['report:exportnotes_csv'] = 'Exportar notas como CSV';
 // ── Localisation: skip buttons, dismiss, note remove ──
 $string['dismisslabel'] = 'Cerrar';
+$string['status:default'] = 'Actualización de estado.';
+$string['status:error'] = 'Se ha producido un error. Inténtalo de nuevo.';
 $string['rewindlabel'] = 'Retroceder';
 $string['fastforwardlabel'] = 'Avance rápido';
 $string['secondslabel'] = 'segundos';
