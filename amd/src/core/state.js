@@ -30,6 +30,7 @@ define([], function() {
             isSeeking: false,
             isProgrammaticSeek: false,
             seekblocked: false,
+            seekblocktimer: null,
             currentReplayEnd: null,
             _pendingResume: false,
             _posterRemoved: false,

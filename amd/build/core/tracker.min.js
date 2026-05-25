@@ -210,6 +210,46 @@ define([
         };
     }
 
+
+    /**
+     * Temporarily block seek handling while a provider bounces back to the
+     * allowed fallback time. Reusing one helper avoids slightly different
+     * timeout behaviour between YouTube, HTML5 and Vimeo, and clears any older
+     * timer before installing a new one.
+     *
+     * @param {Object} state Mutable player state.
+     * @param {number=} delay Timeout in milliseconds.
+     */
+    function blockSeek(state, delay) {
+        if (!state) {
+            return;
+        }
+        state.seekblocked = true;
+        if (state.seekblocktimer) {
+            window.clearTimeout(state.seekblocktimer);
+        }
+        state.seekblocktimer = window.setTimeout(function() {
+            state.seekblocked = false;
+            state.seekblocktimer = null;
+        }, typeof delay === 'number' && delay >= 0 ? delay : 500);
+    }
+
+    /**
+     * Clear a pending seek block and its timeout.
+     *
+     * @param {Object} state Mutable player state.
+     */
+    function clearSeekBlock(state) {
+        if (!state) {
+            return;
+        }
+        if (state.seekblocktimer) {
+            window.clearTimeout(state.seekblocktimer);
+            state.seekblocktimer = null;
+        }
+        state.seekblocked = false;
+    }
+
     /**
      * Check replay end state and clear it when playback reached the limit.
      *
@@ -801,6 +841,8 @@ define([
         consumeProgrammaticSeek: consumeProgrammaticSeek,
         resolveSeek: resolveSeek,
         shouldStopReplay: shouldStopReplay,
+        blockSeek: blockSeek,
+        clearSeekBlock: clearSeekBlock,
         openSegment: openSegment,
         closeSegment: closeSegment,
         captureHeartbeatSegment: captureHeartbeatSegment,

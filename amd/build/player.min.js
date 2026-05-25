@@ -148,15 +148,13 @@ define([
             var newtime = seek.newTime;
             closeCurrentSegment('seek');
             if (seek.blocked && seek.forward) {
-                state.seekblocked = true;
-                window.setTimeout(function() { state.seekblocked = false; }, 500);
+                Tracker.blockSeek(state, 500);
                 player.seekTo(oldtime, true);
                 startCurrentSegment();
                 return;
             }
             if (seek.blocked && seek.backward) {
-                state.seekblocked = true;
-                window.setTimeout(function() { state.seekblocked = false; }, 500);
+                Tracker.blockSeek(state, 500);
                 player.seekTo(oldtime, true);
                 startCurrentSegment();
                 return;
