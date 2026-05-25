@@ -40,6 +40,7 @@ function main() {
         'docs/PERFORMANCE-1.3.md',
         'docs/RELEASE-CANDIDATE-1.3.md',
         'docs/FINAL-CHECKS-1.3.md',
+        'docs/STABLE-RELEASE-1.3.md',
         'tests/smoke_amd.js',
         'tests/tracker_segment_test.js',
         'tests/adapter_test.js',
@@ -50,18 +51,20 @@ function main() {
         'tests/release_candidate_static_test.js',
         'tests/rc_freeze_static_test.js',
         'tests/rc2_freeze_static_test.js',
-        'tests/rc3_freeze_static_test.js'
+        'tests/rc3_freeze_static_test.js',
+        'tests/stable_release_static_test.js'
     ].forEach(assertFile);
 
-    assertContains('version.php', /\$plugin->version\s*=\s*20260525079;/, 'final-check plugin version');
-    assertContains('version.php', /\$plugin->release\s*=\s*'1\.3\.79'/, 'final-check release marker');
-    assertContains('version.php', /\$plugin->maturity\s*=\s*MATURITY_RC/, 'release-candidate maturity before stable tag');
+    assertContains('version.php', /\$plugin->version\s*=\s*202605250(?:79|80);/, 'final-check plugin version');
+    assertContains('version.php', /\$plugin->release\s*=\s*'(?:1\.3\.79|1\.3\.80)'/, 'final-check release marker');
+    assertContains('version.php', /\$plugin->maturity\s*=\s*MATURITY_(?:RC|STABLE)/, 'release-candidate maturity before stable tag');
 
     assertContains('docs/RELEASE-CANDIDATE-1.3.md', /1\.3\.76-rc1/, 'rc1 checkpoint history');
     assertContains('docs/RELEASE-CANDIDATE-1.3.md', /1\.3\.77-rc2/, 'rc2 checkpoint history');
     assertContains('docs/RELEASE-CANDIDATE-1.3.md', /1\.3\.78-rc3/, 'rc3 checkpoint history');
     assertContains('docs/FINAL-CHECKS-1.3.md', /Manual runtime checks still required/, 'manual runtime caveat');
-    assertContains('docs/FINAL-CHECKS-1.3.md', /1\.3\.80/, 'next stable checkpoint');
+    assertContains('docs/FINAL-CHECKS-1.3.md', /1\.3\.80/, 'stable checkpoint');
+    assertContains('docs/STABLE-RELEASE-1.3.md', /MATURITY_STABLE/, 'stable maturity marker');
 
     console.log('Final static checks passed.');
 }

@@ -86,3 +86,13 @@ node tests/rc3_freeze_static_test.js
 release decision. It keeps `MATURITY_RC`, adds no new runtime behaviour and
 requires `docs/FINAL-CHECKS-1.3.md` plus `tests/final_static_test.js` to pass
 before considering the stable `1.3.80` package.
+
+
+## 1.3.80 stable checkpoint
+
+`1.3.80` is the planned stable package produced after the final static-check checkpoint.
+It keeps the runtime freeze from the RC line, switches the plugin maturity to
+`MATURITY_STABLE` and keeps all static gates available for regression checks.
+
+Manual Moodle runtime checks are still the deciding evidence before public
+adoption in production courses.
