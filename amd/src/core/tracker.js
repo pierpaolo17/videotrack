@@ -867,6 +867,7 @@ define([
 
         state.lifecycleHandlers = null;
         state.lifecycleHandlersInstalled = false;
+        cancelPendingRequests(state, 'lifecycle-uninstall');
         emit(state, 'lifecycle:uninstalled', {});
         return true;
     }
@@ -1033,6 +1034,26 @@ define([
         }
     }
 
+    /**
+     * Cancel pending request continuations associated with a player state.
+     *
+     * This is a cleanup guard for dynamic teardown/reinitialisation. It does not
+     * abort already-dispatched Moodle AJAX calls; it prevents their late promise
+     * continuations from mutating stale player state.
+     *
+     * @param {Object} state Mutable player state.
+     * @param {string=} reason Cleanup reason.
+     * @returns {boolean} True when a request scope was cancelled.
+     */
+    function cancelPendingRequests(state, reason) {
+        if (!state || !state.ajaxRequestScope || typeof state.ajaxRequestScope.cancel !== 'function') {
+            return false;
+        }
+        state.ajaxRequestScope.cancel(reason || 'cleanup');
+        emit(state, 'ajax:cancelled', {reason: reason || 'cleanup'});
+        return true;
+    }
+
     return {
         STATES: STATES,
         normaliseTrackerState: normaliseTrackerState,
@@ -1078,6 +1099,7 @@ define([
         reopenAfterHeartbeat: reopenAfterHeartbeat,
         installLifecycleHandlers: installLifecycleHandlers,
         uninstallLifecycleHandlers: uninstallLifecycleHandlers,
+        cancelPendingRequests: cancelPendingRequests,
         reopenAfterInteractionSave: reopenAfterInteractionSave,
         isPlayerAvailable: isPlayerAvailable,
         saveCurrentProgress: saveCurrentProgress

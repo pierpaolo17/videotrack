@@ -20,6 +20,7 @@ define([
     // dall'amministratore in Amministrazione sito → Plugin → Moduli attività → Video track.
     var HEARTBEAT_INTERVAL = 30; // valore di fallback, sovrascritto da config.heartbeatinterval
     var state = State.create();
+    state.ajaxRequestScope = Api.createRequestScope();
 
     function uuid() {
         return PlayerCore.uuid();
@@ -61,7 +62,8 @@ define([
     function saveSegment(start, end, reason) {
         return Api.saveSegment(config, state, start, end, reason, {
             swallowFailures: true,
-            errorMessage: 'mod_videotrack: YouTube player event failed'
+            errorMessage: 'mod_videotrack: YouTube player event failed',
+            requestScope: state.ajaxRequestScope
         }).then(updateProgress);
     }
 
