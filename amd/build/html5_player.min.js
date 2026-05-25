@@ -13,6 +13,7 @@ define([
     'core/log',
     'core/ajax',
     'mod_videotrack/core/api',
+    'mod_videotrack/core/adapter',
     'mod_videotrack/core/utils',
     'mod_videotrack/core/ui',
     'mod_videotrack/core/progress',
@@ -20,7 +21,7 @@ define([
     'mod_videotrack/core/reactions',
     'mod_videotrack/core/tracker',
     'mod_videotrack/core/player'
-], function(Log, Ajax, Api, Utils, Ui, Progress, State, Reactions, Tracker, PlayerCore) {
+], function(Log, Ajax, Api, Adapter, Utils, Ui, Progress, State, Reactions, Tracker, PlayerCore) {
 
     var media  = null; // The <video> or <audio> DOM element.
     var config = null;
@@ -961,15 +962,9 @@ define([
 
     /** Restituisce il timestamp video corrente per il player HTML5. */
     function getCurrentVideoTime() {
-        try {
-            if (media && isFinite(media.currentTime)) {
-                state.lasttime = media.currentTime;
-                return media.currentTime;
-            }
-        } catch (e) {
-            Log.debug('mod_videotrack: could not read HTML5 current time - ' + e);
-        }
-        return state.lasttime || 0;
+        return Adapter.getCurrentTime(state, function() {
+            return media ? media.currentTime : state.lasttime;
+        }, Log, 'HTML5');
     }
 
     /** Restituisce true se l'utente ha richiesto animazioni ridotte. */

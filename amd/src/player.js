@@ -4,6 +4,7 @@ define([
     'core/log',
     'core/ajax',
     'mod_videotrack/core/api',
+    'mod_videotrack/core/adapter',
     'mod_videotrack/core/utils',
     'mod_videotrack/core/ui',
     'mod_videotrack/core/progress',
@@ -11,7 +12,7 @@ define([
     'mod_videotrack/core/reactions',
     'mod_videotrack/core/tracker',
     'mod_videotrack/core/player'
-], function(Log, Ajax, Api, Utils, Ui, Progress, State, Reactions, Tracker, PlayerCore) {
+], function(Log, Ajax, Api, Adapter, Utils, Ui, Progress, State, Reactions, Tracker, PlayerCore) {
     var player = null;
     var config = null;
     var reactionState = Reactions.createState();
@@ -551,18 +552,9 @@ define([
 
     /** Restituisce il timestamp video corrente per il player YouTube. */
     function getCurrentVideoTime() {
-        try {
-            if (player && player.getCurrentTime) {
-                var current = player.getCurrentTime();
-                if (isFinite(current)) {
-                    state.lasttime = current;
-                    return current;
-                }
-            }
-        } catch (e) {
-            Log.debug('mod_videotrack: could not read YouTube current time - ' + e);
-        }
-        return state.lasttime || 0;
+        return Adapter.getCurrentTime(state, function() {
+            return player && player.getCurrentTime ? player.getCurrentTime() : state.lasttime;
+        }, Log, 'YouTube');
     }
 
 
