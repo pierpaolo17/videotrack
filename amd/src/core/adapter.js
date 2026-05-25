@@ -134,6 +134,30 @@ define([], function() {
         }, log, label || 'set playback rate');
     }
 
+
+    /**
+     * Read whether a provider is paused safely.
+     *
+     * @param {Object} state Mutable player state.
+     * @param {Function} getter Provider-specific paused-state getter.
+     * @param {Object=} log Optional Moodle log module.
+     * @param {string=} label Optional log label.
+     * @returns {boolean} True when paused, false when playing.
+     */
+    function isPaused(state, getter, log, label) {
+        var fallback = state && typeof state.playing === 'boolean' ? !state.playing : true;
+        try {
+            if (typeof getter === 'function') {
+                return !!getter();
+            }
+        } catch (error) {
+            if (log && typeof log.debug === 'function') {
+                log.debug('mod_videotrack: could not read ' + (label || 'player') + ' paused state - ' + error);
+            }
+        }
+        return fallback;
+    }
+
     /**
      * Execute a provider command while keeping SDK exceptions contained.
      *
@@ -203,6 +227,7 @@ define([], function() {
         getDuration: getDuration,
         getPlaybackRate: getPlaybackRate,
         setPlaybackRate: setPlaybackRate,
+        isPaused: isPaused,
         run: run,
         play: play,
         pause: pause,

@@ -261,7 +261,7 @@ define([
         if (controls.indexOf('play') >= 0) {
             var playBtn = makeBtn('videotrack-ctrl-play', '▶', config.html5playlabel);
             playBtn.addEventListener('click', function() {
-                if (media.paused) {
+                if (Adapter.isPaused(state, function() { return media.paused; }, Log, 'HTML5')) {
                     Adapter.play(function() {
                         return media.play();
                     }, Log, 'HTML5 control play');
@@ -922,7 +922,7 @@ define([
             btn.appendChild(textSpan);
             btn.addEventListener('click', function() {
                 if (!media) { return; }
-                var wasPlaying = !media.paused;
+                var wasPlaying = !Adapter.isPaused(state, function() { return media.paused; }, Log, 'HTML5 transcript');
                 state.isSeeking = true;
                 media.currentTime = cue.start;
                 state.isSeeking   = false;
@@ -1093,7 +1093,7 @@ define([
             btn.addEventListener('click', function() {
                 // Seek al capitolo (usa isSeeking per non far scattare il blocco anti-skip).
                 // Mantiene lo stato precedente: se il video era in pausa, il click non avvia la riproduzione.
-                var wasPlaying = state.playing && !media.paused;
+                var wasPlaying = state.playing && !Adapter.isPaused(state, function() { return media.paused; }, Log, 'HTML5 transcript');
                 state.isProgrammaticSeek = true;
                 media.currentTime = ch.start;
                 state.lasttime    = ch.start;
