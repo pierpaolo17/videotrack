@@ -131,6 +131,10 @@ function videotrack_update_instance($data, $mform = null) {
  */
 function videotrack_process_video_fields(stdClass $data, $mform = null): void {
     $source = $data->videosource ?? 'youtube';
+    $allowedsources = ['youtube', 'vimeo', 'upload'];
+    if (!in_array($source, $allowedsources, true)) {
+        throw new moodle_exception('invalidvideosource', 'mod_videotrack');
+    }
 
     if ($source === 'youtube') {
         $url = trim((string)($data->youtubeurl ?? ''));

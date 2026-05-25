@@ -36,3 +36,7 @@ Also run syntax checks for committed JavaScript and PHP files.
 - Prefer small patches with isolated documentation, tests, or low-risk fixes.
 - Do not introduce schema changes without a dedicated upgrade review.
 - Do not change privacy or backup/restore behaviour without dedicated tests.
+
+## 1.3.86
+
+Maintenance hardening after the 1.3.85 static review. The package remains MATURITY_STABLE and must be verified with node tests/maintenance_static_test.js and node tests/postrelease_static_test.js.

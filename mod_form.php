@@ -595,7 +595,7 @@ class mod_videotrack_mod_form extends moodleform_mod {
                 $count = 4;
             }
         }
-        if (optional_param('reaction_add_fields', '', PARAM_RAW) !== '') {
+        if (optional_param('reaction_add_fields', '', PARAM_ALPHANUMEXT) !== '') {
             $count++;
         }
         return min(max($count, 1), 30);
@@ -792,6 +792,8 @@ class mod_videotrack_mod_form extends moodleform_mod {
             if ($isNew && empty($fileinfo['filecount'])) {
                 $errors['videofile'] = get_string('required');
             }
+        } else {
+            $errors['videosource'] = get_string('invalidvideosource', 'mod_videotrack');
         }
         if (isset($data['completionpercent']) &&
                 ((int)$data['completionpercent'] < 0 || (int)$data['completionpercent'] > 100)) {

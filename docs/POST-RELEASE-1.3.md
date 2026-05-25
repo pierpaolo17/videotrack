@@ -44,3 +44,7 @@ maintenance release, manually verify at least:
 - progress persistence after pause, seek, reload and completion;
 - backup and restore of a course containing a Videotrack activity;
 - privacy export/delete flows where the Moodle environment supports them.
+
+## 1.3.86 maintenance hardening
+
+This maintenance checkpoint resolves static review findings on video source validation, course report aggregation, grade controls accessibility and notes export confirmation. Manual Moodle runtime, theme and assistive-technology checks are still required.
