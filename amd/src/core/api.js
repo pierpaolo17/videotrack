@@ -12,6 +12,11 @@ define([
     var AJAX_RETRY_DELAY_MS = 750;
     var AJAX_MAX_RETRIES = 1;
     var METHOD_PREFIX = 'mod_videotrack_';
+    var ERROR_CATEGORY_TRANSIENT = 'transient';
+    var ERROR_CATEGORY_AUTH = 'auth';
+    var ERROR_CATEGORY_VALIDATION = 'validation';
+    var ERROR_CATEGORY_CLIENT = 'client';
+    var ERROR_CATEGORY_UNKNOWN = 'unknown';
 
     /**
      * Validate a Moodle AJAX method name before dispatching the request.
@@ -25,6 +30,72 @@ define([
             throw new Error('invalid-method');
         }
         return name;
+    }
+
+    /**
+     * Extract a stable error code from Moodle AJAX failures.
+     *
+     * @param {*} error Raw or normalised Moodle AJAX error.
+     * @returns {string} Lowercase error code.
+     */
+    function getErrorCode(error) {
+        if (error && error.errorcode) {
+            return String(error.errorcode).toLowerCase();
+        }
+        if (error && error.originalError && error.originalError.errorcode) {
+            return String(error.originalError.errorcode).toLowerCase();
+        }
+        return '';
+    }
+
+    /**
+     * Extract a stable message from Moodle AJAX failures.
+     *
+     * @param {*} error Raw or normalised Moodle AJAX error.
+     * @returns {string} Lowercase error message.
+     */
+    function getErrorMessage(error) {
+        if (error && error.message) {
+            return String(error.message).toLowerCase();
+        }
+        if (typeof error === 'string') {
+            return error.toLowerCase();
+        }
+        return '';
+    }
+
+    /**
+     * Classify an AJAX failure without exposing raw server details to callers.
+     *
+     * @param {*} error Raw or normalised Moodle AJAX error.
+     * @returns {string} Error category.
+     */
+    function classifyAjaxError(error) {
+        var code = getErrorCode(error);
+        var message = getErrorMessage(error);
+
+        if (message === 'ajax-timeout' || code === 'servicenotavailable' || code === 'servererror' ||
+                code === 'networkerror' || message.indexOf('timeout') !== -1 ||
+                message.indexOf('network') !== -1) {
+            return ERROR_CATEGORY_TRANSIENT;
+        }
+
+        if (code === 'invalidsesskey' || code === 'requireloginerror' || code === 'nopermissions' ||
+                code === 'accessdenied' || message.indexOf('permission') !== -1 ||
+                message.indexOf('login') !== -1) {
+            return ERROR_CATEGORY_AUTH;
+        }
+
+        if (code === 'invalidparameter' || code === 'invalid-method' || message === 'invalid-method' ||
+                message.indexOf('invalid parameter') !== -1) {
+            return ERROR_CATEGORY_VALIDATION;
+        }
+
+        if (code === 'codingerror' || message.indexOf('coding error') !== -1) {
+            return ERROR_CATEGORY_CLIENT;
+        }
+
+        return ERROR_CATEGORY_UNKNOWN;
     }
 
     /**
@@ -44,6 +115,9 @@ define([
         }
         var normalised = new Error(message);
         normalised.originalError = error;
+        normalised.errorcode = getErrorCode(error) || message;
+        normalised.category = classifyAjaxError(normalised);
+        normalised.transient = normalised.category === ERROR_CATEGORY_TRANSIENT;
         return normalised;
     }
 
@@ -57,10 +131,7 @@ define([
      * @returns {boolean} True when a retry is allowed.
      */
     function isTransientAjaxError(error) {
-        var message = error && error.message ? String(error.message) : String(error || '');
-        var code = error && error.errorcode ? String(error.errorcode) : '';
-        return message === 'ajax-timeout' || code === 'servicenotavailable' || code === 'servererror' ||
-            code === 'networkerror' || message.indexOf('timeout') !== -1 || message.indexOf('network') !== -1;
+        return classifyAjaxError(error) === ERROR_CATEGORY_TRANSIENT;
     }
 
     /**
@@ -166,7 +237,8 @@ define([
 
         return attemptRequest(0).catch(function(error) {
             if (options.swallowFailures) {
-                Log.debug((options.errorMessage || 'mod_videotrack: AJAX request failed') + ' - ' + error.message);
+                Log.debug((options.errorMessage || 'mod_videotrack: AJAX request failed') +
+                    ' [' + classifyAjaxError(error) + '] - ' + error.message);
                 return null;
             }
             return Promise.reject(error);
@@ -231,6 +303,7 @@ define([
 
     return {
         call: call,
+        classifyAjaxError: classifyAjaxError,
         isTransientAjaxError: isTransientAjaxError,
         buildSegmentArgs: buildSegmentArgs,
         saveSegment: saveSegment
