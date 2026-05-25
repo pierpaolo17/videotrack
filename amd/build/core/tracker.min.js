@@ -258,10 +258,14 @@ define([
             if (!closed || closed.end <= closed.start) {
                 return false;
             }
-            return Promise.resolve(saveSegment(closed.start, closed.end, Segment.normaliseSaveReason(reason)))
+            var saveReason = Segment.normaliseSaveReason(reason);
+            return Promise.resolve(saveSegment(closed.start, closed.end, saveReason))
                 .then(function() {
-                    emit(state, 'segment:saved', {start: closed.start, end: closed.end, reason: Segment.normaliseSaveReason(reason)});
+                    emit(state, 'segment:saved', {start: closed.start, end: closed.end, reason: saveReason});
                     return true;
+                }, function(error) {
+                    emit(state, 'segment:error', {start: closed.start, end: closed.end, reason: saveReason, error: error});
+                    throw error;
                 });
         });
     }
@@ -416,6 +420,7 @@ define([
             options.getCurrentTime,
             options.saveSegment
         ).catch(function(error) {
+            emit(state, 'heartbeat:error', {error: error});
             if (options.log && typeof options.log.debug === 'function') {
                 options.log.debug(error);
             }
@@ -619,12 +624,18 @@ define([
 
         return resolveCurrentTime(getCurrentTime, state).then(function(currentTime) {
             var end = Segment.calculateInteractionEnd(start, currentTime, state.duration, reason);
+            var saveReason = Segment.normaliseSaveReason(reason);
             if (end <= start) {
+                emit(state, 'progress:skipped', {reason: saveReason, start: start, end: end});
                 return null;
             }
-            return Promise.resolve(saveSegment(start, end, Segment.normaliseSaveReason(reason))).then(function(result) {
+            return Promise.resolve(saveSegment(start, end, saveReason)).then(function(result) {
                 reopenAfterInteractionSave(state, end);
+                emit(state, 'progress:saved', {reason: saveReason, start: start, end: end});
                 return result;
+            }, function(error) {
+                emit(state, 'progress:error', {reason: saveReason, start: start, end: end, error: error});
+                throw error;
             });
         });
     }
