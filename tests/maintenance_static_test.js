@@ -18,8 +18,8 @@ function exists(relativePath) {
 const version = read('version.php');
 
 assert(
-    /\$plugin->release\s*=\s*'1\.3\.82';/.test(version),
-    'version.php must declare release 1.3.82'
+    /\$plugin->release\s*=\s*'1\.3\.83';/.test(version),
+    'version.php must declare release 1.3.83'
 );
 
 assert(
@@ -37,7 +37,8 @@ assert(
     'tests/adapter_test.js',
     'tests/backup_restore_static_test.js',
     'tests/privacy_static_test.js',
-    'tests/maintenance_static_test.js'
+    'tests/maintenance_static_test.js',
+    'tests/postrelease_static_test.js'
 ].forEach((relativePath) => {
     assert(exists(relativePath), `${relativePath} must exist in the maintenance package`);
 });
