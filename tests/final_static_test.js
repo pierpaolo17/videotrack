@@ -59,8 +59,8 @@ function main() {
         'tests/postrelease_static_test.js'
     ].forEach(assertFile);
 
-    assertContains('version.php', /\$plugin->version\s*=\s*202605250(?:79|80|81|82|83|84);/, 'final-check plugin version');
-    assertContains('version.php', /\$plugin->release\s*=\s*'(?:1\.3\.79|1\.3\.80|1\.3\.81|1\.3\.82|1\.3\.83|1\.3\.84)'/, 'final-check release marker');
+    assertContains('version.php', /\$plugin->version\s*=\s*202605250(?:79|80|81|82|83|84|85);/, 'final-check plugin version');
+    assertContains('version.php', /\$plugin->release\s*=\s*'(?:1\.3\.79|1\.3\.80|1\.3\.81|1\.3\.82|1\.3\.83|1\.3\.84|1\.3\.85)'/, 'final-check release marker');
     assertContains('version.php', /\$plugin->maturity\s*=\s*MATURITY_(?:RC|STABLE)/, 'release-candidate maturity before stable tag');
 
     assertContains('docs/RELEASE-CANDIDATE-1.3.md', /1\.3\.76-rc1/, 'rc1 checkpoint history');
