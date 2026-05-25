@@ -31,6 +31,7 @@ define([
     var HEARTBEAT_INTERVAL = 30;
 
     var state = State.create();
+    state.ajaxRequestScope = Api.createRequestScope();
 
     // ── Utilities ─────────────────────────────────────────────────────────
 

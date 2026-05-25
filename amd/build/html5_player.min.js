@@ -31,6 +31,7 @@ define([
     var state = State.create({
         isSeeking: false
     });
+    state.ajaxRequestScope = Api.createRequestScope();
 
     // ── Utilities ─────────────────────────────────────────────────────────
 

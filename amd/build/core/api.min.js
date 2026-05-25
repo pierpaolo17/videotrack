@@ -17,6 +17,7 @@ define([
     var ERROR_CATEGORY_VALIDATION = 'validation';
     var ERROR_CATEGORY_CLIENT = 'client';
     var ERROR_CATEGORY_UNKNOWN = 'unknown';
+    var ERROR_CATEGORY_CANCELLED = 'cancelled';
 
     /**
      * Validate a Moodle AJAX method name before dispatching the request.
@@ -73,6 +74,10 @@ define([
     function classifyAjaxError(error) {
         var code = getErrorCode(error);
         var message = getErrorMessage(error);
+
+        if (code === 'ajax-cancelled' || message === 'ajax-cancelled') {
+            return ERROR_CATEGORY_CANCELLED;
+        }
 
         if (message === 'ajax-timeout' || code === 'servicenotavailable' || code === 'servererror' ||
                 code === 'networkerror' || message.indexOf('timeout') !== -1 ||
@@ -152,6 +157,61 @@ define([
     }
 
     /**
+     * Create a lightweight request scope for suppressing stale AJAX continuations.
+     *
+     * core/ajax does not expose abort handles, so this scope deliberately does not
+     * cancel the network request. It invalidates callbacks that resolve after the
+     * player has been reinitialised or cleaned up, preventing late progress/UI
+     * updates from older requests.
+     *
+     * @returns {Object} Mutable request scope.
+     */
+    function createRequestScope() {
+        return {
+            cancelled: false,
+            serial: 0,
+            reason: null,
+            next: function() {
+                return this.serial;
+            },
+            cancel: function(reason) {
+                this.cancelled = true;
+                this.reason = reason || 'cancelled';
+                this.serial += 1;
+            },
+            isCurrent: function(token) {
+                return !this.cancelled && token === this.serial;
+            }
+        };
+    }
+
+    /**
+     * Return true when a request scope token can still update callers.
+     *
+     * @param {Object|null} scope Request scope.
+     * @param {number|null} token Request token.
+     * @returns {boolean} True when the continuation is current.
+     */
+    function isRequestCurrent(scope, token) {
+        if (!scope) {
+            return true;
+        }
+        return typeof scope.isCurrent === 'function' ? scope.isCurrent(token) : !scope.cancelled;
+    }
+
+    /**
+     * Resolve stale scoped requests to null without treating them as AJAX errors.
+     *
+     * @param {Object|null} scope Request scope.
+     * @param {number|null} token Request token.
+     * @param {*} value Resolved AJAX value.
+     * @returns {*} Original value, or null when stale/cancelled.
+     */
+    function resolveIfCurrent(scope, token, value) {
+        return isRequestCurrent(scope, token) ? value : null;
+    }
+
+    /**
      * Resolve a promise with a conservative timeout.
      *
      * Moodle core/ajax does not expose AbortController handles. The timeout is
@@ -198,6 +258,7 @@ define([
      * @param {string=} options.errorMessage Debug prefix for swallowed failures.
      * @param {number=} options.retries Number of transient retries, capped at one.
      * @param {number=} options.retryDelay Retry delay in milliseconds.
+     * @param {Object=} options.requestScope Optional stale-continuation guard.
      * @returns {Promise<Object|null>} AJAX response or null when swallowed.
      */
     function call(methodname, args, options) {
@@ -208,6 +269,9 @@ define([
         } catch (error) {
             return Promise.reject(error);
         }
+
+        var requestScope = options.requestScope || null;
+        var requestToken = requestScope && typeof requestScope.next === 'function' ? requestScope.next() : null;
 
         var maxRetries = Number(options.retries);
         if (!isFinite(maxRetries) || maxRetries < 0) {
@@ -223,11 +287,19 @@ define([
                 promise = Promise.reject(error);
             }
 
-            return withTimeout(Promise.resolve(promise), options.timeout).catch(function(error) {
+            return withTimeout(Promise.resolve(promise), options.timeout).then(function(response) {
+                return resolveIfCurrent(requestScope, requestToken, response);
+            }).catch(function(error) {
+                if (!isRequestCurrent(requestScope, requestToken)) {
+                    return null;
+                }
                 if (attempt < maxRetries && isTransientAjaxError(error)) {
                     Log.debug('mod_videotrack: retrying transient AJAX failure for ' + safeMethodName +
                         ' - ' + error.message);
                     return retryDelay(attempt, options.retryDelay).then(function() {
+                        if (!isRequestCurrent(requestScope, requestToken)) {
+                            return null;
+                        }
                         return attemptRequest(attempt + 1);
                     });
                 }
@@ -287,6 +359,7 @@ define([
      * @param {string=} options.errorMessage Debug prefix for swallowed failures.
      * @param {number=} options.retries Number of transient retries, capped at one.
      * @param {number=} options.retryDelay Retry delay in milliseconds.
+     * @param {Object=} options.requestScope Optional stale-continuation guard.
      * @returns {Promise<Object|null>} AJAX response or null for empty/skipped segments.
      */
     function saveSegment(config, state, start, end, reason, options) {
@@ -303,6 +376,7 @@ define([
 
     return {
         call: call,
+        createRequestScope: createRequestScope,
         classifyAjaxError: classifyAjaxError,
         isTransientAjaxError: isTransientAjaxError,
         buildSegmentArgs: buildSegmentArgs,
