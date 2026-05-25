@@ -128,6 +128,10 @@ define([], function() {
         var getCurrentVideoTime = deps.getCurrentVideoTime;
         var saveCurrentProgress = deps.saveCurrentProgress;
         var showStatusMessage = deps.showStatusMessage;
+        var showErrorStatusMessage = deps.showErrorStatusMessage || function(error, fallbackMessage, dismissLabel) {
+            var message = (error && error.message) ? error.message : fallbackMessage;
+            showStatusMessage(message, true, dismissLabel);
+        };
 
         if (!config.studentnotesenabled) { return; }
 
@@ -199,8 +203,7 @@ define([], function() {
                 saveBtn.removeAttribute('aria-busy');
                 saveBtn.classList.remove('videotrack-note-save-saving');
                 setLocalButtonState(state.playing);
-                var message = (error && error.message) ? error.message : config.noteerrorlabel;
-                showStatusMessage(message, true, config.dismisslabel);
+                showErrorStatusMessage(error, config.noteerrorlabel, config.dismisslabel);
             });
         });
 

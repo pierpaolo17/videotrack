@@ -324,9 +324,7 @@ define([
                 }).catch(function(err) {
                     reactionbtn.classList.remove('videotrack-saving');
                     // Usa il messaggio del server se disponibile (es. 'Il video deve essere in riproduzione').
-                    var msg = (err && err.message) ? err.message :
-                        (config.reactionerrorlabel);
-                    PlayerCore.showStatusMessage(msg, true, config.dismisslabel);
+                    PlayerCore.showErrorStatusMessage(err, config.reactionerrorlabel, config.dismisslabel);
                 });
                 return;
             }

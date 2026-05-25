@@ -259,6 +259,30 @@ define([
     }
 
     /**
+     * Show a user-safe error status message without exposing low-level AJAX details.
+     *
+     * Validation messages may carry intentional server-side wording, for example
+     * when reactions require active playback. Transport, auth and unknown failures
+     * fall back to the localised generic label supplied by the caller.
+     *
+     * @param {*} error Raw or normalised error object.
+     * @param {string} fallbackMessage Localised generic error message.
+     * @param {string} dismissLabel Accessible dismiss label.
+     * @param {number=} timeoutMs Optional auto-dismiss timeout in milliseconds.
+     */
+    function showErrorStatusMessage(error, fallbackMessage, dismissLabel, timeoutMs) {
+        var category = error && error.category ? String(error.category) : '';
+        var rawMessage = error && error.message ? String(error.message).trim() : '';
+        var message = fallbackMessage || rawMessage || 'Error';
+
+        if (category === 'validation' && rawMessage && rawMessage !== 'invalid-method') {
+            message = rawMessage;
+        }
+
+        Status.show(message, true, dismissLabel, timeoutMs);
+    }
+
+    /**
      * Announce a non-visual status message through the shared live region.
      *
      * @param {string} message Message text.
@@ -373,6 +397,7 @@ define([
      */
     function installNoteHandler(deps) {
         deps.showStatusMessage = showStatusMessage;
+        deps.showErrorStatusMessage = showErrorStatusMessage;
         Notes.installHandler(deps);
     }
 
@@ -432,6 +457,7 @@ define([
         sendBeaconSegment: sendBeaconSegment,
         showResumeNotice: showResumeNotice,
         showStatusMessage: showStatusMessage,
+        showErrorStatusMessage: showErrorStatusMessage,
         announceStatusMessage: announceStatusMessage,
         setNoteButtonState: setNoteButtonState,
         announceReactionAvailability: announceReactionAvailability,
