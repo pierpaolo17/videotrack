@@ -34,9 +34,9 @@ function assertFile(relativePath) {
 }
 
 function main() {
-    assertContains('version.php', /\$plugin->release\s*=\s*'(?:1.3.7[78]-rc[23]|1.3.79|1.3.80)'/, 'rc2-or-later release marker');
+    assertContains('version.php', /\$plugin->release\s*=\s*'(?:1.3.7[78]-rc[23]|1.3.79|1.3.8[01])'/, 'rc2-or-later release marker');
     assertContains('version.php', /\$plugin->maturity\s*=\s*MATURITY_(?:RC|STABLE)/, 'release-candidate maturity');
-    assertContains('version.php', /\$plugin->version\s*=\s*202605250(?:7[789]|80);/, 'incremented rc2-or-later plugin version');
+    assertContains('version.php', /\$plugin->version\s*=\s*202605250(?:7[789]|8[01]);/, 'incremented rc2-or-later plugin version');
 
     [
         'docs/RELEASE-CANDIDATE-1.3.md',
