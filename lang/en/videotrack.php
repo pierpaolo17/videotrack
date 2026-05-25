@@ -489,3 +489,11 @@ $string['privacy:anonymisedreaction'] = 'Anonymised reaction';
 $string['coursereport:avgcoverage'] = 'Average coverage: {$a}%';
 
 $string['report:exportnotes_csv_personaldata'] = 'Export notes as CSV, including possible personal data';
+
+$string['presets:deletearia'] = 'Delete preset {$a}';
+$string['presets:reactionlabelaria'] = 'Reaction {$a}: label';
+$string['presets:reactiondescriptionaria'] = 'Reaction {$a}: description';
+$string['presets:reactionicontypearia'] = 'Reaction {$a}: icon type';
+$string['presets:reactioniconvaluearia'] = 'Reaction {$a}: icon value';
+$string['presets:reactionrequiredaria'] = 'Reaction {$a}: required for completion';
+$string['err:reactionpresetjson'] = 'The reaction preset data is invalid. Reload the page and try again.';

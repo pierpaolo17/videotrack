@@ -487,3 +487,11 @@ $string['report:exportnotes_confirmrequired'] = 'Confirme el aviso de exportaci�
 $string['coursereport:avgcoverage'] = 'Cobertura media: {$a}%';
 
 $string['report:exportnotes_csv_personaldata'] = 'Exportar notas como CSV, incluidos posibles datos personales';
+
+$string['presets:deletearia'] = 'Eliminar preajuste {$a}';
+$string['presets:reactionlabelaria'] = 'Reacción {$a}: etiqueta';
+$string['presets:reactiondescriptionaria'] = 'Reacción {$a}: descripción';
+$string['presets:reactionicontypearia'] = 'Reacción {$a}: tipo de icono';
+$string['presets:reactioniconvaluearia'] = 'Reacción {$a}: valor del icono';
+$string['presets:reactionrequiredaria'] = 'Reacción {$a}: obligatoria para completar';
+$string['err:reactionpresetjson'] = 'Los datos del preajuste de reacciones no son válidos. Recargue la página e inténtelo de nuevo.';

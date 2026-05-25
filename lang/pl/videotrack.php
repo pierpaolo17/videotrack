@@ -489,3 +489,11 @@ $string['report:exportnotes_confirmrequired'] = 'Potwierdź informację o ekspor
 $string['coursereport:avgcoverage'] = 'Średnie pokrycie: {$a}%';
 
 $string['report:exportnotes_csv_personaldata'] = 'Eksportuj notatki jako CSV, w tym możliwe dane osobowe';
+
+$string['presets:deletearia'] = 'Usuń preset {$a}';
+$string['presets:reactionlabelaria'] = 'Reakcja {$a}: etykieta';
+$string['presets:reactiondescriptionaria'] = 'Reakcja {$a}: opis';
+$string['presets:reactionicontypearia'] = 'Reakcja {$a}: typ ikony';
+$string['presets:reactioniconvaluearia'] = 'Reakcja {$a}: wartość ikony';
+$string['presets:reactionrequiredaria'] = 'Reakcja {$a}: wymagana do ukończenia';
+$string['err:reactionpresetjson'] = 'Dane presetu reakcji są nieprawidłowe. Odśwież stronę i spróbuj ponownie.';

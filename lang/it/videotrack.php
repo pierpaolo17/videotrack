@@ -490,3 +490,11 @@ $string['report:exportnotes_confirmrequired'] = 'Conferma l’avviso sull’espo
 $string['coursereport:avgcoverage'] = 'Copertura media: {$a}%';
 
 $string['report:exportnotes_csv_personaldata'] = 'Esporta le note come CSV, inclusi possibili dati personali';
+
+$string['presets:deletearia'] = 'Elimina preset {$a}';
+$string['presets:reactionlabelaria'] = 'Reazione {$a}: etichetta';
+$string['presets:reactiondescriptionaria'] = 'Reazione {$a}: descrizione';
+$string['presets:reactionicontypearia'] = 'Reazione {$a}: tipo di icona';
+$string['presets:reactioniconvaluearia'] = 'Reazione {$a}: valore icona';
+$string['presets:reactionrequiredaria'] = 'Reazione {$a}: richiesta per il completamento';
+$string['err:reactionpresetjson'] = 'I dati del preset reazioni non sono validi. Ricarica la pagina e riprova.';

@@ -487,3 +487,11 @@ $string['report:exportnotes_confirmrequired'] = 'Bestätigen Sie den Hinweis zum
 $string['coursereport:avgcoverage'] = 'Durchschnittliche Abdeckung: {$a}%';
 
 $string['report:exportnotes_csv_personaldata'] = 'Notizen als CSV exportieren, einschließlich möglicher personenbezogener Daten';
+
+$string['presets:deletearia'] = 'Vorlage {$a} löschen';
+$string['presets:reactionlabelaria'] = 'Reaktion {$a}: Bezeichnung';
+$string['presets:reactiondescriptionaria'] = 'Reaktion {$a}: Beschreibung';
+$string['presets:reactionicontypearia'] = 'Reaktion {$a}: Symboltyp';
+$string['presets:reactioniconvaluearia'] = 'Reaktion {$a}: Symbolwert';
+$string['presets:reactionrequiredaria'] = 'Reaktion {$a}: für Abschluss erforderlich';
+$string['err:reactionpresetjson'] = 'Die Reaktionsvorlagen-Daten sind ungültig. Laden Sie die Seite neu und versuchen Sie es erneut.';

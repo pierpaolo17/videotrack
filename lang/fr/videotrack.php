@@ -487,3 +487,11 @@ $string['report:exportnotes_confirmrequired'] = 'Confirmez l’avertissement rel
 $string['coursereport:avgcoverage'] = 'Couverture moyenne : {$a}%';
 
 $string['report:exportnotes_csv_personaldata'] = 'Exporter les notes au format CSV, avec d’éventuelles données personnelles';
+
+$string['presets:deletearia'] = 'Supprimer le préréglage {$a}';
+$string['presets:reactionlabelaria'] = 'Réaction {$a} : libellé';
+$string['presets:reactiondescriptionaria'] = 'Réaction {$a} : description';
+$string['presets:reactionicontypearia'] = 'Réaction {$a} : type d’icône';
+$string['presets:reactioniconvaluearia'] = 'Réaction {$a} : valeur de l’icône';
+$string['presets:reactionrequiredaria'] = 'Réaction {$a} : requise pour l’achèvement';
+$string['err:reactionpresetjson'] = 'Les données du préréglage de réactions ne sont pas valides. Rechargez la page et réessayez.';

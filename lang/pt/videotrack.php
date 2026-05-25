@@ -487,3 +487,11 @@ $string['report:exportnotes_confirmrequired'] = 'Confirme o aviso de exportaçã
 $string['coursereport:avgcoverage'] = 'Cobertura média: {$a}%';
 
 $string['report:exportnotes_csv_personaldata'] = 'Exportar notas como CSV, incluindo possíveis dados pessoais';
+
+$string['presets:deletearia'] = 'Excluir predefinição {$a}';
+$string['presets:reactionlabelaria'] = 'Reação {$a}: rótulo';
+$string['presets:reactiondescriptionaria'] = 'Reação {$a}: descrição';
+$string['presets:reactionicontypearia'] = 'Reação {$a}: tipo de ícone';
+$string['presets:reactioniconvaluearia'] = 'Reação {$a}: valor do ícone';
+$string['presets:reactionrequiredaria'] = 'Reação {$a}: obrigatória para conclusão';
+$string['err:reactionpresetjson'] = 'Os dados da predefinição de reações são inválidos. Recarregue a página e tente novamente.';

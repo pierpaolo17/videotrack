@@ -157,7 +157,7 @@ class save_segment extends external_api {
         }
 
         $completion = new \completion_info($course);
-        $completion->update_state($cm, $state->iscompleted ? COMPLETION_COMPLETE : COMPLETION_INCOMPLETE, (int)$USER->id);
+        tracker::update_moodle_completion_if_changed($completion, $cm, (bool)$state->iscompleted, (int)$USER->id);
         return [
             'accepted'             => true,
             'uniquecoveredseconds' => (float)$state->uniquecoveredseconds,

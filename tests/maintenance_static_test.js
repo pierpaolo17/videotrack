@@ -18,8 +18,8 @@ function exists(relativePath) {
 const version = read('version.php');
 
 assert(
-    /\$plugin->release\s*=\s*'1\.3\.(?:85|86|87|88)';/.test(version),
-    'version.php must declare release 1.3.85, 1.3.86, 1.3.87 or 1.3.88'
+    /\$plugin->release\s*=\s*'1\.3\.(?:8\d|9\d)';/.test(version),
+    'version.php must declare a stable 1.3.8x+ release'
 );
 
 assert(

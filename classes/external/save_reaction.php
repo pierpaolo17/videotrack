@@ -143,7 +143,7 @@ class save_reaction extends external_api {
         $summary = tracker::reaction_counts($videotrack->id, (int)$USER->id);
         $state   = tracker::refresh_completion($videotrack, $cm, (int)$USER->id);
         $completion = new \completion_info($course);
-        $completion->update_state($cm, $state->iscompleted ? COMPLETION_COMPLETE : COMPLETION_INCOMPLETE, (int)$USER->id);
+        tracker::update_moodle_completion_if_changed($completion, $cm, (bool)$state->iscompleted, (int)$USER->id);
         return [
             'reactioneventid' => $eventid,
             'uniquereactions' => $summary['uniquecount'],
