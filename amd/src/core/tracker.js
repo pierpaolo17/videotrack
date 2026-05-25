@@ -396,6 +396,50 @@ define([
         });
     }
 
+
+    /**
+     * Queue the current open segment through sendBeacon during page unload.
+     *
+     * Browser unload handlers cannot wait for asynchronous player APIs, so the
+     * end time is resolved only from synchronous data: either an explicit
+     * getCurrentTime callback or the shared last-known state. Keeping this in
+     * the tracker makes YouTube, HTML5 and Vimeo use the same beforeunload
+     * guard and payload shape while concrete modules keep their provider
+     * specific time source.
+     *
+     * @param {Object} options Beacon options.
+     * @param {Object} options.state Mutable player state.
+     * @param {Function} options.sendSegment Callback that queues the beacon.
+     * @param {Function=} options.getCurrentTime Optional synchronous time getter.
+     * @param {Function=} options.hasPlayer Optional player availability callback.
+     * @returns {boolean} True when the callback accepted the beacon.
+     */
+    function sendUnloadBeacon(options) {
+        options = options || {};
+        var state = options.state;
+        var hasPlayer = typeof options.hasPlayer === 'function' ? options.hasPlayer : function() {
+            return true;
+        };
+
+        if (!state || !state.playing || state.segmentstart === null || !hasPlayer()) {
+            return false;
+        }
+        if (typeof options.sendSegment !== 'function') {
+            return false;
+        }
+
+        var end = state.lasttime;
+        if (typeof options.getCurrentTime === 'function') {
+            try {
+                end = options.getCurrentTime();
+            } catch (error) {
+                end = state.lasttime;
+            }
+        }
+
+        return !!options.sendSegment(state.segmentstart, normaliseTime(end));
+    }
+
     /**
      * Install shared page lifecycle handlers for player modules.
      *
@@ -615,6 +659,7 @@ define([
         shouldSaveHeartbeat: shouldSaveHeartbeat,
         saveHeartbeatIfDue: saveHeartbeatIfDue,
         runHeartbeat: runHeartbeat,
+        sendUnloadBeacon: sendUnloadBeacon,
         reopenAfterHeartbeat: reopenAfterHeartbeat,
         installLifecycleHandlers: installLifecycleHandlers,
         reopenAfterInteractionSave: reopenAfterInteractionSave,
