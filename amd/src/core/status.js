@@ -12,7 +12,8 @@ define([], function() {
     var announceTimerId = null;
     var labels = {
         defaultMessage: 'Status update.',
-        errorMessage: 'An error occurred. Please try again.'
+        errorMessage: 'An error occurred. Please try again.',
+        dismissMessage: 'Dismiss'
     };
 
     /**
@@ -24,6 +25,7 @@ define([], function() {
         config = config || {};
         labels.defaultMessage = (config.statusdefaultlabel || labels.defaultMessage).toString();
         labels.errorMessage = (config.statuserrorlabel || labels.errorMessage).toString();
+        labels.dismissMessage = (config.dismisslabel || labels.dismissMessage).toString();
     }
 
     /**
@@ -87,6 +89,37 @@ define([], function() {
      */
     function getContainer() {
         return document.querySelector('.videotrack-player-shell') || document.body || null;
+    }
+
+    /**
+     * Resolve the label used by the visible dismiss control.
+     *
+     * @param {string=} dismissLabel Caller-provided label.
+     * @returns {string} Non-empty dismiss label.
+     */
+    function normaliseDismissLabel(dismissLabel) {
+        var text = (dismissLabel || '').toString().trim();
+        return text || labels.dismissMessage;
+    }
+
+    /**
+     * Resolve the auto-dismiss timeout with conservative UX bounds.
+     *
+     * @param {boolean} isError Whether the notice is an error.
+     * @param {number=} timeoutMs Requested timeout.
+     * @returns {number} Timeout in milliseconds.
+     */
+    function normaliseTimeout(isError, timeoutMs) {
+        var timeout = Number(timeoutMs);
+        if (!Number.isFinite(timeout) || timeout <= 0) {
+            return isError ? 8000 : 5000;
+        }
+
+        // Keep notices transient but readable; callers can still pass a longer
+        // timeout for errors without leaving success messages around forever.
+        var minimum = isError ? 4000 : 2500;
+        var maximum = isError ? 20000 : 10000;
+        return Math.min(Math.max(timeout, minimum), maximum);
     }
 
     /**
@@ -171,27 +204,22 @@ define([], function() {
         span.textContent = text;
         notice.appendChild(span);
 
-        if (dismissLabel) {
-            var button = document.createElement('button');
-            button.type = 'button';
-            button.className = 'btn-close ms-2';
-            button.setAttribute('aria-label', dismissLabel);
-            button.addEventListener('click', function() {
-                if (timerId) {
-                    window.clearTimeout(timerId);
-                    timerId = null;
-                }
-                remove(notice);
-            });
-            notice.appendChild(button);
-        }
+        var button = document.createElement('button');
+        button.type = 'button';
+        button.className = 'btn-close ms-2';
+        button.setAttribute('aria-label', normaliseDismissLabel(dismissLabel));
+        button.addEventListener('click', function() {
+            if (timerId) {
+                window.clearTimeout(timerId);
+                timerId = null;
+            }
+            remove(notice);
+        });
+        notice.appendChild(button);
 
         container.insertBefore(notice, container.firstChild || null);
 
-        var timeout = Number(timeoutMs);
-        if (!Number.isFinite(timeout) || timeout <= 0) {
-            timeout = isError ? 8000 : 5000;
-        }
+        var timeout = normaliseTimeout(!!isError, timeoutMs);
         timerId = window.setTimeout(function() {
             remove(notice);
             timerId = null;
