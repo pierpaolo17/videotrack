@@ -284,7 +284,14 @@ define([
                 '⏪ ' + config.rewindstep + 's',
                 config.rewindlabel + ' ' + config.rewindstep + ' ' + config.secondslabel);
             rwBtn.addEventListener('click', function() {
-                media.currentTime = Math.max(0, media.currentTime - config.rewindstep);
+                Adapter.seek(
+                    Adapter.resolveSkipTarget(media.currentTime, -config.rewindstep, state.duration || media.duration),
+                    function(target) {
+                        media.currentTime = target;
+                    },
+                    Log,
+                    'HTML5 rewind'
+                );
             });
             bar.appendChild(rwBtn);
         }
@@ -299,9 +306,13 @@ define([
                 config.fastforwardstep + 's ⏩',
                 config.fastforwardlabel + ' ' + config.fastforwardstep + ' ' + config.secondslabel);
             ffBtn.addEventListener('click', function() {
-                media.currentTime = Math.min(
-                    state.duration || media.duration || 1e9,
-                    media.currentTime + config.fastforwardstep
+                Adapter.seek(
+                    Adapter.resolveSkipTarget(media.currentTime, config.fastforwardstep, state.duration || media.duration),
+                    function(target) {
+                        media.currentTime = target;
+                    },
+                    Log,
+                    'HTML5 fast-forward'
                 );
             });
             bar.appendChild(ffBtn);

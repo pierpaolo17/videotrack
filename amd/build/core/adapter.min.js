@@ -26,6 +26,29 @@ define([], function() {
         return isFinite(fallbackTime) && fallbackTime >= 0 ? fallbackTime : 0;
     }
 
+
+    /**
+     * Resolve a skip target by applying a delta to the current time and
+     * clamping the result to the available media duration when known.
+     *
+     * @param {*} current Candidate current time.
+     * @param {*} delta Signed skip delta in seconds.
+     * @param {*=} duration Optional media duration.
+     * @returns {number} Safe target time in seconds.
+     */
+    function resolveSkipTarget(current, delta, duration) {
+        var target = normaliseTime(current, 0) + Number(delta || 0);
+        if (!isFinite(target)) {
+            target = normaliseTime(current, 0);
+        }
+        target = Math.max(0, target);
+        var safeDuration = Number(duration);
+        if (isFinite(safeDuration) && safeDuration > 0) {
+            target = Math.min(safeDuration, target);
+        }
+        return target;
+    }
+
     /**
      * Read the current media time from a provider safely.
      *
@@ -338,6 +361,7 @@ define([], function() {
     return {
         normaliseTime: normaliseTime,
         normaliseVolume: normaliseVolume,
+        resolveSkipTarget: resolveSkipTarget,
         getCurrentTime: getCurrentTime,
         getDuration: getDuration,
         getVolume: getVolume,

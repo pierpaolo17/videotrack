@@ -549,9 +549,14 @@ define([
                 (config.rewindlabel) + ' ' + config.rewindstep + ' ' + (config.secondslabel));
             rwBtn.addEventListener('click', function() {
                 if (player && player.getCurrentTime) {
-                    Adapter.seek(player.getCurrentTime() - config.rewindstep, function(target) {
-                        player.seekTo(target, true);
-                    }, Log, 'YouTube rewind');
+                    Adapter.seek(
+                        Adapter.resolveSkipTarget(player.getCurrentTime(), -config.rewindstep, state.duration),
+                        function(target) {
+                            player.seekTo(target, true);
+                        },
+                        Log,
+                        'YouTube rewind'
+                    );
                 }
             });
             bar.appendChild(rwBtn);
@@ -571,7 +576,7 @@ define([
             ffBtn.addEventListener('click', function() {
                 if (player && player.getCurrentTime && player.getDuration) {
                     Adapter.seek(
-                        Math.min(player.getDuration(), player.getCurrentTime() + config.fastforwardstep),
+                        Adapter.resolveSkipTarget(player.getCurrentTime(), config.fastforwardstep, player.getDuration()),
                         function(target) {
                             player.seekTo(target, true);
                         },
