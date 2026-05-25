@@ -189,7 +189,9 @@ define([
         }
 
         player.getDuration().then(function(d) {
-            state.duration = d;
+            state.duration = Adapter.getDuration(state, function() {
+                return d;
+            }, Log, 'Vimeo duration');
             // Resume automatico dal punto lasciato (lastposition > 2s).
             if (typeof config.resumeposition === 'number' && config.resumeposition > 2) {
                 Tracker.markProgrammaticSeek(state);
