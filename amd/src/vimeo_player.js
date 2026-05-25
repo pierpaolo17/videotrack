@@ -59,13 +59,9 @@ define([
     }
 
     function closeSegment(reason) {
-        if (!state.playing || state.segmentstart === null) { return; }
-        player.getCurrentTime().then(function(t) {
-            var closed = Tracker.closeSegment(state, t);
-            if (closed) {
-                saveSegment(closed.start, closed.end, reason);
-            }
-        });
+        return Tracker.closeAndSaveSegment(state, function() {
+            return player ? player.getCurrentTime() : state.lasttime;
+        }, saveSegment, reason, !!player).catch(Log.debug);
     }
 
     // ── Heartbeat ─────────────────────────────────────────────────────────

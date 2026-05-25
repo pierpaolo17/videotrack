@@ -67,11 +67,9 @@ define([
      * @param {string} reason  Motivo di chiusura (pause, seek, tab, heartbeat...).
      */
     function closeSegment(reason) {
-        if (!state.playing || state.segmentstart === null) { return; }
-        var closed = Tracker.closeSegment(state, media.currentTime);
-        if (closed) {
-            saveSegment(closed.start, closed.end, reason);
-        }
+        return Tracker.closeAndSaveSegment(state, function() {
+            return media ? media.currentTime : state.lasttime;
+        }, saveSegment, reason, !!media).catch(Log.debug);
     }
 
     // ── Heartbeat ─────────────────────────────────────────────────────────

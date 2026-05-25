@@ -69,13 +69,8 @@ define([
     }
 
     function closeCurrentSegment(reason) {
-        if (!state.playing || state.segmentstart === null || !player) {
-            return;
-        }
-        var closed = Tracker.closeSegment(state, getCurrentVideoTime());
-        if (closed) {
-            saveSegment(closed.start, closed.end, reason);
-        }
+        return Tracker.closeAndSaveSegment(state, getCurrentVideoTime, saveSegment, reason, !!player)
+            .catch(Log.debug);
     }
 
     function startCurrentSegment() {

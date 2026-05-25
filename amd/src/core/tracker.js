@@ -182,6 +182,41 @@ define([
     }
 
     /**
+     * Close the currently open segment and persist it through the supplied callback.
+     *
+     * This provider-neutral helper keeps close/persist error handling in the
+     * tracker layer. The current-time callback may return either a number or a
+     * Promise resolving to a number, which lets YouTube/HTML5 and Vimeo use the
+     * same lifecycle path.
+     *
+     * @param {Object} state Mutable player state.
+     * @param {Function} getCurrentTime Function returning current media time.
+     * @param {Function} saveSegment Function used to persist the closed segment.
+     * @param {string} reason Save reason.
+     * @param {boolean} hasPlayer Whether the concrete player is available.
+     * @returns {Promise<boolean>} True when a segment was closed and queued for saving.
+     */
+    function closeAndSaveSegment(state, getCurrentTime, saveSegment, reason, hasPlayer) {
+        if (!state || !state.playing || state.segmentstart === null || !hasPlayer) {
+            return Promise.resolve(false);
+        }
+        if (typeof getCurrentTime !== 'function' || typeof saveSegment !== 'function') {
+            return Promise.resolve(false);
+        }
+
+        return Promise.resolve(getCurrentTime()).then(function(currentTime) {
+            var closed = closeSegment(state, currentTime);
+            if (!closed || closed.end <= closed.start) {
+                return false;
+            }
+            return Promise.resolve(saveSegment(closed.start, closed.end, Segment.normaliseSaveReason(reason)))
+                .then(function() {
+                    return true;
+                });
+        });
+    }
+
+    /**
      * Capture the current open segment for a heartbeat save.
      *
      * The segment is not reopened here. Reopening before the persistence
@@ -483,6 +518,7 @@ define([
         openSegment: openSegment,
         closeSegment: closeSegment,
         captureHeartbeatSegment: captureHeartbeatSegment,
+        closeAndSaveSegment: closeAndSaveSegment,
         normaliseHeartbeatInterval: normaliseHeartbeatInterval,
         pollInterval: pollInterval,
         startPolling: startPolling,
