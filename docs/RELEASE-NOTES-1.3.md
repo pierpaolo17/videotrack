@@ -49,3 +49,5 @@ The plugin metadata currently targets Moodle 5.0+ according to `version.php`. Co
 - `1.3.76-rc1`: first release-candidate freeze.
 - `1.3.77-rc2`: release-gate hardening and rc2 validation.
 - `1.3.78-rc3`: final planned release-candidate checkpoint before final static verification.
+
+- `1.3.80`: stable checkpoint after RC/final static verification; no new runtime behaviour beyond the freeze line.

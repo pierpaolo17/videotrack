@@ -53,5 +53,8 @@ release, manually verify at least:
 
 ## Stable release readiness
 
+The stable package should not add runtime behaviour after `1.3.79`; it should only mark the validated release state and keep the static gates executable.
+
+
 If the static gates and manual Moodle checks pass, the next planned checkpoint
-can become the final stable `1.3.80` package.
+can be promoted to the final stable `1.3.80` package. The `1.3.80` checkpoint records that promotion in `version.php` with `MATURITY_STABLE`.
