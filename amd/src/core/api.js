@@ -21,6 +21,7 @@ define([
     var NETWORK_STATE_ONLINE = 'online';
     var NETWORK_STATE_OFFLINE = 'offline';
     var NETWORK_STATE_UNKNOWN = 'unknown';
+    var retryCounter = 0;
 
     /**
      * Return the browser network state without assuming navigator support.
@@ -59,9 +60,9 @@ define([
             window.crypto.getRandomValues(values);
             return values[0] % limit;
         }
-        return (Math.abs(Date.now()) + Math.floor(Math.random() * limit) + getRetryJitter.counter++) % limit;
+        retryCounter += 1;
+        return (Math.abs(Date.now()) + Math.floor(Math.random() * limit) + retryCounter) % limit;
     }
-    getRetryJitter.counter = 0;
 
     /**
      * Validate a Moodle AJAX method name before dispatching the request.

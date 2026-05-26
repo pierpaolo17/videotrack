@@ -148,7 +148,7 @@ class save_segment extends external_api {
             ];
         }
 
-        // Logga solo azioni significative — non il heartbeat (genera troppi log).
+        // Log only significant actions; heartbeats produce too many log entries.
         $loggable = ['pause', 'seek', 'ended', 'beforeunload', 'pagehide'];
         if ($segmentid !== null && in_array($params['endreason'], $loggable, true)) {
             $event = segment_saved::create([
