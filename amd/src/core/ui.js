@@ -40,7 +40,7 @@ define([], function() {
      */
     function isSafeIconSrc(value) {
         if (!value) { return false; }
-        var trimmed = String(value).trim();
+        var trimmed = String(value).replace(/[\u0000-\u001f\u007f]/g, '').trim();
         var lower = trimmed.toLowerCase();
         // eslint-disable-next-line no-script-url
         if (lower.indexOf('javascript:') === 0 || lower.indexOf('data:') === 0 || lower.indexOf('vbscript:') === 0) {
@@ -49,6 +49,9 @@ define([], function() {
         try {
             var url = new URL(trimmed, window.location.origin);
             if (url.origin !== window.location.origin) {
+                return false;
+            }
+            if (!/\.(?:jpe?g|png|gif|webp)$/i.test(url.pathname)) {
                 return false;
             }
             return url.pathname.indexOf('/pluginfile.php/') !== -1 ||

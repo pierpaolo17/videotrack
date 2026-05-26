@@ -1,12 +1,4 @@
 <?php
-/**
- * VideoTrack activity module.
- *
- * @package   mod_videotrack
- * @copyright 2026 SICS, Universita degli Studi della Tuscia
- * @license   http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
- */
-
 namespace mod_videotrack\external;
 
 use core_external\external_api;
@@ -130,7 +122,7 @@ class save_segment extends external_api {
                     'item' => 'segment',
                     'itemid' => 0,
                     'warningcode' => 'suspicioussegment',
-                    'message' => get_string('warning:suspicioussegment', 'videotrack'),
+                    'message' => get_string('warning:suspicioussegment', 'mod_videotrack'),
                 ]],
             ];
         }

@@ -56,6 +56,7 @@ define([], function() {
             return;
         }
         saveBtn.disabled = !playing;
+        saveBtn.disabled = !playing;
         saveBtn.setAttribute('aria-disabled', playing ? 'false' : 'true');
         saveBtn.classList.toggle('videotrack-note-save-disabled', !playing);
     }
@@ -99,13 +100,8 @@ define([], function() {
         list.appendChild(li);
 
         var maxRenderedNotes = Utils.safeInt(config.notesmaxrendered, 200);
-        var removed = 0;
         while (list.children.length > maxRenderedNotes) {
             list.removeChild(list.firstElementChild);
-            removed++;
-        }
-        if (removed > 0 && config.notesrenderlimitlabel && typeof config.showStatusMessage === 'function') {
-            config.showStatusMessage(config.notesrenderlimitlabel, false, config.dismisslabel);
         }
     }
 
@@ -131,7 +127,6 @@ define([], function() {
         var getCurrentVideoTime = deps.getCurrentVideoTime;
         var saveCurrentProgress = deps.saveCurrentProgress;
         var showStatusMessage = deps.showStatusMessage;
-        config.showStatusMessage = showStatusMessage;
         var showErrorStatusMessage = deps.showErrorStatusMessage || function(error, fallbackMessage, dismissLabel) {
             var message = (error && error.message) ? error.message : fallbackMessage;
             showStatusMessage(message, true, dismissLabel);
@@ -144,6 +139,8 @@ define([], function() {
         var savingNote = false;
         var charCounterTimer = null;
         if (!saveBtn || !textarea) { return; }
+        textarea.setAttribute('aria-describedby', textarea.getAttribute('aria-describedby') || 'videotrack-note-counter');
+        textarea.setAttribute('aria-live', 'polite');
 
         function ajax(methodname, args) {
             return Ajax.call([{methodname: methodname, args: args}])[0];
@@ -179,9 +176,6 @@ define([], function() {
                 text = text.substring(0, maxLength);
                 textarea.value = text;
                 updateCharCounter(textarea, config, Utils);
-                if (config.notetruncatedlabel) {
-                    showStatusMessage(config.notetruncatedlabel, false, config.dismisslabel);
-                }
             }
             if (!text) {
                 textarea.focus();
@@ -189,6 +183,7 @@ define([], function() {
             }
             var currentTime = getCurrentVideoTime();
             savingNote = true;
+            saveBtn.disabled = true;
             saveBtn.setAttribute('aria-disabled', 'true');
             saveBtn.setAttribute('aria-busy', 'true');
             saveBtn.classList.add('videotrack-note-save-saving');

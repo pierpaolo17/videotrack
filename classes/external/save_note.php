@@ -1,12 +1,4 @@
 <?php
-/**
- * VideoTrack activity module.
- *
- * @package   mod_videotrack
- * @copyright 2026 SICS, Universita degli Studi della Tuscia
- * @license   http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
- */
-
 namespace mod_videotrack\external;
 
 defined('MOODLE_INTERNAL') || die();
@@ -69,7 +61,9 @@ class save_note extends external_api {
 
         // Sanitize and truncate to the configured limit to prevent abuse.
         $notemaxlength = \videotrack_get_config_int('notemaxlength', 2000, 100, 10000);
-        $text = \core_text::substr(trim($params['notetext']), 0, $notemaxlength);
+        $rawtext = trim($params['notetext']);
+        $truncated = $notemaxlength > 0 && \core_text::strlen($rawtext) > $notemaxlength;
+        $text = \core_text::substr($rawtext, 0, $notemaxlength);
         if ($text === '') {
             throw new \moodle_exception('invaliddata', 'error');
         }
@@ -136,9 +130,19 @@ class save_note extends external_api {
         ]);
         $event->trigger();
 
+        $warnings = [];
+        if ($truncated) {
+            $warnings[] = [
+                'item' => 'note',
+                'itemid' => (int)$record->id,
+                'warningcode' => 'notetruncated',
+                'message' => get_string('warning:notetruncated', 'mod_videotrack'),
+            ];
+        }
+
         return [
             'noteeventid' => (int)$record->id,
-            'warnings'    => [],
+            'warnings'    => $warnings,
         ];
     }
 

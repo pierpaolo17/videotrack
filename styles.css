@@ -3,17 +3,19 @@
  * Avoid !important and unprefixed global selectors. */
 
 :root {
-    --videotrack-interval-bg: var(--bs-secondary-bg, #e9ecef);
+    --videotrack-interval-bg: var(--bs-gray-200, #e9ecef);
     --videotrack-interval-fill: var(--bs-success, #198754);
-    --videotrack-muted-text: var(--bs-secondary-color, #6c757d);
-    --videotrack-border-color: var(--bs-border-color, #dee2e6);
-    --videotrack-focus-color: Highlight;
+    --videotrack-focus-ring: var(--bs-primary, Highlight);
+    --videotrack-control-fg: var(--bs-white, #fff);
+    --videotrack-control-border: rgba(255, 255, 255, 0.35);
     --videotrack-control-bg: rgba(0, 0, 0, 0.82);
-    --videotrack-control-border: rgba(255,255,255,0.3);
-    --videotrack-control-color: var(--videotrack-control-color);
-    --videotrack-transcript-hover-bg: color-mix(in srgb, var(--bs-primary, #0d6efd) 10%, transparent);
-    --videotrack-transcript-active-bg: color-mix(in srgb, var(--bs-primary, #0d6efd) 18%, transparent);
-    --videotrack-transcript-playing-bg: color-mix(in srgb, var(--bs-success, #198754) 12%, transparent);
+    --videotrack-control-bg-hover: rgba(255, 255, 255, 0.18);
+    --videotrack-muted-text: var(--bs-secondary-color, #6c757d);
+    --videotrack-panel-bg: var(--bs-body-bg, #fff);
+    --videotrack-panel-border: var(--bs-border-color, #dee2e6);
+    --videotrack-transcript-hover-bg: rgba(var(--bs-primary-rgb, 13, 110, 253), 0.10);
+    --videotrack-transcript-active-bg: rgba(var(--bs-primary-rgb, 13, 110, 253), 0.18);
+    --videotrack-transcript-playing-bg: rgba(var(--bs-success-rgb, 25, 135, 84), 0.12);
     --videotrack-transcript-playing-border: var(--bs-success, #198754);
 }
 
@@ -183,7 +185,7 @@
     width: 40px;
     height: 40px;
     border: 4px solid rgba(255,255,255,0.2);
-    border-top-color: var(--videotrack-control-color);
+    border-top-color: var(--videotrack-control-fg);
     border-radius: 50%;
     animation: vt-spin 0.9s linear infinite;
 }
@@ -224,13 +226,13 @@
 .videotrack-speed-btn:focus,
 .videotrack-ctrl-rewind:focus,
 .videotrack-ctrl-ff:focus {
-    outline: 3px solid var(--videotrack-focus-color);
+    outline: 3px solid var(--videotrack-focus-ring);
     outline-offset: 2px;
 }
 
 .videotrack-ctrl-progress:focus,
 .videotrack-ctrl-volume:focus {
-    outline: 3px solid var(--videotrack-focus-color);
+    outline: 3px solid var(--videotrack-focus-ring);
     outline-offset: 2px;
 }
 
@@ -263,13 +265,13 @@
 .videotrack-speed-btn:focus-visible,
 .videotrack-ctrl-rewind:focus-visible,
 .videotrack-ctrl-ff:focus-visible {
-    outline: 3px solid var(--videotrack-focus-color);
+    outline: 3px solid var(--videotrack-focus-ring);
     outline-offset: 2px;
 }
 
 .videotrack-ctrl-progress:focus-visible,
 .videotrack-ctrl-volume:focus-visible {
-    outline: 3px solid var(--videotrack-focus-color);
+    outline: 3px solid var(--videotrack-focus-ring);
     outline-offset: 2px;
 }
 
@@ -315,22 +317,26 @@
     .btn.videotrack-delete-note:focus-visible,
     .videotrack-poster-play-btn:focus-visible,
     .videotrack-transcript-btn:focus-visible {
-        outline-color: #8ab4ff;
+        outline-color: var(--videotrack-focus-ring);
     }
 
     .videotrack-ctrl-progress:focus,
     .videotrack-ctrl-volume:focus,
     .videotrack-ctrl-progress:focus-visible,
     .videotrack-ctrl-volume:focus-visible {
-        outline-color: #8ab4ff;
+        outline-color: var(--videotrack-focus-ring);
     }
     :root {
-        --videotrack-interval-bg: #343a40;
-        --videotrack-interval-fill: #75b798;
-        --videotrack-transcript-hover-bg: rgba(138, 180, 255, 0.20);
-        --videotrack-transcript-active-bg: rgba(138, 180, 255, 0.28);
-        --videotrack-transcript-playing-bg: rgba(117, 183, 152, 0.20);
-        --videotrack-transcript-playing-border: #9be7b1;
+        --videotrack-interval-bg: var(--bs-gray-700, #343a40);
+        --videotrack-interval-fill: var(--bs-success-text-emphasis, #75b798);
+        --videotrack-focus-ring: var(--bs-primary-border-subtle, #8ab4ff);
+        --videotrack-muted-text: var(--bs-secondary-color, #adb5bd);
+        --videotrack-panel-bg: var(--bs-body-bg, #1e1e2e);
+        --videotrack-panel-border: var(--bs-border-color, #444);
+        --videotrack-transcript-hover-bg: rgba(var(--bs-primary-rgb, 138, 180, 255), 0.20);
+        --videotrack-transcript-active-bg: rgba(var(--bs-primary-rgb, 138, 180, 255), 0.28);
+        --videotrack-transcript-playing-bg: rgba(var(--bs-success-rgb, 117, 183, 152), 0.20);
+        --videotrack-transcript-playing-border: var(--bs-success-text-emphasis, #9be7b1);
     }
 
     .videotrack-interval-bar {
@@ -355,34 +361,34 @@
 
     .videotrack-transcript-panel,
     .videotrack-notes-panel {
-        background: #1e1e2e;
-        border-color: #444;
-        color: #e0e0e0;
+        background: var(--videotrack-panel-bg);
+        border-color: var(--videotrack-panel-border);
+        color: var(--bs-body-color, #e0e0e0);
     }
 
     .videotrack-chapters-bar {
-        background: #2a2a3e;
-        border-color: #444;
+        background: var(--bs-tertiary-bg, #2a2a3e);
+        border-color: var(--videotrack-panel-border);
     }
 
     .videotrack-chapter-btn.videotrack-chapter-active {
-        background: #8ab4ff;
-        border-color: #8ab4ff;
-        color: #0f172a;
+        background: var(--videotrack-focus-ring);
+        border-color: var(--videotrack-focus-ring);
+        color: var(--bs-body-bg, #0f172a);
     }
 
     .videotrack-notes-toggle:hover {
-        color: #8ab4ff;
+        color: var(--videotrack-focus-ring);
     }
 
     .videotrack-notes-header,
     .videotrack-reactions-section-heading,
     .videotrack-notes-report {
-        border-color: #444;
+        border-color: var(--videotrack-panel-border);
     }
 
     .videotrack-player-wrap {
-        background: #1a1a1a;
+        background: var(--bs-black, #000);
     }
 }
 
@@ -398,7 +404,7 @@
 .videotrack-skip-btn {
     background: rgba(0,0,0,0.72);
     border: 1px solid rgba(255,255,255,0.25);
-    color: var(--videotrack-control-color);
+    color: var(--videotrack-control-fg);
     font-size: 0.82rem;
     padding: 0.2rem 0.6rem;
     min-width: 52px;
@@ -412,7 +418,7 @@
 .videotrack-ctrl-ff {
     background: transparent;
     border: 1px solid var(--videotrack-control-border);
-    color: var(--videotrack-control-color);
+    color: var(--videotrack-control-fg);
     font-size: 0.78rem;
     padding: 0.15rem 0.4rem;
     white-space: nowrap;
@@ -460,7 +466,7 @@
 .videotrack-ctrl-time,
 .videotrack-ctrl-duration {
     font-size: 0.78rem;
-    color: var(--videotrack-control-color);
+    color: var(--videotrack-control-fg);
     white-space: nowrap;
     font-variant-numeric: tabular-nums;
 }
@@ -472,7 +478,7 @@
 .videotrack-ctrl-download {
     background: transparent;
     border: 1px solid var(--videotrack-control-border);
-    color: var(--videotrack-control-color);
+    color: var(--videotrack-control-fg);
     font-size: 0.9rem;
     min-width: 44px;
     min-height: 44px;
@@ -484,7 +490,7 @@
 .videotrack-ctrl-mute:hover,
 .videotrack-ctrl-pip:hover,
 .videotrack-ctrl-fs:hover {
-    background: rgba(255,255,255,0.15);
+    background: var(--videotrack-control-bg-hover);
 }
 
 .videotrack-html5-controls .videotrack-speed-controls {
@@ -494,7 +500,7 @@
 .videotrack-html5-controls .videotrack-speed-btn {
     background: transparent;
     border: 1px solid var(--videotrack-control-border);
-    color: var(--videotrack-control-color);
+    color: var(--videotrack-control-fg);
     font-size: 0.75rem;
     min-width: 44px;
     min-height: 44px;
@@ -522,7 +528,7 @@
     width: 100%;
     height: 12px;
     border-radius: 3px;
-    border: 1px solid var(--videotrack-border-color);
+    border: 1px solid var(--videotrack-panel-border);
     cursor: default;
 }
 
@@ -655,7 +661,7 @@
     gap: .25rem;
     padding: .35rem .5rem;
     background: #f8f9fa;
-    border: 1px solid var(--videotrack-border-color);
+    border: 1px solid var(--videotrack-panel-border);
     border-radius: .375rem;
     margin-bottom: .25rem;
     overflow-x: auto;
@@ -677,7 +683,7 @@
 .videotrack-chapter-btn.videotrack-chapter-active {
     background: #0040aa;
     border-color: #0040aa;
-    color: var(--videotrack-control-color);
+    color: var(--videotrack-control-fg);
     font-weight: 600;
 }
 .videotrack-chapter-num {
@@ -695,7 +701,7 @@
 
 /* ── Student notes panel ───────────────────────────────────────────────── */
 .videotrack-notes-panel {
-    border: 1px solid var(--videotrack-border-color);
+    border: 1px solid var(--videotrack-panel-border);
     border-radius: .375rem;
     padding: .5rem .75rem;
     background: #fff;

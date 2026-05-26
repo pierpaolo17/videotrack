@@ -72,8 +72,13 @@ define([], function() {
         if (region) {
             return region;
         }
+        Array.prototype.forEach.call(container.querySelectorAll(
+            isError ? '.videotrack-status-live-assertive' : '.videotrack-status-live-polite'
+        ), function(existing) {
+            existing.parentNode.removeChild(existing);
+        });
         region = document.createElement('div');
-        region.className = 'sr-only visually-hidden videotrack-status-live-region ' +
+        region.className = 'sr-only visually-hidden ' +
             (isError ? 'videotrack-status-live-assertive' : 'videotrack-status-live-polite');
         // The selected ARIA role already implies the expected politeness and atomicity.
         // Avoid duplicate aria-live/aria-atomic declarations, which can cause repeated

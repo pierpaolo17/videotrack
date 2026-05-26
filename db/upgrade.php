@@ -1,11 +1,4 @@
 <?php
-/**
- * VideoTrack activity module.
- *
- * @package   mod_videotrack
- * @copyright 2026 SICS, Universita degli Studi della Tuscia
- * @license   http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
- */
 
 defined('MOODLE_INTERNAL') || die();
 
@@ -960,9 +953,12 @@ function xmldb_videotrack_upgrade($oldversion) {
         upgrade_mod_savepoint(true, 2026072504, 'videotrack');
     }
 
-
     if ($oldversion < 2026072505) {
-        // Release 1.3.97.1: supplemental accessibility, VTT hardening and documentation fixes. No schema changes.
+        // Release 1.3.98: retention default, export audit, accessibility and AMD hardening.
+        $retention = get_config('mod_videotrack', 'retentionperioddays');
+        if ($retention === false || $retention === null || $retention === '') {
+            set_config('retentionperioddays', 730, 'mod_videotrack');
+        }
         upgrade_mod_savepoint(true, 2026072505, 'videotrack');
     }
 

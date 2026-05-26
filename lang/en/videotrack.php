@@ -1,11 +1,4 @@
 <?php
-/**
- * VideoTrack activity module.
- *
- * @package   mod_videotrack
- * @copyright 2026 SICS, Universita degli Studi della Tuscia
- * @license   http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
- */
 
 $string['pluginname'] = 'VideoTrack';
 $string['modulename'] = 'VideoTrack';
@@ -519,5 +512,13 @@ $string['privacy:intervals_none'] = 'No viewing intervals recorded.';
 $string['privacy:intervals_unavailable'] = 'Viewing intervals unavailable or invalid.';
 
 $string['warning:suspicioussegment'] = 'The viewing segment was not recorded because it exceeded the expected playback window. Continue watching normally and try again.';
-$string['notesrenderlimitlabel'] = 'Only the most recent notes are shown. Older notes remain saved and available in reports.';
-$string['notetruncatedlabel'] = 'The note was shortened to the maximum allowed length.';
+
+$string['event:notes_exported'] = 'Personal notes exported';
+
+$string['externalproviderprivacy_notice'] = 'This activity loads video from an external provider. Your browser may send technical data such as IP address, user agent and cookies to that provider according to the site privacy notice.';
+
+$string['setting:retentionunlimitedwarning_title'] = 'Unlimited VideoTrack retention is enabled.';
+
+$string['setting:retentionunlimitedwarning_desc'] = 'A value of 0 keeps tracking data, notes and reactions indefinitely. Confirm that this is justified under your GDPR/privacy policy, or set a finite retention period such as 730 days.';
+
+$string['warning:notetruncated'] = 'The note was saved, but it was shortened to the maximum length allowed by the site.';

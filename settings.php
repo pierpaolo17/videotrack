@@ -1,11 +1,4 @@
 <?php
-/**
- * VideoTrack activity module.
- *
- * @package   mod_videotrack
- * @copyright 2026 SICS, Universita degli Studi della Tuscia
- * @license   http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
- */
 
 defined('MOODLE_INTERNAL') || die();
 
@@ -32,12 +25,25 @@ if ($ADMIN->fulltree) {
         get_string('setting:heading_privacy_desc', 'mod_videotrack')
     ));
 
+    $currentretentiondays = get_config('mod_videotrack', 'retentionperioddays');
+    if ($currentretentiondays !== false && (int)$currentretentiondays === 0) {
+        $settings->add(new admin_setting_heading(
+            'mod_videotrack/retention_unlimited_warning',
+            '',
+            html_writer::div(
+                html_writer::tag('strong', get_string('setting:retentionunlimitedwarning_title', 'mod_videotrack')) . ' ' .
+                get_string('setting:retentionunlimitedwarning_desc', 'mod_videotrack'),
+                'alert alert-warning'
+            )
+        ));
+    }
+
     $settings->add(new \mod_videotrack\admin\setting_nonnegative_int(
         'mod_videotrack/retentionperioddays',
         get_string('setting:retentionperioddays', 'mod_videotrack'),
         get_string('setting:retentionperioddays_desc', 'mod_videotrack') . ' ' .
             html_writer::span(get_string('setting:retentionprivacynotice', 'mod_videotrack'), 'text-warning'),
-        0,
+        730,
         PARAM_INT
     ));
 

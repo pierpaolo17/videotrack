@@ -1,11 +1,4 @@
 <?php
-/**
- * VideoTrack activity module.
- *
- * @package   mod_videotrack
- * @copyright 2026 SICS, Universita degli Studi della Tuscia
- * @license   http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
- */
 
 $string['pluginname'] = 'VideoTrack';
 $string['modulename'] = 'VideoTrack';
@@ -519,5 +512,13 @@ $string['privacy:intervals_none'] = 'Nie zarejestrowano interwałów oglądania.
 $string['privacy:intervals_unavailable'] = 'Interwały oglądania są niedostępne lub nieprawidłowe.';
 
 $string['warning:suspicioussegment'] = 'Segment oglądania nie został zapisany, ponieważ przekroczył oczekiwane okno odtwarzania. Kontynuuj oglądanie normalnie i spróbuj ponownie.';
-$string['notesrenderlimitlabel'] = 'Wyświetlane są tylko najnowsze notatki. Starsze notatki pozostają zapisane i dostępne w raportach.';
-$string['notetruncatedlabel'] = 'Notatka została skrócona do maksymalnej dozwolonej długości.';
+
+$string['event:notes_exported'] = 'Wyeksportowano notatki osobiste';
+
+$string['externalproviderprivacy_notice'] = 'Ta aktywność ładuje wideo od zewnętrznego dostawcy. Przeglądarka może wysyłać do niego dane techniczne, takie jak adres IP, user agent i pliki cookie, zgodnie z informacją o prywatności witryny.';
+
+$string['setting:retentionunlimitedwarning_title'] = 'Włączono bezterminowe przechowywanie VideoTrack.';
+
+$string['setting:retentionunlimitedwarning_desc'] = 'Wartość 0 przechowuje dane śledzenia, notatki i reakcje bezterminowo. Potwierdź, że jest to uzasadnione zgodnie z polityką GDPR/prywatności, albo ustaw skończony okres, np. 730 dni.';
+
+$string['warning:notetruncated'] = 'Notatka została zapisana, ale skrócono ją do maksymalnej długości dozwolonej w witrynie.';
