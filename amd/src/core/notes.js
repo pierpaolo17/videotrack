@@ -99,8 +99,13 @@ define([], function() {
         list.appendChild(li);
 
         var maxRenderedNotes = Utils.safeInt(config.notesmaxrendered, 200);
+        var removed = 0;
         while (list.children.length > maxRenderedNotes) {
             list.removeChild(list.firstElementChild);
+            removed++;
+        }
+        if (removed > 0 && config.notesrenderlimitlabel && typeof config.showStatusMessage === 'function') {
+            config.showStatusMessage(config.notesrenderlimitlabel, false, config.dismisslabel);
         }
     }
 
@@ -126,6 +131,7 @@ define([], function() {
         var getCurrentVideoTime = deps.getCurrentVideoTime;
         var saveCurrentProgress = deps.saveCurrentProgress;
         var showStatusMessage = deps.showStatusMessage;
+        config.showStatusMessage = showStatusMessage;
         var showErrorStatusMessage = deps.showErrorStatusMessage || function(error, fallbackMessage, dismissLabel) {
             var message = (error && error.message) ? error.message : fallbackMessage;
             showStatusMessage(message, true, dismissLabel);
@@ -173,6 +179,9 @@ define([], function() {
                 text = text.substring(0, maxLength);
                 textarea.value = text;
                 updateCharCounter(textarea, config, Utils);
+                if (config.notetruncatedlabel) {
+                    showStatusMessage(config.notetruncatedlabel, false, config.dismisslabel);
+                }
             }
             if (!text) {
                 textarea.focus();

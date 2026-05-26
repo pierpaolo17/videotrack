@@ -1,4 +1,11 @@
 <?php
+/**
+ * VideoTrack activity module.
+ *
+ * @package   mod_videotrack
+ * @copyright 2026 SICS, Universita degli Studi della Tuscia
+ * @license   http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
+ */
 require_once(__DIR__ . '/../../config.php');
 require_once(__DIR__ . '/lib.php');
 require_once(__DIR__ . '/locallib.php');
@@ -137,6 +144,9 @@ $playerconfig = [
     'notedeletedlabel'       => get_string('notedeletedlabel',  'mod_videotrack'),
     'noteplaybackrequiredlabel' => get_string('noteplaybackrequiredlabel', 'mod_videotrack'),
     'notesmaxrendered'       => 200,
+    'notesrenderlimitlabel' => get_string('notesrenderlimitlabel', 'mod_videotrack'),
+    'notetruncatedlabel'    => get_string('notetruncatedlabel', 'mod_videotrack'),
+    'notesratelimitlabel'   => get_string('error:notesratelimit', 'mod_videotrack'),
     'charsremaininglabel'    => get_string('charsremaininglabel', 'mod_videotrack'),
     'notemaxlength'          => $notemaxlength,
     'dismisslabel'           => get_string('dismisslabel',       'mod_videotrack'),
@@ -146,6 +156,7 @@ $playerconfig = [
     'fastforwardlabel'       => get_string('fastforwardlabel',   'mod_videotrack'),
     'secondslabel'           => get_string('secondslabel',       'mod_videotrack'),
     'reactionerrorlabel'     => get_string('reaction:error',     'mod_videotrack'),
+    'reactionratelimitlabel' => get_string('error:reactionratelimit', 'mod_videotrack'),
     'reactionunavailablelabel' => get_string('reactionsavailableonlyduringplayback', 'mod_videotrack'),
     'reactionsreadylabel'    => get_string('reactionsreadyannounce', 'mod_videotrack'),
     'reactionannouncementinterval' => videotrack_get_config_int('reactionannouncementinterval', 30000, 0, 120000),

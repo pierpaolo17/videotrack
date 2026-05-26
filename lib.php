@@ -1,4 +1,11 @@
 <?php
+/**
+ * VideoTrack activity module.
+ *
+ * @package   mod_videotrack
+ * @copyright 2026 SICS, Universita degli Studi della Tuscia
+ * @license   http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
+ */
 
 defined('MOODLE_INTERNAL') || die();
 
@@ -1155,6 +1162,32 @@ function videotrack_resize_reaction_icon(context_module $context, int $reactioni
  * @param array         $options
  * @return bool|void    False if file not found, otherwise sends the file.
  */
+
+/**
+ * Returns true when the supplied WebVTT content is safe enough to be served to
+ * the browser transcript parser. VideoTrack renders cue text as textContent,
+ * but rejecting scriptable markup server-side adds defence in depth.
+ *
+ * @param string $content Raw WebVTT file content.
+ * @return bool
+ */
+function videotrack_is_safe_vtt_content(string $content): bool {
+    $trimmed = ltrim($content, "\xEF\xBB\xBF\t\r\n ");
+    if (strncmp($trimmed, 'WEBVTT', 6) !== 0) {
+        return false;
+    }
+    if (preg_match('/[\x00-\x08\x0B\x0C\x0E-\x1F\x7F]/', $content)) {
+        return false;
+    }
+    if (preg_match('/<\s*(?:script|iframe|object|embed|link|meta)\b/i', $content)) {
+        return false;
+    }
+    if (preg_match('/\b(?:javascript|data)\s*:/i', $content) || preg_match('/\son[a-z]+\s*=/i', $content)) {
+        return false;
+    }
+    return true;
+}
+
 function videotrack_pluginfile($course, $cm, $context, $filearea, $args, $forcedownload, array $options = []) {
     if ($context->contextlevel !== CONTEXT_MODULE) {
         return false;

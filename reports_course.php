@@ -1,5 +1,12 @@
 <?php
 /**
+ * VideoTrack activity module.
+ *
+ * @package   mod_videotrack
+ * @copyright 2026 SICS, Universita degli Studi della Tuscia
+ * @license   http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
+ */
+/**
  * Course-level report for mod_videotrack.
  *
  * Shows an aggregated overview of all VideoTrack activities in the course:

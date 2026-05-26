@@ -288,6 +288,11 @@ define([
         if (category === 'validation' && rawMessage && rawMessage !== 'invalid-method') {
             message = rawMessage;
         }
+        if (error && error.errorcode === 'error:reactionratelimit' && config.reactionratelimitlabel) {
+            message = config.reactionratelimitlabel;
+        } else if (error && error.errorcode === 'error:notesratelimit' && config.notesratelimitlabel) {
+            message = config.notesratelimitlabel;
+        }
 
         Status.show(message, true, dismissLabel, timeoutMs, getPlayerShell());
     }

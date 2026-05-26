@@ -3,12 +3,18 @@
  * Avoid !important and unprefixed global selectors. */
 
 :root {
-    --videotrack-interval-bg: #e9ecef;
-    --videotrack-interval-fill: #28a745;
-    --videotrack-transcript-hover-bg: rgba(0, 64, 170, 0.10);
-    --videotrack-transcript-active-bg: rgba(0, 64, 170, 0.18);
-    --videotrack-transcript-playing-bg: rgba(40, 167, 69, 0.12);
-    --videotrack-transcript-playing-border: #1e7e34;
+    --videotrack-interval-bg: var(--bs-secondary-bg, #e9ecef);
+    --videotrack-interval-fill: var(--bs-success, #198754);
+    --videotrack-muted-text: var(--bs-secondary-color, #6c757d);
+    --videotrack-border-color: var(--bs-border-color, #dee2e6);
+    --videotrack-focus-color: Highlight;
+    --videotrack-control-bg: rgba(0, 0, 0, 0.82);
+    --videotrack-control-border: rgba(255,255,255,0.3);
+    --videotrack-control-color: var(--videotrack-control-color);
+    --videotrack-transcript-hover-bg: color-mix(in srgb, var(--bs-primary, #0d6efd) 10%, transparent);
+    --videotrack-transcript-active-bg: color-mix(in srgb, var(--bs-primary, #0d6efd) 18%, transparent);
+    --videotrack-transcript-playing-bg: color-mix(in srgb, var(--bs-success, #198754) 12%, transparent);
+    --videotrack-transcript-playing-border: var(--bs-success, #198754);
 }
 
 /* ─── Player shell ──────────────────────────────────────────────────────── */
@@ -103,7 +109,7 @@
 /* Tooltip esplicativo: reazioni solo durante la riproduzione */
 .videotrack-reactions-hint {
     font-size: 0.85rem;
-    color: #6c757d;
+    color: var(--videotrack-muted-text);
     margin-top: 0.25rem;
 }
 
@@ -177,7 +183,7 @@
     width: 40px;
     height: 40px;
     border: 4px solid rgba(255,255,255,0.2);
-    border-top-color: #fff;
+    border-top-color: var(--videotrack-control-color);
     border-radius: 50%;
     animation: vt-spin 0.9s linear infinite;
 }
@@ -218,13 +224,13 @@
 .videotrack-speed-btn:focus,
 .videotrack-ctrl-rewind:focus,
 .videotrack-ctrl-ff:focus {
-    outline: 3px solid Highlight;
+    outline: 3px solid var(--videotrack-focus-color);
     outline-offset: 2px;
 }
 
 .videotrack-ctrl-progress:focus,
 .videotrack-ctrl-volume:focus {
-    outline: 3px solid Highlight;
+    outline: 3px solid var(--videotrack-focus-color);
     outline-offset: 2px;
 }
 
@@ -257,13 +263,13 @@
 .videotrack-speed-btn:focus-visible,
 .videotrack-ctrl-rewind:focus-visible,
 .videotrack-ctrl-ff:focus-visible {
-    outline: 3px solid Highlight;
+    outline: 3px solid var(--videotrack-focus-color);
     outline-offset: 2px;
 }
 
 .videotrack-ctrl-progress:focus-visible,
 .videotrack-ctrl-volume:focus-visible {
-    outline: 3px solid Highlight;
+    outline: 3px solid var(--videotrack-focus-color);
     outline-offset: 2px;
 }
 
@@ -328,7 +334,7 @@
     }
 
     .videotrack-interval-bar {
-        border-color: #6c757d;
+        border-color: var(--videotrack-muted-text);
     }
     .videotrack-reactions-hint {
         color: #adb5bd;
@@ -392,7 +398,7 @@
 .videotrack-skip-btn {
     background: rgba(0,0,0,0.72);
     border: 1px solid rgba(255,255,255,0.25);
-    color: #fff;
+    color: var(--videotrack-control-color);
     font-size: 0.82rem;
     padding: 0.2rem 0.6rem;
     min-width: 52px;
@@ -405,8 +411,8 @@
 .videotrack-ctrl-rewind,
 .videotrack-ctrl-ff {
     background: transparent;
-    border: 1px solid rgba(255,255,255,0.3);
-    color: #fff;
+    border: 1px solid var(--videotrack-control-border);
+    color: var(--videotrack-control-color);
     font-size: 0.78rem;
     padding: 0.15rem 0.4rem;
     white-space: nowrap;
@@ -420,7 +426,7 @@
     gap: 0.35rem;
     flex-wrap: wrap;
     padding: 0.35rem 0.5rem;
-    background: rgba(0, 0, 0, 0.82);
+    background: var(--videotrack-control-bg);
     border-radius: 0 0 4px 4px;
     position: relative;
     z-index: 1;
@@ -442,7 +448,7 @@
 .videotrack-ctrl-volume {
     width: 100%;
     cursor: pointer;
-    accent-color: #28a745;
+    accent-color: var(--videotrack-interval-fill);
     vertical-align: middle;
 }
 
@@ -454,7 +460,7 @@
 .videotrack-ctrl-time,
 .videotrack-ctrl-duration {
     font-size: 0.78rem;
-    color: #fff;
+    color: var(--videotrack-control-color);
     white-space: nowrap;
     font-variant-numeric: tabular-nums;
 }
@@ -465,8 +471,8 @@
 .videotrack-ctrl-fs,
 .videotrack-ctrl-download {
     background: transparent;
-    border: 1px solid rgba(255,255,255,0.3);
-    color: #fff;
+    border: 1px solid var(--videotrack-control-border);
+    color: var(--videotrack-control-color);
     font-size: 0.9rem;
     min-width: 44px;
     min-height: 44px;
@@ -487,8 +493,8 @@
 
 .videotrack-html5-controls .videotrack-speed-btn {
     background: transparent;
-    border: 1px solid rgba(255,255,255,0.3);
-    color: #fff;
+    border: 1px solid var(--videotrack-control-border);
+    color: var(--videotrack-control-color);
     font-size: 0.75rem;
     min-width: 44px;
     min-height: 44px;
@@ -496,8 +502,8 @@
 }
 
 .videotrack-html5-controls .videotrack-speed-btn.active {
-    background: #28a745;
-    border-color: #28a745;
+    background: var(--videotrack-interval-fill);
+    border-color: var(--videotrack-interval-fill);
     font-weight: bold;
 }
 
@@ -516,7 +522,7 @@
     width: 100%;
     height: 12px;
     border-radius: 3px;
-    border: 1px solid #dee2e6;
+    border: 1px solid var(--videotrack-border-color);
     cursor: default;
 }
 
@@ -649,7 +655,7 @@
     gap: .25rem;
     padding: .35rem .5rem;
     background: #f8f9fa;
-    border: 1px solid #dee2e6;
+    border: 1px solid var(--videotrack-border-color);
     border-radius: .375rem;
     margin-bottom: .25rem;
     overflow-x: auto;
@@ -671,7 +677,7 @@
 .videotrack-chapter-btn.videotrack-chapter-active {
     background: #0040aa;
     border-color: #0040aa;
-    color: #fff;
+    color: var(--videotrack-control-color);
     font-weight: 600;
 }
 .videotrack-chapter-num {
@@ -689,7 +695,7 @@
 
 /* ── Student notes panel ───────────────────────────────────────────────── */
 .videotrack-notes-panel {
-    border: 1px solid #dee2e6;
+    border: 1px solid var(--videotrack-border-color);
     border-radius: .375rem;
     padding: .5rem .75rem;
     background: #fff;
@@ -772,7 +778,7 @@
 }
 .videotrack-notes-toggle {
     font-size: .8rem;
-    color: #6c757d;
+    color: var(--videotrack-muted-text);
     text-decoration: none;
 }
 .videotrack-notes-toggle:hover { color: #0040aa; }

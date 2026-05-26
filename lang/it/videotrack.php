@@ -1,4 +1,11 @@
-E<?php
+<?php
+/**
+ * VideoTrack activity module.
+ *
+ * @package   mod_videotrack
+ * @copyright 2026 SICS, Universita degli Studi della Tuscia
+ * @license   http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
+ */
 
 $string['pluginname'] = 'VideoTrack';
 $string['modulename'] = 'VideoTrack';
@@ -513,3 +520,5 @@ $string['privacy:intervals_none'] = 'Nessun intervallo di visione registrato.';
 $string['privacy:intervals_unavailable'] = 'Intervalli di visione non disponibili o non validi.';
 
 $string['warning:suspicioussegment'] = 'Il segmento di visione non è stato registrato perché supera la finestra di riproduzione prevista. Continua la visione normalmente e riprova.';
+$string['notesrenderlimitlabel'] = 'Sono mostrate solo le note più recenti. Le note precedenti restano salvate e disponibili nei report.';
+$string['notetruncatedlabel'] = 'La nota è stata abbreviata alla lunghezza massima consentita.';

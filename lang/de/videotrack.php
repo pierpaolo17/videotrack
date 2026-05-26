@@ -1,4 +1,11 @@
 <?php
+/**
+ * VideoTrack activity module.
+ *
+ * @package   mod_videotrack
+ * @copyright 2026 SICS, Universita degli Studi della Tuscia
+ * @license   http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
+ */
 
 $string['pluginname'] = 'Video-Tracking';
 $string['modulename'] = 'Video-Tracking';
@@ -510,3 +517,5 @@ $string['privacy:intervals_none'] = 'Keine Wiedergabeintervalle aufgezeichnet.';
 $string['privacy:intervals_unavailable'] = 'Wiedergabeintervalle sind nicht verfügbar oder ungültig.';
 
 $string['warning:suspicioussegment'] = 'Das Wiedergabesegment wurde nicht gespeichert, weil es das erwartete Wiedergabefenster überschritten hat. Sehen Sie das Video normal weiter und versuchen Sie es erneut.';
+$string['notesrenderlimitlabel'] = 'Es werden nur die neuesten Notizen angezeigt. Ältere Notizen bleiben gespeichert und in Berichten verfügbar.';
+$string['notetruncatedlabel'] = 'Die Notiz wurde auf die maximal zulässige Länge gekürzt.';

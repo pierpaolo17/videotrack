@@ -500,6 +500,15 @@ define([
                         notice.setAttribute('role', 'status');
                         notice.setAttribute('aria-live', 'polite');
                         notice.textContent = config.autoblockedlabel;
+                        var playButton = document.createElement('button');
+                        playButton.type = 'button';
+                        playButton.className = 'btn btn-primary btn-sm ms-2 videotrack-autoplay-play';
+                        playButton.textContent = config.html5playlabel || config.autoblockedlabel;
+                        playButton.addEventListener('click', function() {
+                            Adapter.play(function() { return player.playVideo(); }, Log, 'YouTube autoplay fallback');
+                            if (notice.parentNode) { notice.parentNode.removeChild(notice); }
+                        });
+                        notice.appendChild(playButton);
                         wrap.appendChild(notice);
                         // Remove notice once the user starts playing.
                         // YouTube IFrame API addEventListener uses 'on' prefix: 'onStateChange'.
