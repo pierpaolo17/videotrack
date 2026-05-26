@@ -141,7 +141,7 @@ class save_reaction extends external_api {
         // refresh_completion. Evita la chiamata tripla: una qui, una in refresh_completion
         // internamente, e un'altra esplicita dopo.
         $summary = tracker::reaction_counts($videotrack->id, (int)$USER->id);
-        $state   = tracker::refresh_completion($videotrack, $cm, (int)$USER->id);
+        $state   = tracker::refresh_completion($videotrack, $cm, (int)$USER->id, $summary);
         $completion = new \completion_info($course);
         tracker::update_moodle_completion_if_changed($completion, $cm, (bool)$state->iscompleted, (int)$USER->id);
         return [

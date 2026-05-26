@@ -196,8 +196,8 @@ class privacy_manager {
     /**
      * Anonymises all real users' tracking records in one module context.
      *
-     * This is used by Moodle privacy erasure for a whole activity context. The
-     * plugin preserves aggregate analytics but removes the link to real users.
+     * This helper is reserved for explicit retention/anonymisation workflows.
+     * Privacy API erasure paths delete personal tracking rows through the provider.
      *
      * @param context $context Moodle context.
      */

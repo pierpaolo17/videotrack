@@ -30,6 +30,7 @@ node tests/final_static_test.js
 node tests/stable_release_static_test.js
 node tests/maintenance_static_test.js
 node tests/postrelease_static_test.js
+node tests/bug_report_1391_static_test.js
 ```
 
 Also run syntax checks on all PHP and AMD JavaScript files before packaging.
@@ -64,3 +65,7 @@ Bug-report follow-up after the 1.3.89 audit: modal API deprecation cleanup, per-
 ## 1.3.91
 
 Bug-report validation after the 1.3.90 audit: the reported syntax-corruption items were checked against the real AMD sources and were already fixed in the committed code. Confirmed maintenance improvements add ARIA live-region relevance metadata, less aggressive transient retry backoff, note-input counter debounce, stronger sendBeacon diagnostics, and a Web-Crypto-first session fallback without Math.random.
+
+## 1.3.92
+
+Bug-report follow-up after the 1.3.91 audit: legacy session fallback now always satisfies server validation, status messages use scoped containers without duplicate DOM ids or redundant live-region attributes, retry jitter is wider for classroom reconnection scenarios, completion refresh can reuse precomputed reaction summaries, stable static gates no longer hard-code 1.3.8x/9x micro releases, and preset table captions are translated in non-English language packs.

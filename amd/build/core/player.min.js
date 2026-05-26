@@ -265,7 +265,7 @@ define([
      * @param {number=} timeoutMs Optional auto-dismiss timeout in milliseconds.
      */
     function showStatusMessage(message, isError, dismissLabel, timeoutMs) {
-        Status.show(message, isError, dismissLabel, timeoutMs);
+        Status.show(message, isError, dismissLabel, timeoutMs, getPlayerShell());
     }
 
     /**
@@ -289,7 +289,7 @@ define([
             message = rawMessage;
         }
 
-        Status.show(message, true, dismissLabel, timeoutMs);
+        Status.show(message, true, dismissLabel, timeoutMs, getPlayerShell());
     }
 
     /**
@@ -299,7 +299,7 @@ define([
      * @param {boolean=} isError Whether the message should be assertive.
      */
     function announceStatusMessage(message, isError) {
-        Status.announce(message, isError);
+        Status.announce(message, isError, getPlayerShell());
     }
 
     /**

@@ -495,4 +495,4 @@ $string['presets:reactionicontypearia'] = 'Réaction {$a} : type d’icône';
 $string['presets:reactioniconvaluearia'] = 'Réaction {$a} : valeur de l’icône';
 $string['presets:reactionrequiredaria'] = 'Réaction {$a} : requise pour l’achèvement';
 $string['err:reactionpresetjson'] = 'Les données du préréglage de réactions ne sont pas valides. Rechargez la page et réessayez.';
-$string['presets:reactionstablecaption'] = 'Reaction preset rows';
+$string['presets:reactionstablecaption'] = 'Lignes du préréglage de réactions';

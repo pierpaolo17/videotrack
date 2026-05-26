@@ -497,4 +497,4 @@ $string['presets:reactionicontypearia'] = 'Reakcja {$a}: typ ikony';
 $string['presets:reactioniconvaluearia'] = 'Reakcja {$a}: wartość ikony';
 $string['presets:reactionrequiredaria'] = 'Reakcja {$a}: wymagana do ukończenia';
 $string['err:reactionpresetjson'] = 'Dane presetu reakcji są nieprawidłowe. Odśwież stronę i spróbuj ponownie.';
-$string['presets:reactionstablecaption'] = 'Reaction preset rows';
+$string['presets:reactionstablecaption'] = 'Wiersze presetu reakcji';

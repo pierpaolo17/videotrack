@@ -495,4 +495,4 @@ $string['presets:reactionicontypearia'] = 'Reaktion {$a}: Symboltyp';
 $string['presets:reactioniconvaluearia'] = 'Reaktion {$a}: Symbolwert';
 $string['presets:reactionrequiredaria'] = 'Reaktion {$a}: für Abschluss erforderlich';
 $string['err:reactionpresetjson'] = 'Die Reaktionsvorlagen-Daten sind ungültig. Laden Sie die Seite neu und versuchen Sie es erneut.';
-$string['presets:reactionstablecaption'] = 'Reaction preset rows';
+$string['presets:reactionstablecaption'] = 'Zeilen des Reaktions-Presets';

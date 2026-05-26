@@ -390,20 +390,6 @@ class tracker {
     }
 
     /**
-     * Aggiorna lo stato aggregato di visione per un utente.
-     * Inserisce il segmento grezzo e aggiorna videotrack_state in un'unica
-     * transazione atomica: se qualcosa fallisce, nessun segmento orfano resta nel DB.
-     *
-     * @param stdClass  $videotrack   Istanza attività.
-     * @param cm_info   $cm           Course module.
-     * @param int       $userid       ID utente.
-     * @param array     $interval     [start, end] normalizzato.
-     * @param float     $lastposition Posizione per il resume.
-     * @param stdClass|null $segment  Record segmento da inserire (null = nessun segmento).
-     * @param int|null  &$segmentid   Viene impostato all'ID del segmento inserito.
-     * @return stdClass               Stato aggiornato.
-     */
-    /**
      * Creates the default aggregate state record for a user/activity pair.
      *
      * @param \stdClass $videotrack Activity instance.
@@ -429,6 +415,20 @@ class tracker {
         ];
     }
 
+    /**
+     * Aggiorna lo stato aggregato di visione per un utente.
+     * Inserisce il segmento grezzo e aggiorna videotrack_state in un'unica
+     * transazione atomica: se qualcosa fallisce, nessun segmento orfano resta nel DB.
+     *
+     * @param stdClass  $videotrack   Istanza attività.
+     * @param cm_info   $cm           Course module.
+     * @param int       $userid       ID utente.
+     * @param array     $interval     [start, end] normalizzato.
+     * @param float     $lastposition Posizione per il resume.
+     * @param stdClass|null $segment  Record segmento da inserire (null = nessun segmento).
+     * @param int|null  &$segmentid   Viene impostato all'ID del segmento inserito.
+     * @return stdClass               Stato aggiornato.
+     */
     public static function update_state(\stdClass $videotrack, \cm_info $cm, int $userid,
             array $interval, float $lastposition, ?\stdClass $segment = null, ?int &$segmentid = null): \stdClass {
         global $DB;
@@ -551,7 +551,8 @@ class tracker {
         }
     }
 
-    public static function refresh_completion(\stdClass $videotrack, \cm_info $cm, int $userid): \stdClass {
+    public static function refresh_completion(\stdClass $videotrack, \cm_info $cm, int $userid,
+            ?array $reactionsummary = null, ?array $requiredreactionids = null): \stdClass {
         global $DB;
 
         // Usa lo stesso lock di update_state(): refresh_completion può essere chiamato
@@ -575,12 +576,16 @@ class tracker {
                 $state->id = $DB->insert_record('videotrack_state', $state);
             }
 
-            $requiredreactionids = array_keys(array_filter((array)$DB->get_records_menu('videotrack_react', [
-                'videotrackid' => $videotrack->id,
-                'requiredforcompletion' => 1,
-                'isdeleted' => 0,
-            ], '', 'id,id')));
-            $reactionsummary = self::reaction_counts($videotrack->id, $userid);
+            if ($requiredreactionids === null) {
+                $requiredreactionids = array_keys(array_filter((array)$DB->get_records_menu('videotrack_react', [
+                    'videotrackid' => $videotrack->id,
+                    'requiredforcompletion' => 1,
+                    'isdeleted' => 0,
+                ], '', 'id,id')));
+            }
+            if ($reactionsummary === null) {
+                $reactionsummary = self::reaction_counts($videotrack->id, $userid);
+            }
             $state->iscompleted = self::completion_satisfied($videotrack, $state, $reactionsummary, $requiredreactionids) ? 1 : 0;
             $state->timemodified = time();
             $DB->update_record('videotrack_state', $state);
