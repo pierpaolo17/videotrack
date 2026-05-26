@@ -932,5 +932,11 @@ function xmldb_videotrack_upgrade($oldversion) {
         upgrade_mod_savepoint(true, 2026072502, 'videotrack');
     }
 
+
+    if ($oldversion < 20260525094) {
+        // Release 1.3.94: code-only maintenance fixes, bug-report regression gates and AMD build alignment.
+        upgrade_mod_savepoint(true, 20260525094, 'videotrack');
+    }
+
     return true;
 }

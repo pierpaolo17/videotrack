@@ -17,7 +17,7 @@ require_once($CFG->dirroot . '/mod/videotrack/lib.php');
  * External function that soft-deletes a personal note owned by the current user.
  *
  * @package    mod_videotrack
- * @copyright  2026
+ * @copyright  2026 videotrack contributors
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 class delete_note extends external_api {

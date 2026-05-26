@@ -59,7 +59,8 @@ function main() {
         'tests/postrelease_static_test.js',
         'tests/review_fixes_static_test.js',
         'tests/bug_report_1391_static_test.js',
-        'tests/bug_report_1392_static_test.js'
+        'tests/bug_report_1392_static_test.js',
+        'tests/bug_report_1393_static_test.js'
     ].forEach(assertFile);
 
     assertContains('version.php', /\$plugin->version\s*=\s*20\d{8,9};/, 'final-check plugin version');

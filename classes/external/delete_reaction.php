@@ -18,7 +18,7 @@ require_once($CFG->dirroot . '/mod/videotrack/lib.php');
  * External function that soft-deletes a standard reaction owned by the current user.
  *
  * @package    mod_videotrack
- * @copyright  2026
+ * @copyright  2026 videotrack contributors
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 class delete_reaction extends external_api {
@@ -86,7 +86,12 @@ class delete_reaction extends external_api {
 
         $summary = tracker::reaction_counts($videotrack->id, (int)$USER->id);
         if ($changed) {
-            $state = tracker::refresh_completion($videotrack, $cm, (int)$USER->id, $summary);
+            $requiredreactionids = array_keys(array_filter((array)$DB->get_records_menu('videotrack_react', [
+                'videotrackid' => $videotrack->id,
+                'requiredforcompletion' => 1,
+                'isdeleted' => 0,
+            ], '', 'id,id')));
+            $state = tracker::refresh_completion($videotrack, $cm, (int)$USER->id, $summary, $requiredreactionids);
             $completion = new \completion_info($course);
             tracker::update_moodle_completion_if_changed($completion, $cm, (bool)$state->iscompleted, (int)$USER->id);
             $iscompleted = (bool)$state->iscompleted;

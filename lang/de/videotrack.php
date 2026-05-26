@@ -496,4 +496,5 @@ $string['presets:reactioniconvaluearia'] = 'Reaktion {$a}: Symbolwert';
 $string['presets:reactionrequiredaria'] = 'Reaktion {$a}: für Abschluss erforderlich';
 $string['err:reactionpresetjson'] = 'Die Reaktionsvorlagen-Daten sind ungültig. Laden Sie die Seite neu und versuchen Sie es erneut.';
 $string['presets:reactionstablecaption'] = 'Zeilen des Reaktions-Presets';
+$string['privacy:intervals_none'] = 'Keine Wiedergabeintervalle aufgezeichnet.';
 $string['privacy:intervals_unavailable'] = 'Wiedergabeintervalle sind nicht verfügbar oder ungültig.';

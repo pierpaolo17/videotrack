@@ -140,12 +140,14 @@ foreach ($instances as $inst) {
     // Mini bar showing average coverage.
     $pct    = (float)($inst->avg_percent ?? 0);
     $barw   = max(0, min(100, $pct));
-    $barsvg = '<svg width="80" height="14" aria-hidden="true" focusable="false" style="vertical-align:middle;margin-left:4px">'
+    $avglabel = get_string('coursereport:avgcoverage', 'mod_videotrack', format_float($pct, 1));
+    $avgid = 'videotrack-course-avg-' . (int)$inst->id;
+    $barsvg = '<svg width="80" height="14" role="img" aria-describedby="' . $avgid . '" '
+        . 'focusable="false" style="vertical-align:middle;margin-left:4px">'
         . '<rect class="videotrack-course-avgbar-bg" x="0" y="3" width="80" height="8" rx="2"/>'
         . '<rect class="videotrack-course-avgbar-fill" x="0" y="3" width="' . round($barw * 0.8) . '" height="8" rx="2"/>'
         . '</svg>';
-    $avglabel = get_string('coursereport:avgcoverage', 'mod_videotrack', format_float($pct, 1));
-    $avgcell = html_writer::span($avglabel, 'videotrack-course-avglabel') . ' ' . $barsvg;
+    $avgcell = html_writer::span($avglabel, 'videotrack-course-avglabel', ['id' => $avgid]) . ' ' . $barsvg;
 
     $table->data[] = [
         $link,

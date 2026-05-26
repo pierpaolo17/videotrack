@@ -3,6 +3,12 @@ namespace mod_videotrack\completion;
 
 defined('MOODLE_INTERNAL') || die();
 
+/**
+ * @package    mod_videotrack
+ * @copyright  2026 videotrack contributors
+ * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
+ */
+
 use mod_videotrack\local\tracker;
 
 class custom_completion extends \core_completion\activity_custom_completion {

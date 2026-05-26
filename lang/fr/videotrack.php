@@ -496,4 +496,5 @@ $string['presets:reactioniconvaluearia'] = 'Réaction {$a} : valeur de l’icôn
 $string['presets:reactionrequiredaria'] = 'Réaction {$a} : requise pour l’achèvement';
 $string['err:reactionpresetjson'] = 'Les données du préréglage de réactions ne sont pas valides. Rechargez la page et réessayez.';
 $string['presets:reactionstablecaption'] = 'Lignes du préréglage de réactions';
+$string['privacy:intervals_none'] = 'Aucun intervalle de visionnage enregistré.';
 $string['privacy:intervals_unavailable'] = 'Intervalles de visionnage indisponibles ou non valides.';

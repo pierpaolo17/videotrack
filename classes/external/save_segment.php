@@ -11,6 +11,13 @@ use mod_videotrack\event\segment_saved;
 
 defined('MOODLE_INTERNAL') || die();
 
+/**
+ * External function that persists a watched video segment.
+ *
+ * @package    mod_videotrack
+ * @copyright  2026 videotrack contributors
+ * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
+ */
 global $CFG;
 require_once($CFG->dirroot . '/mod/videotrack/lib.php');
 
@@ -50,10 +57,10 @@ class save_segment extends external_api {
         $cm = $loaded['cm'];
         $context = $loaded['context'];
 
-        // Non considerare attendibile né persistere durationseconds da una chiamata AJAX studente.
-        // La durata inviata dal client può essere utile all'interfaccia, ma non deve
-        // influenzare normalizzazione o completamento finché l'attività non dispone
-        // di una durata attendibile salvata lato server.
+        // Do not trust or persist durationseconds from a student AJAX call.
+        // The client-provided duration can be useful for the interface, but it must
+        // not influence normalisation or completion until the activity has a trusted
+        // server-side duration.
         $knownduration = (float)($videotrack->durationseconds ?? 0);
         $normaliseduration = $knownduration > 0 ? min($knownduration, self::MAX_DURATION_SECONDS) : 0.0;
         $interval = tracker::normalise_interval((float)$params['videotimestart'], (float)$params['videotimeend'], $normaliseduration);
@@ -69,15 +76,15 @@ class save_segment extends external_api {
             ];
         }
         $now    = time();
-        // Clampa wallclock al server time (tollera 5s di clock skew client).
+        // Clamp wallclock timestamps to server time, allowing 5 seconds of client clock skew.
         $wstart = max(0, min($params['wallclockstart'], $now + 5));
         $wend   = max($wstart, min($params['wallclockend'],   $now + 5));
 
-        // ── Validazione per l'integrità accademica lato server ───────────────────────────────
-        // I wallclock inviati dal client sono conservati come dato diagnostico, ma
-        // non vengono usati per decidere se accettare il segmento. La validazione
-        // si basa solo sul tempo server trascorso dall'ultimo segmento della stessa
-        // sessione e sull'heartbeat configurato.
+        // Server-side validation for academic integrity.
+        // Client wallclock values are retained as diagnostic data, but they are
+        // not used to decide whether to accept the segment. Validation is based
+        // only on server elapsed time since the previous segment from the same
+        // session and on the configured heartbeat interval.
         $videoduration = $interval[1] - $interval[0];
         // playbackrate is already bounded by helper::validate_bounded_float().
         $playbackrate  = (float)$params['playbackrate'];
@@ -90,13 +97,13 @@ class save_segment extends external_api {
         );
         $isfirstsegment = empty($lasttimecreated);
         $serverspan = $isfirstsegment ? $heartbeat : max(0, $now - (int)$lasttimecreated);
-        // Il primo segmento non ha ancora un riferimento server precedente: usa
-        // comunque heartbeat come finestra massima, ma con una grace ridotta per
-        // non accreditare heartbeat+10 secondi in una chiamata diretta iniziale.
+        // The first segment has no previous server-side reference: still use the
+        // heartbeat as the maximum window, but with a smaller grace period so a
+        // direct initial call cannot credit heartbeat plus 10 seconds.
         $servergrace = $isfirstsegment ? 2 : 10;
         $serverallowedvideo = max(2.0, ($serverspan + $servergrace) * $playbackrate);
         if ($videoduration > 2.0 && $videoduration > $serverallowedvideo) {
-            // Segmento sospetto: rigettato silenziosamente senza registrare dettagli temporali comportamentali.
+            // Suspicious segment: reject silently without recording behavioural timing details.
             return [
                 'accepted'             => false,
                 'uniquecoveredseconds' => 0.0,
@@ -119,13 +126,13 @@ class save_segment extends external_api {
             'wallclockend'   => $wend,
             'videotimestart' => $interval[0],
             'videotimeend'   => $interval[1],
-            'playbackrate'   => $playbackrate,  // Già clampata a [0.25, 4.0] sopra.
+            'playbackrate'   => $playbackrate,  // Already clamped to [0.25, 4.0] above.
             'endreason'      => $params['endreason'],
             'timecreated'    => $now,
         ];
-        // Inserisce il segmento grezzo E aggiorna lo stato aggregato in un'unica
-        // transazione atomica gestita da update_state. Se update_state fallisce,
-        // il rollback rimuove anche il segmento appena inserito — nessun orfano.
+        // Insert the raw segment and update the aggregate state in a single atomic
+        // transaction managed by update_state. If update_state fails, rollback also
+        // removes the inserted segment, leaving no orphan records.
         $segmentid = null;
         $state = tracker::update_state($videotrack, $cm, (int)$USER->id, $interval, $interval[1], $segment, $segmentid);
 
