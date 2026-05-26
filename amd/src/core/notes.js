@@ -55,8 +55,8 @@ define([], function() {
         if (!saveBtn) {
             return;
         }
-        saveBtn.disabled = !playing;
-        saveBtn.disabled = !playing;
+        // Keep the button focusable for keyboard and screen-reader users.
+        saveBtn.disabled = false;
         saveBtn.setAttribute('aria-disabled', playing ? 'false' : 'true');
         saveBtn.classList.toggle('videotrack-note-save-disabled', !playing);
     }
@@ -139,8 +139,6 @@ define([], function() {
         var savingNote = false;
         var charCounterTimer = null;
         if (!saveBtn || !textarea) { return; }
-        textarea.setAttribute('aria-describedby', textarea.getAttribute('aria-describedby') || 'videotrack-note-counter');
-        textarea.setAttribute('aria-live', 'polite');
 
         function ajax(methodname, args) {
             return Ajax.call([{methodname: methodname, args: args}])[0];

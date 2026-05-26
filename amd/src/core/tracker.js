@@ -696,6 +696,10 @@ define([
         if (!state || !state.playing || state.segmentstart === null || !hasPlayer() || shouldSkip()) {
             return Promise.resolve(false);
         }
+        if (state.heartbeatRunning) {
+            return Promise.resolve(false);
+        }
+        state.heartbeatRunning = true;
 
         emit(state, 'heartbeat:start', {});
 
@@ -713,6 +717,12 @@ define([
                 options.log.debug(error);
             }
             return false;
+        }).then(function(saved) {
+            state.heartbeatRunning = false;
+            return saved;
+        }, function(error) {
+            state.heartbeatRunning = false;
+            return Promise.reject(error);
         });
     }
 
