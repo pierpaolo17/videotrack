@@ -251,7 +251,7 @@ if ($notice !== '') {
         ['context' => $context, 'trusted' => false]), 'info');
 }
 if (in_array($source, ['youtube', 'vimeo'], true)) {
-    echo $OUTPUT->notification(get_string('externalproviderprivacy_notice', 'mod_videotrack'), 'info');
+    echo $OUTPUT->notification(get_string('externalproviderprivacy_notice', 'mod_videotrack'), 'info', true);
 }
 
 $covered = $state ? (float)$state->uniquecoveredseconds : 0.0;

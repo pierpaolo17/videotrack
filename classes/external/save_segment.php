@@ -89,18 +89,15 @@ class save_segment extends external_api {
         // playbackrate is already bounded by helper::validate_bounded_float().
         $playbackrate  = (float)$params['playbackrate'];
         $heartbeat = \videotrack_get_config_int('heartbeatinterval', 30, 5, 300);
-        $lastsessiontime = $DB->get_field_sql(
-            "SELECT MAX(timecreated)
-               FROM {videotrack_seg}
-              WHERE videotrackid = :vtid AND userid = :uid AND sessionid = :sid",
-            ['vtid' => $videotrack->id, 'uid' => $USER->id, 'sid' => $params['sessionid']]
-        );
-        $lastactivitytime = $DB->get_field_sql(
-            "SELECT MAX(timecreated)
+        $lasttimes = $DB->get_record_sql(
+            "SELECT MAX(timecreated) AS lastactivitytime,
+                    MAX(CASE WHEN sessionid = :sid THEN timecreated ELSE NULL END) AS lastsessiontime
                FROM {videotrack_seg}
               WHERE videotrackid = :vtid AND userid = :uid",
-            ['vtid' => $videotrack->id, 'uid' => $USER->id]
+            ['vtid' => $videotrack->id, 'uid' => $USER->id, 'sid' => $params['sessionid']]
         );
+        $lastsessiontime = $lasttimes ? (int)$lasttimes->lastsessiontime : 0;
+        $lastactivitytime = $lasttimes ? (int)$lasttimes->lastactivitytime : 0;
         $lasttimecreated = $lastsessiontime ?: $lastactivitytime;
         $isfirstsegment = empty($lastactivitytime);
         $serverspan = $isfirstsegment ? $heartbeat : max(0, $now - (int)$lasttimecreated);

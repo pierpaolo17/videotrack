@@ -32,7 +32,34 @@ class notes_exported extends \core\event\base {
         return new \moodle_url('/mod/videotrack/report.php', ['id' => $this->contextinstanceid]);
     }
 
+
+
+    protected function validate_data(): void {
+        parent::validate_data();
+        if (empty($this->objectid) || (int)$this->objectid <= 0) {
+            throw new \coding_exception('The objectid must be the videotrack activity id.');
+        }
+        if (!array_key_exists('useridfilter', $this->other)) {
+            throw new \coding_exception('The useridfilter value must be set in other.');
+        }
+        if (!array_key_exists('emailincluded', $this->other)) {
+            throw new \coding_exception('The emailincluded value must be set in other.');
+        }
+        if (!array_key_exists('createdfrom', $this->other)) {
+            throw new \coding_exception('The createdfrom value must be set in other.');
+        }
+        if (!array_key_exists('createdto', $this->other)) {
+            throw new \coding_exception('The createdto value must be set in other.');
+        }
+    }
+
     public static function get_objectid_mapping(): array {
         return ['db' => 'videotrack', 'restore' => 'videotrack'];
+    }
+
+    public static function get_other_mapping(): array {
+        return [
+            'useridfilter' => ['db' => 'user', 'restore' => 'user'],
+        ];
     }
 }

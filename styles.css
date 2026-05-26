@@ -108,18 +108,17 @@
     opacity: 0.6;
 }
 
-/* Tooltip esplicativo: reazioni solo durante la riproduzione */
+/* Explanatory tooltip: reactions are available only during playback. */
 .videotrack-reactions-hint {
     font-size: 0.85rem;
     color: var(--videotrack-muted-text);
     margin-top: 0.25rem;
 }
 
-/* ─── Icone reazione ─────────────────────────────────────────────────────── */
+/* ─── Reaction icons ─────────────────────────────────────────────────────── */
 
 .videotrack-reaction-icon-file {
-    /* CSS di sicurezza: anche se il ridimensionamento GD non è disponibile,
-     * l'icona viene mostrata sempre a 32×32px con crop centrato. */
+    /* Safety CSS: even when GD resizing is unavailable, keep the icon at 32 x 32 px with centred crop. */
     width: 32px;
     height: 32px;
     object-fit: cover;
@@ -136,7 +135,7 @@
     line-height: 1;
 }
 
-/* ─── Tabella reazioni studente ──────────────────────────────────────────── */
+/* ─── Student reactions table ────────────────────────────────────────────── */
 
 .videotrack-report-icon {
     display: inline-flex;
@@ -148,13 +147,13 @@
     white-space: nowrap;
 }
 
-/* Scrollabile in portrait su schermi piccoli */
+/* Scrollable in portrait on small screens. */
 .videotrack-reactions-table-wrap {
     overflow-x: auto;
     -webkit-overflow-scrolling: touch;
 }
 
-/* ─── Progresso ──────────────────────────────────────────────────────────── */
+/* ─── Progress ───────────────────────────────────────────────────────────── */
 
 .videotrack-progress {
     font-size: 0.9rem;
@@ -170,12 +169,12 @@
     justify-content: center;
     background: #000;
     border-radius: 4px;
-    /* Nascosto non appena il player JS inizializza (il div viene rimpiazzato). */
+    /* Hidden as soon as the JS player initialises and replaces the placeholder. */
     z-index: 0;
 }
 
-/* Nasconde il placeholder quando il player è inizializzato
-   (YT/Vimeo iniettano un iframe che ha z-index > 0 per default). */
+/* Hide the placeholder when the player is initialised.
+   YouTube and Vimeo inject an iframe that has z-index > 0 by default. */
 .videotrack-player-wrap > iframe ~ .videotrack-player-loading,
 .videotrack-player-wrap > video ~ .videotrack-player-loading {
     display: none;
@@ -328,9 +327,9 @@
     }
     :root {
         --videotrack-interval-bg: var(--bs-gray-700, #343a40);
-        --videotrack-interval-fill: var(--bs-success-text-emphasis, #75b798);
+        --videotrack-interval-fill: var(--bs-success-text-emphasis, var(--bs-success, #198754));
         --videotrack-focus-ring: var(--bs-primary-border-subtle, #8ab4ff);
-        --videotrack-muted-text: var(--bs-secondary-color, #adb5bd);
+        --videotrack-muted-text: var(--bs-secondary-color, var(--bs-gray-500, #6c757d));
         --videotrack-panel-bg: var(--bs-body-bg, #1e1e2e);
         --videotrack-panel-border: var(--bs-border-color, #444);
         --videotrack-transcript-hover-bg: rgba(var(--bs-primary-rgb, 138, 180, 255), 0.20);
@@ -343,19 +342,19 @@
         border-color: var(--videotrack-muted-text);
     }
     .videotrack-reactions-hint {
-        color: #adb5bd;
+        color: var(--videotrack-muted-text);
     }
     .videotrack-progress {
-        color: #dee2e6;
+        color: var(--bs-body-color);
     }
 
     .videotrack-ctrl-volume {
-        accent-color: #75b798;
+        accent-color: var(--videotrack-interval-fill);
     }
 
     .videotrack-html5-controls .videotrack-speed-btn.active {
-        background: #75b798;
-        border-color: #75b798;
+        background: var(--videotrack-interval-fill);
+        border-color: var(--videotrack-interval-fill);
     }
 
 
