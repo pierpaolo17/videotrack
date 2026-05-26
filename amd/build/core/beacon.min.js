@@ -25,6 +25,9 @@ define(['mod_videotrack/core/api'], function(Api) {
             return false;
         }
         if (!config.beaconurl || !Utils || typeof Utils.isSafeBeaconUrl !== 'function' || !Utils.isSafeBeaconUrl(config.beaconurl)) {
+            if (Log && typeof Log.debug === 'function') {
+                Log.debug('mod_videotrack: sendBeacon skipped because the endpoint is not safe');
+            }
             return false;
         }
 
@@ -40,7 +43,11 @@ define(['mod_videotrack/core/api'], function(Api) {
                 args: args
             }];
             var blob = new Blob([JSON.stringify(payload)], {type: 'application/json'});
-            return window.navigator.sendBeacon(config.beaconurl, blob);
+            var accepted = window.navigator.sendBeacon(config.beaconurl, blob);
+            if (!accepted && Log && typeof Log.debug === 'function') {
+                Log.debug('mod_videotrack: sendBeacon was not accepted by the browser');
+            }
+            return accepted;
         } catch (error) {
             if (Log && typeof Log.debug === 'function') {
                 Log.debug('mod_videotrack: sendBeacon failed - ' + error);

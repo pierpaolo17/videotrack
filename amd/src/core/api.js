@@ -177,8 +177,9 @@ define([
             base = AJAX_RETRY_DELAY_MS;
         }
         return new Promise(function(resolve) {
+            var multiplier = Math.pow(2, Math.max(0, attempt));
             var jitter = Math.floor(Math.random() * 150);
-            window.setTimeout(resolve, (base * Math.max(1, attempt + 1)) + jitter);
+            window.setTimeout(resolve, (base * multiplier) + jitter);
         });
     }
 
@@ -325,7 +326,7 @@ define([
                 if (!isRequestCurrent(requestScope, requestToken)) {
                     return null;
                 }
-                if (attempt < maxRetries && isTransientAjaxError(error)) {
+                if (attempt < maxRetries && isTransientAjaxError(error) && !isBrowserOffline()) {
                     Log.debug('mod_videotrack: retrying transient AJAX failure for ' + safeMethodName +
                         ' - ' + error.message);
                     return retryDelay(attempt, options.retryDelay).then(function() {

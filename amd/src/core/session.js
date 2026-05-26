@@ -24,11 +24,13 @@ define([], function() {
                 return ('0' + byte.toString(16)).slice(-2);
             }).join('');
         }
-        var entropy = '';
-        while (entropy.length < 16) {
-            entropy += Math.random().toString(36).substring(2);
-        }
-        return 'sess' + Date.now().toString(36) + entropy.substring(0, 24);
+        // Last-resort fallback for legacy browsers without Web Crypto.
+        // This identifier is not used as an authentication token; keep it unique
+        // enough for client-side request grouping without relying on non-cryptographic randomness.
+        uuid.counter = (uuid.counter || 0) + 1;
+        var perf = window.performance && typeof window.performance.now === 'function' ?
+            Math.floor(window.performance.now() * 1000).toString(36) : '0';
+        return 'sess' + Date.now().toString(36) + perf + uuid.counter.toString(36);
     }
 
     return {

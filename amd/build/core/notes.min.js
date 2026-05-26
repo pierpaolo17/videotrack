@@ -138,6 +138,7 @@ define([], function() {
         var saveBtn = document.getElementById('videotrack-note-save');
         var textarea = document.getElementById('videotrack-note-input');
         var savingNote = false;
+        var charCounterTimer = null;
         if (!saveBtn || !textarea) { return; }
 
         function ajax(methodname, args) {
@@ -154,6 +155,10 @@ define([], function() {
         document.addEventListener('videotrack:playstate', playStateHandler);
         window.addEventListener('beforeunload', function() {
             document.removeEventListener('videotrack:playstate', playStateHandler);
+            if (charCounterTimer) {
+                window.clearTimeout(charCounterTimer);
+                charCounterTimer = null;
+            }
         }, {once: true});
 
         saveBtn.addEventListener('click', function() {
@@ -242,7 +247,13 @@ define([], function() {
         }
 
         textarea.addEventListener('input', function() {
-            updateCharCounter(textarea, config, Utils);
+            if (charCounterTimer) {
+                window.clearTimeout(charCounterTimer);
+            }
+            charCounterTimer = window.setTimeout(function() {
+                updateCharCounter(textarea, config, Utils);
+                charCounterTimer = null;
+            }, 120);
         });
     }
 
