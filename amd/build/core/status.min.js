@@ -8,7 +8,7 @@
  * @module mod_videotrack/core/status
  */
 define([], function() {
-    var states = [];
+    var states = typeof WeakMap === 'function' ? new WeakMap() : [];
 
     /**
      * Return timer state for a container without sharing timers across multiple
@@ -18,6 +18,13 @@ define([], function() {
      * @returns {Object} Mutable timer state.
      */
     function getState(container) {
+        if (states instanceof WeakMap) {
+            if (!states.has(container)) {
+                states.set(container, {timerId: null, announceTimerId: null});
+            }
+            return states.get(container);
+        }
+
         var i;
         for (i = 0; i < states.length; i++) {
             if (states[i].container === container) {
@@ -71,18 +78,17 @@ define([], function() {
         if (!container) {
             return null;
         }
-        var id = isError ? 'videotrack-status-live-assertive' : 'videotrack-status-live-polite';
-        var region = container.querySelector('#' + id);
+        var selector = isError ? '.videotrack-status-live-assertive' : '.videotrack-status-live-polite';
+        var region = container.querySelector(selector);
         if (region) {
             return region;
         }
         region = document.createElement('div');
-        region.id = id;
-        region.className = 'sr-only visually-hidden videotrack-status-live-region';
+        region.className = 'sr-only visually-hidden videotrack-status-live-region ' +
+            (isError ? 'videotrack-status-live-assertive' : 'videotrack-status-live-polite');
         region.setAttribute('role', isError ? 'alert' : 'status');
         region.setAttribute('aria-live', isError ? 'assertive' : 'polite');
         region.setAttribute('aria-atomic', 'true');
-        region.setAttribute('aria-relevant', 'additions text');
         container.insertBefore(region, container.firstChild || null);
         return region;
     }
@@ -174,9 +180,9 @@ define([], function() {
      * Clear visible and hidden status messages.
      */
     function clear(container) {
-        var targets = container ? [container] : Array.prototype.map.call(states, function(item) {
-            return item.container;
-        });
+        var targets = container ? [container] : Array.prototype.slice.call(
+            document.querySelectorAll('.videotrack-player-shell')
+        );
         targets.forEach(function(target) {
             var state = getState(target);
             if (state.timerId) {
@@ -187,9 +193,9 @@ define([], function() {
                 window.clearTimeout(state.announceTimerId);
                 state.announceTimerId = null;
             }
-            remove(target.querySelector('#videotrack-status-message'));
-            var polite = target.querySelector('#videotrack-status-live-polite');
-            var assertive = target.querySelector('#videotrack-status-live-assertive');
+            remove(target.querySelector('.videotrack-status-message'));
+            var polite = target.querySelector('.videotrack-status-live-polite');
+            var assertive = target.querySelector('.videotrack-status-live-assertive');
             if (polite) {
                 polite.textContent = '';
             }
@@ -206,11 +212,12 @@ define([], function() {
      * @param {boolean} isError Whether this is an error message.
      * @param {string=} dismissLabel Accessible label for dismiss button.
      * @param {number=} timeoutMs Auto-dismiss timeout in milliseconds.
+     * @param {HTMLElement=} container Preferred status container.
      */
-    function show(message, isError, dismissLabel, timeoutMs) {
+    function show(message, isError, dismissLabel, timeoutMs, container) {
         var text = normaliseMessage(message, !!isError);
 
-        var container = getContainer();
+        container = container || getContainer();
         if (!container) {
             return;
         }
@@ -221,13 +228,9 @@ define([], function() {
         announce(text, !!isError, container);
 
         var notice = document.createElement('div');
-        notice.id = 'videotrack-status-message';
         notice.className = 'videotrack-status-message alert ' +
             (isError ? 'alert-danger' : 'alert-info') + ' alert-dismissible mt-2';
         notice.setAttribute('role', isError ? 'alert' : 'status');
-        notice.setAttribute('aria-live', isError ? 'assertive' : 'polite');
-        notice.setAttribute('aria-atomic', 'true');
-        notice.setAttribute('aria-relevant', 'additions text');
 
         var span = document.createElement('span');
         span.textContent = text;
@@ -244,11 +247,6 @@ define([], function() {
         closeIcon.setAttribute('aria-hidden', 'true');
         closeIcon.textContent = '\u00d7';
         button.appendChild(closeIcon);
-
-        var closeText = document.createElement('span');
-        closeText.className = 'sr-only visually-hidden';
-        closeText.textContent = normaliseDismissLabel(dismissLabel);
-        button.appendChild(closeText);
 
         button.addEventListener('click', function() {
             if (state.timerId) {

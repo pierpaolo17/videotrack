@@ -27,10 +27,16 @@ define([], function() {
         // Last-resort fallback for legacy browsers without Web Crypto.
         // This identifier is not used as an authentication token; keep it unique
         // enough for client-side request grouping without relying on non-cryptographic randomness.
+        // Keep at least 16 base36 characters after the `sess` prefix so it always
+        // satisfies the server-side session id validator.
         uuid.counter = (uuid.counter || 0) + 1;
         var perf = window.performance && typeof window.performance.now === 'function' ?
             Math.floor(window.performance.now() * 1000).toString(36) : '0';
-        return 'sess' + Date.now().toString(36) + perf + uuid.counter.toString(36);
+        var entropy = Date.now().toString(36) + perf + uuid.counter.toString(36);
+        while (entropy.length < 16) {
+            entropy += Date.now().toString(36) + uuid.counter.toString(36);
+        }
+        return ('sess' + entropy).substring(0, 52);
     }
 
     return {

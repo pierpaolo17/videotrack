@@ -178,8 +178,9 @@ define([
         }
         return new Promise(function(resolve) {
             var multiplier = Math.pow(2, Math.max(0, attempt));
-            var jitter = Math.floor(Math.random() * 150);
-            window.setTimeout(resolve, (base * multiplier) + jitter);
+            var delayMs = base * multiplier;
+            var jitter = Math.floor(Math.random() * Math.max(500, delayMs * 0.3));
+            window.setTimeout(resolve, delayMs + jitter);
         });
     }
 
