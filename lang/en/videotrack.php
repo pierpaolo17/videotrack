@@ -468,6 +468,7 @@ $string['setting:heading_privacy'] = 'Privacy and data retention';
 $string['setting:heading_privacy_desc'] = 'Configure how VideoTrack stores tracking, notes and reaction data.';
 $string['setting:retentionperioddays'] = 'Retention period for tracking data (days)';
 $string['setting:retentionperioddays_desc'] = 'Number of days after which VideoTrack anonymises old tracking, notes and reaction data (including free-text reaction labels) for retention cleanup. Set to 0 to retain data indefinitely. User erasure requests handled through the Moodle Privacy API permanently delete the user\'s tracking, state, reaction and note records for the selected context.';
+$string['setting:retentionprivacynotice'] = 'Tracking data, notes and reactions are personal data. Ensure a valid lawful basis, keep the site privacy notice up to date and avoid indefinite retention unless it is justified.';
 $string['setting:strictsessionvalidation'] = 'Require same browser session for note and reaction validation';
 $string['setting:validationfallbackdays'] = 'Historical playback validation window (days)';
 $string['setting:validationfallbackdays_desc'] = 'Maximum age, in days, for previously watched segments that may authorise notes and reactions after a refresh or browser change. Set to 0 to allow historical watched segments indefinitely; this improves usability but makes academic-integrity validation more permissive. The same-session and recent-playback checks are always attempted first.';
