@@ -167,7 +167,9 @@ class provider implements
                             }
                             $readable[] = $fmt($start) . '-' . $fmt($end);
                         }
-                        $state->intervaljson = implode(', ', $readable);
+                        $state->intervaljson = $readable ? implode(', ', $readable) : get_string('privacy:intervals_unavailable', 'mod_videotrack');
+                    } else {
+                        $state->intervaljson = get_string('privacy:intervals_unavailable', 'mod_videotrack');
                     }
                 }
                 if (!empty($state->videoid)) {
@@ -176,9 +178,11 @@ class provider implements
                 unset($state->id, $state->videotrackid, $state->courseid,
                       $state->cmid, $state->userid, $state->sessionid);
             }
-            $writer->export_data([get_string('watch', 'mod_videotrack'), get_string('privacy:state', 'mod_videotrack')], (object)[
-                'state' => $state,
-            ]);
+            if ($state) {
+                $writer->export_data([get_string('watch', 'mod_videotrack'), get_string('privacy:state', 'mod_videotrack')], (object)[
+                    'state' => $state,
+                ]);
+            }
 
             $segmentrs = $DB->get_recordset('videotrack_seg', [
                 'cmid'   => $context->instanceid,

@@ -11,6 +11,9 @@ define([], function() {
     /**
      * Create a compact session identifier.
      *
+     * @security This identifier is not an authentication token. Legacy fallback
+     * browsers without Web Crypto receive a deterministic uniqueness-oriented
+     * identifier used only for client-side request grouping.
      * @returns {string} Session identifier.
      */
     function uuid() {
@@ -32,11 +35,11 @@ define([], function() {
         uuid.counter = (uuid.counter || 0) + 1;
         var perf = window.performance && typeof window.performance.now === 'function' ?
             Math.floor(window.performance.now() * 1000).toString(36) : '0';
-        var entropy = Date.now().toString(36) + perf + uuid.counter.toString(36);
-        while (entropy.length < 16) {
-            entropy += Date.now().toString(36) + uuid.counter.toString(36);
+        var identifier = Date.now().toString(36) + perf + uuid.counter.toString(36);
+        while (identifier.length < 16) {
+            identifier += Date.now().toString(36) + uuid.counter.toString(36);
         }
-        return ('sess' + entropy).substring(0, 52);
+        return ('sess' + identifier).substring(0, 52);
     }
 
     return {

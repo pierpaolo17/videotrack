@@ -106,10 +106,10 @@ class tracker {
     }
 
     /**
-     * Se il numero di intervalli supera MAX_INTERVALS, semplifica conservando
-     * gli intervalli piu' lunghi e scartando frammenti minori. Questo evita di
-     * inventare copertura guardata fondendo gap non visti, al costo di una
-     * perdita controllata di precisione nei casi estremi.
+     * If the number of intervals exceeds MAX_INTERVALS, keep the longest
+     * intervals and discard smaller fragments. This avoids inventing watched
+     * coverage by merging unseen gaps, at the cost of controlled precision loss
+     * in extreme cases.
      */
     public static function cap_intervals(array $intervals): array {
         if (count($intervals) <= self::MAX_INTERVALS) {
@@ -119,24 +119,19 @@ class tracker {
     }
 
     /**
-     * Riduce l'array di intervalli al target count senza mai fondere gap non visti.
+     * Reduce the interval array to the target count without merging unseen gaps.
      *
-     * Il problema del metodo precedente: univa le coppie con il gap minore,
-     * il che significa che il gap (parte NON vista) veniva inglobato nell'intervallo
-     * risultante, gonfiando artificialmente uniquecoveredseconds.
+     * The previous approach merged pairs with the smallest gap, which made the
+     * unseen gap part of the resulting interval and artificially increased
+     * uniquecoveredseconds.
      *
-     * Soluzione corretta: invece di unire gli intervalli (che aggiunge copertura falsa),
-     * TRONCHIAMO l'array mantenendo i primi $target intervalli ordinati per lunghezza
-     * decrescente. I frammenti brevi e marginali vengono scartati, ma la copertura
-     * totale non viene mai sovrastimata.
+     * The safe approach is to truncate the array after sorting by interval length.
+     * Short marginal fragments are discarded, but total watched coverage is never
+     * overestimated. Precision is lost only in rare cases with more than 500
+     * distinct intervals.
      *
-     * Nota: questa operazione comporta una perdita di precisione (piccoli frammenti
-     * vengono ignorati), ma è semanticamente corretta: non inventa copertura.
-     * La perdita è limitata: cap_intervals viene chiamata solo quando ci sono >500
-     * intervalli distinti (scenario raro e solo con seek molto frequenti).
-     *
-     * @param array $intervals  Array di [start, end] già merged.
-     * @param int   $target     Numero massimo di intervalli da mantenere.
+     * @param array $intervals Array of already-merged [start, end] intervals.
+     * @param int $target Maximum number of intervals to keep.
      * @return array
      */
     public static function simplify_intervals(array $intervals, int $target): array {
@@ -144,12 +139,12 @@ class tracker {
         if ($n <= $target) {
             return $intervals;
         }
-        // Ordina per lunghezza decrescente e tieni i $target più lunghi.
+        // Sort by descending length and keep the longest $target intervals.
         usort($intervals, function($a, $b) {
             return ($b[1] - $b[0]) <=> ($a[1] - $a[0]);
         });
         $kept = array_slice($intervals, 0, $target);
-        // Ri-ordina per posizione temporale per coerenza.
+        // Re-sort by timeline position for deterministic output.
         usort($kept, function($a, $b) { return $a[0] <=> $b[0]; });
         return $kept;
     }
@@ -215,9 +210,9 @@ class tracker {
     public static function has_recent_playback(int $videotrackid, int $userid, string $sessionid,
             float $videotime, int $recentseconds = 20, float $timetolerance = 8.0): bool {
         global $DB;
-        // I parametri vtstart/vtend sono lo stesso valore ($videotime), e tolstart/tolend lo stesso.
-        // Usare placeholder distinti evita problemi con driver adodb che non ammettono
-        // lo stesso named param più di una volta nella stessa query.
+        // vtstart/vtend intentionally carry the same value, and tolstart/tolend do the same.
+        // Distinct placeholders avoid driver issues with reusing the same named
+        // parameter more than once in a query.
         $vt  = max(0.0, $videotime);
         $tol = max(1.0, $timetolerance);
         $since = time() - max(5, $recentseconds);
@@ -555,9 +550,9 @@ class tracker {
             ?array $reactionsummary = null, ?array $requiredreactionids = null): \stdClass {
         global $DB;
 
-        // Usa lo stesso lock di update_state(): refresh_completion può essere chiamato
-        // da endpoint diversi da save_segment e deve quindi evitare insert concorrenti
-        // sul record unico videotrack_state.
+        // Use the same lock as update_state(): refresh_completion can be called
+        // by endpoints other than save_segment and must avoid concurrent inserts
+        // on the unique videotrack_state record.
         $lockfactory = \core\lock\lock_config::get_lock_factory('mod_videotrack');
         $lockkey = 'state:' . $videotrack->id . ':' . $userid;
         $lock = $lockfactory->get_lock($lockkey, 10);

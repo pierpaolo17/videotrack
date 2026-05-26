@@ -8,7 +8,7 @@
  * @module mod_videotrack/core/status
  */
 define([], function() {
-    var states = typeof WeakMap === 'function' ? new WeakMap() : [];
+    var states = new WeakMap();
 
     /**
      * Return timer state for a container without sharing timers across multiple
@@ -18,22 +18,10 @@ define([], function() {
      * @returns {Object} Mutable timer state.
      */
     function getState(container) {
-        if (states instanceof WeakMap) {
-            if (!states.has(container)) {
-                states.set(container, {timerId: null, announceTimerId: null});
-            }
-            return states.get(container);
+        if (!states.has(container)) {
+            states.set(container, {timerId: null, announceTimerId: null});
         }
-
-        var i;
-        for (i = 0; i < states.length; i++) {
-            if (states[i].container === container) {
-                return states[i];
-            }
-        }
-        var state = {container: container, timerId: null, announceTimerId: null};
-        states.push(state);
-        return state;
+        return states.get(container);
     }
     var labels = {
         defaultMessage: 'Status update.',
@@ -72,6 +60,7 @@ define([], function() {
      * Create or reuse a hidden live region for screen-reader announcements.
      *
      * @param {boolean} isError Whether assertive announcement is required.
+     * @param {HTMLElement} container Preferred status container.
      * @returns {HTMLElement|null} Live region element.
      */
     function getLiveRegion(isError, container) {
@@ -86,9 +75,10 @@ define([], function() {
         region = document.createElement('div');
         region.className = 'sr-only visually-hidden videotrack-status-live-region ' +
             (isError ? 'videotrack-status-live-assertive' : 'videotrack-status-live-polite');
+        // The selected ARIA role already implies the expected politeness and atomicity.
+        // Avoid duplicate aria-live/aria-atomic declarations, which can cause repeated
+        // announcements in some screen reader/browser combinations.
         region.setAttribute('role', isError ? 'alert' : 'status');
-        region.setAttribute('aria-live', isError ? 'assertive' : 'polite');
-        region.setAttribute('aria-atomic', 'true');
         container.insertBefore(region, container.firstChild || null);
         return region;
     }
@@ -106,6 +96,10 @@ define([], function() {
 
     /**
      * Find the safest container for a status message.
+     *
+     * This fallback returns the first VideoTrack shell on the page. Callers that
+     * need reliable targeting in multi-player pages must pass the container
+     * explicitly to show(), announce() or clear().
      *
      * @returns {HTMLElement|null} Container element.
      */
@@ -149,6 +143,7 @@ define([], function() {
      *
      * @param {string} message Message text.
      * @param {boolean=} isError Whether assertive announcement is required.
+     * @param {HTMLElement=} container Preferred status container.
      */
     function announce(message, isError, container) {
         container = container || getContainer();
@@ -178,6 +173,8 @@ define([], function() {
 
     /**
      * Clear visible and hidden status messages.
+     *
+     * @param {HTMLElement=} container Preferred status container.
      */
     function clear(container) {
         var targets = container ? [container] : Array.prototype.slice.call(
@@ -212,7 +209,8 @@ define([], function() {
      * @param {boolean} isError Whether this is an error message.
      * @param {string=} dismissLabel Accessible label for dismiss button.
      * @param {number=} timeoutMs Auto-dismiss timeout in milliseconds.
-     * @param {HTMLElement=} container Preferred status container.
+     * @param {HTMLElement=} container Preferred status container. Required for
+     * reliable targeting when more than one VideoTrack player is rendered.
      */
     function show(message, isError, dismissLabel, timeoutMs, container) {
         var text = normaliseMessage(message, !!isError);

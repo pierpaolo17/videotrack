@@ -69,3 +69,7 @@ Bug-report validation after the 1.3.90 audit: the reported syntax-corruption ite
 ## 1.3.92
 
 Bug-report follow-up after the 1.3.91 audit: legacy session fallback now always satisfies server validation, status messages use scoped containers without duplicate DOM ids or redundant live-region attributes, retry jitter is wider for classroom reconnection scenarios, completion refresh can reuse precomputed reaction summaries, stable static gates no longer hard-code 1.3.8x/9x micro releases, and preset table captions are translated in non-English language packs.
+
+## 1.3.93
+
+Bug-report follow-up after the 1.3.92 audit: restored the missing 1.3.91 regression gate, added the 1.3.92 regression gate, reduced duplicate ARIA live-region metadata, documented status container targeting, clarified legacy session identifiers, and hardened privacy interval exports. AMD build files are committed with the source changes.

@@ -496,3 +496,4 @@ $string['presets:reactioniconvaluearia'] = 'Reação {$a}: valor do ícone';
 $string['presets:reactionrequiredaria'] = 'Reação {$a}: obrigatória para conclusão';
 $string['err:reactionpresetjson'] = 'Os dados da predefinição de reações são inválidos. Recarregue a página e tente novamente.';
 $string['presets:reactionstablecaption'] = 'Linhas da predefinição de reações';
+$string['privacy:intervals_unavailable'] = 'Intervalos de visualização indisponíveis ou inválidos.';
