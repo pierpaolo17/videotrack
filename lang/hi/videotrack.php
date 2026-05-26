@@ -1,4 +1,11 @@
 <?php
+/**
+ * VideoTrack activity module.
+ *
+ * @package   mod_videotrack
+ * @copyright 2026 SICS, Universita degli Studi della Tuscia
+ * @license   http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
+ */
 
 $string['pluginname'] = 'वीडियो ट्रैक';
 $string['modulename'] = 'वीडियो ट्रैक';
@@ -510,3 +517,5 @@ $string['privacy:intervals_none'] = 'कोई देखने का अंत�
 $string['privacy:intervals_unavailable'] = 'देखने के अंतराल उपलब्ध नहीं हैं या अमान्य हैं।';
 
 $string['warning:suspicioussegment'] = 'देखने का खंड दर्ज नहीं किया गया क्योंकि यह अपेक्षित प्लेबैक विंडो से अधिक था। सामान्य रूप से देखना जारी रखें और फिर पुनः प्रयास करें।';
+$string['notesrenderlimitlabel'] = 'केवल सबसे हाल की टिप्पणियां दिखाई जाती हैं। पुरानी टिप्पणियां रिपोर्ट में सहेजी और उपलब्ध रहती हैं।';
+$string['notetruncatedlabel'] = 'टिप्पणी को अनुमत अधिकतम लंबाई तक छोटा कर दिया गया है.';

@@ -209,6 +209,17 @@ define([
                         notice.setAttribute('role', 'status');
                         notice.setAttribute('aria-live', 'polite');
                         notice.textContent = config.autoblockedlabel;
+                        var playButton = document.createElement('button');
+                        playButton.type = 'button';
+                        playButton.className = 'btn btn-primary btn-sm ms-2 videotrack-autoplay-play';
+                        playButton.textContent = config.html5playlabel || config.autoblockedlabel;
+                        playButton.addEventListener('click', function() {
+                            media.play().catch(function() {});
+                            if (notice.parentNode) {
+                                notice.parentNode.removeChild(notice);
+                            }
+                        });
+                        notice.appendChild(playButton);
                         wrap.appendChild(notice);
                     }
                 });
@@ -1000,12 +1011,8 @@ define([
                 if (isActive) {
                     var panelRect = panel.getBoundingClientRect();
                     var elRect    = el.getBoundingClientRect();
-                    if (elRect.top < panelRect.top || elRect.bottom > panelRect.bottom) {
-                        var scrollOptions = { block: 'nearest' };
-                        if (!prefersReducedMotion()) {
-                            scrollOptions.behavior = 'smooth';
-                        }
-                        el.scrollIntoView(scrollOptions);
+                    if (!prefersReducedMotion() && (elRect.top < panelRect.top || elRect.bottom > panelRect.bottom)) {
+                        el.scrollIntoView({block: 'nearest', behavior: 'smooth'});
                     }
                 }
             });

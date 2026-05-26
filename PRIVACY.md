@@ -62,3 +62,17 @@ plugin-owned files as described above.
 ## Unlimited retention notice
 
 If the retention period is configured as 0 days, VideoTrack keeps tracking data until it is removed by Moodle privacy tools or by an administrator. Sites should document this policy for students and teachers before enabling long-term tracking.
+
+
+## Soft-delete, CSV export and integrity notes
+
+VideoTrack uses soft-delete fields for configurable reaction presets so that
+historical student reaction records remain auditable without exposing inactive
+choices in new activities. User erasure through the Moodle Privacy API deletes
+user-specific tracking, state, reaction and note records for the selected
+context.
+
+CSV exports escape values that could be interpreted as spreadsheet formulas.
+Administrators and teachers should still store exported notes and tracking data
+only for the period justified by their local privacy notice and assessment
+policy.
