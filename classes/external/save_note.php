@@ -54,20 +54,20 @@ class save_note extends external_api {
         $cm = $loaded['cm'];
         $context = $loaded['context'];
 
-        // Verifica che le note siano abilitate per questa istanza.
+        // Check that notes are enabled for this instance.
         if (empty($videotrack->studentnotesenabled)) {
             throw new \moodle_exception('studentnotesdisabled', 'mod_videotrack');
         }
 
-        // Sanitize: tronca al limite configurato per evitare abusi.
+        // Sanitize and truncate to the configured limit to prevent abuse.
         $notemaxlength = \videotrack_get_config_int('notemaxlength', 2000, 100, 10000);
         $text = \core_text::substr(trim($params['notetext']), 0, $notemaxlength);
         if ($text === '') {
             throw new \moodle_exception('invaliddata', 'error');
         }
 
-        // Sanitize videotime: clamp a [0, durationseconds].
-        // Impedisce note a timestamp negativi o oltre la fine del video.
+        // Sanitize videotime: clamp to [0, durationseconds].
+        // Prevent notes at negative timestamps or beyond the end of the video.
         $rawtime  = (float)$params['videotime'];
         $duration = (float)($videotrack->durationseconds ?? 0);
         $videotime = max(0.0, $duration > 0 ? min($rawtime, $duration) : $rawtime);

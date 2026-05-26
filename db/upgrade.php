@@ -938,5 +938,10 @@ function xmldb_videotrack_upgrade($oldversion) {
         upgrade_mod_savepoint(true, 20260525094, 'videotrack');
     }
 
+    if ($oldversion < 20260525095) {
+        // Code-only release: privacy metadata, accessibility and AMD hardening updates.
+        upgrade_mod_savepoint(true, 20260525095, 'videotrack');
+    }
+
     return true;
 }
