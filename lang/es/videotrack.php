@@ -112,6 +112,15 @@ $string['err:reactioniconfilerequired'] = 'Cargue un archivo de icono cuando el 
 
 $string['privacy:metadata:common:timecreated'] = 'Hora en que se creó el registro.';
 $string['privacy:metadata:common:timemodified'] = 'Hora en que se modificó por última vez el registro.';
+
+$string['privacy:metadata:common:videotrackid'] = 'Internal identifier of the VideoTrack activity associated with the record.';
+$string['privacy:metadata:common:courseid'] = 'Course identifier associated with the activity.';
+$string['privacy:metadata:common:cmid'] = 'Course module identifier associated with the activity.';
+$string['privacy:metadata:common:videoid'] = 'Video or content identifier configured for the activity.';
+$string['privacy:metadata:videotrack_reactev:reactionid'] = 'Internal identifier of the reaction definition used when the event was recorded.';
+$string['privacy:metadata:external:ipaddress'] = 'The external provider may receive the viewer IP address as part of normal browser requests.';
+$string['privacy:metadata:external:cookies'] = 'The external provider may set or read cookies according to its own privacy policy and browser settings.';
+$string['privacy:metadata:external:useragent'] = 'The external provider may receive browser and device information such as the user-agent header.';
 $string['privacy:metadata:videotrack_seg'] = 'Almacena los segmentos de visualización registrados para un usuario en una actividad de vídeo.';
 $string['privacy:metadata:videotrack_seg:userid'] = 'El usuario cuyo segmento de visualización fue registrado.';
 $string['privacy:metadata:videotrack_seg:sessionid'] = 'Identificador de sesión del navegador asociado al segmento de visualización.';

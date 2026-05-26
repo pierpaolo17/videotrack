@@ -28,7 +28,8 @@ if ($ADMIN->fulltree) {
     $settings->add(new \mod_videotrack\admin\setting_nonnegative_int(
         'mod_videotrack/retentionperioddays',
         get_string('setting:retentionperioddays', 'mod_videotrack'),
-        get_string('setting:retentionperioddays_desc', 'mod_videotrack'),
+        get_string('setting:retentionperioddays_desc', 'mod_videotrack') . ' ' .
+            html_writer::span(get_string('report:exportnotes_privacywarning', 'mod_videotrack'), 'text-warning'),
         0,
         PARAM_INT
     ));

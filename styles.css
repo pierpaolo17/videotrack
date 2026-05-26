@@ -1,6 +1,6 @@
-/* mod_videotrack — plugin stylesheet
- * Moodle include questo file automaticamente per ogni pagina del plugin.
- * Non usare !important né selettori globali non prefissati. */
+/* mod_videotrack plugin stylesheet.
+ * Moodle includes this file automatically on plugin pages.
+ * Avoid !important and unprefixed global selectors. */
 
 :root {
     --videotrack-interval-bg: #e9ecef;
@@ -859,4 +859,13 @@
 
 .videotrack-course-avglabel {
     white-space: nowrap;
+}
+
+/* WCAG 2.2 target size reinforcement for plugin controls. */
+.videotrack-player-shell button,
+.videotrack-player-shell .btn,
+.videotrack-sidebar button,
+.videotrack-sidebar .btn {
+    min-width: 44px;
+    min-height: 44px;
 }

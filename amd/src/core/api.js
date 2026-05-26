@@ -59,8 +59,9 @@ define([
             window.crypto.getRandomValues(values);
             return values[0] % limit;
         }
-        return Math.abs(Date.now()) % limit;
+        return (Math.abs(Date.now()) + Math.floor(Math.random() * limit) + getRetryJitter.counter++) % limit;
     }
+    getRetryJitter.counter = 0;
 
     /**
      * Validate a Moodle AJAX method name before dispatching the request.

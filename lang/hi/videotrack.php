@@ -112,6 +112,15 @@ $string['err:reactioniconfilerequired'] = 'जब आइकन प्रका�
 
 $string['privacy:metadata:common:timecreated'] = 'रिकॉर्ड बनाए जाने का समय।';
 $string['privacy:metadata:common:timemodified'] = 'रिकॉर्ड में अंतिम परिवर्तन का समय।';
+
+$string['privacy:metadata:common:videotrackid'] = 'Internal identifier of the VideoTrack activity associated with the record.';
+$string['privacy:metadata:common:courseid'] = 'Course identifier associated with the activity.';
+$string['privacy:metadata:common:cmid'] = 'Course module identifier associated with the activity.';
+$string['privacy:metadata:common:videoid'] = 'Video or content identifier configured for the activity.';
+$string['privacy:metadata:videotrack_reactev:reactionid'] = 'Internal identifier of the reaction definition used when the event was recorded.';
+$string['privacy:metadata:external:ipaddress'] = 'The external provider may receive the viewer IP address as part of normal browser requests.';
+$string['privacy:metadata:external:cookies'] = 'The external provider may set or read cookies according to its own privacy policy and browser settings.';
+$string['privacy:metadata:external:useragent'] = 'The external provider may receive browser and device information such as the user-agent header.';
 $string['privacy:metadata:videotrack_seg'] = 'वीडियो गतिविधि में किसी उपयोगकर्ता के लिए रिकॉर्ड किए गए देखने के खंड संग्रहीत करता है।';
 $string['privacy:metadata:videotrack_seg:userid'] = 'वह उपयोगकर्ता जिसका देखने का खंड रिकॉर्ड किया गया।';
 $string['privacy:metadata:videotrack_seg:sessionid'] = 'देखने के खंड से जुड़ा ब्राउज़र सत्र पहचानकर्ता।';

@@ -40,7 +40,11 @@ class provider implements
 
     public static function get_metadata(collection $collection): collection {
         $collection->add_database_table('videotrack_seg', [
+            'videotrackid' => 'privacy:metadata:common:videotrackid',
+            'courseid' => 'privacy:metadata:common:courseid',
+            'cmid' => 'privacy:metadata:common:cmid',
             'userid' => 'privacy:metadata:videotrack_seg:userid',
+            'videoid' => 'privacy:metadata:common:videoid',
             'sessionid' => 'privacy:metadata:videotrack_seg:sessionid',
             'wallclockstart' => 'privacy:metadata:videotrack_seg:wallclockstart',
             'wallclockend' => 'privacy:metadata:videotrack_seg:wallclockend',
@@ -52,7 +56,11 @@ class provider implements
         ], 'privacy:metadata:videotrack_seg');
 
         $collection->add_database_table('videotrack_state', [
+            'videotrackid' => 'privacy:metadata:common:videotrackid',
+            'courseid' => 'privacy:metadata:common:courseid',
+            'cmid' => 'privacy:metadata:common:cmid',
             'userid' => 'privacy:metadata:videotrack_state:userid',
+            'videoid' => 'privacy:metadata:common:videoid',
             'lastposition' => 'privacy:metadata:videotrack_state:lastposition',
             'durationseconds' => 'privacy:metadata:videotrack_state:durationseconds',
             'uniquecoveredseconds' => 'privacy:metadata:videotrack_state:uniquecoveredseconds',
@@ -64,7 +72,12 @@ class provider implements
         ], 'privacy:metadata:videotrack_state');
 
         $collection->add_database_table('videotrack_reactev', [
+            'videotrackid'   => 'privacy:metadata:common:videotrackid',
+            'courseid'       => 'privacy:metadata:common:courseid',
+            'cmid'           => 'privacy:metadata:common:cmid',
             'userid'        => 'privacy:metadata:videotrack_reactev:userid',
+            'videoid'        => 'privacy:metadata:common:videoid',
+            'reactionid'     => 'privacy:metadata:videotrack_reactev:reactionid',
             'sessionid'     => 'privacy:metadata:videotrack_reactev:sessionid',
             'reactionkey'   => 'privacy:metadata:videotrack_reactev:reactionkey',
             'reactionlabel' => 'privacy:metadata:videotrack_reactev:reactionlabel',
@@ -81,11 +94,17 @@ class provider implements
         $collection->add_external_location_link('youtube', [
             'videoid' => 'privacy:metadata:youtube:videoid',
             'url' => 'privacy:metadata:youtube:url',
+            'ipaddress' => 'privacy:metadata:external:ipaddress',
+            'cookies' => 'privacy:metadata:external:cookies',
+            'useragent' => 'privacy:metadata:external:useragent',
         ], 'privacy:metadata:youtube');
 
         $collection->add_external_location_link('vimeo', [
             'videoid' => 'privacy:metadata:vimeo:videoid',
             'url' => 'privacy:metadata:vimeo:url',
+            'ipaddress' => 'privacy:metadata:external:ipaddress',
+            'cookies' => 'privacy:metadata:external:cookies',
+            'useragent' => 'privacy:metadata:external:useragent',
         ], 'privacy:metadata:vimeo');
 
         return $collection;
@@ -180,6 +199,8 @@ class provider implements
                     } else {
                         $state->intervaljson = get_string('privacy:intervals_unavailable', 'mod_videotrack');
                     }
+                } else {
+                    $state->intervaljson = get_string('privacy:intervals_none', 'mod_videotrack');
                 }
                 if (!empty($state->videoid)) {
                     $state->videoid = get_string('privacy:videoid_export_note', 'mod_videotrack', $state->videoid);
