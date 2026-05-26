@@ -3,6 +3,12 @@ namespace mod_videotrack\task;
 
 defined('MOODLE_INTERNAL') || die();
 
+/**
+ * @package    mod_videotrack
+ * @copyright  2026 videotrack contributors
+ * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
+ */
+
 use mod_videotrack\local\privacy_manager;
 
 /**

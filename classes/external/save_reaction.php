@@ -11,6 +11,13 @@ use mod_videotrack\event\reaction_saved;
 
 defined('MOODLE_INTERNAL') || die();
 
+/**
+ * External function that stores a standard reaction for the current user.
+ *
+ * @package    mod_videotrack
+ * @copyright  2026 videotrack contributors
+ * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
+ */
 global $CFG;
 require_once($CFG->dirroot . '/mod/videotrack/lib.php');
 
@@ -42,7 +49,7 @@ class save_reaction extends external_api {
         if (empty($videotrack->reactionsenabled)) {
             throw new \moodle_exception('reactionsdisabled', 'mod_videotrack');
         }
-        // Legge la reazione DOPO l'autenticazione e accetta solo reazioni attive.
+        // Read the reaction after authentication and accept active reactions only.
         $reaction = $DB->get_record('videotrack_react', [
             'id' => $params['reactionid'],
             'videotrackid' => $videotrack->id,
@@ -78,9 +85,9 @@ class save_reaction extends external_api {
             throw new \moodle_exception('error:reactionratelimit', 'mod_videotrack');
         }
 
-        // Throttle anti-spam: rifiuta se esiste già una reazione identica (stesso utente,
-        // stessa reazione) negli ultimi 3 secondi di orologio. Impedisce l'accumulo illimitato
-        // di eventi dovuto ad automazioni o doppi click rapidi.
+        // Rate-limit / anti-spam: reject if an identical reaction already exists for this user
+        // and reaction in the previous 3 seconds. This prevents unlimited event
+        // accumulation caused by automation or rapid double clicks.
         $recentcount = $DB->count_records_select(
             'videotrack_reactev',
             'videotrackid = :vtid AND userid = :uid AND reactionid = :rid AND timecreated >= :since',
@@ -92,9 +99,8 @@ class save_reaction extends external_api {
             ]
         );
         if ($recentcount > 0) {
-            // Reazione duplicata: restituisce lo stato corrente senza salvare.
-            // Non serve chiamare reaction_counts: il client non ha salvato nulla,
-            // quindi il conteggio non è cambiato.
+            // Duplicate reaction: return the current state without saving.
+            // No new reaction was persisted, so the reaction count has not changed.
             $state = $DB->get_record('videotrack_state', ['videotrackid' => $videotrack->id, 'userid' => $USER->id]);
             $summary = tracker::reaction_counts($videotrack->id, (int)$USER->id);
             return [

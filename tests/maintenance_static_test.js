@@ -40,7 +40,6 @@ assert(
     'tests/privacy_static_test.js',
     'tests/maintenance_static_test.js',
     'tests/postrelease_static_test.js',
-    'tests/postrelease_static_test.js'
 ].forEach((relativePath) => {
     assert(exists(relativePath), `${relativePath} must exist in the maintenance package`);
 });

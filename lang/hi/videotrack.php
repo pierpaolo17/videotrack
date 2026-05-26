@@ -496,4 +496,5 @@ $string['presets:reactioniconvaluearia'] = 'प्रतिक्रिया {$
 $string['presets:reactionrequiredaria'] = 'प्रतिक्रिया {$a}: पूर्णता के लिए आवश्यक';
 $string['err:reactionpresetjson'] = 'प्रतिक्रिया प्रीसेट डेटा अमान्य है। पृष्ठ पुनः लोड करें और फिर प्रयास करें।';
 $string['presets:reactionstablecaption'] = 'प्रतिक्रिया प्रीसेट पंक्तियाँ';
+$string['privacy:intervals_none'] = 'कोई देखने का अंतराल दर्ज नहीं किया गया।';
 $string['privacy:intervals_unavailable'] = 'देखने के अंतराल उपलब्ध नहीं हैं या अमान्य हैं।';

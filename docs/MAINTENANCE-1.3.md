@@ -26,6 +26,8 @@ node tests/final_static_test.js
 node tests/maintenance_static_test.js
 node tests/postrelease_static_test.js
 node tests/bug_report_1391_static_test.js
+node tests/bug_report_1392_static_test.js
+node tests/bug_report_1393_static_test.js
 ```
 
 Also run syntax checks for committed JavaScript and PHP files.
@@ -65,3 +67,7 @@ Bug-report follow-up after the 1.3.91 audit: legacy session fallback now always 
 ## 1.3.93
 
 Bug-report follow-up after the 1.3.92 audit: restored the missing 1.3.91 regression gate, added the 1.3.92 regression gate, reduced duplicate ARIA live-region metadata, documented status container targeting, clarified legacy session identifiers, and hardened privacy interval exports. AMD build files are committed with the source changes.
+
+## 1.3.94
+
+Bug-report follow-up after the 1.3.93 audit: restored packaged bug-report regression tests, removed duplicate maintenance test gates, optimised delete-reaction completion refresh inputs, clarified privacy export interval semantics, replaced retry Math.random jitter with a Web-Crypto-first helper, and completed AMD build synchronisation. The long Moodle version integer remains monotonic; future major branches should adopt a conventional YYYYMMDDNN scheme without decrementing this stable line.

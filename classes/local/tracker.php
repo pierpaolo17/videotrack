@@ -3,10 +3,20 @@ namespace mod_videotrack\local;
 
 defined('MOODLE_INTERNAL') || die();
 
+/**
+ * Tracking and completion helper methods for VideoTrack.
+ *
+ * @package    mod_videotrack
+ * @copyright  2026 videotrack contributors
+ * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
+ */
 class tracker {
-    /** Numero massimo di intervalli merged conservati in intervaljson.
-     *  Impedisce la crescita illimitata del campo per utenti che guardano
-     *  molti frammenti brevi e non sovrapposti. */
+    /**
+     * Maximum number of merged intervals retained in intervaljson.
+     *
+     * Prevents unbounded field growth for users who watch many short,
+     * non-overlapping fragments.
+     */
     const MAX_INTERVALS = 500;
 
     /**
@@ -411,27 +421,28 @@ class tracker {
     }
 
     /**
-     * Aggiorna lo stato aggregato di visione per un utente.
-     * Inserisce il segmento grezzo e aggiorna videotrack_state in un'unica
-     * transazione atomica: se qualcosa fallisce, nessun segmento orfano resta nel DB.
+     * Update the aggregated viewing state for one user.
      *
-     * @param stdClass  $videotrack   Istanza attività.
+     * Inserts the raw segment and updates videotrack_state in a single atomic
+     * transaction: if anything fails, no orphan segment remains in the database.
+     *
+     * @param stdClass  $videotrack   Activity instance.
      * @param cm_info   $cm           Course module.
-     * @param int       $userid       ID utente.
-     * @param array     $interval     [start, end] normalizzato.
-     * @param float     $lastposition Posizione per il resume.
-     * @param stdClass|null $segment  Record segmento da inserire (null = nessun segmento).
-     * @param int|null  &$segmentid   Viene impostato all'ID del segmento inserito.
-     * @return stdClass               Stato aggiornato.
+     * @param int       $userid       User id.
+     * @param array     $interval     Normalised [start, end] interval.
+     * @param float     $lastposition Resume position.
+     * @param stdClass|null $segment  Segment record to insert, or null when none is needed.
+     * @param int|null  &$segmentid   Set to the inserted segment id.
+     * @return stdClass               Updated state.
      */
     public static function update_state(\stdClass $videotrack, \cm_info $cm, int $userid,
             array $interval, float $lastposition, ?\stdClass $segment = null, ?int &$segmentid = null): \stdClass {
         global $DB;
 
-        // Serializza gli aggiornamenti dello stesso stato utente/attività. La
-        // transazione protegge l'atomicità, ma il lock evita insert concorrenti
-        // sul record unico videotrack_state quando arrivano heartbeat e pagehide
-        // quasi simultanei.
+        // Serialise concurrent updates to the same user/activity state record.
+        // The transaction protects atomicity; the lock prevents concurrent inserts
+        // on the unique videotrack_state record when heartbeat and pagehide arrive
+        // almost simultaneously.
         $lockfactory = \core\lock\lock_config::get_lock_factory('mod_videotrack');
         $lockkey = 'state:' . $videotrack->id . ':' . $userid;
         $lock = $lockfactory->get_lock($lockkey, 10);
@@ -446,11 +457,11 @@ class tracker {
             return self::current_state_snapshot($videotrack, $cm, $userid);
         }
 
-        // Transazione per serializzare scritture concorrenti (es. heartbeat + pagehide simultanei).
+        // Use a transaction to serialise concurrent writes, for example heartbeat plus pagehide.
         $transaction = $DB->start_delegated_transaction();
         $state = null;
         try {
-            // Inserisce il segmento grezzo DENTRO la transazione: atomico con update_state.
+            // Insert the raw segment inside the transaction so it remains atomic with update_state.
             if ($segment !== null) {
                 $segmentid = $DB->insert_record('videotrack_seg', $segment);
             }
@@ -473,9 +484,10 @@ class tracker {
             ], '', 'id,id')));
             $reactionsummary = self::reaction_counts($videotrack->id, $userid);
 
-            // lastposition: posizione di fine del segmento corrente (per il resume automatico).
-            // Usa il valore corrente se il nuovo è maggiore di 2s (evita resume da posizioni irrisorie).
-            // Non usa max() storico: si vuole dove l'utente ha SMESSO di guardare, non il massimo raggiunto.
+            // lastposition is the end of the current segment for automatic resume.
+            // Use the current value only when it is greater than 2 seconds to avoid
+            // resuming from negligible positions. Do not use the historical max():
+            // resume should point to where the user stopped watching, not the furthest point reached.
             if ($lastposition > 2.0) {
                 $state->lastposition = $lastposition;
             }
@@ -496,8 +508,8 @@ class tracker {
             $lock->release();
             $lock = null;
 
-            // Emette activity_completed al primo passaggio 0→1.
-            // Fuori dalla transazione: l'evento non è un dato critico.
+            // Emit activity_completed on the first 0-to-1 transition.
+            // This is outside the transaction because the event is not critical data.
             if (!$wasCompleted && $state->iscompleted) {
                 $completedEvent = \mod_videotrack\event\activity_completed::create([
                     'objectid' => $state->id,
@@ -515,9 +527,8 @@ class tracker {
                 $lock->release();
             }
             $transaction->rollback($e);
-            // rollback() rilancia già l'eccezione in Moodle, ma rilanciamo
-            // esplicitamente per garantire che il chiamante non riceva $state=null
-            // silenziosamente in versioni future del framework.
+            // rollback() already rethrows in Moodle, but rethrow explicitly to ensure
+            // future framework changes never return a silent null state to callers.
             throw $e;
         }
         return $state;

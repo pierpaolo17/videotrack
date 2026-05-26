@@ -7,7 +7,7 @@ defined('MOODLE_INTERNAL') || die();
  * Fired when a student submits a reaction while watching the video.
  *
  * @package    mod_videotrack
- * @copyright  2026
+ * @copyright  2026 videotrack contributors
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 class reaction_saved extends \core\event\base {

@@ -44,6 +44,25 @@ define([
     }
 
     /**
+     * Return bounded jitter for retry backoff without using the legacy pseudo-random helper.
+     *
+     * The value is not security-sensitive, but using Web Crypto when available
+     * keeps the implementation aligned with the plugin's hardening policy.
+     *
+     * @param {number} max Exclusive upper bound.
+     * @returns {number} Integer in the range [0, max).
+     */
+    function getRetryJitter(max) {
+        var limit = Math.max(1, Math.floor(Number(max) || 1));
+        if (typeof window !== 'undefined' && window.crypto && window.crypto.getRandomValues) {
+            var values = new Uint32Array(1);
+            window.crypto.getRandomValues(values);
+            return values[0] % limit;
+        }
+        return Math.abs(Date.now()) % limit;
+    }
+
+    /**
      * Validate a Moodle AJAX method name before dispatching the request.
      *
      * @param {*} methodname Candidate method name.
@@ -179,7 +198,7 @@ define([
         return new Promise(function(resolve) {
             var multiplier = Math.pow(2, Math.max(0, attempt));
             var delayMs = base * multiplier;
-            var jitter = Math.floor(Math.random() * Math.max(500, delayMs * 0.3));
+            var jitter = getRetryJitter(Math.max(500, delayMs * 0.3));
             window.setTimeout(resolve, delayMs + jitter);
         });
     }

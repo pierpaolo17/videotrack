@@ -19,13 +19,24 @@ use mod_videotrack\local\privacy_manager;
  * Privacy provider for video tracking, reactions and personal notes.
  *
  * @package    mod_videotrack
- * @copyright  2026
+ * @copyright  2026 videotrack contributors
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 class provider implements
     \core_privacy\local\metadata\provider,
     \core_privacy\local\request\plugin\provider,
     \core_privacy\local\request\core_userlist_provider {
+
+    /**
+     * Formats a number of seconds for human-readable privacy exports.
+     *
+     * @param float $seconds Seconds from the beginning of the video.
+     * @return string MM:SS formatted value.
+     */
+    private static function format_interval_second(float $seconds): string {
+        $seconds = (int)round(max(0, $seconds));
+        return sprintf('%d:%02d', intdiv($seconds, 60), $seconds % 60);
+    }
 
     public static function get_metadata(collection $collection): collection {
         $collection->add_database_table('videotrack_seg', [
@@ -145,16 +156,12 @@ class provider implements
                 $state->timemodified = transform::datetime($state->timemodified);
                 $state->timecreated  = transform::datetime($state->timecreated);
                 $state->iscompleted  = transform::yesno((bool)$state->iscompleted);
-                // G1 fix: convert intervaljson from raw JSON to a human-readable string
-                // so the exported data is understandable without technical knowledge.
-                // Format: "0:00-1:23, 2:45-3:10" instead of "[[0,83],[165,190]]".
+                // Convert intervaljson from raw JSON to a human-readable string
+                // so exported data remains understandable without technical knowledge.
+                // Example: "0:00-1:23, 2:45-3:10" instead of "[[0,83],[165,190]]".
                 if (!empty($state->intervaljson)) {
                     $intervals = json_decode($state->intervaljson, true);
                     if (is_array($intervals)) {
-                        $fmt = function($s) {
-                            $s = (int)round(max(0, (float)$s));
-                            return sprintf('%d:%02d', intdiv($s, 60), $s % 60);
-                        };
                         $readable = [];
                         foreach ($intervals as $seg) {
                             if (!is_array($seg) || count($seg) < 2 || !is_numeric($seg[0]) || !is_numeric($seg[1])) {
@@ -165,9 +172,11 @@ class provider implements
                             if ($end <= $start) {
                                 continue;
                             }
-                            $readable[] = $fmt($start) . '-' . $fmt($end);
+                            $readable[] = self::format_interval_second($start) . '-' . self::format_interval_second($end);
                         }
-                        $state->intervaljson = $readable ? implode(', ', $readable) : get_string('privacy:intervals_unavailable', 'mod_videotrack');
+                        $state->intervaljson = $readable
+                            ? implode(', ', $readable)
+                            : get_string('privacy:intervals_none', 'mod_videotrack');
                     } else {
                         $state->intervaljson = get_string('privacy:intervals_unavailable', 'mod_videotrack');
                     }

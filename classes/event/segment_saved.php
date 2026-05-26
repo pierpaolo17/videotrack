@@ -4,6 +4,12 @@ namespace mod_videotrack\event;
 defined('MOODLE_INTERNAL') || die();
 
 /**
+ * @package    mod_videotrack
+ * @copyright  2026 videotrack contributors
+ * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
+ */
+
+/**
  * Fired when a student's viewing segment is saved to the database.
  * Logged on every heartbeat, pause, seek, tab-change and page-hide.
  */
