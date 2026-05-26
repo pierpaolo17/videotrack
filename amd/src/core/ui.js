@@ -98,7 +98,7 @@ define([], function() {
             return;
         }
         if (typeof icon === 'string') {
-            var legacy = String(icon).trim();
+            var legacy = String(icon).replace(/[\u0000-\u001f\u007f]/g, '').trim();
             if (legacy === '') {
                 return;
             }

@@ -483,7 +483,7 @@ $string['setting:nonnegativeintrequired'] = '0 या उससे अधिक 
 $string['report:anonymiseduser'] = 'अनाम उपयोगकर्ता';
 $string['report:exportnotes_privacywarning'] = 'इस निर्यात में विद्यार्थियों के नोट से व्यक्तिगत डेटा हो सकता है। इसे केवल वैध उद्देश्य होने पर डाउनलोड और संग्रहीत करें और आवश्यकता समाप्त होने पर हटा दें।';
 
-$string['privacy:videoid_export_note'] = 'Video/content identifier: {$a}';
+$string['privacy:videoid_export_note'] = 'वीडियो/सामग्री पहचानकर्ता: {$a}';
 $string['privacy:anonymisedreaction'] = 'अनामित प्रतिक्रिया';
 
 // 1.3.87 accessibility and privacy confirmation strings.
@@ -508,3 +508,5 @@ $string['err:reactionpresetjson'] = 'प्रतिक्रिया प्र
 $string['presets:reactionstablecaption'] = 'प्रतिक्रिया प्रीसेट पंक्तियाँ';
 $string['privacy:intervals_none'] = 'कोई देखने का अंतराल दर्ज नहीं किया गया।';
 $string['privacy:intervals_unavailable'] = 'देखने के अंतराल उपलब्ध नहीं हैं या अमान्य हैं।';
+
+$string['warning:suspicioussegment'] = 'देखने का खंड दर्ज नहीं किया गया क्योंकि यह अपेक्षित प्लेबैक विंडो से अधिक था। सामान्य रूप से देखना जारी रखें और फिर पुनः प्रयास करें।';

@@ -510,3 +510,5 @@ $string['err:reactionpresetjson'] = 'The reaction preset data is invalid. Reload
 $string['presets:reactionstablecaption'] = 'Reaction preset rows';
 $string['privacy:intervals_none'] = 'No viewing intervals recorded.';
 $string['privacy:intervals_unavailable'] = 'Viewing intervals unavailable or invalid.';
+
+$string['warning:suspicioussegment'] = 'The viewing segment was not recorded because it exceeded the expected playback window. Continue watching normally and try again.';

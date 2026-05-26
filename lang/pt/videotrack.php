@@ -483,7 +483,7 @@ $string['setting:nonnegativeintrequired'] = 'Introduza um número inteiro maior 
 $string['report:anonymiseduser'] = 'Utilizador anonimizado';
 $string['report:exportnotes_privacywarning'] = 'Esta exportação pode conter dados pessoais das notas dos estudantes. Transfira e armazene apenas quando houver uma finalidade válida e elimine quando já não for necessária.';
 
-$string['privacy:videoid_export_note'] = 'Video/content identifier: {$a}';
+$string['privacy:videoid_export_note'] = 'Identificador de vídeo/conteúdo: {$a}';
 $string['privacy:anonymisedreaction'] = 'Reação anonimizada';
 
 // 1.3.87 accessibility and privacy confirmation strings.
@@ -508,3 +508,5 @@ $string['err:reactionpresetjson'] = 'Os dados da predefinição de reações sã
 $string['presets:reactionstablecaption'] = 'Linhas da predefinição de reações';
 $string['privacy:intervals_none'] = 'Nenhum intervalo de visualização registado.';
 $string['privacy:intervals_unavailable'] = 'Intervalos de visualização indisponíveis ou inválidos.';
+
+$string['warning:suspicioussegment'] = 'O segmento de visualização não foi registado porque excedeu a janela de reprodução esperada. Continue a ver normalmente e tente novamente.';

@@ -55,9 +55,7 @@ define([], function() {
         if (!saveBtn) {
             return;
         }
-        // Keep the control focusable for keyboard and screen-reader users; the
-        // click handler enforces aria-disabled and provides contextual feedback.
-        saveBtn.disabled = false;
+        saveBtn.disabled = !playing;
         saveBtn.setAttribute('aria-disabled', playing ? 'false' : 'true');
         saveBtn.classList.toggle('videotrack-note-save-disabled', !playing);
     }

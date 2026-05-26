@@ -61,7 +61,11 @@ define([
             return values[0] % limit;
         }
         retryCounter += 1;
-        return (Math.abs(Date.now()) + Math.floor(Math.random() * limit) + retryCounter) % limit;
+        // Deterministic fallback for legacy/non-browser contexts. Do not use
+        // non-cryptographic random fallback here: security reviews require the
+        // retry jitter path to use deterministic state when Web Crypto is
+        // unavailable. The value is only used to desynchronise retries.
+        return (Math.abs(Date.now()) + retryCounter) % limit;
     }
 
     /**

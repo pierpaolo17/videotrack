@@ -483,7 +483,7 @@ $string['setting:nonnegativeintrequired'] = 'Geben Sie eine ganze Zahl größer 
 $string['report:anonymiseduser'] = 'Anonymisierter Nutzer';
 $string['report:exportnotes_privacywarning'] = 'Dieser Export kann personenbezogene Daten aus Notizen von Lernenden enthalten. Laden und speichern Sie ihn nur bei berechtigtem Zweck und löschen Sie ihn, wenn er nicht mehr benötigt wird.';
 
-$string['privacy:videoid_export_note'] = 'Video/content identifier: {$a}';
+$string['privacy:videoid_export_note'] = 'Video-/Inhaltskennung: {$a}';
 $string['privacy:anonymisedreaction'] = 'Anonymisierte Reaktion';
 
 // 1.3.87 accessibility and privacy confirmation strings.
@@ -508,3 +508,5 @@ $string['err:reactionpresetjson'] = 'Die Reaktionsvorlagen-Daten sind ungültig.
 $string['presets:reactionstablecaption'] = 'Zeilen des Reaktions-Presets';
 $string['privacy:intervals_none'] = 'Keine Wiedergabeintervalle aufgezeichnet.';
 $string['privacy:intervals_unavailable'] = 'Wiedergabeintervalle sind nicht verfügbar oder ungültig.';
+
+$string['warning:suspicioussegment'] = 'Das Wiedergabesegment wurde nicht gespeichert, weil es das erwartete Wiedergabefenster überschritten hat. Sehen Sie das Video normal weiter und versuchen Sie es erneut.';

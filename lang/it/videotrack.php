@@ -486,7 +486,7 @@ $string['report:anonymiseduser'] = 'Utente anonimizzato';
 
 $string['report:exportnotes_privacywarning'] = 'Questa esportazione può contenere dati personali presenti nelle note degli studenti. Scaricala e conservala solo se hai una finalità valida ed eliminala quando non è più necessaria.';
 
-$string['privacy:videoid_export_note'] = 'Video/content identifier: {$a}';
+$string['privacy:videoid_export_note'] = 'Identificativo video/contenuto: {$a}';
 $string['privacy:anonymisedreaction'] = 'Reazione anonimizzata';
 
 // 1.3.87 accessibility and privacy confirmation strings.
@@ -511,3 +511,5 @@ $string['err:reactionpresetjson'] = 'I dati del preset reazioni non sono validi.
 $string['presets:reactionstablecaption'] = 'Righe del preset di reazioni';
 $string['privacy:intervals_none'] = 'Nessun intervallo di visione registrato.';
 $string['privacy:intervals_unavailable'] = 'Intervalli di visione non disponibili o non validi.';
+
+$string['warning:suspicioussegment'] = 'Il segmento di visione non è stato registrato perché supera la finestra di riproduzione prevista. Continua la visione normalmente e riprova.';
