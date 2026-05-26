@@ -948,5 +948,10 @@ function xmldb_videotrack_upgrade($oldversion) {
         upgrade_mod_savepoint(true, 2026072503, 'videotrack');
     }
 
+    if ($oldversion < 2026072504) {
+        // Release 1.3.97: code-only hardening, localisation and backup/restore token fixes.
+        upgrade_mod_savepoint(true, 2026072504, 'videotrack');
+    }
+
     return true;
 }

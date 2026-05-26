@@ -394,7 +394,9 @@ define([
                     media.muted = value;
                 }, state, Log, 'HTML5 mute');
                 muteBtn.textContent = muted ? '🔇' : '🔊';
-                muteBtn.setAttribute('aria-label', muted ? (config.html5unmutelabel) : (config.html5mutelabel));
+                var muteLabel = muted ? (config.html5unmutelabel) : (config.html5mutelabel);
+                muteBtn.setAttribute('aria-label', muteLabel);
+                muteBtn.setAttribute('title', muteLabel);
             });
             bar.appendChild(muteBtn);
         }
@@ -576,6 +578,7 @@ define([
         btn.className = 'btn btn-sm btn-dark ' + cls;
         btn.textContent = icon;
         btn.setAttribute('aria-label', label);
+        btn.setAttribute('title', label);
         return btn;
     }
 

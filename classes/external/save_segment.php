@@ -89,13 +89,20 @@ class save_segment extends external_api {
         // playbackrate is already bounded by helper::validate_bounded_float().
         $playbackrate  = (float)$params['playbackrate'];
         $heartbeat = \videotrack_get_config_int('heartbeatinterval', 30, 5, 300);
-        $lasttimecreated = $DB->get_field_sql(
+        $lastsessiontime = $DB->get_field_sql(
             "SELECT MAX(timecreated)
                FROM {videotrack_seg}
               WHERE videotrackid = :vtid AND userid = :uid AND sessionid = :sid",
             ['vtid' => $videotrack->id, 'uid' => $USER->id, 'sid' => $params['sessionid']]
         );
-        $isfirstsegment = empty($lasttimecreated);
+        $lastactivitytime = $DB->get_field_sql(
+            "SELECT MAX(timecreated)
+               FROM {videotrack_seg}
+              WHERE videotrackid = :vtid AND userid = :uid",
+            ['vtid' => $videotrack->id, 'uid' => $USER->id]
+        );
+        $lasttimecreated = $lastsessiontime ?: $lastactivitytime;
+        $isfirstsegment = empty($lastactivitytime);
         $serverspan = $isfirstsegment ? $heartbeat : max(0, $now - (int)$lasttimecreated);
         // The first segment has no previous server-side reference: still use the
         // heartbeat as the maximum window, but with a smaller grace period so a
@@ -111,7 +118,12 @@ class save_segment extends external_api {
                 'iscompleted'          => false,
                 'intervaljson'         => '[]',
                 'durationseconds'      => 0.0,
-                'warnings'             => [],
+                'warnings'             => [[
+                    'item' => 'segment',
+                    'itemid' => 0,
+                    'warningcode' => 'suspicioussegment',
+                    'message' => get_string('warning:suspicioussegment', 'videotrack'),
+                ]],
             ];
         }
 

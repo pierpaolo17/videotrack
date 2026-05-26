@@ -485,7 +485,7 @@ $string['report:anonymiseduser'] = 'Użytkownik zanonimizowany';
 
 $string['report:exportnotes_privacywarning'] = 'Ten eksport może zawierać dane osobowe z notatek studentów. Pobieraj i przechowuj go tylko wtedy, gdy masz ważny cel, i usuń, gdy nie jest już potrzebny.';
 
-$string['privacy:videoid_export_note'] = 'Video/content identifier: {$a}';
+$string['privacy:videoid_export_note'] = 'Identyfikator wideo/treści: {$a}';
 $string['privacy:anonymisedreaction'] = 'Zanonimizowana reakcja';
 
 // 1.3.87 accessibility and privacy confirmation strings.
@@ -510,3 +510,5 @@ $string['err:reactionpresetjson'] = 'Dane presetu reakcji są nieprawidłowe. Od
 $string['presets:reactionstablecaption'] = 'Wiersze presetu reakcji';
 $string['privacy:intervals_none'] = 'Nie zarejestrowano interwałów oglądania.';
 $string['privacy:intervals_unavailable'] = 'Interwały oglądania są niedostępne lub nieprawidłowe.';
+
+$string['warning:suspicioussegment'] = 'Segment oglądania nie został zapisany, ponieważ przekroczył oczekiwane okno odtwarzania. Kontynuuj oglądanie normalnie i spróbuj ponownie.';

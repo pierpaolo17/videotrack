@@ -17,6 +17,6 @@ class backup_videotrack_activity_task extends backup_activity_task {
         global $CFG;
         $base = preg_quote($CFG->wwwroot, '/');
         $search = '/(' . $base . '\/mod\/videotrack\/view.php\?id=)([0-9]+)/';
-        return preg_replace($search, '$@VIDEOTRACKVIEW*$2@$', $content);
+        return preg_replace($search, '$@VIDEOTRACKVIEWBYID*$2@$', $content);
     }
 }
