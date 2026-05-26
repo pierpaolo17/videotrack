@@ -60,3 +60,7 @@ Review follow-up after the 1.3.87 static audit: restored the review-fix static g
 ## 1.3.90
 
 Bug-report follow-up after the 1.3.89 audit: modal API deprecation cleanup, per-instance status timers, progress fallback locale handling, preset table accessibility, invalid-method hardening, and report badge ARIA cleanup. The version number remains monotonic with the existing 1.3 maintenance line; do not downgrade Moodle version numbers when normalising future schemes.
+
+## 1.3.91
+
+Bug-report validation after the 1.3.90 audit: the reported syntax-corruption items were checked against the real AMD sources and were already fixed in the committed code. Confirmed maintenance improvements add ARIA live-region relevance metadata, less aggressive transient retry backoff, note-input counter debounce, stronger sendBeacon diagnostics, and a Web-Crypto-first session fallback without Math.random.

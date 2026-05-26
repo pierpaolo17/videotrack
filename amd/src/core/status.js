@@ -82,6 +82,7 @@ define([], function() {
         region.setAttribute('role', isError ? 'alert' : 'status');
         region.setAttribute('aria-live', isError ? 'assertive' : 'polite');
         region.setAttribute('aria-atomic', 'true');
+        region.setAttribute('aria-relevant', 'additions text');
         container.insertBefore(region, container.firstChild || null);
         return region;
     }
@@ -226,6 +227,7 @@ define([], function() {
         notice.setAttribute('role', isError ? 'alert' : 'status');
         notice.setAttribute('aria-live', isError ? 'assertive' : 'polite');
         notice.setAttribute('aria-atomic', 'true');
+        notice.setAttribute('aria-relevant', 'additions text');
 
         var span = document.createElement('span');
         span.textContent = text;
