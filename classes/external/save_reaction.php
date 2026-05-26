@@ -118,7 +118,7 @@ class save_reaction extends external_api {
             'reactiondesc' => $reaction->description,
             'videotime' => $videotime,
             'playbackrate' => max(0.25, min(4.0, round($params['playbackrate'], 3))),
-            'notetype'    => '',   // '' per reazioni standard (distingue da 'note' per le note personali).
+            'notetype'    => '',   // Empty string marks standard reactions and distinguishes them from personal notes.
             'isdeleted' => 0,
             'timecreated' => $now,
             'timemodified' => $now,
@@ -127,7 +127,7 @@ class save_reaction extends external_api {
         // O1: invalidate per-request cache so subsequent reaction_counts() calls
         // within this request see the newly inserted record.
         tracker::invalidate_reaction_counts_cache($videotrack->id, (int)$USER->id);
-        // Log dell'evento nei log di Moodle.
+        // Log the event in Moodle logs.
         $event = reaction_saved::create([
             'objectid' => $eventid,
             'context'  => $context,
@@ -137,11 +137,15 @@ class save_reaction extends external_api {
             ],
         ]);
         $event->trigger();
-        // Legge reaction_counts UNA SOLA VOLTA subito dopo l'insert, poi chiama
-        // refresh_completion. Evita la chiamata tripla: una qui, una in refresh_completion
-        // internamente, e un'altra esplicita dopo.
+        // Read reaction counts once after insert, then pass the same summary to
+        // refresh_completion() so this request does not repeat the aggregate query.
         $summary = tracker::reaction_counts($videotrack->id, (int)$USER->id);
-        $state   = tracker::refresh_completion($videotrack, $cm, (int)$USER->id, $summary);
+        $requiredreactionids = array_keys(array_filter((array)$DB->get_records_menu('videotrack_react', [
+            'videotrackid' => $videotrack->id,
+            'requiredforcompletion' => 1,
+            'isdeleted' => 0,
+        ], '', 'id,id')));
+        $state = tracker::refresh_completion($videotrack, $cm, (int)$USER->id, $summary, $requiredreactionids);
         $completion = new \completion_info($course);
         tracker::update_moodle_completion_if_changed($completion, $cm, (bool)$state->iscompleted, (int)$USER->id);
         return [

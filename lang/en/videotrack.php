@@ -498,3 +498,4 @@ $string['presets:reactioniconvaluearia'] = 'Reaction {$a}: icon value';
 $string['presets:reactionrequiredaria'] = 'Reaction {$a}: required for completion';
 $string['err:reactionpresetjson'] = 'The reaction preset data is invalid. Reload the page and try again.';
 $string['presets:reactionstablecaption'] = 'Reaction preset rows';
+$string['privacy:intervals_unavailable'] = 'Viewing intervals unavailable or invalid.';

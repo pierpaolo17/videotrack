@@ -73,7 +73,7 @@ class delete_reaction extends external_api {
             // O1: invalidate per-request cache so subsequent reaction_counts() calls
             // within this request see the updated (soft-deleted) record.
             tracker::invalidate_reaction_counts_cache($videotrack->id, (int)$USER->id);
-            // Log dell'evento nei log di Moodle.
+            // Log the event in Moodle logs.
             $moodleevent = reaction_deleted::create([
                 'objectid' => $event->id,
                 'context'  => $context,
@@ -86,7 +86,7 @@ class delete_reaction extends external_api {
 
         $summary = tracker::reaction_counts($videotrack->id, (int)$USER->id);
         if ($changed) {
-            $state = tracker::refresh_completion($videotrack, $cm, (int)$USER->id);
+            $state = tracker::refresh_completion($videotrack, $cm, (int)$USER->id, $summary);
             $completion = new \completion_info($course);
             tracker::update_moodle_completion_if_changed($completion, $cm, (bool)$state->iscompleted, (int)$USER->id);
             $iscompleted = (bool)$state->iscompleted;

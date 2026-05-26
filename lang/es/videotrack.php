@@ -496,3 +496,4 @@ $string['presets:reactioniconvaluearia'] = 'Reacción {$a}: valor del icono';
 $string['presets:reactionrequiredaria'] = 'Reacción {$a}: obligatoria para completar';
 $string['err:reactionpresetjson'] = 'Los datos del preajuste de reacciones no son válidos. Recargue la página e inténtelo de nuevo.';
 $string['presets:reactionstablecaption'] = 'Filas del preajuste de reacciones';
+$string['privacy:intervals_unavailable'] = 'Intervalos de visualización no disponibles o no válidos.';
