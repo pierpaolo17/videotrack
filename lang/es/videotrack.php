@@ -1,11 +1,4 @@
 <?php
-/**
- * VideoTrack activity module.
- *
- * @package   mod_videotrack
- * @copyright 2026 SICS, Universita degli Studi della Tuscia
- * @license   http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
- */
 
 $string['pluginname'] = 'Seguimiento de vídeo';
 $string['modulename'] = 'Seguimiento de vídeo';
@@ -517,5 +510,13 @@ $string['privacy:intervals_none'] = 'No hay intervalos de visualización registr
 $string['privacy:intervals_unavailable'] = 'Intervalos de visualización no disponibles o no válidos.';
 
 $string['warning:suspicioussegment'] = 'El segmento de visualización no se registró porque superó la ventana de reproducción esperada. Continúe viendo el vídeo normalmente e inténtelo de nuevo.';
-$string['notesrenderlimitlabel'] = 'Solo se muestran las notas más recientes. Las notas anteriores siguen guardadas y disponibles en los informes.';
-$string['notetruncatedlabel'] = 'La nota se ha acortado hasta la longitud máxima permitida.';
+
+$string['event:notes_exported'] = 'Notas personales exportadas';
+
+$string['externalproviderprivacy_notice'] = 'Esta actividad carga el vídeo desde un proveedor externo. El navegador puede enviar datos técnicos, como dirección IP, agente de usuario y cookies, a ese proveedor según el aviso de privacidad del sitio.';
+
+$string['setting:retentionunlimitedwarning_title'] = 'La conservación ilimitada de VideoTrack está activada.';
+
+$string['setting:retentionunlimitedwarning_desc'] = 'El valor 0 conserva datos de seguimiento, notas y reacciones indefinidamente. Confirme que está justificado por su política de privacidad/GDPR o configure un periodo finito, por ejemplo 730 días.';
+
+$string['warning:notetruncated'] = 'La nota se guardó, pero se acortó a la longitud máxima permitida por el sitio.';

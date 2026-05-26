@@ -1,11 +1,4 @@
 <?php
-/**
- * VideoTrack activity module.
- *
- * @package   mod_videotrack
- * @copyright 2026 SICS, Universita degli Studi della Tuscia
- * @license   http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
- */
 
 $string['pluginname'] = 'वीडियो ट्रैक';
 $string['modulename'] = 'वीडियो ट्रैक';
@@ -517,5 +510,13 @@ $string['privacy:intervals_none'] = 'कोई देखने का अंत�
 $string['privacy:intervals_unavailable'] = 'देखने के अंतराल उपलब्ध नहीं हैं या अमान्य हैं।';
 
 $string['warning:suspicioussegment'] = 'देखने का खंड दर्ज नहीं किया गया क्योंकि यह अपेक्षित प्लेबैक विंडो से अधिक था। सामान्य रूप से देखना जारी रखें और फिर पुनः प्रयास करें।';
-$string['notesrenderlimitlabel'] = 'केवल सबसे हाल की टिप्पणियां दिखाई जाती हैं। पुरानी टिप्पणियां रिपोर्ट में सहेजी और उपलब्ध रहती हैं।';
-$string['notetruncatedlabel'] = 'टिप्पणी को अनुमत अधिकतम लंबाई तक छोटा कर दिया गया है.';
+
+$string['event:notes_exported'] = 'व्यक्तिगत नोट निर्यात किए गए';
+
+$string['externalproviderprivacy_notice'] = 'यह गतिविधि किसी बाहरी प्रदाता से वीडियो लोड करती है। साइट की privacy notice के अनुसार browser IP address, user agent और cookies जैसे technical data उस provider को भेज सकता है।';
+
+$string['setting:retentionunlimitedwarning_title'] = 'VideoTrack की unlimited retention सक्षम है।';
+
+$string['setting:retentionunlimitedwarning_desc'] = '0 मान tracking data, notes और reactions को अनिश्चित समय तक रखता है। पुष्टि करें कि यह आपकी GDPR/privacy policy के अंतर्गत उचित है, या 730 दिनों जैसी finite retention अवधि सेट करें।';
+
+$string['warning:notetruncated'] = 'नोट सहेज दिया गया, लेकिन site द्वारा अनुमत अधिकतम length तक छोटा कर दिया गया।';

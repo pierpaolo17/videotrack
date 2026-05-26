@@ -39,6 +39,11 @@ define([
         return PlayerCore.uuid();
     }
 
+    function safeNumber(value, fallback) {
+        var number = Number(value);
+        return isFinite(number) ? number : fallback;
+    }
+
 
     function saveSegment(start, end, reason) {
         return Api.saveSegment(config, state, start, end, reason, {
@@ -66,7 +71,7 @@ define([
     // ── Segment lifecycle ─────────────────────────────────────────────────
 
     function startSegment() {
-        Tracker.openSegment(state, media.currentTime, Math.floor(Date.now() / 1000), media.playbackRate || 1);
+        Tracker.openSegment(state, safeNumber(media.currentTime, 0), Math.floor(Date.now() / 1000), safeNumber(media.playbackRate, 1));
     }
 
     /**
@@ -79,7 +84,7 @@ define([
      */
     function closeSegment(reason) {
         return Tracker.closeAndSaveSegment(state, function() {
-            return media ? media.currentTime : state.lasttime;
+            return media ? safeNumber(media.currentTime, state.lasttime || 0) : state.lasttime;
         }, saveSegment, reason, hasMedia('currentTime')).catch(Log.debug);
     }
 
@@ -91,7 +96,7 @@ define([
                 state: state,
                 heartbeatInterval: HEARTBEAT_INTERVAL,
                 getCurrentTime: function() {
-                    return media.currentTime;
+                    return safeNumber(media.currentTime, state.lasttime || 0);
                 },
                 saveSegment: saveSegment,
                 hasPlayer: function() {
@@ -209,17 +214,6 @@ define([
                         notice.setAttribute('role', 'status');
                         notice.setAttribute('aria-live', 'polite');
                         notice.textContent = config.autoblockedlabel;
-                        var playButton = document.createElement('button');
-                        playButton.type = 'button';
-                        playButton.className = 'btn btn-primary btn-sm ms-2 videotrack-autoplay-play';
-                        playButton.textContent = config.html5playlabel || config.autoblockedlabel;
-                        playButton.addEventListener('click', function() {
-                            media.play().catch(function() {});
-                            if (notice.parentNode) {
-                                notice.parentNode.removeChild(notice);
-                            }
-                        });
-                        notice.appendChild(playButton);
                         wrap.appendChild(notice);
                     }
                 });
@@ -277,6 +271,7 @@ define([
         bar.className = 'videotrack-html5-controls';
         bar.setAttribute('role', 'toolbar');
         bar.setAttribute('aria-label', config.html5controlslabel);
+        bar.setAttribute('aria-orientation', 'horizontal');
 
         // ── Play / Pause ─────────────────────────────────────
         if (controls.indexOf('play') >= 0) {
@@ -357,7 +352,7 @@ define([
             progressBar.addEventListener('input', function() {
                 if (state.duration) {
                     var requested = (parseFloat(progressBar.value) / 100) * state.duration;
-                    var current = media.currentTime || 0;
+                    var current = safeNumber(media.currentTime, 0);
                     var allowed = requested;
                     if (config.allowseekforward === false && requested > current) {
                         allowed = current;
@@ -527,10 +522,10 @@ define([
                 var pct = (media.currentTime / state.duration) * 100;
                 bar._progressBar.value = pct;
                 bar._progressBar.setAttribute('aria-valuenow',  String(Math.round(pct)));
-                bar._progressBar.setAttribute('aria-valuetext', Utils.formatSeconds(media.currentTime));
+                bar._progressBar.setAttribute('aria-valuetext', Utils.formatSeconds(safeNumber(media.currentTime, 0)));
             }
             if (bar._currentEl) {
-                bar._currentEl.textContent = Utils.formatSeconds(media.currentTime);
+                bar._currentEl.textContent = Utils.formatSeconds(safeNumber(media.currentTime, 0));
             }
         });
 
@@ -655,15 +650,15 @@ define([
             state.isProgrammaticSeek = false; // Resetta anche il flag seek programmatico.
             Tracker.clearSeekBlock(state);
             if (state.playing) { startSegment(); }
-            if (Tracker.shouldStopReplay(state, media.currentTime)) {
+            if (Tracker.shouldStopReplay(state, safeNumber(media.currentTime, 0))) {
                 media.pause();
             }
         });
 
         media.addEventListener('timeupdate', function() {
             if (!state.isSeeking) {
-                Tracker.syncTime(state, media.currentTime, media.playbackRate || 1);
-                if (Tracker.shouldStopReplay(state, media.currentTime)) {
+                Tracker.syncTime(state, safeNumber(media.currentTime, 0), safeNumber(media.playbackRate, 1));
+                if (Tracker.shouldStopReplay(state, safeNumber(media.currentTime, 0))) {
                     Adapter.pause(function() {
                         return media.pause();
                     }, Log, 'HTML5 replay pause');
@@ -1011,8 +1006,12 @@ define([
                 if (isActive) {
                     var panelRect = panel.getBoundingClientRect();
                     var elRect    = el.getBoundingClientRect();
-                    if (!prefersReducedMotion() && (elRect.top < panelRect.top || elRect.bottom > panelRect.bottom)) {
-                        el.scrollIntoView({block: 'nearest', behavior: 'smooth'});
+                    if (elRect.top < panelRect.top || elRect.bottom > panelRect.bottom) {
+                        var scrollOptions = { block: 'nearest' };
+                        if (!prefersReducedMotion()) {
+                            scrollOptions.behavior = 'smooth';
+                        }
+                        el.scrollIntoView(scrollOptions);
                     }
                 }
             });
@@ -1023,7 +1022,7 @@ define([
     /** Restituisce il timestamp video corrente per il player HTML5. */
     function getCurrentVideoTime() {
         return Adapter.getCurrentTime(state, function() {
-            return media ? media.currentTime : state.lasttime;
+            return media ? safeNumber(media.currentTime, state.lasttime || 0) : state.lasttime;
         }, Log, 'HTML5');
     }
 

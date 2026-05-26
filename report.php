@@ -1,11 +1,4 @@
 <?php
-/**
- * VideoTrack activity module.
- *
- * @package   mod_videotrack
- * @copyright 2026 SICS, Universita degli Studi della Tuscia
- * @license   http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
- */
 require_once(__DIR__ . '/../../config.php');
 require_once(__DIR__ . '/locallib.php');
 
@@ -316,6 +309,18 @@ if ($export === 'notes_csv' && !empty($videotrack->studentnotesenabled)) {
     if ($useridfilter > 0 && !is_enrolled($context, $useridfilter, '', true)) {
         throw new moodle_exception('invaliduser', 'error');
     }
+    $event = \mod_videotrack\event\notes_exported::create([
+        'objectid' => (int)$videotrack->id,
+        'context'  => $context,
+        'userid'   => (int)$USER->id,
+        'other'    => [
+            'useridfilter' => (int)$useridfilter,
+            'createdfrom' => (int)$notecreatedfromts,
+            'createdto' => (int)$notecreatedtots,
+            'emailincluded' => (bool)$canviewemail,
+        ],
+    ]);
+    $event->trigger();
     $filename = 'videotrack_notes_' . $cm->id . '_' . gmdate('Ymd_His') . '.csv';
     header('Content-Type: text/csv; charset=utf-8');
     header('X-Content-Type-Options: nosniff');

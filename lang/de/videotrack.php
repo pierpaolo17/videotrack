@@ -1,11 +1,4 @@
 <?php
-/**
- * VideoTrack activity module.
- *
- * @package   mod_videotrack
- * @copyright 2026 SICS, Universita degli Studi della Tuscia
- * @license   http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
- */
 
 $string['pluginname'] = 'Video-Tracking';
 $string['modulename'] = 'Video-Tracking';
@@ -517,5 +510,13 @@ $string['privacy:intervals_none'] = 'Keine Wiedergabeintervalle aufgezeichnet.';
 $string['privacy:intervals_unavailable'] = 'Wiedergabeintervalle sind nicht verfügbar oder ungültig.';
 
 $string['warning:suspicioussegment'] = 'Das Wiedergabesegment wurde nicht gespeichert, weil es das erwartete Wiedergabefenster überschritten hat. Sehen Sie das Video normal weiter und versuchen Sie es erneut.';
-$string['notesrenderlimitlabel'] = 'Es werden nur die neuesten Notizen angezeigt. Ältere Notizen bleiben gespeichert und in Berichten verfügbar.';
-$string['notetruncatedlabel'] = 'Die Notiz wurde auf die maximal zulässige Länge gekürzt.';
+
+$string['event:notes_exported'] = 'Persönliche Notizen exportiert';
+
+$string['externalproviderprivacy_notice'] = 'Diese Aktivität lädt das Video von einem externen Anbieter. Der Browser kann technische Daten wie IP-Adresse, User-Agent und Cookies gemäß der Datenschutzerklärung der Website an diesen Anbieter senden.';
+
+$string['setting:retentionunlimitedwarning_title'] = 'Unbegrenzte VideoTrack-Aufbewahrung ist aktiviert.';
+
+$string['setting:retentionunlimitedwarning_desc'] = 'Der Wert 0 speichert Trackingdaten, Notizen und Reaktionen unbegrenzt. Stellen Sie sicher, dass dies nach Ihrer DSGVO-/Datenschutzrichtlinie begründet ist, oder setzen Sie eine feste Frist, zum Beispiel 730 Tage.';
+
+$string['warning:notetruncated'] = 'Die Notiz wurde gespeichert, aber auf die von der Website erlaubte Höchstlänge gekürzt.';

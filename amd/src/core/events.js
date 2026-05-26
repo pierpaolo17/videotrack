@@ -67,9 +67,6 @@ define([], function() {
                     try {
                         return handler(eventPayload);
                     } catch (error) {
-                        if (typeof window !== 'undefined' && window.console && window.console.warn) {
-                            window.console.warn('mod_videotrack event handler error', error);
-                        }
                         return null;
                     }
                 });
