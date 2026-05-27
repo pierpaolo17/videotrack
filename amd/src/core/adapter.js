@@ -152,13 +152,16 @@ define([], function() {
      * Return a defensive snapshot of the known capabilities for a provider.
      *
      * @param {string} providerType Provider key: youtube, html5 or vimeo.
-     * @returns {Object<string, Array<string>>} Capability map.
+     * @returns {Object<string, {methods: Array<string>, properties: Array<string>}>} Capability map.
      */
     function getCapabilities(providerType) {
         var providerCapabilities = CAPABILITIES[String(providerType || '').trim().toLowerCase()] || {};
         var copy = {};
         Object.keys(providerCapabilities).forEach(function(key) {
-            copy[key] = providerCapabilities[key].methods.slice(0);
+            copy[key] = {
+                methods: providerCapabilities[key].methods.slice(0),
+                properties: providerCapabilities[key].properties.slice(0)
+            };
         });
         return copy;
     }

@@ -104,8 +104,8 @@ define(['core/log'], function(Log) {
         if (Number.isFinite(length) && length > MAX_TEXT_RESPONSE_BYTES) {
             return Promise.reject('response-too-large');
         }
-        if (!/\.vtt$/.test(responsePath)) {
-            return Promise.reject('unexpected-content-type');
+        if (!isSafeFetchUrl(response.url || '')) {
+            return Promise.reject('unexpected-response-url');
         }
         if (contentType && contentType.indexOf('text/vtt') === -1 &&
                 contentType.indexOf('text/plain') === -1 &&
@@ -148,10 +148,9 @@ define(['core/log'], function(Log) {
             if (/(?:^|\/)\.\.(?:\/|$)/.test(path)) {
                 return false;
             }
-            var isTextTrack = /(?:^|\/)[^/?#]+\.vtt$/.test(path);
             var isPluginFile = path.indexOf('/pluginfile.php/') !== -1 ||
                 path.indexOf('/webservice/pluginfile.php/') !== -1;
-            return isTextTrack && isPluginFile;
+            return isPluginFile;
         } catch (e) {
             return false;
         }
@@ -172,8 +171,8 @@ define(['core/log'], function(Log) {
                     parsed.username || parsed.password || parsed.hash) {
                 return false;
             }
-            var path = decodeURIComponent(parsed.pathname).replace(/\/+/g, '/');
-            if (/(?:^|\/|\\)\.\.(?:\/|\\|$)/.test(path)) {
+            var path = decodeURIComponent(parsed.pathname).replace(/\\/g, '/').replace(/\/+/g, '/');
+            if (/(?:^|\/)\.\.(?:\/|$)/.test(path)) {
                 return false;
             }
             if (!/\/lib\/ajax\/service\.php$/.test(path)) {

@@ -196,11 +196,12 @@ define([], function() {
             var maxLength = Utils.safeInt(config.notemaxlength, 2000);
             var text = textarea.value.trim();
             if (maxLength > 0 && text.length > maxLength) {
-                text = text.substring(0, maxLength);
-                textarea.value = text;
-                updateCharCounter(textarea, config, Utils);
+                showStatusMessage(config.notetoolonglabel || config.noteerrorlabel, true, config.dismisslabel);
+                textarea.focus();
+                return;
             }
             if (!text) {
+                showStatusMessage(config.noteemptylabel || config.noteerrorlabel, true, config.dismisslabel);
                 textarea.focus();
                 return;
             }
@@ -245,10 +246,14 @@ define([], function() {
                 if (!delBtn || !noteList.contains(delBtn)) { return; }
                 var noteid = Utils.safeInt(delBtn.dataset.noteid, 0);
                 if (!noteid) { return; }
+                // Native disabled is deliberate here: the button is removed from
+                // the DOM after a successful delete, and disabling prevents
+                // duplicate destructive requests from rapid double clicks.
                 delBtn.disabled = true;
                 delBtn.setAttribute('aria-busy', 'true');
                 ajax('mod_videotrack_delete_note', {
                     cmid: config.cmid,
+                    noteeventid: noteid,
                     reactioneventid: noteid
                 }).then(function(response) {
                     if (response && response.deleted) {

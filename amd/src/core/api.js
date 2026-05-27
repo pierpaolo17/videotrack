@@ -22,6 +22,7 @@ define([
     var NETWORK_STATE_OFFLINE = 'offline';
     var NETWORK_STATE_UNKNOWN = 'unknown';
     var retryCounter = 0;
+    var retrySeed = 0;
 
     /**
      * Return the browser network state without assuming navigator support.
@@ -61,11 +62,18 @@ define([
             return values[0] % limit;
         }
         retryCounter += 1;
-        // Deterministic fallback for legacy/non-browser contexts. Do not use
-        // non-cryptographic random fallback here: security reviews require the
-        // retry jitter path to use deterministic state when Web Crypto is
-        // unavailable. The value is only used to desynchronise retries.
-        return (Math.abs(Date.now()) + retryCounter) % limit;
+        if (!retrySeed) {
+            var performanceOffset = (typeof window !== 'undefined' && window.performance && window.performance.now) ?
+                Math.floor(window.performance.now() * 1000) : 0;
+            var locationOffset = (typeof window !== 'undefined' && window.location && window.location.href) ?
+                window.location.href.length * 997 : 0;
+            retrySeed = Math.abs(Date.now() + performanceOffset + locationOffset) || 1;
+        }
+        // Deterministic fallback for legacy/non-browser contexts. It avoids the legacy
+        // pseudo-random helper, but still mixes per-page timing and a module counter so
+        // retry waves are less likely to align when Web Crypto is unavailable.
+        retrySeed = (retrySeed * 1103515245 + 12345 + retryCounter) % 2147483647;
+        return retrySeed % limit;
     }
 
     /**
