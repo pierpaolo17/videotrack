@@ -82,11 +82,11 @@ define([], function() {
     }
 
     /**
-     * Resolve a provider capability method list.
+     * Resolve a provider capability definition.
      *
      * @param {string} providerType Provider key: youtube, html5 or vimeo.
      * @param {string} capability Capability key.
-     * @returns {Array<string>} Required provider methods.
+     * @returns {{methods: Array<string>, properties: Array<string>}|null} Capability definition.
      */
     function getCapabilityDefinition(providerType, capability) {
         var providerCapabilities = CAPABILITIES[String(providerType || '').trim().toLowerCase()];
@@ -218,9 +218,11 @@ define([], function() {
      * @returns {number} Safe media time in seconds.
      */
     function normaliseTime(value, fallback) {
-        var time = Number(value);
-        if (isFinite(time) && time >= 0) {
-            return time;
+        if (value !== null && value !== undefined && value !== '') {
+            var time = Number(value);
+            if (isFinite(time) && time >= 0) {
+                return time;
+            }
         }
         var fallbackTime = Number(fallback);
         return isFinite(fallbackTime) && fallbackTime >= 0 ? fallbackTime : 0;
@@ -467,7 +469,7 @@ define([], function() {
         try {
             if (typeof getter === 'function') {
                 var rate = Number(getter());
-                if (isFinite(rate) && rate > 0) {
+                if (isFinite(rate) && rate > 0 && rate <= 4) {
                     if (state) {
                         state.playbackrate = rate;
                     }
@@ -480,7 +482,7 @@ define([], function() {
             }
         }
         var fallbackRate = Number(fallback);
-        return isFinite(fallbackRate) && fallbackRate > 0 ? fallbackRate : 1;
+        return isFinite(fallbackRate) && fallbackRate > 0 && fallbackRate <= 4 ? fallbackRate : 1;
     }
 
     /**
@@ -495,7 +497,7 @@ define([], function() {
      */
     function setPlaybackRate(rate, setter, state, log, label) {
         var safeRate = Number(rate);
-        if (!isFinite(safeRate) || safeRate <= 0) {
+        if (!isFinite(safeRate) || safeRate <= 0 || safeRate > 4) {
             safeRate = 1;
         }
         if (typeof setter !== 'function') {
@@ -594,15 +596,25 @@ define([], function() {
      * @returns {*} Action return value or null on failure.
      */
     function run(action, log, label) {
-        try {
-            if (typeof action === 'function') {
-                return action();
-            }
-        } catch (error) {
+        var logFailure = function(error) {
             if (log && typeof log.debug === 'function') {
                 log.debug('mod_videotrack: player adapter command failed' +
                     (label ? ' (' + label + ')' : '') + ' - ' + error);
             }
+        };
+        try {
+            if (typeof action === 'function') {
+                var result = action();
+                if (result && typeof result.then === 'function') {
+                    return result.catch(function(error) {
+                        logFailure(error);
+                        return null;
+                    });
+                }
+                return result;
+            }
+        } catch (error) {
+            logFailure(error);
         }
         return null;
     }

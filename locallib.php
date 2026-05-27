@@ -62,12 +62,12 @@ function videotrack_extract_videoid(string $url): ?string {
     if ($parts === false || empty($parts['scheme']) || empty($parts['host'])) {
         return null;
     }
-    if (!in_array(strtolower($parts['scheme']), ['http', 'https'], true)) {
+    if (strtolower($parts['scheme']) !== 'https') {
         return null;
     }
 
     $host = strtolower($parts['host']);
-    $host = preg_replace('/^www\./', '', $host);
+    $host = preg_replace('/^(?:www|m)\./', '', $host);
     $path = $parts['path'] ?? '';
     $query = $parts['query'] ?? '';
 
@@ -88,7 +88,7 @@ function videotrack_extract_videoid(string $url): ?string {
             : null;
     }
 
-    if (preg_match('~^/(?:embed|shorts)/([A-Za-z0-9_-]{11})(?:/)?$~', $path, $matches)) {
+    if (preg_match('~^/(?:embed|shorts|live)/([A-Za-z0-9_-]{11})(?:/)?$~', $path, $matches)) {
         return $matches[1];
     }
 
@@ -111,7 +111,7 @@ function videotrack_extract_vimeo_id(string $url): ?string {
     if ($parts === false || empty($parts['scheme']) || empty($parts['host'])) {
         return null;
     }
-    if (!in_array(strtolower($parts['scheme']), ['http', 'https'], true)) {
+    if (strtolower($parts['scheme']) !== 'https') {
         return null;
     }
 
@@ -143,9 +143,14 @@ function videotrack_get_playback_speeds(stdClass $videotrack): array {
     if (empty($raw)) {
         $raw = '0.75,1,1.25,1.5,2';
     }
-    $speeds = array_filter(array_map('floatval', preg_split('/[,\n]+/', $raw)));
+    $speeds = array_filter(array_map('floatval', preg_split('/[,\n]+/', $raw)), function($speed) {
+        return is_finite($speed) && $speed > 0 && $speed <= 4;
+    });
     sort($speeds);
     $speeds = array_values(array_unique($speeds));
+    if (empty($speeds)) {
+        $speeds = [1.0];
+    }
 
     // Apply site-wide hard cap (0 = no limit).
     $max = videotrack_get_max_playback_rate();
@@ -183,9 +188,12 @@ function videotrack_get_site_playback_speeds(): array {
     if (empty($raw)) {
         $raw = '0.75,1,1.25,1.5,2';
     }
-    $speeds = array_filter(array_map('floatval', preg_split('/[,\n]+/', $raw)));
+    $speeds = array_filter(array_map('floatval', preg_split('/[,\n]+/', $raw)), function($speed) {
+        return is_finite($speed) && $speed > 0 && $speed <= 4;
+    });
     sort($speeds);
-    return array_values(array_unique($speeds));
+    $speeds = array_values(array_unique($speeds));
+    return empty($speeds) ? [1.0] : $speeds;
 }
 
 /**
