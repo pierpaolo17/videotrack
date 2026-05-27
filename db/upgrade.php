@@ -1,4 +1,27 @@
 <?php
+// This file is part of Moodle - https://moodle.org/
+//
+// Moodle is free software: you can redistribute it and/or modify
+// it under the terms of the GNU General Public License as published by
+// the Free Software Foundation, either version 3 of the License, or
+// (at your option) any later version.
+//
+// Moodle is distributed in the hope that it will be useful,
+// but WITHOUT ANY WARRANTY; without even the implied warranty of
+// MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+// GNU General Public License for more details.
+//
+// You should have received a copy of the GNU General Public License
+// along with Moodle.  If not, see <https://www.gnu.org/licenses/>.
+
+/**
+ * VideoTrack plugin file.
+ *
+ * @package   mod_videotrack
+ * @copyright 2026 videotrack contributors
+ * @license   https://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
+ */
+
 
 defined('MOODLE_INTERNAL') || die();
 
@@ -933,48 +956,53 @@ function xmldb_videotrack_upgrade($oldversion) {
     }
 
 
-    if ($oldversion < 20260525094) {
-        // Release 1.3.94: code-only maintenance fixes, bug-report regression gates and AMD build alignment.
-        upgrade_mod_savepoint(true, 20260525094, 'videotrack');
-    }
-
-    if ($oldversion < 20260525095) {
-        // Code-only release: privacy metadata, accessibility and AMD hardening updates.
-        upgrade_mod_savepoint(true, 20260525095, 'videotrack');
-    }
-
     if ($oldversion < 2026072503) {
-        // Release 1.3.96: localisation, settings privacy notice and code-only compliance fixes.
+        // Release 1.3.94: code-only maintenance fixes, bug-report regression gates and AMD build alignment.
         upgrade_mod_savepoint(true, 2026072503, 'videotrack');
     }
 
     if ($oldversion < 2026072504) {
-        // Release 1.3.97: code-only hardening, localisation and backup/restore token fixes.
+        // Code-only release: privacy metadata, accessibility and AMD hardening updates.
         upgrade_mod_savepoint(true, 2026072504, 'videotrack');
     }
 
     if ($oldversion < 2026072505) {
+        // Release 1.3.96: localisation, settings privacy notice and code-only compliance fixes.
+        upgrade_mod_savepoint(true, 2026072505, 'videotrack');
+    }
+
+    if ($oldversion < 2026072506) {
+        // Release 1.3.97: code-only hardening, localisation and backup/restore token fixes.
+        upgrade_mod_savepoint(true, 2026072506, 'videotrack');
+    }
+
+    if ($oldversion < 2026072507) {
         // Release 1.3.98: retention default, export audit, accessibility and AMD hardening.
         $retention = get_config('mod_videotrack', 'retentionperioddays');
         if ($retention === false || $retention === null || $retention === '') {
             set_config('retentionperioddays', 730, 'mod_videotrack');
         }
-        upgrade_mod_savepoint(true, 2026072505, 'videotrack');
-    }
-
-    if ($oldversion < 2026072506) {
-        // Release 1.3.100: privacy hardening and accessibility/contrast cleanup. No schema changes.
-        upgrade_mod_savepoint(true, 2026072506, 'videotrack');
-    }
-
-    if ($oldversion < 2026072507) {
-        // Release 1.3.101: AMD robustness, notes accessibility and localisation fixes. No schema changes.
         upgrade_mod_savepoint(true, 2026072507, 'videotrack');
     }
 
     if ($oldversion < 2026072508) {
-        // Release 1.4.0: AMD lifecycle, accessibility and localisation fixes. No schema changes.
+        // Release 1.3.100: privacy hardening and accessibility/contrast cleanup. No schema changes.
         upgrade_mod_savepoint(true, 2026072508, 'videotrack');
+    }
+
+    if ($oldversion < 2026072509) {
+        // Release 1.3.101: AMD robustness, notes accessibility and localisation fixes. No schema changes.
+        upgrade_mod_savepoint(true, 2026072509, 'videotrack');
+    }
+
+    if ($oldversion < 2026072510) {
+        // Release 1.4.0: AMD lifecycle, accessibility and localisation fixes. No schema changes.
+        upgrade_mod_savepoint(true, 2026072510, 'videotrack');
+    }
+
+    if ($oldversion < 2026072511) {
+        // Release 1.4.1: Moodle plugins directory submission cleanup. No schema changes.
+        upgrade_mod_savepoint(true, 2026072511, 'videotrack');
     }
 
     return true;

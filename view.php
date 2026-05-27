@@ -1,4 +1,27 @@
 <?php
+// This file is part of Moodle - https://moodle.org/
+//
+// Moodle is free software: you can redistribute it and/or modify
+// it under the terms of the GNU General Public License as published by
+// the Free Software Foundation, either version 3 of the License, or
+// (at your option) any later version.
+//
+// Moodle is distributed in the hope that it will be useful,
+// but WITHOUT ANY WARRANTY; without even the implied warranty of
+// MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+// GNU General Public License for more details.
+//
+// You should have received a copy of the GNU General Public License
+// along with Moodle.  If not, see <https://www.gnu.org/licenses/>.
+
+/**
+ * VideoTrack plugin file.
+ *
+ * @package   mod_videotrack
+ * @copyright 2026 videotrack contributors
+ * @license   https://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
+ */
+
 require_once(__DIR__ . '/../../config.php');
 require_once(__DIR__ . '/lib.php');
 require_once(__DIR__ . '/locallib.php');
@@ -424,7 +447,7 @@ if (!empty($videotrack->studentnotesenabled)) {
         'rows'        => '3',
         'maxlength'   => (string)$notemaxlength,
         'placeholder'      => get_string('studentnote_placeholder', 'mod_videotrack'),
-        'aria-describedby' => 'videotrack-note-hint videotrack-note-charcount',
+        'aria-describedby' => 'videotrack-note-hint videotrack-note-charcount videotrack-note-live-status',
     ]);
     echo html_writer::tag('button',
         get_string('studentnote_save', 'mod_videotrack'),
@@ -440,8 +463,6 @@ if (!empty($videotrack->studentnotesenabled)) {
     echo html_writer::tag('span', $notemaxlength . ' ' . get_string('charsremaininglabel', 'mod_videotrack'), [
         'id'         => 'videotrack-note-charcount',
         'class'       => 'videotrack-note-charcount small text-muted ms-2',
-        'aria-live'   => 'polite',
-        'aria-atomic' => 'true',
     ]);
     // Notice: the note is saved at the current video timestamp.
     echo html_writer::tag('p',

@@ -868,26 +868,52 @@ define([
             return true;
         };
 
+        function closeThenStop(reason, options) {
+            options = options || {};
+            var hasOpenSegment = state && state.segmentstart !== null;
+            if (!hasOpenSegment) {
+                stop();
+                if (options.afterStop) {
+                    options.afterStop();
+                }
+                return;
+            }
+            if (options.preferBeacon && sendBeacon) {
+                sendBeacon();
+                stop();
+                if (options.afterStop) {
+                    options.afterStop();
+                }
+                return;
+            }
+            if (closeSegment) {
+                Promise.resolve(closeSegment(reason)).catch(function(error) {
+                    emit(state, 'lifecycle:closeerror', {error: error, reason: reason});
+                }).then(function() {
+                    stop();
+                    if (options.afterStop) {
+                        options.afterStop();
+                    }
+                });
+                return;
+            }
+            stop();
+            if (options.afterStop) {
+                options.afterStop();
+            }
+        }
+
         var onVisibilityChange = function() {
             if (!document.hidden) {
                 return;
             }
             emit(state, 'lifecycle:hidden', {});
-            if (closeSegment && state && state.segmentstart !== null) {
-                closeSegment('tab');
-            }
-            stop();
-            if (onHidden) {
-                onHidden();
-            }
+            closeThenStop('tab', {afterStop: onHidden});
         };
 
         var onPageHide = function() {
             emit(state, 'lifecycle:pagehide', {});
-            if (closeSegment && state && state.segmentstart !== null) {
-                closeSegment('pagehide');
-            }
-            stop();
+            closeThenStop('pagehide', {preferBeacon: true});
         };
 
         var onBeforeUnload = function() {

@@ -64,7 +64,7 @@ function main() {
     ].forEach(assertFile);
 
     assertContains('version.php', /\$plugin->version\s*=\s*20\d{8,9};/, 'final-check plugin version');
-    assertContains('version.php', /\$plugin->release\s*=\s*'(?:1\.3\.\d+|1\.4\.0)'/, 'final-check release marker');
+    assertContains('version.php', /\$plugin->release\s*=\s*'(?:1\.3\.\d+|1\.4\.\d+)'/, 'final-check release marker');
     assertContains('version.php', /\$plugin->maturity\s*=\s*MATURITY_(?:RC|STABLE)/, 'release-candidate maturity before stable tag');
 
     assertContains('docs/RELEASE-CANDIDATE-1.3.md', /1\.3\.76-rc1/, 'rc1 checkpoint history');

@@ -10,8 +10,6 @@
  */
 define([], function() {
 
-
-
     /**
      * Provider capability definitions used by the adapter layer.
      *
@@ -540,7 +538,6 @@ define([], function() {
         return fallback;
     }
 
-
     /**
      * Read whether a provider reached the ended state safely.
      *
@@ -548,9 +545,10 @@ define([], function() {
      * @param {Function} getter Provider-specific ended-state getter.
      * @param {Object=} log Optional Moodle log module.
      * @param {string=} label Optional log label.
+     * @param {*=} endedValue Provider-specific raw value meaning ended, e.g. YouTube 0.
      * @returns {boolean} True when playback has ended.
      */
-    function isEnded(state, getter, log, label) {
+    function isEnded(state, getter, log, label, endedValue) {
         var fallback = state && typeof state.ended === 'boolean' ? state.ended : false;
         try {
             if (typeof getter === 'function') {
@@ -558,10 +556,16 @@ define([], function() {
                 var ended = false;
                 if (typeof value === 'boolean') {
                     ended = value;
-                } else if (typeof value === 'number' && isFinite(value)) {
-                    ended = value === 0;
-                } else if (typeof value === 'string' && value !== '' && isFinite(Number(value))) {
+                } else if (endedValue !== undefined && value !== null && value !== '') {
+                    ended = String(value) === String(endedValue);
+                } else if ((typeof value === 'number' || (typeof value === 'string' && value !== '')) &&
+                        String(label || '').toLowerCase().indexOf('youtube') !== -1) {
                     ended = Number(value) === 0;
+                } else if (typeof value === 'number' || (typeof value === 'string' && value !== '')) {
+                    // Numeric provider states are provider-specific. Without an explicit
+                    // endedValue, treat them as non-ended to avoid false positives when
+                    // adding future providers with different state constants.
+                    ended = false;
                 } else {
                     ended = !!value;
                 }
@@ -574,6 +578,9 @@ define([], function() {
             if (log && typeof log.debug === 'function') {
                 log.debug('mod_videotrack: could not read ' + (label || 'player') + ' ended state - ' + error);
             }
+        }
+        if (state) {
+            state.ended = fallback;
         }
         return fallback;
     }

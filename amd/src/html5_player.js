@@ -396,14 +396,23 @@ define([
 
         // ── Mute ─────────────────────────────────────────────
         if (controls.indexOf('mute') >= 0) {
-            var muteBtn = makeBtn('videotrack-ctrl-mute', '🔊', config.html5mutelabel);
+            var muteBtn = makeBtn('videotrack-ctrl-mute', '', config.html5mutelabel);
+            var muteIcon = document.createElement('span');
+            muteIcon.setAttribute('aria-hidden', 'true');
+            muteIcon.textContent = '🔊';
+            var muteText = document.createElement('span');
+            muteText.className = 'visually-hidden';
+            muteText.textContent = config.html5mutelabel;
+            muteBtn.appendChild(muteIcon);
+            muteBtn.appendChild(muteText);
             muteBtn.addEventListener('click', function() {
                 var muted = !Adapter.isMuted(state, function() { return media.muted; }, Log, 'HTML5 mute');
                 Adapter.setMuted(muted, function(value) {
                     media.muted = value;
                 }, state, Log, 'HTML5 mute');
-                muteBtn.textContent = muted ? '🔇' : '🔊';
                 var muteLabel = muted ? (config.html5unmutelabel) : (config.html5mutelabel);
+                muteIcon.textContent = muted ? '🔇' : '🔊';
+                muteText.textContent = muteLabel;
                 muteBtn.setAttribute('aria-label', muteLabel);
                 muteBtn.setAttribute('title', muteLabel);
             });
