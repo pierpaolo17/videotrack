@@ -1215,7 +1215,7 @@ function videotrack_pluginfile($course, $cm, $context, $filearea, $args, $forced
         return false;
     }
     if ($filearea === 'subtitles') {
-        if (!in_array($file->get_mimetype(), ['text/vtt', 'text/plain'], true)) {
+        if (!in_array($file->get_mimetype(), ['text/vtt', 'text/plain', 'application/octet-stream'], true)) {
             return false;
         }
         // Some servers report .vtt as text/plain; keep the fallback safe without

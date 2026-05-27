@@ -54,24 +54,44 @@ function videotrack_get_config_int(string $name, int $default, int $min, int $ma
  */
 function videotrack_extract_videoid(string $url): ?string {
     $url = trim($url);
-    if ($url === '') {
+    if ($url === '' || preg_match('/[\r\n]/', $url)) {
         return null;
     }
-    $patterns = [
-        '~(?:youtube\.com/watch\?v=)([A-Za-z0-9_-]{11})~',
-        '~(?:youtu\.be/)([A-Za-z0-9_-]{11})~',
-        '~(?:youtube\.com/embed/)([A-Za-z0-9_-]{11})~',
-        '~(?:youtube\.com/shorts/)([A-Za-z0-9_-]{11})~',
-    ];
-    foreach ($patterns as $pattern) {
-        if (preg_match($pattern, $url, $matches)) {
-            return $matches[1];
-        }
+
+    $parts = parse_url($url);
+    if ($parts === false || empty($parts['scheme']) || empty($parts['host'])) {
+        return null;
     }
-    parse_str((string)parse_url($url, PHP_URL_QUERY), $queryparams);
-    if (!empty($queryparams['v']) && preg_match('/^[A-Za-z0-9_-]{11}$/', $queryparams['v'])) {
-        return $queryparams['v'];
+    if (!in_array(strtolower($parts['scheme']), ['http', 'https'], true)) {
+        return null;
     }
+
+    $host = strtolower($parts['host']);
+    $host = preg_replace('/^www\./', '', $host);
+    $path = $parts['path'] ?? '';
+    $query = $parts['query'] ?? '';
+
+    if ($host === 'youtu.be') {
+        $candidate = ltrim($path, '/');
+        $candidate = explode('/', $candidate, 2)[0];
+        return preg_match('/^[A-Za-z0-9_-]{11}$/', $candidate) ? $candidate : null;
+    }
+
+    if (!in_array($host, ['youtube.com', 'youtube-nocookie.com'], true)) {
+        return null;
+    }
+
+    if ($path === '/watch') {
+        parse_str($query, $queryparams);
+        return (!empty($queryparams['v']) && preg_match('/^[A-Za-z0-9_-]{11}$/', $queryparams['v']))
+            ? $queryparams['v']
+            : null;
+    }
+
+    if (preg_match('~^/(?:embed|shorts)/([A-Za-z0-9_-]{11})(?:/)?$~', $path, $matches)) {
+        return $matches[1];
+    }
+
     return null;
 }
 
@@ -83,8 +103,26 @@ function videotrack_extract_videoid(string $url): ?string {
  */
 function videotrack_extract_vimeo_id(string $url): ?string {
     $url = trim($url);
-    if (preg_match('~vimeo\.com/(?:video/|channels/[^/]+/|groups/[^/]+/videos/)?(\d+)~', $url, $m)) {
-        return $m[1];
+    if ($url === '' || preg_match('/[\r\n]/', $url)) {
+        return null;
+    }
+
+    $parts = parse_url($url);
+    if ($parts === false || empty($parts['scheme']) || empty($parts['host'])) {
+        return null;
+    }
+    if (!in_array(strtolower($parts['scheme']), ['http', 'https'], true)) {
+        return null;
+    }
+
+    $host = preg_replace('/^www\./', '', strtolower($parts['host']));
+    if (!in_array($host, ['vimeo.com', 'player.vimeo.com'], true)) {
+        return null;
+    }
+
+    $path = $parts['path'] ?? '';
+    if (preg_match('~^/(?:video/|channels/[^/]+/|groups/[^/]+/videos/)?(\d+)(?:/)?$~', $path, $matches)) {
+        return $matches[1];
     }
     return null;
 }

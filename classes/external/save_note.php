@@ -31,7 +31,7 @@ class save_note extends external_api {
             'cmid'        => new external_value(PARAM_INT,   'Course module ID'),
             'sessionid'   => new external_value(PARAM_ALPHANUMEXT, 'Session UUID'),
             'videotime'   => new external_value(PARAM_FLOAT, 'Video timestamp in seconds'),
-            'notetext'    => new external_value(PARAM_TEXT,  'Note text'),
+            'notetext'    => new external_value(PARAM_RAW_TRIM, 'Note text'),
             'playbackrate'=> new external_value(PARAM_FLOAT, 'Playback rate at time of note', VALUE_DEFAULT, 1.0),
         ]);
     }
@@ -84,7 +84,7 @@ class save_note extends external_api {
         // Global note rate limit: max 5 notes every 10 seconds per user/activity.
         $recentnotes = $DB->count_records_select(
             'videotrack_reactev',
-            "videotrackid = :vtid AND userid = :userid AND notetype = 'note' AND timecreated >= :since",
+            "videotrackid = :vtid AND userid = :userid AND notetype = 'note' AND isdeleted = 0 AND timecreated >= :since",
             [
                 'vtid' => $videotrack->id,
                 'userid' => (int)$USER->id,
