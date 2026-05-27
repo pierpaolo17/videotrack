@@ -102,9 +102,12 @@ define([], function() {
         list.appendChild(li);
 
         var maxRenderedNotes = Utils.safeInt(config.notesmaxrendered, 200);
+        var removed = false;
         while (list.children.length > maxRenderedNotes) {
             list.removeChild(list.firstElementChild);
+            removed = true;
         }
+        return removed;
     }
 
     /**
@@ -169,6 +172,13 @@ define([], function() {
             });
         }
 
+        function announceLimitedNotes() {
+            if (!config.studentnoteslimitedlabel) {
+                return;
+            }
+            showStatusMessage(config.studentnoteslimitedlabel, false, config.dismisslabel);
+        }
+
         function setLocalButtonState(playing) {
             setButtonState(saveBtn, playing);
         }
@@ -207,7 +217,6 @@ define([], function() {
             }
             var currentTime = getCurrentVideoTime();
             savingNote = true;
-            saveBtn.disabled = true;
             saveBtn.setAttribute('aria-disabled', 'true');
             saveBtn.setAttribute('aria-busy', 'true');
             saveBtn.classList.add('videotrack-note-save-saving');
@@ -223,7 +232,9 @@ define([], function() {
                 restoreSaveButtonState();
                 showResponseWarnings(response);
                 if (response && response.noteeventid) {
-                    appendRow(response.noteeventid, currentTime, text, config, Utils);
+                    if (appendRow(response.noteeventid, currentTime, text, config, Utils)) {
+                        announceLimitedNotes();
+                    }
                     textarea.value = '';
                     updateCharCounter(textarea, config, Utils);
                     textarea.focus();
@@ -253,8 +264,7 @@ define([], function() {
                 delBtn.setAttribute('aria-busy', 'true');
                 ajax('mod_videotrack_delete_note', {
                     cmid: config.cmid,
-                    noteeventid: noteid,
-                    reactioneventid: noteid
+                    noteeventid: noteid
                 }).then(function(response) {
                     if (response && response.deleted) {
                         var li = delBtn.closest('li');

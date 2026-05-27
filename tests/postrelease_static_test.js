@@ -16,7 +16,7 @@ function exists(relativePath) {
 }
 
 const version = read('version.php');
-assert(/\$plugin->release\s*=\s*'1\.3\.\d+';/.test(version), 'version.php must declare a stable 1.3 release');
+assert(/\$plugin->release\s*=\s*'(?:1\.3\.\d+|1\.4\.0)';/.test(version), 'version.php must declare a stable 1.3/1.4 release');
 assert(/\$plugin->maturity\s*=\s*MATURITY_STABLE;/.test(version), 'post-release packages must remain stable');
 
 [

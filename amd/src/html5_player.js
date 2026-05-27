@@ -158,8 +158,8 @@ define([
                 var start = parseFloat(btn.dataset.start) || 0;
                 var end   = parseFloat(btn.dataset.end)   || 0;
                 state.currentReplayEnd = end > 0 ? end : null;
-                // Marca il seek come programmatico: l'handler 'seeking' lo ignorerà.
-                // isProgrammaticSeek persiste fino all'evento 'seeked' che lo resetta.
+                // Mark this as a programmatic seek: the 'seeking' handler will ignore it.
+                // isProgrammaticSeek persists until the 'seeked' event resets it.
                 state.isProgrammaticSeek = true;
                 Adapter.seek(start, function(target) {
                     media.currentTime = target;
@@ -650,7 +650,7 @@ define([
 
         media.addEventListener('seeked', function() {
             state.isSeeking         = false;
-            state.isProgrammaticSeek = false; // Resetta anche il flag seek programmatico.
+            state.isProgrammaticSeek = false; // Also reset the programmatic seek flag.
             Tracker.clearSeekBlock(state);
             if (state.playing) { startSegment(); }
             if (Tracker.shouldStopReplay(state, safeNumber(media.currentTime, 0))) {
@@ -781,8 +781,13 @@ define([
             }
             if (reactionbtn) {
                 e.preventDefault();
+                if (reactionbtn.getAttribute('aria-busy') === 'true') {
+                    return;
+                }
                 var currentTime = state.lasttime || 0;
                 reactionbtn.classList.add('videotrack-saving');
+                reactionbtn.setAttribute('aria-busy', 'true');
+                reactionbtn.disabled = true;
                 saveCurrentProgress('reaction').then(function() {
                     return ajax('mod_videotrack_save_reaction', {
                         cmid:       config.cmid,
@@ -793,6 +798,8 @@ define([
                     });
                 }).then(function(response) {
                     reactionbtn.classList.remove('videotrack-saving');
+                    reactionbtn.removeAttribute('aria-busy');
+                    reactionbtn.disabled = false;
                     if (response && response.reactioneventid) {
                         appendReactionRow(response.reactioneventid, {
                             label: reactionbtn.getAttribute('data-reactionlabel') || '',
@@ -805,6 +812,8 @@ define([
                     }
                 }).catch(function(err) {
                     reactionbtn.classList.remove('videotrack-saving');
+                    reactionbtn.removeAttribute('aria-busy');
+                    reactionbtn.disabled = false;
                     PlayerCore.showErrorStatusMessage(err, config.reactionerrorlabel, config.dismisslabel);
                 });
                 return;
