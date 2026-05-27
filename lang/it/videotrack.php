@@ -41,6 +41,7 @@ $string['allowseekbackward'] = 'Consenti riavvolgimento';
 $string['allowplaybackratechange'] = 'Consenti variazione della velocità';
 $string['countbyvideotime'] = 'Conteggia la copertura sulla timeline del video';
 $string['countbyvideotime_help'] = 'Consigliato. Il completamento è basato sui secondi unici coperti nella timeline del video, non sulle revisioni ripetute.';
+$string['err:completionpercentrange'] = 'La percentuale di completamento deve essere compresa tra 0 e 100.';
 $string['completionpercent'] = 'Percentuale di completamento richiesta';
 $string['completiondetail:percent'] = 'Richiede la visualizzazione di almeno il {$a}% del video';
 $string['completiondetail:minreactions'] = 'Richiede almeno {$a} reazioni distinte';
@@ -499,6 +500,7 @@ $string['error:playbackpositionnotwatched'] = 'Questa posizione del video non ri
 
 $string['setting:strictsessionvalidation'] = 'Richiedi la stessa sessione browser per validare note e reazioni';
 $string['setting:validationfallbackdays'] = 'Finestra di validazione dello storico di riproduzione (giorni)';
+$string['setting:validationfallbackdays_privacywarning'] = 'Valori superiori a 730 giorni dovrebbero essere usati solo se il sito dispone di una giustificazione documentata per privacy e integrità accademica.';
 $string['setting:validationfallbackdays_desc'] = 'Età massima, in giorni, dei segmenti già guardati che possono autorizzare note e reazioni dopo un refresh o un cambio browser. Imposta 0 per consentire segmenti storici guardati senza limite; migliora l’usabilità ma rende la validazione di integrità accademica più permissiva. I controlli sulla stessa sessione e sulla riproduzione recente vengono sempre tentati per primi.';
 $string['setting:strictsessionvalidation_desc'] = 'Se abilitato, note e reazioni possono essere salvate solo per timestamp visualizzati nella sessione browser corrente. Se disabilitato, VideoTrack accetta timestamp già visualizzati dallo stesso utente nella stessa attività, migliorando l’usabilità dopo aggiornamenti pagina o cambi browser e continuando a rifiutare posizioni non visualizzate.';
 

@@ -820,7 +820,7 @@ class mod_videotrack_mod_form extends moodleform_mod {
         }
         if (isset($data['completionpercent']) &&
                 ((int)$data['completionpercent'] < 0 || (int)$data['completionpercent'] > 100)) {
-            $errors['completionpercentgroup'] = '0-100';
+            $errors['completionpercentgroup'] = get_string('err:completionpercentrange', 'mod_videotrack');
         }
 
         if (array_key_exists('playerwidth', $data)) {
