@@ -524,6 +524,9 @@ define([
             end: normaliseTime(end)
         };
         if (payload.end <= payload.start) {
+            state.segmentstart = null;
+            state.wallclockstart = null;
+            markPaused(state, {reason: 'segment-close-zero-duration'});
             emit(state, 'segment:skipped', {reason: 'zero-duration', start: payload.start, end: payload.end});
             return null;
         }
@@ -769,9 +772,6 @@ define([
         }).then(function(saved) {
             state.heartbeatRunning = false;
             return saved;
-        }, function(error) {
-            state.heartbeatRunning = false;
-            return Promise.reject(error);
         });
     }
 

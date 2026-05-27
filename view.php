@@ -136,6 +136,9 @@ $playerconfig = [
     'notesavedlabel'         => get_string('notesavedlabel',    'mod_videotrack'),
     'notedeletedlabel'       => get_string('notedeletedlabel',  'mod_videotrack'),
     'noteplaybackrequiredlabel' => get_string('noteplaybackrequiredlabel', 'mod_videotrack'),
+    'noteemptylabel'         => get_string('noteemptylabel', 'mod_videotrack'),
+    'notetoolonglabel'       => get_string('notetoolonglabel', 'mod_videotrack'),
+    'studentnoteslimitedlabel' => get_string('studentnoteslimitedlabel', 'mod_videotrack'),
     'notesmaxrendered'       => 200,
     'charsremaininglabel'    => get_string('charsremaininglabel', 'mod_videotrack'),
     'notemaxlength'          => $notemaxlength,
@@ -409,7 +412,7 @@ if (!empty($videotrack->studentnotesenabled)) {
         'id'             => 'videotrack-notes-body',
         'data-collapsed' => '0',  // JS sovrascrive con valore da sessionStorage.
     ]);
-    // Textarea + bottone Salva — gestita da JS.
+    // Textarea and Save button, managed by JavaScript.
     echo html_writer::tag('label', get_string('studentnotes_title', 'mod_videotrack'), [
         'for'   => 'videotrack-note-input',
         'class' => 'form-label small mb-1 videotrack-note-label',
@@ -428,21 +431,23 @@ if (!empty($videotrack->studentnotesenabled)) {
             'type'         => 'button',
             'id'           => 'videotrack-note-save',
             'class'        => 'btn btn-sm btn-primary videotrack-note-save',
-            'aria-disabled'=> 'true',  // Abilitato solo durante play, gestito da JS.
+            'aria-disabled'=> 'true',  // Enabled only during playback, managed by JavaScript.
             'aria-describedby' => 'videotrack-note-hint',
         ]
     );
-    // Contatore caratteri rimanenti — aggiornato in tempo reale da JS.
+    // Remaining character counter, updated in real time by JavaScript.
     echo html_writer::tag('span', $notemaxlength . ' ' . get_string('charsremaininglabel', 'mod_videotrack'), [
         'id'         => 'videotrack-note-charcount',
-        'class'      => 'videotrack-note-charcount small text-muted ms-2',
+        'class'       => 'videotrack-note-charcount small text-muted ms-2',
+        'aria-live'   => 'polite',
+        'aria-atomic' => 'true',
     ]);
-    // Avviso: la nota viene salvata al timestamp attuale del video.
+    // Notice: the note is saved at the current video timestamp.
     echo html_writer::tag('p',
         get_string('studentnote_hint', 'mod_videotrack'),
         ['id' => 'videotrack-note-hint', 'class' => 'small text-muted mt-1 mb-1']
     );
-    // Lista delle note salvate (popolata da JS + server-side).
+    // Saved notes list, populated by JavaScript and server-side rendering.
     echo html_writer::start_tag('ol', [
         'id'         => 'videotrack-notes-list',
         'class'      => 'videotrack-notes-list list-unstyled mt-1',

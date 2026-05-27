@@ -188,7 +188,7 @@ async function testTrackerRegressionFixes() {
 
     const invalidClose = {segmentstart: 6, playing: true};
     assert.strictEqual(Tracker.closeSegment(invalidClose, 6), null);
-    assert.strictEqual(invalidClose.segmentstart, 6, 'zero-duration close should not discard the open segment');
+    assert.strictEqual(invalidClose.segmentstart, null, 'zero-duration close should clear the open segment lifecycle');
 
     assert.strictEqual(Tracker.sendUnloadBeacon({
         state: {segmentstart: 5, lasttime: 5, playing: true},

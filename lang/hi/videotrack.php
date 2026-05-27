@@ -350,6 +350,9 @@ $string['studentnote_label'] = 'विद्यार्थी नोट';
 $string['noteerrorlabel'] = 'नोट सहेजा नहीं जा सका। कृपया फिर प्रयास करें।';
 $string['notesavedlabel'] = 'नोट सहेजा गया।';
 $string['notedeletedlabel'] = 'नोट हटाया गया।';
+$string['noteemptylabel'] = 'नोट खाली है। सहेजने से पहले एक नोट लिखें।';
+$string['notetoolonglabel'] = 'नोट साइट द्वारा अनुमत अधिकतम लंबाई से अधिक है।';
+$string['studentnoteslimitedlabel'] = 'केवल नवीनतम {$a} नोट दिखाए जा रहे हैं।';
 $string['noteplaybackrequiredlabel'] = 'नोट सहेजने से पहले प्लेबैक शुरू करें।';
 $string['charsremaininglabel'] = 'अक्षर शेष';
 $string['posterimage'] = 'पोस्टर / पूर्वावलोकन छवि';
@@ -521,4 +524,4 @@ $string['setting:retentionunlimitedwarning_desc'] = '0 मान tracking data, 
 
 $string['warning:notetruncated'] = 'नोट सहेज दिया गया, लेकिन site द्वारा अनुमत अधिकतम length तक छोटा कर दिया गया।';
 
-$string['error:securetokenunavailable'] = 'सुरक्षित random token generator उपलब्ध नहीं है। VideoTrack anonymisation keys को सुरक्षित रूप से नहीं बना सकता।';
+$string['error:securetokenunavailable'] = 'एक सुरक्षित रैंडम टोकन जनरेटर उपलब्ध नहीं है। VideoTrack अज्ञातीकरण कुंजियाँ सुरक्षित रूप से नहीं बना सकता।';

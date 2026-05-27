@@ -200,25 +200,6 @@ define([
         media = document.createElement(tag);
         media.src        = config.videourl;
         media.autoplay   = !!config.autoplay;
-        // Feature 3: Se autoplay è attivo, intercetta il rifiuto del browser.
-        // I browser moderni restituiscono una Promise da play(); se viene rifiutata
-        // (policy autoplay) mostriamo un messaggio invece di lasciare il player silenzioso.
-        if (config.autoplay) {
-            var autoplayPromise = media.play();
-            if (autoplayPromise !== undefined) {
-                autoplayPromise.catch(function() {
-                    var wrap = media.parentElement;
-                    if (wrap && !wrap.querySelector('.videotrack-autoplay-notice')) {
-                        var notice = document.createElement('div');
-                        notice.className = 'videotrack-autoplay-notice alert alert-info mt-1';
-                        notice.setAttribute('role', 'status');
-                        notice.setAttribute('aria-live', 'polite');
-                        notice.textContent = config.autoblockedlabel;
-                        wrap.appendChild(notice);
-                    }
-                });
-            }
-        }
         media.loop       = !!config.loop;
         media.muted      = !!(config.autoplay || config.startmuted);
         media.playsinline = true;
@@ -236,6 +217,26 @@ define([
         }
 
         container.appendChild(media);
+
+        // If autoplay is active, attempt playback only after the media element
+        // has been configured and attached to the DOM so muted/playsinline are
+        // applied before browser autoplay policy is evaluated.
+        if (config.autoplay) {
+            var autoplayPromise = media.play();
+            if (autoplayPromise !== undefined) {
+                autoplayPromise.catch(function() {
+                    var wrap = media.parentElement;
+                    if (wrap && !wrap.querySelector('.videotrack-autoplay-notice')) {
+                        var notice = document.createElement('div');
+                        notice.className = 'videotrack-autoplay-notice alert alert-info mt-1';
+                        notice.setAttribute('role', 'status');
+                        notice.setAttribute('aria-live', 'polite');
+                        notice.textContent = config.autoblockedlabel;
+                        wrap.appendChild(notice);
+                    }
+                });
+            }
+        }
 
         // Attach VTT subtitles if provided.
         if (config.captions && config.vtturl) {
@@ -300,6 +301,7 @@ define([
                 '⏪ ' + config.rewindstep + 's',
                 config.rewindlabel + ' ' + config.rewindstep + ' ' + config.secondslabel);
             rwBtn.addEventListener('click', function() {
+                Tracker.markProgrammaticSeek(state);
                 Adapter.seek(
                     Adapter.resolveSkipTarget(media.currentTime, -config.rewindstep, state.duration || media.duration),
                     function(target) {
@@ -322,6 +324,7 @@ define([
                 config.fastforwardstep + 's ⏩',
                 config.fastforwardlabel + ' ' + config.fastforwardstep + ' ' + config.secondslabel);
             ffBtn.addEventListener('click', function() {
+                Tracker.markProgrammaticSeek(state);
                 Adapter.seek(
                     Adapter.resolveSkipTarget(media.currentTime, config.fastforwardstep, state.duration || media.duration),
                     function(target) {

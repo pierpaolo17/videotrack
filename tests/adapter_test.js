@@ -94,8 +94,10 @@ function testProviderCapabilities(adapter) {
     assert.strictEqual(adapter.can({}, 'html5', 'currentTime'), false);
 
     const caps = adapter.getCapabilities('youtube');
-    caps.play.push('mutated');
+    caps.play.methods.push('mutated');
     assert.deepStrictEqual(Array.from(adapter.getCapabilityMethods('youtube', 'play')), ['playVideo']);
+    const html5Caps = adapter.getCapabilities('html5');
+    assert.deepStrictEqual(Array.from(html5Caps.currentTime.properties), ['currentTime']);
 }
 
 function testMediaNormalisation(adapter) {

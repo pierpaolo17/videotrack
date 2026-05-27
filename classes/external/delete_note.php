@@ -29,7 +29,8 @@ class delete_note extends external_api {
     public static function execute_parameters(): external_function_parameters {
         return new external_function_parameters([
             'cmid' => new external_value(PARAM_INT, 'Course module ID'),
-            'reactioneventid' => new external_value(PARAM_INT, 'Personal note event ID'),
+            'noteeventid' => new external_value(PARAM_INT, 'Personal note event ID', VALUE_DEFAULT, 0),
+            'reactioneventid' => new external_value(PARAM_INT, 'Legacy personal note event ID', VALUE_DEFAULT, 0),
         ]);
     }
 
@@ -42,22 +43,27 @@ class delete_note extends external_api {
      * an already deleted note are idempotent and do not duplicate Moodle logs.
      *
      * @param int $cmid Course module id.
-     * @param int $reactioneventid Note event id.
+     * @param int $noteeventid Note event id.
+     * @param int $reactioneventid Legacy note event id.
      * @return array
      */
-    public static function execute(int $cmid, int $reactioneventid): array {
+    public static function execute(int $cmid, int $noteeventid = 0, int $reactioneventid = 0): array {
         global $DB, $USER;
 
-        $params = self::validate_parameters(self::execute_parameters(), compact('cmid', 'reactioneventid'));
+        $params = self::validate_parameters(self::execute_parameters(), compact('cmid', 'noteeventid', 'reactioneventid'));
         $params['cmid'] = helper::validate_positive_id((int)$params['cmid'], 'cmid');
-        $params['reactioneventid'] = helper::validate_positive_id((int)$params['reactioneventid'], 'reactioneventid');
+        $noteeventid = (int)$params['noteeventid'];
+        if ($noteeventid <= 0) {
+            $noteeventid = (int)$params['reactioneventid'];
+        }
+        $noteeventid = helper::validate_positive_id($noteeventid, 'noteeventid');
         $loaded = helper::load_and_validate_context((int)$params['cmid']);
         helper::require_ajax_sesskey();
         $videotrack = $loaded['videotrack'];
         $context = $loaded['context'];
 
         $event = $DB->get_record('videotrack_reactev', [
-            'id' => $params['reactioneventid'],
+            'id' => $noteeventid,
             'userid' => $USER->id,
             'videotrackid' => $videotrack->id,
             'notetype' => 'note',

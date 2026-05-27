@@ -967,5 +967,10 @@ function xmldb_videotrack_upgrade($oldversion) {
         upgrade_mod_savepoint(true, 2026072506, 'videotrack');
     }
 
+    if ($oldversion < 2026072507) {
+        // Release 1.3.101: AMD robustness, notes accessibility and localisation fixes. No schema changes.
+        upgrade_mod_savepoint(true, 2026072507, 'videotrack');
+    }
+
     return true;
 }
