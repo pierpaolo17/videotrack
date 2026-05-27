@@ -513,10 +513,12 @@ $string['warning:suspicioussegment'] = 'Das Wiedergabesegment wurde nicht gespei
 
 $string['event:notes_exported'] = 'Persönliche Notizen exportiert';
 
-$string['externalproviderprivacy_notice'] = 'Diese Aktivität lädt das Video von einem externen Anbieter. Der Browser kann technische Daten wie IP-Adresse, User-Agent und Cookies gemäß der Datenschutzerklärung der Website an diesen Anbieter senden.';
+$string['externalproviderprivacy_notice'] = 'Diese Aktivität lädt Video von {$a}. Ihr Browser kann technische Daten wie IP-Adresse, User-Agent und Cookies gemäß der Datenschutzerklärung der Website an diesen Anbieter senden.';
 
 $string['setting:retentionunlimitedwarning_title'] = 'Unbegrenzte VideoTrack-Aufbewahrung ist aktiviert.';
 
 $string['setting:retentionunlimitedwarning_desc'] = 'Der Wert 0 speichert Trackingdaten, Notizen und Reaktionen unbegrenzt. Stellen Sie sicher, dass dies nach Ihrer DSGVO-/Datenschutzrichtlinie begründet ist, oder setzen Sie eine feste Frist, zum Beispiel 730 Tage.';
 
 $string['warning:notetruncated'] = 'Die Notiz wurde gespeichert, aber auf die von der Website erlaubte Höchstlänge gekürzt.';
+
+$string['error:securetokenunavailable'] = 'Es ist kein sicherer Zufalls-Token-Generator verfügbar. VideoTrack kann Anonymisierungsschlüssel nicht sicher erstellen.';

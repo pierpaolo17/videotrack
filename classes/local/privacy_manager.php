@@ -83,11 +83,7 @@ class privacy_manager {
                 if (function_exists('random_string')) {
                     $salt = random_string(64);
                 } else {
-                    debugging(
-                        'mod_videotrack: CSPRNG unavailable; anonymisation salt generated with a weak fallback.',
-                        DEBUG_NORMAL
-                    );
-                    $salt = hash('sha256', uniqid('', true) . ':' . microtime(true));
+                    throw new \moodle_exception('error:securetokenunavailable', 'mod_videotrack');
                 }
             }
             set_config(self::ANONYMISATION_SALT_CONFIG, $salt, 'mod_videotrack');

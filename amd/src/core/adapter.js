@@ -15,48 +15,49 @@ define([], function() {
     /**
      * Provider capability definitions used by the adapter layer.
      *
-     * Each capability lists the provider methods that must be available before
-     * callers can safely execute that operation. HTML5 operations that are
-     * property based use an empty method list and therefore only require the
-     * media element to be present.
+     * Each capability lists the provider methods and/or properties that must be
+     * available before callers can safely execute that operation. HTML5
+     * operations are often property based, so they must not be represented as an
+     * empty requirement set because that would make every truthy object appear
+     * capable of every property based operation.
      *
-     * @type {Object<string, Object<string, Array<string>>>}
+     * @type {Object<string, Object<string, {methods: Array<string>, properties: Array<string>}>>}
      */
     var CAPABILITIES = {
         youtube: {
-            currentTime: ['getCurrentTime'],
-            duration: ['getDuration'],
-            play: ['playVideo'],
-            pause: ['pauseVideo'],
-            seek: ['seekTo'],
-            playbackRate: ['getPlaybackRate', 'setPlaybackRate'],
-            readPlaybackRate: ['getPlaybackRate'],
-            writePlaybackRate: ['setPlaybackRate'],
-            ended: ['getPlayerState']
+            currentTime: {methods: ['getCurrentTime'], properties: []},
+            duration: {methods: ['getDuration'], properties: []},
+            play: {methods: ['playVideo'], properties: []},
+            pause: {methods: ['pauseVideo'], properties: []},
+            seek: {methods: ['seekTo'], properties: []},
+            playbackRate: {methods: ['getPlaybackRate', 'setPlaybackRate'], properties: []},
+            readPlaybackRate: {methods: ['getPlaybackRate'], properties: []},
+            writePlaybackRate: {methods: ['setPlaybackRate'], properties: []},
+            ended: {methods: ['getPlayerState'], properties: []}
         },
         html5: {
-            currentTime: [],
-            duration: [],
-            play: ['play'],
-            pause: ['pause'],
-            seek: [],
-            playbackRate: [],
-            readPlaybackRate: [],
-            writePlaybackRate: [],
-            volume: [],
-            mute: [],
-            paused: [],
-            ended: []
+            currentTime: {methods: [], properties: ['currentTime']},
+            duration: {methods: [], properties: ['duration']},
+            play: {methods: ['play'], properties: []},
+            pause: {methods: ['pause'], properties: []},
+            seek: {methods: [], properties: ['currentTime']},
+            playbackRate: {methods: [], properties: ['playbackRate']},
+            readPlaybackRate: {methods: [], properties: ['playbackRate']},
+            writePlaybackRate: {methods: [], properties: ['playbackRate']},
+            volume: {methods: [], properties: ['volume']},
+            mute: {methods: [], properties: ['muted']},
+            paused: {methods: [], properties: ['paused']},
+            ended: {methods: [], properties: ['ended']}
         },
         vimeo: {
-            currentTime: ['getCurrentTime'],
-            duration: ['getDuration'],
-            play: ['play'],
-            pause: ['pause'],
-            seek: ['setCurrentTime'],
-            playbackRate: ['getPlaybackRate', 'setPlaybackRate'],
-            readPlaybackRate: ['getPlaybackRate'],
-            writePlaybackRate: ['setPlaybackRate']
+            currentTime: {methods: ['getCurrentTime'], properties: []},
+            duration: {methods: ['getDuration'], properties: []},
+            play: {methods: ['play'], properties: []},
+            pause: {methods: ['pause'], properties: []},
+            seek: {methods: ['setCurrentTime'], properties: []},
+            playbackRate: {methods: ['getPlaybackRate', 'setPlaybackRate'], properties: []},
+            readPlaybackRate: {methods: ['getPlaybackRate'], properties: []},
+            writePlaybackRate: {methods: ['setPlaybackRate'], properties: []}
         }
     };
 
@@ -68,7 +69,7 @@ define([], function() {
      * @returns {string} Canonical provider key or empty string.
      */
     function normaliseProviderType(providerType) {
-        var type = String(providerType || '').toLowerCase();
+        var type = String(providerType || '').trim().toLowerCase();
         return Object.prototype.hasOwnProperty.call(CAPABILITIES, type) ? type : '';
     }
 
@@ -89,12 +90,22 @@ define([], function() {
      * @param {string} capability Capability key.
      * @returns {Array<string>} Required provider methods.
      */
-    function getCapabilityMethods(providerType, capability) {
-        var providerCapabilities = CAPABILITIES[String(providerType || '').toLowerCase()];
+    function getCapabilityDefinition(providerType, capability) {
+        var providerCapabilities = CAPABILITIES[String(providerType || '').trim().toLowerCase()];
         if (!providerCapabilities || !Object.prototype.hasOwnProperty.call(providerCapabilities, capability)) {
-            return [];
+            return null;
         }
-        return providerCapabilities[capability].slice(0);
+        return providerCapabilities[capability];
+    }
+
+    function getCapabilityMethods(providerType, capability) {
+        var definition = getCapabilityDefinition(providerType, capability);
+        return definition ? definition.methods.slice(0) : [];
+    }
+
+    function getCapabilityProperties(providerType, capability) {
+        var definition = getCapabilityDefinition(providerType, capability);
+        return definition ? definition.properties.slice(0) : [];
     }
 
     /**
@@ -107,10 +118,11 @@ define([], function() {
      */
     function can(provider, providerType, capability) {
         var type = normaliseProviderType(providerType);
-        if (!type) {
+        var definition = type ? getCapabilityDefinition(type, capability) : null;
+        if (!definition) {
             return false;
         }
-        return isAvailable(provider, getCapabilityMethods(type, capability));
+        return isAvailable(provider, definition.methods, definition.properties);
     }
 
     /**
@@ -143,10 +155,10 @@ define([], function() {
      * @returns {Object<string, Array<string>>} Capability map.
      */
     function getCapabilities(providerType) {
-        var providerCapabilities = CAPABILITIES[String(providerType || '').toLowerCase()] || {};
+        var providerCapabilities = CAPABILITIES[String(providerType || '').trim().toLowerCase()] || {};
         var copy = {};
         Object.keys(providerCapabilities).forEach(function(key) {
-            copy[key] = providerCapabilities[key].slice(0);
+            copy[key] = providerCapabilities[key].methods.slice(0);
         });
         return copy;
     }
@@ -305,15 +317,19 @@ define([], function() {
      * @param {Array<string>=} methods Required method names.
      * @returns {boolean} True when the provider is usable for the requested methods.
      */
-    function isAvailable(provider, methods) {
+    function isAvailable(provider, methods, properties) {
         if (!provider) {
             return false;
         }
-        if (!methods || !methods.length) {
+        var requiredMethods = methods || [];
+        var requiredProperties = properties || [];
+        if (!requiredMethods.length && !requiredProperties.length) {
             return true;
         }
-        return methods.every(function(method) {
+        return requiredMethods.every(function(method) {
             return typeof provider[method] === 'function';
+        }) && requiredProperties.every(function(property) {
+            return property in Object(provider);
         });
     }
 
@@ -372,6 +388,9 @@ define([], function() {
      */
     function setVolume(volume, setter, state, log, label) {
         var safeVolume = normaliseVolume(volume, state && state.volume);
+        if (typeof setter !== 'function') {
+            return run(null, log, label || 'set volume');
+        }
         return run(function() {
             var result = setter(safeVolume);
             if (state) {
@@ -421,6 +440,9 @@ define([], function() {
      */
     function setMuted(muted, setter, state, log, label) {
         var safeMuted = !!muted;
+        if (typeof setter !== 'function') {
+            return run(null, log, label || 'set muted');
+        }
         return run(function() {
             var result = setter(safeMuted);
             if (state) {
@@ -475,6 +497,9 @@ define([], function() {
         if (!isFinite(safeRate) || safeRate <= 0) {
             safeRate = 1;
         }
+        if (typeof setter !== 'function') {
+            return run(null, log, label || 'set playback rate');
+        }
         return run(function() {
             var result = setter(safeRate);
             if (state) {
@@ -498,7 +523,11 @@ define([], function() {
         var fallback = state && typeof state.playing === 'boolean' ? !state.playing : true;
         try {
             if (typeof getter === 'function') {
-                return !!getter();
+                var paused = !!getter();
+                if (state) {
+                    state.playing = !paused;
+                }
+                return paused;
             }
         } catch (error) {
             if (log && typeof log.debug === 'function') {
@@ -522,7 +551,17 @@ define([], function() {
         var fallback = state && typeof state.ended === 'boolean' ? state.ended : false;
         try {
             if (typeof getter === 'function') {
-                var ended = !!getter();
+                var value = getter();
+                var ended = false;
+                if (typeof value === 'boolean') {
+                    ended = value;
+                } else if (typeof value === 'number' && isFinite(value)) {
+                    ended = value === 0;
+                } else if (typeof value === 'string' && value !== '' && isFinite(Number(value))) {
+                    ended = Number(value) === 0;
+                } else {
+                    ended = !!value;
+                }
                 if (state) {
                     state.ended = ended;
                 }
@@ -594,6 +633,9 @@ define([], function() {
      */
     function seek(target, seeker, log, label) {
         var safeTarget = normaliseTime(target, 0);
+        if (typeof seeker !== 'function') {
+            return run(null, log, label || 'seek');
+        }
         return run(function() {
             return seeker(safeTarget);
         }, log, label || 'seek');
@@ -602,6 +644,7 @@ define([], function() {
     return {
         getCapabilities: getCapabilities,
         getCapabilityMethods: getCapabilityMethods,
+        getCapabilityProperties: getCapabilityProperties,
         normaliseProviderType: normaliseProviderType,
         isKnownProviderType: isKnownProviderType,
         can: can,

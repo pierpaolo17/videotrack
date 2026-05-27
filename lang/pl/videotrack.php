@@ -515,10 +515,12 @@ $string['warning:suspicioussegment'] = 'Segment oglądania nie został zapisany,
 
 $string['event:notes_exported'] = 'Wyeksportowano notatki osobiste';
 
-$string['externalproviderprivacy_notice'] = 'Ta aktywność ładuje wideo od zewnętrznego dostawcy. Przeglądarka może wysyłać do niego dane techniczne, takie jak adres IP, user agent i pliki cookie, zgodnie z informacją o prywatności witryny.';
+$string['externalproviderprivacy_notice'] = 'Ta aktywność wczytuje wideo z {$a}. Przeglądarka może wysyłać do tego dostawcy dane techniczne, takie jak adres IP, user agent i pliki cookie, zgodnie z informacją o prywatności witryny.';
 
 $string['setting:retentionunlimitedwarning_title'] = 'Włączono bezterminowe przechowywanie VideoTrack.';
 
 $string['setting:retentionunlimitedwarning_desc'] = 'Wartość 0 przechowuje dane śledzenia, notatki i reakcje bezterminowo. Potwierdź, że jest to uzasadnione zgodnie z polityką GDPR/prywatności, albo ustaw skończony okres, np. 730 dni.';
 
 $string['warning:notetruncated'] = 'Notatka została zapisana, ale skrócono ją do maksymalnej długości dozwolonej w witrynie.';
+
+$string['error:securetokenunavailable'] = 'Bezpieczny generator losowych tokenów nie jest dostępny. VideoTrack nie może bezpiecznie utworzyć kluczy anonimizacji.';

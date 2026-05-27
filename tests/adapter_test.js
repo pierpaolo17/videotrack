@@ -42,6 +42,7 @@ function createLogger() {
 
 function testProviderCapabilities(adapter) {
     assert.strictEqual(adapter.normaliseProviderType('YouTube'), 'youtube');
+    assert.strictEqual(adapter.normaliseProviderType(' youtube '), 'youtube');
     assert.strictEqual(adapter.normaliseProviderType('HTML5'), 'html5');
     assert.strictEqual(adapter.normaliseProviderType('unknown'), '');
     assert.strictEqual(adapter.isKnownProviderType('vimeo'), true);
@@ -71,7 +72,17 @@ function testProviderCapabilities(adapter) {
     assert.strictEqual(adapter.canDuration(partialYoutube, 'youtube'), false);
     assert.strictEqual(adapter.canSeek(partialYoutube, 'youtube'), false);
 
-    const html5 = {play: () => true, pause: () => true};
+    const html5 = {
+        currentTime: 0,
+        duration: 120,
+        play: () => true,
+        pause: () => true,
+        playbackRate: 1,
+        volume: 1,
+        muted: false,
+        paused: true,
+        ended: false
+    };
     assert.strictEqual(adapter.canCurrentTime(html5, 'html5'), true);
     assert.strictEqual(adapter.canDuration(html5, 'html5'), true);
     assert.strictEqual(adapter.canPlay(html5, 'html5'), true);
@@ -79,6 +90,8 @@ function testProviderCapabilities(adapter) {
     assert.strictEqual(adapter.canSeek(html5, 'html5'), true);
     assert.strictEqual(adapter.canPaused(html5, 'html5'), true);
     assert.strictEqual(adapter.canEnded(html5, 'html5'), true);
+    assert.strictEqual(adapter.can({}, 'html5', 'notARealCapability'), false);
+    assert.strictEqual(adapter.can({}, 'html5', 'currentTime'), false);
 
     const caps = adapter.getCapabilities('youtube');
     caps.play.push('mutated');
@@ -129,11 +142,14 @@ function testStatefulReaders(adapter) {
     assert.strictEqual(state.playbackrate, 1);
 
     assert.strictEqual(adapter.isPaused(state, () => false, log, 'unit'), false);
+    assert.strictEqual(state.playing, true);
     assert.strictEqual(adapter.isPaused({playing: false}, null, log, 'unit'), true);
 
     assert.strictEqual(adapter.isEnded(state, () => true, log, 'unit'), true);
     assert.strictEqual(state.ended, true);
-    assert.strictEqual(adapter.isEnded(state, () => { throw new Error('boom'); }, log, 'unit'), true);
+    assert.strictEqual(adapter.isEnded(state, () => 0, log, 'youtube'), true);
+    assert.strictEqual(adapter.isEnded(state, () => 1, log, 'youtube'), false);
+    assert.strictEqual(adapter.isEnded(state, () => { throw new Error('boom'); }, log, 'unit'), false);
 
     assert(log.messages.length >= 3, 'expected reader failures to be logged');
 }

@@ -515,10 +515,12 @@ $string['warning:suspicioussegment'] = 'The viewing segment was not recorded bec
 
 $string['event:notes_exported'] = 'Personal notes exported';
 
-$string['externalproviderprivacy_notice'] = 'This activity loads video from an external provider. Your browser may send technical data such as IP address, user agent and cookies to that provider according to the site privacy notice.';
+$string['externalproviderprivacy_notice'] = 'This activity loads video from {$a}. Your browser may send technical data such as IP address, user agent and cookies to that provider according to the site privacy notice.';
 
 $string['setting:retentionunlimitedwarning_title'] = 'Unlimited VideoTrack retention is enabled.';
 
 $string['setting:retentionunlimitedwarning_desc'] = 'A value of 0 keeps tracking data, notes and reactions indefinitely. Confirm that this is justified under your GDPR/privacy policy, or set a finite retention period such as 730 days.';
 
 $string['warning:notetruncated'] = 'The note was saved, but it was shortened to the maximum length allowed by the site.';
+
+$string['error:securetokenunavailable'] = 'A secure random token generator is not available. VideoTrack cannot safely create anonymisation keys.';

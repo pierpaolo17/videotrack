@@ -962,5 +962,10 @@ function xmldb_videotrack_upgrade($oldversion) {
         upgrade_mod_savepoint(true, 2026072505, 'videotrack');
     }
 
+    if ($oldversion < 2026072506) {
+        // Release 1.3.100: privacy hardening and accessibility/contrast cleanup. No schema changes.
+        upgrade_mod_savepoint(true, 2026072506, 'videotrack');
+    }
+
     return true;
 }

@@ -8,6 +8,8 @@
  */
 define([], function() {
 
+    var CHAR_COUNTER_DEBOUNCE_MS = 120;
+
     /**
      * Calculate remaining characters for a note textarea.
      *
@@ -141,7 +143,30 @@ define([], function() {
         if (!saveBtn || !textarea) { return; }
 
         function ajax(methodname, args) {
-            return Ajax.call([{methodname: methodname, args: args}])[0];
+            var calls = Ajax.call([{methodname: methodname, args: args}]);
+            var request = calls && calls[0];
+            if (!request || typeof request.then !== 'function') {
+                return Promise.reject(new Error('Invalid AJAX response'));
+            }
+            return request;
+        }
+
+        function restoreSaveButtonState() {
+            savingNote = false;
+            saveBtn.removeAttribute('aria-busy');
+            saveBtn.classList.remove('videotrack-note-save-saving');
+            setLocalButtonState(state.playing);
+        }
+
+        function showResponseWarnings(response) {
+            if (!response || !response.warnings || !response.warnings.length) {
+                return;
+            }
+            response.warnings.forEach(function(warning) {
+                if (warning && warning.message) {
+                    showStatusMessage(warning.message, true, config.dismisslabel);
+                }
+            });
         }
 
         function setLocalButtonState(playing) {
@@ -149,7 +174,7 @@ define([], function() {
         }
 
         var playStateHandler = function(e) {
-            setLocalButtonState(e.detail && e.detail.playing);
+            setLocalButtonState(!!(e.detail && e.detail.playing));
         };
         document.addEventListener('videotrack:playstate', playStateHandler);
         window.addEventListener('beforeunload', function() {
@@ -185,7 +210,7 @@ define([], function() {
             saveBtn.setAttribute('aria-disabled', 'true');
             saveBtn.setAttribute('aria-busy', 'true');
             saveBtn.classList.add('videotrack-note-save-saving');
-            saveCurrentProgress('note').then(function() {
+            Promise.resolve(saveCurrentProgress('note')).then(function() {
                 return ajax('mod_videotrack_save_note', {
                     cmid: config.cmid,
                     sessionid: state.sessionid,
@@ -194,10 +219,8 @@ define([], function() {
                     playbackrate: state.playbackrate || 1
                 });
             }).then(function(response) {
-                savingNote = false;
-                saveBtn.removeAttribute('aria-busy');
-                saveBtn.classList.remove('videotrack-note-save-saving');
-                setLocalButtonState(state.playing);
+                restoreSaveButtonState();
+                showResponseWarnings(response);
                 if (response && response.noteeventid) {
                     appendRow(response.noteeventid, currentTime, text, config, Utils);
                     textarea.value = '';
@@ -206,12 +229,11 @@ define([], function() {
                     if (config.notesavedlabel) {
                         showStatusMessage(config.notesavedlabel, false, config.dismisslabel);
                     }
+                    return;
                 }
+                showStatusMessage(config.noteerrorlabel, true, config.dismisslabel);
             }).catch(function(error) {
-                savingNote = false;
-                saveBtn.removeAttribute('aria-busy');
-                saveBtn.classList.remove('videotrack-note-save-saving');
-                setLocalButtonState(state.playing);
+                restoreSaveButtonState();
                 showErrorStatusMessage(error, config.noteerrorlabel, config.dismisslabel);
             });
         });
@@ -223,6 +245,8 @@ define([], function() {
                 if (!delBtn || !noteList.contains(delBtn)) { return; }
                 var noteid = Utils.safeInt(delBtn.dataset.noteid, 0);
                 if (!noteid) { return; }
+                delBtn.disabled = true;
+                delBtn.setAttribute('aria-busy', 'true');
                 ajax('mod_videotrack_delete_note', {
                     cmid: config.cmid,
                     reactioneventid: noteid
@@ -239,7 +263,15 @@ define([], function() {
                             }
                         }
                     }
+                    if (delBtn.isConnected) {
+                        delBtn.disabled = false;
+                        delBtn.removeAttribute('aria-busy');
+                    }
                 }).catch(function(err) {
+                    if (delBtn.isConnected) {
+                        delBtn.disabled = false;
+                        delBtn.removeAttribute('aria-busy');
+                    }
                     Log.debug('mod_videotrack: note deletion failed - ' + err);
                     showStatusMessage(config.noteerrorlabel, true, config.dismisslabel);
                 });
@@ -253,7 +285,7 @@ define([], function() {
             charCounterTimer = window.setTimeout(function() {
                 updateCharCounter(textarea, config, Utils);
                 charCounterTimer = null;
-            }, 120);
+            }, CHAR_COUNTER_DEBOUNCE_MS);
         });
     }
 
