@@ -1,4 +1,27 @@
 <?php
+// This file is part of Moodle - https://moodle.org/
+//
+// Moodle is free software: you can redistribute it and/or modify
+// it under the terms of the GNU General Public License as published by
+// the Free Software Foundation, either version 3 of the License, or
+// (at your option) any later version.
+//
+// Moodle is distributed in the hope that it will be useful,
+// but WITHOUT ANY WARRANTY; without even the implied warranty of
+// MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+// GNU General Public License for more details.
+//
+// You should have received a copy of the GNU General Public License
+// along with Moodle.  If not, see <https://www.gnu.org/licenses/>.
+
+/**
+ * VideoTrack plugin file.
+ *
+ * @package   mod_videotrack
+ * @copyright 2026 videotrack contributors
+ * @license   https://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
+ */
+
 /**
  * Course-level report for mod_videotrack.
  *
@@ -141,14 +164,13 @@ foreach ($instances as $inst) {
     $pct    = (float)($inst->avg_percent ?? 0);
     $barw   = max(0, min(100, $pct));
     $avglabel = get_string('coursereport:avgcoverage', 'mod_videotrack', format_float($pct, 1));
-    $avgid = 'videotrack-course-avg-' . (int)$inst->id;
-    $barsvg = '<svg width="80" height="14" role="img" aria-labelledby="' . $avgid . '" '
+    $barsvg = '<svg width="80" height="14" role="img" '
         . 'focusable="false" style="vertical-align:middle;margin-left:4px">'
         . '<title>' . s($avglabel) . '</title>'
         . '<rect class="videotrack-course-avgbar-bg" x="0" y="3" width="80" height="8" rx="2"/>'
         . '<rect class="videotrack-course-avgbar-fill" x="0" y="3" width="' . round($barw * 0.8) . '" height="8" rx="2"/>'
         . '</svg>';
-    $avgcell = html_writer::span($avglabel, 'videotrack-course-avglabel', ['id' => $avgid]) . ' ' . $barsvg;
+    $avgcell = html_writer::span($avglabel, 'videotrack-course-avglabel') . ' ' . $barsvg;
 
     $table->data[] = [
         $link,

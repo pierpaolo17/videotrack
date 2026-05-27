@@ -7,9 +7,15 @@
     --videotrack-interval-fill: var(--bs-success, #198754);
     --videotrack-focus-ring: var(--bs-primary, Highlight);
     --videotrack-control-fg: var(--bs-white, #fff);
-    --videotrack-control-border: rgba(255, 255, 255, 0.35);
-    --videotrack-control-bg: rgba(0, 0, 0, 0.82);
-    --videotrack-control-bg-hover: rgba(255, 255, 255, 0.18);
+    --videotrack-control-border: rgba(var(--bs-white-rgb, 255, 255, 255), 0.35);
+    --videotrack-control-bg: rgba(var(--bs-black-rgb, 0, 0, 0), 0.82);
+    --videotrack-control-bg-hover: rgba(var(--bs-white-rgb, 255, 255, 255), 0.18);
+    --videotrack-loading-spinner-border: rgba(var(--bs-white-rgb, 255, 255, 255), 0.2);
+    --videotrack-loading-spinner-reduced: rgba(var(--bs-white-rgb, 255, 255, 255), 0.6);
+    --videotrack-skip-bg: rgba(var(--bs-black-rgb, 0, 0, 0), 0.72);
+    --videotrack-skip-hover-bg: rgba(var(--bs-black-rgb, 0, 0, 0), 0.9);
+    --videotrack-skip-border: rgba(var(--bs-white-rgb, 255, 255, 255), 0.25);
+    --videotrack-poster-overlay-bg: rgba(var(--bs-body-bg-rgb, 255, 255, 255), 0.9);
     --videotrack-media-bg: var(--bs-black, #000);
     --videotrack-muted-text: var(--bs-secondary-color, #6c757d);
     --videotrack-panel-bg: var(--bs-body-bg, #fff);
@@ -193,7 +199,7 @@
 .videotrack-loading-spinner {
     width: 40px;
     height: 40px;
-    border: 4px solid rgba(255,255,255,0.2);
+    border: 4px solid var(--videotrack-loading-spinner-border);
     border-top-color: var(--videotrack-control-fg);
     border-radius: 50%;
     animation: vt-spin 0.9s linear infinite;
@@ -206,7 +212,7 @@
 @media (prefers-reduced-motion: reduce) {
     .videotrack-loading-spinner {
         animation: none;
-        border-top-color: rgba(255,255,255,0.6);
+        border-top-color: var(--videotrack-loading-spinner-reduced);
     }
 }
 
@@ -340,8 +346,8 @@
         --videotrack-interval-fill: var(--bs-success-text-emphasis, var(--bs-success, #198754));
         --videotrack-focus-ring: var(--bs-primary-border-subtle, #8ab4ff);
         --videotrack-muted-text: var(--bs-secondary-color, var(--bs-gray-500, #6c757d));
-        --videotrack-panel-bg: var(--bs-body-bg, #1e1e2e);
-        --videotrack-panel-border: var(--bs-border-color, #444);
+        --videotrack-panel-bg: var(--bs-body-bg);
+        --videotrack-panel-border: var(--bs-border-color);
         --videotrack-transcript-hover-bg: rgba(var(--bs-primary-rgb, 138, 180, 255), 0.20);
         --videotrack-transcript-active-bg: rgba(var(--bs-primary-rgb, 138, 180, 255), 0.28);
         --videotrack-transcript-playing-bg: rgba(var(--bs-success-rgb, 117, 183, 152), 0.20);
@@ -411,8 +417,8 @@
 }
 
 .videotrack-skip-btn {
-    background: rgba(0,0,0,0.72);
-    border: 1px solid rgba(255,255,255,0.25);
+    background: var(--videotrack-skip-bg);
+    border: 1px solid var(--videotrack-skip-border);
     color: var(--videotrack-control-fg);
     font-size: 0.82rem;
     padding: 0.2rem 0.6rem;
@@ -420,7 +426,7 @@
     min-height: 44px; /* WCAG 2.5.5: touch target minimo */
 }
 
-.videotrack-skip-btn:hover { background: rgba(0,0,0,0.9); }
+.videotrack-skip-btn:hover { background: var(--videotrack-skip-hover-bg); }
 
 /* Rewind / fast-forward inside HTML5 custom control bar */
 .videotrack-ctrl-rewind,
@@ -761,7 +767,7 @@
     width: 5rem;
     height: 5rem;
     border-radius: 50%;
-    background: rgba(255,255,255,.9);
+    background: var(--videotrack-poster-overlay-bg);
     border: none;
     cursor: pointer;
     display: flex;

@@ -18,7 +18,7 @@ function exists(relativePath) {
 assert(exists('tests/review_fixes_static_test.js'), 'review fixes static test must exist');
 
 const version = read('version.php');
-assert(/\$plugin->release\s*=\s*'(?:1\.3\.\d+|1\.4\.0)'/.test(version), 'review fix line must remain in the stable 1.3/1.4 line');
+assert(/\$plugin->release\s*=\s*'(?:1\.3\.\d+|1\.4\.\d+)'/.test(version), 'review fix line must remain in the stable 1.3/1.4 line');
 
 const report = read('report.php');
 assert(/X-Content-Type-Options:\s*nosniff/.test(report), 'CSV exports must send nosniff header');

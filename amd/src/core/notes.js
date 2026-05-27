@@ -143,6 +143,8 @@ define([], function() {
         var textarea = document.getElementById('videotrack-note-input');
         var savingNote = false;
         var charCounterTimer = null;
+        var lastCharThreshold = null;
+        var limitedNotesAnnounced = false;
         if (!saveBtn || !textarea) { return; }
 
         function ajax(methodname, args) {
@@ -173,10 +175,31 @@ define([], function() {
         }
 
         function announceLimitedNotes() {
-            if (!config.studentnoteslimitedlabel) {
+            if (!config.studentnoteslimitedlabel || limitedNotesAnnounced) {
                 return;
             }
+            limitedNotesAnnounced = true;
             showStatusMessage(config.studentnoteslimitedlabel, false, config.dismisslabel);
+        }
+
+        function announceCharThreshold(remaining) {
+            var live = document.getElementById('videotrack-note-live-status');
+            if (!live) {
+                return;
+            }
+            var threshold = null;
+            if (remaining === 0) {
+                threshold = 0;
+            } else if (remaining <= 10) {
+                threshold = 10;
+            } else if (remaining <= 50) {
+                threshold = 50;
+            }
+            if (threshold === null || threshold === lastCharThreshold) {
+                return;
+            }
+            lastCharThreshold = threshold;
+            live.textContent = remaining + ' ' + config.charsremaininglabel;
         }
 
         function setLocalButtonState(playing) {
@@ -237,6 +260,7 @@ define([], function() {
                     }
                     textarea.value = '';
                     updateCharCounter(textarea, config, Utils);
+                    lastCharThreshold = null;
                     textarea.focus();
                     if (config.notesavedlabel) {
                         showStatusMessage(config.notesavedlabel, false, config.dismisslabel);
@@ -298,7 +322,8 @@ define([], function() {
                 window.clearTimeout(charCounterTimer);
             }
             charCounterTimer = window.setTimeout(function() {
-                updateCharCounter(textarea, config, Utils);
+                var remaining = updateCharCounter(textarea, config, Utils);
+                announceCharThreshold(remaining);
                 charCounterTimer = null;
             }, CHAR_COUNTER_DEBOUNCE_MS);
         });
