@@ -85,9 +85,10 @@ $posterurl   = videotrack_get_poster_url((int)$cm->id);
 $heartbeat   = videotrack_get_config_int('heartbeatinterval', 30, 5, 300);
 $distractionfree = !empty(get_config('mod_videotrack', 'distractionfree'));
 $notemaxlength = videotrack_get_config_int('notemaxlength', 2000, 100, 10000);
+$notesmaxrendered = 200;
 
-// Valida intervaljson prima di passarlo al JS: garantisce array JSON valido
-// anche se il campo DB fosse corrotto o null.
+// Validate intervaljson before passing it to JS, keeping a valid JSON array
+// even if the DB field is corrupted or null.
 $rawintervals = $state ? (string)$state->intervaljson : '[]';
 $decodedcheck = json_decode($rawintervals, true);
 $safeintervals = is_array($decodedcheck) ? $rawintervals : '[]';
@@ -115,9 +116,9 @@ $playerconfig = [
     'captionslang'           => (string)($videotrack->captionslang ?? ''),
     'vtturl'                 => $vtturl ? (string)$vtturl : '',
     'showtranscript'         => !empty($videotrack->showtranscript) && $vtturl !== null,
-    // Feature 10: Capitoli VTT — stessa sorgente del transcript.
+    // Feature 10: VTT chapters use the same source as the transcript.
     'showchapters'           => !empty($videotrack->showchapters) && $vtturl !== null,
-    // Feature 12: Poster — URL immagine anteprima (null = nessuna immagine).
+    // Feature 12: poster preview image URL (empty when no image is configured).
     'posterurl'              => $posterurl ? (string)$posterurl : '',
     'chapterslabel'          => get_string('chapters_label', 'mod_videotrack'),
     'chapterlabel'           => get_string('chapter_label', 'mod_videotrack'),
@@ -138,8 +139,8 @@ $playerconfig = [
     'noteplaybackrequiredlabel' => get_string('noteplaybackrequiredlabel', 'mod_videotrack'),
     'noteemptylabel'         => get_string('noteemptylabel', 'mod_videotrack'),
     'notetoolonglabel'       => get_string('notetoolonglabel', 'mod_videotrack'),
-    'studentnoteslimitedlabel' => get_string('studentnoteslimitedlabel', 'mod_videotrack'),
-    'notesmaxrendered'       => 200,
+    'studentnoteslimitedlabel' => get_string('studentnoteslimitedlabel', 'mod_videotrack', $notesmaxrendered),
+    'notesmaxrendered'       => $notesmaxrendered,
     'charsremaininglabel'    => get_string('charsremaininglabel', 'mod_videotrack'),
     'notemaxlength'          => $notemaxlength,
     'dismisslabel'           => get_string('dismisslabel',       'mod_videotrack'),
@@ -174,10 +175,10 @@ $playerconfig = [
     'beaconurl'              => (string)(new moodle_url('/lib/ajax/service.php', ['sesskey' => sesskey()])),
     'replaystart'            => $replaystart >= 0 ? $replaystart : null,
     'replayend'              => $replayend   >= 0 ? $replayend   : null,
-    // Feature 1: Resume dal punto lasciato (solo se abilitato e lastposition > 5s).
+    // Feature 1: resume from the previous position when enabled and lastposition > 5s.
     'resumeposition'         => (!empty($videotrack->resumeplayback) && $state && (float)$state->lastposition > 5.0)
                                     ? round((float)$state->lastposition, 3) : 0,
-    // Feature 6: Limite max velocità in centesimi (0=illimitato, 150=1.5×, ecc.).
+    // Feature 6: maximum playback rate in hundredths (0=unlimited, 150=1.5x, etc.).
     'maxplaybackrate'        => (int)($videotrack->maxplaybackrate ?? 0),
     'heartbeatinterval'      => $heartbeat,
     'videourl'               => ($source === 'upload')
@@ -187,7 +188,7 @@ $playerconfig = [
     'duration'               => (float)($videotrack->durationseconds ?? 0),
 ];
 
-// set_pagelayout va chiamato PRIMA di js_call_amd e di OUTPUT->header().
+// set_pagelayout must be called before js_call_amd and OUTPUT->header().
 if ($distractionfree) {
     $PAGE->set_pagelayout('embedded');
     $PAGE->add_body_class('videotrack-distractionfree');
@@ -205,8 +206,8 @@ if ($source === 'vimeo') {
 echo $OUTPUT->header();
 echo $OUTPUT->heading(format_string($videotrack->name));
 
-// SEC-5: il blocco voto va DOPO OUTPUT->header() per rispettare il layout Moodle.
-// Mostrato solo se showgradeto=1, grade attivo e l'utente non è docente/manager.
+// SEC-5: the grade block must be rendered after OUTPUT->header() to respect the Moodle layout.
+// It is shown only when showgradeto=1, grading is active and the user is not a teacher/manager.
 if (!empty($videotrack->showgradeto) && !empty($videotrack->grade) &&
         !has_capability('mod/videotrack:viewreport', $context)) {
     require_once($CFG->libdir . '/gradelib.php');

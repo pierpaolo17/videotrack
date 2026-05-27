@@ -524,9 +524,12 @@ define([
             end: normaliseTime(end)
         };
         if (payload.end <= payload.start) {
+            var wasPlaying = !!state.playing;
             state.segmentstart = null;
             state.wallclockstart = null;
-            markPaused(state, {reason: 'segment-close-zero-duration'});
+            if (!wasPlaying) {
+                markPaused(state, {reason: 'segment-close-zero-duration'});
+            }
             emit(state, 'segment:skipped', {reason: 'zero-duration', start: payload.start, end: payload.end});
             return null;
         }
@@ -748,10 +751,10 @@ define([
                 safeBooleanCallback(shouldSkip, true, state, 'heartbeat:skiperror')) {
             return Promise.resolve(false);
         }
-        if (state.heartbeatRunning) {
+        if (state._heartbeatRunning) {
             return Promise.resolve(false);
         }
-        state.heartbeatRunning = true;
+        state._heartbeatRunning = true;
 
         emit(state, 'heartbeat:start', {});
 
@@ -770,7 +773,7 @@ define([
             }
             return false;
         }).then(function(saved) {
-            state.heartbeatRunning = false;
+            state._heartbeatRunning = false;
             return saved;
         });
     }
