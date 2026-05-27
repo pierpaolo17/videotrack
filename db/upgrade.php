@@ -1010,5 +1010,10 @@ function xmldb_videotrack_upgrade($oldversion) {
         upgrade_mod_savepoint(true, 2026072512, 'videotrack');
     }
 
+    if ($oldversion < 2026072513) {
+        // Release 1.4.3: adapter hardening, provider URL normalization and accessibility refinements. No schema changes.
+        upgrade_mod_savepoint(true, 2026072513, 'videotrack');
+    }
+
     return true;
 }

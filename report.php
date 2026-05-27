@@ -884,8 +884,23 @@ if ($mode === 'student') {
             $svg .= "role=\"img\" aria-label=\"{$svgtitle}\" aria-describedby=\"videotrack-heatmap-table\" ";
             $svg .= "style=\"width:100%;max-width:{$svgw}px;height:{$svgh}px;display:block;margin-bottom:1rem;border:1px solid #dee2e6;border-radius:4px;background:#f8f9fa\">";
             $svg .= "<title>{$svgtitle}</title>";
-            $svg .= "<defs><pattern id=\"videotrack-hatch\" width=\"6\" height=\"6\" patternUnits=\"userSpaceOnUse\">" .
-                "<path d=\"M0 6 L6 0\" stroke=\"#000\" stroke-width=\"1\" opacity=\"0.25\"/></pattern></defs>";
+            $patternpaths = [
+                '<path d="M0 6 L6 0" stroke="#000" stroke-width="1" opacity="0.25"/>',
+                '<path d="M0 0 L6 6" stroke="#000" stroke-width="1" opacity="0.25"/>',
+                '<path d="M3 0 L3 6" stroke="#000" stroke-width="1" opacity="0.25"/>',
+                '<path d="M0 3 L6 3" stroke="#000" stroke-width="1" opacity="0.25"/>',
+            ];
+            $svg .= '<defs>';
+            $patternmap = [];
+            $pi = 0;
+            foreach ($reactions as $r) {
+                $patternid = 'videotrack-hatch-' . (int)$r->id;
+                $patternmap[(int)$r->id] = $patternid;
+                $svg .= '<pattern id="' . $patternid . '" width="6" height="6" patternUnits="userSpaceOnUse">' .
+                    $patternpaths[$pi % count($patternpaths)] . '</pattern>';
+                $pi++;
+            }
+            $svg .= '</defs>';
             // Barra di sfondo timeline.
             $svg .= "<rect x=\"0\" y=\"{$pady}\" width=\"{$svgw}\" height=\"{$barh}\" rx=\"3\" fill=\"#e9ecef\"/>";
             $labelled = 0;
@@ -900,7 +915,10 @@ if ($mode === 'student') {
                 $rectx = max(0, min($svgw - 6, $x - 3));
                 $svg .= "<rect x=\"{$rectx}\" y=\"{$y}\" width=\"6\" height=\"{$h}\" ";
                 $svg .= "rx=\"2\" fill=\"{$col}\" opacity=\"0.85\"><title>{$tip}</title></rect>";
-                $svg .= "<rect x=\"{$rectx}\" y=\"{$y}\" width=\"6\" height=\"{$h}\" fill=\"url(#videotrack-hatch)\" opacity=\"0.35\"/>";
+                $patternid = $patternmap[(int)$cluster['reactionid']] ?? '';
+                if ($patternid !== '') {
+                    $svg .= "<rect x=\"{$rectx}\" y=\"{$y}\" width=\"6\" height=\"{$h}\" fill=\"url(#{$patternid})\" opacity=\"0.35\"/>";
+                }
                 if ($cluster['count'] >= $labelthreshold && $labelled < 8) {
                     $textx = min($svgw - 24, max(2, $x + 4));
                     $texty = max(8, $y - 2);
@@ -925,7 +943,7 @@ if ($mode === 'student') {
                 $color = $reactioncolors[(int)$r->id] ?? '#4e79a7';
                 $swatch = html_writer::span('', 'videotrack-heatmap-swatch', [
                     'aria-hidden' => 'true',
-                    'style' => 'display:inline-block;width:0.9em;height:0.9em;margin-right:0.35em;border:1px solid #555;background:' . $color,
+                    'style' => 'display:inline-block;width:0.9em;height:0.9em;margin-right:0.35em;border:1px solid #555;background:' . $color . ';background-image:repeating-linear-gradient(45deg,rgba(0,0,0,.25) 0,rgba(0,0,0,.25) 1px,transparent 1px,transparent 4px)',
                 ]);
                 $legenditems[] = html_writer::tag('li', $swatch . s($r->label), ['class' => 'list-inline-item mr-3']);
             }

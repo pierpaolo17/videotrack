@@ -262,7 +262,7 @@ define([], function() {
                     updateCharCounter(textarea, config, Utils);
                     lastCharThreshold = null;
                     textarea.focus();
-                    if (config.notesavedlabel) {
+                    if (config.notesavedlabel && !(response && response.warnings && response.warnings.length)) {
                         showStatusMessage(config.notesavedlabel, false, config.dismisslabel);
                     }
                     return;
