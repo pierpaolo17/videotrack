@@ -31,7 +31,7 @@ defined('MOODLE_INTERNAL') || die();
  *
  * @package    mod_videotrack
  * @copyright  2026 videotrack contributors
- * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
+ * @license    https://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 global $CFG;
 require_once($CFG->dirroot . '/mod/videotrack/lib.php');
@@ -88,7 +88,7 @@ class save_reaction extends external_api {
         // by rotating session IDs on each AJAX request (B3 fix).
         $burstcount = $DB->count_records_select(
             'videotrack_reactev',
-            "videotrackid = :bvtid AND userid = :buid " .
+            "videotrackid = :bvtid AND userid = :buid AND isdeleted = 0 " .
                 "AND (notetype = '' OR notetype IS NULL) AND timecreated >= :bsince",
             [
                 'bvtid'  => $videotrack->id,
@@ -105,7 +105,8 @@ class save_reaction extends external_api {
         // accumulation caused by automation or rapid double clicks.
         $recentcount = $DB->count_records_select(
             'videotrack_reactev',
-            'videotrackid = :vtid AND userid = :uid AND reactionid = :rid AND timecreated >= :since',
+            'videotrackid = :vtid AND userid = :uid AND reactionid = :rid AND isdeleted = 0 ' .
+                "AND (notetype = '' OR notetype IS NULL) AND timecreated >= :since",
             [
                 'vtid'  => $videotrack->id,
                 'uid'   => $USER->id,

@@ -17,8 +17,8 @@ define([
     var config = null;
     var reactionState = Reactions.createState();
     // HEARTBEAT_INTERVAL viene inizializzato in init() dal valore configurato
-    // dall'amministratore in Amministrazione sito → Plugin → Moduli attività → Video track.
-    var HEARTBEAT_INTERVAL = 30; // valore di fallback, sovrascritto da config.heartbeatinterval
+    // by the administrator in Site administration > Plugins > Activity modules > Video track.
+    var HEARTBEAT_INTERVAL = 30; // Fallback value, overridden by config.heartbeatinterval
     var state = State.create();
     state.ajaxRequestScope = Api.createRequestScope();
 
@@ -53,7 +53,7 @@ define([
      * Verde = guardato, grigio chiaro = non guardato.
      *
      * @param {string} intervaljson  JSON array di [start,end] pairs.
-     * @param {number} duration      Durata totale del video in secondi.
+     * @param {number} duration Total video duration in seconds.
      */
     function updateIntervalBar(intervaljson, duration) {
         PlayerCore.updateIntervalBar(intervaljson, duration, Log);
@@ -83,7 +83,7 @@ define([
     function startCurrentSegment() {
         var currentTime = player.getCurrentTime();
         var wallclock = Math.floor(Date.now() / 1000);
-        // Feature 6: applica il limite massimo di velocità se configurato.
+        // Feature 6: apply the maximum speed limit when configured.
         var currentRate = Adapter.getPlaybackRate(state, function() {
             return player.getPlaybackRate ? player.getPlaybackRate() : state.playbackrate;
         }, Log, 'YouTube');
@@ -100,7 +100,7 @@ define([
         }
         Tracker.openSegment(state, currentTime, wallclock, currentRate);
         setReactionButtons(true);
-        // Riavvia il polling se era stato sospeso (tab hidden → visibile di nuovo).
+        // Restart polling if it was suspended (hidden tab becomes visible again).
         if (!state.heartbeatid) {
             state.heartbeatid = Tracker.startPolling(state, function() {
                 if (player) { handleSeekByPolling(); }
@@ -143,7 +143,7 @@ define([
         if (Tracker.consumeProgrammaticSeek(state, player.getCurrentTime())) {
             return;
         }
-        // Se un seek è stato appena bloccato, ignoriamo il polling per 500ms
+        // If a seek was just blocked, ignore polling for 500 ms
         // per evitare che il rimbalzo del seekTo venga rilevato come nuovo seek anomalo.
         if (state.seekblocked) {
             state.lasttime = player.getCurrentTime();
@@ -208,9 +208,9 @@ define([
             return player.getDuration ? player.getDuration() : state.duration;
         }, Log, 'YouTube');
         if (event.data === YT.PlayerState.PLAYING) {
-            // Enforce maxplaybackrate: se lo studente ha alzato la velocità oltre il
-            // limite configurato, la riportiamo al massimo consentito silenziosamente.
-            // config.maxplaybackrate è in centesimi (150 = 1.5×); getPlaybackRate() restituisce float.
+            // Enforce maxplaybackrate: if the student raised the speed above the
+            // configured limit, silently reset it to the maximum allowed value.
+            // config.maxplaybackrate is in hundredths (150 = 1.5x); getPlaybackRate() returns a float.
             if (config.maxplaybackrate > 0 && player.getPlaybackRate) {
                 var maxRateEnforced = config.maxplaybackrate / 100;
                 var currentRate = Adapter.getPlaybackRate(state, function() {
@@ -398,7 +398,7 @@ define([
         tdTime.textContent = Utils.formatSeconds(videotime);
         tr.appendChild(tdTime);
 
-        // Cella icona + label: iconhtml viene dal server PHP già renderizzato come HTML
+        // Icon + label cell: iconhtml comes from the PHP server already rendered as HTML
         // sicuro; rimuoviamo comunque eventuali tag <script> prima di inserirlo.
         var tdReaction = document.createElement('td');
         var iconSpan = document.createElement('span');
@@ -476,12 +476,12 @@ define([
                     // Add rewind/ff overlay buttons if configured.
                     buildYouTubeSkipButtons();
                     // replaystart (link diretto a un frammento) ha precedenza sul resume.
-                    // Se entrambi sono configurati, si rispetta la navigazione esplicita dell'utente.
+                    // If both are configured, respect the user's explicit navigation.
                     if (typeof config.replaystart === 'number' && config.replaystart >= 0) {
                         replayFragment(config.replaystart,
                             typeof config.replayend === 'number' ? config.replayend : null, true);
                     } else if (typeof config.resumeposition === 'number' && config.resumeposition > 2) {
-                        // Resume dal punto lasciato (solo se > 2s per non partire da 0:02).
+                        // Resume from the last position (only if > 2s to avoid starting at 0:02).
                         state.isProgrammaticSeek = true; // B6 fix: resume is programmatic.
                         Adapter.seek(config.resumeposition, function(target) {
                         player.seekTo(target, true);
@@ -631,7 +631,7 @@ define([
     /**
      * Feature 11: Note personali studente.
      * Gestisce salvataggio e cancellazione di note testuali timestampate.
-     * Il bottone "Salva" è attivo solo durante la riproduzione (aria-disabled).
+     * The "Save" button is active only during playback (aria-disabled).
      */
     function installNoteHandler() {
         PlayerCore.installNoteHandler({
@@ -661,7 +661,7 @@ define([
         if (playBtn) {
             playBtn.addEventListener('click', function() {
                 removePoster();
-                // Avvia la riproduzione se il player è pronto.
+                // Start playback if the player is ready.
                 if (player && player.playVideo) {
                     Adapter.play(function() {
                         return player.playVideo();
@@ -671,7 +671,7 @@ define([
         }
 
         // Rimuove il poster al primo stato PLAYING del player YouTube,
-        // ascoltando l'evento custom già emesso da setReactionButtons.
+        // by listening to the custom event already emitted by setReactionButtons.
         // Non riassegniamo onPlayerStateChange (function declaration, non variabile).
         state._posterRemoved = false;
         state._posterPlayListener = function(e) {
@@ -694,7 +694,7 @@ define([
             // Legge l'intervallo heartbeat dalla configurazione admin.
             HEARTBEAT_INTERVAL = Tracker.normaliseHeartbeatInterval(config, 30);
             state.sessionid = uuid();
-            // Disegna la barra degli intervalli con i dati già salvati (sessioni precedenti).
+            // Draw the interval bar with data already saved from previous sessions.
             if (config.intervaljson && config.duration) {
                 updateIntervalBar(config.intervaljson, config.duration);
             }

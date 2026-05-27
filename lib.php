@@ -301,11 +301,11 @@ function videotrack_save_poster_image(int $instanceid, stdClass $data): void {
     $context     = context_module::instance((int)$data->coursemodule);
     $draftitemid = (int)($data->posterimage ?? 0);
 
-    // Se draftitemid è 0, il docente non ha interagito con il filepicker:
+    // If draftitemid is 0, the teacher did not interact with the file picker:
     // non chiamiamo file_save_draft_area_files per evitare la cancellazione
     // dell'immagine poster esistente (file_save con itemid=0 cancella la filearea).
-    // Il filepicker Moodle invia sempre un itemid > 0 quando è stato toccato,
-    // anche se l'utente ha rimosso il file (la draft area esiste ma è vuota).
+    // Moodle file picker always sends an itemid > 0 once it has been touched,
+    // even if the user removed the file (the draft area exists but is empty).
     if ($draftitemid <= 0) {
         return;
     }
@@ -610,7 +610,7 @@ function videotrack_process_player_behavior_fields(stdClass $data): void {
               'showtranscript', 'showchapters', 'studentnotesenabled'] as $field) {
         $data->{$field} = empty($data->{$field}) ? 0 : 1;
     }
-    // maxplaybackrate: intero in centesimi (0=nessun limite, 150=1.5×, ecc.).
+    // maxplaybackrate: integer in hundredths (0=no limit, 150=1.5x, etc.).
     $data->maxplaybackrate = (int)($data->maxplaybackrate ?? 0);
 }
 
@@ -1077,8 +1077,8 @@ function videotrack_reset_course_form_defaults($course) {
  * Ridimensiona l'icona di reazione a 64×64px con crop centrato.
  *
  * Legge il file dall'area di storage Moodle, lo ridimensiona con GD,
- * e sovrascrive il file originale con la versione ridimensionata in PNG.
- * Se GD non è disponibile o il formato non è supportato, il file viene
+ * and overwrites the original file with the resized PNG version.
+ * If GD is unavailable or the format is unsupported, the file is
  * lasciato invariato (nessun errore bloccante — il CSS gestisce le dimensioni).
  *
  * @param context_module    $context    Contesto del modulo.
@@ -1088,7 +1088,7 @@ function videotrack_reset_course_form_defaults($course) {
 function videotrack_resize_reaction_icon(context_module $context, int $reactionid, file_storage $fs): void {
     if (!function_exists('imagecreatefromstring')) {
         // GD non disponibile: il ridimensionamento non avviene.
-        // L'avviso all'admin è già visibile nella pagina impostazioni (settings.php)
+        // The admin warning is already visible on the settings page (settings.php)
         // e nel check environment.xml. Non blocchiamo il salvataggio.
         debugging('mod_videotrack: GD PHP extension is not available. ' .
             'Reaction icon for reactionid=' . $reactionid . ' was NOT resized to 64×64px. ' .
@@ -1105,7 +1105,7 @@ function videotrack_resize_reaction_icon(context_module $context, int $reactioni
 
     $srcdata  = $file->get_content();
     // PHP 8.0+ lancia ValueError (non Warning) per dati non immagine.
-    // try/catch è necessario; @ non cattura Error/ValueError.
+    // try/catch is required; @ does not catch Error/ValueError.
     try {
         $srcimage = imagecreatefromstring($srcdata);
     } catch (\Throwable $e) {
@@ -1137,7 +1137,7 @@ function videotrack_resize_reaction_icon(context_module $context, int $reactioni
 
     // Salva come PNG in un buffer temporaneo.
     ob_start();
-    imagepng($dst, null, 6); // Compressione 6 = buon bilanciamento qualità/dimensione.
+    imagepng($dst, null, 6); // Compression level 6 balances quality and size.
     $pngdata = ob_get_clean();
     imagedestroy($dst);
 
@@ -1145,7 +1145,7 @@ function videotrack_resize_reaction_icon(context_module $context, int $reactioni
         return;
     }
 
-    // Sovrascrive il file nel filearea Moodle con la versione ridimensionata.
+    // Overwrite the file in the Moodle file area with the resized version.
     $oldname  = $file->get_filename();
     $newname  = pathinfo($oldname, PATHINFO_FILENAME) . '.png';
     $filepath = $file->get_filepath();
@@ -1242,13 +1242,13 @@ function videotrack_pluginfile($course, $cm, $context, $filearea, $args, $forced
 }
 
 /**
- * Ricalcola lo stato aggregato (completionpercent, iscompleted) di tutti gli utenti
- * di una singola istanza videotrack a partire dai segmenti raw.
- * Utile dopo aver modificato la durata del video o i criteri di completamento.
+ * Recalculate the aggregate state (completionpercent, iscompleted) for all users
+ * in a single VideoTrack instance from raw segments.
+ * Useful after changing the video duration or completion criteria.
  *
- * @param  int      $videotrackid   ID dell'istanza videotrack.
+ * @param  int      $videotrackid   VideoTrack instance id.
  * @param  cm_info  $cm             Course module info.
- * @return int                      Numero di record di stato aggiornati.
+ * @return int                      Number of updated state records.
  */
 function videotrack_recalculate_all_states(int $videotrackid, cm_info $cm): int {
     global $DB;

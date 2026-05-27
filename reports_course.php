@@ -59,7 +59,7 @@ echo html_writer::tag('p', get_string('coursereport:intro', 'mod_videotrack'),
     ['class' => 'text-muted']);
 
 // Fetch all videotrack instances in this course.
-// Compatibile con MySQL ONLY_FULL_GROUP_BY: si raggruppa solo per chiavi primarie (vt.id, cm.id).
+// Compatible with MySQL ONLY_FULL_GROUP_BY: group only by primary keys (vt.id, cm.id).
 // Le colonne non aggregate (vt.name, vt.videosource, vt.durationseconds) vengono lette
 // separatamente dal recordset dell'istanza caricato sopra, non estratte dalla query aggregata.
 $sql = "

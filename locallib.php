@@ -172,9 +172,10 @@ function videotrack_get_playback_speeds(stdClass $videotrack): array {
  * @return float  Max allowed rate, e.g. 1.5. 0 means uncapped.
  */
 function videotrack_get_max_playback_rate(): float {
-    // Il valore è salvato in centesimi (150 = 1.5×) per evitare imprecisioni floating-point.
-    // Restituiamo il float corrispondente (1.5) oppure 0.0 se non c'è limite.
+    // The value is stored in hundredths (150 = 1.5x) to avoid floating-point imprecision.
+    // Return the corresponding float (1.5), or 0.0 when there is no limit.
     $val = (int)get_config('mod_videotrack', 'maxplaybackrate');
+    $val = max(0, min(400, $val));
     return $val > 0 ? round($val / 100.0, 4) : 0.0;
 }
 
@@ -246,7 +247,7 @@ function videotrack_build_required_reaction_notice(stdClass $videotrack, array $
  */
 function videotrack_get_reactions(int $videotrackid, bool $includedeleted = false): array {
     global $DB;
-    // Cache statica per evitare query multiple sulla stessa attività nella stessa request.
+    // Static cache to avoid repeated queries for the same activity in one request.
     // Chiave separata per includedeleted=true (usato raramente, es. backup).
     static $cache = [];
     $key = $videotrackid . ($includedeleted ? ':all' : ':active');

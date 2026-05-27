@@ -314,7 +314,7 @@ echo html_writer::start_div('videotrack-layout');
 // ── Sezione player (sinistra in landscape, piena larghezza in portrait) ──
 echo html_writer::start_div('videotrack-player-section');
 echo html_writer::start_div('videotrack-player-wrap');
-// Placeholder di caricamento: visibile fino a quando il player JS non inizializza.
+// Loading placeholder: visible until the JavaScript player initialises.
 // Rimosso automaticamente quando il player viene creato (YT/Vimeo sostituisce il div).
 $loadingtext = get_string('playerloading', 'mod_videotrack');
 echo html_writer::div(
@@ -334,7 +334,7 @@ if ($posterurl) {
     echo html_writer::empty_tag('img', [
         'src'   => (string)$posterurl,
         'class' => 'videotrack-poster-img',
-        'alt'   => '',  // Decorativa: il player ha già il titolo.
+        'alt'   => '',  // Decorative: the player already has the title.
     ]);
     // Pulsante play overlay accessibile.
     echo html_writer::tag('button',
@@ -382,10 +382,10 @@ echo html_writer::tag('span',
 );
 echo html_writer::end_div(); // videotrack-player-section
 
-// ── Sidebar: progresso + reazioni + tabella reazioni studente ──
+// ── Sidebar: progress, reactions and student reactions table ──
 echo html_writer::start_div('videotrack-sidebar');
 
-// Feature 8: pannello transcript VTT interattivo (solo sorgente upload con VTT caricato).
+// Feature 8: interactive VTT transcript panel (upload source only, with a VTT file).
 if (!empty($videotrack->showtranscript) && $vtturl !== null) {
     echo html_writer::start_div('videotrack-transcript-panel', ['id' => 'videotrack-transcript-panel']);
     echo html_writer::tag('h3',
@@ -395,10 +395,10 @@ if (!empty($videotrack->showtranscript) && $vtturl !== null) {
     echo html_writer::div(
         html_writer::tag('p',
             get_string('transcript_loading', 'mod_videotrack'),
-            ['class' => 'text-muted small']
+            ['class' => 'text-muted small', 'role' => 'status', 'aria-live' => 'polite']
         ),
         'videotrack-transcript-content',
-        ['id' => 'videotrack-transcript-content', 'aria-live' => 'polite', 'aria-atomic' => 'false']
+        ['id' => 'videotrack-transcript-content']
     );
     echo html_writer::end_div(); // videotrack-transcript-panel
 }
@@ -430,11 +430,11 @@ if (!empty($videotrack->studentnotesenabled)) {
         ]
     );
     echo html_writer::end_div(); // notes-header
-    // Corpo collassabile — nascosto/mostrato dal toggle.
-    // data-collapsed letto da installNotesToggle prima del render per evitare flash.
+    // Collapsible body, hidden or shown by the toggle.
+    // data-collapsed is read by installNotesToggle before rendering to avoid a flash.
     echo html_writer::start_div('videotrack-notes-body', [
         'id'             => 'videotrack-notes-body',
-        'data-collapsed' => '0',  // JS sovrascrive con valore da sessionStorage.
+        'data-collapsed' => '0',  // JavaScript overrides this with the sessionStorage value.
     ]);
     // Textarea and Save button, managed by JavaScript.
     echo html_writer::tag('label', get_string('studentnotes_title', 'mod_videotrack'), [
@@ -464,6 +464,15 @@ if (!empty($videotrack->studentnotesenabled)) {
         'id'         => 'videotrack-note-charcount',
         'class'       => 'videotrack-note-charcount small text-muted ms-2',
     ]);
+    // Dedicated live status for threshold announcements. Keeping this separate
+    // from the visual counter avoids verbose announcements on every keystroke.
+    echo html_writer::tag('span', '', [
+        'id'          => 'videotrack-note-live-status',
+        'class'       => 'sr-only visually-hidden',
+        'role'        => 'status',
+        'aria-live'   => 'polite',
+        'aria-atomic' => 'true',
+    ]);
     // Notice: the note is saved at the current video timestamp.
     echo html_writer::tag('p',
         get_string('studentnote_hint', 'mod_videotrack'),
@@ -476,7 +485,7 @@ if (!empty($videotrack->studentnotesenabled)) {
         'aria-live'  => 'polite',
         'aria-label' => get_string('studentnotes_list_label', 'mod_videotrack'),
     ]);
-    // Note già salvate: limita la view principale alle ultime note per evitare pagine pesanti.
+    // Saved notes: limit the main view to the latest notes to avoid heavy pages.
     $noteslimit = 200;
     $existingnotes = $DB->get_records('videotrack_reactev', [
         'videotrackid' => $videotrack->id,
@@ -517,7 +526,7 @@ if (!empty($videotrack->studentnotesenabled)) {
                 'type'       => 'button',
                 'class'      => 'btn btn-link btn-sm videotrack-delete-note ms-1',
                 'data-noteid'=> $note->id,
-                // WCAG 2.4.6: aria-label contestuale con il timestamp della nota.
+                // WCAG 2.4.6: contextual aria-label with the note timestamp.
                 'aria-label' => get_string('removenote', 'mod_videotrack') . ' — ' .
                                 videotrack_format_seconds((float)$note->videotime),
             ]
@@ -544,14 +553,14 @@ echo html_writer::tag('div',
     get_string('report:uniquecoveredseconds', 'mod_videotrack') . ': ' .
     html_writer::tag('span',
         s(videotrack_format_seconds($covered)),
-        ['id' => 'videotrack-covered-seconds', 'aria-live' => 'polite']
+        ['id' => 'videotrack-covered-seconds']
     )
 );
 echo html_writer::tag('div',
     get_string('uniquereactions', 'mod_videotrack') . ': ' .
     html_writer::tag('span',
         (string)count($uniquereactionids),
-        ['id' => 'videotrack-unique-reactions', 'aria-live' => 'polite']
+        ['id' => 'videotrack-unique-reactions']
     )
 );
 echo html_writer::end_div(); // videotrack-progress
@@ -582,8 +591,8 @@ if (!empty($videotrack->reactionsenabled) && $reactions) {
             'aria-label'            => s($reaction->label),
         ]);
     }
-    // Spiegazione per lo studente: le reazioni si registrano solo durante la riproduzione.
-    // Questo è by-design (punto 4 dei requisiti).
+    // Student explanation: reactions are recorded only during playback.
+    // This is by design (requirement item 4).
     echo html_writer::tag('p',
         get_string('reactions_hint', 'mod_videotrack'),
         ['class' => 'videotrack-reactions-hint', 'id' => 'videotrack-reactions-hint', 'aria-live' => 'polite']
@@ -592,13 +601,13 @@ if (!empty($videotrack->reactionsenabled) && $reactions) {
 }
 
 if ($showstudentreport) {
-    // Separazione visiva netta tra note personali e reazioni nella vista studente.
+    // Clear visual separation between personal notes and reactions in the student view.
     echo html_writer::tag('h4',
         get_string('reportstudent', 'mod_videotrack'),
         ['class' => 'h5 mt-3 mb-2 videotrack-reactions-section-heading']
     );
     echo html_writer::start_div('videotrack-reactions-table-wrap');
-    // A2: caption sr-only è sufficiente — rimuovere aria-label evita che gli AT
+    // A2: the sr-only caption is enough; removing aria-label avoids assistive technologies
     // annuncino il titolo della tabella due volte (caption + aria-label).
     echo html_writer::start_tag('table', ['class' => 'generaltable']);
     echo html_writer::tag('caption',

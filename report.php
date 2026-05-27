@@ -103,8 +103,8 @@ foreach ($reactions as $reaction) {
     $reactionmap[(int)$reaction->id] = $reaction;
 }
 
-// $events: solo reazioni standard (esclude note personali — notetype='note').
-// Le note vengono mostrate in una sezione separata più in basso.
+// $events: standard reactions only (excludes personal notes, notetype='note').
+// Notes are shown in a separate section further below.
 $eventconditions = "videotrackid = :vtid AND isdeleted = 0 AND (notetype = '' OR notetype IS NULL)";
 $eventparams_named = ['vtid' => $videotrack->id];
 if ($useridfilter > 0) {
@@ -161,7 +161,7 @@ $getstaterecordset = static function() use ($DB, $stateparams) {
     return $DB->get_recordset('videotrack_state', $stateparams, 'completionpercent DESC, uniquecoveredseconds DESC');
 };
 
-// Raccoglie gli userid delle note (potrebbero non avere state né events).
+// Collect note user ids (they may have neither state nor events).
 $noteuserids = [];
 if (!empty($videotrack->studentnotesenabled)) {
     $noteuidparams = ['vtid' => $videotrack->id];
@@ -187,11 +187,11 @@ $usermap = [];
 $canviewemail = false;
 if ($alluserids) {
     [$insql, $inparams] = $DB->get_in_or_equal($alluserids, SQL_PARAMS_NAMED);
-    // Email visibile solo a chi ha la capability viewreport E ha il diritto di vedere email.
-    // Minimizzazione GDPR: per default mostra solo il nome completo.
+    // Email is visible only to users with the viewreport capability and permission to see email addresses.
+    // GDPR minimisation: by default show only the full name.
     $canviewemail = has_capability('moodle/site:viewuseridentity', $context) &&
             in_array('email', \core_user\fields::get_identity_fields($context, false));
-    // Seleziona email solo se necessario: evita di caricare dati personali superflui.
+    // Select email only when needed: avoid loading unnecessary personal data.
     $userfields = $canviewemail ? 'id,firstname,lastname,email,deleted' : 'id,firstname,lastname,deleted';
     foreach ($DB->get_records_select('user', "id $insql", $inparams, '', $userfields) as $u) {
         $usermap[(int)$u->id] = $u;
@@ -355,7 +355,7 @@ if ($export === 'notes_csv' && !empty($videotrack->studentnotesenabled)) {
     }
     $headers = array_merge($headers, ['video_timestamp', 'note', 'created']);
     fputcsv($fh, videotrack_csv_safe_row($headers));
-    // Rispetta il filtro userid del report (GDPR: esporta solo chi è autorizzato vedere).
+    // Respect the report userid filter (GDPR: export only users the viewer is authorised to see).
     $notecsv_where = "videotrackid = :vtid AND isdeleted = 0 AND notetype = 'note'";
     $notecsv_params = ['vtid' => $videotrack->id];
     if ($useridfilter > 0) {
@@ -508,7 +508,7 @@ if ($action === 'recalculate') {
     );
 }
 
-// Reset progresso singolo studente: cancella segmenti, stato e reazioni di un utente.
+// Reset one student's progress: delete that user's segments, state and reactions.
 if ($resetaction === 'resetstudent' && $_SERVER['REQUEST_METHOD'] === 'POST') {
     require_sesskey();
     require_capability('mod/videotrack:managereactions', $context);
@@ -530,7 +530,7 @@ if ($resetaction === 'resetstudent' && $_SERVER['REQUEST_METHOD'] === 'POST') {
         'relateduserid' => $resetuserid,
         'other' => $resetcounts,
     ])->trigger();
-    // Azzera anche il voto nel gradebook se l'attività prevede valutazione.
+    // Also reset the gradebook grade when the activity uses grading.
     if (!empty($videotrack->grade)) {
         require_once($CFG->libdir . '/gradelib.php');
         grade_update('mod/videotrack', $course->id, 'mod', 'videotrack',
@@ -700,7 +700,7 @@ if ($mode === 'student') {
     if (!$statecount) {
         echo $OUTPUT->notification(get_string('report:noattempts', 'mod_videotrack'), 'notifymessage');
     } else {
-        // $hasgrade e $gradeinfo sono già stati caricati all'inizio del file (OPT-1).
+        // $hasgrade and $gradeinfo were already loaded at the start of the file (OPT-1).
         $usergrades = [];
 
         $heads = [
@@ -735,7 +735,7 @@ if ($mode === 'student') {
             ];
 
             if ($hasgrade && $cangrade) {
-                // Legge il voto attuale per questo utente.
+                // Read the current grade for this user.
                 $studentname = fullname($user);
                 $currentgrade = $gradeinfo->items[0]->grades[(int)$state->userid]->grade ?? '';
                 $gradecell = html_writer::start_tag('form', [
@@ -790,7 +790,7 @@ if ($mode === 'student') {
                 );
                 $gradecell .= html_writer::end_tag('form');
 
-                // Indicatore visivo sufficienza se configurata.
+                // Visual pass-grade indicator when configured.
                 if (!empty($videotrack->gradepass) && $currentgrade !== '') {
                     $passed = (float)$currentgrade >= (float)$videotrack->gradepass;
                     $passlabel = get_string($passed ? 'report:gradepassed' : 'report:gradefailed', 'mod_videotrack');
@@ -805,7 +805,7 @@ if ($mode === 'student') {
                 $row[] = $gradecell;
             }
 
-            // Reset progress singolo studente (solo per chi ha manage capability).
+            // Reset one student's progress (only for users with the manage capability).
             if (has_capability('mod/videotrack:managereactions', $context)) {
                 $resetform = html_writer::start_tag('form', [
                     'method' => 'post',
@@ -866,7 +866,7 @@ if ($mode === 'student') {
             }
         }
 
-        // Heatmap SVG: mostra la distribuzione delle reazioni sul timeline del video.
+        // Heatmap SVG: show reaction distribution on the video timeline.
         $duration = (float)($DB->get_field('videotrack', 'durationseconds', ['id' => $videotrack->id]) ?: 0);
         if ($duration > 0 && $clusters) {
             $svgw = 800; $svgh = 48; $barh = 32; $pady = 8;
@@ -889,6 +889,12 @@ if ($mode === 'student') {
                 '<path d="M0 0 L6 6" stroke="#000" stroke-width="1" opacity="0.25"/>',
                 '<path d="M3 0 L3 6" stroke="#000" stroke-width="1" opacity="0.25"/>',
                 '<path d="M0 3 L6 3" stroke="#000" stroke-width="1" opacity="0.25"/>',
+            ];
+            $patternstyles = [
+                'repeating-linear-gradient(135deg,rgba(0,0,0,.32) 0,rgba(0,0,0,.32) 1px,transparent 1px,transparent 4px)',
+                'repeating-linear-gradient(45deg,rgba(0,0,0,.32) 0,rgba(0,0,0,.32) 1px,transparent 1px,transparent 4px)',
+                'repeating-linear-gradient(90deg,rgba(0,0,0,.32) 0,rgba(0,0,0,.32) 1px,transparent 1px,transparent 4px)',
+                'repeating-linear-gradient(0deg,rgba(0,0,0,.32) 0,rgba(0,0,0,.32) 1px,transparent 1px,transparent 4px)',
             ];
             $svg .= '<defs>';
             $patternmap = [];
@@ -939,13 +945,16 @@ if ($mode === 'student') {
                     'max' => $maxcount,
                 ]), ['class' => 'text-muted small mb-1']);
             $legenditems = [];
+            $legendindex = 0;
             foreach ($reactions as $r) {
                 $color = $reactioncolors[(int)$r->id] ?? '#4e79a7';
+                $patternstyle = $patternstyles[$legendindex % count($patternstyles)];
                 $swatch = html_writer::span('', 'videotrack-heatmap-swatch', [
                     'aria-hidden' => 'true',
-                    'style' => 'display:inline-block;width:0.9em;height:0.9em;margin-right:0.35em;border:1px solid #555;background:' . $color . ';background-image:repeating-linear-gradient(45deg,rgba(0,0,0,.25) 0,rgba(0,0,0,.25) 1px,transparent 1px,transparent 4px)',
+                    'style' => 'display:inline-block;width:0.9em;height:0.9em;margin-right:0.35em;border:1px solid #555;background-color:' . $color . ';background-image:' . $patternstyle,
                 ]);
                 $legenditems[] = html_writer::tag('li', $swatch . s($r->label), ['class' => 'list-inline-item mr-3']);
+                $legendindex++;
             }
             if ($legenditems) {
                 echo html_writer::tag('ul', implode('', $legenditems), [
@@ -993,7 +1002,7 @@ $PAGE->requires->js_call_amd('mod_videotrack/report', 'init', [[
     ],
 ]]);
 
-// ── Sezione note studenti (solo nella modalità per-studente, solo se le note sono abilitate) ──
+// ── Student notes section (per-student mode only, only when notes are enabled) ──
 if ($mode === 'student' && !empty($videotrack->studentnotesenabled)) {
     $notewhere = "videotrackid = :vtid AND isdeleted = 0 AND notetype = 'note'" .
         ($useridfilter > 0 ? ' AND userid = :uid' : '');

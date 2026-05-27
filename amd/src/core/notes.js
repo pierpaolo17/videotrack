@@ -48,7 +48,7 @@ define([], function() {
     }
 
     /**
-     * Update the enabled state of the note save button while keeping it focusable.
+     * Update the enabled state of the note save button while keeping it focusable when unavailable.
      *
      * @param {HTMLButtonElement} saveBtn Save button.
      * @param {boolean} playing Whether playback is active.
@@ -57,7 +57,7 @@ define([], function() {
         if (!saveBtn) {
             return;
         }
-        // Keep the button focusable for keyboard and screen-reader users.
+        // Keep the button focusable while unavailable so users can hear the explanatory status message.
         saveBtn.disabled = false;
         saveBtn.setAttribute('aria-disabled', playing ? 'false' : 'true');
         saveBtn.classList.toggle('videotrack-note-save-disabled', !playing);
@@ -230,18 +230,23 @@ define([], function() {
             var text = textarea.value.trim();
             if (maxLength > 0 && text.length > maxLength) {
                 showStatusMessage(config.notetoolonglabel || config.noteerrorlabel, true, config.dismisslabel);
-                textarea.focus();
+                if (textarea.isConnected) {
+                    textarea.focus();
+                }
                 return;
             }
             if (!text) {
                 showStatusMessage(config.noteemptylabel || config.noteerrorlabel, true, config.dismisslabel);
-                textarea.focus();
+                if (textarea.isConnected) {
+                    textarea.focus();
+                }
                 return;
             }
             var currentTime = getCurrentVideoTime();
             savingNote = true;
             saveBtn.setAttribute('aria-disabled', 'true');
             saveBtn.setAttribute('aria-busy', 'true');
+            saveBtn.disabled = true;
             saveBtn.classList.add('videotrack-note-save-saving');
             Promise.resolve(saveCurrentProgress('note')).then(function() {
                 return ajax('mod_videotrack_save_note', {
@@ -261,7 +266,9 @@ define([], function() {
                     textarea.value = '';
                     updateCharCounter(textarea, config, Utils);
                     lastCharThreshold = null;
-                    textarea.focus();
+                    if (textarea.isConnected) {
+                        textarea.focus();
+                    }
                     if (config.notesavedlabel && !(response && response.warnings && response.warnings.length)) {
                         showStatusMessage(config.notesavedlabel, false, config.dismisslabel);
                     }
