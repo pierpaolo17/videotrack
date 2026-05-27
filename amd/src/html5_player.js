@@ -344,6 +344,7 @@ define([
             var progressBar = document.createElement('input');
             progressBar.type  = 'range';
             progressBar.className = 'videotrack-ctrl-progress';
+            progressBar.setAttribute('role', 'slider');
             progressBar.min   = '0';
             progressBar.max   = '100';
             progressBar.value = '0';
