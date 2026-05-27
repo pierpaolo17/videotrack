@@ -162,11 +162,58 @@ async function testStaleHeartbeatGuard() {
     assert.strictEqual(state.heartbeatPending, false);
 }
 
+async function testTrackerRegressionFixes() {
+    const Tracker = loadAmd('mod_videotrack/core/tracker');
+
+    const unchanged = {trackerstate: Tracker.STATES.PLAYING, playing: false, ended: true, isSeeking: true};
+    assert.strictEqual(Tracker.setTrackerState(unchanged, Tracker.STATES.PLAYING), true);
+    assert.strictEqual(unchanged.playing, true, 'same-state transition must resynchronise playing flag');
+    assert.strictEqual(unchanged.ended, false);
+    assert.strictEqual(unchanged.isSeeking, false);
+
+    const seekState = {segmentstart: 1, playing: true};
+    Tracker.markProgrammaticSeek(seekState);
+    seekState.playing = false;
+    assert.strictEqual(Tracker.consumeProgrammaticSeek(seekState, 5), true);
+    assert.strictEqual(seekState.playing, true, 'programmatic seek should restore pre-seek playback state');
+
+    const stoppedReplay = {playing: true, currentReplayEnd: 10};
+    assert.strictEqual(Tracker.shouldStopReplay(stoppedReplay, 10), true);
+    assert.strictEqual(Tracker.getTrackerState(stoppedReplay), Tracker.STATES.PAUSED);
+    assert.strictEqual(stoppedReplay.ended, false, 'partial replay limit must not mark the whole video ended');
+
+    const closing = {segmentstart: 2, playing: false};
+    assertJsonEqual(Tracker.closeSegment(closing, 6), {start: 2, end: 6});
+    assert.strictEqual(closing.segmentstart, null);
+
+    const invalidClose = {segmentstart: 6, playing: true};
+    assert.strictEqual(Tracker.closeSegment(invalidClose, 6), null);
+    assert.strictEqual(invalidClose.segmentstart, 6, 'zero-duration close should not discard the open segment');
+
+    assert.strictEqual(Tracker.sendUnloadBeacon({
+        state: {segmentstart: 5, lasttime: 5, playing: true},
+        sendSegment: () => true
+    }), false, 'zero-duration unload beacon should be skipped');
+
+    assert.strictEqual(Tracker.isPlayerAvailable(() => { throw new Error('gone'); }), false);
+
+    const heartbeatState = {segmentstart: 1, playing: true};
+    const heartbeatResult = await Tracker.runHeartbeat({
+        state: heartbeatState,
+        heartbeatInterval: 1,
+        hasPlayer: () => { throw new Error('provider gone'); },
+        getCurrentTime: () => 5,
+        saveSegment: () => Promise.resolve()
+    });
+    assert.strictEqual(heartbeatResult, false, 'callback exceptions should not break heartbeat');
+}
+
 async function main() {
     await testSegmentHelpers();
     await testTrackerStateMachine();
     await testTrackerSegmentsAndHeartbeat();
     await testStaleHeartbeatGuard();
+    await testTrackerRegressionFixes();
     console.log('Tracker/segment checks passed.');
 }
 

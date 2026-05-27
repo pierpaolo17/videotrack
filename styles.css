@@ -10,9 +10,19 @@
     --videotrack-control-border: rgba(255, 255, 255, 0.35);
     --videotrack-control-bg: rgba(0, 0, 0, 0.82);
     --videotrack-control-bg-hover: rgba(255, 255, 255, 0.18);
+    --videotrack-media-bg: var(--bs-black, #000);
     --videotrack-muted-text: var(--bs-secondary-color, #6c757d);
     --videotrack-panel-bg: var(--bs-body-bg, #fff);
     --videotrack-panel-border: var(--bs-border-color, #dee2e6);
+    --videotrack-panel-muted-bg: var(--bs-tertiary-bg, #f8f9fa);
+    --videotrack-control-surface-bg: var(--bs-body-bg, #fff);
+    --videotrack-control-surface-hover-bg: var(--bs-secondary-bg, #e9ecef);
+    --videotrack-control-surface-border: var(--bs-border-color, #ced4da);
+    --videotrack-control-surface-hover-border: var(--bs-secondary-color, #adb5bd);
+    --videotrack-active-bg: var(--bs-primary, #0040aa);
+    --videotrack-active-border: var(--bs-primary, #0040aa);
+    --videotrack-subtle-border: var(--bs-border-color, #dee2e6);
+    --videotrack-subtle-border-light: var(--bs-border-color-translucent, #f1f1f1);
     --videotrack-transcript-hover-bg: rgba(var(--bs-primary-rgb, 13, 110, 253), 0.10);
     --videotrack-transcript-active-bg: rgba(var(--bs-primary-rgb, 13, 110, 253), 0.18);
     --videotrack-transcript-playing-bg: rgba(var(--bs-success-rgb, 25, 135, 84), 0.12);
@@ -34,7 +44,7 @@
     padding-bottom: 56.25%; /* 16:9 */
     height: 0;
     overflow: hidden;
-    background: #000;
+    background: var(--videotrack-media-bg);
     border-radius: 4px;
 }
 
@@ -167,7 +177,7 @@
     display: flex;
     align-items: center;
     justify-content: center;
-    background: #000;
+    background: var(--videotrack-media-bg);
     border-radius: 4px;
     /* Hidden as soon as the JS player initialises and replaces the placeholder. */
     z-index: 0;
@@ -279,7 +289,7 @@
 @media (prefers-color-scheme: dark) {
 
     .videotrack-interval-bar-status {
-        color: var(--gray-400, #ced4da);
+        color: var(--videotrack-muted-text);
     }
 
     .videotrack-reaction-btn:focus,
@@ -387,7 +397,7 @@
     }
 
     .videotrack-player-wrap {
-        background: var(--bs-black, #000);
+        background: var(--videotrack-media-bg);
     }
 }
 
@@ -572,7 +582,7 @@
 
 /* ── VideoTrack transcript panel ─────────────────────────────────────────── */
 .videotrack-transcript-wrap {
-    border-top: 1px solid var(--border-color, #dee2e6);
+    border-top: 1px solid var(--videotrack-subtle-border);
     padding-top: 0.75rem;
 }
 .videotrack-transcript-panel {
@@ -581,10 +591,10 @@
     font-size: 0.875rem;
     line-height: 1.55;
     scroll-behavior: smooth;
-    border: 1px solid var(--border-color, #dee2e6);
+    border: 1px solid var(--videotrack-subtle-border);
     border-radius: 4px;
     padding: 0.5rem 0.75rem;
-    background: var(--card-bg, #fff);
+    background: var(--videotrack-control-surface-bg);
     margin-bottom: .75rem;
 }
 .videotrack-transcript-cue {
@@ -659,7 +669,7 @@
     flex-wrap: wrap;
     gap: .25rem;
     padding: .35rem .5rem;
-    background: #f8f9fa;
+    background: var(--videotrack-panel-muted-bg);
     border: 1px solid var(--videotrack-panel-border);
     border-radius: .375rem;
     margin-bottom: .25rem;
@@ -670,18 +680,18 @@
     align-items: center;
     gap: .3rem;
     padding: .2rem .55rem;
-    background: #fff;
-    border: 1px solid #ced4da;
+    background: var(--videotrack-control-surface-bg);
+    border: 1px solid var(--videotrack-control-surface-border);
     border-radius: .25rem;
     font-size: .8rem;
     cursor: pointer;
     white-space: nowrap;
     transition: background .15s, border-color .15s;
 }
-.videotrack-chapter-btn:hover  { background: #e9ecef; border-color: #adb5bd; }
+.videotrack-chapter-btn:hover  { background: var(--videotrack-control-surface-hover-bg); border-color: var(--videotrack-control-surface-hover-border); }
 .videotrack-chapter-btn.videotrack-chapter-active {
-    background: #0040aa;
-    border-color: #0040aa;
+    background: var(--videotrack-active-bg);
+    border-color: var(--videotrack-active-border);
     color: var(--videotrack-control-fg);
     font-weight: 600;
 }
@@ -703,7 +713,7 @@
     border: 1px solid var(--videotrack-panel-border);
     border-radius: .375rem;
     padding: .5rem .75rem;
-    background: #fff;
+    background: var(--videotrack-control-surface-bg);
     font-size: .875rem;
 }
 .videotrack-note-input {
@@ -718,7 +728,7 @@
     align-items: flex-start;
     gap: .35rem;
     padding: .2rem 0;
-    border-bottom: 1px solid #f1f1f1;
+    border-bottom: 1px solid var(--videotrack-subtle-border-light);
     font-size: .85rem;
 }
 .videotrack-note-item:last-child { border-bottom: none; }
@@ -737,7 +747,7 @@
     display: flex;
     align-items: center;
     justify-content: center;
-    background: #000;
+    background: var(--videotrack-media-bg);
     transition: opacity .3s ease;
 }
 .videotrack-poster-img {
@@ -763,9 +773,9 @@
     display: block;
     width: 2.75rem;
     height: 2.75rem;
-    fill: #0040aa;
+    fill: var(--videotrack-active-bg);
 }
-.videotrack-poster-play-btn:hover { background: #fff; transform: scale(1.08); }
+.videotrack-poster-play-btn:hover { background: var(--videotrack-control-surface-bg); transform: scale(1.08); }
 /* Il wrapper del player deve avere position:relative per l'overlay */
 .videotrack-player-wrap { position: relative; }
 
@@ -777,7 +787,7 @@
 
 /* ── Note toggle e separazione visiva ──────────────────────────────────── */
 .videotrack-notes-header {
-    border-bottom: 1px solid #dee2e6;
+    border-bottom: 1px solid var(--videotrack-subtle-border);
     padding-bottom: .35rem;
     margin-bottom: .5rem;
 }
@@ -786,7 +796,7 @@
     color: var(--videotrack-muted-text);
     text-decoration: none;
 }
-.videotrack-notes-toggle:hover { color: #0040aa; }
+.videotrack-notes-toggle:hover { color: var(--videotrack-active-bg); }
 
 .videotrack-notes-body {
     /* Transizione collapse smooth */
@@ -796,14 +806,14 @@
 
 /* Separazione visiva reazioni/note nella vista studente */
 .videotrack-reactions-section-heading {
-    border-top: 2px solid #dee2e6;
+    border-top: 2px solid var(--videotrack-subtle-border);
     padding-top: .75rem;
     margin-top: 1rem;
 }
 
 /* Sezione note nel report docente */
 .videotrack-notes-report {
-    border-top: 2px solid #dee2e6;
+    border-top: 2px solid var(--videotrack-subtle-border);
     padding-top: 1rem;
 }
 

@@ -251,7 +251,8 @@ if ($notice !== '') {
         ['context' => $context, 'trusted' => false]), 'info');
 }
 if (in_array($source, ['youtube', 'vimeo'], true)) {
-    echo $OUTPUT->notification(get_string('externalproviderprivacy_notice', 'mod_videotrack'), 'info', true);
+    $providername = get_string('source:' . $source, 'mod_videotrack');
+    echo $OUTPUT->notification(get_string('externalproviderprivacy_notice', 'mod_videotrack', $providername), 'info', true);
 }
 
 $covered = $state ? (float)$state->uniquecoveredseconds : 0.0;
@@ -435,8 +436,6 @@ if (!empty($videotrack->studentnotesenabled)) {
     echo html_writer::tag('span', $notemaxlength . ' ' . get_string('charsremaininglabel', 'mod_videotrack'), [
         'id'         => 'videotrack-note-charcount',
         'class'      => 'videotrack-note-charcount small text-muted ms-2',
-        'aria-live'  => 'polite',
-        'aria-atomic'=> 'true',
     ]);
     // Avviso: la nota viene salvata al timestamp attuale del video.
     echo html_writer::tag('p',

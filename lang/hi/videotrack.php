@@ -513,10 +513,12 @@ $string['warning:suspicioussegment'] = 'देखने का खंड दर�
 
 $string['event:notes_exported'] = 'व्यक्तिगत नोट निर्यात किए गए';
 
-$string['externalproviderprivacy_notice'] = 'यह गतिविधि किसी बाहरी प्रदाता से वीडियो लोड करती है। साइट की privacy notice के अनुसार browser IP address, user agent और cookies जैसे technical data उस provider को भेज सकता है।';
+$string['externalproviderprivacy_notice'] = 'यह गतिविधि {$a} से वीडियो लोड करती है। आपका ब्राउज़र साइट की गोपनीयता सूचना के अनुसार इस प्रदाता को IP पता, user agent और cookies जैसे तकनीकी डेटा भेज सकता है।';
 
 $string['setting:retentionunlimitedwarning_title'] = 'VideoTrack की unlimited retention सक्षम है।';
 
 $string['setting:retentionunlimitedwarning_desc'] = '0 मान tracking data, notes और reactions को अनिश्चित समय तक रखता है। पुष्टि करें कि यह आपकी GDPR/privacy policy के अंतर्गत उचित है, या 730 दिनों जैसी finite retention अवधि सेट करें।';
 
 $string['warning:notetruncated'] = 'नोट सहेज दिया गया, लेकिन site द्वारा अनुमत अधिकतम length तक छोटा कर दिया गया।';
+
+$string['error:securetokenunavailable'] = 'सुरक्षित random token generator उपलब्ध नहीं है। VideoTrack anonymisation keys को सुरक्षित रूप से नहीं बना सकता।';

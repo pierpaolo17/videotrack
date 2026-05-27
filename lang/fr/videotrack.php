@@ -513,10 +513,12 @@ $string['warning:suspicioussegment'] = 'Le segment de visionnage n’a pas été
 
 $string['event:notes_exported'] = 'Notes personnelles exportées';
 
-$string['externalproviderprivacy_notice'] = 'Cette activité charge la vidéo depuis un fournisseur externe. Le navigateur peut envoyer des données techniques, comme l\'adresse IP, l\'agent utilisateur et des cookies, à ce fournisseur selon l\'avis de confidentialité du site.';
+$string['externalproviderprivacy_notice'] = 'Cette activité charge la vidéo depuis {$a}. Votre navigateur peut envoyer des données techniques, comme l\'adresse IP, l\'agent utilisateur et les cookies, à ce fournisseur conformément à la notice de confidentialité du site.';
 
 $string['setting:retentionunlimitedwarning_title'] = 'La conservation illimitée de VideoTrack est activée.';
 
 $string['setting:retentionunlimitedwarning_desc'] = 'La valeur 0 conserve indéfiniment les données de suivi, notes et réactions. Vérifiez que cela est justifié par votre politique GDPR/confidentialité ou définissez une durée finie, par exemple 730 jours.';
 
 $string['warning:notetruncated'] = 'La note a été enregistrée, mais elle a été raccourcie à la longueur maximale autorisée par le site.';
+
+$string['error:securetokenunavailable'] = 'Aucun générateur sécurisé de jetons aléatoires n\'est disponible. VideoTrack ne peut pas créer les clés d\'anonymisation en toute sécurité.';

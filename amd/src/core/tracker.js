@@ -199,6 +199,37 @@ define([
     }
 
     /**
+     * Synchronise legacy boolean flags with the provider-neutral tracker state.
+     *
+     * @param {Object} state Mutable player state.
+     * @param {string} trackerState Normalised tracker state.
+     */
+    function applyTrackerStateFlags(state, trackerState) {
+        if (!state) {
+            return;
+        }
+        if (trackerState === STATES.PLAYING) {
+            state.playing = true;
+            state.ended = false;
+            state.isSeeking = false;
+        } else if (trackerState === STATES.PAUSED || trackerState === STATES.IDLE) {
+            state.playing = false;
+            state.ended = false;
+            state.isSeeking = false;
+        } else if (trackerState === STATES.SEEKING) {
+            state.isSeeking = true;
+            state.ended = false;
+        } else if (trackerState === STATES.ENDED) {
+            state.playing = false;
+            state.ended = true;
+            state.isSeeking = false;
+        } else if (trackerState === STATES.DESTROYED) {
+            state.playing = false;
+            state.isSeeking = false;
+        }
+    }
+
+    /**
      * Apply a provider-neutral tracker state transition.
      *
      * @param {Object} state Mutable player state.
@@ -217,30 +248,13 @@ define([
             return false;
         }
         if (previous === next) {
+            applyTrackerStateFlags(state, next);
             return true;
         }
 
         state.trackerstate = next;
         state._transitionSerial = getTransitionToken(state) + 1;
-        if (next === STATES.PLAYING) {
-            state.playing = true;
-            state.ended = false;
-            state.isSeeking = false;
-        } else if (next === STATES.PAUSED || next === STATES.IDLE) {
-            state.playing = false;
-            state.ended = false;
-            state.isSeeking = false;
-        } else if (next === STATES.SEEKING) {
-            state.isSeeking = true;
-            state.ended = false;
-        } else if (next === STATES.ENDED) {
-            state.playing = false;
-            state.ended = true;
-            state.isSeeking = false;
-        } else if (next === STATES.DESTROYED) {
-            state.playing = false;
-            state.isSeeking = false;
-        }
+        applyTrackerStateFlags(state, next);
 
         emit(state, 'state:change', {from: previous, to: next, meta: meta || {}});
         return true;
@@ -320,6 +334,7 @@ define([
     function markProgrammaticSeek(state) {
         if (state) {
             state.isProgrammaticSeek = true;
+            state.wasPlayingBeforeProgrammaticSeek = !!state.playing;
             markSeeking(state, {reason: 'programmatic-seek'});
         }
     }
@@ -339,11 +354,12 @@ define([
         if (typeof currentTime !== 'undefined') {
             syncTime(state, currentTime);
         }
-        if (state.playing) {
+        if (state.wasPlayingBeforeProgrammaticSeek) {
             markPlaying(state, {reason: 'programmatic-seek-complete'});
         } else {
             markPaused(state, {reason: 'programmatic-seek-complete'});
         }
+        delete state.wasPlayingBeforeProgrammaticSeek;
         return true;
     }
 
@@ -399,19 +415,21 @@ define([
             return;
         }
         state.seekblocked = true;
+        state.wasPlayingBeforeSeekBlock = !!state.playing;
         markSeeking(state, {reason: 'seek-blocked'});
         if (state.seekblocktimer) {
             window.clearTimeout(state.seekblocktimer);
         }
         state.seekblocktimer = window.setTimeout(function() {
             state.seekblocked = false;
-        if (state.isSeeking) {
-            if (state.playing) {
-                markPlaying(state, {reason: 'seek-block-cleared'});
-            } else {
-                markPaused(state, {reason: 'seek-block-cleared'});
+            if (state.isSeeking) {
+                if (state.wasPlayingBeforeSeekBlock) {
+                    markPlaying(state, {reason: 'seek-block-cleared'});
+                } else {
+                    markPaused(state, {reason: 'seek-block-cleared'});
+                }
             }
-        }
+            delete state.wasPlayingBeforeSeekBlock;
             state.seekblocktimer = null;
         }, typeof delay === 'number' && delay >= 0 ? delay : 500);
     }
@@ -431,12 +449,13 @@ define([
         }
         state.seekblocked = false;
         if (state.isSeeking) {
-            if (state.playing) {
+            if (state.wasPlayingBeforeSeekBlock) {
                 markPlaying(state, {reason: 'seek-block-cleared'});
             } else {
                 markPaused(state, {reason: 'seek-block-cleared'});
             }
         }
+        delete state.wasPlayingBeforeSeekBlock;
     }
 
     /**
@@ -447,12 +466,13 @@ define([
      * @returns {boolean} True when playback should be paused.
      */
     function shouldStopReplay(state, currentTime) {
-        if (!state || state.currentReplayEnd === null) {
+        if (!state || state.currentReplayEnd == null) {
             return false;
         }
         if (normaliseTime(currentTime) >= state.currentReplayEnd) {
             state.currentReplayEnd = null;
-            markEnded(state, {reason: 'replay-limit'});
+            markPaused(state, {reason: 'replay-limit'});
+            emit(state, 'replay:limit', {currentTime: normaliseTime(currentTime)});
             return true;
         }
         return false;
@@ -496,13 +516,17 @@ define([
      * @returns {{start: number, end: number}|null} Closed segment payload.
      */
     function closeSegment(state, end) {
-        if (!state || !state.playing || state.segmentstart === null) {
+        if (!state || state.segmentstart === null) {
             return null;
         }
         var payload = {
             start: normaliseTime(state.segmentstart),
             end: normaliseTime(end)
         };
+        if (payload.end <= payload.start) {
+            emit(state, 'segment:skipped', {reason: 'zero-duration', start: payload.start, end: payload.end});
+            return null;
+        }
         state.segmentstart = null;
         state.wallclockstart = null;
         markPaused(state, {reason: 'segment-close'});
@@ -526,7 +550,7 @@ define([
      * @returns {Promise<boolean>} True when a segment was closed and queued for saving.
      */
     function closeAndSaveSegment(state, getCurrentTime, saveSegment, reason, hasPlayer) {
-        if (!state || !state.playing || state.segmentstart === null || !hasPlayer) {
+        if (!state || state.segmentstart === null || !isPlayerAvailable(hasPlayer)) {
             return Promise.resolve(false);
         }
         if (typeof getCurrentTime !== 'function' || typeof saveSegment !== 'function') {
@@ -609,6 +633,9 @@ define([
         if (!state || state.heartbeatid) {
             return state ? state.heartbeatid : null;
         }
+        if (typeof callback !== 'function') {
+            return null;
+        }
         state.heartbeatid = window.setInterval(callback, pollInterval(heartbeatInterval));
         return state.heartbeatid;
     }
@@ -622,7 +649,7 @@ define([
         if (state && state.heartbeatid) {
             window.clearInterval(state.heartbeatid);
             state.heartbeatid = null;
-            if (state.playing) {
+            if (state.playing && state.segmentstart === null) {
                 markPaused(state, {reason: 'polling-stopped'});
             }
         }
@@ -666,6 +693,26 @@ define([
 
 
     /**
+     * Execute a boolean callback without allowing provider errors to break tracking.
+     *
+     * @param {Function} callback Callback to execute.
+     * @param {boolean} fallback Fallback value used when the callback throws.
+     * @param {Object=} state Mutable player state for diagnostics.
+     * @param {string=} eventName Event name emitted on callback error.
+     * @returns {boolean} Normalised callback result.
+     */
+    function safeBooleanCallback(callback, fallback, state, eventName) {
+        try {
+            return !!callback();
+        } catch (error) {
+            if (eventName) {
+                emit(state, eventName, {error: error});
+            }
+            return !!fallback;
+        }
+    }
+
+    /**
      * Run one provider-neutral heartbeat check.
      *
      * Concrete player modules only provide media availability, current-time and
@@ -693,7 +740,9 @@ define([
             return false;
         };
 
-        if (!state || !state.playing || state.segmentstart === null || !hasPlayer() || shouldSkip()) {
+        if (!state || !state.playing || state.segmentstart === null ||
+                !safeBooleanCallback(hasPlayer, false, state, 'heartbeat:providererror') ||
+                safeBooleanCallback(shouldSkip, true, state, 'heartbeat:skiperror')) {
             return Promise.resolve(false);
         }
         if (state.heartbeatRunning) {
@@ -751,7 +800,8 @@ define([
             return true;
         };
 
-        if (!state || !state.playing || state.segmentstart === null || !hasPlayer()) {
+        if (!state || state.segmentstart === null ||
+                !safeBooleanCallback(hasPlayer, false, state, 'beacon:providererror')) {
             return false;
         }
         if (typeof options.sendSegment !== 'function') {
@@ -767,7 +817,14 @@ define([
             }
         }
 
-        return !!options.sendSegment(state.segmentstart, normaliseTime(end));
+        var start = normaliseTime(state.segmentstart);
+        var finish = normaliseTime(end);
+        if (finish <= start) {
+            emit(state, 'beacon:skipped', {reason: 'zero-duration', start: start, end: finish});
+            return false;
+        }
+
+        return !!options.sendSegment(start, finish);
     }
 
     /**
@@ -812,26 +869,27 @@ define([
             if (!document.hidden) {
                 return;
             }
-            stop();
             emit(state, 'lifecycle:hidden', {});
-            if (closeSegment) {
+            if (closeSegment && state && state.segmentstart !== null) {
                 closeSegment('tab');
             }
+            stop();
             if (onHidden) {
                 onHidden();
             }
         };
 
         var onPageHide = function() {
-            stop();
             emit(state, 'lifecycle:pagehide', {});
-            if (closeSegment) {
+            if (closeSegment && state && state.segmentstart !== null) {
                 closeSegment('pagehide');
             }
+            stop();
         };
 
         var onBeforeUnload = function() {
-            if (!state || !state.playing || state.segmentstart === null || !hasPlayer()) {
+            if (!state || state.segmentstart === null ||
+                    !safeBooleanCallback(hasPlayer, false, state, 'lifecycle:providererror')) {
                 return;
             }
             emit(state, 'lifecycle:beforeunload', {});
@@ -890,7 +948,7 @@ define([
      */
     function isPlayerAvailable(hasPlayer) {
         if (typeof hasPlayer === 'function') {
-            return !!hasPlayer();
+            return safeBooleanCallback(hasPlayer, false, null, null);
         }
         return !!hasPlayer;
     }
@@ -1071,6 +1129,7 @@ define([
         getTransitionToken: getTransitionToken,
         isTransitionCurrent: isTransitionCurrent,
         canTransition: canTransition,
+        applyTrackerStateFlags: applyTrackerStateFlags,
         setTrackerState: setTrackerState,
         markIdle: markIdle,
         markPlaying: markPlaying,
@@ -1106,6 +1165,7 @@ define([
         saveHeartbeatIfDue: saveHeartbeatIfDue,
         runHeartbeat: runHeartbeat,
         sendUnloadBeacon: sendUnloadBeacon,
+        safeBooleanCallback: safeBooleanCallback,
         reopenAfterHeartbeat: reopenAfterHeartbeat,
         installLifecycleHandlers: installLifecycleHandlers,
         uninstallLifecycleHandlers: uninstallLifecycleHandlers,

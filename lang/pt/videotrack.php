@@ -513,10 +513,12 @@ $string['warning:suspicioussegment'] = 'O segmento de visualização não foi re
 
 $string['event:notes_exported'] = 'Notas pessoais exportadas';
 
-$string['externalproviderprivacy_notice'] = 'Esta atividade carrega o vídeo a partir de um fornecedor externo. O navegador pode enviar dados técnicos, como endereço IP, agente de utilizador e cookies, para esse fornecedor de acordo com o aviso de privacidade do site.';
+$string['externalproviderprivacy_notice'] = 'Esta atividade carrega vídeo de {$a}. O navegador pode enviar dados técnicos, como endereço IP, agente do utilizador e cookies, a este fornecedor de acordo com o aviso de privacidade do site.';
 
 $string['setting:retentionunlimitedwarning_title'] = 'A retenção ilimitada do VideoTrack está ativa.';
 
 $string['setting:retentionunlimitedwarning_desc'] = 'O valor 0 conserva dados de acompanhamento, notas e reações indefinidamente. Confirme que isto é justificado pela política GDPR/privacidade do site ou defina um período finito, por exemplo 730 dias.';
 
 $string['warning:notetruncated'] = 'A nota foi guardada, mas foi encurtada para o comprimento máximo permitido pelo site.';
+
+$string['error:securetokenunavailable'] = 'Não está disponível um gerador seguro de tokens aleatórios. O VideoTrack não pode criar chaves de anonimização com segurança.';
