@@ -121,7 +121,7 @@ define([
      * C1 fix: firma allineata a player.js e vimeo_player.js (parametro duration).
      * B2/A1 fix: aggiunge calcolo covered e aggiornamento aria-label (WCAG 1.1.1).
      * @param {string} intervaljson  JSON array di [start,end] pairs.
-     * @param {number} duration      Durata totale in secondi.
+     * @param {number} duration Total duration in seconds.
      */
     function updateIntervalBar(intervaljson, duration) {
         PlayerCore.updateIntervalBar(intervaljson, duration, Log);
@@ -183,7 +183,7 @@ define([
         var isAudio = /\.(mp3|aac|m4a|ogg|wav)(\?|$)/i.test(config.videourl || '');
         var tag     = isAudio ? 'audio' : 'video';
 
-        // Se videourl è vuoto (file non ancora caricato dal docente), mostra avviso
+        // If videourl is empty (file not uploaded by the teacher yet), show a notice
         // e non creare l'elemento media — evita media.src='' che causa errori browser.
         if (!config.videourl) {
             var nofileWrap = document.getElementById('mod-videotrack-player');
@@ -400,11 +400,7 @@ define([
             var muteIcon = document.createElement('span');
             muteIcon.setAttribute('aria-hidden', 'true');
             muteIcon.textContent = '🔊';
-            var muteText = document.createElement('span');
-            muteText.className = 'visually-hidden';
-            muteText.textContent = config.html5mutelabel;
             muteBtn.appendChild(muteIcon);
-            muteBtn.appendChild(muteText);
             muteBtn.addEventListener('click', function() {
                 var muted = !Adapter.isMuted(state, function() { return media.muted; }, Log, 'HTML5 mute');
                 Adapter.setMuted(muted, function(value) {
@@ -412,7 +408,6 @@ define([
                 }, state, Log, 'HTML5 mute');
                 var muteLabel = muted ? (config.html5unmutelabel) : (config.html5mutelabel);
                 muteIcon.textContent = muted ? '🔇' : '🔊';
-                muteText.textContent = muteLabel;
                 muteBtn.setAttribute('aria-label', muteLabel);
                 muteBtn.setAttribute('title', muteLabel);
             });
@@ -559,7 +554,7 @@ define([
                 state.playbackrate = nearest;
             }
             // Enforce maxplaybackrate al caricamento.
-            // config.maxplaybackrate è in centesimi (150 = 1.5×); convertire a float.
+            // config.maxplaybackrate is stored in hundredths (150 = 1.5x); convert it to a float.
             if (config.maxplaybackrate > 0) {
                 var maxRateLoad = config.maxplaybackrate / 100;
                 if (media.playbackRate > maxRateLoad) {
@@ -606,9 +601,9 @@ define([
     function attachTrackingEvents() {
         media.addEventListener('play', function() {
             state.ended = false;
-            // Avvia un nuovo segmento solo se non c'è già uno in corso.
-            // state.playing è sempre false all'arrivo di 'play' perché closeSegment()
-            // lo resetta prima (seeking/pause/ended). Il ramo !state.playing è l'unico
+            // Start a new segment only when no segment is already open.
+            // state.playing is always false when play arrives because closeSegment()
+            // resets it first (seeking/pause/ended). The !state.playing branch is the only
             // path percorribile — il ramo state.playing=true era dead code.
             if (!state.isSeeking && !state.playing) {
                 startSegment();
@@ -641,7 +636,7 @@ define([
             state.isSeeking = true;
             // Seek programmatico (replay, capitolo, resume): chiude il segmento corrente
             // se il video era in riproduzione, per salvare il progresso fino a questo punto.
-            // Non blocca il seek né applica le regole allowseekforward/allowseekbackward.
+            // It does not block seeking or apply allowseekforward/allowseekbackward rules.
             if (state.isProgrammaticSeek) {
                 if (state.playing) { closeSegment('seek'); }
                 return;
@@ -679,8 +674,8 @@ define([
         });
 
         media.addEventListener('ratechange', function() {
-            // Se lo studente alza la velocità oltre il limite, riportiamo al massimo.
-            // config.maxplaybackrate è in centesimi (150 = 1.5×); convertire a float.
+            // If the student raises the speed above the limit, reset it to the maximum.
+            // config.maxplaybackrate is stored in hundredths (150 = 1.5x); convert it to a float.
             if (config.maxplaybackrate > 0) {
                 var maxRateChange = config.maxplaybackrate / 100;
                 if (media.playbackRate > maxRateChange) {
@@ -875,8 +870,8 @@ define([
         var panel = document.getElementById('videotrack-transcript-content');
         if (!panel) { return; }
 
-        // Fetch del file VTT già servito dal pluginfile Moodle, con timeout
-        // per evitare richieste sospese che lasciano transcript/capitoli in stato incerto.
+        // Fetch the VTT file already served by Moodle pluginfile, with a timeout
+        // to avoid hanging requests that leave transcript/chapters in an uncertain state.
         Utils.fetchTextWithTimeout(config.vtturl)
             .then(function(text) {
                 var cues = parseVTT(text);
@@ -1003,7 +998,7 @@ define([
      * Registra un listener timeupdate che evidenzia la cue attiva nel transcript.
      * Scorre automaticamente il pannello per portare la cue attiva in vista.
      *
-     * @param {Array} cues  Array di cue objects (già parsati).
+     * @param {Array} cues Array of already parsed cue objects.
      */
     function syncTranscript(cues) {
         if (!hasMedia()) { return; }
@@ -1023,7 +1018,7 @@ define([
                 el.classList.toggle('videotrack-transcript-active', isActive);
                 el.querySelector('.videotrack-transcript-btn').setAttribute('aria-current',
                     isActive ? 'true' : 'false');
-                // Scroll automatico: solo se la cue è fuori dalla vista del pannello.
+                // Auto-scroll only when the cue is outside the panel viewport.
                 if (isActive) {
                     var panelRect = panel.getBoundingClientRect();
                     var elRect    = el.getBoundingClientRect();
@@ -1063,7 +1058,7 @@ define([
     /**
      * Feature 11: Note personali studente.
      * Gestisce salvataggio e cancellazione di note testuali timestampate.
-     * Il bottone "Salva" è attivo solo durante la riproduzione (aria-disabled).
+     * The "Save" button is active only during playback (aria-disabled).
      */
     function installNoteHandler() {
         PlayerCore.installNoteHandler({
@@ -1078,10 +1073,10 @@ define([
     }
 
     /**
-     * Feature 10: Barra capitoli VTT navigabili.
+     * Feature 10: navigable VTT chapters bar.
      * Parsata dallo stesso file VTT dei sottotitoli (kind=chapters).
-     * Funziona solo se il file VTT contiene cue con testo breve (< 80 chars) —
-     * tipicamente quelli prodotti come capitoli.
+     * Works only when the VTT file contains cues with short text (< 80 chars),
+     * typically those generated as chapters.
      * Ogni capitolo diventa un bottone che salta a quel punto del video.
      */
     function buildChaptersBar() {
@@ -1090,7 +1085,7 @@ define([
         Utils.fetchTextWithTimeout(config.vtturl)
             .then(function(text) {
                 var cues = parseVTT(text);
-                // Filtra: considera capitoli solo le cue con testo <= 80 chars.
+                // Filter: treat only cues with text <= 80 chars as chapters.
                 var chapters = cues.filter(function(c) { return c.text.length <= 80; });
                 if (chapters.length < 2) {
                     showChaptersUnavailable();
@@ -1123,13 +1118,13 @@ define([
     }
 
     /**
-     * Crea la barra capitoli e la inserisce prima dei controlli.
+     * Create the chapters bar and insert it before the controls.
      * @param {Array} chapters  Array di {start, end, text}.
      */
     function renderChaptersBar(chapters) {
         var wrapper = document.querySelector('.videotrack-player-wrap');
         if (!wrapper) { return; }
-        if (wrapper.querySelector('.videotrack-chapters-bar')) { return; } // già presente
+        if (wrapper.querySelector('.videotrack-chapters-bar')) { return; } // Already present.
 
         var bar = document.createElement('nav');
         bar.className = 'videotrack-chapters-bar';

@@ -170,7 +170,7 @@ class mod_videotrack_mod_form extends moodleform_mod {
         $mform->setDefault('resumeplayback', (int)get_config('mod_videotrack', 'resumeplayback'));
         $mform->addHelpButton('resumeplayback', 'resumeplayback', 'mod_videotrack');
 
-        // Limite massimo velocità di riproduzione (0 = nessun limite).
+        // Maximum playback rate limit (0 = no limit).
         $maxspeedoptions = [
             0   => get_string('maxplaybackrate_nolimit', 'mod_videotrack'),
             125 => '1.25×', 150 => '1.5×', 175 => '1.75×',
@@ -286,7 +286,7 @@ class mod_videotrack_mod_form extends moodleform_mod {
         $mform->hideIf('vttfile',        'captions', 'notchecked');
         $mform->hideIf('vttfile_notice', 'captions', 'notchecked');
 
-        // Feature 8: Transcript VTT interattivo (solo upload + VTT caricato).
+        // Feature 8: interactive VTT transcript (upload source only, with a VTT file).
         $mform->addElement('advcheckbox', 'showtranscript',
             get_string('showtranscript', 'mod_videotrack'),
             get_string('showtranscript_desc', 'mod_videotrack'));
@@ -297,7 +297,7 @@ class mod_videotrack_mod_form extends moodleform_mod {
         $mform->hideIf('showtranscript', 'videosource', 'neq', 'upload');
         $mform->hideIf('showtranscript', 'captions', 'notchecked');
 
-        // Feature 10: Capitoli VTT navigabili (usa lo stesso file VTT).
+        // Feature 10: navigable VTT chapters (uses the same VTT file).
         $mform->addElement('advcheckbox', 'showchapters',
             get_string('showchapters', 'mod_videotrack'),
             get_string('showchapters_desc', 'mod_videotrack'));
@@ -512,7 +512,7 @@ class mod_videotrack_mod_form extends moodleform_mod {
         // ----------------------------------------------------------------
         $this->standard_grading_coursemodule_elements();
 
-        // Sufficienza: visibile solo quando si usa un tipo di valutazione ≠ None.
+        // Pass grade: shown only when a grade type other than None is selected.
         $mform->addElement('text', 'gradepass',
             get_string('gradepass', 'grades'), ['size' => 6]);
         $mform->setType('gradepass', PARAM_FLOAT);
@@ -528,7 +528,7 @@ class mod_videotrack_mod_form extends moodleform_mod {
         $mform->setDefault('showgradeto', 0);
         $mform->disabledIf('showgradeto', 'grade[modgrade_type]', 'eq', 'none');
 
-        // Registra il modulo AMD che pre-popola le reazioni al cambio preset.
+        // Register the AMD module that pre-populates reactions when the preset changes.
         videotrack_require_preset_amd($this->reactionrepeatcount ?: 4);
 
         $this->standard_coursemodule_elements();
@@ -653,9 +653,9 @@ class mod_videotrack_mod_form extends moodleform_mod {
 
     public function data_preprocessing(&$defaultvalues) {
         global $DB;
-        // Carica le reazioni esistenti per il form di modifica.
-        // Moodle chiama data_preprocessing() prima di mostrare il form: è il posto corretto
-        // (set_data() è il metodo pubblico del form base e non va sovrascritto per questa logica).
+        // Load existing reactions for the edit form.
+        // Moodle calls data_preprocessing() before displaying the form: this is the correct place
+        // (set_data() is the public base form method and must not be overridden for this logic).
         if (!empty($this->_instance)) {
             $reactions = $DB->get_records('videotrack_react',
                 ['videotrackid' => $this->_instance, 'isdeleted' => 0], 'sortorder ASC');
@@ -694,17 +694,17 @@ class mod_videotrack_mod_form extends moodleform_mod {
         if (!isset($defaultvalues['completionpercent'])) {
             $defaultvalues['completionpercent'] = 0;
         }
-        // Pre-popola gradepass dal DB quando si modifica un'attività esistente.
+        // Pre-populate gradepass from the database when editing an existing activity.
         if (!isset($defaultvalues['gradepass']) && !empty($this->_instance)) {
             $gradepass = $DB->get_field('videotrack', 'gradepass', ['id' => $this->_instance]);
             $defaultvalues['gradepass'] = ($gradepass !== false) ? format_float((float)$gradepass, 5) : 0;
         }
-        // Pre-popola vimeourl se la sorgente è Vimeo.
+        // Pre-populate vimeourl when the source is Vimeo.
         if (($defaultvalues['videosource'] ?? 'youtube') === 'vimeo'
                 && !empty($defaultvalues['videourl'])) {
             $defaultvalues['vimeourl'] = $defaultvalues['videourl'];
         }
-        // Pre-popola le checkbox delle velocità di riproduzione.
+        // Pre-populate the playback-rate checkboxes.
         $activespeeds = [];
         if (!empty($defaultvalues['playbackspeeds'])) {
             $activespeeds = array_map('strval', array_map('floatval',
@@ -734,7 +734,7 @@ class mod_videotrack_mod_form extends moodleform_mod {
             }
         }
 
-        // Pre-popola i campi numerici con default sito se il valore è 0.
+        // Pre-populate numeric fields with site defaults when the value is 0.
         foreach (['playerwidth', 'rewindstep', 'fastforwardstep'] as $field) {
             if (empty($defaultvalues[$field])) {
                 $defaultvalues[$field] = 0; // 0 = usa default sito
@@ -749,7 +749,7 @@ class mod_videotrack_mod_form extends moodleform_mod {
             $defaultvalues['captionslang'] = (string)get_config('mod_videotrack', 'default_captionslang');
         }
 
-        // Prepara draft area per file VTT e video caricato (un solo get_coursemodule).
+        // Prepare draft areas for the VTT file and uploaded video (single get_coursemodule call).
         if (($defaultvalues['videosource'] ?? 'youtube') === 'upload' && !empty($this->_instance)) {
             $cmupload = get_coursemodule_from_instance('videotrack', $this->_instance, 0, false, IGNORE_MISSING);
             if ($cmupload) {
@@ -807,11 +807,11 @@ class mod_videotrack_mod_form extends moodleform_mod {
                 $errors['vimeourl'] = get_string('invalidvimeourl', 'mod_videotrack');
             }
         } else if ($source === 'upload') {
-            // Per nuove attività, il file video è obbligatorio.
-            // Per le modifiche, il file esistente viene mantenuto anche se il filepicker è vuoto.
+            // For new activities, the video file is required.
+            // For edits, the existing file is kept even when the file picker is empty.
             $draftitemid = (int)($data['videofile'] ?? 0);
             $fileinfo    = $draftitemid > 0 ? file_get_draft_area_info($draftitemid) : [];
-            $isNew       = empty($data['instance']); // $data['instance'] = 0 se nuova attività.
+            $isNew       = empty($data['instance']); // $data['instance'] = 0 for a new activity.
             if ($isNew && empty($fileinfo['filecount'])) {
                 $errors['videofile'] = get_string('required');
             }

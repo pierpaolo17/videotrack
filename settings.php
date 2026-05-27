@@ -84,7 +84,7 @@ if ($ADMIN->fulltree) {
             html_writer::span(get_string('setting:validationfallbackdays_privacywarning', 'mod_videotrack'), 'text-warning fw-semibold'),
         30,
         0,
-        3650
+        730
     ));
 
     // Performance.

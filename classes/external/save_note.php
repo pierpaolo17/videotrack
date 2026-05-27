@@ -37,7 +37,7 @@ use mod_videotrack\event\note_saved;
  *
  * @package   mod_videotrack
  * @copyright 2026 videotrack contributors
- * @license   http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
+ * @license   https://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 class save_note extends external_api {
 

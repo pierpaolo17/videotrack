@@ -28,7 +28,7 @@ use core_external\external_api;
  *
  * @package   mod_videotrack
  * @copyright 2026 videotrack contributors
- * @license   http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
+ * @license   https://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 class helper extends external_api {
     /**

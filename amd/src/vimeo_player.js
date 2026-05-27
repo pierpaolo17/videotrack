@@ -111,7 +111,7 @@ define([
      * Identica all'implementazione in player.js e html5_player.js.
      *
      * @param {string} intervaljson  JSON array di [start,end] pairs.
-     * @param {number} duration      Durata totale del video in secondi.
+     * @param {number} duration Total video duration in seconds.
      */
     function updateIntervalBar(intervaljson, duration) {
         PlayerCore.updateIntervalBar(intervaljson, duration, Log);
@@ -156,7 +156,7 @@ define([
         script.onload = callback;
         script.onerror = function() {
             Log.debug('mod_videotrack: failed to load Vimeo Player SDK from player.vimeo.com');
-            // Mostra un messaggio utente leggibile: probabile blocco CSP o rete.
+            // Show a readable user message: likely CSP or network blocking.
             var wrap = document.getElementById('mod-videotrack-player');
             if (wrap) {
                 var notice = document.createElement('div');
@@ -207,13 +207,13 @@ define([
                     showResumeNotice(config.resumeposition);
                 }).catch(function() {
                     // iOS Safari fallisce silenziosamente su setCurrentTime prima del play.
-                    // Il seek verrà ritentato sull'evento 'play' la prima volta.
+                    // The seek will be retried on the first 'play' event.
                     state.isProgrammaticSeek = false;
                     state._pendingResume = config.resumeposition;
                 });
             }
             // Enforce maxplaybackrate al caricamento.
-            // config.maxplaybackrate è in centesimi (150 = 1.5×); convertire a float.
+            // config.maxplaybackrate is stored in hundredths (150 = 1.5x); convert it to a float.
             if (config.maxplaybackrate > 0) {
                 var maxRateLoad = config.maxplaybackrate / 100;
                 player.getPlaybackRate().then(function(currentRate) {
@@ -255,7 +255,7 @@ define([
                 startHeartbeat();
                 setReactionButtons(true);
                 // Enforce max rate ad ogni play (lo studente potrebbe averla cambiata).
-                // config.maxplaybackrate è in centesimi (150 = 1.5×).
+                // config.maxplaybackrate is stored in hundredths (150 = 1.5x).
                 if (config.maxplaybackrate > 0) {
                     var maxRatePlay = config.maxplaybackrate / 100;
                     player.getPlaybackRate().then(function(rate) {
@@ -286,7 +286,7 @@ define([
 
         player.on('seeked', function(data) {
             // Ignora seek programmatici (replay, resume): non devono triggerare
-            // il blocco anti-skip né chiudere il segmento corrente.
+            // the anti-skip block or close the current segment.
             if (state.seekblocked || Tracker.consumeProgrammaticSeek(state, data.seconds)) { return; }
             var seek = Tracker.resolveSeek(state, data.seconds, config, 0);
 
@@ -447,7 +447,7 @@ define([
             if (placeholder) { placeholder.parentNode.removeChild(placeholder); }
             var tr = document.createElement('tr');
             tr.setAttribute('data-eventid', eventid);
-            // Timestamp cell — formattato MM:SS per leggibilità.
+            // Timestamp cell, formatted as MM:SS for readability.
             var tdtime = document.createElement('td');
             tdtime.textContent = Utils.formatSeconds(videotime);
             tr.appendChild(tdtime);
@@ -593,7 +593,7 @@ define([
     /**
      * Feature 11: Note personali studente.
      * Gestisce salvataggio e cancellazione di note testuali timestampate.
-     * Il bottone "Salva" è attivo solo durante la riproduzione (aria-disabled).
+     * The "Save" button is active only during playback (aria-disabled).
      */
     function installNoteHandler() {
         PlayerCore.installNoteHandler({
@@ -623,7 +623,7 @@ define([
         if (playBtn) {
             playBtn.addEventListener('click', function() {
                 removePoster();
-                // Avvia la riproduzione con l'API Vimeo SDK (non player.playVideo che è YouTube).
+                // Start playback with the Vimeo SDK API (not player.playVideo, which is YouTube).
                 if (player && player.play) {
                     var posterPlay = Adapter.play(function() {
                         return player.play();
