@@ -143,13 +143,6 @@ define([
             return ERROR_CATEGORY_CANCELLED;
         }
 
-        if (isBrowserOffline() || message === 'ajax-timeout' || code === 'servicenotavailable' ||
-                code === 'networkerror' || code === 'connectionlost' ||
-                message.indexOf('timeout') !== -1 || message.indexOf('network') !== -1 ||
-                message.indexOf('offline') !== -1 || message.indexOf('connection') !== -1) {
-            return ERROR_CATEGORY_TRANSIENT;
-        }
-
         if (code === 'invalidsesskey' || code === 'requireloginerror' || code === 'nopermissions' ||
                 code === 'accessdenied' || message.indexOf('permission') !== -1 ||
                 message.indexOf('login') !== -1) {
@@ -163,6 +156,15 @@ define([
 
         if (code === 'codingerror' || message.indexOf('coding error') !== -1) {
             return ERROR_CATEGORY_CLIENT;
+        }
+
+        // Transient classification deliberately runs after auth/validation/client
+        // checks so offline state never makes logical Moodle errors retryable.
+        if (isBrowserOffline() || message === 'ajax-timeout' || code === 'servicenotavailable' ||
+                code === 'networkerror' || code === 'connectionlost' ||
+                message.indexOf('timeout') !== -1 || message.indexOf('network') !== -1 ||
+                message.indexOf('offline') !== -1 || message.indexOf('connection') !== -1) {
+            return ERROR_CATEGORY_TRANSIENT;
         }
 
         return ERROR_CATEGORY_UNKNOWN;

@@ -78,7 +78,11 @@ define(['core/log'], function(Log) {
         if (normalised.length > MAX_TEXT_RESPONSE_BYTES) {
             throw 'response-too-large';
         }
-        if ((normalised.match(/(?:^|\n)\s*-->/g) || []).length > 5000) {
+        var cueCount = (normalised.match(/(?:^|\n)\s*-->/g) || []).length;
+        if (cueCount > 5000) {
+            throw 'unexpected-text-content';
+        }
+        if (cueCount && !/(?:^|\n)\s*(?:\d{2}:)?\d{2}:\d{2}\.\d{3}\s+-->\s+(?:\d{2}:)?\d{2}:\d{2}\.\d{3}/.test(normalised)) {
             throw 'unexpected-text-content';
         }
         if (/<\s*script\b|<\s*iframe\b|<\s*object\b|<\s*embed\b|<\s*link\b|<\s*meta\b|<\s*style\b|<\s*svg\b|<\s*math\b/.test(lower)) {
