@@ -1057,5 +1057,10 @@ function xmldb_videotrack_upgrade($oldversion) {
         upgrade_mod_savepoint(true, 2026072521, 'videotrack');
     }
 
+    if ($oldversion < 2026072522) {
+        // Release 1.4.12: unload-beacon deduplication and AMD build normalisation. No schema changes.
+        upgrade_mod_savepoint(true, 2026072522, 'videotrack');
+    }
+
     return true;
 }
