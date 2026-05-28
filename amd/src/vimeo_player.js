@@ -98,7 +98,7 @@ define([
     // ── Global listeners ──────────────────────────────────────────────────
 
     /**
-     * Mostra un banner temporaneo che informa lo studente del resume automatico.
+     * Shows a temporary banner informing the student about automatic resume.
      * @param {number} seconds Posizione di resume in secondi.
      */
     function showResumeNotice(seconds) {
@@ -199,7 +199,7 @@ define([
             state.duration = Adapter.getDuration(state, function() {
                 return d;
             }, Log, 'Vimeo duration');
-            // Resume automatico dal punto lasciato (lastposition > 2s).
+            // Automatically resume from the last saved position (lastposition > 2s).
             if (typeof config.resumeposition === 'number' && config.resumeposition > 2) {
                 Tracker.markProgrammaticSeek(state);
                 player.setCurrentTime(config.resumeposition).then(function() {
@@ -212,7 +212,7 @@ define([
                     state._pendingResume = config.resumeposition;
                 });
             }
-            // Enforce maxplaybackrate al caricamento.
+            // Enforce maxplaybackrate when the media loads.
             // config.maxplaybackrate is stored in hundredths (150 = 1.5x); convert it to a float.
             if (config.maxplaybackrate > 0) {
                 var maxRateLoad = config.maxplaybackrate / 100;
@@ -238,7 +238,7 @@ define([
             state.ended = false;
             player.getCurrentTime().then(function(t) {
                 // iOS Safari workaround: setCurrentTime prima del play fallisce.
-                // Riprova il seek alla prima riproduzione se era pendente.
+                // Retry the seek on first playback when it was pending.
                 if (state._pendingResume && state._pendingResume > 2) {
                     var resumePos = state._pendingResume;
                     state._pendingResume = null;
@@ -281,7 +281,7 @@ define([
             reactionState.readyAnnounced = false;
             stopHeartbeat();
             closeSegment('ended');
-            setReactionButtons(false); // Disabilita bottoni a fine video.
+            setReactionButtons(false); // Disable buttons at the end of the video.
         });
 
         player.on('seeked', function(data) {
@@ -442,7 +442,7 @@ define([
         function appendReactionRow(eventid, reaction, videotime) {
             var tbody = document.getElementById('videotrack-my-reactions');
             if (!tbody) { return; }
-            // Rimuove la riga placeholder 'nessuna reazione' alla prima reazione aggiunta.
+            // Remove the 'no reactions yet' placeholder row when the first reaction is added.
             var placeholder = tbody.querySelector('.videotrack-no-reactions-placeholder');
             if (placeholder) { placeholder.parentNode.removeChild(placeholder); }
             var tr = document.createElement('tr');
@@ -609,7 +609,7 @@ define([
 
     /**
      * Feature 12: Gestione overlay poster pre-play.
-     * Rimuove l'overlay al primo evento PLAYING / click sul bottone play overlay.
+     * Removes the overlay on the first PLAYING event or overlay play button click.
      */
     function installPosterHandler() {
         var overlay = document.getElementById('videotrack-poster-overlay');
@@ -637,7 +637,7 @@ define([
             });
         }
 
-        // Rimuove il poster al primo evento 'play' del player Vimeo.
+        // Remove the poster on the first Vimeo play event.
         state._posterRemoved = false;
         state._posterPlayListener = function(e) {
             PlayerCore.onFirstPlay(e, state, removePoster);

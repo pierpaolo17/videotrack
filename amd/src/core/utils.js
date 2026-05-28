@@ -66,9 +66,10 @@ define(['core/log'], function(Log) {
      */
     function validateWebVttText(text) {
         var normalised = String(text || '').replace(/^\uFEFF/, '');
-        var sample = normalised.replace(/^\s+/, '').substring(0, 64).toUpperCase();
+        var trimmedStart = normalised.replace(/^\s+/, '');
+        var sample = trimmedStart.substring(0, 64).toUpperCase();
         var lower = normalised.toLowerCase();
-        if (sample.indexOf('WEBVTT') !== 0) {
+        if (sample.indexOf('WEBVTT') !== 0 || !/^WEBVTT(?:[ \t].*)?(?:\n|$)/i.test(trimmedStart)) {
             throw 'unexpected-text-content';
         }
         if (/[\x00-\x08\x0B\x0C\x0E-\x1F\x7F]/.test(normalised)) {
@@ -101,12 +102,6 @@ define(['core/log'], function(Log) {
         }
         var contentType = (response.headers.get('content-type') || '').toLowerCase();
         var length = parseInt(response.headers.get('content-length') || '0', 10);
-        var responsePath = '';
-        try {
-            responsePath = new URL(response.url || '', window.location.href).pathname.toLowerCase();
-        } catch (e) {
-            responsePath = '';
-        }
         if (Number.isFinite(length) && length > MAX_TEXT_RESPONSE_BYTES) {
             return Promise.reject('response-too-large');
         }
@@ -122,8 +117,9 @@ define(['core/log'], function(Log) {
             if (text.length > MAX_TEXT_RESPONSE_BYTES) {
                 return Promise.reject('response-too-large');
             }
-            sample = text.replace(/^\uFEFF/, '').replace(/^\s+/, '').substring(0, 64).toUpperCase();
-            if (sample.indexOf('WEBVTT') !== 0) {
+            var trimmedStart = text.replace(/^\uFEFF/, '').replace(/^\s+/, '');
+            sample = trimmedStart.substring(0, 64).toUpperCase();
+            if (sample.indexOf('WEBVTT') !== 0 || !/^WEBVTT(?:[ \t].*)?(?:\n|$)/i.test(trimmedStart)) {
                 return Promise.reject('unexpected-text-content');
             }
             try {
