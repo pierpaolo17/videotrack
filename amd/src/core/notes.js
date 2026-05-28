@@ -218,7 +218,10 @@ define([], function() {
             }
         }, {once: true});
 
-        saveBtn.addEventListener('click', function() {
+        saveBtn.addEventListener('click', function(event) {
+            if (event) {
+                event.preventDefault();
+            }
             if (savingNote || saveBtn.getAttribute('aria-disabled') === 'true') {
                 if (!state.playing) {
                     showStatusMessage(config.noteplaybackrequiredlabel || config.reactionunavailablelabel,
@@ -286,6 +289,8 @@ define([], function() {
             noteList.addEventListener('click', function(e) {
                 var delBtn = e.target.closest('.videotrack-delete-note');
                 if (!delBtn || !noteList.contains(delBtn)) { return; }
+                e.preventDefault();
+                if (delBtn.disabled || delBtn.getAttribute('aria-busy') === 'true') { return; }
                 var noteid = Utils.safeInt(delBtn.dataset.noteid, 0);
                 if (!noteid) { return; }
                 // Native disabled is deliberate here: the button is removed from

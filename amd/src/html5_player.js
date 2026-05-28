@@ -861,9 +861,9 @@ define([
     // ── Transcript VTT (upload source only) ──────────────────────────────────
 
     /**
-     * Feature 8: Transcript VTT interattivo.
-     * Parsa il file VTT, lo renderizza come lista di cue nel pannello sidebar,
-     * e sincronizza la cue attiva con la posizione corrente del video.
+     * Feature 8: interactive transcript VTT.
+     * Parses the VTT file, renders it as a cue list in the sidebar panel and
+     * synchronises the active cue with the current video position.
      */
     function loadTranscript() {
         if (!config.showtranscript || !config.vtturl) { return; }
@@ -917,9 +917,11 @@ define([
                 return (doc.body && doc.body.textContent ? doc.body.textContent : '').trim();
             }
         } catch (e) {
-            // Fall through to the conservative regex fallback below.
+            return '';
         }
-        return raw.replace(/<[^>]*>/g, '').trim();
+        // Do not fall back to regex-based HTML stripping. If DOMParser is not
+        // available, skip cue text rather than risking unsafe markup handling.
+        return '';
     }
 
     /**
@@ -1018,13 +1020,15 @@ define([
 
     /**
      * Registers a timeupdate listener that highlights the active transcript cue.
-     * Scorre automaticamente il pannello per portare la cue attiva in vista.
+     * Automatically scrolls the panel only when the active cue is outside the
+     * visible area, throttled to avoid excessive layout work.
      *
      * @param {Array} cues Array of already parsed cue objects.
      */
     function syncTranscript(cues) {
         if (!hasMedia()) { return; }
         var lastActive = -1;
+        var lastScrollAt = 0;
         media.addEventListener('timeupdate', function() {
             var t = media.currentTime;
             var active = -1;
@@ -1044,11 +1048,13 @@ define([
                 if (isActive) {
                     var panelRect = panel.getBoundingClientRect();
                     var elRect    = el.getBoundingClientRect();
-                    if (elRect.top < panelRect.top || elRect.bottom > panelRect.bottom) {
+                    var now = Date.now();
+                    if ((elRect.top < panelRect.top || elRect.bottom > panelRect.bottom) && now - lastScrollAt > 500) {
                         var scrollOptions = { block: 'nearest' };
                         if (!prefersReducedMotion()) {
                             scrollOptions.behavior = 'smooth';
                         }
+                        lastScrollAt = now;
                         el.scrollIntoView(scrollOptions);
                     }
                 }
@@ -1057,14 +1063,14 @@ define([
     }
 
 
-    /** Restituisce il timestamp video corrente per il player HTML5. */
+    /** Returns the current video timestamp for the HTML5 player. */
     function getCurrentVideoTime() {
         return Adapter.getCurrentTime(state, function() {
             return media ? safeNumber(media.currentTime, state.lasttime || 0) : state.lasttime;
         }, Log, 'HTML5');
     }
 
-    /** Restituisce true se l'utente ha richiesto animazioni ridotte. */
+    /** Returns true when the user has requested reduced motion. */
     function prefersReducedMotion() {
         return !!(window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches);
     }
@@ -1096,7 +1102,7 @@ define([
 
     /**
      * Feature 10: navigable VTT chapters bar.
-     * Parsata dallo stesso file VTT dei sottotitoli (kind=chapters).
+     * Parsed from the same VTT file used by captions (kind=chapters).
      * Works only when the VTT file contains cues with short text (< 80 chars),
      * typically those generated as chapters.
      * Ogni capitolo diventa un bottone che salta a quel punto del video.

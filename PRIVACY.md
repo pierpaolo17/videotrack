@@ -61,7 +61,7 @@ plugin-owned files as described above.
 
 ## Unlimited retention notice
 
-If the retention period is configured as 0 days, VideoTrack keeps tracking data until it is removed by Moodle privacy tools or by an administrator. Sites should document this policy for students and teachers before enabling long-term tracking.
+If the retention period is configured as 0 days, VideoTrack keeps tracking data until it is removed by Moodle privacy tools or by an administrator. Sites should document this policy for students and teachers before enabling long-term tracking. Administrators should avoid this setting unless there is a documented lawful basis, a published retention notice, and a periodic manual review process.
 
 
 ## VideoTrack retention default

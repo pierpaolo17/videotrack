@@ -641,7 +641,7 @@ if ($showstudentreport) {
             ['class' => 'videotrack-no-reactions-placeholder']
         );
     }
-    // O1: pre-calcola reactionmap per lookup O(1) invece di O(n) per evento.
+    // Precompute reactionmap for O(1) lookup instead of O(n) per event.
     $reactionmap_view = [];
     foreach ($reactions as $r) {
         $reactionmap_view[(int)$r->id] = $r;
