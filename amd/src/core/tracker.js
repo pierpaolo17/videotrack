@@ -807,6 +807,10 @@ define([
                 !safeBooleanCallback(hasPlayer, false, state, 'beacon:providererror')) {
             return false;
         }
+        if (state.unloadBeaconQueued) {
+            emit(state, 'beacon:skipped', {reason: 'already-queued'});
+            return false;
+        }
         if (typeof options.sendSegment !== 'function') {
             return false;
         }
@@ -827,7 +831,12 @@ define([
             return false;
         }
 
-        return !!options.sendSegment(start, finish);
+        var queued = !!options.sendSegment(start, finish);
+        if (queued) {
+            state.unloadBeaconQueued = true;
+            emit(state, 'beacon:queued', {start: start, end: finish});
+        }
+        return queued;
     }
 
     /**
@@ -879,12 +888,14 @@ define([
                 return;
             }
             if (options.preferBeacon && sendBeacon) {
-                sendBeacon();
-                stop();
-                if (options.afterStop) {
-                    options.afterStop();
+                if (sendBeacon()) {
+                    stop();
+                    if (options.afterStop) {
+                        options.afterStop();
+                    }
+                    return;
                 }
-                return;
+                emit(state, 'lifecycle:beaconfallback', {reason: reason});
             }
             if (closeSegment) {
                 Promise.resolve(closeSegment(reason)).catch(function(error) {

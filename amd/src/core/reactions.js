@@ -27,6 +27,29 @@ define([], function() {
     }
 
 
+
+    /**
+     * Update the dedicated live region in a screen-reader friendly way.
+     * Clearing and setting on the next tick avoids some assistive technologies
+     * ignoring repeated messages with the same text.
+     *
+     * @param {HTMLElement} status Dedicated status live-region element.
+     * @param {string} message Announcement text.
+     */
+    function announceStatus(status, message) {
+        if (!status) {
+            return;
+        }
+        var text = (message || '').toString();
+        if (!text) {
+            return;
+        }
+        status.textContent = '';
+        window.setTimeout(function() {
+            status.textContent = text;
+        }, 30);
+    }
+
     /**
      * Announce when reactions become available or unavailable.
      *
@@ -53,7 +76,7 @@ define([], function() {
             }
             reactionState.lastAnnouncement = true;
             reactionState.readyAnnounced = true;
-            status.textContent = (config.reactionsreadylabel || '').toString();
+            announceStatus(status, config.reactionsreadylabel);
             hint.classList.toggle('videotrack-reactions-hint-active', false);
             return;
         }
@@ -70,7 +93,7 @@ define([], function() {
             reactionState.timer = null;
             reactionState.lastAnnouncement = false;
             reactionState.lastUnavailableAt = Date.now();
-            status.textContent = (config.reactionunavailablelabel || '').toString();
+            announceStatus(status, config.reactionunavailablelabel);
             hint.classList.toggle('videotrack-reactions-hint-active', true);
         }, 400);
     }
@@ -97,7 +120,7 @@ define([], function() {
         }
         reactionState.lastAnnouncement = false;
         reactionState.lastUnavailableAt = now;
-        status.textContent = (config.reactionunavailablelabel || '').toString();
+        announceStatus(status, config.reactionunavailablelabel);
         hint.classList.add('videotrack-reactions-hint-active');
         if (reactionState.cssTimer) {
             window.clearTimeout(reactionState.cssTimer);
