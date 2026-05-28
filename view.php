@@ -594,7 +594,7 @@ if (!empty($videotrack->reactionsenabled) && $reactions) {
         get_string('reactions_hint', 'mod_videotrack'),
         ['class' => 'videotrack-reactions-hint', 'id' => 'videotrack-reactions-hint']
     );
-    echo html_writer::tag('', '', [
+    echo html_writer::tag('span', '', [
         'id'          => 'videotrack-reactions-live-status',
         'class'       => 'sr-only visually-hidden',
         'role'        => 'status',

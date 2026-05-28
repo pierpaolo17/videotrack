@@ -36,7 +36,7 @@ define([], function() {
      */
     function announceAvailability(playing, config, reactionState) {
         var hint = document.getElementById('videotrack-reactions-hint');
-        var status = document.getElementById('videotrack-reactions-live-status') || hint;
+        var status = document.getElementById('videotrack-reactions-live-status');
         if (!hint || !status || !reactionState) {
             return;
         }
@@ -83,7 +83,7 @@ define([], function() {
      */
     function announceUnavailable(config, reactionState) {
         var hint = document.getElementById('videotrack-reactions-hint');
-        var status = document.getElementById('videotrack-reactions-live-status') || hint;
+        var status = document.getElementById('videotrack-reactions-live-status');
         if (!hint || !status || !reactionState) {
             return;
         }

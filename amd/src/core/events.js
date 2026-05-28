@@ -16,6 +16,7 @@ define([], function() {
      */
     function create() {
         var handlers = {};
+        var maxHandlersPerEvent = 100;
 
         return {
             /**
@@ -30,6 +31,12 @@ define([], function() {
                     return function() {};
                 }
                 handlers[name] = handlers[name] || [];
+                if (handlers[name].length >= maxHandlersPerEvent) {
+                    if (typeof window !== 'undefined' && window.console && window.console.debug) {
+                        window.console.debug('mod_videotrack: event handler limit reached for ' + name);
+                    }
+                    return function() {};
+                }
                 handlers[name].push(handler);
 
                 return function() {
@@ -67,6 +74,9 @@ define([], function() {
                     try {
                         return handler(eventPayload);
                     } catch (error) {
+                        if (typeof window !== 'undefined' && window.console && window.console.debug) {
+                            window.console.debug('mod_videotrack: event handler failed for ' + name + ' - ' + error);
+                        }
                         return null;
                     }
                 });

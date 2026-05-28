@@ -44,6 +44,26 @@ function videotrack_report_user_label(int $userid, array $usermap, bool $canview
     return fullname($user) . ($canviewemail ? ' (' . s($user->email) . ')' : '');
 }
 
+/**
+ * Converts an ISO date-only parameter to a timestamp in the user's timezone.
+ *
+ * @param string $date Date in YYYY-MM-DD format.
+ * @param bool $endofday Whether to use the last second of the day.
+ * @return int Timestamp, or 0 when the value is empty or invalid.
+ */
+function videotrack_report_date_to_timestamp(string $date, bool $endofday = false): int {
+    if ($date === '' || !preg_match('/^(\d{4})-(\d{2})-(\d{2})$/', $date, $matches)) {
+        return 0;
+    }
+    $year = (int)$matches[1];
+    $month = (int)$matches[2];
+    $day = (int)$matches[3];
+    if (!checkdate($month, $day, $year)) {
+        return 0;
+    }
+    return make_timestamp($year, $month, $day, $endofday ? 23 : 0, $endofday ? 59 : 0, $endofday ? 59 : 0);
+}
+
 global $DB, $USER, $CFG, $PAGE, $OUTPUT;
 
 $id = required_param('id', PARAM_INT);
@@ -66,14 +86,8 @@ $timeto = $timetoparam !== null ? max(0.0, (float)$timetoparam) : null;
 if ($timefrom !== null && $timeto !== null && $timeto < $timefrom) {
     [$timefrom, $timeto] = [$timeto, $timefrom];
 }
-$notecreatedfromts = $notecreatedfrom !== '' ? strtotime($notecreatedfrom . ' 00:00:00') : 0;
-$notecreatedtots = $notecreatedto !== '' ? strtotime($notecreatedto . ' 23:59:59') : 0;
-if ($notecreatedfromts === false) {
-    $notecreatedfromts = 0;
-}
-if ($notecreatedtots === false) {
-    $notecreatedtots = 0;
-}
+$notecreatedfromts = videotrack_report_date_to_timestamp($notecreatedfrom);
+$notecreatedtots = videotrack_report_date_to_timestamp($notecreatedto, true);
 if ($notecreatedfromts && $notecreatedtots && $notecreatedtots < $notecreatedfromts) {
     [$notecreatedfromts, $notecreatedtots] = [$notecreatedtots, $notecreatedfromts];
 }
@@ -501,7 +515,7 @@ function videotrack_csv_safe_row(array $row): array {
     return array_map('videotrack_csv_safe', $row);
 }
 
-// Ricalcolo stati: aggiorna completionpercent e iscompleted per tutti gli utenti.
+// Recalculate completionpercent and iscompleted for all users.
 if ($action === 'recalculate') {
     if ($_SERVER['REQUEST_METHOD'] !== 'POST') {
         throw new moodle_exception('invalidrequest', 'error');
@@ -545,7 +559,7 @@ if ($resetaction === 'resetstudent' && $_SERVER['REQUEST_METHOD'] === 'POST') {
         grade_update('mod/videotrack', $course->id, 'mod', 'videotrack',
             $videotrack->id, 0, null, ['reset' => true, 'userid' => $resetuserid]);
     }
-    // Aggiorna il completamento Moodle a INCOMPLETE per questo studente.
+    // Update Moodle completion to INCOMPLETE for this student.
     $cminfo    = cm_info::create($cm);
     $completion = new completion_info($course);
     $completion->update_state($cminfo, COMPLETION_INCOMPLETE, $resetuserid);
@@ -561,9 +575,9 @@ $PAGE->set_url('/mod/videotrack/report.php', ['id' => $cm->id]);
 $PAGE->set_context($context);
 $PAGE->set_title(format_string($videotrack->name));
 $PAGE->set_heading(format_string($course->fullname));
-// Gli stili del plugin sono in styles.css, incluso automaticamente da Moodle.
+// Plugin styles are in styles.css and are loaded automatically by Moodle.
 
-// B4: il blocco savegrade va eseguito PRIMA di $OUTPUT->header() per permettere il redirect.
+// The savegrade block must run before $OUTPUT->header() to allow redirect responses.
 if ($hasgrade && optional_param('savegrade', 0, PARAM_INT)) {
     if ($_SERVER['REQUEST_METHOD'] !== 'POST') {
         throw new moodle_exception('invalidrequest', 'error');
@@ -595,7 +609,7 @@ if ($hasgrade && optional_param('savegrade', 0, PARAM_INT)) {
                 throw new moodle_exception('invaliddata', 'error');
             }
         }
-        videotrack_set_user_grade($videotrack, $gradeuserid, (float)$gradevalue);
+        videotrack_set_user_grade($videotrack, $gradeuserid, (float)$val);
     } else {
         videotrack_set_user_grade($videotrack, $gradeuserid, -1);
     }

@@ -889,7 +889,7 @@ define([
     }
 
 
-    /** Mostra un messaggio accessibile quando il transcript non è disponibile. */
+    /** Shows an accessible message when the transcript is unavailable. */
     function showTranscriptUnavailable(panel) {
         if (!panel) { return; }
         panel.innerHTML = '';
@@ -901,17 +901,39 @@ define([
     }
 
     /**
-     * Parsa un file WebVTT e restituisce un array di cue objects:
-     * {start, end, text} dove start/end sono in secondi (float).
+     * Strips WebVTT cue markup using the browser parser when available.
      *
-     * @param  {string} text  Contenuto del file VTT.
+     * @param {string} value Cue text with optional WebVTT inline markup.
+     * @returns {string} Plain text cue content.
+     */
+    function stripVttCueMarkup(value) {
+        var raw = String(value || '');
+        if (raw === '') {
+            return '';
+        }
+        try {
+            if (typeof window !== 'undefined' && window.DOMParser) {
+                var doc = new window.DOMParser().parseFromString(raw, 'text/html');
+                return (doc.body && doc.body.textContent ? doc.body.textContent : '').trim();
+            }
+        } catch (e) {
+            // Fall through to the conservative regex fallback below.
+        }
+        return raw.replace(/<[^>]*>/g, '').trim();
+    }
+
+    /**
+     * Parses a WebVTT file and returns cue objects with {start, end, text}.
+     * start/end are expressed as seconds.
+     *
+     * @param  {string} text  VTT file content.
      * @return {Array}
      */
     function parseVTT(text) {
         var cues = [];
         if (!text) { return cues; }
 
-        // Normalizza BOM e CRLF. Ignora header NOTE/STYLE/REGION e cue settings dopo l'end time.
+        // Normalise BOM and CRLF. Ignore NOTE/STYLE/REGION headers and cue settings after the end time.
         var normalized = text.replace(/^\uFEFF/, '').replace(/\r\n?/g, '\n');
         var blocks = normalized.split(/\n[ \t]*\n/);
         var timeRe = /^((?:\d{2}:)?\d{2}:\d{2}\.\d{3})[ \t]*-->[ \t]*((?:\d{2}:)?\d{2}:\d{2}\.\d{3})(?:[ \t].*)?$/;
@@ -931,14 +953,14 @@ define([
             var end = vttTime(m[2]);
             if (!isFinite(start) || !isFinite(end) || end <= start) { return; }
 
-            var textLines = lines.slice(timeLine + 1).join(' ').replace(/<[^>]+>/g, '').trim();
+            var textLines = stripVttCueMarkup(lines.slice(timeLine + 1).join(' '));
             if (!textLines) { return; }
             cues.push({ start: start, end: end, text: textLines });
         });
         return cues;
     }
 
-    /** Converte un timestamp VTT (HH:MM:SS.mmm o MM:SS.mmm) in secondi float. */
+    /** Converts a VTT timestamp (HH:MM:SS.mmm or MM:SS.mmm) to seconds. */
     function vttTime(ts) {
         var parts = ts.split(':');
         if (parts.length < 2 || parts.length > 3) { return NaN; }
@@ -951,11 +973,11 @@ define([
     }
 
     /**
-     * Renderizza le cue nel pannello come lista di bottoni cliccabili.
-     * Ogni bottone porta il video al timestamp della cue.
+     * Renders cues in the panel as a list of clickable buttons.
+     * Each button seeks the video to the cue timestamp.
      *
-     * @param {HTMLElement} panel   Contenitore del transcript.
-     * @param {Array}       cues    Array di cue objects.
+     * @param {HTMLElement} panel   Transcript container.
+     * @param {Array}       cues    Cue objects.
      */
     function renderTranscript(panel, cues) {
         panel.innerHTML = '';
@@ -995,7 +1017,7 @@ define([
     }
 
     /**
-     * Registra un listener timeupdate che evidenzia la cue attiva nel transcript.
+     * Registers a timeupdate listener that highlights the active transcript cue.
      * Scorre automaticamente il pannello per portare la cue attiva in vista.
      *
      * @param {Array} cues Array of already parsed cue objects.
