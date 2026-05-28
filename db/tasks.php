@@ -22,7 +22,6 @@
  * @license   https://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 
-// This file is part of Moodle - http://moodle.org/
 
 defined('MOODLE_INTERNAL') || die();
 

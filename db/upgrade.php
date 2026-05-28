@@ -1035,5 +1035,11 @@ function xmldb_videotrack_upgrade($oldversion) {
         upgrade_mod_savepoint(true, 2026072517, 'videotrack');
     }
 
+
+    if ($oldversion < 2026072518) {
+        // Release 1.4.8: accessibility and Moodle header maintenance. No schema changes.
+        upgrade_mod_savepoint(true, 2026072518, 'videotrack');
+    }
+
     return true;
 }
