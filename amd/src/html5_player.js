@@ -1049,7 +1049,7 @@ define([
                     var panelRect = panel.getBoundingClientRect();
                     var elRect    = el.getBoundingClientRect();
                     var now = Date.now();
-                    if ((elRect.top < panelRect.top || elRect.bottom > panelRect.bottom) && now - lastScrollAt > 500) {
+                    if ((elRect.top < panelRect.top || elRect.bottom > panelRect.bottom) && now - lastScrollAt > 1000) {
                         var scrollOptions = { block: 'nearest' };
                         if (!prefersReducedMotion()) {
                             scrollOptions.behavior = 'smooth';

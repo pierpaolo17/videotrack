@@ -183,6 +183,10 @@ define([], function() {
         }
 
         function announceCharThreshold(remaining) {
+            if (remaining > 50) {
+                lastCharThreshold = null;
+                return;
+            }
             var live = document.getElementById('videotrack-note-live-status');
             if (!live) {
                 return;
