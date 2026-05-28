@@ -36,7 +36,8 @@ define([], function() {
      */
     function announceAvailability(playing, config, reactionState) {
         var hint = document.getElementById('videotrack-reactions-hint');
-        if (!hint || !reactionState) {
+        var status = document.getElementById('videotrack-reactions-live-status') || hint;
+        if (!hint || !status || !reactionState) {
             return;
         }
         if (playing) {
@@ -52,7 +53,7 @@ define([], function() {
             }
             reactionState.lastAnnouncement = true;
             reactionState.readyAnnounced = true;
-            hint.textContent = config.reactionsreadylabel;
+            status.textContent = config.reactionsreadylabel;
             hint.classList.toggle('videotrack-reactions-hint-active', false);
             return;
         }
@@ -69,7 +70,7 @@ define([], function() {
             reactionState.timer = null;
             reactionState.lastAnnouncement = false;
             reactionState.lastUnavailableAt = Date.now();
-            hint.textContent = config.reactionunavailablelabel;
+            status.textContent = config.reactionunavailablelabel;
             hint.classList.toggle('videotrack-reactions-hint-active', true);
         }, 400);
     }
@@ -82,7 +83,8 @@ define([], function() {
      */
     function announceUnavailable(config, reactionState) {
         var hint = document.getElementById('videotrack-reactions-hint');
-        if (!hint || !reactionState) {
+        var status = document.getElementById('videotrack-reactions-live-status') || hint;
+        if (!hint || !status || !reactionState) {
             return;
         }
         if (reactionState.timer) {
@@ -95,7 +97,7 @@ define([], function() {
         }
         reactionState.lastAnnouncement = false;
         reactionState.lastUnavailableAt = now;
-        hint.textContent = config.reactionunavailablelabel;
+        status.textContent = config.reactionunavailablelabel;
         hint.classList.add('videotrack-reactions-hint-active');
         if (reactionState.cssTimer) {
             window.clearTimeout(reactionState.cssTimer);

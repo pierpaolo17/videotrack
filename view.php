@@ -594,6 +594,13 @@ if (!empty($videotrack->reactionsenabled) && $reactions) {
         get_string('reactions_hint', 'mod_videotrack'),
         ['class' => 'videotrack-reactions-hint', 'id' => 'videotrack-reactions-hint']
     );
+    echo html_writer::tag('', '', [
+        'id'          => 'videotrack-reactions-live-status',
+        'class'       => 'sr-only visually-hidden',
+        'role'        => 'status',
+        'aria-live'   => 'polite',
+        'aria-atomic' => 'true',
+    ]);
     echo html_writer::end_div(); // videotrack-reactions
 }
 
