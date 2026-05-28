@@ -1030,5 +1030,10 @@ function xmldb_videotrack_upgrade($oldversion) {
         upgrade_mod_savepoint(true, 2026072516, 'videotrack');
     }
 
+    if ($oldversion < 2026072517) {
+        // Release 1.4.7: version alignment and maintenance release. No schema changes.
+        upgrade_mod_savepoint(true, 2026072517, 'videotrack');
+    }
+
     return true;
 }
