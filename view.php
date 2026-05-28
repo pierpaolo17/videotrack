@@ -605,7 +605,7 @@ if ($showstudentreport) {
     );
     echo html_writer::start_div('videotrack-reactions-table-wrap');
     // A2: the sr-only caption is enough; removing aria-label avoids assistive technologies
-    // annuncino il titolo della tabella due volte (caption + aria-label).
+    // announcing the table title twice (caption + aria-label).
     echo html_writer::start_tag('table', ['class' => 'generaltable']);
     echo html_writer::tag('caption',
         get_string('reportstudent', 'mod_videotrack'),
@@ -622,8 +622,6 @@ if ($showstudentreport) {
     echo html_writer::end_tag('thead');
     echo html_writer::start_tag('tbody', [
         'id' => 'videotrack-my-reactions',
-        'aria-live' => 'polite',
-        'aria-relevant' => 'additions',
     ]);
     if (empty($events)) {
         echo html_writer::tag('tr',
@@ -631,8 +629,8 @@ if ($showstudentreport) {
                 get_string('noreactionsyet', 'mod_videotrack'),
                 ['colspan' => '5', 'class' => 'text-muted text-center py-2']
             ),
-            // Classe usata dal JS (appendReactionRow) per rimuovere questa riga
-            // quando viene aggiunta la prima reazione dinamicamente.
+            // Class used by JavaScript (appendReactionRow) to remove this row
+            // when the first dynamic reaction is added.
             ['class' => 'videotrack-no-reactions-placeholder']
         );
     }
