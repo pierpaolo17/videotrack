@@ -37,7 +37,7 @@ define([], function() {
      * @param {string} message Announcement text.
      */
     function getStatusRegion() {
-        var status = getStatusRegion();
+        var status = document.getElementById('videotrack-reactions-live-status');
         if (status) {
             return status;
         }
