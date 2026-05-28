@@ -378,7 +378,7 @@ echo html_writer::tag('progress', format_float($percent, 1) . '%', [
 ]);
 echo html_writer::tag('span',
     get_string('intervalbar_title', 'mod_videotrack') . ' — ' . format_float($percent, 1) . '%',
-    ['id' => 'videotrack-interval-bar-status', 'class' => 'videotrack-interval-bar-status', 'aria-live' => 'polite', 'aria-atomic' => 'true']
+    ['id' => 'videotrack-interval-bar-status', 'class' => 'videotrack-interval-bar-status']
 );
 echo html_writer::end_div(); // videotrack-player-section
 
@@ -395,7 +395,7 @@ if (!empty($videotrack->showtranscript) && $vtturl !== null) {
     echo html_writer::div(
         html_writer::tag('p',
             get_string('transcript_loading', 'mod_videotrack'),
-            ['class' => 'text-muted small', 'role' => 'status', 'aria-live' => 'polite']
+            ['class' => 'text-muted small', 'role' => 'status']
         ),
         'videotrack-transcript-content',
         ['id' => 'videotrack-transcript-content']

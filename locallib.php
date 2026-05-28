@@ -66,8 +66,8 @@ function videotrack_extract_videoid(string $url): ?string {
         return null;
     }
 
-    $host = strtolower($parts['host']);
-    $host = preg_replace('/^(?:www|m)\./', '', $host);
+    $host = strtolower(rtrim($parts['host'], '.'));
+    $host = preg_replace('/^(?:www|m|music)\./', '', $host);
     $path = $parts['path'] ?? '';
     $query = $parts['query'] ?? '';
 
@@ -80,6 +80,8 @@ function videotrack_extract_videoid(string $url): ?string {
     if (!in_array($host, ['youtube.com', 'youtube-nocookie.com'], true)) {
         return null;
     }
+
+    $path = preg_replace('~/+~', '/', $path);
 
     if ($path === '/watch') {
         parse_str($query, $queryparams);
@@ -115,14 +117,20 @@ function videotrack_extract_vimeo_id(string $url): ?string {
         return null;
     }
 
-    $host = preg_replace('/^www\./', '', strtolower($parts['host']));
+    $host = preg_replace('/^www\./', '', strtolower(rtrim($parts['host'], '.')));
     if (!in_array($host, ['vimeo.com', 'player.vimeo.com'], true)) {
         return null;
     }
 
-    $path = $parts['path'] ?? '';
-    if (preg_match('~^/(?:video/|channels/[^/]+/|groups/[^/]+/videos/)?(\d+)(?:/[A-Za-z0-9_-]+)?/?$~', $path, $matches)) {
-        return $matches[1];
+    $path = preg_replace('~/+~', '/', $parts['path'] ?? '');
+    $patterns = [
+        '~^/(?:video/)?(\d+)(?:/[A-Za-z0-9_-]{6,})?/?$~',
+        '~^/(?:channels/[^/]+|groups/[^/]+/videos|showcase/\d+)/(?P<id>\d+)(?:/[A-Za-z0-9_-]{6,})?/?$~',
+    ];
+    foreach ($patterns as $pattern) {
+        if (preg_match($pattern, $path, $matches)) {
+            return $matches['id'] ?? $matches[1];
+        }
     }
     return null;
 }

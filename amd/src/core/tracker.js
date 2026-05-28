@@ -852,7 +852,7 @@ define([
         var state = options.state;
 
         if (state && state.lifecycleHandlersInstalled) {
-            return false;
+            uninstallLifecycleHandlers(state);
         }
         if (state) {
             state.lifecycleHandlersInstalled = true;
