@@ -114,13 +114,13 @@ define([
         Tracker.stopPolling(state);
     }
 
-    // ── Progress bar (interval map) ───────────────────────────────────────
+    // Progress bar (interval map).
 
     /**
-     * Ridisegna la barra canvas degli intervalli guardati e aggiorna aria-label.
-     * C1 fix: firma allineata a player.js e vimeo_player.js (parametro duration).
-     * B2/A1 fix: aggiunge calcolo covered e aggiornamento aria-label (WCAG 1.1.1).
-     * @param {string} intervaljson  JSON array di [start,end] pairs.
+     * Redraw the watched-interval canvas bar and update its aria-label.
+     * Signature aligned with player.js and vimeo_player.js (duration parameter).
+     * Adds covered-time calculation and aria-label update (WCAG 1.1.1).
+     * @param {string} intervaljson JSON array of [start,end] pairs.
      * @param {number} duration Total duration in seconds.
      */
     function updateIntervalBar(intervaljson, duration) {

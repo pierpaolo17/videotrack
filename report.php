@@ -270,7 +270,7 @@ $baseparams = [
 $baseurl = new moodle_url('/mod/videotrack/report.php', $baseparams);
 $hasvideotimefilter = ($timefrom !== null || $timeto !== null);
 
-// OPT-1: grade_get_grades caricato una sola volta per tutte le sezioni del report.
+// Load grade_get_grades once for all report sections.
 $hasgrade  = !empty($videotrack->grade);
 $cangrade = has_capability('mod/videotrack:grade', $context);
 $gradeinfo = null;
@@ -352,7 +352,7 @@ if ($export === 'notes_csv' && !empty($videotrack->studentnotesenabled)) {
     if (!$confirmnotesexport) {
         throw new moodle_exception('report:exportnotes_confirmrequired', 'mod_videotrack');
     }
-    // S1 fix: validate useridfilter against course enrolment to prevent a teacher
+    // Validate useridfilter against course enrolment to prevent a teacher
     // from exporting notes of a user not enrolled in this course by manipulating
     // the GET parameter. is_enrolled() is already used for reset and grade actions.
     if ($useridfilter > 0 && !is_enrolled($context, $useridfilter, '', true)) {
@@ -727,7 +727,7 @@ if ($mode === 'student') {
     if (!$statecount) {
         echo $OUTPUT->notification(get_string('report:noattempts', 'mod_videotrack'), 'notifymessage');
     } else {
-        // $hasgrade and $gradeinfo were already loaded at the start of the file (OPT-1).
+        // $hasgrade and $gradeinfo were already loaded at the start of the file.
         $usergrades = [];
 
         $heads = [
@@ -775,7 +775,7 @@ if ($mode === 'student') {
                 $gradecell .= html_writer::empty_tag('input', ['type' => 'hidden', 'name' => 'grade_userid','value' => (int)$state->userid]);
 
                 if ($videotrack->grade > 0) {
-                    // Valutazione numerica: campo numerico con max.
+                    // Numeric grading: number input constrained by the activity maximum.
                     $gradecell .= html_writer::empty_tag('input', [
                         'type'        => 'number',
                         'name'        => 'grade_value',
@@ -791,13 +791,13 @@ if ($mode === 'student') {
                     $gradecell .= html_writer::tag('small', '/ ' . (int)$videotrack->grade,
                         ['class' => 'text-muted ms-1']);
                 } else {
-                    // Valutazione su scala: menu a tendina.
+                    // Scale grading: select menu with Moodle one-based scale values.
                     $scaleid = -(int)$videotrack->grade;
                     $scale   = grade_scale::fetch(['id' => $scaleid]);
                     $items   = $scale ? $scale->load_items() : [];
                     $options = ['' => '-'];
                     foreach ($items as $k => $label) {
-                        $options[$k + 1] = $label; // Moodle scala: 1-based.
+                        $options[$k + 1] = $label; // Moodle scale value: one-based.
                     }
                     $gradecell .= html_writer::select($options, 'grade_value',
                         ($currentgrade !== '' ? (int)$currentgrade : ''),

@@ -481,7 +481,7 @@ define([
             delbtn.className = 'btn btn-link btn-sm videotrack-delete-reaction';
             delbtn.textContent = config.removelabel;
             delbtn.setAttribute('data-eventid', eventid);
-            // Aria-label descrittivo per screen reader: contestualizza l'azione.
+            // Descriptive aria-label for screen readers: contextualises the action.
             delbtn.setAttribute('aria-label',
                 (config.removelabel) + ' — ' + (reaction.label || '') + ' — ' + Utils.formatSeconds(videotime));
             tddel.appendChild(delbtn);
