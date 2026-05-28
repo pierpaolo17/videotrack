@@ -74,7 +74,7 @@ define(['core/log'], function(Log) {
         if (/[\x00-\x08\x0B\x0C\x0E-\x1F\x7F]/.test(normalised)) {
             throw 'unexpected-text-content';
         }
-        if (/<\s*script\b|<\s*iframe\b|<\s*object\b|<\s*embed\b|<\s*link\b|<\s*meta\b/.test(lower)) {
+        if (/<\s*script\b|<\s*iframe\b|<\s*object\b|<\s*embed\b|<\s*link\b|<\s*meta\b|<\s*style\b|<\s*svg\b|<\s*math\b/.test(lower)) {
             throw 'unexpected-text-content';
         }
         if (/\b(?:javascript|data)\s*:/i.test(normalised) || /\son[a-z]+\s*=/i.test(normalised)) {

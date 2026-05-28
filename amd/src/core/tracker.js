@@ -624,7 +624,11 @@ define([
      */
     function pollInterval(heartbeatInterval) {
         var interval = Number(heartbeatInterval) || 30;
-        return Math.min(5000, Math.max(2000, interval * 250));
+        var base = Math.min(5000, Math.max(2000, interval * 250));
+        if (typeof document !== 'undefined' && document.hidden) {
+            return Math.min(15000, Math.max(base, interval * 500));
+        }
+        return base;
     }
 
     /**

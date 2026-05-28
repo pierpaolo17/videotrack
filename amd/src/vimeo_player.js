@@ -575,7 +575,7 @@ define([
 
 
 
-    /** Restituisce il timestamp video corrente per il player Vimeo (usa lasttime — sync). */
+    /** Returns the current video timestamp for the Vimeo player, using lasttime as sync fallback. */
     function getCurrentVideoTime() {
         return Adapter.getCurrentTime(state, function() {
             return state.lasttime;

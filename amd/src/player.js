@@ -597,7 +597,7 @@ define([
     }
 
 
-    /** Restituisce il timestamp video corrente per il player YouTube. */
+    /** Returns the current video timestamp for the YouTube player. */
     function getCurrentVideoTime() {
         return Adapter.getCurrentTime(state, function() {
             return player && player.getCurrentTime ? player.getCurrentTime() : state.lasttime;

@@ -253,7 +253,7 @@ foreach ($reactions as $reaction) {
     $reactionoptions[(int)$reaction->id] = $reaction->label;
 }
 
-// OPT-3: $baseparams definita qui una volta sola, usata da export, actions e link di navigazione.
+// Define $baseparams once for exports, actions and navigation links.
 $baseparams = [
     'id' => $cm->id,
     'mode' => $mode,

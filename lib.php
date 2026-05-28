@@ -52,7 +52,7 @@ function videotrack_supports($feature) {
 }
 
 /**
- * Restituisce un oggetto con soli i campi della tabella {videotrack}.
+ * Returns an object containing only fields from the {videotrack} table.
  * Evita che $data del form (con campi extra come videofile, posterimage,
  * reactionlabel_, ecc.) venga passato direttamente a insert/update_record,
  * il che causerebbe eccezioni DB su colonne inesistenti.

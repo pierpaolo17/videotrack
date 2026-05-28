@@ -118,18 +118,23 @@ define([
     };
 
     /**
-     * Fallback confirmation using the browser dialog.
+     * Show an accessible inline fallback when Moodle modal creation fails.
      *
-     * @param {HTMLFormElement} form Form to submit.
+     * Browser confirm() is intentionally avoided because it is not consistently
+     * exposed to assistive technologies and cannot restore focus predictably.
+     *
+     * @param {HTMLFormElement} form Form that requested confirmation.
      * @param {string} message Confirmation message.
-     * @returns {boolean} Whether the form was submitted.
      */
-    var fallbackConfirm = function(form, message) {
-        if (window.confirm(message || 'Are you sure?')) {
-            submitForm(form);
-            return true;
+    var showInlineFallback = function(form, message) {
+        if (!form || form.querySelector('.videotrack-confirm-fallback')) {
+            return;
         }
-        return false;
+        var notice = document.createElement('div');
+        notice.className = 'videotrack-confirm-fallback alert alert-warning mt-2';
+        notice.setAttribute('role', 'alert');
+        notice.textContent = message || 'Confirmation dialog could not be opened. Please try again.';
+        form.appendChild(notice);
     };
 
     /**
@@ -178,9 +183,8 @@ define([
             if (logger && typeof logger.debug === 'function') {
                 logger.debug((options.logPrefix || 'mod_videotrack/core/confirm') + ': modal fallback: ' + error);
             }
-            if (!fallbackConfirm(form, message)) {
-                restoreFocus(focusReturnElement);
-            }
+            showInlineFallback(form, message);
+            restoreFocus(focusReturnElement);
         });
     };
 
