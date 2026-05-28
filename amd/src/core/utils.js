@@ -74,6 +74,12 @@ define(['core/log'], function(Log) {
         if (/[\x00-\x08\x0B\x0C\x0E-\x1F\x7F]/.test(normalised)) {
             throw 'unexpected-text-content';
         }
+        if (normalised.length > MAX_TEXT_RESPONSE_BYTES) {
+            throw 'response-too-large';
+        }
+        if ((normalised.match(/(?:^|\n)\s*-->/g) || []).length > 5000) {
+            throw 'unexpected-text-content';
+        }
         if (/<\s*script\b|<\s*iframe\b|<\s*object\b|<\s*embed\b|<\s*link\b|<\s*meta\b|<\s*style\b|<\s*svg\b|<\s*math\b/.test(lower)) {
             throw 'unexpected-text-content';
         }
@@ -108,8 +114,7 @@ define(['core/log'], function(Log) {
             return Promise.reject('unexpected-response-url');
         }
         if (contentType && contentType.indexOf('text/vtt') === -1 &&
-                contentType.indexOf('text/plain') === -1 &&
-                contentType.indexOf('application/octet-stream') === -1) {
+                contentType.indexOf('text/plain') === -1) {
             return Promise.reject('unexpected-content-type');
         }
         return response.text().then(function(text) {

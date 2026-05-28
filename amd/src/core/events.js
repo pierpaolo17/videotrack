@@ -43,6 +43,9 @@ define([], function() {
                     handlers[name] = (handlers[name] || []).filter(function(candidate) {
                         return candidate !== handler;
                     });
+                    if (!handlers[name].length) {
+                        delete handlers[name];
+                    }
                 };
             },
 
@@ -59,6 +62,9 @@ define([], function() {
                 handlers[name] = handlers[name].filter(function(candidate) {
                     return candidate !== handler;
                 });
+                if (!handlers[name].length) {
+                    delete handlers[name];
+                }
             },
 
             /**
@@ -72,7 +78,15 @@ define([], function() {
                 var eventPayload = payload || {};
                 return (handlers[name] || []).slice().map(function(handler) {
                     try {
-                        return handler(eventPayload);
+                        var result = handler(eventPayload);
+                        if (result && typeof result.catch === 'function') {
+                            result.catch(function(error) {
+                                if (typeof window !== 'undefined' && window.console && window.console.debug) {
+                                    window.console.debug('mod_videotrack: async event handler failed for ' + name + ' - ' + error);
+                                }
+                            });
+                        }
+                        return result;
                     } catch (error) {
                         if (typeof window !== 'undefined' && window.console && window.console.debug) {
                             window.console.debug('mod_videotrack: event handler failed for ' + name + ' - ' + error);

@@ -36,7 +36,27 @@ define([], function() {
      * @param {HTMLElement} status Dedicated status live-region element.
      * @param {string} message Announcement text.
      */
+    function getStatusRegion() {
+        var status = getStatusRegion();
+        if (status) {
+            return status;
+        }
+        var root = document.getElementById('videotrack-reactions');
+        if (!root) {
+            return null;
+        }
+        status = document.createElement('span');
+        status.id = 'videotrack-reactions-live-status';
+        status.className = 'sr-only visually-hidden';
+        status.setAttribute('role', 'status');
+        status.setAttribute('aria-live', 'polite');
+        status.setAttribute('aria-atomic', 'true');
+        root.appendChild(status);
+        return status;
+    }
+
     function announceStatus(status, message) {
+        status = status || getStatusRegion();
         if (!status) {
             return;
         }
@@ -59,7 +79,7 @@ define([], function() {
      */
     function announceAvailability(playing, config, reactionState) {
         var hint = document.getElementById('videotrack-reactions-hint');
-        var status = document.getElementById('videotrack-reactions-live-status');
+        var status = getStatusRegion();
         if (!hint || !status || !reactionState) {
             return;
         }
@@ -106,7 +126,7 @@ define([], function() {
      */
     function announceUnavailable(config, reactionState) {
         var hint = document.getElementById('videotrack-reactions-hint');
-        var status = document.getElementById('videotrack-reactions-live-status');
+        var status = getStatusRegion();
         if (!hint || !status || !reactionState) {
             return;
         }

@@ -691,7 +691,7 @@ define([
             var debounce = parseInt(config.reactionreadydebouncems, 10);
             reactionState.debounceMs = debounce === 0 ? 0 :
                 Math.max(0, Math.min(2000, debounce || DEFAULT_REACTION_READY_DEBOUNCE_MS));
-            // Legge l'intervallo heartbeat dalla configurazione admin.
+            // Read the heartbeat interval from the administrator configuration.
             HEARTBEAT_INTERVAL = Tracker.normaliseHeartbeatInterval(config, 30);
             state.sessionid = uuid();
             // Draw the interval bar with data already saved from previous sessions.
