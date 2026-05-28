@@ -760,6 +760,13 @@ define([
         }
         state._heartbeatRunning = true;
 
+        function clearHeartbeatRunning(saved) {
+            if (state) {
+                state._heartbeatRunning = false;
+            }
+            return saved;
+        }
+
         emit(state, 'heartbeat:start', {});
 
         return saveHeartbeatIfDue(
@@ -776,9 +783,9 @@ define([
                 options.log.debug(error);
             }
             return false;
-        }).then(function(saved) {
-            state._heartbeatRunning = false;
-            return saved;
+        }).then(clearHeartbeatRunning, function(error) {
+            clearHeartbeatRunning(false);
+            throw error;
         });
     }
 

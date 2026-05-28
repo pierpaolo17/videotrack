@@ -237,7 +237,7 @@ define([
     }
 
     /**
-     * Mostra un banner temporaneo che informa lo studente del resume automatico.
+     * Shows a temporary banner informing the student about automatic resume.
      * @param {number} seconds Posizione di resume in secondi.
      */
     function showResumeNotice(seconds) {
@@ -245,7 +245,7 @@ define([
     }
 
     /**
-     * Mostra un messaggio di stato accessibile (aria-live) per errori o conferme.
+     * Shows an accessible status message (aria-live) for errors or confirmations.
      * Il messaggio sparisce automaticamente dopo 4 secondi.
      *
      * @param {string}  message  Testo del messaggio.
@@ -323,7 +323,7 @@ define([
                     }
                 }).catch(function(err) {
                     reactionbtn.classList.remove('videotrack-saving');
-                    // Usa il messaggio del server se disponibile (es. 'Il video deve essere in riproduzione').
+                    // Use the server message when available (for example, playback is required).
                     PlayerCore.showErrorStatusMessage(err, config.reactionerrorlabel, config.dismisslabel);
                 });
                 return;
@@ -340,7 +340,7 @@ define([
             var deletebtn = e.target.closest('.videotrack-delete-reaction');
             if (deletebtn) {
                 var row = deletebtn.closest('tr');
-                // Sposta il focus prima di rimuovere la riga per non perderlo nel vuoto.
+                // Move focus before removing the row so it is not lost.
                 var tbody = document.getElementById('videotrack-my-reactions');
                 var rows  = tbody ? Array.from(tbody.querySelectorAll('tr[data-eventid]')) : [];
                 var idx   = rows.indexOf(row);
@@ -351,7 +351,7 @@ define([
                     if (response && response.deleted) {
                         var delrow = deletebtn.closest('tr');
                         if (delrow) { delrow.remove(); }
-                        // WCAG 2.4.3: ripristina il focus dopo rimozione della riga.
+                        // WCAG 2.4.3: restore focus after removing the row.
                         var remaining = tbody
                             ? Array.from(tbody.querySelectorAll('tr[data-eventid]'))
                             : [];
@@ -360,7 +360,7 @@ define([
                             var focusBtn = target.querySelector('button');
                             if (focusBtn) { focusBtn.focus(); }
                         } else {
-                            // Nessuna riga rimasta: sposta focus sulla sezione.
+                            // No rows left: move focus to the section.
                             var heading = root.querySelector('[id*="videotrack-my-reactions"]');
                             if (heading) {
                                 heading.setAttribute('tabindex', '-1');
@@ -382,7 +382,7 @@ define([
         if (!tbody) {
             return;
         }
-        // Rimuove la riga placeholder 'nessuna reazione' alla prima reazione aggiunta.
+        // Remove the 'no reactions yet' placeholder row when the first reaction is added.
         var placeholder = tbody.querySelector('.videotrack-no-reactions-placeholder');
         if (placeholder) { placeholder.parentNode.removeChild(placeholder); }
         var start = Math.max(0, videotime - 30);
@@ -472,7 +472,7 @@ define([
                     state.playbackrate = Adapter.getPlaybackRate(state, function() {
                         return player.getPlaybackRate ? player.getPlaybackRate() : state.playbackrate;
                     }, Log, 'YouTube ready');
-                    setReactionButtons(false); // Disabilitati: video non ancora in play.
+                    setReactionButtons(false); // Disabled until playback starts.
                     // Add rewind/ff overlay buttons if configured.
                     buildYouTubeSkipButtons();
                     // replaystart (link diretto a un frammento) ha precedenza sul resume.
@@ -647,7 +647,7 @@ define([
 
     /**
      * Feature 12: Gestione overlay poster pre-play.
-     * Rimuove l'overlay al primo evento PLAYING / click sul bottone play overlay.
+     * Removes the overlay on the first PLAYING event or overlay play button click.
      */
     function installPosterHandler() {
         var overlay = document.getElementById('videotrack-poster-overlay');
@@ -670,7 +670,7 @@ define([
             });
         }
 
-        // Rimuove il poster al primo stato PLAYING del player YouTube,
+        // Remove the poster on the first YouTube PLAYING state,
         // by listening to the custom event already emitted by setReactionButtons.
         // Non riassegniamo onPlayerStateChange (function declaration, non variabile).
         state._posterRemoved = false;

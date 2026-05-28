@@ -553,7 +553,7 @@ define([
                 media.playbackRate = nearest;
                 state.playbackrate = nearest;
             }
-            // Enforce maxplaybackrate al caricamento.
+            // Enforce maxplaybackrate when the media loads.
             // config.maxplaybackrate is stored in hundredths (150 = 1.5x); convert it to a float.
             if (config.maxplaybackrate > 0) {
                 var maxRateLoad = config.maxplaybackrate / 100;
@@ -562,7 +562,7 @@ define([
                     state.playbackrate = maxRateLoad;
                 }
             }
-            // Resume automatico dal punto lasciato (lastposition > 2s).
+            // Automatically resume from the last saved position (lastposition > 2s).
             if (typeof config.resumeposition === 'number' && config.resumeposition > 2
                     && config.resumeposition < (state.duration || Infinity)) {
                 media.currentTime = config.resumeposition;
@@ -604,7 +604,7 @@ define([
             // Start a new segment only when no segment is already open.
             // state.playing is always false when play arrives because closeSegment()
             // resets it first (seeking/pause/ended). The !state.playing branch is the only
-            // path percorribile — il ramo state.playing=true era dead code.
+            // reachable path; the state.playing=true branch was dead code.
             if (!state.isSeeking && !state.playing) {
                 startSegment();
                 startHeartbeat();
@@ -628,14 +628,14 @@ define([
             reactionState.readyAnnounced = false;
             stopHeartbeat();
             closeSegment('ended');
-            setReactionButtons(false); // Disabilita bottoni a fine video.
+            setReactionButtons(false); // Disable buttons at the end of the video.
         });
 
         // Seek detection: HTML5 fires 'seeking' then 'seeked'.
         media.addEventListener('seeking', function() {
             state.isSeeking = true;
-            // Seek programmatico (replay, capitolo, resume): chiude il segmento corrente
-            // se il video era in riproduzione, per salvare il progresso fino a questo punto.
+            // Programmatic seek (replay, chapter, resume): close the current segment
+            // when the video was playing, so progress is saved up to this point.
             // It does not block seeking or apply allowseekforward/allowseekbackward rules.
             if (state.isProgrammaticSeek) {
                 if (state.playing) { closeSegment('seek'); }
@@ -717,7 +717,7 @@ define([
         function appendReactionRow(eventid, reaction, videotime) {
             var tbody = document.getElementById('videotrack-my-reactions');
             if (!tbody) { return; }
-            // Rimuove la riga placeholder 'nessuna reazione' alla prima reazione aggiunta.
+            // Remove the 'no reactions yet' placeholder row when the first reaction is added.
             var placeholder = tbody.querySelector('.videotrack-no-reactions-placeholder');
             if (placeholder) { placeholder.parentNode.removeChild(placeholder); }
             var tr = document.createElement('tr');
@@ -1077,15 +1077,15 @@ define([
 
 
     /**
-     * Toggle show/hide del pannello note tramite helper condiviso.
+     * Toggle the notes panel through the shared helper.
      */
     function installNotesToggle() {
         PlayerCore.installNotesToggle(config, Utils, 'notes panel state');
     }
 
     /**
-     * Feature 11: Note personali studente.
-     * Gestisce salvataggio e cancellazione di note testuali timestampate.
+     * Feature 11: student personal notes.
+     * Handles saving and deleting timestamped text notes.
      * The "Save" button is active only during playback (aria-disabled).
      */
     function installNoteHandler() {
@@ -1105,7 +1105,7 @@ define([
      * Parsed from the same VTT file used by captions (kind=chapters).
      * Works only when the VTT file contains cues with short text (< 80 chars),
      * typically those generated as chapters.
-     * Ogni capitolo diventa un bottone che salta a quel punto del video.
+     * Each chapter becomes a button that jumps to that point in the video.
      */
     function buildChaptersBar() {
         if (!config.vtturl || !config.showchapters) { return; }
@@ -1127,7 +1127,7 @@ define([
             });
     }
 
-    /** Mostra un messaggio accessibile quando i capitoli non sono disponibili. */
+    /** Shows an accessible message when chapters are unavailable. */
     function showChaptersUnavailable() {
         var wrapper = document.querySelector('.videotrack-player-wrap');
         if (!wrapper || wrapper.querySelector('.videotrack-chapters-empty') || wrapper.querySelector('.videotrack-chapters-bar')) {
@@ -1147,7 +1147,7 @@ define([
 
     /**
      * Create the chapters bar and insert it before the controls.
-     * @param {Array} chapters  Array di {start, end, text}.
+     * @param {Array} chapters Array of {start, end, text}.
      */
     function renderChaptersBar(chapters) {
         var wrapper = document.querySelector('.videotrack-player-wrap');
@@ -1167,7 +1167,7 @@ define([
             btn.dataset.idx   = idx;
             btn.setAttribute('aria-label',
                 (config.chapterlabel) + ' ' + (idx + 1) + ': ' + ch.text);
-            // Label visuale: numero + testo breve.
+            // Visual label: number plus short text.
             var numSpan = document.createElement('span');
             numSpan.className = 'videotrack-chapter-num';
             numSpan.textContent = idx + 1;
@@ -1177,8 +1177,8 @@ define([
             btn.appendChild(numSpan);
             btn.appendChild(textSpan);
             btn.addEventListener('click', function() {
-                // Seek al capitolo (usa isSeeking per non far scattare il blocco anti-skip).
-                // Mantiene lo stato precedente: se il video era in pausa, il click non avvia la riproduzione.
+                // Seek to the chapter using the programmatic seek flag so anti-skip is not triggered.
+                // Preserve the previous state: if the video was paused, the click does not start playback.
                 var wasPlaying = state.playing && !Adapter.isPaused(state, function() { return media.paused; }, Log, 'HTML5 transcript');
                 state.isProgrammaticSeek = true;
                 media.currentTime = ch.start;
@@ -1188,7 +1188,7 @@ define([
                         Log.debug('mod_videotrack: play request failed - ' + err);
                     }); // Catch autoplay policy rejection.
                 }
-                // Aggiorna stato attivo.
+                // Update active state.
                 bar.querySelectorAll('.videotrack-chapter-btn').forEach(function(b) {
                     b.classList.toggle('videotrack-chapter-active', b === btn);
                     b.setAttribute('aria-current', b === btn ? 'true' : 'false');
@@ -1197,7 +1197,7 @@ define([
             bar.appendChild(btn);
         });
 
-        // Inserisce la barra PRIMA dei controlli custom.
+        // Insert the bar before the custom controls.
         var controls = wrapper.querySelector('.videotrack-html5-controls');
         if (controls) {
             wrapper.insertBefore(bar, controls);
@@ -1205,7 +1205,7 @@ define([
             wrapper.appendChild(bar);
         }
 
-        // Sincronizza il capitolo attivo con timeupdate.
+        // Synchronise the active chapter on timeupdate.
         if (media) {
             media.addEventListener('timeupdate', function() {
                 var t = media.currentTime;
@@ -1227,7 +1227,7 @@ define([
 
     /**
      * Feature 12: Gestione overlay poster pre-play.
-     * Rimuove l'overlay al primo evento PLAYING / click sul bottone play overlay.
+     * Removes the overlay on the first PLAYING event or overlay play button click.
      */
     function installPosterHandler() {
         var overlay = document.getElementById('videotrack-poster-overlay');
@@ -1241,7 +1241,7 @@ define([
         if (playBtn) {
             playBtn.addEventListener('click', function() {
                 removePoster();
-                // Avvia la riproduzione con l'elemento media HTML5 (non player YouTube/Vimeo).
+                // Start playback through the HTML5 media element (not a YouTube/Vimeo player).
                 if (media) {
                     media.play().catch(function(err) {
                         Log.debug('mod_videotrack: play request failed - ' + err);
@@ -1250,7 +1250,7 @@ define([
             });
         }
 
-        // Rimuove il poster al primo evento 'play' del media HTML5.
+        // Remove the poster on the first HTML5 media play event.
         state._posterRemoved = false;
         state._posterPlayListener = function(e) {
             PlayerCore.onFirstPlay(e, state, removePoster);

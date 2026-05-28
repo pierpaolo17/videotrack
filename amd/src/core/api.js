@@ -12,6 +12,13 @@ define([
     var AJAX_RETRY_DELAY_MS = 750;
     var AJAX_MAX_RETRIES = 2;
     var METHOD_PREFIX = 'mod_videotrack_';
+    var ALLOWED_METHODS = {
+        mod_videotrack_save_segment: true,
+        mod_videotrack_save_reaction: true,
+        mod_videotrack_delete_reaction: true,
+        mod_videotrack_save_note: true,
+        mod_videotrack_delete_note: true
+    };
     var ERROR_CATEGORY_TRANSIENT = 'transient';
     var ERROR_CATEGORY_AUTH = 'auth';
     var ERROR_CATEGORY_VALIDATION = 'validation';
@@ -84,7 +91,7 @@ define([
      */
     function normaliseMethodName(methodname) {
         var name = String(methodname || '');
-        if (name.indexOf(METHOD_PREFIX) !== 0 || !/^mod_videotrack_[a-z0-9_]+$/.test(name)) {
+        if (name.indexOf(METHOD_PREFIX) !== 0 || !/^mod_videotrack_[a-z0-9_]+$/.test(name) || !ALLOWED_METHODS[name]) {
             throw new Error('invalid-method');
         }
         return name;
@@ -137,7 +144,7 @@ define([
         }
 
         if (isBrowserOffline() || message === 'ajax-timeout' || code === 'servicenotavailable' ||
-                code === 'servererror' || code === 'networkerror' || code === 'connectionlost' ||
+                code === 'networkerror' || code === 'connectionlost' ||
                 message.indexOf('timeout') !== -1 || message.indexOf('network') !== -1 ||
                 message.indexOf('offline') !== -1 || message.indexOf('connection') !== -1) {
             return ERROR_CATEGORY_TRANSIENT;

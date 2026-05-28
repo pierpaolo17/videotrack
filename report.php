@@ -373,6 +373,8 @@ if ($export === 'notes_csv' && !empty($videotrack->studentnotesenabled)) {
     $filename = 'videotrack_notes_' . $cm->id . '_' . gmdate('Ymd_His') . '.csv';
     header('Content-Type: text/csv; charset=utf-8');
     header('X-Content-Type-Options: nosniff');
+    header('Cache-Control: no-store, no-cache, must-revalidate, max-age=0');
+    header('Pragma: no-cache');
     header('Content-Disposition: attachment; filename="' . $filename . '"');
     $fh = fopen('php://output', 'w');
     $headers = ['user'];
@@ -429,6 +431,8 @@ if ($export === 'csv') {
     $filename = 'videotrack_report_' . $cm->id . '_' . $mode . '.csv';
     header('Content-Type: text/csv; charset=utf-8');
     header('X-Content-Type-Options: nosniff');
+    header('Cache-Control: no-store, no-cache, must-revalidate, max-age=0');
+    header('Pragma: no-cache');
     header('Content-Disposition: attachment; filename="' . $filename . '"');
     $fh = fopen('php://output', 'w');
     if ($mode === 'cumulative') {
@@ -458,7 +462,7 @@ if ($export === 'csv') {
             ]));
         }
     } else {
-        // Usa recordset per iterare riga per riga ed evitare di caricare tutto in memoria.
+        // Use a recordset to iterate row by row without loading the full state table into memory.
         $csvheads = ['user', 'unique_seconds', 'completion_percent', 'last_position', 'completed'];
         if ($hasgrade && $cangrade) {
             $csvheads[] = 'grade';

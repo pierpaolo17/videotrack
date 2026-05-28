@@ -48,14 +48,18 @@ define([], function() {
         }
         try {
             var url = new URL(trimmed, window.location.origin);
-            if (url.origin !== window.location.origin) {
+            if (url.origin !== window.location.origin || url.username || url.password || url.hash) {
                 return false;
             }
-            if (!/\.(?:jpe?g|png|gif|webp)$/i.test(url.pathname)) {
+            var path = decodeURIComponent(url.pathname).replace(/\\/g, '/').replace(/\/+/g, '/');
+            if (/(?:^|\/)\.\.(?:\/|$)/.test(path)) {
                 return false;
             }
-            return url.pathname.indexOf('/pluginfile.php/') !== -1 ||
-                url.pathname.indexOf('/webservice/pluginfile.php/') !== -1;
+            if (!/\.(?:jpe?g|png|gif|webp)$/i.test(path)) {
+                return false;
+            }
+            return path.indexOf('/pluginfile.php/') !== -1 ||
+                path.indexOf('/webservice/pluginfile.php/') !== -1;
         } catch (e) {
             return false;
         }
@@ -74,7 +78,7 @@ define([], function() {
             return false;
         }
         var parts = String(value).trim().split(/\s+/);
-        if (parts.length === 0 || parts.length > 4) {
+        if (parts.length === 0 || parts.length > 4 || parts.some(function(part) { return part.length > 48; })) {
             return false;
         }
         var hasIconName = parts.some(function(part) {
