@@ -26,6 +26,9 @@ use mod_videotrack\event\reaction_saved;
 
 defined('MOODLE_INTERNAL') || die();
 
+global $CFG;
+require_once($CFG->dirroot . '/mod/videotrack/lib.php');
+
 /**
  * External function that stores a standard reaction for the current user.
  *
@@ -33,9 +36,6 @@ defined('MOODLE_INTERNAL') || die();
  * @copyright  2026 videotrack contributors
  * @license    https://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
-global $CFG;
-require_once($CFG->dirroot . '/mod/videotrack/lib.php');
-
 class save_reaction extends external_api {
     public static function execute_parameters(): external_function_parameters {
         return new external_function_parameters([

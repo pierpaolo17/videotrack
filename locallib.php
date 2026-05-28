@@ -121,7 +121,7 @@ function videotrack_extract_vimeo_id(string $url): ?string {
     }
 
     $path = $parts['path'] ?? '';
-    if (preg_match('~^/(?:video/|channels/[^/]+/|groups/[^/]+/videos/)?(\d+)(?:/)?$~', $path, $matches)) {
+    if (preg_match('~^/(?:video/|channels/[^/]+/|groups/[^/]+/videos/)?(\d+)(?:/[A-Za-z0-9_-]+)?/?$~', $path, $matches)) {
         return $matches[1];
     }
     return null;

@@ -52,6 +52,8 @@ $mode = optional_param('mode', 'student', PARAM_ALPHA);
 $aggregation = optional_param('aggregation', 'type', PARAM_ALPHA);
 $window = optional_param('window', 0, PARAM_INT);
 $export = optional_param('export', '', PARAM_ALPHA);
+$action = optional_param('action', '', PARAM_ALPHA);
+$resetaction = optional_param('resetaction', '', PARAM_ALPHA);
 $useridfilter = optional_param('userid', 0, PARAM_INT);
 $reactionidfilter = optional_param('reactionid', 0, PARAM_INT);
 $notepage = max(0, optional_param('notepage', 0, PARAM_INT));
@@ -81,7 +83,8 @@ $course = $DB->get_record('course', ['id' => $cm->course], '*', MUST_EXIST);
 $videotrack = $DB->get_record('videotrack', ['id' => $cm->instance], '*', MUST_EXIST);
 require_login($course, true, $cm);
 $context = context_module::instance($cm->id);
-require_capability('mod/videotrack:viewreport', $context);
+$canviewfullreport = has_capability('mod/videotrack:viewreport', $context);
+$canviewownreport = has_capability('mod/videotrack:viewownreport', $context);
 
 $window = $window ?: (int)$videotrack->clusterwindow;
 $validwindows = [10, 15, 20, 30, 60];
@@ -89,6 +92,15 @@ if (!in_array($window, $validwindows, true)) {
     $window = 30;
 }
 $mode = in_array($mode, ['student', 'cumulative'], true) ? $mode : 'student';
+if (!$canviewfullreport) {
+    require_capability('mod/videotrack:viewownreport', $context);
+    if ($mode !== 'student' || $export !== '' || $action !== '' || $resetaction !== '') {
+        require_capability('mod/videotrack:viewreport', $context);
+    }
+    // Users with only the own-report capability may see only their own student report.
+    $mode = 'student';
+    $useridfilter = (int)$USER->id;
+}
 $aggregation = in_array($aggregation, ['type', 'peak'], true) ? $aggregation : 'type';
 $sort = in_array($sort, ['time', 'reaction', 'clicks'], true) ? $sort : 'time';
 
@@ -488,9 +500,6 @@ function videotrack_csv_safe($value) {
 function videotrack_csv_safe_row(array $row): array {
     return array_map('videotrack_csv_safe', $row);
 }
-
-$action = optional_param('action', '', PARAM_ALPHA);
-$resetaction = optional_param('resetaction', '', PARAM_ALPHA);
 
 // Ricalcolo stati: aggiorna completionpercent e iscompleted per tutti gli utenti.
 if ($action === 'recalculate') {

@@ -1,5 +1,5 @@
 <?php
-// This file is part of Moodle - http://moodle.org/
+// This file is part of Moodle - https://moodle.org/
 //
 // Moodle is free software: you can redistribute it and/or modify
 // it under the terms of the GNU General Public License as published by
@@ -12,7 +12,7 @@
 // GNU General Public License for more details.
 //
 // You should have received a copy of the GNU General Public License
-// along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
+// along with Moodle.  If not, see <https://www.gnu.org/licenses/>.
 
 namespace mod_videotrack\admin;
 
@@ -22,8 +22,8 @@ defined('MOODLE_INTERNAL') || die();
  * Integer admin setting with inclusive minimum and maximum bounds.
  *
  * @package    mod_videotrack
- * @copyright  2026 Pierpaolo Rosato
- * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
+ * @copyright  2026 videotrack contributors
+ * @license    https://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 class setting_int_range extends setting_nonnegative_int {
 

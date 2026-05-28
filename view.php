@@ -482,7 +482,6 @@ if (!empty($videotrack->studentnotesenabled)) {
     echo html_writer::start_tag('ol', [
         'id'         => 'videotrack-notes-list',
         'class'      => 'videotrack-notes-list list-unstyled mt-1',
-        'aria-live'  => 'polite',
         'aria-label' => get_string('studentnotes_list_label', 'mod_videotrack'),
     ]);
     // Saved notes: limit the main view to the latest notes to avoid heavy pages.
@@ -544,8 +543,6 @@ echo html_writer::tag('div',
         format_float($percent, 2) . '%',
         [
             'id' => 'videotrack-progress-percent',
-            'aria-live' => 'polite',
-            'aria-atomic' => 'true',
         ]
     )
 );
@@ -595,7 +592,7 @@ if (!empty($videotrack->reactionsenabled) && $reactions) {
     // This is by design (requirement item 4).
     echo html_writer::tag('p',
         get_string('reactions_hint', 'mod_videotrack'),
-        ['class' => 'videotrack-reactions-hint', 'id' => 'videotrack-reactions-hint', 'aria-live' => 'polite']
+        ['class' => 'videotrack-reactions-hint', 'id' => 'videotrack-reactions-hint']
     );
     echo html_writer::end_div(); // videotrack-reactions
 }
@@ -641,7 +638,9 @@ if ($showstudentreport) {
     }
     // O1: pre-calcola reactionmap per lookup O(1) invece di O(n) per evento.
     $reactionmap_view = [];
-    foreach ($reactions as $r) { $reactionmap_view[(int)$r->id] = $r; }
+    foreach ($reactions as $r) {
+        $reactionmap_view[(int)$r->id] = $r;
+    }
 
     if ($eventtruncated) {
         $totalreactions = $DB->count_records_select('videotrack_reactev', $eventwhere, $eventparams);
