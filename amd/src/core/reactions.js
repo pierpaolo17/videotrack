@@ -53,7 +53,7 @@ define([], function() {
             }
             reactionState.lastAnnouncement = true;
             reactionState.readyAnnounced = true;
-            status.textContent = config.reactionsreadylabel;
+            status.textContent = (config.reactionsreadylabel || '').toString();
             hint.classList.toggle('videotrack-reactions-hint-active', false);
             return;
         }
@@ -70,7 +70,7 @@ define([], function() {
             reactionState.timer = null;
             reactionState.lastAnnouncement = false;
             reactionState.lastUnavailableAt = Date.now();
-            status.textContent = config.reactionunavailablelabel;
+            status.textContent = (config.reactionunavailablelabel || '').toString();
             hint.classList.toggle('videotrack-reactions-hint-active', true);
         }, 400);
     }
@@ -97,7 +97,7 @@ define([], function() {
         }
         reactionState.lastAnnouncement = false;
         reactionState.lastUnavailableAt = now;
-        status.textContent = config.reactionunavailablelabel;
+        status.textContent = (config.reactionunavailablelabel || '').toString();
         hint.classList.add('videotrack-reactions-hint-active');
         if (reactionState.cssTimer) {
             window.clearTimeout(reactionState.cssTimer);
