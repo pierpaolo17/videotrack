@@ -58,10 +58,14 @@ function videotrack_supports($feature) {
  * il che causerebbe eccezioni DB su colonne inesistenti.
  *
  * @param stdClass $data  Dati grezzi dal form.
+ * @param bool $resetcache Se true forza il refresh della cache colonne (utile nei test).
  * @return stdClass       Oggetto con soli campi tabella.
  */
-function videotrack_whitelist_record(stdClass $data): stdClass {
+function videotrack_whitelist_record(stdClass $data, bool $resetcache = false): stdClass {
     static $columns = null;
+    if ($resetcache) {
+        $columns = null;
+    }
     if ($columns === null) {
         global $DB;
         $columns = array_keys($DB->get_columns('videotrack'));

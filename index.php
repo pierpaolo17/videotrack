@@ -28,9 +28,20 @@ $id = required_param('id', PARAM_INT);
 $course = $DB->get_record('course', ['id' => $id], '*', MUST_EXIST);
 require_login($course);
 
+$context = context_course::instance($course->id);
 $PAGE->set_url('/mod/videotrack/index.php', ['id' => $id]);
+$PAGE->set_context($context);
 $PAGE->set_title(format_string($course->fullname));
 $PAGE->set_heading(format_string($course->fullname));
+
+$event = \core\event\course_module_instance_list_viewed::create([
+    'context' => $context,
+    'other' => [
+        'modulename' => 'videotrack',
+    ],
+]);
+$event->add_record_snapshot('course', $course);
+$event->trigger();
 
 echo $OUTPUT->header();
 echo $OUTPUT->heading(get_string('modulenameplural', 'mod_videotrack'));
@@ -41,10 +52,44 @@ if (!$instances = get_all_instances_in_course('videotrack', $course)) {
     die;
 }
 
+$usesections = course_format_uses_sections($course->format);
+
 $table = new html_table();
-$table->head = [get_string('name')];
-foreach ($instances as $instance) {
-    $table->data[] = [html_writer::link(new moodle_url('/mod/videotrack/view.php', ['id' => $instance->coursemodule]), format_string($instance->name))];
+$table->attributes['class'] = 'generaltable mod_index';
+if ($usesections) {
+    $table->head = [get_string('sectionname', 'format_' . $course->format), get_string('name')];
+    $table->align = ['left', 'left'];
+} else {
+    $table->head = [get_string('name')];
+    $table->align = ['left'];
 }
+
+$currentsection = null;
+foreach ($instances as $instance) {
+    $linkattributes = [];
+    if (!$instance->visible) {
+        $linkattributes['class'] = 'dimmed';
+        $linkattributes['aria-label'] = get_string('hiddenfromstudents') . ': ' . format_string($instance->name);
+    }
+    $link = html_writer::link(
+        new moodle_url('/mod/videotrack/view.php', ['id' => $instance->coursemodule]),
+        format_string($instance->name),
+        $linkattributes
+    );
+
+    if ($usesections) {
+        $printsection = '';
+        if ($instance->section !== $currentsection) {
+            if ($instance->section) {
+                $printsection = get_section_name($course, $instance->section);
+            }
+            $currentsection = $instance->section;
+        }
+        $table->data[] = [$printsection, $link];
+    } else {
+        $table->data[] = [$link];
+    }
+}
+
 echo html_writer::table($table);
 echo $OUTPUT->footer();

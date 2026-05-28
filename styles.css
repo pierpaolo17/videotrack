@@ -17,7 +17,7 @@
     --videotrack-skip-border: rgba(var(--bs-white-rgb, 255, 255, 255), 0.25);
     --videotrack-poster-overlay-bg: rgba(var(--bs-body-bg-rgb, 255, 255, 255), 0.9);
     --videotrack-media-bg: var(--bs-black, #000);
-    --videotrack-muted-text: var(--bs-secondary-color, #6c757d);
+    --videotrack-muted-text: var(--bs-secondary-color, #5a6470);
     --videotrack-panel-bg: var(--bs-body-bg, #fff);
     --videotrack-panel-border: var(--bs-border-color, #dee2e6);
     --videotrack-panel-muted-bg: var(--bs-tertiary-bg, #f8f9fa);
