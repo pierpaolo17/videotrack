@@ -137,7 +137,8 @@ define([], function() {
             reactionState.timer = null;
         }
         var now = Date.now();
-        if (reactionState.lastAnnouncement === false && now - reactionState.lastUnavailableAt < 1000) {
+        var interval = reactionState.unavailableInterval || 1000;
+        if (reactionState.lastAnnouncement === false && now - reactionState.lastUnavailableAt < interval) {
             return;
         }
         reactionState.lastAnnouncement = false;

@@ -50,19 +50,18 @@ define([], function() {
     }
 
     /**
-     * Update the enabled state of the note save button while keeping it focusable when unavailable.
+     * Update the enabled state of the note save button.
      *
      * @param {HTMLButtonElement} saveBtn Save button.
-     * @param {boolean} playing Whether playback is active.
+     * @param {boolean} enabled Whether the save action is available.
      */
-    function setButtonState(saveBtn, playing) {
+    function setButtonState(saveBtn, enabled) {
         if (!saveBtn) {
             return;
         }
-        // Keep the button focusable while unavailable so users can hear the explanatory status message.
-        saveBtn.disabled = false;
-        saveBtn.setAttribute('aria-disabled', playing ? 'false' : 'true');
-        saveBtn.classList.toggle('videotrack-note-save-disabled', !playing);
+        saveBtn.disabled = !enabled;
+        saveBtn.setAttribute('aria-disabled', enabled ? 'false' : 'true');
+        saveBtn.classList.toggle('videotrack-note-save-disabled', !enabled);
     }
 
     /**
@@ -209,7 +208,7 @@ define([], function() {
         }
 
         function setLocalButtonState(playing) {
-            setButtonState(saveBtn, playing);
+            setButtonState(saveBtn, playing && !savingNote);
         }
 
         var playStateHandler = function(e) {
@@ -253,9 +252,9 @@ define([], function() {
             }
             var currentTime = getCurrentVideoTime();
             savingNote = true;
+            saveBtn.disabled = true;
             saveBtn.setAttribute('aria-disabled', 'true');
             saveBtn.setAttribute('aria-busy', 'true');
-            saveBtn.disabled = true;
             saveBtn.classList.add('videotrack-note-save-saving');
             Promise.resolve(saveCurrentProgress('note')).then(function() {
                 return ajax('mod_videotrack_save_note', {
