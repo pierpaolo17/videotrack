@@ -77,7 +77,7 @@ define(['core/log'], function(Log) {
      * @param {string} value Raw text.
      * @returns {string} Text with common/numeric entities decoded.
      */
-    function decodeHtmlEntitiesForValidation(value) {
+    function decodeHtmlEntitiesOnce(value) {
         return String(value || '').replace(/&(#x[0-9a-f]+|#\d+|lt|gt|amp|quot|apos);/gi, function(match, entity) {
             var lower = entity.toLowerCase();
             if (lower === 'lt') { return '<'; }
@@ -93,6 +93,18 @@ define(['core/log'], function(Log) {
             }
             return match;
         });
+    }
+
+    function decodeHtmlEntitiesForValidation(value) {
+        var decoded = String(value || '');
+        for (var i = 0; i < 5; i++) {
+            var next = decodeHtmlEntitiesOnce(decoded);
+            if (next === decoded) {
+                return decoded;
+            }
+            decoded = next;
+        }
+        return decoded;
     }
 
     function validateWebVttText(text) {
@@ -133,7 +145,8 @@ define(['core/log'], function(Log) {
             throw 'unexpected-text-content';
         }
         if (/\b(?:javascript|data)\s*:/i.test(normalised) || /\son[a-z]+\s*=/i.test(normalised) ||
-                /\b(?:javascript|data)\s*:/i.test(decodedLower) || /\son[a-z]+\s*=/i.test(decodedLower)) {
+                /\b(?:javascript|data)\s*:/i.test(decodedLower) || /\son[a-z]+\s*=/i.test(decodedLower) ||
+                /&(?:#x0*3c|#0*60|lt);/i.test(normalised)) {
             throw 'unexpected-text-content';
         }
         return normalised;

@@ -225,14 +225,14 @@ define([
         }
 
         if (methodname === 'mod_videotrack_save_segment') {
-            if (!hasNonNegativeNumber(args, 'cmid') || !String(args.sessionid || '') ||
+            if (!hasNonNegativeNumber(args, 'cmid') || String(args.sessionid || '').length === 0 ||
                     !hasNonNegativeNumber(args, 'videotimestart') || !hasNonNegativeNumber(args, 'videotimeend') ||
                     !hasNonNegativeNumber(args, 'wallclockstart') || !hasNonNegativeNumber(args, 'wallclockend') ||
                     !hasNonNegativeNumber(args, 'durationseconds')) {
                 throw createValidationError('invalid-args', methodname, 'segment-required-fields');
             }
         } else if (methodname === 'mod_videotrack_save_reaction') {
-            if (!hasNonNegativeNumber(args, 'cmid') || !String(args.sessionid || '') ||
+            if (!hasNonNegativeNumber(args, 'cmid') || String(args.sessionid || '').length === 0 ||
                     !hasNonNegativeNumber(args, 'videotime') || !hasNonNegativeNumber(args, 'reactionid')) {
                 throw createValidationError('invalid-args', methodname, 'reaction-required-fields');
             }
@@ -241,7 +241,7 @@ define([
                 throw createValidationError('invalid-args', methodname, 'delete-reaction-required-fields');
             }
         } else if (methodname === 'mod_videotrack_save_note') {
-            if (!hasNonNegativeNumber(args, 'cmid') || !String(args.sessionid || '') ||
+            if (!hasNonNegativeNumber(args, 'cmid') || String(args.sessionid || '').length === 0 ||
                     !hasNonNegativeNumber(args, 'videotime') || typeof args.notetext !== 'string') {
                 throw createValidationError('invalid-args', methodname, 'note-required-fields');
             }

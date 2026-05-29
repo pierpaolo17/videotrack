@@ -56,11 +56,14 @@ class setting_int_range extends setting_nonnegative_int {
      * @return true|string True when valid, otherwise an error message.
      */
     public function validate($data) {
-        $basecheck = parent::validate($data);
-        if ($basecheck !== true) {
-            return $basecheck;
+        if (!is_string($data) && !is_int($data)) {
+            return get_string('setting:nonnegativeintrequired', 'mod_videotrack');
         }
-        $value = (int)trim((string)$data);
+        $data = trim((string)$data);
+        if (!preg_match('/^\d+$/', $data)) {
+            return get_string('setting:nonnegativeintrequired', 'mod_videotrack');
+        }
+        $value = (int)$data;
         if ($value < $this->min || $value > $this->max) {
             return get_string('setting:intrangerequired', 'mod_videotrack',
                 (object)['min' => $this->min, 'max' => $this->max]);
