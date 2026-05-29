@@ -42,11 +42,13 @@ class restore_videotrack_activity_structure_step extends restore_activity_struct
     }
 
     protected function process_videotrack($data) {
-        global $DB;
+        global $CFG, $DB;
+
+        require_once($CFG->dirroot . '/mod/videotrack/lib.php');
         $data = (object)$data;
         $oldid = $data->id;
         $data->course = $this->get_courseid();
-        $newitemid = $DB->insert_record('videotrack', $data);
+        $newitemid = $DB->insert_record('videotrack', videotrack_whitelist_record($data));
         $this->apply_activity_instance($newitemid);
         $this->set_mapping('videotrack', $oldid, $newitemid);
     }

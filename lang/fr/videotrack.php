@@ -556,3 +556,5 @@ $string['warning:notetruncated'] = 'La note a été enregistrée, mais elle a é
 $string['error:securetokenunavailable'] = 'Aucun générateur sécurisé de jetons aléatoires n\'est disponible. VideoTrack ne peut pas créer les clés d\'anonymisation en toute sécurité.';
 
 $string['hiddeninstancelabel'] = 'Masqué aux étudiants : {$a}';
+
+$string['setting:nonnegativeintmax'] = 'The value must be no greater than {$a}.';

@@ -27,6 +27,9 @@ defined('MOODLE_INTERNAL') || die();
  */
 class setting_nonnegative_int extends \admin_setting_configtext {
 
+    /** Maximum accepted retention period in days (10 years). */
+    private const MAX_RETENTION_DAYS = 3650;
+
     /**
      * Validate the setting value.
      *
@@ -40,6 +43,9 @@ class setting_nonnegative_int extends \admin_setting_configtext {
         $data = trim((string)$data);
         if (!preg_match('/^\d+$/', $data)) {
             return get_string('setting:nonnegativeintrequired', 'mod_videotrack');
+        }
+        if ((int)$data > self::MAX_RETENTION_DAYS) {
+            return get_string('setting:nonnegativeintmax', 'mod_videotrack', self::MAX_RETENTION_DAYS);
         }
         return true;
     }

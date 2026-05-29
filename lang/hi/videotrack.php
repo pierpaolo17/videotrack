@@ -556,3 +556,5 @@ $string['warning:notetruncated'] = 'नोट सहेज दिया गय�
 $string['error:securetokenunavailable'] = 'एक सुरक्षित रैंडम टोकन जनरेटर उपलब्ध नहीं है। VideoTrack अज्ञातीकरण कुंजियाँ सुरक्षित रूप से नहीं बना सकता।';
 
 $string['hiddeninstancelabel'] = 'विद्यार्थियों से छिपा हुआ: {$a}';
+
+$string['setting:nonnegativeintmax'] = 'The value must be no greater than {$a}.';

@@ -556,3 +556,5 @@ $string['warning:notetruncated'] = 'Die Notiz wurde gespeichert, aber auf die vo
 $string['error:securetokenunavailable'] = 'Es ist kein sicherer Zufalls-Token-Generator verfügbar. VideoTrack kann Anonymisierungsschlüssel nicht sicher erstellen.';
 
 $string['hiddeninstancelabel'] = 'Für Teilnehmer/innen verborgen: {$a}';
+
+$string['setting:nonnegativeintmax'] = 'The value must be no greater than {$a}.';

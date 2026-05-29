@@ -558,3 +558,5 @@ $string['warning:notetruncated'] = 'The note was saved, but it was shortened to 
 $string['error:securetokenunavailable'] = 'A secure random token generator is not available. VideoTrack cannot safely create anonymisation keys.';
 
 $string['hiddeninstancelabel'] = 'Hidden from students: {$a}';
+
+$string['setting:nonnegativeintmax'] = 'The value must be no greater than {$a}.';

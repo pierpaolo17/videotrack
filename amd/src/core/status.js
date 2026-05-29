@@ -74,9 +74,8 @@ define([], function() {
         if (region) {
             return region;
         }
-        Array.prototype.forEach.call(container.querySelectorAll(
-            isError ? '.videotrack-status-live-assertive' : '.videotrack-status-live-polite'
-        ), function(existing) {
+        var oppositeSelector = isError ? '.videotrack-status-live-polite' : '.videotrack-status-live-assertive';
+        Array.prototype.forEach.call(container.querySelectorAll(oppositeSelector), function(existing) {
             existing.parentNode.removeChild(existing);
         });
         region = document.createElement('div');
