@@ -505,13 +505,23 @@ define([
                         wrap.appendChild(notice);
                         // Remove notice once the user starts playing.
                         // YouTube IFrame API addEventListener uses 'on' prefix: 'onStateChange'.
+                        var noticeTimeout = null;
                         var removeNotice = function() {
+                            if (noticeTimeout) {
+                                window.clearTimeout(noticeTimeout);
+                                noticeTimeout = null;
+                            }
                             if (notice && notice.parentNode) {
                                 notice.parentNode.removeChild(notice);
                             }
-                            player.removeEventListener('onStateChange', removeNotice);
+                            try {
+                                player.removeEventListener('onStateChange', removeNotice);
+                            } catch (error) {
+                                Log.debug('mod_videotrack: autoplay notice cleanup failed - ' + error);
+                            }
                         };
                         player.addEventListener('onStateChange', removeNotice);
+                        noticeTimeout = window.setTimeout(removeNotice, 30000);
                     }
                 },
                 onError: function() { Log.debug('mod_videotrack: YouTube player error'); }

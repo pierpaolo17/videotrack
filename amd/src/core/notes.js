@@ -214,14 +214,16 @@ define([], function() {
         var playStateHandler = function(e) {
             setLocalButtonState(!!(e.detail && e.detail.playing));
         };
-        document.addEventListener('videotrack:playstate', playStateHandler);
-        window.addEventListener('beforeunload', function() {
+        var cleanupNoteHandler = function() {
             document.removeEventListener('videotrack:playstate', playStateHandler);
+            window.removeEventListener('beforeunload', cleanupNoteHandler);
             if (charCounterTimer) {
                 window.clearTimeout(charCounterTimer);
                 charCounterTimer = null;
             }
-        }, {once: true});
+        };
+        document.addEventListener('videotrack:playstate', playStateHandler);
+        window.addEventListener('beforeunload', cleanupNoteHandler);
 
         saveBtn.addEventListener('click', function(event) {
             if (event) {
