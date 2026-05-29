@@ -1144,5 +1144,18 @@ function xmldb_videotrack_upgrade($oldversion) {
         upgrade_mod_savepoint(true, 2026052936, 'videotrack');
     }
 
+
+    if ($oldversion < 2026052937) {
+        // Release 1.4.27: AMD rebuild, lifecycle hardening and version normalisation.
+        // No database schema changes.
+        upgrade_mod_savepoint(true, 2026052937, 'videotrack');
+    }
+
+    if ($oldversion < 2026052938) {
+        // Release 1.4.28: AMD reaction handling cleanup and test harness compatibility.
+        // No database schema changes.
+        upgrade_mod_savepoint(true, 2026052938, 'videotrack');
+    }
+
     return true;
 }

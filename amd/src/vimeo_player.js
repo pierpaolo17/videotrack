@@ -496,16 +496,19 @@ define([
         // A1 fix: keydown handler for Enter/Space on aria-disabled reaction buttons.
         // Browsers do not consistently fire 'click' for Enter/Space on buttons with
         // aria-disabled=true, so screen reader users got no feedback.
-        root.addEventListener('keydown', function(e) {
+        if (state._reactionRootCleanup) {
+            state._reactionRootCleanup();
+        }
+        var reactionKeydownHandler = function(e) {
             if (e.key !== 'Enter' && e.key !== ' ') { return; }
             var reactionbtn = e.target.closest('.videotrack-reaction-btn');
             if (reactionbtn && reactionbtn.getAttribute('aria-disabled') === 'true') {
                 e.preventDefault();
                 announceReactionUnavailable();
             }
-        });
+        };
 
-        root.addEventListener('click', function(e) {
+        var reactionClickHandler = function(e) {
             var reactionbtn = e.target.closest('.videotrack-reaction-btn');
             if (reactionbtn && reactionbtn.getAttribute('aria-disabled') === 'true') {
                 e.preventDefault();
@@ -515,8 +518,13 @@ define([
             }
             if (reactionbtn) {
                 e.preventDefault();
+                if (reactionbtn.getAttribute('aria-busy') === 'true') {
+                    return;
+                }
                 var currentTime = state.lasttime || 0;
                 reactionbtn.classList.add('videotrack-saving');
+                reactionbtn.setAttribute('aria-busy', 'true');
+                reactionbtn.disabled = true;
                 saveCurrentProgress('reaction').then(function() {
                     return ajax('mod_videotrack_save_reaction', {
                         cmid:       config.cmid,
@@ -527,6 +535,8 @@ define([
                     });
                 }).then(function(response) {
                     reactionbtn.classList.remove('videotrack-saving');
+                    reactionbtn.removeAttribute('aria-busy');
+                    reactionbtn.disabled = false;
                     if (response && response.reactioneventid) {
                         appendReactionRow(response.reactioneventid, {
                             label: reactionbtn.getAttribute('data-reactionlabel') || '',
@@ -539,6 +549,8 @@ define([
                     }
                 }).catch(function(err) {
                     reactionbtn.classList.remove('videotrack-saving');
+                    reactionbtn.removeAttribute('aria-busy');
+                    reactionbtn.disabled = false;
                     PlayerCore.showErrorStatusMessage(err, config.reactionerrorlabel, config.dismisslabel);
                 });
                 return;
@@ -571,7 +583,21 @@ define([
                     }
                 }).catch(Log.debug);
             }
-        });
+        };
+        root.addEventListener('keydown', reactionKeydownHandler);
+        root.addEventListener('click', reactionClickHandler);
+        var cleanupReactionRootHandlers = function() {
+            root.removeEventListener('keydown', reactionKeydownHandler);
+            root.removeEventListener('click', reactionClickHandler);
+            window.removeEventListener('pagehide', cleanupReactionRootHandlers);
+            window.removeEventListener('beforeunload', cleanupReactionRootHandlers);
+            if (state._reactionRootCleanup === cleanupReactionRootHandlers) {
+                state._reactionRootCleanup = null;
+            }
+        };
+        state._reactionRootCleanup = cleanupReactionRootHandlers;
+        window.addEventListener('pagehide', cleanupReactionRootHandlers, {once: true});
+        window.addEventListener('beforeunload', cleanupReactionRootHandlers, {once: true});
     }
 
 

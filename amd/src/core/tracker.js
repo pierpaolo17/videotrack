@@ -150,6 +150,27 @@ define([
         }) ? stateName : STATES.IDLE;
     }
 
+
+    /**
+     * Check whether a candidate tracker state is explicitly known.
+     *
+     * Empty values are treated as the initial idle state for backwards
+     * compatibility, but non-empty unknown state names must not silently become
+     * valid transitions.
+     *
+     * @param {*} value Candidate state.
+     * @returns {boolean} True when value is empty or a known tracker state.
+     */
+    function isKnownTrackerState(value) {
+        if (value === null || value === undefined || value === '') {
+            return true;
+        }
+        var stateName = String(value).toLowerCase();
+        return Object.keys(STATES).some(function(key) {
+            return STATES[key] === stateName;
+        });
+    }
+
     /**
      * Read the provider-neutral tracker state.
      *
@@ -192,6 +213,9 @@ define([
      * @returns {boolean} True when transition is valid.
      */
     function canTransition(from, to) {
+        if (!isKnownTrackerState(from) || !isKnownTrackerState(to)) {
+            return false;
+        }
         var current = normaliseTrackerState(from);
         var next = normaliseTrackerState(to);
         if (current === next) {
@@ -1178,6 +1202,7 @@ define([
     return {
         STATES: STATES,
         normaliseTrackerState: normaliseTrackerState,
+        isKnownTrackerState: isKnownTrackerState,
         getTrackerState: getTrackerState,
         getTransitionToken: getTransitionToken,
         isTransitionCurrent: isTransitionCurrent,
