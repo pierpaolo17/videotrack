@@ -164,6 +164,10 @@ define([
                 modal.setCancelButtonText(strings[2]);
                 modal.getRoot().on(ModalEvents.save, function(event) {
                     event.preventDefault();
+                    if (form.dataset.videotrackConfirmSubmitting === '1') {
+                        return;
+                    }
+                    form.dataset.videotrackConfirmSubmitting = '1';
                     submitted = true;
                     modal.hide();
                     submitForm(form);
@@ -204,6 +208,9 @@ define([
 
                 form.dataset.videotrackConfirmAttached = '1';
                 form.addEventListener('submit', function(event) {
+                    if (form.dataset.videotrackConfirmSubmitting === '1') {
+                        return;
+                    }
                     var focusReturnElement = event.submitter || getFocusableElement();
                     event.preventDefault();
                     showModalConfirm(form, options, focusReturnElement);
