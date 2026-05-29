@@ -216,16 +216,21 @@ define([], function() {
         };
         var cleanupNoteHandler = function() {
             document.removeEventListener('videotrack:playstate', playStateHandler);
+            saveBtn.removeEventListener('click', saveClickHandler);
+            if (noteList) {
+                noteList.removeEventListener('click', noteListClickHandler);
+            }
+            textarea.removeEventListener('input', textareaInputHandler);
+            window.removeEventListener('pagehide', cleanupNoteHandler);
             window.removeEventListener('beforeunload', cleanupNoteHandler);
             if (charCounterTimer) {
                 window.clearTimeout(charCounterTimer);
                 charCounterTimer = null;
             }
         };
-        document.addEventListener('videotrack:playstate', playStateHandler);
-        window.addEventListener('beforeunload', cleanupNoteHandler);
+        var noteList = document.getElementById('videotrack-my-notes');
 
-        saveBtn.addEventListener('click', function(event) {
+        var saveClickHandler = function(event) {
             if (event) {
                 event.preventDefault();
             }
@@ -289,11 +294,9 @@ define([], function() {
                 restoreSaveButtonState();
                 showErrorStatusMessage(error, config.noteerrorlabel, config.dismisslabel);
             });
-        });
+        };
 
-        var noteList = document.getElementById('videotrack-my-notes');
-        if (noteList) {
-            noteList.addEventListener('click', function(e) {
+        var noteListClickHandler = function(e) {
                 var delBtn = e.target.closest('.videotrack-delete-note');
                 if (!delBtn || !noteList.contains(delBtn)) { return; }
                 e.preventDefault();
@@ -333,10 +336,9 @@ define([], function() {
                     Log.debug('mod_videotrack: note deletion failed - ' + err);
                     showStatusMessage(config.noteerrorlabel, true, config.dismisslabel);
                 });
-            });
-        }
+        };
 
-        textarea.addEventListener('input', function() {
+        var textareaInputHandler = function() {
             if (charCounterTimer) {
                 window.clearTimeout(charCounterTimer);
             }
@@ -345,7 +347,16 @@ define([], function() {
                 announceCharThreshold(remaining);
                 charCounterTimer = null;
             }, CHAR_COUNTER_DEBOUNCE_MS);
-        });
+        };
+
+        document.addEventListener('videotrack:playstate', playStateHandler);
+        saveBtn.addEventListener('click', saveClickHandler);
+        if (noteList) {
+            noteList.addEventListener('click', noteListClickHandler);
+        }
+        textarea.addEventListener('input', textareaInputHandler);
+        window.addEventListener('pagehide', cleanupNoteHandler, {once: true});
+        window.addEventListener('beforeunload', cleanupNoteHandler, {once: true});
     }
 
 
@@ -380,10 +391,18 @@ define([], function() {
 
         setCollapsed(Utils.sessionGet(key, labelContext) === '1');
 
-        btn.addEventListener('click', function() {
+        var toggleClickHandler = function() {
             var isCollapsed = btn.getAttribute('aria-expanded') === 'false';
             setCollapsed(!isCollapsed);
-        });
+        };
+        var cleanupToggleHandler = function() {
+            btn.removeEventListener('click', toggleClickHandler);
+            window.removeEventListener('pagehide', cleanupToggleHandler);
+            window.removeEventListener('beforeunload', cleanupToggleHandler);
+        };
+        btn.addEventListener('click', toggleClickHandler);
+        window.addEventListener('pagehide', cleanupToggleHandler, {once: true});
+        window.addEventListener('beforeunload', cleanupToggleHandler, {once: true});
     }
 
     return {

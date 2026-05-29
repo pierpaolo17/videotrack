@@ -940,208 +940,208 @@ function xmldb_videotrack_upgrade($oldversion) {
     }
 
 
-    if ($oldversion < 2026072500) {
+    if ($oldversion < 2026052900) {
         // Release 1.2.25 contains code, accessibility and localisation fixes only.
-        upgrade_mod_savepoint(true, 2026072500, 'videotrack');
+        upgrade_mod_savepoint(true, 2026052900, 'videotrack');
     }
 
-    if ($oldversion < 2026072501) {
+    if ($oldversion < 2026052901) {
         // Release 1.2.29: JavaScript fetch resilience and AMD build alignment. No schema changes.
-        upgrade_mod_savepoint(true, 2026072501, 'videotrack');
+        upgrade_mod_savepoint(true, 2026052901, 'videotrack');
     }
 
-    if ($oldversion < 2026072502) {
+    if ($oldversion < 2026052902) {
         // Release 1.2.30: compatibility cleanup before the 1.3 refactor branch. No schema changes.
-        upgrade_mod_savepoint(true, 2026072502, 'videotrack');
+        upgrade_mod_savepoint(true, 2026052902, 'videotrack');
     }
 
 
-    if ($oldversion < 2026072503) {
+    if ($oldversion < 2026052903) {
         // Release 1.3.94: code-only maintenance fixes, bug-report regression gates and AMD build alignment.
-        upgrade_mod_savepoint(true, 2026072503, 'videotrack');
+        upgrade_mod_savepoint(true, 2026052903, 'videotrack');
     }
 
-    if ($oldversion < 2026072504) {
+    if ($oldversion < 2026052904) {
         // Code-only release: privacy metadata, accessibility and AMD hardening updates.
-        upgrade_mod_savepoint(true, 2026072504, 'videotrack');
+        upgrade_mod_savepoint(true, 2026052904, 'videotrack');
     }
 
-    if ($oldversion < 2026072505) {
+    if ($oldversion < 2026052905) {
         // Release 1.3.96: localisation, settings privacy notice and code-only compliance fixes.
-        upgrade_mod_savepoint(true, 2026072505, 'videotrack');
+        upgrade_mod_savepoint(true, 2026052905, 'videotrack');
     }
 
-    if ($oldversion < 2026072506) {
+    if ($oldversion < 2026052906) {
         // Release 1.3.97: code-only hardening, localisation and backup/restore token fixes.
-        upgrade_mod_savepoint(true, 2026072506, 'videotrack');
+        upgrade_mod_savepoint(true, 2026052906, 'videotrack');
     }
 
-    if ($oldversion < 2026072507) {
+    if ($oldversion < 2026052907) {
         // Release 1.3.98: retention default, export audit, accessibility and AMD hardening.
         $retention = get_config('mod_videotrack', 'retentionperioddays');
         if ($retention === false || $retention === null || $retention === '') {
             set_config('retentionperioddays', 730, 'mod_videotrack');
         }
-        upgrade_mod_savepoint(true, 2026072507, 'videotrack');
+        upgrade_mod_savepoint(true, 2026052907, 'videotrack');
     }
 
-    if ($oldversion < 2026072508) {
+    if ($oldversion < 2026052908) {
         // Release 1.3.100: privacy hardening and accessibility/contrast cleanup. No schema changes.
-        upgrade_mod_savepoint(true, 2026072508, 'videotrack');
+        upgrade_mod_savepoint(true, 2026052908, 'videotrack');
     }
 
-    if ($oldversion < 2026072509) {
+    if ($oldversion < 2026052909) {
         // Release 1.3.101: AMD robustness, notes accessibility and localisation fixes. No schema changes.
-        upgrade_mod_savepoint(true, 2026072509, 'videotrack');
+        upgrade_mod_savepoint(true, 2026052909, 'videotrack');
     }
 
-    if ($oldversion < 2026072510) {
+    if ($oldversion < 2026052910) {
         // Release 1.4.0: AMD lifecycle, accessibility and localisation fixes. No schema changes.
-        upgrade_mod_savepoint(true, 2026072510, 'videotrack');
+        upgrade_mod_savepoint(true, 2026052910, 'videotrack');
     }
 
-    if ($oldversion < 2026072511) {
+    if ($oldversion < 2026052911) {
         // Release 1.4.1: Moodle plugins directory submission cleanup. No schema changes.
-        upgrade_mod_savepoint(true, 2026072511, 'videotrack');
+        upgrade_mod_savepoint(true, 2026052911, 'videotrack');
     }
 
-    if ($oldversion < 2026072512) {
+    if ($oldversion < 2026052912) {
         // Release 1.4.2: URL validation hardening, note handling cleanup and AMD build alignment. No schema changes.
-        upgrade_mod_savepoint(true, 2026072512, 'videotrack');
+        upgrade_mod_savepoint(true, 2026052912, 'videotrack');
     }
 
-    if ($oldversion < 2026072513) {
+    if ($oldversion < 2026052913) {
         // Release 1.4.3: adapter hardening, provider URL normalization and accessibility refinements. No schema changes.
-        upgrade_mod_savepoint(true, 2026072513, 'videotrack');
+        upgrade_mod_savepoint(true, 2026052913, 'videotrack');
     }
 
-    if ($oldversion < 2026072514) {
+    if ($oldversion < 2026052914) {
         // Release 1.4.4: reaction throttling, accessibility, privacy and configuration hardening. No schema changes.
-        upgrade_mod_savepoint(true, 2026072514, 'videotrack');
+        upgrade_mod_savepoint(true, 2026052914, 'videotrack');
     }
 
-    if ($oldversion < 2026072515) {
+    if ($oldversion < 2026052915) {
         // Release 1.4.5: accessibility, language-comment cleanup and build alignment. No schema changes.
-        upgrade_mod_savepoint(true, 2026072515, 'videotrack');
+        upgrade_mod_savepoint(true, 2026052915, 'videotrack');
     }
 
-    if ($oldversion < 2026072516) {
+    if ($oldversion < 2026052916) {
         // Release 1.4.6: index compliance, language strings, cleanup task hardening and build alignment. No schema changes.
-        upgrade_mod_savepoint(true, 2026072516, 'videotrack');
+        upgrade_mod_savepoint(true, 2026052916, 'videotrack');
     }
 
-    if ($oldversion < 2026072517) {
+    if ($oldversion < 2026052917) {
         // Release 1.4.7: version alignment and maintenance release. No schema changes.
-        upgrade_mod_savepoint(true, 2026072517, 'videotrack');
+        upgrade_mod_savepoint(true, 2026052917, 'videotrack');
     }
 
 
-    if ($oldversion < 2026072518) {
+    if ($oldversion < 2026052918) {
         // Release 1.4.8: accessibility and Moodle header maintenance. No schema changes.
-        upgrade_mod_savepoint(true, 2026072518, 'videotrack');
+        upgrade_mod_savepoint(true, 2026052918, 'videotrack');
     }
 
 
-    if ($oldversion < 2026072519) {
+    if ($oldversion < 2026052919) {
         // Release 1.4.9: accessibility announcement cleanup and maintenance fixes. No schema changes.
-        upgrade_mod_savepoint(true, 2026072519, 'videotrack');
+        upgrade_mod_savepoint(true, 2026052919, 'videotrack');
     }
 
-    if ($oldversion < 2026072520) {
+    if ($oldversion < 2026052920) {
         // Release 1.4.10: provider URL hardening, lifecycle cleanup and accessibility refinements. No schema changes.
-        upgrade_mod_savepoint(true, 2026072520, 'videotrack');
+        upgrade_mod_savepoint(true, 2026052920, 'videotrack');
     }
 
-    if ($oldversion < 2026072521) {
+    if ($oldversion < 2026052921) {
         // Release 1.4.11: accessibility, reporting and AMD build hardening. No schema changes.
-        upgrade_mod_savepoint(true, 2026072521, 'videotrack');
+        upgrade_mod_savepoint(true, 2026052921, 'videotrack');
     }
 
-    if ($oldversion < 2026072522) {
+    if ($oldversion < 2026052922) {
         // Release 1.4.12: unload-beacon deduplication and AMD build normalisation. No schema changes.
-        upgrade_mod_savepoint(true, 2026072522, 'videotrack');
+        upgrade_mod_savepoint(true, 2026052922, 'videotrack');
     }
 
 
-    if ($oldversion < 2026072523) {
+    if ($oldversion < 2026052923) {
         // Release 1.4.13: AMD rebuild, accessibility and security hardening. No schema changes.
-        upgrade_mod_savepoint(true, 2026072523, 'videotrack');
+        upgrade_mod_savepoint(true, 2026052923, 'videotrack');
     }
 
 
-    if ($oldversion < 2026072524) {
+    if ($oldversion < 2026052924) {
         // Release 1.4.14: AMD build normalisation, accessibility and runtime hardening. No schema changes.
-        upgrade_mod_savepoint(true, 2026072524, 'videotrack');
+        upgrade_mod_savepoint(true, 2026052924, 'videotrack');
     }
 
 
-    if ($oldversion < 2026072525) {
+    if ($oldversion < 2026052925) {
         // Release 1.4.15: AMD build normalisation and security/accessibility hardening. No schema changes.
-        upgrade_mod_savepoint(true, 2026072525, 'videotrack');
+        upgrade_mod_savepoint(true, 2026052925, 'videotrack');
     }
 
 
-    if ($oldversion < 2026072526) {
+    if ($oldversion < 2026052926) {
         // Release 1.4.16: reaction live-region runtime fix and AMD build normalisation. No schema changes.
-        upgrade_mod_savepoint(true, 2026072526, 'videotrack');
+        upgrade_mod_savepoint(true, 2026052926, 'videotrack');
     }
 
 
-    if ($oldversion < 2026072527) {
+    if ($oldversion < 2026052927) {
         // Release 1.4.17: AMD rebuild, retry hardening and certification cleanup. No schema changes.
-        upgrade_mod_savepoint(true, 2026072527, 'videotrack');
+        upgrade_mod_savepoint(true, 2026052927, 'videotrack');
     }
 
 
-    if ($oldversion < 2026072528) {
+    if ($oldversion < 2026052928) {
         // Release 1.4.18: AMD validation, accessibility and hardening cleanup. No schema changes.
-        upgrade_mod_savepoint(true, 2026072528, 'videotrack');
+        upgrade_mod_savepoint(true, 2026052928, 'videotrack');
     }
 
 
-    if ($oldversion < 2026072529) {
+    if ($oldversion < 2026052929) {
         // Release 1.4.19: student reset permission and accessibility/compliance cleanup. No schema changes.
-        upgrade_mod_savepoint(true, 2026072529, 'videotrack');
+        upgrade_mod_savepoint(true, 2026052929, 'videotrack');
     }
 
-    if ($oldversion < 2026072530) {
+    if ($oldversion < 2026052930) {
         // Release 1.4.20: reporting, poster validation and accessibility hardening. No schema changes.
-        upgrade_mod_savepoint(true, 2026072530, 'videotrack');
+        upgrade_mod_savepoint(true, 2026052930, 'videotrack');
     }
 
-    if ($oldversion < 2026072531) {
+    if ($oldversion < 2026052931) {
         // Release 1.4.21: JS/AMD hardening. No schema changes.
-        upgrade_mod_savepoint(true, 2026072531, 'videotrack');
+        upgrade_mod_savepoint(true, 2026052931, 'videotrack');
     }
 
-    if ($oldversion < 2026072532) {
+    if ($oldversion < 2026052932) {
         // Release 1.4.22: Moodle HQ style, AMD strict mode and compliance cleanup. No schema changes.
-        upgrade_mod_savepoint(true, 2026072532, 'videotrack');
+        upgrade_mod_savepoint(true, 2026052932, 'videotrack');
     }
 
-    if ($oldversion < 2026072533) {
+    if ($oldversion < 2026052933) {
         // Release 1.4.23: accessibility/live-region hardening and AMD validation cleanup. No schema changes.
-        upgrade_mod_savepoint(true, 2026072533, 'videotrack');
+        upgrade_mod_savepoint(true, 2026052933, 'videotrack');
     }
 
 
-    if ($oldversion < 2026072534) {
+    if ($oldversion < 2026052934) {
         // JavaScript AMD rebuild and hardening release; no database schema changes.
-        upgrade_mod_savepoint(true, 2026072534, 'videotrack');
+        upgrade_mod_savepoint(true, 2026052934, 'videotrack');
     }
 
 
-    if ($oldversion < 2026072535) {
+    if ($oldversion < 2026052935) {
         // Release 1.4.25: AMD rebuild and translations update.
         // No database schema changes.
-        upgrade_mod_savepoint(true, 2026072535, 'videotrack');
+        upgrade_mod_savepoint(true, 2026052935, 'videotrack');
     }
 
 
-    if ($oldversion < 2026072536) {
+    if ($oldversion < 2026052936) {
         // Release 1.4.26: AMD lifecycle hardening and own-report CSV export fix.
         // No database schema changes.
-        upgrade_mod_savepoint(true, 2026072536, 'videotrack');
+        upgrade_mod_savepoint(true, 2026052936, 'videotrack');
     }
 
     return true;

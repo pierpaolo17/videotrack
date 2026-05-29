@@ -30,6 +30,8 @@ define([
     var player  = null;
     var config  = null;
     var reactionState = Reactions.createState();
+    var DEFAULT_REACTION_UNAVAILABLE_ANNOUNCE_INTERVAL = 30000;
+    var DEFAULT_REACTION_READY_DEBOUNCE_MS = 400;
     var HEARTBEAT_INTERVAL = 30;
 
     var state = State.create();
