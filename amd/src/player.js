@@ -16,7 +16,7 @@ define([
     var player = null;
     var config = null;
     var reactionState = Reactions.createState();
-    // HEARTBEAT_INTERVAL viene inizializzato in init() dal valore configurato
+    // HEARTBEAT_INTERVAL is initialised in init() from the value configured
     // by the administrator in Site administration > Plugins > Activity modules > Video track.
     var HEARTBEAT_INTERVAL = 30; // Fallback value, overridden by config.heartbeatinterval
     var state = State.create();
@@ -49,8 +49,8 @@ define([
     }
 
     /**
-     * Disegna la barra colorata degli intervalli guardati su canvas.
-     * Verde = guardato, grigio chiaro = non guardato.
+     * Draw the coloured canvas bar representing watched intervals.
+     * Green = watched, light grey = not watched.
      *
      * @param {string} intervaljson  JSON array di [start,end] pairs.
      * @param {number} duration Total video duration in seconds.
@@ -144,7 +144,7 @@ define([
             return;
         }
         // If a seek was just blocked, ignore polling for 500 ms
-        // per evitare che il rimbalzo del seekTo venga rilevato come nuovo seek anomalo.
+        // so the seekTo bounce is not detected as a new anomalous seek.
         if (state.seekblocked) {
             state.lasttime = player.getCurrentTime();
             return;
@@ -238,7 +238,7 @@ define([
 
     /**
      * Shows a temporary banner informing the student about automatic resume.
-     * @param {number} seconds Posizione di resume in secondi.
+     * @param {number} seconds Resume position in seconds.
      */
     function showResumeNotice(seconds) {
         PlayerCore.showResumeNotice(seconds, config, Utils);
@@ -388,7 +388,7 @@ define([
         var start = Math.max(0, videotime - 30);
         var end   = videotime + 30;
 
-        // Costruzione via DOM API invece di innerHTML per evitare XSS
+        // Build via DOM APIs instead of innerHTML to avoid XSS.
         // nel caso in cui iconhtml contenesse markup non atteso.
         var tr = document.createElement('tr');
         tr.dataset.eventid = eventid;

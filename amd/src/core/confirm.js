@@ -37,8 +37,16 @@ define([
             return;
         }
 
+        var nativeSubmit = typeof HTMLFormElement !== 'undefined' && HTMLFormElement.prototype &&
+            typeof HTMLFormElement.prototype.submit === 'function' ? HTMLFormElement.prototype.submit : null;
+
+        if (nativeSubmit) {
+            nativeSubmit.call(form);
+            return;
+        }
+
         if (typeof form.submit === 'function') {
-            HTMLFormElement.prototype.submit.call(form);
+            form.submit();
         }
     };
 

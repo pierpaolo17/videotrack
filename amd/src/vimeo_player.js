@@ -60,7 +60,7 @@ define([
         return Progress.updateProgress(response, state, Utils, PlayerCore, Log);
     }
 
-    // ── Segment lifecycle ─────────────────────────────────────────────────
+    // Segment lifecycle.
 
     function startSegment(currentTime) {
         Tracker.openSegment(state, currentTime, Math.floor(Date.now() / 1000));
@@ -99,7 +99,7 @@ define([
 
     /**
      * Shows a temporary banner informing the student about automatic resume.
-     * @param {number} seconds Posizione di resume in secondi.
+     * @param {number} seconds Resume position in seconds.
      */
     function showResumeNotice(seconds) {
         PlayerCore.showResumeNotice(seconds, config, Utils);
@@ -107,8 +107,8 @@ define([
 
 
     /**
-     * Disegna la barra colorata degli intervalli guardati su canvas.
-     * Identica all'implementazione in player.js e html5_player.js.
+     * Draw the coloured canvas bar representing watched intervals.
+     * Mirrors the implementation in player.js and html5_player.js.
      *
      * @param {string} intervaljson  JSON array di [start,end] pairs.
      * @param {number} duration Total video duration in seconds.

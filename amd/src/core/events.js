@@ -15,8 +15,22 @@ define([], function() {
      * @returns {Object} Event bus API.
      */
     function create() {
-        var handlers = {};
+        var handlers = Object.create(null);
         var maxHandlersPerEvent = 100;
+
+        /**
+         * Normalise internal event names before using them as object keys.
+         *
+         * @param {*} name Candidate event name.
+         * @returns {string} Safe event name or an empty string.
+         */
+        var normaliseEventName = function(name) {
+            var eventName = String(name || '').trim();
+            if (!/^[a-z0-9:_-]{1,100}$/i.test(eventName)) {
+                return '';
+            }
+            return eventName;
+        };
 
         return {
             /**
@@ -27,10 +41,21 @@ define([], function() {
              * @returns {Function} Unsubscribe callback.
              */
             on: function(name, handler) {
-                if (typeof name !== 'string' || typeof handler !== 'function') {
+                name = normaliseEventName(name);
+                if (!name || typeof handler !== 'function') {
                     return function() {};
                 }
                 handlers[name] = handlers[name] || [];
+                if (handlers[name].indexOf(handler) !== -1) {
+                    return function() {
+                        handlers[name] = (handlers[name] || []).filter(function(candidate) {
+                            return candidate !== handler;
+                        });
+                        if (!handlers[name].length) {
+                            delete handlers[name];
+                        }
+                    };
+                }
                 if (handlers[name].length >= maxHandlersPerEvent) {
                     if (typeof window !== 'undefined' && window.console && window.console.debug) {
                         window.console.debug('mod_videotrack: event handler limit reached for ' + name);
@@ -56,7 +81,8 @@ define([], function() {
              * @param {Function} handler Event handler.
              */
             off: function(name, handler) {
-                if (!handlers[name]) {
+                name = normaliseEventName(name);
+                if (!name || !handlers[name]) {
                     return;
                 }
                 handlers[name] = handlers[name].filter(function(candidate) {
@@ -75,6 +101,10 @@ define([], function() {
              * @returns {Array} Handler return values.
              */
             emit: function(name, payload) {
+                name = normaliseEventName(name);
+                if (!name) {
+                    return [];
+                }
                 var eventPayload = payload || {};
                 return (handlers[name] || []).slice().map(function(handler) {
                     try {
@@ -120,7 +150,8 @@ define([], function() {
              * @returns {number} Handler count.
              */
             count: function(name) {
-                if (typeof name === 'string') {
+                name = normaliseEventName(name);
+                if (name) {
                     return (handlers[name] || []).length;
                 }
                 return Object.keys(handlers).reduce(function(total, key) {
@@ -132,7 +163,7 @@ define([], function() {
              * Remove all event handlers.
              */
             clear: function() {
-                handlers = {};
+                handlers = Object.create(null);
             }
         };
     }

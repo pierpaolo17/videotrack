@@ -68,19 +68,18 @@ define([
         return Progress.updateProgress(response, state, Utils, PlayerCore, Log);
     }
 
-    // ── Segment lifecycle ─────────────────────────────────────────────────
+    // Segment lifecycle.
 
     function startSegment() {
         Tracker.openSegment(state, safeNumber(media.currentTime, 0), Math.floor(Date.now() / 1000), safeNumber(media.playbackRate, 1));
     }
 
     /**
-     * Chiude il segmento corrente e lo invia al server.
-     * Cattura start ed end prima di azzerare lo stato per evitare
-     * il bug "saveSegment(null, end)" che si verificava azzerando
-     * state.segmentstart prima di passarlo alla funzione.
+     * Close the current segment and send it to the server.
+     * Capture start and end before resetting state, so saveSegment() never
+     * receives a null start after state.segmentstart has been cleared.
      *
-     * @param {string} reason  Motivo di chiusura (pause, seek, tab, heartbeat...).
+     * @param {string} reason Close reason (pause, seek, tab, heartbeat...).
      */
     function closeSegment(reason) {
         return Tracker.closeAndSaveSegment(state, function() {

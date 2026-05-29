@@ -17,12 +17,13 @@ define([], function() {
      * @returns {string} Session identifier.
      */
     function uuid() {
-        if (window.crypto && window.crypto.randomUUID) {
-            return window.crypto.randomUUID().replace(/-/g, '');
+        var cryptoApi = typeof window !== 'undefined' && window.crypto ? window.crypto : null;
+        if (cryptoApi && cryptoApi.randomUUID) {
+            return cryptoApi.randomUUID().replace(/-/g, '');
         }
-        if (window.crypto && window.crypto.getRandomValues) {
+        if (cryptoApi && cryptoApi.getRandomValues) {
             var bytes = new Uint8Array(16);
-            window.crypto.getRandomValues(bytes);
+            cryptoApi.getRandomValues(bytes);
             return Array.prototype.map.call(bytes, function(byte) {
                 return ('0' + byte.toString(16)).slice(-2);
             }).join('');
@@ -33,8 +34,9 @@ define([], function() {
         // Keep at least 16 base36 characters after the `sess` prefix so it always
         // satisfies the server-side session id validator.
         uuid.counter = (uuid.counter || 0) + 1;
-        var perf = window.performance && typeof window.performance.now === 'function' ?
-            Math.floor(window.performance.now() * 1000).toString(36) : '0';
+        var perfApi = typeof window !== 'undefined' && window.performance ? window.performance : null;
+        var perf = perfApi && typeof perfApi.now === 'function' ?
+            Math.floor(perfApi.now() * 1000).toString(36) : '0';
         var identifier = Date.now().toString(36) + perf + uuid.counter.toString(36);
         while (identifier.length < 16) {
             identifier += Date.now().toString(36) + uuid.counter.toString(36);

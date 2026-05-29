@@ -318,7 +318,8 @@ define([], function() {
      *
      * @param {*} provider Candidate provider object.
      * @param {Array<string>=} methods Required method names.
-     * @returns {boolean} True when the provider is usable for the requested methods.
+     * @param {Array<string>=} properties Required property names.
+     * @returns {boolean} True when the provider is usable for the requested methods/properties.
      */
     function isAvailable(provider, methods, properties) {
         if (!provider) {
