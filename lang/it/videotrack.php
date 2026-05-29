@@ -558,3 +558,5 @@ $string['warning:notetruncated'] = 'La nota è stata salvata, ma è stata ridott
 $string['error:securetokenunavailable'] = 'Non è disponibile un generatore sicuro di token casuali. VideoTrack non può creare in sicurezza le chiavi di anonimizzazione.';
 
 $string['hiddeninstancelabel'] = 'Nascosto agli studenti: {$a}';
+
+$string['setting:nonnegativeintmax'] = 'The value must be no greater than {$a}.';

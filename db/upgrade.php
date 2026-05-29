@@ -1124,5 +1124,11 @@ function xmldb_videotrack_upgrade($oldversion) {
         upgrade_mod_savepoint(true, 2026072533, 'videotrack');
     }
 
+
+    if ($oldversion < 2026072534) {
+        // JavaScript AMD rebuild and hardening release; no database schema changes.
+        upgrade_mod_savepoint(true, 2026072534, 'videotrack');
+    }
+
     return true;
 }

@@ -11,6 +11,8 @@
 define([], function() {
     'use strict';
 
+    var MIN_PLAYBACK_RATE = 0.25;
+    var MAX_PLAYBACK_RATE = 4;
 
     /**
      * Provider capability definitions used by the adapter layer.
@@ -91,7 +93,8 @@ define([], function() {
      * @returns {{methods: Array<string>, properties: Array<string>}|null} Capability definition.
      */
     function getCapabilityDefinition(providerType, capability) {
-        var providerCapabilities = CAPABILITIES[String(providerType || '').trim().toLowerCase()];
+        var type = normaliseProviderType(providerType);
+        var providerCapabilities = type ? CAPABILITIES[type] : null;
         if (!providerCapabilities || !Object.prototype.hasOwnProperty.call(providerCapabilities, capability)) {
             return null;
         }
@@ -141,11 +144,7 @@ define([], function() {
         if (fallbackMethods && fallbackMethods.length) {
             return isAvailable(provider, fallbackMethods);
         }
-        var type = normaliseProviderType(providerType);
-        if (!type) {
-            return false;
-        }
-        return isAvailable(provider);
+        return false;
     }
 
     /**
@@ -241,6 +240,9 @@ define([], function() {
      * @returns {number} Safe target time in seconds.
      */
     function resolveSkipTarget(current, delta, duration) {
+        if (duration && typeof duration.then === 'function') {
+            duration = undefined;
+        }
         var target = normaliseTime(current, 0) + Number(delta || 0);
         if (!isFinite(target)) {
             target = normaliseTime(current, 0);
@@ -472,7 +474,7 @@ define([], function() {
         try {
             if (typeof getter === 'function') {
                 var rate = Number(getter());
-                if (isFinite(rate) && rate > 0 && rate <= 4) {
+                if (isFinite(rate) && rate >= MIN_PLAYBACK_RATE && rate <= MAX_PLAYBACK_RATE) {
                     if (state) {
                         state.playbackrate = rate;
                     }
@@ -485,7 +487,7 @@ define([], function() {
             }
         }
         var fallbackRate = Number(fallback);
-        return isFinite(fallbackRate) && fallbackRate > 0 && fallbackRate <= 4 ? fallbackRate : 1;
+        return isFinite(fallbackRate) && fallbackRate >= MIN_PLAYBACK_RATE && fallbackRate <= MAX_PLAYBACK_RATE ? fallbackRate : 1;
     }
 
     /**
@@ -500,7 +502,7 @@ define([], function() {
      */
     function setPlaybackRate(rate, setter, state, log, label) {
         var safeRate = Number(rate);
-        if (!isFinite(safeRate) || safeRate <= 0 || safeRate > 4) {
+        if (!isFinite(safeRate) || safeRate < MIN_PLAYBACK_RATE || safeRate > MAX_PLAYBACK_RATE) {
             safeRate = 1;
         }
         if (typeof setter !== 'function') {
@@ -551,9 +553,10 @@ define([], function() {
      * @param {Object=} log Optional Moodle log module.
      * @param {string=} label Optional log label.
      * @param {*=} endedValue Provider-specific raw value meaning ended, e.g. YouTube 0.
+     * @param {string=} providerType Provider key used when no explicit endedValue is available.
      * @returns {boolean} True when playback has ended.
      */
-    function isEnded(state, getter, log, label, endedValue) {
+    function isEnded(state, getter, log, label, endedValue, providerType) {
         var fallback = state && typeof state.ended === 'boolean' ? state.ended : false;
         try {
             if (typeof getter === 'function') {
@@ -564,7 +567,7 @@ define([], function() {
                 } else if (endedValue !== undefined && value !== null && value !== '') {
                     ended = String(value) === String(endedValue);
                 } else if ((typeof value === 'number' || (typeof value === 'string' && value !== '')) &&
-                        String(label || '').toLowerCase().indexOf('youtube') !== -1) {
+                        normaliseProviderType(providerType || label) === 'youtube') {
                     ended = Number(value) === 0;
                 } else if (typeof value === 'number' || (typeof value === 'string' && value !== '')) {
                     // Numeric provider states are provider-specific. Without an explicit
