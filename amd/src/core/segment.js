@@ -7,6 +7,8 @@
  * @module mod_videotrack/core/segment
  */
 define([], function() {
+    'use strict';
+
     var INTERACTION_MIN_SECONDS = 0.25;
     var SAVE_REASONS = [
         'heartbeat', 'pause', 'seek', 'ended', 'beforeunload', 'pagehide', 'tab',

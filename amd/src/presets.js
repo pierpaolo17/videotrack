@@ -21,6 +21,8 @@
  * @license    https://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 define(['core/log', 'mod_videotrack/core/confirm'], function(Log, Confirm) {
+    'use strict';
+
     return {
         /**
          * Initialise preset delete confirmation forms.

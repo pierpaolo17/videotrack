@@ -8,6 +8,8 @@
  * @module mod_videotrack/core/beacon
  */
 define(['mod_videotrack/core/api'], function(Api) {
+    'use strict';
+
 
     /**
      * Persist the currently open segment using navigator.sendBeacon.

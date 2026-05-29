@@ -779,7 +779,7 @@ class mod_videotrack_mod_form extends moodleform_mod {
         $defaultvalues['reactionpreset_json'] =
             json_encode(videotrack_get_all_presets_for_js());
 
-        // C4: Prepara draft area per posterimage (disponibile per tutte le sorgenti).
+        // Prepare the poster image draft area for all video sources.
         if (!empty($this->_instance)) {
             $cmforposter = get_coursemodule_from_instance('videotrack', $this->_instance, 0, false, IGNORE_MISSING);
             if ($cmforposter) {

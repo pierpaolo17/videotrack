@@ -7,6 +7,8 @@
  * @module mod_videotrack/core/session
  */
 define([], function() {
+    'use strict';
+
 
     /**
      * Create a compact session identifier.

@@ -1109,5 +1109,15 @@ function xmldb_videotrack_upgrade($oldversion) {
         upgrade_mod_savepoint(true, 2026072530, 'videotrack');
     }
 
+    if ($oldversion < 2026072531) {
+        // Release 1.4.21: JS/AMD hardening. No schema changes.
+        upgrade_mod_savepoint(true, 2026072531, 'videotrack');
+    }
+
+    if ($oldversion < 2026072532) {
+        // Release 1.4.22: Moodle HQ style, AMD strict mode and compliance cleanup. No schema changes.
+        upgrade_mod_savepoint(true, 2026072532, 'videotrack');
+    }
+
     return true;
 }

@@ -26,6 +26,8 @@ define([
     'core/str',
     'core/log'
 ], function(ModalSaveCancel, ModalEvents, Str, Log) {
+    'use strict';
+
 
     /**
      * Submit a form without re-triggering submit handlers.

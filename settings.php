@@ -162,8 +162,8 @@ if ($ADMIN->fulltree) {
 
     // Maximum playback rate: students cannot exceed this speed even if a higher
     // rate is in the allowed list. 0 = no limit (default).
-    // I valori sono in CENTESIMI (150 = 1.5×) — stesso formato usato in mod_form.php
-    // e nel codice JS (config.maxplaybackrate / 100). Non usare float string ('1.5').
+    // Values are stored as hundredths (150 = 1.5x), matching mod_form.php
+    // and the JS configuration (config.maxplaybackrate / 100). Do not use float strings ('1.5').
     $settings->add(new admin_setting_configselect(
         'mod_videotrack/maxplaybackrate',
         get_string('setting:maxplaybackrate', 'mod_videotrack'),

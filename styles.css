@@ -113,13 +113,13 @@
     display: inline-flex;
     align-items: center;
     gap: 0.4rem;
-    /* Touch target minimo 44×44px (WCAG 2.5.5 / Apple HIG) */
+    /* Minimum 44x44px touch target (WCAG 2.5.5 / Apple HIG). */
     min-height: 44px;
     min-width: 44px;
     padding: 0.5rem 0.75rem;
 }
 
-/* Feedback visivo: bottone animato al click durante il salvataggio AJAX */
+/* Visual feedback: animate the button click while AJAX save is running. */
 .videotrack-reaction-btn.videotrack-saving {
     opacity: 0.6;
 }
@@ -547,7 +547,7 @@
     cursor: default;
 }
 
-/* ─── Controlli velocità riproduzione (HTML5 player) ────────────────────── */
+/* Playback speed controls (HTML5 player). */
 
 .videotrack-speed-controls {
     display: flex;
@@ -566,7 +566,7 @@
     font-weight: bold;
 }
 
-/* ─── Modalità distraction-free ──────────────────────────────────────────── */
+/* Distraction-free mode. */
 
 .videotrack-distractionfree .videotrack-player-shell {
     max-width: 100%;

@@ -275,7 +275,7 @@ function videotrack_reaction_icon_url(\context_module $context, stdClass $reacti
     if (($reaction->icontype ?? '') !== 'file') {
         return '';
     }
-    // Blocca URL esterni: le icone devono essere file Moodle (pluginfile).
+    // Block external URLs: reaction icons must be Moodle pluginfile files.
     // URL esterni possono introdurre tracking, mixed content o SSRF.
     if (!empty($reaction->iconvalue) && preg_match('~^https?://~', $reaction->iconvalue)) {
         return ''; // Ignora silenziosamente URL esterni.

@@ -4,6 +4,8 @@
  * @module mod_videotrack/core/utils
  */
 define(['core/log'], function(Log) {
+    'use strict';
+
     var MAX_TEXT_RESPONSE_BYTES = 1024 * 1024;
     var FETCH_TEXT_TIMEOUT_MS = 10000;
 

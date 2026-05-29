@@ -4,6 +4,8 @@
  * @module mod_videotrack/core/ui
  */
 define([], function() {
+    'use strict';
+
 
     /**
      * Enables or disables reaction buttons using one accessible state pattern.

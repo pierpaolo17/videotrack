@@ -8,6 +8,8 @@
  * @module mod_videotrack/core/state
  */
 define([], function() {
+    'use strict';
+
 
     /**
      * Create a fresh mutable player state object.
