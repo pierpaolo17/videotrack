@@ -108,7 +108,7 @@ if (!in_array($window, $validwindows, true)) {
 $mode = in_array($mode, ['student', 'cumulative'], true) ? $mode : 'student';
 if (!$canviewfullreport) {
     require_capability('mod/videotrack:viewownreport', $context);
-    if ($mode !== 'student' || $export !== '' || $action !== '' || $resetaction !== '') {
+    if ($mode !== 'student' || ($export !== '' && $export !== 'csv') || $action !== '' || $resetaction !== '') {
         require_capability('mod/videotrack:viewreport', $context);
     }
     // Users with only the own-report capability may see only their own student report.

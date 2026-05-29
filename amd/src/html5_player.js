@@ -498,7 +498,14 @@ define([
             var updateFullscreenPressed = function() {
                 fsBtn.setAttribute('aria-pressed', document.fullscreenElement === fsWrapper ? 'true' : 'false');
             };
+            var cleanupFullscreenHandler = function() {
+                document.removeEventListener('fullscreenchange', updateFullscreenPressed);
+                window.removeEventListener('pagehide', cleanupFullscreenHandler);
+                window.removeEventListener('beforeunload', cleanupFullscreenHandler);
+            };
             document.addEventListener('fullscreenchange', updateFullscreenPressed);
+            window.addEventListener('pagehide', cleanupFullscreenHandler, {once: true});
+            window.addEventListener('beforeunload', cleanupFullscreenHandler, {once: true});
             fsBtn.addEventListener('click', function() {
                 if (!document.fullscreenElement) {
                     if (fsWrapper.requestFullscreen) {

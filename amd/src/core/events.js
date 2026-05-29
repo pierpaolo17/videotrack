@@ -7,7 +7,7 @@
  *
  * @module mod_videotrack/core/events
  */
-define([], function() {
+define(['core/log'], function(Log) {
     'use strict';
 
 
@@ -59,9 +59,7 @@ define([], function() {
                     };
                 }
                 if (handlers[name].length >= maxHandlersPerEvent) {
-                    if (typeof window !== 'undefined' && window.console && window.console.debug) {
-                        window.console.debug('mod_videotrack: event handler limit reached for ' + name);
-                    }
+                    Log.debug('mod_videotrack: event handler limit reached for ' + name);
                     return function() {};
                 }
                 handlers[name].push(handler);
@@ -113,16 +111,12 @@ define([], function() {
                         var result = handler(eventPayload);
                         if (result && typeof result.catch === 'function') {
                             result.catch(function(error) {
-                                if (typeof window !== 'undefined' && window.console && window.console.debug) {
-                                    window.console.debug('mod_videotrack: async event handler failed for ' + name + ' - ' + error);
-                                }
+                                Log.debug('mod_videotrack: async event handler failed for ' + name + ' - ' + error);
                             });
                         }
                         return result;
                     } catch (error) {
-                        if (typeof window !== 'undefined' && window.console && window.console.debug) {
-                            window.console.debug('mod_videotrack: event handler failed for ' + name + ' - ' + error);
-                        }
+                        Log.debug('mod_videotrack: event handler failed for ' + name + ' - ' + error);
                         return null;
                     }
                 });

@@ -1132,11 +1132,16 @@ function xmldb_videotrack_upgrade($oldversion) {
 
 
     if ($oldversion < 2026072535) {
-        // Release 1.4.25: full AMD rebuild with terser mangle+compress (33% size reduction),
-        // setting:nonnegativeintmax translated in all 7 non-EN locales,
-        // adapter.js isAvailable() reordered before can() for readability.
+        // Release 1.4.25: AMD rebuild and translations update.
         // No database schema changes.
         upgrade_mod_savepoint(true, 2026072535, 'videotrack');
+    }
+
+
+    if ($oldversion < 2026072536) {
+        // Release 1.4.26: AMD lifecycle hardening and own-report CSV export fix.
+        // No database schema changes.
+        upgrade_mod_savepoint(true, 2026072536, 'videotrack');
     }
 
     return true;
