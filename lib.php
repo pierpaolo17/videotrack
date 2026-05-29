@@ -306,8 +306,8 @@ function videotrack_save_poster_image(int $instanceid, stdClass $data): void {
     $draftitemid = (int)($data->posterimage ?? 0);
 
     // If draftitemid is 0, the teacher did not interact with the file picker:
-    // non chiamiamo file_save_draft_area_files per evitare la cancellazione
-    // dell'immagine poster esistente (file_save con itemid=0 cancella la filearea).
+    // Do not call file_save_draft_area_files here: when itemid is 0, Moodle would
+    // clear the poster image file area even though the teacher did not edit it.
     // Moodle file picker always sends an itemid > 0 once it has been touched,
     // even if the user removed the file (the draft area exists but is empty).
     if ($draftitemid <= 0) {
@@ -319,6 +319,45 @@ function videotrack_save_poster_image(int $instanceid, stdClass $data): void {
         'maxfiles'       => 1,
         'accepted_types' => ['.jpg', '.jpeg', '.png', '.webp', '.gif'],
     ]);
+}
+
+
+/**
+ * Validates the Font Awesome class list used for reaction icons.
+ *
+ * The Moodle form and the save pipeline both use the same rules so client-side
+ * rendering never has to accept broader values than the server stores.
+ *
+ * @param string $value Candidate class list.
+ * @return bool True when the class list is a safe Font Awesome subset.
+ */
+function videotrack_is_valid_reaction_icon_class(string $value): bool {
+    $value = trim($value);
+    if ($value === '' || core_text::strlen($value) > 160) {
+        return false;
+    }
+    if (!preg_match('/^[a-z0-9 -]+$/i', $value)) {
+        return false;
+    }
+    $parts = preg_split('/\s+/', $value, -1, PREG_SPLIT_NO_EMPTY);
+    if (!$parts || count($parts) > 4) {
+        return false;
+    }
+    $styleclasses = ['fa' => true, 'fas' => true, 'far' => true, 'fab' => true,
+        'fa-solid' => true, 'fa-regular' => true, 'fa-brands' => true];
+    $utilitypattern = '/^fa-(?:fw|lg|xs|sm|[1-9]x|2xs|xl|2xl|spin|pulse|rotate-(?:90|180|270)|flip-(?:horizontal|vertical|both))$/';
+    $iconnames = 0;
+    foreach ($parts as $part) {
+        if (isset($styleclasses[$part]) || preg_match($utilitypattern, $part)) {
+            continue;
+        }
+        if (preg_match('/^fa-[a-z0-9][a-z0-9-]{1,46}$/', $part)) {
+            $iconnames++;
+            continue;
+        }
+        return false;
+    }
+    return $iconnames === 1;
 }
 
 function videotrack_save_reaction_definitions(int $videotrackid, stdClass $data): void {
@@ -376,7 +415,7 @@ function videotrack_save_reaction_definitions(int $videotrackid, stdClass $data)
             'iconvalue' => trim((string)($iconvalues[$idx] ?? '')),
             'requiredforcompletion' => empty($requireds[$idx]) ? 0 : 1,
             'sortorder' => $sort,
-            'isdeleted' => 0,  // Esplicito: resetta soft-delete se la reazione viene riattivata.
+            'isdeleted' => 0,  // Explicitly reset soft-delete when a reaction is reactivated.
             'timemodified' => $now,
         ];
         if ($icontype === 'file') {
@@ -385,7 +424,7 @@ function videotrack_save_reaction_definitions(int $videotrackid, stdClass $data)
             $record->iconvalue = clean_param($record->iconvalue, PARAM_TEXT);
         } else if ($icontype === 'fa') {
             $record->iconvalue = clean_param($record->iconvalue, PARAM_NOTAGS);
-            if (!preg_match('/^[a-z0-9 \-]+$/i', $record->iconvalue)) {
+            if (!videotrack_is_valid_reaction_icon_class($record->iconvalue)) {
                 $record->iconvalue = 'fa-regular fa-circle';
             }
         }

@@ -886,7 +886,7 @@ class mod_videotrack_mod_form extends moodleform_mod {
                 $iconvalue = trim((string)($data['reactioniconvalue'][$i] ?? ''));
                 if ($iconvalue === '') {
                     $errors['reactioniconvalue[' . $i . ']'] = get_string('err:reactioniconvaluerequired', 'mod_videotrack');
-                } else if ($type === 'fa' && !preg_match('/^[a-z0-9 \-]+$/i', $iconvalue)) {
+                } else if ($type === 'fa' && !videotrack_is_valid_reaction_icon_class($iconvalue)) {
                     $errors['reactioniconvalue[' . $i . ']'] = get_string('err:reactioniconvalueinvalidfa', 'mod_videotrack');
                 }
             }

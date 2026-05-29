@@ -129,6 +129,23 @@ define([
         return '';
     }
 
+
+    /**
+     * Extract an HTTP-like status code from AJAX/fetch failures when present.
+     *
+     * @param {*} error Raw or normalised Moodle AJAX error.
+     * @returns {number} HTTP status code, or 0 when unavailable.
+     */
+    function getErrorStatus(error) {
+        var status = 0;
+        if (error && typeof error.status !== 'undefined') {
+            status = Number(error.status);
+        } else if (error && error.originalError && typeof error.originalError.status !== 'undefined') {
+            status = Number(error.originalError.status);
+        }
+        return isFinite(status) ? status : 0;
+    }
+
     /**
      * Classify an AJAX failure without exposing raw server details to callers.
      *
@@ -139,17 +156,20 @@ define([
         var code = getErrorCode(error);
         var message = getErrorMessage(error);
 
+        var status = getErrorStatus(error);
+
         if (code === 'ajax-cancelled' || message === 'ajax-cancelled') {
             return ERROR_CATEGORY_CANCELLED;
         }
 
-        if (code === 'invalidsesskey' || code === 'requireloginerror' || code === 'nopermissions' ||
-                code === 'accessdenied' || message.indexOf('permission') !== -1 ||
-                message.indexOf('login') !== -1) {
+        if (status === 401 || status === 403 || code === 'invalidsesskey' || code === 'requireloginerror' ||
+                code === 'nopermissions' || code === 'accessdenied' ||
+                message.indexOf('permission') !== -1 || message.indexOf('login') !== -1) {
             return ERROR_CATEGORY_AUTH;
         }
 
-        if (code === 'invalidparameter' || code === 'invalid-method' || message === 'invalid-method' ||
+        if ((status >= 400 && status < 500 && status !== 408 && status !== 429) ||
+                code === 'invalidparameter' || code === 'invalid-method' || message === 'invalid-method' ||
                 message.indexOf('invalid parameter') !== -1) {
             return ERROR_CATEGORY_VALIDATION;
         }
@@ -160,7 +180,8 @@ define([
 
         // Transient classification deliberately runs after auth/validation/client
         // checks so offline state never makes logical Moodle errors retryable.
-        if (isBrowserOffline() || message === 'ajax-timeout' || code === 'servicenotavailable' ||
+        if (isBrowserOffline() || status === 408 || status === 429 || status >= 500 ||
+                message === 'ajax-timeout' || code === 'servicenotavailable' ||
                 code === 'networkerror' || code === 'connectionlost' ||
                 message.indexOf('timeout') !== -1 || message.indexOf('network') !== -1 ||
                 message.indexOf('offline') !== -1 || message.indexOf('connection') !== -1) {
@@ -458,8 +479,8 @@ define([
         call: call,
         createRequestScope: createRequestScope,
         getNetworkState: getNetworkState,
-        isBrowserOffline: isBrowserOffline,
         classifyAjaxError: classifyAjaxError,
+        isBrowserOffline: isBrowserOffline,
         isTransientAjaxError: isTransientAjaxError,
         buildSegmentArgs: buildSegmentArgs,
         saveSegment: saveSegment

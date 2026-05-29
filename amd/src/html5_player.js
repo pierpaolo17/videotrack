@@ -1028,6 +1028,7 @@ define([
     function syncTranscript(cues) {
         if (!hasMedia()) { return; }
         var lastActive = -1;
+        var lastActiveElement = null;
         var lastScrollAt = 0;
         media.addEventListener('timeupdate', function() {
             var t = media.currentTime;
@@ -1039,26 +1040,39 @@ define([
             lastActive = active;
             var panel = document.getElementById('videotrack-transcript-content');
             if (!panel) { return; }
-            panel.querySelectorAll('.videotrack-transcript-cue').forEach(function(el) {
-                var isActive = parseInt(el.dataset.idx, 10) === active;
-                el.classList.toggle('videotrack-transcript-active', isActive);
-                el.querySelector('.videotrack-transcript-btn').setAttribute('aria-current',
-                    isActive ? 'true' : 'false');
-                // Auto-scroll only when the cue is outside the panel viewport.
-                if (isActive) {
-                    var panelRect = panel.getBoundingClientRect();
-                    var elRect    = el.getBoundingClientRect();
-                    var now = Date.now();
-                    if ((elRect.top < panelRect.top || elRect.bottom > panelRect.bottom) && now - lastScrollAt > 1000) {
-                        var scrollOptions = { block: 'nearest' };
-                        if (!prefersReducedMotion()) {
-                            scrollOptions.behavior = 'smooth';
-                        }
-                        lastScrollAt = now;
-                        el.scrollIntoView(scrollOptions);
-                    }
+            if (lastActiveElement) {
+                lastActiveElement.classList.remove('videotrack-transcript-active');
+                var previousButton = lastActiveElement.querySelector('.videotrack-transcript-btn');
+                if (previousButton) {
+                    previousButton.setAttribute('aria-current', 'false');
                 }
-            });
+                lastActiveElement = null;
+            }
+            if (active < 0) {
+                return;
+            }
+            var el = panel.querySelector('.videotrack-transcript-cue[data-idx="' + active + '"]');
+            if (!el) {
+                return;
+            }
+            lastActiveElement = el;
+            el.classList.add('videotrack-transcript-active');
+            var currentButton = el.querySelector('.videotrack-transcript-btn');
+            if (currentButton) {
+                currentButton.setAttribute('aria-current', 'true');
+            }
+            // Auto-scroll only when the cue is outside the panel viewport.
+            var panelRect = panel.getBoundingClientRect();
+            var elRect = el.getBoundingClientRect();
+            var now = Date.now();
+            if ((elRect.top < panelRect.top || elRect.bottom > panelRect.bottom) && now - lastScrollAt > 1000) {
+                var scrollOptions = {block: 'nearest'};
+                if (!prefersReducedMotion()) {
+                    scrollOptions.behavior = 'smooth';
+                }
+                lastScrollAt = now;
+                el.scrollIntoView(scrollOptions);
+            }
         });
     }
 
