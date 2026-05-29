@@ -557,4 +557,4 @@ $string['error:securetokenunavailable'] = 'Es ist kein sicherer Zufalls-Token-Ge
 
 $string['hiddeninstancelabel'] = 'Für Teilnehmer/innen verborgen: {$a}';
 
-$string['setting:nonnegativeintmax'] = 'The value must be no greater than {$a}.';
+$string['setting:nonnegativeintmax'] = 'Der Wert darf {$a} nicht überschreiten.';

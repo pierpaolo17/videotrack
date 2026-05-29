@@ -557,4 +557,4 @@ $string['error:securetokenunavailable'] = 'एक सुरक्षित र�
 
 $string['hiddeninstancelabel'] = 'विद्यार्थियों से छिपा हुआ: {$a}';
 
-$string['setting:nonnegativeintmax'] = 'The value must be no greater than {$a}.';
+$string['setting:nonnegativeintmax'] = 'मान {$a} से अधिक नहीं होना चाहिए।';

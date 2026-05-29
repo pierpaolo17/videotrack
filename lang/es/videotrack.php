@@ -557,4 +557,4 @@ $string['error:securetokenunavailable'] = 'No hay disponible un generador seguro
 
 $string['hiddeninstancelabel'] = 'Oculto para estudiantes: {$a}';
 
-$string['setting:nonnegativeintmax'] = 'The value must be no greater than {$a}.';
+$string['setting:nonnegativeintmax'] = 'El valor no puede ser superior a {$a}.';
