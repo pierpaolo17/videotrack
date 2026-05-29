@@ -557,4 +557,4 @@ $string['error:securetokenunavailable'] = 'Aucun générateur sécurisé de jeto
 
 $string['hiddeninstancelabel'] = 'Masqué aux étudiants : {$a}';
 
-$string['setting:nonnegativeintmax'] = 'The value must be no greater than {$a}.';
+$string['setting:nonnegativeintmax'] = 'La valeur ne peut pas dépasser {$a}.';

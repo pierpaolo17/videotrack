@@ -559,4 +559,4 @@ $string['error:securetokenunavailable'] = 'Bezpieczny generator losowych tokenó
 
 $string['hiddeninstancelabel'] = 'Ukryte przed studentami: {$a}';
 
-$string['setting:nonnegativeintmax'] = 'The value must be no greater than {$a}.';
+$string['setting:nonnegativeintmax'] = 'Wartość nie może być większa niż {$a}.';

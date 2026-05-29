@@ -119,6 +119,35 @@ define([], function() {
      * @param {string} capability Capability key.
      * @returns {boolean} True when the provider is available for that capability.
      */
+    /**
+     * Check that a provider object is present and exposes the required methods.
+     *
+     * Keeping this small guard in the adapter layer avoids subtle differences
+     * between YouTube, HTML5 and Vimeo availability checks. A provider may be
+     * truthy while its SDK has not exposed the method needed by a tracker path
+     * yet; in that case callers should skip the operation safely.
+     *
+     * @param {*} provider Candidate provider object.
+     * @param {Array<string>=} methods Required method names.
+     * @param {Array<string>=} properties Required property names.
+     * @returns {boolean} True when the provider is usable for the requested methods/properties.
+     */
+    function isAvailable(provider, methods, properties) {
+        if (!provider) {
+            return false;
+        }
+        var requiredMethods = methods || [];
+        var requiredProperties = properties || [];
+        if (!requiredMethods.length && !requiredProperties.length) {
+            return true;
+        }
+        return requiredMethods.every(function(method) {
+            return typeof provider[method] === 'function';
+        }) && requiredProperties.every(function(property) {
+            return property in Object(provider);
+        });
+    }
+
     function can(provider, providerType, capability) {
         var type = normaliseProviderType(providerType);
         var definition = type ? getCapabilityDefinition(type, capability) : null;
@@ -312,34 +341,6 @@ define([], function() {
 
 
 
-    /**
-     * Check that a provider object is present and exposes the required methods.
-     *
-     * Keeping this small guard in the adapter layer avoids subtle differences
-     * between YouTube, HTML5 and Vimeo availability checks. A provider may be
-     * truthy while its SDK has not exposed the method needed by a tracker path
-     * yet; in that case callers should skip the operation safely.
-     *
-     * @param {*} provider Candidate provider object.
-     * @param {Array<string>=} methods Required method names.
-     * @param {Array<string>=} properties Required property names.
-     * @returns {boolean} True when the provider is usable for the requested methods/properties.
-     */
-    function isAvailable(provider, methods, properties) {
-        if (!provider) {
-            return false;
-        }
-        var requiredMethods = methods || [];
-        var requiredProperties = properties || [];
-        if (!requiredMethods.length && !requiredProperties.length) {
-            return true;
-        }
-        return requiredMethods.every(function(method) {
-            return typeof provider[method] === 'function';
-        }) && requiredProperties.every(function(property) {
-            return property in Object(provider);
-        });
-    }
 
     /**
      * Convert a candidate volume to a safe range between 0 and 1.
