@@ -706,7 +706,9 @@
     display: inline-flex;
     align-items: center;
     gap: .3rem;
-    padding: .2rem .55rem;
+    min-height: 44px;
+    min-width: 44px;
+    padding: .35rem .65rem;
     background: var(--videotrack-control-surface-bg);
     border: 1px solid var(--videotrack-control-surface-border);
     border-radius: .25rem;

@@ -21,6 +21,17 @@ function assertJsonEqual(actual, expected) {
     assert.strictEqual(JSON.stringify(actual), JSON.stringify(expected));
 }
 
+function getCoreStub(moduleName) {
+    if (moduleName === 'core/log') {
+        return {
+            debug() {},
+            warn() {},
+            error() {}
+        };
+    }
+    return null;
+}
+
 function modulePath(moduleName) {
     if (!moduleName.startsWith('mod_videotrack/')) {
         throw new Error(`Unsupported dependency ${moduleName}`);
@@ -31,6 +42,12 @@ function modulePath(moduleName) {
 function loadAmd(moduleName) {
     if (registry.has(moduleName)) {
         return registry.get(moduleName);
+    }
+
+    const coreStub = getCoreStub(moduleName);
+    if (coreStub !== null) {
+        registry.set(moduleName, coreStub);
+        return coreStub;
     }
 
     const filename = modulePath(moduleName);

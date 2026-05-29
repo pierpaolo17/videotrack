@@ -10,6 +10,8 @@
 define(['mod_videotrack/core/api'], function(Api) {
     'use strict';
 
+    var MAX_BEACON_PAYLOAD_BYTES = 60 * 1024;
+
 
     /**
      * Persist the currently open segment using navigator.sendBeacon.
@@ -44,7 +46,20 @@ define(['mod_videotrack/core/api'], function(Api) {
                 methodname: 'mod_videotrack_save_segment',
                 args: args
             }];
-            var blob = new Blob([JSON.stringify(payload)], {type: 'application/json'});
+            var payloadText = JSON.stringify(payload);
+            if (payloadText.length > MAX_BEACON_PAYLOAD_BYTES) {
+                if (Log && typeof Log.debug === 'function') {
+                    Log.debug('mod_videotrack: sendBeacon skipped because the payload is too large');
+                }
+                return false;
+            }
+            var blob = new Blob([payloadText], {type: 'application/json'});
+            if (blob.size > MAX_BEACON_PAYLOAD_BYTES) {
+                if (Log && typeof Log.debug === 'function') {
+                    Log.debug('mod_videotrack: sendBeacon skipped because the encoded payload is too large');
+                }
+                return false;
+            }
             var accepted = window.navigator.sendBeacon(config.beaconurl, blob);
             if (!accepted && Log && typeof Log.debug === 'function') {
                 Log.debug('mod_videotrack: sendBeacon was not accepted by the browser');

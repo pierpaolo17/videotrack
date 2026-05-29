@@ -784,16 +784,19 @@ define([
         // A1 fix: keydown handler for Enter/Space on aria-disabled reaction buttons.
         // Browsers do not consistently fire 'click' for Enter/Space on buttons with
         // aria-disabled=true, so screen reader users got no feedback.
-        root.addEventListener('keydown', function(e) {
+        if (state._reactionRootCleanup) {
+            state._reactionRootCleanup();
+        }
+        var reactionKeydownHandler = function(e) {
             if (e.key !== 'Enter' && e.key !== ' ') { return; }
             var reactionbtn = e.target.closest('.videotrack-reaction-btn');
             if (reactionbtn && reactionbtn.getAttribute('aria-disabled') === 'true') {
                 e.preventDefault();
                 announceReactionUnavailable();
             }
-        });
+        };
 
-        root.addEventListener('click', function(e) {
+        var reactionClickHandler = function(e) {
             var reactionbtn = e.target.closest('.videotrack-reaction-btn');
             if (reactionbtn && reactionbtn.getAttribute('aria-disabled') === 'true') {
                 e.preventDefault();
@@ -868,7 +871,21 @@ define([
                     }
                 }).catch(Log.debug);
             }
-        });
+        };
+        root.addEventListener('keydown', reactionKeydownHandler);
+        root.addEventListener('click', reactionClickHandler);
+        var cleanupReactionRootHandlers = function() {
+            root.removeEventListener('keydown', reactionKeydownHandler);
+            root.removeEventListener('click', reactionClickHandler);
+            window.removeEventListener('pagehide', cleanupReactionRootHandlers);
+            window.removeEventListener('beforeunload', cleanupReactionRootHandlers);
+            if (state._reactionRootCleanup === cleanupReactionRootHandlers) {
+                state._reactionRootCleanup = null;
+            }
+        };
+        state._reactionRootCleanup = cleanupReactionRootHandlers;
+        window.addEventListener('pagehide', cleanupReactionRootHandlers, {once: true});
+        window.addEventListener('beforeunload', cleanupReactionRootHandlers, {once: true});
     }
 
 
@@ -1003,9 +1020,11 @@ define([
         panel.innerHTML = '';
         var list = document.createElement('ol');
         list.className = 'videotrack-transcript-list list-unstyled mb-0';
+        list.setAttribute('role', 'list');
         cues.forEach(function(cue, idx) {
             var item = document.createElement('li');
             item.className = 'videotrack-transcript-cue';
+            item.setAttribute('role', 'listitem');
             item.dataset.idx = idx;
             var btn = document.createElement('button');
             btn.type = 'button';

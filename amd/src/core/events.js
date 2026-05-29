@@ -16,9 +16,13 @@ define(['core/log'], function(Log) {
      *
      * @returns {Object} Event bus API.
      */
-    function create() {
+    function create(options) {
+        options = options || {};
         var handlers = Object.create(null);
-        var maxHandlersPerEvent = 100;
+        var maxHandlersPerEvent = Number(options.maxHandlersPerEvent);
+        if (!isFinite(maxHandlersPerEvent) || maxHandlersPerEvent <= 0) {
+            maxHandlersPerEvent = 100;
+        }
 
         /**
          * Normalise internal event names before using them as object keys.
@@ -111,12 +115,14 @@ define(['core/log'], function(Log) {
                         var result = handler(eventPayload);
                         if (result && typeof result.catch === 'function') {
                             result.catch(function(error) {
-                                Log.debug('mod_videotrack: async event handler failed for ' + name + ' - ' + error);
+                                Log.debug('mod_videotrack: async event handler failed for ' + name + ' - ' +
+                                    (error && error.stack ? error.stack : error));
                             });
                         }
                         return result;
                     } catch (error) {
-                        Log.debug('mod_videotrack: event handler failed for ' + name + ' - ' + error);
+                        Log.debug('mod_videotrack: event handler failed for ' + name + ' - ' +
+                            (error && error.stack ? error.stack : error));
                         return null;
                     }
                 });

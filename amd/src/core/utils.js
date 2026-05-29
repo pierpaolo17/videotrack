@@ -66,11 +66,41 @@ define(['core/log'], function(Log) {
      * @param {string} text Raw WebVTT text.
      * @return {string} Validated text.
      */
+
+    /**
+     * Decode a conservative subset of HTML entities for validation only.
+     *
+     * The parser still writes cue text with textContent. This helper makes sure
+     * encoded active payloads such as &lt;script&gt; or javascript&#58; are rejected
+     * before transcript/chapter parsing continues.
+     *
+     * @param {string} value Raw text.
+     * @returns {string} Text with common/numeric entities decoded.
+     */
+    function decodeHtmlEntitiesForValidation(value) {
+        return String(value || '').replace(/&(#x[0-9a-f]+|#\d+|lt|gt|amp|quot|apos);/gi, function(match, entity) {
+            var lower = entity.toLowerCase();
+            if (lower === 'lt') { return '<'; }
+            if (lower === 'gt') { return '>'; }
+            if (lower === 'amp') { return '&'; }
+            if (lower === 'quot') { return '"'; }
+            if (lower === 'apos') { return "'"; }
+            if (lower.indexOf('#x') === 0) {
+                return String.fromCharCode(parseInt(lower.substring(2), 16));
+            }
+            if (lower.charAt(0) === '#') {
+                return String.fromCharCode(parseInt(lower.substring(1), 10));
+            }
+            return match;
+        });
+    }
+
     function validateWebVttText(text) {
         var normalised = String(text || '').replace(/^\uFEFF/, '');
         var trimmedStart = normalised.replace(/^\s+/, '');
         var sample = trimmedStart.substring(0, 64).toUpperCase();
         var lower = normalised.toLowerCase();
+        var decodedLower = decodeHtmlEntitiesForValidation(normalised).toLowerCase();
         if (sample.indexOf('WEBVTT') !== 0 || !/^WEBVTT(?:[ \t].*)?(?:\n|$)/i.test(trimmedStart)) {
             throw 'unexpected-text-content';
         }
@@ -98,10 +128,12 @@ define(['core/log'], function(Log) {
         if (cueCount > 5000) {
             throw 'unexpected-text-content';
         }
-        if (/<\s*script\b|<\s*iframe\b|<\s*object\b|<\s*embed\b|<\s*link\b|<\s*meta\b|<\s*style\b|<\s*svg\b|<\s*math\b/.test(lower)) {
+        if (/<\s*script\b|<\s*iframe\b|<\s*object\b|<\s*embed\b|<\s*link\b|<\s*meta\b|<\s*style\b|<\s*svg\b|<\s*math\b/.test(lower) ||
+                /<\s*script\b|<\s*iframe\b|<\s*object\b|<\s*embed\b|<\s*link\b|<\s*meta\b|<\s*style\b|<\s*svg\b|<\s*math\b/.test(decodedLower)) {
             throw 'unexpected-text-content';
         }
-        if (/\b(?:javascript|data)\s*:/i.test(normalised) || /\son[a-z]+\s*=/i.test(normalised)) {
+        if (/\b(?:javascript|data)\s*:/i.test(normalised) || /\son[a-z]+\s*=/i.test(normalised) ||
+                /\b(?:javascript|data)\s*:/i.test(decodedLower) || /\son[a-z]+\s*=/i.test(decodedLower)) {
             throw 'unexpected-text-content';
         }
         return normalised;

@@ -204,6 +204,13 @@ define([], function() {
                 return;
             }
             lastCharThreshold = threshold;
+            if (threshold === 0) {
+                live.setAttribute('role', 'alert');
+                live.setAttribute('aria-live', 'assertive');
+            } else {
+                live.setAttribute('role', 'status');
+                live.setAttribute('aria-live', 'polite');
+            }
             live.textContent = remaining + ' ' + config.charsremaininglabel;
         }
 
