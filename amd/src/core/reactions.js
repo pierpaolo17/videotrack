@@ -20,6 +20,7 @@ define([], function() {
         return {
             timer: null,
             cssTimer: null,
+            announcementTimer: null,
             readyAnnounced: false,
             lastAnnouncement: null,
             lastUnavailableAt: 0,
@@ -57,7 +58,7 @@ define([], function() {
         return status;
     }
 
-    function announceStatus(status, message) {
+    function announceStatus(status, message, reactionState) {
         status = status || getStatusRegion();
         if (!status) {
             return;
@@ -66,10 +67,20 @@ define([], function() {
         if (!text) {
             return;
         }
+        if (reactionState && reactionState.announcementTimer) {
+            window.clearTimeout(reactionState.announcementTimer);
+            reactionState.announcementTimer = null;
+        }
         status.textContent = '';
-        window.setTimeout(function() {
+        var timer = window.setTimeout(function() {
             status.textContent = text;
+            if (reactionState && reactionState.announcementTimer === timer) {
+                reactionState.announcementTimer = null;
+            }
         }, 30);
+        if (reactionState) {
+            reactionState.announcementTimer = timer;
+        }
     }
 
     /**
@@ -98,7 +109,7 @@ define([], function() {
             }
             reactionState.lastAnnouncement = true;
             reactionState.readyAnnounced = true;
-            announceStatus(status, config.reactionsreadylabel);
+            announceStatus(status, config.reactionsreadylabel, reactionState);
             hint.classList.toggle('videotrack-reactions-hint-active', false);
             return;
         }
@@ -115,7 +126,7 @@ define([], function() {
             reactionState.timer = null;
             reactionState.lastAnnouncement = false;
             reactionState.lastUnavailableAt = Date.now();
-            announceStatus(status, config.reactionunavailablelabel);
+            announceStatus(status, config.reactionunavailablelabel, reactionState);
             hint.classList.toggle('videotrack-reactions-hint-active', true);
         }, 400);
     }
@@ -143,7 +154,7 @@ define([], function() {
         }
         reactionState.lastAnnouncement = false;
         reactionState.lastUnavailableAt = now;
-        announceStatus(status, config.reactionunavailablelabel);
+        announceStatus(status, config.reactionunavailablelabel, reactionState);
         hint.classList.add('videotrack-reactions-hint-active');
         if (reactionState.cssTimer) {
             window.clearTimeout(reactionState.cssTimer);

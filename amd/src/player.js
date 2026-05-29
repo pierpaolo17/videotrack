@@ -18,6 +18,8 @@ define([
     var player = null;
     var config = null;
     var reactionState = Reactions.createState();
+    var DEFAULT_REACTION_UNAVAILABLE_ANNOUNCE_INTERVAL = 30000;
+    var DEFAULT_REACTION_READY_DEBOUNCE_MS = 400;
     // HEARTBEAT_INTERVAL is initialised in init() from the value configured
     // by the administrator in Site administration > Plugins > Activity modules > Video track.
     var HEARTBEAT_INTERVAL = 30; // Fallback value, overridden by config.heartbeatinterval

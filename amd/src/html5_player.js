@@ -28,6 +28,8 @@ define([
     var media  = null; // The <video> or <audio> DOM element.
     var config = null;
     var reactionState = Reactions.createState();
+    var DEFAULT_REACTION_UNAVAILABLE_ANNOUNCE_INTERVAL = 30000;
+    var DEFAULT_REACTION_READY_DEBOUNCE_MS = 400;
     var HEARTBEAT_INTERVAL = 30;
 
     var state = State.create({
@@ -485,8 +487,16 @@ define([
                     media.requestPictureInPicture().then(updatePipPressed).catch(function() { updatePipPressed(); });
                 }
             });
+            var cleanupPipHandler = function() {
+                media.removeEventListener('enterpictureinpicture', updatePipPressed);
+                media.removeEventListener('leavepictureinpicture', updatePipPressed);
+                window.removeEventListener('pagehide', cleanupPipHandler);
+                window.removeEventListener('beforeunload', cleanupPipHandler);
+            };
             media.addEventListener('enterpictureinpicture', updatePipPressed);
             media.addEventListener('leavepictureinpicture', updatePipPressed);
+            window.addEventListener('pagehide', cleanupPipHandler, {once: true});
+            window.addEventListener('beforeunload', cleanupPipHandler, {once: true});
             bar.appendChild(pipBtn);
         }
 
