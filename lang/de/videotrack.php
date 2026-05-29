@@ -554,3 +554,5 @@ $string['setting:retentionunlimitedwarning_desc'] = 'Der Wert 0 speichert Tracki
 $string['warning:notetruncated'] = 'Die Notiz wurde gespeichert, aber auf die von der Website erlaubte Höchstlänge gekürzt.';
 
 $string['error:securetokenunavailable'] = 'Es ist kein sicherer Zufalls-Token-Generator verfügbar. VideoTrack kann Anonymisierungsschlüssel nicht sicher erstellen.';
+
+$string['hiddeninstancelabel'] = 'Für Teilnehmer/innen verborgen: {$a}';

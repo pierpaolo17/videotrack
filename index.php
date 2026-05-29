@@ -24,6 +24,8 @@
 
 require_once(__DIR__ . '/../../config.php');
 
+global $DB, $OUTPUT, $PAGE;
+
 $id = required_param('id', PARAM_INT);
 $course = $DB->get_record('course', ['id' => $id], '*', MUST_EXIST);
 require_login($course);
@@ -69,7 +71,7 @@ foreach ($instances as $instance) {
     $linkattributes = [];
     if (!$instance->visible) {
         $linkattributes['class'] = 'dimmed';
-        $linkattributes['aria-label'] = get_string('hiddenfromstudents') . ': ' . format_string($instance->name);
+        $linkattributes['aria-label'] = get_string('hiddeninstancelabel', 'mod_videotrack', format_string($instance->name));
     }
     $link = html_writer::link(
         new moodle_url('/mod/videotrack/view.php', ['id' => $instance->coursemodule]),

@@ -1098,5 +1098,11 @@ function xmldb_videotrack_upgrade($oldversion) {
         upgrade_mod_savepoint(true, 2026072528, 'videotrack');
     }
 
+
+    if ($oldversion < 2026072529) {
+        // Release 1.4.19: student reset permission and accessibility/compliance cleanup. No schema changes.
+        upgrade_mod_savepoint(true, 2026072529, 'videotrack');
+    }
+
     return true;
 }

@@ -554,3 +554,5 @@ $string['setting:retentionunlimitedwarning_desc'] = 'El valor 0 conserva datos d
 $string['warning:notetruncated'] = 'La nota se guardó, pero se acortó a la longitud máxima permitida por el sitio.';
 
 $string['error:securetokenunavailable'] = 'No hay disponible un generador seguro de tokens aleatorios. VideoTrack no puede crear claves de anonimización de forma segura.';
+
+$string['hiddeninstancelabel'] = 'Oculto para estudiantes: {$a}';
