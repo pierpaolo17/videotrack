@@ -482,7 +482,7 @@ function videotrack_save_reaction_definitions(int $videotrackid, stdClass $data)
                         'maxfiles'       => 1,
                         'accepted_types' => ['.jpg', '.jpeg', '.png', '.gif', '.webp'],
                     ]);
-                // Ridimensiona a 64×64px (crop centrato) dopo il salvataggio.
+                // Resize to 64x64px with a centred crop after saving.
                 videotrack_resize_reaction_icon($op['context'], $op['reactionid'], $fs);
             }
         }
@@ -1127,7 +1127,7 @@ function videotrack_reset_course_form_defaults($course) {
 }
 
 /**
- * Ridimensiona l'icona di reazione a 64×64px con crop centrato.
+ * Resize the reaction icon to 64x64px using a centred crop.
  *
  * Legge il file dall'area di storage Moodle, lo ridimensiona con GD,
  * and overwrites the original file with the resized PNG version.

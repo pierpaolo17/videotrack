@@ -162,14 +162,14 @@ class restore_videotrack_activity_structure_step extends restore_activity_struct
             $DB->set_field('videotrack_reactev','cmid', $cmid, ['videotrackid' => $videotrackid]);
         }
 
-        // Ricrea il grade item nel gradebook del corso di destinazione.
-        // Senza questa chiamata il voto non appare nel registro valutatore dopo un restore.
+        // Recreate the grade item in the destination course gradebook.
+        // Without this call, the grade does not appear in the grader report after restore.
         if (!empty($videotrackid)) {
             $videotrack = $DB->get_record('videotrack', ['id' => $videotrackid]);
             if ($videotrack && !empty($videotrack->grade)) {
                 require_once($CFG->dirroot . '/mod/videotrack/lib.php');
                 require_once($CFG->libdir . '/gradelib.php');
-                // cmidnumber è necessario per grade_update; lo recuperiamo dal cm.
+                // cmidnumber is required by grade_update; retrieve it from the course module.
                 $cm = get_coursemodule_from_instance('videotrack', $videotrackid,
                     $videotrack->course, false, IGNORE_MISSING);
                 $videotrack->cmidnumber = $cm ? $cm->idnumber : '';

@@ -8,6 +8,8 @@
  * @module mod_videotrack/core/events
  */
 define([], function() {
+    'use strict';
+
 
     /**
      * Create a new event bus instance.

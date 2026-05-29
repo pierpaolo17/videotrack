@@ -12,6 +12,8 @@ define([
     'mod_videotrack/core/segment',
     'mod_videotrack/core/events'
 ], function(Segment, Events) {
+    'use strict';
+
 
 
 

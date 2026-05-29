@@ -13,6 +13,8 @@ define([
     'mod_videotrack/core/tracker',
     'mod_videotrack/core/player'
 ], function(Log, Ajax, Api, Adapter, Utils, Ui, Progress, State, Reactions, Tracker, PlayerCore) {
+    'use strict';
+
     var player = null;
     var config = null;
     var reactionState = Reactions.createState();
@@ -297,7 +299,7 @@ define([
             if (reactionbtn) {
                 e.preventDefault();
                 var currentTime = getCurrentVideoTime();
-                // Feedback visivo immediato: disabilita il bottone durante il salvataggio AJAX.
+                // Immediate visual feedback: disable the button while the AJAX save is running.
                 reactionbtn.classList.add('videotrack-saving');
                 saveCurrentProgress('reaction').then(function() {
                     return ajax('mod_videotrack_save_reaction', {

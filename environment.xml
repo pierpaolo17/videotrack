@@ -1,22 +1,23 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!--
-    environment.xml — Requisiti di ambiente per mod_videotrack.
+    environment.xml - Environment requirements for mod_videotrack.
 
-    Moodle legge questo file durante installazione/upgrade del plugin e mostra i risultati
-    in Amministrazione del sito → Server → Ambiente.
+    Moodle reads this file during plugin installation/upgrade and displays the
+    results under Site administration > Server > Environment.
 
-    GD è classificata "optional" (non bloccante): il plugin funziona anche senza GD,
-    ma le icone delle reazioni caricate dal docente non vengono ridimensionate a 64×64px.
-    Con GD il ridimensionamento avviene server-side con crop centrato e alpha-channel preservato.
+    GD is classified as optional: the plugin works without GD, but reaction icon
+    images uploaded by teachers are not automatically resized to 64x64 pixels.
+    With GD enabled, resizing is performed server-side using a centred crop while
+    preserving the alpha channel.
 
-    Riferimento: https://docs.moodle.org/dev/Environment_checking
+    Reference: https://docs.moodle.org/dev/Environment_checking
 -->
 <COMPATIBILITY_MATRIX>
 
   <PLUGIN name="mod_videotrack">
 
-    <!-- GD: necessaria per ridimensionare le icone delle reazioni a 64×64px. -->
-    <!-- level="optional" → avviso giallo ma NON blocca l'installazione.       -->
+    <!-- GD is required only for automatic 64x64 reaction icon resizing. -->
+    <!-- level="optional" shows a warning and does not block installation. -->
     <PHP_EXTENSION name="gd" level="optional">
       <FEEDBACK>
         <ON_CHECK>

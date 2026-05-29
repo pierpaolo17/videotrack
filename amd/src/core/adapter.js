@@ -9,6 +9,8 @@
  * @module mod_videotrack/core/adapter
  */
 define([], function() {
+    'use strict';
+
 
     /**
      * Provider capability definitions used by the adapter layer.

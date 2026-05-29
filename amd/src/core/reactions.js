@@ -8,6 +8,8 @@
  * @module mod_videotrack/core/reactions
  */
 define([], function() {
+    'use strict';
+
 
     /**
      * Build a fresh reaction announcement state object.

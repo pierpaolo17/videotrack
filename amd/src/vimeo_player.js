@@ -24,6 +24,8 @@ define([
     'mod_videotrack/core/tracker',
     'mod_videotrack/core/player'
 ], function(Log, Ajax, Api, Adapter, Utils, Ui, Progress, State, Reactions, Tracker, PlayerCore) {
+    'use strict';
+
 
     var player  = null;
     var config  = null;

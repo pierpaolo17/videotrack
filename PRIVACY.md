@@ -29,7 +29,7 @@ When the page is closed, the player may use `navigator.sendBeacon()` to submit t
 
 Il modulo usa `sessionStorage` solo per stato temporaneo del player nel browser; i valori sono limitati alla sessione della scheda/browser e non sono condivisi tra dispositivi. Il fallback `sendBeacon` puo inviare l'ultimo segmento di visione durante la chiusura della pagina per evitare perdita di progresso. Gli URL opzionali di sottotitoli/transcript caricati via JavaScript sono accettati solo da origini locali Moodle/pluginfile.
 
-Le esportazioni CSV dei report possono contenere dati personali degli studenti e devono essere usate solo da utenti con capability di reportistica nel rispetto dell'informativa locale e delle policy di conservazione dell'istituzione.
+CSV report exports may contain student personal data and must be used only by users with reporting capabilities, according to the site's privacy notice and institutional retention policies.
 
 
 ## Uploaded files and gradebook records
@@ -61,7 +61,7 @@ plugin-owned files as described above.
 
 ## Unlimited retention notice
 
-If the retention period is configured as 0 days, VideoTrack keeps tracking data until it is removed by Moodle privacy tools or by an administrator. Sites should document this policy for students and teachers before enabling long-term tracking. Administrators should avoid this setting unless there is a documented lawful basis, a published retention notice, and a periodic manual review process.
+If the retention period is configured as 0 days, VideoTrack keeps tracking data until it is removed by Moodle privacy tools or by an administrator. Sites should document this policy for students and teachers before enabling long-term tracking. Administrators should avoid this setting unless there is a documented lawful basis, a published retention notice, and a periodic manual review process. Unlimited retention should also be recorded in local audit or governance documentation so reviewers can verify why automated cleanup is disabled.
 
 
 ## VideoTrack retention default

@@ -22,6 +22,8 @@ define([
     'mod_videotrack/core/tracker',
     'mod_videotrack/core/player'
 ], function(Log, Ajax, Api, Adapter, Utils, Ui, Progress, State, Reactions, Tracker, PlayerCore) {
+    'use strict';
+
 
     var media  = null; // The <video> or <audio> DOM element.
     var config = null;

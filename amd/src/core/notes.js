@@ -7,6 +7,8 @@
  * @module mod_videotrack/core/notes
  */
 define([], function() {
+    'use strict';
+
 
     var CHAR_COUNTER_DEBOUNCE_MS = 120;
 

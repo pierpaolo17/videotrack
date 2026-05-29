@@ -8,6 +8,8 @@
  * @module mod_videotrack/core/status
  */
 define([], function() {
+    'use strict';
+
     var states = new WeakMap();
 
     /**

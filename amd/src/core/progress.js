@@ -7,6 +7,8 @@
  * @module mod_videotrack/core/progress
  */
 define([], function() {
+    'use strict';
+
 
     /**
      * Return the first numeric property available on a response object.

@@ -15,6 +15,8 @@ define([
     'mod_videotrack/core/reactions',
     'mod_videotrack/core/status'
 ], function(Segment, Session, Tracker, Beacon, Notes, Reactions, Status) {
+    'use strict';
+
     var intervalBarCache = {json: null, duration: null, width: null, height: null};
 
 

@@ -8,6 +8,8 @@ define([
     'core/log',
     'mod_videotrack/core/segment'
 ], function(Ajax, Log, Segment) {
+    'use strict';
+
     var AJAX_TIMEOUT_MS = 15000;
     var AJAX_RETRY_DELAY_MS = 750;
     var AJAX_MAX_RETRIES = 2;
