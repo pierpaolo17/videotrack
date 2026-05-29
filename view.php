@@ -336,7 +336,7 @@ if ($posterurl) {
         'class' => 'videotrack-poster-img',
         'alt'   => '',  // Decorative: the player already has the title.
     ]);
-    // Pulsante play overlay accessibile.
+    // Accessible play overlay button.
     echo html_writer::tag('button',
         html_writer::tag('span',
             html_writer::tag('svg',
@@ -356,7 +356,7 @@ if ($posterurl) {
 }
 echo html_writer::end_div(); // videotrack-player-wrap
 
-// Barra visuale degli intervalli guardati (canvas aggiornato dal JS).
+// Visual watched-interval bar (canvas updated by JavaScript).
 echo html_writer::tag('canvas', '', [
     'id'         => 'videotrack-interval-bar',
     'width'      => '800',

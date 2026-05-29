@@ -803,7 +803,11 @@
     fill: var(--videotrack-active-bg);
 }
 .videotrack-poster-play-btn:hover { background: var(--videotrack-control-surface-bg); transform: scale(1.08); }
-/* Il wrapper del player deve avere position:relative per l'overlay */
+.videotrack-poster-play-btn:focus-visible {
+    outline: 3px solid var(--videotrack-focus-ring);
+    outline-offset: 2px;
+}
+/* The player wrapper must be positioned so the overlay is anchored correctly. */
 .videotrack-player-wrap { position: relative; }
 
 /* ── Bottone nota: stato saving ──────────────────────────────────────────── */

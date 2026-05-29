@@ -19,6 +19,8 @@ namespace mod_videotrack\event;
 defined('MOODLE_INTERNAL') || die();
 
 /**
+ * Event triggered when a VideoTrack course module is viewed.
+ *
  * @package    mod_videotrack
  * @copyright  2026 videotrack contributors
  * @license    https://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later

@@ -407,6 +407,8 @@ if ($export === 'notes_csv' && !empty($videotrack->studentnotesenabled)) {
     );
     foreach ($rs as $note) {
         $nu = $usermap[(int)$note->userid] ?? null;
+        // The email address is exported in a dedicated column when permitted; keep
+        // the display label email-free to avoid duplicating personal data.
         $row = [videotrack_report_user_label((int)$note->userid, $usermap, false)];
         if ($canviewemail) {
             $row[] = $nu ? $nu->email : '';

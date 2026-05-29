@@ -53,13 +53,13 @@ function videotrack_supports($feature) {
 
 /**
  * Returns an object containing only fields from the {videotrack} table.
- * Evita che $data del form (con campi extra come videofile, posterimage,
- * reactionlabel_, ecc.) venga passato direttamente a insert/update_record,
- * il che causerebbe eccezioni DB su colonne inesistenti.
+ * Prevents raw form data (including extra fields such as videofile, posterimage,
+ * reactionlabel_, etc.) from being passed directly to insert/update_record,
+ * which would otherwise trigger DB exceptions for non-existent columns.
  *
- * @param stdClass $data  Dati grezzi dal form.
- * @param bool $resetcache Se true forza il refresh della cache colonne (utile nei test).
- * @return stdClass       Oggetto con soli campi tabella.
+ * @param stdClass $data Raw form data.
+ * @param bool $resetcache If true, refreshes the column cache (useful in tests).
+ * @return stdClass Object containing table fields only.
  */
 function videotrack_whitelist_record(stdClass $data, bool $resetcache = false): stdClass {
     static $columns = null;
@@ -104,7 +104,7 @@ function videotrack_add_instance($data, $mform = null) {
     if ($data->videosource === 'upload') {
         videotrack_save_uploaded_video($id, $data);
     }
-    // C5: Save poster image (all sources).
+    // Save poster image (all sources).
     videotrack_save_poster_image($id, $data);
 
     videotrack_save_reaction_definitions($id, $data);
@@ -141,7 +141,7 @@ function videotrack_update_instance($data, $mform = null) {
     if ($data->videosource === 'upload') {
         videotrack_save_uploaded_video($data->id, $data);
     }
-    // C5: Save poster image (all sources).
+    // Save poster image (all sources).
     videotrack_save_poster_image($data->id, $data);
 
     videotrack_save_reaction_definitions($data->id, $data);
@@ -902,6 +902,16 @@ function videotrack_get_poster_url(int $cmid): ?moodle_url {
         return null;
     }
     $file = reset($files);
+    if (!$file || $file->is_directory()) {
+        return null;
+    }
+
+    $extension = strtolower(pathinfo($file->get_filename(), PATHINFO_EXTENSION));
+    if (!in_array($extension, ['jpg', 'jpeg', 'png', 'gif', 'webp'], true)
+            || strpos((string)$file->get_mimetype(), 'image/') !== 0) {
+        return null;
+    }
+
     return moodle_url::make_pluginfile_url(
         $context->id, 'mod_videotrack', 'posterimage', 0, '/', $file->get_filename()
     );
@@ -927,7 +937,7 @@ function videotrack_delete_user_progress(stdClass $videotrack, int $userid): voi
         'videotrackid' => $videotrack->id,
         'userid'       => $userid,
     ]);
-    // B2 fix: delete reactions and personal notes so the reset is complete.
+    // Delete reactions and personal notes so the reset is complete.
     // Without this, reactions/notes survive the reset and still appear in the
     // student view and influence completion. Mirrors the behaviour of the
     // per-student reset in report.php (which already deletes videotrack_reactev).
@@ -1305,8 +1315,8 @@ function videotrack_recalculate_all_states(int $videotrackid, cm_info $cm): int 
     $rs = $DB->get_recordset('videotrack_state', ['videotrackid' => $videotrackid], '', 'userid');
     foreach ($rs as $staterow) {
         $state = tracker::refresh_completion($videotrack, $cm, (int)$staterow->userid);
-        // Aggiorna anche il completamento Moodle (il tick ✓ nel corso).
-        // refresh_completion aggiorna videotrack_state ma non la tabella course_modules_completion.
+        // Also update Moodle completion (the course tick).
+        // refresh_completion updates videotrack_state but not course_modules_completion.
         $completion->update_state(
             $cm,
             $state->iscompleted ? COMPLETION_COMPLETE : COMPLETION_INCOMPLETE,

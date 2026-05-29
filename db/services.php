@@ -71,6 +71,7 @@ $functions = [
     'mod_videotrack_save_note' => [
         'classname'     => 'mod_videotrack\\external\\save_note',
         'methodname'    => 'execute',
+        'classpath'     => '',
         'description'   => 'Save a personal timestamped note for the current student.',
         'type'          => 'write',
         'ajax'          => true,
