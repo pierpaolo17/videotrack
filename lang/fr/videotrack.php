@@ -554,3 +554,5 @@ $string['setting:retentionunlimitedwarning_desc'] = 'La valeur 0 conserve indéf
 $string['warning:notetruncated'] = 'La note a été enregistrée, mais elle a été raccourcie à la longueur maximale autorisée par le site.';
 
 $string['error:securetokenunavailable'] = 'Aucun générateur sécurisé de jetons aléatoires n\'est disponible. VideoTrack ne peut pas créer les clés d\'anonymisation en toute sécurité.';
+
+$string['hiddeninstancelabel'] = 'Masqué aux étudiants : {$a}';

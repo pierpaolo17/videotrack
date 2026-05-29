@@ -556,3 +556,5 @@ $string['setting:retentionunlimitedwarning_desc'] = 'A value of 0 keeps tracking
 $string['warning:notetruncated'] = 'The note was saved, but it was shortened to the maximum length allowed by the site.';
 
 $string['error:securetokenunavailable'] = 'A secure random token generator is not available. VideoTrack cannot safely create anonymisation keys.';
+
+$string['hiddeninstancelabel'] = 'Hidden from students: {$a}';

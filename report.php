@@ -538,9 +538,9 @@ if ($action === 'recalculate') {
 // Reset one student's progress: delete that user's segments, state and reactions.
 if ($resetaction === 'resetstudent' && $_SERVER['REQUEST_METHOD'] === 'POST') {
     require_sesskey();
-    require_capability('mod/videotrack:managereactions', $context);
     $resetuserid = required_param('resetuserid', PARAM_INT);
-    if (!is_enrolled($context, $resetuserid, '', true)) {
+    require_capability('mod/videotrack:viewreport', $context);
+    if ($resetuserid <= 0 || !is_enrolled($context, $resetuserid, '', true)) {
         throw new moodle_exception('invaliduserid', 'error');
     }
     $resetcounts = [
@@ -548,9 +548,11 @@ if ($resetaction === 'resetstudent' && $_SERVER['REQUEST_METHOD'] === 'POST') {
         'states' => $DB->count_records('videotrack_state', ['videotrackid' => $videotrack->id, 'userid' => $resetuserid]),
         'events' => $DB->count_records('videotrack_reactev', ['videotrackid' => $videotrack->id, 'userid' => $resetuserid]),
     ];
+    $transaction = $DB->start_delegated_transaction();
     $DB->delete_records('videotrack_seg',     ['videotrackid' => $videotrack->id, 'userid' => $resetuserid]);
     $DB->delete_records('videotrack_state',   ['videotrackid' => $videotrack->id, 'userid' => $resetuserid]);
     $DB->delete_records('videotrack_reactev', ['videotrackid' => $videotrack->id, 'userid' => $resetuserid]);
+    $transaction->allow_commit();
     \mod_videotrack\event\student_progress_reset::create([
         'objectid' => $videotrack->id,
         'context' => $context,
