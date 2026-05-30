@@ -10,6 +10,9 @@
 define([], function() {
     'use strict';
 
+    var DEFAULT_UNAVAILABLE_ANNOUNCE_INTERVAL = 30000;
+    var DEFAULT_READY_DEBOUNCE_MS = 400;
+
 
     /**
      * Build a fresh reaction announcement state object.
@@ -24,8 +27,8 @@ define([], function() {
             readyAnnounced: false,
             lastAnnouncement: null,
             lastUnavailableAt: 0,
-            unavailableInterval: 60000,
-            debounceMs: 500
+            unavailableInterval: DEFAULT_UNAVAILABLE_ANNOUNCE_INTERVAL,
+            debounceMs: DEFAULT_READY_DEBOUNCE_MS
         };
     }
 
@@ -186,6 +189,8 @@ define([], function() {
     }
 
     return {
+        DEFAULT_UNAVAILABLE_ANNOUNCE_INTERVAL: DEFAULT_UNAVAILABLE_ANNOUNCE_INTERVAL,
+        DEFAULT_READY_DEBOUNCE_MS: DEFAULT_READY_DEBOUNCE_MS,
         createState: createState,
         setButtons: setButtons,
         announceAvailability: announceAvailability,

@@ -50,8 +50,10 @@ require_capability('mod/videotrack:viewcoursereport', $context);
 
 $PAGE->set_url(new moodle_url('/mod/videotrack/reports_course.php', ['course' => $courseid]));
 $PAGE->set_context($context);
-$PAGE->set_title($course->shortname . ': ' . get_string('coursereport:title', 'mod_videotrack'));
-$PAGE->set_heading($course->fullname);
+$courseshortname = format_string($course->shortname, true, ['context' => $context]);
+$coursefullname = format_string($course->fullname, true, ['context' => $context]);
+$PAGE->set_title($courseshortname . ': ' . get_string('coursereport:title', 'mod_videotrack'));
+$PAGE->set_heading($coursefullname);
 
 echo $OUTPUT->header();
 echo $OUTPUT->heading(get_string('coursereport:title', 'mod_videotrack'));

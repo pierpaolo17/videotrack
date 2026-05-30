@@ -669,11 +669,16 @@ $exportform .= html_writer::tag('button', get_string('report:exportcsv', 'mod_vi
 ]);
 $exportform .= html_writer::end_tag('form');
 
+$studentreportlink = html_writer::link(
+    new moodle_url('/mod/videotrack/report.php', array_merge($baseparams, ['mode' => 'student'])),
+    get_string('report:perstudent', 'mod_videotrack')
+);
+$cumulativereportlink = html_writer::link(
+    new moodle_url('/mod/videotrack/report.php', array_merge($baseparams, ['mode' => 'cumulative'])),
+    get_string('report:cumulative', 'mod_videotrack')
+);
 echo html_writer::div(
-    html_writer::link(new moodle_url('/mod/videotrack/report.php', array_merge($baseparams, ['mode' => 'student'])), get_string('report:perstudent', 'mod_videotrack')) . ' | ' .
-    html_writer::link(new moodle_url('/mod/videotrack/report.php', array_merge($baseparams, ['mode' => 'cumulative'])), get_string('report:cumulative', 'mod_videotrack')) . ' | ' .
-    $exportform . ' | ' .
-    $recalculateform,
+    $studentreportlink . ' | ' . $cumulativereportlink . ' | ' . $exportform . ' | ' . $recalculateform,
     'mb-3'
 );
 
@@ -685,8 +690,12 @@ echo html_writer::empty_tag('input', ['type' => 'hidden', 'name' => 'mode', 'val
 echo html_writer::empty_tag('input', ['type' => 'hidden', 'name' => 'sort', 'value' => $sort]);
 echo html_writer::empty_tag('input', ['type' => 'hidden', 'name' => 'aggregation', 'value' => $aggregation]);
 echo html_writer::empty_tag('input', ['type' => 'hidden', 'name' => 'window', 'value' => $window]);
-echo html_writer::div(html_writer::label(get_string('report:userid', 'mod_videotrack'), 'id_userid') . html_writer::select($useroptions, 'userid', $useridfilter, false, ['id' => 'id_userid']), 'd-inline-block');
-echo html_writer::div(html_writer::label(get_string('report:reaction', 'mod_videotrack'), 'id_reactionid') . html_writer::select($reactionoptions, 'reactionid', $reactionidfilter, false, ['id' => 'id_reactionid']), 'd-inline-block mr-2');
+$userfilter = html_writer::label(get_string('report:userid', 'mod_videotrack'), 'id_userid') .
+    html_writer::select($useroptions, 'userid', $useridfilter, false, ['id' => 'id_userid']);
+$reactionfilter = html_writer::label(get_string('report:reaction', 'mod_videotrack'), 'id_reactionid') .
+    html_writer::select($reactionoptions, 'reactionid', $reactionidfilter, false, ['id' => 'id_reactionid']);
+echo html_writer::div($userfilter, 'd-inline-block');
+echo html_writer::div($reactionfilter, 'd-inline-block mr-2');
 echo html_writer::div(
     html_writer::label(get_string('report:timefrom', 'mod_videotrack'), 'id_timefrom') .
     html_writer::empty_tag('input', [

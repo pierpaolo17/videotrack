@@ -288,18 +288,26 @@ class provider implements
                     if ($isdeleted) {
                         $deletednotes[] = $reactionevent;
                         if (count($deletednotes) >= 500) {
-                            $writer->export_data([get_string('studentnotes_title', 'mod_videotrack'), get_string('privacy:notesdeletedchunk', 'mod_videotrack', $deletednoteschunk)], (object)[
-                                'notes' => $deletednotes,
-                            ]);
+                            $writer->export_data(
+                                [
+                                    get_string('studentnotes_title', 'mod_videotrack'),
+                                    get_string('privacy:notesdeletedchunk', 'mod_videotrack', $deletednoteschunk),
+                                ],
+                                (object)['notes' => $deletednotes]
+                            );
                             $deletednotes = [];
                             $deletednoteschunk++;
                         }
                     } else {
                         $notes[] = $reactionevent;
                         if (count($notes) >= 500) {
-                            $writer->export_data([get_string('studentnotes_title', 'mod_videotrack'), get_string('privacy:notesactivechunk', 'mod_videotrack', $noteschunk)], (object)[
-                                'notes' => $notes,
-                            ]);
+                            $writer->export_data(
+                                [
+                                    get_string('studentnotes_title', 'mod_videotrack'),
+                                    get_string('privacy:notesactivechunk', 'mod_videotrack', $noteschunk),
+                                ],
+                                (object)['notes' => $notes]
+                            );
                             $notes = [];
                             $noteschunk++;
                         }
@@ -307,18 +315,26 @@ class provider implements
                 } else if ($isdeleted) {
                     $deleted[] = $reactionevent;
                     if (count($deleted) >= 500) {
-                        $writer->export_data([get_string('reactionsheader', 'mod_videotrack'), get_string('privacy:reactionsdeletedchunk', 'mod_videotrack', $deletedchunk)], (object)[
-                            'events' => $deleted,
-                        ]);
+                        $writer->export_data(
+                            [
+                                get_string('reactionsheader', 'mod_videotrack'),
+                                get_string('privacy:reactionsdeletedchunk', 'mod_videotrack', $deletedchunk),
+                            ],
+                            (object)['events' => $deleted]
+                        );
                         $deleted = [];
                         $deletedchunk++;
                     }
                 } else {
                     $active[] = $reactionevent;
                     if (count($active) >= 500) {
-                        $writer->export_data([get_string('reactionsheader', 'mod_videotrack'), get_string('privacy:reactionsactivechunk', 'mod_videotrack', $activechunk)], (object)[
-                            'events' => $active,
-                        ]);
+                        $writer->export_data(
+                            [
+                                get_string('reactionsheader', 'mod_videotrack'),
+                                get_string('privacy:reactionsactivechunk', 'mod_videotrack', $activechunk),
+                            ],
+                            (object)['events' => $active]
+                        );
                         $active = [];
                         $activechunk++;
                     }
@@ -327,24 +343,40 @@ class provider implements
             $eventrs->close();
 
             if (!empty($active)) {
-                $writer->export_data([get_string('reactionsheader', 'mod_videotrack'), get_string('privacy:reactionsactivechunk', 'mod_videotrack', $activechunk)], (object)[
-                    'events' => $active,
-                ]);
+                $writer->export_data(
+                    [
+                        get_string('reactionsheader', 'mod_videotrack'),
+                        get_string('privacy:reactionsactivechunk', 'mod_videotrack', $activechunk),
+                    ],
+                    (object)['events' => $active]
+                );
             }
             if (!empty($deleted)) {
-                $writer->export_data([get_string('reactionsheader', 'mod_videotrack'), get_string('privacy:reactionsdeletedchunk', 'mod_videotrack', $deletedchunk)], (object)[
-                    'events' => $deleted,
-                ]);
+                $writer->export_data(
+                    [
+                        get_string('reactionsheader', 'mod_videotrack'),
+                        get_string('privacy:reactionsdeletedchunk', 'mod_videotrack', $deletedchunk),
+                    ],
+                    (object)['events' => $deleted]
+                );
             }
             if (!empty($notes)) {
-                $writer->export_data([get_string('studentnotes_title', 'mod_videotrack'), get_string('privacy:notesactivechunk', 'mod_videotrack', $noteschunk)], (object)[
-                    'notes' => $notes,
-                ]);
+                $writer->export_data(
+                    [
+                        get_string('studentnotes_title', 'mod_videotrack'),
+                        get_string('privacy:notesactivechunk', 'mod_videotrack', $noteschunk),
+                    ],
+                    (object)['notes' => $notes]
+                );
             }
             if (!empty($deletednotes)) {
-                $writer->export_data([get_string('studentnotes_title', 'mod_videotrack'), get_string('privacy:notesdeletedchunk', 'mod_videotrack', $deletednoteschunk)], (object)[
-                    'notes' => $deletednotes,
-                ]);
+                $writer->export_data(
+                    [
+                        get_string('studentnotes_title', 'mod_videotrack'),
+                        get_string('privacy:notesdeletedchunk', 'mod_videotrack', $deletednoteschunk),
+                    ],
+                    (object)['notes' => $deletednotes]
+                );
             }
         }
     }

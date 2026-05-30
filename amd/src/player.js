@@ -18,8 +18,6 @@ define([
     var player = null;
     var config = null;
     var reactionState = Reactions.createState();
-    var DEFAULT_REACTION_UNAVAILABLE_ANNOUNCE_INTERVAL = 30000;
-    var DEFAULT_REACTION_READY_DEBOUNCE_MS = 400;
     // HEARTBEAT_INTERVAL is initialised in init() from the value configured
     // by the administrator in Site administration > Plugins > Activity modules > Video track.
     var HEARTBEAT_INTERVAL = 30; // Fallback value, overridden by config.heartbeatinterval
@@ -384,6 +382,8 @@ define([
                             }
                         }
                     }
+                }).catch(function(err) {
+                    PlayerCore.showErrorStatusMessage(err, config.reactionerrorlabel, config.dismisslabel);
                 });
             }
         };
@@ -698,16 +698,17 @@ define([
         }
 
         var playBtn = document.getElementById('videotrack-poster-play-btn');
+        var posterClickHandler = function() {
+            removePoster();
+            // Start playback if the player is ready.
+            if (player && player.playVideo) {
+                Adapter.play(function() {
+                    return player.playVideo();
+                }, Log, 'YouTube poster play');
+            }
+        };
         if (playBtn) {
-            playBtn.addEventListener('click', function() {
-                removePoster();
-                // Start playback if the player is ready.
-                if (player && player.playVideo) {
-                    Adapter.play(function() {
-                        return player.playVideo();
-                    }, Log, 'YouTube poster play');
-                }
-            });
+            playBtn.addEventListener('click', posterClickHandler);
         }
 
         // Remove the poster on the first YouTube PLAYING state,
@@ -718,6 +719,21 @@ define([
             PlayerCore.onFirstPlay(e, state, removePoster);
         };
         document.addEventListener('videotrack:playstate', state._posterPlayListener);
+
+        state._posterCleanup = function() {
+            if (playBtn) {
+                playBtn.removeEventListener('click', posterClickHandler);
+            }
+            if (state._posterPlayListener) {
+                document.removeEventListener('videotrack:playstate', state._posterPlayListener);
+                state._posterPlayListener = null;
+            }
+            window.removeEventListener('pagehide', state._posterCleanup);
+            window.removeEventListener('beforeunload', state._posterCleanup);
+            state._posterCleanup = null;
+        };
+        window.addEventListener('pagehide', state._posterCleanup, {once: true});
+        window.addEventListener('beforeunload', state._posterCleanup, {once: true});
     }
     return {
         init: function(initConfig) {
@@ -726,11 +742,11 @@ define([
             // reactionannouncementinterval is provided by PHP in milliseconds; cap matches settings.php max (120000 ms).
             var interval = parseInt(config.reactionannouncementinterval, 10);
             reactionState.unavailableInterval = interval === 0 ? Number.MAX_SAFE_INTEGER :
-                Math.max(1000, Math.min(120000, interval || DEFAULT_REACTION_UNAVAILABLE_ANNOUNCE_INTERVAL));
+                Math.max(1000, Math.min(120000, interval || Reactions.DEFAULT_UNAVAILABLE_ANNOUNCE_INTERVAL));
             // reactionreadydebouncems is intentionally configured in milliseconds; cap matches settings.php max (2000 ms).
             var debounce = parseInt(config.reactionreadydebouncems, 10);
             reactionState.debounceMs = debounce === 0 ? 0 :
-                Math.max(0, Math.min(2000, debounce || DEFAULT_REACTION_READY_DEBOUNCE_MS));
+                Math.max(0, Math.min(2000, debounce || Reactions.DEFAULT_READY_DEBOUNCE_MS));
             // Read the heartbeat interval from the administrator configuration.
             HEARTBEAT_INTERVAL = Tracker.normaliseHeartbeatInterval(config, 30);
             state.sessionid = uuid();

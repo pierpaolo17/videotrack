@@ -54,10 +54,29 @@ class save_segment extends external_api {
         ]);
     }
 
-    public static function execute(int $cmid, string $sessionid, float $videotimestart, float $videotimeend, int $wallclockstart,
-            int $wallclockend, float $playbackrate, string $endreason, float $durationseconds = 0.0): array {
+    public static function execute(
+        int $cmid,
+        string $sessionid,
+        float $videotimestart,
+        float $videotimeend,
+        int $wallclockstart,
+        int $wallclockend,
+        float $playbackrate,
+        string $endreason,
+        float $durationseconds = 0.0
+    ): array {
         global $DB, $USER;
-        $params = self::validate_parameters(self::execute_parameters(), compact('cmid', 'sessionid', 'videotimestart', 'videotimeend', 'wallclockstart', 'wallclockend', 'playbackrate', 'endreason', 'durationseconds'));
+        $params = self::validate_parameters(self::execute_parameters(), compact(
+            'cmid',
+            'sessionid',
+            'videotimestart',
+            'videotimeend',
+            'wallclockstart',
+            'wallclockend',
+            'playbackrate',
+            'endreason',
+            'durationseconds'
+        ));
         $params['cmid'] = helper::validate_positive_id((int)$params['cmid'], 'cmid');
         $params['sessionid'] = helper::validate_session_id($params['sessionid']);
         $params['endreason'] = helper::validate_end_reason($params['endreason']);

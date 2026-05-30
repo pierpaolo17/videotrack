@@ -30,8 +30,6 @@ define([
     var player  = null;
     var config  = null;
     var reactionState = Reactions.createState();
-    var DEFAULT_REACTION_UNAVAILABLE_ANNOUNCE_INTERVAL = 30000;
-    var DEFAULT_REACTION_READY_DEBOUNCE_MS = 400;
     var HEARTBEAT_INTERVAL = 30;
 
     var state = State.create();
@@ -581,7 +579,9 @@ define([
                             tbody.removeAttribute('tabindex');
                         }
                     }
-                }).catch(Log.debug);
+                }).catch(function(err) {
+                    PlayerCore.showErrorStatusMessage(err, config.reactionerrorlabel, config.dismisslabel);
+                });
             }
         };
         root.addEventListener('keydown', reactionKeydownHandler);
@@ -650,21 +650,22 @@ define([
         }
 
         var playBtn = document.getElementById('videotrack-poster-play-btn');
-        if (playBtn) {
-            playBtn.addEventListener('click', function() {
-                removePoster();
-                // Start playback with the Vimeo SDK API (not player.playVideo, which is YouTube).
-                if (player && player.play) {
-                    var posterPlay = Adapter.play(function() {
-                        return player.play();
-                    }, Log, 'Vimeo poster play');
-                    if (posterPlay && typeof posterPlay.catch === 'function') {
-                        posterPlay.catch(function(err) {
-                            Log.debug('mod_videotrack: play request failed - ' + err);
-                        });
-                    }
+        var posterClickHandler = function() {
+            removePoster();
+            // Start playback with the Vimeo SDK API (not player.playVideo, which is YouTube).
+            if (player && player.play) {
+                var posterPlay = Adapter.play(function() {
+                    return player.play();
+                }, Log, 'Vimeo poster play');
+                if (posterPlay && typeof posterPlay.catch === 'function') {
+                    posterPlay.catch(function(err) {
+                        Log.debug('mod_videotrack: play request failed - ' + err);
+                    });
                 }
-            });
+            }
+        };
+        if (playBtn) {
+            playBtn.addEventListener('click', posterClickHandler);
         }
 
         // Remove the poster on the first Vimeo play event.
@@ -673,6 +674,21 @@ define([
             PlayerCore.onFirstPlay(e, state, removePoster);
         };
         document.addEventListener('videotrack:playstate', state._posterPlayListener);
+
+        state._posterCleanup = function() {
+            if (playBtn) {
+                playBtn.removeEventListener('click', posterClickHandler);
+            }
+            if (state._posterPlayListener) {
+                document.removeEventListener('videotrack:playstate', state._posterPlayListener);
+                state._posterPlayListener = null;
+            }
+            window.removeEventListener('pagehide', state._posterCleanup);
+            window.removeEventListener('beforeunload', state._posterCleanup);
+            state._posterCleanup = null;
+        };
+        window.addEventListener('pagehide', state._posterCleanup, {once: true});
+        window.addEventListener('beforeunload', state._posterCleanup, {once: true});
     }
     // ── Public API ────────────────────────────────────────────────────────
 
@@ -683,11 +699,11 @@ define([
             // reactionannouncementinterval is provided by PHP in milliseconds; cap matches settings.php max (120000 ms).
             var interval = parseInt(config.reactionannouncementinterval, 10);
             reactionState.unavailableInterval = interval === 0 ? Number.MAX_SAFE_INTEGER :
-                Math.max(1000, Math.min(120000, interval || DEFAULT_REACTION_UNAVAILABLE_ANNOUNCE_INTERVAL));
+                Math.max(1000, Math.min(120000, interval || Reactions.DEFAULT_UNAVAILABLE_ANNOUNCE_INTERVAL));
             // reactionreadydebouncems is intentionally configured in milliseconds; cap matches settings.php max (2000 ms).
             var debounce = parseInt(config.reactionreadydebouncems, 10);
             reactionState.debounceMs = debounce === 0 ? 0 :
-                Math.max(0, Math.min(2000, debounce || DEFAULT_REACTION_READY_DEBOUNCE_MS));
+                Math.max(0, Math.min(2000, debounce || Reactions.DEFAULT_READY_DEBOUNCE_MS));
             HEARTBEAT_INTERVAL = Tracker.normaliseHeartbeatInterval(config, 30);
             state.sessionid    = uuid();
             installGlobalListeners();
