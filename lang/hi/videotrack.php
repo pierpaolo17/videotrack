@@ -558,3 +558,10 @@ $string['error:securetokenunavailable'] = 'एक सुरक्षित र�
 $string['hiddeninstancelabel'] = 'विद्यार्थियों से छिपा हुआ: {$a}';
 
 $string['setting:nonnegativeintmax'] = 'मान {$a} से अधिक नहीं होना चाहिए।';
+
+$string['restore_missing_reaction_mapping'] = 'mod_videotrack restore: missing reaction mapping for old reaction id {$a}; creating a hidden placeholder reaction.';
+$string['restore_placeholder_reaction'] = 'Restored reaction';
+$string['privacy_cleanup_failed'] = 'VideoTrack GDPR retention cleanup failed: {$a}';
+$string['privacy_cleanup_unlimited'] = 'VideoTrack GDPR retention: unlimited retention configured; no records anonymised.';
+$string['privacy_cleanup_anonymised'] = 'VideoTrack GDPR retention: anonymised {$a->segments} segments, {$a->states} states, {$a->events} reaction/note events across {$a->processed} user/activity pairs.';
+$string['privacy_cleanup_remaining'] = 'More records remain and will be processed by a later run: {$a}.';

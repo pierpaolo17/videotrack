@@ -48,22 +48,23 @@ class cleanup_task extends \core\task\scheduled_task {
         try {
             $counts = privacy_manager::anonymise_expired_records();
         } catch (\Throwable $e) {
-            mtrace('VideoTrack GDPR retention cleanup failed: ' . $e->getMessage());
+            mtrace(get_string('privacy_cleanup_failed', 'videotrack', $e->getMessage()));
             throw $e;
         }
 
         if (!empty($counts['skipped'])) {
-            mtrace('VideoTrack GDPR retention: unlimited retention configured; no records anonymised.');
+            mtrace(get_string('privacy_cleanup_unlimited', 'videotrack'));
             return;
         }
 
-        $message = 'VideoTrack GDPR retention: anonymised ' .
-            $counts['segments'] . ' segments, ' .
-            $counts['states'] . ' states, ' .
-            $counts['events'] . ' reaction/note events across ' .
-            $counts['processed'] . ' user/activity pairs.';
+        $message = get_string('privacy_cleanup_anonymised', 'videotrack', (object)[
+            'segments' => $counts['segments'],
+            'states' => $counts['states'],
+            'events' => $counts['events'],
+            'processed' => $counts['processed'],
+        ]);
         if (!empty($counts['remaining'])) {
-            $message .= ' More records remain and will be processed by a later run.';
+            $message .= ' ' . get_string('privacy_cleanup_remaining', 'videotrack', $counts['remaining']);
         }
         mtrace($message);
     }
