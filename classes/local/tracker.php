@@ -370,7 +370,12 @@ class tracker {
         return $DB->record_exists_select('videotrack_seg', $fallbackselect, $fallbackparams);
     }
 
-    public static function completion_satisfied(\stdClass $videotrack, ?\stdClass $state, array $reactionsummary, array $requiredreactionids): bool {
+    public static function completion_satisfied(
+        \stdClass $videotrack,
+        ?\stdClass $state,
+        array $reactionsummary,
+        array $requiredreactionids
+    ): bool {
         $checks = [];
         if (!empty($videotrack->completionpercent)) {
             $checks[] = !empty($state) && (float)$state->completionpercent >= (float)$videotrack->completionpercent;
@@ -388,7 +393,8 @@ class tracker {
                 'isdeleted' => 0,
             ], '', 'id,id')));
             if ($allreactionids) {
-                $checks[] = count(array_intersect($allreactionids, array_map('intval', $reactionsummary['uniqueids']))) === count($allreactionids);
+                $matchingids = array_intersect($allreactionids, array_map('intval', $reactionsummary['uniqueids']));
+                $checks[] = count($matchingids) === count($allreactionids);
             }
         }
         if (!$checks) {
@@ -566,7 +572,8 @@ class tracker {
         $current = $completion->get_data($cm, false, $userid);
         $currentstate = isset($current->completionstate) ? (int)$current->completionstate : COMPLETION_INCOMPLETE;
 
-        $currentlycomplete = in_array($currentstate, [COMPLETION_COMPLETE, COMPLETION_COMPLETE_PASS, COMPLETION_COMPLETE_FAIL], true);
+        $completestates = [COMPLETION_COMPLETE, COMPLETION_COMPLETE_PASS, COMPLETION_COMPLETE_FAIL];
+        $currentlycomplete = in_array($currentstate, $completestates, true);
         if (($iscompleted && !$currentlycomplete) || (!$iscompleted && $currentstate !== COMPLETION_INCOMPLETE)) {
             $completion->update_state($cm, $target, $userid);
         }

@@ -258,7 +258,11 @@ if ($isediting) {
     // Reactions table.
     echo html_writer::tag('h4', get_string('presets:reactions', 'mod_videotrack'));
     echo html_writer::start_tag('table', ['class' => 'generaltable w-100']);
-    echo html_writer::tag('caption', get_string('presets:reactionstablecaption', 'mod_videotrack'), ['class' => 'sr-only visually-hidden']);
+    echo html_writer::tag(
+        'caption',
+        get_string('presets:reactionstablecaption', 'mod_videotrack'),
+        ['class' => 'sr-only visually-hidden']
+    );
     echo html_writer::start_tag('thead');
     echo html_writer::start_tag('tr');
     foreach ([

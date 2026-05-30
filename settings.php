@@ -74,11 +74,15 @@ if ($ADMIN->fulltree) {
         0
     ));
 
+    $validationfallbackdesc = get_string('setting:validationfallbackdays_desc', 'mod_videotrack') . ' ' .
+        html_writer::span(
+            get_string('setting:validationfallbackdays_privacywarning', 'mod_videotrack'),
+            'text-warning fw-semibold'
+        );
     $settings->add(new \mod_videotrack\admin\setting_int_range(
         'mod_videotrack/validationfallbackdays',
         get_string('setting:validationfallbackdays', 'mod_videotrack'),
-        get_string('setting:validationfallbackdays_desc', 'mod_videotrack') . ' ' .
-            html_writer::span(get_string('setting:validationfallbackdays_privacywarning', 'mod_videotrack'), 'text-warning fw-semibold'),
+        $validationfallbackdesc,
         30,
         0,
         730

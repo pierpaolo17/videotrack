@@ -57,10 +57,18 @@ class restore_videotrack_activity_structure_step extends restore_activity_struct
         global $DB;
         $data = (object)$data;
         $oldid = (int)$data->id;
+        $icontype = isset($data->icontype) ? clean_param($data->icontype, PARAM_ALPHANUMEXT) : 'emoji';
+        if (!in_array($icontype, ['emoji', 'file', 'fa', 'text'], true)) {
+            $icontype = 'emoji';
+        }
         $record = (object)[
             'videotrackid' => $this->get_new_parentid('videotrack'),
+            'reactionkey' => isset($data->reactionkey) ? clean_param($data->reactionkey, PARAM_ALPHANUMEXT) : '',
             'label' => isset($data->label) ? clean_param($data->label, PARAM_TEXT) : '',
-            'emoji' => isset($data->emoji) ? clean_param($data->emoji, PARAM_TEXT) : '',
+            'description' => isset($data->description) ? clean_param($data->description, PARAM_TEXT) : '',
+            'icontype' => $icontype,
+            'iconvalue' => isset($data->iconvalue) ? clean_param($data->iconvalue, PARAM_TEXT) : '',
+            'requiredforcompletion' => empty($data->requiredforcompletion) ? 0 : 1,
             'sortorder' => isset($data->sortorder) ? (int)$data->sortorder : 0,
             'isdeleted' => empty($data->isdeleted) ? 0 : 1,
             'timecreated' => isset($data->timecreated) ? (int)$data->timecreated : time(),
@@ -84,7 +92,22 @@ class restore_videotrack_activity_structure_step extends restore_activity_struct
             $data->userid = $mappeduserid;
         }
         // Negative user ids are anonymised aggregate records: preserve them as non-user data.
-        $DB->insert_record('videotrack_seg', $data);
+        $record = (object)[
+            'videotrackid' => (int)$data->videotrackid,
+            'courseid' => (int)$data->courseid,
+            'cmid' => (int)$data->cmid,
+            'userid' => isset($data->userid) ? (int)$data->userid : 0,
+            'videoid' => isset($data->videoid) ? clean_param($data->videoid, PARAM_ALPHANUMEXT) : '',
+            'sessionid' => isset($data->sessionid) ? clean_param($data->sessionid, PARAM_ALPHANUMEXT) : '',
+            'wallclockstart' => isset($data->wallclockstart) ? (int)$data->wallclockstart : 0,
+            'wallclockend' => isset($data->wallclockend) ? (int)$data->wallclockend : 0,
+            'videotimestart' => isset($data->videotimestart) ? (float)$data->videotimestart : 0.0,
+            'videotimeend' => isset($data->videotimeend) ? (float)$data->videotimeend : 0.0,
+            'playbackrate' => isset($data->playbackrate) ? (float)$data->playbackrate : 1.0,
+            'endreason' => isset($data->endreason) ? clean_param($data->endreason, PARAM_ALPHANUMEXT) : 'unknown',
+            'timecreated' => isset($data->timecreated) ? (int)$data->timecreated : time(),
+        ];
+        $DB->insert_record('videotrack_seg', $record);
     }
 
     protected function process_videotrack_state($data) {
@@ -101,7 +124,22 @@ class restore_videotrack_activity_structure_step extends restore_activity_struct
             $data->userid = $mappeduserid;
         }
         // Negative user ids are anonymised aggregate records: preserve them as non-user data.
-        $DB->insert_record('videotrack_state', $data);
+        $record = (object)[
+            'videotrackid' => (int)$data->videotrackid,
+            'courseid' => (int)$data->courseid,
+            'cmid' => (int)$data->cmid,
+            'userid' => isset($data->userid) ? (int)$data->userid : 0,
+            'videoid' => isset($data->videoid) ? clean_param($data->videoid, PARAM_ALPHANUMEXT) : '',
+            'lastposition' => isset($data->lastposition) ? (float)$data->lastposition : 0.0,
+            'durationseconds' => isset($data->durationseconds) ? (float)$data->durationseconds : 0.0,
+            'uniquecoveredseconds' => isset($data->uniquecoveredseconds) ? (float)$data->uniquecoveredseconds : 0.0,
+            'completionpercent' => isset($data->completionpercent) ? (float)$data->completionpercent : 0.0,
+            'intervaljson' => isset($data->intervaljson) ? clean_param($data->intervaljson, PARAM_RAW) : null,
+            'iscompleted' => empty($data->iscompleted) ? 0 : 1,
+            'timemodified' => isset($data->timemodified) ? (int)$data->timemodified : time(),
+            'timecreated' => isset($data->timecreated) ? (int)$data->timecreated : time(),
+        ];
+        $DB->insert_record('videotrack_state', $record);
     }
 
     protected function process_videotrack_reactionevent($data) {
@@ -149,7 +187,26 @@ class restore_videotrack_activity_structure_step extends restore_activity_struct
             }
             $data->reactionid = $mappedreactionid;
         }
-        $DB->insert_record('videotrack_reactev', $data);
+        $record = (object)[
+            'videotrackid' => (int)$data->videotrackid,
+            'courseid' => (int)$data->courseid,
+            'cmid' => (int)$data->cmid,
+            'userid' => isset($data->userid) ? (int)$data->userid : 0,
+            'videoid' => isset($data->videoid) ? clean_param($data->videoid, PARAM_ALPHANUMEXT) : '',
+            'sessionid' => isset($data->sessionid) ? clean_param($data->sessionid, PARAM_ALPHANUMEXT) : '',
+            'reactionid' => isset($data->reactionid) ? (int)$data->reactionid : 0,
+            'reactionkey' => isset($data->reactionkey) ? clean_param($data->reactionkey, PARAM_ALPHANUMEXT) : '',
+            'reactionlabel' => isset($data->reactionlabel) ? clean_param($data->reactionlabel, PARAM_TEXT) : '',
+            'reactiondesc' => isset($data->reactiondesc) ? clean_param($data->reactiondesc, PARAM_TEXT) : '',
+            'notetext' => isset($data->notetext) ? clean_param($data->notetext, PARAM_TEXT) : '',
+            'notetype' => isset($data->notetype) ? clean_param($data->notetype, PARAM_ALPHANUMEXT) : '',
+            'videotime' => isset($data->videotime) ? (float)$data->videotime : 0.0,
+            'playbackrate' => isset($data->playbackrate) ? (float)$data->playbackrate : 1.0,
+            'isdeleted' => empty($data->isdeleted) ? 0 : 1,
+            'timecreated' => isset($data->timecreated) ? (int)$data->timecreated : time(),
+            'timemodified' => isset($data->timemodified) ? (int)$data->timemodified : time(),
+        ];
+        $DB->insert_record('videotrack_reactev', $record);
         if ($transaction !== null) {
             $transaction->allow_commit();
         }
