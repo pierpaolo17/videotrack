@@ -57,7 +57,7 @@ define([], function() {
             if (/(?:^|\/)\.\.(?:\/|$)/.test(path)) {
                 return false;
             }
-            if (!/\.(?:jpe?g|png|webp)$/i.test(path)) {
+            if (!/\.(?:jpe?g|png|gif|webp)$/i.test(path)) {
                 return false;
             }
             return path.indexOf('/pluginfile.php/') !== -1 ||

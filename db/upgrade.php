@@ -751,5 +751,11 @@ function xmldb_videotrack_upgrade($oldversion) {
         upgrade_mod_savepoint(true, 2026053042, 'videotrack');
     }
 
+    if ($oldversion < 2026053043) {
+        // Release 1.4.34: restore hardening and reaction icon consistency.
+        // No database schema changes.
+        upgrade_mod_savepoint(true, 2026053043, 'videotrack');
+    }
+
     return true;
 }
