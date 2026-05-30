@@ -250,15 +250,31 @@ function xmldb_videotrack_upgrade($oldversion) {
             new xmldb_field('reactionnotice',          XMLDB_TYPE_TEXT,    null, null, false, null, null),
             new xmldb_field('reactionnoticeformat',    XMLDB_TYPE_INTEGER, '2', null, XMLDB_NOTNULL, null, '1'),
             new xmldb_field('showreactionnotice',      XMLDB_TYPE_INTEGER, '1', null, XMLDB_NOTNULL, null, '0'),
-            new xmldb_field('showstudentreport',       XMLDB_TYPE_INTEGER, '1', null, XMLDB_NOTNULL, null, '1'), // allineato a install.xml
-            new xmldb_field('clusterwindow',           XMLDB_TYPE_INTEGER, '5', null, XMLDB_NOTNULL, null, '30'),
+            new xmldb_field(
+                'showstudentreport',
+                XMLDB_TYPE_INTEGER,
+                '1',
+                null,
+                XMLDB_NOTNULL,
+                null,
+                '1'
+            ), // allineato a install.xml
+            new xmldb_field('clusterwindow', XMLDB_TYPE_INTEGER, '3', null, XMLDB_NOTNULL, null, '30'),
             new xmldb_field('disablekeyboard',         XMLDB_TYPE_INTEGER, '1', null, XMLDB_NOTNULL, null, '0'),
             new xmldb_field('showfullscreen',          XMLDB_TYPE_INTEGER, '1', null, XMLDB_NOTNULL, null, '1'),
             new xmldb_field('allowplaybackratechange', XMLDB_TYPE_INTEGER, '1', null, XMLDB_NOTNULL, null, '1'),
             new xmldb_field('allowseekforward',        XMLDB_TYPE_INTEGER, '1', null, XMLDB_NOTNULL, null, '1'),
             new xmldb_field('allowseekbackward',       XMLDB_TYPE_INTEGER, '1', null, XMLDB_NOTNULL, null, '1'),
             new xmldb_field('reactionsrequired',       XMLDB_TYPE_INTEGER, '1', null, XMLDB_NOTNULL, null, '0'),
-            new xmldb_field('minreactions',            XMLDB_TYPE_INTEGER, '4', null, XMLDB_NOTNULL, null, '0'), // allineato a install.xml
+            new xmldb_field(
+                'minreactions',
+                XMLDB_TYPE_INTEGER,
+                '10',
+                null,
+                XMLDB_NOTNULL,
+                null,
+                '0'
+            ), // allineato a install.xml
             new xmldb_field('requireallreactiontypes', XMLDB_TYPE_INTEGER, '1', null, XMLDB_NOTNULL, null, '0'),
             new xmldb_field('completionlogic',         XMLDB_TYPE_CHAR,   '10', null, XMLDB_NOTNULL, null, 'and'),
         ];
@@ -727,6 +743,12 @@ function xmldb_videotrack_upgrade($oldversion) {
         // Release 1.4.31: Moodle HQ style cleanup before initial public install.
         // No database schema changes.
         upgrade_mod_savepoint(true, 2026053041, 'videotrack');
+    }
+
+    if ($oldversion < 2026053042) {
+        // Release 1.4.33: version metadata and XMLDB consistency cleanup.
+        // No database schema changes for new installations.
+        upgrade_mod_savepoint(true, 2026053042, 'videotrack');
     }
 
     return true;

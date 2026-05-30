@@ -48,23 +48,23 @@ class cleanup_task extends \core\task\scheduled_task {
         try {
             $counts = privacy_manager::anonymise_expired_records();
         } catch (\Throwable $e) {
-            mtrace(get_string('privacy_cleanup_failed', 'videotrack', $e->getMessage()));
+            mtrace(get_string('privacy_cleanup_failed', 'mod_videotrack', $e->getMessage()));
             throw $e;
         }
 
         if (!empty($counts['skipped'])) {
-            mtrace(get_string('privacy_cleanup_unlimited', 'videotrack'));
+            mtrace(get_string('privacy_cleanup_unlimited', 'mod_videotrack'));
             return;
         }
 
-        $message = get_string('privacy_cleanup_anonymised', 'videotrack', (object)[
+        $message = get_string('privacy_cleanup_anonymised', 'mod_videotrack', (object)[
             'segments' => $counts['segments'],
             'states' => $counts['states'],
             'events' => $counts['events'],
             'processed' => $counts['processed'],
         ]);
         if (!empty($counts['remaining'])) {
-            $message .= ' ' . get_string('privacy_cleanup_remaining', 'videotrack', $counts['remaining']);
+            $message .= ' ' . get_string('privacy_cleanup_remaining', 'mod_videotrack', $counts['remaining']);
         }
         mtrace($message);
     }

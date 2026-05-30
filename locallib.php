@@ -281,7 +281,14 @@ function videotrack_reaction_icon_url(\context_module $context, stdClass $reacti
         return ''; // Ignora silenziosamente URL esterni.
     }
     $fs = get_file_storage();
-    $files = $fs->get_area_files($context->id, 'mod_videotrack', 'reactionicon', (int)$reaction->id, 'itemid, filepath, filename', false);
+    $files = $fs->get_area_files(
+        $context->id,
+        'mod_videotrack',
+        'reactionicon',
+        (int)$reaction->id,
+        'itemid, filepath, filename',
+        false
+    );
     if (!$files) {
         return '';
     }
@@ -321,12 +328,17 @@ function videotrack_render_reaction_icon(stdClass $reaction, ?\context_module $c
         }
     }
     if ($iconhtml === '') {
-        $iconhtml = html_writer::span(s($reaction->iconvalue !== '' ? $reaction->iconvalue : $label), 'videotrack-reaction-icon-text');
+        $iconhtml = html_writer::span(
+            s($reaction->iconvalue !== '' ? $reaction->iconvalue : $label),
+            'videotrack-reaction-icon-text'
+        );
     }
     if (!$withlabel) {
         return $iconhtml;
     }
-    return html_writer::span($iconhtml, 'videotrack-reaction-icon-wrapper') . ' ' . html_writer::span($label, 'videotrack-reaction-label');
+    return html_writer::span($iconhtml, 'videotrack-reaction-icon-wrapper')
+        . ' '
+        . html_writer::span($label, 'videotrack-reaction-label');
 }
 
 /**
