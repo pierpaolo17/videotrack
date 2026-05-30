@@ -717,7 +717,10 @@
     white-space: nowrap;
     transition: background .15s, border-color .15s;
 }
-.videotrack-chapter-btn:hover  { background: var(--videotrack-control-surface-hover-bg); border-color: var(--videotrack-control-surface-hover-border); }
+.videotrack-chapter-btn:hover {
+    background: var(--videotrack-control-surface-hover-bg);
+    border-color: var(--videotrack-control-surface-hover-border);
+}
 .videotrack-chapter-btn.videotrack-chapter-active {
     background: var(--videotrack-active-bg);
     border-color: var(--videotrack-active-border);

@@ -83,7 +83,7 @@ class restore_videotrack_activity_structure_step extends restore_activity_struct
         $data = (object)$data;
         $data->videotrackid = $this->get_new_parentid('videotrack');
         $data->courseid = $this->get_courseid();
-        $data->cmid = 0;
+        $data->cmid = $this->get_restored_cmid();
         if (!empty($data->userid) && (int)$data->userid > 0) {
             $mappeduserid = $this->get_mappingid('user', $data->userid);
             if (empty($mappeduserid)) {
@@ -115,7 +115,7 @@ class restore_videotrack_activity_structure_step extends restore_activity_struct
         $data = (object)$data;
         $data->videotrackid = $this->get_new_parentid('videotrack');
         $data->courseid = $this->get_courseid();
-        $data->cmid = 0;
+        $data->cmid = $this->get_restored_cmid();
         if (!empty($data->userid) && (int)$data->userid > 0) {
             $mappeduserid = $this->get_mappingid('user', $data->userid);
             if (empty($mappeduserid)) {
@@ -147,7 +147,7 @@ class restore_videotrack_activity_structure_step extends restore_activity_struct
         $data = (object)$data;
         $data->videotrackid = $this->get_new_parentid('videotrack');
         $data->courseid = $this->get_courseid();
-        $data->cmid = 0;
+        $data->cmid = $this->get_restored_cmid();
         if (!empty($data->userid) && (int)$data->userid > 0) {
             $mappeduserid = $this->get_mappingid('user', $data->userid);
             if (empty($mappeduserid)) {
@@ -169,11 +169,15 @@ class restore_videotrack_activity_structure_step extends restore_activity_struct
                 $now = time();
                 $placeholder = (object)[
                     'videotrackid' => $data->videotrackid,
-                    'reactionkey' => !empty($data->reactionkey) ? $data->reactionkey : ('restored_' . $oldreactionid),
+                    'reactionkey' => !empty($data->reactionkey)
+                        ? clean_param($data->reactionkey, PARAM_ALPHANUMEXT)
+                        : ('restored_' . $oldreactionid),
                     'label' => !empty($data->reactionlabel)
-                        ? $data->reactionlabel
+                        ? clean_param($data->reactionlabel, PARAM_TEXT)
                         : get_string('restore_placeholder_reaction', 'mod_videotrack'),
-                    'description' => $data->reactiondesc ?? '',
+                    'description' => !empty($data->reactiondesc)
+                        ? clean_param($data->reactiondesc, PARAM_TEXT)
+                        : '',
                     'icontype' => 'emoji',
                     'iconvalue' => '',
                     'requiredforcompletion' => 0,
@@ -212,6 +216,15 @@ class restore_videotrack_activity_structure_step extends restore_activity_struct
         }
     }
 
+    /**
+     * Return the new course module id created by the restore task.
+     *
+     * @return int
+     */
+    protected function get_restored_cmid(): int {
+        return (int)$this->task->get_moduleid();
+    }
+
     protected function after_execute() {
         global $DB, $CFG;
 
@@ -221,13 +234,13 @@ class restore_videotrack_activity_structure_step extends restore_activity_struct
         $this->add_related_files('mod_videotrack', 'subtitles',    null);
         $this->add_related_files('mod_videotrack', 'posterimage',  null);
 
-        $cmid         = $this->task->get_moduleid();
+        $cmid         = $this->get_restored_cmid();
         $videotrackid = $this->get_new_parentid('videotrack');
 
         if (!empty($videotrackid) && !empty($cmid)) {
             $DB->set_field('videotrack_seg',    'cmid', $cmid, ['videotrackid' => $videotrackid]);
             $DB->set_field('videotrack_state',  'cmid', $cmid, ['videotrackid' => $videotrackid]);
-            $DB->set_field('videotrack_reactev','cmid', $cmid, ['videotrackid' => $videotrackid]);
+            $DB->set_field('videotrack_reactev', 'cmid', $cmid, ['videotrackid' => $videotrackid]);
         }
 
         // Recreate the grade item in the destination course gradebook.
