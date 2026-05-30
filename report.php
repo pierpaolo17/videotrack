@@ -283,7 +283,11 @@ if ($hasgrade && $cangrade && $alluserids) {
 }
 
 $clusterlimitreached = false;
-$clusterize = function(iterable $events, int $windowseconds, string $aggregationmode) use ($reactionmap, $sort, &$clusterlimitreached) {
+$clusterize = function(
+    iterable $events,
+    int $windowseconds,
+    string $aggregationmode
+) use ($reactionmap, $sort, &$clusterlimitreached) {
     // Events are processed in timestamp order. Keep only the latest open cluster
     // per reaction (or a single cluster for peak mode), avoiding the former O(n * clusters)
     // scan for every event.
@@ -443,10 +447,13 @@ if ($export === 'csv') {
         $eventrs->close();
         if ($clusterlimitreached) {
             // Put the warning before the data header so spreadsheet users see it immediately.
-            fputcsv($fh, videotrack_csv_safe_row(['warning', get_string('report:clusterlimitreached_csv', 'mod_videotrack')]));
+            $warningrow = ['warning', get_string('report:clusterlimitreached_csv', 'mod_videotrack')];
+            fputcsv($fh, videotrack_csv_safe_row($warningrow));
             if (!$hasvideotimefilter) {
-                fputcsv($fh, videotrack_csv_safe_row(['warning', get_string('report:clusterlimitrequiresfilters_csv', 'mod_videotrack')]));
-                fputcsv($fh, videotrack_csv_safe_row(['warning', get_string('report:clusterexportblocked_csv', 'mod_videotrack')]));
+                $warningrow = ['warning', get_string('report:clusterlimitrequiresfilters_csv', 'mod_videotrack')];
+                fputcsv($fh, videotrack_csv_safe_row($warningrow));
+                $warningrow = ['warning', get_string('report:clusterexportblocked_csv', 'mod_videotrack')];
+                fputcsv($fh, videotrack_csv_safe_row($warningrow));
                 fclose($fh);
                 exit;
             }
@@ -783,9 +790,21 @@ if ($mode === 'student') {
                     'action' => $PAGE->url->out(false),
                     'class'  => 'videotrack-grade-form d-inline-flex align-items-center gap-1',
                 ]);
-                $gradecell .= html_writer::empty_tag('input', ['type' => 'hidden', 'name' => 'sesskey',     'value' => sesskey()]);
-                $gradecell .= html_writer::empty_tag('input', ['type' => 'hidden', 'name' => 'savegrade',   'value' => 1]);
-                $gradecell .= html_writer::empty_tag('input', ['type' => 'hidden', 'name' => 'grade_userid','value' => (int)$state->userid]);
+                $gradecell .= html_writer::empty_tag('input', [
+                    'type' => 'hidden',
+                    'name' => 'sesskey',
+                    'value' => sesskey(),
+                ]);
+                $gradecell .= html_writer::empty_tag('input', [
+                    'type' => 'hidden',
+                    'name' => 'savegrade',
+                    'value' => 1,
+                ]);
+                $gradecell .= html_writer::empty_tag('input', [
+                    'type' => 'hidden',
+                    'name' => 'grade_userid',
+                    'value' => (int)$state->userid,
+                ]);
 
                 if ($videotrack->grade > 0) {
                     // Numeric grading: number input constrained by the activity maximum.
@@ -837,8 +856,14 @@ if ($mode === 'student') {
                     $gradecell .= html_writer::tag('span',
                         html_writer::span($passed ? '✓' : '✗', '', ['aria-hidden' => 'true']) .
                             html_writer::span($passlabel, 'sr-only'),
-                        ['class' => 'ms-1 ' . ($passed ? 'text-success' : 'text-danger'),
-                         'title' => get_string('report:gradepass_hint', 'mod_videotrack', format_float((float)$videotrack->gradepass, 2))]
+                        [
+                            'class' => 'ms-1 ' . ($passed ? 'text-success' : 'text-danger'),
+                            'title' => get_string(
+                                'report:gradepass_hint',
+                                'mod_videotrack',
+                                format_float((float)$videotrack->gradepass, 2)
+                            ),
+                        ]
                     );
                 }
 
@@ -852,9 +877,21 @@ if ($mode === 'student') {
                     'action' => (new moodle_url('/mod/videotrack/report.php', $baseparams))->out(false),
                     'class' => 'd-inline videotrack-reset-student-form',
                 ]);
-                $resetform .= html_writer::empty_tag('input', ['type' => 'hidden', 'name' => 'sesskey', 'value' => sesskey()]);
-                $resetform .= html_writer::empty_tag('input', ['type' => 'hidden', 'name' => 'resetaction', 'value' => 'resetstudent']);
-                $resetform .= html_writer::empty_tag('input', ['type' => 'hidden', 'name' => 'resetuserid', 'value' => (int)$state->userid]);
+                $resetform .= html_writer::empty_tag('input', [
+                    'type' => 'hidden',
+                    'name' => 'sesskey',
+                    'value' => sesskey(),
+                ]);
+                $resetform .= html_writer::empty_tag('input', [
+                    'type' => 'hidden',
+                    'name' => 'resetaction',
+                    'value' => 'resetstudent',
+                ]);
+                $resetform .= html_writer::empty_tag('input', [
+                    'type' => 'hidden',
+                    'name' => 'resetuserid',
+                    'value' => (int)$state->userid,
+                ]);
                 $resetform .= html_writer::tag('button', get_string('report:resetstudent', 'mod_videotrack'), [
                     'type' => 'submit',
                     'class' => 'btn btn-sm btn-outline-danger videotrack-reset-student',
@@ -909,10 +946,22 @@ if ($mode === 'student') {
         // Heatmap SVG: show reaction distribution on the video timeline.
         $duration = (float)($DB->get_field('videotrack', 'durationseconds', ['id' => $videotrack->id]) ?: 0);
         if ($duration > 0 && $clusters) {
-            $svgw = 800; $svgh = 48; $barh = 32; $pady = 8;
+            $svgw = 800;
+            $svgh = 48;
+            $barh = 32;
+            $pady = 8;
             $maxcount = max(array_column($clusters, 'count'));
-            // Raccoglie i colori per reazione (ciclo di palette accessibile).
-            $palette = ['#4e79a7','#f28e2b','#e15759','#76b7b2','#59a14f','#edc948','#b07aa1','#ff9da7'];
+            // Collect per-reaction colours using an accessible rotating palette.
+            $palette = [
+                '#4e79a7',
+                '#f28e2b',
+                '#e15759',
+                '#76b7b2',
+                '#59a14f',
+                '#edc948',
+                '#b07aa1',
+                '#ff9da7',
+            ];
             $reactioncolors = [];
             $ci = 0;
             foreach ($reactions as $r) {
@@ -927,63 +976,103 @@ if ($mode === 'student') {
                 'aria-label' => $svgtitle,
                 'aria-describedby' => 'videotrack-heatmap-table',
                 'class' => 'videotrack-heatmap-svg',
-                'style' => "max-width:{$svgw}px;height:{$svgh}px",
             ];
-            $svg = '<svg';
-            foreach ($svgattributes as $name => $value) {
-                $svg .= ' ' . $name . '="' . s($value) . '"';
-            }
-            $svg .= '>';
-            $svg .= "<title>{$svgtitle}</title>";
+            $svg = html_writer::start_tag('svg', $svgattributes);
+            $svg .= html_writer::tag('title', $svgtitle);
             $patternpaths = [
-                '<path d="M0 6 L6 0" stroke="#000" stroke-width="1" opacity="0.25"/>',
-                '<path d="M0 0 L6 6" stroke="#000" stroke-width="1" opacity="0.25"/>',
-                '<path d="M3 0 L3 6" stroke="#000" stroke-width="1" opacity="0.25"/>',
-                '<path d="M0 3 L6 3" stroke="#000" stroke-width="1" opacity="0.25"/>',
+                html_writer::empty_tag('path', [
+                    'd' => 'M0 6 L6 0',
+                    'stroke' => '#000',
+                    'stroke-width' => '1',
+                    'opacity' => '0.25',
+                ]),
+                html_writer::empty_tag('path', [
+                    'd' => 'M0 0 L6 6',
+                    'stroke' => '#000',
+                    'stroke-width' => '1',
+                    'opacity' => '0.25',
+                ]),
+                html_writer::empty_tag('path', [
+                    'd' => 'M3 0 L3 6',
+                    'stroke' => '#000',
+                    'stroke-width' => '1',
+                    'opacity' => '0.25',
+                ]),
+                html_writer::empty_tag('path', [
+                    'd' => 'M0 3 L6 3',
+                    'stroke' => '#000',
+                    'stroke-width' => '1',
+                    'opacity' => '0.25',
+                ]),
             ];
-            $patternstyles = [
-                'repeating-linear-gradient(135deg,rgba(0,0,0,.32) 0,rgba(0,0,0,.32) 1px,transparent 1px,transparent 4px)',
-                'repeating-linear-gradient(45deg,rgba(0,0,0,.32) 0,rgba(0,0,0,.32) 1px,transparent 1px,transparent 4px)',
-                'repeating-linear-gradient(90deg,rgba(0,0,0,.32) 0,rgba(0,0,0,.32) 1px,transparent 1px,transparent 4px)',
-                'repeating-linear-gradient(0deg,rgba(0,0,0,.32) 0,rgba(0,0,0,.32) 1px,transparent 1px,transparent 4px)',
-            ];
-            $svg .= '<defs>';
+            $svg .= html_writer::start_tag('defs');
             $patternmap = [];
             $pi = 0;
             foreach ($reactions as $r) {
-                $patternid = 'videotrack-hatch-' . (int)$r->id;
-                $patternmap[(int)$r->id] = $patternid;
-                $svg .= '<pattern id="' . $patternid . '" width="6" height="6" patternUnits="userSpaceOnUse">' .
-                    $patternpaths[$pi % count($patternpaths)] . '</pattern>';
+                $reactionid = (int)$r->id;
+                $patternid = 'videotrack-hatch-' . $reactionid;
+                $patternmap[$reactionid] = $patternid;
+                $svg .= html_writer::tag('pattern', $patternpaths[$pi % count($patternpaths)], [
+                    'id' => $patternid,
+                    'width' => '6',
+                    'height' => '6',
+                    'patternUnits' => 'userSpaceOnUse',
+                ]);
                 $pi++;
             }
-            $svg .= '</defs>';
-            // Barra di sfondo timeline.
-            $svg .= "<rect x=\"0\" y=\"{$pady}\" width=\"{$svgw}\" height=\"{$barh}\" rx=\"3\" fill=\"#e9ecef\"/>";
+            $svg .= html_writer::end_tag('defs');
+            // Timeline background bar.
+            $svg .= html_writer::empty_tag('rect', [
+                'x' => '0',
+                'y' => $pady,
+                'width' => $svgw,
+                'height' => $barh,
+                'rx' => '3',
+                'fill' => '#e9ecef',
+            ]);
             $labelled = 0;
             $labelthreshold = max(1, (int)ceil($maxcount * 0.75));
             foreach ($clusters as $cluster) {
-                $x   = (int)min($svgw, max(0, (($cluster['timestamp'] / $duration) * $svgw)));
-                $h   = max(2, (int)(($cluster['count'] / $maxcount) * $barh));
-                $y   = $pady + $barh - $h;
+                $x = (int)min($svgw, max(0, (($cluster['timestamp'] / $duration) * $svgw)));
+                $h = max(2, (int)(($cluster['count'] / $maxcount) * $barh));
+                $y = $pady + $barh - $h;
                 $col = $reactioncolors[(int)$cluster['reactionid']] ?? '#4e79a7';
                 $tip = s($cluster['reactionlabel']) . ': ' . $cluster['count'] . ' @ ' .
-                       videotrack_format_seconds($cluster['timestamp']);
+                    videotrack_format_seconds($cluster['timestamp']);
                 $rectx = max(0, min($svgw - 6, $x - 3));
-                $svg .= "<rect x=\"{$rectx}\" y=\"{$y}\" width=\"6\" height=\"{$h}\" ";
-                $svg .= "rx=\"2\" fill=\"{$col}\" opacity=\"0.85\"><title>{$tip}</title></rect>";
+                $svg .= html_writer::tag('rect', html_writer::tag('title', $tip), [
+                    'x' => $rectx,
+                    'y' => $y,
+                    'width' => '6',
+                    'height' => $h,
+                    'rx' => '2',
+                    'fill' => $col,
+                    'opacity' => '0.85',
+                ]);
                 $patternid = $patternmap[(int)$cluster['reactionid']] ?? '';
                 if ($patternid !== '') {
-                    $svg .= "<rect x=\"{$rectx}\" y=\"{$y}\" width=\"6\" height=\"{$h}\" fill=\"url(#{$patternid})\" opacity=\"0.35\"/>";
+                    $svg .= html_writer::empty_tag('rect', [
+                        'x' => $rectx,
+                        'y' => $y,
+                        'width' => '6',
+                        'height' => $h,
+                        'fill' => "url(#{$patternid})",
+                        'opacity' => '0.35',
+                    ]);
                 }
                 if ($cluster['count'] >= $labelthreshold && $labelled < 8) {
                     $textx = min($svgw - 24, max(2, $x + 4));
                     $texty = max(8, $y - 2);
-                    $svg .= "<text x=\"{$textx}\" y=\"{$texty}\" font-size=\"10\" fill=\"#212529\">" . (int)$cluster['count'] . "</text>";
+                    $svg .= html_writer::tag('text', (string)(int)$cluster['count'], [
+                        'x' => $textx,
+                        'y' => $texty,
+                        'font-size' => '10',
+                        'fill' => '#212529',
+                    ]);
                     $labelled++;
                 }
             }
-            $svg .= '</svg>';
+            $svg .= html_writer::end_tag('svg');
             echo html_writer::tag('p', get_string('report:heatmap_supplementary', 'mod_videotrack'), [
                 'class' => 'small mb-1'
             ]);
@@ -1030,16 +1119,25 @@ if ($mode === 'student') {
             get_string('report:replay', 'mod_videotrack'),
         ];
         foreach ($clusters as $cluster) {
-            $reactionhtml = $cluster['reaction'] ? videotrack_render_reaction_icon($cluster['reaction'], $context, true) : s($cluster['reactionlabel']);
+            $reactionhtml = $cluster['reaction']
+                ? videotrack_render_reaction_icon($cluster['reaction'], $context, true)
+                : s($cluster['reactionlabel']);
             $start = max(0, $cluster['timestamp'] - 30);
             $end = $cluster['timestamp'] + 30;
-            $replayurl = new moodle_url('/mod/videotrack/view.php', ['id' => $cm->id, 'replaystart' => (int)$start, 'replayend' => (int)$end]);
+            $replayurl = new moodle_url('/mod/videotrack/view.php', [
+                'id' => $cm->id,
+                'replaystart' => (int)$start,
+                'replayend' => (int)$end,
+            ]);
             $table->data[] = [
                 videotrack_format_seconds($cluster['timestamp']),
                 html_writer::span($reactionhtml, 'videotrack-report-icon'),
                 (int)$cluster['count'],
                 (int)$cluster['students'],
-                html_writer::span(html_writer::link($replayurl, get_string('report:replay', 'mod_videotrack')), 'videotrack-replay-inline'),
+                html_writer::span(
+                    html_writer::link($replayurl, get_string('report:replay', 'mod_videotrack')),
+                    'videotrack-replay-inline'
+                ),
             ];
         }
         echo html_writer::table($table);

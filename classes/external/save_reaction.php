@@ -47,14 +47,33 @@ class save_reaction extends external_api {
         ]);
     }
 
-    public static function execute(int $cmid, string $sessionid, int $reactionid, float $videotime, float $playbackrate = 1.0): array {
+    public static function execute(
+        int $cmid,
+        string $sessionid,
+        int $reactionid,
+        float $videotime,
+        float $playbackrate = 1.0
+    ): array {
         global $DB, $USER;
-        $params = self::validate_parameters(self::execute_parameters(), compact('cmid', 'sessionid', 'reactionid', 'videotime', 'playbackrate'));
+        $params = self::validate_parameters(
+            self::execute_parameters(),
+            compact('cmid', 'sessionid', 'reactionid', 'videotime', 'playbackrate')
+        );
         $params['cmid'] = helper::validate_positive_id((int)$params['cmid'], 'cmid');
         $params['reactionid'] = helper::validate_positive_id((int)$params['reactionid'], 'reactionid');
         $params['sessionid'] = helper::validate_session_id($params['sessionid']);
-        $params['videotime'] = helper::validate_bounded_float((float)$params['videotime'], 'videotime', 0.0, 86400.0);
-        $params['playbackrate'] = helper::validate_bounded_float((float)$params['playbackrate'], 'playbackrate', 0.25, 4.0);
+        $params['videotime'] = helper::validate_bounded_float(
+            (float)$params['videotime'],
+            'videotime',
+            0.0,
+            86400.0
+        );
+        $params['playbackrate'] = helper::validate_bounded_float(
+            (float)$params['playbackrate'],
+            'playbackrate',
+            0.25,
+            4.0
+        );
         $loaded = helper::load_and_validate_context((int)$params['cmid']);
         helper::require_ajax_sesskey();
         $course = $loaded['course'];

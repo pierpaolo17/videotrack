@@ -80,10 +80,30 @@ class save_segment extends external_api {
         $params['cmid'] = helper::validate_positive_id((int)$params['cmid'], 'cmid');
         $params['sessionid'] = helper::validate_session_id($params['sessionid']);
         $params['endreason'] = helper::validate_end_reason($params['endreason']);
-        $params['videotimestart'] = helper::validate_bounded_float((float)$params['videotimestart'], 'videotimestart', 0.0, self::MAX_DURATION_SECONDS);
-        $params['videotimeend'] = helper::validate_bounded_float((float)$params['videotimeend'], 'videotimeend', 0.0, self::MAX_DURATION_SECONDS);
-        $params['playbackrate'] = helper::validate_bounded_float((float)$params['playbackrate'], 'playbackrate', 0.25, 4.0);
-        $params['durationseconds'] = helper::validate_bounded_float((float)$params['durationseconds'], 'durationseconds', 0.0, self::MAX_DURATION_SECONDS);
+        $params['videotimestart'] = helper::validate_bounded_float(
+            (float)$params['videotimestart'],
+            'videotimestart',
+            0.0,
+            self::MAX_DURATION_SECONDS
+        );
+        $params['videotimeend'] = helper::validate_bounded_float(
+            (float)$params['videotimeend'],
+            'videotimeend',
+            0.0,
+            self::MAX_DURATION_SECONDS
+        );
+        $params['playbackrate'] = helper::validate_bounded_float(
+            (float)$params['playbackrate'],
+            'playbackrate',
+            0.25,
+            4.0
+        );
+        $params['durationseconds'] = helper::validate_bounded_float(
+            (float)$params['durationseconds'],
+            'durationseconds',
+            0.0,
+            self::MAX_DURATION_SECONDS
+        );
         $loaded = helper::load_and_validate_context((int)$params['cmid']);
         helper::require_ajax_sesskey();
         $course = $loaded['course'];
@@ -97,7 +117,11 @@ class save_segment extends external_api {
         // server-side duration.
         $knownduration = (float)($videotrack->durationseconds ?? 0);
         $normaliseduration = $knownduration > 0 ? min($knownduration, self::MAX_DURATION_SECONDS) : 0.0;
-        $interval = tracker::normalise_interval((float)$params['videotimestart'], (float)$params['videotimeend'], $normaliseduration);
+        $interval = tracker::normalise_interval(
+            (float)$params['videotimestart'],
+            (float)$params['videotimeend'],
+            $normaliseduration
+        );
         if ($interval === null) {
             return [
                 'accepted'             => false,

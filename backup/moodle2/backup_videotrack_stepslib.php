@@ -84,9 +84,9 @@ class backup_videotrack_activity_structure_step extends backup_activity_structur
         }
 
         $videotrack->set_source_table('videotrack', ['id' => backup::VAR_ACTIVITYID]);
-        // Include tutte le reazioni (isdeleted=0 e isdeleted=1): gli eventi storici in
-        // videotrack_reactev possono puntare a reazioni eliminate via soft-delete.
-        // Escluderle dal backup causerebbe reactionid orfani al restore.
+        // Include all reactions (isdeleted=0 and isdeleted=1): historic reaction events in
+        // videotrack_reactev may point to soft-deleted reactions. Excluding them from
+        // backup would create orphan reaction IDs during restore.
         $reaction->set_source_table('videotrack_react', ['videotrackid' => backup::VAR_PARENTID]);
 
         if ($userinfo) {

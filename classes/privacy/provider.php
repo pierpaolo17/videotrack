@@ -224,9 +224,13 @@ class provider implements
                       $state->cmid, $state->userid, $state->sessionid);
             }
             if ($state) {
-                $writer->export_data([get_string('watch', 'mod_videotrack'), get_string('privacy:state', 'mod_videotrack')], (object)[
-                    'state' => $state,
-                ]);
+                $writer->export_data(
+                    [
+                        get_string('watch', 'mod_videotrack'),
+                        get_string('privacy:state', 'mod_videotrack'),
+                    ],
+                    (object)['state' => $state]
+                );
             }
 
             $segmentrs = $DB->get_recordset('videotrack_seg', [
@@ -246,18 +250,26 @@ class provider implements
                       $segment->cmid, $segment->userid, $segment->sessionid);
                 $segments[] = $segment;
                 if (count($segments) >= 500) {
-                    $writer->export_data([get_string('watch', 'mod_videotrack'), get_string('privacy:segmentschunk', 'mod_videotrack', $chunk)], (object)[
-                        'segments' => $segments,
-                    ]);
+                    $writer->export_data(
+                        [
+                            get_string('watch', 'mod_videotrack'),
+                            get_string('privacy:segmentschunk', 'mod_videotrack', $chunk),
+                        ],
+                        (object)['segments' => $segments]
+                    );
                     $segments = [];
                     $chunk++;
                 }
             }
             $segmentrs->close();
             if (!empty($segments)) {
-                $writer->export_data([get_string('watch', 'mod_videotrack'), get_string('privacy:segmentschunk', 'mod_videotrack', $chunk)], (object)[
-                    'segments' => $segments,
-                ]);
+                $writer->export_data(
+                    [
+                        get_string('watch', 'mod_videotrack'),
+                        get_string('privacy:segmentschunk', 'mod_videotrack', $chunk),
+                    ],
+                    (object)['segments' => $segments]
+                );
             }
 
             $eventrs = $DB->get_recordset('videotrack_reactev', [

@@ -56,9 +56,17 @@ class restore_videotrack_activity_structure_step extends restore_activity_struct
     protected function process_videotrack_reaction($data) {
         global $DB;
         $data = (object)$data;
-        $oldid = $data->id;
-        $data->videotrackid = $this->get_new_parentid('videotrack');
-        $newitemid = $DB->insert_record('videotrack_react', $data);
+        $oldid = (int)$data->id;
+        $record = (object)[
+            'videotrackid' => $this->get_new_parentid('videotrack'),
+            'label' => isset($data->label) ? clean_param($data->label, PARAM_TEXT) : '',
+            'emoji' => isset($data->emoji) ? clean_param($data->emoji, PARAM_TEXT) : '',
+            'sortorder' => isset($data->sortorder) ? (int)$data->sortorder : 0,
+            'isdeleted' => empty($data->isdeleted) ? 0 : 1,
+            'timecreated' => isset($data->timecreated) ? (int)$data->timecreated : time(),
+            'timemodified' => isset($data->timemodified) ? (int)$data->timemodified : time(),
+        ];
+        $newitemid = $DB->insert_record('videotrack_react', $record);
         $this->set_mapping('videotrack_react', $oldid, $newitemid, true);
     }
 
