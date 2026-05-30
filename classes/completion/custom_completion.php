@@ -98,14 +98,22 @@ class custom_completion extends \core_completion\activity_custom_completion {
         $instance = $this->cm->get_instance_record();
         $descriptions = [];
         if (!empty($instance->completionpercent)) {
-            $descriptions['completionpercent'] = get_string('completiondetail:percent', 'mod_videotrack', $instance->completionpercent);
+            $descriptions['completionpercent'] = get_string(
+                'completiondetail:percent',
+                'mod_videotrack',
+                $instance->completionpercent
+            );
         }
         if (!empty($instance->reactionsrequired) && !empty($instance->minreactions)) {
             $descriptions['minreactions'] = get_string('completiondetail:minreactions', 'mod_videotrack', $instance->minreactions);
         }
         $required = $this->get_required_reaction_labels();
         if (!empty($required)) {
-            $descriptions['requiredreactions'] = get_string('completiondetail:requiredreactions', 'mod_videotrack', implode(', ', $required));
+            $descriptions['requiredreactions'] = get_string(
+                'completiondetail:requiredreactions',
+                'mod_videotrack',
+                implode(', ', $required)
+            );
         }
         if (!empty($instance->requireallreactiontypes)) {
             $descriptions['allreactiontypes'] = get_string('completiondetail:allreactiontypes', 'mod_videotrack');

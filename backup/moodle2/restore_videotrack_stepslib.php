@@ -127,12 +127,14 @@ class restore_videotrack_activity_structure_step extends restore_activity_struct
                 // Very defensive fallback: normally all referenced reactions are backed up.
                 // If a malformed/partial backup omits one, preserve the historical relation
                 // by creating a hidden placeholder instead of storing reactionid = 0.
-                $this->log(get_string('restore_missing_reaction_mapping', 'videotrack', $oldreactionid), backup::LOG_WARNING);
+                $this->log(get_string('restore_missing_reaction_mapping', 'mod_videotrack', $oldreactionid), backup::LOG_WARNING);
                 $now = time();
                 $placeholder = (object)[
                     'videotrackid' => $data->videotrackid,
                     'reactionkey' => !empty($data->reactionkey) ? $data->reactionkey : ('restored_' . $oldreactionid),
-                    'label' => !empty($data->reactionlabel) ? $data->reactionlabel : get_string('restore_placeholder_reaction', 'videotrack'),
+                    'label' => !empty($data->reactionlabel)
+                        ? $data->reactionlabel
+                        : get_string('restore_placeholder_reaction', 'mod_videotrack'),
                     'description' => $data->reactiondesc ?? '',
                     'icontype' => 'emoji',
                     'iconvalue' => '',
