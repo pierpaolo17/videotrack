@@ -716,11 +716,10 @@ function xmldb_videotrack_upgrade($oldversion) {
         upgrade_mod_savepoint(true, 2026052939, 'videotrack');
     }
 
-    if ($oldversion < 2026072540) {
-        // Release 1.4.30: compatibility savepoint for packages that used the earlier
-        // 20260725xx version sequence before the version-number normalisation.
+    if ($oldversion < 2026053040) {
+        // Release 1.4.30: complete hardening and Moodle HQ packaging cleanup.
         // No database schema changes.
-        upgrade_mod_savepoint(true, 2026072540, 'videotrack');
+        upgrade_mod_savepoint(true, 2026053040, 'videotrack');
     }
 
     return true;

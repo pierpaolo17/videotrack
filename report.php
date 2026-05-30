@@ -920,9 +920,20 @@ if ($mode === 'student') {
                 $ci++;
             }
             $svgtitle = s(get_string('report:heatmap_desc', 'mod_videotrack'));
-            $svg  = "<svg viewBox=\"0 0 {$svgw} {$svgh}\" xmlns=\"http://www.w3.org/2000/svg\" ";
-            $svg .= "role=\"img\" aria-label=\"{$svgtitle}\" aria-describedby=\"videotrack-heatmap-table\" ";
-            $svg .= "style=\"width:100%;max-width:{$svgw}px;height:{$svgh}px;display:block;margin-bottom:1rem;border:1px solid #dee2e6;border-radius:4px;background:#f8f9fa\">";
+            $svgattributes = [
+                'viewBox' => "0 0 {$svgw} {$svgh}",
+                'xmlns' => 'http://www.w3.org/2000/svg',
+                'role' => 'img',
+                'aria-label' => $svgtitle,
+                'aria-describedby' => 'videotrack-heatmap-table',
+                'class' => 'videotrack-heatmap-svg',
+                'style' => "max-width:{$svgw}px;height:{$svgh}px",
+            ];
+            $svg = '<svg';
+            foreach ($svgattributes as $name => $value) {
+                $svg .= ' ' . $name . '="' . s($value) . '"';
+            }
+            $svg .= '>';
             $svg .= "<title>{$svgtitle}</title>";
             $patternpaths = [
                 '<path d="M0 6 L6 0" stroke="#000" stroke-width="1" opacity="0.25"/>',
@@ -989,9 +1000,13 @@ if ($mode === 'student') {
             foreach ($reactions as $r) {
                 $color = $reactioncolors[(int)$r->id] ?? '#4e79a7';
                 $patternstyle = $patternstyles[$legendindex % count($patternstyles)];
+                $swatchstyle = implode(';', [
+                    'background-color:' . $color,
+                    'background-image:' . $patternstyle,
+                ]);
                 $swatch = html_writer::span('', 'videotrack-heatmap-swatch', [
                     'aria-hidden' => 'true',
-                    'style' => 'display:inline-block;width:0.9em;height:0.9em;margin-right:0.35em;border:1px solid #555;background-color:' . $color . ';background-image:' . $patternstyle,
+                    'style' => $swatchstyle,
                 ]);
                 $legenditems[] = html_writer::tag('li', $swatch . s($r->label), ['class' => 'list-inline-item mr-3']);
                 $legendindex++;

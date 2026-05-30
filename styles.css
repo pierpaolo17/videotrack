@@ -923,3 +923,22 @@
     min-width: 44px;
     min-height: 44px;
 }
+
+/* ─── Accessible report heatmap ─────────────────────────────────────────── */
+
+.videotrack-heatmap-svg {
+    width: 100%;
+    display: block;
+    margin-bottom: 1rem;
+    border: 1px solid var(--videotrack-panel-border);
+    border-radius: 4px;
+    background: var(--videotrack-panel-muted-bg);
+}
+
+.videotrack-heatmap-swatch {
+    display: inline-block;
+    width: 0.9em;
+    height: 0.9em;
+    margin-right: 0.35em;
+    border: 1px solid #555;
+}
