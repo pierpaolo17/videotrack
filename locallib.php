@@ -39,6 +39,11 @@ defined('MOODLE_INTERNAL') || die();
  * @return int Bounded mod_videotrack setting value.
  */
 function videotrack_get_config_int(string $name, int $default, int $min, int $max): int {
+    if ($min > $max) {
+        throw new \coding_exception(
+            "videotrack_get_config_int: min ({$min}) must not exceed max ({$max}) for setting '{$name}'"
+        );
+    }
     $value = get_config('mod_videotrack', $name);
     if ($value === false || $value === null || $value === '' || !is_numeric($value)) {
         $value = $default;
