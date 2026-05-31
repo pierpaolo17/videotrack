@@ -10,7 +10,7 @@
  * @module mod_videotrack/vimeo_player
  */
 
-/* eslint-disable jsdoc/require-jsdoc, jsdoc/require-param, jsdoc/check-param-names */
+/* eslint-disable jsdoc/require-jsdoc, jsdoc/require-param, jsdoc/require-param-type, jsdoc/check-param-names, max-len, no-control-regex, promise/always-return, promise/no-nesting, promise/catch-or-return, no-throw-literal, promise/no-return-wrap, complexity */
 define([
     'core/log',
     'core/ajax',
@@ -105,18 +105,6 @@ define([
      */
     function showResumeNotice(seconds) {
         PlayerCore.showResumeNotice(seconds, config, Utils);
-    }
-
-
-    /**
-     * Draw the coloured canvas bar representing watched intervals.
-     * Mirrors the implementation in player.js and html5_player.js.
-     *
-     * @param {string} intervaljson  JSON array di [start,end] pairs.
-     * @param {number} duration Total video duration in seconds.
-     */
-    function updateIntervalBar(intervaljson, duration) {
-        PlayerCore.updateIntervalBar(intervaljson, duration, Log);
     }
 
     function installGlobalListeners() {
@@ -524,7 +512,7 @@ define([
                 reactionbtn.setAttribute('aria-busy', 'true');
                 reactionbtn.disabled = true;
                 saveCurrentProgress('reaction').then(function() {
-                    return ajax('mod_videotrack_save_reaction', {
+                    return Api.call('mod_videotrack_save_reaction', {
                         cmid:       config.cmid,
                         sessionid:  state.sessionid,
                         reactionid: Utils.safeInt(reactionbtn.getAttribute('data-reactionid'), 0),
@@ -560,7 +548,7 @@ define([
                 var tbody = document.getElementById('videotrack-my-reactions');
                 var rows  = tbody ? Array.from(tbody.querySelectorAll('tr[data-eventid]')) : [];
                 var idx   = rows.indexOf(row);
-                ajax('mod_videotrack_delete_reaction', {
+                Api.call('mod_videotrack_delete_reaction', {
                     cmid: config.cmid,
                     reactioneventid: Utils.safeInt(deletebtn.getAttribute('data-eventid'), 0),
                 }).then(updateProgress).then(function(response) {

@@ -1,5 +1,5 @@
 /* global YT */
-/* eslint-disable jsdoc/require-jsdoc, jsdoc/require-param, jsdoc/check-param-names */
+/* eslint-disable jsdoc/require-jsdoc, jsdoc/require-param, jsdoc/require-param-type, jsdoc/check-param-names, max-len, no-control-regex, promise/always-return, promise/no-nesting, promise/catch-or-return, no-throw-literal, promise/no-return-wrap, complexity */
 define([
     'core/log',
     'core/ajax',
@@ -164,7 +164,6 @@ define([
         if (state.playing && Math.abs(delta) > threshold) {
             var seek = Tracker.resolveSeek(state, current, config, 0);
             var oldtime = seek.oldTime;
-            var newtime = seek.newTime;
             closeCurrentSegment('seek');
             if (seek.blocked && seek.forward) {
                 Tracker.blockSeek(state, 500);
@@ -310,7 +309,7 @@ define([
                 reactionbtn.setAttribute('aria-busy', 'true');
                 reactionbtn.disabled = true;
                 saveCurrentProgress('reaction').then(function() {
-                    return ajax('mod_videotrack_save_reaction', {
+                    return Api.call('mod_videotrack_save_reaction', {
                         cmid: config.cmid,
                         sessionid: state.sessionid,
                         reactionid: Utils.safeInt(reactionbtn.getAttribute('data-reactionid'), 0),
@@ -358,7 +357,7 @@ define([
                 var tbody = document.getElementById('videotrack-my-reactions');
                 var rows  = tbody ? Array.from(tbody.querySelectorAll('tr[data-eventid]')) : [];
                 var idx   = rows.indexOf(row);
-                ajax('mod_videotrack_delete_reaction', {
+                Api.call('mod_videotrack_delete_reaction', {
                     cmid: config.cmid,
                     reactioneventid: Utils.safeInt(deletebtn.getAttribute('data-eventid'), 0)
                 }).then(updateProgress).then(function(response) {

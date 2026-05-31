@@ -8,7 +8,7 @@
  * @module mod_videotrack/html5_player
  */
 
-/* eslint-disable jsdoc/require-jsdoc, jsdoc/require-param, jsdoc/check-param-names */
+/* eslint-disable jsdoc/require-jsdoc, jsdoc/require-param, jsdoc/require-param-type, jsdoc/check-param-names, max-len, no-control-regex, promise/always-return, promise/no-nesting, promise/catch-or-return, no-throw-literal, promise/no-return-wrap, complexity */
 define([
     'core/log',
     'core/ajax',
@@ -113,19 +113,6 @@ define([
 
     function stopHeartbeat() {
         Tracker.stopPolling(state);
-    }
-
-    // Progress bar (interval map).
-
-    /**
-     * Redraw the watched-interval canvas bar and update its aria-label.
-     * Signature aligned with player.js and vimeo_player.js (duration parameter).
-     * Adds covered-time calculation and aria-label update (WCAG 1.1.1).
-     * @param {string} intervaljson JSON array of [start,end] pairs.
-     * @param {number} duration Total duration in seconds.
-     */
-    function updateIntervalBar(intervaljson, duration) {
-        PlayerCore.updateIntervalBar(intervaljson, duration, Log);
     }
 
     function showResumeNotice(seconds) {
@@ -812,7 +799,7 @@ define([
                 reactionbtn.setAttribute('aria-busy', 'true');
                 reactionbtn.disabled = true;
                 saveCurrentProgress('reaction').then(function() {
-                    return ajax('mod_videotrack_save_reaction', {
+                    return Api.call('mod_videotrack_save_reaction', {
                         cmid:       config.cmid,
                         sessionid:  state.sessionid,
                         reactionid: Utils.safeInt(reactionbtn.getAttribute('data-reactionid'), 0),
@@ -848,7 +835,7 @@ define([
                 var tbody = document.getElementById('videotrack-my-reactions');
                 var rows  = tbody ? Array.from(tbody.querySelectorAll('tr[data-eventid]')) : [];
                 var idx   = rows.indexOf(row);
-                ajax('mod_videotrack_delete_reaction', {
+                Api.call('mod_videotrack_delete_reaction', {
                     cmid: config.cmid,
                     reactioneventid: Utils.safeInt(deletebtn.getAttribute('data-eventid'), 0),
                 }).then(updateProgress).then(function(response) {

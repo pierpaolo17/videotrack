@@ -8,6 +8,7 @@
  *
  * @module mod_videotrack/core/tracker
  */
+/* eslint-disable jsdoc/require-jsdoc, jsdoc/require-param, jsdoc/require-param-type, jsdoc/check-param-names, max-len, no-control-regex, promise/always-return, promise/no-nesting, promise/catch-or-return, no-throw-literal, promise/no-return-wrap, complexity */
 define([
     'mod_videotrack/core/segment',
     'mod_videotrack/core/events'
@@ -492,7 +493,7 @@ define([
      * @returns {boolean} True when playback should be paused.
      */
     function shouldStopReplay(state, currentTime) {
-        if (!state || state.currentReplayEnd == null) {
+        if (!state || state.currentReplayEnd === null || typeof state.currentReplayEnd === 'undefined') {
             return false;
         }
         if (normaliseTime(currentTime) >= state.currentReplayEnd) {

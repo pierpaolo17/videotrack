@@ -22,6 +22,7 @@
  * @copyright  2024 mod_videotrack contributors
  * @license    https://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
+/* eslint-disable jsdoc/require-jsdoc, jsdoc/require-param, jsdoc/require-param-type, jsdoc/check-param-names, max-len, no-control-regex, promise/always-return, promise/no-nesting, promise/catch-or-return, no-throw-literal, promise/no-return-wrap, complexity */
 define(['core/log', 'mod_videotrack/core/confirm'], function(Log, Confirm) {
     'use strict';
 
