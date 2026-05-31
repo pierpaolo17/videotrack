@@ -561,7 +561,7 @@ $string['setting:nonnegativeintmax'] = 'La valeur ne peut pas dépasser {$a}.';
 
 $string['restore_missing_reaction_mapping'] = 'mod_videotrack restore: missing reaction mapping for old reaction id {$a}; creating a hidden placeholder reaction.';
 $string['restore_placeholder_reaction'] = 'Restored reaction';
-$string['privacy_cleanup_failed'] = 'VideoTrack GDPR retention cleanup failed: {$a}';
-$string['privacy_cleanup_unlimited'] = 'VideoTrack GDPR retention: unlimited retention configured; no records anonymised.';
-$string['privacy_cleanup_anonymised'] = 'VideoTrack GDPR retention: anonymised {$a->segments} segments, {$a->states} states, {$a->events} reaction/note events across {$a->processed} user/activity pairs.';
-$string['privacy_cleanup_remaining'] = 'More records remain and will be processed by a later run: {$a}.';
+$string['privacy_cleanup_failed'] = 'Échec du nettoyage de rétention RGPD de VideoTrack : {$a}';
+$string['privacy_cleanup_unlimited'] = 'Rétention RGPD de VideoTrack : rétention illimitée configurée ; aucun enregistrement anonymisé.';
+$string['privacy_cleanup_anonymised'] = 'Rétention RGPD de VideoTrack : {$a->segments} segments, {$a->states} états et {$a->events} événements réaction/note anonymisés sur {$a->processed} paires utilisateur/activité.';
+$string['privacy_cleanup_remaining'] = 'D\'autres enregistrements restent à traiter lors d\'une exécution ultérieure : {$a}.';

@@ -763,5 +763,11 @@ function xmldb_videotrack_upgrade($oldversion) {
         upgrade_mod_savepoint(true, 2026053044, 'videotrack');
     }
 
+    if ($oldversion < 2026073600) {
+        // Release 1.4.36: report-driven hardening, AMD cleanup and minified rebuild.
+        // No database schema changes.
+        upgrade_mod_savepoint(true, 2026073600, 'videotrack');
+    }
+
     return true;
 }

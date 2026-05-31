@@ -101,6 +101,8 @@ define(['core/log'], function(Log) {
 
     function decodeHtmlEntitiesForValidation(value) {
         var decoded = String(value || '');
+        // Five passes cover nested HTML entity encoding without risking an
+        // unbounded loop; legitimate WebVTT captions normally need at most one.
         for (var i = 0; i < 5; i++) {
             var next = decodeHtmlEntitiesOnce(decoded);
             if (next === decoded) {

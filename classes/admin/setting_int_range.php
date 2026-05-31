@@ -49,6 +49,9 @@ class setting_int_range extends setting_nonnegative_int {
         if ($this->min < 0) {
             throw new \coding_exception('setting_int_range only supports non-negative minimum values.');
         }
+        if ($this->min > $this->max) {
+            throw new \coding_exception('setting_int_range minimum must not exceed maximum.');
+        }
         parent::__construct($name, $visiblename, $description, $defaultsetting, PARAM_INT);
     }
 
