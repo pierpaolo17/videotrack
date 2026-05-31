@@ -73,7 +73,12 @@ define([
     // Segment lifecycle.
 
     function startSegment() {
-        Tracker.openSegment(state, safeNumber(media.currentTime, 0), Math.floor(Date.now() / 1000), safeNumber(media.playbackRate, 1));
+        Tracker.openSegment(
+            state,
+            safeNumber(media.currentTime, 0),
+            Math.floor(Date.now() / 1000),
+            safeNumber(media.playbackRate, 1)
+        );
     }
 
     /**
@@ -1217,7 +1222,14 @@ define([
             btn.addEventListener('click', function() {
                 // Seek to the chapter using the programmatic seek flag so anti-skip is not triggered.
                 // Preserve the previous state: if the video was paused, the click does not start playback.
-                var wasPlaying = state.playing && !Adapter.isPaused(state, function() { return media.paused; }, Log, 'HTML5 transcript');
+                var wasPlaying = state.playing && !Adapter.isPaused(
+                    state,
+                    function() {
+                        return media.paused;
+                    },
+                    Log,
+                    'HTML5 transcript'
+                );
                 state.isProgrammaticSeek = true;
                 media.currentTime = ch.start;
                 state.lasttime    = ch.start;

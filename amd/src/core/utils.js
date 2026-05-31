@@ -9,7 +9,10 @@ define(['core/log'], function(Log) {
 
     var MAX_TEXT_RESPONSE_BYTES = 1024 * 1024;
     var FETCH_TEXT_TIMEOUT_MS = 10000;
-
+    var UNSAFE_TAG_PATTERN = /<\s*(script|iframe|object|embed|link|meta|style|svg|math)\b/;
+    var UNSAFE_PROTOCOL_PATTERN = /\b(?:javascript|data)\s*:/i;
+    var UNSAFE_EVENT_PATTERN = /\son[a-z]+\s*=/i;
+    var ENCODED_LT_PATTERN = /&(?:#x0*3c|#0*60|lt);/i;
 
     /**
      * Safely parses an integer value.
@@ -141,13 +144,12 @@ define(['core/log'], function(Log) {
         if (cueCount > 5000) {
             throw 'unexpected-text-content';
         }
-        if (/<\s*script\b|<\s*iframe\b|<\s*object\b|<\s*embed\b|<\s*link\b|<\s*meta\b|<\s*style\b|<\s*svg\b|<\s*math\b/.test(lower) ||
-                /<\s*script\b|<\s*iframe\b|<\s*object\b|<\s*embed\b|<\s*link\b|<\s*meta\b|<\s*style\b|<\s*svg\b|<\s*math\b/.test(decodedLower)) {
+        if (UNSAFE_TAG_PATTERN.test(lower) || UNSAFE_TAG_PATTERN.test(decodedLower)) {
             throw 'unexpected-text-content';
         }
-        if (/\b(?:javascript|data)\s*:/i.test(normalised) || /\son[a-z]+\s*=/i.test(normalised) ||
-                /\b(?:javascript|data)\s*:/i.test(decodedLower) || /\son[a-z]+\s*=/i.test(decodedLower) ||
-                /&(?:#x0*3c|#0*60|lt);/i.test(normalised)) {
+        if (UNSAFE_PROTOCOL_PATTERN.test(normalised) || UNSAFE_EVENT_PATTERN.test(normalised) ||
+                UNSAFE_PROTOCOL_PATTERN.test(decodedLower) || UNSAFE_EVENT_PATTERN.test(decodedLower) ||
+                ENCODED_LT_PATTERN.test(normalised)) {
             throw 'unexpected-text-content';
         }
         return normalised;
