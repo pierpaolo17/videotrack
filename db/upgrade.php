@@ -757,5 +757,11 @@ function xmldb_videotrack_upgrade($oldversion) {
         upgrade_mod_savepoint(true, 2026053043, 'videotrack');
     }
 
+    if ($oldversion < 2026053044) {
+        // Release 1.4.35: restore JSON hardening and release metadata update.
+        // No database schema changes.
+        upgrade_mod_savepoint(true, 2026053044, 'videotrack');
+    }
+
     return true;
 }

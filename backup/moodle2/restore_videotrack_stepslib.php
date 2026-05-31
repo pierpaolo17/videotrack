@@ -139,7 +139,7 @@ class restore_videotrack_activity_structure_step extends restore_activity_struct
             'durationseconds' => isset($data->durationseconds) ? (float)$data->durationseconds : 0.0,
             'uniquecoveredseconds' => isset($data->uniquecoveredseconds) ? (float)$data->uniquecoveredseconds : 0.0,
             'completionpercent' => isset($data->completionpercent) ? (float)$data->completionpercent : 0.0,
-            'intervaljson' => isset($data->intervaljson) ? clean_param($data->intervaljson, PARAM_RAW) : null,
+            'intervaljson' => self::normalise_interval_json($data->intervaljson ?? null),
             'iscompleted' => empty($data->iscompleted) ? 0 : 1,
             'timemodified' => isset($data->timemodified) ? (int)$data->timemodified : time(),
             'timecreated' => isset($data->timecreated) ? (int)$data->timecreated : time(),
@@ -226,6 +226,23 @@ class restore_videotrack_activity_structure_step extends restore_activity_struct
         if ($transaction !== null) {
             $transaction->allow_commit();
         }
+    }
+
+
+    /**
+     * Normalise restored interval JSON before storing it again.
+     *
+     * Backup data is trusted only structurally. This keeps the Moodle restore
+     * path aligned with the runtime tracker normalisation and prevents invalid
+     * or unbounded JSON from being persisted in videotrack_state.
+     *
+     * @param mixed $json Raw value from the backup file.
+     * @return string Canonical JSON encoded interval list.
+     */
+    private static function normalise_interval_json($json): string {
+        $intervals = \mod_videotrack\local\tracker::decode_intervals(is_string($json) ? $json : '');
+        $intervals = \mod_videotrack\local\tracker::merge_intervals($intervals);
+        return \mod_videotrack\local\tracker::encode_intervals($intervals);
     }
 
     /**
