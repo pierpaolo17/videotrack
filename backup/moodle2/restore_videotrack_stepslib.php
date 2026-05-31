@@ -81,6 +81,7 @@ class restore_videotrack_activity_structure_step extends restore_activity_struct
     protected function process_videotrack_segment($data) {
         global $DB;
         $data = (object)$data;
+        $oldid = isset($data->id) ? (int)$data->id : 0;
         $data->videotrackid = $this->get_new_parentid('videotrack');
         $data->courseid = $this->get_courseid();
         $data->cmid = $this->get_restored_cmid();
@@ -107,12 +108,16 @@ class restore_videotrack_activity_structure_step extends restore_activity_struct
             'endreason' => isset($data->endreason) ? clean_param($data->endreason, PARAM_ALPHANUMEXT) : 'unknown',
             'timecreated' => isset($data->timecreated) ? (int)$data->timecreated : time(),
         ];
-        $DB->insert_record('videotrack_seg', $record);
+        $newitemid = $DB->insert_record('videotrack_seg', $record);
+        if ($oldid > 0) {
+            $this->set_mapping('videotrack_seg', $oldid, $newitemid, true);
+        }
     }
 
     protected function process_videotrack_state($data) {
         global $DB;
         $data = (object)$data;
+        $oldid = isset($data->id) ? (int)$data->id : 0;
         $data->videotrackid = $this->get_new_parentid('videotrack');
         $data->courseid = $this->get_courseid();
         $data->cmid = $this->get_restored_cmid();
@@ -139,12 +144,16 @@ class restore_videotrack_activity_structure_step extends restore_activity_struct
             'timemodified' => isset($data->timemodified) ? (int)$data->timemodified : time(),
             'timecreated' => isset($data->timecreated) ? (int)$data->timecreated : time(),
         ];
-        $DB->insert_record('videotrack_state', $record);
+        $newitemid = $DB->insert_record('videotrack_state', $record);
+        if ($oldid > 0) {
+            $this->set_mapping('videotrack_state', $oldid, $newitemid, true);
+        }
     }
 
     protected function process_videotrack_reactionevent($data) {
         global $DB;
         $data = (object)$data;
+        $oldid = isset($data->id) ? (int)$data->id : 0;
         $data->videotrackid = $this->get_new_parentid('videotrack');
         $data->courseid = $this->get_courseid();
         $data->cmid = $this->get_restored_cmid();
@@ -210,7 +219,10 @@ class restore_videotrack_activity_structure_step extends restore_activity_struct
             'timecreated' => isset($data->timecreated) ? (int)$data->timecreated : time(),
             'timemodified' => isset($data->timemodified) ? (int)$data->timemodified : time(),
         ];
-        $DB->insert_record('videotrack_reactev', $record);
+        $newitemid = $DB->insert_record('videotrack_reactev', $record);
+        if ($oldid > 0) {
+            $this->set_mapping('videotrack_reactev', $oldid, $newitemid, true);
+        }
         if ($transaction !== null) {
             $transaction->allow_commit();
         }
@@ -234,14 +246,7 @@ class restore_videotrack_activity_structure_step extends restore_activity_struct
         $this->add_related_files('mod_videotrack', 'subtitles',    null);
         $this->add_related_files('mod_videotrack', 'posterimage',  null);
 
-        $cmid         = $this->get_restored_cmid();
         $videotrackid = $this->get_new_parentid('videotrack');
-
-        if (!empty($videotrackid) && !empty($cmid)) {
-            $DB->set_field('videotrack_seg',    'cmid', $cmid, ['videotrackid' => $videotrackid]);
-            $DB->set_field('videotrack_state',  'cmid', $cmid, ['videotrackid' => $videotrackid]);
-            $DB->set_field('videotrack_reactev', 'cmid', $cmid, ['videotrackid' => $videotrackid]);
-        }
 
         // Recreate the grade item in the destination course gradebook.
         // Without this call, the grade does not appear in the grader report after restore.
