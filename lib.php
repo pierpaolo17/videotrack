@@ -1235,7 +1235,7 @@ function videotrack_pluginfile($course, $cm, $context, $filearea, $args, $forced
     if ($context->contextlevel !== CONTEXT_MODULE) {
         return false;
     }
-    if (!in_array($filearea, ['reactionicon', 'videocontent', 'subtitles', 'posterimage'], true)) {
+    if (!in_array($filearea, ['intro', 'reactionicon', 'videocontent', 'subtitles', 'posterimage'], true)) {
         return false;
     }
     $allowedextensions = [
@@ -1258,6 +1258,9 @@ function videotrack_pluginfile($course, $cm, $context, $filearea, $args, $forced
     $file = $fs->get_file($context->id, 'mod_videotrack', $filearea, $itemid, $filepath, $filename);
     if (!$file || $file->is_directory()) {
         return false;
+    }
+    if ($filearea === 'intro') {
+        return send_stored_file($file, 0, 0, $forcedownload, $options);
     }
     $extension = strtolower(pathinfo($file->get_filename(), PATHINFO_EXTENSION));
     if (!in_array($extension, $allowedextensions[$filearea], true)) {
