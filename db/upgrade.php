@@ -769,5 +769,11 @@ function xmldb_videotrack_upgrade($oldversion) {
         upgrade_mod_savepoint(true, 2026073600, 'videotrack');
     }
 
+    if ($oldversion < 2026080100) {
+        // Release 1.4.37: normalise plugin and XMLDB version metadata.
+        // No database schema changes.
+        upgrade_mod_savepoint(true, 2026080100, 'videotrack');
+    }
+
     return true;
 }
