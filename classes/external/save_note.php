@@ -75,8 +75,10 @@ class save_note extends external_api {
         }
 
         // Sanitize and truncate to the configured limit to prevent abuse.
+        // Notes are plain text in the UI and restore path; normalise AJAX input
+        // before storing it so raw HTML is never persisted in notetext.
         $notemaxlength = \videotrack_get_config_int('notemaxlength', 2000, 100, 10000);
-        $rawtext = trim($params['notetext']);
+        $rawtext = clean_param(trim($params['notetext']), PARAM_TEXT);
         $truncated = $notemaxlength > 0 && \core_text::strlen($rawtext) > $notemaxlength;
         $text = \core_text::substr($rawtext, 0, $notemaxlength);
         if ($text === '') {
