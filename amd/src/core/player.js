@@ -399,6 +399,7 @@ define([
      *
      * @param {Object} deps Dependencies and callbacks from the concrete player.
      * @param {Object} deps.Ajax Ajax module.
+     * @param {Object} deps.Api Shared AJAX hardening module.
      * @param {Object} deps.Log Log module.
      * @param {Object} deps.Utils Utility module.
      * @param {Object} deps.config Player configuration.

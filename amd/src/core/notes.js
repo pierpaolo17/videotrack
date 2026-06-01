@@ -127,6 +127,7 @@ define([], function() {
      */
     function installHandler(deps) {
         var Ajax = deps.Ajax;
+        var Api = deps.Api || null;
         var Log = deps.Log;
         var Utils = deps.Utils;
         var config = deps.config;
@@ -150,6 +151,13 @@ define([], function() {
         if (!saveBtn || !textarea) { return; }
 
         function ajax(methodname, args) {
+            if (Api && typeof Api.call === 'function') {
+                return Api.call(methodname, args, {
+                    retries: 1,
+                    errorMessage: 'mod_videotrack: note AJAX request failed',
+                    requestScope: state.ajaxRequestScope
+                });
+            }
             var calls = Ajax.call([{methodname: methodname, args: args}]);
             var request = calls && calls[0];
             if (!request || typeof request.then !== 'function') {
