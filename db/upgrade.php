@@ -775,5 +775,35 @@ function xmldb_videotrack_upgrade($oldversion) {
         upgrade_mod_savepoint(true, 2026080100, 'videotrack');
     }
 
+    if ($oldversion < 2026080101) {
+        // Release 1.4.38: align upgraded-site indexes with install.xml.
+        $segtable = new xmldb_table('videotrack_seg');
+        $index = new xmldb_index('cm_user_idx', XMLDB_INDEX_NOTUNIQUE, ['cmid', 'userid']);
+        if (!$dbman->index_exists($segtable, $index)) {
+            $dbman->add_index($segtable, $index);
+        }
+
+        $statetable = new xmldb_table('videotrack_state');
+        $index = new xmldb_index('cm_user_idx', XMLDB_INDEX_NOTUNIQUE, ['cmid', 'userid']);
+        if (!$dbman->index_exists($statetable, $index)) {
+            $dbman->add_index($statetable, $index);
+        }
+
+        $reactevtable = new xmldb_table('videotrack_reactev');
+        $oldindex = new xmldb_index('vt_user_type_time_idx', XMLDB_INDEX_NOTUNIQUE,
+            ['videotrackid', 'userid', 'notetype', 'timecreated']);
+        if ($dbman->index_exists($reactevtable, $oldindex)) {
+            $dbman->drop_index($reactevtable, $oldindex);
+        }
+
+        $index = new xmldb_index('vt_user_del_type_time_idx', XMLDB_INDEX_NOTUNIQUE,
+            ['videotrackid', 'userid', 'isdeleted', 'notetype', 'timecreated']);
+        if (!$dbman->index_exists($reactevtable, $index)) {
+            $dbman->add_index($reactevtable, $index);
+        }
+
+        upgrade_mod_savepoint(true, 2026080101, 'videotrack');
+    }
+
     return true;
 }
