@@ -616,6 +616,7 @@ define([
     function installNoteHandler() {
         PlayerCore.installNoteHandler({
             Ajax: Ajax,
+            Api: Api,
             Log: Log,
             Utils: Utils,
             config: config,
