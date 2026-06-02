@@ -834,5 +834,12 @@ function xmldb_videotrack_upgrade($oldversion) {
         upgrade_mod_savepoint(true, 2026080106, 'videotrack');
     }
 
+
+    if ($oldversion < 2026080107) {
+        // Release 1.4.44: accessibility and status-message UX hardening.
+        // No database schema changes.
+        upgrade_mod_savepoint(true, 2026080107, 'videotrack');
+    }
+
     return true;
 }

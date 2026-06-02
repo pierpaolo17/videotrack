@@ -133,13 +133,20 @@ define([], function() {
      * @returns {number} Timeout in milliseconds.
      */
     function normaliseTimeout(isError, timeoutMs) {
-        var timeout = Number(timeoutMs);
-        if (!Number.isFinite(timeout) || timeout <= 0) {
-            return isError ? 12000 : 8000;
+        if (timeoutMs === 0) {
+            return 0;
         }
 
-        // Keep notices transient but readable; callers can still pass a longer
-        // timeout for errors without leaving success messages around forever.
+        var timeout = Number(timeoutMs);
+        if (!Number.isFinite(timeout) || timeout < 0) {
+            // Error messages require user action to dismiss so keyboard and screen-reader
+            // users are not forced to catch a disappearing message. Informational
+            // messages remain transient to avoid visual clutter.
+            return isError ? 0 : 8000;
+        }
+
+        // Keep notices transient but readable; callers can pass 0 for a persistent
+        // message, while bounded positive values avoid unreadably short notices.
         var minimum = isError ? 6000 : 4000;
         var maximum = isError ? 30000 : 20000;
         return Math.min(Math.max(timeout, minimum), maximum);
@@ -265,10 +272,12 @@ define([], function() {
         container.insertBefore(notice, container.firstChild || null);
 
         var timeout = normaliseTimeout(!!isError, timeoutMs);
-        state.timerId = window.setTimeout(function() {
-            remove(notice);
-            state.timerId = null;
-        }, timeout);
+        if (timeout > 0) {
+            state.timerId = window.setTimeout(function() {
+                remove(notice);
+                state.timerId = null;
+            }, timeout);
+        }
     }
 
     return {
