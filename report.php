@@ -1144,7 +1144,7 @@ if ($mode === 'student') {
     }
 }
 
-// Inizializza il modulo AMD: gestisce la conferma del reset studente.
+// Initialise the AMD module that handles the student reset confirmation.
 $PAGE->requires->js_call_amd('mod_videotrack/report', 'init', [[
     'confirmreset' => get_string('report:resetstudent_confirm', 'mod_videotrack'),
     'confirmrecalculate' => get_string('report:recalculate', 'mod_videotrack'),
