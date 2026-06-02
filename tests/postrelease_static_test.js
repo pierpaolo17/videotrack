@@ -16,22 +16,16 @@ function exists(relativePath) {
 }
 
 const version = read('version.php');
-assert(/\$plugin->release\s*=\s*'(?:1\.3\.\d+|1\.4\.\d+)';/.test(version), 'version.php must declare a stable 1.3/1.4 release');
+const functionalDocs = read('docs/funzionalita.md');
+const technicalDocs = read('docs/struttura_tecnica.md');
+
+assert(/\$plugin->release\s*=\s*'1\.4\.\d+';/.test(version), 'version.php must declare a stable 1.4 release');
 assert(/\$plugin->maturity\s*=\s*MATURITY_STABLE;/.test(version), 'post-release packages must remain stable');
-
-[
-    'docs/STABLE-RELEASE-1.3.md',
-    'docs/MAINTENANCE-1.3.md',
-    'docs/POST-RELEASE-1.3.md',
-    'tests/stable_release_static_test.js',
-    'tests/maintenance_static_test.js'
-].forEach((relativePath) => {
-    assert(exists(relativePath), `${relativePath} must exist in the post-release package`);
-});
-
-const notes = read('docs/POST-RELEASE-1.3.md');
-assert(notes.includes('MATURITY_STABLE'), 'post-release notes must document stable maturity');
-assert(notes.includes('node tests/postrelease_static_test.js'), 'post-release notes must document this test');
-assert(notes.includes('Moodle runtime'), 'post-release notes must distinguish static checks from runtime Moodle checks');
+assert(exists('docs/funzionalita.md'), 'functional docs must exist');
+assert(exists('docs/struttura_tecnica.md'), 'technical docs must exist');
+assert(technicalDocs.includes('git archive') || technicalDocs.includes('Moodle'), 'technical docs must distinguish repository/release maintenance scope');
+assert(technicalDocs.includes('amd/build'), 'technical docs must document committed AMD build files');
+assert(exists('tests/maintenance_static_test.js'), 'maintenance static test must exist');
+assert(exists('tests/postrelease_static_test.js'), 'post-release static test must exist');
 
 console.log('postrelease_static_test.js: ok');

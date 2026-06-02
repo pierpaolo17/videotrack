@@ -1,59 +1,43 @@
 #!/usr/bin/env node
-/*
- * RC3 freeze checks for mod_videotrack.
- *
- * RC3 is the final planned release-candidate checkpoint before final static
- * verification. These checks keep the package functionally frozen and verify
- * that the release documentation, previous RC gates and version metadata are
- * aligned for the rc3 handoff.
- */
+/* eslint-env node */
 
 const fs = require('fs');
 const path = require('path');
+const assert = require('assert');
 
-const pluginRoot = path.resolve(__dirname, '..');
-
-function fail(message) {
-    throw new Error(message);
-}
+const root = path.resolve(__dirname, '..');
 
 function read(relativePath) {
-    return fs.readFileSync(path.join(pluginRoot, relativePath), 'utf8');
+    return fs.readFileSync(path.join(root, relativePath), 'utf8');
 }
 
-function assertContains(relativePath, pattern, description) {
-    if (!pattern.test(read(relativePath))) {
-        fail(`${relativePath}: missing ${description}`);
-    }
+function exists(relativePath) {
+    return fs.existsSync(path.join(root, relativePath));
 }
 
-function assertFile(relativePath) {
-    if (!fs.existsSync(path.join(pluginRoot, relativePath))) {
-        fail(`${relativePath}: missing file`);
-    }
-}
+const version = read('version.php');
+const functionalDocs = read('docs/funzionalita.md');
+const technicalDocs = read('docs/struttura_tecnica.md');
 
-function main() {
-    assertContains('version.php', /\$plugin->release\s*=\s*'(?:1.3.78-rc3|1\.3\.79|1\.3\.\d+|1\.4\.\d+)'/, 'rc3 release marker');
-    assertContains('version.php', /\$plugin->maturity\s*=\s*MATURITY_(?:RC|STABLE)/, 'release-candidate maturity');
-    assertContains('version.php', /\$plugin->version\s*=\s*20\d{8,9};/, 'incremented plugin version');
+assert(/\$plugin->release\s*=\s*'1\.4\.\d+';/.test(version), 'release marker must stay on the 1.4 line');
+assert(/\$plugin->maturity\s*=\s*MATURITY_(?:RC|STABLE);/.test(version), 'release maturity must be explicit');
+assert(/\$plugin->version\s*=\s*20\d{8,9};/.test(version), 'plugin version must be Moodle calendar-style numeric metadata');
+[
+    'docs/funzionalita.md',
+    'docs/struttura_tecnica.md',
+    'tests/smoke_amd.js',
+    'tests/tracker_segment_test.js',
+    'tests/adapter_test.js',
+    'tests/backup_restore_static_test.js',
+    'tests/privacy_static_test.js',
+    'tests/review_fixes_static_test.js'
+].forEach((relativePath) => {
+    assert(exists(relativePath), `${relativePath} must exist`);
+});
+assert(functionalDocs.includes('tracciare con precisione'), 'functional docs must preserve the plugin learning analytics purpose');
+assert(functionalDocs.includes('attenzione dichiarata dal comportamento'), 'functional docs must preserve the attention caveat');
+assert(technicalDocs.includes('backup/moodle2'), 'technical docs must document backup/restore');
+assert(technicalDocs.includes('Privacy API'), 'technical docs must document privacy API');
+assert(technicalDocs.includes('amd/src'), 'technical docs must document AMD sources');
 
-    [
-        'docs/RELEASE-CANDIDATE-1.3.md',
-        'docs/RELEASE-NOTES-1.3.md',
-        'docs/UPGRADE-1.3.md',
-        'tests/release_candidate_static_test.js',
-        'tests/rc_freeze_static_test.js',
-        'tests/rc2_freeze_static_test.js'
-    ].forEach(assertFile);
-
-    assertContains('docs/RELEASE-CANDIDATE-1.3.md', /1\.3\.76-rc1/, 'rc1 checkpoint history');
-    assertContains('docs/RELEASE-CANDIDATE-1.3.md', /1\.3\.77-rc2/, 'rc2 checkpoint history');
-    assertContains('docs/RELEASE-CANDIDATE-1.3.md', /1\.3\.78-rc3/, 'rc3 checkpoint history');
-    assertContains('docs/RELEASE-CANDIDATE-1.3.md', /final planned release-candidate checkpoint/, 'rc3 freeze scope');
-    assertContains('docs/RELEASE-CANDIDATE-1.3.md', /Manual runtime checks still required/, 'manual runtime caveat');
-
-    console.log('RC3 freeze static checks passed.');
-}
-
-main();
+console.log('rc3_freeze_static_test.js: ok');

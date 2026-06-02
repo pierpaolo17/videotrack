@@ -53,10 +53,10 @@ function assertAtMost(relativePath, pattern, maximum, description) {
 }
 
 function main() {
-    assertFile('docs/PERFORMANCE-1.3.md');
-    assertContains('docs/PERFORMANCE-1.3.md', /core\/api\.js/, 'API performance scope note');
-    assertContains('docs/PERFORMANCE-1.3.md', /core\/tracker\.js/, 'tracker performance scope note');
-    assertContains('docs/PERFORMANCE-1.3.md', /Manual checks still required/, 'manual runtime caveat');
+    assertFile('docs/struttura_tecnica.md');
+    assertFile('amd/src/core/api.js');
+    assertFile('amd/src/core/tracker.js');
+    assertContains('docs/funzionalita.md', /sendBeacon\(\)/, 'runtime unload/beacon caveat');
 
     assertContains('amd/src/core/api.js', /AJAX_MAX_RETRIES\s*=\s*2/, 'bounded AJAX retry count');
     assertContains('amd/src/core/api.js', /retryDelay/, 'central retry delay helper');

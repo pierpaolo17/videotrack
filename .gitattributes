@@ -1,5 +1,5 @@
 # Keep development-only assets out of exported Moodle Plugin Directory packages.
-docs/ export-ignore
+#docs/ export-ignore
 tests/*.js export-ignore
 tests/*_static_test.js export-ignore
 tests/smoke_amd.js export-ignore

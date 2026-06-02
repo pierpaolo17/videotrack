@@ -40,10 +40,10 @@ function assertNotContains(relativePath, pattern, description) {
 }
 
 function main() {
-    assertFile('docs/DEPRECATIONS-1.3.md');
-    assertContains('docs/DEPRECATIONS-1.3.md', /mod_videotrack\/player/, 'historical player entry point note');
-    assertContains('docs/DEPRECATIONS-1.3.md', /core\/adapter/, 'adapter migration note');
-    assertContains('docs/DEPRECATIONS-1.3.md', /core\/api/, 'API migration note');
+    assertFile('docs/struttura_tecnica.md');
+    assertContains('docs/struttura_tecnica.md', /player\.js/, 'historical player entry point note');
+    assertFile('amd/src/core/adapter.js');
+    assertFile('amd/src/core/api.js');
 
     assertContains('amd/src/core/player.js', /Backwards-compatible facade/, 'facade compatibility documentation');
     assertContains('amd/src/core/adapter.js', /legacy method list/, 'legacy adapter capability documentation');

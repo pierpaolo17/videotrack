@@ -78,12 +78,11 @@ containsAll(restore, [
 ], 'restore related files');
 
 containsAll(restore, [
-    "$DB->set_field('videotrack_seg',    'cmid', $cmid, ['videotrackid' => $videotrackid])",
-    "$DB->set_field('videotrack_state',  'cmid', $cmid, ['videotrackid' => $videotrackid])",
-    "$DB->set_field('videotrack_reactev','cmid', $cmid, ['videotrackid' => $videotrackid])",
+    '$data->cmid = $this->get_restored_cmid()',
+    "'cmid' => (int)$data->cmid",
     'videotrack_grade_item_update($videotrack)',
-], 'restore after_execute fixups');
+], 'restore cmid and grade fixups');
 
-assertOrdered(restore, "$this->add_related_files('mod_videotrack', 'reactionicon', 'videotrack_react')", "$DB->set_field('videotrack_seg'", 'after_execute order');
+assertOrdered(restore, "$this->add_related_files('mod_videotrack', 'reactionicon', 'videotrack_react')", 'videotrack_grade_item_update($videotrack)', 'after_execute order');
 
 console.log('backup_restore_static_test: OK');

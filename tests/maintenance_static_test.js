@@ -16,23 +16,14 @@ function exists(relativePath) {
 }
 
 const version = read('version.php');
+const functionalDocs = read('docs/funzionalita.md');
+const technicalDocs = read('docs/struttura_tecnica.md');
 
-assert(
-    /\$plugin->release\s*=\s*'(?:1\.3\.\d+|1\.4\.\d+)';/.test(version),
-    'version.php must declare a stable 1.3/1.4 release'
-);
-
-assert(
-    /\$plugin->maturity\s*=\s*MATURITY_STABLE;/.test(version),
-    'maintenance release must remain MATURITY_STABLE'
-);
-
+assert(/\$plugin->release\s*=\s*'1\.4\.\d+';/.test(version), 'version.php must declare a stable 1.4 release');
+assert(/\$plugin->maturity\s*=\s*MATURITY_STABLE;/.test(version), 'maintenance release must remain MATURITY_STABLE');
 [
-    'docs/UPGRADE-1.3.md',
-    'docs/RELEASE-NOTES-1.3.md',
-    'docs/FINAL-CHECKS-1.3.md',
-    'docs/MAINTENANCE-1.3.md',
-    'docs/POST-RELEASE-1.3.md',
+    'docs/funzionalita.md',
+    'docs/struttura_tecnica.md',
     'tests/smoke_amd.js',
     'tests/tracker_segment_test.js',
     'tests/adapter_test.js',
@@ -41,18 +32,13 @@ assert(
     'tests/maintenance_static_test.js',
     'tests/postrelease_static_test.js',
 ].forEach((relativePath) => {
-    assert(exists(relativePath), `${relativePath} must exist in the maintenance package`);
+    assert(exists(relativePath), `${relativePath} must exist in the repository test package`);
 });
-
-const maintenance = read('docs/MAINTENANCE-1.3.md');
-assert(
-    maintenance.includes('MATURITY_STABLE') && maintenance.includes('node tests/maintenance_static_test.js') && maintenance.includes('node tests/postrelease_static_test.js'),
-    'maintenance notes must document stable maturity and the maintenance/post-release tests'
-);
+assert(technicalDocs.includes('classes/privacy/provider.php'), 'technical docs must describe the privacy provider');
+assert(technicalDocs.includes('backup/moodle2'), 'technical docs must describe backup/restore implementation');
 
 const srcCore = path.join(root, 'amd', 'src', 'core');
 const buildCore = path.join(root, 'amd', 'build', 'core');
-
 if (fs.existsSync(srcCore)) {
     fs.readdirSync(srcCore)
         .filter((name) => name.endsWith('.js'))
