@@ -559,8 +559,8 @@ $string['hiddeninstancelabel'] = 'Oculto dos estudantes: {$a}';
 
 $string['setting:nonnegativeintmax'] = 'O valor não pode ser superior a {$a}.';
 
-$string['restore_missing_reaction_mapping'] = 'mod_videotrack restore: missing reaction mapping for old reaction id {$a}; creating a hidden placeholder reaction.';
-$string['restore_placeholder_reaction'] = 'Restored reaction';
+$string['restore_missing_reaction_mapping'] = 'Restauro do mod_videotrack: mapeamento de reacao em falta para o ID de reacao antigo {$a}; a criar uma reacao de marcador oculta.';
+$string['restore_placeholder_reaction'] = 'Reacao restaurada';
 $string['privacy_cleanup_failed'] = 'Falha na limpeza de retenção RGPD do VideoTrack: {$a}';
 $string['privacy_cleanup_unlimited'] = 'Retenção RGPD do VideoTrack: retenção ilimitada configurada; nenhum registo anonimizado.';
 $string['privacy_cleanup_anonymised'] = 'Retenção RGPD do VideoTrack: anonimizados {$a->segments} segmentos, {$a->states} estados e {$a->events} eventos de reação/nota em {$a->processed} pares utilizador/atividade.';
