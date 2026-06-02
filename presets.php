@@ -66,10 +66,11 @@ $isediting = ($action === 'edit' && !empty($editkey)) || ($action === 'add');
 $formdata  = null;
 $presets   = videotrack_get_all_presets();
 
-if ($isediting && $_SERVER['REQUEST_METHOD'] === 'POST' && confirm_sesskey()) {
+if ($isediting && $_SERVER['REQUEST_METHOD'] === 'POST') {
+    require_sesskey();
     $name      = required_param('preset_name', PARAM_TEXT);
     // In edit mode the key is immutable: use $editkey from GET,
-    // non il valore POST (readonly in HTML ma aggirabile lato client).
+    // not the POST value (readonly in HTML but client-side controls can be bypassed).
     $key       = ($action === 'edit') ? $editkey : required_param('preset_key', PARAM_ALPHANUMEXT);
     $labels    = optional_param_array('rlabel', [], PARAM_TEXT);
     $descs     = optional_param_array('rdesc', [], PARAM_TEXT);

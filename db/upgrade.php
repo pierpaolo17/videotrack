@@ -763,19 +763,19 @@ function xmldb_videotrack_upgrade($oldversion) {
         upgrade_mod_savepoint(true, 2026053044, 'videotrack');
     }
 
-    if ($oldversion < 2026073600) {
+    if ($oldversion < 2026053045) {
         // Release 1.4.36: report-driven hardening, AMD cleanup and minified rebuild.
         // No database schema changes.
-        upgrade_mod_savepoint(true, 2026073600, 'videotrack');
+        upgrade_mod_savepoint(true, 2026053045, 'videotrack');
     }
 
-    if ($oldversion < 2026080100) {
+    if ($oldversion < 2026060100) {
         // Release 1.4.37: normalise plugin and XMLDB version metadata.
         // No database schema changes.
-        upgrade_mod_savepoint(true, 2026080100, 'videotrack');
+        upgrade_mod_savepoint(true, 2026060100, 'videotrack');
     }
 
-    if ($oldversion < 2026080101) {
+    if ($oldversion < 2026060101) {
         // Release 1.4.38: align upgraded-site indexes with install.xml.
         $segtable = new xmldb_table('videotrack_seg');
         $index = new xmldb_index('cm_user_idx', XMLDB_INDEX_NOTUNIQUE, ['cmid', 'userid']);
@@ -802,86 +802,93 @@ function xmldb_videotrack_upgrade($oldversion) {
             $dbman->add_index($reactevtable, $index);
         }
 
-        upgrade_mod_savepoint(true, 2026080101, 'videotrack');
+        upgrade_mod_savepoint(true, 2026060101, 'videotrack');
     }
 
-    if ($oldversion < 2026080102) {
+    if ($oldversion < 2026060102) {
         // Release 1.4.39: code-only privacy hardening; no database schema change.
-        upgrade_mod_savepoint(true, 2026080102, 'videotrack');
+        upgrade_mod_savepoint(true, 2026060102, 'videotrack');
     }
 
 
-    if ($oldversion < 2026080103) {
+    if ($oldversion < 2026060103) {
         // Release 1.4.40: notes AJAX hardening and rebuilt AMD assets.
         // No database schema changes.
-        upgrade_mod_savepoint(true, 2026080103, 'videotrack');
+        upgrade_mod_savepoint(true, 2026060103, 'videotrack');
     }
 
-    if ($oldversion < 2026080104) {
+    if ($oldversion < 2026060104) {
         // Release 1.4.41: intro pluginfile support.
         // No database schema changes.
-        upgrade_mod_savepoint(true, 2026080104, 'videotrack');
+        upgrade_mod_savepoint(true, 2026060104, 'videotrack');
     }
 
-    if ($oldversion < 2026080105) {
+    if ($oldversion < 2026060105) {
         // Release 1.4.42: version metadata, language and documentation cleanup.
         // No database schema changes.
-        upgrade_mod_savepoint(true, 2026080105, 'videotrack');
+        upgrade_mod_savepoint(true, 2026060105, 'videotrack');
     }
 
-    if ($oldversion < 2026080106) {
+    if ($oldversion < 2026060106) {
         // Release 1.4.43: AMD notes handler cleanup; no database schema changes.
-        upgrade_mod_savepoint(true, 2026080106, 'videotrack');
+        upgrade_mod_savepoint(true, 2026060106, 'videotrack');
     }
 
 
-    if ($oldversion < 2026080107) {
+    if ($oldversion < 2026060107) {
         // Release 1.4.44: accessibility and status-message UX hardening.
         // No database schema changes.
-        upgrade_mod_savepoint(true, 2026080107, 'videotrack');
+        upgrade_mod_savepoint(true, 2026060107, 'videotrack');
     }
 
 
-    if ($oldversion < 2026080108) {
+    if ($oldversion < 2026060108) {
         // No database changes: release 1.4.45 contains AMD-only hardening.
-        upgrade_mod_savepoint(true, 2026080108, 'videotrack');
+        upgrade_mod_savepoint(true, 2026060108, 'videotrack');
     }
 
 
-    if ($oldversion < 2026080109) {
+    if ($oldversion < 2026060109) {
         // Release 1.4.46: view attribute escaping cleanup; no database schema changes.
-        upgrade_mod_savepoint(true, 2026080109, 'videotrack');
+        upgrade_mod_savepoint(true, 2026060109, 'videotrack');
     }
 
 
-    if ($oldversion < 2026080110) {
+    if ($oldversion < 2026060110) {
         // Release 1.4.47: uploaded file serving hardening; no database schema changes.
-        upgrade_mod_savepoint(true, 2026080110, 'videotrack');
+        upgrade_mod_savepoint(true, 2026060110, 'videotrack');
     }
 
-    if ($oldversion < 2026080111) {
+    if ($oldversion < 2026060111) {
         // Release 1.4.48: form input type normalisation for Moodle HQ compliance.
         // No database schema changes.
-        upgrade_mod_savepoint(true, 2026080111, 'videotrack');
+        upgrade_mod_savepoint(true, 2026060111, 'videotrack');
     }
 
-    if ($oldversion < 2026080112) {
+    if ($oldversion < 2026060112) {
         // Release 1.4.49: subtitle serving and cleanup hardening.
         // No database schema changes.
-        upgrade_mod_savepoint(true, 2026080112, 'videotrack');
+        upgrade_mod_savepoint(true, 2026060112, 'videotrack');
     }
 
-    if ($oldversion < 2026080113) {
+    if ($oldversion < 2026060113) {
         // Release 1.4.50: privacy export accumulator cleanup.
         // No database schema changes.
-        upgrade_mod_savepoint(true, 2026080113, 'videotrack');
+        upgrade_mod_savepoint(true, 2026060113, 'videotrack');
     }
 
 
-    if ($oldversion < 2026080114) {
+    if ($oldversion < 2026060114) {
         // Release 1.4.51: AMD accessibility and event-bus cleanup.
         // No database schema changes.
-        upgrade_mod_savepoint(true, 2026080114, 'videotrack');
+        upgrade_mod_savepoint(true, 2026060114, 'videotrack');
+    }
+
+
+    if ($oldversion < 2026060200) {
+        // Release 1.4.52: packaging, privacy logging and form handling cleanup.
+        // No database schema changes.
+        upgrade_mod_savepoint(true, 2026060200, 'videotrack');
     }
 
     return true;

@@ -308,7 +308,7 @@ class privacy_manager {
 
             $transaction->allow_commit();
         } catch (\Throwable $e) {
-            debugging('mod_videotrack anonymisation failed for cmid ' . $cmid . ': ' . $e->getMessage(), DEBUG_DEVELOPER);
+            debugging('mod_videotrack anonymisation failed for cmid ' . $cmid . ' (' . get_class($e) . ')', DEBUG_DEVELOPER);
             $transaction->rollback($e);
             // rollback() already rethrows in Moodle; keep an explicit throw for
             // clarity and for future compatibility with transaction handling.

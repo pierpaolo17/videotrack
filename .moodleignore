@@ -1,6 +1,4 @@
-# Development-only documentation and local static harnesses are not part of the Moodle Plugin Directory package.
-docs/
-docs/**
+# Development-only local static harnesses are not part of the Moodle Plugin Directory package.
 tests/*.js
 tests/*_static_test.js
 tests/smoke_amd.js

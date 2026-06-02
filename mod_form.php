@@ -718,14 +718,14 @@ class mod_videotrack_mod_form extends moodleform_mod {
             $activespeeds = array_map('strval', array_map('floatval',
                 preg_split('/[,\n]+/', $defaultvalues['playbackspeeds'])));
         } else {
-            // Usa i default del sito.
+            // Use site defaults.
             $activespeeds = array_map('strval', videotrack_get_site_playback_speeds());
         }
         foreach (['0.25','0.5','0.75','1','1.25','1.5','1.75','2','3','4'] as $v) {
             $defaultvalues["playbackspeed_{$v}"] = in_array($v, $activespeeds) ? $v : 0;
         }
 
-        // Pre-popola le checkbox dei controlli HTML5.
+        // Pre-populate the HTML5 control checkboxes.
         $activecontrols = !empty($defaultvalues['html5controls'])
             ? array_map('trim', explode(',', $defaultvalues['html5controls']))
             : videotrack_get_html5controls((object)['html5controls' => '']);
@@ -734,7 +734,7 @@ class mod_videotrack_mod_form extends moodleform_mod {
             $defaultvalues["html5ctrl_{$ctrl}"] = in_array($ctrl, $activecontrols) ? $ctrl : 0;
         }
 
-        // Pre-popola i campi booleani comportamento player.
+        // Pre-populate player behaviour boolean fields.
         foreach (['autoplay', 'loop', 'startmuted', 'allowdownload'] as $field) {
             if (!isset($defaultvalues[$field])) {
                 $cfgval = get_config('mod_videotrack', 'default_' . $field);
@@ -745,11 +745,11 @@ class mod_videotrack_mod_form extends moodleform_mod {
         // Pre-populate numeric fields with site defaults when the value is 0.
         foreach (['playerwidth', 'rewindstep', 'fastforwardstep'] as $field) {
             if (empty($defaultvalues[$field])) {
-                $defaultvalues[$field] = 0; // 0 = usa default sito
+                $defaultvalues[$field] = 0; // 0 = use site default
             }
         }
 
-        // Pre-popola captions e lingua.
+        // Pre-populate captions and language.
         if (!isset($defaultvalues['captions'])) {
             $defaultvalues['captions'] = (int)(bool)get_config('mod_videotrack', 'default_captions');
         }
