@@ -240,7 +240,14 @@
 .videotrack-ctrl-download:focus,
 .videotrack-speed-btn:focus,
 .videotrack-ctrl-rewind:focus,
-.videotrack-ctrl-ff:focus {
+.videotrack-ctrl-ff:focus,
+.videotrack-notes-toggle:focus,
+.videotrack-note-save:focus,
+.videotrack-delete-note:focus,
+.videotrack-delete-reaction:focus,
+.videotrack-replay:focus,
+.videotrack-poster-play-btn:focus,
+.videotrack-transcript-btn:focus {
     outline: 3px solid var(--videotrack-focus-ring);
     outline-offset: 2px;
 }
@@ -262,6 +269,13 @@
     .videotrack-speed-btn:focus:not(:focus-visible),
     .videotrack-ctrl-rewind:focus:not(:focus-visible),
     .videotrack-ctrl-ff:focus:not(:focus-visible),
+    .videotrack-notes-toggle:focus:not(:focus-visible),
+    .videotrack-note-save:focus:not(:focus-visible),
+    .videotrack-delete-note:focus:not(:focus-visible),
+    .videotrack-delete-reaction:focus:not(:focus-visible),
+    .videotrack-replay:focus:not(:focus-visible),
+    .videotrack-poster-play-btn:focus:not(:focus-visible),
+    .videotrack-transcript-btn:focus:not(:focus-visible),
     .videotrack-ctrl-progress:focus:not(:focus-visible),
     .videotrack-ctrl-volume:focus:not(:focus-visible) {
         outline: none;
@@ -279,7 +293,14 @@
 .videotrack-ctrl-download:focus-visible,
 .videotrack-speed-btn:focus-visible,
 .videotrack-ctrl-rewind:focus-visible,
-.videotrack-ctrl-ff:focus-visible {
+.videotrack-ctrl-ff:focus-visible,
+.videotrack-notes-toggle:focus-visible,
+.videotrack-note-save:focus-visible,
+.videotrack-delete-note:focus-visible,
+.videotrack-delete-reaction:focus-visible,
+.videotrack-replay:focus-visible,
+.videotrack-poster-play-btn:focus-visible,
+.videotrack-transcript-btn:focus-visible {
     outline: 3px solid var(--videotrack-focus-ring);
     outline-offset: 2px;
 }
@@ -671,7 +692,9 @@
 .videotrack-transcript-btn  {
     white-space: normal;
     text-align: left;
-    padding: .1rem .25rem;
+    padding: .35rem .5rem;
+    min-height: 44px;
+    min-width: 44px;
     color: inherit;
     text-decoration: none;
 }
