@@ -116,7 +116,6 @@ define([], function() {
      * Install the personal note save/delete handlers shared by all player types.
      *
      * @param {Object} deps Dependencies and callbacks from the concrete player.
-     * @param {Object} deps.Ajax Ajax module.
      * @param {Object} deps.Log Log module.
      * @param {Object} deps.Utils Utility module.
      * @param {Object} deps.config Player configuration.
@@ -126,8 +125,7 @@ define([], function() {
      * @param {Function} deps.showStatusMessage User-visible status callback.
      */
     function installHandler(deps) {
-        var Ajax = deps.Ajax;
-        var Api = deps.Api || null;
+        var Api = deps.Api;
         var Log = deps.Log;
         var Utils = deps.Utils;
         var config = deps.config;
@@ -151,19 +149,12 @@ define([], function() {
         if (!saveBtn || !textarea) { return; }
 
         function ajax(methodname, args) {
-            if (Api && typeof Api.call === 'function') {
-                return Api.call(methodname, args, {
-                    retries: 1,
-                    errorMessage: 'mod_videotrack: note AJAX request failed',
-                    requestScope: state.ajaxRequestScope
-                });
-            }
-            var calls = Ajax.call([{methodname: methodname, args: args}]);
-            var request = calls && calls[0];
-            if (!request || typeof request.then !== 'function') {
-                return Promise.reject(new Error('Invalid AJAX response'));
-            }
-            return request;
+            // Notes are user initiated: keep one retry so failures surface quickly to the user.
+            return Api.call(methodname, args, {
+                retries: 1,
+                errorMessage: 'mod_videotrack: note AJAX request failed',
+                requestScope: state.ajaxRequestScope
+            });
         }
 
         function restoreSaveButtonState() {

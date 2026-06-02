@@ -561,8 +561,8 @@ $string['hiddeninstancelabel'] = 'Ukryte przed studentami: {$a}';
 
 $string['setting:nonnegativeintmax'] = 'Wartość nie może być większa niż {$a}.';
 
-$string['restore_missing_reaction_mapping'] = 'mod_videotrack restore: missing reaction mapping for old reaction id {$a}; creating a hidden placeholder reaction.';
-$string['restore_placeholder_reaction'] = 'Restored reaction';
+$string['restore_missing_reaction_mapping'] = 'Przywracanie mod_videotrack: brak mapowania reakcji dla starego id reakcji {$a}; tworzona jest ukryta reakcja zastepcza.';
+$string['restore_placeholder_reaction'] = 'Przywrocona reakcja';
 $string['privacy_cleanup_failed'] = 'Czyszczenie retencji RODO w VideoTrack nie powiodło się: {$a}';
 $string['privacy_cleanup_unlimited'] = 'Retencja RODO w VideoTrack: skonfigurowano nieograniczoną retencję; nie zanonimizowano żadnych rekordów.';
 $string['privacy_cleanup_anonymised'] = 'Retencja RODO w VideoTrack: zanonimizowano {$a->segments} segmentów, {$a->states} stanów oraz {$a->events} zdarzeń reakcji/notatek w {$a->processed} parach użytkownik/aktywność.';

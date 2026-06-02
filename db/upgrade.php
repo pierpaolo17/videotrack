@@ -810,5 +810,29 @@ function xmldb_videotrack_upgrade($oldversion) {
         upgrade_mod_savepoint(true, 2026080102, 'videotrack');
     }
 
+
+    if ($oldversion < 2026080103) {
+        // Release 1.4.40: notes AJAX hardening and rebuilt AMD assets.
+        // No database schema changes.
+        upgrade_mod_savepoint(true, 2026080103, 'videotrack');
+    }
+
+    if ($oldversion < 2026080104) {
+        // Release 1.4.41: intro pluginfile support.
+        // No database schema changes.
+        upgrade_mod_savepoint(true, 2026080104, 'videotrack');
+    }
+
+    if ($oldversion < 2026080105) {
+        // Release 1.4.42: version metadata, language and documentation cleanup.
+        // No database schema changes.
+        upgrade_mod_savepoint(true, 2026080105, 'videotrack');
+    }
+
+    if ($oldversion < 2026080106) {
+        // Release 1.4.43: AMD notes handler cleanup; no database schema changes.
+        upgrade_mod_savepoint(true, 2026080106, 'videotrack');
+    }
+
     return true;
 }

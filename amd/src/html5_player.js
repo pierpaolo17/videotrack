@@ -11,7 +11,6 @@
 /* eslint-disable jsdoc/require-jsdoc, jsdoc/require-param, jsdoc/require-param-type, jsdoc/check-param-names, max-len, no-control-regex, promise/always-return, promise/no-nesting, promise/catch-or-return, no-throw-literal, promise/no-return-wrap, complexity */
 define([
     'core/log',
-    'core/ajax',
     'mod_videotrack/core/api',
     'mod_videotrack/core/adapter',
     'mod_videotrack/core/utils',
@@ -21,7 +20,7 @@ define([
     'mod_videotrack/core/reactions',
     'mod_videotrack/core/tracker',
     'mod_videotrack/core/player'
-], function(Log, Ajax, Api, Adapter, Utils, Ui, Progress, State, Reactions, Tracker, PlayerCore) {
+], function(Log, Api, Adapter, Utils, Ui, Progress, State, Reactions, Tracker, PlayerCore) {
     'use strict';
 
 
@@ -1133,7 +1132,6 @@ define([
      */
     function installNoteHandler() {
         PlayerCore.installNoteHandler({
-            Ajax: Ajax,
             Api: Api,
             Log: Log,
             Utils: Utils,

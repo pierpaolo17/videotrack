@@ -1260,6 +1260,9 @@ function videotrack_pluginfile($course, $cm, $context, $filearea, $args, $forced
         return false;
     }
     if ($filearea === 'intro') {
+        // Intro files are managed by Moodle core editor/filepicker controls.
+        // They intentionally follow the standard module intro serving path;
+        // the stricter per-filearea checks below apply only to VideoTrack-specific uploads.
         return send_stored_file($file, 0, 0, $forcedownload, $options);
     }
     $extension = strtolower(pathinfo($file->get_filename(), PATHINFO_EXTENSION));

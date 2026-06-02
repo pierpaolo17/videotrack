@@ -559,8 +559,8 @@ $string['hiddeninstancelabel'] = 'विद्यार्थियों से
 
 $string['setting:nonnegativeintmax'] = 'मान {$a} से अधिक नहीं होना चाहिए।';
 
-$string['restore_missing_reaction_mapping'] = 'mod_videotrack restore: missing reaction mapping for old reaction id {$a}; creating a hidden placeholder reaction.';
-$string['restore_placeholder_reaction'] = 'Restored reaction';
+$string['restore_missing_reaction_mapping'] = 'mod_videotrack restore: purane reaction id {$a} ke liye reaction mapping nahi mili; ek hidden placeholder reaction banayi ja rahi hai.';
+$string['restore_placeholder_reaction'] = 'पुनर्स्थापित प्रतिक्रिया';
 $string['privacy_cleanup_failed'] = 'VideoTrack GDPR रिटेंशन सफाई विफल रही: {$a}';
 $string['privacy_cleanup_unlimited'] = 'VideoTrack GDPR रिटेंशन: असीमित रिटेंशन कॉन्फ़िगर है; कोई रिकॉर्ड अनामित नहीं किया गया।';
 $string['privacy_cleanup_anonymised'] = 'VideoTrack GDPR रिटेंशन: {$a->processed} उपयोगकर्ता/गतिविधि जोड़ों में {$a->segments} सेगमेंट, {$a->states} स्थिति रिकॉर्ड और {$a->events} प्रतिक्रिया/नोट ईवेंट अनामित किए गए।';
