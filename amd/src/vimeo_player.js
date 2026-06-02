@@ -195,7 +195,7 @@ define([
                     state.isProgrammaticSeek = false;
                     showResumeNotice(config.resumeposition);
                 }).catch(function() {
-                    // iOS Safari fallisce silenziosamente su setCurrentTime prima del play.
+                    // iOS Safari may silently fail on setCurrentTime before play.
                     // The seek will be retried on the first 'play' event.
                     state.isProgrammaticSeek = false;
                     state._pendingResume = config.resumeposition;
@@ -226,7 +226,7 @@ define([
         player.on('play', function() {
             state.ended = false;
             player.getCurrentTime().then(function(t) {
-                // iOS Safari workaround: setCurrentTime prima del play fallisce.
+                // iOS Safari workaround: setCurrentTime may fail before play.
                 // Retry the seek on first playback when it was pending.
                 if (state._pendingResume && state._pendingResume > 2) {
                     var resumePos = state._pendingResume;
@@ -243,7 +243,7 @@ define([
                 startSegment(t);
                 startHeartbeat();
                 setReactionButtons(true);
-                // Enforce max rate ad ogni play (lo studente potrebbe averla cambiata).
+                // Enforce max rate on every play event because the student may have changed it.
                 // config.maxplaybackrate is stored in hundredths (150 = 1.5x).
                 if (config.maxplaybackrate > 0) {
                     var maxRatePlay = config.maxplaybackrate / 100;
@@ -274,7 +274,7 @@ define([
         });
 
         player.on('seeked', function(data) {
-            // Ignora seek programmatici (replay, resume): non devono triggerare
+            // Ignore programmatic seeks (replay, resume): they must not trigger
             // the anti-skip block or close the current segment.
             if (state.seekblocked || Tracker.consumeProgrammaticSeek(state, data.seconds)) { return; }
             var seek = Tracker.resolveSeek(state, data.seconds, config, 0);
@@ -315,7 +315,7 @@ define([
                 var start = parseFloat(btn.dataset.start) || 0;
                 var end   = parseFloat(btn.dataset.end)   || 0;
                 state.currentReplayEnd = end > 0 ? end : null;
-                // Marca il seek come programmatico per non triggerare il blocco anti-skip.
+                // Mark the seek as programmatic to avoid triggering the anti-skip block.
                 Tracker.markProgrammaticSeek(state);
                 player.setCurrentTime(start).then(function() {
                     state.isProgrammaticSeek = false;

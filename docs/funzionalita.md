@@ -1,6 +1,6 @@
 # mod_videotrack — Funzionalità e potenzialità
 
-**Versione**: 1.2.0 (build 2026070300)
+**Versione**: 1.4.56 (build 2026060204)
 **Compatibilità**: Moodle 5.0-5.2
 **Lingue incluse**: Italiano, Inglese, Tedesco, Spagnolo, Francese, Portoghese, Hindi, Polacco
 
@@ -295,7 +295,7 @@ Il file `db/mobile.php` dichiara il supporto all'app mobile Moodle. Le funzional
 | Download file | ✗ | ✗ | ✓ |
 
 
-## 17. Servizi esterni e CDN
+## 19. Servizi esterni e CDN
 
 VideoTrack non include librerie di terze parti nel pacchetto. Per i video YouTube e Vimeo il browser dello studente carica le API ufficiali dai rispettivi provider a runtime. Gli amministratori devono valutare policy privacy, cookie e Content Security Policy dell'istituto. Quando il trasferimento verso provider terzi non è consentito, è consigliato usare file video caricati direttamente in Moodle.
 
