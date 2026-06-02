@@ -341,7 +341,7 @@ define([], function() {
                         delBtn.removeAttribute('aria-busy');
                     }
                     Log.debug('mod_videotrack: note deletion failed - ' + err);
-                    showStatusMessage(config.noteerrorlabel, true, config.dismisslabel);
+                    showErrorStatusMessage(err, config.noteerrorlabel, config.dismisslabel);
                 });
         };
 
