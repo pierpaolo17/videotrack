@@ -40,11 +40,11 @@ if ($id) {
     $cm = get_coursemodule_from_instance('videotrack', $videotrack->id, $course->id, false, MUST_EXIST);
 }
 require_login($course, true, $cm);
-$cm = cm_info::create($cm); // Moodle 4+: set_module_viewed e le funzioni di completamento richiedono cm_info.
+$cm = cm_info::create($cm); // Moodle 4+: set_module_viewed and completion functions require cm_info.
 $context = context_module::instance($cm->id);
 require_capability('mod/videotrack:view', $context);
 
-// Registra visita, evento course_module_viewed e completamento da visita.
+// Register the view, course_module_viewed event and view-based completion.
 videotrack_view($videotrack, $course, $cm, $context);
 
 $reactions = array_values(videotrack_get_reactions($videotrack->id));
@@ -403,7 +403,7 @@ if (!empty($videotrack->showtranscript) && $vtturl !== null) {
     echo html_writer::end_div(); // videotrack-transcript-panel
 }
 
-// Feature 11: pannello note personali studente con toggle collassabile.
+// Feature 11: collapsible student personal notes panel.
 if (!empty($videotrack->studentnotesenabled)) {
     echo html_writer::start_div('videotrack-notes-panel mt-2 mb-2', [
         'id'   => 'videotrack-notes-panel',

@@ -660,15 +660,15 @@ define([
 
 
     /**
-     * Toggle show/hide del pannello note tramite helper condiviso.
+     * Toggle the notes panel through the shared helper.
      */
     function installNotesToggle() {
         PlayerCore.installNotesToggle(config, Utils, 'YouTube notes panel state');
     }
 
     /**
-     * Feature 11: Note personali studente.
-     * Gestisce salvataggio e cancellazione di note testuali timestampate.
+     * Feature 11: student personal notes.
+     * Handle saving and deleting timestamped text notes.
      * The "Save" button is active only during playback (aria-disabled).
      */
     function installNoteHandler() {

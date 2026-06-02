@@ -41,7 +41,7 @@ class mod_videotrack_mod_form extends moodleform_mod {
         $canoverrideplayer     = has_capability('mod/videotrack:overrideplayersettings', $coursecontext);
         $canoverridecompleting = has_capability('mod/videotrack:overridecompletionsettings', $coursecontext);
 
-        // Legge i default configurati dall'amministratore di piattaforma.
+        // Read defaults configured by the site administrator.
         $cfg = function(string $key, $fallback) {
             $val = get_config('mod_videotrack', $key);
             return ($val !== false && $val !== '') ? $val : $fallback;
@@ -475,7 +475,7 @@ class mod_videotrack_mod_form extends moodleform_mod {
         $mform->setType('showstudentreport', PARAM_BOOL);
         $mform->setDefault('showstudentreport', 1);
 
-        // Note personali studente.
+        // Student personal notes.
         $mform->addElement('advcheckbox', 'studentnotesenabled',
             get_string('studentnotesenabled', 'mod_videotrack'),
             get_string('studentnotesenabled_desc', 'mod_videotrack'));
@@ -528,7 +528,7 @@ class mod_videotrack_mod_form extends moodleform_mod {
         $mform->addHelpButton('gradepass', 'gradepass', 'grades');
         $mform->disabledIf('gradepass', 'grade[modgrade_type]', 'eq', 'none');
 
-        // Mostra voto allo studente in view.php.
+        // Show the grade to the student in view.php.
         $mform->addElement('advcheckbox', 'showgradeto',
             get_string('showgradeto', 'mod_videotrack'));
 
