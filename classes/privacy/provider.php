@@ -257,7 +257,6 @@ class provider implements
                         ],
                         (object)['segments' => $segments]
                     );
-                    $segments = [];
                     $chunk++;
                 }
             }

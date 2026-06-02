@@ -871,5 +871,11 @@ function xmldb_videotrack_upgrade($oldversion) {
         upgrade_mod_savepoint(true, 2026080112, 'videotrack');
     }
 
+    if ($oldversion < 2026080113) {
+        // Release 1.4.50: privacy export accumulator cleanup.
+        // No database schema changes.
+        upgrade_mod_savepoint(true, 2026080113, 'videotrack');
+    }
+
     return true;
 }
