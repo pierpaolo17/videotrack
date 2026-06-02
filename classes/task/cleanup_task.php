@@ -48,7 +48,7 @@ class cleanup_task extends \core\task\scheduled_task {
         try {
             $counts = privacy_manager::anonymise_expired_records();
         } catch (\Throwable $e) {
-            mtrace(get_string('privacy_cleanup_failed', 'mod_videotrack', $e->getMessage()));
+            mtrace(get_string('privacy_cleanup_failed', 'mod_videotrack', get_class($e)));
             throw $e;
         }
 
