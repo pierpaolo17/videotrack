@@ -859,5 +859,11 @@ function xmldb_videotrack_upgrade($oldversion) {
         upgrade_mod_savepoint(true, 2026080110, 'videotrack');
     }
 
+    if ($oldversion < 2026080111) {
+        // Release 1.4.48: form input type normalisation for Moodle HQ compliance.
+        // No database schema changes.
+        upgrade_mod_savepoint(true, 2026080111, 'videotrack');
+    }
+
     return true;
 }
