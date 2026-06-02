@@ -170,9 +170,9 @@ define([
         var submitted = false;
 
         return Promise.all([
-            resolveString(options.titleString, labels.confirm || 'Confirm'),
-            resolveString(options.okString, labels.ok || 'OK'),
-            resolveString(options.cancelString, labels.cancel || 'Cancel')
+            resolveString(options.titleString || {key: 'confirm', component: 'moodle'}, labels.confirm || ''),
+            resolveString(options.okString || {key: 'ok', component: 'moodle'}, labels.ok || ''),
+            resolveString(options.cancelString || {key: 'cancel', component: 'moodle'}, labels.cancel || '')
         ]).then(function(strings) {
             return ModalSaveCancel.create({
                 title: strings[0],

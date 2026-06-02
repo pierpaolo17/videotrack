@@ -153,7 +153,7 @@ define([
      * @returns {boolean} True when value is safe to JSON serialise.
      */
     function isSafeArgValue(value, depth) {
-        if (depth > 6) {
+        if (depth > 4) {
             return false;
         }
         if (value === null || value === undefined) {
