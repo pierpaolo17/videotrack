@@ -877,5 +877,12 @@ function xmldb_videotrack_upgrade($oldversion) {
         upgrade_mod_savepoint(true, 2026080113, 'videotrack');
     }
 
+
+    if ($oldversion < 2026080114) {
+        // Release 1.4.51: AMD accessibility and event-bus cleanup.
+        // No database schema changes.
+        upgrade_mod_savepoint(true, 2026080114, 'videotrack');
+    }
+
     return true;
 }

@@ -144,8 +144,15 @@ define([
         var notice = document.createElement('div');
         notice.className = 'videotrack-confirm-fallback alert alert-warning mt-2';
         notice.setAttribute('role', 'alert');
+        notice.setAttribute('aria-live', 'assertive');
+        notice.setAttribute('tabindex', '-1');
         notice.textContent = message || 'Confirmation dialog could not be opened. Please try again.';
         form.appendChild(notice);
+        try {
+            notice.focus({preventScroll: true});
+        } catch (error) {
+            notice.focus();
+        }
     };
 
     /**

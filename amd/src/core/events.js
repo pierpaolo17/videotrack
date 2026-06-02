@@ -53,15 +53,21 @@ define(['core/log'], function(Log) {
                     return function() {};
                 }
                 handlers[name] = handlers[name] || [];
+                var removeHandler = function() {
+                    var list = handlers[name];
+                    if (!list) {
+                        return;
+                    }
+                    var index = list.indexOf(handler);
+                    if (index !== -1) {
+                        list.splice(index, 1);
+                    }
+                    if (!list.length) {
+                        delete handlers[name];
+                    }
+                };
                 if (handlers[name].indexOf(handler) !== -1) {
-                    return function() {
-                        handlers[name] = (handlers[name] || []).filter(function(candidate) {
-                            return candidate !== handler;
-                        });
-                        if (!handlers[name].length) {
-                            delete handlers[name];
-                        }
-                    };
+                    return removeHandler;
                 }
                 if (handlers[name].length >= maxHandlersPerEvent) {
                     Log.debug('mod_videotrack: event handler limit reached for ' + name);
@@ -69,14 +75,7 @@ define(['core/log'], function(Log) {
                 }
                 handlers[name].push(handler);
 
-                return function() {
-                    handlers[name] = (handlers[name] || []).filter(function(candidate) {
-                        return candidate !== handler;
-                    });
-                    if (!handlers[name].length) {
-                        delete handlers[name];
-                    }
-                };
+                return removeHandler;
             },
 
             /**
@@ -90,9 +89,10 @@ define(['core/log'], function(Log) {
                 if (!name || !handlers[name]) {
                     return;
                 }
-                handlers[name] = handlers[name].filter(function(candidate) {
-                    return candidate !== handler;
-                });
+                var index = handlers[name].indexOf(handler);
+                if (index !== -1) {
+                    handlers[name].splice(index, 1);
+                }
                 if (!handlers[name].length) {
                     delete handlers[name];
                 }
@@ -111,22 +111,25 @@ define(['core/log'], function(Log) {
                     return [];
                 }
                 var eventPayload = payload || {};
-                return (handlers[name] || []).slice().map(function(handler) {
+                var list = (handlers[name] || []).slice(0);
+                var results = [];
+                for (var i = 0; i < list.length; i++) {
                     try {
-                        var result = handler(eventPayload);
+                        var result = list[i](eventPayload);
                         if (result && typeof result.catch === 'function') {
                             result.catch(function(error) {
                                 Log.debug('mod_videotrack: async event handler failed for ' + name + ' - ' +
                                     (error && error.stack ? error.stack : error));
                             });
                         }
-                        return result;
+                        results.push(result);
                     } catch (error) {
                         Log.debug('mod_videotrack: event handler failed for ' + name + ' - ' +
                             (error && error.stack ? error.stack : error));
-                        return null;
+                        results.push(null);
                     }
-                });
+                }
+                return results;
             },
 
             /**
