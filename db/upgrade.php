@@ -841,5 +841,11 @@ function xmldb_videotrack_upgrade($oldversion) {
         upgrade_mod_savepoint(true, 2026080107, 'videotrack');
     }
 
+
+    if ($oldversion < 2026080108) {
+        // No database changes: release 1.4.45 contains AMD-only hardening.
+        upgrade_mod_savepoint(true, 2026080108, 'videotrack');
+    }
+
     return true;
 }

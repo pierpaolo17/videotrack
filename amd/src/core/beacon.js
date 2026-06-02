@@ -48,13 +48,9 @@ define(['mod_videotrack/core/api'], function(Api) {
                 args: args
             }];
             var payloadText = JSON.stringify(payload);
-            if (payloadText.length > MAX_BEACON_PAYLOAD_BYTES) {
-                if (Log && typeof Log.debug === 'function') {
-                    Log.debug('mod_videotrack: sendBeacon skipped because the payload is too large');
-                }
-                return false;
-            }
             var blob = new Blob([payloadText], {type: 'application/json'});
+            // Use the encoded byte size rather than UTF-16 string length so the
+            // limit matches what navigator.sendBeacon actually receives.
             if (blob.size > MAX_BEACON_PAYLOAD_BYTES) {
                 if (Log && typeof Log.debug === 'function') {
                     Log.debug('mod_videotrack: sendBeacon skipped because the encoded payload is too large');
