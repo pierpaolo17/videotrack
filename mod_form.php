@@ -64,6 +64,7 @@ class mod_videotrack_mod_form extends moodleform_mod {
             'upload'  => get_string('source:upload',  'mod_videotrack'),
         ];
         $mform->addElement('select', 'videosource', get_string('videosource', 'mod_videotrack'), $sourceoptions);
+        $mform->setType('videosource', PARAM_ALPHA);
         $mform->setDefault('videosource', 'youtube');
 
         // YouTube URL.
@@ -94,6 +95,7 @@ class mod_videotrack_mod_form extends moodleform_mod {
         ];
         $mform->addElement('filepicker', 'videofile',
             get_string('videofile', 'mod_videotrack'), null, $fileoptions);
+        $mform->setType('videofile', PARAM_INT);
         $mform->addHelpButton('videofile', 'videofile', 'mod_videotrack');
         $mform->addElement('static', 'videofile_notice', '',
             html_writer::tag('small',
@@ -109,6 +111,7 @@ class mod_videotrack_mod_form extends moodleform_mod {
             'accepted_types' => ['.jpg', '.jpeg', '.png', '.webp', '.gif']];
         $mform->addElement('filepicker', 'posterimage',
             get_string('posterimage', 'mod_videotrack'), null, $posteropt);
+        $mform->setType('posterimage', PARAM_INT);
         $mform->addHelpButton('posterimage', 'posterimage', 'mod_videotrack');
         $mform->addElement('static', 'posterimage_notice', '',
             html_writer::tag('small',
@@ -178,6 +181,7 @@ class mod_videotrack_mod_form extends moodleform_mod {
         ];
         $mform->addElement('select', 'maxplaybackrate',
             get_string('maxplaybackrate', 'mod_videotrack'), $maxspeedoptions);
+        $mform->setType('maxplaybackrate', PARAM_INT);
         $mform->setDefault('maxplaybackrate', (int)get_config('mod_videotrack', 'maxplaybackrate'));
         $mform->addHelpButton('maxplaybackrate', 'maxplaybackrate', 'mod_videotrack');
 
@@ -274,6 +278,7 @@ class mod_videotrack_mod_form extends moodleform_mod {
         $vttopt = ['subdirs' => false, 'maxfiles' => 1, 'accepted_types' => ['.vtt']];
         $mform->addElement('filepicker', 'vttfile',
             get_string('vttfile', 'mod_videotrack'), null, $vttopt);
+        $mform->setType('vttfile', PARAM_INT);
         $mform->addHelpButton('vttfile', 'vttfile', 'mod_videotrack');
         $mform->addElement('static', 'vttfile_notice', '',
             html_writer::tag('small',
@@ -441,6 +446,7 @@ class mod_videotrack_mod_form extends moodleform_mod {
             'and' => get_string('logicand', 'mod_videotrack'),
             'or'  => get_string('logicor', 'mod_videotrack'),
         ]);
+        $mform->setType('completionlogic', PARAM_ALPHA);
         $mform->setDefault('completionlogic', 'and');
 
         // ----------------------------------------------------------------
@@ -457,6 +463,7 @@ class mod_videotrack_mod_form extends moodleform_mod {
 
         $mform->addElement('select', 'clusterwindow', get_string('clusterwindow', 'mod_videotrack'),
             [10 => 10, 15 => 15, 20 => 20, 30 => 30, 60 => 60]);
+        $mform->setType('clusterwindow', PARAM_INT);
         $mform->setDefault('clusterwindow', (int)$cfg('default_clusterwindow', 30));
 
         if (!$canoverridecompleting) {
@@ -498,6 +505,7 @@ class mod_videotrack_mod_form extends moodleform_mod {
             // Only show the selector if at least one preset has been configured.
             $mform->addElement('select', 'reactionpreset',
                 get_string('reactionpreset', 'mod_videotrack'), $presetoptions);
+            $mform->setType('reactionpreset', PARAM_ALPHANUMEXT);
             $mform->setDefault('reactionpreset', '');
             $mform->addHelpButton('reactionpreset', 'reactionpreset', 'mod_videotrack');
             // Hidden field used by JS to carry preset JSON to the client.
