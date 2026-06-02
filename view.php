@@ -103,7 +103,7 @@ $html5ctrl   = videotrack_get_html5controls($videotrack);
 $playerwidth = videotrack_get_player_width($videotrack);
 $rewindstep  = videotrack_get_rewind_step($videotrack);
 $ffstep      = videotrack_get_fastforward_step($videotrack);
-$vtturl      = ($source === 'upload') ? videotrack_get_vtt_url((int)$cm->id) : null;
+$vtturl      = ($source === 'upload' && !empty($videotrack->captions)) ? videotrack_get_vtt_url((int)$cm->id) : null;
 $posterurl   = videotrack_get_poster_url((int)$cm->id);
 $heartbeat   = videotrack_get_config_int('heartbeatinterval', 30, 5, 300);
 $distractionfree = !empty(get_config('mod_videotrack', 'distractionfree'));
@@ -138,9 +138,9 @@ $playerconfig = [
     'captions'               => (bool)($videotrack->captions ?? false),
     'captionslang'           => (string)($videotrack->captionslang ?? ''),
     'vtturl'                 => $vtturl ? (string)$vtturl : '',
-    'showtranscript'         => !empty($videotrack->showtranscript) && $vtturl !== null,
+    'showtranscript'         => !empty($videotrack->captions) && !empty($videotrack->showtranscript) && $vtturl !== null,
     // Feature 10: VTT chapters use the same source as the transcript.
-    'showchapters'           => !empty($videotrack->showchapters) && $vtturl !== null,
+    'showchapters'           => !empty($videotrack->captions) && !empty($videotrack->showchapters) && $vtturl !== null,
     // Feature 12: poster preview image URL (empty when no image is configured).
     'posterurl'              => $posterurl ? (string)$posterurl : '',
     'chapterslabel'          => get_string('chapters_label', 'mod_videotrack'),

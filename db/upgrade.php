@@ -865,5 +865,11 @@ function xmldb_videotrack_upgrade($oldversion) {
         upgrade_mod_savepoint(true, 2026080111, 'videotrack');
     }
 
+    if ($oldversion < 2026080112) {
+        // Release 1.4.49: subtitle serving and cleanup hardening.
+        // No database schema changes.
+        upgrade_mod_savepoint(true, 2026080112, 'videotrack');
+    }
+
     return true;
 }

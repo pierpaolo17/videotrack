@@ -763,6 +763,22 @@ function videotrack_get_vtt_url(int $cmid): ?moodle_url {
 function videotrack_process_captions_fields(stdClass $data): void {
     $data->captions     = empty($data->captions) ? 0 : 1;
     $data->captionslang = trim((string)($data->captionslang ?? ''));
+
+    $isupload = (($data->videosource ?? 'youtube') === 'upload');
+    if (!$isupload || empty($data->captions)) {
+        // Transcript and chapters are meaningful only for uploaded media with
+        // captions enabled. Clearing stale subtitle files avoids serving an old
+        // VTT file after the teacher has disabled captions.
+        $data->showtranscript = 0;
+        $data->showchapters = 0;
+        $context = videotrack_get_module_context_from_data($data, (int)($data->id ?? 0));
+        if ($context) {
+            get_file_storage()->delete_area_files($context->id, 'mod_videotrack', 'subtitles', 0);
+        }
+        unset($data->vttfile);
+        return;
+    }
+
     // Save VTT file if uploaded (upload source only).
     if (!empty($data->coursemodule) && !empty($data->vttfile)) {
         $context     = context_module::instance((int)$data->coursemodule);
@@ -1268,8 +1284,11 @@ function videotrack_pluginfile($course, $cm, $context, $filearea, $args, $forced
     }
     if (in_array($filearea, ['videocontent', 'subtitles'], true)) {
         global $DB;
-        $source = (string)$DB->get_field('videotrack', 'videosource', ['id' => $cm->instance], MUST_EXIST);
-        if ($source !== 'upload') {
+        $instance = $DB->get_record('videotrack', ['id' => $cm->instance], 'id, videosource, captions', MUST_EXIST);
+        if ((string)$instance->videosource !== 'upload') {
+            return false;
+        }
+        if ($filearea === 'subtitles' && empty($instance->captions)) {
             return false;
         }
     }
