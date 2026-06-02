@@ -847,5 +847,11 @@ function xmldb_videotrack_upgrade($oldversion) {
         upgrade_mod_savepoint(true, 2026080108, 'videotrack');
     }
 
+
+    if ($oldversion < 2026080109) {
+        // Release 1.4.46: view attribute escaping cleanup; no database schema changes.
+        upgrade_mod_savepoint(true, 2026080109, 'videotrack');
+    }
+
     return true;
 }

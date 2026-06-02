@@ -574,18 +574,18 @@ if (!empty($videotrack->reactionsenabled) && $reactions) {
             'type'                  => 'button',
             'class'                 => 'btn btn-outline-secondary videotrack-reaction-btn',
             'data-reactionid'       => $reaction->id,
-            'data-reactionlabel'    => s($reaction->label),
-            'data-reactiondesc'     => s($reaction->description),
-            'data-reactionicontype'  => s($icontype),
-            'data-reactioniconclass' => $icontype === 'fa' ? s($iconvalue) : '',
-            'data-reactioniconsrc'   => $icontype === 'file' ? s($iconsrc) : '',
-            'data-reactionicontext'  => s($icontext),
-            'title'                 => s($reaction->description),
+            'data-reactionlabel'    => $reaction->label,
+            'data-reactiondesc'     => $reaction->description,
+            'data-reactionicontype'  => $icontype,
+            'data-reactioniconclass' => $icontype === 'fa' ? $iconvalue : '',
+            'data-reactioniconsrc'   => $icontype === 'file' ? $iconsrc : '',
+            'data-reactionicontext'  => $icontext,
+            'title'                 => $reaction->description,
             // Keep aria-disabled buttons focusable: keyboard and screen reader users
             // can activate them to receive the explanatory live-region feedback.
             'aria-disabled'         => 'true',
             'aria-describedby'      => 'videotrack-reactions-hint',
-            'aria-label'            => s($reaction->label),
+            'aria-label'            => $reaction->label,
         ]);
     }
     // Student explanation: reactions are recorded only during playback.
