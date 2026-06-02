@@ -236,14 +236,14 @@ function xmldb_videotrack_upgrade($oldversion) {
         upgrade_mod_savepoint(true, 2026050219, 'videotrack');
     }
     if ($oldversion < 2026050231) {
-        // Versione 0.8.1: fix apostrofi lang, durationseconds solo crescente,
-        // whitelist record DB, settings maxplaybackrate dedup, transazione atomica
+        // Version 0.8.1: language apostrophe fixes, monotonic durationseconds,
+        // DB record whitelist, deduplicated maxplaybackrate settings, atomic transaction
         // save_segment, capabilities managereactions/grade, simplify_intervals no-overcount,
         // reaction_counts SQL, appendIconSafe whitelist, GDPR intervaljson, log heartbeat,
-        // placeholder prima reazione, export CSV note con useridfilter.
+        // first-reaction placeholder, note CSV export with useridfilter.
         $table = new xmldb_table('videotrack');
-        // Aggiunge campi che potrebbero mancare in upgrade da versioni molto vecchie
-        // (questi erano in install.xml ma non in blocchi upgrade precedenti).
+        // Adds fields that may be missing when upgrading from very old versions
+        // (these existed in install.xml but not in earlier upgrade blocks).
         $maybefields = [
             new xmldb_field('showcontrols',            XMLDB_TYPE_INTEGER, '1', null, XMLDB_NOTNULL, null, '1'),
             new xmldb_field('reactionsenabled',        XMLDB_TYPE_INTEGER, '1', null, XMLDB_NOTNULL, null, '0'),
@@ -258,7 +258,7 @@ function xmldb_videotrack_upgrade($oldversion) {
                 XMLDB_NOTNULL,
                 null,
                 '1'
-            ), // allineato a install.xml
+            ), // Aligned with install.xml
             new xmldb_field('clusterwindow', XMLDB_TYPE_INTEGER, '3', null, XMLDB_NOTNULL, null, '30'),
             new xmldb_field('disablekeyboard',         XMLDB_TYPE_INTEGER, '1', null, XMLDB_NOTNULL, null, '0'),
             new xmldb_field('showfullscreen',          XMLDB_TYPE_INTEGER, '1', null, XMLDB_NOTNULL, null, '1'),
@@ -274,7 +274,7 @@ function xmldb_videotrack_upgrade($oldversion) {
                 XMLDB_NOTNULL,
                 null,
                 '0'
-            ), // allineato a install.xml
+            ), // Aligned with install.xml
             new xmldb_field('requireallreactiontypes', XMLDB_TYPE_INTEGER, '1', null, XMLDB_NOTNULL, null, '0'),
             new xmldb_field('completionlogic',         XMLDB_TYPE_CHAR,   '10', null, XMLDB_NOTNULL, null, 'and'),
         ];
@@ -287,12 +287,12 @@ function xmldb_videotrack_upgrade($oldversion) {
     }
 
     if ($oldversion < 2026050236) {
-        // Versione 0.8.6: isdeleted su videotrack_react, settings centesimi,
-        // backup posterimage rimosso, upgrade campi mancanti, URL esterni icone,
-        // email report con capability, aria-describedby heatmap, SVG corso,
-        // validazione upload, durationseconds max 24h.
+        // Version 0.8.6: isdeleted on videotrack_react, hundredths-based settings,
+        // removed posterimage backup, missing-field upgrade, external icon URLs,
+        // email report with capability checks, heatmap aria-describedby, course SVG,
+        // upload validation, durationseconds maximum 24h.
 
-        // Aggiunge isdeleted a videotrack_react per soft-delete reazioni.
+        // Adds isdeleted to videotrack_react for reaction soft-delete.
         $react = new xmldb_table('videotrack_react');
         $field = new xmldb_field('isdeleted', XMLDB_TYPE_INTEGER, '1', null, XMLDB_NOTNULL, null, '0', 'sortorder');
         if (!$dbman->field_exists($react, $field)) {
@@ -302,26 +302,26 @@ function xmldb_videotrack_upgrade($oldversion) {
     }
 
     if ($oldversion < 2026050243) {
-        // Versione 0.9.5: fix has_recent_playback parametri SQL duplicati,
-        // reaction_counts ottimizzata in save_reaction, catch JS mostra messaggio server.
+        // Version 0.9.5: fixes duplicated SQL parameters in has_recent_playback,
+        // optimised reaction_counts in save_reaction, JS catch displays server message.
         upgrade_mod_savepoint(true, 2026050243, 'videotrack');
     }
 
     if ($oldversion < 2026050244) {
-        // Versione 0.9.6: environment.xml per GD, avviso settings admin, debugging GD.
+        // Version 0.9.6: environment.xml for GD, admin settings warning, GD debugging.
         upgrade_mod_savepoint(true, 2026050244, 'videotrack');
     }
 
     if ($oldversion < 2026050245) {
-        // Versione 0.9.7: normalizzazione messaggi environment.xml (whitespace).
+        // Version 0.9.7: normalises environment.xml messages (whitespace).
         upgrade_mod_savepoint(true, 2026050245, 'videotrack');
     }
 
     if ($oldversion < 2026050246) {
-        // Versione 0.9.8: fix install.xml COMMENT escape, maxplaybackrate /100,
-        // videotrack_get_reactions isdeleted, mod_form reazioni attive, lib.php
-        // isdeleted=0 su update, backup reazioni soft-deleted, default allineati,
-        // query email minimizzazione, aria-label delete contestuale.
+        // Version 0.9.8: install.xml COMMENT escaping fix, maxplaybackrate /100,
+        // videotrack_get_reactions isdeleted, active reactions in mod_form, lib.php
+        // isdeleted=0 on update, backup of soft-deleted reactions, aligned defaults,
+        // minimised email query, contextual delete aria-label.
         upgrade_mod_savepoint(true, 2026050246, 'videotrack');
     }
 
@@ -909,6 +909,12 @@ function xmldb_videotrack_upgrade($oldversion) {
         // Release 1.4.55: AMD accessibility, event-bus and client validation hardening.
         // No database schema changes.
         upgrade_mod_savepoint(true, 2026060203, 'videotrack');
+    }
+
+    if ($oldversion < 2026060204) {
+        // Release 1.4.56: documentation metadata and code-comment cleanup.
+        // No database schema changes.
+        upgrade_mod_savepoint(true, 2026060204, 'videotrack');
     }
 
     return true;

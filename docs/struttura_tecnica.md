@@ -1,6 +1,6 @@
 # mod_videotrack — Guida alla struttura del codice
 
-**Versione**: 1.2.2 (build 2026070301)
+**Versione**: 1.4.56 (build 2026060204)
 **Prerequisito di lettura**: conoscenza base di Moodle (plugin system, `$DB`, `$USER`, `cm_info`) e PHP/JavaScript.
 
 ---
@@ -225,10 +225,10 @@ Un record per ogni click su un bottone reazione o per ogni nota salvata.
 
 ```php
 $plugin->component = 'mod_videotrack';
-$plugin->version   = 2026070300;
+$plugin->version   = 2026060204;
 $plugin->requires  = 2025041400; // Moodle 5.0.
-$plugin->maturity  = MATURITY_BETA;
-$plugin->release   = '1.2.0';
+$plugin->maturity  = MATURITY_STABLE;
+$plugin->release   = '1.4.56';
 ```
 
 È il file letto da Moodle per decidere se mostrare l'upgrade dialog. `version` è un intero in formato `YYYYMMDDnn`. `requires` è la build minima di Moodle supportata.
@@ -1221,3 +1221,9 @@ Refactor iniziale dei player AMD:
 - Allineati `version.php`, `db/install.xml` e savepoint di upgrade alla build 2026070301.
 - Rafforzata la coerenza del rate limit note usando una finestra temporale inclusiva.
 - Normalizzato il clamp del playback rate delle note con arrotondamento a tre decimali, coerente con le reazioni.
+
+### Aggiornamento 1.4.56
+
+- Allineati gli header documentali e l'esempio `version.php` alla release 1.4.56 / build 2026060204.
+- Uniformati commenti tecnici PHP/AMD in inglese per migliorare la leggibilita' in review Moodle HQ.
+- Rimossa la riga commentata `docs/ export-ignore` da `.gitattributes` per evitare ambiguita' nel packaging.
