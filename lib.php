@@ -140,6 +140,8 @@ function videotrack_update_instance($data, $mform = null) {
 
     if ($data->videosource === 'upload') {
         videotrack_save_uploaded_video($data->id, $data);
+    } else {
+        videotrack_delete_upload_source_files($data->id, $data);
     }
     // Save poster image (all sources).
     videotrack_save_poster_image($data->id, $data);
@@ -242,6 +244,22 @@ function videotrack_save_uploaded_video(int $instanceid, stdClass $data): void {
             'accepted_types' => ['.mp4', '.webm', '.mp3', '.m4v', '.mov', '.aac', '.m4a'],
         ]);
     }
+}
+
+/**
+ * Deletes upload-only files when an activity is no longer using the upload source.
+ *
+ * @param int $instanceid Videotrack instance id.
+ * @param stdClass $data Form data.
+ */
+function videotrack_delete_upload_source_files(int $instanceid, stdClass $data): void {
+    $context = videotrack_get_module_context_from_data($data, $instanceid);
+    if (!$context) {
+        return;
+    }
+    $fs = get_file_storage();
+    $fs->delete_area_files($context->id, 'mod_videotrack', 'videocontent', 0);
+    $fs->delete_area_files($context->id, 'mod_videotrack', 'subtitles', 0);
 }
 
 /**
@@ -1248,6 +1266,13 @@ function videotrack_pluginfile($course, $cm, $context, $filearea, $args, $forced
     if (!has_capability('mod/videotrack:view', $context)) {
         return false;
     }
+    if (in_array($filearea, ['videocontent', 'subtitles'], true)) {
+        global $DB;
+        $source = (string)$DB->get_field('videotrack', 'videosource', ['id' => $cm->instance], MUST_EXIST);
+        if ($source !== 'upload') {
+            return false;
+        }
+    }
     $itemid   = (int)array_shift($args);
     $filepath = count($args) > 1 ? ('/' . implode('/', array_slice($args, 0, -1)) . '/') : '/';
     $filename = end($args);
@@ -1288,7 +1313,6 @@ function videotrack_pluginfile($course, $cm, $context, $filearea, $args, $forced
         }
     }
     if ($filearea === 'videocontent') {
-        global $DB;
         $allowdownload = (int)$DB->get_field('videotrack', 'allowdownload', ['id' => $cm->instance], MUST_EXIST);
         if (empty($allowdownload) && $forcedownload) {
             return false;
