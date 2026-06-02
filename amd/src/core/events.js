@@ -52,28 +52,25 @@ define(['core/log'], function(Log) {
                 if (!name || typeof handler !== 'function') {
                     return function() {};
                 }
-                handlers[name] = handlers[name] || [];
+                handlers[name] = handlers[name] || new Set();
                 var removeHandler = function() {
                     var list = handlers[name];
                     if (!list) {
                         return;
                     }
-                    var index = list.indexOf(handler);
-                    if (index !== -1) {
-                        list.splice(index, 1);
-                    }
-                    if (!list.length) {
+                    list.delete(handler);
+                    if (!list.size) {
                         delete handlers[name];
                     }
                 };
-                if (handlers[name].indexOf(handler) !== -1) {
+                if (handlers[name].has(handler)) {
                     return removeHandler;
                 }
-                if (handlers[name].length >= maxHandlersPerEvent) {
+                if (handlers[name].size >= maxHandlersPerEvent) {
                     Log.debug('mod_videotrack: event handler limit reached for ' + name);
                     return function() {};
                 }
-                handlers[name].push(handler);
+                handlers[name].add(handler);
 
                 return removeHandler;
             },
@@ -89,11 +86,8 @@ define(['core/log'], function(Log) {
                 if (!name || !handlers[name]) {
                     return;
                 }
-                var index = handlers[name].indexOf(handler);
-                if (index !== -1) {
-                    handlers[name].splice(index, 1);
-                }
-                if (!handlers[name].length) {
+                handlers[name].delete(handler);
+                if (!handlers[name].size) {
                     delete handlers[name];
                 }
             },
@@ -111,7 +105,7 @@ define(['core/log'], function(Log) {
                     return [];
                 }
                 var eventPayload = payload || {};
-                var list = (handlers[name] || []).slice(0);
+                var list = handlers[name] ? Array.from(handlers[name]) : [];
                 var results = [];
                 for (var i = 0; i < list.length; i++) {
                     try {
@@ -158,10 +152,10 @@ define(['core/log'], function(Log) {
             count: function(name) {
                 name = normaliseEventName(name);
                 if (name) {
-                    return (handlers[name] || []).length;
+                    return handlers[name] ? handlers[name].size : 0;
                 }
                 return Object.keys(handlers).reduce(function(total, key) {
-                    return total + handlers[key].length;
+                    return total + handlers[key].size;
                 }, 0);
             },
 

@@ -346,11 +346,11 @@ define([], function() {
         };
 
         var textareaInputHandler = function() {
+            var remaining = updateCharCounter(textarea, config, Utils);
             if (charCounterTimer) {
                 window.clearTimeout(charCounterTimer);
             }
             charCounterTimer = window.setTimeout(function() {
-                var remaining = updateCharCounter(textarea, config, Utils);
                 announceCharThreshold(remaining);
                 charCounterTimer = null;
             }, CHAR_COUNTER_DEBOUNCE_MS);

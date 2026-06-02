@@ -904,5 +904,12 @@ function xmldb_videotrack_upgrade($oldversion) {
         upgrade_mod_savepoint(true, 2026060202, 'videotrack');
     }
 
+
+    if ($oldversion < 2026060203) {
+        // Release 1.4.55: AMD accessibility, event-bus and client validation hardening.
+        // No database schema changes.
+        upgrade_mod_savepoint(true, 2026060203, 'videotrack');
+    }
+
     return true;
 }
