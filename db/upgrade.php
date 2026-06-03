@@ -994,5 +994,11 @@ function xmldb_videotrack_upgrade($oldversion) {
         upgrade_mod_savepoint(true, 2026060216, 'videotrack');
     }
 
+    if ($oldversion < 2026060217) {
+        // Release 1.4.69: documentation changelog consistency cleanup.
+        // No database schema changes.
+        upgrade_mod_savepoint(true, 2026060217, 'videotrack');
+    }
+
     return true;
 }

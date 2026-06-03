@@ -1,6 +1,6 @@
 # mod_videotrack — Guida alla struttura del codice
 
-**Versione**: 1.4.68 (build 2026060216)
+**Versione**: 1.4.69 (build 2026060217)
 **Prerequisito di lettura**: conoscenza base di Moodle (plugin system, `$DB`, `$USER`, `cm_info`) e PHP/JavaScript.
 
 ---
@@ -225,10 +225,10 @@ Un record per ogni click su un bottone reazione o per ogni nota salvata.
 
 ```php
 $plugin->component = 'mod_videotrack';
-$plugin->version   = 2026060216;
+$plugin->version   = 2026060217;
 $plugin->requires  = 2025041400; // Moodle 5.0.
 $plugin->maturity  = MATURITY_STABLE;
-$plugin->release   = '1.4.68';
+$plugin->release   = '1.4.69';
 ```
 
 È il file letto da Moodle per decidere se mostrare l'upgrade dialog. `version` è un intero in formato `YYYYMMDDnn`. `requires` è la build minima di Moodle supportata.
@@ -1232,7 +1232,7 @@ Refactor iniziale dei player AMD:
 
 - Centralizzate le soglie di timeout dei messaggi di stato AMD in costanti documentate.
 - Uniformato un commento tecnico residuo in inglese nel player YouTube.
-- Aggiornati gli header documentali e l'esempio `version.php` alla release 1.4.63 / build 2026060211.
+- Aggiornati gli header documentali e l'esempio `version.php` alla release 1.4.60 / build 2026060208.
 
 ### Aggiornamento 1.4.58
 
@@ -1247,7 +1247,7 @@ Refactor iniziale dei player AMD:
 
 - Migliorate le relazioni ARIA dei messaggi di stato dinamici con `aria-describedby` generato sul testo visibile.
 - Migliorato il banner di ripresa con descrizione associata al testo localizzato e cleanup dei commenti tecnici AMD.
-- Aggiornati gli header documentali e l'esempio `version.php` alla release 1.4.63 / build 2026060211.
+- Aggiornati gli header documentali e l'esempio `version.php` alla release 1.4.61 / build 2026060209.
 
 
 ### Aggiornamento 1.4.62
@@ -1265,7 +1265,7 @@ Refactor iniziale dei player AMD:
 
 - Uniformati gli ultimi commenti tecnici PHP in inglese per la readiness Moodle HQ.
 - Rimossa un'intestazione `Cache-Control` duplicata nell'export CSV delle note personali.
-- Aggiornati gli header documentali e l'esempio `version.php` alla release 1.4.67 / build 2026060215.
+- Aggiornati gli header documentali e l'esempio `version.php` alla release 1.4.64 / build 2026060212.
 
 
 ### Aggiornamento 1.4.65
@@ -1283,3 +1283,9 @@ Refactor iniziale dei player AMD:
 
 - Rimosso codice ridondante nel report note studenti per ridurre rumore da analisi statica Moodle HQ.
 - Nessuna modifica allo schema database o al comportamento funzionale.
+
+### Aggiornamento 1.4.69
+
+- Allineati gli header documentali e l'esempio `version.php` alla release 1.4.69 / build 2026060217.
+- Corrette voci di changelog tecnico che indicavano release/build successivi rispetto alla sezione descritta.
+- Nessuna modifica al comportamento funzionale, allo schema database o agli AMD build.
