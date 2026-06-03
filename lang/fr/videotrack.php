@@ -198,6 +198,7 @@ $string['presets:deleted'] = 'Préréglage supprimé.';
 $string['presets:notfound'] = 'Préréglage introuvable.';
 $string['presets:noneyet'] = 'Aucun préréglage de réaction n’a encore été configuré.';
 $string['presets:confirmdelete'] = 'Êtes-vous sûr de vouloir supprimer ce préréglage ?';
+$string['confirmfallback'] = 'La fenêtre de confirmation n’a pas pu être ouverte. Veuillez réessayer.';
 $string['presets:presetdetails'] = 'Détails du préréglage';
 $string['presets:name'] = 'Nom du préréglage';
 $string['presets:key'] = 'Clé du préréglage';

@@ -198,6 +198,7 @@ $string['presets:deleted'] = 'Predefinição eliminada.';
 $string['presets:notfound'] = 'Predefinição não encontrada.';
 $string['presets:noneyet'] = 'Ainda não foram configuradas predefinições de reações.';
 $string['presets:confirmdelete'] = 'Tem a certeza de que deseja eliminar esta predefinição?';
+$string['confirmfallback'] = 'Não foi possível abrir a janela de confirmação. Tente novamente.';
 $string['presets:presetdetails'] = 'Detalhes da predefinição';
 $string['presets:name'] = 'Nome da predefinição';
 $string['presets:key'] = 'Chave da predefinição';

@@ -198,6 +198,7 @@ $string['presets:deleted'] = 'Preset usunięty.';
 $string['presets:notfound'] = 'Nie znaleziono presetu.';
 $string['presets:noneyet'] = 'Nie utworzono jeszcze presetów.';
 $string['presets:confirmdelete'] = 'Czy na pewno chcesz usunąć ten preset?';
+$string['confirmfallback'] = 'Nie można otworzyć okna potwierdzenia. Spróbuj ponownie.';
 $string['presets:presetdetails'] = 'Szczegóły presetu';
 $string['presets:name'] = 'Nazwa';
 $string['presets:key'] = 'Klucz';

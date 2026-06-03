@@ -198,6 +198,7 @@ $string['presets:deleted'] = 'प्रीसेट हटाया गया।
 $string['presets:notfound'] = 'प्रीसेट नहीं मिला।';
 $string['presets:noneyet'] = 'अभी तक कोई प्रतिक्रिया प्रीसेट कॉन्फ़िगर नहीं किया गया है।';
 $string['presets:confirmdelete'] = 'क्या आप इस प्रीसेट को हटाना चाहते हैं?';
+$string['confirmfallback'] = 'पुष्टिकरण संवाद नहीं खोला जा सका। कृपया फिर से प्रयास करें।';
 $string['presets:presetdetails'] = 'प्रीसेट विवरण';
 $string['presets:name'] = 'प्रीसेट नाम';
 $string['presets:key'] = 'प्रीसेट कुंजी';
