@@ -1344,14 +1344,16 @@ define([
         init: function(initConfig) {
             config             = initConfig;
             PlayerCore.configureStatus(config);
-            // reactionannouncementinterval is provided by PHP in milliseconds; cap matches settings.php max (120000 ms).
+            // Reaction timing caps match settings.php limits and are centralised in core/reactions.
             var interval = parseInt(config.reactionannouncementinterval, 10);
             reactionState.unavailableInterval = interval === 0 ? Number.MAX_SAFE_INTEGER :
-                Math.max(1000, Math.min(120000, interval || Reactions.DEFAULT_UNAVAILABLE_ANNOUNCE_INTERVAL));
-            // reactionreadydebouncems is intentionally configured in milliseconds; cap matches settings.php max (2000 ms).
+                Math.max(Reactions.MIN_UNAVAILABLE_ANNOUNCE_INTERVAL,
+                    Math.min(Reactions.MAX_UNAVAILABLE_ANNOUNCE_INTERVAL,
+                        interval || Reactions.DEFAULT_UNAVAILABLE_ANNOUNCE_INTERVAL));
             var debounce = parseInt(config.reactionreadydebouncems, 10);
-            reactionState.debounceMs = debounce === 0 ? 0 :
-                Math.max(0, Math.min(2000, debounce || Reactions.DEFAULT_READY_DEBOUNCE_MS));
+            reactionState.debounceMs = debounce === 0 ? Reactions.MIN_READY_DEBOUNCE_MS :
+                Math.max(Reactions.MIN_READY_DEBOUNCE_MS,
+                    Math.min(Reactions.MAX_READY_DEBOUNCE_MS, debounce || Reactions.DEFAULT_READY_DEBOUNCE_MS));
             HEARTBEAT_INTERVAL = Tracker.normaliseHeartbeatInterval(config, 30);
             state.sessionid    = uuid();
             installGlobalListeners();

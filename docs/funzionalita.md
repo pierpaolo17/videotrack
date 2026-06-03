@@ -1,6 +1,6 @@
 # mod_videotrack — Funzionalità e potenzialità
 
-**Versione**: 1.4.78 (build 2026060226)
+**Versione**: 1.4.79 (build 2026060227)
 **Compatibilità**: Moodle 5.0-5.2
 **Lingue incluse**: Italiano, Inglese, Tedesco, Spagnolo, Francese, Portoghese, Hindi, Polacco
 
@@ -334,6 +334,12 @@ VideoTrack non include librerie di terze parti nel pacchetto. Per i video YouTub
 
 - Rafforzato l'uso esplicito dei contesti nelle chiamate `format_string()` relative a titoli attività e descrizioni di completamento.
 - Nessuna modifica funzionale a tracking, segmentazione, note, reazioni o analytics.
+
+
+## Aggiornamento 1.4.79
+
+- Centralizzazione dei limiti temporali delle reazioni nel modulo AMD condiviso `core/reactions`.
+- Nessuna modifica a tracking pedagogico, segmentazione, note, reazioni, analytics o resume logic.
 
 
 ## Aggiornamento 1.4.78

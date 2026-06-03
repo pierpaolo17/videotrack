@@ -13,6 +13,10 @@ define([], function() {
 
     var DEFAULT_UNAVAILABLE_ANNOUNCE_INTERVAL = 30000;
     var DEFAULT_READY_DEBOUNCE_MS = 400;
+    var MIN_UNAVAILABLE_ANNOUNCE_INTERVAL = 1000;
+    var MAX_UNAVAILABLE_ANNOUNCE_INTERVAL = 120000;
+    var MIN_READY_DEBOUNCE_MS = 0;
+    var MAX_READY_DEBOUNCE_MS = 2000;
 
 
     /**
@@ -152,7 +156,7 @@ define([], function() {
             reactionState.timer = null;
         }
         var now = Date.now();
-        var interval = reactionState.unavailableInterval || 1000;
+        var interval = reactionState.unavailableInterval || MIN_UNAVAILABLE_ANNOUNCE_INTERVAL;
         if (reactionState.lastAnnouncement === false && now - reactionState.lastUnavailableAt < interval) {
             return;
         }
@@ -192,6 +196,10 @@ define([], function() {
     return {
         DEFAULT_UNAVAILABLE_ANNOUNCE_INTERVAL: DEFAULT_UNAVAILABLE_ANNOUNCE_INTERVAL,
         DEFAULT_READY_DEBOUNCE_MS: DEFAULT_READY_DEBOUNCE_MS,
+        MIN_UNAVAILABLE_ANNOUNCE_INTERVAL: MIN_UNAVAILABLE_ANNOUNCE_INTERVAL,
+        MAX_UNAVAILABLE_ANNOUNCE_INTERVAL: MAX_UNAVAILABLE_ANNOUNCE_INTERVAL,
+        MIN_READY_DEBOUNCE_MS: MIN_READY_DEBOUNCE_MS,
+        MAX_READY_DEBOUNCE_MS: MAX_READY_DEBOUNCE_MS,
         createState: createState,
         setButtons: setButtons,
         announceAvailability: announceAvailability,
