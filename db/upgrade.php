@@ -1021,5 +1021,11 @@ function xmldb_videotrack_upgrade($oldversion) {
         upgrade_mod_savepoint(true, 2026060220, 'videotrack');
     }
 
+
+    if ($oldversion < 2026060221) {
+        // Release 1.4.73: conservative tracker stale-continuation guards for asynchronous current-time reads.
+        upgrade_mod_savepoint(true, 2026060221, 'videotrack');
+    }
+
     return true;
 }
