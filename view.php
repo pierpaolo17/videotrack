@@ -677,7 +677,7 @@ if ($showstudentreport) {
              'class'      => 'btn btn-secondary btn-sm videotrack-replay',
              'data-start' => $start,
              'data-end'   => $end,
-             // WCAG 2.4.6: aria-label contestuale distingue i bottoni identici per SR.
+             // WCAG 2.4.6: contextual aria-label distinguishes identical buttons for screen readers.
              'aria-label' => get_string('report:replay', 'mod_videotrack') . ' — ' . $timestampfmt,
             ]
         ));

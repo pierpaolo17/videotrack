@@ -140,7 +140,7 @@ define([], function() {
         var requiredMethods = methods || [];
         var requiredProperties = properties || [];
         if (!requiredMethods.length && !requiredProperties.length) {
-            return true;
+            return false;
         }
         return requiredMethods.every(function(method) {
             return typeof provider[method] === 'function';
@@ -273,9 +273,14 @@ define([], function() {
         if (duration && typeof duration.then === 'function') {
             duration = undefined;
         }
-        var target = normaliseTime(current, 0) + Number(delta || 0);
+        var safeCurrent = normaliseTime(current, 0);
+        var safeDelta = Number(delta);
+        if (!isFinite(safeDelta)) {
+            safeDelta = 0;
+        }
+        var target = safeCurrent + safeDelta;
         if (!isFinite(target)) {
-            target = normaliseTime(current, 0);
+            target = safeCurrent;
         }
         target = Math.max(0, target);
         var safeDuration = Number(duration);

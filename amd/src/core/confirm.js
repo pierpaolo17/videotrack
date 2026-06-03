@@ -168,6 +168,7 @@ define([
         var labels = options.fallbackLabels || {};
         var message = options.message || labels.message || '';
         var submitted = false;
+        var describedById = 'videotrack-confirm-body-' + Math.floor(Date.now() + Math.random() * 1000000);
 
         return Promise.all([
             resolveString(options.titleString || {key: 'confirm', component: 'moodle'}, labels.confirm || ''),
@@ -180,7 +181,12 @@ define([
             }).then(function(modal) {
                 modal.setSaveButtonText(strings[1]);
                 modal.setCancelButtonText(strings[2]);
-                modal.getRoot().on(ModalEvents.save, function(event) {
+                var root = modal.getRoot();
+                if (root && typeof root.find === 'function') {
+                    root.find('.modal-body').attr('id', describedById);
+                    root.find('.modal-dialog, .modal-content').attr('aria-describedby', describedById);
+                }
+                root.on(ModalEvents.save, function(event) {
                     event.preventDefault();
                     if (form.dataset.videotrackConfirmSubmitting === '1') {
                         return;
@@ -191,7 +197,7 @@ define([
                     submitForm(form);
                 });
                 if (ModalEvents.hidden) {
-                    modal.getRoot().on(ModalEvents.hidden, function() {
+                    root.on(ModalEvents.hidden, function() {
                         if (!submitted) {
                             restoreFocus(focusReturnElement);
                         }

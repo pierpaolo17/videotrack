@@ -261,7 +261,7 @@ function videotrack_build_required_reaction_notice(stdClass $videotrack, array $
 function videotrack_get_reactions(int $videotrackid, bool $includedeleted = false): array {
     global $DB;
     // Static cache to avoid repeated queries for the same activity in one request.
-    // Chiave separata per includedeleted=true (usato raramente, es. backup).
+    // Separate cache key for includedeleted=true (rarely used, for example backup).
     static $cache = [];
     $key = $videotrackid . ($includedeleted ? ':all' : ':active');
     if (!isset($cache[$key])) {

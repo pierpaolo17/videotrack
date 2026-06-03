@@ -16,6 +16,10 @@ define([
     var AJAX_MAX_RETRIES = 2;
     var AJAX_MAX_PAYLOAD_BYTES = 64 * 1024;
     var AJAX_MAX_STRING_ARG_LENGTH = 10000;
+    var AJAX_MAX_ARG_DEPTH = 4;
+    var AJAX_MAX_ARRAY_LENGTH = 100;
+    var AJAX_MAX_OBJECT_KEYS = 50;
+    var AJAX_MAX_OBJECT_KEY_LENGTH = 64;
     var METHOD_PREFIX = 'mod_videotrack_';
     var ALLOWED_METHODS = {
         mod_videotrack_save_segment: true,
@@ -153,7 +157,7 @@ define([
      * @returns {boolean} True when value is safe to JSON serialise.
      */
     function isSafeArgValue(value, depth) {
-        if (depth > 4) {
+        if (depth > AJAX_MAX_ARG_DEPTH) {
             return false;
         }
         if (value === null || value === undefined) {
@@ -169,13 +173,15 @@ define([
             return true;
         }
         if (Array.isArray(value)) {
-            return value.length <= 100 && value.every(function(item) {
+            return value.length <= AJAX_MAX_ARRAY_LENGTH && value.every(function(item) {
                 return isSafeArgValue(item, depth + 1);
             });
         }
         if (isPlainObject(value)) {
-            return Object.keys(value).length <= 50 && Object.keys(value).every(function(key) {
-                return /^[a-z0-9_:-]{1,64}$/i.test(key) && isSafeArgValue(value[key], depth + 1);
+            var keys = Object.keys(value);
+            return keys.length <= AJAX_MAX_OBJECT_KEYS && keys.every(function(key) {
+                return key.length <= AJAX_MAX_OBJECT_KEY_LENGTH && /^[a-z0-9_:-]+$/i.test(key) &&
+                    isSafeArgValue(value[key], depth + 1);
             });
         }
         return false;

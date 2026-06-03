@@ -226,12 +226,12 @@ define([
                 startCurrentSegment();
             }
         } else if (event.data === YT.PlayerState.PAUSED) {
-            setReactionButtons(false); // CRIT-2: disabilita bottoni su pausa
+            setReactionButtons(false); // CRIT-2: disable buttons on pause
             closeCurrentSegment('pause');
         } else if (event.data === YT.PlayerState.ENDED) {
             state.ended = true;
             reactionState.readyAnnounced = false;
-            setReactionButtons(false); // CRIT-2: disabilita bottoni a fine video
+            setReactionButtons(false); // CRIT-2: disable buttons at video end
             closeCurrentSegment('ended');
         }
     }
@@ -249,7 +249,7 @@ define([
      * Il messaggio sparisce automaticamente dopo 4 secondi.
      *
      * @param {string}  message  Testo del messaggio.
-     * @param {boolean} isError  Se true usa role=alert (assertive); altrimenti status (polite).
+     * @param {boolean} isError True uses role=alert (assertive); false uses status (polite).
      */
     function installGlobalListeners() {
         Tracker.installLifecycleHandlers({
@@ -463,7 +463,7 @@ define([
         delBtn.className = 'btn btn-link btn-sm videotrack-delete-reaction';
         delBtn.dataset.eventid = eventid;
         delBtn.textContent = config.removelabel;
-        // WCAG 2.4.6: aria-label contestuale per distinguere i bottoni identici agli SR.
+        // WCAG 2.4.6: contextual aria-label distinguishes identical buttons for screen readers.
         delBtn.setAttribute('aria-label',
             (config.removelabel) + ' — ' + (reaction.label || '') + ' — ' + Utils.formatSeconds(videotime));
         tdDel.appendChild(delBtn);
@@ -503,7 +503,7 @@ define([
                     setReactionButtons(false); // Disabled until playback starts.
                     // Add rewind/ff overlay buttons if configured.
                     buildYouTubeSkipButtons();
-                    // replaystart (link diretto a un frammento) ha precedenza sul resume.
+                    // replaystart (direct link to a fragment) takes precedence over resume.
                     // If both are configured, respect the user's explicit navigation.
                     if (typeof config.replaystart === 'number' && config.replaystart >= 0) {
                         replayFragment(config.replaystart,

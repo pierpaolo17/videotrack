@@ -11,6 +11,7 @@
 define(['core/log'], function(Log) {
     'use strict';
 
+    var DEFAULT_MAX_HANDLERS_PER_EVENT = 100;
 
     /**
      * Create a new event bus instance.
@@ -22,7 +23,7 @@ define(['core/log'], function(Log) {
         var handlers = Object.create(null);
         var maxHandlersPerEvent = Number(options.maxHandlersPerEvent);
         if (!isFinite(maxHandlersPerEvent) || maxHandlersPerEvent <= 0) {
-            maxHandlersPerEvent = 100;
+            maxHandlersPerEvent = DEFAULT_MAX_HANDLERS_PER_EVENT;
         }
 
         /**
