@@ -1176,7 +1176,7 @@ function videotrack_resize_reaction_icon(context_module $context, int $reactioni
     if (!function_exists('imagecreatefromstring')) {
         // GD non disponibile: il ridimensionamento non avviene.
         // The admin warning is already visible on the settings page (settings.php)
-        // e nel check environment.xml. Non blocchiamo il salvataggio.
+        // and in the environment.xml check. Do not block saving.
         debugging('mod_videotrack: GD PHP extension is not available. ' .
             'Reaction icon for reactionid=' . $reactionid . ' was NOT resized to 64×64px. ' .
             'Install php-gd to enable automatic icon resizing.',
@@ -1222,7 +1222,7 @@ function videotrack_resize_reaction_icon(context_module $context, int $reactioni
     imagecopyresampled($dst, $srcimage, 0, 0, $cropx, $cropy, $target, $target, $cropsize, $cropsize);
     imagedestroy($srcimage);
 
-    // Salva come PNG in un buffer temporaneo.
+    // Save as PNG in a temporary buffer.
     ob_start();
     imagepng($dst, null, 6); // Compression level 6 balances quality and size.
     $pngdata = ob_get_clean();
