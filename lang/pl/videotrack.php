@@ -117,6 +117,11 @@ $string['setting:heartbeatinterval_desc'] = 'Jak często odtwarzacz zapisuje bie
 $string['setting:reactionannouncementinterval'] = 'Interwał dostępnych komunikatów reakcji (milisekundy)';
 $string['setting:reactionannouncementinterval_desc'] = 'Minimalny interwał, w milisekundach, między powtarzanymi komunikatami czytnika ekranu „reakcje niedostępne”. Użyj niższej wartości dla częstszej informacji zwrotnej w krótkich filmach albo wyższej, aby ograniczyć powtarzane komunikaty. Ustaw 0, aby wyłączyć powtarzane komunikaty. Zalecany zakres po włączeniu: 10000–60000 milisekund. Przykłady: 10000 = 10 sekund, 30000 = 30 sekund, 60000 = 1 minuta.';
 $string['setting:reactionreadydebouncems'] = 'Opóźnienie gotowości reakcji (milisekundy)';
+
+$string['setting:statusinfotimeoutms'] = 'Status message timeout (milliseconds)';
+$string['setting:statusinfotimeoutms_desc'] = 'How long informational player status messages remain visible before auto-dismissal. Recommended range: 4000–20000 milliseconds.';
+$string['setting:statuserrortimeoutms'] = 'Error status timeout (milliseconds)';
+$string['setting:statuserrortimeoutms_desc'] = 'How long player error messages remain visible before auto-dismissal. Use a longer timeout to improve accessibility and recovery time. Recommended range: 6000–30000 milliseconds.';
 $string['setting:reactionreadydebouncems_desc'] = 'Minimalne opóźnienie, w milisekundach, przed ponownym ogłoszeniem „reakcje dostępne” po szybkiej pauzie i wznowieniu. Ustaw 0, aby wyłączyć ten debounce.';
 $string['setting:heading_performance'] = 'Wydajność';
 $string['setting:heading_accessibility'] = 'Dostępność';

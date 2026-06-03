@@ -127,6 +127,11 @@ $string['setting:heartbeatinterval_desc'] = 'निरंतर प्लेब�
 $string['setting:reactionannouncementinterval'] = 'प्रतिक्रिया सुगम्यता घोषणा अंतराल (मिलीसेकंड)';
 $string['setting:reactionannouncementinterval_desc'] = 'स्क्रीन रीडर के लिए दोहराई गई “प्रतिक्रियाएँ उपलब्ध नहीं हैं” घोषणाओं के बीच न्यूनतम अंतराल, मिलीसेकंड में। छोटे वीडियो में अधिक बार प्रतिक्रिया के लिए कम मान या दोहराई गई घोषणाएँ कम करने के लिए अधिक मान उपयोग करें। दोहराई गई घोषणाएँ बंद करने के लिए 0 सेट करें। सक्रिय होने पर अनुशंसित सीमा: 10000–60000 मिलीसेकंड। उदाहरण: 10000 = 10 सेकंड, 30000 = 30 सेकंड, 60000 = 1 मिनट।';
 $string['setting:reactionreadydebouncems'] = 'तैयार प्रतिक्रियाओं का डिबाउंस (मिलीसेकंड)';
+
+$string['setting:statusinfotimeoutms'] = 'Status message timeout (milliseconds)';
+$string['setting:statusinfotimeoutms_desc'] = 'How long informational player status messages remain visible before auto-dismissal. Recommended range: 4000–20000 milliseconds.';
+$string['setting:statuserrortimeoutms'] = 'Error status timeout (milliseconds)';
+$string['setting:statuserrortimeoutms_desc'] = 'How long player error messages remain visible before auto-dismissal. Use a longer timeout to improve accessibility and recovery time. Recommended range: 6000–30000 milliseconds.';
 $string['setting:reactionreadydebouncems_desc'] = 'तेज़ विराम और फिर से शुरू करने के बाद “प्रतिक्रियाएँ उपलब्ध हैं” घोषणा दोहराने से पहले न्यूनतम विलंब, मिलीसेकंड में। यह डिबाउंस बंद करने के लिए 0 सेट करें।';
 
 $string['reactionx'] = 'प्रतिक्रिया {$a}';

@@ -127,6 +127,11 @@ $string['setting:heartbeatinterval_desc'] = 'Com que frequência o player guarda
 $string['setting:reactionannouncementinterval'] = 'Intervalo dos anúncios acessíveis das reações (milissegundos)';
 $string['setting:reactionannouncementinterval_desc'] = 'Intervalo mínimo, em milissegundos, entre anúncios repetidos “reações indisponíveis” para leitores de ecrã. Use um valor mais baixo para feedback frequente em vídeos curtos ou mais alto para reduzir anúncios repetidos. Defina 0 para desativar os anúncios repetidos. Intervalo recomendado quando ativo: 10000–60000 milissegundos. Exemplos: 10000 = 10 segundos, 30000 = 30 segundos, 60000 = 1 minuto.';
 $string['setting:reactionreadydebouncems'] = 'Debounce das reações prontas (milissegundos)';
+
+$string['setting:statusinfotimeoutms'] = 'Status message timeout (milliseconds)';
+$string['setting:statusinfotimeoutms_desc'] = 'How long informational player status messages remain visible before auto-dismissal. Recommended range: 4000–20000 milliseconds.';
+$string['setting:statuserrortimeoutms'] = 'Error status timeout (milliseconds)';
+$string['setting:statuserrortimeoutms_desc'] = 'How long player error messages remain visible before auto-dismissal. Use a longer timeout to improve accessibility and recovery time. Recommended range: 6000–30000 milliseconds.';
 $string['setting:reactionreadydebouncems_desc'] = 'Atraso mínimo, em milissegundos, antes de repetir o anúncio “reações disponíveis” após uma pausa e retoma rápidas. Defina 0 para desativar este debounce.';
 
 $string['reactionx'] = 'Reação {$a}';

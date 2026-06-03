@@ -131,6 +131,27 @@ if ($ADMIN->fulltree) {
         2000
     ));
 
+
+    // Stored in milliseconds and consumed directly by the shared status-message JavaScript helper.
+    $settings->add(new \mod_videotrack\admin\setting_int_range(
+        'mod_videotrack/statusinfotimeoutms',
+        get_string('setting:statusinfotimeoutms', 'mod_videotrack'),
+        get_string('setting:statusinfotimeoutms_desc', 'mod_videotrack'),
+        8000,
+        4000,
+        20000
+    ));
+
+    // Error messages stay visible longer than informational feedback for WCAG-friendly recovery.
+    $settings->add(new \mod_videotrack\admin\setting_int_range(
+        'mod_videotrack/statuserrortimeoutms',
+        get_string('setting:statuserrortimeoutms', 'mod_videotrack'),
+        get_string('setting:statuserrortimeoutms_desc', 'mod_videotrack'),
+        6000,
+        6000,
+        30000
+    ));
+
     // Player behaviour.
     $settings->add(new admin_setting_heading(
         'mod_videotrack/heading_player',
