@@ -352,3 +352,8 @@ VideoTrack non include librerie di terze parti nel pacchetto. Per i video YouTub
 
 - Rafforzata la documentazione JSDoc dei moduli AMD condivisi `core/api` e `core/tracker` con typedef/callback per API AJAX, stato tracker e salvataggio segmenti.
 - Nessuna modifica eseguibile a tracking, segmentazione, note, reazioni, analytics o resume logic.
+
+
+## Aggiornamento 1.4.81
+
+Patch safe di chiusura per accessibilità report note, logging privacy quando la retention illimitata viene abilitata e hardening della paginazione note nei report. Nessuna modifica a tracking, segmentazione, note, reazioni, analytics o resume logic.

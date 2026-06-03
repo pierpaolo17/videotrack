@@ -1075,5 +1075,12 @@ function xmldb_videotrack_upgrade($oldversion) {
         upgrade_mod_savepoint(true, 2026060228, 'videotrack');
     }
 
+
+    if ($oldversion < 2026060229) {
+        // Release 1.4.81: close safe accessibility, GDPR retention logging and report pagination hardening.
+        // No database schema changes.
+        upgrade_mod_savepoint(true, 2026060229, 'videotrack');
+    }
+
     return true;
 }

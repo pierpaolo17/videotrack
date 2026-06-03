@@ -63,7 +63,7 @@ if ($ADMIN->fulltree) {
         ));
     }
 
-    $settings->add(new \mod_videotrack\admin\setting_nonnegative_int(
+    $settings->add(new \mod_videotrack\admin\setting_retention_days(
         'mod_videotrack/retentionperioddays',
         get_string('setting:retentionperioddays', 'mod_videotrack'),
         get_string('setting:retentionperioddays_desc', 'mod_videotrack') . ' ' .

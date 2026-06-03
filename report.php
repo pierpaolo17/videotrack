@@ -1111,6 +1111,10 @@ if ($mode === 'student') {
 
         $table = new html_table();
         $table->attributes['id'] = 'videotrack-heatmap-table';
+        $table->caption = get_string('report:heatmap_textsummary', 'mod_videotrack', [
+            'clusters' => count($clusters),
+            'max' => $clusters ? max(array_column($clusters, 'count')) : 0,
+        ]);
         $table->head = [
             get_string('report:timestamp', 'mod_videotrack'),
             get_string('report:reaction', 'mod_videotrack'),
@@ -1170,11 +1174,14 @@ if ($mode === 'student' && !empty($videotrack->studentnotesenabled)) {
     }
     $notelimit = videotrack_get_config_int('reportnotespagesize', 100, 20, 500);
     $notecount = $DB->count_records_select('videotrack_reactev', $notewhere, $noteparams);
+    if ($notecount > 0) {
+        $notepage = min($notepage, (int)floor(($notecount - 1) / $notelimit));
+    }
     $notes = $DB->get_records_select(
         'videotrack_reactev',
         $notewhere,
         $noteparams,
-        'userid ASC, videotime ASC',
+        'userid ASC, videotime ASC, id ASC',
         'id, userid, videotime, notetext, timecreated',
         $notepage * $notelimit,
         $notelimit
@@ -1191,6 +1198,7 @@ if ($mode === 'student' && !empty($videotrack->studentnotesenabled)) {
         get_string('report:notedate',  'mod_videotrack'),
     ];
     $ntable->attributes['class'] = 'generaltable';
+    $ntable->caption = get_string('report:notes_title', 'mod_videotrack');
     foreach ($notes as $note) {
         $username = videotrack_report_user_label((int)$note->userid, $usermap, $canviewemail);
         $ntable->data[] = [
@@ -1209,7 +1217,11 @@ if ($mode === 'student' && !empty($videotrack->studentnotesenabled)) {
         echo html_writer::table($ntable);
         echo $OUTPUT->paging_bar($notecount, $notepage, $notelimit, $pagingurl, 'notepage');
 
-        echo $OUTPUT->notification(get_string('report:exportnotes_privacywarning', 'mod_videotrack'), 'notifywarning');
+        echo html_writer::div(
+            get_string('report:exportnotes_privacywarning', 'mod_videotrack'),
+            'alert alert-warning',
+            ['id' => 'videotrack-notes-export-warning']
+        );
 
         // Export CSV note via POST to avoid exposing sesskey in URLs/history.
         $notesexportform = html_writer::start_tag('form', [
@@ -1234,6 +1246,7 @@ if ($mode === 'student' && !empty($videotrack->studentnotesenabled)) {
             'required' => 'required',
             'class' => 'form-check-input',
             'id' => 'id_confirmnotesexport',
+            'aria-describedby' => 'videotrack-notes-export-warning',
         ]);
         $notesexportform .= html_writer::tag('label',
             get_string('report:exportnotes_confirm', 'mod_videotrack'),
