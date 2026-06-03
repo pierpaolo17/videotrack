@@ -1068,5 +1068,12 @@ function xmldb_videotrack_upgrade($oldversion) {
         upgrade_mod_savepoint(true, 2026060227, 'videotrack');
     }
 
+
+    if ($oldversion < 2026060228) {
+        // Release 1.4.80: JSDoc hardening for shared AMD API and tracker modules.
+        // No database schema changes.
+        upgrade_mod_savepoint(true, 2026060228, 'videotrack');
+    }
+
     return true;
 }

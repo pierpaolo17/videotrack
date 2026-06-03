@@ -15,7 +15,31 @@ define([
 ], function(Segment, Events) {
     'use strict';
 
+    /**
+     * Mutable provider-neutral tracker state shared by concrete player modules.
+     *
+     * The object is intentionally open-ended because YouTube, Vimeo and HTML5
+     * adapters keep provider-specific handles next to the common tracker fields.
+     *
+     * @typedef {Object} TrackerState
+     * @property {number|null} segmentstart Start of the currently open segment.
+     * @property {number|null} wallclockstart Wallclock timestamp for the open segment.
+     * @property {boolean} playing Whether playback is currently active.
+     * @property {number} duration Known video duration in seconds.
+     * @property {string=} trackerstate Current normalised tracker lifecycle state.
+     * @property {Object=} events State-bound event bus.
+     * @property {Object=} ajaxRequestScope Stale-continuation guard for AJAX requests.
+     */
 
+    /**
+     * Persist a segment that has already been closed by the tracker.
+     *
+     * @callback SegmentSaveCallback
+     * @param {number} start Segment start in seconds.
+     * @param {number} end Segment end in seconds.
+     * @param {string} reason Normalised save reason.
+     * @returns {Promise|boolean|null} Save result.
+     */
 
 
     /**
@@ -538,7 +562,7 @@ define([
     /**
      * Close the current watched segment and clear the mutable lifecycle state.
      *
-     * @param {Object} state Mutable player state.
+     * @param {TrackerState} state Mutable player state.
      * @param {number} end Current media time.
      * @returns {{start: number, end: number}|null} Closed segment payload.
      */
@@ -576,7 +600,7 @@ define([
      * Queueing only these tracker-level saves preserves their existing order and
      * avoids changing heartbeat frequency or the pedagogical tracking rules.
      *
-     * @param {Object} state Mutable player state.
+     * @param {TrackerState} state Mutable player state.
      * @param {Function} callback Save callback.
      * @returns {Promise} Promise resolved with the callback result.
      */
@@ -605,9 +629,9 @@ define([
      * Promise resolving to a number, which lets YouTube/HTML5 and Vimeo use the
      * same lifecycle path.
      *
-     * @param {Object} state Mutable player state.
+     * @param {TrackerState} state Mutable player state.
      * @param {Function} getCurrentTime Function returning current media time.
-     * @param {Function} saveSegment Function used to persist the closed segment.
+     * @param {SegmentSaveCallback} saveSegment Function used to persist the closed segment.
      * @param {string} reason Save reason.
      * @param {boolean} hasPlayer Whether the concrete player is available.
      * @returns {Promise<boolean>} True when a segment was closed and queued for saving.
@@ -653,7 +677,7 @@ define([
      * promise resolves can silently lose watch time when the request fails.
      * Call reopenAfterHeartbeat only after a successful save.
      *
-     * @param {Object} state Mutable player state.
+     * @param {TrackerState} state Mutable player state.
      * @param {number} end Current media time.
      * @returns {{start: number, end: number}|null} Segment payload to persist.
      */
@@ -1236,7 +1260,7 @@ define([
      * abort already-dispatched Moodle AJAX calls; it prevents their late promise
      * continuations from mutating stale player state.
      *
-     * @param {Object} state Mutable player state.
+     * @param {TrackerState} state Mutable player state.
      * @param {string=} reason Cleanup reason.
      * @returns {boolean} True when a request scope was cancelled.
      */

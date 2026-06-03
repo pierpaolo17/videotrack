@@ -346,3 +346,9 @@ VideoTrack non include librerie di terze parti nel pacchetto. Per i video YouTub
 
 - Hardening Moodle HQ: la pagina indice del modulo passa esplicitamente il contesto corso a `format_string()` per titolo, intestazione e nomi attività.
 - Nessuna modifica a tracking pedagogico, segmentazione, note, reazioni, analytics o resume logic.
+
+
+## Aggiornamento 1.4.80
+
+- Rafforzata la documentazione JSDoc dei moduli AMD condivisi `core/api` e `core/tracker` con typedef/callback per API AJAX, stato tracker e salvataggio segmenti.
+- Nessuna modifica eseguibile a tracking, segmentazione, note, reazioni, analytics o resume logic.
