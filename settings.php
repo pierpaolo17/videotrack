@@ -118,6 +118,15 @@ if ($ADMIN->fulltree) {
         10000
     ));
 
+    $settings->add(new \mod_videotrack\admin\setting_int_range(
+        'mod_videotrack/reportnotespagesize',
+        get_string('setting:reportnotespagesize', 'mod_videotrack'),
+        get_string('setting:reportnotespagesize_desc', 'mod_videotrack'),
+        100,
+        20,
+        500
+    ));
+
     // Accessibility and assistive technology announcements.
     $settings->add(new admin_setting_heading(
         'mod_videotrack/heading_accessibility',

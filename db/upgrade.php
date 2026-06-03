@@ -980,5 +980,12 @@ function xmldb_videotrack_upgrade($oldversion) {
         upgrade_mod_savepoint(true, 2026060214, 'videotrack');
     }
 
+
+    if ($oldversion < 2026060215) {
+        // Release 1.4.67: configurable student-notes report page size for large cohorts.
+        // No database schema changes.
+        upgrade_mod_savepoint(true, 2026060215, 'videotrack');
+    }
+
     return true;
 }

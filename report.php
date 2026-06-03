@@ -1168,7 +1168,7 @@ if ($mode === 'student' && !empty($videotrack->studentnotesenabled)) {
         $notewhere .= ' AND timecreated <= :notecreatedto';
         $noteparams['notecreatedto'] = $notecreatedtots;
     }
-    $notelimit = 100;
+    $notelimit = videotrack_get_config_int('reportnotespagesize', 100, 20, 500);
     $notecount = $DB->count_records_select('videotrack_reactev', $notewhere, $noteparams);
     $notes = $DB->get_records_select(
         'videotrack_reactev',
