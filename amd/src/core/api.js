@@ -11,6 +11,34 @@ define([
 ], function(Ajax, Log, Segment) {
     'use strict';
 
+    /**
+     * Options accepted by the shared AJAX dispatch wrapper.
+     *
+     * @typedef {Object} RequestOptions
+     * @property {number=} timeout Timeout in milliseconds.
+     * @property {boolean=} swallowFailures Resolve to null on handled failures.
+     * @property {string=} errorMessage Debug prefix for handled failures.
+     * @property {number=} retries Number of transient retries.
+     * @property {number=} retryDelay Retry delay in milliseconds.
+     * @property {boolean=} deferWhenOffline Resolve to null when the browser reports offline.
+     * @property {Object=} requestScope Stale-continuation guard created by createRequestScope().
+     */
+
+    /**
+     * Provider-neutral watched-segment payload used by mod_videotrack_save_segment.
+     *
+     * @typedef {Object} SegmentArgs
+     * @property {number} cmid Course module id.
+     * @property {string} sessionid Tracking session id.
+     * @property {number} videotimestart Segment start in seconds.
+     * @property {number} videotimeend Segment end in seconds.
+     * @property {number} wallclockstart Wallclock start timestamp.
+     * @property {number} wallclockend Wallclock end timestamp.
+     * @property {number} playbackrate Playback rate used while watching.
+     * @property {string} endreason Normalised segment close reason.
+     * @property {number} durationseconds Known video duration in seconds.
+     */
+
     var AJAX_TIMEOUT_MS = 15000;
     var AJAX_RETRY_DELAY_MS = 750;
     var AJAX_MAX_RETRIES = 2;
@@ -506,7 +534,7 @@ define([
      *
      * @param {string} methodname Moodle external function name.
      * @param {Object=} args Request arguments.
-     * @param {Object=} options Optional handling flags.
+     * @param {RequestOptions=} options Optional handling flags.
      * @param {number=} options.timeout Timeout in milliseconds.
      * @param {boolean=} options.swallowFailures Resolve to null on failure.
      * @param {string=} options.errorMessage Debug prefix for swallowed failures.
@@ -595,7 +623,7 @@ define([
      * @param {*} start Segment start candidate.
      * @param {*} end Segment end candidate.
      * @param {string} reason Segment close reason.
-     * @returns {Object|null} AJAX args or null when the segment is empty.
+     * @returns {SegmentArgs|null} AJAX args or null when the segment is empty.
      */
     function buildSegmentArgs(config, state, start, end, reason) {
         var now = Math.floor(Date.now() / 1000);
@@ -624,7 +652,7 @@ define([
      * @param {*} start Segment start candidate.
      * @param {*} end Segment end candidate.
      * @param {string} reason Segment close reason.
-     * @param {Object=} options Optional handling flags.
+     * @param {RequestOptions=} options Optional handling flags.
      * @param {boolean=} options.swallowFailures Resolve to null on AJAX failure.
      * @param {string=} options.errorMessage Debug prefix for swallowed failures.
      * @param {number=} options.retries Number of transient retries, capped at two.
