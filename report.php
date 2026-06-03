@@ -1192,7 +1192,6 @@ if ($mode === 'student' && !empty($videotrack->studentnotesenabled)) {
     ];
     $ntable->attributes['class'] = 'generaltable';
     foreach ($notes as $note) {
-        $nuser = $usermap[(int)$note->userid] ?? null;
         $username = videotrack_report_user_label((int)$note->userid, $usermap, $canviewemail);
         $ntable->data[] = [
             $username,
