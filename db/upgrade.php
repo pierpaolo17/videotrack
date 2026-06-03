@@ -955,5 +955,11 @@ function xmldb_videotrack_upgrade($oldversion) {
         upgrade_mod_savepoint(true, 2026060210, 'videotrack');
     }
 
+    if ($oldversion < 2026060211) {
+        // Release 1.4.63: tracker source cleanup for Moodle HQ static analysis.
+        // No database schema changes.
+        upgrade_mod_savepoint(true, 2026060211, 'videotrack');
+    }
+
     return true;
 }

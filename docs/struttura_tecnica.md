@@ -1,6 +1,6 @@
 # mod_videotrack — Guida alla struttura del codice
 
-**Versione**: 1.4.62 (build 2026060210)
+**Versione**: 1.4.63 (build 2026060211)
 **Prerequisito di lettura**: conoscenza base di Moodle (plugin system, `$DB`, `$USER`, `cm_info`) e PHP/JavaScript.
 
 ---
@@ -225,10 +225,10 @@ Un record per ogni click su un bottone reazione o per ogni nota salvata.
 
 ```php
 $plugin->component = 'mod_videotrack';
-$plugin->version   = 2026060210;
+$plugin->version   = 2026060211;
 $plugin->requires  = 2025041400; // Moodle 5.0.
 $plugin->maturity  = MATURITY_STABLE;
-$plugin->release   = '1.4.62';
+$plugin->release   = '1.4.63';
 ```
 
 È il file letto da Moodle per decidere se mostrare l'upgrade dialog. `version` è un intero in formato `YYYYMMDDnn`. `requires` è la build minima di Moodle supportata.
@@ -1232,7 +1232,7 @@ Refactor iniziale dei player AMD:
 
 - Centralizzate le soglie di timeout dei messaggi di stato AMD in costanti documentate.
 - Uniformato un commento tecnico residuo in inglese nel player YouTube.
-- Aggiornati gli header documentali e l'esempio `version.php` alla release 1.4.62 / build 2026060210.
+- Aggiornati gli header documentali e l'esempio `version.php` alla release 1.4.63 / build 2026060211.
 
 ### Aggiornamento 1.4.58
 
@@ -1247,10 +1247,16 @@ Refactor iniziale dei player AMD:
 
 - Migliorate le relazioni ARIA dei messaggi di stato dinamici con `aria-describedby` generato sul testo visibile.
 - Migliorato il banner di ripresa con descrizione associata al testo localizzato e cleanup dei commenti tecnici AMD.
-- Aggiornati gli header documentali e l'esempio `version.php` alla release 1.4.62 / build 2026060210.
+- Aggiornati gli header documentali e l'esempio `version.php` alla release 1.4.63 / build 2026060211.
 
 
 ### Aggiornamento 1.4.62
 
 - Aggiunti timeout configurabili per i messaggi di stato accessibili del player.
 - Il fallback JS mantiene limiti minimi/massimi lato client coerenti con le impostazioni amministrative.
+
+
+### Aggiornamento 1.4.63
+
+- Rimossa una dichiarazione duplicata in `amd/src/core/tracker.js` per migliorare la compatibilità con i controlli statici Moodle HQ senza modificare il comportamento del tracker.
+- Aggiornata la sourcemap AMD coerente con il sorgente `tracker.js`.
