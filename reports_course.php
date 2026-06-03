@@ -148,7 +148,7 @@ $table->head = [
 foreach ($instances as $inst) {
     $link = html_writer::link(
         new moodle_url('/mod/videotrack/view.php', ['id' => $inst->cmid]),
-        format_string($inst->name)
+        format_string($inst->name, true, ['context' => $context])
     );
     $report = html_writer::link(
         new moodle_url('/mod/videotrack/report.php', ['id' => $inst->cmid]),
