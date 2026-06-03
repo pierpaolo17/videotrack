@@ -568,6 +568,36 @@ define([
     }
 
     /**
+     * Serialise segment persistence that mutates the open segment.
+     *
+     * Heartbeat, pause/seek/tab and interaction saves can be triggered very
+     * close to each other. Running them in parallel lets a later request reopen
+     * the segment from stale data after an earlier one has already advanced it.
+     * Queueing only these tracker-level saves preserves their existing order and
+     * avoids changing heartbeat frequency or the pedagogical tracking rules.
+     *
+     * @param {Object} state Mutable player state.
+     * @param {Function} callback Save callback.
+     * @returns {Promise} Promise resolved with the callback result.
+     */
+    function enqueueSegmentSave(state, callback) {
+        if (!state || typeof callback !== 'function') {
+            return Promise.resolve(false);
+        }
+
+        var previous = state._segmentSaveQueue || Promise.resolve();
+        var queued = previous.catch(function() {
+            return null;
+        }).then(callback);
+
+        state._segmentSaveQueue = queued.catch(function() {
+            return null;
+        });
+
+        return queued;
+    }
+
+    /**
      * Close the currently open segment and persist it through the supplied callback.
      *
      * This provider-neutral helper keeps close/persist error handling in the
@@ -583,27 +613,29 @@ define([
      * @returns {Promise<boolean>} True when a segment was closed and queued for saving.
      */
     function closeAndSaveSegment(state, getCurrentTime, saveSegment, reason, hasPlayer) {
-        if (!state || state.segmentstart === null || !isPlayerAvailable(hasPlayer)) {
-            return Promise.resolve(false);
-        }
-        if (typeof getCurrentTime !== 'function' || typeof saveSegment !== 'function') {
-            return Promise.resolve(false);
-        }
-
-        return resolveCurrentTime(getCurrentTime, state).then(function(currentTime) {
-            var closed = closeSegment(state, currentTime);
-            if (!closed || closed.end <= closed.start) {
-                return false;
+        return enqueueSegmentSave(state, function() {
+            if (!state || state.segmentstart === null || !isPlayerAvailable(hasPlayer)) {
+                return Promise.resolve(false);
             }
-            var saveReason = Segment.normaliseSaveReason(reason);
-            return Promise.resolve(saveSegment(closed.start, closed.end, saveReason))
-                .then(function() {
-                    emit(state, 'segment:saved', {start: closed.start, end: closed.end, reason: saveReason});
-                    return true;
-                }, function(error) {
-                    emit(state, 'segment:error', {start: closed.start, end: closed.end, reason: saveReason, error: error});
-                    throw error;
-                });
+            if (typeof getCurrentTime !== 'function' || typeof saveSegment !== 'function') {
+                return Promise.resolve(false);
+            }
+
+            return resolveCurrentTime(getCurrentTime, state).then(function(currentTime) {
+                var closed = closeSegment(state, currentTime);
+                if (!closed || closed.end <= closed.start) {
+                    return false;
+                }
+                var saveReason = Segment.normaliseSaveReason(reason);
+                return Promise.resolve(saveSegment(closed.start, closed.end, saveReason))
+                    .then(function() {
+                        emit(state, 'segment:saved', {start: closed.start, end: closed.end, reason: saveReason});
+                        return true;
+                    }, function(error) {
+                        emit(state, 'segment:error', {start: closed.start, end: closed.end, reason: saveReason, error: error});
+                        throw error;
+                    });
+            });
         });
     }
 
@@ -1048,29 +1080,31 @@ define([
      * @returns {Promise} Save promise or null-equivalent promise.
      */
     function saveCurrentProgress(state, getCurrentTime, saveSegment, reason, hasPlayer) {
-        if (!state || !state.playing || state.segmentstart === null || !isPlayerAvailable(hasPlayer)) {
-            return Promise.resolve(null);
-        }
-        if (typeof getCurrentTime !== 'function' || typeof saveSegment !== 'function') {
-            return Promise.resolve(null);
-        }
-
-        var start = normaliseTime(state.segmentstart);
-
-        return resolveCurrentTime(getCurrentTime, state).then(function(currentTime) {
-            var end = Segment.calculateInteractionEnd(start, currentTime, state.duration, reason);
-            var saveReason = Segment.normaliseSaveReason(reason);
-            if (end <= start) {
-                emit(state, 'progress:skipped', {reason: saveReason, start: start, end: end});
-                return null;
+        return enqueueSegmentSave(state, function() {
+            if (!state || !state.playing || state.segmentstart === null || !isPlayerAvailable(hasPlayer)) {
+                return Promise.resolve(null);
             }
-            return Promise.resolve(saveSegment(start, end, saveReason)).then(function(result) {
-                reopenAfterInteractionSave(state, end);
-                emit(state, 'progress:saved', {reason: saveReason, start: start, end: end});
-                return result;
-            }, function(error) {
-                emit(state, 'progress:error', {reason: saveReason, start: start, end: end, error: error});
-                throw error;
+            if (typeof getCurrentTime !== 'function' || typeof saveSegment !== 'function') {
+                return Promise.resolve(null);
+            }
+
+            var start = normaliseTime(state.segmentstart);
+
+            return resolveCurrentTime(getCurrentTime, state).then(function(currentTime) {
+                var end = Segment.calculateInteractionEnd(start, currentTime, state.duration, reason);
+                var saveReason = Segment.normaliseSaveReason(reason);
+                if (end <= start) {
+                    emit(state, 'progress:skipped', {reason: saveReason, start: start, end: end});
+                    return null;
+                }
+                return Promise.resolve(saveSegment(start, end, saveReason)).then(function(result) {
+                    reopenAfterInteractionSave(state, end);
+                    emit(state, 'progress:saved', {reason: saveReason, start: start, end: end});
+                    return result;
+                }, function(error) {
+                    emit(state, 'progress:error', {reason: saveReason, start: start, end: end, error: error});
+                    throw error;
+                });
             });
         });
     }
@@ -1112,56 +1146,58 @@ define([
      * @returns {Promise<boolean>} True when a heartbeat segment was saved.
      */
     function saveHeartbeatIfDue(state, heartbeatInterval, getCurrentTime, saveSegment, now) {
-        var timestamp = typeof now === 'number' ? now : Math.floor(Date.now() / 1000);
+        return enqueueSegmentSave(state, function() {
+            var timestamp = typeof now === 'number' ? now : Math.floor(Date.now() / 1000);
 
-        if (!shouldSaveHeartbeat(state, heartbeatInterval, timestamp)) {
-            return Promise.resolve(false);
-        }
-
-        if (typeof getCurrentTime !== 'function' || typeof saveSegment !== 'function') {
-            return Promise.resolve(false);
-        }
-
-        state.heartbeatPending = true;
-        state._heartbeatSerial = (typeof state._heartbeatSerial === 'number' ? state._heartbeatSerial : 0) + 1;
-        var heartbeatSerial = state._heartbeatSerial;
-        var transitionToken = getTransitionToken(state);
-
-        return resolveCurrentTime(getCurrentTime, state).then(function(currentTime) {
-            if (!isTransitionCurrent(state, transitionToken) || state._heartbeatSerial !== heartbeatSerial) {
-                state.heartbeatPending = false;
-                emit(state, 'heartbeat:skipped', {reason: 'stale-state'});
-                return false;
+            if (!shouldSaveHeartbeat(state, heartbeatInterval, timestamp)) {
+                return Promise.resolve(false);
             }
-            var heartbeat = captureHeartbeatSegment(state, currentTime);
-            if (!heartbeat) {
-                state.heartbeatPending = false;
-                emit(state, 'heartbeat:skipped', {reason: 'empty'});
-                return false;
+
+            if (typeof getCurrentTime !== 'function' || typeof saveSegment !== 'function') {
+                return Promise.resolve(false);
             }
-            if (heartbeat.end <= heartbeat.start) {
-                resetHeartbeat(state, timestamp);
-                state.heartbeatPending = false;
-                emit(state, 'heartbeat:skipped', {reason: 'zero-duration'});
-                return false;
-            }
-            return Promise.resolve(saveSegment(heartbeat.start, heartbeat.end, 'heartbeat')).then(function() {
+
+            state.heartbeatPending = true;
+            state._heartbeatSerial = (typeof state._heartbeatSerial === 'number' ? state._heartbeatSerial : 0) + 1;
+            var heartbeatSerial = state._heartbeatSerial;
+            var transitionToken = getTransitionToken(state);
+
+            return resolveCurrentTime(getCurrentTime, state).then(function(currentTime) {
                 if (!isTransitionCurrent(state, transitionToken) || state._heartbeatSerial !== heartbeatSerial) {
                     state.heartbeatPending = false;
                     emit(state, 'heartbeat:skipped', {reason: 'stale-state'});
                     return false;
                 }
-                reopenAfterHeartbeat(state, heartbeat.end, timestamp);
-                state.heartbeatPending = false;
-                emit(state, 'heartbeat:saved', {start: heartbeat.start, end: heartbeat.end});
-                return true;
+                var heartbeat = captureHeartbeatSegment(state, currentTime);
+                if (!heartbeat) {
+                    state.heartbeatPending = false;
+                    emit(state, 'heartbeat:skipped', {reason: 'empty'});
+                    return false;
+                }
+                if (heartbeat.end <= heartbeat.start) {
+                    resetHeartbeat(state, timestamp);
+                    state.heartbeatPending = false;
+                    emit(state, 'heartbeat:skipped', {reason: 'zero-duration'});
+                    return false;
+                }
+                return Promise.resolve(saveSegment(heartbeat.start, heartbeat.end, 'heartbeat')).then(function() {
+                    if (!isTransitionCurrent(state, transitionToken) || state._heartbeatSerial !== heartbeatSerial) {
+                        state.heartbeatPending = false;
+                        emit(state, 'heartbeat:skipped', {reason: 'stale-state'});
+                        return false;
+                    }
+                    reopenAfterHeartbeat(state, heartbeat.end, timestamp);
+                    state.heartbeatPending = false;
+                    emit(state, 'heartbeat:saved', {start: heartbeat.start, end: heartbeat.end});
+                    return true;
+                }, function(error) {
+                    state.heartbeatPending = false;
+                    throw error;
+                });
             }, function(error) {
                 state.heartbeatPending = false;
                 throw error;
             });
-        }, function(error) {
-            state.heartbeatPending = false;
-            throw error;
         });
     }
 
@@ -1235,6 +1271,7 @@ define([
         closeSegment: closeSegment,
         captureHeartbeatSegment: captureHeartbeatSegment,
         closeAndSaveSegment: closeAndSaveSegment,
+        enqueueSegmentSave: enqueueSegmentSave,
         normaliseHeartbeatInterval: normaliseHeartbeatInterval,
         pollInterval: pollInterval,
         startPolling: startPolling,

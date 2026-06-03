@@ -1000,5 +1000,12 @@ function xmldb_videotrack_upgrade($oldversion) {
         upgrade_mod_savepoint(true, 2026060217, 'videotrack');
     }
 
+
+    if ($oldversion < 2026060218) {
+        // Release 1.4.70: conservative tracker-level save serialisation for heartbeat concurrency.
+        // No database schema changes.
+        upgrade_mod_savepoint(true, 2026060218, 'videotrack');
+    }
+
     return true;
 }
