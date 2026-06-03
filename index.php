@@ -33,8 +33,8 @@ require_login($course);
 $context = context_course::instance($course->id);
 $PAGE->set_url('/mod/videotrack/index.php', ['id' => $id]);
 $PAGE->set_context($context);
-$PAGE->set_title(format_string($course->fullname));
-$PAGE->set_heading(format_string($course->fullname));
+$PAGE->set_title(format_string($course->fullname, true, ['context' => $context]));
+$PAGE->set_heading(format_string($course->fullname, true, ['context' => $context]));
 
 $event = \core\event\course_module_instance_list_viewed::create([
     'context' => $context,
@@ -68,14 +68,16 @@ if ($usesections) {
 
 $currentsection = null;
 foreach ($instances as $instance) {
+    $instancecontext = context_module::instance($instance->coursemodule);
+    $instancename = format_string($instance->name, true, ['context' => $instancecontext]);
     $linkattributes = [];
     if (!$instance->visible) {
         $linkattributes['class'] = 'dimmed';
-        $linkattributes['aria-label'] = get_string('hiddeninstancelabel', 'mod_videotrack', format_string($instance->name));
+        $linkattributes['aria-label'] = get_string('hiddeninstancelabel', 'mod_videotrack', $instancename);
     }
     $link = html_writer::link(
         new moodle_url('/mod/videotrack/view.php', ['id' => $instance->coursemodule]),
-        format_string($instance->name),
+        $instancename,
         $linkattributes
     );
 
