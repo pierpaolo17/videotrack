@@ -1054,5 +1054,12 @@ function xmldb_videotrack_upgrade($oldversion) {
         upgrade_mod_savepoint(true, 2026060225, 'videotrack');
     }
 
+
+    if ($oldversion < 2026060226) {
+        // Release 1.4.78: course index page labels pass explicit contexts to format_string().
+        // No database schema changes.
+        upgrade_mod_savepoint(true, 2026060226, 'videotrack');
+    }
+
     return true;
 }
