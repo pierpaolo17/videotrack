@@ -13,6 +13,21 @@ define([], function() {
 
     var states = new WeakMap();
 
+    /** Default timeout for non-error status messages when callers do not specify one. */
+    var DEFAULT_INFO_TIMEOUT_MS = 8000;
+
+    /** Minimum visible time for transient informational messages. */
+    var MIN_INFO_TIMEOUT_MS = 4000;
+
+    /** Maximum visible time for transient informational messages. */
+    var MAX_INFO_TIMEOUT_MS = 20000;
+
+    /** Minimum visible time for transient error messages when explicitly requested. */
+    var MIN_ERROR_TIMEOUT_MS = 6000;
+
+    /** Maximum visible time for transient error messages when explicitly requested. */
+    var MAX_ERROR_TIMEOUT_MS = 30000;
+
     /**
      * Return timer state for a container without sharing timers across multiple
      * VideoTrack instances rendered on the same page.
@@ -142,13 +157,13 @@ define([], function() {
             // Error messages require user action to dismiss so keyboard and screen-reader
             // users are not forced to catch a disappearing message. Informational
             // messages remain transient to avoid visual clutter.
-            return isError ? 0 : 8000;
+            return isError ? 0 : DEFAULT_INFO_TIMEOUT_MS;
         }
 
         // Keep notices transient but readable; callers can pass 0 for a persistent
         // message, while bounded positive values avoid unreadably short notices.
-        var minimum = isError ? 6000 : 4000;
-        var maximum = isError ? 30000 : 20000;
+        var minimum = isError ? MIN_ERROR_TIMEOUT_MS : MIN_INFO_TIMEOUT_MS;
+        var maximum = isError ? MAX_ERROR_TIMEOUT_MS : MAX_INFO_TIMEOUT_MS;
         return Math.min(Math.max(timeout, minimum), maximum);
     }
 
