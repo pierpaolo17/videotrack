@@ -588,8 +588,8 @@ if ($resetaction === 'resetstudent' && $_SERVER['REQUEST_METHOD'] === 'POST') {
 
 $PAGE->set_url('/mod/videotrack/report.php', ['id' => $cm->id]);
 $PAGE->set_context($context);
-$PAGE->set_title(format_string($videotrack->name));
-$PAGE->set_heading(format_string($course->fullname));
+$PAGE->set_title(format_string($videotrack->name, true, ['context' => $context]));
+$PAGE->set_heading(format_string($course->fullname, true, ['context' => context_course::instance($course->id)]));
 // Plugin styles are in styles.css and are loaded automatically by Moodle.
 
 // The savegrade block must run before $OUTPUT->header() to allow redirect responses.

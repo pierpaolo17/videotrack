@@ -1068,6 +1068,7 @@ function videotrack_view($videotrack, $course, $cm, $context) {
 
 function videotrack_get_completion_active_rule_descriptions($cm) {
     global $DB;
+    $context = context_module::instance($cm->id);
     $descriptions = [];
     $videotrack = $DB->get_record('videotrack', ['id' => $cm->instance], '*', MUST_EXIST);
     if (!empty($videotrack->completionpercent)) {
@@ -1082,8 +1083,8 @@ function videotrack_get_completion_active_rule_descriptions($cm) {
         'isdeleted' => 0,
     ], 'sortorder ASC, id ASC', 'id,label');
     if (!empty($requiredreactions)) {
-        $labels = array_map(static function($reaction) {
-            return format_string($reaction->label);
+        $labels = array_map(static function($reaction) use ($context) {
+            return format_string($reaction->label, true, ['context' => $context]);
         }, array_values($requiredreactions));
         $descriptions[] = get_string('completiondetail:requiredreactions', 'mod_videotrack', implode(', ', $labels));
     }
