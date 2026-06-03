@@ -123,7 +123,7 @@ define([
             return;
         }
         state.currentReplayEnd = typeof end === 'number' ? end : null;
-        // B6 fix: mark as programmatic so handleSeekByPolling ignores this seek.
+        // Mark as programmatic so handleSeekByPolling ignores this seek.
         Tracker.markProgrammaticSeek(state);
         Adapter.seek(start || 0, function(target) {
             player.seekTo(target, true);
@@ -139,7 +139,7 @@ define([
         if (!hasPlayer(['getCurrentTime'])) {
             return;
         }
-        // B6 fix: ignore polling during programmatic seeks (replay, resume, skip buttons).
+        // Ignore polling during programmatic seeks (replay, resume, skip buttons).
         // Reset the flag here so it stays active for exactly one polling cycle.
         if (Tracker.consumeProgrammaticSeek(state, player.getCurrentTime())) {
             return;
@@ -506,7 +506,7 @@ define([
                             typeof config.replayend === 'number' ? config.replayend : null, true);
                     } else if (typeof config.resumeposition === 'number' && config.resumeposition > 2) {
                         // Resume from the last position (only if > 2s to avoid starting at 0:02).
-                        state.isProgrammaticSeek = true; // B6 fix: resume is programmatic.
+                        state.isProgrammaticSeek = true; // Resume is programmatic.
                         Adapter.seek(config.resumeposition, function(target) {
                         player.seekTo(target, true);
                     }, Log, 'YouTube resume seek');

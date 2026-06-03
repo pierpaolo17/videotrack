@@ -237,6 +237,9 @@ define([
         notice.appendChild(btn);
 
         var shell = document.querySelector('.videotrack-player-shell');
+        var suffix = String(Math.round(seconds * 1000));
+        text.id = 'videotrack-resume-notice-text-' + suffix;
+        notice.setAttribute('aria-describedby', text.id);
         if (shell) {
             shell.insertBefore(notice, shell.firstChild);
         }

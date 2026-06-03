@@ -941,5 +941,12 @@ function xmldb_videotrack_upgrade($oldversion) {
         upgrade_mod_savepoint(true, 2026060208, 'videotrack');
     }
 
+
+    if ($oldversion < 2026060209) {
+        // Release 1.4.61: accessible status-region relationships and resume notice cleanup.
+        // No database schema changes.
+        upgrade_mod_savepoint(true, 2026060209, 'videotrack');
+    }
+
     return true;
 }
