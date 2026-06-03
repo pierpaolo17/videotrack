@@ -22,6 +22,9 @@ define([], function() {
     /** Maximum visible time for transient informational messages. */
     var MAX_INFO_TIMEOUT_MS = 20000;
 
+    /** Default visible time for transient error messages when callers do not specify one. */
+    var DEFAULT_ERROR_TIMEOUT_MS = 6000;
+
     /** Minimum visible time for transient error messages when explicitly requested. */
     var MIN_ERROR_TIMEOUT_MS = 6000;
 
@@ -47,6 +50,19 @@ define([], function() {
         dismissMessage: 'Dismiss'
     };
 
+    var timeouts = {
+        info: DEFAULT_INFO_TIMEOUT_MS,
+        error: DEFAULT_ERROR_TIMEOUT_MS
+    };
+
+    function clampTimeout(value, fallback, minimum, maximum) {
+        var numeric = Number(value);
+        if (!Number.isFinite(numeric)) {
+            return fallback;
+        }
+        return Math.max(minimum, Math.min(maximum, numeric));
+    }
+
     /**
      * Configure localised fallback labels used when callers provide empty text.
      *
@@ -57,6 +73,10 @@ define([], function() {
         labels.defaultMessage = (config.statusdefaultlabel || labels.defaultMessage).toString();
         labels.errorMessage = (config.statuserrorlabel || labels.errorMessage).toString();
         labels.dismissMessage = (config.dismisslabel || labels.dismissMessage).toString();
+        timeouts.info = clampTimeout(config.statusinfotimeoutms, DEFAULT_INFO_TIMEOUT_MS,
+            MIN_INFO_TIMEOUT_MS, MAX_INFO_TIMEOUT_MS);
+        timeouts.error = clampTimeout(config.statuserrortimeoutms, DEFAULT_ERROR_TIMEOUT_MS,
+            MIN_ERROR_TIMEOUT_MS, MAX_ERROR_TIMEOUT_MS);
     }
 
     /**

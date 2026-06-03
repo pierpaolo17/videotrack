@@ -116,6 +116,11 @@ $string['setting:heartbeatinterval_desc'] = 'How often the player saves the curr
 $string['setting:reactionannouncementinterval'] = 'Reaction accessibility announcement interval (milliseconds)';
 $string['setting:reactionannouncementinterval_desc'] = 'Minimum interval, in milliseconds, between repeated “reactions unavailable” screen-reader announcements. Use a lower value for frequent feedback in short videos, or a higher value to reduce repeated announcements. Set to 0 to disable repeated announcements. Recommended range when enabled: 10000–60000 milliseconds. Examples: 10000 = 10 seconds, 30000 = 30 seconds, 60000 = 1 minute.';
 $string['setting:reactionreadydebouncems'] = 'Reaction ready debounce (milliseconds)';
+
+$string['setting:statusinfotimeoutms'] = 'Status message timeout (milliseconds)';
+$string['setting:statusinfotimeoutms_desc'] = 'How long informational player status messages remain visible before auto-dismissal. Recommended range: 4000–20000 milliseconds.';
+$string['setting:statuserrortimeoutms'] = 'Error status timeout (milliseconds)';
+$string['setting:statuserrortimeoutms_desc'] = 'How long player error messages remain visible before auto-dismissal. Use a longer timeout to improve accessibility and recovery time. Recommended range: 6000–30000 milliseconds.';
 $string['setting:reactionreadydebouncems_desc'] = 'Minimum delay, in milliseconds, before repeating the “reactions available” announcement after a rapid pause and resume. Set to 0 to disable this debounce.';
 $string['setting:heading_performance'] = 'Performance';
 $string['setting:heading_accessibility'] = 'Accessibility';

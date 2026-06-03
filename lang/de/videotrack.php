@@ -127,6 +127,11 @@ $string['setting:heartbeatinterval_desc'] = 'Wie oft der Player das aktuelle Wie
 $string['setting:reactionannouncementinterval'] = 'Intervall für barrierefreie Reaktionsankündigungen (Millisekunden)';
 $string['setting:reactionannouncementinterval_desc'] = 'Mindestintervall in Millisekunden zwischen wiederholten Screenreader-Ansagen „Reaktionen nicht verfügbar“. Verwenden Sie einen niedrigeren Wert für häufiges Feedback in kurzen Videos oder einen höheren Wert, um wiederholte Ansagen zu reduzieren. Setzen Sie 0, um wiederholte Ansagen zu deaktivieren. Empfohlener Bereich bei Aktivierung: 10000–60000 Millisekunden. Beispiele: 10000 = 10 Sekunden, 30000 = 30 Sekunden, 60000 = 1 Minute.';
 $string['setting:reactionreadydebouncems'] = 'Entprellung für bereite Reaktionen (Millisekunden)';
+
+$string['setting:statusinfotimeoutms'] = 'Status message timeout (milliseconds)';
+$string['setting:statusinfotimeoutms_desc'] = 'How long informational player status messages remain visible before auto-dismissal. Recommended range: 4000–20000 milliseconds.';
+$string['setting:statuserrortimeoutms'] = 'Error status timeout (milliseconds)';
+$string['setting:statuserrortimeoutms_desc'] = 'How long player error messages remain visible before auto-dismissal. Use a longer timeout to improve accessibility and recovery time. Recommended range: 6000–30000 milliseconds.';
 $string['setting:reactionreadydebouncems_desc'] = 'Mindestverzögerung in Millisekunden, bevor die Ansage „Reaktionen verfügbar“ nach schnellem Pausieren und Fortsetzen wiederholt wird. Setzen Sie 0, um diese Entprellung zu deaktivieren.';
 
 $string['reactionx'] = 'Reaktion {$a}';

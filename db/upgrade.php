@@ -948,5 +948,12 @@ function xmldb_videotrack_upgrade($oldversion) {
         upgrade_mod_savepoint(true, 2026060209, 'videotrack');
     }
 
+
+    if ($oldversion < 2026060210) {
+        // Release 1.4.62: configurable accessible status message timeouts.
+
+        upgrade_mod_savepoint(true, 2026060210, 'videotrack');
+    }
+
     return true;
 }
