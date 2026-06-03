@@ -211,7 +211,7 @@ if ($ADMIN->fulltree) {
         0
     ));
 
-    // Resume playback: default globale.
+    // Resume playback: global default.
     $settings->add(new admin_setting_configcheckbox(
         'mod_videotrack/resumeplayback',
         get_string('setting:resumeplayback', 'mod_videotrack'),
@@ -219,7 +219,7 @@ if ($ADMIN->fulltree) {
         0
     ));
 
-    // Note personali studente: default globale.
+    // Personal student notes: global default.
     $settings->add(new admin_setting_configcheckbox(
         'mod_videotrack/studentnotesenabled',
         get_string('setting:studentnotesenabled', 'mod_videotrack'),

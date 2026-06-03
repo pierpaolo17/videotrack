@@ -201,7 +201,7 @@ if (!empty($videotrack->studentnotesenabled)) {
     }
 }
 
-// Carica tutti gli utenti necessari in una sola query invece di N chiamate a core_user::get_user().
+// Load all required users in a single query instead of N core_user::get_user() calls.
 $alluserids = array_values(array_filter(array_unique(array_merge(
     $stateuserids,
     $eventuserids,
