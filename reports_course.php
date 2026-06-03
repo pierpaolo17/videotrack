@@ -62,8 +62,8 @@ echo html_writer::tag('p', get_string('coursereport:intro', 'mod_videotrack'),
 
 // Fetch all videotrack instances in this course.
 // Compatible with MySQL ONLY_FULL_GROUP_BY: group only by primary keys (vt.id, cm.id).
-// Le colonne non aggregate (vt.name, vt.videosource, vt.durationseconds) vengono lette
-// separatamente dal recordset dell'istanza caricato sopra, non estratte dalla query aggregata.
+// Non-aggregated columns (vt.name, vt.videosource, vt.durationseconds) are read
+// separately from the instance recordset loaded below, not extracted by the aggregate query.
 $sql = "
     SELECT vt.id,
            cm.id                            AS cmid,
@@ -110,7 +110,7 @@ if (empty($aggrows)) {
     exit;
 }
 
-// Carica i record completi delle istanze per avere name, videosource, durationseconds.
+// Load complete instance records to get name, videosource, and durationseconds.
 $vtrecords = $DB->get_records('videotrack', ['course' => $courseid], 'name ASC', 'id,name,videosource,durationseconds');
 
 foreach ($vtrecords as $vt) {
