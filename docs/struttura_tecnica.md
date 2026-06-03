@@ -1,6 +1,6 @@
 # mod_videotrack — Guida alla struttura del codice
 
-**Versione**: 1.4.75 (build 2026060223)
+**Versione**: 1.4.76 (build 2026060224)
 **Prerequisito di lettura**: conoscenza base di Moodle (plugin system, `$DB`, `$USER`, `cm_info`) e PHP/JavaScript.
 
 ---
@@ -225,10 +225,10 @@ Un record per ogni click su un bottone reazione o per ogni nota salvata.
 
 ```php
 $plugin->component = 'mod_videotrack';
-$plugin->version   = 2026060223;
+$plugin->version   = 2026060224;
 $plugin->requires  = 2025041400; // Moodle 5.0.
 $plugin->maturity  = MATURITY_STABLE;
-$plugin->release   = '1.4.75';
+$plugin->release   = '1.4.76';
 ```
 
 È il file letto da Moodle per decidere se mostrare l'upgrade dialog. `version` è un intero in formato `YYYYMMDDnn`. `requires` è la build minima di Moodle supportata.
@@ -1325,3 +1325,8 @@ Refactor iniziale dei player AMD:
 
 - Pulizia finale dei commenti PHP residui non inglesi rilevati nell'audit della baseline 1.4.74.
 - Nessuna modifica funzionale, query, tracking, segmentazione, note, reazioni o analytics.
+
+### Aggiornamento 1.4.76
+
+- Il report di corso formatta i nomi delle attività VideoTrack passando esplicitamente il contesto del corso a `format_string()`.
+- Nessuna modifica a query, tracking, segmentazione, note, reazioni o analytics.

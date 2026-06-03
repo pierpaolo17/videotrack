@@ -1040,5 +1040,12 @@ function xmldb_videotrack_upgrade($oldversion) {
         upgrade_mod_savepoint(true, 2026060223, 'videotrack');
     }
 
+
+    if ($oldversion < 2026060224) {
+        // Release 1.4.76: course report activity-name formatting uses the course context explicitly.
+        // No database schema changes.
+        upgrade_mod_savepoint(true, 2026060224, 'videotrack');
+    }
+
     return true;
 }
