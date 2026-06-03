@@ -1,6 +1,6 @@
 # mod_videotrack — Guida alla struttura del codice
 
-**Versione**: 1.4.69 (build 2026060217)
+**Versione**: 1.4.70 (build 2026060218)
 **Prerequisito di lettura**: conoscenza base di Moodle (plugin system, `$DB`, `$USER`, `cm_info`) e PHP/JavaScript.
 
 ---
@@ -225,10 +225,10 @@ Un record per ogni click su un bottone reazione o per ogni nota salvata.
 
 ```php
 $plugin->component = 'mod_videotrack';
-$plugin->version   = 2026060217;
+$plugin->version   = 2026060218;
 $plugin->requires  = 2025041400; // Moodle 5.0.
 $plugin->maturity  = MATURITY_STABLE;
-$plugin->release   = '1.4.69';
+$plugin->release   = '1.4.70';
 ```
 
 È il file letto da Moodle per decidere se mostrare l'upgrade dialog. `version` è un intero in formato `YYYYMMDDnn`. `requires` è la build minima di Moodle supportata.
@@ -1289,3 +1289,9 @@ Refactor iniziale dei player AMD:
 - Allineati gli header documentali e l'esempio `version.php` alla release 1.4.69 / build 2026060217.
 - Corrette voci di changelog tecnico che indicavano release/build successivi rispetto alla sezione descritta.
 - Nessuna modifica al comportamento funzionale, allo schema database o agli AMD build.
+
+
+### Aggiornamento 1.4.70
+
+- Aggiunta serializzazione conservativa dei salvataggi tracker-level per evitare sovrapposizioni tra heartbeat, chiusure segmento e salvataggi pre-interazione.
+- Nessuna modifica a frequenze heartbeat, payload didattici, segmentazione, note, reazioni o analytics.

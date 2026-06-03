@@ -114,7 +114,7 @@ $string['setting:heartbeatinterval_desc'] = 'Con quale frequenza il player salva
 $string['setting:reportclusterlimit'] = 'Limite cluster report cumulativo';
 $string['setting:reportclusterlimit_desc'] = 'Numero massimo di cluster di reazioni visualizzati nel report cumulativo prima di chiedere ai docenti di restringere i filtri. Valori più alti consentono analisi più estese su dataset grandi, ma usano più memoria durante visualizzazione ed esportazione.';
 $string['setting:reportnotespagesize'] = 'Dimensione pagina note studente';
-$string['setting:reportnotespagesize_desc'] = 'Numero di note personali mostrate per pagina nel report delle note studente. Valori piu bassi riducono l'uso di memoria nei corsi numerosi; valori piu alti riducono la paginazione. Predefinito: 100.';
+$string['setting:reportnotespagesize_desc'] = 'Numero di note personali mostrate per pagina nel report delle note studente. Valori piu bassi riducono l\'uso di memoria nei corsi numerosi; valori piu alti riducono la paginazione. Predefinito: 100.';
 $string['setting:reactionannouncementinterval'] = 'Intervallo annunci accessibili delle reazioni (millisecondi)';
 $string['setting:reactionannouncementinterval_desc'] = 'Intervallo minimo, in millisecondi, tra annunci ripetuti “reazioni non disponibili” per screen reader. Usa un valore più basso per feedback frequenti in video brevi o più alto per ridurre gli annunci ripetuti. Imposta 0 per disabilitare gli annunci ripetuti. Intervallo consigliato quando attivo: 10000–60000 millisecondi. Esempi: 10000 = 10 secondi, 30000 = 30 secondi, 60000 = 1 minuto.';
 $string['setting:reactionreadydebouncems'] = 'Debounce per reazioni pronte (millisecondi)';

@@ -40,6 +40,7 @@ define([], function() {
             _pendingResume: false,
             _transitionSerial: 0,
             _heartbeatSerial: 0,
+            _segmentSaveQueue: null,
             ajaxRequestScope: null,
             _posterRemoved: false,
             _posterPlayListener: null
