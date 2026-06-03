@@ -935,5 +935,11 @@ function xmldb_videotrack_upgrade($oldversion) {
         upgrade_mod_savepoint(true, 2026060207, 'videotrack');
     }
 
+    if ($oldversion < 2026060208) {
+        // Release 1.4.60: status timeout constants and player comment cleanup.
+        // No database schema changes.
+        upgrade_mod_savepoint(true, 2026060208, 'videotrack');
+    }
+
     return true;
 }

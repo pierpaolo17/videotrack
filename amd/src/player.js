@@ -245,11 +245,7 @@ define([
     }
 
     /**
-     * Shows an accessible status message (aria-live) for errors or confirmations.
-     * Il messaggio sparisce automaticamente dopo 4 secondi.
-     *
-     * @param {string}  message  Testo del messaggio.
-     * @param {boolean} isError True uses role=alert (assertive); false uses status (polite).
+     * Install lifecycle listeners used for tracking, visibility changes and unload beacons.
      */
     function installGlobalListeners() {
         Tracker.installLifecycleHandlers({
