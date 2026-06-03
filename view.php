@@ -311,11 +311,11 @@ echo html_writer::start_div('videotrack-player-shell',
     ['style' => 'max-width:' . (int)$playerwidth . 'px']);
 echo html_writer::start_div('videotrack-layout');
 
-// ── Sezione player (sinistra in landscape, piena larghezza in portrait) ──
+// Player section: left column in landscape, full width in portrait.
 echo html_writer::start_div('videotrack-player-section');
 echo html_writer::start_div('videotrack-player-wrap');
 // Loading placeholder: visible until the JavaScript player initialises.
-// Rimosso automaticamente quando il player viene creato (YT/Vimeo sostituisce il div).
+// Automatically removed when the player is created (YouTube/Vimeo replaces the div).
 $loadingtext = get_string('playerloading', 'mod_videotrack');
 echo html_writer::div(
     html_writer::tag('span', $loadingtext, ['class' => 'sr-only']) .

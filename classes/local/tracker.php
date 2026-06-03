@@ -197,7 +197,7 @@ class tracker {
         $p = ['vtid' => $videotrackid, 'uid' => $userid];
         $where = "videotrackid = :vtid AND userid = :uid AND isdeleted = 0
                   AND reactionid > 0 AND (notetype = '' OR notetype IS NULL)";
-        // Due query separate per evitare GROUP_CONCAT (troncato a 1024 chars su MySQL).
+        // Use two separate queries to avoid GROUP_CONCAT truncation on MySQL.
         $row = $DB->get_record_sql(
             "SELECT COUNT(*) AS eventcount, COUNT(DISTINCT reactionid) AS uniquecount
                FROM {videotrack_reactev} WHERE $where", $p);

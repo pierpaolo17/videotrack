@@ -1163,14 +1163,14 @@ function videotrack_reset_course_form_defaults($course) {
 /**
  * Resize the reaction icon to 64x64px using a centred crop.
  *
- * Legge il file dall'area di storage Moodle, lo ridimensiona con GD,
+ * Reads the file from Moodle file storage and resizes it with GD,
  * and overwrites the original file with the resized PNG version.
  * If GD is unavailable or the format is unsupported, the file is
- * lasciato invariato (nessun errore bloccante — il CSS gestisce le dimensioni).
+ * left unchanged (no blocking error; CSS handles the dimensions).
  *
- * @param context_module    $context    Contesto del modulo.
- * @param int               $reactionid ID della reazione (itemid del filearea).
- * @param file_storage      $fs         Istanza del file storage Moodle.
+ * @param context_module    $context    Module context.
+ * @param int               $reactionid Reaction ID (filearea itemid).
+ * @param file_storage      $fs         Moodle file storage instance.
  */
 function videotrack_resize_reaction_icon(context_module $context, int $reactionid, file_storage $fs): void {
     if (!function_exists('imagecreatefromstring')) {

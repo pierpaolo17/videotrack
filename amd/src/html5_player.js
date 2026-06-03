@@ -176,7 +176,7 @@ define([
         var tag     = isAudio ? 'audio' : 'video';
 
         // If videourl is empty (file not uploaded by the teacher yet), show a notice
-        // e non creare l'elemento media — evita media.src='' che causa errori browser.
+        // and do not create the media element; this avoids media.src='' browser errors.
         if (!config.videourl) {
             var nofileWrap = document.getElementById('mod-videotrack-player');
             if (nofileWrap) {
