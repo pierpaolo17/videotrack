@@ -961,5 +961,11 @@ function xmldb_videotrack_upgrade($oldversion) {
         upgrade_mod_savepoint(true, 2026060211, 'videotrack');
     }
 
+    if ($oldversion < 2026060212) {
+        // Release 1.4.64: report header and comment cleanup for Moodle HQ readiness.
+        // No database schema changes.
+        upgrade_mod_savepoint(true, 2026060212, 'videotrack');
+    }
+
     return true;
 }
