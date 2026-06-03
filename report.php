@@ -287,7 +287,7 @@ $clusterize = function(
     iterable $events,
     int $windowseconds,
     string $aggregationmode
-) use ($reactionmap, $sort, &$clusterlimitreached) {
+) use ($reactionmap, $sort, $context, &$clusterlimitreached) {
     // Events are processed in timestamp order. Keep only the latest open cluster
     // per reaction (or a single cluster for peak mode), avoiding the former O(n * clusters)
     // scan for every event.

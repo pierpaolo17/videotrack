@@ -1027,5 +1027,12 @@ function xmldb_videotrack_upgrade($oldversion) {
         upgrade_mod_savepoint(true, 2026060221, 'videotrack');
     }
 
+
+    if ($oldversion < 2026060222) {
+        // Release 1.4.74: cumulative report closure scope hardening for cluster rendering.
+        // No database schema changes.
+        upgrade_mod_savepoint(true, 2026060222, 'videotrack');
+    }
+
     return true;
 }
