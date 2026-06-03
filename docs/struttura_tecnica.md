@@ -1,6 +1,6 @@
 # mod_videotrack — Guida alla struttura del codice
 
-**Versione**: 1.4.56 (build 2026060204)
+**Versione**: 1.4.58 (build 2026060206)
 **Prerequisito di lettura**: conoscenza base di Moodle (plugin system, `$DB`, `$USER`, `cm_info`) e PHP/JavaScript.
 
 ---
@@ -225,10 +225,10 @@ Un record per ogni click su un bottone reazione o per ogni nota salvata.
 
 ```php
 $plugin->component = 'mod_videotrack';
-$plugin->version   = 2026060204;
+$plugin->version   = 2026060206;
 $plugin->requires  = 2025041400; // Moodle 5.0.
 $plugin->maturity  = MATURITY_STABLE;
-$plugin->release   = '1.4.56';
+$plugin->release   = '1.4.58';
 ```
 
 È il file letto da Moodle per decidere se mostrare l'upgrade dialog. `version` è un intero in formato `YYYYMMDDnn`. `requires` è la build minima di Moodle supportata.
@@ -1227,3 +1227,11 @@ Refactor iniziale dei player AMD:
 - Allineati gli header documentali e l'esempio `version.php` alla release 1.4.56 / build 2026060204.
 - Uniformati commenti tecnici PHP/AMD in inglese per migliorare la leggibilita' in review Moodle HQ.
 - Rimossa la riga commentata `docs/ export-ignore` da `.gitattributes` per evitare ambiguita' nel packaging.
+
+### Aggiornamento 1.4.58
+
+- Rafforzata la validazione AMD client-side con costanti documentate per profondità, dimensione array, numero chiavi e lunghezza chiavi.
+- Normalizzati i controlli adapter su provider/capability vuoti e su delta seek non numerici.
+- Migliorato il collegamento ARIA delle conferme Moodle tramite `aria-describedby`.
+- Documentata esplicitamente la sicurezza di inserimento note lato client (`textContent`) mantenendo la validazione server-side come autoritativa.
+- Uniformati commenti tecnici residui in inglese e rigenerati gli AMD build interessati.
