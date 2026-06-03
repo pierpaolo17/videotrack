@@ -260,7 +260,10 @@ define([], function() {
         notice.setAttribute('role', isError ? 'alert' : 'status');
 
         var span = document.createElement('span');
+        span.id = 'videotrack-status-message-text-' + Date.now().toString(36) + '-' +
+            Math.floor(Math.random() * 1000000);
         span.textContent = text;
+        notice.setAttribute('aria-describedby', span.id);
         notice.appendChild(span);
 
         var button = document.createElement('button');
