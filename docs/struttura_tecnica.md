@@ -1,6 +1,6 @@
 # mod_videotrack — Guida alla struttura del codice
 
-**Versione**: 1.4.64 (build 2026060212)
+**Versione**: 1.4.65 (build 2026060213)
 **Prerequisito di lettura**: conoscenza base di Moodle (plugin system, `$DB`, `$USER`, `cm_info`) e PHP/JavaScript.
 
 ---
@@ -225,10 +225,10 @@ Un record per ogni click su un bottone reazione o per ogni nota salvata.
 
 ```php
 $plugin->component = 'mod_videotrack';
-$plugin->version   = 2026060212;
+$plugin->version   = 2026060213;
 $plugin->requires  = 2025041400; // Moodle 5.0.
 $plugin->maturity  = MATURITY_STABLE;
-$plugin->release   = '1.4.64';
+$plugin->release   = '1.4.65';
 ```
 
 È il file letto da Moodle per decidere se mostrare l'upgrade dialog. `version` è un intero in formato `YYYYMMDDnn`. `requires` è la build minima di Moodle supportata.
@@ -1265,4 +1265,10 @@ Refactor iniziale dei player AMD:
 
 - Uniformati gli ultimi commenti tecnici PHP in inglese per la readiness Moodle HQ.
 - Rimossa un'intestazione `Cache-Control` duplicata nell'export CSV delle note personali.
-- Aggiornati gli header documentali e l'esempio `version.php` alla release 1.4.64 / build 2026060212.
+- Aggiornati gli header documentali e l'esempio `version.php` alla release 1.4.65 / build 2026060213.
+
+
+### Aggiornamento 1.4.65
+
+- Aggiunta impostazione amministrativa `reportclusterlimit` per rendere configurabile il limite dei cluster nel report cumulativo.
+- Mantenuto il valore predefinito storico di 2000 cluster per non alterare il comportamento didattico esistente, con range controllato 500–10000 per dataset grandi.

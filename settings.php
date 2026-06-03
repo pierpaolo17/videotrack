@@ -104,6 +104,15 @@ if ($ADMIN->fulltree) {
         300
     ));
 
+    $settings->add(new \mod_videotrack\admin\setting_int_range(
+        'mod_videotrack/reportclusterlimit',
+        get_string('setting:reportclusterlimit', 'mod_videotrack'),
+        get_string('setting:reportclusterlimit_desc', 'mod_videotrack'),
+        2000,
+        500,
+        10000
+    ));
+
     // Accessibility and assistive technology announcements.
     $settings->add(new admin_setting_heading(
         'mod_videotrack/heading_accessibility',
