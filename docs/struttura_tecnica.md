@@ -225,10 +225,10 @@ Un record per ogni click su un bottone reazione o per ogni nota salvata.
 
 ```php
 $plugin->component = 'mod_videotrack';
-$plugin->version   = 2026060228;
+$plugin->version   = 2026060229;
 $plugin->requires  = 2025041400; // Moodle 5.0.
 $plugin->maturity  = MATURITY_STABLE;
-$plugin->release   = '1.4.80';
+$plugin->release   = '1.4.81';
 ```
 
 È il file letto da Moodle per decidere se mostrare l'upgrade dialog. `version` è un intero in formato `YYYYMMDDnn`. `requires` è la build minima di Moodle supportata.
@@ -1354,3 +1354,8 @@ Refactor iniziale dei player AMD:
 
 - Rafforzata la documentazione JSDoc dei moduli AMD condivisi `core/api` e `core/tracker` con typedef/callback per API AJAX, stato tracker e salvataggio segmenti.
 - Nessuna modifica eseguibile a tracking, segmentazione, note, reazioni, analytics o resume logic.
+
+
+## Aggiornamento 1.4.81
+
+Patch safe di chiusura per accessibilità report note, logging privacy quando la retention illimitata viene abilitata e hardening della paginazione note nei report. Nessuna modifica a tracking, segmentazione, note, reazioni, analytics o resume logic.
