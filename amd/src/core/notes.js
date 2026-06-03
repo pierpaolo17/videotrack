@@ -143,6 +143,7 @@ define([], function() {
         var saveBtn = document.getElementById('videotrack-note-save');
         var textarea = document.getElementById('videotrack-note-input');
         var savingNote = false;
+        var noteSaveToken = 0;
         var charCounterTimer = null;
         var lastCharThreshold = null;
         var limitedNotesAnnounced = false;
@@ -157,8 +158,12 @@ define([], function() {
             });
         }
 
-        function restoreSaveButtonState() {
+        function restoreSaveButtonState(token) {
+            if (token && state._noteSaveToken !== token) {
+                return;
+            }
             savingNote = false;
+            state.noteSaveInProgress = false;
             saveBtn.removeAttribute('aria-busy');
             saveBtn.classList.remove('videotrack-note-save-saving');
             setLocalButtonState(state.playing);
@@ -215,7 +220,7 @@ define([], function() {
         }
 
         function setLocalButtonState(playing) {
-            setButtonState(saveBtn, playing && !savingNote);
+            setButtonState(saveBtn, playing && !savingNote && !state.noteSaveInProgress);
         }
 
         var playStateHandler = function(e) {
@@ -241,7 +246,7 @@ define([], function() {
             if (event) {
                 event.preventDefault();
             }
-            if (savingNote || saveBtn.getAttribute('aria-disabled') === 'true') {
+            if (savingNote || state.noteSaveInProgress || saveBtn.getAttribute('aria-disabled') === 'true') {
                 if (!state.playing) {
                     showStatusMessage(config.noteplaybackrequiredlabel || config.reactionunavailablelabel,
                         false, config.dismisslabel);
@@ -266,6 +271,10 @@ define([], function() {
             }
             var currentTime = getCurrentVideoTime();
             savingNote = true;
+            state.noteSaveInProgress = true;
+            noteSaveToken += 1;
+            var currentNoteSaveToken = noteSaveToken;
+            state._noteSaveToken = currentNoteSaveToken;
             saveBtn.disabled = true;
             saveBtn.setAttribute('aria-disabled', 'true');
             saveBtn.setAttribute('aria-busy', 'true');
@@ -279,7 +288,7 @@ define([], function() {
                     playbackrate: state.playbackrate || 1
                 });
             }).then(function(response) {
-                restoreSaveButtonState();
+                restoreSaveButtonState(currentNoteSaveToken);
                 showResponseWarnings(response);
                 if (response && response.noteeventid) {
                     if (appendRow(response.noteeventid, currentTime, text, config, Utils)) {
@@ -298,7 +307,7 @@ define([], function() {
                 }
                 showStatusMessage(config.noteerrorlabel, true, config.dismisslabel);
             }).catch(function(error) {
-                restoreSaveButtonState();
+                restoreSaveButtonState(currentNoteSaveToken);
                 showErrorStatusMessage(error, config.noteerrorlabel, config.dismisslabel);
             });
         };
