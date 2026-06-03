@@ -987,5 +987,12 @@ function xmldb_videotrack_upgrade($oldversion) {
         upgrade_mod_savepoint(true, 2026060215, 'videotrack');
     }
 
+
+    if ($oldversion < 2026060216) {
+        // Release 1.4.68: student-notes report cleanup for Moodle HQ static analysis.
+        // No database schema changes.
+        upgrade_mod_savepoint(true, 2026060216, 'videotrack');
+    }
+
     return true;
 }

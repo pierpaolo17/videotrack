@@ -1,6 +1,6 @@
 # mod_videotrack — Guida alla struttura del codice
 
-**Versione**: 1.4.67 (build 2026060215)
+**Versione**: 1.4.68 (build 2026060216)
 **Prerequisito di lettura**: conoscenza base di Moodle (plugin system, `$DB`, `$USER`, `cm_info`) e PHP/JavaScript.
 
 ---
@@ -225,10 +225,10 @@ Un record per ogni click su un bottone reazione o per ogni nota salvata.
 
 ```php
 $plugin->component = 'mod_videotrack';
-$plugin->version   = 2026060215;
+$plugin->version   = 2026060216;
 $plugin->requires  = 2025041400; // Moodle 5.0.
 $plugin->maturity  = MATURITY_STABLE;
-$plugin->release   = '1.4.67';
+$plugin->release   = '1.4.68';
 ```
 
 È il file letto da Moodle per decidere se mostrare l'upgrade dialog. `version` è un intero in formato `YYYYMMDDnn`. `requires` è la build minima di Moodle supportata.
@@ -1278,3 +1278,8 @@ Refactor iniziale dei player AMD:
 
 - L'avviso amministrativo sulla retention illimitata viene mostrato solo quando `retentionperioddays` è realmente impostato a `0`.
 - Il comportamento predefinito resta invariato: la retention automatica continua a usare 730 giorni.
+
+### Aggiornamento 1.4.68
+
+- Rimosso codice ridondante nel report note studenti per ridurre rumore da analisi statica Moodle HQ.
+- Nessuna modifica allo schema database o al comportamento funzionale.
