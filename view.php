@@ -81,8 +81,8 @@ if ($notice === '' && !empty($videotrack->showreactionnotice)) {
 
 $PAGE->set_url('/mod/videotrack/view.php', ['id' => $cm->id]);
 $PAGE->set_context($context);
-$PAGE->set_title(format_string($videotrack->name));
-$PAGE->set_heading(format_string($course->fullname));
+$PAGE->set_title(format_string($videotrack->name, true, ['context' => $context]));
+$PAGE->set_heading(format_string($course->fullname, true, ['context' => context_course::instance($course->id)]));
 $replaystart = optional_param('replaystart', -1, PARAM_INT);
 $replayend   = optional_param('replayend',   -1, PARAM_INT);
 $durationseconds = max(0, (int)($videotrack->durationseconds ?? 0));
@@ -229,7 +229,7 @@ if ($source === 'vimeo') {
 }
 
 echo $OUTPUT->header();
-echo $OUTPUT->heading(format_string($videotrack->name));
+echo $OUTPUT->heading(format_string($videotrack->name, true, ['context' => $context]));
 
 // SEC-5: the grade block must be rendered after OUTPUT->header() to respect the Moodle layout.
 // It is shown only when showgradeto=1, grading is active and the user is not a teacher/manager.

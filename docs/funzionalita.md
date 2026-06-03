@@ -1,6 +1,6 @@
 # mod_videotrack — Funzionalità e potenzialità
 
-**Versione**: 1.4.76 (build 2026060224)
+**Versione**: 1.4.77 (build 2026060225)
 **Compatibilità**: Moodle 5.0-5.2
 **Lingue incluse**: Italiano, Inglese, Tedesco, Spagnolo, Francese, Portoghese, Hindi, Polacco
 
@@ -328,3 +328,9 @@ VideoTrack non include librerie di terze parti nel pacchetto. Per i video YouTub
 
 - Il report di corso usa esplicitamente il contesto del corso durante la formattazione del nome attività.
 - Nessuna modifica allo scopo didattico, al tracking, alla segmentazione, alle note, alle reazioni o agli analytics.
+
+
+## Aggiornamento 1.4.77
+
+- Rafforzato l'uso esplicito dei contesti nelle chiamate `format_string()` relative a titoli attività e descrizioni di completamento.
+- Nessuna modifica funzionale a tracking, segmentazione, note, reazioni o analytics.

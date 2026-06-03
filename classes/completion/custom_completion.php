@@ -123,13 +123,14 @@ class custom_completion extends \core_completion\activity_custom_completion {
 
     private function get_required_reaction_labels(): array {
         global $DB;
+        $context = \context_module::instance($this->cm->id);
         $records = $DB->get_records('videotrack_react', [
             'videotrackid' => $this->cm->instance,
             'requiredforcompletion' => 1,
             'isdeleted' => 0,
         ], 'sortorder ASC, id ASC', 'id,label');
-        return array_map(static function($record) {
-            return format_string($record->label);
+        return array_map(static function($record) use ($context) {
+            return format_string($record->label, true, ['context' => $context]);
         }, array_values($records));
     }
 }

@@ -1047,5 +1047,12 @@ function xmldb_videotrack_upgrade($oldversion) {
         upgrade_mod_savepoint(true, 2026060224, 'videotrack');
     }
 
+
+    if ($oldversion < 2026060225) {
+        // Release 1.4.77: completion and activity page labels pass explicit contexts to format_string().
+        // No database schema changes.
+        upgrade_mod_savepoint(true, 2026060225, 'videotrack');
+    }
+
     return true;
 }
