@@ -198,6 +198,7 @@ $string['presets:deleted'] = 'Preset gelöscht.';
 $string['presets:notfound'] = 'Preset nicht gefunden.';
 $string['presets:noneyet'] = 'Es wurden noch keine Reaktions-Presets konfiguriert.';
 $string['presets:confirmdelete'] = 'Möchten Sie dieses Preset wirklich löschen?';
+$string['confirmfallback'] = 'Der Bestätigungsdialog konnte nicht geöffnet werden. Bitte versuchen Sie es erneut.';
 $string['presets:presetdetails'] = 'Preset-Details';
 $string['presets:name'] = 'Preset-Name';
 $string['presets:key'] = 'Preset-Schlüssel';

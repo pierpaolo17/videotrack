@@ -197,6 +197,7 @@ $string['presets:deleted'] = 'Preset eliminato.';
 $string['presets:notfound'] = 'Preset non trovato.';
 $string['presets:noneyet'] = 'Non è stato ancora configurato nessun preset di reazioni.';
 $string['presets:confirmdelete'] = 'Sei sicuro di voler eliminare questo preset?';
+$string['confirmfallback'] = 'Impossibile aprire la finestra di conferma. Riprova.';
 $string['presets:presetdetails'] = 'Dettagli preset';
 $string['presets:name'] = 'Nome preset';
 $string['presets:key'] = 'Chiave preset';

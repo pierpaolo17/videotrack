@@ -137,7 +137,7 @@ define([
      * @param {HTMLFormElement} form Form that requested confirmation.
      * @param {string} message Confirmation message.
      */
-    var showInlineFallback = function(form, message) {
+    var showInlineFallback = function(form, message, fallbackMessage) {
         if (!form || form.querySelector('.videotrack-confirm-fallback')) {
             return;
         }
@@ -146,7 +146,7 @@ define([
         notice.setAttribute('role', 'alert');
         notice.setAttribute('aria-live', 'assertive');
         notice.setAttribute('tabindex', '-1');
-        notice.textContent = message || 'Confirmation dialog could not be opened. Please try again.';
+        notice.textContent = message || fallbackMessage;
         form.appendChild(notice);
         try {
             notice.focus({preventScroll: true});
@@ -167,14 +167,17 @@ define([
         options = options || {};
         var labels = options.fallbackLabels || {};
         var message = options.message || labels.message || '';
+        var inlineFallbackMessage = labels.fallback || '';
         var submitted = false;
         var describedById = 'videotrack-confirm-body-' + Math.floor(Date.now() + Math.random() * 1000000);
 
         return Promise.all([
             resolveString(options.titleString || {key: 'confirm', component: 'moodle'}, labels.confirm || ''),
             resolveString(options.okString || {key: 'ok', component: 'moodle'}, labels.ok || ''),
-            resolveString(options.cancelString || {key: 'cancel', component: 'moodle'}, labels.cancel || '')
+            resolveString(options.cancelString || {key: 'cancel', component: 'moodle'}, labels.cancel || ''),
+            resolveString(options.fallbackString || {key: 'confirmfallback', component: 'mod_videotrack'}, labels.fallback || '')
         ]).then(function(strings) {
+            inlineFallbackMessage = strings[3] || inlineFallbackMessage;
             return ModalSaveCancel.create({
                 title: strings[0],
                 body: message
@@ -211,7 +214,7 @@ define([
             if (logger && typeof logger.debug === 'function') {
                 logger.debug((options.logPrefix || 'mod_videotrack/core/confirm') + ': modal fallback: ' + error);
             }
-            showInlineFallback(form, message);
+            showInlineFallback(form, message, inlineFallbackMessage);
             restoreFocus(focusReturnElement);
         });
     };
