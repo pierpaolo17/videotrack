@@ -111,6 +111,8 @@ $string['modulename_link'] = 'mod/videotrack/view';
 
 $string['setting:heartbeatinterval'] = 'Intervallo heartbeat (secondi)';
 $string['setting:heartbeatinterval_desc'] = 'Con quale frequenza il player salva sul server il segmento di visione in corso durante la riproduzione continua. Valori più bassi riducono il rischio di perdita di dati in caso di crash del browser o caduta della connessione, ma aumentano il carico sul server (una richiesta AJAX + due query al database per studente per intervallo). Intervallo consigliato: 15–120 secondi. Valore minimo applicato: 5 secondi (valori inferiori a 5 vengono automaticamente portati a 5 dal server).';
+$string['setting:reportclusterlimit'] = 'Limite cluster report cumulativo';
+$string['setting:reportclusterlimit_desc'] = 'Numero massimo di cluster di reazioni visualizzati nel report cumulativo prima di chiedere ai docenti di restringere i filtri. Valori più alti consentono analisi più estese su dataset grandi, ma usano più memoria durante visualizzazione ed esportazione.';
 $string['setting:reactionannouncementinterval'] = 'Intervallo annunci accessibili delle reazioni (millisecondi)';
 $string['setting:reactionannouncementinterval_desc'] = 'Intervallo minimo, in millisecondi, tra annunci ripetuti “reazioni non disponibili” per screen reader. Usa un valore più basso per feedback frequenti in video brevi o più alto per ridurre gli annunci ripetuti. Imposta 0 per disabilitare gli annunci ripetuti. Intervallo consigliato quando attivo: 10000–60000 millisecondi. Esempi: 10000 = 10 secondi, 30000 = 30 secondi, 60000 = 1 minuto.';
 $string['setting:reactionreadydebouncems'] = 'Debounce per reazioni pronte (millisecondi)';

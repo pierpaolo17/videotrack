@@ -293,7 +293,7 @@ $clusterize = function(
     // scan for every event.
     $clusters = [];
     $activeindex = [];
-    $maxclusters = 2000;
+    $maxclusters = videotrack_get_config_int('reportclusterlimit', 2000, 500, 10000);
     foreach ($events as $event) {
         $reactionid = (int)$event->reactionid;
         $time = (float)$event->videotime;
