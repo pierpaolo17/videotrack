@@ -1014,5 +1014,12 @@ function xmldb_videotrack_upgrade($oldversion) {
         upgrade_mod_savepoint(true, 2026060219, 'videotrack');
     }
 
+
+    if ($oldversion < 2026060220) {
+        // Release 1.4.72: conservative reaction save/delete guard against overlapping submissions.
+        // No database schema changes.
+        upgrade_mod_savepoint(true, 2026060220, 'videotrack');
+    }
+
     return true;
 }

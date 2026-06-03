@@ -295,9 +295,10 @@ define([
             }
             if (reactionbtn) {
                 e.preventDefault();
-                if (reactionbtn.getAttribute('aria-busy') === 'true') {
+                if (reactionbtn.getAttribute('aria-busy') === 'true' || state._reactionSavePending) {
                     return;
                 }
+                state._reactionSavePending = true;
                 var currentTime = getCurrentVideoTime();
                 // Immediate visual feedback: disable the button while the AJAX save is running.
                 reactionbtn.classList.add('videotrack-saving');
@@ -314,6 +315,7 @@ define([
                         }, Log, 'YouTube reaction')
                     });
                 }).then(updateProgress).then(function(response) {
+                    state._reactionSavePending = false;
                     reactionbtn.classList.remove('videotrack-saving');
                     reactionbtn.removeAttribute('aria-busy');
                     reactionbtn.disabled = false;
@@ -328,6 +330,7 @@ define([
                         }, currentTime);
                     }
                 }).catch(function(err) {
+                    state._reactionSavePending = false;
                     reactionbtn.classList.remove('videotrack-saving');
                     reactionbtn.removeAttribute('aria-busy');
                     reactionbtn.disabled = false;
@@ -347,6 +350,13 @@ define([
             }
             var deletebtn = e.target.closest('.videotrack-delete-reaction');
             if (deletebtn) {
+                var eventid = Utils.safeInt(deletebtn.getAttribute('data-eventid'), 0);
+                if (deletebtn.getAttribute('aria-busy') === 'true' || state._reactionDeletePending === eventid) {
+                    return;
+                }
+                state._reactionDeletePending = eventid;
+                deletebtn.setAttribute('aria-busy', 'true');
+                deletebtn.disabled = true;
                 var row = deletebtn.closest('tr');
                 // Move focus before removing the row so it is not lost.
                 var tbody = document.getElementById('videotrack-my-reactions');
@@ -354,8 +364,11 @@ define([
                 var idx   = rows.indexOf(row);
                 Api.call('mod_videotrack_delete_reaction', {
                     cmid: config.cmid,
-                    reactioneventid: Utils.safeInt(deletebtn.getAttribute('data-eventid'), 0)
+                    reactioneventid: eventid
                 }).then(updateProgress).then(function(response) {
+                    state._reactionDeletePending = null;
+                    deletebtn.removeAttribute('aria-busy');
+                    deletebtn.disabled = false;
                     if (response && response.deleted) {
                         var delrow = deletebtn.closest('tr');
                         if (delrow) { delrow.remove(); }
@@ -377,6 +390,9 @@ define([
                         }
                     }
                 }).catch(function(err) {
+                    state._reactionDeletePending = null;
+                    deletebtn.removeAttribute('aria-busy');
+                    deletebtn.disabled = false;
                     PlayerCore.showErrorStatusMessage(err, config.reactionerrorlabel, config.dismisslabel);
                 });
             }
