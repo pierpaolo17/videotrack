@@ -973,5 +973,12 @@ function xmldb_videotrack_upgrade($oldversion) {
         upgrade_mod_savepoint(true, 2026060213, 'videotrack');
     }
 
+
+    if ($oldversion < 2026060214) {
+        // Release 1.4.66: show the unlimited retention warning only when retention is configured as unlimited.
+        // No database schema changes.
+        upgrade_mod_savepoint(true, 2026060214, 'videotrack');
+    }
+
     return true;
 }

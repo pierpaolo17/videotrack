@@ -48,15 +48,20 @@ if ($ADMIN->fulltree) {
         get_string('setting:heading_privacy_desc', 'mod_videotrack')
     ));
 
-    $settings->add(new admin_setting_heading(
-        'mod_videotrack/retention_unlimited_warning',
-        '',
-        html_writer::div(
-            html_writer::tag('strong', get_string('setting:retentionunlimitedwarning_title', 'mod_videotrack')) . ' ' .
-            get_string('setting:retentionunlimitedwarning_desc', 'mod_videotrack'),
-            'alert alert-warning'
-        )
-    ));
+    $retentiondays = get_config('mod_videotrack', 'retentionperioddays');
+    $retentiondays = ($retentiondays === false || $retentiondays === null || $retentiondays === '')
+        ? 730 : (int)$retentiondays;
+    if ($retentiondays === 0) {
+        $settings->add(new admin_setting_heading(
+            'mod_videotrack/retention_unlimited_warning',
+            '',
+            html_writer::div(
+                html_writer::tag('strong', get_string('setting:retentionunlimitedwarning_title', 'mod_videotrack')) . ' ' .
+                get_string('setting:retentionunlimitedwarning_desc', 'mod_videotrack'),
+                'alert alert-warning'
+            )
+        ));
+    }
 
     $settings->add(new \mod_videotrack\admin\setting_nonnegative_int(
         'mod_videotrack/retentionperioddays',
