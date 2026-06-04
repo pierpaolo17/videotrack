@@ -1234,5 +1234,12 @@ function xmldb_videotrack_upgrade($oldversion) {
         upgrade_mod_savepoint(true, 2026060251, 'videotrack');
     }
 
+
+    if ($oldversion < 2026060252) {
+        // Release 1.4.104: split player interval-bar helpers into a dedicated AMD module.
+        // No database schema changes.
+        upgrade_mod_savepoint(true, 2026060252, 'videotrack');
+    }
+
     return true;
 }

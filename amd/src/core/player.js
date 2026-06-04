@@ -14,11 +14,10 @@ define([
     'mod_videotrack/core/beacon',
     'mod_videotrack/core/notes',
     'mod_videotrack/core/reactions',
-    'mod_videotrack/core/status'
-], function(Segment, Session, Tracker, Beacon, Notes, Reactions, Status) {
+    'mod_videotrack/core/status',
+    'mod_videotrack/core/player/intervalbar'
+], function(Segment, Session, Tracker, Beacon, Notes, Reactions, Status, IntervalBar) {
     'use strict';
-
-    var intervalBarCache = {json: null, duration: null, width: null, height: null};
 
 
     /**
@@ -39,50 +38,18 @@ define([
      * @returns {string} CSS colour.
      */
     function getIntervalBarColor(canvas, property, fallback) {
-        var value = window.getComputedStyle(canvas).getPropertyValue(property);
-        return value ? value.trim() : fallback;
-    }
-
-
-
-    /**
-     * Backwards-compatible facade for the shared segment module.
-     *
-     * The concrete player entrypoints still import core/player, but the segment
-     * rules now live in core/segment so the 1.3 branch can test and evolve them
-     * independently from DOM/player UI code.
-     *
-     * @param {string} reason Candidate reason.
-     * @returns {string} Whitelisted reason.
-     */
-    function normaliseSaveReason(reason) {
-        return Segment.normaliseSaveReason(reason);
+        return IntervalBar.getColor(canvas, property, fallback);
     }
 
     /**
-     * Backwards-compatible facade for the shared segment module.
+     * Parse stored watched intervals for the interval bar.
      *
-     * @param {*} start Segment start candidate.
-     * @param {*} end Segment end candidate.
-     * @param {*} duration Optional known media duration.
-     * @returns {{start: number, end: number}} Clamped and rounded times.
+     * @param {string|Array} intervaljson JSON encoded list of [start, end] pairs.
+     * @param {Object} Log Moodle log module.
+     * @returns {Array} Parsed interval list.
      */
-    function clampSegmentTimes(start, end, duration) {
-        return Segment.clampSegmentTimes(start, end, duration);
-    }
-
-    /**
-     * Save progress for a currently playing segment before an interaction.
-     *
-     * @param {Object} state Mutable player state.
-     * @param {Function} getCurrentTime Function returning the current video time.
-     * @param {Function} saveSegment Function used to persist the segment.
-     * @param {string} reason Save reason.
-     * @param {boolean} hasPlayer Whether the concrete player is available.
-     * @returns {Promise|null} Save promise or null-equivalent promise.
-     */
-    function saveCurrentProgress(state, getCurrentTime, saveSegment, reason, hasPlayer) {
-        return Tracker.saveCurrentProgress(state, getCurrentTime, saveSegment, reason, hasPlayer);
+    function parseIntervals(intervaljson, Log) {
+        return IntervalBar.parse(intervaljson, Log);
     }
 
     /**
@@ -92,96 +59,10 @@ define([
      * @param {number} duration Video duration in seconds.
      * @param {Object} Log Moodle log module.
      */
-    function parseIntervals(intervaljson, Log) {
-        if (Array.isArray(intervaljson)) {
-            return intervaljson;
-        }
-        if (typeof intervaljson !== 'string' || intervaljson.trim() === '') {
-            return [];
-        }
-        try {
-            var parsed = JSON.parse(intervaljson);
-            return Array.isArray(parsed) ? parsed : [];
-        } catch (e) {
-            if (Log && Log.debug) {
-                Log.debug('mod_videotrack: invalid interval JSON - ' + e);
-            }
-            return [];
-        }
+    function updateIntervalBar(intervaljson, duration, Log) {
+        IntervalBar.update(intervaljson, duration, Log);
     }
 
-    function updateIntervalBar(intervaljson, duration, Log) {
-        var canvas = document.getElementById('videotrack-interval-bar');
-        duration = Number(duration) || 0;
-        if (!canvas || duration <= 0) {
-            return;
-        }
-        if (document.hidden) {
-            return;
-        }
-        var intervals = parseIntervals(intervaljson, Log);
-        var ctx = canvas.getContext('2d');
-        if (!ctx) {
-            return;
-        }
-        try {
-            var dpr = window.devicePixelRatio || 1;
-            var cssWidth = canvas.offsetWidth || canvas.width;
-            var cssHeight = canvas.offsetHeight || canvas.height;
-            var w = Math.max(1, Math.round(cssWidth * dpr));
-            var h = Math.max(1, Math.round(cssHeight * dpr));
-            var covered = 0;
-            if (intervalBarCache.json === intervaljson && intervalBarCache.duration === duration &&
-                    intervalBarCache.width === w && intervalBarCache.height === h) {
-                return;
-            }
-            intervalBarCache = {json: intervaljson, duration: duration, width: w, height: h};
-            if (canvas.width !== w || canvas.height !== h) {
-                canvas.width = w;
-                canvas.height = h;
-            }
-            ctx.clearRect(0, 0, w, h);
-            ctx.fillStyle = getIntervalBarColor(canvas, '--videotrack-interval-bg', '#e9ecef');
-            ctx.fillRect(0, 0, w, h);
-            ctx.fillStyle = getIntervalBarColor(canvas, '--videotrack-interval-fill', '#28a745');
-            intervals.forEach(function(seg) {
-                if (!Array.isArray(seg) || seg.length < 2) {
-                    return;
-                }
-                var start = Math.max(0, Number(seg[0]) || 0);
-                var end = Math.min(duration, Math.max(start, Number(seg[1]) || 0));
-                if (end <= start) {
-                    return;
-                }
-                var x1 = Math.round((start / duration) * w);
-                var x2 = Math.round((end / duration) * w);
-                ctx.fillRect(x1, 0, Math.max(2, x2 - x1), h);
-                covered += Math.max(0, end - start);
-            });
-            var pct = duration > 0 ? Math.min(100, Math.round((covered / duration) * 100)) : 0;
-            var baseLabel = canvas.getAttribute('title') || '';
-            var text = baseLabel + ' — ' + pct + '%';
-            canvas.setAttribute('aria-label', text);
-            var status = document.getElementById('videotrack-interval-bar-status');
-            if (status) {
-                status.textContent = text;
-            }
-            var progress = document.getElementById('videotrack-interval-progress');
-            if (progress) {
-                progress.max = 100;
-                progress.value = pct;
-                progress.textContent = pct + '%';
-                progress.setAttribute('aria-valuemin', '0');
-                progress.setAttribute('aria-valuemax', '100');
-                progress.setAttribute('aria-valuenow', String(pct));
-                progress.setAttribute('aria-valuetext', pct + '%');
-            }
-        } catch (e) {
-            if (Log && Log.debug) {
-                Log.debug('mod_videotrack: invalid interval JSON - ' + e);
-            }
-        }
-    }
 
     /**
      * Persist the currently open segment with sendBeacon during page unload.
