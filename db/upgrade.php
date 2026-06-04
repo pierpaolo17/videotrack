@@ -1262,5 +1262,12 @@ function xmldb_videotrack_upgrade($oldversion) {
         upgrade_mod_savepoint(true, 2026060255, 'videotrack');
     }
 
+
+    if ($oldversion < 2026060256) {
+        // Release 1.4.108: restore player resume and poster AMD modules after facade extraction.
+        // No database schema changes.
+        upgrade_mod_savepoint(true, 2026060256, 'videotrack');
+    }
+
     return true;
 }
