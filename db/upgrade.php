@@ -1193,5 +1193,12 @@ function xmldb_videotrack_upgrade($oldversion) {
         upgrade_mod_savepoint(true, 2026060245, 'videotrack');
     }
 
+
+    if ($oldversion < 2026060246) {
+        // Release 1.4.98: split tracker state helpers into a dedicated AMD module.
+        // No database schema changes.
+        upgrade_mod_savepoint(true, 2026060246, 'videotrack');
+    }
+
     return true;
 }

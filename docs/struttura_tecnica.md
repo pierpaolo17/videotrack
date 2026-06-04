@@ -1,6 +1,6 @@
 # mod_videotrack — Guida alla struttura del codice
 
-**Versione**: 1.4.97 (build 2026060244)
+**Versione**: 1.4.98 (build 2026060246)
 **Prerequisito di lettura**: conoscenza base di Moodle (plugin system, `$DB`, `$USER`, `cm_info`) e PHP/JavaScript.
 
 ---
@@ -1425,3 +1425,8 @@ La release 1.4.95 aggiunge `amd/src/core/api/scope.js`, dedicato ai helper di re
 ## Aggiornamento 1.4.97
 
 La release 1.4.97 ripristina `amd/src/core/api/scope.js` e il corrispondente build AMD `amd/build/core/api/scope.min.js`, richiesti da `core/api.js` per i guard-rail request-scope. Aggiunge inoltre il savepoint di upgrade non distruttivo per la release 1.4.93.
+
+
+## Aggiornamento 1.4.98
+
+La release 1.4.98 non modifica le funzionalita didattiche. Estrae gli helper di stato provider-neutral del tracker nel modulo AMD dedicato `core/tracker/state`, mantenendo invariata l'API pubblica di `core/tracker` e includendo sia sorgenti sia build AMD.
