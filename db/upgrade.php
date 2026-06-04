@@ -1096,5 +1096,12 @@ function xmldb_videotrack_upgrade($oldversion) {
         upgrade_mod_savepoint(true, 2026060231, 'videotrack');
     }
 
+
+    if ($oldversion < 2026060232) {
+        // Release 1.4.84: require explicit admin confirmation for unlimited GDPR retention.
+        // No database schema changes.
+        upgrade_mod_savepoint(true, 2026060232, 'videotrack');
+    }
+
     return true;
 }

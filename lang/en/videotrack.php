@@ -562,6 +562,9 @@ $string['externalproviderprivacy_notice'] = 'This activity loads video from {$a}
 $string['setting:retentionunlimitedwarning_title'] = 'Unlimited VideoTrack retention is enabled.';
 
 $string['setting:retentionunlimitedwarning_desc'] = 'A value of 0 keeps tracking data, notes and reactions indefinitely. Confirm that this is justified under your GDPR/privacy policy, or set a finite retention period such as 730 days.';
+$string['setting:retentionunlimitedconfirm'] = 'I understand the implications of unlimited VideoTrack retention';
+$string['setting:retentionunlimitedconfirm_desc'] = 'Required when the retention period is set to 0. Confirms that unlimited retention has been reviewed and is justified under the site GDPR/privacy policy.';
+$string['setting:retentionunlimitedconfirm_required'] = 'You must confirm the implications of unlimited VideoTrack retention before saving a retention period of 0.';
 
 $string['warning:notetruncated'] = 'The note was saved, but it was shortened to the maximum length allowed by the site.';
 

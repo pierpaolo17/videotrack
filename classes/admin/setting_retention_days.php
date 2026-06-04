@@ -42,10 +42,19 @@ class setting_retention_days extends setting_nonnegative_int {
         $previous = get_config('mod_videotrack', 'retentionperioddays');
         $previous = ($previous === false || $previous === null || $previous === '') ? 730 : (int)$previous;
         $submitted = (int)trim((string)$data);
+        $confirmed = optional_param('s_mod_videotrack_retentionunlimitedconfirmed', 0, PARAM_BOOL);
+
+        if ($submitted === 0 && !$confirmed) {
+            return get_string('setting:retentionunlimitedconfirm_required', 'mod_videotrack');
+        }
 
         $result = parent::write_setting($data);
         if ($result !== '') {
             return $result;
+        }
+
+        if ($submitted > 0) {
+            set_config('retentionunlimitedconfirmed', 0, 'mod_videotrack');
         }
 
         if ($submitted === 0 && $previous !== 0 && function_exists('add_to_config_log')) {

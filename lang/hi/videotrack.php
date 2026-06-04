@@ -560,6 +560,9 @@ $string['externalproviderprivacy_notice'] = 'यह गतिविधि {$a} �
 $string['setting:retentionunlimitedwarning_title'] = 'VideoTrack की unlimited retention सक्षम है।';
 
 $string['setting:retentionunlimitedwarning_desc'] = '0 मान tracking data, notes और reactions को अनिश्चित समय तक रखता है। पुष्टि करें कि यह आपकी GDPR/privacy policy के अंतर्गत उचित है, या 730 दिनों जैसी finite retention अवधि सेट करें।';
+$string['setting:retentionunlimitedconfirm'] = 'मैं VideoTrack की unlimited retention के प्रभावों को समझता/समझती हूं';
+$string['setting:retentionunlimitedconfirm_desc'] = 'जब retention period 0 पर सेट हो, तब यह आवश्यक है। यह पुष्टि करता है कि unlimited retention की समीक्षा की गई है और यह site की GDPR/privacy policy के अंतर्गत उचित है।';
+$string['setting:retentionunlimitedconfirm_required'] = '0 retention period सेव करने से पहले आपको VideoTrack की unlimited retention के प्रभावों की पुष्टि करनी होगी।';
 
 $string['warning:notetruncated'] = 'नोट सहेज दिया गया, लेकिन site द्वारा अनुमत अधिकतम length तक छोटा कर दिया गया।';
 

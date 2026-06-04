@@ -357,3 +357,9 @@ VideoTrack non include librerie di terze parti nel pacchetto. Per i video YouTub
 ## Aggiornamento 1.4.83
 
 Patch safe di chiusura per accessibilità report note, logging privacy quando la retention illimitata viene abilitata e hardening della paginazione note nei report. Nessuna modifica a tracking, segmentazione, note, reazioni, analytics o resume logic.
+
+## Aggiornamento 1.4.84
+
+- Aggiunta conferma amministrativa esplicita per l'uso della retention illimitata (`retentionperioddays = 0`).
+- Il warning privacy e il logging amministrativo esistenti restano invariati.
+- Nessuna modifica a tracking pedagogico, segmentazione, note, reazioni, analytics o resume logic.

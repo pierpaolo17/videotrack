@@ -63,6 +63,13 @@ if ($ADMIN->fulltree) {
         ));
     }
 
+    $settings->add(new admin_setting_configcheckbox(
+        'mod_videotrack/retentionunlimitedconfirmed',
+        get_string('setting:retentionunlimitedconfirm', 'mod_videotrack'),
+        get_string('setting:retentionunlimitedconfirm_desc', 'mod_videotrack'),
+        0
+    ));
+
     $settings->add(new \mod_videotrack\admin\setting_retention_days(
         'mod_videotrack/retentionperioddays',
         get_string('setting:retentionperioddays', 'mod_videotrack'),
