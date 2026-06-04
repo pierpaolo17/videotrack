@@ -11,8 +11,8 @@
 /* eslint-disable jsdoc/require-jsdoc, jsdoc/require-param, jsdoc/require-param-type, jsdoc/check-param-names, max-len, no-control-regex, promise/always-return, promise/no-nesting, promise/catch-or-return, no-throw-literal, promise/no-return-wrap, complexity */
 define([
     'mod_videotrack/core/segment',
-    'mod_videotrack/core/events'
-], function(Segment, Events) {
+    'mod_videotrack/core/tracker/events'
+], function(Segment, TrackerEvents) {
     'use strict';
 
     /**
@@ -56,78 +56,12 @@ define([
         return time;
     }
 
-    /**
-     * Register a tracker event handler bound to a player state.
-     *
-     * @param {Object} state Mutable player state.
-     * @param {string} name Event name.
-     * @param {Function} handler Event handler.
-     * @returns {Function} Unsubscribe callback.
-     */
-    function on(state, name, handler) {
-        return Events.ensure(state).on(name, handler);
-    }
-
-    /**
-     * Register a tracker event handler that runs at most once.
-     *
-     * @param {Object} state Mutable player state.
-     * @param {string} name Event name.
-     * @param {Function} handler Event handler.
-     * @returns {Function} Unsubscribe callback.
-     */
-    function once(state, name, handler) {
-        return Events.ensure(state).once(name, handler);
-    }
-
-    /**
-     * Remove a tracker event handler from a player state.
-     *
-     * @param {Object} state Mutable player state.
-     * @param {string} name Event name.
-     * @param {Function} handler Event handler.
-     */
-    function off(state, name, handler) {
-        if (state && state.events && typeof state.events.off === 'function') {
-            state.events.off(name, handler);
-        }
-    }
-
-    /**
-     * Count tracker event handlers bound to a player state.
-     *
-     * @param {Object} state Mutable player state.
-     * @param {string=} name Optional event name.
-     * @returns {number} Registered handler count.
-     */
-    function countEvents(state, name) {
-        if (!state || !state.events || typeof state.events.count !== 'function') {
-            return 0;
-        }
-        return state.events.count(name);
-    }
-
-    /**
-     * Remove tracker event handlers bound to a player state.
-     *
-     * @param {Object} state Mutable player state.
-     */
-    function clearEvents(state) {
-        if (state && state.events && typeof state.events.clear === 'function') {
-            state.events.clear();
-        }
-    }
-
-    /**
-     * Emit a tracker event when a state-bound event bus exists.
-     *
-     * @param {Object} state Mutable player state.
-     * @param {string} name Event name.
-     * @param {Object=} payload Event payload.
-     */
-    function emit(state, name, payload) {
-        Events.emit(state, name, payload);
-    }
+    var on = TrackerEvents.on;
+    var once = TrackerEvents.once;
+    var off = TrackerEvents.off;
+    var countEvents = TrackerEvents.count;
+    var clearEvents = TrackerEvents.clear;
+    var emit = TrackerEvents.emit;
 
 
     /**
