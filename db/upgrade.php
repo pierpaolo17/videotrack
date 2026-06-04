@@ -1152,5 +1152,12 @@ function xmldb_videotrack_upgrade($oldversion) {
         upgrade_mod_savepoint(true, 2026060239, 'videotrack');
     }
 
+
+    if ($oldversion < 2026060240) {
+        // Release 1.4.92: split AJAX error classification into a dedicated AMD module.
+        // No database schema changes.
+        upgrade_mod_savepoint(true, 2026060240, 'videotrack');
+    }
+
     return true;
 }
