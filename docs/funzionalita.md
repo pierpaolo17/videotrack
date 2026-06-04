@@ -1,6 +1,6 @@
 # mod_videotrack — Funzionalità e potenzialità
 
-**Versione**: 1.4.97 (build 2026060244)
+**Versione**: 1.4.98 (build 2026060246)
 **Compatibilità**: Moodle 5.0-5.2
 **Lingue incluse**: Italiano, Inglese, Tedesco, Spagnolo, Francese, Portoghese, Hindi, Polacco
 
@@ -421,3 +421,8 @@ La release 1.4.95 non modifica le funzionalità didattiche. Introduce solo un mi
 ## Aggiornamento 1.4.97
 
 La release 1.4.97 non modifica le funzionalità didattiche. Ripristina il modulo AMD `core/api/scope` estratto nella release precedente, includendo sia il sorgente sia il build AMD, e aggiunge il savepoint documentale mancante per la release 1.4.93.
+
+
+## Aggiornamento 1.4.98
+
+La release 1.4.98 non modifica le funzionalita didattiche. Estrae gli helper di stato provider-neutral del tracker nel modulo AMD dedicato `core/tracker/state`, mantenendo invariata l'API pubblica di `core/tracker` e includendo sia sorgenti sia build AMD.
