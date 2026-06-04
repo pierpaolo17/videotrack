@@ -1,6 +1,6 @@
 # mod_videotrack — Guida alla struttura del codice
 
-**Versione**: 1.4.96 (build 2026060244)
+**Versione**: 1.4.97 (build 2026060244)
 **Prerequisito di lettura**: conoscenza base di Moodle (plugin system, `$DB`, `$USER`, `cm_info`) e PHP/JavaScript.
 
 ---
@@ -1422,6 +1422,6 @@ La release 1.4.94 aggiunge `amd/src/core/api/transport.js`, dedicato al wrapper 
 
 La release 1.4.95 aggiunge `amd/src/core/api/scope.js`, dedicato ai helper di request scope usati per ignorare continuazioni AJAX obsolete. `amd/src/core/api.js` continua a esporre la stessa API pubblica.
 
-## Aggiornamento 1.4.96
+## Aggiornamento 1.4.97
 
-La release 1.4.96 ripristina `amd/src/core/api/scope.js` e il corrispondente build AMD `amd/build/core/api/scope.min.js`, richiesti da `core/api.js` per i guard-rail request-scope. Aggiunge inoltre il savepoint di upgrade non distruttivo per la release 1.4.93.
+La release 1.4.97 ripristina `amd/src/core/api/scope.js` e il corrispondente build AMD `amd/build/core/api/scope.min.js`, richiesti da `core/api.js` per i guard-rail request-scope. Aggiunge inoltre il savepoint di upgrade non distruttivo per la release 1.4.93.
