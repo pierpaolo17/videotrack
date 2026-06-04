@@ -12,13 +12,13 @@ define([
     'mod_videotrack/core/session',
     'mod_videotrack/core/tracker',
     'mod_videotrack/core/beacon',
-    'mod_videotrack/core/reactions',
     'mod_videotrack/core/player/intervalbar',
     'mod_videotrack/core/player/resume',
     'mod_videotrack/core/player/poster',
     'mod_videotrack/core/player/status',
-    'mod_videotrack/core/player/notes'
-], function(Segment, Session, Tracker, Beacon, Reactions, IntervalBar, Resume, Poster, PlayerStatus, PlayerNotes) {
+    'mod_videotrack/core/player/notes',
+    'mod_videotrack/core/player/reactions'
+], function(Segment, Session, Tracker, Beacon, IntervalBar, Resume, Poster, PlayerStatus, PlayerNotes, PlayerReactions) {
     'use strict';
 
 
@@ -181,33 +181,6 @@ define([
 
 
     /**
-     * Announce when reactions become available or unavailable.
-     *
-     * Kept as a backwards-compatible facade for concrete player modules while
-     * the implementation lives in core/reactions.
-     *
-     * @param {boolean} playing Whether playback is active.
-     * @param {Object} config Player configuration.
-     * @param {Object} reactionState Mutable reaction announcement state.
-     */
-    function announceReactionAvailability(playing, config, reactionState) {
-        Reactions.announceAvailability(playing, config, reactionState);
-    }
-
-    /**
-     * Announce that reactions are unavailable immediately.
-     *
-     * Kept as a backwards-compatible facade for concrete player modules while
-     * the implementation lives in core/reactions.
-     *
-     * @param {Object} config Player configuration.
-     * @param {Object} reactionState Mutable reaction announcement state.
-     */
-    function announceReactionUnavailable(config, reactionState) {
-        Reactions.announceUnavailable(config, reactionState);
-    }
-
-    /**
      * Remove a poster overlay on first playback event.
      *
      * Kept as a backwards-compatible facade while poster state handling lives in
@@ -275,8 +248,8 @@ define([
         showErrorStatusMessage: showErrorStatusMessage,
         announceStatusMessage: announceStatusMessage,
         setNoteButtonState: PlayerNotes.setButtonState,
-        announceReactionAvailability: announceReactionAvailability,
-        announceReactionUnavailable: announceReactionUnavailable,
+        announceReactionAvailability: PlayerReactions.announceAvailability,
+        announceReactionUnavailable: PlayerReactions.announceUnavailable,
         getPlayerShell: getPlayerShell,
         onFirstPlay: onFirstPlay,
         appendNoteRow: PlayerNotes.appendRow,
