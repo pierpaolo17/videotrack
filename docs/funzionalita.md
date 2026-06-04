@@ -1,6 +1,6 @@
 # mod_videotrack — Funzionalità e potenzialità
 
-**Versione**: 1.4.106 (build 2026060254)
+**Versione**: 1.4.107 (build 2026060255)
 **Compatibilità**: Moodle 5.0-5.2
 **Lingue incluse**: Italiano, Inglese, Tedesco, Spagnolo, Francese, Portoghese, Hindi, Polacco
 
@@ -450,3 +450,8 @@ La release 1.4.105 non modifica le funzionalita didattiche. Corregge blocker AMD
 ## Aggiornamento 1.4.106
 
 La release 1.4.106 non modifica le funzionalita didattiche. Estrae gli helper provider-neutral per resume notice e poster overlay nei moduli AMD dedicati `core/player/resume` e `core/player/poster`, mantenendo invariata l'API pubblica di `core/player`.
+
+
+## Aggiornamento 1.4.107
+
+La release 1.4.107 non modifica le funzionalita didattiche. Estrae gli helper provider-neutral per messaggi di stato e player shell nel modulo AMD dedicato `core/player/status`, mantenendo invariata l'API pubblica di `core/player`.

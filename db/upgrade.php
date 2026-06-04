@@ -1255,5 +1255,12 @@ function xmldb_videotrack_upgrade($oldversion) {
         upgrade_mod_savepoint(true, 2026060254, 'videotrack');
     }
 
+
+    if ($oldversion < 2026060255) {
+        // Release 1.4.107: split player status helpers into a dedicated AMD module.
+        // No database schema changes.
+        upgrade_mod_savepoint(true, 2026060255, 'videotrack');
+    }
+
     return true;
 }
