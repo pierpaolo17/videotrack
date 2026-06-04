@@ -1,6 +1,6 @@
 # mod_videotrack — Guida alla struttura del codice
 
-**Versione**: 1.4.110 (build 2026060258)
+**Versione**: 1.4.111 (build 2026060259)
 **Prerequisito di lettura**: conoscenza base di Moodle (plugin system, `$DB`, `$USER`, `cm_info`) e PHP/JavaScript.
 
 ---
@@ -1468,3 +1468,8 @@ La release 1.4.109 non modifica le funzionalita didattiche. Ripristina i moduli 
 ## Aggiornamento 1.4.110
 
 La release 1.4.110 non modifica le funzionalita didattiche. Sposta il modulo AMD delle note personali da `core/notes` a `core/player/notes`, coerentemente con la dipendenza dichiarata dal facade `core/player`, e rimuove gli artefatti build orfani del vecchio namespace.
+
+
+## Aggiornamento 1.4.111
+
+La release 1.4.111 non modifica le funzionalita didattiche. Estrae la facade degli annunci di disponibilita delle reazioni in `core/player/reactions`, riducendo ulteriormente il modulo condiviso `core/player` e mantenendo invariata l'API pubblica AMD.

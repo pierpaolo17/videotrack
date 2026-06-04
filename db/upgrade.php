@@ -1280,5 +1280,10 @@ function xmldb_videotrack_upgrade($oldversion) {
         upgrade_mod_savepoint(true, 2026060258, 'videotrack');
     }
 
+    if ($oldversion < 2026060259) {
+        // Release 1.4.111: extract player reaction announcement facade.
+        upgrade_mod_savepoint(true, 2026060259, 'videotrack');
+    }
+
     return true;
 }
