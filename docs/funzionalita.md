@@ -1,6 +1,6 @@
 # mod_videotrack — Funzionalità e potenzialità
 
-**Versione**: 1.4.101 (build 2026060249)
+**Versione**: 1.4.102 (build 2026060250)
 **Compatibilità**: Moodle 5.0-5.2
 **Lingue incluse**: Italiano, Inglese, Tedesco, Spagnolo, Francese, Portoghese, Hindi, Polacco
 
@@ -432,6 +432,6 @@ La release 1.4.98 non modifica le funzionalita didattiche. Estrae gli helper di 
 La release 1.4.99 non modifica le funzionalita didattiche. Estrae gli helper provider-neutral di tempo e seek del tracker nel modulo AMD dedicato `core/tracker/time`, mantenendo invariata l'API pubblica di `core/tracker` e includendo sia sorgenti sia build AMD.
 
 
-## Aggiornamento 1.4.101
+## Aggiornamento 1.4.102
 
-La release 1.4.101 non modifica le funzionalita didattiche. Estrae gli helper provider-neutral di heartbeat del tracker nel modulo AMD dedicato `core/tracker/heartbeat`, mantenendo invariata l'API pubblica di `core/tracker` e includendo sia sorgenti sia build AMD. Inoltre ripristina gli alias espliciti verso gli helper di stato esportati dal modulo `core/tracker/state`.
+La release 1.4.102 non modifica le funzionalita didattiche. Estrae gli helper provider-neutral di lifecycle del tracker nel modulo AMD dedicato `core/tracker/lifecycle`, mantenendo invariata l'API pubblica di `core/tracker` e includendo sia sorgenti sia build AMD.
