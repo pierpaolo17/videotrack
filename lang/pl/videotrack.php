@@ -562,6 +562,9 @@ $string['externalproviderprivacy_notice'] = 'Ta aktywność wczytuje wideo z {$a
 $string['setting:retentionunlimitedwarning_title'] = 'Włączono bezterminowe przechowywanie VideoTrack.';
 
 $string['setting:retentionunlimitedwarning_desc'] = 'Wartość 0 przechowuje dane śledzenia, notatki i reakcje bezterminowo. Potwierdź, że jest to uzasadnione zgodnie z polityką GDPR/prywatności, albo ustaw skończony okres, np. 730 dni.';
+$string['setting:retentionunlimitedconfirm'] = 'Rozumiem konsekwencje bezterminowego przechowywania VideoTrack';
+$string['setting:retentionunlimitedconfirm_desc'] = 'Wymagane, gdy okres przechowywania jest ustawiony na 0. Potwierdza, że bezterminowe przechowywanie zostało przeanalizowane i jest uzasadnione polityką GDPR/prywatności witryny.';
+$string['setting:retentionunlimitedconfirm_required'] = 'Musisz potwierdzić konsekwencje bezterminowego przechowywania VideoTrack przed zapisaniem okresu przechowywania równego 0.';
 
 $string['warning:notetruncated'] = 'Notatka została zapisana, ale skrócono ją do maksymalnej długości dozwolonej w witrynie.';
 

@@ -225,10 +225,10 @@ Un record per ogni click su un bottone reazione o per ogni nota salvata.
 
 ```php
 $plugin->component = 'mod_videotrack';
-$plugin->version   = 2026060231;
+$plugin->version   = 2026060232;
 $plugin->requires  = 2025041400; // Moodle 5.0.
 $plugin->maturity  = MATURITY_STABLE;
-$plugin->release   = '1.4.83';
+$plugin->release   = '1.4.84';
 ```
 
 È il file letto da Moodle per decidere se mostrare l'upgrade dialog. `version` è un intero in formato `YYYYMMDDnn`. `requires` è la build minima di Moodle supportata.
@@ -1359,3 +1359,9 @@ Refactor iniziale dei player AMD:
 ## Aggiornamento 1.4.83
 
 Patch safe di chiusura per accessibilità report note, logging privacy quando la retention illimitata viene abilitata e hardening della paginazione note nei report. Nessuna modifica a tracking, segmentazione, note, reazioni, analytics o resume logic.
+
+## Aggiornamento 1.4.84
+
+- Aggiunta conferma amministrativa esplicita per l'uso della retention illimitata (`retentionperioddays = 0`).
+- Il warning privacy e il logging amministrativo esistenti restano invariati.
+- Nessuna modifica a tracking pedagogico, segmentazione, note, reazioni, analytics o resume logic.

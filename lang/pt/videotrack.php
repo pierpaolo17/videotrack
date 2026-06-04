@@ -560,6 +560,9 @@ $string['externalproviderprivacy_notice'] = 'Esta atividade carrega vídeo de {$
 $string['setting:retentionunlimitedwarning_title'] = 'A retenção ilimitada do VideoTrack está ativa.';
 
 $string['setting:retentionunlimitedwarning_desc'] = 'O valor 0 conserva dados de acompanhamento, notas e reações indefinidamente. Confirme que isto é justificado pela política GDPR/privacidade do site ou defina um período finito, por exemplo 730 dias.';
+$string['setting:retentionunlimitedconfirm'] = 'Compreendo as implicações da retenção ilimitada do VideoTrack';
+$string['setting:retentionunlimitedconfirm_desc'] = 'Obrigatório quando o período de retenção é definido como 0. Confirma que a retenção ilimitada foi analisada e é justificada pela política GDPR/privacidade do site.';
+$string['setting:retentionunlimitedconfirm_required'] = 'Tem de confirmar as implicações da retenção ilimitada do VideoTrack antes de guardar um período de retenção de 0.';
 
 $string['warning:notetruncated'] = 'A nota foi guardada, mas foi encurtada para o comprimento máximo permitido pelo site.';
 

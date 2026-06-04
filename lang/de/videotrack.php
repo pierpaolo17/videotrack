@@ -560,6 +560,9 @@ $string['externalproviderprivacy_notice'] = 'Diese Aktivität lädt Video von {$
 $string['setting:retentionunlimitedwarning_title'] = 'Unbegrenzte VideoTrack-Aufbewahrung ist aktiviert.';
 
 $string['setting:retentionunlimitedwarning_desc'] = 'Der Wert 0 speichert Trackingdaten, Notizen und Reaktionen unbegrenzt. Stellen Sie sicher, dass dies nach Ihrer DSGVO-/Datenschutzrichtlinie begründet ist, oder setzen Sie eine feste Frist, zum Beispiel 730 Tage.';
+$string['setting:retentionunlimitedconfirm'] = 'Ich verstehe die Auswirkungen der unbegrenzten VideoTrack-Aufbewahrung';
+$string['setting:retentionunlimitedconfirm_desc'] = 'Erforderlich, wenn die Aufbewahrungsdauer auf 0 gesetzt wird. Bestätigt, dass die unbegrenzte Aufbewahrung geprüft wurde und durch die DSGVO-/Datenschutzrichtlinie der Website gerechtfertigt ist.';
+$string['setting:retentionunlimitedconfirm_required'] = 'Sie müssen die Auswirkungen der unbegrenzten VideoTrack-Aufbewahrung bestätigen, bevor Sie eine Aufbewahrungsdauer von 0 speichern.';
 
 $string['warning:notetruncated'] = 'Die Notiz wurde gespeichert, aber auf die von der Website erlaubte Höchstlänge gekürzt.';
 
