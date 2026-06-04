@@ -1,6 +1,6 @@
 # mod_videotrack — Guida alla struttura del codice
 
-**Versione**: 1.4.104 (build 2026060252)
+**Versione**: 1.4.106 (build 2026060254)
 **Prerequisito di lettura**: conoscenza base di Moodle (plugin system, `$DB`, `$USER`, `cm_info`) e PHP/JavaScript.
 
 ---
@@ -1444,3 +1444,13 @@ La release 1.4.102 non modifica le funzionalita didattiche. Estrae gli helper pr
 ## Aggiornamento 1.4.104
 
 La release 1.4.104 non modifica le funzionalita didattiche. Estrae gli helper provider-neutral di ciclo vita dei segmenti nel modulo AMD dedicato `core/tracker/segment`, mantenendo invariata l'API pubblica di `core/tracker` e includendo sia sorgenti sia build AMD.
+
+
+## Aggiornamento 1.4.105
+
+La release 1.4.105 non modifica le funzionalita didattiche. Corregge blocker AMD/ESLint emersi dalla build reale Moodle 5.0 dopo l'estrazione degli helper interval-bar e aggiorna i build AMD coinvolti.
+
+
+## Aggiornamento 1.4.106
+
+La release 1.4.106 non modifica le funzionalita didattiche. Estrae gli helper provider-neutral per resume notice e poster overlay nei moduli AMD dedicati `core/player/resume` e `core/player/poster`, mantenendo invariata l'API pubblica di `core/player`.

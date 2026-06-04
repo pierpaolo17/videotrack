@@ -1248,5 +1248,12 @@ function xmldb_videotrack_upgrade($oldversion) {
         upgrade_mod_savepoint(true, 2026060253, 'videotrack');
     }
 
+
+    if ($oldversion < 2026060254) {
+        // Release 1.4.106: split player resume and poster helpers into dedicated AMD modules.
+
+        upgrade_mod_savepoint(true, 2026060254, 'videotrack');
+    }
+
     return true;
 }
