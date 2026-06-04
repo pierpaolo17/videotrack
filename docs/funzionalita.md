@@ -1,6 +1,6 @@
 # mod_videotrack — Funzionalità e potenzialità
 
-**Versione**: 1.4.115 (build 2026060263)
+**Versione**: 1.4.116 (build 2026060264)
 **Compatibilità**: Moodle 5.0-5.2
 **Lingue incluse**: Italiano, Inglese, Tedesco, Spagnolo, Francese, Portoghese, Hindi, Polacco
 
@@ -484,3 +484,8 @@ La release 1.4.114 non modifica le funzionalita didattiche. Estrae il rendering 
 ## Aggiornamento 1.4.115
 
 La release 1.4.115 non modifica le funzionalita didattiche. Ripristina il modulo AMD `core/player/notes/row` e i relativi artefatti build mancanti nella baseline 1.4.114, chiudendo l'audit di coerenza AMD src/build dopo il refactor del player.
+
+
+## Aggiornamento 1.4.116
+
+La release 1.4.116 non modifica le funzionalita didattiche. Registra l'audit WCAG finale dopo il refactor AMD di API, tracker e player, documentando le verifiche statiche eseguite e i controlli manuali ancora richiesti prima della candidate release.
