@@ -10,8 +10,9 @@ define([
     'mod_videotrack/core/api/error',
     'mod_videotrack/core/api/retry',
     'mod_videotrack/core/api/transport',
+    'mod_videotrack/core/api/scope',
     'mod_videotrack/core/segment'
-], function(Log, Validator, AjaxError, Retry, Transport, Segment) {
+], function(Log, Validator, AjaxError, Retry, Transport, Scope, Segment) {
     'use strict';
 
     /**
@@ -41,61 +42,6 @@ define([
      * @property {string} endreason Normalised segment close reason.
      * @property {number} durationseconds Known video duration in seconds.
      */
-
-    /**
-     * Create a lightweight request scope for suppressing stale AJAX continuations.
-     *
-     * core/ajax does not expose abort handles, so this scope deliberately does not
-     * cancel the network request. It invalidates callbacks that resolve after the
-     * player has been reinitialised or cleaned up, preventing late progress/UI
-     * updates from older requests.
-     *
-     * @returns {Object} Mutable request scope.
-     */
-    function createRequestScope() {
-        return {
-            cancelled: false,
-            serial: 0,
-            reason: null,
-            next: function() {
-                return this.serial;
-            },
-            cancel: function(reason) {
-                this.cancelled = true;
-                this.reason = reason || 'cancelled';
-                this.serial += 1;
-            },
-            isCurrent: function(token) {
-                return !this.cancelled && token === this.serial;
-            }
-        };
-    }
-
-    /**
-     * Return true when a request scope token can still update callers.
-     *
-     * @param {Object|null} scope Request scope.
-     * @param {number|null} token Request token.
-     * @returns {boolean} True when the continuation is current.
-     */
-    function isRequestCurrent(scope, token) {
-        if (!scope) {
-            return true;
-        }
-        return typeof scope.isCurrent === 'function' ? scope.isCurrent(token) : !scope.cancelled;
-    }
-
-    /**
-     * Resolve stale scoped requests to null without treating them as AJAX errors.
-     *
-     * @param {Object|null} scope Request scope.
-     * @param {number|null} token Request token.
-     * @param {*} value Resolved AJAX value.
-     * @returns {*} Original value, or null when stale/cancelled.
-     */
-    function resolveIfCurrent(scope, token, value) {
-        return isRequestCurrent(scope, token) ? value : null;
-    }
 
     /**
      * Dispatch a single Moodle AJAX request through the shared hardening layer.
@@ -129,7 +75,7 @@ define([
         }
 
         var requestScope = options.requestScope || null;
-        var requestToken = requestScope && typeof requestScope.next === 'function' ? requestScope.next() : null;
+        var requestToken = Scope.nextToken(requestScope);
 
         if (options.deferWhenOffline && AjaxError.isBrowserOffline()) {
             Log.debug('mod_videotrack: deferred AJAX request while offline for ' + safeMethodName);
@@ -140,16 +86,16 @@ define([
 
         function attemptRequest(attempt) {
             return Transport.send(safeMethodName, safeArgs, options.timeout).then(function(response) {
-                return resolveIfCurrent(requestScope, requestToken, response);
+                return Scope.resolveIfCurrent(requestScope, requestToken, response);
             }).catch(function(error) {
-                if (!isRequestCurrent(requestScope, requestToken)) {
+                if (!Scope.isCurrent(requestScope, requestToken)) {
                     return null;
                 }
                 if (attempt < maxRetries && AjaxError.isTransientAjaxError(error) && !AjaxError.isBrowserOffline()) {
                     Log.debug('mod_videotrack: retrying transient AJAX failure for ' + safeMethodName +
                         ' - ' + error.message);
                     return Retry.delay(attempt, options.retryDelay).then(function() {
-                        if (!isRequestCurrent(requestScope, requestToken)) {
+                        if (!Scope.isCurrent(requestScope, requestToken)) {
                             return null;
                         }
                         return attemptRequest(attempt + 1);
@@ -233,7 +179,7 @@ define([
 
     return {
         call: call,
-        createRequestScope: createRequestScope,
+        createRequestScope: Scope.createRequestScope,
         getNetworkState: AjaxError.getNetworkState,
         classifyAjaxError: AjaxError.classifyAjaxError,
         isBrowserOffline: AjaxError.isBrowserOffline,

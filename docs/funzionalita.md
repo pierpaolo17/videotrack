@@ -1,6 +1,6 @@
 # mod_videotrack — Funzionalità e potenzialità
 
-**Versione**: 1.4.94 (build 2026060242)
+**Versione**: 1.4.95 (build 2026060243)
 **Compatibilità**: Moodle 5.0-5.2
 **Lingue incluse**: Italiano, Inglese, Tedesco, Spagnolo, Francese, Portoghese, Hindi, Polacco
 
@@ -412,3 +412,8 @@ Non cambia alcuna funzionalità didattica, né il comportamento di tracciamento,
 ## Aggiornamento 1.4.94
 
 La release 1.4.94 non modifica le funzionalità didattiche. Introduce solo un micro-refactor interno del layer AJAX per separare il trasporto core/ajax e il timeout client-side in un modulo AMD dedicato.
+
+
+## Aggiornamento 1.4.95
+
+La release 1.4.95 non modifica le funzionalità didattiche. Introduce solo un micro-refactor interno del layer AJAX per separare i helper di request scope in un modulo AMD dedicato.
