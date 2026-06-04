@@ -1117,5 +1117,12 @@ function xmldb_videotrack_upgrade($oldversion) {
         upgrade_mod_savepoint(true, 2026060234, 'videotrack');
     }
 
+
+    if ($oldversion < 2026060235) {
+        // Release 1.4.87: add PHPUnit coverage for pure tracker interval helpers.
+        // No database schema changes.
+        upgrade_mod_savepoint(true, 2026060235, 'videotrack');
+    }
+
     return true;
 }

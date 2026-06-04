@@ -1,0 +1,125 @@
+<?php
+// This file is part of Moodle - https://moodle.org/.
+//
+// Moodle is free software: you can redistribute it and/or modify
+// it under the terms of the GNU General Public License as published by
+// the Free Software Foundation, either version 3 of the License, or
+// (at your option) any later version.
+
+namespace mod_videotrack;
+
+use advanced_testcase;
+use mod_videotrack\local\tracker;
+
+/**
+ * PHPUnit coverage for pure tracking interval helpers.
+ *
+ * These tests focus on deterministic helpers used by segment tracking and
+ * completion calculations. They intentionally avoid database writes so they
+ * remain a low-risk baseline before broader integration tests are added.
+ *
+ * @package    mod_videotrack
+ * @category   test
+ * @copyright  2026
+ * @license    https://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
+ */
+final class tracker_test extends advanced_testcase {
+
+    /**
+     * Load tracker class under test.
+     */
+    protected function setUp(): void {
+        parent::setUp();
+        require_once(__DIR__ . '/../classes/local/tracker.php');
+    }
+
+    /**
+     * Interval normalisation clamps against video duration and rejects empty ranges.
+     *
+     * @covers \mod_videotrack\local\tracker::normalise_interval
+     */
+    public function test_normalise_interval_clamps_and_rejects_empty_ranges(): void {
+        $this->assertSame([0.0, 10.0], tracker::normalise_interval(-5.0, 10.0));
+        $this->assertSame([5.0, 20.0], tracker::normalise_interval(5.0, 25.0, 20.0));
+        $this->assertSame([1.235, 3.457], tracker::normalise_interval(1.23456, 3.45678));
+        $this->assertNull(tracker::normalise_interval(10.0, 10.0));
+        $this->assertNull(tracker::normalise_interval(15.0, 10.0));
+    }
+
+    /**
+     * Invalid decoded interval data is ignored before it can affect completion.
+     *
+     * @covers \mod_videotrack\local\tracker::decode_intervals
+     */
+    public function test_decode_intervals_filters_invalid_ranges(): void {
+        $json = json_encode([
+            [0, 10],
+            ['bad', 20],
+            [30, 20],
+            [40, 50, 'extra'],
+            'not-an-interval',
+        ]);
+
+        $this->assertSame([[0.0, 10.0], [40.0, 50.0]], tracker::decode_intervals($json));
+        $this->assertSame([], tracker::decode_intervals(null));
+        $this->assertSame([], tracker::decode_intervals('not json'));
+    }
+
+    /**
+     * Overlapping and adjacent intervals are merged deterministically.
+     *
+     * @covers \mod_videotrack\local\tracker::merge_intervals
+     * @covers \mod_videotrack\local\tracker::covered_seconds
+     */
+    public function test_merge_intervals_and_covered_seconds_are_deterministic(): void {
+        $merged = tracker::merge_intervals([
+            [10.0, 20.0],
+            [0.0, 5.0],
+            [4.0, 8.0],
+            [20.0, 25.0],
+        ]);
+
+        $this->assertSame([[0.0, 8.0], [10.0, 25.0]], $merged);
+        $this->assertSame(23.0, tracker::covered_seconds($merged));
+    }
+
+    /**
+     * Simplification keeps the longest fragments without merging unseen gaps.
+     *
+     * @covers \mod_videotrack\local\tracker::simplify_intervals
+     */
+    public function test_simplify_intervals_never_overestimates_coverage(): void {
+        $intervals = [
+            [0.0, 5.0],
+            [10.0, 30.0],
+            [40.0, 41.0],
+            [50.0, 65.0],
+        ];
+
+        $simplified = tracker::simplify_intervals($intervals, 2);
+
+        $this->assertSame([[10.0, 30.0], [50.0, 65.0]], $simplified);
+        $this->assertLessThanOrEqual(tracker::covered_seconds($intervals), tracker::covered_seconds($simplified));
+    }
+
+    /**
+     * The interval cap limits pathological data while preserving timeline order.
+     *
+     * @covers \mod_videotrack\local\tracker::cap_intervals
+     */
+    public function test_cap_intervals_limits_count_and_preserves_order(): void {
+        $intervals = [];
+        for ($i = 0; $i < tracker::MAX_INTERVALS + 5; $i++) {
+            $intervals[] = [(float)($i * 2), (float)($i * 2 + 1)];
+        }
+
+        $capped = tracker::cap_intervals($intervals);
+
+        $this->assertCount(tracker::MAX_INTERVALS, $capped);
+        $previousstart = -1.0;
+        foreach ($capped as $interval) {
+            $this->assertGreaterThan($previousstart, $interval[0]);
+            $previousstart = $interval[0];
+        }
+    }
+}

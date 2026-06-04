@@ -1,6 +1,6 @@
 # mod_videotrack — Funzionalità e potenzialità
 
-**Versione**: 1.4.79 (build 2026060227)
+**Versione**: 1.4.87 (build 2026060235)
 **Compatibilità**: Moodle 5.0-5.2
 **Lingue incluse**: Italiano, Inglese, Tedesco, Spagnolo, Francese, Portoghese, Hindi, Polacco
 
@@ -376,3 +376,9 @@ Patch safe di chiusura per accessibilità report note, logging privacy quando la
 
 - Aggiunta documentazione tecnica del layer AJAX AMD per chiarire retry, jitter, validazione client-side, timeout e request scope.
 - Nessuna modifica allo scopo didattico, al tracking, alla segmentazione, alle note, alle reazioni o agli analytics.
+
+
+## Aggiornamento 1.4.87
+
+- Aggiunta copertura PHPUnit per helper puri di intervalli in `classes/local/tracker.php` (`normalise_interval`, `decode_intervals`, `merge_intervals`, `covered_seconds`, `simplify_intervals`, `cap_intervals`).
+- Nessuna modifica runtime alla logica di tracciamento, completamento o reportistica.
