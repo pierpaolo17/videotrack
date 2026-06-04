@@ -1,6 +1,6 @@
 # mod_videotrack — AMD AJAX layer design note
 
-**Versione**: 1.4.92 (build 2026060240)
+**Versione**: 1.4.93 (build 2026060241)
 
 Questo documento motiva il layer AJAX AMD personalizzato usato dai player di `mod_videotrack`.
 Il layer non cambia la semantica didattica del plugin: serve a rendere più robusti gli invii asincroni di segmenti, note e reazioni in condizioni reali di rete.
@@ -130,3 +130,8 @@ L'entrypoint `core/api.js` mantiene la stessa API pubblica, ma delega a un modul
 - decisione sui retry transient.
 
 La modifica riduce la complessità cognitiva del modulo principale senza cambiare payload, retry, jitter o semantica di tracking.
+
+
+## Aggiornamento 1.4.93
+
+La release 1.4.93 prosegue il micro-refactor del layer AJAX: la logica di retry, jitter e normalizzazione del numero massimo di tentativi è stata isolata in `amd/src/core/api/retry.js`. L'API pubblica di `core/api.js` resta invariata.
