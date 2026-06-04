@@ -1,6 +1,6 @@
 # mod_videotrack — Guida alla struttura del codice
 
-**Versione**: 1.4.90 (build 2026060238)
+**Versione**: 1.4.91 (build 2026060239)
 **Prerequisito di lettura**: conoscenza base di Moodle (plugin system, `$DB`, `$USER`, `cm_info`) e PHP/JavaScript.
 
 ---
@@ -1399,3 +1399,9 @@ Patch safe di chiusura per accessibilità report note, logging privacy quando la
 
 Il modulo AMD `core/api.js` e' stato alleggerito spostando la validazione degli argomenti AJAX in `core/api/validator.js`.
 La separazione mantiene invariata l'API pubblica esportata da `core/api.js` e prepara micro-refactor successivi del layer transport/retry.
+
+
+## Aggiornamento 1.4.91
+
+- Ripristinato il modulo AMD `core/api/validator` in sorgente e build dopo l'estrazione dal layer AJAX.
+- Nessuna modifica alla logica didattica, al tracking o ai payload AJAX.
