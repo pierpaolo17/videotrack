@@ -153,7 +153,7 @@ define([], function() {
             // Notes are user initiated: keep one retry so failures surface quickly to the user.
             return Api.call(methodname, args, {
                 retries: 1,
-                errorMessage: 'mod_videotrack: note AJAX request failed',
+                errorMessage: config.noteerrorlabel || config.statuserrorlabel || 'mod_videotrack_save_note',
                 requestScope: state.ajaxRequestScope
             });
         }
