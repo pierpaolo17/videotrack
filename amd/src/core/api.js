@@ -39,15 +39,15 @@ define([
      * @property {number} durationseconds Known video duration in seconds.
      */
 
-    var AJAX_TIMEOUT_MS = 15000;
-    var AJAX_RETRY_DELAY_MS = 750;
-    var AJAX_MAX_RETRIES = 2;
-    var AJAX_MAX_PAYLOAD_BYTES = 64 * 1024;
-    var AJAX_MAX_STRING_ARG_LENGTH = 10000;
-    var AJAX_MAX_ARG_DEPTH = 4;
-    var AJAX_MAX_ARRAY_LENGTH = 100;
-    var AJAX_MAX_OBJECT_KEYS = 50;
-    var AJAX_MAX_OBJECT_KEY_LENGTH = 64;
+    var AJAX_TIMEOUT_MS = 15000; // Finite timeout so pending AJAX promises cannot block UI state indefinitely.
+    var AJAX_RETRY_DELAY_MS = 750; // Short base delay; retryDelay() adds jitter to avoid synchronized retry bursts.
+    var AJAX_MAX_RETRIES = 2; // Limit retries to protect Moodle from repeated writes during transient network failures.
+    var AJAX_MAX_PAYLOAD_BYTES = 64 * 1024; // Cap encoded AJAX arguments before dispatch; server validation remains authoritative.
+    var AJAX_MAX_STRING_ARG_LENGTH = 10000; // Bound individual text arguments to avoid accidentally sending very large input blobs.
+    var AJAX_MAX_ARG_DEPTH = 4; // Bound nested structures because plugin web service arguments are shallow.
+    var AJAX_MAX_ARRAY_LENGTH = 100; // Bound array arguments before they enter the retry path.
+    var AJAX_MAX_OBJECT_KEYS = 50; // Bound object breadth to keep client-side validation predictable and cheap.
+    var AJAX_MAX_OBJECT_KEY_LENGTH = 64; // Bound key length because Moodle parameter names used here are short and known.
     var METHOD_PREFIX = 'mod_videotrack_';
     var ALLOWED_METHODS = {
         mod_videotrack_save_segment: true,

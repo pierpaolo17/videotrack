@@ -1,6 +1,6 @@
 # mod_videotrack — AMD AJAX layer design note
 
-**Versione**: 1.4.86 (build 2026060234)
+**Versione**: 1.4.89 (build 2026060237)
 
 Questo documento motiva il layer AJAX AMD personalizzato usato dai player di `mod_videotrack`.
 Il layer non cambia la semantica didattica del plugin: serve a rendere più robusti gli invii asincroni di segmenti, note e reazioni in condizioni reali di rete.
@@ -51,6 +51,18 @@ Il layer limita la dimensione e la profondità degli argomenti prima dell'invio:
 - `AJAX_MAX_OBJECT_KEY_LENGTH = 64`.
 
 Questi limiti non autorizzano dati: riducono solo payload anomali o accidentali prima che raggiungano Moodle.
+
+## Limiti operativi documentati
+
+I limiti AMD sono intenzionalmente hardcoded perché proteggono il browser e il server da condizioni anomale, non configurano la didattica del corso. Renderli configurabili aumenterebbe la superficie di errore amministrativo senza cambiare l'esperienza utente attesa.
+
+- `AJAX_MAX_RETRIES = 2`: consente un recupero minimo da errori transitori senza creare loop di scrittura.
+- `AJAX_RETRY_DELAY_MS = 750`: mantiene il retry percepibile ma breve; il jitter evita burst sincronizzati.
+- `AJAX_TIMEOUT_MS = 15000`: evita promesse pendenti troppo a lungo in UI.
+- `MAX_BEACON_PAYLOAD_BYTES = 60 * 1024`: mantiene `sendBeacon` sotto il limite AJAX ordinario e sotto soglie conservative dei browser.
+- `CHAR_COUNTER_DEBOUNCE_MS = 120`: limita aggiornamenti UI frequenti senza ritardare l'input utente.
+
+Se in futuro questi valori diventassero configurabili, la configurazione dovrà restare vincolata a range sicuri e documentati per evitare sovraccarico del server Moodle.
 
 ## Request scope e concorrenza
 

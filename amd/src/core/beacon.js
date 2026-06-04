@@ -11,7 +11,7 @@
 define(['mod_videotrack/core/api'], function(Api) {
     'use strict';
 
-    var MAX_BEACON_PAYLOAD_BYTES = 60 * 1024;
+    var MAX_BEACON_PAYLOAD_BYTES = 60 * 1024; // Stay below common browser and normal AJAX payload limits.
 
 
     /**

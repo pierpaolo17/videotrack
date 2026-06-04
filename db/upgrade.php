@@ -1131,5 +1131,12 @@ function xmldb_videotrack_upgrade($oldversion) {
         upgrade_mod_savepoint(true, 2026060236, 'videotrack');
     }
 
+
+    if ($oldversion < 2026060237) {
+        // Release 1.4.89: document AMD operational limits used by the AJAX and beacon layers.
+        // No database schema changes.
+        upgrade_mod_savepoint(true, 2026060237, 'videotrack');
+    }
+
     return true;
 }
