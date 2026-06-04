@@ -1082,5 +1082,12 @@ function xmldb_videotrack_upgrade($oldversion) {
         upgrade_mod_savepoint(true, 2026060229, 'videotrack');
     }
 
+
+    if ($oldversion < 2026060230) {
+        // Release 1.4.82: accessibility captions and localised status fallback hardening.
+        // No database schema changes.
+        upgrade_mod_savepoint(true, 2026060230, 'videotrack');
+    }
+
     return true;
 }

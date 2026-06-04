@@ -45,9 +45,9 @@ define([], function() {
         return states.get(container);
     }
     var labels = {
-        defaultMessage: 'Status update.',
-        errorMessage: 'An error occurred. Please try again.',
-        dismissMessage: 'Dismiss'
+        defaultMessage: '',
+        errorMessage: '',
+        dismissMessage: ''
     };
 
     var timeouts = {

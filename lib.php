@@ -555,6 +555,7 @@ function videotrack_user_complete($course, $user, $mod, $videotrack) {
         return;
     }
     $table            = new html_table();
+    $table->caption = get_string('report:perstudent', 'mod_videotrack');
     $table->attributes['class'] = 'generaltable';
     $table->data = [
         [get_string('report:uniquecoveredseconds', 'mod_videotrack'),

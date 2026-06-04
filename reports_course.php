@@ -133,6 +133,7 @@ if (empty($instances)) {
 }
 
 $table            = new html_table();
+$table->caption = get_string('coursereport:title', 'mod_videotrack');
 $table->attributes['class'] = 'generaltable w-100';
 $table->head = [
     get_string('coursereport:col_activity',        'mod_videotrack'),
