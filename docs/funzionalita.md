@@ -1,6 +1,6 @@
 # mod_videotrack — Funzionalità e potenzialità
 
-**Versione**: 1.4.117 (build 2026060265)
+**Versione**: 1.4.118 (build 2026060266)
 **Compatibilità**: Moodle 5.0-5.2
 **Lingue incluse**: Italiano, Inglese, Tedesco, Spagnolo, Francese, Portoghese, Hindi, Polacco
 
@@ -494,3 +494,8 @@ La release 1.4.116 non modifica le funzionalita didattiche. Registra l'audit WCA
 ## Aggiornamento 1.4.117
 
 La release 1.4.117 non modifica le funzionalita didattiche. Registra l'audit statico Moodle HQ finale dopo la stabilizzazione AMD, riepilogando lo stato di localizzazione, privacy, accessibilita, API esterne e refactor JavaScript prima della candidate release.
+
+
+## Aggiornamento 1.4.118
+
+La release 1.4.118 e una candidate release. Non modifica le funzionalita didattiche; congela lo stato del plugin dopo gli audit AMD, WCAG e Moodle HQ statici e prepara il pacchetto per il controllo strict su installazione Moodle locale.
