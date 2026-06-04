@@ -1,6 +1,6 @@
 # mod_videotrack — AMD AJAX layer design note
 
-**Versione**: 1.4.89 (build 2026060237)
+**Versione**: 1.4.90 (build 2026060238)
 
 Questo documento motiva il layer AJAX AMD personalizzato usato dai player di `mod_videotrack`.
 Il layer non cambia la semantica didattica del plugin: serve a rendere più robusti gli invii asincroni di segmenti, note e reazioni in condizioni reali di rete.
@@ -105,3 +105,9 @@ Il layer AJAX non deve:
 - `amd/src/core/tracker.js` — uso del wrapper per salvataggi segmenti e stato tracker.
 - `classes/external/*.php` — validazione server-side dei web service Moodle.
 - `classes/local/tracker.php` — logica persistente di tracking e aggiornamento stato.
+
+
+## Aggiornamento 1.4.90
+
+Il layer AJAX separa la validazione degli argomenti nel modulo AMD dedicato `core/api/validator`.
+Questa modifica riduce la complessita' di `core/api.js` senza cambiare il trasporto, il retry, il jitter o i payload inviati ai web service Moodle.
