@@ -12,13 +12,13 @@ define([
     'mod_videotrack/core/session',
     'mod_videotrack/core/tracker',
     'mod_videotrack/core/beacon',
-    'mod_videotrack/core/notes',
     'mod_videotrack/core/reactions',
     'mod_videotrack/core/player/intervalbar',
     'mod_videotrack/core/player/resume',
     'mod_videotrack/core/player/poster',
-    'mod_videotrack/core/player/status'
-], function(Segment, Session, Tracker, Beacon, Notes, Reactions, IntervalBar, Resume, Poster, PlayerStatus) {
+    'mod_videotrack/core/player/status',
+    'mod_videotrack/core/player/notes'
+], function(Segment, Session, Tracker, Beacon, Reactions, IntervalBar, Resume, Poster, PlayerStatus, PlayerNotes) {
     'use strict';
 
 
@@ -179,27 +179,6 @@ define([
         PlayerStatus.announce(message, isError);
     }
 
-    /**
-     * Update the note character counter next to a textarea.
-     *
-     * @param {HTMLTextAreaElement} textarea Note textarea.
-     * @param {Object} config Player configuration.
-     * @param {Object} Utils Utility module.
-     * @returns {number} Remaining characters.
-     */
-    function updateNoteCharCounter(textarea, config, Utils) {
-        return Notes.updateCharCounter(textarea, config, Utils);
-    }
-
-    /**
-     * Update the enabled state of the note save button while keeping it focusable.
-     *
-     * @param {HTMLButtonElement} saveBtn Save button.
-     * @param {boolean} playing Whether playback is active.
-     */
-    function setNoteButtonState(saveBtn, playing) {
-        Notes.setButtonState(saveBtn, playing);
-    }
 
     /**
      * Announce when reactions become available or unavailable.
@@ -243,32 +222,6 @@ define([
     }
 
     /**
-     * Append a newly saved personal note to the notes list.
-     *
-     * @param {number} noteid Note record id.
-     * @param {number} videotime Video timestamp in seconds.
-     * @param {string} text Note text.
-     * @param {Object} config Player configuration.
-     * @param {Object} Utils Utility module.
-     */
-    function appendNoteRow(noteid, videotime, text, config, Utils) {
-        Notes.appendRow(noteid, videotime, text, config, Utils);
-    }
-
-    /**
-     * Calculate remaining characters for a note textarea.
-     *
-     * @param {HTMLTextAreaElement} textarea Note textarea.
-     * @param {Object} config Player configuration.
-     * @param {Object} Utils Utility module.
-     * @returns {number} Remaining characters.
-     */
-    function getRemainingNoteChars(textarea, config, Utils) {
-        return Notes.getRemainingChars(textarea, config, Utils);
-    }
-
-
-    /**
      * Install the personal note save/delete handlers shared by all player types.
      *
      * @param {Object} deps Dependencies and callbacks from the concrete player.
@@ -281,10 +234,9 @@ define([
      * @param {Function} deps.saveCurrentProgress Progress persistence callback.
      */
     function installNoteHandler(deps) {
-        deps.showStatusMessage = showStatusMessage;
-        deps.showErrorStatusMessage = showErrorStatusMessage;
-        Notes.installHandler(deps);
+        PlayerNotes.installHandler(deps, showStatusMessage, showErrorStatusMessage);
     }
+
 
     /**
      * Remove the poster overlay with the existing fade-out transition.
@@ -296,17 +248,6 @@ define([
      */
     function removePoster(overlay) {
         Poster.remove(overlay);
-    }
-
-    /**
-     * Install the personal notes panel collapse/expand toggle.
-     *
-     * @param {Object} config Player configuration.
-     * @param {Object} Utils Shared utility module.
-     * @param {string} contextLabel Log context used by sessionStorage helpers.
-     */
-    function installNotesToggle(config, Utils, contextLabel) {
-        Notes.installToggle(config, Utils, contextLabel);
     }
 
     /**
@@ -333,16 +274,16 @@ define([
         showStatusMessage: showStatusMessage,
         showErrorStatusMessage: showErrorStatusMessage,
         announceStatusMessage: announceStatusMessage,
-        setNoteButtonState: setNoteButtonState,
+        setNoteButtonState: PlayerNotes.setButtonState,
         announceReactionAvailability: announceReactionAvailability,
         announceReactionUnavailable: announceReactionUnavailable,
         getPlayerShell: getPlayerShell,
         onFirstPlay: onFirstPlay,
-        appendNoteRow: appendNoteRow,
-        getRemainingNoteChars: getRemainingNoteChars,
-        updateNoteCharCounter: updateNoteCharCounter,
+        appendNoteRow: PlayerNotes.appendRow,
+        getRemainingNoteChars: PlayerNotes.getRemainingChars,
+        updateNoteCharCounter: PlayerNotes.updateCharCounter,
         installNoteHandler: installNoteHandler,
-        installNotesToggle: installNotesToggle,
+        installNotesToggle: PlayerNotes.installToggle,
         removePoster: removePoster
     };
 });
