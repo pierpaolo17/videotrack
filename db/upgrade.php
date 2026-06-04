@@ -1285,5 +1285,10 @@ function xmldb_videotrack_upgrade($oldversion) {
         upgrade_mod_savepoint(true, 2026060259, 'videotrack');
     }
 
+    if ($oldversion < 2026060260) {
+        // Release 1.4.112: extract player progress facade helpers.
+        upgrade_mod_savepoint(true, 2026060260, 'videotrack');
+    }
+
     return true;
 }

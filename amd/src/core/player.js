@@ -8,17 +8,15 @@
  */
 /* eslint-disable jsdoc/require-jsdoc, jsdoc/require-param, jsdoc/require-param-type, jsdoc/check-param-names, max-len, no-control-regex, promise/always-return, promise/no-nesting, promise/catch-or-return, no-throw-literal, promise/no-return-wrap, complexity */
 define([
-    'mod_videotrack/core/segment',
     'mod_videotrack/core/session',
-    'mod_videotrack/core/tracker',
-    'mod_videotrack/core/beacon',
     'mod_videotrack/core/player/intervalbar',
     'mod_videotrack/core/player/resume',
     'mod_videotrack/core/player/poster',
     'mod_videotrack/core/player/status',
     'mod_videotrack/core/player/notes',
-    'mod_videotrack/core/player/reactions'
-], function(Segment, Session, Tracker, Beacon, IntervalBar, Resume, Poster, PlayerStatus, PlayerNotes, PlayerReactions) {
+    'mod_videotrack/core/player/reactions',
+    'mod_videotrack/core/player/progress'
+], function(Session, IntervalBar, Resume, Poster, PlayerStatus, PlayerNotes, PlayerReactions, PlayerProgress) {
     'use strict';
 
 
@@ -32,41 +30,6 @@ define([
     }
 
 
-    /**
-     * Clamp segment times before delegating persistence.
-     *
-     * @param {*} start Segment start candidate.
-     * @param {*} end Segment end candidate.
-     * @param {*} duration Optional duration candidate.
-     * @returns {{start: number, end: number}} Clamped segment times.
-     */
-    function clampSegmentTimes(start, end, duration) {
-        return Segment.clampSegmentTimes(start, end, duration);
-    }
-
-    /**
-     * Normalise a segment save reason.
-     *
-     * @param {string} reason Candidate save reason.
-     * @returns {string} Whitelisted save reason.
-     */
-    function normaliseSaveReason(reason) {
-        return Segment.normaliseSaveReason(reason);
-    }
-
-    /**
-     * Persist the current progress before note/reaction interactions.
-     *
-     * @param {Object} state Mutable player state.
-     * @param {Function} getCurrentTime Current-time provider.
-     * @param {Function} saveSegment Segment persistence callback.
-     * @param {string} reason Segment save reason.
-     * @param {boolean|Function} hasPlayer Player availability flag or provider.
-     * @returns {Promise} Save promise.
-     */
-    function saveCurrentProgress(state, getCurrentTime, saveSegment, reason, hasPlayer) {
-        return Tracker.saveCurrentProgress(state, getCurrentTime, saveSegment, reason, hasPlayer);
-    }
 
     /**
      * Read a CSS colour used by the interval canvas.
@@ -102,24 +65,6 @@ define([
         IntervalBar.update(intervaljson, duration, Log);
     }
 
-
-    /**
-     * Persist the currently open segment with sendBeacon during page unload.
-     *
-     * Kept as a backwards-compatible facade for concrete player modules while
-     * the implementation lives in core/beacon.
-     *
-     * @param {Object} config Player configuration.
-     * @param {Object} state Mutable player state.
-     * @param {*} start Segment start candidate.
-     * @param {*} end Segment end candidate.
-     * @param {Object} Utils Shared utility module.
-     * @param {Object} Log Moodle log module.
-     * @returns {boolean} True when the beacon was queued.
-     */
-    function sendBeaconSegment(config, state, start, end, Utils, Log) {
-        return Beacon.sendSegment(config, state, start, end, Utils, Log);
-    }
 
 
     /**
@@ -235,13 +180,13 @@ define([
 
     return {
         uuid: uuid,
-        clampSegmentTimes: clampSegmentTimes,
+        clampSegmentTimes: PlayerProgress.clampSegmentTimes,
         getIntervalBarColor: getIntervalBarColor,
-        normaliseSaveReason: normaliseSaveReason,
-        saveCurrentProgress: saveCurrentProgress,
+        normaliseSaveReason: PlayerProgress.normaliseSaveReason,
+        saveCurrentProgress: PlayerProgress.saveCurrentProgress,
         parseIntervals: parseIntervals,
         updateIntervalBar: updateIntervalBar,
-        sendBeaconSegment: sendBeaconSegment,
+        sendBeaconSegment: PlayerProgress.sendBeaconSegment,
         showResumeNotice: showResumeNotice,
         configureStatus: configureStatus,
         showStatusMessage: showStatusMessage,
