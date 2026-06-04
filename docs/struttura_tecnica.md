@@ -1,6 +1,6 @@
 # mod_videotrack — Guida alla struttura del codice
 
-**Versione**: 1.4.86 (build 2026060234)
+**Versione**: 1.4.87 (build 2026060235)
 **Prerequisito di lettura**: conoscenza base di Moodle (plugin system, `$DB`, `$USER`, `cm_info`) e PHP/JavaScript.
 
 ---
@@ -1380,3 +1380,9 @@ Patch safe di chiusura per accessibilità report note, logging privacy quando la
 - Aggiunta documentazione tecnica dedicata al layer AJAX AMD (`docs/ajax_layer.md`).
 - Documentati retry, jitter, timeout, validazione client-side, request scope e limiti payload.
 - Nessuna modifica runtime o schema database.
+
+
+## Aggiornamento 1.4.87
+
+- Aggiunta copertura PHPUnit per helper puri di intervalli in `classes/local/tracker.php` (`normalise_interval`, `decode_intervals`, `merge_intervals`, `covered_seconds`, `simplify_intervals`, `cap_intervals`).
+- Nessuna modifica runtime alla logica di tracciamento, completamento o reportistica.
