@@ -1301,5 +1301,10 @@ function xmldb_videotrack_upgrade($oldversion) {
         upgrade_mod_savepoint(true, 2026060262, 'videotrack');
     }
 
+    if ($oldversion < 2026060263) {
+        // Release 1.4.115: restore missing personal notes row AMD module and audit src/build coherence.
+        upgrade_mod_savepoint(true, 2026060263, 'videotrack');
+    }
+
     return true;
 }
