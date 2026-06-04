@@ -14,11 +14,11 @@ define([
     'mod_videotrack/core/beacon',
     'mod_videotrack/core/notes',
     'mod_videotrack/core/reactions',
-    'mod_videotrack/core/status',
     'mod_videotrack/core/player/intervalbar',
     'mod_videotrack/core/player/resume',
-    'mod_videotrack/core/player/poster'
-], function(Segment, Session, Tracker, Beacon, Notes, Reactions, Status, IntervalBar, Resume, Poster) {
+    'mod_videotrack/core/player/poster',
+    'mod_videotrack/core/player/status'
+], function(Segment, Session, Tracker, Beacon, Notes, Reactions, IntervalBar, Resume, Poster, PlayerStatus) {
     'use strict';
 
 
@@ -142,14 +142,11 @@ define([
      * @param {Object=} config Player configuration.
      */
     function configureStatus(config) {
-        Status.configure(config || {});
+        PlayerStatus.configure(config);
     }
 
     /**
      * Show an accessible temporary status message in the player shell.
-     *
-     * Kept as a backwards-compatible facade while timer ownership and DOM
-     * creation live in core/status.
      *
      * @param {string} message Message text.
      * @param {boolean} isError Whether the message should be announced as an error.
@@ -157,15 +154,11 @@ define([
      * @param {number=} timeoutMs Optional auto-dismiss timeout in milliseconds.
      */
     function showStatusMessage(message, isError, dismissLabel, timeoutMs) {
-        Status.show(message, isError, dismissLabel, timeoutMs, getPlayerShell());
+        PlayerStatus.showMessage(message, isError, dismissLabel, timeoutMs);
     }
 
     /**
      * Show a user-safe error status message without exposing low-level AJAX details.
-     *
-     * Validation messages may carry intentional server-side wording, for example
-     * when reactions require active playback. Transport, auth and unknown failures
-     * fall back to the localised generic label supplied by the caller.
      *
      * @param {*} error Raw or normalised error object.
      * @param {string} fallbackMessage Localised generic error message.
@@ -173,15 +166,7 @@ define([
      * @param {number=} timeoutMs Optional auto-dismiss timeout in milliseconds.
      */
     function showErrorStatusMessage(error, fallbackMessage, dismissLabel, timeoutMs) {
-        var category = error && error.category ? String(error.category) : '';
-        var rawMessage = error && error.message ? String(error.message).trim() : '';
-        var message = fallbackMessage || rawMessage || (error && error.statuserrorlabel) || '';
-
-        if (category === 'validation' && rawMessage && rawMessage !== 'invalid-method') {
-            message = rawMessage;
-        }
-
-        Status.show(message, true, dismissLabel, timeoutMs, getPlayerShell());
+        PlayerStatus.showErrorMessage(error, fallbackMessage, dismissLabel, timeoutMs);
     }
 
     /**
@@ -191,7 +176,7 @@ define([
      * @param {boolean=} isError Whether the message should be assertive.
      */
     function announceStatusMessage(message, isError) {
-        Status.announce(message, isError, getPlayerShell());
+        PlayerStatus.announce(message, isError);
     }
 
     /**
@@ -327,18 +312,11 @@ define([
     /**
      * Returns the player shell used to scope delegated UI events.
      *
-     * Event delegation must never fall back to document because multiple
-     * activities or unrelated controls can coexist on the page.
-     *
      * @param {Object} Log Optional Moodle log module.
      * @returns {HTMLElement|null} The scoped player shell, when available.
      */
     function getPlayerShell(Log) {
-        var shell = document.querySelector('.videotrack-player-shell');
-        if (!shell && Log && Log.debug) {
-            Log.debug('mod_videotrack: player shell not found; delegated handlers not installed');
-        }
-        return shell;
+        return PlayerStatus.getShell(Log);
     }
 
     return {
