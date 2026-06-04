@@ -4,7 +4,7 @@
  * The concrete player modules pass player-specific callbacks for current time
  * and segment persistence, while note DOM handling and AJAX payloads stay here.
  *
- * @module mod_videotrack/core/notes
+ * @module mod_videotrack/core/player/notes
  */
 /* eslint-disable jsdoc/require-jsdoc, jsdoc/require-param, jsdoc/require-param-type, jsdoc/check-param-names, max-len, no-control-regex, promise/always-return, promise/no-nesting, promise/catch-or-return, no-throw-literal, promise/no-return-wrap, complexity */
 define([], function() {
