@@ -1160,10 +1160,10 @@ function xmldb_videotrack_upgrade($oldversion) {
     }
 
 
-    if ($oldversion < 2026060241) {
-        // Release 1.4.93: split AJAX retry and jitter helpers into a dedicated AMD module.
+    if ($oldversion < 2026060242) {
+        // Release 1.4.94: split AJAX transport and timeout handling into a dedicated AMD module.
         // No database schema changes.
-        upgrade_mod_savepoint(true, 2026060241, 'videotrack');
+        upgrade_mod_savepoint(true, 2026060242, 'videotrack');
     }
 
     return true;
