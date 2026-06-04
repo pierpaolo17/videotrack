@@ -607,8 +607,8 @@ define([
                 return Promise.reject(error);
             }
             if (options.swallowFailures) {
-                Log.debug((options.errorMessage || 'mod_videotrack: AJAX request failed') +
-                    ' [' + classifyAjaxError(error) + '] - ' + error.message);
+                var debugContext = options.errorMessage ? String(options.errorMessage) : safeMethodName;
+                Log.debug(debugContext + ' [' + classifyAjaxError(error) + '] - ' + error.message);
                 return null;
             }
             return Promise.reject(error);

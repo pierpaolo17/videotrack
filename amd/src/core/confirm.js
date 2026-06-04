@@ -107,10 +107,20 @@ define([
     };
 
     /**
-     * Resolve a Moodle string descriptor with a safe fallback.
+     * Return a safe string value without embedding user-facing literals in JS.
+     *
+     * @param {*} value Candidate text.
+     * @returns {string} Normalised text.
+     */
+    var normaliseText = function(value) {
+        return value ? String(value) : String();
+    };
+
+    /**
+     * Resolve a Moodle string descriptor with a safe localised fallback.
      *
      * @param {Object|string} descriptor String descriptor or plain string.
-     * @param {string} fallback Fallback text.
+     * @param {string} fallback Localised fallback text supplied by PHP.
      * @returns {Promise<string>} Resolved text.
      */
     var resolveString = function(descriptor, fallback) {
@@ -121,11 +131,12 @@ define([
         if (descriptor && descriptor.key) {
             return Str.get_string(descriptor.key, descriptor.component || 'moodle')
                 .catch(function() {
-                    return fallback || descriptor.key;
+                    var text = normaliseText(fallback);
+                    return text.length ? text : descriptor.key;
                 });
         }
 
-        return Promise.resolve(fallback || '');
+        return Promise.resolve(normaliseText(fallback));
     };
 
     /**
@@ -166,16 +177,16 @@ define([
     var showModalConfirm = function(form, options, focusReturnElement) {
         options = options || {};
         var labels = options.fallbackLabels || {};
-        var message = options.message || labels.message || '';
-        var inlineFallbackMessage = labels.fallback || '';
+        var message = normaliseText(options.message || labels.message);
+        var inlineFallbackMessage = normaliseText(labels.fallback);
         var submitted = false;
         var describedById = 'videotrack-confirm-body-' + Math.floor(Date.now() + Math.random() * 1000000);
 
         return Promise.all([
-            resolveString(options.titleString || {key: 'confirm', component: 'moodle'}, labels.confirm || ''),
-            resolveString(options.okString || {key: 'ok', component: 'moodle'}, labels.ok || ''),
-            resolveString(options.cancelString || {key: 'cancel', component: 'moodle'}, labels.cancel || ''),
-            resolveString(options.fallbackString || {key: 'confirmfallback', component: 'mod_videotrack'}, labels.fallback || '')
+            resolveString(options.titleString || {key: 'confirm', component: 'moodle'}, normaliseText(labels.confirm)),
+            resolveString(options.okString || {key: 'ok', component: 'moodle'}, normaliseText(labels.ok)),
+            resolveString(options.cancelString || {key: 'cancel', component: 'moodle'}, normaliseText(labels.cancel)),
+            resolveString(options.fallbackString || {key: 'confirmfallback', component: 'mod_videotrack'}, normaliseText(labels.fallback))
         ]).then(function(strings) {
             inlineFallbackMessage = strings[3] || inlineFallbackMessage;
             return ModalSaveCancel.create({

@@ -1365,3 +1365,10 @@ Patch safe di chiusura per accessibilità report note, logging privacy quando la
 - Aggiunta conferma amministrativa esplicita per l'uso della retention illimitata (`retentionperioddays = 0`).
 - Il warning privacy e il logging amministrativo esistenti restano invariati.
 - Nessuna modifica a tracking pedagogico, segmentazione, note, reazioni, analytics o resume logic.
+
+
+## Aggiornamento 1.4.85
+
+- Rimossi fallback AJAX hardcoded residui nei moduli AMD.
+- I messaggi utente restano forniti da stringhe Moodle o dalla configurazione PHP già localizzata.
+- Nessuna modifica a tracking, segmentazione, note, reazioni, analytics o resume logic.

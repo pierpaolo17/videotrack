@@ -1103,5 +1103,12 @@ function xmldb_videotrack_upgrade($oldversion) {
         upgrade_mod_savepoint(true, 2026060232, 'videotrack');
     }
 
+
+    if ($oldversion < 2026060233) {
+        // Release 1.4.85: remove residual hardcoded AJAX fallback messages from AMD modules.
+        // No database schema changes.
+        upgrade_mod_savepoint(true, 2026060233, 'videotrack');
+    }
+
     return true;
 }
