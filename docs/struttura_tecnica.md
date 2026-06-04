@@ -1,6 +1,6 @@
 # mod_videotrack — Guida alla struttura del codice
 
-**Versione**: 1.4.103 (build 2026060251)
+**Versione**: 1.4.104 (build 2026060252)
 **Prerequisito di lettura**: conoscenza base di Moodle (plugin system, `$DB`, `$USER`, `cm_info`) e PHP/JavaScript.
 
 ---
@@ -1441,6 +1441,6 @@ La release 1.4.99 non modifica le funzionalita didattiche. Estrae gli helper pro
 La release 1.4.102 non modifica le funzionalita didattiche. Estrae gli helper provider-neutral di lifecycle del tracker nel modulo AMD dedicato `core/tracker/lifecycle`, mantenendo invariata l'API pubblica di `core/tracker` e includendo sia sorgenti sia build AMD.
 
 
-## Aggiornamento 1.4.103
+## Aggiornamento 1.4.104
 
-La release 1.4.103 non modifica le funzionalita didattiche. Estrae gli helper provider-neutral di ciclo vita dei segmenti nel modulo AMD dedicato `core/tracker/segment`, mantenendo invariata l'API pubblica di `core/tracker` e includendo sia sorgenti sia build AMD.
+La release 1.4.104 non modifica le funzionalita didattiche. Estrae gli helper provider-neutral di ciclo vita dei segmenti nel modulo AMD dedicato `core/tracker/segment`, mantenendo invariata l'API pubblica di `core/tracker` e includendo sia sorgenti sia build AMD.
