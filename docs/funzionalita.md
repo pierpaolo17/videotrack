@@ -370,3 +370,9 @@ Patch safe di chiusura per accessibilità report note, logging privacy quando la
 - Rimossi fallback AJAX hardcoded residui nei moduli AMD.
 - I messaggi utente restano forniti da stringhe Moodle o dalla configurazione PHP già localizzata.
 - Nessuna modifica a tracking, segmentazione, note, reazioni, analytics o resume logic.
+
+
+## Aggiornamento 1.4.86
+
+- Aggiunta documentazione tecnica del layer AJAX AMD per chiarire retry, jitter, validazione client-side, timeout e request scope.
+- Nessuna modifica allo scopo didattico, al tracking, alla segmentazione, alle note, alle reazioni o agli analytics.

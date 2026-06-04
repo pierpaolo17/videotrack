@@ -1,6 +1,6 @@
 # mod_videotrack — Guida alla struttura del codice
 
-**Versione**: 1.4.79 (build 2026060227)
+**Versione**: 1.4.86 (build 2026060234)
 **Prerequisito di lettura**: conoscenza base di Moodle (plugin system, `$DB`, `$USER`, `cm_info`) e PHP/JavaScript.
 
 ---
@@ -21,6 +21,7 @@ videotrack/
 ├── index.php              # Lista attività nel corso (standard Moodle)
 ├── styles.css             # Stili CSS del modulo
 ├── environment.xml        # Requisiti ambiente: GD PHP extension (optional)
+├── docs/ajax_layer.md      # Nota tecnica sul layer AJAX AMD
 │
 ├── amd/                   # Moduli JavaScript AMD (RequireJS/Moodle AMD)
 │   ├── src/               # Sorgenti leggibili da sviluppatori
@@ -1372,3 +1373,10 @@ Patch safe di chiusura per accessibilità report note, logging privacy quando la
 - Rimossi fallback AJAX hardcoded residui nei moduli AMD.
 - I messaggi utente restano forniti da stringhe Moodle o dalla configurazione PHP già localizzata.
 - Nessuna modifica a tracking, segmentazione, note, reazioni, analytics o resume logic.
+
+
+## Aggiornamento 1.4.86
+
+- Aggiunta documentazione tecnica dedicata al layer AJAX AMD (`docs/ajax_layer.md`).
+- Documentati retry, jitter, timeout, validazione client-side, request scope e limiti payload.
+- Nessuna modifica runtime o schema database.
