@@ -15,8 +15,10 @@ define([
     'mod_videotrack/core/notes',
     'mod_videotrack/core/reactions',
     'mod_videotrack/core/status',
-    'mod_videotrack/core/player/intervalbar'
-], function(Segment, Session, Tracker, Beacon, Notes, Reactions, Status, IntervalBar) {
+    'mod_videotrack/core/player/intervalbar',
+    'mod_videotrack/core/player/resume',
+    'mod_videotrack/core/player/poster'
+], function(Segment, Session, Tracker, Beacon, Notes, Reactions, Status, IntervalBar, Resume, Poster) {
     'use strict';
 
 
@@ -123,48 +125,16 @@ define([
     /**
      * Show the resume-position notice.
      *
+     * Kept as a backwards-compatible facade while DOM creation lives in
+     * core/player/resume.
+     *
      * @param {number} seconds Resume position in seconds.
      * @param {Object} config Player configuration.
      * @param {Object} Utils Utility module.
      */
     function showResumeNotice(seconds, config, Utils) {
-        var existing = document.getElementById('videotrack-resume-notice');
-        if (existing) {
-            existing.parentNode.removeChild(existing);
-        }
-        var formatted = Utils.formatSeconds(seconds);
-        var notice = document.createElement('div');
-        notice.id = 'videotrack-resume-notice';
-        notice.className = 'videotrack-resume-notice alert alert-info alert-dismissible mt-1';
-        notice.setAttribute('role', 'status');
-        notice.setAttribute('aria-live', 'polite');
-
-        var text = document.createElement('span');
-        text.textContent = config.resumelabel + ' ' + formatted + '.';
-        notice.appendChild(text);
-
-        var btn = document.createElement('button');
-        btn.type = 'button';
-        btn.className = 'btn-close ms-2';
-        btn.setAttribute('aria-label', config.dismisslabel);
-        btn.addEventListener('click', function() {
-            if (notice.parentNode) {
-                notice.parentNode.removeChild(notice);
-            }
-        });
-        notice.appendChild(btn);
-
-        var shell = document.querySelector('.videotrack-player-shell');
-        var suffix = String(Math.round(seconds * 1000));
-        text.id = 'videotrack-resume-notice-text-' + suffix;
-        notice.setAttribute('aria-describedby', text.id);
-        if (shell) {
-            shell.insertBefore(notice, shell.firstChild);
-        }
-        // Keep the resume notice visible until the user dismisses it or starts interacting.
+        Resume.showNotice(seconds, config, Utils);
     }
-
-
 
     /**
      * Configure shared player UI helpers with labels provided by PHP.
@@ -276,17 +246,15 @@ define([
     /**
      * Remove a poster overlay on first playback event.
      *
+     * Kept as a backwards-compatible facade while poster state handling lives in
+     * core/player/poster.
+     *
      * @param {Event} e Custom playstate event.
      * @param {Object} state Player mutable state.
      * @param {Function} removePosterFn Callback that removes the poster overlay.
      */
     function onFirstPlay(e, state, removePosterFn) {
-        if (e.detail && e.detail.playing && !state._posterRemoved) {
-            state._posterRemoved = true;
-            removePosterFn();
-            document.removeEventListener('videotrack:playstate', state._posterPlayListener);
-            state._posterPlayListener = null;
-        }
+        Poster.onFirstPlay(e, state, removePosterFn);
     }
 
     /**
@@ -336,19 +304,14 @@ define([
     /**
      * Remove the poster overlay with the existing fade-out transition.
      *
+     * Kept as a backwards-compatible facade while DOM removal lives in
+     * core/player/poster.
+     *
      * @param {HTMLElement} overlay Poster overlay.
      */
     function removePoster(overlay) {
-        if (overlay && overlay.parentElement) {
-            overlay.style.opacity = '0';
-            window.setTimeout(function() {
-                if (overlay && overlay.parentElement) {
-                    overlay.parentElement.removeChild(overlay);
-                }
-            }, 300);
-        }
+        Poster.remove(overlay);
     }
-
 
     /**
      * Install the personal notes panel collapse/expand toggle.
