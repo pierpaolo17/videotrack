@@ -1290,5 +1290,10 @@ function xmldb_videotrack_upgrade($oldversion) {
         upgrade_mod_savepoint(true, 2026060260, 'videotrack');
     }
 
+    if ($oldversion < 2026060261) {
+        // Release 1.4.113: split notes panel toggle helpers into a dedicated AMD module.
+        upgrade_mod_savepoint(true, 2026060261, 'videotrack');
+    }
+
     return true;
 }
