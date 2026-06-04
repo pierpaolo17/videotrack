@@ -1089,5 +1089,12 @@ function xmldb_videotrack_upgrade($oldversion) {
         upgrade_mod_savepoint(true, 2026060230, 'videotrack');
     }
 
+
+    if ($oldversion < 2026060231) {
+        // Release 1.4.83: add PHPUnit coverage for stable helper functions.
+        // No database schema changes.
+        upgrade_mod_savepoint(true, 2026060231, 'videotrack');
+    }
+
     return true;
 }
