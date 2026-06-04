@@ -147,6 +147,7 @@ if ($isediting) {
 if (!$isediting) {
     if (!empty($presets)) {
         $table           = new html_table();
+        $table->caption  = get_string('presets:reactionstablecaption', 'mod_videotrack');
         $table->head     = [
             get_string('presets:col_name', 'mod_videotrack'),
             get_string('presets:col_key', 'mod_videotrack'),

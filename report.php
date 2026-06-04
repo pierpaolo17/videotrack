@@ -765,6 +765,7 @@ if ($mode === 'student') {
         }
 
         $table = new html_table();
+        $table->caption = get_string('report:perstudent', 'mod_videotrack');
         $table->head = $heads;
 
         $staters = $getstaterecordset();

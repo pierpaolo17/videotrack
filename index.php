@@ -57,6 +57,7 @@ if (!$instances = get_all_instances_in_course('videotrack', $course)) {
 $usesections = course_format_uses_sections($course->format);
 
 $table = new html_table();
+$table->caption = get_string('modulenameplural', 'mod_videotrack');
 $table->attributes['class'] = 'generaltable mod_index';
 if ($usesections) {
     $table->head = [get_string('sectionname', 'format_' . $course->format), get_string('name')];
