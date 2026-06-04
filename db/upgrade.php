@@ -1166,5 +1166,12 @@ function xmldb_videotrack_upgrade($oldversion) {
         upgrade_mod_savepoint(true, 2026060242, 'videotrack');
     }
 
+
+    if ($oldversion < 2026060243) {
+        // Release 1.4.95: split AJAX request-scope helpers into a dedicated AMD module.
+        // No database schema changes.
+        upgrade_mod_savepoint(true, 2026060243, 'videotrack');
+    }
+
     return true;
 }
