@@ -1213,5 +1213,12 @@ function xmldb_videotrack_upgrade($oldversion) {
         upgrade_mod_savepoint(true, 2026060248, 'videotrack');
     }
 
+
+    if ($oldversion < 2026060249) {
+        // Release 1.4.101: align tracker heartbeat helper exports after AMD micro-refactor.
+        // No database schema changes.
+        upgrade_mod_savepoint(true, 2026060249, 'videotrack');
+    }
+
     return true;
 }
