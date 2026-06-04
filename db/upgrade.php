@@ -1160,6 +1160,13 @@ function xmldb_videotrack_upgrade($oldversion) {
     }
 
 
+    if ($oldversion < 2026060241) {
+        // Release 1.4.93: split AJAX retry and jitter handling into a dedicated AMD module.
+        // No database schema changes.
+        upgrade_mod_savepoint(true, 2026060241, 'videotrack');
+    }
+
+
     if ($oldversion < 2026060242) {
         // Release 1.4.94: split AJAX transport and timeout handling into a dedicated AMD module.
         // No database schema changes.
@@ -1171,6 +1178,13 @@ function xmldb_videotrack_upgrade($oldversion) {
         // Release 1.4.95: split AJAX request-scope helpers into a dedicated AMD module.
         // No database schema changes.
         upgrade_mod_savepoint(true, 2026060243, 'videotrack');
+    }
+
+
+    if ($oldversion < 2026060244) {
+        // Release 1.4.96: restore the extracted AMD request-scope module in source and build trees.
+        // No database schema changes.
+        upgrade_mod_savepoint(true, 2026060244, 'videotrack');
     }
 
     return true;
