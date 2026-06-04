@@ -29,6 +29,43 @@ define([
         return Session.uuid();
     }
 
+
+    /**
+     * Clamp segment times before delegating persistence.
+     *
+     * @param {*} start Segment start candidate.
+     * @param {*} end Segment end candidate.
+     * @param {*} duration Optional duration candidate.
+     * @returns {{start: number, end: number}} Clamped segment times.
+     */
+    function clampSegmentTimes(start, end, duration) {
+        return Segment.clampSegmentTimes(start, end, duration);
+    }
+
+    /**
+     * Normalise a segment save reason.
+     *
+     * @param {string} reason Candidate save reason.
+     * @returns {string} Whitelisted save reason.
+     */
+    function normaliseSaveReason(reason) {
+        return Segment.normaliseSaveReason(reason);
+    }
+
+    /**
+     * Persist the current progress before note/reaction interactions.
+     *
+     * @param {Object} state Mutable player state.
+     * @param {Function} getCurrentTime Current-time provider.
+     * @param {Function} saveSegment Segment persistence callback.
+     * @param {string} reason Segment save reason.
+     * @param {boolean|Function} hasPlayer Player availability flag or provider.
+     * @returns {Promise} Save promise.
+     */
+    function saveCurrentProgress(state, getCurrentTime, saveSegment, reason, hasPlayer) {
+        return Tracker.saveCurrentProgress(state, getCurrentTime, saveSegment, reason, hasPlayer);
+    }
+
     /**
      * Read a CSS colour used by the interval canvas.
      *

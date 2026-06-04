@@ -3,7 +3,8 @@
  *
  * @module mod_videotrack/core/api/transport
  */
-/* eslint-disable jsdoc/require-jsdoc, jsdoc/require-param, jsdoc/require-param-type, promise/always-return, promise/catch-or-return */
+/* eslint-disable jsdoc/require-jsdoc, jsdoc/require-param, jsdoc/require-param-type */
+/* eslint-disable promise/always-return, promise/catch-or-return */
 define([
     'core/ajax',
     'mod_videotrack/core/api/error'

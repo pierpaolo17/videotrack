@@ -259,6 +259,12 @@ define([
         }
         state._heartbeatRunning = true;
 
+        /**
+         * Clear the running flag after a heartbeat attempt completes.
+         *
+         * @param {boolean} saved Whether the heartbeat segment was saved.
+         * @returns {boolean} Original saved value.
+         */
         function clearHeartbeatRunning(saved) {
             if (state) {
                 state._heartbeatRunning = false;
