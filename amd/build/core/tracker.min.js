@@ -88,6 +88,7 @@ define([
     var trackerSaveHeartbeatIfDue = TrackerHeartbeat.saveHeartbeatIfDue;
     var trackerRunHeartbeat = TrackerHeartbeat.runHeartbeat;
     var reopenAfterHeartbeat = TrackerHeartbeat.reopenAfterHeartbeat;
+    var safeBooleanCallback = TrackerHeartbeat.safeBooleanCallback;
 
     /**
      * Open a new watched segment from the current media time.
@@ -546,80 +547,6 @@ define([
             state.wallclockstart = timestamp;
         }
     }
-
-    /**
-     * Capture and persist a heartbeat segment when due.
-     *
-     * The concrete player modules provide the current media time and persistence
-     * callback; this helper keeps the heartbeat decision, capture and reason
-     * naming in one place. The current-time provider may return either a number
-     * or a Promise resolving to a number.
-     *
-     * @param {Object} state Mutable player state.
-     * @param {number} heartbeatInterval Heartbeat interval in seconds.
-     * @param {Function} getCurrentTime Current-time provider.
-     * @param {Function} saveSegment Segment persistence callback.
-     * @param {number=} now Optional wallclock timestamp in seconds.
-     * @returns {Promise<boolean>} True when a heartbeat segment was saved.
-     */
-    function saveHeartbeatIfDue(state, heartbeatInterval, getCurrentTime, saveSegment, now) {
-        return enqueueSegmentSave(state, function() {
-            var timestamp = typeof now === 'number' ? now : Math.floor(Date.now() / 1000);
-
-            if (!shouldSaveHeartbeat(state, heartbeatInterval, timestamp)) {
-                return Promise.resolve(false);
-            }
-
-            if (typeof getCurrentTime !== 'function' || typeof saveSegment !== 'function') {
-                return Promise.resolve(false);
-            }
-
-            state.heartbeatPending = true;
-            state._heartbeatSerial = (typeof state._heartbeatSerial === 'number' ? state._heartbeatSerial : 0) + 1;
-            var heartbeatSerial = state._heartbeatSerial;
-            var transitionToken = getTransitionToken(state);
-
-            return resolveCurrentTime(getCurrentTime, state).then(function(currentTime) {
-                if (!isTransitionCurrent(state, transitionToken) || state._heartbeatSerial !== heartbeatSerial) {
-                    state.heartbeatPending = false;
-                    emit(state, 'heartbeat:skipped', {reason: 'stale-state'});
-                    return false;
-                }
-                var heartbeat = captureHeartbeatSegment(state, currentTime);
-                if (!heartbeat) {
-                    state.heartbeatPending = false;
-                    emit(state, 'heartbeat:skipped', {reason: 'empty'});
-                    return false;
-                }
-                if (heartbeat.end <= heartbeat.start) {
-                    resetHeartbeat(state, timestamp);
-                    state.heartbeatPending = false;
-                    emit(state, 'heartbeat:skipped', {reason: 'zero-duration'});
-                    return false;
-                }
-                return Promise.resolve(saveSegment(heartbeat.start, heartbeat.end, 'heartbeat')).then(function() {
-                    if (!isTransitionCurrent(state, transitionToken) || state._heartbeatSerial !== heartbeatSerial) {
-                        state.heartbeatPending = false;
-                        emit(state, 'heartbeat:skipped', {reason: 'stale-state'});
-                        return false;
-                    }
-                    reopenAfterHeartbeat(state, heartbeat.end, timestamp);
-                    state.heartbeatPending = false;
-                    emit(state, 'heartbeat:saved', {start: heartbeat.start, end: heartbeat.end});
-                    return true;
-                }, function(error) {
-                    state.heartbeatPending = false;
-                    throw error;
-                });
-            }, function(error) {
-                state.heartbeatPending = false;
-                throw error;
-            });
-        });
-    }
-
-
-
 
     /**
      * Cancel pending request continuations associated with a player state.

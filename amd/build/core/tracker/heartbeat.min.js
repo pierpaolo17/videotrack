@@ -299,6 +299,7 @@ define([
         shouldSaveHeartbeat: shouldSaveHeartbeat,
         saveHeartbeatIfDue: saveHeartbeatIfDue,
         runHeartbeat: runHeartbeat,
+        safeBooleanCallback: safeBooleanCallback,
         reopenAfterHeartbeat: reopenAfterHeartbeat
     };
 });
