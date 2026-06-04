@@ -1145,5 +1145,12 @@ function xmldb_videotrack_upgrade($oldversion) {
         upgrade_mod_savepoint(true, 2026060238, 'videotrack');
     }
 
+
+    if ($oldversion < 2026060239) {
+        // Release 1.4.91: restore the extracted AMD validator module in source and build trees.
+        // No database schema changes.
+        upgrade_mod_savepoint(true, 2026060239, 'videotrack');
+    }
+
     return true;
 }
