@@ -1,6 +1,6 @@
 # mod_videotrack — Funzionalità e potenzialità
 
-**Versione**: 1.4.113 (build 2026060261)
+**Versione**: 1.4.114 (build 2026060262)
 **Compatibilità**: Moodle 5.0-5.2
 **Lingue incluse**: Italiano, Inglese, Tedesco, Spagnolo, Francese, Portoghese, Hindi, Polacco
 
@@ -474,3 +474,8 @@ La release 1.4.111 non modifica le funzionalita didattiche. Estrae la facade deg
 ## Aggiornamento 1.4.113
 
 La release 1.4.113 non modifica le funzionalita didattiche. Estrae la gestione del toggle del pannello note personali in `core/player/notes/toggle`, riducendo la responsabilita del modulo `core/player/notes` e mantenendo invariata l'API pubblica AMD.
+
+
+## Aggiornamento 1.4.114
+
+La release 1.4.114 non modifica le funzionalita didattiche. Estrae il rendering delle righe delle note personali in `core/player/notes/row`, riducendo ulteriormente la responsabilita del modulo `core/player/notes` e mantenendo invariata l'API pubblica AMD.

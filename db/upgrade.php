@@ -1295,5 +1295,11 @@ function xmldb_videotrack_upgrade($oldversion) {
         upgrade_mod_savepoint(true, 2026060261, 'videotrack');
     }
 
+
+    if ($oldversion < 2026060262) {
+        // Release 1.4.114: split personal notes row rendering into a dedicated AMD module.
+        upgrade_mod_savepoint(true, 2026060262, 'videotrack');
+    }
+
     return true;
 }
