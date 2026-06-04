@@ -1,6 +1,6 @@
 # mod_videotrack — Funzionalità e potenzialità
 
-**Versione**: 1.4.89 (build 2026060237)
+**Versione**: 1.4.90 (build 2026060238)
 **Compatibilità**: Moodle 5.0-5.2
 **Lingue incluse**: Italiano, Inglese, Tedesco, Spagnolo, Francese, Portoghese, Hindi, Polacco
 
@@ -389,3 +389,9 @@ Patch safe di chiusura per accessibilità report note, logging privacy quando la
 - Documentati nel codice e in `docs/ajax_layer.md` i limiti operativi AMD relativi ad AJAX, retry e beacon.
 - Chiarito che i limiti proteggono resilienza e carico client/server, senza modificare la logica didattica o il comportamento utente.
 - Nessuna modifica runtime, schema database, tracking, segmentazione, note, reazioni, analytics o resume logic.
+
+
+## Aggiornamento 1.4.90
+
+Aggiornamento tecnico interno: la validazione client-side delle richieste AJAX e' stata separata in un modulo AMD dedicato.
+Non cambia il comportamento didattico, il tracking, le note, le reazioni o la logica di resume.
