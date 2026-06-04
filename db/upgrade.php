@@ -1110,5 +1110,12 @@ function xmldb_videotrack_upgrade($oldversion) {
         upgrade_mod_savepoint(true, 2026060233, 'videotrack');
     }
 
+
+    if ($oldversion < 2026060234) {
+        // Release 1.4.86: document the custom AMD AJAX layer design and operational limits.
+        // No database schema changes.
+        upgrade_mod_savepoint(true, 2026060234, 'videotrack');
+    }
+
     return true;
 }
