@@ -1275,5 +1275,10 @@ function xmldb_videotrack_upgrade($oldversion) {
         upgrade_mod_savepoint(true, 2026060257, 'videotrack');
     }
 
+    if ($oldversion < 2026060258) {
+        // Release 1.4.110: align personal notes AMD module path with player facade dependency.
+        upgrade_mod_savepoint(true, 2026060258, 'videotrack');
+    }
+
     return true;
 }

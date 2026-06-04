@@ -1,6 +1,6 @@
 # mod_videotrack — Funzionalità e potenzialità
 
-**Versione**: 1.4.109 (build 2026060257)
+**Versione**: 1.4.110 (build 2026060258)
 **Compatibilità**: Moodle 5.0-5.2
 **Lingue incluse**: Italiano, Inglese, Tedesco, Spagnolo, Francese, Portoghese, Hindi, Polacco
 
@@ -460,3 +460,7 @@ La release 1.4.107 non modifica le funzionalita didattiche. Estrae gli helper pr
 ## Aggiornamento 1.4.109
 
 La release 1.4.109 non modifica le funzionalita didattiche. Ripristina i moduli AMD dedicati `core/player/resume` e `core/player/poster` richiesti dal facade `core/player`, mantenendo invariata l'API pubblica e la logica di resume/poster.
+
+## Aggiornamento 1.4.110
+
+La release 1.4.110 non modifica le funzionalita didattiche. Allinea il modulo AMD delle note personali al namespace `core/player/notes` usato dal facade `core/player`, includendo sorgente e build generati da Moodle.
