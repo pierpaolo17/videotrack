@@ -1200,5 +1200,11 @@ function xmldb_videotrack_upgrade($oldversion) {
         upgrade_mod_savepoint(true, 2026060246, 'videotrack');
     }
 
+
+    if ($oldversion < 2026060247) {
+        // Release 1.4.99: split tracker time and seek helpers into a dedicated AMD module.
+        upgrade_mod_savepoint(true, 2026060247, 'videotrack');
+    }
+
     return true;
 }
