@@ -13,8 +13,9 @@ define([
     'mod_videotrack/core/segment',
     'mod_videotrack/core/tracker/events',
     'mod_videotrack/core/tracker/state',
-    'mod_videotrack/core/tracker/time'
-], function(Segment, TrackerEvents, TrackerState, TrackerTime) {
+    'mod_videotrack/core/tracker/time',
+    'mod_videotrack/core/tracker/heartbeat'
+], function(Segment, TrackerEvents, TrackerState, TrackerTime, TrackerHeartbeat) {
     'use strict';
 
     /**
@@ -54,10 +55,12 @@ define([
     var STATES = TrackerState.STATES;
     var normaliseTime = TrackerState.normaliseTime;
     var normaliseTrackerState = TrackerState.normaliseTrackerState;
+    var isKnownTrackerState = TrackerState.isKnownTrackerState;
     var getTrackerState = TrackerState.getTrackerState;
     var getTransitionToken = TrackerState.getTransitionToken;
     var isTransitionCurrent = TrackerState.isTransitionCurrent;
     var canTransition = TrackerState.canTransition;
+    var applyTrackerStateFlags = TrackerState.applyTrackerStateFlags;
     var setTrackerState = TrackerState.setTrackerState;
     var markIdle = TrackerState.markIdle;
     var markPlaying = TrackerState.markPlaying;
@@ -74,6 +77,17 @@ define([
     var blockSeek = TrackerTime.blockSeek;
     var clearSeekBlock = TrackerTime.clearSeekBlock;
     var shouldStopReplay = TrackerTime.shouldStopReplay;
+
+    var captureHeartbeatSegment = TrackerHeartbeat.captureHeartbeatSegment;
+    var normaliseHeartbeatInterval = TrackerHeartbeat.normaliseHeartbeatInterval;
+    var pollInterval = TrackerHeartbeat.pollInterval;
+    var startPolling = TrackerHeartbeat.startPolling;
+    var stopPolling = TrackerHeartbeat.stopPolling;
+    var resetHeartbeat = TrackerHeartbeat.resetHeartbeat;
+    var shouldSaveHeartbeat = TrackerHeartbeat.shouldSaveHeartbeat;
+    var trackerSaveHeartbeatIfDue = TrackerHeartbeat.saveHeartbeatIfDue;
+    var trackerRunHeartbeat = TrackerHeartbeat.runHeartbeat;
+    var reopenAfterHeartbeat = TrackerHeartbeat.reopenAfterHeartbeat;
 
     /**
      * Open a new watched segment from the current media time.
@@ -216,215 +230,35 @@ define([
         });
     }
 
-    /**
-     * Capture the current open segment for a heartbeat save.
-     *
-     * The segment is not reopened here. Reopening before the persistence
-     * promise resolves can silently lose watch time when the request fails.
-     * Call reopenAfterHeartbeat only after a successful save.
-     *
-     * @param {TrackerState} state Mutable player state.
-     * @param {number} end Current media time.
-     * @returns {{start: number, end: number}|null} Segment payload to persist.
-     */
-    function captureHeartbeatSegment(state, end) {
-        if (!state || !state.playing || state.segmentstart === null) {
-            return null;
-        }
-        return {
-            start: normaliseTime(state.segmentstart),
-            end: normaliseTime(end)
-        };
-    }
+
+
+
+
+
 
     /**
-     * Resolve the configured heartbeat interval in seconds.
+     * Capture and persist a heartbeat segment when due.
      *
-     * @param {Object} config Player configuration.
-     * @param {number} fallback Fallback interval in seconds.
-     * @returns {number} Positive heartbeat interval.
-     */
-    function normaliseHeartbeatInterval(config, fallback) {
-        var candidate = config && Number(config.heartbeatinterval);
-        if (candidate > 0 && isFinite(candidate)) {
-            return candidate;
-        }
-        return fallback > 0 ? fallback : 30;
-    }
-
-    /**
-     * Resolve the polling interval used to check heartbeats and seeks.
-     *
+     * @param {Object} state Mutable player state.
      * @param {number} heartbeatInterval Heartbeat interval in seconds.
-     * @returns {number} Polling interval in milliseconds.
-     */
-    function pollInterval(heartbeatInterval) {
-        var interval = Number(heartbeatInterval) || 30;
-        var base = Math.min(5000, Math.max(2000, interval * 250));
-        if (typeof document !== 'undefined' && document.hidden) {
-            return Math.min(15000, Math.max(base, interval * 500));
-        }
-        return base;
-    }
-
-    /**
-     * Start a shared interval and store its id in the mutable state object.
-     *
-     * @param {Object} state Mutable player state.
-     * @param {Function} callback Polling callback.
-     * @param {number} heartbeatInterval Heartbeat interval in seconds.
-     * @returns {number|null} Interval id or existing interval id.
-     */
-    function startPolling(state, callback, heartbeatInterval) {
-        if (!state || state.heartbeatid) {
-            return state ? state.heartbeatid : null;
-        }
-        if (typeof callback !== 'function') {
-            return null;
-        }
-        state.heartbeatid = window.setInterval(callback, pollInterval(heartbeatInterval));
-        return state.heartbeatid;
-    }
-
-    /**
-     * Stop the shared interval stored in the mutable state object.
-     *
-     * @param {Object} state Mutable player state.
-     */
-    function stopPolling(state) {
-        if (state && state.heartbeatid) {
-            window.clearInterval(state.heartbeatid);
-            state.heartbeatid = null;
-            if (state.playing && state.segmentstart === null) {
-                markPaused(state, {reason: 'polling-stopped'});
-            }
-        }
-    }
-
-    /**
-     * Mark the current wallclock as heartbeat baseline.
-     *
-     * @param {Object} state Mutable player state.
+     * @param {Function} getCurrentTime Current-time provider.
+     * @param {Function} saveSegment Segment persistence callback.
      * @param {number=} now Optional wallclock timestamp in seconds.
-     * @returns {number} Wallclock timestamp used.
+     * @returns {Promise<boolean>} True when a heartbeat segment was saved.
      */
-    function resetHeartbeat(state, now) {
-        var timestamp = typeof now === 'number' ? now : Math.floor(Date.now() / 1000);
-        if (state) {
-            state.lastHeartbeatWallclock = timestamp;
-        }
-        return timestamp;
-    }
-
-    /**
-     * Whether the current open segment should be saved as a heartbeat.
-     *
-     * @param {Object} state Mutable player state.
-     * @param {number} heartbeatInterval Heartbeat interval in seconds.
-     * @param {number=} now Optional wallclock timestamp in seconds.
-     * @returns {boolean} True when a heartbeat save is due.
-     */
-    function shouldSaveHeartbeat(state, heartbeatInterval, now) {
-        if (!state || !state.playing || state.segmentstart === null || state.heartbeatPending) {
-            return false;
-        }
-        var timestamp = typeof now === 'number' ? now : Math.floor(Date.now() / 1000);
-        var last = Number(state.lastHeartbeatWallclock) || 0;
-        return timestamp - last >= normaliseHeartbeatInterval({heartbeatinterval: heartbeatInterval}, 30);
-    }
-
-
-
-
-
-
-    /**
-     * Execute a boolean callback without allowing provider errors to break tracking.
-     *
-     * @param {Function} callback Callback to execute.
-     * @param {boolean} fallback Fallback value used when the callback throws.
-     * @param {Object=} state Mutable player state for diagnostics.
-     * @param {string=} eventName Event name emitted on callback error.
-     * @returns {boolean} Normalised callback result.
-     */
-    function safeBooleanCallback(callback, fallback, state, eventName) {
-        try {
-            return !!callback();
-        } catch (error) {
-            if (eventName) {
-                emit(state, eventName, {error: error});
-            }
-            return !!fallback;
-        }
+    function saveHeartbeatIfDue(state, heartbeatInterval, getCurrentTime, saveSegment, now) {
+        return trackerSaveHeartbeatIfDue(state, enqueueSegmentSave, heartbeatInterval, getCurrentTime, saveSegment, now);
     }
 
     /**
      * Run one provider-neutral heartbeat check.
      *
-     * Concrete player modules only provide media availability, current-time and
-     * persistence callbacks. This keeps the guard clauses, async error handling
-     * and logging behaviour in the tracker layer, which reduces the chance that
-     * YouTube, HTML5 and Vimeo drift apart again.
-     *
      * @param {Object} options Heartbeat options.
-     * @param {Object} options.state Mutable player state.
-     * @param {number} options.heartbeatInterval Heartbeat interval in seconds.
-     * @param {Function} options.getCurrentTime Function returning current media time.
-     * @param {Function} options.saveSegment Segment persistence callback.
-     * @param {Function=} options.hasPlayer Optional player availability callback.
-     * @param {Function=} options.shouldSkip Optional extra provider-specific skip callback.
-     * @param {Object=} options.log Optional Moodle log module.
      * @returns {Promise<boolean>} True when a heartbeat segment was saved.
      */
     function runHeartbeat(options) {
-        options = options || {};
-        var state = options.state;
-        var hasPlayer = typeof options.hasPlayer === 'function' ? options.hasPlayer : function() {
-            return true;
-        };
-        var shouldSkip = typeof options.shouldSkip === 'function' ? options.shouldSkip : function() {
-            return false;
-        };
-
-        if (!state || !state.playing || state.segmentstart === null ||
-                !safeBooleanCallback(hasPlayer, false, state, 'heartbeat:providererror') ||
-                safeBooleanCallback(shouldSkip, true, state, 'heartbeat:skiperror')) {
-            return Promise.resolve(false);
-        }
-        if (state._heartbeatRunning) {
-            return Promise.resolve(false);
-        }
-        state._heartbeatRunning = true;
-
-        function clearHeartbeatRunning(saved) {
-            if (state) {
-                state._heartbeatRunning = false;
-            }
-            return saved;
-        }
-
-        emit(state, 'heartbeat:start', {});
-
-        return saveHeartbeatIfDue(
-            state,
-            options.heartbeatInterval,
-            options.getCurrentTime,
-            options.saveSegment
-        ).then(function(saved) {
-            emit(state, 'heartbeat:complete', {saved: !!saved});
-            return saved;
-        }).catch(function(error) {
-            emit(state, 'heartbeat:error', {error: error});
-            if (options.log && typeof options.log.debug === 'function') {
-                options.log.debug(error);
-            }
-            return false;
-        }).then(clearHeartbeatRunning, function(error) {
-            clearHeartbeatRunning(false);
-            throw error;
-        });
+        return trackerRunHeartbeat(options, enqueueSegmentSave);
     }
-
 
     /**
      * Queue the current open segment through sendBeacon during page unload.
@@ -784,20 +618,8 @@ define([
         });
     }
 
-    /**
-     * Move the open segment start after a successful heartbeat save.
-     *
-     * @param {Object} state Mutable player state.
-     * @param {number} end Segment end/current time.
-     * @param {number=} now Optional wallclock timestamp in seconds.
-     */
-    function reopenAfterHeartbeat(state, end, now) {
-        var timestamp = resetHeartbeat(state, now);
-        if (state) {
-            state.segmentstart = normaliseTime(end);
-            state.wallclockstart = timestamp;
-        }
-    }
+
+
 
     /**
      * Cancel pending request continuations associated with a player state.
