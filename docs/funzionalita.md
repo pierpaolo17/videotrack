@@ -1,6 +1,6 @@
 # mod_videotrack — Funzionalità e potenzialità
 
-**Versione**: 1.4.92 (build 2026060240)
+**Versione**: 1.4.93 (build 2026060241)
 **Compatibilità**: Moodle 5.0-5.2
 **Lingue incluse**: Italiano, Inglese, Tedesco, Spagnolo, Francese, Portoghese, Hindi, Polacco
 
@@ -407,3 +407,8 @@ Non cambia il comportamento didattico, il tracking, le note, le reazioni o la lo
 
 La release 1.4.92 introduce un micro-refactor AMD interno del layer AJAX: la classificazione degli errori è stata spostata in un modulo dedicato.
 Non cambia alcuna funzionalità didattica, né il comportamento di tracciamento, note, reazioni o ripresa.
+
+
+## Aggiornamento 1.4.93
+
+La release 1.4.93 non modifica le funzionalità didattiche. Introduce solo un micro-refactor interno del layer AJAX per separare la gestione di retry e jitter in un modulo AMD dedicato.

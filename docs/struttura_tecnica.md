@@ -1,6 +1,6 @@
 # mod_videotrack — Guida alla struttura del codice
 
-**Versione**: 1.4.92 (build 2026060240)
+**Versione**: 1.4.93 (build 2026060241)
 **Prerequisito di lettura**: conoscenza base di Moodle (plugin system, `$DB`, `$USER`, `cm_info`) e PHP/JavaScript.
 
 ---
@@ -1411,3 +1411,8 @@ La separazione mantiene invariata l'API pubblica esportata da `core/api.js` e pr
 
 Il micro-refactor AMD del layer API prosegue con `amd/src/core/api/error.js`, modulo dedicato alla normalizzazione e classificazione degli errori AJAX.
 `amd/src/core/api.js` conserva l'entrypoint pubblico e delega la parte error-handling al nuovo modulo per ridurre la complessità.
+
+
+## Aggiornamento 1.4.93
+
+La release 1.4.93 aggiunge `amd/src/core/api/retry.js`, dedicato alla normalizzazione dei retry e al calcolo del jitter. `amd/src/core/api.js` continua a esporre la stessa API pubblica.
