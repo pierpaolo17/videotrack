@@ -5,13 +5,13 @@
  */
 /* eslint-disable jsdoc/require-jsdoc, jsdoc/require-param, jsdoc/require-param-type, jsdoc/check-param-names, max-len, no-control-regex, promise/always-return, promise/no-nesting, promise/catch-or-return, no-throw-literal, promise/no-return-wrap, complexity */
 define([
-    'core/ajax',
     'core/log',
     'mod_videotrack/core/api/validator',
     'mod_videotrack/core/api/error',
     'mod_videotrack/core/api/retry',
+    'mod_videotrack/core/api/transport',
     'mod_videotrack/core/segment'
-], function(Ajax, Log, Validator, AjaxError, Retry, Segment) {
+], function(Log, Validator, AjaxError, Retry, Transport, Segment) {
     'use strict';
 
     /**
@@ -41,9 +41,6 @@ define([
      * @property {string} endreason Normalised segment close reason.
      * @property {number} durationseconds Known video duration in seconds.
      */
-
-    var AJAX_TIMEOUT_MS = 15000; // Finite timeout so pending AJAX promises cannot block UI state indefinitely.
-
 
     /**
      * Create a lightweight request scope for suppressing stale AJAX continuations.
@@ -101,42 +98,6 @@ define([
     }
 
     /**
-     * Resolve a promise with a conservative timeout.
-     *
-     * Moodle core/ajax does not expose AbortController handles. The timeout is
-     * therefore intentionally a caller-side guard: it prevents stale UI/tracker
-     * continuations from waiting indefinitely without changing the server API.
-     *
-     * @param {Promise} promise Promise returned by core/ajax.
-     * @param {number} timeout Timeout in milliseconds.
-     * @returns {Promise}
-     */
-    function withTimeout(promise, timeout) {
-        var timeoutMs = Number(timeout);
-        if (!isFinite(timeoutMs) || timeoutMs <= 0) {
-            timeoutMs = AJAX_TIMEOUT_MS;
-        }
-        var timer = null;
-        var timeoutPromise = new Promise(function(resolve, reject) {
-            timer = window.setTimeout(function() {
-                timer = null;
-                reject(new Error('ajax-timeout'));
-            }, timeoutMs);
-        });
-        return Promise.race([promise, timeoutPromise]).then(function(response) {
-            if (timer !== null) {
-                window.clearTimeout(timer);
-            }
-            return response;
-        }, function(error) {
-            if (timer !== null) {
-                window.clearTimeout(timer);
-            }
-            return Promise.reject(AjaxError.normaliseAjaxError(error));
-        });
-    }
-
-    /**
      * Dispatch a single Moodle AJAX request through the shared hardening layer.
      *
      * @param {string} methodname Moodle external function name.
@@ -175,21 +136,10 @@ define([
             return Promise.resolve(null);
         }
 
-        var maxRetries = Number(options.retries);
-        if (!isFinite(maxRetries) || maxRetries < 0) {
-            maxRetries = 0;
-        }
-        maxRetries = Retry.normalizeRetryCount(maxRetries);
+        var maxRetries = Retry.normalizeRetryCount(options.retries);
 
         function attemptRequest(attempt) {
-            var promise;
-            try {
-                promise = Ajax.call([{methodname: safeMethodName, args: safeArgs}])[0];
-            } catch (error) {
-                promise = Promise.reject(error);
-            }
-
-            return withTimeout(Promise.resolve(promise), options.timeout).then(function(response) {
+            return Transport.send(safeMethodName, safeArgs, options.timeout).then(function(response) {
                 return resolveIfCurrent(requestScope, requestToken, response);
             }).catch(function(error) {
                 if (!isRequestCurrent(requestScope, requestToken)) {
@@ -210,7 +160,8 @@ define([
         }
 
         return attemptRequest(0).catch(function(error) {
-            if (AjaxError.classifyAjaxError(error) === AjaxError.ERROR_CATEGORY_VALIDATION && AjaxError.getErrorMessage(error) === 'invalid-method') {
+            if (AjaxError.classifyAjaxError(error) === AjaxError.ERROR_CATEGORY_VALIDATION &&
+                    AjaxError.getErrorMessage(error) === 'invalid-method') {
                 return Promise.reject(error);
             }
             if (options.swallowFailures) {
@@ -271,7 +222,7 @@ define([
     function saveSegment(config, state, start, end, reason, options) {
         options = options || {};
         if (typeof options.retries === 'undefined') {
-            options.retries = AJAX_MAX_RETRIES;
+            options.retries = Retry.MAX_RETRIES;
         }
         var args = buildSegmentArgs(config, state, start, end, reason);
         if (!args) {
