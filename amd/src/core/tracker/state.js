@@ -205,26 +205,68 @@ define([
         return true;
     }
 
+    /**
+     * Mark the tracker as idle.
+     *
+     * @param {Object} state Mutable tracker state.
+     * @param {Object=} meta Optional transition metadata.
+     * @returns {boolean} True when the transition was accepted.
+     */
     function markIdle(state, meta) {
         return setTrackerState(state, STATES.IDLE, meta);
     }
 
+    /**
+     * Mark the tracker as playing.
+     *
+     * @param {Object} state Mutable tracker state.
+     * @param {Object=} meta Optional transition metadata.
+     * @returns {boolean} True when the transition was accepted.
+     */
     function markPlaying(state, meta) {
         return setTrackerState(state, STATES.PLAYING, meta);
     }
 
+    /**
+     * Mark the tracker as paused.
+     *
+     * @param {Object} state Mutable tracker state.
+     * @param {Object=} meta Optional transition metadata.
+     * @returns {boolean} True when the transition was accepted.
+     */
     function markPaused(state, meta) {
         return setTrackerState(state, STATES.PAUSED, meta);
     }
 
+    /**
+     * Mark the tracker as seeking.
+     *
+     * @param {Object} state Mutable tracker state.
+     * @param {Object=} meta Optional transition metadata.
+     * @returns {boolean} True when the transition was accepted.
+     */
     function markSeeking(state, meta) {
         return setTrackerState(state, STATES.SEEKING, meta);
     }
 
+    /**
+     * Mark the tracker as ended.
+     *
+     * @param {Object} state Mutable tracker state.
+     * @param {Object=} meta Optional transition metadata.
+     * @returns {boolean} True when the transition was accepted.
+     */
     function markEnded(state, meta) {
         return setTrackerState(state, STATES.ENDED, meta);
     }
 
+    /**
+     * Mark the tracker as destroyed.
+     *
+     * @param {Object} state Mutable tracker state.
+     * @param {Object=} meta Optional transition metadata.
+     * @returns {boolean} True when the transition was accepted.
+     */
     function markDestroyed(state, meta) {
         return setTrackerState(state, STATES.DESTROYED, meta);
     }

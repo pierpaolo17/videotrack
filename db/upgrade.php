@@ -1241,5 +1241,12 @@ function xmldb_videotrack_upgrade($oldversion) {
         upgrade_mod_savepoint(true, 2026060252, 'videotrack');
     }
 
+
+    if ($oldversion < 2026060253) {
+        // Release 1.4.105: fix AMD lint blockers after player interval-bar micro-refactor.
+        // No database schema changes.
+        upgrade_mod_savepoint(true, 2026060253, 'videotrack');
+    }
+
     return true;
 }
