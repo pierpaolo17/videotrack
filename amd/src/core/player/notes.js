@@ -9,8 +9,9 @@
 /* eslint-disable jsdoc/require-jsdoc, jsdoc/require-param, jsdoc/require-param-type, jsdoc/check-param-names, max-len, no-control-regex, promise/always-return, promise/no-nesting, promise/catch-or-return, no-throw-literal, promise/no-return-wrap, complexity */
 define([
     'mod_videotrack/core/player/notes/row',
-    'mod_videotrack/core/player/notes/toggle'
-], function(NoteRow, NoteToggle) {
+    'mod_videotrack/core/player/notes/toggle',
+    'mod_videotrack/core/debug'
+], function(NoteRow, NoteToggle, Debug) {
     'use strict';
 
 
@@ -72,7 +73,6 @@ define([
      * Install the personal note save/delete handlers shared by all player types.
      *
      * @param {Object} deps Dependencies and callbacks from the concrete player.
-     * @param {Object} deps.Log Log module.
      * @param {Object} deps.Utils Utility module.
      * @param {Object} deps.config Player configuration.
      * @param {Object} deps.state Player mutable state.
@@ -82,7 +82,6 @@ define([
      */
     function installHandler(deps) {
         var Api = deps.Api;
-        var Log = deps.Log;
         var Utils = deps.Utils;
         var config = deps.config;
         var state = deps.state;
@@ -305,7 +304,7 @@ define([
                         delBtn.disabled = false;
                         delBtn.removeAttribute('aria-busy');
                     }
-                    Log.debug('mod_videotrack: note deletion failed - ' + err);
+                    Debug.log('notedeletionfailed', {message: err});
                     showErrorStatusMessage(err, config.noteerrorlabel, config.dismisslabel);
                 });
         };

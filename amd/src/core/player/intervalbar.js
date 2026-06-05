@@ -6,7 +6,7 @@
  *
  * @module mod_videotrack/core/player/intervalbar
  */
-define([], function() {
+define(['mod_videotrack/core/debug'], function(Debug) {
     'use strict';
 
     var intervalBarCache = {json: null, duration: null, width: null, height: null};
@@ -28,10 +28,9 @@ define([], function() {
      * Parse stored watched intervals for the interval bar.
      *
      * @param {string|Array} intervaljson JSON encoded list of [start, end] pairs.
-     * @param {Object} Log Moodle log module.
      * @returns {Array} Parsed interval list.
      */
-    function parse(intervaljson, Log) {
+    function parse(intervaljson) {
         if (Array.isArray(intervaljson)) {
             return intervaljson;
         }
@@ -42,9 +41,7 @@ define([], function() {
             var parsed = JSON.parse(intervaljson);
             return Array.isArray(parsed) ? parsed : [];
         } catch (e) {
-            if (Log && Log.debug) {
-                Log.debug('mod_videotrack: invalid interval JSON - ' + e);
-            }
+            Debug.log('invalidintervaljson', {message: e});
             return [];
         }
     }
@@ -118,16 +115,15 @@ define([], function() {
      *
      * @param {string|Array} intervaljson JSON encoded list of [start, end] pairs.
      * @param {number} duration Video duration in seconds.
-     * @param {Object} Log Moodle log module.
      */
-    function update(intervaljson, duration, Log) {
+    function update(intervaljson, duration) {
         var canvas = document.getElementById('videotrack-interval-bar');
         duration = Number(duration) || 0;
         if (!canvas || duration <= 0 || document.hidden) {
             return;
         }
 
-        var intervals = parse(intervaljson, Log);
+        var intervals = parse(intervaljson);
         var ctx = canvas.getContext('2d');
         if (!ctx) {
             return;
@@ -155,9 +151,7 @@ define([], function() {
             var pct = duration > 0 ? Math.min(100, Math.round((covered / duration) * 100)) : 0;
             updateTextAlternative(canvas, pct);
         } catch (e) {
-            if (Log && Log.debug) {
-                Log.debug('mod_videotrack: invalid interval JSON - ' + e);
-            }
+            Debug.log('invalidintervaljson', {message: e});
         }
     }
 

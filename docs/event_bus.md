@@ -21,6 +21,25 @@ Current Videotrack modules should use only these event families:
 
 New event families must be documented here before use.
 
+
+## Supported events
+
+Current event names are internal and must stay provider-neutral. The supported
+namespaces are:
+
+| Namespace | Purpose | Examples |
+| --- | --- | --- |
+| `player:*` | Player shell lifecycle and UI updates. | `player:ready`, `player:state` |
+| `tracker:*` | Segment and heartbeat lifecycle notifications. | `tracker:start`, `tracker:stop` |
+| `notes:*` | Personal-note UI events. | `notes:open`, `notes:changed` |
+| `reactions:*` | Reaction button and persistence events. | `reactions:ready`, `reactions:saved` |
+| `status:*` | Non-blocking status announcements. | `status:message`, `status:error` |
+
+Provider names may be appended only as short suffixes when the event still
+represents the same internal action, for example `player:ready:youtube`.
+Free-form user input, selectors, URLs and translated strings must never be used
+as event names.
+
 ## Review note
 
 The pattern is permissive enough to support provider-specific suffixes while

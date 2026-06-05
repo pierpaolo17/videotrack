@@ -8,7 +8,7 @@
  * @module mod_videotrack/core/events
  */
 /* eslint-disable jsdoc/require-jsdoc, jsdoc/require-param, jsdoc/require-param-type, jsdoc/check-param-names, max-len, no-control-regex, promise/always-return, promise/no-nesting, promise/catch-or-return, no-throw-literal, promise/no-return-wrap, complexity */
-define(['core/log'], function(Log) {
+define(['mod_videotrack/core/debug'], function(Debug) {
     'use strict';
 
     var DEFAULT_MAX_HANDLERS_PER_EVENT = 100;
@@ -68,7 +68,7 @@ define(['core/log'], function(Log) {
                     return removeHandler;
                 }
                 if (handlers[name].size >= maxHandlersPerEvent) {
-                    Log.debug('mod_videotrack: event handler limit reached for ' + name);
+                    Debug.log('eventhandlerlimit', {event: name});
                     return function() {};
                 }
                 handlers[name].add(handler);
@@ -113,14 +113,12 @@ define(['core/log'], function(Log) {
                         var result = list[i](eventPayload);
                         if (result && typeof result.catch === 'function') {
                             result.catch(function(error) {
-                                Log.debug('mod_videotrack: async event handler failed for ' + name + ' - ' +
-                                    (error && error.stack ? error.stack : error));
+                                Debug.log('asynceventhandlerfailed', {event: name, message: error && error.stack ? error.stack : error});
                             });
                         }
                         results.push(result);
                     } catch (error) {
-                        Log.debug('mod_videotrack: event handler failed for ' + name + ' - ' +
-                            (error && error.stack ? error.stack : error));
+                        Debug.log('eventhandlerfailed', {event: name, message: error && error.stack ? error.stack : error});
                         results.push(null);
                     }
                 }

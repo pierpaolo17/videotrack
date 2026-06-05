@@ -10,12 +10,29 @@
 define([], function() {
     'use strict';
 
-    var AJAX_MAX_PAYLOAD_BYTES = 64 * 1024; // Cap encoded AJAX arguments before dispatch; server validation remains authoritative.
-    var AJAX_MAX_STRING_ARG_LENGTH = 10000; // Bound individual text arguments to avoid accidentally sending very large input blobs.
-    var AJAX_MAX_ARG_DEPTH = 4; // Bound nested structures because plugin web service arguments are shallow.
-    var AJAX_MAX_ARRAY_LENGTH = 100; // Bound array arguments before they enter the retry path.
-    var AJAX_MAX_OBJECT_KEYS = 50; // Bound object breadth to keep client-side validation predictable and cheap.
-    var AJAX_MAX_OBJECT_KEY_LENGTH = 64; // Bound key length because Moodle parameter names used here are short and known.
+    // Bound the encoded argument object before dispatch. The server PARAM_*
+    // checks remain authoritative; this cap only keeps malformed browser-side
+    // payloads out of timeout and retry queues.
+    var AJAX_MAX_PAYLOAD_BYTES = 64 * 1024;
+
+    // Text fields used by notes and tracking metadata are intentionally much
+    // smaller than this limit. The higher ceiling allows translated labels and
+    // optional metadata while rejecting accidental blobs.
+    var AJAX_MAX_STRING_ARG_LENGTH = 10000;
+
+    // Videotrack web service arguments are shallow records. A depth of four is
+    // enough for current payloads and prevents recursive structures from making
+    // client validation expensive.
+    var AJAX_MAX_ARG_DEPTH = 4;
+
+    // Lists sent by the plugin are small batches or UI selections, not exports.
+    // The cap protects retries from amplifying unexpectedly large arrays.
+    var AJAX_MAX_ARRAY_LENGTH = 100;
+
+    // Argument objects use known Moodle parameter names. Limiting breadth and
+    // key length keeps validation cost predictable before core/ajax is called.
+    var AJAX_MAX_OBJECT_KEYS = 50;
+    var AJAX_MAX_OBJECT_KEY_LENGTH = 64;
     var METHOD_PREFIX = 'mod_videotrack_';
     var ALLOWED_METHODS = {
         mod_videotrack_save_segment: true,

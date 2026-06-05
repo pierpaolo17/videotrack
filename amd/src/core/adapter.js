@@ -311,7 +311,7 @@ define([], function() {
             }
         } catch (error) {
             if (log && typeof log.debug === 'function') {
-                log.debug('mod_videotrack: could not read ' + (label || 'player') + ' current time - ' + error);
+                log.debug('VideoTrack adapter current-time read failed (' + (label || 'player') + '): ' + error);
             }
         }
         return normaliseTime(fallback, 0);
@@ -338,7 +338,7 @@ define([], function() {
             }
         } catch (error) {
             if (log && typeof log.debug === 'function') {
-                log.debug('mod_videotrack: could not read ' + (label || 'player') + ' duration - ' + error);
+                log.debug('VideoTrack adapter duration read failed (' + (label || 'player') + '): ' + error);
             }
         }
         return normaliseTime(fallback, 0);
@@ -385,7 +385,7 @@ define([], function() {
             }
         } catch (error) {
             if (log && typeof log.debug === 'function') {
-                log.debug('mod_videotrack: could not read ' + (label || 'player') + ' volume - ' + error);
+                log.debug('VideoTrack adapter volume read failed (' + (label || 'player') + '): ' + error);
             }
         }
         return normaliseVolume(fallback, 1);
@@ -437,7 +437,7 @@ define([], function() {
             }
         } catch (error) {
             if (log && typeof log.debug === 'function') {
-                log.debug('mod_videotrack: could not read ' + (label || 'player') + ' muted state - ' + error);
+                log.debug('VideoTrack adapter muted-state read failed (' + (label || 'player') + '): ' + error);
             }
         }
         return fallback;
@@ -490,7 +490,7 @@ define([], function() {
             }
         } catch (error) {
             if (log && typeof log.debug === 'function') {
-                log.debug('mod_videotrack: could not read ' + (label || 'player') + ' playback rate - ' + error);
+                log.debug('VideoTrack adapter playback-rate read failed (' + (label || 'player') + '): ' + error);
             }
         }
         var fallbackRate = Number(fallback);
@@ -546,7 +546,7 @@ define([], function() {
             }
         } catch (error) {
             if (log && typeof log.debug === 'function') {
-                log.debug('mod_videotrack: could not read ' + (label || 'player') + ' paused state - ' + error);
+                log.debug('VideoTrack adapter paused-state read failed (' + (label || 'player') + '): ' + error);
             }
         }
         return fallback;
@@ -591,7 +591,7 @@ define([], function() {
             }
         } catch (error) {
             if (log && typeof log.debug === 'function') {
-                log.debug('mod_videotrack: could not read ' + (label || 'player') + ' ended state - ' + error);
+                log.debug('VideoTrack adapter ended-state read failed (' + (label || 'player') + '): ' + error);
             }
         }
         if (state) {
@@ -611,7 +611,7 @@ define([], function() {
     function run(action, log, label) {
         var logFailure = function(error) {
             if (log && typeof log.debug === 'function') {
-                log.debug('mod_videotrack: player adapter command failed' +
+                log.debug('VideoTrack player adapter command failed' +
                     (label ? ' (' + label + ')' : '') + ' - ' + error);
             }
         };

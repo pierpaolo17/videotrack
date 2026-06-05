@@ -21,8 +21,9 @@ define([
     'mod_videotrack/core/state',
     'mod_videotrack/core/reactions',
     'mod_videotrack/core/tracker',
-    'mod_videotrack/core/player'
-], function(Log, Api, Adapter, Utils, Ui, Progress, State, Reactions, Tracker, PlayerCore) {
+    'mod_videotrack/core/player',
+    'mod_videotrack/core/debug'
+], function(Log, Api, Adapter, Utils, Ui, Progress, State, Reactions, Tracker, PlayerCore, Debug) {
     'use strict';
 
 
@@ -44,7 +45,7 @@ define([
     function saveSegment(start, end, reason) {
         return Api.saveSegment(config, state, start, end, reason, {
             swallowFailures: true,
-            errorMessage: 'mod_videotrack: Vimeo player event failed',
+            errorMessage: 'vimeo-player-event',
             requestScope: state.ajaxRequestScope
         }).then(updateProgress);
     }
@@ -144,7 +145,7 @@ define([
         script.crossOrigin = 'anonymous';
         script.onload = callback;
         script.onerror = function() {
-            Log.debug('mod_videotrack: failed to load Vimeo Player SDK from player.vimeo.com');
+            Debug.log('vimeosdkfailed');
             // Show a readable user message: likely CSP or network blocking.
             var wrap = document.getElementById('mod-videotrack-player');
             if (wrap) {
@@ -662,7 +663,7 @@ define([
                 }, Log, 'Vimeo poster play');
                 if (posterPlay && typeof posterPlay.catch === 'function') {
                     posterPlay.catch(function(err) {
-                        Log.debug('mod_videotrack: play request failed - ' + err);
+                        Debug.log('playrequestfailed', {message: err});
                     });
                 }
             }

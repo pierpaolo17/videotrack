@@ -10,8 +10,9 @@ define([
     'mod_videotrack/core/state',
     'mod_videotrack/core/reactions',
     'mod_videotrack/core/tracker',
-    'mod_videotrack/core/player'
-], function(Log, Api, Adapter, Utils, Ui, Progress, State, Reactions, Tracker, PlayerCore) {
+    'mod_videotrack/core/player',
+    'mod_videotrack/core/debug'
+], function(Log, Api, Adapter, Utils, Ui, Progress, State, Reactions, Tracker, PlayerCore, Debug) {
     'use strict';
 
     var player = null;
@@ -63,7 +64,7 @@ define([
     function saveSegment(start, end, reason) {
         return Api.saveSegment(config, state, start, end, reason, {
             swallowFailures: true,
-            errorMessage: 'mod_videotrack: YouTube player event failed',
+            errorMessage: 'youtube-player-event',
             requestScope: state.ajaxRequestScope
         }).then(updateProgress);
     }
@@ -555,14 +556,14 @@ define([
                             try {
                                 player.removeEventListener('onStateChange', removeNotice);
                             } catch (error) {
-                                Log.debug('mod_videotrack: autoplay notice cleanup failed - ' + error);
+                                Debug.log('autoplaycleanupfailed', {message: error});
                             }
                         };
                         player.addEventListener('onStateChange', removeNotice);
                         noticeTimeout = window.setTimeout(removeNotice, 30000);
                     }
                 },
-                onError: function() { Log.debug('mod_videotrack: YouTube player error'); }
+                onError: function() { Debug.log('youtubeplayererror'); }
             }
         });
     }

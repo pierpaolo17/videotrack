@@ -7,7 +7,7 @@
  *
  * @module mod_videotrack/core/player/status
  */
-define(['mod_videotrack/core/status'], function(Status) {
+define(['mod_videotrack/core/status', 'mod_videotrack/core/debug'], function(Status, Debug) {
     'use strict';
 
     /**
@@ -16,13 +16,12 @@ define(['mod_videotrack/core/status'], function(Status) {
      * Event delegation must never fall back to document because multiple
      * activities or unrelated controls can coexist on the page.
      *
-     * @param {Object} Log Optional Moodle log module.
      * @returns {HTMLElement|null} The scoped player shell, when available.
      */
-    function getShell(Log) {
+    function getShell() {
         var shell = document.querySelector('.videotrack-player-shell');
-        if (!shell && Log && Log.debug) {
-            Log.debug('mod_videotrack: player shell not found; delegated handlers not installed');
+        if (!shell) {
+            Debug.log('playershellmissing');
         }
         return shell;
     }

@@ -19,8 +19,9 @@ define([
     'mod_videotrack/core/state',
     'mod_videotrack/core/reactions',
     'mod_videotrack/core/tracker',
-    'mod_videotrack/core/player'
-], function(Log, Api, Adapter, Utils, Ui, Progress, State, Reactions, Tracker, PlayerCore) {
+    'mod_videotrack/core/player',
+    'mod_videotrack/core/debug'
+], function(Log, Api, Adapter, Utils, Ui, Progress, State, Reactions, Tracker, PlayerCore, Debug) {
     'use strict';
 
 
@@ -49,7 +50,7 @@ define([
     function saveSegment(start, end, reason) {
         return Api.saveSegment(config, state, start, end, reason, {
             swallowFailures: true,
-            errorMessage: 'mod_videotrack: HTML5 player event failed',
+            errorMessage: 'html5-player-event',
             requestScope: state.ajaxRequestScope
         }).then(updateProgress);
     }
@@ -160,7 +161,7 @@ define([
                     return media.play();
                 }, Log, 'HTML5 replay play');
                 if (replayPlay && typeof replayPlay.catch === 'function') {
-                    replayPlay.catch(function(err) { Log.debug('mod_videotrack: play request failed - ' + err); });
+                    replayPlay.catch(function(err) { Debug.log('playrequestfailed', {message: err}); });
                 }
             }
         });
@@ -925,7 +926,7 @@ define([
                 syncTranscript(cues);
             })
             .catch(function(err) {
-                Log.debug('mod_videotrack: could not load VTT transcript — ' + err);
+                Debug.log('vttloadfailed', {message: err});
                 showTranscriptUnavailable(panel);
             });
     }
@@ -1180,7 +1181,7 @@ define([
                 renderChaptersBar(chapters);
             })
             .catch(function(err) {
-                Log.debug('videotrack chapters: ' + err);
+                Debug.log('chaptersfailed', {message: err});
                 showChaptersUnavailable();
             });
     }
@@ -1250,7 +1251,7 @@ define([
                 state.lasttime    = ch.start;
                 if (wasPlaying) {
                     media.play().catch(function(err) {
-                        Log.debug('mod_videotrack: play request failed - ' + err);
+                        Debug.log('playrequestfailed', {message: err});
                     }); // Catch autoplay policy rejection.
                 }
                 // Update active state.
@@ -1308,7 +1309,7 @@ define([
             // Start playback through the HTML5 media element (not a YouTube/Vimeo player).
             if (media) {
                 media.play().catch(function(err) {
-                    Log.debug('mod_videotrack: play request failed - ' + err);
+                    Debug.log('playrequestfailed', {message: err});
                 });
             }
         };

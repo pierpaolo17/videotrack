@@ -4,7 +4,7 @@
  * @module mod_videotrack/core/utils
  */
 /* eslint-disable jsdoc/require-jsdoc, jsdoc/require-param, jsdoc/require-param-type, jsdoc/check-param-names, max-len, no-control-regex, promise/always-return, promise/no-nesting, promise/catch-or-return, no-throw-literal, promise/no-return-wrap, complexity */
-define(['core/log'], function(Log) {
+define(['mod_videotrack/core/debug'], function(Debug) {
     'use strict';
 
     var MAX_TEXT_RESPONSE_BYTES = 1024 * 1024;
@@ -339,7 +339,7 @@ define(['core/log'], function(Log) {
             }
             window.sessionStorage.setItem(String(key), String(value));
         } catch (error) {
-            Log.debug('mod_videotrack: could not save ' + (context || 'session state') + ' - ' + error);
+            Debug.log('sessionsavefailed', {context: context || 'session state', message: error});
         }
         return Promise.resolve();
     }
@@ -359,7 +359,7 @@ define(['core/log'], function(Log) {
             }
             value = window.sessionStorage.getItem(String(key));
         } catch (error) {
-            Log.debug('mod_videotrack: could not read ' + (context || 'session state') + ' - ' + error);
+            Debug.log('sessionreadfailed', {context: context || 'session state', message: error});
         }
         return value;
     }
