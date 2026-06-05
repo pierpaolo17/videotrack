@@ -197,9 +197,14 @@ function xmldb_videotrack_upgrade($oldversion) {
         if (!$dbman->field_exists($reacttable, $field)) {
             $dbman->add_field($reacttable, $field);
         }
-        $field = new xmldb_field('notetype', XMLDB_TYPE_CHAR, '20', null, XMLDB_NOTNULL, null, '', 'notetext');
+        $field = new xmldb_field('notetype', XMLDB_TYPE_CHAR, '20', null, null, null, null, 'notetext');
         if (!$dbman->field_exists($reacttable, $field)) {
             $dbman->add_field($reacttable, $field);
+            $DB->execute(
+                "UPDATE {videotrack_reactev} SET notetype = '' WHERE notetype IS NULL"
+            );
+            $field = new xmldb_field('notetype', XMLDB_TYPE_CHAR, '20', null, XMLDB_NOTNULL, null, null, 'notetext');
+            $dbman->change_field_notnull($reacttable, $field);
         }
 
         upgrade_mod_savepoint(true, 2026050209, 'videotrack');
@@ -1331,6 +1336,46 @@ function xmldb_videotrack_upgrade($oldversion) {
         upgrade_mod_savepoint(true, 2026060267, 'videotrack');
     }
 
+
+    if ($oldversion < 2026060274) {
+        // Release 1.4.126: remove invalid empty-string defaults from NOT NULL XMLDB char fields.
+        $fields = [
+            'videotrack' => [
+                ['name', '255'],
+            ],
+            'videotrack_seg' => [
+                ['videoid', '32'],
+                ['sessionid', '64'],
+            ],
+            'videotrack_state' => [
+                ['videoid', '32'],
+            ],
+            'videotrack_react' => [
+                ['reactionkey', '100'],
+                ['label', '255'],
+                ['iconvalue', '255'],
+            ],
+            'videotrack_reactev' => [
+                ['videoid', '32'],
+                ['sessionid', '64'],
+                ['reactionkey', '100'],
+                ['reactionlabel', '255'],
+                ['notetype', '20'],
+            ],
+        ];
+
+        foreach ($fields as $tablename => $tablefields) {
+            $table = new xmldb_table($tablename);
+            foreach ($tablefields as [$fieldname, $length]) {
+                $field = new xmldb_field($fieldname, XMLDB_TYPE_CHAR, $length, null, XMLDB_NOTNULL, null, null);
+                if ($dbman->field_exists($table, $field)) {
+                    $dbman->change_field_default($table, $field);
+                }
+            }
+        }
+
+        upgrade_mod_savepoint(true, 2026060274, 'videotrack');
+    }
 
     return true;
 }
