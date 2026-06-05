@@ -97,7 +97,7 @@ Status: OK for static review; final manual screen-reader and keyboard testing re
 
 ### External API and AJAX layer
 
-The AJAX layer is documented in `docs/ajax_layer.md` and was decomposed into dedicated AMD modules:
+The AJAX layer is documented in `docs/ajax-layer.md` and was decomposed into dedicated AMD modules:
 
 - validation;
 - transport;

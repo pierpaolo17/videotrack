@@ -386,7 +386,7 @@ Patch safe di chiusura per accessibilità report note, logging privacy quando la
 
 ## Aggiornamento 1.4.89
 
-- Documentati nel codice e in `docs/ajax_layer.md` i limiti operativi AMD relativi ad AJAX, retry e beacon.
+- Documentati nel codice e in `docs/ajax-layer.md` i limiti operativi AMD relativi ad AJAX, retry e beacon.
 - Chiarito che i limiti proteggono resilienza e carico client/server, senza modificare la logica didattica o il comportamento utente.
 - Nessuna modifica runtime, schema database, tracking, segmentazione, note, reazioni, analytics o resume logic.
 
