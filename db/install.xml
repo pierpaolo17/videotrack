@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8" ?>
-<XMLDB PATH="mod/videotrack/db" VERSION="2026060267" COMMENT="XMLDB file for mod_videotrack"
+<XMLDB PATH="mod/videotrack/db" VERSION="2026060274" COMMENT="XMLDB file for mod_videotrack"
     xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
     xsi:noNamespaceSchemaLocation="../../../lib/xmldb/xmldb.xsd"
 >
@@ -8,7 +8,7 @@
       <FIELDS>
         <FIELD NAME="id" TYPE="int" LENGTH="10" NOTNULL="true" SEQUENCE="true"/>
         <FIELD NAME="course" TYPE="int" LENGTH="10" NOTNULL="true" DEFAULT="0"/>
-        <FIELD NAME="name" TYPE="char" LENGTH="255" NOTNULL="true" DEFAULT=""/>
+        <FIELD NAME="name" TYPE="char" LENGTH="255" NOTNULL="true"/>
         <FIELD NAME="intro" TYPE="text" NOTNULL="false"/>
         <FIELD NAME="introformat" TYPE="int" LENGTH="4" NOTNULL="true" DEFAULT="0"/>
         <FIELD NAME="youtubeurl" TYPE="text" NOTNULL="false"/>
@@ -72,8 +72,8 @@
         <FIELD NAME="courseid" TYPE="int" LENGTH="10" NOTNULL="true" DEFAULT="0"/>
         <FIELD NAME="cmid" TYPE="int" LENGTH="10" NOTNULL="true" DEFAULT="0"/>
         <FIELD NAME="userid" TYPE="int" LENGTH="10" NOTNULL="true" DEFAULT="0"/>
-        <FIELD NAME="videoid" TYPE="char" LENGTH="32" NOTNULL="true" DEFAULT=""/>
-        <FIELD NAME="sessionid" TYPE="char" LENGTH="64" NOTNULL="true" DEFAULT=""/>
+        <FIELD NAME="videoid" TYPE="char" LENGTH="32" NOTNULL="true"/>
+        <FIELD NAME="sessionid" TYPE="char" LENGTH="64" NOTNULL="true"/>
         <FIELD NAME="wallclockstart" TYPE="int" LENGTH="10" NOTNULL="true" DEFAULT="0"/>
         <FIELD NAME="wallclockend" TYPE="int" LENGTH="10" NOTNULL="true" DEFAULT="0"/>
         <FIELD NAME="videotimestart" TYPE="number" LENGTH="10" DECIMALS="3" NOTNULL="true" DEFAULT="0.000"/>
@@ -100,7 +100,7 @@
         <FIELD NAME="courseid" TYPE="int" LENGTH="10" NOTNULL="true" DEFAULT="0"/>
         <FIELD NAME="cmid" TYPE="int" LENGTH="10" NOTNULL="true" DEFAULT="0"/>
         <FIELD NAME="userid" TYPE="int" LENGTH="10" NOTNULL="true" DEFAULT="0"/>
-        <FIELD NAME="videoid" TYPE="char" LENGTH="32" NOTNULL="true" DEFAULT=""/>
+        <FIELD NAME="videoid" TYPE="char" LENGTH="32" NOTNULL="true"/>
         <FIELD NAME="lastposition" TYPE="number" LENGTH="10" DECIMALS="3" NOTNULL="true" DEFAULT="0.000"/>
         <FIELD NAME="durationseconds" TYPE="number" LENGTH="10" DECIMALS="3" NOTNULL="true" DEFAULT="0.000"/>
         <FIELD NAME="uniquecoveredseconds" TYPE="number" LENGTH="10" DECIMALS="3" NOTNULL="true" DEFAULT="0.000"/>
@@ -123,11 +123,11 @@
       <FIELDS>
         <FIELD NAME="id" TYPE="int" LENGTH="10" NOTNULL="true" SEQUENCE="true"/>
         <FIELD NAME="videotrackid" TYPE="int" LENGTH="10" NOTNULL="true" DEFAULT="0"/>
-        <FIELD NAME="reactionkey" TYPE="char" LENGTH="100" NOTNULL="true" DEFAULT=""/>
-        <FIELD NAME="label" TYPE="char" LENGTH="255" NOTNULL="true" DEFAULT=""/>
+        <FIELD NAME="reactionkey" TYPE="char" LENGTH="100" NOTNULL="true"/>
+        <FIELD NAME="label" TYPE="char" LENGTH="255" NOTNULL="true"/>
         <FIELD NAME="description" TYPE="text" NOTNULL="false"/>
         <FIELD NAME="icontype" TYPE="char" LENGTH="10" NOTNULL="true" DEFAULT="emoji"/>
-        <FIELD NAME="iconvalue" TYPE="char" LENGTH="255" NOTNULL="true" DEFAULT=""/>
+        <FIELD NAME="iconvalue" TYPE="char" LENGTH="255" NOTNULL="true"/>
         <FIELD NAME="requiredforcompletion" TYPE="int" LENGTH="1" NOTNULL="true" DEFAULT="0"/>
         <FIELD NAME="sortorder" TYPE="int" LENGTH="10" NOTNULL="true" DEFAULT="0"/>
         <FIELD NAME="isdeleted" TYPE="int" LENGTH="1" NOTNULL="true" DEFAULT="0"/>
@@ -149,14 +149,14 @@
         <FIELD NAME="courseid" TYPE="int" LENGTH="10" NOTNULL="true" DEFAULT="0"/>
         <FIELD NAME="cmid" TYPE="int" LENGTH="10" NOTNULL="true" DEFAULT="0"/>
         <FIELD NAME="userid" TYPE="int" LENGTH="10" NOTNULL="true" DEFAULT="0"/>
-        <FIELD NAME="videoid" TYPE="char" LENGTH="32" NOTNULL="true" DEFAULT=""/>
-        <FIELD NAME="sessionid" TYPE="char" LENGTH="64" NOTNULL="true" DEFAULT=""/>
+        <FIELD NAME="videoid" TYPE="char" LENGTH="32" NOTNULL="true"/>
+        <FIELD NAME="sessionid" TYPE="char" LENGTH="64" NOTNULL="true"/>
         <FIELD NAME="reactionid" TYPE="int" LENGTH="10" NOTNULL="true" DEFAULT="0"/>
-        <FIELD NAME="reactionkey" TYPE="char" LENGTH="100" NOTNULL="true" DEFAULT=""/>
-        <FIELD NAME="reactionlabel" TYPE="char" LENGTH="255" NOTNULL="true" DEFAULT=""/>
+        <FIELD NAME="reactionkey" TYPE="char" LENGTH="100" NOTNULL="true"/>
+        <FIELD NAME="reactionlabel" TYPE="char" LENGTH="255" NOTNULL="true"/>
         <FIELD NAME="reactiondesc" TYPE="text" NOTNULL="false"/>
         <FIELD NAME="notetext" TYPE="text" NOTNULL="false" COMMENT="Free text note (only when notetype=note)"/>
-        <FIELD NAME="notetype" TYPE="char" LENGTH="20" NOTNULL="true" DEFAULT="" COMMENT="Empty=reaction; note=student note"/>
+        <FIELD NAME="notetype" TYPE="char" LENGTH="20" NOTNULL="true" COMMENT="Empty=reaction; note=student note"/>
         <FIELD NAME="videotime" TYPE="number" LENGTH="10" DECIMALS="3" NOTNULL="true" DEFAULT="0.000"/>
         <FIELD NAME="playbackrate" TYPE="number" LENGTH="6" DECIMALS="3" NOTNULL="true" DEFAULT="1.000"/>
         <FIELD NAME="isdeleted" TYPE="int" LENGTH="1" NOTNULL="true" DEFAULT="0"/>
