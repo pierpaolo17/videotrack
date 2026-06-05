@@ -5,14 +5,14 @@
  */
 /* eslint-disable jsdoc/require-jsdoc, jsdoc/require-param, jsdoc/require-param-type, jsdoc/check-param-names, max-len, no-control-regex, promise/always-return, promise/no-nesting, promise/catch-or-return, no-throw-literal, promise/no-return-wrap, complexity */
 define([
-    'core/log',
+    'mod_videotrack/core/debug',
     'mod_videotrack/core/api/validator',
     'mod_videotrack/core/api/error',
     'mod_videotrack/core/api/retry',
     'mod_videotrack/core/api/transport',
     'mod_videotrack/core/api/scope',
     'mod_videotrack/core/segment'
-], function(Log, Validator, AjaxError, Retry, Transport, Scope, Segment) {
+], function(Debug, Validator, AjaxError, Retry, Transport, Scope, Segment) {
     'use strict';
 
     /**
@@ -78,7 +78,7 @@ define([
         var requestToken = Scope.nextToken(requestScope);
 
         if (options.deferWhenOffline && AjaxError.isBrowserOffline()) {
-            Log.debug('mod_videotrack: deferred AJAX request while offline for ' + safeMethodName);
+            Debug.log('ajaxdeferredoffline', {method: safeMethodName});
             return Promise.resolve(null);
         }
 
@@ -92,8 +92,7 @@ define([
                     return null;
                 }
                 if (attempt < maxRetries && AjaxError.isTransientAjaxError(error) && !AjaxError.isBrowserOffline()) {
-                    Log.debug('mod_videotrack: retrying transient AJAX failure for ' + safeMethodName +
-                        ' - ' + error.message);
+                    Debug.log('ajaxretry', {method: safeMethodName, message: error.message});
                     return Retry.delay(attempt, options.retryDelay).then(function() {
                         if (!Scope.isCurrent(requestScope, requestToken)) {
                             return null;
@@ -112,7 +111,11 @@ define([
             }
             if (options.swallowFailures) {
                 var debugContext = options.errorMessage ? String(options.errorMessage) : safeMethodName;
-                Log.debug(debugContext + ' [' + AjaxError.classifyAjaxError(error) + '] - ' + error.message);
+                Debug.log('ajaxswallowed', {
+                    context: debugContext,
+                    category: AjaxError.classifyAjaxError(error),
+                    message: error.message
+                });
                 return null;
             }
             return Promise.reject(error);

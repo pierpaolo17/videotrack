@@ -578,3 +578,12 @@ $string['privacy_cleanup_failed'] = 'VideoTrack GDPR रिटेंशन स�
 $string['privacy_cleanup_unlimited'] = 'VideoTrack GDPR रिटेंशन: असीमित रिटेंशन कॉन्फ़िगर है; कोई रिकॉर्ड अनामित नहीं किया गया।';
 $string['privacy_cleanup_anonymised'] = 'VideoTrack GDPR रिटेंशन: {$a->processed} उपयोगकर्ता/गतिविधि जोड़ों में {$a->segments} सेगमेंट, {$a->states} स्थिति रिकॉर्ड और {$a->events} प्रतिक्रिया/नोट ईवेंट अनामित किए गए।';
 $string['privacy_cleanup_remaining'] = 'अधिक रिकॉर्ड शेष हैं और उन्हें बाद के रन में संसाधित किया जाएगा: {$a}।';
+
+// Developer diagnostics used by AMD modules.
+$string['debug:ajaxdeferredoffline'] = 'VideoTrack AJAX request deferred while browser is offline: {$a->method}.';
+$string['debug:ajaxretry'] = 'VideoTrack retrying transient AJAX failure for {$a->method}: {$a->message}.';
+$string['debug:ajaxswallowed'] = 'VideoTrack handled AJAX failure for {$a->context} ({$a->category}): {$a->message}.';
+$string['debug:beaconunsafe'] = 'VideoTrack sendBeacon skipped because the endpoint is not safe.';
+$string['debug:beaconpayloadlarge'] = 'VideoTrack sendBeacon skipped because the encoded payload is too large.';
+$string['debug:beaconnotaccepted'] = 'VideoTrack sendBeacon was not accepted by the browser.';
+$string['debug:beaconfailed'] = 'VideoTrack sendBeacon failed: {$a->message}.';
