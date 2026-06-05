@@ -1503,3 +1503,8 @@ La release 1.4.117 non modifica le funzionalita didattiche. Registra l'audit sta
 ## Aggiornamento 1.4.118
 
 La release 1.4.118 e una candidate release. Non modifica le funzionalita didattiche; congela lo stato del plugin dopo gli audit AMD, WCAG e Moodle HQ statici e prepara il pacchetto per il controllo strict su installazione Moodle locale.
+
+
+## Aggiornamento 1.4.119
+
+La release 1.4.119 non modifica le funzionalita didattiche. Risponde ai finding strict post-candidate localizzando i diagnostici AJAX/sendBeacon principali, documentando in modo esplicito il layer AJAX modulare, i limiti del validator, l'event bus interno e lo stato della conferma GDPR retention illimitata.
