@@ -7,6 +7,19 @@ heartbeat saves, notes, reactions and resume state. The AJAX layer is modular so
 these operations share the same validation, retry, timeout and stale-response
 rules without duplicating logic in each player provider.
 
+
+## Design goals
+
+The layer is intentionally defensive and conservative. Its goals are to:
+
+- reject malformed browser payloads before they enter retry handling;
+- avoid retrying logical failures such as permission or validation errors;
+- retry only transient failures such as timeouts, network interruption or server-side transient errors;
+- prevent stale asynchronous responses from overwriting newer player state;
+- keep progress, notes and reaction saves consistent across long-running playback sessions.
+
+These checks do not replace Moodle external-function validation. They reduce noisy client-side failure modes before the authoritative server-side checks run.
+
 ## Modules
 
 ### `core/api.js`
@@ -107,3 +120,11 @@ normal promises are unreliable. If the browser cannot accept the beacon, the
 function returns `false` to the caller. Normal heartbeat and lifecycle saves
 remain active during regular playback, so the beacon helper is a last-chance
 persistence path rather than the primary tracking mechanism.
+
+## Review assessment after proposed 1.4.124 patch
+
+A proposed follow-up patch suggested adding a second unlimited-retention confirmation setting, replacing this document with a new AJAX overview and introducing browser JavaScript tests. Only the documentation clarifications were accepted for this release.
+
+The extra retention confirmation was not added because the plugin already contains the reviewed global confirmation setting and the associated warning. Adding a separate activity-form validation field would mix global retention policy with per-activity configuration and would not match the existing form fields.
+
+The JavaScript test examples were not added because they were not accompanied by a Moodle JavaScript test harness configuration. Adding unregistered test files would create apparent coverage without a verifiable execution path, which conflicts with the project rule that reports must distinguish executed checks from future candidates.
