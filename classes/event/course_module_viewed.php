@@ -16,17 +16,17 @@
 
 namespace mod_videotrack\event;
 
-defined('MOODLE_INTERNAL') || die();
-
 /**
- * Event triggered when a VideoTrack course module is viewed.
+ * Event fired when the VideoTrack course module is viewed.
  *
  * @package    mod_videotrack
  * @copyright  2026 videotrack contributors
  * @license    https://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
-
 class course_module_viewed extends \core\event\course_module_viewed {
+    /**
+     * Initialise event metadata.
+     */
     protected function init(): void {
         $this->data['objecttable'] = 'videotrack';
         parent::init();
