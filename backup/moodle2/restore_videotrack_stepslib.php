@@ -22,10 +22,17 @@
  * @license   https://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 
-
 defined('MOODLE_INTERNAL') || die();
 
+/**
+ * Restores VideoTrack activity data and related user records.
+ */
 class restore_videotrack_activity_structure_step extends restore_activity_structure_step {
+    /**
+     * Define the restore structure for activity, reaction, segment, state and event records.
+     *
+     * @return restore_path_element[]
+     */
     protected function define_structure() {
         $paths = [
             new restore_path_element('videotrack', '/activity/videotrack'),
@@ -41,6 +48,11 @@ class restore_videotrack_activity_structure_step extends restore_activity_struct
         return $this->prepare_activity_structure($paths);
     }
 
+    /**
+     * Restore the main VideoTrack activity record.
+     *
+     * @param array|stdClass $data Restored backup data.
+     */
     protected function process_videotrack($data) {
         global $CFG, $DB;
 
@@ -53,6 +65,11 @@ class restore_videotrack_activity_structure_step extends restore_activity_struct
         $this->set_mapping('videotrack', $oldid, $newitemid);
     }
 
+    /**
+     * Restore a configured reaction.
+     *
+     * @param array|stdClass $data Restored backup data.
+     */
     protected function process_videotrack_reaction($data) {
         global $DB;
         $data = (object)$data;
@@ -78,6 +95,11 @@ class restore_videotrack_activity_structure_step extends restore_activity_struct
         $this->set_mapping('videotrack_react', $oldid, $newitemid, true);
     }
 
+    /**
+     * Restore one user playback segment.
+     *
+     * @param array|stdClass $data Restored backup data.
+     */
     protected function process_videotrack_segment($data) {
         global $DB;
         $data = (object)$data;
@@ -114,6 +136,11 @@ class restore_videotrack_activity_structure_step extends restore_activity_struct
         }
     }
 
+    /**
+     * Restore one persisted user playback state.
+     *
+     * @param array|stdClass $data Restored backup data.
+     */
     protected function process_videotrack_state($data) {
         global $DB;
         $data = (object)$data;
@@ -150,6 +177,11 @@ class restore_videotrack_activity_structure_step extends restore_activity_struct
         }
     }
 
+    /**
+     * Restore one user reaction or note event.
+     *
+     * @param array|stdClass $data Restored backup data.
+     */
     protected function process_videotrack_reactionevent($data) {
         global $DB;
         $data = (object)$data;
@@ -228,7 +260,6 @@ class restore_videotrack_activity_structure_step extends restore_activity_struct
         }
     }
 
-
     /**
      * Normalise restored interval JSON before storing it again.
      *
@@ -254,14 +285,17 @@ class restore_videotrack_activity_structure_step extends restore_activity_struct
         return (int)$this->task->get_moduleid();
     }
 
+    /**
+     * Restore related files and recreate the grade item after records are restored.
+     */
     protected function after_execute() {
         global $DB, $CFG;
 
-        $this->add_related_files('mod_videotrack', 'intro',        null);
+        $this->add_related_files('mod_videotrack', 'intro', null);
         $this->add_related_files('mod_videotrack', 'reactionicon', 'videotrack_react');
         $this->add_related_files('mod_videotrack', 'videocontent', null);
-        $this->add_related_files('mod_videotrack', 'subtitles',    null);
-        $this->add_related_files('mod_videotrack', 'posterimage',  null);
+        $this->add_related_files('mod_videotrack', 'subtitles', null);
+        $this->add_related_files('mod_videotrack', 'posterimage', null);
 
         $videotrackid = $this->get_new_parentid('videotrack');
 
@@ -272,9 +306,14 @@ class restore_videotrack_activity_structure_step extends restore_activity_struct
             if ($videotrack && !empty($videotrack->grade)) {
                 require_once($CFG->dirroot . '/mod/videotrack/lib.php');
                 require_once($CFG->libdir . '/gradelib.php');
-                // cmidnumber is required by grade_update; retrieve it from the course module.
-                $cm = get_coursemodule_from_instance('videotrack', $videotrackid,
-                    $videotrack->course, false, IGNORE_MISSING);
+                // Cmidnumber is required by grade_update; retrieve it from the course module.
+                $cm = get_coursemodule_from_instance(
+                    'videotrack',
+                    $videotrackid,
+                    $videotrack->course,
+                    false,
+                    IGNORE_MISSING
+                );
                 $videotrack->cmidnumber = $cm ? $cm->idnumber : '';
                 videotrack_grade_item_update($videotrack);
             }
