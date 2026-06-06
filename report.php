@@ -129,40 +129,40 @@ foreach ($reactions as $reaction) {
     $reactionmap[(int)$reaction->id] = $reaction;
 }
 
-// $events: standard reactions only (excludes personal notes, notetype='note').
+// Standard reaction events: standard reactions only (excludes personal notes, notetype='note').
 // Notes are shown in a separate section further below.
 $eventconditions = "videotrackid = :vtid AND isdeleted = 0 AND (notetype = '' OR notetype IS NULL)";
-$eventparams_named = ['vtid' => $videotrack->id];
+$eventparamsnamed = ['vtid' => $videotrack->id];
 if ($useridfilter > 0) {
     $eventconditions .= ' AND userid = :uid';
-    $eventparams_named['uid'] = $useridfilter;
+    $eventparamsnamed['uid'] = $useridfilter;
 }
 if ($reactionidfilter > 0) {
     $eventconditions .= ' AND reactionid = :rid';
-    $eventparams_named['rid'] = $reactionidfilter;
+    $eventparamsnamed['rid'] = $reactionidfilter;
 }
 if ($timefrom !== null) {
     $eventconditions .= ' AND videotime >= :timefrom';
-    $eventparams_named['timefrom'] = $timefrom;
+    $eventparamsnamed['timefrom'] = $timefrom;
 }
 if ($timeto !== null) {
     $eventconditions .= ' AND videotime <= :timeto';
-    $eventparams_named['timeto'] = $timeto;
+    $eventparamsnamed['timeto'] = $timeto;
 }
 // Avoid loading all reaction events into memory. Use count/distinct queries for filters
-// and recordsets only where the full event stream is required (CSV/clustered report).
-$eventcount = $DB->count_records_select('videotrack_reactev', $eventconditions, $eventparams_named);
+// and recordsets only where the full event stream is required for CSV or the clustered report.
+$eventcount = $DB->count_records_select('videotrack_reactev', $eventconditions, $eventparamsnamed);
 $eventuserids = array_map('intval', $DB->get_fieldset_select(
     'videotrack_reactev',
     'DISTINCT userid',
     $eventconditions,
-    $eventparams_named
+    $eventparamsnamed
 ));
-$geteventrecordset = static function() use ($DB, $eventconditions, $eventparams_named) {
+$geteventrecordset = static function () use ($DB, $eventconditions, $eventparamsnamed) {
     return $DB->get_recordset_select(
         'videotrack_reactev',
         $eventconditions,
-        $eventparams_named,
+        $eventparamsnamed,
         'videotime ASC',
         'id, userid, reactionid, reactionlabel, videotime'
     );
@@ -170,20 +170,20 @@ $geteventrecordset = static function() use ($DB, $eventconditions, $eventparams_
 
 $stateparams = ['videotrackid' => $videotrack->id];
 $stateconditions = 'videotrackid = :svtid';
-$stateparams_named = ['svtid' => $videotrack->id];
+$stateparamsnamed = ['svtid' => $videotrack->id];
 if ($useridfilter > 0) {
     $stateparams['userid'] = $useridfilter;
     $stateconditions .= ' AND userid = :suid';
-    $stateparams_named['suid'] = $useridfilter;
+    $stateparamsnamed['suid'] = $useridfilter;
 }
-$statecount = $DB->count_records_select('videotrack_state', $stateconditions, $stateparams_named);
+$statecount = $DB->count_records_select('videotrack_state', $stateconditions, $stateparamsnamed);
 $stateuserids = array_map('intval', $DB->get_fieldset_select(
     'videotrack_state',
     'DISTINCT userid',
     $stateconditions,
-    $stateparams_named
+    $stateparamsnamed
 ));
-$getstaterecordset = static function() use ($DB, $stateparams) {
+$getstaterecordset = static function () use ($DB, $stateparams) {
     return $DB->get_recordset('videotrack_state', $stateparams, 'completionpercent DESC, uniquecoveredseconds DESC');
 };
 
@@ -277,7 +277,10 @@ $gradeinfo = null;
 if ($hasgrade && $cangrade && $alluserids) {
     require_once($CFG->libdir . '/gradelib.php');
     $gradeinfo = grade_get_grades(
-        $course->id, 'mod', 'videotrack', $videotrack->id,
+        $course->id,
+        'mod',
+        'videotrack',
+        $videotrack->id,
         array_keys($usermap)
     );
 }
@@ -287,9 +290,14 @@ $clusterize = function(
     iterable $events,
     int $windowseconds,
     string $aggregationmode
-) use ($reactionmap, $sort, $context, &$clusterlimitreached) {
+) use (
+    $reactionmap,
+    $sort,
+    $context,
+    &$clusterlimitreached
+) {
     // Events are processed in timestamp order. Keep only the latest open cluster
-    // per reaction (or a single cluster for peak mode), avoiding the former O(n * clusters)
+    // per reaction (or a single cluster for peak mode), avoiding the former O(n * clusters).
     // scan for every event.
     $clusters = [];
     $activeindex = [];
@@ -388,24 +396,24 @@ if ($export === 'notes_csv' && !empty($videotrack->studentnotesenabled)) {
     $headers = array_merge($headers, ['video_timestamp', 'note', 'created']);
     fputcsv($fh, videotrack_csv_safe_row($headers));
     // Respect the report userid filter (GDPR: export only users the viewer is authorised to see).
-    $notecsv_where = "videotrackid = :vtid AND isdeleted = 0 AND notetype = 'note'";
-    $notecsv_params = ['vtid' => $videotrack->id];
+    $notecsvwhere = "videotrackid = :vtid AND isdeleted = 0 AND notetype = 'note'";
+    $notecsvparams = ['vtid' => $videotrack->id];
     if ($useridfilter > 0) {
-        $notecsv_where .= ' AND userid = :uid';
-        $notecsv_params['uid'] = $useridfilter;
+        $notecsvwhere .= ' AND userid = :uid';
+        $notecsvparams['uid'] = $useridfilter;
     }
     if ($notecreatedfromts) {
-        $notecsv_where .= ' AND timecreated >= :notecreatedfrom';
-        $notecsv_params['notecreatedfrom'] = $notecreatedfromts;
+        $notecsvwhere .= ' AND timecreated >= :notecreatedfrom';
+        $notecsvparams['notecreatedfrom'] = $notecreatedfromts;
     }
     if ($notecreatedtots) {
-        $notecsv_where .= ' AND timecreated <= :notecreatedto';
-        $notecsv_params['notecreatedto'] = $notecreatedtots;
+        $notecsvwhere .= ' AND timecreated <= :notecreatedto';
+        $notecsvparams['notecreatedto'] = $notecreatedtots;
     }
     $rs = $DB->get_recordset_select(
         'videotrack_reactev',
-        $notecsv_where,
-        $notecsv_params,
+        $notecsvwhere,
+        $notecsvparams,
         'userid ASC, videotime ASC',
         'userid, videotime, notetext, timecreated'
     );
@@ -558,8 +566,8 @@ if ($resetaction === 'resetstudent' && $_SERVER['REQUEST_METHOD'] === 'POST') {
         'events' => $DB->count_records('videotrack_reactev', ['videotrackid' => $videotrack->id, 'userid' => $resetuserid]),
     ];
     $transaction = $DB->start_delegated_transaction();
-    $DB->delete_records('videotrack_seg',     ['videotrackid' => $videotrack->id, 'userid' => $resetuserid]);
-    $DB->delete_records('videotrack_state',   ['videotrackid' => $videotrack->id, 'userid' => $resetuserid]);
+    $DB->delete_records('videotrack_seg', ['videotrackid' => $videotrack->id, 'userid' => $resetuserid]);
+    $DB->delete_records('videotrack_state', ['videotrackid' => $videotrack->id, 'userid' => $resetuserid]);
     $DB->delete_records('videotrack_reactev', ['videotrackid' => $videotrack->id, 'userid' => $resetuserid]);
     $transaction->allow_commit();
     \mod_videotrack\event\student_progress_reset::create([
@@ -571,8 +579,16 @@ if ($resetaction === 'resetstudent' && $_SERVER['REQUEST_METHOD'] === 'POST') {
     // Also reset the gradebook grade when the activity uses grading.
     if (!empty($videotrack->grade)) {
         require_once($CFG->libdir . '/gradelib.php');
-        grade_update('mod/videotrack', $course->id, 'mod', 'videotrack',
-            $videotrack->id, 0, null, ['reset' => true, 'userid' => $resetuserid]);
+        grade_update(
+            'mod/videotrack',
+            $course->id,
+            'mod',
+            'videotrack',
+            $videotrack->id,
+            0,
+            null,
+            ['reset' => true, 'userid' => $resetuserid]
+        );
     }
     // Update Moodle completion to INCOMPLETE for this student.
     $cminfo    = cm_info::create($cm);
@@ -821,8 +837,11 @@ if ($mode === 'student') {
                         'placeholder' => '-',
                         'aria-label' => get_string('report:gradeinputfor', 'mod_videotrack', $studentname),
                     ]);
-                    $gradecell .= html_writer::tag('small', '/ ' . (int)$videotrack->grade,
-                        ['class' => 'text-muted ms-1']);
+                    $gradecell .= html_writer::tag(
+                        'small',
+                        '/ ' . (int)$videotrack->grade,
+                        ['class' => 'text-muted ms-1']
+                    );
                 } else {
                     // Scale grading: select menu with Moodle one-based scale values.
                     $scaleid = -(int)$videotrack->grade;
@@ -832,15 +851,20 @@ if ($mode === 'student') {
                     foreach ($items as $k => $label) {
                         $options[$k + 1] = $label; // Moodle scale value: one-based.
                     }
-                    $gradecell .= html_writer::select($options, 'grade_value',
+                    $gradecell .= html_writer::select(
+                        $options,
+                        'grade_value',
                         ($currentgrade !== '' ? (int)$currentgrade : ''),
-                        false, [
-                        'class' => 'form-control form-control-sm custom-select',
-                        'aria-label' => get_string('report:gradeinputfor', 'mod_videotrack', $studentname),
-                    ]);
+                        false,
+                        [
+                            'class' => 'form-control form-control-sm custom-select',
+                            'aria-label' => get_string('report:gradeinputfor', 'mod_videotrack', $studentname),
+                        ]
+                    );
                 }
 
-                $gradecell .= html_writer::tag('button',
+                $gradecell .= html_writer::tag(
+                    'button',
                     get_string('save'),
                     [
                         'type' => 'submit',
@@ -854,7 +878,8 @@ if ($mode === 'student') {
                 if (!empty($videotrack->gradepass) && $currentgrade !== '') {
                     $passed = (float)$currentgrade >= (float)$videotrack->gradepass;
                     $passlabel = get_string($passed ? 'report:gradepassed' : 'report:gradefailed', 'mod_videotrack');
-                    $gradecell .= html_writer::tag('span',
+                    $gradecell .= html_writer::tag(
+                        'span',
                         html_writer::span($passed ? '✓' : '✗', '', ['aria-hidden' => 'true']) .
                             html_writer::span($passlabel, 'sr-only'),
                         [
@@ -1075,10 +1100,10 @@ if ($mode === 'student') {
             }
             $svg .= html_writer::end_tag('svg');
             echo html_writer::tag('p', get_string('report:heatmap_supplementary', 'mod_videotrack'), [
-                'class' => 'small mb-1'
+                'class' => 'small mb-1',
             ]);
             echo html_writer::link('#videotrack-heatmap-table', get_string('report:skiptoheatmaptable', 'mod_videotrack'), [
-                'class' => 'sr-only sr-only-focusable d-block mb-2'
+                'class' => 'sr-only sr-only-focusable d-block mb-2',
             ]);
             echo html_writer::tag('p', get_string('report:heatmap_desc', 'mod_videotrack') . ' ' .
                 get_string('report:heatmap_textsummary', 'mod_videotrack', [
@@ -1160,7 +1185,7 @@ $PAGE->requires->js_call_amd('mod_videotrack/report', 'init', [[
     ],
 ]]);
 
-// ── Student notes section (per-student mode only, only when notes are enabled) ──
+// Student notes section: per-student mode only, and only when notes are enabled.
 if ($mode === 'student' && !empty($videotrack->studentnotesenabled)) {
     $notewhere = "videotrackid = :vtid AND isdeleted = 0 AND notetype = 'note'" .
         ($useridfilter > 0 ? ' AND userid = :uid' : '');
@@ -1193,10 +1218,10 @@ if ($mode === 'student' && !empty($videotrack->studentnotesenabled)) {
 
     $ntable = new html_table();
     $ntable->head = [
-        get_string('report:userid',    'mod_videotrack'),
+        get_string('report:userid', 'mod_videotrack'),
         get_string('report:timestamp', 'mod_videotrack'),
         get_string('studentnote_label', 'mod_videotrack'),
-        get_string('report:notedate',  'mod_videotrack'),
+        get_string('report:notedate', 'mod_videotrack'),
     ];
     $ntable->attributes['class'] = 'generaltable';
     $ntable->caption = get_string('report:notes_title', 'mod_videotrack');
@@ -1249,16 +1274,21 @@ if ($mode === 'student' && !empty($videotrack->studentnotesenabled)) {
             'id' => 'id_confirmnotesexport',
             'aria-describedby' => 'videotrack-notes-export-warning',
         ]);
-        $notesexportform .= html_writer::tag('label',
+        $notesexportform .= html_writer::tag(
+            'label',
             get_string('report:exportnotes_confirm', 'mod_videotrack'),
             ['class' => 'form-check-label', 'for' => 'id_confirmnotesexport']
         );
         $notesexportform .= html_writer::end_div();
-        $notesexportform .= html_writer::tag('button', get_string('report:exportnotes_csv', 'mod_videotrack'), [
-            'type' => 'submit',
-            'class' => 'btn btn-sm btn-outline-secondary mt-2',
-            'aria-label' => get_string('report:exportnotes_csv_personaldata', 'mod_videotrack'),
-        ]);
+        $notesexportform .= html_writer::tag(
+            'button',
+            get_string('report:exportnotes_csv', 'mod_videotrack'),
+            [
+                'type' => 'submit',
+                'class' => 'btn btn-sm btn-outline-secondary mt-2',
+                'aria-label' => get_string('report:exportnotes_csv_personaldata', 'mod_videotrack'),
+            ]
+        );
         $notesexportform .= html_writer::end_tag('form');
         echo $notesexportform;
     }
