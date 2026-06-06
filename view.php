@@ -84,7 +84,7 @@ $PAGE->set_context($context);
 $PAGE->set_title(format_string($videotrack->name, true, ['context' => $context]));
 $PAGE->set_heading(format_string($course->fullname, true, ['context' => context_course::instance($course->id)]));
 $replaystart = optional_param('replaystart', -1, PARAM_INT);
-$replayend   = optional_param('replayend',   -1, PARAM_INT);
+$replayend   = optional_param('replayend', -1, PARAM_INT);
 $durationseconds = max(0, (int)($videotrack->durationseconds ?? 0));
 if ($durationseconds > 0) {
     if ($replaystart >= 0) {
@@ -125,7 +125,7 @@ $playerconfig = [
     'showfullscreen'         => (bool)$videotrack->showfullscreen,
     'allowseekforward'       => (bool)$videotrack->allowseekforward,
     'allowseekbackward'      => (bool)$videotrack->allowseekbackward,
-    'allowplaybackratechange'=> (bool)$videotrack->allowplaybackratechange,
+    'allowplaybackratechange' => (bool)$videotrack->allowplaybackratechange,
     'autoplay'               => (bool)($videotrack->autoplay ?? false),
     'loop'                   => (bool)($videotrack->loop ?? false),
     'startmuted'             => (bool)($videotrack->startmuted ?? false),
@@ -153,12 +153,12 @@ $playerconfig = [
     'notespaneltitle'        => get_string('studentnotes_title', 'mod_videotrack'),
     'noteshidelabel'         => get_string('notes_hide', 'mod_videotrack'),
     'noteshowlabel'          => get_string('notes_show', 'mod_videotrack'),
-    'replaylabel'            => get_string('report:replay',      'mod_videotrack'),
-    'removelabel'            => get_string('removereaction',     'mod_videotrack'),
-    'removenotelabel'        => get_string('removenotelabel',    'mod_videotrack'),
-    'noteerrorlabel'         => get_string('noteerrorlabel',    'mod_videotrack'),
-    'notesavedlabel'         => get_string('notesavedlabel',    'mod_videotrack'),
-    'notedeletedlabel'       => get_string('notedeletedlabel',  'mod_videotrack'),
+    'replaylabel'            => get_string('report:replay', 'mod_videotrack'),
+    'removelabel'            => get_string('removereaction', 'mod_videotrack'),
+    'removenotelabel'        => get_string('removenotelabel', 'mod_videotrack'),
+    'noteerrorlabel'         => get_string('noteerrorlabel', 'mod_videotrack'),
+    'notesavedlabel'         => get_string('notesavedlabel', 'mod_videotrack'),
+    'notedeletedlabel'       => get_string('notedeletedlabel', 'mod_videotrack'),
     'noteplaybackrequiredlabel' => get_string('noteplaybackrequiredlabel', 'mod_videotrack'),
     'noteemptylabel'         => get_string('noteemptylabel', 'mod_videotrack'),
     'notetoolonglabel'       => get_string('notetoolonglabel', 'mod_videotrack'),
@@ -166,40 +166,40 @@ $playerconfig = [
     'notesmaxrendered'       => $notesmaxrendered,
     'charsremaininglabel'    => get_string('charsremaininglabel', 'mod_videotrack'),
     'notemaxlength'          => $notemaxlength,
-    'dismisslabel'           => get_string('dismisslabel',       'mod_videotrack'),
-    'statusdefaultlabel'     => get_string('status:default',    'mod_videotrack'),
-    'statuserrorlabel'       => get_string('status:error',      'mod_videotrack'),
-    'rewindlabel'            => get_string('rewindlabel',        'mod_videotrack'),
-    'fastforwardlabel'       => get_string('fastforwardlabel',   'mod_videotrack'),
-    'secondslabel'           => get_string('secondslabel',       'mod_videotrack'),
-    'reactionerrorlabel'     => get_string('reaction:error',     'mod_videotrack'),
+    'dismisslabel'           => get_string('dismisslabel', 'mod_videotrack'),
+    'statusdefaultlabel'     => get_string('status:default', 'mod_videotrack'),
+    'statuserrorlabel'       => get_string('status:error', 'mod_videotrack'),
+    'rewindlabel'            => get_string('rewindlabel', 'mod_videotrack'),
+    'fastforwardlabel'       => get_string('fastforwardlabel', 'mod_videotrack'),
+    'secondslabel'           => get_string('secondslabel', 'mod_videotrack'),
+    'reactionerrorlabel'     => get_string('reaction:error', 'mod_videotrack'),
     'reactionunavailablelabel' => get_string('reactionsavailableonlyduringplayback', 'mod_videotrack'),
     'reactionsreadylabel'    => get_string('reactionsreadyannounce', 'mod_videotrack'),
     'reactionannouncementinterval' => videotrack_get_config_int('reactionannouncementinterval', 30000, 0, 120000),
     'reactionreadydebouncems' => videotrack_get_config_int('reactionreadydebouncems', 400, 0, 2000),
     'statusinfotimeoutms'    => videotrack_get_config_int('statusinfotimeoutms', 8000, 4000, 20000),
     'statuserrortimeoutms'   => videotrack_get_config_int('statuserrortimeoutms', 6000, 6000, 30000),
-    'autoblockedlabel'       => get_string('autoblockedlabel',   'mod_videotrack'),
-    'vimeocspwarnlabel'      => get_string('vimeocspwarnlabel',  'mod_videotrack'),
-    'sdkerrorlabel'          => get_string('sdkerrorlabel',       'mod_videotrack'),
+    'autoblockedlabel'       => get_string('autoblockedlabel', 'mod_videotrack'),
+    'vimeocspwarnlabel'      => get_string('vimeocspwarnlabel', 'mod_videotrack'),
+    'sdkerrorlabel'          => get_string('sdkerrorlabel', 'mod_videotrack'),
     'transcriptunavailablelabel' => get_string('transcript_unavailable', 'mod_videotrack'),
-    'nofilelabel'            => get_string('nofilelabel',         'mod_videotrack'),
-    'html5controlslabel'     => get_string('html5:controls',      'mod_videotrack'),
-    'html5playlabel'         => get_string('html5:play',          'mod_videotrack'),
-    'html5pauselabel'        => get_string('html5:pause',         'mod_videotrack'),
-    'html5seeklabel'         => get_string('html5:seek',          'mod_videotrack'),
-    'html5volumelabel'       => get_string('html5:volume',        'mod_videotrack'),
-    'html5mutelabel'         => get_string('html5:mute',          'mod_videotrack'),
-    'html5unmutelabel'       => get_string('html5:unmute',        'mod_videotrack'),
-    'html5speedlabel'        => get_string('html5:speed',         'mod_videotrack'),
-    'html5piplabel'          => get_string('html5:pip',           'mod_videotrack'),
-    'html5fullscreenlabel'   => get_string('html5:fullscreen',    'mod_videotrack'),
-    'html5downloadlabel'     => get_string('html5:download',      'mod_videotrack'),
-    'resumelabel'            => get_string('resumelabel',          'mod_videotrack'),
+    'nofilelabel'            => get_string('nofilelabel', 'mod_videotrack'),
+    'html5controlslabel'     => get_string('html5:controls', 'mod_videotrack'),
+    'html5playlabel'         => get_string('html5:play', 'mod_videotrack'),
+    'html5pauselabel'        => get_string('html5:pause', 'mod_videotrack'),
+    'html5seeklabel'         => get_string('html5:seek', 'mod_videotrack'),
+    'html5volumelabel'       => get_string('html5:volume', 'mod_videotrack'),
+    'html5mutelabel'         => get_string('html5:mute', 'mod_videotrack'),
+    'html5unmutelabel'       => get_string('html5:unmute', 'mod_videotrack'),
+    'html5speedlabel'        => get_string('html5:speed', 'mod_videotrack'),
+    'html5piplabel'          => get_string('html5:pip', 'mod_videotrack'),
+    'html5fullscreenlabel'   => get_string('html5:fullscreen', 'mod_videotrack'),
+    'html5downloadlabel'     => get_string('html5:download', 'mod_videotrack'),
+    'resumelabel'            => get_string('resumelabel', 'mod_videotrack'),
     // O1/U1 fix: resumedlabel removed — showResumeNotice now uses config.resumelabel directly.
     'beaconurl'              => (string)(new moodle_url('/lib/ajax/service.php', ['sesskey' => sesskey()])),
     'replaystart'            => $replaystart >= 0 ? $replaystart : null,
-    'replayend'              => $replayend   >= 0 ? $replayend   : null,
+    'replayend'              => $replayend >= 0 ? $replayend : null,
     // Feature 1: resume from the previous position when enabled and lastposition > 5s.
     'resumeposition'         => (!empty($videotrack->resumeplayback) && $state && (float)$state->lastposition > 5.0)
                                     ? round((float)$state->lastposition, 3) : 0,
@@ -213,7 +213,7 @@ $playerconfig = [
     'duration'               => (float)($videotrack->durationseconds ?? 0),
 ];
 
-// set_pagelayout must be called before js_call_amd and OUTPUT->header().
+// Page layout must be set before js_call_amd and OUTPUT->header().
 if ($distractionfree) {
     $PAGE->set_pagelayout('embedded');
     $PAGE->add_body_class('videotrack-distractionfree');
@@ -223,9 +223,9 @@ if ($distractionfree) {
 if ($source === 'vimeo') {
     $PAGE->requires->js_call_amd('mod_videotrack/vimeo_player', 'init', [$playerconfig]);
 } else if ($source === 'upload') {
-    $PAGE->requires->js_call_amd('mod_videotrack/html5_player',  'init', [$playerconfig]);
+    $PAGE->requires->js_call_amd('mod_videotrack/html5_player', 'init', [$playerconfig]);
 } else {
-    $PAGE->requires->js_call_amd('mod_videotrack/player',        'init', [$playerconfig]);
+    $PAGE->requires->js_call_amd('mod_videotrack/player', 'init', [$playerconfig]);
 }
 
 echo $OUTPUT->header();
@@ -233,8 +233,11 @@ echo $OUTPUT->heading(format_string($videotrack->name, true, ['context' => $cont
 
 // SEC-5: the grade block must be rendered after OUTPUT->header() to respect the Moodle layout.
 // It is shown only when showgradeto=1, grading is active and the user is not a teacher/manager.
-if (!empty($videotrack->showgradeto) && !empty($videotrack->grade) &&
-        !has_capability('mod/videotrack:viewreport', $context)) {
+if (
+    !empty($videotrack->showgradeto) &&
+    !empty($videotrack->grade) &&
+    !has_capability('mod/videotrack:viewreport', $context)
+) {
     require_once($CFG->libdir . '/gradelib.php');
     $usergrade = videotrack_get_user_grade($videotrack, (int)$USER->id);
     if ($usergrade !== null) {
@@ -276,8 +279,14 @@ if (trim(strip_tags($videotrack->intro ?? '')) !== '') {
     echo format_module_intro('videotrack', $videotrack, $cm->id);
 }
 if ($notice !== '') {
-    echo $OUTPUT->notification(format_text($notice, $videotrack->reactionnoticeformat ?: FORMAT_HTML,
-        ['context' => $context, 'trusted' => false]), 'info');
+    echo $OUTPUT->notification(
+        format_text(
+            $notice,
+            $videotrack->reactionnoticeformat ?: FORMAT_HTML,
+            ['context' => $context, 'trusted' => false]
+        ),
+        'info'
+    );
 }
 if (in_array($source, ['youtube', 'vimeo'], true)) {
     $providername = get_string('source:' . $source, 'mod_videotrack');
@@ -309,8 +318,10 @@ if (!empty($videotrack->reactionsenabled)) {
     }
 }
 
-echo html_writer::start_div('videotrack-player-shell',
-    ['style' => 'max-width:' . (int)$playerwidth . 'px']);
+echo html_writer::start_div(
+    'videotrack-player-shell',
+    ['style' => 'max-width:' . (int)$playerwidth . 'px']
+);
 echo html_writer::start_div('videotrack-layout');
 
 // Player section: left column in landscape, full width in portrait.
@@ -326,17 +337,18 @@ echo html_writer::div(
     ['aria-label' => $loadingtext, 'role' => 'status']
 );
 echo html_writer::div('', '', ['id' => 'mod-videotrack-player']);
-// Feature 12: poster/anteprima pre-play (se caricata).
+// Feature 12: poster preview before playback when configured.
 if ($posterurl) {
     echo html_writer::start_div('videotrack-poster-overlay', [
         'id'         => 'videotrack-poster-overlay',
         'role'       => 'none',
-        'aria-hidden'=> 'true',
+        'aria-hidden' => 'true',
     ]);
     echo html_writer::empty_tag('img', [
         'src'   => (string)$posterurl,
         'class' => 'videotrack-poster-img',
-        'alt'   => '',  // Decorative: the player already has the title.
+        'alt'   => '',
+        // Decorative: the player already has the title.
     ]);
     // Accessible play overlay button.
     echo html_writer::tag('button',
@@ -384,7 +396,7 @@ echo html_writer::tag('span',
 );
 echo html_writer::end_div(); // videotrack-player-section
 
-// ── Sidebar: progress, reactions and student reactions table ──
+// Sidebar: progress, reactions and student reactions table.
 echo html_writer::start_div('videotrack-sidebar');
 
 // Feature 8: interactive VTT transcript panel (upload source only, with a VTT file).
@@ -402,7 +414,7 @@ if (!empty($videotrack->showtranscript) && $vtturl !== null) {
         'videotrack-transcript-content',
         ['id' => 'videotrack-transcript-content']
     );
-    echo html_writer::end_div(); // videotrack-transcript-panel
+    echo html_writer::end_div(); // Videotrack-transcript-panel.
 }
 
 // Feature 11: collapsible student personal notes panel.
@@ -431,12 +443,13 @@ if (!empty($videotrack->studentnotesenabled)) {
                                get_string('studentnotes_title', 'mod_videotrack'),
         ]
     );
-    echo html_writer::end_div(); // notes-header
+    echo html_writer::end_div(); // Notes-header.
     // Collapsible body, hidden or shown by the toggle.
-    // data-collapsed is read by installNotesToggle before rendering to avoid a flash.
+    // Data-collapsed is read by installNotesToggle before rendering to avoid a flash.
     echo html_writer::start_div('videotrack-notes-body', [
         'id'             => 'videotrack-notes-body',
-        'data-collapsed' => '0',  // JavaScript overrides this with the sessionStorage value.
+        'data-collapsed' => '0',
+        // JavaScript overrides this with the sessionStorage value.
     ]);
     // Textarea and Save button, managed by JavaScript.
     echo html_writer::tag('label', get_string('studentnotes_title', 'mod_videotrack'), [
@@ -457,7 +470,8 @@ if (!empty($videotrack->studentnotesenabled)) {
             'type'         => 'button',
             'id'           => 'videotrack-note-save',
             'class'        => 'btn btn-sm btn-primary videotrack-note-save',
-            'aria-disabled'=> 'true',  // Enabled only during playback, managed by JavaScript.
+            'aria-disabled' => 'true',
+            // Enabled only during playback, managed by JavaScript.
             'aria-describedby' => 'videotrack-note-hint',
         ]
     );
@@ -535,8 +549,8 @@ if (!empty($videotrack->studentnotesenabled)) {
         echo html_writer::end_tag('li');
     }
     echo html_writer::end_tag('ol');
-    echo html_writer::end_div(); // videotrack-notes-body
-    echo html_writer::end_div(); // videotrack-notes-panel
+    echo html_writer::end_div(); // Videotrack-notes-body.
+    echo html_writer::end_div(); // Videotrack-notes-panel.
 }
 
 echo html_writer::start_div('videotrack-progress mb-2');
@@ -562,7 +576,7 @@ echo html_writer::tag('div',
         ['id' => 'videotrack-unique-reactions']
     )
 );
-echo html_writer::end_div(); // videotrack-progress
+echo html_writer::end_div(); // Videotrack-progress.
 
 if (!empty($videotrack->reactionsenabled) && $reactions) {
     echo html_writer::start_div('videotrack-reactions', ['id' => 'videotrack-reactions']);
@@ -603,7 +617,7 @@ if (!empty($videotrack->reactionsenabled) && $reactions) {
         'aria-live'   => 'polite',
         'aria-atomic' => 'true',
     ]);
-    echo html_writer::end_div(); // videotrack-reactions
+    echo html_writer::end_div(); // Videotrack-reactions.
 }
 
 if ($showstudentreport) {
@@ -622,11 +636,11 @@ if ($showstudentreport) {
     );
     echo html_writer::start_tag('thead');
     echo html_writer::tag('tr',
-        html_writer::tag('th', get_string('report:timestamp',   'mod_videotrack'), ['scope' => 'col']) .
-        html_writer::tag('th', get_string('report:reaction',    'mod_videotrack'), ['scope' => 'col']) .
+        html_writer::tag('th', get_string('report:timestamp', 'mod_videotrack'), ['scope' => 'col']) .
+        html_writer::tag('th', get_string('report:reaction', 'mod_videotrack'), ['scope' => 'col']) .
         html_writer::tag('th', get_string('report:description', 'mod_videotrack'), ['scope' => 'col']) .
-        html_writer::tag('th', get_string('report:replay',      'mod_videotrack'), ['scope' => 'col']) .
-        html_writer::tag('th', get_string('report:delete',      'mod_videotrack'), ['scope' => 'col'])
+        html_writer::tag('th', get_string('report:replay', 'mod_videotrack'), ['scope' => 'col']) .
+        html_writer::tag('th', get_string('report:delete', 'mod_videotrack'), ['scope' => 'col'])
     );
     echo html_writer::end_tag('thead');
     echo html_writer::start_tag('tbody', [
@@ -639,14 +653,14 @@ if ($showstudentreport) {
                 ['colspan' => '5', 'class' => 'text-muted text-center py-2']
             ),
             // Class used by JavaScript (appendReactionRow) to remove this row
-            // when the first dynamic reaction is added.
+            // When the first dynamic reaction is added.
             ['class' => 'videotrack-no-reactions-placeholder']
         );
     }
     // Precompute reactionmap for O(1) lookup instead of O(n) per event.
-    $reactionmap_view = [];
+    $reactionmapview = [];
     foreach ($reactions as $r) {
-        $reactionmap_view[(int)$r->id] = $r;
+        $reactionmapview[(int)$r->id] = $r;
     }
 
     if ($eventtruncated) {
@@ -664,7 +678,7 @@ if ($showstudentreport) {
     foreach ($events as $event) {
         $start    = max(0, (float)$event->videotime - 30);
         $end      = (float)$event->videotime + 30;
-        $reaction = $reactionmap_view[(int)$event->reactionid] ?? null;
+        $reaction = $reactionmapview[(int)$event->reactionid] ?? null;
         $timestampfmt = videotrack_format_seconds((float)$event->videotime);
         echo html_writer::start_tag('tr', ['data-eventid' => $event->id]);
         echo html_writer::tag('td', videotrack_format_seconds((float)$event->videotime));
@@ -675,28 +689,30 @@ if ($showstudentreport) {
         echo html_writer::tag('td', s($event->reactiondesc));
         echo html_writer::tag('td', html_writer::tag('button',
             get_string('report:replay', 'mod_videotrack'),
-            ['type'       => 'button',
-             'class'      => 'btn btn-secondary btn-sm videotrack-replay',
-             'data-start' => $start,
-             'data-end'   => $end,
-             // WCAG 2.4.6: contextual aria-label distinguishes identical buttons for screen readers.
-             'aria-label' => get_string('report:replay', 'mod_videotrack') . ' — ' . $timestampfmt,
+            [
+                'type'       => 'button',
+                'class'      => 'btn btn-secondary btn-sm videotrack-replay',
+                'data-start' => $start,
+                'data-end'   => $end,
+                // WCAG 2.4.6: contextual aria-label distinguishes identical buttons for screen readers.
+                'aria-label' => get_string('report:replay', 'mod_videotrack') . ' — ' . $timestampfmt,
             ]
         ));
         echo html_writer::tag('td', html_writer::tag('button',
             get_string('removereaction', 'mod_videotrack'),
-            ['type'       => 'button',
-             'class'      => 'btn btn-link btn-sm videotrack-delete-reaction',
-             'data-eventid' => $event->id,
-             // WCAG 2.4.6: aria-label contestuale per il bottone elimina.
-             'aria-label' => get_string('removereaction', 'mod_videotrack') . ' — ' . $timestampfmt,
+            [
+                'type'        => 'button',
+                'class'       => 'btn btn-link btn-sm videotrack-delete-reaction',
+                'data-eventid' => $event->id,
+                // WCAG 2.4.6: contextual aria-label distinguishes identical delete buttons for screen readers.
+                'aria-label'  => get_string('removereaction', 'mod_videotrack') . ' — ' . $timestampfmt,
             ]
         ));
         echo html_writer::end_tag('tr');
     }
     echo html_writer::end_tag('tbody');
     echo html_writer::end_tag('table');
-    echo html_writer::end_div(); // videotrack-reactions-table-wrap
+    echo html_writer::end_div(); // Videotrack-reactions-table-wrap.
 }
 
 if (has_capability('mod/videotrack:viewreport', $context)) {
@@ -709,8 +725,8 @@ if (has_capability('mod/videotrack:viewreport', $context)) {
     );
 }
 
-echo html_writer::end_div(); // videotrack-sidebar
-echo html_writer::end_div(); // videotrack-layout
-echo html_writer::end_div(); // videotrack-player-shell
+echo html_writer::end_div(); // Videotrack-sidebar.
+echo html_writer::end_div(); // Videotrack-layout.
+echo html_writer::end_div(); // Videotrack-player-shell.
 
 echo $OUTPUT->footer();
