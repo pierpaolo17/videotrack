@@ -22,10 +22,17 @@
  * @license   https://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 
-
 defined('MOODLE_INTERNAL') || die();
 
+/**
+ * Defines the VideoTrack activity backup structure.
+ */
 class backup_videotrack_activity_structure_step extends backup_activity_structure_step {
+    /**
+     * Define the backup structure for the activity and its related user data.
+     *
+     * @return backup_nested_element
+     */
     protected function define_structure() {
         $userinfo = $this->get_setting_value('userinfo');
 
@@ -43,32 +50,32 @@ class backup_videotrack_activity_structure_step extends backup_activity_structur
             'showreactionnotice', 'reactionnoticeformat', 'reactionnotice',
             'showtranscript', 'showchapters', 'studentnotesenabled',
             'grade', 'gradepass', 'showgradeto',
-            'timemodified', 'timecreated'
+            'timemodified', 'timecreated',
         ]);
 
         $reactions = new backup_nested_element('reactions');
         $reaction = new backup_nested_element('reaction', ['id'], [
             'reactionkey', 'label', 'description', 'icontype', 'iconvalue',
-            'requiredforcompletion', 'sortorder', 'isdeleted', 'timecreated', 'timemodified'
+            'requiredforcompletion', 'sortorder', 'isdeleted', 'timecreated', 'timemodified',
         ]);
 
         $segments = new backup_nested_element('segments');
         $segment = new backup_nested_element('segment', ['id'], [
             'userid', 'videoid', 'sessionid', 'wallclockstart', 'wallclockend',
-            'videotimestart', 'videotimeend', 'playbackrate', 'endreason', 'timecreated'
+            'videotimestart', 'videotimeend', 'playbackrate', 'endreason', 'timecreated',
         ]);
 
         $states = new backup_nested_element('states');
         $state = new backup_nested_element('state', ['id'], [
             'userid', 'videoid', 'lastposition', 'durationseconds', 'uniquecoveredseconds',
-            'completionpercent', 'intervaljson', 'iscompleted', 'timemodified', 'timecreated'
+            'completionpercent', 'intervaljson', 'iscompleted', 'timemodified', 'timecreated',
         ]);
 
         $reactionevents = new backup_nested_element('reactionevents');
         $reactionevent = new backup_nested_element('reactionevent', ['id'], [
             'userid', 'videoid', 'sessionid', 'reactionid', 'reactionkey', 'reactionlabel',
             'reactiondesc', 'notetext', 'notetype',
-            'videotime', 'playbackrate', 'isdeleted', 'timecreated', 'timemodified'
+            'videotime', 'playbackrate', 'isdeleted', 'timecreated', 'timemodified',
         ]);
 
         $videotrack->add_child($reactions);
@@ -100,11 +107,11 @@ class backup_videotrack_activity_structure_step extends backup_activity_structur
             $reactionevent->annotate_ids('user', 'userid');
         }
 
-        $videotrack->annotate_files('mod_videotrack', 'intro',        null);
+        $videotrack->annotate_files('mod_videotrack', 'intro', null);
         $videotrack->annotate_files('mod_videotrack', 'videocontent', null);
-        $videotrack->annotate_files('mod_videotrack', 'subtitles',    null);
-        $videotrack->annotate_files('mod_videotrack', 'posterimage',  null);
-        $reaction->annotate_files('mod_videotrack',   'reactionicon', 'id');
+        $videotrack->annotate_files('mod_videotrack', 'subtitles', null);
+        $videotrack->annotate_files('mod_videotrack', 'posterimage', null);
+        $reaction->annotate_files('mod_videotrack', 'reactionicon', 'id');
 
         return $this->prepare_activity_structure($videotrack);
     }
