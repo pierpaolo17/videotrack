@@ -16,26 +16,37 @@
 
 namespace mod_videotrack\event;
 
-defined('MOODLE_INTERNAL') || die();
-
 /**
  * Fired when a teacher exports student personal notes from a VideoTrack report.
  *
- * @package   mod_videotrack
- * @copyright 2026 videotrack contributors
- * @license   https://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
+ * @package    mod_videotrack
+ * @copyright  2026 videotrack contributors
+ * @license    https://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 class notes_exported extends \core\event\base {
+    /**
+     * Initialise event metadata.
+     */
     protected function init(): void {
         $this->data['objecttable'] = 'videotrack';
         $this->data['crud']        = 'r';
         $this->data['edulevel']    = self::LEVEL_TEACHING;
     }
 
+    /**
+     * Return the event display name.
+     *
+     * @return string Event name.
+     */
     public static function get_name(): string {
         return get_string('event:notes_exported', 'mod_videotrack');
     }
 
+    /**
+     * Return a human-readable event description.
+     *
+     * @return string Event description.
+     */
     public function get_description(): string {
         $useridfilter = $this->other['useridfilter'] ?? 0;
         return "The user with id '{$this->userid}' exported personal notes " .
@@ -43,12 +54,19 @@ class notes_exported extends \core\event\base {
             "using user filter '{$useridfilter}'.";
     }
 
+    /**
+     * Return the URL associated with this event.
+     *
+     * @return \moodle_url Event URL.
+     */
     public function get_url(): \moodle_url {
         return new \moodle_url('/mod/videotrack/report.php', ['id' => $this->contextinstanceid]);
     }
 
 
-
+    /**
+     * Validate event data before dispatch.
+     */
     protected function validate_data(): void {
         parent::validate_data();
         if (empty($this->objectid) || (int)$this->objectid <= 0) {
@@ -68,10 +86,20 @@ class notes_exported extends \core\event\base {
         }
     }
 
+    /**
+     * Return object id mapping information for backup and restore.
+     *
+     * @return array Mapping information.
+     */
     public static function get_objectid_mapping(): array {
         return ['db' => 'videotrack', 'restore' => 'videotrack'];
     }
 
+    /**
+     * Return other-field mapping information for backup and restore.
+     *
+     * @return array Mapping information.
+     */
     public static function get_other_mapping(): array {
         return [
             'useridfilter' => ['db' => 'user', 'restore' => 'user'],

@@ -16,29 +16,39 @@
 
 namespace mod_videotrack\event;
 
-defined('MOODLE_INTERNAL') || die();
-
 /**
  * Fired when a student saves a personal timestamped note while watching the video.
  *
- * Distinct from reaction_saved (which logs reaction button clicks) so that
- * Moodle logs and reports can differentiate between reactions and notes.
+ * Distinct from reaction_saved so Moodle logs can differentiate notes from reactions.
  *
- * @package   mod_videotrack
- * @copyright 2026 videotrack contributors
- * @license   https://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
+ * @package    mod_videotrack
+ * @copyright  2026 videotrack contributors
+ * @license    https://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 class note_saved extends \core\event\base {
+    /**
+     * Initialise event metadata.
+     */
     protected function init(): void {
         $this->data['objecttable'] = 'videotrack_reactev';
         $this->data['crud']        = 'c';
         $this->data['edulevel']    = self::LEVEL_PARTICIPATING;
     }
 
+    /**
+     * Return the event display name.
+     *
+     * @return string Event name.
+     */
     public static function get_name(): string {
         return get_string('event:note_saved', 'mod_videotrack');
     }
 
+    /**
+     * Return a human-readable event description.
+     *
+     * @return string Event description.
+     */
     public function get_description(): string {
         $videotime = $this->other['videotime'] ?? 0;
         return "The user with id '{$this->userid}' saved a personal note " .
@@ -46,10 +56,20 @@ class note_saved extends \core\event\base {
                "in the videotrack activity with course module id '{$this->contextinstanceid}'.";
     }
 
+    /**
+     * Return the URL associated with this event.
+     *
+     * @return \moodle_url Event URL.
+     */
     public function get_url(): \moodle_url {
         return new \moodle_url('/mod/videotrack/view.php', ['id' => $this->contextinstanceid]);
     }
 
+    /**
+     * Return object id mapping information for backup and restore.
+     *
+     * @return array Mapping information.
+     */
     public static function get_objectid_mapping(): array {
         return ['db' => 'videotrack_reactev', 'restore' => 'videotrack_reactev'];
     }

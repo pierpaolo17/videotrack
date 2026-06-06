@@ -16,28 +16,37 @@
 
 namespace mod_videotrack\event;
 
-defined('MOODLE_INTERNAL') || die();
-
 /**
+ * Fired when a teacher resets a student's VideoTrack data for an activity.
+ *
  * @package    mod_videotrack
  * @copyright  2026 videotrack contributors
  * @license    https://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
-
-/**
- * Fired when a teacher resets a student's VideoTrack data for an activity.
- */
 class student_progress_reset extends \core\event\base {
+    /**
+     * Initialise event metadata.
+     */
     protected function init(): void {
         $this->data['objecttable'] = 'videotrack';
         $this->data['crud']        = 'd';
         $this->data['edulevel']    = self::LEVEL_TEACHING;
     }
 
+    /**
+     * Return the event display name.
+     *
+     * @return string Event name.
+     */
     public static function get_name(): string {
         return get_string('event:student_progress_reset', 'mod_videotrack');
     }
 
+    /**
+     * Return a human-readable event description.
+     *
+     * @return string Event description.
+     */
     public function get_description(): string {
         $segments = (int)($this->other['segments'] ?? 0);
         $states   = (int)($this->other['states'] ?? 0);
@@ -47,6 +56,9 @@ class student_progress_reset extends \core\event\base {
             "(deleted {$segments} segments, {$states} state records and {$events} interaction events).";
     }
 
+    /**
+     * Validate event data before dispatch.
+     */
     protected function validate_data(): void {
         parent::validate_data();
         if (empty($this->relateduserid)) {
@@ -59,10 +71,20 @@ class student_progress_reset extends \core\event\base {
         }
     }
 
+    /**
+     * Return the URL associated with this event.
+     *
+     * @return \moodle_url Event URL.
+     */
     public function get_url(): \moodle_url {
         return new \moodle_url('/mod/videotrack/report.php', ['id' => $this->contextinstanceid]);
     }
 
+    /**
+     * Return object id mapping information for backup and restore.
+     *
+     * @return array Mapping information.
+     */
     public static function get_objectid_mapping(): array {
         return ['db' => 'videotrack', 'restore' => 'videotrack'];
     }
