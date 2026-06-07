@@ -40,23 +40,46 @@ use mod_videotrack\event\note_saved;
  * @license   https://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 class save_note extends external_api {
-
+    /**
+     * Returns the external function parameters.
+     *
+     * @return external_function_parameters
+     */
     public static function execute_parameters(): external_function_parameters {
         return new external_function_parameters([
             'cmid'        => new external_value(PARAM_INT,   'Course module ID'),
             'sessionid'   => new external_value(PARAM_ALPHANUMEXT, 'Session UUID'),
             'videotime'   => new external_value(PARAM_FLOAT, 'Video timestamp in seconds'),
             'notetext'    => new external_value(PARAM_RAW_TRIM, 'Note text'),
-            'playbackrate'=> new external_value(PARAM_FLOAT, 'Playback rate at time of note', VALUE_DEFAULT, 1.0),
+            'playbackrate' => new external_value(PARAM_FLOAT, 'Playback rate at time of note', VALUE_DEFAULT, 1.0),
         ]);
     }
 
-    public static function execute(int $cmid, string $sessionid, float $videotime,
-            string $notetext, float $playbackrate = 1.0): array {
+    /**
+     * Saves a personal note for the current user.
+     *
+     * @param int $cmid Course module id.
+     * @param string $sessionid Browser session id.
+     * @param float $videotime Video timestamp in seconds.
+     * @param string $notetext Note text.
+     * @param float $playbackrate Playback rate at note time.
+     * @return array
+     */
+    public static function execute(
+        int $cmid,
+        string $sessionid,
+        float $videotime,
+        string $notetext,
+        float $playbackrate = 1.0
+    ): array {
         global $DB, $USER;
 
         $params = self::validate_parameters(self::execute_parameters(), compact(
-            'cmid', 'sessionid', 'videotime', 'notetext', 'playbackrate'
+            'cmid',
+            'sessionid',
+            'videotime',
+            'notetext',
+            'playbackrate'
         ));
         $params['cmid'] = helper::validate_positive_id((int)$params['cmid'], 'cmid');
         $params['sessionid'] = helper::validate_session_id($params['sessionid']);
@@ -163,6 +186,11 @@ class save_note extends external_api {
         ];
     }
 
+    /**
+     * Returns the external function result structure.
+     *
+     * @return external_single_structure
+     */
     public static function execute_returns(): external_single_structure {
         return new external_single_structure([
             'noteeventid' => new external_value(PARAM_INT,  'ID of the saved note event'),
