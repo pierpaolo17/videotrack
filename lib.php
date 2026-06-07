@@ -1,25 +1,25 @@
 <?php
 // This file is part of Moodle - https://moodle.org/
-//
-// Moodle is free software: you can redistribute it and/or modify
-// it under the terms of the GNU General Public License as published by
-// the Free Software Foundation, either version 3 of the License, or
+//.
+// Moodle is free software: you can redistribute it and/or modify.
+// It under the terms of the GNU General Public License as published by.
+// The Free Software Foundation, either version 3 of the License, or.
 // (at your option) any later version.
-//
-// Moodle is distributed in the hope that it will be useful,
-// but WITHOUT ANY WARRANTY; without even the implied warranty of
-// MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+//.
+// Moodle is distributed in the hope that it will be useful,.
+// But WITHOUT ANY WARRANTY; without even the implied warranty of.
+// MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the.
 // GNU General Public License for more details.
-//
-// You should have received a copy of the GNU General Public License
-// along with Moodle.  If not, see <https://www.gnu.org/licenses/>.
+//.
+// You should have received a copy of the GNU General Public License.
+// Along with Moodle.  If not, see <https://www.gnu.org/licenses/>.
 
 /**
  * VideoTrack plugin file.
  *
  * @package   mod_videotrack
  * @copyright 2026 videotrack contributors
- * @license   https://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
+ * @license   https://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later.
  */
 
 
@@ -185,7 +185,7 @@ function videotrack_process_video_fields(stdClass $data, $mform = null): void {
         $data->youtubeurl = null;
 
     } else if ($source === 'upload') {
-        // videoid and videourl will be set after file_save_draft_area_files.
+        // Videoid and videourl will be set after file_save_draft_area_files.
         $data->videoid    = '';
         $data->videourl   = 'upload';
         $data->youtubeurl = null;
@@ -208,7 +208,7 @@ function videotrack_process_playbackspeeds_field(stdClass $data): void {
     $selected = [];
     foreach ($allpossible as $v) {
         $key = 'playbackspeed_' . $v;
-        // advcheckbox returns the unchecked value (0) or the checked value ($v).
+        // Advcheckbox returns the unchecked value (0) or the checked value ($v).
         if (isset($data->{$key}) && (float)$data->{$key} > 0) {
             $selected[] = (float)$v;
         }
@@ -278,8 +278,12 @@ function videotrack_get_upload_url(int $instanceid, int $cmid): ?moodle_url {
     }
     $file = reset($files);
     return moodle_url::make_pluginfile_url(
-        $context->id, 'mod_videotrack', 'videocontent', 0,
-        $file->get_filepath(), $file->get_filename()
+        $context->id,
+        'mod_videotrack',
+        'videocontent',
+        0,
+        $file->get_filepath(),
+        $file->get_filename()
     );
 }
 
@@ -324,10 +328,10 @@ function videotrack_save_poster_image(int $instanceid, stdClass $data): void {
     $draftitemid = (int)($data->posterimage ?? 0);
 
     // If draftitemid is 0, the teacher did not interact with the file picker:
-    // Do not call file_save_draft_area_files here: when itemid is 0, Moodle would
-    // clear the poster image file area even though the teacher did not edit it.
-    // Moodle file picker always sends an itemid > 0 once it has been touched,
-    // even if the user removed the file (the draft area exists but is empty).
+    // Do not call file_save_draft_area_files here: when itemid is 0, Moodle would.
+    // Clear the poster image file area even though the teacher did not edit it.
+    // Moodle file picker always sends an itemid > 0 once it has been touched,.
+    // Even if the user removed the file (the draft area exists but is empty).
     if ($draftitemid <= 0) {
         return;
     }
@@ -395,18 +399,18 @@ function videotrack_save_reaction_definitions(int $videotrackid, stdClass $data)
     $reactionids = $data->reactionid ?? [];
 
     // B3 fix: wrap all DB writes in a delegated transaction.
-    // Without this, a failure mid-loop (e.g. on the 3rd of 5 reactions) left the
-    // reaction table in a partially updated state with no rollback path.
-    // File-area operations (file_save_draft_area_files, delete_area_files) are NOT
-    // transactional and must run AFTER allow_commit() — collected in $fileops below.
+    // Without this, a failure mid-loop (e.g. on the 3rd of 5 reactions) left the.
+    // Reaction table in a partially updated state with no rollback path.
+    // File-area operations (file_save_draft_area_files, delete_area_files) are NOT.
+    // Transactional and must run AFTER allow_commit() — collected in $fileops below.
     $transaction = $DB->start_delegated_transaction();
     $keptids = [];
     $sort = 1;
     $now = time();
     // O1 fix: collect file operations to execute after the DB transaction commits.
-    // Previously file_get_draft_area_info() was called for every reaction regardless
-    // of icontype, wasting I/O for emoji and Font Awesome reactions.
-    $fileops = []; // Each entry: ['reactionid'=>int, 'context'=>ctx, 'draftitemid'=>int, 'clear'=>bool]
+    // Previously file_get_draft_area_info() was called for every reaction regardless.
+    // Of icontype, wasting I/O for emoji and Font Awesome reactions.
+    $fileops = []; // Each entry: ['reactionid'=>int, 'context'=>ctx, 'draftitemid'=>int, 'clear'=>bool].
 
     foreach ($labels as $idx => $label) {
         $label = trim((string)$label);
@@ -458,7 +462,7 @@ function videotrack_save_reaction_definitions(int $videotrackid, stdClass $data)
         $keptids[$reactionid] = true;
 
         // O1 fix: collect file operations — defer until after DB commit.
-        // file_get_draft_area_info() is called only for 'file' icontype.
+        // File_get_draft_area_info() is called only for 'file' icontype.
         if ($icontype === 'file') {
             $fieldname   = 'reactioniconfile_' . $idx;
             $draftitemid = isset($data->{$fieldname}) ? (int)$data->{$fieldname} : 0;
@@ -479,8 +483,8 @@ function videotrack_save_reaction_definitions(int $videotrackid, stdClass $data)
     foreach ($existing as $oldreactionid => $oldreaction) {
         if (!isset($keptids[$oldreactionid])) {
             // Soft-delete: keep the definition and its file area intact.
-            // Historical reports/events may still reference this reaction and should
-            // keep rendering the original icon when available.
+            // Historical reports/events may still reference this reaction and should.
+            // Keep rendering the original icon when available.
             $DB->set_field('videotrack_react', 'isdeleted', 1, ['id' => $oldreactionid]);
         }
     }
@@ -494,12 +498,14 @@ function videotrack_save_reaction_definitions(int $videotrackid, stdClass $data)
         foreach ($fileops as $op) {
             $fs->delete_area_files($op['context']->id, 'mod_videotrack', 'reactionicon', $op['reactionid']);
             if ($op['draftitemid'] > 0) {
-                file_save_draft_area_files($op['draftitemid'], $op['context']->id, 'mod_videotrack',
-                    'reactionicon', $op['reactionid'], [
-                        'subdirs'        => 0,
-                        'maxfiles'       => 1,
-                        'accepted_types' => ['.jpg', '.jpeg', '.png', '.gif', '.webp'],
-                    ]);
+                file_save_draft_area_files(
+                    $op['draftitemid'],
+                    $op['context']->id,
+                    'mod_videotrack',
+                    'reactionicon',
+                    $op['reactionid'],
+                    [ 'subdirs'        => 0, 'maxfiles'       => 1, 'accepted_types' => ['.jpg', '.jpeg', '.png', '.gif', '.webp'], ]
+                );
                 // Resize to 64x64px with a centred crop after saving.
                 videotrack_resize_reaction_icon($op['context'], $op['reactionid'], $fs);
             }
@@ -527,8 +533,11 @@ function videotrack_user_outline($course, $user, $mod, $videotrack) {
         'userid'       => $user->id,
     ]);
     if ($state) {
-        $return->info = get_string('outline:percent', 'mod_videotrack',
-            format_float((float)$state->completionpercent, 1));
+        $return->info = get_string(
+            'outline:percent',
+            'mod_videotrack',
+            format_float( (float)$state->completionpercent, 1 )
+        );
         $return->time = (int)$state->timemodified;
     }
     return $return;
@@ -550,8 +559,11 @@ function videotrack_user_complete($course, $user, $mod, $videotrack) {
         'userid'       => $user->id,
     ]);
     if (!$state) {
-        echo html_writer::tag('p', get_string('outline:nodata', 'mod_videotrack'),
-            ['class' => 'text-muted']);
+        echo html_writer::tag(
+            'p',
+            get_string('outline:nodata', 'mod_videotrack'),
+            ['class' => 'text-muted']
+        );
         return;
     }
     $table            = new html_table();
@@ -567,7 +579,10 @@ function videotrack_user_complete($course, $user, $mod, $videotrack) {
         [get_string('report:iscompleted', 'mod_videotrack'),
          $state->iscompleted
              ? get_string('yes', 'mod_videotrack')
-             : get_string('no',  'mod_videotrack')],
+             : get_string(
+                 'no',
+                 'mod_videotrack'
+             )],
     ];
     echo html_writer::table($table);
 }
@@ -619,7 +634,8 @@ function videotrack_extend_navigation_course($navigation, $course, $context) {
         get_string('coursereport:navlink', 'mod_videotrack'),
         $url,
         navigation_node::TYPE_SETTING,
-        null, null,
+        null,
+        null,
         new pix_icon('i/report', '')
     );
 }
@@ -672,7 +688,7 @@ function videotrack_process_player_behavior_fields(stdClass $data): void {
               'showtranscript', 'showchapters', 'studentnotesenabled'] as $field) {
         $data->{$field} = empty($data->{$field}) ? 0 : 1;
     }
-    // maxplaybackrate: integer in hundredths (0=no limit, 150=1.5x, etc.).
+    // Maxplaybackrate: integer in hundredths (0=no limit, 150=1.5x, etc.).
     $data->maxplaybackrate = (int)($data->maxplaybackrate ?? 0);
 }
 
@@ -751,8 +767,12 @@ function videotrack_get_vtt_url(int $cmid): ?moodle_url {
     }
     $file = reset($files);
     return moodle_url::make_pluginfile_url(
-        $context->id, 'mod_videotrack', 'subtitles', 0,
-        $file->get_filepath(), $file->get_filename()
+        $context->id,
+        'mod_videotrack',
+        'subtitles',
+        0,
+        $file->get_filepath(),
+        $file->get_filename()
     );
 }
 
@@ -767,8 +787,8 @@ function videotrack_process_captions_fields(stdClass $data): void {
 
     $isupload = (($data->videosource ?? 'youtube') === 'upload');
     if (!$isupload || empty($data->captions)) {
-        // Transcript and chapters are meaningful only for uploaded media with
-        // captions enabled. Clearing stale subtitle files avoids serving an old
+        // Transcript and chapters are meaningful only for uploaded media with.
+        // Captions enabled. Clearing stale subtitle files avoids serving an old.
         // VTT file after the teacher has disabled captions.
         $data->showtranscript = 0;
         $data->showchapters = 0;
@@ -815,7 +835,7 @@ function videotrack_process_grade_fields(stdClass $data): void {
     if ($data->grade > 0 && isset($data->gradepass)) {
         $data->gradepass = min((float)$data->gradepass, (float)$data->grade);
         $data->gradepass = max(0.0, $data->gradepass);
-    } elseif ($data->grade == 0) {
+    } else if ($data->grade == 0) {
         $data->gradepass = 0;
     }
 
@@ -847,7 +867,7 @@ function videotrack_grade_item_update(stdClass $videotrack, $grades = null): int
     if (!isset($videotrack->grade) || $videotrack->grade == 0) {
         // No grading: delete the grade item if it exists.
         $params['gradetype'] = GRADE_TYPE_NONE;
-    } elseif ($videotrack->grade > 0) {
+    } else if ($videotrack->grade > 0) {
         $params['gradetype'] = GRADE_TYPE_VALUE;
         $params['grademax']  = (float)$videotrack->grade;
         $params['grademin']  = 0;
@@ -973,9 +993,9 @@ function videotrack_delete_user_progress(stdClass $videotrack, int $userid): voi
         'userid'       => $userid,
     ]);
     // Delete reactions and personal notes so the reset is complete.
-    // Without this, reactions/notes survive the reset and still appear in the
-    // student view and influence completion. Mirrors the behaviour of the
-    // per-student reset in report.php (which already deletes videotrack_reactev).
+    // Without this, reactions/notes survive the reset and still appear in the.
+    // Student view and influence completion. Mirrors the behaviour of the.
+    // Per-student reset in report.php (which already deletes videotrack_reactev).
     $DB->delete_records('videotrack_reactev', [
         'videotrackid' => $videotrack->id,
         'userid'       => $userid,
@@ -1012,17 +1032,29 @@ function videotrack_delete_instance($id) {
 
     $transaction = $DB->start_delegated_transaction();
     try {
-        // Remove the gradebook item while the activity record still exists, so
-        // gradebook callbacks can resolve module metadata. Keeping this inside
-        // the delegated transaction also prevents deleting the module record if
-        // gradebook cleanup throws an exception.
+        // Remove the gradebook item while the activity record still exists, so.
+        // Gradebook callbacks can resolve module metadata. Keeping this inside.
+        // The delegated transaction also prevents deleting the module record if.
+        // Gradebook cleanup throws an exception.
         videotrack_grade_item_delete($videotrack);
 
-        $DB->delete_records('videotrack_seg',     ['videotrackid' => $videotrack->id]);
-        $DB->delete_records('videotrack_state',   ['videotrackid' => $videotrack->id]);
+        $DB->delete_records(
+            'videotrack_seg',
+            ['videotrackid' => $videotrack->id]
+        );
+        $DB->delete_records(
+            'videotrack_state',
+            ['videotrackid' => $videotrack->id]
+        );
         $DB->delete_records('videotrack_reactev', ['videotrackid' => $videotrack->id]);
-        $DB->delete_records('videotrack_react',   ['videotrackid' => $videotrack->id]);
-        $DB->delete_records('videotrack',         ['id'           => $videotrack->id]);
+        $DB->delete_records(
+            'videotrack_react',
+            ['videotrackid' => $videotrack->id]
+        );
+        $DB->delete_records(
+            'videotrack',
+            ['id'           => $videotrack->id]
+        );
         $transaction->allow_commit();
     } catch (Throwable $e) {
         $transaction->rollback($e);
@@ -1032,9 +1064,9 @@ function videotrack_delete_instance($id) {
     $cm = get_coursemodule_from_instance('videotrack', $id, $videotrack->course, false, IGNORE_MISSING);
     if ($cm) {
         $context = context_module::instance($cm->id);
-        // Delete all plugin file areas for this module context. File storage is
-        // intentionally handled after the DB transaction because files are not
-        // covered by Moodle delegated transactions.
+        // Delete all plugin file areas for this module context. File storage is.
+        // Intentionally handled after the DB transaction because files are not.
+        // Covered by Moodle delegated transactions.
         get_file_storage()->delete_area_files($context->id, 'mod_videotrack');
     }
 
@@ -1120,13 +1152,27 @@ function videotrack_reset_course_userdata($data) {
         $instances = $DB->get_records('videotrack', ['course' => $data->courseid], '', 'id,grade,course,name');
         require_once($CFG->libdir . '/gradelib.php');
         foreach ($instances as $instance) {
-            $DB->delete_records('videotrack_seg',     ['videotrackid' => $instance->id]);
-            $DB->delete_records('videotrack_state',   ['videotrackid' => $instance->id]);
+            $DB->delete_records(
+                'videotrack_seg',
+                ['videotrackid' => $instance->id]
+            );
+            $DB->delete_records(
+                'videotrack_state',
+                ['videotrackid' => $instance->id]
+            );
             $DB->delete_records('videotrack_reactev', ['videotrackid' => $instance->id]);
             // Azzera anche i voti nel gradebook per questa istanza.
             if (!empty($instance->grade)) {
-                grade_update('mod/videotrack', $data->courseid, 'mod', 'videotrack',
-                    $instance->id, 0, null, ['reset' => true]);
+                grade_update(
+                    'mod/videotrack',
+                    $data->courseid,
+                    'mod',
+                    'videotrack',
+                    $instance->id,
+                    0,
+                    null,
+                    ['reset' => true]
+                );
             }
         }
         $status[] = [
@@ -1145,11 +1191,17 @@ function videotrack_reset_course_userdata($data) {
  * @param object $mform  The course reset form (MoodleQuickForm).
  */
 function videotrack_reset_course_form_definition($mform) {
-    $mform->addElement('header', 'videotrackheader',
-        get_string('modulename', 'mod_videotrack'));
-    $mform->addElement('checkbox', 'reset_videotrack_userdata',
+    $mform->addElement(
+        'header',
+        'videotrackheader',
+        get_string( 'modulename', 'mod_videotrack' )
+    );
+    $mform->addElement(
+        'checkbox',
+        'reset_videotrack_userdata',
         get_string('modulename', 'mod_videotrack'),
-        get_string('reset:userdata', 'mod_videotrack'));
+        get_string( 'reset:userdata', 'mod_videotrack' )
+    );
 }
 
 /**
@@ -1177,12 +1229,12 @@ function videotrack_reset_course_form_defaults($course) {
 function videotrack_resize_reaction_icon(context_module $context, int $reactionid, file_storage $fs): void {
     if (!function_exists('imagecreatefromstring')) {
         // GD non disponibile: il ridimensionamento non avviene.
-        // The admin warning is already visible on the settings page (settings.php)
-        // and in the environment.xml check. Do not block saving.
-        debugging('mod_videotrack: GD PHP extension is not available. ' .
-            'Reaction icon for reactionid=' . $reactionid . ' was NOT resized to 64×64px. ' .
-            'Install php-gd to enable automatic icon resizing.',
-            DEBUG_NORMAL);
+        // The admin warning is already visible on the settings page (settings.php).
+        // And in the environment.xml check. Do not block saving.
+        debugging(
+            'mod_videotrack: GD PHP extension is not available. ' . 'Reaction icon for reactionid=' . $reactionid . ' was NOT resized to 64×64px. ' . 'Install php-gd to enable automatic icon resizing.',
+            DEBUG_NORMAL
+        );
         return;
     }
 
@@ -1194,7 +1246,7 @@ function videotrack_resize_reaction_icon(context_module $context, int $reactioni
 
     $srcdata  = $file->get_content();
     // PHP 8.0+ lancia ValueError (non Warning) per dati non immagine.
-    // try/catch is required; @ does not catch Error/ValueError.
+    // Try/catch is required; @ does not catch Error/ValueError.
     try {
         $srcimage = imagecreatefromstring($srcdata);
     } catch (\Throwable $e) {
@@ -1307,8 +1359,8 @@ function videotrack_pluginfile($course, $cm, $context, $filearea, $args, $forced
     }
     if ($filearea === 'intro') {
         // Intro files are managed by Moodle core editor/filepicker controls.
-        // They intentionally follow the standard module intro serving path;
-        // the stricter per-filearea checks below apply only to VideoTrack-specific uploads.
+        // They intentionally follow the standard module intro serving path;.
+        // The stricter per-filearea checks below apply only to VideoTrack-specific uploads.
         return send_stored_file($file, 0, 0, $forcedownload, $options);
     }
     $extension = strtolower(pathinfo($file->get_filename(), PATHINFO_EXTENSION));
@@ -1323,8 +1375,8 @@ function videotrack_pluginfile($course, $cm, $context, $filearea, $args, $forced
         if (!in_array($file->get_mimetype(), ['text/vtt', 'text/plain', 'application/octet-stream'], true)) {
             return false;
         }
-        // Some servers report .vtt as text/plain; keep the fallback safe without
-        // reading arbitrarily large files on every subtitle request.
+        // Some servers report .vtt as text/plain; keep the fallback safe without.
+        // Reading arbitrarily large files on every subtitle request.
         if ($file->get_filesize() > 1024 * 1024) {
             return false;
         }
@@ -1360,14 +1412,14 @@ function videotrack_recalculate_all_states(int $videotrackid, cm_info $cm): int 
     $course     = get_course($videotrack->course);
     $completion = new completion_info($course);
     $updated    = 0;
-    // O2: use get_recordset instead of get_records to avoid loading all state rows into
-    // memory at once. On courses with hundreds of students get_records() would allocate
-    // a large array; get_recordset() streams one row at a time.
+    // O2: use get_recordset instead of get_records to avoid loading all state rows into.
+    // Memory at once. On courses with hundreds of students get_records() would allocate.
+    // A large array; get_recordset() streams one row at a time.
     $rs = $DB->get_recordset('videotrack_state', ['videotrackid' => $videotrackid], '', 'userid');
     foreach ($rs as $staterow) {
         $state = tracker::refresh_completion($videotrack, $cm, (int)$staterow->userid);
         // Also update Moodle completion (the course tick).
-        // refresh_completion updates videotrack_state but not course_modules_completion.
+        // Refresh_completion updates videotrack_state but not course_modules_completion.
         $completion->update_state(
             $cm,
             $state->iscompleted ? COMPLETION_COMPLETE : COMPLETION_INCOMPLETE,
