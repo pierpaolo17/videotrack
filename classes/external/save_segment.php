@@ -1,5 +1,5 @@
 <?php
-// This file is part of Moodle - https:// Moodle.org/
+// This file is part of Moodle - https://moodle.org/
 //
 // Moodle is free software: you can redistribute it and/or modify
 // it under the terms of the GNU General Public License as published by
@@ -12,7 +12,7 @@
 // GNU General Public License for more details.
 //
 // You should have received a copy of the GNU General Public License
-// along with Moodle.  If not, see <https:// Www.gnu.org/licenses/>.
+// along with Moodle.  If not, see <https://www.gnu.org/licenses/>.
 
 namespace mod_videotrack\external;
 
@@ -31,7 +31,7 @@ defined('MOODLE_INTERNAL') || die();
  *
  * @package    mod_videotrack
  * @copyright  2026 videotrack contributors
- * @license    https:// Www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
+ * @license    https://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 global $CFG;
 require_once($CFG->dirroot . '/mod/videotrack/lib.php');
@@ -73,7 +73,8 @@ class save_segment extends external_api {
      * @param float $durationseconds Client-known duration in seconds.
      * @return array
      */
-    public static function execute(int $cmid,
+    public static function execute(
+        int $cmid,
         string $sessionid,
         float $videotimestart,
         float $videotimeend,
@@ -81,9 +82,11 @@ class save_segment extends external_api {
         int $wallclockend,
         float $playbackrate,
         string $endreason,
-        float $durationseconds = 0.0): array {
+        float $durationseconds = 0.0
+    ): array {
         global $DB, $USER;
-        $params = self::validate_parameters(self::execute_parameters(), compact('cmid',
+        $params = self::validate_parameters(self::execute_parameters(), compact(
+            'cmid',
             'sessionid',
             'videotimestart',
             'videotimeend',
@@ -91,26 +94,35 @@ class save_segment extends external_api {
             'wallclockend',
             'playbackrate',
             'endreason',
-            'durationseconds'));
+            'durationseconds'
+        ));
         $params['cmid'] = helper::validate_positive_id((int)$params['cmid'], 'cmid');
         $params['sessionid'] = helper::validate_session_id($params['sessionid']);
         $params['endreason'] = helper::validate_end_reason($params['endreason']);
-        $params['videotimestart'] = helper::validate_bounded_float((float)$params['videotimestart'],
+        $params['videotimestart'] = helper::validate_bounded_float(
+            (float)$params['videotimestart'],
             'videotimestart',
             0.0,
-            self::MAX_DURATION_SECONDS);
-        $params['videotimeend'] = helper::validate_bounded_float((float)$params['videotimeend'],
+            self::MAX_DURATION_SECONDS
+        );
+        $params['videotimeend'] = helper::validate_bounded_float(
+            (float)$params['videotimeend'],
             'videotimeend',
             0.0,
-            self::MAX_DURATION_SECONDS);
-        $params['playbackrate'] = helper::validate_bounded_float((float)$params['playbackrate'],
+            self::MAX_DURATION_SECONDS
+        );
+        $params['playbackrate'] = helper::validate_bounded_float(
+            (float)$params['playbackrate'],
             'playbackrate',
             0.25,
-            4.0);
-        $params['durationseconds'] = helper::validate_bounded_float((float)$params['durationseconds'],
+            4.0
+        );
+        $params['durationseconds'] = helper::validate_bounded_float(
+            (float)$params['durationseconds'],
             'durationseconds',
             0.0,
-            self::MAX_DURATION_SECONDS);
+            self::MAX_DURATION_SECONDS
+        );
         $loaded = helper::load_and_validate_context((int)$params['cmid']);
         helper::require_ajax_sesskey();
         $course = $loaded['course'];
@@ -124,9 +136,11 @@ class save_segment extends external_api {
         // server-side duration.
         $knownduration = (float)($videotrack->durationseconds ?? 0);
         $normaliseduration = $knownduration > 0 ? min($knownduration, self::MAX_DURATION_SECONDS) : 0.0;
-        $interval = tracker::normalise_interval((float)$params['videotimestart'],
+        $interval = tracker::normalise_interval(
+            (float)$params['videotimestart'],
             (float)$params['videotimeend'],
-            $normaliseduration);
+            $normaliseduration
+        );
         if ($interval === null) {
             return [
                 'accepted'             => false,
@@ -141,7 +155,7 @@ class save_segment extends external_api {
         $now    = time();
         // Clamp wallclock timestamps to server time, allowing 5 seconds of client clock skew.
         $wstart = max(0, min($params['wallclockstart'], $now + 5));
-        $wend   = max($wstart, min($params['wallclockend'], $now + 5));
+        $wend   = max($wstart, min($params['wallclockend'],   $now + 5));
 
         // Server-side validation for academic integrity.
         // Client wallclock values are retained as diagnostic data, but they are
@@ -152,11 +166,13 @@ class save_segment extends external_api {
         // playbackrate is already bounded by helper::validate_bounded_float().
         $playbackrate  = (float)$params['playbackrate'];
         $heartbeat = \videotrack_get_config_int('heartbeatinterval', 30, 5, 300);
-        $lasttimes = $DB->get_record_sql("SELECT MAX(timecreated) AS lastactivitytime,
+        $lasttimes = $DB->get_record_sql(
+            "SELECT MAX(timecreated) AS lastactivitytime,
                     MAX(CASE WHEN sessionid = :sid THEN timecreated ELSE NULL END) AS lastsessiontime
                FROM {videotrack_seg}
               WHERE videotrackid = :vtid AND userid = :uid",
-            ['vtid' => $videotrack->id, 'uid' => $USER->id, 'sid' => $params['sessionid']]);
+            ['vtid' => $videotrack->id, 'uid' => $USER->id, 'sid' => $params['sessionid']]
+        );
         $lastsessiontime = $lasttimes ? (int)$lasttimes->lastsessiontime : 0;
         $lastactivitytime = $lasttimes ? (int)$lasttimes->lastactivitytime : 0;
         $lasttimecreated = $lastsessiontime ?: $lastactivitytime;
@@ -196,7 +212,7 @@ class save_segment extends external_api {
             'wallclockend'   => $wend,
             'videotimestart' => $interval[0],
             'videotimeend'   => $interval[1],
-            'playbackrate'   => $playbackrate, // Already clamped to [0.25, 4.0] above.
+            'playbackrate'   => $playbackrate,  // Already clamped to [0.25, 4.0] above.
             'endreason'      => $params['endreason'],
             'timecreated'    => $now,
         ];
@@ -253,11 +269,11 @@ class save_segment extends external_api {
      */
     public static function execute_returns(): external_single_structure {
         return new external_single_structure([
-            'accepted'             => new external_value(PARAM_BOOL, 'Whether the segment was accepted'),
+            'accepted'             => new external_value(PARAM_BOOL,  'Whether the segment was accepted'),
             'uniquecoveredseconds' => new external_value(PARAM_FLOAT, 'Unique covered seconds'),
             'completionpercent'    => new external_value(PARAM_FLOAT, 'Computed completion percentage'),
-            'iscompleted'          => new external_value(PARAM_BOOL, 'Whether completion threshold has been met'),
-            'intervaljson'         => new external_value(PARAM_RAW, 'JSON array of watched intervals for the progress bar'),
+            'iscompleted'          => new external_value(PARAM_BOOL,  'Whether completion threshold has been met'),
+            'intervaljson'         => new external_value(PARAM_RAW,   'JSON array of watched intervals for the progress bar'),
             'durationseconds'      => new external_value(PARAM_FLOAT, 'Total video duration in seconds'),
             'warnings'             => new external_warnings(),
         ]);
