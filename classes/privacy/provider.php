@@ -37,9 +37,8 @@ use mod_videotrack\local\privacy_manager;
  */
 class provider implements
     \core_privacy\local\metadata\provider,
-    \core_privacy\local\request\plugin\provider,
-    \core_privacy\local\request\core_userlist_provider {
-
+    \core_privacy\local\request\core_userlist_provider,
+    \core_privacy\local\request\plugin\provider {
     /**
      * Formats a number of seconds for human-readable privacy exports.
      *

@@ -19,7 +19,7 @@
  *
  * @package   mod_videotrack
  * @copyright 2026 videotrack contributors
- * @license   https://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
+ * @license   https://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later.
  */
 
 

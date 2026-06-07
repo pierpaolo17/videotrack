@@ -156,7 +156,7 @@ function videotrack_get_playback_speeds(stdClass $videotrack): array {
     if (empty($raw)) {
         $raw = '0.75,1,1.25,1.5,2';
     }
-    $speeds = array_filter(array_map('floatval', preg_split('/[,\n]+/', $raw)), function($speed) {
+    $speeds = array_filter(array_map('floatval', preg_split('/[,\n]+/', $raw)), function ($speed) {
         return is_finite($speed) && $speed > 0 && $speed <= 4;
     });
     sort($speeds);
@@ -168,7 +168,7 @@ function videotrack_get_playback_speeds(stdClass $videotrack): array {
     // Apply site-wide hard cap (0 = no limit).
     $max = videotrack_get_max_playback_rate();
     if ($max > 0) {
-        $speeds = array_values(array_filter($speeds, function($s) use ($max) {
+        $speeds = array_values(array_filter($speeds, function ($s) use ($max) {
             return $s <= $max;
         }));
         // Always include at least 1× so students can play normally.
@@ -202,7 +202,7 @@ function videotrack_get_site_playback_speeds(): array {
     if (empty($raw)) {
         $raw = '0.75,1,1.25,1.5,2';
     }
-    $speeds = array_filter(array_map('floatval', preg_split('/[,\n]+/', $raw)), function($speed) {
+    $speeds = array_filter(array_map('floatval', preg_split('/[,\n]+/', $raw)), function ($speed) {
         return is_finite($speed) && $speed > 0 && $speed <= 4;
     });
     sort($speeds);
@@ -270,20 +270,29 @@ function videotrack_get_reactions(int $videotrackid, bool $includedeleted = fals
             $where['isdeleted'] = 0;
         }
         $cache[$key] = $DB->get_records(
-            'videotrack_react', $where, 'sortorder ASC, id ASC'
+            'videotrack_react',
+            $where,
+            'sortorder ASC, id ASC'
         );
     }
     return $cache[$key];
 }
 
+/**
+ * Returns a pluginfile URL for a stored reaction icon.
+ *
+ * @param \context_module $context Module context.
+ * @param stdClass $reaction Reaction definition record.
+ * @return string Pluginfile URL, or empty string when no safe file icon exists.
+ */
 function videotrack_reaction_icon_url(\context_module $context, stdClass $reaction): string {
     if (($reaction->icontype ?? '') !== 'file') {
         return '';
     }
     // Block external URLs: reaction icons must be Moodle pluginfile files.
-    // URL esterni possono introdurre tracking, mixed content o SSRF.
+    // External URLs may introduce tracking, mixed content or SSRF.
     if (!empty($reaction->iconvalue) && preg_match('~^https?://~', $reaction->iconvalue)) {
-        return ''; // Ignora silenziosamente URL esterni.
+        return ''; // Ignore external URLs silently.
     }
     $fs = get_file_storage();
     $files = $fs->get_area_files(
@@ -309,7 +318,19 @@ function videotrack_reaction_icon_url(\context_module $context, stdClass $reacti
     )->out(false);
 }
 
-function videotrack_render_reaction_icon(stdClass $reaction, ?\context_module $context = null, bool $withlabel = true): string {
+/**
+ * Renders a reaction icon with an optional accessible label.
+ *
+ * @param stdClass $reaction Reaction definition record.
+ * @param \context_module|null $context Module context used for file icons.
+ * @param bool $withlabel Whether to include the visible label.
+ * @return string HTML fragment for the reaction icon.
+ */
+function videotrack_render_reaction_icon(
+    stdClass $reaction,
+    ?\context_module $context = null,
+    bool $withlabel = true
+): string {
     $label = s($reaction->label ?? '');
     $iconhtml = '';
     if (($reaction->icontype ?? 'emoji') === 'fa' && !empty($reaction->iconvalue)) {

@@ -337,7 +337,9 @@ class tracker {
         // changed or the heartbeat is no longer recent. The timestamp must still be
         // inside a watched interval, so direct calls cannot create notes/reactions on
         // unwatched positions.
-        if ($DB->record_exists_select('videotrack_seg',
+        if (
+            $DB->record_exists_select(
+                'videotrack_seg',
                 'videotrackid = :vtid AND userid = :uid AND timecreated >= :since
                  AND ((:vt >= (videotimestart - :tol1) AND :vt2 <= (videotimeend + :tol2))
                       OR ABS(videotimeend - :vt3) <= :tolend)',
@@ -351,7 +353,9 @@ class tracker {
                     'tol1' => $tol,
                     'tol2' => $tol,
                     'tolend' => $graceseconds,
-                ])) {
+                ]
+            )
+        ) {
             return true;
         }
 
@@ -378,8 +382,14 @@ class tracker {
      * @param int $maxageseconds Maximum fallback age in seconds, or zero for no limit.
      * @return bool Whether the timestamp is inside a watched segment.
      */
-    public static function has_watched_videotime(int $videotrackid, int $userid, string $sessionid,
-            float $videotime, float $timetolerance = 2.0, int $maxageseconds = 0): bool {
+    public static function has_watched_videotime(
+        int $videotrackid,
+        int $userid,
+        string $sessionid,
+        float $videotime,
+        float $timetolerance = 2.0,
+        int $maxageseconds = 0
+    ): bool {
         global $DB;
 
         $vt = max(0.0, $videotime);
