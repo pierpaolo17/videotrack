@@ -55,10 +55,10 @@ function videotrack_get_config_int(string $name, int $default, int $min, int $ma
  * @return string|null
  */
 function videotrack_extract_videoid(string $url): ?string {
-    $url = trim($url);
     if ($url === '' || preg_match('/[\r\n]/', $url)) {
         return null;
     }
+    $url = trim($url);
 
     $parts = parse_url($url);
     if ($parts === false || empty($parts['scheme']) || empty($parts['host'])) {
@@ -106,10 +106,10 @@ function videotrack_extract_videoid(string $url): ?string {
  * @return string|null
  */
 function videotrack_extract_vimeo_id(string $url): ?string {
-    $url = trim($url);
     if ($url === '' || preg_match('/[\r\n]/', $url)) {
         return null;
     }
+    $url = trim($url);
 
     $parts = parse_url($url);
     if ($parts === false || empty($parts['scheme']) || empty($parts['host'])) {
