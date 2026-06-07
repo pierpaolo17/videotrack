@@ -1,18 +1,18 @@
 <?php
-// This file is part of Moodle - https://moodle.org/
-//.
-// Moodle is free software: you can redistribute it and/or modify.
-// It under the terms of the GNU General Public License as published by.
-// The Free Software Foundation, either version 3 of the License, or.
+// This file is part of Moodle - https://moodle.org/.
+//
+// Moodle is free software: you can redistribute it and/or modify
+// it under the terms of the GNU General Public License as published by
+// the Free Software Foundation, either version 3 of the License, or
 // (at your option) any later version.
-//.
-// Moodle is distributed in the hope that it will be useful,.
-// But WITHOUT ANY WARRANTY; without even the implied warranty of.
-// MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the.
+//
+// Moodle is distributed in the hope that it will be useful,
+// but WITHOUT ANY WARRANTY; without even the implied warranty of
+// MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
 // GNU General Public License for more details.
-//.
-// You should have received a copy of the GNU General Public License.
-// Along with Moodle.  If not, see <https://www.gnu.org/licenses/>.
+//
+// You should have received a copy of the GNU General Public License
+// along with Moodle.  If not, see <https://www.gnu.org/licenses/>.
 
 /**
  * VideoTrack plugin file.
@@ -60,15 +60,13 @@ if ($showstudentreport) {
     // Fetch one extra row instead of running a separate COUNT query. This keeps.
     // The common student view to a single note/reaction query while still.
     // Detecting whether the table is truncated.
-    $events = $DB->get_records_select(
-        'videotrack_reactev',
+    $events = $DB->get_records_select('videotrack_reactev',
         $eventwhere,
         $eventparams,
         'videotime ASC',
         '*',
         0,
-        201
-    );
+        201);
     $eventtruncated = count($events) > 200;
     if ($eventtruncated) {
         $events = array_slice($events, 0, 200, true);
@@ -236,8 +234,7 @@ echo $OUTPUT->heading(format_string($videotrack->name, true, ['context' => $cont
 if (
     !empty($videotrack->showgradeto) &&
     !empty($videotrack->grade) &&
-    !has_capability('mod/videotrack:viewreport', $context)
-) {
+    !has_capability('mod/videotrack:viewreport', $context)) {
     require_once($CFG->libdir . '/gradelib.php');
     $usergrade = videotrack_get_user_grade($videotrack, (int)$USER->id);
     if ($usergrade !== null) {
@@ -245,45 +242,31 @@ if (
         $gradepasslabel = '';
         if (!empty($videotrack->gradepass)) {
             $passed         = $usergrade >= (float)$videotrack->gradepass;
-            $gradepasslabel = html_writer::tag(
-                'span',
-                $OUTPUT->pix_icon($passed ? 'i/valid' : 'i/invalid', '', 'moodle', ['aria-hidden' => 'true']) . ' ' . html_writer::tag( 'span', get_string($passed ? 'grade:pass' : 'grade:fail', 'mod_videotrack'), ['class' => $passed ? 'text-success ms-1' : 'text-danger ms-1'] ),
-                ['class' => 'ms-2']
-            );
+            $gradepasslabel = html_writer::tag('span',
+                $OUTPUT->pix_icon($passed ? 'i/valid' : 'i/invalid', '', 'moodle', ['aria-hidden' => 'true']) . ' ' . html_writer::tag('span', get_string($passed ? 'grade:pass' : 'grade:fail', 'mod_videotrack'), ['class' => $passed ? 'text-success ms-1' : 'text-danger ms-1']),
+                ['class' => 'ms-2']);
         }
-        echo html_writer::div(
-            html_writer::tag(
-                'strong',
-                $OUTPUT->pix_icon('i/grades', '', 'moodle', ['class' => 'me-1', 'aria-hidden' => 'true']) . get_string('grade') . ': '
-            ) .
+        echo html_writer::div(html_writer::tag('strong',
+                $OUTPUT->pix_icon('i/grades', '', 'moodle', ['class' => 'me-1', 'aria-hidden' => 'true']) . get_string('grade') . ': ') .
             format_float($usergrade, 2) .
             ($grademax !== null ? ' / ' . $grademax : '') .
             $gradepasslabel,
-            'videotrack-grade-student alert alert-secondary mt-2'
-        );
+            'videotrack-grade-student alert alert-secondary mt-2');
     } else {
-        echo html_writer::div(
-            html_writer::tag(
-                'strong',
-                $OUTPUT->pix_icon('i/grades', '', 'moodle', ['class' => 'me-1', 'aria-hidden' => 'true']) . get_string('grade') . ': '
-            ) .
+        echo html_writer::div(html_writer::tag('strong',
+                $OUTPUT->pix_icon('i/grades', '', 'moodle', ['class' => 'me-1', 'aria-hidden' => 'true']) . get_string('grade') . ': ') .
             get_string('report:gradenotset', 'mod_videotrack'),
-            'videotrack-grade-student alert alert-light mt-2'
-        );
+            'videotrack-grade-student alert alert-light mt-2');
     }
 }
 if (trim(strip_tags($videotrack->intro ?? '')) !== '') {
     echo format_module_intro('videotrack', $videotrack, $cm->id);
 }
 if ($notice !== '') {
-    echo $OUTPUT->notification(
-        format_text(
-            $notice,
+    echo $OUTPUT->notification(format_text($notice,
             $videotrack->reactionnoticeformat ?: FORMAT_HTML,
-            ['context' => $context, 'trusted' => false]
-        ),
-        'info'
-    );
+            ['context' => $context, 'trusted' => false]),
+        'info');
 }
 if (in_array($source, ['youtube', 'vimeo'], true)) {
     $providername = get_string('source:' . $source, 'mod_videotrack');
@@ -306,19 +289,15 @@ if (!empty($videotrack->reactionsenabled)) {
     } else {
         // The separate DISTINCT query is needed when the student report is hidden.
         // Or truncated to the latest 200 rows; otherwise the in-memory rows are enough.
-        $uniquereactionids = array_flip($DB->get_fieldset_select(
-            'videotrack_reactev',
+        $uniquereactionids = array_flip($DB->get_fieldset_select('videotrack_reactev',
             'DISTINCT reactionid',
             $eventwhere . ' AND reactionid > 0',
-            $eventparams
-        ));
+            $eventparams));
     }
 }
 
-echo html_writer::start_div(
-    'videotrack-player-shell',
-    ['style' => 'max-width:' . (int)$playerwidth . 'px']
-);
+echo html_writer::start_div('videotrack-player-shell',
+    ['style' => 'max-width:' . (int)$playerwidth . 'px']);
 echo html_writer::start_div('videotrack-layout');
 
 // Player section: left column in landscape, full width in portrait.
@@ -327,12 +306,10 @@ echo html_writer::start_div('videotrack-player-wrap');
 // Loading placeholder: visible until the JavaScript player initialises.
 // Automatically removed when the player is created (YouTube/Vimeo replaces the div).
 $loadingtext = get_string('playerloading', 'mod_videotrack');
-echo html_writer::div(
-    html_writer::tag('span', $loadingtext, ['class' => 'sr-only']) .
+echo html_writer::div(html_writer::tag('span', $loadingtext, ['class' => 'sr-only']) .
     html_writer::tag('div', '', ['class' => 'videotrack-loading-spinner', 'aria-hidden' => 'true']),
     'videotrack-player-loading',
-    ['aria-label' => $loadingtext, 'role' => 'status']
-);
+    ['aria-label' => $loadingtext, 'role' => 'status']);
 echo html_writer::div('', '', ['id' => 'mod-videotrack-player']);
 // Feature 12: poster preview before playback when configured.
 if ($posterurl) {
@@ -348,11 +325,9 @@ if ($posterurl) {
         // Decorative: the player already has the title.
     ]);
     // Accessible play overlay button.
-    echo html_writer::tag(
-        'button',
-        html_writer::tag( 'span', html_writer::tag( 'svg', html_writer::tag('path', '', ['d' => 'M8 5v14l11-7z']), ['viewBox' => '0 0 24 24', 'focusable' => 'false', 'aria-hidden' => 'true'] ), ['class' => 'videotrack-poster-play-icon', 'aria-hidden' => 'true'] ),
-        [ 'type'       => 'button', 'class'      => 'videotrack-poster-play-btn', 'id'         => 'videotrack-poster-play-btn', 'aria-label' => get_string('playbutton_label', 'mod_videotrack'), ]
-    );
+    echo html_writer::tag('button',
+        html_writer::tag('span', html_writer::tag('svg', html_writer::tag('path', '', ['d' => 'M8 5v14l11-7z']), ['viewBox' => '0 0 24 24', 'focusable' => 'false', 'aria-hidden' => 'true']), ['class' => 'videotrack-poster-play-icon', 'aria-hidden' => 'true']),
+        [ 'type'       => 'button', 'class'      => 'videotrack-poster-play-btn', 'id'         => 'videotrack-poster-play-btn', 'aria-label' => get_string('playbutton_label', 'mod_videotrack'), ]);
     echo html_writer::end_div();
 }
 echo html_writer::end_div(); // Videotrack-player-wrap.
@@ -377,11 +352,9 @@ echo html_writer::tag('progress', format_float($percent, 1) . '%', [
     'aria-label' => get_string('intervalbar_title', 'mod_videotrack'),
     'aria-hidden' => 'true',
 ]);
-echo html_writer::tag(
-    'span',
+echo html_writer::tag('span',
     get_string('intervalbar_title', 'mod_videotrack') . ' — ' . format_float($percent, 1) . '%',
-    ['id' => 'videotrack-interval-bar-status', 'class' => 'videotrack-interval-bar-status']
-);
+    ['id' => 'videotrack-interval-bar-status', 'class' => 'videotrack-interval-bar-status']);
 echo html_writer::end_div(); // Videotrack-player-section.
 
 // Sidebar: progress, reactions and student reactions table.
@@ -390,20 +363,14 @@ echo html_writer::start_div('videotrack-sidebar');
 // Feature 8: interactive VTT transcript panel (upload source only, with a VTT file).
 if (!empty($videotrack->showtranscript) && $vtturl !== null) {
     echo html_writer::start_div('videotrack-transcript-panel', ['id' => 'videotrack-transcript-panel']);
-    echo html_writer::tag(
-        'h3',
+    echo html_writer::tag('h3',
         get_string('transcript_title', 'mod_videotrack'),
-        ['class' => 'h6 mt-0 mb-1']
-    );
-    echo html_writer::div(
-        html_writer::tag(
-            'p',
+        ['class' => 'h6 mt-0 mb-1']);
+    echo html_writer::div(html_writer::tag('p',
             get_string('transcript_loading', 'mod_videotrack'),
-            ['class' => 'text-muted small', 'role' => 'status']
-        ),
+            ['class' => 'text-muted small', 'role' => 'status']),
         'videotrack-transcript-content',
-        ['id' => 'videotrack-transcript-content']
-    );
+        ['id' => 'videotrack-transcript-content']);
     echo html_writer::end_div(); // Videotrack-transcript-panel.
 }
 
@@ -417,16 +384,12 @@ if (!empty($videotrack->studentnotesenabled)) {
     // Header with show/hide toggle. The initial aria-label is updated synchronously.
     // By the AMD player from sessionStorage before the panel is used.
     echo html_writer::start_div('videotrack-notes-header d-flex align-items-center justify-content-between mb-1');
-    echo html_writer::tag(
-        'h3',
+    echo html_writer::tag('h3',
         get_string('studentnotes_title', 'mod_videotrack'),
-        ['class' => 'h6 mt-0 mb-0']
-    );
-    echo html_writer::tag(
-        'button',
+        ['class' => 'h6 mt-0 mb-0']);
+    echo html_writer::tag('button',
         get_string('notes_hide', 'mod_videotrack'),
-        [ 'type'          => 'button', 'id'            => 'videotrack-notes-toggle', 'class'         => 'btn btn-link btn-sm p-0 videotrack-notes-toggle', 'aria-expanded' => 'true', 'aria-controls' => 'videotrack-notes-body', 'aria-label'    => get_string('notes_hide', 'mod_videotrack') . ': ' . get_string('studentnotes_title', 'mod_videotrack'), ]
-    );
+        [ 'type'          => 'button', 'id'            => 'videotrack-notes-toggle', 'class'         => 'btn btn-link btn-sm p-0 videotrack-notes-toggle', 'aria-expanded' => 'true', 'aria-controls' => 'videotrack-notes-body', 'aria-label'    => get_string('notes_hide', 'mod_videotrack') . ': ' . get_string('studentnotes_title', 'mod_videotrack'), ]);
     echo html_writer::end_div(); // Notes-header.
     // Collapsible body, hidden or shown by the toggle.
     // Data-collapsed is read by installNotesToggle before rendering to avoid a flash.
@@ -457,8 +420,7 @@ if (!empty($videotrack->studentnotesenabled)) {
             'aria-disabled' => 'true',
             // Enabled only during playback, managed by JavaScript.
             'aria-describedby' => 'videotrack-note-hint',
-        ]
-    );
+        ]);
     // Remaining character counter, updated in real time by JavaScript.
     echo html_writer::tag('span', $notemaxlength . ' ' . get_string('charsremaininglabel', 'mod_videotrack'), [
         'id'         => 'videotrack-note-charcount',
@@ -474,11 +436,9 @@ if (!empty($videotrack->studentnotesenabled)) {
         'aria-atomic' => 'true',
     ]);
     // Notice: the note is saved at the current video timestamp.
-    echo html_writer::tag(
-        'p',
+    echo html_writer::tag('p',
         get_string('studentnote_hint', 'mod_videotrack'),
-        ['id' => 'videotrack-note-hint', 'class' => 'small text-muted mt-1 mb-1']
-    );
+        ['id' => 'videotrack-note-hint', 'class' => 'small text-muted mt-1 mb-1']);
     // Saved notes list, populated by JavaScript and server-side rendering.
     echo html_writer::start_tag('ol', [
         'id'         => 'videotrack-notes-list',
@@ -499,27 +459,21 @@ if (!empty($videotrack->studentnotesenabled)) {
     }
     $existingnotes = array_reverse($existingnotes, true);
     if ($noteslimited) {
-        echo html_writer::tag(
-            'p',
+        echo html_writer::tag('p',
             get_string('studentnotes_view_limited', 'mod_videotrack', $noteslimit) . ' ' . html_writer::link(new moodle_url('/mod/videotrack/report.php', [ 'id' => $cm->id, 'mode' => 'student', 'userid' => $USER->id, ]), get_string('report:viewfullreport', 'mod_videotrack')),
-            ['class' => 'small text-muted']
-        );
+            ['class' => 'small text-muted']);
     }
     foreach ($existingnotes as $note) {
         echo html_writer::start_tag('li', [
             'class'        => 'videotrack-note-item',
             'data-noteid'  => $note->id,
         ]);
-        echo html_writer::tag(
-            'span',
+        echo html_writer::tag('span',
             videotrack_format_seconds((float)$note->videotime),
-            ['class' => 'videotrack-note-time text-muted me-1 small']
-        );
-        echo html_writer::tag(
-            'span',
+            ['class' => 'videotrack-note-time text-muted me-1 small']);
+        echo html_writer::tag('span',
             s($note->notetext),
-            ['class' => 'videotrack-note-text']
-        );
+            ['class' => 'videotrack-note-text']);
         echo html_writer::tag('button',
             get_string('removenote', 'mod_videotrack'),
             [
@@ -529,8 +483,7 @@ if (!empty($videotrack->studentnotesenabled)) {
                 // WCAG 2.4.6: contextual aria-label with the note timestamp.
                 'aria-label' => get_string('removenote', 'mod_videotrack') . ' — ' .
                                 videotrack_format_seconds((float)$note->videotime),
-            ]
-        );
+            ]);
         echo html_writer::end_tag('li');
     }
     echo html_writer::end_tag('ol');
@@ -539,18 +492,12 @@ if (!empty($videotrack->studentnotesenabled)) {
 }
 
 echo html_writer::start_div('videotrack-progress mb-2');
-echo html_writer::tag(
-    'div',
-    get_string('progress', 'mod_videotrack') . ': ' . html_writer::tag( 'strong', format_float($percent, 2) . '%', [ 'id' => 'videotrack-progress-percent', ] )
-);
-echo html_writer::tag(
-    'div',
-    get_string('report:uniquecoveredseconds', 'mod_videotrack') . ': ' . html_writer::tag( 'span', s(videotrack_format_seconds($covered)), ['id' => 'videotrack-covered-seconds'] )
-);
-echo html_writer::tag(
-    'div',
-    get_string('uniquereactions', 'mod_videotrack') . ': ' . html_writer::tag( 'span', (string)count($uniquereactionids), ['id' => 'videotrack-unique-reactions'] )
-);
+echo html_writer::tag('div',
+    get_string('progress', 'mod_videotrack') . ': ' . html_writer::tag('strong', format_float($percent, 2) . '%', [ 'id' => 'videotrack-progress-percent', ]));
+echo html_writer::tag('div',
+    get_string('report:uniquecoveredseconds', 'mod_videotrack') . ': ' . html_writer::tag('span', s(videotrack_format_seconds($covered)), ['id' => 'videotrack-covered-seconds']));
+echo html_writer::tag('div',
+    get_string('uniquereactions', 'mod_videotrack') . ': ' . html_writer::tag('span', (string)count($uniquereactionids), ['id' => 'videotrack-unique-reactions']));
 echo html_writer::end_div(); // Videotrack-progress.
 
 if (!empty($videotrack->reactionsenabled) && $reactions) {
@@ -581,11 +528,9 @@ if (!empty($videotrack->reactionsenabled) && $reactions) {
     }
     // Student explanation: reactions are recorded only during playback.
     // This is by design (requirement item 4).
-    echo html_writer::tag(
-        'p',
+    echo html_writer::tag('p',
         get_string('reactions_hint', 'mod_videotrack'),
-        ['class' => 'videotrack-reactions-hint', 'id' => 'videotrack-reactions-hint']
-    );
+        ['class' => 'videotrack-reactions-hint', 'id' => 'videotrack-reactions-hint']);
     echo html_writer::tag('span', '', [
         'id'          => 'videotrack-reactions-live-status',
         'class'       => 'sr-only visually-hidden',
@@ -598,40 +543,31 @@ if (!empty($videotrack->reactionsenabled) && $reactions) {
 
 if ($showstudentreport) {
     // Clear visual separation between personal notes and reactions in the student view.
-    echo html_writer::tag(
-        'h4',
+    echo html_writer::tag('h4',
         get_string('reportstudent', 'mod_videotrack'),
-        ['class' => 'h5 mt-3 mb-2 videotrack-reactions-section-heading']
-    );
+        ['class' => 'h5 mt-3 mb-2 videotrack-reactions-section-heading']);
     echo html_writer::start_div('videotrack-reactions-table-wrap');
     // A2: the sr-only caption is enough; removing aria-label avoids assistive technologies.
     // Announcing the table title twice (caption + aria-label).
     echo html_writer::start_tag('table', ['class' => 'generaltable']);
-    echo html_writer::tag(
-        'caption',
+    echo html_writer::tag('caption',
         get_string('reportstudent', 'mod_videotrack'),
-        ['class' => 'sr-only']
-    );
+        ['class' => 'sr-only']);
     echo html_writer::start_tag('thead');
-    echo html_writer::tag(
-        'tr',
-        html_writer::tag('th', get_string('report:timestamp', 'mod_videotrack'), ['scope' => 'col']) . html_writer::tag('th', get_string('report:reaction', 'mod_videotrack'), ['scope' => 'col']) . html_writer::tag('th', get_string('report:description', 'mod_videotrack'), ['scope' => 'col']) . html_writer::tag('th', get_string('report:replay', 'mod_videotrack'), ['scope' => 'col']) . html_writer::tag('th', get_string('report:delete', 'mod_videotrack'), ['scope' => 'col'])
-    );
+    echo html_writer::tag('tr',
+        html_writer::tag('th', get_string('report:timestamp', 'mod_videotrack'), ['scope' => 'col']) . html_writer::tag('th', get_string('report:reaction', 'mod_videotrack'), ['scope' => 'col']) . html_writer::tag('th', get_string('report:description', 'mod_videotrack'), ['scope' => 'col']) . html_writer::tag('th', get_string('report:replay', 'mod_videotrack'), ['scope' => 'col']) . html_writer::tag('th', get_string('report:delete', 'mod_videotrack'), ['scope' => 'col']));
     echo html_writer::end_tag('thead');
     echo html_writer::start_tag('tbody', [
         'id' => 'videotrack-my-reactions',
     ]);
     if (empty($events)) {
         echo html_writer::tag('tr',
-            html_writer::tag(
-                'td',
+            html_writer::tag('td',
                 get_string('noreactionsyet', 'mod_videotrack'),
-                ['colspan' => '5', 'class' => 'text-muted text-center py-2']
-            ),
+                ['colspan' => '5', 'class' => 'text-muted text-center py-2']),
             // Class used by JavaScript (appendReactionRow) to remove this row.
             // When the first dynamic reaction is added.
-            ['class' => 'videotrack-no-reactions-placeholder']
-        );
+            ['class' => 'videotrack-no-reactions-placeholder']);
     }
     // Precompute reactionmap for O(1) lookup instead of O(n) per event.
     $reactionmapview = [];
@@ -643,10 +579,8 @@ if ($showstudentreport) {
         $totalreactions = $DB->count_records_select('videotrack_reactev', $eventwhere, $eventparams);
         $showninfo = (object)['shown' => count($events), 'total' => $totalreactions];
         $reporturl = new moodle_url('/mod/videotrack/report.php', ['id' => $cm->id, 'mode' => 'student']);
-        echo html_writer::tag(
-            'tr',
-            html_writer::tag( 'td', get_string('report:showingrecentreactionsoftotal', 'mod_videotrack', $showninfo) . ' ' . html_writer::link($reporturl, get_string('report:viewfullreport', 'mod_videotrack')), ['colspan' => '5', 'class' => 'text-muted text-center py-2'] )
-        );
+        echo html_writer::tag('tr',
+            html_writer::tag('td', get_string('report:showingrecentreactionsoftotal', 'mod_videotrack', $showninfo) . ' ' . html_writer::link($reporturl, get_string('report:viewfullreport', 'mod_videotrack')), ['colspan' => '5', 'class' => 'text-muted text-center py-2']));
     }
     foreach ($events as $event) {
         $start    = max(0, (float)$event->videotime - 30);
@@ -655,10 +589,8 @@ if ($showstudentreport) {
         $timestampfmt = videotrack_format_seconds((float)$event->videotime);
         echo html_writer::start_tag('tr', ['data-eventid' => $event->id]);
         echo html_writer::tag('td', videotrack_format_seconds((float)$event->videotime));
-        echo html_writer::tag('td', html_writer::span(
-            $reaction ? videotrack_render_reaction_icon($reaction, $context, true) : s($event->reactionlabel),
-            'videotrack-report-icon'
-        ));
+        echo html_writer::tag('td', html_writer::span($reaction ? videotrack_render_reaction_icon($reaction, $context, true) : s($event->reactionlabel),
+            'videotrack-report-icon'));
         echo html_writer::tag('td', s($event->reactiondesc));
         echo html_writer::tag('td', html_writer::tag('button',
             get_string('report:replay', 'mod_videotrack'),
@@ -669,8 +601,7 @@ if ($showstudentreport) {
                 'data-end'   => $end,
                 // WCAG 2.4.6: contextual aria-label distinguishes identical buttons for screen readers.
                 'aria-label' => get_string('report:replay', 'mod_videotrack') . ' — ' . $timestampfmt,
-            ]
-        ));
+            ]));
         echo html_writer::tag('td', html_writer::tag('button',
             get_string('removereaction', 'mod_videotrack'),
             [
@@ -679,8 +610,7 @@ if ($showstudentreport) {
                 'data-eventid' => $event->id,
                 // WCAG 2.4.6: contextual aria-label distinguishes identical delete buttons for screen readers.
                 'aria-label'  => get_string('removereaction', 'mod_videotrack') . ' — ' . $timestampfmt,
-            ]
-        ));
+            ]));
         echo html_writer::end_tag('tr');
     }
     echo html_writer::end_tag('tbody');
@@ -689,13 +619,9 @@ if ($showstudentreport) {
 }
 
 if (has_capability('mod/videotrack:viewreport', $context)) {
-    echo html_writer::div(
-        html_writer::link(
-            new moodle_url('/mod/videotrack/report.php', ['id' => $cm->id]),
-            get_string('reportteacher', 'mod_videotrack')
-        ),
-        'mt-2'
-    );
+    echo html_writer::div(html_writer::link(new moodle_url('/mod/videotrack/report.php', ['id' => $cm->id]),
+            get_string('reportteacher', 'mod_videotrack')),
+        'mt-2');
 }
 
 echo html_writer::end_div(); // Videotrack-sidebar.
