@@ -37,6 +37,28 @@ define([
 
     // ── Utilities ─────────────────────────────────────────────────────────
 
+
+    /**
+     * Resolve the full player configuration.
+     *
+     * Moodle debug warns when large payloads are passed directly through
+     * js_call_amd(). The PHP view stores the full JSON in the page and passes
+     * only the DOM id to the AMD init method.
+     *
+     * @param {Object} initConfig Minimal init configuration from PHP.
+     * @return {Object} Full player configuration.
+     */
+    function resolveConfig(initConfig) {
+        if (initConfig && initConfig.configid) {
+            var node = document.getElementById(initConfig.configid);
+            if (!node) {
+                throw new Error('Videotrack player configuration not found.');
+            }
+            return JSON.parse(node.textContent || node.innerText || '{}');
+        }
+        return initConfig;
+    }
+
     function uuid() {
         return PlayerCore.uuid();
     }
@@ -698,7 +720,7 @@ define([
 
     return {
         init: function(initConfig) {
-            config             = initConfig;
+            config             = resolveConfig(initConfig);
             PlayerCore.configureStatus(config);
             // Reaction timing caps match settings.php limits and are centralised in core/reactions.
             var interval = parseInt(config.reactionannouncementinterval, 10);
