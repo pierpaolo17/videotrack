@@ -206,7 +206,7 @@ $alluserids = array_values(array_filter(array_unique(array_merge(
     $stateuserids,
     $eventuserids,
     $noteuserids
-)), static function(int $userid): bool {
+)), static function (int $userid): bool {
     return $userid > 0;
 }));
 $usermap = [];
@@ -286,7 +286,7 @@ if ($hasgrade && $cangrade && $alluserids) {
 }
 
 $clusterlimitreached = false;
-$clusterize = function(
+$clusterize = function (
     iterable $events,
     int $windowseconds,
     string $aggregationmode

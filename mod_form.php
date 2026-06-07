@@ -460,7 +460,11 @@ class mod_videotrack_mod_form extends moodleform_mod {
                 'static',
                 'html5controls_desc',
                 '',
-                html_writer::tag('small', get_string('setting:html5controls_teacher_desc', 'mod_videotrack'), ['class' => 'text-muted'])
+                html_writer::tag(
+                    'small',
+                    get_string('setting:html5controls_teacher_desc', 'mod_videotrack'),
+                    ['class' => 'text-muted']
+                )
             );
             $mform->hideIf('html5controls_desc', 'videosource', 'neq', 'upload');
 
@@ -513,7 +517,11 @@ class mod_videotrack_mod_form extends moodleform_mod {
                 'static',
                 'playbackspeeds_desc',
                 '',
-                html_writer::tag('small', get_string('setting:playbackspeeds_teacher_desc', 'mod_videotrack'), ['class' => 'text-muted'])
+                html_writer::tag(
+                    'small',
+                    get_string('setting:playbackspeeds_teacher_desc', 'mod_videotrack'),
+                    ['class' => 'text-muted']
+                )
             );
             $checkboxgroup = [];
             foreach ($availablespeeds as $val => $label) {
@@ -739,7 +747,11 @@ class mod_videotrack_mod_form extends moodleform_mod {
                 'select',
                 'reactionicontype[' . $i . ']',
                 get_string('reactionicontype', 'mod_videotrack'),
-                [ 'emoji' => get_string('icontype:emoji', 'mod_videotrack'), 'fa'    => get_string('icontype:fa', 'mod_videotrack'), 'file'  => get_string('icontype:file', 'mod_videotrack'), ]
+                [
+                    'emoji' => get_string('icontype:emoji', 'mod_videotrack'),
+                    'fa' => get_string('icontype:fa', 'mod_videotrack'),
+                    'file' => get_string('icontype:file', 'mod_videotrack'),
+                ]
             );
             $mform->setType('reactionicontype[' . $i . ']', PARAM_ALPHA);
 
@@ -765,7 +777,11 @@ class mod_videotrack_mod_form extends moodleform_mod {
                 'static',
                 'reactioniconfile_notice_' . $i,
                 '',
-                html_writer::tag('small', get_string('reactioniconfile_notice', 'mod_videotrack'), ['class' => 'text-muted form-text'])
+                html_writer::tag(
+                    'small',
+                    get_string('reactioniconfile_notice', 'mod_videotrack'),
+                    ['class' => 'text-muted form-text']
+                )
             );
 
             $mform->addElement(
@@ -906,7 +922,11 @@ class mod_videotrack_mod_form extends moodleform_mod {
                         'mod_videotrack',
                         'reactionicon',
                         (int)$reaction->id,
-                        [ 'subdirs'        => 0, 'maxfiles'       => 1, 'accepted_types' => ['.jpg', '.jpeg', '.png', '.gif', '.webp'], ]
+                        [
+                            'subdirs' => 0,
+                            'maxfiles' => 1,
+                            'accepted_types' => ['.jpg', '.jpeg', '.png', '.gif', '.webp'],
+                        ]
                     );
                 }
                 $defaultvalues['reactioniconfile_' . $i] = $draftitemid;

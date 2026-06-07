@@ -242,7 +242,7 @@ function videotrack_build_required_reaction_notice(stdClass $videotrack, array $
         $parts[] = get_string('notice:minreactions', 'mod_videotrack', (int)$videotrack->minreactions);
     }
     if (!empty($videotrack->requireallreactiontypes) && $reactions) {
-        $labels = array_map(static function($reaction) {
+        $labels = array_map(static function ($reaction) {
             return $reaction->label;
         }, $reactions);
         $parts[] = get_string('notice:requiredtypes', 'mod_videotrack', implode(', ', $labels));

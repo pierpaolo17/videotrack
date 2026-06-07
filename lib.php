@@ -504,7 +504,11 @@ function videotrack_save_reaction_definitions(int $videotrackid, stdClass $data)
                     'mod_videotrack',
                     'reactionicon',
                     $op['reactionid'],
-                    [ 'subdirs'        => 0, 'maxfiles'       => 1, 'accepted_types' => ['.jpg', '.jpeg', '.png', '.gif', '.webp'], ]
+                    [
+                        'subdirs' => 0,
+                        'maxfiles' => 1,
+                        'accepted_types' => ['.jpg', '.jpeg', '.png', '.gif', '.webp'],
+                    ]
                 );
                 // Resize to 64x64px with a centred crop after saving.
                 videotrack_resize_reaction_icon($op['context'], $op['reactionid'], $fs);
@@ -1116,7 +1120,7 @@ function videotrack_get_completion_active_rule_descriptions($cm) {
         'isdeleted' => 0,
     ], 'sortorder ASC, id ASC', 'id,label');
     if (!empty($requiredreactions)) {
-        $labels = array_map(static function($reaction) use ($context) {
+        $labels = array_map(static function ($reaction) use ($context) {
             return format_string($reaction->label, true, ['context' => $context]);
         }, array_values($requiredreactions));
         $descriptions[] = get_string('completiondetail:requiredreactions', 'mod_videotrack', implode(', ', $labels));
@@ -1228,11 +1232,13 @@ function videotrack_reset_course_form_defaults($course) {
  */
 function videotrack_resize_reaction_icon(context_module $context, int $reactionid, file_storage $fs): void {
     if (!function_exists('imagecreatefromstring')) {
-        // GD non disponibile: il ridimensionamento non avviene.
+        // GD is not available: resizing is skipped.
         // The admin warning is already visible on the settings page (settings.php).
         // And in the environment.xml check. Do not block saving.
         debugging(
-            'mod_videotrack: GD PHP extension is not available. ' . 'Reaction icon for reactionid=' . $reactionid . ' was NOT resized to 64×64px. ' . 'Install php-gd to enable automatic icon resizing.',
+            'mod_videotrack: GD PHP extension is not available. ' .
+                'Reaction icon for reactionid=' . $reactionid . ' was NOT resized to 64x64px. ' .
+                'Install php-gd to enable automatic icon resizing.',
             DEBUG_NORMAL
         );
         return;
