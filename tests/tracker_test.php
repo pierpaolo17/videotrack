@@ -18,6 +18,7 @@ namespace mod_videotrack;
 
 use advanced_testcase;
 use mod_videotrack\local\tracker;
+use PHPUnit\Framework\Attributes\CoversClass;
 
 /**
  * PHPUnit coverage for pure tracking interval helpers.
@@ -31,6 +32,7 @@ use mod_videotrack\local\tracker;
  * @copyright  2026
  * @license    https://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
+#[CoversClass(tracker::class)]
 final class tracker_test extends advanced_testcase {
     /**
      * Load tracker class under test.
@@ -42,8 +44,6 @@ final class tracker_test extends advanced_testcase {
 
     /**
      * Interval normalisation clamps against video duration and rejects empty ranges.
-     *
-     * @covers \mod_videotrack\local\tracker::normalise_interval
      */
     public function test_normalise_interval_clamps_and_rejects_empty_ranges(): void {
         $this->assertSame([0.0, 10.0], tracker::normalise_interval(-5.0, 10.0));
@@ -55,8 +55,6 @@ final class tracker_test extends advanced_testcase {
 
     /**
      * Invalid decoded interval data is ignored before it can affect completion.
-     *
-     * @covers \mod_videotrack\local\tracker::decode_intervals
      */
     public function test_decode_intervals_filters_invalid_ranges(): void {
         $json = json_encode([
@@ -74,9 +72,6 @@ final class tracker_test extends advanced_testcase {
 
     /**
      * Overlapping and adjacent intervals are merged deterministically.
-     *
-     * @covers \mod_videotrack\local\tracker::merge_intervals
-     * @covers \mod_videotrack\local\tracker::covered_seconds
      */
     public function test_merge_intervals_and_covered_seconds_are_deterministic(): void {
         $merged = tracker::merge_intervals([
@@ -92,8 +87,6 @@ final class tracker_test extends advanced_testcase {
 
     /**
      * Simplification keeps the longest fragments without merging unseen gaps.
-     *
-     * @covers \mod_videotrack\local\tracker::simplify_intervals
      */
     public function test_simplify_intervals_never_overestimates_coverage(): void {
         $intervals = [
@@ -111,8 +104,6 @@ final class tracker_test extends advanced_testcase {
 
     /**
      * The interval cap limits pathological data while preserving timeline order.
-     *
-     * @covers \mod_videotrack\local\tracker::cap_intervals
      */
     public function test_cap_intervals_limits_count_and_preserves_order(): void {
         $intervals = [];
