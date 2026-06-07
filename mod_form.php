@@ -22,16 +22,21 @@
  * @license   https://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 
-
 defined('MOODLE_INTERNAL') || die();
 
 require_once($CFG->dirroot . '/course/moodleform_mod.php');
 require_once(__DIR__ . '/locallib.php');
 
+/**
+ * Activity settings form for the VideoTrack module.
+ */
 class mod_videotrack_mod_form extends moodleform_mod {
     /** @var int */
     protected $reactionrepeatcount = 0;
 
+    /**
+     * Defines the activity settings form.
+     */
     public function definition() {
         global $COURSE;
         $mform = $this->_form;
@@ -42,7 +47,7 @@ class mod_videotrack_mod_form extends moodleform_mod {
         $canoverridecompleting = has_capability('mod/videotrack:overridecompletionsettings', $coursecontext);
 
         // Read defaults configured by the site administrator.
-        $cfg = function(string $key, $fallback) {
+        $cfg = function (string $key, $fallback) {
             $val = get_config('mod_videotrack', $key);
             return ($val !== false && $val !== '') ? $val : $fallback;
         };
@@ -60,8 +65,8 @@ class mod_videotrack_mod_form extends moodleform_mod {
 
         $sourceoptions = [
             'youtube' => get_string('source:youtube', 'mod_videotrack'),
-            'vimeo'   => get_string('source:vimeo',   'mod_videotrack'),
-            'upload'  => get_string('source:upload',  'mod_videotrack'),
+            'vimeo'   => get_string('source:vimeo', 'mod_videotrack'),
+            'upload'  => get_string('source:upload', 'mod_videotrack'),
         ];
         $mform->addElement('select', 'videosource', get_string('videosource', 'mod_videotrack'), $sourceoptions);
         $mform->setType('videosource', PARAM_ALPHA);
@@ -164,7 +169,7 @@ class mod_videotrack_mod_form extends moodleform_mod {
         $mform->setType('allowplaybackratechange', PARAM_BOOL);
         $mform->setDefault('allowplaybackratechange', (int)(bool)$cfg('default_allowplaybackratechange', 1));
 
-        // Resume playback dal punto lasciato dall'ultima sessione.
+        // Resume playback from the last saved position.
         $mform->addElement('advcheckbox', 'resumeplayback',
             get_string('resumeplayback', 'mod_videotrack'),
             get_string('resumeplayback_desc', 'mod_videotrack'));
@@ -177,7 +182,7 @@ class mod_videotrack_mod_form extends moodleform_mod {
         $maxspeedoptions = [
             0   => get_string('maxplaybackrate_nolimit', 'mod_videotrack'),
             125 => '1.25×', 150 => '1.5×', 175 => '1.75×',
-            200 => '2×',    300 => '3×',   400 => '4×',
+            200 => '2×', 300 => '3×', 400 => '4×',
         ];
         $mform->addElement('select', 'maxplaybackrate',
             get_string('maxplaybackrate', 'mod_videotrack'), $maxspeedoptions);
@@ -199,7 +204,7 @@ class mod_videotrack_mod_form extends moodleform_mod {
         $mform->addElement('header', 'playerbehaviorheader',
             get_string('setting:heading_playerbehavior', 'mod_videotrack'));
 
-        // Max player width (px). 0 = use site default.
+        // Maximum player width in pixels. Zero uses the site default.
         $playerwidthelement = $mform->addElement('text', 'playerwidth',
             get_string('setting:playerwidth', 'mod_videotrack'), ['size' => 6]);
         $mform->setType('playerwidth', PARAM_INT);
@@ -227,21 +232,21 @@ class mod_videotrack_mod_form extends moodleform_mod {
         $mform->setDefault('startmuted', (int)(bool)$cfg('default_startmuted', 0));
         $mform->addHelpButton('startmuted', 'startmuted', 'mod_videotrack');
 
-        // Rewind step (seconds). 0 = use site default.
+        // Rewind step in seconds. Zero uses the site default.
         $mform->addElement('text', 'rewindstep',
             get_string('setting:rewindstep', 'mod_videotrack'), ['size' => 4]);
         $mform->setType('rewindstep', PARAM_INT);
         $mform->setDefault('rewindstep', 0);
         $mform->addHelpButton('rewindstep', 'rewindstep', 'mod_videotrack');
 
-        // Fast-forward step (seconds). 0 = use site default.
+        // Fast-forward step in seconds. Zero uses the site default.
         $mform->addElement('text', 'fastforwardstep',
             get_string('setting:fastforwardstep', 'mod_videotrack'), ['size' => 4]);
         $mform->setType('fastforwardstep', PARAM_INT);
         $mform->setDefault('fastforwardstep', 0);
         $mform->addHelpButton('fastforwardstep', 'fastforwardstep', 'mod_videotrack');
 
-        // allowdownload: visible only for upload source.
+        // Allow download is visible only for uploaded videos.
         $mform->addElement('advcheckbox', 'allowdownload', get_string('allowdownload', 'mod_videotrack'));
 
         $mform->setType('allowdownload', PARAM_BOOL);
@@ -274,7 +279,7 @@ class mod_videotrack_mod_form extends moodleform_mod {
         $mform->addHelpButton('captionslang', 'captionslang', 'mod_videotrack');
         $mform->disabledIf('captionslang', 'captions', 'notchecked');
 
-        // VTT file upload — upload source only.
+        // VTT file upload is available only for uploaded videos.
         $vttopt = ['subdirs' => false, 'maxfiles' => 1, 'accepted_types' => ['.vtt']];
         $mform->addElement('filepicker', 'vttfile',
             get_string('vttfile', 'mod_videotrack'), null, $vttopt);
@@ -336,7 +341,7 @@ class mod_videotrack_mod_form extends moodleform_mod {
         $allctrl          = [
             'play'       => get_string('ctrl:play',       'mod_videotrack'),
             'rewind'     => get_string('ctrl:rewind',     'mod_videotrack'),
-            'fastforward'=> get_string('ctrl:fastforward','mod_videotrack'),
+            'fastforward' => get_string('ctrl:fastforward', 'mod_videotrack'),
             'progress'   => get_string('ctrl:progress',   'mod_videotrack'),
             'current'    => get_string('ctrl:current',    'mod_videotrack'),
             'duration'   => get_string('ctrl:duration',   'mod_videotrack'),
@@ -543,6 +548,9 @@ class mod_videotrack_mod_form extends moodleform_mod {
         $this->add_action_buttons();
     }
 
+    /**
+     * Adds repeated form elements used to configure reaction buttons.
+     */
     protected function add_reaction_elements(): void {
         $mform = $this->_form;
         $repeatcount = $this->get_reaction_repeat_count();
@@ -591,7 +599,7 @@ class mod_videotrack_mod_form extends moodleform_mod {
             $mform->addElement('filemanager', 'reactioniconfile_' . $i,
                 get_string('reactioniconfile', 'mod_videotrack'), null, $options);
             $mform->addHelpButton('reactioniconfile_' . $i, 'reactioniconfile', 'mod_videotrack');
-            // Avviso: proporzoni 1:1 e ridimensionamento automatico.
+            // Warn teachers about square proportions and automatic resizing.
             $mform->addElement('static', 'reactioniconfile_notice_' . $i, '',
                 html_writer::tag('small',
                     get_string('reactioniconfile_notice', 'mod_videotrack'),
@@ -614,6 +622,11 @@ class mod_videotrack_mod_form extends moodleform_mod {
             get_string('addreaction', 'mod_videotrack'));
     }
 
+    /**
+     * Returns the number of reaction rows to render in the form.
+     *
+     * @return int Number of reaction rows.
+     */
     protected function get_reaction_repeat_count(): int {
         $count = optional_param('reaction_repeats', 0, PARAM_INT);
         if ($count <= 0) {
@@ -632,6 +645,11 @@ class mod_videotrack_mod_form extends moodleform_mod {
         return min(max($count, 1), 30);
     }
 
+    /**
+     * Adds VideoTrack-specific completion rules.
+     *
+     * @return array List of completion rule element names.
+     */
     public function add_completion_rules() {
         global $COURSE;
         $mform = $this->_form;
@@ -653,12 +671,23 @@ class mod_videotrack_mod_form extends moodleform_mod {
         return ['completionpercentgroup'];
     }
 
+    /**
+     * Checks whether the custom completion rule is enabled.
+     *
+     * @param array $data Submitted form data.
+     * @return bool True when at least one custom completion condition is active.
+     */
     public function completion_rule_enabled($data) {
         return (!empty($data['completionpercent']) && (int)$data['completionpercent'] > 0) ||
             (!empty($data['reactionsrequired']) && !empty($data['minreactions'])) ||
             !empty($data['requireallreactiontypes']);
     }
 
+    /**
+     * Prepares default values and draft areas before the form is displayed.
+     *
+     * @param array $defaultvalues Default values passed by reference.
+     */
     public function data_preprocessing(&$defaultvalues) {
         global $DB;
         // Load existing reactions for the edit form.
@@ -692,7 +721,7 @@ class mod_videotrack_mod_form extends moodleform_mod {
                 $i++;
             }
         }
-        // Draft area per le righe vuote.
+        // Prepare draft areas for empty rows.
         for ($i = 0; $i < $this->reactionrepeatcount; $i++) {
             $field = 'reactioniconfile_' . $i;
             if (!isset($defaultvalues[$field])) {
@@ -721,7 +750,7 @@ class mod_videotrack_mod_form extends moodleform_mod {
             // Use site defaults.
             $activespeeds = array_map('strval', videotrack_get_site_playback_speeds());
         }
-        foreach (['0.25','0.5','0.75','1','1.25','1.5','1.75','2','3','4'] as $v) {
+        foreach (['0.25', '0.5', '0.75', '1', '1.25', '1.5', '1.75', '2', '3', '4'] as $v) {
             $defaultvalues["playbackspeed_{$v}"] = in_array($v, $activespeeds) ? $v : 0;
         }
 
@@ -729,8 +758,8 @@ class mod_videotrack_mod_form extends moodleform_mod {
         $activecontrols = !empty($defaultvalues['html5controls'])
             ? array_map('trim', explode(',', $defaultvalues['html5controls']))
             : videotrack_get_html5controls((object)['html5controls' => '']);
-        foreach (['play','rewind','fastforward','progress','current','duration','mute','volume',
-                  'speed','pip','fullscreen','download'] as $ctrl) {
+        foreach (['play', 'rewind', 'fastforward', 'progress', 'current', 'duration', 'mute', 'volume',
+                  'speed', 'pip', 'fullscreen', 'download'] as $ctrl) {
             $defaultvalues["html5ctrl_{$ctrl}"] = in_array($ctrl, $activecontrols) ? $ctrl : 0;
         }
 
@@ -745,7 +774,7 @@ class mod_videotrack_mod_form extends moodleform_mod {
         // Pre-populate numeric fields with site defaults when the value is 0.
         foreach (['playerwidth', 'rewindstep', 'fastforwardstep'] as $field) {
             if (empty($defaultvalues[$field])) {
-                $defaultvalues[$field] = 0; // 0 = use site default
+                $defaultvalues[$field] = 0; // Zero uses the site default.
             }
         }
 
@@ -803,6 +832,13 @@ class mod_videotrack_mod_form extends moodleform_mod {
         }
     }
 
+    /**
+     * Validates submitted activity settings.
+     *
+     * @param array $data Submitted form data.
+     * @param array $files Submitted files.
+     * @return array Validation errors indexed by form element name.
+     */
     public function validation($data, $files) {
         $errors = parent::validation($data, $files);
         $source = $data['videosource'] ?? 'youtube';
@@ -819,8 +855,8 @@ class mod_videotrack_mod_form extends moodleform_mod {
             // For edits, the existing file is kept even when the file picker is empty.
             $draftitemid = (int)($data['videofile'] ?? 0);
             $fileinfo    = $draftitemid > 0 ? file_get_draft_area_info($draftitemid) : [];
-            $isNew       = empty($data['instance']); // $data['instance'] = 0 for a new activity.
-            if ($isNew && empty($fileinfo['filecount'])) {
+            $isnew       = empty($data['instance']); // The instance value is zero for a new activity.
+            if ($isnew && empty($fileinfo['filecount'])) {
                 $errors['videofile'] = get_string('required');
             }
         } else {
