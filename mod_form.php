@@ -203,14 +203,15 @@ class mod_videotrack_mod_form extends moodleform_mod {
 
         // Lock player fields if the teacher does not have the override capability.
         if (!$canoverrideplayer) {
-            foreach ([
+            $lockedfields = [
                 'showcontrols',
                 'disablekeyboard',
                 'showfullscreen',
                 'allowseekforward',
                 'allowseekbackward',
                 'allowplaybackratechange',
-            ] as $field) {
+            ];
+            foreach ($lockedfields as $field) {
                 $mform->freeze($field);
             }
         }
@@ -284,7 +285,7 @@ class mod_videotrack_mod_form extends moodleform_mod {
         $mform->hideIf('allowdownload', 'videosource', 'neq', 'upload');
 
         if (!$canoverrideplayer) {
-            foreach ([
+            $lockedfields = [
                 'playerwidth',
                 'autoplay',
                 'loop',
@@ -292,7 +293,8 @@ class mod_videotrack_mod_form extends moodleform_mod {
                 'rewindstep',
                 'fastforwardstep',
                 'allowdownload',
-            ] as $field) {
+            ];
+            foreach ($lockedfields as $field) {
                 $mform->freeze($field);
             }
         }
@@ -966,7 +968,7 @@ class mod_videotrack_mod_form extends moodleform_mod {
         $activecontrols = !empty($defaultvalues['html5controls'])
             ? array_map('trim', explode(',', $defaultvalues['html5controls']))
             : videotrack_get_html5controls((object)['html5controls' => '']);
-        foreach ([
+        $html5controls = [
             'play',
             'rewind',
             'fastforward',
@@ -979,7 +981,8 @@ class mod_videotrack_mod_form extends moodleform_mod {
             'pip',
             'fullscreen',
             'download',
-        ] as $ctrl) {
+        ];
+        foreach ($html5controls as $ctrl) {
             $defaultvalues["html5ctrl_{$ctrl}"] = in_array($ctrl, $activecontrols) ? $ctrl : 0;
         }
 

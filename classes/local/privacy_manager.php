@@ -308,7 +308,7 @@ class privacy_manager {
                 DEBUG_DEVELOPER
             );
             $transaction->rollback($e);
-            // rollback() already rethrows in Moodle; keep an explicit throw for
+            // Rollback() already rethrows in Moodle; keep an explicit throw for
             // clarity and for future compatibility with transaction handling.
             throw $e;
         }

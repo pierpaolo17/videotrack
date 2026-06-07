@@ -135,9 +135,7 @@ if ($action === 'edit' && !empty($editkey)) {
     }
 }
 
-// -------------------------------------------------------------------------
 // Output.
-// -------------------------------------------------------------------------
 echo $OUTPUT->header();
 echo $OUTPUT->heading(get_string('presets:pagetitle', 'mod_videotrack'));
 echo html_writer::tag('p', get_string('presets:intro', 'mod_videotrack'));
@@ -150,9 +148,7 @@ if ($isediting) {
     );
 }
 
-// -------------------------------------------------------------------------
 // List view.
-// -------------------------------------------------------------------------
 if (!$isediting) {
     if (!empty($presets)) {
         $table           = new html_table();
@@ -208,9 +204,7 @@ if (!$isediting) {
     );
 }
 
-// -------------------------------------------------------------------------
 // Add / Edit form.
-// -------------------------------------------------------------------------
 if ($isediting) {
     $formaction = new moodle_url(
         $PAGE->url,
@@ -290,13 +284,14 @@ if ($isediting) {
     );
     echo html_writer::start_tag('thead');
     echo html_writer::start_tag('tr');
-    foreach ([
+    $reactiontableheadings = [
         get_string('reactionlabel', 'mod_videotrack'),
         get_string('reactiondescription', 'mod_videotrack'),
         get_string('reactionicontype', 'mod_videotrack'),
         get_string('reactioniconvalue', 'mod_videotrack'),
         get_string('reactionrequired', 'mod_videotrack'),
-    ] as $th) {
+    ];
+    foreach ($reactiontableheadings as $th) {
         echo html_writer::tag('th', $th, ['scope' => 'col']);
     }
     echo html_writer::end_tag('tr');
