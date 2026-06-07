@@ -1,25 +1,25 @@
 <?php
 // This file is part of Moodle - https://moodle.org/
-//
-// Moodle is free software: you can redistribute it and/or modify
-// it under the terms of the GNU General Public License as published by
-// the Free Software Foundation, either version 3 of the License, or
+//.
+// Moodle is free software: you can redistribute it and/or modify.
+// It under the terms of the GNU General Public License as published by.
+// The Free Software Foundation, either version 3 of the License, or.
 // (at your option) any later version.
-//
-// Moodle is distributed in the hope that it will be useful,
-// but WITHOUT ANY WARRANTY; without even the implied warranty of
-// MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+//.
+// Moodle is distributed in the hope that it will be useful,.
+// But WITHOUT ANY WARRANTY; without even the implied warranty of.
+// MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the.
 // GNU General Public License for more details.
-//
-// You should have received a copy of the GNU General Public License
-// along with Moodle.  If not, see <https://www.gnu.org/licenses/>.
+//.
+// You should have received a copy of the GNU General Public License.
+// Along with Moodle.  If not, see <https://www.gnu.org/licenses/>.
 
 /**
  * VideoTrack plugin file.
  *
  * @package   mod_videotrack
  * @copyright 2026 videotrack contributors
- * @license   https://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
+ * @license   https://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later.
  */
 
 /**
@@ -63,13 +63,13 @@ function xmldb_videotrack_upgrade($oldversion) {
     if ($oldversion < 2026050100) {
         $table = new xmldb_table('videotrack');
 
-        // videosource: 'youtube' | 'vimeo' | 'upload'.
+        // Videosource: 'youtube' | 'vimeo' | 'upload'.
         $field = new xmldb_field('videosource', XMLDB_TYPE_CHAR, '20', null, XMLDB_NOTNULL, null, 'youtube', 'videoid');
         if (!$dbman->field_exists($table, $field)) {
             $dbman->add_field($table, $field);
         }
 
-        // videourl: Vimeo URL or uploaded file reference.
+        // Videourl: Vimeo URL or uploaded file reference.
         $field = new xmldb_field('videourl', XMLDB_TYPE_TEXT, null, null, null, null, null, 'videosource');
         if (!$dbman->field_exists($table, $field)) {
             $dbman->add_field($table, $field);
@@ -128,9 +128,9 @@ function xmldb_videotrack_upgrade($oldversion) {
         upgrade_mod_savepoint(true, 2026050103, 'videotrack');
     }
 
-    // Some intermediate releases only changed PHP/JS/lang files and did not require
-    // schema changes. Keep explicit savepoints so sites upgrading through those
-    // versions have a clear and auditable upgrade path.
+    // Some intermediate releases only changed PHP/JS/lang files and did not require.
+    // Schema changes. Keep explicit savepoints so sites upgrading through those.
+    // Versions have a clear and auditable upgrade path.
 
     if ($oldversion < 2026050200) {
         upgrade_mod_savepoint(true, 2026050200, 'videotrack');
@@ -238,13 +238,13 @@ function xmldb_videotrack_upgrade($oldversion) {
         upgrade_mod_savepoint(true, 2026050219, 'videotrack');
     }
     if ($oldversion < 2026050231) {
-        // Version 0.8.1: language apostrophe fixes, monotonic durationseconds,
-        // DB record whitelist, deduplicated maxplaybackrate settings, atomic transaction
-        // save_segment, capabilities managereactions/grade, simplify_intervals no-overcount,
-        // reaction_counts SQL, appendIconSafe whitelist, GDPR intervaljson, log heartbeat,
-        // first-reaction placeholder, note CSV export with useridfilter.
+        // Version 0.8.1: language apostrophe fixes, monotonic durationseconds,.
+        // DB record whitelist, deduplicated maxplaybackrate settings, atomic transaction.
+        // Save_segment, capabilities managereactions/grade, simplify_intervals no-overcount,.
+        // Reaction_counts SQL, appendIconSafe whitelist, GDPR intervaljson, log heartbeat,.
+        // First-reaction placeholder, note CSV export with useridfilter.
         $table = new xmldb_table('videotrack');
-        // Adds fields that may be missing when upgrading from very old versions
+        // Adds fields that may be missing when upgrading from very old versions.
         // (these existed in install.xml but not in earlier upgrade blocks).
         $maybefields = [
             new xmldb_field('showcontrols', XMLDB_TYPE_INTEGER, '1', null, XMLDB_NOTNULL, null, '1'),
@@ -260,7 +260,7 @@ function xmldb_videotrack_upgrade($oldversion) {
                 XMLDB_NOTNULL,
                 null,
                 '1'
-            ), // Aligned with install.xml
+            ), // Aligned with install.xml.
             new xmldb_field('clusterwindow', XMLDB_TYPE_INTEGER, '3', null, XMLDB_NOTNULL, null, '30'),
             new xmldb_field('disablekeyboard', XMLDB_TYPE_INTEGER, '1', null, XMLDB_NOTNULL, null, '0'),
             new xmldb_field('showfullscreen', XMLDB_TYPE_INTEGER, '1', null, XMLDB_NOTNULL, null, '1'),
@@ -276,7 +276,7 @@ function xmldb_videotrack_upgrade($oldversion) {
                 XMLDB_NOTNULL,
                 null,
                 '0'
-            ), // Aligned with install.xml
+            ), // Aligned with install.xml.
             new xmldb_field('requireallreactiontypes', XMLDB_TYPE_INTEGER, '1', null, XMLDB_NOTNULL, null, '0'),
             new xmldb_field('completionlogic', XMLDB_TYPE_CHAR, '10', null, XMLDB_NOTNULL, null, 'and'),
         ];
@@ -289,10 +289,10 @@ function xmldb_videotrack_upgrade($oldversion) {
     }
 
     if ($oldversion < 2026050236) {
-        // Version 0.8.6: isdeleted on videotrack_react, hundredths-based settings,
-        // removed posterimage backup, missing-field upgrade, external icon URLs,
-        // email report with capability checks, heatmap aria-describedby, course SVG,
-        // upload validation, durationseconds maximum 24h.
+        // Version 0.8.6: isdeleted on videotrack_react, hundredths-based settings,.
+        // Removed posterimage backup, missing-field upgrade, external icon URLs,.
+        // Email report with capability checks, heatmap aria-describedby, course SVG,.
+        // Upload validation, durationseconds maximum 24h.
 
         // Adds isdeleted to videotrack_react for reaction soft-delete.
         $react = new xmldb_table('videotrack_react');
@@ -304,8 +304,8 @@ function xmldb_videotrack_upgrade($oldversion) {
     }
 
     if ($oldversion < 2026050243) {
-        // Version 0.9.5: fixes duplicated SQL parameters in has_recent_playback,
-        // optimised reaction_counts in save_reaction, JS catch displays server message.
+        // Version 0.9.5: fixes duplicated SQL parameters in has_recent_playback,.
+        // Optimised reaction_counts in save_reaction, JS catch displays server message.
         upgrade_mod_savepoint(true, 2026050243, 'videotrack');
     }
 
@@ -320,49 +320,58 @@ function xmldb_videotrack_upgrade($oldversion) {
     }
 
     if ($oldversion < 2026050246) {
-        // Version 0.9.8: install.xml COMMENT escaping fix, maxplaybackrate /100,
-        // videotrack_get_reactions isdeleted, active reactions in mod_form, lib.php
-        // isdeleted=0 on update, backup of soft-deleted reactions, aligned defaults,
-        // minimised email query, contextual delete aria-label.
+        // Version 0.9.8: install.xml COMMENT escaping fix, maxplaybackrate /100,.
+        // Videotrack_get_reactions isdeleted, active reactions in mod_form, lib.php.
+        // Isdeleted=0 on update, backup of soft-deleted reactions, aligned defaults,.
+        // Minimised email query, contextual delete aria-label.
         upgrade_mod_savepoint(true, 2026050246, 'videotrack');
     }
 
     if ($oldversion < 2026050253) {
-        // Version 1.0.5: preserves existing reaction icon files when no new draft file
-        // is submitted, adds reaction burst throttling and reset audit event, and improves
-        // cumulative report filtering/summary. No database schema changes.
+        // Version 1.0.5: preserves existing reaction icon files when no new draft file.
+        // Is submitted, adds reaction burst throttling and reset audit event, and improves.
+        // Cumulative report filtering/summary. No database schema changes.
         upgrade_mod_savepoint(true, 2026050253, 'videotrack');
     }
 
     if ($oldversion < 2026050507) {
-        // Version 1.0.7: accessibility parity for reaction buttons (aria-label with
-        // timestamp on replay and remove buttons), clearer cumulative report cluster-limit
-        // warnings, localized privacy export state section heading, reaction_counts()
-        // optimised to two separate queries (avoids GROUP_CONCAT truncation on MySQL),
-        // and version number aligned with the public release sequence.
+        // Version 1.0.7: accessibility parity for reaction buttons (aria-label with.
+        // Timestamp on replay and remove buttons), clearer cumulative report cluster-limit.
+        // Warnings, localized privacy export state section heading, reaction_counts().
+        // Optimised to two separate queries (avoids GROUP_CONCAT truncation on MySQL),.
+        // And version number aligned with the public release sequence.
         // No database schema changes.
         upgrade_mod_savepoint(true, 2026050507, 'videotrack');
     }
 
     if ($oldversion < 2026050510) {
-        // Version 1.0.10: adds composite indexes used by playback validation,
-        // reaction burst throttling, and note rate limiting.
+        // Version 1.0.10: adds composite indexes used by playback validation,.
+        // Reaction burst throttling, and note rate limiting.
         $segtable = new xmldb_table('videotrack_seg');
-        $index = new xmldb_index('vt_user_sess_time_idx', XMLDB_INDEX_NOTUNIQUE,
-            ['videotrackid', 'userid', 'sessionid', 'timecreated']);
+        $index = new xmldb_index(
+            'vt_user_sess_time_idx',
+            XMLDB_INDEX_NOTUNIQUE,
+            ['videotrackid', 'userid', 'sessionid', 'timecreated']
+        );
         if (!$dbman->index_exists($segtable, $index)) {
             $dbman->add_index($segtable, $index);
         }
 
         $reactevtable = new xmldb_table('videotrack_reactev');
-        $index = new xmldb_index('vt_user_sess_time_idx', XMLDB_INDEX_NOTUNIQUE,
-            ['videotrackid', 'userid', 'sessionid', 'timecreated']);
+        $index = new xmldb_index(
+            'vt_user_sess_time_idx',
+            XMLDB_INDEX_NOTUNIQUE,
+            ['videotrackid', 'userid', 'sessionid', 'timecreated']
+        );
         if (!$dbman->index_exists($reactevtable, $index)) {
             $dbman->add_index($reactevtable, $index);
         }
 
-        $index = new xmldb_index('vt_user_type_time_idx', XMLDB_INDEX_NOTUNIQUE,
-            ['videotrackid', 'userid', 'notetype', 'timecreated']);
+        $index = new xmldb_index(
+            'vt_user_type_time_idx',
+            XMLDB_INDEX_NOTUNIQUE,
+            ['videotrackid', 'userid', 'notetype', 'timecreated']
+        );
         if (!$dbman->index_exists($reactevtable, $index)) {
             $dbman->add_index($reactevtable, $index);
         }
@@ -371,18 +380,24 @@ function xmldb_videotrack_upgrade($oldversion) {
     }
 
     if ($oldversion < 2026050511) {
-        // Version 1.0.11: adds composite indexes used by duplicate reaction throttling
-        // and note rate limiting with soft-delete filtering.
+        // Version 1.0.11: adds composite indexes used by duplicate reaction throttling.
+        // And note rate limiting with soft-delete filtering.
         $reactevtable = new xmldb_table('videotrack_reactev');
 
-        $index = new xmldb_index('vt_user_reaction_del_time_idx', XMLDB_INDEX_NOTUNIQUE,
-            ['videotrackid', 'userid', 'reactionid', 'isdeleted', 'timecreated']);
+        $index = new xmldb_index(
+            'vt_user_reaction_del_time_idx',
+            XMLDB_INDEX_NOTUNIQUE,
+            ['videotrackid', 'userid', 'reactionid', 'isdeleted', 'timecreated']
+        );
         if (!$dbman->index_exists($reactevtable, $index)) {
             $dbman->add_index($reactevtable, $index);
         }
 
-        $index = new xmldb_index('vt_user_note_del_time_idx', XMLDB_INDEX_NOTUNIQUE,
-            ['videotrackid', 'userid', 'notetype', 'isdeleted', 'timecreated']);
+        $index = new xmldb_index(
+            'vt_user_note_del_time_idx',
+            XMLDB_INDEX_NOTUNIQUE,
+            ['videotrackid', 'userid', 'notetype', 'isdeleted', 'timecreated']
+        );
         if (!$dbman->index_exists($reactevtable, $index)) {
             $dbman->add_index($reactevtable, $index);
         }
@@ -391,119 +406,119 @@ function xmldb_videotrack_upgrade($oldversion) {
     }
 
     if ($oldversion < 2026050513) {
-        // Version 1.0.13: fixes a fresh-install XMLDB index definition and adds
-        // pluginfile hardening, translation, and documentation polish. Existing
-        // installations do not require a schema change because the invalid state
-        // index could not be created without the missing field.
+        // Version 1.0.13: fixes a fresh-install XMLDB index definition and adds.
+        // Pluginfile hardening, translation, and documentation polish. Existing.
+        // Installations do not require a schema change because the invalid state.
+        // Index could not be created without the missing field.
         upgrade_mod_savepoint(true, 2026050513, 'videotrack');
     }
 
     if ($oldversion < 2026050515) {
-        // Release 1.0.15: fix version format (10 digits), install.xml VERSION aligned,
-        // videotrack_delete_user_progress() now also deletes videotrack_reactev.
+        // Release 1.0.15: fix version format (10 digits), install.xml VERSION aligned,.
+        // Videotrack_delete_user_progress() now also deletes videotrack_reactev.
         // No database schema changes.
         upgrade_mod_savepoint(true, 2026050515, 'videotrack');
     }
 
     if ($oldversion < 2026050516) {
-        // Release 1.0.16: burst-limit no longer filtered by sessionid (B3),
-        // reaction_counts() skipped for completionpercent rule (B4).
+        // Release 1.0.16: burst-limit no longer filtered by sessionid (B3),.
+        // Reaction_counts() skipped for completionpercent rule (B4).
         // No database schema changes.
         upgrade_mod_savepoint(true, 2026050516, 'videotrack');
     }
 
     if ($oldversion < 2026050517) {
-        // Release 1.0.17: delete_reaction redundant reaction_counts call removed (B5),
-        // player.js isProgrammaticSeek flag added for YouTube seek detection (B6).
+        // Release 1.0.17: delete_reaction redundant reaction_counts call removed (B5),.
+        // Player.js isProgrammaticSeek flag added for YouTube seek detection (B6).
         // No database schema changes.
         upgrade_mod_savepoint(true, 2026050517, 'videotrack');
     }
 
     if ($oldversion < 2026050518) {
-        // Release 1.0.18: reaction_counts per-request static class cache (O1),
-        // recalculate_all_states uses get_recordset instead of get_records (O2).
+        // Release 1.0.18: reaction_counts per-request static class cache (O1),.
+        // Recalculate_all_states uses get_recordset instead of get_records (O2).
         // No database schema changes.
         upgrade_mod_savepoint(true, 2026050518, 'videotrack');
     }
 
     if ($oldversion < 2026050519) {
-        // Release 1.0.19: notes_csv export validates useridfilter with is_enrolled() (S1),
-        // intervaljson exported as human-readable MM:SS pairs in GDPR export (G1).
+        // Release 1.0.19: notes_csv export validates useridfilter with is_enrolled() (S1),.
+        // Intervaljson exported as human-readable MM:SS pairs in GDPR export (G1).
         // No database schema changes.
         upgrade_mod_savepoint(true, 2026050519, 'videotrack');
     }
 
     if ($oldversion < 2026050520) {
-        // Release 1.0.20: upgrade.php savepoint 2026050507 comment expanded (M2),
-        // save_note.php now fires dedicated note_saved event instead of reaction_saved (M3).
+        // Release 1.0.20: upgrade.php savepoint 2026050507 comment expanded (M2),.
+        // Save_note.php now fires dedicated note_saved event instead of reaction_saved (M3).
         // No database schema changes.
         upgrade_mod_savepoint(true, 2026050520, 'videotrack');
     }
 
     if ($oldversion < 2026050521) {
-        // Release 1.0.21: showStatusMessage keeps error messages visible 8s instead of 4s (U1),
-        // keydown handler added for Enter/Space on aria-disabled reaction buttons (A1).
+        // Release 1.0.21: showStatusMessage keeps error messages visible 8s instead of 4s (U1),.
+        // Keydown handler added for Enter/Space on aria-disabled reaction buttons (A1).
         // No database schema changes.
         upgrade_mod_savepoint(true, 2026050521, 'videotrack');
     }
 
     if ($oldversion < 2026050522) {
-        // Release 1.0.22: version.php release string corrected to 1.0.21 (C1),
-        // upgrade.php savepoints added for v1.0.15-1.0.21 (C2),
-        // note error handler in all three players now uses showStatusMessage()
-        // for consistent 8s visibility and correct aria role management (B1/B2/B3/A1).
+        // Release 1.0.22: version.php release string corrected to 1.0.21 (C1),.
+        // Upgrade.php savepoints added for v1.0.15-1.0.21 (C2),.
+        // Note error handler in all three players now uses showStatusMessage().
+        // For consistent 8s visibility and correct aria role management (B1/B2/B3/A1).
         // No database schema changes.
         upgrade_mod_savepoint(true, 2026050522, 'videotrack');
     }
 
     if ($oldversion < 2026050523) {
-        // Release 1.0.23: PLAYBACK_GRACE_SECONDS constant replaces magic 12.0 in
-        // has_recent_playback() (S1), resumedlabel alias removed from playerconfig
-        // and showResumeNotice uses resumelabel directly (O1/U1),
-        // maturity raised from MATURITY_ALPHA to MATURITY_BETA (M1/M2).
+        // Release 1.0.23: PLAYBACK_GRACE_SECONDS constant replaces magic 12.0 in.
+        // Has_recent_playback() (S1), resumedlabel alias removed from playerconfig.
+        // And showResumeNotice uses resumelabel directly (O1/U1),.
+        // Maturity raised from MATURITY_ALPHA to MATURITY_BETA (M1/M2).
         // No database schema changes.
         upgrade_mod_savepoint(true, 2026050523, 'videotrack');
     }
 
     if ($oldversion < 2026050524) {
         // Release 1.0.24: html5_player.js updateIntervalBar aligned to player.js/vimeo_player.js:
-        // added duration parameter (C1), covered calculation, and aria-label update
-        // after each redraw (B2/A1 — WCAG 1.1.1 Non-text Content).
+        // Added duration parameter (C1), covered calculation, and aria-label update.
+        // After each redraw (B2/A1 — WCAG 1.1.1 Non-text Content).
         // No database schema changes.
         upgrade_mod_savepoint(true, 2026050524, 'videotrack');
     }
 
     if ($oldversion < 2026050525) {
-        // Release 1.0.25: save_segment servergrace dead code removed (B1),
-        // videotrack_save_reaction_definitions wrapped in delegated transaction (B3),
-        // file_get_draft_area_info called only for file-type reactions (O1).
+        // Release 1.0.25: save_segment servergrace dead code removed (B1),.
+        // Videotrack_save_reaction_definitions wrapped in delegated transaction (B3),.
+        // File_get_draft_area_info called only for file-type reactions (O1).
         // No database schema changes.
         upgrade_mod_savepoint(true, 2026050525, 'videotrack');
     }
 
     if ($oldversion < 2026052600) {
-        // v1.0.26: mobile icon added, AMD build regenerated, accessibility
-        // state for note/reaction buttons aligned with real disabled controls.
+        // V1.0.26: mobile icon added, AMD build regenerated, accessibility.
+        // State for note/reaction buttons aligned with real disabled controls.
         // No database schema changes.
         upgrade_mod_savepoint(true, 2026052600, 'videotrack');
     }
 
     if ($oldversion < 2026052700) {
-        // v1.0.27: GDPR retention task and server-side watched-position
-        // validation added. Existing installations need only register the task
-        // and settings; no database schema changes.
+        // V1.0.27: GDPR retention task and server-side watched-position.
+        // Validation added. Existing installations need only register the task.
+        // And settings; no database schema changes.
         upgrade_mod_savepoint(true, 2026052700, 'videotrack');
     }
 
     if ($oldversion < 2026052800) {
-        // v1.0.28: anonymisation collision handling and UX-friendly
-        // academic-integrity validation fallback added. No database schema changes.
+        // V1.0.28: anonymisation collision handling and UX-friendly.
+        // Academic-integrity validation fallback added. No database schema changes.
         upgrade_mod_savepoint(true, 2026052800, 'videotrack');
     }
 
     if ($oldversion < 2026052900) {
-        // v1.0.29: privacy erasure consistently anonymises data, XMLDB
-        // version aligned, task logging and retention batching refined.
+        // V1.0.29: privacy erasure consistently anonymises data, XMLDB.
+        // Version aligned, task logging and retention batching refined.
         // No database schema changes.
         upgrade_mod_savepoint(true, 2026052900, 'videotrack');
     }
@@ -769,14 +784,20 @@ function xmldb_videotrack_upgrade($oldversion) {
         }
 
         $reactevtable = new xmldb_table('videotrack_reactev');
-        $oldindex = new xmldb_index('vt_user_type_time_idx', XMLDB_INDEX_NOTUNIQUE,
-            ['videotrackid', 'userid', 'notetype', 'timecreated']);
+        $oldindex = new xmldb_index(
+            'vt_user_type_time_idx',
+            XMLDB_INDEX_NOTUNIQUE,
+            ['videotrackid', 'userid', 'notetype', 'timecreated']
+        );
         if ($dbman->index_exists($reactevtable, $oldindex)) {
             $dbman->drop_index($reactevtable, $oldindex);
         }
 
-        $index = new xmldb_index('vt_user_del_type_time_idx', XMLDB_INDEX_NOTUNIQUE,
-            ['videotrackid', 'userid', 'isdeleted', 'notetype', 'timecreated']);
+        $index = new xmldb_index(
+            'vt_user_del_type_time_idx',
+            XMLDB_INDEX_NOTUNIQUE,
+            ['videotrackid', 'userid', 'isdeleted', 'notetype', 'timecreated']
+        );
         if (!$dbman->index_exists($reactevtable, $index)) {
             $dbman->add_index($reactevtable, $index);
         }
