@@ -155,7 +155,7 @@ class save_segment extends external_api {
         $now    = time();
         // Clamp wallclock timestamps to server time, allowing 5 seconds of client clock skew.
         $wstart = max(0, min($params['wallclockstart'], $now + 5));
-        $wend   = max($wstart, min($params['wallclockend'],   $now + 5));
+        $wend   = max($wstart, min($params['wallclockend'], $now + 5));
 
         // Server-side validation for academic integrity.
         // Client wallclock values are retained as diagnostic data, but they are
@@ -212,7 +212,7 @@ class save_segment extends external_api {
             'wallclockend'   => $wend,
             'videotimestart' => $interval[0],
             'videotimeend'   => $interval[1],
-            'playbackrate'   => $playbackrate,  // Already clamped to [0.25, 4.0] above.
+            'playbackrate'   => $playbackrate, // Already clamped to [0.25, 4.0] above.
             'endreason'      => $params['endreason'],
             'timecreated'    => $now,
         ];
@@ -269,11 +269,11 @@ class save_segment extends external_api {
      */
     public static function execute_returns(): external_single_structure {
         return new external_single_structure([
-            'accepted'             => new external_value(PARAM_BOOL,  'Whether the segment was accepted'),
+            'accepted'             => new external_value(PARAM_BOOL, 'Whether the segment was accepted'),
             'uniquecoveredseconds' => new external_value(PARAM_FLOAT, 'Unique covered seconds'),
             'completionpercent'    => new external_value(PARAM_FLOAT, 'Computed completion percentage'),
-            'iscompleted'          => new external_value(PARAM_BOOL,  'Whether completion threshold has been met'),
-            'intervaljson'         => new external_value(PARAM_RAW,   'JSON array of watched intervals for the progress bar'),
+            'iscompleted'          => new external_value(PARAM_BOOL, 'Whether completion threshold has been met'),
+            'intervaljson'         => new external_value(PARAM_RAW, 'JSON array of watched intervals for the progress bar'),
             'durationseconds'      => new external_value(PARAM_FLOAT, 'Total video duration in seconds'),
             'warnings'             => new external_warnings(),
         ]);

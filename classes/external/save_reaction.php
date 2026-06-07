@@ -174,7 +174,7 @@ class save_reaction extends external_api {
             'reactiondesc' => $reaction->description,
             'videotime' => $videotime,
             'playbackrate' => max(0.25, min(4.0, round($params['playbackrate'], 3))),
-            'notetype'    => '',   // Empty string marks standard reactions and distinguishes them from personal notes.
+            'notetype'    => '', // Empty string marks standard reactions and distinguishes them from personal notes.
             'isdeleted' => 0,
             'timecreated' => $now,
             'timemodified' => $now,

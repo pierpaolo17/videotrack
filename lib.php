@@ -1,18 +1,18 @@
 <?php
 // This file is part of Moodle - https://moodle.org/
-//.
-// Moodle is free software: you can redistribute it and/or modify.
-// It under the terms of the GNU General Public License as published by.
-// The Free Software Foundation, either version 3 of the License, or.
+//
+// Moodle is free software: you can redistribute it and/or modify
+// it under the terms of the GNU General Public License as published by
+// the Free Software Foundation, either version 3 of the License, or
 // (at your option) any later version.
-//.
-// Moodle is distributed in the hope that it will be useful,.
-// But WITHOUT ANY WARRANTY; without even the implied warranty of.
-// MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the.
+//
+// Moodle is distributed in the hope that it will be useful,
+// but WITHOUT ANY WARRANTY; without even the implied warranty of
+// MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
 // GNU General Public License for more details.
-//.
-// You should have received a copy of the GNU General Public License.
-// Along with Moodle.  If not, see <https://www.gnu.org/licenses/>.
+//
+// You should have received a copy of the GNU General Public License
+// along with Moodle.  If not, see <https://www.gnu.org/licenses/>.
 
 /**
  * VideoTrack plugin file.
@@ -437,7 +437,7 @@ function videotrack_save_reaction_definitions(int $videotrackid, stdClass $data)
             'iconvalue' => trim((string)($iconvalues[$idx] ?? '')),
             'requiredforcompletion' => empty($requireds[$idx]) ? 0 : 1,
             'sortorder' => $sort,
-            'isdeleted' => 0,  // Explicitly reset soft-delete when a reaction is reactivated.
+            'isdeleted' => 0, // Explicitly reset soft-delete when a reaction is reactivated.
             'timemodified' => $now,
         ];
         if ($icontype === 'file') {
@@ -536,7 +536,7 @@ function videotrack_user_outline($course, $user, $mod, $videotrack) {
         $return->info = get_string(
             'outline:percent',
             'mod_videotrack',
-            format_float( (float)$state->completionpercent, 1 )
+            format_float((float)$state->completionpercent, 1)
         );
         $return->time = (int)$state->timemodified;
     }
@@ -1194,13 +1194,13 @@ function videotrack_reset_course_form_definition($mform) {
     $mform->addElement(
         'header',
         'videotrackheader',
-        get_string( 'modulename', 'mod_videotrack' )
+        get_string('modulename', 'mod_videotrack')
     );
     $mform->addElement(
         'checkbox',
         'reset_videotrack_userdata',
         get_string('modulename', 'mod_videotrack'),
-        get_string( 'reset:userdata', 'mod_videotrack' )
+        get_string('reset:userdata', 'mod_videotrack')
     );
 }
 

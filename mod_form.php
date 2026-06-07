@@ -1,18 +1,18 @@
 <?php
 // This file is part of Moodle - https://moodle.org/
-//.
-// Moodle is free software: you can redistribute it and/or modify.
-// It under the terms of the GNU General Public License as published by.
-// The Free Software Foundation, either version 3 of the License, or.
+//
+// Moodle is free software: you can redistribute it and/or modify
+// it under the terms of the GNU General Public License as published by
+// the Free Software Foundation, either version 3 of the License, or
 // (at your option) any later version.
-//.
-// Moodle is distributed in the hope that it will be useful,.
-// But WITHOUT ANY WARRANTY; without even the implied warranty of.
-// MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the.
+//
+// Moodle is distributed in the hope that it will be useful,
+// but WITHOUT ANY WARRANTY; without even the implied warranty of
+// MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
 // GNU General Public License for more details.
-//.
-// You should have received a copy of the GNU General Public License.
-// Along with Moodle.  If not, see <https://www.gnu.org/licenses/>.
+//
+// You should have received a copy of the GNU General Public License
+// along with Moodle.  If not, see <https://www.gnu.org/licenses/>.
 
 /**
  * VideoTrack plugin file.
@@ -58,9 +58,9 @@ class mod_videotrack_mod_form extends moodleform_mod {
 
         $this->standard_intro_elements();
 
-        // ----------------------------------------------------------------.
+        // ----------------------------------------------------------------
         // Video source selector.
-        // ----------------------------------------------------------------.
+        // ----------------------------------------------------------------
         $mform->addElement('header', 'videosourceheader', get_string('videosource', 'mod_videotrack'));
 
         $sourceoptions = [
@@ -88,7 +88,7 @@ class mod_videotrack_mod_form extends moodleform_mod {
             'static',
             'externalprovider_notice',
             '',
-            html_writer::tag( 'small', get_string('externalprovider_notice', 'mod_videotrack'), ['class' => 'text-muted form-text'] )
+            html_writer::tag('small', get_string('externalprovider_notice', 'mod_videotrack'), ['class' => 'text-muted form-text'])
         );
         $mform->hideIf('externalprovider_notice', 'videosource', 'eq', 'upload');
 
@@ -101,7 +101,7 @@ class mod_videotrack_mod_form extends moodleform_mod {
         $mform->addElement(
             'filepicker',
             'videofile',
-            get_string( 'videofile', 'mod_videotrack' ),
+            get_string('videofile', 'mod_videotrack'),
             null,
             $fileoptions
         );
@@ -111,18 +111,18 @@ class mod_videotrack_mod_form extends moodleform_mod {
             'static',
             'videofile_notice',
             '',
-            html_writer::tag( 'small', get_string('videofile_notice', 'mod_videotrack'), ['class' => 'text-muted form-text'] )
+            html_writer::tag('small', get_string('videofile_notice', 'mod_videotrack'), ['class' => 'text-muted form-text'])
         );
         $mform->hideIf('videofile', 'videosource', 'neq', 'upload');
-        // ----------------------------------------------------------------.
+        // ----------------------------------------------------------------
         // Poster / preview image (all video sources).
-        // ----------------------------------------------------------------.
+        // ----------------------------------------------------------------
         $posteropt = ['subdirs' => false, 'maxfiles' => 1,
             'accepted_types' => ['.jpg', '.jpeg', '.png', '.webp', '.gif']];
         $mform->addElement(
             'filepicker',
             'posterimage',
-            get_string( 'posterimage', 'mod_videotrack' ),
+            get_string('posterimage', 'mod_videotrack'),
             null,
             $posteropt
         );
@@ -132,20 +132,20 @@ class mod_videotrack_mod_form extends moodleform_mod {
             'static',
             'posterimage_notice',
             '',
-            html_writer::tag( 'small', get_string('posterimage_notice', 'mod_videotrack'), ['class' => 'text-muted form-text'] )
+            html_writer::tag('small', get_string('posterimage_notice', 'mod_videotrack'), ['class' => 'text-muted form-text'])
         );
 
         $mform->hideIf('videofile_notice', 'videosource', 'neq', 'upload');
 
-        // ----------------------------------------------------------------.
+        // ----------------------------------------------------------------
         // Player settings — locked if teacher lacks overrideplayersettings.
-        // ----------------------------------------------------------------.
+        // ----------------------------------------------------------------
         if (!$canoverrideplayer) {
             $mform->addElement(
                 'static',
                 'playersettings_locked_notice',
                 '',
-                html_writer::tag( 'div', get_string('setting:lockedbyAdmin', 'mod_videotrack'), ['class' => 'alert alert-info'] )
+                html_writer::tag('div', get_string('setting:lockedbyAdmin', 'mod_videotrack'), ['class' => 'alert alert-info'])
             );
         }
 
@@ -184,7 +184,7 @@ class mod_videotrack_mod_form extends moodleform_mod {
             'advcheckbox',
             'resumeplayback',
             get_string('resumeplayback', 'mod_videotrack'),
-            get_string( 'resumeplayback_desc', 'mod_videotrack' )
+            get_string('resumeplayback_desc', 'mod_videotrack')
         );
 
         $mform->setType('resumeplayback', PARAM_BOOL);
@@ -200,7 +200,7 @@ class mod_videotrack_mod_form extends moodleform_mod {
         $mform->addElement(
             'select',
             'maxplaybackrate',
-            get_string( 'maxplaybackrate', 'mod_videotrack' ),
+            get_string('maxplaybackrate', 'mod_videotrack'),
             $maxspeedoptions
         );
         $mform->setType('maxplaybackrate', PARAM_INT);
@@ -215,20 +215,20 @@ class mod_videotrack_mod_form extends moodleform_mod {
             }
         }
 
-        // ----------------------------------------------------------------.
+        // ----------------------------------------------------------------
         // Additional player behaviour — autoplay, loop, mute, download.
-        // ----------------------------------------------------------------.
+        // ----------------------------------------------------------------
         $mform->addElement(
             'header',
             'playerbehaviorheader',
-            get_string( 'setting:heading_playerbehavior', 'mod_videotrack' )
+            get_string('setting:heading_playerbehavior', 'mod_videotrack')
         );
 
         // Maximum player width in pixels. Zero uses the site default.
         $playerwidthelement = $mform->addElement(
             'text',
             'playerwidth',
-            get_string( 'setting:playerwidth', 'mod_videotrack' ),
+            get_string('setting:playerwidth', 'mod_videotrack'),
             ['size' => 6]
         );
         $mform->setType('playerwidth', PARAM_INT);
@@ -260,7 +260,7 @@ class mod_videotrack_mod_form extends moodleform_mod {
         $mform->addElement(
             'text',
             'rewindstep',
-            get_string( 'setting:rewindstep', 'mod_videotrack' ),
+            get_string('setting:rewindstep', 'mod_videotrack'),
             ['size' => 4]
         );
         $mform->setType('rewindstep', PARAM_INT);
@@ -271,7 +271,7 @@ class mod_videotrack_mod_form extends moodleform_mod {
         $mform->addElement(
             'text',
             'fastforwardstep',
-            get_string( 'setting:fastforwardstep', 'mod_videotrack' ),
+            get_string('setting:fastforwardstep', 'mod_videotrack'),
             ['size' => 4]
         );
         $mform->setType('fastforwardstep', PARAM_INT);
@@ -292,13 +292,13 @@ class mod_videotrack_mod_form extends moodleform_mod {
             }
         }
 
-        // ----------------------------------------------------------------.
+        // ----------------------------------------------------------------
         // Captions / Subtitles.
-        // ----------------------------------------------------------------.
+        // ----------------------------------------------------------------
         $mform->addElement(
             'header',
             'captionsheader',
-            get_string( 'captionsheader', 'mod_videotrack' )
+            get_string('captionsheader', 'mod_videotrack')
         );
 
         $mform->addElement('advcheckbox', 'captions', get_string('captions', 'mod_videotrack'));
@@ -310,7 +310,7 @@ class mod_videotrack_mod_form extends moodleform_mod {
         $mform->addElement(
             'text',
             'captionslang',
-            get_string( 'captionslang', 'mod_videotrack' ),
+            get_string('captionslang', 'mod_videotrack'),
             ['size' => 8]
         );
         $mform->setType('captionslang', PARAM_NOTAGS);
@@ -323,7 +323,7 @@ class mod_videotrack_mod_form extends moodleform_mod {
         $mform->addElement(
             'filepicker',
             'vttfile',
-            get_string( 'vttfile', 'mod_videotrack' ),
+            get_string('vttfile', 'mod_videotrack'),
             null,
             $vttopt
         );
@@ -333,7 +333,7 @@ class mod_videotrack_mod_form extends moodleform_mod {
             'static',
             'vttfile_notice',
             '',
-            html_writer::tag( 'small', get_string('vttfile_notice', 'mod_videotrack'), ['class' => 'text-muted form-text'] )
+            html_writer::tag('small', get_string('vttfile_notice', 'mod_videotrack'), ['class' => 'text-muted form-text'])
         );
         $mform->hideIf(
             'vttfile',
@@ -354,7 +354,7 @@ class mod_videotrack_mod_form extends moodleform_mod {
             'advcheckbox',
             'showtranscript',
             get_string('showtranscript', 'mod_videotrack'),
-            get_string( 'showtranscript_desc', 'mod_videotrack' )
+            get_string('showtranscript_desc', 'mod_videotrack')
         );
 
         $mform->setType('showtranscript', PARAM_BOOL);
@@ -368,7 +368,7 @@ class mod_videotrack_mod_form extends moodleform_mod {
             'advcheckbox',
             'showchapters',
             get_string('showchapters', 'mod_videotrack'),
-            get_string( 'showchapters_desc', 'mod_videotrack' )
+            get_string('showchapters_desc', 'mod_videotrack')
         );
 
         $mform->setType('showchapters', PARAM_BOOL);
@@ -382,7 +382,7 @@ class mod_videotrack_mod_form extends moodleform_mod {
             'static',
             'vimeo_captions_notice',
             '',
-            html_writer::tag( 'div', get_string('vimeo_captions_notice', 'mod_videotrack'), ['class' => 'alert alert-info'] )
+            html_writer::tag('div', get_string('vimeo_captions_notice', 'mod_videotrack'), ['class' => 'alert alert-info'])
         );
         $mform->hideIf('vimeo_captions_notice', 'videosource', 'neq', 'vimeo');
         $mform->hideIf('vimeo_captions_notice', 'captions', 'notchecked');
@@ -392,10 +392,10 @@ class mod_videotrack_mod_form extends moodleform_mod {
             $mform->freeze('captionslang');
         }
 
-        // ----------------------------------------------------------------.
+        // ----------------------------------------------------------------
         // HTML5 player controls — visible only for upload source.
         // Teacher can choose which controls to show (within site admin limits).
-        // ----------------------------------------------------------------.
+        // ----------------------------------------------------------------
         $sitecontrols     = videotrack_get_html5controls((object)['html5controls' => '']);
         $allctrl          = [
             'play'       => get_string(
@@ -444,7 +444,7 @@ class mod_videotrack_mod_form extends moodleform_mod {
         // Only show controls that admin enabled at site level.
         $availablectrl = array_filter(
             $allctrl,
-            fn($k) => in_array( $k, $sitecontrols ),
+            fn($k) => in_array($k, $sitecontrols),
             ARRAY_FILTER_USE_KEY
         );
 
@@ -452,7 +452,7 @@ class mod_videotrack_mod_form extends moodleform_mod {
             $mform->addElement(
                 'header',
                 'html5controlsheader',
-                get_string( 'setting:heading_html5controls', 'mod_videotrack' )
+                get_string('setting:heading_html5controls', 'mod_videotrack')
             );
             $mform->hideIf('html5controlsheader', 'videosource', 'neq', 'upload');
 
@@ -460,7 +460,7 @@ class mod_videotrack_mod_form extends moodleform_mod {
                 'static',
                 'html5controls_desc',
                 '',
-                html_writer::tag( 'small', get_string('setting:html5controls_teacher_desc', 'mod_videotrack'), ['class' => 'text-muted'] )
+                html_writer::tag('small', get_string('setting:html5controls_teacher_desc', 'mod_videotrack'), ['class' => 'text-muted'])
             );
             $mform->hideIf('html5controls_desc', 'videosource', 'neq', 'upload');
 
@@ -480,7 +480,7 @@ class mod_videotrack_mod_form extends moodleform_mod {
             $mform->addGroup(
                 $ctrlgroup,
                 'html5controlsgroup',
-                get_string( 'setting:html5controls', 'mod_videotrack' ),
+                get_string('setting:html5controls', 'mod_videotrack'),
                 ' ',
                 false
             );
@@ -507,13 +507,13 @@ class mod_videotrack_mod_form extends moodleform_mod {
             $mform->addElement(
                 'header',
                 'playbackspeedsheader',
-                get_string( 'setting:playbackspeeds', 'mod_videotrack' )
+                get_string('setting:playbackspeeds', 'mod_videotrack')
             );
             $mform->addElement(
                 'static',
                 'playbackspeeds_desc',
                 '',
-                html_writer::tag( 'small', get_string('setting:playbackspeeds_teacher_desc', 'mod_videotrack'), ['class' => 'text-muted'] )
+                html_writer::tag('small', get_string('setting:playbackspeeds_teacher_desc', 'mod_videotrack'), ['class' => 'text-muted'])
             );
             $checkboxgroup = [];
             foreach ($availablespeeds as $val => $label) {
@@ -530,7 +530,7 @@ class mod_videotrack_mod_form extends moodleform_mod {
             $mform->addGroup(
                 $checkboxgroup,
                 'playbackspeedsgroup',
-                get_string( 'setting:playbackspeeds', 'mod_videotrack' ),
+                get_string('setting:playbackspeeds', 'mod_videotrack'),
                 ' ',
                 false
             );
@@ -546,9 +546,9 @@ class mod_videotrack_mod_form extends moodleform_mod {
         $mform->addHelpButton('countbyvideotime', 'countbyvideotime', 'mod_videotrack');
         $mform->setDefault('countbyvideotime', 1);
 
-        // ----------------------------------------------------------------.
+        // ----------------------------------------------------------------
         // Reactions section.
-        // ----------------------------------------------------------------.
+        // ----------------------------------------------------------------
         $mform->addElement('header', 'reactionsheader', get_string('reactionsheader', 'mod_videotrack'));
         $mform->addElement('advcheckbox', 'reactionsenabled', get_string('reactionsenabled', 'mod_videotrack'));
 
@@ -572,15 +572,15 @@ class mod_videotrack_mod_form extends moodleform_mod {
         $mform->setType('completionlogic', PARAM_ALPHA);
         $mform->setDefault('completionlogic', 'and');
 
-        // ----------------------------------------------------------------.
+        // ----------------------------------------------------------------
         // Completion settings — locked if teacher lacks overridecompletionsettings.
-        // ----------------------------------------------------------------.
+        // ----------------------------------------------------------------
         if (!$canoverridecompleting) {
             $mform->addElement(
                 'static',
                 'completionsettings_locked_notice',
                 '',
-                html_writer::tag( 'div', get_string('setting:lockedbyAdmin', 'mod_videotrack'), ['class' => 'alert alert-info'] )
+                html_writer::tag('div', get_string('setting:lockedbyAdmin', 'mod_videotrack'), ['class' => 'alert alert-info'])
             );
         }
 
@@ -607,7 +607,7 @@ class mod_videotrack_mod_form extends moodleform_mod {
             'advcheckbox',
             'studentnotesenabled',
             get_string('studentnotesenabled', 'mod_videotrack'),
-            get_string( 'studentnotesenabled_desc', 'mod_videotrack' )
+            get_string('studentnotesenabled_desc', 'mod_videotrack')
         );
 
         $mform->setType('studentnotesenabled', PARAM_BOOL);
@@ -632,16 +632,16 @@ class mod_videotrack_mod_form extends moodleform_mod {
             $reactionnoticeoptions
         );
 
-        // ----------------------------------------------------------------.
+        // ----------------------------------------------------------------
         // Reaction preset selector.
-        // ----------------------------------------------------------------.
+        // ----------------------------------------------------------------
         $presetoptions = videotrack_get_preset_select_options();
         if (count($presetoptions) > 1) {
             // Only show the selector if at least one preset has been configured.
             $mform->addElement(
                 'select',
                 'reactionpreset',
-                get_string( 'reactionpreset', 'mod_videotrack' ),
+                get_string('reactionpreset', 'mod_videotrack'),
                 $presetoptions
             );
             $mform->setType('reactionpreset', PARAM_ALPHANUMEXT);
@@ -654,16 +654,16 @@ class mod_videotrack_mod_form extends moodleform_mod {
 
         $this->add_reaction_elements();
 
-        // ----------------------------------------------------------------.
+        // ----------------------------------------------------------------
         // Grading section — standard Moodle grading elements.
-        // ----------------------------------------------------------------.
+        // ----------------------------------------------------------------
         $this->standard_grading_coursemodule_elements();
 
         // Pass grade: shown only when a grade type other than None is selected.
         $mform->addElement(
             'text',
             'gradepass',
-            get_string( 'gradepass', 'grades' ),
+            get_string('gradepass', 'grades'),
             ['size' => 6]
         );
         $mform->setType('gradepass', PARAM_FLOAT);
@@ -675,7 +675,7 @@ class mod_videotrack_mod_form extends moodleform_mod {
         $mform->addElement(
             'advcheckbox',
             'showgradeto',
-            get_string( 'showgradeto', 'mod_videotrack' )
+            get_string('showgradeto', 'mod_videotrack')
         );
 
         $mform->setType('showgradeto', PARAM_BOOL);
@@ -712,7 +712,7 @@ class mod_videotrack_mod_form extends moodleform_mod {
             $mform->addElement(
                 'header',
                 'reactionheader_' . $i,
-                get_string( 'reactionx', 'mod_videotrack', $i + 1 )
+                get_string('reactionx', 'mod_videotrack', $i + 1)
             );
             $mform->setExpanded('reactionheader_' . $i, $i < 2);
 
@@ -722,7 +722,7 @@ class mod_videotrack_mod_form extends moodleform_mod {
             $mform->addElement(
                 'text',
                 'reactionlabel[' . $i . ']',
-                get_string( 'reactionlabel', 'mod_videotrack' ),
+                get_string('reactionlabel', 'mod_videotrack'),
                 ['size' => 24]
             );
             $mform->setType('reactionlabel[' . $i . ']', PARAM_TEXT);
@@ -730,7 +730,7 @@ class mod_videotrack_mod_form extends moodleform_mod {
             $mform->addElement(
                 'text',
                 'reactiondescription[' . $i . ']',
-                get_string( 'reactiondescription', 'mod_videotrack' ),
+                get_string('reactiondescription', 'mod_videotrack'),
                 ['size' => 36]
             );
             $mform->setType('reactiondescription[' . $i . ']', PARAM_TEXT);
@@ -746,7 +746,7 @@ class mod_videotrack_mod_form extends moodleform_mod {
             $mform->addElement(
                 'text',
                 'reactioniconvalue[' . $i . ']',
-                get_string( 'reactioniconvalue', 'mod_videotrack' ),
+                get_string('reactioniconvalue', 'mod_videotrack'),
                 ['size' => 24]
             );
             $mform->setType('reactioniconvalue[' . $i . ']', PARAM_TEXT);
@@ -755,7 +755,7 @@ class mod_videotrack_mod_form extends moodleform_mod {
             $mform->addElement(
                 'filemanager',
                 'reactioniconfile_' . $i,
-                get_string( 'reactioniconfile', 'mod_videotrack' ),
+                get_string('reactioniconfile', 'mod_videotrack'),
                 null,
                 $options
             );
@@ -765,13 +765,13 @@ class mod_videotrack_mod_form extends moodleform_mod {
                 'static',
                 'reactioniconfile_notice_' . $i,
                 '',
-                html_writer::tag( 'small', get_string('reactioniconfile_notice', 'mod_videotrack'), ['class' => 'text-muted form-text'] )
+                html_writer::tag('small', get_string('reactioniconfile_notice', 'mod_videotrack'), ['class' => 'text-muted form-text'])
             );
 
             $mform->addElement(
                 'advcheckbox',
                 'reactionrequired[' . $i . ']',
-                get_string( 'reactionrequired', 'mod_videotrack' )
+                get_string('reactionrequired', 'mod_videotrack')
             );
             $mform->setType('reactionrequired[' . $i . ']', PARAM_BOOL);
 
@@ -793,7 +793,7 @@ class mod_videotrack_mod_form extends moodleform_mod {
         $mform->addElement(
             'submit',
             'reaction_add_fields',
-            get_string( 'addreaction', 'mod_videotrack' )
+            get_string('addreaction', 'mod_videotrack')
         );
     }
 
@@ -841,7 +841,7 @@ class mod_videotrack_mod_form extends moodleform_mod {
         $mform->addGroup(
             $group,
             'completionpercentgroup',
-            get_string( 'completionpercent', 'mod_videotrack' ),
+            get_string('completionpercent', 'mod_videotrack'),
             ' ',
             false
         );
@@ -938,7 +938,7 @@ class mod_videotrack_mod_form extends moodleform_mod {
         if (!empty($defaultvalues['playbackspeeds'])) {
             $activespeeds = array_map('strval', array_map(
                 'floatval',
-                preg_split( '/[,\n]+/', $defaultvalues['playbackspeeds'] )
+                preg_split('/[,\n]+/', $defaultvalues['playbackspeeds'])
             ));
         } else {
             // Use site defaults.
