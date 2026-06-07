@@ -16,21 +16,19 @@
 
 namespace mod_videotrack\local;
 
-defined('MOODLE_INTERNAL') || die();
-
-/**
- * @package    mod_videotrack
- * @copyright  2026 videotrack contributors
- * @license    https://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
- */
-
 use context;
+
+defined('MOODLE_INTERNAL') || die();
 
 /**
  * Privacy helpers for VideoTrack.
  *
  * User initiated erasure requests delete personal tracking data.
  * Retention cleanup may still anonymise old records when configured by admins.
+ *
+ * @package    mod_videotrack
+ * @copyright  2026 videotrack contributors
+ * @license    https://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 class privacy_manager {
     /** Prefix used for anonymised browser session identifiers. */
@@ -138,7 +136,6 @@ class privacy_manager {
         $hash = hash('sha256', self::anonymisation_salt() . ':' . $userid . ':' . $cmid . ':sessionid');
         return self::ANONYMOUS_SESSION_PREFIX . substr($hash, 0, 59);
     }
-
 
     /**
      * Permanently deletes all personal tracking records for one user in one module context.
@@ -308,7 +305,10 @@ class privacy_manager {
 
             $transaction->allow_commit();
         } catch (\Throwable $e) {
-            debugging('mod_videotrack anonymisation failed for cmid ' . $cmid . ' (' . get_class($e) . ')', DEBUG_DEVELOPER);
+            debugging(
+                'mod_videotrack anonymisation failed for cmid ' . $cmid . ' (' . get_class($e) . ')',
+                DEBUG_DEVELOPER
+            );
             $transaction->rollback($e);
             // rollback() already rethrows in Moodle; keep an explicit throw for
             // clarity and for future compatibility with transaction handling.
@@ -330,11 +330,25 @@ class privacy_manager {
 
         $retention = self::retention_period_seconds();
         if ($retention <= 0) {
-            return ['segments' => 0, 'states' => 0, 'events' => 0, 'skipped' => 1, 'processed' => 0, 'remaining' => 0];
+            return [
+                'segments' => 0,
+                'states' => 0,
+                'events' => 0,
+                'skipped' => 1,
+                'processed' => 0,
+                'remaining' => 0,
+            ];
         }
 
         $cutoff = time() - $retention;
-        $counts = ['segments' => 0, 'states' => 0, 'events' => 0, 'skipped' => 0, 'processed' => 0, 'remaining' => 0];
+        $counts = [
+            'segments' => 0,
+            'states' => 0,
+            'events' => 0,
+            'skipped' => 0,
+            'processed' => 0,
+            'remaining' => 0,
+        ];
 
         $sql = "SELECT DISTINCT userid, cmid
                   FROM {videotrack_seg}
@@ -493,7 +507,10 @@ class privacy_manager {
 
         $existing->lastposition = max((float)$existing->lastposition, (float)$record->lastposition);
         $existing->durationseconds = max((float)$existing->durationseconds, (float)$record->durationseconds);
-        $existing->uniquecoveredseconds = max((float)$existing->uniquecoveredseconds, (float)$record->uniquecoveredseconds);
+        $existing->uniquecoveredseconds = max(
+            (float)$existing->uniquecoveredseconds,
+            (float)$record->uniquecoveredseconds
+        );
         $existing->completionpercent = max((float)$existing->completionpercent, (float)$record->completionpercent);
         $existing->iscompleted = !empty($existing->iscompleted) || !empty($record->iscompleted) ? 1 : 0;
         $existing->timecreated = min((int)$existing->timecreated, (int)$record->timecreated);
