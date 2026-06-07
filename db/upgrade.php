@@ -22,9 +22,6 @@
  * @license   https://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 
-
-defined('MOODLE_INTERNAL') || die();
-
 /**
  * Upgrade script for mod_videotrack.
  *
@@ -42,19 +39,19 @@ function xmldb_videotrack_upgrade($oldversion) {
     if ($oldversion < 2026043008) {
         $table = new xmldb_table('videotrack');
 
-        // grade: 0 = no grade, >0 = max points, <0 = scale id.
+        // Grade: 0 = no grade, >0 = max points, <0 = scale id.
         $field = new xmldb_field('grade', XMLDB_TYPE_INTEGER, '10', null, XMLDB_NOTNULL, null, '0', 'reactionnotice');
         if (!$dbman->field_exists($table, $field)) {
             $dbman->add_field($table, $field);
         }
 
-        // gradepass: minimum passing grade.
+        // Gradepass: minimum passing grade.
         $field = new xmldb_field('gradepass', XMLDB_TYPE_NUMBER, '10, 5', null, XMLDB_NOTNULL, null, '0.00000', 'grade');
         if (!$dbman->field_exists($table, $field)) {
             $dbman->add_field($table, $field);
         }
 
-        // showgradeto: whether to display the grade to the student.
+        // Showgradeto: whether to display the grade to the student.
         $field = new xmldb_field('showgradeto', XMLDB_TYPE_INTEGER, '1', null, XMLDB_NOTNULL, null, '0', 'gradepass');
         if (!$dbman->field_exists($table, $field)) {
             $dbman->add_field($table, $field);
@@ -78,13 +75,13 @@ function xmldb_videotrack_upgrade($oldversion) {
             $dbman->add_field($table, $field);
         }
 
-        // playbackspeeds: comma-separated list.
+        // Playbackspeeds: comma-separated list.
         $field = new xmldb_field('playbackspeeds', XMLDB_TYPE_CHAR, '100', null, false, null, '', 'showgradeto');
         if (!$dbman->field_exists($table, $field)) {
             $dbman->add_field($table, $field);
         }
 
-        // youtubeurl can now be null for non-YouTube sources.
+        // Youtubeurl can now be null for non-YouTube sources.
         $field = new xmldb_field('youtubeurl', XMLDB_TYPE_TEXT, null, null, false, null, null, 'name');
         if ($dbman->field_exists($table, new xmldb_field('youtubeurl'))) {
             $dbman->change_field_notnull($table, $field);
@@ -97,11 +94,11 @@ function xmldb_videotrack_upgrade($oldversion) {
         $table = new xmldb_table('videotrack');
 
         $newfields = [
-            new xmldb_field('autoplay',      XMLDB_TYPE_INTEGER, '1',   null, XMLDB_NOTNULL, null, '0', 'playbackspeeds'),
-            new xmldb_field('loop',          XMLDB_TYPE_INTEGER, '1',   null, XMLDB_NOTNULL, null, '0', 'autoplay'),
-            new xmldb_field('startmuted',    XMLDB_TYPE_INTEGER, '1',   null, XMLDB_NOTNULL, null, '0', 'loop'),
-            new xmldb_field('allowdownload', XMLDB_TYPE_INTEGER, '1',   null, XMLDB_NOTNULL, null, '0', 'startmuted'),
-            new xmldb_field('html5controls', XMLDB_TYPE_CHAR,    '255', null, false,          null, '', 'allowdownload'),
+            new xmldb_field('autoplay', XMLDB_TYPE_INTEGER, '1', null, XMLDB_NOTNULL, null, '0', 'playbackspeeds'),
+            new xmldb_field('loop', XMLDB_TYPE_INTEGER, '1', null, XMLDB_NOTNULL, null, '0', 'autoplay'),
+            new xmldb_field('startmuted', XMLDB_TYPE_INTEGER, '1', null, XMLDB_NOTNULL, null, '0', 'loop'),
+            new xmldb_field('allowdownload', XMLDB_TYPE_INTEGER, '1', null, XMLDB_NOTNULL, null, '0', 'startmuted'),
+            new xmldb_field('html5controls', XMLDB_TYPE_CHAR, '255', null, false, null, '', 'allowdownload'),
         ];
         foreach ($newfields as $field) {
             if (!$dbman->field_exists($table, $field)) {
@@ -116,11 +113,11 @@ function xmldb_videotrack_upgrade($oldversion) {
         $table = new xmldb_table('videotrack');
 
         $newfields = [
-            new xmldb_field('playerwidth',     XMLDB_TYPE_INTEGER, '5',  null, XMLDB_NOTNULL, null, '0', 'html5controls'),
-            new xmldb_field('rewindstep',      XMLDB_TYPE_INTEGER, '3',  null, XMLDB_NOTNULL, null, '0', 'playerwidth'),
-            new xmldb_field('fastforwardstep', XMLDB_TYPE_INTEGER, '3',  null, XMLDB_NOTNULL, null, '0', 'rewindstep'),
-            new xmldb_field('captions',        XMLDB_TYPE_INTEGER, '1',  null, XMLDB_NOTNULL, null, '0', 'fastforwardstep'),
-            new xmldb_field('captionslang',    XMLDB_TYPE_CHAR,    '10', null, false,          null, '', 'captions'),
+            new xmldb_field('playerwidth', XMLDB_TYPE_INTEGER, '5', null, XMLDB_NOTNULL, null, '0', 'html5controls'),
+            new xmldb_field('rewindstep', XMLDB_TYPE_INTEGER, '3', null, XMLDB_NOTNULL, null, '0', 'playerwidth'),
+            new xmldb_field('fastforwardstep', XMLDB_TYPE_INTEGER, '3', null, XMLDB_NOTNULL, null, '0', 'rewindstep'),
+            new xmldb_field('captions', XMLDB_TYPE_INTEGER, '1', null, XMLDB_NOTNULL, null, '0', 'fastforwardstep'),
+            new xmldb_field('captionslang', XMLDB_TYPE_CHAR, '10', null, false, null, '', 'captions'),
         ];
         foreach ($newfields as $field) {
             if (!$dbman->field_exists($table, $field)) {
@@ -250,11 +247,11 @@ function xmldb_videotrack_upgrade($oldversion) {
         // Adds fields that may be missing when upgrading from very old versions
         // (these existed in install.xml but not in earlier upgrade blocks).
         $maybefields = [
-            new xmldb_field('showcontrols',            XMLDB_TYPE_INTEGER, '1', null, XMLDB_NOTNULL, null, '1'),
-            new xmldb_field('reactionsenabled',        XMLDB_TYPE_INTEGER, '1', null, XMLDB_NOTNULL, null, '0'),
-            new xmldb_field('reactionnotice',          XMLDB_TYPE_TEXT,    null, null, false, null, null),
-            new xmldb_field('reactionnoticeformat',    XMLDB_TYPE_INTEGER, '2', null, XMLDB_NOTNULL, null, '1'),
-            new xmldb_field('showreactionnotice',      XMLDB_TYPE_INTEGER, '1', null, XMLDB_NOTNULL, null, '0'),
+            new xmldb_field('showcontrols', XMLDB_TYPE_INTEGER, '1', null, XMLDB_NOTNULL, null, '1'),
+            new xmldb_field('reactionsenabled', XMLDB_TYPE_INTEGER, '1', null, XMLDB_NOTNULL, null, '0'),
+            new xmldb_field('reactionnotice', XMLDB_TYPE_TEXT, null, null, false, null, null),
+            new xmldb_field('reactionnoticeformat', XMLDB_TYPE_INTEGER, '2', null, XMLDB_NOTNULL, null, '1'),
+            new xmldb_field('showreactionnotice', XMLDB_TYPE_INTEGER, '1', null, XMLDB_NOTNULL, null, '0'),
             new xmldb_field(
                 'showstudentreport',
                 XMLDB_TYPE_INTEGER,
@@ -265,12 +262,12 @@ function xmldb_videotrack_upgrade($oldversion) {
                 '1'
             ), // Aligned with install.xml
             new xmldb_field('clusterwindow', XMLDB_TYPE_INTEGER, '3', null, XMLDB_NOTNULL, null, '30'),
-            new xmldb_field('disablekeyboard',         XMLDB_TYPE_INTEGER, '1', null, XMLDB_NOTNULL, null, '0'),
-            new xmldb_field('showfullscreen',          XMLDB_TYPE_INTEGER, '1', null, XMLDB_NOTNULL, null, '1'),
+            new xmldb_field('disablekeyboard', XMLDB_TYPE_INTEGER, '1', null, XMLDB_NOTNULL, null, '0'),
+            new xmldb_field('showfullscreen', XMLDB_TYPE_INTEGER, '1', null, XMLDB_NOTNULL, null, '1'),
             new xmldb_field('allowplaybackratechange', XMLDB_TYPE_INTEGER, '1', null, XMLDB_NOTNULL, null, '1'),
-            new xmldb_field('allowseekforward',        XMLDB_TYPE_INTEGER, '1', null, XMLDB_NOTNULL, null, '1'),
-            new xmldb_field('allowseekbackward',       XMLDB_TYPE_INTEGER, '1', null, XMLDB_NOTNULL, null, '1'),
-            new xmldb_field('reactionsrequired',       XMLDB_TYPE_INTEGER, '1', null, XMLDB_NOTNULL, null, '0'),
+            new xmldb_field('allowseekforward', XMLDB_TYPE_INTEGER, '1', null, XMLDB_NOTNULL, null, '1'),
+            new xmldb_field('allowseekbackward', XMLDB_TYPE_INTEGER, '1', null, XMLDB_NOTNULL, null, '1'),
+            new xmldb_field('reactionsrequired', XMLDB_TYPE_INTEGER, '1', null, XMLDB_NOTNULL, null, '0'),
             new xmldb_field(
                 'minreactions',
                 XMLDB_TYPE_INTEGER,
@@ -281,7 +278,7 @@ function xmldb_videotrack_upgrade($oldversion) {
                 '0'
             ), // Aligned with install.xml
             new xmldb_field('requireallreactiontypes', XMLDB_TYPE_INTEGER, '1', null, XMLDB_NOTNULL, null, '0'),
-            new xmldb_field('completionlogic',         XMLDB_TYPE_CHAR,   '10', null, XMLDB_NOTNULL, null, 'and'),
+            new xmldb_field('completionlogic', XMLDB_TYPE_CHAR, '10', null, XMLDB_NOTNULL, null, 'and'),
         ];
         foreach ($maybefields as $field) {
             if (!$dbman->field_exists($table, $field)) {
@@ -330,14 +327,12 @@ function xmldb_videotrack_upgrade($oldversion) {
         upgrade_mod_savepoint(true, 2026050246, 'videotrack');
     }
 
-
     if ($oldversion < 2026050253) {
         // Version 1.0.5: preserves existing reaction icon files when no new draft file
         // is submitted, adds reaction burst throttling and reset audit event, and improves
         // cumulative report filtering/summary. No database schema changes.
         upgrade_mod_savepoint(true, 2026050253, 'videotrack');
     }
-
 
     if ($oldversion < 2026050507) {
         // Version 1.0.7: accessibility parity for reaction buttons (aria-label with
@@ -375,7 +370,6 @@ function xmldb_videotrack_upgrade($oldversion) {
         upgrade_mod_savepoint(true, 2026050510, 'videotrack');
     }
 
-
     if ($oldversion < 2026050511) {
         // Version 1.0.11: adds composite indexes used by duplicate reaction throttling
         // and note rate limiting with soft-delete filtering.
@@ -396,7 +390,6 @@ function xmldb_videotrack_upgrade($oldversion) {
         upgrade_mod_savepoint(true, 2026050511, 'videotrack');
     }
 
-
     if ($oldversion < 2026050513) {
         // Version 1.0.13: fixes a fresh-install XMLDB index definition and adds
         // pluginfile hardening, translation, and documentation polish. Existing
@@ -406,56 +399,56 @@ function xmldb_videotrack_upgrade($oldversion) {
     }
 
     if ($oldversion < 2026050515) {
-        // v1.0.15: fix version format (10 digits), install.xml VERSION aligned,
+        // Release 1.0.15: fix version format (10 digits), install.xml VERSION aligned,
         // videotrack_delete_user_progress() now also deletes videotrack_reactev.
         // No database schema changes.
         upgrade_mod_savepoint(true, 2026050515, 'videotrack');
     }
 
     if ($oldversion < 2026050516) {
-        // v1.0.16: burst-limit no longer filtered by sessionid (B3),
+        // Release 1.0.16: burst-limit no longer filtered by sessionid (B3),
         // reaction_counts() skipped for completionpercent rule (B4).
         // No database schema changes.
         upgrade_mod_savepoint(true, 2026050516, 'videotrack');
     }
 
     if ($oldversion < 2026050517) {
-        // v1.0.17: delete_reaction redundant reaction_counts call removed (B5),
+        // Release 1.0.17: delete_reaction redundant reaction_counts call removed (B5),
         // player.js isProgrammaticSeek flag added for YouTube seek detection (B6).
         // No database schema changes.
         upgrade_mod_savepoint(true, 2026050517, 'videotrack');
     }
 
     if ($oldversion < 2026050518) {
-        // v1.0.18: reaction_counts per-request static class cache (O1),
+        // Release 1.0.18: reaction_counts per-request static class cache (O1),
         // recalculate_all_states uses get_recordset instead of get_records (O2).
         // No database schema changes.
         upgrade_mod_savepoint(true, 2026050518, 'videotrack');
     }
 
     if ($oldversion < 2026050519) {
-        // v1.0.19: notes_csv export validates useridfilter with is_enrolled() (S1),
+        // Release 1.0.19: notes_csv export validates useridfilter with is_enrolled() (S1),
         // intervaljson exported as human-readable MM:SS pairs in GDPR export (G1).
         // No database schema changes.
         upgrade_mod_savepoint(true, 2026050519, 'videotrack');
     }
 
     if ($oldversion < 2026050520) {
-        // v1.0.20: upgrade.php savepoint 2026050507 comment expanded (M2),
+        // Release 1.0.20: upgrade.php savepoint 2026050507 comment expanded (M2),
         // save_note.php now fires dedicated note_saved event instead of reaction_saved (M3).
         // No database schema changes.
         upgrade_mod_savepoint(true, 2026050520, 'videotrack');
     }
 
     if ($oldversion < 2026050521) {
-        // v1.0.21: showStatusMessage keeps error messages visible 8s instead of 4s (U1),
+        // Release 1.0.21: showStatusMessage keeps error messages visible 8s instead of 4s (U1),
         // keydown handler added for Enter/Space on aria-disabled reaction buttons (A1).
         // No database schema changes.
         upgrade_mod_savepoint(true, 2026050521, 'videotrack');
     }
 
     if ($oldversion < 2026050522) {
-        // v1.0.22: version.php release string corrected to 1.0.21 (C1),
+        // Release 1.0.22: version.php release string corrected to 1.0.21 (C1),
         // upgrade.php savepoints added for v1.0.15-1.0.21 (C2),
         // note error handler in all three players now uses showStatusMessage()
         // for consistent 8s visibility and correct aria role management (B1/B2/B3/A1).
@@ -464,7 +457,7 @@ function xmldb_videotrack_upgrade($oldversion) {
     }
 
     if ($oldversion < 2026050523) {
-        // v1.0.23: PLAYBACK_GRACE_SECONDS constant replaces magic 12.0 in
+        // Release 1.0.23: PLAYBACK_GRACE_SECONDS constant replaces magic 12.0 in
         // has_recent_playback() (S1), resumedlabel alias removed from playerconfig
         // and showResumeNotice uses resumelabel directly (O1/U1),
         // maturity raised from MATURITY_ALPHA to MATURITY_BETA (M1/M2).
@@ -473,7 +466,7 @@ function xmldb_videotrack_upgrade($oldversion) {
     }
 
     if ($oldversion < 2026050524) {
-        // v1.0.24: html5_player.js updateIntervalBar aligned to player.js/vimeo_player.js:
+        // Release 1.0.24: html5_player.js updateIntervalBar aligned to player.js/vimeo_player.js:
         // added duration parameter (C1), covered calculation, and aria-label update
         // after each redraw (B2/A1 — WCAG 1.1.1 Non-text Content).
         // No database schema changes.
@@ -481,13 +474,12 @@ function xmldb_videotrack_upgrade($oldversion) {
     }
 
     if ($oldversion < 2026050525) {
-        // v1.0.25: save_segment servergrace dead code removed (B1),
+        // Release 1.0.25: save_segment servergrace dead code removed (B1),
         // videotrack_save_reaction_definitions wrapped in delegated transaction (B3),
         // file_get_draft_area_info called only for file-type reactions (O1).
         // No database schema changes.
         upgrade_mod_savepoint(true, 2026050525, 'videotrack');
     }
-
 
     if ($oldversion < 2026052600) {
         // v1.0.26: mobile icon added, AMD build regenerated, accessibility
@@ -516,8 +508,6 @@ function xmldb_videotrack_upgrade($oldversion) {
         upgrade_mod_savepoint(true, 2026052900, 'videotrack');
     }
 
-
-
     if ($oldversion < 2026052901) {
         // Release 1.2.29: JavaScript fetch resilience and AMD build alignment. No schema changes.
         upgrade_mod_savepoint(true, 2026052901, 'videotrack');
@@ -527,7 +517,6 @@ function xmldb_videotrack_upgrade($oldversion) {
         // Release 1.2.30: compatibility cleanup before the 1.3 refactor branch. No schema changes.
         upgrade_mod_savepoint(true, 2026052902, 'videotrack');
     }
-
 
     if ($oldversion < 2026052903) {
         // Release 1.3.94: code-only maintenance fixes, bug-report regression gates and AMD build alignment.
@@ -608,12 +597,10 @@ function xmldb_videotrack_upgrade($oldversion) {
         upgrade_mod_savepoint(true, 2026052917, 'videotrack');
     }
 
-
     if ($oldversion < 2026052918) {
         // Release 1.4.8: accessibility and Moodle header maintenance. No schema changes.
         upgrade_mod_savepoint(true, 2026052918, 'videotrack');
     }
-
 
     if ($oldversion < 2026052919) {
         // Release 1.4.9: accessibility announcement cleanup and maintenance fixes. No schema changes.
@@ -635,42 +622,35 @@ function xmldb_videotrack_upgrade($oldversion) {
         upgrade_mod_savepoint(true, 2026052922, 'videotrack');
     }
 
-
     if ($oldversion < 2026052923) {
         // Release 1.4.13: AMD rebuild, accessibility and security hardening. No schema changes.
         upgrade_mod_savepoint(true, 2026052923, 'videotrack');
     }
-
 
     if ($oldversion < 2026052924) {
         // Release 1.4.14: AMD build normalisation, accessibility and runtime hardening. No schema changes.
         upgrade_mod_savepoint(true, 2026052924, 'videotrack');
     }
 
-
     if ($oldversion < 2026052925) {
         // Release 1.4.15: AMD build normalisation and security/accessibility hardening. No schema changes.
         upgrade_mod_savepoint(true, 2026052925, 'videotrack');
     }
-
 
     if ($oldversion < 2026052926) {
         // Release 1.4.16: reaction live-region runtime fix and AMD build normalisation. No schema changes.
         upgrade_mod_savepoint(true, 2026052926, 'videotrack');
     }
 
-
     if ($oldversion < 2026052927) {
         // Release 1.4.17: AMD rebuild, retry hardening and certification cleanup. No schema changes.
         upgrade_mod_savepoint(true, 2026052927, 'videotrack');
     }
 
-
     if ($oldversion < 2026052928) {
         // Release 1.4.18: AMD validation, accessibility and hardening cleanup. No schema changes.
         upgrade_mod_savepoint(true, 2026052928, 'videotrack');
     }
-
 
     if ($oldversion < 2026052929) {
         // Release 1.4.19: student reset permission and accessibility/compliance cleanup. No schema changes.
@@ -697,12 +677,10 @@ function xmldb_videotrack_upgrade($oldversion) {
         upgrade_mod_savepoint(true, 2026052933, 'videotrack');
     }
 
-
     if ($oldversion < 2026052934) {
         // JavaScript AMD rebuild and hardening release; no database schema changes.
         upgrade_mod_savepoint(true, 2026052934, 'videotrack');
     }
-
 
     if ($oldversion < 2026052935) {
         // Release 1.4.25: AMD rebuild and translations update.
@@ -710,13 +688,11 @@ function xmldb_videotrack_upgrade($oldversion) {
         upgrade_mod_savepoint(true, 2026052935, 'videotrack');
     }
 
-
     if ($oldversion < 2026052936) {
         // Release 1.4.26: AMD lifecycle hardening and own-report CSV export fix.
         // No database schema changes.
         upgrade_mod_savepoint(true, 2026052936, 'videotrack');
     }
-
 
     if ($oldversion < 2026052937) {
         // Release 1.4.27: AMD rebuild, lifecycle hardening and version normalisation.
@@ -730,7 +706,6 @@ function xmldb_videotrack_upgrade($oldversion) {
         upgrade_mod_savepoint(true, 2026052938, 'videotrack');
     }
 
-
     if ($oldversion < 2026052939) {
         // Release 1.4.29: upgrade sequence cleanup, settings validation and AMD hardening.
         // No database schema changes.
@@ -742,7 +717,6 @@ function xmldb_videotrack_upgrade($oldversion) {
         // No database schema changes.
         upgrade_mod_savepoint(true, 2026053040, 'videotrack');
     }
-
 
     if ($oldversion < 2026053041) {
         // Release 1.4.31: Moodle HQ style cleanup before initial public install.
@@ -815,7 +789,6 @@ function xmldb_videotrack_upgrade($oldversion) {
         upgrade_mod_savepoint(true, 2026060102, 'videotrack');
     }
 
-
     if ($oldversion < 2026060103) {
         // Release 1.4.40: notes AJAX hardening and rebuilt AMD assets.
         // No database schema changes.
@@ -839,25 +812,21 @@ function xmldb_videotrack_upgrade($oldversion) {
         upgrade_mod_savepoint(true, 2026060106, 'videotrack');
     }
 
-
     if ($oldversion < 2026060107) {
         // Release 1.4.44: accessibility and status-message UX hardening.
         // No database schema changes.
         upgrade_mod_savepoint(true, 2026060107, 'videotrack');
     }
 
-
     if ($oldversion < 2026060108) {
         // No database changes: release 1.4.45 contains AMD-only hardening.
         upgrade_mod_savepoint(true, 2026060108, 'videotrack');
     }
 
-
     if ($oldversion < 2026060109) {
         // Release 1.4.46: view attribute escaping cleanup; no database schema changes.
         upgrade_mod_savepoint(true, 2026060109, 'videotrack');
     }
-
 
     if ($oldversion < 2026060110) {
         // Release 1.4.47: uploaded file serving hardening; no database schema changes.
@@ -882,13 +851,11 @@ function xmldb_videotrack_upgrade($oldversion) {
         upgrade_mod_savepoint(true, 2026060113, 'videotrack');
     }
 
-
     if ($oldversion < 2026060114) {
         // Release 1.4.51: AMD accessibility and event-bus cleanup.
         // No database schema changes.
         upgrade_mod_savepoint(true, 2026060114, 'videotrack');
     }
-
 
     if ($oldversion < 2026060200) {
         // Release 1.4.52: packaging, privacy logging and form handling cleanup.
@@ -902,13 +869,11 @@ function xmldb_videotrack_upgrade($oldversion) {
         upgrade_mod_savepoint(true, 2026060201, 'videotrack');
     }
 
-
     if ($oldversion < 2026060202) {
         // Release 1.4.54: documentation packaging and privacy task log hardening.
         // No database schema changes.
         upgrade_mod_savepoint(true, 2026060202, 'videotrack');
     }
-
 
     if ($oldversion < 2026060203) {
         // Release 1.4.55: AMD accessibility, event-bus and client validation hardening.
@@ -946,13 +911,11 @@ function xmldb_videotrack_upgrade($oldversion) {
         upgrade_mod_savepoint(true, 2026060208, 'videotrack');
     }
 
-
     if ($oldversion < 2026060209) {
         // Release 1.4.61: accessible status-region relationships and resume notice cleanup.
         // No database schema changes.
         upgrade_mod_savepoint(true, 2026060209, 'videotrack');
     }
-
 
     if ($oldversion < 2026060210) {
         // Release 1.4.62: configurable accessible status message timeouts.
@@ -978,20 +941,17 @@ function xmldb_videotrack_upgrade($oldversion) {
         upgrade_mod_savepoint(true, 2026060213, 'videotrack');
     }
 
-
     if ($oldversion < 2026060214) {
         // Release 1.4.66: show the unlimited retention warning only when retention is configured as unlimited.
         // No database schema changes.
         upgrade_mod_savepoint(true, 2026060214, 'videotrack');
     }
 
-
     if ($oldversion < 2026060215) {
         // Release 1.4.67: configurable student-notes report page size for large cohorts.
         // No database schema changes.
         upgrade_mod_savepoint(true, 2026060215, 'videotrack');
     }
-
 
     if ($oldversion < 2026060216) {
         // Release 1.4.68: student-notes report cleanup for Moodle HQ static analysis.
@@ -1005,13 +965,11 @@ function xmldb_videotrack_upgrade($oldversion) {
         upgrade_mod_savepoint(true, 2026060217, 'videotrack');
     }
 
-
     if ($oldversion < 2026060218) {
         // Release 1.4.70: conservative tracker-level save serialisation for heartbeat concurrency.
         // No database schema changes.
         upgrade_mod_savepoint(true, 2026060218, 'videotrack');
     }
-
 
     if ($oldversion < 2026060219) {
         // Release 1.4.71: conservative student-note save guard against overlapping submissions.
@@ -1019,19 +977,16 @@ function xmldb_videotrack_upgrade($oldversion) {
         upgrade_mod_savepoint(true, 2026060219, 'videotrack');
     }
 
-
     if ($oldversion < 2026060220) {
         // Release 1.4.72: conservative reaction save/delete guard against overlapping submissions.
         // No database schema changes.
         upgrade_mod_savepoint(true, 2026060220, 'videotrack');
     }
 
-
     if ($oldversion < 2026060221) {
         // Release 1.4.73: conservative tracker stale-continuation guards for asynchronous current-time reads.
         upgrade_mod_savepoint(true, 2026060221, 'videotrack');
     }
-
 
     if ($oldversion < 2026060222) {
         // Release 1.4.74: cumulative report closure scope hardening for cluster rendering.
@@ -1045,13 +1000,11 @@ function xmldb_videotrack_upgrade($oldversion) {
         upgrade_mod_savepoint(true, 2026060223, 'videotrack');
     }
 
-
     if ($oldversion < 2026060224) {
         // Release 1.4.76: course report activity-name formatting uses the course context explicitly.
         // No database schema changes.
         upgrade_mod_savepoint(true, 2026060224, 'videotrack');
     }
-
 
     if ($oldversion < 2026060225) {
         // Release 1.4.77: completion and activity page labels pass explicit contexts to format_string().
@@ -1059,13 +1012,11 @@ function xmldb_videotrack_upgrade($oldversion) {
         upgrade_mod_savepoint(true, 2026060225, 'videotrack');
     }
 
-
     if ($oldversion < 2026060226) {
         // Release 1.4.78: course index page labels pass explicit contexts to format_string().
         // No database schema changes.
         upgrade_mod_savepoint(true, 2026060226, 'videotrack');
     }
-
 
     if ($oldversion < 2026060227) {
         // Release 1.4.79: reaction timing limits are centralised in the shared AMD reactions module.
@@ -1073,13 +1024,11 @@ function xmldb_videotrack_upgrade($oldversion) {
         upgrade_mod_savepoint(true, 2026060227, 'videotrack');
     }
 
-
     if ($oldversion < 2026060228) {
         // Release 1.4.80: JSDoc hardening for shared AMD API and tracker modules.
         // No database schema changes.
         upgrade_mod_savepoint(true, 2026060228, 'videotrack');
     }
-
 
     if ($oldversion < 2026060229) {
         // Release 1.4.81: close safe accessibility, GDPR retention logging and report pagination hardening.
@@ -1087,13 +1036,11 @@ function xmldb_videotrack_upgrade($oldversion) {
         upgrade_mod_savepoint(true, 2026060229, 'videotrack');
     }
 
-
     if ($oldversion < 2026060230) {
         // Release 1.4.82: accessibility captions and localised status fallback hardening.
         // No database schema changes.
         upgrade_mod_savepoint(true, 2026060230, 'videotrack');
     }
-
 
     if ($oldversion < 2026060231) {
         // Release 1.4.83: add PHPUnit coverage for stable helper functions.
@@ -1101,13 +1048,11 @@ function xmldb_videotrack_upgrade($oldversion) {
         upgrade_mod_savepoint(true, 2026060231, 'videotrack');
     }
 
-
     if ($oldversion < 2026060232) {
         // Release 1.4.84: require explicit admin confirmation for unlimited GDPR retention.
         // No database schema changes.
         upgrade_mod_savepoint(true, 2026060232, 'videotrack');
     }
-
 
     if ($oldversion < 2026060233) {
         // Release 1.4.85: remove residual hardcoded AJAX fallback messages from AMD modules.
@@ -1115,13 +1060,11 @@ function xmldb_videotrack_upgrade($oldversion) {
         upgrade_mod_savepoint(true, 2026060233, 'videotrack');
     }
 
-
     if ($oldversion < 2026060234) {
         // Release 1.4.86: document the custom AMD AJAX layer design and operational limits.
         // No database schema changes.
         upgrade_mod_savepoint(true, 2026060234, 'videotrack');
     }
-
 
     if ($oldversion < 2026060235) {
         // Release 1.4.87: add PHPUnit coverage for pure tracker interval helpers.
@@ -1129,13 +1072,11 @@ function xmldb_videotrack_upgrade($oldversion) {
         upgrade_mod_savepoint(true, 2026060235, 'videotrack');
     }
 
-
     if ($oldversion < 2026060236) {
         // Release 1.4.88: add PHPUnit coverage for custom admin setting validation and GDPR retention confirmation.
         // No database schema changes.
         upgrade_mod_savepoint(true, 2026060236, 'videotrack');
     }
-
 
     if ($oldversion < 2026060237) {
         // Release 1.4.89: document AMD operational limits used by the AJAX and beacon layers.
@@ -1143,13 +1084,11 @@ function xmldb_videotrack_upgrade($oldversion) {
         upgrade_mod_savepoint(true, 2026060237, 'videotrack');
     }
 
-
     if ($oldversion < 2026060238) {
         // Release 1.4.90: split AJAX argument validation into a dedicated AMD module.
         // No database schema changes.
         upgrade_mod_savepoint(true, 2026060238, 'videotrack');
     }
-
 
     if ($oldversion < 2026060239) {
         // Release 1.4.91: restore the extracted AMD validator module in source and build trees.
@@ -1157,13 +1096,11 @@ function xmldb_videotrack_upgrade($oldversion) {
         upgrade_mod_savepoint(true, 2026060239, 'videotrack');
     }
 
-
     if ($oldversion < 2026060240) {
         // Release 1.4.92: split AJAX error classification into a dedicated AMD module.
         // No database schema changes.
         upgrade_mod_savepoint(true, 2026060240, 'videotrack');
     }
-
 
     if ($oldversion < 2026060241) {
         // Release 1.4.93: split AJAX retry and jitter handling into a dedicated AMD module.
@@ -1171,20 +1108,17 @@ function xmldb_videotrack_upgrade($oldversion) {
         upgrade_mod_savepoint(true, 2026060241, 'videotrack');
     }
 
-
     if ($oldversion < 2026060242) {
         // Release 1.4.94: split AJAX transport and timeout handling into a dedicated AMD module.
         // No database schema changes.
         upgrade_mod_savepoint(true, 2026060242, 'videotrack');
     }
 
-
     if ($oldversion < 2026060243) {
         // Release 1.4.95: split AJAX request-scope helpers into a dedicated AMD module.
         // No database schema changes.
         upgrade_mod_savepoint(true, 2026060243, 'videotrack');
     }
-
 
     if ($oldversion < 2026060244) {
         // Release 1.4.96: restore the extracted AMD request-scope module in source and build trees.
@@ -1198,19 +1132,16 @@ function xmldb_videotrack_upgrade($oldversion) {
         upgrade_mod_savepoint(true, 2026060245, 'videotrack');
     }
 
-
     if ($oldversion < 2026060246) {
         // Release 1.4.98: split tracker state helpers into a dedicated AMD module.
         // No database schema changes.
         upgrade_mod_savepoint(true, 2026060246, 'videotrack');
     }
 
-
     if ($oldversion < 2026060247) {
         // Release 1.4.99: split tracker time and seek helpers into a dedicated AMD module.
         upgrade_mod_savepoint(true, 2026060247, 'videotrack');
     }
-
 
     if ($oldversion < 2026060248) {
         // Release 1.4.100: split tracker heartbeat helpers into a dedicated AMD module.
@@ -1218,13 +1149,11 @@ function xmldb_videotrack_upgrade($oldversion) {
         upgrade_mod_savepoint(true, 2026060248, 'videotrack');
     }
 
-
     if ($oldversion < 2026060249) {
         // Release 1.4.101: align tracker heartbeat helper exports after AMD micro-refactor.
         // No database schema changes.
         upgrade_mod_savepoint(true, 2026060249, 'videotrack');
     }
-
 
     if ($oldversion < 2026060250) {
         // Release 1.4.102: split tracker lifecycle helpers into a dedicated AMD module.
@@ -1232,13 +1161,11 @@ function xmldb_videotrack_upgrade($oldversion) {
         upgrade_mod_savepoint(true, 2026060250, 'videotrack');
     }
 
-
     if ($oldversion < 2026060251) {
         // Release 1.4.103: split tracker segment lifecycle helpers into a dedicated AMD module.
         // No database schema changes.
         upgrade_mod_savepoint(true, 2026060251, 'videotrack');
     }
-
 
     if ($oldversion < 2026060252) {
         // Release 1.4.104: split player interval-bar helpers into a dedicated AMD module.
@@ -1246,13 +1173,11 @@ function xmldb_videotrack_upgrade($oldversion) {
         upgrade_mod_savepoint(true, 2026060252, 'videotrack');
     }
 
-
     if ($oldversion < 2026060253) {
         // Release 1.4.105: fix AMD lint blockers after player interval-bar micro-refactor.
         // No database schema changes.
         upgrade_mod_savepoint(true, 2026060253, 'videotrack');
     }
-
 
     if ($oldversion < 2026060254) {
         // Release 1.4.106: split player resume and poster helpers into dedicated AMD modules.
@@ -1260,20 +1185,17 @@ function xmldb_videotrack_upgrade($oldversion) {
         upgrade_mod_savepoint(true, 2026060254, 'videotrack');
     }
 
-
     if ($oldversion < 2026060255) {
         // Release 1.4.107: split player status helpers into a dedicated AMD module.
         // No database schema changes.
         upgrade_mod_savepoint(true, 2026060255, 'videotrack');
     }
 
-
     if ($oldversion < 2026060256) {
         // Release 1.4.108: restore player resume and poster AMD modules after facade extraction.
         // No database schema changes.
         upgrade_mod_savepoint(true, 2026060256, 'videotrack');
     }
-
 
     if ($oldversion < 2026060257) {
         // Savepoint for Videotrack 1.4.109.
@@ -1300,7 +1222,6 @@ function xmldb_videotrack_upgrade($oldversion) {
         upgrade_mod_savepoint(true, 2026060261, 'videotrack');
     }
 
-
     if ($oldversion < 2026060262) {
         // Release 1.4.114: split personal notes row rendering into a dedicated AMD module.
         upgrade_mod_savepoint(true, 2026060262, 'videotrack');
@@ -1316,7 +1237,6 @@ function xmldb_videotrack_upgrade($oldversion) {
         // No database schema changes.
         upgrade_mod_savepoint(true, 2026060264, 'videotrack');
     }
-
 
     if ($oldversion < 2026060265) {
         // Release 1.4.117: document final Moodle HQ static audit after AMD refactor stabilization.
@@ -1335,7 +1255,6 @@ function xmldb_videotrack_upgrade($oldversion) {
         // No database schema changes.
         upgrade_mod_savepoint(true, 2026060267, 'videotrack');
     }
-
 
     if ($oldversion < 2026060274) {
         // Release 1.4.126: remove invalid empty-string defaults from NOT NULL XMLDB char fields.
@@ -1377,11 +1296,16 @@ function xmldb_videotrack_upgrade($oldversion) {
         upgrade_mod_savepoint(true, 2026060274, 'videotrack');
     }
 
-
     if ($oldversion < 2026060281) {
         // Release 1.4.133: PHPCS remediation for the course report entry point.
         // No database schema changes.
         upgrade_mod_savepoint(true, 2026060281, 'videotrack');
+    }
+
+    if ($oldversion < 2026060290) {
+        // Release 1.4.142: PHPCS remediation for upgrade metadata and formatting.
+        // No database schema changes.
+        upgrade_mod_savepoint(true, 2026060290, 'videotrack');
     }
 
     return true;
