@@ -45,7 +45,6 @@ class tracker {
     /** @var array Per-request cache for reaction_counts(). Keyed by "videotrackid:userid". */
     private static $reaction_counts_cache = [];
 
-
     /**
      * Returns the current persisted state, or a safe in-memory default when no
      * state row exists yet. Used as a non-fatal fallback when the per-user state
@@ -67,6 +66,14 @@ class tracker {
         return self::create_default_state($videotrack, $cm, $userid);
     }
 
+    /**
+     * Normalises a playback interval and rejects empty or invalid ranges.
+     *
+     * @param float $start Interval start in seconds.
+     * @param float $end Interval end in seconds.
+     * @param float $duration Optional video duration used to clamp bounds.
+     * @return array|null Normalised [start, end] interval, or null when invalid.
+     */
     public static function normalise_interval(float $start, float $end, float $duration = 0.0): ?array {
         if ($duration > 0) {
             $start = max(0.0, min($start, $duration));
@@ -81,6 +88,12 @@ class tracker {
         return [round($start, 3), round($end, 3)];
     }
 
+    /**
+     * Decodes a JSON list of intervals into safe normalised intervals.
+     *
+     * @param string|null $json Encoded interval JSON.
+     * @return array Normalised interval list.
+     */
     public static function decode_intervals(?string $json): array {
         if (empty($json)) {
             return [];
@@ -95,8 +108,8 @@ class tracker {
             if (!is_array($interval) || count($interval) < 2 || !is_numeric($interval[0]) || !is_numeric($interval[1])) {
                 continue;
             }
-            $start = (float)$interval[0];
-            $end = (float)$interval[1];
+            $start = (float) $interval[0];
+            $end = (float) $interval[1];
             if (!is_finite($start) || !is_finite($end)) {
                 continue;
             }
@@ -108,15 +121,27 @@ class tracker {
         return $intervals;
     }
 
+    /**
+     * Encodes intervals for persistence in videotrack_state.intervaljson.
+     *
+     * @param array $intervals Interval list.
+     * @return string Encoded JSON representation.
+     */
     public static function encode_intervals(array $intervals): string {
         return json_encode(array_values($intervals));
     }
 
+    /**
+     * Merges overlapping intervals while preserving watched coverage.
+     *
+     * @param array $intervals Interval list.
+     * @return array Merged interval list.
+     */
     public static function merge_intervals(array $intervals): array {
         if (!$intervals) {
             return [];
         }
-        usort($intervals, static function($a, $b) {
+        usort($intervals, static function ($a, $b) {
             return $a[0] <=> $b[0];
         });
         $merged = [];
@@ -135,6 +160,9 @@ class tracker {
      * intervals and discard smaller fragments. This avoids inventing watched
      * coverage by merging unseen gaps, at the cost of controlled precision loss
      * in extreme cases.
+     *
+     * @param array $intervals Interval list.
+     * @return array Capped interval list.
      */
     public static function cap_intervals(array $intervals): array {
         if (count($intervals) <= self::MAX_INTERVALS) {
@@ -165,15 +193,23 @@ class tracker {
             return $intervals;
         }
         // Sort by descending length and keep the longest $target intervals.
-        usort($intervals, function($a, $b) {
+        usort($intervals, static function ($a, $b) {
             return ($b[1] - $b[0]) <=> ($a[1] - $a[0]);
         });
         $kept = array_slice($intervals, 0, $target);
         // Re-sort by timeline position for deterministic output.
-        usort($kept, function($a, $b) { return $a[0] <=> $b[0]; });
+        usort($kept, static function ($a, $b) {
+            return $a[0] <=> $b[0];
+        });
         return $kept;
     }
 
+    /**
+     * Calculates the total covered seconds represented by interval ranges.
+     *
+     * @param array $intervals Interval list.
+     * @return float Covered seconds rounded to milliseconds.
+     */
     public static function covered_seconds(array $intervals): float {
         $total = 0.0;
         foreach ($intervals as $interval) {
@@ -182,6 +218,13 @@ class tracker {
         return round($total, 3);
     }
 
+    /**
+     * Returns cached reaction counters for one user/activity pair.
+     *
+     * @param int $videotrackid Activity id.
+     * @param int $userid User id.
+     * @return array Reaction summary with event count, unique count and ids.
+     */
     public static function reaction_counts(int $videotrackid, int $userid): array {
         global $DB;
         // O1: per-request cache to avoid repeated identical DB queries within the same
@@ -204,9 +247,9 @@ class tracker {
         $ids = $DB->get_fieldset_sql(
             "SELECT DISTINCT reactionid FROM {videotrack_reactev} WHERE $where ORDER BY reactionid", $p);
         $result = [
-            'eventcount'  => (int)($row->eventcount  ?? 0),
-            'uniquecount' => (int)($row->uniquecount  ?? 0),
-            'uniqueids'   => array_map('intval', $ids),
+            'eventcount' => (int) ($row->eventcount ?? 0),
+            'uniquecount' => (int) ($row->uniquecount ?? 0),
+            'uniqueids' => array_map('intval', $ids),
         ];
         self::$reaction_counts_cache[$key] = $result;
         return $result;
@@ -217,20 +260,27 @@ class tracker {
      * Must be called after any insert or soft-delete on videotrack_reactev
      * to ensure subsequent calls within the same request see fresh data.
      *
-     * @param int $videotrackid
-     * @param int $userid
+     * @param int $videotrackid Activity id.
+     * @param int $userid User id.
      */
     public static function invalidate_reaction_counts_cache(int $videotrackid, int $userid): void {
         $key = $videotrackid . ':' . $userid;
         unset(self::$reaction_counts_cache[$key]);
     }
 
-
     /**
      * Returns true when a reaction or note is backed by a recent playback heartbeat.
      *
      * The browser UI hides these controls outside PLAYING, but this server-side check
      * prevents direct AJAX calls from creating reactions/notes at arbitrary timestamps.
+     *
+     * @param int $videotrackid Activity id.
+     * @param int $userid User id.
+     * @param string $sessionid Browser session id.
+     * @param float $videotime Video timestamp in seconds.
+     * @param int $recentseconds Recent playback window in seconds.
+     * @param float $timetolerance Timestamp tolerance in seconds.
+     * @return bool Whether recent playback authorises the action.
      */
     public static function has_recent_playback(int $videotrackid, int $userid, string $sessionid,
             float $videotime, int $recentseconds = 20, float $timetolerance = 8.0): bool {
@@ -238,7 +288,7 @@ class tracker {
         // vtstart/vtend intentionally carry the same value, and tolstart/tolend do the same.
         // Distinct placeholders avoid driver issues with reusing the same named
         // parameter more than once in a query.
-        $vt  = max(0.0, $videotime);
+        $vt = max(0.0, $videotime);
         $tol = max(1.0, $timetolerance);
         $since = time() - max(5, $recentseconds);
         // S1 fix: replace the magic number 12.0 with a named constant.
@@ -270,7 +320,7 @@ class tracker {
             return true;
         }
 
-        if ((int)get_config('mod_videotrack', 'strictsessionvalidation')) {
+        if ((int) get_config('mod_videotrack', 'strictsessionvalidation')) {
             return false;
         }
 
@@ -317,7 +367,8 @@ class tracker {
      * @param string $sessionid Browser session id.
      * @param float $videotime Video timestamp in seconds.
      * @param float $timetolerance Small tolerance for heartbeat/network delay.
-     * @return bool
+     * @param int $maxageseconds Maximum fallback age in seconds, or zero for no limit.
+     * @return bool Whether the timestamp is inside a watched segment.
      */
     public static function has_watched_videotime(int $videotrackid, int $userid, string $sessionid,
             float $videotime, float $timetolerance = 2.0, int $maxageseconds = 0): bool {
@@ -342,7 +393,7 @@ class tracker {
             return true;
         }
 
-        if ((int)get_config('mod_videotrack', 'strictsessionvalidation')) {
+        if ((int) get_config('mod_videotrack', 'strictsessionvalidation')) {
             return false;
         }
 
@@ -370,6 +421,15 @@ class tracker {
         return $DB->record_exists_select('videotrack_seg', $fallbackselect, $fallbackparams);
     }
 
+    /**
+     * Evaluates the custom VideoTrack completion rules.
+     *
+     * @param \stdClass $videotrack Activity instance.
+     * @param \stdClass|null $state Persisted user state.
+     * @param array $reactionsummary Reaction summary.
+     * @param array $requiredreactionids Required reaction ids.
+     * @return bool Whether custom completion rules are satisfied.
+     */
     public static function completion_satisfied(
         \stdClass $videotrack,
         ?\stdClass $state,
@@ -378,17 +438,17 @@ class tracker {
     ): bool {
         $checks = [];
         if (!empty($videotrack->completionpercent)) {
-            $checks[] = !empty($state) && (float)$state->completionpercent >= (float)$videotrack->completionpercent;
+            $checks[] = !empty($state) && (float)$state->completionpercent >= (float) $videotrack->completionpercent;
         }
         if (!empty($videotrack->reactionsrequired) && !empty($videotrack->minreactions)) {
-            $checks[] = $reactionsummary['uniquecount'] >= (int)$videotrack->minreactions;
+            $checks[] = $reactionsummary['uniquecount'] >= (int) $videotrack->minreactions;
         }
         foreach ($requiredreactionids as $reactionid) {
-            $checks[] = in_array((int)$reactionid, $reactionsummary['uniqueids'], true);
+            $checks[] = in_array((int) $reactionid, $reactionsummary['uniqueids'], true);
         }
         if (!empty($videotrack->requireallreactiontypes)) {
             global $DB;
-            $allreactionids = array_map('intval', array_keys((array)$DB->get_records_menu('videotrack_react', [
+            $allreactionids = array_map('intval', array_keys((array) $DB->get_records_menu('videotrack_react', [
                 'videotrackid' => $videotrack->id,
                 'isdeleted' => 0,
             ], '', 'id,id')));
@@ -431,7 +491,7 @@ class tracker {
             'userid'               => $userid,
             'videoid'              => $videotrack->videoid,
             'lastposition'         => 0,
-            'durationseconds'      => (float)($videotrack->durationseconds ?? 0),
+            'durationseconds'      => (float) ($videotrack->durationseconds ?? 0),
             'uniquecoveredseconds' => 0,
             'completionpercent'    => 0,
             'intervaljson'         => '[]',
@@ -494,11 +554,11 @@ class tracker {
             $intervals[] = $interval;
             $intervals = self::merge_intervals($intervals);
             $intervals = self::cap_intervals($intervals);
-            $covered  = self::covered_seconds($intervals);
-            $duration = max((float)$videotrack->durationseconds, (float)$state->durationseconds);
-            $percent  = $duration > 0 ? min(100.0, round(($covered / $duration) * 100, 2)) : 0.0;
+            $covered = self::covered_seconds($intervals);
+            $duration = max((float) $videotrack->durationseconds, (float) $state->durationseconds);
+            $percent = $duration > 0 ? min(100.0, round(($covered / $duration) * 100, 2)) : 0.0;
 
-            $requiredreactionids = array_keys(array_filter((array)$DB->get_records_menu('videotrack_react', [
+            $requiredreactionids = array_keys(array_filter((array) $DB->get_records_menu('videotrack_react', [
                 'videotrackid'          => $videotrack->id,
                 'requiredforcompletion' => 1,
                 'isdeleted'             => 0,
@@ -516,8 +576,13 @@ class tracker {
             $state->uniquecoveredseconds = $covered;
             $state->completionpercent    = $percent;
             $state->intervaljson         = self::encode_intervals($intervals);
-            $wasCompleted = !empty($state->id) ? (int)($state->iscompleted ?? 0) : 0;
-            $state->iscompleted  = self::completion_satisfied($videotrack, $state, $reactionsummary, $requiredreactionids) ? 1 : 0;
+            $wascompleted = !empty($state->id) ? (int) ($state->iscompleted ?? 0) : 0;
+            $state->iscompleted = self::completion_satisfied(
+                $videotrack,
+                $state,
+                $reactionsummary,
+                $requiredreactionids
+            ) ? 1 : 0;
             $state->timemodified = time();
 
             if (!empty($state->id)) {
@@ -531,7 +596,7 @@ class tracker {
 
             // Emit activity_completed on the first 0-to-1 transition.
             // This is outside the transaction because the event is not critical data.
-            if (!$wasCompleted && $state->iscompleted) {
+            if (!$wascompleted && $state->iscompleted) {
                 $completedEvent = \mod_videotrack\event\activity_completed::create([
                     'objectid' => $state->id,
                     'context'  => \context_module::instance($cm->id),
@@ -555,7 +620,6 @@ class tracker {
         return $state;
     }
 
-
     /**
      * Synchronises Moodle completion only when the persisted completion state
      * differs from the computed VideoTrack state. This avoids redundant writes
@@ -570,7 +634,7 @@ class tracker {
             bool $iscompleted, int $userid): void {
         $target = $iscompleted ? COMPLETION_COMPLETE : COMPLETION_INCOMPLETE;
         $current = $completion->get_data($cm, false, $userid);
-        $currentstate = isset($current->completionstate) ? (int)$current->completionstate : COMPLETION_INCOMPLETE;
+        $currentstate = isset($current->completionstate) ? (int) $current->completionstate : COMPLETION_INCOMPLETE;
 
         $completestates = [COMPLETION_COMPLETE, COMPLETION_COMPLETE_PASS, COMPLETION_COMPLETE_FAIL];
         $currentlycomplete = in_array($currentstate, $completestates, true);
@@ -579,6 +643,16 @@ class tracker {
         }
     }
 
+    /**
+     * Recomputes and persists completion state for one user/activity pair.
+     *
+     * @param \stdClass $videotrack Activity instance.
+     * @param \cm_info $cm Course module info.
+     * @param int $userid User id.
+     * @param array|null $reactionsummary Optional precomputed reaction summary.
+     * @param array|null $requiredreactionids Optional required reaction ids.
+     * @return \stdClass Updated state.
+     */
     public static function refresh_completion(\stdClass $videotrack, \cm_info $cm, int $userid,
             ?array $reactionsummary = null, ?array $requiredreactionids = null): \stdClass {
         global $DB;
@@ -605,7 +679,7 @@ class tracker {
             }
 
             if ($requiredreactionids === null) {
-                $requiredreactionids = array_keys(array_filter((array)$DB->get_records_menu('videotrack_react', [
+                $requiredreactionids = array_keys(array_filter((array) $DB->get_records_menu('videotrack_react', [
                     'videotrackid' => $videotrack->id,
                     'requiredforcompletion' => 1,
                     'isdeleted' => 0,
@@ -614,7 +688,12 @@ class tracker {
             if ($reactionsummary === null) {
                 $reactionsummary = self::reaction_counts($videotrack->id, $userid);
             }
-            $state->iscompleted = self::completion_satisfied($videotrack, $state, $reactionsummary, $requiredreactionids) ? 1 : 0;
+            $state->iscompleted = self::completion_satisfied(
+                $videotrack,
+                $state,
+                $reactionsummary,
+                $requiredreactionids
+            ) ? 1 : 0;
             $state->timemodified = time();
             $DB->update_record('videotrack_state', $state);
 
