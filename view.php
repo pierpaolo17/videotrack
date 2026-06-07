@@ -1,18 +1,18 @@
 <?php
 // This file is part of Moodle - https://moodle.org/
-//.
-// Moodle is free software: you can redistribute it and/or modify.
-// It under the terms of the GNU General Public License as published by.
-// The Free Software Foundation, either version 3 of the License, or.
+//
+// Moodle is free software: you can redistribute it and/or modify
+// it under the terms of the GNU General Public License as published by
+// the Free Software Foundation, either version 3 of the License, or
 // (at your option) any later version.
-//.
-// Moodle is distributed in the hope that it will be useful,.
-// But WITHOUT ANY WARRANTY; without even the implied warranty of.
-// MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the.
+//
+// Moodle is distributed in the hope that it will be useful,
+// but WITHOUT ANY WARRANTY; without even the implied warranty of
+// MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
 // GNU General Public License for more details.
-//.
-// You should have received a copy of the GNU General Public License.
-// Along with Moodle.  If not, see <https://www.gnu.org/licenses/>.
+//
+// You should have received a copy of the GNU General Public License
+// along with Moodle.  If not, see <https://www.gnu.org/licenses/>.
 
 /**
  * VideoTrack plugin file.
@@ -247,7 +247,7 @@ if (
             $passed         = $usergrade >= (float)$videotrack->gradepass;
             $gradepasslabel = html_writer::tag(
                 'span',
-                $OUTPUT->pix_icon($passed ? 'i/valid' : 'i/invalid', '', 'moodle', ['aria-hidden' => 'true']) . ' ' . html_writer::tag( 'span', get_string($passed ? 'grade:pass' : 'grade:fail', 'mod_videotrack'), ['class' => $passed ? 'text-success ms-1' : 'text-danger ms-1'] ),
+                $OUTPUT->pix_icon($passed ? 'i/valid' : 'i/invalid', '', 'moodle', ['aria-hidden' => 'true']) . ' ' . html_writer::tag('span', get_string($passed ? 'grade:pass' : 'grade:fail', 'mod_videotrack'), ['class' => $passed ? 'text-success ms-1' : 'text-danger ms-1']),
                 ['class' => 'ms-2']
             );
         }
@@ -350,7 +350,7 @@ if ($posterurl) {
     // Accessible play overlay button.
     echo html_writer::tag(
         'button',
-        html_writer::tag( 'span', html_writer::tag( 'svg', html_writer::tag('path', '', ['d' => 'M8 5v14l11-7z']), ['viewBox' => '0 0 24 24', 'focusable' => 'false', 'aria-hidden' => 'true'] ), ['class' => 'videotrack-poster-play-icon', 'aria-hidden' => 'true'] ),
+        html_writer::tag('span', html_writer::tag('svg', html_writer::tag('path', '', ['d' => 'M8 5v14l11-7z']), ['viewBox' => '0 0 24 24', 'focusable' => 'false', 'aria-hidden' => 'true']), ['class' => 'videotrack-poster-play-icon', 'aria-hidden' => 'true']),
         [ 'type'       => 'button', 'class'      => 'videotrack-poster-play-btn', 'id'         => 'videotrack-poster-play-btn', 'aria-label' => get_string('playbutton_label', 'mod_videotrack'), ]
     );
     echo html_writer::end_div();
@@ -541,15 +541,15 @@ if (!empty($videotrack->studentnotesenabled)) {
 echo html_writer::start_div('videotrack-progress mb-2');
 echo html_writer::tag(
     'div',
-    get_string('progress', 'mod_videotrack') . ': ' . html_writer::tag( 'strong', format_float($percent, 2) . '%', [ 'id' => 'videotrack-progress-percent', ] )
+    get_string('progress', 'mod_videotrack') . ': ' . html_writer::tag('strong', format_float($percent, 2) . '%', [ 'id' => 'videotrack-progress-percent', ])
 );
 echo html_writer::tag(
     'div',
-    get_string('report:uniquecoveredseconds', 'mod_videotrack') . ': ' . html_writer::tag( 'span', s(videotrack_format_seconds($covered)), ['id' => 'videotrack-covered-seconds'] )
+    get_string('report:uniquecoveredseconds', 'mod_videotrack') . ': ' . html_writer::tag('span', s(videotrack_format_seconds($covered)), ['id' => 'videotrack-covered-seconds'])
 );
 echo html_writer::tag(
     'div',
-    get_string('uniquereactions', 'mod_videotrack') . ': ' . html_writer::tag( 'span', (string)count($uniquereactionids), ['id' => 'videotrack-unique-reactions'] )
+    get_string('uniquereactions', 'mod_videotrack') . ': ' . html_writer::tag('span', (string)count($uniquereactionids), ['id' => 'videotrack-unique-reactions'])
 );
 echo html_writer::end_div(); // Videotrack-progress.
 
@@ -645,7 +645,7 @@ if ($showstudentreport) {
         $reporturl = new moodle_url('/mod/videotrack/report.php', ['id' => $cm->id, 'mode' => 'student']);
         echo html_writer::tag(
             'tr',
-            html_writer::tag( 'td', get_string('report:showingrecentreactionsoftotal', 'mod_videotrack', $showninfo) . ' ' . html_writer::link($reporturl, get_string('report:viewfullreport', 'mod_videotrack')), ['colspan' => '5', 'class' => 'text-muted text-center py-2'] )
+            html_writer::tag('td', get_string('report:showingrecentreactionsoftotal', 'mod_videotrack', $showninfo) . ' ' . html_writer::link($reporturl, get_string('report:viewfullreport', 'mod_videotrack')), ['colspan' => '5', 'class' => 'text-muted text-center py-2'])
         );
     }
     foreach ($events as $event) {

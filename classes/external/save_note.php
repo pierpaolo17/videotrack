@@ -47,7 +47,7 @@ class save_note extends external_api {
      */
     public static function execute_parameters(): external_function_parameters {
         return new external_function_parameters([
-            'cmid'        => new external_value(PARAM_INT,   'Course module ID'),
+            'cmid'        => new external_value(PARAM_INT, 'Course module ID'),
             'sessionid'   => new external_value(PARAM_ALPHANUMEXT, 'Session UUID'),
             'videotime'   => new external_value(PARAM_FLOAT, 'Video timestamp in seconds'),
             'notetext'    => new external_value(PARAM_RAW_TRIM, 'Note text'),
@@ -193,7 +193,7 @@ class save_note extends external_api {
      */
     public static function execute_returns(): external_single_structure {
         return new external_single_structure([
-            'noteeventid' => new external_value(PARAM_INT,  'ID of the saved note event'),
+            'noteeventid' => new external_value(PARAM_INT, 'ID of the saved note event'),
             'warnings'    => new external_warnings(),
         ]);
     }
