@@ -116,6 +116,8 @@ $rawintervals = $state ? (string)$state->intervaljson : '[]';
 $decodedcheck = json_decode($rawintervals, true);
 $safeintervals = is_array($decodedcheck) ? $rawintervals : '[]';
 
+$playerconfigid = 'mod-videotrack-player-config-' . (int)$cm->id;
+
 $playerconfig = [
     'cmid'                   => (int)$cm->id,
     'videoid'                => $videotrack->videoid,
@@ -221,14 +223,26 @@ if ($distractionfree) {
 
 // Load the correct AMD module depending on video source.
 if ($source === 'vimeo') {
-    $PAGE->requires->js_call_amd('mod_videotrack/vimeo_player', 'init', [$playerconfig]);
+    $PAGE->requires->js_call_amd('mod_videotrack/vimeo_player', 'init', [['configid' => $playerconfigid]]);
 } else if ($source === 'upload') {
-    $PAGE->requires->js_call_amd('mod_videotrack/html5_player', 'init', [$playerconfig]);
+    $PAGE->requires->js_call_amd('mod_videotrack/html5_player', 'init', [['configid' => $playerconfigid]]);
 } else {
-    $PAGE->requires->js_call_amd('mod_videotrack/player', 'init', [$playerconfig]);
+    $PAGE->requires->js_call_amd('mod_videotrack/player', 'init', [['configid' => $playerconfigid]]);
 }
 
 echo $OUTPUT->header();
+$playerconfigjson = json_encode(
+    $playerconfig,
+    JSON_HEX_TAG | JSON_HEX_AMP | JSON_HEX_APOS | JSON_HEX_QUOT
+);
+echo html_writer::tag(
+    'script',
+    $playerconfigjson,
+    [
+        'type' => 'application/json',
+        'id' => $playerconfigid,
+    ]
+);
 echo $OUTPUT->heading(format_string($videotrack->name, true, ['context' => $context]));
 
 // SEC-5: the grade block must be rendered after OUTPUT->header() to respect the Moodle layout.
