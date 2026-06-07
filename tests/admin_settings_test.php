@@ -20,6 +20,7 @@ use advanced_testcase;
 use mod_videotrack\admin\setting_int_range;
 use mod_videotrack\admin\setting_nonnegative_int;
 use mod_videotrack\admin\setting_retention_days;
+use PHPUnit\Framework\Attributes\CoversClass;
 
 /**
  * PHPUnit coverage for custom admin setting validation.
@@ -42,9 +43,8 @@ final class admin_settings_test extends advanced_testcase {
 
     /**
      * Non-negative integer settings accept zero and reject unsafe values.
-     *
-     * @covers \mod_videotrack\admin\setting_nonnegative_int::validate
      */
+    #[CoversClass(setting_nonnegative_int::class)]
     public function test_nonnegative_int_validation_accepts_zero_and_rejects_invalid_values(): void {
         $setting = new setting_nonnegative_int('mod_videotrack/testnonnegative', 'Test', 'Test', 0, PARAM_INT);
 
@@ -57,9 +57,8 @@ final class admin_settings_test extends advanced_testcase {
 
     /**
      * Range settings enforce both configured boundaries.
-     *
-     * @covers \mod_videotrack\admin\setting_int_range::validate
      */
+    #[CoversClass(setting_int_range::class)]
     public function test_int_range_validation_enforces_configured_bounds(): void {
         $setting = new setting_int_range('mod_videotrack/testrange', 'Test', 'Test', 100, 20, 500);
 
@@ -72,9 +71,8 @@ final class admin_settings_test extends advanced_testcase {
 
     /**
      * Unlimited retention cannot be saved without explicit administrator confirmation.
-     *
-     * @covers \mod_videotrack\admin\setting_retention_days::write_setting
      */
+    #[CoversClass(setting_retention_days::class)]
     public function test_unlimited_retention_requires_explicit_confirmation(): void {
         $this->resetAfterTest();
 
