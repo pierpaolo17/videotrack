@@ -16,8 +16,6 @@
 
 namespace mod_videotrack\admin;
 
-defined('MOODLE_INTERNAL') || die();
-
 /**
  * Integer admin setting with inclusive minimum and maximum bounds.
  *
@@ -44,8 +42,8 @@ class setting_int_range extends setting_nonnegative_int {
      * @param int $max Maximum accepted value.
      */
     public function __construct($name, $visiblename, $description, $defaultsetting, $min, $max) {
-        $this->min = (int)$min;
-        $this->max = (int)$max;
+        $this->min = (int) $min;
+        $this->max = (int) $max;
         if ($this->min < 0) {
             throw new \coding_exception('setting_int_range only supports non-negative minimum values.');
         }
@@ -65,14 +63,17 @@ class setting_int_range extends setting_nonnegative_int {
         if (!is_string($data) && !is_int($data)) {
             return get_string('setting:nonnegativeintrequired', 'mod_videotrack');
         }
-        $data = trim((string)$data);
+        $data = trim((string) $data);
         if (!preg_match('/^\d+$/', $data)) {
             return get_string('setting:nonnegativeintrequired', 'mod_videotrack');
         }
-        $value = (int)$data;
+        $value = (int) $data;
         if ($value < $this->min || $value > $this->max) {
-            return get_string('setting:intrangerequired', 'mod_videotrack',
-                (object)['min' => $this->min, 'max' => $this->max]);
+            return get_string(
+                'setting:intrangerequired',
+                'mod_videotrack',
+                (object) ['min' => $this->min, 'max' => $this->max]
+            );
         }
         return true;
     }
