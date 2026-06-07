@@ -716,7 +716,7 @@ function videotrack_process_html5controls_field(stdClass $data): void {
 function videotrack_process_player_behavior_fields(stdClass $data): void {
     $behaviourfields = [
         'autoplay',
-        'loop',
+        'loopenabled',
         'startmuted',
         'allowdownload',
         'resumeplayback',

@@ -95,8 +95,8 @@ function xmldb_videotrack_upgrade($oldversion) {
 
         $newfields = [
             new xmldb_field('autoplay', XMLDB_TYPE_INTEGER, '1', null, XMLDB_NOTNULL, null, '0', 'playbackspeeds'),
-            new xmldb_field('loop', XMLDB_TYPE_INTEGER, '1', null, XMLDB_NOTNULL, null, '0', 'autoplay'),
-            new xmldb_field('startmuted', XMLDB_TYPE_INTEGER, '1', null, XMLDB_NOTNULL, null, '0', 'loop'),
+            new xmldb_field('loopenabled', XMLDB_TYPE_INTEGER, '1', null, XMLDB_NOTNULL, null, '0', 'autoplay'),
+            new xmldb_field('startmuted', XMLDB_TYPE_INTEGER, '1', null, XMLDB_NOTNULL, null, '0', 'loopenabled'),
             new xmldb_field('allowdownload', XMLDB_TYPE_INTEGER, '1', null, XMLDB_NOTNULL, null, '0', 'startmuted'),
             new xmldb_field('html5controls', XMLDB_TYPE_CHAR, '255', null, false, null, '', 'allowdownload'),
         ];
@@ -1327,6 +1327,22 @@ function xmldb_videotrack_upgrade($oldversion) {
         // Release 1.4.142: PHPCS remediation for upgrade metadata and formatting.
         // No database schema changes.
         upgrade_mod_savepoint(true, 2026060290, 'videotrack');
+    }
+
+
+    if ($oldversion < 2026060310) {
+        $table = new xmldb_table('videotrack');
+        $legacyfield = new xmldb_field('loop', XMLDB_TYPE_INTEGER, '1', null, XMLDB_NOTNULL, null, '0', 'autoplay');
+        $newfield = new xmldb_field('loopenabled', XMLDB_TYPE_INTEGER, '1', null, XMLDB_NOTNULL, null, '0', 'autoplay');
+
+        // Avoid the SQL reserved word "loop" in DML generated during activity insert/update.
+        if ($dbman->field_exists($table, $legacyfield) && !$dbman->field_exists($table, $newfield)) {
+            $dbman->rename_field($table, $legacyfield, 'loopenabled');
+        } else if (!$dbman->field_exists($table, $newfield)) {
+            $dbman->add_field($table, $newfield);
+        }
+
+        upgrade_mod_savepoint(true, 2026060310, 'videotrack');
     }
 
     return true;
