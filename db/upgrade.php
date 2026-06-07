@@ -1,25 +1,25 @@
 <?php
-// This file is part of Moodle - https://moodle.org/
-//.
-// Moodle is free software: you can redistribute it and/or modify.
-// It under the terms of the GNU General Public License as published by.
-// The Free Software Foundation, either version 3 of the License, or.
+// This file is part of Moodle - https:// Moodle.org/.
+//
+// Moodle is free software: you can redistribute it and/or modify
+// it under the terms of the GNU General Public License as published by
+// the Free Software Foundation, either version 3 of the License, or
 // (at your option) any later version.
-//.
-// Moodle is distributed in the hope that it will be useful,.
-// But WITHOUT ANY WARRANTY; without even the implied warranty of.
-// MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the.
+//
+// Moodle is distributed in the hope that it will be useful,
+// but WITHOUT ANY WARRANTY; without even the implied warranty of
+// MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
 // GNU General Public License for more details.
-//.
-// You should have received a copy of the GNU General Public License.
-// Along with Moodle.  If not, see <https://www.gnu.org/licenses/>.
+//
+// You should have received a copy of the GNU General Public License
+// along with Moodle.  If not, see <https:// Www.gnu.org/licenses/>.
 
 /**
  * VideoTrack plugin file.
  *
  * @package   mod_videotrack
  * @copyright 2026 videotrack contributors
- * @license   https://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later.
+ * @license   https:// Www.gnu.org/copyleft/gpl.html GNU GPL v3 or later.
  */
 
 /**
@@ -197,9 +197,7 @@ function xmldb_videotrack_upgrade($oldversion) {
         $field = new xmldb_field('notetype', XMLDB_TYPE_CHAR, '20', null, null, null, null, 'notetext');
         if (!$dbman->field_exists($reacttable, $field)) {
             $dbman->add_field($reacttable, $field);
-            $DB->execute(
-                "UPDATE {videotrack_reactev} SET notetype = '' WHERE notetype IS NULL"
-            );
+            $DB->execute("UPDATE {videotrack_reactev} SET notetype = '' WHERE notetype IS NULL");
             $field = new xmldb_field('notetype', XMLDB_TYPE_CHAR, '20', null, XMLDB_NOTNULL, null, null, 'notetext');
             $dbman->change_field_notnull($reacttable, $field);
         }
@@ -252,15 +250,13 @@ function xmldb_videotrack_upgrade($oldversion) {
             new xmldb_field('reactionnotice', XMLDB_TYPE_TEXT, null, null, false, null, null),
             new xmldb_field('reactionnoticeformat', XMLDB_TYPE_INTEGER, '2', null, XMLDB_NOTNULL, null, '1'),
             new xmldb_field('showreactionnotice', XMLDB_TYPE_INTEGER, '1', null, XMLDB_NOTNULL, null, '0'),
-            new xmldb_field(
-                'showstudentreport',
+            new xmldb_field('showstudentreport',
                 XMLDB_TYPE_INTEGER,
                 '1',
                 null,
                 XMLDB_NOTNULL,
                 null,
-                '1'
-            ), // Aligned with install.xml.
+                '1'), // Aligned with install.xml.
             new xmldb_field('clusterwindow', XMLDB_TYPE_INTEGER, '3', null, XMLDB_NOTNULL, null, '30'),
             new xmldb_field('disablekeyboard', XMLDB_TYPE_INTEGER, '1', null, XMLDB_NOTNULL, null, '0'),
             new xmldb_field('showfullscreen', XMLDB_TYPE_INTEGER, '1', null, XMLDB_NOTNULL, null, '1'),
@@ -268,15 +264,13 @@ function xmldb_videotrack_upgrade($oldversion) {
             new xmldb_field('allowseekforward', XMLDB_TYPE_INTEGER, '1', null, XMLDB_NOTNULL, null, '1'),
             new xmldb_field('allowseekbackward', XMLDB_TYPE_INTEGER, '1', null, XMLDB_NOTNULL, null, '1'),
             new xmldb_field('reactionsrequired', XMLDB_TYPE_INTEGER, '1', null, XMLDB_NOTNULL, null, '0'),
-            new xmldb_field(
-                'minreactions',
+            new xmldb_field('minreactions',
                 XMLDB_TYPE_INTEGER,
                 '10',
                 null,
                 XMLDB_NOTNULL,
                 null,
-                '0'
-            ), // Aligned with install.xml.
+                '0'), // Aligned with install.xml.
             new xmldb_field('requireallreactiontypes', XMLDB_TYPE_INTEGER, '1', null, XMLDB_NOTNULL, null, '0'),
             new xmldb_field('completionlogic', XMLDB_TYPE_CHAR, '10', null, XMLDB_NOTNULL, null, 'and'),
         ];
@@ -348,30 +342,24 @@ function xmldb_videotrack_upgrade($oldversion) {
         // Version 1.0.10: adds composite indexes used by playback validation,.
         // Reaction burst throttling, and note rate limiting.
         $segtable = new xmldb_table('videotrack_seg');
-        $index = new xmldb_index(
-            'vt_user_sess_time_idx',
+        $index = new xmldb_index('vt_user_sess_time_idx',
             XMLDB_INDEX_NOTUNIQUE,
-            ['videotrackid', 'userid', 'sessionid', 'timecreated']
-        );
+            ['videotrackid', 'userid', 'sessionid', 'timecreated']);
         if (!$dbman->index_exists($segtable, $index)) {
             $dbman->add_index($segtable, $index);
         }
 
         $reactevtable = new xmldb_table('videotrack_reactev');
-        $index = new xmldb_index(
-            'vt_user_sess_time_idx',
+        $index = new xmldb_index('vt_user_sess_time_idx',
             XMLDB_INDEX_NOTUNIQUE,
-            ['videotrackid', 'userid', 'sessionid', 'timecreated']
-        );
+            ['videotrackid', 'userid', 'sessionid', 'timecreated']);
         if (!$dbman->index_exists($reactevtable, $index)) {
             $dbman->add_index($reactevtable, $index);
         }
 
-        $index = new xmldb_index(
-            'vt_user_type_time_idx',
+        $index = new xmldb_index('vt_user_type_time_idx',
             XMLDB_INDEX_NOTUNIQUE,
-            ['videotrackid', 'userid', 'notetype', 'timecreated']
-        );
+            ['videotrackid', 'userid', 'notetype', 'timecreated']);
         if (!$dbman->index_exists($reactevtable, $index)) {
             $dbman->add_index($reactevtable, $index);
         }
@@ -384,20 +372,16 @@ function xmldb_videotrack_upgrade($oldversion) {
         // And note rate limiting with soft-delete filtering.
         $reactevtable = new xmldb_table('videotrack_reactev');
 
-        $index = new xmldb_index(
-            'vt_user_reaction_del_time_idx',
+        $index = new xmldb_index('vt_user_reaction_del_time_idx',
             XMLDB_INDEX_NOTUNIQUE,
-            ['videotrackid', 'userid', 'reactionid', 'isdeleted', 'timecreated']
-        );
+            ['videotrackid', 'userid', 'reactionid', 'isdeleted', 'timecreated']);
         if (!$dbman->index_exists($reactevtable, $index)) {
             $dbman->add_index($reactevtable, $index);
         }
 
-        $index = new xmldb_index(
-            'vt_user_note_del_time_idx',
+        $index = new xmldb_index('vt_user_note_del_time_idx',
             XMLDB_INDEX_NOTUNIQUE,
-            ['videotrackid', 'userid', 'notetype', 'isdeleted', 'timecreated']
-        );
+            ['videotrackid', 'userid', 'notetype', 'isdeleted', 'timecreated']);
         if (!$dbman->index_exists($reactevtable, $index)) {
             $dbman->add_index($reactevtable, $index);
         }
@@ -784,20 +768,16 @@ function xmldb_videotrack_upgrade($oldversion) {
         }
 
         $reactevtable = new xmldb_table('videotrack_reactev');
-        $oldindex = new xmldb_index(
-            'vt_user_type_time_idx',
+        $oldindex = new xmldb_index('vt_user_type_time_idx',
             XMLDB_INDEX_NOTUNIQUE,
-            ['videotrackid', 'userid', 'notetype', 'timecreated']
-        );
+            ['videotrackid', 'userid', 'notetype', 'timecreated']);
         if ($dbman->index_exists($reactevtable, $oldindex)) {
             $dbman->drop_index($reactevtable, $oldindex);
         }
 
-        $index = new xmldb_index(
-            'vt_user_del_type_time_idx',
+        $index = new xmldb_index('vt_user_del_type_time_idx',
             XMLDB_INDEX_NOTUNIQUE,
-            ['videotrackid', 'userid', 'isdeleted', 'notetype', 'timecreated']
-        );
+            ['videotrackid', 'userid', 'isdeleted', 'notetype', 'timecreated']);
         if (!$dbman->index_exists($reactevtable, $index)) {
             $dbman->add_index($reactevtable, $index);
         }

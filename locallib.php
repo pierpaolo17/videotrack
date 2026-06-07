@@ -1,5 +1,5 @@
 <?php
-// This file is part of Moodle - https://moodle.org/
+// This file is part of Moodle - https:// Moodle.org/
 //
 // Moodle is free software: you can redistribute it and/or modify
 // it under the terms of the GNU General Public License as published by
@@ -12,14 +12,14 @@
 // GNU General Public License for more details.
 //
 // You should have received a copy of the GNU General Public License
-// along with Moodle.  If not, see <https://www.gnu.org/licenses/>.
+// along with Moodle.  If not, see <https:// Www.gnu.org/licenses/>.
 
 /**
  * VideoTrack plugin file.
  *
  * @package   mod_videotrack
  * @copyright 2026 videotrack contributors
- * @license   https://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
+ * @license   https:// Www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 
 
@@ -40,9 +40,7 @@ defined('MOODLE_INTERNAL') || die();
  */
 function videotrack_get_config_int(string $name, int $default, int $min, int $max): int {
     if ($min > $max) {
-        throw new \coding_exception(
-            "videotrack_get_config_int: min ({$min}) must not exceed max ({$max}) for setting '{$name}'"
-        );
+        throw new \coding_exception("videotrack_get_config_int: min ({$min}) must not exceed max ({$max}) for setting '{$name}'");
     }
     $value = get_config('mod_videotrack', $name);
     if ($value === false || $value === null || $value === '' || !is_numeric($value)) {
@@ -269,9 +267,7 @@ function videotrack_get_reactions(int $videotrackid, bool $includedeleted = fals
         if (!$includedeleted) {
             $where['isdeleted'] = 0;
         }
-        $cache[$key] = $DB->get_records(
-            'videotrack_react', $where, 'sortorder ASC, id ASC'
-        );
+        $cache[$key] = $DB->get_records('videotrack_react', $where, 'sortorder ASC, id ASC');
     }
     return $cache[$key];
 }
@@ -286,27 +282,23 @@ function videotrack_reaction_icon_url(\context_module $context, stdClass $reacti
         return ''; // Ignora silenziosamente URL esterni.
     }
     $fs = get_file_storage();
-    $files = $fs->get_area_files(
-        $context->id,
+    $files = $fs->get_area_files($context->id,
         'mod_videotrack',
         'reactionicon',
         (int)$reaction->id,
         'itemid, filepath, filename',
-        false
-    );
+        false);
     if (!$files) {
         return '';
     }
     $file = reset($files);
-    return moodle_url::make_pluginfile_url(
-        $context->id,
+    return moodle_url::make_pluginfile_url($context->id,
         'mod_videotrack',
         'reactionicon',
         (int)$reaction->id,
         $file->get_filepath(),
         $file->get_filename(),
-        false
-    )->out(false);
+        false)->out(false);
 }
 
 function videotrack_render_reaction_icon(stdClass $reaction, ?\context_module $context = null, bool $withlabel = true): string {
@@ -333,10 +325,8 @@ function videotrack_render_reaction_icon(stdClass $reaction, ?\context_module $c
         }
     }
     if ($iconhtml === '') {
-        $iconhtml = html_writer::span(
-            s($reaction->iconvalue !== '' ? $reaction->iconvalue : $label),
-            'videotrack-reaction-icon-text'
-        );
+        $iconhtml = html_writer::span(s($reaction->iconvalue !== '' ? $reaction->iconvalue : $label),
+            'videotrack-reaction-icon-text');
     }
     if (!$withlabel) {
         return $iconhtml;

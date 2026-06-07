@@ -1,18 +1,18 @@
 <?php
-// This file is part of Moodle - https://moodle.org/
-//.
-// Moodle is free software: you can redistribute it and/or modify.
-// It under the terms of the GNU General Public License as published by.
-// The Free Software Foundation, either version 3 of the License, or.
+// This file is part of Moodle - https:// Moodle.org/.
+//
+// Moodle is free software: you can redistribute it and/or modify
+// it under the terms of the GNU General Public License as published by
+// the Free Software Foundation, either version 3 of the License, or
 // (at your option) any later version.
-//.
-// Moodle is distributed in the hope that it will be useful,.
-// But WITHOUT ANY WARRANTY; without even the implied warranty of.
-// MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the.
+//
+// Moodle is distributed in the hope that it will be useful,
+// but WITHOUT ANY WARRANTY; without even the implied warranty of
+// MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
 // GNU General Public License for more details.
-//.
-// You should have received a copy of the GNU General Public License.
-// Along with Moodle.  If not, see <https://www.gnu.org/licenses/>.
+//
+// You should have received a copy of the GNU General Public License
+// along with Moodle.  If not, see <https:// Www.gnu.org/licenses/>.
 
 namespace mod_videotrack\privacy;
 
@@ -33,13 +33,12 @@ use mod_videotrack\local\privacy_manager;
  *
  * @package    mod_videotrack
  * @copyright  2026 videotrack contributors
- * @license    https://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later.
+ * @license    https:// Www.gnu.org/copyleft/gpl.html GNU GPL v3 or later.
  */
 class provider implements
     \core_privacy\local\metadata\provider,
     \core_privacy\local\request\plugin\provider,
     \core_privacy\local\request\core_userlist_provider {
-
     /**
      * Formats a number of seconds for human-readable privacy exports.
      *
@@ -154,8 +153,7 @@ class provider implements
                         UNION
                         SELECT cmid FROM {videotrack_seg} WHERE userid = :userid2
                         UNION
-                        SELECT cmid FROM {videotrack_reactev} WHERE userid = :userid3
-                       ) tracked ON tracked.cmid = c.instanceid
+                        SELECT cmid FROM {videotrack_reactev} WHERE userid = :userid3) tracked ON tracked.cmid = c.instanceid
                  WHERE c.contextlevel = :contextmodule";
 
         $contextlist = new contextlist();
@@ -181,8 +179,7 @@ class provider implements
                         UNION
                         SELECT userid FROM {videotrack_seg} WHERE cmid = :cmid2 AND userid > 0
                         UNION
-                        SELECT userid FROM {videotrack_reactev} WHERE cmid = :cmid3 AND userid > 0
-                       ) u";
+                        SELECT userid FROM {videotrack_reactev} WHERE cmid = :cmid3 AND userid > 0) u";
         $userlist->add_from_sql('userid', $sql, $params);
     }
 
@@ -240,23 +237,19 @@ class provider implements
                 if (!empty($state->videoid)) {
                     $state->videoid = get_string('privacy:videoid_export_note', 'mod_videotrack', $state->videoid);
                 }
-                unset(
-                    $state->id,
+                unset($state->id,
                     $state->videotrackid,
                     $state->courseid,
                     $state->cmid,
                     $state->userid,
-                    $state->sessionid
-                );
+                    $state->sessionid);
             }
             if ($state) {
-                $writer->export_data(
-                    [
+                $writer->export_data([
                         get_string('watch', 'mod_videotrack'),
                         get_string('privacy:state', 'mod_videotrack'),
                     ],
-                    (object)['state' => $state]
-                );
+                    (object)['state' => $state]);
             }
 
             $segmentrs = $DB->get_recordset('videotrack_seg', [
@@ -272,35 +265,29 @@ class provider implements
                 if (!empty($segment->videoid)) {
                     $segment->videoid = get_string('privacy:videoid_export_note', 'mod_videotrack', $segment->videoid);
                 }
-                unset(
-                    $segment->id,
+                unset($segment->id,
                     $segment->videotrackid,
                     $segment->courseid,
                     $segment->cmid,
                     $segment->userid,
-                    $segment->sessionid
-                );
+                    $segment->sessionid);
                 $segments[] = $segment;
                 if (count($segments) >= 500) {
-                    $writer->export_data(
-                        [
+                    $writer->export_data([
                             get_string('watch', 'mod_videotrack'),
                             get_string('privacy:segmentschunk', 'mod_videotrack', $chunk),
                         ],
-                        (object)['segments' => $segments]
-                    );
+                        (object)['segments' => $segments]);
                     $chunk++;
                 }
             }
             $segmentrs->close();
             if (!empty($segments)) {
-                $writer->export_data(
-                    [
+                $writer->export_data([
                         get_string('watch', 'mod_videotrack'),
                         get_string('privacy:segmentschunk', 'mod_videotrack', $chunk),
                     ],
-                    (object)['segments' => $segments]
-                );
+                    (object)['segments' => $segments]);
             }
 
             $eventrs = $DB->get_recordset('videotrack_reactev', [
@@ -323,40 +310,34 @@ class provider implements
                 if (!empty($reactionevent->videoid)) {
                     $reactionevent->videoid = get_string('privacy:videoid_export_note', 'mod_videotrack', $reactionevent->videoid);
                 }
-                unset(
-                    $reactionevent->id,
+                unset($reactionevent->id,
                     $reactionevent->videotrackid,
                     $reactionevent->courseid,
                     $reactionevent->cmid,
                     $reactionevent->userid,
                     $reactionevent->reactionid,
-                    $reactionevent->sessionid
-                );
+                    $reactionevent->sessionid);
 
                 if (($reactionevent->notetype ?? '') === 'note') {
                     if ($isdeleted) {
                         $deletednotes[] = $reactionevent;
                         if (count($deletednotes) >= 500) {
-                            $writer->export_data(
-                                [
+                            $writer->export_data([
                                     get_string('studentnotes_title', 'mod_videotrack'),
                                     get_string('privacy:notesdeletedchunk', 'mod_videotrack', $deletednoteschunk),
                                 ],
-                                (object)['notes' => $deletednotes]
-                            );
+                                (object)['notes' => $deletednotes]);
                             $deletednotes = [];
                             $deletednoteschunk++;
                         }
                     } else {
                         $notes[] = $reactionevent;
                         if (count($notes) >= 500) {
-                            $writer->export_data(
-                                [
+                            $writer->export_data([
                                     get_string('studentnotes_title', 'mod_videotrack'),
                                     get_string('privacy:notesactivechunk', 'mod_videotrack', $noteschunk),
                                 ],
-                                (object)['notes' => $notes]
-                            );
+                                (object)['notes' => $notes]);
                             $notes = [];
                             $noteschunk++;
                         }
@@ -364,26 +345,22 @@ class provider implements
                 } else if ($isdeleted) {
                     $deleted[] = $reactionevent;
                     if (count($deleted) >= 500) {
-                        $writer->export_data(
-                            [
+                        $writer->export_data([
                                 get_string('reactionsheader', 'mod_videotrack'),
                                 get_string('privacy:reactionsdeletedchunk', 'mod_videotrack', $deletedchunk),
                             ],
-                            (object)['events' => $deleted]
-                        );
+                            (object)['events' => $deleted]);
                         $deleted = [];
                         $deletedchunk++;
                     }
                 } else {
                     $active[] = $reactionevent;
                     if (count($active) >= 500) {
-                        $writer->export_data(
-                            [
+                        $writer->export_data([
                                 get_string('reactionsheader', 'mod_videotrack'),
                                 get_string('privacy:reactionsactivechunk', 'mod_videotrack', $activechunk),
                             ],
-                            (object)['events' => $active]
-                        );
+                            (object)['events' => $active]);
                         $active = [];
                         $activechunk++;
                     }
@@ -392,40 +369,32 @@ class provider implements
             $eventrs->close();
 
             if (!empty($active)) {
-                $writer->export_data(
-                    [
+                $writer->export_data([
                         get_string('reactionsheader', 'mod_videotrack'),
                         get_string('privacy:reactionsactivechunk', 'mod_videotrack', $activechunk),
                     ],
-                    (object)['events' => $active]
-                );
+                    (object)['events' => $active]);
             }
             if (!empty($deleted)) {
-                $writer->export_data(
-                    [
+                $writer->export_data([
                         get_string('reactionsheader', 'mod_videotrack'),
                         get_string('privacy:reactionsdeletedchunk', 'mod_videotrack', $deletedchunk),
                     ],
-                    (object)['events' => $deleted]
-                );
+                    (object)['events' => $deleted]);
             }
             if (!empty($notes)) {
-                $writer->export_data(
-                    [
+                $writer->export_data([
                         get_string('studentnotes_title', 'mod_videotrack'),
                         get_string('privacy:notesactivechunk', 'mod_videotrack', $noteschunk),
                     ],
-                    (object)['notes' => $notes]
-                );
+                    (object)['notes' => $notes]);
             }
             if (!empty($deletednotes)) {
-                $writer->export_data(
-                    [
+                $writer->export_data([
                         get_string('studentnotes_title', 'mod_videotrack'),
                         get_string('privacy:notesdeletedchunk', 'mod_videotrack', $deletednoteschunk),
                     ],
-                    (object)['notes' => $deletednotes]
-                );
+                    (object)['notes' => $deletednotes]);
             }
         }
     }
