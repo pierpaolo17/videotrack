@@ -1377,5 +1377,12 @@ function xmldb_videotrack_upgrade($oldversion) {
         upgrade_mod_savepoint(true, 2026060274, 'videotrack');
     }
 
+
+    if ($oldversion < 2026060281) {
+        // Release 1.4.133: PHPCS remediation for the course report entry point.
+        // No database schema changes.
+        upgrade_mod_savepoint(true, 2026060281, 'videotrack');
+    }
+
     return true;
 }

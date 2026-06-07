@@ -15,37 +15,31 @@
 // along with Moodle.  If not, see <https://www.gnu.org/licenses/>.
 
 /**
- * VideoTrack plugin file.
+ * Course-level report for mod_videotrack.
+ *
+ * Shows an aggregated overview of all VideoTrack activities in the course:
+ * for each activity, number of students who have started, average coverage
+ * percentage, and number of completions. Accessible from the course reports
+ * navigation node added by videotrack_extend_navigation_course().
  *
  * @package   mod_videotrack
  * @copyright 2026 videotrack contributors
  * @license   https://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 
-/**
- * Course-level report for mod_videotrack.
- *
- * Shows an aggregated overview of all VideoTrack activities in the course:
- * for each activity, number of students who have started, average coverage
- * percentage, and number of completions. Accessible from the course
- * reports navigation node added by videotrack_extend_navigation_course().
- *
- * @package mod_videotrack
- */
-
 require_once(__DIR__ . '/../../config.php');
 require_once(__DIR__ . '/locallib.php');
 
-global $DB, $CFG, $PAGE, $OUTPUT;
+global $DB, $PAGE, $OUTPUT;
 
 $courseid = required_param('course', PARAM_INT);
-$course   = $DB->get_record('course', ['id' => $courseid], '*', MUST_EXIST);
+$course = $DB->get_record('course', ['id' => $courseid], '*', MUST_EXIST);
 
 require_login($course);
 $context = context_course::instance($courseid);
-// Deliberate architecture: this aggregated report is course-wide, so access is checked
-// with a dedicated CONTEXT_COURSE capability. Per-activity reports continue
-// to use CONTEXT_MODULE in report.php.
+
+// This aggregated report is course-wide, so access is checked with a dedicated CONTEXT_COURSE capability.
+// Per-activity reports continue to use CONTEXT_MODULE in report.php.
 require_capability('mod/videotrack:viewcoursereport', $context);
 
 $PAGE->set_url(new moodle_url('/mod/videotrack/reports_course.php', ['course' => $courseid]));
@@ -57,13 +51,15 @@ $PAGE->set_heading($coursefullname);
 
 echo $OUTPUT->header();
 echo $OUTPUT->heading(get_string('coursereport:title', 'mod_videotrack'));
-echo html_writer::tag('p', get_string('coursereport:intro', 'mod_videotrack'),
-    ['class' => 'text-muted']);
+echo html_writer::tag(
+    'p',
+    get_string('coursereport:intro', 'mod_videotrack'),
+    ['class' => 'text-muted']
+);
 
 // Fetch all videotrack instances in this course.
 // Compatible with MySQL ONLY_FULL_GROUP_BY: group only by primary keys (vt.id, cm.id).
-// Non-aggregated columns (vt.name, vt.videosource, vt.durationseconds) are read
-// separately from the instance recordset loaded below, not extracted by the aggregate query.
+// Non-aggregated columns are read from the instance recordset loaded below.
 $sql = "
     SELECT vt.id,
            cm.id                            AS cmid,
@@ -111,19 +107,27 @@ if (empty($aggrows)) {
 }
 
 // Load complete instance records to get name, videosource, and durationseconds.
-$vtrecords = $DB->get_records('videotrack', ['course' => $courseid], 'name ASC', 'id,name,videosource,durationseconds');
+$vtrecords = $DB->get_records(
+    'videotrack',
+    ['course' => $courseid],
+    'name ASC',
+    'id,name,videosource,durationseconds'
+);
 
 foreach ($vtrecords as $vt) {
-    if (isset($aggrows[$vt->id])) {
-        $row = $aggrows[$vt->id];
-        if (empty($modinfo->cms[$row->cmid]) || !$modinfo->cms[$row->cmid]->uservisible) {
-            continue;
-        }
-        $row->name            = $vt->name;
-        $row->videosource     = $vt->videosource;
-        $row->durationseconds = $vt->durationseconds;
-        $instances[$vt->id]   = $row;
+    if (!isset($aggrows[$vt->id])) {
+        continue;
     }
+
+    $row = $aggrows[$vt->id];
+    if (empty($modinfo->cms[$row->cmid]) || !$modinfo->cms[$row->cmid]->uservisible) {
+        continue;
+    }
+
+    $row->name = $vt->name;
+    $row->videosource = $vt->videosource;
+    $row->durationseconds = $vt->durationseconds;
+    $instances[$vt->id] = $row;
 }
 
 if (empty($instances)) {
@@ -132,18 +136,18 @@ if (empty($instances)) {
     exit;
 }
 
-$table            = new html_table();
+$table = new html_table();
 $table->caption = get_string('coursereport:title', 'mod_videotrack');
 $table->attributes['class'] = 'generaltable w-100';
 $table->head = [
-    get_string('coursereport:col_activity',        'mod_videotrack'),
-    get_string('coursereport:col_source',          'mod_videotrack'),
-    get_string('coursereport:col_duration',        'mod_videotrack'),
-    get_string('coursereport:col_students_started','mod_videotrack'),
-    get_string('coursereport:col_avg_percent',     'mod_videotrack'),
-    get_string('coursereport:col_completions',     'mod_videotrack'),
-    get_string('coursereport:col_reactions',       'mod_videotrack'),
-    get_string('coursereport:col_actions',         'mod_videotrack'),
+    get_string('coursereport:col_activity', 'mod_videotrack'),
+    get_string('coursereport:col_source', 'mod_videotrack'),
+    get_string('coursereport:col_duration', 'mod_videotrack'),
+    get_string('coursereport:col_students_started', 'mod_videotrack'),
+    get_string('coursereport:col_avg_percent', 'mod_videotrack'),
+    get_string('coursereport:col_completions', 'mod_videotrack'),
+    get_string('coursereport:col_reactions', 'mod_videotrack'),
+    get_string('coursereport:col_actions', 'mod_videotrack'),
 ];
 
 foreach ($instances as $inst) {
@@ -159,19 +163,20 @@ foreach ($instances as $inst) {
 
     $src = in_array($inst->videosource, ['youtube', 'vimeo', 'upload'], true) ? $inst->videosource : 'youtube';
     $sourcelabel = get_string('source:' . $src, 'mod_videotrack');
-    $duration    = $inst->durationseconds > 0
+    $duration = $inst->durationseconds > 0
         ? videotrack_format_seconds((float)$inst->durationseconds)
         : '—';
 
     // Mini bar showing average coverage.
-    $pct    = (float)($inst->avg_percent ?? 0);
-    $barw   = max(0, min(100, $pct));
+    $pct = (float)($inst->avg_percent ?? 0);
+    $barw = max(0, min(100, $pct));
     $avglabel = get_string('coursereport:avgcoverage', 'mod_videotrack', format_float($pct, 1));
     $barsvg = '<svg width="80" height="14" role="img" '
         . 'focusable="false" style="vertical-align:middle;margin-left:4px">'
         . '<title>' . s($avglabel) . '</title>'
         . '<rect class="videotrack-course-avgbar-bg" x="0" y="3" width="80" height="8" rx="2"/>'
-        . '<rect class="videotrack-course-avgbar-fill" x="0" y="3" width="' . round($barw * 0.8) . '" height="8" rx="2"/>'
+        . '<rect class="videotrack-course-avgbar-fill" x="0" y="3" width="' . round($barw * 0.8) . '" '
+        . 'height="8" rx="2"/>'
         . '</svg>';
     $avgcell = html_writer::span($avglabel, 'videotrack-course-avglabel') . ' ' . $barsvg;
 
