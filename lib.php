@@ -392,6 +392,12 @@ function videotrack_is_valid_reaction_icon_class(string $value): bool {
     return $iconnames === 1;
 }
 
+/**
+ * Saves the configured reaction definitions for a VideoTrack activity.
+ *
+ * @param int $videotrackid VideoTrack instance id.
+ * @param stdClass $data Submitted form data.
+ */
 function videotrack_save_reaction_definitions(int $videotrackid, stdClass $data): void {
     global $DB;
 
@@ -415,10 +421,10 @@ function videotrack_save_reaction_definitions(int $videotrackid, stdClass $data)
     $keptids = [];
     $sort = 1;
     $now = time();
-    // O1 fix: collect file operations to execute after the DB transaction commits.
-    // Previously file_get_draft_area_info() was called for every reaction regardless.
-    // Of icontype, wasting I/O for emoji and Font Awesome reactions.
-    $fileops = []; // Each entry: ['reactionid'=>int, 'context'=>ctx, 'draftitemid'=>int, 'clear'=>bool].
+    // Collect file operations to execute after the DB transaction commits.
+    // Previously file_get_draft_area_info() was called for every reaction regardless
+    // of icontype, wasting I/O for emoji and Font Awesome reactions.
+    $fileops = [];
 
     foreach ($labels as $idx => $label) {
         $label = trim((string)$label);
@@ -708,7 +714,7 @@ function videotrack_process_html5controls_field(stdClass $data): void {
  * @param stdClass $data
  */
 function videotrack_process_player_behavior_fields(stdClass $data): void {
-    foreach ([
+    $behaviourfields = [
         'autoplay',
         'loop',
         'startmuted',
@@ -717,7 +723,8 @@ function videotrack_process_player_behavior_fields(stdClass $data): void {
         'showtranscript',
         'showchapters',
         'studentnotesenabled',
-    ] as $field) {
+    ];
+    foreach ($behaviourfields as $field) {
         $data->{$field} = empty($data->{$field}) ? 0 : 1;
     }
     // Maxplaybackrate: integer in hundredths (0=no limit, 150=1.5x, etc.).

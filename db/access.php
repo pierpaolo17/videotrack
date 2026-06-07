@@ -93,7 +93,7 @@ $capabilities = [
 
     // Allows the teacher to override the platform-wide player defaults
     // (showcontrols, showfullscreen, disablekeyboard, allowseekforward,
-    //  allowseekbackward, allowplaybackratechange) when creating or editing
+    // allowseekbackward, allowplaybackratechange) when creating or editing
     // a Video track activity. Revoke this to enforce a platform-wide player policy.
     'mod/videotrack:overrideplayersettings' => [
         'captype' => 'write',

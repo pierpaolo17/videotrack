@@ -484,7 +484,8 @@ if (!empty($videotrack->studentnotesenabled)) {
         'placeholder'      => get_string('studentnote_placeholder', 'mod_videotrack'),
         'aria-describedby' => 'videotrack-note-hint videotrack-note-charcount videotrack-note-live-status',
     ]);
-    echo html_writer::tag('button',
+    echo html_writer::tag(
+        'button',
         get_string('studentnote_save', 'mod_videotrack'),
         [
             'type'         => 'button',

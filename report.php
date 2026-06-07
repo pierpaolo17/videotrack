@@ -766,7 +766,7 @@ if ($mode === 'student') {
     if (!$statecount) {
         echo $OUTPUT->notification(get_string('report:noattempts', 'mod_videotrack'), 'notifymessage');
     } else {
-        // $hasgrade and $gradeinfo were already loaded at the start of the file.
+        // The $hasgrade and $gradeinfo variables were already loaded at the start of the file.
         $usergrades = [];
 
         $heads = [
