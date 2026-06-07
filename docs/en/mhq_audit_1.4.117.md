@@ -91,13 +91,13 @@ Status: OK for strict review expectations.
 
 ### Accessibility
 
-The WCAG static audit was documented separately in `docs/wcag_audit_1.4.116.md`.
+The WCAG static audit was documented separately in `docs/en/wcag_audit_1.4.116.md`.
 
 Status: OK for static review; final manual screen-reader and keyboard testing remains recommended before submission.
 
 ### External API and AJAX layer
 
-The AJAX layer is documented in `docs/ajax-layer.md` and was decomposed into dedicated AMD modules:
+The AJAX layer is documented in `docs/en/ajax-layer.md` and was decomposed into dedicated AMD modules:
 
 - validation;
 - transport;

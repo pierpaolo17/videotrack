@@ -1,23 +1,23 @@
 # mod_videotrack — Struttura tecnica del plugin
-Documento aggiornato per la release **1.4.125**. Sostituisce le sezioni storiche obsolete della precedente `struttura_tecnica.md` con una fotografia operativa della struttura reale del plugin.
+Documento aggiornato per la release **1.4.143**. Sostituisce le sezioni storiche obsolete della precedente `struttura_tecnica.md` con una fotografia operativa della struttura reale del plugin.
 ## 1. Scopo del documento
 Questa guida documenta la struttura del plugin, lo scopo dei file principali e l’inventario delle funzioni PHP/AMD presenti nella baseline corrente. Non è un changelog: i dettagli storici sono mantenuti solo nei documenti separati elencati sotto.
 ## 2. Documenti collegati in `/docs`
-Il file canonico per il layer AJAX è `docs/ajax-layer.md`. Il precedente duplicato `docs/ajax_layer.md` è stato rimosso perché ridondante.
+Il file canonico per il layer AJAX è `docs/it/ajax-layer.md`. Il precedente duplicato `docs/ajax_layer.md` è stato rimosso perché ridondante.
 | File | Ruolo |
 |---|---|
-| `docs/funzionalita.md` | Descrizione funzionale in italiano per amministratori, docenti e reviewer. |
-| `docs/funzionalita_en.md` | Traduzione inglese della descrizione funzionale. |
-| `docs/ajax-layer.md` | Rationale e flusso del layer AJAX, inclusi retry, timeout, validazione e scope token. |
-| `docs/event_bus.md` | Documentazione del bus eventi AMD, namespace supportati ed esempi. |
-| `docs/architecture_notes_1.4.121.md` | Note architetturali sui flussi complessi residui. |
-| `docs/wcag_audit_1.4.116.md` | Audit WCAG finale storico. |
-| `docs/wcag_edge_audit_1.4.122.md` | Audit edge-case WCAG: focus restore, confirm fallback e keyboard navigation. |
-| `docs/mhq_audit_1.4.117.md` | Audit finale Moodle HQ storico. |
-| `docs/amd_audit_1.4.115.md` | Audit AMD storico. |
-| `docs/sendbeacon_review_1.4.123.md` | Valutazione tecnica sendBeacon/fallback. |
-| `docs/strict_review_patch_assessment_1.4.124.md` | Valutazione dell’ipotesi di patch strict review. |
-| `docs/candidate_release_1.4.118.md` | Documento storico di candidate release. |
+| `docs/it/funzionalita.md` | Descrizione funzionale in italiano per amministratori, docenti e reviewer. |
+| `docs/en/funzionalita.md` | Traduzione inglese della descrizione funzionale. |
+| `docs/it/ajax-layer.md` | Rationale e flusso del layer AJAX, inclusi retry, timeout, validazione e scope token. |
+| `docs/it/event_bus.md` | Documentazione del bus eventi AMD, namespace supportati ed esempi. |
+| `docs/it/architecture_notes_1.4.121.md` | Note architetturali sui flussi complessi residui. |
+| `docs/it/wcag_audit_1.4.116.md` | Audit WCAG finale storico. |
+| `docs/it/wcag_edge_audit_1.4.122.md` | Audit edge-case WCAG: focus restore, confirm fallback e keyboard navigation. |
+| `docs/it/mhq_audit_1.4.117.md` | Audit finale Moodle HQ storico. |
+| `docs/it/amd_audit_1.4.115.md` | Audit AMD storico. |
+| `docs/it/sendbeacon_review_1.4.123.md` | Valutazione tecnica sendBeacon/fallback. |
+| `docs/it/strict_review_patch_assessment_1.4.124.md` | Valutazione dell’ipotesi di patch strict review. |
+| `docs/it/candidate_release_1.4.118.md` | Documento storico di candidate release. |
 
 ## 3. Struttura delle directory
 | Percorso | Scopo |
@@ -33,7 +33,8 @@ Il file canonico per il layer AJAX è `docs/ajax-layer.md`. Il precedente duplic
 | `classes/privacy/` | Provider Privacy API Moodle. |
 | `classes/task/` | Scheduled task di pulizia/anonymisation. |
 | `db/` | Schema database, upgrade, capability, servizi e task. |
-| `docs/` | Documentazione tecnica, funzionale e audit. |
+| `docs/it/` | Documentazione tecnica, funzionale e audit in italiano. |
+| `docs/en/` | Technical, functional, and audit documentation in English. |
 | `lang/` | Stringhe localizzate. |
 | `pix/` | Icone e risorse grafiche statiche. |
 | `tests/` | Test PHPUnit, non eseguibili senza ambiente Moodle test completo. |
@@ -118,18 +119,18 @@ Il file canonico per il layer AJAX è `docs/ajax-layer.md`. Il precedente duplic
 | `db/services.php` | Definizione database, servizi, capability o upgrade Moodle. |
 | `db/tasks.php` | Definizione database, servizi, capability o upgrade Moodle. |
 | `db/upgrade.php` | Definizione database, servizi, capability o upgrade Moodle. |
-| `docs/ajax-layer.md` | Documentazione tecnica o funzionale del plugin. |
-| `docs/amd_audit_1.4.115.md` | Documentazione tecnica o funzionale del plugin. |
-| `docs/architecture_notes_1.4.121.md` | Documentazione tecnica o funzionale del plugin. |
-| `docs/candidate_release_1.4.118.md` | Documentazione tecnica o funzionale del plugin. |
-| `docs/event_bus.md` | Documentazione tecnica o funzionale del plugin. |
-| `docs/funzionalita.md` | Documentazione tecnica o funzionale del plugin. |
-| `docs/mhq_audit_1.4.117.md` | Documentazione tecnica o funzionale del plugin. |
-| `docs/sendbeacon_review_1.4.123.md` | Documentazione tecnica o funzionale del plugin. |
-| `docs/strict_review_patch_assessment_1.4.124.md` | Documentazione tecnica o funzionale del plugin. |
-| `docs/struttura_tecnica.md` | Documentazione tecnica o funzionale del plugin. |
-| `docs/wcag_audit_1.4.116.md` | Documentazione tecnica o funzionale del plugin. |
-| `docs/wcag_edge_audit_1.4.122.md` | Documentazione tecnica o funzionale del plugin. |
+| `docs/it/ajax-layer.md` | Documentazione tecnica o funzionale del plugin. |
+| `docs/it/amd_audit_1.4.115.md` | Documentazione tecnica o funzionale del plugin. |
+| `docs/it/architecture_notes_1.4.121.md` | Documentazione tecnica o funzionale del plugin. |
+| `docs/it/candidate_release_1.4.118.md` | Documentazione tecnica o funzionale del plugin. |
+| `docs/it/event_bus.md` | Documentazione tecnica o funzionale del plugin. |
+| `docs/it/funzionalita.md` | Documentazione tecnica o funzionale del plugin. |
+| `docs/it/mhq_audit_1.4.117.md` | Documentazione tecnica o funzionale del plugin. |
+| `docs/it/sendbeacon_review_1.4.123.md` | Documentazione tecnica o funzionale del plugin. |
+| `docs/it/strict_review_patch_assessment_1.4.124.md` | Documentazione tecnica o funzionale del plugin. |
+| `docs/it/struttura_tecnica.md` | Documentazione tecnica o funzionale del plugin. |
+| `docs/it/wcag_audit_1.4.116.md` | Documentazione tecnica o funzionale del plugin. |
+| `docs/it/wcag_edge_audit_1.4.122.md` | Documentazione tecnica o funzionale del plugin. |
 | `environment.xml` | Requisiti di ambiente dichiarati a Moodle. |
 | `index.php` | Lista istanze del modulo nel corso. |
 | `lang/de/videotrack.php` | Stringhe localizzate del componente. |
@@ -738,5 +739,5 @@ La tabella seguente elenca ogni funzione rilevata nei file PHP e nei sorgenti AM
 
 ## 8. Parti obsolete rimosse
 - Rimossa la cronologia release estesa dalla guida tecnica: non descriveva più la struttura corrente e rendeva difficile la review.
-- Rimosso `docs/ajax_layer.md` perché duplicava il documento canonico `docs/ajax-layer.md`.
+- Rimosso `docs/ajax_layer.md` perché duplicava il documento canonico `docs/it/ajax-layer.md`.
 - I documenti di audit/release ancora utili sono mantenuti e referenziati nella sezione 2.

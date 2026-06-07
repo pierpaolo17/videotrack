@@ -16,8 +16,6 @@
 
 namespace mod_videotrack\local;
 
-defined('MOODLE_INTERNAL') || die();
-
 /**
  * Tracking and completion helper methods for VideoTrack.
  *
@@ -43,7 +41,7 @@ class tracker {
     const PLAYBACK_GRACE_SECONDS = 12.0;
 
     /** @var array Per-request cache for reaction_counts(). Keyed by "videotrackid:userid". */
-    private static $reaction_counts_cache = [];
+    private static $reactioncountscache = [];
 
     /**
      * Returns the current persisted state, or a safe in-memory default when no
@@ -229,13 +227,13 @@ class tracker {
         global $DB;
         // O1: per-request cache to avoid repeated identical DB queries within the same
         // HTTP request (e.g. save_reaction calls this once, then refresh_completion
-        // calls it again internally). Invalidated via invalidate_reaction_counts_cache()
+        // calls it again internally). Invalidated via invalidate_reactioncountscache()
         // after any insert/delete on videotrack_reactev.
         // Uses a static class property (not a method-local static) so that
-        // invalidate_reaction_counts_cache() can reliably clear the same variable.
+        // invalidate_reactioncountscache() can reliably clear the same variable.
         $key = $videotrackid . ':' . $userid;
-        if (isset(self::$reaction_counts_cache[$key])) {
-            return self::$reaction_counts_cache[$key];
+        if (isset(self::$reactioncountscache[$key])) {
+            return self::$reactioncountscache[$key];
         }
         $p = ['vtid' => $videotrackid, 'uid' => $userid];
         $where = "videotrackid = :vtid AND userid = :uid AND isdeleted = 0
@@ -243,15 +241,19 @@ class tracker {
         // Use two separate queries to avoid GROUP_CONCAT truncation on MySQL.
         $row = $DB->get_record_sql(
             "SELECT COUNT(*) AS eventcount, COUNT(DISTINCT reactionid) AS uniquecount
-               FROM {videotrack_reactev} WHERE $where", $p);
+               FROM {videotrack_reactev} WHERE $where",
+            $p
+        );
         $ids = $DB->get_fieldset_sql(
-            "SELECT DISTINCT reactionid FROM {videotrack_reactev} WHERE $where ORDER BY reactionid", $p);
+            "SELECT DISTINCT reactionid FROM {videotrack_reactev} WHERE $where ORDER BY reactionid",
+            $p
+        );
         $result = [
             'eventcount' => (int) ($row->eventcount ?? 0),
             'uniquecount' => (int) ($row->uniquecount ?? 0),
             'uniqueids' => array_map('intval', $ids),
         ];
-        self::$reaction_counts_cache[$key] = $result;
+        self::$reactioncountscache[$key] = $result;
         return $result;
     }
 
@@ -263,9 +265,9 @@ class tracker {
      * @param int $videotrackid Activity id.
      * @param int $userid User id.
      */
-    public static function invalidate_reaction_counts_cache(int $videotrackid, int $userid): void {
+    public static function invalidate_reactioncountscache(int $videotrackid, int $userid): void {
         $key = $videotrackid . ':' . $userid;
-        unset(self::$reaction_counts_cache[$key]);
+        unset(self::$reactioncountscache[$key]);
     }
 
     /**
@@ -282,10 +284,16 @@ class tracker {
      * @param float $timetolerance Timestamp tolerance in seconds.
      * @return bool Whether recent playback authorises the action.
      */
-    public static function has_recent_playback(int $videotrackid, int $userid, string $sessionid,
-            float $videotime, int $recentseconds = 20, float $timetolerance = 8.0): bool {
+    public static function has_recent_playback(
+        int $videotrackid,
+        int $userid,
+        string $sessionid,
+        float $videotime,
+        int $recentseconds = 20,
+        float $timetolerance = 8.0
+    ): bool {
         global $DB;
-        // vtstart/vtend intentionally carry the same value, and tolstart/tolend do the same.
+        // Vtstart/vtend intentionally carry the same value, and tolstart/tolend do the same.
         // Distinct placeholders avoid driver issues with reusing the same named
         // parameter more than once in a query.
         $vt = max(0.0, $videotime);
@@ -516,8 +524,15 @@ class tracker {
      * @param int|null  &$segmentid   Set to the inserted segment id.
      * @return stdClass               Updated state.
      */
-    public static function update_state(\stdClass $videotrack, \cm_info $cm, int $userid,
-            array $interval, float $lastposition, ?\stdClass $segment = null, ?int &$segmentid = null): \stdClass {
+    public static function update_state(
+        \stdClass $videotrack,
+        \cm_info $cm,
+        int $userid,
+        array $interval,
+        float $lastposition,
+        ?\stdClass $segment = null,
+        ?int &$segmentid = null
+    ): \stdClass {
         global $DB;
 
         // Serialise concurrent updates to the same user/activity state record.
@@ -565,7 +580,7 @@ class tracker {
             ], '', 'id,id')));
             $reactionsummary = self::reaction_counts($videotrack->id, $userid);
 
-            // lastposition is the end of the current segment for automatic resume.
+            // Lastposition is the end of the current segment for automatic resume.
             // Use the current value only when it is greater than 2 seconds to avoid
             // resuming from negligible positions. Do not use the historical max():
             // resume should point to where the user stopped watching, not the furthest point reached.
@@ -597,7 +612,7 @@ class tracker {
             // Emit activity_completed on the first 0-to-1 transition.
             // This is outside the transaction because the event is not critical data.
             if (!$wascompleted && $state->iscompleted) {
-                $completedEvent = \mod_videotrack\event\activity_completed::create([
+                $completedevent = \mod_videotrack\event\activity_completed::create([
                     'objectid' => $state->id,
                     'context'  => \context_module::instance($cm->id),
                     'userid'   => $userid,
@@ -606,14 +621,14 @@ class tracker {
                         'uniquecoveredseconds' => $state->uniquecoveredseconds,
                     ],
                 ]);
-                $completedEvent->trigger();
+                $completedevent->trigger();
             }
         } catch (\Throwable $e) {
             if ($lock) {
                 $lock->release();
             }
             $transaction->rollback($e);
-            // rollback() already rethrows in Moodle, but rethrow explicitly to ensure
+            // Rollback() already rethrows in Moodle, but rethrow explicitly to ensure
             // future framework changes never return a silent null state to callers.
             throw $e;
         }
@@ -630,8 +645,12 @@ class tracker {
      * @param bool $iscompleted Computed VideoTrack completion state.
      * @param int $userid User id.
      */
-    public static function update_moodle_completion_if_changed(\completion_info $completion, \cm_info $cm,
-            bool $iscompleted, int $userid): void {
+    public static function update_moodle_completion_if_changed(
+        \completion_info $completion,
+        \cm_info $cm,
+        bool $iscompleted,
+        int $userid
+    ): void {
         $target = $iscompleted ? COMPLETION_COMPLETE : COMPLETION_INCOMPLETE;
         $current = $completion->get_data($cm, false, $userid);
         $currentstate = isset($current->completionstate) ? (int) $current->completionstate : COMPLETION_INCOMPLETE;
@@ -653,8 +672,13 @@ class tracker {
      * @param array|null $requiredreactionids Optional required reaction ids.
      * @return \stdClass Updated state.
      */
-    public static function refresh_completion(\stdClass $videotrack, \cm_info $cm, int $userid,
-            ?array $reactionsummary = null, ?array $requiredreactionids = null): \stdClass {
+    public static function refresh_completion(
+        \stdClass $videotrack,
+        \cm_info $cm,
+        int $userid,
+        ?array $reactionsummary = null,
+        ?array $requiredreactionids = null
+    ): \stdClass {
         global $DB;
 
         // Use the same lock as update_state(): refresh_completion can be called

@@ -1,6 +1,6 @@
 # mod_videotrack — Features and capabilities
 
-Document updated for release **1.4.125**. This is the English companion to `docs/funzionalita.md` and describes the functional behaviour of the plugin for administrators, teachers, and reviewers.
+Document updated for release **1.4.143**. This is the English companion to `docs/it/funzionalita.md` and describes the functional behaviour of the plugin for administrators, teachers, and reviewers.
 
 ## What mod_videotrack is
 
@@ -94,7 +94,7 @@ The course report aggregates Videotrack activity data across course instances, a
 
 ## 14. Accessibility
 
-The interface uses status messages, ARIA relationships, captions, keyboard-aware controls, and focus-safe behaviours. Additional WCAG edge-case audit documentation is available in `docs/wcag_edge_audit_1.4.122.md`.
+The interface uses status messages, ARIA relationships, captions, keyboard-aware controls, and focus-safe behaviours. Additional WCAG edge-case audit documentation is available in `docs/en/wcag_edge_audit_1.4.122.md`.
 
 ## 15. Privacy, GDPR, and retention
 
@@ -137,9 +137,9 @@ YouTube and Vimeo integrations use their respective external player APIs. HTML5/
 
 ## 21. Related documentation
 
-- `docs/technical_structure.md`: English technical structure and function inventory.
-- `docs/struttura_tecnica.md`: Italian technical structure and function inventory.
-- `docs/ajax-layer.md`: AJAX layer rationale and validation flow.
-- `docs/event_bus.md`: AMD event bus namespaces and supported events.
-- `docs/sendbeacon_review_1.4.123.md`: sendBeacon behaviour and fallback assessment.
-- `docs/wcag_edge_audit_1.4.122.md`: final accessibility edge-case review.
+- `docs/en/struttura_tecnica.md`: English technical structure and function inventory.
+- `docs/it/struttura_tecnica.md`: Italian technical structure and function inventory.
+- `docs/en/ajax-layer.md`: AJAX layer rationale and validation flow.
+- `docs/en/event_bus.md`: AMD event bus namespaces and supported events.
+- `docs/en/sendbeacon_review_1.4.123.md`: sendBeacon behaviour and fallback assessment.
+- `docs/en/wcag_edge_audit_1.4.122.md`: final accessibility edge-case review.
