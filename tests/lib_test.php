@@ -32,6 +32,14 @@ use advanced_testcase;
  */
 final class lib_test extends advanced_testcase {
     /**
+     * Load module callbacks under test.
+     */
+    protected function setUp(): void {
+        parent::setUp();
+        require_once(__DIR__ . '/../lib.php');
+    }
+
+    /**
      * Basic supported feature flags should remain stable across refactors.
      *
      * @covers \videotrack_supports
