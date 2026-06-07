@@ -37,6 +37,11 @@ require_once($CFG->dirroot . '/mod/videotrack/lib.php');
  * @license    https://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 class save_reaction extends external_api {
+    /**
+     * Returns the external function parameters.
+     *
+     * @return external_function_parameters
+     */
     public static function execute_parameters(): external_function_parameters {
         return new external_function_parameters([
             'cmid' => new external_value(PARAM_INT, 'Course module ID'),
@@ -47,6 +52,16 @@ class save_reaction extends external_api {
         ]);
     }
 
+    /**
+     * Saves a configured reaction for the current user.
+     *
+     * @param int $cmid Course module id.
+     * @param string $sessionid Browser session id.
+     * @param int $reactionid Reaction id.
+     * @param float $videotime Video timestamp in seconds.
+     * @param float $playbackrate Playback rate at reaction time.
+     * @return array
+     */
     public static function execute(
         int $cmid,
         string $sessionid,
@@ -197,6 +212,11 @@ class save_reaction extends external_api {
         ];
     }
 
+    /**
+     * Returns the external function result structure.
+     *
+     * @return external_single_structure
+     */
     public static function execute_returns(): external_single_structure {
         return new external_single_structure([
             'reactioneventid' => new external_value(PARAM_INT, 'Reaction event ID'),

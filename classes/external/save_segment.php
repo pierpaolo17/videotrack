@@ -40,6 +40,11 @@ class save_segment extends external_api {
     /** Maximum accepted duration from trusted activity configuration, in seconds. */
     private const MAX_DURATION_SECONDS = 86400;
 
+    /**
+     * Returns the external function parameters.
+     *
+     * @return external_function_parameters
+     */
     public static function execute_parameters(): external_function_parameters {
         return new external_function_parameters([
             'cmid' => new external_value(PARAM_INT, 'Course module ID'),
@@ -54,6 +59,20 @@ class save_segment extends external_api {
         ]);
     }
 
+    /**
+     * Saves a watched video segment and refreshes aggregate progress.
+     *
+     * @param int $cmid Course module id.
+     * @param string $sessionid Browser session id.
+     * @param float $videotimestart Segment start time in seconds.
+     * @param float $videotimeend Segment end time in seconds.
+     * @param int $wallclockstart Client wallclock start timestamp.
+     * @param int $wallclockend Client wallclock end timestamp.
+     * @param float $playbackrate Playback rate reported by the player.
+     * @param string $endreason Segment end reason.
+     * @param float $durationseconds Client-known duration in seconds.
+     * @return array
+     */
     public static function execute(
         int $cmid,
         string $sessionid,
@@ -243,6 +262,11 @@ class save_segment extends external_api {
         ];
     }
 
+    /**
+     * Returns the external function result structure.
+     *
+     * @return external_single_structure
+     */
     public static function execute_returns(): external_single_structure {
         return new external_single_structure([
             'accepted'             => new external_value(PARAM_BOOL,  'Whether the segment was accepted'),

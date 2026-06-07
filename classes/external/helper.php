@@ -97,7 +97,6 @@ class helper extends external_api {
         return $endreason;
     }
 
-
     /**
      * Validates that a float-like parameter is finite and inside a bounded range.
      *
