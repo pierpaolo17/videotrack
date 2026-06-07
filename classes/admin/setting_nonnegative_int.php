@@ -16,8 +16,6 @@
 
 namespace mod_videotrack\admin;
 
-defined('MOODLE_INTERNAL') || die();
-
 /**
  * Integer admin setting that accepts only non-negative values.
  *
@@ -27,7 +25,7 @@ defined('MOODLE_INTERNAL') || die();
  */
 class setting_nonnegative_int extends \admin_setting_configtext {
 
-    /** Maximum accepted retention period in days (10 years). */
+    /** @var int Maximum accepted retention period in days (10 years). */
     private const MAX_RETENTION_DAYS = 3650;
 
     /**
@@ -40,11 +38,11 @@ class setting_nonnegative_int extends \admin_setting_configtext {
         if (!is_string($data) && !is_int($data)) {
             return get_string('setting:nonnegativeintrequired', 'mod_videotrack');
         }
-        $data = trim((string)$data);
+        $data = trim((string) $data);
         if (!preg_match('/^\d+$/', $data)) {
             return get_string('setting:nonnegativeintrequired', 'mod_videotrack');
         }
-        if ((int)$data > self::MAX_RETENTION_DAYS) {
+        if ((int) $data > self::MAX_RETENTION_DAYS) {
             return get_string('setting:nonnegativeintmax', 'mod_videotrack', self::MAX_RETENTION_DAYS);
         }
         return true;

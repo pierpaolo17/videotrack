@@ -16,8 +16,6 @@
 
 namespace mod_videotrack\admin;
 
-defined('MOODLE_INTERNAL') || die();
-
 /**
  * Retention-days admin setting with an explicit audit trail for unlimited retention.
  *
@@ -40,8 +38,8 @@ class setting_retention_days extends setting_nonnegative_int {
      */
     public function write_setting($data) {
         $previous = get_config('mod_videotrack', 'retentionperioddays');
-        $previous = ($previous === false || $previous === null || $previous === '') ? 730 : (int)$previous;
-        $submitted = (int)trim((string)$data);
+        $previous = ($previous === false || $previous === null || $previous === '') ? 730 : (int) $previous;
+        $submitted = (int) trim((string) $data);
         $confirmed = optional_param('s_mod_videotrack_retentionunlimitedconfirmed', 0, PARAM_BOOL);
 
         if ($submitted === 0 && !$confirmed) {
