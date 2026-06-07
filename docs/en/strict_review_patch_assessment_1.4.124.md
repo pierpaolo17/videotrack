@@ -14,7 +14,7 @@ or test-surface changes.
 
 The proposed patch correctly identified that the AJAX layer should be explained
 in terms of robustness, stale-response protection and retry boundaries. The
-existing `docs/ajax-layer.md` file already covered these areas, so 1.4.124 keeps
+existing `docs/en/ajax-layer.md` file already covered these areas, so 1.4.124 keeps
 that file and adds a concise design-goals section instead of replacing the
 document.
 
