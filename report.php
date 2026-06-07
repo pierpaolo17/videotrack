@@ -644,9 +644,12 @@ if ($hasgrade && optional_param('savegrade', 0, PARAM_INT)) {
     } else {
         videotrack_set_user_grade($videotrack, $gradeuserid, -1);
     }
-    redirect($PAGE->url,
+    redirect(
+        $PAGE->url,
         get_string('report:gradesaved', 'mod_videotrack'),
-        null, \core\output\notification::NOTIFY_SUCCESS);
+        null,
+        \core\output\notification::NOTIFY_SUCCESS
+    );
 }
 
 echo $OUTPUT->header();
