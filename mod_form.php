@@ -661,17 +661,7 @@ class mod_videotrack_mod_form extends moodleform_mod {
         // Grading section using standard Moodle grading elements.
         $this->standard_grading_coursemodule_elements();
 
-        // Pass grade: shown only when a grade type other than None is selected.
-        $mform->addElement(
-            'text',
-            'gradepass',
-            get_string('gradepass', 'grades'),
-            'size="6"'
-        );
-        $mform->setType('gradepass', PARAM_FLOAT);
-        $mform->setDefault('gradepass', 0);
-        $mform->addHelpButton('gradepass', 'gradepass', 'grades');
-        $mform->disabledIf('gradepass', 'grade[modgrade_type]', 'eq', 'none');
+        // The standard grading elements already add and configure gradepass.
 
         // Show the grade to the student in view.php.
         $mform->addElement(
