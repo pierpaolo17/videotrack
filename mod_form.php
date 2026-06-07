@@ -58,9 +58,7 @@ class mod_videotrack_mod_form extends moodleform_mod {
 
         $this->standard_intro_elements();
 
-        // ----------------------------------------------------------------
         // Video source selector.
-        // ----------------------------------------------------------------
         $mform->addElement('header', 'videosourceheader', get_string('videosource', 'mod_videotrack'));
 
         $sourceoptions = [
@@ -114,9 +112,7 @@ class mod_videotrack_mod_form extends moodleform_mod {
             html_writer::tag('small', get_string('videofile_notice', 'mod_videotrack'), ['class' => 'text-muted form-text'])
         );
         $mform->hideIf('videofile', 'videosource', 'neq', 'upload');
-        // ----------------------------------------------------------------
-        // Poster / preview image (all video sources).
-        // ----------------------------------------------------------------
+        // Poster / preview image for all video sources.
         $posteropt = ['subdirs' => false, 'maxfiles' => 1,
             'accepted_types' => ['.jpg', '.jpeg', '.png', '.webp', '.gif']];
         $mform->addElement(
@@ -137,9 +133,7 @@ class mod_videotrack_mod_form extends moodleform_mod {
 
         $mform->hideIf('videofile_notice', 'videosource', 'neq', 'upload');
 
-        // ----------------------------------------------------------------
-        // Player settings — locked if teacher lacks overrideplayersettings.
-        // ----------------------------------------------------------------
+        // Player settings locked when teacher lacks overrideplayersettings.
         if (!$canoverrideplayer) {
             $mform->addElement(
                 'static',
@@ -209,15 +203,19 @@ class mod_videotrack_mod_form extends moodleform_mod {
 
         // Lock player fields if the teacher does not have the override capability.
         if (!$canoverrideplayer) {
-            foreach (['showcontrols', 'disablekeyboard', 'showfullscreen',
-                      'allowseekforward', 'allowseekbackward', 'allowplaybackratechange'] as $field) {
+            foreach ([
+                'showcontrols',
+                'disablekeyboard',
+                'showfullscreen',
+                'allowseekforward',
+                'allowseekbackward',
+                'allowplaybackratechange',
+            ] as $field) {
                 $mform->freeze($field);
             }
         }
 
-        // ----------------------------------------------------------------
-        // Additional player behaviour — autoplay, loop, mute, download.
-        // ----------------------------------------------------------------
+        // Additional player behaviour: autoplay, loop, mute and download.
         $mform->addElement(
             'header',
             'playerbehaviorheader',
@@ -286,15 +284,20 @@ class mod_videotrack_mod_form extends moodleform_mod {
         $mform->hideIf('allowdownload', 'videosource', 'neq', 'upload');
 
         if (!$canoverrideplayer) {
-            foreach (['playerwidth', 'autoplay', 'loop', 'startmuted',
-                      'rewindstep', 'fastforwardstep', 'allowdownload'] as $field) {
+            foreach ([
+                'playerwidth',
+                'autoplay',
+                'loop',
+                'startmuted',
+                'rewindstep',
+                'fastforwardstep',
+                'allowdownload',
+            ] as $field) {
                 $mform->freeze($field);
             }
         }
 
-        // ----------------------------------------------------------------
-        // Captions / Subtitles.
-        // ----------------------------------------------------------------
+        // Captions and subtitles.
         $mform->addElement(
             'header',
             'captionsheader',
@@ -392,10 +395,7 @@ class mod_videotrack_mod_form extends moodleform_mod {
             $mform->freeze('captionslang');
         }
 
-        // ----------------------------------------------------------------
-        // HTML5 player controls — visible only for upload source.
-        // Teacher can choose which controls to show (within site admin limits).
-        // ----------------------------------------------------------------
+        // HTML5 player controls visible only for upload source.
         $sitecontrols     = videotrack_get_html5controls((object)['html5controls' => '']);
         $allctrl          = [
             'play'       => get_string(
@@ -554,9 +554,7 @@ class mod_videotrack_mod_form extends moodleform_mod {
         $mform->addHelpButton('countbyvideotime', 'countbyvideotime', 'mod_videotrack');
         $mform->setDefault('countbyvideotime', 1);
 
-        // ----------------------------------------------------------------
         // Reactions section.
-        // ----------------------------------------------------------------
         $mform->addElement('header', 'reactionsheader', get_string('reactionsheader', 'mod_videotrack'));
         $mform->addElement('advcheckbox', 'reactionsenabled', get_string('reactionsenabled', 'mod_videotrack'));
 
@@ -580,9 +578,7 @@ class mod_videotrack_mod_form extends moodleform_mod {
         $mform->setType('completionlogic', PARAM_ALPHA);
         $mform->setDefault('completionlogic', 'and');
 
-        // ----------------------------------------------------------------
-        // Completion settings — locked if teacher lacks overridecompletionsettings.
-        // ----------------------------------------------------------------
+        // Completion settings locked when teacher lacks overridecompletionsettings.
         if (!$canoverridecompleting) {
             $mform->addElement(
                 'static',
@@ -640,9 +636,7 @@ class mod_videotrack_mod_form extends moodleform_mod {
             $reactionnoticeoptions
         );
 
-        // ----------------------------------------------------------------
         // Reaction preset selector.
-        // ----------------------------------------------------------------
         $presetoptions = videotrack_get_preset_select_options();
         if (count($presetoptions) > 1) {
             // Only show the selector if at least one preset has been configured.
@@ -662,9 +656,7 @@ class mod_videotrack_mod_form extends moodleform_mod {
 
         $this->add_reaction_elements();
 
-        // ----------------------------------------------------------------
-        // Grading section — standard Moodle grading elements.
-        // ----------------------------------------------------------------
+        // Grading section using standard Moodle grading elements.
         $this->standard_grading_coursemodule_elements();
 
         // Pass grade: shown only when a grade type other than None is selected.
@@ -949,8 +941,10 @@ class mod_videotrack_mod_form extends moodleform_mod {
             $defaultvalues['gradepass'] = ($gradepass !== false) ? format_float((float)$gradepass, 5) : 0;
         }
         // Pre-populate vimeourl when the source is Vimeo.
-        if (($defaultvalues['videosource'] ?? 'youtube') === 'vimeo'
-                && !empty($defaultvalues['videourl'])) {
+        if (
+            ($defaultvalues['videosource'] ?? 'youtube') === 'vimeo'
+            && !empty($defaultvalues['videourl'])
+        ) {
             $defaultvalues['vimeourl'] = $defaultvalues['videourl'];
         }
         // Pre-populate the playback-rate checkboxes.
@@ -972,8 +966,20 @@ class mod_videotrack_mod_form extends moodleform_mod {
         $activecontrols = !empty($defaultvalues['html5controls'])
             ? array_map('trim', explode(',', $defaultvalues['html5controls']))
             : videotrack_get_html5controls((object)['html5controls' => '']);
-        foreach (['play', 'rewind', 'fastforward', 'progress', 'current', 'duration', 'mute', 'volume',
-                  'speed', 'pip', 'fullscreen', 'download'] as $ctrl) {
+        foreach ([
+            'play',
+            'rewind',
+            'fastforward',
+            'progress',
+            'current',
+            'duration',
+            'mute',
+            'volume',
+            'speed',
+            'pip',
+            'fullscreen',
+            'download',
+        ] as $ctrl) {
             $defaultvalues["html5ctrl_{$ctrl}"] = in_array($ctrl, $activecontrols) ? $ctrl : 0;
         }
 
@@ -1020,8 +1026,10 @@ class mod_videotrack_mod_form extends moodleform_mod {
                 $defaultvalues['videofile'] = $draftitemid2;
             }
         }
-        if (!isset($defaultvalues['reactionnotice_editor'])
-                && isset($defaultvalues['reactionnotice'])) {
+        if (
+            !isset($defaultvalues['reactionnotice_editor'])
+            && isset($defaultvalues['reactionnotice'])
+        ) {
             $defaultvalues['reactionnotice_editor'] = [
                 'text'   => $defaultvalues['reactionnotice'],
                 'format' => $defaultvalues['reactionnoticeformat'] ?? FORMAT_HTML,
@@ -1076,8 +1084,10 @@ class mod_videotrack_mod_form extends moodleform_mod {
         } else {
             $errors['videosource'] = get_string('invalidvideosource', 'mod_videotrack');
         }
-        if (isset($data['completionpercent']) &&
-                ((int)$data['completionpercent'] < 0 || (int)$data['completionpercent'] > 100)) {
+        if (
+            isset($data['completionpercent'])
+            && ((int)$data['completionpercent'] < 0 || (int)$data['completionpercent'] > 100)
+        ) {
             $errors['completionpercentgroup'] = get_string('err:completionpercentrange', 'mod_videotrack');
         }
 
@@ -1096,8 +1106,11 @@ class mod_videotrack_mod_form extends moodleform_mod {
                 }
             }
         }
-        if (!empty($data['reactionsrequired']) &&
-                empty($data['minreactions']) && empty($data['requireallreactiontypes'])) {
+        if (
+            !empty($data['reactionsrequired'])
+            && empty($data['minreactions'])
+            && empty($data['requireallreactiontypes'])
+        ) {
             $errors['minreactions'] = get_string('err:minreactionsrequired', 'mod_videotrack');
         }
 

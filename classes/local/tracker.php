@@ -30,7 +30,7 @@ class tracker {
      * Prevents unbounded field growth for users who watch many short,
      * non-overlapping fragments.
      */
-    const MAX_INTERVALS = 500;
+    public const MAX_INTERVALS = 500;
 
     /**
      * Grace window in seconds for the OR branch of has_recent_playback().
@@ -38,7 +38,7 @@ class tracker {
      * lag actual playback end by up to this many seconds. Must be >= the
      * default $timetolerance parameter (8.0) to be meaningful.
      */
-    const PLAYBACK_GRACE_SECONDS = 12.0;
+    public const PLAYBACK_GRACE_SECONDS = 12.0;
 
     /** @var array Per-request cache for reaction_counts(). Keyed by "videotrackid:userid". */
     private static $reactioncountscache = [];

@@ -70,14 +70,18 @@ class delete_reaction extends external_api {
         $videotrack = $loaded['videotrack'];
         $cm = $loaded['cm'];
         $context = $loaded['context'];
-        $event = $DB->get_record_select('videotrack_reactev',
+        $event = $DB->get_record_select(
+            'videotrack_reactev',
             'id = :id AND userid = :userid AND videotrackid = :videotrackid AND (notetype IS NULL OR notetype <> :notetype)',
             [
                 'id' => $params['reactioneventid'],
                 'userid' => $USER->id,
                 'videotrackid' => $videotrack->id,
                 'notetype' => 'note',
-            ], '*', MUST_EXIST);
+            ],
+            '*',
+            MUST_EXIST
+        );
 
         $changed = false;
         if (empty($event->isdeleted)) {
@@ -85,8 +89,7 @@ class delete_reaction extends external_api {
             $event->timemodified = time();
             $DB->update_record('videotrack_reactev', $event);
             $changed = true;
-            // O1: invalidate per-request cache so subsequent reaction_counts() calls
-            // within this request see the updated (soft-deleted) record.
+            // Invalidate the per-request cache so subsequent reaction counts see the soft-deleted record.
             tracker::invalidate_reaction_counts_cache($videotrack->id, (int)$USER->id);
             // Log the event in Moodle logs.
             $moodleevent = reaction_deleted::create([
@@ -122,6 +125,11 @@ class delete_reaction extends external_api {
         ];
     }
 
+    /**
+     * Returns the external function result structure.
+     *
+     * @return external_single_structure
+     */
     public static function execute_returns(): external_single_structure {
         return new external_single_structure([
             'deleted' => new external_value(PARAM_BOOL, 'Deleted'),

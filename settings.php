@@ -26,7 +26,6 @@
 defined('MOODLE_INTERNAL') || die();
 
 if ($ADMIN->fulltree) {
-
     // Show a persistent admin warning when GD is not available.
     if (!function_exists('imagecreatefromstring')) {
         $settings->add(new admin_setting_heading(
@@ -350,9 +349,7 @@ if ($ADMIN->fulltree) {
         PARAM_LANG
     ));
 
-    // -------------------------------------------------------------------------
-    // HTML5 player controls (upload source only).
-    // -------------------------------------------------------------------------
+    // HTML5 player controls for upload source only.
 
     $settings->add(new admin_setting_heading(
         'mod_videotrack/heading_html5controls',
@@ -416,9 +413,7 @@ if ($ADMIN->fulltree) {
         $html5controloptions
     ));
 
-    // -------------------------------------------------------------------------
     // Default player behaviour.
-    // -------------------------------------------------------------------------
 
     $settings->add(new admin_setting_heading(
         'mod_videotrack/heading_defaults',
@@ -484,9 +479,7 @@ if ($ADMIN->fulltree) {
         [10 => 10, 15 => 15, 20 => 20, 30 => 30, 60 => 60]
     ));
 
-    // -------------------------------------------------------------------------
     // Reaction presets.
-    // -------------------------------------------------------------------------
 
     $settings->add(new admin_setting_heading(
         'mod_videotrack/heading_presets',
@@ -504,5 +497,4 @@ if ($ADMIN->fulltree) {
             ['class' => 'btn btn-secondary']
         )
     ));
-
 }

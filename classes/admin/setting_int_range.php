@@ -24,7 +24,6 @@ namespace mod_videotrack\admin;
  * @license    https://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 class setting_int_range extends setting_nonnegative_int {
-
     /** @var int Minimum accepted value. */
     protected $min;
 

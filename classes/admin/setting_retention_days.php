@@ -29,7 +29,6 @@ namespace mod_videotrack\admin;
  * @license    https://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 class setting_retention_days extends setting_nonnegative_int {
-
     /**
      * Persist the setting and log when unlimited retention is newly enabled.
      *

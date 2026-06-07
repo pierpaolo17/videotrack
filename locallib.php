@@ -23,9 +23,6 @@
  */
 
 
-defined('MOODLE_INTERNAL') || die();
-
-
 /**
  * Reads an integer mod_videotrack configuration value while preserving explicit zero values.
  *
