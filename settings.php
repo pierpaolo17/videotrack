@@ -1,25 +1,25 @@
 <?php
 // This file is part of Moodle - https://moodle.org/
-//
-// Moodle is free software: you can redistribute it and/or modify
-// it under the terms of the GNU General Public License as published by
-// the Free Software Foundation, either version 3 of the License, or
+//.
+// Moodle is free software: you can redistribute it and/or modify.
+// It under the terms of the GNU General Public License as published by.
+// The Free Software Foundation, either version 3 of the License, or.
 // (at your option) any later version.
-//
-// Moodle is distributed in the hope that it will be useful,
-// but WITHOUT ANY WARRANTY; without even the implied warranty of
-// MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+//.
+// Moodle is distributed in the hope that it will be useful,.
+// But WITHOUT ANY WARRANTY; without even the implied warranty of.
+// MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the.
 // GNU General Public License for more details.
-//
-// You should have received a copy of the GNU General Public License
-// along with Moodle.  If not, see <https://www.gnu.org/licenses/>.
+//.
+// You should have received a copy of the GNU General Public License.
+// Along with Moodle.  If not, see <https://www.gnu.org/licenses/>.
 
 /**
  * VideoTrack plugin file.
  *
  * @package   mod_videotrack
  * @copyright 2026 videotrack contributors
- * @license   https://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
+ * @license   https://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later.
  */
 
 
@@ -33,8 +33,10 @@ if ($ADMIN->fulltree) {
             'mod_videotrack/gd_missing_warning',
             '',
             html_writer::div(
-                html_writer::tag('strong',
-                    get_string('setting:gd_missing_title', 'mod_videotrack')) . ' ' .
+                html_writer::tag(
+                    'strong',
+                    get_string( 'setting:gd_missing_title', 'mod_videotrack' )
+                ) . ' ' .
                 get_string('setting:gd_missing_desc', 'mod_videotrack'),
                 'alert alert-warning'
             )
@@ -208,19 +210,19 @@ if ($ADMIN->fulltree) {
         'mod_videotrack/playbackspeeds',
         get_string('setting:playbackspeeds', 'mod_videotrack'),
         get_string('setting:playbackspeeds_desc', 'mod_videotrack'),
-        ['0.75', '1', '1.25', '1.5', '2'], // default
+        ['0.75', '1', '1.25', '1.5', '2'], // Default.
         $speedoptions
     ));
 
-    // Maximum playback rate: students cannot exceed this speed even if a higher
-    // rate is in the allowed list. 0 = no limit (default).
-    // Values are stored as hundredths (150 = 1.5x), matching mod_form.php
-    // and the JS configuration (config.maxplaybackrate / 100). Do not use float strings ('1.5').
+    // Maximum playback rate: students cannot exceed this speed even if a higher.
+    // Rate is in the allowed list. 0 = no limit (default).
+    // Values are stored as hundredths (150 = 1.5x), matching mod_form.php.
+    // And the JS configuration (config.maxplaybackrate / 100). Do not use float strings ('1.5').
     $settings->add(new admin_setting_configselect(
         'mod_videotrack/maxplaybackrate',
         get_string('setting:maxplaybackrate', 'mod_videotrack'),
         get_string('setting:maxplaybackrate_desc', 'mod_videotrack'),
-        0, // 0 = no hard cap
+        0, // 0 = no hard cap.
         [
             0   => get_string('setting:maxplaybackrate_nolimit', 'mod_videotrack'),
             100 => '1×',
@@ -348,9 +350,9 @@ if ($ADMIN->fulltree) {
         PARAM_LANG
     ));
 
-    // -------------------------------------------------------------------------
-    // HTML5 player controls (upload source only)
-    // -------------------------------------------------------------------------
+    // -------------------------------------------------------------------------.
+    // HTML5 player controls (upload source only).
+    // -------------------------------------------------------------------------.
 
     $settings->add(new admin_setting_heading(
         'mod_videotrack/heading_html5controls',
@@ -359,18 +361,51 @@ if ($ADMIN->fulltree) {
     ));
 
     $html5controloptions = [
-        'play'        => get_string('ctrl:play',        'mod_videotrack'),
-        'rewind'      => get_string('ctrl:rewind',      'mod_videotrack'),
+        'play'        => get_string(
+            'ctrl:play',
+            'mod_videotrack'
+        ),
+        'rewind'      => get_string(
+            'ctrl:rewind',
+            'mod_videotrack'
+        ),
         'fastforward' => get_string('ctrl:fastforward', 'mod_videotrack'),
-        'progress'    => get_string('ctrl:progress',    'mod_videotrack'),
-        'current'     => get_string('ctrl:current',     'mod_videotrack'),
-        'duration'    => get_string('ctrl:duration',    'mod_videotrack'),
-        'mute'        => get_string('ctrl:mute',        'mod_videotrack'),
-        'volume'      => get_string('ctrl:volume',      'mod_videotrack'),
-        'speed'       => get_string('ctrl:speed',       'mod_videotrack'),
-        'pip'         => get_string('ctrl:pip',         'mod_videotrack'),
-        'fullscreen'  => get_string('ctrl:fullscreen',  'mod_videotrack'),
-        'download'    => get_string('ctrl:download',    'mod_videotrack'),
+        'progress'    => get_string(
+            'ctrl:progress',
+            'mod_videotrack'
+        ),
+        'current'     => get_string(
+            'ctrl:current',
+            'mod_videotrack'
+        ),
+        'duration'    => get_string(
+            'ctrl:duration',
+            'mod_videotrack'
+        ),
+        'mute'        => get_string(
+            'ctrl:mute',
+            'mod_videotrack'
+        ),
+        'volume'      => get_string(
+            'ctrl:volume',
+            'mod_videotrack'
+        ),
+        'speed'       => get_string(
+            'ctrl:speed',
+            'mod_videotrack'
+        ),
+        'pip'         => get_string(
+            'ctrl:pip',
+            'mod_videotrack'
+        ),
+        'fullscreen'  => get_string(
+            'ctrl:fullscreen',
+            'mod_videotrack'
+        ),
+        'download'    => get_string(
+            'ctrl:download',
+            'mod_videotrack'
+        ),
     ];
     $settings->add(new admin_setting_configmultiselect(
         'mod_videotrack/html5controls',
@@ -381,9 +416,9 @@ if ($ADMIN->fulltree) {
         $html5controloptions
     ));
 
-    // -------------------------------------------------------------------------
-    // Default player behaviour
-    // -------------------------------------------------------------------------
+    // -------------------------------------------------------------------------.
+    // Default player behaviour.
+    // -------------------------------------------------------------------------.
 
     $settings->add(new admin_setting_heading(
         'mod_videotrack/heading_defaults',
@@ -449,9 +484,9 @@ if ($ADMIN->fulltree) {
         [10 => 10, 15 => 15, 20 => 20, 30 => 30, 60 => 60]
     ));
 
-    // -------------------------------------------------------------------------
-    // Reaction presets
-    // -------------------------------------------------------------------------
+    // -------------------------------------------------------------------------.
+    // Reaction presets.
+    // -------------------------------------------------------------------------.
 
     $settings->add(new admin_setting_heading(
         'mod_videotrack/heading_presets',
@@ -463,7 +498,8 @@ if ($ADMIN->fulltree) {
     $settings->add(new admin_setting_heading(
         'mod_videotrack/presets_link',
         '',
-        html_writer::link($presetsurl,
+        html_writer::link(
+            $presetsurl,
             get_string('presets:manage', 'mod_videotrack'),
             ['class' => 'btn btn-secondary']
         )
