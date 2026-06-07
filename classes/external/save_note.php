@@ -145,7 +145,7 @@ class save_note extends external_api {
             'sessionid'    => $params['sessionid'],
             'reactionid'   => 0,
             'reactionkey'  => 'note',
-            'reactionlabel'=> get_string('studentnote_label', 'mod_videotrack'),
+            'reactionlabel' => get_string('studentnote_label', 'mod_videotrack'),
             'reactiondesc' => '',
             'notetext'     => $text,
             'notetype'     => 'note',

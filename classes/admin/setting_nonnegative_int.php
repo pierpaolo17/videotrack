@@ -24,7 +24,6 @@ namespace mod_videotrack\admin;
  * @license    https://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 class setting_nonnegative_int extends \admin_setting_configtext {
-
     /** @var int Maximum accepted retention period in days (10 years). */
     private const MAX_RETENTION_DAYS = 3650;
 

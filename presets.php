@@ -41,9 +41,7 @@ $PAGE->set_title(get_string('presets:pagetitle', 'mod_videotrack'));
 $PAGE->set_heading(get_string('presets:pagetitle', 'mod_videotrack'));
 $PAGE->set_pagelayout('admin');
 
-// -------------------------------------------------------------------------
 // Actions.
-// -------------------------------------------------------------------------
 $action   = optional_param('action', '', PARAM_ALPHA);
 $presetkey = optional_param('presetkey', '', PARAM_ALPHANUMEXT);
 $deleteaction = optional_param('deleteaction', '', PARAM_ALPHA);
@@ -61,9 +59,7 @@ if ($deleteaction === 'delete' && !empty($presetkey) && $_SERVER['REQUEST_METHOD
     );
 }
 
-// -------------------------------------------------------------------------
-// Handle add / edit form submission.
-// -------------------------------------------------------------------------
+// Handle add or edit form submission.
 $editkey  = optional_param('editkey', '', PARAM_ALPHANUMEXT);
 $isediting = ($action === 'edit' && !empty($editkey)) || ($action === 'add');
 

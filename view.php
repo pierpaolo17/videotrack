@@ -563,12 +563,13 @@ if (!empty($videotrack->studentnotesenabled)) {
             s($note->notetext),
             ['class' => 'videotrack-note-text']
         );
-        echo html_writer::tag('button',
+        echo html_writer::tag(
+            'button',
             get_string('removenote', 'mod_videotrack'),
             [
                 'type'       => 'button',
                 'class'      => 'btn btn-link btn-sm videotrack-delete-note ms-1',
-                'data-noteid'=> $note->id,
+                'data-noteid' => $note->id,
                 // WCAG 2.4.6: contextual aria-label with the note timestamp.
                 'aria-label' => get_string('removenote', 'mod_videotrack') . ' — ' .
                                 videotrack_format_seconds((float)$note->videotime),
@@ -681,7 +682,8 @@ if ($showstudentreport) {
         'id' => 'videotrack-my-reactions',
     ]);
     if (empty($events)) {
-        echo html_writer::tag('tr',
+        echo html_writer::tag(
+            'tr',
             html_writer::tag(
                 'td',
                 get_string('noreactionsyet', 'mod_videotrack'),
@@ -719,32 +721,43 @@ if ($showstudentreport) {
         $timestampfmt = videotrack_format_seconds((float)$event->videotime);
         echo html_writer::start_tag('tr', ['data-eventid' => $event->id]);
         echo html_writer::tag('td', videotrack_format_seconds((float)$event->videotime));
-        echo html_writer::tag('td', html_writer::span(
-            $reaction ? videotrack_render_reaction_icon($reaction, $context, true) : s($event->reactionlabel),
-            'videotrack-report-icon'
-        ));
+        echo html_writer::tag(
+            'td',
+            html_writer::span(
+                $reaction ? videotrack_render_reaction_icon($reaction, $context, true) : s($event->reactionlabel),
+                'videotrack-report-icon'
+            )
+        );
         echo html_writer::tag('td', s($event->reactiondesc));
-        echo html_writer::tag('td', html_writer::tag('button',
-            get_string('report:replay', 'mod_videotrack'),
-            [
-                'type'       => 'button',
-                'class'      => 'btn btn-secondary btn-sm videotrack-replay',
-                'data-start' => $start,
-                'data-end'   => $end,
-                // WCAG 2.4.6: contextual aria-label distinguishes identical buttons for screen readers.
-                'aria-label' => get_string('report:replay', 'mod_videotrack') . ' — ' . $timestampfmt,
-            ]
-        ));
-        echo html_writer::tag('td', html_writer::tag('button',
-            get_string('removereaction', 'mod_videotrack'),
-            [
-                'type'        => 'button',
-                'class'       => 'btn btn-link btn-sm videotrack-delete-reaction',
-                'data-eventid' => $event->id,
-                // WCAG 2.4.6: contextual aria-label distinguishes identical delete buttons for screen readers.
-                'aria-label'  => get_string('removereaction', 'mod_videotrack') . ' — ' . $timestampfmt,
-            ]
-        ));
+        echo html_writer::tag(
+            'td',
+            html_writer::tag(
+                'button',
+                get_string('report:replay', 'mod_videotrack'),
+                [
+                    'type'       => 'button',
+                    'class'      => 'btn btn-secondary btn-sm videotrack-replay',
+                    'data-start' => $start,
+                    'data-end'   => $end,
+                    // WCAG 2.4.6: contextual aria-label distinguishes identical buttons for screen readers.
+                    'aria-label' => get_string('report:replay', 'mod_videotrack') . ' — ' . $timestampfmt,
+                ]
+            )
+        );
+        echo html_writer::tag(
+            'td',
+            html_writer::tag(
+                'button',
+                get_string('removereaction', 'mod_videotrack'),
+                [
+                    'type'        => 'button',
+                    'class'       => 'btn btn-link btn-sm videotrack-delete-reaction',
+                    'data-eventid' => $event->id,
+                    // WCAG 2.4.6: contextual aria-label distinguishes identical delete buttons for screen readers.
+                    'aria-label'  => get_string('removereaction', 'mod_videotrack') . ' — ' . $timestampfmt,
+                ]
+            )
+        );
         echo html_writer::end_tag('tr');
     }
     echo html_writer::end_tag('tbody');

@@ -63,7 +63,7 @@ function xmldb_videotrack_upgrade($oldversion) {
     if ($oldversion < 2026050100) {
         $table = new xmldb_table('videotrack');
 
-        // Videosource: 'youtube' | 'vimeo' | 'upload'.
+        // Video source accepts youtube, vimeo or upload.
         $field = new xmldb_field('videosource', XMLDB_TYPE_CHAR, '20', null, XMLDB_NOTNULL, null, 'youtube', 'videoid');
         if (!$dbman->field_exists($table, $field)) {
             $dbman->add_field($table, $field);

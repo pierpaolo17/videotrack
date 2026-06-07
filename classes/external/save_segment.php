@@ -26,6 +26,9 @@ use mod_videotrack\event\segment_saved;
 
 defined('MOODLE_INTERNAL') || die();
 
+global $CFG;
+require_once($CFG->dirroot . '/mod/videotrack/lib.php');
+
 /**
  * External function that persists a watched video segment.
  *
@@ -33,9 +36,6 @@ defined('MOODLE_INTERNAL') || die();
  * @copyright  2026 videotrack contributors
  * @license    https://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
-global $CFG;
-require_once($CFG->dirroot . '/mod/videotrack/lib.php');
-
 class save_segment extends external_api {
     /** Maximum accepted duration from trusted activity configuration, in seconds. */
     private const MAX_DURATION_SECONDS = 86400;
@@ -163,7 +163,7 @@ class save_segment extends external_api {
         // only on server elapsed time since the previous segment from the same
         // session and on the configured heartbeat interval.
         $videoduration = $interval[1] - $interval[0];
-        // playbackrate is already bounded by helper::validate_bounded_float().
+        // Playback rate is already bounded by helper::validate_bounded_float().
         $playbackrate  = (float)$params['playbackrate'];
         $heartbeat = \videotrack_get_config_int('heartbeatinterval', 30, 5, 300);
         $lasttimes = $DB->get_record_sql(

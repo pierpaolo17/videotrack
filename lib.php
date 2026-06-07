@@ -22,13 +22,18 @@
  * @license   https://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later.
  */
 
-
 defined('MOODLE_INTERNAL') || die();
 
 use mod_videotrack\local\tracker;
 
 require_once(__DIR__ . '/locallib.php');
 
+/**
+ * Returns the Moodle features supported by the activity module.
+ *
+ * @param string $feature Feature constant requested by Moodle.
+ * @return mixed Supported value, false or null when not supported.
+ */
 function videotrack_supports($feature) {
     switch ($feature) {
         case FEATURE_MOD_INTRO:
@@ -79,6 +84,13 @@ function videotrack_whitelist_record(stdClass $data, bool $resetcache = false): 
     return $record;
 }
 
+/**
+ * Adds a new VideoTrack activity instance.
+ *
+ * @param stdClass $data Submitted activity data.
+ * @param moodleform|null $mform Submitted Moodle form.
+ * @return int New activity id.
+ */
 function videotrack_add_instance($data, $mform = null) {
     global $DB;
     $data->durationseconds = 0;
@@ -173,7 +185,6 @@ function videotrack_process_video_fields(stdClass $data, $mform = null): void {
         }
         $data->videoid  = $id;
         $data->videourl = $url;
-
     } else if ($source === 'vimeo') {
         $url = trim((string)($data->vimeourl ?? ''));
         $id  = videotrack_extract_vimeo_id($url);
@@ -183,7 +194,6 @@ function videotrack_process_video_fields(stdClass $data, $mform = null): void {
         $data->videoid  = $id;
         $data->videourl = $url;
         $data->youtubeurl = null;
-
     } else if ($source === 'upload') {
         // Videoid and videourl will be set after file_save_draft_area_files.
         $data->videoid    = '';
@@ -398,11 +408,9 @@ function videotrack_save_reaction_definitions(int $videotrackid, stdClass $data)
     $requireds = $data->reactionrequired ?? [];
     $reactionids = $data->reactionid ?? [];
 
-    // B3 fix: wrap all DB writes in a delegated transaction.
-    // Without this, a failure mid-loop (e.g. on the 3rd of 5 reactions) left the.
-    // Reaction table in a partially updated state with no rollback path.
-    // File-area operations (file_save_draft_area_files, delete_area_files) are NOT.
-    // Transactional and must run AFTER allow_commit() — collected in $fileops below.
+    // Wrap all DB writes in a delegated transaction.
+    // This prevents a partial update when one reaction definition fails mid-loop.
+    // File-area operations are collected and executed after the transaction commits.
     $transaction = $DB->start_delegated_transaction();
     $keptids = [];
     $sort = 1;
@@ -669,8 +677,20 @@ function videotrack_get_html5controls(stdClass $videotrack): array {
  * @param stdClass $data
  */
 function videotrack_process_html5controls_field(stdClass $data): void {
-    $allpossible = ['play', 'rewind', 'fastforward', 'progress', 'current', 'duration',
-                    'mute', 'volume', 'speed', 'pip', 'fullscreen', 'download'];
+    $allpossible = [
+        'play',
+        'rewind',
+        'fastforward',
+        'progress',
+        'current',
+        'duration',
+        'mute',
+        'volume',
+        'speed',
+        'pip',
+        'fullscreen',
+        'download',
+    ];
     $selected = [];
     foreach ($allpossible as $ctrl) {
         $key = 'html5ctrl_' . $ctrl;
@@ -688,8 +708,16 @@ function videotrack_process_html5controls_field(stdClass $data): void {
  * @param stdClass $data
  */
 function videotrack_process_player_behavior_fields(stdClass $data): void {
-    foreach (['autoplay', 'loop', 'startmuted', 'allowdownload', 'resumeplayback',
-              'showtranscript', 'showchapters', 'studentnotesenabled'] as $field) {
+    foreach ([
+        'autoplay',
+        'loop',
+        'startmuted',
+        'allowdownload',
+        'resumeplayback',
+        'showtranscript',
+        'showchapters',
+        'studentnotesenabled',
+    ] as $field) {
         $data->{$field} = empty($data->{$field}) ? 0 : 1;
     }
     // Maxplaybackrate: integer in hundredths (0=no limit, 150=1.5x, etc.).
@@ -966,13 +994,20 @@ function videotrack_get_poster_url(int $cmid): ?moodle_url {
     }
 
     $extension = strtolower(pathinfo($file->get_filename(), PATHINFO_EXTENSION));
-    if (!in_array($extension, ['jpg', 'jpeg', 'png', 'gif', 'webp'], true)
-            || strpos((string)$file->get_mimetype(), 'image/') !== 0) {
+    if (
+        !in_array($extension, ['jpg', 'jpeg', 'png', 'gif', 'webp'], true)
+        || strpos((string)$file->get_mimetype(), 'image/') !== 0
+    ) {
         return null;
     }
 
     return moodle_url::make_pluginfile_url(
-        $context->id, 'mod_videotrack', 'posterimage', 0, '/', $file->get_filename()
+        $context->id,
+        'mod_videotrack',
+        'posterimage',
+        0,
+        '/',
+        $file->get_filename()
     );
 }
 
@@ -1027,6 +1062,12 @@ function videotrack_grade_item_delete(stdClass $videotrack): int {
     );
 }
 
+/**
+ * Deletes a VideoTrack activity instance and related records.
+ *
+ * @param int $id Activity instance id.
+ * @return bool True when the instance is deleted, false when it does not exist.
+ */
 function videotrack_delete_instance($id) {
     global $DB;
 
@@ -1077,6 +1118,12 @@ function videotrack_delete_instance($id) {
     return true;
 }
 
+/**
+ * Returns cached course-module information for the activity.
+ *
+ * @param stdClass $coursemodule Course module record.
+ * @return cached_cm_info|null Cached information or null when the instance is missing.
+ */
 function videotrack_get_coursemodule_info($coursemodule) {
     global $DB;
     if (!$videotrack = $DB->get_record('videotrack', ['id' => $coursemodule->instance], '*', IGNORE_MISSING)) {
@@ -1090,6 +1137,14 @@ function videotrack_get_coursemodule_info($coursemodule) {
     return $info;
 }
 
+/**
+ * Registers an activity view and updates view-based completion.
+ *
+ * @param stdClass $videotrack Activity instance.
+ * @param stdClass $course Course record.
+ * @param cm_info $cm Course module information.
+ * @param context_module $context Module context.
+ */
 function videotrack_view($videotrack, $course, $cm, $context) {
     $event = \mod_videotrack\event\course_module_viewed::create([
         'objectid' => $videotrack->id,
@@ -1103,6 +1158,12 @@ function videotrack_view($videotrack, $course, $cm, $context) {
     $completion->set_module_viewed($cm);
 }
 
+/**
+ * Returns active custom completion rule descriptions for the activity.
+ *
+ * @param cm_info $cm Course module information.
+ * @return string[] Completion rule descriptions.
+ */
 function videotrack_get_completion_active_rule_descriptions($cm) {
     global $DB;
     $context = context_module::instance($cm->id);
@@ -1131,6 +1192,13 @@ function videotrack_get_completion_active_rule_descriptions($cm) {
     return $descriptions;
 }
 
+/**
+ * Recalculates completion for a specific user.
+ *
+ * @param stdClass $videotrack Activity instance.
+ * @param cm_info $cm Course module information.
+ * @param int $userid User id.
+ */
 function videotrack_update_completion_for_user(stdClass $videotrack, cm_info $cm, int $userid): void {
     $state = tracker::refresh_completion($videotrack, $cm, $userid);
     $completion = new completion_info(get_course($videotrack->course));
@@ -1373,8 +1441,10 @@ function videotrack_pluginfile($course, $cm, $context, $filearea, $args, $forced
     if (!in_array($extension, $allowedextensions[$filearea], true)) {
         return false;
     }
-    if (in_array($filearea, ['reactionicon', 'posterimage'], true)
-            && strpos((string)$file->get_mimetype(), 'image/') !== 0) {
+    if (
+        in_array($filearea, ['reactionicon', 'posterimage'], true)
+        && strpos((string)$file->get_mimetype(), 'image/') !== 0
+    ) {
         return false;
     }
     if ($filearea === 'subtitles') {

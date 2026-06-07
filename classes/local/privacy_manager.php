@@ -18,8 +18,6 @@ namespace mod_videotrack\local;
 
 use context;
 
-defined('MOODLE_INTERNAL') || die();
-
 /**
  * Privacy helpers for VideoTrack.
  *
