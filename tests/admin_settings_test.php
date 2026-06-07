@@ -30,6 +30,9 @@ use PHPUnit\Framework\Attributes\CoversClass;
  * @copyright  2026
  * @license    https://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
+#[CoversClass(setting_nonnegative_int::class)]
+#[CoversClass(setting_int_range::class)]
+#[CoversClass(setting_retention_days::class)]
 final class admin_settings_test extends advanced_testcase {
     /**
      * Load Moodle admin setting base classes before instantiating plugin settings.
@@ -44,7 +47,6 @@ final class admin_settings_test extends advanced_testcase {
     /**
      * Non-negative integer settings accept zero and reject unsafe values.
      */
-    #[CoversClass(setting_nonnegative_int::class)]
     public function test_nonnegative_int_validation_accepts_zero_and_rejects_invalid_values(): void {
         $setting = new setting_nonnegative_int('mod_videotrack/testnonnegative', 'Test', 'Test', 0, PARAM_INT);
 
@@ -58,7 +60,6 @@ final class admin_settings_test extends advanced_testcase {
     /**
      * Range settings enforce both configured boundaries.
      */
-    #[CoversClass(setting_int_range::class)]
     public function test_int_range_validation_enforces_configured_bounds(): void {
         $setting = new setting_int_range('mod_videotrack/testrange', 'Test', 'Test', 100, 20, 500);
 
@@ -72,7 +73,6 @@ final class admin_settings_test extends advanced_testcase {
     /**
      * Unlimited retention cannot be saved without explicit administrator confirmation.
      */
-    #[CoversClass(setting_retention_days::class)]
     public function test_unlimited_retention_requires_explicit_confirmation(): void {
         $this->resetAfterTest();
 
