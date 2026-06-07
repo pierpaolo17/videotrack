@@ -666,7 +666,7 @@ class mod_videotrack_mod_form extends moodleform_mod {
             'text',
             'gradepass',
             get_string('gradepass', 'grades'),
-            ['size' => 6]
+            'size="6"'
         );
         $mform->setType('gradepass', PARAM_FLOAT);
         $mform->setDefault('gradepass', 0);
