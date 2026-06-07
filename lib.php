@@ -1,18 +1,18 @@
 <?php
-// This file is part of Moodle - https://moodle.org/.
-//
-// Moodle is free software: you can redistribute it and/or modify
-// it under the terms of the GNU General Public License as published by
-// the Free Software Foundation, either version 3 of the License, or
+// This file is part of Moodle - https://moodle.org/
+//.
+// Moodle is free software: you can redistribute it and/or modify.
+// It under the terms of the GNU General Public License as published by.
+// The Free Software Foundation, either version 3 of the License, or.
 // (at your option) any later version.
-//
-// Moodle is distributed in the hope that it will be useful,
-// but WITHOUT ANY WARRANTY; without even the implied warranty of
-// MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+//.
+// Moodle is distributed in the hope that it will be useful,.
+// But WITHOUT ANY WARRANTY; without even the implied warranty of.
+// MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the.
 // GNU General Public License for more details.
-//
-// You should have received a copy of the GNU General Public License
-// along with Moodle.  If not, see <https://www.gnu.org/licenses/>.
+//.
+// You should have received a copy of the GNU General Public License.
+// Along with Moodle.  If not, see <https://www.gnu.org/licenses/>.
 
 /**
  * VideoTrack plugin file.
@@ -277,12 +277,14 @@ function videotrack_get_upload_url(int $instanceid, int $cmid): ?moodle_url {
         return null;
     }
     $file = reset($files);
-    return moodle_url::make_pluginfile_url($context->id,
+    return moodle_url::make_pluginfile_url(
+        $context->id,
         'mod_videotrack',
         'videocontent',
         0,
         $file->get_filepath(),
-        $file->get_filename());
+        $file->get_filename()
+    );
 }
 
 
@@ -435,7 +437,7 @@ function videotrack_save_reaction_definitions(int $videotrackid, stdClass $data)
             'iconvalue' => trim((string)($iconvalues[$idx] ?? '')),
             'requiredforcompletion' => empty($requireds[$idx]) ? 0 : 1,
             'sortorder' => $sort,
-            'isdeleted' => 0, // Explicitly reset soft-delete when a reaction is reactivated.
+            'isdeleted' => 0,  // Explicitly reset soft-delete when a reaction is reactivated.
             'timemodified' => $now,
         ];
         if ($icontype === 'file') {
@@ -496,12 +498,14 @@ function videotrack_save_reaction_definitions(int $videotrackid, stdClass $data)
         foreach ($fileops as $op) {
             $fs->delete_area_files($op['context']->id, 'mod_videotrack', 'reactionicon', $op['reactionid']);
             if ($op['draftitemid'] > 0) {
-                file_save_draft_area_files($op['draftitemid'],
+                file_save_draft_area_files(
+                    $op['draftitemid'],
                     $op['context']->id,
                     'mod_videotrack',
                     'reactionicon',
                     $op['reactionid'],
-                    [ 'subdirs'        => 0, 'maxfiles'       => 1, 'accepted_types' => ['.jpg', '.jpeg', '.png', '.gif', '.webp'], ]);
+                    [ 'subdirs'        => 0, 'maxfiles'       => 1, 'accepted_types' => ['.jpg', '.jpeg', '.png', '.gif', '.webp'], ]
+                );
                 // Resize to 64x64px with a centred crop after saving.
                 videotrack_resize_reaction_icon($op['context'], $op['reactionid'], $fs);
             }
@@ -529,9 +533,11 @@ function videotrack_user_outline($course, $user, $mod, $videotrack) {
         'userid'       => $user->id,
     ]);
     if ($state) {
-        $return->info = get_string('outline:percent',
+        $return->info = get_string(
+            'outline:percent',
             'mod_videotrack',
-            format_float((float)$state->completionpercent, 1));
+            format_float( (float)$state->completionpercent, 1 )
+        );
         $return->time = (int)$state->timemodified;
     }
     return $return;
@@ -553,9 +559,11 @@ function videotrack_user_complete($course, $user, $mod, $videotrack) {
         'userid'       => $user->id,
     ]);
     if (!$state) {
-        echo html_writer::tag('p',
+        echo html_writer::tag(
+            'p',
             get_string('outline:nodata', 'mod_videotrack'),
-            ['class' => 'text-muted']);
+            ['class' => 'text-muted']
+        );
         return;
     }
     $table            = new html_table();
@@ -571,8 +579,10 @@ function videotrack_user_complete($course, $user, $mod, $videotrack) {
         [get_string('report:iscompleted', 'mod_videotrack'),
          $state->iscompleted
              ? get_string('yes', 'mod_videotrack')
-             : get_string('no',
-                 'mod_videotrack')],
+             : get_string(
+                 'no',
+                 'mod_videotrack'
+             )],
     ];
     echo html_writer::table($table);
 }
@@ -594,12 +604,14 @@ function videotrack_extend_settings_navigation($settings, $videotracknode) {
         $beforekey = $keys[$i + 1];
     }
     if (has_capability('mod/videotrack:viewreport', $PAGE->cm->context)) {
-        $node = navigation_node::create(get_string('reportteacher', 'mod_videotrack'),
+        $node = navigation_node::create(
+            get_string('reportteacher', 'mod_videotrack'),
             new moodle_url('/mod/videotrack/report.php', ['id' => $PAGE->cm->id]),
             navigation_node::TYPE_SETTING,
             null,
             'mod_videotrack_report',
-            new pix_icon('i/report', ''));
+            new pix_icon('i/report', '')
+        );
         $videotracknode->add_node($node, $beforekey);
     }
 }
@@ -618,12 +630,14 @@ function videotrack_extend_navigation_course($navigation, $course, $context) {
     }
 
     $url = new moodle_url('/mod/videotrack/reports_course.php', ['course' => $course->id]);
-    $node->add(get_string('coursereport:navlink', 'mod_videotrack'),
+    $node->add(
+        get_string('coursereport:navlink', 'mod_videotrack'),
         $url,
         navigation_node::TYPE_SETTING,
         null,
         null,
-        new pix_icon('i/report', ''));
+        new pix_icon('i/report', '')
+    );
 }
 
 
@@ -752,12 +766,14 @@ function videotrack_get_vtt_url(int $cmid): ?moodle_url {
         return null;
     }
     $file = reset($files);
-    return moodle_url::make_pluginfile_url($context->id,
+    return moodle_url::make_pluginfile_url(
+        $context->id,
         'mod_videotrack',
         'subtitles',
         0,
         $file->get_filepath(),
-        $file->get_filename());
+        $file->get_filename()
+    );
 }
 
 /**
@@ -871,14 +887,16 @@ function videotrack_grade_item_update(stdClass $videotrack, $grades = null): int
         $grades = null;
     }
 
-    return grade_update('mod/videotrack',
+    return grade_update(
+        'mod/videotrack',
         $videotrack->course,
         'mod',
         'videotrack',
         $videotrack->id,
         0,
         $grades,
-        $params);
+        $params
+    );
 }
 
 /**
@@ -910,11 +928,13 @@ function videotrack_get_user_grade(stdClass $videotrack, int $userid): ?float {
     global $CFG, $DB;
     require_once($CFG->libdir . '/gradelib.php');
 
-    $grades = grade_get_grades($videotrack->course,
+    $grades = grade_get_grades(
+        $videotrack->course,
         'mod',
         'videotrack',
         $videotrack->id,
-        $userid);
+        $userid
+    );
 
     if (empty($grades->items[0]->grades[$userid]->grade)) {
         return null;
@@ -947,7 +967,9 @@ function videotrack_get_poster_url(int $cmid): ?moodle_url {
         return null;
     }
 
-    return moodle_url::make_pluginfile_url($context->id, 'mod_videotrack', 'posterimage', 0, '/', $file->get_filename());
+    return moodle_url::make_pluginfile_url(
+        $context->id, 'mod_videotrack', 'posterimage', 0, '/', $file->get_filename()
+    );
 }
 
 /**
@@ -989,14 +1011,16 @@ function videotrack_delete_user_progress(stdClass $videotrack, int $userid): voi
 function videotrack_grade_item_delete(stdClass $videotrack): int {
     global $CFG;
     require_once($CFG->libdir . '/gradelib.php');
-    return grade_update('mod/videotrack',
+    return grade_update(
+        'mod/videotrack',
         $videotrack->course,
         'mod',
         'videotrack',
         $videotrack->id,
         0,
         null,
-        ['deleted' => 1]);
+        ['deleted' => 1]
+    );
 }
 
 function videotrack_delete_instance($id) {
@@ -1014,15 +1038,23 @@ function videotrack_delete_instance($id) {
         // Gradebook cleanup throws an exception.
         videotrack_grade_item_delete($videotrack);
 
-        $DB->delete_records('videotrack_seg',
-            ['videotrackid' => $videotrack->id]);
-        $DB->delete_records('videotrack_state',
-            ['videotrackid' => $videotrack->id]);
+        $DB->delete_records(
+            'videotrack_seg',
+            ['videotrackid' => $videotrack->id]
+        );
+        $DB->delete_records(
+            'videotrack_state',
+            ['videotrackid' => $videotrack->id]
+        );
         $DB->delete_records('videotrack_reactev', ['videotrackid' => $videotrack->id]);
-        $DB->delete_records('videotrack_react',
-            ['videotrackid' => $videotrack->id]);
-        $DB->delete_records('videotrack',
-            ['id'           => $videotrack->id]);
+        $DB->delete_records(
+            'videotrack_react',
+            ['videotrackid' => $videotrack->id]
+        );
+        $DB->delete_records(
+            'videotrack',
+            ['id'           => $videotrack->id]
+        );
         $transaction->allow_commit();
     } catch (Throwable $e) {
         $transaction->rollback($e);
@@ -1120,21 +1152,27 @@ function videotrack_reset_course_userdata($data) {
         $instances = $DB->get_records('videotrack', ['course' => $data->courseid], '', 'id,grade,course,name');
         require_once($CFG->libdir . '/gradelib.php');
         foreach ($instances as $instance) {
-            $DB->delete_records('videotrack_seg',
-                ['videotrackid' => $instance->id]);
-            $DB->delete_records('videotrack_state',
-                ['videotrackid' => $instance->id]);
+            $DB->delete_records(
+                'videotrack_seg',
+                ['videotrackid' => $instance->id]
+            );
+            $DB->delete_records(
+                'videotrack_state',
+                ['videotrackid' => $instance->id]
+            );
             $DB->delete_records('videotrack_reactev', ['videotrackid' => $instance->id]);
             // Azzera anche i voti nel gradebook per questa istanza.
             if (!empty($instance->grade)) {
-                grade_update('mod/videotrack',
+                grade_update(
+                    'mod/videotrack',
                     $data->courseid,
                     'mod',
                     'videotrack',
                     $instance->id,
                     0,
                     null,
-                    ['reset' => true]);
+                    ['reset' => true]
+                );
             }
         }
         $status[] = [
@@ -1153,13 +1191,17 @@ function videotrack_reset_course_userdata($data) {
  * @param object $mform  The course reset form (MoodleQuickForm).
  */
 function videotrack_reset_course_form_definition($mform) {
-    $mform->addElement('header',
+    $mform->addElement(
+        'header',
         'videotrackheader',
-        get_string('modulename', 'mod_videotrack'));
-    $mform->addElement('checkbox',
+        get_string( 'modulename', 'mod_videotrack' )
+    );
+    $mform->addElement(
+        'checkbox',
         'reset_videotrack_userdata',
         get_string('modulename', 'mod_videotrack'),
-        get_string('reset:userdata', 'mod_videotrack'));
+        get_string( 'reset:userdata', 'mod_videotrack' )
+    );
 }
 
 /**
@@ -1189,8 +1231,10 @@ function videotrack_resize_reaction_icon(context_module $context, int $reactioni
         // GD non disponibile: il ridimensionamento non avviene.
         // The admin warning is already visible on the settings page (settings.php).
         // And in the environment.xml check. Do not block saving.
-        debugging('mod_videotrack: GD PHP extension is not available. ' . 'Reaction icon for reactionid=' . $reactionid . ' was NOT resized to 64×64px. ' . 'Install php-gd to enable automatic icon resizing.',
-            DEBUG_NORMAL);
+        debugging(
+            'mod_videotrack: GD PHP extension is not available. ' . 'Reaction icon for reactionid=' . $reactionid . ' was NOT resized to 64×64px. ' . 'Install php-gd to enable automatic icon resizing.',
+            DEBUG_NORMAL
+        );
         return;
     }
 
@@ -1376,9 +1420,11 @@ function videotrack_recalculate_all_states(int $videotrackid, cm_info $cm): int 
         $state = tracker::refresh_completion($videotrack, $cm, (int)$staterow->userid);
         // Also update Moodle completion (the course tick).
         // Refresh_completion updates videotrack_state but not course_modules_completion.
-        $completion->update_state($cm,
+        $completion->update_state(
+            $cm,
             $state->iscompleted ? COMPLETION_COMPLETE : COMPLETION_INCOMPLETE,
-            (int)$staterow->userid);
+            (int)$staterow->userid
+        );
         $updated++;
     }
     $rs->close();

@@ -1,5 +1,5 @@
 <?php
-// This file is part of Moodle - https:// Moodle.org/
+// This file is part of Moodle - https://moodle.org/
 //
 // Moodle is free software: you can redistribute it and/or modify
 // it under the terms of the GNU General Public License as published by
@@ -12,14 +12,14 @@
 // GNU General Public License for more details.
 //
 // You should have received a copy of the GNU General Public License
-// along with Moodle.  If not, see <https:// Www.gnu.org/licenses/>.
+// along with Moodle.  If not, see <https://www.gnu.org/licenses/>.
 
 /**
  * VideoTrack plugin file.
  *
  * @package   mod_videotrack
  * @copyright 2026 videotrack contributors
- * @license   https:// Www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
+ * @license   https://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 
 /**
@@ -53,10 +53,12 @@ if ($deleteaction === 'delete' && !empty($presetkey) && $_SERVER['REQUEST_METHOD
     $presets = videotrack_get_all_presets();
     $presets = array_filter($presets, fn($p) => ($p['key'] ?? '') !== $presetkey);
     videotrack_save_presets(array_values($presets));
-    redirect($PAGE->url,
+    redirect(
+        $PAGE->url,
         get_string('presets:deleted', 'mod_videotrack'),
         null,
-        \core\output\notification::NOTIFY_SUCCESS);
+        \core\output\notification::NOTIFY_SUCCESS
+    );
 }
 
 // -------------------------------------------------------------------------
@@ -110,10 +112,12 @@ if ($isediting && $_SERVER['REQUEST_METHOD'] === 'POST') {
         $presets[] = ['key' => $key, 'name' => $name, 'reactions' => $reactions];
     }
     videotrack_save_presets($presets);
-    redirect($PAGE->url,
+    redirect(
+        $PAGE->url,
         get_string('presets:saved', 'mod_videotrack'),
         null,
-        \core\output\notification::NOTIFY_SUCCESS);
+        \core\output\notification::NOTIFY_SUCCESS
+    );
 }
 
 // Load preset being edited.
@@ -126,10 +130,12 @@ if ($action === 'edit' && !empty($editkey)) {
         }
     }
     if (!$editpreset) {
-        redirect($PAGE->url,
+        redirect(
+            $PAGE->url,
             get_string('presets:notfound', 'mod_videotrack'),
             null,
-            \core\output\notification::NOTIFY_WARNING);
+            \core\output\notification::NOTIFY_WARNING
+        );
     }
 }
 
@@ -142,8 +148,10 @@ echo html_writer::tag('p', get_string('presets:intro', 'mod_videotrack'));
 
 // Back link when editing.
 if ($isediting) {
-    echo html_writer::tag('p',
-        html_writer::link($PAGE->url, '← ' . get_string('presets:backtolist', 'mod_videotrack')));
+    echo html_writer::tag(
+        'p',
+        html_writer::link($PAGE->url, '← ' . get_string('presets:backtolist', 'mod_videotrack'))
+    );
 }
 
 // -------------------------------------------------------------------------
@@ -190,22 +198,28 @@ if (!$isediting) {
         }
         echo html_writer::table($table);
     } else {
-        echo html_writer::tag('p',
+        echo html_writer::tag(
+            'p',
             get_string('presets:noneyet', 'mod_videotrack'),
-            ['class' => 'alert alert-info']);
+            ['class' => 'alert alert-info']
+        );
     }
 
     $addurl = new moodle_url($PAGE->url, ['action' => 'add']);
-    echo html_writer::tag('p',
-        $OUTPUT->single_button($addurl, get_string('presets:addpreset', 'mod_videotrack'), 'get'));
+    echo html_writer::tag(
+        'p',
+        $OUTPUT->single_button($addurl, get_string('presets:addpreset', 'mod_videotrack'), 'get')
+    );
 }
 
 // -------------------------------------------------------------------------
 // Add / Edit form.
 // -------------------------------------------------------------------------
 if ($isediting) {
-    $formaction = new moodle_url($PAGE->url,
-        $editpreset ? ['action' => 'edit', 'editkey' => $editpreset['key']] : ['action' => 'add']);
+    $formaction = new moodle_url(
+        $PAGE->url,
+        $editpreset ? ['action' => 'edit', 'editkey' => $editpreset['key']] : ['action' => 'add']
+    );
 
     $defaultreactions = $editpreset['reactions'] ?? [
         ['label' => '', 'description' => '', 'icontype' => 'emoji', 'iconvalue' => '', 'requiredforcompletion' => 0],
@@ -225,9 +239,11 @@ if ($isediting) {
 
     // Preset name.
     echo html_writer::start_div('form-group row');
-    echo html_writer::tag('label',
+    echo html_writer::tag(
+        'label',
         get_string('presets:name', 'mod_videotrack'),
-        ['for' => 'preset_name', 'class' => 'col-sm-3 col-form-label']);
+        ['for' => 'preset_name', 'class' => 'col-sm-3 col-form-label']
+    );
     echo html_writer::start_div('col-sm-9');
     echo html_writer::empty_tag('input', [
         'type'  => 'text',
@@ -243,9 +259,11 @@ if ($isediting) {
     // Preset key.
     $keyreadonly = $editpreset ? ['readonly' => 'readonly'] : [];
     echo html_writer::start_div('form-group row');
-    echo html_writer::tag('label',
+    echo html_writer::tag(
+        'label',
         get_string('presets:key', 'mod_videotrack'),
-        ['for' => 'preset_key', 'class' => 'col-sm-3 col-form-label']);
+        ['for' => 'preset_key', 'class' => 'col-sm-3 col-form-label']
+    );
     echo html_writer::start_div('col-sm-9');
     echo html_writer::empty_tag('input', array_merge([
         'type'  => 'text',
@@ -256,9 +274,11 @@ if ($isediting) {
         'pattern' => '[a-zA-Z0-9_]+',
         'required' => 'required',
     ], $keyreadonly));
-    echo html_writer::tag('small',
+    echo html_writer::tag(
+        'small',
         get_string('presets:key_help', 'mod_videotrack'),
-        ['class' => 'form-text text-muted']);
+        ['class' => 'form-text text-muted']
+    );
     echo html_writer::end_div();
     echo html_writer::end_div();
 
@@ -267,9 +287,11 @@ if ($isediting) {
     // Reactions table.
     echo html_writer::tag('h4', get_string('presets:reactions', 'mod_videotrack'));
     echo html_writer::start_tag('table', ['class' => 'generaltable w-100']);
-    echo html_writer::tag('caption',
+    echo html_writer::tag(
+        'caption',
         get_string('presets:reactionstablecaption', 'mod_videotrack'),
-        ['class' => 'sr-only visually-hidden']);
+        ['class' => 'sr-only visually-hidden']
+    );
     echo html_writer::start_tag('thead');
     echo html_writer::start_tag('tr');
     foreach ([
@@ -288,22 +310,26 @@ if ($isediting) {
     foreach ($defaultreactions as $i => $r) {
         $rownum = $i + 1;
         echo html_writer::start_tag('tr');
-        echo html_writer::tag('td',
+        echo html_writer::tag(
+            'td',
             html_writer::empty_tag('input', [
                 'type' => 'text',
                 'name' => 'rlabel[' . $i . ']',
                 'class' => 'form-control form-control-sm',
                 'value' => s($r['label']),
                 'aria-label' => get_string('presets:reactionlabelaria', 'mod_videotrack', $rownum),
-            ]));
-        echo html_writer::tag('td',
+            ])
+        );
+        echo html_writer::tag(
+            'td',
             html_writer::empty_tag('input', [
                 'type' => 'text',
                 'name' => 'rdesc[' . $i . ']',
                 'class' => 'form-control form-control-sm',
                 'value' => s($r['description'] ?? ''),
                 'aria-label' => get_string('presets:reactiondescriptionaria', 'mod_videotrack', $rownum),
-            ]));
+            ])
+        );
         // Icon type select.
         $selecthtml = html_writer::start_tag('select', [
             'name' => 'ricontype[' . $i . ']',
@@ -314,7 +340,8 @@ if ($isediting) {
             [
                 'emoji' => get_string('icontype:emoji', 'mod_videotrack'),
                 'fa' => get_string('icontype:fa', 'mod_videotrack'),
-            ] as $val => $label) {
+            ] as $val => $label
+        ) {
             $attrs = ['value' => $val];
             if (($r['icontype'] ?? 'emoji') === $val) {
                 $attrs['selected'] = 'selected';
@@ -323,33 +350,43 @@ if ($isediting) {
         }
         $selecthtml .= html_writer::end_tag('select');
         echo html_writer::tag('td', $selecthtml);
-        echo html_writer::tag('td',
+        echo html_writer::tag(
+            'td',
             html_writer::empty_tag('input', [
                 'type' => 'text',
                 'name' => 'riconval[' . $i . ']',
                 'class' => 'form-control form-control-sm',
                 'value' => s($r['iconvalue'] ?? ''),
                 'aria-label' => get_string('presets:reactioniconvaluearia', 'mod_videotrack', $rownum),
-            ]));
+            ])
+        );
         $checkedattr = !empty($r['requiredforcompletion']) ? ['checked' => 'checked'] : [];
-        echo html_writer::tag('td',
-            html_writer::empty_tag('input',
-                array_merge([
+        echo html_writer::tag(
+            'td',
+            html_writer::empty_tag(
+                'input',
+                array_merge(
+                    [
                         'type' => 'checkbox',
                         'name' => 'rrequired[' . $i . ']',
                         'value' => '1',
                         'aria-label' => get_string('presets:reactionrequiredaria', 'mod_videotrack', $rownum),
                     ],
-                    $checkedattr)));
+                    $checkedattr
+                )
+            )
+        );
         echo html_writer::end_tag('tr');
     }
 
     echo html_writer::end_tag('tbody');
     echo html_writer::end_tag('table');
 
-    echo html_writer::tag('p',
+    echo html_writer::tag(
+        'p',
         get_string('presets:reactions_help', 'mod_videotrack'),
-        ['class' => 'text-muted small']);
+        ['class' => 'text-muted small']
+    );
 
     echo html_writer::start_div('mt-3');
     echo html_writer::empty_tag('input', [

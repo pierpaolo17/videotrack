@@ -1,5 +1,5 @@
 <?php
-// This file is part of Moodle - https:// Moodle.org/
+// This file is part of Moodle - https://moodle.org/
 //
 // Moodle is free software: you can redistribute it and/or modify
 // it under the terms of the GNU General Public License as published by
@@ -12,7 +12,7 @@
 // GNU General Public License for more details.
 //
 // You should have received a copy of the GNU General Public License
-// along with Moodle.  If not, see <https:// Www.gnu.org/licenses/>.
+// along with Moodle.  If not, see <https://www.gnu.org/licenses/>.
 
 namespace mod_videotrack\local;
 
@@ -21,7 +21,7 @@ namespace mod_videotrack\local;
  *
  * @package    mod_videotrack
  * @copyright  2026 videotrack contributors
- * @license    https:// Www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
+ * @license    https://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 class tracker {
     /**
@@ -239,11 +239,15 @@ class tracker {
         $where = "videotrackid = :vtid AND userid = :uid AND isdeleted = 0
                   AND reactionid > 0 AND (notetype = '' OR notetype IS NULL)";
         // Use two separate queries to avoid GROUP_CONCAT truncation on MySQL.
-        $row = $DB->get_record_sql("SELECT COUNT(*) AS eventcount, COUNT(DISTINCT reactionid) AS uniquecount
+        $row = $DB->get_record_sql(
+            "SELECT COUNT(*) AS eventcount, COUNT(DISTINCT reactionid) AS uniquecount
                FROM {videotrack_reactev} WHERE $where",
-            $p);
-        $ids = $DB->get_fieldset_sql("SELECT DISTINCT reactionid FROM {videotrack_reactev} WHERE $where ORDER BY reactionid",
-            $p);
+            $p
+        );
+        $ids = $DB->get_fieldset_sql(
+            "SELECT DISTINCT reactionid FROM {videotrack_reactev} WHERE $where ORDER BY reactionid",
+            $p
+        );
         $result = [
             'eventcount' => (int) ($row->eventcount ?? 0),
             'uniquecount' => (int) ($row->uniquecount ?? 0),
@@ -280,12 +284,14 @@ class tracker {
      * @param float $timetolerance Timestamp tolerance in seconds.
      * @return bool Whether recent playback authorises the action.
      */
-    public static function has_recent_playback(int $videotrackid,
+    public static function has_recent_playback(
+        int $videotrackid,
         int $userid,
         string $sessionid,
         float $videotime,
         int $recentseconds = 20,
-        float $timetolerance = 8.0): bool {
+        float $timetolerance = 8.0
+    ): bool {
         global $DB;
         // Vtstart/vtend intentionally carry the same value, and tolstart/tolend do the same.
         // Distinct placeholders avoid driver issues with reusing the same named
@@ -432,10 +438,12 @@ class tracker {
      * @param array $requiredreactionids Required reaction ids.
      * @return bool Whether custom completion rules are satisfied.
      */
-    public static function completion_satisfied(\stdClass $videotrack,
+    public static function completion_satisfied(
+        \stdClass $videotrack,
         ?\stdClass $state,
         array $reactionsummary,
-        array $requiredreactionids): bool {
+        array $requiredreactionids
+    ): bool {
         $checks = [];
         if (!empty($videotrack->completionpercent)) {
             $checks[] = !empty($state) && (float)$state->completionpercent >= (float) $videotrack->completionpercent;
@@ -516,13 +524,15 @@ class tracker {
      * @param int|null  &$segmentid   Set to the inserted segment id.
      * @return stdClass               Updated state.
      */
-    public static function update_state(\stdClass $videotrack,
+    public static function update_state(
+        \stdClass $videotrack,
         \cm_info $cm,
         int $userid,
         array $interval,
         float $lastposition,
         ?\stdClass $segment = null,
-        ?int &$segmentid = null): \stdClass {
+        ?int &$segmentid = null
+    ): \stdClass {
         global $DB;
 
         // Serialise concurrent updates to the same user/activity state record.
@@ -582,10 +592,12 @@ class tracker {
             $state->completionpercent    = $percent;
             $state->intervaljson         = self::encode_intervals($intervals);
             $wascompleted = !empty($state->id) ? (int) ($state->iscompleted ?? 0) : 0;
-            $state->iscompleted = self::completion_satisfied($videotrack,
+            $state->iscompleted = self::completion_satisfied(
+                $videotrack,
                 $state,
                 $reactionsummary,
-                $requiredreactionids) ? 1 : 0;
+                $requiredreactionids
+            ) ? 1 : 0;
             $state->timemodified = time();
 
             if (!empty($state->id)) {
@@ -633,10 +645,12 @@ class tracker {
      * @param bool $iscompleted Computed VideoTrack completion state.
      * @param int $userid User id.
      */
-    public static function update_moodle_completion_if_changed(\completion_info $completion,
+    public static function update_moodle_completion_if_changed(
+        \completion_info $completion,
         \cm_info $cm,
         bool $iscompleted,
-        int $userid): void {
+        int $userid
+    ): void {
         $target = $iscompleted ? COMPLETION_COMPLETE : COMPLETION_INCOMPLETE;
         $current = $completion->get_data($cm, false, $userid);
         $currentstate = isset($current->completionstate) ? (int) $current->completionstate : COMPLETION_INCOMPLETE;
@@ -658,11 +672,13 @@ class tracker {
      * @param array|null $requiredreactionids Optional required reaction ids.
      * @return \stdClass Updated state.
      */
-    public static function refresh_completion(\stdClass $videotrack,
+    public static function refresh_completion(
+        \stdClass $videotrack,
         \cm_info $cm,
         int $userid,
         ?array $reactionsummary = null,
-        ?array $requiredreactionids = null): \stdClass {
+        ?array $requiredreactionids = null
+    ): \stdClass {
         global $DB;
 
         // Use the same lock as update_state(): refresh_completion can be called
@@ -696,10 +712,12 @@ class tracker {
             if ($reactionsummary === null) {
                 $reactionsummary = self::reaction_counts($videotrack->id, $userid);
             }
-            $state->iscompleted = self::completion_satisfied($videotrack,
+            $state->iscompleted = self::completion_satisfied(
+                $videotrack,
                 $state,
                 $reactionsummary,
-                $requiredreactionids) ? 1 : 0;
+                $requiredreactionids
+            ) ? 1 : 0;
             $state->timemodified = time();
             $DB->update_record('videotrack_state', $state);
 
