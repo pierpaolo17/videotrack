@@ -24,8 +24,6 @@
 
 namespace mod_videotrack\task;
 
-defined('MOODLE_INTERNAL') || die();
-
 use mod_videotrack\local\privacy_manager;
 
 /**
@@ -57,14 +55,18 @@ class cleanup_task extends \core\task\scheduled_task {
             return;
         }
 
-        $message = get_string('privacy_cleanup_anonymised', 'mod_videotrack', (object)[
+        $message = get_string('privacy_cleanup_anonymised', 'mod_videotrack', (object) [
             'segments' => $counts['segments'],
             'states' => $counts['states'],
             'events' => $counts['events'],
             'processed' => $counts['processed'],
         ]);
         if (!empty($counts['remaining'])) {
-            $message .= ' ' . get_string('privacy_cleanup_remaining', 'mod_videotrack', $counts['remaining']);
+            $message .= ' ' . get_string(
+                'privacy_cleanup_remaining',
+                'mod_videotrack',
+                $counts['remaining']
+            );
         }
         mtrace($message);
     }
