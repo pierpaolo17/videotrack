@@ -551,7 +551,7 @@ class privacy_manager {
             return '[]';
         }
 
-        usort($intervals, static function(array $a, array $b): int {
+        usort($intervals, static function (array $a, array $b): int {
             return $a[0] <=> $b[0];
         });
 
