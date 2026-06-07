@@ -57,6 +57,10 @@ class restore_videotrack_activity_structure_step extends restore_activity_struct
         require_once($CFG->dirroot . '/mod/videotrack/lib.php');
         $data = (object)$data;
         $oldid = $data->id;
+        if (isset($data->loop) && !isset($data->loopenabled)) {
+            $data->loopenabled = $data->loop;
+        }
+        unset($data->loop);
         $data->course = $this->get_courseid();
         $newitemid = $DB->insert_record('videotrack', videotrack_whitelist_record($data));
         $this->apply_activity_instance($newitemid);

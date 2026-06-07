@@ -37,7 +37,7 @@ class backup_videotrack_activity_structure_step extends backup_activity_structur
         $videotrack = new backup_nested_element('videotrack', ['id'], [
             'name', 'intro', 'introformat', 'youtubeurl', 'videoid',
             'videosource', 'videourl', 'playbackspeeds',
-            'autoplay', 'loop', 'startmuted', 'allowdownload', 'html5controls',
+            'autoplay', 'loopenabled', 'startmuted', 'allowdownload', 'html5controls',
             'playerwidth', 'rewindstep', 'fastforwardstep', 'captions', 'captionslang',
             'durationseconds',
             'showcontrols', 'disablekeyboard', 'showfullscreen', 'allowseekforward',

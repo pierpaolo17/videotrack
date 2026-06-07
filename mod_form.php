@@ -244,10 +244,10 @@ class mod_videotrack_mod_form extends moodleform_mod {
         $mform->setDefault('autoplay', (int)(bool)$cfg('default_autoplay', 0));
         $mform->addHelpButton('autoplay', 'autoplay', 'mod_videotrack');
 
-        $mform->addElement('advcheckbox', 'loop', get_string('loop', 'mod_videotrack'));
+        $mform->addElement('advcheckbox', 'loopenabled', get_string('loop', 'mod_videotrack'));
 
-        $mform->setType('loop', PARAM_BOOL);
-        $mform->setDefault('loop', (int)(bool)$cfg('default_loop', 0));
+        $mform->setType('loopenabled', PARAM_BOOL);
+        $mform->setDefault('loopenabled', (int)(bool)$cfg('default_loop', 0));
 
         $mform->addElement('advcheckbox', 'startmuted', get_string('startmuted', 'mod_videotrack'));
 
@@ -288,7 +288,7 @@ class mod_videotrack_mod_form extends moodleform_mod {
             $lockedfields = [
                 'playerwidth',
                 'autoplay',
-                'loop',
+                'loopenabled',
                 'startmuted',
                 'rewindstep',
                 'fastforwardstep',
@@ -977,9 +977,15 @@ class mod_videotrack_mod_form extends moodleform_mod {
         }
 
         // Pre-populate player behaviour boolean fields.
-        foreach (['autoplay', 'loop', 'startmuted', 'allowdownload'] as $field) {
+        $behaviourdefaults = [
+            'autoplay' => 'default_autoplay',
+            'loopenabled' => 'default_loop',
+            'startmuted' => 'default_startmuted',
+            'allowdownload' => 'default_allowdownload',
+        ];
+        foreach ($behaviourdefaults as $field => $configname) {
             if (!isset($defaultvalues[$field])) {
-                $cfgval = get_config('mod_videotrack', 'default_' . $field);
+                $cfgval = get_config('mod_videotrack', $configname);
                 $defaultvalues[$field] = ($cfgval !== false) ? (int)(bool)$cfgval : 0;
             }
         }
