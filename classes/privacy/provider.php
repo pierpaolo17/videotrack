@@ -1,22 +1,20 @@
 <?php
 // This file is part of Moodle - https://moodle.org/
-//
-// Moodle is free software: you can redistribute it and/or modify
-// it under the terms of the GNU General Public License as published by
-// the Free Software Foundation, either version 3 of the License, or
+//.
+// Moodle is free software: you can redistribute it and/or modify.
+// It under the terms of the GNU General Public License as published by.
+// The Free Software Foundation, either version 3 of the License, or.
 // (at your option) any later version.
-//
-// Moodle is distributed in the hope that it will be useful,
-// but WITHOUT ANY WARRANTY; without even the implied warranty of
-// MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+//.
+// Moodle is distributed in the hope that it will be useful,.
+// But WITHOUT ANY WARRANTY; without even the implied warranty of.
+// MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the.
 // GNU General Public License for more details.
-//
-// You should have received a copy of the GNU General Public License
-// along with Moodle.  If not, see <https://www.gnu.org/licenses/>.
+//.
+// You should have received a copy of the GNU General Public License.
+// Along with Moodle.  If not, see <https://www.gnu.org/licenses/>.
 
 namespace mod_videotrack\privacy;
-
-defined('MOODLE_INTERNAL') || die();
 
 use context;
 use context_module;
@@ -35,7 +33,7 @@ use mod_videotrack\local\privacy_manager;
  *
  * @package    mod_videotrack
  * @copyright  2026 videotrack contributors
- * @license    https://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
+ * @license    https://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later.
  */
 class provider implements
     \core_privacy\local\metadata\provider,
@@ -53,6 +51,12 @@ class provider implements
         return sprintf('%d:%02d', intdiv($seconds, 60), $seconds % 60);
     }
 
+    /**
+     * Describes the personal data stored by this plugin.
+     *
+     * @param collection $collection Metadata collection.
+     * @return collection Updated metadata collection.
+     */
     public static function get_metadata(collection $collection): collection {
         $collection->add_database_table('videotrack_seg', [
             'videotrackid' => 'privacy:metadata:common:videotrackid',
@@ -125,12 +129,18 @@ class provider implements
         return $collection;
     }
 
+    /**
+     * Returns contexts that contain user information for the specified user.
+     *
+     * @param int $userid User id.
+     * @return contextlist Context list.
+     */
     public static function get_contexts_for_userid(int $userid): contextlist {
         global $DB;
 
         // Use a UNION of module ids instead of joining all tracking tables at once.
-        // This gives database optimisers a simpler plan on large installations and
-        // mirrors get_users_in_context().
+        // This gives database optimisers a simpler plan on large installations and.
+        // Mirrors get_users_in_context().
         $params = [
             'contextmodule' => CONTEXT_MODULE,
             'userid1' => $userid,
@@ -153,6 +163,11 @@ class provider implements
         return $contextlist;
     }
 
+    /**
+     * Adds users with data in the supplied context to the user list.
+     *
+     * @param userlist $userlist User list.
+     */
     public static function get_users_in_context(userlist $userlist): void {
         $context = $userlist->get_context();
         if ($context->contextlevel != CONTEXT_MODULE) {
@@ -171,6 +186,11 @@ class provider implements
         $userlist->add_from_sql('userid', $sql, $params);
     }
 
+    /**
+     * Exports personal data for the approved context list.
+     *
+     * @param approved_contextlist $contextlist Approved context list.
+     */
     public static function export_user_data(approved_contextlist $contextlist): void {
         global $DB;
 
@@ -190,8 +210,8 @@ class provider implements
                 $state->timemodified = transform::datetime($state->timemodified);
                 $state->timecreated  = transform::datetime($state->timecreated);
                 $state->iscompleted  = transform::yesno((bool)$state->iscompleted);
-                // Convert intervaljson from raw JSON to a human-readable string
-                // so exported data remains understandable without technical knowledge.
+                // Convert intervaljson from raw JSON to a human-readable string.
+                // So exported data remains understandable without technical knowledge.
                 // Example: "0:00-1:23, 2:45-3:10" instead of "[[0,83],[165,190]]".
                 if (!empty($state->intervaljson)) {
                     $intervals = json_decode($state->intervaljson, true);
@@ -220,8 +240,14 @@ class provider implements
                 if (!empty($state->videoid)) {
                     $state->videoid = get_string('privacy:videoid_export_note', 'mod_videotrack', $state->videoid);
                 }
-                unset($state->id, $state->videotrackid, $state->courseid,
-                      $state->cmid, $state->userid, $state->sessionid);
+                unset(
+                    $state->id,
+                    $state->videotrackid,
+                    $state->courseid,
+                    $state->cmid,
+                    $state->userid,
+                    $state->sessionid
+                );
             }
             if ($state) {
                 $writer->export_data(
@@ -246,8 +272,14 @@ class provider implements
                 if (!empty($segment->videoid)) {
                     $segment->videoid = get_string('privacy:videoid_export_note', 'mod_videotrack', $segment->videoid);
                 }
-                unset($segment->id, $segment->videotrackid, $segment->courseid,
-                      $segment->cmid, $segment->userid, $segment->sessionid);
+                unset(
+                    $segment->id,
+                    $segment->videotrackid,
+                    $segment->courseid,
+                    $segment->cmid,
+                    $segment->userid,
+                    $segment->sessionid
+                );
                 $segments[] = $segment;
                 if (count($segments) >= 500) {
                     $writer->export_data(
@@ -291,9 +323,15 @@ class provider implements
                 if (!empty($reactionevent->videoid)) {
                     $reactionevent->videoid = get_string('privacy:videoid_export_note', 'mod_videotrack', $reactionevent->videoid);
                 }
-                unset($reactionevent->id, $reactionevent->videotrackid, $reactionevent->courseid,
-                      $reactionevent->cmid, $reactionevent->userid, $reactionevent->reactionid,
-                      $reactionevent->sessionid);
+                unset(
+                    $reactionevent->id,
+                    $reactionevent->videotrackid,
+                    $reactionevent->courseid,
+                    $reactionevent->cmid,
+                    $reactionevent->userid,
+                    $reactionevent->reactionid,
+                    $reactionevent->sessionid
+                );
 
                 if (($reactionevent->notetype ?? '') === 'note') {
                     if ($isdeleted) {
@@ -409,6 +447,11 @@ class provider implements
         privacy_manager::delete_all_user_data_in_context($context);
     }
 
+    /**
+     * Deletes personal data for the approved context list.
+     *
+     * @param approved_contextlist $contextlist Approved context list.
+     */
     public static function delete_data_for_user(approved_contextlist $contextlist): void {
         $user = $contextlist->get_user();
         foreach ($contextlist->get_contexts() as $context) {
@@ -416,6 +459,11 @@ class provider implements
         }
     }
 
+    /**
+     * Deletes personal data for users in the supplied user list.
+     *
+     * @param approved_userlist $userlist Approved user list.
+     */
     public static function delete_data_for_users(approved_userlist $userlist): void {
         self::delete_records_for_users_in_context($userlist->get_context(), $userlist->get_userids());
     }
