@@ -938,6 +938,24 @@ function videotrack_grade_item_update(stdClass $videotrack, $grades = null): int
     );
 }
 
+
+/**
+ * Updates all grades for this activity in the Moodle gradebook.
+ *
+ * Moodle expects activity modules that implement grade item updates to also
+ * expose an update_grades callback. Videotrack does not keep a separate grade
+ * table to recalculate from, so this callback keeps the grade item definition in
+ * sync and leaves per-user grade updates to the tracker workflow.
+ *
+ * @param stdClass $videotrack Activity instance record.
+ * @param int $userid Optional user id, unused because grades are pushed when calculated.
+ * @param bool $nullifnone Whether missing grades should be nulled, unused by this module.
+ * @return int Result of grade item update.
+ */
+function videotrack_update_grades(stdClass $videotrack, int $userid = 0, bool $nullifnone = true): int {
+    return videotrack_grade_item_update($videotrack);
+}
+
 /**
  * Pushes a single user grade to the Moodle gradebook.
  *
