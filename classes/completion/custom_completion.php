@@ -29,6 +29,20 @@ use mod_videotrack\local\tracker;
  */
 class custom_completion extends activity_custom_completion {
     /**
+     * Return the display order for custom completion rules.
+     *
+     * @return array
+     */
+    public function get_sort_order(): array {
+        return [
+            'completionpercent',
+            'minreactions',
+            'requiredreactions',
+            'allreactiontypes',
+        ];
+    }
+
+    /**
      * Return the list of custom completion rules implemented by the activity.
      *
      * @return array
