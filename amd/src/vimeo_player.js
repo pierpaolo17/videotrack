@@ -181,28 +181,92 @@ define([
         document.head.appendChild(script);
     }
 
+    /**
+     * Extracts a Vimeo id and optional privacy hash from plugin configuration.
+     *
+     * @returns {{id: string, hash: string}} Normalised Vimeo source data.
+     */
+    function resolveVimeoSource() {
+        var result = {id: '', hash: ''};
+        var rawurl = (config.videourl || '').toString().trim();
+        var rawid = (config.videoid || '').toString().trim();
+        var source = rawurl || rawid;
+        var match = source.match(/(?:vimeo\.com\/(?:video\/)?)(\d+)(?:[/?#]|$)/) || source.match(/^(\d+)$/);
+        if (match) {
+            result.id = match[1];
+        }
+        try {
+            if (rawurl && window.URL) {
+                var parsed = new URL(rawurl, window.location.href);
+                result.hash = parsed.searchParams.get('h') || '';
+                if (!result.hash && result.id) {
+                    var parts = parsed.pathname.split('/').filter(Boolean);
+                    var idindex = parts.indexOf(result.id);
+                    if (idindex >= 0 && parts[idindex + 1]) {
+                        result.hash = parts[idindex + 1];
+                    }
+                }
+            }
+        } catch (e) {
+            var hashmatch = rawurl.match(/[?&]h=([a-zA-Z0-9]+)/);
+            result.hash = hashmatch ? hashmatch[1] : '';
+        }
+        return result;
+    }
+
+    /**
+     * Builds an explicit Vimeo iframe, avoiding SDK URL parsing differences.
+     *
+     * @param {HTMLElement} container Player container.
+     * @param {{id: string, hash: string}} source Vimeo source data.
+     * @returns {HTMLIFrameElement|null} Created iframe, or null when no id exists.
+     */
+    function buildVimeoIframe(container, source) {
+        if (!source.id) {
+            return null;
+        }
+        var params = [];
+        if (source.hash) {
+            params.push('h=' + encodeURIComponent(source.hash));
+        }
+        params.push('dnt=1');
+        params.push('autoplay=' + (config.autoplay ? '1' : '0'));
+        params.push('loop=' + (config.loop ? '1' : '0'));
+        params.push('muted=' + ((config.autoplay || config.startmuted) ? '1' : '0'));
+        params.push('controls=' + (config.showcontrols === false ? '0' : '1'));
+        params.push('playsinline=1');
+        var iframe = document.createElement('iframe');
+        iframe.src = 'https://player.vimeo.com/video/' + encodeURIComponent(source.id) + '?' + params.join('&');
+        iframe.setAttribute('allow', 'autoplay; fullscreen; picture-in-picture');
+        iframe.setAttribute('allowfullscreen', 'allowfullscreen');
+        iframe.setAttribute('title', config.title || 'Vimeo video');
+        iframe.setAttribute('frameborder', '0');
+        container.textContent = '';
+        container.appendChild(iframe);
+        return iframe;
+    }
+
     function buildPlayer() {
         var container = document.getElementById('mod-videotrack-player');
         if (!container) { return; }
 
-        var playerOptions = {
-            responsive:  true,
-            controls:    config.showcontrols !== false,
-            autoplay:    !!config.autoplay,
-            loop:        !!config.loop,
-            muted:       !!(config.autoplay || config.startmuted),
-            fullscreen:  config.showfullscreen !== false,
-            speed:       true,          // Enable SDK speed control.
-            playsinline: true,
-            dnt:         true,          // Do-not-track: don't store watch data on Vimeo.
-        };
-        if (config.videourl) {
-            playerOptions.url = config.videourl;
+        var vimeosource = resolveVimeoSource();
+        var iframe = buildVimeoIframe(container, vimeosource);
+        if (iframe) {
+            player = new window.Vimeo.Player(iframe);
         } else {
-            playerOptions.id = config.videoid;
+            player = new window.Vimeo.Player(container, {
+                responsive:  true,
+                controls:    config.showcontrols !== false,
+                autoplay:    !!config.autoplay,
+                loop:        !!config.loop,
+                muted:       !!(config.autoplay || config.startmuted),
+                fullscreen:  config.showfullscreen !== false,
+                speed:       true,
+                playsinline: true,
+                dnt:         true
+            });
         }
-
-        player = new window.Vimeo.Player(container, playerOptions);
 
         // Set allowed playback speeds if the Vimeo player supports it.
         if (config.playbackspeeds && config.playbackspeeds.length) {
