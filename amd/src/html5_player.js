@@ -92,6 +92,24 @@ define([
         return Progress.updateProgress(response, state, Utils, PlayerCore, Log);
     }
 
+    function updateLiveIntervalBar(current) {
+        var intervals;
+        var start;
+        var end;
+        if (!state || !state.playing || !state.duration || state.segmentstart === null ||
+                typeof state.segmentstart === 'undefined') {
+            return;
+        }
+        start = Tracker.normaliseTime(state.segmentstart);
+        end = Tracker.normaliseTime(current);
+        if (end <= start) {
+            return;
+        }
+        intervals = PlayerCore.parseIntervals(state.intervaljson || '[]', Log);
+        intervals.push([start, end]);
+        PlayerCore.updateIntervalBar(intervals, state.duration, Log);
+    }
+
     // Segment lifecycle.
 
     function startSegment() {
@@ -671,13 +689,14 @@ define([
                 if (state.playing) { closeSegment('seek'); }
                 return;
             }
-            if (state.playing) {
-                var seek = Tracker.resolveSeek(state, media.currentTime, config, 0.5);
-                if (seek.blocked) {
-                    Tracker.blockSeek(state, 500);
-                    media.currentTime = seek.fallbackTime;
-                    return;
-                }
+            var seek = Tracker.resolveSeek(state, media.currentTime, config, 0.5);
+            if (seek.blocked) {
+                Tracker.blockSeek(state, 1000);
+                media.currentTime = seek.fallbackTime;
+                Tracker.syncTime(state, seek.fallbackTime);
+                return;
+            }
+            if (state.playing && seek.changed) {
                 closeSegment('seek');
             }
         });
@@ -693,8 +712,9 @@ define([
         });
 
         media.addEventListener('timeupdate', function() {
-            if (!state.isSeeking) {
+            if (!state.isSeeking && !state.seekblocked) {
                 Tracker.syncTime(state, safeNumber(media.currentTime, 0), safeNumber(media.playbackRate, 1));
+                updateLiveIntervalBar(safeNumber(media.currentTime, 0));
                 if (Tracker.shouldStopReplay(state, safeNumber(media.currentTime, 0))) {
                     Adapter.pause(function() {
                         return media.pause();

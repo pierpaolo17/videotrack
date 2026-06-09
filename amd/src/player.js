@@ -83,6 +83,24 @@ define([
         PlayerCore.updateIntervalBar(intervaljson, duration, Log);
     }
 
+    function updateLiveIntervalBar(current) {
+        var intervals;
+        var start;
+        var end;
+        if (!state || !state.playing || !state.duration || state.segmentstart === null ||
+                typeof state.segmentstart === 'undefined') {
+            return;
+        }
+        start = Tracker.normaliseTime(state.segmentstart);
+        end = Tracker.normaliseTime(current);
+        if (end <= start) {
+            return;
+        }
+        intervals = PlayerCore.parseIntervals(state.intervaljson || '[]', Log);
+        intervals.push([start, end]);
+        PlayerCore.updateIntervalBar(intervals, state.duration, Log);
+    }
+
     function saveSegment(start, end, reason) {
         return Api.saveSegment(config, state, start, end, reason, {
             swallowFailures: true,
@@ -167,10 +185,11 @@ define([
         if (Tracker.consumeProgrammaticSeek(state, player.getCurrentTime())) {
             return;
         }
-        // If a seek was just blocked, ignore polling for 500 ms
-        // so the seekTo bounce is not detected as a new anomalous seek.
+        // If a seek was just blocked, ignore polling while the provider
+        // completes the bounce back to the allowed fallback time. Do not sync
+        // lasttime here: the current provider time may still be the forbidden
+        // target for one or more polling cycles.
         if (state.seekblocked) {
-            state.lasttime = player.getCurrentTime();
             return;
         }
         var current = Tracker.normaliseTime(player.getCurrentTime());
@@ -187,31 +206,34 @@ define([
             return player.getPlaybackRate ? player.getPlaybackRate() : state.playbackrate;
         }, Log, 'YouTube seek polling');
         var expectedDelta = state.playing && elapsed > 0 ? elapsed * Math.max(rate || 1, 1) : 0;
-        var threshold = Math.max(3, expectedDelta + 1.5);
-        if (state.playing && Math.abs(delta) > threshold) {
+        var threshold = state.playing ? Math.max(3, expectedDelta + 1.5) : 0.5;
+        if (Math.abs(delta) > threshold) {
             var seek = Tracker.resolveSeek(state, current, config, 0);
             var oldtime = seek.oldTime;
-            closeCurrentSegment('seek');
             if (seek.blocked && seek.forward) {
-                Tracker.blockSeek(state, 500);
+                Tracker.blockSeek(state, 1000);
                 Adapter.seek(oldtime, function(target) {
                     player.seekTo(target, true);
+                    Tracker.syncTime(state, target);
                 }, Log, 'YouTube blocked forward seek');
-                startCurrentSegment();
                 return;
             }
             if (seek.blocked && seek.backward) {
-                Tracker.blockSeek(state, 500);
+                Tracker.blockSeek(state, 1000);
                 Adapter.seek(oldtime, function(target) {
                     player.seekTo(target, true);
+                    Tracker.syncTime(state, target);
                 }, Log, 'YouTube blocked backward seek');
-                startCurrentSegment();
                 return;
             }
-            // Seek permesso: apre nuovo segmento dalla posizione corrente.
-            Tracker.openSegment(state, player.getCurrentTime(), Math.floor(Date.now() / 1000), state.playbackrate);
+            if (state.playing) {
+                closeCurrentSegment('seek');
+                // Seek permesso: apre nuovo segmento dalla posizione corrente.
+                Tracker.openSegment(state, player.getCurrentTime(), Math.floor(Date.now() / 1000), state.playbackrate);
+            }
         }
         Tracker.syncTime(state, current);
+        updateLiveIntervalBar(current);
         if (Tracker.shouldStopReplay(state, current)) {
             Adapter.pause(function() {
                 return player.pauseVideo();

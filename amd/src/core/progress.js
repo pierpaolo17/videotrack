@@ -101,6 +101,9 @@ define([], function() {
         percent = pickNumber(response, ['completionpercent', 'percent', 'percentage']);
         duration = pickNumber(response, ['durationseconds', 'duration']);
         intervaljson = typeof response.intervaljson === 'string' ? response.intervaljson : null;
+        if (intervaljson !== null && state) {
+            state.intervaljson = intervaljson;
+        }
 
         if (percent !== null) {
             updatePercentText(percent);
