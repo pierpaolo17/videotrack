@@ -111,8 +111,9 @@ define([
         return blockForwardSeek(current);
     }
 
-    function blockForwardSeek(target) {
-        var fallback = Math.max(0, Number(state.maxallowedtime) || Tracker.normaliseTime(state.lasttime));
+    function blockForwardSeek(target, fallbackTime) {
+        var fallback = typeof fallbackTime === 'number' ? fallbackTime : Tracker.normaliseTime(state.lasttime);
+        fallback = Math.max(0, Tracker.normaliseTime(fallback));
         if (target <= fallback + 0.75) {
             return false;
         }
@@ -164,6 +165,7 @@ define([
             }
         }
         Tracker.openSegment(state, currentTime, wallclock, currentRate);
+        state.lastSeekPollAt = Date.now();
         markAllowedForwardTime(currentTime);
         updateLiveIntervalBar(currentTime);
         setReactionButtons(true);
@@ -228,6 +230,7 @@ define([
         state.lastSeekPollAt = now;
         if (Math.abs(delta) < 0.2) {
             state.lasttime = current;
+            updateLiveIntervalBar(current);
             return;
         }
         var rate = Adapter.getPlaybackRate(state, function() {
@@ -236,7 +239,7 @@ define([
         var expectedDelta = state.playing && elapsed > 0 ? elapsed * Math.max(rate || 1, 1) : 0;
         var threshold = state.playing ? Math.max(3, expectedDelta + 1.5) : 0.5;
         if (Math.abs(delta) > threshold) {
-            if (config.allowseekforward === false && current > previous && blockForwardSeek(current)) {
+            if (config.allowseekforward === false && current > previous && blockForwardSeek(current, previous)) {
                 return;
             }
             var seek = Tracker.resolveSeek(state, current, config, 0);
@@ -610,10 +613,12 @@ define([
                         replayFragment(config.replaystart,
                             typeof config.replayend === 'number' ? config.replayend : null, true);
                     } else if (typeof config.resumeposition === 'number' && config.resumeposition > 2) {
-                        // Resume is passed to YouTube through playerVars.start above.
-                        // Initialising the tracker here avoids a synthetic seek on load,
-                        // which could be misread as learner activity and break progress.
                         initialiseKnownProgress(config.resumeposition);
+                        if (player && player.seekTo) {
+                            Tracker.markProgrammaticSeek(state);
+                            player.seekTo(config.resumeposition, true);
+                            Tracker.consumeProgrammaticSeek(state, config.resumeposition);
+                        }
                         showResumeNotice(config.resumeposition);
                     } else {
                         initialiseKnownProgress(0);
