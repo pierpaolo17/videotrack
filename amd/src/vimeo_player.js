@@ -84,6 +84,24 @@ define([
         return Progress.updateProgress(response, state, Utils, PlayerCore, Log);
     }
 
+    function updateLiveIntervalBar(current) {
+        var intervals;
+        var start;
+        var end;
+        if (!state || !state.playing || !state.duration || state.segmentstart === null ||
+                typeof state.segmentstart === 'undefined') {
+            return;
+        }
+        start = Tracker.normaliseTime(state.segmentstart);
+        end = Tracker.normaliseTime(current);
+        if (end <= start) {
+            return;
+        }
+        intervals = PlayerCore.parseIntervals(state.intervaljson || '[]', Log);
+        intervals.push([start, end]);
+        PlayerCore.updateIntervalBar(intervals, state.duration, Log);
+    }
+
     // Segment lifecycle.
 
     function startSegment(currentTime) {
@@ -241,6 +259,7 @@ define([
         iframe.setAttribute('allowfullscreen', 'allowfullscreen');
         iframe.setAttribute('title', config.title || 'Vimeo video');
         iframe.setAttribute('frameborder', '0');
+        iframe.className = 'videotrack-vimeo-iframe';
         container.textContent = '';
         container.appendChild(iframe);
         return iframe;
@@ -369,18 +388,18 @@ define([
         player.on('seeked', function(data) {
             // Ignore programmatic seeks (replay, resume): they must not trigger
             // the anti-skip block or close the current segment.
-            if (state.seekblocked || Tracker.consumeProgrammaticSeek(state, data.seconds)) { return; }
+            if (Tracker.consumeProgrammaticSeek(state, data.seconds)) { return; }
+            if (state.seekblocked) { return; }
             var seek = Tracker.resolveSeek(state, data.seconds, config, 0);
 
-            if (state.playing) {
-                if (seek.blocked) {
-                    Tracker.blockSeek(state, 600);
-                    Tracker.markProgrammaticSeek(state);
-                    player.setCurrentTime(seek.fallbackTime).then(function() {
-                        state.isProgrammaticSeek = false;
-                    });
-                    return;
-                }
+            if (seek.blocked) {
+                Tracker.blockSeek(state, 1000);
+                player.setCurrentTime(seek.fallbackTime).then(function() {
+                    Tracker.syncTime(state, seek.fallbackTime);
+                }).catch(Log.debug);
+                return;
+            }
+            if (state.playing && seek.changed) {
                 // Valid seek: close current segment, open new one.
                 saveSegment(state.segmentstart, seek.oldTime, 'seek');
                 startSegment(seek.newTime);
@@ -388,7 +407,11 @@ define([
         });
 
         player.on('timeupdate', function(data) {
+            if (state.seekblocked) {
+                return;
+            }
             Tracker.syncTime(state, data.seconds, data.playbackRate || 1);
+            updateLiveIntervalBar(data.seconds);
 
             // Replay stop.
             if (Tracker.shouldStopReplay(state, data.seconds)) {
