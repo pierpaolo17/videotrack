@@ -85,27 +85,32 @@ define([
     }
 
     function updateLiveIntervalBar(current) {
-        var intervals;
-        var start;
-        var end;
-        if (!state || !state.playing || !state.duration || state.segmentstart === null ||
-                typeof state.segmentstart === 'undefined') {
-            return;
+        Progress.updateLiveProgress(state, current, Utils, PlayerCore, Log);
+    }
+
+    function markAllowedForwardTime(current) {
+        current = Tracker.normaliseTime(current);
+        state.maxallowedtime = Math.max(Number(state.maxallowedtime) || 0, current);
+    }
+
+    function blockForwardSeek(target) {
+        var fallback = Math.max(0, Number(state.maxallowedtime) || Tracker.normaliseTime(state.lasttime));
+        if (target <= fallback + 0.75) {
+            return false;
         }
-        start = Tracker.normaliseTime(state.segmentstart);
-        end = Tracker.normaliseTime(current);
-        if (end <= start) {
-            return;
-        }
-        intervals = PlayerCore.parseIntervals(state.intervaljson || '[]', Log);
-        intervals.push([start, end]);
-        PlayerCore.updateIntervalBar(intervals, state.duration, Log);
+        Tracker.blockSeek(state, 1000);
+        player.setCurrentTime(fallback).then(function() {
+            Tracker.syncTime(state, fallback);
+        }).catch(Log.debug);
+        return true;
     }
 
     // Segment lifecycle.
 
     function startSegment(currentTime) {
         Tracker.openSegment(state, currentTime, Math.floor(Date.now() / 1000));
+        markAllowedForwardTime(currentTime);
+        updateLiveIntervalBar(currentTime);
     }
 
     function closeSegment(reason) {
@@ -300,11 +305,15 @@ define([
             state.duration = Adapter.getDuration(state, function() {
                 return d;
             }, Log, 'Vimeo duration');
+            if (config.intervaljson && state.duration) {
+                PlayerCore.updateIntervalBar(config.intervaljson, state.duration, Log);
+            }
             // Automatically resume from the last saved position (lastposition > 2s).
             if (typeof config.resumeposition === 'number' && config.resumeposition > 2) {
                 Tracker.markProgrammaticSeek(state);
+                markAllowedForwardTime(config.resumeposition);
                 player.setCurrentTime(config.resumeposition).then(function() {
-                    state.isProgrammaticSeek = false;
+                    Tracker.consumeProgrammaticSeek(state, config.resumeposition);
                     showResumeNotice(config.resumeposition);
                 }).catch(function() {
                     // iOS Safari may silently fail on setCurrentTime before play.
@@ -344,8 +353,9 @@ define([
                     var resumePos = state._pendingResume;
                     state._pendingResume = null;
                     Tracker.markProgrammaticSeek(state);
+                    markAllowedForwardTime(resumePos);
                     player.setCurrentTime(resumePos).then(function() {
-                        state.isProgrammaticSeek = false;
+                        Tracker.consumeProgrammaticSeek(state, resumePos);
                         showResumeNotice(resumePos);
                     }).catch(function() {
                         state.isProgrammaticSeek = false;
@@ -390,6 +400,10 @@ define([
             // the anti-skip block or close the current segment.
             if (Tracker.consumeProgrammaticSeek(state, data.seconds)) { return; }
             if (state.seekblocked) { return; }
+            if (config.allowseekforward === false && data.seconds > Tracker.normaliseTime(state.lasttime) &&
+                    blockForwardSeek(data.seconds)) {
+                return;
+            }
             var seek = Tracker.resolveSeek(state, data.seconds, config, 0);
 
             if (seek.blocked) {
@@ -411,6 +425,7 @@ define([
                 return;
             }
             Tracker.syncTime(state, data.seconds, data.playbackRate || 1);
+            markAllowedForwardTime(data.seconds);
             updateLiveIntervalBar(data.seconds);
 
             // Replay stop.
@@ -831,6 +846,10 @@ define([
                     Math.min(Reactions.MAX_READY_DEBOUNCE_MS, debounce || Reactions.DEFAULT_READY_DEBOUNCE_MS));
             HEARTBEAT_INTERVAL = Tracker.normaliseHeartbeatInterval(config, 30);
             state.sessionid    = uuid();
+            if (config.intervaljson && config.duration) {
+                state.duration = Number(config.duration) || state.duration;
+                PlayerCore.updateIntervalBar(config.intervaljson, state.duration, Log);
+            }
             installGlobalListeners();
             installReactionHandler();
             installNoteHandler();
