@@ -92,6 +92,42 @@ define([
         state.maxallowedtime = Math.max(Number(state.maxallowedtime) || 0, current);
     }
 
+
+    function getResumeStorageKey() {
+        return 'videotrack:lastposition:' + String(config && config.cmid ? config.cmid : '0');
+    }
+
+    function readStoredResumePosition() {
+        var stored;
+        try {
+            stored = window.localStorage ? window.localStorage.getItem(getResumeStorageKey()) : null;
+        } catch (e) {
+            stored = null;
+        }
+        stored = Number(stored);
+        return isFinite(stored) && stored > 2 ? stored : 0;
+    }
+
+    function rememberResumePosition(position) {
+        position = Tracker.normaliseTime(position);
+        if (position <= 2) {
+            return;
+        }
+        try {
+            if (window.localStorage) {
+                window.localStorage.setItem(getResumeStorageKey(), String(position));
+            }
+        } catch (e) {
+            // Browser storage may be disabled; DB resume remains authoritative.
+        }
+    }
+
+    function resolveResumePosition() {
+        var serverPosition = Number(config && config.resumeposition) || 0;
+        var storedPosition = readStoredResumePosition();
+        return Math.max(serverPosition, storedPosition);
+    }
+
     function initialiseKnownProgress(position) {
         var current = Tracker.normaliseTime(position);
         state.lasttime = current;
@@ -267,6 +303,7 @@ define([
             }
         }
         Tracker.syncTime(state, current);
+        rememberResumePosition(current);
         if (current >= previous && (!config || config.allowseekforward !== false || current <= (Number(state.maxallowedtime) || 0) + threshold)) {
             markAllowedForwardTime(current);
         }
@@ -317,8 +354,10 @@ define([
             }
         } else if (event.data === YT.PlayerState.PAUSED) {
             setReactionButtons(false); // CRIT-2: disable buttons on pause
+            rememberResumePosition(player && player.getCurrentTime ? player.getCurrentTime() : state.lasttime);
             closeCurrentSegment('pause');
         } else if (event.data === YT.PlayerState.ENDED) {
+            rememberResumePosition(player && player.getCurrentTime ? player.getCurrentTime() : state.lasttime);
             state.ended = true;
             reactionState.readyAnnounced = false;
             setReactionButtons(false); // CRIT-2: disable buttons at video end
@@ -582,8 +621,8 @@ define([
                 mute:           (config.autoplay || config.startmuted) ? 1 : 0,
                 loop:           config.loop ? 1 : 0,
                 playlist:       config.loop ? config.videoid : undefined,
-                start:          (typeof config.replaystart !== 'number' && typeof config.resumeposition === 'number' &&
-                                    config.resumeposition > 2) ? Math.floor(config.resumeposition) : undefined,
+                start:          (typeof config.replaystart !== 'number' && resolveResumePosition() > 2) ?
+                                    Math.floor(resolveResumePosition()) : undefined,
                 controls:       config.showcontrols ? 1 : 0,
                 disablekb:      config.disablekeyboard ? 1 : 0,
                 fs:             config.showfullscreen ? 1 : 0,
@@ -612,16 +651,21 @@ define([
                     if (typeof config.replaystart === 'number' && config.replaystart >= 0) {
                         replayFragment(config.replaystart,
                             typeof config.replayend === 'number' ? config.replayend : null, true);
-                    } else if (typeof config.resumeposition === 'number' && config.resumeposition > 2) {
-                        initialiseKnownProgress(config.resumeposition);
-                        if (player && player.seekTo) {
-                            Tracker.markProgrammaticSeek(state);
-                            player.seekTo(config.resumeposition, true);
-                            Tracker.consumeProgrammaticSeek(state, config.resumeposition);
-                        }
-                        showResumeNotice(config.resumeposition);
                     } else {
-                        initialiseKnownProgress(0);
+                        var resumePosition = resolveResumePosition();
+                        if (resumePosition > 2) {
+                            initialiseKnownProgress(resumePosition);
+                            if (player && player.seekTo) {
+                                Tracker.markProgrammaticSeek(state);
+                                player.seekTo(resumePosition, true);
+                                window.setTimeout(function() {
+                                    Tracker.consumeProgrammaticSeek(state, resumePosition);
+                                }, 750);
+                            }
+                            showResumeNotice(resumePosition);
+                        } else {
+                            initialiseKnownProgress(0);
+                        }
                     }
                 },
                 onStateChange: onPlayerStateChange,

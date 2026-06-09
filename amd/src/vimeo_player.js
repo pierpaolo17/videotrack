@@ -93,6 +93,108 @@ define([
         state.maxallowedtime = Math.max(Number(state.maxallowedtime) || 0, current);
     }
 
+
+    function getResumeStorageKey() {
+        return 'videotrack:lastposition:' + String(config && config.cmid ? config.cmid : '0');
+    }
+
+    function readStoredResumePosition() {
+        var stored;
+        try {
+            stored = window.localStorage ? window.localStorage.getItem(getResumeStorageKey()) : null;
+        } catch (e) {
+            stored = null;
+        }
+        stored = Number(stored);
+        return isFinite(stored) && stored > 2 ? stored : 0;
+    }
+
+    function rememberResumePosition(position) {
+        position = Tracker.normaliseTime(position);
+        if (position <= 2) {
+            return;
+        }
+        try {
+            if (window.localStorage) {
+                window.localStorage.setItem(getResumeStorageKey(), String(position));
+            }
+        } catch (e) {
+            // Browser storage may be disabled; DB resume remains authoritative.
+        }
+    }
+
+    function resolveResumePosition() {
+        var serverPosition = Number(config && config.resumeposition) || 0;
+        var storedPosition = readStoredResumePosition();
+        return Math.max(serverPosition, storedPosition);
+    }
+
+    function startVimeoRuntimePolling() {
+        if (state._vimeoRuntimePollId) {
+            return;
+        }
+        state._vimeoRuntimePollId = window.setInterval(function() {
+            if (!player || !state.playing || state.seekblocked) {
+                return;
+            }
+            player.getCurrentTime().then(function(seconds) {
+                handleVimeoTime(Tracker.normaliseTime(seconds), state.playbackrate || 1, state.duration);
+            }).catch(Log.debug);
+        }, 1000);
+    }
+
+    function stopVimeoRuntimePolling() {
+        if (state._vimeoRuntimePollId) {
+            window.clearInterval(state._vimeoRuntimePollId);
+            state._vimeoRuntimePollId = null;
+        }
+    }
+
+    function handleVimeoTime(current, playbackRate, duration) {
+        var previous = Tracker.normaliseTime(state.lasttime);
+        var now = Date.now();
+        var elapsed = state.lastSeekPollAt ? Math.max(0, (now - state.lastSeekPollAt) / 1000) : 0;
+        var rate = Number(playbackRate) || state.playbackrate || 1;
+        var expectedDelta;
+        var threshold;
+        if (duration) {
+            state.duration = Number(duration) || state.duration;
+        }
+        state.lastSeekPollAt = now;
+        if (state.seekblocked) {
+            return;
+        }
+        expectedDelta = state.playing && elapsed > 0 ? elapsed * Math.max(rate, 1) : 0;
+        threshold = state.playing ? Math.max(3, expectedDelta + 1.5) : 0.5;
+        if (Math.abs(current - previous) > threshold) {
+            if (config.allowseekforward === false && current > previous && blockForwardSeek(current, previous)) {
+                return;
+            }
+            if (config.allowseekbackward === false && current < previous) {
+                Tracker.blockSeek(state, 1000);
+                player.setCurrentTime(previous).then(function() {
+                    Tracker.syncTime(state, previous);
+                }).catch(Log.debug);
+                return;
+            }
+            if (state.playing) {
+                saveSegment(state.segmentstart, previous, 'seek');
+                startSegment(current);
+            }
+        }
+        Tracker.syncTime(state, current, rate);
+        rememberResumePosition(current);
+        if (current >= previous && (!config || config.allowseekforward !== false || current <= (Number(state.maxallowedtime) || 0) + threshold)) {
+            markAllowedForwardTime(current);
+        }
+        updateLiveIntervalBar(current);
+        if (Tracker.shouldStopReplay(state, current)) {
+            Adapter.pause(function() {
+                return player.pause();
+            }, Log, 'Vimeo replay pause');
+        }
+    }
+
     function initialiseKnownProgress(position) {
         var current = Tracker.normaliseTime(position);
         state.lasttime = current;
@@ -322,19 +424,20 @@ define([
             if (config.intervaljson && state.duration) {
                 PlayerCore.updateIntervalBar(config.intervaljson, state.duration, Log);
             }
-            initialiseKnownProgress(config.resumeposition || 0);
+            var resumePosition = resolveResumePosition();
+            initialiseKnownProgress(resumePosition || 0);
             // Automatically resume from the last saved position (lastposition > 2s).
-            if (typeof config.resumeposition === 'number' && config.resumeposition > 2) {
+            if (resumePosition > 2) {
                 Tracker.markProgrammaticSeek(state);
-                markAllowedForwardTime(config.resumeposition);
-                player.setCurrentTime(config.resumeposition).then(function() {
-                    Tracker.consumeProgrammaticSeek(state, config.resumeposition);
-                    showResumeNotice(config.resumeposition);
+                markAllowedForwardTime(resumePosition);
+                player.setCurrentTime(resumePosition).then(function() {
+                    Tracker.consumeProgrammaticSeek(state, resumePosition);
+                    showResumeNotice(resumePosition);
                 }).catch(function() {
                     // iOS Safari may silently fail on setCurrentTime before play.
                     // The seek will be retried on the first 'play' event.
                     state.isProgrammaticSeek = false;
-                    state._pendingResume = config.resumeposition;
+                    state._pendingResume = resumePosition;
                 });
             }
             // Enforce maxplaybackrate when the media loads.
@@ -379,6 +482,7 @@ define([
                 }
                 startSegment(t);
                 startHeartbeat();
+                startVimeoRuntimePolling();
                 setReactionButtons(true);
                 // Enforce max rate on every play event because the student may have changed it.
                 // config.maxplaybackrate is stored in hundredths (150 = 1.5x).
@@ -398,6 +502,8 @@ define([
                 return;
             }
             stopHeartbeat();
+            stopVimeoRuntimePolling();
+            rememberResumePosition(state.lasttime);
             closeSegment('pause');
             setReactionButtons(false);
         });
@@ -406,6 +512,8 @@ define([
             state.ended = true;
             reactionState.readyAnnounced = false;
             stopHeartbeat();
+            stopVimeoRuntimePolling();
+            rememberResumePosition(state.lasttime);
             closeSegment('ended');
             setReactionButtons(false); // Disable buttons at the end of the video.
         });
@@ -436,52 +544,7 @@ define([
         });
 
         player.on('timeupdate', function(data) {
-            var current = Tracker.normaliseTime(data.seconds);
-            var previous = Tracker.normaliseTime(state.lasttime);
-            var now = Date.now();
-            var elapsed = state.lastSeekPollAt ? Math.max(0, (now - state.lastSeekPollAt) / 1000) : 0;
-            var rate = Number(data.playbackRate) || state.playbackrate || 1;
-            var expectedDelta;
-            var threshold;
-            if (data.duration) {
-                state.duration = Adapter.getDuration(state, function() {
-                    return data.duration;
-                }, Log, 'Vimeo timeupdate duration');
-            }
-            state.lastSeekPollAt = now;
-            if (state.seekblocked) {
-                return;
-            }
-            expectedDelta = state.playing && elapsed > 0 ? elapsed * Math.max(rate, 1) : 0;
-            threshold = state.playing ? Math.max(3, expectedDelta + 1.5) : 0.5;
-            if (Math.abs(current - previous) > threshold) {
-                if (config.allowseekforward === false && current > previous && blockForwardSeek(current, previous)) {
-                    return;
-                }
-                if (config.allowseekbackward === false && current < previous) {
-                    Tracker.blockSeek(state, 1000);
-                    player.setCurrentTime(previous).then(function() {
-                        Tracker.syncTime(state, previous);
-                    }).catch(Log.debug);
-                    return;
-                }
-                if (state.playing) {
-                    saveSegment(state.segmentstart, previous, 'seek');
-                    startSegment(current);
-                }
-            }
-            Tracker.syncTime(state, current, rate);
-            if (current >= previous) {
-                markAllowedForwardTime(current);
-            }
-            updateLiveIntervalBar(current);
-
-            // Replay stop.
-            if (Tracker.shouldStopReplay(state, current)) {
-                Adapter.pause(function() {
-                    return player.pause();
-                }, Log, 'Vimeo replay pause');
-            }
+            handleVimeoTime(Tracker.normaliseTime(data.seconds), data.playbackRate, data.duration);
         });
 
         var root = PlayerCore.getPlayerShell(Log);
@@ -793,9 +856,15 @@ define([
 
     /** Returns the current video timestamp for the Vimeo player, using lasttime as sync fallback. */
     function getCurrentVideoTime() {
-        return Adapter.getCurrentTime(state, function() {
-            return state.lasttime;
-        }, Log, 'Vimeo');
+        if (player && typeof player.getCurrentTime === 'function') {
+            return player.getCurrentTime().then(function(seconds) {
+                return Tracker.syncTime(state, seconds);
+            }).catch(function(error) {
+                Log.debug(error);
+                return Tracker.normaliseTime(state.lasttime);
+            });
+        }
+        return Tracker.normaliseTime(state.lasttime);
     }
 
 
