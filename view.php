@@ -210,7 +210,7 @@ $playerconfig = [
     'heartbeatinterval'      => $heartbeat,
     'videourl'               => ($source === 'upload')
         ? (string)(videotrack_get_upload_url($videotrack->id, $cm->id) ?? '')
-        : '',
+        : (string)($videotrack->videourl ?? ''),
     'intervaljson'           => $safeintervals,
     'duration'               => (float)($videotrack->durationseconds ?? 0),
 ];

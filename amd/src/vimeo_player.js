@@ -185,8 +185,7 @@ define([
         var container = document.getElementById('mod-videotrack-player');
         if (!container) { return; }
 
-        player = new window.Vimeo.Player(container, {
-            id:          config.videoid,
+        var playerOptions = {
             responsive:  true,
             controls:    config.showcontrols !== false,
             autoplay:    !!config.autoplay,
@@ -196,7 +195,14 @@ define([
             speed:       true,          // Enable SDK speed control.
             playsinline: true,
             dnt:         true,          // Do-not-track: don't store watch data on Vimeo.
-        });
+        };
+        if (config.videourl) {
+            playerOptions.url = config.videourl;
+        } else {
+            playerOptions.id = config.videoid;
+        }
+
+        player = new window.Vimeo.Player(container, playerOptions);
 
         // Set allowed playback speeds if the Vimeo player supports it.
         if (config.playbackspeeds && config.playbackspeeds.length) {
@@ -423,7 +429,11 @@ define([
             bar.appendChild(ffBtn);
         }
 
-        wrap.appendChild(bar);
+        if (wrap.parentNode) {
+            wrap.parentNode.insertBefore(bar, wrap.nextSibling);
+        } else {
+            wrap.appendChild(bar);
+        }
     }
 
 

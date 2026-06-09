@@ -606,9 +606,9 @@ define([
         var showFF     = (config.fastforwardstep > 0) && (config.allowseekforward !== false);
         if (!showRewind && !showFF) { return; }
 
-        var wrap = document.getElementById('mod-videotrack-player');
-        if (!wrap) { return; }
-        var container = wrap.closest('.videotrack-player-wrap');
+        var playerNode = document.getElementById('mod-videotrack-player');
+        if (!playerNode) { return; }
+        var container = playerNode.closest('.videotrack-player-wrap');
         if (!container) { return; }
 
         var bar = document.createElement('div');
@@ -666,7 +666,11 @@ define([
             bar.appendChild(ffBtn);
         }
 
-        container.appendChild(bar);
+        if (container.parentNode) {
+            container.parentNode.insertBefore(bar, container.nextSibling);
+        } else {
+            container.appendChild(bar);
+        }
     }
 
 
