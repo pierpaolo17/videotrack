@@ -180,8 +180,11 @@ define([], function() {
     function updateLiveProgress(state, current, Utils, PlayerCore, Log) {
         var coveredNode;
         var snapshot;
-        if (!state || !state.playing || !state.duration || !PlayerCore ||
+        if (!state || !state.duration || !PlayerCore ||
                 typeof PlayerCore.updateIntervalBar !== 'function') {
+            return;
+        }
+        if (state.segmentstart === null || typeof state.segmentstart === 'undefined') {
             return;
         }
         snapshot = buildLiveSnapshot(state, current, PlayerCore, Log);
