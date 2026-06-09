@@ -174,7 +174,11 @@ define([
             return;
         }
         var current = Tracker.normaliseTime(player.getCurrentTime());
-        var delta = current - state.lasttime;
+        var previous = Tracker.normaliseTime(state.lasttime);
+        var delta = current - previous;
+        var now = Date.now();
+        var elapsed = state.lastSeekPollAt ? Math.max(0, (now - state.lastSeekPollAt) / 1000) : 0;
+        state.lastSeekPollAt = now;
         if (Math.abs(delta) < 0.2) {
             state.lasttime = current;
             return;
@@ -182,7 +186,8 @@ define([
         var rate = Adapter.getPlaybackRate(state, function() {
             return player.getPlaybackRate ? player.getPlaybackRate() : state.playbackrate;
         }, Log, 'YouTube seek polling');
-        var threshold = Math.max(2, rate * 3);
+        var expectedDelta = state.playing && elapsed > 0 ? elapsed * Math.max(rate || 1, 1) : 0;
+        var threshold = Math.max(3, expectedDelta + 1.5);
         if (state.playing && Math.abs(delta) > threshold) {
             var seek = Tracker.resolveSeek(state, current, config, 0);
             var oldtime = seek.oldTime;
