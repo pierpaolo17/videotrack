@@ -92,6 +92,25 @@ define([
         state.maxallowedtime = Math.max(Number(state.maxallowedtime) || 0, current);
     }
 
+    function initialiseKnownProgress(position) {
+        var current = Tracker.normaliseTime(position);
+        state.lasttime = current;
+        state.intervaljson = config.intervaljson || state.intervaljson || '[]';
+        if (config.duration && !state.duration) {
+            state.duration = Number(config.duration) || 0;
+        }
+        markAllowedForwardTime(current);
+        updateLiveIntervalBar(current);
+    }
+
+    function enforceForwardSeekOnPlay(current) {
+        current = Tracker.normaliseTime(current);
+        if (!config || config.allowseekforward !== false) {
+            return false;
+        }
+        return blockForwardSeek(current);
+    }
+
     function blockForwardSeek(target) {
         var fallback = Math.max(0, Number(state.maxallowedtime) || Tracker.normaliseTime(state.lasttime));
         if (target <= fallback + 0.75) {
@@ -286,6 +305,9 @@ define([
                         return player.setPlaybackRate(rate);
                     }, state, Log, 'YouTube enforced playback rate');
                 }
+            }
+            if (enforceForwardSeekOnPlay(player.getCurrentTime ? player.getCurrentTime() : state.lasttime)) {
+                return;
             }
             if (!state.playing) {
                 startCurrentSegment();
@@ -557,6 +579,8 @@ define([
                 mute:           (config.autoplay || config.startmuted) ? 1 : 0,
                 loop:           config.loop ? 1 : 0,
                 playlist:       config.loop ? config.videoid : undefined,
+                start:          (typeof config.replaystart !== 'number' && typeof config.resumeposition === 'number' &&
+                                    config.resumeposition > 2) ? Math.floor(config.resumeposition) : undefined,
                 controls:       config.showcontrols ? 1 : 0,
                 disablekb:      config.disablekeyboard ? 1 : 0,
                 fs:             config.showfullscreen ? 1 : 0,
@@ -586,14 +610,13 @@ define([
                         replayFragment(config.replaystart,
                             typeof config.replayend === 'number' ? config.replayend : null, true);
                     } else if (typeof config.resumeposition === 'number' && config.resumeposition > 2) {
-                        // Resume from the last position (only if > 2s to avoid starting at 0:02).
-                        Tracker.markProgrammaticSeek(state);
-                        markAllowedForwardTime(config.resumeposition);
-                        Adapter.seek(config.resumeposition, function(target) {
-                            player.seekTo(target, true);
-                            Tracker.syncTime(state, target);
-                        }, Log, 'YouTube resume seek');
+                        // Resume is passed to YouTube through playerVars.start above.
+                        // Initialising the tracker here avoids a synthetic seek on load,
+                        // which could be misread as learner activity and break progress.
+                        initialiseKnownProgress(config.resumeposition);
                         showResumeNotice(config.resumeposition);
+                    } else {
+                        initialiseKnownProgress(0);
                     }
                 },
                 onStateChange: onPlayerStateChange,

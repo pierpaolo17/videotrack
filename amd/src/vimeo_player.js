@@ -93,6 +93,17 @@ define([
         state.maxallowedtime = Math.max(Number(state.maxallowedtime) || 0, current);
     }
 
+    function initialiseKnownProgress(position) {
+        var current = Tracker.normaliseTime(position);
+        state.lasttime = current;
+        state.intervaljson = config.intervaljson || state.intervaljson || '[]';
+        if (config.duration && !state.duration) {
+            state.duration = Number(config.duration) || 0;
+        }
+        markAllowedForwardTime(current);
+        updateLiveIntervalBar(current);
+    }
+
     function blockForwardSeek(target) {
         var fallback = Math.max(0, Number(state.maxallowedtime) || Tracker.normaliseTime(state.lasttime));
         if (target <= fallback + 0.75) {
@@ -305,9 +316,11 @@ define([
             state.duration = Adapter.getDuration(state, function() {
                 return d;
             }, Log, 'Vimeo duration');
+            state.intervaljson = config.intervaljson || state.intervaljson || '[]';
             if (config.intervaljson && state.duration) {
                 PlayerCore.updateIntervalBar(config.intervaljson, state.duration, Log);
             }
+            initialiseKnownProgress(config.resumeposition || 0);
             // Automatically resume from the last saved position (lastposition > 2s).
             if (typeof config.resumeposition === 'number' && config.resumeposition > 2) {
                 Tracker.markProgrammaticSeek(state);
@@ -421,15 +434,21 @@ define([
         });
 
         player.on('timeupdate', function(data) {
+            var current = Tracker.normaliseTime(data.seconds);
+            var previous = Tracker.normaliseTime(state.lasttime);
             if (state.seekblocked) {
                 return;
             }
-            Tracker.syncTime(state, data.seconds, data.playbackRate || 1);
-            markAllowedForwardTime(data.seconds);
-            updateLiveIntervalBar(data.seconds);
+            if (config.allowseekforward === false && current > previous + 2 &&
+                    current > (Number(state.maxallowedtime) || previous) + 1 && blockForwardSeek(current)) {
+                return;
+            }
+            Tracker.syncTime(state, current, data.playbackRate || 1);
+            markAllowedForwardTime(current);
+            updateLiveIntervalBar(current);
 
             // Replay stop.
-            if (Tracker.shouldStopReplay(state, data.seconds)) {
+            if (Tracker.shouldStopReplay(state, current)) {
                 Adapter.pause(function() {
                     return player.pause();
                 }, Log, 'Vimeo replay pause');

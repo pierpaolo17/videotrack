@@ -614,14 +614,16 @@ echo html_writer::tag(
         ['id' => 'videotrack-covered-seconds']
     )
 );
-echo html_writer::tag(
-    'div',
-    get_string('uniquereactions', 'mod_videotrack') . ': ' . html_writer::tag(
-        'span',
-        (string)count($uniquereactionids),
-        ['id' => 'videotrack-unique-reactions']
-    )
-);
+if (!empty($videotrack->reactionsenabled)) {
+    echo html_writer::tag(
+        'div',
+        get_string('uniquereactions', 'mod_videotrack') . ': ' . html_writer::tag(
+            'span',
+            (string)count($uniquereactionids),
+            ['id' => 'videotrack-unique-reactions']
+        )
+    );
+}
 echo html_writer::end_div(); // Videotrack-progress.
 
 if (!empty($videotrack->reactionsenabled) && $reactions) {
@@ -667,7 +669,7 @@ if (!empty($videotrack->reactionsenabled) && $reactions) {
     echo html_writer::end_div(); // Videotrack-reactions.
 }
 
-if ($showstudentreport) {
+if ($showstudentreport && !empty($videotrack->reactionsenabled)) {
     // Clear visual separation between personal notes and reactions in the student view.
     echo html_writer::tag(
         'h4',
