@@ -126,8 +126,77 @@ define([], function() {
         return response;
     }
 
+
+    /**
+     * Merge existing intervals with the currently open in-memory segment.
+     *
+     * @param {Object} state Mutable player state.
+     * @param {number} current Current media time.
+     * @param {Object} PlayerCore Shared player core module.
+     * @param {Object} Log Moodle log module.
+     * @returns {{intervals: Array, covered: number, percent: number}} Live progress snapshot.
+     */
+    function buildLiveSnapshot(state, current, PlayerCore, Log) {
+        var intervals = [];
+        var duration = state && Number(state.duration) ? Number(state.duration) : 0;
+        var start;
+        var end;
+        var covered = 0;
+        var percent = 0;
+        if (PlayerCore && typeof PlayerCore.parseIntervals === 'function') {
+            intervals = PlayerCore.parseIntervals((state && state.intervaljson) || '[]', Log);
+        }
+        if (state && state.playing && duration > 0 && state.segmentstart !== null &&
+                typeof state.segmentstart !== 'undefined') {
+            start = Math.max(0, Number(state.segmentstart) || 0);
+            end = Math.min(duration, Math.max(start, Number(current) || 0));
+            if (end > start) {
+                intervals.push([start, end]);
+            }
+        }
+        intervals.forEach(function(seg) {
+            if (!Array.isArray(seg) || seg.length < 2 || duration <= 0) {
+                return;
+            }
+            start = Math.max(0, Number(seg[0]) || 0);
+            end = Math.min(duration, Math.max(start, Number(seg[1]) || 0));
+            covered += Math.max(0, end - start);
+        });
+        if (duration > 0) {
+            percent = Math.min(100, Math.max(0, (covered / duration) * 100));
+        }
+        return {intervals: intervals, covered: covered, percent: percent};
+    }
+
+    /**
+     * Update visible progress while the video is playing, before the next AJAX save.
+     *
+     * @param {Object} state Mutable player state.
+     * @param {number} current Current media time.
+     * @param {Object} Utils Shared utility module.
+     * @param {Object} PlayerCore Shared player core module.
+     * @param {Object} Log Moodle log module.
+     */
+    function updateLiveProgress(state, current, Utils, PlayerCore, Log) {
+        var coveredNode;
+        var snapshot;
+        if (!state || !state.playing || !state.duration || !PlayerCore ||
+                typeof PlayerCore.updateIntervalBar !== 'function') {
+            return;
+        }
+        snapshot = buildLiveSnapshot(state, current, PlayerCore, Log);
+        PlayerCore.updateIntervalBar(snapshot.intervals, state.duration, Log);
+        updatePercentText(snapshot.percent);
+        updateFallbackProgress(snapshot.percent, false);
+        coveredNode = document.getElementById('videotrack-covered-seconds');
+        if (coveredNode && Utils && typeof Utils.formatSeconds === 'function') {
+            coveredNode.textContent = Utils.formatSeconds(snapshot.covered);
+        }
+    }
+
     return {
         updateProgress: updateProgress,
+        updateLiveProgress: updateLiveProgress,
         formatPercent: formatPercent
     };
 });

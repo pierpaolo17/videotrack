@@ -84,21 +84,25 @@ define([
     }
 
     function updateLiveIntervalBar(current) {
-        var intervals;
-        var start;
-        var end;
-        if (!state || !state.playing || !state.duration || state.segmentstart === null ||
-                typeof state.segmentstart === 'undefined') {
-            return;
+        Progress.updateLiveProgress(state, current, Utils, PlayerCore, Log);
+    }
+
+    function markAllowedForwardTime(current) {
+        current = Tracker.normaliseTime(current);
+        state.maxallowedtime = Math.max(Number(state.maxallowedtime) || 0, current);
+    }
+
+    function blockForwardSeek(target) {
+        var fallback = Math.max(0, Number(state.maxallowedtime) || Tracker.normaliseTime(state.lasttime));
+        if (target <= fallback + 0.75) {
+            return false;
         }
-        start = Tracker.normaliseTime(state.segmentstart);
-        end = Tracker.normaliseTime(current);
-        if (end <= start) {
-            return;
-        }
-        intervals = PlayerCore.parseIntervals(state.intervaljson || '[]', Log);
-        intervals.push([start, end]);
-        PlayerCore.updateIntervalBar(intervals, state.duration, Log);
+        Tracker.blockSeek(state, 1000);
+        Adapter.seek(fallback, function(safeTarget) {
+            player.seekTo(safeTarget, true);
+            Tracker.syncTime(state, safeTarget);
+        }, Log, 'YouTube blocked forward seek');
+        return true;
     }
 
     function saveSegment(start, end, reason) {
@@ -141,6 +145,8 @@ define([
             }
         }
         Tracker.openSegment(state, currentTime, wallclock, currentRate);
+        markAllowedForwardTime(currentTime);
+        updateLiveIntervalBar(currentTime);
         setReactionButtons(true);
         // Restart polling if it was suspended (hidden tab becomes visible again).
         if (!state.heartbeatid) {
@@ -182,7 +188,10 @@ define([
         }
         // Ignore polling during programmatic seeks (replay, resume, skip buttons).
         // Reset the flag here so it stays active for exactly one polling cycle.
-        if (Tracker.consumeProgrammaticSeek(state, player.getCurrentTime())) {
+        var polledTime = player.getCurrentTime();
+        if (Tracker.consumeProgrammaticSeek(state, polledTime)) {
+            markAllowedForwardTime(polledTime);
+            updateLiveIntervalBar(polledTime);
             return;
         }
         // If a seek was just blocked, ignore polling while the provider
@@ -192,7 +201,7 @@ define([
         if (state.seekblocked) {
             return;
         }
-        var current = Tracker.normaliseTime(player.getCurrentTime());
+        var current = Tracker.normaliseTime(polledTime);
         var previous = Tracker.normaliseTime(state.lasttime);
         var delta = current - previous;
         var now = Date.now();
@@ -208,6 +217,9 @@ define([
         var expectedDelta = state.playing && elapsed > 0 ? elapsed * Math.max(rate || 1, 1) : 0;
         var threshold = state.playing ? Math.max(3, expectedDelta + 1.5) : 0.5;
         if (Math.abs(delta) > threshold) {
+            if (config.allowseekforward === false && current > previous && blockForwardSeek(current)) {
+                return;
+            }
             var seek = Tracker.resolveSeek(state, current, config, 0);
             var oldtime = seek.oldTime;
             if (seek.blocked && seek.forward) {
@@ -233,6 +245,9 @@ define([
             }
         }
         Tracker.syncTime(state, current);
+        if (current >= previous && (!config || config.allowseekforward !== false || current <= (Number(state.maxallowedtime) || 0) + threshold)) {
+            markAllowedForwardTime(current);
+        }
         updateLiveIntervalBar(current);
         if (Tracker.shouldStopReplay(state, current)) {
             Adapter.pause(function() {
@@ -572,10 +587,12 @@ define([
                             typeof config.replayend === 'number' ? config.replayend : null, true);
                     } else if (typeof config.resumeposition === 'number' && config.resumeposition > 2) {
                         // Resume from the last position (only if > 2s to avoid starting at 0:02).
-                        state.isProgrammaticSeek = true; // Resume is programmatic.
+                        Tracker.markProgrammaticSeek(state);
+                        markAllowedForwardTime(config.resumeposition);
                         Adapter.seek(config.resumeposition, function(target) {
-                        player.seekTo(target, true);
-                    }, Log, 'YouTube resume seek');
+                            player.seekTo(target, true);
+                            Tracker.syncTime(state, target);
+                        }, Log, 'YouTube resume seek');
                         showResumeNotice(config.resumeposition);
                     }
                 },
