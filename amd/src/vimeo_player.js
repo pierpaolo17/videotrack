@@ -104,8 +104,9 @@ define([
         updateLiveIntervalBar(current);
     }
 
-    function blockForwardSeek(target) {
-        var fallback = Math.max(0, Number(state.maxallowedtime) || Tracker.normaliseTime(state.lasttime));
+    function blockForwardSeek(target, fallbackTime) {
+        var fallback = typeof fallbackTime === 'number' ? fallbackTime : Tracker.normaliseTime(state.lasttime);
+        fallback = Math.max(0, Tracker.normaliseTime(fallback));
         if (target <= fallback + 0.75) {
             return false;
         }
@@ -120,6 +121,7 @@ define([
 
     function startSegment(currentTime) {
         Tracker.openSegment(state, currentTime, Math.floor(Date.now() / 1000));
+        state.lastSeekPollAt = Date.now();
         markAllowedForwardTime(currentTime);
         updateLiveIntervalBar(currentTime);
     }
@@ -414,7 +416,7 @@ define([
             if (Tracker.consumeProgrammaticSeek(state, data.seconds)) { return; }
             if (state.seekblocked) { return; }
             if (config.allowseekforward === false && data.seconds > Tracker.normaliseTime(state.lasttime) &&
-                    blockForwardSeek(data.seconds)) {
+                    blockForwardSeek(data.seconds, Tracker.normaliseTime(state.lasttime))) {
                 return;
             }
             var seek = Tracker.resolveSeek(state, data.seconds, config, 0);
@@ -436,15 +438,42 @@ define([
         player.on('timeupdate', function(data) {
             var current = Tracker.normaliseTime(data.seconds);
             var previous = Tracker.normaliseTime(state.lasttime);
+            var now = Date.now();
+            var elapsed = state.lastSeekPollAt ? Math.max(0, (now - state.lastSeekPollAt) / 1000) : 0;
+            var rate = Number(data.playbackRate) || state.playbackrate || 1;
+            var expectedDelta;
+            var threshold;
+            if (data.duration) {
+                state.duration = Adapter.getDuration(state, function() {
+                    return data.duration;
+                }, Log, 'Vimeo timeupdate duration');
+            }
+            state.lastSeekPollAt = now;
             if (state.seekblocked) {
                 return;
             }
-            if (config.allowseekforward === false && current > previous + 2 &&
-                    current > (Number(state.maxallowedtime) || previous) + 1 && blockForwardSeek(current)) {
-                return;
+            expectedDelta = state.playing && elapsed > 0 ? elapsed * Math.max(rate, 1) : 0;
+            threshold = state.playing ? Math.max(3, expectedDelta + 1.5) : 0.5;
+            if (Math.abs(current - previous) > threshold) {
+                if (config.allowseekforward === false && current > previous && blockForwardSeek(current, previous)) {
+                    return;
+                }
+                if (config.allowseekbackward === false && current < previous) {
+                    Tracker.blockSeek(state, 1000);
+                    player.setCurrentTime(previous).then(function() {
+                        Tracker.syncTime(state, previous);
+                    }).catch(Log.debug);
+                    return;
+                }
+                if (state.playing) {
+                    saveSegment(state.segmentstart, previous, 'seek');
+                    startSegment(current);
+                }
             }
-            Tracker.syncTime(state, current, data.playbackRate || 1);
-            markAllowedForwardTime(current);
+            Tracker.syncTime(state, current, rate);
+            if (current >= previous) {
+                markAllowedForwardTime(current);
+            }
             updateLiveIntervalBar(current);
 
             // Replay stop.
