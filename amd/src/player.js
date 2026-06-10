@@ -113,6 +113,23 @@ define([
         return Tracker.normaliseTime(current) <= start + elapsed + 2;
     }
 
+    function isForwardSeekRecoveryPlayback(current, previous, threshold, now) {
+        return state.forwardseekrecoveryuntil && now <= state.forwardseekrecoveryuntil && state.playing &&
+                current >= previous && current <= previous + threshold;
+    }
+
+    function resetForwardSeekRecovery(fallback) {
+        var safeFallback = Tracker.normaliseTime(fallback);
+        Tracker.syncTime(state, safeFallback);
+        state.lastSeekPollAt = Date.now();
+        state.forwardseekrecoveryuntil = Date.now() + 4000;
+        if (state.playing) {
+            Tracker.openSegment(state, safeFallback, Math.floor(Date.now() / 1000), state.playbackrate);
+        }
+        markAllowedForwardTime(safeFallback);
+        updateLiveIntervalBar(safeFallback);
+    }
+
     function getMaxWatchedFromIntervals(intervaljson) {
         var max = 0;
         var intervals;
@@ -192,7 +209,7 @@ define([
         Tracker.blockSeek(state, 1000);
         Adapter.seek(fallback, function(safeTarget) {
             player.seekTo(safeTarget, true);
-            Tracker.syncTime(state, safeTarget);
+            resetForwardSeekRecovery(safeTarget);
         }, Log, 'YouTube blocked forward seek');
         return true;
     }
@@ -321,7 +338,7 @@ define([
         var threshold = state.playing ? Math.max(1.5, expectedDelta + 1.0) : 0.5;
         var allowedLimit = getAllowedForwardLimit();
         var looksLikePlayback = current > previous && current <= previous + threshold &&
-                isNormalForwardPlayback(current, rate);
+                (isNormalForwardPlayback(current, rate) || isForwardSeekRecoveryPlayback(current, previous, threshold, now));
         if (config.allowseekforward === false && current > allowedLimit + 0.75 && !looksLikePlayback &&
                 blockForwardSeek(current, allowedLimit)) {
             return;
