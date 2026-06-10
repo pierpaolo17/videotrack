@@ -93,6 +93,11 @@ define([
         state.maxallowedtime = Math.max(Number(state.maxallowedtime) || 0, current);
     }
 
+    function isForwardTargetAlreadyWatched(target, tolerance) {
+        var allowed = Number(state.maxallowedtime) || 0;
+        return Tracker.normaliseTime(target) <= allowed + (typeof tolerance === 'number' ? tolerance : 1);
+    }
+
 
     function getResumeStorageKey() {
         return 'videotrack:lastposition:' + String(config && config.cmid ? config.cmid : '0');
@@ -225,7 +230,8 @@ define([
         expectedDelta = state.playing && elapsed > 0 ? elapsed * Math.max(rate, 1) : 0;
         threshold = state.playing ? Math.max(3, expectedDelta + 1.5) : 0.5;
         if (Math.abs(current - previous) > threshold) {
-            if (config.allowseekforward === false && current > previous && blockForwardSeek(current, previous)) {
+            if (config.allowseekforward === false && current > previous && !isForwardTargetAlreadyWatched(current, threshold) &&
+                    blockForwardSeek(current, previous)) {
                 return;
             }
             if (config.allowseekbackward === false && current < previous) {
@@ -267,7 +273,7 @@ define([
     function blockForwardSeek(target, fallbackTime) {
         var fallback = typeof fallbackTime === 'number' ? fallbackTime : Tracker.normaliseTime(state.lasttime);
         fallback = Math.max(0, Tracker.normaliseTime(fallback));
-        if (target <= fallback + 0.75) {
+        if (target <= fallback + 0.75 || isForwardTargetAlreadyWatched(target, 1)) {
             return false;
         }
         Tracker.blockSeek(state, 1000);
@@ -360,8 +366,13 @@ define([
         // Note: Vimeo does not publish stable SRI hashes as the SDK is updated
         // dynamically; if your CSP blocks external scripts, add
         // 'player.vimeo.com' to the script-src directive.
-        script.crossOrigin = 'anonymous';
-        script.onload = callback;
+        script.onload = function() {
+            if (window.Vimeo && window.Vimeo.Player) {
+                callback();
+                return;
+            }
+            Debug.log('vimeosdkmissingafterload');
+        };
         script.onerror = function() {
             Debug.log('vimeosdkfailed');
             // Show a readable user message: likely CSP or network blocking.
@@ -425,6 +436,7 @@ define([
         if (source.hash) {
             params.push('h=' + encodeURIComponent(source.hash));
         }
+        params.push('api=1');
         params.push('dnt=1');
         params.push('autoplay=' + (config.autoplay ? '1' : '0'));
         params.push('loop=' + (config.loop ? '1' : '0'));
@@ -474,7 +486,10 @@ define([
             player.setPlaybackRate(defaultspeed).catch(Log.debug);
         }
 
-        player.getDuration().then(function(d) {
+        player.ready().then(function() {
+            startVimeoRuntimePolling();
+            return player.getDuration();
+        }).then(function(d) {
             state.duration = Adapter.getDuration(state, function() {
                 return d;
             }, Log, 'Vimeo duration');
@@ -484,7 +499,6 @@ define([
             }
             var resumePosition = resolveResumePosition();
             initialiseKnownProgress(resumePosition || 0);
-            startVimeoRuntimePolling();
             // Automatically resume from the last saved position (lastposition > 2s).
             if (resumePosition > 2) {
                 Tracker.markProgrammaticSeek(state);
@@ -581,10 +595,16 @@ define([
             if (Tracker.consumeProgrammaticSeek(state, data.seconds)) { return; }
             if (state.seekblocked) { return; }
             if (config.allowseekforward === false && data.seconds > Tracker.normaliseTime(state.lasttime) &&
+                    !isForwardTargetAlreadyWatched(data.seconds, 1) &&
                     blockForwardSeek(data.seconds, Tracker.normaliseTime(state.lasttime))) {
                 return;
             }
-            var seek = Tracker.resolveSeek(state, data.seconds, config, 0);
+            var seekconfig = config;
+            if (config.allowseekforward === false && data.seconds > Tracker.normaliseTime(state.lasttime) &&
+                    isForwardTargetAlreadyWatched(data.seconds, 1)) {
+                seekconfig = Object.assign({}, config, {allowseekforward: true});
+            }
+            var seek = Tracker.resolveSeek(state, data.seconds, seekconfig, 0);
 
             if (seek.blocked) {
                 Tracker.blockSeek(state, 1000);
