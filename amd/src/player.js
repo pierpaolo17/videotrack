@@ -318,8 +318,15 @@ define([
             return player.getPlaybackRate ? player.getPlaybackRate() : state.playbackrate;
         }, Log, 'YouTube seek polling');
         var expectedDelta = state.playing && elapsed > 0 ? elapsed * Math.max(rate || 1, 1) : 0;
-        var threshold = state.playing ? Math.max(3, expectedDelta + 1.5) : 0.5;
-        if (config.allowseekforward === false && delta > threshold && isNormalForwardPlayback(current, rate)) {
+        var threshold = state.playing ? Math.max(1.5, expectedDelta + 1.0) : 0.5;
+        var allowedLimit = getAllowedForwardLimit();
+        var looksLikePlayback = current > previous && current <= previous + threshold &&
+                isNormalForwardPlayback(current, rate);
+        if (config.allowseekforward === false && current > allowedLimit + 0.75 && !looksLikePlayback &&
+                blockForwardSeek(current, allowedLimit)) {
+            return;
+        }
+        if (config.allowseekforward === false && current > allowedLimit + 0.75 && looksLikePlayback) {
             Tracker.syncTime(state, current);
             rememberResumePosition(current);
             markAllowedForwardTime(current);
@@ -328,7 +335,7 @@ define([
         }
         if (Math.abs(delta) > threshold) {
             if (config.allowseekforward === false && current > previous && !isForwardTargetAlreadyWatched(current, 0.75) &&
-                    blockForwardSeek(current, getAllowedForwardLimit())) {
+                    blockForwardSeek(current, allowedLimit)) {
                 return;
             }
             var seekconfig = config;
