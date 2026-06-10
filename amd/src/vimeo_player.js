@@ -266,8 +266,15 @@ define([
             return;
         }
         expectedDelta = state.playing && elapsed > 0 ? elapsed * Math.max(rate, 1) : 0;
-        threshold = state.playing ? Math.max(3, expectedDelta + 1.5) : 0.5;
-        if (config.allowseekforward === false && current > previous + threshold && isNormalForwardPlayback(current, rate)) {
+        threshold = state.playing ? Math.max(1.5, expectedDelta + 1.0) : 0.5;
+        var allowedLimit = getAllowedForwardLimit();
+        var looksLikePlayback = current > previous && current <= previous + threshold &&
+                isNormalForwardPlayback(current, rate);
+        if (config.allowseekforward === false && current > allowedLimit + 0.75 && !looksLikePlayback &&
+                blockForwardSeek(current, allowedLimit)) {
+            return;
+        }
+        if (config.allowseekforward === false && current > allowedLimit + 0.75 && looksLikePlayback) {
             Tracker.syncTime(state, current, rate);
             rememberResumePosition(current);
             markAllowedForwardTime(current);
@@ -276,7 +283,7 @@ define([
         }
         if (Math.abs(current - previous) > threshold) {
             if (config.allowseekforward === false && current > previous && !isForwardTargetAlreadyWatched(current, 0.75) &&
-                    blockForwardSeek(current, getAllowedForwardLimit())) {
+                    blockForwardSeek(current, allowedLimit)) {
                 return;
             }
             if (config.allowseekbackward === false && current < previous) {
