@@ -93,9 +93,25 @@ define([
         state.maxallowedtime = Math.max(Number(state.maxallowedtime) || 0, current);
     }
 
+    function getAllowedForwardLimit() {
+        return Math.max(Number(state.maxallowedtime) || 0, getMaxWatchedFromIntervals(state.intervaljson));
+    }
+
     function isForwardTargetAlreadyWatched(target, tolerance) {
-        var allowed = Number(state.maxallowedtime) || 0;
-        return Tracker.normaliseTime(target) <= allowed + (typeof tolerance === 'number' ? tolerance : 5);
+        var allowed = getAllowedForwardLimit();
+        return Tracker.normaliseTime(target) <= allowed + (typeof tolerance === 'number' ? tolerance : 0.75);
+    }
+
+    function isNormalForwardPlayback(current, rate) {
+        var start = Number(state.segmentstart);
+        var wallclock = Number(state.wallclockstart);
+        var now = Math.floor(Date.now() / 1000);
+        var elapsed;
+        if (!state.playing || !isFinite(start) || !isFinite(wallclock) || wallclock <= 0) {
+            return false;
+        }
+        elapsed = Math.max(0, now - wallclock) * Math.max(Number(rate) || state.playbackrate || 1, 1);
+        return Tracker.normaliseTime(current) <= start + elapsed + 2;
     }
 
     function getMaxWatchedFromIntervals(intervaljson) {
@@ -251,9 +267,16 @@ define([
         }
         expectedDelta = state.playing && elapsed > 0 ? elapsed * Math.max(rate, 1) : 0;
         threshold = state.playing ? Math.max(3, expectedDelta + 1.5) : 0.5;
+        if (config.allowseekforward === false && current > previous + threshold && isNormalForwardPlayback(current, rate)) {
+            Tracker.syncTime(state, current, rate);
+            rememberResumePosition(current);
+            markAllowedForwardTime(current);
+            updateLiveIntervalBar(current);
+            return;
+        }
         if (Math.abs(current - previous) > threshold) {
-            if (config.allowseekforward === false && current > previous && !isForwardTargetAlreadyWatched(current, threshold) &&
-                    blockForwardSeek(current, previous)) {
+            if (config.allowseekforward === false && current > previous && !isForwardTargetAlreadyWatched(current, 0.75) &&
+                    blockForwardSeek(current, getAllowedForwardLimit())) {
                 return;
             }
             if (config.allowseekbackward === false && current < previous) {
@@ -270,7 +293,7 @@ define([
         }
         Tracker.syncTime(state, current, rate);
         rememberResumePosition(current);
-        if (current >= previous && (!config || config.allowseekforward !== false || current <= (Number(state.maxallowedtime) || 0) + threshold)) {
+        if (current >= previous && (!config || config.allowseekforward !== false || current <= getAllowedForwardLimit() + 0.75)) {
             markAllowedForwardTime(current);
         }
         updateLiveIntervalBar(current);
@@ -293,9 +316,10 @@ define([
     }
 
     function blockForwardSeek(target, fallbackTime) {
+        var allowed = getAllowedForwardLimit();
         var fallback = typeof fallbackTime === 'number' ? fallbackTime : Tracker.normaliseTime(state.lasttime);
-        fallback = Math.max(0, Tracker.normaliseTime(fallback));
-        if (target <= fallback + 0.75 || isForwardTargetAlreadyWatched(target, 1)) {
+        fallback = Math.max(0, Tracker.normaliseTime(Math.max(fallback, allowed)));
+        if (target <= fallback + 0.75 || isForwardTargetAlreadyWatched(target, 0.75)) {
             return false;
         }
         Tracker.blockSeek(state, 1000);
@@ -632,13 +656,13 @@ define([
             if (Tracker.consumeProgrammaticSeek(state, data.seconds)) { return; }
             if (state.seekblocked) { return; }
             if (config.allowseekforward === false && data.seconds > Tracker.normaliseTime(state.lasttime) &&
-                    !isForwardTargetAlreadyWatched(data.seconds, 1) &&
-                    blockForwardSeek(data.seconds, Tracker.normaliseTime(state.lasttime))) {
+                    !isForwardTargetAlreadyWatched(data.seconds, 0.75) &&
+                    blockForwardSeek(data.seconds, getAllowedForwardLimit())) {
                 return;
             }
             var seekconfig = config;
             if (config.allowseekforward === false && data.seconds > Tracker.normaliseTime(state.lasttime) &&
-                    isForwardTargetAlreadyWatched(data.seconds, 1)) {
+                    isForwardTargetAlreadyWatched(data.seconds, 0.75)) {
                 seekconfig = Object.assign({}, config, {allowseekforward: true});
             }
             var seek = Tracker.resolveSeek(state, data.seconds, seekconfig, 0);
