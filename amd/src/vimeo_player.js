@@ -133,14 +133,8 @@ define([
         if (state._vimeoRuntimePollId) {
             return;
         }
-        state._vimeoRuntimePollId = window.setInterval(function() {
-            if (!player || !state.playing || state.seekblocked) {
-                return;
-            }
-            player.getCurrentTime().then(function(seconds) {
-                handleVimeoTime(Tracker.normaliseTime(seconds), state.playbackrate || 1, state.duration);
-            }).catch(Log.debug);
-        }, 1000);
+        state._vimeoRuntimePollId = window.setInterval(pollVimeoRuntime, 1000);
+        pollVimeoRuntime();
     }
 
     function stopVimeoRuntimePolling() {
@@ -148,6 +142,70 @@ define([
             window.clearInterval(state._vimeoRuntimePollId);
             state._vimeoRuntimePollId = null;
         }
+    }
+
+    function readVimeoValue(method, fallback) {
+        if (!player || typeof player[method] !== 'function') {
+            return Promise.resolve(fallback);
+        }
+        return player[method]().catch(function(error) {
+            Log.debug(error);
+            return fallback;
+        });
+    }
+
+    function pauseRuntimeSegment(current) {
+        if (!state.playing) {
+            return;
+        }
+        stopHeartbeat();
+        rememberResumePosition(current);
+        closeSegment('pause');
+        setReactionButtons(false);
+    }
+
+    function pollVimeoRuntime() {
+        if (!player || state.seekblocked) {
+            return;
+        }
+        Promise.all([
+            readVimeoValue('getCurrentTime', state.lasttime),
+            readVimeoValue('getPaused', !state.playing),
+            readVimeoValue('getPlaybackRate', state.playbackrate || 1),
+            readVimeoValue('getDuration', state.duration || config.duration || 0)
+        ]).then(function(values) {
+            var current = Tracker.normaliseTime(values[0]);
+            var paused = values[1] !== false;
+            var rate = Number(values[2]) || state.playbackrate || 1;
+            var duration = Number(values[3]) || state.duration || config.duration || 0;
+            if (duration > 0) {
+                state.duration = duration;
+            }
+            state.playbackrate = rate;
+            if (paused) {
+                handleVimeoTime(current, rate, duration);
+                pauseRuntimeSegment(current);
+                return;
+            }
+            if (!state.playing || state.segmentstart === null || typeof state.segmentstart === 'undefined') {
+                startSegment(current);
+                startHeartbeat();
+                setReactionButtons(true);
+            }
+            handleVimeoTime(current, rate, duration);
+            Tracker.runHeartbeat({
+                state: state,
+                heartbeatInterval: HEARTBEAT_INTERVAL,
+                getCurrentTime: function() {
+                    return current;
+                },
+                saveSegment: saveSegment,
+                hasPlayer: function() {
+                    return hasPlayer(['getCurrentTime']);
+                },
+                log: Log
+            });
+        }).catch(Log.debug);
     }
 
     function handleVimeoTime(current, playbackRate, duration) {
@@ -426,6 +484,7 @@ define([
             }
             var resumePosition = resolveResumePosition();
             initialiseKnownProgress(resumePosition || 0);
+            startVimeoRuntimePolling();
             // Automatically resume from the last saved position (lastposition > 2s).
             if (resumePosition > 2) {
                 Tracker.markProgrammaticSeek(state);
@@ -502,7 +561,6 @@ define([
                 return;
             }
             stopHeartbeat();
-            stopVimeoRuntimePolling();
             rememberResumePosition(state.lasttime);
             closeSegment('pause');
             setReactionButtons(false);
@@ -512,7 +570,6 @@ define([
             state.ended = true;
             reactionState.readyAnnounced = false;
             stopHeartbeat();
-            stopVimeoRuntimePolling();
             rememberResumePosition(state.lasttime);
             closeSegment('ended');
             setReactionButtons(false); // Disable buttons at the end of the video.
@@ -546,6 +603,9 @@ define([
         player.on('timeupdate', function(data) {
             handleVimeoTime(Tracker.normaliseTime(data.seconds), data.playbackRate, data.duration);
         });
+
+        window.addEventListener('pagehide', stopVimeoRuntimePolling, {once: true});
+        window.addEventListener('beforeunload', stopVimeoRuntimePolling, {once: true});
 
         var root = PlayerCore.getPlayerShell(Log);
         if (!root) { return; }
