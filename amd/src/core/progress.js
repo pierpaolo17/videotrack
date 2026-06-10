@@ -154,13 +154,28 @@ define([], function() {
                 intervals.push([start, end]);
             }
         }
-        intervals.forEach(function(seg) {
+        intervals = intervals.map(function(seg) {
             if (!Array.isArray(seg) || seg.length < 2 || duration <= 0) {
-                return;
+                return null;
             }
             start = Math.max(0, Number(seg[0]) || 0);
             end = Math.min(duration, Math.max(start, Number(seg[1]) || 0));
-            covered += Math.max(0, end - start);
+            return end > start ? [start, end] : null;
+        }).filter(function(seg) {
+            return !!seg;
+        }).sort(function(a, b) {
+            return a[0] - b[0];
+        }).reduce(function(merged, seg) {
+            var last = merged.length ? merged[merged.length - 1] : null;
+            if (last && seg[0] <= last[1]) {
+                last[1] = Math.max(last[1], seg[1]);
+            } else {
+                merged.push([seg[0], seg[1]]);
+            }
+            return merged;
+        }, []);
+        intervals.forEach(function(seg) {
+            covered += Math.max(0, seg[1] - seg[0]);
         });
         if (duration > 0) {
             percent = Math.min(100, Math.max(0, (covered / duration) * 100));
