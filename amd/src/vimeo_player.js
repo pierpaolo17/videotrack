@@ -95,7 +95,29 @@ define([
 
     function isForwardTargetAlreadyWatched(target, tolerance) {
         var allowed = Number(state.maxallowedtime) || 0;
-        return Tracker.normaliseTime(target) <= allowed + (typeof tolerance === 'number' ? tolerance : 1);
+        return Tracker.normaliseTime(target) <= allowed + (typeof tolerance === 'number' ? tolerance : 5);
+    }
+
+    function getMaxWatchedFromIntervals(intervaljson) {
+        var max = 0;
+        var intervals;
+        try {
+            intervals = JSON.parse(intervaljson || '[]');
+        } catch (e) {
+            return 0;
+        }
+        if (!Array.isArray(intervals)) {
+            return 0;
+        }
+        intervals.forEach(function(interval) {
+            if (Array.isArray(interval) && interval.length > 1) {
+                var end = Number(interval[1]);
+                if (isFinite(end) && end > max) {
+                    max = end;
+                }
+            }
+        });
+        return Tracker.normaliseTime(max);
     }
 
 
@@ -266,7 +288,7 @@ define([
         if (config.duration && !state.duration) {
             state.duration = Number(config.duration) || 0;
         }
-        markAllowedForwardTime(current);
+        markAllowedForwardTime(Math.max(current, getMaxWatchedFromIntervals(state.intervaljson)));
         updateLiveIntervalBar(current);
     }
 
@@ -359,14 +381,28 @@ define([
             callback();
             return;
         }
-        var script       = document.createElement('script');
-        script.src       = 'https://player.vimeo.com/api/player.js';
-        script.async     = true;
+        var script = document.createElement('script');
+        var amdDefine = window.define;
+        var restoreDefine = function() {
+            if (amdDefine && window.define !== amdDefine) {
+                window.define = amdDefine;
+            }
+        };
+        script.src = 'https://player.vimeo.com/api/player.js';
+        script.async = true;
+        // Vimeo's SDK is a UMD script. In Moodle, RequireJS can interpret its
+        // anonymous AMD define() call as a Moodle module and stop initialisation
+        // with a "Mismatched anonymous define()" error. Load it as a plain
+        // browser global so window.Vimeo.Player is available to this module.
+        if (amdDefine && amdDefine.amd) {
+            window.define = undefined;
+        }
         // crossorigin='anonymous' prevents credential leakage.
         // Note: Vimeo does not publish stable SRI hashes as the SDK is updated
         // dynamically; if your CSP blocks external scripts, add
         // 'player.vimeo.com' to the script-src directive.
         script.onload = function() {
+            restoreDefine();
             if (window.Vimeo && window.Vimeo.Player) {
                 callback();
                 return;
@@ -374,6 +410,7 @@ define([
             Debug.log('vimeosdkmissingafterload');
         };
         script.onerror = function() {
+            restoreDefine();
             Debug.log('vimeosdkfailed');
             // Show a readable user message: likely CSP or network blocking.
             var wrap = document.getElementById('mod-videotrack-player');

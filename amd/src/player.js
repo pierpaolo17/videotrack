@@ -94,7 +94,29 @@ define([
 
     function isForwardTargetAlreadyWatched(target, tolerance) {
         var allowed = Number(state.maxallowedtime) || 0;
-        return Tracker.normaliseTime(target) <= allowed + (typeof tolerance === 'number' ? tolerance : 1);
+        return Tracker.normaliseTime(target) <= allowed + (typeof tolerance === 'number' ? tolerance : 5);
+    }
+
+    function getMaxWatchedFromIntervals(intervaljson) {
+        var max = 0;
+        var intervals;
+        try {
+            intervals = JSON.parse(intervaljson || '[]');
+        } catch (e) {
+            return 0;
+        }
+        if (!Array.isArray(intervals)) {
+            return 0;
+        }
+        intervals.forEach(function(interval) {
+            if (Array.isArray(interval) && interval.length > 1) {
+                var end = Number(interval[1]);
+                if (isFinite(end) && end > max) {
+                    max = end;
+                }
+            }
+        });
+        return Tracker.normaliseTime(max);
     }
 
 
@@ -140,7 +162,7 @@ define([
         if (config.duration && !state.duration) {
             state.duration = Number(config.duration) || 0;
         }
-        markAllowedForwardTime(current);
+        markAllowedForwardTime(Math.max(current, getMaxWatchedFromIntervals(state.intervaljson)));
         updateLiveIntervalBar(current);
     }
 
@@ -199,6 +221,7 @@ define([
         }
         Tracker.openSegment(state, currentTime, wallclock, currentRate);
         state.lastSeekPollAt = Date.now();
+        state._ignoreNextSeekPoll = true;
         markAllowedForwardTime(currentTime);
         updateLiveIntervalBar(currentTime);
         setReactionButtons(true);
@@ -243,6 +266,14 @@ define([
         // Ignore polling during programmatic seeks (replay, resume, skip buttons).
         // Reset the flag here so it stays active for exactly one polling cycle.
         var polledTime = player.getCurrentTime();
+        if (state._ignoreNextSeekPoll) {
+            state._ignoreNextSeekPoll = false;
+            Tracker.syncTime(state, polledTime);
+            rememberResumePosition(polledTime);
+            markAllowedForwardTime(polledTime);
+            updateLiveIntervalBar(polledTime);
+            return;
+        }
         if (Tracker.consumeProgrammaticSeek(state, polledTime)) {
             markAllowedForwardTime(polledTime);
             updateLiveIntervalBar(polledTime);
@@ -623,8 +654,7 @@ define([
                 mute:           (config.autoplay || config.startmuted) ? 1 : 0,
                 loop:           config.loop ? 1 : 0,
                 playlist:       config.loop ? config.videoid : undefined,
-                start:          (typeof config.replaystart !== 'number' && resolveResumePosition() > 2) ?
-                                    Math.floor(resolveResumePosition()) : undefined,
+                start:          undefined,
                 controls:       config.showcontrols ? 1 : 0,
                 disablekb:      config.disablekeyboard ? 1 : 0,
                 fs:             config.showfullscreen ? 1 : 0,
