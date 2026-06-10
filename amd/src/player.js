@@ -92,6 +92,11 @@ define([
         state.maxallowedtime = Math.max(Number(state.maxallowedtime) || 0, current);
     }
 
+    function isForwardTargetAlreadyWatched(target, tolerance) {
+        var allowed = Number(state.maxallowedtime) || 0;
+        return Tracker.normaliseTime(target) <= allowed + (typeof tolerance === 'number' ? tolerance : 1);
+    }
+
 
     function getResumeStorageKey() {
         return 'videotrack:lastposition:' + String(config && config.cmid ? config.cmid : '0');
@@ -139,18 +144,10 @@ define([
         updateLiveIntervalBar(current);
     }
 
-    function enforceForwardSeekOnPlay(current) {
-        current = Tracker.normaliseTime(current);
-        if (!config || config.allowseekforward !== false) {
-            return false;
-        }
-        return blockForwardSeek(current);
-    }
-
     function blockForwardSeek(target, fallbackTime) {
         var fallback = typeof fallbackTime === 'number' ? fallbackTime : Tracker.normaliseTime(state.lasttime);
         fallback = Math.max(0, Tracker.normaliseTime(fallback));
-        if (target <= fallback + 0.75) {
+        if (target <= fallback + 0.75 || isForwardTargetAlreadyWatched(target, 1)) {
             return false;
         }
         Tracker.blockSeek(state, 1000);
@@ -275,10 +272,15 @@ define([
         var expectedDelta = state.playing && elapsed > 0 ? elapsed * Math.max(rate || 1, 1) : 0;
         var threshold = state.playing ? Math.max(3, expectedDelta + 1.5) : 0.5;
         if (Math.abs(delta) > threshold) {
-            if (config.allowseekforward === false && current > previous && blockForwardSeek(current, previous)) {
+            if (config.allowseekforward === false && current > previous && !isForwardTargetAlreadyWatched(current, threshold) &&
+                    blockForwardSeek(current, previous)) {
                 return;
             }
-            var seek = Tracker.resolveSeek(state, current, config, 0);
+            var seekconfig = config;
+            if (config.allowseekforward === false && current > previous && isForwardTargetAlreadyWatched(current, threshold)) {
+                seekconfig = Object.assign({}, config, {allowseekforward: true});
+            }
+            var seek = Tracker.resolveSeek(state, current, seekconfig, 0);
             var oldtime = seek.oldTime;
             if (seek.blocked && seek.forward) {
                 Tracker.blockSeek(state, 1000);
@@ -346,9 +348,9 @@ define([
                     }, state, Log, 'YouTube enforced playback rate');
                 }
             }
-            if (enforceForwardSeekOnPlay(player.getCurrentTime ? player.getCurrentTime() : state.lasttime)) {
-                return;
-            }
+            // Do not treat the first PLAYING notification as a learner seek.
+            // Some providers fire it only after a few seconds of normal playback;
+            // blocking here caused the opening seconds to be replayed.
             if (!state.playing) {
                 startCurrentSegment();
             }
