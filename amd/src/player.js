@@ -235,24 +235,43 @@ define([
             .catch(Log.debug);
     }
 
+
+
+    function getConfiguredMaxPlaybackRate() {
+        var maxRate = Number(config && config.maxplaybackrate ? config.maxplaybackrate : 0) / 100;
+        return isFinite(maxRate) && maxRate > 0 ? maxRate : 0;
+    }
+
+    function getPlaybackRatePenalty() {
+        return 0.5;
+    }
+
+    function enforceMaxPlaybackRate(label) {
+        var maxRate;
+        var currentRate;
+        var resetRate;
+        if (!player || typeof player.getPlaybackRate !== 'function' || typeof player.setPlaybackRate !== 'function') {
+            return state.playbackrate || 1;
+        }
+        maxRate = getConfiguredMaxPlaybackRate();
+        currentRate = Adapter.getPlaybackRate(state, function() {
+            return player.getPlaybackRate();
+        }, Log, label || 'YouTube playback rate');
+        if (maxRate > 0 && currentRate > maxRate) {
+            resetRate = getPlaybackRatePenalty();
+            Adapter.setPlaybackRate(resetRate, function(rate) {
+                return player.setPlaybackRate(rate);
+            }, state, Log, label || 'YouTube playback rate limit');
+            return resetRate;
+        }
+        return currentRate;
+    }
+
     function startCurrentSegment() {
         var currentTime = player.getCurrentTime();
         var wallclock = Math.floor(Date.now() / 1000);
         // Feature 6: apply the maximum speed limit when configured.
-        var currentRate = Adapter.getPlaybackRate(state, function() {
-            return player.getPlaybackRate ? player.getPlaybackRate() : state.playbackrate;
-        }, Log, 'YouTube');
-        if (config.maxplaybackrate > 0) {
-            var maxRate = config.maxplaybackrate / 100;
-            if (currentRate > maxRate) {
-                if (player.setPlaybackRate) {
-                    Adapter.setPlaybackRate(maxRate, function(rate) {
-                        return player.setPlaybackRate(rate);
-                    }, state, Log, 'YouTube max playback rate');
-                }
-                currentRate = maxRate;
-            }
-        }
+        var currentRate = enforceMaxPlaybackRate('YouTube segment start playback rate');
         Tracker.openSegment(state, currentTime, wallclock, currentRate);
         state.lastSeekPollAt = Date.now();
         state._ignoreNextSeekPoll = true;
@@ -331,9 +350,7 @@ define([
             updateLiveIntervalBar(current);
             return;
         }
-        var rate = Adapter.getPlaybackRate(state, function() {
-            return player.getPlaybackRate ? player.getPlaybackRate() : state.playbackrate;
-        }, Log, 'YouTube seek polling');
+        var rate = enforceMaxPlaybackRate('YouTube seek polling playback rate');
         var expectedDelta = state.playing && elapsed > 0 ? elapsed * Math.max(rate || 1, 1) : 0;
         var threshold = state.playing ? Math.max(1.5, expectedDelta + 1.0) : 0.5;
         var allowedLimit = getAllowedForwardLimit();
@@ -413,20 +430,7 @@ define([
             return player.getDuration ? player.getDuration() : state.duration;
         }, Log, 'YouTube');
         if (event.data === YT.PlayerState.PLAYING) {
-            // Enforce maxplaybackrate: if the student raised the speed above the
-            // configured limit, silently reset it to the maximum allowed value.
-            // config.maxplaybackrate is in hundredths (150 = 1.5x); getPlaybackRate() returns a float.
-            if (config.maxplaybackrate > 0 && player.getPlaybackRate) {
-                var maxRateEnforced = config.maxplaybackrate / 100;
-                var currentRate = Adapter.getPlaybackRate(state, function() {
-                    return player.getPlaybackRate();
-                }, Log, 'YouTube');
-                if (currentRate > maxRateEnforced) {
-                    Adapter.setPlaybackRate(maxRateEnforced, function(rate) {
-                        return player.setPlaybackRate(rate);
-                    }, state, Log, 'YouTube enforced playback rate');
-                }
-            }
+            enforceMaxPlaybackRate('YouTube state-change playback rate');
             // Do not treat the first PLAYING notification as a learner seek.
             // Some providers fire it only after a few seconds of normal playback;
             // blocking here caused the opening seconds to be replayed.
@@ -720,9 +724,7 @@ define([
                     state.duration = Adapter.getDuration(state, function() {
                         return player.getDuration ? player.getDuration() : state.duration;
                     }, Log, 'YouTube ready');
-                    state.playbackrate = Adapter.getPlaybackRate(state, function() {
-                        return player.getPlaybackRate ? player.getPlaybackRate() : state.playbackrate;
-                    }, Log, 'YouTube ready');
+                    state.playbackrate = enforceMaxPlaybackRate('YouTube ready playback rate');
                     setReactionButtons(false); // Disabled until playback starts.
                     // Add rewind/ff overlay buttons if configured.
                     buildYouTubeSkipButtons();
@@ -749,6 +751,9 @@ define([
                     }
                 },
                 onStateChange: onPlayerStateChange,
+                onPlaybackRateChange: function() {
+                    enforceMaxPlaybackRate('YouTube playback-rate change');
+                },
                 onAutoplayBlocked: function() {
                     // Browser has blocked autoplay. Show a visible play button
                     // so the student can start manually without confusion.
