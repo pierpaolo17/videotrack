@@ -305,10 +305,7 @@ define([
                 return;
             }
             if (config.allowseekbackward === false && current < previous) {
-                Tracker.blockSeek(state, 1000);
-                player.setCurrentTime(previous).then(function() {
-                    Tracker.syncTime(state, previous);
-                }).catch(Log.debug);
+                recoverBlockedSeek(previous, !!state.playing, 'Vimeo blocked backward seek resume');
                 return;
             }
             if (state.playing) {
@@ -349,18 +346,27 @@ define([
         });
     }
 
+    function recoverBlockedSeek(fallback, wasPlaying, label) {
+        Tracker.markProgrammaticSeek(state);
+        Tracker.blockSeek(state, 1000);
+        return player.setCurrentTime(fallback).then(function() {
+            Tracker.consumeProgrammaticSeek(state, fallback);
+            resetForwardSeekRecovery(fallback);
+            resumeAfterBlockedSeek(wasPlaying, label);
+        }).catch(function(error) {
+            state.isProgrammaticSeek = false;
+            Log.debug(error);
+        });
+    }
+
     function blockForwardSeek(target, fallbackTime) {
         var fallback = typeof fallbackTime === 'number' ? fallbackTime : Tracker.normaliseTime(state.lasttime);
-        var wasPlaying = !!state.playing;
+        var wasPlaying = !!state.playing || !!state.wasPlayingBeforeSeekBlock;
         fallback = Math.max(0, Tracker.normaliseTime(fallback));
         if (target <= fallback + 0.75) {
             return false;
         }
-        Tracker.blockSeek(state, 1000);
-        player.setCurrentTime(fallback).then(function() {
-            resetForwardSeekRecovery(fallback);
-            resumeAfterBlockedSeek(wasPlaying, 'Vimeo blocked forward seek resume');
-        }).catch(Log.debug);
+        recoverBlockedSeek(fallback, wasPlaying, 'Vimeo blocked forward seek resume');
         return true;
     }
 
@@ -743,7 +749,7 @@ define([
         });
 
         player.on('pause', function() {
-            if (state.ended) {
+            if (state.ended || state.seekblocked || state.isProgrammaticSeek) {
                 return;
             }
             stopHeartbeat();
@@ -773,12 +779,7 @@ define([
             var seek = Tracker.resolveSeek(state, data.seconds, config, 0);
 
             if (seek.blocked) {
-                var wasPlaying = !!state.playing;
-                Tracker.blockSeek(state, 1000);
-                player.setCurrentTime(seek.fallbackTime).then(function() {
-                    resetForwardSeekRecovery(seek.fallbackTime);
-                    resumeAfterBlockedSeek(wasPlaying, 'Vimeo blocked seek resume');
-                }).catch(Log.debug);
+                recoverBlockedSeek(seek.fallbackTime, !!state.playing, 'Vimeo blocked seek resume');
                 return;
             }
             if (state.playing && seek.changed) {
