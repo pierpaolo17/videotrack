@@ -349,26 +349,43 @@ define([
     }
 
     function recoverBlockedSeek(fallback, wasPlaying, label) {
+        var completed = false;
+        var timeoutid = null;
         fallback = Math.max(0, Tracker.normaliseTime(fallback));
         if (state._vimeoBlockedSeekInProgress) {
             return Promise.resolve();
         }
         state._vimeoBlockedSeekInProgress = true;
         Tracker.markProgrammaticSeek(state);
-        Tracker.blockSeek(state, 1200);
-        return player.setCurrentTime(fallback).then(function() {
+        Tracker.blockSeek(state, 900);
+
+        function finish(error) {
+            if (completed) {
+                return;
+            }
+            completed = true;
+            if (timeoutid) {
+                window.clearTimeout(timeoutid);
+                timeoutid = null;
+            }
+            if (error) {
+                Log.debug(error);
+            }
             Tracker.consumeProgrammaticSeek(state, fallback);
             resetForwardSeekRecovery(fallback);
             Tracker.clearSeekBlock(state);
             state._vimeoBlockedSeekInProgress = false;
             resumeAfterBlockedSeek(wasPlaying, label);
-        }).catch(function(error) {
-            state.isProgrammaticSeek = false;
-            state._vimeoBlockedSeekInProgress = false;
-            Tracker.clearSeekBlock(state);
-            Log.debug(error);
-            resumeAfterBlockedSeek(wasPlaying, label);
-        });
+        }
+
+        timeoutid = window.setTimeout(function() {
+            finish('Vimeo blocked seek rollback timed out');
+        }, 1000);
+
+        player.setCurrentTime(fallback).then(function() {
+            finish();
+        }).catch(finish);
+        return Promise.resolve();
     }
 
     function blockForwardSeek(target, fallbackTime) {
