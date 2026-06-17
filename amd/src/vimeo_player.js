@@ -341,21 +341,33 @@ define([
         if (!wasPlaying || !player || typeof player.play !== 'function') {
             return;
         }
-        player.play().catch(function(error) {
-            Log.debug((label || 'Vimeo blocked seek resume') + ': ' + error);
-        });
+        window.setTimeout(function() {
+            player.play().catch(function(error) {
+                Log.debug((label || 'Vimeo blocked seek resume') + ': ' + error);
+            });
+        }, 150);
     }
 
     function recoverBlockedSeek(fallback, wasPlaying, label) {
+        fallback = Math.max(0, Tracker.normaliseTime(fallback));
+        if (state._vimeoBlockedSeekInProgress) {
+            return Promise.resolve();
+        }
+        state._vimeoBlockedSeekInProgress = true;
         Tracker.markProgrammaticSeek(state);
-        Tracker.blockSeek(state, 1000);
+        Tracker.blockSeek(state, 1200);
         return player.setCurrentTime(fallback).then(function() {
             Tracker.consumeProgrammaticSeek(state, fallback);
             resetForwardSeekRecovery(fallback);
+            Tracker.clearSeekBlock(state);
+            state._vimeoBlockedSeekInProgress = false;
             resumeAfterBlockedSeek(wasPlaying, label);
         }).catch(function(error) {
             state.isProgrammaticSeek = false;
+            state._vimeoBlockedSeekInProgress = false;
+            Tracker.clearSeekBlock(state);
             Log.debug(error);
+            resumeAfterBlockedSeek(wasPlaying, label);
         });
     }
 
