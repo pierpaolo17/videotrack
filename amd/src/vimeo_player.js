@@ -353,32 +353,22 @@ define([
 
         function retry() {
             var request = state._vimeoBlockedSeekResume;
-            if (!request || Date.now() > request.until || request.attempts >= 6) {
+            if (!request || Date.now() > request.until || request.attempts >= 8) {
                 state._vimeoBlockedSeekResume = null;
                 state._vimeoBlockedSeekResumeTimer = null;
                 return;
             }
             request.attempts++;
-            readVimeoValue('getPaused', true).then(function(paused) {
-                if (paused === false) {
-                    state._vimeoBlockedSeekResume = null;
-                    state._vimeoBlockedSeekResumeTimer = null;
-                    return;
-                }
-                player.play().then(function() {
-                    state._vimeoBlockedSeekResume = null;
-                    state._vimeoBlockedSeekResumeTimer = null;
-                }).catch(function(error) {
-                    Log.debug(request.label + ': ' + error);
-                    state._vimeoBlockedSeekResumeTimer = window.setTimeout(retry, 500);
-                });
+            player.play().then(function() {
+                state._vimeoBlockedSeekResume = null;
+                state._vimeoBlockedSeekResumeTimer = null;
             }).catch(function(error) {
                 Log.debug(request.label + ': ' + error);
-                state._vimeoBlockedSeekResumeTimer = window.setTimeout(retry, 500);
+                state._vimeoBlockedSeekResumeTimer = window.setTimeout(retry, 650);
             });
         }
 
-        state._vimeoBlockedSeekResumeTimer = window.setTimeout(retry, 600);
+        state._vimeoBlockedSeekResumeTimer = window.setTimeout(retry, 900);
     }
 
     function recoverBlockedSeek(fallback, wasPlaying, label) {
