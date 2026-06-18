@@ -337,15 +337,48 @@ define([
         updateLiveIntervalBar(current);
     }
 
-    function resumeAfterBlockedSeek(wasPlaying, label) {
+    function scheduleBlockedSeekResume(wasPlaying, label) {
         if (!wasPlaying || !player || typeof player.play !== 'function') {
             return;
         }
-        window.setTimeout(function() {
-            player.play().catch(function(error) {
-                Log.debug((label || 'Vimeo blocked seek resume') + ': ' + error);
+        if (state._vimeoBlockedSeekResumeTimer) {
+            window.clearTimeout(state._vimeoBlockedSeekResumeTimer);
+            state._vimeoBlockedSeekResumeTimer = null;
+        }
+        state._vimeoBlockedSeekResume = {
+            attempts: 0,
+            label: label || 'Vimeo blocked seek resume',
+            until: Date.now() + 5000
+        };
+
+        function retry() {
+            var request = state._vimeoBlockedSeekResume;
+            if (!request || Date.now() > request.until || request.attempts >= 6) {
+                state._vimeoBlockedSeekResume = null;
+                state._vimeoBlockedSeekResumeTimer = null;
+                return;
+            }
+            request.attempts++;
+            readVimeoValue('getPaused', true).then(function(paused) {
+                if (paused === false) {
+                    state._vimeoBlockedSeekResume = null;
+                    state._vimeoBlockedSeekResumeTimer = null;
+                    return;
+                }
+                player.play().then(function() {
+                    state._vimeoBlockedSeekResume = null;
+                    state._vimeoBlockedSeekResumeTimer = null;
+                }).catch(function(error) {
+                    Log.debug(request.label + ': ' + error);
+                    state._vimeoBlockedSeekResumeTimer = window.setTimeout(retry, 500);
+                });
+            }).catch(function(error) {
+                Log.debug(request.label + ': ' + error);
+                state._vimeoBlockedSeekResumeTimer = window.setTimeout(retry, 500);
             });
-        }, 150);
+        }
+
+        state._vimeoBlockedSeekResumeTimer = window.setTimeout(retry, 600);
     }
 
     function recoverBlockedSeek(fallback, wasPlaying, label) {
@@ -375,7 +408,7 @@ define([
             resetForwardSeekRecovery(fallback);
             Tracker.clearSeekBlock(state);
             state._vimeoBlockedSeekInProgress = false;
-            resumeAfterBlockedSeek(wasPlaying, label);
+            scheduleBlockedSeekResume(wasPlaying, label);
         }
 
         timeoutid = window.setTimeout(function() {
@@ -778,7 +811,7 @@ define([
         });
 
         player.on('pause', function() {
-            if (state.ended || state.seekblocked || state.isProgrammaticSeek) {
+            if (state.ended || state.seekblocked || state.isProgrammaticSeek || state._vimeoBlockedSeekResume) {
                 return;
             }
             stopHeartbeat();
