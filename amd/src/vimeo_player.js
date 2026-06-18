@@ -244,6 +244,9 @@ define([
             }
             rate = enforcePlaybackRateValue(rate, 'Vimeo runtime playback rate');
             if (paused) {
+                if (state._vimeoBlockedSeekInProgress || state._vimeoBlockedSeekResume) {
+                    return;
+                }
                 handleVimeoTime(current, rate, duration);
                 pauseRuntimeSegment(current);
                 return;
@@ -348,7 +351,7 @@ define([
         state._vimeoBlockedSeekResume = {
             attempts: 0,
             label: label || 'Vimeo blocked seek resume',
-            until: Date.now() + 5000
+            until: Date.now() + 6000
         };
 
         function retry() {
@@ -356,11 +359,11 @@ define([
             if (!request || Date.now() > request.until || request.attempts >= 8) {
                 state._vimeoBlockedSeekResume = null;
                 state._vimeoBlockedSeekResumeTimer = null;
+                state.wasPlayingBeforeSeekBlock = false;
                 return;
             }
             request.attempts++;
             player.play().then(function() {
-                state._vimeoBlockedSeekResume = null;
                 state._vimeoBlockedSeekResumeTimer = null;
             }).catch(function(error) {
                 Log.debug(request.label + ': ' + error);
@@ -415,6 +418,7 @@ define([
         var fallback = typeof fallbackTime === 'number' ? fallbackTime : Tracker.normaliseTime(state.lasttime);
         var wasPlaying = !!state.playing || !!state.wasPlayingBeforeSeekBlock;
         fallback = Math.max(0, Tracker.normaliseTime(fallback));
+        state.wasPlayingBeforeSeekBlock = wasPlaying;
         if (target <= fallback + 0.75) {
             return false;
         }
@@ -774,6 +778,12 @@ define([
 
         player.on('play', function() {
             state.ended = false;
+            if (state._vimeoBlockedSeekResumeTimer) {
+                window.clearTimeout(state._vimeoBlockedSeekResumeTimer);
+                state._vimeoBlockedSeekResumeTimer = null;
+            }
+            state._vimeoBlockedSeekResume = null;
+            state.wasPlayingBeforeSeekBlock = false;
             player.getCurrentTime().then(function(t) {
                 // iOS Safari workaround: setCurrentTime may fail before play.
                 // Retry the seek on first playback when it was pending.
