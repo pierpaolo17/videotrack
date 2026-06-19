@@ -68,6 +68,102 @@ define([
         return isFinite(number) ? number : fallback;
     }
 
+    function getMaxWatchedFromIntervals(intervaljson) {
+        var intervals;
+        var max = 0;
+        try {
+            intervals = Array.isArray(intervaljson) ? intervaljson : JSON.parse(intervaljson || '[]');
+            intervals.forEach(function(interval) {
+                if (Array.isArray(interval) && interval.length > 1) {
+                    max = Math.max(max, safeNumber(interval[1], 0));
+                }
+            });
+        } catch (e) {
+            Debug.log('invalidintervaljson', {message: e});
+        }
+        return Tracker.normaliseTime(max);
+    }
+
+    function markAllowedForwardTime(current) {
+        state.maxallowedtime = Math.max(Number(state.maxallowedtime) || 0, Tracker.normaliseTime(current));
+    }
+
+    function getAllowedForwardLimit() {
+        return Math.max(Number(state.maxallowedtime) || 0, getMaxWatchedFromIntervals(state.intervaljson));
+    }
+
+    function getConfiguredMaxPlaybackRate() {
+        var configured = Number(config && config.maxplaybackrate ? config.maxplaybackrate : 0) / 100;
+        if (configured > 0) {
+            return configured;
+        }
+        if (config && config.allowplaybackratechange === false) {
+            return 1;
+        }
+        return 0;
+    }
+
+    function getPlaybackRatePenalty() {
+        return 0.5;
+    }
+
+    function setSpeedButtonState(rate) {
+        var speedWrap = document.getElementById('videotrack-speed-controls');
+        if (!speedWrap) {
+            return;
+        }
+        speedWrap.querySelectorAll('.videotrack-speed-btn').forEach(function(button) {
+            button.classList.toggle('active', parseFloat(button.dataset.speed) === rate);
+        });
+    }
+
+    function writePlaybackRate(rate) {
+        var safeRate = safeNumber(rate, getPlaybackRatePenalty());
+        if (safeRate <= 0) {
+            safeRate = getPlaybackRatePenalty();
+        }
+        media.playbackRate = safeRate;
+        state.playbackrate = safeRate;
+        setSpeedButtonState(safeRate);
+        return safeRate;
+    }
+
+    function enforceMaxPlaybackRate() {
+        var maxRate = getConfiguredMaxPlaybackRate();
+        var currentRate;
+        if (!media || maxRate <= 0) {
+            return state.playbackrate || 1;
+        }
+        currentRate = safeNumber(media.playbackRate, state.playbackrate || 1);
+        if (currentRate > maxRate) {
+            return writePlaybackRate(getPlaybackRatePenalty());
+        }
+        state.playbackrate = currentRate;
+        setSpeedButtonState(currentRate);
+        return currentRate;
+    }
+
+    function blockForwardSeek(target) {
+        var fallback = Math.max(0, getAllowedForwardLimit());
+        var wasPlaying = state.playing && !media.paused;
+        state.isSeeking = true;
+        Tracker.blockSeek(state, 500);
+        media.currentTime = fallback;
+        Tracker.syncTime(state, fallback, safeNumber(media.playbackRate, 1));
+        markAllowedForwardTime(fallback);
+        window.setTimeout(function() {
+            state.isSeeking = false;
+            Tracker.clearSeekBlock(state);
+            if (wasPlaying && media.paused) {
+                media.play().catch(function(err) {
+                    Debug.log('html5blockedseekresume', {message: err});
+                });
+            }
+        }, 0);
+        Debug.log('html5blockedforwardseek', {target: target, fallback: fallback});
+        return true;
+    }
+
 
     function saveSegment(start, end, reason) {
         return Api.saveSegment(config, state, start, end, reason, {
@@ -113,12 +209,15 @@ define([
     // Segment lifecycle.
 
     function startSegment() {
+        var current = safeNumber(media.currentTime, 0);
+        state.intervaljson = config.intervaljson || state.intervaljson || '[]';
         Tracker.openSegment(
             state,
-            safeNumber(media.currentTime, 0),
+            current,
             Math.floor(Date.now() / 1000),
-            safeNumber(media.playbackRate, 1)
+            enforceMaxPlaybackRate()
         );
+        markAllowedForwardTime(Math.max(current, getMaxWatchedFromIntervals(state.intervaljson)));
     }
 
     /**
@@ -390,12 +489,14 @@ define([
                     var requested = (parseFloat(progressBar.value) / 100) * state.duration;
                     var current = safeNumber(media.currentTime, 0);
                     var allowed = requested;
-                    if (config.allowseekforward === false && requested > current) {
-                        allowed = current;
+                    var forwardLimit = getAllowedForwardLimit();
+                    if (config.allowseekforward === false && requested > forwardLimit) {
+                        allowed = forwardLimit;
                     }
                     if (config.allowseekbackward === false && requested < current) {
                         allowed = current;
                     }
+                    Tracker.markProgrammaticSeek(state);
                     media.currentTime = allowed;
                     progressBar.value = state.duration ? String((allowed / state.duration) * 100) : '0';
                     progressBar.setAttribute('aria-valuenow',  String(Math.round(progressBar.value)));
@@ -492,11 +593,8 @@ define([
                 btn.dataset.speed = speed;
                 btn.setAttribute('aria-label', (config.html5speedlabel) + ' ' + speed + 'x');
                 btn.addEventListener('click', function() {
-                    media.playbackRate = speed;
-                    state.playbackrate = speed;
-                    speedWrap.querySelectorAll('.videotrack-speed-btn').forEach(function(b) {
-                        b.classList.toggle('active', parseFloat(b.dataset.speed) === speed);
-                    });
+                    writePlaybackRate(speed);
+                    enforceMaxPlaybackRate();
                 });
                 speedWrap.appendChild(btn);
             });
@@ -681,6 +779,8 @@ define([
 
         // Seek detection: HTML5 fires 'seeking' then 'seeked'.
         media.addEventListener('seeking', function() {
+            var requested = safeNumber(media.currentTime, state.lasttime || 0);
+            var forwardLimit = getAllowedForwardLimit();
             state.isSeeking = true;
             // Programmatic seek (replay, chapter, resume): close the current segment
             // when the video was playing, so progress is saved up to this point.
@@ -689,11 +789,16 @@ define([
                 if (state.playing) { closeSegment('seek'); }
                 return;
             }
-            var seek = Tracker.resolveSeek(state, media.currentTime, config, 0.5);
+            if (config.allowseekforward === false && requested > forwardLimit + 0.75) {
+                blockForwardSeek(requested);
+                return;
+            }
+            var seek = Tracker.resolveSeek(state, requested, config, 0.5);
             if (seek.blocked) {
                 Tracker.blockSeek(state, 1000);
                 media.currentTime = seek.fallbackTime;
                 Tracker.syncTime(state, seek.fallbackTime);
+                markAllowedForwardTime(seek.fallbackTime);
                 return;
             }
             if (state.playing && seek.changed) {
@@ -702,37 +807,41 @@ define([
         });
 
         media.addEventListener('seeked', function() {
-            state.isSeeking         = false;
-            state.isProgrammaticSeek = false; // Also reset the programmatic seek flag.
+            var current = safeNumber(media.currentTime, 0);
+            state.isSeeking = false;
+            if (Tracker.consumeProgrammaticSeek(state, current)) {
+                markAllowedForwardTime(current);
+            }
             Tracker.clearSeekBlock(state);
             if (state.playing) { startSegment(); }
-            if (Tracker.shouldStopReplay(state, safeNumber(media.currentTime, 0))) {
+            if (Tracker.shouldStopReplay(state, current)) {
                 media.pause();
             }
         });
 
         media.addEventListener('timeupdate', function() {
-            if (!state.isSeeking && !state.seekblocked) {
-                Tracker.syncTime(state, safeNumber(media.currentTime, 0), safeNumber(media.playbackRate, 1));
-                updateLiveIntervalBar(safeNumber(media.currentTime, 0));
-                if (Tracker.shouldStopReplay(state, safeNumber(media.currentTime, 0))) {
-                    Adapter.pause(function() {
-                        return media.pause();
-                    }, Log, 'HTML5 replay pause');
-                }
+            var current = safeNumber(media.currentTime, 0);
+            var forwardLimit = getAllowedForwardLimit();
+            var rate = enforceMaxPlaybackRate();
+            if (state.isSeeking || state.seekblocked) {
+                return;
+            }
+            if (config.allowseekforward === false && current > forwardLimit + Math.max(1.5, rate + 0.75)) {
+                blockForwardSeek(current);
+                return;
+            }
+            Tracker.syncTime(state, current, rate);
+            markAllowedForwardTime(current);
+            updateLiveIntervalBar(current);
+            if (Tracker.shouldStopReplay(state, current)) {
+                Adapter.pause(function() {
+                    return media.pause();
+                }, Log, 'HTML5 replay pause');
             }
         });
 
         media.addEventListener('ratechange', function() {
-            // If the student raises the speed above the limit, reset it to the maximum.
-            // config.maxplaybackrate is stored in hundredths (150 = 1.5x); convert it to a float.
-            if (config.maxplaybackrate > 0) {
-                var maxRateChange = config.maxplaybackrate / 100;
-                if (media.playbackRate > maxRateChange) {
-                    media.playbackRate = maxRateChange;
-                }
-            }
-            state.playbackrate = media.playbackRate || 1;
+            enforceMaxPlaybackRate();
         });
     }
 
@@ -1399,6 +1508,8 @@ define([
                     Math.min(Reactions.MAX_READY_DEBOUNCE_MS, debounce || Reactions.DEFAULT_READY_DEBOUNCE_MS));
             HEARTBEAT_INTERVAL = Tracker.normaliseHeartbeatInterval(config, 30);
             state.sessionid    = uuid();
+            state.intervaljson = config.intervaljson || state.intervaljson || '[]';
+            markAllowedForwardTime(getMaxWatchedFromIntervals(state.intervaljson));
             installGlobalListeners();
             installReactionHandler();
             installNoteHandler();
