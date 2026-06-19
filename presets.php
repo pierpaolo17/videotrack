@@ -353,7 +353,7 @@ if ($isediting) {
                 'aria-label' => get_string('presets:reactioniconvaluearia', 'mod_videotrack', $rownum),
             ])
             . videotrack_reaction_icon_datalist($iconlistid)
-            . videotrack_reaction_icon_picker('riconval[' . $i . ']')
+            . videotrack_reaction_icon_picker('riconval[' . $i . ']', 'ricontype[' . $i . ']')
         );
         $checkedattr = !empty($r['requiredforcompletion']) ? ['checked' => 'checked'] : [];
         echo html_writer::tag(

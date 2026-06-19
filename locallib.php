@@ -366,44 +366,92 @@ function videotrack_render_reaction_icon(
 
 
 /**
- * Returns common icon values suggested for reaction icons.
+ * Returns reaction icon values grouped by type and theme.
  *
- * The list is intentionally conservative: teachers can still type a custom
- * emoji or a valid Font Awesome class manually, but the common cases are
- * selectable from the browser datalist in both the admin preset page and the
- * activity settings form.
+ * The catalogue intentionally remains local to the plugin so it can be used in
+ * plain Moodle forms and in the administration page without relying on editor
+ * plugins. Teachers can still type custom values manually; the catalogue only
+ * provides a searchable, accessible picker for the common cases.
+ *
+ * @return array Suggested values grouped by icon type and semantic category.
+ */
+function videotrack_get_reaction_icon_catalog(): array {
+    return [
+        'emoji' => [
+            'feedback' => [
+                '👍', '👎', '👌', '👏', '🙌', '🙏', '💪', '🤝', '👀', '🧠', '💡', '🎯',
+                '⭐', '🌟', '✨', '🔥', '✅', '☑️', '❌', '⚠️', '❓', '❗', '💬', '📝',
+            ],
+            'faces' => [
+                '😀', '😃', '😄', '😁', '😊', '🙂', '😉', '😍', '🤩', '😮', '😯', '😲',
+                '🤔', '🧐', '😐', '😕', '🙁', '😟', '😢', '😴', '🤯', '😎', '🥳', '🙋',
+            ],
+            'learning' => [
+                '📘', '📗', '📙', '📚', '📖', '✏️', '🖊️', '📌', '📍', '🔎', '🔍', '🧪',
+                '🧬', '📊', '📈', '🧮', '🏫', '🎓', '🗣️', '👂', '⏱️', '⏳', '🔁', '🔒',
+            ],
+            'media' => [
+                '▶️', '⏸️', '⏹️', '⏪', '⏩', '🔇', '🔈', '🔉', '🔊', '🎧', '🎬', '🎥',
+                '📺', '💻', '📱', '🖥️', '⌨️', '🖱️', '🧭', '📡', '🔔', '🔕', '📷', '🖼️',
+            ],
+            'objects' => [
+                '❤️', '💙', '💚', '💛', '🧡', '💜', '🤍', '💔', '🎉', '🎁', '🏆', '🥇',
+                '🚀', '🌈', '☀️', '🌙', '🌍', '🧩', '🔑', '🛠️', '⚙️', '🧱', '🪄', '📎',
+            ],
+        ],
+        'fa' => [
+            'feedback' => [
+                'fa-regular fa-thumbs-up', 'fa-regular fa-thumbs-down', 'fa-regular fa-heart',
+                'fa-regular fa-star', 'fa-regular fa-face-smile', 'fa-regular fa-face-surprise',
+                'fa-regular fa-face-meh', 'fa-regular fa-face-frown', 'fa-regular fa-circle-question',
+                'fa-solid fa-check', 'fa-solid fa-xmark', 'fa-solid fa-triangle-exclamation',
+                'fa-solid fa-circle-exclamation', 'fa-solid fa-lightbulb', 'fa-solid fa-bullseye',
+            ],
+            'learning' => [
+                'fa-solid fa-book', 'fa-solid fa-book-open', 'fa-solid fa-graduation-cap',
+                'fa-solid fa-school', 'fa-solid fa-pen', 'fa-solid fa-pencil', 'fa-solid fa-marker',
+                'fa-solid fa-list-check', 'fa-solid fa-clipboard-check', 'fa-solid fa-magnifying-glass',
+                'fa-solid fa-chart-line', 'fa-solid fa-chart-column', 'fa-solid fa-brain',
+                'fa-solid fa-flask', 'fa-solid fa-calculator', 'fa-solid fa-language',
+            ],
+            'media' => [
+                'fa-solid fa-circle-play', 'fa-solid fa-circle-pause', 'fa-solid fa-circle-stop',
+                'fa-solid fa-play', 'fa-solid fa-pause', 'fa-solid fa-stop', 'fa-solid fa-backward',
+                'fa-solid fa-forward', 'fa-solid fa-volume-xmark', 'fa-solid fa-volume-low',
+                'fa-solid fa-volume-high', 'fa-solid fa-closed-captioning', 'fa-solid fa-expand',
+                'fa-solid fa-compress', 'fa-solid fa-video', 'fa-solid fa-headphones',
+            ],
+            'communication' => [
+                'fa-regular fa-comment', 'fa-regular fa-comments', 'fa-regular fa-envelope',
+                'fa-solid fa-comment', 'fa-solid fa-comments', 'fa-solid fa-reply', 'fa-solid fa-share',
+                'fa-solid fa-bell', 'fa-regular fa-bell', 'fa-solid fa-bullhorn', 'fa-solid fa-circle-info',
+                'fa-solid fa-user', 'fa-solid fa-user-group', 'fa-solid fa-users', 'fa-solid fa-hand',
+            ],
+            'status' => [
+                'fa-solid fa-lock', 'fa-solid fa-unlock', 'fa-solid fa-shield-halved',
+                'fa-solid fa-key', 'fa-solid fa-flag', 'fa-regular fa-flag', 'fa-solid fa-bookmark',
+                'fa-regular fa-bookmark', 'fa-solid fa-clock', 'fa-regular fa-clock', 'fa-solid fa-hourglass-half',
+                'fa-solid fa-rotate', 'fa-solid fa-arrows-rotate', 'fa-solid fa-link', 'fa-solid fa-paperclip',
+            ],
+        ],
+    ];
+}
+
+/**
+ * Returns common icon values suggested for reaction icons.
  *
  * @return array Suggested values grouped by icon type.
  */
 function videotrack_get_reaction_icon_suggestions(): array {
-    return [
-        'emoji' => [
-            '👍',
-            '👎',
-            '❤️',
-            '⭐',
-            '🎉',
-            '👏',
-            '😀',
-            '😮',
-            '🤔',
-            '🙋',
-            '❓',
-            '✅',
-        ],
-        'fa' => [
-            'fa-regular fa-thumbs-up',
-            'fa-regular fa-thumbs-down',
-            'fa-regular fa-heart',
-            'fa-regular fa-star',
-            'fa-regular fa-face-smile',
-            'fa-regular fa-face-surprise',
-            'fa-regular fa-circle-question',
-            'fa-solid fa-check',
-            'fa-solid fa-circle-play',
-            'fa-solid fa-lightbulb',
-        ],
-    ];
+    $suggestions = [];
+    foreach (videotrack_get_reaction_icon_catalog() as $type => $categories) {
+        $suggestions[$type] = [];
+        foreach ($categories as $values) {
+            $suggestions[$type] = array_merge($suggestions[$type], $values);
+        }
+        $suggestions[$type] = array_values(array_unique($suggestions[$type]));
+    }
+    return $suggestions;
 }
 
 /**
@@ -431,50 +479,126 @@ function videotrack_reaction_icon_datalist(string $id): string {
  * Builds an accessible visual picker for reaction icon values.
  *
  * The text input remains the source of truth so teachers can still type any
- * supported emoji or Font Awesome class manually. The picker only writes a
- * suggested value into that input and shows the real icon preview.
+ * supported emoji or Font Awesome class manually. The picker opens a searchable
+ * modal catalogue grouped by type and theme, then writes the selected value into
+ * that input and shows a live preview.
  *
  * @param string $targetname Name attribute of the input to update.
+ * @param string $typetargetname Name attribute of the icon type select.
  * @return string HTML picker markup.
  */
-function videotrack_reaction_icon_picker(string $targetname): string {
-    $groups = videotrack_get_reaction_icon_suggestions();
+function videotrack_reaction_icon_picker(string $targetname, string $typetargetname = ''): string {
+    $catalogue = videotrack_get_reaction_icon_catalog();
+    $pickerid = 'videotrack-icon-picker-' . substr(sha1($targetname . '|' . $typetargetname), 0, 12);
     $html = html_writer::start_div('videotrack-icon-picker', [
         'data-videotrack-icon-target' => $targetname,
+        'data-videotrack-icon-type-target' => $typetargetname,
+    ]);
+    $html .= html_writer::start_div('videotrack-icon-picker-summary');
+    $html .= html_writer::span('', 'videotrack-icon-picker-current', [
+        'aria-hidden' => 'true',
     ]);
     $html .= html_writer::tag(
-        'div',
-        get_string('reactioniconpicker', 'mod_videotrack'),
-        ['class' => 'videotrack-icon-picker-title']
+        'button',
+        get_string('reactioniconpicker:open', 'mod_videotrack'),
+        [
+            'type' => 'button',
+            'class' => 'btn btn-secondary btn-sm videotrack-icon-picker-open',
+            'aria-haspopup' => 'dialog',
+            'aria-controls' => $pickerid,
+        ]
     );
-
-    foreach ($groups as $type => $values) {
-        $html .= html_writer::start_div('videotrack-icon-picker-group');
+    $html .= html_writer::end_div();
+    $html .= html_writer::start_div('videotrack-icon-picker-dialog', [
+        'id' => $pickerid,
+        'role' => 'dialog',
+        'aria-modal' => 'true',
+        'aria-labelledby' => $pickerid . '-title',
+        'hidden' => 'hidden',
+    ]);
+    $html .= html_writer::start_div('videotrack-icon-picker-panel');
+    $html .= html_writer::start_div('videotrack-icon-picker-header');
+    $html .= html_writer::tag(
+        'h4',
+        get_string('reactioniconpicker', 'mod_videotrack'),
+        ['id' => $pickerid . '-title', 'class' => 'videotrack-icon-picker-title']
+    );
+    $html .= html_writer::tag(
+        'button',
+        html_writer::span('&times;', '', ['aria-hidden' => 'true']),
+        [
+            'type' => 'button',
+            'class' => 'btn btn-link videotrack-icon-picker-close',
+            'aria-label' => get_string('close', 'moodle'),
+        ]
+    );
+    $html .= html_writer::end_div();
+    $html .= html_writer::tag(
+        'label',
+        get_string('reactioniconpicker:search', 'mod_videotrack'),
+        ['for' => $pickerid . '-search', 'class' => 'sr-only visually-hidden']
+    );
+    $html .= html_writer::empty_tag('input', [
+        'type' => 'search',
+        'id' => $pickerid . '-search',
+        'class' => 'form-control videotrack-icon-picker-search',
+        'placeholder' => get_string('reactioniconpicker:search', 'mod_videotrack'),
+    ]);
+    $html .= html_writer::start_div('videotrack-icon-picker-tabs', ['role' => 'tablist']);
+    foreach (['emoji', 'fa'] as $type) {
         $html .= html_writer::tag(
-            'div',
+            'button',
             get_string('reactioniconpicker:' . $type, 'mod_videotrack'),
-            ['class' => 'videotrack-icon-picker-group-title']
+            [
+                'type' => 'button',
+                'class' => 'btn btn-outline-secondary btn-sm videotrack-icon-picker-tab',
+                'data-icon-type' => $type,
+            ]
         );
-        $html .= html_writer::start_div('videotrack-icon-picker-options');
-        foreach ($values as $value) {
-            $preview = $type === 'fa'
-                ? html_writer::tag('i', '', ['class' => $value, 'aria-hidden' => 'true'])
-                : html_writer::span($value, 'videotrack-icon-picker-emoji', ['aria-hidden' => 'true']);
+    }
+    $html .= html_writer::end_div();
+    $html .= html_writer::start_div('videotrack-icon-picker-body');
+    foreach ($catalogue as $type => $categories) {
+        $html .= html_writer::start_div('videotrack-icon-picker-type', ['data-icon-type' => $type]);
+        foreach ($categories as $category => $values) {
+            $html .= html_writer::start_div('videotrack-icon-picker-group', ['data-icon-category' => $category]);
             $html .= html_writer::tag(
-                'button',
-                $preview . html_writer::span($value, 'videotrack-icon-picker-value'),
-                [
-                    'type' => 'button',
-                    'class' => 'btn btn-light btn-sm videotrack-icon-choice',
-                    'data-icon-value' => $value,
-                    'aria-label' => get_string('reactioniconpicker:choose', 'mod_videotrack', $value),
-                ]
+                'div',
+                get_string('reactioniconcategory:' . $category, 'mod_videotrack'),
+                ['class' => 'videotrack-icon-picker-group-title']
             );
+            $html .= html_writer::start_div('videotrack-icon-picker-options');
+            foreach ($values as $value) {
+                $preview = $type === 'fa'
+                    ? html_writer::tag('i', '', ['class' => $value, 'aria-hidden' => 'true'])
+                    : html_writer::span($value, 'videotrack-icon-picker-emoji', ['aria-hidden' => 'true']);
+                $keywords = $value . ' ' . $category . ' ' . get_string('reactioniconcategory:' . $category, 'mod_videotrack');
+                $html .= html_writer::tag(
+                    'button',
+                    $preview . html_writer::span($value, 'videotrack-icon-picker-value'),
+                    [
+                        'type' => 'button',
+                        'class' => 'btn btn-light btn-sm videotrack-icon-choice',
+                        'data-icon-type' => $type,
+                        'data-icon-value' => $value,
+                        'data-icon-search' => core_text::strtolower($keywords),
+                        'aria-label' => get_string('reactioniconpicker:choose', 'mod_videotrack', $value),
+                    ]
+                );
+            }
+            $html .= html_writer::end_div();
+            $html .= html_writer::end_div();
         }
         $html .= html_writer::end_div();
-        $html .= html_writer::end_div();
     }
-
+    $html .= html_writer::tag(
+        'div',
+        get_string('reactioniconpicker:noresults', 'mod_videotrack'),
+        ['class' => 'videotrack-icon-picker-empty', 'hidden' => 'hidden']
+    );
+    $html .= html_writer::end_div();
+    $html .= html_writer::end_div();
+    $html .= html_writer::end_div();
     $html .= html_writer::end_div();
     return $html;
 }

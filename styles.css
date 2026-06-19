@@ -1063,3 +1063,128 @@
 .videotrack-icon-picker-value {
     font-size: 0.75rem;
 }
+
+/* Searchable modal picker for reaction emoji and Font Awesome values. */
+.videotrack-icon-picker-summary {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    margin-top: 0.35rem;
+}
+
+.videotrack-icon-picker-current {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    min-width: 2.25rem;
+    min-height: 2.25rem;
+    padding: 0.25rem 0.4rem;
+    border: 1px solid #ced4da;
+    border-radius: 0.375rem;
+    background: #fff;
+    color: #1d2125;
+    font-size: 1.25rem;
+    line-height: 1;
+}
+
+.videotrack-icon-picker-current-empty {
+    color: #6a737b;
+    font-size: 1rem;
+}
+
+.videotrack-icon-picker-dialog[hidden] {
+    display: none;
+}
+
+.videotrack-icon-picker-dialog {
+    position: fixed;
+    z-index: 1050;
+    inset: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 1rem;
+    background: rgba(0, 0, 0, 0.45);
+}
+
+.videotrack-icon-picker-panel {
+    width: min(56rem, 96vw);
+    max-height: 88vh;
+    overflow: auto;
+    padding: 1rem;
+    border-radius: 0.5rem;
+    background: #fff;
+    color: #1d2125;
+    box-shadow: 0 0.75rem 2rem rgba(0, 0, 0, 0.35);
+}
+
+.videotrack-icon-picker-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 1rem;
+    margin-bottom: 0.75rem;
+}
+
+.videotrack-icon-picker-header .videotrack-icon-picker-title {
+    margin: 0;
+}
+
+.videotrack-icon-picker-search {
+    margin-bottom: 0.75rem;
+}
+
+.videotrack-icon-picker-tabs {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.5rem;
+    margin-bottom: 0.75rem;
+}
+
+.videotrack-icon-picker-tab.active {
+    color: #fff;
+    background: #0f6cbf;
+    border-color: #0f6cbf;
+}
+
+.videotrack-icon-picker-body {
+    max-height: 58vh;
+    overflow: auto;
+    padding-right: 0.25rem;
+}
+
+.videotrack-icon-picker-type[hidden],
+.videotrack-icon-picker-group[hidden],
+.videotrack-icon-choice[hidden],
+.videotrack-icon-picker-empty[hidden] {
+    display: none;
+}
+
+.videotrack-icon-picker-dialog .videotrack-icon-picker-group {
+    margin-bottom: 1rem;
+}
+
+.videotrack-icon-picker-dialog .videotrack-icon-picker-options {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(8.5rem, 1fr));
+    gap: 0.35rem;
+}
+
+.videotrack-icon-picker-dialog .videotrack-icon-choice {
+    justify-content: flex-start;
+    width: 100%;
+    min-height: 2.5rem;
+    text-align: left;
+}
+
+.videotrack-icon-picker-dialog .videotrack-icon-choice i,
+.videotrack-icon-picker-current i {
+    min-width: 1.5rem;
+    text-align: center;
+}
+
+.videotrack-icon-picker-empty {
+    padding: 1rem;
+    color: #6a737b;
+    text-align: center;
+}
