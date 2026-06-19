@@ -364,6 +364,68 @@ function videotrack_render_reaction_icon(
         . html_writer::span($label, 'videotrack-reaction-label');
 }
 
+
+/**
+ * Returns common icon values suggested for reaction icons.
+ *
+ * The list is intentionally conservative: teachers can still type a custom
+ * emoji or a valid Font Awesome class manually, but the common cases are
+ * selectable from the browser datalist in both the admin preset page and the
+ * activity settings form.
+ *
+ * @return array Suggested values grouped by icon type.
+ */
+function videotrack_get_reaction_icon_suggestions(): array {
+    return [
+        'emoji' => [
+            '👍',
+            '👎',
+            '❤️',
+            '⭐',
+            '🎉',
+            '👏',
+            '😀',
+            '😮',
+            '🤔',
+            '🙋',
+            '❓',
+            '✅',
+        ],
+        'fa' => [
+            'fa-regular fa-thumbs-up',
+            'fa-regular fa-thumbs-down',
+            'fa-regular fa-heart',
+            'fa-regular fa-star',
+            'fa-regular fa-face-smile',
+            'fa-regular fa-face-surprise',
+            'fa-regular fa-circle-question',
+            'fa-solid fa-check',
+            'fa-solid fa-circle-play',
+            'fa-solid fa-lightbulb',
+        ],
+    ];
+}
+
+/**
+ * Builds a HTML datalist for reaction icon values.
+ *
+ * @param string $id Element id to use for the datalist.
+ * @return string HTML datalist markup.
+ */
+function videotrack_reaction_icon_datalist(string $id): string {
+    $html = html_writer::start_tag('datalist', ['id' => $id]);
+    foreach (videotrack_get_reaction_icon_suggestions() as $type => $values) {
+        foreach ($values as $value) {
+            $html .= html_writer::empty_tag('option', [
+                'value' => $value,
+                'label' => $type,
+            ]);
+        }
+    }
+    $html .= html_writer::end_tag('datalist');
+    return $html;
+}
+
 /**
  * Returns all reaction presets stored in config as a keyed array.
  *

@@ -739,14 +739,24 @@ class mod_videotrack_mod_form extends moodleform_mod {
             );
             $mform->setType('reactionicontype[' . $i . ']', PARAM_ALPHA);
 
+            $iconlistid = 'videotrack-reactioniconvalue-suggestions-' . $i;
             $mform->addElement(
                 'text',
                 'reactioniconvalue[' . $i . ']',
                 get_string('reactioniconvalue', 'mod_videotrack'),
-                ['size' => 24]
+                [
+                    'size' => 24,
+                    'list' => $iconlistid,
+                ]
             );
             $mform->setType('reactioniconvalue[' . $i . ']', PARAM_TEXT);
             $mform->addHelpButton('reactioniconvalue[' . $i . ']', 'reactioniconvalue', 'mod_videotrack');
+            $mform->addElement(
+                'static',
+                'reactioniconvalue_suggestions_' . $i,
+                '',
+                videotrack_reaction_icon_datalist($iconlistid)
+            );
 
             $mform->addElement(
                 'filemanager',

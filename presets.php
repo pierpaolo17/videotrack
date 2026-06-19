@@ -341,6 +341,7 @@ if ($isediting) {
         }
         $selecthtml .= html_writer::end_tag('select');
         echo html_writer::tag('td', $selecthtml);
+        $iconlistid = 'videotrack-preset-iconvalue-suggestions-' . $i;
         echo html_writer::tag(
             'td',
             html_writer::empty_tag('input', [
@@ -348,8 +349,9 @@ if ($isediting) {
                 'name' => 'riconval[' . $i . ']',
                 'class' => 'form-control form-control-sm',
                 'value' => s($r['iconvalue'] ?? ''),
+                'list' => $iconlistid,
                 'aria-label' => get_string('presets:reactioniconvaluearia', 'mod_videotrack', $rownum),
-            ])
+            ]) . videotrack_reaction_icon_datalist($iconlistid)
         );
         $checkedattr = !empty($r['requiredforcompletion']) ? ['checked' => 'checked'] : [];
         echo html_writer::tag(
