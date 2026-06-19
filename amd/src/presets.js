@@ -24,23 +24,86 @@
 define(['core/log', 'mod_videotrack/core/confirm', 'mod_videotrack/core/debug'], function(Log, Confirm, Debug) {
     'use strict';
 
+    function findTargetInput(button) {
+        var picker = button.closest('.videotrack-icon-picker');
+        if (!picker) {
+            return null;
+        }
+        var target = picker.getAttribute('data-videotrack-icon-target');
+        if (!target) {
+            return null;
+        }
+        var form = button.closest('form') || document;
+        return form.querySelector('[name="' + target.replace(/"/g, '\\"') + '"]');
+    }
+
+    function updateChoiceState(input) {
+        if (!input || !input.name) {
+            return;
+        }
+        var form = input.closest('form') || document;
+        var pickers = form.querySelectorAll('.videotrack-icon-picker[data-videotrack-icon-target="' +
+            input.name.replace(/"/g, '\\"') + '"]');
+        Array.prototype.forEach.call(pickers, function(picker) {
+            var buttons = picker.querySelectorAll('.videotrack-icon-choice');
+            Array.prototype.forEach.call(buttons, function(choice) {
+                var selected = choice.getAttribute('data-icon-value') === input.value;
+                choice.classList.toggle('active', selected);
+                choice.setAttribute('aria-pressed', selected ? 'true' : 'false');
+            });
+        });
+    }
+
+    function attachIconPickers() {
+        document.addEventListener('click', function(event) {
+            var button = event.target.closest('.videotrack-icon-choice');
+            if (!button) {
+                return;
+            }
+            var input = findTargetInput(button);
+            if (!input) {
+                return;
+            }
+            input.value = button.getAttribute('data-icon-value') || '';
+            input.dispatchEvent(new Event('input', {bubbles: true}));
+            input.dispatchEvent(new Event('change', {bubbles: true}));
+            updateChoiceState(input);
+        });
+        var inputs = document.querySelectorAll('.videotrack-icon-value-input');
+        Array.prototype.forEach.call(inputs, function(input) {
+            updateChoiceState(input);
+            input.addEventListener('input', function() {
+                updateChoiceState(input);
+            });
+            input.addEventListener('change', function() {
+                updateChoiceState(input);
+            });
+        });
+    }
+
     return {
         /**
-         * Initialise preset delete confirmation forms.
+         * Initialise preset delete confirmation forms and reaction icon pickers.
          */
         init: function(config) {
             config = config || {};
-            Confirm.attachToForms('.videotrack-delete-preset-form', {
-                message: config.confirmdelete,
-                okString: {key: 'delete', component: 'moodle'},
-                fallbackLabels: {
-                    confirm: config.confirmtitle,
-                    ok: config.deletelabel,
-                    cancel: config.cancellabel
-                },
-                logger: Log,
-                logPrefix: 'mod_videotrack/presets'
-            });
+            if (typeof config === 'string') {
+                config = {};
+            }
+            if (config.confirmdelete) {
+                Confirm.attachToForms('.videotrack-delete-preset-form', {
+                    message: config.confirmdelete,
+                    okString: {key: 'delete', component: 'moodle'},
+                    fallbackLabels: {
+                        confirm: config.confirmtitle,
+                        ok: config.deletelabel,
+                        cancel: config.cancellabel
+                    },
+                    logger: Log,
+                    logPrefix: 'mod_videotrack/presets'
+                });
+            }
+            attachIconPickers();
             Debug.log('presetsinitialised');
         }
     };
