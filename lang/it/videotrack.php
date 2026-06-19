@@ -285,6 +285,7 @@ $string['reactioniconfile_help'] = 'File immagine opzionale usato quando il tipo
 $string['reactioniconfile_notice'] = 'L’immagine verrà ridimensionata automaticamente a 64×64 pixel (ritaglio centrato). Per risultati ottimali, carica un’immagine quadrata (proporzione 1:1). Formati accettati: JPG, PNG, GIF, WebP.';
 $string['reactionicontype'] = 'Tipo icona';
 $string['reactioniconpicker'] = 'Scegli un\'icona';
+$string['reactioniconpicker:close'] = 'Chiudi selettore icone';
 $string['reactioniconpicker:choose'] = 'Usa icona {$a}';
 $string['reactioniconpicker:emoji'] = 'Anteprima emoji';
 $string['reactioniconpicker:fa'] = 'Anteprima Font Awesome';

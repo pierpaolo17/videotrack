@@ -285,6 +285,7 @@ $string['reactioniconfile_help'] = 'Optional image file used when the icon type 
 $string['reactioniconfile_notice'] = 'The image will be automatically resized to 64×64 pixels (center crop). For best results, upload a square image (1:1 ratio). Accepted formats: JPG, PNG, GIF, WebP.';
 $string['reactionicontype'] = 'Icon type';
 $string['reactioniconpicker'] = 'Choose an icon';
+$string['reactioniconpicker:close'] = 'Close icon picker';
 $string['reactioniconpicker:choose'] = 'Use icon {$a}';
 $string['reactioniconpicker:emoji'] = 'Emoji preview';
 $string['reactioniconpicker:fa'] = 'Font Awesome preview';
