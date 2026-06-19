@@ -151,7 +151,7 @@ Il punto di resume corrisponde a dove lo studente **ha smesso di guardare**, non
 
 ## 9. Limiti di velocità
 
-Il docente può impostare una **velocità massima di riproduzione** (1.25×, 1.5×, 1.75×, 2×, 3× o 4×). Se lo studente prova ad alzare la velocità oltre il limite, il sistema la riporta automaticamente al massimo consentito — su tutti e tre i player.
+Il docente può impostare una **velocità massima di riproduzione** (1×, 1.25×, 1.5×, 1.75×, 2×, 3× o 4×). Se lo studente prova ad alzare la velocità oltre il limite, il sistema la riporta automaticamente al massimo consentito — su tutti e tre i player.
 
 I valori sono memorizzati in centesimi (150 = 1.5×) per evitare imprecisioni floating-point.
 
