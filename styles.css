@@ -490,6 +490,39 @@
     min-height: 44px;
 }
 
+/* Moodle themes may override Bootstrap button colours after plugin CSS is
+ * aggregated. Keep the custom HTML5 controls readable on the dark control bar. */
+.videotrack-html5-controls .videotrack-ctrl-play,
+.videotrack-html5-controls .videotrack-ctrl-mute,
+.videotrack-html5-controls .videotrack-ctrl-pip,
+.videotrack-html5-controls .videotrack-ctrl-fs,
+.videotrack-html5-controls .videotrack-ctrl-download,
+.videotrack-html5-controls .videotrack-ctrl-rewind,
+.videotrack-html5-controls .videotrack-ctrl-ff,
+.videotrack-html5-controls .videotrack-speed-btn {
+    background-color: transparent;
+    border-color: var(--videotrack-control-border);
+    color: var(--videotrack-control-fg);
+    text-decoration: none;
+}
+
+.videotrack-html5-controls .videotrack-ctrl-play:hover,
+.videotrack-html5-controls .videotrack-ctrl-mute:hover,
+.videotrack-html5-controls .videotrack-ctrl-pip:hover,
+.videotrack-html5-controls .videotrack-ctrl-fs:hover,
+.videotrack-html5-controls .videotrack-ctrl-download:hover,
+.videotrack-html5-controls .videotrack-ctrl-rewind:hover,
+.videotrack-html5-controls .videotrack-ctrl-ff:hover,
+.videotrack-html5-controls .videotrack-speed-btn:hover {
+    background-color: var(--videotrack-control-bg-hover);
+    border-color: var(--videotrack-control-border);
+    color: var(--videotrack-control-fg);
+}
+
+.videotrack-html5-controls svg {
+    fill: currentColor;
+}
+
 /* Progress bar: stretches to fill available space */
 .videotrack-ctrl-progress-wrap {
     flex: 1 1 120px;
