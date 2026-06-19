@@ -74,7 +74,7 @@ The plugin can offer or perform resume from the last known progress point. Resum
 
 ## 9. Playback speed limits
 
-The plugin supports configured playback rates and site-level caps. Tracking validation accounts for playback speed so that completion is not inflated by unsupported rates.
+The plugin supports configured playback rates and site-level caps. Teachers can set a maximum playback rate of 1x, 1.25x, 1.5x, 1.75x, 2x, 3x or 4x. Tracking validation accounts for playback speed so that completion is not inflated by unsupported rates.
 
 ## 10. Activity completion
 

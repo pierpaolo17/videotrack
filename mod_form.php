@@ -188,7 +188,7 @@ class mod_videotrack_mod_form extends moodleform_mod {
         // Maximum playback rate limit (0 = no limit).
         $maxspeedoptions = [
             0   => get_string('maxplaybackrate_nolimit', 'mod_videotrack'),
-            125 => '1.25×', 150 => '1.5×', 175 => '1.75×',
+            100 => '1×', 125 => '1.25×', 150 => '1.5×', 175 => '1.75×',
             200 => '2×', 300 => '3×', 400 => '4×',
         ];
         $mform->addElement(
