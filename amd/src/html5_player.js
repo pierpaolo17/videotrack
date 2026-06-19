@@ -719,7 +719,10 @@ define([
             // Automatically resume from the last saved position (lastposition > 2s).
             if (typeof config.resumeposition === 'number' && config.resumeposition > 2
                     && config.resumeposition < (state.duration || Infinity)) {
+                Tracker.markProgrammaticSeek(state);
                 media.currentTime = config.resumeposition;
+                Tracker.syncTime(state, config.resumeposition, safeNumber(media.playbackRate, 1));
+                markAllowedForwardTime(Math.max(config.resumeposition, getMaxWatchedFromIntervals(state.intervaljson)));
                 showResumeNotice(config.resumeposition);
             }
         });
@@ -842,7 +845,7 @@ define([
             }
             Tracker.syncTime(state, current, rate);
             markAllowedForwardTime(current);
-            updateLiveIntervalBar(current);
+            Progress.updateLiveProgress(state, current, Utils, PlayerCore, Log);
             if (Tracker.shouldStopReplay(state, current)) {
                 Adapter.pause(function() {
                     return media.pause();
