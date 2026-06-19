@@ -529,7 +529,7 @@ function videotrack_reaction_icon_picker(string $targetname, string $typetargetn
         [
             'type' => 'button',
             'class' => 'btn btn-link videotrack-icon-picker-close',
-            'aria-label' => get_string('close', 'moodle'),
+            'aria-label' => get_string('reactioniconpicker:close', 'mod_videotrack'),
         ]
     );
     $html .= html_writer::end_div();
