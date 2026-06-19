@@ -151,6 +151,37 @@ define([
         return currentRate;
     }
 
+
+    function finishProgrammaticSeek(current) {
+        var time = safeNumber(current, media ? media.currentTime : state.lasttime || 0);
+        if (state._programmaticSeekTimer) {
+            window.clearTimeout(state._programmaticSeekTimer);
+            state._programmaticSeekTimer = null;
+        }
+        if (Tracker.consumeProgrammaticSeek(state, time)) {
+            markAllowedForwardTime(time);
+        }
+        state.isSeeking = false;
+        Tracker.clearSeekBlock(state);
+    }
+
+    function scheduleProgrammaticSeekFallback(target) {
+        if (state._programmaticSeekTimer) {
+            window.clearTimeout(state._programmaticSeekTimer);
+        }
+        state._programmaticSeekTimer = window.setTimeout(function() {
+            if (state.isProgrammaticSeek) {
+                finishProgrammaticSeek(target);
+            }
+        }, 600);
+    }
+
+    function startProgrammaticSeek(target) {
+        Tracker.markProgrammaticSeek(state);
+        media.currentTime = target;
+        scheduleProgrammaticSeekFallback(target);
+    }
+
     function blockForwardSeek(target) {
         var fallback = Math.max(0, getAllowedForwardLimit());
         var wasPlaying = state.playing && !media.paused;
@@ -719,8 +750,7 @@ define([
             // Automatically resume from the last saved position (lastposition > 2s).
             if (typeof config.resumeposition === 'number' && config.resumeposition > 2
                     && config.resumeposition < (state.duration || Infinity)) {
-                Tracker.markProgrammaticSeek(state);
-                media.currentTime = config.resumeposition;
+                startProgrammaticSeek(config.resumeposition);
                 Tracker.syncTime(state, config.resumeposition, safeNumber(media.playbackRate, 1));
                 markAllowedForwardTime(Math.max(config.resumeposition, getMaxWatchedFromIntervals(state.intervaljson)));
                 showResumeNotice(config.resumeposition);
@@ -758,6 +788,9 @@ define([
     function attachTrackingEvents() {
         media.addEventListener('play', function() {
             state.ended = false;
+            if (state.isProgrammaticSeek) {
+                finishProgrammaticSeek(media.currentTime);
+            }
             // Start a new segment only when no segment is already open.
             // state.playing is always false when play arrives because closeSegment()
             // resets it first (seeking/pause/ended). The !state.playing branch is the only
@@ -820,10 +853,7 @@ define([
         media.addEventListener('seeked', function() {
             var current = safeNumber(media.currentTime, 0);
             state.isSeeking = false;
-            if (Tracker.consumeProgrammaticSeek(state, current)) {
-                markAllowedForwardTime(current);
-            }
-            Tracker.clearSeekBlock(state);
+            finishProgrammaticSeek(current);
             if (state.playing) { startSegment(); }
             if (Tracker.shouldStopReplay(state, current)) {
                 media.pause();
