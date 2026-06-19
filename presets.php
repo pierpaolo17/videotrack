@@ -347,11 +347,13 @@ if ($isediting) {
             html_writer::empty_tag('input', [
                 'type' => 'text',
                 'name' => 'riconval[' . $i . ']',
-                'class' => 'form-control form-control-sm',
+                'class' => 'form-control form-control-sm videotrack-icon-value-input',
                 'value' => s($r['iconvalue'] ?? ''),
                 'list' => $iconlistid,
                 'aria-label' => get_string('presets:reactioniconvaluearia', 'mod_videotrack', $rownum),
-            ]) . videotrack_reaction_icon_datalist($iconlistid)
+            ])
+            . videotrack_reaction_icon_datalist($iconlistid)
+            . videotrack_reaction_icon_picker('riconval[' . $i . ']')
         );
         $checkedattr = !empty($r['requiredforcompletion']) ? ['checked' => 'checked'] : [];
         echo html_writer::tag(

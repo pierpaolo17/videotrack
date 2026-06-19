@@ -747,6 +747,7 @@ class mod_videotrack_mod_form extends moodleform_mod {
                 [
                     'size' => 24,
                     'list' => $iconlistid,
+                    'class' => 'videotrack-icon-value-input',
                 ]
             );
             $mform->setType('reactioniconvalue[' . $i . ']', PARAM_TEXT);
@@ -756,6 +757,7 @@ class mod_videotrack_mod_form extends moodleform_mod {
                 'reactioniconvalue_suggestions_' . $i,
                 '',
                 videotrack_reaction_icon_datalist($iconlistid)
+                    . videotrack_reaction_icon_picker('reactioniconvalue[' . $i . ']')
             );
 
             $mform->addElement(

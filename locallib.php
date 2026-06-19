@@ -415,14 +415,67 @@ function videotrack_get_reaction_icon_suggestions(): array {
 function videotrack_reaction_icon_datalist(string $id): string {
     $html = html_writer::start_tag('datalist', ['id' => $id]);
     foreach (videotrack_get_reaction_icon_suggestions() as $type => $values) {
+        $typename = get_string('icontype:' . $type, 'mod_videotrack');
         foreach ($values as $value) {
             $html .= html_writer::empty_tag('option', [
                 'value' => $value,
-                'label' => $type,
+                'label' => $typename . ': ' . $value,
             ]);
         }
     }
     $html .= html_writer::end_tag('datalist');
+    return $html;
+}
+
+/**
+ * Builds an accessible visual picker for reaction icon values.
+ *
+ * The text input remains the source of truth so teachers can still type any
+ * supported emoji or Font Awesome class manually. The picker only writes a
+ * suggested value into that input and shows the real icon preview.
+ *
+ * @param string $targetname Name attribute of the input to update.
+ * @return string HTML picker markup.
+ */
+function videotrack_reaction_icon_picker(string $targetname): string {
+    $groups = videotrack_get_reaction_icon_suggestions();
+    $html = html_writer::start_div('videotrack-icon-picker', [
+        'data-videotrack-icon-target' => $targetname,
+    ]);
+    $html .= html_writer::tag(
+        'div',
+        get_string('reactioniconpicker', 'mod_videotrack'),
+        ['class' => 'videotrack-icon-picker-title']
+    );
+
+    foreach ($groups as $type => $values) {
+        $html .= html_writer::start_div('videotrack-icon-picker-group');
+        $html .= html_writer::tag(
+            'div',
+            get_string('reactioniconpicker:' . $type, 'mod_videotrack'),
+            ['class' => 'videotrack-icon-picker-group-title']
+        );
+        $html .= html_writer::start_div('videotrack-icon-picker-options');
+        foreach ($values as $value) {
+            $preview = $type === 'fa'
+                ? html_writer::tag('i', '', ['class' => $value, 'aria-hidden' => 'true'])
+                : html_writer::span($value, 'videotrack-icon-picker-emoji', ['aria-hidden' => 'true']);
+            $html .= html_writer::tag(
+                'button',
+                $preview . html_writer::span($value, 'videotrack-icon-picker-value'),
+                [
+                    'type' => 'button',
+                    'class' => 'btn btn-light btn-sm videotrack-icon-choice',
+                    'data-icon-value' => $value,
+                    'aria-label' => get_string('reactioniconpicker:choose', 'mod_videotrack', $value),
+                ]
+            );
+        }
+        $html .= html_writer::end_div();
+        $html .= html_writer::end_div();
+    }
+
+    $html .= html_writer::end_div();
     return $html;
 }
 
