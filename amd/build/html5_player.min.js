@@ -227,24 +227,6 @@ define([
         return Progress.updateProgress(response, state, Utils, PlayerCore, Log);
     }
 
-    function updateLiveIntervalBar(current) {
-        var intervals;
-        var start;
-        var end;
-        if (!state || !state.playing || !state.duration || state.segmentstart === null ||
-                typeof state.segmentstart === 'undefined') {
-            return;
-        }
-        start = Tracker.normaliseTime(state.segmentstart);
-        end = Tracker.normaliseTime(current);
-        if (end <= start) {
-            return;
-        }
-        intervals = PlayerCore.parseIntervals(state.intervaljson || '[]', Log);
-        intervals.push([start, end]);
-        PlayerCore.updateIntervalBar(intervals, state.duration, Log);
-    }
-
     // Segment lifecycle.
 
     function startSegment() {
