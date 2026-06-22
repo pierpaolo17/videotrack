@@ -366,39 +366,99 @@ function videotrack_render_reaction_icon(
 
 
 /**
+ * Returns the curated fallback emoji catalogue used when Moodle/TinyMCE data is unavailable.
+ *
+ * @return array Suggested emoji values grouped by semantic category.
+ */
+function videotrack_get_fallback_reaction_emoji_catalog(): array {
+    return [
+        'feedback' => [
+            '👍', '👎', '👌', '👏', '🙌', '🙏', '💪', '🤝', '👀', '🧠', '💡', '🎯',
+            '⭐', '🌟', '✨', '🔥', '✅', '☑️', '❌', '⚠️', '❓', '❗', '💬', '📝',
+        ],
+        'faces' => [
+            '😀', '😃', '😄', '😁', '😊', '🙂', '😉', '😍', '🤩', '😮', '😯', '😲',
+            '🤔', '🧐', '😐', '😕', '🙁', '😟', '😢', '😴', '🤯', '😎', '🥳', '🙋',
+        ],
+        'learning' => [
+            '📘', '📗', '📙', '📚', '📖', '✏️', '🖊️', '📌', '📍', '🔎', '🔍', '🧪',
+            '🧬', '📊', '📈', '🧮', '🏫', '🎓', '🗣️', '👂', '⏱️', '⏳', '🔁', '🔒',
+        ],
+        'media' => [
+            '▶️', '⏸️', '⏹️', '⏪', '⏩', '🔇', '🔈', '🔉', '🔊', '🎧', '🎬', '🎥',
+            '📺', '💻', '📱', '🖥️', '⌨️', '🖱️', '🧭', '📡', '🔔', '🔕', '📷', '🖼️',
+        ],
+        'objects' => [
+            '❤️', '💙', '💚', '💛', '🧡', '💜', '🤍', '💔', '🎉', '🎁', '🏆', '🥇',
+            '🚀', '🌈', '☀️', '🌙', '🌍', '🧩', '🔑', '🛠️', '⚙️', '🧱', '🪄', '📎',
+        ],
+    ];
+}
+
+/**
+ * Returns the full Moodle/TinyMCE emoji catalogue when available.
+ *
+ * Moodle 5.0 ships TinyMCE's native emoticons database in core. Reusing that
+ * data keeps the reaction picker aligned with Moodle's own Emoji dialog while
+ * still preserving a local fallback for non-standard installations.
+ *
+ * @return array Emoji values grouped by TinyMCE category.
+ */
+function videotrack_get_moodle_reaction_emoji_catalog(): array {
+    global $CFG;
+
+    $path = $CFG->dirroot . '/lib/editor/tiny/js/tinymce/plugins/emoticons/js/emojis.js';
+    if (!is_readable($path)) {
+        return videotrack_get_fallback_reaction_emoji_catalog();
+    }
+
+    $source = file_get_contents($path);
+    if ($source === false) {
+        return videotrack_get_fallback_reaction_emoji_catalog();
+    }
+
+    $matches = [];
+    preg_match_all('/char:"((?:\\\\.|[^"\\\\])*)".*?category:"([a-z_]+)"/u', $source, $matches, PREG_SET_ORDER);
+    if (!$matches) {
+        return videotrack_get_fallback_reaction_emoji_catalog();
+    }
+
+    $catalogue = [];
+    foreach ($matches as $match) {
+        $char = stripcslashes($match[1]);
+        if ($char === '' || strpos($char, '<img') !== false) {
+            continue;
+        }
+        $category = $match[2];
+        if (!isset($catalogue[$category])) {
+            $catalogue[$category] = [];
+        }
+        $catalogue[$category][$char] = $char;
+    }
+
+    if (!$catalogue) {
+        return videotrack_get_fallback_reaction_emoji_catalog();
+    }
+
+    foreach ($catalogue as $category => $values) {
+        $catalogue[$category] = array_values($values);
+    }
+
+    return $catalogue;
+}
+
+/**
  * Returns reaction icon values grouped by type and theme.
  *
- * The catalogue intentionally remains local to the plugin so it can be used in
- * plain Moodle forms and in the administration page without relying on editor
- * plugins. Teachers can still type custom values manually; the catalogue only
- * provides a searchable, accessible picker for the common cases.
+ * The emoji catalogue is loaded from Moodle's bundled TinyMCE emoticons
+ * database when available. Teachers can still type custom values manually; the
+ * catalogue only provides a searchable, accessible picker for common cases.
  *
  * @return array Suggested values grouped by icon type and semantic category.
  */
 function videotrack_get_reaction_icon_catalog(): array {
     return [
-        'emoji' => [
-            'feedback' => [
-                '👍', '👎', '👌', '👏', '🙌', '🙏', '💪', '🤝', '👀', '🧠', '💡', '🎯',
-                '⭐', '🌟', '✨', '🔥', '✅', '☑️', '❌', '⚠️', '❓', '❗', '💬', '📝',
-            ],
-            'faces' => [
-                '😀', '😃', '😄', '😁', '😊', '🙂', '😉', '😍', '🤩', '😮', '😯', '😲',
-                '🤔', '🧐', '😐', '😕', '🙁', '😟', '😢', '😴', '🤯', '😎', '🥳', '🙋',
-            ],
-            'learning' => [
-                '📘', '📗', '📙', '📚', '📖', '✏️', '🖊️', '📌', '📍', '🔎', '🔍', '🧪',
-                '🧬', '📊', '📈', '🧮', '🏫', '🎓', '🗣️', '👂', '⏱️', '⏳', '🔁', '🔒',
-            ],
-            'media' => [
-                '▶️', '⏸️', '⏹️', '⏪', '⏩', '🔇', '🔈', '🔉', '🔊', '🎧', '🎬', '🎥',
-                '📺', '💻', '📱', '🖥️', '⌨️', '🖱️', '🧭', '📡', '🔔', '🔕', '📷', '🖼️',
-            ],
-            'objects' => [
-                '❤️', '💙', '💚', '💛', '🧡', '💜', '🤍', '💔', '🎉', '🎁', '🏆', '🥇',
-                '🚀', '🌈', '☀️', '🌙', '🌍', '🧩', '🔑', '🛠️', '⚙️', '🧱', '🪄', '📎',
-            ],
-        ],
+        'emoji' => videotrack_get_moodle_reaction_emoji_catalog(),
         'fa' => [
             'feedback' => [
                 'fa-regular fa-thumbs-up', 'fa-regular fa-thumbs-down', 'fa-regular fa-heart',
