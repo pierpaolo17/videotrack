@@ -1329,7 +1329,6 @@ function xmldb_videotrack_upgrade($oldversion) {
         upgrade_mod_savepoint(true, 2026060290, 'videotrack');
     }
 
-
     if ($oldversion < 2026060310) {
         $table = new xmldb_table('videotrack');
         $legacyfield = new xmldb_field('loop', XMLDB_TYPE_INTEGER, '1', null, XMLDB_NOTNULL, null, '0', 'autoplay');
