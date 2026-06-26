@@ -692,10 +692,11 @@ class mod_videotrack_mod_form extends moodleform_mod {
         $mform->addElement('hidden', 'reaction_repeats', $repeatcount);
         $mform->setType('reaction_repeats', PARAM_INT);
 
+        $reactionimagefiletypes = ['.jpg', '.jpeg', '.png', '.webp', '.gif'];
         $options = [
             'subdirs'        => 0,
             'maxfiles'       => 1,
-            'accepted_types' => ['web_image'],
+            'accepted_types' => $reactionimagefiletypes,
             'maxbytes'       => 0,
             'return_types'   => FILE_INTERNAL,
         ];
@@ -964,7 +965,7 @@ class mod_videotrack_mod_form extends moodleform_mod {
                         [
                             'subdirs' => 0,
                             'maxfiles' => 1,
-                            'accepted_types' => ['web_image'],
+                            'accepted_types' => ['.jpg', '.jpeg', '.png', '.webp', '.gif'],
                         ]
                     );
                 }
@@ -1214,7 +1215,7 @@ class mod_videotrack_mod_form extends moodleform_mod {
 
         $labels = $data['reactionlabel'] ?? [];
         $types  = $data['reactionicontype'] ?? [];
-        $allowedimageextensions = ['jpg', 'jpeg', 'png', 'gif', 'webp'];
+        $allowedimageextensions = ['jpg', 'jpeg', 'png', 'webp', 'gif'];
         for ($i = 0; $i < $this->reactionrepeatcount; $i++) {
             $label = trim((string)($labels[$i] ?? ''));
             $type  = (string)($types[$i] ?? '');
