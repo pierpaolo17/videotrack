@@ -567,12 +567,16 @@ define([
                     return;
                 }
                 state._reactionSavePending = true;
-                var currentTime = getCurrentVideoTime();
+                var currentTime = 0;
                 // Immediate visual feedback: disable the button while the AJAX save is running.
                 reactionbtn.classList.add('videotrack-saving');
                 reactionbtn.setAttribute('aria-busy', 'true');
                 reactionbtn.disabled = true;
                 saveCurrentProgress('reaction').then(function() {
+                    return Promise.resolve(getCurrentVideoTime());
+                }).then(function(time) {
+                    currentTime = Number(time);
+                    currentTime = isFinite(currentTime) ? Math.max(0, currentTime) : 0;
                     return Api.call('mod_videotrack_save_reaction', {
                         cmid: config.cmid,
                         sessionid: state.sessionid,

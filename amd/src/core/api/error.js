@@ -113,6 +113,8 @@ define([], function() {
 
         if ((status >= 400 && status < 500 && status !== 408 && status !== 429) ||
                 code === 'invalidparameter' || code === 'invalid-method' || message === 'invalid-method' ||
+                code === 'error:playbackrequired' || code === 'error:playbackpositionnotwatched' ||
+                code === 'reactionsdisabled' || code === 'error:reactionratelimit' ||
                 message.indexOf('invalid parameter') !== -1) {
             return ERROR_CATEGORY_VALIDATION;
         }
