@@ -819,6 +819,20 @@ define([
             state._vimeoBlockedSeekResume = null;
             state.wasPlayingBeforeSeekBlock = false;
             player.getCurrentTime().then(function(t) {
+                // Retry an explicit replay seek if Vimeo deferred setCurrentTime until playback.
+                if (state._pendingReplayStart !== null && typeof state._pendingReplayStart !== 'undefined') {
+                    var replayStart = state._pendingReplayStart;
+                    state._pendingReplayStart = null;
+                    Tracker.markProgrammaticSeek(state);
+                    markAllowedForwardTime(replayStart);
+                    player.setCurrentTime(replayStart).then(function() {
+                        Tracker.syncTime(state, replayStart, state.playbackrate || 1);
+                        Tracker.consumeProgrammaticSeek(state, replayStart);
+                    }).catch(function() {
+                        state.isProgrammaticSeek = false;
+                    });
+                    return;
+                }
                 // iOS Safari workaround: setCurrentTime may fail before play.
                 // Retry the seek on first playback when it was pending.
                 if (state._pendingResume && state._pendingResume > 2) {
@@ -909,11 +923,17 @@ define([
                 state.currentReplayEnd = end > 0 ? end : null;
                 // Mark the seek as programmatic to avoid triggering the anti-skip block.
                 Tracker.markProgrammaticSeek(state);
+                state.isProgrammaticSeek = true;
+                state._pendingReplayStart = start;
+                markAllowedForwardTime(start);
                 player.setCurrentTime(start).then(function() {
+                    Tracker.syncTime(state, start, state.playbackrate || 1);
+                    Tracker.consumeProgrammaticSeek(state, start);
                     state.isProgrammaticSeek = false;
                     player.play();
                 }).catch(function() {
                     state.isProgrammaticSeek = false;
+                    state._pendingReplayStart = null;
                 });
             }
         });
@@ -1118,21 +1138,25 @@ define([
                         reactionid: Utils.safeInt(reactionbtn.getAttribute('data-reactionid'), 0),
                         videotime:  currentTime,
                         playbackrate: state.playbackrate || 1,
-                    });
+                    }, {timeout: 60000});
                 }).then(function(response) {
                     state._reactionSavePending = false;
                     reactionbtn.classList.remove('videotrack-saving');
                     reactionbtn.removeAttribute('aria-busy');
                     reactionbtn.disabled = false;
                     if (response && response.reactioneventid) {
-                        appendReactionRow(response.reactioneventid, {
-                            label: reactionbtn.getAttribute('data-reactionlabel') || '',
-                            description: reactionbtn.getAttribute('data-reactiondesc') || '',
-                            icontype: reactionbtn.getAttribute('data-reactionicontype') || 'emoji',
-                            iconclass: reactionbtn.getAttribute('data-reactioniconclass') || '',
-                            iconsrc: reactionbtn.getAttribute('data-reactioniconsrc') || '',
-                            icontext: reactionbtn.getAttribute('data-reactionicontext') || '',
-                        }, currentTime);
+                        try {
+                            appendReactionRow(response.reactioneventid, {
+                                label: reactionbtn.getAttribute('data-reactionlabel') || '',
+                                description: reactionbtn.getAttribute('data-reactiondesc') || '',
+                                icontype: reactionbtn.getAttribute('data-reactionicontype') || 'emoji',
+                                iconclass: reactionbtn.getAttribute('data-reactioniconclass') || '',
+                                iconsrc: reactionbtn.getAttribute('data-reactioniconsrc') || '',
+                                icontext: reactionbtn.getAttribute('data-reactionicontext') || '',
+                            }, currentTime);
+                        } catch (appendError) {
+                            Debug.log('reactionrowappendfailed', {message: appendError && appendError.message});
+                        }
                     }
                 }).catch(function(err) {
                     state._reactionSavePending = false;

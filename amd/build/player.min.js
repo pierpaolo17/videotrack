@@ -601,21 +601,25 @@ define([
                         playbackrate: Adapter.getPlaybackRate(state, function() {
                             return player.getPlaybackRate ? player.getPlaybackRate() : state.playbackrate;
                         }, Log, 'YouTube reaction')
-                    });
+                    }, {timeout: 60000});
                 }).then(updateProgress).then(function(response) {
                     state._reactionSavePending = false;
                     reactionbtn.classList.remove('videotrack-saving');
                     reactionbtn.removeAttribute('aria-busy');
                     reactionbtn.disabled = false;
                     if (response && response.reactioneventid) {
-                        appendReactionRow(response.reactioneventid, {
-                            label: reactionbtn.getAttribute('data-reactionlabel') || '',
-                            description: reactionbtn.getAttribute('data-reactiondesc') || '',
-                            icontype: reactionbtn.getAttribute('data-reactionicontype') || 'emoji',
-                            iconclass: reactionbtn.getAttribute('data-reactioniconclass') || '',
-                            iconsrc: reactionbtn.getAttribute('data-reactioniconsrc') || '',
-                            icontext: reactionbtn.getAttribute('data-reactionicontext') || ''
-                        }, currentTime);
+                        try {
+                            appendReactionRow(response.reactioneventid, {
+                                label: reactionbtn.getAttribute('data-reactionlabel') || '',
+                                description: reactionbtn.getAttribute('data-reactiondesc') || '',
+                                icontype: reactionbtn.getAttribute('data-reactionicontype') || 'emoji',
+                                iconclass: reactionbtn.getAttribute('data-reactioniconclass') || '',
+                                iconsrc: reactionbtn.getAttribute('data-reactioniconsrc') || '',
+                                icontext: reactionbtn.getAttribute('data-reactionicontext') || ''
+                            }, currentTime);
+                        } catch (appendError) {
+                            Debug.log('reactionrowappendfailed', {message: appendError && appendError.message});
+                        }
                     }
                 }).catch(function(err) {
                     state._reactionSavePending = false;
