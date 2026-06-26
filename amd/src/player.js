@@ -73,6 +73,22 @@ define([
     }
 
     /**
+     * Resolve a reaction timestamp from the progress save response.
+     *
+     * @param {Object|null} progressResponse Progress save response.
+     * @param {number} fallbackTime Current player time fallback.
+     * @returns {number} Timestamp known to be inside the just-saved segment when available.
+     */
+    function resolveReactionTime(progressResponse, fallbackTime) {
+        var savedEnd = progressResponse && Number(progressResponse.savedvideotimeend);
+        var time = Number(fallbackTime);
+        if (Number.isFinite(savedEnd) && savedEnd > 0) {
+            return Math.max(0, savedEnd);
+        }
+        return Number.isFinite(time) ? Math.max(0, time) : 0;
+    }
+
+    /**
      * Draw the coloured canvas bar representing watched intervals.
      * Green = watched, light grey = not watched.
      *
@@ -572,11 +588,11 @@ define([
                 reactionbtn.classList.add('videotrack-saving');
                 reactionbtn.setAttribute('aria-busy', 'true');
                 reactionbtn.disabled = true;
-                saveCurrentProgress('reaction').then(function() {
-                    return Promise.resolve(getCurrentVideoTime());
-                }).then(function(time) {
-                    currentTime = Number(time);
-                    currentTime = isFinite(currentTime) ? Math.max(0, currentTime) : 0;
+                saveCurrentProgress('reaction').then(function(progressResponse) {
+                    return Promise.resolve(getCurrentVideoTime()).then(function(time) {
+                        currentTime = resolveReactionTime(progressResponse, time);
+                    });
+                }).then(function() {
                     return Api.call('mod_videotrack_save_reaction', {
                         cmid: config.cmid,
                         sessionid: state.sessionid,
