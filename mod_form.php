@@ -695,7 +695,7 @@ class mod_videotrack_mod_form extends moodleform_mod {
         $options = [
             'subdirs'        => 0,
             'maxfiles'       => 1,
-            'accepted_types' => ['.jpg', '.jpeg', '.png', '.gif', '.webp'],
+            'accepted_types' => ['web_image'],
             'maxbytes'       => 0,
             'return_types'   => FILE_INTERNAL,
         ];
@@ -732,7 +732,7 @@ class mod_videotrack_mod_form extends moodleform_mod {
                 'reactionicontype[' . $i . ']',
                 get_string('reactionicontype', 'mod_videotrack'),
                 [
-                    '' => get_string('icontype:choose', 'mod_videotrack'),
+                    '' => get_string('choosedots'),
                     'emoji' => get_string('icontype:emoji', 'mod_videotrack'),
                     'fa' => get_string('icontype:fa', 'mod_videotrack'),
                     'file' => get_string('icontype:file', 'mod_videotrack'),
@@ -964,7 +964,7 @@ class mod_videotrack_mod_form extends moodleform_mod {
                         [
                             'subdirs' => 0,
                             'maxfiles' => 1,
-                            'accepted_types' => ['.jpg', '.jpeg', '.png', '.gif', '.webp'],
+                            'accepted_types' => ['web_image'],
                         ]
                     );
                 }
@@ -1248,13 +1248,14 @@ class mod_videotrack_mod_form extends moodleform_mod {
                     }
                 }
 
+                $hasvalidimagefile = $draftitemid <= 0 || $this->draft_area_contains_only_reaction_images(
+                    $draftitemid,
+                    $allowedimageextensions
+                );
                 if (!$hasfile) {
                     $errors['reactioniconfile_' . $i] =
                         get_string('err:reactioniconfilerequired', 'mod_videotrack');
-                } else if ($draftitemid > 0 && !$this->draft_area_contains_only_reaction_images(
-                    $draftitemid,
-                    $allowedimageextensions
-                )) {
+                } else if (!$hasvalidimagefile) {
                     $errors['reactioniconfile_' . $i] =
                         get_string('err:reactioniconfileinvalid', 'mod_videotrack');
                 }
