@@ -142,7 +142,6 @@ $string['html5:seek'] = 'Seek';
 $string['html5:speed'] = 'Speed';
 $string['html5:unmute'] = 'Unmute';
 $string['html5:volume'] = 'Volume';
-$string['icontype:choose'] = 'Choose';
 $string['icontype:emoji'] = 'Emoji';
 $string['icontype:fa'] = 'Font Awesome class';
 $string['icontype:file'] = 'Uploaded file';
