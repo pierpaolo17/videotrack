@@ -17,6 +17,7 @@
 namespace mod_videotrack;
 
 use advanced_testcase;
+use PHPUnit\Framework\Attributes\CoversFunction;
 
 /**
  * Minimal PHPUnit coverage for the videotrack module callbacks.
@@ -42,6 +43,7 @@ final class lib_test extends advanced_testcase {
     /**
      * Basic supported feature flags should remain stable across refactors.
      */
+    #[CoversFunction('videotrack_supports')]
     public function test_supports_expected_core_features(): void {
         $this->assertTrue(\videotrack_supports(FEATURE_MOD_INTRO));
         $this->assertTrue(\videotrack_supports(FEATURE_SHOW_DESCRIPTION));
@@ -54,6 +56,7 @@ final class lib_test extends advanced_testcase {
     /**
      * Group features are intentionally disabled for this activity.
      */
+    #[CoversFunction('videotrack_supports')]
     public function test_groups_are_explicitly_not_supported(): void {
         $this->assertFalse(\videotrack_supports(FEATURE_GROUPS));
         $this->assertFalse(\videotrack_supports(FEATURE_GROUPINGS));
@@ -62,6 +65,7 @@ final class lib_test extends advanced_testcase {
     /**
      * Activity chooser metadata should remain predictable.
      */
+    #[CoversFunction('videotrack_supports')]
     public function test_activity_chooser_metadata_is_reported(): void {
         $this->assertSame(MOD_ARCHETYPE_RESOURCE, \videotrack_supports(FEATURE_MOD_ARCHETYPE));
         $this->assertSame(MOD_PURPOSE_CONTENT, \videotrack_supports(FEATURE_MOD_PURPOSE));
@@ -70,6 +74,7 @@ final class lib_test extends advanced_testcase {
     /**
      * Unknown features should keep Moodle's default handling path.
      */
+    #[CoversFunction('videotrack_supports')]
     public function test_unknown_feature_returns_null(): void {
         $this->assertNull(\videotrack_supports('mod_videotrack_unknown_feature'));
     }
