@@ -18,7 +18,6 @@ namespace mod_videotrack;
 
 use advanced_testcase;
 use coding_exception;
-use PHPUnit\Framework\Attributes\CoversFunction;
 use stdClass;
 
 /**
@@ -41,7 +40,6 @@ final class locallib_test extends advanced_testcase {
     /**
      * YouTube extraction accepts supported HTTPS URL shapes and rejects unsafe input.
      */
-    #[CoversFunction('videotrack_extract_videoid')]
     public function test_extract_videoid_accepts_supported_youtube_urls(): void {
         $this->assertSame('AbCdEfGhIj1', \videotrack_extract_videoid('https://youtu.be/AbCdEfGhIj1'));
         $this->assertSame('AbCdEfGhIj1', \videotrack_extract_videoid('https://www.youtube.com/watch?v=AbCdEfGhIj1'));
@@ -57,7 +55,6 @@ final class locallib_test extends advanced_testcase {
     /**
      * Vimeo extraction accepts supported HTTPS URL shapes and rejects unsafe input.
      */
-    #[CoversFunction('videotrack_extract_vimeo_id')]
     public function test_extract_vimeo_id_accepts_supported_vimeo_urls(): void {
         $this->assertSame('123456789', \videotrack_extract_vimeo_id('https://vimeo.com/123456789'));
         $this->assertSame('123456789', \videotrack_extract_vimeo_id('https://player.vimeo.com/video/123456789'));
@@ -72,7 +69,6 @@ final class locallib_test extends advanced_testcase {
     /**
      * Human-readable time formatting clamps negative values and switches to hours when needed.
      */
-    #[CoversFunction('videotrack_format_seconds')]
     public function test_format_seconds_clamps_and_formats_duration(): void {
         $this->assertSame('00:00', \videotrack_format_seconds(-5));
         $this->assertSame('00:01', \videotrack_format_seconds(1.4));
@@ -83,7 +79,6 @@ final class locallib_test extends advanced_testcase {
     /**
      * Bounded integer settings preserve explicit zero and clamp out-of-range values.
      */
-    #[CoversFunction('videotrack_get_config_int')]
     public function test_get_config_int_preserves_zero_and_clamps_values(): void {
         $this->resetAfterTest();
 
@@ -100,7 +95,6 @@ final class locallib_test extends advanced_testcase {
     /**
      * Invalid helper bounds should fail loudly for developers.
      */
-    #[CoversFunction('videotrack_get_config_int')]
     public function test_get_config_int_rejects_invalid_bounds(): void {
         $this->expectException(coding_exception::class);
         \videotrack_get_config_int('testint', 10, 100, 0);
@@ -109,7 +103,6 @@ final class locallib_test extends advanced_testcase {
     /**
      * Instance playback speeds override site defaults and remain capped by the site maximum.
      */
-    #[CoversFunction('videotrack_get_playback_speeds')]
     public function test_get_playback_speeds_filters_and_applies_site_cap(): void {
         $this->resetAfterTest();
         set_config('maxplaybackrate', '150', 'mod_videotrack');
