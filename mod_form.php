@@ -682,12 +682,64 @@ class mod_videotrack_mod_form extends moodleform_mod {
     }
 
     /**
+     * Adds a client-side accept attribute to repository upload inputs.
+     *
+     * Moodle validates filemanager accepted_types on submit and upload, but the
+     * repository upload dialog does not add an HTML accept attribute to its file
+     * input. This small enhancement mirrors the accepted_types hidden fields into
+     * the browser file chooser, so teachers see only the expected file types.
+     */
+    protected function require_filepicker_accept_filter(): void {
+        global $PAGE;
+
+        $PAGE->requires->js_init_code(<<<'JS'
+(function() {
+    'use strict';
+
+    var applyAcceptFilter = function(root) {
+        var inputs = (root || document).querySelectorAll('input[type="file"][name="repo_upload_file"]');
+        inputs.forEach(function(input) {
+            var form = input.closest('form');
+            if (!form) {
+                return;
+            }
+            var values = Array.prototype.map.call(
+                form.querySelectorAll('input[name="accepted_types[]"]'),
+                function(node) {
+                    return (node.value || '').trim();
+                }
+            ).filter(Boolean);
+            if (!values.length || values.indexOf('*') !== -1) {
+                return;
+            }
+            input.setAttribute('accept', values.join(','));
+        });
+    };
+
+    applyAcceptFilter(document);
+    if (window.MutationObserver && document.body) {
+        new MutationObserver(function(mutations) {
+            mutations.forEach(function(mutation) {
+                mutation.addedNodes.forEach(function(node) {
+                    if (node.nodeType === 1) {
+                        applyAcceptFilter(node);
+                    }
+                });
+            });
+        }).observe(document.body, {childList: true, subtree: true});
+    }
+}());
+JS);
+    }
+
+    /**
      * Adds repeated form elements used to configure reaction buttons.
      */
     protected function add_reaction_elements(): void {
         $mform = $this->_form;
         $repeatcount = $this->get_reaction_repeat_count();
         $this->reactionrepeatcount = $repeatcount;
+        $this->require_filepicker_accept_filter();
 
         $mform->addElement('hidden', 'reaction_repeats', $repeatcount);
         $mform->setType('reaction_repeats', PARAM_INT);
