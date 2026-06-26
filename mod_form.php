@@ -1266,18 +1266,26 @@ JS);
         }
 
         $labels = $data['reactionlabel'] ?? [];
+        $descriptions = $data['reactiondescription'] ?? [];
         $types  = $data['reactionicontype'] ?? [];
+        $reactionids = $data['reactionid'] ?? [];
         $allowedimageextensions = ['jpg', 'jpeg', 'png', 'webp', 'gif'];
+        $reactionsenabled = !empty($data['reactionsenabled']);
         for ($i = 0; $i < $this->reactionrepeatcount; $i++) {
             $label = trim((string)($labels[$i] ?? ''));
+            $description = trim((string)($descriptions[$i] ?? ''));
             $type  = (string)($types[$i] ?? '');
-            if ($label === '') {
-                continue;
-            }
+            $iconvalue = trim((string)($data['reactioniconvalue'][$i] ?? ''));
+            $rowhastext = $label !== '' || $description !== '';
+            $hasicon = false;
+
             if (!in_array($type, ['emoji', 'fa', 'file'], true)) {
-                $errors['reactionicontype[' . $i . ']'] = get_string('err:reactionicontyperequired', 'mod_videotrack');
+                if ($reactionsenabled && $rowhastext) {
+                    $errors['reactionicontype[' . $i . ']'] = get_string('err:reactionicontyperequired', 'mod_videotrack');
+                }
                 continue;
             }
+
             if ($type === 'file') {
                 $draftitemid = (int)($data['reactioniconfile_' . $i] ?? 0);
                 $fileinfo    = $draftitemid > 0 ? file_get_draft_area_info($draftitemid) : [];
@@ -1285,7 +1293,6 @@ JS);
 
                 // In edit mode, do not block saving if an existing icon file is still.
                 // Associated with this reaction and the draft area was not populated.
-                $reactionids = $data['reactionid'] ?? [];
                 $reactionid  = (int)($reactionids[$i] ?? 0);
                 if (!$hasfile && $reactionid > 0 && !empty($this->_instance)) {
                     global $DB;
@@ -1301,23 +1308,33 @@ JS);
                     }
                 }
 
+                $hasicon = $hasfile;
                 $hasvalidimagefile = $draftitemid <= 0 || $this->draft_area_contains_only_reaction_images(
                     $draftitemid,
                     $allowedimageextensions
                 );
-                if (!$hasfile) {
+                if ($reactionsenabled && $rowhastext && !$hasfile) {
                     $errors['reactioniconfile_' . $i] =
                         get_string('err:reactioniconfilerequired', 'mod_videotrack');
-                } else if (!$hasvalidimagefile) {
+                } else if ($hasfile && !$hasvalidimagefile) {
                     $errors['reactioniconfile_' . $i] =
                         get_string('err:reactioniconfileinvalid', 'mod_videotrack');
                 }
             } else {
-                $iconvalue = trim((string)($data['reactioniconvalue'][$i] ?? ''));
-                if ($iconvalue === '') {
+                $hasicon = $iconvalue !== '';
+                if ($reactionsenabled && $rowhastext && !$hasicon) {
                     $errors['reactioniconvalue[' . $i . ']'] = get_string('err:reactioniconvaluerequired', 'mod_videotrack');
-                } else if ($type === 'fa' && !videotrack_is_valid_reaction_icon_class($iconvalue)) {
+                } else if ($hasicon && $type === 'fa' && !videotrack_is_valid_reaction_icon_class($iconvalue)) {
                     $errors['reactioniconvalue[' . $i . ']'] = get_string('err:reactioniconvalueinvalidfa', 'mod_videotrack');
+                }
+            }
+
+            if ($reactionsenabled && $hasicon) {
+                if ($label === '') {
+                    $errors['reactionlabel[' . $i . ']'] = get_string('required');
+                }
+                if ($description === '') {
+                    $errors['reactiondescription[' . $i . ']'] = get_string('required');
                 }
             }
         }
