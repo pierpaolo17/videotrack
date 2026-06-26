@@ -149,6 +149,8 @@ class save_segment extends external_api {
                 'iscompleted'          => false,
                 'intervaljson'         => '[]',
                 'durationseconds'      => 0.0,
+                'savedvideotimestart' => 0.0,
+                'savedvideotimeend'   => 0.0,
                 'warnings'             => [],
             ];
         }
@@ -192,6 +194,8 @@ class save_segment extends external_api {
                 'iscompleted'          => false,
                 'intervaljson'         => '[]',
                 'durationseconds'      => 0.0,
+                'savedvideotimestart' => 0.0,
+                'savedvideotimeend'   => 0.0,
                 'warnings'             => [[
                     'item' => 'segment',
                     'itemid' => 0,
@@ -230,6 +234,8 @@ class save_segment extends external_api {
                 'iscompleted'          => (bool)$state->iscompleted,
                 'intervaljson'         => (string)($state->intervaljson ?? '[]'),
                 'durationseconds'      => (float)($state->durationseconds ?? 0),
+                'savedvideotimestart' => (float)$interval[0],
+                'savedvideotimeend'   => (float)$interval[1],
                 'warnings'             => [],
             ];
         }
@@ -275,6 +281,8 @@ class save_segment extends external_api {
             'iscompleted'          => new external_value(PARAM_BOOL, 'Whether completion threshold has been met'),
             'intervaljson'         => new external_value(PARAM_RAW, 'JSON array of watched intervals for the progress bar'),
             'durationseconds'      => new external_value(PARAM_FLOAT, 'Total video duration in seconds'),
+            'savedvideotimestart' => new external_value(PARAM_FLOAT, 'Saved segment start time in seconds'),
+            'savedvideotimeend'   => new external_value(PARAM_FLOAT, 'Saved segment end time in seconds'),
             'warnings'             => new external_warnings(),
         ]);
     }

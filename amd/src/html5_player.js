@@ -227,6 +227,22 @@ define([
         return Progress.updateProgress(response, state, Utils, PlayerCore, Log);
     }
 
+    /**
+     * Resolve a reaction timestamp from the progress save response.
+     *
+     * @param {Object|null} progressResponse Progress save response.
+     * @param {number} fallbackTime Current player time fallback.
+     * @returns {number} Timestamp known to be inside the just-saved segment when available.
+     */
+    function resolveReactionTime(progressResponse, fallbackTime) {
+        var savedEnd = progressResponse && Number(progressResponse.savedvideotimeend);
+        var time = Number(fallbackTime);
+        if (Number.isFinite(savedEnd) && savedEnd > 0) {
+            return Math.max(0, savedEnd);
+        }
+        return Number.isFinite(time) ? Math.max(0, time) : 0;
+    }
+
     // Segment lifecycle.
 
     function startSegment() {
@@ -420,6 +436,12 @@ define([
         if (!container) { return; }
         var controls = config.html5controls || [];
         if (!controls.length) { return; }
+
+        if (controls.indexOf('current') < 0 &&
+                (controls.indexOf('progress') >= 0 || controls.indexOf('duration') >= 0)) {
+            controls = controls.slice();
+            controls.splice(Math.max(controls.indexOf('progress'), 0), 0, 'current');
+        }
 
         var bar = document.createElement('div');
         bar.className = 'videotrack-html5-controls';
@@ -980,11 +1002,11 @@ define([
                 reactionbtn.classList.add('videotrack-saving');
                 reactionbtn.setAttribute('aria-busy', 'true');
                 reactionbtn.disabled = true;
-                saveCurrentProgress('reaction').then(function() {
-                    return Promise.resolve(getCurrentVideoTime());
-                }).then(function(time) {
-                    currentTime = Number(time);
-                    currentTime = isFinite(currentTime) ? Math.max(0, currentTime) : 0;
+                saveCurrentProgress('reaction').then(function(progressResponse) {
+                    return Promise.resolve(getCurrentVideoTime()).then(function(time) {
+                        currentTime = resolveReactionTime(progressResponse, time);
+                    });
+                }).then(function() {
                     return Api.call('mod_videotrack_save_reaction', {
                         cmid:       config.cmid,
                         sessionid:  state.sessionid,
