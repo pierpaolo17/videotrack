@@ -18,6 +18,7 @@ namespace mod_videotrack;
 
 use advanced_testcase;
 use coding_exception;
+use PHPUnit\Framework\Attributes\CoversFunction;
 use stdClass;
 
 /**
@@ -28,6 +29,11 @@ use stdClass;
  * @copyright  2026
  * @license    https://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
+#[CoversFunction('videotrack_extract_videoid')]
+#[CoversFunction('videotrack_extract_vimeo_id')]
+#[CoversFunction('videotrack_format_seconds')]
+#[CoversFunction('videotrack_get_config_int')]
+#[CoversFunction('videotrack_get_playback_speeds')]
 final class locallib_test extends advanced_testcase {
     /**
      * Load helper functions under test.

@@ -17,6 +17,7 @@
 namespace mod_videotrack;
 
 use advanced_testcase;
+use PHPUnit\Framework\Attributes\CoversFunction;
 
 /**
  * Minimal PHPUnit coverage for the videotrack module callbacks.
@@ -30,6 +31,7 @@ use advanced_testcase;
  * @copyright  2026
  * @license    https://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
+#[CoversFunction('videotrack_supports')]
 final class lib_test extends advanced_testcase {
     /**
      * Load module callbacks under test.
