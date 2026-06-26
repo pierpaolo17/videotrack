@@ -732,6 +732,7 @@ class mod_videotrack_mod_form extends moodleform_mod {
                 'reactionicontype[' . $i . ']',
                 get_string('reactionicontype', 'mod_videotrack'),
                 [
+                    '' => get_string('icontype:choose', 'mod_videotrack'),
                     'emoji' => get_string('icontype:emoji', 'mod_videotrack'),
                     'fa' => get_string('icontype:fa', 'mod_videotrack'),
                     'file' => get_string('icontype:file', 'mod_videotrack'),
@@ -794,7 +795,49 @@ class mod_videotrack_mod_form extends moodleform_mod {
                 'file'
             );
             $mform->disabledIf(
+                'reactioniconvalue[' . $i . ']',
+                'reactionicontype[' . $i . ']',
+                'eq',
+                ''
+            );
+            $mform->hideIf(
+                'reactioniconvalue[' . $i . ']',
+                'reactionicontype[' . $i . ']',
+                'eq',
+                'file'
+            );
+            $mform->hideIf(
+                'reactioniconvalue[' . $i . ']',
+                'reactionicontype[' . $i . ']',
+                'eq',
+                ''
+            );
+            $mform->hideIf(
+                'reactioniconvalue_suggestions_' . $i,
+                'reactionicontype[' . $i . ']',
+                'eq',
+                'file'
+            );
+            $mform->hideIf(
+                'reactioniconvalue_suggestions_' . $i,
+                'reactionicontype[' . $i . ']',
+                'eq',
+                ''
+            );
+            $mform->disabledIf(
                 'reactioniconfile_' . $i,
+                'reactionicontype[' . $i . ']',
+                'neq',
+                'file'
+            );
+            $mform->hideIf(
+                'reactioniconfile_' . $i,
+                'reactionicontype[' . $i . ']',
+                'neq',
+                'file'
+            );
+            $mform->hideIf(
+                'reactioniconfile_notice_' . $i,
                 'reactionicontype[' . $i . ']',
                 'neq',
                 'file'
@@ -1066,6 +1109,43 @@ class mod_videotrack_mod_form extends moodleform_mod {
     }
 
     /**
+     * Checks that a reaction icon draft area contains only allowed image files.
+     *
+     * @param int $draftitemid Draft item id.
+     * @param array $allowedextensions Allowed lowercase extensions without leading dots.
+     * @return bool True when every file in the draft area is an allowed image.
+     */
+    protected function draft_area_contains_only_reaction_images(int $draftitemid, array $allowedextensions): bool {
+        global $USER;
+
+        if ($draftitemid <= 0) {
+            return true;
+        }
+
+        $usercontext = context_user::instance($USER->id);
+        $files = get_file_storage()->get_area_files(
+            $usercontext->id,
+            'user',
+            'draft',
+            $draftitemid,
+            'id',
+            false
+        );
+
+        foreach ($files as $file) {
+            $extension = strtolower(pathinfo($file->get_filename(), PATHINFO_EXTENSION));
+            if (!in_array($extension, $allowedextensions, true)) {
+                return false;
+            }
+            if (strpos((string)$file->get_mimetype(), 'image/') !== 0) {
+                return false;
+            }
+        }
+
+        return true;
+    }
+
+    /**
      * Validates submitted activity settings.
      *
      * @param array $data Submitted form data.
@@ -1134,10 +1214,15 @@ class mod_videotrack_mod_form extends moodleform_mod {
 
         $labels = $data['reactionlabel'] ?? [];
         $types  = $data['reactionicontype'] ?? [];
+        $allowedimageextensions = ['jpg', 'jpeg', 'png', 'gif', 'webp'];
         for ($i = 0; $i < $this->reactionrepeatcount; $i++) {
             $label = trim((string)($labels[$i] ?? ''));
-            $type  = (string)($types[$i] ?? 'emoji');
+            $type  = (string)($types[$i] ?? '');
             if ($label === '') {
+                continue;
+            }
+            if (!in_array($type, ['emoji', 'fa', 'file'], true)) {
+                $errors['reactionicontype[' . $i . ']'] = get_string('err:reactionicontyperequired', 'mod_videotrack');
                 continue;
             }
             if ($type === 'file') {
@@ -1166,6 +1251,12 @@ class mod_videotrack_mod_form extends moodleform_mod {
                 if (!$hasfile) {
                     $errors['reactioniconfile_' . $i] =
                         get_string('err:reactioniconfilerequired', 'mod_videotrack');
+                } else if ($draftitemid > 0 && !$this->draft_area_contains_only_reaction_images(
+                    $draftitemid,
+                    $allowedimageextensions
+                )) {
+                    $errors['reactioniconfile_' . $i] =
+                        get_string('err:reactioniconfileinvalid', 'mod_videotrack');
                 }
             } else {
                 $iconvalue = trim((string)($data['reactioniconvalue'][$i] ?? ''));
