@@ -92,6 +92,21 @@ define([
         return Math.max(Number(state.maxallowedtime) || 0, getMaxWatchedFromIntervals(state.intervaljson));
     }
 
+
+    function normaliseControls(controls) {
+        if (Array.isArray(controls)) {
+            return controls.slice();
+        }
+        if (typeof controls === 'string') {
+            return controls.split(',').map(function(control) {
+                return control.trim();
+            }).filter(function(control) {
+                return control.length > 0;
+            });
+        }
+        return [];
+    }
+
     function getConfiguredMaxPlaybackRate() {
         var configured = Number(config && config.maxplaybackrate ? config.maxplaybackrate : 0) / 100;
         if (configured > 0) {
@@ -434,12 +449,11 @@ define([
     function buildControlBar(isAudio) {
         var container = document.getElementById('mod-videotrack-player');
         if (!container) { return; }
-        var controls = config.html5controls || [];
+        var controls = normaliseControls(config.html5controls || []);
         if (!controls.length) { return; }
 
         if (controls.indexOf('current') < 0 &&
                 (controls.indexOf('progress') >= 0 || controls.indexOf('duration') >= 0)) {
-            controls = controls.slice();
             controls.splice(Math.max(controls.indexOf('progress'), 0), 0, 'current');
         }
 
@@ -556,7 +570,7 @@ define([
         if (controls.indexOf('current') >= 0) {
             var currentEl = document.createElement('span');
             currentEl.className = 'videotrack-ctrl-time';
-            currentEl.textContent = '0:00';
+            currentEl.textContent = Utils.formatSeconds(safeNumber(media.currentTime, 0));
             currentEl.setAttribute('aria-live', 'off');
             bar.appendChild(currentEl);
             bar._currentEl = currentEl;
@@ -729,6 +743,9 @@ define([
             state.duration = Adapter.getDuration(state, function() {
                 return media.duration;
             }, Log, 'HTML5 metadata');
+            if (bar._currentEl) {
+                bar._currentEl.textContent = Utils.formatSeconds(safeNumber(media.currentTime, 0));
+            }
             if (bar._durationEl) {
                 bar._durationEl.textContent = ' / ' + Utils.formatSeconds(state.duration);
             }
@@ -930,7 +947,7 @@ define([
             tr.setAttribute('data-eventid', eventid);
             // Timestamp cell
             var tdtime = document.createElement('td');
-            tdtime.textContent = videotime;
+            tdtime.textContent = Utils.formatSeconds(videotime);
             tr.appendChild(tdtime);
             // Icon cell
             var tdicon = document.createElement('td');
@@ -1013,21 +1030,25 @@ define([
                         reactionid: Utils.safeInt(reactionbtn.getAttribute('data-reactionid'), 0),
                         videotime:  currentTime,
                         playbackrate: state.playbackrate || 1,
-                    });
+                    }, {timeout: 60000});
                 }).then(function(response) {
                     state._reactionSavePending = false;
                     reactionbtn.classList.remove('videotrack-saving');
                     reactionbtn.removeAttribute('aria-busy');
                     reactionbtn.disabled = false;
                     if (response && response.reactioneventid) {
-                        appendReactionRow(response.reactioneventid, {
-                            label: reactionbtn.getAttribute('data-reactionlabel') || '',
-                            description: reactionbtn.getAttribute('data-reactiondesc') || '',
-                            icontype: reactionbtn.getAttribute('data-reactionicontype') || 'emoji',
-                            iconclass: reactionbtn.getAttribute('data-reactioniconclass') || '',
-                            iconsrc: reactionbtn.getAttribute('data-reactioniconsrc') || '',
-                            icontext: reactionbtn.getAttribute('data-reactionicontext') || '',
-                        }, currentTime);
+                        try {
+                            appendReactionRow(response.reactioneventid, {
+                                label: reactionbtn.getAttribute('data-reactionlabel') || '',
+                                description: reactionbtn.getAttribute('data-reactiondesc') || '',
+                                icontype: reactionbtn.getAttribute('data-reactionicontype') || 'emoji',
+                                iconclass: reactionbtn.getAttribute('data-reactioniconclass') || '',
+                                iconsrc: reactionbtn.getAttribute('data-reactioniconsrc') || '',
+                                icontext: reactionbtn.getAttribute('data-reactionicontext') || '',
+                            }, currentTime);
+                        } catch (appendError) {
+                            Debug.log('reactionrowappendfailed', {message: appendError && appendError.message});
+                        }
                     }
                 }).catch(function(err) {
                     state._reactionSavePending = false;
