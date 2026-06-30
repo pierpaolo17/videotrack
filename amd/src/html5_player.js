@@ -452,8 +452,10 @@ define([
         var controls = normaliseControls(config.html5controls || []);
         if (!controls.length) { return; }
 
-        if (controls.indexOf('current') < 0 &&
-                (controls.indexOf('progress') >= 0 || controls.indexOf('duration') >= 0)) {
+        // Always show elapsed time in the custom HTML5 bar. Some browser
+        // native controls emphasise remaining time; VideoTrack's custom bar must
+        // always expose the time elapsed from the beginning of the media.
+        if (controls.indexOf('current') < 0) {
             controls.splice(Math.max(controls.indexOf('progress'), 0), 0, 'current');
         }
 

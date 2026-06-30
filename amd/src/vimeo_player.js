@@ -828,6 +828,11 @@ define([
                     player.setCurrentTime(replayStart).then(function() {
                         Tracker.syncTime(state, replayStart, state.playbackrate || 1);
                         Tracker.consumeProgrammaticSeek(state, replayStart);
+                        state.isProgrammaticSeek = false;
+                        startSegment(replayStart);
+                        startHeartbeat();
+                        startVimeoRuntimePolling();
+                        setReactionButtons(true);
                     }).catch(function() {
                         state.isProgrammaticSeek = false;
                     });
@@ -921,6 +926,17 @@ define([
                 var start = parseFloat(btn.dataset.start) || 0;
                 var end   = parseFloat(btn.dataset.end)   || 0;
                 state.currentReplayEnd = end > 0 ? end : null;
+                // Explicit replay must win over automatic resume. Otherwise Vimeo
+                // may retry the resume position on the following play event and
+                // jump back to the last watched second instead of the reaction.
+                state._pendingResume = null;
+                try {
+                    if (window.localStorage) {
+                        window.localStorage.removeItem(getResumeStorageKey());
+                    }
+                } catch (storageError) {
+                    // Browser storage may be disabled; ignore.
+                }
                 // Mark the seek as programmatic to avoid triggering the anti-skip block.
                 Tracker.markProgrammaticSeek(state);
                 state.isProgrammaticSeek = true;
@@ -930,6 +946,10 @@ define([
                     Tracker.syncTime(state, start, state.playbackrate || 1);
                     Tracker.consumeProgrammaticSeek(state, start);
                     state.isProgrammaticSeek = false;
+                    startSegment(start);
+                    startHeartbeat();
+                    startVimeoRuntimePolling();
+                    setReactionButtons(true);
                     player.play();
                 }).catch(function() {
                     state.isProgrammaticSeek = false;
