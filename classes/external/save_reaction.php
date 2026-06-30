@@ -134,21 +134,29 @@ class save_reaction extends external_api {
             throw new \moodle_exception('error:reactionratelimit', 'mod_videotrack');
         }
 
-        // Rate-limit / anti-spam: ignore reactions submitted too close together by the same user,
-        // regardless of the reaction type. This keeps analytics and statistics processing bounded when
-        // a user clicks several reaction buttons in rapid succession.
-        $recentcount = $DB->count_records_select(
+        // Rate-limit / anti-spam: ignore only consecutive duplicate reactions submitted too close together.
+        // Different reactions may legitimately be used within a few seconds of each other, while repeated clicks on
+        // the same reaction button should not create redundant analytics rows.
+        $previousreaction = $DB->get_records_select(
             'videotrack_reactev',
             'videotrackid = :vtid AND userid = :uid AND isdeleted = 0 ' .
-                "AND (notetype = '' OR notetype IS NULL) AND timecreated >= :since",
+                "AND (notetype = '' OR notetype IS NULL)",
             [
-                'vtid'  => $videotrack->id,
-                'uid'   => $USER->id,
-                'since' => $now - 3,
-            ]
+                'vtid' => $videotrack->id,
+                'uid'  => $USER->id,
+            ],
+            'timecreated DESC, id DESC',
+            'id, reactionid, timecreated',
+            0,
+            1
         );
-        if ($recentcount > 0) {
-            // Too close to a previously saved reaction: return the current state without saving.
+        $previousreaction = reset($previousreaction);
+        if (
+            $previousreaction &&
+            (int)$previousreaction->reactionid === (int)$reaction->id &&
+            (int)$previousreaction->timecreated >= $now - 3
+        ) {
+            // Consecutive duplicate too close to the previous saved reaction: return the current state without saving.
             // No new reaction was persisted, so the reaction count has not changed.
             $state = $DB->get_record('videotrack_state', ['videotrackid' => $videotrack->id, 'userid' => $USER->id]);
             $summary = tracker::reaction_counts($videotrack->id, (int)$USER->id);
