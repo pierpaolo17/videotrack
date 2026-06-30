@@ -258,6 +258,26 @@ define([
         return Number.isFinite(time) ? Math.max(0, time) : 0;
     }
 
+    function isDefinitiveReactionFailure(error) {
+        var code = error && (error.errorcode || (error.originalError && error.originalError.errorcode));
+        var message = error && (error.message || String(error));
+        var text = String(code || message || '').toLowerCase();
+        return text.indexOf('playbackrequired') !== -1 ||
+            text.indexOf('playbackpositionnotwatched') !== -1 ||
+            text.indexOf('reactionratelimit') !== -1 ||
+            text.indexOf('reactionsdisabled') !== -1 ||
+            text.indexOf('invalidsesskey') !== -1 ||
+            text.indexOf('requirelogin') !== -1 ||
+            text.indexOf('nopermissions') !== -1 ||
+            text.indexOf('accessdenied') !== -1;
+    }
+
+    function removeReactionRow(row) {
+        if (row && row.parentNode) {
+            row.parentNode.removeChild(row);
+        }
+    }
+
     // Segment lifecycle.
 
     function startSegment() {
@@ -450,7 +470,9 @@ define([
         var container = document.getElementById('mod-videotrack-player');
         if (!container) { return; }
         var controls = normaliseControls(config.html5controls || []);
-        if (!controls.length) { return; }
+        if (!controls.length) {
+            controls = ['current', 'duration'];
+        }
 
         // Always show elapsed time in the custom HTML5 bar. Some browser
         // native controls emphasise remaining time; VideoTrack's custom bar must
@@ -986,6 +1008,7 @@ define([
             tddel.appendChild(delbtn);
             tr.appendChild(tddel);
             tbody.appendChild(tr);
+            return tr;
         }
 
         // A1 fix: keydown handler for Enter/Space on aria-disabled reaction buttons.
@@ -1018,12 +1041,25 @@ define([
                 }
                 state._reactionSavePending = true;
                 var currentTime = 0;
+                var pendingRow = null;
+                var reactionData = {
+                    label: reactionbtn.getAttribute('data-reactionlabel') || '',
+                    description: reactionbtn.getAttribute('data-reactiondesc') || '',
+                    icontype: reactionbtn.getAttribute('data-reactionicontype') || 'emoji',
+                    iconclass: reactionbtn.getAttribute('data-reactioniconclass') || '',
+                    iconsrc: reactionbtn.getAttribute('data-reactioniconsrc') || '',
+                    icontext: reactionbtn.getAttribute('data-reactionicontext') || '',
+                };
                 reactionbtn.classList.add('videotrack-saving');
                 reactionbtn.setAttribute('aria-busy', 'true');
                 reactionbtn.disabled = true;
                 saveCurrentProgress('reaction').then(function(progressResponse) {
                     return Promise.resolve(getCurrentVideoTime()).then(function(time) {
                         currentTime = resolveReactionTime(progressResponse, time);
+                        pendingRow = appendReactionRow('pending-' + Date.now(), reactionData, currentTime);
+                        if (pendingRow) {
+                            pendingRow.classList.add('videotrack-reaction-pending');
+                        }
                     });
                 }).then(function() {
                     return Api.call('mod_videotrack_save_reaction', {
@@ -1038,18 +1074,12 @@ define([
                     reactionbtn.classList.remove('videotrack-saving');
                     reactionbtn.removeAttribute('aria-busy');
                     reactionbtn.disabled = false;
-                    if (response && response.reactioneventid) {
-                        try {
-                            appendReactionRow(response.reactioneventid, {
-                                label: reactionbtn.getAttribute('data-reactionlabel') || '',
-                                description: reactionbtn.getAttribute('data-reactiondesc') || '',
-                                icontype: reactionbtn.getAttribute('data-reactionicontype') || 'emoji',
-                                iconclass: reactionbtn.getAttribute('data-reactioniconclass') || '',
-                                iconsrc: reactionbtn.getAttribute('data-reactioniconsrc') || '',
-                                icontext: reactionbtn.getAttribute('data-reactionicontext') || '',
-                            }, currentTime);
-                        } catch (appendError) {
-                            Debug.log('reactionrowappendfailed', {message: appendError && appendError.message});
+                    if (response && response.reactioneventid && pendingRow) {
+                        pendingRow.setAttribute('data-eventid', response.reactioneventid);
+                        pendingRow.classList.remove('videotrack-reaction-pending');
+                        var deletebtn = pendingRow.querySelector('.videotrack-delete-reaction');
+                        if (deletebtn) {
+                            deletebtn.setAttribute('data-eventid', response.reactioneventid);
                         }
                     }
                 }).catch(function(err) {
@@ -1057,7 +1087,15 @@ define([
                     reactionbtn.classList.remove('videotrack-saving');
                     reactionbtn.removeAttribute('aria-busy');
                     reactionbtn.disabled = false;
-                    PlayerCore.showErrorStatusMessage(err, config.reactionerrorlabel, config.dismisslabel);
+                    if (isDefinitiveReactionFailure(err)) {
+                        removeReactionRow(pendingRow);
+                        PlayerCore.showErrorStatusMessage(err, config.reactionerrorlabel, config.dismisslabel);
+                    } else {
+                        Debug.log('reactionsaveunknownafteroptimisticappend', {
+                            message: err && err.message,
+                            errorcode: err && err.errorcode
+                        });
+                    }
                 });
                 return;
             }
