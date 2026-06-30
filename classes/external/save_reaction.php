@@ -183,32 +183,58 @@ class save_reaction extends external_api {
         // O1: invalidate per-request cache so subsequent reaction_counts() calls
         // within this request see the newly inserted record.
         tracker::invalidate_reaction_counts_cache($videotrack->id, (int)$USER->id);
-        // Log the event in Moodle logs.
-        $event = reaction_saved::create([
-            'objectid' => $eventid,
-            'context'  => $context,
-            'other'    => [
-                'reactionlabel' => $reaction->label,
-                'videotime'     => $videotime,
-            ],
-        ]);
-        $event->trigger();
+        $warnings = [];
+
+        // Log the event in Moodle logs. This is useful but must not turn an
+        // already-saved reaction into a failed AJAX response: otherwise the UI
+        // shows an error even though the record appears after page refresh.
+        try {
+            $event = reaction_saved::create([
+                'objectid' => $eventid,
+                'context'  => $context,
+                'other'    => [
+                    'reactionlabel' => $reaction->label,
+                    'videotime'     => $videotime,
+                ],
+            ]);
+            $event->trigger();
+        } catch (\Throwable $e) {
+            debugging('VideoTrack reaction event trigger failed: ' . $e->getMessage(), DEBUG_DEVELOPER);
+            $warnings[] = [
+                'item' => 'reaction',
+                'itemid' => (int)$eventid,
+                'warningcode' => 'eventtriggerfailed',
+                'message' => 'Reaction saved, but the Moodle log event could not be triggered.',
+            ];
+        }
+
         // Read reaction counts once after insert, then pass the same summary to
         // refresh_completion() so this request does not repeat the aggregate query.
         $summary = tracker::reaction_counts($videotrack->id, (int)$USER->id);
-        $requiredreactionids = array_keys(array_filter((array)$DB->get_records_menu('videotrack_react', [
-            'videotrackid' => $videotrack->id,
-            'requiredforcompletion' => 1,
-            'isdeleted' => 0,
-        ], '', 'id,id')));
-        $state = tracker::refresh_completion($videotrack, $cm, (int)$USER->id, $summary, $requiredreactionids);
-        $completion = new \completion_info($course);
-        tracker::update_moodle_completion_if_changed($completion, $cm, (bool)$state->iscompleted, (int)$USER->id);
+        $state = $DB->get_record('videotrack_state', ['videotrackid' => $videotrack->id, 'userid' => $USER->id]);
+        try {
+            $requiredreactionids = array_keys(array_filter((array)$DB->get_records_menu('videotrack_react', [
+                'videotrackid' => $videotrack->id,
+                'requiredforcompletion' => 1,
+                'isdeleted' => 0,
+            ], '', 'id,id')));
+            $state = tracker::refresh_completion($videotrack, $cm, (int)$USER->id, $summary, $requiredreactionids);
+            $completion = new \completion_info($course);
+            tracker::update_moodle_completion_if_changed($completion, $cm, (bool)$state->iscompleted, (int)$USER->id);
+        } catch (\Throwable $e) {
+            debugging('VideoTrack reaction completion refresh failed: ' . $e->getMessage(), DEBUG_DEVELOPER);
+            $warnings[] = [
+                'item' => 'reaction',
+                'itemid' => (int)$eventid,
+                'warningcode' => 'completionrefreshfailed',
+                'message' => 'Reaction saved, but completion could not be refreshed immediately.',
+            ];
+        }
         return [
             'reactioneventid' => $eventid,
             'uniquereactions' => $summary['uniquecount'],
-            'iscompleted'     => (bool)$state->iscompleted,
-            'warnings'        => [],
+            'iscompleted'     => !empty($state->iscompleted),
+            'warnings'        => $warnings,
         ];
     }
 
