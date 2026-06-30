@@ -267,6 +267,7 @@ class save_reaction extends external_api {
             'iconsrc' => $icontype === 'file' ? videotrack_reaction_icon_url($context, $reaction) : '',
             'icontext' => $icontype === 'emoji' ? ($iconvalue !== '' ? $iconvalue : (string)($reaction->label ?? '')) : '',
             'videotime' => $videotime,
+            'iconhtml' => '',
         ];
     }
 

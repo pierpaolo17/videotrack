@@ -1013,14 +1013,20 @@ define([
             var tdicon = document.createElement('td');
             var span = document.createElement('span');
             span.className = 'videotrack-report-icon';
+            var iconDescriptor = {
+                type: reaction.type || reaction.icontype || 'emoji',
+                src: reaction.src || reaction.iconsrc || '',
+                iconclass: reaction.iconclass || '',
+                text: reaction.text || reaction.icontext || ''
+            };
             if (reaction.iconhtml) {
                 var template = document.createElement('template');
                 template.innerHTML = String(reaction.iconhtml);
                 span.appendChild(template.content.cloneNode(true));
             } else {
-                Ui.appendIconSafe(span, reaction);
+                Ui.appendIconSafe(span, iconDescriptor);
             }
-            if (reaction.label && !reaction.iconhtml) {
+            if (reaction.label) {
                 var labelspan = document.createElement('span');
                 labelspan.className = 'videotrack-reaction-label';
                 labelspan.textContent = reaction.label;
