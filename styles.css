@@ -472,17 +472,14 @@
 
 
 .videotrack-html5-elapsed-badge {
-    position: absolute;
-    left: 0.5rem;
-    bottom: 0.5rem;
-    z-index: 2;
+    display: inline-block;
+    margin: 0.35rem 0 0;
     padding: 0.15rem 0.35rem;
     border-radius: 0.25rem;
     background: var(--videotrack-control-bg);
     color: var(--videotrack-control-fg);
     font-size: 0.78rem;
     font-variant-numeric: tabular-nums;
-    pointer-events: none;
 }
 
 /* ─── Barra controlli HTML5 custom ──────────────────────────────────────── */
