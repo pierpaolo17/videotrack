@@ -134,22 +134,21 @@ class save_reaction extends external_api {
             throw new \moodle_exception('error:reactionratelimit', 'mod_videotrack');
         }
 
-        // Rate-limit / anti-spam: reject if an identical reaction already exists for this user
-        // and reaction in the previous 3 seconds. This prevents unlimited event
-        // accumulation caused by automation or rapid double clicks.
+        // Rate-limit / anti-spam: ignore reactions submitted too close together by the same user,
+        // regardless of the reaction type. This keeps analytics and statistics processing bounded when
+        // a user clicks several reaction buttons in rapid succession.
         $recentcount = $DB->count_records_select(
             'videotrack_reactev',
-            'videotrackid = :vtid AND userid = :uid AND reactionid = :rid AND isdeleted = 0 ' .
+            'videotrackid = :vtid AND userid = :uid AND isdeleted = 0 ' .
                 "AND (notetype = '' OR notetype IS NULL) AND timecreated >= :since",
             [
                 'vtid'  => $videotrack->id,
                 'uid'   => $USER->id,
-                'rid'   => $reaction->id,
                 'since' => $now - 3,
             ]
         );
         if ($recentcount > 0) {
-            // Duplicate reaction: return the current state without saving.
+            // Too close to a previously saved reaction: return the current state without saving.
             // No new reaction was persisted, so the reaction count has not changed.
             $state = $DB->get_record('videotrack_state', ['videotrackid' => $videotrack->id, 'userid' => $USER->id]);
             $summary = tracker::reaction_counts($videotrack->id, (int)$USER->id);
