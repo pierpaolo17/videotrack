@@ -157,6 +157,7 @@ class save_reaction extends external_api {
                 'reactioneventid' => 0,
                 'uniquereactions' => $summary['uniquecount'],
                 'iscompleted'     => !empty($state->iscompleted),
+                'reaction'        => self::export_reaction_for_client($reaction, $context, $videotime),
                 'warnings'        => [],
             ];
         }
@@ -234,7 +235,38 @@ class save_reaction extends external_api {
             'reactioneventid' => $eventid,
             'uniquereactions' => $summary['uniquecount'],
             'iscompleted'     => !empty($state->iscompleted),
+            'reaction'        => self::export_reaction_for_client($reaction, $context, $videotime),
             'warnings'        => $warnings,
+        ];
+    }
+
+
+    /**
+     * Exports the saved reaction definition for immediate client-side rendering.
+     *
+     * @param \stdClass $reaction Reaction definition.
+     * @param \context_module $context Module context.
+     * @param float $videotime Saved video time.
+     * @return array
+     */
+    private static function export_reaction_for_client(
+        \stdClass $reaction,
+        \context_module $context,
+        float $videotime
+    ): array {
+        $icontype = clean_param((string)($reaction->icontype ?? 'emoji'), PARAM_ALPHA);
+        if (!in_array($icontype, ['emoji', 'fa', 'file'], true)) {
+            $icontype = 'emoji';
+        }
+        $iconvalue = (string)($reaction->iconvalue ?? '');
+        return [
+            'label' => (string)($reaction->label ?? ''),
+            'description' => (string)($reaction->description ?? ''),
+            'icontype' => $icontype,
+            'iconclass' => $icontype === 'fa' ? $iconvalue : '',
+            'iconsrc' => $icontype === 'file' ? videotrack_reaction_icon_url($context, $reaction) : '',
+            'icontext' => $icontype === 'emoji' ? ($iconvalue !== '' ? $iconvalue : (string)($reaction->label ?? '')) : '',
+            'videotime' => $videotime,
         ];
     }
 
@@ -248,6 +280,15 @@ class save_reaction extends external_api {
             'reactioneventid' => new external_value(PARAM_INT, 'Reaction event ID'),
             'uniquereactions' => new external_value(PARAM_INT, 'Unique reaction count'),
             'iscompleted' => new external_value(PARAM_BOOL, 'Completion status'),
+            'reaction' => new external_single_structure([
+                'label' => new external_value(PARAM_TEXT, 'Reaction label'),
+                'description' => new external_value(PARAM_TEXT, 'Reaction description'),
+                'icontype' => new external_value(PARAM_ALPHA, 'Reaction icon type'),
+                'iconclass' => new external_value(PARAM_NOTAGS, 'Font Awesome icon classes'),
+                'iconsrc' => new external_value(PARAM_URL, 'Reaction file icon URL'),
+                'icontext' => new external_value(PARAM_TEXT, 'Emoji or text icon fallback'),
+                'videotime' => new external_value(PARAM_FLOAT, 'Saved video time'),
+            ], 'Saved reaction data for immediate UI rendering'),
             'warnings' => new external_warnings(),
         ]);
     }
