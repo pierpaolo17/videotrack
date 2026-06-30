@@ -264,6 +264,8 @@ class save_segment extends external_api {
             'iscompleted'          => (bool)$state->iscompleted,
             'intervaljson'         => (string)($state->intervaljson ?? '[]'),
             'durationseconds'      => (float)($state->durationseconds ?? 0),
+            'savedvideotimestart'  => (float)$interval[0],
+            'savedvideotimeend'    => (float)$interval[1],
             'warnings'             => [],
         ];
     }
