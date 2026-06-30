@@ -90,7 +90,7 @@ class delete_reaction extends external_api {
             $DB->update_record('videotrack_reactev', $event);
             $changed = true;
             // Invalidate the per-request cache so subsequent reaction counts see the soft-deleted record.
-            tracker::invalidate_reaction_counts_cache($videotrack->id, (int)$USER->id);
+            tracker::invalidate_reactioncountscache($videotrack->id, (int)$USER->id);
             // Log the event in Moodle logs.
             $moodleevent = reaction_deleted::create([
                 'objectid' => $event->id,
