@@ -978,6 +978,13 @@ define([
             var span = document.createElement('span');
             span.className = 'videotrack-report-icon';
             Ui.appendIconSafe(span, reaction);
+            if (reaction.label) {
+                var labelspan = document.createElement('span');
+                labelspan.className = 'videotrack-reaction-label';
+                labelspan.textContent = reaction.label;
+                span.appendChild(document.createTextNode(' '));
+                span.appendChild(labelspan);
+            }
             tdicon.appendChild(span);
             tr.appendChild(tdicon);
             // Description
@@ -1075,11 +1082,18 @@ define([
                     reactionbtn.removeAttribute('aria-busy');
                     reactionbtn.disabled = false;
                     if (response && response.reactioneventid && pendingRow) {
-                        pendingRow.setAttribute('data-eventid', response.reactioneventid);
-                        pendingRow.classList.remove('videotrack-reaction-pending');
-                        var deletebtn = pendingRow.querySelector('.videotrack-delete-reaction');
-                        if (deletebtn) {
-                            deletebtn.setAttribute('data-eventid', response.reactioneventid);
+                        var savedReaction = response.reaction || null;
+                        if (savedReaction) {
+                            savedReaction.videotime = Number(savedReaction.videotime || currentTime);
+                            removeReactionRow(pendingRow);
+                            pendingRow = appendReactionRow(response.reactioneventid, savedReaction, savedReaction.videotime);
+                        } else {
+                            pendingRow.setAttribute('data-eventid', response.reactioneventid);
+                            pendingRow.classList.remove('videotrack-reaction-pending');
+                            var deletebtn = pendingRow.querySelector('.videotrack-delete-reaction');
+                            if (deletebtn) {
+                                deletebtn.setAttribute('data-eventid', response.reactioneventid);
+                            }
                         }
                     }
                 }).catch(function(err) {
