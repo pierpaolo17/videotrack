@@ -1132,14 +1132,13 @@ define([
                     if (response && response.reaction && pendingRow) {
                         var savedReaction = response.reaction;
                         savedReaction.videotime = Number(savedReaction.videotime || currentTime);
-                        if (response.reactioneventid > 0) {
-                            removeReactionRow(pendingRow);
-                            pendingRow = appendReactionRow(response.reactioneventid, savedReaction, savedReaction.videotime);
-                        } else {
-                            // Duplicate/rate-control responses do not create a new DB row. Remove the
-                            // optimistic row instead of leaving a partial client-only row visible.
-                            removeReactionRow(pendingRow);
-                            pendingRow = null;
+                        var rowEventId = Number(response.reactioneventid) > 0
+                            ? response.reactioneventid
+                            : pendingRow.getAttribute('data-eventid');
+                        removeReactionRow(pendingRow);
+                        pendingRow = appendReactionRow(rowEventId, savedReaction, savedReaction.videotime);
+                        if (pendingRow && Number(response.reactioneventid) > 0) {
+                            pendingRow.classList.remove('videotrack-reaction-pending');
                         }
                     } else if (response && response.reactioneventid && pendingRow) {
                         pendingRow.setAttribute('data-eventid', response.reactioneventid);
