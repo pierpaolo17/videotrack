@@ -119,13 +119,14 @@ define([], function() {
             return;
         }
 
-        var type = String(icon.type || 'emoji');
+        var type = String(icon.type || icon.icontype || 'emoji');
         if (['emoji', 'file', 'fa', 'text'].indexOf(type) === -1) {
             return;
         }
-        if (type === 'file' && isSafeIconSrc(icon.src)) {
+        var src = icon.src || icon.iconsrc || '';
+        if (type === 'file' && isSafeIconSrc(src)) {
             var img = document.createElement('img');
-            img.setAttribute('src', String(icon.src));
+            img.setAttribute('src', String(src));
             img.setAttribute('alt', '');
             img.setAttribute('aria-hidden', 'true');
             img.className = 'videotrack-reaction-icon-file';
@@ -141,7 +142,7 @@ define([], function() {
             return;
         }
 
-        var text = String(icon.text || '').trim();
+        var text = String(icon.text || icon.icontext || '').trim();
         if (text.length > 64) {
             text = text.substring(0, 64);
         }
