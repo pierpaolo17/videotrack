@@ -287,6 +287,7 @@ class save_reaction extends external_api {
                 'iconclass' => new external_value(PARAM_NOTAGS, 'Font Awesome icon classes'),
                 'iconsrc' => new external_value(PARAM_URL, 'Reaction file icon URL'),
                 'icontext' => new external_value(PARAM_TEXT, 'Emoji or text icon fallback'),
+                'iconhtml' => new external_value(PARAM_RAW, 'Sanitised reaction icon HTML'),
                 'videotime' => new external_value(PARAM_FLOAT, 'Saved video time'),
             ], 'Saved reaction data for immediate UI rendering'),
             'warnings' => new external_warnings(),

@@ -421,6 +421,7 @@ define([
         }
 
         container.appendChild(media);
+        ensureElapsedBadge();
 
         // If autoplay is active, attempt playback only after the media element
         // has been configured and attached to the DOM so muted/playsinline are
@@ -458,6 +459,45 @@ define([
 
         // Attach segment-tracking event listeners.
         attachTrackingEvents();
+    }
+
+
+    /**
+     * Ensures a separate, always visible elapsed-time badge exists for HTML5 media.
+     * This avoids relying on browser-native controls, which may display remaining
+     * time instead of elapsed time depending on browser/theme.
+     *
+     * @return {HTMLElement|null} The elapsed time badge.
+     */
+    function ensureElapsedBadge() {
+        var wrapper = media ? (media.closest('.videotrack-player-wrap') || media.parentElement) : null;
+        if (!wrapper) {
+            return null;
+        }
+        var badge = wrapper.querySelector('.videotrack-html5-elapsed-badge');
+        if (!badge) {
+            badge = document.createElement('div');
+            badge.className = 'videotrack-html5-elapsed-badge';
+            badge.setAttribute('aria-live', 'off');
+            badge.textContent = Utils.formatSeconds(safeNumber(media.currentTime, 0));
+            wrapper.appendChild(badge);
+        }
+        return badge;
+    }
+
+    /**
+     * Updates all elapsed-time indicators managed by the HTML5 player.
+     */
+    function updateElapsedDisplays() {
+        var elapsed = Utils.formatSeconds(safeNumber(media && media.currentTime, 0));
+        var badge = ensureElapsedBadge();
+        if (badge) {
+            badge.textContent = elapsed;
+        }
+        var bar = document.querySelector('.videotrack-html5-controls');
+        if (bar && bar._currentEl) {
+            bar._currentEl.textContent = elapsed;
+        }
     }
 
     /**
@@ -758,18 +798,14 @@ define([
                 bar._progressBar.setAttribute('aria-valuenow',  String(Math.round(pct)));
                 bar._progressBar.setAttribute('aria-valuetext', Utils.formatSeconds(safeNumber(media.currentTime, 0)));
             }
-            if (bar._currentEl) {
-                bar._currentEl.textContent = Utils.formatSeconds(safeNumber(media.currentTime, 0));
-            }
+            updateElapsedDisplays();
         });
 
         media.addEventListener('loadedmetadata', function() {
             state.duration = Adapter.getDuration(state, function() {
                 return media.duration;
             }, Log, 'HTML5 metadata');
-            if (bar._currentEl) {
-                bar._currentEl.textContent = Utils.formatSeconds(safeNumber(media.currentTime, 0));
-            }
+            updateElapsedDisplays();
             if (bar._durationEl) {
                 bar._durationEl.textContent = ' / ' + Utils.formatSeconds(state.duration);
             }
@@ -977,8 +1013,14 @@ define([
             var tdicon = document.createElement('td');
             var span = document.createElement('span');
             span.className = 'videotrack-report-icon';
-            Ui.appendIconSafe(span, reaction);
-            if (reaction.label) {
+            if (reaction.iconhtml) {
+                var template = document.createElement('template');
+                template.innerHTML = String(reaction.iconhtml);
+                span.appendChild(template.content.cloneNode(true));
+            } else {
+                Ui.appendIconSafe(span, reaction);
+            }
+            if (reaction.label && !reaction.iconhtml) {
                 var labelspan = document.createElement('span');
                 labelspan.className = 'videotrack-reaction-label';
                 labelspan.textContent = reaction.label;
@@ -1081,19 +1123,24 @@ define([
                     reactionbtn.classList.remove('videotrack-saving');
                     reactionbtn.removeAttribute('aria-busy');
                     reactionbtn.disabled = false;
-                    if (response && response.reactioneventid && pendingRow) {
-                        var savedReaction = response.reaction || null;
-                        if (savedReaction) {
-                            savedReaction.videotime = Number(savedReaction.videotime || currentTime);
+                    if (response && response.reaction && pendingRow) {
+                        var savedReaction = response.reaction;
+                        savedReaction.videotime = Number(savedReaction.videotime || currentTime);
+                        if (response.reactioneventid > 0) {
                             removeReactionRow(pendingRow);
                             pendingRow = appendReactionRow(response.reactioneventid, savedReaction, savedReaction.videotime);
                         } else {
-                            pendingRow.setAttribute('data-eventid', response.reactioneventid);
-                            pendingRow.classList.remove('videotrack-reaction-pending');
-                            var deletebtn = pendingRow.querySelector('.videotrack-delete-reaction');
-                            if (deletebtn) {
-                                deletebtn.setAttribute('data-eventid', response.reactioneventid);
-                            }
+                            // Duplicate/rate-control responses do not create a new DB row. Remove the
+                            // optimistic row instead of leaving a partial client-only row visible.
+                            removeReactionRow(pendingRow);
+                            pendingRow = null;
+                        }
+                    } else if (response && response.reactioneventid && pendingRow) {
+                        pendingRow.setAttribute('data-eventid', response.reactioneventid);
+                        pendingRow.classList.remove('videotrack-reaction-pending');
+                        var deletebtn = pendingRow.querySelector('.videotrack-delete-reaction');
+                        if (deletebtn) {
+                            deletebtn.setAttribute('data-eventid', response.reactioneventid);
                         }
                     }
                 }).catch(function(err) {
