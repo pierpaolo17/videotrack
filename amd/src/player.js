@@ -736,10 +736,20 @@ define([
         var tdReaction = document.createElement('td');
         var iconSpan = document.createElement('span');
         iconSpan.className = 'videotrack-report-icon';
-        Ui.appendIconSafe(iconSpan, reaction);
-        var labelSpan = document.createElement('span');
-        labelSpan.textContent = reaction.label || '';
-        iconSpan.appendChild(labelSpan);
+        var iconDescriptor = {
+            type: reaction.type || reaction.icontype || 'emoji',
+            src: reaction.src || reaction.iconsrc || '',
+            iconclass: reaction.iconclass || '',
+            text: reaction.text || reaction.icontext || ''
+        };
+        Ui.appendIconSafe(iconSpan, iconDescriptor);
+        if (reaction.label) {
+            var labelSpan = document.createElement('span');
+            labelSpan.className = 'videotrack-reaction-label';
+            labelSpan.textContent = reaction.label;
+            iconSpan.appendChild(document.createTextNode(' '));
+            iconSpan.appendChild(labelSpan);
+        }
         tdReaction.appendChild(iconSpan);
         tr.appendChild(tdReaction);
 
