@@ -64,7 +64,7 @@ if ($showstudentreport) {
         'videotrack_reactev',
         $eventwhere,
         $eventparams,
-        'videotime ASC',
+        'videotime ASC, id ASC',
         '*',
         0,
         201

@@ -867,6 +867,9 @@ define([
             if (state.ended || state.seekblocked || state.isProgrammaticSeek || state._vimeoBlockedSeekResume) {
                 return;
             }
+            if (state.playing) {
+                state._vimeoPausedDuringPossibleSeekUntil = Date.now() + 2000;
+            }
             stopHeartbeat();
             rememberResumePosition(state.lasttime);
             closeSegment('pause');
@@ -897,10 +900,27 @@ define([
                 recoverBlockedSeek(seek.fallbackTime, !!state.playing, 'Vimeo blocked seek resume');
                 return;
             }
-            if (state.playing && seek.changed) {
-                // Valid seek: close current segment, open new one.
-                saveSegment(state.segmentstart, seek.oldTime, 'seek');
-                startSegment(seek.newTime);
+            if (seek.changed) {
+                // Valid seek: close current segment, open new one when playing.
+                // Vimeo can emit a pause during a user drag on the native timeline;
+                // resume only when that pause immediately preceded the seek.
+                var shouldResume = !state.playing && state._vimeoPausedDuringPossibleSeekUntil &&
+                        Date.now() <= state._vimeoPausedDuringPossibleSeekUntil;
+                state._vimeoPausedDuringPossibleSeekUntil = 0;
+                if (state.playing) {
+                    saveSegment(state.segmentstart, seek.oldTime, 'seek');
+                    startSegment(seek.newTime);
+                } else {
+                    Tracker.syncTime(state, seek.newTime, state.playbackrate || 1);
+                    rememberResumePosition(seek.newTime);
+                }
+                if (shouldResume) {
+                    startSegment(seek.newTime);
+                    startHeartbeat();
+                    startVimeoRuntimePolling();
+                    setReactionButtons(true);
+                    player.play().catch(Log.debug);
+                }
             }
         });
 
