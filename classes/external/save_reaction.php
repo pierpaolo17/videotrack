@@ -153,27 +153,23 @@ class save_reaction extends external_api {
         }
 
         try {
-            $previousreaction = $DB->get_records_select(
+            $duplicatereaction = $DB->record_exists_select(
                 'videotrack_reactev',
-                'videotrackid = :vtid AND userid = :uid AND isdeleted = 0 ' .
-                    "AND (notetype = '' OR notetype IS NULL)",
+                'videotrackid = :vtid AND userid = :uid AND reactionid = :reactionid AND isdeleted = 0 ' .
+                    "AND (notetype = '' OR notetype IS NULL) " .
+                    "AND (timecreated >= :since OR ABS(videotime - :videotime) < :window)",
                 [
                     'vtid' => $videotrack->id,
-                    'uid'  => $USER->id,
-                ],
-                'timecreated DESC, id DESC',
-                'id, reactionid, timecreated',
-                0,
-                1
+                    'uid' => $USER->id,
+                    'reactionid' => $reaction->id,
+                    'since' => $now - 3,
+                    'videotime' => $videotime,
+                    'window' => 3.0,
+                ]
             );
-            $previousreaction = reset($previousreaction);
-            if (
-                $previousreaction &&
-                (int)$previousreaction->reactionid === (int)$reaction->id &&
-                (int)$previousreaction->timecreated >= $now - 3
-            ) {
-                // Consecutive duplicate too close to the previous saved reaction: return the current state without saving.
-                // No new reaction was persisted, so the reaction count has not changed.
+            if ($duplicatereaction) {
+                // Duplicate of the same reaction too close in wall-clock time or video time.
+                // Different reactions are still allowed close together.
                 $state = $DB->get_record('videotrack_state', ['videotrackid' => $videotrack->id, 'userid' => $USER->id]);
                 $summary = tracker::reaction_counts($videotrack->id, (int)$USER->id);
                 return [
