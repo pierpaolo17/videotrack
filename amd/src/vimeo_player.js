@@ -318,25 +318,25 @@ define([
         var allowedLimit = getAllowedForwardLimit();
         var blockedFallback = Tracker.normaliseTime(state._vimeoBlockedForwardSeekFallback);
         if (config.allowseekforward === false && state._vimeoBlockedForwardSeekUntil) {
-            if (now <= state._vimeoBlockedForwardSeekUntil && current > blockedFallback + 0.75) {
-                recoverBlockedSeek(blockedFallback, !!state.wasPlayingBeforeSeekBlock, 'Vimeo blocked forward seek resume');
+            if (current <= allowedLimit + 0.75) {
+                state._vimeoBlockedForwardSeekUntil = 0;
+                state._vimeoBlockedForwardSeekFallback = 0;
+            } else if (now <= state._vimeoBlockedForwardSeekUntil && current > blockedFallback + 0.75) {
+                recoverBlockedSeek(blockedFallback || allowedLimit, !!state.wasPlayingBeforeSeekBlock,
+                    'Vimeo blocked forward seek resume');
                 return;
-            }
-            if (now > state._vimeoBlockedForwardSeekUntil) {
+            } else if (now > state._vimeoBlockedForwardSeekUntil) {
                 state._vimeoBlockedForwardSeekUntil = 0;
                 state._vimeoBlockedForwardSeekFallback = 0;
             }
         }
         var looksLikePlayback = current > previous && current <= previous + threshold &&
                 (isNormalForwardPlayback(current, rate) || isForwardSeekRecoveryPlayback(current, previous, threshold, now));
-        if (config.allowseekforward === false && current > previous + 0.75 && !looksLikePlayback &&
-                current > allowedLimit + 0.75 && blockForwardSeek(current, allowedLimit)) {
-            return;
-        }
-        if (config.allowseekforward === false && current > allowedLimit + 0.75 && looksLikePlayback &&
-                current > previous + threshold) {
-            blockForwardSeek(current, allowedLimit);
-            return;
+        if (config.allowseekforward === false && current > allowedLimit + 0.75) {
+            if (!looksLikePlayback || current > previous + threshold) {
+                blockForwardSeek(current, allowedLimit);
+                return;
+            }
         }
         if (Math.abs(current - previous) > threshold) {
             if (config.allowseekforward === false && current > previous &&
@@ -917,6 +917,10 @@ define([
                 return;
             }
             var seekConfig = Object.assign({}, config, {allowseekbackward: true});
+            if (config.allowseekforward === false && data.seconds > Tracker.normaliseTime(state.lasttime) &&
+                    data.seconds <= getAllowedForwardLimit() + 0.75) {
+                seekConfig.allowseekforward = true;
+            }
             var seek = Tracker.resolveSeek(state, data.seconds, seekConfig, 0);
 
             if (seek.blocked) {
