@@ -130,12 +130,18 @@ class save_segment extends external_api {
         $cm = $loaded['cm'];
         $context = $loaded['context'];
 
-        // Do not trust or persist durationseconds from a student AJAX call.
-        // The client-provided duration can be useful for the interface, but it must
-        // not influence normalisation or completion until the activity has a trusted
-        // server-side duration.
+        // Prefer the trusted activity duration when available. Vimeo activities
+        // can have an empty server-side duration during early runtime, so fall
+        // back to the bounded client-reported duration for aggregate progress.
+        // This value is used only for this request/state calculation and is still
+        // constrained by MAX_DURATION_SECONDS.
         $knownduration = (float)($videotrack->durationseconds ?? 0);
-        $normaliseduration = $knownduration > 0 ? min($knownduration, self::MAX_DURATION_SECONDS) : 0.0;
+        $clientduration = (float)$params['durationseconds'];
+        $normaliseduration = $knownduration > 0 ? min($knownduration, self::MAX_DURATION_SECONDS) :
+            min($clientduration, self::MAX_DURATION_SECONDS);
+        if ($knownduration <= 0 && $normaliseduration > 0) {
+            $videotrack->durationseconds = $normaliseduration;
+        }
         $interval = tracker::normalise_interval(
             (float)$params['videotimestart'],
             (float)$params['videotimeend'],
