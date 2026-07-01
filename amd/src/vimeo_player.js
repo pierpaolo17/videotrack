@@ -389,27 +389,43 @@ define([
         state._vimeoBlockedSeekResume = {
             attempts: 0,
             label: label || 'Vimeo blocked seek resume',
-            until: Date.now() + 6000
+            until: Date.now() + 12000
         };
+
+        function clearRequest() {
+            state._vimeoBlockedSeekResume = null;
+            state._vimeoBlockedSeekResumeTimer = null;
+            state.wasPlayingBeforeSeekBlock = false;
+        }
 
         function retry() {
             var request = state._vimeoBlockedSeekResume;
-            if (!request || Date.now() > request.until || request.attempts >= 8) {
-                state._vimeoBlockedSeekResume = null;
-                state._vimeoBlockedSeekResumeTimer = null;
-                state.wasPlayingBeforeSeekBlock = false;
+            if (!request || Date.now() > request.until || request.attempts >= 10) {
+                clearRequest();
                 return;
             }
             request.attempts++;
-            player.play().then(function() {
-                state._vimeoBlockedSeekResumeTimer = null;
-            }).catch(function(error) {
-                Log.debug(request.label + ': ' + error);
-                state._vimeoBlockedSeekResumeTimer = window.setTimeout(retry, 650);
-            });
+            Promise.resolve()
+                .then(function() {
+                    if (typeof player.getPaused === 'function') {
+                        return player.getPaused();
+                    }
+                    return true;
+                })
+                .then(function(paused) {
+                    if (paused === false) {
+                        clearRequest();
+                        return null;
+                    }
+                    return player.play().then(clearRequest);
+                })
+                .catch(function(error) {
+                    Log.debug(request.label + ': ' + error);
+                    state._vimeoBlockedSeekResumeTimer = window.setTimeout(retry, 1200);
+                });
         }
 
-        state._vimeoBlockedSeekResumeTimer = window.setTimeout(retry, 900);
+        state._vimeoBlockedSeekResumeTimer = window.setTimeout(retry, 1800);
     }
 
     function recoverBlockedSeek(fallback, wasPlaying, label) {
