@@ -135,29 +135,12 @@ class save_reaction extends external_api {
         }
 
         // Rate-limit / anti-spam: ignore only consecutive duplicate reactions submitted too close together.
-        // Different reactions may legitimately be used within a few seconds of each other, while repeated clicks on
-        // the same reaction button should not create redundant analytics rows.
-        $previousreaction = $DB->get_records_select(
-            'videotrack_reactev',
-            'videotrackid = :vtid AND userid = :uid AND isdeleted = 0 ' .
-                "AND (notetype = '' OR notetype IS NULL)",
-            [
-                'vtid' => $videotrack->id,
-                'uid'  => $USER->id,
-            ],
-            'timecreated DESC, id DESC',
-            'id, reactionid, timecreated',
-            0,
-            1
-        );
-        $previousreaction = reset($previousreaction);
-        if (
-            $previousreaction &&
-            (int)$previousreaction->reactionid === (int)$reaction->id &&
-            (int)$previousreaction->timecreated >= $now - 3
-        ) {
-            // Consecutive duplicate too close to the previous saved reaction: return the current state without saving.
-            // No new reaction was persisted, so the reaction count has not changed.
+        // Different reactions may legitimately be used within a few seconds of each other. Use a short per-user,
+        // per-reaction lock so parallel AJAX clicks for the same reaction cannot all pass the same pre-insert check.
+        $reactionlockfactory = \core\lock\lock_config::get_lock_factory('mod_videotrack');
+        $reactionlockkey = 'reaction:' . $videotrack->id . ':' . (int)$USER->id . ':' . (int)$reaction->id;
+        $reactionlock = $reactionlockfactory->get_lock($reactionlockkey, 10);
+        if (!$reactionlock) {
             $state = $DB->get_record('videotrack_state', ['videotrackid' => $videotrack->id, 'userid' => $USER->id]);
             $summary = tracker::reaction_counts($videotrack->id, (int)$USER->id);
             return [
@@ -169,7 +152,40 @@ class save_reaction extends external_api {
             ];
         }
 
-        $record = (object)[
+        try {
+            $previousreaction = $DB->get_records_select(
+                'videotrack_reactev',
+                'videotrackid = :vtid AND userid = :uid AND isdeleted = 0 ' .
+                    "AND (notetype = '' OR notetype IS NULL)",
+                [
+                    'vtid' => $videotrack->id,
+                    'uid'  => $USER->id,
+                ],
+                'timecreated DESC, id DESC',
+                'id, reactionid, timecreated',
+                0,
+                1
+            );
+            $previousreaction = reset($previousreaction);
+            if (
+                $previousreaction &&
+                (int)$previousreaction->reactionid === (int)$reaction->id &&
+                (int)$previousreaction->timecreated >= $now - 3
+            ) {
+                // Consecutive duplicate too close to the previous saved reaction: return the current state without saving.
+                // No new reaction was persisted, so the reaction count has not changed.
+                $state = $DB->get_record('videotrack_state', ['videotrackid' => $videotrack->id, 'userid' => $USER->id]);
+                $summary = tracker::reaction_counts($videotrack->id, (int)$USER->id);
+                return [
+                    'reactioneventid' => 0,
+                    'uniquereactions' => $summary['uniquecount'],
+                    'iscompleted'     => !empty($state->iscompleted),
+                    'reaction'        => self::export_reaction_for_client($reaction, $context, $videotime),
+                    'warnings'        => [],
+                ];
+            }
+
+            $record = (object)[
             'videotrackid' => $videotrack->id,
             'courseid' => $course->id,
             'cmid' => $cm->id,
@@ -186,40 +202,10 @@ class save_reaction extends external_api {
             'isdeleted' => 0,
             'timecreated' => $now,
             'timemodified' => $now,
-        ];
-        $eventid = $DB->insert_record('videotrack_reactev', $record);
-
-        // Concurrency-safe duplicate guard: the pre-insert check above can be bypassed
-        // by very fast repeated clicks because concurrent AJAX requests may all read
-        // the same previous state before any of them commits. After inserting, check
-        // whether an older identical reaction already exists in the configured window;
-        // if so, soft-delete this new duplicate and return success without creating
-        // analytics noise or a visible error.
-        $olderduplicate = $DB->record_exists_select(
-            'videotrack_reactev',
-            'videotrackid = :vtid AND userid = :uid AND reactionid = :rid AND isdeleted = 0 ' .
-                "AND (notetype = '' OR notetype IS NULL) AND id <> :eventid AND timecreated >= :since",
-            [
-                'vtid' => $videotrack->id,
-                'uid' => $USER->id,
-                'rid' => $reaction->id,
-                'eventid' => $eventid,
-                'since' => $now - 3,
-            ]
-        );
-        if ($olderduplicate) {
-            $DB->set_field('videotrack_reactev', 'isdeleted', 1, ['id' => $eventid]);
-            $DB->set_field('videotrack_reactev', 'timemodified', $now, ['id' => $eventid]);
-            tracker::invalidate_reactioncountscache($videotrack->id, (int)$USER->id);
-            $state = $DB->get_record('videotrack_state', ['videotrackid' => $videotrack->id, 'userid' => $USER->id]);
-            $summary = tracker::reaction_counts($videotrack->id, (int)$USER->id);
-            return [
-                'reactioneventid' => 0,
-                'uniquereactions' => $summary['uniquecount'],
-                'iscompleted'     => !empty($state->iscompleted),
-                'reaction'        => self::export_reaction_for_client($reaction, $context, $videotime),
-                'warnings'        => [],
             ];
+            $eventid = $DB->insert_record('videotrack_reactev', $record);
+        } finally {
+            $reactionlock->release();
         }
 
         // O1: invalidate per-request cache so subsequent reaction_counts() calls

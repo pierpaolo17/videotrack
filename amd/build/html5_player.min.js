@@ -1129,15 +1129,19 @@ define([
                     reactionbtn.classList.remove('videotrack-saving');
                     reactionbtn.removeAttribute('aria-busy');
                     reactionbtn.disabled = false;
-                    if (response && response.reaction && pendingRow) {
+                    if (response && Number(response.reactioneventid) <= 0 && pendingRow) {
+                        // The server accepted the request but deliberately ignored it, for example because it was
+                        // a consecutive duplicate reaction inside the anti-spam window. Do not leave the optimistic
+                        // row in the table because no persistent event was created.
+                        removeReactionRow(pendingRow);
+                        pendingRow = null;
+                    } else if (response && response.reaction && pendingRow) {
                         var savedReaction = response.reaction;
                         savedReaction.videotime = Number(savedReaction.videotime || currentTime);
-                        var rowEventId = Number(response.reactioneventid) > 0
-                            ? response.reactioneventid
-                            : pendingRow.getAttribute('data-eventid');
+                        var rowEventId = response.reactioneventid;
                         removeReactionRow(pendingRow);
                         pendingRow = appendReactionRow(rowEventId, savedReaction, savedReaction.videotime);
-                        if (pendingRow && Number(response.reactioneventid) > 0) {
+                        if (pendingRow) {
                             pendingRow.classList.remove('videotrack-reaction-pending');
                         }
                     } else if (response && response.reactioneventid && pendingRow) {
