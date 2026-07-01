@@ -188,6 +188,40 @@ class save_reaction extends external_api {
             'timemodified' => $now,
         ];
         $eventid = $DB->insert_record('videotrack_reactev', $record);
+
+        // Concurrency-safe duplicate guard: the pre-insert check above can be bypassed
+        // by very fast repeated clicks because concurrent AJAX requests may all read
+        // the same previous state before any of them commits. After inserting, check
+        // whether an older identical reaction already exists in the configured window;
+        // if so, soft-delete this new duplicate and return success without creating
+        // analytics noise or a visible error.
+        $olderduplicate = $DB->record_exists_select(
+            'videotrack_reactev',
+            'videotrackid = :vtid AND userid = :uid AND reactionid = :rid AND isdeleted = 0 ' .
+                "AND (notetype = '' OR notetype IS NULL) AND id <> :eventid AND timecreated >= :since",
+            [
+                'vtid' => $videotrack->id,
+                'uid' => $USER->id,
+                'rid' => $reaction->id,
+                'eventid' => $eventid,
+                'since' => $now - 3,
+            ]
+        );
+        if ($olderduplicate) {
+            $DB->set_field('videotrack_reactev', 'isdeleted', 1, ['id' => $eventid]);
+            $DB->set_field('videotrack_reactev', 'timemodified', $now, ['id' => $eventid]);
+            tracker::invalidate_reactioncountscache($videotrack->id, (int)$USER->id);
+            $state = $DB->get_record('videotrack_state', ['videotrackid' => $videotrack->id, 'userid' => $USER->id]);
+            $summary = tracker::reaction_counts($videotrack->id, (int)$USER->id);
+            return [
+                'reactioneventid' => 0,
+                'uniquereactions' => $summary['uniquecount'],
+                'iscompleted'     => !empty($state->iscompleted),
+                'reaction'        => self::export_reaction_for_client($reaction, $context, $videotime),
+                'warnings'        => [],
+            ];
+        }
+
         // O1: invalidate per-request cache so subsequent reaction_counts() calls
         // within this request see the newly inserted record.
         tracker::invalidate_reactioncountscache($videotrack->id, (int)$USER->id);
