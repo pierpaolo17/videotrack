@@ -340,7 +340,8 @@ define([
         }
         if (Math.abs(current - previous) > threshold) {
             if (config.allowseekforward === false && current > previous &&
-                    blockForwardSeek(current, previous)) {
+                    current > getAllowedForwardLimit() + 0.75 &&
+                    blockForwardSeek(current, getAllowedForwardLimit())) {
                 return;
             }
             if (config.allowseekbackward === false && current < previous &&
@@ -895,7 +896,8 @@ define([
             if (Tracker.consumeProgrammaticSeek(state, data.seconds)) { return; }
             if (state.seekblocked) { return; }
             if (config.allowseekforward === false && data.seconds > Tracker.normaliseTime(state.lasttime) &&
-                    blockForwardSeek(data.seconds, Tracker.normaliseTime(state.lasttime))) {
+                    data.seconds > getAllowedForwardLimit() + 0.75 &&
+                    blockForwardSeek(data.seconds, getAllowedForwardLimit())) {
                 return;
             }
             var seekConfig = Object.assign({}, config, {allowseekbackward: true});
