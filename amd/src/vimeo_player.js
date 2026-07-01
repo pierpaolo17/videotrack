@@ -330,7 +330,7 @@ define([
         var looksLikePlayback = current > previous && current <= previous + threshold &&
                 (isNormalForwardPlayback(current, rate) || isForwardSeekRecoveryPlayback(current, previous, threshold, now));
         if (config.allowseekforward === false && current > previous + 0.75 && !looksLikePlayback &&
-                blockForwardSeek(current, previous)) {
+                current > allowedLimit + 0.75 && blockForwardSeek(current, allowedLimit)) {
             return;
         }
         if (config.allowseekforward === false && current > allowedLimit + 0.75 && looksLikePlayback &&
