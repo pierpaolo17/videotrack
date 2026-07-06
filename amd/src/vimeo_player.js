@@ -457,7 +457,7 @@ define([
             until: Date.now() + 7000
         };
         state.wasPlayingBeforeSeekBlock = true;
-        playVimeoAfterSeek(label || 'Vimeo blocked seek resume', [500, 1200, 2200, 3600]);
+        playVimeoAfterSeek(label || 'Vimeo blocked seek resume', [1200, 2500, 4000, 6000]);
         state._vimeoBlockedSeekResumeTimer = window.setTimeout(function() {
             state._vimeoBlockedSeekResume = null;
             state._vimeoBlockedSeekResumeTimer = null;
@@ -995,51 +995,57 @@ define([
         var root = PlayerCore.getPlayerShell(Log);
         if (!root) { return; }
 
-        // Replay buttons.
-        root.addEventListener('click', function(e) {
+        function handleReplayClick(e) {
             var btn = e.target.closest('.videotrack-replay');
-            if (btn && player) {
-                e.preventDefault();
-                e.stopPropagation();
-                var start = parseFloat(btn.dataset.start) || 0;
-                var end   = parseFloat(btn.dataset.end)   || 0;
-                state.currentReplayEnd = end > 0 ? end : null;
-                state._vimeoReplaySeekUntil = Date.now() + 8000;
-                // Explicit replay must win over automatic resume. Otherwise Vimeo
-                // may retry the resume position on the following play event and
-                // jump back to the last watched second instead of the reaction.
-                state._pendingResume = null;
-                try {
-                    if (window.localStorage) {
-                        window.localStorage.removeItem(getResumeStorageKey());
-                    }
-                } catch (storageError) {
-                    // Browser storage may be disabled; ignore.
+            if (!btn || !player) { return false; }
+            e.preventDefault();
+            e.stopPropagation();
+            var start = parseFloat(btn.dataset.start) || 0;
+            var end   = parseFloat(btn.dataset.end)   || 0;
+            state.currentReplayEnd = end > 0 ? end : null;
+            state._vimeoReplaySeekUntil = Date.now() + 8000;
+            // Explicit replay must win over automatic resume. Otherwise Vimeo
+            // may retry the resume position on the following play event and
+            // jump back to the last watched second instead of the reaction.
+            state._pendingResume = null;
+            try {
+                if (window.localStorage) {
+                    window.localStorage.removeItem(getResumeStorageKey());
                 }
-                // Mark the seek as programmatic to avoid triggering the anti-skip block.
-                clearBlockedSeekResumeRequest();
-                Tracker.markProgrammaticSeek(state);
-                state.isProgrammaticSeek = true;
-                state._pendingReplayStart = start;
-                markAllowedForwardTime(start);
-                player.setCurrentTime(start).then(function() {
-                    Tracker.syncTime(state, start, state.playbackrate || 1);
-                    Tracker.consumeProgrammaticSeek(state, start);
-                    state.isProgrammaticSeek = false;
-                    startSegment(start);
-                    startHeartbeat();
-                    startVimeoRuntimePolling();
-                    setReactionButtons(true);
-                    state._vimeoReplaySeekUntil = Date.now() + 8000;
-                    playVimeoAfterSeek('Vimeo replay play', [400, 1000, 1800, 3000]);
-                }).catch(function(error) {
-                    Log.debug('Vimeo replay seek: ' + error);
-                    state.isProgrammaticSeek = false;
-                    state._pendingReplayStart = null;
-                    state._vimeoReplaySeekUntil = 0;
-                });
+            } catch (storageError) {
+                // Browser storage may be disabled; ignore.
             }
-        });
+            // Mark the seek as programmatic to avoid triggering the anti-skip block.
+            clearBlockedSeekResumeRequest();
+            Tracker.markProgrammaticSeek(state);
+            state.isProgrammaticSeek = true;
+            state._pendingReplayStart = start;
+            markAllowedForwardTime(start);
+            player.setCurrentTime(start).then(function() {
+                Tracker.syncTime(state, start, state.playbackrate || 1);
+                Tracker.consumeProgrammaticSeek(state, start);
+                state.isProgrammaticSeek = false;
+                startSegment(start);
+                startHeartbeat();
+                startVimeoRuntimePolling();
+                setReactionButtons(true);
+                state._vimeoReplaySeekUntil = Date.now() + 8000;
+                playVimeoAfterSeek('Vimeo replay play', [900, 1800, 3200, 5200]);
+            }).catch(function(error) {
+                Log.debug('Vimeo replay seek: ' + error);
+                state.isProgrammaticSeek = false;
+                state._pendingReplayStart = null;
+                state._vimeoReplaySeekUntil = 0;
+            });
+            return true;
+        }
+
+        // Replay buttons can live outside the player shell in the reactions table.
+        root.addEventListener('click', handleReplayClick);
+        var reactionsTable = document.getElementById('videotrack-my-reactions');
+        if (reactionsTable) {
+            reactionsTable.addEventListener('click', handleReplayClick);
+        }
     }
 
     /**

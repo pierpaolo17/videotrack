@@ -355,27 +355,34 @@ define([
         var root = PlayerCore.getPlayerShell(Log);
         if (!root) { return; }
 
-        // Replay buttons.
-        root.addEventListener('click', function(e) {
+        function handleReplayClick(e) {
             var btn = e.target.closest('.videotrack-replay');
-            if (btn && media) {
-                var start = parseFloat(btn.dataset.start) || 0;
-                var end   = parseFloat(btn.dataset.end)   || 0;
-                state.currentReplayEnd = end > 0 ? end : null;
-                // Mark this as a programmatic seek: the 'seeking' handler will ignore it.
-                // isProgrammaticSeek persists until the 'seeked' event resets it.
-                state.isProgrammaticSeek = true;
-                Adapter.seek(start, function(target) {
-                    media.currentTime = target;
-                }, Log, 'HTML5 replay seek');
-                var replayPlay = Adapter.play(function() {
-                    return media.play();
-                }, Log, 'HTML5 replay play');
-                if (replayPlay && typeof replayPlay.catch === 'function') {
-                    replayPlay.catch(function(err) { Debug.log('playrequestfailed', {message: err}); });
-                }
+            if (!btn || !media) { return false; }
+            e.preventDefault();
+            var start = parseFloat(btn.dataset.start) || 0;
+            var end   = parseFloat(btn.dataset.end)   || 0;
+            state.currentReplayEnd = end > 0 ? end : null;
+            // Mark this as a programmatic seek: the 'seeking' handler will ignore it.
+            // isProgrammaticSeek persists until the 'seeked' event resets it.
+            state.isProgrammaticSeek = true;
+            Adapter.seek(start, function(target) {
+                media.currentTime = target;
+            }, Log, 'HTML5 replay seek');
+            var replayPlay = Adapter.play(function() {
+                return media.play();
+            }, Log, 'HTML5 replay play');
+            if (replayPlay && typeof replayPlay.catch === 'function') {
+                replayPlay.catch(function(err) { Debug.log('playrequestfailed', {message: err}); });
             }
-        });
+            return true;
+        }
+
+        // Replay buttons can live outside the player shell in the reactions table.
+        root.addEventListener('click', handleReplayClick);
+        var reactionsTable = document.getElementById('videotrack-my-reactions');
+        if (reactionsTable) {
+            reactionsTable.addEventListener('click', handleReplayClick);
+        }
     }
 
     // ── Build player ──────────────────────────────────────────────────────

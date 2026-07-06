@@ -633,6 +633,7 @@ define([
             }
             var replaybtn = e.target.closest('.videotrack-replay');
             if (replaybtn && player) {
+                e.preventDefault();
                 replayFragment(
                     parseFloat(replaybtn.getAttribute('data-start')),
                     parseFloat(replaybtn.getAttribute('data-end')),
