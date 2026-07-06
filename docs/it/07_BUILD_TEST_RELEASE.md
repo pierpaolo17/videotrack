@@ -41,3 +41,22 @@ patch -p1 --dry-run < videotrack-x.y.z.patch
 ```
 
 La patch deve essere generata dalla root del plugin. Percorsi assoluti o temporanei dentro `/mnt/data` non sono accettabili.
+
+## Checklist per release solo documentale
+
+Per patch esclusivamente documentali, i controlli minimi sono:
+
+```bash
+php -l version.php
+git apply --check <patchfile>
+patch -p1 --dry-run < <patchfile>
+```
+
+Se cambiano gli inventari, rigenerare o verificare manualmente:
+
+- inventario file rispetto al contenuto reale dello ZIP;
+- inventario funzioni PHP rispetto ai file PHP distribuiti;
+- inventario funzioni AMD rispetto ai file `amd/src`;
+- inventario variabili come supporto di navigazione.
+
+Una patch solo documentale non richiede `grunt amd`, PHPUnit o PHPCS, salvo modifiche a codice eseguibile. Se viene incrementato `version.php`, eseguire l'upgrade Moodle nell'ambiente target.

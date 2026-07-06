@@ -41,3 +41,22 @@ patch -p1 --dry-run < videotrack-x.y.z.patch
 ```
 
 The patch must be generated from the plugin root. Absolute or temporary paths inside `/mnt/data` are not acceptable.
+
+## Documentation-only release checklist
+
+For documentation-only patches, the minimum checks are:
+
+```bash
+php -l version.php
+git apply --check <patchfile>
+patch -p1 --dry-run < <patchfile>
+```
+
+If inventories are changed, regenerate or manually verify:
+
+- file inventory against the real ZIP contents;
+- PHP function inventory against shipped PHP files;
+- AMD function inventory against `amd/src` files;
+- variable inventory as a navigation aid.
+
+A documentation-only patch does not require `grunt amd`, PHPUnit or PHPCS unless it changes executable code. If `version.php` is bumped, run Moodle upgrade in the target environment.

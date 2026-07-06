@@ -12,7 +12,8 @@ Questa cartella contiene la documentazione tecnica aggiornata del plugin Videotr
 6. `06_RUNTIME_FLOWS.md` - flussi runtime principali.
 7. `07_BUILD_TEST_RELEASE.md` - build, test, release e troubleshooting.
 8. `08_LESSONS_LEARNED.md` - regole apprese durante le iterazioni di sviluppo.
+9. `09_DOCUMENTATION_AUDIT.md` - audit della copertura documentale e checklist per aggiornamenti futuri.
 
 ## Documenti storici
 
-I documenti storici di audit rimangono disponibili in questa cartella. Sono utili per ricostruire decisioni passate, ma la fonte aggiornata per la manutenzione corrente sono i file numerati da `00_` a `08_`.
+I documenti storici di audit rimangono disponibili in questa cartella. Sono utili per ricostruire decisioni passate, ma la fonte aggiornata per la manutenzione corrente sono i file numerati da `00_` a `09_`.

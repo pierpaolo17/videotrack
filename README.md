@@ -26,6 +26,7 @@ This repository contains the activity source code and a maintained documentation
 - `docs/en/06_RUNTIME_FLOWS.md`: detailed runtime flows for tracking, reactions, notes and replay.
 - `docs/en/07_BUILD_TEST_RELEASE.md`: build, test and release commands.
 - `docs/en/08_LESSONS_LEARNED.md`: lessons learned during recent maintenance.
+- `docs/en/09_DOCUMENTATION_AUDIT.md`: documentation coverage audit and checklist for future updates.
 
 Italian equivalents are available under `docs/it/`.
 
@@ -63,6 +64,7 @@ Il repository contiene il codice del plugin e una documentazione mantenuta in `d
 - `docs/it/06_RUNTIME_FLOWS.md`: flussi dettagliati di tracking, reazioni, note e replay.
 - `docs/it/07_BUILD_TEST_RELEASE.md`: comandi build, test e release.
 - `docs/it/08_LESSONS_LEARNED.md`: lezioni apprese durante la manutenzione recente.
+- `docs/it/09_DOCUMENTATION_AUDIT.md`: audit della copertura documentale e checklist per aggiornamenti futuri.
 
 Gli equivalenti inglesi sono disponibili in `docs/en/`.
 
