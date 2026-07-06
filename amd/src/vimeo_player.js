@@ -186,6 +186,57 @@ define([
         state.wasPlayingBeforeSeekBlock = false;
     }
 
+    /**
+     * Retry Vimeo play() after seek operations.
+     *
+     * Vimeo can reject a play() call with PlayInterrupted when its internal player
+     * is still processing a pause/seek transition. A single delayed play() is not
+     * reliable enough after blocked forward seek recovery or replay seeks.
+     *
+     * @param {string} label Debug label.
+     * @param {number[]} delays Retry delays in milliseconds.
+     */
+    function playVimeoAfterSeek(label, delays) {
+        var attempts = Array.isArray(delays) && delays.length ? delays : [350, 900, 1600, 2600];
+        var token = Date.now() + Math.random();
+        state._vimeoPlayAfterSeekToken = token;
+
+        function attempt(index) {
+            if (!player || typeof player.play !== 'function' || state._vimeoPlayAfterSeekToken !== token) {
+                return;
+            }
+            window.setTimeout(function() {
+                var pausedPromise;
+                if (!player || typeof player.play !== 'function' || state._vimeoPlayAfterSeekToken !== token) {
+                    return;
+                }
+                pausedPromise = typeof player.getPaused === 'function' ? player.getPaused() : Promise.resolve(true);
+                pausedPromise.then(function(paused) {
+                    if (state._vimeoPlayAfterSeekToken !== token || paused === false) {
+                        return;
+                    }
+                    return player.play().then(function() {
+                        if (state._vimeoPlayAfterSeekToken === token) {
+                            state._vimeoPlayAfterSeekToken = null;
+                        }
+                    }).catch(function(error) {
+                        Log.debug(label + ': ' + error);
+                        if (index + 1 < attempts.length) {
+                            attempt(index + 1);
+                        }
+                    });
+                }).catch(function(error) {
+                    Log.debug(label + ': ' + error);
+                    if (index + 1 < attempts.length) {
+                        attempt(index + 1);
+                    }
+                });
+            }, attempts[index]);
+        }
+
+        attempt(0);
+    }
+
 
     function getResumeStorageKey() {
         return 'videotrack:lastposition:' + String(config && config.cmid ? config.cmid : '0');
@@ -403,45 +454,15 @@ define([
         clearBlockedSeekResumeRequest();
         state._vimeoBlockedSeekResume = {
             label: label || 'Vimeo blocked seek resume',
-            until: Date.now() + 6000
+            until: Date.now() + 7000
         };
-
-        function clearRequest() {
+        state.wasPlayingBeforeSeekBlock = true;
+        playVimeoAfterSeek(label || 'Vimeo blocked seek resume', [500, 1200, 2200, 3600]);
+        state._vimeoBlockedSeekResumeTimer = window.setTimeout(function() {
             state._vimeoBlockedSeekResume = null;
             state._vimeoBlockedSeekResumeTimer = null;
             state.wasPlayingBeforeSeekBlock = false;
-        }
-
-        function resumeIfStillPaused() {
-            var request = state._vimeoBlockedSeekResume;
-            var pausedPromise;
-            if (!request || Date.now() > request.until) {
-                clearRequest();
-                return;
-            }
-            pausedPromise = typeof player.getPaused === 'function' ? player.getPaused() : Promise.resolve(true);
-            pausedPromise.then(function(paused) {
-                if (!state._vimeoBlockedSeekResume) {
-                    return;
-                }
-                if (!paused) {
-                    clearRequest();
-                    return;
-                }
-                return player.play().then(clearRequest).catch(function(error) {
-                    // Vimeo may reject play() while it is still settling after setCurrentTime().
-                    // Do not keep fighting the player: leave it at the allowed timestamp and let
-                    // the user press play if Vimeo refuses the automatic resume.
-                    Log.debug(request.label + ': ' + error);
-                    clearRequest();
-                });
-            }).catch(function(error) {
-                Log.debug(request.label + ': ' + error);
-                clearRequest();
-            });
-        }
-
-        state._vimeoBlockedSeekResumeTimer = window.setTimeout(resumeIfStillPaused, 1800);
+        }, 7000);
     }
 
     function recoverBlockedSeek(fallback, wasPlaying, label) {
@@ -852,6 +873,7 @@ define([
 
         player.on('play', function() {
             state.ended = false;
+            state._vimeoPlayAfterSeekToken = null;
             if (state._vimeoBlockedSeekResumeTimer) {
                 window.clearTimeout(state._vimeoBlockedSeekResumeTimer);
                 state._vimeoBlockedSeekResumeTimer = null;
@@ -1009,11 +1031,7 @@ define([
                     startVimeoRuntimePolling();
                     setReactionButtons(true);
                     state._vimeoReplaySeekUntil = Date.now() + 8000;
-                    window.setTimeout(function() {
-                        player.play().catch(function(error) {
-                            Log.debug('Vimeo replay play: ' + error);
-                        });
-                    }, 250);
+                    playVimeoAfterSeek('Vimeo replay play', [400, 1000, 1800, 3000]);
                 }).catch(function(error) {
                     Log.debug('Vimeo replay seek: ' + error);
                     state.isProgrammaticSeek = false;
