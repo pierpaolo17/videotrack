@@ -170,6 +170,10 @@ define([
         return target < previous;
     }
 
+    function isReplaySeekActive() {
+        return !!(state._vimeoReplaySeekUntil && Date.now() <= state._vimeoReplaySeekUntil);
+    }
+
 
     function clearBlockedSeekResumeRequest() {
         if (state._vimeoBlockedSeekResumeTimer) {
@@ -323,6 +327,17 @@ define([
         }
         state.lastSeekPollAt = now;
         if (state.seekblocked) {
+            return;
+        }
+        if (isReplaySeekActive()) {
+            Tracker.syncTime(state, current, rate);
+            updateLiveIntervalBar(current);
+            if (Tracker.shouldStopReplay(state, current)) {
+                state._vimeoReplaySeekUntil = 0;
+                Adapter.pause(function() {
+                    return player.pause();
+                }, Log, 'Vimeo replay pause');
+            }
             return;
         }
         expectedDelta = state.playing && elapsed > 0 ? elapsed * Math.max(rate, 1) : 0;
@@ -912,6 +927,14 @@ define([
             // the anti-skip block or close the current segment.
             if (Tracker.consumeProgrammaticSeek(state, data.seconds)) { return; }
             if (state.seekblocked) { return; }
+            if (isReplaySeekActive()) {
+                Tracker.syncTime(state, data.seconds, state.playbackrate || 1);
+                startSegment(data.seconds);
+                startHeartbeat();
+                startVimeoRuntimePolling();
+                setReactionButtons(true);
+                return;
+            }
             if (config.allowseekforward === false && data.seconds > Tracker.normaliseTime(state.lasttime) &&
                     data.seconds > getAllowedForwardLimit() + 0.75 &&
                     blockForwardSeek(data.seconds, getAllowedForwardLimit())) {
@@ -954,9 +977,12 @@ define([
         root.addEventListener('click', function(e) {
             var btn = e.target.closest('.videotrack-replay');
             if (btn && player) {
+                e.preventDefault();
+                e.stopPropagation();
                 var start = parseFloat(btn.dataset.start) || 0;
                 var end   = parseFloat(btn.dataset.end)   || 0;
                 state.currentReplayEnd = end > 0 ? end : null;
+                state._vimeoReplaySeekUntil = Date.now() + 8000;
                 // Explicit replay must win over automatic resume. Otherwise Vimeo
                 // may retry the resume position on the following play event and
                 // jump back to the last watched second instead of the reaction.
@@ -982,13 +1008,17 @@ define([
                     startHeartbeat();
                     startVimeoRuntimePolling();
                     setReactionButtons(true);
-                    player.play().catch(function(error) {
-                        Log.debug('Vimeo replay play: ' + error);
-                    });
+                    state._vimeoReplaySeekUntil = Date.now() + 8000;
+                    window.setTimeout(function() {
+                        player.play().catch(function(error) {
+                            Log.debug('Vimeo replay play: ' + error);
+                        });
+                    }, 250);
                 }).catch(function(error) {
                     Log.debug('Vimeo replay seek: ' + error);
                     state.isProgrammaticSeek = false;
                     state._pendingReplayStart = null;
+                    state._vimeoReplaySeekUntil = 0;
                 });
             }
         });
