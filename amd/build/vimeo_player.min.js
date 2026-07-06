@@ -171,6 +171,18 @@ define([
     }
 
 
+    function clearBlockedSeekResumeRequest() {
+        if (state._vimeoBlockedSeekResumeTimer) {
+            window.clearTimeout(state._vimeoBlockedSeekResumeTimer);
+            state._vimeoBlockedSeekResumeTimer = null;
+        }
+        state._vimeoBlockedSeekResume = null;
+        state._vimeoBlockedForwardSeekUntil = 0;
+        state._vimeoBlockedForwardSeekFallback = 0;
+        state.wasPlayingBeforeSeekBlock = false;
+    }
+
+
     function getResumeStorageKey() {
         return 'videotrack:lastposition:' + String(config && config.cmid ? config.cmid : '0');
     }
@@ -316,18 +328,9 @@ define([
         expectedDelta = state.playing && elapsed > 0 ? elapsed * Math.max(rate, 1) : 0;
         threshold = state.playing ? Math.max(1.5, expectedDelta + 1.0) : 0.5;
         var allowedLimit = getAllowedForwardLimit();
-        var blockedFallback = Tracker.normaliseTime(state._vimeoBlockedForwardSeekFallback);
         if (config.allowseekforward === false && state._vimeoBlockedForwardSeekUntil) {
-            if (current <= allowedLimit + 0.75) {
-                state._vimeoBlockedForwardSeekUntil = 0;
-                state._vimeoBlockedForwardSeekFallback = 0;
-            } else if (now <= state._vimeoBlockedForwardSeekUntil && current > blockedFallback + 0.75) {
-                recoverBlockedSeek(blockedFallback || allowedLimit, !!state.wasPlayingBeforeSeekBlock,
-                    'Vimeo blocked forward seek resume');
-                return;
-            } else if (now > state._vimeoBlockedForwardSeekUntil) {
-                state._vimeoBlockedForwardSeekUntil = 0;
-                state._vimeoBlockedForwardSeekFallback = 0;
+            if (current <= allowedLimit + 0.75 || now > state._vimeoBlockedForwardSeekUntil) {
+                clearBlockedSeekResumeRequest();
             }
         }
         var looksLikePlayback = current > previous && current <= previous + threshold &&
@@ -382,14 +385,11 @@ define([
         if (!wasPlaying || !player || typeof player.play !== 'function') {
             return;
         }
-        if (state._vimeoBlockedSeekResumeTimer) {
-            window.clearTimeout(state._vimeoBlockedSeekResumeTimer);
-            state._vimeoBlockedSeekResumeTimer = null;
-        }
+        clearBlockedSeekResumeRequest();
         state._vimeoBlockedSeekResume = {
             attempts: 0,
             label: label || 'Vimeo blocked seek resume',
-            until: Date.now() + 12000
+            until: Date.now() + 5000
         };
 
         function clearRequest() {
@@ -400,32 +400,18 @@ define([
 
         function retry() {
             var request = state._vimeoBlockedSeekResume;
-            if (!request || Date.now() > request.until || request.attempts >= 10) {
+            if (!request || Date.now() > request.until || request.attempts >= 3) {
                 clearRequest();
                 return;
             }
             request.attempts++;
-            Promise.resolve()
-                .then(function() {
-                    if (typeof player.getPaused === 'function') {
-                        return player.getPaused();
-                    }
-                    return true;
-                })
-                .then(function(paused) {
-                    if (paused === false) {
-                        clearRequest();
-                        return null;
-                    }
-                    return player.play().then(clearRequest);
-                })
-                .catch(function(error) {
-                    Log.debug(request.label + ': ' + error);
-                    state._vimeoBlockedSeekResumeTimer = window.setTimeout(retry, 1200);
-                });
+            player.play().then(clearRequest).catch(function(error) {
+                Log.debug(request.label + ': ' + error);
+                state._vimeoBlockedSeekResumeTimer = window.setTimeout(retry, 900 + (request.attempts * 500));
+            });
         }
 
-        state._vimeoBlockedSeekResumeTimer = window.setTimeout(retry, 1800);
+        state._vimeoBlockedSeekResumeTimer = window.setTimeout(retry, 900);
     }
 
     function recoverBlockedSeek(fallback, wasPlaying, label) {
@@ -968,6 +954,7 @@ define([
                     // Browser storage may be disabled; ignore.
                 }
                 // Mark the seek as programmatic to avoid triggering the anti-skip block.
+                clearBlockedSeekResumeRequest();
                 Tracker.markProgrammaticSeek(state);
                 state.isProgrammaticSeek = true;
                 state._pendingReplayStart = start;
@@ -980,8 +967,11 @@ define([
                     startHeartbeat();
                     startVimeoRuntimePolling();
                     setReactionButtons(true);
-                    player.play();
-                }).catch(function() {
+                    player.play().catch(function(error) {
+                        Log.debug('Vimeo replay play: ' + error);
+                    });
+                }).catch(function(error) {
+                    Log.debug('Vimeo replay seek: ' + error);
                     state.isProgrammaticSeek = false;
                     state._pendingReplayStart = null;
                 });

@@ -134,11 +134,14 @@ class save_reaction extends external_api {
             throw new \moodle_exception('error:reactionratelimit', 'mod_videotrack');
         }
 
-        // Rate-limit / anti-spam: ignore only consecutive duplicate reactions submitted too close together.
-        // Different reactions may legitimately be used within a few seconds of each other. Use a short per-user,
-        // per-reaction lock so parallel AJAX clicks for the same reaction cannot all pass the same pre-insert check.
+        // Rate-limit / anti-spam. Serialise all reactions for this user/activity so
+        // near-simultaneous AJAX clicks are evaluated against the same latest DB state.
+        // Rules:
+        // - only one reaction of any type is kept for the same video second;
+        // - the same reaction is also ignored when repeated within three wall-clock seconds
+        //   or within a three-second window of video time.
         $reactionlockfactory = \core\lock\lock_config::get_lock_factory('mod_videotrack');
-        $reactionlockkey = 'reaction:' . $videotrack->id . ':' . (int)$USER->id . ':' . (int)$reaction->id;
+        $reactionlockkey = 'reaction:' . $videotrack->id . ':' . (int)$USER->id;
         $reactionlock = $reactionlockfactory->get_lock($reactionlockkey, 10);
         if (!$reactionlock) {
             $state = $DB->get_record('videotrack_state', ['videotrackid' => $videotrack->id, 'userid' => $USER->id]);
@@ -153,11 +156,16 @@ class save_reaction extends external_api {
         }
 
         try {
+            $videosecondstart = floor($videotime);
+            $videosecondend = $videosecondstart + 1;
             $duplicatereaction = $DB->record_exists_select(
                 'videotrack_reactev',
-                'videotrackid = :vtid AND userid = :uid AND reactionid = :reactionid AND isdeleted = 0 ' .
+                'videotrackid = :vtid AND userid = :uid AND isdeleted = 0 ' .
                     "AND (notetype = '' OR notetype IS NULL) " .
-                    "AND (timecreated >= :since OR ABS(videotime - :videotime) < :window)",
+                    'AND (' .
+                        '(videotime >= :secondstart AND videotime < :secondend) OR ' .
+                        '(reactionid = :reactionid AND (timecreated >= :since OR ABS(videotime - :videotime) < :window))' .
+                    ')',
                 [
                     'vtid' => $videotrack->id,
                     'uid' => $USER->id,
@@ -165,11 +173,13 @@ class save_reaction extends external_api {
                     'since' => $now - 3,
                     'videotime' => $videotime,
                     'window' => 3.0,
+                    'secondstart' => $videosecondstart,
+                    'secondend' => $videosecondend,
                 ]
             );
             if ($duplicatereaction) {
-                // Duplicate of the same reaction too close in wall-clock time or video time.
-                // Different reactions are still allowed close together.
+                // Too close to an already-saved reaction. This is deliberately a soft ignore:
+                // the UI removes its optimistic row without showing an error.
                 $state = $DB->get_record('videotrack_state', ['videotrackid' => $videotrack->id, 'userid' => $USER->id]);
                 $summary = tracker::reaction_counts($videotrack->id, (int)$USER->id);
                 return [
