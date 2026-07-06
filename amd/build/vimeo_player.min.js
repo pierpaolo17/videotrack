@@ -387,9 +387,8 @@ define([
         }
         clearBlockedSeekResumeRequest();
         state._vimeoBlockedSeekResume = {
-            attempts: 0,
             label: label || 'Vimeo blocked seek resume',
-            until: Date.now() + 5000
+            until: Date.now() + 6000
         };
 
         function clearRequest() {
@@ -398,20 +397,36 @@ define([
             state.wasPlayingBeforeSeekBlock = false;
         }
 
-        function retry() {
+        function resumeIfStillPaused() {
             var request = state._vimeoBlockedSeekResume;
-            if (!request || Date.now() > request.until || request.attempts >= 3) {
+            var pausedPromise;
+            if (!request || Date.now() > request.until) {
                 clearRequest();
                 return;
             }
-            request.attempts++;
-            player.play().then(clearRequest).catch(function(error) {
+            pausedPromise = typeof player.getPaused === 'function' ? player.getPaused() : Promise.resolve(true);
+            pausedPromise.then(function(paused) {
+                if (!state._vimeoBlockedSeekResume) {
+                    return;
+                }
+                if (!paused) {
+                    clearRequest();
+                    return;
+                }
+                return player.play().then(clearRequest).catch(function(error) {
+                    // Vimeo may reject play() while it is still settling after setCurrentTime().
+                    // Do not keep fighting the player: leave it at the allowed timestamp and let
+                    // the user press play if Vimeo refuses the automatic resume.
+                    Log.debug(request.label + ': ' + error);
+                    clearRequest();
+                });
+            }).catch(function(error) {
                 Log.debug(request.label + ': ' + error);
-                state._vimeoBlockedSeekResumeTimer = window.setTimeout(retry, 900 + (request.attempts * 500));
+                clearRequest();
             });
         }
 
-        state._vimeoBlockedSeekResumeTimer = window.setTimeout(retry, 900);
+        state._vimeoBlockedSeekResumeTimer = window.setTimeout(resumeIfStillPaused, 1800);
     }
 
     function recoverBlockedSeek(fallback, wasPlaying, label) {

@@ -137,7 +137,7 @@ class save_reaction extends external_api {
         // Rate-limit / anti-spam. Serialise all reactions for this user/activity so
         // near-simultaneous AJAX clicks are evaluated against the same latest DB state.
         // Rules:
-        // - only one reaction of any type is kept for the same video second;
+        // - only one reaction of any type is kept for the same displayed video second;
         // - the same reaction is also ignored when repeated within three wall-clock seconds
         //   or within a three-second window of video time.
         $reactionlockfactory = \core\lock\lock_config::get_lock_factory('mod_videotrack');
@@ -156,8 +156,9 @@ class save_reaction extends external_api {
         }
 
         try {
-            $videosecondstart = floor($videotime);
-            $videosecondend = $videosecondstart + 1;
+            $displaysecond = (int)round($videotime);
+            $videosecondstart = max(0.0, $displaysecond - 0.5);
+            $videosecondend = $displaysecond + 0.5;
             $duplicatereaction = $DB->record_exists_select(
                 'videotrack_reactev',
                 'videotrackid = :vtid AND userid = :uid AND isdeleted = 0 ' .
