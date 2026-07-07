@@ -174,6 +174,39 @@ define([
         return !!(state._vimeoReplaySeekUntil && Date.now() <= state._vimeoReplaySeekUntil);
     }
 
+    function getRecentVimeoUserSeek() {
+        var seek = state._vimeoUserSeek;
+        if (!seek || !seek.until || Date.now() > seek.until) {
+            state._vimeoUserSeek = null;
+            return null;
+        }
+        return seek;
+    }
+
+    function clearRecentVimeoUserSeek() {
+        state._vimeoUserSeek = null;
+    }
+
+    function resolveVimeoSeekWasPlaying() {
+        var recentPause = state._vimeoRecentPauseAt && Date.now() - state._vimeoRecentPauseAt <= 1500;
+        return !!state.playing || !!state.wasPlayingBeforeSeekBlock ||
+                !!(recentPause && state._vimeoRecentPauseWasPlaying);
+    }
+
+    function rememberVimeoUserSeek(target) {
+        if (state.isProgrammaticSeek || state.seekblocked || state._vimeoBlockedSeekInProgress || isReplaySeekActive()) {
+            return null;
+        }
+        state._vimeoUserSeek = {
+            target: Tracker.normaliseTime(target),
+            previous: Tracker.normaliseTime(state.lasttime),
+            allowedLimit: getAllowedForwardLimit(),
+            wasPlaying: resolveVimeoSeekWasPlaying(),
+            until: Date.now() + 3500
+        };
+        return state._vimeoUserSeek;
+    }
+
 
     function clearBlockedSeekResumeRequest() {
         if (state._vimeoBlockedSeekResumeTimer) {
@@ -399,6 +432,12 @@ define([
                 clearBlockedSeekResumeRequest();
             }
         }
+        var pendingUserSeek = getRecentVimeoUserSeek();
+        if (config.allowseekforward === false && pendingUserSeek &&
+                current > pendingUserSeek.allowedLimit + 0.75) {
+            blockForwardSeek(current, pendingUserSeek.allowedLimit, pendingUserSeek.wasPlaying);
+            return;
+        }
         var looksLikePlayback = current > previous && current <= previous + threshold &&
                 (isNormalForwardPlayback(current, rate) || isForwardSeekRecoveryPlayback(current, previous, threshold, now));
         if (config.allowseekforward === false && current > allowedLimit + 0.75) {
@@ -539,9 +578,11 @@ define([
         return Promise.resolve();
     }
 
-    function blockForwardSeek(target, fallbackTime) {
+    function blockForwardSeek(target, fallbackTime, wasPlayingOverride) {
         var fallback = typeof fallbackTime === 'number' ? fallbackTime : Tracker.normaliseTime(state.lasttime);
-        var wasPlaying = !!state.playing || !!state.wasPlayingBeforeSeekBlock;
+        var recentSeek = getRecentVimeoUserSeek();
+        var wasPlaying = typeof wasPlayingOverride === 'boolean' ? wasPlayingOverride :
+                (recentSeek ? recentSeek.wasPlaying : resolveVimeoSeekWasPlaying());
         fallback = Math.max(0, Tracker.normaliseTime(fallback));
         state.wasPlayingBeforeSeekBlock = wasPlaying;
         if (target <= fallback + 0.75) {
@@ -909,14 +950,22 @@ define([
 
         player.on('play', function() {
             state.ended = false;
-            state._vimeoPlayAfterSeekToken = null;
-            if (state._vimeoBlockedSeekResumeTimer) {
-                window.clearTimeout(state._vimeoBlockedSeekResumeTimer);
-                state._vimeoBlockedSeekResumeTimer = null;
-            }
-            state._vimeoBlockedSeekResume = null;
-            state.wasPlayingBeforeSeekBlock = false;
             player.getCurrentTime().then(function(t) {
+                var allowedLimit = getAllowedForwardLimit();
+                var pendingUserSeek = getRecentVimeoUserSeek();
+                if (config.allowseekforward === false && !state.isProgrammaticSeek && !isReplaySeekActive() &&
+                        t > allowedLimit + 0.75) {
+                    blockForwardSeek(t, allowedLimit, pendingUserSeek ? pendingUserSeek.wasPlaying : true);
+                    return;
+                }
+                state._vimeoPlayAfterSeekToken = null;
+                if (state._vimeoBlockedSeekResumeTimer) {
+                    window.clearTimeout(state._vimeoBlockedSeekResumeTimer);
+                    state._vimeoBlockedSeekResumeTimer = null;
+                }
+                state._vimeoBlockedSeekResume = null;
+                state.wasPlayingBeforeSeekBlock = false;
+                clearRecentVimeoUserSeek();
                 // Retry an explicit replay seek if Vimeo deferred setCurrentTime until playback.
                 if (state._pendingReplayStart !== null && typeof state._pendingReplayStart !== 'undefined') {
                     var replayStart = state._pendingReplayStart;
@@ -962,7 +1011,10 @@ define([
         });
 
         player.on('pause', function() {
-            if (state.ended || state.seekblocked || state.isProgrammaticSeek || state._vimeoBlockedSeekResume) {
+            state._vimeoRecentPauseAt = Date.now();
+            state._vimeoRecentPauseWasPlaying = !!state.playing;
+            if (state.ended || state.seekblocked || state.isProgrammaticSeek || state._vimeoBlockedSeekResume ||
+                    state._vimeoBlockedSeekInProgress || state._vimeoBlockedForwardSeekUntil) {
                 return;
             }
             stopHeartbeat();
@@ -980,7 +1032,16 @@ define([
             setReactionButtons(false); // Disable buttons at the end of the video.
         });
 
+        player.on('seeking', function(data) {
+            var target = Tracker.normaliseTime(data && data.seconds);
+            var pendingUserSeek = rememberVimeoUserSeek(target);
+            if (pendingUserSeek && config.allowseekforward === false && target > pendingUserSeek.allowedLimit + 0.75) {
+                blockForwardSeek(target, pendingUserSeek.allowedLimit, pendingUserSeek.wasPlaying);
+            }
+        });
+
         player.on('seeked', function(data) {
+            var pendingUserSeek = getRecentVimeoUserSeek();
             // Ignore programmatic seeks (replay, resume): they must not trigger
             // the anti-skip block or close the current segment.
             if (Tracker.consumeProgrammaticSeek(state, data.seconds)) { return; }
@@ -993,9 +1054,11 @@ define([
                 setReactionButtons(true);
                 return;
             }
+            var seekAllowedLimit = pendingUserSeek ? pendingUserSeek.allowedLimit : getAllowedForwardLimit();
             if (config.allowseekforward === false && data.seconds > Tracker.normaliseTime(state.lasttime) &&
-                    data.seconds > getAllowedForwardLimit() + 0.75 &&
-                    blockForwardSeek(data.seconds, getAllowedForwardLimit())) {
+                    data.seconds > seekAllowedLimit + 0.75 &&
+                    blockForwardSeek(data.seconds, seekAllowedLimit,
+                            pendingUserSeek ? pendingUserSeek.wasPlaying : undefined)) {
                 return;
             }
             var seekConfig = Object.assign({}, config, {allowseekbackward: true});
@@ -1014,6 +1077,7 @@ define([
                 saveSegment(state.segmentstart, seek.oldTime, 'seek');
                 startSegment(seek.newTime);
             }
+            clearRecentVimeoUserSeek();
         });
 
         player.on('playbackratechange', function(data) {
