@@ -465,7 +465,32 @@ define([
         }, 7000);
     }
 
-    function recoverBlockedSeek(fallback, wasPlaying, label) {
+    function verifyBlockedSeekRollback(fallback, label) {
+        [250, 650, 1100].forEach(function(delay) {
+            window.setTimeout(function() {
+                if (!player || typeof player.getCurrentTime !== 'function' || typeof player.setCurrentTime !== 'function') {
+                    return;
+                }
+                player.getCurrentTime().then(function(current) {
+                    if (Tracker.normaliseTime(current) <= fallback + 1.5) {
+                        return;
+                    }
+                    Tracker.markProgrammaticSeek(state);
+                    player.setCurrentTime(fallback).then(function() {
+                        Tracker.consumeProgrammaticSeek(state, fallback);
+                        resetForwardSeekRecovery(fallback);
+                        applyBlockedSeekPenalty((label || 'Vimeo blocked seek') + ' retry playback rate');
+                    }).catch(function(error) {
+                        Log.debug((label || 'Vimeo blocked seek rollback retry') + ': ' + error);
+                    });
+                }).catch(function(error) {
+                    Log.debug((label || 'Vimeo blocked seek current-time check') + ': ' + error);
+                });
+            }, delay);
+        });
+    }
+
+    function recoverBlockedSeek(fallback, wasPlaying, label, penalise) {
         var completed = false;
         var timeoutid = null;
         fallback = Math.max(0, Tracker.normaliseTime(fallback));
@@ -475,6 +500,9 @@ define([
         state._vimeoBlockedSeekInProgress = true;
         Tracker.markProgrammaticSeek(state);
         Tracker.blockSeek(state, 900);
+        if (penalise) {
+            applyBlockedSeekPenalty((label || 'Vimeo blocked seek') + ' playback rate');
+        }
 
         function finish(error) {
             if (completed) {
@@ -494,12 +522,16 @@ define([
             state._vimeoBlockedForwardSeekFallback = 0;
             Tracker.clearSeekBlock(state);
             state._vimeoBlockedSeekInProgress = false;
+            if (penalise) {
+                applyBlockedSeekPenalty((label || 'Vimeo blocked seek') + ' playback rate confirm');
+                verifyBlockedSeekRollback(fallback, label);
+            }
             scheduleBlockedSeekResume(wasPlaying, label);
         }
 
         timeoutid = window.setTimeout(function() {
             finish('Vimeo blocked seek rollback timed out');
-        }, 1000);
+        }, 1500);
 
         player.setCurrentTime(fallback).then(function() {
             finish();
@@ -517,7 +549,7 @@ define([
         }
         state._vimeoBlockedForwardSeekUntil = Date.now() + 5000;
         state._vimeoBlockedForwardSeekFallback = fallback;
-        recoverBlockedSeek(fallback, wasPlaying, 'Vimeo blocked forward seek resume');
+        recoverBlockedSeek(fallback, wasPlaying, 'Vimeo blocked forward seek resume', true);
         return true;
     }
 
@@ -535,6 +567,10 @@ define([
 
     function getPlaybackRatePenalty() {
         return 0.5;
+    }
+
+    function applyBlockedSeekPenalty(label) {
+        return writePlaybackRate(getPlaybackRatePenalty(), label || 'Vimeo blocked seek playback rate');
     }
 
     function writePlaybackRate(rate, label) {
@@ -1000,7 +1036,10 @@ define([
             if (!btn || !player) { return false; }
             e.preventDefault();
             e.stopPropagation();
-            var start = parseFloat(btn.dataset.start) || 0;
+            var start = parseFloat(btn.dataset.time);
+            if (!isFinite(start)) {
+                start = parseFloat(btn.dataset.start) || 0;
+            }
             var end   = parseFloat(btn.dataset.end)   || 0;
             state.currentReplayEnd = end > 0 ? end : null;
             state._vimeoReplaySeekUntil = Date.now() + 8000;
@@ -1199,6 +1238,7 @@ define([
                 (config.replaylabel) + ' — ' + Utils.formatSeconds(videotime));
             replaybtn.dataset.start = Math.max(0, videotime - 30);
             replaybtn.dataset.end   = videotime + 30;
+            replaybtn.dataset.time  = videotime;
             tdreplay.appendChild(replaybtn);
             tr.appendChild(tdreplay);
             // Delete

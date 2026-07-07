@@ -359,7 +359,11 @@ define([
             var btn = e.target.closest('.videotrack-replay');
             if (!btn || !media) { return false; }
             e.preventDefault();
-            var start = parseFloat(btn.dataset.start) || 0;
+            e.stopPropagation();
+            var start = parseFloat(btn.dataset.time);
+            if (!isFinite(start)) {
+                start = parseFloat(btn.dataset.start) || 0;
+            }
             var end   = parseFloat(btn.dataset.end)   || 0;
             state.currentReplayEnd = end > 0 ? end : null;
             // Mark this as a programmatic seek: the 'seeking' handler will ignore it.
@@ -1056,6 +1060,7 @@ define([
                 (config.replaylabel) + ' — ' + Utils.formatSeconds(videotime));
             replaybtn.dataset.start = Math.max(0, videotime - 30);
             replaybtn.dataset.end   = videotime + 30;
+            replaybtn.dataset.time  = videotime;
             tdreplay.appendChild(replaybtn);
             tr.appendChild(tdreplay);
             // Delete

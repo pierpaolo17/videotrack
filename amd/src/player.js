@@ -633,9 +633,13 @@ define([
             }
             var replaybtn = e.target.closest('.videotrack-replay');
             if (replaybtn && player) {
+                var replayTarget = parseFloat(replaybtn.getAttribute('data-time'));
+                if (!isFinite(replayTarget)) {
+                    replayTarget = parseFloat(replaybtn.getAttribute('data-start'));
+                }
                 e.preventDefault();
                 replayFragment(
-                    parseFloat(replaybtn.getAttribute('data-start')),
+                    replayTarget,
                     parseFloat(replaybtn.getAttribute('data-end')),
                     true
                 );
@@ -766,6 +770,7 @@ define([
         replayBtn.className = 'btn btn-secondary btn-sm videotrack-replay';
         replayBtn.dataset.start = start;
         replayBtn.dataset.end   = end;
+        replayBtn.dataset.time  = videotime;
         replayBtn.textContent = config.replaylabel;
         replayBtn.setAttribute('aria-label',
             (config.replaylabel) + ' — ' + Utils.formatSeconds(videotime));
