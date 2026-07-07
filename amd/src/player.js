@@ -222,6 +222,8 @@ define([
         if (target <= fallback + 0.75 || isForwardTargetAlreadyWatched(target, 0.75)) {
             return false;
         }
+        applyBlockedSeekPenalty('YouTube blocked forward seek playback rate');
+        retryBlockedSeekPenalty('YouTube blocked forward seek playback rate');
         Tracker.blockSeek(state, 1000);
         Adapter.seek(fallback, function(safeTarget) {
             player.seekTo(safeTarget, true);
@@ -290,6 +292,21 @@ define([
             }
             return null;
         }, state, Log, label || 'YouTube playback rate limit');
+    }
+
+    function applyBlockedSeekPenalty(label) {
+        return writePlaybackRate(getPlaybackRatePenalty(), label || 'YouTube blocked seek playback rate');
+    }
+
+    function retryBlockedSeekPenalty(label) {
+        [0, 150, 400, 900, 1600, 3000].forEach(function(delay) {
+            window.setTimeout(function() {
+                if (player && typeof player.getPlaybackRate === 'function' &&
+                        Math.abs(Number(player.getPlaybackRate()) - getPlaybackRatePenalty()) > 0.01) {
+                    applyBlockedSeekPenalty((label || 'YouTube blocked seek playback rate') + ' retry');
+                }
+            }, delay);
+        });
     }
 
     function enforceMaxPlaybackRate(label) {
@@ -449,6 +466,8 @@ define([
             var seek = Tracker.resolveSeek(state, current, seekconfig, 0);
             var oldtime = seek.oldTime;
             if (seek.blocked && seek.forward) {
+                applyBlockedSeekPenalty('YouTube blocked forward seek playback rate');
+                retryBlockedSeekPenalty('YouTube blocked forward seek playback rate');
                 Tracker.blockSeek(state, 1000);
                 Adapter.seek(oldtime, function(target) {
                     player.seekTo(target, true);
