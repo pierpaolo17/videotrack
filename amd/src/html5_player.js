@@ -166,6 +166,92 @@ define([
         return currentRate;
     }
 
+    function applyBlockedSeekPenalty() {
+        return writePlaybackRate(getPlaybackRatePenalty());
+    }
+
+    function retryBlockedSeekPenalty() {
+        [0, 150, 400, 900, 1600, 3000].forEach(function(delay) {
+            window.setTimeout(function() {
+                if (!media) {
+                    return;
+                }
+                if (Math.abs(safeNumber(media.playbackRate, 1) - getPlaybackRatePenalty()) > 0.01) {
+                    applyBlockedSeekPenalty();
+                }
+            }, delay);
+        });
+    }
+
+    function markHTML5PlaybackObserved() {
+        state._html5RecentPlayingAt = Date.now();
+    }
+
+    function resolveHTML5SeekWasPlaying() {
+        var recentPlayback = state._html5RecentPlayingAt && Date.now() - state._html5RecentPlayingAt <= 5000;
+        return !!state.playing || !!(media && media.paused === false) || !!recentPlayback || !!state.wasPlayingBeforeSeekBlock;
+    }
+
+    function playHTML5AfterSeek(label, delays) {
+        var attempts = Array.isArray(delays) && delays.length ? delays : [0, 250, 700, 1500, 3000];
+        var token = Date.now() + Math.random();
+        state._html5PlayAfterSeekToken = token;
+
+        function attempt(index) {
+            if (!media || state._html5PlayAfterSeekToken !== token) {
+                return;
+            }
+            window.setTimeout(function() {
+                var playPromise;
+                if (!media || state._html5PlayAfterSeekToken !== token) {
+                    return;
+                }
+                if (!media.paused) {
+                    markHTML5PlaybackObserved();
+                    if (index + 1 < attempts.length) {
+                        attempt(index + 1);
+                    } else if (state._html5PlayAfterSeekToken === token) {
+                        state._html5PlayAfterSeekToken = null;
+                        state._html5BlockedSeekResume = false;
+                    }
+                    return;
+                }
+                playPromise = media.play();
+                if (playPromise && typeof playPromise.then === 'function') {
+                    playPromise.then(function() {
+                        if (state._html5PlayAfterSeekToken === token) {
+                            state._html5PlayAfterSeekToken = null;
+                            state._html5BlockedSeekResume = false;
+                        }
+                    }).catch(function(err) {
+                        Debug.log(label || 'html5blockedseekresume', {message: err});
+                        if (index + 1 < attempts.length) {
+                            attempt(index + 1);
+                        } else {
+                            state._html5PlayAfterSeekToken = null;
+                        }
+                    });
+                } else {
+                    state._html5PlayAfterSeekToken = null;
+                    state._html5BlockedSeekResume = false;
+                }
+            }, attempts[index]);
+        }
+
+        attempt(0);
+    }
+
+    function scheduleBlockedSeekResume(wasPlaying) {
+        if (!wasPlaying) {
+            return;
+        }
+        state._html5BlockedSeekResume = true;
+        playHTML5AfterSeek('html5blockedseekresume', [0, 250, 700, 1500, 3000]);
+        window.setTimeout(function() {
+            state._html5BlockedSeekResume = false;
+        }, 6000);
+    }
+
 
     function finishProgrammaticSeek(current) {
         var time = safeNumber(current, media ? media.currentTime : state.lasttime || 0);
@@ -197,22 +283,25 @@ define([
         scheduleProgrammaticSeekFallback(target);
     }
 
-    function blockForwardSeek(target) {
-        var fallback = Math.max(0, getAllowedForwardLimit());
-        var wasPlaying = state.playing && !media.paused;
+    function blockForwardSeek(target, fallbackTime) {
+        var fallback = typeof fallbackTime === 'number' ? fallbackTime : getAllowedForwardLimit();
+        var wasPlaying = resolveHTML5SeekWasPlaying();
+        var penaltyRate;
+        fallback = Math.max(0, Tracker.normaliseTime(fallback));
+        if (Tracker.normaliseTime(target) <= fallback + 0.75) {
+            return false;
+        }
+        penaltyRate = applyBlockedSeekPenalty();
+        retryBlockedSeekPenalty();
         state.isSeeking = true;
-        Tracker.blockSeek(state, 500);
+        Tracker.blockSeek(state, 900);
         media.currentTime = fallback;
-        Tracker.syncTime(state, fallback, safeNumber(media.playbackRate, 1));
+        Tracker.syncTime(state, fallback, penaltyRate);
         markAllowedForwardTime(fallback);
         window.setTimeout(function() {
             state.isSeeking = false;
             Tracker.clearSeekBlock(state);
-            if (wasPlaying && media.paused) {
-                media.play().catch(function(err) {
-                    Debug.log('html5blockedseekresume', {message: err});
-                });
-            }
+            scheduleBlockedSeekResume(wasPlaying);
         }, 0);
         Debug.log('html5blockedforwardseek', {target: target, fallback: fallback});
         return true;
@@ -622,6 +711,14 @@ define([
                     var current = safeNumber(media.currentTime, 0);
                     var allowed = requested;
                     var forwardLimit = getAllowedForwardLimit();
+                    if (config.allowseekforward === false && requested > forwardLimit + 0.75) {
+                        allowed = forwardLimit;
+                        blockForwardSeek(requested, allowed);
+                        progressBar.value = state.duration ? String((allowed / state.duration) * 100) : '0';
+                        progressBar.setAttribute('aria-valuenow',  String(Math.round(progressBar.value)));
+                        progressBar.setAttribute('aria-valuetext', Utils.formatSeconds(allowed));
+                        return;
+                    }
                     if (config.allowseekforward === false && requested > forwardLimit) {
                         allowed = forwardLimit;
                     }
@@ -880,6 +977,7 @@ define([
     function attachTrackingEvents() {
         media.addEventListener('play', function() {
             state.ended = false;
+            markHTML5PlaybackObserved();
             if (state.isProgrammaticSeek) {
                 finishProgrammaticSeek(media.currentTime);
             }
@@ -898,7 +996,7 @@ define([
             if (Adapter.isEnded(state, function() { return media.ended; }, Log, 'HTML5')) {
                 return;
             }
-            if (!state.isSeeking) {
+            if (!state.isSeeking && !state._html5BlockedSeekResume) {
                 stopHeartbeat();
                 closeSegment('pause');
                 setReactionButtons(false);
@@ -956,6 +1054,9 @@ define([
             var current = safeNumber(media.currentTime, 0);
             var forwardLimit = getAllowedForwardLimit();
             var rate = enforceMaxPlaybackRate();
+            if (!media.paused) {
+                markHTML5PlaybackObserved();
+            }
             if (state.isSeeking || state.seekblocked) {
                 return;
             }
