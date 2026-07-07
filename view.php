@@ -756,6 +756,7 @@ if ($showstudentreport && !empty($videotrack->reactionsenabled)) {
                     'class'      => 'btn btn-secondary btn-sm videotrack-replay',
                     'data-start' => $start,
                     'data-end'   => $end,
+                    'data-time'  => (float)$event->videotime,
                     // WCAG 2.4.6: contextual aria-label distinguishes identical buttons for screen readers.
                     'aria-label' => get_string('report:replay', 'mod_videotrack') . ' — ' . $timestampfmt,
                 ]
