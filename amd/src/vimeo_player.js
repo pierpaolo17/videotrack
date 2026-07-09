@@ -116,16 +116,36 @@ define([
     function getBlockedForwardGuardLimit(baseLimit) {
         var limit = typeof baseLimit === 'number' ? Tracker.normaliseTime(baseLimit) : getAllowedForwardLimit();
         var fallback = Number(state._vimeoBlockedForwardSeekFallback);
-        if (state._vimeoBlockedForwardSeekUntil && isFinite(fallback)) {
+        if (state._vimeoBlockedForwardSeekUntil && Date.now() <= state._vimeoBlockedForwardSeekUntil &&
+                isFinite(fallback)) {
             limit = Math.min(limit, Math.max(0, fallback));
         }
         return limit;
     }
 
+    function getBlockedForwardRecoveryLimit() {
+        var started = Number(state._vimeoBlockedForwardRecoveryStartAt);
+        var fallback = Number(state._vimeoBlockedForwardRecoveryFallback);
+        var elapsed;
+        var rate;
+        if (!state._vimeoBlockedForwardSeekUntil || Date.now() > state._vimeoBlockedForwardSeekUntil ||
+                !isFinite(started) || started <= 0 || !isFinite(fallback)) {
+            return null;
+        }
+        elapsed = Math.max(0, (Date.now() - started) / 1000);
+        rate = Math.max(Number(state.playbackrate) || 1, 1);
+        return Math.max(0, fallback) + (elapsed * rate) + 1.5;
+    }
+
+    function isBlockedForwardRecoveryPlayback(current) {
+        var recoveryLimit = getBlockedForwardRecoveryLimit();
+        return recoveryLimit !== null && Tracker.normaliseTime(current) <= recoveryLimit;
+    }
+
     function isVimeoForwardTimeBlocked(current, baseLimit) {
         var limit = getBlockedForwardGuardLimit(baseLimit);
         return config && config.allowseekforward === false && !isReplaySeekActive() &&
-                Tracker.normaliseTime(current) > limit + 0.75;
+                !isBlockedForwardRecoveryPlayback(current) && Tracker.normaliseTime(current) > limit + 0.75;
     }
 
     function markVimeoProgrammaticSeek(target) {
@@ -176,6 +196,8 @@ define([
         Tracker.syncTime(state, safeFallback);
         state.lastSeekPollAt = Date.now();
         state.forwardseekrecoveryuntil = Date.now() + 4000;
+        state._vimeoBlockedForwardRecoveryStartAt = Date.now();
+        state._vimeoBlockedForwardRecoveryFallback = safeFallback;
         if (state.playing) {
             Tracker.openSegment(state, safeFallback, Math.floor(Date.now() / 1000), state.playbackrate);
         }
@@ -254,15 +276,21 @@ define([
     }
 
 
-    function clearBlockedSeekResumeRequest() {
+    function clearBlockedSeekResumeState() {
         if (state._vimeoBlockedSeekResumeTimer) {
             window.clearTimeout(state._vimeoBlockedSeekResumeTimer);
             state._vimeoBlockedSeekResumeTimer = null;
         }
         state._vimeoBlockedSeekResume = null;
+        state.wasPlayingBeforeSeekBlock = false;
+    }
+
+    function clearBlockedSeekResumeRequest() {
+        clearBlockedSeekResumeState();
         state._vimeoBlockedForwardSeekUntil = 0;
         state._vimeoBlockedForwardSeekFallback = 0;
-        state.wasPlayingBeforeSeekBlock = false;
+        state._vimeoBlockedForwardRecoveryStartAt = 0;
+        state._vimeoBlockedForwardRecoveryFallback = 0;
     }
 
     /**
@@ -515,24 +543,26 @@ define([
         expectedDelta = state.playing && elapsed > 0 ? elapsed * Math.max(rate, 1) : 0;
         threshold = state.playing ? Math.max(1.5, expectedDelta + 1.0) : 0.5;
         var allowedLimit = getAllowedForwardLimit();
+        var pendingUserSeek = getRecentVimeoUserSeek();
+        var guardLimit = pendingUserSeek ? pendingUserSeek.allowedLimit : getBlockedForwardGuardLimit(allowedLimit);
+        var looksLikePlayback = current > previous && current <= previous + threshold &&
+                (isNormalForwardPlayback(current, rate) || isForwardSeekRecoveryPlayback(current, previous, threshold, now) ||
+                isBlockedForwardRecoveryPlayback(current));
         if (config.allowseekforward === false && state._vimeoBlockedForwardSeekUntil && !state._vimeoBlockedSeekResume) {
-            if (current <= allowedLimit + 0.75 || now > state._vimeoBlockedForwardSeekUntil) {
+            if (now > state._vimeoBlockedForwardSeekUntil || current <= guardLimit + 0.75 || looksLikePlayback) {
                 clearBlockedSeekResumeRequest();
             }
         }
-        var pendingUserSeek = getRecentVimeoUserSeek();
-        if (config.allowseekforward === false && pendingUserSeek &&
-                current > pendingUserSeek.allowedLimit + 0.75) {
-            blockForwardSeek(current, pendingUserSeek.allowedLimit, pendingUserSeek.wasPlaying);
-            return;
-        }
-        var looksLikePlayback = current > previous && current <= previous + threshold &&
-                (isNormalForwardPlayback(current, rate) || isForwardSeekRecoveryPlayback(current, previous, threshold, now));
-        if (config.allowseekforward === false && current > allowedLimit + 0.75) {
+        if (config.allowseekforward === false && current > guardLimit + 0.75) {
             if (!looksLikePlayback || current > previous + threshold) {
-                blockForwardSeek(current, allowedLimit);
+                blockForwardSeek(current, guardLimit, pendingUserSeek ? pendingUserSeek.wasPlaying : undefined);
                 return;
             }
+            Tracker.syncTime(state, current, rate);
+            rememberResumePosition(current);
+            markAllowedForwardTime(current);
+            updateLiveIntervalBar(current);
+            return;
         }
         if (Math.abs(current - previous) > threshold) {
             if (config.allowseekforward === false && current > previous &&
@@ -552,7 +582,7 @@ define([
         }
         Tracker.syncTime(state, current, rate);
         rememberResumePosition(current);
-        if (current >= previous && (!config || config.allowseekforward !== false || current <= getAllowedForwardLimit() + 0.75)) {
+        if (current >= previous) {
             markAllowedForwardTime(current);
         }
         updateLiveIntervalBar(current);
@@ -578,14 +608,13 @@ define([
         if (!wasPlaying || !player || typeof player.play !== 'function') {
             return;
         }
-        clearBlockedSeekResumeRequest();
+        clearBlockedSeekResumeState();
         state._vimeoBlockedSeekResume = {
             label: label || 'Vimeo blocked seek resume',
             until: Date.now() + 7000
         };
         state.wasPlayingBeforeSeekBlock = true;
         playVimeoAfterSeek(label || 'Vimeo blocked seek resume', [150, 650, 1300, 2300, 3800, 5600], {
-            clearBlockedSeekResume: true,
             requiredPlayingObservations: 2
         });
         state._vimeoBlockedSeekResumeTimer = window.setTimeout(function() {
