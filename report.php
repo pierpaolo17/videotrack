@@ -51,6 +51,20 @@ function videotrack_report_user_label(int $userid, array $usermap, bool $canview
  * @param bool $endofday Whether to use the last second of the day.
  * @return int Timestamp, or 0 when the value is empty or invalid.
  */
+
+/**
+ * Reads an optional float filter parameter, treating empty query-string values as no filter.
+ *
+ * @param string $name Parameter name.
+ * @return float|null Non-negative float value, or null when unset/empty/invalid.
+ */
+function videotrack_report_optional_float_param(string $name): ?float {
+    $value = optional_param($name, '', PARAM_RAW_TRIMMED);
+    if ($value === '' || !is_numeric($value)) {
+        return null;
+    }
+    return max(0.0, (float)$value);
+}
 function videotrack_report_date_to_timestamp(string $date, bool $endofday = false): int {
     if ($date === '' || !preg_match('/^(\d{4})-(\d{2})-(\d{2})$/', $date, $matches)) {
         return 0;
@@ -79,10 +93,8 @@ $reactionidfilter = optional_param('reactionid', 0, PARAM_INT);
 $notepage = max(0, optional_param('notepage', 0, PARAM_INT));
 $notecreatedfrom = videotrack_optional_iso_date_param('notecreatedfrom');
 $notecreatedto = videotrack_optional_iso_date_param('notecreatedto');
-$timefromparam = optional_param('timefrom', null, PARAM_FLOAT);
-$timetoparam = optional_param('timeto', null, PARAM_FLOAT);
-$timefrom = $timefromparam !== null ? max(0.0, (float)$timefromparam) : null;
-$timeto = $timetoparam !== null ? max(0.0, (float)$timetoparam) : null;
+$timefrom = videotrack_report_optional_float_param('timefrom');
+$timeto = videotrack_report_optional_float_param('timeto');
 if ($timefrom !== null && $timeto !== null && $timeto < $timefrom) {
     [$timefrom, $timeto] = [$timeto, $timefrom];
 }

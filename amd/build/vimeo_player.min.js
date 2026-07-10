@@ -668,17 +668,17 @@ define([
         clearBlockedSeekResumeState();
         state._vimeoBlockedSeekResume = {
             label: label || 'Vimeo blocked seek resume',
-            until: Date.now() + 7000
+            until: Date.now() + 12000
         };
         state.wasPlayingBeforeSeekBlock = true;
-        playVimeoAfterSeek(label || 'Vimeo blocked seek resume', [250, 900, 1700, 3000, 4800, 7000, 9500], {
+        playVimeoAfterSeek(label || 'Vimeo blocked seek resume', [350, 900, 1700, 3000, 4800, 7000, 9500], {
             requiredPlayingObservations: 1,
             fallback: state._vimeoBlockedForwardSeekFallback,
             clearBlockedSeekResume: true
         });
         state._vimeoBlockedSeekResumeTimer = window.setTimeout(function() {
             clearBlockedSeekResumeRequest();
-        }, 11000);
+        }, 14000);
     }
 
     function verifyBlockedSeekRollback(fallback, label, wasPlaying, recoveryRate) {
@@ -774,10 +774,14 @@ define([
                 (recentSeek ? recentSeek.wasPlaying : resolveVimeoSeekWasPlaying());
         var recoveryRate = getBlockedSeekPlaybackRate(fallback, recentSeek ? recentSeek.previous : state.lasttime);
         fallback = Math.max(0, Tracker.normaliseTime(fallback));
-        state.wasPlayingBeforeSeekBlock = wasPlaying;
         if (target <= fallback + 0.75) {
             return false;
         }
+        // A user-originated illegal forward seek should resume at the permitted point
+        // even when Vimeo emits seeking before our runtime has observed a stable
+        // play state. Otherwise the rollback succeeds but the player remains paused.
+        wasPlaying = wasPlaying || !!recentSeek || !!state.wasPlayingBeforeSeekBlock;
+        state.wasPlayingBeforeSeekBlock = wasPlaying;
         state._vimeoBlockedForwardSeekUntil = Date.now() + 5000;
         state._vimeoBlockedForwardSeekFallback = fallback;
         recoverBlockedSeek(fallback, wasPlaying, 'Vimeo blocked forward seek resume', recoveryRate);
@@ -1171,6 +1175,25 @@ define([
                 var pendingUserSeek = getRecentVimeoUserSeek();
                 var allowedLimit = pendingUserSeek ? pendingUserSeek.allowedLimit : getAllowedForwardLimit();
                 allowedLimit = getBlockedForwardGuardLimit(allowedLimit);
+                if (state._vimeoBlockedSeekResume) {
+                    var fallback = Tracker.normaliseTime(state._vimeoBlockedForwardSeekFallback || allowedLimit);
+                    if (t > fallback + 1.5) {
+                        markVimeoProgrammaticSeek(fallback);
+                        player.setCurrentTime(fallback).then(function() {
+                            consumeVimeoProgrammaticSeek(fallback);
+                            resetForwardSeekRecovery(fallback);
+                            scheduleBlockedSeekResume(true, state._vimeoBlockedSeekResume.label);
+                        }).catch(function(error) {
+                            Log.debug('Vimeo blocked seek play fallback: ' + error);
+                        });
+                        return;
+                    }
+                    clearRecentVimeoUserSeek();
+                    Tracker.syncTime(state, t, state.playbackrate || 1);
+                    ensureVimeoRuntimePlaying(t);
+                    clearBlockedSeekResumeRequest();
+                    return;
+                }
                 if (isVimeoForwardTimeBlocked(t, allowedLimit)) {
                     blockForwardSeek(t, allowedLimit, pendingUserSeek ? pendingUserSeek.wasPlaying : true);
                     return;
