@@ -314,11 +314,19 @@ define([
         }
         state._vimeoPlayAfterSeekToken = token;
 
-        function complete(success) {
+        function complete(success, current) {
             if (state._vimeoPlayAfterSeekToken === token) {
                 state._vimeoPlayAfterSeekToken = null;
             }
-            if (success && options.clearBlockedSeekResume) {
+            if (!success) {
+                return;
+            }
+            if (typeof current === 'number' && isFinite(current)) {
+                ensureVimeoRuntimePlaying(current);
+            }
+            if (options.clearBlockedSeekResumeState) {
+                clearBlockedSeekResumeState();
+            } else if (options.clearBlockedSeekResume) {
                 clearBlockedSeekResumeRequest();
             }
         }
@@ -339,21 +347,43 @@ define([
                     }
                     if (paused === false) {
                         markVimeoPlaybackObserved();
-                        observedPlaying++;
-                        if (observedPlaying >= requiredPlaying || index + 1 >= attempts.length) {
-                            complete(true);
-                            return;
-                        }
-                        attempt(index + 1);
-                        return;
+                        return readVimeoValue('getCurrentTime', options.fallback || state.lasttime || 0).then(function(current) {
+                            var fallback = Number(options.fallback);
+                            current = Tracker.normaliseTime(current);
+                            if (isFinite(fallback) && config && config.allowseekforward === false &&
+                                    current > Tracker.normaliseTime(fallback) + 1.5) {
+                                markVimeoProgrammaticSeek(fallback);
+                                return player.setCurrentTime(Tracker.normaliseTime(fallback)).then(function() {
+                                    consumeVimeoProgrammaticSeek(fallback);
+                                    observedPlaying = 0;
+                                    if (index + 1 < attempts.length) {
+                                        attempt(index + 1);
+                                    } else {
+                                        complete(false);
+                                    }
+                                    return null;
+                                });
+                            }
+                            observedPlaying++;
+                            if (observedPlaying >= requiredPlaying || index + 1 >= attempts.length) {
+                                complete(true, current);
+                                return null;
+                            }
+                            attempt(index + 1);
+                            return null;
+                        });
                     }
                     observedPlaying = 0;
                     return player.play().then(function() {
                         if (index + 1 < attempts.length) {
                             attempt(index + 1);
                         } else {
-                            complete(true);
+                            return readVimeoValue('getCurrentTime', options.fallback || state.lasttime || 0).then(function(current) {
+                                complete(true, Tracker.normaliseTime(current));
+                                return null;
+                            });
                         }
+                        return null;
                     }).catch(function(error) {
                         Log.debug(label + ': ' + error);
                         if (index + 1 < attempts.length) {
@@ -377,6 +407,19 @@ define([
         attempt(0);
     }
 
+
+    function ensureVimeoRuntimePlaying(current) {
+        var safeCurrent = Tracker.normaliseTime(current);
+        if (!state.playing || state.segmentstart === null || typeof state.segmentstart === 'undefined') {
+            if (startSegment(safeCurrent) === false) {
+                return;
+            }
+        }
+        startHeartbeat();
+        startVimeoRuntimePolling();
+        setReactionButtons(true);
+        markVimeoPlaybackObserved();
+    }
 
     function getResumeStorageKey() {
         return 'videotrack:lastposition:' + String(config && config.cmid ? config.cmid : '0');
@@ -614,8 +657,10 @@ define([
             until: Date.now() + 7000
         };
         state.wasPlayingBeforeSeekBlock = true;
-        playVimeoAfterSeek(label || 'Vimeo blocked seek resume', [150, 650, 1300, 2300, 3800, 5600], {
-            requiredPlayingObservations: 2
+        playVimeoAfterSeek(label || 'Vimeo blocked seek resume', [150, 650, 1300, 2300, 3800, 5600, 8000, 10500], {
+            requiredPlayingObservations: 1,
+            fallback: state._vimeoBlockedForwardSeekFallback,
+            clearBlockedSeekResumeState: true
         });
         state._vimeoBlockedSeekResumeTimer = window.setTimeout(function() {
             clearBlockedSeekResumeRequest();
