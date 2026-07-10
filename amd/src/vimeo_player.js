@@ -671,18 +671,17 @@ define([
             until: Date.now() + 7000
         };
         state.wasPlayingBeforeSeekBlock = true;
-        playVimeoAfterSeek(label || 'Vimeo blocked seek resume', [250, 900, 1700, 3000, 4800, 7000, 9500, 12500], {
-            requiredPlayingObservations: 2,
-            requireTimeAdvance: true,
+        playVimeoAfterSeek(label || 'Vimeo blocked seek resume', [250, 900, 1700, 3000, 4800, 7000, 9500], {
+            requiredPlayingObservations: 1,
             fallback: state._vimeoBlockedForwardSeekFallback,
-            clearBlockedSeekResumeState: true
+            clearBlockedSeekResume: true
         });
         state._vimeoBlockedSeekResumeTimer = window.setTimeout(function() {
             clearBlockedSeekResumeRequest();
-        }, 13000);
+        }, 11000);
     }
 
-    function verifyBlockedSeekRollback(fallback, label, wasPlaying) {
+    function verifyBlockedSeekRollback(fallback, label, wasPlaying, recoveryRate) {
         [250, 650, 1100].forEach(function(delay) {
             window.setTimeout(function() {
                 if (!player || typeof player.getCurrentTime !== 'function' || typeof player.setCurrentTime !== 'function') {
@@ -696,7 +695,7 @@ define([
                     player.setCurrentTime(fallback).then(function() {
                         consumeVimeoProgrammaticSeek(fallback);
                         resetForwardSeekRecovery(fallback);
-                        applyBlockedSeekPenalty((label || 'Vimeo blocked seek') + ' retry playback rate');
+                        applyBlockedSeekPenalty((label || 'Vimeo blocked seek') + ' retry playback rate', recoveryRate);
                         scheduleBlockedSeekResume(wasPlaying, label);
                     }).catch(function(error) {
                         Log.debug((label || 'Vimeo blocked seek rollback retry') + ': ' + error);
@@ -708,7 +707,7 @@ define([
         });
     }
 
-    function recoverBlockedSeek(fallback, wasPlaying, label, penalise) {
+    function recoverBlockedSeek(fallback, wasPlaying, label, recoveryRate) {
         var completed = false;
         var timeoutid = null;
         fallback = Math.max(0, Tracker.normaliseTime(fallback));
@@ -718,9 +717,9 @@ define([
         state._vimeoBlockedSeekInProgress = true;
         markVimeoProgrammaticSeek(fallback);
         Tracker.blockSeek(state, 900);
-        if (penalise) {
-            applyBlockedSeekPenalty((label || 'Vimeo blocked seek') + ' playback rate');
-            retryBlockedSeekPenalty((label || 'Vimeo blocked seek') + ' playback rate');
+        if (recoveryRate) {
+            applyBlockedSeekPenalty((label || 'Vimeo blocked seek') + ' playback rate', recoveryRate);
+            retryBlockedSeekPenalty((label || 'Vimeo blocked seek') + ' playback rate', recoveryRate);
         }
 
         function finish(error) {
@@ -741,10 +740,10 @@ define([
             state._vimeoBlockedForwardSeekFallback = fallback;
             Tracker.clearSeekBlock(state);
             state._vimeoBlockedSeekInProgress = false;
-            if (penalise) {
-                applyBlockedSeekPenalty((label || 'Vimeo blocked seek') + ' playback rate confirm');
-                retryBlockedSeekPenalty((label || 'Vimeo blocked seek') + ' playback rate confirm');
-                verifyBlockedSeekRollback(fallback, label, wasPlaying);
+            if (recoveryRate) {
+                applyBlockedSeekPenalty((label || 'Vimeo blocked seek') + ' playback rate confirm', recoveryRate);
+                retryBlockedSeekPenalty((label || 'Vimeo blocked seek') + ' playback rate confirm', recoveryRate);
+                verifyBlockedSeekRollback(fallback, label, wasPlaying, recoveryRate);
             }
             scheduleBlockedSeekResume(wasPlaying, label);
         }
@@ -759,11 +758,21 @@ define([
         return Promise.resolve();
     }
 
+    function getBlockedSeekPlaybackRate(fallback, previousTime) {
+        var previous = typeof previousTime === 'number' ? previousTime : state.lasttime;
+        var limit = Tracker.normaliseTime(fallback);
+        if (Tracker.normaliseTime(previous) < limit - 0.75) {
+            return 1;
+        }
+        return getPlaybackRatePenalty();
+    }
+
     function blockForwardSeek(target, fallbackTime, wasPlayingOverride) {
         var fallback = typeof fallbackTime === 'number' ? fallbackTime : Tracker.normaliseTime(state.lasttime);
         var recentSeek = getRecentVimeoUserSeek();
         var wasPlaying = typeof wasPlayingOverride === 'boolean' ? wasPlayingOverride :
                 (recentSeek ? recentSeek.wasPlaying : resolveVimeoSeekWasPlaying());
+        var recoveryRate = getBlockedSeekPlaybackRate(fallback, recentSeek ? recentSeek.previous : state.lasttime);
         fallback = Math.max(0, Tracker.normaliseTime(fallback));
         state.wasPlayingBeforeSeekBlock = wasPlaying;
         if (target <= fallback + 0.75) {
@@ -771,7 +780,7 @@ define([
         }
         state._vimeoBlockedForwardSeekUntil = Date.now() + 5000;
         state._vimeoBlockedForwardSeekFallback = fallback;
-        recoverBlockedSeek(fallback, wasPlaying, 'Vimeo blocked forward seek resume', true);
+        recoverBlockedSeek(fallback, wasPlaying, 'Vimeo blocked forward seek resume', recoveryRate);
         return true;
     }
 
@@ -795,19 +804,19 @@ define([
         return 0.5;
     }
 
-    function applyBlockedSeekPenalty(label) {
-        return writePlaybackRate(getPlaybackRatePenalty(), label || 'Vimeo blocked seek playback rate');
+    function applyBlockedSeekPenalty(label, rate) {
+        return writePlaybackRate(rate || getPlaybackRatePenalty(), label || 'Vimeo blocked seek playback rate');
     }
 
-    function retryBlockedSeekPenalty(label) {
+    function retryBlockedSeekPenalty(label, rate) {
         [0, 250, 750, 1500, 3000].forEach(function(delay) {
             window.setTimeout(function() {
                 if (!player || typeof player.getPlaybackRate !== 'function') {
                     return;
                 }
-                player.getPlaybackRate().then(function(rate) {
-                    if (Math.abs(Number(rate) - getPlaybackRatePenalty()) > 0.01) {
-                        applyBlockedSeekPenalty((label || 'Vimeo blocked seek playback rate') + ' retry');
+                player.getPlaybackRate().then(function(currentRate) {
+                    if (Math.abs(Number(currentRate) - (rate || getPlaybackRatePenalty())) > 0.01) {
+                        applyBlockedSeekPenalty((label || 'Vimeo blocked seek playback rate') + ' retry', rate);
                     }
                 }).catch(Log.debug);
             }, delay);

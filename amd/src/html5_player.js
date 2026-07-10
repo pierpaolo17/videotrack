@@ -170,18 +170,27 @@ define([
         return currentRate;
     }
 
-    function applyBlockedSeekPenalty() {
-        return writePlaybackRate(getPlaybackRatePenalty());
+    function getBlockedSeekPlaybackRate(fallback) {
+        var previous = Tracker.normaliseTime(state.lasttime);
+        var limit = Tracker.normaliseTime(fallback);
+        if (previous < limit - 0.75) {
+            return 1;
+        }
+        return getPlaybackRatePenalty();
     }
 
-    function retryBlockedSeekPenalty() {
+    function applyBlockedSeekPenalty(rate) {
+        return writePlaybackRate(rate || getPlaybackRatePenalty());
+    }
+
+    function retryBlockedSeekPenalty(rate) {
         [0, 150, 400, 900, 1600, 3000].forEach(function(delay) {
             window.setTimeout(function() {
                 if (!media) {
                     return;
                 }
-                if (Math.abs(safeNumber(media.playbackRate, 1) - getPlaybackRatePenalty()) > 0.01) {
-                    applyBlockedSeekPenalty();
+                if (Math.abs(safeNumber(media.playbackRate, 1) - (rate || getPlaybackRatePenalty())) > 0.01) {
+                    applyBlockedSeekPenalty(rate);
                 }
             }, delay);
         });
@@ -295,8 +304,8 @@ define([
         if (Tracker.normaliseTime(target) <= fallback + 0.75) {
             return false;
         }
-        penaltyRate = applyBlockedSeekPenalty();
-        retryBlockedSeekPenalty();
+        penaltyRate = applyBlockedSeekPenalty(getBlockedSeekPlaybackRate(fallback));
+        retryBlockedSeekPenalty(penaltyRate);
         state.isSeeking = true;
         Tracker.blockSeek(state, 900);
         media.currentTime = fallback;
