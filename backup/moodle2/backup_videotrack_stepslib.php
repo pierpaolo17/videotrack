@@ -42,7 +42,7 @@ class backup_videotrack_activity_structure_step extends backup_activity_structur
             'durationseconds',
             'showcontrols', 'disablekeyboard', 'showfullscreen', 'allowseekforward',
             'allowseekbackward', 'allowplaybackratechange', 'countbyvideotime',
-            'resumeplayback', 'maxplaybackrate',
+            'resumeplayback', 'maxplaybackrate', 'blockedseekplaybackrate',
             'completionpercent', 'reactionsenabled', 'reactionsrequired', 'minreactions',
             'requireallreactiontypes', 'completionlogic', 'clusterwindow', 'showstudentreport',
             'showreactionnotice', 'reactionnoticeformat', 'reactionnotice',

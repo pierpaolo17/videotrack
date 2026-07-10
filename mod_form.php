@@ -201,6 +201,21 @@ class mod_videotrack_mod_form extends moodleform_mod {
         $mform->setDefault('maxplaybackrate', (int)get_config('mod_videotrack', 'maxplaybackrate'));
         $mform->addHelpButton('maxplaybackrate', 'maxplaybackrate', 'mod_videotrack');
 
+        $blockedseekrateoptions = [
+            50 => '0.5×',
+            75 => '0.75×',
+            100 => '1×',
+        ];
+        $mform->addElement(
+            'select',
+            'blockedseekplaybackrate',
+            get_string('blockedseekplaybackrate', 'mod_videotrack'),
+            $blockedseekrateoptions
+        );
+        $mform->setType('blockedseekplaybackrate', PARAM_INT);
+        $mform->setDefault('blockedseekplaybackrate', 50);
+        $mform->addHelpButton('blockedseekplaybackrate', 'blockedseekplaybackrate', 'mod_videotrack');
+
         // Lock player fields if the teacher does not have the override capability.
         if (!$canoverrideplayer) {
             $lockedfields = [
@@ -210,6 +225,7 @@ class mod_videotrack_mod_form extends moodleform_mod {
                 'allowseekforward',
                 'allowseekbackward',
                 'allowplaybackratechange',
+                'blockedseekplaybackrate',
             ];
             foreach ($lockedfields as $field) {
                 $mform->freeze($field);
