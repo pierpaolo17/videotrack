@@ -368,6 +368,7 @@ $string['report:perstudent'] = 'Per studente';
 $string['report:reaction'] = 'Reazione';
 $string['report:recalculate'] = 'Ricalcola tutti gli stati di completamento';
 $string['report:recalculated'] = 'Stati di completamento ricalcolati per {$a} utenti.';
+$string['report:replayoffsetnotice'] = 'Quando usi il replay da questo report, il player parte {$a} secondi prima del punto indicato, in base alla finestra del frammento configurata.';
 $string['report:replay'] = 'Rivedi frammento';
 $string['report:resetstudent'] = 'Azzera progresso';
 $string['report:resetstudent_confirm'] = 'Sei sicuro di voler azzerare il progresso di questo studente? Verrà eliminata tutta la cronologia di visualizzazione e le reazioni. L’operazione non è reversibile.';

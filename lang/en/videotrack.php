@@ -370,6 +370,7 @@ $string['report:perstudent'] = 'Per student';
 $string['report:reaction'] = 'Reaction';
 $string['report:recalculate'] = 'Recalculate all completion states';
 $string['report:recalculated'] = 'Completion states recalculated for {$a} users.';
+$string['report:replayoffsetnotice'] = 'When you use replay from this report, the player starts {$a} seconds before the indicated point, according to the current fragment window.';
 $string['report:replay'] = 'Replay fragment';
 $string['report:resetstudent'] = 'Reset progress';
 $string['report:resetstudent_confirm'] = 'Are you sure you want to reset this student\'s progress? This will delete all their viewing history and reactions and cannot be undone.';

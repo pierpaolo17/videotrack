@@ -51,6 +51,18 @@ function videotrack_report_user_label(int $userid, array $usermap, bool $canview
  * @param bool $endofday Whether to use the last second of the day.
  * @return int Timestamp, or 0 when the value is empty or invalid.
  */
+function videotrack_report_date_to_timestamp(string $date, bool $endofday = false): int {
+    if ($date === '' || !preg_match('/^(\d{4})-(\d{2})-(\d{2})$/', $date, $matches)) {
+        return 0;
+    }
+    $year = (int)$matches[1];
+    $month = (int)$matches[2];
+    $day = (int)$matches[3];
+    if (!checkdate($month, $day, $year)) {
+        return 0;
+    }
+    return make_timestamp($year, $month, $day, $endofday ? 23 : 0, $endofday ? 59 : 0, $endofday ? 59 : 0);
+}
 
 /**
  * Reads an optional float filter parameter, treating empty query-string values as no filter.
@@ -64,18 +76,6 @@ function videotrack_report_optional_float_param(string $name): ?float {
         return null;
     }
     return max(0.0, (float)$value);
-}
-function videotrack_report_date_to_timestamp(string $date, bool $endofday = false): int {
-    if ($date === '' || !preg_match('/^(\d{4})-(\d{2})-(\d{2})$/', $date, $matches)) {
-        return 0;
-    }
-    $year = (int)$matches[1];
-    $month = (int)$matches[2];
-    $day = (int)$matches[3];
-    if (!checkdate($month, $day, $year)) {
-        return 0;
-    }
-    return make_timestamp($year, $month, $day, $endofday ? 23 : 0, $endofday ? 59 : 0, $endofday ? 59 : 0);
 }
 
 global $DB, $USER, $CFG, $PAGE, $OUTPUT;
@@ -230,8 +230,11 @@ if ($alluserids) {
     $canviewemail = has_capability('moodle/site:viewuseridentity', $context) &&
             in_array('email', \core_user\fields::get_identity_fields($context, false));
     // Select all Moodle name fields required by fullname(). Email is loaded only when permitted.
-    $userfields = array_unique(array_merge(['id', 'deleted'], \core_user\fields::get_name_fields(),
-            $canviewemail ? ['email'] : []));
+    $userfields = array_unique(array_merge(
+        ['id', 'deleted'],
+        \core_user\fields::get_name_fields(),
+        $canviewemail ? ['email'] : []
+    ));
     foreach ($DB->get_records_select('user', "id $insql", $inparams, '', implode(',', $userfields)) as $u) {
         $usermap[(int)$u->id] = $u;
     }
@@ -1164,12 +1167,15 @@ if ($mode === 'student') {
             get_string('report:students', 'mod_videotrack'),
             get_string('report:replay', 'mod_videotrack'),
         ];
+        $replayoffset = 30;
+        $replaynotice = get_string('report:replayoffsetnotice', 'mod_videotrack', $replayoffset);
+        echo $OUTPUT->notification($replaynotice, 'info', false);
         foreach ($clusters as $cluster) {
             $reactionhtml = $cluster['reaction']
                 ? videotrack_render_reaction_icon($cluster['reaction'], $context, true)
                 : s($cluster['reactionlabel']);
-            $start = max(0, $cluster['timestamp'] - 30);
-            $end = $cluster['timestamp'] + 30;
+            $start = max(0, $cluster['timestamp'] - $replayoffset);
+            $end = $cluster['timestamp'] + $replayoffset;
             $replayurl = new moodle_url('/mod/videotrack/view.php', [
                 'id' => $cm->id,
                 'replaystart' => (int)$start,
