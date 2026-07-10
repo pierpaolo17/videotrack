@@ -217,9 +217,10 @@ if ($alluserids) {
     // GDPR minimisation: by default show only the full name.
     $canviewemail = has_capability('moodle/site:viewuseridentity', $context) &&
             in_array('email', \core_user\fields::get_identity_fields($context, false));
-    // Select email only when needed: avoid loading unnecessary personal data.
-    $userfields = $canviewemail ? 'id,firstname,lastname,email,deleted' : 'id,firstname,lastname,deleted';
-    foreach ($DB->get_records_select('user', "id $insql", $inparams, '', $userfields) as $u) {
+    // Select all Moodle name fields required by fullname(). Email is loaded only when permitted.
+    $userfields = array_unique(array_merge(['id', 'deleted'], \core_user\fields::get_name_fields(),
+            $canviewemail ? ['email'] : []));
+    foreach ($DB->get_records_select('user', "id $insql", $inparams, '', implode(',', $userfields)) as $u) {
         $usermap[(int)$u->id] = $u;
     }
 }
@@ -228,14 +229,14 @@ $useroptions = [0 => get_string('all')];
 foreach ($stateuserids as $stateuserid) {
     $user = $usermap[(int)$stateuserid] ?? null;
     if ($user) {
-        $useroptions[(int)$user->id] = (fullname($user) . ($canviewemail ? ' (' . s($user->email) . ')' : ''));
+        $useroptions[(int)$user->id] = videotrack_report_user_label((int)$user->id, $usermap, $canviewemail);
     }
 }
 foreach ($eventuserids as $eventuserid) {
     if (!isset($useroptions[(int)$eventuserid])) {
         $user = $usermap[(int)$eventuserid] ?? null;
         if ($user) {
-            $useroptions[(int)$user->id] = (fullname($user) . ($canviewemail ? ' (' . s($user->email) . ')' : ''));
+            $useroptions[(int)$user->id] = videotrack_report_user_label((int)$user->id, $usermap, $canviewemail);
         }
     }
 }
@@ -243,7 +244,7 @@ foreach ($noteuserids as $noteuserid) {
     if (!isset($useroptions[(int)$noteuserid])) {
         $user = $usermap[(int)$noteuserid] ?? null;
         if ($user) {
-            $useroptions[(int)$user->id] = (fullname($user) . ($canviewemail ? ' (' . s($user->email) . ')' : ''));
+            $useroptions[(int)$user->id] = videotrack_report_user_label((int)$user->id, $usermap, $canviewemail);
         }
     }
 }
@@ -492,7 +493,7 @@ if ($export === 'csv') {
                 continue;
             }
             $row = [
-                fullname($user),
+                videotrack_report_user_label((int)$state->userid, $usermap, false),
                 $state->uniquecoveredseconds,
                 $state->completionpercent,
                 $state->lastposition,
@@ -794,7 +795,7 @@ if ($mode === 'student') {
                 continue;
             }
             $row = [
-                (fullname($user) . ($canviewemail ? ' (' . s($user->email) . ')' : '')),
+                videotrack_report_user_label((int)$state->userid, $usermap, $canviewemail),
                 videotrack_format_seconds((float)$state->uniquecoveredseconds),
                 format_float((float)$state->completionpercent, 2),
                 videotrack_format_seconds((float)$state->lastposition),
@@ -803,7 +804,7 @@ if ($mode === 'student') {
 
             if ($hasgrade && $cangrade) {
                 // Read the current grade for this user.
-                $studentname = fullname($user);
+                $studentname = videotrack_report_user_label((int)$state->userid, $usermap, false);
                 $currentgrade = $gradeinfo->items[0]->grades[(int)$state->userid]->grade ?? '';
                 $gradecell = html_writer::start_tag('form', [
                     'method' => 'post',
