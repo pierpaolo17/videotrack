@@ -136,10 +136,9 @@ class save_reaction extends external_api {
 
         // Rate-limit / anti-spam. Serialise all reactions for this user/activity so
         // near-simultaneous AJAX clicks are evaluated against the same latest DB state.
-        // Rules:
-        // - only one reaction of any type is kept for the same displayed video second;
-        // - the same reaction is also ignored when repeated within three wall-clock seconds
-        //   or within a three-second window of video time.
+        // Only one reaction of any type is kept for the same displayed video second.
+        // Repeated reactions are ignored within three wall-clock seconds or within a
+        // three-second window of video time.
         $reactionlockfactory = \core\lock\lock_config::get_lock_factory('mod_videotrack');
         $reactionlockkey = 'reaction:' . $videotrack->id . ':' . (int)$USER->id;
         $reactionlock = $reactionlockfactory->get_lock($reactionlockkey, 10);
