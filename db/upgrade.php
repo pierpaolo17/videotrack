@@ -1344,5 +1344,18 @@ function xmldb_videotrack_upgrade($oldversion) {
         upgrade_mod_savepoint(true, 2026060310, 'videotrack');
     }
 
+    if ($oldversion < 2026060401) {
+        // Release 1.4.257: configurable playback rate after blocked forward seek.
+        $table = new xmldb_table('videotrack');
+        $field = new xmldb_field('blockedseekplaybackrate', XMLDB_TYPE_INTEGER, '4', null, XMLDB_NOTNULL, null, '50',
+            'maxplaybackrate');
+
+        if (!$dbman->field_exists($table, $field)) {
+            $dbman->add_field($table, $field);
+        }
+
+        upgrade_mod_savepoint(true, 2026060401, 'videotrack');
+    }
+
     return true;
 }

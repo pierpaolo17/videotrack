@@ -35,6 +35,7 @@
         <FIELD NAME="allowplaybackratechange" TYPE="int" LENGTH="1" NOTNULL="true" DEFAULT="1"/>
         <FIELD NAME="resumeplayback" TYPE="int" LENGTH="1" NOTNULL="true" DEFAULT="0" COMMENT="Resume playback from last saved position"/>
         <FIELD NAME="maxplaybackrate" TYPE="int" LENGTH="4" NOTNULL="true" DEFAULT="0" COMMENT="Max playback rate in centesimal (0=no limit, 150=1.5x, 200=2x)"/>
+        <FIELD NAME="blockedseekplaybackrate" TYPE="int" LENGTH="4" NOTNULL="true" DEFAULT="50" COMMENT="Playback rate after blocked forward seek in centesimal (50=0.5x, 100=1x)"/>
         <FIELD NAME="showtranscript" TYPE="int" LENGTH="1" NOTNULL="true" DEFAULT="0" COMMENT="Show interactive VTT transcript panel (upload source only)"/>
         <FIELD NAME="showchapters" TYPE="int" LENGTH="1" NOTNULL="true" DEFAULT="0" COMMENT="Show VTT-based chapter navigation bar (upload source only)"/>
         <FIELD NAME="studentnotesenabled" TYPE="int" LENGTH="1" NOTNULL="true" DEFAULT="0" COMMENT="Allow students to write personal timestamped notes while watching"/>

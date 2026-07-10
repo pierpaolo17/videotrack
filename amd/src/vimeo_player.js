@@ -364,6 +364,20 @@ define([
                                     return null;
                                 });
                             }
+                            if (options.requireTimeAdvance && isFinite(fallback) &&
+                                    current <= Tracker.normaliseTime(fallback) + 0.25) {
+                                observedPlaying = 0;
+                                return player.play().catch(function(error) {
+                                    Log.debug(label + ': ' + error);
+                                }).then(function() {
+                                    if (index + 1 < attempts.length) {
+                                        attempt(index + 1);
+                                    } else {
+                                        complete(false);
+                                    }
+                                    return null;
+                                });
+                            }
                             observedPlaying++;
                             if (observedPlaying >= requiredPlaying || index + 1 >= attempts.length) {
                                 complete(true, current);
@@ -657,14 +671,15 @@ define([
             until: Date.now() + 7000
         };
         state.wasPlayingBeforeSeekBlock = true;
-        playVimeoAfterSeek(label || 'Vimeo blocked seek resume', [150, 650, 1300, 2300, 3800, 5600, 8000, 10500], {
-            requiredPlayingObservations: 1,
+        playVimeoAfterSeek(label || 'Vimeo blocked seek resume', [250, 900, 1700, 3000, 4800, 7000, 9500, 12500], {
+            requiredPlayingObservations: 2,
+            requireTimeAdvance: true,
             fallback: state._vimeoBlockedForwardSeekFallback,
             clearBlockedSeekResumeState: true
         });
         state._vimeoBlockedSeekResumeTimer = window.setTimeout(function() {
             clearBlockedSeekResumeRequest();
-        }, 7000);
+        }, 13000);
     }
 
     function verifyBlockedSeekRollback(fallback, label, wasPlaying) {
@@ -773,6 +788,10 @@ define([
     }
 
     function getPlaybackRatePenalty() {
+        var configured = Number(config && config.blockedseekplaybackrate ? config.blockedseekplaybackrate : 50) / 100;
+        if ([0.5, 0.75, 1].indexOf(configured) >= 0) {
+            return configured;
+        }
         return 0.5;
     }
 

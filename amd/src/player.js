@@ -270,6 +270,10 @@ define([
     }
 
     function getPlaybackRatePenalty() {
+        var configured = Number(config && config.blockedseekplaybackrate ? config.blockedseekplaybackrate : 50) / 100;
+        if ([0.5, 0.75, 1].indexOf(configured) >= 0) {
+            return configured;
+        }
         return 0.5;
     }
 

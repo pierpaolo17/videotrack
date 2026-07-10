@@ -207,6 +207,7 @@ $playerconfig = [
                                     ? round((float)$state->lastposition, 3) : 0,
     // Feature 6: maximum playback rate in hundredths (0=unlimited, 150=1.5x, etc.).
     'maxplaybackrate'        => (int)($videotrack->maxplaybackrate ?? 0),
+    'blockedseekplaybackrate' => (int)($videotrack->blockedseekplaybackrate ?? 50),
     'heartbeatinterval'      => $heartbeat,
     'videourl'               => ($source === 'upload')
         ? (string)(videotrack_get_upload_url($videotrack->id, $cm->id) ?? '')
