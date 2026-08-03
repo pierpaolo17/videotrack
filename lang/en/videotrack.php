@@ -133,6 +133,7 @@ $string['gradepass_help'] = 'The minimum grade required to pass this activity. S
 $string['hiddeninstancelabel'] = 'Hidden from students: {$a}';
 $string['html5:controls'] = 'Video controls';
 $string['html5:download'] = 'Download';
+$string['html5:elapsed'] = 'Elapsed';
 $string['html5:fullscreen'] = 'Fullscreen';
 $string['html5:mute'] = 'Mute';
 $string['html5:pause'] = 'Pause';

@@ -197,6 +197,7 @@ $playerconfig = [
     'html5piplabel'          => get_string('html5:pip', 'mod_videotrack'),
     'html5fullscreenlabel'   => get_string('html5:fullscreen', 'mod_videotrack'),
     'html5downloadlabel'     => get_string('html5:download', 'mod_videotrack'),
+    'html5elapsedlabel'      => get_string('html5:elapsed', 'mod_videotrack'),
     'resumelabel'            => get_string('resumelabel', 'mod_videotrack'),
     // O1/U1 fix: resumedlabel removed — showResumeNotice now uses config.resumelabel directly.
     'beaconurl'              => (string)(new moodle_url('/lib/ajax/service.php', ['sesskey' => sesskey()])),

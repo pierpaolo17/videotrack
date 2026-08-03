@@ -1111,6 +1111,62 @@ define([
         return iframe;
     }
 
+    /**
+     * Seek Vimeo to an explicit replay fragment and request playback.
+     *
+     * The operation is shared by report links and in-page replay buttons. It
+     * cancels automatic resume state so the requested fragment cannot be
+     * replaced by the last saved position.
+     *
+     * @param {number} start Replay start in seconds.
+     * @param {number|null} end Optional replay end in seconds.
+     * @param {string} label Debug label.
+     * @return {Promise} Replay seek promise.
+     */
+    function replayVimeoFragment(start, end, label) {
+        var target = Math.max(0, Tracker.normaliseTime(start));
+        var debugLabel = label || 'Vimeo replay';
+        state.currentReplayEnd = typeof end === 'number' && isFinite(end) && end > 0 ? end : null;
+        state._vimeoReplaySeekUntil = Date.now() + 10000;
+        state._pendingResume = null;
+        state._pendingReplayStart = target;
+        try {
+            if (window.localStorage) {
+                window.localStorage.removeItem(getResumeStorageKey());
+            }
+        } catch (storageError) {
+            // Browser storage may be disabled; ignore.
+        }
+        clearBlockedSeekResumeRequest();
+        markVimeoProgrammaticSeek(target);
+        state.isProgrammaticSeek = true;
+        markAllowedForwardTime(target);
+        return player.setCurrentTime(target).then(function() {
+            Tracker.syncTime(state, target, state.playbackrate || 1);
+            consumeVimeoProgrammaticSeek(target);
+            state.isProgrammaticSeek = false;
+            state._pendingReplayStart = null;
+            startSegment(target);
+            startHeartbeat();
+            startVimeoRuntimePolling();
+            setReactionButtons(true);
+            state._vimeoReplaySeekUntil = Date.now() + 10000;
+            playVimeoAfterSeek(debugLabel + ' play', [300, 900, 1800, 3200], {
+                fallback: target,
+                forcePlay: true
+            });
+        }).catch(function(error) {
+            Log.debug(debugLabel + ' seek: ' + error);
+            state.isProgrammaticSeek = false;
+            state._pendingReplayStart = target;
+            state._vimeoReplaySeekUntil = Date.now() + 10000;
+            playVimeoAfterSeek(debugLabel + ' deferred play', [400, 1100, 2200, 3800], {
+                fallback: target,
+                forcePlay: true
+            });
+        });
+    }
+
     function buildPlayer() {
         var container = document.getElementById('mod-videotrack-player');
         if (!container) { return; }
@@ -1154,9 +1210,17 @@ define([
                 PlayerCore.updateIntervalBar(config.intervaljson, state.duration, Log);
             }
             var resumePosition = resolveResumePosition();
-            initialiseKnownProgress(resumePosition || 0);
-            // Automatically resume from the last saved position (lastposition > 2s).
-            if (resumePosition > 2) {
+            var directReplayStart = typeof config.replaystart === 'number' && config.replaystart >= 0
+                ? config.replaystart : null;
+            initialiseKnownProgress(directReplayStart !== null ? 0 : (resumePosition || 0));
+            // An explicit report/replay link takes precedence over the saved resume point.
+            if (directReplayStart !== null) {
+                replayVimeoFragment(
+                    directReplayStart,
+                    typeof config.replayend === 'number' ? config.replayend : null,
+                    'Vimeo direct replay'
+                );
+            } else if (resumePosition > 2) {
                 markVimeoProgrammaticSeek(resumePosition);
                 markAllowedForwardTime(resumePosition);
                 player.setCurrentTime(resumePosition).then(function() {
@@ -1359,44 +1423,7 @@ define([
                 start = parseFloat(btn.dataset.start) || 0;
             }
             var end   = parseFloat(btn.dataset.end)   || 0;
-            state.currentReplayEnd = end > 0 ? end : null;
-            state._vimeoReplaySeekUntil = Date.now() + 8000;
-            // Explicit replay must win over automatic resume. Otherwise Vimeo
-            // may retry the resume position on the following play event and
-            // jump back to the last watched second instead of the reaction.
-            state._pendingResume = null;
-            try {
-                if (window.localStorage) {
-                    window.localStorage.removeItem(getResumeStorageKey());
-                }
-            } catch (storageError) {
-                // Browser storage may be disabled; ignore.
-            }
-            // Mark the seek as programmatic to avoid triggering the anti-skip block.
-            clearBlockedSeekResumeRequest();
-            markVimeoProgrammaticSeek(start);
-            state.isProgrammaticSeek = true;
-            state._pendingReplayStart = start;
-            markAllowedForwardTime(start);
-            player.setCurrentTime(start).then(function() {
-                Tracker.syncTime(state, start, state.playbackrate || 1);
-                consumeVimeoProgrammaticSeek(start);
-                state.isProgrammaticSeek = false;
-                startSegment(start);
-                startHeartbeat();
-                startVimeoRuntimePolling();
-                setReactionButtons(true);
-                state._vimeoReplaySeekUntil = Date.now() + 8000;
-                playVimeoAfterSeek('Vimeo replay play', [250, 800, 1600, 3000, 5200], {
-                    fallback: start,
-                    forcePlay: true
-                });
-            }).catch(function(error) {
-                Log.debug('Vimeo replay seek: ' + error);
-                state.isProgrammaticSeek = false;
-                state._pendingReplayStart = null;
-                state._vimeoReplaySeekUntil = 0;
-            });
+            replayVimeoFragment(start, end, 'Vimeo replay');
             return true;
         }
 

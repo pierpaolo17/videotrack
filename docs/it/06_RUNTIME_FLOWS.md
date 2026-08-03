@@ -32,7 +32,7 @@ note form -> save_note AJAX -> classes/external/save_note -> videotrack_reactev 
 button.videotrack-replay -> shared replay handler -> player-specific seek/play implementation
 ```
 
-Il replay è comune come evento UI, ma il comportamento del seek è specifico per HTML5, YouTube e Vimeo. Il target iniziale deve essere il timestamp esatto della reazione; i limiti start/end restano metadati del frammento.
+Il replay è comune come evento UI, ma il comportamento del seek è specifico per HTML5, YouTube e Vimeo. Il target iniziale deve essere il timestamp esatto della reazione; i limiti start/end restano metadati del frammento. I link diretti dal report (`replaystart`/`replayend`) devono avere precedenza sul resume salvato in tutti e tre i player e devono richiedere l’avvio della riproduzione.
 
 ## Vimeo
 
