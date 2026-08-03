@@ -131,6 +131,7 @@ $string['gradepass_help'] = 'Il voto minimo richiesto per superare questa attivi
 $string['hiddeninstancelabel'] = 'Nascosto agli studenti: {$a}';
 $string['html5:controls'] = 'Controlli video';
 $string['html5:download'] = 'Scarica';
+$string['html5:elapsed'] = 'Trascorso';
 $string['html5:fullscreen'] = 'Schermo intero';
 $string['html5:mute'] = 'Disattiva audio';
 $string['html5:pause'] = 'Pausa';

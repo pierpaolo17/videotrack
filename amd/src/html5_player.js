@@ -437,6 +437,30 @@ define([
         PlayerCore.showResumeNotice(seconds, config, Utils);
     }
 
+    /**
+     * Seek to a replay fragment and request playback.
+     *
+     * Direct report links use the same path as in-page replay buttons so the
+     * explicit replay target always takes precedence over the saved resume point.
+     *
+     * @param {number} start Replay start in seconds.
+     * @param {number|null} end Optional replay end in seconds.
+     */
+    function replayHTML5Fragment(start, end) {
+        var target = Math.max(0, Tracker.normaliseTime(start));
+        var replayPlay;
+        state.currentReplayEnd = typeof end === 'number' && isFinite(end) && end > 0 ? end : null;
+        startProgrammaticSeek(target);
+        replayPlay = Adapter.play(function() {
+            return media.play();
+        }, Log, 'HTML5 replay play');
+        if (replayPlay && typeof replayPlay.catch === 'function') {
+            replayPlay.catch(function(err) {
+                Debug.log('playrequestfailed', {message: err});
+            });
+        }
+    }
+
     function installGlobalListeners() {
         Tracker.installLifecycleHandlers({
             state: state,
@@ -467,19 +491,7 @@ define([
                 start = parseFloat(btn.dataset.start) || 0;
             }
             var end   = parseFloat(btn.dataset.end)   || 0;
-            state.currentReplayEnd = end > 0 ? end : null;
-            // Mark this as a programmatic seek: the 'seeking' handler will ignore it.
-            // isProgrammaticSeek persists until the 'seeked' event resets it.
-            state.isProgrammaticSeek = true;
-            Adapter.seek(start, function(target) {
-                media.currentTime = target;
-            }, Log, 'HTML5 replay seek');
-            var replayPlay = Adapter.play(function() {
-                return media.play();
-            }, Log, 'HTML5 replay play');
-            if (replayPlay && typeof replayPlay.catch === 'function') {
-                replayPlay.catch(function(err) { Debug.log('playrequestfailed', {message: err}); });
-            }
+            replayHTML5Fragment(start, end);
             return true;
         }
 
@@ -592,7 +604,8 @@ define([
             badge = document.createElement('div');
             badge.className = 'videotrack-html5-elapsed-badge';
             badge.setAttribute('aria-live', 'off');
-            badge.textContent = Utils.formatSeconds(safeNumber(media.currentTime, 0));
+            badge.textContent = (config.html5elapsedlabel || '') + ': ' +
+                Utils.formatSeconds(safeNumber(media.currentTime, 0));
             wrapper.appendChild(badge);
         }
         return badge;
@@ -605,7 +618,7 @@ define([
         var elapsed = Utils.formatSeconds(safeNumber(media && media.currentTime, 0));
         var badge = ensureElapsedBadge();
         if (badge) {
-            badge.textContent = elapsed;
+            badge.textContent = (config.html5elapsedlabel || '') + ': ' + elapsed;
         }
         var bar = document.querySelector('.videotrack-html5-controls');
         if (bar && bar._currentEl) {
@@ -949,8 +962,13 @@ define([
                     state.playbackrate = maxRateLoad;
                 }
             }
-            // Automatically resume from the last saved position (lastposition > 2s).
-            if (typeof config.resumeposition === 'number' && config.resumeposition > 2
+            // An explicit report/replay link takes precedence over the saved resume point.
+            if (typeof config.replaystart === 'number' && config.replaystart >= 0) {
+                replayHTML5Fragment(
+                    config.replaystart,
+                    typeof config.replayend === 'number' ? config.replayend : null
+                );
+            } else if (typeof config.resumeposition === 'number' && config.resumeposition > 2
                     && config.resumeposition < (state.duration || Infinity)) {
                 startProgrammaticSeek(config.resumeposition);
                 Tracker.syncTime(state, config.resumeposition, safeNumber(media.playbackRate, 1));
