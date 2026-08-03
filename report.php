@@ -1167,22 +1167,23 @@ if ($mode === 'student') {
             get_string('report:students', 'mod_videotrack'),
             get_string('report:replay', 'mod_videotrack'),
         ];
-        $replayoffset = 30;
+        $replayoffset = $window;
         $replaynotice = get_string('report:replayoffsetnotice', 'mod_videotrack', $replayoffset);
         echo $OUTPUT->notification($replaynotice, 'info', false);
         foreach ($clusters as $cluster) {
             $reactionhtml = $cluster['reaction']
                 ? videotrack_render_reaction_icon($cluster['reaction'], $context, true)
                 : s($cluster['reactionlabel']);
-            $start = max(0, $cluster['timestamp'] - $replayoffset);
-            $end = $cluster['timestamp'] + $replayoffset;
+            $replaytimestamp = max(0, (int)round($cluster['timestamp']));
+            $start = max(0, $replaytimestamp - $replayoffset);
+            $end = $replaytimestamp + $replayoffset;
             $replayurl = new moodle_url('/mod/videotrack/view.php', [
                 'id' => $cm->id,
-                'replaystart' => (int)$start,
-                'replayend' => (int)$end,
+                'replaystart' => $start,
+                'replayend' => $end,
             ]);
             $table->data[] = [
-                videotrack_format_seconds($cluster['timestamp']),
+                videotrack_format_seconds($replaytimestamp),
                 html_writer::span($reactionhtml, 'videotrack-report-icon'),
                 (int)$cluster['count'],
                 (int)$cluster['students'],
