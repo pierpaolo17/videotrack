@@ -20,8 +20,11 @@ Moodle page/view.php
 - `mod_form.php`: activity form, validation, image file picker and reactions.
 - `classes/external/*`: AJAX services declared in `db/services.php`.
 - `classes/local/tracker.php`: segment normalisation, interval merge, user state, completion, reaction counts.
+- `classes/local/csv_export.php`: CSV delimiter, configurable columns, profile-field visibility and safe row generation.
 - `amd/src/core/*`: shared client infrastructure.
 - `amd/src/html5_player.js`, `amd/src/player.js`, `amd/src/vimeo_player.js`: player runtimes.
+
+The `videotrack` instance also stores `blockedseekplaybackrate`, `csvdelimiter` and `csvexportfields`; the latter two control the per-instance CSV format and selected export columns.
 
 ## AJAX services
 
@@ -37,7 +40,7 @@ Moodle page/view.php
 
 | Table | Purpose | Fields | Keys | Indexes |
 | --- | --- | --- | --- | --- |
-| videotrack | Main table for videotrack instances | id, course, name, intro, introformat, youtubeurl, videoid, videosource, videourl, playbackspeeds, autoplay, loopenabled, startmuted, allowdownload, html5controls, playerwidth, rewindstep, fastforwardstep, captions, captionslang, durationseconds, showcontrols, disablekeyboard, showfullscreen, allowseekforward, allowseekbackward, allowplaybackratechange, resumeplayback, maxplaybackrate, showtranscript, showchapters, studentnotesenabled, countbyvideotime, completionpercent, reactionsenabled, reactionsrequired, minreactions, requireallreactiontypes, completionlogic, clusterwindow, showstudentreport, showreactionnotice, reactionnoticeformat, reactionnotice, grade, gradepass, showgradeto, timemodified, timecreated | primary: id | course_idx: course; videoid_idx: videoid |
+| videotrack | Main table for videotrack instances | id, course, name, intro, introformat, youtubeurl, videoid, videosource, videourl, playbackspeeds, autoplay, loopenabled, startmuted, allowdownload, html5controls, playerwidth, rewindstep, fastforwardstep, captions, captionslang, durationseconds, showcontrols, disablekeyboard, showfullscreen, allowseekforward, allowseekbackward, allowplaybackratechange, resumeplayback, maxplaybackrate, blockedseekplaybackrate, showtranscript, showchapters, studentnotesenabled, csvdelimiter, csvexportfields, countbyvideotime, completionpercent, reactionsenabled, reactionsrequired, minreactions, requireallreactiontypes, completionlogic, clusterwindow, showstudentreport, showreactionnotice, reactionnoticeformat, reactionnotice, grade, gradepass, showgradeto, timemodified, timecreated | primary: id | course_idx: course; videoid_idx: videoid |
 | videotrack_seg | Watched segments | id, videotrackid, courseid, cmid, userid, videoid, sessionid, wallclockstart, wallclockend, videotimestart, videotimeend, playbackrate, endreason, timecreated | primary: id | vt_user_idx: videotrackid, userid; session_idx: sessionid; cm_user_idx: cmid, userid; vt_user_sess_time_idx: videotrackid, userid, sessionid, timecreated |
 | videotrack_state | Aggregated unique coverage per user and activity | id, videotrackid, courseid, cmid, userid, videoid, lastposition, durationseconds, uniquecoveredseconds, completionpercent, intervaljson, iscompleted, timemodified, timecreated | primary: id | vt_user_uix: videotrackid, userid; cm_user_idx: cmid, userid |
 | videotrack_react | Configured reactions per activity | id, videotrackid, reactionkey, label, description, icontype, iconvalue, requiredforcompletion, sortorder, isdeleted, timecreated, timemodified | primary: id | vt_sort_idx: videotrackid, sortorder |

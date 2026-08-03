@@ -37,3 +37,11 @@ Il replay è comune come evento UI, ma il comportamento del seek è specifico pe
 ## Vimeo
 
 Vimeo SDK usa promesse asincrone per `setCurrentTime()`, `play()` e `pause()`. Non concatenare chiamate `play()` aggressive dopo un seek: può generare `PlayInterrupted`. Ogni modifica a Vimeo va testata manualmente su rewind, forward dentro il visto, forward oltre limite e replay.
+
+## Flusso di esportazione CSV (1.4.264)
+
+Il valore predefinito di sito definisce il separatore CSV e i campi facoltativi di corso, attività e utente. Ogni attività può ereditare o sovrascrivere queste scelte. Durante l'esportazione, `classes/local/csv_export.php` filtra i campi utente configurati applicando le regole Moodle sulla visibilità dei campi identificativi, carica i campi standard e quelli personalizzati visibili tramite `core_user\fields`, protegge dalle formule nei fogli di calcolo e usa intestazioni localizzate. L'esportazione di tutti gli eventi include le reazioni attive e le note personali di tutti gli utenti dopo una conferma esplicita relativa ai dati personali.
+
+## Ricalcolo del completamento (1.4.264)
+
+L'azione di ricalcolo ricostruisce lo stato aggregato di ogni utente dai record grezzi `videotrack_seg`, invece di rivalutare soltanto il valore booleano di completamento. Unisce gli intervalli visti, ricalcola secondi unici e percentuale, ripristina la posizione dell'ultimo segmento grezzo, rivaluta i requisiti sulle reazioni e sincronizza il completamento Moodle solo quando sono configurate regole di completamento personalizzate di VideoTrack e lo stato cambia. Il completamento basato sulla sola visualizzazione resta gestito dal core Moodle.

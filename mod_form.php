@@ -572,6 +572,56 @@ class mod_videotrack_mod_form extends moodleform_mod {
         $mform->addHelpButton('countbyvideotime', 'countbyvideotime', 'mod_videotrack');
         $mform->setDefault('countbyvideotime', 1);
 
+        // CSV export settings.
+        $mform->addElement(
+            'header',
+            'csvexportheader',
+            get_string('setting:heading_csvexport', 'mod_videotrack')
+        );
+        $mform->addElement(
+            'select',
+            'csvdelimiter',
+            get_string('setting:csvdelimiter', 'mod_videotrack'),
+            \mod_videotrack\local\csv_export::delimiter_options(true)
+        );
+        $mform->setType('csvdelimiter', PARAM_ALPHA);
+        $mform->setDefault('csvdelimiter', \mod_videotrack\local\csv_export::DELIMITER_INHERIT);
+        $mform->addHelpButton('csvdelimiter', 'setting:csvdelimiter', 'mod_videotrack');
+        $mform->addElement(
+            'static',
+            'csvexportfields_desc',
+            '',
+            html_writer::tag(
+                'small',
+                get_string('setting:csvexportfields_teacher_desc', 'mod_videotrack'),
+                ['class' => 'text-muted']
+            )
+        );
+        $csvcontext = $this->context ?: $coursecontext;
+        $csvfieldoptions = \mod_videotrack\local\csv_export::field_options($csvcontext);
+        $csvfieldcheckboxes = [];
+        foreach ($csvfieldoptions as $field => $label) {
+            $elementname = \mod_videotrack\local\csv_export::form_element_name($field);
+            $csvfieldcheckboxes[] = $mform->createElement(
+                'advcheckbox',
+                $elementname,
+                '',
+                $label,
+                [],
+                [0, 1]
+            );
+            $mform->setType($elementname, PARAM_BOOL);
+        }
+        if ($csvfieldcheckboxes) {
+            $mform->addGroup(
+                $csvfieldcheckboxes,
+                'csvexportfieldsgroup',
+                get_string('setting:csvexportfields', 'mod_videotrack'),
+                ' ',
+                false
+            );
+        }
+
         // Reactions section.
         $mform->addElement('header', 'reactionsheader', get_string('reactionsheader', 'mod_videotrack'));
         $mform->addElement('advcheckbox', 'reactionsenabled', get_string('reactionsenabled', 'mod_videotrack'));
@@ -995,7 +1045,7 @@ JS);
      * @param array $defaultvalues Default values passed by reference.
      */
     public function data_preprocessing(&$defaultvalues) {
-        global $DB;
+        global $COURSE, $DB;
         // Load existing reactions for the edit form.
         // Moodle calls data_preprocessing() before displaying the form: this is the correct place.
         // (set_data() is the public base form method and must not be overridden for this logic).
@@ -1098,6 +1148,24 @@ JS);
         ];
         foreach ($html5controls as $ctrl) {
             $defaultvalues["html5ctrl_{$ctrl}"] = in_array($ctrl, $activecontrols) ? $ctrl : 0;
+        }
+
+        // Pre-populate optional CSV export field checkboxes.
+        $csvraw = trim((string)($defaultvalues['csvexportfields'] ?? ''));
+        if ($csvraw === 'none') {
+            $activecsvfields = [];
+        } else if ($csvraw === '') {
+            $activecsvfields = \mod_videotrack\local\csv_export::site_default_fields();
+        } else {
+            $activecsvfields = array_values(array_filter(array_map('trim', explode(',', $csvraw))));
+        }
+        $csvcontext = $this->context ?: context_course::instance($COURSE->id);
+        foreach (\mod_videotrack\local\csv_export::field_options($csvcontext) as $field => $label) {
+            $elementname = \mod_videotrack\local\csv_export::form_element_name($field);
+            $defaultvalues[$elementname] = in_array($field, $activecsvfields, true) ? 1 : 0;
+        }
+        if (empty($defaultvalues['csvdelimiter'])) {
+            $defaultvalues['csvdelimiter'] = \mod_videotrack\local\csv_export::DELIMITER_INHERIT;
         }
 
         // Pre-populate player behaviour boolean fields.

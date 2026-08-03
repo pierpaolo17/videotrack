@@ -83,6 +83,17 @@ final class locallib_test extends advanced_testcase {
     }
 
     /**
+     * Video timestamps use the total duration to keep one stable display format.
+     *
+     * @covers ::videotrack_format_video_timestamp
+     */
+    public function test_format_video_timestamp_uses_total_duration(): void {
+        $this->assertSame('01:01', \videotrack_format_video_timestamp(61, 3599));
+        $this->assertSame('00:01:01', \videotrack_format_video_timestamp(61, 3600));
+        $this->assertSame('01:00:01', \videotrack_format_video_timestamp(3601, 7200));
+    }
+
+    /**
      * Bounded integer settings preserve explicit zero and clamp out-of-range values.
      *
      * @covers ::videotrack_get_config_int

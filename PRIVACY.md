@@ -67,3 +67,7 @@ If the retention period is configured as 0 days, VideoTrack keeps tracking data 
 ## VideoTrack retention default
 
 The default retention period is 730 days for tracking data, notes and reactions. Administrators may set `retentionperioddays` to any non-negative integer; `0` means unlimited retention and the settings page displays a GDPR/privacy warning when it is active.
+
+## Configurable CSV exports
+
+VideoTrack CSV exports can include configured course, activity and user identity fields. Site administrators define defaults and teachers may override them per activity. Only identity fields and custom profile fields visible to the exporting user in the activity context are offered and loaded. Exports containing individual reactions or personal notes require an explicit confirmation and are recorded as Moodle events. Video timestamps are exported as `MM:SS` or `HH:MM:SS`; the separator can be configured as comma or semicolon.

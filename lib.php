@@ -104,6 +104,10 @@ function videotrack_add_instance($data, $mform = null) {
     videotrack_process_player_behavior_fields($data);
     videotrack_process_html5controls_field($data);
     videotrack_process_captions_fields($data);
+    \mod_videotrack\local\csv_export::process_form_fields(
+        $data,
+        context_course::instance((int)$data->course)
+    );
 
     if (!empty($data->reactionnotice_editor) && is_array($data->reactionnotice_editor)) {
         $data->reactionnotice       = $data->reactionnotice_editor['text'] ?? '';
@@ -143,6 +147,10 @@ function videotrack_update_instance($data, $mform = null) {
     videotrack_process_player_behavior_fields($data);
     videotrack_process_html5controls_field($data);
     videotrack_process_captions_fields($data);
+    $csvcontext = !empty($data->coursemodule)
+        ? context_module::instance((int)$data->coursemodule)
+        : context_course::instance((int)$data->course);
+    \mod_videotrack\local\csv_export::process_form_fields($data, $csvcontext);
 
     if (!empty($data->reactionnotice_editor) && is_array($data->reactionnotice_editor)) {
         $data->reactionnotice       = $data->reactionnotice_editor['text'] ?? '';
@@ -1512,25 +1520,47 @@ function videotrack_pluginfile($course, $cm, $context, $filearea, $args, $forced
  */
 function videotrack_recalculate_all_states(int $videotrackid, cm_info $cm): int {
     global $DB;
+
     $videotrack = $DB->get_record('videotrack', ['id' => $videotrackid], '*', MUST_EXIST);
-    $course     = get_course($videotrack->course);
-    $completion = new completion_info($course);
-    $updated    = 0;
-    // O2: use get_recordset instead of get_records to avoid loading all state rows into.
-    // Memory at once. On courses with hundreds of students get_records() would allocate.
-    // A large array; get_recordset() streams one row at a time.
-    $rs = $DB->get_recordset('videotrack_state', ['videotrackid' => $videotrackid], '', 'userid');
-    foreach ($rs as $staterow) {
-        $state = tracker::refresh_completion($videotrack, $cm, (int)$staterow->userid);
-        // Also update Moodle completion (the course tick).
-        // Refresh_completion updates videotrack_state but not course_modules_completion.
-        $completion->update_state(
-            $cm,
-            $state->iscompleted ? COMPLETION_COMPLETE : COMPLETION_INCOMPLETE,
-            (int)$staterow->userid
-        );
+    $completion = new completion_info(get_course($videotrack->course));
+    $hasrequiredreactions = $DB->record_exists('videotrack_react', [
+        'videotrackid' => $videotrackid,
+        'requiredforcompletion' => 1,
+        'isdeleted' => 0,
+    ]);
+    $hascustomcompletion = !empty($videotrack->completionpercent)
+        || (!empty($videotrack->reactionsrequired) && !empty($videotrack->minreactions))
+        || !empty($videotrack->requireallreactiontypes)
+        || $hasrequiredreactions;
+    $userids = [];
+    foreach (['videotrack_state', 'videotrack_seg', 'videotrack_reactev'] as $table) {
+        foreach ($DB->get_fieldset_select(
+            $table,
+            'DISTINCT userid',
+            'videotrackid = :vtid',
+            ['vtid' => $videotrackid]
+        ) as $userid) {
+            if ((int)$userid > 0) {
+                $userids[(int)$userid] = true;
+            }
+        }
+    }
+
+    $updated = 0;
+    foreach (array_keys($userids) as $userid) {
+        $state = tracker::rebuild_state_from_segments($videotrack, $cm, $userid);
+        if ($state === null) {
+            continue;
+        }
+        if ($hascustomcompletion) {
+            tracker::update_moodle_completion_if_changed(
+                $completion,
+                $cm,
+                !empty($state->iscompleted),
+                $userid
+            );
+        }
         $updated++;
     }
-    $rs->close();
     return $updated;
 }

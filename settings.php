@@ -479,6 +479,29 @@ if ($ADMIN->fulltree) {
         [10 => 10, 15 => 15, 20 => 20, 30 => 30, 60 => 60]
     ));
 
+    // CSV export defaults.
+    $settings->add(new admin_setting_heading(
+        'mod_videotrack/heading_csvexport',
+        get_string('setting:heading_csvexport', 'mod_videotrack'),
+        get_string('setting:heading_csvexport_desc', 'mod_videotrack')
+    ));
+
+    $settings->add(new admin_setting_configselect(
+        'mod_videotrack/csvdelimiter',
+        get_string('setting:csvdelimiter', 'mod_videotrack'),
+        get_string('setting:csvdelimiter_desc', 'mod_videotrack'),
+        \mod_videotrack\local\csv_export::DELIMITER_COMMA,
+        \mod_videotrack\local\csv_export::delimiter_options()
+    ));
+
+    $settings->add(new admin_setting_configmulticheckbox(
+        'mod_videotrack/csvexportfields',
+        get_string('setting:csvexportfields', 'mod_videotrack'),
+        get_string('setting:csvexportfields_desc', 'mod_videotrack'),
+        ['coursefullname' => 1, 'instancename' => 1, 'username' => 1, 'email' => 1],
+        \mod_videotrack\local\csv_export::field_options(null)
+    ));
+
     // Reaction presets.
 
     $settings->add(new admin_setting_heading(

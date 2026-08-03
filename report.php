@@ -85,7 +85,7 @@ $sort = optional_param('sort', 'time', PARAM_ALPHA);
 $mode = optional_param('mode', 'student', PARAM_ALPHA);
 $aggregation = optional_param('aggregation', 'type', PARAM_ALPHA);
 $window = optional_param('window', 0, PARAM_INT);
-$export = optional_param('export', '', PARAM_ALPHA);
+$export = optional_param('export', '', PARAM_ALPHANUMEXT);
 $action = optional_param('action', '', PARAM_ALPHA);
 $resetaction = optional_param('resetaction', '', PARAM_ALPHA);
 $useridfilter = optional_param('userid', 0, PARAM_INT);
@@ -370,6 +370,90 @@ $clusterize = function (
     return $clusters;
 };
 
+$csvdelimiter = \mod_videotrack\local\csv_export::delimiter($videotrack);
+$csvfields = \mod_videotrack\local\csv_export::activity_fields($videotrack, $context);
+$csvusermap = \mod_videotrack\local\csv_export::load_users($alluserids, $csvfields);
+$videoduration = (float)$videotrack->durationseconds;
+
+if ($export === 'events_csv') {
+    if ($_SERVER['REQUEST_METHOD'] !== 'POST') {
+        throw new moodle_exception('invalidrequest', 'error');
+    }
+    require_sesskey();
+    require_capability('mod/videotrack:viewreport', $context);
+    if (!optional_param('confirmeventsexport', 0, PARAM_BOOL)) {
+        throw new moodle_exception('report:exportallevents_confirmrequired', 'mod_videotrack');
+    }
+
+    $alleventuserids = array_map('intval', $DB->get_fieldset_select(
+        'videotrack_reactev',
+        'DISTINCT userid',
+        'videotrackid = :vtid AND isdeleted = 0',
+        ['vtid' => $videotrack->id]
+    ));
+    $alleventusermap = \mod_videotrack\local\csv_export::load_users($alleventuserids, $csvfields);
+    $event = \mod_videotrack\event\report_exported::create([
+        'objectid' => (int)$videotrack->id,
+        'context' => $context,
+        'userid' => (int)$USER->id,
+        'other' => [
+            'exporttype' => 'events_csv',
+            'fieldcount' => count($csvfields),
+        ],
+    ]);
+    $event->trigger();
+
+    $filename = 'videotrack_events_' . $cm->id . '_' . gmdate('Ymd_His') . '.csv';
+    header('Content-Type: text/csv; charset=utf-8');
+    header('X-Content-Type-Options: nosniff');
+    header('Cache-Control: no-store, no-cache, must-revalidate, max-age=0');
+    header('Pragma: no-cache');
+    header('Content-Disposition: attachment; filename="' . $filename . '"');
+    $fh = fopen('php://output', 'w');
+    $headers = array_merge(
+        \mod_videotrack\local\csv_export::identity_headers($csvfields),
+        [
+            get_string('report:csvcol_eventtype', 'mod_videotrack'),
+            get_string('report:reaction', 'mod_videotrack'),
+            get_string('report:csvcol_comment', 'mod_videotrack'),
+            get_string('report:timestamp', 'mod_videotrack'),
+            get_string('report:csvcol_created', 'mod_videotrack'),
+        ]
+    );
+    \mod_videotrack\local\csv_export::write_row($fh, $headers, $csvdelimiter);
+
+    $rs = $DB->get_recordset_select(
+        'videotrack_reactev',
+        'videotrackid = :vtid AND isdeleted = 0',
+        ['vtid' => $videotrack->id],
+        'userid ASC, videotime ASC, timecreated ASC',
+        'userid, reactionlabel, notetext, notetype, videotime, timecreated'
+    );
+    foreach ($rs as $record) {
+        $userid = (int)$record->userid;
+        $user = $alleventusermap[$userid] ?? null;
+        $row = \mod_videotrack\local\csv_export::identity_values(
+            $csvfields,
+            $course,
+            $videotrack,
+            $user,
+            videotrack_report_user_label($userid, $alleventusermap, false)
+        );
+        $isnote = $record->notetype === 'note';
+        $row = array_merge($row, [
+            get_string($isnote ? 'report:eventtype_note' : 'report:eventtype_reaction', 'mod_videotrack'),
+            $isnote ? '' : format_string($record->reactionlabel, true, ['context' => $context]),
+            $isnote ? (string)$record->notetext : '',
+            videotrack_format_video_timestamp((float)$record->videotime, $videoduration),
+            userdate((int)$record->timecreated),
+        ]);
+        \mod_videotrack\local\csv_export::write_row($fh, $row, $csvdelimiter);
+    }
+    $rs->close();
+    fclose($fh);
+    exit;
+}
+
 if ($export === 'notes_csv' && !empty($videotrack->studentnotesenabled)) {
     if ($_SERVER['REQUEST_METHOD'] !== 'POST') {
         throw new moodle_exception('invalidrequest', 'error');
@@ -380,9 +464,6 @@ if ($export === 'notes_csv' && !empty($videotrack->studentnotesenabled)) {
     if (!$confirmnotesexport) {
         throw new moodle_exception('report:exportnotes_confirmrequired', 'mod_videotrack');
     }
-    // Validate useridfilter against course enrolment to prevent a teacher
-    // from exporting notes of a user not enrolled in this course by manipulating
-    // the GET parameter. is_enrolled() is already used for reset and grade actions.
     if ($useridfilter > 0 && !is_enrolled($context, $useridfilter, '', true)) {
         throw new moodle_exception('invaliduser', 'error');
     }
@@ -394,7 +475,7 @@ if ($export === 'notes_csv' && !empty($videotrack->studentnotesenabled)) {
             'useridfilter' => (int)$useridfilter,
             'createdfrom' => (int)$notecreatedfromts,
             'createdto' => (int)$notecreatedtots,
-            'emailincluded' => (bool)$canviewemail,
+            'emailincluded' => in_array('email', $csvfields, true),
         ],
     ]);
     $event->trigger();
@@ -405,13 +486,15 @@ if ($export === 'notes_csv' && !empty($videotrack->studentnotesenabled)) {
     header('Pragma: no-cache');
     header('Content-Disposition: attachment; filename="' . $filename . '"');
     $fh = fopen('php://output', 'w');
-    $headers = ['user'];
-    if ($canviewemail) {
-        $headers[] = 'email';
-    }
-    $headers = array_merge($headers, ['video_timestamp', 'note', 'created']);
-    fputcsv($fh, videotrack_csv_safe_row($headers));
-    // Respect the report userid filter (GDPR: export only users the viewer is authorised to see).
+    $headers = array_merge(
+        \mod_videotrack\local\csv_export::identity_headers($csvfields),
+        [
+            get_string('report:timestamp', 'mod_videotrack'),
+            get_string('report:csvcol_comment', 'mod_videotrack'),
+            get_string('report:csvcol_created', 'mod_videotrack'),
+        ]
+    );
+    \mod_videotrack\local\csv_export::write_row($fh, $headers, $csvdelimiter);
     $notecsvwhere = "videotrackid = :vtid AND isdeleted = 0 AND notetype = 'note'";
     $notecsvparams = ['vtid' => $videotrack->id];
     if ($useridfilter > 0) {
@@ -434,19 +517,21 @@ if ($export === 'notes_csv' && !empty($videotrack->studentnotesenabled)) {
         'userid, videotime, notetext, timecreated'
     );
     foreach ($rs as $note) {
-        $nu = $usermap[(int)$note->userid] ?? null;
-        // The email address is exported in a dedicated column when permitted; keep
-        // the display label email-free to avoid duplicating personal data.
-        $row = [videotrack_report_user_label((int)$note->userid, $usermap, false)];
-        if ($canviewemail) {
-            $row[] = $nu ? $nu->email : '';
-        }
+        $userid = (int)$note->userid;
+        $user = $csvusermap[$userid] ?? null;
+        $row = \mod_videotrack\local\csv_export::identity_values(
+            $csvfields,
+            $course,
+            $videotrack,
+            $user,
+            videotrack_report_user_label($userid, $csvusermap, false)
+        );
         $row = array_merge($row, [
-            round((float)$note->videotime, 3),
+            videotrack_format_video_timestamp((float)$note->videotime, $videoduration),
             $note->notetext,
             userdate((int)$note->timecreated),
         ]);
-        fputcsv($fh, videotrack_csv_safe_row($row));
+        \mod_videotrack\local\csv_export::write_row($fh, $row, $csvdelimiter);
     }
     $rs->close();
     fclose($fh);
@@ -470,86 +555,89 @@ if ($export === 'csv') {
         $clusters = $clusterize($eventrs, $window, $aggregation);
         $eventrs->close();
         if ($clusterlimitreached) {
-            // Put the warning before the data header so spreadsheet users see it immediately.
-            $warningrow = ['warning', get_string('report:clusterlimitreached_csv', 'mod_videotrack')];
-            fputcsv($fh, videotrack_csv_safe_row($warningrow));
+            $warninglabel = get_string('report:csvcol_warning', 'mod_videotrack');
+            \mod_videotrack\local\csv_export::write_row(
+                $fh,
+                [$warninglabel, get_string('report:clusterlimitreached_csv', 'mod_videotrack')],
+                $csvdelimiter
+            );
             if (!$hasvideotimefilter) {
-                $warningrow = ['warning', get_string('report:clusterlimitrequiresfilters_csv', 'mod_videotrack')];
-                fputcsv($fh, videotrack_csv_safe_row($warningrow));
-                $warningrow = ['warning', get_string('report:clusterexportblocked_csv', 'mod_videotrack')];
-                fputcsv($fh, videotrack_csv_safe_row($warningrow));
+                \mod_videotrack\local\csv_export::write_row(
+                    $fh,
+                    [$warninglabel, get_string('report:clusterlimitrequiresfilters_csv', 'mod_videotrack')],
+                    $csvdelimiter
+                );
+                \mod_videotrack\local\csv_export::write_row(
+                    $fh,
+                    [$warninglabel, get_string('report:clusterexportblocked_csv', 'mod_videotrack')],
+                    $csvdelimiter
+                );
                 fclose($fh);
                 exit;
             }
-            fputcsv($fh, []);
+            \mod_videotrack\local\csv_export::write_row($fh, [], $csvdelimiter);
         }
-        fputcsv($fh, videotrack_csv_safe_row(['timestamp', 'reaction', 'clicks', 'students', 'first_timestamp', 'last_timestamp']));
+        \mod_videotrack\local\csv_export::write_row($fh, [
+            get_string('report:timestamp', 'mod_videotrack'),
+            get_string('report:reaction', 'mod_videotrack'),
+            get_string('report:clicks', 'mod_videotrack'),
+            get_string('report:students', 'mod_videotrack'),
+            get_string('report:csvcol_firsttimestamp', 'mod_videotrack'),
+            get_string('report:csvcol_lasttimestamp', 'mod_videotrack'),
+        ], $csvdelimiter);
         foreach ($clusters as $cluster) {
-            fputcsv($fh, videotrack_csv_safe_row([
-                round($cluster['timestamp'], 3),
+            \mod_videotrack\local\csv_export::write_row($fh, [
+                videotrack_format_video_timestamp((float)$cluster['timestamp'], $videoduration),
                 $cluster['reactionlabel'],
                 $cluster['count'],
                 $cluster['students'],
-                round($cluster['first'], 3),
-                round($cluster['last'], 3),
-            ]));
+                videotrack_format_video_timestamp((float)$cluster['first'], $videoduration),
+                videotrack_format_video_timestamp((float)$cluster['last'], $videoduration),
+            ], $csvdelimiter);
         }
     } else {
-        // Use a recordset to iterate row by row without loading the full state table into memory.
-        $csvheads = ['user', 'unique_seconds', 'completion_percent', 'last_position', 'completed'];
+        $csvheads = array_merge(
+            \mod_videotrack\local\csv_export::identity_headers($csvfields),
+            [
+                get_string('report:csvcol_uniquecoveredtime', 'mod_videotrack'),
+                get_string('report:completionpercent', 'mod_videotrack'),
+                get_string('report:lastposition', 'mod_videotrack'),
+                get_string('report:iscompleted', 'mod_videotrack'),
+            ]
+        );
         if ($hasgrade && $cangrade) {
-            $csvheads[] = 'grade';
+            $csvheads[] = get_string('report:grade', 'mod_videotrack');
         }
-        fputcsv($fh, videotrack_csv_safe_row($csvheads));
+        \mod_videotrack\local\csv_export::write_row($fh, $csvheads, $csvdelimiter);
         $rs = $DB->get_recordset('videotrack_state', $stateparams, 'completionpercent DESC');
         foreach ($rs as $state) {
-            $user = $usermap[(int)$state->userid] ?? null;
+            $userid = (int)$state->userid;
+            $user = $csvusermap[$userid] ?? null;
             if (!$user) {
                 continue;
             }
-            $row = [
-                videotrack_report_user_label((int)$state->userid, $usermap, false),
-                $state->uniquecoveredseconds,
-                $state->completionpercent,
-                $state->lastposition,
-                $state->iscompleted,
-            ];
+            $row = \mod_videotrack\local\csv_export::identity_values(
+                $csvfields,
+                $course,
+                $videotrack,
+                $user,
+                videotrack_report_user_label($userid, $csvusermap, false)
+            );
+            $row = array_merge($row, [
+                videotrack_format_video_timestamp((float)$state->uniquecoveredseconds, $videoduration),
+                format_float((float)$state->completionpercent, 2),
+                videotrack_format_video_timestamp((float)$state->lastposition, $videoduration),
+                get_string($state->iscompleted ? 'yes' : 'no', 'mod_videotrack'),
+            ]);
             if ($hasgrade && $cangrade) {
-                $row[] = $gradeinfo->items[0]->grades[(int)$state->userid]->grade ?? '';
+                $row[] = $gradeinfo->items[0]->grades[$userid]->grade ?? '';
             }
-            fputcsv($fh, videotrack_csv_safe_row($row));
+            \mod_videotrack\local\csv_export::write_row($fh, $row, $csvdelimiter);
         }
         $rs->close();
     }
     fclose($fh);
     exit;
-}
-
-
-/**
- * Escapes values for CSV exports to reduce spreadsheet formula injection risk.
- *
- * @param mixed $value Value to export.
- * @return mixed Sanitised scalar value.
- */
-function videotrack_csv_safe($value) {
-    if (!is_string($value)) {
-        return $value;
-    }
-    if ($value !== '' && preg_match('/^[=+\-@\t\r\n]/', ltrim($value))) {
-        return "'" . $value;
-    }
-    return $value;
-}
-
-/**
- * Escapes all values in a CSV row.
- *
- * @param array $row CSV row.
- * @return array Sanitised CSV row.
- */
-function videotrack_csv_safe_row(array $row): array {
-    return array_map('videotrack_csv_safe', $row);
 }
 
 // Recalculate completionpercent and iscompleted for all users.
@@ -711,6 +799,50 @@ $exportform .= html_writer::tag('button', get_string('report:exportcsv', 'mod_vi
 ]);
 $exportform .= html_writer::end_tag('form');
 
+$eventsexportform = '';
+if ($canviewfullreport) {
+    $eventsexportform = html_writer::start_tag('form', [
+        'method' => 'post',
+        'action' => (new moodle_url('/mod/videotrack/report.php'))->out(false),
+        'class' => 'd-inline videotrack-events-export-form',
+    ]);
+    $eventsexportform .= html_writer::empty_tag('input', [
+        'type' => 'hidden',
+        'name' => 'id',
+        'value' => $cm->id,
+    ]);
+    $eventsexportform .= html_writer::empty_tag('input', [
+        'type' => 'hidden',
+        'name' => 'sesskey',
+        'value' => sesskey(),
+    ]);
+    $eventsexportform .= html_writer::empty_tag('input', [
+        'type' => 'hidden',
+        'name' => 'export',
+        'value' => 'events_csv',
+    ]);
+    $eventsexportform .= html_writer::empty_tag('input', [
+        'type' => 'checkbox',
+        'name' => 'confirmeventsexport',
+        'value' => 1,
+        'required' => 'required',
+        'id' => 'id_confirmeventsexport',
+        'class' => 'ml-1 mr-1',
+    ]);
+    $eventsexportform .= html_writer::label(
+        get_string('report:exportallevents_confirm', 'mod_videotrack'),
+        'id_confirmeventsexport',
+        false,
+        ['class' => 'small ml-1 mr-1']
+    );
+    $eventsexportform .= html_writer::tag('button', get_string('report:exportallevents_csv', 'mod_videotrack'), [
+        'type' => 'submit',
+        'class' => 'btn btn-link p-0 align-baseline',
+        'title' => get_string('report:exportallevents_privacywarning', 'mod_videotrack'),
+    ]);
+    $eventsexportform .= html_writer::end_tag('form');
+}
+
 $studentreportlink = html_writer::link(
     new moodle_url('/mod/videotrack/report.php', array_merge($baseparams, ['mode' => 'student'])),
     get_string('report:perstudent', 'mod_videotrack')
@@ -719,10 +851,12 @@ $cumulativereportlink = html_writer::link(
     new moodle_url('/mod/videotrack/report.php', array_merge($baseparams, ['mode' => 'cumulative'])),
     get_string('report:cumulative', 'mod_videotrack')
 );
-echo html_writer::div(
-    $studentreportlink . ' | ' . $cumulativereportlink . ' | ' . $exportform . ' | ' . $recalculateform,
-    'mb-3'
-);
+$reportnavigation = [$studentreportlink, $cumulativereportlink, $exportform];
+if ($eventsexportform !== '') {
+    $reportnavigation[] = $eventsexportform;
+}
+$reportnavigation[] = $recalculateform;
+echo html_writer::div(implode(' | ', $reportnavigation), 'mb-3');
 
 $filterurl = new moodle_url('/mod/videotrack/report.php');
 echo html_writer::start_div('videotrack-report-filters mb-3');
