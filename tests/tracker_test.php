@@ -103,6 +103,44 @@ final class tracker_test extends advanced_testcase {
     }
 
     /**
+     * Raw segment aggregation rebuilds coverage and the latest resume position.
+     */
+    public function test_aggregate_segments_rebuilds_state_values(): void {
+        $segments = [
+            (object)[
+                'id' => 1,
+                'videotimestart' => 0,
+                'videotimeend' => 10,
+                'timecreated' => 100,
+            ],
+            (object)[
+                'id' => 2,
+                'videotimestart' => 8,
+                'videotimeend' => 20,
+                'timecreated' => 110,
+            ],
+            (object)[
+                'id' => 3,
+                'videotimestart' => 90,
+                'videotimeend' => 120,
+                'timecreated' => 120,
+            ],
+            (object)[
+                'id' => 4,
+                'videotimestart' => 80,
+                'videotimeend' => 70,
+                'timecreated' => 130,
+            ],
+        ];
+
+        $aggregate = tracker::aggregate_segments($segments, 100.0);
+
+        $this->assertSame([[0.0, 20.0], [90.0, 100.0]], $aggregate['intervals']);
+        $this->assertSame(30.0, $aggregate['coveredseconds']);
+        $this->assertSame(100.0, $aggregate['lastposition']);
+    }
+
+    /**
      * The interval cap limits pathological data while preserving timeline order.
      */
     public function test_cap_intervals_limits_count_and_preserves_order(): void {

@@ -142,6 +142,7 @@
 | classes/event/note_deleted.php | Moodle event class for logging/audit. |
 | classes/event/note_saved.php | Moodle event class for logging/audit. |
 | classes/event/notes_exported.php | Moodle event class for logging/audit. |
+| classes/event/report_exported.php | Moodle event class for logging/audit of report exports. |
 | classes/event/reaction_deleted.php | Moodle event class for logging/audit. |
 | classes/event/reaction_saved.php | Moodle event class for logging/audit. |
 | classes/event/segment_saved.php | Moodle event class for logging/audit. |
@@ -153,6 +154,7 @@
 | classes/external/save_reaction.php | Moodle external AJAX service endpoint. |
 | classes/external/save_segment.php | Moodle external AJAX service endpoint. |
 | classes/local/privacy_manager.php | Server-side privacy, retention and anonymisation logic. |
+| classes/local/csv_export.php | CSV delimiter, configured columns, profile-field loading and safe row output. |
 | classes/local/tracker.php | Server-side tracking, interval merge, state, completion and reaction aggregation domain service. |
 | classes/privacy/provider.php | Moodle Privacy API provider. |
 | classes/task/cleanup_task.php | Scheduled task implementation. |
@@ -211,5 +213,6 @@
 | tests/lib_test.php | PHPUnit test coverage for plugin logic. |
 | tests/locallib_test.php | PHPUnit test coverage for plugin logic. |
 | tests/tracker_test.php | PHPUnit test coverage for plugin logic. |
+| tests/csv_export_test.php | PHPUnit coverage for CSV delimiter, fields and formula-injection protection. |
 | version.php | Plugin manifest, Moodle requirements and release version. |
 | view.php | Student view entry point and player bootstrap data. |

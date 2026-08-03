@@ -673,6 +673,134 @@ class tracker {
     }
 
     /**
+     * Aggregates persisted raw segments without trusting an existing state snapshot.
+     *
+     * @param iterable $segments Segment records containing videotimestart and videotimeend.
+     * @param float $duration Video duration used to clamp segment bounds.
+     * @return array Aggregate values: intervals, coveredseconds and lastposition.
+     */
+    public static function aggregate_segments(iterable $segments, float $duration): array {
+        $intervals = [];
+        $lastposition = 0.0;
+        $latesttime = -1;
+        $latestid = -1;
+        foreach ($segments as $segment) {
+            $normalised = self::normalise_interval(
+                (float)$segment->videotimestart,
+                (float)$segment->videotimeend,
+                $duration
+            );
+            if ($normalised === null) {
+                continue;
+            }
+            $intervals[] = $normalised;
+            $timecreated = (int)($segment->timecreated ?? 0);
+            $segmentid = (int)($segment->id ?? 0);
+            if ($timecreated > $latesttime || ($timecreated === $latesttime && $segmentid > $latestid)) {
+                $latesttime = $timecreated;
+                $latestid = $segmentid;
+                $lastposition = $normalised[1];
+            }
+        }
+        $intervals = self::cap_intervals(self::merge_intervals($intervals));
+        return [
+            'intervals' => $intervals,
+            'coveredseconds' => self::covered_seconds($intervals),
+            'lastposition' => round($lastposition, 3),
+        ];
+    }
+
+    /**
+     * Rebuilds one user's aggregate state from raw segment rows and reaction events.
+     *
+     * @param \stdClass $videotrack Activity instance.
+     * @param \cm_info $cm Course module info.
+     * @param int $userid User id.
+     * @return \stdClass|null Rebuilt state, or null when the state lock is busy.
+     */
+    public static function rebuild_state_from_segments(
+        \stdClass $videotrack,
+        \cm_info $cm,
+        int $userid
+    ): ?\stdClass {
+        global $DB;
+
+        $lockfactory = \core\lock\lock_config::get_lock_factory('mod_videotrack');
+        $lock = $lockfactory->get_lock('state:' . $videotrack->id . ':' . $userid, 10);
+        if (!$lock) {
+            return null;
+        }
+
+        $transaction = $DB->start_delegated_transaction();
+        try {
+            $state = $DB->get_record('videotrack_state', [
+                'videotrackid' => $videotrack->id,
+                'userid' => $userid,
+            ]);
+            if (!$state) {
+                $state = self::create_default_state($videotrack, $cm, $userid);
+            }
+
+            $maxsegmentend = (float)$DB->get_field_sql(
+                'SELECT COALESCE(MAX(videotimeend), 0)
+                   FROM {videotrack_seg}
+                  WHERE videotrackid = :vtid AND userid = :userid',
+                ['vtid' => $videotrack->id, 'userid' => $userid]
+            );
+            $configuredduration = max(0.0, (float)($videotrack->durationseconds ?? 0));
+            $duration = $configuredduration > 0
+                ? $configuredduration
+                : max(0.0, (float)($state->durationseconds ?? 0), $maxsegmentend);
+            $segments = $DB->get_recordset('videotrack_seg', [
+                'videotrackid' => $videotrack->id,
+                'userid' => $userid,
+            ], 'timecreated ASC, id ASC', 'id, videotimestart, videotimeend, timecreated');
+            $aggregate = self::aggregate_segments($segments, $duration);
+            $segments->close();
+
+            $state->courseid = $videotrack->course;
+            $state->cmid = $cm->id;
+            $state->videoid = $videotrack->videoid;
+            $state->lastposition = $aggregate['lastposition'];
+            $state->durationseconds = $duration;
+            $state->uniquecoveredseconds = $aggregate['coveredseconds'];
+            $state->completionpercent = $duration > 0
+                ? min(100.0, round(($aggregate['coveredseconds'] / $duration) * 100, 2))
+                : 0.0;
+            $state->intervaljson = self::encode_intervals($aggregate['intervals']);
+
+            $requiredreactionids = array_keys(array_filter((array)$DB->get_records_menu('videotrack_react', [
+                'videotrackid' => $videotrack->id,
+                'requiredforcompletion' => 1,
+                'isdeleted' => 0,
+            ], '', 'id,id')));
+            $state->iscompleted = self::completion_satisfied(
+                $videotrack,
+                $state,
+                self::reaction_counts($videotrack->id, $userid),
+                $requiredreactionids
+            ) ? 1 : 0;
+            $state->timemodified = time();
+
+            if (!empty($state->id)) {
+                $DB->update_record('videotrack_state', $state);
+            } else {
+                $state->id = $DB->insert_record('videotrack_state', $state);
+            }
+            $transaction->allow_commit();
+            $lock->release();
+            $lock = null;
+            return $state;
+        } catch (\Throwable $e) {
+            if ($lock) {
+                $lock->release();
+            }
+            $transaction->rollback($e);
+            throw $e;
+        }
+    }
+
+    /**
      * Recomputes and persists completion state for one user/activity pair.
      *
      * @param \stdClass $videotrack Activity instance.

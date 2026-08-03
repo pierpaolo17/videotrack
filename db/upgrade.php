@@ -1365,5 +1365,40 @@ function xmldb_videotrack_upgrade($oldversion) {
         upgrade_mod_savepoint(true, 2026060401, 'videotrack');
     }
 
+    if ($oldversion < 2026060407) {
+        // Release 1.4.264: configurable CSV separator and optional export identity fields.
+        $table = new xmldb_table('videotrack');
+
+        $delimiterfield = new xmldb_field(
+            'csvdelimiter',
+            XMLDB_TYPE_CHAR,
+            '20',
+            null,
+            XMLDB_NOTNULL,
+            null,
+            'inherit',
+            'studentnotesenabled'
+        );
+        if (!$dbman->field_exists($table, $delimiterfield)) {
+            $dbman->add_field($table, $delimiterfield);
+        }
+
+        $fieldsfield = new xmldb_field(
+            'csvexportfields',
+            XMLDB_TYPE_TEXT,
+            null,
+            null,
+            null,
+            null,
+            null,
+            'csvdelimiter'
+        );
+        if (!$dbman->field_exists($table, $fieldsfield)) {
+            $dbman->add_field($table, $fieldsfield);
+        }
+
+        upgrade_mod_savepoint(true, 2026060407, 'videotrack');
+    }
+
     return true;
 }

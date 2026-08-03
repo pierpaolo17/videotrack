@@ -37,3 +37,11 @@ Replay is shared as a UI event, but seek behaviour is specific to HTML5, YouTube
 ## Vimeo
 
 The Vimeo SDK uses asynchronous promises for `setCurrentTime()`, `play()` and `pause()`. Do not chain aggressive `play()` calls after a seek: this can produce `PlayInterrupted`. Every Vimeo change must be manually tested on rewind, forward within viewed range, forward beyond limit and replay.
+
+## CSV export flow (1.4.264)
+
+The site default defines the CSV separator and optional course/activity/user fields. Each activity may inherit or override these choices. At runtime, `classes/local/csv_export.php` filters the configured user fields through Moodle's identity-field visibility rules, loads standard and visible custom profile fields with `core_user\fields`, applies spreadsheet-formula protection, and writes localised headers. The all-events export includes active reactions and personal notes for every user after an explicit personal-data confirmation.
+
+## Completion recalculation (1.4.264)
+
+The recalculation action rebuilds each aggregate state from raw `videotrack_seg` rows, rather than only reevaluating the completion boolean. It merges watched intervals, recalculates unique covered seconds and percentage, restores the latest raw-segment position, reevaluates reaction requirements, and synchronises Moodle completion only when custom VideoTrack completion rules are configured and the completion state changes. View-only completion remains managed by Moodle core.

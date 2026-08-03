@@ -546,7 +546,6 @@ define([
         }
 
         container.appendChild(media);
-        ensureElapsedBadge();
 
         // If autoplay is active, attempt playback only after the media element
         // has been configured and attached to the DOM so muted/playsinline are
@@ -588,49 +587,38 @@ define([
 
 
     /**
-     * Ensures a separate, always visible elapsed-time badge exists for HTML5 media.
-     * This avoids relying on browser-native controls, which may display remaining
-     * time instead of elapsed time depending on browser/theme.
+     * Formats elapsed media time using MM:SS or HH:MM:SS for long media.
      *
-     * @return {HTMLElement|null} The elapsed time badge.
+     * @param {number} seconds Elapsed media time.
+     * @return {string} Formatted elapsed time.
      */
-    function ensureElapsedBadge() {
-        var wrapper = media ? (media.closest('.videotrack-player-wrap') || media.parentElement) : null;
-        if (!wrapper) {
-            return null;
+    function formatElapsedTime(seconds) {
+        var value = Math.max(0, Math.round(safeNumber(seconds, 0)));
+        if (Math.max(value, safeNumber(state.duration, 0)) < 3600) {
+            return Utils.formatSeconds(value);
         }
-        var badge = wrapper.querySelector('.videotrack-html5-elapsed-badge');
-        if (!badge) {
-            badge = document.createElement('div');
-            badge.className = 'videotrack-html5-elapsed-badge';
-            badge.setAttribute('aria-live', 'off');
-            badge.textContent = (config.html5elapsedlabel || '') + ': ' +
-                Utils.formatSeconds(safeNumber(media.currentTime, 0));
-            wrapper.appendChild(badge);
-        }
-        return badge;
+        var hours = Math.floor(value / 3600);
+        var minutes = Math.floor((value % 3600) / 60);
+        var secs = value % 60;
+        return String(hours).padStart(2, '0') + ':'
+            + String(minutes).padStart(2, '0') + ':'
+            + String(secs).padStart(2, '0');
     }
 
     /**
-     * Updates all elapsed-time indicators managed by the HTML5 player.
+     * Updates the elapsed-time value in the custom control bar.
      */
     function updateElapsedDisplays() {
-        var elapsed = Utils.formatSeconds(safeNumber(media && media.currentTime, 0));
-        var badge = ensureElapsedBadge();
-        if (badge) {
-            badge.textContent = (config.html5elapsedlabel || '') + ': ' + elapsed;
-        }
-        var bar = document.querySelector('.videotrack-html5-controls');
+        var bar = document.querySelector('#mod-videotrack-player .videotrack-html5-controls');
         if (bar && bar._currentEl) {
-            bar._currentEl.textContent = elapsed;
+            bar._currentEl.textContent = formatElapsedTime(media ? media.currentTime : 0);
         }
     }
 
     /**
-     * Builds the custom HTML5 player control bar according to config.html5controls.
-     * Each control is only rendered if its identifier is in the allowed list.
+     * Builds the custom HTML5 control bar.
      *
-     * @param {boolean} isAudio  True for audio-only files.
+     * @param {boolean} isAudio Whether the source is audio-only.
      */
     function buildControlBar(isAudio) {
         var container = document.getElementById('mod-videotrack-player');
@@ -716,6 +704,16 @@ define([
             bar.appendChild(ffBtn);
         }
 
+        // ── Current time ─────────────────────────────────────
+        if (controls.indexOf('current') >= 0) {
+            var currentEl = document.createElement('span');
+            currentEl.className = 'videotrack-ctrl-time';
+            currentEl.textContent = formatElapsedTime(media.currentTime);
+            currentEl.setAttribute('aria-live', 'off');
+            bar.appendChild(currentEl);
+            bar._currentEl = currentEl;
+        }
+
         // ── Progress bar ─────────────────────────────────────
         if (controls.indexOf('progress') >= 0) {
             var progressWrap = document.createElement('div');
@@ -742,7 +740,7 @@ define([
                         blockForwardSeek(requested, allowed);
                         progressBar.value = state.duration ? String((allowed / state.duration) * 100) : '0';
                         progressBar.setAttribute('aria-valuenow',  String(Math.round(progressBar.value)));
-                        progressBar.setAttribute('aria-valuetext', Utils.formatSeconds(allowed));
+                        progressBar.setAttribute('aria-valuetext', formatElapsedTime(allowed));
                         return;
                     }
                     if (config.allowseekforward === false && requested > forwardLimit) {
@@ -755,23 +753,13 @@ define([
                     media.currentTime = allowed;
                     progressBar.value = state.duration ? String((allowed / state.duration) * 100) : '0';
                     progressBar.setAttribute('aria-valuenow',  String(Math.round(progressBar.value)));
-                    progressBar.setAttribute('aria-valuetext', Utils.formatSeconds(allowed));
+                    progressBar.setAttribute('aria-valuetext', formatElapsedTime(allowed));
                 }
             });
             progressWrap.appendChild(progressBar);
             bar.appendChild(progressWrap);
             // Store reference for timeupdate.
             bar._progressBar = progressBar;
-        }
-
-        // ── Current time ─────────────────────────────────────
-        if (controls.indexOf('current') >= 0) {
-            var currentEl = document.createElement('span');
-            currentEl.className = 'videotrack-ctrl-time';
-            currentEl.textContent = Utils.formatSeconds(safeNumber(media.currentTime, 0));
-            currentEl.setAttribute('aria-live', 'off');
-            bar.appendChild(currentEl);
-            bar._currentEl = currentEl;
         }
 
         // ── Duration ─────────────────────────────────────────
@@ -924,13 +912,25 @@ define([
             bar.appendChild(dlBtn);
         }
 
+        // Keep the elapsed time immediately after the command controls and
+        // immediately before the progress bar. appendChild() moves existing nodes.
+        if (bar._currentEl) {
+            bar.appendChild(bar._currentEl);
+        }
+        if (bar._progressBar && bar._progressBar.parentNode) {
+            bar.appendChild(bar._progressBar.parentNode);
+        }
+        if (bar._durationEl) {
+            bar.appendChild(bar._durationEl);
+        }
+
         // ── Wire up timeupdate to control bar ─────────────────
         media.addEventListener('timeupdate', function() {
             if (bar._progressBar && state.duration) {
                 var pct = (media.currentTime / state.duration) * 100;
                 bar._progressBar.value = pct;
                 bar._progressBar.setAttribute('aria-valuenow',  String(Math.round(pct)));
-                bar._progressBar.setAttribute('aria-valuetext', Utils.formatSeconds(safeNumber(media.currentTime, 0)));
+                bar._progressBar.setAttribute('aria-valuetext', formatElapsedTime(media.currentTime));
             }
             updateElapsedDisplays();
         });
@@ -941,7 +941,7 @@ define([
             }, Log, 'HTML5 metadata');
             updateElapsedDisplays();
             if (bar._durationEl) {
-                bar._durationEl.textContent = ' / ' + Utils.formatSeconds(state.duration);
+                bar._durationEl.textContent = ' / ' + formatElapsedTime(state.duration);
             }
             if (bar._progressBar) { bar._progressBar.max = '100'; }
             // Wire up initial speed.

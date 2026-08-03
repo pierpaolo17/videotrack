@@ -97,6 +97,13 @@
 | classes/external/delete_note.php | function | execute_returns() |
 | classes/external/delete_reaction.php | class | mod_videotrack\external\delete_reaction |
 | classes/external/delete_reaction.php | function | execute_parameters() |
+| classes/event/report_exported.php | class | mod_videotrack\event\report_exported |
+| classes/event/report_exported.php | function | init() |
+| classes/event/report_exported.php | function | get_name() |
+| classes/event/report_exported.php | function | get_description() |
+| classes/event/report_exported.php | function | get_url() |
+| classes/event/report_exported.php | function | validate_data() |
+| classes/event/report_exported.php | function | get_objectid_mapping() |
 | classes/external/delete_reaction.php | function | execute() |
 | classes/external/delete_reaction.php | function | execute_returns() |
 | classes/external/helper.php | class | mod_videotrack\external\helper |
@@ -119,6 +126,20 @@
 | classes/external/save_segment.php | function | execute_parameters() |
 | classes/external/save_segment.php | function | execute() |
 | classes/external/save_segment.php | function | execute_returns() |
+| classes/local/csv_export.php | class | mod_videotrack\local\csv_export |
+| classes/local/csv_export.php | function | delimiter_options() |
+| classes/local/csv_export.php | function | delimiter() |
+| classes/local/csv_export.php | function | field_options() |
+| classes/local/csv_export.php | function | site_default_fields() |
+| classes/local/csv_export.php | function | activity_fields() |
+| classes/local/csv_export.php | function | form_element_name() |
+| classes/local/csv_export.php | function | process_form_fields() |
+| classes/local/csv_export.php | function | selected_user_fields() |
+| classes/local/csv_export.php | function | load_users() |
+| classes/local/csv_export.php | function | identity_headers() |
+| classes/local/csv_export.php | function | identity_values() |
+| classes/local/csv_export.php | function | write_row() |
+| classes/local/csv_export.php | function | safe_value() |
 | classes/local/privacy_manager.php | class | mod_videotrack\local\privacy_manager |
 | classes/local/privacy_manager.php | function | retention_period_seconds() |
 | classes/local/privacy_manager.php | function | anonymisation_salt() |
@@ -151,6 +172,8 @@
 | classes/local/tracker.php | function | create_default_state() |
 | classes/local/tracker.php | function | update_state() |
 | classes/local/tracker.php | function | update_moodle_completion_if_changed() |
+| classes/local/tracker.php | function | aggregate_segments() |
+| classes/local/tracker.php | function | rebuild_state_from_segments() |
 | classes/local/tracker.php | function | refresh_completion() |
 | classes/privacy/provider.php | class | mod_videotrack\privacy\provider |
 | classes/privacy/provider.php | function | format_interval_second() |
@@ -217,6 +240,7 @@
 | locallib.php | function | videotrack_get_max_playback_rate() |
 | locallib.php | function | videotrack_get_site_playback_speeds() |
 | locallib.php | function | videotrack_format_seconds() |
+| locallib.php | function | videotrack_format_video_timestamp() |
 | locallib.php | function | videotrack_build_required_reaction_notice() |
 | locallib.php | function | videotrack_get_reactions() |
 | locallib.php | function | videotrack_reaction_icon_url() |
@@ -245,8 +269,6 @@
 | mod_form.php | function | validation() |
 | report.php | function | videotrack_report_user_label() |
 | report.php | function | videotrack_report_date_to_timestamp() |
-| report.php | function | videotrack_csv_safe() |
-| report.php | function | videotrack_csv_safe_row() |
 | tests/admin_settings_test.php | class | mod_videotrack\admin_settings_test |
 | tests/admin_settings_test.php | function | setUp() |
 | tests/admin_settings_test.php | function | test_nonnegative_int_validation_accepts_zero_and_rejects_invalid_values() |
@@ -263,15 +285,21 @@
 | tests/locallib_test.php | function | test_extract_videoid_accepts_supported_youtube_urls() |
 | tests/locallib_test.php | function | test_extract_vimeo_id_accepts_supported_vimeo_urls() |
 | tests/locallib_test.php | function | test_format_seconds_clamps_and_formats_duration() |
+| tests/locallib_test.php | function | test_format_video_timestamp_uses_total_duration() |
 | tests/locallib_test.php | function | test_get_config_int_preserves_zero_and_clamps_values() |
 | tests/locallib_test.php | function | test_get_config_int_rejects_invalid_bounds() |
 | tests/locallib_test.php | function | test_get_playback_speeds_filters_and_applies_site_cap() |
+| tests/csv_export_test.php | class | mod_videotrack\csv_export_test |
+| tests/csv_export_test.php | function | test_delimiter_resolution() |
+| tests/csv_export_test.php | function | test_process_form_fields() |
+| tests/csv_export_test.php | function | test_safe_value_blocks_spreadsheet_formula_injection() |
 | tests/tracker_test.php | class | mod_videotrack\tracker_test |
 | tests/tracker_test.php | function | setUp() |
 | tests/tracker_test.php | function | test_normalise_interval_clamps_and_rejects_empty_ranges() |
 | tests/tracker_test.php | function | test_decode_intervals_filters_invalid_ranges() |
 | tests/tracker_test.php | function | test_merge_intervals_and_covered_seconds_are_deterministic() |
 | tests/tracker_test.php | function | test_simplify_intervals_never_overestimates_coverage() |
+| tests/tracker_test.php | function | test_aggregate_segments_rebuilds_state_values() |
 | tests/tracker_test.php | function | test_cap_intervals_limits_count_and_preserves_order() |
 
 ## AMD JavaScript
@@ -314,7 +342,7 @@
 | amd/src/core/tracker.js | cancelPendingRequests, installLifecycleHandlers, runHeartbeat, saveHeartbeatIfDue, sendUnloadBeacon, uninstallLifecycleHandlers |
 | amd/src/core/ui.js | appendIconSafe, isSafeIconClass, isSafeIconSrc, setReactionButtons |
 | amd/src/core/utils.js | decodeHtmlEntitiesForValidation, decodeHtmlEntitiesOnce, fetchTextWithTimeout, formatSeconds, isSafeBeaconUrl, isSafeFetchUrl, pad, safeInt, sessionGet, sessionSet, validateTextResponse, validateWebVttText |
-| amd/src/html5_player.js | announceReactionUnavailable, appendReactionRow, attachTrackingEvents, blockForwardSeek, buildChaptersBar, buildControlBar, buildPlayer, cleanupFullscreenHandler, cleanupPipHandler, cleanupReactionRootHandlers, closeSegment, enforceMaxPlaybackRate, ensureElapsedBadge, finishProgrammaticSeek, getAllowedForwardLimit, getConfiguredMaxPlaybackRate, getCurrentTime, getCurrentVideoTime, getMaxWatchedFromIntervals, getNaturalPlaybackTolerance, getPlaybackRatePenalty, handleReplayClick, hasMedia, hasPlayer, init, installGlobalListeners, installNoteHandler, installNotesToggle, installPosterHandler, installReactionHandler, isDefinitiveReactionFailure, loadTranscript, makeBtn, markAllowedForwardTime, normaliseControls, parseVTT, posterClickHandler, prefersReducedMotion, reactionClickHandler, reactionKeydownHandler, removePoster, removeReactionRow, renderChaptersBar, renderTranscript, resolveConfig, resolveReactionTime, safeNumber, saveCurrentProgress, saveSegment, scheduleProgrammaticSeekFallback, sendBeacon, sendSegment, setReactionButtons, setSpeedButtonState, shouldSkip, showChaptersUnavailable, showResumeNotice, showTranscriptUnavailable, startHeartbeat, startProgrammaticSeek, startSegment, stopHeartbeat, stripVttCueMarkup, syncTranscript, updateElapsedDisplays, updateFullscreenPressed, updatePipPressed, updateProgress, uuid, vttTime, writePlaybackRate |
+| amd/src/html5_player.js | announceReactionUnavailable, appendReactionRow, attachTrackingEvents, blockForwardSeek, buildChaptersBar, buildControlBar, buildPlayer, cleanupFullscreenHandler, cleanupPipHandler, cleanupReactionRootHandlers, closeSegment, enforceMaxPlaybackRate, finishProgrammaticSeek, formatElapsedTime, getAllowedForwardLimit, getConfiguredMaxPlaybackRate, getCurrentTime, getCurrentVideoTime, getMaxWatchedFromIntervals, getNaturalPlaybackTolerance, getPlaybackRatePenalty, handleReplayClick, hasMedia, hasPlayer, init, installGlobalListeners, installNoteHandler, installNotesToggle, installPosterHandler, installReactionHandler, isDefinitiveReactionFailure, loadTranscript, makeBtn, markAllowedForwardTime, normaliseControls, parseVTT, posterClickHandler, prefersReducedMotion, reactionClickHandler, reactionKeydownHandler, removePoster, removeReactionRow, renderChaptersBar, renderTranscript, resolveConfig, resolveReactionTime, safeNumber, saveCurrentProgress, saveSegment, scheduleProgrammaticSeekFallback, sendBeacon, sendSegment, setReactionButtons, setSpeedButtonState, shouldSkip, showChaptersUnavailable, showResumeNotice, showTranscriptUnavailable, startHeartbeat, startProgrammaticSeek, startSegment, stopHeartbeat, stripVttCueMarkup, syncTranscript, updateElapsedDisplays, updateFullscreenPressed, updatePipPressed, updateProgress, uuid, vttTime, writePlaybackRate |
 | amd/src/player.js | announceReactionUnavailable, appendReactionRow, blockForwardSeek, buildPlayer, buildYouTubeSkipButtons, cleanupPlaybackRateGuard, cleanupReactionRootHandlers, closeCurrentSegment, enforceMaxPlaybackRate, getAllowedForwardLimit, getConfiguredMaxPlaybackRate, getCurrentVideoTime, getMaxWatchedFromIntervals, getPlaybackRatePenalty, getResumeStorageKey, handleSeekByPolling, hasPlayer, init, initialiseKnownProgress, installGlobalListeners, installNoteHandler, installNotesToggle, installPlaybackRateGuard, installPosterHandler, installReactionHandler, isForwardSeekRecoveryPlayback, isForwardTargetAlreadyWatched, isNormalForwardPlayback, loadApi, markAllowedForwardTime, onAutoplayBlocked, onError, onHidden, onPlaybackRateChange, onPlayerStateChange, onReady, posterClickHandler, reactionClickHandler, reactionKeydownHandler, readStoredResumePosition, rememberResumePosition, removeNotice, removePoster, replayFragment, resetForwardSeekRecovery, resolveConfig, resolveReactionTime, resolveResumePosition, saveCurrentProgress, saveSegment, sendBeacon, sendSegment, setReactionButtons, showResumeNotice, startCurrentSegment, updateIntervalBar, updateLiveIntervalBar, updateProgress, uuid, writePlaybackRate |
 | amd/src/presets.js | attachIconPickers, closePicker, cssEscape, filterDialog, findPicker, findTargetInput, findTypeSelect, init, openPicker, queryByName, renderPreview, updateChoiceState |
 | amd/src/report.js | attachConfirm, init |

@@ -225,6 +225,27 @@ function videotrack_format_seconds(float $seconds): string {
 }
 
 /**
+ * Formats a video timestamp using the video's total duration to select MM:SS or HH:MM:SS.
+ *
+ * @param float $seconds Position in seconds.
+ * @param float $duration Total video duration in seconds.
+ * @return string Formatted timestamp.
+ */
+function videotrack_format_video_timestamp(float $seconds, float $duration): string {
+    $seconds = max(0, (int)round($seconds));
+    $duration = max(0, (int)round($duration));
+    if (max($seconds, $duration) < 3600) {
+        return sprintf('%02d:%02d', floor($seconds / 60), $seconds % 60);
+    }
+    return sprintf(
+        '%02d:%02d:%02d',
+        floor($seconds / 3600),
+        floor(($seconds % 3600) / 60),
+        $seconds % 60
+    );
+}
+
+/**
  * Builds a human-readable notice string describing the reaction requirements
  * for this activity. Used as the default reaction notice when the teacher
  * has not written a custom one.
