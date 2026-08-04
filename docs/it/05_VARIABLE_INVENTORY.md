@@ -71,6 +71,7 @@ Le variabili sono rilevate staticamente. L’inventario serve come mappa per ori
 | amd/src/core/debug.js | - |
 | amd/src/core/events.js | DEFAULT_MAX_HANDLERS_PER_EVENT, eventName, eventPayload, handlers, i, list, maxHandlersPerEvent, normaliseEventName, removeHandler, result, results, unsubscribe, wrapped |
 | amd/src/core/player/intervalbar.js | Math, Number, baseLabel, canvas, covered, cssHeight, cssWidth, ctx, dpr, duration, end, height, intervalBarCache, intervals, parsed, pct, progress, start, status, text, value, width, x1, x2 |
+| amd/src/core/player/forum.js | button, cleanup, duration, handler, options, setBusy, status, time, url, value |
 | amd/src/core/player/notes/row.js | delBtn, li, list, maxRenderedNotes, removed, textSpan, timeSpan |
 | amd/src/core/player/notes/toggle.js | body, btn, cleanupToggleHandler, isCollapsed, key, label, labelContext, toggleClickHandler |
 | amd/src/core/player/notes.js | Api, CHAR_COUNTER_DEBOUNCE_MS, Utils, charCounterTimer, cleanupNoteHandler, config, currentNoteSaveToken, currentTime, delBtn, dismissLabel, fallbackMessage, getCurrentVideoTime, hint, lastCharThreshold, li, limitedNotesAnnounced, list, live, maxLength, message, next, noteList, noteListClickHandler, noteSaveToken, noteid, panel, playStateHandler, remaining, saveBtn, saveClickHandler, saveCurrentProgress, savingNote, showErrorStatusMessage, showStatusMessage, state, text, textarea, textareaInputHandler, threshold |
@@ -100,3 +101,10 @@ Le variabili sono rilevate staticamente. L’inventario serve come mappa per ori
 | amd/src/presets.js | activeType, button, buttons, categoryVisible, closeButton, dialog, empty, form, haystack, icon, input, inputs, openButton, openDialog, picker, pickers, preview, query, search, selected, show, showType, type, typeSelect, visible |
 | amd/src/report.js | attachConfirm, fallbackMessage, labels |
 | amd/src/vimeo_player.js | HEARTBEAT_INTERVAL, allowed, allowedLimit, amdDefine, attempts, bar, btn, cleanupReactionRootHandlers, completed, config, configured, container, current, currentTime, data, debounce, defaultspeed, delbtn, deletebtn, duration, elapsed, end, eventid, expectedDelta, fallback, ffBtn, ffIcon, focusBtn, hash, hashmatch, iconDescriptor, idindex, idx, iframe, interval, intervals, labelspan, looksLikePlayback, match, max, maxRate, node, notice, now, overlay, params, parsed, parts, paused, pausedPromise, placeholder, playBtn, player, posterClickHandler, posterPlay, previous, rate, rawid, rawurl, reactionClickHandler, reactionKeydownHandler, reactionState, reactionbtn, reactionsTable, remaining, replayStart, replaybtn, resetRate, restoreDefine, result, resumePos, resumePosition, root, row, rows, rwBtn, rwIcon, safeFallback, safeRate, savedEnd, script, seek, seekConfig, serverPosition, showFF, showRewind, source, span, start, state, stored, storedPosition, target, tbody, tddel, tddesc, tdicon, tdreplay, tdtime, threshold, time, timeoutid, token, tr, vimeosource, wallclock, wasPlaying, window, wrap |
+
+
+## Campi configurazione Forum (1.5.0)
+
+- `forumpostingenabled`: abilitazione opzionale, default `0`.
+- `linkedforumid`: ID istanza Forum dello stesso corso, default `0`.
+- Configurazione player: `forumpostbuttonid`, `forumpoststatusid`, `forumposturl`, `forumposterrorlabel`.

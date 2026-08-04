@@ -104,6 +104,7 @@ function videotrack_add_instance($data, $mform = null) {
     videotrack_process_player_behavior_fields($data);
     videotrack_process_html5controls_field($data);
     videotrack_process_captions_fields($data);
+    videotrack_process_forum_fields($data);
     \mod_videotrack\local\csv_export::process_form_fields(
         $data,
         context_course::instance((int)$data->course)
@@ -147,6 +148,7 @@ function videotrack_update_instance($data, $mform = null) {
     videotrack_process_player_behavior_fields($data);
     videotrack_process_html5controls_field($data);
     videotrack_process_captions_fields($data);
+    videotrack_process_forum_fields($data);
     $csvcontext = !empty($data->coursemodule)
         ? context_module::instance((int)$data->coursemodule)
         : context_course::instance((int)$data->course);
@@ -169,6 +171,25 @@ function videotrack_update_instance($data, $mform = null) {
     videotrack_save_reaction_definitions($data->id, $data);
     videotrack_grade_item_update($data);
     return $result;
+}
+
+
+
+/**
+ * Normalises and validates optional Forum integration fields before a database write.
+ *
+ * @param stdClass $data Activity record being saved.
+ */
+function videotrack_process_forum_fields(stdClass $data): void {
+    $data->forumpostingenabled = empty($data->forumpostingenabled) ? 0 : 1;
+    $data->linkedforumid = isset($data->linkedforumid) ? (int)$data->linkedforumid : 0;
+    if (!$data->forumpostingenabled) {
+        $data->linkedforumid = 0;
+        return;
+    }
+    if (!videotrack_is_compatible_forum((int)$data->course, $data->linkedforumid)) {
+        throw new moodle_exception('forum:errorinvaliddestination', 'mod_videotrack');
+    }
 }
 
 /**

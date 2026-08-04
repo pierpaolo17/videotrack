@@ -22,8 +22,9 @@ define([
     'mod_videotrack/core/reactions',
     'mod_videotrack/core/tracker',
     'mod_videotrack/core/player',
+    'mod_videotrack/core/player/forum',
     'mod_videotrack/core/debug'
-], function(Log, Api, Adapter, Utils, Ui, Progress, State, Reactions, Tracker, PlayerCore, Debug) {
+], function(Log, Api, Adapter, Utils, Ui, Progress, State, Reactions, Tracker, PlayerCore, Forum, Debug) {
     'use strict';
 
 
@@ -1860,6 +1861,16 @@ define([
             installNoteHandler();
             installNotesToggle();
             installPosterHandler();
+            Forum.install({
+                buttonId: config.forumpostbuttonid,
+                statusId: config.forumpoststatusid,
+                composerUrl: config.forumposturl,
+                getCurrentTime: getCurrentVideoTime,
+                getDuration: function() {
+                    return state.duration || Number(config.duration) || 0;
+                },
+                errorLabel: config.forumposterrorlabel
+            });
             loadVimeoSDK(buildPlayer);
         }
     };

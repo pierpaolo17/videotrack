@@ -1400,5 +1400,39 @@ function xmldb_videotrack_upgrade($oldversion) {
         upgrade_mod_savepoint(true, 2026060407, 'videotrack');
     }
 
+    if ($oldversion < 2026060413) {
+        $table = new xmldb_table('videotrack');
+
+        $field = new xmldb_field(
+            'forumpostingenabled',
+            XMLDB_TYPE_INTEGER,
+            '1',
+            null,
+            XMLDB_NOTNULL,
+            null,
+            '0',
+            'studentnotesenabled'
+        );
+        if (!$dbman->field_exists($table, $field)) {
+            $dbman->add_field($table, $field);
+        }
+
+        $field = new xmldb_field(
+            'linkedforumid',
+            XMLDB_TYPE_INTEGER,
+            '10',
+            null,
+            XMLDB_NOTNULL,
+            null,
+            '0',
+            'forumpostingenabled'
+        );
+        if (!$dbman->field_exists($table, $field)) {
+            $dbman->add_field($table, $field);
+        }
+
+        upgrade_mod_savepoint(true, 2026060413, 'videotrack');
+    }
+
     return true;
 }

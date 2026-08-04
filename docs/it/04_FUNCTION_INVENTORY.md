@@ -356,3 +356,18 @@
 | amd/src/presets.js | attachIconPickers, closePicker, cssEscape, filterDialog, findPicker, findTargetInput, findTypeSelect, init, openPicker, queryByName, renderPreview, updateChoiceState |
 | amd/src/report.js | attachConfirm, init |
 | amd/src/vimeo_player.js | announceReactionUnavailable, appendReactionRow, attempt, blockForwardSeek, buildPlayer, buildVimeoIframe, buildVimeoSkipButtons, cleanupPlaybackRateGuard, cleanupReactionRootHandlers, clearBlockedSeekResumeRequest, closeSegment, enforceMaxPlaybackRate, enforcePlaybackRateValue, finish, getAllowedForwardLimit, getConfiguredMaxPlaybackRate, getCurrentTime, getCurrentVideoTime, getMaxWatchedFromIntervals, getPlaybackRatePenalty, getResumeStorageKey, handleReplayClick, handleVimeoTime, hasPlayer, init, initialiseKnownProgress, installGlobalListeners, installNoteHandler, installNotesToggle, installPlaybackRateGuard, installPosterHandler, installReactionHandler, isForwardSeekRecoveryPlayback, isNormalForwardPlayback, isReplaySeekActive, isVimeoBackwardSeekAllowed, loadVimeoSDK, markAllowedForwardTime, onHidden, pauseRuntimeSegment, playVimeoAfterSeek, pollVimeoRuntime, posterClickHandler, reactionClickHandler, reactionKeydownHandler, readStoredResumePosition, readVimeoValue, recoverBlockedSeek, rememberResumePosition, removePoster, resetForwardSeekRecovery, resolveConfig, resolveReactionTime, resolveResumePosition, resolveVimeoSource, restoreDefine, retryPlaybackRateLimit, saveCurrentProgress, saveSegment, scheduleBlockedSeekResume, sendBeacon, sendSegment, setReactionButtons, showResumeNotice, startHeartbeat, startSegment, startVimeoRuntimePolling, stopHeartbeat, stopVimeoRuntimePolling, updateLiveIntervalBar, updateProgress, uuid, writePlaybackRate |
+
+
+## Funzioni Forum (1.5.0)
+
+- `videotrack_get_compatible_forum_types()`
+- `videotrack_get_compatible_forums()`
+- `videotrack_get_compatible_forum_options()`
+- `videotrack_is_compatible_forum()`
+- `videotrack_build_replay_url()`
+- `forum_bridge::resolve_destination()`
+- `forum_bridge::get_group_options()`
+- `forum_bridge::can_choose_subscription()`
+- `forum_bridge::create_discussion()`
+- `forum_post_form::definition()` e `forum_post_form::validation()`
+- `amd/src/core/player/forum.js`: `install()`

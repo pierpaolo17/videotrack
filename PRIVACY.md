@@ -71,3 +71,8 @@ The default retention period is 730 days for tracking data, notes and reactions.
 ## Configurable CSV exports
 
 VideoTrack CSV exports can include configured course, activity and user identity fields. Site administrators define defaults and teachers may override them per activity. Only identity fields and custom profile fields visible to the exporting user in the activity context are offered and loaded. Exports containing individual reactions or personal notes require an explicit confirmation and are recorded as Moodle events. Video timestamps are exported as `MM:SS` or `HH:MM:SS`; the separator can be configured as comma or semicolon.
+
+
+## Optional Forum posting
+
+When enabled by a teacher, VideoTrack opens a separate Forum composer with a timestamped replay link. VideoTrack does not store the post subject, message, author or discussion identifier. The published content is controlled, retained and exported by `mod_forum`; private VideoTrack notes are not copied.

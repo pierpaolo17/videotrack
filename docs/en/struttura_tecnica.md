@@ -17,3 +17,8 @@ This historical document has been replaced by the modular technical documentatio
 - `08_LESSONS_LEARNED.md`: lessons learned and maintenance rules.
 
 The previous content has been replaced to avoid duplicated and obsolete information. Historical audit files with version suffixes remain available.
+
+
+## Forum integration components (1.5.0)
+
+`forum_post.php`, `classes/form/forum_post_form.php`, `classes/local/forum_bridge.php` and `amd/src/core/player/forum.js` implement the optional bridge. The bridge validates visibility, capabilities, groups and throttling twice and delegates creation to `mod_forum_external::add_discussion()`.

@@ -821,3 +821,115 @@ function videotrack_optional_iso_date_param(string $name): string {
     $value = optional_param($name, '', PARAM_TEXT);
     return preg_match('/^\d{4}-\d{2}-\d{2}$/', $value) ? $value : '';
 }
+
+
+/**
+ * Returns forum types that can receive repeated student discussions from VideoTrack.
+ *
+ * @return string[] Allowed mod_forum type values.
+ */
+function videotrack_get_compatible_forum_types(): array {
+    return ['general', 'qanda', 'blog'];
+}
+
+/**
+ * Returns compatible Forum instances from one course, including module status metadata.
+ *
+ * @param int $courseid Course id.
+ * @return array Forum records keyed by forum instance id.
+ */
+function videotrack_get_compatible_forums(int $courseid): array {
+    global $DB;
+
+    $types = videotrack_get_compatible_forum_types();
+    [$typesql, $typeparams] = $DB->get_in_or_equal($types, SQL_PARAMS_NAMED, 'forumtype');
+    $params = array_merge($typeparams, [
+        'courseid' => $courseid,
+        'modname' => 'forum',
+    ]);
+    $sql = "SELECT f.id, f.name, f.type, f.course, cm.id AS cmid, cm.visible,
+                   cm.availability, cm.deletioninprogress
+              FROM {forum} f
+              JOIN {course_modules} cm ON cm.instance = f.id AND cm.course = f.course
+              JOIN {modules} m ON m.id = cm.module AND m.name = :modname
+             WHERE f.course = :courseid
+                   AND f.type $typesql
+                   AND cm.deletioninprogress = 0
+          ORDER BY f.name ASC, f.id ASC";
+    return $DB->get_records_sql($sql, $params);
+}
+
+/**
+ * Builds form options for compatible forums in a course.
+ *
+ * @param int $courseid Course id.
+ * @return array Forum id => formatted label.
+ */
+function videotrack_get_compatible_forum_options(int $courseid): array {
+    $options = [];
+    foreach (videotrack_get_compatible_forums($courseid) as $forum) {
+        $context = context_module::instance((int)$forum->cmid);
+        $label = format_string($forum->name, true, ['context' => $context]);
+        $statuses = [];
+        if (empty($forum->visible)) {
+            $statuses[] = get_string('forum:statushidden', 'mod_videotrack');
+        }
+        if (!empty($forum->availability)) {
+            $statuses[] = get_string('forum:statusrestricted', 'mod_videotrack');
+        }
+        if ($statuses) {
+            $label .= ' (' . implode(', ', $statuses) . ')';
+        }
+        $options[(int)$forum->id] = $label;
+    }
+    return $options;
+}
+
+/**
+ * Validates that a forum is a compatible destination in the given course.
+ *
+ * @param int $courseid Course id.
+ * @param int $forumid Forum instance id.
+ * @return bool Whether the forum is a valid configured destination.
+ */
+function videotrack_is_compatible_forum(int $courseid, int $forumid): bool {
+    if ($courseid <= 0 || $forumid <= 0) {
+        return false;
+    }
+    return isset(videotrack_get_compatible_forums($courseid)[$forumid]);
+}
+
+/**
+ * Builds the canonical replay URL for a timestamp and symmetric pre-roll window.
+ *
+ * @param int $cmid VideoTrack course-module id.
+ * @param float $timestamp Exact video timestamp.
+ * @param int $preroll Seconds before and after the timestamp.
+ * @param float $duration Known video duration, or zero when unknown.
+ * @return moodle_url Replay URL.
+ */
+function videotrack_build_replay_url(
+    int $cmid,
+    float $timestamp,
+    int $preroll,
+    float $duration = 0.0
+): moodle_url {
+    $timestamp = max(0.0, $timestamp);
+    $preroll = max(0, $preroll);
+    if ($duration > 0) {
+        $timestamp = min($timestamp, $duration);
+    }
+    $start = max(0, (int)round($timestamp) - $preroll);
+    $end = (int)round($timestamp) + $preroll;
+    if ($duration > 0) {
+        $end = min($end, (int)round($duration));
+    }
+    if ($end < $start) {
+        $end = $start;
+    }
+    return new moodle_url('/mod/videotrack/view.php', [
+        'id' => $cmid,
+        'replaystart' => $start,
+        'replayend' => $end,
+    ]);
+}

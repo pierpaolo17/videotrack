@@ -71,3 +71,8 @@ Gli equivalenti inglesi sono disponibili in `docs/en/`.
 ## Regola di sviluppo
 
 Prima di modificare codice, partire sempre dall'ultimo ZIP reale fornito dal maintainer, fare audit dei file effettivi, generare una patch focalizzata dalla root del plugin e verificare `git apply --check` più `patch -p1 --dry-run` prima della consegna.
+
+
+## Integrazione Forum (1.5.0)
+
+Videotrack può collegare opzionalmente un’istanza a un Forum compatibile dello stesso corso. Il pulsante nel player apre un composer separato al timestamp corrente; la bozza contiene un link temporale e viene pubblicata soltanto dopo la conferma. Note personali e reazioni non vengono mai copiate.

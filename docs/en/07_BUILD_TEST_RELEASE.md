@@ -60,3 +60,15 @@ If inventories are changed, regenerate or manually verify:
 - variable inventory as a navigation aid.
 
 A documentation-only patch does not require `grunt amd`, PHPUnit or PHPCS unless it changes executable code. If `version.php` is bumped, run Moodle upgrade in the target environment.
+
+## Forum integration regression checks (1.5.0)
+
+- create and edit an activity with the feature disabled;
+- configure each supported Forum type (`general`, `qanda`, `blog`);
+- verify hidden and restricted Forum behaviour for teacher and student;
+- verify no-groups, separate-groups and multiple-membership posting;
+- verify cutoff and posting-threshold failures remain controlled;
+- verify cancel returns to the timestamped video fragment;
+- verify the published discussion contains only the student-confirmed text and replay link;
+- restore with and without the linked Forum and confirm safe disablement when the mapping is absent;
+- repeat player regression tests for YouTube, Vimeo and HTML5 tracking, seek, resume and replay.

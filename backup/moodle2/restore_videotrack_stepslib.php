@@ -62,6 +62,19 @@ class restore_videotrack_activity_structure_step extends restore_activity_struct
         }
         unset($data->loop);
         $data->course = $this->get_courseid();
+        if (!empty($data->forumpostingenabled) && !empty($data->linkedforumid)) {
+            $mappedforumid = (int)$this->get_mappingid('forum', (int)$data->linkedforumid, 0);
+            if ($mappedforumid > 0) {
+                $data->linkedforumid = $mappedforumid;
+            } else {
+                $data->forumpostingenabled = 0;
+                $data->linkedforumid = 0;
+                $this->log(get_string('forum:restorelinkmissing', 'mod_videotrack'), backup::LOG_WARNING);
+            }
+        } else {
+            $data->forumpostingenabled = 0;
+            $data->linkedforumid = 0;
+        }
         $newitemid = $DB->insert_record('videotrack', videotrack_whitelist_record($data));
         $this->apply_activity_instance($newitemid);
         $this->set_mapping('videotrack', $oldid, $newitemid);
