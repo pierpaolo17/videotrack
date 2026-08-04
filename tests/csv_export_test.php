@@ -96,6 +96,28 @@ final class csv_export_test extends advanced_testcase {
     }
 
     /**
+     * Overall exports concatenate notes inside their time cluster.
+     */
+    public function test_cluster_notes_concatenates_comments_and_counts_students(): void {
+        $notes = [
+            (object)['userid' => 10, 'notetext' => 'nota1', 'videotime' => 20.0],
+            (object)['userid' => 11, 'notetext' => 'nota2', 'videotime' => 24.0],
+            (object)['userid' => 10, 'notetext' => 'nota3', 'videotime' => 27.0],
+            (object)['userid' => 12, 'notetext' => 'nota4', 'videotime' => 60.0],
+        ];
+
+        $clusters = csv_export::cluster_notes($notes, 10);
+
+        $this->assertCount(2, $clusters);
+        $this->assertSame('{nota1}{nota2}{nota3}', $clusters[0]['comment']);
+        $this->assertSame(3, $clusters[0]['count']);
+        $this->assertSame(2, $clusters[0]['students']);
+        $this->assertSame(20.0, $clusters[0]['first']);
+        $this->assertSame(27.0, $clusters[0]['last']);
+        $this->assertSame('{nota4}', $clusters[1]['comment']);
+    }
+
+    /**
      * Spreadsheet formula prefixes are neutralised without changing normal values.
      */
     public function test_safe_value_blocks_formula_injection(): void {
