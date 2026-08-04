@@ -26,6 +26,7 @@ define([
 
 
     var media  = null; // The <video> or <audio> DOM element.
+    var controlBar = null; // Current custom HTML5 control bar.
     var config = null;
     var reactionState = Reactions.createState();
     var HEARTBEAT_INTERVAL = 30;
@@ -609,9 +610,8 @@ define([
      * Updates the elapsed-time value in the custom control bar.
      */
     function updateElapsedDisplays() {
-        var bar = document.querySelector('#mod-videotrack-player .videotrack-html5-controls');
-        if (bar && bar._currentEl) {
-            bar._currentEl.textContent = formatElapsedTime(media ? media.currentTime : 0);
+        if (controlBar && controlBar._currentEl) {
+            controlBar._currentEl.textContent = formatElapsedTime(media ? media.currentTime : 0);
         }
     }
 
@@ -636,6 +636,7 @@ define([
         }
 
         var bar = document.createElement('div');
+        controlBar = bar;
         bar.className = 'videotrack-html5-controls';
         bar.setAttribute('role', 'toolbar');
         bar.setAttribute('aria-label', config.html5controlslabel);
@@ -1820,6 +1821,7 @@ define([
 
     return {
         init: function(initConfig) {
+            controlBar        = null;
             config             = resolveConfig(initConfig);
             PlayerCore.configureStatus(config);
             // Reaction timing caps match settings.php limits and are centralised in core/reactions.

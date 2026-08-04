@@ -38,14 +38,16 @@ Replay is shared as a UI event, but seek behaviour is specific to HTML5, YouTube
 
 The Vimeo SDK uses asynchronous promises for `setCurrentTime()`, `play()` and `pause()`. Do not chain aggressive `play()` calls after a seek: this can produce `PlayInterrupted`. Every Vimeo change must be manually tested on rewind, forward within viewed range, forward beyond limit and replay.
 
-## CSV export flow (1.4.267)
+## CSV export flow (1.4.268)
 
 The site default defines the CSV separator and optional course/activity/user fields. Each activity may inherit or override these choices. Available separators are comma, semicolon, `§`, `#` and `|`. Teachers see the same standard configuration choices as administrators; identity fields denied by Moodle core remain visible but disabled and cannot be exported. At runtime, `classes/local/csv_export.php` applies Moodle visibility rules, loads standard and visible custom profile fields through `core_user\fields`, optionally adds the video link, prevents spreadsheet-formula injection, and writes UTF-8 with a BOM for spreadsheet applications.
 
-The **CSV export** tab uses one menu to select all students or one specific student, then lets teachers choose reactions and/or notes and detailed or summary output. Detailed output writes one row per event. Summary output clusters each student's reactions by type using the configured cluster window while keeping notes as individual rows. Names are exported in separate last-name and first-name columns. The personal-data notice remains informational; downloads are protected by Moodle capabilities and sesskey validation without an additional checkbox.
+The **CSV export** tab uses one menu to select all students or one specific student, then lets teachers choose reactions and/or notes and detailed or summary output. Detailed output writes one row per event. Summary output clusters reactions per student and type. Overall output clusters all students’ reactions together using the configured cluster window. Notes remain individual rows. Names are exported in separate last-name and first-name columns. The personal-data notice remains informational; downloads are protected by Moodle capabilities and sesskey validation without an additional checkbox.
 
-Report time filters accept only `MM:SS` or `HH:MM:SS` durations; invalid formats are rejected in the browser and on the server.
+Report time filters use separate numeric hour, minute and second controls; videos shorter than one hour show only `MM:SS`. Existing `MM:SS` and `HH:MM:SS` links remain compatible.
 
-## Completion recalculation (1.4.264)
+## Completion recalculation (1.4.268)
 
 The recalculation action rebuilds each aggregate state from raw `videotrack_seg` rows, rather than only reevaluating the completion boolean. It merges watched intervals, recalculates unique covered seconds and percentage, restores the latest raw-segment position, reevaluates reaction requirements, and synchronises Moodle completion only when custom VideoTrack completion rules are configured and the completion state changes. View-only completion remains managed by Moodle core.
+
+The **Completion recalculation** tab rebuilds states for all tracked users or one selected user.
