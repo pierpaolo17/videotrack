@@ -63,4 +63,4 @@ For code maintenance use the numbered documents in this directory, especially:
 
 ## Optional timestamped Forum posting (1.5.0)
 
-A teacher may link the activity to a compatible Forum in the same course. The student button reads the current player time, opens a separate Moodle form, and pre-fills a descriptive replay link. Publication is voluntary and uses the official Forum API. Notes remain private.
+A teacher may link the activity to a compatible Forum in the same course. The student button reads the current player time, opens a separate Moodle form, and pre-fills a descriptive replay link. Publication is voluntary and uses the official Forum API. Notes remain private. Since 1.5.1, the teacher can customise the pre-filled subject using the `{timestamp}` and `{activity}` placeholders; the student may edit it before publishing.

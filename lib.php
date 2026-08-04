@@ -173,8 +173,6 @@ function videotrack_update_instance($data, $mform = null) {
     return $result;
 }
 
-
-
 /**
  * Normalises and validates optional Forum integration fields before a database write.
  *
@@ -183,6 +181,8 @@ function videotrack_update_instance($data, $mform = null) {
 function videotrack_process_forum_fields(stdClass $data): void {
     $data->forumpostingenabled = empty($data->forumpostingenabled) ? 0 : 1;
     $data->linkedforumid = isset($data->linkedforumid) ? (int)$data->linkedforumid : 0;
+    $template = clean_param(trim((string)($data->forumsubjecttemplate ?? '')), PARAM_TEXT);
+    $data->forumsubjecttemplate = core_text::substr($template, 0, 255);
     if (!$data->forumpostingenabled) {
         $data->linkedforumid = 0;
         return;

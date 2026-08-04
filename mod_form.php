@@ -629,7 +629,6 @@ class mod_videotrack_mod_form extends moodleform_mod {
             );
         }
 
-
         // Optional link to a Forum activity in the same course.
         $mform->addElement('header', 'forumlinkheader', get_string('forum:settingsheader', 'mod_videotrack'));
         $forumoptions = videotrack_get_compatible_forum_options((int)$COURSE->id);
@@ -662,6 +661,20 @@ class mod_videotrack_mod_form extends moodleform_mod {
         $mform->setDefault('linkedforumid', 0);
         $mform->hideIf('linkedforumid', 'forumpostingenabled', 'notchecked');
         $mform->disabledIf('linkedforumid', 'forumpostingenabled', 'notchecked');
+
+        $mform->addElement(
+            'text',
+            'forumsubjecttemplate',
+            get_string('forum:subjecttemplate', 'mod_videotrack'),
+            ['size' => 64, 'maxlength' => 255]
+        );
+        $mform->setType('forumsubjecttemplate', PARAM_TEXT);
+        $mform->setDefault(
+            'forumsubjecttemplate',
+            get_string('forum:subjecttemplatedefault', 'mod_videotrack')
+        );
+        $mform->addHelpButton('forumsubjecttemplate', 'forum:subjecttemplate', 'mod_videotrack');
+        $mform->hideIf('forumsubjecttemplate', 'forumpostingenabled', 'notchecked');
         if (!$forumoptions) {
             $mform->freeze('linkedforumid');
             $mform->addElement(

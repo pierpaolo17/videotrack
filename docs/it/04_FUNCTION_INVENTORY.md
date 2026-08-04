@@ -364,6 +364,7 @@
 - `videotrack_get_compatible_forums()`
 - `videotrack_get_compatible_forum_options()`
 - `videotrack_is_compatible_forum()`
+- `videotrack_build_forum_subject()`
 - `videotrack_build_replay_url()`
 - `forum_bridge::resolve_destination()`
 - `forum_bridge::get_group_options()`

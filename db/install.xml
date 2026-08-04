@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8" ?>
-<XMLDB PATH="mod/videotrack/db" VERSION="2026060413" COMMENT="XMLDB file for mod_videotrack"
+<XMLDB PATH="mod/videotrack/db" VERSION="2026060414" COMMENT="XMLDB file for mod_videotrack"
     xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
     xsi:noNamespaceSchemaLocation="../../../lib/xmldb/xmldb.xsd"
 >
@@ -41,6 +41,7 @@
         <FIELD NAME="studentnotesenabled" TYPE="int" LENGTH="1" NOTNULL="true" DEFAULT="0" COMMENT="Allow students to write personal timestamped notes while watching"/>
         <FIELD NAME="forumpostingenabled" TYPE="int" LENGTH="1" NOTNULL="true" DEFAULT="0" COMMENT="Allow students to compose a forum discussion from the current video time"/>
         <FIELD NAME="linkedforumid" TYPE="int" LENGTH="10" NOTNULL="true" DEFAULT="0" COMMENT="Linked forum instance id in the same course"/>
+        <FIELD NAME="forumsubjecttemplate" TYPE="text" NOTNULL="false" COMMENT="Forum discussion subject template with {timestamp} and {activity} placeholders"/>
         <FIELD NAME="csvdelimiter" TYPE="char" LENGTH="20" NOTNULL="true" DEFAULT="inherit" COMMENT="CSV delimiter override: inherit, comma, semicolon, section, hash or pipe"/>
         <FIELD NAME="csvexportfields" TYPE="text" NOTNULL="false" COMMENT="Comma-separated optional context and identity fields included in CSV exports"/>
         <FIELD NAME="countbyvideotime" TYPE="int" LENGTH="1" NOTNULL="true" DEFAULT="1"/>
