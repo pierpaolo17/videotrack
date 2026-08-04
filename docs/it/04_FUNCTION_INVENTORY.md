@@ -139,6 +139,7 @@
 | classes/local/csv_export.php | function | load_users() |
 | classes/local/csv_export.php | function | identity_headers() |
 | classes/local/csv_export.php | function | identity_values() |
+| classes/local/csv_export.php | function | cluster_notes() |
 | classes/local/csv_export.php | function | write_utf8_bom() |
 | classes/local/csv_export.php | function | write_row() |
 | classes/local/csv_export.php | function | safe_value() |
@@ -299,6 +300,7 @@
 | tests/csv_export_test.php | function | test_delimiter_resolution() |
 | tests/csv_export_test.php | function | test_process_form_fields() |
 | tests/csv_export_test.php | function | test_identity_columns_split_lastname_and_firstname() |
+| tests/csv_export_test.php | function | test_cluster_notes_concatenates_comments_and_counts_students() |
 | tests/csv_export_test.php | function | test_safe_value_blocks_spreadsheet_formula_injection() |
 | tests/tracker_test.php | class | mod_videotrack\tracker_test |
 | tests/tracker_test.php | function | setUp() |

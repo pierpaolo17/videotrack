@@ -38,11 +38,11 @@ Replay is shared as a UI event, but seek behaviour is specific to HTML5, YouTube
 
 The Vimeo SDK uses asynchronous promises for `setCurrentTime()`, `play()` and `pause()`. Do not chain aggressive `play()` calls after a seek: this can produce `PlayInterrupted`. Every Vimeo change must be manually tested on rewind, forward within viewed range, forward beyond limit and replay.
 
-## CSV export flow (1.4.268)
+## CSV export flow (1.4.269)
 
 The site default defines the CSV separator and optional course/activity/user fields. Each activity may inherit or override these choices. Available separators are comma, semicolon, `§`, `#` and `|`. Teachers see the same standard configuration choices as administrators; identity fields denied by Moodle core remain visible but disabled and cannot be exported. At runtime, `classes/local/csv_export.php` applies Moodle visibility rules, loads standard and visible custom profile fields through `core_user\fields`, optionally adds the video link, prevents spreadsheet-formula injection, and writes UTF-8 with a BOM for spreadsheet applications.
 
-The **CSV export** tab uses one menu to select all students or one specific student, then lets teachers choose reactions and/or notes and detailed or summary output. Detailed output writes one row per event. Summary output clusters reactions per student and type. Overall output clusters all students’ reactions together using the configured cluster window. Notes remain individual rows. Names are exported in separate last-name and first-name columns. The personal-data notice remains informational; downloads are protected by Moodle capabilities and sesskey validation without an additional checkbox.
+The **CSV export** tab uses one menu to select all students or one specific student, then lets teachers choose reactions and/or notes and detailed, summary or overall output. Detailed output writes one row per event. Summary output clusters reactions per student and type while keeping notes on individual rows. Overall output clusters both reactions and notes from all students with the configured cluster window. In overall output, notes from the same cluster are concatenated into one cell as `{note1}{note2}{note3}`, and the creation-time column is omitted because the content is aggregated. Names are exported in separate last-name and first-name columns. The personal-data notice remains informational; downloads are protected by Moodle capabilities and sesskey validation without an additional checkbox.
 
 Report time filters use separate numeric hour, minute and second controls; videos shorter than one hour show only `MM:SS`. Existing `MM:SS` and `HH:MM:SS` links remain compatible.
 

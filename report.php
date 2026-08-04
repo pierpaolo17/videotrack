@@ -562,10 +562,11 @@ if ($export === 'custom_csv') {
         get_string('report:csvcol_firsttimestamp', 'mod_videotrack'),
         get_string('report:csvcol_lasttimestamp', 'mod_videotrack'),
         get_string('report:csvcol_count', 'mod_videotrack'),
-        get_string('report:csvcol_created', 'mod_videotrack'),
     ];
     if ($csvformat === 'overall') {
         $eventheaders[] = get_string('report:students', 'mod_videotrack');
+    } else {
+        $eventheaders[] = get_string('report:csvcol_created', 'mod_videotrack');
     }
     $headers = array_merge(
         \mod_videotrack\local\csv_export::identity_headers($csvfields),
@@ -615,10 +616,11 @@ if ($export === 'custom_csv') {
             videotrack_format_video_timestamp($firsttimestamp, $videoduration),
             videotrack_format_video_timestamp($lasttimestamp, $videoduration),
             $count,
-            $created,
         ]);
         if ($csvformat === 'overall') {
             $row[] = $studentcount;
+        } else {
+            $row[] = $created;
         }
         \mod_videotrack\local\csv_export::write_row($fh, $row, $csvdelimiter);
     };
@@ -731,21 +733,40 @@ if ($export === 'custom_csv') {
                 'videotrack_reactev',
                 $scopewhere . " AND notetype = 'note'",
                 $scopeparams,
-                'userid ASC, videotime ASC, timecreated ASC',
+                $csvformat === 'overall'
+                    ? 'videotime ASC, timecreated ASC'
+                    : 'userid ASC, videotime ASC, timecreated ASC',
                 'userid, notetext, videotime, timecreated'
             );
-            foreach ($noters as $note) {
-                $writeeventrow(
-                    (int)$note->userid,
-                    get_string('report:eventtype_note', 'mod_videotrack'),
-                    '',
-                    (string)$note->notetext,
-                    (float)$note->videotime,
-                    (float)$note->videotime,
-                    (float)$note->videotime,
-                    1,
-                    userdate((int)$note->timecreated)
-                );
+            if ($csvformat === 'overall') {
+                foreach (\mod_videotrack\local\csv_export::cluster_notes($noters, $window) as $cluster) {
+                    $writeeventrow(
+                        0,
+                        get_string('report:eventtype_note', 'mod_videotrack'),
+                        '',
+                        (string)$cluster['comment'],
+                        (float)$cluster['timestamp'],
+                        (float)$cluster['first'],
+                        (float)$cluster['last'],
+                        (int)$cluster['count'],
+                        '',
+                        (int)$cluster['students']
+                    );
+                }
+            } else {
+                foreach ($noters as $note) {
+                    $writeeventrow(
+                        (int)$note->userid,
+                        get_string('report:eventtype_note', 'mod_videotrack'),
+                        '',
+                        (string)$note->notetext,
+                        (float)$note->videotime,
+                        (float)$note->videotime,
+                        (float)$note->videotime,
+                        1,
+                        userdate((int)$note->timecreated)
+                    );
+                }
             }
             $noters->close();
         }

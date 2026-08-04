@@ -360,6 +360,57 @@ final class csv_export {
     }
 
     /**
+     * Groups note events into time clusters for the overall CSV export.
+     *
+     * Notes are expected in ascending video-time order. Each note is wrapped
+     * in braces so the concatenated cell remains unambiguous.
+     *
+     * @param iterable $notes Note records with userid, notetext and videotime.
+     * @param int $windowseconds Cluster window in seconds.
+     * @return array<int, array<string, mixed>>
+     */
+    public static function cluster_notes(iterable $notes, int $windowseconds): array {
+        $windowseconds = max(0, $windowseconds);
+        $clusters = [];
+        $activeindex = null;
+
+        foreach ($notes as $note) {
+            $time = (float)$note->videotime;
+            $matchesactivecluster = $activeindex !== null
+                && ($time - (float)$clusters[$activeindex]['anchor']) <= $windowseconds;
+            if ($matchesactivecluster) {
+                $clusters[$activeindex]['count']++;
+                $clusters[$activeindex]['students'][(int)$note->userid] = true;
+                $clusters[$activeindex]['timesum'] += $time;
+                $clusters[$activeindex]['first'] = min($clusters[$activeindex]['first'], $time);
+                $clusters[$activeindex]['last'] = max($clusters[$activeindex]['last'], $time);
+                $clusters[$activeindex]['comment'] .= '{' . (string)$note->notetext . '}';
+                continue;
+            }
+
+            $clusters[] = [
+                'anchor' => $time,
+                'first' => $time,
+                'last' => $time,
+                'count' => 1,
+                'students' => [(int)$note->userid => true],
+                'timesum' => $time,
+                'comment' => '{' . (string)$note->notetext . '}',
+            ];
+            $activeindex = count($clusters) - 1;
+        }
+
+        foreach ($clusters as &$cluster) {
+            $cluster['students'] = count($cluster['students']);
+            $cluster['timestamp'] = $cluster['timesum'] / $cluster['count'];
+            unset($cluster['timesum']);
+        }
+        unset($cluster);
+
+        return $clusters;
+    }
+
+    /**
      * Writes a UTF-8 byte-order mark for spreadsheet applications.
      *
      * The plugin stores and emits UTF-8. The BOM prevents applications such as
