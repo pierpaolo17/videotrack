@@ -606,6 +606,7 @@ $string['report:csvexport_heading'] = 'CSV-Export';
 $string['report:csvexport_description'] = 'Wählen Sie Benutzer, Inhalte und Detailgrad. Trennzeichen und optionale Spalten stammen aus den Einstellungen dieser Aktivität.';
 $string['report:csvexport_scope'] = 'Zu exportierende Benutzer';
 $string['report:csvexport_scope_all'] = 'Alle Teilnehmer/innen';
+$string['report:csvexport_users'] = 'Zu exportierende Teilnehmer';
 $string['report:csvexport_scope_single'] = 'Eine Person';
 $string['report:csvexport_selectstudent'] = 'Person auswählen';
 $string['report:csvexport_student'] = 'Teilnehmer/in';

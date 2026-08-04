@@ -601,25 +601,23 @@ class mod_videotrack_mod_form extends moodleform_mod {
         $csvfieldoptions = \mod_videotrack\local\csv_export::form_field_options($csvcontext);
         $allowedcsvfields = array_keys(\mod_videotrack\local\csv_export::field_options($csvcontext));
         $csvfieldcheckboxes = [];
-        $frozencsvfields = [];
         foreach ($csvfieldoptions as $field => $label) {
             $elementname = \mod_videotrack\local\csv_export::form_element_name($field);
             $isallowedcsvfield = in_array($field, $allowedcsvfields, true);
+            $attributes = [];
             if (!$isallowedcsvfield) {
                 $label .= ' (' . get_string('notavailable') . ')';
+                $attributes['disabled'] = 'disabled';
             }
             $csvfieldcheckboxes[] = $mform->createElement(
                 'advcheckbox',
                 $elementname,
                 '',
                 $label,
-                [],
+                $attributes,
                 [0, 1]
             );
             $mform->setType($elementname, PARAM_BOOL);
-            if (!$isallowedcsvfield) {
-                $frozencsvfields[] = $elementname;
-            }
         }
         if ($csvfieldcheckboxes) {
             $mform->addGroup(
@@ -629,9 +627,6 @@ class mod_videotrack_mod_form extends moodleform_mod {
                 ' ',
                 false
             );
-            foreach ($frozencsvfields as $elementname) {
-                $mform->freeze($elementname);
-            }
         }
 
         // Reactions section.

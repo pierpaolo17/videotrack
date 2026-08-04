@@ -81,6 +81,21 @@ final class csv_export_test extends advanced_testcase {
     }
 
     /**
+     * Identity columns export last name and first name separately.
+     */
+    public function test_identity_columns_split_lastname_and_firstname(): void {
+        $course = (object)['id' => 7, 'fullname' => 'Course', 'shortname' => 'C'];
+        $videotrack = (object)['name' => 'Video'];
+        $user = (object)['id' => 11, 'firstname' => 'Ada', 'lastname' => 'Lovelace'];
+
+        $this->assertSame([get_string('lastname'), get_string('firstname')], csv_export::identity_headers([]));
+        $this->assertSame(
+            ['Lovelace', 'Ada'],
+            csv_export::identity_values([], $course, $videotrack, $user, 'Ada Lovelace', 1)
+        );
+    }
+
+    /**
      * Spreadsheet formula prefixes are neutralised without changing normal values.
      */
     public function test_safe_value_blocks_formula_injection(): void {

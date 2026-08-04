@@ -606,6 +606,7 @@ $string['report:csvexport_heading'] = 'Exportação CSV';
 $string['report:csvexport_description'] = 'Escolha os utilizadores, o conteúdo e o nível de detalhe. O separador e as colunas opcionais vêm das definições desta atividade.';
 $string['report:csvexport_scope'] = 'Utilizadores a exportar';
 $string['report:csvexport_scope_all'] = 'Todos os estudantes';
+$string['report:csvexport_users'] = 'Estudantes a exportar';
 $string['report:csvexport_scope_single'] = 'Um estudante';
 $string['report:csvexport_selectstudent'] = 'Selecionar um estudante';
 $string['report:csvexport_student'] = 'Estudante';
