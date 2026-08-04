@@ -606,6 +606,7 @@ $string['report:csvexport_heading'] = 'CSV निर्यात';
 $string['report:csvexport_description'] = 'उपयोगकर्ता, सामग्री और विवरण स्तर चुनें। विभाजक और वैकल्पिक कॉलम इस गतिविधि की सेटिंग से लिए जाते हैं।';
 $string['report:csvexport_scope'] = 'निर्यात करने वाले उपयोगकर्ता';
 $string['report:csvexport_scope_all'] = 'सभी विद्यार्थी';
+$string['report:csvexport_users'] = 'निर्यात किए जाने वाले विद्यार्थी';
 $string['report:csvexport_scope_single'] = 'एक विद्यार्थी';
 $string['report:csvexport_selectstudent'] = 'विद्यार्थी चुनें';
 $string['report:csvexport_student'] = 'विद्यार्थी';

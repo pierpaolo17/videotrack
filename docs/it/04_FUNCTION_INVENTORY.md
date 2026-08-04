@@ -244,6 +244,7 @@
 | locallib.php | function | videotrack_format_seconds() |
 | locallib.php | function | videotrack_format_video_timestamp() |
 | locallib.php | function | videotrack_parse_video_timestamp() |
+| locallib.php | function | videotrack_parse_report_timestamp() |
 | locallib.php | function | videotrack_build_required_reaction_notice() |
 | locallib.php | function | videotrack_get_reactions() |
 | locallib.php | function | videotrack_reaction_icon_url() |
@@ -290,12 +291,14 @@
 | tests/locallib_test.php | function | test_format_seconds_clamps_and_formats_duration() |
 | tests/locallib_test.php | function | test_format_video_timestamp_uses_total_duration() |
 | tests/locallib_test.php | function | test_parse_video_timestamp_accepts_supported_formats() |
+| tests/locallib_test.php | function | test_parse_report_timestamp_requires_colon_format() |
 | tests/locallib_test.php | function | test_get_config_int_preserves_zero_and_clamps_values() |
 | tests/locallib_test.php | function | test_get_config_int_rejects_invalid_bounds() |
 | tests/locallib_test.php | function | test_get_playback_speeds_filters_and_applies_site_cap() |
 | tests/csv_export_test.php | class | mod_videotrack\csv_export_test |
 | tests/csv_export_test.php | function | test_delimiter_resolution() |
 | tests/csv_export_test.php | function | test_process_form_fields() |
+| tests/csv_export_test.php | function | test_identity_columns_split_lastname_and_firstname() |
 | tests/csv_export_test.php | function | test_safe_value_blocks_spreadsheet_formula_injection() |
 | tests/tracker_test.php | class | mod_videotrack\tracker_test |
 | tests/tracker_test.php | function | setUp() |

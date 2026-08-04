@@ -286,6 +286,23 @@ function videotrack_parse_video_timestamp(string $value): ?float {
 }
 
 /**
+ * Parses a report filter time in MM:SS or HH:MM:SS format.
+ *
+ * @param string $value User-entered report filter time.
+ * @return float|null Parsed seconds, or null for empty/invalid input.
+ */
+function videotrack_parse_report_timestamp(string $value): ?float {
+    $value = trim($value);
+    if ($value === '') {
+        return null;
+    }
+    if (!preg_match('/^(?:[0-9]+:[0-5][0-9]|[0-9]+:[0-5][0-9]:[0-5][0-9])$/', $value)) {
+        return null;
+    }
+    return videotrack_parse_video_timestamp($value);
+}
+
+/**
  * Builds a human-readable notice string describing the reaction requirements
  * for this activity. Used as the default reaction notice when the teacher
  * has not written a custom one.

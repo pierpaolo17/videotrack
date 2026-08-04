@@ -307,7 +307,8 @@ final class csv_export {
                 $headers[] = self::field_label($field);
             }
         }
-        $headers[] = get_string('report:userid', 'mod_videotrack');
+        $headers[] = get_string('lastname');
+        $headers[] = get_string('firstname');
         foreach ($selected as $field) {
             if (in_array($field, self::CONTEXT_FIELDS, true)) {
                 continue;
@@ -324,7 +325,7 @@ final class csv_export {
      * @param stdClass $course Course record.
      * @param stdClass $videotrack Activity record.
      * @param stdClass|null $user User record.
-     * @param string $userlabel Mandatory formatted user label.
+     * @param string $userlabel Fallback label for missing or anonymised users.
      * @param int $cmid Course module id, required for uploaded-video links.
      * @return array
      */
@@ -342,7 +343,13 @@ final class csv_export {
                 $values[] = self::field_value($field, $course, $videotrack, $user, $cmid);
             }
         }
-        $values[] = $userlabel;
+        if ($user) {
+            $values[] = trim((string)($user->lastname ?? ''));
+            $values[] = trim((string)($user->firstname ?? ''));
+        } else {
+            $values[] = '';
+            $values[] = $userlabel;
+        }
         foreach ($selected as $field) {
             if (in_array($field, self::CONTEXT_FIELDS, true)) {
                 continue;

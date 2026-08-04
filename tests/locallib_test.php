@@ -109,6 +109,19 @@ final class locallib_test extends advanced_testcase {
     }
 
     /**
+     * Report filters accept only MM:SS and HH:MM:SS durations.
+     *
+     * @covers ::videotrack_parse_report_timestamp
+     */
+    public function test_parse_report_timestamp_requires_colon_format(): void {
+        $this->assertSame(65.0, \videotrack_parse_report_timestamp('1:05'));
+        $this->assertSame(3723.0, \videotrack_parse_report_timestamp('1:02:03'));
+        $this->assertNull(\videotrack_parse_report_timestamp('65'));
+        $this->assertNull(\videotrack_parse_report_timestamp('1:75'));
+        $this->assertNull(\videotrack_parse_report_timestamp('text'));
+    }
+
+    /**
      * Bounded integer settings preserve explicit zero and clamp out-of-range values.
      *
      * @covers ::videotrack_get_config_int
