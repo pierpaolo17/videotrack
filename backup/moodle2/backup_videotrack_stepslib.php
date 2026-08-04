@@ -46,7 +46,8 @@ class backup_videotrack_activity_structure_step extends backup_activity_structur
             'completionpercent', 'reactionsenabled', 'reactionsrequired', 'minreactions',
             'requireallreactiontypes', 'completionlogic', 'clusterwindow', 'showstudentreport',
             'showreactionnotice', 'reactionnoticeformat', 'reactionnotice',
-            'showtranscript', 'showchapters', 'studentnotesenabled', 'csvdelimiter', 'csvexportfields',
+            'showtranscript', 'showchapters', 'studentnotesenabled', 'forumpostingenabled', 'linkedforumid',
+            'csvdelimiter', 'csvexportfields',
             'grade', 'gradepass', 'showgradeto',
             'timemodified', 'timecreated',
         ]);
@@ -104,6 +105,8 @@ class backup_videotrack_activity_structure_step extends backup_activity_structur
             $reactionevent->set_source_table('videotrack_reactev', ['videotrackid' => backup::VAR_PARENTID]);
             $reactionevent->annotate_ids('user', 'userid');
         }
+
+        $videotrack->annotate_ids('forum', 'linkedforumid');
 
         $videotrack->annotate_files('mod_videotrack', 'intro', null);
         $videotrack->annotate_files('mod_videotrack', 'videocontent', null);

@@ -51,3 +51,8 @@ I filtri temporali del report usano controlli numerici separati per ore, minuti 
 L'azione di ricalcolo ricostruisce lo stato aggregato di ogni utente dai record grezzi `videotrack_seg`, invece di rivalutare soltanto il valore booleano di completamento. Unisce gli intervalli visti, ricalcola secondi unici e percentuale, ripristina la posizione dell'ultimo segmento grezzo, rivaluta i requisiti sulle reazioni e sincronizza il completamento Moodle solo quando sono configurate regole di completamento personalizzate di VideoTrack e lo stato cambia. Il completamento basato sulla sola visualizzazione resta gestito dal core Moodle.
 
 La scheda **Ricalcolo completamento** permette di ricostruire gli stati per tutti gli utenti tracciati o per un singolo utente selezionato.
+
+
+## Flusso post Forum con timestamp (1.5.0)
+
+Pulsante player → lettura timestamp AMD condivisa → `forum_post.php` → validazione Moodle Form → nuova validazione `forum_bridge` → `mod_forum_external::add_discussion()` → discussione Forum. Tracking, seek, replay, reazioni e note private non vengono modificati.

@@ -51,3 +51,8 @@ Report time filters use separate numeric hour, minute and second controls; video
 The recalculation action rebuilds each aggregate state from raw `videotrack_seg` rows, rather than only reevaluating the completion boolean. It merges watched intervals, recalculates unique covered seconds and percentage, restores the latest raw-segment position, reevaluates reaction requirements, and synchronises Moodle completion only when custom VideoTrack completion rules are configured and the completion state changes. View-only completion remains managed by Moodle core.
 
 The **Completion recalculation** tab rebuilds states for all tracked users or one selected user.
+
+
+## Timestamped Forum post flow (1.5.0)
+
+Player button → shared AMD timestamp read → `forum_post.php` → Moodle Form validation → `forum_bridge` revalidation → `mod_forum_external::add_discussion()` → Forum discussion. Tracking, seek, replay, reactions and private notes are not modified.

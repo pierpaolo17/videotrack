@@ -59,3 +59,8 @@ For code maintenance use the numbered documents in this directory, especially:
 - `04_FUNCTION_INVENTORY.md`
 - `05_VARIABLE_INVENTORY.md`
 - `06_RUNTIME_FLOWS.md`
+
+
+## Optional timestamped Forum posting (1.5.0)
+
+A teacher may link the activity to a compatible Forum in the same course. The student button reads the current player time, opens a separate Moodle form, and pre-fills a descriptive replay link. Publication is voluntary and uses the official Forum API. Notes remain private.

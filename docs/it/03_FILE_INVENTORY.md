@@ -216,3 +216,11 @@
 | tests/csv_export_test.php | Test PHPUnit per separatore, campi CSV e protezione dalle formule nei fogli di calcolo. |
 | version.php | Plugin manifest, Moodle requirements and release version. |
 | view.php | Student view entry point and player bootstrap data. |
+
+
+## File integrazione Forum (1.5.0)
+
+- `forum_post.php`: controller autenticato del composer.
+- `classes/form/forum_post_form.php`: form Moodle accessibile senza allegati.
+- `classes/local/forum_bridge.php`: validazione e adapter dell’API ufficiale Forum.
+- `amd/src/core/player/forum.js`: avvio condiviso basato sul timestamp usato da tutti i player.

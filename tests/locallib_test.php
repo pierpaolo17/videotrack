@@ -163,4 +163,30 @@ final class locallib_test extends advanced_testcase {
 
         $this->assertSame([1.0, 1.5], \videotrack_get_playback_speeds($videotrack));
     }
+
+    /**
+     * Forum compatibility is restricted to repeatable discussion types.
+     *
+     * @covers ::videotrack_get_compatible_forum_types
+     */
+    public function test_compatible_forum_types_exclude_single_use_forums(): void {
+        $this->assertSame(['general', 'qanda', 'blog'], \videotrack_get_compatible_forum_types());
+    }
+
+    /**
+     * Replay links apply the configured symmetric window and duration cap.
+     *
+     * @covers ::videotrack_build_replay_url
+     */
+    public function test_build_replay_url_applies_window_and_duration(): void {
+        $url = \videotrack_build_replay_url(42, 100.0, 30, 110.0);
+        $this->assertSame('42', $url->get_param('id'));
+        $this->assertSame('70', $url->get_param('replaystart'));
+        $this->assertSame('110', $url->get_param('replayend'));
+
+        $url = \videotrack_build_replay_url(42, 5.0, 30, 0.0);
+        $this->assertSame('0', $url->get_param('replaystart'));
+        $this->assertSame('35', $url->get_param('replayend'));
+    }
+
 }

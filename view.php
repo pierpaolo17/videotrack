@@ -117,6 +117,18 @@ $decodedcheck = json_decode($rawintervals, true);
 $safeintervals = is_array($decodedcheck) ? $rawintervals : '[]';
 
 $playerconfigid = 'mod-videotrack-player-config-' . (int)$cm->id;
+$forumpostbuttonid = 'videotrack-forum-post-button-' . (int)$cm->id;
+$forumpoststatusid = 'videotrack-forum-post-status-' . (int)$cm->id;
+$forumpostavailable = false;
+$forumpostreason = '';
+if (!empty($videotrack->forumpostingenabled)) {
+    try {
+        \mod_videotrack\local\forum_bridge::resolve_destination($videotrack, $course);
+        $forumpostavailable = true;
+    } catch (moodle_exception) {
+        $forumpostreason = get_string('forum:destinationunavailable', 'mod_videotrack');
+    }
+}
 
 $playerconfig = [
     'cmid'                   => (int)$cm->id,
@@ -215,6 +227,12 @@ $playerconfig = [
         : (string)($videotrack->videourl ?? ''),
     'intervaljson'           => $safeintervals,
     'duration'               => (float)($videotrack->durationseconds ?? 0),
+    'forumpostbuttonid'      => $forumpostavailable ? $forumpostbuttonid : '',
+    'forumpoststatusid'      => $forumpoststatusid,
+    'forumposturl'           => $forumpostavailable
+        ? (string)new moodle_url('/mod/videotrack/forum_post.php', ['id' => $cm->id])
+        : '',
+    'forumposterrorlabel'    => get_string('forum:timestampfailed', 'mod_videotrack'),
 ];
 
 // Page layout must be set before js_call_amd and OUTPUT->header().
@@ -426,6 +444,31 @@ echo html_writer::tag(
     get_string('intervalbar_title', 'mod_videotrack') . ' — ' . format_float($percent, 1) . '%',
     ['id' => 'videotrack-interval-bar-status', 'class' => 'videotrack-interval-bar-status']
 );
+if (!empty($videotrack->forumpostingenabled)) {
+    $buttonattributes = [
+        'type' => 'button',
+        'class' => 'btn btn-secondary mt-2',
+        'id' => $forumpostbuttonid,
+        'aria-describedby' => $forumpoststatusid,
+    ];
+    if (!$forumpostavailable) {
+        $buttonattributes['disabled'] = 'disabled';
+    }
+    echo html_writer::tag(
+        'button',
+        get_string('forum:addpostbutton', 'mod_videotrack'),
+        $buttonattributes
+    );
+    $statusattributes = [
+        'id' => $forumpoststatusid,
+        'class' => $forumpostreason === '' ? 'sr-only' : 'd-block text-muted small mt-1',
+        'role' => 'status',
+    ];
+    if ($forumpostreason === '') {
+        $statusattributes['hidden'] = 'hidden';
+    }
+    echo html_writer::tag('span', $forumpostreason, $statusattributes);
+}
 echo html_writer::end_div(); // Videotrack-player-section.
 
 // Sidebar: progress, reactions and student reactions table.

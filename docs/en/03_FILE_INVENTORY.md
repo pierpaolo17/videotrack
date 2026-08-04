@@ -216,3 +216,11 @@
 | tests/csv_export_test.php | PHPUnit coverage for CSV delimiter, fields and formula-injection protection. |
 | version.php | Plugin manifest, Moodle requirements and release version. |
 | view.php | Student view entry point and player bootstrap data. |
+
+
+## Forum integration files (1.5.0)
+
+- `forum_post.php`: authenticated composer controller.
+- `classes/form/forum_post_form.php`: accessible Moodle form without attachments.
+- `classes/local/forum_bridge.php`: validation and official Forum API adapter.
+- `amd/src/core/player/forum.js`: shared timestamp launcher used by all players.

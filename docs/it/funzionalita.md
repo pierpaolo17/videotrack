@@ -59,3 +59,8 @@ Per manutenzione del codice usare i documenti numerati in questa cartella, in pa
 - `04_FUNCTION_INVENTORY.md`
 - `05_VARIABLE_INVENTORY.md`
 - `06_RUNTIME_FLOWS.md`
+
+
+## Pubblicazione opzionale nel Forum con timestamp (1.5.0)
+
+Il docente può collegare l’attività a un Forum compatibile dello stesso corso. Il pulsante dello studente legge il tempo corrente del player, apre un form Moodle separato e precompila un link descrittivo al frammento. La pubblicazione è volontaria e usa l’API ufficiale Forum. Le note restano private.

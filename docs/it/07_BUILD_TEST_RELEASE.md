@@ -60,3 +60,15 @@ Se cambiano gli inventari, rigenerare o verificare manualmente:
 - inventario variabili come supporto di navigazione.
 
 Una patch solo documentale non richiede `grunt amd`, PHPUnit o PHPCS, salvo modifiche a codice eseguibile. Se viene incrementato `version.php`, eseguire l'upgrade Moodle nell'ambiente target.
+
+## Controlli di regressione integrazione Forum (1.5.0)
+
+- creare e modificare un’istanza con la funzione disabilitata;
+- configurare ciascun tipo Forum supportato (`general`, `qanda`, `blog`);
+- verificare il comportamento di Forum nascosti e con restrizioni per docente e studente;
+- verificare nessun gruppo, gruppi separati e appartenenza a più gruppi;
+- verificare la gestione controllata di cutoff e soglie di pubblicazione;
+- verificare che Annulla ritorni al frammento temporale del video;
+- verificare che la discussione contenga solo testo confermato dallo studente e link di replay;
+- ripristinare con e senza il Forum collegato e verificare la disabilitazione sicura quando manca la mappatura;
+- ripetere i test player YouTube, Vimeo e HTML5 per tracking, seek, resume e replay.

@@ -17,3 +17,8 @@ Questo documento storico e stato sostituito dalla documentazione tecnica modular
 - `08_LESSONS_LEARNED.md`: lezioni apprese e regole di manutenzione.
 
 Il contenuto precedente e stato rimpiazzato per evitare informazioni duplicate e obsolete. Per audit storici restano disponibili i file con suffisso versione.
+
+
+## Componenti integrazione Forum (1.5.0)
+
+`forum_post.php`, `classes/form/forum_post_form.php`, `classes/local/forum_bridge.php` e `amd/src/core/player/forum.js` implementano il collegamento opzionale. Il bridge verifica due volte visibilità, capability, gruppi e limiti e delega la creazione a `mod_forum_external::add_discussion()`.

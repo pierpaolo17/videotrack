@@ -629,6 +629,55 @@ class mod_videotrack_mod_form extends moodleform_mod {
             );
         }
 
+
+        // Optional link to a Forum activity in the same course.
+        $mform->addElement('header', 'forumlinkheader', get_string('forum:settingsheader', 'mod_videotrack'));
+        $forumoptions = videotrack_get_compatible_forum_options((int)$COURSE->id);
+        $currentforumid = isset($this->current->linkedforumid) ? (int)$this->current->linkedforumid : 0;
+        if ($currentforumid > 0 && !isset($forumoptions[$currentforumid])) {
+            $forumoptions[$currentforumid] = get_string('forum:configuredunavailable', 'mod_videotrack');
+        }
+        $enableattributes = [];
+        if (!$forumoptions) {
+            $enableattributes['disabled'] = 'disabled';
+        }
+        $mform->addElement(
+            'advcheckbox',
+            'forumpostingenabled',
+            get_string('forum:enable', 'mod_videotrack'),
+            get_string('forum:enable_help', 'mod_videotrack'),
+            $enableattributes
+        );
+        $mform->setDefault('forumpostingenabled', 0);
+        $mform->setType('forumpostingenabled', PARAM_BOOL);
+
+        $selectoptions = [0 => get_string('forum:selectforum', 'mod_videotrack')] + $forumoptions;
+        $mform->addElement(
+            'select',
+            'linkedforumid',
+            get_string('forum:linkedforum', 'mod_videotrack'),
+            $selectoptions
+        );
+        $mform->setType('linkedforumid', PARAM_INT);
+        $mform->setDefault('linkedforumid', 0);
+        $mform->hideIf('linkedforumid', 'forumpostingenabled', 'notchecked');
+        $mform->disabledIf('linkedforumid', 'forumpostingenabled', 'notchecked');
+        if (!$forumoptions) {
+            $mform->freeze('linkedforumid');
+            $mform->addElement(
+                'static',
+                'forumnoneavailable',
+                '',
+                get_string('forum:nocompatibleforums', 'mod_videotrack')
+            );
+        }
+        $mform->addElement(
+            'static',
+            'forumprivacyinfo',
+            '',
+            get_string('forum:privacyinfo', 'mod_videotrack')
+        );
+
         // Reactions section.
         $mform->addElement('header', 'reactionsheader', get_string('reactionsheader', 'mod_videotrack'));
         $mform->addElement('advcheckbox', 'reactionsenabled', get_string('reactionsenabled', 'mod_videotrack'));
@@ -1297,6 +1346,7 @@ JS);
      * @return array Validation errors indexed by form element name.
      */
     public function validation($data, $files) {
+        global $COURSE;
         $errors = parent::validation($data, $files);
         $source = $data['videosource'] ?? 'youtube';
         if ($source === 'youtube') {
@@ -1429,6 +1479,16 @@ JS);
                 }
             }
         }
+
+        if (!empty($data['forumpostingenabled'])) {
+            $forumid = isset($data['linkedforumid']) ? (int)$data['linkedforumid'] : 0;
+            if ($forumid <= 0) {
+                $errors['linkedforumid'] = get_string('forum:errorforumrequired', 'mod_videotrack');
+            } else if (!videotrack_is_compatible_forum((int)$COURSE->id, $forumid)) {
+                $errors['linkedforumid'] = get_string('forum:errorinvaliddestination', 'mod_videotrack');
+            }
+        }
+
         return $errors;
     }
 }
