@@ -37,12 +37,22 @@ final class csv_export {
     /** Spreadsheet-friendly semicolon separator. */
     public const DELIMITER_SEMICOLON = 'semicolon';
 
+    /** Section-sign separator. */
+    public const DELIMITER_SECTION = 'section';
+
+    /** Hash separator. */
+    public const DELIMITER_HASH = 'hash';
+
+    /** Pipe separator. */
+    public const DELIMITER_PIPE = 'pipe';
+
     /** Optional course and activity fields. */
     private const CONTEXT_FIELDS = [
         'coursefullname',
         'courseshortname',
         'courseid',
         'instancename',
+        'videolink',
     ];
 
     /** Optional standard Moodle user fields requested by the activity. */
@@ -72,6 +82,9 @@ final class csv_export {
         }
         $options[self::DELIMITER_COMMA] = get_string('setting:csvdelimiter_comma', 'mod_videotrack');
         $options[self::DELIMITER_SEMICOLON] = get_string('setting:csvdelimiter_semicolon', 'mod_videotrack');
+        $options[self::DELIMITER_SECTION] = get_string('setting:csvdelimiter_section', 'mod_videotrack');
+        $options[self::DELIMITER_HASH] = get_string('setting:csvdelimiter_hash', 'mod_videotrack');
+        $options[self::DELIMITER_PIPE] = get_string('setting:csvdelimiter_pipe', 'mod_videotrack');
         return $options;
     }
 
@@ -86,7 +99,13 @@ final class csv_export {
         if ($configured === '' || $configured === self::DELIMITER_INHERIT) {
             $configured = (string)get_config('mod_videotrack', 'csvdelimiter');
         }
-        return $configured === self::DELIMITER_SEMICOLON ? ';' : ',';
+        return match ($configured) {
+            self::DELIMITER_SEMICOLON => ';',
+            self::DELIMITER_SECTION => '§',
+            self::DELIMITER_HASH => '#',
+            self::DELIMITER_PIPE => '|',
+            default => ',',
+        };
     }
 
     /**
@@ -107,6 +126,7 @@ final class csv_export {
             'courseshortname' => get_string('report:csvfield_courseshortname', 'mod_videotrack'),
             'courseid' => get_string('report:csvfield_courseid', 'mod_videotrack'),
             'instancename' => get_string('report:csvfield_instancename', 'mod_videotrack'),
+            'videolink' => get_string('report:csvfield_videolink', 'mod_videotrack'),
         ];
 
         $allowedidentity = $context === null ? null : fields::get_identity_fields($context, true);
@@ -132,6 +152,38 @@ final class csv_export {
             }
         }
 
+        return $options;
+    }
+
+    /**
+     * Returns the export-field choices shown in an activity form.
+     *
+     * Course/activity fields and all standard user fields are always shown so
+     * teachers see the same configuration surface as administrators. Runtime
+     * export still applies Moodle identity-field permissions; fields that are
+     * not available in the current context are shown read-only by mod_form.
+     *
+     * @param context $context Activity or course context.
+     * @return array<string, string>
+     */
+    public static function form_field_options(context $context): array {
+        global $DB;
+
+        $options = [
+            'coursefullname' => get_string('report:csvfield_coursefullname', 'mod_videotrack'),
+            'courseshortname' => get_string('report:csvfield_courseshortname', 'mod_videotrack'),
+            'courseid' => get_string('report:csvfield_courseid', 'mod_videotrack'),
+            'instancename' => get_string('report:csvfield_instancename', 'mod_videotrack'),
+            'videolink' => get_string('report:csvfield_videolink', 'mod_videotrack'),
+        ];
+        foreach (self::STANDARD_USER_FIELDS as $field) {
+            $options[$field] = get_string('report:csvfield_' . $field, 'mod_videotrack');
+        }
+        $customfields = $DB->get_records('user_info_field', null, 'sortorder ASC, id ASC', 'id, shortname, name');
+        foreach ($customfields as $customfield) {
+            $key = 'profile_field_' . \core_text::strtolower((string)$customfield->shortname);
+            $options[$key] = format_string($customfield->name);
+        }
         return $options;
     }
 
@@ -183,9 +235,11 @@ final class csv_export {
      */
     public static function process_form_fields(stdClass $data, ?context $context = null): void {
         $selected = [];
-        foreach (self::field_options($context) as $field => $label) {
+        $allowed = array_keys(self::field_options($context));
+        $formoptions = $context === null ? self::field_options(null) : self::form_field_options($context);
+        foreach ($formoptions as $field => $label) {
             $elementname = self::form_element_name($field);
-            if (!empty($data->{$elementname})) {
+            if (!empty($data->{$elementname}) && in_array($field, $allowed, true)) {
                 $selected[] = $field;
             }
             unset($data->{$elementname});
@@ -271,6 +325,7 @@ final class csv_export {
      * @param stdClass $videotrack Activity record.
      * @param stdClass|null $user User record.
      * @param string $userlabel Mandatory formatted user label.
+     * @param int $cmid Course module id, required for uploaded-video links.
      * @return array
      */
     public static function identity_values(
@@ -278,12 +333,13 @@ final class csv_export {
         stdClass $course,
         stdClass $videotrack,
         ?stdClass $user,
-        string $userlabel
+        string $userlabel,
+        int $cmid
     ): array {
         $values = [];
         foreach ($selected as $field) {
             if (in_array($field, self::CONTEXT_FIELDS, true)) {
-                $values[] = self::field_value($field, $course, $videotrack, $user);
+                $values[] = self::field_value($field, $course, $videotrack, $user, $cmid);
             }
         }
         $values[] = $userlabel;
@@ -291,9 +347,22 @@ final class csv_export {
             if (in_array($field, self::CONTEXT_FIELDS, true)) {
                 continue;
             }
-            $values[] = self::field_value($field, $course, $videotrack, $user);
+            $values[] = self::field_value($field, $course, $videotrack, $user, $cmid);
         }
         return $values;
+    }
+
+    /**
+     * Writes a UTF-8 byte-order mark for spreadsheet applications.
+     *
+     * The plugin stores and emits UTF-8. The BOM prevents applications such as
+     * Microsoft Excel from interpreting accented text as a legacy code page.
+     *
+     * @param resource $handle Output stream.
+     * @return void
+     */
+    public static function write_utf8_bom($handle): void {
+        fwrite($handle, "\xEF\xBB\xBF");
     }
 
     /**
@@ -305,7 +374,22 @@ final class csv_export {
      * @return void
      */
     public static function write_row($handle, array $row, string $delimiter): void {
-        fputcsv($handle, array_map([self::class, 'safe_value'], $row), $delimiter, '"', '');
+        $row = array_map([self::class, 'safe_value'], $row);
+        if (strlen($delimiter) === 1) {
+            fputcsv($handle, $row, $delimiter, '"', '');
+            return;
+        }
+
+        $encoded = array_map(static function ($value) use ($delimiter): string {
+            $value = (string)$value;
+            $mustquote = strpos($value, $delimiter) !== false
+                || strpos($value, '"') !== false
+                || strpos($value, "\r") !== false
+                || strpos($value, "\n") !== false;
+            $value = str_replace('"', '""', $value);
+            return $mustquote ? '"' . $value . '"' : $value;
+        }, $row);
+        fwrite($handle, implode($delimiter, $encoded) . "\r\n");
     }
 
     /**
@@ -359,9 +443,16 @@ final class csv_export {
      * @param stdClass $course Course record.
      * @param stdClass $videotrack Activity record.
      * @param stdClass|null $user User record.
+     * @param int $cmid Course module id.
      * @return mixed
      */
-    private static function field_value(string $field, stdClass $course, stdClass $videotrack, ?stdClass $user) {
+    private static function field_value(
+        string $field,
+        stdClass $course,
+        stdClass $videotrack,
+        ?stdClass $user,
+        int $cmid
+    ) {
         switch ($field) {
             case 'coursefullname':
                 return format_string($course->fullname);
@@ -371,6 +462,8 @@ final class csv_export {
                 return (int)$course->id;
             case 'instancename':
                 return format_string($videotrack->name);
+            case 'videolink':
+                return self::video_url($videotrack, $cmid);
         }
         if (!$user || !property_exists($user, $field)) {
             return '';
@@ -380,5 +473,40 @@ final class csv_export {
             return get_string($value, 'countries');
         }
         return $value;
+    }
+
+    /**
+     * Returns the configured video URL for CSV exports.
+     *
+     * @param stdClass $videotrack Activity record.
+     * @param int $cmid Course module id.
+     * @return string
+     */
+    private static function video_url(stdClass $videotrack, int $cmid): string {
+        $source = (string)($videotrack->videosource ?? 'youtube');
+        if ($source === 'upload') {
+            $context = \context_module::instance($cmid);
+            $files = get_file_storage()->get_area_files(
+                $context->id,
+                'mod_videotrack',
+                'videocontent',
+                0,
+                'id',
+                false
+            );
+            if (!$files) {
+                return '';
+            }
+            $file = reset($files);
+            return \moodle_url::make_pluginfile_url(
+                $context->id,
+                'mod_videotrack',
+                'videocontent',
+                0,
+                $file->get_filepath(),
+                $file->get_filename()
+            )->out(false);
+        }
+        return trim((string)($videotrack->videourl ?? $videotrack->youtubeurl ?? ''));
     }
 }

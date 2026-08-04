@@ -130,6 +130,7 @@
 | classes/local/csv_export.php | function | delimiter_options() |
 | classes/local/csv_export.php | function | delimiter() |
 | classes/local/csv_export.php | function | field_options() |
+| classes/local/csv_export.php | function | form_field_options() |
 | classes/local/csv_export.php | function | site_default_fields() |
 | classes/local/csv_export.php | function | activity_fields() |
 | classes/local/csv_export.php | function | form_element_name() |
@@ -138,6 +139,7 @@
 | classes/local/csv_export.php | function | load_users() |
 | classes/local/csv_export.php | function | identity_headers() |
 | classes/local/csv_export.php | function | identity_values() |
+| classes/local/csv_export.php | function | write_utf8_bom() |
 | classes/local/csv_export.php | function | write_row() |
 | classes/local/csv_export.php | function | safe_value() |
 | classes/local/privacy_manager.php | class | mod_videotrack\local\privacy_manager |
@@ -241,6 +243,7 @@
 | locallib.php | function | videotrack_get_site_playback_speeds() |
 | locallib.php | function | videotrack_format_seconds() |
 | locallib.php | function | videotrack_format_video_timestamp() |
+| locallib.php | function | videotrack_parse_video_timestamp() |
 | locallib.php | function | videotrack_build_required_reaction_notice() |
 | locallib.php | function | videotrack_get_reactions() |
 | locallib.php | function | videotrack_reaction_icon_url() |
@@ -286,6 +289,7 @@
 | tests/locallib_test.php | function | test_extract_vimeo_id_accepts_supported_vimeo_urls() |
 | tests/locallib_test.php | function | test_format_seconds_clamps_and_formats_duration() |
 | tests/locallib_test.php | function | test_format_video_timestamp_uses_total_duration() |
+| tests/locallib_test.php | function | test_parse_video_timestamp_accepts_supported_formats() |
 | tests/locallib_test.php | function | test_get_config_int_preserves_zero_and_clamps_values() |
 | tests/locallib_test.php | function | test_get_config_int_rejects_invalid_bounds() |
 | tests/locallib_test.php | function | test_get_playback_speeds_filters_and_applies_site_cap() |

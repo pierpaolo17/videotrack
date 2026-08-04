@@ -246,6 +246,46 @@ function videotrack_format_video_timestamp(float $seconds, float $duration): str
 }
 
 /**
+ * Parses seconds, MM:SS or HH:MM:SS into a non-negative number of seconds.
+ *
+ * @param string $value User-entered video time.
+ * @return float|null Parsed seconds, or null for empty/invalid input.
+ */
+function videotrack_parse_video_timestamp(string $value): ?float {
+    $value = trim($value);
+    if ($value === '') {
+        return null;
+    }
+    if (is_numeric($value)) {
+        return max(0.0, (float)$value);
+    }
+
+    $parts = explode(':', $value);
+    if (count($parts) < 2 || count($parts) > 3) {
+        return null;
+    }
+    foreach ($parts as $part) {
+        if ($part === '' || !ctype_digit($part)) {
+            return null;
+        }
+    }
+
+    if (count($parts) === 2) {
+        [$minutes, $seconds] = array_map('intval', $parts);
+        if ($seconds > 59) {
+            return null;
+        }
+        return (float)(($minutes * 60) + $seconds);
+    }
+
+    [$hours, $minutes, $seconds] = array_map('intval', $parts);
+    if ($minutes > 59 || $seconds > 59) {
+        return null;
+    }
+    return (float)(($hours * 3600) + ($minutes * 60) + $seconds);
+}
+
+/**
  * Builds a human-readable notice string describing the reaction requirements
  * for this activity. Used as the default reaction notice when the teacher
  * has not written a custom one.

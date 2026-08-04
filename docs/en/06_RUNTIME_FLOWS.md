@@ -38,9 +38,11 @@ Replay is shared as a UI event, but seek behaviour is specific to HTML5, YouTube
 
 The Vimeo SDK uses asynchronous promises for `setCurrentTime()`, `play()` and `pause()`. Do not chain aggressive `play()` calls after a seek: this can produce `PlayInterrupted`. Every Vimeo change must be manually tested on rewind, forward within viewed range, forward beyond limit and replay.
 
-## CSV export flow (1.4.264)
+## CSV export flow (1.4.266)
 
-The site default defines the CSV separator and optional course/activity/user fields. Each activity may inherit or override these choices. At runtime, `classes/local/csv_export.php` filters the configured user fields through Moodle's identity-field visibility rules, loads standard and visible custom profile fields with `core_user\fields`, applies spreadsheet-formula protection, and writes localised headers. The all-events export includes active reactions and personal notes for every user after an explicit personal-data confirmation.
+The site default defines the CSV separator and optional course/activity/user fields. Each activity may inherit or override these choices. Available separators are comma, semicolon, `§`, `#` and `|`. Teachers see the same standard configuration choices as administrators; identity fields denied by Moodle core remain unavailable for export. At runtime, `classes/local/csv_export.php` applies Moodle visibility rules, loads standard and visible custom profile fields through `core_user\fields`, optionally adds the video link, prevents spreadsheet-formula injection, and writes UTF-8 with a BOM for spreadsheet applications.
+
+The **CSV export** tab lets teachers select one student or all students, reactions and/or notes, and detailed or summary output. Detailed output writes one row per event. Summary output clusters each student's reactions by type using the configured cluster window while keeping notes as individual rows. The personal-data checkbox does not grant a capability; it records an explicit acknowledgement and is enforced server-side before the download starts.
 
 ## Completion recalculation (1.4.264)
 
