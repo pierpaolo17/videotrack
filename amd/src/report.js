@@ -49,6 +49,26 @@ define(['core/log', 'mod_videotrack/core/confirm', 'mod_videotrack/core/debug'],
         });
     };
 
+    /**
+     * Forces the all-students scope for the overall export format.
+     */
+    var initialiseExportFormat = function() {
+        var format = document.getElementById('id_csvformat');
+        var users = document.getElementById('id_csvuserid');
+        if (!format || !users) {
+            return;
+        }
+        var update = function() {
+            var overall = format.value === 'overall';
+            if (overall) {
+                users.value = '0';
+            }
+            users.disabled = overall;
+        };
+        format.addEventListener('change', update);
+        update();
+    };
+
     return {
         /**
          * Initialise the report page JS.
@@ -63,6 +83,7 @@ define(['core/log', 'mod_videotrack/core/confirm', 'mod_videotrack/core/debug'],
                 config.confirmreset, config.labels);
             attachConfirm('.videotrack-recalculate-form',
                 config.confirmrecalculate, config.labels);
+            initialiseExportFormat();
             Debug.log('reportinitialised');
         }
     };

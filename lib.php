@@ -1516,9 +1516,10 @@ function videotrack_pluginfile($course, $cm, $context, $filearea, $args, $forced
  *
  * @param  int      $videotrackid   VideoTrack instance id.
  * @param  cm_info  $cm             Course module info.
+ * @param  int      $userid          Optional user id; zero recalculates every tracked user.
  * @return int                      Number of updated state records.
  */
-function videotrack_recalculate_all_states(int $videotrackid, cm_info $cm): int {
+function videotrack_recalculate_all_states(int $videotrackid, cm_info $cm, int $userid = 0): int {
     global $DB;
 
     $videotrack = $DB->get_record('videotrack', ['id' => $videotrackid], '*', MUST_EXIST);
@@ -1533,17 +1534,26 @@ function videotrack_recalculate_all_states(int $videotrackid, cm_info $cm): int 
         || !empty($videotrack->requireallreactiontypes)
         || $hasrequiredreactions;
     $userids = [];
-    foreach (['videotrack_state', 'videotrack_seg', 'videotrack_reactev'] as $table) {
-        foreach (
-            $DB->get_fieldset_select(
-                $table,
-                'DISTINCT userid',
-                'videotrackid = :vtid',
-                ['vtid' => $videotrackid]
-            ) as $userid
-        ) {
-            if ((int)$userid > 0) {
-                $userids[(int)$userid] = true;
+    if ($userid > 0) {
+        foreach (['videotrack_state', 'videotrack_seg', 'videotrack_reactev'] as $table) {
+            if ($DB->record_exists($table, ['videotrackid' => $videotrackid, 'userid' => $userid])) {
+                $userids[$userid] = true;
+                break;
+            }
+        }
+    } else {
+        foreach (['videotrack_state', 'videotrack_seg', 'videotrack_reactev'] as $table) {
+            foreach (
+                $DB->get_fieldset_select(
+                    $table,
+                    'DISTINCT userid',
+                    'videotrackid = :vtid',
+                    ['vtid' => $videotrackid]
+                ) as $trackeduserid
+            ) {
+                if ((int)$trackeduserid > 0) {
+                    $userids[(int)$trackeduserid] = true;
+                }
             }
         }
     }

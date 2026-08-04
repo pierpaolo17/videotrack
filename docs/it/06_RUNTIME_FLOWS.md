@@ -38,14 +38,16 @@ Il replay è comune come evento UI, ma il comportamento del seek è specifico pe
 
 Vimeo SDK usa promesse asincrone per `setCurrentTime()`, `play()` e `pause()`. Non concatenare chiamate `play()` aggressive dopo un seek: può generare `PlayInterrupted`. Ogni modifica a Vimeo va testata manualmente su rewind, forward dentro il visto, forward oltre limite e replay.
 
-## Flusso di esportazione CSV (1.4.267)
+## Flusso di esportazione CSV (1.4.268)
 
 Il valore predefinito di sito definisce il separatore CSV e i campi facoltativi di corso, attività e utente. Ogni attività può ereditare o sovrascrivere queste scelte. I separatori disponibili sono virgola, punto e virgola, `§`, `#` e `|`. Il docente vede nella configurazione dell'attività le stesse opzioni standard dell'amministratore; i campi identificativi non autorizzati dal core Moodle restano visibili ma disabilitati e non esportabili. Durante l'esportazione, `classes/local/csv_export.php` applica le regole Moodle sulla visibilità, carica i campi standard e quelli personalizzati visibili tramite `core_user\fields`, aggiunge facoltativamente il link al video, protegge dalle formule nei fogli di calcolo e scrive UTF-8 con BOM per i programmi di foglio elettronico.
 
-La scheda **Esportazione CSV** usa un unico menu per scegliere tutti gli studenti oppure uno studente specifico, quindi consente di selezionare reazioni e/o note e il formato dettagliato o sintetico. Il formato dettagliato produce una riga per evento; quello sintetico raggruppa le reazioni per studente e tipo usando la finestra cluster dell'attività, mantenendo le note come righe individuali. Il nominativo è esportato in due colonne distinte, cognome e nome. L'avviso sui dati personali resta informativo; il download dipende dalle capability Moodle e dal sesskey, senza checkbox aggiuntiva.
+La scheda **Esportazione CSV** usa un unico menu per scegliere tutti gli studenti oppure uno studente specifico, quindi consente di selezionare reazioni e/o note e il formato dettagliato o sintetico. Il formato dettagliato produce una riga per evento; quello sintetico raggruppa le reazioni per studente e tipo; quello complessivo raggruppa insieme le reazioni di tutti gli studenti usando la finestra cluster dell'attività. Le note restano righe individuali. Il nominativo è esportato in due colonne distinte, cognome e nome. L'avviso sui dati personali resta informativo; il download dipende dalle capability Moodle e dal sesskey, senza checkbox aggiuntiva.
 
-I filtri temporali del report accettano esclusivamente durate `MM:SS` o `HH:MM:SS`; il browser e il server rifiutano formati diversi.
+I filtri temporali del report usano controlli numerici separati per ore, minuti e secondi; per i video sotto un’ora mostrano solo `MM:SS`. I link precedenti in formato `MM:SS` o `HH:MM:SS` restano compatibili.
 
-## Ricalcolo del completamento (1.4.264)
+## Ricalcolo del completamento (1.4.268)
 
 L'azione di ricalcolo ricostruisce lo stato aggregato di ogni utente dai record grezzi `videotrack_seg`, invece di rivalutare soltanto il valore booleano di completamento. Unisce gli intervalli visti, ricalcola secondi unici e percentuale, ripristina la posizione dell'ultimo segmento grezzo, rivaluta i requisiti sulle reazioni e sincronizza il completamento Moodle solo quando sono configurate regole di completamento personalizzate di VideoTrack e lo stato cambia. Il completamento basato sulla sola visualizzazione resta gestito dal core Moodle.
+
+La scheda **Ricalcolo completamento** permette di ricostruire gli stati per tutti gli utenti tracciati o per un singolo utente selezionato.

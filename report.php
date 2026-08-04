@@ -67,19 +67,113 @@ function videotrack_report_date_to_timestamp(string $date, bool $endofday = fals
 /**
  * Reads an optional video-time filter.
  *
- * Accepted values are MM:SS or HH:MM:SS. Empty values are treated as no filter;
- * invalid values are rejected.
+ * The report form submits numeric hour/minute/second controls. Legacy MM:SS and
+ * HH:MM:SS links remain supported for backwards compatibility.
  *
  * @param string $name Parameter name.
- * @return float|null Non-negative float value, or null when unset/empty/invalid.
+ * @return float|null Non-negative float value, or null when unset/empty.
  */
 function videotrack_report_optional_time_param(string $name): ?float {
+    $componentnames = [
+        'hours' => $name . '_hours',
+        'minutes' => $name . '_minutes',
+        'seconds' => $name . '_seconds',
+    ];
+    $rawparts = [];
+    foreach ($componentnames as $part => $componentname) {
+        $rawparts[$part] = optional_param($componentname, null, PARAM_RAW_TRIMMED);
+    }
+    $hascomponents = count(array_filter($rawparts, static function ($value): bool {
+        return $value !== null;
+    })) > 0;
+    if ($hascomponents) {
+        if (
+            ($rawparts['hours'] === '' || $rawparts['hours'] === null)
+            && ($rawparts['minutes'] === '' || $rawparts['minutes'] === null)
+            && ($rawparts['seconds'] === '' || $rawparts['seconds'] === null)
+        ) {
+            return null;
+        }
+        foreach ($rawparts as $rawpart) {
+            if ($rawpart !== '' && $rawpart !== null && !preg_match('/^\d+$/', $rawpart)) {
+                throw new invalid_parameter_exception(get_string('report:timeformatplaceholder', 'mod_videotrack'));
+            }
+        }
+        $hours = ($rawparts['hours'] === '' || $rawparts['hours'] === null) ? 0 : (int)$rawparts['hours'];
+        $minutes = ($rawparts['minutes'] === '' || $rawparts['minutes'] === null) ? 0 : (int)$rawparts['minutes'];
+        $seconds = ($rawparts['seconds'] === '' || $rawparts['seconds'] === null) ? 0 : (int)$rawparts['seconds'];
+        if ($minutes > 59 || $seconds > 59) {
+            throw new invalid_parameter_exception(get_string('report:timeformatplaceholder', 'mod_videotrack'));
+        }
+        return (float)(($hours * HOURSECS) + ($minutes * MINSECS) + $seconds);
+    }
+
     $rawvalue = optional_param($name, '', PARAM_RAW_TRIMMED);
     $parsed = videotrack_parse_report_timestamp($rawvalue);
     if ($rawvalue !== '' && $parsed === null) {
         throw new invalid_parameter_exception(get_string('report:timeformatplaceholder', 'mod_videotrack'));
     }
     return $parsed;
+}
+
+/**
+ * Renders a structured duration filter using number inputs.
+ *
+ * @param string $name Base parameter name.
+ * @param string $label Visible field label.
+ * @param float|null $value Current value in seconds.
+ * @param bool $showhours Whether to render the hours control.
+ * @return string HTML fragment.
+ */
+function videotrack_report_duration_filter(string $name, string $label, ?float $value, bool $showhours): string {
+    $totalseconds = $value === null ? null : max(0, (int)round($value));
+    $hours = $totalseconds === null ? '' : (string)floor($totalseconds / HOURSECS);
+    $minutes = $totalseconds === null ? '' : (string)floor(($totalseconds % HOURSECS) / MINSECS);
+    $seconds = $totalseconds === null ? '' : (string)($totalseconds % MINSECS);
+    if (!$showhours && $totalseconds !== null) {
+        $minutes = (string)floor($totalseconds / MINSECS);
+    }
+
+    $groupid = 'id_' . $name . '_group';
+    $html = html_writer::span($label, 'mr-1', ['id' => $groupid . '_label']);
+    $attributes = [
+        'type' => 'number',
+        'min' => 0,
+        'step' => 1,
+        'inputmode' => 'numeric',
+        'autocomplete' => 'off',
+        'class' => 'form-control form-control-sm videotrack-time-part',
+        'style' => 'width:4.5rem',
+    ];
+    if ($showhours) {
+        $html .= html_writer::empty_tag('input', array_merge($attributes, [
+            'name' => $name . '_hours',
+            'id' => 'id_' . $name . '_hours',
+            'value' => $hours,
+            'aria-label' => get_string('hours'),
+        ]));
+        $html .= html_writer::span(':', 'mx-1', ['aria-hidden' => 'true']);
+    }
+    $html .= html_writer::empty_tag('input', array_merge($attributes, [
+        'name' => $name . '_minutes',
+        'id' => 'id_' . $name . '_minutes',
+        'value' => $minutes,
+        'max' => 59,
+        'aria-label' => get_string('minutes'),
+    ]));
+    $html .= html_writer::span(':', 'mx-1', ['aria-hidden' => 'true']);
+    $html .= html_writer::empty_tag('input', array_merge($attributes, [
+        'name' => $name . '_seconds',
+        'id' => 'id_' . $name . '_seconds',
+        'value' => $seconds,
+        'max' => 59,
+        'aria-label' => get_string('seconds'),
+    ]));
+    return html_writer::div($html, 'd-inline-flex align-items-center mr-3 mb-2', [
+        'id' => $groupid,
+        'role' => 'group',
+        'aria-labelledby' => $groupid . '_label',
+    ]);
 }
 
 global $DB, $USER, $CFG, $PAGE, $OUTPUT;
@@ -98,6 +192,7 @@ $csvincludereactions = optional_param(
 );
 $csvincludenotes = optional_param('csvincludenotes', 0, PARAM_BOOL);
 $csvformat = optional_param('csvformat', 'detailed', PARAM_ALPHA);
+$recalculateuserid = optional_param('recalculateuserid', 0, PARAM_INT);
 $action = optional_param('action', '', PARAM_ALPHA);
 $resetaction = optional_param('resetaction', '', PARAM_ALPHA);
 $useridfilter = optional_param('userid', 0, PARAM_INT);
@@ -130,7 +225,7 @@ $validwindows = [10, 15, 20, 30, 60];
 if (!in_array($window, $validwindows, true)) {
     $window = 30;
 }
-$mode = in_array($mode, ['student', 'cumulative', 'export'], true) ? $mode : 'student';
+$mode = in_array($mode, ['student', 'cumulative', 'export', 'recalculate'], true) ? $mode : 'student';
 if (!$canviewfullreport) {
     require_capability('mod/videotrack:viewownreport', $context);
     if ($mode !== 'student' || ($export !== '' && $export !== 'csv') || $action !== '' || $resetaction !== '') {
@@ -142,7 +237,7 @@ if (!$canviewfullreport) {
 }
 $aggregation = in_array($aggregation, ['type', 'peak'], true) ? $aggregation : 'type';
 $sort = in_array($sort, ['time', 'reaction', 'clicks'], true) ? $sort : 'time';
-$csvformat = in_array($csvformat, ['detailed', 'summary'], true) ? $csvformat : 'detailed';
+$csvformat = in_array($csvformat, ['detailed', 'summary', 'overall'], true) ? $csvformat : 'detailed';
 
 $sortsql = 'videotime ASC';
 if ($sort === 'reaction') {
@@ -209,6 +304,12 @@ $stateuserids = array_map('intval', $DB->get_fieldset_select(
     $stateconditions,
     $stateparamsnamed
 ));
+$segmentuserids = array_map('intval', $DB->get_fieldset_select(
+    'videotrack_seg',
+    'DISTINCT userid',
+    'videotrackid = :vtid',
+    ['vtid' => $videotrack->id]
+));
 $getstaterecordset = static function () use ($DB, $stateparams) {
     return $DB->get_recordset('videotrack_state', $stateparams, 'completionpercent DESC, uniquecoveredseconds DESC');
 };
@@ -230,6 +331,7 @@ if (!empty($videotrack->studentnotesenabled)) {
 // Load all required users in a single query instead of N core_user::get_user() calls.
 $alluserids = array_values(array_filter(array_unique(array_merge(
     $stateuserids,
+    $segmentuserids,
     $eventuserids,
     $noteuserids
 )), static function (int $userid): bool {
@@ -259,6 +361,14 @@ foreach ($stateuserids as $stateuserid) {
     $user = $usermap[(int)$stateuserid] ?? null;
     if ($user) {
         $useroptions[(int)$user->id] = videotrack_report_user_label((int)$user->id, $usermap, $canviewemail);
+    }
+}
+foreach ($segmentuserids as $segmentuserid) {
+    if (!isset($useroptions[(int)$segmentuserid])) {
+        $user = $usermap[(int)$segmentuserid] ?? null;
+        if ($user) {
+            $useroptions[(int)$user->id] = videotrack_report_user_label((int)$user->id, $usermap, $canviewemail);
+        }
     }
 }
 foreach ($eventuserids as $eventuserid) {
@@ -292,8 +402,14 @@ $baseparams = [
     'window' => $window,
     'userid' => $useridfilter,
     'reactionid' => $reactionidfilter,
-    'timefrom' => $timefrom,
-    'timeto' => $timeto,
+    'timefrom' => $timefrom === null ? '' : videotrack_format_video_timestamp(
+        $timefrom,
+        (float)$videotrack->durationseconds
+    ),
+    'timeto' => $timeto === null ? '' : videotrack_format_video_timestamp(
+        $timeto,
+        (float)$videotrack->durationseconds
+    ),
     'notecreatedfrom' => $notecreatedfrom,
     'notecreatedto' => $notecreatedto,
 ];
@@ -398,6 +514,9 @@ if ($export === 'custom_csv') {
     if (!$csvincludereactions && !$csvincludenotes) {
         throw new moodle_exception('report:csvexport_selectcontent', 'mod_videotrack');
     }
+    if ($csvformat === 'overall') {
+        $csvuserid = 0;
+    }
     if ($csvuserid > 0) {
         if (!is_enrolled($context, $csvuserid, '', true)) {
             throw new moodle_exception('invaliduser', 'error');
@@ -435,18 +554,22 @@ if ($export === 'custom_csv') {
     $fh = fopen('php://output', 'w');
     \mod_videotrack\local\csv_export::write_utf8_bom($fh);
 
+    $eventheaders = [
+        get_string('report:csvcol_eventtype', 'mod_videotrack'),
+        get_string('report:reaction', 'mod_videotrack'),
+        get_string('report:csvcol_comment', 'mod_videotrack'),
+        get_string('report:timestamp', 'mod_videotrack'),
+        get_string('report:csvcol_firsttimestamp', 'mod_videotrack'),
+        get_string('report:csvcol_lasttimestamp', 'mod_videotrack'),
+        get_string('report:csvcol_count', 'mod_videotrack'),
+        get_string('report:csvcol_created', 'mod_videotrack'),
+    ];
+    if ($csvformat === 'overall') {
+        $eventheaders[] = get_string('report:students', 'mod_videotrack');
+    }
     $headers = array_merge(
         \mod_videotrack\local\csv_export::identity_headers($csvfields),
-        [
-            get_string('report:csvcol_eventtype', 'mod_videotrack'),
-            get_string('report:reaction', 'mod_videotrack'),
-            get_string('report:csvcol_comment', 'mod_videotrack'),
-            get_string('report:timestamp', 'mod_videotrack'),
-            get_string('report:csvcol_firsttimestamp', 'mod_videotrack'),
-            get_string('report:csvcol_lasttimestamp', 'mod_videotrack'),
-            get_string('report:csvcol_count', 'mod_videotrack'),
-            get_string('report:csvcol_created', 'mod_videotrack'),
-        ]
+        $eventheaders
     );
     \mod_videotrack\local\csv_export::write_row($fh, $headers, $csvdelimiter);
 
@@ -459,7 +582,8 @@ if ($export === 'custom_csv') {
         float $firsttimestamp,
         float $lasttimestamp,
         int $count,
-        string $created
+        string $created,
+        int $studentcount = 1
     ) use (
         $fh,
         $csvdelimiter,
@@ -468,10 +592,11 @@ if ($export === 'custom_csv') {
         $videotrack,
         $exportusermap,
         $cm,
-        $videoduration
+        $videoduration,
+        $csvformat
     ): void {
-        $user = $exportusermap[$userid] ?? null;
-        if (!$user) {
+        $user = $userid > 0 ? ($exportusermap[$userid] ?? null) : null;
+        if ($userid > 0 && !$user) {
             return;
         }
         $row = \mod_videotrack\local\csv_export::identity_values(
@@ -479,7 +604,7 @@ if ($export === 'custom_csv') {
             $course,
             $videotrack,
             $user,
-            videotrack_report_user_label($userid, $exportusermap, false),
+            $userid > 0 ? videotrack_report_user_label($userid, $exportusermap, false) : '',
             (int)$cm->id
         );
         $row = array_merge($row, [
@@ -492,12 +617,15 @@ if ($export === 'custom_csv') {
             $count,
             $created,
         ]);
+        if ($csvformat === 'overall') {
+            $row[] = $studentcount;
+        }
         \mod_videotrack\local\csv_export::write_row($fh, $row, $csvdelimiter);
     };
 
     $scopewhere = 'videotrackid = :vtid AND isdeleted = 0';
     $scopeparams = ['vtid' => $videotrack->id];
-    if ($csvuserid > 0) {
+    if ($csvuserid > 0 && $csvformat !== 'overall') {
         $scopewhere .= ' AND userid = :exportuserid';
         $scopeparams['exportuserid'] = $csvuserid;
     }
@@ -540,24 +668,13 @@ if ($export === 'custom_csv') {
                 'videotrack_reactev',
                 $scopewhere . " AND (notetype = '' OR notetype IS NULL)",
                 $scopeparams,
-                'userid ASC, videotime ASC',
+                $csvformat === 'overall' ? 'videotime ASC' : 'userid ASC, videotime ASC',
                 'userid, reactionid, reactionlabel, videotime'
             );
-            $currentuserid = 0;
-            $userevents = [];
-            $flushclusters = static function () use (
-                &$currentuserid,
-                &$userevents,
-                $clusterize,
-                $window,
-                $writeeventrow
-            ): void {
-                if ($currentuserid <= 0 || !$userevents) {
-                    return;
-                }
-                foreach ($clusterize($userevents, $window, 'type') as $cluster) {
+            if ($csvformat === 'overall') {
+                foreach ($clusterize($reactionrs, $window, 'type') as $cluster) {
                     $writeeventrow(
-                        $currentuserid,
+                        0,
                         get_string('report:eventtype_reaction', 'mod_videotrack'),
                         (string)$cluster['reactionlabel'],
                         '',
@@ -565,20 +682,48 @@ if ($export === 'custom_csv') {
                         (float)$cluster['first'],
                         (float)$cluster['last'],
                         (int)$cluster['count'],
-                        ''
+                        '',
+                        (int)$cluster['students']
                     );
                 }
+            } else {
+                $currentuserid = 0;
                 $userevents = [];
-            };
-            foreach ($reactionrs as $reactionevent) {
-                $userid = (int)$reactionevent->userid;
-                if ($currentuserid !== 0 && $userid !== $currentuserid) {
-                    $flushclusters();
+                $flushclusters = static function () use (
+                    &$currentuserid,
+                    &$userevents,
+                    $clusterize,
+                    $window,
+                    $writeeventrow
+                ): void {
+                    if ($currentuserid <= 0 || !$userevents) {
+                        return;
+                    }
+                    foreach ($clusterize($userevents, $window, 'type') as $cluster) {
+                        $writeeventrow(
+                            $currentuserid,
+                            get_string('report:eventtype_reaction', 'mod_videotrack'),
+                            (string)$cluster['reactionlabel'],
+                            '',
+                            (float)$cluster['timestamp'],
+                            (float)$cluster['first'],
+                            (float)$cluster['last'],
+                            (int)$cluster['count'],
+                            ''
+                        );
+                    }
+                    $userevents = [];
+                };
+                foreach ($reactionrs as $reactionevent) {
+                    $userid = (int)$reactionevent->userid;
+                    if ($currentuserid !== 0 && $userid !== $currentuserid) {
+                        $flushclusters();
+                    }
+                    $currentuserid = $userid;
+                    $userevents[] = $reactionevent;
                 }
-                $currentuserid = $userid;
-                $userevents[] = $reactionevent;
+                $flushclusters();
             }
-            $flushclusters();
             $reactionrs->close();
         }
         if ($csvincludenotes && !empty($videotrack->studentnotesenabled)) {
@@ -881,14 +1026,21 @@ if ($export === 'csv') {
     exit;
 }
 
-// Recalculate completionpercent and iscompleted for all users.
+// Recalculate aggregate completion state for all tracked users or one selected user.
 if ($action === 'recalculate') {
     if ($_SERVER['REQUEST_METHOD'] !== 'POST') {
         throw new moodle_exception('invalidrequest', 'error');
     }
     require_sesskey();
     require_once(__DIR__ . '/lib.php');
-    $updated = videotrack_recalculate_all_states($videotrack->id, cm_info::create($cm));
+    if ($recalculateuserid > 0 && !in_array($recalculateuserid, $alluserids, true)) {
+        throw new moodle_exception('invaliduserid', 'error');
+    }
+    $updated = videotrack_recalculate_all_states(
+        $videotrack->id,
+        cm_info::create($cm),
+        $recalculateuserid
+    );
     redirect(
         new moodle_url('/mod/videotrack/report.php', $baseparams),
         get_string('report:recalculated', 'mod_videotrack', $updated),
@@ -997,28 +1149,19 @@ if ($hasgrade && optional_param('savegrade', 0, PARAM_INT)) {
     );
 }
 
+// Initialise the AMD module that handles the student reset confirmation.
+$PAGE->requires->js_call_amd('mod_videotrack/report', 'init', [[
+    'confirmreset' => get_string('report:resetstudent_confirm', 'mod_videotrack'),
+    'confirmrecalculate' => get_string('report:recalculate_confirm', 'mod_videotrack'),
+    'labels' => [
+        'confirm' => get_string('confirm', 'moodle'),
+        'yes' => get_string('yes', 'moodle'),
+        'cancel' => get_string('cancel', 'moodle'),
+    ],
+]]);
+
 echo $OUTPUT->header();
 echo $OUTPUT->heading(get_string('reportteacher', 'mod_videotrack'));
-
-$recalculateform = html_writer::start_tag('form', [
-    'method' => 'post',
-    'action' => (new moodle_url('/mod/videotrack/report.php'))->out(false),
-    'class' => 'd-inline videotrack-recalculate-form',
-]);
-foreach ($baseparams as $name => $value) {
-    $recalculateform .= html_writer::empty_tag('input', [
-        'type' => 'hidden',
-        'name' => $name,
-        'value' => $value,
-    ]);
-}
-$recalculateform .= html_writer::empty_tag('input', ['type' => 'hidden', 'name' => 'sesskey', 'value' => sesskey()]);
-$recalculateform .= html_writer::empty_tag('input', ['type' => 'hidden', 'name' => 'action', 'value' => 'recalculate']);
-$recalculateform .= html_writer::tag('button', get_string('report:recalculate', 'mod_videotrack'), [
-    'type' => 'submit',
-    'class' => 'btn btn-link p-0 align-baseline',
-]);
-$recalculateform .= html_writer::end_tag('form');
 
 $tabs = [
     new tabobject(
@@ -1038,9 +1181,64 @@ if ($canviewfullreport) {
         new moodle_url('/mod/videotrack/report.php', ['id' => $cm->id, 'mode' => 'export']),
         get_string('report:csvexport_tab', 'mod_videotrack')
     );
+    $tabs[] = new tabobject(
+        'recalculate',
+        new moodle_url('/mod/videotrack/report.php', ['id' => $cm->id, 'mode' => 'recalculate']),
+        get_string('report:recalculate_tab', 'mod_videotrack')
+    );
 }
 echo $OUTPUT->tabtree($tabs, $mode);
-echo html_writer::div($recalculateform, 'mb-3');
+
+if ($mode === 'recalculate') {
+    echo $OUTPUT->heading(get_string('report:recalculate_heading', 'mod_videotrack'), 3);
+    echo html_writer::div(
+        get_string('report:recalculate_description', 'mod_videotrack'),
+        'alert alert-info'
+    );
+    $recalculateoptions = $useroptions;
+    $recalculateoptions[0] = get_string('report:recalculate_all', 'mod_videotrack');
+    $recalculateform = html_writer::start_tag('form', [
+        'method' => 'post',
+        'action' => (new moodle_url('/mod/videotrack/report.php'))->out(false),
+        'class' => 'videotrack-recalculate-form',
+    ]);
+    $recalculateform .= html_writer::empty_tag('input', [
+        'type' => 'hidden', 'name' => 'id', 'value' => $cm->id,
+    ]);
+    $recalculateform .= html_writer::empty_tag('input', [
+        'type' => 'hidden', 'name' => 'mode', 'value' => 'recalculate',
+    ]);
+    $recalculateform .= html_writer::empty_tag('input', [
+        'type' => 'hidden', 'name' => 'action', 'value' => 'recalculate',
+    ]);
+    $recalculateform .= html_writer::empty_tag('input', [
+        'type' => 'hidden', 'name' => 'sesskey', 'value' => sesskey(),
+    ]);
+    $recalculateform .= html_writer::start_div('form-group');
+    $recalculateform .= html_writer::label(
+        get_string('report:recalculate_users', 'mod_videotrack'),
+        'id_recalculateuserid',
+        false,
+        ['class' => 'd-block']
+    );
+    $recalculateform .= html_writer::select(
+        $recalculateoptions,
+        'recalculateuserid',
+        $recalculateuserid,
+        false,
+        ['id' => 'id_recalculateuserid', 'class' => 'custom-select']
+    );
+    $recalculateform .= html_writer::end_div();
+    $recalculateform .= html_writer::tag(
+        'button',
+        get_string('report:recalculate_submit', 'mod_videotrack'),
+        ['type' => 'submit', 'class' => 'btn btn-primary']
+    );
+    $recalculateform .= html_writer::end_tag('form');
+    echo $recalculateform;
+    echo $OUTPUT->footer();
+    exit;
+}
 
 if ($mode === 'export') {
     echo $OUTPUT->heading(get_string('report:csvexport_heading', 'mod_videotrack'), 3);
@@ -1120,6 +1318,7 @@ if ($mode === 'export') {
     $exportform .= html_writer::select([
         'detailed' => get_string('report:csvexport_detailed', 'mod_videotrack'),
         'summary' => get_string('report:csvexport_summary', 'mod_videotrack'),
+        'overall' => get_string('report:csvexport_overall', 'mod_videotrack'),
     ], 'csvformat', $csvformat, false, ['id' => 'id_csvformat', 'class' => 'custom-select']);
     $exportform .= html_writer::div(
         get_string('report:csvexport_format_help', 'mod_videotrack', $window),
@@ -1176,41 +1375,23 @@ $reactionfilter = html_writer::label(
 );
 echo html_writer::div($userfilter, 'd-inline-flex align-items-center mr-3 mb-2');
 echo html_writer::div($reactionfilter, 'd-inline-flex align-items-center mr-3 mb-2');
-echo html_writer::div(
-    html_writer::label(
-        get_string('report:timefrom', 'mod_videotrack'),
-        'id_timefrom',
-        false,
-        ['class' => 'mr-1']
-    ) . html_writer::empty_tag('input', [
-        'type' => 'text', 'name' => 'timefrom', 'inputmode' => 'text',
-        'id' => 'id_timefrom',
-        'value' => $timefrom === null ? '' : videotrack_format_video_timestamp($timefrom, (float)$videotrack->durationseconds),
-        'placeholder' => get_string('report:timeformatplaceholder', 'mod_videotrack'),
-        'pattern' => '(?:[0-9]+:[0-5][0-9]|[0-9]+:[0-5][0-9]:[0-5][0-9])',
-        'title' => get_string('report:timeformatplaceholder', 'mod_videotrack'),
-        'autocomplete' => 'off',
-        'class' => 'form-control', 'style' => 'width:8rem',
-    ]),
-    'd-inline-flex align-items-center mr-3 mb-2'
+$reportduration = (float)$videotrack->durationseconds;
+$showtimehours = $reportduration <= 0 || max(
+    $reportduration,
+    $timefrom ?? 0,
+    $timeto ?? 0
+) >= HOURSECS;
+echo videotrack_report_duration_filter(
+    'timefrom',
+    get_string('report:timefrom', 'mod_videotrack'),
+    $timefrom,
+    $showtimehours
 );
-echo html_writer::div(
-    html_writer::label(
-        get_string('report:timeto', 'mod_videotrack'),
-        'id_timeto',
-        false,
-        ['class' => 'mr-1']
-    ) . html_writer::empty_tag('input', [
-        'type' => 'text', 'name' => 'timeto', 'inputmode' => 'text',
-        'id' => 'id_timeto',
-        'value' => $timeto === null ? '' : videotrack_format_video_timestamp($timeto, (float)$videotrack->durationseconds),
-        'placeholder' => get_string('report:timeformatplaceholder', 'mod_videotrack'),
-        'pattern' => '(?:[0-9]+:[0-5][0-9]|[0-9]+:[0-5][0-9]:[0-5][0-9])',
-        'title' => get_string('report:timeformatplaceholder', 'mod_videotrack'),
-        'autocomplete' => 'off',
-        'class' => 'form-control', 'style' => 'width:8rem',
-    ]),
-    'd-inline-flex align-items-center mr-3 mb-2'
+echo videotrack_report_duration_filter(
+    'timeto',
+    get_string('report:timeto', 'mod_videotrack'),
+    $timeto,
+    $showtimehours
 );
 echo html_writer::div(
     html_writer::label(
@@ -1674,17 +1855,6 @@ if ($mode === 'student') {
         echo html_writer::table($table);
     }
 }
-
-// Initialise the AMD module that handles the student reset confirmation.
-$PAGE->requires->js_call_amd('mod_videotrack/report', 'init', [[
-    'confirmreset' => get_string('report:resetstudent_confirm', 'mod_videotrack'),
-    'confirmrecalculate' => get_string('report:recalculate', 'mod_videotrack'),
-    'labels' => [
-        'confirm' => get_string('confirm', 'moodle'),
-        'yes' => get_string('yes', 'moodle'),
-        'cancel' => get_string('cancel', 'moodle'),
-    ],
-]]);
 
 // Student notes section: per-student mode only, and only when notes are enabled.
 if ($mode === 'student' && !empty($videotrack->studentnotesenabled)) {
