@@ -1534,12 +1534,14 @@ function videotrack_recalculate_all_states(int $videotrackid, cm_info $cm): int 
         || $hasrequiredreactions;
     $userids = [];
     foreach (['videotrack_state', 'videotrack_seg', 'videotrack_reactev'] as $table) {
-        foreach ($DB->get_fieldset_select(
-            $table,
-            'DISTINCT userid',
-            'videotrackid = :vtid',
-            ['vtid' => $videotrackid]
-        ) as $userid) {
+        foreach (
+            $DB->get_fieldset_select(
+                $table,
+                'DISTINCT userid',
+                'videotrackid = :vtid',
+                ['vtid' => $videotrackid]
+            ) as $userid
+        ) {
             if ((int)$userid > 0) {
                 $userids[(int)$userid] = true;
             }

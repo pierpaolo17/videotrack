@@ -200,7 +200,7 @@ final class csv_export {
      * @return string[]
      */
     public static function selected_user_fields(array $selected): array {
-        return array_values(array_filter($selected, static function(string $field): bool {
+        return array_values(array_filter($selected, static function (string $field): bool {
             return in_array($field, self::STANDARD_USER_FIELDS, true) || strpos($field, 'profile_field_') === 0;
         }));
     }
@@ -215,7 +215,7 @@ final class csv_export {
     public static function load_users(array $userids, array $selected): array {
         global $DB;
 
-        $userids = array_values(array_unique(array_filter(array_map('intval', $userids), static function(int $id): bool {
+        $userids = array_values(array_unique(array_filter(array_map('intval', $userids), static function (int $id): bool {
             return $id > 0;
         })));
         if (!$userids) {
