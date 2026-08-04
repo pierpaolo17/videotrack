@@ -56,3 +56,12 @@ The **Completion recalculation** tab rebuilds states for all tracked users or on
 ## Timestamped Forum post flow (1.5.0)
 
 Player button → shared AMD timestamp read → `forum_post.php` → Moodle Form validation → `forum_bridge` revalidation → `mod_forum_external::add_discussion()` → Forum discussion. Tracking, seek, replay, reactions and private notes are not modified.
+
+## Instance analytics flow (1.6.0)
+
+```text
+Analytics tab -> capability-safe course-group scope -> ordered videotrack_seg recordset
+-> analytics::build() -> privacy threshold -> heatmap + retention + accessible table
+```
+
+When the course has groups, users without `moodle/site:accessallgroups` are restricted to the union of groups to which they belong, including the general selection. Raw segments are streamed in user order. For each user, raw overlap contributes to total viewing time, while merged intervals contribute to unique coverage. Their non-negative difference is repeated viewing time. Exact results are hidden when the whole selection is below `analyticsminusers`; positive individual bins below the same threshold are masked. Replay metrics are independently masked when the replaying subgroup is below the threshold, and totals that could reveal masked values are omitted. The optional reaction overlay uses separate privacy-safe clusters and never loads note text or user names. No player, tracking, completion or CSV flow is modified.

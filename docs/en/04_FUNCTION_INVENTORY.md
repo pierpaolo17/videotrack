@@ -372,3 +372,22 @@
 - `forum_bridge::create_discussion()`
 - `forum_post_form::definition()` and `forum_post_form::validation()`
 - `amd/src/core/player/forum.js`: `install()`
+
+## Analytics functions (1.6.0)
+
+| File | Type | Function / class |
+| --- | --- | --- |
+| classes/local/analytics.php | class | mod_videotrack\local\analytics |
+| classes/local/analytics.php | function | default_bin_size() |
+| classes/local/analytics.php | function | normalise_bin_size() |
+| classes/local/analytics.php | function | build() |
+| classes/local/analytics.php | function | apply_privacy_threshold() |
+| classes/local/analytics.php | function | cluster_reactions() |
+| classes/local/analytics.php | function | append_visible_reaction_cluster() |
+| classes/local/analytics.php | function | add_user_intervals() |
+| classes/local/analytics.php | function | add_interval_to_map() |
+| report.php | function | videotrack_report_tabs() |
+| report.php | function | videotrack_report_analytics_interval() |
+| report.php | function | videotrack_report_render_analytics_heatmap() |
+| report.php | function | videotrack_report_render_analytics_retention() |
+| tests/analytics_test.php | class | mod_videotrack\analytics_test |

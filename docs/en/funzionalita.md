@@ -1,6 +1,6 @@
 # mod_videotrack - Features and capabilities
 
-**Documented version**: 1.4.248
+**Documented version**: 1.6.0
 **Compatibility**: Moodle 5.0+
 **Included languages**: Italian, English, German, Spanish, French, Portuguese, Hindi, Polish
 
@@ -64,3 +64,7 @@ For code maintenance use the numbered documents in this directory, especially:
 ## Optional timestamped Forum posting (1.5.0)
 
 A teacher may link the activity to a compatible Forum in the same course. The student button reads the current player time, opens a separate Moodle form, and pre-fills a descriptive replay link. Publication is voluntary and uses the official Forum API. Notes remain private. Since 1.5.1, the teacher can customise the pre-filled subject using the `{timestamp}` and `{activity}` placeholders; the student may edit it before publishing.
+
+## Instance heatmap and retention (1.6.0)
+
+Teachers with report access have an aggregate Analytics tab for each activity. It shows distinct viewers along the timeline, retention, unique viewing time, repeated viewing time, most-viewed and most-replayed intervals, and the largest decreases between adjacent intervals. Results can be filtered by a course group available to the teacher. When the course has groups, users without the access-all-groups capability are restricted to the union of groups to which they belong, including when “All permitted users” is selected. A configurable minimum-user threshold suppresses small selections and masks small positive bins. Replay metrics are masked separately when the replaying subgroup is below the threshold, and totals that could reveal hidden values are omitted. The optional reaction overlay uses only clusters that meet the same threshold. No identities or private note text are displayed.

@@ -1,6 +1,6 @@
 # mod_videotrack - Struttura tecnica
 
-**Versione documentata**: 1.4.248
+**Versione documentata**: 1.6.0
 
 Questo documento storico e stato sostituito dalla documentazione tecnica modulare introdotta nella release 1.4.248. La fonte aggiornata e composta dai file numerati nella stessa cartella.
 
@@ -22,3 +22,7 @@ Il contenuto precedente e stato rimpiazzato per evitare informazioni duplicate e
 ## Componenti integrazione Forum (1.5.0)
 
 `forum_post.php`, `classes/form/forum_post_form.php`, `classes/local/forum_bridge.php` e `amd/src/core/player/forum.js` implementano il collegamento opzionale. Il bridge verifica due volte visibilità, capability, gruppi e limiti e delega la creazione a `mod_forum_external::add_discussion()`.
+
+## Componenti analytics (1.6.0)
+
+`classes/local/analytics.php` esegue l’aggregazione server-side in streaming su `videotrack_seg`. `report.php` applica capability e filtro gruppo, usa la soglia privacy configurabile e genera grafici SVG accessibili con tabella equivalente. La prima release non aggiunge tabelle aggregate o cache: prima di introdurre persistenza devono essere misurate le query su dataset reali.

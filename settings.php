@@ -135,6 +135,16 @@ if ($ADMIN->fulltree) {
         500
     ));
 
+    // Privacy threshold for aggregate instance analytics.
+    $settings->add(new \mod_videotrack\admin\setting_int_range(
+        'mod_videotrack/analyticsminusers',
+        get_string('setting:analyticsminusers', 'mod_videotrack'),
+        get_string('setting:analyticsminusers_desc', 'mod_videotrack'),
+        5,
+        2,
+        50
+    ));
+
     // Accessibility and assistive technology announcements.
     $settings->add(new admin_setting_heading(
         'mod_videotrack/heading_accessibility',

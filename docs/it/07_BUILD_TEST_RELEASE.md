@@ -72,3 +72,16 @@ Una patch solo documentale non richiede `grunt amd`, PHPUnit o PHPCS, salvo modi
 - verificare che la discussione contenga solo testo confermato dallo studente e link di replay;
 - ripristinare con e senza il Forum collegato e verificare la disabilitazione sicura quando manca la mappatura;
 - ripetere i test player YouTube, Vimeo e HTML5 per tracking, seek, resume e replay.
+
+## Controlli di regressione analytics per istanza (1.6.0)
+
+- verificare che la sovrapposizione delle reazioni segnali il proprio limite di sicurezza senza crescita illimitata della memoria;
+
+- verificare stati senza dati e con durata sconosciuta;
+- verificare dataset sotto e sopra `analyticsminusers`;
+- verificare intervalli e cluster di reazioni mascherati sotto soglia;
+- confrontare copertura unica e tempo rivisto con segmenti sovrapposti;
+- verificare filtro gruppo con gruppi consentiti e non disponibili;
+- verificare descrizioni SVG accessibili e valori equivalenti nella tabella;
+- confermare che le schede studente, cumulativa, CSV e ricalcolo completion non cambino;
+- eseguire `analytics_test.php`, PHPCS Moodle + Extra e PHP lint. Questa fase non richiede build AMD.

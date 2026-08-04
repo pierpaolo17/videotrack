@@ -224,3 +224,9 @@
 - `classes/form/forum_post_form.php`: accessible Moodle form without attachments.
 - `classes/local/forum_bridge.php`: validation and official Forum API adapter.
 - `amd/src/core/player/forum.js`: shared timestamp launcher used by all players.
+
+## Instance analytics files (1.6.0)
+
+- `classes/local/analytics.php`: streaming aggregation of unique coverage, repeated viewing, retention and privacy-safe reaction clusters.
+- `tests/analytics_test.php`: PHPUnit coverage for granularity, unique/repeated time, privacy masking and reaction clusters.
+- `report.php`: Analytics tab, course-group filter, accessible SVG charts and equivalent data table.
