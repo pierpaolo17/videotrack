@@ -56,3 +56,12 @@ La scheda **Ricalcolo completamento** permette di ricostruire gli stati per tutt
 ## Flusso post Forum con timestamp (1.5.0)
 
 Pulsante player → lettura timestamp AMD condivisa → `forum_post.php` → validazione Moodle Form → nuova validazione `forum_bridge` → `mod_forum_external::add_discussion()` → discussione Forum. Tracking, seek, replay, reazioni e note private non vengono modificati.
+
+## Flusso analytics per istanza (1.6.0)
+
+```text
+Scheda Analytics -> ambito gruppi consentito da appartenenza e capability -> recordset videotrack_seg ordinato
+-> analytics::build() -> soglia privacy -> heatmap + retention + tabella accessibile
+```
+
+Quando il corso contiene gruppi, senza `moodle/site:accessallgroups` anche la selezione generale è limitata all’unione dei gruppi di cui l’utente fa parte. I segmenti grezzi vengono letti in streaming per utente. La sovrapposizione grezza contribuisce al tempo totale, mentre gli intervalli fusi contribuiscono alla copertura unica; la differenza non negativa è il tempo rivisto. I risultati esatti sono nascosti quando l’intera selezione è sotto `analyticsminusers`; i singoli intervalli positivi sotto la stessa soglia vengono mascherati. Le revisioni applicano la soglia separatamente agli utenti che hanno rivisto; i totali ricostruibili vengono omessi. La sovrapposizione facoltativa delle reazioni usa cluster separati compatibili con la soglia e non carica testo delle note o nominativi. Player, tracking, completion e CSV non vengono modificati.

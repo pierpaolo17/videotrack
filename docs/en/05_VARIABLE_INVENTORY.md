@@ -109,3 +109,11 @@ Variables are detected statically. The inventory is a navigation map; it does no
 - `linkedforumid`: Forum instance id in the same course, default `0`.
 - `forumsubjecttemplate`: optional subject template with `{timestamp}` and `{activity}`; an empty value uses the language-pack default.
 - Player configuration: `forumpostbuttonid`, `forumpoststatusid`, `forumposturl`, `forumposterrorlabel`.
+
+## Analytics variables and configuration (1.6.0)
+
+- Site configuration `analyticsminusers`: minimum distinct-user threshold, default `5`, allowed range `2–50`.
+- Report parameters: `analyticsbinsize`, `analyticsgroupid`, `analyticsshowreactions`.
+- `classes/local/analytics.php` processes one user at a time and retains global timeline bins; it does not load user profile records.
+- Analytics bins contain start/end, distinct viewers, retention, raw seconds, unique seconds, repeated seconds and viewers with repeats.
+- Privacy masking is applied to the whole dataset, each positive interval and the replaying subgroup; totals that could reveal masked values are omitted.

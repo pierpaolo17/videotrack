@@ -72,3 +72,16 @@ A documentation-only patch does not require `grunt amd`, PHPUnit or PHPCS unless
 - verify the published discussion contains only the student-confirmed text and replay link;
 - restore with and without the linked Forum and confirm safe disablement when the mapping is absent;
 - repeat player regression tests for YouTube, Vimeo and HTML5 tracking, seek, resume and replay.
+
+## Instance analytics regression checks (1.6.0)
+
+- verify that the reaction overlay reports its safety limit without unbounded memory growth;
+
+- verify no data and unknown-duration states;
+- verify datasets below and above `analyticsminusers`;
+- verify masked timeline bins and reaction clusters below threshold;
+- compare unique coverage and repeated time with overlapping segments;
+- verify group filtering with permitted and unavailable groups;
+- verify accessible SVG descriptions and equivalent table values;
+- confirm existing student, cumulative, CSV and completion-recalculation tabs are unchanged;
+- run `analytics_test.php`, PHPCS Moodle + Extra and PHP lint. No AMD build is required for this phase.

@@ -224,3 +224,9 @@
 - `classes/form/forum_post_form.php`: form Moodle accessibile senza allegati.
 - `classes/local/forum_bridge.php`: validazione e adapter dell’API ufficiale Forum.
 - `amd/src/core/player/forum.js`: avvio condiviso basato sul timestamp usato da tutti i player.
+
+## File analytics per istanza (1.6.0)
+
+- `classes/local/analytics.php`: aggregazione streaming di copertura unica, revisioni, retention e cluster di reazioni compatibili con la soglia privacy.
+- `tests/analytics_test.php`: test PHPUnit per granularità, tempo unico/rivisto, mascheramento privacy e cluster.
+- `report.php`: scheda Analytics, filtro gruppo del corso, grafici SVG accessibili e tabella dati equivalente.

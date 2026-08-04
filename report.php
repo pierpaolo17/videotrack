@@ -176,6 +176,292 @@ function videotrack_report_duration_filter(string $name, string $label, ?float $
     ]);
 }
 
+/**
+ * Builds the report tab set.
+ *
+ * @param int $cmid Course module id.
+ * @param bool $canviewfullreport Whether the current user may view teacher reports.
+ * @param array $baseparams Existing report filter parameters.
+ * @return array Report tabs.
+ */
+function videotrack_report_tabs(int $cmid, bool $canviewfullreport, array $baseparams = []): array {
+    $studentparams = array_merge($baseparams, ['id' => $cmid, 'mode' => 'student']);
+    $cumulativeparams = array_merge($baseparams, ['id' => $cmid, 'mode' => 'cumulative']);
+    $tabs = [
+        new tabobject(
+            'student',
+            new moodle_url('/mod/videotrack/report.php', $studentparams),
+            get_string('report:perstudent', 'mod_videotrack')
+        ),
+        new tabobject(
+            'cumulative',
+            new moodle_url('/mod/videotrack/report.php', $cumulativeparams),
+            get_string('report:cumulative', 'mod_videotrack')
+        ),
+    ];
+    if ($canviewfullreport) {
+        $tabs[] = new tabobject(
+            'analytics',
+            new moodle_url('/mod/videotrack/report.php', ['id' => $cmid, 'mode' => 'analytics']),
+            get_string('report:analytics_tab', 'mod_videotrack')
+        );
+        $tabs[] = new tabobject(
+            'export',
+            new moodle_url('/mod/videotrack/report.php', ['id' => $cmid, 'mode' => 'export']),
+            get_string('report:csvexport_tab', 'mod_videotrack')
+        );
+        $tabs[] = new tabobject(
+            'recalculate',
+            new moodle_url('/mod/videotrack/report.php', ['id' => $cmid, 'mode' => 'recalculate']),
+            get_string('report:recalculate_tab', 'mod_videotrack')
+        );
+    }
+    return $tabs;
+}
+
+/**
+ * Formats a timeline interval for analytics reports.
+ *
+ * @param float $start Interval start.
+ * @param float $end Interval end.
+ * @param float $duration Video duration.
+ * @return string Formatted interval.
+ */
+function videotrack_report_analytics_interval(float $start, float $end, float $duration): string {
+    return videotrack_format_video_timestamp($start, $duration) . '–' .
+        videotrack_format_video_timestamp($end, $duration);
+}
+
+/**
+ * Renders the unique-view heatmap with optional reaction-cluster markers.
+ *
+ * @param array $bins Privacy-safe analytics bins.
+ * @param float $duration Video duration.
+ * @param array $reactionclusters Visible reaction clusters.
+ * @param int $minusers Privacy threshold.
+ * @return string SVG markup.
+ */
+function videotrack_report_render_analytics_heatmap(
+    array $bins,
+    float $duration,
+    array $reactionclusters,
+    int $minusers
+): string {
+    $width = 1000;
+    $height = 92;
+    $barstart = 24;
+    $barheight = 42;
+    $visiblecounts = array_filter(array_column($bins, 'viewers'), static fn($value): bool => $value !== null);
+    $maxviewers = $visiblecounts ? max($visiblecounts) : 0;
+    $title = get_string('report:analytics_heatmap_title', 'mod_videotrack');
+    $description = get_string('report:analytics_heatmap_desc', 'mod_videotrack');
+
+    $svg = html_writer::start_tag('svg', [
+        'viewBox' => "0 0 {$width} {$height}",
+        'xmlns' => 'http://www.w3.org/2000/svg',
+        'role' => 'img',
+        'aria-labelledby' => 'videotrack-analytics-heatmap-title videotrack-analytics-heatmap-desc',
+        'aria-describedby' => 'videotrack-analytics-table',
+        'class' => 'videotrack-analytics-svg videotrack-analytics-heatmap',
+    ]);
+    $svg .= html_writer::tag('title', s($title), ['id' => 'videotrack-analytics-heatmap-title']);
+    $svg .= html_writer::tag('desc', s($description), ['id' => 'videotrack-analytics-heatmap-desc']);
+    $svg .= html_writer::start_tag('defs');
+    $svg .= html_writer::tag('pattern', html_writer::empty_tag('path', [
+        'd' => 'M0 8 L8 0 M-2 2 L2 -2 M6 10 L10 6',
+        'class' => 'videotrack-analytics-suppressed-line',
+    ]), [
+        'id' => 'videotrack-analytics-suppressed-pattern',
+        'width' => 8,
+        'height' => 8,
+        'patternUnits' => 'userSpaceOnUse',
+    ]);
+    $svg .= html_writer::end_tag('defs');
+    $svg .= html_writer::empty_tag('rect', [
+        'x' => 0,
+        'y' => $barstart,
+        'width' => $width,
+        'height' => $barheight,
+        'class' => 'videotrack-analytics-background',
+    ]);
+
+    foreach ($bins as $bin) {
+        $x = $duration > 0 ? ($bin['start'] / $duration) * $width : 0;
+        $binwidth = $duration > 0 ? (($bin['end'] - $bin['start']) / $duration) * $width : 0;
+        $interval = videotrack_report_analytics_interval($bin['start'], $bin['end'], $duration);
+        if (!empty($bin['suppressed'])) {
+            $tooltip = get_string('report:analytics_bin_suppressed_title', 'mod_videotrack', [
+                'interval' => $interval,
+                'minusers' => $minusers,
+            ]);
+            $class = 'videotrack-analytics-bin videotrack-analytics-bin-suppressed';
+            $attributes = ['fill' => 'url(#videotrack-analytics-suppressed-pattern)'];
+        } else {
+            $viewers = (int)($bin['viewers'] ?? 0);
+            $tooltip = get_string('report:analytics_bin_title', 'mod_videotrack', [
+                'interval' => $interval,
+                'viewers' => $viewers,
+                'retention' => format_float((float)($bin['retention'] ?? 0), 1),
+            ]);
+            $class = 'videotrack-analytics-bin';
+            $opacity = $maxviewers > 0 ? max(0.08, $viewers / $maxviewers) : 0.08;
+            $attributes = ['opacity' => format_float($opacity, 3, false, true)];
+        }
+        $svg .= html_writer::tag('rect', html_writer::tag('title', s($tooltip)), array_merge($attributes, [
+            'x' => format_float($x, 3, false, true),
+            'y' => $barstart,
+            'width' => max(0.5, (float)format_float($binwidth, 3, false, true)),
+            'height' => $barheight,
+            'class' => $class,
+        ]));
+    }
+
+    foreach ($reactionclusters as $cluster) {
+        $x = $duration > 0 ? ($cluster['timestamp'] / $duration) * $width : 0;
+        $tooltip = get_string('report:analytics_reactionmarker', 'mod_videotrack', [
+            'reaction' => format_string($cluster['reactionlabel'], true, ['escape' => false]),
+            'count' => (int)$cluster['count'],
+            'students' => (int)$cluster['students'],
+            'time' => videotrack_format_video_timestamp((float)$cluster['timestamp'], $duration),
+        ]);
+        $marker = html_writer::tag('title', s($tooltip));
+        $marker .= html_writer::empty_tag('line', [
+            'x1' => format_float($x, 3, false, true),
+            'x2' => format_float($x, 3, false, true),
+            'y1' => 14,
+            'y2' => $barstart + $barheight + 7,
+            'class' => 'videotrack-analytics-reaction-line',
+        ]);
+        $marker .= html_writer::empty_tag('circle', [
+            'cx' => format_float($x, 3, false, true),
+            'cy' => 12,
+            'r' => 5,
+            'class' => 'videotrack-analytics-reaction-marker',
+        ]);
+        $svg .= html_writer::tag('g', $marker, ['class' => 'videotrack-analytics-reaction-cluster']);
+    }
+
+    $svg .= html_writer::tag('text', '0', [
+        'x' => 0,
+        'y' => 84,
+        'class' => 'videotrack-analytics-axis-label',
+    ]);
+    $svg .= html_writer::tag('text', s(videotrack_format_video_timestamp($duration, $duration)), [
+        'x' => $width,
+        'y' => 84,
+        'text-anchor' => 'end',
+        'class' => 'videotrack-analytics-axis-label',
+    ]);
+    $svg .= html_writer::end_tag('svg');
+    return $svg;
+}
+
+/**
+ * Renders the retention line chart.
+ *
+ * @param array $bins Privacy-safe analytics bins.
+ * @param float $duration Video duration.
+ * @return string SVG markup.
+ */
+function videotrack_report_render_analytics_retention(array $bins, float $duration): string {
+    $width = 1000;
+    $height = 260;
+    $left = 52;
+    $right = 12;
+    $top = 20;
+    $bottom = 34;
+    $plotwidth = $width - $left - $right;
+    $plotheight = $height - $top - $bottom;
+    $title = get_string('report:analytics_retention_title', 'mod_videotrack');
+    $description = get_string('report:analytics_retention_desc', 'mod_videotrack');
+
+    $svg = html_writer::start_tag('svg', [
+        'viewBox' => "0 0 {$width} {$height}",
+        'xmlns' => 'http://www.w3.org/2000/svg',
+        'role' => 'img',
+        'aria-labelledby' => 'videotrack-analytics-retention-title videotrack-analytics-retention-desc',
+        'aria-describedby' => 'videotrack-analytics-table',
+        'class' => 'videotrack-analytics-svg videotrack-analytics-retention',
+    ]);
+    $svg .= html_writer::tag('title', s($title), ['id' => 'videotrack-analytics-retention-title']);
+    $svg .= html_writer::tag('desc', s($description), ['id' => 'videotrack-analytics-retention-desc']);
+
+    foreach ([0, 25, 50, 75, 100] as $percentage) {
+        $y = $top + $plotheight - (($percentage / 100) * $plotheight);
+        $svg .= html_writer::empty_tag('line', [
+            'x1' => $left,
+            'x2' => $left + $plotwidth,
+            'y1' => format_float($y, 3, false, true),
+            'y2' => format_float($y, 3, false, true),
+            'class' => 'videotrack-analytics-gridline',
+        ]);
+        $svg .= html_writer::tag('text', $percentage . '%', [
+            'x' => $left - 8,
+            'y' => format_float($y + 4, 3, false, true),
+            'text-anchor' => 'end',
+            'class' => 'videotrack-analytics-axis-label',
+        ]);
+    }
+
+    $paths = [];
+    $currentpath = [];
+    foreach ($bins as $bin) {
+        if (!empty($bin['suppressed']) || $bin['retention'] === null) {
+            if ($currentpath) {
+                $paths[] = $currentpath;
+                $currentpath = [];
+            }
+            continue;
+        }
+        $midpoint = ($bin['start'] + $bin['end']) / 2;
+        $x = $left + ($duration > 0 ? ($midpoint / $duration) * $plotwidth : 0);
+        $y = $top + $plotheight - (((float)$bin['retention'] / 100) * $plotheight);
+        $currentpath[] = [$x, $y, $bin];
+    }
+    if ($currentpath) {
+        $paths[] = $currentpath;
+    }
+
+    foreach ($paths as $path) {
+        $points = array_map(static function (array $point): string {
+            return format_float($point[0], 3, false, true) . ',' . format_float($point[1], 3, false, true);
+        }, $path);
+        if (count($points) > 1) {
+            $svg .= html_writer::empty_tag('polyline', [
+                'points' => implode(' ', $points),
+                'class' => 'videotrack-analytics-retention-line',
+            ]);
+        }
+        foreach ($path as [$x, $y, $bin]) {
+            $tooltip = get_string('report:analytics_retention_point', 'mod_videotrack', [
+                'interval' => videotrack_report_analytics_interval($bin['start'], $bin['end'], $duration),
+                'retention' => format_float((float)$bin['retention'], 1),
+                'viewers' => (int)$bin['viewers'],
+            ]);
+            $svg .= html_writer::tag('circle', html_writer::tag('title', s($tooltip)), [
+                'cx' => format_float($x, 3, false, true),
+                'cy' => format_float($y, 3, false, true),
+                'r' => 3.5,
+                'class' => 'videotrack-analytics-retention-point',
+            ]);
+        }
+    }
+
+    $svg .= html_writer::tag('text', '0', [
+        'x' => $left,
+        'y' => $height - 8,
+        'class' => 'videotrack-analytics-axis-label',
+    ]);
+    $svg .= html_writer::tag('text', s(videotrack_format_video_timestamp($duration, $duration)), [
+        'x' => $left + $plotwidth,
+        'y' => $height - 8,
+        'text-anchor' => 'end',
+        'class' => 'videotrack-analytics-axis-label',
+    ]);
+    $svg .= html_writer::end_tag('svg');
+    return $svg;
+}
+
 global $DB, $USER, $CFG, $PAGE, $OUTPUT;
 
 $id = required_param('id', PARAM_INT);
@@ -192,6 +478,9 @@ $csvincludereactions = optional_param(
 );
 $csvincludenotes = optional_param('csvincludenotes', 0, PARAM_BOOL);
 $csvformat = optional_param('csvformat', 'detailed', PARAM_ALPHA);
+$analyticsbinsize = optional_param('analyticsbinsize', 0, PARAM_INT);
+$analyticsgroupid = optional_param('analyticsgroupid', 0, PARAM_INT);
+$analyticsshowreactions = optional_param('analyticsshowreactions', 1, PARAM_BOOL);
 $recalculateuserid = optional_param('recalculateuserid', 0, PARAM_INT);
 $action = optional_param('action', '', PARAM_ALPHA);
 $resetaction = optional_param('resetaction', '', PARAM_ALPHA);
@@ -225,7 +514,7 @@ $validwindows = [10, 15, 20, 30, 60];
 if (!in_array($window, $validwindows, true)) {
     $window = 30;
 }
-$mode = in_array($mode, ['student', 'cumulative', 'export', 'recalculate'], true) ? $mode : 'student';
+$mode = in_array($mode, ['student', 'cumulative', 'analytics', 'export', 'recalculate'], true) ? $mode : 'student';
 if (!$canviewfullreport) {
     require_capability('mod/videotrack:viewownreport', $context);
     if ($mode !== 'student' || ($export !== '' && $export !== 'csv') || $action !== '' || $resetaction !== '') {
@@ -238,6 +527,463 @@ if (!$canviewfullreport) {
 $aggregation = in_array($aggregation, ['type', 'peak'], true) ? $aggregation : 'type';
 $sort = in_array($sort, ['time', 'reaction', 'clicks'], true) ? $sort : 'time';
 $csvformat = in_array($csvformat, ['detailed', 'summary', 'overall'], true) ? $csvformat : 'detailed';
+
+if ($mode === 'analytics') {
+    require_capability('mod/videotrack:viewreport', $context);
+    require_once($CFG->libdir . '/grouplib.php');
+
+    $duration = max(0.0, (float)$videotrack->durationseconds);
+    $analyticsbinsize = \mod_videotrack\local\analytics::normalise_bin_size($analyticsbinsize, $duration);
+    $minusers = videotrack_get_config_int('analyticsminusers', 5, 2, 50);
+    $coursecontext = context_course::instance($course->id);
+
+    $canaccessallgroups = has_capability('moodle/site:accessallgroups', $context);
+    // Without access-all-groups, expose only groups to which the current user belongs.
+    $groupuserid = $canaccessallgroups ? 0 : (int)$USER->id;
+    $groups = groups_get_all_groups($course->id, $groupuserid, 0, 'g.id,g.name');
+    $groupoptions = [0 => get_string('report:analytics_allusers', 'mod_videotrack')];
+    foreach ($groups as $group) {
+        $groupoptions[(int)$group->id] = format_string($group->name, true, ['context' => $coursecontext]);
+    }
+    if ($analyticsgroupid > 0 && !isset($groupoptions[$analyticsgroupid])) {
+        throw new invalid_parameter_exception(get_string('report:analytics_invalidgroup', 'mod_videotrack'));
+    }
+
+    $permittedgroupids = array_map('intval', array_keys($groups));
+    $hascoursegroups = $DB->record_exists('groups', ['courseid' => $course->id]);
+    if ($analyticsgroupid > 0) {
+        $scopegroupids = [$analyticsgroupid];
+    } else if ($canaccessallgroups || !$hascoursegroups) {
+        $scopegroupids = null;
+    } else {
+        $scopegroupids = $permittedgroupids;
+    }
+
+    $segmentwhere = 'videotrackid = :analyticsvtid';
+    $segmentparams = ['analyticsvtid' => $videotrack->id];
+    if (is_array($scopegroupids)) {
+        if (!$scopegroupids) {
+            $segmentwhere .= ' AND 1 = 0';
+        } else {
+            [$groupsql, $groupparams] = $DB->get_in_or_equal(
+                $scopegroupids,
+                SQL_PARAMS_NAMED,
+                'analyticsgroup'
+            );
+            $segmentwhere .= " AND userid IN (
+                SELECT analyticsgm.userid
+                  FROM {groups_members} analyticsgm
+                 WHERE analyticsgm.groupid {$groupsql}
+            )";
+            $segmentparams = array_merge($segmentparams, $groupparams);
+        }
+    }
+    $segmentrs = $DB->get_recordset_select(
+        'videotrack_seg',
+        $segmentwhere,
+        $segmentparams,
+        'userid ASC, id ASC',
+        'id, userid, videotimestart, videotimeend'
+    );
+    try {
+        $analytics = \mod_videotrack\local\analytics::build($segmentrs, $duration, $analyticsbinsize);
+    } finally {
+        $segmentrs->close();
+    }
+    $analytics = \mod_videotrack\local\analytics::apply_privacy_threshold($analytics, $minusers);
+
+    $reactionclusters = [];
+    $reactionclusterstruncated = false;
+    $showreactionanalytics = $analyticsshowreactions && !empty($videotrack->reactionsenabled);
+    if ($showreactionanalytics && !$analytics['datasetsuppressed']) {
+        $reactionwhere = "videotrackid = :analyticsrvtid AND isdeleted = 0 " .
+            "AND (notetype = '' OR notetype IS NULL)";
+        $reactionparams = ['analyticsrvtid' => $videotrack->id];
+        if (is_array($scopegroupids)) {
+            if (!$scopegroupids) {
+                $reactionwhere .= ' AND 1 = 0';
+            } else {
+                [$reactiongroupsql, $reactiongroupparams] = $DB->get_in_or_equal(
+                    $scopegroupids,
+                    SQL_PARAMS_NAMED,
+                    'analyticsreactiongroup'
+                );
+                $reactionwhere .= " AND userid IN (
+                    SELECT analyticsrgm.userid
+                      FROM {groups_members} analyticsrgm
+                     WHERE analyticsrgm.groupid {$reactiongroupsql}
+                )";
+                $reactionparams = array_merge($reactionparams, $reactiongroupparams);
+            }
+        }
+        $reactionrs = $DB->get_recordset_select(
+            'videotrack_reactev',
+            $reactionwhere,
+            $reactionparams,
+            'videotime ASC, id ASC',
+            'id, userid, reactionid, reactionlabel, videotime'
+        );
+        try {
+            $reactionresult = \mod_videotrack\local\analytics::cluster_reactions(
+                $reactionrs,
+                max(1, (int)$videotrack->clusterwindow),
+                $minusers
+            );
+            $reactionclusters = $reactionresult['clusters'];
+            $reactionclusterstruncated = $reactionresult['truncated'];
+        } finally {
+            $reactionrs->close();
+        }
+    }
+
+    $reactionbybin = [];
+    foreach ($reactionclusters as $cluster) {
+        $binindex = min(
+            max(0, count($analytics['bins']) - 1),
+            max(0, (int)floor($cluster['timestamp'] / max(1, $analytics['binsize'])))
+        );
+        if (!isset($reactionbybin[$binindex])) {
+            $reactionbybin[$binindex] = ['clusters' => 0, 'events' => 0];
+        }
+        $reactionbybin[$binindex]['clusters']++;
+        $reactionbybin[$binindex]['events'] += (int)$cluster['count'];
+    }
+    foreach ($analytics['bins'] as $binindex => &$bin) {
+        $bin['reactionclusters'] = $reactionbybin[$binindex]['clusters'] ?? 0;
+        $bin['reactionevents'] = $reactionbybin[$binindex]['events'] ?? 0;
+    }
+    unset($bin);
+
+    $PAGE->set_url('/mod/videotrack/report.php', [
+        'id' => $cm->id,
+        'mode' => 'analytics',
+        'analyticsbinsize' => $analyticsbinsize,
+        'analyticsgroupid' => $analyticsgroupid,
+        'analyticsshowreactions' => $analyticsshowreactions,
+    ]);
+    $PAGE->set_context($context);
+    $PAGE->set_title(format_string($videotrack->name, true, ['context' => $context]));
+    $PAGE->set_heading(format_string($course->fullname, true, ['context' => $coursecontext]));
+
+    echo $OUTPUT->header();
+    echo $OUTPUT->heading(get_string('reportteacher', 'mod_videotrack'));
+    echo $OUTPUT->tabtree(videotrack_report_tabs($cm->id, true), $mode);
+    echo $OUTPUT->heading(get_string('report:analytics_heading', 'mod_videotrack'), 3);
+    echo html_writer::div(get_string('report:analytics_description', 'mod_videotrack'), 'alert alert-info');
+
+    $filterform = html_writer::start_tag('form', [
+        'method' => 'get',
+        'action' => (new moodle_url('/mod/videotrack/report.php'))->out(false),
+        'class' => 'videotrack-analytics-filters mb-3',
+    ]);
+    $filterform .= html_writer::empty_tag('input', ['type' => 'hidden', 'name' => 'id', 'value' => $cm->id]);
+    $filterform .= html_writer::empty_tag('input', ['type' => 'hidden', 'name' => 'mode', 'value' => 'analytics']);
+    $filterform .= html_writer::start_div('form-group mr-3 mb-2');
+    $filterform .= html_writer::label(
+        get_string('report:analytics_binsize', 'mod_videotrack'),
+        'id_analyticsbinsize',
+        false,
+        ['class' => 'd-block']
+    );
+    $binsizeoptions = [];
+    foreach (\mod_videotrack\local\analytics::BIN_SIZES as $option) {
+        $binsizeoptions[$option] = get_string('report:analytics_binsize_option', 'mod_videotrack', $option);
+    }
+    if (!isset($binsizeoptions[$analyticsbinsize])) {
+        $binsizeoptions[$analyticsbinsize] = get_string(
+            'report:analytics_binsize_auto',
+            'mod_videotrack',
+            $analyticsbinsize
+        );
+        ksort($binsizeoptions);
+    }
+    $filterform .= html_writer::select(
+        $binsizeoptions,
+        'analyticsbinsize',
+        $analyticsbinsize,
+        false,
+        ['id' => 'id_analyticsbinsize', 'class' => 'custom-select']
+    );
+    $filterform .= html_writer::end_div();
+
+    if (count($groupoptions) > 1) {
+        $filterform .= html_writer::start_div('form-group mr-3 mb-2');
+        $filterform .= html_writer::label(
+            get_string('report:analytics_group', 'mod_videotrack'),
+            'id_analyticsgroupid',
+            false,
+            ['class' => 'd-block']
+        );
+        $filterform .= html_writer::select(
+            $groupoptions,
+            'analyticsgroupid',
+            $analyticsgroupid,
+            false,
+            ['id' => 'id_analyticsgroupid', 'class' => 'custom-select']
+        );
+        $filterform .= html_writer::end_div();
+    }
+
+    if (!empty($videotrack->reactionsenabled)) {
+        $filterform .= html_writer::start_div('form-check mr-3 mb-2 align-self-end');
+        $filterform .= html_writer::empty_tag('input', [
+            'type' => 'hidden',
+            'name' => 'analyticsshowreactions',
+            'value' => 0,
+        ]);
+        $reactioncheckboxattributes = [
+            'type' => 'checkbox',
+            'name' => 'analyticsshowreactions',
+            'id' => 'id_analyticsshowreactions',
+            'value' => 1,
+            'class' => 'form-check-input',
+        ];
+        if ($analyticsshowreactions) {
+            $reactioncheckboxattributes['checked'] = 'checked';
+        }
+        $filterform .= html_writer::empty_tag('input', $reactioncheckboxattributes);
+        $filterform .= html_writer::label(
+            get_string('report:analytics_showreactions', 'mod_videotrack'),
+            'id_analyticsshowreactions',
+            false,
+            ['class' => 'form-check-label']
+        );
+        $filterform .= html_writer::end_div();
+    }
+    $filterform .= html_writer::tag('button', get_string('report:analytics_apply', 'mod_videotrack'), [
+        'type' => 'submit',
+        'class' => 'btn btn-primary mb-2 align-self-end',
+    ]);
+    $filterform .= html_writer::end_tag('form');
+    echo $filterform;
+
+    echo html_writer::div(
+        get_string('report:analytics_privacy_notice', 'mod_videotrack', $minusers),
+        'alert alert-secondary small'
+    );
+    if ($reactionclusterstruncated) {
+        echo $OUTPUT->notification(
+            get_string(
+                'report:analytics_reactionlimit',
+                'mod_videotrack',
+                \mod_videotrack\local\analytics::MAX_REACTION_CLUSTERS
+            ),
+            'warning'
+        );
+    }
+
+    if ($duration <= 0) {
+        echo $OUTPUT->notification(get_string('report:analytics_noduration', 'mod_videotrack'), 'warning');
+        echo $OUTPUT->footer();
+        exit;
+    }
+    if ((int)$analytics['viewers'] === 0) {
+        echo $OUTPUT->notification(get_string('report:analytics_nodata', 'mod_videotrack'), 'notifymessage');
+        echo $OUTPUT->footer();
+        exit;
+    }
+    if ($analytics['datasetsuppressed']) {
+        echo $OUTPUT->notification(
+            get_string('report:analytics_privacy_suppressed', 'mod_videotrack', $minusers),
+            'warning'
+        );
+        echo $OUTPUT->footer();
+        exit;
+    }
+
+    $hasmaskedbins = count(array_filter($analytics['bins'], static function (array $bin): bool {
+        return !empty($bin['suppressed']);
+    })) > 0;
+    $hasmaskedrepeats = count(array_filter($analytics['bins'], static function (array $bin): bool {
+        return !empty($bin['repeatsuppressed']);
+    })) > 0;
+    if ($hasmaskedbins || $hasmaskedrepeats) {
+        echo $OUTPUT->notification(
+            get_string('report:analytics_partial_suppression', 'mod_videotrack'),
+            'info'
+        );
+    }
+
+    $visiblebins = array_values(array_filter($analytics['bins'], static function (array $bin): bool {
+        return empty($bin['suppressed']) && $bin['viewers'] !== null && (int)$bin['viewers'] > 0;
+    }));
+    $topwatched = $visiblebins;
+    usort($topwatched, static function (array $a, array $b): int {
+        return [$b['viewers'], $b['uniqueseconds'], -$b['start']] <=>
+            [$a['viewers'], $a['uniqueseconds'], -$a['start']];
+    });
+    $topwatched = array_slice($topwatched, 0, 5);
+
+    $topreplayed = array_values(array_filter($visiblebins, static function (array $bin): bool {
+        return $bin['repeatseconds'] !== null && (float)$bin['repeatseconds'] > 0;
+    }));
+    usort($topreplayed, static function (array $a, array $b): int {
+        return [$b['repeatseconds'], $b['repeatviewers'], -$b['start']] <=>
+            [$a['repeatseconds'], $a['repeatviewers'], -$a['start']];
+    });
+    $topreplayed = array_slice($topreplayed, 0, 5);
+
+    $drops = [];
+    $previousbin = null;
+    foreach ($analytics['bins'] as $bin) {
+        if (!empty($bin['suppressed']) || $bin['viewers'] === null) {
+            $previousbin = null;
+            continue;
+        }
+        if ($previousbin !== null && (int)$previousbin['viewers'] > (int)$bin['viewers']) {
+            $drops[] = [
+                'from' => $previousbin,
+                'to' => $bin,
+                'count' => (int)$previousbin['viewers'] - (int)$bin['viewers'],
+            ];
+        }
+        $previousbin = $bin;
+    }
+    usort($drops, static fn(array $a, array $b): int => $b['count'] <=> $a['count']);
+    $drops = array_slice($drops, 0, 5);
+
+    $peakinterval = $topwatched
+        ? videotrack_report_analytics_interval($topwatched[0]['start'], $topwatched[0]['end'], $duration)
+        : get_string('report:analytics_none', 'mod_videotrack');
+    $privacyhidden = get_string('report:analytics_notavailable_privacy', 'mod_videotrack');
+    $summarycards = [
+        [get_string('report:analytics_totalviewers', 'mod_videotrack'), (string)(int)$analytics['viewers']],
+        [
+            get_string('report:analytics_uniquetime', 'mod_videotrack'),
+            $hasmaskedbins ? $privacyhidden : videotrack_format_seconds($analytics['uniqueseconds']),
+        ],
+        [
+            get_string('report:analytics_repeattime', 'mod_videotrack'),
+            ($hasmaskedbins || $hasmaskedrepeats)
+                ? $privacyhidden
+                : videotrack_format_seconds($analytics['repeatseconds']),
+        ],
+        [get_string('report:analytics_peakinterval', 'mod_videotrack'), $peakinterval],
+    ];
+    echo html_writer::start_div('videotrack-analytics-summary');
+    foreach ($summarycards as [$label, $value]) {
+        echo html_writer::div(
+            html_writer::div(s($value), 'videotrack-analytics-summary-value') .
+                html_writer::div(s($label), 'videotrack-analytics-summary-label'),
+            'videotrack-analytics-summary-card'
+        );
+    }
+    echo html_writer::end_div();
+
+    echo $OUTPUT->heading(get_string('report:analytics_heatmap_title', 'mod_videotrack'), 4);
+    echo videotrack_report_render_analytics_heatmap(
+        $analytics['bins'],
+        $duration,
+        $reactionclusters,
+        $minusers
+    );
+    echo $OUTPUT->heading(get_string('report:analytics_retention_title', 'mod_videotrack'), 4);
+    echo videotrack_report_render_analytics_retention($analytics['bins'], $duration);
+
+    $lists = [
+        [get_string('report:analytics_topwatched', 'mod_videotrack'), $topwatched, 'watched'],
+        [get_string('report:analytics_topreplayed', 'mod_videotrack'), $topreplayed, 'replayed'],
+        [get_string('report:analytics_largestdrops', 'mod_videotrack'), $drops, 'drops'],
+    ];
+    echo html_writer::start_div('videotrack-analytics-highlights');
+    foreach ($lists as [$heading, $items, $listtype]) {
+        $listitems = [];
+        foreach ($items as $item) {
+            if ($listtype === 'watched') {
+                $listitems[] = get_string('report:analytics_topwatched_item', 'mod_videotrack', [
+                    'interval' => videotrack_report_analytics_interval($item['start'], $item['end'], $duration),
+                    'viewers' => (int)$item['viewers'],
+                ]);
+            } else if ($listtype === 'replayed') {
+                $listitems[] = get_string('report:analytics_topreplayed_item', 'mod_videotrack', [
+                    'interval' => videotrack_report_analytics_interval($item['start'], $item['end'], $duration),
+                    'time' => videotrack_format_seconds((float)$item['repeatseconds']),
+                ]);
+            } else {
+                $listitems[] = get_string('report:analytics_drop_item', 'mod_videotrack', [
+                    'from' => videotrack_report_analytics_interval(
+                        $item['from']['start'],
+                        $item['from']['end'],
+                        $duration
+                    ),
+                    'to' => videotrack_report_analytics_interval(
+                        $item['to']['start'],
+                        $item['to']['end'],
+                        $duration
+                    ),
+                    'count' => (int)$item['count'],
+                ]);
+            }
+        }
+        $content = $listitems
+            ? html_writer::alist($listitems, ['class' => 'mb-0'])
+            : html_writer::div(get_string('report:analytics_none', 'mod_videotrack'), 'text-muted');
+        echo html_writer::div(
+            html_writer::tag('h5', s($heading)) . $content,
+            'videotrack-analytics-highlight-card'
+        );
+    }
+    echo html_writer::end_div();
+
+    $table = new html_table();
+    $table->attributes['id'] = 'videotrack-analytics-table';
+    $table->caption = get_string('report:analytics_tablecaption', 'mod_videotrack');
+    $table->head = [
+        get_string('report:analytics_interval', 'mod_videotrack'),
+        get_string('report:analytics_uniqueviewers', 'mod_videotrack'),
+        get_string('report:analytics_retention', 'mod_videotrack'),
+        get_string('report:analytics_uniquetime', 'mod_videotrack'),
+        get_string('report:analytics_repeattime', 'mod_videotrack'),
+        get_string('report:analytics_repeatviewers', 'mod_videotrack'),
+    ];
+    if ($showreactionanalytics) {
+        $table->head[] = get_string('report:analytics_reactionclusters', 'mod_videotrack');
+    }
+    foreach ($analytics['bins'] as $bin) {
+        $interval = videotrack_report_analytics_interval($bin['start'], $bin['end'], $duration);
+        if (!empty($bin['suppressed'])) {
+            $row = [
+                $interval,
+                get_string('report:analytics_suppressed_value', 'mod_videotrack', $minusers),
+                '—',
+                '—',
+                '—',
+                '—',
+            ];
+            if ($showreactionanalytics) {
+                $row[] = '—';
+            }
+            $table->data[] = $row;
+            continue;
+        }
+        $repeatseconds = !empty($bin['repeatsuppressed'])
+            ? '—'
+            : videotrack_format_seconds((float)$bin['repeatseconds']);
+        $repeatviewers = !empty($bin['repeatsuppressed'])
+            ? get_string('report:analytics_suppressed_value', 'mod_videotrack', $minusers)
+            : (int)$bin['repeatviewers'];
+        $row = [
+            $interval,
+            (int)$bin['viewers'],
+            format_float((float)$bin['retention'], 1) . '%',
+            videotrack_format_seconds((float)$bin['uniqueseconds']),
+            $repeatseconds,
+            $repeatviewers,
+        ];
+        if ($showreactionanalytics) {
+            $row[] = (int)$bin['reactionclusters'] > 0
+                ? get_string('report:analytics_reactions_cell', 'mod_videotrack', [
+                    'clusters' => (int)$bin['reactionclusters'],
+                    'events' => (int)$bin['reactionevents'],
+                ])
+                : '0';
+        }
+        $table->data[] = $row;
+    }
+    echo html_writer::table($table);
+    echo $OUTPUT->footer();
+    exit;
+}
 
 $sortsql = 'videotime ASC';
 if ($sort === 'reaction') {
@@ -1184,30 +1930,7 @@ $PAGE->requires->js_call_amd('mod_videotrack/report', 'init', [[
 echo $OUTPUT->header();
 echo $OUTPUT->heading(get_string('reportteacher', 'mod_videotrack'));
 
-$tabs = [
-    new tabobject(
-        'student',
-        new moodle_url('/mod/videotrack/report.php', array_merge($baseparams, ['mode' => 'student'])),
-        get_string('report:perstudent', 'mod_videotrack')
-    ),
-    new tabobject(
-        'cumulative',
-        new moodle_url('/mod/videotrack/report.php', array_merge($baseparams, ['mode' => 'cumulative'])),
-        get_string('report:cumulative', 'mod_videotrack')
-    ),
-];
-if ($canviewfullreport) {
-    $tabs[] = new tabobject(
-        'export',
-        new moodle_url('/mod/videotrack/report.php', ['id' => $cm->id, 'mode' => 'export']),
-        get_string('report:csvexport_tab', 'mod_videotrack')
-    );
-    $tabs[] = new tabobject(
-        'recalculate',
-        new moodle_url('/mod/videotrack/report.php', ['id' => $cm->id, 'mode' => 'recalculate']),
-        get_string('report:recalculate_tab', 'mod_videotrack')
-    );
-}
+$tabs = videotrack_report_tabs($cm->id, $canviewfullreport, $baseparams);
 echo $OUTPUT->tabtree($tabs, $mode);
 
 if ($mode === 'recalculate') {

@@ -1,6 +1,6 @@
 # mod_videotrack - Funzionalita e potenzialita
 
-**Versione documentata**: 1.4.248
+**Versione documentata**: 1.6.0
 **Compatibilita**: Moodle 5.0+
 **Lingue incluse**: Italiano, Inglese, Tedesco, Spagnolo, Francese, Portoghese, Hindi, Polacco
 
@@ -64,3 +64,7 @@ Per manutenzione del codice usare i documenti numerati in questa cartella, in pa
 ## Pubblicazione opzionale nel Forum con timestamp (1.5.0)
 
 Il docente può collegare l’attività a un Forum compatibile dello stesso corso. Il pulsante dello studente legge il tempo corrente del player, apre un form Moodle separato e precompila un link descrittivo al frammento. La pubblicazione è volontaria e usa l’API ufficiale Forum. Le note restano private. Dalla 1.5.1 il docente può personalizzare l’oggetto precompilato usando i segnaposto `{timestamp}` e `{activity}`; lo studente può modificarlo prima della pubblicazione.
+
+## Heatmap e retention per istanza (1.6.0)
+
+I docenti con accesso ai report dispongono di una scheda Analytics aggregata per ogni attività. Mostra spettatori distinti lungo la timeline, retention, tempo di visione unico, tempo rivisto, intervalli più visti e più rivisti e maggiori cali tra intervalli consecutivi. I risultati possono essere filtrati per un gruppo del corso disponibile al docente. Quando il corso contiene gruppi, gli utenti privi della capability di accesso a tutti i gruppi sono limitati all’unione dei gruppi di cui fanno parte, anche selezionando “Tutti gli utenti consentiti”. Una soglia minima configurabile nasconde le selezioni piccole e maschera i singoli intervalli positivi sotto soglia. Le metriche di revisione sono mascherate separatamente quando il sottogruppo che rivede è sotto soglia e vengono omessi i totali che permetterebbero di ricostruire valori nascosti. La sovrapposizione facoltativa delle reazioni usa solo cluster che rispettano la stessa soglia. Non vengono mostrati nominativi o testo delle note private.
