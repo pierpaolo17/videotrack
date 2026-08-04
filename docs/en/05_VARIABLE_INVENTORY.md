@@ -107,4 +107,5 @@ Variables are detected statically. The inventory is a navigation map; it does no
 
 - `forumpostingenabled`: optional feature flag, default `0`.
 - `linkedforumid`: Forum instance id in the same course, default `0`.
+- `forumsubjecttemplate`: optional subject template with `{timestamp}` and `{activity}`; an empty value uses the language-pack default.
 - Player configuration: `forumpostbuttonid`, `forumpoststatusid`, `forumposturl`, `forumposterrorlabel`.

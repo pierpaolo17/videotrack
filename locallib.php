@@ -900,6 +900,35 @@ function videotrack_is_compatible_forum(int $courseid, int $forumid): bool {
 }
 
 /**
+ * Builds the default Forum discussion subject from the configured template.
+ *
+ * Supported placeholders are {timestamp} and {activity}. Unknown placeholders are preserved as plain text.
+ *
+ * @param stdClass $videotrack VideoTrack instance.
+ * @param string $timestamp Formatted video timestamp.
+ * @return string Sanitised Forum subject, limited to 255 characters.
+ */
+function videotrack_build_forum_subject(stdClass $videotrack, string $timestamp): string {
+    $template = trim((string)($videotrack->forumsubjecttemplate ?? ''));
+    if ($template === '') {
+        $template = get_string('forum:subjecttemplatedefault', 'mod_videotrack');
+    }
+    $activity = clean_param(
+        format_string((string)($videotrack->name ?? ''), true, ['escape' => false]),
+        PARAM_TEXT
+    );
+    $subject = strtr($template, [
+        '{timestamp}' => clean_param($timestamp, PARAM_TEXT),
+        '{activity}' => $activity,
+    ]);
+    $subject = trim(clean_param($subject, PARAM_TEXT));
+    if ($subject === '') {
+        $subject = get_string('forum:defaultsubject', 'mod_videotrack', $timestamp);
+    }
+    return core_text::substr($subject, 0, 255);
+}
+
+/**
  * Builds the canonical replay URL for a timestamp and symmetric pre-roll window.
  *
  * @param int $cmid VideoTrack course-module id.

@@ -107,4 +107,5 @@ Le variabili sono rilevate staticamente. L’inventario serve come mappa per ori
 
 - `forumpostingenabled`: abilitazione opzionale, default `0`.
 - `linkedforumid`: ID istanza Forum dello stesso corso, default `0`.
+- `forumsubjecttemplate`: modello opzionale dell’oggetto con `{timestamp}` e `{activity}`; il valore vuoto usa il default del language pack.
 - Configurazione player: `forumpostbuttonid`, `forumpoststatusid`, `forumposturl`, `forumposterrorlabel`.

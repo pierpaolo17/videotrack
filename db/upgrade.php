@@ -1434,5 +1434,25 @@ function xmldb_videotrack_upgrade($oldversion) {
         upgrade_mod_savepoint(true, 2026060413, 'videotrack');
     }
 
+    if ($oldversion < 2026060414) {
+        // Release 1.5.1: configurable Forum discussion subject template.
+        $table = new xmldb_table('videotrack');
+        $field = new xmldb_field(
+            'forumsubjecttemplate',
+            XMLDB_TYPE_TEXT,
+            null,
+            null,
+            null,
+            null,
+            null,
+            'linkedforumid'
+        );
+        if (!$dbman->field_exists($table, $field)) {
+            $dbman->add_field($table, $field);
+        }
+
+        upgrade_mod_savepoint(true, 2026060414, 'videotrack');
+    }
+
     return true;
 }

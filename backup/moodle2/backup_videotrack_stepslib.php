@@ -47,6 +47,7 @@ class backup_videotrack_activity_structure_step extends backup_activity_structur
             'requireallreactiontypes', 'completionlogic', 'clusterwindow', 'showstudentreport',
             'showreactionnotice', 'reactionnoticeformat', 'reactionnotice',
             'showtranscript', 'showchapters', 'studentnotesenabled', 'forumpostingenabled', 'linkedforumid',
+            'forumsubjecttemplate',
             'csvdelimiter', 'csvexportfields',
             'grade', 'gradepass', 'showgradeto',
             'timemodified', 'timecreated',

@@ -8,11 +8,11 @@
 //
 // Moodle is distributed in the hope that it will be useful,
 // but WITHOUT ANY WARRANTY; without even the implied warranty of
-// MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
+// MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
 // GNU General Public License for more details.
 //
 // You should have received a copy of the GNU General Public License
-// along with Moodle. If not, see <https://www.gnu.org/licenses/>.
+// along with Moodle.  If not, see <https://www.gnu.org/licenses/>.
 
 /**
  * Compose a Forum discussion linked to a VideoTrack timestamp.
@@ -87,7 +87,7 @@ if (!$form->is_submitted()) {
         'id' => $cm->id,
         'time' => $time,
         'groupid' => (int)array_key_first($destination['groupoptions']),
-        'subject' => get_string('forum:defaultsubject', 'mod_videotrack', $timestamp),
+        'subject' => videotrack_build_forum_subject($videotrack, $timestamp),
         'message_editor' => [
             'text' => $defaultmessage,
             'format' => FORMAT_HTML,

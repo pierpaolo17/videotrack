@@ -63,4 +63,4 @@ Per manutenzione del codice usare i documenti numerati in questa cartella, in pa
 
 ## Pubblicazione opzionale nel Forum con timestamp (1.5.0)
 
-Il docente può collegare l’attività a un Forum compatibile dello stesso corso. Il pulsante dello studente legge il tempo corrente del player, apre un form Moodle separato e precompila un link descrittivo al frammento. La pubblicazione è volontaria e usa l’API ufficiale Forum. Le note restano private.
+Il docente può collegare l’attività a un Forum compatibile dello stesso corso. Il pulsante dello studente legge il tempo corrente del player, apre un form Moodle separato e precompila un link descrittivo al frammento. La pubblicazione è volontaria e usa l’API ufficiale Forum. Le note restano private. Dalla 1.5.1 il docente può personalizzare l’oggetto precompilato usando i segnaposto `{timestamp}` e `{activity}`; lo studente può modificarlo prima della pubblicazione.

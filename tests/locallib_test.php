@@ -189,4 +189,28 @@ final class locallib_test extends advanced_testcase {
         $this->assertSame('35', $url->get_param('replayend'));
     }
 
+    /**
+     * Forum subject templates replace supported placeholders and preserve static text.
+     */
+    public function test_build_forum_subject_replaces_supported_placeholders(): void {
+        $videotrack = (object)[
+            'name' => 'Security training',
+            'forumsubjecttemplate' => '{activity} - Comment at {timestamp}',
+        ];
+        $this->assertSame(
+            'Security training - Comment at 01:02',
+            \videotrack_build_forum_subject($videotrack, '01:02')
+        );
+    }
+
+    /**
+     * Empty Forum subject templates use the language-pack default.
+     */
+    public function test_build_forum_subject_uses_default_template(): void {
+        $videotrack = (object)[
+            'name' => 'Security training',
+            'forumsubjecttemplate' => '',
+        ];
+        $this->assertSame('Comment at 01:02', \videotrack_build_forum_subject($videotrack, '01:02'));
+    }
 }
