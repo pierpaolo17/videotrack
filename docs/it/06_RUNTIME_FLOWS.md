@@ -38,9 +38,11 @@ Il replay è comune come evento UI, ma il comportamento del seek è specifico pe
 
 Vimeo SDK usa promesse asincrone per `setCurrentTime()`, `play()` e `pause()`. Non concatenare chiamate `play()` aggressive dopo un seek: può generare `PlayInterrupted`. Ogni modifica a Vimeo va testata manualmente su rewind, forward dentro il visto, forward oltre limite e replay.
 
-## Flusso di esportazione CSV (1.4.264)
+## Flusso di esportazione CSV (1.4.266)
 
-Il valore predefinito di sito definisce il separatore CSV e i campi facoltativi di corso, attività e utente. Ogni attività può ereditare o sovrascrivere queste scelte. Durante l'esportazione, `classes/local/csv_export.php` filtra i campi utente configurati applicando le regole Moodle sulla visibilità dei campi identificativi, carica i campi standard e quelli personalizzati visibili tramite `core_user\fields`, protegge dalle formule nei fogli di calcolo e usa intestazioni localizzate. L'esportazione di tutti gli eventi include le reazioni attive e le note personali di tutti gli utenti dopo una conferma esplicita relativa ai dati personali.
+Il valore predefinito di sito definisce il separatore CSV e i campi facoltativi di corso, attività e utente. Ogni attività può ereditare o sovrascrivere queste scelte. I separatori disponibili sono virgola, punto e virgola, `§`, `#` e `|`. Il docente vede nella configurazione dell'attività le stesse opzioni standard dell'amministratore; i campi identificativi non autorizzati dal core Moodle restano non esportabili. Durante l'esportazione, `classes/local/csv_export.php` filtra i campi utente configurati applicando le regole Moodle sulla visibilità, carica i campi standard e quelli personalizzati visibili tramite `core_user\fields`, aggiunge facoltativamente il link al video, protegge dalle formule nei fogli di calcolo e scrive UTF-8 con BOM per i programmi di foglio elettronico.
+
+La scheda **Esportazione CSV** consente di scegliere un singolo studente o tutti gli studenti, reazioni e/o note, e formato dettagliato o sintetico. Il formato dettagliato produce una riga per evento; quello sintetico raggruppa le reazioni per studente e tipo usando la finestra cluster dell'attività, mantenendo le note come righe individuali. La conferma sui dati personali non assegna permessi: documenta una scelta consapevole e viene verificata anche lato server prima del download.
 
 ## Ricalcolo del completamento (1.4.264)
 

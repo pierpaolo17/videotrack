@@ -94,6 +94,21 @@ final class locallib_test extends advanced_testcase {
     }
 
     /**
+     * Video-time filters accept seconds, MM:SS and HH:MM:SS.
+     *
+     * @covers ::videotrack_parse_video_timestamp
+     */
+    public function test_parse_video_timestamp_accepts_supported_formats(): void {
+        $this->assertSame(90.0, \videotrack_parse_video_timestamp('90'));
+        $this->assertSame(90.0, \videotrack_parse_video_timestamp('01:30'));
+        $this->assertSame(3690.0, \videotrack_parse_video_timestamp('01:01:30'));
+        $this->assertSame(0.0, \videotrack_parse_video_timestamp('-10'));
+        $this->assertNull(\videotrack_parse_video_timestamp(''));
+        $this->assertNull(\videotrack_parse_video_timestamp('01:70'));
+        $this->assertNull(\videotrack_parse_video_timestamp('1:99:00'));
+    }
+
+    /**
      * Bounded integer settings preserve explicit zero and clamp out-of-range values.
      *
      * @covers ::videotrack_get_config_int

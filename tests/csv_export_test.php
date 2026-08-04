@@ -43,6 +43,15 @@ final class csv_export_test extends advanced_testcase {
 
         $videotrack->csvdelimiter = csv_export::DELIMITER_COMMA;
         $this->assertSame(',', csv_export::delimiter($videotrack));
+
+        $videotrack->csvdelimiter = csv_export::DELIMITER_SECTION;
+        $this->assertSame('§', csv_export::delimiter($videotrack));
+
+        $videotrack->csvdelimiter = csv_export::DELIMITER_HASH;
+        $this->assertSame('#', csv_export::delimiter($videotrack));
+
+        $videotrack->csvdelimiter = csv_export::DELIMITER_PIPE;
+        $this->assertSame('|', csv_export::delimiter($videotrack));
     }
 
     /**
@@ -63,6 +72,15 @@ final class csv_export_test extends advanced_testcase {
     }
 
     /**
+     * Site and activity configuration expose the video-link column.
+     */
+    public function test_field_options_include_video_link(): void {
+        $this->resetAfterTest();
+
+        $this->assertArrayHasKey('videolink', csv_export::field_options(null));
+    }
+
+    /**
      * Spreadsheet formula prefixes are neutralised without changing normal values.
      */
     public function test_safe_value_blocks_formula_injection(): void {
@@ -70,5 +88,29 @@ final class csv_export_test extends advanced_testcase {
         $this->assertSame("'  @SUM(A1:A2)", csv_export::safe_value('  @SUM(A1:A2)'));
         $this->assertSame('ordinary text', csv_export::safe_value('ordinary text'));
         $this->assertSame(42, csv_export::safe_value(42));
+    }
+
+    /**
+     * CSV output starts with the UTF-8 BOM expected by common spreadsheet applications.
+     */
+    public function test_write_utf8_bom(): void {
+        $handle = fopen('php://temp', 'w+');
+        csv_export::write_utf8_bom($handle);
+        rewind($handle);
+
+        $this->assertSame("\xEF\xBB\xBF", fread($handle, 3));
+        fclose($handle);
+    }
+
+    /**
+     * Multibyte delimiters are written without relying on fputcsv single-byte limits.
+     */
+    public function test_write_row_supports_section_sign_delimiter(): void {
+        $handle = fopen('php://temp', 'w+');
+        csv_export::write_row($handle, ['venerdì', 'dell’attività', 'a§b'], '§');
+        rewind($handle);
+
+        $this->assertSame("venerdì§dell’attività§\"a§b\"\r\n", stream_get_contents($handle));
+        fclose($handle);
     }
 }

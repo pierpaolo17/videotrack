@@ -598,10 +598,16 @@ class mod_videotrack_mod_form extends moodleform_mod {
             )
         );
         $csvcontext = $this->context ?: $coursecontext;
-        $csvfieldoptions = \mod_videotrack\local\csv_export::field_options($csvcontext);
+        $csvfieldoptions = \mod_videotrack\local\csv_export::form_field_options($csvcontext);
+        $allowedcsvfields = array_keys(\mod_videotrack\local\csv_export::field_options($csvcontext));
         $csvfieldcheckboxes = [];
+        $frozencsvfields = [];
         foreach ($csvfieldoptions as $field => $label) {
             $elementname = \mod_videotrack\local\csv_export::form_element_name($field);
+            $isallowedcsvfield = in_array($field, $allowedcsvfields, true);
+            if (!$isallowedcsvfield) {
+                $label .= ' (' . get_string('notavailable') . ')';
+            }
             $csvfieldcheckboxes[] = $mform->createElement(
                 'advcheckbox',
                 $elementname,
@@ -611,6 +617,9 @@ class mod_videotrack_mod_form extends moodleform_mod {
                 [0, 1]
             );
             $mform->setType($elementname, PARAM_BOOL);
+            if (!$isallowedcsvfield) {
+                $frozencsvfields[] = $elementname;
+            }
         }
         if ($csvfieldcheckboxes) {
             $mform->addGroup(
@@ -620,6 +629,9 @@ class mod_videotrack_mod_form extends moodleform_mod {
                 ' ',
                 false
             );
+            foreach ($frozencsvfields as $elementname) {
+                $mform->freeze($elementname);
+            }
         }
 
         // Reactions section.
@@ -1160,7 +1172,7 @@ JS);
             $activecsvfields = array_values(array_filter(array_map('trim', explode(',', $csvraw))));
         }
         $csvcontext = $this->context ?: context_course::instance($COURSE->id);
-        foreach (\mod_videotrack\local\csv_export::field_options($csvcontext) as $field => $label) {
+        foreach (\mod_videotrack\local\csv_export::form_field_options($csvcontext) as $field => $label) {
             $elementname = \mod_videotrack\local\csv_export::form_element_name($field);
             $defaultvalues[$elementname] = in_array($field, $activecsvfields, true) ? 1 : 0;
         }

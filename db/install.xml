@@ -39,7 +39,7 @@
         <FIELD NAME="showtranscript" TYPE="int" LENGTH="1" NOTNULL="true" DEFAULT="0" COMMENT="Show interactive VTT transcript panel (upload source only)"/>
         <FIELD NAME="showchapters" TYPE="int" LENGTH="1" NOTNULL="true" DEFAULT="0" COMMENT="Show VTT-based chapter navigation bar (upload source only)"/>
         <FIELD NAME="studentnotesenabled" TYPE="int" LENGTH="1" NOTNULL="true" DEFAULT="0" COMMENT="Allow students to write personal timestamped notes while watching"/>
-        <FIELD NAME="csvdelimiter" TYPE="char" LENGTH="20" NOTNULL="true" DEFAULT="inherit" COMMENT="CSV delimiter override: inherit, comma or semicolon"/>
+        <FIELD NAME="csvdelimiter" TYPE="char" LENGTH="20" NOTNULL="true" DEFAULT="inherit" COMMENT="CSV delimiter override: inherit, comma, semicolon, section, hash or pipe"/>
         <FIELD NAME="csvexportfields" TYPE="text" NOTNULL="false" COMMENT="Comma-separated optional context and identity fields included in CSV exports"/>
         <FIELD NAME="countbyvideotime" TYPE="int" LENGTH="1" NOTNULL="true" DEFAULT="1"/>
         <FIELD NAME="completionpercent" TYPE="int" LENGTH="3" NOTNULL="true" DEFAULT="0"/>
