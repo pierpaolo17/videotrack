@@ -158,4 +158,33 @@ final class tracker_test extends advanced_testcase {
             $previousstart = $interval[0];
         }
     }
+
+    /**
+     * Watched-time validation falls back to persisted aggregate intervals.
+     */
+    public function test_watched_time_validation_uses_aggregate_state_fallback(): void {
+        global $DB;
+
+        $this->resetAfterTest();
+        $DB->insert_record('videotrack_state', (object)[
+            'videotrackid' => 999,
+            'courseid' => 1,
+            'cmid' => 1,
+            'userid' => 123,
+            'videoid' => 'test-video',
+            'lastposition' => 25.0,
+            'durationseconds' => 60.0,
+            'uniquecoveredseconds' => 20.0,
+            'completionpercent' => 33.33,
+            'intervaljson' => '[[10,30]]',
+            'iscompleted' => 0,
+            'timemodified' => time(),
+            'timecreated' => time(),
+        ]);
+
+        set_config('strictsessionvalidation', 0, 'mod_videotrack');
+        $this->assertTrue(tracker::has_watched_videotime(999, 123, 'different-session', 20.0));
+        $this->assertFalse(tracker::has_watched_videotime(999, 123, 'different-session', 50.0));
+    }
+
 }

@@ -90,3 +90,10 @@ The teacher report **Analytics** tab derives a distinct-viewer heatmap, timeline
 La release corregge il collegamento delle callback di stato delle note, usa la modalità gruppi effettiva dell’attività per gli Analytics e aggiunge un riepilogo privacy-safe delle reazioni anche quando non esiste un cluster temporale visibile.
 
 This release fixes note status callback wiring, uses the activity effective group mode for Analytics, and adds a privacy-safe reaction summary even when no time cluster is visible.
+
+
+## Instance analytics and personal notes (1.6.3)
+
+La release consente di salvare note personali anche con il player in pausa, mantiene la validazione sul timestamp già visualizzato, usa lo stato aggregato come fallback degli Analytics quando i segmenti grezzi sono incompleti e rimuove il collegamento al report docente dalla pagina studente.
+
+This release allows personal notes to be saved while the player is paused, keeps watched-timestamp validation, uses aggregate state as an Analytics fallback when raw segments are incomplete, and removes the teacher-report link from the student page.

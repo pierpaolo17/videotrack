@@ -114,10 +114,19 @@ class save_note extends external_api {
         $duration = (float)($videotrack->durationseconds ?? 0);
         $videotime = max(0.0, $duration > 0 ? min($rawtime, $duration) : $rawtime);
 
-        if (!tracker::has_recent_playback($videotrack->id, (int)$USER->id, $params['sessionid'], $videotime)) {
-            throw new \moodle_exception('error:playbackrequired', 'mod_videotrack');
-        }
-        if (!tracker::has_watched_videotime($videotrack->id, (int)$USER->id, $params['sessionid'], $videotime)) {
+        // Notes are private study aids and may be saved while the player is paused.
+        // The selected timestamp must still belong to progress already watched by the
+        // current user, which prevents arbitrary notes on unseen positions.
+        $fallbackdays = \videotrack_get_config_int('validationfallbackdays', 30, 0, 3650);
+        $maxage = $fallbackdays > 0 ? $fallbackdays * DAYSECS : 0;
+        if (!tracker::has_watched_videotime(
+            $videotrack->id,
+            (int)$USER->id,
+            $params['sessionid'],
+            $videotime,
+            2.0,
+            $maxage
+        )) {
             throw new \moodle_exception('error:playbackpositionnotwatched', 'mod_videotrack');
         }
 

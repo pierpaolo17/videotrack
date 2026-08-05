@@ -197,12 +197,14 @@ define([
             live.textContent = remaining + ' ' + config.charsremaininglabel;
         }
 
-        function setLocalButtonState(playing) {
-            setButtonState(saveBtn, playing && !savingNote && !state.noteSaveInProgress);
+        function setLocalButtonState() {
+            // Personal notes may be saved while playback is paused. The server still
+            // requires the selected timestamp to belong to watched progress.
+            setButtonState(saveBtn, !savingNote && !state.noteSaveInProgress);
         }
 
-        var playStateHandler = function(e) {
-            setLocalButtonState(!!(e.detail && e.detail.playing));
+        var playStateHandler = function() {
+            setLocalButtonState();
         };
         var cleanupNoteHandler = function() {
             document.removeEventListener('videotrack:playstate', playStateHandler);
@@ -218,17 +220,13 @@ define([
                 charCounterTimer = null;
             }
         };
-        var noteList = document.getElementById('videotrack-my-notes');
+        var noteList = document.getElementById('videotrack-notes-list');
 
         var saveClickHandler = function(event) {
             if (event) {
                 event.preventDefault();
             }
-            if (savingNote || state.noteSaveInProgress || saveBtn.getAttribute('aria-disabled') === 'true') {
-                if (!state.playing) {
-                    showStatusMessage(config.noteplaybackrequiredlabel || config.reactionunavailablelabel,
-                        false, config.dismisslabel);
-                }
+            if (savingNote || state.noteSaveInProgress) {
                 return;
             }
             var maxLength = Utils.safeInt(config.notemaxlength, 2000);
@@ -348,6 +346,7 @@ define([
         };
 
         document.addEventListener('videotrack:playstate', playStateHandler);
+        setLocalButtonState();
         saveBtn.addEventListener('click', saveClickHandler);
         if (noteList) {
             noteList.addEventListener('click', noteListClickHandler);

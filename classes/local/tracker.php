@@ -436,7 +436,31 @@ class tracker {
             $fallbackparams['fallbacksince'] = time() - $maxageseconds;
         }
 
-        return $DB->record_exists_select('videotrack_seg', $fallbackselect, $fallbackparams);
+        if ($DB->record_exists_select('videotrack_seg', $fallbackselect, $fallbackparams)) {
+            return true;
+        }
+
+        // Raw segments may have been compacted or removed while the canonical
+        // aggregate state still retains the user's watched intervals. Use that
+        // state as a final, privacy-safe validation source when strict same-session
+        // validation is disabled.
+        $state = $DB->get_record(
+            'videotrack_state',
+            ['videotrackid' => $videotrackid, 'userid' => $userid],
+            'intervaljson, timemodified'
+        );
+        if (!$state) {
+            return false;
+        }
+        if ($maxageseconds > 0 && (int)$state->timemodified < time() - $maxageseconds) {
+            return false;
+        }
+        foreach (self::decode_intervals($state->intervaljson ?? null) as [$start, $end]) {
+            if ($vt >= ($start - $tol) && $vt <= ($end + $tol)) {
+                return true;
+            }
+        }
+        return false;
     }
 
     /**

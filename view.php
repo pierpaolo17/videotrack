@@ -550,8 +550,8 @@ if (!empty($videotrack->studentnotesenabled)) {
             'type'         => 'button',
             'id'           => 'videotrack-note-save',
             'class'        => 'btn btn-sm btn-primary videotrack-note-save',
-            'aria-disabled' => 'true',
-            // Enabled only during playback, managed by JavaScript.
+            'aria-disabled' => 'false',
+            // Personal notes can also be saved while the player is paused.
             'aria-describedby' => 'videotrack-note-hint',
         ]
     );
@@ -826,16 +826,6 @@ if ($showstudentreport && !empty($videotrack->reactionsenabled)) {
     echo html_writer::end_tag('tbody');
     echo html_writer::end_tag('table');
     echo html_writer::end_div(); // Videotrack-reactions-table-wrap.
-}
-
-if (has_capability('mod/videotrack:viewreport', $context)) {
-    echo html_writer::div(
-        html_writer::link(
-            new moodle_url('/mod/videotrack/report.php', ['id' => $cm->id]),
-            get_string('reportteacher', 'mod_videotrack')
-        ),
-        'mt-2'
-    );
 }
 
 echo html_writer::end_div(); // Videotrack-sidebar.
