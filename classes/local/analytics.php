@@ -34,6 +34,30 @@ final class analytics {
     public const BIN_SIZES = [10, 15, 30, 60, 120, 300];
 
     /**
+     * Resolves the best known duration from instance, aggregate state and segments.
+     *
+     * The activity field is canonical when available. Older runtime data may have
+     * stored the provider duration only in per-user state, so analytics falls back
+     * to that value before using the furthest recorded segment endpoint.
+     *
+     * @param float $instanceduration Duration stored on the activity instance.
+     * @param float $stateduration Maximum duration stored in aggregate user states.
+     * @param float $segmentend Furthest recorded segment endpoint.
+     * @return float Best known non-negative duration.
+     */
+    public static function resolve_duration(
+        float $instanceduration,
+        float $stateduration,
+        float $segmentend
+    ): float {
+        $instanceduration = max(0.0, $instanceduration);
+        if ($instanceduration > 0) {
+            return $instanceduration;
+        }
+        return max(0.0, $stateduration, $segmentend);
+    }
+
+    /**
      * Chooses a useful default granularity for a video duration.
      *
      * @param float $duration Video duration in seconds.

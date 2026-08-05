@@ -604,7 +604,27 @@ if ($mode === 'analytics') {
     require_capability('mod/videotrack:viewreport', $context);
     require_once($CFG->libdir . '/grouplib.php');
 
-    $duration = max(0.0, (float)$videotrack->durationseconds);
+    $durationparams = [
+        'vtid' => $videotrack->id,
+        'videoid' => (string)$videotrack->videoid,
+    ];
+    $stateduration = (float)$DB->get_field_sql(
+        'SELECT COALESCE(MAX(durationseconds), 0)
+           FROM {videotrack_state}
+          WHERE videotrackid = :vtid AND videoid = :videoid',
+        $durationparams
+    );
+    $segmentend = (float)$DB->get_field_sql(
+        'SELECT COALESCE(MAX(videotimeend), 0)
+           FROM {videotrack_seg}
+          WHERE videotrackid = :vtid AND videoid = :videoid',
+        $durationparams
+    );
+    $duration = \mod_videotrack\local\analytics::resolve_duration(
+        (float)$videotrack->durationseconds,
+        $stateduration,
+        $segmentend
+    );
     $analyticsbinsize = \mod_videotrack\local\analytics::normalise_bin_size($analyticsbinsize, $duration);
     $minusers = videotrack_get_config_int('analyticsminusers', 5, 2, 50);
     $coursecontext = context_course::instance($course->id);
@@ -2223,8 +2243,12 @@ if ($mode === 'export') {
     if (!empty($videotrack->studentnotesenabled)) {
         $exportform .= html_writer::start_div('form-check');
         $exportform .= html_writer::empty_tag('input', [
+            'type' => 'hidden', 'name' => 'csvincludenotes', 'value' => 0,
+        ]);
+        $exportform .= html_writer::empty_tag('input', [
             'type' => 'checkbox', 'name' => 'csvincludenotes', 'value' => 1,
             'id' => 'id_csvincludenotes', 'class' => 'form-check-input',
+            'checked' => 'checked',
         ]);
         $exportform .= html_writer::label(
             get_string('report:csvexport_notes', 'mod_videotrack'),

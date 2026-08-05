@@ -270,4 +270,13 @@ final class analytics_test extends advanced_testcase {
         $this->assertNull($result['repeatseconds']);
     }
 
+    /**
+     * Analytics can recover duration from aggregate state when the instance field is empty.
+     */
+    public function test_resolve_duration_uses_best_persisted_source(): void {
+        $this->assertSame(120.0, analytics::resolve_duration(120.0, 140.0, 150.0));
+        $this->assertSame(90.0, analytics::resolve_duration(0.0, 90.0, 80.0));
+        $this->assertSame(80.0, analytics::resolve_duration(0.0, 0.0, 80.0));
+        $this->assertSame(0.0, analytics::resolve_duration(-1.0, -2.0, -3.0));
+    }
 }
