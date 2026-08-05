@@ -1,6 +1,6 @@
 # mod_videotrack - Struttura tecnica
 
-**Versione documentata**: 1.6.7
+**Versione documentata**: 1.6.8
 
 Questo documento storico e stato sostituito dalla documentazione tecnica modulare introdotta nella release 1.4.248. La fonte aggiornata e composta dai file numerati nella stessa cartella.
 

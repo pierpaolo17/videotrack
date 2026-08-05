@@ -1,6 +1,6 @@
 # mod_videotrack - Funzionalita e potenzialita
 
-**Versione documentata**: 1.6.7
+**Versione documentata**: 1.6.8
 **Compatibilita**: Moodle 5.0+
 **Lingue incluse**: Italiano, Inglese, Tedesco, Spagnolo, Francese, Portoghese, Hindi, Polacco
 
