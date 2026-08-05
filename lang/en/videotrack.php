@@ -719,11 +719,14 @@ $string['report:analytics_reactionlimit'] = 'Only the first {$a} privacy-safe re
 $string['report:analytics_notavailable_privacy'] = 'Hidden for privacy';
 
 $string['warning:noteeventtriggerfailed'] = 'The note was saved, but the Moodle log event could not be recorded.';
+$string['report:analytics_reactionsummary'] = 'Detected {$a->events} reaction events from {$a->students} distinct students in the selected scope.';
+$string['report:analytics_reactionsummary_suppressed'] = 'Reaction events are present, but their exact totals are hidden because fewer distinct students than the privacy threshold contributed.';
+$string['report:analytics_reactionclusters_none'] = 'Reactions were detected, but no cluster of the same reaction type within the configured time window reaches the distinct-student privacy threshold.';
 $string['report:analytics_reactionclusters_title'] = 'Privacy-safe reaction clusters';
 $string['report:analytics_reactionclusters_caption'] = 'Reaction clusters that meet the configured distinct-user privacy threshold.';
 $string['report:analytics_reaction_time'] = 'Video time';
 $string['report:analytics_reaction_type'] = 'Reaction';
 $string['report:analytics_reaction_events'] = 'Events';
 $string['report:analytics_reaction_students'] = 'Students';
-$string['report:analytics_noviewingdata_reactions'] = 'No valid viewing segments are available for the selected scope. Reaction clusters that meet the privacy threshold are shown below.';
+$string['report:analytics_noviewingdata_reactions'] = 'No valid viewing segments are available for the selected scope. Privacy-safe reaction information is shown below when available.';
 $string['report:analytics_reactions_available'] = 'Viewing analytics are hidden by the privacy threshold. Reaction clusters are evaluated independently and the clusters meeting the threshold are shown below.';

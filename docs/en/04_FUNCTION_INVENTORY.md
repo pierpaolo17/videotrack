@@ -379,9 +379,11 @@
 | --- | --- | --- |
 | classes/local/analytics.php | class | mod_videotrack\local\analytics |
 | classes/local/analytics.php | function | default_bin_size() |
+| classes/local/analytics.php | function | restrict_to_own_groups() |
 | classes/local/analytics.php | function | normalise_bin_size() |
 | classes/local/analytics.php | function | build() |
 | classes/local/analytics.php | function | apply_privacy_threshold() |
+| classes/local/analytics.php | function | reaction_summary() |
 | classes/local/analytics.php | function | cluster_reactions() |
 | classes/local/analytics.php | function | append_visible_reaction_cluster() |
 | classes/local/analytics.php | function | add_user_intervals() |
@@ -392,3 +394,4 @@
 | report.php | function | videotrack_report_render_analytics_retention() |
 | tests/analytics_test.php | class | mod_videotrack\analytics_test |
 | report.php | function | videotrack_report_render_reaction_clusters() |
+| report.php | function | videotrack_report_render_reaction_summary() |

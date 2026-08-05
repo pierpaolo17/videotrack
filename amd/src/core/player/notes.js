@@ -98,22 +98,25 @@ define([
      * @param {Object} deps.state Player mutable state.
      * @param {Function} deps.getCurrentVideoTime Current video time callback.
      * @param {Function} deps.saveCurrentProgress Progress persistence callback.
-     * @param {Function} deps.showStatusMessage User-visible status callback.
+     * @param {Function=} deps.showStatusMessage User-visible status callback stored in dependencies.
+     * @param {Function=} statusMessage User-visible status callback passed by the player facade.
+     * @param {Function=} errorStatusMessage User-safe error callback passed by the player facade.
      */
-    function installHandler(deps) {
+    function installHandler(deps, statusMessage, errorStatusMessage) {
         var Api = deps.Api;
         var Utils = deps.Utils;
         var config = deps.config;
         var state = deps.state;
         var getCurrentVideoTime = deps.getCurrentVideoTime;
         var saveCurrentProgress = deps.saveCurrentProgress;
-        var showStatusMessage = deps.showStatusMessage;
-        var showErrorStatusMessage = deps.showErrorStatusMessage || function(error, fallbackMessage, dismissLabel) {
+        var showStatusMessage = deps.showStatusMessage || statusMessage;
+        var showErrorStatusMessage = deps.showErrorStatusMessage || errorStatusMessage ||
+            function(error, fallbackMessage, dismissLabel) {
             var message = (error && error.message) ? error.message : fallbackMessage;
             showStatusMessage(message, true, dismissLabel);
         };
 
-        if (!config.studentnotesenabled) { return; }
+        if (!config.studentnotesenabled || typeof showStatusMessage !== 'function') { return; }
 
         var saveBtn = document.getElementById('videotrack-note-save');
         var textarea = document.getElementById('videotrack-note-input');

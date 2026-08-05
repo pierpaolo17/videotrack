@@ -397,6 +397,38 @@ function videotrack_report_render_reaction_clusters(array $clusters, float $dura
 }
 
 /**
+ * Renders a privacy-safe overall reaction summary.
+ *
+ * @param array $summary Event and distinct-student counts plus suppression state.
+ * @return string Rendered notification, or an empty string when there are no reactions.
+ */
+function videotrack_report_render_reaction_summary(array $summary): string {
+    global $OUTPUT;
+
+    if (empty($summary['hasdata'])) {
+        return '';
+    }
+    $eventcount = (int)($summary['eventcount'] ?? 0);
+    if ($eventcount <= 0 && empty($summary['suppressed'])) {
+        return '';
+    }
+    if (!empty($summary['suppressed'])) {
+        return $OUTPUT->notification(
+            get_string('report:analytics_reactionsummary_suppressed', 'mod_videotrack'),
+            'info'
+        );
+    }
+
+    return $OUTPUT->notification(
+        get_string('report:analytics_reactionsummary', 'mod_videotrack', [
+            'events' => $eventcount,
+            'students' => (int)($summary['studentcount'] ?? 0),
+        ]),
+        'info'
+    );
+}
+
+/**
  * Renders the retention line chart.
  *
  * @param array $bins Privacy-safe analytics bins.
@@ -578,8 +610,14 @@ if ($mode === 'analytics') {
     $coursecontext = context_course::instance($course->id);
 
     $canaccessallgroups = has_capability('moodle/site:accessallgroups', $context);
-    // Without access-all-groups, expose only groups to which the current user belongs.
-    $groupuserid = $canaccessallgroups ? 0 : (int)$USER->id;
+    $activitygroupmode = groups_get_activity_groupmode($cm, $course);
+    $restricttoowngroups = \mod_videotrack\local\analytics::restrict_to_own_groups(
+        $activitygroupmode,
+        $canaccessallgroups
+    );
+    // In no-groups mode course groups must not hide analytics. Visible-groups mode
+    // exposes the groups Moodle makes visible; separate groups uses own groups only.
+    $groupuserid = $restricttoowngroups ? (int)$USER->id : 0;
     $groups = groups_get_all_groups($course->id, $groupuserid, 0, 'g.id,g.name');
     $groupoptions = [0 => get_string('report:analytics_allusers', 'mod_videotrack')];
     foreach ($groups as $group) {
@@ -593,9 +631,10 @@ if ($mode === 'analytics') {
     $hascoursegroups = $DB->record_exists('groups', ['courseid' => $course->id]);
     if ($analyticsgroupid > 0) {
         $scopegroupids = [$analyticsgroupid];
-    } else if ($canaccessallgroups || !$hascoursegroups) {
+    } else if ($canaccessallgroups || $activitygroupmode === NOGROUPS || !$hascoursegroups) {
         $scopegroupids = null;
     } else {
+        // Visible groups uses all groups Moodle exposes; separate groups uses own groups.
         $scopegroupids = $permittedgroupids;
     }
 
@@ -634,8 +673,14 @@ if ($mode === 'analytics') {
 
     $reactionclusters = [];
     $reactionclusterstruncated = false;
-    $showreactionanalytics = $analyticsshowreactions && !empty($videotrack->reactionsenabled);
-    if ($showreactionanalytics) {
+    $reactionsummary = [
+        'hasdata' => false,
+        'eventcount' => 0,
+        'studentcount' => 0,
+        'suppressed' => false,
+    ];
+    $reactionanalyticsenabled = !empty($videotrack->reactionsenabled);
+    if ($reactionanalyticsenabled) {
         $reactionwhere = "videotrackid = :analyticsrvtid AND isdeleted = 0 " .
             "AND (notetype = '' OR notetype IS NULL)";
         $reactionparams = ['analyticsrvtid' => $videotrack->id];
@@ -656,23 +701,37 @@ if ($mode === 'analytics') {
                 $reactionparams = array_merge($reactionparams, $reactiongroupparams);
             }
         }
-        $reactionrs = $DB->get_recordset_select(
-            'videotrack_reactev',
-            $reactionwhere,
-            $reactionparams,
-            'videotime ASC, id ASC',
-            'id, userid, reactionid, reactionlabel, videotime'
+        $reactionsummaryrecord = $DB->get_record_sql(
+            "SELECT COUNT(id) AS eventcount, COUNT(DISTINCT userid) AS studentcount
+               FROM {videotrack_reactev}
+              WHERE {$reactionwhere}",
+            $reactionparams
         );
-        try {
-            $reactionresult = \mod_videotrack\local\analytics::cluster_reactions(
-                $reactionrs,
-                max(1, (int)$videotrack->clusterwindow),
-                $minusers
+        $reactionsummary = \mod_videotrack\local\analytics::reaction_summary(
+            (int)($reactionsummaryrecord->eventcount ?? 0),
+            (int)($reactionsummaryrecord->studentcount ?? 0),
+            $minusers
+        );
+
+        if ($analyticsshowreactions) {
+            $reactionrs = $DB->get_recordset_select(
+                'videotrack_reactev',
+                $reactionwhere,
+                $reactionparams,
+                'videotime ASC, id ASC',
+                'id, userid, reactionid, reactionlabel, videotime'
             );
-            $reactionclusters = $reactionresult['clusters'];
-            $reactionclusterstruncated = $reactionresult['truncated'];
-        } finally {
-            $reactionrs->close();
+            try {
+                $reactionresult = \mod_videotrack\local\analytics::cluster_reactions(
+                    $reactionrs,
+                    max(1, (int)$videotrack->clusterwindow),
+                    $minusers
+                );
+                $reactionclusters = $reactionresult['clusters'];
+                $reactionclusterstruncated = $reactionresult['truncated'];
+            } finally {
+                $reactionrs->close();
+            }
         }
     }
 
@@ -812,13 +871,24 @@ if ($mode === 'analytics') {
         );
     }
 
+    echo videotrack_report_render_reaction_summary($reactionsummary);
+    if ($analyticsshowreactions
+            && !empty($reactionsummary['hasdata'])
+            && !$reactionsummary['suppressed']
+            && !$reactionclusters) {
+        echo $OUTPUT->notification(
+            get_string('report:analytics_reactionclusters_none', 'mod_videotrack'),
+            'info'
+        );
+    }
+
     if ($duration <= 0) {
         echo $OUTPUT->notification(get_string('report:analytics_noduration', 'mod_videotrack'), 'warning');
         echo $OUTPUT->footer();
         exit;
     }
     if ((int)$analytics['viewers'] === 0) {
-        if (!$reactionclusters) {
+        if (!$reactionclusters && empty($reactionsummary['hasdata'])) {
             echo $OUTPUT->notification(get_string('report:analytics_nodata', 'mod_videotrack'), 'notifymessage');
             echo $OUTPUT->footer();
             exit;

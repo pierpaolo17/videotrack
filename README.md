@@ -84,3 +84,9 @@ La scheda **Analytics** del report docente calcola dai segmenti una heatmap degl
 ## Instance analytics (1.6.1)
 
 The teacher report **Analytics** tab derives a distinct-viewer heatmap, timeline retention, unique viewing time, repeated viewing time and the main adjacent decreases from saved segments. Data is aggregate, can be filtered by course group and is protected by a configurable minimum-user threshold; no student names are displayed. Reaction clusters can be overlaid only when they meet the same privacy threshold. Since 1.6.1, reaction privacy is evaluated independently from viewing-segment availability, so compliant aggregate clusters remain available when heatmap and retention are hidden.
+
+## Correzioni 1.6.2 / Fixes 1.6.2
+
+La release corregge il collegamento delle callback di stato delle note, usa la modalità gruppi effettiva dell’attività per gli Analytics e aggiunge un riepilogo privacy-safe delle reazioni anche quando non esiste un cluster temporale visibile.
+
+This release fixes note status callback wiring, uses the activity effective group mode for Analytics, and adds a privacy-safe reaction summary even when no time cluster is visible.

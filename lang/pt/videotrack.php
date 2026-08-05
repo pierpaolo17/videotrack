@@ -721,11 +721,14 @@ $string['report:analytics_reactionlimit'] = 'São mostrados apenas os primeiros 
 $string['report:analytics_notavailable_privacy'] = 'Ocultado por privacidade';
 
 $string['warning:noteeventtriggerfailed'] = 'A nota foi guardada, mas não foi possível registar o evento no log do Moodle.';
+$string['report:analytics_reactionsummary'] = 'Foram detetados {$a->events} eventos de reação de {$a->students} estudantes distintos no âmbito selecionado.';
+$string['report:analytics_reactionsummary_suppressed'] = 'Existem reações, mas os totais exatos estão ocultos porque participaram menos estudantes distintos do que o limiar de privacidade.';
+$string['report:analytics_reactionclusters_none'] = 'Foram detetadas reações, mas nenhum cluster do mesmo tipo na janela configurada atinge o limiar de privacidade.';
 $string['report:analytics_reactionclusters_title'] = 'Clusters de reações em conformidade com a privacidade';
 $string['report:analytics_reactionclusters_caption'] = 'Clusters de reações que cumprem o limiar de privacidade configurado para utilizadores distintos.';
 $string['report:analytics_reaction_time'] = 'Tempo do vídeo';
 $string['report:analytics_reaction_type'] = 'Reação';
 $string['report:analytics_reaction_events'] = 'Eventos';
 $string['report:analytics_reaction_students'] = 'Estudantes';
-$string['report:analytics_noviewingdata_reactions'] = 'Não existem segmentos de visualização válidos para o âmbito selecionado. Os clusters de reações que cumprem o limiar de privacidade são apresentados abaixo.';
+$string['report:analytics_noviewingdata_reactions'] = 'Não existem segmentos de visualização válidos para o âmbito selecionado. As informações de reação compatíveis com a privacidade são mostradas abaixo quando disponíveis.';
 $string['report:analytics_reactions_available'] = 'Os analytics de visualização estão ocultos pelo limiar de privacidade. Os clusters de reações são avaliados separadamente e os que cumprem o limiar são apresentados abaixo.';

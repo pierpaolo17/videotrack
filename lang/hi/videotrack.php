@@ -721,11 +721,14 @@ $string['report:analytics_reactionlimit'] = 'गोपनीयता सीम�
 $string['report:analytics_notavailable_privacy'] = 'गोपनीयता के लिए छिपाया गया';
 
 $string['warning:noteeventtriggerfailed'] = 'नोट सहेजा गया, लेकिन Moodle लॉग इवेंट दर्ज नहीं किया जा सका।';
+$string['report:analytics_reactionsummary'] = 'चयनित दायरे में {$a->students} अलग-अलग छात्रों से {$a->events} प्रतिक्रिया घटनाएँ मिलीं।';
+$string['report:analytics_reactionsummary_suppressed'] = 'प्रतिक्रियाएँ मौजूद हैं, लेकिन अलग-अलग छात्रों की संख्या गोपनीयता सीमा से कम होने के कारण सटीक कुल छिपाए गए हैं।';
+$string['report:analytics_reactionclusters_none'] = 'प्रतिक्रियाएँ मिलीं, लेकिन निर्धारित समय विंडो में समान प्रकार का कोई क्लस्टर गोपनीयता सीमा तक नहीं पहुँचता।';
 $string['report:analytics_reactionclusters_title'] = 'गोपनीयता-सुरक्षित प्रतिक्रिया क्लस्टर';
 $string['report:analytics_reactionclusters_caption'] = 'वे प्रतिक्रिया क्लस्टर जो अलग-अलग उपयोगकर्ताओं के लिए कॉन्फ़िगर की गई गोपनीयता सीमा पूरी करते हैं।';
 $string['report:analytics_reaction_time'] = 'वीडियो समय';
 $string['report:analytics_reaction_type'] = 'प्रतिक्रिया';
 $string['report:analytics_reaction_events'] = 'इवेंट';
 $string['report:analytics_reaction_students'] = 'विद्यार्थी';
-$string['report:analytics_noviewingdata_reactions'] = 'चुने गए दायरे में कोई मान्य देखने का सेगमेंट उपलब्ध नहीं है। गोपनीयता सीमा पूरी करने वाले प्रतिक्रिया क्लस्टर नीचे दिखाए गए हैं।';
+$string['report:analytics_noviewingdata_reactions'] = 'चयनित दायरे के लिए कोई मान्य देखने का खंड उपलब्ध नहीं है। उपलब्ध होने पर गोपनीयता-सुरक्षित प्रतिक्रिया जानकारी नीचे दिखाई जाती है।';
 $string['report:analytics_reactions_available'] = 'देखने के analytics गोपनीयता सीमा के कारण छिपे हैं। प्रतिक्रिया क्लस्टर अलग से जाँचे जाते हैं और सीमा पूरी करने वाले क्लस्टर नीचे दिखाए गए हैं।';

@@ -56,6 +56,21 @@ final class analytics {
     }
 
     /**
+     * Determines whether analytics must be restricted to the viewer's own groups.
+     *
+     * Course groups must not restrict an activity configured with no groups. In
+     * visible-groups mode all visible course groups may be selected; only separate
+     * groups without access-all-groups requires the own-group restriction.
+     *
+     * @param int $groupmode Effective activity group mode.
+     * @param bool $canaccessallgroups Whether the viewer may access all groups.
+     * @return bool Whether queries must be limited to the viewer's own groups.
+     */
+    public static function restrict_to_own_groups(int $groupmode, bool $canaccessallgroups): bool {
+        return !$canaccessallgroups && $groupmode === SEPARATEGROUPS;
+    }
+
+    /**
      * Validates a requested bin size and automatically enforces MAX_BINS.
      *
      * @param int $requested Requested bin size, or zero for the default.
@@ -214,6 +229,32 @@ final class analytics {
         }
         unset($bin);
         return $result;
+    }
+
+    /**
+     * Applies the distinct-user privacy threshold to an overall reaction summary.
+     *
+     * Exact counts are removed when the contributing student population is below
+     * the threshold, while a boolean still allows the UI to state that data exists.
+     *
+     * @param int $eventcount Number of reaction events in scope.
+     * @param int $studentcount Number of distinct reacting students in scope.
+     * @param int $minusers Minimum distinct students required for exact values.
+     * @return array Privacy-safe summary.
+     */
+    public static function reaction_summary(int $eventcount, int $studentcount, int $minusers): array {
+        $eventcount = max(0, $eventcount);
+        $studentcount = max(0, $studentcount);
+        $minusers = max(2, $minusers);
+        $hasdata = $eventcount > 0;
+        $suppressed = $hasdata && $studentcount < $minusers;
+
+        return [
+            'hasdata' => $hasdata,
+            'eventcount' => $suppressed ? null : $eventcount,
+            'studentcount' => $suppressed ? null : $studentcount,
+            'suppressed' => $suppressed,
+        ];
     }
 
     /**
