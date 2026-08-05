@@ -721,11 +721,14 @@ $string['report:analytics_reactionlimit'] = 'Wyświetlanych jest tylko pierwszyc
 $string['report:analytics_notavailable_privacy'] = 'Ukryte ze względu na prywatność';
 
 $string['warning:noteeventtriggerfailed'] = 'Notatka została zapisana, ale nie udało się zarejestrować zdarzenia w dzienniku Moodle.';
+$string['report:analytics_reactionsummary'] = 'W wybranym zakresie wykryto {$a->events} zdarzeń reakcji od {$a->students} różnych studentów.';
+$string['report:analytics_reactionsummary_suppressed'] = 'Reakcje są obecne, ale dokładne sumy ukryto, ponieważ uczestniczyło mniej różnych studentów niż wymaga próg prywatności.';
+$string['report:analytics_reactionclusters_none'] = 'Wykryto reakcje, ale żaden klaster tego samego typu w skonfigurowanym oknie czasu nie osiąga progu prywatności.';
 $string['report:analytics_reactionclusters_title'] = 'Klastry reakcji zgodne z zasadami prywatności';
 $string['report:analytics_reactionclusters_caption'] = 'Klastry reakcji spełniające skonfigurowany próg prywatności dla różnych użytkowników.';
 $string['report:analytics_reaction_time'] = 'Czas filmu';
 $string['report:analytics_reaction_type'] = 'Reakcja';
 $string['report:analytics_reaction_events'] = 'Zdarzenia';
 $string['report:analytics_reaction_students'] = 'Studenci';
-$string['report:analytics_noviewingdata_reactions'] = 'Dla wybranego zakresu nie ma prawidłowych segmentów oglądania. Poniżej pokazano klastry reakcji spełniające próg prywatności.';
+$string['report:analytics_noviewingdata_reactions'] = 'Dla wybranego zakresu nie ma prawidłowych segmentów oglądania. Poniżej pokazano informacje o reakcjach zgodne z zasadami prywatności, jeśli są dostępne.';
 $string['report:analytics_reactions_available'] = 'Analityka oglądania jest ukryta przez próg prywatności. Klastry reakcji są oceniane niezależnie; poniżej pokazano klastry spełniające próg.';

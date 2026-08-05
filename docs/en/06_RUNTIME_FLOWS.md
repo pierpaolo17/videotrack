@@ -64,10 +64,17 @@ Analytics tab -> capability-safe course-group scope -> ordered videotrack_seg re
 -> analytics::build() -> privacy threshold -> heatmap + retention + accessible table
 ```
 
-When the course has groups, users without `moodle/site:accessallgroups` are restricted to the union of groups to which they belong, including the general selection. Raw segments are streamed in user order. For each user, raw overlap contributes to total viewing time, while merged intervals contribute to unique coverage. Their non-negative difference is repeated viewing time. Exact results are hidden when the whole selection is below `analyticsminusers`; positive individual bins below the same threshold are masked. Replay metrics are independently masked when the replaying subgroup is below the threshold, and totals that could reveal masked values are omitted. The optional reaction overlay uses separate privacy-safe clusters and never loads note text or user names. No player, tracking, completion or CSV flow is modified.
+The scope uses the activity effective group mode: no-groups activities are not restricted merely because course groups exist; visible-groups mode exposes the groups Moodle makes visible; separate-groups mode without `moodle/site:accessallgroups` limits the general selection to the viewer’s own groups. Raw segments are streamed in user order. For each user, raw overlap contributes to total viewing time, while merged intervals contribute to unique coverage. Their non-negative difference is repeated viewing time. Exact results are hidden when the whole selection is below `analyticsminusers`; positive individual bins below the same threshold are masked. Replay metrics are independently masked when the replaying subgroup is below the threshold, and totals that could reveal masked values are omitted. The optional reaction overlay uses separate privacy-safe clusters and never loads note text or user names. No player, tracking, completion or CSV flow is modified.
 
 ## Runtime fixes 1.6.1
 
 - Note saving now resolves asynchronous player timestamps and prefers the end of the segment just accepted by the server; this prevents a Promise from being sent by the Vimeo player.
 - A Moodle log-event failure no longer turns an already stored note into a failed save; a visible warning is returned instead.
 - Reaction clusters apply their own privacy threshold independently from viewing-segment availability or suppression. Privacy-safe clusters remain available in an aggregate table without names or private note text.
+
+## Runtime fixes 1.6.2
+
+- The notes module now accepts the status callbacks passed by the player facade; clicks no longer stop with `showStatusMessage is not a function` before the AJAX call.
+- Analytics scope uses the activity effective group mode instead of the mere presence of course groups.
+- Reactions are counted even when they do not form a time cluster; the overall summary is shown only when the distinct-student privacy threshold is met.
+- Clusters still require the threshold within the same reaction type and time window, and the UI explicitly distinguishes detected reactions from visible clusters.

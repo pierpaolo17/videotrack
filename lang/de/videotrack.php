@@ -721,11 +721,14 @@ $string['report:analytics_reactionlimit'] = 'Es werden nur die ersten {$a} daten
 $string['report:analytics_notavailable_privacy'] = 'Aus Datenschutzgründen ausgeblendet';
 
 $string['warning:noteeventtriggerfailed'] = 'Die Notiz wurde gespeichert, aber das Moodle-Protokollereignis konnte nicht aufgezeichnet werden.';
+$string['report:analytics_reactionsummary'] = 'Im ausgewählten Bereich wurden {$a->events} Reaktionsereignisse von {$a->students} unterschiedlichen Teilnehmenden erkannt.';
+$string['report:analytics_reactionsummary_suppressed'] = 'Reaktionen sind vorhanden, die genauen Summen werden jedoch ausgeblendet, weil weniger unterschiedliche Teilnehmende als der Datenschutzschwellenwert beteiligt sind.';
+$string['report:analytics_reactionclusters_none'] = 'Reaktionen wurden erkannt, aber kein Cluster desselben Reaktionstyps im konfigurierten Zeitfenster erreicht den Datenschutzschwellenwert.';
 $string['report:analytics_reactionclusters_title'] = 'Datenschutzkonforme Reaktionscluster';
 $string['report:analytics_reactionclusters_caption'] = 'Reaktionscluster, die den konfigurierten Datenschutzschwellenwert für unterschiedliche Nutzer erfüllen.';
 $string['report:analytics_reaction_time'] = 'Videozeit';
 $string['report:analytics_reaction_type'] = 'Reaktion';
 $string['report:analytics_reaction_events'] = 'Ereignisse';
 $string['report:analytics_reaction_students'] = 'Teilnehmende';
-$string['report:analytics_noviewingdata_reactions'] = 'Für den ausgewählten Bereich sind keine gültigen Wiedergabesegmente verfügbar. Reaktionscluster, die den Datenschutzschwellenwert erfüllen, werden unten angezeigt.';
+$string['report:analytics_noviewingdata_reactions'] = 'Für den ausgewählten Bereich sind keine gültigen Wiedergabesegmente verfügbar. Datenschutzkonforme Reaktionsinformationen werden unten angezeigt, sofern vorhanden.';
 $string['report:analytics_reactions_available'] = 'Die Wiedergabeanalyse ist durch den Datenschutzschwellenwert ausgeblendet. Reaktionscluster werden unabhängig bewertet; passende Cluster werden unten angezeigt.';

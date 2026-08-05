@@ -218,4 +218,35 @@ final class analytics_test extends advanced_testcase {
         $this->assertCount(1, $reactions['clusters']);
         $this->assertSame(2, $reactions['clusters'][0]['students']);
     }
+
+    /**
+     * Course groups do not restrict analytics when the activity uses no groups.
+     */
+    public function test_group_scope_restriction_uses_effective_activity_mode(): void {
+        $this->assertFalse(analytics::restrict_to_own_groups(NOGROUPS, false));
+        $this->assertFalse(analytics::restrict_to_own_groups(VISIBLEGROUPS, false));
+        $this->assertTrue(analytics::restrict_to_own_groups(SEPARATEGROUPS, false));
+        $this->assertFalse(analytics::restrict_to_own_groups(SEPARATEGROUPS, true));
+    }
+
+    /**
+     * Overall reaction counts are exposed only after the distinct-user threshold.
+     */
+    public function test_reaction_summary_masks_small_populations(): void {
+        $hidden = analytics::reaction_summary(4, 1, 2);
+        $this->assertTrue($hidden['hasdata']);
+        $this->assertTrue($hidden['suppressed']);
+        $this->assertNull($hidden['eventcount']);
+        $this->assertNull($hidden['studentcount']);
+
+        $visible = analytics::reaction_summary(5, 2, 2);
+        $this->assertTrue($visible['hasdata']);
+        $this->assertFalse($visible['suppressed']);
+        $this->assertSame(5, $visible['eventcount']);
+        $this->assertSame(2, $visible['studentcount']);
+
+        $empty = analytics::reaction_summary(0, 0, 2);
+        $this->assertFalse($empty['hasdata']);
+        $this->assertFalse($empty['suppressed']);
+    }
 }

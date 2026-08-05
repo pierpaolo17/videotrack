@@ -64,10 +64,17 @@ Scheda Analytics -> ambito gruppi consentito da appartenenza e capability -> rec
 -> analytics::build() -> soglia privacy -> heatmap + retention + tabella accessibile
 ```
 
-Quando il corso contiene gruppi, senza `moodle/site:accessallgroups` anche la selezione generale è limitata all’unione dei gruppi di cui l’utente fa parte. I segmenti grezzi vengono letti in streaming per utente. La sovrapposizione grezza contribuisce al tempo totale, mentre gli intervalli fusi contribuiscono alla copertura unica; la differenza non negativa è il tempo rivisto. I risultati esatti sono nascosti quando l’intera selezione è sotto `analyticsminusers`; i singoli intervalli positivi sotto la stessa soglia vengono mascherati. Le revisioni applicano la soglia separatamente agli utenti che hanno rivisto; i totali ricostruibili vengono omessi. La sovrapposizione facoltativa delle reazioni usa cluster separati compatibili con la soglia e non carica testo delle note o nominativi. Player, tracking, completion e CSV non vengono modificati.
+L’ambito usa la modalità gruppi effettiva dell’attività: in modalità senza gruppi la presenza di gruppi nel corso non restringe i dati; con gruppi visibili sono disponibili i gruppi resi visibili da Moodle; con gruppi separati e senza `moodle/site:accessallgroups` la selezione generale è limitata all’unione dei gruppi di cui l’utente fa parte. I segmenti grezzi vengono letti in streaming per utente. La sovrapposizione grezza contribuisce al tempo totale, mentre gli intervalli fusi contribuiscono alla copertura unica; la differenza non negativa è il tempo rivisto. I risultati esatti sono nascosti quando l’intera selezione è sotto `analyticsminusers`; i singoli intervalli positivi sotto la stessa soglia vengono mascherati. Le revisioni applicano la soglia separatamente agli utenti che hanno rivisto; i totali ricostruibili vengono omessi. La sovrapposizione facoltativa delle reazioni usa cluster separati compatibili con la soglia e non carica testo delle note o nominativi. Player, tracking, completion e CSV non vengono modificati.
 
 ## Correzioni runtime 1.6.1
 
 - Il salvataggio delle note risolve sempre il timestamp asincrono del player e preferisce l’estremo del segmento appena accettato dal server; questo evita il passaggio di una Promise nel player Vimeo.
 - Un errore nella registrazione dell’evento Moodle non annulla una nota già salvata: viene restituito un warning visibile.
 - I cluster di reazioni applicano la propria soglia privacy indipendentemente dalla disponibilità o dalla soppressione dei segmenti di visione. Quando sono conformi alla soglia restano consultabili in una tabella aggregata, senza nominativi o testo delle note.
+
+## Correzioni runtime 1.6.2
+
+- Il modulo note accetta correttamente le callback di stato passate dal facade del player; il click non si interrompe più con `showStatusMessage is not a function` prima della chiamata AJAX.
+- L’ambito Analytics usa la modalità gruppi effettiva dell’attività e non la sola presenza di gruppi nel corso.
+- Le reazioni vengono conteggiate anche quando non formano un cluster temporale: il riepilogo complessivo è mostrato solo quando il numero di studenti distinti raggiunge la soglia privacy.
+- I cluster restano soggetti alla soglia per tipo di reazione e finestra temporale; un messaggio esplicito distingue “reazioni rilevate” da “nessun cluster visibile”.

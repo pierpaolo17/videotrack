@@ -721,11 +721,14 @@ $string['report:analytics_reactionlimit'] = 'Seuls les {$a} premiers clusters de
 $string['report:analytics_notavailable_privacy'] = 'Masqué pour confidentialité';
 
 $string['warning:noteeventtriggerfailed'] = 'La note a été enregistrée, mais l’événement n’a pas pu être inscrit dans le journal Moodle.';
+$string['report:analytics_reactionsummary'] = '{$a->events} événements de réaction provenant de {$a->students} étudiants distincts ont été détectés dans la sélection.';
+$string['report:analytics_reactionsummary_suppressed'] = 'Des réactions sont présentes, mais les totaux exacts sont masqués car le nombre d’étudiants distincts est inférieur au seuil de confidentialité.';
+$string['report:analytics_reactionclusters_none'] = 'Des réactions ont été détectées, mais aucun cluster du même type dans la fenêtre configurée n’atteint le seuil de confidentialité.';
 $string['report:analytics_reactionclusters_title'] = 'Groupes de réactions respectant la confidentialité';
 $string['report:analytics_reactionclusters_caption'] = 'Groupes de réactions respectant le seuil de confidentialité configuré pour les utilisateurs distincts.';
 $string['report:analytics_reaction_time'] = 'Temps de la vidéo';
 $string['report:analytics_reaction_type'] = 'Réaction';
 $string['report:analytics_reaction_events'] = 'Événements';
 $string['report:analytics_reaction_students'] = 'Étudiants';
-$string['report:analytics_noviewingdata_reactions'] = 'Aucun segment de visionnage valide n’est disponible pour la sélection. Les groupes de réactions respectant le seuil de confidentialité sont affichés ci-dessous.';
+$string['report:analytics_noviewingdata_reactions'] = 'Aucun segment de visionnage valide n’est disponible pour la sélection. Les informations de réaction respectant la confidentialité sont affichées ci-dessous lorsqu’elles sont disponibles.';
 $string['report:analytics_reactions_available'] = 'Les analyses de visionnage sont masquées par le seuil de confidentialité. Les groupes de réactions sont évalués séparément et ceux qui respectent le seuil sont affichés ci-dessous.';
