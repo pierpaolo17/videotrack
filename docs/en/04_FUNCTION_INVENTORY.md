@@ -378,6 +378,7 @@
 | File | Type | Function / class |
 | --- | --- | --- |
 | classes/local/analytics.php | class | mod_videotrack\local\analytics |
+| classes/local/analytics.php | function | resolve_duration() |
 | classes/local/analytics.php | function | default_bin_size() |
 | classes/local/analytics.php | function | restrict_to_own_groups() |
 | classes/local/analytics.php | function | normalise_bin_size() |

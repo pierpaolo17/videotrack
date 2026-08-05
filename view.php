@@ -49,17 +49,16 @@ videotrack_view($videotrack, $course, $cm, $context);
 
 $reactions = array_values(videotrack_get_reactions($videotrack->id));
 $state = $DB->get_record('videotrack_state', ['videotrackid' => $videotrack->id, 'userid' => $USER->id]);
-$canviewownreport = has_capability('mod/videotrack:viewownreport', $context);
-$showstudentreport = !empty($videotrack->showstudentreport) && $canviewownreport;
-// Reused by the student report query and by the unique-reaction fallback below.
+$showstudentreactions = !empty($videotrack->reactionsenabled);
+// Reused by the personal reaction list and by the unique-reaction fallback below.
 $eventwhere = "videotrackid = :vtid AND userid = :uid AND isdeleted = 0 AND (notetype = '' OR notetype IS NULL)";
 $eventparams = ['vtid' => $videotrack->id, 'uid' => $USER->id];
 $events = [];
 $eventtruncated = false;
-if ($showstudentreport) {
-    // Fetch one extra row instead of running a separate COUNT query. This keeps.
-    // The common student view to a single note/reaction query while still.
-    // Detecting whether the table is truncated.
+if ($showstudentreactions) {
+    // Fetch one extra row instead of running a separate COUNT query. This keeps
+    // the common student view to a single reaction query while still detecting
+    // whether the personal list is truncated.
     $events = $DB->get_records_select(
         'videotrack_reactev',
         $eventwhere,
@@ -344,17 +343,17 @@ $percent = $state ? (float)$state->completionpercent : 0.0;
 $percentattr = (string)round($percent, 1);
 $uniquereactionids = [];
 if (!empty($videotrack->reactionsenabled)) {
-    // When the student report rows are complete, reuse them instead of issuing.
-    // A separate DISTINCT query. If rows were truncated, query distinct ids.
-    if ($showstudentreport && !$eventtruncated) {
+    // When the personal reaction rows are complete, reuse them instead of issuing
+    // a separate DISTINCT query. If rows were truncated, query distinct ids.
+    if ($showstudentreactions && !$eventtruncated) {
         foreach ($events as $event) {
             if ((int)$event->reactionid > 0) {
                 $uniquereactionids[(int)$event->reactionid] = true;
             }
         }
     } else {
-        // The separate DISTINCT query is needed when the student report is hidden.
-        // Or truncated to the latest 200 rows; otherwise the in-memory rows are enough.
+        // The separate DISTINCT query is needed when the personal list is truncated.
+        // Otherwise the in-memory rows are enough.
         $uniquereactionids = array_flip($DB->get_fieldset_select(
             'videotrack_reactev',
             'DISTINCT reactionid',
@@ -714,7 +713,7 @@ if (!empty($videotrack->reactionsenabled) && $reactions) {
     echo html_writer::end_div(); // Videotrack-reactions.
 }
 
-if ($showstudentreport && !empty($videotrack->reactionsenabled)) {
+if ($showstudentreactions) {
     // Clear visual separation between personal notes and reactions in the student view.
     echo html_writer::tag(
         'h4',

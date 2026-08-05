@@ -186,5 +186,4 @@ final class tracker_test extends advanced_testcase {
         $this->assertTrue(tracker::has_watched_videotime(999, 123, 'different-session', 20.0));
         $this->assertFalse(tracker::has_watched_videotime(999, 123, 'different-session', 50.0));
     }
-
 }

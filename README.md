@@ -97,3 +97,10 @@ This release fixes note status callback wiring, uses the activity effective grou
 La release consente di salvare note personali anche con il player in pausa, mantiene la validazione sul timestamp già visualizzato, usa lo stato aggregato come fallback degli Analytics quando i segmenti grezzi sono incompleti e rimuove il collegamento al report docente dalla pagina studente.
 
 This release allows personal notes to be saved while the player is paused, keeps watched-timestamp validation, uses aggregate state as an Analytics fallback when raw segments are incomplete, and removes the teacher-report link from the student page.
+
+
+## Student reactions, CSV notes and Analytics duration (1.6.4)
+
+La cronologia delle reazioni personali viene mostrata direttamente allo studente quando le reazioni sono abilitate, senza dipendere dal report studente. Nell'esportazione CSV personalizzata le note sono selezionate per impostazione predefinita. Gli Analytics recuperano la durata anche dagli stati utente e dai segmenti esistenti, senza modificare i flussi dei player o il contratto di tracciamento.
+
+The student's personal reaction history is displayed whenever reactions are enabled, independently of the student-report toggle. Personal notes are selected by default in custom CSV exports. Analytics recover duration from user states and existing segments without changing player flows or the tracking contract.

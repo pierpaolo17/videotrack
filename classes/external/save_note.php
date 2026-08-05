@@ -119,14 +119,16 @@ class save_note extends external_api {
         // current user, which prevents arbitrary notes on unseen positions.
         $fallbackdays = \videotrack_get_config_int('validationfallbackdays', 30, 0, 3650);
         $maxage = $fallbackdays > 0 ? $fallbackdays * DAYSECS : 0;
-        if (!tracker::has_watched_videotime(
-            $videotrack->id,
-            (int)$USER->id,
-            $params['sessionid'],
-            $videotime,
-            2.0,
-            $maxage
-        )) {
+        if (
+            !tracker::has_watched_videotime(
+                $videotrack->id,
+                (int)$USER->id,
+                $params['sessionid'],
+                $videotime,
+                2.0,
+                $maxage
+            )
+        ) {
             throw new \moodle_exception('error:playbackpositionnotwatched', 'mod_videotrack');
         }
 
