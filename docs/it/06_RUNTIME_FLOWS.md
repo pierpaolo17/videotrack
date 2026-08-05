@@ -66,6 +66,22 @@ Scheda Analytics -> ambito gruppi consentito da appartenenza e capability -> rec
 
 L’ambito usa la modalità gruppi effettiva dell’attività: in modalità senza gruppi la presenza di gruppi nel corso non restringe i dati; con gruppi visibili sono disponibili i gruppi resi visibili da Moodle; con gruppi separati e senza `moodle/site:accessallgroups` la selezione generale è limitata all’unione dei gruppi di cui l’utente fa parte. I segmenti grezzi vengono letti in streaming per utente. La sovrapposizione grezza contribuisce al tempo totale, mentre gli intervalli fusi contribuiscono alla copertura unica; la differenza non negativa è il tempo rivisto. I risultati esatti sono nascosti quando l’intera selezione è sotto `analyticsminusers`; i singoli intervalli positivi sotto la stessa soglia vengono mascherati. Le revisioni applicano la soglia separatamente agli utenti che hanno rivisto; i totali ricostruibili vengono omessi. La sovrapposizione facoltativa delle reazioni usa cluster separati compatibili con la soglia e non carica testo delle note o nominativi. Player, tracking, completion e CSV non vengono modificati.
 
+## Flusso Analytics tra corsi (1.6.7)
+
+```text
+checkbox analyticsallcourses
+-> analytics_scope::technical_identity()
+-> ricerca istanze con stesso ID provider/content hash
+-> verifica mod/videotrack:viewreport per ogni context_module
+-> risoluzione gruppi consentiti per ciascuna attività
+-> query OR per videotrackid + userid consentiti
+-> ordinamento per userid
+-> analytics::build()/build_from_states()
+-> soglia privacy sull’insieme aggregato
+```
+
+Il medesimo `userid` viene trattato come un solo spettatore anche quando compare in più corsi. La durata usa il migliore valore persistito tra tutte le istanze accessibili. Per YouTube e Vimeo le query escludono record storici con un `videoid` diverso. Le reazioni vengono raggruppate tramite `reactionkey`; l’ID numerico locale resta soltanto un fallback per i record legacy. Il clustering tra corsi usa la finestra configurata nell’attività da cui si apre il report.
+
 ## Correzioni runtime 1.6.1
 
 - Il salvataggio delle note risolve sempre il timestamp asincrono del player e preferisce l’estremo del segmento appena accettato dal server; questo evita il passaggio di una Promise nel player Vimeo.

@@ -227,6 +227,8 @@
 
 ## File analytics per istanza (1.6.0)
 
-- `classes/local/analytics.php`: aggregazione streaming di copertura unica, revisioni, retention e cluster di reazioni compatibili con la soglia privacy.
+- `classes/local/analytics.php`: aggregazione streaming di copertura unica, revisioni, retention e cluster di reazioni compatibili con la soglia privacy; dalla 1.6.7 usa `reactionkey` come identità stabile tra istanze.
+- `classes/local/analytics_scope.php`: identità tecnica del video, ricerca delle istanze corrispondenti e filtro capability per la vista tra corsi.
 - `tests/analytics_test.php`: test PHPUnit per granularità, tempo unico/rivisto, mascheramento privacy e cluster.
-- `report.php`: scheda Analytics, filtro gruppo del corso, grafici SVG accessibili e tabella dati equivalente.
+- `tests/analytics_scope_test.php`: test dell’identità provider e della normalizzazione URL.
+- `report.php`: scheda Analytics, filtro gruppo del corso, filtro temporaneo tra corsi, grafici SVG accessibili e tabella dati equivalente.

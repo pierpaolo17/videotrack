@@ -80,3 +80,9 @@ When enabled by a teacher, VideoTrack opens a separate Forum composer with a tim
 ## Aggregate analytics and reaction clusters
 
 Instance analytics use saved viewing segments only for heatmap, retention and viewing-time metrics. Reaction clusters are evaluated separately and are displayed only when the configured number of distinct students contributed to the same privacy-safe cluster. This separation prevents the absence or suppression of viewing segments from hiding compliant reaction aggregates. The reaction-cluster table contains no student names and never includes private note text.
+
+## Cross-course same-video analytics
+
+The optional cross-course Analytics filter performs a read-only aggregation over activities that use the same technical video. It includes an activity only after checking `mod/videotrack:viewreport` in that activity’s module context. Course-group restrictions are resolved independently for every included activity; groups from different courses are never treated as a shared group. The filter does not reveal inaccessible course names or activity names.
+
+YouTube and Vimeo activities are matched by provider video id. Uploaded files are matched by Moodle content hash rather than filename. The same Moodle user id is merged across included activities before distinct-user counts and the configured privacy threshold are calculated. No student identity or private note text is rendered. Reaction events are grouped by their stored reaction key and remain subject to the distinct-user privacy threshold. The filter is temporary, is not persisted and creates no new personal-data table or field.

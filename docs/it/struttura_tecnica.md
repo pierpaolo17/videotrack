@@ -1,6 +1,6 @@
 # mod_videotrack - Struttura tecnica
 
-**Versione documentata**: 1.6.0
+**Versione documentata**: 1.6.7
 
 Questo documento storico e stato sostituito dalla documentazione tecnica modulare introdotta nella release 1.4.248. La fonte aggiornata e composta dai file numerati nella stessa cartella.
 
@@ -25,4 +25,4 @@ Il contenuto precedente e stato rimpiazzato per evitare informazioni duplicate e
 
 ## Componenti analytics (1.6.0)
 
-`classes/local/analytics.php` esegue l’aggregazione server-side in streaming su `videotrack_seg`. `report.php` applica capability e filtro gruppo, usa la soglia privacy configurabile e genera grafici SVG accessibili con tabella equivalente. La prima release non aggiunge tabelle aggregate o cache: prima di introdurre persistenza devono essere misurate le query su dataset reali.
+`classes/local/analytics.php` esegue l’aggregazione server-side in streaming su `videotrack_seg`. `classes/local/analytics_scope.php` riconosce lo stesso video tecnico tra attività e filtra ogni istanza tramite capability; `report.php` applica per-istanza i gruppi consentiti, usa la soglia privacy configurabile e genera grafici SVG accessibili con tabella equivalente. Il filtro tra corsi è temporaneo e non aggiunge tabelle aggregate o cache: prima di introdurre persistenza devono essere misurate le query su dataset reali.

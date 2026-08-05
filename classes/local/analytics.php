@@ -344,23 +344,29 @@ final class analytics {
         foreach ($events as $event) {
             $userid = (int)($event->userid ?? 0);
             $reactionid = (int)($event->reactionid ?? 0);
-            if ($userid === 0 || $reactionid <= 0) {
+            $reactionkey = trim((string)($event->reactionkey ?? ''));
+            $videotrackid = (int)($event->videotrackid ?? 0);
+            if ($userid === 0 || ($reactionid <= 0 && $reactionkey === '')) {
                 continue;
             }
+            $clusterkey = $reactionkey !== ''
+                ? 'key:' . $reactionkey
+                : ($videotrackid > 0 ? 'activity:' . $videotrackid . ':id:' . $reactionid : 'id:' . $reactionid);
             $time = max(0.0, (float)($event->videotime ?? 0));
-            if (isset($active[$reactionid]) && ($time - $active[$reactionid]['anchor']) <= $windowseconds) {
-                $active[$reactionid]['count']++;
-                $active[$reactionid]['students'][$userid] = true;
-                $active[$reactionid]['timesum'] += $time;
-                $active[$reactionid]['last'] = max($active[$reactionid]['last'], $time);
+            if (isset($active[$clusterkey]) && ($time - $active[$clusterkey]['anchor']) <= $windowseconds) {
+                $active[$clusterkey]['count']++;
+                $active[$clusterkey]['students'][$userid] = true;
+                $active[$clusterkey]['timesum'] += $time;
+                $active[$clusterkey]['last'] = max($active[$clusterkey]['last'], $time);
                 continue;
             }
 
-            if (isset($active[$reactionid])) {
-                self::append_visible_reaction_cluster($active[$reactionid], $minusers, $visible, $truncated);
+            if (isset($active[$clusterkey])) {
+                self::append_visible_reaction_cluster($active[$clusterkey], $minusers, $visible, $truncated);
             }
-            $active[$reactionid] = [
+            $active[$clusterkey] = [
                 'reactionid' => $reactionid,
+                'reactionkey' => $reactionkey,
                 'reactionlabel' => (string)($event->reactionlabel ?? ''),
                 'anchor' => $time,
                 'first' => $time,

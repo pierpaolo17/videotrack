@@ -113,7 +113,8 @@ Le variabili sono rilevate staticamente. L’inventario serve come mappa per ori
 ## Variabili e configurazione analytics (1.6.0)
 
 - Configurazione sito `analyticsminusers`: soglia minima di utenti distinti, default `5`, intervallo `2–50`.
-- Parametri report: `analyticsbinsize`, `analyticsgroupid`, `analyticsshowreactions`.
+- Parametri report: `analyticsbinsize`, `analyticsgroupid`, `analyticsshowreactions`, `analyticsallcourses`. Quest’ultimo è un filtro GET temporaneo, default `0`, e forza `analyticsgroupid=0` nella vista tra corsi.
+- `analyticsinstances` contiene esclusivamente istanze con lo stesso video tecnico e capability `mod/videotrack:viewreport`; ogni record riceve `analyticsgroupids` nullo, vuoto o valorizzato secondo l’ambito gruppi consentito.
 - `classes/local/analytics.php` elabora un utente alla volta e mantiene gli intervalli globali della timeline; non carica profili utente.
 - Ogni intervallo analytics contiene inizio/fine, spettatori distinti, retention, secondi grezzi, secondi unici, secondi rivisti e spettatori con revisioni.
 - Il mascheramento privacy si applica all’intero dataset, a ciascun intervallo positivo e al sottogruppo che ha rivisto; vengono omessi i totali che permetterebbero di ricostruire valori nascosti.
