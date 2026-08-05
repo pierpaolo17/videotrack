@@ -726,6 +726,7 @@ if ($mode === 'analytics') {
         'suppressed' => false,
     ];
     $reactionanalyticsenabled = !empty($videotrack->reactionsenabled);
+    $showreactionanalytics = $reactionanalyticsenabled && $analyticsshowreactions;
     if ($reactionanalyticsenabled) {
         $reactionwhere = "videotrackid = :analyticsrvtid AND isdeleted = 0 " .
             "AND (notetype = '' OR notetype IS NULL)";
