@@ -131,3 +131,11 @@ La release corregge il descrittore del modulo usato per calcolare la modalità g
 ## Analytics group-scope fix (1.6.8)
 
 This release fixes the course-module descriptor used to calculate group mode for cross-course Analytics instances. The object passed to `groups_get_activity_groupmode()` now includes the course identifier required by Moodle's contract, preventing the `Undefined property: stdClass::$course` error when opening the report. The fix does not change cross-course aggregation, permissions, privacy or tracking data.
+
+## Consolidamento dashboard di corso (1.6.9)
+
+La dashboard di corso riusa ora il servizio Analytics per calcolare copertura media e mediana, studenti non completati e calo principale di retention per ogni attivita. Reazioni e note sono conteggiate separatamente. Tutte le metriche aggregate applicano `analyticsminusers`, inclusi i sottogruppi di completamento, reazione e nota. Gli utenti sono classificati tramite capability: vengono inclusi solo gli iscritti attivi che possono visualizzare l attivita e non possiedono `mod/videotrack:viewreport`, evitando che dati di docenti o manager contaminino le statistiche. Ogni attivita applica inoltre i gruppi accessibili al docente e il link al report di dettaglio compare solo quando la capability di modulo e presente.
+
+## Course dashboard consolidation (1.6.9)
+
+The course dashboard now reuses the Analytics service to calculate average and median coverage, non-completing learners and the largest retention decrease for each activity. Reactions and personal notes are counted separately. Every aggregate metric applies `analyticsminusers`, including completion, reaction and note subgroups. Users are classified through capabilities: only active enrolled users who can view the activity and do not hold `mod/videotrack:viewreport` are included, preventing teacher or manager test data from contaminating learner statistics. Each activity also applies the report viewer s permitted groups, and the detailed-report link is rendered only when the module capability is present.

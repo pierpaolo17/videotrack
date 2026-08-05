@@ -1,6 +1,6 @@
 # mod_videotrack - Funzionalita e potenzialita
 
-**Versione documentata**: 1.6.8
+**Versione documentata**: 1.6.9
 **Compatibilita**: Moodle 5.0+
 **Lingue incluse**: Italiano, Inglese, Tedesco, Spagnolo, Francese, Portoghese, Hindi, Polacco
 
@@ -80,3 +80,7 @@ Nella vista tra corsi il filtro gruppo è disattivato. Per ciascuna attività ve
 - Il salvataggio delle note risolve sempre il timestamp asincrono del player e preferisce l’estremo del segmento appena accettato dal server; questo evita il passaggio di una Promise nel player Vimeo.
 - Un errore nella registrazione dell’evento Moodle non annulla una nota già salvata: viene restituito un warning visibile.
 - I cluster di reazioni applicano la propria soglia privacy indipendentemente dalla disponibilità o dalla soppressione dei segmenti di visione. Quando sono conformi alla soglia restano consultabili in una tabella aggregata, senza nominativi o testo delle note.
+
+## Dashboard di corso privacy-safe (1.6.9)
+
+Il report di corso elenca ogni attivita VideoTrack visibile con studenti avviati, copertura media e mediana, completamenti, studenti che hanno iniziato ma non completato, maggiore calo di retention tra intervalli adiacenti, reazioni e note personali. La dashboard riusa i calcoli temporali degli Analytics di istanza. La modalita gruppi effettiva viene applicata separatamente a ogni attivita e gli studenti sono identificati tramite capability, non tramite il nome del ruolo: devono essere iscritti attivi, possedere `mod/videotrack:view` e non possedere `mod/videotrack:viewreport`. I valori esatti e i sottogruppi positivi sotto `analyticsminusers` vengono mascherati. Il link al report di dettaglio compare solo quando il docente possiede `mod/videotrack:viewreport` nel contesto del modulo.

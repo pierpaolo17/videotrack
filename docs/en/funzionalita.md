@@ -1,6 +1,6 @@
 # mod_videotrack - Features and capabilities
 
-**Documented version**: 1.6.8
+**Documented version**: 1.6.9
 **Compatibility**: Moodle 5.0+
 **Included languages**: Italian, English, German, Spanish, French, Portuguese, Hindi, Polish
 
@@ -80,3 +80,7 @@ The course-group selector is disabled in cross-course scope. Each activity indep
 - Note saving now resolves asynchronous player timestamps and prefers the end of the segment just accepted by the server; this prevents a Promise from being sent by the Vimeo player.
 - A Moodle log-event failure no longer turns an already stored note into a failed save; a visible warning is returned instead.
 - Reaction clusters apply their own privacy threshold independently from viewing-segment availability or suppression. Privacy-safe clusters remain available in an aggregate table without names or private note text.
+
+## Privacy-safe course dashboard (1.6.9)
+
+The course report lists every visible VideoTrack activity with learner starts, average and median coverage, completions, learners who started but did not complete, the largest adjacent retention decrease, reactions and personal notes. The dashboard reuses the instance Analytics timeline calculations. It applies the effective group mode separately for each activity and identifies learners by capabilities rather than role names: active enrolled users must hold `mod/videotrack:view` and must not hold `mod/videotrack:viewreport`. Exact values and positive subgroups below `analyticsminusers` are suppressed. A detailed-report action is shown only when the viewer holds `mod/videotrack:viewreport` in that module context.
