@@ -357,6 +357,46 @@ function videotrack_report_render_analytics_heatmap(
 }
 
 /**
+ * Render privacy-safe reaction clusters independently from viewing analytics.
+ *
+ * Reaction clusters already satisfy the configured distinct-user threshold.
+ * Keeping this table independent prevents a small or missing segment dataset
+ * from hiding otherwise valid aggregate reaction information.
+ *
+ * @param array $clusters Privacy-safe reaction clusters.
+ * @param float $duration Video duration in seconds.
+ * @return string Accessible cluster table HTML.
+ */
+function videotrack_report_render_reaction_clusters(array $clusters, float $duration): string {
+    global $OUTPUT;
+
+    if (!$clusters) {
+        return '';
+    }
+
+    $table = new html_table();
+    $table->caption = get_string('report:analytics_reactionclusters_caption', 'mod_videotrack');
+    $table->head = [
+        get_string('report:analytics_reaction_time', 'mod_videotrack'),
+        get_string('report:analytics_reaction_type', 'mod_videotrack'),
+        get_string('report:analytics_reaction_events', 'mod_videotrack'),
+        get_string('report:analytics_reaction_students', 'mod_videotrack'),
+    ];
+    foreach ($clusters as $cluster) {
+        $timestamp = max(0.0, (float)($cluster['timestamp'] ?? 0));
+        $table->data[] = [
+            videotrack_format_video_timestamp($timestamp, $duration),
+            format_string((string)($cluster['reactionlabel'] ?? '')),
+            (int)($cluster['count'] ?? 0),
+            (int)($cluster['students'] ?? 0),
+        ];
+    }
+
+    return $OUTPUT->heading(get_string('report:analytics_reactionclusters_title', 'mod_videotrack'), 4) .
+        html_writer::table($table);
+}
+
+/**
  * Renders the retention line chart.
  *
  * @param array $bins Privacy-safe analytics bins.
@@ -595,7 +635,7 @@ if ($mode === 'analytics') {
     $reactionclusters = [];
     $reactionclusterstruncated = false;
     $showreactionanalytics = $analyticsshowreactions && !empty($videotrack->reactionsenabled);
-    if ($showreactionanalytics && !$analytics['datasetsuppressed']) {
+    if ($showreactionanalytics) {
         $reactionwhere = "videotrackid = :analyticsrvtid AND isdeleted = 0 " .
             "AND (notetype = '' OR notetype IS NULL)";
         $reactionparams = ['analyticsrvtid' => $videotrack->id];
@@ -778,7 +818,16 @@ if ($mode === 'analytics') {
         exit;
     }
     if ((int)$analytics['viewers'] === 0) {
-        echo $OUTPUT->notification(get_string('report:analytics_nodata', 'mod_videotrack'), 'notifymessage');
+        if (!$reactionclusters) {
+            echo $OUTPUT->notification(get_string('report:analytics_nodata', 'mod_videotrack'), 'notifymessage');
+            echo $OUTPUT->footer();
+            exit;
+        }
+        echo $OUTPUT->notification(
+            get_string('report:analytics_noviewingdata_reactions', 'mod_videotrack'),
+            'info'
+        );
+        echo videotrack_report_render_reaction_clusters($reactionclusters, $duration);
         echo $OUTPUT->footer();
         exit;
     }
@@ -787,6 +836,13 @@ if ($mode === 'analytics') {
             get_string('report:analytics_privacy_suppressed', 'mod_videotrack', $minusers),
             'warning'
         );
+        if ($reactionclusters) {
+            echo $OUTPUT->notification(
+                get_string('report:analytics_reactions_available', 'mod_videotrack'),
+                'info'
+            );
+            echo videotrack_report_render_reaction_clusters($reactionclusters, $duration);
+        }
         echo $OUTPUT->footer();
         exit;
     }
@@ -877,6 +933,7 @@ if ($mode === 'analytics') {
         $reactionclusters,
         $minusers
     );
+    echo videotrack_report_render_reaction_clusters($reactionclusters, $duration);
     echo $OUTPUT->heading(get_string('report:analytics_retention_title', 'mod_videotrack'), 4);
     echo videotrack_report_render_analytics_retention($analytics['bins'], $duration);
 

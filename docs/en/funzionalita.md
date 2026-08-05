@@ -68,3 +68,9 @@ A teacher may link the activity to a compatible Forum in the same course. The st
 ## Instance heatmap and retention (1.6.0)
 
 Teachers with report access have an aggregate Analytics tab for each activity. It shows distinct viewers along the timeline, retention, unique viewing time, repeated viewing time, most-viewed and most-replayed intervals, and the largest decreases between adjacent intervals. Results can be filtered by a course group available to the teacher. When the course has groups, users without the access-all-groups capability are restricted to the union of groups to which they belong, including when “All permitted users” is selected. A configurable minimum-user threshold suppresses small selections and masks small positive bins. Replay metrics are masked separately when the replaying subgroup is below the threshold, and totals that could reveal hidden values are omitted. The optional reaction overlay uses only clusters that meet the same threshold. No identities or private note text are displayed.
+
+## Runtime fixes 1.6.1
+
+- Note saving now resolves asynchronous player timestamps and prefers the end of the segment just accepted by the server; this prevents a Promise from being sent by the Vimeo player.
+- A Moodle log-event failure no longer turns an already stored note into a failed save; a visible warning is returned instead.
+- Reaction clusters apply their own privacy threshold independently from viewing-segment availability or suppression. Privacy-safe clusters remain available in an aggregate table without names or private note text.

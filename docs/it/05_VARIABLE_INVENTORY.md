@@ -74,7 +74,7 @@ Le variabili sono rilevate staticamente. L’inventario serve come mappa per ori
 | amd/src/core/player/forum.js | button, cleanup, duration, handler, options, setBusy, status, time, url, value |
 | amd/src/core/player/notes/row.js | delBtn, li, list, maxRenderedNotes, removed, textSpan, timeSpan |
 | amd/src/core/player/notes/toggle.js | body, btn, cleanupToggleHandler, isCollapsed, key, label, labelContext, toggleClickHandler |
-| amd/src/core/player/notes.js | Api, CHAR_COUNTER_DEBOUNCE_MS, Utils, charCounterTimer, cleanupNoteHandler, config, currentNoteSaveToken, currentTime, delBtn, dismissLabel, fallbackMessage, getCurrentVideoTime, hint, lastCharThreshold, li, limitedNotesAnnounced, list, live, maxLength, message, next, noteList, noteListClickHandler, noteSaveToken, noteid, panel, playStateHandler, remaining, saveBtn, saveClickHandler, saveCurrentProgress, savingNote, showErrorStatusMessage, showStatusMessage, state, text, textarea, textareaInputHandler, threshold |
+| amd/src/core/player/notes.js | Api, CHAR_COUNTER_DEBOUNCE_MS, Utils, charCounterTimer, cleanupNoteHandler, config, currentNoteSaveToken, currentTime, progressResponse, fallbackTime, savedEnd, time, delBtn, dismissLabel, fallbackMessage, getCurrentVideoTime, hint, lastCharThreshold, li, limitedNotesAnnounced, list, live, maxLength, message, next, noteList, noteListClickHandler, noteSaveToken, noteid, panel, playStateHandler, remaining, saveBtn, saveClickHandler, saveCurrentProgress, savingNote, showErrorStatusMessage, showStatusMessage, state, text, textarea, textareaInputHandler, threshold |
 | amd/src/core/player/poster.js | - |
 | amd/src/core/player/progress.js | - |
 | amd/src/core/player/reactions.js | - |

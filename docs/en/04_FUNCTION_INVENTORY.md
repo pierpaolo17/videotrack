@@ -391,3 +391,4 @@
 | report.php | function | videotrack_report_render_analytics_heatmap() |
 | report.php | function | videotrack_report_render_analytics_retention() |
 | tests/analytics_test.php | class | mod_videotrack\analytics_test |
+| report.php | function | videotrack_report_render_reaction_clusters() |

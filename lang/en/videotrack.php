@@ -717,3 +717,13 @@ $string['report:analytics_invalidgroup'] = 'The selected group is not available 
 $string['report:analytics_partial_suppression'] = 'Some interval or replay metrics are hidden because they involve fewer users than the privacy threshold. Aggregate totals that could reveal those values are also omitted.';
 $string['report:analytics_reactionlimit'] = 'Only the first {$a} privacy-safe reaction clusters are shown. Choose a smaller group or disable the overlay if a complete reaction view is required.';
 $string['report:analytics_notavailable_privacy'] = 'Hidden for privacy';
+
+$string['warning:noteeventtriggerfailed'] = 'The note was saved, but the Moodle log event could not be recorded.';
+$string['report:analytics_reactionclusters_title'] = 'Privacy-safe reaction clusters';
+$string['report:analytics_reactionclusters_caption'] = 'Reaction clusters that meet the configured distinct-user privacy threshold.';
+$string['report:analytics_reaction_time'] = 'Video time';
+$string['report:analytics_reaction_type'] = 'Reaction';
+$string['report:analytics_reaction_events'] = 'Events';
+$string['report:analytics_reaction_students'] = 'Students';
+$string['report:analytics_noviewingdata_reactions'] = 'No valid viewing segments are available for the selected scope. Reaction clusters that meet the privacy threshold are shown below.';
+$string['report:analytics_reactions_available'] = 'Viewing analytics are hidden by the privacy threshold. Reaction clusters are evaluated independently and the clusters meeting the threshold are shown below.';

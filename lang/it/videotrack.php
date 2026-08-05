@@ -719,3 +719,13 @@ $string['report:analytics_invalidgroup'] = 'Il gruppo selezionato non è disponi
 $string['report:analytics_partial_suppression'] = 'Alcune metriche di intervallo o di revisione sono nascoste perché coinvolgono meno utenti della soglia privacy. Vengono omessi anche i totali aggregati che permetterebbero di ricostruire tali valori.';
 $string['report:analytics_reactionlimit'] = 'Vengono mostrati solo i primi {$a} cluster di reazioni compatibili con la soglia privacy. Se serve una vista completa, seleziona un gruppo più piccolo o disabilita la sovrapposizione.';
 $string['report:analytics_notavailable_privacy'] = 'Nascosto per privacy';
+
+$string['warning:noteeventtriggerfailed'] = 'La nota è stata salvata, ma non è stato possibile registrare l’evento nel log di Moodle.';
+$string['report:analytics_reactionclusters_title'] = 'Cluster di reazioni conformi alla privacy';
+$string['report:analytics_reactionclusters_caption'] = 'Cluster di reazioni che rispettano la soglia privacy configurata per gli utenti distinti.';
+$string['report:analytics_reaction_time'] = 'Tempo del video';
+$string['report:analytics_reaction_type'] = 'Reazione';
+$string['report:analytics_reaction_events'] = 'Eventi';
+$string['report:analytics_reaction_students'] = 'Studenti';
+$string['report:analytics_noviewingdata_reactions'] = 'Nell’ambito selezionato non sono disponibili segmenti di visione validi. Di seguito sono mostrati i cluster di reazioni che rispettano la soglia privacy.';
+$string['report:analytics_reactions_available'] = 'Gli analytics di visione sono nascosti dalla soglia privacy. I cluster di reazioni sono valutati separatamente e di seguito sono mostrati quelli che rispettano la soglia.';

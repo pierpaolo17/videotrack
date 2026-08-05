@@ -76,3 +76,7 @@ VideoTrack CSV exports can include configured course, activity and user identity
 ## Optional Forum posting
 
 When enabled by a teacher, VideoTrack opens a separate Forum composer with a timestamped replay link. VideoTrack does not store the post subject, message, author or discussion identifier. The published content is controlled, retained and exported by `mod_forum`; private VideoTrack notes are not copied.
+
+## Aggregate analytics and reaction clusters
+
+Instance analytics use saved viewing segments only for heatmap, retention and viewing-time metrics. Reaction clusters are evaluated separately and are displayed only when the configured number of distinct students contributed to the same privacy-safe cluster. This separation prevents the absence or suppression of viewing segments from hiding compliant reaction aggregates. The reaction-cluster table contains no student names and never includes private note text.

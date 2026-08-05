@@ -190,4 +190,32 @@ final class analytics_test extends advanced_testcase {
         $this->assertSame(3, $clusters[0]['count']);
         $this->assertEqualsWithDelta(11.667, $clusters[0]['timestamp'], 0.001);
     }
+
+    /**
+     * Privacy-safe reaction clusters remain computable when viewing data is suppressed.
+     */
+    public function test_reaction_privacy_is_independent_from_viewing_privacy(): void {
+        $viewing = analytics::apply_privacy_threshold([
+            'viewers' => 1,
+            'bins' => [['viewers' => 1]],
+        ], 2);
+        $reactions = analytics::cluster_reactions([
+            (object)[
+                'userid' => 1,
+                'reactionid' => 10,
+                'reactionlabel' => 'Question',
+                'videotime' => 20,
+            ],
+            (object)[
+                'userid' => 2,
+                'reactionid' => 10,
+                'reactionlabel' => 'Question',
+                'videotime' => 22,
+            ],
+        ], 10, 2);
+
+        $this->assertTrue($viewing['datasetsuppressed']);
+        $this->assertCount(1, $reactions['clusters']);
+        $this->assertSame(2, $reactions['clusters'][0]['students']);
+    }
 }

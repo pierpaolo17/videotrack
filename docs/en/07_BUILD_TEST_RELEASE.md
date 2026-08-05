@@ -85,3 +85,9 @@ A documentation-only patch does not require `grunt amd`, PHPUnit or PHPCS unless
 - verify accessible SVG descriptions and equivalent table values;
 - confirm existing student, cumulative, CSV and completion-recalculation tabs are unchanged;
 - run `analytics_test.php`, PHPCS Moodle + Extra and PHP lint. No AMD build is required for this phase.
+
+## Runtime fixes 1.6.1
+
+- Note saving now resolves asynchronous player timestamps and prefers the end of the segment just accepted by the server; this prevents a Promise from being sent by the Vimeo player.
+- A Moodle log-event failure no longer turns an already stored note into a failed save; a visible warning is returned instead.
+- Reaction clusters apply their own privacy threshold independently from viewing-segment availability or suppression. Privacy-safe clusters remain available in an aggregate table without names or private note text.
