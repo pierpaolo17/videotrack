@@ -177,6 +177,51 @@ function videotrack_report_duration_filter(string $name, string $label, ?float $
 }
 
 /**
+ * Builds a capability-safe SQL condition for one or more Analytics activities.
+ *
+ * Each scope record must expose an id and an analyticsgroupids property. A null
+ * group list means all users allowed by the activity context; an empty list
+ * excludes the activity; a populated list restricts users to those groups.
+ *
+ * @param array $scopes Analytics activity scope records.
+ * @param string $prefix Unique parameter prefix.
+ * @return array SQL condition and named parameters.
+ */
+function videotrack_report_analytics_scope_condition(array $scopes, string $prefix): array {
+    global $DB;
+
+    $clauses = [];
+    $params = [];
+    $index = 0;
+    foreach ($scopes as $scope) {
+        $groupids = $scope->analyticsgroupids ?? null;
+        if (is_array($groupids) && !$groupids) {
+            continue;
+        }
+        $vtparam = $prefix . 'vt' . $index;
+        $clause = 'videotrackid = :' . $vtparam;
+        $params[$vtparam] = (int)$scope->id;
+        if (is_array($groupids)) {
+            [$groupsql, $groupparams] = $DB->get_in_or_equal(
+                array_map('intval', $groupids),
+                SQL_PARAMS_NAMED,
+                $prefix . 'group' . $index
+            );
+            $clause .= " AND userid IN (
+                SELECT scopegm.userid
+                  FROM {groups_members} scopegm
+                 WHERE scopegm.groupid {$groupsql}
+            )";
+            $params = array_merge($params, $groupparams);
+        }
+        $clauses[] = '(' . $clause . ')';
+        $index++;
+    }
+
+    return [$clauses ? implode(' OR ', $clauses) : '1 = 0', $params];
+}
+
+/**
  * Builds the report tab set.
  *
  * @param int $cmid Course module id.
@@ -553,6 +598,7 @@ $csvformat = optional_param('csvformat', 'detailed', PARAM_ALPHA);
 $analyticsbinsize = optional_param('analyticsbinsize', 0, PARAM_INT);
 $analyticsgroupid = optional_param('analyticsgroupid', 0, PARAM_INT);
 $analyticsshowreactions = optional_param('analyticsshowreactions', 1, PARAM_BOOL);
+$analyticsallcourses = optional_param('analyticsallcourses', 0, PARAM_BOOL);
 $recalculateuserid = optional_param('recalculateuserid', 0, PARAM_INT);
 $action = optional_param('action', '', PARAM_ALPHA);
 $resetaction = optional_param('resetaction', '', PARAM_ALPHA);
@@ -604,78 +650,142 @@ if ($mode === 'analytics') {
     require_capability('mod/videotrack:viewreport', $context);
     require_once($CFG->libdir . '/grouplib.php');
 
-    $durationparams = [
-        'vtid' => $videotrack->id,
-        'videoid' => (string)$videotrack->videoid,
-    ];
+    $coursecontext = context_course::instance($course->id);
+    $currentanalyticsinstance = clone $videotrack;
+    $currentanalyticsinstance->cmid = (int)$cm->id;
+    $currentanalyticsinstance->groupmode = (int)$cm->groupmode;
+    $currentanalyticsinstance->groupingid = (int)$cm->groupingid;
+    $currentanalyticsinstance->coursefullname = (string)$course->fullname;
+    $currentanalyticsinstance->coursegroupmode = (int)$course->groupmode;
+    $currentanalyticsinstance->groupmodeforce = (int)$course->groupmodeforce;
+    $currentanalyticsinstance->contextid = (int)$context->id;
+
+    if ($analyticsallcourses) {
+        $analyticsinstances = \mod_videotrack\local\analytics_scope::matching_accessible_instances(
+            $videotrack,
+            $cm,
+            (int)$USER->id
+        );
+        if (!$analyticsinstances) {
+            $analyticsinstances = [(int)$videotrack->id => $currentanalyticsinstance];
+        }
+        $analyticsgroupid = 0;
+    } else {
+        $analyticsinstances = [(int)$videotrack->id => $currentanalyticsinstance];
+    }
+
+    $providerdataid = in_array((string)$videotrack->videosource, ['youtube', 'vimeo'], true)
+        ? trim((string)$videotrack->videoid)
+        : '';
+
+    $groupoptions = [0 => get_string('report:analytics_allusers', 'mod_videotrack')];
+    if (!$analyticsallcourses) {
+        $canaccessallgroups = has_capability('moodle/site:accessallgroups', $context);
+        $activitygroupmode = groups_get_activity_groupmode($cm, $course);
+        $restricttoowngroups = \mod_videotrack\local\analytics::restrict_to_own_groups(
+            $activitygroupmode,
+            $canaccessallgroups
+        );
+        $groupuserid = $restricttoowngroups ? (int)$USER->id : 0;
+        $groups = groups_get_all_groups($course->id, $groupuserid, (int)$cm->groupingid, 'g.id,g.name');
+        foreach ($groups as $group) {
+            $groupoptions[(int)$group->id] = format_string($group->name, true, ['context' => $coursecontext]);
+        }
+        if ($analyticsgroupid > 0 && !isset($groupoptions[$analyticsgroupid])) {
+            throw new invalid_parameter_exception(get_string('report:analytics_invalidgroup', 'mod_videotrack'));
+        }
+    }
+
+    $coursehasgroups = [];
+    foreach ($analyticsinstances as $scopeinstance) {
+        if (!$analyticsallcourses && (int)$scopeinstance->id === (int)$videotrack->id && $analyticsgroupid > 0) {
+            $scopeinstance->analyticsgroupids = [$analyticsgroupid];
+            continue;
+        }
+
+        $scopecontext = context_module::instance((int)$scopeinstance->cmid, MUST_EXIST);
+        $scopecourse = (object)[
+            'id' => (int)$scopeinstance->course,
+            'groupmode' => (int)$scopeinstance->coursegroupmode,
+            'groupmodeforce' => (int)$scopeinstance->groupmodeforce,
+        ];
+        $scopecm = (object)[
+            'groupmode' => (int)$scopeinstance->groupmode,
+            'groupingid' => (int)$scopeinstance->groupingid,
+        ];
+        $scopegroupmode = groups_get_activity_groupmode($scopecm, $scopecourse);
+        $scopecanaccessallgroups = has_capability('moodle/site:accessallgroups', $scopecontext);
+        if (!array_key_exists((int)$scopeinstance->course, $coursehasgroups)) {
+            $coursehasgroups[(int)$scopeinstance->course] = $DB->record_exists(
+                'groups',
+                ['courseid' => (int)$scopeinstance->course]
+            );
+        }
+        if (
+            $scopecanaccessallgroups
+            || $scopegroupmode === NOGROUPS
+            || !$coursehasgroups[(int)$scopeinstance->course]
+        ) {
+            $scopeinstance->analyticsgroupids = null;
+            continue;
+        }
+
+        $scopegroupuserid = \mod_videotrack\local\analytics::restrict_to_own_groups(
+            $scopegroupmode,
+            $scopecanaccessallgroups
+        ) ? (int)$USER->id : 0;
+        $scopegroups = groups_get_all_groups(
+            (int)$scopeinstance->course,
+            $scopegroupuserid,
+            (int)$scopeinstance->groupingid,
+            'g.id'
+        );
+        $scopeinstance->analyticsgroupids = array_map('intval', array_keys($scopegroups));
+    }
+
+    $scopevtids = array_map('intval', array_keys($analyticsinstances));
+    [$durationvtsql, $durationvtparams] = $DB->get_in_or_equal(
+        $scopevtids,
+        SQL_PARAMS_NAMED,
+        'analyticsdurationvt'
+    );
+    $durationwhere = "videotrackid {$durationvtsql}";
+    if ($providerdataid !== '') {
+        $durationwhere .= ' AND videoid = :analyticsdurationvideoid';
+        $durationvtparams['analyticsdurationvideoid'] = $providerdataid;
+    }
     $stateduration = (float)$DB->get_field_sql(
-        'SELECT COALESCE(MAX(durationseconds), 0)
+        "SELECT COALESCE(MAX(durationseconds), 0)
            FROM {videotrack_state}
-          WHERE videotrackid = :vtid AND videoid = :videoid',
-        $durationparams
+          WHERE {$durationwhere}",
+        $durationvtparams
     );
     $segmentend = (float)$DB->get_field_sql(
-        'SELECT COALESCE(MAX(videotimeend), 0)
+        "SELECT COALESCE(MAX(videotimeend), 0)
            FROM {videotrack_seg}
-          WHERE videotrackid = :vtid AND videoid = :videoid',
-        $durationparams
+          WHERE {$durationwhere}",
+        $durationvtparams
     );
+    $instanceduration = 0.0;
+    foreach ($analyticsinstances as $scopeinstance) {
+        $instanceduration = max($instanceduration, (float)$scopeinstance->durationseconds);
+    }
     $duration = \mod_videotrack\local\analytics::resolve_duration(
-        (float)$videotrack->durationseconds,
+        $instanceduration,
         $stateduration,
         $segmentend
     );
     $analyticsbinsize = \mod_videotrack\local\analytics::normalise_bin_size($analyticsbinsize, $duration);
     $minusers = videotrack_get_config_int('analyticsminusers', 5, 2, 50);
-    $coursecontext = context_course::instance($course->id);
 
-    $canaccessallgroups = has_capability('moodle/site:accessallgroups', $context);
-    $activitygroupmode = groups_get_activity_groupmode($cm, $course);
-    $restricttoowngroups = \mod_videotrack\local\analytics::restrict_to_own_groups(
-        $activitygroupmode,
-        $canaccessallgroups
+    [$segmentwhere, $segmentparams] = videotrack_report_analytics_scope_condition(
+        $analyticsinstances,
+        'analyticssegment'
     );
-    // In no-groups mode course groups must not hide analytics. Visible-groups mode
-    // exposes the groups Moodle makes visible; separate groups uses own groups only.
-    $groupuserid = $restricttoowngroups ? (int)$USER->id : 0;
-    $groups = groups_get_all_groups($course->id, $groupuserid, 0, 'g.id,g.name');
-    $groupoptions = [0 => get_string('report:analytics_allusers', 'mod_videotrack')];
-    foreach ($groups as $group) {
-        $groupoptions[(int)$group->id] = format_string($group->name, true, ['context' => $coursecontext]);
-    }
-    if ($analyticsgroupid > 0 && !isset($groupoptions[$analyticsgroupid])) {
-        throw new invalid_parameter_exception(get_string('report:analytics_invalidgroup', 'mod_videotrack'));
-    }
-
-    $permittedgroupids = array_map('intval', array_keys($groups));
-    $hascoursegroups = $DB->record_exists('groups', ['courseid' => $course->id]);
-    if ($analyticsgroupid > 0) {
-        $scopegroupids = [$analyticsgroupid];
-    } else if ($canaccessallgroups || $activitygroupmode === NOGROUPS || !$hascoursegroups) {
-        $scopegroupids = null;
-    } else {
-        // Visible groups uses all groups Moodle exposes; separate groups uses own groups.
-        $scopegroupids = $permittedgroupids;
-    }
-
-    $segmentwhere = 'videotrackid = :analyticsvtid';
-    $segmentparams = ['analyticsvtid' => $videotrack->id];
-    if (is_array($scopegroupids)) {
-        if (!$scopegroupids) {
-            $segmentwhere .= ' AND 1 = 0';
-        } else {
-            [$groupsql, $groupparams] = $DB->get_in_or_equal(
-                $scopegroupids,
-                SQL_PARAMS_NAMED,
-                'analyticsgroup'
-            );
-            $segmentwhere .= " AND userid IN (
-                SELECT analyticsgm.userid
-                  FROM {groups_members} analyticsgm
-                 WHERE analyticsgm.groupid {$groupsql}
-            )";
-            $segmentparams = array_merge($segmentparams, $groupparams);
-        }
+    $segmentwhere = '(' . $segmentwhere . ')';
+    if ($providerdataid !== '') {
+        $segmentwhere .= ' AND videoid = :analyticssegmentvideoid';
+        $segmentparams['analyticssegmentvideoid'] = $providerdataid;
     }
     $segmentrs = $DB->get_recordset_select(
         'videotrack_seg',
@@ -690,9 +800,8 @@ if ($mode === 'analytics') {
         $segmentrs->close();
     }
 
-    // The aggregate state is the canonical source for unique watched coverage.
-    // Prefer it only when it contains more usable viewers than raw segments;
-    // this preserves replay metrics whenever raw data is complete.
+    // Aggregate states recover unique watched coverage when raw segments are incomplete.
+    // Multiple states for the same Moodle user are merged across accessible courses.
     $staters = $DB->get_recordset_select(
         'videotrack_state',
         $segmentwhere,
@@ -725,28 +834,21 @@ if ($mode === 'analytics') {
         'studentcount' => 0,
         'suppressed' => false,
     ];
-    $reactionanalyticsenabled = !empty($videotrack->reactionsenabled);
+    $reactionanalyticsenabled = count(array_filter(
+        $analyticsinstances,
+        static fn(stdClass $scopeinstance): bool => !empty($scopeinstance->reactionsenabled)
+    )) > 0;
     $showreactionanalytics = $reactionanalyticsenabled && $analyticsshowreactions;
     if ($reactionanalyticsenabled) {
-        $reactionwhere = "videotrackid = :analyticsrvtid AND isdeleted = 0 " .
-            "AND (notetype = '' OR notetype IS NULL)";
-        $reactionparams = ['analyticsrvtid' => $videotrack->id];
-        if (is_array($scopegroupids)) {
-            if (!$scopegroupids) {
-                $reactionwhere .= ' AND 1 = 0';
-            } else {
-                [$reactiongroupsql, $reactiongroupparams] = $DB->get_in_or_equal(
-                    $scopegroupids,
-                    SQL_PARAMS_NAMED,
-                    'analyticsreactiongroup'
-                );
-                $reactionwhere .= " AND userid IN (
-                    SELECT analyticsrgm.userid
-                      FROM {groups_members} analyticsrgm
-                     WHERE analyticsrgm.groupid {$reactiongroupsql}
-                )";
-                $reactionparams = array_merge($reactionparams, $reactiongroupparams);
-            }
+        [$reactionwhere, $reactionparams] = videotrack_report_analytics_scope_condition(
+            $analyticsinstances,
+            'analyticsreaction'
+        );
+        $reactionwhere = '(' . $reactionwhere . ') AND isdeleted = 0 '
+            . "AND (notetype = '' OR notetype IS NULL)";
+        if ($providerdataid !== '') {
+            $reactionwhere .= ' AND videoid = :analyticsreactionvideoid';
+            $reactionparams['analyticsreactionvideoid'] = $providerdataid;
         }
         $reactionsummaryrecord = $DB->get_record_sql(
             "SELECT COUNT(id) AS eventcount, COUNT(DISTINCT userid) AS studentcount
@@ -766,7 +868,7 @@ if ($mode === 'analytics') {
                 $reactionwhere,
                 $reactionparams,
                 'videotime ASC, id ASC',
-                'id, userid, reactionid, reactionlabel, videotime'
+                'id, videotrackid, userid, reactionid, reactionkey, reactionlabel, videotime'
             );
             try {
                 $reactionresult = \mod_videotrack\local\analytics::cluster_reactions(
@@ -800,12 +902,18 @@ if ($mode === 'analytics') {
     }
     unset($bin);
 
+    $analyticsactivitycount = count($analyticsinstances);
+    $analyticscoursecount = count(array_unique(array_map(
+        static fn(stdClass $scopeinstance): int => (int)$scopeinstance->course,
+        $analyticsinstances
+    )));
     $PAGE->set_url('/mod/videotrack/report.php', [
         'id' => $cm->id,
         'mode' => 'analytics',
         'analyticsbinsize' => $analyticsbinsize,
         'analyticsgroupid' => $analyticsgroupid,
         'analyticsshowreactions' => $analyticsshowreactions,
+        'analyticsallcourses' => $analyticsallcourses,
     ]);
     $PAGE->set_context($context);
     $PAGE->set_title(format_string($videotrack->name, true, ['context' => $context]));
@@ -852,7 +960,40 @@ if ($mode === 'analytics') {
     );
     $filterform .= html_writer::end_div();
 
-    if (count($groupoptions) > 1) {
+    $filterform .= html_writer::start_div('form-group mr-3 mb-2 align-self-end');
+    $filterform .= html_writer::empty_tag('input', [
+        'type' => 'hidden',
+        'name' => 'analyticsallcourses',
+        'value' => 0,
+    ]);
+    $allcoursesattributes = [
+        'type' => 'checkbox',
+        'name' => 'analyticsallcourses',
+        'id' => 'id_analyticsallcourses',
+        'value' => 1,
+        'class' => 'form-check-input',
+        'aria-describedby' => 'id_analyticsallcourses_help',
+    ];
+    if ($analyticsallcourses) {
+        $allcoursesattributes['checked'] = 'checked';
+    }
+    $filterform .= html_writer::start_div('form-check');
+    $filterform .= html_writer::empty_tag('input', $allcoursesattributes);
+    $filterform .= html_writer::label(
+        get_string('report:analytics_allcourses', 'mod_videotrack'),
+        'id_analyticsallcourses',
+        false,
+        ['class' => 'form-check-label']
+    );
+    $filterform .= html_writer::end_div();
+    $filterform .= html_writer::div(
+        get_string('report:analytics_allcourses_help', 'mod_videotrack'),
+        'form-text text-muted small',
+        ['id' => 'id_analyticsallcourses_help']
+    );
+    $filterform .= html_writer::end_div();
+
+    if (!$analyticsallcourses && count($groupoptions) > 1) {
         $filterform .= html_writer::start_div('form-group mr-3 mb-2');
         $filterform .= html_writer::label(
             get_string('report:analytics_group', 'mod_videotrack'),
@@ -870,7 +1011,7 @@ if ($mode === 'analytics') {
         $filterform .= html_writer::end_div();
     }
 
-    if (!empty($videotrack->reactionsenabled)) {
+    if ($reactionanalyticsenabled) {
         $filterform .= html_writer::start_div('form-check mr-3 mb-2 align-self-end');
         $filterform .= html_writer::empty_tag('input', [
             'type' => 'hidden',
@@ -902,6 +1043,20 @@ if ($mode === 'analytics') {
     ]);
     $filterform .= html_writer::end_tag('form');
     echo $filterform;
+
+    if ($analyticsallcourses) {
+        $scopemessage = $analyticsactivitycount > 1
+            ? get_string('report:analytics_allcourses_scope', 'mod_videotrack', [
+                'activities' => $analyticsactivitycount,
+                'courses' => $analyticscoursecount,
+            ])
+            : get_string('report:analytics_allcourses_single', 'mod_videotrack');
+        echo html_writer::div($scopemessage, 'alert alert-info small');
+        echo html_writer::div(
+            get_string('report:analytics_allcourses_groups', 'mod_videotrack'),
+            'alert alert-light small'
+        );
+    }
 
     echo html_writer::div(
         get_string('report:analytics_privacy_notice', 'mod_videotrack', $minusers),

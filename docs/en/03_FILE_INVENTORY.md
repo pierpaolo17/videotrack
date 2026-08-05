@@ -227,6 +227,8 @@
 
 ## Instance analytics files (1.6.0)
 
-- `classes/local/analytics.php`: streaming aggregation of unique coverage, repeated viewing, retention and privacy-safe reaction clusters.
+- `classes/local/analytics.php`: streaming aggregation of unique coverage, repeated viewing, retention and privacy-safe reaction clusters; since 1.6.7 it uses `reactionkey` as the stable cross-instance identity.
+- `classes/local/analytics_scope.php`: technical video identity, matching-instance discovery and capability filtering for cross-course scope.
 - `tests/analytics_test.php`: PHPUnit coverage for granularity, unique/repeated time, privacy masking and reaction clusters.
-- `report.php`: Analytics tab, course-group filter, accessible SVG charts and equivalent data table.
+- `tests/analytics_scope_test.php`: provider-identity and URL-normalisation tests.
+- `report.php`: Analytics tab, course-group filter, temporary cross-course filter, accessible SVG charts and equivalent data table.

@@ -1,6 +1,6 @@
 # mod_videotrack - Features and capabilities
 
-**Documented version**: 1.6.0
+**Documented version**: 1.6.7
 **Compatibility**: Moodle 5.0+
 **Included languages**: Italian, English, German, Spanish, French, Portuguese, Hindi, Polish
 
@@ -68,6 +68,12 @@ A teacher may link the activity to a compatible Forum in the same course. The st
 ## Instance heatmap and retention (1.6.0)
 
 Teachers with report access have an aggregate Analytics tab for each activity. It shows distinct viewers along the timeline, retention, unique viewing time, repeated viewing time, most-viewed and most-replayed intervals, and the largest decreases between adjacent intervals. Results can be filtered by a course group available to the teacher. When the course has groups, users without the access-all-groups capability are restricted to the union of groups to which they belong, including when “All permitted users” is selected. A configurable minimum-user threshold suppresses small selections and masks small positive bins. Replay metrics are masked separately when the replaying subgroup is below the threshold, and totals that could reveal hidden values are omitted. The optional reaction overlay uses only clusters that meet the same threshold. No identities or private note text are displayed.
+
+## Same-video analytics across courses (1.6.7)
+
+The **Include data for the same video from my other courses** filter temporarily extends Analytics to every accessible activity using the same technical video. Identity does not depend on the activity name: it uses the YouTube/Vimeo provider ID or the Moodle content hash of an uploaded file. A candidate activity is included only when the teacher has `mod/videotrack:viewreport` in its module context. The same Moodle user is merged across activities and courses before viewer, retention, unique-coverage, replay and privacy-threshold calculations.
+
+The course-group selector is disabled in cross-course scope. Each activity independently applies its effective group mode, `moodle/site:accessallgroups` and the teacher’s permitted groups. Reaction clusters are combined by the saved reaction key rather than local reaction-definition ids; their time window is the one configured in the activity from which the report is opened. The filter is report-only, is not persisted and does not modify source data.
 
 ## Runtime fixes 1.6.1
 

@@ -192,6 +192,59 @@ final class analytics_test extends advanced_testcase {
     }
 
     /**
+     * Cross-course clusters use the saved reaction key instead of local database ids.
+     */
+    public function test_reaction_clusters_use_stable_reaction_keys(): void {
+        $events = [
+            (object)[
+                'userid' => 1,
+                'reactionid' => 10,
+                'reactionkey' => 'question',
+                'reactionlabel' => 'Question',
+                'videotime' => 10,
+            ],
+            (object)[
+                'userid' => 2,
+                'reactionid' => 99,
+                'reactionkey' => 'question',
+                'reactionlabel' => 'Question',
+                'videotime' => 12,
+            ],
+            (object)[
+                'userid' => 3,
+                'reactionid' => 10,
+                'reactionkey' => 'important',
+                'reactionlabel' => 'Important',
+                'videotime' => 11,
+            ],
+        ];
+
+        $result = analytics::cluster_reactions($events, 10, 2);
+
+        $this->assertCount(1, $result['clusters']);
+        $this->assertSame('question', $result['clusters'][0]['reactionkey']);
+        $this->assertSame(2, $result['clusters'][0]['students']);
+
+        $legacy = analytics::cluster_reactions([
+            (object)[
+                'videotrackid' => 1,
+                'userid' => 1,
+                'reactionid' => 5,
+                'reactionlabel' => 'Legacy A',
+                'videotime' => 20,
+            ],
+            (object)[
+                'videotrackid' => 2,
+                'userid' => 2,
+                'reactionid' => 5,
+                'reactionlabel' => 'Legacy B',
+                'videotime' => 21,
+            ],
+        ], 10, 2);
+        $this->assertSame([], $legacy['clusters']);
+    }
+
+    /**
      * Privacy-safe reaction clusters remain computable when viewing data is suppressed.
      */
     public function test_reaction_privacy_is_independent_from_viewing_privacy(): void {

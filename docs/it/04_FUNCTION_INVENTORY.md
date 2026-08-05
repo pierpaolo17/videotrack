@@ -378,6 +378,11 @@
 | File | Tipo | Funzione / classe |
 | --- | --- | --- |
 | classes/local/analytics.php | classe | mod_videotrack\local\analytics |
+| classes/local/analytics_scope.php | classe | mod_videotrack\local\analytics_scope |
+| classes/local/analytics_scope.php | funzione | matching_accessible_instances() |
+| classes/local/analytics_scope.php | funzione | technical_identity() |
+| classes/local/analytics_scope.php | funzione | normalise_external_url() |
+| classes/local/analytics_scope.php | funzione | get_instance_record() |
 | classes/local/analytics.php | funzione | resolve_duration() |
 | classes/local/analytics.php | funzione | default_bin_size() |
 | classes/local/analytics.php | funzione | restrict_to_own_groups() |
@@ -389,10 +394,12 @@
 | classes/local/analytics.php | funzione | append_visible_reaction_cluster() |
 | classes/local/analytics.php | funzione | add_user_intervals() |
 | classes/local/analytics.php | funzione | add_interval_to_map() |
+| report.php | funzione | videotrack_report_analytics_scope_condition() |
 | report.php | funzione | videotrack_report_tabs() |
 | report.php | funzione | videotrack_report_analytics_interval() |
 | report.php | funzione | videotrack_report_render_analytics_heatmap() |
 | report.php | funzione | videotrack_report_render_analytics_retention() |
 | tests/analytics_test.php | classe | mod_videotrack\analytics_test |
+| tests/analytics_scope_test.php | classe | mod_videotrack\analytics_scope_test |
 | report.php | function | videotrack_report_render_reaction_clusters() |
 | report.php | funzione | videotrack_report_render_reaction_summary() |

@@ -48,4 +48,4 @@ The `videotrack` instance also stores `blockedseekplaybackrate`, `csvdelimiter` 
 
 ## Instance analytics boundary (1.6.0)
 
-Analytics is a read-only reporting layer over `videotrack_seg` and `videotrack_reactev`. The `analytics` service owns interval aggregation and privacy masking; `report.php` owns capability/group scope and presentation. The layer does not write state, alter completion, or call player code.
+Analytics is a read-only reporting layer over `videotrack_seg` and `videotrack_reactev`. The `analytics` service owns interval aggregation and privacy masking; `report.php` owns capability/group scope and presentation. The layer does not write state, alter completion, or call player code. Since 1.6.7, `analytics_scope` resolves the technical video identity and finds matching instances, checking `mod/videotrack:viewreport` in every module context. In cross-course scope, `report.php` builds an independent allowed-group scope for each activity and then orders records by `userid`, allowing `analytics` to merge the same Moodle user before aggregation.

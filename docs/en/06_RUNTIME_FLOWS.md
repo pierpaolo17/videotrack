@@ -66,6 +66,22 @@ Analytics tab -> capability-safe course-group scope -> ordered videotrack_seg re
 
 The scope uses the activity effective group mode: no-groups activities are not restricted merely because course groups exist; visible-groups mode exposes the groups Moodle makes visible; separate-groups mode without `moodle/site:accessallgroups` limits the general selection to the viewer’s own groups. Raw segments are streamed in user order. For each user, raw overlap contributes to total viewing time, while merged intervals contribute to unique coverage. Their non-negative difference is repeated viewing time. Exact results are hidden when the whole selection is below `analyticsminusers`; positive individual bins below the same threshold are masked. Replay metrics are independently masked when the replaying subgroup is below the threshold, and totals that could reveal masked values are omitted. The optional reaction overlay uses separate privacy-safe clusters and never loads note text or user names. No player, tracking, completion or CSV flow is modified.
 
+## Cross-course Analytics flow (1.6.7)
+
+```text
+analyticsallcourses checkbox
+-> analytics_scope::technical_identity()
+-> find instances with the same provider ID/content hash
+-> check mod/videotrack:viewreport in every context_module
+-> resolve permitted groups for each activity
+-> OR query by videotrackid + permitted userid scope
+-> order by userid
+-> analytics::build()/build_from_states()
+-> privacy threshold over the combined population
+```
+
+The same `userid` is treated as one viewer even when present in multiple courses. Duration uses the best persisted value across all accessible instances. For YouTube and Vimeo, queries exclude historical rows with a different `videoid`. Reactions are grouped by `reactionkey`; the local numeric id is only a fallback for legacy rows. Cross-course clustering uses the cluster window configured in the activity from which the report is opened.
+
 ## Runtime fixes 1.6.1
 
 - Note saving now resolves asynchronous player timestamps and prefers the end of the segment just accepted by the server; this prevents a Promise from being sent by the Vimeo player.

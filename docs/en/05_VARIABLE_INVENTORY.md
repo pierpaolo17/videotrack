@@ -113,7 +113,8 @@ Variables are detected statically. The inventory is a navigation map; it does no
 ## Analytics variables and configuration (1.6.0)
 
 - Site configuration `analyticsminusers`: minimum distinct-user threshold, default `5`, allowed range `2–50`.
-- Report parameters: `analyticsbinsize`, `analyticsgroupid`, `analyticsshowreactions`.
+- Report parameters: `analyticsbinsize`, `analyticsgroupid`, `analyticsshowreactions`, `analyticsallcourses`. The latter is a temporary GET filter, defaults to `0`, and forces `analyticsgroupid=0` in cross-course scope.
+- `analyticsinstances` contains only same-video instances with `mod/videotrack:viewreport`; every record receives a null, empty or populated `analyticsgroupids` value representing the permitted group scope.
 - `classes/local/analytics.php` processes one user at a time and retains global timeline bins; it does not load user profile records.
 - Analytics bins contain start/end, distinct viewers, retention, raw seconds, unique seconds, repeated seconds and viewers with repeats.
 - Privacy masking is applied to the whole dataset, each positive interval and the replaying subgroup; totals that could reveal masked values are omitted.
