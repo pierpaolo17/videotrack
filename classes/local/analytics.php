@@ -301,10 +301,33 @@ final class analytics {
     }
 
     /**
-     * Applies the distinct-user privacy threshold to an overall reaction summary.
+     * Applies a distinct-user privacy threshold to an aggregate event count.
      *
-     * Exact counts are removed when the contributing student population is below
-     * the threshold, while a boolean still allows the UI to state that data exists.
+     * Exact counts are removed when the contributing population is below the
+     * threshold, while a boolean still allows the UI to state that data exists.
+     *
+     * @param int $eventcount Number of events in scope.
+     * @param int $usercount Number of distinct contributing users in scope.
+     * @param int $minusers Minimum distinct users required for exact values.
+     * @return array Privacy-safe summary.
+     */
+    public static function count_summary(int $eventcount, int $usercount, int $minusers): array {
+        $eventcount = max(0, $eventcount);
+        $usercount = max(0, $usercount);
+        $minusers = max(2, $minusers);
+        $hasdata = $eventcount > 0;
+        $suppressed = $hasdata && $usercount < $minusers;
+
+        return [
+            'hasdata' => $hasdata,
+            'eventcount' => $suppressed ? null : $eventcount,
+            'studentcount' => $suppressed ? null : $usercount,
+            'suppressed' => $suppressed,
+        ];
+    }
+
+    /**
+     * Applies the distinct-user privacy threshold to an overall reaction summary.
      *
      * @param int $eventcount Number of reaction events in scope.
      * @param int $studentcount Number of distinct reacting students in scope.
@@ -312,18 +335,7 @@ final class analytics {
      * @return array Privacy-safe summary.
      */
     public static function reaction_summary(int $eventcount, int $studentcount, int $minusers): array {
-        $eventcount = max(0, $eventcount);
-        $studentcount = max(0, $studentcount);
-        $minusers = max(2, $minusers);
-        $hasdata = $eventcount > 0;
-        $suppressed = $hasdata && $studentcount < $minusers;
-
-        return [
-            'hasdata' => $hasdata,
-            'eventcount' => $suppressed ? null : $eventcount,
-            'studentcount' => $suppressed ? null : $studentcount,
-            'suppressed' => $suppressed,
-        ];
+        return self::count_summary($eventcount, $studentcount, $minusers);
     }
 
     /**

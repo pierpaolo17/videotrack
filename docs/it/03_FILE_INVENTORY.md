@@ -229,6 +229,9 @@
 
 - `classes/local/analytics.php`: aggregazione streaming di copertura unica, revisioni, retention e cluster di reazioni compatibili con la soglia privacy; dalla 1.6.7 usa `reactionkey` come identità stabile tra istanze.
 - `classes/local/analytics_scope.php`: identità tecnica del video, ricerca delle istanze corrispondenti e filtro capability per la vista tra corsi.
+- `classes/local/course_analytics.php`: aggregazione della dashboard di corso filtrata per capability, mascheramento privacy e sintesi dei cali di retention.
 - `tests/analytics_test.php`: test PHPUnit per granularità, tempo unico/rivisto, mascheramento privacy e cluster.
 - `tests/analytics_scope_test.php`: test dell’identità provider e della normalizzazione URL.
+- `tests/course_analytics_test.php`: test PHPUnit per mediana, sottogruppi di completamento, privacy e selezione del calo principale.
 - `report.php`: scheda Analytics, filtro gruppo del corso, filtro temporaneo tra corsi, grafici SVG accessibili e tabella dati equivalente.
+- `reports_course.php`: rendering della dashboard di corso privacy-safe con controllo capability per ogni report di modulo.

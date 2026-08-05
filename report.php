@@ -696,42 +696,15 @@ if ($mode === 'analytics') {
         }
     }
 
-    $coursehasgroups = [];
     foreach ($analyticsinstances as $scopeinstance) {
         if (!$analyticsallcourses && (int)$scopeinstance->id === (int)$videotrack->id && $analyticsgroupid > 0) {
             $scopeinstance->analyticsgroupids = [$analyticsgroupid];
             continue;
         }
-
-        $scopecontext = context_module::instance((int)$scopeinstance->cmid, MUST_EXIST);
-        $scopegroupmode = \mod_videotrack\local\analytics_scope::effective_groupmode($scopeinstance);
-        $scopecanaccessallgroups = has_capability('moodle/site:accessallgroups', $scopecontext);
-        if (!array_key_exists((int)$scopeinstance->course, $coursehasgroups)) {
-            $coursehasgroups[(int)$scopeinstance->course] = $DB->record_exists(
-                'groups',
-                ['courseid' => (int)$scopeinstance->course]
-            );
-        }
-        if (
-            $scopecanaccessallgroups
-            || $scopegroupmode === NOGROUPS
-            || !$coursehasgroups[(int)$scopeinstance->course]
-        ) {
-            $scopeinstance->analyticsgroupids = null;
-            continue;
-        }
-
-        $scopegroupuserid = \mod_videotrack\local\analytics::restrict_to_own_groups(
-            $scopegroupmode,
-            $scopecanaccessallgroups
-        ) ? (int)$USER->id : 0;
-        $scopegroups = groups_get_all_groups(
-            (int)$scopeinstance->course,
-            $scopegroupuserid,
-            (int)$scopeinstance->groupingid,
-            'g.id'
+        $scopeinstance->analyticsgroupids = \mod_videotrack\local\analytics_scope::accessible_group_ids(
+            $scopeinstance,
+            (int)$USER->id
         );
-        $scopeinstance->analyticsgroupids = array_map('intval', array_keys($scopegroups));
     }
 
     $scopevtids = array_map('intval', array_keys($analyticsinstances));

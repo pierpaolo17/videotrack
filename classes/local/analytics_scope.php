@@ -157,6 +157,46 @@ final class analytics_scope {
     }
 
     /**
+     * Returns the group ids whose learners are visible to a report viewer.
+     *
+     * Null means no group restriction. An empty array means the viewer has no
+     * permitted group in a grouped activity and therefore no learner data may be
+     * queried. Visible groups expose all groups in the activity grouping; separate
+     * groups expose only the viewer's own groups unless access-all-groups is held.
+     *
+     * @param stdClass $instance Analytics scope descriptor.
+     * @param int $userid Report viewer id.
+     * @return array|null Permitted group ids, or null for an unrestricted scope.
+     */
+    public static function accessible_group_ids(stdClass $instance, int $userid): ?array {
+        global $CFG, $DB;
+
+        require_once($CFG->libdir . '/grouplib.php');
+
+        $context = context_module::instance((int)$instance->cmid, MUST_EXIST);
+        $groupmode = self::effective_groupmode($instance);
+        $canaccessallgroups = has_capability('moodle/site:accessallgroups', $context, $userid);
+        if (
+            $canaccessallgroups
+            || $groupmode === NOGROUPS
+            || !$DB->record_exists('groups', ['courseid' => (int)$instance->course])
+        ) {
+            return null;
+        }
+
+        $groupuserid = analytics::restrict_to_own_groups($groupmode, $canaccessallgroups)
+            ? $userid
+            : 0;
+        $groups = groups_get_all_groups(
+            (int)$instance->course,
+            $groupuserid,
+            (int)$instance->groupingid,
+            'g.id'
+        );
+        return array_map('intval', array_keys($groups));
+    }
+
+    /**
      * Resolves the stable technical identity of one configured video.
      *
      * @param stdClass $videotrack Activity record.
