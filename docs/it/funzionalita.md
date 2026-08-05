@@ -68,3 +68,9 @@ Il docente può collegare l’attività a un Forum compatibile dello stesso cors
 ## Heatmap e retention per istanza (1.6.0)
 
 I docenti con accesso ai report dispongono di una scheda Analytics aggregata per ogni attività. Mostra spettatori distinti lungo la timeline, retention, tempo di visione unico, tempo rivisto, intervalli più visti e più rivisti e maggiori cali tra intervalli consecutivi. I risultati possono essere filtrati per un gruppo del corso disponibile al docente. Quando il corso contiene gruppi, gli utenti privi della capability di accesso a tutti i gruppi sono limitati all’unione dei gruppi di cui fanno parte, anche selezionando “Tutti gli utenti consentiti”. Una soglia minima configurabile nasconde le selezioni piccole e maschera i singoli intervalli positivi sotto soglia. Le metriche di revisione sono mascherate separatamente quando il sottogruppo che rivede è sotto soglia e vengono omessi i totali che permetterebbero di ricostruire valori nascosti. La sovrapposizione facoltativa delle reazioni usa solo cluster che rispettano la stessa soglia. Non vengono mostrati nominativi o testo delle note private.
+
+## Correzioni runtime 1.6.1
+
+- Il salvataggio delle note risolve sempre il timestamp asincrono del player e preferisce l’estremo del segmento appena accettato dal server; questo evita il passaggio di una Promise nel player Vimeo.
+- Un errore nella registrazione dell’evento Moodle non annulla una nota già salvata: viene restituito un warning visibile.
+- I cluster di reazioni applicano la propria soglia privacy indipendentemente dalla disponibilità o dalla soppressione dei segmenti di visione. Quando sono conformi alla soglia restano consultabili in una tabella aggregata, senza nominativi o testo delle note.

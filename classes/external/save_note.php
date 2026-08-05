@@ -160,17 +160,27 @@ class save_note extends external_api {
         // M3 fix: use the dedicated note_saved event instead of reusing reaction_saved.
         // Distinct events allow Moodle logs and reports to differentiate between
         // reaction button clicks and personal student notes.
-        $event = note_saved::create([
-            'objectid' => $record->id,
-            'context'  => $context,
-            'userid'   => (int)$USER->id,
-            'other'    => [
-                'videotime' => $record->videotime,
-            ],
-        ]);
-        $event->trigger();
-
         $warnings = [];
+        try {
+            $event = note_saved::create([
+                'objectid' => $record->id,
+                'context'  => $context,
+                'userid'   => (int)$USER->id,
+                'other'    => [
+                    'videotime' => $record->videotime,
+                ],
+            ]);
+            $event->trigger();
+        } catch (\Throwable $e) {
+            debugging('VideoTrack note event trigger failed: ' . $e->getMessage(), DEBUG_DEVELOPER);
+            $warnings[] = [
+                'item' => 'note',
+                'itemid' => (int)$record->id,
+                'warningcode' => 'eventtriggerfailed',
+                'message' => get_string('warning:noteeventtriggerfailed', 'mod_videotrack'),
+            ];
+        }
+
         if ($truncated) {
             $warnings[] = [
                 'item' => 'note',

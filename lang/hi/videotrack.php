@@ -719,3 +719,13 @@ $string['report:analytics_invalidgroup'] = 'चुना गया समूह 
 $string['report:analytics_partial_suppression'] = 'कुछ अंतराल या दोबारा देखने की मेट्रिक छिपाई गई हैं क्योंकि उनमें गोपनीयता सीमा से कम उपयोगकर्ता शामिल हैं। उन मानों का अनुमान लगाने वाले कुल भी नहीं दिखाए जाते।';
 $string['report:analytics_reactionlimit'] = 'गोपनीयता सीमा पूरी करने वाले केवल पहले {$a} प्रतिक्रिया क्लस्टर दिखाए जाते हैं। पूर्ण दृश्य आवश्यक होने पर छोटा समूह चुनें या ओवरले बंद करें।';
 $string['report:analytics_notavailable_privacy'] = 'गोपनीयता के लिए छिपाया गया';
+
+$string['warning:noteeventtriggerfailed'] = 'नोट सहेजा गया, लेकिन Moodle लॉग इवेंट दर्ज नहीं किया जा सका।';
+$string['report:analytics_reactionclusters_title'] = 'गोपनीयता-सुरक्षित प्रतिक्रिया क्लस्टर';
+$string['report:analytics_reactionclusters_caption'] = 'वे प्रतिक्रिया क्लस्टर जो अलग-अलग उपयोगकर्ताओं के लिए कॉन्फ़िगर की गई गोपनीयता सीमा पूरी करते हैं।';
+$string['report:analytics_reaction_time'] = 'वीडियो समय';
+$string['report:analytics_reaction_type'] = 'प्रतिक्रिया';
+$string['report:analytics_reaction_events'] = 'इवेंट';
+$string['report:analytics_reaction_students'] = 'विद्यार्थी';
+$string['report:analytics_noviewingdata_reactions'] = 'चुने गए दायरे में कोई मान्य देखने का सेगमेंट उपलब्ध नहीं है। गोपनीयता सीमा पूरी करने वाले प्रतिक्रिया क्लस्टर नीचे दिखाए गए हैं।';
+$string['report:analytics_reactions_available'] = 'देखने के analytics गोपनीयता सीमा के कारण छिपे हैं। प्रतिक्रिया क्लस्टर अलग से जाँचे जाते हैं और सीमा पूरी करने वाले क्लस्टर नीचे दिखाए गए हैं।';

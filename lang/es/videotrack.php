@@ -719,3 +719,13 @@ $string['report:analytics_invalidgroup'] = 'El grupo seleccionado no está dispo
 $string['report:analytics_partial_suppression'] = 'Algunas métricas de intervalo o repetición están ocultas porque afectan a menos usuarios que el umbral de privacidad. También se omiten los totales que permitirían reconstruir esos valores.';
 $string['report:analytics_reactionlimit'] = 'Solo se muestran los primeros {$a} clústeres de reacciones que cumplen el umbral de privacidad. Seleccione un grupo más pequeño o desactive la superposición si necesita una vista completa.';
 $string['report:analytics_notavailable_privacy'] = 'Oculto por privacidad';
+
+$string['warning:noteeventtriggerfailed'] = 'La nota se guardó, pero no se pudo registrar el evento en el registro de Moodle.';
+$string['report:analytics_reactionclusters_title'] = 'Clústeres de reacciones conformes con la privacidad';
+$string['report:analytics_reactionclusters_caption'] = 'Clústeres de reacciones que cumplen el umbral de privacidad configurado para usuarios distintos.';
+$string['report:analytics_reaction_time'] = 'Tiempo del vídeo';
+$string['report:analytics_reaction_type'] = 'Reacción';
+$string['report:analytics_reaction_events'] = 'Eventos';
+$string['report:analytics_reaction_students'] = 'Estudiantes';
+$string['report:analytics_noviewingdata_reactions'] = 'No hay segmentos de visualización válidos para el ámbito seleccionado. A continuación se muestran los clústeres de reacciones que cumplen el umbral de privacidad.';
+$string['report:analytics_reactions_available'] = 'Los análisis de visualización están ocultos por el umbral de privacidad. Los clústeres de reacciones se evalúan por separado y se muestran los que cumplen el umbral.';

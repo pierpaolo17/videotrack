@@ -77,10 +77,10 @@ Prima di modificare codice, partire sempre dall'ultimo ZIP reale fornito dal mai
 
 Videotrack può collegare opzionalmente un’istanza a un Forum compatibile dello stesso corso. Il pulsante nel player apre un composer separato al timestamp corrente; la bozza contiene un link temporale e viene pubblicata soltanto dopo la conferma. Note personali e reazioni non vengono mai copiate. Dalla 1.5.1 il docente può personalizzare l’oggetto precompilato con i segnaposto `{timestamp}` e `{activity}`.
 
-## Analytics per istanza (1.6.0)
+## Analytics per istanza (1.6.1)
 
-La scheda **Analytics** del report docente calcola dai segmenti una heatmap degli spettatori distinti, la retention lungo la timeline, il tempo di visione unico, il tempo rivisto e i principali cali tra intervalli. I dati sono aggregati, filtrabili per gruppo del corso e protetti da una soglia minima configurabile; non vengono mostrati nominativi. I cluster di reazioni possono essere sovrapposti solo quando rispettano la stessa soglia privacy.
+La scheda **Analytics** del report docente calcola dai segmenti una heatmap degli spettatori distinti, la retention lungo la timeline, il tempo di visione unico, il tempo rivisto e i principali cali tra intervalli. I dati sono aggregati, filtrabili per gruppo del corso e protetti da una soglia minima configurabile; non vengono mostrati nominativi. I cluster di reazioni possono essere sovrapposti solo quando rispettano la stessa soglia privacy. Dalla 1.6.1 la loro valutazione è indipendente dalla disponibilità dei segmenti di visione: i cluster conformi restano consultabili in forma aggregata anche quando heatmap e retention sono nascoste.
 
-## Instance analytics (1.6.0)
+## Instance analytics (1.6.1)
 
-The teacher report **Analytics** tab derives a distinct-viewer heatmap, timeline retention, unique viewing time, repeated viewing time and the main adjacent decreases from saved segments. Data is aggregate, can be filtered by course group and is protected by a configurable minimum-user threshold; no student names are displayed. Reaction clusters can be overlaid only when they meet the same privacy threshold.
+The teacher report **Analytics** tab derives a distinct-viewer heatmap, timeline retention, unique viewing time, repeated viewing time and the main adjacent decreases from saved segments. Data is aggregate, can be filtered by course group and is protected by a configurable minimum-user threshold; no student names are displayed. Reaction clusters can be overlaid only when they meet the same privacy threshold. Since 1.6.1, reaction privacy is evaluated independently from viewing-segment availability, so compliant aggregate clusters remain available when heatmap and retention are hidden.

@@ -719,3 +719,13 @@ $string['report:analytics_invalidgroup'] = 'Die ausgewählte Gruppe ist für die
 $string['report:analytics_partial_suppression'] = 'Einige Intervall- oder Wiederholungsmetriken sind ausgeblendet, weil sie weniger Nutzer als der Datenschutzschwellenwert betreffen. Summen, aus denen diese Werte abgeleitet werden könnten, werden ebenfalls weggelassen.';
 $string['report:analytics_reactionlimit'] = 'Es werden nur die ersten {$a} datenschutzkonformen Reaktionscluster angezeigt. Wählen Sie eine kleinere Gruppe oder deaktivieren Sie die Überlagerung, wenn eine vollständige Ansicht erforderlich ist.';
 $string['report:analytics_notavailable_privacy'] = 'Aus Datenschutzgründen ausgeblendet';
+
+$string['warning:noteeventtriggerfailed'] = 'Die Notiz wurde gespeichert, aber das Moodle-Protokollereignis konnte nicht aufgezeichnet werden.';
+$string['report:analytics_reactionclusters_title'] = 'Datenschutzkonforme Reaktionscluster';
+$string['report:analytics_reactionclusters_caption'] = 'Reaktionscluster, die den konfigurierten Datenschutzschwellenwert für unterschiedliche Nutzer erfüllen.';
+$string['report:analytics_reaction_time'] = 'Videozeit';
+$string['report:analytics_reaction_type'] = 'Reaktion';
+$string['report:analytics_reaction_events'] = 'Ereignisse';
+$string['report:analytics_reaction_students'] = 'Teilnehmende';
+$string['report:analytics_noviewingdata_reactions'] = 'Für den ausgewählten Bereich sind keine gültigen Wiedergabesegmente verfügbar. Reaktionscluster, die den Datenschutzschwellenwert erfüllen, werden unten angezeigt.';
+$string['report:analytics_reactions_available'] = 'Die Wiedergabeanalyse ist durch den Datenschutzschwellenwert ausgeblendet. Reaktionscluster werden unabhängig bewertet; passende Cluster werden unten angezeigt.';

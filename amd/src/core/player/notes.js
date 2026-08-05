@@ -70,6 +70,26 @@ define([
     }
 
     /**
+     * Resolve a note timestamp after progress persistence.
+     *
+     * Vimeo returns the current time asynchronously. Prefer the end returned by
+     * save_segment because it is guaranteed to belong to the segment just
+     * accepted by the server; otherwise use the resolved player timestamp.
+     *
+     * @param {Object|null} progressResponse Progress save response.
+     * @param {*} fallbackTime Resolved player time.
+     * @returns {number} Safe note timestamp in seconds.
+     */
+    function resolveNoteTime(progressResponse, fallbackTime) {
+        var savedEnd = progressResponse && Number(progressResponse.savedvideotimeend);
+        var time = Number(fallbackTime);
+        if (Number.isFinite(savedEnd) && savedEnd >= 0) {
+            return Math.max(0, savedEnd);
+        }
+        return Number.isFinite(time) ? Math.max(0, time) : 0;
+    }
+
+    /**
      * Install the personal note save/delete handlers shared by all player types.
      *
      * @param {Object} deps Dependencies and callbacks from the concrete player.
@@ -224,7 +244,7 @@ define([
                 }
                 return;
             }
-            var currentTime = getCurrentVideoTime();
+            var currentTime = 0;
             savingNote = true;
             state.noteSaveInProgress = true;
             noteSaveToken += 1;
@@ -234,7 +254,11 @@ define([
             saveBtn.setAttribute('aria-disabled', 'true');
             saveBtn.setAttribute('aria-busy', 'true');
             saveBtn.classList.add('videotrack-note-save-saving');
-            Promise.resolve(saveCurrentProgress('note')).then(function() {
+            Promise.resolve(saveCurrentProgress('note')).then(function(progressResponse) {
+                return Promise.resolve(getCurrentVideoTime()).then(function(time) {
+                    currentTime = resolveNoteTime(progressResponse, time);
+                });
+            }).then(function() {
                 return ajax('mod_videotrack_save_note', {
                     cmid: config.cmid,
                     sessionid: state.sessionid,
@@ -330,13 +354,12 @@ define([
         window.addEventListener('beforeunload', cleanupNoteHandler, {once: true});
     }
 
-
-
     return {
         appendRow: NoteRow.appendRow,
         getRemainingChars: getRemainingChars,
         updateCharCounter: updateCharCounter,
         setButtonState: setButtonState,
+        resolveNoteTime: resolveNoteTime,
         installHandler: installHandler,
         installToggle: NoteToggle.install
     };

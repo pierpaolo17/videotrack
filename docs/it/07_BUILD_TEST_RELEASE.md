@@ -85,3 +85,9 @@ Una patch solo documentale non richiede `grunt amd`, PHPUnit o PHPCS, salvo modi
 - verificare descrizioni SVG accessibili e valori equivalenti nella tabella;
 - confermare che le schede studente, cumulativa, CSV e ricalcolo completion non cambino;
 - eseguire `analytics_test.php`, PHPCS Moodle + Extra e PHP lint. Questa fase non richiede build AMD.
+
+## Correzioni runtime 1.6.1
+
+- Il salvataggio delle note risolve sempre il timestamp asincrono del player e preferisce l’estremo del segmento appena accettato dal server; questo evita il passaggio di una Promise nel player Vimeo.
+- Un errore nella registrazione dell’evento Moodle non annulla una nota già salvata: viene restituito un warning visibile.
+- I cluster di reazioni applicano la propria soglia privacy indipendentemente dalla disponibilità o dalla soppressione dei segmenti di visione. Quando sono conformi alla soglia restano consultabili in una tabella aggregata, senza nominativi o testo delle note.
