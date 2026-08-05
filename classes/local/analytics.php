@@ -135,6 +135,7 @@ final class analytics {
                 'rawseconds' => 0.0,
                 'uniqueseconds' => 0.0,
                 'repeatseconds' => 0.0,
+                'repeatmetricsavailable' => true,
                 'bins' => [],
             ];
         }
@@ -187,8 +188,52 @@ final class analytics {
             'rawseconds' => round($rawseconds, 3),
             'uniqueseconds' => round($uniqueseconds, 3),
             'repeatseconds' => round(max(0.0, $rawseconds - $uniqueseconds), 3),
+            'repeatmetricsavailable' => true,
             'bins' => $bins,
         ];
+    }
+
+    /**
+     * Builds unique-view analytics from canonical aggregate state records.
+     *
+     * This fallback is used when raw segment retention or compaction leaves fewer
+     * usable segment users than the persisted per-user state. Replay metrics cannot
+     * be reconstructed from merged state intervals and are marked unavailable.
+     *
+     * @param iterable $states State records with userid and intervaljson.
+     * @param float $duration Video duration in seconds.
+     * @param int $binsize Timeline bin size in seconds.
+     * @return array Aggregated analytics values.
+     */
+    public static function build_from_states(iterable $states, float $duration, int $binsize): array {
+        $segments = (static function () use ($states): \Generator {
+            foreach ($states as $state) {
+                $userid = (int)($state->userid ?? 0);
+                if ($userid <= 0) {
+                    continue;
+                }
+                foreach (tracker::decode_intervals($state->intervaljson ?? null) as [$start, $end]) {
+                    yield (object)[
+                        'userid' => $userid,
+                        'videotimestart' => $start,
+                        'videotimeend' => $end,
+                    ];
+                }
+            }
+        })();
+
+        $result = self::build($segments, $duration, $binsize);
+        $result['repeatmetricsavailable'] = false;
+        foreach ($result['bins'] as &$bin) {
+            $bin['repeatviewers'] = null;
+            $bin['rawseconds'] = null;
+            $bin['repeatseconds'] = null;
+            $bin['repeatsuppressed'] = false;
+        }
+        unset($bin);
+        $result['rawseconds'] = null;
+        $result['repeatseconds'] = null;
+        return $result;
     }
 
     /**

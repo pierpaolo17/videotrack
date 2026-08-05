@@ -249,4 +249,25 @@ final class analytics_test extends advanced_testcase {
         $this->assertFalse($empty['hasdata']);
         $this->assertFalse($empty['suppressed']);
     }
+
+    /**
+     * Aggregate state intervals recover unique-view analytics without raw replay data.
+     */
+    public function test_build_from_states_recovers_unique_viewers(): void {
+        $states = [
+            (object)['userid' => 1, 'intervaljson' => '[[0,15],[20,30]]'],
+            (object)['userid' => 2, 'intervaljson' => '[[0,20]]'],
+            (object)['userid' => 0, 'intervaljson' => '[[0,40]]'],
+        ];
+
+        $result = analytics::build_from_states($states, 40, 10);
+
+        $this->assertSame(2, $result['viewers']);
+        $this->assertFalse($result['repeatmetricsavailable']);
+        $this->assertSame(2, $result['bins'][0]['viewers']);
+        $this->assertSame(20.0, $result['bins'][0]['uniqueseconds']);
+        $this->assertNull($result['bins'][0]['repeatseconds']);
+        $this->assertNull($result['repeatseconds']);
+    }
+
 }

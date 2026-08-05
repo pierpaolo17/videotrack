@@ -665,10 +665,36 @@ if ($mode === 'analytics') {
         'id, userid, videotimestart, videotimeend'
     );
     try {
-        $analytics = \mod_videotrack\local\analytics::build($segmentrs, $duration, $analyticsbinsize);
+        $rawanalytics = \mod_videotrack\local\analytics::build($segmentrs, $duration, $analyticsbinsize);
     } finally {
         $segmentrs->close();
     }
+
+    // The aggregate state is the canonical source for unique watched coverage.
+    // Prefer it only when it contains more usable viewers than raw segments;
+    // this preserves replay metrics whenever raw data is complete.
+    $staters = $DB->get_recordset_select(
+        'videotrack_state',
+        $segmentwhere,
+        $segmentparams,
+        'userid ASC, id ASC',
+        'id, userid, intervaljson'
+    );
+    try {
+        $stateanalytics = \mod_videotrack\local\analytics::build_from_states(
+            $staters,
+            $duration,
+            $analyticsbinsize
+        );
+    } finally {
+        $staters->close();
+    }
+    $analyticsstatefallback = (int)$stateanalytics['viewers'] > (int)$rawanalytics['viewers']
+        || (
+            (int)$stateanalytics['viewers'] === (int)$rawanalytics['viewers']
+            && (float)$stateanalytics['uniqueseconds'] > (float)$rawanalytics['uniqueseconds'] + 0.001
+        );
+    $analytics = $analyticsstatefallback ? $stateanalytics : $rawanalytics;
     $analytics = \mod_videotrack\local\analytics::apply_privacy_threshold($analytics, $minusers);
 
     $reactionclusters = [];
@@ -860,6 +886,12 @@ if ($mode === 'analytics') {
         get_string('report:analytics_privacy_notice', 'mod_videotrack', $minusers),
         'alert alert-secondary small'
     );
+    if ($analyticsstatefallback) {
+        echo $OUTPUT->notification(
+            get_string('report:analytics_statefallback', 'mod_videotrack'),
+            'info'
+        );
+    }
     if ($reactionclusterstruncated) {
         echo $OUTPUT->notification(
             get_string(
@@ -872,10 +904,21 @@ if ($mode === 'analytics') {
     }
 
     echo videotrack_report_render_reaction_summary($reactionsummary);
-    if ($analyticsshowreactions
-            && !empty($reactionsummary['hasdata'])
-            && !$reactionsummary['suppressed']
-            && !$reactionclusters) {
+    echo html_writer::div(
+        get_string('report:analytics_privacy_status', 'mod_videotrack', [
+            'viewing' => $analytics['datasetsuppressed'] ? get_string('no') : get_string('yes'),
+            'reactions' => (!empty($reactionsummary['hasdata']) && empty($reactionsummary['suppressed']))
+                ? get_string('yes')
+                : get_string('no'),
+        ]),
+        'alert alert-light small'
+    );
+    if (
+        $analyticsshowreactions
+        && !empty($reactionsummary['hasdata'])
+        && !$reactionsummary['suppressed']
+        && !$reactionclusters
+    ) {
         echo $OUTPUT->notification(
             get_string('report:analytics_reactionclusters_none', 'mod_videotrack'),
             'info'
@@ -920,9 +963,13 @@ if ($mode === 'analytics') {
     $hasmaskedbins = count(array_filter($analytics['bins'], static function (array $bin): bool {
         return !empty($bin['suppressed']);
     })) > 0;
-    $hasmaskedrepeats = count(array_filter($analytics['bins'], static function (array $bin): bool {
-        return !empty($bin['repeatsuppressed']);
-    })) > 0;
+    $repeatmetricsavailable = !empty($analytics['repeatmetricsavailable']);
+    $hasmaskedrepeats = $repeatmetricsavailable && count(array_filter(
+        $analytics['bins'],
+        static function (array $bin): bool {
+            return !empty($bin['repeatsuppressed']);
+        }
+    )) > 0;
     if ($hasmaskedbins || $hasmaskedrepeats) {
         echo $OUTPUT->notification(
             get_string('report:analytics_partial_suppression', 'mod_videotrack'),
@@ -940,9 +987,12 @@ if ($mode === 'analytics') {
     });
     $topwatched = array_slice($topwatched, 0, 5);
 
-    $topreplayed = array_values(array_filter($visiblebins, static function (array $bin): bool {
-        return $bin['repeatseconds'] !== null && (float)$bin['repeatseconds'] > 0;
-    }));
+    $topreplayed = $repeatmetricsavailable ? array_values(array_filter(
+        $visiblebins,
+        static function (array $bin): bool {
+            return $bin['repeatseconds'] !== null && (float)$bin['repeatseconds'] > 0;
+        }
+    )) : [];
     usort($topreplayed, static function (array $a, array $b): int {
         return [$b['repeatseconds'], $b['repeatviewers'], -$b['start']] <=>
             [$a['repeatseconds'], $a['repeatviewers'], -$a['start']];
@@ -980,9 +1030,11 @@ if ($mode === 'analytics') {
         ],
         [
             get_string('report:analytics_repeattime', 'mod_videotrack'),
-            ($hasmaskedbins || $hasmaskedrepeats)
-                ? $privacyhidden
-                : videotrack_format_seconds($analytics['repeatseconds']),
+            !$repeatmetricsavailable
+                ? get_string('report:analytics_repeat_unavailable', 'mod_videotrack')
+                : (($hasmaskedbins || $hasmaskedrepeats)
+                    ? $privacyhidden
+                    : videotrack_format_seconds($analytics['repeatseconds'])),
         ],
         [get_string('report:analytics_peakinterval', 'mod_videotrack'), $peakinterval],
     ];
@@ -1083,12 +1135,17 @@ if ($mode === 'analytics') {
             $table->data[] = $row;
             continue;
         }
-        $repeatseconds = !empty($bin['repeatsuppressed'])
-            ? '—'
-            : videotrack_format_seconds((float)$bin['repeatseconds']);
-        $repeatviewers = !empty($bin['repeatsuppressed'])
-            ? get_string('report:analytics_suppressed_value', 'mod_videotrack', $minusers)
-            : (int)$bin['repeatviewers'];
+        if (!$repeatmetricsavailable) {
+            $repeatseconds = '—';
+            $repeatviewers = '—';
+        } else {
+            $repeatseconds = !empty($bin['repeatsuppressed'])
+                ? '—'
+                : videotrack_format_seconds((float)$bin['repeatseconds']);
+            $repeatviewers = !empty($bin['repeatsuppressed'])
+                ? get_string('report:analytics_suppressed_value', 'mod_videotrack', $minusers)
+                : (int)$bin['repeatviewers'];
+        }
         $row = [
             $interval,
             (int)$bin['viewers'],
