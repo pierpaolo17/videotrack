@@ -788,7 +788,7 @@ class mod_videotrack_mod_form extends moodleform_mod {
             $mform->addHelpButton('reactionpreset', 'reactionpreset', 'mod_videotrack');
             // Hidden field used by JS to carry preset JSON to the client.
             $mform->addElement('hidden', 'reactionpreset_json', '');
-            $mform->setType('reactionpreset_json', PARAM_RAW_TRIM);
+            $mform->setType('reactionpreset_json', PARAM_RAW_TRIMMED);
         }
 
         $this->add_reaction_elements();

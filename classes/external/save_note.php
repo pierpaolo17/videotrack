@@ -50,7 +50,7 @@ class save_note extends external_api {
             'cmid'        => new external_value(PARAM_INT, 'Course module ID'),
             'sessionid'   => new external_value(PARAM_ALPHANUMEXT, 'Session UUID'),
             'videotime'   => new external_value(PARAM_FLOAT, 'Video timestamp in seconds'),
-            'notetext'    => new external_value(PARAM_RAW_TRIM, 'Note text'),
+            'notetext'    => new external_value(PARAM_RAW_TRIMMED, 'Note text'),
             'playbackrate' => new external_value(PARAM_FLOAT, 'Playback rate at time of note', VALUE_DEFAULT, 1.0),
         ]);
     }

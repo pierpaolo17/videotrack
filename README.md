@@ -104,3 +104,10 @@ This release allows personal notes to be saved while the player is paused, keeps
 La cronologia delle reazioni personali viene mostrata direttamente allo studente quando le reazioni sono abilitate, senza dipendere dal report studente. Nell'esportazione CSV personalizzata le note sono selezionate per impostazione predefinita. Gli Analytics recuperano la durata anche dagli stati utente e dai segmenti esistenti, senza modificare i flussi dei player o il contratto di tracciamento.
 
 The student's personal reaction history is displayed whenever reactions are enabled, independently of the student-report toggle. Personal notes are selected by default in custom CSV exports. Analytics recover duration from user states and existing segments without changing player flows or the tracking contract.
+
+
+## Note saving compatibility fix (1.6.5)
+
+La release corregge il tipo di parametro Moodle usato dal Web Service delle note personali: `PARAM_RAW_TRIMMED` sostituisce il nome inesistente `PARAM_RAW_TRIM`. Lo stesso refuso viene corretto nel campo nascosto dei preset reazioni. La modifica evita l'errore PHP lato server che veniva mostrato allo studente come messaggio generico di mancato salvataggio.
+
+This release fixes the Moodle parameter type used by the personal-note Web Service: `PARAM_RAW_TRIMMED` replaces the non-existent `PARAM_RAW_TRIM` name. The same typo is corrected in the hidden reaction-preset field. This prevents the server-side PHP error previously shown to students as a generic note-save failure.
