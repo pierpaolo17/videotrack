@@ -1,6 +1,6 @@
 # mod_videotrack - Technical structure
 
-**Documented version**: 1.6.7
+**Documented version**: 1.6.8
 
 This historical document has been replaced by the modular technical documentation introduced in release 1.4.248. The current source of truth is the numbered document set in this directory.
 

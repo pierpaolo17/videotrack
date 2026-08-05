@@ -123,3 +123,11 @@ Il filtro dei gruppi del corso corrente non è disponibile nella vista tra corsi
 In the **Analytics** tab, teachers can enable **Include data for the same video from my other courses**. The temporary filter aggregates Videotrack activities that use the same technical video and for which the teacher has `mod/videotrack:viewreport`. YouTube and Vimeo are identified by provider ID; uploaded files by Moodle content hash, so a matching filename alone is not sufficient. Activity names may differ. The same Moodle user is counted once across courses and instances, and the privacy threshold is recalculated over the combined population.
 
 The current-course group selector is unavailable in cross-course scope because groups from different courses are not comparable. Each included activity independently applies its effective group mode, the `moodle/site:accessallgroups` capability and the teacher’s permitted groups. Reactions with the same saved key are aggregated; different reaction configurations remain separate. The reaction-cluster time window remains the one configured in the activity from which the report is opened. The option is not stored in the activity and does not change tracking, completion or student data.
+
+## Correzione ambito gruppi Analytics (1.6.8)
+
+La release corregge il descrittore del modulo usato per calcolare la modalità gruppi nelle istanze Analytics tra corsi. L'oggetto passato a `groups_get_activity_groupmode()` include ora anche l'identificativo del corso richiesto dal contratto Moodle, evitando l'errore `Undefined property: stdClass::$course` all'apertura del report. La correzione non modifica l'aggregazione cross-course, le autorizzazioni, la privacy o i dati di tracking.
+
+## Analytics group-scope fix (1.6.8)
+
+This release fixes the course-module descriptor used to calculate group mode for cross-course Analytics instances. The object passed to `groups_get_activity_groupmode()` now includes the course identifier required by Moodle's contract, preventing the `Undefined property: stdClass::$course` error when opening the report. The fix does not change cross-course aggregation, permissions, privacy or tracking data.

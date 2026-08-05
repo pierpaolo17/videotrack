@@ -129,6 +129,34 @@ final class analytics_scope {
     }
 
     /**
+     * Returns the effective Moodle group mode for one Analytics scope.
+     *
+     * Moodle requires synthetic course-module records to contain both the
+     * course id and the activity group mode.
+     *
+     * @param stdClass $instance Analytics scope record.
+     * @return int Effective group mode.
+     */
+    public static function effective_groupmode(stdClass $instance): int {
+        global $CFG;
+
+        require_once($CFG->libdir . '/grouplib.php');
+
+        $course = (object)[
+            'id' => (int)$instance->course,
+            'groupmode' => (int)$instance->coursegroupmode,
+            'groupmodeforce' => (int)$instance->groupmodeforce,
+        ];
+        $cm = (object)[
+            'course' => (int)$instance->course,
+            'groupmode' => (int)$instance->groupmode,
+            'groupingid' => (int)$instance->groupingid,
+        ];
+
+        return groups_get_activity_groupmode($cm, $course);
+    }
+
+    /**
      * Resolves the stable technical identity of one configured video.
      *
      * @param stdClass $videotrack Activity record.

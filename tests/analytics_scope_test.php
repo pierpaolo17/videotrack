@@ -62,4 +62,22 @@ final class analytics_scope_test extends advanced_testcase {
         );
         $this->assertSame('', analytics_scope::normalise_external_url('not a url'));
     }
+
+    /**
+     * Analytics scope descriptors satisfy Moodle's course-module group-mode contract.
+     */
+    public function test_effective_groupmode_satisfies_moodle_course_module_contract(): void {
+        $instance = (object)[
+            'course' => 42,
+            'coursegroupmode' => SEPARATEGROUPS,
+            'groupmodeforce' => 1,
+            'groupmode' => VISIBLEGROUPS,
+            'groupingid' => 0,
+        ];
+
+        $this->assertSame(SEPARATEGROUPS, analytics_scope::effective_groupmode($instance));
+
+        $instance->groupmodeforce = 0;
+        $this->assertSame(VISIBLEGROUPS, analytics_scope::effective_groupmode($instance));
+    }
 }

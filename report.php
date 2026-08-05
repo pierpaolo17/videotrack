@@ -704,16 +704,7 @@ if ($mode === 'analytics') {
         }
 
         $scopecontext = context_module::instance((int)$scopeinstance->cmid, MUST_EXIST);
-        $scopecourse = (object)[
-            'id' => (int)$scopeinstance->course,
-            'groupmode' => (int)$scopeinstance->coursegroupmode,
-            'groupmodeforce' => (int)$scopeinstance->groupmodeforce,
-        ];
-        $scopecm = (object)[
-            'groupmode' => (int)$scopeinstance->groupmode,
-            'groupingid' => (int)$scopeinstance->groupingid,
-        ];
-        $scopegroupmode = groups_get_activity_groupmode($scopecm, $scopecourse);
+        $scopegroupmode = \mod_videotrack\local\analytics_scope::effective_groupmode($scopeinstance);
         $scopecanaccessallgroups = has_capability('moodle/site:accessallgroups', $scopecontext);
         if (!array_key_exists((int)$scopeinstance->course, $coursehasgroups)) {
             $coursehasgroups[(int)$scopeinstance->course] = $DB->record_exists(
