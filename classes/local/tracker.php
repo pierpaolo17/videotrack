@@ -488,6 +488,10 @@ class tracker {
         foreach ($requiredreactionids as $reactionid) {
             $checks[] = in_array((int) $reactionid, $reactionsummary['uniqueids'], true);
         }
+        if (!empty($videotrack->completionacknowledgement)) {
+            $userid = !empty($state->userid) ? (int)$state->userid : 0;
+            $checks[] = $userid > 0 && acknowledgement::current_record($videotrack, $userid) !== null;
+        }
         if (!empty($videotrack->requireallreactiontypes)) {
             global $DB;
             $allreactionids = array_map('intval', array_keys((array) $DB->get_records_menu('videotrack_react', [

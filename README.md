@@ -199,3 +199,7 @@ Activities can optionally record bounded diagnostic signals and enable focus con
 ## Indicatori di integrità e controlli del focus (1.6.18)
 
 Le attività possono registrare segnali diagnostici limitati e abilitare controlli del focus, blocco best-effort di Picture-in-Picture e pause casuali. L’amministratore definisce l’intervallo casuale (predefinito 300–1800 secondi) e sceglie una politica accessibile o rigida per la perdita di focus. Una scheda video nascosta può mettere in pausa; la sola perdita di focus della finestra viene registrata dopo una tolleranza e interrompe soltanto in modalità rigida. Analytics mostra sempre la sezione degli indicatori e chiarisce quando la registrazione è disattivata. Non vengono raccolti webcam, microfono, biometria, testo libero o contenuti di altre schede; i report sono contestuali, protetti da soglia privacy e non costituiscono prova di comportamento scorretto. Vedere `docs/it/11_INTEGRITY_AND_FOCUS.md`.
+
+## Optional acknowledgement
+
+Teachers can configure a versioned learner acknowledgement statement and optionally use confirmation of the current version as an activity-completion condition. See `docs/en/12_ACKNOWLEDGEMENT.md`.

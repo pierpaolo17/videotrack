@@ -99,3 +99,12 @@ Per modifiche ai segnalibri aggiungere alla matrice ordinaria: persistenza attiv
 ## Controlli release integrità e focus
 
 Eseguire la matrice sui tre player descritta in `11_INTEGRITY_AND_FOCUS.md`. Poiché vengono modificati sorgenti AMD dei player, `grunt amd` reale è obbligatorio e vanno inclusi build e source map generati di `player`, `html5_player`, `vimeo_player` e `core/player/focus_guard`. Eseguire inoltre PHPUnit, PHPCS Moodle + Extra, nuova installazione/upgrade XMLDB, export/cancellazione Privacy API e backup/restore con e senza dati utente.
+
+## Controlli di regressione presa visione (1.6.19)
+
+- Verificare che nuova installazione e upgrade creino `{videotrack_acknowledge}` e i quattro campi istanza.
+- Verificare che una dichiarazione disabilitata non mostri il modulo allo studente.
+- Verificare che la modifica di testo o formato renda non corrente la conferma precedente.
+- Verificare il rifiuto di POST senza sesskey o senza casella selezionata.
+- Verificare completamento basato solo sulla presa visione e combinato con altre regole.
+- Verificare report/CSV, Privacy API, backup/restore, retention e reset utente/corso/attività.

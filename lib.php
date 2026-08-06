@@ -105,6 +105,7 @@ function videotrack_add_instance($data, $mform = null) {
     videotrack_process_html5controls_field($data);
     videotrack_process_captions_fields($data);
     videotrack_process_forum_fields($data);
+    videotrack_process_acknowledgement_fields($data);
     \mod_videotrack\local\csv_export::process_form_fields(
         $data,
         context_course::instance((int)$data->course)
@@ -150,6 +151,7 @@ function videotrack_update_instance($data, $mform = null) {
     videotrack_process_html5controls_field($data);
     videotrack_process_captions_fields($data);
     videotrack_process_forum_fields($data);
+    videotrack_process_acknowledgement_fields($data);
     $csvcontext = !empty($data->coursemodule)
         ? context_module::instance((int)$data->coursemodule)
         : context_course::instance((int)$data->course);
@@ -191,6 +193,26 @@ function videotrack_process_forum_fields(stdClass $data): void {
     }
     if (!videotrack_is_compatible_forum((int)$data->course, $data->linkedforumid)) {
         throw new moodle_exception('forum:errorinvaliddestination', 'mod_videotrack');
+    }
+}
+
+/**
+ * Normalises the optional learner acknowledgement fields.
+ *
+ * @param stdClass $data Activity record being saved.
+ */
+function videotrack_process_acknowledgement_fields(stdClass $data): void {
+    $data->acknowledgementenabled = empty($data->acknowledgementenabled) ? 0 : 1;
+    $data->completionacknowledgement = empty($data->completionacknowledgement) ? 0 : 1;
+    if (!empty($data->acknowledgement_editor) && is_array($data->acknowledgement_editor)) {
+        $data->acknowledgementtext = (string)($data->acknowledgement_editor['text'] ?? '');
+        $data->acknowledgementformat = (int)($data->acknowledgement_editor['format'] ?? FORMAT_HTML);
+    } else {
+        $data->acknowledgementtext = (string)($data->acknowledgementtext ?? '');
+        $data->acknowledgementformat = (int)($data->acknowledgementformat ?? FORMAT_HTML);
+    }
+    if (!$data->acknowledgementenabled) {
+        $data->completionacknowledgement = 0;
     }
 }
 
@@ -767,6 +789,8 @@ function videotrack_process_player_behavior_fields(stdClass $data): void {
         'pauseonfocusloss',
         'preventpictureinpicture',
         'randomfocuspauses',
+        'acknowledgementenabled',
+        'completionacknowledgement',
     ];
     foreach ($behaviourfields as $field) {
         $data->{$field} = empty($data->{$field}) ? 0 : 1;
@@ -1115,6 +1139,10 @@ function videotrack_delete_user_progress(stdClass $videotrack, int $userid): voi
         'videotrackid' => $videotrack->id,
         'userid'       => $userid,
     ]);
+    $DB->delete_records('videotrack_acknowledge', [
+        'videotrackid' => $videotrack->id,
+        'userid' => $userid,
+    ]);
 }
 
 /**
@@ -1169,6 +1197,7 @@ function videotrack_delete_instance($id) {
         );
         $DB->delete_records('videotrack_reactev', ['videotrackid' => $videotrack->id]);
         $DB->delete_records('videotrack_integrity', ['videotrackid' => $videotrack->id]);
+        $DB->delete_records('videotrack_acknowledge', ['videotrackid' => $videotrack->id]);
         $DB->delete_records(
             'videotrack_react',
             ['videotrackid' => $videotrack->id]
@@ -1266,6 +1295,9 @@ function videotrack_get_completion_active_rule_descriptions($cm) {
     if (!empty($videotrack->requireallreactiontypes)) {
         $descriptions[] = get_string('completiondetail:allreactiontypes', 'mod_videotrack');
     }
+    if (!empty($videotrack->completionacknowledgement) && !empty($videotrack->acknowledgementenabled)) {
+        $descriptions[] = get_string('completiondetail:acknowledgement', 'mod_videotrack');
+    }
     return $descriptions;
 }
 
@@ -1311,6 +1343,7 @@ function videotrack_reset_course_userdata($data) {
             );
             $DB->delete_records('videotrack_reactev', ['videotrackid' => $instance->id]);
             $DB->delete_records('videotrack_integrity', ['videotrackid' => $instance->id]);
+            $DB->delete_records('videotrack_acknowledge', ['videotrackid' => $instance->id]);
             // Azzera anche i voti nel gradebook per questa istanza.
             if (!empty($instance->grade)) {
                 grade_update(
@@ -1593,17 +1626,18 @@ function videotrack_recalculate_all_states(int $videotrackid, cm_info $cm, int $
     $hascustomcompletion = !empty($videotrack->completionpercent)
         || (!empty($videotrack->reactionsrequired) && !empty($videotrack->minreactions))
         || !empty($videotrack->requireallreactiontypes)
+        || !empty($videotrack->completionacknowledgement)
         || $hasrequiredreactions;
     $userids = [];
     if ($userid > 0) {
-        foreach (['videotrack_state', 'videotrack_seg', 'videotrack_reactev'] as $table) {
+        foreach (['videotrack_state', 'videotrack_seg', 'videotrack_reactev', 'videotrack_acknowledge'] as $table) {
             if ($DB->record_exists($table, ['videotrackid' => $videotrackid, 'userid' => $userid])) {
                 $userids[$userid] = true;
                 break;
             }
         }
     } else {
-        foreach (['videotrack_state', 'videotrack_seg', 'videotrack_reactev'] as $table) {
+        foreach (['videotrack_state', 'videotrack_seg', 'videotrack_reactev', 'videotrack_acknowledge'] as $table) {
             foreach (
                 $DB->get_fieldset_select(
                     $table,

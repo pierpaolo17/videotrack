@@ -447,3 +447,11 @@
 - `save_integrity_event::execute_parameters()`, `execute()`, `execute_returns()`.
 - `core/player/focus_guard`: `randomInteger()`, `create()`, `record()`, `noteAction()`, `setPlaying()`, `noteProgress()`, `applyPictureInPicturePolicy()`, `destroy()`.
 - `report.php`: `videotrack_report_render_integrity_summary()`.
+
+## Acknowledgement functions (1.6.19)
+
+- `acknowledgement::is_enabled()`, `has_visible_text()`, `statement_hash()`, `current_record()`, `confirm()`, `current_records()`.
+- `acknowledgement_confirmed::init()`, `get_name()`, `get_description()`, `get_url()`, `get_objectid_mapping()`.
+- `videotrack_process_acknowledgement_fields()`.
+- `restore_videotrack_activity_structure_step::process_videotrack_acknowledgement()`.
+- `acknowledgement_test::test_statement_hash_versions_the_statement_content()` and `test_enabled_state_requires_nonempty_visible_text()`.

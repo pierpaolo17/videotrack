@@ -99,3 +99,12 @@ For bookmark changes, add to the normal release matrix: enabled/disabled form pe
 ## Integrity and focus release checks
 
 Run the three-player runtime matrix in `11_INTEGRITY_AND_FOCUS.md`. Because player AMD sources are modified, a real Moodle `grunt amd` is mandatory and the generated `player`, `html5_player`, `vimeo_player` and `core/player/focus_guard` build files and source maps must be included. Also run PHPUnit, PHPCS Moodle + Extra, XMLDB upgrade/new-install checks, Privacy API export/erasure and backup/restore with and without user data.
+
+## Acknowledgement regression checks (1.6.19)
+
+- Verify new installation and upgrade create `{videotrack_acknowledge}` and the four instance fields.
+- Confirm that disabled statements render no learner form.
+- Confirm that changing text or format makes the previous confirmation non-current.
+- Verify POST without sesskey or without the checkbox is rejected.
+- Verify acknowledgement-only and combined completion logic.
+- Verify report/CSV, Privacy API, backup/restore, retention and user/course/activity reset.

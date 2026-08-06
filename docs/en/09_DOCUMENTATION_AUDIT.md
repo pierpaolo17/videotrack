@@ -131,3 +131,7 @@ Before releasing a documentation patch, verify:
 ## 1.6.16 audit result
 
 The bookmark implementation is now covered by the architecture, file, function, variable and runtime inventories and by the dedicated document `10_BOOKMARKS_AND_ANALYTICS.md`. Language-key parity is complete across all eight packs; recent bookmark and teacher-dashboard strings no longer fall back to English in the six non-English packs that previously contained placeholders.
+
+## 1.6.19 audit result
+
+The optional acknowledgement is covered by architecture, file/function/variable inventories, runtime flow, release regression checklist and the dedicated `12_ACKNOWLEDGEMENT.md`. The documentation records the current-hash rule, explicit POST confirmation, completion integration, teacher output, Privacy API, retention and backup/restore boundaries.

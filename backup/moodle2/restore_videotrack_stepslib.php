@@ -42,6 +42,10 @@ class restore_videotrack_activity_structure_step extends restore_activity_struct
             $paths[] = new restore_path_element('videotrack_state', '/activity/videotrack/states/state');
             $paths[] = new restore_path_element('videotrack_reactionevent', '/activity/videotrack/reactionevents/reactionevent');
             $paths[] = new restore_path_element('videotrack_integrityevent', '/activity/videotrack/integrityevents/integrityevent');
+            $paths[] = new restore_path_element(
+                'videotrack_acknowledgement',
+                '/activity/videotrack/acknowledgements/acknowledgement'
+            );
         }
 
         return $this->prepare_activity_structure($paths);
@@ -310,6 +314,42 @@ class restore_videotrack_activity_structure_step extends restore_activity_struct
         $newitemid = $DB->insert_record('videotrack_integrity', $record);
         if ($oldid > 0) {
             $this->set_mapping('videotrack_integrity', $oldid, $newitemid, true);
+        }
+    }
+
+    /**
+     * Restore one versioned learner acknowledgement.
+     *
+     * @param array|stdClass $data Restored backup data.
+     */
+    protected function process_videotrack_acknowledgement($data) {
+        global $DB;
+
+        $data = (object)$data;
+        $oldid = isset($data->id) ? (int)$data->id : 0;
+        $userid = isset($data->userid) ? (int)$data->userid : 0;
+        if ($userid > 0) {
+            $userid = (int)$this->get_mappingid('user', $userid, 0);
+            if ($userid <= 0) {
+                return;
+            }
+        }
+        $statementhash = strtolower(clean_param((string)($data->statementhash ?? ''), PARAM_ALPHANUM));
+        if (strlen($statementhash) !== 64) {
+            return;
+        }
+        $record = (object)[
+            'videotrackid' => (int)$this->get_new_parentid('videotrack'),
+            'courseid' => (int)$this->get_courseid(),
+            'cmid' => (int)$this->get_restored_cmid(),
+            'userid' => $userid,
+            'statementhash' => $statementhash,
+            'instanceversion' => isset($data->instanceversion) ? (int)$data->instanceversion : 0,
+            'timeconfirmed' => isset($data->timeconfirmed) ? (int)$data->timeconfirmed : time(),
+        ];
+        $newitemid = $DB->insert_record('videotrack_acknowledge', $record);
+        if ($oldid > 0) {
+            $this->set_mapping('videotrack_acknowledge', $oldid, $newitemid, true);
         }
     }
 

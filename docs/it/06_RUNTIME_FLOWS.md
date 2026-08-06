@@ -109,3 +109,18 @@ Il medesimo `userid` viene trattato come un solo spettatore anche quando compare
 ## Flusso integrità e focus (1.6.18)
 
 Evento di visibilità/player -> facade specifica -> `focus_guard` condiviso -> pausa opzionale e messaggio studente -> segnale AJAX con debounce -> `{videotrack_integrity}` -> report docente con capability, gruppi e privacy. Il flusso non modifica intervalli visti, completamento o voti. I termini casuali ripartono dopo le interazioni e sono attivi solo durante la riproduzione. Le schede nascoste mettono in pausa immediatamente quando abilitate; la perdita di focus della finestra attende la tolleranza del sito e interrompe solo in modalità rigida.
+
+## Flusso della presa visione opzionale (1.6.19)
+
+```text
+Il docente abilita dichiarazione ed eventuale completamento
+    -> lib.php memorizza testo formattato e formato
+    -> lo studente apre view.php
+    -> l’hash corrente viene confrontato con la conferma dell’utente
+    -> lo studente seleziona la casella e invia POST + sesskey
+    -> acknowledgement::confirm() inserisce una sola volta ed emette l’evento Moodle
+    -> stato aggregato e completamento Moodle vengono aggiornati
+    -> report/CSV mostrano stato e data correnti
+```
+
+La modifica del testo o del formato genera un hash diverso. È richiesta una nuova conferma; quelle precedenti restano soltanto nello storico/audit fino a cancellazione o scadenza.

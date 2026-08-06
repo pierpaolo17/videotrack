@@ -48,6 +48,8 @@ class backup_videotrack_activity_structure_step extends backup_activity_structur
             'showreactionnotice', 'reactionnoticeformat', 'reactionnotice',
             'showtranscript', 'showchapters', 'studentnotesenabled', 'bookmarksenabled',
             'integrityindicatorsenabled', 'pauseonfocusloss', 'preventpictureinpicture', 'randomfocuspauses',
+            'acknowledgementenabled', 'acknowledgementtext', 'acknowledgementformat',
+            'completionacknowledgement',
             'forumpostingenabled', 'linkedforumid',
             'forumsubjecttemplate',
             'csvdelimiter', 'csvexportfields',
@@ -85,6 +87,11 @@ class backup_videotrack_activity_structure_step extends backup_activity_structur
             'userid', 'videoid', 'sessionid', 'eventtype', 'videotime', 'timecreated',
         ]);
 
+        $acknowledgements = new backup_nested_element('acknowledgements');
+        $acknowledgement = new backup_nested_element('acknowledgement', ['id'], [
+            'userid', 'statementhash', 'instanceversion', 'timeconfirmed',
+        ]);
+
         $videotrack->add_child($reactions);
         $reactions->add_child($reaction);
 
@@ -97,6 +104,8 @@ class backup_videotrack_activity_structure_step extends backup_activity_structur
             $reactionevents->add_child($reactionevent);
             $videotrack->add_child($integrityevents);
             $integrityevents->add_child($integrityevent);
+            $videotrack->add_child($acknowledgements);
+            $acknowledgements->add_child($acknowledgement);
         }
 
         $videotrack->set_source_table('videotrack', ['id' => backup::VAR_ACTIVITYID]);
@@ -117,6 +126,12 @@ class backup_videotrack_activity_structure_step extends backup_activity_structur
 
             $integrityevent->set_source_table('videotrack_integrity', ['videotrackid' => backup::VAR_PARENTID]);
             $integrityevent->annotate_ids('user', 'userid');
+
+            $acknowledgement->set_source_table(
+                'videotrack_acknowledge',
+                ['videotrackid' => backup::VAR_PARENTID]
+            );
+            $acknowledgement->annotate_ids('user', 'userid');
         }
 
         $videotrack->annotate_ids('forum', 'linkedforumid');
