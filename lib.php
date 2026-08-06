@@ -685,6 +685,14 @@ function videotrack_extend_navigation_course($navigation, $course, $context) {
         null,
         new pix_icon('i/report', '')
     );
+    $node->add(
+        get_string('teacherdashboard:navlink', 'mod_videotrack'),
+        new moodle_url('/mod/videotrack/reports_teacher.php'),
+        navigation_node::TYPE_SETTING,
+        null,
+        null,
+        new pix_icon('i/dashboard', '')
+    );
 }
 
 
