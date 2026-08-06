@@ -29,7 +29,7 @@ use core_privacy\local\request\writer;
 use mod_videotrack\local\privacy_manager;
 
 /**
- * Privacy provider for video tracking, reactions and personal notes.
+ * Privacy provider for video tracking, reactions, personal notes and private bookmarks.
  *
  * @package    mod_videotrack
  * @copyright  2026 videotrack contributors
@@ -310,10 +310,14 @@ class provider implements
             $deleted = [];
             $notes = [];
             $deletednotes = [];
+            $bookmarks = [];
+            $deletedbookmarks = [];
             $activechunk = 1;
             $deletedchunk = 1;
             $noteschunk = 1;
             $deletednoteschunk = 1;
+            $bookmarkschunk = 1;
+            $deletedbookmarkschunk = 1;
             foreach ($eventrs as $reactionevent) {
                 $reactionevent->timecreated  = transform::datetime($reactionevent->timecreated);
                 $reactionevent->timemodified = transform::datetime($reactionevent->timemodified);
@@ -358,6 +362,34 @@ class provider implements
                             );
                             $notes = [];
                             $noteschunk++;
+                        }
+                    }
+                } else if (($reactionevent->notetype ?? '') === 'bookmark') {
+                    if ($isdeleted) {
+                        $deletedbookmarks[] = $reactionevent;
+                        if (count($deletedbookmarks) >= 500) {
+                            $writer->export_data(
+                                [
+                                    get_string('bookmarks_title', 'mod_videotrack'),
+                                    get_string('privacy:bookmarksdeletedchunk', 'mod_videotrack', $deletedbookmarkschunk),
+                                ],
+                                (object)['bookmarks' => $deletedbookmarks]
+                            );
+                            $deletedbookmarks = [];
+                            $deletedbookmarkschunk++;
+                        }
+                    } else {
+                        $bookmarks[] = $reactionevent;
+                        if (count($bookmarks) >= 500) {
+                            $writer->export_data(
+                                [
+                                    get_string('bookmarks_title', 'mod_videotrack'),
+                                    get_string('privacy:bookmarksactivechunk', 'mod_videotrack', $bookmarkschunk),
+                                ],
+                                (object)['bookmarks' => $bookmarks]
+                            );
+                            $bookmarks = [];
+                            $bookmarkschunk++;
                         }
                     }
                 } else if ($isdeleted) {
@@ -424,6 +456,24 @@ class provider implements
                         get_string('privacy:notesdeletedchunk', 'mod_videotrack', $deletednoteschunk),
                     ],
                     (object)['notes' => $deletednotes]
+                );
+            }
+            if (!empty($bookmarks)) {
+                $writer->export_data(
+                    [
+                        get_string('bookmarks_title', 'mod_videotrack'),
+                        get_string('privacy:bookmarksactivechunk', 'mod_videotrack', $bookmarkschunk),
+                    ],
+                    (object)['bookmarks' => $bookmarks]
+                );
+            }
+            if (!empty($deletedbookmarks)) {
+                $writer->export_data(
+                    [
+                        get_string('bookmarks_title', 'mod_videotrack'),
+                        get_string('privacy:bookmarksdeletedchunk', 'mod_videotrack', $deletedbookmarkschunk),
+                    ],
+                    (object)['bookmarks' => $deletedbookmarks]
                 );
             }
         }

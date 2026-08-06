@@ -13,7 +13,7 @@ define([], function() {
     var INTERACTION_MIN_SECONDS = 0.25;
     var SAVE_REASONS = [
         'heartbeat', 'pause', 'seek', 'ended', 'beforeunload', 'pagehide', 'tab',
-        'visibilitychange', 'reaction', 'note', 'interaction'
+        'visibilitychange', 'reaction', 'note', 'bookmark', 'interaction'
     ];
 
     /**
@@ -79,7 +79,7 @@ define([], function() {
             return end;
         }
         reason = normaliseSaveReason(reason);
-        if (reason !== 'reaction' && reason !== 'note') {
+        if (reason !== 'reaction' && reason !== 'note' && reason !== 'bookmark') {
             return end;
         }
         end = start + INTERACTION_MIN_SECONDS;

@@ -2041,7 +2041,8 @@ if ($export === 'events_csv') {
 
     $rs = $DB->get_recordset_select(
         'videotrack_reactev',
-        'videotrackid = :vtid AND isdeleted = 0',
+        "videotrackid = :vtid AND isdeleted = 0 " .
+            "AND (notetype = '' OR notetype IS NULL OR notetype = 'note')",
         ['vtid' => $videotrack->id],
         'userid ASC, videotime ASC, timecreated ASC',
         'userid, reactionlabel, notetext, notetype, videotime, timecreated'

@@ -68,6 +68,28 @@ $functions = [
         'capabilities' => 'mod/videotrack:view',
     ],
 
+    'mod_videotrack_save_bookmark' => [
+        'classname' => 'mod_videotrack\\external\\save_bookmark',
+        'methodname' => 'execute',
+        'classpath' => '',
+        'description' => 'Save a private named bookmark for the current student.',
+        'type' => 'write',
+        'ajax' => true,
+        'loginrequired' => true,
+        'capabilities' => 'mod/videotrack:view',
+    ],
+
+    'mod_videotrack_delete_bookmark' => [
+        'classname' => 'mod_videotrack\\external\\delete_bookmark',
+        'methodname' => 'execute',
+        'classpath' => '',
+        'description' => 'Delete a private bookmark owned by the current student.',
+        'type' => 'write',
+        'ajax' => true,
+        'loginrequired' => true,
+        'capabilities' => 'mod/videotrack:view',
+    ],
+
     'mod_videotrack_save_note' => [
         'classname'     => 'mod_videotrack\\external\\save_note',
         'methodname'    => 'execute',

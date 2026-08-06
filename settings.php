@@ -268,6 +268,22 @@ if ($ADMIN->fulltree) {
         0
     ));
 
+    $settings->add(new admin_setting_configcheckbox(
+        'mod_videotrack/bookmarksenabled',
+        get_string('setting:bookmarksenabled', 'mod_videotrack'),
+        get_string('setting:bookmarksenabled_desc', 'mod_videotrack'),
+        0
+    ));
+
+    $settings->add(new \mod_videotrack\admin\setting_int_range(
+        'mod_videotrack/bookmarkmaxlength',
+        get_string('setting:bookmarkmaxlength', 'mod_videotrack'),
+        get_string('setting:bookmarkmaxlength_desc', 'mod_videotrack'),
+        120,
+        20,
+        255
+    ));
+
     $settings->add(new \mod_videotrack\admin\setting_int_range(
         'mod_videotrack/notemaxlength',
         get_string('setting:notemaxlength', 'mod_videotrack'),

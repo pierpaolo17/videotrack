@@ -296,7 +296,7 @@ class privacy_manager {
                 "UPDATE {videotrack_reactev}
                     SET userid = :anonuserid, sessionid = :sessionid,
                         videotime = 0, playbackrate = 1, reactionlabel = :reactionlabel, reactiondesc = '',
-                        notetext = CASE WHEN notetype = 'note' THEN :notetext ELSE notetext END
+                        notetext = CASE WHEN notetype IN ('note', 'bookmark') THEN :notetext ELSE notetext END
                   WHERE cmid = :cmid AND userid = :userid",
                 $eventparams
             );
@@ -318,7 +318,7 @@ class privacy_manager {
      * Anonymises old records according to the configured retention period.
      *
      * This is intentionally anonymisation, not deletion: aggregate analytics remain
-     * available while the relation to the real user and personal notes are removed.
+     * available while the relation to the real user, personal notes and bookmark labels are removed.
      * If retention is 0, nothing is changed.
      *
      * @return array Counts grouped by table.
@@ -439,7 +439,7 @@ class privacy_manager {
             "UPDATE {videotrack_reactev}
                 SET userid = :anonuserid, sessionid = :sessionid,
                     videotime = 0, playbackrate = 1, reactionlabel = :reactionlabel, reactiondesc = '',
-                    notetext = CASE WHEN notetype = 'note' THEN :notetext ELSE notetext END
+                    notetext = CASE WHEN notetype IN ('note', 'bookmark') THEN :notetext ELSE notetext END
               WHERE cmid = :cmid AND userid = :userid AND timecreated < :cutoff",
             [
                 'anonuserid' => $anonuserid,

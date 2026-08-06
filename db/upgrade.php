@@ -1454,5 +1454,25 @@ function xmldb_videotrack_upgrade($oldversion) {
         upgrade_mod_savepoint(true, 2026060414, 'videotrack');
     }
 
+    if ($oldversion < 2026060429) {
+        // Release 1.6.14: private named video bookmarks.
+        $table = new xmldb_table('videotrack');
+        $field = new xmldb_field(
+            'bookmarksenabled',
+            XMLDB_TYPE_INTEGER,
+            '1',
+            null,
+            XMLDB_NOTNULL,
+            null,
+            '0',
+            'studentnotesenabled'
+        );
+        if (!$dbman->field_exists($table, $field)) {
+            $dbman->add_field($table, $field);
+        }
+
+        upgrade_mod_savepoint(true, 2026060429, 'videotrack');
+    }
+
     return true;
 }

@@ -39,7 +39,9 @@ define([], function() {
         mod_videotrack_save_reaction: true,
         mod_videotrack_delete_reaction: true,
         mod_videotrack_save_note: true,
-        mod_videotrack_delete_note: true
+        mod_videotrack_delete_note: true,
+        mod_videotrack_save_bookmark: true,
+        mod_videotrack_delete_bookmark: true
     };
 
     /**
@@ -204,6 +206,15 @@ define([], function() {
         } else if (methodname === 'mod_videotrack_delete_note') {
             if (!hasNonNegativeNumber(args, 'cmid') || !hasNonNegativeNumber(args, 'noteeventid')) {
                 throw createValidationError('invalid-args', methodname, 'delete-note-required-fields');
+            }
+        } else if (methodname === 'mod_videotrack_save_bookmark') {
+            if (!hasNonNegativeNumber(args, 'cmid') || String(args.sessionid || '').length === 0 ||
+                    !hasNonNegativeNumber(args, 'videotime') || typeof args.label !== 'string') {
+                throw createValidationError('invalid-args', methodname, 'bookmark-required-fields');
+            }
+        } else if (methodname === 'mod_videotrack_delete_bookmark') {
+            if (!hasNonNegativeNumber(args, 'cmid') || !hasNonNegativeNumber(args, 'bookmarkeventid')) {
+                throw createValidationError('invalid-args', methodname, 'delete-bookmark-required-fields');
             }
         }
         return args;

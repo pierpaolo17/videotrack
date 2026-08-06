@@ -800,6 +800,15 @@ class mod_videotrack_mod_form extends moodleform_mod {
         $mform->setType('studentnotesenabled', PARAM_BOOL);
         $mform->setDefault('studentnotesenabled', (int)get_config('mod_videotrack', 'studentnotesenabled'));
         $mform->addHelpButton('studentnotesenabled', 'studentnotesenabled', 'mod_videotrack');
+        $mform->addElement(
+            'advcheckbox',
+            'bookmarksenabled',
+            get_string('bookmarksenabled', 'mod_videotrack'),
+            get_string('bookmarksenabled_desc', 'mod_videotrack')
+        );
+        $mform->setType('bookmarksenabled', PARAM_BOOL);
+        $mform->setDefault('bookmarksenabled', (int)get_config('mod_videotrack', 'bookmarksenabled'));
+        $mform->addHelpButton('bookmarksenabled', 'bookmarksenabled', 'mod_videotrack');
         $mform->addElement('advcheckbox', 'showreactionnotice', get_string('showreactionnotice', 'mod_videotrack'));
 
         $mform->setType('showreactionnotice', PARAM_BOOL);
