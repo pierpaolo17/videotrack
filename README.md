@@ -164,3 +164,12 @@ Teacher-provided WebVTT transcripts now work with HTML5 uploads, YouTube and Vim
 ## Trascrizioni interattive e capitoli (1.6.12)
 
 Le trascrizioni WebVTT fornite dal docente funzionano ora con file HTML5, YouTube e Vimeo. È possibile caricare fino a dieci lingue usando nomi come `en.vtt`, `it.vtt` o `pt-BR.vtt`; gli studenti possono cambiare lingua, cercare nel testo e seguire il cue attivo. I capitoli usano un file WebVTT dedicato nel quale ogni cue rappresenta un capitolo. La navigazione rispetta le stesse limitazioni di seek avanti e indietro del player. Le attività upload esistenti possono continuare a usare il vecchio file sottotitoli come fallback.
+
+
+## Searchable transcript clarification (1.6.13)
+
+YouTube and Vimeo captions remain native to their provider players and cannot be imported or searched automatically by VideoTrack. Teachers who want searchable provider captions must upload a WebVTT copy in the dedicated searchable-transcript area. The activity form now explains this separation explicitly, and the student transcript panel identifies the searchable transcript as a teacher-provided resource that may differ from captions shown inside the player. Uploaded-media activities may continue using their subtitle file as the legacy transcript fallback.
+
+## Chiarimento sulla trascrizione ricercabile (1.6.13)
+
+I sottotitoli nativi di YouTube e Vimeo restano nei player dei rispettivi provider e VideoTrack non può importarli o cercarli automaticamente. Per rendere ricercabili quei contenuti, il docente deve caricare una copia WebVTT nell’area dedicata alla trascrizione ricercabile. Il modulo di configurazione ora chiarisce esplicitamente questa separazione e il pannello studente identifica la trascrizione come risorsa fornita dal docente, che può differire dai sottotitoli mostrati nel player. Le attività con media caricati possono continuare a usare il file sottotitoli come fallback storico.

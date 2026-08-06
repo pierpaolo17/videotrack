@@ -513,6 +513,11 @@ if ($showtranscript) {
         get_string('transcript_title', 'mod_videotrack'),
         ['class' => 'h6 mt-0 mb-1']
     );
+    echo html_writer::tag(
+        'p',
+        get_string('transcript_source_notice', 'mod_videotrack'),
+        ['class' => 'text-muted small mb-2']
+    );
     echo html_writer::div(
         html_writer::tag(
             'p',
