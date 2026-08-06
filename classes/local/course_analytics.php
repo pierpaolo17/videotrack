@@ -37,9 +37,21 @@ final class course_analytics {
      * @param stdClass $course Course record.
      * @param int $viewerid User viewing the dashboard.
      * @param int $minusers Privacy threshold for aggregate values.
+     * @param int $activityid Optional VideoTrack instance filter.
+     * @param int $groupid Optional accessible group filter.
+     * @param int $timestart Optional inclusive state/event start timestamp.
+     * @param int $timeend Optional inclusive state/event end timestamp.
      * @return array Dashboard rows keyed by VideoTrack instance id.
      */
-    public static function get_course_rows(stdClass $course, int $viewerid, int $minusers): array {
+    public static function get_course_rows(
+        stdClass $course,
+        int $viewerid,
+        int $minusers,
+        int $activityid = 0,
+        int $groupid = 0,
+        int $timestart = 0,
+        int $timeend = 0
+    ): array {
         global $CFG, $DB;
 
         require_once($CFG->libdir . '/enrollib.php');
@@ -55,11 +67,16 @@ final class course_analytics {
                  WHERE vt.course = :courseid
                    AND cm.course = :cmcourseid
                    AND cm.deletioninprogress = 0";
-        $instances = $DB->get_records_sql($sql, [
+        $params = [
             'modname' => 'videotrack',
             'courseid' => (int)$course->id,
             'cmcourseid' => (int)$course->id,
-        ]);
+        ];
+        if ($activityid > 0) {
+            $sql .= " AND vt.id = :activityid";
+            $params['activityid'] = $activityid;
+        }
+        $instances = $DB->get_records_sql($sql, $params);
         if (!$instances) {
             return [];
         }
@@ -78,8 +95,20 @@ final class course_analytics {
             }
 
             $groupids = analytics_scope::accessible_group_ids($instance, $viewerid);
+            if ($groupid > 0) {
+                if (is_array($groupids) && !in_array($groupid, $groupids, true)) {
+                    continue;
+                }
+                $groupids = [$groupid];
+            }
             [$learnersql, $learnerparams] = self::learner_scope_sql($context, $groupids);
-            $states = self::load_states((int)$instance->id, $learnersql, $learnerparams);
+            $states = self::load_states(
+                (int)$instance->id,
+                $learnersql,
+                $learnerparams,
+                $timestart,
+                $timeend
+            );
             $summary = self::summarise_states(
                 $states,
                 (float)$instance->durationseconds,
@@ -93,14 +122,18 @@ final class course_analytics {
                 false,
                 $learnersql,
                 $learnerparams,
-                $minusers
+                $minusers,
+                $timestart,
+                $timeend
             );
             $row->notes = self::load_event_summary(
                 (int)$instance->id,
                 true,
                 $learnersql,
                 $learnerparams,
-                $minusers
+                $minusers,
+                $timestart,
+                $timeend
             );
             $row->canviewactivity = has_capability('mod/videotrack:view', $context, $viewerid);
             $row->canviewreport = has_capability('mod/videotrack:viewreport', $context, $viewerid);
@@ -257,17 +290,35 @@ final class course_analytics {
      * @param int $videotrackid Activity instance id.
      * @param string $learnersql Learner SQL condition.
      * @param array $learnerparams Learner SQL parameters.
+     * @param int $timestart Optional inclusive state modification start time.
+     * @param int $timeend Optional inclusive state modification end time.
      * @return array State records.
      */
-    private static function load_states(int $videotrackid, string $learnersql, array $learnerparams): array {
+    private static function load_states(
+        int $videotrackid,
+        string $learnersql,
+        array $learnerparams,
+        int $timestart,
+        int $timeend
+    ): array {
         global $DB;
 
+        $params = ['statevideotrackid' => $videotrackid] + $learnerparams;
+        $timecondition = '';
+        if ($timestart > 0) {
+            $timecondition .= ' AND timemodified >= :statetimestart';
+            $params['statetimestart'] = $timestart;
+        }
+        if ($timeend > 0) {
+            $timecondition .= ' AND timemodified <= :statetimeend';
+            $params['statetimeend'] = $timeend;
+        }
         $sql = "SELECT id, userid, completionpercent, iscompleted, intervaljson, durationseconds
                   FROM {videotrack_state}
                  WHERE videotrackid = :statevideotrackid
-                   AND {$learnersql}
+                   AND {$learnersql}{$timecondition}
               ORDER BY userid ASC, id ASC";
-        return $DB->get_records_sql($sql, ['statevideotrackid' => $videotrackid] + $learnerparams);
+        return $DB->get_records_sql($sql, $params);
     }
 
     /**
@@ -278,6 +329,8 @@ final class course_analytics {
      * @param string $learnersql Learner SQL condition.
      * @param array $learnerparams Learner SQL parameters.
      * @param int $minusers Privacy threshold.
+     * @param int $timestart Optional inclusive event creation start time.
+     * @param int $timeend Optional inclusive event creation end time.
      * @return array Privacy-safe count summary.
      */
     private static function load_event_summary(
@@ -285,7 +338,9 @@ final class course_analytics {
         bool $notes,
         string $learnersql,
         array $learnerparams,
-        int $minusers
+        int $minusers,
+        int $timestart,
+        int $timeend
     ): array {
         global $DB;
 
@@ -296,13 +351,22 @@ final class course_analytics {
         if ($notes) {
             $params['eventnotetype'] = 'note';
         }
+        $timecondition = '';
+        if ($timestart > 0) {
+            $timecondition .= ' AND timecreated >= :eventtimestart';
+            $params['eventtimestart'] = $timestart;
+        }
+        if ($timeend > 0) {
+            $timecondition .= ' AND timecreated <= :eventtimeend';
+            $params['eventtimeend'] = $timeend;
+        }
         $record = $DB->get_record_sql(
             "SELECT COUNT(id) AS eventcount, COUNT(DISTINCT userid) AS usercount
                FROM {videotrack_reactev}
               WHERE videotrackid = :eventvideotrackid
                 AND isdeleted = 0
                 AND {$typecondition}
-                AND {$learnersql}",
+                AND {$learnersql}{$timecondition}",
             $params
         );
 

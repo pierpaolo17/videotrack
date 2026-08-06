@@ -139,3 +139,11 @@ La dashboard di corso riusa ora il servizio Analytics per calcolare copertura me
 ## Course dashboard consolidation (1.6.9)
 
 The course dashboard now reuses the Analytics service to calculate average and median coverage, non-completing learners and the largest retention decrease for each activity. Reactions and personal notes are counted separately. Every aggregate metric applies `analyticsminusers`, including completion, reaction and note subgroups. Users are classified through capabilities: only active enrolled users who can view the activity and do not hold `mod/videotrack:viewreport` are included, preventing teacher or manager test data from contaminating learner statistics. Each activity also applies the report viewer s permitted groups, and the detailed-report link is rendered only when the module capability is present.
+
+## Dashboard personale docente (1.6.10)
+
+La dashboard personale riunisce, senza dipendere dal nome del ruolo, le sole attività VideoTrack dei corsi in cui l'utente possiede `mod/videotrack:viewcoursereport`. Ogni modulo viene poi verificato con `mod/videotrack:viewreport`. La vista riusa il servizio della dashboard di corso e applica filtri per corso, attività, gruppo accessibile e periodo (7, 30, 90 giorni o tutto il periodo). Le soglie privacy restano attive su ogni attività e sottogruppo.
+
+## Personal teacher dashboard (1.6.10)
+
+The personal dashboard combines only VideoTrack activities from courses where the user holds `mod/videotrack:viewcoursereport`, without relying on role names. Every module is then checked for `mod/videotrack:viewreport`. The view reuses the course-dashboard service and provides filters for course, activity, accessible group and period (7, 30, 90 days or all time). Privacy thresholds remain active for every activity and subgroup.

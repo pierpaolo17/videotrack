@@ -751,3 +751,20 @@ $string['report:analytics_reactions_available'] = 'Los análisis de visualizaci�
 $string['report:analytics_statefallback'] = 'Los analytics de visualización única se reconstruyeron a partir del progreso agregado persistido porque los segmentos sin procesar estaban incompletos. Las métricas de repetición no están disponibles en esta vista.';
 $string['report:analytics_repeat_unavailable'] = 'No disponible desde el progreso agregado';
 $string['report:analytics_privacy_status'] = 'Umbral de privacidad alcanzado — datos de visualización: {$a->viewing}; datos de reacciones: {$a->reactions}.';
+
+// Personal teacher dashboard.
+$string['teacherdashboard:allactivities'] = 'All activities';
+$string['teacherdashboard:allcourses'] = 'All courses';
+$string['teacherdashboard:allgroups'] = 'All groups';
+$string['teacherdashboard:alltime'] = 'All time';
+$string['teacherdashboard:coursecaption'] = 'VideoTrack activities in {$a}';
+$string['teacherdashboard:filter_activity'] = 'Activity';
+$string['teacherdashboard:filter_course'] = 'Course';
+$string['teacherdashboard:filter_group'] = 'Group';
+$string['teacherdashboard:filter_period'] = 'Period';
+$string['teacherdashboard:intro'] = 'Cross-course overview of VideoTrack activities you are allowed to report on.';
+$string['teacherdashboard:lastdays'] = 'Last {$a} days';
+$string['teacherdashboard:navlink'] = 'My VideoTrack dashboard';
+$string['teacherdashboard:nodata'] = 'No VideoTrack data matches the selected filters.';
+$string['teacherdashboard:opencourse'] = 'Open course dashboard';
+$string['teacherdashboard:title'] = 'VideoTrack — My dashboard';

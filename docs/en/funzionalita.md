@@ -84,3 +84,7 @@ The course-group selector is disabled in cross-course scope. Each activity indep
 ## Privacy-safe course dashboard (1.6.9)
 
 The course report lists every visible VideoTrack activity with learner starts, average and median coverage, completions, learners who started but did not complete, the largest adjacent retention decrease, reactions and personal notes. The dashboard reuses the instance Analytics timeline calculations. It applies the effective group mode separately for each activity and identifies learners by capabilities rather than role names: active enrolled users must hold `mod/videotrack:view` and must not hold `mod/videotrack:viewreport`. Exact values and positive subgroups below `analyticsminusers` are suppressed. A detailed-report action is shown only when the viewer holds `mod/videotrack:viewreport` in that module context.
+
+## Personal teacher dashboard (1.6.10)
+
+`reports_teacher.php` lists accessible VideoTrack activities across courses. Access is derived from course and module capabilities, never from a role name. Filters are available for course, activity, accessible group and relative period. Time filters use state modification timestamps for progress metrics and event creation timestamps for reactions and notes. The existing privacy threshold is recalculated independently for every activity.

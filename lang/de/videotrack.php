@@ -751,3 +751,20 @@ $string['report:analytics_reactions_available'] = 'Die Wiedergabeanalyse ist dur
 $string['report:analytics_statefallback'] = 'Die Analytics zu eindeutigen Aufrufen wurden aus dem gespeicherten aggregierten Fortschritt rekonstruiert, weil die Rohsegmente unvollständig waren. Wiederholungsmetriken sind in dieser Ansicht nicht verfügbar.';
 $string['report:analytics_repeat_unavailable'] = 'Aus aggregiertem Fortschritt nicht verfügbar';
 $string['report:analytics_privacy_status'] = 'Datenschutzschwelle erreicht — Wiedergabedaten: {$a->viewing}; Reaktionsdaten: {$a->reactions}.';
+
+// Personal teacher dashboard.
+$string['teacherdashboard:allactivities'] = 'All activities';
+$string['teacherdashboard:allcourses'] = 'All courses';
+$string['teacherdashboard:allgroups'] = 'All groups';
+$string['teacherdashboard:alltime'] = 'All time';
+$string['teacherdashboard:coursecaption'] = 'VideoTrack activities in {$a}';
+$string['teacherdashboard:filter_activity'] = 'Activity';
+$string['teacherdashboard:filter_course'] = 'Course';
+$string['teacherdashboard:filter_group'] = 'Group';
+$string['teacherdashboard:filter_period'] = 'Period';
+$string['teacherdashboard:intro'] = 'Cross-course overview of VideoTrack activities you are allowed to report on.';
+$string['teacherdashboard:lastdays'] = 'Last {$a} days';
+$string['teacherdashboard:navlink'] = 'My VideoTrack dashboard';
+$string['teacherdashboard:nodata'] = 'No VideoTrack data matches the selected filters.';
+$string['teacherdashboard:opencourse'] = 'Open course dashboard';
+$string['teacherdashboard:title'] = 'VideoTrack — My dashboard';

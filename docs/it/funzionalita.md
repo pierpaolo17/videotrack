@@ -84,3 +84,7 @@ Nella vista tra corsi il filtro gruppo è disattivato. Per ciascuna attività ve
 ## Dashboard di corso privacy-safe (1.6.9)
 
 Il report di corso elenca ogni attivita VideoTrack visibile con studenti avviati, copertura media e mediana, completamenti, studenti che hanno iniziato ma non completato, maggiore calo di retention tra intervalli adiacenti, reazioni e note personali. La dashboard riusa i calcoli temporali degli Analytics di istanza. La modalita gruppi effettiva viene applicata separatamente a ogni attivita e gli studenti sono identificati tramite capability, non tramite il nome del ruolo: devono essere iscritti attivi, possedere `mod/videotrack:view` e non possedere `mod/videotrack:viewreport`. I valori esatti e i sottogruppi positivi sotto `analyticsminusers` vengono mascherati. Il link al report di dettaglio compare solo quando il docente possiede `mod/videotrack:viewreport` nel contesto del modulo.
+
+## Dashboard personale docente (1.6.10)
+
+`reports_teacher.php` elenca le attività VideoTrack accessibili tra corsi diversi. L'accesso deriva dalle capability di corso e modulo, mai dal nome del ruolo. Sono disponibili filtri per corso, attività, gruppo accessibile e periodo relativo. I filtri temporali usano il timestamp di modifica dello stato per le metriche di avanzamento e il timestamp di creazione degli eventi per reazioni e note. La soglia privacy esistente viene ricalcolata separatamente per ogni attività.
