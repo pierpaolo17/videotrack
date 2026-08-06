@@ -402,6 +402,176 @@ function videotrack_report_render_analytics_heatmap(
 }
 
 /**
+ * Renders the expandable explanation of analytics calculations and privacy.
+ *
+ * @param int $minusers Privacy threshold.
+ * @param bool $haspartialmasking Whether some interval values are masked.
+ * @return string Accessible details markup.
+ */
+function videotrack_report_render_analytics_methodology(int $minusers, bool $haspartialmasking): string {
+    $items = [
+        get_string('report:analytics_method_unique', 'mod_videotrack'),
+        get_string('report:analytics_method_retention', 'mod_videotrack'),
+        get_string('report:analytics_method_heatmap', 'mod_videotrack'),
+        get_string('report:analytics_method_reactions', 'mod_videotrack'),
+    ];
+    $content = html_writer::tag(
+        'p',
+        get_string('report:analytics_method_intro', 'mod_videotrack'),
+        ['class' => 'mb-2']
+    );
+    $content .= html_writer::alist($items, ['class' => 'mb-2']);
+    $content .= html_writer::tag(
+        'p',
+        get_string('report:analytics_method_privacy', 'mod_videotrack', $minusers),
+        ['class' => 'mb-0']
+    );
+    if ($haspartialmasking) {
+        $content .= html_writer::tag(
+            'p',
+            get_string('report:analytics_method_partial', 'mod_videotrack'),
+            ['class' => 'mt-2 mb-0']
+        );
+    }
+
+    return html_writer::tag(
+        'details',
+        html_writer::tag(
+            'summary',
+            get_string('report:analytics_method_toggle', 'mod_videotrack'),
+            ['class' => 'btn btn-secondary btn-sm']
+        ) . html_writer::div($content, 'videotrack-analytics-method-content'),
+        ['class' => 'videotrack-analytics-method mb-3']
+    );
+}
+
+/**
+ * Renders one privacy warning only when a dataset cannot be displayed.
+ *
+ * @param bool $viewingsuppressed Whether viewing analytics are hidden.
+ * @param bool $reactionssuppressed Whether reaction totals are hidden.
+ * @param int $minusers Privacy threshold.
+ * @return string Warning notification or an empty string.
+ */
+function videotrack_report_render_privacy_alert(
+    bool $viewingsuppressed,
+    bool $reactionssuppressed,
+    int $minusers
+): string {
+    global $OUTPUT;
+
+    if (!$viewingsuppressed && !$reactionssuppressed) {
+        return '';
+    }
+    if ($viewingsuppressed && $reactionssuppressed) {
+        $stringkey = 'report:analytics_privacy_unavailable_both';
+    } else if ($viewingsuppressed) {
+        $stringkey = 'report:analytics_privacy_unavailable_viewing';
+    } else {
+        $stringkey = 'report:analytics_privacy_unavailable_reactions';
+    }
+    return $OUTPUT->notification(get_string($stringkey, 'mod_videotrack', $minusers), 'warning');
+}
+
+/**
+ * Renders a legend explaining heatmap intervals, intensity and markers.
+ *
+ * @param bool $showreactions Whether reaction markers are shown.
+ * @param bool $hassuppressed Whether privacy-patterned intervals are present.
+ * @return string Legend markup.
+ */
+function videotrack_report_render_heatmap_legend(bool $showreactions, bool $hassuppressed): string {
+    $items = [
+        html_writer::span('', 'videotrack-analytics-legend-swatch videotrack-analytics-legend-bar', [
+            'aria-hidden' => 'true',
+        ]) . html_writer::span(get_string('report:analytics_heatmap_legend_interval', 'mod_videotrack')),
+        html_writer::span('', 'videotrack-analytics-legend-swatch videotrack-analytics-legend-low', [
+            'aria-hidden' => 'true',
+        ]) . html_writer::span(get_string('report:analytics_heatmap_legend_low', 'mod_videotrack')),
+        html_writer::span('', 'videotrack-analytics-legend-swatch videotrack-analytics-legend-high', [
+            'aria-hidden' => 'true',
+        ]) . html_writer::span(get_string('report:analytics_heatmap_legend_high', 'mod_videotrack')),
+    ];
+    if ($hassuppressed) {
+        $items[] = html_writer::span(
+            '',
+            'videotrack-analytics-legend-swatch videotrack-analytics-legend-suppressed',
+            ['aria-hidden' => 'true']
+        ) . html_writer::span(get_string('report:analytics_heatmap_legend_suppressed', 'mod_videotrack'));
+    }
+    if ($showreactions) {
+        $items[] = html_writer::span(
+            '',
+            'videotrack-analytics-legend-swatch videotrack-analytics-legend-reaction',
+            ['aria-hidden' => 'true']
+        ) . html_writer::span(get_string('report:analytics_heatmap_legend_reaction', 'mod_videotrack'));
+    }
+
+    $content = '';
+    foreach ($items as $item) {
+        $content .= html_writer::tag('li', $item, ['class' => 'videotrack-analytics-legend-item']);
+    }
+    return html_writer::div(
+        html_writer::tag('strong', get_string('report:analytics_heatmap_legend', 'mod_videotrack')) .
+            html_writer::tag('ul', $content, ['class' => 'videotrack-analytics-legend-list']),
+        'videotrack-analytics-legend'
+    );
+}
+
+/**
+ * Renders the analytics table download selector.
+ *
+ * @param string[] $formats Enabled data formats.
+ * @param array $params Current analytics filter parameters.
+ * @return string Download form or an empty string.
+ */
+function videotrack_report_render_analytics_download(array $formats, array $params): string {
+    if (!$formats) {
+        return '';
+    }
+
+    $options = [];
+    foreach ($formats as $format) {
+        $options[$format] = get_string('dataformat', 'dataformat_' . $format);
+    }
+    $form = html_writer::start_tag('form', [
+        'method' => 'get',
+        'action' => (new moodle_url('/mod/videotrack/report.php'))->out(false),
+        'class' => 'videotrack-analytics-download-form d-flex flex-wrap align-items-end mb-2',
+    ]);
+    foreach ($params as $name => $value) {
+        $form .= html_writer::empty_tag('input', [
+            'type' => 'hidden',
+            'name' => $name,
+            'value' => $value,
+        ]);
+    }
+    $form .= html_writer::empty_tag('input', [
+        'type' => 'hidden',
+        'name' => 'sesskey',
+        'value' => sesskey(),
+    ]);
+    $form .= html_writer::start_div('form-group mb-0 mr-2');
+    $form .= html_writer::label(
+        get_string('report:analytics_download_label', 'mod_videotrack'),
+        'id_analyticsformat',
+        false,
+        ['class' => 'd-block']
+    );
+    $form .= html_writer::select($options, 'analyticsformat', '', false, [
+        'id' => 'id_analyticsformat',
+        'class' => 'custom-select',
+    ]);
+    $form .= html_writer::end_div();
+    $form .= html_writer::tag('button', get_string('download'), [
+        'type' => 'submit',
+        'class' => 'btn btn-secondary',
+    ]);
+    $form .= html_writer::end_tag('form');
+    return $form;
+}
+
+/**
  * Render privacy-safe reaction clusters independently from viewing analytics.
  *
  * Reaction clusters already satisfy the configured distinct-user threshold.
@@ -445,32 +615,22 @@ function videotrack_report_render_reaction_clusters(array $clusters, float $dura
  * Renders a privacy-safe overall reaction summary.
  *
  * @param array $summary Event and distinct-student counts plus suppression state.
- * @return string Rendered notification, or an empty string when there are no reactions.
+ * @return string Plain summary, or an empty string when values are unavailable.
  */
 function videotrack_report_render_reaction_summary(array $summary): string {
-    global $OUTPUT;
-
-    if (empty($summary['hasdata'])) {
+    if (empty($summary['hasdata']) || !empty($summary['suppressed'])) {
         return '';
     }
     $eventcount = (int)($summary['eventcount'] ?? 0);
-    if ($eventcount <= 0 && empty($summary['suppressed'])) {
+    if ($eventcount <= 0) {
         return '';
     }
-    if (!empty($summary['suppressed'])) {
-        return $OUTPUT->notification(
-            get_string('report:analytics_reactionsummary_suppressed', 'mod_videotrack'),
-            'info'
-        );
-    }
 
-    return $OUTPUT->notification(
-        get_string('report:analytics_reactionsummary', 'mod_videotrack', [
-            'events' => $eventcount,
-            'students' => (int)($summary['studentcount'] ?? 0),
-        ]),
-        'info'
-    );
+    $events = get_string('report:analytics_reactions_detected', 'mod_videotrack') . ' ' .
+        html_writer::tag('strong', (string)$eventcount);
+    $students = get_string('report:analytics_students_involved', 'mod_videotrack') . ' ' .
+        html_writer::tag('strong', (string)(int)($summary['studentcount'] ?? 0));
+    return html_writer::div($events . html_writer::empty_tag('br') . $students, 'mb-3');
 }
 
 /**
@@ -598,6 +758,7 @@ $csvformat = optional_param('csvformat', 'detailed', PARAM_ALPHA);
 $analyticsbinsize = optional_param('analyticsbinsize', 0, PARAM_INT);
 $analyticsgroupid = optional_param('analyticsgroupid', 0, PARAM_INT);
 $analyticsshowreactions = optional_param('analyticsshowreactions', 1, PARAM_BOOL);
+$analyticsformat = optional_param('analyticsformat', '', PARAM_ALPHA);
 $analyticsallcourses = optional_param('analyticsallcourses', 0, PARAM_BOOL);
 $recalculateuserid = optional_param('recalculateuserid', 0, PARAM_INT);
 $action = optional_param('action', '', PARAM_ALPHA);
@@ -866,6 +1027,55 @@ if ($mode === 'analytics') {
     }
     unset($bin);
 
+    $hasmaskedbins = count(array_filter($analytics['bins'], static function (array $bin): bool {
+        return !empty($bin['suppressed']);
+    })) > 0;
+    $repeatmetricsavailable = !empty($analytics['repeatmetricsavailable']);
+    $hasmaskedrepeats = $repeatmetricsavailable && count(array_filter(
+        $analytics['bins'],
+        static function (array $bin): bool {
+            return !empty($bin['repeatsuppressed']);
+        }
+    )) > 0;
+    $viewingprivacysuppressed = !empty($analytics['datasetsuppressed']);
+    $reactionprivacysuppressed = !empty($reactionsummary['hasdata']) && !empty($reactionsummary['suppressed']);
+    $analyticsformats = \mod_videotrack\local\analytics_table_export::enabled_formats();
+
+    if ($analyticsformat !== '') {
+        require_sesskey();
+        if (
+            !in_array($analyticsformat, $analyticsformats, true)
+            || $duration <= 0
+            || (int)$analytics['viewers'] === 0
+            || $viewingprivacysuppressed
+        ) {
+            throw new moodle_exception('report:analytics_export_unavailable', 'mod_videotrack');
+        }
+        $exportcolumns = \mod_videotrack\local\analytics_table_export::columns($showreactionanalytics);
+        $exportrows = \mod_videotrack\local\analytics_table_export::rows(
+            $analytics['bins'],
+            $duration,
+            $repeatmetricsavailable,
+            $showreactionanalytics,
+            $minusers
+        );
+        \mod_videotrack\event\report_exported::create([
+            'context' => $context,
+            'objectid' => (int)$videotrack->id,
+            'other' => [
+                'exporttype' => 'analytics_' . $analyticsformat,
+                'fieldcount' => count($exportcolumns),
+            ],
+        ])->trigger();
+        $filename = clean_filename('videotrack-analytics-' . format_string(
+            $videotrack->name,
+            true,
+            ['context' => $context]
+        ));
+        \core\dataformat::download_data($filename, $analyticsformat, $exportcolumns, $exportrows);
+        exit;
+    }
+
     $analyticsactivitycount = count($analyticsinstances);
     $analyticscoursecount = count(array_unique(array_map(
         static fn(stdClass $scopeinstance): int => (int)$scopeinstance->course,
@@ -887,7 +1097,6 @@ if ($mode === 'analytics') {
     echo $OUTPUT->heading(get_string('reportteacher', 'mod_videotrack'));
     echo $OUTPUT->tabtree(videotrack_report_tabs($cm->id, true), $mode);
     echo $OUTPUT->heading(get_string('report:analytics_heading', 'mod_videotrack'), 3);
-    echo html_writer::div(get_string('report:analytics_description', 'mod_videotrack'), 'alert alert-info');
 
     $filterform = html_writer::start_tag('form', [
         'method' => 'get',
@@ -1022,9 +1231,9 @@ if ($mode === 'analytics') {
         );
     }
 
-    echo html_writer::div(
-        get_string('report:analytics_privacy_notice', 'mod_videotrack', $minusers),
-        'alert alert-secondary small'
+    echo videotrack_report_render_analytics_methodology(
+        $minusers,
+        $hasmaskedbins || $hasmaskedrepeats
     );
     if ($analyticsstatefallback) {
         echo $OUTPUT->notification(
@@ -1043,16 +1252,12 @@ if ($mode === 'analytics') {
         );
     }
 
-    echo videotrack_report_render_reaction_summary($reactionsummary);
-    echo html_writer::div(
-        get_string('report:analytics_privacy_status', 'mod_videotrack', [
-            'viewing' => $analytics['datasetsuppressed'] ? get_string('no') : get_string('yes'),
-            'reactions' => (!empty($reactionsummary['hasdata']) && empty($reactionsummary['suppressed']))
-                ? get_string('yes')
-                : get_string('no'),
-        ]),
-        'alert alert-light small'
+    echo videotrack_report_render_privacy_alert(
+        $viewingprivacysuppressed,
+        $reactionprivacysuppressed,
+        $minusers
     );
+    echo videotrack_report_render_reaction_summary($reactionsummary);
     if (
         $analyticsshowreactions
         && !empty($reactionsummary['hasdata'])
@@ -1084,37 +1289,12 @@ if ($mode === 'analytics') {
         echo $OUTPUT->footer();
         exit;
     }
-    if ($analytics['datasetsuppressed']) {
-        echo $OUTPUT->notification(
-            get_string('report:analytics_privacy_suppressed', 'mod_videotrack', $minusers),
-            'warning'
-        );
+    if ($viewingprivacysuppressed) {
         if ($reactionclusters) {
-            echo $OUTPUT->notification(
-                get_string('report:analytics_reactions_available', 'mod_videotrack'),
-                'info'
-            );
             echo videotrack_report_render_reaction_clusters($reactionclusters, $duration);
         }
         echo $OUTPUT->footer();
         exit;
-    }
-
-    $hasmaskedbins = count(array_filter($analytics['bins'], static function (array $bin): bool {
-        return !empty($bin['suppressed']);
-    })) > 0;
-    $repeatmetricsavailable = !empty($analytics['repeatmetricsavailable']);
-    $hasmaskedrepeats = $repeatmetricsavailable && count(array_filter(
-        $analytics['bins'],
-        static function (array $bin): bool {
-            return !empty($bin['repeatsuppressed']);
-        }
-    )) > 0;
-    if ($hasmaskedbins || $hasmaskedrepeats) {
-        echo $OUTPUT->notification(
-            get_string('report:analytics_partial_suppression', 'mod_videotrack'),
-            'info'
-        );
     }
 
     $visiblebins = array_values(array_filter($analytics['bins'], static function (array $bin): bool {
@@ -1195,6 +1375,10 @@ if ($mode === 'analytics') {
         $reactionclusters,
         $minusers
     );
+    echo videotrack_report_render_heatmap_legend(
+        $showreactionanalytics && !empty($reactionclusters),
+        $hasmaskedbins
+    );
     echo videotrack_report_render_reaction_clusters($reactionclusters, $duration);
     echo $OUTPUT->heading(get_string('report:analytics_retention_title', 'mod_videotrack'), 4);
     echo videotrack_report_render_analytics_retention($analytics['bins'], $duration);
@@ -1244,66 +1428,27 @@ if ($mode === 'analytics') {
     }
     echo html_writer::end_div();
 
+    $downloadparams = [
+        'id' => $cm->id,
+        'mode' => 'analytics',
+        'analyticsbinsize' => $analyticsbinsize,
+        'analyticsgroupid' => $analyticsgroupid,
+        'analyticsshowreactions' => $analyticsshowreactions,
+        'analyticsallcourses' => $analyticsallcourses,
+    ];
+    echo videotrack_report_render_analytics_download($analyticsformats, $downloadparams);
+
     $table = new html_table();
     $table->attributes['id'] = 'videotrack-analytics-table';
     $table->caption = get_string('report:analytics_tablecaption', 'mod_videotrack');
-    $table->head = [
-        get_string('report:analytics_interval', 'mod_videotrack'),
-        get_string('report:analytics_uniqueviewers', 'mod_videotrack'),
-        get_string('report:analytics_retention', 'mod_videotrack'),
-        get_string('report:analytics_uniquetime', 'mod_videotrack'),
-        get_string('report:analytics_repeattime', 'mod_videotrack'),
-        get_string('report:analytics_repeatviewers', 'mod_videotrack'),
-    ];
-    if ($showreactionanalytics) {
-        $table->head[] = get_string('report:analytics_reactionclusters', 'mod_videotrack');
-    }
-    foreach ($analytics['bins'] as $bin) {
-        $interval = videotrack_report_analytics_interval($bin['start'], $bin['end'], $duration);
-        if (!empty($bin['suppressed'])) {
-            $row = [
-                $interval,
-                get_string('report:analytics_suppressed_value', 'mod_videotrack', $minusers),
-                '—',
-                '—',
-                '—',
-                '—',
-            ];
-            if ($showreactionanalytics) {
-                $row[] = '—';
-            }
-            $table->data[] = $row;
-            continue;
-        }
-        if (!$repeatmetricsavailable) {
-            $repeatseconds = '—';
-            $repeatviewers = '—';
-        } else {
-            $repeatseconds = !empty($bin['repeatsuppressed'])
-                ? '—'
-                : videotrack_format_seconds((float)$bin['repeatseconds']);
-            $repeatviewers = !empty($bin['repeatsuppressed'])
-                ? get_string('report:analytics_suppressed_value', 'mod_videotrack', $minusers)
-                : (int)$bin['repeatviewers'];
-        }
-        $row = [
-            $interval,
-            (int)$bin['viewers'],
-            format_float((float)$bin['retention'], 1) . '%',
-            videotrack_format_seconds((float)$bin['uniqueseconds']),
-            $repeatseconds,
-            $repeatviewers,
-        ];
-        if ($showreactionanalytics) {
-            $row[] = (int)$bin['reactionclusters'] > 0
-                ? get_string('report:analytics_reactions_cell', 'mod_videotrack', [
-                    'clusters' => (int)$bin['reactionclusters'],
-                    'events' => (int)$bin['reactionevents'],
-                ])
-                : '0';
-        }
-        $table->data[] = $row;
-    }
+    $table->head = \mod_videotrack\local\analytics_table_export::columns($showreactionanalytics);
+    $table->data = \mod_videotrack\local\analytics_table_export::rows(
+        $analytics['bins'],
+        $duration,
+        $repeatmetricsavailable,
+        $showreactionanalytics,
+        $minusers
+    );
     echo html_writer::table($table);
     echo $OUTPUT->footer();
     exit;

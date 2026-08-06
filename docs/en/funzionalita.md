@@ -88,3 +88,7 @@ The course report lists every visible VideoTrack activity with learner starts, a
 ## Personal teacher dashboard (1.6.10)
 
 `reports_teacher.php` lists accessible VideoTrack activities across courses. Access is derived from course and module capabilities, never from a role name. Filters are available for course, activity, accessible group and relative period. Time filters use state modification timestamps for progress metrics and event creation timestamps for reactions and notes. The existing privacy threshold is recalculated independently for every activity.
+
+## Analytics table clarity and export (1.6.11)
+
+The Analytics page combines calculation and privacy guidance in one expandable control. Warnings are shown only when the threshold prevents viewing or reaction data from being displayed; partial suppression is reported inside the explanation. The heatmap has a textual and visual legend. The accessible table can be exported to CSV, Microsoft Excel (`.xlsx`) and OpenDocument (`.ods`) through `core\dataformat`; exports use the same aggregated bins and preserve every privacy mask.

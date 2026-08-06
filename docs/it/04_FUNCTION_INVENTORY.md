@@ -417,3 +417,17 @@
 | tests/analytics_scope_test.php | classe | mod_videotrack\analytics_scope_test |
 | report.php | function | videotrack_report_render_reaction_clusters() |
 | report.php | funzione | videotrack_report_render_reaction_summary() |
+
+## Funzioni chiarezza ed export analytics (1.6.11)
+
+| File | Tipo | Funzione / classe |
+| --- | --- | --- |
+| classes/local/analytics_table_export.php | classe | mod_videotrack\local\analytics_table_export |
+| classes/local/analytics_table_export.php | funzione | enabled_formats() |
+| classes/local/analytics_table_export.php | funzione | columns() |
+| classes/local/analytics_table_export.php | funzione | rows() |
+| report.php | funzione | videotrack_report_render_analytics_methodology() |
+| report.php | funzione | videotrack_report_render_privacy_alert() |
+| report.php | funzione | videotrack_report_render_heatmap_legend() |
+| report.php | funzione | videotrack_report_render_analytics_download() |
+| tests/analytics_table_export_test.php | classe | mod_videotrack\analytics_table_export_test |

@@ -417,3 +417,17 @@
 | tests/analytics_scope_test.php | class | mod_videotrack\analytics_scope_test |
 | report.php | function | videotrack_report_render_reaction_clusters() |
 | report.php | function | videotrack_report_render_reaction_summary() |
+
+## Analytics clarity and export functions (1.6.11)
+
+| File | Type | Function / class |
+| --- | --- | --- |
+| classes/local/analytics_table_export.php | class | mod_videotrack\local\analytics_table_export |
+| classes/local/analytics_table_export.php | function | enabled_formats() |
+| classes/local/analytics_table_export.php | function | columns() |
+| classes/local/analytics_table_export.php | function | rows() |
+| report.php | function | videotrack_report_render_analytics_methodology() |
+| report.php | function | videotrack_report_render_privacy_alert() |
+| report.php | function | videotrack_report_render_heatmap_legend() |
+| report.php | function | videotrack_report_render_analytics_download() |
+| tests/analytics_table_export_test.php | class | mod_videotrack\analytics_table_export_test |

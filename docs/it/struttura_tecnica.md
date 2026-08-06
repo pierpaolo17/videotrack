@@ -30,3 +30,7 @@ Il contenuto precedente e stato rimpiazzato per evitare informazioni duplicate e
 ## Servizio dashboard di corso (1.6.9)
 
 `classes/local/course_analytics.php` costruisce le righe del corso filtrate per capability e gruppi. Riusa `analytics::build_from_states()` e `analytics::apply_privacy_threshold()` per retention e cali, applica la stessa soglia minima ai conteggi e lascia a `reports_course.php` il solo rendering accessibile. `analytics_scope::accessible_group_ids()` e condiviso dagli analytics di istanza e di corso, cosi la visibilita dei gruppi usa una sola implementazione.
+
+## Export tabella analytics (1.6.11)
+
+`classes/local/analytics_table_export.php` costruisce intestazioni e righe privacy-safe condivise tra la tabella HTML e i download. `report.php` valida formato e sesskey prima di qualsiasi output, registra l'evento di export e delega a `core\dataformat::download_data()`. Sono esposti solo i writer core CSV, Excel e ODS abilitati nel sito; nessun record utente viene caricato dall'exporter.

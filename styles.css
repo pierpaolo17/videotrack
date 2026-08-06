@@ -1199,6 +1199,25 @@
     gap: 0.75rem;
 }
 
+.videotrack-analytics-method > summary {
+    display: inline-block;
+    cursor: pointer;
+    list-style: none;
+}
+
+.videotrack-analytics-method > summary::-webkit-details-marker {
+    display: none;
+}
+
+.videotrack-analytics-method-content {
+    max-width: 60rem;
+    margin-top: 0.75rem;
+}
+
+.videotrack-analytics-download-form {
+    gap: 0.5rem;
+}
+
 .videotrack-analytics-summary {
     display: grid;
     grid-template-columns: repeat(auto-fit, minmax(11rem, 1fr));
@@ -1279,6 +1298,70 @@
     color: #842029;
 }
 
+.videotrack-analytics-legend {
+    margin: -0.75rem 0 1.5rem;
+    font-size: 0.875rem;
+}
+
+.videotrack-analytics-legend-list {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.5rem 1rem;
+    padding: 0;
+    margin: 0.35rem 0 0;
+    list-style: none;
+}
+
+.videotrack-analytics-legend-item {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.4rem;
+}
+
+.videotrack-analytics-legend-swatch {
+    display: inline-block;
+    flex: 0 0 auto;
+    width: 1.75rem;
+    height: 0.85rem;
+    border: 1px solid var(--videotrack-panel-border);
+    background: #1769aa;
+}
+
+.videotrack-analytics-legend-bar {
+    background: linear-gradient(to right, #1769aa 0 45%, transparent 45% 55%, #1769aa 55% 100%);
+}
+
+.videotrack-analytics-legend-low {
+    opacity: 0.2;
+}
+
+.videotrack-analytics-legend-high {
+    opacity: 1;
+}
+
+.videotrack-analytics-legend-suppressed {
+    background: repeating-linear-gradient(135deg, #6c757d 0 2px, transparent 2px 5px);
+}
+
+.videotrack-analytics-legend-reaction {
+    position: relative;
+    width: 1.75rem;
+    border: 0;
+    background: linear-gradient(to right, transparent 47%, #842029 47% 53%, transparent 53%);
+}
+
+.videotrack-analytics-legend-reaction::after {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    width: 0.55rem;
+    height: 0.55rem;
+    content: "";
+    background: #842029;
+    border-radius: 50%;
+    transform: translate(-50%, -50%);
+}
+
 .videotrack-analytics-gridline {
     stroke: #adb5bd;
     stroke-width: 1;
@@ -1311,5 +1394,23 @@
     .videotrack-analytics-reaction-line,
     .videotrack-analytics-reaction-marker {
         color: CanvasText;
+    }
+
+    .videotrack-analytics-legend-swatch {
+        border-color: CanvasText;
+        background: CanvasText;
+        forced-color-adjust: none;
+    }
+
+    .videotrack-analytics-legend-suppressed {
+        background: repeating-linear-gradient(135deg, CanvasText 0 2px, Canvas 2px 5px);
+    }
+
+    .videotrack-analytics-legend-reaction {
+        background: linear-gradient(to right, transparent 47%, CanvasText 47% 53%, transparent 53%);
+    }
+
+    .videotrack-analytics-legend-reaction::after {
+        background: CanvasText;
     }
 }

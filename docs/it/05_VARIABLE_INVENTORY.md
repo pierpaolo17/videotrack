@@ -118,3 +118,9 @@ Le variabili sono rilevate staticamente. L’inventario serve come mappa per ori
 - `classes/local/analytics.php` elabora un utente alla volta e mantiene gli intervalli globali della timeline; non carica profili utente.
 - Ogni intervallo analytics contiene inizio/fine, spettatori distinti, retention, secondi grezzi, secondi unici, secondi rivisti e spettatori con revisioni.
 - Il mascheramento privacy si applica all’intero dataset, a ciascun intervallo positivo e al sottogruppo che ha rivisto; vengono omessi i totali che permetterebbero di ricostruire valori nascosti.
+
+## Variabili export analytics (1.6.11)
+
+- Parametro GET `analyticsformat`: formato richiesto per la tabella accessibile; valori consentiti `csv`, `excel`, `ods` solo quando il relativo dataformat Moodle è abilitato.
+- `analyticsformats`: intersezione tra i formati consentiti da VideoTrack e i writer dataformat abilitati nel sito.
+- `hasmaskedbins` e `hasmaskedrepeats`: controllano la legenda e la spiegazione condizionale dei valori omessi.

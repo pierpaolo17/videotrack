@@ -41,8 +41,11 @@ final class teacher_analytics {
                 continue;
             }
             $context = context_course::instance((int)$courseid, IGNORE_MISSING);
-            if (!$context || (empty($course->visible)
-                    && !has_capability('moodle/course:viewhiddencourses', $context, $userid))) {
+            if (
+                !$context
+                || (empty($course->visible)
+                    && !has_capability('moodle/course:viewhiddencourses', $context, $userid))
+            ) {
                 unset($courses[$courseid]);
             }
         }

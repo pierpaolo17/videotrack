@@ -88,3 +88,7 @@ Il report di corso elenca ogni attivita VideoTrack visibile con studenti avviati
 ## Dashboard personale docente (1.6.10)
 
 `reports_teacher.php` elenca le attività VideoTrack accessibili tra corsi diversi. L'accesso deriva dalle capability di corso e modulo, mai dal nome del ruolo. Sono disponibili filtri per corso, attività, gruppo accessibile e periodo relativo. I filtri temporali usano il timestamp di modifica dello stato per le metriche di avanzamento e il timestamp di creazione degli eventi per reazioni e note. La soglia privacy esistente viene ricalcolata separatamente per ogni attività.
+
+## Chiarezza ed export della tabella analytics (1.6.11)
+
+La pagina Analytics riunisce le spiegazioni di calcolo e privacy in un unico controllo espandibile. Gli avvisi compaiono solo quando la soglia impedisce di mostrare dati di visualizzazione o reazione; le soppressioni parziali sono indicate nella spiegazione. La heatmap dispone di una legenda testuale e visiva. La tabella accessibile può essere esportata in CSV, Microsoft Excel (`.xlsx`) e OpenDocument (`.ods`) usando `core\dataformat`; l'export usa gli stessi intervalli già aggregati e conserva ogni mascheramento privacy.
