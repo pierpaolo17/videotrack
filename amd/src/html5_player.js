@@ -22,8 +22,9 @@ define([
     'mod_videotrack/core/player',
     'mod_videotrack/core/player/forum',
     'mod_videotrack/core/player/timed_text',
+    'mod_videotrack/core/player/focus_guard',
     'mod_videotrack/core/debug'
-], function(Log, Api, Adapter, Utils, Ui, Progress, State, Reactions, Tracker, PlayerCore, Forum, TimedText, Debug) {
+], function(Log, Api, Adapter, Utils, Ui, Progress, State, Reactions, Tracker, PlayerCore, Forum, TimedText, FocusGuard, Debug) {
     'use strict';
 
 
@@ -31,6 +32,7 @@ define([
     var controlBar = null; // Current custom HTML5 control bar.
     var config = null;
     var reactionState = Reactions.createState();
+    var focusGuard = null;
     var HEARTBEAT_INTERVAL = 30;
 
     var state = State.create({
@@ -97,17 +99,22 @@ define([
 
 
     function normaliseControls(controls) {
+        var resolved = [];
         if (Array.isArray(controls)) {
-            return controls.slice();
-        }
-        if (typeof controls === 'string') {
-            return controls.split(',').map(function(control) {
+            resolved = controls.slice();
+        } else if (typeof controls === 'string') {
+            resolved = controls.split(',').map(function(control) {
                 return control.trim();
             }).filter(function(control) {
                 return control.length > 0;
             });
         }
-        return [];
+        if (config && config.preventpictureinpicture) {
+            resolved = resolved.filter(function(control) {
+                return control !== 'pip';
+            });
+        }
+        return resolved;
     }
 
     function getConfiguredMaxPlaybackRate() {
@@ -166,6 +173,9 @@ define([
         }
         currentRate = safeNumber(media.playbackRate, state.playbackrate || 1);
         if (currentRate > maxRate) {
+            if (focusGuard) {
+                focusGuard.record('ratechange');
+            }
             return writePlaybackRate(getPlaybackRatePenalty());
         }
         state.playbackrate = currentRate;
@@ -306,6 +316,10 @@ define([
         fallback = Math.max(0, Tracker.normaliseTime(fallback));
         if (Tracker.normaliseTime(target) <= fallback + 0.75) {
             return false;
+        }
+        if (focusGuard) {
+            focusGuard.noteAction('forwardseek');
+            focusGuard.record('forwardseek');
         }
         penaltyRate = applyBlockedSeekPenalty(getBlockedSeekPlaybackRate(fallback));
         retryBlockedSeekPenalty(penaltyRate);
@@ -549,6 +563,9 @@ define([
         }
 
         container.appendChild(media);
+        if (focusGuard) {
+            focusGuard.applyPictureInPicturePolicy(media);
+        }
 
         // If autoplay is active, attempt playback only after the media element
         // has been configured and attached to the DOM so muted/playsinline are
@@ -1010,6 +1027,9 @@ define([
 
     function attachTrackingEvents() {
         media.addEventListener('play', function() {
+            if (focusGuard) {
+                focusGuard.setPlaying(true);
+            }
             state.ended = false;
             markHTML5PlaybackObserved();
             if (state.isProgrammaticSeek) {
@@ -1027,6 +1047,9 @@ define([
         });
 
         media.addEventListener('pause', function() {
+            if (focusGuard) {
+                focusGuard.setPlaying(false);
+            }
             if (Adapter.isEnded(state, function() { return media.ended; }, Log, 'HTML5')) {
                 return;
             }
@@ -1038,6 +1061,9 @@ define([
         });
 
         media.addEventListener('ended', function() {
+            if (focusGuard) {
+                focusGuard.setPlaying(false);
+            }
             state.ended = true;
             reactionState.readyAnnounced = false;
             stopHeartbeat();
@@ -1047,6 +1073,9 @@ define([
 
         // Seek detection: HTML5 fires 'seeking' then 'seeked'.
         media.addEventListener('seeking', function() {
+            if (focusGuard && !state.isProgrammaticSeek) {
+                focusGuard.noteAction('seek');
+            }
             var requested = safeNumber(media.currentTime, state.lasttime || 0);
             var forwardLimit = getAllowedForwardLimit();
             state.isSeeking = true;
@@ -1086,6 +1115,9 @@ define([
 
         media.addEventListener('timeupdate', function() {
             var current = safeNumber(media.currentTime, 0);
+            if (focusGuard) {
+                focusGuard.noteProgress(current);
+            }
             var forwardLimit = getAllowedForwardLimit();
             var rate = enforceMaxPlaybackRate();
             if (!media.paused) {
@@ -1384,6 +1416,21 @@ define([
         }, Log, 'HTML5');
     }
 
+    /** Initialise privacy-safe integrity indicators and optional focus controls. */
+    function initialiseFocusGuard() {
+        focusGuard = FocusGuard.create({
+            config: config,
+            state: state,
+            getCurrentTime: getCurrentVideoTime,
+            pause: function() {
+                return media ? media.pause() : null;
+            },
+            showMessage: function(message) {
+                PlayerCore.showStatusMessage(message, false, config.dismisslabel, config.statusinfotimeoutms);
+            }
+        });
+    }
+
     /**
      * Toggle the notes panel through the shared helper.
      */
@@ -1513,6 +1560,7 @@ define([
                     Math.min(Reactions.MAX_READY_DEBOUNCE_MS, debounce || Reactions.DEFAULT_READY_DEBOUNCE_MS));
             HEARTBEAT_INTERVAL = Tracker.normaliseHeartbeatInterval(config, 30);
             state.sessionid    = uuid();
+            initialiseFocusGuard();
             state.intervaljson = config.intervaljson || state.intervaljson || '[]';
             markAllowedForwardTime(getMaxWatchedFromIntervals(state.intervaljson));
             installGlobalListeners();

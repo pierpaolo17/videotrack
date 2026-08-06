@@ -105,3 +105,7 @@ Il medesimo `userid` viene trattato come un solo spettatore anche quando compare
 6. L'eliminazione chiama `mod_videotrack_delete_bookmark`, che verifica la proprietà ed esegue la cancellazione logica.
 7. L'export del proprietario usa `bookmarks.php`.
 8. I report docente conteggiano soltanto eventi e utenti distinti. Gli Analytics di istanza mostrano sempre la sezione segnalibri quando attiva e mascherano i valori esatti sotto `analyticsminusers`.
+
+## Flusso integrità e focus (1.6.17)
+
+Evento di visibilità/player -> facade specifica -> `focus_guard` condiviso -> pausa opzionale e messaggio studente -> segnale AJAX con debounce -> `{videotrack_integrity}` -> report docente con capability, gruppi e privacy. Il flusso non modifica intervalli visti, completamento o voti. I termini casuali ripartono dopo le interazioni e sono attivi solo durante la riproduzione.

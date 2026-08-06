@@ -41,6 +41,7 @@ class restore_videotrack_activity_structure_step extends restore_activity_struct
             $paths[] = new restore_path_element('videotrack_segment', '/activity/videotrack/segments/segment');
             $paths[] = new restore_path_element('videotrack_state', '/activity/videotrack/states/state');
             $paths[] = new restore_path_element('videotrack_reactionevent', '/activity/videotrack/reactionevents/reactionevent');
+            $paths[] = new restore_path_element('videotrack_integrityevent', '/activity/videotrack/integrityevents/integrityevent');
         }
 
         return $this->prepare_activity_structure($paths);
@@ -272,6 +273,43 @@ class restore_videotrack_activity_structure_step extends restore_activity_struct
         }
         if ($transaction !== null) {
             $transaction->allow_commit();
+        }
+    }
+
+    /**
+     * Restore one privacy-safe integrity signal.
+     *
+     * @param array|stdClass $data Restored backup data.
+     */
+    protected function process_videotrack_integrityevent($data) {
+        global $DB;
+        $data = (object)$data;
+        $oldid = isset($data->id) ? (int)$data->id : 0;
+        $userid = isset($data->userid) ? (int)$data->userid : 0;
+        if ($userid > 0) {
+            $userid = (int)$this->get_mappingid('user', $userid, 0);
+            if ($userid <= 0) {
+                return;
+            }
+        }
+        $eventtype = isset($data->eventtype) ? clean_param($data->eventtype, PARAM_ALPHANUMEXT) : '';
+        if (!in_array($eventtype, \mod_videotrack\local\integrity::EVENT_TYPES, true)) {
+            return;
+        }
+        $record = (object)[
+            'videotrackid' => (int)$this->get_new_parentid('videotrack'),
+            'courseid' => (int)$this->get_courseid(),
+            'cmid' => (int)$this->get_restored_cmid(),
+            'userid' => $userid,
+            'videoid' => isset($data->videoid) ? clean_param($data->videoid, PARAM_ALPHANUMEXT) : '',
+            'sessionid' => isset($data->sessionid) ? clean_param($data->sessionid, PARAM_ALPHANUMEXT) : '',
+            'eventtype' => $eventtype,
+            'videotime' => isset($data->videotime) ? max(0.0, (float)$data->videotime) : 0.0,
+            'timecreated' => isset($data->timecreated) ? (int)$data->timecreated : time(),
+        ];
+        $newitemid = $DB->insert_record('videotrack_integrity', $record);
+        if ($oldid > 0) {
+            $this->set_mapping('videotrack_integrity', $oldid, $newitemid, true);
         }
     }
 

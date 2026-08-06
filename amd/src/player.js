@@ -13,13 +13,15 @@ define([
     'mod_videotrack/core/player',
     'mod_videotrack/core/player/forum',
     'mod_videotrack/core/player/timed_text',
+    'mod_videotrack/core/player/focus_guard',
     'mod_videotrack/core/debug'
-], function(Log, Api, Adapter, Utils, Ui, Progress, State, Reactions, Tracker, PlayerCore, Forum, TimedText, Debug) {
+], function(Log, Api, Adapter, Utils, Ui, Progress, State, Reactions, Tracker, PlayerCore, Forum, TimedText, FocusGuard, Debug) {
     'use strict';
 
     var player = null;
     var config = null;
     var reactionState = Reactions.createState();
+    var focusGuard = null;
     // HEARTBEAT_INTERVAL is initialised in init() from the value configured
     // by the administrator in Site administration > Plugins > Activity modules > Video track.
     var HEARTBEAT_INTERVAL = 30; // Fallback value, overridden by config.heartbeatinterval
@@ -234,6 +236,10 @@ define([
         if (target <= fallback + 0.75 || isForwardTargetAlreadyWatched(target, 0.75)) {
             return false;
         }
+        if (focusGuard) {
+            focusGuard.noteAction('forwardseek');
+            focusGuard.record('forwardseek');
+        }
         recoveryRate = getBlockedSeekPlaybackRate(fallback, previousTime);
         applyBlockedSeekPenalty('YouTube blocked forward seek playback rate', recoveryRate);
         retryBlockedSeekPenalty('YouTube blocked forward seek playback rate', recoveryRate);
@@ -338,6 +344,9 @@ define([
             return player.getPlaybackRate();
         }, Log, label || 'YouTube playback rate');
         if (maxRate > 0 && currentRate > maxRate) {
+            if (focusGuard) {
+                focusGuard.record('ratechange');
+            }
             resetRate = getPlaybackRatePenalty();
             writePlaybackRate(resetRate, label || 'YouTube playback rate limit');
             [50, 150, 300, 600, 1000].forEach(function(delay) {
@@ -444,6 +453,9 @@ define([
             return;
         }
         var current = Tracker.normaliseTime(polledTime);
+        if (focusGuard) {
+            focusGuard.noteProgress(current);
+        }
         var previous = Tracker.normaliseTime(state.lasttime);
         var delta = current - previous;
         var now = Date.now();
@@ -479,6 +491,9 @@ define([
             var seekconfig = config;
             if (config.allowseekforward === false && current > previous && isForwardTargetAlreadyWatched(current, 0.75)) {
                 seekconfig = Object.assign({}, config, {allowseekforward: true});
+            }
+            if (focusGuard) {
+                focusGuard.noteAction('seek');
             }
             var seek = Tracker.resolveSeek(state, current, seekconfig, 0);
             var oldtime = seek.oldTime;
@@ -537,6 +552,9 @@ define([
             return player.getDuration ? player.getDuration() : state.duration;
         }, Log, 'YouTube');
         if (event.data === YT.PlayerState.PLAYING) {
+            if (focusGuard) {
+                focusGuard.setPlaying(true);
+            }
             enforceMaxPlaybackRate('YouTube state-change playback rate');
             // Do not treat the first PLAYING notification as a learner seek.
             // Some providers fire it only after a few seconds of normal playback;
@@ -545,10 +563,16 @@ define([
                 startCurrentSegment();
             }
         } else if (event.data === YT.PlayerState.PAUSED) {
+            if (focusGuard) {
+                focusGuard.setPlaying(false);
+            }
             setReactionButtons(false); // CRIT-2: disable buttons on pause
             rememberResumePosition(player && player.getCurrentTime ? player.getCurrentTime() : state.lasttime);
             closeCurrentSegment('pause');
         } else if (event.data === YT.PlayerState.ENDED) {
+            if (focusGuard) {
+                focusGuard.setPlaying(false);
+            }
             rememberResumePosition(player && player.getCurrentTime ? player.getCurrentTime() : state.lasttime);
             state.ended = true;
             reactionState.readyAnnounced = false;
@@ -859,6 +883,9 @@ define([
             },
             events: {
                 onReady: function() {
+                    if (focusGuard && player && typeof player.getIframe === 'function') {
+                        focusGuard.applyPictureInPicturePolicy(player.getIframe());
+                    }
                     state.duration = Adapter.getDuration(state, function() {
                         return player.getDuration ? player.getDuration() : state.duration;
                     }, Log, 'YouTube ready');
@@ -963,6 +990,9 @@ define([
             rwBtn.setAttribute('aria-label',
                 (config.rewindlabel) + ' ' + config.rewindstep + ' ' + (config.secondslabel));
             rwBtn.addEventListener('click', function() {
+                if (focusGuard) {
+                    focusGuard.noteAction('rewind');
+                }
                 if (player && player.getCurrentTime) {
                     Adapter.seek(
                         Adapter.resolveSkipTarget(player.getCurrentTime(), -config.rewindstep, state.duration),
@@ -989,6 +1019,9 @@ define([
             ffBtn.setAttribute('aria-label',
                 (config.fastforwardlabel) + ' ' + config.fastforwardstep + ' ' + (config.secondslabel));
             ffBtn.addEventListener('click', function() {
+                if (focusGuard) {
+                    focusGuard.noteAction('fastforward');
+                }
                 if (player && player.getCurrentTime && player.getDuration) {
                     Adapter.seek(
                         Adapter.resolveSkipTarget(player.getCurrentTime(), config.fastforwardstep, player.getDuration()),
@@ -1016,6 +1049,21 @@ define([
         return Adapter.getCurrentTime(state, function() {
             return player && player.getCurrentTime ? player.getCurrentTime() : state.lasttime;
         }, Log, 'YouTube');
+    }
+
+    /** Initialise privacy-safe integrity indicators and optional focus controls. */
+    function initialiseFocusGuard() {
+        focusGuard = FocusGuard.create({
+            config: config,
+            state: state,
+            getCurrentTime: getCurrentVideoTime,
+            pause: function() {
+                return player && player.pauseVideo ? player.pauseVideo() : null;
+            },
+            showMessage: function(message) {
+                PlayerCore.showStatusMessage(message, false, config.dismisslabel, config.statusinfotimeoutms);
+            }
+        });
     }
 
 
@@ -1170,6 +1218,7 @@ define([
             // Read the heartbeat interval from the administrator configuration.
             HEARTBEAT_INTERVAL = Tracker.normaliseHeartbeatInterval(config, 30);
             state.sessionid = uuid();
+            initialiseFocusGuard();
             // Draw the interval bar with data already saved from previous sessions.
             if (config.intervaljson && config.duration) {
                 updateIntervalBar(config.intervaljson, config.duration);

@@ -53,3 +53,7 @@ Gli analytics costituiscono un livello di sola lettura sopra `videotrack_seg` e 
 ## Architettura dei segnalibri personali (1.6.14–1.6.16)
 
 I segnalibri sono memorizzati come eventi privati specializzati in `{videotrack_reactev}`, senza introdurre una nuova tabella. `view.php` fornisce soltanto i dati del proprietario al modulo AMD condiviso `core/player/bookmarks`. I servizi esterni di salvataggio/eliminazione applicano configurazione dell'attività e proprietà del record. Il livello report legge soltanto conteggi aggregati, applica ambito capability/gruppi e poi `analyticsminusers`. La pagina Analytics di istanza mostra una sezione dedicata a card; etichette e timestamp individuali non entrano mai nell'output docente. Vedere `10_BOOKMARKS_AND_ANALYTICS.md`.
+
+## Architettura integrità e focus (1.6.17)
+
+`amd/src/core/player/focus_guard.js` è un controller indipendente dal provider inizializzato da ciascun player. Riceve callback specifiche per pausa e tempo corrente, osserva visibilità e viewport, pianifica pause casuali e invia segnali in allowlist tramite `classes/external/save_integrity_event.php`. `classes/local/integrity.php` definisce allowlist, limiti casuali e aggregazione privacy-safe. `{videotrack_integrity}` è separata da completamento e segmenti; i segnali non modificano voti, completamento o limiti di seek. Vedere `11_INTEGRITY_AND_FOCUS.md`.

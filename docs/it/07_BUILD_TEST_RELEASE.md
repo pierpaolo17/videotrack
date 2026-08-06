@@ -95,3 +95,7 @@ Una patch solo documentale non richiede `grunt amd`, PHPUnit o PHPCS, salvo modi
 ## Controlli release per i segnalibri
 
 Per modifiche ai segnalibri aggiungere alla matrice ordinaria: persistenza attivo/disattivo del form, proprietà in salvataggio/eliminazione, vincolo timestamp già visualizzato, protezione formula injection CSV, export/cancellazione Privacy API, backup/restore, replay sui tre player, conteggi aggregati docente e mascheramento privacy. Verificare la parità delle chiavi in tutti gli otto language pack distribuiti.
+
+## Controlli release integrità e focus
+
+Eseguire la matrice sui tre player descritta in `11_INTEGRITY_AND_FOCUS.md`. Poiché vengono modificati sorgenti AMD dei player, `grunt amd` reale è obbligatorio e vanno inclusi build e source map generati di `player`, `html5_player`, `vimeo_player` e `core/player/focus_guard`. Eseguire inoltre PHPUnit, PHPCS Moodle + Extra, nuova installazione/upgrade XMLDB, export/cancellazione Privacy API e backup/restore con e senza dati utente.

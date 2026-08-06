@@ -24,14 +24,16 @@ define([
     'mod_videotrack/core/player',
     'mod_videotrack/core/player/forum',
     'mod_videotrack/core/player/timed_text',
+    'mod_videotrack/core/player/focus_guard',
     'mod_videotrack/core/debug'
-], function(Log, Api, Adapter, Utils, Ui, Progress, State, Reactions, Tracker, PlayerCore, Forum, TimedText, Debug) {
+], function(Log, Api, Adapter, Utils, Ui, Progress, State, Reactions, Tracker, PlayerCore, Forum, TimedText, FocusGuard, Debug) {
     'use strict';
 
 
     var player  = null;
     var config  = null;
     var reactionState = Reactions.createState();
+    var focusGuard = null;
     var HEARTBEAT_INTERVAL = 30;
 
     var state = State.create();
@@ -795,6 +797,10 @@ define([
         if (target <= fallback + 0.75) {
             return false;
         }
+        if (focusGuard) {
+            focusGuard.noteAction('forwardseek');
+            focusGuard.record('forwardseek');
+        }
         // A user-originated illegal forward seek should resume at the permitted point
         // even when Vimeo emits seeking before our runtime has observed a stable
         // play state. Otherwise the rollback succeeds but the player remains paused.
@@ -882,6 +888,9 @@ define([
             rate = state.playbackrate || 1;
         }
         if (maxRate > 0 && rate > maxRate) {
+            if (focusGuard) {
+                focusGuard.record('ratechange');
+            }
             resetRate = getPlaybackRatePenalty();
             writePlaybackRate(resetRate, label || 'Vimeo playback rate limit');
             retryPlaybackRateLimit(maxRate, resetRate, label || 'Vimeo playback rate limit');
@@ -1176,6 +1185,9 @@ define([
         var vimeosource = resolveVimeoSource();
         var iframe = buildVimeoIframe(container, vimeosource);
         if (iframe) {
+            if (focusGuard) {
+                focusGuard.applyPictureInPicturePolicy(iframe);
+            }
             player = new window.Vimeo.Player(iframe);
         } else {
             player = new window.Vimeo.Player(container, {
@@ -1201,6 +1213,11 @@ define([
         }
 
         player.ready().then(function() {
+            if (focusGuard && typeof player.getElement === 'function') {
+                player.getElement().then(function(element) {
+                    focusGuard.applyPictureInPicturePolicy(element);
+                }).catch(Log.debug);
+            }
             startVimeoRuntimePolling();
             return player.getDuration();
         }).then(function(d) {
@@ -1251,6 +1268,9 @@ define([
         buildVimeoSkipButtons();
 
         player.on('play', function() {
+            if (focusGuard) {
+                focusGuard.setPlaying(true);
+            }
             state.ended = false;
             markVimeoPlaybackObserved();
             player.getCurrentTime().then(function(t) {
@@ -1328,6 +1348,9 @@ define([
         });
 
         player.on('pause', function() {
+            if (focusGuard) {
+                focusGuard.setPlaying(false);
+            }
             state._vimeoRecentPauseAt = Date.now();
             state._vimeoRecentPauseWasPlaying = !!state.playing;
             if (state.ended || state.seekblocked || state.isProgrammaticSeek || state._vimeoBlockedSeekResume ||
@@ -1341,6 +1364,9 @@ define([
         });
 
         player.on('ended', function() {
+            if (focusGuard) {
+                focusGuard.setPlaying(false);
+            }
             state.ended = true;
             reactionState.readyAnnounced = false;
             stopHeartbeat();
@@ -1350,6 +1376,9 @@ define([
         });
 
         player.on('seeking', function(data) {
+            if (focusGuard && !state.isProgrammaticSeek) {
+                focusGuard.noteAction('seek');
+            }
             var target = Tracker.normaliseTime(data && data.seconds);
             var pendingUserSeek = rememberVimeoUserSeek(target);
             if (pendingUserSeek && config.allowseekforward === false && target > pendingUserSeek.allowedLimit + 0.75) {
@@ -1403,6 +1432,9 @@ define([
         });
 
         player.on('timeupdate', function(data) {
+            if (focusGuard) {
+                focusGuard.noteProgress(Tracker.normaliseTime(data.seconds));
+            }
             if (state.playing) {
                 markVimeoPlaybackObserved();
             }
@@ -1758,6 +1790,21 @@ define([
     }
 
 
+    /** Initialise privacy-safe integrity indicators and optional focus controls. */
+    function initialiseFocusGuard() {
+        focusGuard = FocusGuard.create({
+            config: config,
+            state: state,
+            getCurrentTime: getCurrentVideoTime,
+            pause: function() {
+                return player && player.pause ? player.pause() : null;
+            },
+            showMessage: function(message) {
+                PlayerCore.showStatusMessage(message, false, config.dismisslabel, config.statusinfotimeoutms);
+            }
+        });
+    }
+
     /**
      * Toggle the notes panel through the shared helper.
      */
@@ -1904,6 +1951,7 @@ define([
                     Math.min(Reactions.MAX_READY_DEBOUNCE_MS, debounce || Reactions.DEFAULT_READY_DEBOUNCE_MS));
             HEARTBEAT_INTERVAL = Tracker.normaliseHeartbeatInterval(config, 30);
             state.sessionid    = uuid();
+            initialiseFocusGuard();
             if (config.intervaljson && config.duration) {
                 state.duration = Number(config.duration) || state.duration;
                 PlayerCore.updateIntervalBar(config.intervaljson, state.duration, Log);

@@ -132,3 +132,9 @@ Variables are detected statically. The inventory is a navigation map; it does no
 - Event discriminator `notetype = 'bookmark'`.
 - Analytics variables `bookmarkinstances`, `bookmarkanalyticsenabled`, `bookmarksummary`, `bookmarkcounts` and `bookmarkuserids`.
 - Client state `bookmarkSaveInProgress`; configuration includes labels, maximum length and maximum rendered rows.
+
+## Integrity and focus variables (1.6.17)
+
+- Instance booleans: `integrityindicatorsenabled`, `pauseonfocusloss`, `preventpictureinpicture`, `randomfocuspauses`; all default `0`.
+- Random bounds: `RANDOM_PAUSE_MIN_SECONDS = 301`, `RANDOM_PAUSE_MAX_SECONDS = 1799`.
+- Signal fields: `videotrackid`, `courseid`, `cmid`, `userid`, `videoid`, `sessionid`, `eventtype`, `videotime`, `timecreated`.

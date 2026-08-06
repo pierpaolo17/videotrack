@@ -82,7 +82,8 @@ final class analytics_scope {
         }
 
         $sql = "SELECT vt.id, vt.course, vt.name, vt.videosource, vt.videoid, vt.videourl,
-                               vt.durationseconds, vt.reactionsenabled, vt.bookmarksenabled, vt.clusterwindow,
+                               vt.durationseconds, vt.reactionsenabled, vt.bookmarksenabled,
+                       vt.integrityindicatorsenabled, vt.clusterwindow,
                                cm.id AS cmid, cm.groupmode, cm.groupingid,
                                c.fullname AS coursefullname, c.groupmode AS coursegroupmode,
                                c.groupmodeforce
@@ -291,7 +292,8 @@ final class analytics_scope {
         global $DB;
 
         $sql = "SELECT vt.id, vt.course, vt.name, vt.videosource, vt.videoid, vt.videourl,
-                       vt.durationseconds, vt.reactionsenabled, vt.bookmarksenabled, vt.clusterwindow,
+                       vt.durationseconds, vt.reactionsenabled, vt.bookmarksenabled,
+                       vt.integrityindicatorsenabled, vt.clusterwindow,
                        cm.id AS cmid, cm.groupmode, cm.groupingid,
                        c.fullname AS coursefullname, c.groupmode AS coursegroupmode,
                        c.groupmodeforce

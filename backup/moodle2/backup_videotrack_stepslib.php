@@ -47,6 +47,7 @@ class backup_videotrack_activity_structure_step extends backup_activity_structur
             'requireallreactiontypes', 'completionlogic', 'clusterwindow', 'showstudentreport',
             'showreactionnotice', 'reactionnoticeformat', 'reactionnotice',
             'showtranscript', 'showchapters', 'studentnotesenabled', 'bookmarksenabled',
+            'integrityindicatorsenabled', 'pauseonfocusloss', 'preventpictureinpicture', 'randomfocuspauses',
             'forumpostingenabled', 'linkedforumid',
             'forumsubjecttemplate',
             'csvdelimiter', 'csvexportfields',
@@ -79,6 +80,11 @@ class backup_videotrack_activity_structure_step extends backup_activity_structur
             'videotime', 'playbackrate', 'isdeleted', 'timecreated', 'timemodified',
         ]);
 
+        $integrityevents = new backup_nested_element('integrityevents');
+        $integrityevent = new backup_nested_element('integrityevent', ['id'], [
+            'userid', 'videoid', 'sessionid', 'eventtype', 'videotime', 'timecreated',
+        ]);
+
         $videotrack->add_child($reactions);
         $reactions->add_child($reaction);
 
@@ -89,6 +95,8 @@ class backup_videotrack_activity_structure_step extends backup_activity_structur
             $states->add_child($state);
             $videotrack->add_child($reactionevents);
             $reactionevents->add_child($reactionevent);
+            $videotrack->add_child($integrityevents);
+            $integrityevents->add_child($integrityevent);
         }
 
         $videotrack->set_source_table('videotrack', ['id' => backup::VAR_ACTIVITYID]);
@@ -106,6 +114,9 @@ class backup_videotrack_activity_structure_step extends backup_activity_structur
 
             $reactionevent->set_source_table('videotrack_reactev', ['videotrackid' => backup::VAR_PARENTID]);
             $reactionevent->annotate_ids('user', 'userid');
+
+            $integrityevent->set_source_table('videotrack_integrity', ['videotrackid' => backup::VAR_PARENTID]);
+            $integrityevent->annotate_ids('user', 'userid');
         }
 
         $videotrack->annotate_ids('forum', 'linkedforumid');

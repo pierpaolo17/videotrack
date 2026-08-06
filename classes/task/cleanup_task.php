@@ -59,6 +59,7 @@ class cleanup_task extends \core\task\scheduled_task {
             'segments' => $counts['segments'],
             'states' => $counts['states'],
             'events' => $counts['events'],
+            'integrity' => $counts['integrity'],
             'processed' => $counts['processed'],
         ]);
         if (!empty($counts['remaining'])) {

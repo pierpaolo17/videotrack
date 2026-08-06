@@ -763,6 +763,10 @@ function videotrack_process_player_behavior_fields(stdClass $data): void {
         'showchapters',
         'studentnotesenabled',
         'bookmarksenabled',
+        'integrityindicatorsenabled',
+        'pauseonfocusloss',
+        'preventpictureinpicture',
+        'randomfocuspauses',
     ];
     foreach ($behaviourfields as $field) {
         $data->{$field} = empty($data->{$field}) ? 0 : 1;
@@ -1107,6 +1111,10 @@ function videotrack_delete_user_progress(stdClass $videotrack, int $userid): voi
         'videotrackid' => $videotrack->id,
         'userid'       => $userid,
     ]);
+    $DB->delete_records('videotrack_integrity', [
+        'videotrackid' => $videotrack->id,
+        'userid'       => $userid,
+    ]);
 }
 
 /**
@@ -1160,6 +1168,7 @@ function videotrack_delete_instance($id) {
             ['videotrackid' => $videotrack->id]
         );
         $DB->delete_records('videotrack_reactev', ['videotrackid' => $videotrack->id]);
+        $DB->delete_records('videotrack_integrity', ['videotrackid' => $videotrack->id]);
         $DB->delete_records(
             'videotrack_react',
             ['videotrackid' => $videotrack->id]
@@ -1301,6 +1310,7 @@ function videotrack_reset_course_userdata($data) {
                 ['videotrackid' => $instance->id]
             );
             $DB->delete_records('videotrack_reactev', ['videotrackid' => $instance->id]);
+            $DB->delete_records('videotrack_integrity', ['videotrackid' => $instance->id]);
             // Azzera anche i voti nel gradebook per questa istanza.
             if (!empty($instance->grade)) {
                 grade_update(

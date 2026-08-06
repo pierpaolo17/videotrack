@@ -1474,5 +1474,79 @@ function xmldb_videotrack_upgrade($oldversion) {
         upgrade_mod_savepoint(true, 2026060429, 'videotrack');
     }
 
+    if ($oldversion < 2026060432) {
+        // Release 1.6.17: diagnostic integrity indicators and optional learner focus controls.
+        $table = new xmldb_table('videotrack');
+        $fields = [
+            new xmldb_field(
+                'integrityindicatorsenabled',
+                XMLDB_TYPE_INTEGER,
+                '1',
+                null,
+                XMLDB_NOTNULL,
+                null,
+                '0',
+                'bookmarksenabled'
+            ),
+            new xmldb_field(
+                'pauseonfocusloss',
+                XMLDB_TYPE_INTEGER,
+                '1',
+                null,
+                XMLDB_NOTNULL,
+                null,
+                '0',
+                'integrityindicatorsenabled'
+            ),
+            new xmldb_field(
+                'preventpictureinpicture',
+                XMLDB_TYPE_INTEGER,
+                '1',
+                null,
+                XMLDB_NOTNULL,
+                null,
+                '0',
+                'pauseonfocusloss'
+            ),
+            new xmldb_field(
+                'randomfocuspauses',
+                XMLDB_TYPE_INTEGER,
+                '1',
+                null,
+                XMLDB_NOTNULL,
+                null,
+                '0',
+                'preventpictureinpicture'
+            ),
+        ];
+        foreach ($fields as $field) {
+            if (!$dbman->field_exists($table, $field)) {
+                $dbman->add_field($table, $field);
+            }
+        }
+
+        $table = new xmldb_table('videotrack_integrity');
+        if (!$dbman->table_exists($table)) {
+            $table->add_field('id', XMLDB_TYPE_INTEGER, '10', null, XMLDB_NOTNULL, XMLDB_SEQUENCE);
+            $table->add_field('videotrackid', XMLDB_TYPE_INTEGER, '10', null, XMLDB_NOTNULL, null, '0');
+            $table->add_field('courseid', XMLDB_TYPE_INTEGER, '10', null, XMLDB_NOTNULL, null, '0');
+            $table->add_field('cmid', XMLDB_TYPE_INTEGER, '10', null, XMLDB_NOTNULL, null, '0');
+            $table->add_field('userid', XMLDB_TYPE_INTEGER, '10', null, XMLDB_NOTNULL, null, '0');
+            $table->add_field('videoid', XMLDB_TYPE_CHAR, '32', null, XMLDB_NOTNULL);
+            $table->add_field('sessionid', XMLDB_TYPE_CHAR, '64', null, XMLDB_NOTNULL);
+            $table->add_field('eventtype', XMLDB_TYPE_CHAR, '32', null, XMLDB_NOTNULL);
+            $table->add_field('videotime', XMLDB_TYPE_NUMBER, '10, 3', null, XMLDB_NOTNULL, null, '0.000');
+            $table->add_field('timecreated', XMLDB_TYPE_INTEGER, '10', null, XMLDB_NOTNULL, null, '0');
+            $table->add_key('primary', XMLDB_KEY_PRIMARY, ['id']);
+            $table->add_index('vt_user_idx', XMLDB_INDEX_NOTUNIQUE, ['videotrackid', 'userid']);
+            $table->add_index('cm_user_idx', XMLDB_INDEX_NOTUNIQUE, ['cmid', 'userid']);
+            $table->add_index('event_idx', XMLDB_INDEX_NOTUNIQUE, ['videotrackid', 'eventtype']);
+            $table->add_index('time_idx', XMLDB_INDEX_NOTUNIQUE, ['timecreated']);
+            $dbman->create_table($table);
+        }
+
+        upgrade_mod_savepoint(true, 2026060432, 'videotrack');
+    }
+
     return true;
 }

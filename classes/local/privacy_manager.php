@@ -155,6 +155,7 @@ class privacy_manager {
         $transaction = $DB->start_delegated_transaction();
         try {
             $DB->delete_records('videotrack_reactev', ['cmid' => $cmid, 'userid' => $userid]);
+            $DB->delete_records('videotrack_integrity', ['cmid' => $cmid, 'userid' => $userid]);
             $DB->delete_records('videotrack_seg', ['cmid' => $cmid, 'userid' => $userid]);
             $DB->delete_records('videotrack_state', ['cmid' => $cmid, 'userid' => $userid]);
             $transaction->allow_commit();
@@ -180,6 +181,7 @@ class privacy_manager {
         $transaction = $DB->start_delegated_transaction();
         try {
             $DB->delete_records('videotrack_reactev', ['cmid' => $cmid]);
+            $DB->delete_records('videotrack_integrity', ['cmid' => $cmid]);
             $DB->delete_records('videotrack_seg', ['cmid' => $cmid]);
             $DB->delete_records('videotrack_state', ['cmid' => $cmid]);
             $transaction->allow_commit();
@@ -236,11 +238,16 @@ class privacy_manager {
                  UNION
                 SELECT DISTINCT userid
                   FROM {videotrack_reactev}
-                 WHERE cmid = :eventcmid AND userid > 0";
+                 WHERE cmid = :eventcmid AND userid > 0
+                 UNION
+                SELECT DISTINCT userid
+                  FROM {videotrack_integrity}
+                 WHERE cmid = :integritycmid AND userid > 0";
         $records = $DB->get_recordset_sql($sql, [
             'segcmid' => $cmid,
             'statecmid' => $cmid,
             'eventcmid' => $cmid,
+            'integritycmid' => $cmid,
         ]);
         $userids = [];
         foreach ($records as $record) {
@@ -300,6 +307,12 @@ class privacy_manager {
                   WHERE cmid = :cmid AND userid = :userid",
                 $eventparams
             );
+            $DB->execute(
+                "UPDATE {videotrack_integrity}
+                    SET userid = :anonuserid, sessionid = :sessionid, videotime = 0
+                  WHERE cmid = :cmid AND userid = :userid",
+                $params
+            );
 
             $transaction->allow_commit();
         } catch (\Throwable $e) {
@@ -332,6 +345,7 @@ class privacy_manager {
                 'segments' => 0,
                 'states' => 0,
                 'events' => 0,
+                'integrity' => 0,
                 'skipped' => 1,
                 'processed' => 0,
                 'remaining' => 0,
@@ -343,6 +357,7 @@ class privacy_manager {
             'segments' => 0,
             'states' => 0,
             'events' => 0,
+            'integrity' => 0,
             'skipped' => 0,
             'processed' => 0,
             'remaining' => 0,
@@ -358,11 +373,16 @@ class privacy_manager {
                  UNION
                 SELECT DISTINCT userid, cmid
                   FROM {videotrack_state}
-                 WHERE userid > 0 AND timemodified < :statecutoff";
+                 WHERE userid > 0 AND timemodified < :statecutoff
+                 UNION
+                SELECT DISTINCT userid, cmid
+                  FROM {videotrack_integrity}
+                 WHERE userid > 0 AND timecreated < :integritycutoff";
         $params = [
             'segcutoff' => $cutoff,
             'eventcutoff' => $cutoff,
             'statecutoff' => $cutoff,
+            'integritycutoff' => $cutoff,
         ];
 
         $records = $DB->get_recordset_sql($sql, $params, 0, self::RETENTION_BATCH_LIMIT + 1);
@@ -446,6 +466,24 @@ class privacy_manager {
                 'sessionid' => $sessionid,
                 'notetext' => $notetext,
                 'reactionlabel' => get_string('privacy:anonymisedreaction', 'mod_videotrack'),
+                'cmid' => $cmid,
+                'userid' => $userid,
+                'cutoff' => $cutoff,
+            ]
+        );
+
+        $counts['integrity'] += $DB->count_records_select(
+            'videotrack_integrity',
+            'cmid = ? AND userid = ? AND timecreated < ?',
+            [$cmid, $userid, $cutoff]
+        );
+        $DB->execute(
+            "UPDATE {videotrack_integrity}
+                SET userid = :anonuserid, sessionid = :sessionid, videotime = 0
+              WHERE cmid = :cmid AND userid = :userid AND timecreated < :cutoff",
+            [
+                'anonuserid' => $anonuserid,
+                'sessionid' => $sessionid,
                 'cmid' => $cmid,
                 'userid' => $userid,
                 'cutoff' => $cutoff,

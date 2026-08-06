@@ -440,3 +440,10 @@
 - `core/player/bookmarks.js`: `resolveBookmarkTime()`, `appendRow()`, `installHandler()`.
 - `report.php`: `videotrack_report_render_bookmark_summary()`.
 - `analytics::count_summary()` fornisce il contratto comune dei conteggi privacy-safe.
+
+## Funzioni integrità e focus (1.6.17)
+
+- `integrity::validate_event_type()`, `label_string()`, `summarise()`.
+- `save_integrity_event::execute_parameters()`, `execute()`, `execute_returns()`.
+- `core/player/focus_guard`: `randomInteger()`, `create()`, `record()`, `noteAction()`, `setPlaying()`, `noteProgress()`, `applyPictureInPicturePolicy()`, `destroy()`.
+- `report.php`: `videotrack_report_render_integrity_summary()`.

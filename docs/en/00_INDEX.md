@@ -15,6 +15,8 @@ This directory contains the updated technical documentation for the Videotrack p
 9. `09_DOCUMENTATION_AUDIT.md` - documentation coverage audit and future update checklist.
 10. `10_BOOKMARKS_AND_ANALYTICS.md` - complete bookmark data model, runtime, privacy, reports and validation.
 
+11. `11_INTEGRITY_AND_FOCUS.md` - integrity signals, anti-cheat focus controls, privacy boundaries and regression matrix.
+
 ## Historical documents
 
-Historical audit documents remain available in this directory. They are useful to reconstruct past decisions, but the current maintenance source of truth is the numbered set from `00_` to `10_`.
+Historical audit documents remain available in this directory. They are useful to reconstruct past decisions, but the current maintenance source of truth is the numbered set from `00_` to `11_`.

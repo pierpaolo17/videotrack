@@ -95,3 +95,7 @@ A documentation-only patch does not require `grunt amd`, PHPUnit or PHPCS unless
 ## Bookmark release checks
 
 For bookmark changes, add to the normal release matrix: enabled/disabled form persistence, save/delete ownership, already-watched timestamp enforcement, CSV formula-injection protection, Privacy API export/erasure, backup/restore, all three player replay paths, teacher aggregate counts and privacy suppression. Language-key parity must be checked across all eight shipped packs.
+
+## Integrity and focus release checks
+
+Run the three-player runtime matrix in `11_INTEGRITY_AND_FOCUS.md`. Because player AMD sources are modified, a real Moodle `grunt amd` is mandatory and the generated `player`, `html5_player`, `vimeo_player` and `core/player/focus_guard` build files and source maps must be included. Also run PHPUnit, PHPCS Moodle + Extra, XMLDB upgrade/new-install checks, Privacy API export/erasure and backup/restore with and without user data.
