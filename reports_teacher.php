@@ -152,6 +152,11 @@ foreach ($dashboard as $courseblock) {
         ['class' => 'btn btn-sm btn-outline-secondary mb-2']
     );
 
+    $showbookmarks = count(array_filter(
+        $courseblock['rows'],
+        static fn(stdClass $row): bool => !empty($row->bookmarksenabled)
+    )) > 0;
+
     $table = new html_table();
     $table->caption = get_string('teacherdashboard:coursecaption', 'mod_videotrack', $coursename);
     $table->attributes['class'] = 'generaltable w-100';
@@ -164,8 +169,11 @@ foreach ($dashboard as $courseblock) {
         get_string('coursereport:col_not_completed', 'mod_videotrack'),
         get_string('coursereport:col_reactions', 'mod_videotrack'),
         get_string('coursereport:col_notes', 'mod_videotrack'),
-        get_string('coursereport:col_actions', 'mod_videotrack'),
     ];
+    if ($showbookmarks) {
+        $table->head[] = get_string('coursereport:col_bookmarks', 'mod_videotrack');
+    }
+    $table->head[] = get_string('coursereport:col_actions', 'mod_videotrack');
     foreach ($courseblock['rows'] as $row) {
         $suppressed = !empty($row->summary['datasetsuppressed']);
         $privacy = get_string('coursereport:privacy_suppressed', 'mod_videotrack', $minusers);
@@ -191,7 +199,7 @@ foreach ($dashboard as $courseblock) {
                 get_string('reportteacher', 'mod_videotrack')
             )
             : '-';
-        $table->data[] = [
+        $rowdata = [
             $activity,
             $countcell($row->summary['started']),
             $percentagecell($row->summary['averagepercent']),
@@ -200,8 +208,14 @@ foreach ($dashboard as $courseblock) {
             $countcell($row->summary['noncompleted']),
             $countcell($row->reactions),
             $countcell($row->notes),
-            $report,
         ];
+        if ($showbookmarks) {
+            $rowdata[] = !empty($row->bookmarksenabled)
+                ? $countcell($row->bookmarks)
+                : html_writer::span(get_string('coursereport:disabled', 'mod_videotrack'), 'text-muted');
+        }
+        $rowdata[] = $report;
+        $table->data[] = $rowdata;
     }
     echo html_writer::table($table);
 }

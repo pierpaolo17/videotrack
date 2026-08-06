@@ -72,7 +72,11 @@ class save_bookmark extends external_api {
         global $DB, $USER;
 
         $params = self::validate_parameters(self::execute_parameters(), compact(
-            'cmid', 'sessionid', 'videotime', 'label', 'playbackrate'
+            'cmid',
+            'sessionid',
+            'videotime',
+            'label',
+            'playbackrate'
         ));
         $params['cmid'] = helper::validate_positive_id((int)$params['cmid'], 'cmid');
         $params['sessionid'] = helper::validate_session_id($params['sessionid']);
@@ -98,14 +102,16 @@ class save_bookmark extends external_api {
         $videotime = max(0.0, $duration > 0 ? min((float)$params['videotime'], $duration) : (float)$params['videotime']);
         $fallbackdays = \videotrack_get_config_int('validationfallbackdays', 30, 0, 3650);
         $maxage = $fallbackdays > 0 ? $fallbackdays * DAYSECS : 0;
-        if (!tracker::has_watched_videotime(
-            $videotrack->id,
-            (int)$USER->id,
-            $params['sessionid'],
-            $videotime,
-            2.0,
-            $maxage
-        )) {
+        if (
+            !tracker::has_watched_videotime(
+                $videotrack->id,
+                (int)$USER->id,
+                $params['sessionid'],
+                $videotime,
+                2.0,
+                $maxage
+            )
+        ) {
             throw new \moodle_exception('error:playbackpositionnotwatched', 'mod_videotrack');
         }
 

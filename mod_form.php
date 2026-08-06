@@ -789,6 +789,20 @@ class mod_videotrack_mod_form extends moodleform_mod {
         $mform->setType('showstudentreport', PARAM_BOOL);
         $mform->setDefault('showstudentreport', 1);
 
+        // Personal study tools.
+        $mform->addElement(
+            'header',
+            'personalstudytoolsheader',
+            get_string('personalstudytoolsheader', 'mod_videotrack')
+        );
+        $mform->setExpanded('personalstudytoolsheader', true);
+        $mform->addElement(
+            'static',
+            'personalstudytoolsintro',
+            '',
+            get_string('personalstudytoolsintro', 'mod_videotrack')
+        );
+
         // Student personal notes.
         $mform->addElement(
             'advcheckbox',

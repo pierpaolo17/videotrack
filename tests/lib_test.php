@@ -81,4 +81,20 @@ final class lib_test extends advanced_testcase {
     public function test_unknown_feature_returns_null(): void {
         $this->assertNull(\videotrack_supports('mod_videotrack_unknown_feature'));
     }
+
+    /**
+     * The instance bookmark checkbox must be persisted as a strict boolean field.
+     *
+     * @covers ::videotrack_process_player_behavior_fields
+     */
+    public function test_player_behavior_fields_normalise_bookmark_setting(): void {
+        $disabled = (object)[];
+        \videotrack_process_player_behavior_fields($disabled);
+        $this->assertSame(0, $disabled->bookmarksenabled);
+
+        $enabled = (object)['bookmarksenabled' => '1'];
+        \videotrack_process_player_behavior_fields($enabled);
+        $this->assertSame(1, $enabled->bookmarksenabled);
+    }
+
 }
