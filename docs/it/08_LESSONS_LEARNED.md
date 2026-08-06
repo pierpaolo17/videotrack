@@ -23,3 +23,7 @@ Il controllo deve stare server-side. La UI può rimuovere righe ottimistiche qua
 ## Confine privacy dei segnalibri
 
 Uno strumento di studio privato può contribuire agli analytics aggregati del docente, ma il confine deve essere esplicito: l'output docente può contenere soltanto conteggi di eventi e utenti distinti protetti dalla soglia. Etichette, timestamp individuali ed elenchi del proprietario devono restare fuori da query, grafici ed export docente.
+
+## Versionare le prese visione sul contenuto, non su un flag modificabile
+
+La conferma deve essere legata alla dichiarazione esatta definita dal docente. Memorizzare un hash non reversibile di contenuto/versione con la data, rendere la conferma idempotente e non considerare valida per il testo corrente una conferma di una versione precedente. Non duplicare l’intera dichiarazione in ogni record utente.

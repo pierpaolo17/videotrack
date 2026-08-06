@@ -57,3 +57,7 @@ Bookmarks are stored as a specialised private event in `{videotrack_reactev}` ra
 ## Integrity and focus architecture (1.6.18)
 
 `amd/src/core/player/focus_guard.js` is a provider-neutral controller instantiated by each player facade. It receives provider-specific pause/current-time callbacks, observes visibility and viewport state, schedules random attention pauses and submits allowlisted signals through `classes/external/save_integrity_event.php`. `classes/local/integrity.php` owns the allowlist, normalises site-configured random bounds, exposes the accessibility/strict focus policy and provides privacy-safe aggregation. `{videotrack_integrity}` is separate from completion and viewing segments; signals never alter grades, completion or the allowed seek range. See `11_INTEGRITY_AND_FOCUS.md`.
+
+## Versioned acknowledgement architecture (1.6.19)
+
+`classes/local/acknowledgement.php` owns statement activation, the SHA-256 identity of the current formatted statement and idempotent confirmation writes. `{videotrack_acknowledge}` stores only activity/user identifiers, the statement hash, the activity modification timestamp and confirmation time; it does not duplicate the teacher-authored statement. `view.php` uses a sesskey-protected POST form, refreshes aggregate completion state and asks Moodle to reevaluate custom completion. Changing statement text or format changes the hash and therefore requires a new confirmation. Backup/restore, Privacy API, retention, activity/course reset and teacher reports use the same current-hash rule.

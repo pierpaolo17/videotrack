@@ -140,3 +140,10 @@ Variables are detected statically. The inventory is a navigation map; it does no
 - Site config: `randompauseminseconds`, `randompausemaxseconds`, `focuslosspolicy`, `focuslossgraceseconds`.
 - Random bounds: defaults `RANDOM_PAUSE_DEFAULT_MIN_SECONDS = 300` and `RANDOM_PAUSE_DEFAULT_MAX_SECONDS = 1800`; accepted site range 60–7200 seconds.
 - Signal fields: `videotrackid`, `courseid`, `cmid`, `userid`, `videoid`, `sessionid`, `eventtype`, `videotime`, `timecreated`.
+
+## Acknowledgement fields and state (1.6.19)
+
+- Instance fields: `acknowledgementenabled`, `acknowledgementtext`, `acknowledgementformat`, `completionacknowledgement`.
+- Confirmation fields: `videotrackid`, `courseid`, `cmid`, `userid`, `statementhash`, `instanceversion`, `timeconfirmed`.
+- View/report state: `ackaction`, `ackconfirm`, `acknowledgementrecord`, `acknowledgementrecords`, `acknowledgementuserids`.
+- The canonical current version is `SHA-256(format + "\n" + stored text)`; old records remain history but do not satisfy the current rule.

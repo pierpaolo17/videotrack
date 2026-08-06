@@ -1845,6 +1845,15 @@ if (!empty($videotrack->integrityindicatorsenabled)) {
     );
 }
 
+$acknowledgementrecords = [];
+$acknowledgementuserids = [];
+if (\mod_videotrack\local\acknowledgement::is_enabled($videotrack)) {
+    foreach (\mod_videotrack\local\acknowledgement::current_records($videotrack) as $record) {
+        $acknowledgementrecords[(int)$record->userid] = $record;
+        $acknowledgementuserids[] = (int)$record->userid;
+    }
+}
+
 $stateparams = ['videotrackid' => $videotrack->id];
 $stateconditions = 'videotrackid = :svtid';
 $stateparamsnamed = ['svtid' => $videotrack->id];
@@ -1891,7 +1900,8 @@ $alluserids = array_values(array_filter(array_unique(array_merge(
     $eventuserids,
     $noteuserids,
     $bookmarkuserids,
-    $integrityuserids
+    $integrityuserids,
+    $acknowledgementuserids
 )), static function (int $userid): bool {
     return $userid > 0;
 }));
@@ -1952,6 +1962,19 @@ foreach ($bookmarkuserids as $bookmarkuserid) {
         if ($user) {
             $useroptions[(int)$user->id] = videotrack_report_user_label(
                 (int)$user->id,
+                $usermap,
+                $canviewemail
+            );
+        }
+    }
+}
+
+foreach ($acknowledgementuserids as $acknowledgementuserid) {
+    if (!isset($useroptions[$acknowledgementuserid])) {
+        $user = $usermap[$acknowledgementuserid] ?? null;
+        if ($user) {
+            $useroptions[$acknowledgementuserid] = videotrack_report_user_label(
+                $acknowledgementuserid,
                 $usermap,
                 $canviewemail
             );
@@ -2589,6 +2612,10 @@ if ($export === 'csv') {
         if (!empty($videotrack->integrityindicatorsenabled)) {
             $csvheads[] = get_string('report:integrity_count', 'mod_videotrack');
         }
+        if (\mod_videotrack\local\acknowledgement::is_enabled($videotrack)) {
+            $csvheads[] = get_string('report:acknowledgement_status', 'mod_videotrack');
+            $csvheads[] = get_string('report:acknowledgement_date', 'mod_videotrack');
+        }
         if ($hasgrade && $cangrade) {
             $csvheads[] = get_string('report:grade', 'mod_videotrack');
         }
@@ -2619,6 +2646,13 @@ if ($export === 'csv') {
             }
             if (!empty($videotrack->integrityindicatorsenabled)) {
                 $row[] = (int)($integritycounts[$userid] ?? 0);
+            }
+            if (\mod_videotrack\local\acknowledgement::is_enabled($videotrack)) {
+                $ackrecord = $acknowledgementrecords[$userid] ?? null;
+                $row[] = get_string($ackrecord ? 'yes' : 'no', 'mod_videotrack');
+                $row[] = $ackrecord
+                    ? userdate((int)$ackrecord->timeconfirmed, get_string('strftimedatetimeshort', 'langconfig'))
+                    : '';
             }
             if ($hasgrade && $cangrade) {
                 $row[] = $gradeinfo->items[0]->grades[$userid]->grade ?? '';
@@ -2672,6 +2706,10 @@ if ($resetaction === 'resetstudent' && $_SERVER['REQUEST_METHOD'] === 'POST') {
     $DB->delete_records('videotrack_state', ['videotrackid' => $videotrack->id, 'userid' => $resetuserid]);
     $DB->delete_records('videotrack_reactev', ['videotrackid' => $videotrack->id, 'userid' => $resetuserid]);
     $DB->delete_records('videotrack_integrity', ['videotrackid' => $videotrack->id, 'userid' => $resetuserid]);
+    $DB->delete_records('videotrack_acknowledge', [
+        'videotrackid' => $videotrack->id,
+        'userid' => $resetuserid,
+    ]);
     $transaction->allow_commit();
     \mod_videotrack\event\student_progress_reset::create([
         'objectid' => $videotrack->id,
@@ -3044,6 +3082,9 @@ if ($mode === 'student') {
         if (!empty($videotrack->integrityindicatorsenabled)) {
             $heads[] = get_string('report:integrity_count', 'mod_videotrack');
         }
+        if (\mod_videotrack\local\acknowledgement::is_enabled($videotrack)) {
+            $heads[] = get_string('report:acknowledgement_status', 'mod_videotrack');
+        }
         if ($hasgrade && $cangrade) {
             $heads[] = get_string('report:grade', 'mod_videotrack');
         }
@@ -3074,6 +3115,15 @@ if ($mode === 'student') {
             }
             if (!empty($videotrack->integrityindicatorsenabled)) {
                 $row[] = (string)($integritycounts[(int)$state->userid] ?? 0);
+            }
+            if (\mod_videotrack\local\acknowledgement::is_enabled($videotrack)) {
+                $ackrecord = $acknowledgementrecords[(int)$state->userid] ?? null;
+                $row[] = $ackrecord
+                    ? get_string('acknowledgement:reportconfirmed', 'mod_videotrack', userdate(
+                        (int)$ackrecord->timeconfirmed,
+                        get_string('strftimedatetimeshort', 'langconfig')
+                    ))
+                    : get_string('acknowledgement:reportpending', 'mod_videotrack');
             }
 
             if ($hasgrade && $cangrade) {
@@ -3221,6 +3271,12 @@ if ($mode === 'student') {
         echo videotrack_report_render_integrity_summary(
             $reportintegritysummary,
             videotrack_get_config_int('analyticsminusers', 5, 2, 50)
+        );
+    }
+    if (\mod_videotrack\local\acknowledgement::is_enabled($videotrack)) {
+        echo html_writer::div(
+            get_string('report:acknowledgement_summary', 'mod_videotrack', count($acknowledgementrecords)),
+            'alert alert-light'
         );
     }
     if (!$eventcount) {

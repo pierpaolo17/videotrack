@@ -101,6 +101,16 @@ class provider implements
             'timecreated' => 'privacy:metadata:common:timecreated',
         ], 'privacy:metadata:videotrack_integrity');
 
+        $collection->add_database_table('videotrack_acknowledge', [
+            'videotrackid' => 'privacy:metadata:common:videotrackid',
+            'courseid' => 'privacy:metadata:common:courseid',
+            'cmid' => 'privacy:metadata:common:cmid',
+            'userid' => 'privacy:metadata:videotrack_acknowledge:userid',
+            'statementhash' => 'privacy:metadata:videotrack_acknowledge:statementhash',
+            'instanceversion' => 'privacy:metadata:videotrack_acknowledge:instanceversion',
+            'timeconfirmed' => 'privacy:metadata:videotrack_acknowledge:timeconfirmed',
+        ], 'privacy:metadata:videotrack_acknowledge');
+
         $collection->add_database_table('videotrack_reactev', [
             'videotrackid'   => 'privacy:metadata:common:videotrackid',
             'courseid'       => 'privacy:metadata:common:courseid',
@@ -158,6 +168,7 @@ class provider implements
             'userid2' => $userid,
             'userid3' => $userid,
             'userid4' => $userid,
+            'userid5' => $userid,
         ];
         $sql = "SELECT DISTINCT c.id
                   FROM {context} c
@@ -169,6 +180,8 @@ class provider implements
                         SELECT cmid FROM {videotrack_reactev} WHERE userid = :userid3
                         UNION
                         SELECT cmid FROM {videotrack_integrity} WHERE userid = :userid4
+                        UNION
+                        SELECT cmid FROM {videotrack_acknowledge} WHERE userid = :userid5
                        ) tracked ON tracked.cmid = c.instanceid
                  WHERE c.contextlevel = :contextmodule";
 
@@ -193,6 +206,7 @@ class provider implements
             'cmid2' => $context->instanceid,
             'cmid3' => $context->instanceid,
             'cmid4' => $context->instanceid,
+            'cmid5' => $context->instanceid,
         ];
         $sql = "SELECT userid
                   FROM (
@@ -203,6 +217,8 @@ class provider implements
                         SELECT userid FROM {videotrack_reactev} WHERE cmid = :cmid3 AND userid > 0
                         UNION
                         SELECT userid FROM {videotrack_integrity} WHERE cmid = :cmid4 AND userid > 0
+                        UNION
+                        SELECT userid FROM {videotrack_acknowledge} WHERE cmid = :cmid5 AND userid > 0
                        ) u";
         $userlist->add_from_sql('userid', $sql, $params);
     }
@@ -533,6 +549,20 @@ class provider implements
                         get_string('privacy:integritychunk', 'mod_videotrack', $integritychunk),
                     ],
                     (object)['signals' => $integrityevents]
+                );
+            }
+
+            $acknowledgements = $DB->get_records('videotrack_acknowledge', [
+                'cmid' => $context->instanceid,
+                'userid' => $userid,
+            ], 'timeconfirmed ASC', 'id, statementhash, instanceversion, timeconfirmed');
+            foreach ($acknowledgements as $acknowledgement) {
+                $acknowledgement->timeconfirmed = transform::datetime((int)$acknowledgement->timeconfirmed);
+            }
+            if ($acknowledgements) {
+                $writer->export_data(
+                    [get_string('acknowledgement:privacyexport', 'mod_videotrack')],
+                    (object)['confirmations' => array_values($acknowledgements)]
                 );
             }
         }

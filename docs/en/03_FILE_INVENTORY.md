@@ -283,3 +283,10 @@ The following shipped files were added after the original static inventory and a
 - `tests/integrity_test.php`: event validation, privacy suppression and random-bound tests.
 - `tests/save_integrity_event_test.php`: verifies the external parameter declaration uses Moodle-supported types.
 - `docs/en/11_INTEGRITY_AND_FOCUS.md`, `docs/it/11_INTEGRITY_AND_FOCUS.md`: functional, privacy and regression specification.
+
+## Acknowledgement files (1.6.19)
+
+- `classes/local/acknowledgement.php`: statement-version identity, current-confirmation queries and idempotent confirmation persistence.
+- `classes/event/acknowledgement_confirmed.php`: Moodle audit event emitted after a new confirmation.
+- `tests/acknowledgement_test.php`: statement hashing and visible-text activation tests.
+- `docs/en/12_ACKNOWLEDGEMENT.md` and `docs/it/12_ACKNOWLEDGEMENT.md`: functional, completion, privacy and lifecycle specification.

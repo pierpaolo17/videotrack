@@ -1548,5 +1548,77 @@ function xmldb_videotrack_upgrade($oldversion) {
         upgrade_mod_savepoint(true, 2026060432, 'videotrack');
     }
 
+    if ($oldversion < 2026060434) {
+        // Release 1.6.19: optional versioned learner acknowledgement.
+        $table = new xmldb_table('videotrack');
+
+        $fields = [
+            new xmldb_field(
+                'acknowledgementenabled',
+                XMLDB_TYPE_INTEGER,
+                '1',
+                null,
+                XMLDB_NOTNULL,
+                null,
+                '0',
+                'randomfocuspauses'
+            ),
+            new xmldb_field(
+                'acknowledgementtext',
+                XMLDB_TYPE_TEXT,
+                null,
+                null,
+                null,
+                null,
+                null,
+                'acknowledgementenabled'
+            ),
+            new xmldb_field(
+                'acknowledgementformat',
+                XMLDB_TYPE_INTEGER,
+                '4',
+                null,
+                XMLDB_NOTNULL,
+                null,
+                '1',
+                'acknowledgementtext'
+            ),
+            new xmldb_field(
+                'completionacknowledgement',
+                XMLDB_TYPE_INTEGER,
+                '1',
+                null,
+                XMLDB_NOTNULL,
+                null,
+                '0',
+                'acknowledgementformat'
+            ),
+        ];
+        foreach ($fields as $field) {
+            if (!$dbman->field_exists($table, $field)) {
+                $dbman->add_field($table, $field);
+            }
+        }
+
+        $acktable = new xmldb_table('videotrack_acknowledge');
+        $acktable->add_field('id', XMLDB_TYPE_INTEGER, '10', null, XMLDB_NOTNULL, XMLDB_SEQUENCE);
+        $acktable->add_field('videotrackid', XMLDB_TYPE_INTEGER, '10', null, XMLDB_NOTNULL, null, '0');
+        $acktable->add_field('courseid', XMLDB_TYPE_INTEGER, '10', null, XMLDB_NOTNULL, null, '0');
+        $acktable->add_field('cmid', XMLDB_TYPE_INTEGER, '10', null, XMLDB_NOTNULL, null, '0');
+        $acktable->add_field('userid', XMLDB_TYPE_INTEGER, '10', null, XMLDB_NOTNULL, null, '0');
+        $acktable->add_field('statementhash', XMLDB_TYPE_CHAR, '64', null, XMLDB_NOTNULL);
+        $acktable->add_field('instanceversion', XMLDB_TYPE_INTEGER, '10', null, XMLDB_NOTNULL, null, '0');
+        $acktable->add_field('timeconfirmed', XMLDB_TYPE_INTEGER, '10', null, XMLDB_NOTNULL, null, '0');
+        $acktable->add_key('primary', XMLDB_KEY_PRIMARY, ['id']);
+        $acktable->add_index('vt_user_hash_uix', XMLDB_INDEX_UNIQUE, ['videotrackid', 'userid', 'statementhash']);
+        $acktable->add_index('cm_user_idx', XMLDB_INDEX_NOTUNIQUE, ['cmid', 'userid']);
+        $acktable->add_index('time_idx', XMLDB_INDEX_NOTUNIQUE, ['timeconfirmed']);
+        if (!$dbman->table_exists($acktable)) {
+            $dbman->create_table($acktable);
+        }
+
+        upgrade_mod_savepoint(true, 2026060434, 'videotrack');
+    }
+
     return true;
 }

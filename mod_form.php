@@ -888,6 +888,37 @@ class mod_videotrack_mod_form extends moodleform_mod {
             ])
         );
 
+        $mform->addElement(
+            'header',
+            'acknowledgementheader',
+            get_string('acknowledgement:header', 'mod_videotrack')
+        );
+        $mform->setExpanded('acknowledgementheader', false);
+        $mform->addElement(
+            'advcheckbox',
+            'acknowledgementenabled',
+            get_string('acknowledgement:enabled', 'mod_videotrack'),
+            get_string('acknowledgement:enabled_desc', 'mod_videotrack')
+        );
+        $mform->setType('acknowledgementenabled', PARAM_BOOL);
+        $mform->setDefault('acknowledgementenabled', 0);
+        $acknowledgementoptions = [
+            'context' => $this->context,
+            'maxfiles' => 0,
+            'maxbytes' => 0,
+            'trusttext' => false,
+            'noclean' => false,
+        ];
+        $mform->addElement(
+            'editor',
+            'acknowledgement_editor',
+            get_string('acknowledgement:text', 'mod_videotrack'),
+            null,
+            $acknowledgementoptions
+        );
+        $mform->addHelpButton('acknowledgement_editor', 'acknowledgement:text', 'mod_videotrack');
+        $mform->disabledIf('acknowledgement_editor', 'acknowledgementenabled', 'notchecked');
+
         $mform->addElement('advcheckbox', 'showreactionnotice', get_string('showreactionnotice', 'mod_videotrack'));
 
         $mform->setType('showreactionnotice', PARAM_BOOL);
@@ -1223,11 +1254,22 @@ JS);
             false
         );
 
+        $mform->addElement(
+            'advcheckbox',
+            'completionacknowledgement',
+            get_string('completionacknowledgement', 'mod_videotrack'),
+            get_string('completionacknowledgement_desc', 'mod_videotrack')
+        );
+        $mform->setType('completionacknowledgement', PARAM_BOOL);
+        $mform->setDefault('completionacknowledgement', 0);
+        $mform->disabledIf('completionacknowledgement', 'acknowledgementenabled', 'notchecked');
+
         if (!$canoverride) {
             $mform->freeze('completionpercentgroup');
+            $mform->freeze('completionacknowledgement');
         }
 
-        return ['completionpercentgroup'];
+        return ['completionpercentgroup', 'completionacknowledgement'];
     }
 
     /**
@@ -1239,7 +1281,8 @@ JS);
     public function completion_rule_enabled($data) {
         return (!empty($data['completionpercent']) && (int)$data['completionpercent'] > 0) ||
             (!empty($data['reactionsrequired']) && !empty($data['minreactions'])) ||
-            !empty($data['requireallreactiontypes']);
+            !empty($data['requireallreactiontypes']) ||
+            !empty($data['completionacknowledgement']);
     }
 
     /**
@@ -1301,6 +1344,11 @@ JS);
                 $defaultvalues[$field] = file_get_submitted_draft_itemid($field);
             }
         }
+        $defaultvalues['acknowledgement_editor'] = [
+            'text' => (string)($defaultvalues['acknowledgementtext'] ?? ''),
+            'format' => (int)($defaultvalues['acknowledgementformat'] ?? FORMAT_HTML),
+        ];
+
         if (!isset($defaultvalues['completionpercent'])) {
             $defaultvalues['completionpercent'] = 0;
         }
@@ -1713,6 +1761,19 @@ JS);
                 if ($description === '') {
                     $errors['reactiondescription[' . $i . ']'] = get_string('required');
                 }
+            }
+        }
+
+        if (!empty($data['acknowledgementenabled'])) {
+            $acknowledgementeditor = $data['acknowledgement_editor'] ?? [];
+            $acknowledgementtext = is_array($acknowledgementeditor)
+                ? (string)($acknowledgementeditor['text'] ?? '')
+                : '';
+            if (!\mod_videotrack\local\acknowledgement::has_visible_text($acknowledgementtext)) {
+                $errors['acknowledgement_editor'] = get_string(
+                    'acknowledgement:errorstatementrequired',
+                    'mod_videotrack'
+                );
             }
         }
 

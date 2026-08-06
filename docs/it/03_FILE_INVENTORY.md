@@ -283,3 +283,10 @@ I seguenti file distribuiti sono stati aggiunti dopo l'inventario statico origin
 - `tests/integrity_test.php`: test validazione eventi, mascheramento privacy e limiti casuali.
 - `tests/save_integrity_event_test.php`: verifica che la dichiarazione dei parametri esterni usi tipi supportati da Moodle.
 - `docs/en/11_INTEGRITY_AND_FOCUS.md`, `docs/it/11_INTEGRITY_AND_FOCUS.md`: specifica funzionale, privacy e regressione.
+
+## File della presa visione (1.6.19)
+
+- `classes/local/acknowledgement.php`: identità della versione, query della conferma corrente e persistenza idempotente.
+- `classes/event/acknowledgement_confirmed.php`: evento Moodle emesso dopo una nuova conferma.
+- `tests/acknowledgement_test.php`: test su hash della dichiarazione e presenza di testo visibile.
+- `docs/en/12_ACKNOWLEDGEMENT.md` e `docs/it/12_ACKNOWLEDGEMENT.md`: specifica funzionale, completamento, privacy e ciclo di vita.

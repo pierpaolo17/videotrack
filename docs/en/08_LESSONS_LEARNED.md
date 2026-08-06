@@ -23,3 +23,7 @@ The control must be server-side. The UI can remove optimistic rows when the serv
 ## Bookmark privacy boundary
 
 A private study tool can still contribute to aggregate teaching analytics, but the privacy boundary must be explicit: teacher output may contain only threshold-protected event and distinct-user counts. Labels, individual timestamps and owner lists must remain outside teacher queries, charts and exports.
+
+## Version compliance acknowledgements by content, not by a mutable flag
+
+A confirmation must be bound to the exact teacher-authored statement. Store a non-reversible content/version hash with the timestamp, keep confirmation idempotent and never treat a confirmation for old text as satisfying the current statement. Do not duplicate the full statement in every user record.

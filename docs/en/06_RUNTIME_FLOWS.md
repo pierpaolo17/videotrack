@@ -109,3 +109,18 @@ The same `userid` is treated as one viewer even when present in multiple courses
 ## Integrity and focus flow (1.6.18)
 
 Visibility/player callback -> player-specific facade -> shared `focus_guard` -> optional pause and student status -> debounced AJAX signal -> `{videotrack_integrity}` -> capability/group/privacy-safe teacher report. The flow never mutates watched intervals, completion or grades. Random deadlines restart after learner interactions and run only while playback is active.
+
+## Optional acknowledgement flow (1.6.19)
+
+```text
+Teacher enables statement and optionally completion rule
+    -> lib.php stores formatted text and format
+    -> learner opens view.php
+    -> current statement hash is compared with the learner record
+    -> learner selects the explicit checkbox and submits POST + sesskey
+    -> acknowledgement::confirm() inserts once and emits Moodle event
+    -> tracker aggregate state and Moodle custom completion are refreshed
+    -> reports/CSV expose current status and date
+```
+
+A text or format change creates a different hash. The learner must confirm again; old confirmations remain available only for audit/privacy export until erased or expired.

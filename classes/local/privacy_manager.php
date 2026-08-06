@@ -158,6 +158,7 @@ class privacy_manager {
             $DB->delete_records('videotrack_integrity', ['cmid' => $cmid, 'userid' => $userid]);
             $DB->delete_records('videotrack_seg', ['cmid' => $cmid, 'userid' => $userid]);
             $DB->delete_records('videotrack_state', ['cmid' => $cmid, 'userid' => $userid]);
+            $DB->delete_records('videotrack_acknowledge', ['cmid' => $cmid, 'userid' => $userid]);
             $transaction->allow_commit();
         } catch (\Throwable $e) {
             $transaction->rollback($e);
@@ -184,6 +185,7 @@ class privacy_manager {
             $DB->delete_records('videotrack_integrity', ['cmid' => $cmid]);
             $DB->delete_records('videotrack_seg', ['cmid' => $cmid]);
             $DB->delete_records('videotrack_state', ['cmid' => $cmid]);
+            $DB->delete_records('videotrack_acknowledge', ['cmid' => $cmid]);
             $transaction->allow_commit();
         } catch (\Throwable $e) {
             $transaction->rollback($e);
@@ -242,12 +244,17 @@ class privacy_manager {
                  UNION
                 SELECT DISTINCT userid
                   FROM {videotrack_integrity}
-                 WHERE cmid = :integritycmid AND userid > 0";
+                 WHERE cmid = :integritycmid AND userid > 0
+                 UNION
+                SELECT DISTINCT userid
+                  FROM {videotrack_acknowledge}
+                 WHERE cmid = :ackcmid AND userid > 0";
         $records = $DB->get_recordset_sql($sql, [
             'segcmid' => $cmid,
             'statecmid' => $cmid,
             'eventcmid' => $cmid,
             'integritycmid' => $cmid,
+            'ackcmid' => $cmid,
         ]);
         $userids = [];
         foreach ($records as $record) {
@@ -310,6 +317,12 @@ class privacy_manager {
             $DB->execute(
                 "UPDATE {videotrack_integrity}
                     SET userid = :anonuserid, sessionid = :sessionid, videotime = 0
+                  WHERE cmid = :cmid AND userid = :userid",
+                $params
+            );
+            $DB->execute(
+                "UPDATE {videotrack_acknowledge}
+                    SET userid = :anonuserid
                   WHERE cmid = :cmid AND userid = :userid",
                 $params
             );
@@ -377,12 +390,17 @@ class privacy_manager {
                  UNION
                 SELECT DISTINCT userid, cmid
                   FROM {videotrack_integrity}
-                 WHERE userid > 0 AND timecreated < :integritycutoff";
+                 WHERE userid > 0 AND timecreated < :integritycutoff
+                 UNION
+                SELECT DISTINCT userid, cmid
+                  FROM {videotrack_acknowledge}
+                 WHERE userid > 0 AND timeconfirmed < :ackcutoff";
         $params = [
             'segcutoff' => $cutoff,
             'eventcutoff' => $cutoff,
             'statecutoff' => $cutoff,
             'integritycutoff' => $cutoff,
+            'ackcutoff' => $cutoff,
         ];
 
         $records = $DB->get_recordset_sql($sql, $params, 0, self::RETENTION_BATCH_LIMIT + 1);
@@ -488,6 +506,13 @@ class privacy_manager {
                 'userid' => $userid,
                 'cutoff' => $cutoff,
             ]
+        );
+
+        // Acknowledgement records are audit-like personal data and are deleted, not pseudonymised, after retention.
+        $DB->delete_records_select(
+            'videotrack_acknowledge',
+            'cmid = ? AND userid = ? AND timeconfirmed < ?',
+            [$cmid, $userid, $cutoff]
         );
 
         $transaction->allow_commit();

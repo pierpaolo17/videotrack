@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8" ?>
-<XMLDB PATH="mod/videotrack/db" VERSION="2026060432" COMMENT="XMLDB file for mod_videotrack"
+<XMLDB PATH="mod/videotrack/db" VERSION="2026060434" COMMENT="XMLDB file for mod_videotrack"
     xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
     xsi:noNamespaceSchemaLocation="../../../lib/xmldb/xmldb.xsd"
 >
@@ -44,6 +44,10 @@
         <FIELD NAME="pauseonfocusloss" TYPE="int" LENGTH="1" NOTNULL="true" DEFAULT="0" COMMENT="Pause playback when the page loses visibility or window focus"/>
         <FIELD NAME="preventpictureinpicture" TYPE="int" LENGTH="1" NOTNULL="true" DEFAULT="0" COMMENT="Best-effort prevention of Picture-in-Picture playback"/>
         <FIELD NAME="randomfocuspauses" TYPE="int" LENGTH="1" NOTNULL="true" DEFAULT="0" COMMENT="Pause playback after a random active interval to prompt learner attention"/>
+        <FIELD NAME="acknowledgementenabled" TYPE="int" LENGTH="1" NOTNULL="true" DEFAULT="0" COMMENT="Require an explicit learner acknowledgement for the configured statement"/>
+        <FIELD NAME="acknowledgementtext" TYPE="text" NOTNULL="false" COMMENT="Teacher-authored acknowledgement statement"/>
+        <FIELD NAME="acknowledgementformat" TYPE="int" LENGTH="4" NOTNULL="true" DEFAULT="1" COMMENT="Text format for acknowledgement statement"/>
+        <FIELD NAME="completionacknowledgement" TYPE="int" LENGTH="1" NOTNULL="true" DEFAULT="0" COMMENT="Use current acknowledgement as a custom completion condition"/>
         <FIELD NAME="forumpostingenabled" TYPE="int" LENGTH="1" NOTNULL="true" DEFAULT="0" COMMENT="Allow students to compose a forum discussion from the current video time"/>
         <FIELD NAME="linkedforumid" TYPE="int" LENGTH="10" NOTNULL="true" DEFAULT="0" COMMENT="Linked forum instance id in the same course"/>
         <FIELD NAME="forumsubjecttemplate" TYPE="text" NOTNULL="false" COMMENT="Forum discussion subject template with {timestamp} and {activity} placeholders"/>
@@ -208,6 +212,27 @@
         <INDEX NAME="vt_user_del_type_time_idx" UNIQUE="false" FIELDS="videotrackid, userid, isdeleted, notetype, timecreated"/>
         <INDEX NAME="vt_user_reaction_del_time_idx" UNIQUE="false" FIELDS="videotrackid, userid, reactionid, isdeleted, timecreated"/>
         <INDEX NAME="vt_user_note_del_time_idx" UNIQUE="false" FIELDS="videotrackid, userid, notetype, isdeleted, timecreated"/>
+      </INDEXES>
+    </TABLE>
+
+    <TABLE NAME="videotrack_acknowledge" COMMENT="Explicit learner acknowledgements of versioned activity statements">
+      <FIELDS>
+        <FIELD NAME="id" TYPE="int" LENGTH="10" NOTNULL="true" SEQUENCE="true"/>
+        <FIELD NAME="videotrackid" TYPE="int" LENGTH="10" NOTNULL="true" DEFAULT="0"/>
+        <FIELD NAME="courseid" TYPE="int" LENGTH="10" NOTNULL="true" DEFAULT="0"/>
+        <FIELD NAME="cmid" TYPE="int" LENGTH="10" NOTNULL="true" DEFAULT="0"/>
+        <FIELD NAME="userid" TYPE="int" LENGTH="10" NOTNULL="true" DEFAULT="0"/>
+        <FIELD NAME="statementhash" TYPE="char" LENGTH="64" NOTNULL="true"/>
+        <FIELD NAME="instanceversion" TYPE="int" LENGTH="10" NOTNULL="true" DEFAULT="0"/>
+        <FIELD NAME="timeconfirmed" TYPE="int" LENGTH="10" NOTNULL="true" DEFAULT="0"/>
+      </FIELDS>
+      <KEYS>
+        <KEY NAME="primary" TYPE="primary" FIELDS="id"/>
+      </KEYS>
+      <INDEXES>
+        <INDEX NAME="vt_user_hash_uix" UNIQUE="true" FIELDS="videotrackid, userid, statementhash"/>
+        <INDEX NAME="cm_user_idx" UNIQUE="false" FIELDS="cmid, userid"/>
+        <INDEX NAME="time_idx" UNIQUE="false" FIELDS="timeconfirmed"/>
       </INDEXES>
     </TABLE>
   </TABLES>

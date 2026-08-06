@@ -30,6 +30,7 @@ global $DB, $USER, $CFG, $PAGE, $OUTPUT;
 
 $id = optional_param('id', 0, PARAM_INT);
 $n = optional_param('n', 0, PARAM_INT);
+$ackaction = optional_param('ackaction', '', PARAM_ALPHA);
 if ($id) {
     $cm = get_coursemodule_from_id('videotrack', $id, 0, false, MUST_EXIST);
     $course = $DB->get_record('course', ['id' => $cm->course], '*', MUST_EXIST);
@@ -44,11 +45,37 @@ $cm = cm_info::create($cm); // Moodle 4+: set_module_viewed and completion funct
 $context = context_module::instance($cm->id);
 require_capability('mod/videotrack:view', $context);
 
+if ($ackaction === 'confirm') {
+    if ($_SERVER['REQUEST_METHOD'] !== 'POST') {
+        throw new moodle_exception('invalidrequest', 'error');
+    }
+    require_sesskey();
+    if (isguestuser() || empty(optional_param('ackconfirm', 0, PARAM_BOOL))) {
+        throw new moodle_exception('acknowledgement:confirmationrequired', 'mod_videotrack');
+    }
+    \mod_videotrack\local\acknowledgement::confirm($videotrack, (int)$cm->id, (int)$USER->id);
+    if (!empty($videotrack->completionacknowledgement)) {
+        \mod_videotrack\local\tracker::refresh_completion($videotrack, $cm, (int)$USER->id);
+        $completion = new completion_info($course);
+        $completion->update_state($cm, COMPLETION_UNKNOWN, (int)$USER->id);
+    }
+    redirect(
+        new moodle_url('/mod/videotrack/view.php', ['id' => $cm->id]),
+        get_string('acknowledgement:confirmedsuccess', 'mod_videotrack'),
+        null,
+        \core\output\notification::NOTIFY_SUCCESS
+    );
+}
+
 // Register the view, course_module_viewed event and view-based completion.
 videotrack_view($videotrack, $course, $cm, $context);
 
 $reactions = array_values(videotrack_get_reactions($videotrack->id));
 $state = $DB->get_record('videotrack_state', ['videotrackid' => $videotrack->id, 'userid' => $USER->id]);
+$acknowledgementrecord = \mod_videotrack\local\acknowledgement::current_record(
+    $videotrack,
+    (int)$USER->id
+);
 $showstudentreactions = !empty($videotrack->reactionsenabled);
 // Reused by the personal reaction list and by the unique-reaction fallback below.
 $eventwhere = "videotrackid = :vtid AND userid = :uid AND isdeleted = 0 AND (notetype = '' OR notetype IS NULL)";
@@ -1024,5 +1051,84 @@ if ($showstudentreactions) {
 echo html_writer::end_div(); // Videotrack-sidebar.
 echo html_writer::end_div(); // Videotrack-layout.
 echo html_writer::end_div(); // Videotrack-player-shell.
+
+if (\mod_videotrack\local\acknowledgement::is_enabled($videotrack)) {
+    echo html_writer::start_tag('section', [
+        'class' => 'videotrack-acknowledgement card mt-4',
+        'aria-labelledby' => 'videotrack-acknowledgement-title',
+    ]);
+    echo html_writer::start_div('card-body');
+    echo html_writer::tag(
+        'h3',
+        get_string('acknowledgement:heading', 'mod_videotrack'),
+        ['id' => 'videotrack-acknowledgement-title', 'class' => 'h5']
+    );
+    echo html_writer::div(
+        format_text(
+            (string)$videotrack->acknowledgementtext,
+            (int)$videotrack->acknowledgementformat,
+            ['context' => $context, 'trusted' => false]
+        ),
+        'videotrack-acknowledgement-statement mb-3'
+    );
+    if ($acknowledgementrecord) {
+        echo $OUTPUT->notification(
+            get_string('acknowledgement:confirmedat', 'mod_videotrack', userdate(
+                (int)$acknowledgementrecord->timeconfirmed,
+                get_string('strftimedatetimeshort', 'langconfig')
+            )),
+            \core\output\notification::NOTIFY_SUCCESS
+        );
+    } else if (isguestuser()) {
+        echo $OUTPUT->notification(
+            get_string('acknowledgement:guestunavailable', 'mod_videotrack'),
+            \core\output\notification::NOTIFY_INFO
+        );
+    } else {
+        $form = html_writer::start_tag('form', [
+            'method' => 'post',
+            'action' => (new moodle_url('/mod/videotrack/view.php', ['id' => $cm->id]))->out(false),
+            'class' => 'videotrack-acknowledgement-form',
+        ]);
+        $form .= html_writer::empty_tag('input', [
+            'type' => 'hidden',
+            'name' => 'sesskey',
+            'value' => sesskey(),
+        ]);
+        $form .= html_writer::empty_tag('input', [
+            'type' => 'hidden',
+            'name' => 'ackaction',
+            'value' => 'confirm',
+        ]);
+        $form .= html_writer::start_div('form-check mb-3');
+        $form .= html_writer::empty_tag('input', [
+            'type' => 'checkbox',
+            'name' => 'ackconfirm',
+            'id' => 'id_ackconfirm',
+            'value' => 1,
+            'class' => 'form-check-input',
+            'required' => 'required',
+        ]);
+        $form .= html_writer::label(
+            get_string('acknowledgement:checkboxlabel', 'mod_videotrack'),
+            'id_ackconfirm',
+            false,
+            ['class' => 'form-check-label']
+        );
+        $form .= html_writer::end_div();
+        $form .= html_writer::tag('button', get_string('acknowledgement:confirmbutton', 'mod_videotrack'), [
+            'type' => 'submit',
+            'class' => 'btn btn-primary',
+        ]);
+        echo $form . html_writer::end_tag('form');
+    }
+    echo html_writer::tag(
+        'p',
+        get_string('acknowledgement:privacyhint', 'mod_videotrack'),
+        ['class' => 'small text-muted mt-3 mb-0']
+    );
+    echo html_writer::end_div();
+    echo html_writer::end_tag('section');
+}
 
 echo $OUTPUT->footer();

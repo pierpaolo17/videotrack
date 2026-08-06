@@ -140,3 +140,10 @@ Le variabili sono rilevate staticamente. L’inventario serve come mappa per ori
 - Configurazione sito: `randompauseminseconds`, `randompausemaxseconds`, `focuslosspolicy`, `focuslossgraceseconds`.
 - Limiti casuali: predefiniti `RANDOM_PAUSE_DEFAULT_MIN_SECONDS = 300` e `RANDOM_PAUSE_DEFAULT_MAX_SECONDS = 1800`; intervallo sito consentito 60–7200 secondi.
 - Campi segnale: `videotrackid`, `courseid`, `cmid`, `userid`, `videoid`, `sessionid`, `eventtype`, `videotime`, `timecreated`.
+
+## Campi e stato della presa visione (1.6.19)
+
+- Campi istanza: `acknowledgementenabled`, `acknowledgementtext`, `acknowledgementformat`, `completionacknowledgement`.
+- Campi conferma: `videotrackid`, `courseid`, `cmid`, `userid`, `statementhash`, `instanceversion`, `timeconfirmed`.
+- Stato vista/report: `ackaction`, `ackconfirm`, `acknowledgementrecord`, `acknowledgementrecords`, `acknowledgementuserids`.
+- La versione corrente canonica è `SHA-256(formato + "\n" + testo memorizzato)`; i record precedenti restano nello storico ma non soddisfano la regola corrente.

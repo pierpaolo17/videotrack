@@ -131,3 +131,7 @@ Prima di rilasciare una patch documentale, verificare:
 ## Esito audit 1.6.16
 
 L'implementazione dei segnalibri è ora coperta dagli inventari di architettura, file, funzioni, variabili e flussi runtime e dal documento dedicato `10_BOOKMARKS_AND_ANALYTICS.md`. La parità delle chiavi è completa negli otto language pack; le stringhe recenti di segnalibri e dashboard docente non ricadono più sull'inglese nei sei pacchetti che contenevano placeholder.
+
+## Esito audit 1.6.19
+
+La presa visione opzionale è coperta da architettura, inventari di file/funzioni/variabili, flusso runtime, checklist di regressione e documento dedicato `12_ACKNOWLEDGEMENT.md`. La documentazione descrive regola dell’hash corrente, conferma POST esplicita, completamento, output docente, Privacy API, retention e limiti di backup/restore.

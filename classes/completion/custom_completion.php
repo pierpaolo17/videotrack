@@ -39,6 +39,7 @@ class custom_completion extends activity_custom_completion {
             'minreactions',
             'requiredreactions',
             'allreactiontypes',
+            'acknowledgement',
         ];
     }
 
@@ -48,7 +49,7 @@ class custom_completion extends activity_custom_completion {
      * @return array
      */
     public static function get_defined_custom_rules(): array {
-        return ['completionpercent', 'minreactions', 'requiredreactions', 'allreactiontypes'];
+        return ['completionpercent', 'minreactions', 'requiredreactions', 'allreactiontypes', 'acknowledgement'];
     }
 
     /**
@@ -104,6 +105,15 @@ class custom_completion extends activity_custom_completion {
                 array_map('intval', $requiredids),
                 array_map('intval', $summary['uniqueids'])
             )) === count($requiredids) ? COMPLETION_COMPLETE : COMPLETION_INCOMPLETE;
+        }
+
+        if ($rule === 'acknowledgement') {
+            if (empty($instance->completionacknowledgement) || empty($instance->acknowledgementenabled)) {
+                return COMPLETION_INCOMPLETE;
+            }
+            return \mod_videotrack\local\acknowledgement::current_record($instance, $this->userid)
+                ? COMPLETION_COMPLETE
+                : COMPLETION_INCOMPLETE;
         }
 
         if ($rule === 'allreactiontypes') {
@@ -165,6 +175,13 @@ class custom_completion extends activity_custom_completion {
 
         if (!empty($instance->requireallreactiontypes)) {
             $descriptions['allreactiontypes'] = get_string('completiondetail:allreactiontypes', 'mod_videotrack');
+        }
+
+        if (!empty($instance->completionacknowledgement) && !empty($instance->acknowledgementenabled)) {
+            $descriptions['acknowledgement'] = get_string(
+                'completiondetail:acknowledgement',
+                'mod_videotrack'
+            );
         }
 
         return $descriptions;
