@@ -28,6 +28,15 @@ use stdClass;
  * @license    https://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 final class acknowledgement {
+    /** Confirmation can be submitted at any point. */
+    public const TIMING_ANYTIME = 0;
+
+    /** Confirmation requires the final video second to have been reached. */
+    public const TIMING_VIDEO_END = 1;
+
+    /** Tolerance used when comparing tracked video time with the media duration. */
+    private const END_TOLERANCE_SECONDS = 1.0;
+
     /**
      * Return whether the current activity contains an enabled acknowledgement statement.
      *
@@ -52,7 +61,32 @@ final class acknowledgement {
     }
 
     /**
+     * Return the configured acknowledgement timing policy.
+     *
+     * @param stdClass $instance Activity instance.
+     * @return int One of the TIMING_* constants.
+     */
+    public static function timing(stdClass $instance): int {
+        $timing = (int)($instance->acknowledgementtiming ?? self::TIMING_ANYTIME);
+        return in_array($timing, [self::TIMING_ANYTIME, self::TIMING_VIDEO_END], true)
+            ? $timing
+            : self::TIMING_ANYTIME;
+    }
+
+    /**
+     * Return whether the statement requires the final video second.
+     *
+     * @param stdClass $instance Activity instance.
+     * @return bool
+     */
+    public static function requires_video_end(stdClass $instance): bool {
+        return self::timing($instance) === self::TIMING_VIDEO_END;
+    }
+
+    /**
      * Build the stable hash used to identify the current statement version.
+     *
+     * Confirmation timing is part of the policy and therefore part of the version identity.
      *
      * @param stdClass $instance Activity instance.
      * @return string SHA-256 hash.
@@ -60,7 +94,76 @@ final class acknowledgement {
     public static function statement_hash(stdClass $instance): string {
         $format = (int)($instance->acknowledgementformat ?? FORMAT_HTML);
         $text = trim((string)($instance->acknowledgementtext ?? ''));
-        return hash('sha256', $format . "\n" . $text);
+        $policy = self::timing($instance) === self::TIMING_VIDEO_END ? "videoend\n" : '';
+        return hash('sha256', $policy . $format . "\n" . $text);
+    }
+
+    /**
+     * Build the immutable viewing snapshot stored with a confirmation.
+     *
+     * @param stdClass $instance Activity instance.
+     * @param stdClass|null $state Current aggregate tracking state.
+     * @return array{viewedseconds: float, viewedpercent: float, duration: float, reachedend: bool}
+     */
+    public static function progress_snapshot(stdClass $instance, ?stdClass $state): array {
+        $duration = max(
+            0.0,
+            (float)($instance->durationseconds ?? 0),
+            (float)($state->durationseconds ?? 0)
+        );
+        $viewedseconds = max(0.0, (float)($state->uniquecoveredseconds ?? 0));
+        if ($duration > 0) {
+            $viewedseconds = min($duration, $viewedseconds);
+            $viewedpercent = min(100.0, round(($viewedseconds / $duration) * 100, 2));
+        } else {
+            $viewedpercent = min(100.0, max(0.0, (float)($state->completionpercent ?? 0)));
+        }
+
+        return [
+            'viewedseconds' => round($viewedseconds, 3),
+            'viewedpercent' => round($viewedpercent, 2),
+            'duration' => round($duration, 3),
+            'reachedend' => self::has_reached_video_end($instance, $state),
+        ];
+    }
+
+    /**
+     * Return whether persisted tracking proves that the final video second was reached.
+     *
+     * @param stdClass $instance Activity instance.
+     * @param stdClass|null $state Current aggregate tracking state.
+     * @return bool
+     */
+    public static function has_reached_video_end(stdClass $instance, ?stdClass $state): bool {
+        if (!$state) {
+            return false;
+        }
+        $duration = max(
+            0.0,
+            (float)($instance->durationseconds ?? 0),
+            (float)($state->durationseconds ?? 0)
+        );
+        if ($duration <= 0) {
+            return false;
+        }
+        $threshold = max(0.0, $duration - self::END_TOLERANCE_SECONDS);
+        $furthest = max(0.0, (float)($state->lastposition ?? 0));
+        foreach (tracker::decode_intervals((string)($state->intervaljson ?? '[]')) as $interval) {
+            $furthest = max($furthest, (float)$interval[1]);
+        }
+        return $furthest >= $threshold;
+    }
+
+    /**
+     * Return whether the user may submit the current statement now.
+     *
+     * @param stdClass $instance Activity instance.
+     * @param stdClass|null $state Current aggregate tracking state.
+     * @return bool
+     */
+    public static function can_confirm(stdClass $instance, ?stdClass $state): bool {
+        return self::is_enabled($instance)
+            && (!self::requires_video_end($instance) || self::has_reached_video_end($instance, $state));
     }
 
     /**
@@ -105,6 +208,14 @@ final class acknowledgement {
             return $existing;
         }
 
+        $state = $DB->get_record('videotrack_state', [
+            'videotrackid' => (int)$instance->id,
+            'userid' => $userid,
+        ]);
+        if (!self::can_confirm($instance, $state ?: null)) {
+            throw new moodle_exception('acknowledgement:videoendrequired', 'mod_videotrack');
+        }
+        $snapshot = self::progress_snapshot($instance, $state ?: null);
         $now = time();
         $record = (object)[
             'videotrackid' => (int)$instance->id,
@@ -113,6 +224,8 @@ final class acknowledgement {
             'userid' => $userid,
             'statementhash' => self::statement_hash($instance),
             'instanceversion' => (int)($instance->timemodified ?? 0),
+            'viewedseconds' => $snapshot['viewedseconds'],
+            'viewedpercent' => $snapshot['viewedpercent'],
             'timeconfirmed' => $now,
         ];
         try {

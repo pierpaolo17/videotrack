@@ -108,3 +108,4 @@ Eseguire la matrice sui tre player descritta in `11_INTEGRITY_AND_FOCUS.md`. Poi
 - Verificare il rifiuto di POST senza sesskey o senza casella selezionata.
 - Verificare completamento basato solo sulla presa visione e combinato con altre regole.
 - Verificare report/CSV, Privacy API, backup/restore, retention e reset utente/corso/attività.
+- Verificare entrambe le modalità temporali della presa visione e che i report conservino secondi e percentuale registrati al momento della conferma.

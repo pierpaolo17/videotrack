@@ -29,6 +29,8 @@
 | amd/build/core/events.min.js.map | Generated AMD artifact; do not edit manually. |
 | amd/build/core/player.min.js | Generated AMD artifact; do not edit manually. |
 | amd/build/core/player.min.js.map | Generated AMD artifact; do not edit manually. |
+| amd/build/core/player/acknowledgement.min.js | Generated AMD artifact; do not edit manually. |
+| amd/build/core/player/acknowledgement.min.js.map | Generated AMD artifact; do not edit manually. |
 | amd/build/core/player/intervalbar.min.js | Generated AMD artifact; do not edit manually. |
 | amd/build/core/player/intervalbar.min.js.map | Generated AMD artifact; do not edit manually. |
 | amd/build/core/player/notes.min.js | Generated AMD artifact; do not edit manually. |
@@ -290,3 +292,4 @@ The following shipped files were added after the original static inventory and a
 - `classes/event/acknowledgement_confirmed.php`: Moodle audit event emitted after a new confirmation.
 - `tests/acknowledgement_test.php`: statement hashing and visible-text activation tests.
 - `docs/en/12_ACKNOWLEDGEMENT.md` and `docs/it/12_ACKNOWLEDGEMENT.md`: functional, completion, privacy and lifecycle specification.
+- `amd/src/core/player/acknowledgement.js`: enables end-gated confirmation controls after the final segment save.

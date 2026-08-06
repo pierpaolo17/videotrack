@@ -1067,7 +1067,9 @@ define([
             state.ended = true;
             reactionState.readyAnnounced = false;
             stopHeartbeat();
-            closeSegment('ended');
+            closeSegment('ended').then(function() {
+                Ui.notifyVideoEnded();
+            });
             setReactionButtons(false); // Disable buttons at the end of the video.
         });
 

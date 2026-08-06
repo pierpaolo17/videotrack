@@ -2615,6 +2615,8 @@ if ($export === 'csv') {
         if (\mod_videotrack\local\acknowledgement::is_enabled($videotrack)) {
             $csvheads[] = get_string('report:acknowledgement_status', 'mod_videotrack');
             $csvheads[] = get_string('report:acknowledgement_date', 'mod_videotrack');
+            $csvheads[] = get_string('report:acknowledgement_viewedseconds', 'mod_videotrack');
+            $csvheads[] = get_string('report:acknowledgement_viewedpercent', 'mod_videotrack');
         }
         if ($hasgrade && $cangrade) {
             $csvheads[] = get_string('report:grade', 'mod_videotrack');
@@ -2653,6 +2655,13 @@ if ($export === 'csv') {
                 $row[] = $ackrecord
                     ? userdate((int)$ackrecord->timeconfirmed, get_string('strftimedatetimeshort', 'langconfig'))
                     : '';
+                $hasackprogress = $ackrecord
+                    && $ackrecord->viewedseconds !== null
+                    && $ackrecord->viewedpercent !== null;
+                $row[] = $hasackprogress
+                    ? format_float((float)$ackrecord->viewedseconds, 3)
+                    : ($ackrecord ? get_string('report:acknowledgement_progressunavailable', 'mod_videotrack') : '');
+                $row[] = $hasackprogress ? format_float((float)$ackrecord->viewedpercent, 2) : '';
             }
             if ($hasgrade && $cangrade) {
                 $row[] = $gradeinfo->items[0]->grades[$userid]->grade ?? '';
@@ -3084,6 +3093,9 @@ if ($mode === 'student') {
         }
         if (\mod_videotrack\local\acknowledgement::is_enabled($videotrack)) {
             $heads[] = get_string('report:acknowledgement_status', 'mod_videotrack');
+            $heads[] = get_string('report:acknowledgement_date', 'mod_videotrack');
+            $heads[] = get_string('report:acknowledgement_viewedseconds', 'mod_videotrack');
+            $heads[] = get_string('report:acknowledgement_viewedpercent', 'mod_videotrack');
         }
         if ($hasgrade && $cangrade) {
             $heads[] = get_string('report:grade', 'mod_videotrack');
@@ -3119,11 +3131,23 @@ if ($mode === 'student') {
             if (\mod_videotrack\local\acknowledgement::is_enabled($videotrack)) {
                 $ackrecord = $acknowledgementrecords[(int)$state->userid] ?? null;
                 $row[] = $ackrecord
-                    ? get_string('acknowledgement:reportconfirmed', 'mod_videotrack', userdate(
+                    ? get_string('yes', 'mod_videotrack')
+                    : get_string('acknowledgement:reportpending', 'mod_videotrack');
+                $row[] = $ackrecord
+                    ? userdate(
                         (int)$ackrecord->timeconfirmed,
                         get_string('strftimedatetimeshort', 'langconfig')
-                    ))
-                    : get_string('acknowledgement:reportpending', 'mod_videotrack');
+                    )
+                    : '';
+                $hasackprogress = $ackrecord
+                    && $ackrecord->viewedseconds !== null
+                    && $ackrecord->viewedpercent !== null;
+                $row[] = $hasackprogress
+                    ? videotrack_format_seconds((float)$ackrecord->viewedseconds)
+                    : ($ackrecord ? get_string('report:acknowledgement_progressunavailable', 'mod_videotrack') : '');
+                $row[] = $hasackprogress
+                    ? format_float((float)$ackrecord->viewedpercent, 2) . '%'
+                    : '';
             }
 
             if ($hasgrade && $cangrade) {

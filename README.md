@@ -202,4 +202,4 @@ Le attività possono registrare segnali diagnostici limitati e abilitare control
 
 ## Optional acknowledgement
 
-Teachers can configure a versioned learner acknowledgement statement and optionally use confirmation of the current version as an activity-completion condition. See `docs/en/12_ACKNOWLEDGEMENT.md`.
+Teachers can configure a versioned learner acknowledgement statement, choose whether it is available at any time or only after the final video second, and optionally use confirmation of the current version as an activity-completion condition. Teacher reports preserve the viewed seconds and percentage recorded at confirmation time. See `docs/en/12_ACKNOWLEDGEMENT.md`.

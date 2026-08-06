@@ -108,6 +108,8 @@ class provider implements
             'userid' => 'privacy:metadata:videotrack_acknowledge:userid',
             'statementhash' => 'privacy:metadata:videotrack_acknowledge:statementhash',
             'instanceversion' => 'privacy:metadata:videotrack_acknowledge:instanceversion',
+            'viewedseconds' => 'privacy:metadata:videotrack_acknowledge:viewedseconds',
+            'viewedpercent' => 'privacy:metadata:videotrack_acknowledge:viewedpercent',
             'timeconfirmed' => 'privacy:metadata:videotrack_acknowledge:timeconfirmed',
         ], 'privacy:metadata:videotrack_acknowledge');
 
@@ -555,7 +557,7 @@ class provider implements
             $acknowledgements = $DB->get_records('videotrack_acknowledge', [
                 'cmid' => $context->instanceid,
                 'userid' => $userid,
-            ], 'timeconfirmed ASC', 'id, statementhash, instanceversion, timeconfirmed');
+            ], 'timeconfirmed ASC', 'id, statementhash, instanceversion, viewedseconds, viewedpercent, timeconfirmed');
             foreach ($acknowledgements as $acknowledgement) {
                 $acknowledgement->timeconfirmed = transform::datetime((int)$acknowledgement->timeconfirmed);
             }

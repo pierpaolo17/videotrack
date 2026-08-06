@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8" ?>
-<XMLDB PATH="mod/videotrack/db" VERSION="2026060434" COMMENT="XMLDB file for mod_videotrack"
+<XMLDB PATH="mod/videotrack/db" VERSION="2026060435" COMMENT="XMLDB file for mod_videotrack"
     xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
     xsi:noNamespaceSchemaLocation="../../../lib/xmldb/xmldb.xsd"
 >
@@ -47,6 +47,7 @@
         <FIELD NAME="acknowledgementenabled" TYPE="int" LENGTH="1" NOTNULL="true" DEFAULT="0" COMMENT="Require an explicit learner acknowledgement for the configured statement"/>
         <FIELD NAME="acknowledgementtext" TYPE="text" NOTNULL="false" COMMENT="Teacher-authored acknowledgement statement"/>
         <FIELD NAME="acknowledgementformat" TYPE="int" LENGTH="4" NOTNULL="true" DEFAULT="1" COMMENT="Text format for acknowledgement statement"/>
+        <FIELD NAME="acknowledgementtiming" TYPE="int" LENGTH="1" NOTNULL="true" DEFAULT="0" COMMENT="0=confirmation at any time; 1=confirmation only after the final video second"/>
         <FIELD NAME="completionacknowledgement" TYPE="int" LENGTH="1" NOTNULL="true" DEFAULT="0" COMMENT="Use current acknowledgement as a custom completion condition"/>
         <FIELD NAME="forumpostingenabled" TYPE="int" LENGTH="1" NOTNULL="true" DEFAULT="0" COMMENT="Allow students to compose a forum discussion from the current video time"/>
         <FIELD NAME="linkedforumid" TYPE="int" LENGTH="10" NOTNULL="true" DEFAULT="0" COMMENT="Linked forum instance id in the same course"/>
@@ -224,6 +225,8 @@
         <FIELD NAME="userid" TYPE="int" LENGTH="10" NOTNULL="true" DEFAULT="0"/>
         <FIELD NAME="statementhash" TYPE="char" LENGTH="64" NOTNULL="true"/>
         <FIELD NAME="instanceversion" TYPE="int" LENGTH="10" NOTNULL="true" DEFAULT="0"/>
+        <FIELD NAME="viewedseconds" TYPE="number" LENGTH="10" DECIMALS="3" NOTNULL="false" COMMENT="Unique covered seconds at confirmation time; null for legacy confirmations"/>
+        <FIELD NAME="viewedpercent" TYPE="number" LENGTH="6" DECIMALS="2" NOTNULL="false" COMMENT="Video coverage percentage at confirmation time; null for legacy confirmations"/>
         <FIELD NAME="timeconfirmed" TYPE="int" LENGTH="10" NOTNULL="true" DEFAULT="0"/>
       </FIELDS>
       <KEYS>

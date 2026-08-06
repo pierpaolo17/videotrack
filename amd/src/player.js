@@ -577,7 +577,9 @@ define([
             state.ended = true;
             reactionState.readyAnnounced = false;
             setReactionButtons(false); // CRIT-2: disable buttons at video end
-            closeCurrentSegment('ended');
+            closeCurrentSegment('ended').then(function() {
+                Ui.notifyVideoEnded();
+            });
         }
     }
 

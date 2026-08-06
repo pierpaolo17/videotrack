@@ -29,6 +29,8 @@
 | amd/build/core/events.min.js.map | Generated AMD artifact; do not edit manually. |
 | amd/build/core/player.min.js | Generated AMD artifact; do not edit manually. |
 | amd/build/core/player.min.js.map | Generated AMD artifact; do not edit manually. |
+| amd/build/core/player/acknowledgement.min.js | Generated AMD artifact; do not edit manually. |
+| amd/build/core/player/acknowledgement.min.js.map | Generated AMD artifact; do not edit manually. |
 | amd/build/core/player/intervalbar.min.js | Generated AMD artifact; do not edit manually. |
 | amd/build/core/player/intervalbar.min.js.map | Generated AMD artifact; do not edit manually. |
 | amd/build/core/player/notes.min.js | Generated AMD artifact; do not edit manually. |
@@ -290,3 +292,4 @@ I seguenti file distribuiti sono stati aggiunti dopo l'inventario statico origin
 - `classes/event/acknowledgement_confirmed.php`: evento Moodle emesso dopo una nuova conferma.
 - `tests/acknowledgement_test.php`: test su hash della dichiarazione e presenza di testo visibile.
 - `docs/en/12_ACKNOWLEDGEMENT.md` e `docs/it/12_ACKNOWLEDGEMENT.md`: specifica funzionale, completamento, privacy e ciclo di vita.
+- `amd/src/core/player/acknowledgement.js`: abilita i controlli della conferma vincolata alla fine dopo il salvataggio del segmento finale.

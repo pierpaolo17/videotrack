@@ -1620,5 +1620,53 @@ function xmldb_videotrack_upgrade($oldversion) {
         upgrade_mod_savepoint(true, 2026060434, 'videotrack');
     }
 
+    if ($oldversion < 2026060435) {
+        // Release 1.6.20: acknowledgement timing and immutable viewing snapshot.
+        $table = new xmldb_table('videotrack');
+        $timingfield = new xmldb_field(
+            'acknowledgementtiming',
+            XMLDB_TYPE_INTEGER,
+            '1',
+            null,
+            XMLDB_NOTNULL,
+            null,
+            '0',
+            'acknowledgementformat'
+        );
+        if (!$dbman->field_exists($table, $timingfield)) {
+            $dbman->add_field($table, $timingfield);
+        }
+
+        $acktable = new xmldb_table('videotrack_acknowledge');
+        $viewedsecondsfield = new xmldb_field(
+            'viewedseconds',
+            XMLDB_TYPE_NUMBER,
+            '10, 3',
+            null,
+            null,
+            null,
+            null,
+            'instanceversion'
+        );
+        if (!$dbman->field_exists($acktable, $viewedsecondsfield)) {
+            $dbman->add_field($acktable, $viewedsecondsfield);
+        }
+        $viewedpercentfield = new xmldb_field(
+            'viewedpercent',
+            XMLDB_TYPE_NUMBER,
+            '6, 2',
+            null,
+            null,
+            null,
+            null,
+            'viewedseconds'
+        );
+        if (!$dbman->field_exists($acktable, $viewedpercentfield)) {
+            $dbman->add_field($acktable, $viewedpercentfield);
+        }
+
+        upgrade_mod_savepoint(true, 2026060435, 'videotrack');
+    }
+
     return true;
 }

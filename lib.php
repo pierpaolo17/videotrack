@@ -204,6 +204,11 @@ function videotrack_process_forum_fields(stdClass $data): void {
 function videotrack_process_acknowledgement_fields(stdClass $data): void {
     $data->acknowledgementenabled = empty($data->acknowledgementenabled) ? 0 : 1;
     $data->completionacknowledgement = empty($data->completionacknowledgement) ? 0 : 1;
+    $timing = (int)($data->acknowledgementtiming ?? \mod_videotrack\local\acknowledgement::TIMING_ANYTIME);
+    $data->acknowledgementtiming = in_array($timing, [
+        \mod_videotrack\local\acknowledgement::TIMING_ANYTIME,
+        \mod_videotrack\local\acknowledgement::TIMING_VIDEO_END,
+    ], true) ? $timing : \mod_videotrack\local\acknowledgement::TIMING_ANYTIME;
     if (!empty($data->acknowledgement_editor) && is_array($data->acknowledgement_editor)) {
         $data->acknowledgementtext = (string)($data->acknowledgement_editor['text'] ?? '');
         $data->acknowledgementformat = (int)($data->acknowledgement_editor['format'] ?? FORMAT_HTML);

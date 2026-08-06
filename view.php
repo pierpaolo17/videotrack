@@ -54,8 +54,9 @@ if ($ackaction === 'confirm') {
         throw new moodle_exception('acknowledgement:confirmationrequired', 'mod_videotrack');
     }
     \mod_videotrack\local\acknowledgement::confirm($videotrack, (int)$cm->id, (int)$USER->id);
+    // Ensure acknowledgement-only users have an aggregate row for teacher reports.
+    \mod_videotrack\local\tracker::refresh_completion($videotrack, $cm, (int)$USER->id);
     if (!empty($videotrack->completionacknowledgement)) {
-        \mod_videotrack\local\tracker::refresh_completion($videotrack, $cm, (int)$USER->id);
         $completion = new completion_info($course);
         $completion->update_state($cm, COMPLETION_UNKNOWN, (int)$USER->id);
     }
@@ -75,6 +76,11 @@ $state = $DB->get_record('videotrack_state', ['videotrackid' => $videotrack->id,
 $acknowledgementrecord = \mod_videotrack\local\acknowledgement::current_record(
     $videotrack,
     (int)$USER->id
+);
+$acknowledgementrequiresend = \mod_videotrack\local\acknowledgement::requires_video_end($videotrack);
+$acknowledgementcanconfirm = \mod_videotrack\local\acknowledgement::can_confirm(
+    $videotrack,
+    $state ?: null
 );
 $showstudentreactions = !empty($videotrack->reactionsenabled);
 // Reused by the personal reaction list and by the unique-reaction fallback below.
@@ -323,6 +329,21 @@ if ($source === 'vimeo') {
     $PAGE->requires->js_call_amd('mod_videotrack/html5_player', 'init', [['configid' => $playerconfigid]]);
 } else {
     $PAGE->requires->js_call_amd('mod_videotrack/player', 'init', [['configid' => $playerconfigid]]);
+}
+if (
+    \mod_videotrack\local\acknowledgement::is_enabled($videotrack)
+    && $acknowledgementrequiresend
+    && !$acknowledgementrecord
+    && !$acknowledgementcanconfirm
+    && !isguestuser()
+) {
+    $PAGE->requires->js_call_amd('mod_videotrack/core/player/acknowledgement', 'init', [[
+        'formid' => 'videotrack-acknowledgement-form',
+        'checkboxid' => 'id_ackconfirm',
+        'buttonid' => 'videotrack-acknowledgement-submit',
+        'pendingid' => 'videotrack-acknowledgement-pending',
+        'readylabel' => get_string('acknowledgement:availablevideoend', 'mod_videotrack'),
+    ]]);
 }
 
 echo $OUTPUT->header();
@@ -1085,10 +1106,18 @@ if (\mod_videotrack\local\acknowledgement::is_enabled($videotrack)) {
             \core\output\notification::NOTIFY_INFO
         );
     } else {
+        if ($acknowledgementrequiresend && !$acknowledgementcanconfirm) {
+            echo html_writer::div(
+                get_string('acknowledgement:pendingvideoend', 'mod_videotrack'),
+                'alert alert-info',
+                ['id' => 'videotrack-acknowledgement-pending', 'role' => 'status']
+            );
+        }
         $form = html_writer::start_tag('form', [
             'method' => 'post',
             'action' => (new moodle_url('/mod/videotrack/view.php', ['id' => $cm->id]))->out(false),
             'class' => 'videotrack-acknowledgement-form',
+            'id' => 'videotrack-acknowledgement-form',
         ]);
         $form .= html_writer::empty_tag('input', [
             'type' => 'hidden',
@@ -1101,14 +1130,19 @@ if (\mod_videotrack\local\acknowledgement::is_enabled($videotrack)) {
             'value' => 'confirm',
         ]);
         $form .= html_writer::start_div('form-check mb-3');
-        $form .= html_writer::empty_tag('input', [
+        $checkboxattributes = [
             'type' => 'checkbox',
             'name' => 'ackconfirm',
             'id' => 'id_ackconfirm',
             'value' => 1,
             'class' => 'form-check-input',
             'required' => 'required',
-        ]);
+        ];
+        if (!$acknowledgementcanconfirm) {
+            $checkboxattributes['disabled'] = 'disabled';
+            $checkboxattributes['aria-describedby'] = 'videotrack-acknowledgement-pending';
+        }
+        $form .= html_writer::empty_tag('input', $checkboxattributes);
         $form .= html_writer::label(
             get_string('acknowledgement:checkboxlabel', 'mod_videotrack'),
             'id_ackconfirm',
@@ -1116,10 +1150,19 @@ if (\mod_videotrack\local\acknowledgement::is_enabled($videotrack)) {
             ['class' => 'form-check-label']
         );
         $form .= html_writer::end_div();
-        $form .= html_writer::tag('button', get_string('acknowledgement:confirmbutton', 'mod_videotrack'), [
+        $buttonattributes = [
             'type' => 'submit',
             'class' => 'btn btn-primary',
-        ]);
+            'id' => 'videotrack-acknowledgement-submit',
+        ];
+        if (!$acknowledgementcanconfirm) {
+            $buttonattributes['disabled'] = 'disabled';
+        }
+        $form .= html_writer::tag(
+            'button',
+            get_string('acknowledgement:confirmbutton', 'mod_videotrack'),
+            $buttonattributes
+        );
         echo $form . html_writer::end_tag('form');
     }
     echo html_writer::tag(
