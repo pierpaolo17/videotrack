@@ -133,8 +133,10 @@ Le variabili sono rilevate staticamente. L’inventario serve come mappa per ori
 - Variabili analytics `bookmarkinstances`, `bookmarkanalyticsenabled`, `bookmarksummary`, `bookmarkcounts` e `bookmarkuserids`.
 - Stato client `bookmarkSaveInProgress`; la configurazione include etichette, lunghezza massima e numero massimo di righe renderizzate.
 
-## Variabili integrità e focus (1.6.17)
+## Variabili integrità e focus (1.6.18)
 
 - Booleani istanza: `integrityindicatorsenabled`, `pauseonfocusloss`, `preventpictureinpicture`, `randomfocuspauses`; default `0`.
-- Limiti casuali: `RANDOM_PAUSE_MIN_SECONDS = 301`, `RANDOM_PAUSE_MAX_SECONDS = 1799`.
+
+- Configurazione sito: `randompauseminseconds`, `randompausemaxseconds`, `focuslosspolicy`, `focuslossgraceseconds`.
+- Limiti casuali: predefiniti `RANDOM_PAUSE_DEFAULT_MIN_SECONDS = 300` e `RANDOM_PAUSE_DEFAULT_MAX_SECONDS = 1800`; intervallo sito consentito 60–7200 secondi.
 - Campi segnale: `videotrackid`, `courseid`, `cmid`, `userid`, `videoid`, `sessionid`, `eventtype`, `videotime`, `timecreated`.

@@ -145,6 +145,53 @@ if ($ADMIN->fulltree) {
         50
     ));
 
+    // Integrity indicators and learner focus controls.
+    $settings->add(new admin_setting_heading(
+        'mod_videotrack/heading_integrity',
+        get_string('setting:heading_integrity', 'mod_videotrack'),
+        get_string('setting:heading_integrity_desc', 'mod_videotrack')
+    ));
+
+    $settings->add(new \mod_videotrack\admin\setting_int_range(
+        'mod_videotrack/randompauseminseconds',
+        get_string('setting:randompauseminseconds', 'mod_videotrack'),
+        get_string('setting:randompauseminseconds_desc', 'mod_videotrack'),
+        \mod_videotrack\local\integrity::RANDOM_PAUSE_DEFAULT_MIN_SECONDS,
+        \mod_videotrack\local\integrity::RANDOM_PAUSE_ALLOWED_MIN_SECONDS,
+        \mod_videotrack\local\integrity::RANDOM_PAUSE_ALLOWED_MAX_SECONDS
+    ));
+
+    $settings->add(new \mod_videotrack\admin\setting_int_range(
+        'mod_videotrack/randompausemaxseconds',
+        get_string('setting:randompausemaxseconds', 'mod_videotrack'),
+        get_string('setting:randompausemaxseconds_desc', 'mod_videotrack'),
+        \mod_videotrack\local\integrity::RANDOM_PAUSE_DEFAULT_MAX_SECONDS,
+        \mod_videotrack\local\integrity::RANDOM_PAUSE_ALLOWED_MIN_SECONDS,
+        \mod_videotrack\local\integrity::RANDOM_PAUSE_ALLOWED_MAX_SECONDS
+    ));
+
+    $settings->add(new admin_setting_configselect(
+        'mod_videotrack/focuslosspolicy',
+        get_string('setting:focuslosspolicy', 'mod_videotrack'),
+        get_string('setting:focuslosspolicy_desc', 'mod_videotrack'),
+        \mod_videotrack\local\integrity::FOCUS_POLICY_HIDDEN_ONLY,
+        [
+            \mod_videotrack\local\integrity::FOCUS_POLICY_HIDDEN_ONLY =>
+                get_string('setting:focuslosspolicy_hiddenonly', 'mod_videotrack'),
+            \mod_videotrack\local\integrity::FOCUS_POLICY_STRICT =>
+                get_string('setting:focuslosspolicy_strict', 'mod_videotrack'),
+        ]
+    ));
+
+    $settings->add(new \mod_videotrack\admin\setting_int_range(
+        'mod_videotrack/focuslossgraceseconds',
+        get_string('setting:focuslossgraceseconds', 'mod_videotrack'),
+        get_string('setting:focuslossgraceseconds_desc', 'mod_videotrack'),
+        \mod_videotrack\local\integrity::FOCUS_LOSS_DEFAULT_GRACE_SECONDS,
+        0,
+        \mod_videotrack\local\integrity::FOCUS_LOSS_MAX_GRACE_SECONDS
+    ));
+
     // Accessibility and assistive technology announcements.
     $settings->add(new admin_setting_heading(
         'mod_videotrack/heading_accessibility',

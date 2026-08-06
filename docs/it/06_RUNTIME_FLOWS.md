@@ -106,6 +106,6 @@ Il medesimo `userid` viene trattato come un solo spettatore anche quando compare
 7. L'export del proprietario usa `bookmarks.php`.
 8. I report docente conteggiano soltanto eventi e utenti distinti. Gli Analytics di istanza mostrano sempre la sezione segnalibri quando attiva e mascherano i valori esatti sotto `analyticsminusers`.
 
-## Flusso integrità e focus (1.6.17)
+## Flusso integrità e focus (1.6.18)
 
-Evento di visibilità/player -> facade specifica -> `focus_guard` condiviso -> pausa opzionale e messaggio studente -> segnale AJAX con debounce -> `{videotrack_integrity}` -> report docente con capability, gruppi e privacy. Il flusso non modifica intervalli visti, completamento o voti. I termini casuali ripartono dopo le interazioni e sono attivi solo durante la riproduzione.
+Evento di visibilità/player -> facade specifica -> `focus_guard` condiviso -> pausa opzionale e messaggio studente -> segnale AJAX con debounce -> `{videotrack_integrity}` -> report docente con capability, gruppi e privacy. Il flusso non modifica intervalli visti, completamento o voti. I termini casuali ripartono dopo le interazioni e sono attivi solo durante la riproduzione. Le schede nascoste mettono in pausa immediatamente quando abilitate; la perdita di focus della finestra attende la tolleranza del sito e interrompe solo in modalità rigida.

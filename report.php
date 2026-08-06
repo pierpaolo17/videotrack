@@ -716,9 +716,18 @@ function videotrack_report_render_bookmark_summary(array $summary, int $minusers
  *
  * @param array $summary Per-event-type counts and suppression state.
  * @param int $minusers Privacy threshold.
+ * @param bool $recordingenabled Whether signal recording is enabled in the selected scope.
+ * @param bool $focuscontrolsenabled Whether at least one focus control is enabled in the scope.
+ * @param int $enabledactivitycount Number of activities with signal recording enabled.
  * @return string Summary section.
  */
-function videotrack_report_render_integrity_summary(array $summary, int $minusers): string {
+function videotrack_report_render_integrity_summary(
+    array $summary,
+    int $minusers,
+    bool $recordingenabled = true,
+    bool $focuscontrolsenabled = false,
+    int $enabledactivitycount = 1
+): string {
     global $OUTPUT;
 
     $rows = [];
@@ -747,6 +756,23 @@ function videotrack_report_render_integrity_summary(array $summary, int $minuser
         'p',
         get_string('integrity:reportintro', 'mod_videotrack'),
         ['class' => 'text-muted small']
+    );
+
+    if (!$recordingenabled) {
+        $message = $focuscontrolsenabled
+            ? get_string('integrity:analytics_recording_disabled_controls', 'mod_videotrack')
+            : get_string('integrity:analytics_disabled', 'mod_videotrack');
+        $content .= $OUTPUT->notification($message, $focuscontrolsenabled ? 'warning' : 'info');
+        return html_writer::tag('section', $content, [
+            'class' => 'videotrack-integrity-summary mb-4',
+            'aria-labelledby' => 'videotrack-integrity-summary-title',
+        ]);
+    }
+
+    $content .= html_writer::tag(
+        'p',
+        get_string('integrity:analytics_enabled', 'mod_videotrack', max(1, $enabledactivitycount)),
+        ['class' => 'small font-weight-bold']
     );
 
     if (!$rows) {
@@ -1195,6 +1221,13 @@ if ($mode === 'analytics') {
         static fn(stdClass $scopeinstance): bool => !empty($scopeinstance->integrityindicatorsenabled)
     );
     $integrityanalyticsenabled = !empty($integrityinstances);
+    $integrityfocusinstances = array_filter(
+        $analyticsinstances,
+        static fn(stdClass $scopeinstance): bool => !empty($scopeinstance->pauseonfocusloss)
+            || !empty($scopeinstance->preventpictureinpicture)
+            || !empty($scopeinstance->randomfocuspauses)
+    );
+    $integrityfocuscontrolsenabled = !empty($integrityfocusinstances);
     if ($integrityanalyticsenabled) {
         [$integritywhere, $integrityparams] = videotrack_report_analytics_scope_condition(
             $integrityinstances,
@@ -1440,7 +1473,7 @@ if ($mode === 'analytics') {
         $minusers,
         $hasmaskedbins || $hasmaskedrepeats,
         $bookmarkanalyticsenabled,
-        $integrityanalyticsenabled
+        $integrityanalyticsenabled || $integrityfocuscontrolsenabled
     );
     if ($analyticsstatefallback) {
         echo $OUTPUT->notification(
@@ -1468,9 +1501,13 @@ if ($mode === 'analytics') {
     if ($bookmarkanalyticsenabled) {
         echo videotrack_report_render_bookmark_summary($bookmarksummary, $minusers);
     }
-    if ($integrityanalyticsenabled) {
-        echo videotrack_report_render_integrity_summary($integritysummary, $minusers);
-    }
+    echo videotrack_report_render_integrity_summary(
+        $integritysummary,
+        $minusers,
+        $integrityanalyticsenabled,
+        $integrityfocuscontrolsenabled,
+        count($integrityinstances)
+    );
     if (
         $analyticsshowreactions
         && !empty($reactionsummary['hasdata'])

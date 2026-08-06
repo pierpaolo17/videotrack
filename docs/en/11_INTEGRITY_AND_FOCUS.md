@@ -2,7 +2,7 @@
 
 ## Scope and safeguards
 
-Release 1.6.17 adds optional, per-activity focus controls and bounded diagnostic indicators. Every option is disabled by default. The feature is designed to support review of unusual playback conditions; it is not a surveillance system and does not establish whether a learner was attentive or acted dishonestly.
+Release 1.6.18 consolidates optional, per-activity focus controls and bounded diagnostic indicators. Every option is disabled by default. The feature is designed to support review of unusual playback conditions; it is not a surveillance system and does not establish whether a learner was attentive or acted dishonestly.
 
 VideoTrack does not use a webcam, microphone, eye tracking, biometrics, screen capture, key logging, content from other tabs or free-text behavioural notes. A recorded signal contains only the activity identifiers, Moodle user id, playback-session id, signal type, approximate video time and creation time.
 
@@ -13,9 +13,11 @@ Signals must be interpreted with the learning context. They must not be used as 
 The activity form exposes four independent options:
 
 - **Record integrity indicators**: stores the diagnostic signal types listed below.
-- **Pause when the page loses focus**: pauses playback when the document becomes hidden or the browser window loses focus.
+- **Pause when the page loses focus**: pauses when the video tab becomes hidden. Window blur pauses only when the site uses the strict policy.
 - **Prevent Picture-in-Picture**: applies a best-effort browser/provider policy.
-- **Enable random attention pauses**: while playback is active, pauses after a random delay of 301–1799 seconds from the latest learner interaction. The learner resumes manually.
+- **Enable random attention pauses**: while playback is active, pauses after a site-configured random delay from the latest learner interaction. The default range is 300–1800 seconds. The learner resumes manually.
+
+Site administrators configure the random-pause minimum and maximum (defaults 300 and 1800 seconds), the focus-loss policy and a 0–30 second grace period (default 5). The default **hidden-tab only** policy is recommended for accessibility: a browser-window blur is still recorded after the grace period but does not pause. The optional **strict** policy also pauses after sustained window focus loss. Returning focus or interacting with the provider iframe cancels the pending action.
 
 Window focus can be lost for legitimate reasons, including browser chrome, password-manager prompts, accessibility tools and operating-system dialogs. Picture-in-Picture cannot be blocked absolutely when a browser extension or third-party provider ignores iframe/media policy controls.
 
@@ -52,7 +54,7 @@ The external service applies a second same-user/session/type debounce window bef
 
 ## Reports and analytics
 
-Teacher reports can show a per-student total indicator count when recording is enabled. The cumulative report and the Analytics tab show counts by signal type. Analytics and cumulative aggregates apply `analyticsminusers` independently to every type; exact event and distinct-student totals are hidden below the threshold.
+Teacher reports can show a per-student total indicator count when recording is enabled. The cumulative report and the Analytics tab show counts by signal type. The Analytics section is always visible: it reports whether recording is enabled, warns when focus controls are active without recording, and displays a no-data state when no signals exist. Analytics and cumulative aggregates apply `analyticsminusers` independently to every type; exact event and distinct-student totals are hidden below the threshold.
 
 Reports deliberately omit browser details, URLs, free text and data from other tabs. The report introduction states that the values are diagnostic and cannot be treated as proof of misconduct.
 
@@ -66,11 +68,12 @@ Backup and restore include the new instance settings. Integrity rows are include
 
 - settings disabled: no focus control and no stored rows;
 - recording enabled without focus controls: signals can be stored but playback is unchanged;
-- focus-loss pause on HTML5, YouTube and Vimeo, including return and manual resume;
-- legitimate browser-dialog focus loss documented as a possible signal;
+- hidden-tab pause on HTML5, YouTube and Vimeo, including return and manual resume;
+- accessibility policy: ordinary window blur records after the grace period without pausing;
+- strict policy: sustained window blur pauses only after the configured grace period;
 - HTML5 Picture-in-Picture entry exits where the browser supports the API;
 - YouTube/Vimeo iframe permission removed without breaking playback or fullscreen;
-- random delay always remains within 301–1799 seconds and resets after player interactions;
+- random delay uses the site-configured inclusive bounds, defaults to 300–1800 seconds and resets after player interactions;
 - forward seek, rate policy, tracking, resume, replay, notes, reactions and bookmarks remain functional;
 - group/capability scope and `analyticsminusers` suppression in teacher reports;
 - Privacy API export/erasure, retention, backup/restore and all reset paths;
