@@ -121,8 +121,9 @@ function videotrack_add_instance($data, $mform = null) {
     if ($data->videosource === 'upload') {
         videotrack_save_uploaded_video($id, $data);
     }
-    // Save poster image (all sources).
+    // Save poster image and optional timed-text files for all sources.
     videotrack_save_poster_image($id, $data);
+    \mod_videotrack\local\timed_text::save_files($data);
 
     videotrack_save_reaction_definitions($id, $data);
     videotrack_grade_item_update($data);
@@ -165,8 +166,9 @@ function videotrack_update_instance($data, $mform = null) {
     } else {
         videotrack_delete_upload_source_files($data->id, $data);
     }
-    // Save poster image (all sources).
+    // Save poster image and optional timed-text files for all sources.
     videotrack_save_poster_image($data->id, $data);
+    \mod_videotrack\local\timed_text::save_files($data);
 
     videotrack_save_reaction_definitions($data->id, $data);
     videotrack_grade_item_update($data);
@@ -1459,16 +1461,29 @@ function videotrack_resize_reaction_icon(context_module $context, int $reactioni
  * @return bool|void    False if file not found, otherwise sends the file.
  */
 function videotrack_pluginfile($course, $cm, $context, $filearea, $args, $forcedownload, array $options = []) {
+    global $DB;
+
     if ($context->contextlevel !== CONTEXT_MODULE) {
         return false;
     }
-    if (!in_array($filearea, ['intro', 'reactionicon', 'videocontent', 'subtitles', 'posterimage'], true)) {
+    $allowedfileareas = [
+        'intro',
+        'reactionicon',
+        'videocontent',
+        'subtitles',
+        'transcripts',
+        'chapters',
+        'posterimage',
+    ];
+    if (!in_array($filearea, $allowedfileareas, true)) {
         return false;
     }
     $allowedextensions = [
         'reactionicon' => ['jpg', 'jpeg', 'png', 'gif', 'webp'],
         'posterimage' => ['jpg', 'jpeg', 'png', 'gif', 'webp'],
         'subtitles' => ['vtt'],
+        'transcripts' => ['vtt'],
+        'chapters' => ['vtt'],
         'videocontent' => ['mp4', 'webm', 'mp3', 'm4v', 'mov', 'aac', 'm4a'],
     ];
     require_login($course, true, $cm);
@@ -1476,12 +1491,21 @@ function videotrack_pluginfile($course, $cm, $context, $filearea, $args, $forced
         return false;
     }
     if (in_array($filearea, ['videocontent', 'subtitles'], true)) {
-        global $DB;
         $instance = $DB->get_record('videotrack', ['id' => $cm->instance], 'id, videosource, captions', MUST_EXIST);
         if ((string)$instance->videosource !== 'upload') {
             return false;
         }
         if ($filearea === 'subtitles' && empty($instance->captions)) {
+            return false;
+        }
+    }
+    if (in_array($filearea, ['transcripts', 'chapters'], true)) {
+        $fields = 'id, showtranscript, showchapters';
+        $instance = $DB->get_record('videotrack', ['id' => $cm->instance], $fields, MUST_EXIST);
+        if ($filearea === 'transcripts' && empty($instance->showtranscript)) {
+            return false;
+        }
+        if ($filearea === 'chapters' && empty($instance->showchapters)) {
             return false;
         }
     }
@@ -1512,17 +1536,14 @@ function videotrack_pluginfile($course, $cm, $context, $filearea, $args, $forced
     ) {
         return false;
     }
-    if ($filearea === 'subtitles') {
+    if (in_array($filearea, ['subtitles', 'transcripts', 'chapters'], true)) {
         if (!in_array($file->get_mimetype(), ['text/vtt', 'text/plain', 'application/octet-stream'], true)) {
             return false;
         }
-        // Some servers report .vtt as text/plain; keep the fallback safe without.
-        // Reading arbitrarily large files on every subtitle request.
-        if ($file->get_filesize() > 1024 * 1024) {
-            return false;
-        }
-        $subtitlecontent = ltrim(substr($file->get_content(), 0, 128), "\xEF\xBB\xBF\t\n\r ");
-        if (strncmp($subtitlecontent, 'WEBVTT', 6) !== 0) {
+        if (
+            $file->get_filesize() > \mod_videotrack\local\timed_text::MAX_FILE_SIZE
+            || !\mod_videotrack\local\timed_text::is_valid_vtt_content($file->get_content())
+        ) {
             return false;
         }
     }

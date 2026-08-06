@@ -12,8 +12,9 @@ define([
     'mod_videotrack/core/tracker',
     'mod_videotrack/core/player',
     'mod_videotrack/core/player/forum',
+    'mod_videotrack/core/player/timed_text',
     'mod_videotrack/core/debug'
-], function(Log, Api, Adapter, Utils, Ui, Progress, State, Reactions, Tracker, PlayerCore, Forum, Debug) {
+], function(Log, Api, Adapter, Utils, Ui, Progress, State, Reactions, Tracker, PlayerCore, Forum, TimedText, Debug) {
     'use strict';
 
     var player = null;
@@ -1059,6 +1060,35 @@ define([
     }
 
     /**
+     * Navigate from transcript or chapter controls while respecting seek policy.
+     *
+     * @param {number} target Target timestamp.
+     * @returns {boolean} True when navigation was accepted.
+     */
+    function navigateTimedText(target) {
+        if (!player || typeof player.seekTo !== 'function') {
+            return false;
+        }
+        var destination = Tracker.normaliseTime(target);
+        var current = Tracker.normaliseTime(getCurrentVideoTime());
+        if (destination > current + 0.5 && config.allowseekforward === false &&
+                destination > getAllowedForwardLimit() + 0.75) {
+            return false;
+        }
+        if (destination < current - 0.5 && config.allowseekbackward === false) {
+            return false;
+        }
+        if (state.playing) {
+            closeCurrentSegment('seek');
+        }
+        Tracker.markProgrammaticSeek(state);
+        player.seekTo(destination, true);
+        Tracker.syncTime(state, destination);
+        updateLiveIntervalBar(destination);
+        return true;
+    }
+
+    /**
      * Feature 12: Gestione overlay poster pre-play.
      * Removes the overlay on the first PLAYING event or overlay play button click.
      */
@@ -1145,6 +1175,11 @@ define([
                 errorLabel: config.forumposterrorlabel
             });
             loadApi(buildPlayer);
+            state._timedTextController = TimedText.create({
+                config: config,
+                getCurrentTime: getCurrentVideoTime,
+                navigate: navigateTimedText
+            });
         }
     };
 });

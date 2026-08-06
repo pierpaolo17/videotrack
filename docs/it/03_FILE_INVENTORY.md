@@ -240,3 +240,10 @@
 
 - `classes/local/analytics_table_export.php`: formati consentiti e righe privacy-safe condivise tra tabella accessibile ed export Moodle.
 - `tests/analytics_table_export_test.php`: regressione su mascheramento, fallback dello stato aggregato e colonna reazioni.
+
+
+## Aggiunte nella 1.6.12
+
+- `classes/local/timed_text.php`: valida, salva e risolve file WebVTT di trascrizione e capitoli indipendenti dal provider.
+- `amd/src/core/player/timed_text.js`: analizza WebVTT, costruisce ricerca/selettore lingua e capitoli, sincronizza i cue attivi e delega ai player la navigazione conforme alle regole di seek.
+- `tests/timed_text_test.php`: copre estrazione lingua dal nome file, validazione WebVTT e limiti dei file.

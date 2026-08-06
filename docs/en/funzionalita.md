@@ -1,6 +1,6 @@
 # mod_videotrack - Features and capabilities
 
-**Documented version**: 1.6.9
+**Documented version**: 1.6.12
 **Compatibility**: Moodle 5.0+
 **Included languages**: Italian, English, German, Spanish, French, Portuguese, Hindi, Polish
 
@@ -92,3 +92,8 @@ The course report lists every visible VideoTrack activity with learner starts, a
 ## Analytics table clarity and export (1.6.11)
 
 The Analytics page combines calculation and privacy guidance in one expandable control. Warnings are shown only when the threshold prevents viewing or reaction data from being displayed; partial suppression is reported inside the explanation. The heatmap has a textual and visual legend. The accessible table can be exported to CSV, Microsoft Excel (`.xlsx`) and OpenDocument (`.ods`) through `core\dataformat`; exports use the same aggregated bins and preserve every privacy mask.
+
+
+## Interactive WebVTT transcripts and chapters (1.6.12)
+
+Teachers can upload up to ten transcript files independently from player captions. Language-code filenames provide a language selector, while the selected transcript supports text search, clickable cues and automatic current-cue highlighting. A separate WebVTT chapter file supplies one chapter per cue. Both features work with YouTube, Vimeo and uploaded media through a provider-neutral AMD module. A navigation request is accepted only when the target complies with the activity forward/backward seek policy; already watched forward positions remain available under the existing tracking rules. Legacy uploaded-video activities may use their subtitle file until dedicated timed-text files are configured.

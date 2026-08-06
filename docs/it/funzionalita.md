@@ -1,6 +1,6 @@
 # mod_videotrack - Funzionalita e potenzialita
 
-**Versione documentata**: 1.6.9
+**Versione documentata**: 1.6.12
 **Compatibilita**: Moodle 5.0+
 **Lingue incluse**: Italiano, Inglese, Tedesco, Spagnolo, Francese, Portoghese, Hindi, Polacco
 
@@ -92,3 +92,8 @@ Il report di corso elenca ogni attivita VideoTrack visibile con studenti avviati
 ## Chiarezza ed export della tabella analytics (1.6.11)
 
 La pagina Analytics riunisce le spiegazioni di calcolo e privacy in un unico controllo espandibile. Gli avvisi compaiono solo quando la soglia impedisce di mostrare dati di visualizzazione o reazione; le soppressioni parziali sono indicate nella spiegazione. La heatmap dispone di una legenda testuale e visiva. La tabella accessibile può essere esportata in CSV, Microsoft Excel (`.xlsx`) e OpenDocument (`.ods`) usando `core\dataformat`; l'export usa gli stessi intervalli già aggregati e conserva ogni mascheramento privacy.
+
+
+## Trascrizioni WebVTT interattive e capitoli (1.6.12)
+
+Il docente può caricare fino a dieci file di trascrizione indipendenti dai sottotitoli del player. I nomi basati sul codice lingua alimentano un selettore; la trascrizione scelta offre ricerca testuale, cue cliccabili ed evidenziazione automatica del cue corrente. Un file WebVTT separato definisce i capitoli, uno per cue. Entrambe le funzioni operano con YouTube, Vimeo e file caricati tramite un modulo AMD indipendente dal provider. Un timestamp viene aperto solo se rispetta la politica di seek avanti e indietro dell’attività; le posizioni avanti già viste restano disponibili secondo le regole di tracking esistenti. Le vecchie attività con file caricato possono usare il file sottotitoli come fallback finché non vengono configurati file dedicati.

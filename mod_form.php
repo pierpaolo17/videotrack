@@ -370,33 +370,67 @@ class mod_videotrack_mod_form extends moodleform_mod {
         );
         $mform->hideIf('vttfile_notice', 'captions', 'notchecked');
 
-        // Feature 8: interactive VTT transcript (upload source only, with a VTT file).
+        // Interactive transcript files are independent from the player provider.
+        $mform->addElement(
+            'filemanager',
+            'transcriptfiles',
+            get_string('transcriptfiles', 'mod_videotrack'),
+            null,
+            \mod_videotrack\local\timed_text::file_options(
+                \mod_videotrack\local\timed_text::MAX_TRANSCRIPT_FILES
+            )
+        );
+        $mform->setType('transcriptfiles', PARAM_INT);
+        $mform->addHelpButton('transcriptfiles', 'transcriptfiles', 'mod_videotrack');
+        $mform->addElement(
+            'static',
+            'transcriptfiles_notice',
+            '',
+            html_writer::tag(
+                'small',
+                get_string('transcriptfiles_notice', 'mod_videotrack'),
+                ['class' => 'text-muted form-text']
+            )
+        );
         $mform->addElement(
             'advcheckbox',
             'showtranscript',
             get_string('showtranscript', 'mod_videotrack'),
             get_string('showtranscript_desc', 'mod_videotrack')
         );
-
         $mform->setType('showtranscript', PARAM_BOOL);
         $mform->setDefault('showtranscript', 0);
         $mform->addHelpButton('showtranscript', 'showtranscript', 'mod_videotrack');
-        $mform->hideIf('showtranscript', 'videosource', 'neq', 'upload');
-        $mform->hideIf('showtranscript', 'captions', 'notchecked');
 
-        // Feature 10: navigable VTT chapters (uses the same VTT file).
+        // Chapters use a dedicated WebVTT file; each cue represents one chapter.
+        $mform->addElement(
+            'filepicker',
+            'chapterfile',
+            get_string('chapterfile', 'mod_videotrack'),
+            null,
+            \mod_videotrack\local\timed_text::file_options(1)
+        );
+        $mform->setType('chapterfile', PARAM_INT);
+        $mform->addHelpButton('chapterfile', 'chapterfile', 'mod_videotrack');
+        $mform->addElement(
+            'static',
+            'chapterfile_notice',
+            '',
+            html_writer::tag(
+                'small',
+                get_string('chapterfile_notice', 'mod_videotrack'),
+                ['class' => 'text-muted form-text']
+            )
+        );
         $mform->addElement(
             'advcheckbox',
             'showchapters',
             get_string('showchapters', 'mod_videotrack'),
             get_string('showchapters_desc', 'mod_videotrack')
         );
-
         $mform->setType('showchapters', PARAM_BOOL);
         $mform->setDefault('showchapters', 0);
         $mform->addHelpButton('showchapters', 'showchapters', 'mod_videotrack');
-        $mform->hideIf('showchapters', 'videosource', 'neq', 'upload');
-        $mform->hideIf('showchapters', 'captions', 'notchecked');
 
         // Notice for Vimeo: captions must be pre-loaded on Vimeo.com.
         $mform->addElement(
@@ -1266,24 +1300,61 @@ JS);
             $defaultvalues['captionslang'] = (string)get_config('mod_videotrack', 'default_captionslang');
         }
 
-        // Prepare draft areas for the VTT file and uploaded video (single get_coursemodule call).
-        if (($defaultvalues['videosource'] ?? 'youtube') === 'upload' && !empty($this->_instance)) {
-            $cmupload = get_coursemodule_from_instance('videotrack', $this->_instance, 0, false, IGNORE_MISSING);
-            if ($cmupload) {
-                $ctxupload = context_module::instance($cmupload->id);
-                // VTT subtitles.
-                $draftitemid = file_get_submitted_draft_itemid('vttfile');
-                file_prepare_draft_area($draftitemid, $ctxupload->id, 'mod_videotrack', 'subtitles', 0, [
-                    'subdirs' => false, 'maxfiles' => 1, 'accepted_types' => ['.vtt'],
-                ]);
-                $defaultvalues['vttfile'] = $draftitemid;
-                // Video content.
-                $draftitemid2 = file_get_submitted_draft_itemid('videofile');
-                file_prepare_draft_area($draftitemid2, $ctxupload->id, 'mod_videotrack', 'videocontent', 0, [
-                    'subdirs' => false, 'maxfiles' => 1,
-                    'accepted_types' => ['.mp4', '.webm', '.mp3', '.m4v', '.mov', '.aac', '.m4a'],
-                ]);
-                $defaultvalues['videofile'] = $draftitemid2;
+        // Prepare timed-text draft areas for every provider and upload-only media areas when needed.
+        if (!empty($this->_instance)) {
+            $cmtimedtext = get_coursemodule_from_instance(
+                'videotrack',
+                $this->_instance,
+                0,
+                false,
+                IGNORE_MISSING
+            );
+            if ($cmtimedtext) {
+                $timedtextcontext = context_module::instance($cmtimedtext->id);
+                $transcriptdraft = file_get_submitted_draft_itemid('transcriptfiles');
+                file_prepare_draft_area(
+                    $transcriptdraft,
+                    $timedtextcontext->id,
+                    'mod_videotrack',
+                    'transcripts',
+                    0,
+                    \mod_videotrack\local\timed_text::file_options(
+                        \mod_videotrack\local\timed_text::MAX_TRANSCRIPT_FILES
+                    )
+                );
+                $defaultvalues['transcriptfiles'] = $transcriptdraft;
+
+                $chapterdraft = file_get_submitted_draft_itemid('chapterfile');
+                file_prepare_draft_area(
+                    $chapterdraft,
+                    $timedtextcontext->id,
+                    'mod_videotrack',
+                    'chapters',
+                    0,
+                    \mod_videotrack\local\timed_text::file_options(1)
+                );
+                $defaultvalues['chapterfile'] = $chapterdraft;
+
+                if (($defaultvalues['videosource'] ?? 'youtube') === 'upload') {
+                    $subtitleid = file_get_submitted_draft_itemid('vttfile');
+                    file_prepare_draft_area(
+                        $subtitleid,
+                        $timedtextcontext->id,
+                        'mod_videotrack',
+                        'subtitles',
+                        0,
+                        \mod_videotrack\local\timed_text::file_options(1)
+                    );
+                    $defaultvalues['vttfile'] = $subtitleid;
+
+                    $videodraft = file_get_submitted_draft_itemid('videofile');
+                    file_prepare_draft_area($videodraft, $timedtextcontext->id, 'mod_videotrack', 'videocontent', 0, [
+                        'subdirs' => false,
+                        'maxfiles' => 1,
+                        'accepted_types' => ['.mp4', '.webm', '.mp3', '.m4v', '.mov', '.aac', '.m4a'],
+                    ]);
+                    $defaultvalues['videofile'] = $videodraft;
+                }
             }
         }
         if (
@@ -1352,6 +1423,37 @@ JS);
     }
 
     /**
+     * Check that a draft area contains only valid WebVTT files.
+     *
+     * @param int $draftitemid Draft item id.
+     * @return bool True when all files are valid WebVTT payloads.
+     */
+    protected function draft_area_contains_only_vtt(int $draftitemid): bool {
+        global $USER;
+
+        if ($draftitemid <= 0) {
+            return true;
+        }
+        $files = get_file_storage()->get_area_files(
+            context_user::instance($USER->id)->id,
+            'user',
+            'draft',
+            $draftitemid,
+            'id ASC',
+            false
+        );
+        foreach ($files as $file) {
+            if (core_text::strtolower(pathinfo($file->get_filename(), PATHINFO_EXTENSION)) !== 'vtt') {
+                return false;
+            }
+            if (!\mod_videotrack\local\timed_text::is_valid_vtt_content($file->get_content())) {
+                return false;
+            }
+        }
+        return true;
+    }
+
+    /**
      * Validates submitted activity settings.
      *
      * @param array $data Submitted form data.
@@ -1382,6 +1484,27 @@ JS);
         } else {
             $errors['videosource'] = get_string('invalidvideosource', 'mod_videotrack');
         }
+        $transcriptdraft = (int)($data['transcriptfiles'] ?? 0);
+        $chapterdraft = (int)($data['chapterfile'] ?? 0);
+        $subtitleid = (int)($data['vttfile'] ?? 0);
+        $transcriptinfo = $transcriptdraft > 0 ? file_get_draft_area_info($transcriptdraft) : [];
+        $chapterinfo = $chapterdraft > 0 ? file_get_draft_area_info($chapterdraft) : [];
+        $subtitleinfo = $subtitleid > 0 ? file_get_draft_area_info($subtitleid) : [];
+        $haslegacytimedtext = $source === 'upload' && !empty($data['captions']) && !empty($subtitleinfo['filecount']);
+
+        if (!empty($transcriptinfo['filecount']) && !$this->draft_area_contains_only_vtt($transcriptdraft)) {
+            $errors['transcriptfiles'] = get_string('err:invalidvttfile', 'mod_videotrack');
+        }
+        if (!empty($chapterinfo['filecount']) && !$this->draft_area_contains_only_vtt($chapterdraft)) {
+            $errors['chapterfile'] = get_string('err:invalidvttfile', 'mod_videotrack');
+        }
+        if (!empty($data['showtranscript']) && empty($transcriptinfo['filecount']) && !$haslegacytimedtext) {
+            $errors['transcriptfiles'] = get_string('err:transcriptfilerequired', 'mod_videotrack');
+        }
+        if (!empty($data['showchapters']) && empty($chapterinfo['filecount']) && !$haslegacytimedtext) {
+            $errors['chapterfile'] = get_string('err:chapterfilerequired', 'mod_videotrack');
+        }
+
         if (
             isset($data['completionpercent'])
             && ((int)$data['completionpercent'] < 0 || (int)$data['completionpercent'] > 100)

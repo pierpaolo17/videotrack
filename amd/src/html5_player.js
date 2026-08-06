@@ -21,8 +21,9 @@ define([
     'mod_videotrack/core/tracker',
     'mod_videotrack/core/player',
     'mod_videotrack/core/player/forum',
+    'mod_videotrack/core/player/timed_text',
     'mod_videotrack/core/debug'
-], function(Log, Api, Adapter, Utils, Ui, Progress, State, Reactions, Tracker, PlayerCore, Forum, Debug) {
+], function(Log, Api, Adapter, Utils, Ui, Progress, State, Reactions, Tracker, PlayerCore, Forum, TimedText, Debug) {
     'use strict';
 
 
@@ -1376,243 +1377,12 @@ define([
     }
 
 
-
-
-
-
-    // ── Transcript VTT (upload source only) ──────────────────────────────────
-
-    /**
-     * Feature 8: interactive transcript VTT.
-     * Parses the VTT file, renders it as a cue list in the sidebar panel and
-     * synchronises the active cue with the current video position.
-     */
-    function loadTranscript() {
-        if (!config.showtranscript || !config.vtturl) { return; }
-        var panel = document.getElementById('videotrack-transcript-content');
-        if (!panel) { return; }
-
-        // Fetch the VTT file already served by Moodle pluginfile, with a timeout
-        // to avoid hanging requests that leave transcript/chapters in an uncertain state.
-        Utils.fetchTextWithTimeout(config.vtturl)
-            .then(function(text) {
-                var cues = parseVTT(text);
-                if (!cues.length) {
-                    showTranscriptUnavailable(panel);
-                    return;
-                }
-                renderTranscript(panel, cues);
-                syncTranscript(cues);
-            })
-            .catch(function(err) {
-                Debug.log('vttloadfailed', {message: err});
-                showTranscriptUnavailable(panel);
-            });
-    }
-
-
-    /** Shows an accessible message when the transcript is unavailable. */
-    function showTranscriptUnavailable(panel) {
-        if (!panel) { return; }
-        panel.innerHTML = '';
-        var msg = document.createElement('p');
-        msg.className = 'videotrack-transcript-empty text-muted mb-0';
-        msg.setAttribute('role', 'status');
-        msg.textContent = config.transcriptunavailablelabel;
-        panel.appendChild(msg);
-    }
-
-    /**
-     * Strips WebVTT cue markup using the browser parser when available.
-     *
-     * @param {string} value Cue text with optional WebVTT inline markup.
-     * @returns {string} Plain text cue content.
-     */
-    function stripVttCueMarkup(value) {
-        var raw = String(value || '');
-        if (raw === '') {
-            return '';
-        }
-        try {
-            if (typeof window !== 'undefined' && window.DOMParser) {
-                var doc = new window.DOMParser().parseFromString(raw, 'text/html');
-                return (doc.body && doc.body.textContent ? doc.body.textContent : '').trim();
-            }
-        } catch (e) {
-            return '';
-        }
-        // Do not fall back to regex-based HTML stripping. If DOMParser is not
-        // available, skip cue text rather than risking unsafe markup handling.
-        return '';
-    }
-
-    /**
-     * Parses a WebVTT file and returns cue objects with {start, end, text}.
-     * start/end are expressed as seconds.
-     *
-     * @param  {string} text  VTT file content.
-     * @return {Array}
-     */
-    function parseVTT(text) {
-        var cues = [];
-        if (!text) { return cues; }
-
-        // Normalise BOM and CRLF. Ignore NOTE/STYLE/REGION headers and cue settings after the end time.
-        var normalized = text.replace(/^\uFEFF/, '').replace(/\r\n?/g, '\n');
-        var blocks = normalized.split(/\n[ \t]*\n/);
-        var timeRe = /^((?:\d{2}:)?\d{2}:\d{2}\.\d{3})[ \t]*-->[ \t]*((?:\d{2}:)?\d{2}:\d{2}\.\d{3})(?:[ \t].*)?$/;
-
-        blocks.forEach(function(block) {
-            var lines = block.trim().split('\n').map(function(line) { return line.trim(); });
-            if (!lines.length || /^(WEBVTT|NOTE|STYLE|REGION)(?:\s|$)/i.test(lines[0])) { return; }
-
-            var timeLine = -1;
-            for (var i = 0; i < lines.length; i++) {
-                if (timeRe.test(lines[i])) { timeLine = i; break; }
-            }
-            if (timeLine < 0) { return; }
-
-            var m = lines[timeLine].match(timeRe);
-            var start = vttTime(m[1]);
-            var end = vttTime(m[2]);
-            if (!isFinite(start) || !isFinite(end) || end <= start) { return; }
-
-            var textLines = stripVttCueMarkup(lines.slice(timeLine + 1).join(' '));
-            if (!textLines) { return; }
-            cues.push({ start: start, end: end, text: textLines });
-        });
-        return cues;
-    }
-
-    /** Converts a VTT timestamp (HH:MM:SS.mmm or MM:SS.mmm) to seconds. */
-    function vttTime(ts) {
-        var parts = ts.split(':');
-        if (parts.length < 2 || parts.length > 3) { return NaN; }
-        var seconds = parseFloat(parts.pop());
-        var minutes = parseInt(parts.pop(), 10);
-        var hours = parts.length ? parseInt(parts.pop(), 10) : 0;
-        if (!isFinite(seconds) || !isFinite(minutes) || !isFinite(hours)) { return NaN; }
-        if (minutes < 0 || minutes >= 60 || seconds < 0 || seconds >= 60 || hours < 0) { return NaN; }
-        return hours * 3600 + minutes * 60 + seconds;
-    }
-
-    /**
-     * Renders cues in the panel as a list of clickable buttons.
-     * Each button seeks the video to the cue timestamp.
-     *
-     * @param {HTMLElement} panel   Transcript container.
-     * @param {Array}       cues    Cue objects.
-     */
-    function renderTranscript(panel, cues) {
-        panel.innerHTML = '';
-        var list = document.createElement('ol');
-        list.className = 'videotrack-transcript-list list-unstyled mb-0';
-        list.setAttribute('role', 'list');
-        cues.forEach(function(cue, idx) {
-            var item = document.createElement('li');
-            item.className = 'videotrack-transcript-cue';
-            item.setAttribute('role', 'listitem');
-            item.dataset.idx = idx;
-            var btn = document.createElement('button');
-            btn.type = 'button';
-            btn.className = 'btn btn-link btn-sm text-start videotrack-transcript-btn';
-            btn.dataset.start = cue.start;
-            btn.setAttribute('aria-label', Utils.formatSeconds(cue.start) + ' — ' + cue.text);
-            btn.setAttribute('aria-controls', 'mod-videotrack-player');
-            var timeSpan = document.createElement('span');
-            timeSpan.className = 'videotrack-transcript-time text-muted me-1';
-            timeSpan.textContent = Utils.formatSeconds(cue.start);
-            var textSpan = document.createElement('span');
-            textSpan.textContent = cue.text;
-            btn.appendChild(timeSpan);
-            btn.appendChild(textSpan);
-            btn.addEventListener('click', function() {
-                if (!hasMedia()) { return; }
-                var wasPlaying = !Adapter.isPaused(state, function() { return media.paused; }, Log, 'HTML5 transcript');
-                state.isSeeking = true;
-                media.currentTime = cue.start;
-                state.isSeeking   = false;
-                if (wasPlaying) {
-                    media.play();
-                }
-            });
-            item.appendChild(btn);
-            list.appendChild(item);
-        });
-        panel.appendChild(list);
-    }
-
-    /**
-     * Registers a timeupdate listener that highlights the active transcript cue.
-     * Automatically scrolls the panel only when the active cue is outside the
-     * visible area, throttled to avoid excessive layout work.
-     *
-     * @param {Array} cues Array of already parsed cue objects.
-     */
-    function syncTranscript(cues) {
-        if (!hasMedia()) { return; }
-        var lastActive = -1;
-        var lastActiveElement = null;
-        var lastScrollAt = 0;
-        media.addEventListener('timeupdate', function() {
-            var t = media.currentTime;
-            var active = -1;
-            for (var i = 0; i < cues.length; i++) {
-                if (t >= cues[i].start && t < cues[i].end) { active = i; break; }
-            }
-            if (active === lastActive) { return; }
-            lastActive = active;
-            var panel = document.getElementById('videotrack-transcript-content');
-            if (!panel) { return; }
-            if (lastActiveElement) {
-                lastActiveElement.classList.remove('videotrack-transcript-active');
-                var previousButton = lastActiveElement.querySelector('.videotrack-transcript-btn');
-                if (previousButton) {
-                    previousButton.setAttribute('aria-current', 'false');
-                }
-                lastActiveElement = null;
-            }
-            if (active < 0) {
-                return;
-            }
-            var el = panel.querySelector('.videotrack-transcript-cue[data-idx="' + active + '"]');
-            if (!el) {
-                return;
-            }
-            lastActiveElement = el;
-            el.classList.add('videotrack-transcript-active');
-            var currentButton = el.querySelector('.videotrack-transcript-btn');
-            if (currentButton) {
-                currentButton.setAttribute('aria-current', 'true');
-            }
-            // Auto-scroll only when the cue is outside the panel viewport.
-            var panelRect = panel.getBoundingClientRect();
-            var elRect = el.getBoundingClientRect();
-            var now = Date.now();
-            if ((elRect.top < panelRect.top || elRect.bottom > panelRect.bottom) && now - lastScrollAt > 1000) {
-                var scrollOptions = {block: 'nearest'};
-                if (!prefersReducedMotion()) {
-                    scrollOptions.behavior = 'smooth';
-                }
-                lastScrollAt = now;
-                el.scrollIntoView(scrollOptions);
-            }
-        });
-    }
-
-
     /** Returns the current video timestamp for the HTML5 player. */
     function getCurrentVideoTime() {
         return Adapter.getCurrentTime(state, function() {
             return media ? safeNumber(media.currentTime, state.lasttime || 0) : state.lasttime;
         }, Log, 'HTML5');
     }
-
-    /** Returns true when the user has requested reduced motion. */
-    function prefersReducedMotion() {
-        return !!(window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches);
-    }
-
 
     /**
      * Toggle the notes panel through the shared helper.
@@ -1639,136 +1409,27 @@ define([
     }
 
     /**
-     * Feature 10: navigable VTT chapters bar.
-     * Parsed from the same VTT file used by captions (kind=chapters).
-     * Works only when the VTT file contains cues with short text (< 80 chars),
-     * typically those generated as chapters.
-     * Each chapter becomes a button that jumps to that point in the video.
+     * Navigate from transcript or chapter controls while respecting seek policy.
+     *
+     * @param {number} target Target timestamp.
+     * @returns {boolean} True when navigation was accepted.
      */
-    function buildChaptersBar() {
-        if (!config.vtturl || !config.showchapters) { return; }
-
-        Utils.fetchTextWithTimeout(config.vtturl)
-            .then(function(text) {
-                var cues = parseVTT(text);
-                // Filter: treat only cues with text <= 80 chars as chapters.
-                var chapters = cues.filter(function(c) { return c.text.length <= 80; });
-                if (chapters.length < 2) {
-                    showChaptersUnavailable();
-                    return;
-                }
-                renderChaptersBar(chapters);
-            })
-            .catch(function(err) {
-                Debug.log('chaptersfailed', {message: err});
-                showChaptersUnavailable();
-            });
+    function navigateTimedText(target) {
+        if (!hasMedia()) {
+            return false;
+        }
+        var destination = Tracker.normaliseTime(target);
+        var current = Tracker.normaliseTime(getCurrentVideoTime());
+        if (destination > current + 0.5 && config.allowseekforward === false &&
+                destination > getAllowedForwardLimit() + 0.75) {
+            return false;
+        }
+        if (destination < current - 0.5 && config.allowseekbackward === false) {
+            return false;
+        }
+        startProgrammaticSeek(destination);
+        return true;
     }
-
-    /** Shows an accessible message when chapters are unavailable. */
-    function showChaptersUnavailable() {
-        var wrapper = document.querySelector('.videotrack-player-wrap');
-        if (!wrapper || wrapper.querySelector('.videotrack-chapters-empty') || wrapper.querySelector('.videotrack-chapters-bar')) {
-            return;
-        }
-        var msg = document.createElement('p');
-        msg.className = 'videotrack-chapters-empty text-muted small mb-2';
-        msg.setAttribute('role', 'status');
-        msg.textContent = config.chaptersunavailablelabel || config.transcriptunavailablelabel;
-        var controls = wrapper.querySelector('.videotrack-html5-controls');
-        if (controls) {
-            wrapper.insertBefore(msg, controls);
-        } else {
-            wrapper.appendChild(msg);
-        }
-    }
-
-    /**
-     * Create the chapters bar and insert it before the controls.
-     * @param {Array} chapters Array of {start, end, text}.
-     */
-    function renderChaptersBar(chapters) {
-        var wrapper = document.querySelector('.videotrack-player-wrap');
-        if (!wrapper) { return; }
-        if (wrapper.querySelector('.videotrack-chapters-bar')) { return; } // Already present.
-
-        var bar = document.createElement('nav');
-        bar.className = 'videotrack-chapters-bar';
-        bar.setAttribute('aria-label', config.chapterslabel);
-        bar.setAttribute('role', 'navigation');
-
-        chapters.forEach(function(ch, idx) {
-            var btn = document.createElement('button');
-            btn.type = 'button';
-            btn.className = 'videotrack-chapter-btn';
-            btn.dataset.start = ch.start;
-            btn.dataset.idx   = idx;
-            btn.setAttribute('aria-label',
-                (config.chapterlabel) + ' ' + (idx + 1) + ': ' + ch.text);
-            // Visual label: number plus short text.
-            var numSpan = document.createElement('span');
-            numSpan.className = 'videotrack-chapter-num';
-            numSpan.textContent = idx + 1;
-            var textSpan = document.createElement('span');
-            textSpan.className = 'videotrack-chapter-text';
-            textSpan.textContent = ch.text;
-            btn.appendChild(numSpan);
-            btn.appendChild(textSpan);
-            btn.addEventListener('click', function() {
-                // Seek to the chapter using the programmatic seek flag so anti-skip is not triggered.
-                // Preserve the previous state: if the video was paused, the click does not start playback.
-                var wasPlaying = state.playing && !Adapter.isPaused(
-                    state,
-                    function() {
-                        return media.paused;
-                    },
-                    Log,
-                    'HTML5 transcript'
-                );
-                state.isProgrammaticSeek = true;
-                media.currentTime = ch.start;
-                state.lasttime    = ch.start;
-                if (wasPlaying) {
-                    media.play().catch(function(err) {
-                        Debug.log('playrequestfailed', {message: err});
-                    }); // Catch autoplay policy rejection.
-                }
-                // Update active state.
-                bar.querySelectorAll('.videotrack-chapter-btn').forEach(function(b) {
-                    b.classList.toggle('videotrack-chapter-active', b === btn);
-                    b.setAttribute('aria-current', b === btn ? 'true' : 'false');
-                });
-            });
-            bar.appendChild(btn);
-        });
-
-        // Insert the bar before the custom controls.
-        var controls = wrapper.querySelector('.videotrack-html5-controls');
-        if (controls) {
-            wrapper.insertBefore(bar, controls);
-        } else {
-            wrapper.appendChild(bar);
-        }
-
-        // Synchronise the active chapter on timeupdate.
-        if (media) {
-            media.addEventListener('timeupdate', function() {
-                var t = media.currentTime;
-                var activeIdx = -1;
-                for (var i = chapters.length - 1; i >= 0; i--) {
-                    if (t >= chapters[i].start) { activeIdx = i; break; }
-                }
-                bar.querySelectorAll('.videotrack-chapter-btn').forEach(function(btn, i) {
-                    var isActive = i === activeIdx;
-                    if (btn.classList.contains('videotrack-chapter-active') !== isActive) {
-                        btn.classList.toggle('videotrack-chapter-active', isActive);
-                        btn.setAttribute('aria-current', isActive ? 'true' : 'false');
-                    }
-                });
-            });
-        }
-    }
-
 
     /**
      * Feature 12: Gestione overlay poster pre-play.
@@ -1855,8 +1516,11 @@ define([
                 errorLabel: config.forumposterrorlabel
             });
             buildPlayer();
-            loadTranscript();
-            buildChaptersBar();
+            state._timedTextController = TimedText.create({
+                config: config,
+                getCurrentTime: getCurrentVideoTime,
+                navigate: navigateTimedText
+            });
         }
     };
 });
