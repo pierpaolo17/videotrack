@@ -345,6 +345,10 @@ class restore_videotrack_activity_structure_step extends restore_activity_struct
             'userid' => $userid,
             'statementhash' => $statementhash,
             'instanceversion' => isset($data->instanceversion) ? (int)$data->instanceversion : 0,
+            'viewedseconds' => isset($data->viewedseconds) ? max(0.0, (float)$data->viewedseconds) : null,
+            'viewedpercent' => isset($data->viewedpercent)
+                ? min(100.0, max(0.0, (float)$data->viewedpercent))
+                : null,
             'timeconfirmed' => isset($data->timeconfirmed) ? (int)$data->timeconfirmed : time(),
         ];
         $newitemid = $DB->insert_record('videotrack_acknowledge', $record);

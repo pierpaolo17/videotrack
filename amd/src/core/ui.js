@@ -155,8 +155,16 @@ define([], function() {
     }
 
 
+    /**
+     * Announce that the current player reached the natural end after progress was saved.
+     */
+    function notifyVideoEnded() {
+        document.dispatchEvent(new CustomEvent('videotrack:ended'));
+    }
+
     return {
         setReactionButtons: setReactionButtons,
-        appendIconSafe: appendIconSafe
+        appendIconSafe: appendIconSafe,
+        notifyVideoEnded: notifyVideoEnded
     };
 });

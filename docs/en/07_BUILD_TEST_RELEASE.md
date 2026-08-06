@@ -108,3 +108,4 @@ Run the three-player runtime matrix in `11_INTEGRITY_AND_FOCUS.md`. Because play
 - Verify POST without sesskey or without the checkbox is rejected.
 - Verify acknowledgement-only and combined completion logic.
 - Verify report/CSV, Privacy API, backup/restore, retention and user/course/activity reset.
+- Verify both acknowledgement timing policies and confirm that reports preserve the viewed seconds and percentage captured at confirmation time.

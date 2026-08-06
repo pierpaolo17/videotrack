@@ -26,3 +26,17 @@ When enabled as a completion condition, the current statement must be confirmed.
 ## Privacy and lifecycle
 
 The table `videotrack_acknowledge` is included in backup/restore only when user data is included. User, activity, course reset and Privacy API erasure remove confirmations. Retention cleanup deletes expired confirmation records rather than pseudonymising them.
+
+## Confirmation availability and progress snapshot (1.6.20)
+
+The acknowledgement has its own collapsed section in the activity form. The teacher chooses one of two policies:
+
+- **At any time**: preserves the 1.6.19 behaviour and legacy statement hash, so existing confirmations remain current after upgrade.
+- **Only after the final video second**: the server accepts confirmation only when persisted `videotrack_state` intervals or the last tracked position reach the final second, with a one-second media-end tolerance.
+
+The reaction notice checkbox and editor belong to the Reactions section and are no longer displayed with the acknowledgement settings. All instance-form sections are collapsed by default except **Video source**.
+
+Each new confirmation stores an immutable viewing snapshot: `viewedseconds` is the unique covered time and `viewedpercent` is its percentage of the effective duration at confirmation time. Teacher HTML and CSV reports display confirmation status, date, viewed seconds and viewed percentage. Later viewing does not rewrite this snapshot.
+
+When end-gating is active, the form is initially disabled until the persisted state already proves the end was reached. During the current page view, the three player modules emit `videotrack:ended` only after the final segment save completes; `core/player/acknowledgement.js` then enables the controls. Server-side validation remains authoritative.
+Confirmations created before 1.6.20 have no historical progress snapshot; reports label that value as unavailable rather than inferring zero or using later viewing data.

@@ -743,6 +743,27 @@ class mod_videotrack_mod_form extends moodleform_mod {
 
         $mform->setType('reactionsenabled', PARAM_BOOL);
         $mform->setDefault('reactionsenabled', 1);
+
+        $mform->addElement('advcheckbox', 'showreactionnotice', get_string('showreactionnotice', 'mod_videotrack'));
+        $mform->setType('showreactionnotice', PARAM_BOOL);
+        $mform->setDefault('showreactionnotice', 1);
+        $mform->disabledIf('showreactionnotice', 'reactionsenabled', 'notchecked');
+        $reactionnoticeoptions = [
+            'context' => $this->context,
+            'maxfiles' => 0,
+            'maxbytes' => 0,
+            'trusttext' => false,
+            'noclean' => false,
+        ];
+        $mform->addElement(
+            'editor',
+            'reactionnotice_editor',
+            get_string('reactionnotice', 'mod_videotrack'),
+            null,
+            $reactionnoticeoptions
+        );
+        $mform->disabledIf('reactionnotice_editor', 'reactionsenabled', 'notchecked');
+        $mform->disabledIf('reactionnotice_editor', 'showreactionnotice', 'notchecked');
         $mform->addElement('advcheckbox', 'reactionsrequired', get_string('reactionsrequired', 'mod_videotrack'));
 
         $mform->setType('reactionsrequired', PARAM_BOOL);
@@ -795,7 +816,6 @@ class mod_videotrack_mod_form extends moodleform_mod {
             'personalstudytoolsheader',
             get_string('personalstudytoolsheader', 'mod_videotrack')
         );
-        $mform->setExpanded('personalstudytoolsheader', true);
         $mform->addElement(
             'static',
             'personalstudytoolsintro',
@@ -902,6 +922,25 @@ class mod_videotrack_mod_form extends moodleform_mod {
         );
         $mform->setType('acknowledgementenabled', PARAM_BOOL);
         $mform->setDefault('acknowledgementenabled', 0);
+
+        $mform->addElement(
+            'select',
+            'acknowledgementtiming',
+            get_string('acknowledgement:timing', 'mod_videotrack'),
+            [
+                \mod_videotrack\local\acknowledgement::TIMING_ANYTIME =>
+                    get_string('acknowledgement:timing_anytime', 'mod_videotrack'),
+                \mod_videotrack\local\acknowledgement::TIMING_VIDEO_END =>
+                    get_string('acknowledgement:timing_videoend', 'mod_videotrack'),
+            ]
+        );
+        $mform->setType('acknowledgementtiming', PARAM_INT);
+        $mform->setDefault(
+            'acknowledgementtiming',
+            \mod_videotrack\local\acknowledgement::TIMING_ANYTIME
+        );
+        $mform->addHelpButton('acknowledgementtiming', 'acknowledgement:timing', 'mod_videotrack');
+        $mform->disabledIf('acknowledgementtiming', 'acknowledgementenabled', 'notchecked');
         $acknowledgementoptions = [
             'context' => $this->context,
             'maxfiles' => 0,
@@ -918,25 +957,6 @@ class mod_videotrack_mod_form extends moodleform_mod {
         );
         $mform->addHelpButton('acknowledgement_editor', 'acknowledgement:text', 'mod_videotrack');
         $mform->disabledIf('acknowledgement_editor', 'acknowledgementenabled', 'notchecked');
-
-        $mform->addElement('advcheckbox', 'showreactionnotice', get_string('showreactionnotice', 'mod_videotrack'));
-
-        $mform->setType('showreactionnotice', PARAM_BOOL);
-        $mform->setDefault('showreactionnotice', 1);
-        $reactionnoticeoptions = [
-            'context' => $this->context,
-            'maxfiles' => 0,
-            'maxbytes' => 0,
-            'trusttext' => false,
-            'noclean' => false,
-        ];
-        $mform->addElement(
-            'editor',
-            'reactionnotice_editor',
-            get_string('reactionnotice', 'mod_videotrack'),
-            null,
-            $reactionnoticeoptions
-        );
 
         // Reaction preset selector.
         $presetoptions = videotrack_get_preset_select_options();
@@ -978,7 +998,48 @@ class mod_videotrack_mod_form extends moodleform_mod {
         videotrack_require_preset_amd($this->reactionrepeatcount ?: 4);
 
         $this->standard_coursemodule_elements();
+        $this->apply_default_section_expansion();
         $this->add_action_buttons();
+    }
+
+    /**
+     * Applies the default collapsed state to the instance configuration sections.
+     *
+     * The video source remains open so the primary activity input is immediately visible.
+     */
+    protected function apply_default_section_expansion(): void {
+        $mform = $this->_form;
+        $headers = [
+            'videosourceheader' => true,
+            'playerbehaviorheader' => false,
+            'captionsheader' => false,
+            'html5controlsheader' => false,
+            'playbackspeedsheader' => false,
+            'csvexportheader' => false,
+            'forumlinkheader' => false,
+            'reactionsheader' => false,
+            'personalstudytoolsheader' => false,
+            'integritysettingsheader' => false,
+            'acknowledgementheader' => false,
+            'modoutcomes' => false,
+            'modstandardgrade' => false,
+            'modstandardelshdr' => false,
+            'availabilityconditionsheader' => false,
+            'activitycompletionheader' => false,
+            'tagshdr' => false,
+            'modstandardratings' => false,
+        ];
+        foreach ($headers as $header => $expanded) {
+            if ($mform->elementExists($header)) {
+                $mform->setExpanded($header, $expanded);
+            }
+        }
+        for ($index = 0; $index < $this->reactionrepeatcount; $index++) {
+            $header = 'reactionheader_' . $index;
+            if ($mform->elementExists($header)) {
+                $mform->setExpanded($header, false);
+            }
+        }
     }
 
     /**
@@ -1059,7 +1120,6 @@ JS);
                 'reactionheader_' . $i,
                 get_string('reactionx', 'mod_videotrack', $i + 1)
             );
-            $mform->setExpanded('reactionheader_' . $i, $i < 2);
 
             $mform->addElement('hidden', 'reactionid[' . $i . ']', 0);
             $mform->setType('reactionid[' . $i . ']', PARAM_INT);
@@ -1765,6 +1825,17 @@ JS);
         }
 
         if (!empty($data['acknowledgementenabled'])) {
+            $timing = (int)($data['acknowledgementtiming'] ??
+                \mod_videotrack\local\acknowledgement::TIMING_ANYTIME);
+            if (!in_array($timing, [
+                \mod_videotrack\local\acknowledgement::TIMING_ANYTIME,
+                \mod_videotrack\local\acknowledgement::TIMING_VIDEO_END,
+            ], true)) {
+                $errors['acknowledgementtiming'] = get_string(
+                    'acknowledgement:errortiming',
+                    'mod_videotrack'
+                );
+            }
             $acknowledgementeditor = $data['acknowledgement_editor'] ?? [];
             $acknowledgementtext = is_array($acknowledgementeditor)
                 ? (string)($acknowledgementeditor['text'] ?? '')

@@ -49,7 +49,7 @@ class backup_videotrack_activity_structure_step extends backup_activity_structur
             'showtranscript', 'showchapters', 'studentnotesenabled', 'bookmarksenabled',
             'integrityindicatorsenabled', 'pauseonfocusloss', 'preventpictureinpicture', 'randomfocuspauses',
             'acknowledgementenabled', 'acknowledgementtext', 'acknowledgementformat',
-            'completionacknowledgement',
+            'acknowledgementtiming', 'completionacknowledgement',
             'forumpostingenabled', 'linkedforumid',
             'forumsubjecttemplate',
             'csvdelimiter', 'csvexportfields',
@@ -89,7 +89,7 @@ class backup_videotrack_activity_structure_step extends backup_activity_structur
 
         $acknowledgements = new backup_nested_element('acknowledgements');
         $acknowledgement = new backup_nested_element('acknowledgement', ['id'], [
-            'userid', 'statementhash', 'instanceversion', 'timeconfirmed',
+            'userid', 'statementhash', 'instanceversion', 'viewedseconds', 'viewedpercent', 'timeconfirmed',
         ]);
 
         $videotrack->add_child($reactions);

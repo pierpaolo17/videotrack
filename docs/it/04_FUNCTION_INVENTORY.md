@@ -450,7 +450,7 @@
 
 ## Funzioni della presa visione (1.6.19)
 
-- `acknowledgement::is_enabled()`, `has_visible_text()`, `statement_hash()`, `current_record()`, `confirm()`, `current_records()`.
+- `acknowledgement::is_enabled()`, `has_visible_text()`, `timing()`, `requires_video_end()`, `statement_hash()`, `progress_snapshot()`, `has_reached_video_end()`, `can_confirm()`, `current_record()`, `confirm()`, `current_records()`.
 - `acknowledgement_confirmed::init()`, `get_name()`, `get_description()`, `get_url()`, `get_objectid_mapping()`.
 - `videotrack_process_acknowledgement_fields()`.
 - `restore_videotrack_activity_structure_step::process_videotrack_acknowledgement()`.

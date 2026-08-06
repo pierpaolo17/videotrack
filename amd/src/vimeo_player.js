@@ -1371,7 +1371,9 @@ define([
             reactionState.readyAnnounced = false;
             stopHeartbeat();
             rememberResumePosition(state.lasttime);
-            closeSegment('ended');
+            closeSegment('ended').then(function() {
+                Ui.notifyVideoEnded();
+            });
             setReactionButtons(false); // Disable buttons at the end of the video.
         });
 

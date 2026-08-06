@@ -31,7 +31,7 @@ use PHPUnit\Framework\Attributes\CoversClass;
 #[CoversClass(acknowledgement::class)]
 final class acknowledgement_test extends advanced_testcase {
     /**
-     * Statement identity changes only when the stored content or format changes.
+     * Statement identity changes when content, format or the end-gating policy changes.
      */
     public function test_statement_hash_versions_the_statement_content(): void {
         $instance = (object)[
@@ -40,10 +40,59 @@ final class acknowledgement_test extends advanced_testcase {
             'acknowledgementformat' => FORMAT_HTML,
         ];
         $first = acknowledgement::statement_hash($instance);
+        $legacy = hash('sha256', FORMAT_HTML . "\n" . '<p>I have read this.</p>');
+        $this->assertSame($legacy, $first);
         $this->assertSame($first, acknowledgement::statement_hash(clone $instance));
 
+        $instance->acknowledgementtiming = acknowledgement::TIMING_VIDEO_END;
+        $this->assertNotSame($first, acknowledgement::statement_hash($instance));
+
+        $instance->acknowledgementtiming = acknowledgement::TIMING_ANYTIME;
         $instance->acknowledgementtext = '<p>I have read the updated statement.</p>';
         $this->assertNotSame($first, acknowledgement::statement_hash($instance));
+    }
+
+    /**
+     * End-gated confirmation requires persisted tracking to reach the final second.
+     */
+    public function test_video_end_requirement_uses_persisted_intervals(): void {
+        $instance = (object)[
+            'acknowledgementenabled' => 1,
+            'acknowledgementtext' => 'Required statement',
+            'acknowledgementtiming' => acknowledgement::TIMING_VIDEO_END,
+            'durationseconds' => 60,
+        ];
+        $state = (object)[
+            'durationseconds' => 60,
+            'lastposition' => 20,
+            'uniquecoveredseconds' => 30,
+            'completionpercent' => 50,
+            'intervaljson' => '[[0,58.8]]',
+        ];
+        $this->assertFalse(acknowledgement::has_reached_video_end($instance, $state));
+        $this->assertFalse(acknowledgement::can_confirm($instance, $state));
+
+        $state->intervaljson = '[[0,59.2]]';
+        $this->assertTrue(acknowledgement::has_reached_video_end($instance, $state));
+        $this->assertTrue(acknowledgement::can_confirm($instance, $state));
+    }
+
+    /**
+     * Confirmation snapshots preserve unique viewed time and percentage at that moment.
+     */
+    public function test_progress_snapshot_uses_unique_coverage(): void {
+        $instance = (object)['durationseconds' => 100];
+        $state = (object)[
+            'durationseconds' => 100,
+            'lastposition' => 75,
+            'uniquecoveredseconds' => 64.125,
+            'completionpercent' => 64.13,
+            'intervaljson' => '[[0,64.125]]',
+        ];
+        $snapshot = acknowledgement::progress_snapshot($instance, $state);
+        $this->assertSame(64.125, $snapshot['viewedseconds']);
+        $this->assertSame(64.13, $snapshot['viewedpercent']);
+        $this->assertFalse($snapshot['reachedend']);
     }
 
     /**
