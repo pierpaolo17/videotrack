@@ -56,6 +56,7 @@ final class analytics_table_export_test extends \advanced_testcase {
                 'repeatseconds' => null,
                 'repeatviewers' => null,
                 'suppressed' => false,
+            'progresssuppressed' => false,
                 'repeatsuppressed' => true,
                 'reactionclusters' => 2,
                 'reactionevents' => 9,
@@ -92,4 +93,38 @@ final class analytics_table_export_test extends \advanced_testcase {
         $this->assertSame('', $rows[0][5]);
         $this->assertCount(6, $rows[0]);
     }
+
+    /**
+     * Combined exports append one privacy-safe acknowledgement summary row.
+     */
+    public function test_export_rows_include_acknowledgement_summary(): void {
+        $columns = analytics_table_export::export_columns(false, true);
+        $rows = analytics_table_export::export_rows([], 0, false, false, 5, [
+            'hasdata' => true,
+            'confirmationcount' => 8,
+            'studentcount' => 6,
+            'progresscount' => 7,
+            'progressstudentcount' => 6,
+            'progressmissing' => 1,
+            'averageviewedseconds' => 120.5,
+            'averageviewedpercent' => 75.25,
+            'suppressed' => false,
+        ]);
+
+        $this->assertCount(12, $columns);
+        $this->assertCount(1, $rows);
+        $this->assertSame(
+            get_string('report:analytics_export_row_acknowledgement', 'mod_videotrack'),
+            $rows[0][0]
+        );
+        $this->assertSame(8, $rows[0][7]);
+        $this->assertSame(6, $rows[0][8]);
+        $this->assertSame(120.5, $rows[0][9]);
+        $this->assertSame(format_float(75.25, 1) . '%', $rows[0][10]);
+        $this->assertSame(1, $rows[0][11]);
+        $this->assertSame(3, $rows[0][12]);
+        $this->assertSame(2, $rows[0][13]);
+        $this->assertSame(1, $rows[0][14]);
+    }
+
 }

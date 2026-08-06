@@ -134,4 +134,4 @@ L'implementazione dei segnalibri è ora coperta dagli inventari di architettura,
 
 ## Esito audit 1.6.19
 
-La presa visione opzionale è coperta da architettura, inventari di file/funzioni/variabili, flusso runtime, checklist di regressione e documento dedicato `12_ACKNOWLEDGEMENT.md`. La documentazione descrive regola dell’hash corrente, conferma POST esplicita, completamento, output docente, Privacy API, retention e limiti di backup/restore.
+La presa visione opzionale è coperta da architettura, inventari di file/funzioni/variabili, flusso runtime, checklist di regressione e documento dedicato `12_ACKNOWLEDGEMENT.md`. La documentazione descrive regola dell’hash corrente, conferma POST esplicita, completamento, output docente, Analytics ed esportazione nei formati dati, Privacy API, retention e limiti di backup/restore.

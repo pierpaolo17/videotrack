@@ -121,6 +121,9 @@ Teacher enables statement and optionally completion rule
     -> acknowledgement::confirm() inserts once and emits Moodle event
     -> tracker aggregate state and Moodle custom completion are refreshed
     -> reports/CSV expose current status and date
+    -> Analytics selects current hashes per activity and applies group scope
+    -> privacy threshold masks small populations
+    -> CSV/XLSX/ODS append one acknowledgement summary row
 ```
 
 A text or format change creates a different hash. The learner must confirm again; old confirmations remain available only for audit/privacy export until erased or expired.

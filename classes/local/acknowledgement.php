@@ -167,6 +167,70 @@ final class acknowledgement {
     }
 
     /**
+     * Build a privacy-safe Analytics summary from current confirmation records.
+     *
+     * Average viewing values use only records that contain the immutable progress
+     * snapshot introduced in VideoTrack 1.6.20. Legacy records are counted
+     * separately and are never treated as zero progress.
+     *
+     * @param iterable $records Current confirmation records.
+     * @param int $minusers Minimum distinct users required for exact values.
+     * @return array Aggregate confirmation metrics and suppression state.
+     */
+    public static function analytics_summary(iterable $records, int $minusers): array {
+        $confirmationcount = 0;
+        $userids = [];
+        $progresscount = 0;
+        $progressuserids = [];
+        $viewedsecondssum = 0.0;
+        $viewedpercentsum = 0.0;
+
+        foreach ($records as $record) {
+            $userid = (int)($record->userid ?? 0);
+            if ($userid <= 0) {
+                continue;
+            }
+            $confirmationcount++;
+            $userids[$userid] = true;
+            $viewedseconds = property_exists($record, 'viewedseconds') ? $record->viewedseconds : null;
+            $viewedpercent = property_exists($record, 'viewedpercent') ? $record->viewedpercent : null;
+            if ($viewedseconds === null || $viewedpercent === null) {
+                continue;
+            }
+            $progresscount++;
+            $progressuserids[$userid] = true;
+            $viewedsecondssum += max(0.0, (float)$viewedseconds);
+            $viewedpercentsum += min(100.0, max(0.0, (float)$viewedpercent));
+        }
+
+        $studentcount = count($userids);
+        $progressstudentcount = count($progressuserids);
+        $hasdata = $confirmationcount > 0;
+        $minusers = max(2, $minusers);
+        $suppressed = $hasdata && $studentcount < $minusers;
+        $progresssuppressed = !$suppressed && $progresscount > 0 && $progressstudentcount < $minusers;
+        $averageviewedseconds = $progresscount > 0
+            ? round($viewedsecondssum / $progresscount, 3)
+            : null;
+        $averageviewedpercent = $progresscount > 0
+            ? round($viewedpercentsum / $progresscount, 2)
+            : null;
+
+        return [
+            'hasdata' => $hasdata,
+            'confirmationcount' => $suppressed ? null : $confirmationcount,
+            'studentcount' => $suppressed ? null : $studentcount,
+            'progresscount' => $suppressed ? null : $progresscount,
+            'progressstudentcount' => $suppressed ? null : $progressstudentcount,
+            'progressmissing' => $suppressed ? null : $confirmationcount - $progresscount,
+            'averageviewedseconds' => ($suppressed || $progresssuppressed) ? null : $averageviewedseconds,
+            'averageviewedpercent' => ($suppressed || $progresssuppressed) ? null : $averageviewedpercent,
+            'suppressed' => $suppressed,
+            'progresssuppressed' => $progresssuppressed,
+        ];
+    }
+
+    /**
      * Return the current confirmation record for a user, when present.
      *
      * @param stdClass $instance Activity instance.

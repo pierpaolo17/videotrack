@@ -144,6 +144,7 @@ Variables are detected statically. The inventory is a navigation map; it does no
 ## Acknowledgement fields and state (1.6.19)
 
 - Instance fields: `acknowledgementenabled`, `acknowledgementtext`, `acknowledgementformat`, `acknowledgementtiming`, `completionacknowledgement`.
-- Confirmation fields: `videotrackid`, `courseid`, `cmid`, `userid`, `statementhash`, `instanceversion`, `timeconfirmed`.
+- Confirmation fields: `videotrackid`, `courseid`, `cmid`, `userid`, `statementhash`, `instanceversion`, `viewedseconds`, `viewedpercent`, `timeconfirmed`.
 - View/report state: `ackaction`, `ackconfirm`, `acknowledgementrecord`, `acknowledgementrecords`, `acknowledgementuserids`.
+- Analytics state: `acknowledgementinstances`, `acknowledgementsummary`, `acknowledgementanalyticsenabled`, `acknowledgementanytimecount`, `acknowledgementvideoendcount`.
 - The canonical current version is `SHA-256(format + "\n" + stored text)`; old records remain history but do not satisfy the current rule.

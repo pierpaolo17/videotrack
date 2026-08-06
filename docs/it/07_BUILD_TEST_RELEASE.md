@@ -109,3 +109,5 @@ Eseguire la matrice sui tre player descritta in `11_INTEGRITY_AND_FOCUS.md`. Poi
 - Verificare completamento basato solo sulla presa visione e combinato con altre regole.
 - Verificare report/CSV, Privacy API, backup/restore, retention e reset utente/corso/attività.
 - Verificare entrambe le modalità temporali della presa visione e che i report conservino secondi e percentuale registrati al momento della conferma.
+- Verificare Analytics delle prese visione su singola attività e cross-course, restrizioni di gruppo, record storici senza fotografia e mascheramento privacy.
+- Verificare che CSV, Excel e ODS contengano una sola riga di riepilogo e siano scaricabili anche quando esistono soltanto dati di presa visione.

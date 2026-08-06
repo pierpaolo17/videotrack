@@ -83,6 +83,8 @@ final class analytics_scope {
 
         $sql = "SELECT vt.id, vt.course, vt.name, vt.videosource, vt.videoid, vt.videourl,
                                vt.durationseconds, vt.reactionsenabled, vt.bookmarksenabled,
+                       vt.acknowledgementenabled, vt.acknowledgementtext,
+                       vt.acknowledgementformat, vt.acknowledgementtiming,
                        vt.integrityindicatorsenabled, vt.pauseonfocusloss,
                        vt.preventpictureinpicture, vt.randomfocuspauses, vt.clusterwindow,
                                cm.id AS cmid, cm.groupmode, cm.groupingid,
@@ -294,6 +296,8 @@ final class analytics_scope {
 
         $sql = "SELECT vt.id, vt.course, vt.name, vt.videosource, vt.videoid, vt.videourl,
                        vt.durationseconds, vt.reactionsenabled, vt.bookmarksenabled,
+                       vt.acknowledgementenabled, vt.acknowledgementtext,
+                       vt.acknowledgementformat, vt.acknowledgementtiming,
                        vt.integrityindicatorsenabled, vt.pauseonfocusloss,
                        vt.preventpictureinpicture, vt.randomfocuspauses, vt.clusterwindow,
                        cm.id AS cmid, cm.groupmode, cm.groupingid,

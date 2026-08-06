@@ -134,4 +134,4 @@ The bookmark implementation is now covered by the architecture, file, function, 
 
 ## 1.6.19 audit result
 
-The optional acknowledgement is covered by architecture, file/function/variable inventories, runtime flow, release regression checklist and the dedicated `12_ACKNOWLEDGEMENT.md`. The documentation records the current-hash rule, explicit POST confirmation, completion integration, teacher output, Privacy API, retention and backup/restore boundaries.
+The optional acknowledgement is covered by architecture, file/function/variable inventories, runtime flow, release regression checklist and the dedicated `12_ACKNOWLEDGEMENT.md`. The documentation records the current-hash rule, explicit POST confirmation, completion integration, teacher output, Analytics and data-format export, Privacy API, retention and backup/restore boundaries.

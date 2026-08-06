@@ -450,7 +450,9 @@
 
 ## Acknowledgement functions (1.6.19)
 
-- `acknowledgement::is_enabled()`, `has_visible_text()`, `timing()`, `requires_video_end()`, `statement_hash()`, `progress_snapshot()`, `has_reached_video_end()`, `can_confirm()`, `current_record()`, `confirm()`, `current_records()`.
+- `acknowledgement::is_enabled()`, `has_visible_text()`, `timing()`, `requires_video_end()`, `statement_hash()`, `progress_snapshot()`, `has_reached_video_end()`, `can_confirm()`, `analytics_summary()`, `current_record()`, `confirm()`, `current_records()`.
+- `report.php`: `videotrack_report_acknowledgement_scope_condition()` and `videotrack_report_render_acknowledgement_summary()`.
+- `analytics_table_export::export_columns()` and `export_rows()` add the combined viewing/acknowledgement download contract.
 - `acknowledgement_confirmed::init()`, `get_name()`, `get_description()`, `get_url()`, `get_objectid_mapping()`.
 - `videotrack_process_acknowledgement_fields()`.
 - `restore_videotrack_activity_structure_step::process_videotrack_acknowledgement()`.
