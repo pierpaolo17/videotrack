@@ -186,3 +186,7 @@ Il modulo dell’attività mostra ora note personali e segnalibri in una sezione
 ### Personal bookmarks
 
 Activities can optionally let students save private named bookmarks at watched video timestamps. Bookmarks can be reopened, removed and exported by their owner. Labels and timestamps remain private; teacher reports and analytics display only privacy-safe aggregate bookmark counts.
+
+## Bookmark analytics and documentation (1.6.16)
+
+When bookmarks are enabled, instance Analytics now always shows a prominent Bookmark usage section with saved-bookmark and distinct-student cards. Zero values are shown explicitly; small populations remain masked by `analyticsminusers`. All bookmark and recent teacher-dashboard strings are translated in the eight shipped language packs. Complete technical coverage is available in `docs/en/10_BOOKMARKS_AND_ANALYTICS.md` and `docs/it/10_BOOKMARKS_AND_ANALYTICS.md`.

@@ -247,3 +247,29 @@
 - `classes/local/timed_text.php`: validates, stores and resolves provider-independent WebVTT transcript and chapter files.
 - `amd/src/core/player/timed_text.js`: parses WebVTT, renders transcript search/language controls and chapters, synchronises active cues and delegates policy-aware navigation to each player.
 - `tests/timed_text_test.php`: covers filename language extraction, WebVTT validation and file limits.
+
+## Personal bookmark files (1.6.14–1.6.16)
+
+- `bookmarks.php`: owner-only CSV export controller.
+- `classes/external/save_bookmark.php`: validates watched position and creates a private bookmark event.
+- `classes/external/delete_bookmark.php`: owner-only soft deletion.
+- `classes/event/bookmark_saved.php`: Moodle event for bookmark creation.
+- `classes/event/bookmark_deleted.php`: Moodle event for bookmark deletion.
+- `classes/event/bookmark_exported.php`: Moodle event for owner export.
+- `amd/src/core/player/bookmarks.js`: shared bookmark UI and AJAX handler for all three players.
+- `amd/build/core/player/bookmarks.min.js` and `.map`: generated AMD artifacts.
+- `tests/save_bookmark_test.php`: external-contract regression coverage.
+- `docs/en/10_BOOKMARKS_AND_ANALYTICS.md` and `docs/it/10_BOOKMARKS_AND_ANALYTICS.md`: complete bookmark documentation.
+
+## Inventory corrections through 1.6.16
+
+The following shipped files were added after the original static inventory and are part of the current package:
+
+- `reports_teacher.php`: cross-course teacher dashboard.
+- `classes/local/teacher_analytics.php`: capability-safe cross-course aggregation.
+- `tests/save_note_test.php`: note-service contract tests.
+- `tests/forum_bridge_test.php`: forum-bridge tests.
+- `tests/teacher_analytics_test.php`: teacher-dashboard period and aggregation tests.
+- `amd/build/core/player/forum.min.js` and `amd/build/core/player/forum.min.js.map`: generated forum integration artifacts.
+- `amd/build/core/player/timed_text.min.js` and `amd/build/core/player/timed_text.min.js.map`: generated timed-text artifacts.
+- `amd/build/core/player/bookmarks.min.js.map`: generated bookmark source map.

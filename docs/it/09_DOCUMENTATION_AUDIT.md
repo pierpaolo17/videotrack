@@ -1,6 +1,6 @@
 # Audit della documentazione
 
-Baseline documentata: Videotrack 1.4.249, generata dallo ZIP reale del plugin 1.4.248 e aggiornata solo nella documentazione/metadati versione.
+Baseline documentata: Videotrack 1.6.16, verificata dallo ZIP reale 1.6.15 e aggiornata con analytics dei segnalibri, traduzioni e documentazione completa.
 
 ## Scopo
 
@@ -35,6 +35,7 @@ La fonte aggiornata è la documentazione numerata:
 | `07_BUILD_TEST_RELEASE.md` | Comandi di build, test e rilascio. |
 | `08_LESSONS_LEARNED.md` | Regole di manutenzione apprese durante lo sviluppo recente. |
 | `09_DOCUMENTATION_AUDIT.md` | Questo file di audit e checklist futura. |
+| `10_BOOKMARKS_AND_ANALYTICS.md` | Contratto completo di modello, runtime, privacy e report dei segnalibri. |
 
 I file storici di audit restano nella stessa cartella per tracciabilità, ma la documentazione numerata è la guida corrente per il maintainer.
 
@@ -126,3 +127,7 @@ Prima di rilasciare una patch documentale, verificare:
 - git apply --check passa dalla root del plugin.
 - patch -p1 --dry-run passa dalla root del plugin.
 ```
+
+## Esito audit 1.6.16
+
+L'implementazione dei segnalibri è ora coperta dagli inventari di architettura, file, funzioni, variabili e flussi runtime e dal documento dedicato `10_BOOKMARKS_AND_ANALYTICS.md`. La parità delle chiavi è completa negli otto language pack; le stringhe recenti di segnalibri e dashboard docente non ricadono più sull'inglese nei sei pacchetti che contenevano placeholder.

@@ -102,3 +102,7 @@ Teachers can upload up to ten transcript files independently from player caption
 ### Provider captions and searchable transcripts (1.6.13)
 
 YouTube and Vimeo captions remain inside the provider player. VideoTrack does not import or index those native tracks. To make the same content searchable, the teacher uploads a WebVTT copy in the searchable-transcript file area. The configuration form and student panel now state this separation explicitly. Uploaded media can still reuse the configured subtitle file as a fallback when no dedicated transcript is present.
+
+## Personal bookmarks (1.6.14–1.6.16)
+
+Teachers can enable private named bookmarks per activity. Students can save them only at watched positions, reopen or remove them and export their own CSV. Teacher reports never reveal labels or timestamps; they show privacy-thresholded aggregate counts. Instance Analytics contains a dedicated bookmark card section with saved-event and distinct-user totals, including explicit zero values when no bookmark has been created.

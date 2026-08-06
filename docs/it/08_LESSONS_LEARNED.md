@@ -19,3 +19,7 @@ La tabella “Le mie reazioni” deve essere aggiornata usando i dati ritornati 
 ## Controlli anti-duplicazione
 
 Il controllo deve stare server-side. La UI può rimuovere righe ottimistiche quando il server restituisce `reactioneventid = 0`, ma non deve essere l’unica difesa.
+
+## Confine privacy dei segnalibri
+
+Uno strumento di studio privato può contribuire agli analytics aggregati del docente, ma il confine deve essere esplicito: l'output docente può contenere soltanto conteggi di eventi e utenti distinti protetti dalla soglia. Etichette, timestamp individuali ed elenchi del proprietario devono restare fuori da query, grafici ed export docente.

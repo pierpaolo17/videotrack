@@ -124,3 +124,11 @@ Le variabili sono rilevate staticamente. L’inventario serve come mappa per ori
 - Parametro GET `analyticsformat`: formato richiesto per la tabella accessibile; valori consentiti `csv`, `excel`, `ods` solo quando il relativo dataformat Moodle è abilitato.
 - `analyticsformats`: intersezione tra i formati consentiti da VideoTrack e i writer dataformat abilitati nel sito.
 - `hasmaskedbins` e `hasmaskedrepeats`: controllano la legenda e la spiegazione condizionale dei valori omessi.
+
+## Configurazione e variabili report dei segnalibri personali (1.6.14–1.6.16)
+
+- Campo istanza `bookmarksenabled`: booleano intero rigoroso, default `0`.
+- Impostazioni sito `bookmarksenabled` e `bookmarkmaxlength`.
+- Discriminatore evento `notetype = 'bookmark'`.
+- Variabili analytics `bookmarkinstances`, `bookmarkanalyticsenabled`, `bookmarksummary`, `bookmarkcounts` e `bookmarkuserids`.
+- Stato client `bookmarkSaveInProgress`; la configurazione include etichette, lunghezza massima e numero massimo di righe renderizzate.

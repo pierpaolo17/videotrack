@@ -94,3 +94,14 @@ The same `userid` is treated as one viewer even when present in multiple courses
 - Analytics scope uses the activity effective group mode instead of the mere presence of course groups.
 - Reactions are counted even when they do not form a time cluster; the overall summary is shown only when the distinct-student privacy threshold is met.
 - Clusters still require the threshold within the same reaction type and time window, and the UI explicitly distinguishes detected reactions from visible clusters.
+
+## Personal bookmark flow (1.6.14–1.6.16)
+
+1. The teacher enables bookmarks in Personal study tools.
+2. `view.php` loads active bookmarks for the current user only.
+3. The shared AMD handler saves current progress and resolves an accepted watched timestamp.
+4. `mod_videotrack_save_bookmark` validates the position and inserts `notetype='bookmark'`.
+5. The UI inserts the bookmark in chronological order; replay uses the player-specific replay handler.
+6. Deletion calls `mod_videotrack_delete_bookmark`, which verifies ownership and soft-deletes the row.
+7. Owner export uses `bookmarks.php`.
+8. Teacher reports count events and distinct users only. Instance Analytics always renders a bookmark section when enabled and masks exact values below `analyticsminusers`.

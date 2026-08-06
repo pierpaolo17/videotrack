@@ -102,3 +102,7 @@ Il docente può caricare fino a dieci file di trascrizione indipendenti dai sott
 ### Sottotitoli del provider e trascrizioni ricercabili (1.6.13)
 
 I sottotitoli di YouTube e Vimeo restano nel player del provider. VideoTrack non importa né indicizza automaticamente quelle tracce native. Per rendere ricercabile lo stesso contenuto, il docente carica una copia WebVTT nell’area dei file per la trascrizione ricercabile. Il modulo di configurazione e il pannello studente chiariscono ora esplicitamente questa separazione. Per i media caricati resta disponibile il fallback al file sottotitoli quando non è presente una trascrizione dedicata.
+
+## Segnalibri personali (1.6.14–1.6.16)
+
+Il docente può abilitare per attività segnalibri privati con nome. Gli studenti possono salvarli soltanto in posizioni già visualizzate, riaprirli, eliminarli ed esportare il proprio CSV. I report docente non mostrano mai etichette o timestamp: usano conteggi aggregati protetti dalla soglia privacy. Gli Analytics di istanza includono una sezione a card con segnalibri salvati e utenti distinti, mostrando esplicitamente zero quando non esistono dati.

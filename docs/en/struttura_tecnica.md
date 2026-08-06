@@ -1,6 +1,6 @@
 # mod_videotrack - Technical structure
 
-**Documented version**: 1.6.9
+**Documented version**: 1.6.16
 
 This historical document has been replaced by the modular technical documentation introduced in release 1.4.248. The current source of truth is the numbered document set in this directory.
 
@@ -34,3 +34,7 @@ The previous content has been replaced to avoid duplicated and obsolete informat
 ## Analytics table export (1.6.11)
 
 `classes/local/analytics_table_export.php` builds privacy-safe headings and rows shared by the HTML table and downloads. `report.php` validates the format and sesskey before any output, records the export event, and delegates to `core\dataformat::download_data()`. Only enabled core CSV, Excel and ODS writers are exposed; the exporter does not load user records.
+
+## Personal bookmark components (1.6.14–1.6.16)
+
+`amd/src/core/player/bookmarks.js` provides the shared browser behaviour. `save_bookmark.php` and `delete_bookmark.php` are the owner-safe AJAX contracts. `{videotrack_reactev}` stores the private record through `notetype='bookmark'`. `report.php`, `course_analytics.php` and `teacher_analytics.php` expose only threshold-protected aggregate counts. Full details are in `10_BOOKMARKS_AND_ANALYTICS.md`.

@@ -96,5 +96,4 @@ final class lib_test extends advanced_testcase {
         \videotrack_process_player_behavior_fields($enabled);
         $this->assertSame(1, $enabled->bookmarksenabled);
     }
-
 }

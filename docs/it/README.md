@@ -13,7 +13,8 @@ Questa cartella contiene la documentazione tecnica aggiornata del plugin Videotr
 7. `07_BUILD_TEST_RELEASE.md` - build, test, release e troubleshooting.
 8. `08_LESSONS_LEARNED.md` - regole apprese durante le iterazioni di sviluppo.
 9. `09_DOCUMENTATION_AUDIT.md` - audit della copertura documentale e checklist per aggiornamenti futuri.
+10. `10_BOOKMARKS_AND_ANALYTICS.md` - modello dati, runtime, privacy, report e validazione completa dei segnalibri.
 
 ## Documenti storici
 
-I documenti storici di audit rimangono disponibili in questa cartella. Sono utili per ricostruire decisioni passate, ma la fonte aggiornata per la manutenzione corrente sono i file numerati da `00_` a `09_`.
+I documenti storici di audit rimangono disponibili in questa cartella. Sono utili per ricostruire decisioni passate, ma la fonte aggiornata per la manutenzione corrente sono i file numerati da `00_` a `10_`.

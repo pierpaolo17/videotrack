@@ -94,3 +94,14 @@ Il medesimo `userid` viene trattato come un solo spettatore anche quando compare
 - L’ambito Analytics usa la modalità gruppi effettiva dell’attività e non la sola presenza di gruppi nel corso.
 - Le reazioni vengono conteggiate anche quando non formano un cluster temporale: il riepilogo complessivo è mostrato solo quando il numero di studenti distinti raggiunge la soglia privacy.
 - I cluster restano soggetti alla soglia per tipo di reazione e finestra temporale; un messaggio esplicito distingue “reazioni rilevate” da “nessun cluster visibile”.
+
+## Flusso dei segnalibri personali (1.6.14–1.6.16)
+
+1. Il docente abilita i segnalibri in Strumenti personali di studio.
+2. `view.php` carica solo i segnalibri attivi dell'utente corrente.
+3. L'handler AMD condiviso salva il progresso corrente e risolve un timestamp già accettato.
+4. `mod_videotrack_save_bookmark` valida la posizione e inserisce `notetype='bookmark'`.
+5. L'interfaccia inserisce il segnalibro in ordine cronologico; il replay usa l'handler specifico del player.
+6. L'eliminazione chiama `mod_videotrack_delete_bookmark`, che verifica la proprietà ed esegue la cancellazione logica.
+7. L'export del proprietario usa `bookmarks.php`.
+8. I report docente conteggiano soltanto eventi e utenti distinti. Gli Analytics di istanza mostrano sempre la sezione segnalibri quando attiva e mascherano i valori esatti sotto `analyticsminusers`.
