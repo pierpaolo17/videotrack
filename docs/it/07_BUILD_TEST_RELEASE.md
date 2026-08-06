@@ -91,3 +91,7 @@ Una patch solo documentale non richiede `grunt amd`, PHPUnit o PHPCS, salvo modi
 - Il salvataggio delle note risolve sempre il timestamp asincrono del player e preferisce l’estremo del segmento appena accettato dal server; questo evita il passaggio di una Promise nel player Vimeo.
 - Un errore nella registrazione dell’evento Moodle non annulla una nota già salvata: viene restituito un warning visibile.
 - I cluster di reazioni applicano la propria soglia privacy indipendentemente dalla disponibilità o dalla soppressione dei segmenti di visione. Quando sono conformi alla soglia restano consultabili in una tabella aggregata, senza nominativi o testo delle note.
+
+## Controlli release per i segnalibri
+
+Per modifiche ai segnalibri aggiungere alla matrice ordinaria: persistenza attivo/disattivo del form, proprietà in salvataggio/eliminazione, vincolo timestamp già visualizzato, protezione formula injection CSV, export/cancellazione Privacy API, backup/restore, replay sui tre player, conteggi aggregati docente e mascheramento privacy. Verificare la parità delle chiavi in tutti gli otto language pack distribuiti.

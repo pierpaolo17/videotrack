@@ -651,34 +651,56 @@ function videotrack_report_render_reaction_summary(array $summary): string {
 function videotrack_report_render_bookmark_summary(array $summary, int $minusers): string {
     global $OUTPUT;
 
-    if (empty($summary['hasdata'])) {
-        return html_writer::div(
-            get_string('report:analytics_bookmarks_none', 'mod_videotrack'),
-            'text-muted mb-3'
+    $hasdata = !empty($summary['hasdata']);
+    $suppressed = $hasdata && !empty($summary['suppressed']);
+    $hidden = get_string('report:analytics_notavailable_privacy', 'mod_videotrack');
+    $eventvalue = $suppressed ? $hidden : (string)(int)($summary['eventcount'] ?? 0);
+    $studentvalue = $suppressed ? $hidden : (string)(int)($summary['studentcount'] ?? 0);
+
+    $cards = [
+        [get_string('report:analytics_bookmarks_saved', 'mod_videotrack'), $eventvalue],
+        [get_string('report:analytics_bookmark_students', 'mod_videotrack'), $studentvalue],
+    ];
+    $content = html_writer::tag(
+        'h4',
+        get_string('report:analytics_bookmarks_title', 'mod_videotrack'),
+        ['id' => 'videotrack-analytics-bookmarks-title']
+    );
+    $content .= html_writer::start_div('videotrack-analytics-summary');
+    foreach ($cards as [$label, $value]) {
+        $content .= html_writer::div(
+            html_writer::div(s($value), 'videotrack-analytics-summary-value') .
+                html_writer::div(s($label), 'videotrack-analytics-summary-label'),
+            'videotrack-analytics-summary-card'
         );
     }
-    if (!empty($summary['suppressed'])) {
-        return $OUTPUT->notification(
+    $content .= html_writer::end_div();
+    $content .= html_writer::tag(
+        'p',
+        get_string('report:analytics_bookmarks_private', 'mod_videotrack'),
+        ['class' => 'text-muted small mb-2']
+    );
+
+    if (!$hasdata) {
+        $content .= html_writer::tag(
+            'p',
+            get_string('report:analytics_bookmarks_none', 'mod_videotrack'),
+            ['class' => 'text-muted mb-0']
+        );
+    } else if ($suppressed) {
+        $content .= $OUTPUT->notification(
             get_string('report:analytics_bookmarks_suppressed', 'mod_videotrack', $minusers),
             'warning'
         );
     }
 
-    $events = get_string('report:analytics_bookmarks_saved', 'mod_videotrack') . ' ' .
-        html_writer::tag('strong', (string)(int)($summary['eventcount'] ?? 0));
-    $students = get_string('report:analytics_bookmark_students', 'mod_videotrack') . ' ' .
-        html_writer::tag('strong', (string)(int)($summary['studentcount'] ?? 0));
-    $privacy = html_writer::tag(
-        'small',
-        get_string('report:analytics_bookmarks_private', 'mod_videotrack'),
-        ['class' => 'text-muted']
-    );
-
-    return html_writer::div(
-        html_writer::tag('strong', get_string('report:analytics_bookmarks_title', 'mod_videotrack')) .
-            html_writer::empty_tag('br') . $events . html_writer::empty_tag('br') . $students .
-            html_writer::empty_tag('br') . $privacy,
-        'mb-3'
+    return html_writer::tag(
+        'section',
+        $content,
+        [
+            'class' => 'videotrack-analytics-bookmarks mb-4',
+            'aria-labelledby' => 'videotrack-analytics-bookmarks-title',
+        ]
     );
 }
 

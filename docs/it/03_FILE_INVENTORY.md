@@ -247,3 +247,29 @@
 - `classes/local/timed_text.php`: valida, salva e risolve file WebVTT di trascrizione e capitoli indipendenti dal provider.
 - `amd/src/core/player/timed_text.js`: analizza WebVTT, costruisce ricerca/selettore lingua e capitoli, sincronizza i cue attivi e delega ai player la navigazione conforme alle regole di seek.
 - `tests/timed_text_test.php`: copre estrazione lingua dal nome file, validazione WebVTT e limiti dei file.
+
+## File dei segnalibri personali (1.6.14–1.6.16)
+
+- `bookmarks.php`: controller di export CSV riservato al proprietario.
+- `classes/external/save_bookmark.php`: valida la posizione già visualizzata e crea un evento segnalibro privato.
+- `classes/external/delete_bookmark.php`: cancellazione logica riservata al proprietario.
+- `classes/event/bookmark_saved.php`: evento Moodle di creazione.
+- `classes/event/bookmark_deleted.php`: evento Moodle di eliminazione.
+- `classes/event/bookmark_exported.php`: evento Moodle di export del proprietario.
+- `amd/src/core/player/bookmarks.js`: UI e gestione AJAX condivise dai tre player.
+- `amd/build/core/player/bookmarks.min.js` e `.map`: artifact AMD generati.
+- `tests/save_bookmark_test.php`: copertura di regressione del contratto esterno.
+- `docs/en/10_BOOKMARKS_AND_ANALYTICS.md` e `docs/it/10_BOOKMARKS_AND_ANALYTICS.md`: documentazione completa.
+
+## Correzioni inventario fino alla 1.6.16
+
+I seguenti file distribuiti sono stati aggiunti dopo l'inventario statico originario e fanno parte del pacchetto corrente:
+
+- `reports_teacher.php`: dashboard trasversale del docente.
+- `classes/local/teacher_analytics.php`: aggregazione cross-course protetta da capability.
+- `tests/save_note_test.php`: test del contratto del servizio note.
+- `tests/forum_bridge_test.php`: test del collegamento Forum.
+- `tests/teacher_analytics_test.php`: test di periodi e aggregazione della dashboard docente.
+- `amd/build/core/player/forum.min.js` e `amd/build/core/player/forum.min.js.map`: artifact generati dell'integrazione Forum.
+- `amd/build/core/player/timed_text.min.js` e `amd/build/core/player/timed_text.min.js.map`: artifact generati del timed text.
+- `amd/build/core/player/bookmarks.min.js.map`: source map generata dei segnalibri.

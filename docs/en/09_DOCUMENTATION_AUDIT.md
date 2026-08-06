@@ -35,6 +35,7 @@ The active source-of-truth documentation is the numbered set:
 | `07_BUILD_TEST_RELEASE.md` | Build, test and release commands. |
 | `08_LESSONS_LEARNED.md` | Maintainer rules learned during recent development. |
 | `09_DOCUMENTATION_AUDIT.md` | This audit file and future documentation checklist. |
+| `10_BOOKMARKS_AND_ANALYTICS.md` | Complete bookmark model, runtime, privacy and reporting contract. |
 
 Historical audit files are kept in the same directories for traceability, but the numbered set is the current maintainer guide.
 
@@ -126,3 +127,7 @@ Before releasing a documentation patch, verify:
 - git apply --check passes from the plugin root.
 - patch -p1 --dry-run passes from the plugin root.
 ```
+
+## 1.6.16 audit result
+
+The bookmark implementation is now covered by the architecture, file, function, variable and runtime inventories and by the dedicated document `10_BOOKMARKS_AND_ANALYTICS.md`. Language-key parity is complete across all eight packs; recent bookmark and teacher-dashboard strings no longer fall back to English in the six non-English packs that previously contained placeholders.

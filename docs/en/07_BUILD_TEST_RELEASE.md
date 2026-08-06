@@ -91,3 +91,7 @@ A documentation-only patch does not require `grunt amd`, PHPUnit or PHPCS unless
 - Note saving now resolves asynchronous player timestamps and prefers the end of the segment just accepted by the server; this prevents a Promise from being sent by the Vimeo player.
 - A Moodle log-event failure no longer turns an already stored note into a failed save; a visible warning is returned instead.
 - Reaction clusters apply their own privacy threshold independently from viewing-segment availability or suppression. Privacy-safe clusters remain available in an aggregate table without names or private note text.
+
+## Bookmark release checks
+
+For bookmark changes, add to the normal release matrix: enabled/disabled form persistence, save/delete ownership, already-watched timestamp enforcement, CSV formula-injection protection, Privacy API export/erasure, backup/restore, all three player replay paths, teacher aggregate counts and privacy suppression. Language-key parity must be checked across all eight shipped packs.

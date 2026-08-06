@@ -49,3 +49,7 @@ L'istanza `videotrack` memorizza anche `blockedseekplaybackrate`, `csvdelimiter`
 ## Confine analytics per istanza (1.6.0)
 
 Gli analytics costituiscono un livello di sola lettura sopra `videotrack_seg` e `videotrack_reactev`. Il servizio `analytics` gestisce aggregazione degli intervalli e mascheramento privacy; `report.php` gestisce ambito capability/gruppi e presentazione. Il livello non scrive stati, non modifica la completion e non richiama codice dei player. Dalla 1.6.7 `analytics_scope` risolve l’identità tecnica del video e individua le istanze corrispondenti, verificando `mod/videotrack:viewreport` su ogni contesto modulo. Nella vista tra corsi `report.php` costruisce un ambito separato per istanza, applica i relativi gruppi consentiti e poi ordina i record per `userid`, così `analytics` unifica lo stesso utente Moodle prima dell’aggregazione.
+
+## Architettura dei segnalibri personali (1.6.14–1.6.16)
+
+I segnalibri sono memorizzati come eventi privati specializzati in `{videotrack_reactev}`, senza introdurre una nuova tabella. `view.php` fornisce soltanto i dati del proprietario al modulo AMD condiviso `core/player/bookmarks`. I servizi esterni di salvataggio/eliminazione applicano configurazione dell'attività e proprietà del record. Il livello report legge soltanto conteggi aggregati, applica ambito capability/gruppi e poi `analyticsminusers`. La pagina Analytics di istanza mostra una sezione dedicata a card; etichette e timestamp individuali non entrano mai nell'output docente. Vedere `10_BOOKMARKS_AND_ANALYTICS.md`.

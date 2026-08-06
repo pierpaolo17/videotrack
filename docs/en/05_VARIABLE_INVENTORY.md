@@ -124,3 +124,11 @@ Variables are detected statically. The inventory is a navigation map; it does no
 - GET parameter `analyticsformat`: requested accessible-table format; allowed values are `csv`, `excel` and `ods` only when the matching Moodle dataformat is enabled.
 - `analyticsformats`: intersection between VideoTrack's allowed formats and the site's enabled dataformat writers.
 - `hasmaskedbins` and `hasmaskedrepeats`: control the legend and conditional explanation of omitted values.
+
+## Personal bookmark configuration and report variables (1.6.14–1.6.16)
+
+- Instance field `bookmarksenabled`: strict integer boolean, default `0`.
+- Site settings `bookmarksenabled` and `bookmarkmaxlength`.
+- Event discriminator `notetype = 'bookmark'`.
+- Analytics variables `bookmarkinstances`, `bookmarkanalyticsenabled`, `bookmarksummary`, `bookmarkcounts` and `bookmarkuserids`.
+- Client state `bookmarkSaveInProgress`; configuration includes labels, maximum length and maximum rendered rows.

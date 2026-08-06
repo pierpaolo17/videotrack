@@ -19,3 +19,7 @@ The “My reactions” table must be updated using server-returned data or, as f
 ## Anti-duplication controls
 
 The control must be server-side. The UI can remove optimistic rows when the server returns `reactioneventid = 0`, but it must not be the only defence.
+
+## Bookmark privacy boundary
+
+A private study tool can still contribute to aggregate teaching analytics, but the privacy boundary must be explicit: teacher output may contain only threshold-protected event and distinct-user counts. Labels, individual timestamps and owner lists must remain outside teacher queries, charts and exports.

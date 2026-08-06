@@ -431,3 +431,12 @@
 | report.php | funzione | videotrack_report_render_heatmap_legend() |
 | report.php | funzione | videotrack_report_render_analytics_download() |
 | tests/analytics_table_export_test.php | classe | mod_videotrack\analytics_table_export_test |
+
+## Funzioni dei segnalibri personali (1.6.14–1.6.16)
+
+- `save_bookmark::execute_parameters()`, `execute()`, `execute_returns()`.
+- `delete_bookmark::execute_parameters()`, `execute()`, `execute_returns()`.
+- `bookmark_saved`, `bookmark_deleted`, `bookmark_exported`: `init()`, `get_name()`, `get_description()`, `get_url()` e metodi di mapping object-id.
+- `core/player/bookmarks.js`: `resolveBookmarkTime()`, `appendRow()`, `installHandler()`.
+- `report.php`: `videotrack_report_render_bookmark_summary()`.
+- `analytics::count_summary()` fornisce il contratto comune dei conteggi privacy-safe.
