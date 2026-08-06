@@ -23,8 +23,9 @@ define([
     'mod_videotrack/core/tracker',
     'mod_videotrack/core/player',
     'mod_videotrack/core/player/forum',
+    'mod_videotrack/core/player/timed_text',
     'mod_videotrack/core/debug'
-], function(Log, Api, Adapter, Utils, Ui, Progress, State, Reactions, Tracker, PlayerCore, Forum, Debug) {
+], function(Log, Api, Adapter, Utils, Ui, Progress, State, Reactions, Tracker, PlayerCore, Forum, TimedText, Debug) {
     'use strict';
 
 
@@ -1782,6 +1783,42 @@ define([
     }
 
     /**
+     * Navigate from transcript or chapter controls while respecting seek policy.
+     *
+     * @param {number} target Target timestamp.
+     * @returns {Promise<boolean>} Whether navigation was accepted.
+     */
+    function navigateTimedText(target) {
+        if (!player || typeof player.setCurrentTime !== 'function') {
+            return Promise.resolve(false);
+        }
+        var destination = Tracker.normaliseTime(target);
+        return Promise.resolve(getCurrentVideoTime()).then(function(currentTime) {
+            var current = Tracker.normaliseTime(currentTime);
+            if (destination > current + 0.5 && config.allowseekforward === false &&
+                    destination > getAllowedForwardLimit() + 0.75) {
+                return false;
+            }
+            if (destination < current - 0.5 && config.allowseekbackward === false) {
+                return false;
+            }
+            if (state.playing) {
+                closeSegment('seek');
+            }
+            Tracker.markProgrammaticSeek(state);
+            return player.setCurrentTime(destination).then(function(actualTime) {
+                Tracker.syncTime(state, actualTime);
+                updateLiveIntervalBar(actualTime);
+                return true;
+            }).catch(function(error) {
+                Debug.log('timedtextseekfailed', {message: error});
+                Tracker.consumeProgrammaticSeek(state, current);
+                return false;
+            });
+        });
+    }
+
+    /**
      * Feature 12: Gestione overlay poster pre-play.
      * Removes the overlay on the first PLAYING event or overlay play button click.
      */
@@ -1872,6 +1909,11 @@ define([
                 errorLabel: config.forumposterrorlabel
             });
             loadVimeoSDK(buildPlayer);
+            state._timedTextController = TimedText.create({
+                config: config,
+                getCurrentTime: getCurrentVideoTime,
+                navigate: navigateTimedText
+            });
         }
     };
 });

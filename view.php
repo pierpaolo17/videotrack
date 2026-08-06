@@ -103,6 +103,15 @@ $playerwidth = videotrack_get_player_width($videotrack);
 $rewindstep  = videotrack_get_rewind_step($videotrack);
 $ffstep      = videotrack_get_fastforward_step($videotrack);
 $vtturl      = ($source === 'upload' && !empty($videotrack->captions)) ? videotrack_get_vtt_url((int)$cm->id) : null;
+$legacytimedtext = $vtturl !== null;
+$transcripttracks = \mod_videotrack\local\timed_text::transcript_tracks(
+    (int)$cm->id,
+    (string)($videotrack->captionslang ?? ''),
+    $legacytimedtext
+);
+$chaptersource = \mod_videotrack\local\timed_text::chapter_source((int)$cm->id, $legacytimedtext);
+$showtranscript = !empty($videotrack->showtranscript) && !empty($transcripttracks);
+$showchapters = !empty($videotrack->showchapters) && $chaptersource !== null;
 $posterurl   = videotrack_get_poster_url((int)$cm->id);
 $heartbeat   = videotrack_get_config_int('heartbeatinterval', 30, 5, 300);
 $distractionfree = !empty(get_config('mod_videotrack', 'distractionfree'));
@@ -151,14 +160,25 @@ $playerconfig = [
     'captions'               => (bool)($videotrack->captions ?? false),
     'captionslang'           => (string)($videotrack->captionslang ?? ''),
     'vtturl'                 => $vtturl ? (string)$vtturl : '',
-    'showtranscript'         => !empty($videotrack->captions) && !empty($videotrack->showtranscript) && $vtturl !== null,
-    // Feature 10: VTT chapters use the same source as the transcript.
-    'showchapters'           => !empty($videotrack->captions) && !empty($videotrack->showchapters) && $vtturl !== null,
+    'showtranscript'         => $showtranscript,
+    'transcripttracks'       => $transcripttracks,
+    'transcriptdefaultlanguage' => current_language(),
+    'showchapters'           => $showchapters,
+    'chapterurl'             => $chaptersource ? (string)$chaptersource['url'] : '',
+    'chapterlegacymode'      => $chaptersource ? !empty($chaptersource['legacy']) : false,
     // Feature 12: poster preview image URL (empty when no image is configured).
     'posterurl'              => $posterurl ? (string)$posterurl : '',
     'chapterslabel'          => get_string('chapters_label', 'mod_videotrack'),
     'chapterlabel'           => get_string('chapter_label', 'mod_videotrack'),
     'chaptersunavailablelabel' => get_string('chapters_unavailable', 'mod_videotrack'),
+    'chaptersloadinglabel'   => get_string('chapters_loading', 'mod_videotrack'),
+    'transcriptloadinglabel' => get_string('transcript_loading', 'mod_videotrack'),
+    'transcriptsearchlabel'  => get_string('transcript_search', 'mod_videotrack'),
+    'transcriptsearchplaceholder' => get_string('transcript_search_placeholder', 'mod_videotrack'),
+    'transcriptresultslabel' => get_string('transcript_results', 'mod_videotrack', '__COUNT__'),
+    'transcriptlanguagelabel' => get_string('transcript_language', 'mod_videotrack'),
+    'timedtextseekblockedlabel' => get_string('timedtext_seek_blocked', 'mod_videotrack'),
+    'timedtextseekfailedlabel' => get_string('timedtext_seek_failed', 'mod_videotrack'),
     'requiredpercent'        => (int)$videotrack->completionpercent,
     'origin'                 => (string)$CFG->wwwroot,
     'reactionsenabled'       => (bool)$videotrack->reactionsenabled,
@@ -418,6 +438,18 @@ if ($posterurl) {
 }
 echo html_writer::end_div(); // Videotrack-player-wrap.
 
+if ($showchapters) {
+    echo html_writer::div(
+        get_string('chapters_loading', 'mod_videotrack'),
+        'videotrack-chapters-container',
+        [
+            'id' => 'videotrack-chapters-container',
+            'role' => 'region',
+            'aria-label' => get_string('chapters_label', 'mod_videotrack'),
+        ]
+    );
+}
+
 // Visual watched-interval bar (canvas updated by JavaScript).
 echo html_writer::tag('canvas', '', [
     'id'         => 'videotrack-interval-bar',
@@ -473,8 +505,8 @@ echo html_writer::end_div(); // Videotrack-player-section.
 // Sidebar: progress, reactions and student reactions table.
 echo html_writer::start_div('videotrack-sidebar');
 
-// Feature 8: interactive VTT transcript panel (upload source only, with a VTT file).
-if (!empty($videotrack->showtranscript) && $vtturl !== null) {
+// Provider-neutral interactive WebVTT transcript panel.
+if ($showtranscript) {
     echo html_writer::start_div('videotrack-transcript-panel', ['id' => 'videotrack-transcript-panel']);
     echo html_writer::tag(
         'h3',

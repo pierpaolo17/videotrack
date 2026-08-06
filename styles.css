@@ -1414,3 +1414,28 @@
         background: CanvasText;
     }
 }
+
+/* ── Provider-neutral timed text controls ───────────────────────────────── */
+.videotrack-chapters-container {
+    margin-top: 0.5rem;
+}
+
+.videotrack-transcript-controls {
+    border-bottom: 1px solid var(--videotrack-panel-border);
+    padding-bottom: 0.5rem;
+}
+
+.videotrack-transcript-results:empty,
+.videotrack-timed-text-status[hidden] {
+    display: none;
+}
+
+.videotrack-transcript-cue[hidden] {
+    display: none;
+}
+
+@media (forced-colors: active) {
+    .videotrack-transcript-controls {
+        border-bottom-color: CanvasText;
+    }
+}

@@ -112,6 +112,8 @@ class backup_videotrack_activity_structure_step extends backup_activity_structur
         $videotrack->annotate_files('mod_videotrack', 'intro', null);
         $videotrack->annotate_files('mod_videotrack', 'videocontent', null);
         $videotrack->annotate_files('mod_videotrack', 'subtitles', null);
+        $videotrack->annotate_files('mod_videotrack', 'transcripts', null);
+        $videotrack->annotate_files('mod_videotrack', 'chapters', null);
         $videotrack->annotate_files('mod_videotrack', 'posterimage', null);
         $reaction->annotate_files('mod_videotrack', 'reactionicon', 'id');
 

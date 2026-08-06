@@ -240,3 +240,10 @@
 
 - `classes/local/analytics_table_export.php`: allowed formats and privacy-safe rows shared by the accessible table and Moodle exports.
 - `tests/analytics_table_export_test.php`: regression coverage for masking, aggregate-state fallback and the reaction column.
+
+
+## Additions in 1.6.12
+
+- `classes/local/timed_text.php`: validates, stores and resolves provider-independent WebVTT transcript and chapter files.
+- `amd/src/core/player/timed_text.js`: parses WebVTT, renders transcript search/language controls and chapters, synchronises active cues and delegates policy-aware navigation to each player.
+- `tests/timed_text_test.php`: covers filename language extraction, WebVTT validation and file limits.

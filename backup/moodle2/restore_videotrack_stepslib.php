@@ -310,6 +310,8 @@ class restore_videotrack_activity_structure_step extends restore_activity_struct
         $this->add_related_files('mod_videotrack', 'reactionicon', 'videotrack_react');
         $this->add_related_files('mod_videotrack', 'videocontent', null);
         $this->add_related_files('mod_videotrack', 'subtitles', null);
+        $this->add_related_files('mod_videotrack', 'transcripts', null);
+        $this->add_related_files('mod_videotrack', 'chapters', null);
         $this->add_related_files('mod_videotrack', 'posterimage', null);
 
         $videotrackid = $this->get_new_parentid('videotrack');

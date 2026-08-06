@@ -155,3 +155,12 @@ La scheda Analytics presenta ora un unico pannello espandibile che spiega calcol
 ## Analytics clarity and export (1.6.11)
 
 The Analytics tab now provides one expandable explanation of calculations and privacy thresholds, shows warnings only when viewing or reaction data cannot be published, and renders the reaction summary as compact text. The heatmap includes a legend for intervals, intensity, masked values and reaction clusters. Its equivalent accessible table can be downloaded through Moodle CSV, Microsoft Excel (`.xlsx`) and OpenDocument (`.ods`) data formats; masked values remain masked in every export.
+
+
+## Interactive transcripts and chapters (1.6.12)
+
+Teacher-provided WebVTT transcripts now work with HTML5 uploads, YouTube and Vimeo. Up to ten language files can be uploaded using language-code filenames such as `en.vtt`, `it.vtt` or `pt-BR.vtt`; students can switch language, search cue text and follow the active cue. Chapters use a dedicated WebVTT file where each cue is one chapter. Transcript and chapter navigation obey the same forward and backward seek restrictions as the selected player. Existing upload activities can continue using their subtitle file as a legacy fallback.
+
+## Trascrizioni interattive e capitoli (1.6.12)
+
+Le trascrizioni WebVTT fornite dal docente funzionano ora con file HTML5, YouTube e Vimeo. È possibile caricare fino a dieci lingue usando nomi come `en.vtt`, `it.vtt` o `pt-BR.vtt`; gli studenti possono cambiare lingua, cercare nel testo e seguire il cue attivo. I capitoli usano un file WebVTT dedicato nel quale ogni cue rappresenta un capitolo. La navigazione rispetta le stesse limitazioni di seek avanti e indietro del player. Le attività upload esistenti possono continuare a usare il vecchio file sottotitoli come fallback.
