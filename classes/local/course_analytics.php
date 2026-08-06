@@ -58,7 +58,7 @@ final class course_analytics {
         require_once($CFG->libdir . '/grouplib.php');
 
         $sql = "SELECT vt.id, vt.course, vt.name, vt.videosource, vt.durationseconds,
-                       cm.id AS cmid, cm.groupmode, cm.groupingid,
+                       vt.bookmarksenabled, cm.id AS cmid, cm.groupmode, cm.groupingid,
                        c.groupmode AS coursegroupmode, c.groupmodeforce
                   FROM {videotrack} vt
                   JOIN {course_modules} cm ON cm.instance = vt.id
@@ -119,7 +119,7 @@ final class course_analytics {
             $row->summary = $summary;
             $row->reactions = self::load_event_summary(
                 (int)$instance->id,
-                false,
+                '',
                 $learnersql,
                 $learnerparams,
                 $minusers,
@@ -128,13 +128,24 @@ final class course_analytics {
             );
             $row->notes = self::load_event_summary(
                 (int)$instance->id,
-                true,
+                'note',
                 $learnersql,
                 $learnerparams,
                 $minusers,
                 $timestart,
                 $timeend
             );
+            $row->bookmarks = !empty($instance->bookmarksenabled)
+                ? self::load_event_summary(
+                    (int)$instance->id,
+                    'bookmark',
+                    $learnersql,
+                    $learnerparams,
+                    $minusers,
+                    $timestart,
+                    $timeend
+                )
+                : analytics::count_summary(0, 0, $minusers);
             $row->canviewactivity = has_capability('mod/videotrack:view', $context, $viewerid);
             $row->canviewreport = has_capability('mod/videotrack:viewreport', $context, $viewerid);
             $rows[(int)$instance->id] = $row;
@@ -322,10 +333,10 @@ final class course_analytics {
     }
 
     /**
-     * Loads a privacy-safe reaction or note count for one activity.
+     * Loads a privacy-safe reaction, note or bookmark count for one activity.
      *
      * @param int $videotrackid Activity instance id.
-     * @param bool $notes True for personal notes, false for reactions.
+     * @param string $notetype Empty for reactions, or the personal event type to count.
      * @param string $learnersql Learner SQL condition.
      * @param array $learnerparams Learner SQL parameters.
      * @param int $minusers Privacy threshold.
@@ -335,7 +346,7 @@ final class course_analytics {
      */
     private static function load_event_summary(
         int $videotrackid,
-        bool $notes,
+        string $notetype,
         string $learnersql,
         array $learnerparams,
         int $minusers,
@@ -344,12 +355,12 @@ final class course_analytics {
     ): array {
         global $DB;
 
-        $typecondition = $notes
+        $typecondition = $notetype !== ''
             ? 'notetype = :eventnotetype'
             : "(notetype IS NULL OR notetype = '')";
         $params = ['eventvideotrackid' => $videotrackid] + $learnerparams;
-        if ($notes) {
-            $params['eventnotetype'] = 'note';
+        if ($notetype !== '') {
+            $params['eventnotetype'] = $notetype;
         }
         $timecondition = '';
         if ($timestart > 0) {

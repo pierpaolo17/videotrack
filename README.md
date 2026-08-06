@@ -174,6 +174,15 @@ YouTube and Vimeo captions remain native to their provider players and cannot be
 
 I sottotitoli nativi di YouTube e Vimeo restano nei player dei rispettivi provider e VideoTrack non può importarli o cercarli automaticamente. Per rendere ricercabili quei contenuti, il docente deve caricare una copia WebVTT nell’area dedicata alla trascrizione ricercabile. Il modulo di configurazione ora chiarisce esplicitamente questa separazione e il pannello studente identifica la trascrizione come risorsa fornita dal docente, che può differire dai sottotitoli mostrati nel player. Le attività con media caricati possono continuare a usare il file sottotitoli come fallback storico.
 
+
+## Bookmark configuration and reporting (1.6.15)
+
+The activity form now exposes personal notes and bookmarks in a dedicated, expanded Personal study tools section. When bookmarks are enabled, per-student reports show only the number saved by each learner, while course, cross-course and instance analytics use privacy-safe aggregate counts. Bookmark labels and timestamps remain visible only to their owner.
+
+## Configurazione e report dei segnalibri (1.6.15)
+
+Il modulo dell’attività mostra ora note personali e segnalibri in una sezione dedicata e aperta denominata Strumenti personali di studio. Quando i segnalibri sono abilitati, il report per studente mostra soltanto il numero salvato da ciascun partecipante, mentre dashboard di corso, dashboard trasversale e analytics usano conteggi aggregati protetti dalla soglia privacy. Etichette e timestamp restano visibili solo al proprietario.
+
 ### Personal bookmarks
 
-Activities can optionally let students save private named bookmarks at watched video timestamps. Bookmarks can be reopened, removed and exported by their owner. They are kept separate from notes and reactions and are not displayed in teacher reports.
+Activities can optionally let students save private named bookmarks at watched video timestamps. Bookmarks can be reopened, removed and exported by their owner. Labels and timestamps remain private; teacher reports and analytics display only privacy-safe aggregate bookmark counts.

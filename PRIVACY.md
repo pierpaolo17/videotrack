@@ -89,4 +89,4 @@ YouTube and Vimeo activities are matched by provider video id. Uploaded files ar
 
 ## Personal bookmarks
 
-When enabled, a bookmark stores the user id, activity identifiers, a private label, the watched video timestamp, playback rate and creation/modification times. Bookmarks are visible and exportable by their owner, are not included in teacher reports, and are handled by Moodle Privacy API export and erasure together with other VideoTrack user data.
+When enabled, a bookmark stores the user id, activity identifiers, a private label, the watched video timestamp, playback rate and creation/modification times. Labels and timestamps are visible and exportable only by the owner. Teacher reports and analytics may show privacy-safe aggregate counts of bookmark events and distinct bookmark users, but never the individual label or timestamp. Bookmarks are handled by Moodle Privacy API export and erasure together with other VideoTrack user data.

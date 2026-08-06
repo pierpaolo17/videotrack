@@ -149,6 +149,11 @@ if (!$instances) {
     exit;
 }
 
+$showbookmarks = count(array_filter(
+    $instances,
+    static fn(stdClass $instance): bool => !empty($instance->bookmarksenabled)
+)) > 0;
+
 $table = new html_table();
 $table->caption = get_string('coursereport:title', 'mod_videotrack');
 $table->attributes['class'] = 'generaltable w-100';
@@ -164,8 +169,11 @@ $table->head = [
     get_string('coursereport:col_main_drop', 'mod_videotrack'),
     get_string('coursereport:col_reactions', 'mod_videotrack'),
     get_string('coursereport:col_notes', 'mod_videotrack'),
-    get_string('coursereport:col_actions', 'mod_videotrack'),
 ];
+if ($showbookmarks) {
+    $table->head[] = get_string('coursereport:col_bookmarks', 'mod_videotrack');
+}
+$table->head[] = get_string('coursereport:col_actions', 'mod_videotrack');
 
 foreach ($instances as $instance) {
     $formattedname = format_string($instance->name, true, ['context' => $context]);
@@ -189,7 +197,7 @@ foreach ($instances as $instance) {
         : get_string('coursereport:notavailable', 'mod_videotrack');
     $suppressed = !empty($instance->summary['datasetsuppressed']);
 
-    $table->data[] = [
+    $row = [
         $activity,
         s($sourcelabel),
         s($duration),
@@ -212,8 +220,14 @@ foreach ($instances as $instance) {
         videotrack_course_report_drop_cell($instance->summary['maindrop'], $suppressed, $minusers),
         videotrack_course_report_count_cell($instance->reactions, $minusers),
         videotrack_course_report_count_cell($instance->notes, $minusers),
-        $report,
     ];
+    if ($showbookmarks) {
+        $row[] = !empty($instance->bookmarksenabled)
+            ? videotrack_course_report_count_cell($instance->bookmarks, $minusers)
+            : html_writer::span(get_string('coursereport:disabled', 'mod_videotrack'), 'text-muted');
+    }
+    $row[] = $report;
+    $table->data[] = $row;
 }
 
 echo html_writer::table($table);

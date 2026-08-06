@@ -406,15 +406,23 @@ function videotrack_report_render_analytics_heatmap(
  *
  * @param int $minusers Privacy threshold.
  * @param bool $haspartialmasking Whether some interval values are masked.
+ * @param bool $showbookmarks Whether bookmark aggregates are available.
  * @return string Accessible details markup.
  */
-function videotrack_report_render_analytics_methodology(int $minusers, bool $haspartialmasking): string {
+function videotrack_report_render_analytics_methodology(
+    int $minusers,
+    bool $haspartialmasking,
+    bool $showbookmarks
+): string {
     $items = [
         get_string('report:analytics_method_unique', 'mod_videotrack'),
         get_string('report:analytics_method_retention', 'mod_videotrack'),
         get_string('report:analytics_method_heatmap', 'mod_videotrack'),
         get_string('report:analytics_method_reactions', 'mod_videotrack'),
     ];
+    if ($showbookmarks) {
+        $items[] = get_string('report:analytics_method_bookmarks', 'mod_videotrack');
+    }
     $content = html_writer::tag(
         'p',
         get_string('report:analytics_method_intro', 'mod_videotrack'),
@@ -631,6 +639,47 @@ function videotrack_report_render_reaction_summary(array $summary): string {
     $students = get_string('report:analytics_students_involved', 'mod_videotrack') . ' ' .
         html_writer::tag('strong', (string)(int)($summary['studentcount'] ?? 0));
     return html_writer::div($events . html_writer::empty_tag('br') . $students, 'mb-3');
+}
+
+/**
+ * Renders a privacy-safe bookmark usage summary without exposing labels or timestamps.
+ *
+ * @param array $summary Event and distinct-student counts plus suppression state.
+ * @param int $minusers Privacy threshold.
+ * @return string Summary or privacy warning.
+ */
+function videotrack_report_render_bookmark_summary(array $summary, int $minusers): string {
+    global $OUTPUT;
+
+    if (empty($summary['hasdata'])) {
+        return html_writer::div(
+            get_string('report:analytics_bookmarks_none', 'mod_videotrack'),
+            'text-muted mb-3'
+        );
+    }
+    if (!empty($summary['suppressed'])) {
+        return $OUTPUT->notification(
+            get_string('report:analytics_bookmarks_suppressed', 'mod_videotrack', $minusers),
+            'warning'
+        );
+    }
+
+    $events = get_string('report:analytics_bookmarks_saved', 'mod_videotrack') . ' ' .
+        html_writer::tag('strong', (string)(int)($summary['eventcount'] ?? 0));
+    $students = get_string('report:analytics_bookmark_students', 'mod_videotrack') . ' ' .
+        html_writer::tag('strong', (string)(int)($summary['studentcount'] ?? 0));
+    $privacy = html_writer::tag(
+        'small',
+        get_string('report:analytics_bookmarks_private', 'mod_videotrack'),
+        ['class' => 'text-muted']
+    );
+
+    return html_writer::div(
+        html_writer::tag('strong', get_string('report:analytics_bookmarks_title', 'mod_videotrack')) .
+            html_writer::empty_tag('br') . $events . html_writer::empty_tag('br') . $students .
+            html_writer::empty_tag('br') . $privacy,
+        'mb-3'
+    );
 }
 
 /**
@@ -1009,6 +1058,40 @@ if ($mode === 'analytics') {
         }
     }
 
+    $bookmarksummary = [
+        'hasdata' => false,
+        'eventcount' => 0,
+        'studentcount' => 0,
+        'suppressed' => false,
+    ];
+    $bookmarkinstances = array_filter(
+        $analyticsinstances,
+        static fn(stdClass $scopeinstance): bool => !empty($scopeinstance->bookmarksenabled)
+    );
+    $bookmarkanalyticsenabled = !empty($bookmarkinstances);
+    if ($bookmarkanalyticsenabled) {
+        [$bookmarkwhere, $bookmarkparams] = videotrack_report_analytics_scope_condition(
+            $bookmarkinstances,
+            'analyticsbookmark'
+        );
+        $bookmarkwhere = '(' . $bookmarkwhere . ") AND isdeleted = 0 AND notetype = 'bookmark'";
+        if ($providerdataid !== '') {
+            $bookmarkwhere .= ' AND videoid = :analyticsbookmarkvideoid';
+            $bookmarkparams['analyticsbookmarkvideoid'] = $providerdataid;
+        }
+        $bookmarksummaryrecord = $DB->get_record_sql(
+            "SELECT COUNT(id) AS eventcount, COUNT(DISTINCT userid) AS studentcount
+               FROM {videotrack_reactev}
+              WHERE {$bookmarkwhere}",
+            $bookmarkparams
+        );
+        $bookmarksummary = \mod_videotrack\local\analytics::count_summary(
+            (int)($bookmarksummaryrecord->eventcount ?? 0),
+            (int)($bookmarksummaryrecord->studentcount ?? 0),
+            $minusers
+        );
+    }
+
     $reactionbybin = [];
     foreach ($reactionclusters as $cluster) {
         $binindex = min(
@@ -1233,7 +1316,8 @@ if ($mode === 'analytics') {
 
     echo videotrack_report_render_analytics_methodology(
         $minusers,
-        $hasmaskedbins || $hasmaskedrepeats
+        $hasmaskedbins || $hasmaskedrepeats,
+        $bookmarkanalyticsenabled
     );
     if ($analyticsstatefallback) {
         echo $OUTPUT->notification(
@@ -1258,6 +1342,9 @@ if ($mode === 'analytics') {
         $minusers
     );
     echo videotrack_report_render_reaction_summary($reactionsummary);
+    if ($bookmarkanalyticsenabled) {
+        echo videotrack_report_render_bookmark_summary($bookmarksummary, $minusers);
+    }
     if (
         $analyticsshowreactions
         && !empty($reactionsummary['hasdata'])
@@ -1276,13 +1363,14 @@ if ($mode === 'analytics') {
         exit;
     }
     if ((int)$analytics['viewers'] === 0) {
-        if (!$reactionclusters && empty($reactionsummary['hasdata'])) {
+        $haseventsummary = !empty($reactionsummary['hasdata']) || !empty($bookmarksummary['hasdata']);
+        if (!$reactionclusters && !$haseventsummary) {
             echo $OUTPUT->notification(get_string('report:analytics_nodata', 'mod_videotrack'), 'notifymessage');
             echo $OUTPUT->footer();
             exit;
         }
         echo $OUTPUT->notification(
-            get_string('report:analytics_noviewingdata_reactions', 'mod_videotrack'),
+            get_string('report:analytics_noviewingdata_events', 'mod_videotrack'),
             'info'
         );
         echo videotrack_report_render_reaction_clusters($reactionclusters, $duration);
@@ -1465,8 +1553,7 @@ foreach ($reactions as $reaction) {
     $reactionmap[(int)$reaction->id] = $reaction;
 }
 
-// Standard reaction events: standard reactions only (excludes personal notes, notetype='note').
-// Notes are shown in a separate section further below.
+// Standard reaction events only. Personal notes and bookmarks are handled separately.
 $eventconditions = "videotrackid = :vtid AND isdeleted = 0 AND (notetype = '' OR notetype IS NULL)";
 $eventparamsnamed = ['vtid' => $videotrack->id];
 if ($useridfilter > 0) {
@@ -1503,6 +1590,50 @@ $geteventrecordset = static function () use ($DB, $eventconditions, $eventparams
         'id, userid, reactionid, reactionlabel, videotime'
     );
 };
+
+$bookmarkcounts = [];
+$bookmarkuserids = [];
+$reportbookmarksummary = [
+    'hasdata' => false,
+    'eventcount' => 0,
+    'studentcount' => 0,
+    'suppressed' => false,
+];
+if (!empty($videotrack->bookmarksenabled)) {
+    $bookmarkconditions = "videotrackid = :bookmarkvtid AND isdeleted = 0 AND notetype = 'bookmark'";
+    $bookmarkparams = ['bookmarkvtid' => $videotrack->id];
+    if ($useridfilter > 0) {
+        $bookmarkconditions .= ' AND userid = :bookmarkuserid';
+        $bookmarkparams['bookmarkuserid'] = $useridfilter;
+    }
+    if ($timefrom !== null) {
+        $bookmarkconditions .= ' AND videotime >= :bookmarktimefrom';
+        $bookmarkparams['bookmarktimefrom'] = $timefrom;
+    }
+    if ($timeto !== null) {
+        $bookmarkconditions .= ' AND videotime <= :bookmarktimeto';
+        $bookmarkparams['bookmarktimeto'] = $timeto;
+    }
+    $bookmarkrecords = $DB->get_records_sql(
+        "SELECT userid, COUNT(id) AS eventcount
+           FROM {videotrack_reactev}
+          WHERE {$bookmarkconditions}
+       GROUP BY userid",
+        $bookmarkparams
+    );
+    $bookmarkeventcount = 0;
+    foreach ($bookmarkrecords as $bookmarkrecord) {
+        $bookmarkuserid = (int)$bookmarkrecord->userid;
+        $bookmarkcounts[$bookmarkuserid] = (int)$bookmarkrecord->eventcount;
+        $bookmarkuserids[] = $bookmarkuserid;
+        $bookmarkeventcount += (int)$bookmarkrecord->eventcount;
+    }
+    $reportbookmarksummary = \mod_videotrack\local\analytics::count_summary(
+        $bookmarkeventcount,
+        count($bookmarkuserids),
+        videotrack_get_config_int('analyticsminusers', 5, 2, 50)
+    );
+}
 
 $stateparams = ['videotrackid' => $videotrack->id];
 $stateconditions = 'videotrackid = :svtid';
@@ -1548,7 +1679,8 @@ $alluserids = array_values(array_filter(array_unique(array_merge(
     $stateuserids,
     $segmentuserids,
     $eventuserids,
-    $noteuserids
+    $noteuserids,
+    $bookmarkuserids
 )), static function (int $userid): bool {
     return $userid > 0;
 }));
@@ -1599,6 +1731,19 @@ foreach ($noteuserids as $noteuserid) {
         $user = $usermap[(int)$noteuserid] ?? null;
         if ($user) {
             $useroptions[(int)$user->id] = videotrack_report_user_label((int)$user->id, $usermap, $canviewemail);
+        }
+    }
+}
+
+foreach ($bookmarkuserids as $bookmarkuserid) {
+    if (!isset($useroptions[(int)$bookmarkuserid])) {
+        $user = $usermap[(int)$bookmarkuserid] ?? null;
+        if ($user) {
+            $useroptions[(int)$user->id] = videotrack_report_user_label(
+                (int)$user->id,
+                $usermap,
+                $canviewemail
+            );
         }
     }
 }
@@ -2227,6 +2372,9 @@ if ($export === 'csv') {
                 get_string('report:iscompleted', 'mod_videotrack'),
             ]
         );
+        if (!empty($videotrack->bookmarksenabled)) {
+            $csvheads[] = get_string('report:bookmarks_count', 'mod_videotrack');
+        }
         if ($hasgrade && $cangrade) {
             $csvheads[] = get_string('report:grade', 'mod_videotrack');
         }
@@ -2252,6 +2400,9 @@ if ($export === 'csv') {
                 videotrack_format_video_timestamp((float)$state->lastposition, $videoduration),
                 get_string($state->iscompleted ? 'yes' : 'no', 'mod_videotrack'),
             ]);
+            if (!empty($videotrack->bookmarksenabled)) {
+                $row[] = (int)($bookmarkcounts[$userid] ?? 0);
+            }
             if ($hasgrade && $cangrade) {
                 $row[] = $gradeinfo->items[0]->grades[$userid]->grade ?? '';
             }
@@ -2669,6 +2820,9 @@ if ($mode === 'student') {
             get_string('report:lastposition', 'mod_videotrack'),
             get_string('report:iscompleted', 'mod_videotrack'),
         ];
+        if (!empty($videotrack->bookmarksenabled)) {
+            $heads[] = get_string('report:bookmarks_count', 'mod_videotrack');
+        }
         if ($hasgrade && $cangrade) {
             $heads[] = get_string('report:grade', 'mod_videotrack');
         }
@@ -2693,6 +2847,10 @@ if ($mode === 'student') {
                 videotrack_format_seconds((float)$state->lastposition),
                 $state->iscompleted ? get_string('yes', 'mod_videotrack') : get_string('no', 'mod_videotrack'),
             ];
+
+            if (!empty($videotrack->bookmarksenabled)) {
+                $row[] = (string)($bookmarkcounts[(int)$state->userid] ?? 0);
+            }
 
             if ($hasgrade && $cangrade) {
                 // Read the current grade for this user.
@@ -2829,6 +2987,12 @@ if ($mode === 'student') {
         echo html_writer::table($table);
     }
 } else {
+    if (!empty($videotrack->bookmarksenabled)) {
+        echo videotrack_report_render_bookmark_summary(
+            $reportbookmarksummary,
+            videotrack_get_config_int('analyticsminusers', 5, 2, 50)
+        );
+    }
     if (!$eventcount) {
         echo $OUTPUT->notification(get_string('report:noreactions', 'mod_videotrack'), 'notifymessage');
     } else {
