@@ -86,3 +86,7 @@ Instance analytics use saved viewing segments only for heatmap, retention and vi
 The optional cross-course Analytics filter performs a read-only aggregation over activities that use the same technical video. It includes an activity only after checking `mod/videotrack:viewreport` in that activity’s module context. Course-group restrictions are resolved independently for every included activity; groups from different courses are never treated as a shared group. The filter does not reveal inaccessible course names or activity names.
 
 YouTube and Vimeo activities are matched by provider video id. Uploaded files are matched by Moodle content hash rather than filename. The same Moodle user id is merged across included activities before distinct-user counts and the configured privacy threshold are calculated. No student identity or private note text is rendered. Reaction events are grouped by their stored reaction key and remain subject to the distinct-user privacy threshold. The filter is temporary, is not persisted and creates no new personal-data table or field.
+
+## Personal bookmarks
+
+When enabled, a bookmark stores the user id, activity identifiers, a private label, the watched video timestamp, playback rate and creation/modification times. Bookmarks are visible and exportable by their owner, are not included in teacher reports, and are handled by Moodle Privacy API export and erasure together with other VideoTrack user data.

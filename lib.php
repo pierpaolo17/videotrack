@@ -762,6 +762,7 @@ function videotrack_process_player_behavior_fields(stdClass $data): void {
         'showtranscript',
         'showchapters',
         'studentnotesenabled',
+        'bookmarksenabled',
     ];
     foreach ($behaviourfields as $field) {
         $data->{$field} = empty($data->{$field}) ? 0 : 1;

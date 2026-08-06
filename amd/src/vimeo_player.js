@@ -1783,6 +1783,21 @@ define([
     }
 
     /**
+     * Install private bookmark handling for the Vimeo player.
+     */
+    function installBookmarkHandler() {
+        PlayerCore.installBookmarkHandler({
+            Api: Api,
+            Log: Log,
+            Utils: Utils,
+            config: config,
+            state: state,
+            getCurrentVideoTime: getCurrentVideoTime,
+            saveCurrentProgress: saveCurrentProgress
+        });
+    }
+
+    /**
      * Navigate from transcript or chapter controls while respecting seek policy.
      *
      * @param {number} target Target timestamp.
@@ -1897,6 +1912,7 @@ define([
             installReactionHandler();
             installNoteHandler();
             installNotesToggle();
+            installBookmarkHandler();
             installPosterHandler();
             Forum.install({
                 buttonId: config.forumpostbuttonid,

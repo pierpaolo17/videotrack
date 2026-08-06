@@ -173,3 +173,7 @@ YouTube and Vimeo captions remain native to their provider players and cannot be
 ## Chiarimento sulla trascrizione ricercabile (1.6.13)
 
 I sottotitoli nativi di YouTube e Vimeo restano nei player dei rispettivi provider e VideoTrack non può importarli o cercarli automaticamente. Per rendere ricercabili quei contenuti, il docente deve caricare una copia WebVTT nell’area dedicata alla trascrizione ricercabile. Il modulo di configurazione ora chiarisce esplicitamente questa separazione e il pannello studente identifica la trascrizione come risorsa fornita dal docente, che può differire dai sottotitoli mostrati nel player. Le attività con media caricati possono continuare a usare il file sottotitoli come fallback storico.
+
+### Personal bookmarks
+
+Activities can optionally let students save private named bookmarks at watched video timestamps. Bookmarks can be reopened, removed and exported by their owner. They are kept separate from notes and reactions and are not displayed in teacher reports.

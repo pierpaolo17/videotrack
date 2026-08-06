@@ -72,12 +72,12 @@ class delete_reaction extends external_api {
         $context = $loaded['context'];
         $event = $DB->get_record_select(
             'videotrack_reactev',
-            'id = :id AND userid = :userid AND videotrackid = :videotrackid AND (notetype IS NULL OR notetype <> :notetype)',
+            "id = :id AND userid = :userid AND videotrackid = :videotrackid " .
+                "AND (notetype IS NULL OR notetype = '')",
             [
                 'id' => $params['reactioneventid'],
                 'userid' => $USER->id,
                 'videotrackid' => $videotrack->id,
-                'notetype' => 'note',
             ],
             '*',
             MUST_EXIST

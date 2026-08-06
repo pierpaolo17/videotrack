@@ -14,9 +14,10 @@ define([
     'mod_videotrack/core/player/poster',
     'mod_videotrack/core/player/status',
     'mod_videotrack/core/player/notes',
+    'mod_videotrack/core/player/bookmarks',
     'mod_videotrack/core/player/reactions',
     'mod_videotrack/core/player/progress'
-], function(Session, IntervalBar, Resume, Poster, PlayerStatus, PlayerNotes, PlayerReactions, PlayerProgress) {
+], function(Session, IntervalBar, Resume, Poster, PlayerStatus, PlayerNotes, PlayerBookmarks, PlayerReactions, PlayerProgress) {
     'use strict';
 
 
@@ -155,6 +156,15 @@ define([
         PlayerNotes.installHandler(deps, showStatusMessage, showErrorStatusMessage);
     }
 
+    /**
+     * Install private bookmark save/delete handlers shared by all player types.
+     *
+     * @param {Object} deps Dependencies and callbacks from the concrete player.
+     */
+    function installBookmarkHandler(deps) {
+        PlayerBookmarks.installHandler(deps, showStatusMessage, showErrorStatusMessage);
+    }
+
 
     /**
      * Remove the poster overlay with the existing fade-out transition.
@@ -202,6 +212,7 @@ define([
         updateNoteCharCounter: PlayerNotes.updateCharCounter,
         installNoteHandler: installNoteHandler,
         installNotesToggle: PlayerNotes.installToggle,
+        installBookmarkHandler: installBookmarkHandler,
         removePoster: removePoster
     };
 });

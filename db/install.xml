@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8" ?>
-<XMLDB PATH="mod/videotrack/db" VERSION="2026060414" COMMENT="XMLDB file for mod_videotrack"
+<XMLDB PATH="mod/videotrack/db" VERSION="2026060429" COMMENT="XMLDB file for mod_videotrack"
     xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
     xsi:noNamespaceSchemaLocation="../../../lib/xmldb/xmldb.xsd"
 >
@@ -39,6 +39,7 @@
         <FIELD NAME="showtranscript" TYPE="int" LENGTH="1" NOTNULL="true" DEFAULT="0" COMMENT="Show interactive VTT transcript panel (upload source only)"/>
         <FIELD NAME="showchapters" TYPE="int" LENGTH="1" NOTNULL="true" DEFAULT="0" COMMENT="Show VTT-based chapter navigation bar (upload source only)"/>
         <FIELD NAME="studentnotesenabled" TYPE="int" LENGTH="1" NOTNULL="true" DEFAULT="0" COMMENT="Allow students to write personal timestamped notes while watching"/>
+        <FIELD NAME="bookmarksenabled" TYPE="int" LENGTH="1" NOTNULL="true" DEFAULT="0" COMMENT="Allow students to save private named bookmarks at watched timestamps"/>
         <FIELD NAME="forumpostingenabled" TYPE="int" LENGTH="1" NOTNULL="true" DEFAULT="0" COMMENT="Allow students to compose a forum discussion from the current video time"/>
         <FIELD NAME="linkedforumid" TYPE="int" LENGTH="10" NOTNULL="true" DEFAULT="0" COMMENT="Linked forum instance id in the same course"/>
         <FIELD NAME="forumsubjecttemplate" TYPE="text" NOTNULL="false" COMMENT="Forum discussion subject template with {timestamp} and {activity} placeholders"/>
@@ -161,8 +162,8 @@
         <FIELD NAME="reactionkey" TYPE="char" LENGTH="100" NOTNULL="true"/>
         <FIELD NAME="reactionlabel" TYPE="char" LENGTH="255" NOTNULL="true"/>
         <FIELD NAME="reactiondesc" TYPE="text" NOTNULL="false"/>
-        <FIELD NAME="notetext" TYPE="text" NOTNULL="false" COMMENT="Free text note (only when notetype=note)"/>
-        <FIELD NAME="notetype" TYPE="char" LENGTH="20" NOTNULL="true" COMMENT="Empty=reaction; note=student note"/>
+        <FIELD NAME="notetext" TYPE="text" NOTNULL="false" COMMENT="Private text for notes or bookmark labels"/>
+        <FIELD NAME="notetype" TYPE="char" LENGTH="20" NOTNULL="true" COMMENT="Empty=reaction; note=student note; bookmark=private bookmark"/>
         <FIELD NAME="videotime" TYPE="number" LENGTH="10" DECIMALS="3" NOTNULL="true" DEFAULT="0.000"/>
         <FIELD NAME="playbackrate" TYPE="number" LENGTH="6" DECIMALS="3" NOTNULL="true" DEFAULT="1.000"/>
         <FIELD NAME="isdeleted" TYPE="int" LENGTH="1" NOTNULL="true" DEFAULT="0"/>
