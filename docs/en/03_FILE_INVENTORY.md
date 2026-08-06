@@ -274,9 +274,9 @@ The following shipped files were added after the original static inventory and a
 - `amd/build/core/player/timed_text.min.js` and `amd/build/core/player/timed_text.min.js.map`: generated timed-text artifacts.
 - `amd/build/core/player/bookmarks.min.js.map`: generated bookmark source map.
 
-## Integrity and focus files (1.6.17)
+## Integrity and focus files (1.6.18)
 
-- `classes/local/integrity.php`: event allowlist, random-pause bounds and privacy-safe summaries.
+- `classes/local/integrity.php`: event allowlist, site-level random-pause/focus policy helpers and privacy-safe summaries.
 - `classes/external/save_integrity_event.php`: validated, debounced AJAX insertion.
 - `amd/src/core/player/focus_guard.js`: shared visibility/focus/Picture-in-Picture/random-pause controller.
 - `amd/build/core/player/focus_guard.min.js` and `amd/build/core/player/focus_guard.min.js.map`: generated AMD artifacts.

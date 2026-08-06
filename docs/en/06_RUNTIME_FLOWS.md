@@ -106,6 +106,6 @@ The same `userid` is treated as one viewer even when present in multiple courses
 7. Owner export uses `bookmarks.php`.
 8. Teacher reports count events and distinct users only. Instance Analytics always renders a bookmark section when enabled and masks exact values below `analyticsminusers`.
 
-## Integrity and focus flow (1.6.17)
+## Integrity and focus flow (1.6.18)
 
 Visibility/player callback -> player-specific facade -> shared `focus_guard` -> optional pause and student status -> debounced AJAX signal -> `{videotrack_integrity}` -> capability/group/privacy-safe teacher report. The flow never mutates watched intervals, completion or grades. Random deadlines restart after learner interactions and run only while playback is active.

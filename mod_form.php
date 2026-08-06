@@ -870,6 +870,24 @@ class mod_videotrack_mod_form extends moodleform_mod {
         $mform->setType('randomfocuspauses', PARAM_BOOL);
         $mform->setDefault('randomfocuspauses', 0);
 
+        $randompausebounds = \mod_videotrack\local\integrity::random_pause_bounds();
+        $focuslosspolicy = \mod_videotrack\local\integrity::focus_loss_policy();
+        $focuslossgrace = \mod_videotrack\local\integrity::focus_loss_grace_seconds();
+        $focuspolicylabel = $focuslosspolicy === \mod_videotrack\local\integrity::FOCUS_POLICY_STRICT
+            ? get_string('setting:focuslosspolicy_strict', 'mod_videotrack')
+            : get_string('setting:focuslosspolicy_hiddenonly', 'mod_videotrack');
+        $mform->addElement(
+            'static',
+            'integritysitepolicy',
+            get_string('integrity:sitepolicy', 'mod_videotrack'),
+            get_string('integrity:sitepolicy_desc', 'mod_videotrack', (object)[
+                'minimum' => $randompausebounds['min'],
+                'maximum' => $randompausebounds['max'],
+                'policy' => $focuspolicylabel,
+                'grace' => $focuslossgrace,
+            ])
+        );
+
         $mform->addElement('advcheckbox', 'showreactionnotice', get_string('showreactionnotice', 'mod_videotrack'));
 
         $mform->setType('showreactionnotice', PARAM_BOOL);

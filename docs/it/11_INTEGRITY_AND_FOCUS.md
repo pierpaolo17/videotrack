@@ -2,7 +2,7 @@
 
 ## Ambito e garanzie
 
-La release 1.6.17 aggiunge controlli del focus opzionali per singola attività e indicatori diagnostici limitati. Ogni opzione è disattivata per impostazione predefinita. La funzione supporta la valutazione di condizioni di riproduzione anomale; non è un sistema di sorveglianza e non stabilisce se lo studente fosse attento o abbia agito in modo scorretto.
+La release 1.6.18 consolida controlli del focus opzionali per singola attività e indicatori diagnostici limitati. Ogni opzione è disattivata per impostazione predefinita. La funzione supporta la valutazione di condizioni di riproduzione anomale; non è un sistema di sorveglianza e non stabilisce se lo studente fosse attento o abbia agito in modo scorretto.
 
 VideoTrack non usa webcam, microfono, eye tracking, biometria, cattura dello schermo, key logging, contenuti di altre schede o note comportamentali a testo libero. Un segnale contiene soltanto identificativi dell’attività, id utente Moodle, id della sessione di riproduzione, tipo di segnale, posizione approssimativa del video e data di creazione.
 
@@ -13,9 +13,11 @@ I segnali devono essere interpretati insieme al contesto didattico. Non devono e
 Il modulo dell’attività espone quattro opzioni indipendenti:
 
 - **Registra indicatori di integrità**: salva i tipi diagnostici elencati di seguito.
-- **Metti in pausa quando la pagina perde il focus**: interrompe la riproduzione quando il documento viene nascosto o la finestra del browser perde il focus.
+- **Metti in pausa quando la pagina perde il focus**: interrompe quando la scheda del video viene nascosta. La perdita di focus della finestra interrompe solo con la politica rigida del sito.
 - **Impedisci Picture-in-Picture**: applica una protezione best-effort del browser/provider.
-- **Abilita pause casuali di attenzione**: durante la riproduzione mette in pausa dopo un intervallo casuale di 301–1799 secondi dall’ultima interazione. Lo studente riprende manualmente.
+- **Abilita pause casuali di attenzione**: durante la riproduzione mette in pausa dopo un intervallo casuale definito a livello sito dall’ultima interazione. L’intervallo predefinito è 300–1800 secondi. Lo studente riprende manualmente.
+
+L’amministratore configura minimo e massimo delle pause casuali (predefiniti 300 e 1800 secondi), la politica sulla perdita di focus e una tolleranza di 0–30 secondi (predefinita 5). La politica **solo scheda nascosta**, consigliata per l’accessibilità, registra la perdita di focus della finestra dopo la tolleranza ma non interrompe. La politica **rigida** interrompe anche dopo una perdita prolungata del focus. Il ritorno del focus o l’interazione con l’iframe del provider annulla l’azione pendente.
 
 Il focus può essere perso per motivi legittimi, tra cui comandi del browser, password manager, tecnologie assistive e finestre del sistema operativo. Picture-in-Picture non può essere bloccato in modo assoluto se un’estensione o un provider esterno ignora le policy dell’iframe o dell’elemento multimediale.
 
@@ -52,7 +54,7 @@ Il servizio esterno applica un secondo debounce server-side per utente/sessione/
 
 ## Report e analytics
 
-Il report docente può mostrare il numero totale di indicatori per studente quando la registrazione è abilitata. Il report cumulativo e la scheda Analytics mostrano conteggi per tipo di segnale. Gli aggregati applicano `analyticsminusers` separatamente a ogni tipo; i totali esatti di eventi e studenti distinti vengono nascosti sotto soglia.
+Il report docente può mostrare il numero totale di indicatori per studente quando la registrazione è abilitata. Il report cumulativo e la scheda Analytics mostrano conteggi per tipo di segnale. La sezione Analytics è sempre visibile: indica se la registrazione è abilitata, avvisa quando i controlli sono attivi senza registrazione e mostra lo stato senza dati quando non esistono segnali. Gli aggregati applicano `analyticsminusers` separatamente a ogni tipo; i totali esatti di eventi e studenti distinti vengono nascosti sotto soglia.
 
 I report non includono dettagli del browser, URL, testo libero o dati di altre schede. L’introduzione ricorda che i valori sono diagnostici e non costituiscono prova di comportamento scorretto.
 
@@ -66,11 +68,12 @@ Backup e restore includono le nuove impostazioni. Le righe degli indicatori sono
 
 - impostazioni disattivate: nessun controllo del focus e nessuna riga salvata;
 - sola registrazione abilitata: i segnali possono essere salvati ma la riproduzione non viene modificata;
-- pausa per perdita focus su HTML5, YouTube e Vimeo, con ritorno e ripresa manuale;
-- perdita focus dovuta a finestre legittime documentata come possibile segnale;
+- pausa per scheda nascosta su HTML5, YouTube e Vimeo, con ritorno e ripresa manuale;
+- politica accessibile: la sola perdita di focus viene registrata dopo la tolleranza senza pausa;
+- politica rigida: la perdita prolungata del focus interrompe solo dopo la tolleranza configurata;
 - uscita da Picture-in-Picture HTML5 quando l’API browser lo consente;
 - rimozione del permesso iframe YouTube/Vimeo senza rompere riproduzione o fullscreen;
-- intervallo casuale sempre tra 301 e 1799 secondi e riavvio dopo le interazioni;
+- intervallo casuale entro i limiti inclusivi configurati a livello sito, predefiniti 300–1800 secondi, e riavvio dopo le interazioni;
 - seek avanti, velocità, tracking, resume, replay, note, reazioni e segnalibri ancora funzionanti;
 - gruppi, capability e mascheramento `analyticsminusers` nei report;
 - export/cancellazione Privacy API, retention, backup/restore e tutti i reset;

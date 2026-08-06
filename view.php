@@ -119,6 +119,9 @@ $notemaxlength = videotrack_get_config_int('notemaxlength', 2000, 100, 10000);
 $notesmaxrendered = 200;
 $bookmarkmaxlength = videotrack_get_config_int('bookmarkmaxlength', 120, 20, 255);
 $bookmarksmaxrendered = 200;
+$randompausebounds = \mod_videotrack\local\integrity::random_pause_bounds();
+$focuslosspolicy = \mod_videotrack\local\integrity::focus_loss_policy();
+$focuslossgraceseconds = \mod_videotrack\local\integrity::focus_loss_grace_seconds();
 
 // Validate intervaljson before passing it to JS, keeping a valid JSON array.
 // Even if the DB field is corrupted or null.
@@ -190,8 +193,10 @@ $playerconfig = [
     'pauseonfocusloss'      => !empty($videotrack->pauseonfocusloss),
     'preventpictureinpicture' => !empty($videotrack->preventpictureinpicture),
     'randomfocuspauses'     => !empty($videotrack->randomfocuspauses),
-    'randompauseminseconds' => \mod_videotrack\local\integrity::RANDOM_PAUSE_MIN_SECONDS,
-    'randompausemaxseconds' => \mod_videotrack\local\integrity::RANDOM_PAUSE_MAX_SECONDS,
+    'randompauseminseconds' => $randompausebounds['min'],
+    'randompausemaxseconds' => $randompausebounds['max'],
+    'focuslosspolicy'       => $focuslosspolicy,
+    'focuslossgracems'      => $focuslossgraceseconds * 1000,
     'focuspausedlabel'      => get_string('integrity:focuspaused', 'mod_videotrack'),
     'randompausedlabel'     => get_string('integrity:randompaused', 'mod_videotrack'),
     'pipblockedlabel'       => get_string('integrity:pipblocked', 'mod_videotrack'),

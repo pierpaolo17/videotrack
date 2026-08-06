@@ -441,9 +441,9 @@
 - `report.php`: `videotrack_report_render_bookmark_summary()`.
 - `analytics::count_summary()` supplies the common privacy-safe count contract.
 
-## Integrity and focus functions (1.6.17)
+## Integrity and focus functions (1.6.18)
 
-- `integrity::validate_event_type()`, `label_string()`, `summarise()`.
+- `integrity::normalise_random_pause_bounds()`, `random_pause_bounds()`, `focus_loss_policy()`, `focus_loss_grace_seconds()`, `validate_event_type()`, `label_string()`, `summarise()`.
 - `save_integrity_event::execute_parameters()`, `execute()`, `execute_returns()`.
 - `core/player/focus_guard`: `randomInteger()`, `create()`, `record()`, `noteAction()`, `setPlaying()`, `noteProgress()`, `applyPictureInPicturePolicy()`, `destroy()`.
 - `report.php`: `videotrack_report_render_integrity_summary()`.

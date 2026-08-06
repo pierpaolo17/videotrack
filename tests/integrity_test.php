@@ -61,14 +61,37 @@ final class integrity_test extends advanced_testcase {
     }
 
     /**
-     * Random attention pauses always remain inside the configured exclusive bounds.
+     * Site-level random-pause bounds use the documented defaults and safe normalisation.
      */
-    public function test_random_pause_bounds_match_the_feature_contract(): void {
-        $this->assertGreaterThan(300, integrity::RANDOM_PAUSE_MIN_SECONDS);
-        $this->assertLessThan(1800, integrity::RANDOM_PAUSE_MAX_SECONDS);
-        $this->assertLessThanOrEqual(
-            integrity::RANDOM_PAUSE_MAX_SECONDS,
-            integrity::RANDOM_PAUSE_MIN_SECONDS
+    public function test_random_pause_bounds_are_configurable_and_normalised(): void {
+        $this->assertSame(
+            ['min' => 300, 'max' => 1800],
+            integrity::normalise_random_pause_bounds(null, null)
         );
+        $this->assertSame(
+            ['min' => 300, 'max' => 1800],
+            integrity::normalise_random_pause_bounds(1800, 300)
+        );
+        $this->assertSame(
+            ['min' => 60, 'max' => 7200],
+            integrity::normalise_random_pause_bounds(1, 99999)
+        );
+    }
+
+    /**
+     * Site focus settings default to the accessibility-oriented policy.
+     */
+    public function test_focus_policy_defaults_and_strict_override(): void {
+        $this->resetAfterTest();
+
+        unset_config('focuslosspolicy', 'mod_videotrack');
+        unset_config('focuslossgraceseconds', 'mod_videotrack');
+        $this->assertSame(integrity::FOCUS_POLICY_HIDDEN_ONLY, integrity::focus_loss_policy());
+        $this->assertSame(5, integrity::focus_loss_grace_seconds());
+
+        set_config('focuslosspolicy', integrity::FOCUS_POLICY_STRICT, 'mod_videotrack');
+        set_config('focuslossgraceseconds', 12, 'mod_videotrack');
+        $this->assertSame(integrity::FOCUS_POLICY_STRICT, integrity::focus_loss_policy());
+        $this->assertSame(12, integrity::focus_loss_grace_seconds());
     }
 }

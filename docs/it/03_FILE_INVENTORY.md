@@ -274,9 +274,9 @@ I seguenti file distribuiti sono stati aggiunti dopo l'inventario statico origin
 - `amd/build/core/player/timed_text.min.js` e `amd/build/core/player/timed_text.min.js.map`: artifact generati del timed text.
 - `amd/build/core/player/bookmarks.min.js.map`: source map generata dei segnalibri.
 
-## File integrità e focus (1.6.17)
+## File integrità e focus (1.6.18)
 
-- `classes/local/integrity.php`: allowlist eventi, limiti pause casuali e riepiloghi privacy-safe.
+- `classes/local/integrity.php`: allowlist eventi, helper per intervalli e politica focus a livello sito e riepiloghi privacy-safe.
 - `classes/external/save_integrity_event.php`: inserimento AJAX validato e con debounce.
 - `amd/src/core/player/focus_guard.js`: controller condiviso per visibilità, focus, Picture-in-Picture e pause casuali.
 - `amd/build/core/player/focus_guard.min.js` e `amd/build/core/player/focus_guard.min.js.map`: artifact AMD generati.

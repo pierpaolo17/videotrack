@@ -47,6 +47,7 @@ define([
         var playing = false;
         var destroyed = false;
         var randomTimer = null;
+        var blurTimer = null;
         var watchdogTimer = null;
         var observer = null;
         var lastProgressAt = Date.now();
@@ -110,6 +111,14 @@ define([
             }
         }
 
+        /** Cancel a pending strict window-focus check. */
+        function clearBlurTimer() {
+            if (blurTimer) {
+                window.clearTimeout(blurTimer);
+                blurTimer = null;
+            }
+        }
+
         /**
          * Show a non-error status message through the shared player status area.
          *
@@ -150,10 +159,12 @@ define([
             if (!playing || !config.randomfocuspauses || destroyed) {
                 return;
             }
-            var min = Math.max(301, Number(config.randompauseminseconds) || 301);
-            var max = Math.min(1799, Number(config.randompausemaxseconds) || 1799);
+            var min = Math.max(60, Number(config.randompauseminseconds) || 300);
+            var max = Math.min(7200, Number(config.randompausemaxseconds) || 1800);
             if (max < min) {
-                max = min;
+                var swap = min;
+                min = max;
+                max = swap;
             }
             var delay = randomInteger(min, max) * 1000;
             randomTimer = window.setTimeout(function() {
@@ -248,19 +259,31 @@ define([
 
         var onVisibilityChange = function() {
             if (!document.hidden) {
+                clearBlurTimer();
                 noteAction('tabvisible');
                 return;
             }
+            clearBlurTimer();
             record('tabhidden');
             if (config.pauseonfocusloss) {
                 pausePlayback('tabhidden', config.focuspausedlabel);
             }
         };
+        var onWindowFocus = function() {
+            clearBlurTimer();
+            noteAction('windowfocus');
+        };
         var onWindowBlur = function() {
+            clearBlurTimer();
             if (document.hidden) {
                 return;
             }
-            window.setTimeout(function() {
+            var configuredGrace = Number(config.focuslossgracems);
+            var grace = Number.isFinite(configuredGrace)
+                ? Math.max(0, Math.min(30000, configuredGrace))
+                : 5000;
+            blurTimer = window.setTimeout(function() {
+                blurTimer = null;
                 if (destroyed || document.hidden) {
                     return;
                 }
@@ -274,10 +297,10 @@ define([
                     return;
                 }
                 record('windowblur');
-                if (config.pauseonfocusloss) {
+                if (config.pauseonfocusloss && config.focuslosspolicy === 'strict') {
                     pausePlayback('windowblur', config.focuspausedlabel);
                 }
-            }, 150);
+            }, grace);
         };
         var onShellInteraction = function(event) {
             if (!event || event.type === 'keydown') {
@@ -290,6 +313,7 @@ define([
 
         document.addEventListener('visibilitychange', onVisibilityChange);
         window.addEventListener('blur', onWindowBlur);
+        window.addEventListener('focus', onWindowFocus);
         if (shell) {
             shell.addEventListener('click', onShellInteraction, true);
             shell.addEventListener('keydown', onShellInteraction, true);
@@ -317,12 +341,14 @@ define([
         function destroy() {
             destroyed = true;
             clearRandomTimer();
+            clearBlurTimer();
             if (watchdogTimer) {
                 window.clearInterval(watchdogTimer);
                 watchdogTimer = null;
             }
             document.removeEventListener('visibilitychange', onVisibilityChange);
             window.removeEventListener('blur', onWindowBlur);
+            window.removeEventListener('focus', onWindowFocus);
             if (shell) {
                 shell.removeEventListener('click', onShellInteraction, true);
                 shell.removeEventListener('keydown', onShellInteraction, true);
