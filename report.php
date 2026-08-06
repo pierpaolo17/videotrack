@@ -407,12 +407,14 @@ function videotrack_report_render_analytics_heatmap(
  * @param int $minusers Privacy threshold.
  * @param bool $haspartialmasking Whether some interval values are masked.
  * @param bool $showbookmarks Whether bookmark aggregates are available.
+ * @param bool $showintegrity Whether diagnostic integrity indicators are available.
  * @return string Accessible details markup.
  */
 function videotrack_report_render_analytics_methodology(
     int $minusers,
     bool $haspartialmasking,
-    bool $showbookmarks
+    bool $showbookmarks,
+    bool $showintegrity
 ): string {
     $items = [
         get_string('report:analytics_method_unique', 'mod_videotrack'),
@@ -422,6 +424,9 @@ function videotrack_report_render_analytics_methodology(
     ];
     if ($showbookmarks) {
         $items[] = get_string('report:analytics_method_bookmarks', 'mod_videotrack');
+    }
+    if ($showintegrity) {
+        $items[] = get_string('integrity:methodology', 'mod_videotrack');
     }
     $content = html_writer::tag(
         'p',
@@ -702,6 +707,76 @@ function videotrack_report_render_bookmark_summary(array $summary, int $minusers
             'aria-labelledby' => 'videotrack-analytics-bookmarks-title',
         ]
     );
+}
+
+/**
+ * Renders privacy-safe diagnostic integrity indicators.
+ *
+ * The values are signals to review in context, never proof of misconduct.
+ *
+ * @param array $summary Per-event-type counts and suppression state.
+ * @param int $minusers Privacy threshold.
+ * @return string Summary section.
+ */
+function videotrack_report_render_integrity_summary(array $summary, int $minusers): string {
+    global $OUTPUT;
+
+    $rows = [];
+    $hassuppressed = false;
+    foreach (\mod_videotrack\local\integrity::EVENT_TYPES as $eventtype) {
+        $item = $summary[$eventtype] ?? [];
+        if (empty($item['hasdata'])) {
+            continue;
+        }
+        $suppressed = !empty($item['suppressed']);
+        $hassuppressed = $hassuppressed || $suppressed;
+        $hidden = get_string('report:analytics_notavailable_privacy', 'mod_videotrack');
+        $rows[] = [
+            get_string(\mod_videotrack\local\integrity::label_string($eventtype), 'mod_videotrack'),
+            $suppressed ? $hidden : (string)(int)($item['eventcount'] ?? 0),
+            $suppressed ? $hidden : (string)(int)($item['studentcount'] ?? 0),
+        ];
+    }
+
+    $content = html_writer::tag(
+        'h4',
+        get_string('integrity:reporttitle', 'mod_videotrack'),
+        ['id' => 'videotrack-integrity-summary-title']
+    );
+    $content .= html_writer::tag(
+        'p',
+        get_string('integrity:reportintro', 'mod_videotrack'),
+        ['class' => 'text-muted small']
+    );
+
+    if (!$rows) {
+        $content .= html_writer::tag(
+            'p',
+            get_string('integrity:nodata', 'mod_videotrack'),
+            ['class' => 'text-muted mb-0']
+        );
+    } else {
+        $table = new html_table();
+        $table->caption = get_string('integrity:reporttitle', 'mod_videotrack');
+        $table->head = [
+            get_string('integrity:signal', 'mod_videotrack'),
+            get_string('integrity:events', 'mod_videotrack'),
+            get_string('integrity:students', 'mod_videotrack'),
+        ];
+        $table->data = $rows;
+        $content .= html_writer::table($table);
+        if ($hassuppressed) {
+            $content .= $OUTPUT->notification(
+                get_string('integrity:suppressed', 'mod_videotrack', $minusers),
+                'warning'
+            );
+        }
+    }
+
+    return html_writer::tag('section', $content, [
+        'class' => 'videotrack-integrity-summary mb-4',
+        'aria-labelledby' => 'videotrack-integrity-summary-title',
+    ]);
 }
 
 /**
@@ -1114,6 +1189,31 @@ if ($mode === 'analytics') {
         );
     }
 
+    $integritysummary = \mod_videotrack\local\integrity::summarise([], $minusers);
+    $integrityinstances = array_filter(
+        $analyticsinstances,
+        static fn(stdClass $scopeinstance): bool => !empty($scopeinstance->integrityindicatorsenabled)
+    );
+    $integrityanalyticsenabled = !empty($integrityinstances);
+    if ($integrityanalyticsenabled) {
+        [$integritywhere, $integrityparams] = videotrack_report_analytics_scope_condition(
+            $integrityinstances,
+            'analyticsintegrity'
+        );
+        if ($providerdataid !== '') {
+            $integritywhere = '(' . $integritywhere . ') AND videoid = :analyticsintegrityvideoid';
+            $integrityparams['analyticsintegrityvideoid'] = $providerdataid;
+        }
+        $integrityrows = $DB->get_records_sql(
+            "SELECT eventtype, COUNT(id) AS eventcount, COUNT(DISTINCT userid) AS studentcount
+               FROM {videotrack_integrity}
+              WHERE {$integritywhere}
+           GROUP BY eventtype",
+            $integrityparams
+        );
+        $integritysummary = \mod_videotrack\local\integrity::summarise($integrityrows, $minusers);
+    }
+
     $reactionbybin = [];
     foreach ($reactionclusters as $cluster) {
         $binindex = min(
@@ -1339,7 +1439,8 @@ if ($mode === 'analytics') {
     echo videotrack_report_render_analytics_methodology(
         $minusers,
         $hasmaskedbins || $hasmaskedrepeats,
-        $bookmarkanalyticsenabled
+        $bookmarkanalyticsenabled,
+        $integrityanalyticsenabled
     );
     if ($analyticsstatefallback) {
         echo $OUTPUT->notification(
@@ -1367,6 +1468,9 @@ if ($mode === 'analytics') {
     if ($bookmarkanalyticsenabled) {
         echo videotrack_report_render_bookmark_summary($bookmarksummary, $minusers);
     }
+    if ($integrityanalyticsenabled) {
+        echo videotrack_report_render_integrity_summary($integritysummary, $minusers);
+    }
     if (
         $analyticsshowreactions
         && !empty($reactionsummary['hasdata'])
@@ -1385,7 +1489,8 @@ if ($mode === 'analytics') {
         exit;
     }
     if ((int)$analytics['viewers'] === 0) {
-        $haseventsummary = !empty($reactionsummary['hasdata']) || !empty($bookmarksummary['hasdata']);
+        $haseventsummary = !empty($reactionsummary['hasdata']) || !empty($bookmarksummary['hasdata']) ||
+            count(array_filter($integritysummary, static fn(array $item): bool => !empty($item['hasdata']))) > 0;
         if (!$reactionclusters && !$haseventsummary) {
             echo $OUTPUT->notification(get_string('report:analytics_nodata', 'mod_videotrack'), 'notifymessage');
             echo $OUTPUT->footer();
@@ -1657,6 +1762,52 @@ if (!empty($videotrack->bookmarksenabled)) {
     );
 }
 
+$integritycounts = [];
+$integrityuserids = [];
+$reportintegritysummary = \mod_videotrack\local\integrity::summarise(
+    [],
+    videotrack_get_config_int('analyticsminusers', 5, 2, 50)
+);
+if (!empty($videotrack->integrityindicatorsenabled)) {
+    $integrityconditions = 'videotrackid = :integrityvtid';
+    $integrityparams = ['integrityvtid' => $videotrack->id];
+    if ($useridfilter > 0) {
+        $integrityconditions .= ' AND userid = :integrityuserid';
+        $integrityparams['integrityuserid'] = $useridfilter;
+    }
+    if ($timefrom !== null) {
+        $integrityconditions .= ' AND videotime >= :integritytimefrom';
+        $integrityparams['integritytimefrom'] = $timefrom;
+    }
+    if ($timeto !== null) {
+        $integrityconditions .= ' AND videotime <= :integritytimeto';
+        $integrityparams['integritytimeto'] = $timeto;
+    }
+    $integritycountrows = $DB->get_records_sql(
+        "SELECT userid, COUNT(id) AS eventcount
+           FROM {videotrack_integrity}
+          WHERE {$integrityconditions}
+       GROUP BY userid",
+        $integrityparams
+    );
+    foreach ($integritycountrows as $integritycountrow) {
+        $integrityuserid = (int)$integritycountrow->userid;
+        $integritycounts[$integrityuserid] = (int)$integritycountrow->eventcount;
+        $integrityuserids[] = $integrityuserid;
+    }
+    $integritytyperows = $DB->get_records_sql(
+        "SELECT eventtype, COUNT(id) AS eventcount, COUNT(DISTINCT userid) AS studentcount
+           FROM {videotrack_integrity}
+          WHERE {$integrityconditions}
+       GROUP BY eventtype",
+        $integrityparams
+    );
+    $reportintegritysummary = \mod_videotrack\local\integrity::summarise(
+        $integritytyperows,
+        videotrack_get_config_int('analyticsminusers', 5, 2, 50)
+    );
+}
+
 $stateparams = ['videotrackid' => $videotrack->id];
 $stateconditions = 'videotrackid = :svtid';
 $stateparamsnamed = ['svtid' => $videotrack->id];
@@ -1702,7 +1853,8 @@ $alluserids = array_values(array_filter(array_unique(array_merge(
     $segmentuserids,
     $eventuserids,
     $noteuserids,
-    $bookmarkuserids
+    $bookmarkuserids,
+    $integrityuserids
 )), static function (int $userid): bool {
     return $userid > 0;
 }));
@@ -2397,6 +2549,9 @@ if ($export === 'csv') {
         if (!empty($videotrack->bookmarksenabled)) {
             $csvheads[] = get_string('report:bookmarks_count', 'mod_videotrack');
         }
+        if (!empty($videotrack->integrityindicatorsenabled)) {
+            $csvheads[] = get_string('report:integrity_count', 'mod_videotrack');
+        }
         if ($hasgrade && $cangrade) {
             $csvheads[] = get_string('report:grade', 'mod_videotrack');
         }
@@ -2424,6 +2579,9 @@ if ($export === 'csv') {
             ]);
             if (!empty($videotrack->bookmarksenabled)) {
                 $row[] = (int)($bookmarkcounts[$userid] ?? 0);
+            }
+            if (!empty($videotrack->integrityindicatorsenabled)) {
+                $row[] = (int)($integritycounts[$userid] ?? 0);
             }
             if ($hasgrade && $cangrade) {
                 $row[] = $gradeinfo->items[0]->grades[$userid]->grade ?? '';
@@ -2476,6 +2634,7 @@ if ($resetaction === 'resetstudent' && $_SERVER['REQUEST_METHOD'] === 'POST') {
     $DB->delete_records('videotrack_seg', ['videotrackid' => $videotrack->id, 'userid' => $resetuserid]);
     $DB->delete_records('videotrack_state', ['videotrackid' => $videotrack->id, 'userid' => $resetuserid]);
     $DB->delete_records('videotrack_reactev', ['videotrackid' => $videotrack->id, 'userid' => $resetuserid]);
+    $DB->delete_records('videotrack_integrity', ['videotrackid' => $videotrack->id, 'userid' => $resetuserid]);
     $transaction->allow_commit();
     \mod_videotrack\event\student_progress_reset::create([
         'objectid' => $videotrack->id,
@@ -2845,6 +3004,9 @@ if ($mode === 'student') {
         if (!empty($videotrack->bookmarksenabled)) {
             $heads[] = get_string('report:bookmarks_count', 'mod_videotrack');
         }
+        if (!empty($videotrack->integrityindicatorsenabled)) {
+            $heads[] = get_string('report:integrity_count', 'mod_videotrack');
+        }
         if ($hasgrade && $cangrade) {
             $heads[] = get_string('report:grade', 'mod_videotrack');
         }
@@ -2872,6 +3034,9 @@ if ($mode === 'student') {
 
             if (!empty($videotrack->bookmarksenabled)) {
                 $row[] = (string)($bookmarkcounts[(int)$state->userid] ?? 0);
+            }
+            if (!empty($videotrack->integrityindicatorsenabled)) {
+                $row[] = (string)($integritycounts[(int)$state->userid] ?? 0);
             }
 
             if ($hasgrade && $cangrade) {
@@ -3012,6 +3177,12 @@ if ($mode === 'student') {
     if (!empty($videotrack->bookmarksenabled)) {
         echo videotrack_report_render_bookmark_summary(
             $reportbookmarksummary,
+            videotrack_get_config_int('analyticsminusers', 5, 2, 50)
+        );
+    }
+    if (!empty($videotrack->integrityindicatorsenabled)) {
+        echo videotrack_report_render_integrity_summary(
+            $reportintegritysummary,
             videotrack_get_config_int('analyticsminusers', 5, 2, 50)
         );
     }

@@ -26,6 +26,17 @@
 defined('MOODLE_INTERNAL') || die();
 
 $functions = [
+    'mod_videotrack_save_integrity_event' => [
+        'classname' => 'mod_videotrack\\external\\save_integrity_event',
+        'methodname' => 'execute',
+        'classpath' => '',
+        'description' => 'Save a privacy-safe diagnostic integrity signal.',
+        'type' => 'write',
+        'ajax' => true,
+        'loginrequired' => true,
+        'capabilities' => 'mod/videotrack:view',
+    ],
+
     'mod_videotrack_save_segment' => [
         'classname' => 'mod_videotrack\\external\\save_segment',
         'methodname' => 'execute',

@@ -89,6 +89,18 @@ class provider implements
             'timecreated' => 'privacy:metadata:common:timecreated',
         ], 'privacy:metadata:videotrack_state');
 
+        $collection->add_database_table('videotrack_integrity', [
+            'videotrackid' => 'privacy:metadata:common:videotrackid',
+            'courseid' => 'privacy:metadata:common:courseid',
+            'cmid' => 'privacy:metadata:common:cmid',
+            'userid' => 'privacy:metadata:videotrack_integrity:userid',
+            'videoid' => 'privacy:metadata:common:videoid',
+            'sessionid' => 'privacy:metadata:videotrack_integrity:sessionid',
+            'eventtype' => 'privacy:metadata:videotrack_integrity:eventtype',
+            'videotime' => 'privacy:metadata:videotrack_integrity:videotime',
+            'timecreated' => 'privacy:metadata:common:timecreated',
+        ], 'privacy:metadata:videotrack_integrity');
+
         $collection->add_database_table('videotrack_reactev', [
             'videotrackid'   => 'privacy:metadata:common:videotrackid',
             'courseid'       => 'privacy:metadata:common:courseid',
@@ -145,6 +157,7 @@ class provider implements
             'userid1' => $userid,
             'userid2' => $userid,
             'userid3' => $userid,
+            'userid4' => $userid,
         ];
         $sql = "SELECT DISTINCT c.id
                   FROM {context} c
@@ -154,6 +167,8 @@ class provider implements
                         SELECT cmid FROM {videotrack_seg} WHERE userid = :userid2
                         UNION
                         SELECT cmid FROM {videotrack_reactev} WHERE userid = :userid3
+                        UNION
+                        SELECT cmid FROM {videotrack_integrity} WHERE userid = :userid4
                        ) tracked ON tracked.cmid = c.instanceid
                  WHERE c.contextlevel = :contextmodule";
 
@@ -173,7 +188,12 @@ class provider implements
             return;
         }
 
-        $params = ['cmid1' => $context->instanceid, 'cmid2' => $context->instanceid, 'cmid3' => $context->instanceid];
+        $params = [
+            'cmid1' => $context->instanceid,
+            'cmid2' => $context->instanceid,
+            'cmid3' => $context->instanceid,
+            'cmid4' => $context->instanceid,
+        ];
         $sql = "SELECT userid
                   FROM (
                         SELECT userid FROM {videotrack_state} WHERE cmid = :cmid1 AND userid > 0
@@ -181,6 +201,8 @@ class provider implements
                         SELECT userid FROM {videotrack_seg} WHERE cmid = :cmid2 AND userid > 0
                         UNION
                         SELECT userid FROM {videotrack_reactev} WHERE cmid = :cmid3 AND userid > 0
+                        UNION
+                        SELECT userid FROM {videotrack_integrity} WHERE cmid = :cmid4 AND userid > 0
                        ) u";
         $userlist->add_from_sql('userid', $sql, $params);
     }
@@ -474,6 +496,43 @@ class provider implements
                         get_string('privacy:bookmarksdeletedchunk', 'mod_videotrack', $deletedbookmarkschunk),
                     ],
                     (object)['bookmarks' => $deletedbookmarks]
+                );
+            }
+
+            $integrityrs = $DB->get_recordset('videotrack_integrity', [
+                'cmid' => $context->instanceid,
+                'userid' => $userid,
+            ], 'timecreated ASC', 'id, eventtype, videotime, timecreated');
+            $integrityevents = [];
+            $integritychunk = 1;
+            foreach ($integrityrs as $integrityevent) {
+                $integrityevent->eventtype = get_string(
+                    \mod_videotrack\local\integrity::label_string((string)$integrityevent->eventtype),
+                    'mod_videotrack'
+                );
+                $integrityevent->videotime = self::format_interval_second((float)$integrityevent->videotime);
+                $integrityevent->timecreated = transform::datetime((int)$integrityevent->timecreated);
+                $integrityevents[] = $integrityevent;
+                if (count($integrityevents) >= 500) {
+                    $writer->export_data(
+                        [
+                            get_string('integrity:reporttitle', 'mod_videotrack'),
+                            get_string('privacy:integritychunk', 'mod_videotrack', $integritychunk),
+                        ],
+                        (object)['signals' => $integrityevents]
+                    );
+                    $integrityevents = [];
+                    $integritychunk++;
+                }
+            }
+            $integrityrs->close();
+            if ($integrityevents) {
+                $writer->export_data(
+                    [
+                        get_string('integrity:reporttitle', 'mod_videotrack'),
+                        get_string('privacy:integritychunk', 'mod_videotrack', $integritychunk),
+                    ],
+                    (object)['signals' => $integrityevents]
                 );
             }
         }

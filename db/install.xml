@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8" ?>
-<XMLDB PATH="mod/videotrack/db" VERSION="2026060429" COMMENT="XMLDB file for mod_videotrack"
+<XMLDB PATH="mod/videotrack/db" VERSION="2026060432" COMMENT="XMLDB file for mod_videotrack"
     xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
     xsi:noNamespaceSchemaLocation="../../../lib/xmldb/xmldb.xsd"
 >
@@ -40,6 +40,10 @@
         <FIELD NAME="showchapters" TYPE="int" LENGTH="1" NOTNULL="true" DEFAULT="0" COMMENT="Show VTT-based chapter navigation bar (upload source only)"/>
         <FIELD NAME="studentnotesenabled" TYPE="int" LENGTH="1" NOTNULL="true" DEFAULT="0" COMMENT="Allow students to write personal timestamped notes while watching"/>
         <FIELD NAME="bookmarksenabled" TYPE="int" LENGTH="1" NOTNULL="true" DEFAULT="0" COMMENT="Allow students to save private named bookmarks at watched timestamps"/>
+        <FIELD NAME="integrityindicatorsenabled" TYPE="int" LENGTH="1" NOTNULL="true" DEFAULT="0" COMMENT="Record privacy-safe diagnostic integrity signals"/>
+        <FIELD NAME="pauseonfocusloss" TYPE="int" LENGTH="1" NOTNULL="true" DEFAULT="0" COMMENT="Pause playback when the page loses visibility or window focus"/>
+        <FIELD NAME="preventpictureinpicture" TYPE="int" LENGTH="1" NOTNULL="true" DEFAULT="0" COMMENT="Best-effort prevention of Picture-in-Picture playback"/>
+        <FIELD NAME="randomfocuspauses" TYPE="int" LENGTH="1" NOTNULL="true" DEFAULT="0" COMMENT="Pause playback after a random active interval to prompt learner attention"/>
         <FIELD NAME="forumpostingenabled" TYPE="int" LENGTH="1" NOTNULL="true" DEFAULT="0" COMMENT="Allow students to compose a forum discussion from the current video time"/>
         <FIELD NAME="linkedforumid" TYPE="int" LENGTH="10" NOTNULL="true" DEFAULT="0" COMMENT="Linked forum instance id in the same course"/>
         <FIELD NAME="forumsubjecttemplate" TYPE="text" NOTNULL="false" COMMENT="Forum discussion subject template with {timestamp} and {activity} placeholders"/>
@@ -123,6 +127,30 @@
       <INDEXES>
         <INDEX NAME="vt_user_uix" UNIQUE="true" FIELDS="videotrackid, userid"/>
         <INDEX NAME="cm_user_idx" UNIQUE="false" FIELDS="cmid, userid"/>
+      </INDEXES>
+    </TABLE>
+
+    <TABLE NAME="videotrack_integrity" COMMENT="Privacy-safe diagnostic integrity signals">
+      <FIELDS>
+        <FIELD NAME="id" TYPE="int" LENGTH="10" NOTNULL="true" SEQUENCE="true"/>
+        <FIELD NAME="videotrackid" TYPE="int" LENGTH="10" NOTNULL="true" DEFAULT="0"/>
+        <FIELD NAME="courseid" TYPE="int" LENGTH="10" NOTNULL="true" DEFAULT="0"/>
+        <FIELD NAME="cmid" TYPE="int" LENGTH="10" NOTNULL="true" DEFAULT="0"/>
+        <FIELD NAME="userid" TYPE="int" LENGTH="10" NOTNULL="true" DEFAULT="0"/>
+        <FIELD NAME="videoid" TYPE="char" LENGTH="32" NOTNULL="true"/>
+        <FIELD NAME="sessionid" TYPE="char" LENGTH="64" NOTNULL="true"/>
+        <FIELD NAME="eventtype" TYPE="char" LENGTH="32" NOTNULL="true"/>
+        <FIELD NAME="videotime" TYPE="number" LENGTH="10" DECIMALS="3" NOTNULL="true" DEFAULT="0.000"/>
+        <FIELD NAME="timecreated" TYPE="int" LENGTH="10" NOTNULL="true" DEFAULT="0"/>
+      </FIELDS>
+      <KEYS>
+        <KEY NAME="primary" TYPE="primary" FIELDS="id"/>
+      </KEYS>
+      <INDEXES>
+        <INDEX NAME="vt_user_idx" UNIQUE="false" FIELDS="videotrackid, userid"/>
+        <INDEX NAME="cm_user_idx" UNIQUE="false" FIELDS="cmid, userid"/>
+        <INDEX NAME="event_idx" UNIQUE="false" FIELDS="videotrackid, eventtype"/>
+        <INDEX NAME="time_idx" UNIQUE="false" FIELDS="timecreated"/>
       </INDEXES>
     </TABLE>
 

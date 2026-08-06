@@ -94,3 +94,10 @@ When enabled, a bookmark stores the user id, activity identifiers, a private lab
 ### Bookmark analytics boundary
 
 When bookmarks are enabled, teacher reports and Analytics may display only aggregate bookmark event counts and distinct-user counts after capability, group and minimum-user filtering. The Analytics page displays explicit zero totals when no bookmarks exist and masks exact values below the configured threshold. Labels, owner lists and individual video timestamps are never included in teacher output.
+
+
+## Integrity and visibility indicators
+
+When enabled for an activity, VideoTrack may store bounded diagnostic signals about playback conditions: blocked forward seek, hidden tab, browser-window focus loss, player mostly outside the viewport, an HTML5 Picture-in-Picture event, random attention pause, unauthorised rate change, missing provider callback or inconsistent tracking movement. Each row stores activity/user/session identifiers, the signal type, approximate video time and creation time. VideoTrack does not collect webcam, microphone, biometric, screen-capture, key-logging, free-text behavioural or other-tab content.
+
+Focus-loss and Picture-in-Picture controls are best-effort browser mechanisms. A focus-loss signal can have legitimate causes and external providers/extensions may prevent absolute Picture-in-Picture blocking. Signals are diagnostic indicators, not direct measurements of attention or conclusive evidence of misconduct. Sites must not use a signal as the sole basis for automatic grading, completion, discipline or access decisions. Aggregate teacher analytics apply the configured minimum-user privacy threshold. Privacy API export/erasure, retention anonymisation, backup/restore and activity/course reset cover the indicator table.

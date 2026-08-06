@@ -190,3 +190,12 @@ Activities can optionally let students save private named bookmarks at watched v
 ## Bookmark analytics and documentation (1.6.16)
 
 When bookmarks are enabled, instance Analytics now always shows a prominent Bookmark usage section with saved-bookmark and distinct-student cards. Zero values are shown explicitly; small populations remain masked by `analyticsminusers`. All bookmark and recent teacher-dashboard strings are translated in the eight shipped language packs. Complete technical coverage is available in `docs/en/10_BOOKMARKS_AND_ANALYTICS.md` and `docs/it/10_BOOKMARKS_AND_ANALYTICS.md`.
+
+
+## Integrity indicators and focus controls (1.6.17)
+
+Activities can optionally record bounded diagnostic signals and enable focus-loss pauses, best-effort Picture-in-Picture prevention and random attention pauses after 301–1799 seconds from the latest learner interaction. All options are disabled by default. Signals contain no webcam, microphone, biometrics, free text or content from other tabs; teacher output is contextual, privacy-thresholded and must not be treated as proof of misconduct. See `docs/en/11_INTEGRITY_AND_FOCUS.md` and `docs/it/11_INTEGRITY_AND_FOCUS.md`.
+
+## Indicatori di integrità e controlli del focus (1.6.17)
+
+Le attività possono registrare segnali diagnostici limitati e abilitare pausa per perdita del focus, blocco best-effort di Picture-in-Picture e pause casuali dopo 301–1799 secondi dall’ultima interazione. Tutte le opzioni sono disattivate per default. Non vengono raccolti webcam, microfono, biometria, testo libero o contenuti di altre schede; i report sono contestuali, protetti da soglia privacy e non costituiscono prova di comportamento scorretto. Vedere `docs/it/11_INTEGRITY_AND_FOCUS.md`.

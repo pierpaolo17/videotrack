@@ -823,6 +823,53 @@ class mod_videotrack_mod_form extends moodleform_mod {
         $mform->setType('bookmarksenabled', PARAM_BOOL);
         $mform->setDefault('bookmarksenabled', (int)get_config('mod_videotrack', 'bookmarksenabled'));
         $mform->addHelpButton('bookmarksenabled', 'bookmarksenabled', 'mod_videotrack');
+
+        // Integrity indicators and optional focus controls.
+        $mform->addElement(
+            'header',
+            'integritysettingsheader',
+            get_string('integrity:settingsheader', 'mod_videotrack')
+        );
+        $mform->addElement(
+            'static',
+            'integritysettingsintro',
+            '',
+            get_string('integrity:settingsintro', 'mod_videotrack')
+        );
+        $mform->addElement(
+            'advcheckbox',
+            'integrityindicatorsenabled',
+            get_string('integrity:enable', 'mod_videotrack'),
+            get_string('integrity:enable_desc', 'mod_videotrack')
+        );
+        $mform->setType('integrityindicatorsenabled', PARAM_BOOL);
+        $mform->setDefault('integrityindicatorsenabled', 0);
+        $mform->addHelpButton('integrityindicatorsenabled', 'integrity:enable', 'mod_videotrack');
+        $mform->addElement(
+            'advcheckbox',
+            'pauseonfocusloss',
+            get_string('integrity:pauseonfocusloss', 'mod_videotrack'),
+            get_string('integrity:pauseonfocusloss_desc', 'mod_videotrack')
+        );
+        $mform->setType('pauseonfocusloss', PARAM_BOOL);
+        $mform->setDefault('pauseonfocusloss', 0);
+        $mform->addElement(
+            'advcheckbox',
+            'preventpictureinpicture',
+            get_string('integrity:preventpip', 'mod_videotrack'),
+            get_string('integrity:preventpip_desc', 'mod_videotrack')
+        );
+        $mform->setType('preventpictureinpicture', PARAM_BOOL);
+        $mform->setDefault('preventpictureinpicture', 0);
+        $mform->addElement(
+            'advcheckbox',
+            'randomfocuspauses',
+            get_string('integrity:randompauses', 'mod_videotrack'),
+            get_string('integrity:randompauses_desc', 'mod_videotrack')
+        );
+        $mform->setType('randomfocuspauses', PARAM_BOOL);
+        $mform->setDefault('randomfocuspauses', 0);
+
         $mform->addElement('advcheckbox', 'showreactionnotice', get_string('showreactionnotice', 'mod_videotrack'));
 
         $mform->setType('showreactionnotice', PARAM_BOOL);

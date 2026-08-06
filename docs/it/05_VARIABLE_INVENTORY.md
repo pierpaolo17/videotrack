@@ -132,3 +132,9 @@ Le variabili sono rilevate staticamente. L’inventario serve come mappa per ori
 - Discriminatore evento `notetype = 'bookmark'`.
 - Variabili analytics `bookmarkinstances`, `bookmarkanalyticsenabled`, `bookmarksummary`, `bookmarkcounts` e `bookmarkuserids`.
 - Stato client `bookmarkSaveInProgress`; la configurazione include etichette, lunghezza massima e numero massimo di righe renderizzate.
+
+## Variabili integrità e focus (1.6.17)
+
+- Booleani istanza: `integrityindicatorsenabled`, `pauseonfocusloss`, `preventpictureinpicture`, `randomfocuspauses`; default `0`.
+- Limiti casuali: `RANDOM_PAUSE_MIN_SECONDS = 301`, `RANDOM_PAUSE_MAX_SECONDS = 1799`.
+- Campi segnale: `videotrackid`, `courseid`, `cmid`, `userid`, `videoid`, `sessionid`, `eventtype`, `videotime`, `timecreated`.

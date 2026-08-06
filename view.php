@@ -186,6 +186,16 @@ $playerconfig = [
     'reactionsenabled'       => (bool)$videotrack->reactionsenabled,
     'studentnotesenabled'    => !empty($videotrack->studentnotesenabled),
     'bookmarksenabled'       => !empty($videotrack->bookmarksenabled),
+    'integrityindicatorsenabled' => !empty($videotrack->integrityindicatorsenabled),
+    'pauseonfocusloss'      => !empty($videotrack->pauseonfocusloss),
+    'preventpictureinpicture' => !empty($videotrack->preventpictureinpicture),
+    'randomfocuspauses'     => !empty($videotrack->randomfocuspauses),
+    'randompauseminseconds' => \mod_videotrack\local\integrity::RANDOM_PAUSE_MIN_SECONDS,
+    'randompausemaxseconds' => \mod_videotrack\local\integrity::RANDOM_PAUSE_MAX_SECONDS,
+    'focuspausedlabel'      => get_string('integrity:focuspaused', 'mod_videotrack'),
+    'randompausedlabel'     => get_string('integrity:randompaused', 'mod_videotrack'),
+    'pipblockedlabel'       => get_string('integrity:pipblocked', 'mod_videotrack'),
+    'integrityerrorlabel'   => get_string('integrity:error', 'mod_videotrack'),
     'bookmarkmaxlength'      => $bookmarkmaxlength,
     'bookmarksmaxrendered'   => $bookmarksmaxrendered,
     'bookmarkreplaylabel'    => get_string('bookmark_replay', 'mod_videotrack'),
@@ -370,6 +380,18 @@ if ($notice !== '') {
 if (in_array($source, ['youtube', 'vimeo'], true)) {
     $providername = get_string('source:' . $source, 'mod_videotrack');
     echo $OUTPUT->notification(get_string('externalproviderprivacy_notice', 'mod_videotrack', $providername), 'info', true);
+}
+if (
+    !empty($videotrack->integrityindicatorsenabled)
+    || !empty($videotrack->pauseonfocusloss)
+    || !empty($videotrack->preventpictureinpicture)
+    || !empty($videotrack->randomfocuspauses)
+) {
+    echo html_writer::tag(
+        'p',
+        get_string('integrity:studentnotice', 'mod_videotrack'),
+        ['class' => 'small text-muted videotrack-integrity-notice']
+    );
 }
 
 $covered = $state ? (float)$state->uniquecoveredseconds : 0.0;

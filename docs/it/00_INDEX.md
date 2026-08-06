@@ -15,6 +15,8 @@ Questa cartella contiene la documentazione tecnica aggiornata del plugin Videotr
 9. `09_DOCUMENTATION_AUDIT.md` - audit della copertura documentale e checklist per aggiornamenti futuri.
 10. `10_BOOKMARKS_AND_ANALYTICS.md` - modello dati, runtime, privacy, report e validazione completa dei segnalibri.
 
+11. `11_INTEGRITY_AND_FOCUS.md` - segnali di integrità, controlli anti-cheat del focus, limiti privacy e matrice di regressione.
+
 ## Documenti storici
 
-I documenti storici di audit rimangono disponibili in questa cartella. Sono utili per ricostruire decisioni passate, ma la fonte aggiornata per la manutenzione corrente sono i file numerati da `00_` a `10_`.
+I documenti storici di audit rimangono disponibili in questa cartella. Sono utili per ricostruire decisioni passate, ma la fonte aggiornata per la manutenzione corrente sono i file numerati da `00_` a `11_`.

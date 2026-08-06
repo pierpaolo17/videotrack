@@ -273,3 +273,13 @@ The following shipped files were added after the original static inventory and a
 - `amd/build/core/player/forum.min.js` and `amd/build/core/player/forum.min.js.map`: generated forum integration artifacts.
 - `amd/build/core/player/timed_text.min.js` and `amd/build/core/player/timed_text.min.js.map`: generated timed-text artifacts.
 - `amd/build/core/player/bookmarks.min.js.map`: generated bookmark source map.
+
+## Integrity and focus files (1.6.17)
+
+- `classes/local/integrity.php`: event allowlist, random-pause bounds and privacy-safe summaries.
+- `classes/external/save_integrity_event.php`: validated, debounced AJAX insertion.
+- `amd/src/core/player/focus_guard.js`: shared visibility/focus/Picture-in-Picture/random-pause controller.
+- `amd/build/core/player/focus_guard.min.js` and `amd/build/core/player/focus_guard.min.js.map`: generated AMD artifacts.
+- `tests/integrity_test.php`: event validation, privacy suppression and random-bound tests.
+- `tests/save_integrity_event_test.php`: verifies the external parameter declaration uses Moodle-supported types.
+- `docs/en/11_INTEGRITY_AND_FOCUS.md`, `docs/it/11_INTEGRITY_AND_FOCUS.md`: functional, privacy and regression specification.
