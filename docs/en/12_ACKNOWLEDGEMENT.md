@@ -40,3 +40,11 @@ Each new confirmation stores an immutable viewing snapshot: `viewedseconds` is t
 
 When end-gating is active, the form is initially disabled until the persisted state already proves the end was reached. During the current page view, the three player modules emit `videotrack:ended` only after the final segment save completes; `core/player/acknowledgement.js` then enables the controls. Server-side validation remains authoritative.
 Confirmations created before 1.6.20 have no historical progress snapshot; reports label that value as unavailable rather than inferring zero or using later viewing data.
+
+## Analytics and data-format export (1.6.21)
+
+The Analytics page loads only confirmations whose `statementhash` matches the current statement of each selected activity. The same activity, group and cross-course capability scope used for viewing Analytics is applied to acknowledgement records.
+
+The dedicated summary shows current confirmations, distinct confirming learners, average unique viewed time and average viewed percentage captured at confirmation. Records created before the progress snapshot existed are counted but excluded from the averages. Exact values are hidden when the number of contributing learners is below `analyticsminusers`.
+
+CSV, Excel and ODS downloads use a combined row-type layout. Viewing intervals remain separate rows and one **Acknowledgement summary** row carries the privacy-safe aggregate values. The summary can be downloaded even when no timeline data is available; masked values remain masked in every format.

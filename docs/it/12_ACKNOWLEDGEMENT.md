@@ -40,3 +40,11 @@ Ogni nuova conferma registra una fotografia immutabile dell’avanzamento: `view
 
 Quando è richiesto il termine del video, il form è inizialmente disabilitato finché lo stato persistito non dimostra che la fine è stata raggiunta. Durante la stessa visita, i tre player emettono `videotrack:ended` solo dopo il salvataggio del segmento finale; `core/player/acknowledgement.js` abilita quindi i controlli. La validazione server-side resta autoritativa.
 Le conferme create prima della 1.6.20 non dispongono di una fotografia storica del progresso; i report indicano il dato come non disponibile invece di dedurre zero o usare una visione successiva.
+
+## Analytics ed esportazione nei formati dati (1.6.21)
+
+La pagina Analytics carica soltanto le conferme il cui `statementhash` corrisponde alla dichiarazione corrente di ogni attività selezionata. Ai record delle prese visione vengono applicati gli stessi limiti per attività, gruppi, capability e analisi cross-course usati per gli Analytics di visione.
+
+La sezione dedicata mostra conferme correnti, studenti distinti che hanno confermato, tempo unico medio visto e percentuale media vista registrati al momento della conferma. I record creati prima dell’introduzione della fotografia dell’avanzamento vengono conteggiati ma esclusi dalle medie. I valori esatti sono nascosti quando gli studenti contribuenti sono meno di `analyticsminusers`.
+
+I download CSV, Excel e ODS usano un tracciato combinato con tipo di riga. Gli intervalli di visione restano su righe separate e una riga **Riepilogo prese visione** contiene i valori aggregati privacy-safe. Il riepilogo può essere esportato anche quando non esistono dati della timeline; i valori mascherati restano mascherati in ogni formato.

@@ -144,6 +144,7 @@ Le variabili sono rilevate staticamente. L’inventario serve come mappa per ori
 ## Campi e stato della presa visione (1.6.19)
 
 - Campi istanza: `acknowledgementenabled`, `acknowledgementtext`, `acknowledgementformat`, `acknowledgementtiming`, `completionacknowledgement`.
-- Campi conferma: `videotrackid`, `courseid`, `cmid`, `userid`, `statementhash`, `instanceversion`, `timeconfirmed`.
+- Campi conferma: `videotrackid`, `courseid`, `cmid`, `userid`, `statementhash`, `instanceversion`, `viewedseconds`, `viewedpercent`, `timeconfirmed`.
 - Stato vista/report: `ackaction`, `ackconfirm`, `acknowledgementrecord`, `acknowledgementrecords`, `acknowledgementuserids`.
+- Stato Analytics: `acknowledgementinstances`, `acknowledgementsummary`, `acknowledgementanalyticsenabled`, `acknowledgementanytimecount`, `acknowledgementvideoendcount`.
 - La versione corrente canonica è `SHA-256(formato + "\n" + testo memorizzato)`; i record precedenti restano nello storico ma non soddisfano la regola corrente.

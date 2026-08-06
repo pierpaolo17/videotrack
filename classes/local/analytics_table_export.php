@@ -59,6 +59,37 @@ final class analytics_table_export {
     }
 
     /**
+     * Returns columns for the combined Analytics download.
+     *
+     * The accessible HTML table remains timeline-specific. Downloads add a row
+     * type so acknowledgement aggregates can be exported without repeating them
+     * on every viewing interval.
+     *
+     * @param bool $includereactions Whether the reaction-cluster column is included.
+     * @param bool $includeacknowledgements Whether acknowledgement summary columns are included.
+     * @return string[] Export column headings.
+     */
+    public static function export_columns(bool $includereactions, bool $includeacknowledgements): array {
+        if (!$includeacknowledgements) {
+            return self::columns($includereactions);
+        }
+        return array_merge(
+            [get_string('report:analytics_export_recordtype', 'mod_videotrack')],
+            self::columns($includereactions),
+            [
+                get_string('report:analytics_acknowledgements_confirmations', 'mod_videotrack'),
+                get_string('report:analytics_acknowledgements_students', 'mod_videotrack'),
+                get_string('report:analytics_acknowledgements_average_seconds', 'mod_videotrack'),
+                get_string('report:analytics_acknowledgements_average_percent', 'mod_videotrack'),
+                get_string('report:analytics_acknowledgements_progressmissing', 'mod_videotrack'),
+                get_string('report:analytics_acknowledgements_enabledactivities', 'mod_videotrack'),
+                get_string('report:analytics_acknowledgements_anytimeactivities', 'mod_videotrack'),
+                get_string('report:analytics_acknowledgements_videoendactivities', 'mod_videotrack'),
+            ]
+        );
+    }
+
+    /**
      * Builds rows equivalent to the accessible HTML table.
      *
      * Privacy-masked values remain masked in every exported format. The method
@@ -129,4 +160,78 @@ final class analytics_table_export {
         }
         return $rows;
     }
+
+    /**
+     * Builds a combined timeline and acknowledgement export.
+     *
+     * @param array $bins Privacy-safe analytics bins.
+     * @param float $duration Video duration.
+     * @param bool $repeatmetricsavailable Whether replay metrics are available.
+     * @param bool $includereactions Whether reaction clusters are included.
+     * @param int $minusers Privacy threshold.
+     * @param array|null $acknowledgementsummary Privacy-safe acknowledgement summary.
+     * @return array<int, array<int, int|float|string>> Export rows.
+     */
+    public static function export_rows(
+        array $bins,
+        float $duration,
+        bool $repeatmetricsavailable,
+        bool $includereactions,
+        int $minusers,
+        ?array $acknowledgementsummary
+    ): array {
+        if ($acknowledgementsummary === null) {
+            return self::rows($bins, $duration, $repeatmetricsavailable, $includereactions, $minusers);
+        }
+
+        $timelinecolumncount = count(self::columns($includereactions));
+        $rows = [];
+        foreach (self::rows($bins, $duration, $repeatmetricsavailable, $includereactions, $minusers) as $row) {
+            $rows[] = array_merge(
+                [get_string('report:analytics_export_row_viewing', 'mod_videotrack')],
+                $row,
+                ['', '', '', '', '', '', '', '']
+            );
+        }
+
+        $suppressed = !empty($acknowledgementsummary['suppressed']);
+        $progresssuppressed = !empty($acknowledgementsummary['progresssuppressed']);
+        $hidden = get_string('report:analytics_notavailable_privacy', 'mod_videotrack');
+        $unavailable = get_string('report:analytics_acknowledgements_unavailable', 'mod_videotrack');
+        $confirmationvalue = $suppressed
+            ? $hidden
+            : (int)($acknowledgementsummary['confirmationcount'] ?? 0);
+        $studentvalue = $suppressed
+            ? $hidden
+            : (int)($acknowledgementsummary['studentcount'] ?? 0);
+        $secondsvalue = ($suppressed || $progresssuppressed)
+            ? $hidden
+            : ($acknowledgementsummary['averageviewedseconds'] === null
+                ? $unavailable
+                : round((float)$acknowledgementsummary['averageviewedseconds'], 3));
+        $percentvalue = ($suppressed || $progresssuppressed)
+            ? $hidden
+            : ($acknowledgementsummary['averageviewedpercent'] === null
+                ? $unavailable
+                : format_float((float)$acknowledgementsummary['averageviewedpercent'], 1) . '%');
+        $missingvalue = $suppressed
+            ? $hidden
+            : (int)($acknowledgementsummary['progressmissing'] ?? 0);
+        $rows[] = array_merge(
+            [get_string('report:analytics_export_row_acknowledgement', 'mod_videotrack')],
+            array_fill(0, $timelinecolumncount, ''),
+            [
+                $confirmationvalue,
+                $studentvalue,
+                $secondsvalue,
+                $percentvalue,
+                $missingvalue,
+                (int)($acknowledgementsummary['enabledactivitycount'] ?? 0),
+                (int)($acknowledgementsummary['anytimeactivitycount'] ?? 0),
+                (int)($acknowledgementsummary['videoendactivitycount'] ?? 0),
+            ]
+        );
+        return $rows;
+    }
+
 }

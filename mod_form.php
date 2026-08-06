@@ -1825,12 +1825,15 @@ JS);
         }
 
         if (!empty($data['acknowledgementenabled'])) {
-            $timing = (int)($data['acknowledgementtiming'] ??
-                \mod_videotrack\local\acknowledgement::TIMING_ANYTIME);
-            if (!in_array($timing, [
-                \mod_videotrack\local\acknowledgement::TIMING_ANYTIME,
-                \mod_videotrack\local\acknowledgement::TIMING_VIDEO_END,
-            ], true)) {
+            $rawtiming = $data['acknowledgementtiming'] ??
+                \mod_videotrack\local\acknowledgement::TIMING_ANYTIME;
+            $timing = (int)$rawtiming;
+            if (
+                !in_array($timing, [
+                    \mod_videotrack\local\acknowledgement::TIMING_ANYTIME,
+                    \mod_videotrack\local\acknowledgement::TIMING_VIDEO_END,
+                ], true)
+            ) {
                 $errors['acknowledgementtiming'] = get_string(
                     'acknowledgement:errortiming',
                     'mod_videotrack'

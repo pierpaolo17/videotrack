@@ -114,4 +114,35 @@ final class acknowledgement_test extends advanced_testcase {
         $instance->acknowledgementenabled = 0;
         $this->assertFalse(acknowledgement::is_enabled($instance));
     }
+
+    /**
+     * Analytics summary averages available snapshots and masks small populations.
+     */
+    public function test_analytics_summary_preserves_legacy_and_privacy_rules(): void {
+        $records = [
+            (object)['userid' => 10, 'viewedseconds' => 40.0, 'viewedpercent' => 50.0],
+            (object)['userid' => 11, 'viewedseconds' => 80.0, 'viewedpercent' => 100.0],
+            (object)['userid' => 12, 'viewedseconds' => null, 'viewedpercent' => null],
+        ];
+        $summary = acknowledgement::analytics_summary($records, 2);
+        $this->assertSame(3, $summary['confirmationcount']);
+        $this->assertSame(3, $summary['studentcount']);
+        $this->assertSame(2, $summary['progresscount']);
+        $this->assertSame(1, $summary['progressmissing']);
+        $this->assertSame(60.0, $summary['averageviewedseconds']);
+        $this->assertSame(75.0, $summary['averageviewedpercent']);
+        $this->assertFalse($summary['suppressed']);
+        $this->assertFalse($summary['progresssuppressed']);
+
+        $progresssuppressed = acknowledgement::analytics_summary($records, 3);
+        $this->assertFalse($progresssuppressed['suppressed']);
+        $this->assertTrue($progresssuppressed['progresssuppressed']);
+        $this->assertNull($progresssuppressed['averageviewedseconds']);
+
+        $suppressed = acknowledgement::analytics_summary($records, 4);
+        $this->assertTrue($suppressed['suppressed']);
+        $this->assertNull($suppressed['confirmationcount']);
+        $this->assertNull($suppressed['averageviewedpercent']);
+    }
+
 }

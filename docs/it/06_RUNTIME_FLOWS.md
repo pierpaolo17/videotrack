@@ -121,6 +121,9 @@ Il docente abilita dichiarazione ed eventuale completamento
     -> acknowledgement::confirm() inserisce una sola volta ed emette l’evento Moodle
     -> stato aggregato e completamento Moodle vengono aggiornati
     -> report/CSV mostrano stato e data correnti
+    -> gli Analytics selezionano gli hash correnti per attività e applicano l’ambito gruppi
+    -> la soglia privacy maschera le popolazioni ridotte
+    -> CSV/XLSX/ODS aggiungono una riga di riepilogo delle prese visione
 ```
 
 La modifica del testo o del formato genera un hash diverso. È richiesta una nuova conferma; quelle precedenti restano soltanto nello storico/audit fino a cancellazione o scadenza.

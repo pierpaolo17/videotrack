@@ -109,3 +109,5 @@ Run the three-player runtime matrix in `11_INTEGRITY_AND_FOCUS.md`. Because play
 - Verify acknowledgement-only and combined completion logic.
 - Verify report/CSV, Privacy API, backup/restore, retention and user/course/activity reset.
 - Verify both acknowledgement timing policies and confirm that reports preserve the viewed seconds and percentage captured at confirmation time.
+- Verify single-activity and cross-course acknowledgement Analytics, group restrictions, legacy snapshot handling and privacy suppression.
+- Verify CSV, Excel and ODS contain one acknowledgement-summary row and remain downloadable when only acknowledgement data exists.

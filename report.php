@@ -222,6 +222,56 @@ function videotrack_report_analytics_scope_condition(array $scopes, string $pref
 }
 
 /**
+ * Builds a capability-safe SQL condition for current acknowledgement versions.
+ *
+ * Each enabled activity contributes its own statement hash. Group restrictions
+ * mirror the viewing Analytics scope so cross-course results cannot include
+ * confirmations outside the teacher's accessible groups.
+ *
+ * @param array $scopes Analytics activity scope records.
+ * @param string $prefix Unique parameter prefix.
+ * @return array SQL condition and named parameters.
+ */
+function videotrack_report_acknowledgement_scope_condition(array $scopes, string $prefix): array {
+    global $DB;
+
+    $clauses = [];
+    $params = [];
+    $index = 0;
+    foreach ($scopes as $scope) {
+        if (!\mod_videotrack\local\acknowledgement::is_enabled($scope)) {
+            continue;
+        }
+        $groupids = $scope->analyticsgroupids ?? null;
+        if (is_array($groupids) && !$groupids) {
+            continue;
+        }
+        $vtparam = $prefix . 'vt' . $index;
+        $hashparam = $prefix . 'hash' . $index;
+        $clause = 'videotrackid = :' . $vtparam . ' AND statementhash = :' . $hashparam;
+        $params[$vtparam] = (int)$scope->id;
+        $params[$hashparam] = \mod_videotrack\local\acknowledgement::statement_hash($scope);
+        if (is_array($groupids)) {
+            [$groupsql, $groupparams] = $DB->get_in_or_equal(
+                array_map('intval', $groupids),
+                SQL_PARAMS_NAMED,
+                $prefix . 'group' . $index
+            );
+            $clause .= " AND userid IN (
+                SELECT ackgm.userid
+                  FROM {groups_members} ackgm
+                 WHERE ackgm.groupid {$groupsql}
+            )";
+            $params = array_merge($params, $groupparams);
+        }
+        $clauses[] = '(' . $clause . ')';
+        $index++;
+    }
+
+    return [$clauses ? implode(' OR ', $clauses) : '1 = 0', $params];
+}
+
+/**
  * Builds the report tab set.
  *
  * @param int $cmid Course module id.
@@ -408,13 +458,15 @@ function videotrack_report_render_analytics_heatmap(
  * @param bool $haspartialmasking Whether some interval values are masked.
  * @param bool $showbookmarks Whether bookmark aggregates are available.
  * @param bool $showintegrity Whether diagnostic integrity indicators are available.
+ * @param bool $showacknowledgements Whether acknowledgement aggregates are available.
  * @return string Accessible details markup.
  */
 function videotrack_report_render_analytics_methodology(
     int $minusers,
     bool $haspartialmasking,
     bool $showbookmarks,
-    bool $showintegrity
+    bool $showintegrity,
+    bool $showacknowledgements
 ): string {
     $items = [
         get_string('report:analytics_method_unique', 'mod_videotrack'),
@@ -427,6 +479,9 @@ function videotrack_report_render_analytics_methodology(
     }
     if ($showintegrity) {
         $items[] = get_string('integrity:methodology', 'mod_videotrack');
+    }
+    if ($showacknowledgements) {
+        $items[] = get_string('report:analytics_method_acknowledgements', 'mod_videotrack');
     }
     $content = html_writer::tag(
         'p',
@@ -658,6 +713,7 @@ function videotrack_report_render_bookmark_summary(array $summary, int $minusers
 
     $hasdata = !empty($summary['hasdata']);
     $suppressed = $hasdata && !empty($summary['suppressed']);
+    $progresssuppressed = $hasdata && !empty($summary['progresssuppressed']);
     $hidden = get_string('report:analytics_notavailable_privacy', 'mod_videotrack');
     $eventvalue = $suppressed ? $hidden : (string)(int)($summary['eventcount'] ?? 0);
     $studentvalue = $suppressed ? $hidden : (string)(int)($summary['studentcount'] ?? 0);
@@ -707,6 +763,112 @@ function videotrack_report_render_bookmark_summary(array $summary, int $minusers
             'aria-labelledby' => 'videotrack-analytics-bookmarks-title',
         ]
     );
+}
+
+/**
+ * Renders privacy-safe acknowledgement Analytics.
+ *
+ * @param array $summary Confirmation counts and progress averages.
+ * @param int $minusers Privacy threshold.
+ * @param int $enabledactivitycount Number of activities with acknowledgement enabled.
+ * @param int $anytimeactivitycount Number using the anytime policy.
+ * @param int $videoendactivitycount Number requiring the final video second.
+ * @return string Summary section.
+ */
+function videotrack_report_render_acknowledgement_summary(
+    array $summary,
+    int $minusers,
+    int $enabledactivitycount,
+    int $anytimeactivitycount,
+    int $videoendactivitycount
+): string {
+    global $OUTPUT;
+
+    $hasdata = !empty($summary['hasdata']);
+    $suppressed = $hasdata && !empty($summary['suppressed']);
+    $hidden = get_string('report:analytics_notavailable_privacy', 'mod_videotrack');
+    $unavailable = get_string('report:analytics_acknowledgements_unavailable', 'mod_videotrack');
+    $confirmationvalue = $suppressed ? $hidden : (string)(int)($summary['confirmationcount'] ?? 0);
+    $studentvalue = $suppressed ? $hidden : (string)(int)($summary['studentcount'] ?? 0);
+    $secondsvalue = ($suppressed || $progresssuppressed)
+        ? $hidden
+        : ($summary['averageviewedseconds'] === null
+            ? $unavailable
+            : videotrack_format_seconds((float)$summary['averageviewedseconds']));
+    $percentvalue = ($suppressed || $progresssuppressed)
+        ? $hidden
+        : ($summary['averageviewedpercent'] === null
+            ? $unavailable
+            : format_float((float)$summary['averageviewedpercent'], 1) . '%');
+
+    $cards = [
+        [get_string('report:analytics_acknowledgements_confirmations', 'mod_videotrack'), $confirmationvalue],
+        [get_string('report:analytics_acknowledgements_students', 'mod_videotrack'), $studentvalue],
+        [get_string('report:analytics_acknowledgements_average_seconds', 'mod_videotrack'), $secondsvalue],
+        [get_string('report:analytics_acknowledgements_average_percent', 'mod_videotrack'), $percentvalue],
+    ];
+    $content = html_writer::tag(
+        'h4',
+        get_string('report:analytics_acknowledgements_title', 'mod_videotrack'),
+        ['id' => 'videotrack-analytics-acknowledgements-title']
+    );
+    $content .= html_writer::tag(
+        'p',
+        get_string('report:analytics_acknowledgements_scope', 'mod_videotrack', [
+            'activities' => $enabledactivitycount,
+            'anytime' => $anytimeactivitycount,
+            'videoend' => $videoendactivitycount,
+        ]),
+        ['class' => 'text-muted small']
+    );
+    $content .= html_writer::start_div('videotrack-analytics-summary');
+    foreach ($cards as [$label, $value]) {
+        $content .= html_writer::div(
+            html_writer::div(s($value), 'videotrack-analytics-summary-value') .
+                html_writer::div(s($label), 'videotrack-analytics-summary-label'),
+            'videotrack-analytics-summary-card'
+        );
+    }
+    $content .= html_writer::end_div();
+    $content .= html_writer::tag(
+        'p',
+        get_string('report:analytics_acknowledgements_private', 'mod_videotrack'),
+        ['class' => 'text-muted small mb-2']
+    );
+
+    if (!$hasdata) {
+        $content .= html_writer::tag(
+            'p',
+            get_string('report:analytics_acknowledgements_none', 'mod_videotrack'),
+            ['class' => 'text-muted mb-0']
+        );
+    } else if ($suppressed) {
+        $content .= $OUTPUT->notification(
+            get_string('report:analytics_acknowledgements_suppressed', 'mod_videotrack', $minusers),
+            'warning'
+        );
+    } else if ($progresssuppressed) {
+        $content .= $OUTPUT->notification(
+            get_string('report:analytics_acknowledgements_progress_suppressed', 'mod_videotrack', $minusers),
+            'warning'
+        );
+    }
+    if (!$suppressed && (int)($summary['progressmissing'] ?? 0) > 0) {
+        $content .= html_writer::tag(
+            'p',
+            get_string(
+                'report:analytics_acknowledgements_legacy',
+                'mod_videotrack',
+                (int)$summary['progressmissing']
+            ),
+            ['class' => 'text-muted small mb-0']
+        );
+    }
+
+    return html_writer::tag('section', $content, [
+        'class' => 'videotrack-analytics-acknowledgements mb-4',
+        'aria-labelledby' => 'videotrack-analytics-acknowledgements-title',
+    ]);
 }
 
 /**
@@ -1215,6 +1377,49 @@ if ($mode === 'analytics') {
         );
     }
 
+    $acknowledgementsummary = \mod_videotrack\local\acknowledgement::analytics_summary([], $minusers);
+    $acknowledgementinstances = array_filter(
+        $analyticsinstances,
+        static fn(stdClass $scopeinstance): bool =>
+            \mod_videotrack\local\acknowledgement::is_enabled($scopeinstance)
+    );
+    $acknowledgementanalyticsenabled = !empty($acknowledgementinstances);
+    $acknowledgementanytimecount = 0;
+    $acknowledgementvideoendcount = 0;
+    foreach ($acknowledgementinstances as $acknowledgementinstance) {
+        if (\mod_videotrack\local\acknowledgement::requires_video_end($acknowledgementinstance)) {
+            $acknowledgementvideoendcount++;
+        } else {
+            $acknowledgementanytimecount++;
+        }
+    }
+    if ($acknowledgementanalyticsenabled) {
+        [$acknowledgementwhere, $acknowledgementparams] =
+            videotrack_report_acknowledgement_scope_condition(
+                $acknowledgementinstances,
+                'analyticsacknowledgement'
+            );
+        $acknowledgementrs = $DB->get_recordset_select(
+            'videotrack_acknowledge',
+            $acknowledgementwhere,
+            $acknowledgementparams,
+            'id ASC',
+            'id, videotrackid, userid, viewedseconds, viewedpercent, timeconfirmed'
+        );
+        try {
+            $acknowledgementsummary = \mod_videotrack\local\acknowledgement::analytics_summary(
+                $acknowledgementrs,
+                $minusers
+            );
+        } finally {
+            $acknowledgementrs->close();
+        }
+    }
+
+    $acknowledgementsummary['enabledactivitycount'] = count($acknowledgementinstances);
+    $acknowledgementsummary['anytimeactivitycount'] = $acknowledgementanytimecount;
+    $acknowledgementsummary['videoendactivitycount'] = $acknowledgementvideoendcount;
+
     $integritysummary = \mod_videotrack\local\integrity::summarise([], $minusers);
     $integrityinstances = array_filter(
         $analyticsinstances,
@@ -1281,21 +1486,26 @@ if ($mode === 'analytics') {
 
     if ($analyticsformat !== '') {
         require_sesskey();
+        $viewingexportavailable = $duration > 0
+            && (int)$analytics['viewers'] > 0
+            && !$viewingprivacysuppressed;
         if (
             !in_array($analyticsformat, $analyticsformats, true)
-            || $duration <= 0
-            || (int)$analytics['viewers'] === 0
-            || $viewingprivacysuppressed
+            || (!$viewingexportavailable && !$acknowledgementanalyticsenabled)
         ) {
             throw new moodle_exception('report:analytics_export_unavailable', 'mod_videotrack');
         }
-        $exportcolumns = \mod_videotrack\local\analytics_table_export::columns($showreactionanalytics);
-        $exportrows = \mod_videotrack\local\analytics_table_export::rows(
-            $analytics['bins'],
+        $exportcolumns = \mod_videotrack\local\analytics_table_export::export_columns(
+            $showreactionanalytics,
+            $acknowledgementanalyticsenabled
+        );
+        $exportrows = \mod_videotrack\local\analytics_table_export::export_rows(
+            $viewingexportavailable ? $analytics['bins'] : [],
             $duration,
             $repeatmetricsavailable,
             $showreactionanalytics,
-            $minusers
+            $minusers,
+            $acknowledgementanalyticsenabled ? $acknowledgementsummary : null
         );
         \mod_videotrack\event\report_exported::create([
             'context' => $context,
@@ -1473,7 +1683,8 @@ if ($mode === 'analytics') {
         $minusers,
         $hasmaskedbins || $hasmaskedrepeats,
         $bookmarkanalyticsenabled,
-        $integrityanalyticsenabled || $integrityfocuscontrolsenabled
+        $integrityanalyticsenabled || $integrityfocuscontrolsenabled,
+        $acknowledgementanalyticsenabled
     );
     if ($analyticsstatefallback) {
         echo $OUTPUT->notification(
@@ -1501,6 +1712,15 @@ if ($mode === 'analytics') {
     if ($bookmarkanalyticsenabled) {
         echo videotrack_report_render_bookmark_summary($bookmarksummary, $minusers);
     }
+    if ($acknowledgementanalyticsenabled) {
+        echo videotrack_report_render_acknowledgement_summary(
+            $acknowledgementsummary,
+            $minusers,
+            count($acknowledgementinstances),
+            $acknowledgementanytimecount,
+            $acknowledgementvideoendcount
+        );
+    }
     echo videotrack_report_render_integrity_summary(
         $integritysummary,
         $minusers,
@@ -1520,14 +1740,30 @@ if ($mode === 'analytics') {
         );
     }
 
+    $downloadparams = [
+        'id' => $cm->id,
+        'mode' => 'analytics',
+        'analyticsbinsize' => $analyticsbinsize,
+        'analyticsgroupid' => $analyticsgroupid,
+        'analyticsshowreactions' => $analyticsshowreactions,
+        'analyticsallcourses' => $analyticsallcourses,
+    ];
+    if (
+        $acknowledgementanalyticsenabled
+        || ($duration > 0 && (int)$analytics['viewers'] > 0 && !$viewingprivacysuppressed)
+    ) {
+        echo videotrack_report_render_analytics_download($analyticsformats, $downloadparams);
+    }
+
     if ($duration <= 0) {
         echo $OUTPUT->notification(get_string('report:analytics_noduration', 'mod_videotrack'), 'warning');
         echo $OUTPUT->footer();
         exit;
     }
     if ((int)$analytics['viewers'] === 0) {
-        $haseventsummary = !empty($reactionsummary['hasdata']) || !empty($bookmarksummary['hasdata']) ||
-            count(array_filter($integritysummary, static fn(array $item): bool => !empty($item['hasdata']))) > 0;
+        $haseventsummary = !empty($reactionsummary['hasdata']) || !empty($bookmarksummary['hasdata'])
+            || $acknowledgementanalyticsenabled
+            || count(array_filter($integritysummary, static fn(array $item): bool => !empty($item['hasdata']))) > 0;
         if (!$reactionclusters && !$haseventsummary) {
             echo $OUTPUT->notification(get_string('report:analytics_nodata', 'mod_videotrack'), 'notifymessage');
             echo $OUTPUT->footer();
@@ -1679,16 +1915,6 @@ if ($mode === 'analytics') {
         );
     }
     echo html_writer::end_div();
-
-    $downloadparams = [
-        'id' => $cm->id,
-        'mode' => 'analytics',
-        'analyticsbinsize' => $analyticsbinsize,
-        'analyticsgroupid' => $analyticsgroupid,
-        'analyticsshowreactions' => $analyticsshowreactions,
-        'analyticsallcourses' => $analyticsallcourses,
-    ];
-    echo videotrack_report_render_analytics_download($analyticsformats, $downloadparams);
 
     $table = new html_table();
     $table->attributes['id'] = 'videotrack-analytics-table';
