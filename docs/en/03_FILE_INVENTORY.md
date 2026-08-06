@@ -235,3 +235,8 @@
 - `tests/course_analytics_test.php`: PHPUnit coverage for median, completion subgroups, privacy masking and drop selection.
 - `report.php`: Analytics tab, course-group filter, temporary cross-course filter, accessible SVG charts and equivalent data table.
 - `reports_course.php`: privacy-safe course dashboard rendering with per-module report capability checks.
+
+## Analytics export files (1.6.11)
+
+- `classes/local/analytics_table_export.php`: allowed formats and privacy-safe rows shared by the accessible table and Moodle exports.
+- `tests/analytics_table_export_test.php`: regression coverage for masking, aggregate-state fallback and the reaction column.

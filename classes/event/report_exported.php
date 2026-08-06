@@ -17,7 +17,7 @@
 namespace mod_videotrack\event;
 
 /**
- * Fired when a teacher exports a VideoTrack report containing individual user events.
+ * Fired when a teacher exports a VideoTrack report.
  *
  * @package    mod_videotrack
  * @copyright  2026 videotrack contributors

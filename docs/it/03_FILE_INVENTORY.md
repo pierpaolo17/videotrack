@@ -235,3 +235,8 @@
 - `tests/course_analytics_test.php`: test PHPUnit per mediana, sottogruppi di completamento, privacy e selezione del calo principale.
 - `report.php`: scheda Analytics, filtro gruppo del corso, filtro temporaneo tra corsi, grafici SVG accessibili e tabella dati equivalente.
 - `reports_course.php`: rendering della dashboard di corso privacy-safe con controllo capability per ogni report di modulo.
+
+## File export analytics (1.6.11)
+
+- `classes/local/analytics_table_export.php`: formati consentiti e righe privacy-safe condivise tra tabella accessibile ed export Moodle.
+- `tests/analytics_table_export_test.php`: regressione su mascheramento, fallback dello stato aggregato e colonna reazioni.

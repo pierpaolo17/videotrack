@@ -118,3 +118,9 @@ Variables are detected statically. The inventory is a navigation map; it does no
 - `classes/local/analytics.php` processes one user at a time and retains global timeline bins; it does not load user profile records.
 - Analytics bins contain start/end, distinct viewers, retention, raw seconds, unique seconds, repeated seconds and viewers with repeats.
 - Privacy masking is applied to the whole dataset, each positive interval and the replaying subgroup; totals that could reveal masked values are omitted.
+
+## Analytics export variables (1.6.11)
+
+- GET parameter `analyticsformat`: requested accessible-table format; allowed values are `csv`, `excel` and `ods` only when the matching Moodle dataformat is enabled.
+- `analyticsformats`: intersection between VideoTrack's allowed formats and the site's enabled dataformat writers.
+- `hasmaskedbins` and `hasmaskedrepeats`: control the legend and conditional explanation of omitted values.

@@ -30,3 +30,7 @@ The previous content has been replaced to avoid duplicated and obsolete informat
 ## Course dashboard service (1.6.9)
 
 `classes/local/course_analytics.php` builds capability-filtered and group-filtered course rows. It reuses `analytics::build_from_states()` and `analytics::apply_privacy_threshold()` for retention and drop calculations, applies the same minimum-user policy to counts, and keeps `reports_course.php` focused on accessible rendering. `analytics_scope::accessible_group_ids()` is shared by instance and course analytics so group visibility follows one implementation.
+
+## Analytics table export (1.6.11)
+
+`classes/local/analytics_table_export.php` builds privacy-safe headings and rows shared by the HTML table and downloads. `report.php` validates the format and sesskey before any output, records the export event, and delegates to `core\dataformat::download_data()`. Only enabled core CSV, Excel and ODS writers are exposed; the exporter does not load user records.

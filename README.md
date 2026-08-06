@@ -147,3 +147,11 @@ La dashboard personale riunisce, senza dipendere dal nome del ruolo, le sole att
 ## Personal teacher dashboard (1.6.10)
 
 The personal dashboard combines only VideoTrack activities from courses where the user holds `mod/videotrack:viewcoursereport`, without relying on role names. Every module is then checked for `mod/videotrack:viewreport`. The view reuses the course-dashboard service and provides filters for course, activity, accessible group and period (7, 30, 90 days or all time). Privacy thresholds remain active for every activity and subgroup.
+
+## Chiarezza ed export degli analytics (1.6.11)
+
+La scheda Analytics presenta ora un unico pannello espandibile che spiega calcolo e soglia privacy, mostra avvisi soltanto quando visualizzazioni o reazioni non possono essere pubblicate e rende il riepilogo delle reazioni come testo compatto. La heatmap include una legenda per intervalli, intensità, valori mascherati e cluster di reazioni. La tabella accessibile equivalente può essere scaricata tramite i dataformat Moodle CSV, Microsoft Excel (`.xlsx`) e OpenDocument (`.ods`); i valori mascherati restano tali anche nei file esportati.
+
+## Analytics clarity and export (1.6.11)
+
+The Analytics tab now provides one expandable explanation of calculations and privacy thresholds, shows warnings only when viewing or reaction data cannot be published, and renders the reaction summary as compact text. The heatmap includes a legend for intervals, intensity, masked values and reaction clusters. Its equivalent accessible table can be downloaded through Moodle CSV, Microsoft Excel (`.xlsx`) and OpenDocument (`.ods`) data formats; masked values remain masked in every export.
