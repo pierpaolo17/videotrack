@@ -393,6 +393,18 @@ class mod_videotrack_mod_form extends moodleform_mod {
             )
         );
         $mform->addElement(
+            'static',
+            'transcriptfiles_provider_notice',
+            '',
+            html_writer::tag(
+                'small',
+                get_string('transcriptfiles_provider_notice', 'mod_videotrack'),
+                ['class' => 'text-muted form-text']
+            )
+        );
+        $mform->hideIf('transcriptfiles_provider_notice', 'videosource', 'eq', 'upload');
+
+        $mform->addElement(
             'advcheckbox',
             'showtranscript',
             get_string('showtranscript', 'mod_videotrack'),

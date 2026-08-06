@@ -97,3 +97,8 @@ The Analytics page combines calculation and privacy guidance in one expandable c
 ## Interactive WebVTT transcripts and chapters (1.6.12)
 
 Teachers can upload up to ten transcript files independently from player captions. Language-code filenames provide a language selector, while the selected transcript supports text search, clickable cues and automatic current-cue highlighting. A separate WebVTT chapter file supplies one chapter per cue. Both features work with YouTube, Vimeo and uploaded media through a provider-neutral AMD module. A navigation request is accepted only when the target complies with the activity forward/backward seek policy; already watched forward positions remain available under the existing tracking rules. Legacy uploaded-video activities may use their subtitle file until dedicated timed-text files are configured.
+
+
+### Provider captions and searchable transcripts (1.6.13)
+
+YouTube and Vimeo captions remain inside the provider player. VideoTrack does not import or index those native tracks. To make the same content searchable, the teacher uploads a WebVTT copy in the searchable-transcript file area. The configuration form and student panel now state this separation explicitly. Uploaded media can still reuse the configured subtitle file as a fallback when no dedicated transcript is present.

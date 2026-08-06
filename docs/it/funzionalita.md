@@ -97,3 +97,8 @@ La pagina Analytics riunisce le spiegazioni di calcolo e privacy in un unico con
 ## Trascrizioni WebVTT interattive e capitoli (1.6.12)
 
 Il docente può caricare fino a dieci file di trascrizione indipendenti dai sottotitoli del player. I nomi basati sul codice lingua alimentano un selettore; la trascrizione scelta offre ricerca testuale, cue cliccabili ed evidenziazione automatica del cue corrente. Un file WebVTT separato definisce i capitoli, uno per cue. Entrambe le funzioni operano con YouTube, Vimeo e file caricati tramite un modulo AMD indipendente dal provider. Un timestamp viene aperto solo se rispetta la politica di seek avanti e indietro dell’attività; le posizioni avanti già viste restano disponibili secondo le regole di tracking esistenti. Le vecchie attività con file caricato possono usare il file sottotitoli come fallback finché non vengono configurati file dedicati.
+
+
+### Sottotitoli del provider e trascrizioni ricercabili (1.6.13)
+
+I sottotitoli di YouTube e Vimeo restano nel player del provider. VideoTrack non importa né indicizza automaticamente quelle tracce native. Per rendere ricercabile lo stesso contenuto, il docente carica una copia WebVTT nell’area dei file per la trascrizione ricercabile. Il modulo di configurazione e il pannello studente chiariscono ora esplicitamente questa separazione. Per i media caricati resta disponibile il fallback al file sottotitoli quando non è presente una trascrizione dedicata.
