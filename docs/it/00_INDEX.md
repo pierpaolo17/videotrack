@@ -1,6 +1,6 @@
 # Indice documentazione VideoTrack
 
-Release documentata: **1.6.29** (`2026060444`).
+Release documentata: **1.6.30** (`2026060445`).
 
 1. `01_DEVELOPER_GUIDE.md` — workflow di manutenzione e disciplina delle modifiche.
 2. `02_ARCHITECTURE.md` — confini dei componenti, adapter, storage e modello di fiducia.
@@ -30,3 +30,5 @@ I documenti storici sono isolati in `archive/` e non sono autorevoli per il codi
 16. `16_AUTOMATIC_DURATION_1_6_27.md` — proposta della durata nel form docente da metadati YouTube, Vimeo e locali.
 
 17. `17_PARTICIPATION_SCOPE_1_6_29.md` — capability learner esplicita condivisa da UI, servizi e report.
+
+18. `18_BOOKMARK_PERSISTENCE_1_6_30.md` — persistenza del progresso dei segnalibri e parità dei motivi client/server.

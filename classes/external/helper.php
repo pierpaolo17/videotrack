@@ -87,9 +87,10 @@ class helper extends external_api {
      * @throws \invalid_parameter_exception
      */
     public static function validate_end_reason(string $endreason): string {
+        // Keep this list aligned with SAVE_REASONS in amd/src/core/segment.js.
         $allowed = [
             'heartbeat', 'pause', 'seek', 'ended', 'beforeunload', 'pagehide', 'tab',
-            'visibilitychange', 'reaction', 'note', 'interaction',
+            'visibilitychange', 'reaction', 'note', 'bookmark', 'interaction',
         ];
         if (\core_text::strlen($endreason) > 32 || !in_array($endreason, $allowed, true)) {
             throw new \invalid_parameter_exception('Invalid segment end reason');

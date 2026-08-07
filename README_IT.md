@@ -2,10 +2,15 @@
 
 VideoTrack è un modulo attività Moodle per distribuire e tracciare video HTML5/caricati, YouTube e Vimeo. Integra analytics di visione attenti alla privacy, strumenti di studio opzionali, condizioni di completamento e report per il docente.
 
-Release documentata da questo albero: **1.6.29**. Versioni Moodle supportate: **5.0–5.3**.
+Release documentata da questo albero: **1.6.30**. Versioni Moodle supportate: **5.0–5.3**.
 
 Panoramica inglese: [`README.md`](README.md)
 Informativa privacy: [`PRIVACY_IT.md`](PRIVACY_IT.md) / [`PRIVACY.md`](PRIVACY.md)
+
+### Correzione persistenza dei segnalibri nella 1.6.30
+
+La release 1.6.30 allinea la whitelist server dei motivi di chiusura segmento al contratto condiviso dei player. Il motivo `bookmark` è ora accettato da `mod_videotrack_save_segment`, così l’intervallo visto corrente viene persistito prima della validazione del segnalibro privato. Il controllo sulla posizione vista resta invariato: i segnalibri possono essere creati soltanto in punti del video validati dal server.
+
 Documentazione tecnica: [`docs/it/00_INDEX.md`](docs/it/00_INDEX.md) / [`docs/en/00_INDEX.md`](docs/en/00_INDEX.md)
 
 ## Funzionalità principali

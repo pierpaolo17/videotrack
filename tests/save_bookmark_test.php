@@ -18,6 +18,7 @@ namespace mod_videotrack;
 
 use advanced_testcase;
 use core_external\external_function_parameters;
+use mod_videotrack\external\helper;
 use mod_videotrack\external\save_bookmark;
 use PHPUnit\Framework\Attributes\CoversClass;
 
@@ -29,6 +30,7 @@ use PHPUnit\Framework\Attributes\CoversClass;
  * @copyright  2026 videotrack contributors
  * @license    https://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
+#[CoversClass(helper::class)]
 #[CoversClass(save_bookmark::class)]
 final class save_bookmark_test extends advanced_testcase {
     /**
@@ -36,5 +38,6 @@ final class save_bookmark_test extends advanced_testcase {
      */
     public function test_execute_parameters_uses_supported_moodle_parameter_types(): void {
         $this->assertInstanceOf(external_function_parameters::class, save_bookmark::execute_parameters());
+        $this->assertSame('bookmark', helper::validate_end_reason('bookmark'));
     }
 }
