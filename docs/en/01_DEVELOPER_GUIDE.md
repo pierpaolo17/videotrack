@@ -19,7 +19,7 @@ Start from the latest real ZIP supplied by the maintainer. Record its checksum a
 ## Trust boundaries
 
 - The browser is not trusted for ownership, watched-position or completion decisions.
-- Every write service validates parameters, login, module context, capability and ownership/feature state.
+- Every learner write service validates parameters, login, module context, `mod/videotrack:participate`, ownership and feature state.
 - Private text is never copied into aggregate reports.
 - Browser focus and Picture-in-Picture controls are best effort; do not promise enforcement unavailable from a browser/provider.
 - Integrity signals are diagnostic and cannot independently prove cheating.

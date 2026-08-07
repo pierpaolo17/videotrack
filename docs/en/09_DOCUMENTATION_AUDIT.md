@@ -1,17 +1,17 @@
 # Documentation audit
 
-Baseline: VideoTrack **1.6.28** (`2026060443`).
+Baseline: VideoTrack **1.6.29** (`2026060444`).
 
 ## Coverage
 
 - Non-documentation files inventoried: **237/237**.
-- Named PHP functions/methods inventoried: **470**.
+- Named PHP functions/methods inventoried: **471**.
 - Named AMD callables detected and inventoried: **596**.
 - XMLDB tables documented: **7**.
 - Site-setting keys documented: **57**.
 - Player configuration keys documented: **128**.
 - AJAX services documented: **8**.
-- Language packs: eight packs with the same **959-key** contract; operational strings are translated while technical and proper terms may legitimately remain identical.
+- Language packs: eight packs with the same **960-key** contract; operational strings are translated while technical and proper terms may legitimately remain identical.
 - Root overviews: `README.md` (English) and `README_IT.md` (Italian).
 - Root privacy summaries: `PRIVACY.md` and `PRIVACY_IT.md`.
 
@@ -22,6 +22,13 @@ Current documents must not include release-specific assertions without a version
 ## Automated audit expectations
 
 A release audit must compare file inventory to the tree, function inventory to source, language key sets/placeholders, static `get_string` references, XMLDB to backup/restore, services to executable classes, AMD sources to generated assets and Markdown links to existing files.
+
+## 1.6.29 explicit-participation coverage
+
+- Activity UI, all learner mutation services and learner report populations use `mod/videotrack:participate`.
+- Report access no longer disables a genuine dual-role participant.
+- Standard teachers/managers remain non-tracking because the capability is granted to the Student archetype and admin do-anything is ignored for this decision.
+- Role administrators can grant or revoke the capability for custom participation roles.
 
 ## 1.6.28 duration-configuration transport coverage
 
@@ -40,7 +47,7 @@ A release audit must compare file inventory to the tree, function inventory to s
 - A verified duration of `0` explicitly disables watched-percentage calculation and percentage-based completion while preserving validated interval tracking and enabled study tools.
 - The complete HTML5-controls fieldset is hidden for YouTube and Vimeo and restored when the source changes to a local upload.
 - Learner reaction controls remain available while playing or paused, but the server accepts only already-watched validated timestamps.
-- Enabled notes and bookmarks are rendered for learners; report-capable staff receive a disabled preview and cannot create learner telemetry.
+- Enabled notes and bookmarks are rendered for explicit participants; users without `mod/videotrack:participate` receive a disabled preview and cannot create learner telemetry.
 - The PHPCS findings reported against 1.6.25 in `view.php`, `report.php` and `tests/tracker_test.php` are corrected in the 1.6.26 source tree.
 
 ## 1.6.25 interface regression coverage

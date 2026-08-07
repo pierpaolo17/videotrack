@@ -1,8 +1,8 @@
 # Inventario delle funzioni nominate
 
-Generato dai sorgenti VideoTrack 1.6.28. Le closure anonime sono intenzionalmente omesse.
+Generato dai sorgenti VideoTrack 1.6.29. Le closure anonime sono intenzionalmente omesse.
 
-Voci PHP: **470**. Voci AMD: **596**.
+Voci PHP: **471**. Voci AMD: **596**.
 
 ## Funzioni e metodi PHP
 
@@ -127,7 +127,7 @@ Voci PHP: **470**. Voci AMD: **596**.
 | `classes/external/save_bookmark.php:168` | `mod_videotrack\external\save_bookmark::execute_returns` | Esegue il contratto del servizio `returns`. |
 | `classes/external/save_integrity_event.php:47` | `mod_videotrack\external\save_integrity_event::execute_parameters` | Esegue il contratto del servizio `parameters`. |
 | `classes/external/save_integrity_event.php:65` | `mod_videotrack\external\save_integrity_event::execute` | Esegue il contratto del servizio `execute`. |
-| `classes/external/save_integrity_event.php:144` | `mod_videotrack\external\save_integrity_event::execute_returns` | Esegue il contratto del servizio `returns`. |
+| `classes/external/save_integrity_event.php:140` | `mod_videotrack\external\save_integrity_event::execute_returns` | Esegue il contratto del servizio `returns`. |
 | `classes/external/save_note.php:48` | `mod_videotrack\external\save_note::execute_parameters` | Esegue il contratto del servizio `parameters`. |
 | `classes/external/save_note.php:68` | `mod_videotrack\external\save_note::execute` | Esegue il contratto del servizio `execute`. |
 | `classes/external/save_note.php:215` | `mod_videotrack\external\save_note::execute_returns` | Esegue il contratto del servizio `returns`. |
@@ -180,9 +180,9 @@ Voci PHP: **470**. Voci AMD: **596**.
 | `classes/local/course_analytics.php:169` | `mod_videotrack\local\course_analytics::summarise_states` | Implementa `summarise states`; il contratto dettagliato è nel DocBlock sorgente. |
 | `classes/local/course_analytics.php:220` | `mod_videotrack\local\course_analytics::median` | Implementa `median`; il contratto dettagliato è nel DocBlock sorgente. |
 | `classes/local/course_analytics.php:240` | `mod_videotrack\local\course_analytics::largest_adjacent_drop` | Implementa `largest adjacent drop`; il contratto dettagliato è nel DocBlock sorgente. |
-| `classes/local/course_analytics.php:274` | `mod_videotrack\local\course_analytics::learner_scope_sql` | Implementa `learner scope sql`; il contratto dettagliato è nel DocBlock sorgente. |
-| `classes/local/course_analytics.php:308` | `mod_videotrack\local\course_analytics::load_states` | Carica `states`. |
-| `classes/local/course_analytics.php:347` | `mod_videotrack\local\course_analytics::load_event_summary` | Carica `event summary`. |
+| `classes/local/course_analytics.php:274` | `mod_videotrack\local\course_analytics::learner_scope_sql` | Costruisce la condizione SQL per partecipanti iscritti attivi nei gruppi consentiti. |
+| `classes/local/course_analytics.php:302` | `mod_videotrack\local\course_analytics::load_states` | Carica `states`. |
+| `classes/local/course_analytics.php:341` | `mod_videotrack\local\course_analytics::load_event_summary` | Carica `event summary`. |
 | `classes/local/csv_export.php:78` | `mod_videotrack\local\csv_export::delimiter_options` | Implementa `delimiter options`; il contratto dettagliato è nel DocBlock sorgente. |
 | `classes/local/csv_export.php:97` | `mod_videotrack\local\csv_export::delimiter` | Implementa `delimiter`; il contratto dettagliato è nel DocBlock sorgente. |
 | `classes/local/csv_export.php:121` | `mod_videotrack\local\csv_export::field_options` | Implementa `field options`; il contratto dettagliato è nel DocBlock sorgente. |
@@ -214,9 +214,9 @@ Voci PHP: **470**. Voci AMD: **596**.
 | `classes/local/integrity.php:139` | `mod_videotrack\local\integrity::validate_event_type` | Valida `event type`. |
 | `classes/local/integrity.php:152` | `mod_videotrack\local\integrity::label_string` | Implementa `label string`; il contratto dettagliato è nel DocBlock sorgente. |
 | `classes/local/integrity.php:164` | `mod_videotrack\local\integrity::summarise` | Implementa `summarise`; il contratto dettagliato è nel DocBlock sorgente. |
-| `classes/local/learner_scope.php:41` | `mod_videotrack\local\learner_scope::sql` | Costruisce lo scope SQL canonico per learner, iscrizione, capability report e gruppi. |
-| `classes/local/learner_scope.php:91` | `mod_videotrack\local\learner_scope::prefix_named_params` | Prefissa i parametri SQL nominati per evitare collisioni negli scope learner multi-attività. |
-| `classes/local/learner_scope.php:116` | `mod_videotrack\local\learner_scope::user_is_visible` | Verifica che un learner sia visibile al docente corrente. |
+| `classes/local/learner_scope.php:41` | `mod_videotrack\local\learner_scope::sql` | Costruisce lo scope SQL canonico per partecipazione esplicita, iscrizione e gruppi. |
+| `classes/local/learner_scope.php:94` | `mod_videotrack\local\learner_scope::prefix_named_params` | Prefissa i parametri SQL nominati per evitare collisioni negli scope learner multi-attività. |
+| `classes/local/learner_scope.php:119` | `mod_videotrack\local\learner_scope::user_is_visible` | Verifica che un learner sia visibile al docente corrente. |
 | `classes/local/privacy_manager.php:49` | `mod_videotrack\local\privacy_manager::retention_period_seconds` | Implementa `retention period seconds`; il contratto dettagliato è nel DocBlock sorgente. |
 | `classes/local/privacy_manager.php:67` | `mod_videotrack\local\privacy_manager::anonymisation_salt` | Implementa `anonymisation salt`; il contratto dettagliato è nel DocBlock sorgente. |
 | `classes/local/privacy_manager.php:119` | `mod_videotrack\local\privacy_manager::anonymous_userid` | Implementa `anonymous userid`; il contratto dettagliato è nel DocBlock sorgente. |
@@ -418,12 +418,13 @@ Voci PHP: **470**. Voci AMD: **596**.
 | `tests/analytics_test.php:288` | `mod_videotrack\analytics_test::test_reaction_summary_masks_small_populations` | Verifica tramite PHPUnit `reaction summary masks small populations`. |
 | `tests/analytics_test.php:309` | `mod_videotrack\analytics_test::test_build_from_states_recovers_unique_viewers` | Verifica tramite PHPUnit `build from states recovers unique viewers`. |
 | `tests/analytics_test.php:329` | `mod_videotrack\analytics_test::test_resolve_duration_uses_best_persisted_source` | Verifica tramite PHPUnit `resolve duration uses best persisted source`. |
-| `tests/course_analytics_test.php:36` | `mod_videotrack\course_analytics_test::test_median_handles_common_dataset_shapes` | Verifica tramite PHPUnit `median handles common dataset shapes`. |
-| `tests/course_analytics_test.php:45` | `mod_videotrack\course_analytics_test::test_state_summary_reuses_timeline_analytics` | Verifica tramite PHPUnit `state summary reuses timeline analytics`. |
-| `tests/course_analytics_test.php:69` | `mod_videotrack\course_analytics_test::test_state_summary_masks_small_activity_population` | Verifica tramite PHPUnit `state summary masks small activity population`. |
-| `tests/course_analytics_test.php:90` | `mod_videotrack\course_analytics_test::test_state_summary_masks_small_completion_subgroups` | Verifica tramite PHPUnit `state summary masks small completion subgroups`. |
-| `tests/course_analytics_test.php:111` | `mod_videotrack\course_analytics_test::test_largest_drop_ignores_suppressed_bins` | Verifica tramite PHPUnit `largest drop ignores suppressed bins`. |
-| `tests/course_analytics_test.php:133` | `mod_videotrack\course_analytics_test::state` | Implementa `state`; il contratto dettagliato è nel DocBlock sorgente. |
+| `tests/course_analytics_test.php:38` | `mod_videotrack\course_analytics_test::test_median_handles_common_dataset_shapes` | Verifica tramite PHPUnit `median handles common dataset shapes`. |
+| `tests/course_analytics_test.php:47` | `mod_videotrack\course_analytics_test::test_state_summary_reuses_timeline_analytics` | Verifica tramite PHPUnit `state summary reuses timeline analytics`. |
+| `tests/course_analytics_test.php:71` | `mod_videotrack\course_analytics_test::test_state_summary_masks_small_activity_population` | Verifica tramite PHPUnit `state summary masks small activity population`. |
+| `tests/course_analytics_test.php:92` | `mod_videotrack\course_analytics_test::test_state_summary_masks_small_completion_subgroups` | Verifica tramite PHPUnit `state summary masks small completion subgroups`. |
+| `tests/course_analytics_test.php:113` | `mod_videotrack\course_analytics_test::test_largest_drop_ignores_suppressed_bins` | Verifica tramite PHPUnit `largest drop ignores suppressed bins`. |
+| `tests/course_analytics_test.php:128` | `mod_videotrack\course_analytics_test::test_participation_scope_is_independent_from_report_access` | Verifica che la partecipazione esplicita resti disponibile anche insieme all’accesso ai report. |
+| `tests/course_analytics_test.php:171` | `mod_videotrack\course_analytics_test::state` | Implementa `state`; il contratto dettagliato è nel DocBlock sorgente. |
 | `tests/csv_export_test.php:37` | `mod_videotrack\csv_export_test::test_delimiter_resolution` | Verifica tramite PHPUnit `delimiter resolution`. |
 | `tests/csv_export_test.php:60` | `mod_videotrack\csv_export_test::test_process_form_fields` | Verifica tramite PHPUnit `process form fields`. |
 | `tests/csv_export_test.php:77` | `mod_videotrack\csv_export_test::test_field_options_include_video_link` | Verifica tramite PHPUnit `field options include video link`. |

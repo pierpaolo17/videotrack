@@ -6,7 +6,7 @@
 
 ## Segment tracking
 
-Provider callbacks update a shared tracker. Only active playback contributes. The client periodically closes bounded segments and calls `mod_videotrack_save_segment`. The service validates context, capability, session and movement rules; `local\tracker` stores the raw segment, merges intervals into `videotrack_state`, recalculates unique seconds/percentage, updates completion and grade, and emits events where applicable. Lifecycle hooks flush on pause, end, visibility changes and unload using AJAX or a constrained beacon fallback.
+Provider callbacks update a shared tracker. Only active playback contributes. The client periodically closes bounded segments and calls `mod_videotrack_save_segment`. The service validates context, the explicit `mod/videotrack:participate` capability, session and movement rules; `local\tracker` stores the raw segment, merges intervals into `videotrack_state`, recalculates unique seconds/percentage, updates completion and grade, and emits events where applicable. Lifecycle hooks flush on pause, end, visibility changes and unload using AJAX or a constrained beacon fallback.
 
 ## Seek, resume and replay
 
@@ -14,7 +14,7 @@ User seek is checked against forward/backward policy. A blocked forward seek ret
 
 ## Reactions, notes and bookmarks
 
-Reaction definitions are configured inside one collapsible Reactions section; the form renders at least four editable rows, keeps one spare row after existing active definitions and can be expanded with **Add reaction** up to the established cap of 30. In the activity view, reaction controls precede Forum posting and bookmarks. Canonical learners can activate them while the player is playing or paused; the server accepts a reaction only at a timestamp already covered by validated viewing data. Report-capable staff receive a visible but disabled preview and cannot persist learner telemetry. Notes and bookmarks are shown whenever enabled, require a timestamp already viewed by the owner and remain disabled in staff preview mode. External services enforce feature enablement, learner scope, ownership and maximum lengths. Deleted records retain a bounded tombstone until retention/erasure; private text is never copied into teacher aggregates.
+Reaction definitions are configured inside one collapsible Reactions section; the form renders at least four editable rows, keeps one spare row after existing active definitions and can be expanded with **Add reaction** up to the established cap of 30. In the activity view, reaction controls precede Forum posting and bookmarks. Users with `mod/videotrack:participate` can activate them while the player is playing or paused; the server accepts a reaction only at a timestamp already covered by validated viewing data. Report access is independent: dual-role participants remain interactive, while ordinary staff without the participation capability receive a disabled preview and cannot persist learner telemetry. Notes and bookmarks are shown whenever enabled, require a timestamp already viewed by the owner and remain disabled in staff preview mode. External services enforce feature enablement, learner scope, ownership and maximum lengths. Deleted records retain a bounded tombstone until retention/erasure; private text is never copied into teacher aggregates.
 
 ## Timed text
 

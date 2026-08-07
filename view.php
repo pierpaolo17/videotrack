@@ -45,7 +45,11 @@ $cm = cm_info::create($cm); // Moodle 4+: set_module_viewed and completion funct
 $context = context_module::instance($cm->id);
 require_capability('mod/videotrack:view', $context);
 $canviewreport = has_capability('mod/videotrack:viewreport', $context);
-$islearner = !isguestuser() && !$canviewreport;
+// Participation is explicit and independent from report access. The final false
+// prevents site-admin do-anything privileges from creating learner telemetry
+// unless the administrator has genuinely switched to a participating role.
+$islearner = !isguestuser()
+    && has_capability('mod/videotrack:participate', $context, null, false);
 
 if ($ackaction === 'confirm') {
     if (!$islearner) {

@@ -34,7 +34,7 @@ $functions = [
         'type' => 'write',
         'ajax' => true,
         'loginrequired' => true,
-        'capabilities' => 'mod/videotrack:view',
+        'capabilities' => 'mod/videotrack:participate',
     ],
 
     'mod_videotrack_save_segment' => [
@@ -45,7 +45,7 @@ $functions = [
         'type' => 'write',
         'ajax' => true,
         'loginrequired' => true,
-        'capabilities' => 'mod/videotrack:view',
+        'capabilities' => 'mod/videotrack:participate',
     ],
     'mod_videotrack_save_reaction' => [
         'classname' => 'mod_videotrack\\external\\save_reaction',
@@ -55,7 +55,7 @@ $functions = [
         'type' => 'write',
         'ajax' => true,
         'loginrequired' => true,
-        'capabilities' => 'mod/videotrack:view',
+        'capabilities' => 'mod/videotrack:participate',
     ],
     'mod_videotrack_delete_reaction' => [
         'classname' => 'mod_videotrack\\external\\delete_reaction',
@@ -65,7 +65,7 @@ $functions = [
         'type' => 'write',
         'ajax' => true,
         'loginrequired' => true,
-        'capabilities' => 'mod/videotrack:view',
+        'capabilities' => 'mod/videotrack:participate',
     ],
 
     'mod_videotrack_delete_note' => [
@@ -76,7 +76,7 @@ $functions = [
         'type' => 'write',
         'ajax' => true,
         'loginrequired' => true,
-        'capabilities' => 'mod/videotrack:view',
+        'capabilities' => 'mod/videotrack:participate',
     ],
 
     'mod_videotrack_save_bookmark' => [
@@ -87,7 +87,7 @@ $functions = [
         'type' => 'write',
         'ajax' => true,
         'loginrequired' => true,
-        'capabilities' => 'mod/videotrack:view',
+        'capabilities' => 'mod/videotrack:participate',
     ],
 
     'mod_videotrack_delete_bookmark' => [
@@ -98,7 +98,7 @@ $functions = [
         'type' => 'write',
         'ajax' => true,
         'loginrequired' => true,
-        'capabilities' => 'mod/videotrack:view',
+        'capabilities' => 'mod/videotrack:participate',
     ],
 
     'mod_videotrack_save_note' => [
@@ -109,6 +109,6 @@ $functions = [
         'type'          => 'write',
         'ajax'          => true,
         'loginrequired' => true,
-        'capabilities'  => 'mod/videotrack:view',
+        'capabilities'  => 'mod/videotrack:participate',
     ],
 ];

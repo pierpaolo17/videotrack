@@ -14,7 +14,7 @@ VideoTrack 1.6.23 is a hardening-only release before the Moodle App phase.
 
 ## Learner scope
 
-- Users with `mod/videotrack:viewreport` are not treated as learner telemetry subjects. Teacher previews therefore do not write learner tracking/interactions.
+- In 1.6.23 users with `mod/videotrack:viewreport` were excluded from learner telemetry. This heuristic was superseded in 1.6.29 by the explicit `mod/videotrack:participate` capability, which supports custom and dual-role learners while ordinary staff previews remain non-tracking.
 - Instance reports, sensitive actions and note exports use canonical active-enrolment and Moodle group visibility rules.
 
 ## Privacy contract

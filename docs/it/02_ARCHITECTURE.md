@@ -26,7 +26,7 @@ Ogni adapter deve fornire tempo corrente, durata, play/pausa, seek, velocità e 
 
 ## Identità e scope
 
-Contesto modulo e capability Moodle sono autorevoli. La visibilità dei gruppi usa la modalità effettiva dell’attività. Gli Analytics tra corsi rivalutano capability e gruppi per ogni attività e identificano lo stesso video tramite ID provider o content hash del file caricato.
+Contesto modulo e capability Moodle sono autorevoli. `mod/videotrack:participate` identifica esplicitamente gli utenti per cui possono essere scritti telemetria learner e strumenti personali; l’accesso ai report è indipendente. La visibilità dei gruppi usa la modalità effettiva dell’attività. Gli Analytics tra corsi rivalutano partecipazione, report e gruppi per ogni attività e identificano lo stesso video tramite ID provider o content hash del file caricato.
 
 ## Architettura privacy
 

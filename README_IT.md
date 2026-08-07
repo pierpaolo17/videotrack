@@ -2,7 +2,7 @@
 
 VideoTrack è un modulo attività Moodle per distribuire e tracciare video HTML5/caricati, YouTube e Vimeo. Integra analytics di visione attenti alla privacy, strumenti di studio opzionali, condizioni di completamento e report per il docente.
 
-Release documentata da questo albero: **1.6.28**. Versioni Moodle supportate: **5.0–5.3**.
+Release documentata da questo albero: **1.6.29**. Versioni Moodle supportate: **5.0–5.3**.
 
 Panoramica inglese: [`README.md`](README.md)
 Informativa privacy: [`PRIVACY_IT.md`](PRIVACY_IT.md) / [`PRIVACY.md`](PRIVACY.md)
@@ -29,6 +29,10 @@ VideoTrack registra soltanto i dati necessari alle funzioni abilitate. Le etiche
 
 La politica focus predefinita mette in pausa soltanto quando la pagina del video è realmente nascosta. La perdita di focus della finestra viene trattata con maggiore cautela per ridurre falsi positivi dovuti a screen reader, password manager, controlli del browser e finestre del sistema operativo. Controlli del player, regioni di stato, trascrizione e pulsante sul poster sono progettati per tastiera e tecnologie assistive. I limiti dei browser e dei provider esterni sono documentati senza promettere garanzie impossibili.
 
+### Partecipazione learner esplicita nella 1.6.29
+
+La release 1.6.29 separa la partecipazione learner dall’accesso ai report. Tracking, reazioni, note, segnalibri, indicatori di integrità e prese visione richiedono ora `mod/videotrack:participate`, assegnata all’archetipo Studente standard e clonata dalla capability Moodle che identifica i partecipanti nei report di completamento. Un utente può quindi partecipare anche quando un ruolo personalizzato o multiplo gli assegna anche l’accesso ai report. Docenti, manager e amministratori restano in anteprima non tracciata salvo cambio ruolo o assegnazione esplicita della capability di partecipazione. Analytics e report learner usano lo stesso contratto, allineando UI, Web Service e popolazione dei report.
+
 ## Installazione
 
 1. Posizionare la cartella in `mod/videotrack`.
@@ -48,11 +52,11 @@ Quando il docente inserisce un URL YouTube o Vimeo supportato oppure seleziona u
 
 ### Correzione affidabilità degli strumenti di visione nella 1.6.26
 
-La release 1.6.26 mantiene i pulsanti delle reazioni disponibili sia durante la riproduzione sia durante la pausa, continuando a richiedere lato server un timestamp di visione validato. Note e segnalibri abilitati vengono mostrati in modo coerente; chi può consultare i report vede un’anteprima disabilitata e non può creare telemetria learner. L’intera sezione dei controlli HTML5 viene nascosta per le sorgenti YouTube e Vimeo. Il campo della durata verificata parte da `0`, che indica esplicitamente che percentuale vista, completamento percentuale e presa visione dopo l’ultimo secondo non vengono usati; gli intervalli di visione validati continuano comunque a essere raccolti.
+La release 1.6.26 mantiene i pulsanti delle reazioni disponibili sia durante la riproduzione sia durante la pausa, continuando a richiedere lato server un timestamp di visione validato. Note e segnalibri abilitati vengono mostrati in modo coerente; chi non possiede la capability esplicita di partecipazione vede un’anteprima disabilitata e non può creare telemetria learner. L’intera sezione dei controlli HTML5 viene nascosta per le sorgenti YouTube e Vimeo. Il campo della durata verificata parte da `0`, che indica esplicitamente che percentuale vista, completamento percentuale e presa visione dopo l’ultimo secondo non vengono usati; gli intervalli di visione validati continuano comunque a essere raccolti.
 
 ### Correzione interfaccia e Analytics nella 1.6.25
 
-La release 1.6.25 corregge il riepilogo delle prese visione negli Analytics, mantiene tutte le definizioni delle reazioni nella sezione principale **Reazioni**, ripristina i relativi pulsanti sopra la pubblicazione Forum e i segnalibri e conserva un insieme variabile di reazioni tramite il comando **Aggiungi reazione** (fino al limite di sicurezza già previsto di 30). Chi può consultare i report vede un’anteprima disabilitata dei controlli, mentre soltanto i learner canonici possono registrare reazioni.
+La release 1.6.25 corregge il riepilogo delle prese visione negli Analytics, mantiene tutte le definizioni delle reazioni nella sezione principale **Reazioni**, ripristina i relativi pulsanti sopra la pubblicazione Forum e i segnalibri e conserva un insieme variabile di reazioni tramite il comando **Aggiungi reazione** (fino al limite di sicurezza già previsto di 30). Chi non possiede la capability esplicita di partecipazione vede un’anteprima disabilitata, mentre i partecipanti possono registrare reazioni anche quando un altro ruolo assegna loro l’accesso ai report.
 
 ### Recovery upgrade nella 1.6.24
 

@@ -18,6 +18,7 @@ namespace mod_videotrack;
 
 use advanced_testcase;
 use mod_videotrack\local\course_analytics;
+use mod_videotrack\local\learner_scope;
 use PHPUnit\Framework\Attributes\CoversClass;
 
 /**
@@ -29,6 +30,7 @@ use PHPUnit\Framework\Attributes\CoversClass;
  * @license    https://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 #[CoversClass(course_analytics::class)]
+#[CoversClass(learner_scope::class)]
 final class course_analytics_test extends advanced_testcase {
     /**
      * Median supports odd, even and empty datasets.
@@ -118,6 +120,42 @@ final class course_analytics_test extends advanced_testcase {
 
         $this->assertSame(30.0, $drop['timestamp']);
         $this->assertSame(40.0, $drop['percentagepoints']);
+    }
+
+    /**
+     * Explicit participation remains available to a learner who also has report access.
+     */
+    public function test_participation_scope_is_independent_from_report_access(): void {
+        global $DB;
+
+        $this->resetAfterTest();
+        $generator = $this->getDataGenerator();
+        $course = $generator->create_course();
+        $user = $generator->create_user();
+        $studentroleid = $DB->get_field('role', 'id', ['shortname' => 'student'], MUST_EXIST);
+        $teacherroleid = $DB->get_field('role', 'id', ['shortname' => 'teacher'], MUST_EXIST);
+        $generator->enrol_user($user->id, $course->id, $studentroleid);
+        role_assign($teacherroleid, $user->id, \context_course::instance($course->id)->id);
+        $forum = $generator->create_module('forum', [
+            'course' => $course->id,
+            'type' => 'general',
+        ]);
+        $cm = get_coursemodule_from_id('forum', $forum->cmid, 0, false, MUST_EXIST);
+        $context = \context_module::instance($cm->id);
+
+        $this->assertTrue(has_capability('mod/videotrack:viewreport', $context, $user->id));
+        $this->assertTrue(has_capability('mod/videotrack:participate', $context, $user->id, false));
+        $this->assertTrue(learner_scope::user_is_visible(
+            $context,
+            $cm,
+            $course,
+            $user->id,
+            $user->id
+        ));
+
+        $teacher = $generator->create_user();
+        $generator->enrol_user($teacher->id, $course->id, $teacherroleid);
+        $this->assertFalse(has_capability('mod/videotrack:participate', $context, $teacher->id, false));
     }
 
     /**

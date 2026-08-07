@@ -1,6 +1,6 @@
 # VideoTrack documentation index
 
-Current documented release: **1.6.28** (`2026060443`).
+Current documented release: **1.6.29** (`2026060444`).
 
 1. `01_DEVELOPER_GUIDE.md` — maintenance workflow and change discipline.
 2. `02_ARCHITECTURE.md` — component boundaries, adapters, storage and trust model.
@@ -28,3 +28,5 @@ Historical material is isolated under `archive/` and is not authoritative for th
 15. `15_UPGRADE_RECOVERY_1_6_24.md` — idempotent recovery from the failed 1.6.23 database upgrade.
 
 16. `16_AUTOMATIC_DURATION_1_6_27.md` — trusted-form duration suggestion from YouTube, Vimeo and local metadata.
+
+17. `17_PARTICIPATION_SCOPE_1_6_29.md` — explicit learner participation capability shared by UI, services and reports.

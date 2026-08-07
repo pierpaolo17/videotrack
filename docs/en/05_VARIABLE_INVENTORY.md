@@ -262,16 +262,20 @@ All keys are stored under `mod_videotrack`.
 - `studentnotesenabled`
 - `validationfallbackdays`
 
+## Learner participation capability
+
+- `mod/videotrack:participate` — canonical module-context write permission for learner tracking, reactions, notes, bookmarks, integrity indicators, acknowledgements and personal bookmark export. Default permissions are cloned from `moodle/course:isincompletionreports`; report access is independent.
+
 ## AJAX services
 
-- `mod_videotrack_save_integrity_event` — authenticated write service with `mod/videotrack:view`.
-- `mod_videotrack_save_segment` — authenticated write service with `mod/videotrack:view`.
-- `mod_videotrack_save_reaction` — authenticated write service with `mod/videotrack:view`.
-- `mod_videotrack_delete_reaction` — authenticated write service with `mod/videotrack:view`.
-- `mod_videotrack_delete_note` — authenticated write service with `mod/videotrack:view`.
-- `mod_videotrack_save_bookmark` — authenticated write service with `mod/videotrack:view`.
-- `mod_videotrack_delete_bookmark` — authenticated write service with `mod/videotrack:view`.
-- `mod_videotrack_save_note` — authenticated write service with `mod/videotrack:view`.
+- `mod_videotrack_save_integrity_event` — authenticated write service with `mod/videotrack:participate`.
+- `mod_videotrack_save_segment` — authenticated write service with `mod/videotrack:participate`.
+- `mod_videotrack_save_reaction` — authenticated write service with `mod/videotrack:participate`.
+- `mod_videotrack_delete_reaction` — authenticated write service with `mod/videotrack:participate`.
+- `mod_videotrack_delete_note` — authenticated write service with `mod/videotrack:participate`.
+- `mod_videotrack_save_bookmark` — authenticated write service with `mod/videotrack:participate`.
+- `mod_videotrack_delete_bookmark` — authenticated write service with `mod/videotrack:participate`.
+- `mod_videotrack_save_note` — authenticated write service with `mod/videotrack:participate`.
 
 ## Browser player configuration keys
 

@@ -14,7 +14,7 @@ VideoTrack 1.6.23 è una release esclusivamente di hardening prima della fase Mo
 
 ## Scope learner
 
-- Gli utenti con `mod/videotrack:viewreport` non sono soggetti learner del tracking. Le anteprime dei docenti non contaminano quindi tracking e interazioni learner.
+- Nella 1.6.23 gli utenti con `mod/videotrack:viewreport` erano esclusi dalla telemetria learner. Dalla 1.6.29 questa euristica è sostituita dalla capability esplicita `mod/videotrack:participate`, che supporta learner con ruoli personalizzati o multipli mantenendo non tracciate le normali anteprime staff.
 - Report di istanza, azioni sensibili ed export note usano regole canoniche di iscrizione attiva e visibilità gruppi Moodle.
 
 ## Contratto privacy

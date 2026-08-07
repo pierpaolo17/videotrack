@@ -20,7 +20,7 @@ use context_module;
 use stdClass;
 
 /**
- * Canonical learner visibility rules for reports and tracking.
+ * Canonical participant visibility rules for reports and tracking.
  *
  * @package   mod_videotrack
  * @copyright 2026 videotrack contributors
@@ -64,19 +64,22 @@ final class learner_scope {
             return ['1 = 0', []];
         }
 
-        [$viewsql, $viewparams] = get_enrolled_sql($context, 'mod/videotrack:view', $groupids ?? 0, true);
-        [$reportsql, $reportparams] = get_enrolled_sql($context, 'mod/videotrack:viewreport', 0, true);
+        [$participantsql, $participantparams] = get_enrolled_sql(
+            $context,
+            'mod/videotrack:participate',
+            $groupids ?? 0,
+            true
+        );
         if ($paramprefix !== '') {
-            [$viewsql, $viewparams] = self::prefix_named_params($viewsql, $viewparams, $paramprefix . 'view');
-            [$reportsql, $reportparams] = self::prefix_named_params(
-                $reportsql,
-                $reportparams,
-                $paramprefix . 'report'
+            [$participantsql, $participantparams] = self::prefix_named_params(
+                $participantsql,
+                $participantparams,
+                $paramprefix . 'participant'
             );
         }
         return [
-            "{$useridfield} IN ({$viewsql}) AND {$useridfield} NOT IN ({$reportsql})",
-            array_merge($viewparams, $reportparams),
+            "{$useridfield} IN ({$participantsql})",
+            $participantparams,
         ];
     }
 
@@ -124,10 +127,7 @@ final class learner_scope {
 
         require_once($CFG->libdir . '/enrollib.php');
 
-        if ($learnerid <= 0 || !is_enrolled($context, $learnerid, 'mod/videotrack:view', true)) {
-            return false;
-        }
-        if (has_capability('mod/videotrack:viewreport', $context, $learnerid)) {
+        if ($learnerid <= 0 || !is_enrolled($context, $learnerid, 'mod/videotrack:participate', true)) {
             return false;
         }
         [$sql, $params] = self::sql($context, $cm, $course, $viewerid, 'u.id');
