@@ -1,6 +1,6 @@
 # Audit della documentazione
 
-Baseline: VideoTrack **1.6.27** (`2026060442`).
+Baseline: VideoTrack **1.6.28** (`2026060443`).
 
 ## Copertura
 
@@ -22,6 +22,12 @@ I documenti correnti non devono contenere affermazioni di release senza indicare
 ## Audit automatici attesi
 
 Ogni release deve confrontare inventario file/albero, inventario funzioni/sorgente, chiavi e placeholder, `get_string` statici, XMLDB/backup-restore, servizi/classi, sorgenti/build AMD e link Markdown/file esistenti.
+
+## Copertura trasporto configurazione durata 1.6.28
+
+- La configurazione localizzata del detector è conservata in un elemento script JSON nel DOM del form attività.
+- `js_call_amd()` riceve soltanto l’id dell’elemento di configurazione, mantenendo l’argomento serializzato molto sotto la soglia Moodle developer di 1024 caratteri.
+- Il modulo AMD verifica e analizza la configurazione DOM prima di installare il detector.
 
 ## Copertura durata automatica 1.6.27
 

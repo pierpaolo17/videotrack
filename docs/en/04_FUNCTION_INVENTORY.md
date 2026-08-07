@@ -1,6 +1,6 @@
 # Named function inventory
 
-Generated from the VideoTrack 1.6.27 sources. Anonymous closures are intentionally omitted.
+Generated from the VideoTrack 1.6.28 sources. Anonymous closures are intentionally omitted.
 
 PHP entries: **470**. AMD entries: **596**.
 
@@ -356,17 +356,17 @@ PHP entries: **470**. AMD entries: **596**.
 | `locallib.php:907` | `videotrack_is_compatible_forum` | Validates that a forum is a compatible destination in the given course. |
 | `locallib.php:923` | `videotrack_build_forum_subject` | Builds the default Forum discussion subject from the configured template. |
 | `locallib.php:952` | `videotrack_build_replay_url` | Builds the canonical replay URL for a timestamp and symmetric pre-roll window. |
-| `mod_form.php:40` | `mod_videotrack_mod_form::definition` | Defines the activity settings form. |
-| `mod_form.php:1026` | `mod_videotrack_mod_form::apply_default_section_expansion` | Applies the default collapsed state to the instance configuration sections. |
-| `mod_form.php:1063` | `mod_videotrack_mod_form::require_filepicker_accept_filter` | Adds a client-side accept attribute to repository upload inputs. |
-| `mod_form.php:1109` | `mod_videotrack_mod_form::add_reaction_elements` | Adds repeated form elements used to configure reaction buttons. |
-| `mod_form.php:1288` | `mod_videotrack_mod_form::get_reaction_repeat_count` | Returns the number of reaction rows to render in the form. |
-| `mod_form.php:1308` | `mod_videotrack_mod_form::add_completion_rules` | Adds VideoTrack-specific completion rules. |
-| `mod_form.php:1351` | `mod_videotrack_mod_form::completion_rule_enabled` | Checks whether the custom completion rule is enabled. |
-| `mod_form.php:1363` | `mod_videotrack_mod_form::data_preprocessing` | Prepares default values and draft areas before the form is displayed. |
-| `mod_form.php:1613` | `mod_videotrack_mod_form::draft_area_contains_only_reaction_images` | Checks that a reaction icon draft area contains only allowed image files. |
-| `mod_form.php:1649` | `mod_videotrack_mod_form::draft_area_contains_only_vtt` | Check that a draft area contains only valid WebVTT files. |
-| `mod_form.php:1681` | `mod_videotrack_mod_form::validation` | Validates submitted activity settings. |
+| `mod_form.php:46` | `mod_videotrack_mod_form::definition` | Defines the activity settings form. |
+| `mod_form.php:1086` | `mod_videotrack_mod_form::apply_default_section_expansion` | Applies the default collapsed state to the instance configuration sections. |
+| `mod_form.php:1123` | `mod_videotrack_mod_form::require_filepicker_accept_filter` | Adds a client-side accept attribute to repository upload inputs. |
+| `mod_form.php:1169` | `mod_videotrack_mod_form::add_reaction_elements` | Adds repeated form elements used to configure reaction buttons. |
+| `mod_form.php:1348` | `mod_videotrack_mod_form::get_reaction_repeat_count` | Returns the number of reaction rows to render in the form. |
+| `mod_form.php:1375` | `mod_videotrack_mod_form::add_completion_rules` | Adds VideoTrack-specific completion rules. |
+| `mod_form.php:1418` | `mod_videotrack_mod_form::completion_rule_enabled` | Checks whether the custom completion rule is enabled. |
+| `mod_form.php:1432` | `mod_videotrack_mod_form::data_preprocessing` | Prepares default values and draft areas before the form is displayed. |
+| `mod_form.php:1682` | `mod_videotrack_mod_form::draft_area_contains_only_reaction_images` | Checks that a reaction icon draft area contains only allowed image files. |
+| `mod_form.php:1718` | `mod_videotrack_mod_form::draft_area_contains_only_vtt` | Check that a draft area contains only valid WebVTT files. |
+| `mod_form.php:1750` | `mod_videotrack_mod_form::validation` | Validates submitted activity settings. |
 | `report.php:36` | `videotrack_report_user_label` | Formats a report user label without exposing anonymised pseudo-user ids. |
 | `report.php:54` | `videotrack_report_date_to_timestamp` | Converts an ISO date-only parameter to a timestamp in the user's timezone. |
 | `report.php:76` | `videotrack_report_optional_time_param` | Reads an optional video-time filter. |
@@ -808,7 +808,7 @@ PHP entries: **470**. AMD entries: **596**.
 | `amd/src/form/duration.js:467` | `detect` | Starts the local-file detector for the resolved source descriptor. |
 | `amd/src/form/duration.js:475` | `getElements` | Resolves the required activity-form controls and status region. |
 | `amd/src/form/duration.js:489` | `install` | Coordinates debouncing, stale-response rejection, manual overrides and source changes. |
-| `amd/src/form/duration.js:610` | `init` | Initialises best-effort duration suggestion in the trusted teacher form. |
+| `amd/src/form/duration.js:610` | `init` | Loads detector configuration from the form DOM JSON element and initialises best-effort duration suggestion in the trusted teacher form. |
 | `amd/src/html5_player.js:56` | `resolveConfig` | Named callable `resolveConfig` in the module; see its JSDoc and callers for parameter and side-effect details. |
 | `amd/src/html5_player.js:67` | `uuid` | Named callable `uuid` in the module; see its JSDoc and callers for parameter and side-effect details. |
 | `amd/src/html5_player.js:71` | `safeNumber` | Named callable `safeNumber` in the module; see its JSDoc and callers for parameter and side-effect details. |

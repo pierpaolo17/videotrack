@@ -168,7 +168,8 @@ class mod_videotrack_mod_form extends moodleform_mod {
         ]);
 
         $durationtoken = '__VIDEOTRACK_DURATION__';
-        $PAGE->requires->js_call_amd('mod_videotrack/form/duration', 'init', [[
+        $durationconfigid = 'videotrack-duration-config';
+        $durationconfig = [
             'sourceid' => 'id_videosource',
             'youtubeid' => 'id_youtubeurl',
             'vimeoid' => 'id_vimeourl',
@@ -183,7 +184,30 @@ class mod_videotrack_mod_form extends moodleform_mod {
                 'manual' => get_string('durationseconds_auto_manual', 'mod_videotrack', $durationtoken),
                 'unavailable' => get_string('durationseconds_auto_unavailable', 'mod_videotrack'),
             ],
-        ]]);
+        ];
+        $durationconfigjson = json_encode(
+            $durationconfig,
+            JSON_HEX_TAG | JSON_HEX_AMP | JSON_HEX_APOS | JSON_HEX_QUOT
+        );
+        if ($durationconfigjson === false) {
+            $durationconfigjson = '{}';
+        }
+        $mform->addElement(
+            'html',
+            html_writer::tag(
+                'script',
+                $durationconfigjson,
+                [
+                    'type' => 'application/json',
+                    'id' => $durationconfigid,
+                ]
+            )
+        );
+        $PAGE->requires->js_call_amd(
+            'mod_videotrack/form/duration',
+            'init',
+            [['configid' => $durationconfigid]]
+        );
 
         // Player settings locked when teacher lacks overrideplayersettings.
         if (!$canoverrideplayer) {

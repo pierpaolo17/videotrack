@@ -607,8 +607,21 @@ define(['core/log'], function(Log) {
     }
 
     return {
-        init: function(config) {
-            config = config || {};
+        init: function(initConfig) {
+            var config = initConfig || {};
+            if (config.configid) {
+                var node = document.getElementById(config.configid);
+                if (!node) {
+                    Log.debug('VideoTrack duration configuration node was not found.');
+                    return;
+                }
+                try {
+                    config = JSON.parse(node.textContent || '{}');
+                } catch (error) {
+                    Log.debug('VideoTrack duration configuration could not be parsed.');
+                    return;
+                }
+            }
             config.maximum = Number(config.maximum) || 86400;
             config.messages = config.messages || {};
             install(config);

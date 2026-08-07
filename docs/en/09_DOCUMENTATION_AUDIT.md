@@ -1,6 +1,6 @@
 # Documentation audit
 
-Baseline: VideoTrack **1.6.27** (`2026060442`).
+Baseline: VideoTrack **1.6.28** (`2026060443`).
 
 ## Coverage
 
@@ -22,6 +22,12 @@ Current documents must not include release-specific assertions without a version
 ## Automated audit expectations
 
 A release audit must compare file inventory to the tree, function inventory to source, language key sets/placeholders, static `get_string` references, XMLDB to backup/restore, services to executable classes, AMD sources to generated assets and Markdown links to existing files.
+
+## 1.6.28 duration-configuration transport coverage
+
+- Localised detector configuration is stored in a JSON script element in the activity-form DOM.
+- `js_call_amd()` receives only the configuration element id, keeping its serialised argument far below Moodle’s 1024-character developer-warning threshold.
+- The AMD module validates and parses that DOM configuration before installing the detector.
 
 ## 1.6.27 automatic-duration coverage
 

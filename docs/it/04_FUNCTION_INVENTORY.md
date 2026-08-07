@@ -1,6 +1,6 @@
 # Inventario delle funzioni nominate
 
-Generato dai sorgenti VideoTrack 1.6.27. Le closure anonime sono intenzionalmente omesse.
+Generato dai sorgenti VideoTrack 1.6.28. Le closure anonime sono intenzionalmente omesse.
 
 Voci PHP: **470**. Voci AMD: **596**.
 
@@ -356,17 +356,17 @@ Voci PHP: **470**. Voci AMD: **596**.
 | `locallib.php:907` | `videotrack_is_compatible_forum` | Implementa `videotrack is compatible forum`; il contratto dettagliato è nel DocBlock sorgente. |
 | `locallib.php:923` | `videotrack_build_forum_subject` | Implementa `videotrack build forum subject`; il contratto dettagliato è nel DocBlock sorgente. |
 | `locallib.php:952` | `videotrack_build_replay_url` | Implementa `videotrack build replay url`; il contratto dettagliato è nel DocBlock sorgente. |
-| `mod_form.php:40` | `mod_videotrack_mod_form::definition` | Implementa `definition`; il contratto dettagliato è nel DocBlock sorgente. |
-| `mod_form.php:1026` | `mod_videotrack_mod_form::apply_default_section_expansion` | Implementa `apply default section expansion`; il contratto dettagliato è nel DocBlock sorgente. |
-| `mod_form.php:1063` | `mod_videotrack_mod_form::require_filepicker_accept_filter` | Implementa `require filepicker accept filter`; il contratto dettagliato è nel DocBlock sorgente. |
-| `mod_form.php:1109` | `mod_videotrack_mod_form::add_reaction_elements` | Implementa `add reaction elements`; il contratto dettagliato è nel DocBlock sorgente. |
-| `mod_form.php:1288` | `mod_videotrack_mod_form::get_reaction_repeat_count` | Restituisce `reaction repeat count`. |
-| `mod_form.php:1308` | `mod_videotrack_mod_form::add_completion_rules` | Implementa `add completion rules`; il contratto dettagliato è nel DocBlock sorgente. |
-| `mod_form.php:1351` | `mod_videotrack_mod_form::completion_rule_enabled` | Implementa `completion rule enabled`; il contratto dettagliato è nel DocBlock sorgente. |
-| `mod_form.php:1363` | `mod_videotrack_mod_form::data_preprocessing` | Implementa `data preprocessing`; il contratto dettagliato è nel DocBlock sorgente. |
-| `mod_form.php:1613` | `mod_videotrack_mod_form::draft_area_contains_only_reaction_images` | Implementa `draft area contains only reaction images`; il contratto dettagliato è nel DocBlock sorgente. |
-| `mod_form.php:1649` | `mod_videotrack_mod_form::draft_area_contains_only_vtt` | Implementa `draft area contains only vtt`; il contratto dettagliato è nel DocBlock sorgente. |
-| `mod_form.php:1681` | `mod_videotrack_mod_form::validation` | Implementa `validation`; il contratto dettagliato è nel DocBlock sorgente. |
+| `mod_form.php:46` | `mod_videotrack_mod_form::definition` | Implementa `definition`; il contratto dettagliato è nel DocBlock sorgente. |
+| `mod_form.php:1086` | `mod_videotrack_mod_form::apply_default_section_expansion` | Implementa `apply default section expansion`; il contratto dettagliato è nel DocBlock sorgente. |
+| `mod_form.php:1123` | `mod_videotrack_mod_form::require_filepicker_accept_filter` | Implementa `require filepicker accept filter`; il contratto dettagliato è nel DocBlock sorgente. |
+| `mod_form.php:1169` | `mod_videotrack_mod_form::add_reaction_elements` | Implementa `add reaction elements`; il contratto dettagliato è nel DocBlock sorgente. |
+| `mod_form.php:1348` | `mod_videotrack_mod_form::get_reaction_repeat_count` | Restituisce `reaction repeat count`. |
+| `mod_form.php:1375` | `mod_videotrack_mod_form::add_completion_rules` | Implementa `add completion rules`; il contratto dettagliato è nel DocBlock sorgente. |
+| `mod_form.php:1418` | `mod_videotrack_mod_form::completion_rule_enabled` | Implementa `completion rule enabled`; il contratto dettagliato è nel DocBlock sorgente. |
+| `mod_form.php:1432` | `mod_videotrack_mod_form::data_preprocessing` | Implementa `data preprocessing`; il contratto dettagliato è nel DocBlock sorgente. |
+| `mod_form.php:1682` | `mod_videotrack_mod_form::draft_area_contains_only_reaction_images` | Implementa `draft area contains only reaction images`; il contratto dettagliato è nel DocBlock sorgente. |
+| `mod_form.php:1718` | `mod_videotrack_mod_form::draft_area_contains_only_vtt` | Implementa `draft area contains only vtt`; il contratto dettagliato è nel DocBlock sorgente. |
+| `mod_form.php:1750` | `mod_videotrack_mod_form::validation` | Implementa `validation`; il contratto dettagliato è nel DocBlock sorgente. |
 | `report.php:36` | `videotrack_report_user_label` | Implementa `videotrack report user label`; il contratto dettagliato è nel DocBlock sorgente. |
 | `report.php:54` | `videotrack_report_date_to_timestamp` | Implementa `videotrack report date to timestamp`; il contratto dettagliato è nel DocBlock sorgente. |
 | `report.php:76` | `videotrack_report_optional_time_param` | Implementa `videotrack report optional time param`; il contratto dettagliato è nel DocBlock sorgente. |
@@ -808,7 +808,7 @@ Voci PHP: **470**. Voci AMD: **596**.
 | `amd/src/form/duration.js:467` | `detect` | Avvia il detector specifico per la sorgente risolta. |
 | `amd/src/form/duration.js:475` | `getElements` | Risolve i controlli necessari del form attività e la regione di stato. |
 | `amd/src/form/duration.js:489` | `install` | Coordina debounce, rifiuto delle risposte obsolete, override manuali e cambi sorgente. |
-| `amd/src/form/duration.js:610` | `init` | Inizializza la proposta best effort della durata nel form docente attendibile. |
+| `amd/src/form/duration.js:610` | `init` | Legge la configurazione del detector dall’elemento JSON nel DOM del form e inizializza la proposta best effort della durata nel form docente attendibile. |
 | `amd/src/html5_player.js:56` | `resolveConfig` | Callable `resolveConfig` del modulo; JSDoc e chiamanti definiscono parametri ed effetti. |
 | `amd/src/html5_player.js:67` | `uuid` | Callable `uuid` del modulo; JSDoc e chiamanti definiscono parametri ed effetti. |
 | `amd/src/html5_player.js:71` | `safeNumber` | Callable `safeNumber` del modulo; JSDoc e chiamanti definiscono parametri ed effetti. |

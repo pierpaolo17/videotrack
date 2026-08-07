@@ -1,6 +1,6 @@
 # Inventario dei file distribuiti
 
-Questo inventario è generato sull’albero VideoTrack 1.6.27 ed elenca ogni file non documentale. Il JavaScript canonico è in `amd/src`; i file in `amd/build` sono generati.
+Questo inventario è generato sull’albero VideoTrack 1.6.28 ed elenca ogni file non documentale. Il JavaScript canonico è in `amd/src`; i file in `amd/build` sono generati.
 
 Entries: **237**.
 
@@ -143,7 +143,7 @@ Entries: **237**.
 | `amd/src/core/tracker/time.js` | Sorgente AMD canonica modificabile per `core/tracker/time`. |
 | `amd/src/core/ui.js` | Sorgente AMD canonica modificabile per `core/ui`. |
 | `amd/src/core/utils.js` | Sorgente AMD canonica modificabile per `core/utils`. |
-| `amd/src/form/duration.js` | Sorgente AMD canonica del form che propone la durata da metadati YouTube, Vimeo o del file locale senza scrivere direttamente nello storage. |
+| `amd/src/form/duration.js` | Sorgente AMD canonica del form che legge la configurazione localizzata da un elemento JSON nel DOM e propone la durata da metadati YouTube, Vimeo o del file locale senza scrivere direttamente nello storage. |
 | `amd/src/html5_player.js` | Sorgente AMD canonica modificabile per `html5_player`. |
 | `amd/src/player.js` | Sorgente AMD canonica modificabile per `player`. |
 | `amd/src/presets.js` | Sorgente AMD canonica modificabile per `presets`. |
