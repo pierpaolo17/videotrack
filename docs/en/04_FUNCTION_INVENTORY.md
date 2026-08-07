@@ -1,6 +1,6 @@
 # Named function inventory
 
-Generated from the VideoTrack 1.6.24 sources. Anonymous closures are intentionally omitted.
+Generated from the VideoTrack 1.6.25 sources. Anonymous closures are intentionally omitted.
 
 PHP entries: **470**. AMD entries: **572**.
 
@@ -357,10 +357,10 @@ PHP entries: **470**. AMD entries: **572**.
 | `locallib.php:923` | `videotrack_build_forum_subject` | Builds the default Forum discussion subject from the configured template. |
 | `locallib.php:952` | `videotrack_build_replay_url` | Builds the canonical replay URL for a timestamp and symmetric pre-roll window. |
 | `mod_form.php:40` | `mod_videotrack_mod_form::definition` | Defines the activity settings form. |
-| `mod_form.php:1020` | `mod_videotrack_mod_form::apply_default_section_expansion` | Applies the default collapsed state to the instance configuration sections. |
+| `mod_form.php:1026` | `mod_videotrack_mod_form::apply_default_section_expansion` | Applies the default collapsed state to the instance configuration sections. |
 | `mod_form.php:1063` | `mod_videotrack_mod_form::require_filepicker_accept_filter` | Adds a client-side accept attribute to repository upload inputs. |
 | `mod_form.php:1109` | `mod_videotrack_mod_form::add_reaction_elements` | Adds repeated form elements used to configure reaction buttons. |
-| `mod_form.php:1283` | `mod_videotrack_mod_form::get_reaction_repeat_count` | Returns the number of reaction rows to render in the form. |
+| `mod_form.php:1288` | `mod_videotrack_mod_form::get_reaction_repeat_count` | Returns the number of reaction rows to render in the form. |
 | `mod_form.php:1308` | `mod_videotrack_mod_form::add_completion_rules` | Adds VideoTrack-specific completion rules. |
 | `mod_form.php:1351` | `mod_videotrack_mod_form::completion_rule_enabled` | Checks whether the custom completion rule is enabled. |
 | `mod_form.php:1363` | `mod_videotrack_mod_form::data_preprocessing` | Prepares default values and draft areas before the form is displayed. |
@@ -383,7 +383,7 @@ PHP entries: **470**. AMD entries: **572**.
 | `report.php:697` | `videotrack_report_render_reaction_clusters` | Render privacy-safe reaction clusters independently from viewing analytics. |
 | `report.php:732` | `videotrack_report_render_reaction_summary` | Renders a privacy-safe overall reaction summary. |
 | `report.php:755` | `videotrack_report_render_bookmark_summary` | Renders a privacy-safe bookmark usage summary without exposing labels or timestamps. |
-| `report.php:822` | `videotrack_report_render_acknowledgement_summary` | Renders privacy-safe acknowledgement Analytics. |
+| `report.php:821` | `videotrack_report_render_acknowledgement_summary` | Renders privacy-safe acknowledgement Analytics. |
 | `report.php:930` | `videotrack_report_render_integrity_summary` | Renders privacy-safe diagnostic integrity indicators. |
 | `report.php:1021` | `videotrack_report_render_analytics_retention` | Renders the retention line chart. |
 | `reports_course.php:35` | `videotrack_course_report_count_cell` | Renders a privacy-safe aggregate count. |

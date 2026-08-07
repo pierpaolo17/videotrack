@@ -187,10 +187,11 @@ define([], function() {
      * @param {Object} Ui Shared UI helper module.
      */
     function setButtons(playing, config, reactionState, Ui) {
+        var available = !!playing && (!config || config.reactionsenabled !== false);
         if (Ui && typeof Ui.setReactionButtons === 'function') {
-            Ui.setReactionButtons(playing);
+            Ui.setReactionButtons(available);
         }
-        announceAvailability(playing, config || {}, reactionState);
+        announceAvailability(available, config || {}, reactionState);
     }
 
     return {

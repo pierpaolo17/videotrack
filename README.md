@@ -2,7 +2,7 @@
 
 VideoTrack is a Moodle activity module for delivering and tracking HTML5/uploaded, YouTube and Vimeo videos. It combines privacy-aware viewing analytics with optional study tools, completion rules and teacher reporting.
 
-Current release documented by this tree: **1.6.24**. Supported Moodle branches: **5.0–5.3**.
+Current release documented by this tree: **1.6.25**. Supported Moodle branches: **5.0–5.3**.
 
 Italian overview: [`README_IT.md`](README_IT.md)
 Privacy summary: [`PRIVACY.md`](PRIVACY.md) / [`PRIVACY_IT.md`](PRIVACY_IT.md)
@@ -37,6 +37,10 @@ The default focus policy pauses only when the video page is genuinely hidden. Wi
 4. Create a VideoTrack activity and configure the video source and only the features required for the teaching scenario.
 
 No source code files should be edited inside Moodle after installation. Use a reviewed release or patch and keep `amd/src` and `amd/build` in sync.
+
+### Interface and Analytics correction in 1.6.25
+
+Release 1.6.25 fixes the acknowledgement summary in Analytics, keeps all reaction definitions inside the main Reactions section, restores the reaction controls above Forum posting and bookmarks, and preserves a variable reaction set through the existing **Add reaction** control (up to the established safety cap of 30). Report-capable staff can see a disabled preview of reaction controls, while only canonical learners may record reactions.
 
 ### Upgrade recovery in 1.6.24
 

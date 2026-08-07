@@ -757,7 +757,6 @@ function videotrack_report_render_bookmark_summary(array $summary, int $minusers
 
     $hasdata = !empty($summary['hasdata']);
     $suppressed = $hasdata && !empty($summary['suppressed']);
-    $progresssuppressed = $hasdata && !empty($summary['progresssuppressed']);
     $hidden = get_string('report:analytics_notavailable_privacy', 'mod_videotrack');
     $eventvalue = $suppressed ? $hidden : (string)(int)($summary['eventcount'] ?? 0);
     $studentvalue = $suppressed ? $hidden : (string)(int)($summary['studentcount'] ?? 0);
@@ -830,6 +829,7 @@ function videotrack_report_render_acknowledgement_summary(
 
     $hasdata = !empty($summary['hasdata']);
     $suppressed = $hasdata && !empty($summary['suppressed']);
+    $progresssuppressed = $hasdata && !empty($summary['progresssuppressed']);
     $hidden = get_string('report:analytics_notavailable_privacy', 'mod_videotrack');
     $unavailable = get_string('report:analytics_acknowledgements_unavailable', 'mod_videotrack');
     $confirmationvalue = $suppressed ? $hidden : (string)(int)($summary['confirmationcount'] ?? 0);
