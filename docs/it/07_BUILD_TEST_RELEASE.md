@@ -1,113 +1,34 @@
 # Build, test e release
 
-## Ambiente
+## Controlli richiesti
 
-- Moodle 5.0+
-- PHP 8.2+
-- Node 22.x according to Moodle requirement
-- Moodle Grunt toolchain installed in the Moodle root
-
-## PHPUnit
+Dalla root Moodle, adattando i path:
 
 ```bash
-cd /var/www/default-ssl/m45/moodle
-php admin/tool/phpunit/cli/init.php
+find mod/videotrack -name '*.php' -print0 | xargs -0 -n1 php -l
 vendor/bin/phpunit --testsuite mod_videotrack_testsuite
+vendor/bin/phpcs --standard=moodle --extensions=php mod/videotrack
+# Solo se cambia amd/src
+npx grunt amd --root=mod/videotrack
 ```
 
-Le deprecazioni PHPUnit 11 sui docblock `@covers` sono note: servono a soddisfare lo sniff Moodle `TestCaseCovers` finché moodle-cs non supporterà pienamente gli attributi nel caso d’uso del plugin.
+Analizzare anche `db/install.xml` ed `environment.xml`, eseguire `node --check` su sorgenti/build, validare le source map JSON, confrontare chiavi e placeholder delle lingue, verificare ogni `get_string` statico e confrontare XMLDB con backup/restore.
 
-## PHPCS
+## Interpretazione PHPUnit
 
-```bash
-/root/.config/composer/vendor/bin/phpcs --standard=moodle-extra /var/www/default-ssl/m45/moodle/mod/videotrack > phpcs_extra.json
-```
+“OK, but there were issues” non è un pass pulito se esistono failure/error. Le deprecazioni note PHPUnit 11 dei metadata DocBlock vanno distinte dai failure. Conservare i DocBlock `@covers` quando richiesti da Moodle PHPCS Extra finché la toolchain non supporta coerentemente gli attributi.
 
-## AMD
+## Validazione patch
 
 ```bash
-cd /var/www/default-ssl/m45/moodle
-ulimit -n 65535
-export UV_THREADPOOL_SIZE=4
-export NODE_OPTIONS="--max-old-space-size=4096"
-node node_modules/grunt/bin/grunt amd --root=mod/videotrack --force > ../grunt_amd.txt 2>&1
-```
-
-## Patch
-
-```bash
+git diff --check
+git diff --binary BASELINE..WORKTREE > videotrack-x.y.z.patch
 git apply --check videotrack-x.y.z.patch
 patch -p1 --dry-run < videotrack-x.y.z.patch
 ```
 
-La patch deve essere generata dalla root del plugin. Percorsi assoluti o temporanei dentro `/mnt/data` non sono accettabili.
+Applicare la patch a un’estrazione separata e confrontare l’intero albero. I file nuovi/untracked devono essere inclusi esplicitamente.
 
-## Checklist per release solo documentale
+## Evidenze release
 
-Per patch esclusivamente documentali, i controlli minimi sono:
-
-```bash
-php -l version.php
-git apply --check <patchfile>
-patch -p1 --dry-run < <patchfile>
-```
-
-Se cambiano gli inventari, rigenerare o verificare manualmente:
-
-- inventario file rispetto al contenuto reale dello ZIP;
-- inventario funzioni PHP rispetto ai file PHP distribuiti;
-- inventario funzioni AMD rispetto ai file `amd/src`;
-- inventario variabili come supporto di navigazione.
-
-Una patch solo documentale non richiede `grunt amd`, PHPUnit o PHPCS, salvo modifiche a codice eseguibile. Se viene incrementato `version.php`, eseguire l'upgrade Moodle nell'ambiente target.
-
-## Controlli di regressione integrazione Forum (1.5.0)
-
-- creare e modificare un’istanza con la funzione disabilitata;
-- configurare ciascun tipo Forum supportato (`general`, `qanda`, `blog`);
-- verificare il comportamento di Forum nascosti e con restrizioni per docente e studente;
-- verificare nessun gruppo, gruppi separati e appartenenza a più gruppi;
-- verificare la gestione controllata di cutoff e soglie di pubblicazione;
-- verificare che Annulla ritorni al frammento temporale del video;
-- verificare che la discussione contenga solo testo confermato dallo studente e link di replay;
-- ripristinare con e senza il Forum collegato e verificare la disabilitazione sicura quando manca la mappatura;
-- ripetere i test player YouTube, Vimeo e HTML5 per tracking, seek, resume e replay.
-
-## Controlli di regressione analytics per istanza (1.6.0)
-
-- verificare che la sovrapposizione delle reazioni segnali il proprio limite di sicurezza senza crescita illimitata della memoria;
-
-- verificare stati senza dati e con durata sconosciuta;
-- verificare dataset sotto e sopra `analyticsminusers`;
-- verificare intervalli e cluster di reazioni mascherati sotto soglia;
-- confrontare copertura unica e tempo rivisto con segmenti sovrapposti;
-- verificare filtro gruppo con gruppi consentiti e non disponibili;
-- verificare descrizioni SVG accessibili e valori equivalenti nella tabella;
-- confermare che le schede studente, cumulativa, CSV e ricalcolo completion non cambino;
-- eseguire `analytics_test.php`, PHPCS Moodle + Extra e PHP lint. Questa fase non richiede build AMD.
-
-## Correzioni runtime 1.6.1
-
-- Il salvataggio delle note risolve sempre il timestamp asincrono del player e preferisce l’estremo del segmento appena accettato dal server; questo evita il passaggio di una Promise nel player Vimeo.
-- Un errore nella registrazione dell’evento Moodle non annulla una nota già salvata: viene restituito un warning visibile.
-- I cluster di reazioni applicano la propria soglia privacy indipendentemente dalla disponibilità o dalla soppressione dei segmenti di visione. Quando sono conformi alla soglia restano consultabili in una tabella aggregata, senza nominativi o testo delle note.
-
-## Controlli release per i segnalibri
-
-Per modifiche ai segnalibri aggiungere alla matrice ordinaria: persistenza attivo/disattivo del form, proprietà in salvataggio/eliminazione, vincolo timestamp già visualizzato, protezione formula injection CSV, export/cancellazione Privacy API, backup/restore, replay sui tre player, conteggi aggregati docente e mascheramento privacy. Verificare la parità delle chiavi in tutti gli otto language pack distribuiti.
-
-## Controlli release integrità e focus
-
-Eseguire la matrice sui tre player descritta in `11_INTEGRITY_AND_FOCUS.md`. Poiché vengono modificati sorgenti AMD dei player, `grunt amd` reale è obbligatorio e vanno inclusi build e source map generati di `player`, `html5_player`, `vimeo_player` e `core/player/focus_guard`. Eseguire inoltre PHPUnit, PHPCS Moodle + Extra, nuova installazione/upgrade XMLDB, export/cancellazione Privacy API e backup/restore con e senza dati utente.
-
-## Controlli di regressione presa visione (1.6.19)
-
-- Verificare che nuova installazione e upgrade creino `{videotrack_acknowledge}` e i quattro campi istanza.
-- Verificare che una dichiarazione disabilitata non mostri il modulo allo studente.
-- Verificare che la modifica di testo o formato renda non corrente la conferma precedente.
-- Verificare il rifiuto di POST senza sesskey o senza casella selezionata.
-- Verificare completamento basato solo sulla presa visione e combinato con altre regole.
-- Verificare report/CSV, Privacy API, backup/restore, retention e reset utente/corso/attività.
-- Verificare entrambe le modalità temporali della presa visione e che i report conservino secondi e percentuale registrati al momento della conferma.
-- Verificare Analytics delle prese visione su singola attività e cross-course, restrizioni di gruppo, record storici senza fotografia e mascheramento privacy.
-- Verificare che CSV, Excel e ODS contengano una sola riga di riepilogo e siano scaricabili anche quando esistono soltanto dati di presa visione.
+Registrare checksum baseline, file modificati, decisioni versione/schema, controlli eseguiti/non eseguiti e checksum patch. Non dichiarare riusciti PHPUnit, PHPCS, browser, upgrade o backup/restore se non eseguiti su quella release esatta.

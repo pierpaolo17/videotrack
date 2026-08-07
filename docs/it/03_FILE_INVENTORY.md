@@ -1,295 +1,243 @@
-# Inventario file
+# Inventario dei file distribuiti
 
-| Path | Responsibility |
-| --- | --- |
-| .gitattributes | Support file. |
-| .moodleignore | Support file. |
-| PRIVACY.md | Support file. |
-| amd/build/core/adapter.min.js | Generated AMD artifact; do not edit manually. |
-| amd/build/core/adapter.min.js.map | Generated AMD artifact; do not edit manually. |
-| amd/build/core/api.min.js | Generated AMD artifact; do not edit manually. |
-| amd/build/core/api.min.js.map | Generated AMD artifact; do not edit manually. |
-| amd/build/core/api/error.min.js | Generated AMD artifact; do not edit manually. |
-| amd/build/core/api/error.min.js.map | Generated AMD artifact; do not edit manually. |
-| amd/build/core/api/retry.min.js | Generated AMD artifact; do not edit manually. |
-| amd/build/core/api/retry.min.js.map | Generated AMD artifact; do not edit manually. |
-| amd/build/core/api/scope.min.js | Generated AMD artifact; do not edit manually. |
-| amd/build/core/api/scope.min.js.map | Generated AMD artifact; do not edit manually. |
-| amd/build/core/api/transport.min.js | Generated AMD artifact; do not edit manually. |
-| amd/build/core/api/transport.min.js.map | Generated AMD artifact; do not edit manually. |
-| amd/build/core/api/validator.min.js | Generated AMD artifact; do not edit manually. |
-| amd/build/core/api/validator.min.js.map | Generated AMD artifact; do not edit manually. |
-| amd/build/core/beacon.min.js | Generated AMD artifact; do not edit manually. |
-| amd/build/core/beacon.min.js.map | Generated AMD artifact; do not edit manually. |
-| amd/build/core/confirm.min.js | Generated AMD artifact; do not edit manually. |
-| amd/build/core/confirm.min.js.map | Generated AMD artifact; do not edit manually. |
-| amd/build/core/debug.min.js | Generated AMD artifact; do not edit manually. |
-| amd/build/core/debug.min.js.map | Generated AMD artifact; do not edit manually. |
-| amd/build/core/events.min.js | Generated AMD artifact; do not edit manually. |
-| amd/build/core/events.min.js.map | Generated AMD artifact; do not edit manually. |
-| amd/build/core/player.min.js | Generated AMD artifact; do not edit manually. |
-| amd/build/core/player.min.js.map | Generated AMD artifact; do not edit manually. |
-| amd/build/core/player/acknowledgement.min.js | Generated AMD artifact; do not edit manually. |
-| amd/build/core/player/acknowledgement.min.js.map | Generated AMD artifact; do not edit manually. |
-| amd/build/core/player/intervalbar.min.js | Generated AMD artifact; do not edit manually. |
-| amd/build/core/player/intervalbar.min.js.map | Generated AMD artifact; do not edit manually. |
-| amd/build/core/player/notes.min.js | Generated AMD artifact; do not edit manually. |
-| amd/build/core/player/notes.min.js.map | Generated AMD artifact; do not edit manually. |
-| amd/build/core/player/notes/row.min.js | Generated AMD artifact; do not edit manually. |
-| amd/build/core/player/notes/row.min.js.map | Generated AMD artifact; do not edit manually. |
-| amd/build/core/player/notes/toggle.min.js | Generated AMD artifact; do not edit manually. |
-| amd/build/core/player/notes/toggle.min.js.map | Generated AMD artifact; do not edit manually. |
-| amd/build/core/player/poster.min.js | Generated AMD artifact; do not edit manually. |
-| amd/build/core/player/poster.min.js.map | Generated AMD artifact; do not edit manually. |
-| amd/build/core/player/progress.min.js | Generated AMD artifact; do not edit manually. |
-| amd/build/core/player/progress.min.js.map | Generated AMD artifact; do not edit manually. |
-| amd/build/core/player/reactions.min.js | Generated AMD artifact; do not edit manually. |
-| amd/build/core/player/reactions.min.js.map | Generated AMD artifact; do not edit manually. |
-| amd/build/core/player/resume.min.js | Generated AMD artifact; do not edit manually. |
-| amd/build/core/player/resume.min.js.map | Generated AMD artifact; do not edit manually. |
-| amd/build/core/player/status.min.js | Generated AMD artifact; do not edit manually. |
-| amd/build/core/player/status.min.js.map | Generated AMD artifact; do not edit manually. |
-| amd/build/core/progress.min.js | Generated AMD artifact; do not edit manually. |
-| amd/build/core/progress.min.js.map | Generated AMD artifact; do not edit manually. |
-| amd/build/core/reactions.min.js | Generated AMD artifact; do not edit manually. |
-| amd/build/core/reactions.min.js.map | Generated AMD artifact; do not edit manually. |
-| amd/build/core/segment.min.js | Generated AMD artifact; do not edit manually. |
-| amd/build/core/segment.min.js.map | Generated AMD artifact; do not edit manually. |
-| amd/build/core/session.min.js | Generated AMD artifact; do not edit manually. |
-| amd/build/core/session.min.js.map | Generated AMD artifact; do not edit manually. |
-| amd/build/core/state.min.js | Generated AMD artifact; do not edit manually. |
-| amd/build/core/state.min.js.map | Generated AMD artifact; do not edit manually. |
-| amd/build/core/status.min.js | Generated AMD artifact; do not edit manually. |
-| amd/build/core/status.min.js.map | Generated AMD artifact; do not edit manually. |
-| amd/build/core/tracker.min.js | Generated AMD artifact; do not edit manually. |
-| amd/build/core/tracker.min.js.map | Generated AMD artifact; do not edit manually. |
-| amd/build/core/tracker/events.min.js | Generated AMD artifact; do not edit manually. |
-| amd/build/core/tracker/events.min.js.map | Generated AMD artifact; do not edit manually. |
-| amd/build/core/tracker/heartbeat.min.js | Generated AMD artifact; do not edit manually. |
-| amd/build/core/tracker/heartbeat.min.js.map | Generated AMD artifact; do not edit manually. |
-| amd/build/core/tracker/lifecycle.min.js | Generated AMD artifact; do not edit manually. |
-| amd/build/core/tracker/lifecycle.min.js.map | Generated AMD artifact; do not edit manually. |
-| amd/build/core/tracker/segment.min.js | Generated AMD artifact; do not edit manually. |
-| amd/build/core/tracker/segment.min.js.map | Generated AMD artifact; do not edit manually. |
-| amd/build/core/tracker/state.min.js | Generated AMD artifact; do not edit manually. |
-| amd/build/core/tracker/state.min.js.map | Generated AMD artifact; do not edit manually. |
-| amd/build/core/tracker/time.min.js | Generated AMD artifact; do not edit manually. |
-| amd/build/core/tracker/time.min.js.map | Generated AMD artifact; do not edit manually. |
-| amd/build/core/tracker/tracker.min.js.map | Generated AMD artifact; do not edit manually. |
-| amd/build/core/ui.min.js | Generated AMD artifact; do not edit manually. |
-| amd/build/core/ui.min.js.map | Generated AMD artifact; do not edit manually. |
-| amd/build/core/utils.min.js | Generated AMD artifact; do not edit manually. |
-| amd/build/core/utils.min.js.map | Generated AMD artifact; do not edit manually. |
-| amd/build/html5_player.min.js | Generated AMD artifact; do not edit manually. |
-| amd/build/html5_player.min.js.map | Generated AMD artifact; do not edit manually. |
-| amd/build/player.min.js | Generated AMD artifact; do not edit manually. |
-| amd/build/player.min.js.map | Generated AMD artifact; do not edit manually. |
-| amd/build/presets.min.js | Generated AMD artifact; do not edit manually. |
-| amd/build/presets.min.js.map | Generated AMD artifact; do not edit manually. |
-| amd/build/report.min.js | Generated AMD artifact; do not edit manually. |
-| amd/build/report.min.js.map | Generated AMD artifact; do not edit manually. |
-| amd/build/vimeo_player.min.js | Generated AMD artifact; do not edit manually. |
-| amd/build/vimeo_player.min.js.map | Generated AMD artifact; do not edit manually. |
-| amd/src/core/adapter.js | Support file. |
-| amd/src/core/api.js | AJAX client layer, service calls, retry/scope/response validation. |
-| amd/src/core/api/error.js | AJAX client layer, service calls, retry/scope/response validation. |
-| amd/src/core/api/retry.js | AJAX client layer, service calls, retry/scope/response validation. |
-| amd/src/core/api/scope.js | AJAX client layer, service calls, retry/scope/response validation. |
-| amd/src/core/api/transport.js | AJAX client layer, service calls, retry/scope/response validation. |
-| amd/src/core/api/validator.js | AJAX client layer, service calls, retry/scope/response validation. |
-| amd/src/core/beacon.js | Support file. |
-| amd/src/core/confirm.js | Support file. |
-| amd/src/core/debug.js | Support file. |
-| amd/src/core/events.js | Support file. |
-| amd/src/core/player.js | Shared player UI helpers for notes, reactions, progress/status, poster and resume controls. |
-| amd/src/core/player/intervalbar.js | Shared player UI helpers for notes, reactions, progress/status, poster and resume controls. |
-| amd/src/core/player/notes.js | Shared player UI helpers for notes, reactions, progress/status, poster and resume controls. |
-| amd/src/core/player/notes/row.js | Shared player UI helpers for notes, reactions, progress/status, poster and resume controls. |
-| amd/src/core/player/notes/toggle.js | Shared player UI helpers for notes, reactions, progress/status, poster and resume controls. |
-| amd/src/core/player/poster.js | Shared player UI helpers for notes, reactions, progress/status, poster and resume controls. |
-| amd/src/core/player/progress.js | Shared player UI helpers for notes, reactions, progress/status, poster and resume controls. |
-| amd/src/core/player/reactions.js | Shared player UI helpers for notes, reactions, progress/status, poster and resume controls. |
-| amd/src/core/player/resume.js | Shared player UI helpers for notes, reactions, progress/status, poster and resume controls. |
-| amd/src/core/player/status.js | Shared player UI helpers for notes, reactions, progress/status, poster and resume controls. |
-| amd/src/core/progress.js | Support file. |
-| amd/src/core/reactions.js | Support file. |
-| amd/src/core/segment.js | Support file. |
-| amd/src/core/session.js | Support file. |
-| amd/src/core/state.js | Support file. |
-| amd/src/core/status.js | Support file. |
-| amd/src/core/tracker.js | Client tracking lifecycle, segment collection, heartbeat, and state helpers. |
-| amd/src/core/tracker/events.js | Client tracking lifecycle, segment collection, heartbeat, and state helpers. |
-| amd/src/core/tracker/heartbeat.js | Client tracking lifecycle, segment collection, heartbeat, and state helpers. |
-| amd/src/core/tracker/lifecycle.js | Client tracking lifecycle, segment collection, heartbeat, and state helpers. |
-| amd/src/core/tracker/segment.js | Client tracking lifecycle, segment collection, heartbeat, and state helpers. |
-| amd/src/core/tracker/state.js | Client tracking lifecycle, segment collection, heartbeat, and state helpers. |
-| amd/src/core/tracker/time.js | Client tracking lifecycle, segment collection, heartbeat, and state helpers. |
-| amd/src/core/ui.js | Support file. |
-| amd/src/core/utils.js | Support file. |
-| amd/src/html5_player.js | HTML5/upload player runtime. |
-| amd/src/player.js | Shared player bootstrap and common UI behaviour for external players. |
-| amd/src/presets.js | Admin reaction preset editor behaviour. |
-| amd/src/report.js | Report page client behaviour. |
-| amd/src/vimeo_player.js | Vimeo player runtime and Vimeo SDK integration. |
-| backup/moodle2/backup_videotrack_activity_task.class.php | Moodle backup/restore support. |
-| backup/moodle2/backup_videotrack_stepslib.php | Moodle backup/restore support. |
-| backup/moodle2/restore_videotrack_activity_task.class.php | Moodle backup/restore support. |
-| backup/moodle2/restore_videotrack_stepslib.php | Moodle backup/restore support. |
-| classes/admin/setting_int_range.php | Custom admin setting class and validation. |
-| classes/admin/setting_nonnegative_int.php | Custom admin setting class and validation. |
-| classes/admin/setting_retention_days.php | Custom admin setting class and validation. |
-| classes/completion/custom_completion.php | Custom Moodle completion rule implementation. |
-| classes/event/activity_completed.php | Moodle event class for logging/audit. |
-| classes/event/course_module_viewed.php | Moodle event class for logging/audit. |
-| classes/event/note_deleted.php | Moodle event class for logging/audit. |
-| classes/event/note_saved.php | Moodle event class for logging/audit. |
-| classes/event/notes_exported.php | Moodle event class for logging/audit. |
-| classes/event/report_exported.php | Evento Moodle per il log e l’audit delle esportazioni dei report. |
-| classes/event/reaction_deleted.php | Moodle event class for logging/audit. |
-| classes/event/reaction_saved.php | Moodle event class for logging/audit. |
-| classes/event/segment_saved.php | Moodle event class for logging/audit. |
-| classes/event/student_progress_reset.php | Moodle event class for logging/audit. |
-| classes/external/delete_note.php | Moodle external AJAX service endpoint. |
-| classes/external/delete_reaction.php | Moodle external AJAX service endpoint. |
-| classes/external/helper.php | Moodle external AJAX service endpoint. |
-| classes/external/save_note.php | Moodle external AJAX service endpoint. |
-| classes/external/save_reaction.php | Moodle external AJAX service endpoint. |
-| classes/external/save_segment.php | Moodle external AJAX service endpoint. |
-| classes/local/privacy_manager.php | Server-side privacy, retention and anonymisation logic. |
-| classes/local/csv_export.php | Separatore CSV, colonne configurate, caricamento dei campi profilo e scrittura sicura delle righe. |
-| classes/local/tracker.php | Server-side tracking, interval merge, state, completion and reaction aggregation domain service. |
-| classes/privacy/provider.php | Moodle Privacy API provider. |
-| classes/task/cleanup_task.php | Scheduled task implementation. |
-| db/access.php | Database schema, capabilities, services, scheduled tasks or upgrade path. |
-| db/install.xml | Database schema, capabilities, services, scheduled tasks or upgrade path. |
-| db/mobile.php | Database schema, capabilities, services, scheduled tasks or upgrade path. |
-| db/services.php | Database schema, capabilities, services, scheduled tasks or upgrade path. |
-| db/tasks.php | Database schema, capabilities, services, scheduled tasks or upgrade path. |
-| db/upgrade.php | Database schema, capabilities, services, scheduled tasks or upgrade path. |
-| docs/en/README.md | Project documentation. |
-| docs/en/ajax-layer.md | Project documentation. |
-| docs/en/amd_audit_1.4.115.md | Project documentation. |
-| docs/en/architecture_notes_1.4.121.md | Project documentation. |
-| docs/en/candidate_release_1.4.118.md | Project documentation. |
-| docs/en/event_bus.md | Project documentation. |
-| docs/en/funzionalita.md | Project documentation. |
-| docs/en/mhq_audit_1.4.117.md | Project documentation. |
-| docs/en/sendbeacon_review_1.4.123.md | Project documentation. |
-| docs/en/strict_review_patch_assessment_1.4.124.md | Project documentation. |
-| docs/en/struttura_tecnica.md | Project documentation. |
-| docs/en/wcag_audit_1.4.116.md | Project documentation. |
-| docs/en/wcag_edge_audit_1.4.122.md | Project documentation. |
-| docs/it/README.md | Project documentation. |
-| docs/it/ajax-layer.md | Project documentation. |
-| docs/it/amd_audit_1.4.115.md | Project documentation. |
-| docs/it/architecture_notes_1.4.121.md | Project documentation. |
-| docs/it/candidate_release_1.4.118.md | Project documentation. |
-| docs/it/event_bus.md | Project documentation. |
-| docs/it/funzionalita.md | Project documentation. |
-| docs/it/mhq_audit_1.4.117.md | Project documentation. |
-| docs/it/sendbeacon_review_1.4.123.md | Project documentation. |
-| docs/it/strict_review_patch_assessment_1.4.124.md | Project documentation. |
-| docs/it/struttura_tecnica.md | Project documentation. |
-| docs/it/wcag_audit_1.4.116.md | Project documentation. |
-| docs/it/wcag_edge_audit_1.4.122.md | Project documentation. |
-| environment.xml | Support file. |
-| index.php | Support file. |
-| lang/de/videotrack.php | Language string file. |
-| lang/en/videotrack.php | Language string file. |
-| lang/es/videotrack.php | Language string file. |
-| lang/fr/videotrack.php | Language string file. |
-| lang/hi/videotrack.php | Language string file. |
-| lang/it/videotrack.php | Language string file. |
-| lang/pl/videotrack.php | Language string file. |
-| lang/pt/videotrack.php | Language string file. |
-| lib.php | Moodle module callbacks, CRUD, files, gradebook, completion and reset hooks. |
-| locallib.php | Plugin helper functions: URLs, reaction rendering, presets, formatting and configuration. |
-| mod_form.php | Activity settings form, validation and reaction configuration UI. |
-| pix/icon.svg | Support file. |
-| presets.php | Reaction preset management page. |
-| report.php | Teacher reports and export logic. |
-| reports_course.php | Teacher reports and export logic. |
-| settings.php | Site administration settings. |
-| styles.css | Plugin CSS. |
-| tests/admin_settings_test.php | PHPUnit test coverage for plugin logic. |
-| tests/lib_test.php | PHPUnit test coverage for plugin logic. |
-| tests/locallib_test.php | PHPUnit test coverage for plugin logic. |
-| tests/tracker_test.php | PHPUnit test coverage for plugin logic. |
-| tests/csv_export_test.php | Test PHPUnit per separatore, campi CSV e protezione dalle formule nei fogli di calcolo. |
-| version.php | Plugin manifest, Moodle requirements and release version. |
-| view.php | Student view entry point and player bootstrap data. |
+Questo inventario è generato sull’albero VideoTrack 1.6.22 ed elenca ogni file non documentale. Il JavaScript canonico è in `amd/src`; i file in `amd/build` sono generati.
 
+Entries: **233**.
 
-## File integrazione Forum (1.5.0)
+| File | Responsabilità |
+|---|---|
+| `.gitattributes` | Attributi testuali/binari del repository. |
+| `.moodleignore` | File esclusi dal pacchetto Moodle. |
+| `amd/build/core/adapter.min.js` | Build AMD minificata generata per `core/adapter` tramite Grunt Moodle. |
+| `amd/build/core/adapter.min.js.map` | Source map generata per la build AMD `core/adapter`; non modificare manualmente. |
+| `amd/build/core/api.min.js` | Build AMD minificata generata per `core/api` tramite Grunt Moodle. |
+| `amd/build/core/api.min.js.map` | Source map generata per la build AMD `core/api`; non modificare manualmente. |
+| `amd/build/core/api/error.min.js` | Build AMD minificata generata per `core/api/error` tramite Grunt Moodle. |
+| `amd/build/core/api/error.min.js.map` | Source map generata per la build AMD `core/api/error`; non modificare manualmente. |
+| `amd/build/core/api/retry.min.js` | Build AMD minificata generata per `core/api/retry` tramite Grunt Moodle. |
+| `amd/build/core/api/retry.min.js.map` | Source map generata per la build AMD `core/api/retry`; non modificare manualmente. |
+| `amd/build/core/api/scope.min.js` | Build AMD minificata generata per `core/api/scope` tramite Grunt Moodle. |
+| `amd/build/core/api/scope.min.js.map` | Source map generata per la build AMD `core/api/scope`; non modificare manualmente. |
+| `amd/build/core/api/transport.min.js` | Build AMD minificata generata per `core/api/transport` tramite Grunt Moodle. |
+| `amd/build/core/api/transport.min.js.map` | Source map generata per la build AMD `core/api/transport`; non modificare manualmente. |
+| `amd/build/core/api/validator.min.js` | Build AMD minificata generata per `core/api/validator` tramite Grunt Moodle. |
+| `amd/build/core/api/validator.min.js.map` | Source map generata per la build AMD `core/api/validator`; non modificare manualmente. |
+| `amd/build/core/beacon.min.js` | Build AMD minificata generata per `core/beacon` tramite Grunt Moodle. |
+| `amd/build/core/beacon.min.js.map` | Source map generata per la build AMD `core/beacon`; non modificare manualmente. |
+| `amd/build/core/confirm.min.js` | Build AMD minificata generata per `core/confirm` tramite Grunt Moodle. |
+| `amd/build/core/confirm.min.js.map` | Source map generata per la build AMD `core/confirm`; non modificare manualmente. |
+| `amd/build/core/debug.min.js` | Build AMD minificata generata per `core/debug` tramite Grunt Moodle. |
+| `amd/build/core/debug.min.js.map` | Source map generata per la build AMD `core/debug`; non modificare manualmente. |
+| `amd/build/core/events.min.js` | Build AMD minificata generata per `core/events` tramite Grunt Moodle. |
+| `amd/build/core/events.min.js.map` | Source map generata per la build AMD `core/events`; non modificare manualmente. |
+| `amd/build/core/player.min.js` | Build AMD minificata generata per `core/player` tramite Grunt Moodle. |
+| `amd/build/core/player.min.js.map` | Source map generata per la build AMD `core/player`; non modificare manualmente. |
+| `amd/build/core/player/acknowledgement.min.js` | Build AMD minificata generata per `core/player/acknowledgement` tramite Grunt Moodle. |
+| `amd/build/core/player/acknowledgement.min.js.map` | Source map generata per la build AMD `core/player/acknowledgement`; non modificare manualmente. |
+| `amd/build/core/player/bookmarks.min.js` | Build AMD minificata generata per `core/player/bookmarks` tramite Grunt Moodle. |
+| `amd/build/core/player/bookmarks.min.js.map` | Source map generata per la build AMD `core/player/bookmarks`; non modificare manualmente. |
+| `amd/build/core/player/focus_guard.min.js` | Build AMD minificata generata per `core/player/focus_guard` tramite Grunt Moodle. |
+| `amd/build/core/player/focus_guard.min.js.map` | Source map generata per la build AMD `core/player/focus_guard`; non modificare manualmente. |
+| `amd/build/core/player/forum.min.js` | Build AMD minificata generata per `core/player/forum` tramite Grunt Moodle. |
+| `amd/build/core/player/forum.min.js.map` | Source map generata per la build AMD `core/player/forum`; non modificare manualmente. |
+| `amd/build/core/player/intervalbar.min.js` | Build AMD minificata generata per `core/player/intervalbar` tramite Grunt Moodle. |
+| `amd/build/core/player/intervalbar.min.js.map` | Source map generata per la build AMD `core/player/intervalbar`; non modificare manualmente. |
+| `amd/build/core/player/notes.min.js` | Build AMD minificata generata per `core/player/notes` tramite Grunt Moodle. |
+| `amd/build/core/player/notes.min.js.map` | Source map generata per la build AMD `core/player/notes`; non modificare manualmente. |
+| `amd/build/core/player/notes/row.min.js` | Build AMD minificata generata per `core/player/notes/row` tramite Grunt Moodle. |
+| `amd/build/core/player/notes/row.min.js.map` | Source map generata per la build AMD `core/player/notes/row`; non modificare manualmente. |
+| `amd/build/core/player/notes/toggle.min.js` | Build AMD minificata generata per `core/player/notes/toggle` tramite Grunt Moodle. |
+| `amd/build/core/player/notes/toggle.min.js.map` | Source map generata per la build AMD `core/player/notes/toggle`; non modificare manualmente. |
+| `amd/build/core/player/poster.min.js` | Build AMD minificata generata per `core/player/poster` tramite Grunt Moodle. |
+| `amd/build/core/player/poster.min.js.map` | Source map generata per la build AMD `core/player/poster`; non modificare manualmente. |
+| `amd/build/core/player/progress.min.js` | Build AMD minificata generata per `core/player/progress` tramite Grunt Moodle. |
+| `amd/build/core/player/progress.min.js.map` | Source map generata per la build AMD `core/player/progress`; non modificare manualmente. |
+| `amd/build/core/player/reactions.min.js` | Build AMD minificata generata per `core/player/reactions` tramite Grunt Moodle. |
+| `amd/build/core/player/reactions.min.js.map` | Source map generata per la build AMD `core/player/reactions`; non modificare manualmente. |
+| `amd/build/core/player/resume.min.js` | Build AMD minificata generata per `core/player/resume` tramite Grunt Moodle. |
+| `amd/build/core/player/resume.min.js.map` | Source map generata per la build AMD `core/player/resume`; non modificare manualmente. |
+| `amd/build/core/player/status.min.js` | Build AMD minificata generata per `core/player/status` tramite Grunt Moodle. |
+| `amd/build/core/player/status.min.js.map` | Source map generata per la build AMD `core/player/status`; non modificare manualmente. |
+| `amd/build/core/player/timed_text.min.js` | Build AMD minificata generata per `core/player/timed_text` tramite Grunt Moodle. |
+| `amd/build/core/player/timed_text.min.js.map` | Source map generata per la build AMD `core/player/timed_text`; non modificare manualmente. |
+| `amd/build/core/progress.min.js` | Build AMD minificata generata per `core/progress` tramite Grunt Moodle. |
+| `amd/build/core/progress.min.js.map` | Source map generata per la build AMD `core/progress`; non modificare manualmente. |
+| `amd/build/core/reactions.min.js` | Build AMD minificata generata per `core/reactions` tramite Grunt Moodle. |
+| `amd/build/core/reactions.min.js.map` | Source map generata per la build AMD `core/reactions`; non modificare manualmente. |
+| `amd/build/core/segment.min.js` | Build AMD minificata generata per `core/segment` tramite Grunt Moodle. |
+| `amd/build/core/segment.min.js.map` | Source map generata per la build AMD `core/segment`; non modificare manualmente. |
+| `amd/build/core/session.min.js` | Build AMD minificata generata per `core/session` tramite Grunt Moodle. |
+| `amd/build/core/session.min.js.map` | Source map generata per la build AMD `core/session`; non modificare manualmente. |
+| `amd/build/core/state.min.js` | Build AMD minificata generata per `core/state` tramite Grunt Moodle. |
+| `amd/build/core/state.min.js.map` | Source map generata per la build AMD `core/state`; non modificare manualmente. |
+| `amd/build/core/status.min.js` | Build AMD minificata generata per `core/status` tramite Grunt Moodle. |
+| `amd/build/core/status.min.js.map` | Source map generata per la build AMD `core/status`; non modificare manualmente. |
+| `amd/build/core/tracker.min.js` | Build AMD minificata generata per `core/tracker` tramite Grunt Moodle. |
+| `amd/build/core/tracker.min.js.map` | Source map generata per la build AMD `core/tracker`; non modificare manualmente. |
+| `amd/build/core/tracker/events.min.js` | Build AMD minificata generata per `core/tracker/events` tramite Grunt Moodle. |
+| `amd/build/core/tracker/events.min.js.map` | Source map generata per la build AMD `core/tracker/events`; non modificare manualmente. |
+| `amd/build/core/tracker/heartbeat.min.js` | Build AMD minificata generata per `core/tracker/heartbeat` tramite Grunt Moodle. |
+| `amd/build/core/tracker/heartbeat.min.js.map` | Source map generata per la build AMD `core/tracker/heartbeat`; non modificare manualmente. |
+| `amd/build/core/tracker/lifecycle.min.js` | Build AMD minificata generata per `core/tracker/lifecycle` tramite Grunt Moodle. |
+| `amd/build/core/tracker/lifecycle.min.js.map` | Source map generata per la build AMD `core/tracker/lifecycle`; non modificare manualmente. |
+| `amd/build/core/tracker/segment.min.js` | Build AMD minificata generata per `core/tracker/segment` tramite Grunt Moodle. |
+| `amd/build/core/tracker/segment.min.js.map` | Source map generata per la build AMD `core/tracker/segment`; non modificare manualmente. |
+| `amd/build/core/tracker/state.min.js` | Build AMD minificata generata per `core/tracker/state` tramite Grunt Moodle. |
+| `amd/build/core/tracker/state.min.js.map` | Source map generata per la build AMD `core/tracker/state`; non modificare manualmente. |
+| `amd/build/core/tracker/time.min.js` | Build AMD minificata generata per `core/tracker/time` tramite Grunt Moodle. |
+| `amd/build/core/tracker/time.min.js.map` | Source map generata per la build AMD `core/tracker/time`; non modificare manualmente. |
+| `amd/build/core/ui.min.js` | Build AMD minificata generata per `core/ui` tramite Grunt Moodle. |
+| `amd/build/core/ui.min.js.map` | Source map generata per la build AMD `core/ui`; non modificare manualmente. |
+| `amd/build/core/utils.min.js` | Build AMD minificata generata per `core/utils` tramite Grunt Moodle. |
+| `amd/build/core/utils.min.js.map` | Source map generata per la build AMD `core/utils`; non modificare manualmente. |
+| `amd/build/html5_player.min.js` | Build AMD minificata generata per `html5_player` tramite Grunt Moodle. |
+| `amd/build/html5_player.min.js.map` | Source map generata per la build AMD `html5_player`; non modificare manualmente. |
+| `amd/build/player.min.js` | Build AMD minificata generata per `player` tramite Grunt Moodle. |
+| `amd/build/player.min.js.map` | Source map generata per la build AMD `player`; non modificare manualmente. |
+| `amd/build/presets.min.js` | Build AMD minificata generata per `presets` tramite Grunt Moodle. |
+| `amd/build/presets.min.js.map` | Source map generata per la build AMD `presets`; non modificare manualmente. |
+| `amd/build/report.min.js` | Build AMD minificata generata per `report` tramite Grunt Moodle. |
+| `amd/build/report.min.js.map` | Source map generata per la build AMD `report`; non modificare manualmente. |
+| `amd/build/vimeo_player.min.js` | Build AMD minificata generata per `vimeo_player` tramite Grunt Moodle. |
+| `amd/build/vimeo_player.min.js.map` | Source map generata per la build AMD `vimeo_player`; non modificare manualmente. |
+| `amd/src/core/adapter.js` | Sorgente AMD canonica modificabile per `core/adapter`. |
+| `amd/src/core/api.js` | Sorgente AMD canonica modificabile per `core/api`. |
+| `amd/src/core/api/error.js` | Sorgente AMD canonica modificabile per `core/api/error`. |
+| `amd/src/core/api/retry.js` | Sorgente AMD canonica modificabile per `core/api/retry`. |
+| `amd/src/core/api/scope.js` | Sorgente AMD canonica modificabile per `core/api/scope`. |
+| `amd/src/core/api/transport.js` | Sorgente AMD canonica modificabile per `core/api/transport`. |
+| `amd/src/core/api/validator.js` | Sorgente AMD canonica modificabile per `core/api/validator`. |
+| `amd/src/core/beacon.js` | Sorgente AMD canonica modificabile per `core/beacon`. |
+| `amd/src/core/confirm.js` | Sorgente AMD canonica modificabile per `core/confirm`. |
+| `amd/src/core/debug.js` | Sorgente AMD canonica modificabile per `core/debug`. |
+| `amd/src/core/events.js` | Sorgente AMD canonica modificabile per `core/events`. |
+| `amd/src/core/player.js` | Sorgente AMD canonica modificabile per `core/player`. |
+| `amd/src/core/player/acknowledgement.js` | Sorgente AMD canonica modificabile per `core/player/acknowledgement`. |
+| `amd/src/core/player/bookmarks.js` | Sorgente AMD canonica modificabile per `core/player/bookmarks`. |
+| `amd/src/core/player/focus_guard.js` | Sorgente AMD canonica modificabile per `core/player/focus_guard`. |
+| `amd/src/core/player/forum.js` | Sorgente AMD canonica modificabile per `core/player/forum`. |
+| `amd/src/core/player/intervalbar.js` | Sorgente AMD canonica modificabile per `core/player/intervalbar`. |
+| `amd/src/core/player/notes.js` | Sorgente AMD canonica modificabile per `core/player/notes`. |
+| `amd/src/core/player/notes/row.js` | Sorgente AMD canonica modificabile per `core/player/notes/row`. |
+| `amd/src/core/player/notes/toggle.js` | Sorgente AMD canonica modificabile per `core/player/notes/toggle`. |
+| `amd/src/core/player/poster.js` | Sorgente AMD canonica modificabile per `core/player/poster`. |
+| `amd/src/core/player/progress.js` | Sorgente AMD canonica modificabile per `core/player/progress`. |
+| `amd/src/core/player/reactions.js` | Sorgente AMD canonica modificabile per `core/player/reactions`. |
+| `amd/src/core/player/resume.js` | Sorgente AMD canonica modificabile per `core/player/resume`. |
+| `amd/src/core/player/status.js` | Sorgente AMD canonica modificabile per `core/player/status`. |
+| `amd/src/core/player/timed_text.js` | Sorgente AMD canonica modificabile per `core/player/timed_text`. |
+| `amd/src/core/progress.js` | Sorgente AMD canonica modificabile per `core/progress`. |
+| `amd/src/core/reactions.js` | Sorgente AMD canonica modificabile per `core/reactions`. |
+| `amd/src/core/segment.js` | Sorgente AMD canonica modificabile per `core/segment`. |
+| `amd/src/core/session.js` | Sorgente AMD canonica modificabile per `core/session`. |
+| `amd/src/core/state.js` | Sorgente AMD canonica modificabile per `core/state`. |
+| `amd/src/core/status.js` | Sorgente AMD canonica modificabile per `core/status`. |
+| `amd/src/core/tracker.js` | Sorgente AMD canonica modificabile per `core/tracker`. |
+| `amd/src/core/tracker/events.js` | Sorgente AMD canonica modificabile per `core/tracker/events`. |
+| `amd/src/core/tracker/heartbeat.js` | Sorgente AMD canonica modificabile per `core/tracker/heartbeat`. |
+| `amd/src/core/tracker/lifecycle.js` | Sorgente AMD canonica modificabile per `core/tracker/lifecycle`. |
+| `amd/src/core/tracker/segment.js` | Sorgente AMD canonica modificabile per `core/tracker/segment`. |
+| `amd/src/core/tracker/state.js` | Sorgente AMD canonica modificabile per `core/tracker/state`. |
+| `amd/src/core/tracker/time.js` | Sorgente AMD canonica modificabile per `core/tracker/time`. |
+| `amd/src/core/ui.js` | Sorgente AMD canonica modificabile per `core/ui`. |
+| `amd/src/core/utils.js` | Sorgente AMD canonica modificabile per `core/utils`. |
+| `amd/src/html5_player.js` | Sorgente AMD canonica modificabile per `html5_player`. |
+| `amd/src/player.js` | Sorgente AMD canonica modificabile per `player`. |
+| `amd/src/presets.js` | Sorgente AMD canonica modificabile per `presets`. |
+| `amd/src/report.js` | Sorgente AMD canonica modificabile per `report`. |
+| `amd/src/vimeo_player.js` | Sorgente AMD canonica modificabile per `vimeo_player`. |
+| `backup/moodle2/backup_videotrack_activity_task.class.php` | Componente Moodle backup/restore `backup_videotrack_activity_task.class.php`. |
+| `backup/moodle2/backup_videotrack_stepslib.php` | Componente Moodle backup/restore `backup_videotrack_stepslib.php`. |
+| `backup/moodle2/restore_videotrack_activity_task.class.php` | Componente Moodle backup/restore `restore_videotrack_activity_task.class.php`. |
+| `backup/moodle2/restore_videotrack_stepslib.php` | Componente Moodle backup/restore `restore_videotrack_stepslib.php`. |
+| `bookmarks.php` | Pagina ed esportazione CSV dei segnalibri, accessibili soltanto al proprietario. |
+| `classes/admin/setting_int_range.php` | Classe di impostazione amministrativa `setting_int_range`. |
+| `classes/admin/setting_nonnegative_int.php` | Classe di impostazione amministrativa `setting_nonnegative_int`. |
+| `classes/admin/setting_retention_days.php` | Classe di impostazione amministrativa `setting_retention_days`. |
+| `classes/completion/custom_completion.php` | Implementazione delle condizioni personalizzate di completamento. |
+| `classes/event/acknowledgement_confirmed.php` | Evento Moodle `acknowledgement_confirmed` per audit e osservabilità. |
+| `classes/event/activity_completed.php` | Evento Moodle `activity_completed` per audit e osservabilità. |
+| `classes/event/bookmark_deleted.php` | Evento Moodle `bookmark_deleted` per audit e osservabilità. |
+| `classes/event/bookmark_exported.php` | Evento Moodle `bookmark_exported` per audit e osservabilità. |
+| `classes/event/bookmark_saved.php` | Evento Moodle `bookmark_saved` per audit e osservabilità. |
+| `classes/event/course_module_viewed.php` | Evento Moodle `course_module_viewed` per audit e osservabilità. |
+| `classes/event/note_deleted.php` | Evento Moodle `note_deleted` per audit e osservabilità. |
+| `classes/event/note_saved.php` | Evento Moodle `note_saved` per audit e osservabilità. |
+| `classes/event/notes_exported.php` | Evento Moodle `notes_exported` per audit e osservabilità. |
+| `classes/event/reaction_deleted.php` | Evento Moodle `reaction_deleted` per audit e osservabilità. |
+| `classes/event/reaction_saved.php` | Evento Moodle `reaction_saved` per audit e osservabilità. |
+| `classes/event/report_exported.php` | Evento Moodle `report_exported` per audit e osservabilità. |
+| `classes/event/segment_saved.php` | Evento Moodle `segment_saved` per audit e osservabilità. |
+| `classes/event/student_progress_reset.php` | Evento Moodle `student_progress_reset` per audit e osservabilità. |
+| `classes/external/delete_bookmark.php` | Servizio esterno AJAX `delete_bookmark` con validazione lato server. |
+| `classes/external/delete_note.php` | Servizio esterno AJAX `delete_note` con validazione lato server. |
+| `classes/external/delete_reaction.php` | Servizio esterno AJAX `delete_reaction` con validazione lato server. |
+| `classes/external/helper.php` | Servizio esterno AJAX `helper` con validazione lato server. |
+| `classes/external/save_bookmark.php` | Servizio esterno AJAX `save_bookmark` con validazione lato server. |
+| `classes/external/save_integrity_event.php` | Servizio esterno AJAX `save_integrity_event` con validazione lato server. |
+| `classes/external/save_note.php` | Servizio esterno AJAX `save_note` con validazione lato server. |
+| `classes/external/save_reaction.php` | Servizio esterno AJAX `save_reaction` con validazione lato server. |
+| `classes/external/save_segment.php` | Servizio esterno AJAX `save_segment` con validazione lato server. |
+| `classes/form/forum_post_form.php` | Form Moodle `forum_post_form`. |
+| `classes/local/acknowledgement.php` | Servizio di dominio `acknowledgement` riusabile da pagine, report o servizi. |
+| `classes/local/analytics.php` | Servizio di dominio `analytics` riusabile da pagine, report o servizi. |
+| `classes/local/analytics_scope.php` | Servizio di dominio `analytics_scope` riusabile da pagine, report o servizi. |
+| `classes/local/analytics_table_export.php` | Servizio di dominio `analytics_table_export` riusabile da pagine, report o servizi. |
+| `classes/local/course_analytics.php` | Servizio di dominio `course_analytics` riusabile da pagine, report o servizi. |
+| `classes/local/csv_export.php` | Servizio di dominio `csv_export` riusabile da pagine, report o servizi. |
+| `classes/local/forum_bridge.php` | Servizio di dominio `forum_bridge` riusabile da pagine, report o servizi. |
+| `classes/local/integrity.php` | Servizio di dominio `integrity` riusabile da pagine, report o servizi. |
+| `classes/local/privacy_manager.php` | Servizio di dominio `privacy_manager` riusabile da pagine, report o servizi. |
+| `classes/local/teacher_analytics.php` | Servizio di dominio `teacher_analytics` riusabile da pagine, report o servizi. |
+| `classes/local/timed_text.php` | Servizio di dominio `timed_text` riusabile da pagine, report o servizi. |
+| `classes/local/tracker.php` | Servizio di dominio `tracker` riusabile da pagine, report o servizi. |
+| `classes/privacy/provider.php` | Provider Moodle Privacy API del plugin. |
+| `classes/task/cleanup_task.php` | Task pianificato per retention e pulizia. |
+| `db/access.php` | Capability e default degli archetipi di ruolo. |
+| `db/install.xml` | Schema XMLDB canonico delle tabelle del plugin. |
+| `db/mobile.php` | Dichiarazione di supporto Moodle App. |
+| `db/services.php` | Dichiarazioni delle funzioni esterne AJAX. |
+| `db/tasks.php` | Dichiarazione del task pianificato. |
+| `db/upgrade.php` | Upgrade XMLDB incrementali e savepoint. |
+| `environment.xml` | Requisiti di ambiente verificati da Moodle. |
+| `forum_post.php` | Composer Forum temporizzato; la memorizzazione finale è delegata a mod_forum. |
+| `index.php` | Indice delle attività del corso. |
+| `lang/de/videotrack.php` | Language pack `de`; chiavi e placeholder devono corrispondere all’inglese. |
+| `lang/en/videotrack.php` | Language pack `en`; chiavi e placeholder devono corrispondere all’inglese. |
+| `lang/es/videotrack.php` | Language pack `es`; chiavi e placeholder devono corrispondere all’inglese. |
+| `lang/fr/videotrack.php` | Language pack `fr`; chiavi e placeholder devono corrispondere all’inglese. |
+| `lang/hi/videotrack.php` | Language pack `hi`; chiavi e placeholder devono corrispondere all’inglese. |
+| `lang/it/videotrack.php` | Language pack `it`; chiavi e placeholder devono corrispondere all’inglese. |
+| `lang/pl/videotrack.php` | Language pack `pl`; chiavi e placeholder devono corrispondere all’inglese. |
+| `lang/pt/videotrack.php` | Language pack `pt`; chiavi e placeholder devono corrispondere all’inglese. |
+| `lib.php` | Lifecycle Moodle, feature support, gradebook, completamento, File API e callback di reset. |
+| `locallib.php` | Helper procedurali condivisi per URL, timestamp, stato, report, file area e configurazione. |
+| `mod_form.php` | Form impostazioni attività, validazione, file manager e completamento personalizzato. |
+| `pix/icon.svg` | Icona dell’attività. |
+| `presets.php` | Interfaccia docente/amministratore per preset riutilizzabili delle reazioni. |
+| `report.php` | Report docente di istanza e pagina Analytics, con soglie privacy ed export CSV/Excel/ODS. |
+| `reports_course.php` | Dashboard docente delle attività VideoTrack del corso. |
+| `reports_teacher.php` | Dashboard centrata sul docente tra corsi e attività accessibili. |
+| `settings.php` | Impostazioni sito, default, privacy, prestazioni e politiche di accessibilità. |
+| `styles.css` | Stili responsivi e accessibili per player, report, trascrizione, Analytics e controlli. |
+| `tests/acknowledgement_test.php` | Copertura PHPUnit per acknowledgement test. |
+| `tests/admin_settings_test.php` | Copertura PHPUnit per admin settings test. |
+| `tests/analytics_scope_test.php` | Copertura PHPUnit per analytics scope test. |
+| `tests/analytics_table_export_test.php` | Copertura PHPUnit per analytics table export test. |
+| `tests/analytics_test.php` | Copertura PHPUnit per analytics test. |
+| `tests/course_analytics_test.php` | Copertura PHPUnit per course analytics test. |
+| `tests/csv_export_test.php` | Copertura PHPUnit per csv export test. |
+| `tests/forum_bridge_test.php` | Copertura PHPUnit per forum bridge test. |
+| `tests/integrity_test.php` | Copertura PHPUnit per integrity test. |
+| `tests/lib_test.php` | Copertura PHPUnit per lib test. |
+| `tests/locallib_test.php` | Copertura PHPUnit per locallib test. |
+| `tests/save_bookmark_test.php` | Copertura PHPUnit per save bookmark test. |
+| `tests/save_integrity_event_test.php` | Copertura PHPUnit per save integrity event test. |
+| `tests/save_note_test.php` | Copertura PHPUnit per save note test. |
+| `tests/teacher_analytics_test.php` | Copertura PHPUnit per teacher analytics test. |
+| `tests/timed_text_test.php` | Copertura PHPUnit per timed text test. |
+| `tests/tracker_test.php` | Copertura PHPUnit per tracker test. |
+| `version.php` | Metadati, versione, maturità e rami Moodle supportati. |
+| `view.php` | Pagina studente dell’attività: autorizzazione, caricamento stato, configurazione DOM privacy-safe e avvio del player. |
 
-- `forum_post.php`: controller autenticato del composer.
-- `classes/form/forum_post_form.php`: form Moodle accessibile senza allegati.
-- `classes/local/forum_bridge.php`: validazione e adapter dell’API ufficiale Forum.
-- `amd/src/core/player/forum.js`: avvio condiviso basato sul timestamp usato da tutti i player.
-
-## File analytics per istanza (1.6.0)
-
-- `classes/local/analytics.php`: aggregazione streaming di copertura unica, revisioni, retention e cluster di reazioni compatibili con la soglia privacy; dalla 1.6.7 usa `reactionkey` come identità stabile tra istanze.
-- `classes/local/analytics_scope.php`: identità tecnica del video, ricerca delle istanze corrispondenti e filtro capability per la vista tra corsi.
-- `classes/local/course_analytics.php`: aggregazione della dashboard di corso filtrata per capability, mascheramento privacy e sintesi dei cali di retention.
-- `tests/analytics_test.php`: test PHPUnit per granularità, tempo unico/rivisto, mascheramento privacy e cluster.
-- `tests/analytics_scope_test.php`: test dell’identità provider e della normalizzazione URL.
-- `tests/course_analytics_test.php`: test PHPUnit per mediana, sottogruppi di completamento, privacy e selezione del calo principale.
-- `report.php`: scheda Analytics, filtro gruppo del corso, filtro temporaneo tra corsi, grafici SVG accessibili e tabella dati equivalente.
-- `reports_course.php`: rendering della dashboard di corso privacy-safe con controllo capability per ogni report di modulo.
-
-## File export analytics (1.6.11)
-
-- `classes/local/analytics_table_export.php`: formati consentiti e righe privacy-safe condivise tra tabella accessibile ed export Moodle.
-- `tests/analytics_table_export_test.php`: regressione su mascheramento, fallback dello stato aggregato e colonna reazioni.
-
-
-## Aggiunte nella 1.6.12
-
-- `classes/local/timed_text.php`: valida, salva e risolve file WebVTT di trascrizione e capitoli indipendenti dal provider.
-- `amd/src/core/player/timed_text.js`: analizza WebVTT, costruisce ricerca/selettore lingua e capitoli, sincronizza i cue attivi e delega ai player la navigazione conforme alle regole di seek.
-- `tests/timed_text_test.php`: copre estrazione lingua dal nome file, validazione WebVTT e limiti dei file.
-
-## File dei segnalibri personali (1.6.14–1.6.16)
-
-- `bookmarks.php`: controller di export CSV riservato al proprietario.
-- `classes/external/save_bookmark.php`: valida la posizione già visualizzata e crea un evento segnalibro privato.
-- `classes/external/delete_bookmark.php`: cancellazione logica riservata al proprietario.
-- `classes/event/bookmark_saved.php`: evento Moodle di creazione.
-- `classes/event/bookmark_deleted.php`: evento Moodle di eliminazione.
-- `classes/event/bookmark_exported.php`: evento Moodle di export del proprietario.
-- `amd/src/core/player/bookmarks.js`: UI e gestione AJAX condivise dai tre player.
-- `amd/build/core/player/bookmarks.min.js` e `.map`: artifact AMD generati.
-- `tests/save_bookmark_test.php`: copertura di regressione del contratto esterno.
-- `docs/en/10_BOOKMARKS_AND_ANALYTICS.md` e `docs/it/10_BOOKMARKS_AND_ANALYTICS.md`: documentazione completa.
-
-## Correzioni inventario fino alla 1.6.16
-
-I seguenti file distribuiti sono stati aggiunti dopo l'inventario statico originario e fanno parte del pacchetto corrente:
-
-- `reports_teacher.php`: dashboard trasversale del docente.
-- `classes/local/teacher_analytics.php`: aggregazione cross-course protetta da capability.
-- `tests/save_note_test.php`: test del contratto del servizio note.
-- `tests/forum_bridge_test.php`: test del collegamento Forum.
-- `tests/teacher_analytics_test.php`: test di periodi e aggregazione della dashboard docente.
-- `amd/build/core/player/forum.min.js` e `amd/build/core/player/forum.min.js.map`: artifact generati dell'integrazione Forum.
-- `amd/build/core/player/timed_text.min.js` e `amd/build/core/player/timed_text.min.js.map`: artifact generati del timed text.
-- `amd/build/core/player/bookmarks.min.js.map`: source map generata dei segnalibri.
-
-## File integrità e focus (1.6.18)
-
-- `classes/local/integrity.php`: allowlist eventi, helper per intervalli e politica focus a livello sito e riepiloghi privacy-safe.
-- `classes/external/save_integrity_event.php`: inserimento AJAX validato e con debounce.
-- `amd/src/core/player/focus_guard.js`: controller condiviso per visibilità, focus, Picture-in-Picture e pause casuali.
-- `amd/build/core/player/focus_guard.min.js` e `amd/build/core/player/focus_guard.min.js.map`: artifact AMD generati.
-- `tests/integrity_test.php`: test validazione eventi, mascheramento privacy e limiti casuali.
-- `tests/save_integrity_event_test.php`: verifica che la dichiarazione dei parametri esterni usi tipi supportati da Moodle.
-- `docs/en/11_INTEGRITY_AND_FOCUS.md`, `docs/it/11_INTEGRITY_AND_FOCUS.md`: specifica funzionale, privacy e regressione.
-
-## File della presa visione (1.6.19)
-
-- `classes/local/acknowledgement.php`: identità della versione, query della conferma corrente e persistenza idempotente.
-- `classes/event/acknowledgement_confirmed.php`: evento Moodle emesso dopo una nuova conferma.
-- `tests/acknowledgement_test.php`: test su hash della dichiarazione e presenza di testo visibile.
-- `docs/en/12_ACKNOWLEDGEMENT.md` e `docs/it/12_ACKNOWLEDGEMENT.md`: specifica funzionale, completamento, privacy e ciclo di vita.
-- `amd/src/core/player/acknowledgement.js`: abilita i controlli della conferma vincolata alla fine dopo il salvataggio del segmento finale.
+I file documentali sono indicizzati da `00_INDEX.md`; gli archivi sono esplicitamente non autorevoli.

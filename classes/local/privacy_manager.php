@@ -359,6 +359,7 @@ class privacy_manager {
                 'states' => 0,
                 'events' => 0,
                 'integrity' => 0,
+                'acknowledgements' => 0,
                 'skipped' => 1,
                 'processed' => 0,
                 'remaining' => 0,
@@ -371,6 +372,7 @@ class privacy_manager {
             'states' => 0,
             'events' => 0,
             'integrity' => 0,
+            'acknowledgements' => 0,
             'skipped' => 0,
             'processed' => 0,
             'remaining' => 0,
@@ -509,6 +511,11 @@ class privacy_manager {
         );
 
         // Acknowledgement records are audit-like personal data and are deleted, not pseudonymised, after retention.
+        $counts['acknowledgements'] += $DB->count_records_select(
+            'videotrack_acknowledge',
+            'cmid = ? AND userid = ? AND timeconfirmed < ?',
+            [$cmid, $userid, $cutoff]
+        );
         $DB->delete_records_select(
             'videotrack_acknowledge',
             'cmid = ? AND userid = ? AND timeconfirmed < ?',

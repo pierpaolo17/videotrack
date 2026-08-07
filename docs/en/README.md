@@ -1,22 +1,9 @@
-# Videotrack documentation
+# VideoTrack technical documentation
 
-This directory contains the updated technical documentation for the Videotrack plugin.
+This directory is the current English maintenance source for VideoTrack 1.6.22. Start with `00_INDEX.md`.
 
-## Operational documents
+The numbered documents describe architecture, every distributed source/build file, named PHP and AMD functions, data/configuration contracts, runtime flows, build/test/release rules, privacy, accessibility and feature-specific behaviour.
 
-1. `01_DEVELOPER_GUIDE.md` - development workflow, patch rules and checklist.
-2. `02_ARCHITECTURE.md` - plugin architecture and component responsibilities.
-3. `03_FILE_INVENTORY.md` - complete file inventory.
-4. `04_FUNCTION_INVENTORY.md` - PHP and AMD JavaScript function inventory.
-5. `05_VARIABLE_INVENTORY.md` - static inventory of detected PHP and AMD JavaScript variables.
-6. `06_RUNTIME_FLOWS.md` - main runtime flows.
-7. `07_BUILD_TEST_RELEASE.md` - build, test, release and troubleshooting.
-8. `08_LESSONS_LEARNED.md` - rules learned during development iterations.
-9. `09_DOCUMENTATION_AUDIT.md` - documentation coverage audit and future update checklist.
-10. `10_BOOKMARKS_AND_ANALYTICS.md` - complete bookmark data model, runtime, privacy, reports and validation.
-11. `11_INTEGRITY_AND_FOCUS.md` - integrity indicators, focus controls and accessibility policy.
-12. `12_ACKNOWLEDGEMENT.md` - optional versioned learner acknowledgement, completion, privacy and backup.
+Files under `archive/` are historical engineering records and must not be used as current implementation guidance.
 
-## Historical documents
-
-Historical audit documents remain available in this directory. They are useful to reconstruct past decisions, but the current maintenance source of truth is the numbered set from `00_` to `12_`.
+Italian technical documentation is in `../it/`.

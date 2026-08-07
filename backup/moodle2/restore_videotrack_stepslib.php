@@ -27,7 +27,7 @@
  */
 class restore_videotrack_activity_structure_step extends restore_activity_structure_step {
     /**
-     * Define the restore structure for activity, reaction, segment, state and event records.
+     * Define the restore structure for configuration, viewing, interaction, integrity and acknowledgement records.
      *
      * @return restore_path_element[]
      */

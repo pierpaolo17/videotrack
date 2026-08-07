@@ -1,22 +1,24 @@
-# Videotrack documentation
+# VideoTrack documentation index
 
-This directory contains the updated technical documentation for the Videotrack plugin.
+Current documented release: **1.6.22** (`2026060437`).
 
-## Operational documents
+1. `01_DEVELOPER_GUIDE.md` — maintenance workflow and change discipline.
+2. `02_ARCHITECTURE.md` — component boundaries, adapters, storage and trust model.
+3. `03_FILE_INVENTORY.md` — every non-documentation file distributed by the plugin.
+4. `04_FUNCTION_INVENTORY.md` — every named PHP function/method and detected named AMD callable.
+5. `05_VARIABLE_INVENTORY.md` — XMLDB fields, site settings, AJAX services and player configuration keys.
+6. `06_RUNTIME_FLOWS.md` — end-to-end player, tracking, study-tool, report and privacy flows.
+7. `07_BUILD_TEST_RELEASE.md` — validation and release procedure.
+8. `08_LESSONS_LEARNED.md` — project-specific engineering rules.
+9. `09_DOCUMENTATION_AUDIT.md` — documentation coverage and freshness contract.
+10. `10_BOOKMARKS_AND_ANALYTICS.md` — bookmark ownership, reporting and privacy.
+11. `11_INTEGRITY_AND_FOCUS.md` — focus controls, integrity signals, limitations and accessibility.
+12. `12_ACKNOWLEDGEMENT.md` — versioned learner acknowledgement and analytics.
+13. `13_CONSOLIDATION_AUDIT.md` — 1.6.22 consolidation findings and validation status.
 
-1. `01_DEVELOPER_GUIDE.md` - development workflow, patch rules and checklist.
-2. `02_ARCHITECTURE.md` - plugin architecture and component responsibilities.
-3. `03_FILE_INVENTORY.md` - complete file inventory.
-4. `04_FUNCTION_INVENTORY.md` - PHP and AMD JavaScript function inventory.
-5. `05_VARIABLE_INVENTORY.md` - static inventory of detected PHP and AMD JavaScript variables.
-6. `06_RUNTIME_FLOWS.md` - main runtime flows.
-7. `07_BUILD_TEST_RELEASE.md` - build, test, release and troubleshooting.
-8. `08_LESSONS_LEARNED.md` - rules learned during development iterations.
-9. `09_DOCUMENTATION_AUDIT.md` - documentation coverage audit and future update checklist.
-10. `10_BOOKMARKS_AND_ANALYTICS.md` - complete bookmark data model, runtime, privacy, reports and validation.
+Additional current summaries:
 
-11. `11_INTEGRITY_AND_FOCUS.md` - integrity signals, anti-cheat focus controls, privacy boundaries and regression matrix.
+- `funzionalita.md` — functional catalogue.
+- `struttura_tecnica.md` — compact technical map.
 
-## Historical documents
-
-Historical audit documents remain available in this directory. They are useful to reconstruct past decisions, but the current maintenance source of truth is the numbered set from `00_` to `11_`.
+Historical material is isolated under `archive/` and is not authoritative for the current code.

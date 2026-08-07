@@ -56,7 +56,6 @@ final class analytics_table_export_test extends \advanced_testcase {
                 'repeatseconds' => null,
                 'repeatviewers' => null,
                 'suppressed' => false,
-            'progresssuppressed' => false,
                 'repeatsuppressed' => true,
                 'reactionclusters' => 2,
                 'reactionevents' => 9,
@@ -109,10 +108,15 @@ final class analytics_table_export_test extends \advanced_testcase {
             'averageviewedseconds' => 120.5,
             'averageviewedpercent' => 75.25,
             'suppressed' => false,
+            'progresssuppressed' => false,
+            'enabledactivitycount' => 3,
+            'anytimeactivitycount' => 2,
+            'videoendactivitycount' => 1,
         ]);
 
-        $this->assertCount(12, $columns);
+        $this->assertCount(15, $columns);
         $this->assertCount(1, $rows);
+        $this->assertCount(15, $rows[0]);
         $this->assertSame(
             get_string('report:analytics_export_row_acknowledgement', 'mod_videotrack'),
             $rows[0][0]
@@ -126,5 +130,4 @@ final class analytics_table_export_test extends \advanced_testcase {
         $this->assertSame(2, $rows[0][13]);
         $this->assertSame(1, $rows[0][14]);
     }
-
 }

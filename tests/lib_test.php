@@ -106,4 +106,25 @@ final class lib_test extends advanced_testcase {
         $this->assertSame(1, $enabled->preventpictureinpicture);
         $this->assertSame(1, $enabled->randomfocuspauses);
     }
+
+    /**
+     * Provider transcript and chapter switches must survive caption normalisation.
+     *
+     * @covers ::videotrack_process_captions_fields
+     */
+    public function test_caption_normalisation_preserves_provider_timed_text_settings(): void {
+        $data = (object)[
+            'videosource' => 'youtube',
+            'captions' => 0,
+            'captionslang' => '',
+            'showtranscript' => 1,
+            'showchapters' => 1,
+        ];
+
+        \videotrack_process_captions_fields($data);
+
+        $this->assertSame(1, $data->showtranscript);
+        $this->assertSame(1, $data->showchapters);
+        $this->assertSame(0, $data->captions);
+    }
 }
