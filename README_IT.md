@@ -2,7 +2,7 @@
 
 VideoTrack è un modulo attività Moodle per distribuire e tracciare video HTML5/caricati, YouTube e Vimeo. Integra analytics di visione attenti alla privacy, strumenti di studio opzionali, condizioni di completamento e report per il docente.
 
-Release documentata da questo albero: **1.6.22**. Versioni Moodle supportate: **5.0–5.3**.
+Release documentata da questo albero: **1.6.23**. Versioni Moodle supportate: **5.0–5.3**.
 
 Panoramica inglese: [`README.md`](README.md)
 Informativa privacy: [`PRIVACY_IT.md`](PRIVACY_IT.md) / [`PRIVACY.md`](PRIVACY.md)
@@ -25,7 +25,7 @@ Documentazione tecnica: [`docs/it/00_INDEX.md`](docs/it/00_INDEX.md) / [`docs/en
 
 ## Principi di privacy e accessibilità
 
-VideoTrack registra soltanto i dati necessari alle funzioni abilitate. Il testo delle note personali e le etichette dei segnalibri restano visibili esclusivamente al proprietario. Gli analytics docente sono aggregati e applicano la soglia minima configurata. Gli indicatori di integrità sono diagnostici, non costituiscono prova di comportamento scorretto e non devono essere l’unica base per voti o provvedimenti disciplinari.
+VideoTrack registra soltanto i dati necessari alle funzioni abilitate. Le etichette dei segnalibri restano visibili esclusivamente al proprietario. Il testo delle note personali è visibile al proprietario e può essere consultato/esportato dai docenti autorizzati; il testo delle note è escluso dagli Analytics aggregati. Gli analytics docente sono aggregati e applicano la soglia minima configurata. Gli indicatori di integrità sono diagnostici, non costituiscono prova di comportamento scorretto e non devono essere l’unica base per voti o provvedimenti disciplinari.
 
 La politica focus predefinita mette in pausa soltanto quando la pagina del video è realmente nascosta. La perdita di focus della finestra viene trattata con maggiore cautela per ridurre falsi positivi dovuti a screen reader, password manager, controlli del browser e finestre del sistema operativo. Controlli del player, regioni di stato, trascrizione e pulsante sul poster sono progettati per tastiera e tecnologie assistive. I limiti dei browser e dei provider esterni sono documentati senza promettere garanzie impossibili.
 

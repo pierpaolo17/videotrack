@@ -1,6 +1,6 @@
 # VideoTrack documentation index
 
-Current documented release: **1.6.22** (`2026060437`).
+Current documented release: **1.6.23** (`2026060438`).
 
 1. `01_DEVELOPER_GUIDE.md` — maintenance workflow and change discipline.
 2. `02_ARCHITECTURE.md` — component boundaries, adapters, storage and trust model.
@@ -14,7 +14,7 @@ Current documented release: **1.6.22** (`2026060437`).
 10. `10_BOOKMARKS_AND_ANALYTICS.md` — bookmark ownership, reporting and privacy.
 11. `11_INTEGRITY_AND_FOCUS.md` — focus controls, integrity signals, limitations and accessibility.
 12. `12_ACKNOWLEDGEMENT.md` — versioned learner acknowledgement and analytics.
-13. `13_CONSOLIDATION_AUDIT.md` — 1.6.22 consolidation findings and validation status.
+13. `13_CONSOLIDATION_AUDIT.md` — 1.6.23 consolidation findings and validation status.
 
 Additional current summaries:
 
@@ -22,3 +22,5 @@ Additional current summaries:
 - `struttura_tecnica.md` — compact technical map.
 
 Historical material is isolated under `archive/` and is not authoritative for the current code.
+
+14. `14_HARDENING_1_6_23.md` — security/trust-boundary and learner-scope hardening before the App phase.

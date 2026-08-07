@@ -33,7 +33,7 @@
  * @return bool
  */
 function xmldb_videotrack_upgrade($oldversion) {
-    global $DB;
+    global $CFG, $DB;
     $dbman = $DB->get_manager();
 
     if ($oldversion < 2026043008) {
@@ -1666,6 +1666,117 @@ function xmldb_videotrack_upgrade($oldversion) {
         }
 
         upgrade_mod_savepoint(true, 2026060435, 'videotrack');
+    }
+
+    if ($oldversion < 2026060438) {
+        // Release 1.6.23: server-authoritative playback credit guard.
+        $segmenttable = new xmldb_table('videotrack_seg');
+        $servervalidatedfield = new xmldb_field(
+            'servervalidated',
+            XMLDB_TYPE_INTEGER,
+            '1',
+            null,
+            XMLDB_NOTNULL,
+            null,
+            '0',
+            'endreason'
+        );
+        if (!$dbman->field_exists($segmenttable, $servervalidatedfield)) {
+            $dbman->add_field($segmenttable, $servervalidatedfield);
+        }
+
+        $statetable = new xmldb_table('videotrack_state');
+        $fields = [
+            new xmldb_field(
+                'serverlastactivity',
+                XMLDB_TYPE_INTEGER,
+                '10',
+                null,
+                XMLDB_NOTNULL,
+                null,
+                '0',
+                'durationseconds'
+            ),
+            new xmldb_field(
+                'serverbudgetseconds',
+                XMLDB_TYPE_NUMBER,
+                '12, 3',
+                null,
+                XMLDB_NOTNULL,
+                null,
+                '0.000',
+                'serverlastactivity'
+            ),
+            new xmldb_field(
+                'servercreditedseconds',
+                XMLDB_TYPE_NUMBER,
+                '12, 3',
+                null,
+                XMLDB_NOTNULL,
+                null,
+                '0.000',
+                'serverbudgetseconds'
+            ),
+        ];
+        foreach ($fields as $field) {
+            if (!$dbman->field_exists($statetable, $field)) {
+                $dbman->add_field($statetable, $field);
+            }
+        }
+
+        // Pre-1.6.23 viewing intervals were not protected by the server-authoritative
+        // credit guard. Preserve the raw historical rows for Privacy/export purposes,
+        // but reset aggregate viewing state so legacy client-derived coverage can never
+        // unlock percentage completion or end-gated acknowledgement after this upgrade.
+        $DB->execute(
+            "UPDATE {videotrack_state}
+                SET lastposition = 0,
+                    durationseconds = 0,
+                    serverlastactivity = 0,
+                    serverbudgetseconds = 0,
+                    servercreditedseconds = 0,
+                    uniquecoveredseconds = 0,
+                    completionpercent = 0,
+                    intervaljson = '[]',
+                    iscompleted = 0"
+        );
+
+        // Recalculate Moodle automatic completion after invalidating legacy viewing
+        // coverage. Use the core completion API so reaction/acknowledgement rules that
+        // are still valid remain effective and manual completion overrides are respected.
+        require_once($CFG->libdir . '/completionlib.php');
+        $instances = $DB->get_records_sql(
+            "SELECT DISTINCT v.id, v.course
+               FROM {videotrack} v
+               JOIN {videotrack_state} s ON s.videotrackid = v.id
+              WHERE s.userid > 0"
+        );
+        foreach ($instances as $instance) {
+            $cm = get_coursemodule_from_instance(
+                'videotrack',
+                (int) $instance->id,
+                (int) $instance->course,
+                false,
+                IGNORE_MISSING
+            );
+            if (!$cm || (int) $cm->completion !== COMPLETION_TRACKING_AUTOMATIC) {
+                continue;
+            }
+
+            $course = get_course((int) $instance->course);
+            $completion = new completion_info($course);
+            $userids = $DB->get_fieldset_select(
+                'videotrack_state',
+                'DISTINCT userid',
+                'videotrackid = :videotrackid AND userid > 0',
+                ['videotrackid' => (int) $instance->id]
+            );
+            foreach ($userids as $userid) {
+                $completion->update_state($cm, COMPLETION_UNKNOWN, (int) $userid);
+            }
+        }
+
+        upgrade_mod_savepoint(true, 2026060438, 'videotrack');
     }
 
     return true;

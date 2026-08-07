@@ -130,18 +130,12 @@ class save_segment extends external_api {
         $cm = $loaded['cm'];
         $context = $loaded['context'];
 
-        // Prefer the trusted activity duration when available. Vimeo activities
-        // can have an empty server-side duration during early runtime, so fall
-        // back to the bounded client-reported duration for aggregate progress.
-        // This value is used only for this request/state calculation and is still
-        // constrained by MAX_DURATION_SECONDS.
+        // The activity duration is authoritative only when configured by the teacher.
+        // Client-reported duration is diagnostic input and must never unlock completion.
         $knownduration = (float)($videotrack->durationseconds ?? 0);
-        $clientduration = (float)$params['durationseconds'];
-        $normaliseduration = $knownduration > 0 ? min($knownduration, self::MAX_DURATION_SECONDS) :
-            min($clientduration, self::MAX_DURATION_SECONDS);
-        if ($knownduration <= 0 && $normaliseduration > 0) {
-            $videotrack->durationseconds = $normaliseduration;
-        }
+        $normaliseduration = $knownduration > 0
+            ? min($knownduration, self::MAX_DURATION_SECONDS)
+            : 0.0;
         $interval = tracker::normalise_interval(
             (float)$params['videotimestart'],
             (float)$params['videotimeend'],
@@ -154,62 +148,31 @@ class save_segment extends external_api {
                 'completionpercent'    => 0.0,
                 'iscompleted'          => false,
                 'intervaljson'         => '[]',
-                'durationseconds'      => 0.0,
+                'durationseconds'      => $normaliseduration,
                 'savedvideotimestart' => 0.0,
                 'savedvideotimeend'   => 0.0,
                 'warnings'             => [],
             ];
         }
-        $now    = time();
-        // Clamp wallclock timestamps to server time, allowing 5 seconds of client clock skew.
-        $wstart = max(0, min($params['wallclockstart'], $now + 5));
-        $wend   = max($wstart, min($params['wallclockend'], $now + 5));
 
-        // Server-side validation for academic integrity.
-        // Client wallclock values are retained as diagnostic data, but they are
-        // not used to decide whether to accept the segment. Validation is based
-        // only on server elapsed time since the previous segment from the same
-        // session and on the configured heartbeat interval.
-        $videoduration = $interval[1] - $interval[0];
-        // Playback rate is already bounded by helper::validate_bounded_float().
-        $playbackrate  = (float)$params['playbackrate'];
-        $heartbeat = \videotrack_get_config_int('heartbeatinterval', 30, 5, 300);
-        $lasttimes = $DB->get_record_sql(
-            "SELECT MAX(timecreated) AS lastactivitytime,
-                    MAX(CASE WHEN sessionid = :sid THEN timecreated ELSE NULL END) AS lastsessiontime
-               FROM {videotrack_seg}
-              WHERE videotrackid = :vtid AND userid = :uid",
-            ['vtid' => $videotrack->id, 'uid' => $USER->id, 'sid' => $params['sessionid']]
-        );
-        $lastsessiontime = $lasttimes ? (int)$lasttimes->lastsessiontime : 0;
-        $lastactivitytime = $lasttimes ? (int)$lasttimes->lastactivitytime : 0;
-        $lasttimecreated = $lastsessiontime ?: $lastactivitytime;
-        $isfirstsegment = empty($lastactivitytime);
-        $serverspan = $isfirstsegment ? $heartbeat : max(0, $now - (int)$lasttimecreated);
-        // The first segment has no previous server-side reference: still use the
-        // heartbeat as the maximum window, but with a smaller grace period so a
-        // direct initial call cannot credit heartbeat plus 10 seconds.
-        $servergrace = $isfirstsegment ? 2 : 10;
-        $serverallowedvideo = max(2.0, ($serverspan + $servergrace) * $playbackrate);
-        if ($videoduration > 2.0 && $videoduration > $serverallowedvideo) {
-            // Suspicious segment: reject silently without recording behavioural timing details.
-            return [
-                'accepted'             => false,
-                'uniquecoveredseconds' => 0.0,
-                'completionpercent'    => 0.0,
-                'iscompleted'          => false,
-                'intervaljson'         => '[]',
-                'durationseconds'      => 0.0,
-                'savedvideotimestart' => 0.0,
-                'savedvideotimeend'   => 0.0,
-                'warnings'             => [[
-                    'item' => 'segment',
-                    'itemid' => 0,
-                    'warningcode' => 'suspicioussegment',
-                    'message' => get_string('warning:suspicioussegment', 'mod_videotrack'),
-                ]],
-            ];
+        $playbackrate = (float)$params['playbackrate'];
+        $allowedspeeds = \videotrack_get_playback_speeds($videotrack);
+        $rateallowed = false;
+        foreach ($allowedspeeds as $allowedspeed) {
+            if (abs((float)$allowedspeed - $playbackrate) <= 0.001) {
+                $rateallowed = true;
+                break;
+            }
         }
+        if (!$rateallowed) {
+            throw new \invalid_parameter_exception('Playback rate is not allowed for this activity');
+        }
+
+        $now = time();
+        // Client wallclock values remain diagnostic only.
+        $wstart = max(0, min($params['wallclockstart'], $now + 5));
+        $wend = max($wstart, min($params['wallclockend'], $now + 5));
+        $heartbeat = \videotrack_get_config_int('heartbeatinterval', 30, 5, 300);
 
         $segment = (object)[
             'videotrackid' => $videotrack->id,
@@ -224,13 +187,47 @@ class save_segment extends external_api {
             'videotimeend'   => $interval[1],
             'playbackrate'   => $playbackrate, // Already clamped to [0.25, 4.0] above.
             'endreason'      => $params['endreason'],
+            'servervalidated' => 1,
             'timecreated'    => $now,
         ];
         // Insert the raw segment and update the aggregate state in a single atomic
         // transaction managed by update_state. If update_state fails, rollback also
         // removes the inserted segment, leaving no orphan records.
         $segmentid = null;
-        $state = tracker::update_state($videotrack, $cm, (int)$USER->id, $interval, $interval[1], $segment, $segmentid);
+        $state = tracker::update_state(
+            $videotrack,
+            $cm,
+            (int)$USER->id,
+            $interval,
+            $interval[1],
+            $segment,
+            $segmentid,
+            [
+                'now' => $now,
+                'heartbeat' => $heartbeat,
+                'playbackrate' => $playbackrate,
+                'allowseekforward' => !empty($videotrack->allowseekforward),
+            ]
+        );
+
+        if ($segmentid === -1) {
+            return [
+                'accepted'             => false,
+                'uniquecoveredseconds' => (float)$state->uniquecoveredseconds,
+                'completionpercent'    => (float)$state->completionpercent,
+                'iscompleted'          => (bool)$state->iscompleted,
+                'intervaljson'         => (string)($state->intervaljson ?? '[]'),
+                'durationseconds'      => (float)($state->durationseconds ?? 0),
+                'savedvideotimestart' => 0.0,
+                'savedvideotimeend'   => 0.0,
+                'warnings'             => [[
+                    'item' => 'segment',
+                    'itemid' => 0,
+                    'warningcode' => 'suspicioussegment',
+                    'message' => get_string('warning:suspicioussegment', 'mod_videotrack'),
+                ]],
+            ];
+        }
 
         if ($segmentid === 0) {
             return [

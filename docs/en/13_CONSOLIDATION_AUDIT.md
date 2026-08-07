@@ -1,4 +1,4 @@
-# Consolidation audit — VideoTrack 1.6.22
+# Consolidation audit — VideoTrack 1.6.23
 
 ## Purpose
 
@@ -27,4 +27,4 @@ The maintainer’s 1.6.21 run completed Grunt AMD, but PHPUnit had one failure (
 
 ## Validation boundary
 
-Static checks and patch-application checks are recorded in the release report. PHPUnit, PHPCS, browser, real database upgrade and backup/restore for 1.6.22 must be run in the maintainer’s Moodle environment before the consolidation is considered fully validated.
+For the 1.6.22 baseline, maintainer-side Grunt, PHPCS and PHPUnit were completed successfully before the 1.6.23 hardening cycle. Browser, real database upgrade and backup/restore remain runtime validations rather than claims made by this static audit.

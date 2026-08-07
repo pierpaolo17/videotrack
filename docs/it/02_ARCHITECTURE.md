@@ -30,7 +30,7 @@ Contesto modulo e capability Moodle sono autorevoli. La visibilità dei gruppi u
 
 ## Architettura privacy
 
-La raccolta è subordinata alle funzioni abilitate. Gli Analytics docente usano aggregati e soglie minime indipendenti. Testo note ed etichette segnalibri sono del proprietario. L’export Privacy elabora collezioni grandi in blocchi limitati. Cancellazione, reset, retention e backup/restore coprono tutte le tabelle utente.
+La raccolta è subordinata alle funzioni abilitate. Gli Analytics docente usano aggregati e soglie minime indipendenti. Le etichette dei segnalibri sono visibili solo al proprietario. Il testo delle note personali è visibile al proprietario e può essere consultato/esportato dai docenti autorizzati quando le note sono abilitate; il testo è escluso dagli Analytics aggregati. L’export Privacy elabora collezioni grandi in blocchi limitati. Cancellazione, reset, retention e backup/restore coprono tutte le tabelle utente.
 
 ## Architettura accessibile
 

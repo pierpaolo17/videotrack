@@ -1,8 +1,8 @@
 # Inventario delle funzioni nominate
 
-Generato dai sorgenti VideoTrack 1.6.22. Le closure anonime sono intenzionalmente escluse.
+Generato dai sorgenti VideoTrack 1.6.23. Le closure anonime sono intenzionalmente omesse.
 
-PHP entries: **461**. AMD entries: **572**.
+Voci PHP: **470**. Voci AMD: **572**.
 
 ## Funzioni e metodi PHP
 
@@ -20,13 +20,13 @@ PHP entries: **461**. AMD entries: **572**.
 | `backup/moodle2/restore_videotrack_stepslib.php:59` | `restore_videotrack_activity_structure_step::process_videotrack` | Implementa `process videotrack`; il contratto dettagliato è nel DocBlock sorgente. |
 | `backup/moodle2/restore_videotrack_stepslib.php:93` | `restore_videotrack_activity_structure_step::process_videotrack_reaction` | Implementa `process videotrack reaction`; il contratto dettagliato è nel DocBlock sorgente. |
 | `backup/moodle2/restore_videotrack_stepslib.php:123` | `restore_videotrack_activity_structure_step::process_videotrack_segment` | Implementa `process videotrack segment`; il contratto dettagliato è nel DocBlock sorgente. |
-| `backup/moodle2/restore_videotrack_stepslib.php:164` | `restore_videotrack_activity_structure_step::process_videotrack_state` | Implementa `process videotrack state`; il contratto dettagliato è nel DocBlock sorgente. |
-| `backup/moodle2/restore_videotrack_stepslib.php:205` | `restore_videotrack_activity_structure_step::process_videotrack_reactionevent` | Implementa `process videotrack reactionevent`; il contratto dettagliato è nel DocBlock sorgente. |
-| `backup/moodle2/restore_videotrack_stepslib.php:288` | `restore_videotrack_activity_structure_step::process_videotrack_integrityevent` | Implementa `process videotrack integrityevent`; il contratto dettagliato è nel DocBlock sorgente. |
-| `backup/moodle2/restore_videotrack_stepslib.php:325` | `restore_videotrack_activity_structure_step::process_videotrack_acknowledgement` | Implementa `process videotrack acknowledgement`; il contratto dettagliato è nel DocBlock sorgente. |
-| `backup/moodle2/restore_videotrack_stepslib.php:370` | `restore_videotrack_activity_structure_step::normalise_interval_json` | Implementa `normalise interval json`; il contratto dettagliato è nel DocBlock sorgente. |
-| `backup/moodle2/restore_videotrack_stepslib.php:381` | `restore_videotrack_activity_structure_step::get_restored_cmid` | Restituisce `restored cmid`. |
-| `backup/moodle2/restore_videotrack_stepslib.php:388` | `restore_videotrack_activity_structure_step::after_execute` | Implementa `after execute`; il contratto dettagliato è nel DocBlock sorgente. |
+| `backup/moodle2/restore_videotrack_stepslib.php:165` | `restore_videotrack_activity_structure_step::process_videotrack_state` | Implementa `process videotrack state`; il contratto dettagliato è nel DocBlock sorgente. |
+| `backup/moodle2/restore_videotrack_stepslib.php:211` | `restore_videotrack_activity_structure_step::process_videotrack_reactionevent` | Implementa `process videotrack reactionevent`; il contratto dettagliato è nel DocBlock sorgente. |
+| `backup/moodle2/restore_videotrack_stepslib.php:294` | `restore_videotrack_activity_structure_step::process_videotrack_integrityevent` | Implementa `process videotrack integrityevent`; il contratto dettagliato è nel DocBlock sorgente. |
+| `backup/moodle2/restore_videotrack_stepslib.php:331` | `restore_videotrack_activity_structure_step::process_videotrack_acknowledgement` | Implementa `process videotrack acknowledgement`; il contratto dettagliato è nel DocBlock sorgente. |
+| `backup/moodle2/restore_videotrack_stepslib.php:376` | `restore_videotrack_activity_structure_step::normalise_interval_json` | Implementa `normalise interval json`; il contratto dettagliato è nel DocBlock sorgente. |
+| `backup/moodle2/restore_videotrack_stepslib.php:387` | `restore_videotrack_activity_structure_step::get_restored_cmid` | Restituisce `restored cmid`. |
+| `backup/moodle2/restore_videotrack_stepslib.php:394` | `restore_videotrack_activity_structure_step::after_execute` | Implementa `after execute`; il contratto dettagliato è nel DocBlock sorgente. |
 | `classes/admin/setting_int_range.php:43` | `mod_videotrack\admin\setting_int_range::__construct` | Implementa `construct`; il contratto dettagliato è nel DocBlock sorgente. |
 | `classes/admin/setting_int_range.php:61` | `mod_videotrack\admin\setting_int_range::validate` | Implementa `validate`; il contratto dettagliato è nel DocBlock sorgente. |
 | `classes/admin/setting_nonnegative_int.php:36` | `mod_videotrack\admin\setting_nonnegative_int::validate` | Implementa `validate`; il contratto dettagliato è nel DocBlock sorgente. |
@@ -39,74 +39,74 @@ PHP entries: **461**. AMD entries: **572**.
 | `classes/event/acknowledgement_confirmed.php:30` | `mod_videotrack\event\acknowledgement_confirmed::init` | Inizializza `init`. |
 | `classes/event/acknowledgement_confirmed.php:41` | `mod_videotrack\event\acknowledgement_confirmed::get_name` | Restituisce `name`. |
 | `classes/event/acknowledgement_confirmed.php:50` | `mod_videotrack\event\acknowledgement_confirmed::get_description` | Restituisce `description`. |
-| `classes/event/acknowledgement_confirmed.php:60` | `get_url` | Restituisce `url`. |
-| `classes/event/acknowledgement_confirmed.php:69` | `get_objectid_mapping` | Restituisce `objectid mapping`. |
+| `classes/event/acknowledgement_confirmed.php:60` | `mod_videotrack\event\acknowledgement_confirmed::get_url` | Restituisce `url`. |
+| `classes/event/acknowledgement_confirmed.php:69` | `mod_videotrack\event\acknowledgement_confirmed::get_objectid_mapping` | Restituisce `objectid mapping`. |
 | `classes/event/activity_completed.php:31` | `mod_videotrack\event\activity_completed::init` | Inizializza `init`. |
 | `classes/event/activity_completed.php:42` | `mod_videotrack\event\activity_completed::get_name` | Restituisce `name`. |
 | `classes/event/activity_completed.php:51` | `mod_videotrack\event\activity_completed::get_description` | Restituisce `description`. |
-| `classes/event/activity_completed.php:63` | `get_url` | Restituisce `url`. |
-| `classes/event/activity_completed.php:72` | `get_objectid_mapping` | Restituisce `objectid mapping`. |
+| `classes/event/activity_completed.php:63` | `mod_videotrack\event\activity_completed::get_url` | Restituisce `url`. |
+| `classes/event/activity_completed.php:72` | `mod_videotrack\event\activity_completed::get_objectid_mapping` | Restituisce `objectid mapping`. |
 | `classes/event/bookmark_deleted.php:30` | `mod_videotrack\event\bookmark_deleted::init` | Inizializza `init`. |
 | `classes/event/bookmark_deleted.php:41` | `mod_videotrack\event\bookmark_deleted::get_name` | Restituisce `name`. |
 | `classes/event/bookmark_deleted.php:50` | `mod_videotrack\event\bookmark_deleted::get_description` | Restituisce `description`. |
-| `classes/event/bookmark_deleted.php:60` | `get_url` | Restituisce `url`. |
-| `classes/event/bookmark_deleted.php:69` | `get_objectid_mapping` | Restituisce `objectid mapping`. |
+| `classes/event/bookmark_deleted.php:60` | `mod_videotrack\event\bookmark_deleted::get_url` | Restituisce `url`. |
+| `classes/event/bookmark_deleted.php:69` | `mod_videotrack\event\bookmark_deleted::get_objectid_mapping` | Restituisce `objectid mapping`. |
 | `classes/event/bookmark_exported.php:30` | `mod_videotrack\event\bookmark_exported::init` | Inizializza `init`. |
 | `classes/event/bookmark_exported.php:41` | `mod_videotrack\event\bookmark_exported::get_name` | Restituisce `name`. |
 | `classes/event/bookmark_exported.php:50` | `mod_videotrack\event\bookmark_exported::get_description` | Restituisce `description`. |
-| `classes/event/bookmark_exported.php:60` | `get_url` | Restituisce `url`. |
-| `classes/event/bookmark_exported.php:67` | `validate_data` | Valida `data`. |
-| `classes/event/bookmark_exported.php:79` | `get_objectid_mapping` | Restituisce `objectid mapping`. |
+| `classes/event/bookmark_exported.php:60` | `mod_videotrack\event\bookmark_exported::get_url` | Restituisce `url`. |
+| `classes/event/bookmark_exported.php:67` | `mod_videotrack\event\bookmark_exported::validate_data` | Valida `data`. |
+| `classes/event/bookmark_exported.php:79` | `mod_videotrack\event\bookmark_exported::get_objectid_mapping` | Restituisce `objectid mapping`. |
 | `classes/event/bookmark_saved.php:30` | `mod_videotrack\event\bookmark_saved::init` | Inizializza `init`. |
 | `classes/event/bookmark_saved.php:41` | `mod_videotrack\event\bookmark_saved::get_name` | Restituisce `name`. |
 | `classes/event/bookmark_saved.php:50` | `mod_videotrack\event\bookmark_saved::get_description` | Restituisce `description`. |
-| `classes/event/bookmark_saved.php:60` | `get_url` | Restituisce `url`. |
-| `classes/event/bookmark_saved.php:69` | `get_objectid_mapping` | Restituisce `objectid mapping`. |
+| `classes/event/bookmark_saved.php:60` | `mod_videotrack\event\bookmark_saved::get_url` | Restituisce `url`. |
+| `classes/event/bookmark_saved.php:69` | `mod_videotrack\event\bookmark_saved::get_objectid_mapping` | Restituisce `objectid mapping`. |
 | `classes/event/course_module_viewed.php:30` | `mod_videotrack\event\course_module_viewed::init` | Inizializza `init`. |
 | `classes/event/note_deleted.php:30` | `mod_videotrack\event\note_deleted::init` | Inizializza `init`. |
 | `classes/event/note_deleted.php:41` | `mod_videotrack\event\note_deleted::get_name` | Restituisce `name`. |
 | `classes/event/note_deleted.php:50` | `mod_videotrack\event\note_deleted::get_description` | Restituisce `description`. |
-| `classes/event/note_deleted.php:60` | `get_url` | Restituisce `url`. |
-| `classes/event/note_deleted.php:69` | `get_objectid_mapping` | Restituisce `objectid mapping`. |
+| `classes/event/note_deleted.php:60` | `mod_videotrack\event\note_deleted::get_url` | Restituisce `url`. |
+| `classes/event/note_deleted.php:69` | `mod_videotrack\event\note_deleted::get_objectid_mapping` | Restituisce `objectid mapping`. |
 | `classes/event/note_saved.php:32` | `mod_videotrack\event\note_saved::init` | Inizializza `init`. |
 | `classes/event/note_saved.php:43` | `mod_videotrack\event\note_saved::get_name` | Restituisce `name`. |
 | `classes/event/note_saved.php:52` | `mod_videotrack\event\note_saved::get_description` | Restituisce `description`. |
-| `classes/event/note_saved.php:64` | `get_url` | Restituisce `url`. |
-| `classes/event/note_saved.php:73` | `get_objectid_mapping` | Restituisce `objectid mapping`. |
+| `classes/event/note_saved.php:64` | `mod_videotrack\event\note_saved::get_url` | Restituisce `url`. |
+| `classes/event/note_saved.php:73` | `mod_videotrack\event\note_saved::get_objectid_mapping` | Restituisce `objectid mapping`. |
 | `classes/event/notes_exported.php:30` | `mod_videotrack\event\notes_exported::init` | Inizializza `init`. |
 | `classes/event/notes_exported.php:41` | `mod_videotrack\event\notes_exported::get_name` | Restituisce `name`. |
 | `classes/event/notes_exported.php:50` | `mod_videotrack\event\notes_exported::get_description` | Restituisce `description`. |
-| `classes/event/notes_exported.php:62` | `get_url` | Restituisce `url`. |
-| `classes/event/notes_exported.php:70` | `validate_data` | Valida `data`. |
-| `classes/event/notes_exported.php:94` | `get_objectid_mapping` | Restituisce `objectid mapping`. |
-| `classes/event/notes_exported.php:103` | `get_other_mapping` | Restituisce `other mapping`. |
+| `classes/event/notes_exported.php:62` | `mod_videotrack\event\notes_exported::get_url` | Restituisce `url`. |
+| `classes/event/notes_exported.php:70` | `mod_videotrack\event\notes_exported::validate_data` | Valida `data`. |
+| `classes/event/notes_exported.php:94` | `mod_videotrack\event\notes_exported::get_objectid_mapping` | Restituisce `objectid mapping`. |
+| `classes/event/notes_exported.php:103` | `mod_videotrack\event\notes_exported::get_other_mapping` | Restituisce `other mapping`. |
 | `classes/event/reaction_deleted.php:30` | `mod_videotrack\event\reaction_deleted::init` | Inizializza `init`. |
 | `classes/event/reaction_deleted.php:41` | `mod_videotrack\event\reaction_deleted::get_name` | Restituisce `name`. |
 | `classes/event/reaction_deleted.php:50` | `mod_videotrack\event\reaction_deleted::get_description` | Restituisce `description`. |
-| `classes/event/reaction_deleted.php:61` | `get_url` | Restituisce `url`. |
-| `classes/event/reaction_deleted.php:70` | `get_objectid_mapping` | Restituisce `objectid mapping`. |
+| `classes/event/reaction_deleted.php:61` | `mod_videotrack\event\reaction_deleted::get_url` | Restituisce `url`. |
+| `classes/event/reaction_deleted.php:70` | `mod_videotrack\event\reaction_deleted::get_objectid_mapping` | Restituisce `objectid mapping`. |
 | `classes/event/reaction_saved.php:30` | `mod_videotrack\event\reaction_saved::init` | Inizializza `init`. |
 | `classes/event/reaction_saved.php:41` | `mod_videotrack\event\reaction_saved::get_name` | Restituisce `name`. |
 | `classes/event/reaction_saved.php:50` | `mod_videotrack\event\reaction_saved::get_description` | Restituisce `description`. |
-| `classes/event/reaction_saved.php:65` | `get_url` | Restituisce `url`. |
-| `classes/event/reaction_saved.php:74` | `get_objectid_mapping` | Restituisce `objectid mapping`. |
+| `classes/event/reaction_saved.php:65` | `mod_videotrack\event\reaction_saved::get_url` | Restituisce `url`. |
+| `classes/event/reaction_saved.php:74` | `mod_videotrack\event\reaction_saved::get_objectid_mapping` | Restituisce `objectid mapping`. |
 | `classes/event/report_exported.php:30` | `mod_videotrack\event\report_exported::init` | Inizializza `init`. |
 | `classes/event/report_exported.php:41` | `mod_videotrack\event\report_exported::get_name` | Restituisce `name`. |
 | `classes/event/report_exported.php:50` | `mod_videotrack\event\report_exported::get_description` | Restituisce `description`. |
-| `classes/event/report_exported.php:61` | `get_url` | Restituisce `url`. |
-| `classes/event/report_exported.php:68` | `validate_data` | Valida `data`. |
-| `classes/event/report_exported.php:86` | `get_objectid_mapping` | Restituisce `objectid mapping`. |
+| `classes/event/report_exported.php:61` | `mod_videotrack\event\report_exported::get_url` | Restituisce `url`. |
+| `classes/event/report_exported.php:68` | `mod_videotrack\event\report_exported::validate_data` | Valida `data`. |
+| `classes/event/report_exported.php:86` | `mod_videotrack\event\report_exported::get_objectid_mapping` | Restituisce `objectid mapping`. |
 | `classes/event/segment_saved.php:31` | `mod_videotrack\event\segment_saved::init` | Inizializza `init`. |
 | `classes/event/segment_saved.php:42` | `mod_videotrack\event\segment_saved::get_name` | Restituisce `name`. |
 | `classes/event/segment_saved.php:51` | `mod_videotrack\event\segment_saved::get_description` | Restituisce `description`. |
-| `classes/event/segment_saved.php:63` | `get_url` | Restituisce `url`. |
-| `classes/event/segment_saved.php:72` | `get_objectid_mapping` | Restituisce `objectid mapping`. |
+| `classes/event/segment_saved.php:63` | `mod_videotrack\event\segment_saved::get_url` | Restituisce `url`. |
+| `classes/event/segment_saved.php:72` | `mod_videotrack\event\segment_saved::get_objectid_mapping` | Restituisce `objectid mapping`. |
 | `classes/event/student_progress_reset.php:30` | `mod_videotrack\event\student_progress_reset::init` | Inizializza `init`. |
 | `classes/event/student_progress_reset.php:41` | `mod_videotrack\event\student_progress_reset::get_name` | Restituisce `name`. |
 | `classes/event/student_progress_reset.php:50` | `mod_videotrack\event\student_progress_reset::get_description` | Restituisce `description`. |
-| `classes/event/student_progress_reset.php:62` | `validate_data` | Valida `data`. |
-| `classes/event/student_progress_reset.php:79` | `get_url` | Restituisce `url`. |
-| `classes/event/student_progress_reset.php:88` | `get_objectid_mapping` | Restituisce `objectid mapping`. |
+| `classes/event/student_progress_reset.php:65` | `mod_videotrack\event\student_progress_reset::validate_data` | Valida `data`. |
+| `classes/event/student_progress_reset.php:82` | `mod_videotrack\event\student_progress_reset::get_url` | Restituisce `url`. |
+| `classes/event/student_progress_reset.php:91` | `mod_videotrack\event\student_progress_reset::get_objectid_mapping` | Restituisce `objectid mapping`. |
 | `classes/external/delete_bookmark.php:44` | `mod_videotrack\external\delete_bookmark::execute_parameters` | Esegue il contratto del servizio `parameters`. |
 | `classes/external/delete_bookmark.php:58` | `mod_videotrack\external\delete_bookmark::execute` | Esegue il contratto del servizio `execute`. |
 | `classes/external/delete_bookmark.php:91` | `mod_videotrack\external\delete_bookmark::execute_returns` | Esegue il contratto del servizio `returns`. |
@@ -137,7 +137,7 @@ PHP entries: **461**. AMD entries: **572**.
 | `classes/external/save_reaction.php:312` | `mod_videotrack\external\save_reaction::execute_returns` | Esegue il contratto del servizio `returns`. |
 | `classes/external/save_segment.php:48` | `mod_videotrack\external\save_segment::execute_parameters` | Esegue il contratto del servizio `parameters`. |
 | `classes/external/save_segment.php:76` | `mod_videotrack\external\save_segment::execute` | Esegue il contratto del servizio `execute`. |
-| `classes/external/save_segment.php:284` | `mod_videotrack\external\save_segment::execute_returns` | Esegue il contratto del servizio `returns`. |
+| `classes/external/save_segment.php:281` | `mod_videotrack\external\save_segment::execute_returns` | Esegue il contratto del servizio `returns`. |
 | `classes/form/forum_post_form.php:40` | `mod_videotrack\form\forum_post_form::definition` | Implementa `definition`; il contratto dettagliato è nel DocBlock sorgente. |
 | `classes/form/forum_post_form.php:114` | `mod_videotrack\form\forum_post_form::validation` | Implementa `validation`; il contratto dettagliato è nel DocBlock sorgente. |
 | `classes/local/acknowledgement.php:46` | `mod_videotrack\local\acknowledgement::is_enabled` | Determina `enabled`. |
@@ -146,12 +146,12 @@ PHP entries: **461**. AMD entries: **572**.
 | `classes/local/acknowledgement.php:82` | `mod_videotrack\local\acknowledgement::requires_video_end` | Implementa `requires video end`; il contratto dettagliato è nel DocBlock sorgente. |
 | `classes/local/acknowledgement.php:94` | `mod_videotrack\local\acknowledgement::statement_hash` | Implementa `statement hash`; il contratto dettagliato è nel DocBlock sorgente. |
 | `classes/local/acknowledgement.php:108` | `mod_videotrack\local\acknowledgement::progress_snapshot` | Implementa `progress snapshot`; il contratto dettagliato è nel DocBlock sorgente. |
-| `classes/local/acknowledgement.php:137` | `mod_videotrack\local\acknowledgement::has_reached_video_end` | Verifica la presenza di `reached video end`. |
-| `classes/local/acknowledgement.php:164` | `mod_videotrack\local\acknowledgement::can_confirm` | Implementa `can confirm`; il contratto dettagliato è nel DocBlock sorgente. |
-| `classes/local/acknowledgement.php:180` | `mod_videotrack\local\acknowledgement::analytics_summary` | Implementa `analytics summary`; il contratto dettagliato è nel DocBlock sorgente. |
-| `classes/local/acknowledgement.php:240` | `mod_videotrack\local\acknowledgement::current_record` | Implementa `current record`; il contratto dettagliato è nel DocBlock sorgente. |
-| `classes/local/acknowledgement.php:264` | `mod_videotrack\local\acknowledgement::confirm` | Implementa `confirm`; il contratto dettagliato è nel DocBlock sorgente. |
-| `classes/local/acknowledgement.php:324` | `mod_videotrack\local\acknowledgement::current_records` | Implementa `current records`; il contratto dettagliato è nel DocBlock sorgente. |
+| `classes/local/acknowledgement.php:133` | `mod_videotrack\local\acknowledgement::has_reached_video_end` | Verifica la presenza di `reached video end`. |
+| `classes/local/acknowledgement.php:156` | `mod_videotrack\local\acknowledgement::can_confirm` | Implementa `can confirm`; il contratto dettagliato è nel DocBlock sorgente. |
+| `classes/local/acknowledgement.php:172` | `mod_videotrack\local\acknowledgement::analytics_summary` | Implementa `analytics summary`; il contratto dettagliato è nel DocBlock sorgente. |
+| `classes/local/acknowledgement.php:232` | `mod_videotrack\local\acknowledgement::current_record` | Implementa `current record`; il contratto dettagliato è nel DocBlock sorgente. |
+| `classes/local/acknowledgement.php:256` | `mod_videotrack\local\acknowledgement::confirm` | Implementa `confirm`; il contratto dettagliato è nel DocBlock sorgente. |
+| `classes/local/acknowledgement.php:316` | `mod_videotrack\local\acknowledgement::current_records` | Implementa `current records`; il contratto dettagliato è nel DocBlock sorgente. |
 | `classes/local/analytics.php:48` | `mod_videotrack\local\analytics::resolve_duration` | Risoluzione di `duration`. |
 | `classes/local/analytics.php:66` | `mod_videotrack\local\analytics::default_bin_size` | Implementa `default bin size`; il contratto dettagliato è nel DocBlock sorgente. |
 | `classes/local/analytics.php:93` | `mod_videotrack\local\analytics::restrict_to_own_groups` | Implementa `restrict to own groups`; il contratto dettagliato è nel DocBlock sorgente. |
@@ -166,11 +166,11 @@ PHP entries: **461**. AMD entries: **572**.
 | `classes/local/analytics.php:439` | `mod_videotrack\local\analytics::add_user_intervals` | Implementa `add user intervals`; il contratto dettagliato è nel DocBlock sorgente. |
 | `classes/local/analytics.php:475` | `mod_videotrack\local\analytics::add_interval_to_map` | Implementa `add interval to map`; il contratto dettagliato è nel DocBlock sorgente. |
 | `classes/local/analytics_scope.php:42` | `mod_videotrack\local\analytics_scope::matching_accessible_instances` | Implementa `matching accessible instances`; il contratto dettagliato è nel DocBlock sorgente. |
-| `classes/local/analytics_scope.php:144` | `effective_groupmode` | Implementa `effective groupmode`; il contratto dettagliato è nel DocBlock sorgente. |
-| `classes/local/analytics_scope.php:175` | `accessible_group_ids` | Implementa `accessible group ids`; il contratto dettagliato è nel DocBlock sorgente. |
-| `classes/local/analytics_scope.php:210` | `technical_identity` | Implementa `technical identity`; il contratto dettagliato è nel DocBlock sorgente. |
-| `classes/local/analytics_scope.php:261` | `normalise_external_url` | Implementa `normalise external url`; il contratto dettagliato è nel DocBlock sorgente. |
-| `classes/local/analytics_scope.php:294` | `get_instance_record` | Restituisce `instance record`. |
+| `classes/local/analytics_scope.php:144` | `mod_videotrack\local\analytics_scope::effective_groupmode` | Implementa `effective groupmode`; il contratto dettagliato è nel DocBlock sorgente. |
+| `classes/local/analytics_scope.php:175` | `mod_videotrack\local\analytics_scope::accessible_group_ids` | Implementa `accessible group ids`; il contratto dettagliato è nel DocBlock sorgente. |
+| `classes/local/analytics_scope.php:210` | `mod_videotrack\local\analytics_scope::technical_identity` | Implementa `technical identity`; il contratto dettagliato è nel DocBlock sorgente. |
+| `classes/local/analytics_scope.php:261` | `mod_videotrack\local\analytics_scope::normalise_external_url` | Implementa `normalise external url`; il contratto dettagliato è nel DocBlock sorgente. |
+| `classes/local/analytics_scope.php:294` | `mod_videotrack\local\analytics_scope::get_instance_record` | Restituisce `instance record`. |
 | `classes/local/analytics_table_export.php:35` | `mod_videotrack\local\analytics_table_export::enabled_formats` | Implementa `enabled formats`; il contratto dettagliato è nel DocBlock sorgente. |
 | `classes/local/analytics_table_export.php:46` | `mod_videotrack\local\analytics_table_export::columns` | Implementa `columns`; il contratto dettagliato è nel DocBlock sorgente. |
 | `classes/local/analytics_table_export.php:72` | `mod_videotrack\local\analytics_table_export::export_columns` | Esporta `columns`. |
@@ -181,8 +181,8 @@ PHP entries: **461**. AMD entries: **572**.
 | `classes/local/course_analytics.php:220` | `mod_videotrack\local\course_analytics::median` | Implementa `median`; il contratto dettagliato è nel DocBlock sorgente. |
 | `classes/local/course_analytics.php:240` | `mod_videotrack\local\course_analytics::largest_adjacent_drop` | Implementa `largest adjacent drop`; il contratto dettagliato è nel DocBlock sorgente. |
 | `classes/local/course_analytics.php:274` | `mod_videotrack\local\course_analytics::learner_scope_sql` | Implementa `learner scope sql`; il contratto dettagliato è nel DocBlock sorgente. |
-| `classes/local/course_analytics.php:308` | `load_states` | Carica `states`. |
-| `classes/local/course_analytics.php:347` | `load_event_summary` | Carica `event summary`. |
+| `classes/local/course_analytics.php:308` | `mod_videotrack\local\course_analytics::load_states` | Carica `states`. |
+| `classes/local/course_analytics.php:347` | `mod_videotrack\local\course_analytics::load_event_summary` | Carica `event summary`. |
 | `classes/local/csv_export.php:78` | `mod_videotrack\local\csv_export::delimiter_options` | Implementa `delimiter options`; il contratto dettagliato è nel DocBlock sorgente. |
 | `classes/local/csv_export.php:97` | `mod_videotrack\local\csv_export::delimiter` | Implementa `delimiter`; il contratto dettagliato è nel DocBlock sorgente. |
 | `classes/local/csv_export.php:121` | `mod_videotrack\local\csv_export::field_options` | Implementa `field options`; il contratto dettagliato è nel DocBlock sorgente. |
@@ -193,16 +193,16 @@ PHP entries: **461**. AMD entries: **572**.
 | `classes/local/csv_export.php:236` | `mod_videotrack\local\csv_export::process_form_fields` | Implementa `process form fields`; il contratto dettagliato è nel DocBlock sorgente. |
 | `classes/local/csv_export.php:256` | `mod_videotrack\local\csv_export::selected_user_fields` | Implementa `selected user fields`; il contratto dettagliato è nel DocBlock sorgente. |
 | `classes/local/csv_export.php:269` | `mod_videotrack\local\csv_export::load_users` | Carica `users`. |
-| `classes/local/csv_export.php:303` | `identity_headers` | Implementa `identity headers`; il contratto dettagliato è nel DocBlock sorgente. |
-| `classes/local/csv_export.php:332` | `identity_values` | Implementa `identity values`; il contratto dettagliato è nel DocBlock sorgente. |
-| `classes/local/csv_export.php:372` | `cluster_notes` | Implementa `cluster notes`; il contratto dettagliato è nel DocBlock sorgente. |
-| `classes/local/csv_export.php:422` | `write_utf8_bom` | Implementa `write utf8 bom`; il contratto dettagliato è nel DocBlock sorgente. |
-| `classes/local/csv_export.php:434` | `write_row` | Implementa `write row`; il contratto dettagliato è nel DocBlock sorgente. |
-| `classes/local/csv_export.php:459` | `safe_value` | Implementa `safe value`; il contratto dettagliato è nel DocBlock sorgente. |
-| `classes/local/csv_export.php:476` | `normalise_field_list` | Implementa `normalise field list`; il contratto dettagliato è nel DocBlock sorgente. |
-| `classes/local/csv_export.php:490` | `field_label` | Implementa `field label`; il contratto dettagliato è nel DocBlock sorgente. |
-| `classes/local/csv_export.php:507` | `field_value` | Implementa `field value`; il contratto dettagliato è nel DocBlock sorgente. |
-| `classes/local/csv_export.php:543` | `video_url` | Implementa `video url`; il contratto dettagliato è nel DocBlock sorgente. |
+| `classes/local/csv_export.php:303` | `mod_videotrack\local\csv_export::identity_headers` | Implementa `identity headers`; il contratto dettagliato è nel DocBlock sorgente. |
+| `classes/local/csv_export.php:332` | `mod_videotrack\local\csv_export::identity_values` | Implementa `identity values`; il contratto dettagliato è nel DocBlock sorgente. |
+| `classes/local/csv_export.php:372` | `mod_videotrack\local\csv_export::cluster_notes` | Implementa `cluster notes`; il contratto dettagliato è nel DocBlock sorgente. |
+| `classes/local/csv_export.php:422` | `mod_videotrack\local\csv_export::write_utf8_bom` | Implementa `write utf8 bom`; il contratto dettagliato è nel DocBlock sorgente. |
+| `classes/local/csv_export.php:434` | `mod_videotrack\local\csv_export::write_row` | Implementa `write row`; il contratto dettagliato è nel DocBlock sorgente. |
+| `classes/local/csv_export.php:459` | `mod_videotrack\local\csv_export::safe_value` | Implementa `safe value`; il contratto dettagliato è nel DocBlock sorgente. |
+| `classes/local/csv_export.php:476` | `mod_videotrack\local\csv_export::normalise_field_list` | Implementa `normalise field list`; il contratto dettagliato è nel DocBlock sorgente. |
+| `classes/local/csv_export.php:490` | `mod_videotrack\local\csv_export::field_label` | Implementa `field label`; il contratto dettagliato è nel DocBlock sorgente. |
+| `classes/local/csv_export.php:507` | `mod_videotrack\local\csv_export::field_value` | Implementa `field value`; il contratto dettagliato è nel DocBlock sorgente. |
+| `classes/local/csv_export.php:543` | `mod_videotrack\local\csv_export::video_url` | Implementa `video url`; il contratto dettagliato è nel DocBlock sorgente. |
 | `classes/local/forum_bridge.php:47` | `mod_videotrack\local\forum_bridge::resolve_destination` | Risoluzione di `destination`. |
 | `classes/local/forum_bridge.php:99` | `mod_videotrack\local\forum_bridge::get_group_options` | Restituisce `group options`. |
 | `classes/local/forum_bridge.php:135` | `mod_videotrack\local\forum_bridge::can_choose_subscription` | Implementa `can choose subscription`; il contratto dettagliato è nel DocBlock sorgente. |
@@ -214,6 +214,9 @@ PHP entries: **461**. AMD entries: **572**.
 | `classes/local/integrity.php:139` | `mod_videotrack\local\integrity::validate_event_type` | Valida `event type`. |
 | `classes/local/integrity.php:152` | `mod_videotrack\local\integrity::label_string` | Implementa `label string`; il contratto dettagliato è nel DocBlock sorgente. |
 | `classes/local/integrity.php:164` | `mod_videotrack\local\integrity::summarise` | Implementa `summarise`; il contratto dettagliato è nel DocBlock sorgente. |
+| `classes/local/learner_scope.php:41` | `mod_videotrack\local\learner_scope::sql` | Costruisce lo scope SQL canonico per learner, iscrizione, capability report e gruppi. |
+| `classes/local/learner_scope.php:91` | `mod_videotrack\local\learner_scope::prefix_named_params` | Prefissa i parametri SQL nominati per evitare collisioni negli scope learner multi-attività. |
+| `classes/local/learner_scope.php:116` | `mod_videotrack\local\learner_scope::user_is_visible` | Verifica che un learner sia visibile al docente corrente. |
 | `classes/local/privacy_manager.php:49` | `mod_videotrack\local\privacy_manager::retention_period_seconds` | Implementa `retention period seconds`; il contratto dettagliato è nel DocBlock sorgente. |
 | `classes/local/privacy_manager.php:67` | `mod_videotrack\local\privacy_manager::anonymisation_salt` | Implementa `anonymisation salt`; il contratto dettagliato è nel DocBlock sorgente. |
 | `classes/local/privacy_manager.php:119` | `mod_videotrack\local\privacy_manager::anonymous_userid` | Implementa `anonymous userid`; il contratto dettagliato è nel DocBlock sorgente. |
@@ -256,20 +259,22 @@ PHP entries: **461**. AMD entries: **572**.
 | `classes/local/tracker.php:385` | `mod_videotrack\local\tracker::has_watched_videotime` | Verifica la presenza di `watched videotime`. |
 | `classes/local/tracker.php:475` | `mod_videotrack\local\tracker::completion_satisfied` | Implementa `completion satisfied`; il contratto dettagliato è nel DocBlock sorgente. |
 | `classes/local/tracker.php:532` | `mod_videotrack\local\tracker::create_default_state` | Crea `default state`. |
-| `classes/local/tracker.php:565` | `mod_videotrack\local\tracker::update_state` | Aggiorna `state`. |
-| `classes/local/tracker.php:686` | `mod_videotrack\local\tracker::update_moodle_completion_if_changed` | Aggiorna `moodle completion if changed`. |
-| `classes/local/tracker.php:710` | `mod_videotrack\local\tracker::aggregate_segments` | Implementa `aggregate segments`; il contratto dettagliato è nel DocBlock sorgente. |
-| `classes/local/tracker.php:749` | `mod_videotrack\local\tracker::rebuild_state_from_segments` | Implementa `rebuild state from segments`; il contratto dettagliato è nel DocBlock sorgente. |
-| `classes/local/tracker.php:841` | `mod_videotrack\local\tracker::refresh_completion` | Implementa `refresh completion`; il contratto dettagliato è nel DocBlock sorgente. |
+| `classes/local/tracker.php:568` | `mod_videotrack\local\tracker::advance_server_credit_budget` | Avanza il budget cumulativo persistito basato sul tempo server e rifiuta i segmenti oltre credito. |
+| `classes/local/tracker.php:609` | `mod_videotrack\local\tracker::forward_interval_allowed` | Applica la frontiera server già vista quando il seek in avanti è disabilitato. |
+| `classes/local/tracker.php:641` | `mod_videotrack\local\tracker::update_state` | Aggiorna `state`. |
+| `classes/local/tracker.php:791` | `mod_videotrack\local\tracker::update_moodle_completion_if_changed` | Aggiorna `moodle completion if changed`. |
+| `classes/local/tracker.php:815` | `mod_videotrack\local\tracker::aggregate_segments` | Implementa `aggregate segments`; il contratto dettagliato è nel DocBlock sorgente. |
+| `classes/local/tracker.php:854` | `mod_videotrack\local\tracker::rebuild_state_from_segments` | Implementa `rebuild state from segments`; il contratto dettagliato è nel DocBlock sorgente. |
+| `classes/local/tracker.php:945` | `mod_videotrack\local\tracker::refresh_completion` | Implementa `refresh completion`; il contratto dettagliato è nel DocBlock sorgente. |
 | `classes/privacy/provider.php:48` | `mod_videotrack\privacy\provider::format_interval_second` | Formatta `interval second`. |
 | `classes/privacy/provider.php:59` | `mod_videotrack\privacy\provider::get_metadata` | Restituisce `metadata`. |
-| `classes/privacy/provider.php:161` | `mod_videotrack\privacy\provider::get_contexts_for_userid` | Restituisce `contexts for userid`. |
-| `classes/privacy/provider.php:200` | `mod_videotrack\privacy\provider::get_users_in_context` | Restituisce `users in context`. |
-| `classes/privacy/provider.php:233` | `mod_videotrack\privacy\provider::export_user_data` | Esporta `user data`. |
-| `classes/privacy/provider.php:583` | `mod_videotrack\privacy\provider::delete_data_for_all_users_in_context` | Elimina `data for all users in context`. |
-| `classes/privacy/provider.php:596` | `mod_videotrack\privacy\provider::delete_data_for_user` | Elimina `data for user`. |
-| `classes/privacy/provider.php:608` | `mod_videotrack\privacy\provider::delete_data_for_users` | Elimina `data for users`. |
-| `classes/privacy/provider.php:621` | `mod_videotrack\privacy\provider::delete_records_for_users_in_context` | Elimina `records for users in context`. |
+| `classes/privacy/provider.php:165` | `mod_videotrack\privacy\provider::get_contexts_for_userid` | Restituisce `contexts for userid`. |
+| `classes/privacy/provider.php:204` | `mod_videotrack\privacy\provider::get_users_in_context` | Restituisce `users in context`. |
+| `classes/privacy/provider.php:237` | `mod_videotrack\privacy\provider::export_user_data` | Esporta `user data`. |
+| `classes/privacy/provider.php:590` | `mod_videotrack\privacy\provider::delete_data_for_all_users_in_context` | Elimina `data for all users in context`. |
+| `classes/privacy/provider.php:603` | `mod_videotrack\privacy\provider::delete_data_for_user` | Elimina `data for user`. |
+| `classes/privacy/provider.php:615` | `mod_videotrack\privacy\provider::delete_data_for_users` | Elimina `data for users`. |
+| `classes/privacy/provider.php:628` | `mod_videotrack\privacy\provider::delete_records_for_users_in_context` | Elimina `records for users in context`. |
 | `classes/task/cleanup_task.php:38` | `mod_videotrack\task\cleanup_task::get_name` | Restituisce `name`. |
 | `classes/task/cleanup_task.php:45` | `mod_videotrack\task\cleanup_task::execute` | Esegue il contratto del servizio `execute`. |
 | `db/upgrade.php:35` | `xmldb_videotrack_upgrade` | Implementa `xmldb videotrack upgrade`; il contratto dettagliato è nel DocBlock sorgente. |
@@ -277,118 +282,119 @@ PHP entries: **461**. AMD entries: **572**.
 | `lib.php:69` | `videotrack_whitelist_record` | Implementa `videotrack whitelist record`; il contratto dettagliato è nel DocBlock sorgente. |
 | `lib.php:94` | `videotrack_add_instance` | Implementa `videotrack add instance`; il contratto dettagliato è nel DocBlock sorgente. |
 | `lib.php:141` | `videotrack_update_instance` | Implementa `videotrack update instance`; il contratto dettagliato è nel DocBlock sorgente. |
-| `lib.php:185` | `videotrack_process_forum_fields` | Implementa `videotrack process forum fields`; il contratto dettagliato è nel DocBlock sorgente. |
-| `lib.php:204` | `videotrack_process_acknowledgement_fields` | Implementa `videotrack process acknowledgement fields`; il contratto dettagliato è nel DocBlock sorgente. |
-| `lib.php:231` | `videotrack_process_video_fields` | Implementa `videotrack process video fields`; il contratto dettagliato è nel DocBlock sorgente. |
-| `lib.php:273` | `videotrack_process_playbackspeeds_field` | Implementa `videotrack process playbackspeeds field`; il contratto dettagliato è nel DocBlock sorgente. |
-| `lib.php:302` | `videotrack_save_uploaded_video` | Implementa `videotrack save uploaded video`; il contratto dettagliato è nel DocBlock sorgente. |
-| `lib.php:323` | `videotrack_delete_upload_source_files` | Implementa `videotrack delete upload source files`; il contratto dettagliato è nel DocBlock sorgente. |
-| `lib.php:340` | `videotrack_get_upload_url` | Implementa `videotrack get upload url`; il contratto dettagliato è nel DocBlock sorgente. |
-| `lib.php:368` | `videotrack_get_module_context_from_data` | Implementa `videotrack get module context from data`; il contratto dettagliato è nel DocBlock sorgente. |
-| `lib.php:391` | `videotrack_save_poster_image` | Implementa `videotrack save poster image`; il contratto dettagliato è nel DocBlock sorgente. |
-| `lib.php:424` | `videotrack_is_valid_reaction_icon_class` | Implementa `videotrack is valid reaction icon class`; il contratto dettagliato è nel DocBlock sorgente. |
-| `lib.php:459` | `videotrack_save_reaction_definitions` | Implementa `videotrack save reaction definitions`; il contratto dettagliato è nel DocBlock sorgente. |
-| `lib.php:602` | `videotrack_user_outline` | Implementa `videotrack user outline`; il contratto dettagliato è nel DocBlock sorgente. |
-| `lib.php:631` | `videotrack_user_complete` | Implementa `videotrack user complete`; il contratto dettagliato è nel DocBlock sorgente. |
-| `lib.php:672` | `videotrack_extend_settings_navigation` | Implementa `videotrack extend settings navigation`; il contratto dettagliato è nel DocBlock sorgente. |
-| `lib.php:702` | `videotrack_extend_navigation_course` | Implementa `videotrack extend navigation course`; il contratto dettagliato è nel DocBlock sorgente. |
-| `lib.php:735` | `videotrack_get_html5controls` | Implementa `videotrack get html5controls`; il contratto dettagliato è nel DocBlock sorgente. |
-| `lib.php:751` | `videotrack_process_html5controls_field` | Implementa `videotrack process html5controls field`; il contratto dettagliato è nel DocBlock sorgente. |
-| `lib.php:782` | `videotrack_process_player_behavior_fields` | Implementa `videotrack process player behavior fields`; il contratto dettagliato è nel DocBlock sorgente. |
-| `lib.php:819` | `videotrack_get_player_width` | Implementa `videotrack get player width`; il contratto dettagliato è nel DocBlock sorgente. |
-| `lib.php:834` | `videotrack_get_rewind_step` | Implementa `videotrack get rewind step`; il contratto dettagliato è nel DocBlock sorgente. |
-| `lib.php:855` | `videotrack_get_fastforward_step` | Implementa `videotrack get fastforward step`; il contratto dettagliato è nel DocBlock sorgente. |
-| `lib.php:876` | `videotrack_get_vtt_url` | Implementa `videotrack get vtt url`; il contratto dettagliato è nel DocBlock sorgente. |
-| `lib.php:899` | `videotrack_process_captions_fields` | Implementa `videotrack process captions fields`; il contratto dettagliato è nel DocBlock sorgente. |
-| `lib.php:942` | `videotrack_process_grade_fields` | Implementa `videotrack process grade fields`; il contratto dettagliato è nel DocBlock sorgente. |
-| `lib.php:970` | `videotrack_grade_item_update` | Implementa `videotrack grade item update`; il contratto dettagliato è nel DocBlock sorgente. |
-| `lib.php:1028` | `videotrack_update_grades` | Implementa `videotrack update grades`; il contratto dettagliato è nel DocBlock sorgente. |
-| `lib.php:1040` | `videotrack_set_user_grade` | Implementa `videotrack set user grade`; il contratto dettagliato è nel DocBlock sorgente. |
-| `lib.php:1057` | `videotrack_get_user_grade` | Implementa `videotrack get user grade`; il contratto dettagliato è nel DocBlock sorgente. |
-| `lib.php:1082` | `videotrack_get_poster_url` | Implementa `videotrack get poster url`; il contratto dettagliato è nel DocBlock sorgente. |
-| `lib.php:1122` | `videotrack_delete_user_progress` | Implementa `videotrack delete user progress`; il contratto dettagliato è nel DocBlock sorgente. |
-| `lib.php:1154` | `videotrack_grade_item_delete` | Implementa `videotrack grade item delete`; il contratto dettagliato è nel DocBlock sorgente. |
-| `lib.php:1175` | `videotrack_delete_instance` | Implementa `videotrack delete instance`; il contratto dettagliato è nel DocBlock sorgente. |
-| `lib.php:1231` | `videotrack_get_coursemodule_info` | Implementa `videotrack get coursemodule info`; il contratto dettagliato è nel DocBlock sorgente. |
-| `lib.php:1252` | `videotrack_view` | Implementa `videotrack view`; il contratto dettagliato è nel DocBlock sorgente. |
-| `lib.php:1271` | `videotrack_get_completion_active_rule_descriptions` | Implementa `videotrack get completion active rule descriptions`; il contratto dettagliato è nel DocBlock sorgente. |
-| `lib.php:1309` | `videotrack_update_completion_for_user` | Implementa `videotrack update completion for user`; il contratto dettagliato è nel DocBlock sorgente. |
-| `lib.php:1325` | `videotrack_reset_course_userdata` | Implementa `videotrack reset course userdata`; il contratto dettagliato è nel DocBlock sorgente. |
-| `lib.php:1374` | `videotrack_reset_course_form_definition` | Implementa `videotrack reset course form definition`; il contratto dettagliato è nel DocBlock sorgente. |
-| `lib.php:1394` | `videotrack_reset_course_form_defaults` | Implementa `videotrack reset course form defaults`; il contratto dettagliato è nel DocBlock sorgente. |
-| `lib.php:1410` | `videotrack_resize_reaction_icon` | Implementa `videotrack resize reaction icon`; il contratto dettagliato è nel DocBlock sorgente. |
-| `lib.php:1505` | `videotrack_pluginfile` | Implementa `videotrack pluginfile`; il contratto dettagliato è nel DocBlock sorgente. |
-| `lib.php:1614` | `videotrack_recalculate_all_states` | Implementa `videotrack recalculate all states`; il contratto dettagliato è nel DocBlock sorgente. |
+| `lib.php:186` | `videotrack_process_forum_fields` | Implementa `videotrack process forum fields`; il contratto dettagliato è nel DocBlock sorgente. |
+| `lib.php:205` | `videotrack_process_acknowledgement_fields` | Implementa `videotrack process acknowledgement fields`; il contratto dettagliato è nel DocBlock sorgente. |
+| `lib.php:232` | `videotrack_process_video_fields` | Implementa `videotrack process video fields`; il contratto dettagliato è nel DocBlock sorgente. |
+| `lib.php:274` | `videotrack_process_playbackspeeds_field` | Implementa `videotrack process playbackspeeds field`; il contratto dettagliato è nel DocBlock sorgente. |
+| `lib.php:303` | `videotrack_save_uploaded_video` | Implementa `videotrack save uploaded video`; il contratto dettagliato è nel DocBlock sorgente. |
+| `lib.php:324` | `videotrack_delete_upload_source_files` | Implementa `videotrack delete upload source files`; il contratto dettagliato è nel DocBlock sorgente. |
+| `lib.php:341` | `videotrack_get_upload_url` | Implementa `videotrack get upload url`; il contratto dettagliato è nel DocBlock sorgente. |
+| `lib.php:369` | `videotrack_get_module_context_from_data` | Implementa `videotrack get module context from data`; il contratto dettagliato è nel DocBlock sorgente. |
+| `lib.php:392` | `videotrack_save_poster_image` | Implementa `videotrack save poster image`; il contratto dettagliato è nel DocBlock sorgente. |
+| `lib.php:425` | `videotrack_is_valid_reaction_icon_class` | Implementa `videotrack is valid reaction icon class`; il contratto dettagliato è nel DocBlock sorgente. |
+| `lib.php:460` | `videotrack_save_reaction_definitions` | Implementa `videotrack save reaction definitions`; il contratto dettagliato è nel DocBlock sorgente. |
+| `lib.php:603` | `videotrack_user_outline` | Implementa `videotrack user outline`; il contratto dettagliato è nel DocBlock sorgente. |
+| `lib.php:632` | `videotrack_user_complete` | Implementa `videotrack user complete`; il contratto dettagliato è nel DocBlock sorgente. |
+| `lib.php:673` | `videotrack_extend_settings_navigation` | Implementa `videotrack extend settings navigation`; il contratto dettagliato è nel DocBlock sorgente. |
+| `lib.php:703` | `videotrack_extend_navigation_course` | Implementa `videotrack extend navigation course`; il contratto dettagliato è nel DocBlock sorgente. |
+| `lib.php:736` | `videotrack_get_html5controls` | Implementa `videotrack get html5controls`; il contratto dettagliato è nel DocBlock sorgente. |
+| `lib.php:752` | `videotrack_process_html5controls_field` | Implementa `videotrack process html5controls field`; il contratto dettagliato è nel DocBlock sorgente. |
+| `lib.php:783` | `videotrack_process_player_behavior_fields` | Implementa `videotrack process player behavior fields`; il contratto dettagliato è nel DocBlock sorgente. |
+| `lib.php:820` | `videotrack_get_player_width` | Implementa `videotrack get player width`; il contratto dettagliato è nel DocBlock sorgente. |
+| `lib.php:835` | `videotrack_get_rewind_step` | Implementa `videotrack get rewind step`; il contratto dettagliato è nel DocBlock sorgente. |
+| `lib.php:856` | `videotrack_get_fastforward_step` | Implementa `videotrack get fastforward step`; il contratto dettagliato è nel DocBlock sorgente. |
+| `lib.php:877` | `videotrack_get_vtt_url` | Implementa `videotrack get vtt url`; il contratto dettagliato è nel DocBlock sorgente. |
+| `lib.php:900` | `videotrack_process_captions_fields` | Implementa `videotrack process captions fields`; il contratto dettagliato è nel DocBlock sorgente. |
+| `lib.php:943` | `videotrack_process_grade_fields` | Implementa `videotrack process grade fields`; il contratto dettagliato è nel DocBlock sorgente. |
+| `lib.php:971` | `videotrack_grade_item_update` | Implementa `videotrack grade item update`; il contratto dettagliato è nel DocBlock sorgente. |
+| `lib.php:1029` | `videotrack_update_grades` | Implementa `videotrack update grades`; il contratto dettagliato è nel DocBlock sorgente. |
+| `lib.php:1041` | `videotrack_set_user_grade` | Implementa `videotrack set user grade`; il contratto dettagliato è nel DocBlock sorgente. |
+| `lib.php:1058` | `videotrack_get_user_grade` | Implementa `videotrack get user grade`; il contratto dettagliato è nel DocBlock sorgente. |
+| `lib.php:1083` | `videotrack_get_poster_url` | Implementa `videotrack get poster url`; il contratto dettagliato è nel DocBlock sorgente. |
+| `lib.php:1123` | `videotrack_delete_user_progress` | Implementa `videotrack delete user progress`; il contratto dettagliato è nel DocBlock sorgente. |
+| `lib.php:1155` | `videotrack_grade_item_delete` | Implementa `videotrack grade item delete`; il contratto dettagliato è nel DocBlock sorgente. |
+| `lib.php:1176` | `videotrack_delete_instance` | Implementa `videotrack delete instance`; il contratto dettagliato è nel DocBlock sorgente. |
+| `lib.php:1232` | `videotrack_get_coursemodule_info` | Implementa `videotrack get coursemodule info`; il contratto dettagliato è nel DocBlock sorgente. |
+| `lib.php:1253` | `videotrack_view` | Implementa `videotrack view`; il contratto dettagliato è nel DocBlock sorgente. |
+| `lib.php:1272` | `videotrack_get_completion_active_rule_descriptions` | Implementa `videotrack get completion active rule descriptions`; il contratto dettagliato è nel DocBlock sorgente. |
+| `lib.php:1310` | `videotrack_update_completion_for_user` | Implementa `videotrack update completion for user`; il contratto dettagliato è nel DocBlock sorgente. |
+| `lib.php:1326` | `videotrack_reset_course_userdata` | Implementa `videotrack reset course userdata`; il contratto dettagliato è nel DocBlock sorgente. |
+| `lib.php:1375` | `videotrack_reset_course_form_definition` | Implementa `videotrack reset course form definition`; il contratto dettagliato è nel DocBlock sorgente. |
+| `lib.php:1395` | `videotrack_reset_course_form_defaults` | Implementa `videotrack reset course form defaults`; il contratto dettagliato è nel DocBlock sorgente. |
+| `lib.php:1411` | `videotrack_resize_reaction_icon` | Implementa `videotrack resize reaction icon`; il contratto dettagliato è nel DocBlock sorgente. |
+| `lib.php:1506` | `videotrack_pluginfile` | Implementa `videotrack pluginfile`; il contratto dettagliato è nel DocBlock sorgente. |
+| `lib.php:1615` | `videotrack_recalculate_all_states` | Implementa `videotrack recalculate all states`; il contratto dettagliato è nel DocBlock sorgente. |
 | `locallib.php:38` | `videotrack_get_config_int` | Implementa `videotrack get config int`; il contratto dettagliato è nel DocBlock sorgente. |
 | `locallib.php:57` | `videotrack_extract_videoid` | Implementa `videotrack extract videoid`; il contratto dettagliato è nel DocBlock sorgente. |
 | `locallib.php:108` | `videotrack_extract_vimeo_id` | Implementa `videotrack extract vimeo id`; il contratto dettagliato è nel DocBlock sorgente. |
 | `locallib.php:148` | `videotrack_get_playback_speeds` | Implementa `videotrack get playback speeds`; il contratto dettagliato è nel DocBlock sorgente. |
-| `locallib.php:184` | `videotrack_get_max_playback_rate` | Implementa `videotrack get max playback rate`; il contratto dettagliato è nel DocBlock sorgente. |
-| `locallib.php:197` | `videotrack_get_site_playback_speeds` | Implementa `videotrack get site playback speeds`; il contratto dettagliato è nel DocBlock sorgente. |
-| `locallib.php:216` | `videotrack_format_seconds` | Implementa `videotrack format seconds`; il contratto dettagliato è nel DocBlock sorgente. |
-| `locallib.php:234` | `videotrack_format_video_timestamp` | Implementa `videotrack format video timestamp`; il contratto dettagliato è nel DocBlock sorgente. |
-| `locallib.php:254` | `videotrack_parse_video_timestamp` | Implementa `videotrack parse video timestamp`; il contratto dettagliato è nel DocBlock sorgente. |
-| `locallib.php:294` | `videotrack_parse_report_timestamp` | Implementa `videotrack parse report timestamp`; il contratto dettagliato è nel DocBlock sorgente. |
-| `locallib.php:314` | `videotrack_build_required_reaction_notice` | Implementa `videotrack build required reaction notice`; il contratto dettagliato è nel DocBlock sorgente. |
-| `locallib.php:336` | `videotrack_get_reactions` | Implementa `videotrack get reactions`; il contratto dettagliato è nel DocBlock sorgente. |
-| `locallib.php:363` | `videotrack_reaction_icon_url` | Implementa `videotrack reaction icon url`; il contratto dettagliato è nel DocBlock sorgente. |
-| `locallib.php:404` | `videotrack_render_reaction_icon` | Implementa `videotrack render reaction icon`; il contratto dettagliato è nel DocBlock sorgente. |
-| `locallib.php:451` | `videotrack_get_fallback_reaction_emoji_catalog` | Implementa `videotrack get fallback reaction emoji catalog`; il contratto dettagliato è nel DocBlock sorgente. |
-| `locallib.php:485` | `videotrack_get_moodle_reaction_emoji_catalog` | Implementa `videotrack get moodle reaction emoji catalog`; il contratto dettagliato è nel DocBlock sorgente. |
-| `locallib.php:537` | `videotrack_get_reaction_icon_catalog` | Implementa `videotrack get reaction icon catalog`; il contratto dettagliato è nel DocBlock sorgente. |
-| `locallib.php:583` | `videotrack_get_reaction_icon_suggestions` | Implementa `videotrack get reaction icon suggestions`; il contratto dettagliato è nel DocBlock sorgente. |
-| `locallib.php:601` | `videotrack_reaction_icon_datalist` | Implementa `videotrack reaction icon datalist`; il contratto dettagliato è nel DocBlock sorgente. |
-| `locallib.php:628` | `videotrack_reaction_icon_picker` | Implementa `videotrack reaction icon picker`; il contratto dettagliato è nel DocBlock sorgente. |
-| `locallib.php:749` | `videotrack_get_all_presets` | Implementa `videotrack get all presets`; il contratto dettagliato è nel DocBlock sorgente. |
-| `locallib.php:763` | `videotrack_save_presets` | Implementa `videotrack save presets`; il contratto dettagliato è nel DocBlock sorgente. |
-| `locallib.php:773` | `videotrack_get_preset_select_options` | Implementa `videotrack get preset select options`; il contratto dettagliato è nel DocBlock sorgente. |
-| `locallib.php:788` | `videotrack_get_all_presets_for_js` | Implementa `videotrack get all presets for js`; il contratto dettagliato è nel DocBlock sorgente. |
-| `locallib.php:804` | `videotrack_require_preset_amd` | Implementa `videotrack require preset amd`; il contratto dettagliato è nel DocBlock sorgente. |
-| `locallib.php:820` | `videotrack_optional_iso_date_param` | Implementa `videotrack optional iso date param`; il contratto dettagliato è nel DocBlock sorgente. |
-| `locallib.php:831` | `videotrack_get_compatible_forum_types` | Implementa `videotrack get compatible forum types`; il contratto dettagliato è nel DocBlock sorgente. |
-| `locallib.php:841` | `videotrack_get_compatible_forums` | Implementa `videotrack get compatible forums`; il contratto dettagliato è nel DocBlock sorgente. |
-| `locallib.php:868` | `videotrack_get_compatible_forum_options` | Implementa `videotrack get compatible forum options`; il contratto dettagliato è nel DocBlock sorgente. |
-| `locallib.php:895` | `videotrack_is_compatible_forum` | Implementa `videotrack is compatible forum`; il contratto dettagliato è nel DocBlock sorgente. |
-| `locallib.php:911` | `videotrack_build_forum_subject` | Implementa `videotrack build forum subject`; il contratto dettagliato è nel DocBlock sorgente. |
-| `locallib.php:940` | `videotrack_build_replay_url` | Implementa `videotrack build replay url`; il contratto dettagliato è nel DocBlock sorgente. |
+| `locallib.php:196` | `videotrack_get_max_playback_rate` | Implementa `videotrack get max playback rate`; il contratto dettagliato è nel DocBlock sorgente. |
+| `locallib.php:209` | `videotrack_get_site_playback_speeds` | Implementa `videotrack get site playback speeds`; il contratto dettagliato è nel DocBlock sorgente. |
+| `locallib.php:228` | `videotrack_format_seconds` | Implementa `videotrack format seconds`; il contratto dettagliato è nel DocBlock sorgente. |
+| `locallib.php:246` | `videotrack_format_video_timestamp` | Implementa `videotrack format video timestamp`; il contratto dettagliato è nel DocBlock sorgente. |
+| `locallib.php:266` | `videotrack_parse_video_timestamp` | Implementa `videotrack parse video timestamp`; il contratto dettagliato è nel DocBlock sorgente. |
+| `locallib.php:306` | `videotrack_parse_report_timestamp` | Implementa `videotrack parse report timestamp`; il contratto dettagliato è nel DocBlock sorgente. |
+| `locallib.php:326` | `videotrack_build_required_reaction_notice` | Implementa `videotrack build required reaction notice`; il contratto dettagliato è nel DocBlock sorgente. |
+| `locallib.php:348` | `videotrack_get_reactions` | Implementa `videotrack get reactions`; il contratto dettagliato è nel DocBlock sorgente. |
+| `locallib.php:375` | `videotrack_reaction_icon_url` | Implementa `videotrack reaction icon url`; il contratto dettagliato è nel DocBlock sorgente. |
+| `locallib.php:416` | `videotrack_render_reaction_icon` | Implementa `videotrack render reaction icon`; il contratto dettagliato è nel DocBlock sorgente. |
+| `locallib.php:463` | `videotrack_get_fallback_reaction_emoji_catalog` | Implementa `videotrack get fallback reaction emoji catalog`; il contratto dettagliato è nel DocBlock sorgente. |
+| `locallib.php:497` | `videotrack_get_moodle_reaction_emoji_catalog` | Implementa `videotrack get moodle reaction emoji catalog`; il contratto dettagliato è nel DocBlock sorgente. |
+| `locallib.php:549` | `videotrack_get_reaction_icon_catalog` | Implementa `videotrack get reaction icon catalog`; il contratto dettagliato è nel DocBlock sorgente. |
+| `locallib.php:595` | `videotrack_get_reaction_icon_suggestions` | Implementa `videotrack get reaction icon suggestions`; il contratto dettagliato è nel DocBlock sorgente. |
+| `locallib.php:613` | `videotrack_reaction_icon_datalist` | Implementa `videotrack reaction icon datalist`; il contratto dettagliato è nel DocBlock sorgente. |
+| `locallib.php:640` | `videotrack_reaction_icon_picker` | Implementa `videotrack reaction icon picker`; il contratto dettagliato è nel DocBlock sorgente. |
+| `locallib.php:761` | `videotrack_get_all_presets` | Implementa `videotrack get all presets`; il contratto dettagliato è nel DocBlock sorgente. |
+| `locallib.php:775` | `videotrack_save_presets` | Implementa `videotrack save presets`; il contratto dettagliato è nel DocBlock sorgente. |
+| `locallib.php:785` | `videotrack_get_preset_select_options` | Implementa `videotrack get preset select options`; il contratto dettagliato è nel DocBlock sorgente. |
+| `locallib.php:800` | `videotrack_get_all_presets_for_js` | Implementa `videotrack get all presets for js`; il contratto dettagliato è nel DocBlock sorgente. |
+| `locallib.php:816` | `videotrack_require_preset_amd` | Implementa `videotrack require preset amd`; il contratto dettagliato è nel DocBlock sorgente. |
+| `locallib.php:832` | `videotrack_optional_iso_date_param` | Implementa `videotrack optional iso date param`; il contratto dettagliato è nel DocBlock sorgente. |
+| `locallib.php:843` | `videotrack_get_compatible_forum_types` | Implementa `videotrack get compatible forum types`; il contratto dettagliato è nel DocBlock sorgente. |
+| `locallib.php:853` | `videotrack_get_compatible_forums` | Implementa `videotrack get compatible forums`; il contratto dettagliato è nel DocBlock sorgente. |
+| `locallib.php:880` | `videotrack_get_compatible_forum_options` | Implementa `videotrack get compatible forum options`; il contratto dettagliato è nel DocBlock sorgente. |
+| `locallib.php:907` | `videotrack_is_compatible_forum` | Implementa `videotrack is compatible forum`; il contratto dettagliato è nel DocBlock sorgente. |
+| `locallib.php:923` | `videotrack_build_forum_subject` | Implementa `videotrack build forum subject`; il contratto dettagliato è nel DocBlock sorgente. |
+| `locallib.php:952` | `videotrack_build_replay_url` | Implementa `videotrack build replay url`; il contratto dettagliato è nel DocBlock sorgente. |
 | `mod_form.php:40` | `mod_videotrack_mod_form::definition` | Implementa `definition`; il contratto dettagliato è nel DocBlock sorgente. |
-| `mod_form.php:1010` | `apply_default_section_expansion` | Implementa `apply default section expansion`; il contratto dettagliato è nel DocBlock sorgente. |
-| `mod_form.php:1053` | `require_filepicker_accept_filter` | Implementa `require filepicker accept filter`; il contratto dettagliato è nel DocBlock sorgente. |
-| `mod_form.php:1099` | `add_reaction_elements` | Implementa `add reaction elements`; il contratto dettagliato è nel DocBlock sorgente. |
-| `mod_form.php:1273` | `get_reaction_repeat_count` | Restituisce `reaction repeat count`. |
-| `mod_form.php:1298` | `add_completion_rules` | Implementa `add completion rules`; il contratto dettagliato è nel DocBlock sorgente. |
-| `mod_form.php:1341` | `completion_rule_enabled` | Implementa `completion rule enabled`; il contratto dettagliato è nel DocBlock sorgente. |
-| `mod_form.php:1353` | `data_preprocessing` | Implementa `data preprocessing`; il contratto dettagliato è nel DocBlock sorgente. |
-| `mod_form.php:1603` | `draft_area_contains_only_reaction_images` | Implementa `draft area contains only reaction images`; il contratto dettagliato è nel DocBlock sorgente. |
-| `mod_form.php:1639` | `draft_area_contains_only_vtt` | Implementa `draft area contains only vtt`; il contratto dettagliato è nel DocBlock sorgente. |
-| `mod_form.php:1671` | `validation` | Implementa `validation`; il contratto dettagliato è nel DocBlock sorgente. |
+| `mod_form.php:1020` | `mod_videotrack_mod_form::apply_default_section_expansion` | Implementa `apply default section expansion`; il contratto dettagliato è nel DocBlock sorgente. |
+| `mod_form.php:1063` | `mod_videotrack_mod_form::require_filepicker_accept_filter` | Implementa `require filepicker accept filter`; il contratto dettagliato è nel DocBlock sorgente. |
+| `mod_form.php:1109` | `mod_videotrack_mod_form::add_reaction_elements` | Implementa `add reaction elements`; il contratto dettagliato è nel DocBlock sorgente. |
+| `mod_form.php:1283` | `mod_videotrack_mod_form::get_reaction_repeat_count` | Restituisce `reaction repeat count`. |
+| `mod_form.php:1308` | `mod_videotrack_mod_form::add_completion_rules` | Implementa `add completion rules`; il contratto dettagliato è nel DocBlock sorgente. |
+| `mod_form.php:1351` | `mod_videotrack_mod_form::completion_rule_enabled` | Implementa `completion rule enabled`; il contratto dettagliato è nel DocBlock sorgente. |
+| `mod_form.php:1363` | `mod_videotrack_mod_form::data_preprocessing` | Implementa `data preprocessing`; il contratto dettagliato è nel DocBlock sorgente. |
+| `mod_form.php:1613` | `mod_videotrack_mod_form::draft_area_contains_only_reaction_images` | Implementa `draft area contains only reaction images`; il contratto dettagliato è nel DocBlock sorgente. |
+| `mod_form.php:1649` | `mod_videotrack_mod_form::draft_area_contains_only_vtt` | Implementa `draft area contains only vtt`; il contratto dettagliato è nel DocBlock sorgente. |
+| `mod_form.php:1681` | `mod_videotrack_mod_form::validation` | Implementa `validation`; il contratto dettagliato è nel DocBlock sorgente. |
 | `report.php:36` | `videotrack_report_user_label` | Implementa `videotrack report user label`; il contratto dettagliato è nel DocBlock sorgente. |
 | `report.php:54` | `videotrack_report_date_to_timestamp` | Implementa `videotrack report date to timestamp`; il contratto dettagliato è nel DocBlock sorgente. |
 | `report.php:76` | `videotrack_report_optional_time_param` | Implementa `videotrack report optional time param`; il contratto dettagliato è nel DocBlock sorgente. |
 | `report.php:128` | `videotrack_report_duration_filter` | Implementa `videotrack report duration filter`; il contratto dettagliato è nel DocBlock sorgente. |
-| `report.php:190` | `videotrack_report_analytics_scope_condition` | Implementa `videotrack report analytics scope condition`; il contratto dettagliato è nel DocBlock sorgente. |
-| `report.php:235` | `videotrack_report_acknowledgement_scope_condition` | Implementa `videotrack report acknowledgement scope condition`; il contratto dettagliato è nel DocBlock sorgente. |
-| `report.php:282` | `videotrack_report_tabs` | Implementa `videotrack report tabs`; il contratto dettagliato è nel DocBlock sorgente. |
-| `report.php:325` | `videotrack_report_analytics_interval` | Implementa `videotrack report analytics interval`; il contratto dettagliato è nel DocBlock sorgente. |
-| `report.php:339` | `videotrack_report_render_analytics_heatmap` | Implementa `videotrack report render analytics heatmap`; il contratto dettagliato è nel DocBlock sorgente. |
-| `report.php:464` | `videotrack_report_render_analytics_methodology` | Implementa `videotrack report render analytics methodology`; il contratto dettagliato è nel DocBlock sorgente. |
-| `report.php:524` | `videotrack_report_render_privacy_alert` | Implementa `videotrack report render privacy alert`; il contratto dettagliato è nel DocBlock sorgente. |
-| `report.php:551` | `videotrack_report_render_heatmap_legend` | Implementa `videotrack report render heatmap legend`; il contratto dettagliato è nel DocBlock sorgente. |
-| `report.php:596` | `videotrack_report_render_analytics_download` | Implementa `videotrack report render analytics download`; il contratto dettagliato è nel DocBlock sorgente. |
-| `report.php:653` | `videotrack_report_render_reaction_clusters` | Implementa `videotrack report render reaction clusters`; il contratto dettagliato è nel DocBlock sorgente. |
-| `report.php:688` | `videotrack_report_render_reaction_summary` | Implementa `videotrack report render reaction summary`; il contratto dettagliato è nel DocBlock sorgente. |
-| `report.php:711` | `videotrack_report_render_bookmark_summary` | Implementa `videotrack report render bookmark summary`; il contratto dettagliato è nel DocBlock sorgente. |
-| `report.php:778` | `videotrack_report_render_acknowledgement_summary` | Implementa `videotrack report render acknowledgement summary`; il contratto dettagliato è nel DocBlock sorgente. |
-| `report.php:886` | `videotrack_report_render_integrity_summary` | Implementa `videotrack report render integrity summary`; il contratto dettagliato è nel DocBlock sorgente. |
-| `report.php:977` | `videotrack_report_render_analytics_retention` | Implementa `videotrack report render analytics retention`; il contratto dettagliato è nel DocBlock sorgente. |
+| `report.php:191` | `videotrack_report_analytics_scope_condition` | Implementa `videotrack report analytics scope condition`; il contratto dettagliato è nel DocBlock sorgente. |
+| `report.php:258` | `videotrack_report_acknowledgement_scope_condition` | Implementa `videotrack report acknowledgement scope condition`; il contratto dettagliato è nel DocBlock sorgente. |
+| `report.php:326` | `videotrack_report_tabs` | Implementa `videotrack report tabs`; il contratto dettagliato è nel DocBlock sorgente. |
+| `report.php:369` | `videotrack_report_analytics_interval` | Implementa `videotrack report analytics interval`; il contratto dettagliato è nel DocBlock sorgente. |
+| `report.php:383` | `videotrack_report_render_analytics_heatmap` | Implementa `videotrack report render analytics heatmap`; il contratto dettagliato è nel DocBlock sorgente. |
+| `report.php:508` | `videotrack_report_render_analytics_methodology` | Implementa `videotrack report render analytics methodology`; il contratto dettagliato è nel DocBlock sorgente. |
+| `report.php:568` | `videotrack_report_render_privacy_alert` | Implementa `videotrack report render privacy alert`; il contratto dettagliato è nel DocBlock sorgente. |
+| `report.php:595` | `videotrack_report_render_heatmap_legend` | Implementa `videotrack report render heatmap legend`; il contratto dettagliato è nel DocBlock sorgente. |
+| `report.php:640` | `videotrack_report_render_analytics_download` | Implementa `videotrack report render analytics download`; il contratto dettagliato è nel DocBlock sorgente. |
+| `report.php:697` | `videotrack_report_render_reaction_clusters` | Implementa `videotrack report render reaction clusters`; il contratto dettagliato è nel DocBlock sorgente. |
+| `report.php:732` | `videotrack_report_render_reaction_summary` | Implementa `videotrack report render reaction summary`; il contratto dettagliato è nel DocBlock sorgente. |
+| `report.php:755` | `videotrack_report_render_bookmark_summary` | Implementa `videotrack report render bookmark summary`; il contratto dettagliato è nel DocBlock sorgente. |
+| `report.php:822` | `videotrack_report_render_acknowledgement_summary` | Implementa `videotrack report render acknowledgement summary`; il contratto dettagliato è nel DocBlock sorgente. |
+| `report.php:930` | `videotrack_report_render_integrity_summary` | Implementa `videotrack report render integrity summary`; il contratto dettagliato è nel DocBlock sorgente. |
+| `report.php:1021` | `videotrack_report_render_analytics_retention` | Implementa `videotrack report render analytics retention`; il contratto dettagliato è nel DocBlock sorgente. |
 | `reports_course.php:35` | `videotrack_course_report_count_cell` | Implementa `videotrack course report count cell`; il contratto dettagliato è nel DocBlock sorgente. |
 | `reports_course.php:58` | `videotrack_course_report_percentage_cell` | Implementa `videotrack course report percentage cell`; il contratto dettagliato è nel DocBlock sorgente. |
 | `reports_course.php:99` | `videotrack_course_report_drop_cell` | Implementa `videotrack course report drop cell`; il contratto dettagliato è nel DocBlock sorgente. |
 | `tests/acknowledgement_test.php:36` | `mod_videotrack\acknowledgement_test::test_statement_hash_versions_the_statement_content` | Verifica tramite PHPUnit `statement hash versions the statement content`. |
 | `tests/acknowledgement_test.php:58` | `mod_videotrack\acknowledgement_test::test_video_end_requirement_uses_persisted_intervals` | Verifica tramite PHPUnit `video end requirement uses persisted intervals`. |
 | `tests/acknowledgement_test.php:83` | `mod_videotrack\acknowledgement_test::test_progress_snapshot_uses_unique_coverage` | Verifica tramite PHPUnit `progress snapshot uses unique coverage`. |
-| `tests/acknowledgement_test.php:101` | `mod_videotrack\acknowledgement_test::test_enabled_state_requires_nonempty_visible_text` | Verifica tramite PHPUnit `enabled state requires nonempty visible text`. |
-| `tests/acknowledgement_test.php:121` | `mod_videotrack\acknowledgement_test::test_analytics_summary_preserves_legacy_and_privacy_rules` | Verifica tramite PHPUnit `analytics summary preserves legacy and privacy rules`. |
+| `tests/acknowledgement_test.php:101` | `mod_videotrack\acknowledgement_test::test_video_end_requires_teacher_configured_duration` | Una durata storica lato stato/client non può sbloccare la presa visione a fine video senza durata verificata configurata dal docente. |
+| `tests/acknowledgement_test.php:126` | `mod_videotrack\acknowledgement_test::test_enabled_state_requires_nonempty_visible_text` | Verifica tramite PHPUnit `enabled state requires nonempty visible text`. |
+| `tests/acknowledgement_test.php:146` | `mod_videotrack\acknowledgement_test::test_analytics_summary_preserves_legacy_and_privacy_rules` | Verifica tramite PHPUnit `analytics summary preserves legacy and privacy rules`. |
 | `tests/admin_settings_test.php:40` | `mod_videotrack\admin_settings_test::setUp` | Implementa `setUp`; il contratto dettagliato è nel DocBlock sorgente. |
 | `tests/admin_settings_test.php:50` | `mod_videotrack\admin_settings_test::test_nonnegative_int_validation_accepts_zero_and_rejects_invalid_values` | Verifica tramite PHPUnit `nonnegative int validation accepts zero and rejects invalid values`. |
 | `tests/admin_settings_test.php:63` | `mod_videotrack\admin_settings_test::test_int_range_validation_enforces_configured_bounds` | Verifica tramite PHPUnit `int range validation enforces configured bounds`. |
@@ -450,10 +456,10 @@ PHP entries: **461**. AMD entries: **572**.
 | `tests/locallib_test.php:129` | `mod_videotrack\locallib_test::test_get_config_int_preserves_zero_and_clamps_values` | Verifica tramite PHPUnit `get config int preserves zero and clamps values`. |
 | `tests/locallib_test.php:147` | `mod_videotrack\locallib_test::test_get_config_int_rejects_invalid_bounds` | Verifica tramite PHPUnit `get config int rejects invalid bounds`. |
 | `tests/locallib_test.php:157` | `mod_videotrack\locallib_test::test_get_playback_speeds_filters_and_applies_site_cap` | Verifica tramite PHPUnit `get playback speeds filters and applies site cap`. |
-| `tests/locallib_test.php:172` | `mod_videotrack\locallib_test::test_compatible_forum_types_exclude_single_use_forums` | Verifica tramite PHPUnit `compatible forum types exclude single use forums`. |
-| `tests/locallib_test.php:181` | `mod_videotrack\locallib_test::test_build_replay_url_applies_window_and_duration` | Verifica tramite PHPUnit `build replay url applies window and duration`. |
-| `tests/locallib_test.php:195` | `mod_videotrack\locallib_test::test_build_forum_subject_replaces_supported_placeholders` | Verifica tramite PHPUnit `build forum subject replaces supported placeholders`. |
-| `tests/locallib_test.php:209` | `mod_videotrack\locallib_test::test_build_forum_subject_uses_default_template` | Verifica tramite PHPUnit `build forum subject uses default template`. |
+| `tests/locallib_test.php:178` | `mod_videotrack\locallib_test::test_compatible_forum_types_exclude_single_use_forums` | Verifica tramite PHPUnit `compatible forum types exclude single use forums`. |
+| `tests/locallib_test.php:187` | `mod_videotrack\locallib_test::test_build_replay_url_applies_window_and_duration` | Verifica tramite PHPUnit `build replay url applies window and duration`. |
+| `tests/locallib_test.php:201` | `mod_videotrack\locallib_test::test_build_forum_subject_replaces_supported_placeholders` | Verifica tramite PHPUnit `build forum subject replaces supported placeholders`. |
+| `tests/locallib_test.php:215` | `mod_videotrack\locallib_test::test_build_forum_subject_uses_default_template` | Verifica tramite PHPUnit `build forum subject uses default template`. |
 | `tests/save_bookmark_test.php:37` | `mod_videotrack\save_bookmark_test::test_execute_parameters_uses_supported_moodle_parameter_types` | Verifica tramite PHPUnit `execute parameters uses supported moodle parameter types`. |
 | `tests/save_integrity_event_test.php:37` | `mod_videotrack\save_integrity_event_test::test_execute_parameters_uses_supported_moodle_parameter_types` | Verifica tramite PHPUnit `execute parameters uses supported moodle parameter types`. |
 | `tests/save_note_test.php:37` | `mod_videotrack\save_note_test::test_execute_parameters_uses_supported_moodle_parameter_types` | Verifica tramite PHPUnit `execute parameters uses supported moodle parameter types`. |
@@ -468,7 +474,10 @@ PHP entries: **461**. AMD entries: **572**.
 | `tests/tracker_test.php:91` | `mod_videotrack\tracker_test::test_simplify_intervals_never_overestimates_coverage` | Verifica tramite PHPUnit `simplify intervals never overestimates coverage`. |
 | `tests/tracker_test.php:108` | `mod_videotrack\tracker_test::test_aggregate_segments_rebuilds_state_values` | Verifica tramite PHPUnit `aggregate segments rebuilds state values`. |
 | `tests/tracker_test.php:146` | `mod_videotrack\tracker_test::test_cap_intervals_limits_count_and_preserves_order` | Verifica tramite PHPUnit `cap intervals limits count and preserves order`. |
-| `tests/tracker_test.php:165` | `mod_videotrack\tracker_test::test_watched_time_validation_uses_aggregate_state_fallback` | Verifica tramite PHPUnit `watched time validation uses aggregate state fallback`. |
+| `tests/tracker_test.php:165` | `mod_videotrack\tracker_test::test_server_credit_budget_is_cumulative` | Verifica che aumentare la frequenza delle richieste non rigeneri il credito cumulativo server. |
+| `tests/tracker_test.php:199` | `mod_videotrack\tracker_test::test_forward_interval_guard_rejects_unwatched_jump` | Verifica che il server rifiuti salti in avanti quando il seek in avanti è disabilitato. |
+| `tests/tracker_test.php:212` | `mod_videotrack\tracker_test::test_watched_time_validation_ignores_unvalidated_raw_segments` | Funzione o metodo nominato; vedere DocBlock sorgente e chiamanti per il contratto dettagliato. |
+| `tests/tracker_test.php:240` | `mod_videotrack\tracker_test::test_watched_time_validation_uses_aggregate_state_fallback` | Verifica tramite PHPUnit `watched time validation uses aggregate state fallback`. |
 
 ## Callable AMD nominati
 
@@ -513,8 +522,8 @@ PHP entries: **461**. AMD entries: **572**.
 | `amd/src/core/adapter.js:669` | `seek` | Callable `seek` del modulo; JSDoc e chiamanti definiscono parametri ed effetti. |
 | `amd/src/core/api.js:61` | `call` | Callable `call` del modulo; JSDoc e chiamanti definiscono parametri ed effetti. |
 | `amd/src/core/api.js:87` | `attemptRequest` | Callable `attemptRequest` del modulo; JSDoc e chiamanti definiscono parametri ed effetti. |
-| `amd/src/core/api.js:135` | `buildSegmentArgs` | Callable `buildSegmentArgs` del modulo; JSDoc e chiamanti definiscono parametri ed effetti. |
-| `amd/src/core/api.js:171` | `saveSegment` | Callable `saveSegment` del modulo; JSDoc e chiamanti definiscono parametri ed effetti. |
+| `amd/src/core/api.js:138` | `buildSegmentArgs` | Callable `buildSegmentArgs` del modulo; JSDoc e chiamanti definiscono parametri ed effetti. |
+| `amd/src/core/api.js:174` | `saveSegment` | Callable `saveSegment` del modulo; JSDoc e chiamanti definiscono parametri ed effetti. |
 | `amd/src/core/api/error.js:29` | `getNetworkState` | Callable `getNetworkState` del modulo; JSDoc e chiamanti definiscono parametri ed effetti. |
 | `amd/src/core/api/error.js:41` | `isBrowserOffline` | Callable `isBrowserOffline` del modulo; JSDoc e chiamanti definiscono parametri ed effetti. |
 | `amd/src/core/api/error.js:51` | `getErrorCode` | Callable `getErrorCode` del modulo; JSDoc e chiamanti definiscono parametri ed effetti. |

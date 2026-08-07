@@ -1,4 +1,4 @@
-# Audit di consolidamento — VideoTrack 1.6.22
+# Audit di consolidamento — VideoTrack 1.6.23
 
 ## Scopo
 
@@ -27,4 +27,4 @@ Nella 1.6.21 il Grunt AMD del maintainer era completato, ma PHPUnit aveva un fai
 
 ## Limite di validazione
 
-I controlli statici e di applicazione patch sono registrati nel report. PHPUnit, PHPCS, browser, upgrade DB e backup/restore reali della 1.6.22 devono essere eseguiti nell’ambiente Moodle del maintainer prima di considerare il consolidamento pienamente validato.
+Sulla baseline 1.6.22 Grunt, PHPCS e PHPUnit lato maintainer sono stati completati con esito positivo prima del ciclo di hardening 1.6.23. Browser, upgrade DB reale e backup/restore restano validazioni runtime e non vengono dichiarati superati da questo audit statico.

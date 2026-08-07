@@ -1,17 +1,17 @@
 # Documentation audit
 
-Baseline: VideoTrack **1.6.22** (`2026060437`).
+Baseline: VideoTrack **1.6.23** (`2026060438`).
 
 ## Coverage
 
-- Non-documentation files inventoried: **233/233**.
-- Named PHP functions/methods inventoried: **461**.
+- Non-documentation files inventoried: **234/234**.
+- Named PHP functions/methods inventoried: **469**.
 - Named AMD callables detected and inventoried: **572**.
 - XMLDB tables documented: **7**.
 - Site-setting keys documented: **57**.
 - Player configuration keys documented: **128**.
 - AJAX services documented: **8**.
-- Language packs: eight packs with the same 944-key contract at consolidation start; translated copied-English operational strings were replaced while technical/proper terms may legitimately remain identical.
+- Language packs: eight packs with the same 952-key contract at consolidation start; translated copied-English operational strings were replaced while technical/proper terms may legitimately remain identical.
 - Root overviews: `README.md` (English) and `README_IT.md` (Italian).
 - Root privacy summaries: `PRIVACY.md` and `PRIVACY_IT.md`.
 

@@ -160,6 +160,81 @@ final class tracker_test extends advanced_testcase {
     }
 
     /**
+     * Server credit budget is cumulative and is not replenished by same-second request frequency.
+     */
+    public function test_server_credit_budget_is_cumulative(): void {
+        $first = tracker::advance_server_credit_budget(0, 0.0, 0.0, 100, 30, 1.0, 20.0);
+        $this->assertNotNull($first);
+        $this->assertSame(32.0, $first['budget']);
+        $this->assertSame(20.0, $first['credited']);
+
+        $sameSecond = tracker::advance_server_credit_budget(
+            $first['lastactivity'],
+            $first['budget'],
+            $first['credited'],
+            100,
+            30,
+            1.0,
+            13.0
+        );
+        $this->assertNull($sameSecond);
+
+        $afterFiveSeconds = tracker::advance_server_credit_budget(
+            $first['lastactivity'],
+            $first['budget'],
+            $first['credited'],
+            105,
+            30,
+            1.0,
+            13.0
+        );
+        $this->assertNotNull($afterFiveSeconds);
+        $this->assertSame(37.0, $afterFiveSeconds['budget']);
+        $this->assertSame(33.0, $afterFiveSeconds['credited']);
+    }
+
+    /**
+     * Disabled forward seeking rejects direct jumps beyond the watched frontier.
+     */
+    public function test_forward_interval_guard_rejects_unwatched_jump(): void {
+        $state = (object)[
+            'lastposition' => 20.0,
+            'intervaljson' => '[[0,20]]',
+        ];
+        $this->assertTrue(tracker::forward_interval_allowed($state, [20.5, 25.0], false));
+        $this->assertFalse(tracker::forward_interval_allowed($state, [60.0, 61.0], false));
+        $this->assertTrue(tracker::forward_interval_allowed($state, [60.0, 61.0], true));
+    }
+
+    /**
+     * Legacy or restored unvalidated raw segments cannot authorise new interactions.
+     */
+    public function test_watched_time_validation_ignores_unvalidated_raw_segments(): void {
+        global $DB;
+
+        $this->resetAfterTest();
+        $DB->insert_record('videotrack_seg', (object)[
+            'videotrackid' => 998,
+            'courseid' => 1,
+            'cmid' => 1,
+            'userid' => 123,
+            'videoid' => 'test-video',
+            'sessionid' => 'legacy-session',
+            'wallclockstart' => time() - 5,
+            'wallclockend' => time(),
+            'videotimestart' => 0,
+            'videotimeend' => 60,
+            'playbackrate' => 1.0,
+            'endreason' => 'heartbeat',
+            'servervalidated' => 0,
+            'timecreated' => time(),
+        ]);
+
+        set_config('strictsessionvalidation', 0, 'mod_videotrack');
+        $this->assertFalse(tracker::has_watched_videotime(998, 123, 'legacy-session', 30.0));
+    }
+
+    /**
      * Watched-time validation falls back to persisted aggregate intervals.
      */
     public function test_watched_time_validation_uses_aggregate_state_fallback(): void {

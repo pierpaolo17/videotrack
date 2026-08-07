@@ -2,7 +2,7 @@
 
 VideoTrack is a Moodle activity module for delivering and tracking HTML5/uploaded, YouTube and Vimeo videos. It combines privacy-aware viewing analytics with optional study tools, completion rules and teacher reporting.
 
-Current release documented by this tree: **1.6.22**. Supported Moodle branches: **5.0–5.3**.
+Current release documented by this tree: **1.6.23**. Supported Moodle branches: **5.0–5.3**.
 
 Italian overview: [`README_IT.md`](README_IT.md)
 Privacy summary: [`PRIVACY.md`](PRIVACY.md) / [`PRIVACY_IT.md`](PRIVACY_IT.md)
@@ -25,7 +25,7 @@ Technical documentation: [`docs/en/00_INDEX.md`](docs/en/00_INDEX.md) / [`docs/i
 
 ## Privacy and accessibility principles
 
-VideoTrack records only the data required by enabled features. Private note text and bookmark labels remain visible only to their owner. Teacher analytics use aggregates and apply the configured minimum-user threshold. Integrity signals are diagnostic, not proof of misconduct, and must not be used as the sole basis for grading or disciplinary action.
+VideoTrack records only the data required by enabled features. Bookmark labels remain visible only to their owner. Personal note text is visible to its owner and may be viewed/exported by authorised report viewers; note text is excluded from aggregate Analytics. Teacher analytics use aggregates and apply the configured minimum-user threshold. Integrity signals are diagnostic, not proof of misconduct, and must not be used as the sole basis for grading or disciplinary action.
 
 The default focus policy pauses only when the video page is genuinely hidden. Window-focus loss is treated more cautiously to reduce false positives for screen readers, password managers, browser chrome and operating-system dialogs. Player controls, status regions, transcript navigation and poster actions are designed for keyboard and assistive-technology use. Browser and external-provider limitations are documented rather than presented as guarantees.
 

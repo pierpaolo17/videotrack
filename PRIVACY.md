@@ -8,8 +8,8 @@ Italian version: [`PRIVACY_IT.md`](PRIVACY_IT.md).
 
 VideoTrack may store the following records when the corresponding feature is used:
 
-- **Viewing segments:** user, activity/course identifiers, session identifier, provider/video identifier, video start/end, wall-clock start/end, playback rate and creation time.
-- **Aggregated learner state:** duration, last position, merged watched intervals, unique-viewed seconds, completion state and timestamps.
+- **Viewing segments:** user, activity/course identifiers, session identifier, provider/video identifier, video start/end, diagnostic client wall-clock start/end, validated playback rate, server-validation flag and creation time.
+- **Aggregated learner state:** teacher-authoritative duration, last position, merged watched intervals, unique-viewed seconds, completion state, bounded server credit-guard counters/timestamp and normal record timestamps.
 - **Reactions:** configured reaction key, video time, playback rate, active/deleted state and timestamps.
 - **Personal notes:** owner, private text, watched video time, playback rate, active/deleted state and timestamps.
 - **Private bookmarks:** owner, private label, watched video time, playback rate, active/deleted state and timestamps.
@@ -21,6 +21,7 @@ Uploaded source video, poster, captions, transcript and chapter files are stored
 ## Visibility boundaries
 
 - A learner can access only their own notes and bookmark labels.
+- Authorised report viewers may read/export personal note text when the notes feature is enabled and Moodle enrolment/group scope permits access; bookmark labels remain owner-only.
 - Teachers may see per-student progress where they hold the report capability and group access permits it.
 - Analytics use aggregates and apply `analyticsminusers` independently to viewing, reaction, bookmark, integrity and acknowledgement populations where applicable.
 - Private note text and bookmark labels are never exposed in teacher analytics.
@@ -53,7 +54,7 @@ Sites should choose the shortest retention period compatible with their educatio
 
 ## Backup and restore
 
-Moodle backup includes activity configuration and files. User records are included only when user data is requested. Restore remaps activity, course-module and user identifiers. Backups containing user data must be protected according to the same policy as the live Moodle database.
+Moodle backup includes activity configuration and files. User records are included only when user data is requested. Restore remaps activity, course-module and user identifiers. Runtime playback-credit counters are deliberately excluded from backup payloads and reset on restore so unused anti-tampering credit cannot move to a copied course. Backups containing user data must be protected according to the same policy as the live Moodle database.
 
 ## CSV and data-format exports
 

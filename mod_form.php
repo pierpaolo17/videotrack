@@ -133,6 +133,16 @@ class mod_videotrack_mod_form extends moodleform_mod {
 
         $mform->hideIf('videofile_notice', 'videosource', 'neq', 'upload');
 
+        $mform->addElement(
+            'text',
+            'durationseconds',
+            get_string('durationseconds', 'mod_videotrack'),
+            ['size' => 10]
+        );
+        $mform->setType('durationseconds', PARAM_FLOAT);
+        $mform->setDefault('durationseconds', 0);
+        $mform->addHelpButton('durationseconds', 'durationseconds', 'mod_videotrack');
+
         // Player settings locked when teacher lacks overrideplayersettings.
         if (!$canoverrideplayer) {
             $mform->addElement(
@@ -1858,6 +1868,16 @@ JS);
             } else if (!videotrack_is_compatible_forum((int)$COURSE->id, $forumid)) {
                 $errors['linkedforumid'] = get_string('forum:errorinvaliddestination', 'mod_videotrack');
             }
+        }
+
+        $durationseconds = isset($data['durationseconds']) ? (float)$data['durationseconds'] : 0.0;
+        if (!is_finite($durationseconds) || $durationseconds < 0 || $durationseconds > 86400) {
+            $errors['durationseconds'] = get_string('durationseconds_invalid', 'mod_videotrack');
+        }
+        $requiresduration = !empty($data['completionpercent'])
+            || (!empty($data['acknowledgementenabled']) && (int)($data['acknowledgementtiming'] ?? 0) === 1);
+        if ($requiresduration && $durationseconds <= 0) {
+            $errors['durationseconds'] = get_string('durationseconds_required', 'mod_videotrack');
         }
 
         return $errors;

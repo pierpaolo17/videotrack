@@ -30,7 +30,7 @@ Course-module context and Moodle capabilities are authoritative. Group visibilit
 
 ## Privacy architecture
 
-Collection is feature-gated. Teacher Analytics consume aggregates and apply independent minimum-user thresholds. Private note/bookmark text is owner-only. Privacy export streams large collections in bounded chunks. Erasure, reset, context deletion, retention and backup/restore cover every user-data table.
+Collection is feature-gated. Teacher Analytics consume aggregates and apply independent minimum-user thresholds. Bookmark labels are owner-only. Personal note text is visible to the owner and may be visible/exportable to authorised report viewers when notes are enabled; note text is excluded from aggregate Analytics. Privacy export streams large collections in bounded chunks. Erasure, reset, context deletion, retention and backup/restore cover every user-data table.
 
 ## Accessibility architecture
 
