@@ -26,4 +26,8 @@ La precedente dichiarazione `CoreCourseModuleDelegate` incompleta è stata rimos
 
 ## Nota di upgrade
 
-Durante l’upgrade da release precedenti alla 1.6.23, il progresso aggregato di visione viene azzerato per tutti gli stati learner esistenti perché i segmenti storici non erano protetti dal nuovo guard autorevole lato server. I segmenti grezzi storici restano conservati per audit/privacy e sono esplicitamente non validati. Il completamento automatico Moodle viene quindi ricalcolato tramite l’API core, preservando le condizioni ancora valide basate su reazioni/presa visione e gli override manuali. Prima di rendere nuovamente autorevoli completamento percentuale o presa visione a fine video va configurata la durata reale verificata dal docente.
+Il primo pacchetto 1.6.23 tentava di azzerare il progresso aggregato, conservare i segmenti storici e ricalcolare la completion Moodle tramite API runtime. Quel percorso di upgrade è sostituito dalla correzione 1.6.24 descritta di seguito e non deve essere considerato la procedura corrente.
+
+## Correzione upgrade nella 1.6.24
+
+La release 1.6.24 sostituisce il ricalcolo runtime della completion originario con un cleanup idempotente basato esclusivamente sul database. Poiché il plugin non era mai stato usato in produzione, vengono eliminati intenzionalmente i dati runtime learner precedenti al guard e le righe di completamento dei moduli VideoTrack. Restano conservati configurazione delle attività, file caricati e definizioni delle reazioni configurate. Il blocco schema 1.6.23 è ora idempotente e il cleanup 1.6.24 può riprendere in sicurezza dopo un upgrade completato solo parzialmente.

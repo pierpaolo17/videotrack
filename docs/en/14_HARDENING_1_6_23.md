@@ -26,4 +26,8 @@ The previous incomplete `CoreCourseModuleDelegate` declaration was removed. Nati
 
 ## Upgrade note
 
-When upgrading from pre-1.6.23 releases, aggregate viewed progress is reset for all existing learner states because historical segments were not protected by the server-authoritative guard. Raw historical segment rows are retained for audit/privacy purposes and remain explicitly unvalidated. Moodle automatic completion is then recalculated through the core completion API, preserving still-valid reaction/acknowledgement conditions and manual overrides. Configure the real teacher-verified duration before percentage completion or end-gated acknowledgement can become authoritative again.
+The first 1.6.23 package attempted to reset aggregate progress, retain raw historical segments and recalculate Moodle completion through runtime APIs. That upgrade path is superseded by the 1.6.24 correction below and must not be treated as the current procedure.
+
+## Upgrade correction in 1.6.24
+
+Release 1.6.24 replaces the original completion-runtime recalculation with a resumable database-only cleanup. Because the plugin had not been used in production, pre-guard learner runtime rows and VideoTrack course-module completion rows are intentionally removed. Activity configuration, uploaded files and configured reaction definitions are preserved. The 1.6.23 schema block is now idempotent and the 1.6.24 cleanup can safely resume after a partially completed upgrade.
