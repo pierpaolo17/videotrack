@@ -1,8 +1,8 @@
 # Named function inventory
 
-Generated from the VideoTrack 1.6.26 sources. Anonymous closures are intentionally omitted.
+Generated from the VideoTrack 1.6.27 sources. Anonymous closures are intentionally omitted.
 
-PHP entries: **470**. AMD entries: **573**.
+PHP entries: **470**. AMD entries: **596**.
 
 ## PHP functions and methods
 
@@ -786,6 +786,29 @@ PHP entries: **470**. AMD entries: **573**.
 | `amd/src/core/utils.js:255` | `fetchTextWithTimeout` | Named callable `fetchTextWithTimeout` in the module; see its JSDoc and callers for parameter and side-effect details. |
 | `amd/src/core/utils.js:335` | `sessionSet` | Named callable `sessionSet` in the module; see its JSDoc and callers for parameter and side-effect details. |
 | `amd/src/core/utils.js:354` | `sessionGet` | Named callable `sessionGet` in the module; see its JSDoc and callers for parameter and side-effect details. |
+| `amd/src/form/duration.js:35` | `normaliseDuration` | Bounds and rounds one detected duration before it can be proposed in the form. |
+| `amd/src/form/duration.js:44` | `formatDuration` | Formats a detected duration for the teacher-editable form field. |
+| `amd/src/form/duration.js:48` | `renderMessage` | Injects the formatted duration into a localised status template. |
+| `amd/src/form/duration.js:52` | `setStatus` | Updates the accessible duration status region and visual state. |
+| `amd/src/form/duration.js:62` | `parseHttpsUrl` | Parses only HTTPS provider URLs accepted by the form detector. |
+| `amd/src/form/duration.js:71` | `extractYouTubeId` | Extracts a supported YouTube id using the same URL shapes accepted server-side. |
+| `amd/src/form/duration.js:92` | `extractVimeoSource` | Extracts a Vimeo id and optional privacy hash from a supported URL. |
+| `amd/src/form/duration.js:120` | `getProbeHost` | Creates the off-screen, assistive-technology-hidden metadata probe host. |
+| `amd/src/form/duration.js:140` | `loadYouTubeApi` | Loads or reuses the YouTube IFrame API without replacing an existing ready callback. |
+| `amd/src/form/duration.js:196` | `detectYouTubeDuration` | Reads duration from a non-playing off-screen YouTube player. |
+| `amd/src/form/duration.js:245` | `onReady` | Completes a YouTube probe after the provider exposes a positive duration. |
+| `amd/src/form/duration.js:253` | `onError` | Rejects a YouTube probe when the provider cannot load the selected video. |
+| `amd/src/form/duration.js:262` | `loadVimeoApi` | Loads or reuses the Vimeo Player SDK while avoiding RequireJS anonymous-define conflicts. |
+| `amd/src/form/duration.js:325` | `detectVimeoDuration` | Reads duration from a non-playing Vimeo iframe, preserving an optional privacy hash. |
+| `amd/src/form/duration.js:372` | `findLocalFileUrl` | Finds the same-origin Moodle draft URL exposed by the local file picker. |
+| `amd/src/form/duration.js:389` | `detectLocalDuration` | Reads local audio/video duration through HTML media metadata without starting playback. |
+| `amd/src/form/duration.js:443` | `resolveSource` | Builds the current source fingerprint and provider-specific detector. |
+| `amd/src/form/duration.js:449` | `detect` | Starts the YouTube detector for the resolved source descriptor. |
+| `amd/src/form/duration.js:458` | `detect` | Starts the Vimeo detector for the resolved source descriptor. |
+| `amd/src/form/duration.js:467` | `detect` | Starts the local-file detector for the resolved source descriptor. |
+| `amd/src/form/duration.js:475` | `getElements` | Resolves the required activity-form controls and status region. |
+| `amd/src/form/duration.js:489` | `install` | Coordinates debouncing, stale-response rejection, manual overrides and source changes. |
+| `amd/src/form/duration.js:610` | `init` | Initialises best-effort duration suggestion in the trusted teacher form. |
 | `amd/src/html5_player.js:56` | `resolveConfig` | Named callable `resolveConfig` in the module; see its JSDoc and callers for parameter and side-effect details. |
 | `amd/src/html5_player.js:67` | `uuid` | Named callable `uuid` in the module; see its JSDoc and callers for parameter and side-effect details. |
 | `amd/src/html5_player.js:71` | `safeNumber` | Named callable `safeNumber` in the module; see its JSDoc and callers for parameter and side-effect details. |

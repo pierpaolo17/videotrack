@@ -1,6 +1,6 @@
 # Indice documentazione VideoTrack
 
-Release documentata: **1.6.26** (`2026060441`).
+Release documentata: **1.6.27** (`2026060442`).
 
 1. `01_DEVELOPER_GUIDE.md` — workflow di manutenzione e disciplina delle modifiche.
 2. `02_ARCHITECTURE.md` — confini dei componenti, adapter, storage e modello di fiducia.
@@ -26,3 +26,5 @@ I documenti storici sono isolati in `archive/` e non sono autorevoli per il codi
 14. `14_HARDENING_1_6_23.md` — hardening di sicurezza, confine di fiducia e scope learner prima della fase App.
 
 15. `15_UPGRADE_RECOVERY_1_6_24.md` — recovery idempotente dall’upgrade database 1.6.23 fallito.
+
+16. `16_AUTOMATIC_DURATION_1_6_27.md` — proposta della durata nel form docente da metadati YouTube, Vimeo e locali.

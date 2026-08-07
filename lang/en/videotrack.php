@@ -986,7 +986,12 @@ $string['privacy:metadata:videotrack_acknowledge:viewedpercent'] = 'The percenta
 $string['privacy:metadata:videotrack_acknowledge:timeconfirmed'] = 'The time the learner confirmed the statement.';
 
 $string['durationseconds'] = 'Video duration for watched-percentage calculation (seconds)';
-$string['durationseconds_help'] = 'Optional teacher-verified duration. When greater than 0, VideoTrack uses it for watched percentage, percentage-based completion and acknowledgement after the final second. Enter 0 to keep interval tracking active without calculating a watched percentage; percentage-based completion is then disabled. The learner player cannot set or override this authoritative value.';
+$string['durationseconds_help'] = 'VideoTrack can pre-fill this teacher-controlled value from metadata exposed by the selected YouTube, Vimeo or local-file source. Review it before saving: after the activity is saved, it becomes the authoritative duration used for watched percentage, percentage-based completion and acknowledgement after the final second, and it can still be edited later. Enter 0 to keep interval tracking active without calculating a watched percentage. Learner-player metadata can never overwrite the saved value.';
 $string['durationseconds_zero_note'] = '0 = do not calculate watched percentage. Viewing intervals, reactions, notes and bookmarks remain available when enabled; acknowledgement after the final second requires a duration greater than 0.';
+$string['durationseconds_auto_note'] = 'VideoTrack attempts to obtain the duration automatically from the selected source. When available, the field is pre-filled; you can change it before saving or later. Enter 0 to skip watched-percentage calculation.';
+$string['durationseconds_auto_detecting'] = 'Retrieving the video duration from the selected source…';
+$string['durationseconds_auto_success'] = 'Duration obtained automatically from the selected source: {$a} seconds. You can change this value now or later.';
+$string['durationseconds_auto_manual'] = 'The selected source reports a duration of {$a} seconds. The current manually entered value was kept; you can change it now or later.';
+$string['durationseconds_auto_unavailable'] = 'The duration could not be obtained automatically from the selected source. Enter it manually, or leave 0 to skip watched-percentage calculation.';
 $string['durationseconds_invalid'] = 'The verified duration must be between 0 and 86400 seconds.';
 $string['durationseconds_required'] = 'Set a verified video duration greater than 0 before requiring acknowledgement after the final second.';

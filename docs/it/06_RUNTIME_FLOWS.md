@@ -35,3 +35,11 @@ I report per studente possono includere identità, progresso, reazioni, data/fot
 ## Privacy, retention e cancellazione
 
 L’export Privacy elabora ogni famiglia in blocchi limitati. Cancellazione utente/contesto usa `privacy_manager`; eliminazione attività e reset rimuovono i record corrispondenti. Il task applica retention/anonimizzazione. Il backup include tabelle utente solo con user data e il restore rimappa gli identificativi.
+
+## Proposta della durata nel form attività
+
+1. Il docente seleziona YouTube, Vimeo o un caricamento locale e indica la sorgente.
+2. `mod_videotrack/form/duration` valida la sorgente ed esegue un rilevamento best effort dei metadati: YouTube IFrame API, Vimeo Player SDK oppure metadati HTML media same-origin del file draft Moodle.
+3. I secondi proposti vengono scritti soltanto nel campo modificabile del form docente e annunciati tramite una regione live non invasiva. Una modifica manuale viene preservata; il cambio di sorgente avvia una nuova proposta.
+4. `videotrack_add_instance()` o `videotrack_update_instance()` salva il valore revisionato nel form. Solo questo valore salvato è autorevole per percentuale, completamento e presa visione vincolata alla fine. I metadati del player learner non possono aggiornarlo.
+5. Quando i metadati non sono disponibili, il campo resta manuale e `0` mantiene disabilitate le funzioni dipendenti dalla percentuale.

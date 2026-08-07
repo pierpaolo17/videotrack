@@ -988,7 +988,12 @@ $string['privacy:metadata:videotrack_acknowledge:viewedpercent'] = 'Procent film
 $string['privacy:metadata:videotrack_acknowledge:timeconfirmed'] = 'Data i godzina potwierdzenia.';
 
 $string['durationseconds'] = 'Czas trwania filmu do obliczania procentu obejrzenia (sekundy)';
-$string['durationseconds_help'] = 'Opcjonalny czas trwania zweryfikowany przez nauczyciela. Gdy jest większy od 0, VideoTrack używa go do obliczania procentu obejrzenia, ukończenia procentowego i potwierdzenia po ostatniej sekundzie. Wpisz 0, aby zachować śledzenie przedziałów bez obliczania procentu obejrzenia; ukończenie procentowe zostanie wtedy wyłączone. Odtwarzacz ucznia nie może ustawić ani nadpisać tej wartości referencyjnej.';
+$string['durationseconds_help'] = 'VideoTrack może wstępnie uzupełnić tę wartość kontrolowaną przez prowadzącego na podstawie metadanych udostępnianych przez wybrane źródło YouTube, Vimeo lub plik lokalny. Sprawdź ją przed zapisaniem: po zapisaniu aktywności staje się wiążącą długością używaną do obliczania obejrzanego procentu, ukończenia procentowego i potwierdzenia po ostatniej sekundzie, a później nadal można ją zmienić. Wpisz 0, aby zachować śledzenie przedziałów bez obliczania obejrzanego procentu. Metadane odtwarzacza studenta nigdy nie mogą nadpisać zapisanej wartości.';
 $string['durationseconds_zero_note'] = '0 = nie obliczaj procentu obejrzenia. Przedziały oglądania, reakcje, notatki i zakładki pozostają dostępne, gdy są włączone; potwierdzenie po ostatniej sekundzie wymaga czasu trwania większego od 0.';
+$string['durationseconds_auto_note'] = 'VideoTrack próbuje automatycznie uzyskać długość z wybranego źródła. Gdy jest dostępna, pole zostaje wstępnie uzupełnione; można je zmienić przed zapisaniem lub później. Wpisz 0, aby pominąć obliczanie obejrzanego procentu.';
+$string['durationseconds_auto_detecting'] = 'Pobieranie długości filmu z wybranego źródła…';
+$string['durationseconds_auto_success'] = 'Długość uzyskana automatycznie z wybranego źródła: {$a} s. Możesz zmienić tę wartość teraz lub później.';
+$string['durationseconds_auto_manual'] = 'Wybrane źródło podaje długość {$a} s. Zachowano aktualną wartość wpisaną ręcznie; możesz ją zmienić teraz lub później.';
+$string['durationseconds_auto_unavailable'] = 'Nie udało się automatycznie uzyskać długości z wybranego źródła. Wpisz ją ręcznie albo pozostaw 0, aby pominąć obliczanie obejrzanego procentu.';
 $string['durationseconds_invalid'] = 'Zweryfikowany czas trwania musi mieścić się w zakresie od 0 do 86400 sekund.';
 $string['durationseconds_required'] = 'Ustaw zweryfikowany czas trwania filmu większy od 0, zanim włączysz wymóg potwierdzenia po ostatniej sekundzie.';

@@ -44,7 +44,7 @@ class mod_videotrack_mod_form extends moodleform_mod {
      * Defines the activity settings form.
      */
     public function definition() {
-        global $COURSE;
+        global $COURSE, $PAGE;
         $mform = $this->_form;
 
         // Capability checks for admin-controlled overrides.
@@ -150,20 +150,40 @@ class mod_videotrack_mod_form extends moodleform_mod {
         $mform->addHelpButton('durationseconds', 'durationseconds', 'mod_videotrack');
         $mform->addElement(
             'static',
-            'durationseconds_zero_note',
+            'durationseconds_auto_note',
             '',
             html_writer::tag(
                 'small',
-                get_string('durationseconds_zero_note', 'mod_videotrack'),
+                get_string('durationseconds_auto_note', 'mod_videotrack'),
                 [
-                    'id' => 'videotrack-durationseconds-zero-note',
+                    'id' => 'videotrack-durationseconds-auto-note',
                     'class' => 'text-muted form-text',
+                    'role' => 'status',
+                    'aria-live' => 'polite',
                 ]
             )
         );
         $durationelement->updateAttributes([
-            'aria-describedby' => 'videotrack-durationseconds-zero-note',
+            'aria-describedby' => 'videotrack-durationseconds-auto-note',
         ]);
+
+        $durationtoken = '__VIDEOTRACK_DURATION__';
+        $PAGE->requires->js_call_amd('mod_videotrack/form/duration', 'init', [[
+            'sourceid' => 'id_videosource',
+            'youtubeid' => 'id_youtubeurl',
+            'vimeoid' => 'id_vimeourl',
+            'fileid' => 'id_videofile',
+            'durationid' => 'id_durationseconds',
+            'noteid' => 'videotrack-durationseconds-auto-note',
+            'maximum' => 86400,
+            'messages' => [
+                'idle' => get_string('durationseconds_auto_note', 'mod_videotrack'),
+                'detecting' => get_string('durationseconds_auto_detecting', 'mod_videotrack'),
+                'success' => get_string('durationseconds_auto_success', 'mod_videotrack', $durationtoken),
+                'manual' => get_string('durationseconds_auto_manual', 'mod_videotrack', $durationtoken),
+                'unavailable' => get_string('durationseconds_auto_unavailable', 'mod_videotrack'),
+            ],
+        ]]);
 
         // Player settings locked when teacher lacks overrideplayersettings.
         if (!$canoverrideplayer) {

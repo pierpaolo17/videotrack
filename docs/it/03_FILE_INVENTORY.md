@@ -1,8 +1,8 @@
 # Inventario dei file distribuiti
 
-Questo inventario è generato sull’albero VideoTrack 1.6.26 ed elenca ogni file non documentale. Il JavaScript canonico è in `amd/src`; i file in `amd/build` sono generati.
+Questo inventario è generato sull’albero VideoTrack 1.6.27 ed elenca ogni file non documentale. Il JavaScript canonico è in `amd/src`; i file in `amd/build` sono generati.
 
-Entries: **234**.
+Entries: **237**.
 
 | File | Responsabilità |
 |---|---|
@@ -90,6 +90,8 @@ Entries: **234**.
 | `amd/build/core/ui.min.js.map` | Source map generata per la build AMD `core/ui`; non modificare manualmente. |
 | `amd/build/core/utils.min.js` | Build AMD minificata generata per `core/utils` tramite Grunt Moodle. |
 | `amd/build/core/utils.min.js.map` | Source map generata per la build AMD `core/utils`; non modificare manualmente. |
+| `amd/build/form/duration.min.js` | Build AMD minificata generata per `form/duration` tramite Grunt Moodle. |
+| `amd/build/form/duration.min.js.map` | Source map generata per la build AMD `form/duration`; non modificare manualmente. |
 | `amd/build/html5_player.min.js` | Build AMD minificata generata per `html5_player` tramite Grunt Moodle. |
 | `amd/build/html5_player.min.js.map` | Source map generata per la build AMD `html5_player`; non modificare manualmente. |
 | `amd/build/player.min.js` | Build AMD minificata generata per `player` tramite Grunt Moodle. |
@@ -141,6 +143,7 @@ Entries: **234**.
 | `amd/src/core/tracker/time.js` | Sorgente AMD canonica modificabile per `core/tracker/time`. |
 | `amd/src/core/ui.js` | Sorgente AMD canonica modificabile per `core/ui`. |
 | `amd/src/core/utils.js` | Sorgente AMD canonica modificabile per `core/utils`. |
+| `amd/src/form/duration.js` | Sorgente AMD canonica del form che propone la durata da metadati YouTube, Vimeo o del file locale senza scrivere direttamente nello storage. |
 | `amd/src/html5_player.js` | Sorgente AMD canonica modificabile per `html5_player`. |
 | `amd/src/player.js` | Sorgente AMD canonica modificabile per `player`. |
 | `amd/src/presets.js` | Sorgente AMD canonica modificabile per `presets`. |
