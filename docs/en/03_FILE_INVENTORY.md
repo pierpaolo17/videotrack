@@ -1,6 +1,6 @@
 # Distributed file inventory
 
-This inventory is generated against the VideoTrack 1.6.27 tree and lists every non-documentation file. Canonical JavaScript is under `amd/src`; files under `amd/build` are generated.
+This inventory is generated against the VideoTrack 1.6.28 tree and lists every non-documentation file. Canonical JavaScript is under `amd/src`; files under `amd/build` are generated.
 
 Entries: **237**.
 
@@ -143,7 +143,7 @@ Entries: **237**.
 | `amd/src/core/tracker/time.js` | Canonical editable AMD source for `core/tracker/time`. |
 | `amd/src/core/ui.js` | Canonical editable AMD source for `core/ui`. |
 | `amd/src/core/utils.js` | Canonical editable AMD source for `core/utils`. |
-| `amd/src/form/duration.js` | Canonical form-only AMD source that proposes duration from YouTube, Vimeo or local-file metadata without writing directly to storage. |
+| `amd/src/form/duration.js` | Canonical form-only AMD source that loads localised configuration from a DOM JSON element and proposes duration from YouTube, Vimeo or local-file metadata without writing directly to storage. |
 | `amd/src/html5_player.js` | Canonical editable AMD source for `html5_player`. |
 | `amd/src/player.js` | Canonical editable AMD source for `player`. |
 | `amd/src/presets.js` | Canonical editable AMD source for `presets`. |

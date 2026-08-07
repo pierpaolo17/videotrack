@@ -26,6 +26,10 @@ Detection is best effort. Private or non-embeddable provider content, CSP/networ
 
 Status changes are announced through a polite live region associated with the duration input. Provider probes do not autoplay, are off-screen and hidden from assistive technology. Entering an external provider URL can contact that provider to obtain metadata; existing external-provider notices still apply.
 
+## Moodle configuration transport
+
+From 1.6.28, localised detector settings are serialised in an `application/json` element in the activity-form DOM. The AMD bootstrap receives only that element id and parses the JSON before installation. This follows Moodle’s large-payload guidance and prevents the developer warning raised when `js_call_amd()` arguments exceed 1024 characters.
+
 ## Build contract
 
 The canonical source is `amd/src/form/duration.js`. `grunt amd --root=mod/videotrack` must generate and distribute `amd/build/form/duration.min.js` and its source map.
