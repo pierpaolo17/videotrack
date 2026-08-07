@@ -1,6 +1,6 @@
 # Indice documentazione VideoTrack
 
-Release documentata: **1.6.25** (`2026060440`).
+Release documentata: **1.6.26** (`2026060441`).
 
 1. `01_DEVELOPER_GUIDE.md` — workflow di manutenzione e disciplina delle modifiche.
 2. `02_ARCHITECTURE.md` — confini dei componenti, adapter, storage e modello di fiducia.

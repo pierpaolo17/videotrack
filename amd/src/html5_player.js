@@ -1065,12 +1065,11 @@ define([
                 focusGuard.setPlaying(false);
             }
             state.ended = true;
-            reactionState.readyAnnounced = false;
             stopHeartbeat();
             closeSegment('ended').then(function() {
                 Ui.notifyVideoEnded();
             });
-            setReactionButtons(false); // Disable buttons at the end of the video.
+            setReactionButtons(false); // Keep learner controls available while recording the ended state.
         });
 
         // Seek detection: HTML5 fires 'seeking' then 'seeked'.

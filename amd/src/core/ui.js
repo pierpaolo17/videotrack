@@ -16,9 +16,10 @@ define([], function() {
      * that reason this helper uses aria-disabled and CSS only, not the native
      * disabled attribute.
      *
-     * @param {boolean} playing True when reactions are available.
+     * @param {boolean} available True when reactions are available.
+     * @param {boolean} playing True when the player is currently playing.
      */
-    function setReactionButtons(playing) {
+    function setReactionButtons(available, playing) {
         var root = document.querySelector('.videotrack-player-shell');
         document.dispatchEvent(new CustomEvent('videotrack:playstate', {detail: {playing: !!playing}}));
         if (!root) {
@@ -27,11 +28,11 @@ define([], function() {
         var hint = document.getElementById('videotrack-reactions-hint');
         root.querySelectorAll('.videotrack-reaction-btn').forEach(function(button) {
             button.removeAttribute('disabled');
-            button.setAttribute('aria-disabled', playing ? 'false' : 'true');
+            button.setAttribute('aria-disabled', available ? 'false' : 'true');
             if (hint && hint.id) {
                 button.setAttribute('aria-describedby', hint.id);
             }
-            button.classList.toggle('videotrack-reaction-disabled', !playing);
+            button.classList.toggle('videotrack-reaction-disabled', !available);
         });
     }
 

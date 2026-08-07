@@ -1,8 +1,8 @@
 # Inventario delle funzioni nominate
 
-Generato dai sorgenti VideoTrack 1.6.25. Le closure anonime sono intenzionalmente omesse.
+Generato dai sorgenti VideoTrack 1.6.26. Le closure anonime sono intenzionalmente omesse.
 
-Voci PHP: **470**. Voci AMD: **572**.
+Voci PHP: **470**. Voci AMD: **573**.
 
 ## Funzioni e metodi PHP
 
@@ -255,7 +255,7 @@ Voci PHP: **470**. Voci AMD: **572**.
 | `classes/local/tracker.php:211` | `mod_videotrack\local\tracker::covered_seconds` | Implementa `covered seconds`; il contratto dettagliato è nel DocBlock sorgente. |
 | `classes/local/tracker.php:226` | `mod_videotrack\local\tracker::reaction_counts` | Implementa `reaction counts`; il contratto dettagliato è nel DocBlock sorgente. |
 | `classes/local/tracker.php:268` | `mod_videotrack\local\tracker::invalidate_reactioncountscache` | Implementa `invalidate reactioncountscache`; il contratto dettagliato è nel DocBlock sorgente. |
-| `classes/local/tracker.php:287` | `mod_videotrack\local\tracker::has_recent_playback` | Verifica la presenza di `recent playback`. |
+| `classes/local/tracker.php:287` | `mod_videotrack\local\tracker::has_recent_playback` | Verifica se un timestamp è supportato da un heartbeat recente e validato; mantenuto per diagnostica e compatibilità. |
 | `classes/local/tracker.php:385` | `mod_videotrack\local\tracker::has_watched_videotime` | Verifica la presenza di `watched videotime`. |
 | `classes/local/tracker.php:475` | `mod_videotrack\local\tracker::completion_satisfied` | Implementa `completion satisfied`; il contratto dettagliato è nel DocBlock sorgente. |
 | `classes/local/tracker.php:532` | `mod_videotrack\local\tracker::create_default_state` | Crea `default state`. |
@@ -946,7 +946,8 @@ Voci PHP: **470**. Voci AMD: **572**.
 | `amd/src/presets.js:149` | `closePicker` | Callable `closePicker` del modulo; JSDoc e chiamanti definiscono parametri ed effetti. |
 | `amd/src/presets.js:163` | `openPicker` | Callable `openPicker` del modulo; JSDoc e chiamanti definiscono parametri ed effetti. |
 | `amd/src/presets.js:184` | `attachIconPickers` | Callable `attachIconPickers` del modulo; JSDoc e chiamanti definiscono parametri ed effetti. |
-| `amd/src/presets.js:262` | `init` | Callable `init` del modulo; JSDoc e chiamanti definiscono parametri ed effetti. |
+| `amd/src/presets.js:266` | `installHtml5SourceVisibility` | Mostra l’intero fieldset dei controlli HTML5 soltanto quando la sorgente dell’istanza è un file locale. |
+| `amd/src/presets.js:304` | `init` | Callable `init` del modulo; JSDoc e chiamanti definiscono parametri ed effetti. |
 | `amd/src/report.js:37` | `attachConfirm` | Callable `attachConfirm` del modulo; JSDoc e chiamanti definiscono parametri ed effetti. |
 | `amd/src/report.js:55` | `initialiseExportFormat` | Callable `initialiseExportFormat` del modulo; JSDoc e chiamanti definiscono parametri ed effetti. |
 | `amd/src/report.js:61` | `update` | Callable `update` del modulo; JSDoc e chiamanti definiscono parametri ed effetti. |

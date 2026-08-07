@@ -1368,13 +1368,12 @@ define([
                 focusGuard.setPlaying(false);
             }
             state.ended = true;
-            reactionState.readyAnnounced = false;
             stopHeartbeat();
             rememberResumePosition(state.lasttime);
             closeSegment('ended').then(function() {
                 Ui.notifyVideoEnded();
             });
-            setReactionButtons(false); // Disable buttons at the end of the video.
+            setReactionButtons(false); // Keep learner controls available while recording the ended state.
         });
 
         player.on('seeking', function(data) {

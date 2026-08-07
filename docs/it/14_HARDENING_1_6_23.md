@@ -5,7 +5,8 @@ VideoTrack 1.6.23 è una release esclusivamente di hardening prima della fase Mo
 ## Confine di fiducia
 
 - `durationseconds` è ora configurata esplicitamente dal docente ed è l’unica durata autorevole per percentuale vista, completamento percentuale e presa visione a fine video.
-- La durata dichiarata dal client non diventa mai autorevole. Con durata verificata pari a zero gli intervalli possono essere registrati, ma il completamento percentuale resta indisponibile e non è possibile configurare la presa visione dopo l’ultimo secondo.
+- VideoTrack non salva intenzionalmente come durata autorevole anti-manomissione i metadati ricavati automaticamente da browser, YouTube o Vimeo. Questi dati possono essere indisponibili, ritardati o dipendenti dal provider; il docente può lasciare `0` quando la percentuale non interessa oppure inserire una durata verificata quando serve.
+- La durata dichiarata dal client non diventa mai autorevole. Il campo dell’istanza parte da zero: gli intervalli validati continuano a essere registrati, mentre percentuale vista, completamento percentuale e presa visione dopo l’ultimo secondo restano intenzionalmente indisponibili finché il docente non inserisce la durata reale.
 - `save_segment` verifica la velocità dichiarata rispetto all’elenco effettivamente consentito dall’attività/sito.
 - L’accettazione dei segmenti usa un budget cumulativo basato sul tempo server persistito per utente/attività. La rotazione del `sessionid` client e l’aumento della frequenza delle richieste non rigenerano credito; i lunghi periodi inattivi sono limitati.
 - Il server applica anche la frontiera già vista quando il seek in avanti è disabilitato.

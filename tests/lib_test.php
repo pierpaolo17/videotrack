@@ -91,9 +91,11 @@ final class lib_test extends advanced_testcase {
         $disabled = (object)[];
         \videotrack_process_player_behavior_fields($disabled);
         $this->assertSame(0, $disabled->bookmarksenabled);
+        $this->assertSame(0, $disabled->studentnotesenabled);
 
         $enabled = (object)[
             'bookmarksenabled' => '1',
+            'studentnotesenabled' => '1',
             'integrityindicatorsenabled' => '1',
             'pauseonfocusloss' => '1',
             'preventpictureinpicture' => '1',
@@ -101,6 +103,7 @@ final class lib_test extends advanced_testcase {
         ];
         \videotrack_process_player_behavior_fields($enabled);
         $this->assertSame(1, $enabled->bookmarksenabled);
+        $this->assertSame(1, $enabled->studentnotesenabled);
         $this->assertSame(1, $enabled->integrityindicatorsenabled);
         $this->assertSame(1, $enabled->pauseonfocusloss);
         $this->assertSame(1, $enabled->preventpictureinpicture);

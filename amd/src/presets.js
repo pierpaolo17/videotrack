@@ -255,6 +255,48 @@ define(['core/log', 'mod_videotrack/core/confirm', 'mod_videotrack/core/debug'],
         });
     }
 
+    /**
+     * Hide the complete HTML5-only form section for external video providers.
+     *
+     * Moodle hideIf() hides the fields inside a header but does not consistently
+     * hide the header row itself. Toggling the rendered legend, header and
+     * container keeps the instance form unambiguous when YouTube or Vimeo is
+     * selected, without changing or clearing stored HTML5 preferences.
+     */
+    function installHtml5SourceVisibility() {
+        var source = document.getElementById('id_videosource');
+        var header = document.getElementById('id_html5controlsheader');
+        var container = document.getElementById('id_html5controlsheadercontainer');
+        if (!source || (!header && !container)) {
+            return;
+        }
+        var section = null;
+        if (header && header.tagName && header.tagName.toLowerCase() === 'fieldset') {
+            section = header;
+        } else if (header && typeof header.closest === 'function') {
+            section = header.closest('fieldset');
+        }
+        if (!section && container && typeof container.closest === 'function') {
+            section = container.closest('fieldset');
+        }
+        var targets = section ? [section] : [header, container];
+
+        var update = function() {
+            var hidden = source.value !== 'upload';
+            targets.forEach(function(element) {
+                if (!element) {
+                    return;
+                }
+                element.hidden = hidden;
+                element.classList.toggle('d-none', hidden);
+                element.setAttribute('aria-hidden', hidden ? 'true' : 'false');
+            });
+        };
+
+        update();
+        source.addEventListener('change', update);
+    }
+
     return {
         /**
          * Initialise preset delete confirmation forms and reaction icon pickers.
@@ -278,6 +320,7 @@ define(['core/log', 'mod_videotrack/core/confirm', 'mod_videotrack/core/debug'],
                 });
             }
             attachIconPickers();
+            installHtml5SourceVisibility();
             Debug.log('presetsinitialised');
         }
     };

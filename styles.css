@@ -406,7 +406,8 @@
 
 
     .videotrack-transcript-panel,
-    .videotrack-notes-panel {
+    .videotrack-notes-panel,
+    .videotrack-bookmarks-panel {
         background: var(--videotrack-panel-bg);
         border-color: var(--videotrack-panel-border);
         color: var(--bs-body-color, #e0e0e0);
@@ -808,7 +809,8 @@
 .videotrack-chapter-active .videotrack-chapter-num { background: rgba(255,255,255,.25); }
 
 /* ── Student notes panel ───────────────────────────────────────────────── */
-.videotrack-notes-panel {
+.videotrack-notes-panel,
+.videotrack-bookmarks-panel {
     border: 1px solid var(--videotrack-panel-border);
     border-radius: .375rem;
     padding: .5rem .75rem;

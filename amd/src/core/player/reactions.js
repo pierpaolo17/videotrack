@@ -14,12 +14,12 @@ define([
     /**
      * Announce when reactions become available or unavailable.
      *
-     * @param {boolean} playing Whether playback is active.
+     * @param {boolean} available Whether reaction controls are available.
      * @param {Object} config Player configuration.
      * @param {Object} reactionState Mutable reaction announcement state.
      */
-    function announceAvailability(playing, config, reactionState) {
-        Reactions.announceAvailability(playing, config, reactionState);
+    function announceAvailability(available, config, reactionState) {
+        Reactions.announceAvailability(available, config, reactionState);
     }
 
     /**

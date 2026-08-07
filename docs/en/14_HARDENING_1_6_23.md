@@ -5,7 +5,8 @@ VideoTrack 1.6.23 is a hardening-only release before the Moodle App phase.
 ## Trust boundary
 
 - `durationseconds` is now explicitly teacher-configured and is the only authoritative duration for viewed percentage, percentage completion and end-of-video acknowledgement.
-- Client-reported duration never becomes authoritative. If verified duration is zero, watched intervals can still be recorded but percentage completion remains unavailable and end-of-video acknowledgement cannot be configured.
+- VideoTrack deliberately does not persist browser, YouTube or Vimeo metadata automatically as the authoritative anti-tampering duration. Such metadata may be unavailable, delayed or provider-dependent; the teacher can leave `0` when percentage is irrelevant or enter a reviewed duration when it matters.
+- Client-reported duration never becomes authoritative. The instance field defaults to zero: validated watched intervals are still recorded, while watched percentage, percentage completion and end-of-video acknowledgement are intentionally unavailable until a teacher enters the real duration.
 - `save_segment` validates the reported playback rate against the effective activity/site speed list.
 - Segment acceptance uses one cumulative server-time allowance persisted per user/activity. Client session-id rotation and request frequency cannot replenish grace; long idle gaps are capped.
 - The server also enforces the no-forward-seek frontier when forward seeking is disabled.

@@ -2,7 +2,7 @@
 
 VideoTrack è un modulo attività Moodle per distribuire e tracciare video HTML5/caricati, YouTube e Vimeo. Integra analytics di visione attenti alla privacy, strumenti di studio opzionali, condizioni di completamento e report per il docente.
 
-Release documentata da questo albero: **1.6.25**. Versioni Moodle supportate: **5.0–5.3**.
+Release documentata da questo albero: **1.6.26**. Versioni Moodle supportate: **5.0–5.3**.
 
 Panoramica inglese: [`README.md`](README.md)
 Informativa privacy: [`PRIVACY_IT.md`](PRIVACY_IT.md) / [`PRIVACY.md`](PRIVACY.md)
@@ -37,6 +37,10 @@ La politica focus predefinita mette in pausa soltanto quando la pagina del video
 4. Creare un’attività VideoTrack, scegliere la sorgente e abilitare solo le funzioni necessarie allo scenario didattico.
 
 Non modificare direttamente i file installati nel server Moodle. Utilizzare release o patch revisionate e mantenere sempre sincronizzati `amd/src` e `amd/build`.
+
+### Correzione affidabilità degli strumenti di visione nella 1.6.26
+
+La release 1.6.26 mantiene i pulsanti delle reazioni disponibili sia durante la riproduzione sia durante la pausa, continuando a richiedere lato server un timestamp di visione validato. Note e segnalibri abilitati vengono mostrati in modo coerente; chi può consultare i report vede un’anteprima disabilitata e non può creare telemetria learner. L’intera sezione dei controlli HTML5 viene nascosta per le sorgenti YouTube e Vimeo. Il campo della durata verificata parte da `0`, che indica esplicitamente che percentuale vista, completamento percentuale e presa visione dopo l’ultimo secondo non vengono usati; gli intervalli di visione validati continuano comunque a essere raccolti.
 
 ### Correzione interfaccia e Analytics nella 1.6.25
 

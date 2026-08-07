@@ -94,17 +94,17 @@ define([], function() {
     /**
      * Announce when reactions become available or unavailable.
      *
-     * @param {boolean} playing Whether playback is active.
+     * @param {boolean} available Whether reaction controls are available.
      * @param {Object} config Player configuration.
      * @param {Object} reactionState Mutable reaction announcement state.
      */
-    function announceAvailability(playing, config, reactionState) {
+    function announceAvailability(available, config, reactionState) {
         var hint = document.getElementById('videotrack-reactions-hint');
         var status = getStatusRegion();
         if (!hint || !status || !reactionState) {
             return;
         }
-        if (playing) {
+        if (available) {
             if (reactionState.timer) {
                 window.clearTimeout(reactionState.timer);
                 reactionState.timer = null;
@@ -177,19 +177,19 @@ define([], function() {
     /**
      * Apply the shared reaction button state and announce availability in one call.
      *
-     * Concrete player modules still decide when playback is active, but this
-     * helper keeps the DOM state and live-region announcement coupled so they
-     * cannot drift between YouTube, HTML5 and Vimeo implementations.
+     * Concrete player modules still report the real playback state. Reaction
+     * availability, however, depends only on the activity/account configuration,
+     * so learners can react while the player is either playing or paused.
      *
-     * @param {boolean} playing Whether reaction controls should be available.
+     * @param {boolean} playing Whether playback is currently active.
      * @param {Object} config Player configuration.
      * @param {Object} reactionState Mutable reaction announcement state.
      * @param {Object} Ui Shared UI helper module.
      */
     function setButtons(playing, config, reactionState, Ui) {
-        var available = !!playing && (!config || config.reactionsenabled !== false);
+        var available = !!(config && config.reactionsenabled);
         if (Ui && typeof Ui.setReactionButtons === 'function') {
-            Ui.setReactionButtons(available);
+            Ui.setReactionButtons(available, playing);
         }
         announceAvailability(available, config || {}, reactionState);
     }

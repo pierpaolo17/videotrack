@@ -168,7 +168,7 @@ final class tracker_test extends advanced_testcase {
         $this->assertSame(32.0, $first['budget']);
         $this->assertSame(20.0, $first['credited']);
 
-        $sameSecond = tracker::advance_server_credit_budget(
+        $samesecond = tracker::advance_server_credit_budget(
             $first['lastactivity'],
             $first['budget'],
             $first['credited'],
@@ -177,9 +177,9 @@ final class tracker_test extends advanced_testcase {
             1.0,
             13.0
         );
-        $this->assertNull($sameSecond);
+        $this->assertNull($samesecond);
 
-        $afterFiveSeconds = tracker::advance_server_credit_budget(
+        $afterfiveseconds = tracker::advance_server_credit_budget(
             $first['lastactivity'],
             $first['budget'],
             $first['credited'],
@@ -188,9 +188,9 @@ final class tracker_test extends advanced_testcase {
             1.0,
             13.0
         );
-        $this->assertNotNull($afterFiveSeconds);
-        $this->assertSame(37.0, $afterFiveSeconds['budget']);
-        $this->assertSame(33.0, $afterFiveSeconds['credited']);
+        $this->assertNotNull($afterfiveseconds);
+        $this->assertSame(37.0, $afterfiveseconds['budget']);
+        $this->assertSame(33.0, $afterfiveseconds['credited']);
     }
 
     /**

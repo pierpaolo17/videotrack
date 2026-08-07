@@ -139,7 +139,7 @@ class mod_videotrack_mod_form extends moodleform_mod {
 
         $mform->hideIf('videofile_notice', 'videosource', 'neq', 'upload');
 
-        $mform->addElement(
+        $durationelement = $mform->addElement(
             'text',
             'durationseconds',
             get_string('durationseconds', 'mod_videotrack'),
@@ -148,6 +148,22 @@ class mod_videotrack_mod_form extends moodleform_mod {
         $mform->setType('durationseconds', PARAM_FLOAT);
         $mform->setDefault('durationseconds', 0);
         $mform->addHelpButton('durationseconds', 'durationseconds', 'mod_videotrack');
+        $mform->addElement(
+            'static',
+            'durationseconds_zero_note',
+            '',
+            html_writer::tag(
+                'small',
+                get_string('durationseconds_zero_note', 'mod_videotrack'),
+                [
+                    'id' => 'videotrack-durationseconds-zero-note',
+                    'class' => 'text-muted form-text',
+                ]
+            )
+        );
+        $durationelement->updateAttributes([
+            'aria-describedby' => 'videotrack-durationseconds-zero-note',
+        ]);
 
         // Player settings locked when teacher lacks overrideplayersettings.
         if (!$canoverrideplayer) {
@@ -1356,7 +1372,9 @@ JS);
      * @return bool True when at least one custom completion condition is active.
      */
     public function completion_rule_enabled($data) {
-        return (!empty($data['completionpercent']) && (int)$data['completionpercent'] > 0) ||
+        return (!empty($data['durationseconds'])
+                && !empty($data['completionpercent'])
+                && (int)$data['completionpercent'] > 0) ||
             (!empty($data['reactionsrequired']) && !empty($data['minreactions'])) ||
             !empty($data['requireallreactiontypes']) ||
             !empty($data['completionacknowledgement']);
@@ -1881,8 +1899,9 @@ JS);
         if (!is_finite($durationseconds) || $durationseconds < 0 || $durationseconds > 86400) {
             $errors['durationseconds'] = get_string('durationseconds_invalid', 'mod_videotrack');
         }
-        $requiresduration = !empty($data['completionpercent'])
-            || (!empty($data['acknowledgementenabled']) && (int)($data['acknowledgementtiming'] ?? 0) === 1);
+        $requiresduration = !empty($data['acknowledgementenabled'])
+            && (int)($data['acknowledgementtiming'] ?? 0) ===
+                \mod_videotrack\local\acknowledgement::TIMING_VIDEO_END;
         if ($requiresduration && $durationseconds <= 0) {
             $errors['durationseconds'] = get_string('durationseconds_required', 'mod_videotrack');
         }

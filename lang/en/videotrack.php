@@ -339,8 +339,8 @@ $string['reactionpreset'] = 'Apply a reaction preset';
 $string['reactionpreset:none'] = '— configure manually —';
 $string['reactionpreset_help'] = 'Select a preset to pre-fill the reaction fields below. You can freely edit the values after applying the preset. Leave blank to configure reactions manually.';
 $string['reactionrequired'] = 'Required for completion';
-$string['reactions_hint'] = 'Click a reaction button while the video is playing to record your reaction at that moment.';
-$string['reactionsavailableonlyduringplayback'] = 'Reactions are available only during video playback.';
+$string['reactions_hint'] = 'Choose a reaction while the video is playing or paused. It is saved at the current, already-watched point.';
+$string['reactionsavailableonlyduringplayback'] = 'Reactions are not available for this activity or account.';
 $string['reactionsdisabled'] = 'Reactions are disabled for this VideoTrack activity. Ask your teacher or course administrator to enable reactions if they are required.';
 $string['reactionsenabled'] = 'Enable reactions';
 $string['reactionsheader'] = 'Reactions';
@@ -985,7 +985,8 @@ $string['privacy:metadata:videotrack_acknowledge:viewedseconds'] = 'The unique v
 $string['privacy:metadata:videotrack_acknowledge:viewedpercent'] = 'The percentage of the video viewed when the statement was confirmed.';
 $string['privacy:metadata:videotrack_acknowledge:timeconfirmed'] = 'The time the learner confirmed the statement.';
 
-$string['durationseconds'] = 'Verified video duration (seconds)';
-$string['durationseconds_help'] = 'Authoritative video duration used for watched percentage, completion and end-of-video acknowledgement. Enter the real duration in seconds. The student player cannot set or override this value. Use 0 only when percentage-based completion and end-of-video acknowledgement are not required.';
+$string['durationseconds'] = 'Video duration for watched-percentage calculation (seconds)';
+$string['durationseconds_help'] = 'Optional teacher-verified duration. When greater than 0, VideoTrack uses it for watched percentage, percentage-based completion and acknowledgement after the final second. Enter 0 to keep interval tracking active without calculating a watched percentage; percentage-based completion is then disabled. The learner player cannot set or override this authoritative value.';
+$string['durationseconds_zero_note'] = '0 = do not calculate watched percentage. Viewing intervals, reactions, notes and bookmarks remain available when enabled; acknowledgement after the final second requires a duration greater than 0.';
 $string['durationseconds_invalid'] = 'The verified duration must be between 0 and 86400 seconds.';
-$string['durationseconds_required'] = 'Set a verified video duration greater than 0 before using percentage completion or acknowledgement after the final second.';
+$string['durationseconds_required'] = 'Set a verified video duration greater than 0 before requiring acknowledgement after the final second.';

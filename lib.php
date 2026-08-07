@@ -94,6 +94,10 @@ function videotrack_whitelist_record(stdClass $data, bool $resetcache = false): 
 function videotrack_add_instance($data, $mform = null) {
     global $DB;
     $data->durationseconds = max(0.0, min(86400.0, (float)($data->durationseconds ?? 0)));
+    if ($data->durationseconds <= 0.0) {
+        // A zero verified duration means that watched percentage is intentionally unused.
+        $data->completionpercent = 0;
+    }
     $data->timecreated     = time();
     $data->timemodified    = $data->timecreated;
     $data->videosource     = $data->videosource ?? 'youtube';
@@ -144,6 +148,10 @@ function videotrack_update_instance($data, $mform = null) {
     $data->timemodified = time();
     $data->videosource = $data->videosource ?? 'youtube';
     $data->durationseconds = max(0.0, min(86400.0, (float)($data->durationseconds ?? 0)));
+    if ($data->durationseconds <= 0.0) {
+        // A zero verified duration means that watched percentage is intentionally unused.
+        $data->completionpercent = 0;
+    }
 
     videotrack_process_video_fields($data, $mform);
     videotrack_process_grade_fields($data);

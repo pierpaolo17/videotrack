@@ -89,6 +89,8 @@ $acknowledgementcanconfirm = $islearner
 $reactionfeatureenabled = !empty($videotrack->reactionsenabled);
 $showreactioncontrols = !isguestuser() && $reactionfeatureenabled && !empty($reactions);
 $showstudentreactions = $islearner && $reactionfeatureenabled;
+$showstudentnotespanel = !isguestuser() && !empty($videotrack->studentnotesenabled);
+$showbookmarkspanel = !isguestuser() && !empty($videotrack->bookmarksenabled);
 // Reused by the personal reaction list and by the unique-reaction fallback below.
 $eventwhere = "videotrackid = :vtid AND userid = :uid AND isdeleted = 0 AND (notetype = '' OR notetype IS NULL)";
 $eventparams = ['vtid' => $videotrack->id, 'uid' => $USER->id];
@@ -590,7 +592,8 @@ if ($showreactioncontrols) {
         $icontext = ($icontype === 'emoji') ? ($iconvalue !== '' ? $iconvalue : (string)$reaction->label) : '';
         echo html_writer::tag('button', $iconwithlabel, [
             'type'                  => 'button',
-            'class'                 => 'btn btn-outline-secondary videotrack-reaction-btn',
+            'class'                 => 'btn btn-outline-secondary videotrack-reaction-btn' .
+                ($islearner ? '' : ' videotrack-reaction-disabled'),
             'data-reactionid'       => $reaction->id,
             'data-reactionlabel'    => $reaction->label,
             'data-reactiondesc'     => $reaction->description,
@@ -601,13 +604,13 @@ if ($showreactioncontrols) {
             'title'                 => $reaction->description,
             // Keep aria-disabled buttons focusable: keyboard and screen reader users.
             // Can activate them to receive the explanatory live-region feedback.
-            'aria-disabled'         => 'true',
+            'aria-disabled'         => $islearner ? 'false' : 'true',
             'aria-describedby'      => 'videotrack-reactions-hint',
             'aria-label'            => $reaction->label,
         ]);
     }
-    // Student explanation: reactions are recorded only during playback.
-    // This is by design (requirement item 4).
+    // Learners may react while the player is playing or paused. The server
+    // still accepts only timestamps already covered by validated viewing data.
     echo html_writer::tag(
         'p',
         $islearner
@@ -681,7 +684,7 @@ if ($showtranscript) {
 }
 
 // Feature 11: collapsible student personal notes panel.
-if ($islearner && !empty($videotrack->studentnotesenabled)) {
+if ($showstudentnotespanel) {
     echo html_writer::start_div('videotrack-notes-panel mt-2 mb-2', [
         'id'   => 'videotrack-notes-panel',
         'role' => 'region',
@@ -721,25 +724,33 @@ if ($islearner && !empty($videotrack->studentnotesenabled)) {
         'for'   => 'videotrack-note-input',
         'class' => 'form-label small mb-1 videotrack-note-label',
     ]);
-    echo html_writer::tag('textarea', '', [
+    $noteinputattributes = [
         'id'          => 'videotrack-note-input',
         'class'       => 'form-control form-control-sm mb-1 videotrack-note-input',
         'rows'        => '3',
         'maxlength'   => (string)$notemaxlength,
         'placeholder'      => get_string('studentnote_placeholder', 'mod_videotrack'),
         'aria-describedby' => 'videotrack-note-hint videotrack-note-charcount videotrack-note-live-status',
-    ]);
+    ];
+    if (!$islearner) {
+        $noteinputattributes['disabled'] = 'disabled';
+    }
+    echo html_writer::tag('textarea', '', $noteinputattributes);
+    $notesaveattributes = [
+        'type'         => 'button',
+        'id'           => 'videotrack-note-save',
+        'class'        => 'btn btn-sm btn-primary videotrack-note-save',
+        'aria-disabled' => $islearner ? 'false' : 'true',
+        // Personal notes can also be saved while the player is paused.
+        'aria-describedby' => 'videotrack-note-hint',
+    ];
+    if (!$islearner) {
+        $notesaveattributes['disabled'] = 'disabled';
+    }
     echo html_writer::tag(
         'button',
         get_string('studentnote_save', 'mod_videotrack'),
-        [
-            'type'         => 'button',
-            'id'           => 'videotrack-note-save',
-            'class'        => 'btn btn-sm btn-primary videotrack-note-save',
-            'aria-disabled' => 'false',
-            // Personal notes can also be saved while the player is paused.
-            'aria-describedby' => 'videotrack-note-hint',
-        ]
+        $notesaveattributes
     );
     // Remaining character counter, updated in real time by JavaScript.
     echo html_writer::tag('span', $notemaxlength . ' ' . get_string('charsremaininglabel', 'mod_videotrack'), [
@@ -761,6 +772,12 @@ if ($islearner && !empty($videotrack->studentnotesenabled)) {
         get_string('studentnote_hint', 'mod_videotrack'),
         ['id' => 'videotrack-note-hint', 'class' => 'small text-muted mt-1 mb-1']
     );
+    if (!$islearner) {
+        echo $OUTPUT->notification(
+            get_string('error:learnertrackingstaff', 'mod_videotrack'),
+            \core\output\notification::NOTIFY_INFO
+        );
+    }
     // Saved notes list, populated by JavaScript and server-side rendering.
     echo html_writer::start_tag('ol', [
         'id'         => 'videotrack-notes-list',
@@ -769,12 +786,12 @@ if ($islearner && !empty($videotrack->studentnotesenabled)) {
     ]);
     // Saved notes: limit the main view to the latest notes to avoid heavy pages.
     $noteslimit = 200;
-    $existingnotes = $DB->get_records('videotrack_reactev', [
+    $existingnotes = $islearner ? $DB->get_records('videotrack_reactev', [
         'videotrackid' => $videotrack->id,
         'userid'       => $USER->id,
         'notetype'     => 'note',
         'isdeleted'    => 0,
-    ], 'timecreated DESC', 'id, videotime, notetext', 0, $noteslimit + 1);
+    ], 'timecreated DESC', 'id, videotime, notetext', 0, $noteslimit + 1) : [];
     $noteslimited = count($existingnotes) > $noteslimit;
     if ($noteslimited) {
         array_pop($existingnotes);
@@ -972,7 +989,7 @@ if ($showstudentreactions) {
     echo html_writer::end_div(); // Videotrack-reactions-table-wrap.
 }
 
-if ($islearner && !empty($videotrack->bookmarksenabled)) {
+if ($showbookmarkspanel) {
     echo html_writer::start_div('videotrack-bookmarks-panel mt-2 mb-2', [
         'id' => 'videotrack-bookmarks-panel',
         'role' => 'region',
@@ -988,33 +1005,51 @@ if ($islearner && !empty($videotrack->bookmarksenabled)) {
         'for' => 'videotrack-bookmark-input',
         'class' => 'form-label small mb-1',
     ]);
-    echo html_writer::empty_tag('input', [
+    $bookmarkinputattributes = [
         'type' => 'text',
         'id' => 'videotrack-bookmark-input',
         'class' => 'form-control form-control-sm mb-1',
         'maxlength' => (string)$bookmarkmaxlength,
         'placeholder' => get_string('bookmark_placeholder', 'mod_videotrack'),
         'aria-describedby' => 'videotrack-bookmark-hint',
-    ]);
-    echo html_writer::tag('button', get_string('bookmark_save', 'mod_videotrack'), [
+    ];
+    if (!$islearner) {
+        $bookmarkinputattributes['disabled'] = 'disabled';
+    }
+    echo html_writer::empty_tag('input', $bookmarkinputattributes);
+    $bookmarksaveattributes = [
         'type' => 'button',
         'id' => 'videotrack-bookmark-save',
         'class' => 'btn btn-sm btn-primary',
-        'aria-disabled' => 'false',
+        'aria-disabled' => $islearner ? 'false' : 'true',
         'aria-describedby' => 'videotrack-bookmark-hint',
-    ]);
+    ];
+    if (!$islearner) {
+        $bookmarksaveattributes['disabled'] = 'disabled';
+    }
+    echo html_writer::tag(
+        'button',
+        get_string('bookmark_save', 'mod_videotrack'),
+        $bookmarksaveattributes
+    );
     echo html_writer::tag(
         'p',
         get_string('bookmarks_hint', 'mod_videotrack'),
         ['id' => 'videotrack-bookmark-hint', 'class' => 'small text-muted mt-1 mb-1']
     );
+    if (!$islearner) {
+        echo $OUTPUT->notification(
+            get_string('error:learnertrackingstaff', 'mod_videotrack'),
+            \core\output\notification::NOTIFY_INFO
+        );
+    }
 
-    $bookmarks = $DB->get_records('videotrack_reactev', [
+    $bookmarks = $islearner ? $DB->get_records('videotrack_reactev', [
         'videotrackid' => $videotrack->id,
         'userid' => $USER->id,
         'notetype' => 'bookmark',
         'isdeleted' => 0,
-    ], 'timecreated DESC', 'id, videotime, notetext, timecreated', 0, $bookmarksmaxrendered + 1);
+    ], 'timecreated DESC', 'id, videotime, notetext, timecreated', 0, $bookmarksmaxrendered + 1) : [];
     $bookmarkslimited = count($bookmarks) > $bookmarksmaxrendered;
     if ($bookmarkslimited) {
         array_pop($bookmarks);
@@ -1072,18 +1107,20 @@ if ($islearner && !empty($videotrack->bookmarksenabled)) {
     }
     echo html_writer::end_tag('ol');
 
-    echo html_writer::start_tag('form', [
-        'method' => 'post',
-        'action' => (new moodle_url('/mod/videotrack/bookmarks.php'))->out(false),
-        'class' => 'mt-2',
-    ]);
-    echo html_writer::empty_tag('input', ['type' => 'hidden', 'name' => 'id', 'value' => $cm->id]);
-    echo html_writer::empty_tag('input', ['type' => 'hidden', 'name' => 'sesskey', 'value' => sesskey()]);
-    echo html_writer::tag('button', get_string('bookmark_export', 'mod_videotrack'), [
-        'type' => 'submit',
-        'class' => 'btn btn-outline-secondary btn-sm',
-    ]);
-    echo html_writer::end_tag('form');
+    if ($islearner) {
+        echo html_writer::start_tag('form', [
+            'method' => 'post',
+            'action' => (new moodle_url('/mod/videotrack/bookmarks.php'))->out(false),
+            'class' => 'mt-2',
+        ]);
+        echo html_writer::empty_tag('input', ['type' => 'hidden', 'name' => 'id', 'value' => $cm->id]);
+        echo html_writer::empty_tag('input', ['type' => 'hidden', 'name' => 'sesskey', 'value' => sesskey()]);
+        echo html_writer::tag('button', get_string('bookmark_export', 'mod_videotrack'), [
+            'type' => 'submit',
+            'class' => 'btn btn-outline-secondary btn-sm',
+        ]);
+        echo html_writer::end_tag('form');
+    }
     echo html_writer::end_div();
 }
 
@@ -1119,7 +1156,10 @@ if (\mod_videotrack\local\acknowledgement::is_enabled($videotrack)) {
             \core\output\notification::NOTIFY_SUCCESS
         );
     } else if (!$islearner) {
-        // Report-capable staff may preview the statement but never create learner confirmations.
+        echo $OUTPUT->notification(
+            get_string('error:learnertrackingstaff', 'mod_videotrack'),
+            \core\output\notification::NOTIFY_INFO
+        );
     } else if (isguestuser()) {
         echo $OUTPUT->notification(
             get_string('acknowledgement:guestunavailable', 'mod_videotrack'),

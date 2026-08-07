@@ -337,8 +337,8 @@ $string['reactionpreset'] = 'Applica un preset di reazioni';
 $string['reactionpreset:none'] = '— configura manualmente —';
 $string['reactionpreset_help'] = 'Seleziona un preset per pre-compilare i campi reazione qui sotto. Puoi modificare liberamente i valori dopo aver applicato il preset. Lascia vuoto per configurare le reazioni manualmente.';
 $string['reactionrequired'] = 'Richiesta per il completamento';
-$string['reactions_hint'] = 'Fai clic su un bottone reazione mentre il video è in riproduzione per registrare la tua reazione in quel momento.';
-$string['reactionsavailableonlyduringplayback'] = 'Le reazioni sono disponibili solo durante la riproduzione del video.';
+$string['reactions_hint'] = 'Scegli una reazione mentre il video è in riproduzione o in pausa. Verrà salvata nel punto corrente già visualizzato.';
+$string['reactionsavailableonlyduringplayback'] = 'Le reazioni non sono disponibili per questa attività o per questo account.';
 $string['reactionsdisabled'] = 'Le reazioni sono disabilitate per questa attività VideoTrack. Chiedi al docente o all’amministratore del corso di abilitarle se sono richieste.';
 $string['reactionsenabled'] = 'Abilita reazioni';
 $string['reactionsheader'] = 'Reazioni';
@@ -987,7 +987,8 @@ $string['privacy:metadata:videotrack_acknowledge:viewedseconds'] = 'I secondi un
 $string['privacy:metadata:videotrack_acknowledge:viewedpercent'] = 'La percentuale di video vista al momento della conferma.';
 $string['privacy:metadata:videotrack_acknowledge:timeconfirmed'] = 'Data e ora in cui lo studente ha confermato la dichiarazione.';
 
-$string['durationseconds'] = 'Durata verificata del video (secondi)';
-$string['durationseconds_help'] = 'Durata autorevole usata per percentuale vista, completamento e presa visione a fine video. Inserisci la durata reale in secondi. Il player dello studente non può impostare o sovrascrivere questo valore. Usa 0 solo se non servono completamento percentuale e presa visione dopo l’ultimo secondo.';
+$string['durationseconds'] = 'Durata per il calcolo della percentuale vista (secondi)';
+$string['durationseconds_help'] = 'Durata opzionale verificata dal docente. Se maggiore di 0, VideoTrack la usa per calcolare la percentuale vista, il completamento percentuale e la presa visione dopo l’ultimo secondo. Inserisci 0 per mantenere attivo il tracciamento degli intervalli senza calcolare la percentuale vista; il completamento percentuale viene disabilitato. Il player dello studente non può impostare o sovrascrivere questo valore autorevole.';
+$string['durationseconds_zero_note'] = '0 = non calcolare la percentuale vista. Intervalli di visione, reazioni, note e segnalibri restano disponibili quando abilitati; la presa visione dopo l’ultimo secondo richiede una durata maggiore di 0.';
 $string['durationseconds_invalid'] = 'La durata verificata deve essere compresa tra 0 e 86400 secondi.';
-$string['durationseconds_required'] = 'Imposta una durata verificata maggiore di 0 prima di usare il completamento percentuale o la presa visione dopo l’ultimo secondo.';
+$string['durationseconds_required'] = 'Imposta una durata verificata maggiore di 0 prima di richiedere la presa visione dopo l’ultimo secondo.';
