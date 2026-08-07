@@ -1,6 +1,6 @@
 # Inventario delle funzioni nominate
 
-Generato dai sorgenti VideoTrack 1.6.24. Le closure anonime sono intenzionalmente omesse.
+Generato dai sorgenti VideoTrack 1.6.25. Le closure anonime sono intenzionalmente omesse.
 
 Voci PHP: **470**. Voci AMD: **572**.
 
@@ -357,10 +357,10 @@ Voci PHP: **470**. Voci AMD: **572**.
 | `locallib.php:923` | `videotrack_build_forum_subject` | Implementa `videotrack build forum subject`; il contratto dettagliato è nel DocBlock sorgente. |
 | `locallib.php:952` | `videotrack_build_replay_url` | Implementa `videotrack build replay url`; il contratto dettagliato è nel DocBlock sorgente. |
 | `mod_form.php:40` | `mod_videotrack_mod_form::definition` | Implementa `definition`; il contratto dettagliato è nel DocBlock sorgente. |
-| `mod_form.php:1020` | `mod_videotrack_mod_form::apply_default_section_expansion` | Implementa `apply default section expansion`; il contratto dettagliato è nel DocBlock sorgente. |
+| `mod_form.php:1026` | `mod_videotrack_mod_form::apply_default_section_expansion` | Implementa `apply default section expansion`; il contratto dettagliato è nel DocBlock sorgente. |
 | `mod_form.php:1063` | `mod_videotrack_mod_form::require_filepicker_accept_filter` | Implementa `require filepicker accept filter`; il contratto dettagliato è nel DocBlock sorgente. |
 | `mod_form.php:1109` | `mod_videotrack_mod_form::add_reaction_elements` | Implementa `add reaction elements`; il contratto dettagliato è nel DocBlock sorgente. |
-| `mod_form.php:1283` | `mod_videotrack_mod_form::get_reaction_repeat_count` | Restituisce `reaction repeat count`. |
+| `mod_form.php:1288` | `mod_videotrack_mod_form::get_reaction_repeat_count` | Restituisce `reaction repeat count`. |
 | `mod_form.php:1308` | `mod_videotrack_mod_form::add_completion_rules` | Implementa `add completion rules`; il contratto dettagliato è nel DocBlock sorgente. |
 | `mod_form.php:1351` | `mod_videotrack_mod_form::completion_rule_enabled` | Implementa `completion rule enabled`; il contratto dettagliato è nel DocBlock sorgente. |
 | `mod_form.php:1363` | `mod_videotrack_mod_form::data_preprocessing` | Implementa `data preprocessing`; il contratto dettagliato è nel DocBlock sorgente. |
@@ -383,7 +383,7 @@ Voci PHP: **470**. Voci AMD: **572**.
 | `report.php:697` | `videotrack_report_render_reaction_clusters` | Implementa `videotrack report render reaction clusters`; il contratto dettagliato è nel DocBlock sorgente. |
 | `report.php:732` | `videotrack_report_render_reaction_summary` | Implementa `videotrack report render reaction summary`; il contratto dettagliato è nel DocBlock sorgente. |
 | `report.php:755` | `videotrack_report_render_bookmark_summary` | Implementa `videotrack report render bookmark summary`; il contratto dettagliato è nel DocBlock sorgente. |
-| `report.php:822` | `videotrack_report_render_acknowledgement_summary` | Implementa `videotrack report render acknowledgement summary`; il contratto dettagliato è nel DocBlock sorgente. |
+| `report.php:821` | `videotrack_report_render_acknowledgement_summary` | Implementa `videotrack report render acknowledgement summary`; il contratto dettagliato è nel DocBlock sorgente. |
 | `report.php:930` | `videotrack_report_render_integrity_summary` | Implementa `videotrack report render integrity summary`; il contratto dettagliato è nel DocBlock sorgente. |
 | `report.php:1021` | `videotrack_report_render_analytics_retention` | Implementa `videotrack report render analytics retention`; il contratto dettagliato è nel DocBlock sorgente. |
 | `reports_course.php:35` | `videotrack_course_report_count_cell` | Implementa `videotrack course report count cell`; il contratto dettagliato è nel DocBlock sorgente. |

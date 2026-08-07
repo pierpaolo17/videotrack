@@ -31,6 +31,12 @@ require_once(__DIR__ . '/locallib.php');
  * Activity settings form for the VideoTrack module.
  */
 class mod_videotrack_mod_form extends moodleform_mod {
+    /** Minimum number of reaction configuration rows shown to teachers. */
+    private const MIN_REACTION_ROWS = 4;
+
+    /** Maximum number of reaction definitions accepted by the instance form. */
+    private const MAX_REACTION_ROWS = 30;
+
     /** @var int */
     protected $reactionrepeatcount = 0;
 
@@ -685,68 +691,6 @@ class mod_videotrack_mod_form extends moodleform_mod {
             );
         }
 
-        // Optional link to a Forum activity in the same course.
-        $mform->addElement('header', 'forumlinkheader', get_string('forum:settingsheader', 'mod_videotrack'));
-        $forumoptions = videotrack_get_compatible_forum_options((int)$COURSE->id);
-        $currentforumid = isset($this->current->linkedforumid) ? (int)$this->current->linkedforumid : 0;
-        if ($currentforumid > 0 && !isset($forumoptions[$currentforumid])) {
-            $forumoptions[$currentforumid] = get_string('forum:configuredunavailable', 'mod_videotrack');
-        }
-        $enableattributes = [];
-        if (!$forumoptions) {
-            $enableattributes['disabled'] = 'disabled';
-        }
-        $mform->addElement(
-            'advcheckbox',
-            'forumpostingenabled',
-            get_string('forum:enable', 'mod_videotrack'),
-            get_string('forum:enable_help', 'mod_videotrack'),
-            $enableattributes
-        );
-        $mform->setDefault('forumpostingenabled', 0);
-        $mform->setType('forumpostingenabled', PARAM_BOOL);
-
-        $selectoptions = [0 => get_string('forum:selectforum', 'mod_videotrack')] + $forumoptions;
-        $mform->addElement(
-            'select',
-            'linkedforumid',
-            get_string('forum:linkedforum', 'mod_videotrack'),
-            $selectoptions
-        );
-        $mform->setType('linkedforumid', PARAM_INT);
-        $mform->setDefault('linkedforumid', 0);
-        $mform->hideIf('linkedforumid', 'forumpostingenabled', 'notchecked');
-        $mform->disabledIf('linkedforumid', 'forumpostingenabled', 'notchecked');
-
-        $mform->addElement(
-            'text',
-            'forumsubjecttemplate',
-            get_string('forum:subjecttemplate', 'mod_videotrack'),
-            ['size' => 64, 'maxlength' => 255]
-        );
-        $mform->setType('forumsubjecttemplate', PARAM_TEXT);
-        $mform->setDefault(
-            'forumsubjecttemplate',
-            get_string('forum:subjecttemplatedefault', 'mod_videotrack')
-        );
-        $mform->addHelpButton('forumsubjecttemplate', 'forum:subjecttemplate', 'mod_videotrack');
-        $mform->hideIf('forumsubjecttemplate', 'forumpostingenabled', 'notchecked');
-        if (!$forumoptions) {
-            $mform->freeze('linkedforumid');
-            $mform->addElement(
-                'static',
-                'forumnoneavailable',
-                '',
-                get_string('forum:nocompatibleforums', 'mod_videotrack')
-            );
-        }
-        $mform->addElement(
-            'static',
-            'forumprivacyinfo',
-            '',
-            get_string('forum:privacyinfo', 'mod_videotrack')
-        );
-
         // Reactions section.
         $mform->addElement('header', 'reactionsheader', get_string('reactionsheader', 'mod_videotrack'));
         $mform->addElement('advcheckbox', 'reactionsenabled', get_string('reactionsenabled', 'mod_videotrack'));
@@ -819,6 +763,88 @@ class mod_videotrack_mod_form extends moodleform_mod {
 
         $mform->setType('showstudentreport', PARAM_BOOL);
         $mform->setDefault('showstudentreport', 1);
+
+        // Reaction preset selector.
+        $presetoptions = videotrack_get_preset_select_options();
+        if (count($presetoptions) > 1) {
+            // Only show the selector if at least one preset has been configured.
+            $mform->addElement(
+                'select',
+                'reactionpreset',
+                get_string('reactionpreset', 'mod_videotrack'),
+                $presetoptions
+            );
+            $mform->setType('reactionpreset', PARAM_ALPHANUMEXT);
+            $mform->setDefault('reactionpreset', '');
+            $mform->addHelpButton('reactionpreset', 'reactionpreset', 'mod_videotrack');
+            // Hidden field used by JS to carry preset JSON to the client.
+            $mform->addElement('hidden', 'reactionpreset_json', '');
+            $mform->setType('reactionpreset_json', PARAM_RAW_TRIMMED);
+        }
+
+        $this->add_reaction_elements();
+
+        // Optional link to a Forum activity in the same course.
+        $mform->addElement('header', 'forumlinkheader', get_string('forum:settingsheader', 'mod_videotrack'));
+        $forumoptions = videotrack_get_compatible_forum_options((int)$COURSE->id);
+        $currentforumid = isset($this->current->linkedforumid) ? (int)$this->current->linkedforumid : 0;
+        if ($currentforumid > 0 && !isset($forumoptions[$currentforumid])) {
+            $forumoptions[$currentforumid] = get_string('forum:configuredunavailable', 'mod_videotrack');
+        }
+        $enableattributes = [];
+        if (!$forumoptions) {
+            $enableattributes['disabled'] = 'disabled';
+        }
+        $mform->addElement(
+            'advcheckbox',
+            'forumpostingenabled',
+            get_string('forum:enable', 'mod_videotrack'),
+            get_string('forum:enable_help', 'mod_videotrack'),
+            $enableattributes
+        );
+        $mform->setDefault('forumpostingenabled', 0);
+        $mform->setType('forumpostingenabled', PARAM_BOOL);
+
+        $selectoptions = [0 => get_string('forum:selectforum', 'mod_videotrack')] + $forumoptions;
+        $mform->addElement(
+            'select',
+            'linkedforumid',
+            get_string('forum:linkedforum', 'mod_videotrack'),
+            $selectoptions
+        );
+        $mform->setType('linkedforumid', PARAM_INT);
+        $mform->setDefault('linkedforumid', 0);
+        $mform->hideIf('linkedforumid', 'forumpostingenabled', 'notchecked');
+        $mform->disabledIf('linkedforumid', 'forumpostingenabled', 'notchecked');
+
+        $mform->addElement(
+            'text',
+            'forumsubjecttemplate',
+            get_string('forum:subjecttemplate', 'mod_videotrack'),
+            ['size' => 64, 'maxlength' => 255]
+        );
+        $mform->setType('forumsubjecttemplate', PARAM_TEXT);
+        $mform->setDefault(
+            'forumsubjecttemplate',
+            get_string('forum:subjecttemplatedefault', 'mod_videotrack')
+        );
+        $mform->addHelpButton('forumsubjecttemplate', 'forum:subjecttemplate', 'mod_videotrack');
+        $mform->hideIf('forumsubjecttemplate', 'forumpostingenabled', 'notchecked');
+        if (!$forumoptions) {
+            $mform->freeze('linkedforumid');
+            $mform->addElement(
+                'static',
+                'forumnoneavailable',
+                '',
+                get_string('forum:nocompatibleforums', 'mod_videotrack')
+            );
+        }
+        $mform->addElement(
+            'static',
+            'forumprivacyinfo',
+            '',
+            get_string('forum:privacyinfo', 'mod_videotrack')
+        );
 
         // Personal study tools.
         $mform->addElement(
@@ -968,26 +994,6 @@ class mod_videotrack_mod_form extends moodleform_mod {
         $mform->addHelpButton('acknowledgement_editor', 'acknowledgement:text', 'mod_videotrack');
         $mform->disabledIf('acknowledgement_editor', 'acknowledgementenabled', 'notchecked');
 
-        // Reaction preset selector.
-        $presetoptions = videotrack_get_preset_select_options();
-        if (count($presetoptions) > 1) {
-            // Only show the selector if at least one preset has been configured.
-            $mform->addElement(
-                'select',
-                'reactionpreset',
-                get_string('reactionpreset', 'mod_videotrack'),
-                $presetoptions
-            );
-            $mform->setType('reactionpreset', PARAM_ALPHANUMEXT);
-            $mform->setDefault('reactionpreset', '');
-            $mform->addHelpButton('reactionpreset', 'reactionpreset', 'mod_videotrack');
-            // Hidden field used by JS to carry preset JSON to the client.
-            $mform->addElement('hidden', 'reactionpreset_json', '');
-            $mform->setType('reactionpreset_json', PARAM_RAW_TRIMMED);
-        }
-
-        $this->add_reaction_elements();
-
         // Grading section using standard Moodle grading elements.
         $this->standard_grading_coursemodule_elements();
 
@@ -1042,12 +1048,6 @@ class mod_videotrack_mod_form extends moodleform_mod {
         foreach ($headers as $header => $expanded) {
             if ($mform->elementExists($header)) {
                 $mform->setExpanded($header, $expanded);
-            }
-        }
-        for ($index = 0; $index < $this->reactionrepeatcount; $index++) {
-            $header = 'reactionheader_' . $index;
-            if ($mform->elementExists($header)) {
-                $mform->setExpanded($header, false);
             }
         }
     }
@@ -1126,9 +1126,12 @@ JS);
 
         for ($i = 0; $i < $repeatcount; $i++) {
             $mform->addElement(
-                'header',
-                'reactionheader_' . $i,
-                get_string('reactionx', 'mod_videotrack', $i + 1)
+                'html',
+                html_writer::tag(
+                    'h4',
+                    get_string('reactionx', 'mod_videotrack', $i + 1),
+                    ['class' => 'h5 mt-4 mb-2 videotrack-reaction-config-heading']
+                )
             );
 
             $mform->addElement('hidden', 'reactionid[' . $i . ']', 0);
@@ -1267,12 +1270,14 @@ JS);
             );
         }
 
-        $mform->registerNoSubmitButton('reaction_add_fields');
-        $mform->addElement(
-            'submit',
-            'reaction_add_fields',
-            get_string('addreaction', 'mod_videotrack')
-        );
+        if ($repeatcount < self::MAX_REACTION_ROWS) {
+            $mform->registerNoSubmitButton('reaction_add_fields');
+            $mform->addElement(
+                'submit',
+                'reaction_add_fields',
+                get_string('addreaction', 'mod_videotrack')
+            );
+        }
     }
 
     /**
@@ -1283,21 +1288,23 @@ JS);
     protected function get_reaction_repeat_count(): int {
         $count = optional_param('reaction_repeats', 0, PARAM_INT);
         if ($count <= 0) {
+            $activecount = 0;
             if (!empty($this->_instance)) {
                 global $DB;
-                $count = (int)$DB->count_records(
+                $activecount = (int)$DB->count_records(
                     'videotrack_react',
-                    ['videotrackid' => $this->_instance]
+                    ['videotrackid' => $this->_instance, 'isdeleted' => 0]
                 );
             }
-            if ($count <= 0) {
-                $count = 4;
-            }
+            // Always show several editable rows and one spare row when existing
+            // definitions already fill the initial set. The Add reaction button
+            // can continue expanding the form up to the explicit safety cap.
+            $count = max(self::MIN_REACTION_ROWS, $activecount + 1);
         }
         if (optional_param('reaction_add_fields', '', PARAM_ALPHANUMEXT) !== '') {
             $count++;
         }
-        return min(max($count, 1), 30);
+        return min(max($count, self::MIN_REACTION_ROWS), self::MAX_REACTION_ROWS);
     }
 
     /**

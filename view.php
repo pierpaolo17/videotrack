@@ -44,7 +44,8 @@ require_login($course, true, $cm);
 $cm = cm_info::create($cm); // Moodle 4+: set_module_viewed and completion functions require cm_info.
 $context = context_module::instance($cm->id);
 require_capability('mod/videotrack:view', $context);
-$islearner = !has_capability('mod/videotrack:viewreport', $context);
+$canviewreport = has_capability('mod/videotrack:viewreport', $context);
+$islearner = !isguestuser() && !$canviewreport;
 
 if ($ackaction === 'confirm') {
     if (!$islearner) {
@@ -85,7 +86,9 @@ $acknowledgementrecord = $islearner
 $acknowledgementrequiresend = \mod_videotrack\local\acknowledgement::requires_video_end($videotrack);
 $acknowledgementcanconfirm = $islearner
     && \mod_videotrack\local\acknowledgement::can_confirm($videotrack, $state ?: null);
-$showstudentreactions = $islearner && !empty($videotrack->reactionsenabled);
+$reactionfeatureenabled = !empty($videotrack->reactionsenabled);
+$showreactioncontrols = !isguestuser() && $reactionfeatureenabled && !empty($reactions);
+$showstudentreactions = $islearner && $reactionfeatureenabled;
 // Reused by the personal reaction list and by the unique-reaction fallback below.
 $eventwhere = "videotrackid = :vtid AND userid = :uid AND isdeleted = 0 AND (notetype = '' OR notetype IS NULL)";
 $eventparams = ['vtid' => $videotrack->id, 'uid' => $USER->id];
@@ -272,7 +275,9 @@ $playerconfig = [
     'fastforwardlabel'       => get_string('fastforwardlabel', 'mod_videotrack'),
     'secondslabel'           => get_string('secondslabel', 'mod_videotrack'),
     'reactionerrorlabel'     => get_string('reaction:error', 'mod_videotrack'),
-    'reactionunavailablelabel' => get_string('reactionsavailableonlyduringplayback', 'mod_videotrack'),
+    'reactionunavailablelabel' => $islearner
+        ? get_string('reactionsavailableonlyduringplayback', 'mod_videotrack')
+        : get_string('error:learnertrackingstaff', 'mod_videotrack'),
     'reactionsreadylabel'    => get_string('reactionsreadyannounce', 'mod_videotrack'),
     'reactionannouncementinterval' => videotrack_get_config_int('reactionannouncementinterval', 30000, 0, 120000),
     'reactionreadydebouncems' => videotrack_get_config_int('reactionreadydebouncems', 400, 0, 2000),
@@ -570,6 +575,56 @@ echo html_writer::tag(
     get_string('intervalbar_title', 'mod_videotrack') . ' — ' . format_float($percent, 1) . '%',
     ['id' => 'videotrack-interval-bar-status', 'class' => 'videotrack-interval-bar-status']
 );
+if ($showreactioncontrols) {
+    echo html_writer::start_div('videotrack-reactions mt-3', ['id' => 'videotrack-reactions']);
+    echo html_writer::tag(
+        'h3',
+        get_string('reactionsheader', 'mod_videotrack'),
+        ['class' => 'h5 mb-2']
+    );
+    foreach ($reactions as $reaction) {
+        $iconwithlabel  = videotrack_render_reaction_icon($reaction, $context, true);
+        $icontype = clean_param((string)($reaction->icontype ?? 'emoji'), PARAM_ALPHA);
+        $iconvalue = (string)($reaction->iconvalue ?? '');
+        $iconsrc = ($icontype === 'file') ? videotrack_reaction_icon_url($context, $reaction) : '';
+        $icontext = ($icontype === 'emoji') ? ($iconvalue !== '' ? $iconvalue : (string)$reaction->label) : '';
+        echo html_writer::tag('button', $iconwithlabel, [
+            'type'                  => 'button',
+            'class'                 => 'btn btn-outline-secondary videotrack-reaction-btn',
+            'data-reactionid'       => $reaction->id,
+            'data-reactionlabel'    => $reaction->label,
+            'data-reactiondesc'     => $reaction->description,
+            'data-reactionicontype'  => $icontype,
+            'data-reactioniconclass' => $icontype === 'fa' ? $iconvalue : '',
+            'data-reactioniconsrc'   => $icontype === 'file' ? $iconsrc : '',
+            'data-reactionicontext'  => $icontext,
+            'title'                 => $reaction->description,
+            // Keep aria-disabled buttons focusable: keyboard and screen reader users.
+            // Can activate them to receive the explanatory live-region feedback.
+            'aria-disabled'         => 'true',
+            'aria-describedby'      => 'videotrack-reactions-hint',
+            'aria-label'            => $reaction->label,
+        ]);
+    }
+    // Student explanation: reactions are recorded only during playback.
+    // This is by design (requirement item 4).
+    echo html_writer::tag(
+        'p',
+        $islearner
+            ? get_string('reactions_hint', 'mod_videotrack')
+            : get_string('error:learnertrackingstaff', 'mod_videotrack'),
+        ['class' => 'videotrack-reactions-hint', 'id' => 'videotrack-reactions-hint']
+    );
+    echo html_writer::tag('span', '', [
+        'id'          => 'videotrack-reactions-live-status',
+        'class'       => 'sr-only visually-hidden',
+        'role'        => 'status',
+        'aria-live'   => 'polite',
+        'aria-atomic' => 'true',
+    ]);
+    echo html_writer::end_div(); // Videotrack-reactions.
+}
+
 if (!empty($videotrack->forumpostingenabled)) {
     $buttonattributes = [
         'type' => 'button',
@@ -774,121 +829,6 @@ if ($islearner && !empty($videotrack->studentnotesenabled)) {
 }
 
 
-if ($islearner && !empty($videotrack->bookmarksenabled)) {
-    echo html_writer::start_div('videotrack-bookmarks-panel mt-2 mb-2', [
-        'id' => 'videotrack-bookmarks-panel',
-        'role' => 'region',
-        'aria-label' => get_string('bookmarks_title', 'mod_videotrack'),
-    ]);
-    echo html_writer::tag('h3', get_string('bookmarks_title', 'mod_videotrack'), ['class' => 'h6 mt-0 mb-1']);
-    echo html_writer::tag(
-        'p',
-        get_string('bookmarks_private_notice', 'mod_videotrack'),
-        ['class' => 'small text-muted mb-2']
-    );
-    echo html_writer::tag('label', get_string('bookmark_label_input', 'mod_videotrack'), [
-        'for' => 'videotrack-bookmark-input',
-        'class' => 'form-label small mb-1',
-    ]);
-    echo html_writer::empty_tag('input', [
-        'type' => 'text',
-        'id' => 'videotrack-bookmark-input',
-        'class' => 'form-control form-control-sm mb-1',
-        'maxlength' => (string)$bookmarkmaxlength,
-        'placeholder' => get_string('bookmark_placeholder', 'mod_videotrack'),
-        'aria-describedby' => 'videotrack-bookmark-hint',
-    ]);
-    echo html_writer::tag('button', get_string('bookmark_save', 'mod_videotrack'), [
-        'type' => 'button',
-        'id' => 'videotrack-bookmark-save',
-        'class' => 'btn btn-sm btn-primary',
-        'aria-disabled' => 'false',
-        'aria-describedby' => 'videotrack-bookmark-hint',
-    ]);
-    echo html_writer::tag(
-        'p',
-        get_string('bookmarks_hint', 'mod_videotrack'),
-        ['id' => 'videotrack-bookmark-hint', 'class' => 'small text-muted mt-1 mb-1']
-    );
-
-    $bookmarks = $DB->get_records('videotrack_reactev', [
-        'videotrackid' => $videotrack->id,
-        'userid' => $USER->id,
-        'notetype' => 'bookmark',
-        'isdeleted' => 0,
-    ], 'timecreated DESC', 'id, videotime, notetext, timecreated', 0, $bookmarksmaxrendered + 1);
-    $bookmarkslimited = count($bookmarks) > $bookmarksmaxrendered;
-    if ($bookmarkslimited) {
-        array_pop($bookmarks);
-    }
-    $bookmarks = array_values($bookmarks);
-    usort($bookmarks, static function (stdClass $left, stdClass $right): int {
-        $timecompare = (float)$left->videotime <=> (float)$right->videotime;
-        return $timecompare !== 0 ? $timecompare : (int)$left->timecreated <=> (int)$right->timecreated;
-    });
-    if ($bookmarkslimited) {
-        echo html_writer::tag(
-            'p',
-            get_string('bookmarks_view_limited', 'mod_videotrack', $bookmarksmaxrendered),
-            ['class' => 'small text-muted']
-        );
-    }
-    echo html_writer::start_tag('ol', [
-        'id' => 'videotrack-bookmarks-list',
-        'class' => 'videotrack-bookmarks-list list-unstyled mt-2',
-        'aria-label' => get_string('bookmarks_list_label', 'mod_videotrack'),
-    ]);
-    if (empty($bookmarks)) {
-        echo html_writer::tag(
-            'li',
-            get_string('bookmarks_none', 'mod_videotrack'),
-            ['class' => 'videotrack-no-bookmarks-placeholder small text-muted']
-        );
-    }
-    foreach ($bookmarks as $bookmark) {
-        $formattedtime = videotrack_format_seconds((float)$bookmark->videotime);
-        $bookmarklabel = (string)$bookmark->notetext;
-        echo html_writer::start_tag('li', [
-            'class' => 'videotrack-bookmark-item d-flex flex-wrap align-items-center gap-1',
-            'data-bookmarkid' => (int)$bookmark->id,
-            'data-videotime' => (float)$bookmark->videotime,
-        ]);
-        echo html_writer::tag('span', $formattedtime, ['class' => 'videotrack-bookmark-time text-muted small']);
-        echo html_writer::tag('span', s($bookmarklabel), ['class' => 'videotrack-bookmark-label flex-grow-1']);
-        echo html_writer::tag('button', get_string('bookmark_replay', 'mod_videotrack'), [
-            'type' => 'button',
-            'class' => 'btn btn-secondary btn-sm videotrack-replay',
-            'data-time' => (float)$bookmark->videotime,
-            'data-start' => (float)$bookmark->videotime,
-            'aria-label' => get_string('bookmark_replay', 'mod_videotrack') . ' — ' .
-                $bookmarklabel . ' — ' . $formattedtime,
-        ]);
-        echo html_writer::tag('button', get_string('bookmark_remove', 'mod_videotrack'), [
-            'type' => 'button',
-            'class' => 'btn btn-link btn-sm videotrack-delete-bookmark',
-            'data-bookmarkid' => (int)$bookmark->id,
-            'aria-label' => get_string('bookmark_remove', 'mod_videotrack') . ' — ' .
-                $bookmarklabel . ' — ' . $formattedtime,
-        ]);
-        echo html_writer::end_tag('li');
-    }
-    echo html_writer::end_tag('ol');
-
-    echo html_writer::start_tag('form', [
-        'method' => 'post',
-        'action' => (new moodle_url('/mod/videotrack/bookmarks.php'))->out(false),
-        'class' => 'mt-2',
-    ]);
-    echo html_writer::empty_tag('input', ['type' => 'hidden', 'name' => 'id', 'value' => $cm->id]);
-    echo html_writer::empty_tag('input', ['type' => 'hidden', 'name' => 'sesskey', 'value' => sesskey()]);
-    echo html_writer::tag('button', get_string('bookmark_export', 'mod_videotrack'), [
-        'type' => 'submit',
-        'class' => 'btn btn-outline-secondary btn-sm',
-    ]);
-    echo html_writer::end_tag('form');
-    echo html_writer::end_div();
-}
-
 echo html_writer::start_div('videotrack-progress mb-2');
 echo html_writer::tag(
     'div',
@@ -917,49 +857,6 @@ if ($showstudentreactions) {
     );
 }
 echo html_writer::end_div(); // Videotrack-progress.
-
-if ($showstudentreactions && $reactions) {
-    echo html_writer::start_div('videotrack-reactions', ['id' => 'videotrack-reactions']);
-    foreach ($reactions as $reaction) {
-        $iconwithlabel  = videotrack_render_reaction_icon($reaction, $context, true);
-        $icontype = clean_param((string)($reaction->icontype ?? 'emoji'), PARAM_ALPHA);
-        $iconvalue = (string)($reaction->iconvalue ?? '');
-        $iconsrc = ($icontype === 'file') ? videotrack_reaction_icon_url($context, $reaction) : '';
-        $icontext = ($icontype === 'emoji') ? ($iconvalue !== '' ? $iconvalue : (string)$reaction->label) : '';
-        echo html_writer::tag('button', $iconwithlabel, [
-            'type'                  => 'button',
-            'class'                 => 'btn btn-outline-secondary videotrack-reaction-btn',
-            'data-reactionid'       => $reaction->id,
-            'data-reactionlabel'    => $reaction->label,
-            'data-reactiondesc'     => $reaction->description,
-            'data-reactionicontype'  => $icontype,
-            'data-reactioniconclass' => $icontype === 'fa' ? $iconvalue : '',
-            'data-reactioniconsrc'   => $icontype === 'file' ? $iconsrc : '',
-            'data-reactionicontext'  => $icontext,
-            'title'                 => $reaction->description,
-            // Keep aria-disabled buttons focusable: keyboard and screen reader users.
-            // Can activate them to receive the explanatory live-region feedback.
-            'aria-disabled'         => 'true',
-            'aria-describedby'      => 'videotrack-reactions-hint',
-            'aria-label'            => $reaction->label,
-        ]);
-    }
-    // Student explanation: reactions are recorded only during playback.
-    // This is by design (requirement item 4).
-    echo html_writer::tag(
-        'p',
-        get_string('reactions_hint', 'mod_videotrack'),
-        ['class' => 'videotrack-reactions-hint', 'id' => 'videotrack-reactions-hint']
-    );
-    echo html_writer::tag('span', '', [
-        'id'          => 'videotrack-reactions-live-status',
-        'class'       => 'sr-only visually-hidden',
-        'role'        => 'status',
-        'aria-live'   => 'polite',
-        'aria-atomic' => 'true',
-    ]);
-    echo html_writer::end_div(); // Videotrack-reactions.
-}
 
 if ($showstudentreactions) {
     // Clear visual separation between personal notes and reactions in the student view.
@@ -1073,6 +970,121 @@ if ($showstudentreactions) {
     echo html_writer::end_tag('tbody');
     echo html_writer::end_tag('table');
     echo html_writer::end_div(); // Videotrack-reactions-table-wrap.
+}
+
+if ($islearner && !empty($videotrack->bookmarksenabled)) {
+    echo html_writer::start_div('videotrack-bookmarks-panel mt-2 mb-2', [
+        'id' => 'videotrack-bookmarks-panel',
+        'role' => 'region',
+        'aria-label' => get_string('bookmarks_title', 'mod_videotrack'),
+    ]);
+    echo html_writer::tag('h3', get_string('bookmarks_title', 'mod_videotrack'), ['class' => 'h6 mt-0 mb-1']);
+    echo html_writer::tag(
+        'p',
+        get_string('bookmarks_private_notice', 'mod_videotrack'),
+        ['class' => 'small text-muted mb-2']
+    );
+    echo html_writer::tag('label', get_string('bookmark_label_input', 'mod_videotrack'), [
+        'for' => 'videotrack-bookmark-input',
+        'class' => 'form-label small mb-1',
+    ]);
+    echo html_writer::empty_tag('input', [
+        'type' => 'text',
+        'id' => 'videotrack-bookmark-input',
+        'class' => 'form-control form-control-sm mb-1',
+        'maxlength' => (string)$bookmarkmaxlength,
+        'placeholder' => get_string('bookmark_placeholder', 'mod_videotrack'),
+        'aria-describedby' => 'videotrack-bookmark-hint',
+    ]);
+    echo html_writer::tag('button', get_string('bookmark_save', 'mod_videotrack'), [
+        'type' => 'button',
+        'id' => 'videotrack-bookmark-save',
+        'class' => 'btn btn-sm btn-primary',
+        'aria-disabled' => 'false',
+        'aria-describedby' => 'videotrack-bookmark-hint',
+    ]);
+    echo html_writer::tag(
+        'p',
+        get_string('bookmarks_hint', 'mod_videotrack'),
+        ['id' => 'videotrack-bookmark-hint', 'class' => 'small text-muted mt-1 mb-1']
+    );
+
+    $bookmarks = $DB->get_records('videotrack_reactev', [
+        'videotrackid' => $videotrack->id,
+        'userid' => $USER->id,
+        'notetype' => 'bookmark',
+        'isdeleted' => 0,
+    ], 'timecreated DESC', 'id, videotime, notetext, timecreated', 0, $bookmarksmaxrendered + 1);
+    $bookmarkslimited = count($bookmarks) > $bookmarksmaxrendered;
+    if ($bookmarkslimited) {
+        array_pop($bookmarks);
+    }
+    $bookmarks = array_values($bookmarks);
+    usort($bookmarks, static function (stdClass $left, stdClass $right): int {
+        $timecompare = (float)$left->videotime <=> (float)$right->videotime;
+        return $timecompare !== 0 ? $timecompare : (int)$left->timecreated <=> (int)$right->timecreated;
+    });
+    if ($bookmarkslimited) {
+        echo html_writer::tag(
+            'p',
+            get_string('bookmarks_view_limited', 'mod_videotrack', $bookmarksmaxrendered),
+            ['class' => 'small text-muted']
+        );
+    }
+    echo html_writer::start_tag('ol', [
+        'id' => 'videotrack-bookmarks-list',
+        'class' => 'videotrack-bookmarks-list list-unstyled mt-2',
+        'aria-label' => get_string('bookmarks_list_label', 'mod_videotrack'),
+    ]);
+    if (empty($bookmarks)) {
+        echo html_writer::tag(
+            'li',
+            get_string('bookmarks_none', 'mod_videotrack'),
+            ['class' => 'videotrack-no-bookmarks-placeholder small text-muted']
+        );
+    }
+    foreach ($bookmarks as $bookmark) {
+        $formattedtime = videotrack_format_seconds((float)$bookmark->videotime);
+        $bookmarklabel = (string)$bookmark->notetext;
+        echo html_writer::start_tag('li', [
+            'class' => 'videotrack-bookmark-item d-flex flex-wrap align-items-center gap-1',
+            'data-bookmarkid' => (int)$bookmark->id,
+            'data-videotime' => (float)$bookmark->videotime,
+        ]);
+        echo html_writer::tag('span', $formattedtime, ['class' => 'videotrack-bookmark-time text-muted small']);
+        echo html_writer::tag('span', s($bookmarklabel), ['class' => 'videotrack-bookmark-label flex-grow-1']);
+        echo html_writer::tag('button', get_string('bookmark_replay', 'mod_videotrack'), [
+            'type' => 'button',
+            'class' => 'btn btn-secondary btn-sm videotrack-replay',
+            'data-time' => (float)$bookmark->videotime,
+            'data-start' => (float)$bookmark->videotime,
+            'aria-label' => get_string('bookmark_replay', 'mod_videotrack') . ' — ' .
+                $bookmarklabel . ' — ' . $formattedtime,
+        ]);
+        echo html_writer::tag('button', get_string('bookmark_remove', 'mod_videotrack'), [
+            'type' => 'button',
+            'class' => 'btn btn-link btn-sm videotrack-delete-bookmark',
+            'data-bookmarkid' => (int)$bookmark->id,
+            'aria-label' => get_string('bookmark_remove', 'mod_videotrack') . ' — ' .
+                $bookmarklabel . ' — ' . $formattedtime,
+        ]);
+        echo html_writer::end_tag('li');
+    }
+    echo html_writer::end_tag('ol');
+
+    echo html_writer::start_tag('form', [
+        'method' => 'post',
+        'action' => (new moodle_url('/mod/videotrack/bookmarks.php'))->out(false),
+        'class' => 'mt-2',
+    ]);
+    echo html_writer::empty_tag('input', ['type' => 'hidden', 'name' => 'id', 'value' => $cm->id]);
+    echo html_writer::empty_tag('input', ['type' => 'hidden', 'name' => 'sesskey', 'value' => sesskey()]);
+    echo html_writer::tag('button', get_string('bookmark_export', 'mod_videotrack'), [
+        'type' => 'submit',
+        'class' => 'btn btn-outline-secondary btn-sm',
+    ]);
+    echo html_writer::end_tag('form');
+    echo html_writer::end_div();
 }
 
 echo html_writer::end_div(); // Videotrack-sidebar.

@@ -14,7 +14,7 @@ Il seek utente rispetta le policy avanti/indietro. Un avanzamento bloccato torna
 
 ## Reazioni, note e segnalibri
 
-Le reazioni rispettano il contratto configurato. Note e segnalibri richiedono un timestamp già visto dal proprietario. I servizi verificano abilitazione, proprietà e lunghezze massime. I record eliminati mantengono una tombstone limitata fino a retention/cancellazione; il testo privato non entra negli aggregati docente.
+Le definizioni delle reazioni sono configurate in un’unica sezione richiudibile **Reazioni**: il form mostra almeno quattro righe modificabili, mantiene una riga libera dopo le definizioni attive esistenti e può essere esteso con **Aggiungi reazione** fino al limite già previsto di 30. Nella pagina dell’attività i controlli delle reazioni precedono la pubblicazione Forum e i segnalibri. I learner canonici possono attivarli soltanto durante la riproduzione consentita; chi può consultare i report riceve un’anteprima visibile ma disabilitata e non può salvare telemetria learner. Note e segnalibri richiedono un timestamp già visto dal proprietario. I servizi verificano abilitazione, scope learner, proprietà e lunghezze massime. I record eliminati mantengono una tombstone limitata fino a retention/cancellazione; il testo privato non entra negli aggregati docente.
 
 ## Testo temporizzato
 
