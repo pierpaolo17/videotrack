@@ -1,6 +1,6 @@
 # Inventario delle funzioni nominate
 
-Generato dai sorgenti VideoTrack 1.6.29. Le closure anonime sono intenzionalmente omesse.
+Generato dai sorgenti VideoTrack 1.6.30. Le closure anonime sono intenzionalmente omesse.
 
 Voci PHP: **471**. Voci AMD: **596**.
 
@@ -461,7 +461,7 @@ Voci PHP: **471**. Voci AMD: **596**.
 | `tests/locallib_test.php:187` | `mod_videotrack\locallib_test::test_build_replay_url_applies_window_and_duration` | Verifica tramite PHPUnit `build replay url applies window and duration`. |
 | `tests/locallib_test.php:201` | `mod_videotrack\locallib_test::test_build_forum_subject_replaces_supported_placeholders` | Verifica tramite PHPUnit `build forum subject replaces supported placeholders`. |
 | `tests/locallib_test.php:215` | `mod_videotrack\locallib_test::test_build_forum_subject_uses_default_template` | Verifica tramite PHPUnit `build forum subject uses default template`. |
-| `tests/save_bookmark_test.php:37` | `mod_videotrack\save_bookmark_test::test_execute_parameters_uses_supported_moodle_parameter_types` | Verifica tramite PHPUnit `execute parameters uses supported moodle parameter types`. |
+| `tests/save_bookmark_test.php:39` | `mod_videotrack\save_bookmark_test::test_execute_parameters_uses_supported_moodle_parameter_types` | Verifica i tipi dei parametri esterni Moodle e l’accettazione server del motivo segmento bookmark. |
 | `tests/save_integrity_event_test.php:37` | `mod_videotrack\save_integrity_event_test::test_execute_parameters_uses_supported_moodle_parameter_types` | Verifica tramite PHPUnit `execute parameters uses supported moodle parameter types`. |
 | `tests/save_note_test.php:37` | `mod_videotrack\save_note_test::test_execute_parameters_uses_supported_moodle_parameter_types` | Verifica tramite PHPUnit `execute parameters uses supported moodle parameter types`. |
 | `tests/teacher_analytics_test.php:34` | `mod_videotrack\teacher_analytics_test::test_period_bounds` | Verifica tramite PHPUnit `period bounds`. |

@@ -1,6 +1,6 @@
 # Audit della documentazione
 
-Baseline: VideoTrack **1.6.29** (`2026060444`).
+Baseline: VideoTrack **1.6.30** (`2026060445`).
 
 ## Copertura
 
@@ -56,3 +56,7 @@ Ogni release deve confrontare inventario file/albero, inventario funzioni/sorgen
 - Le definizioni delle reazioni restano nella sezione principale Reazioni e non sono modellate come un insieme fisso di due elementi.
 - L’ordine nella pagina attività è: reazioni, azione Forum opzionale, quindi storico personale delle reazioni/segnalibri.
 - Anteprima per chi consulta i report e persistenza learner restano stati di fiducia distinti.
+
+## Copertura persistenza segnalibri 1.6.30
+
+La documentazione corrente registra la parità ripristinata tra il motivo segmento AMD `bookmark` e la whitelist di validazione PHP. Conserva inoltre il contratto di sicurezza secondo cui il timestamp di un segnalibro deve appartenere a progresso visto e validato dal server.

@@ -1,6 +1,6 @@
 # Named function inventory
 
-Generated from the VideoTrack 1.6.29 sources. Anonymous closures are intentionally omitted.
+Generated from the VideoTrack 1.6.30 sources. Anonymous closures are intentionally omitted.
 
 PHP entries: **471**. AMD entries: **596**.
 
@@ -461,7 +461,7 @@ PHP entries: **471**. AMD entries: **596**.
 | `tests/locallib_test.php:187` | `mod_videotrack\locallib_test::test_build_replay_url_applies_window_and_duration` | Replay links apply the configured symmetric window and duration cap. |
 | `tests/locallib_test.php:201` | `mod_videotrack\locallib_test::test_build_forum_subject_replaces_supported_placeholders` | Forum subject templates replace supported placeholders and preserve static text. |
 | `tests/locallib_test.php:215` | `mod_videotrack\locallib_test::test_build_forum_subject_uses_default_template` | Empty Forum subject templates use the language-pack default. |
-| `tests/save_bookmark_test.php:37` | `mod_videotrack\save_bookmark_test::test_execute_parameters_uses_supported_moodle_parameter_types` | The external parameters use Moodle-supported types. |
+| `tests/save_bookmark_test.php:39` | `mod_videotrack\save_bookmark_test::test_execute_parameters_uses_supported_moodle_parameter_types` | The external parameters use Moodle-supported types and the bookmark segment reason is accepted by the server whitelist. |
 | `tests/save_integrity_event_test.php:37` | `mod_videotrack\save_integrity_event_test::test_execute_parameters_uses_supported_moodle_parameter_types` | The external parameters use Moodle-supported types. |
 | `tests/save_note_test.php:37` | `mod_videotrack\save_note_test::test_execute_parameters_uses_supported_moodle_parameter_types` | The external parameter structure must use parameter types defined by Moodle. |
 | `tests/teacher_analytics_test.php:34` | `mod_videotrack\teacher_analytics_test::test_period_bounds` | Relative periods produce stable inclusive timestamp bounds. |

@@ -1,6 +1,6 @@
 # Documentation audit
 
-Baseline: VideoTrack **1.6.29** (`2026060444`).
+Baseline: VideoTrack **1.6.30** (`2026060445`).
 
 ## Coverage
 
@@ -56,3 +56,7 @@ A release audit must compare file inventory to the tree, function inventory to s
 - Reaction definitions remain inside the main Reactions form section and are not modelled as a fixed two-item set.
 - Activity-view ordering is reactions, optional Forum action, then personal reaction history/bookmarks.
 - Report-capable preview and learner persistence remain separate trust states.
+
+## 1.6.30 bookmark persistence coverage
+
+The current documentation records the restored parity between the AMD `bookmark` segment reason and the PHP validation whitelist. It also preserves the security contract that a bookmark timestamp must belong to server-validated watched progress.
