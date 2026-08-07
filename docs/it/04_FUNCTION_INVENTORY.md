@@ -1,6 +1,6 @@
 # Inventario delle funzioni nominate
 
-Generato dai sorgenti VideoTrack 1.6.23. Le closure anonime sono intenzionalmente omesse.
+Generato dai sorgenti VideoTrack 1.6.24. Le closure anonime sono intenzionalmente omesse.
 
 Voci PHP: **470**. Voci AMD: **572**.
 

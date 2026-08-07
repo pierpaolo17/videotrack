@@ -1,6 +1,6 @@
 # Named function inventory
 
-Generated from the VideoTrack 1.6.23 sources. Anonymous closures are intentionally omitted.
+Generated from the VideoTrack 1.6.24 sources. Anonymous closures are intentionally omitted.
 
 PHP entries: **470**. AMD entries: **572**.
 

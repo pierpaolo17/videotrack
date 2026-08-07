@@ -33,7 +33,7 @@
  * @return bool
  */
 function xmldb_videotrack_upgrade($oldversion) {
-    global $CFG, $DB;
+    global $DB;
     $dbman = $DB->get_manager();
 
     if ($oldversion < 2026043008) {
@@ -1724,59 +1724,53 @@ function xmldb_videotrack_upgrade($oldversion) {
             }
         }
 
-        // Pre-1.6.23 viewing intervals were not protected by the server-authoritative
-        // credit guard. Preserve the raw historical rows for Privacy/export purposes,
-        // but reset aggregate viewing state so legacy client-derived coverage can never
-        // unlock percentage completion or end-gated acknowledgement after this upgrade.
-        $DB->execute(
-            "UPDATE {videotrack_state}
-                SET lastposition = 0,
-                    durationseconds = 0,
-                    serverlastactivity = 0,
-                    serverbudgetseconds = 0,
-                    servercreditedseconds = 0,
-                    uniquecoveredseconds = 0,
-                    completionpercent = 0,
-                    intervaljson = '[]',
-                    iscompleted = 0"
-        );
+        // Data cleanup is intentionally handled by the following 1.6.24 step.
+        // Keeping this block schema-only makes it safe to resume an upgrade that
+        // previously stopped after adding one or more of these fields.
+        upgrade_mod_savepoint(true, 2026060438, 'videotrack');
+    }
 
-        // Recalculate Moodle automatic completion after invalidating legacy viewing
-        // coverage. Use the core completion API so reaction/acknowledgement rules that
-        // are still valid remain effective and manual completion overrides are respected.
-        require_once($CFG->libdir . '/completionlib.php');
-        $instances = $DB->get_records_sql(
-            "SELECT DISTINCT v.id, v.course
-               FROM {videotrack} v
-               JOIN {videotrack_state} s ON s.videotrackid = v.id
-              WHERE s.userid > 0"
-        );
-        foreach ($instances as $instance) {
-            $cm = get_coursemodule_from_instance(
-                'videotrack',
-                (int) $instance->id,
-                (int) $instance->course,
-                false,
-                IGNORE_MISSING
-            );
-            if (!$cm || (int) $cm->completion !== COMPLETION_TRACKING_AUTOMATIC) {
-                continue;
-            }
-
-            $course = get_course((int) $instance->course);
-            $completion = new completion_info($course);
-            $userids = $DB->get_fieldset_select(
-                'videotrack_state',
-                'DISTINCT userid',
-                'videotrackid = :videotrackid AND userid > 0',
-                ['videotrackid' => (int) $instance->id]
-            );
-            foreach ($userids as $userid) {
-                $completion->update_state($cm, COMPLETION_UNKNOWN, (int) $userid);
+    if ($oldversion < 2026060439) {
+        // Release 1.6.24: clean baseline after introducing the authoritative guard.
+        // This project has not been used in production, so pre-guard learner data is
+        // deliberately discarded instead of being migrated or recalculated during
+        // the upgrade. Avoiding runtime completion APIs also makes this step safe to
+        // resume after a partially completed 1.6.23 attempt.
+        $runtimetables = [
+            'videotrack_seg',
+            'videotrack_state',
+            'videotrack_integrity',
+            'videotrack_reactev',
+            'videotrack_acknowledge',
+        ];
+        foreach ($runtimetables as $tablename) {
+            if ($dbman->table_exists(new xmldb_table($tablename))) {
+                $DB->delete_records($tablename);
             }
         }
 
-        upgrade_mod_savepoint(true, 2026060438, 'videotrack');
+        // Remove stale Moodle completion rows for VideoTrack modules as part of the
+        // same explicit reset. Moodle will recreate them from new authoritative
+        // learner activity and the configured completion conditions.
+        $moduleid = $DB->get_field('modules', 'id', ['name' => 'videotrack'], IGNORE_MISSING);
+        if ($moduleid) {
+            $cmids = $DB->get_fieldset_select(
+                'course_modules',
+                'id',
+                'module = :moduleid',
+                ['moduleid' => (int) $moduleid]
+            );
+            foreach (array_chunk($cmids, 500) as $chunk) {
+                [$insql, $params] = $DB->get_in_or_equal($chunk, SQL_PARAMS_NAMED, 'cmid');
+                $DB->delete_records_select(
+                    'course_modules_completion',
+                    "coursemoduleid {$insql}",
+                    $params
+                );
+            }
+        }
+
+        upgrade_mod_savepoint(true, 2026060439, 'videotrack');
     }
 
     return true;

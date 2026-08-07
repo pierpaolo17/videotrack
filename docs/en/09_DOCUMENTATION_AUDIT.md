@@ -1,6 +1,6 @@
 # Documentation audit
 
-Baseline: VideoTrack **1.6.23** (`2026060438`).
+Baseline: VideoTrack **1.6.24** (`2026060439`).
 
 ## Coverage
 
