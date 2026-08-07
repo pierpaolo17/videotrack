@@ -1,8 +1,8 @@
 # Named function inventory
 
-Generated from the VideoTrack 1.6.25 sources. Anonymous closures are intentionally omitted.
+Generated from the VideoTrack 1.6.26 sources. Anonymous closures are intentionally omitted.
 
-PHP entries: **470**. AMD entries: **572**.
+PHP entries: **470**. AMD entries: **573**.
 
 ## PHP functions and methods
 
@@ -255,7 +255,7 @@ PHP entries: **470**. AMD entries: **572**.
 | `classes/local/tracker.php:211` | `mod_videotrack\local\tracker::covered_seconds` | Calculates the total covered seconds represented by interval ranges. |
 | `classes/local/tracker.php:226` | `mod_videotrack\local\tracker::reaction_counts` | Returns cached reaction counters for one user/activity pair. |
 | `classes/local/tracker.php:268` | `mod_videotrack\local\tracker::invalidate_reactioncountscache` | Invalidates the per-request cache for reaction_counts. Must be called after any insert or soft-delete on videotrack_reactev to ensure subsequent calls within the same request see fresh data. |
-| `classes/local/tracker.php:287` | `mod_videotrack\local\tracker::has_recent_playback` | Returns true when a reaction or note is backed by a recent playback heartbeat. |
+| `classes/local/tracker.php:287` | `mod_videotrack\local\tracker::has_recent_playback` | Checks whether a timestamp is backed by a recent validated playback heartbeat; retained for diagnostics and compatibility. |
 | `classes/local/tracker.php:385` | `mod_videotrack\local\tracker::has_watched_videotime` | Returns true when the requested video time is inside a watched segment. |
 | `classes/local/tracker.php:475` | `mod_videotrack\local\tracker::completion_satisfied` | Evaluates the custom VideoTrack completion rules. |
 | `classes/local/tracker.php:532` | `mod_videotrack\local\tracker::create_default_state` | Creates the default aggregate state record for a user/activity pair. |
@@ -946,7 +946,8 @@ PHP entries: **470**. AMD entries: **572**.
 | `amd/src/presets.js:149` | `closePicker` | Named callable `closePicker` in the module; see its JSDoc and callers for parameter and side-effect details. |
 | `amd/src/presets.js:163` | `openPicker` | Named callable `openPicker` in the module; see its JSDoc and callers for parameter and side-effect details. |
 | `amd/src/presets.js:184` | `attachIconPickers` | Named callable `attachIconPickers` in the module; see its JSDoc and callers for parameter and side-effect details. |
-| `amd/src/presets.js:262` | `init` | Named callable `init` in the module; see its JSDoc and callers for parameter and side-effect details. |
+| `amd/src/presets.js:266` | `installHtml5SourceVisibility` | Shows the complete HTML5-controls fieldset only when the instance source is a local upload. |
+| `amd/src/presets.js:304` | `init` | Named callable `init` in the module; see its JSDoc and callers for parameter and side-effect details. |
 | `amd/src/report.js:37` | `attachConfirm` | Named callable `attachConfirm` in the module; see its JSDoc and callers for parameter and side-effect details. |
 | `amd/src/report.js:55` | `initialiseExportFormat` | Named callable `initialiseExportFormat` in the module; see its JSDoc and callers for parameter and side-effect details. |
 | `amd/src/report.js:61` | `update` | Named callable `update` in the module; see its JSDoc and callers for parameter and side-effect details. |

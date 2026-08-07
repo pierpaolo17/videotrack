@@ -110,9 +110,9 @@ class save_reaction extends external_api {
         if ($duration > 0) {
             $videotime = min($videotime, $duration);
         }
-        if (!tracker::has_recent_playback($videotrack->id, (int)$USER->id, $params['sessionid'], $videotime)) {
-            throw new \moodle_exception('error:playbackrequired', 'mod_videotrack');
-        }
+        // Reactions are valid during playback and while paused. The timestamp must
+        // still belong to server-validated viewing data, so pausing cannot be used
+        // to react at an unwatched point of the video.
         if (!tracker::has_watched_videotime($videotrack->id, (int)$USER->id, $params['sessionid'], $videotime)) {
             throw new \moodle_exception('error:playbackpositionnotwatched', 'mod_videotrack');
         }

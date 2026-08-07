@@ -328,8 +328,8 @@ $string['reactionpreset'] = 'Preset reakcji';
 $string['reactionpreset:none'] = 'Brak presetu';
 $string['reactionpreset_help'] = 'Wybierz zapisany preset, aby wstępnie wypełnić listę reakcji.';
 $string['reactionrequired'] = 'Wymagana do ukończenia';
-$string['reactions_hint'] = 'Reakcje są dostępne podczas odtwarzania wideo.';
-$string['reactionsavailableonlyduringplayback'] = 'Reakcje są dostępne tylko podczas odtwarzania wideo.';
+$string['reactions_hint'] = 'Wybierz reakcję podczas odtwarzania lub pauzy filmu. Zostanie zapisana w bieżącym, już obejrzanym punkcie.';
+$string['reactionsavailableonlyduringplayback'] = 'Reakcje nie są dostępne dla tej aktywności lub tego konta.';
 $string['reactionsdisabled'] = 'Reakcje są wyłączone dla tej aktywności VideoTrack. Poproś nauczyciela lub administratora kursu o ich włączenie, jeśli są wymagane.';
 $string['reactionsenabled'] = 'Włącz reakcje';
 $string['reactionsheader'] = 'Reakcje';
@@ -987,7 +987,8 @@ $string['privacy:metadata:videotrack_acknowledge:viewedseconds'] = 'Unikalne sek
 $string['privacy:metadata:videotrack_acknowledge:viewedpercent'] = 'Procent filmu obejrzany w chwili potwierdzenia.';
 $string['privacy:metadata:videotrack_acknowledge:timeconfirmed'] = 'Data i godzina potwierdzenia.';
 
-$string['durationseconds'] = 'Zweryfikowany czas trwania filmu (sekundy)';
-$string['durationseconds_help'] = 'Autorytatywny czas trwania używany do procentu obejrzenia, ukończenia i potwierdzenia po końcu filmu. Wprowadź rzeczywisty czas w sekundach. Odtwarzacz studenta nie może ustawić ani nadpisać tej wartości. Użyj 0 tylko wtedy, gdy nie jest wymagane ukończenie procentowe ani potwierdzenie po ostatniej sekundzie.';
+$string['durationseconds'] = 'Czas trwania filmu do obliczania procentu obejrzenia (sekundy)';
+$string['durationseconds_help'] = 'Opcjonalny czas trwania zweryfikowany przez nauczyciela. Gdy jest większy od 0, VideoTrack używa go do obliczania procentu obejrzenia, ukończenia procentowego i potwierdzenia po ostatniej sekundzie. Wpisz 0, aby zachować śledzenie przedziałów bez obliczania procentu obejrzenia; ukończenie procentowe zostanie wtedy wyłączone. Odtwarzacz ucznia nie może ustawić ani nadpisać tej wartości referencyjnej.';
+$string['durationseconds_zero_note'] = '0 = nie obliczaj procentu obejrzenia. Przedziały oglądania, reakcje, notatki i zakładki pozostają dostępne, gdy są włączone; potwierdzenie po ostatniej sekundzie wymaga czasu trwania większego od 0.';
 $string['durationseconds_invalid'] = 'Zweryfikowany czas trwania musi mieścić się w zakresie od 0 do 86400 sekund.';
-$string['durationseconds_required'] = 'Ustaw zweryfikowany czas trwania większy niż 0 przed użyciem ukończenia procentowego lub potwierdzenia po ostatniej sekundzie.';
+$string['durationseconds_required'] = 'Ustaw zweryfikowany czas trwania filmu większy od 0, zanim włączysz wymóg potwierdzenia po ostatniej sekundzie.';

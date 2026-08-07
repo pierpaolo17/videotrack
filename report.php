@@ -2121,13 +2121,15 @@ $acknowledgementuserids = [];
 if (\mod_videotrack\local\acknowledgement::is_enabled($videotrack)) {
     foreach (\mod_videotrack\local\acknowledgement::current_records($videotrack) as $record) {
         $ackuserid = (int)$record->userid;
-        if (!\mod_videotrack\local\learner_scope::user_is_visible(
-            $context,
-            $cm,
-            $course,
-            (int)$USER->id,
-            $ackuserid
-        )) {
+        if (
+            !\mod_videotrack\local\learner_scope::user_is_visible(
+                $context,
+                $cm,
+                $course,
+                (int)$USER->id,
+                $ackuserid
+            )
+        ) {
             continue;
         }
         $acknowledgementrecords[$ackuserid] = $record;
@@ -2396,13 +2398,15 @@ if ($export === 'custom_csv') {
         $csvuserid = 0;
     }
     if ($csvuserid > 0) {
-        if (!\mod_videotrack\local\learner_scope::user_is_visible(
-            $context,
-            $cm,
-            $course,
-            (int)$USER->id,
-            $csvuserid
-        )) {
+        if (
+            !\mod_videotrack\local\learner_scope::user_is_visible(
+                $context,
+                $cm,
+                $course,
+                (int)$USER->id,
+                $csvuserid
+            )
+        ) {
             throw new moodle_exception('invaliduser', 'error');
         }
         $exportuserids = [$csvuserid];

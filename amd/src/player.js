@@ -566,7 +566,7 @@ define([
             if (focusGuard) {
                 focusGuard.setPlaying(false);
             }
-            setReactionButtons(false); // CRIT-2: disable buttons on pause
+            setReactionButtons(false); // Keep reactions available while recording the paused state.
             rememberResumePosition(player && player.getCurrentTime ? player.getCurrentTime() : state.lasttime);
             closeCurrentSegment('pause');
         } else if (event.data === YT.PlayerState.ENDED) {
@@ -575,8 +575,7 @@ define([
             }
             rememberResumePosition(player && player.getCurrentTime ? player.getCurrentTime() : state.lasttime);
             state.ended = true;
-            reactionState.readyAnnounced = false;
-            setReactionButtons(false); // CRIT-2: disable buttons at video end
+            setReactionButtons(false); // Keep reactions available while recording the ended state.
             closeCurrentSegment('ended').then(function() {
                 Ui.notifyVideoEnded();
             });
@@ -893,7 +892,7 @@ define([
                     }, Log, 'YouTube ready');
                     state.playbackrate = enforceMaxPlaybackRate('YouTube ready playback rate');
                     installPlaybackRateGuard();
-                    setReactionButtons(false); // Disabled until playback starts.
+                    setReactionButtons(false); // Available to learners; record the initial paused state.
                     // Add rewind/ff overlay buttons if configured.
                     buildYouTubeSkipButtons();
                     // replaystart (direct link to a fragment) takes precedence over resume.
@@ -1095,7 +1094,7 @@ define([
     /**
      * Feature 11: student personal notes.
      * Handle saving and deleting timestamped text notes.
-     * The "Save" button is active only during playback (aria-disabled).
+     * The save action remains available while playback is paused; the server validates the timestamp.
      */
     function installNoteHandler() {
         PlayerCore.installNoteHandler({
