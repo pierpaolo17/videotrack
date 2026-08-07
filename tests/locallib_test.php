@@ -162,6 +162,12 @@ final class locallib_test extends advanced_testcase {
         $videotrack->playbackspeeds = '2, 1.5, 1, 0, invalid, 4.5';
 
         $this->assertSame([1.0, 1.5], \videotrack_get_playback_speeds($videotrack));
+
+        $videotrack->maxplaybackrate = 125;
+        $this->assertSame([1.0], \videotrack_get_playback_speeds($videotrack));
+
+        $videotrack->allowplaybackratechange = 0;
+        $this->assertSame([1.0], \videotrack_get_playback_speeds($videotrack));
     }
 
     /**

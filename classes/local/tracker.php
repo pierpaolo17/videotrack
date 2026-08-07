@@ -404,7 +404,7 @@ class tracker {
             'tol2' => $tol,
         ];
 
-        $samesessionselect = 'videotrackid = :vtid AND userid = :uid AND sessionid = :sid
+        $samesessionselect = 'videotrackid = :vtid AND userid = :uid AND sessionid = :sid AND servervalidated = 1
              AND :vt1 >= (videotimestart - :tol1)
              AND :vt2 <= (videotimeend + :tol2)';
         if ($DB->record_exists_select('videotrack_seg', $samesessionselect, $params)) {
@@ -420,7 +420,7 @@ class tracker {
         // This still rejects unwatched positions because the timestamp must fall
         // inside a recorded segment. A configurable age limit prevents very old
         // playback from authorising new interactions indefinitely.
-        $fallbackselect = 'videotrackid = :vtid AND userid = :uid
+        $fallbackselect = 'videotrackid = :vtid AND userid = :uid AND servervalidated = 1
              AND :vt1 >= (videotimestart - :tol1)
              AND :vt2 <= (videotimeend + :tol2)';
         $fallbackparams = [
@@ -538,6 +538,9 @@ class tracker {
             'videoid'              => $videotrack->videoid,
             'lastposition'         => 0,
             'durationseconds'      => (float) ($videotrack->durationseconds ?? 0),
+            'serverlastactivity'    => 0,
+            'serverbudgetseconds'   => 0.0,
+            'servercreditedseconds' => 0.0,
             'uniquecoveredseconds' => 0,
             'completionpercent'    => 0,
             'intervaljson'         => '[]',
@@ -545,6 +548,78 @@ class tracker {
             'timemodified'         => time(),
             'timecreated'          => time(),
         ];
+    }
+
+    /**
+     * Advances the cumulative server-time playback budget for one candidate segment.
+     *
+     * The budget is persisted per user/activity, not per client-provided session id.
+     * Long idle gaps are capped so background time cannot accumulate unlimited credit.
+     *
+     * @param int $lastactivity Last accepted server activity timestamp.
+     * @param float $budget Existing server video-time budget.
+     * @param float $credited Existing credited raw video seconds.
+     * @param int $now Current server timestamp.
+     * @param int $heartbeat Configured heartbeat interval.
+     * @param float $playbackrate Validated effective playback rate.
+     * @param float $candidate Candidate raw segment duration.
+     * @return array|null Updated guard values, or null when the candidate exceeds the budget.
+     */
+    public static function advance_server_credit_budget(
+        int $lastactivity,
+        float $budget,
+        float $credited,
+        int $now,
+        int $heartbeat,
+        float $playbackrate,
+        float $candidate
+    ): ?array {
+        $heartbeat = max(5, min(300, $heartbeat));
+        $playbackrate = max(0.25, min(4.0, $playbackrate));
+        $candidate = max(0.0, $candidate);
+        $budget = max(0.0, $budget);
+        $credited = max(0.0, $credited);
+
+        if ($lastactivity <= 0) {
+            $budget += (min($heartbeat, 30) + 2) * $playbackrate;
+        } else {
+            $elapsed = max(0, $now - $lastactivity);
+            $budget += min($elapsed, $heartbeat + 5) * $playbackrate;
+        }
+
+        if (($credited + $candidate) > ($budget + 0.001)) {
+            return null;
+        }
+        return [
+            'lastactivity' => $now,
+            'budget' => round($budget, 3),
+            'credited' => round($credited + $candidate, 3),
+        ];
+    }
+
+    /**
+     * Checks a candidate interval against the server-known forward-seek frontier.
+     *
+     * @param stdClass $state Current state record.
+     * @param array $interval Normalised [start, end] interval.
+     * @param bool $allowseekforward Whether forward seeking is enabled.
+     * @param float $tolerance Small tolerance for timer/provider drift.
+     * @return bool True when the interval is allowed.
+     */
+    public static function forward_interval_allowed(
+        \stdClass $state,
+        array $interval,
+        bool $allowseekforward,
+        float $tolerance = 2.0
+    ): bool {
+        if ($allowseekforward) {
+            return true;
+        }
+        $furthest = max(0.0, (float)($state->lastposition ?? 0));
+        foreach (self::decode_intervals((string)($state->intervaljson ?? '[]')) as $watched) {
+            $furthest = max($furthest, (float)$watched[1]);
+        }
+        return (float)$interval[0] <= ($furthest + max(0.5, $tolerance));
     }
 
     /**
@@ -559,7 +634,8 @@ class tracker {
      * @param array     $interval     Normalised [start, end] interval.
      * @param float     $lastposition Resume position.
      * @param stdClass|null $segment  Segment record to insert, or null when none is needed.
-     * @param int|null  &$segmentid   Set to the inserted segment id.
+     * @param int|null  &$segmentid   Set to inserted id; -1 means server guard rejected the segment.
+     * @param array|null $guard Optional server-credit guard values from save_segment.
      * @return stdClass               Updated state.
      */
     public static function update_state(
@@ -569,7 +645,8 @@ class tracker {
         array $interval,
         float $lastposition,
         ?\stdClass $segment = null,
-        ?int &$segmentid = null
+        ?int &$segmentid = null,
+        ?array $guard = null
     ): \stdClass {
         global $DB;
 
@@ -595,20 +672,48 @@ class tracker {
         $transaction = $DB->start_delegated_transaction();
         $state = null;
         try {
-            // Insert the raw segment inside the transaction so it remains atomic with update_state.
-            if ($segment !== null) {
-                $segmentid = $DB->insert_record('videotrack_seg', $segment);
-            }
             $state = $DB->get_record('videotrack_state', ['videotrackid' => $videotrack->id, 'userid' => $userid]);
             if (!$state) {
                 $state = self::create_default_state($videotrack, $cm, $userid);
+            }
+
+            if ($segment !== null && $guard !== null) {
+                $forwardallowed = self::forward_interval_allowed(
+                    $state,
+                    $interval,
+                    !empty($guard['allowseekforward'])
+                );
+                $budgetstate = self::advance_server_credit_budget(
+                    (int)($state->serverlastactivity ?? 0),
+                    (float)($state->serverbudgetseconds ?? 0),
+                    (float)($state->servercreditedseconds ?? 0),
+                    (int)($guard['now'] ?? time()),
+                    (int)($guard['heartbeat'] ?? 30),
+                    (float)($guard['playbackrate'] ?? 1.0),
+                    max(0.0, (float)$segment->videotimeend - (float)$segment->videotimestart)
+                );
+                if (!$forwardallowed || $budgetstate === null) {
+                    $segmentid = -1;
+                    $transaction->allow_commit();
+                    $lock->release();
+                    $lock = null;
+                    return $state;
+                }
+                $state->serverlastactivity = $budgetstate['lastactivity'];
+                $state->serverbudgetseconds = $budgetstate['budget'];
+                $state->servercreditedseconds = $budgetstate['credited'];
+            }
+
+            // Insert the raw segment inside the transaction so it remains atomic with update_state.
+            if ($segment !== null) {
+                $segmentid = $DB->insert_record('videotrack_seg', $segment);
             }
             $intervals = self::decode_intervals($state->intervaljson);
             $intervals[] = $interval;
             $intervals = self::merge_intervals($intervals);
             $intervals = self::cap_intervals($intervals);
             $covered = self::covered_seconds($intervals);
-            $duration = max((float) $videotrack->durationseconds, (float) $state->durationseconds);
+            $duration = max(0.0, (float)$videotrack->durationseconds);
             $percent = $duration > 0 ? min(100.0, round(($covered / $duration) * 100, 2)) : 0.0;
 
             $requiredreactionids = array_keys(array_filter((array) $DB->get_records_menu('videotrack_react', [
@@ -769,19 +874,15 @@ class tracker {
                 $state = self::create_default_state($videotrack, $cm, $userid);
             }
 
-            $maxsegmentend = (float)$DB->get_field_sql(
-                'SELECT COALESCE(MAX(videotimeend), 0)
-                   FROM {videotrack_seg}
-                  WHERE videotrackid = :vtid AND userid = :userid',
-                ['vtid' => $videotrack->id, 'userid' => $userid]
-            );
             $configuredduration = max(0.0, (float)($videotrack->durationseconds ?? 0));
-            $duration = $configuredduration > 0
-                ? $configuredduration
-                : max(0.0, (float)($state->durationseconds ?? 0), $maxsegmentend);
+            // Only the teacher-configured activity duration is authoritative for
+            // percentages and completion. Historical client/state maxima cannot
+            // promote an unknown duration into a trusted completion denominator.
+            $duration = $configuredduration;
             $segments = $DB->get_recordset('videotrack_seg', [
                 'videotrackid' => $videotrack->id,
                 'userid' => $userid,
+                'servervalidated' => 1,
             ], 'timecreated ASC, id ASC', 'id, videotimestart, videotimeend, timecreated');
             $aggregate = self::aggregate_segments($segments, $duration);
             $segments->close();
@@ -791,6 +892,9 @@ class tracker {
             $state->videoid = $videotrack->videoid;
             $state->lastposition = $aggregate['lastposition'];
             $state->durationseconds = $duration;
+            // Recalculation rebuilds progress from trusted raw segments but must not
+            // mint a fresh playback budget for an active learner session. Existing
+            // server guard values therefore remain unchanged.
             $state->uniquecoveredseconds = $aggregate['coveredseconds'];
             $state->completionpercent = $duration > 0
                 ? min(100.0, round(($aggregate['coveredseconds'] / $duration) * 100, 2))

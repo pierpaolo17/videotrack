@@ -132,6 +132,11 @@ class helper extends external_api {
         $context = \context_module::instance($cm->id);
         self::validate_context($context);
         require_capability('mod/videotrack:view', $context);
+        // Report-capable staff are not learner telemetry subjects. This prevents
+        // teacher previews from contaminating learner progress and Analytics.
+        if (has_capability('mod/videotrack:viewreport', $context)) {
+            throw new \moodle_exception('error:learnertrackingstaff', 'mod_videotrack');
+        }
 
         return [
             'course' => $course,

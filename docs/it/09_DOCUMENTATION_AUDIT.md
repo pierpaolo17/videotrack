@@ -1,17 +1,17 @@
 # Audit della documentazione
 
-Baseline: VideoTrack **1.6.22** (`2026060437`).
+Baseline: VideoTrack **1.6.23** (`2026060438`).
 
 ## Copertura
 
-- File non documentali inventariati: **233/233**.
-- Funzioni/metodi PHP nominati inventariati: **461**.
+- File non documentali inventariati: **234/234**.
+- Funzioni/metodi PHP nominati inventariati: **469**.
 - Callable AMD nominati rilevati e inventariati: **572**.
 - Tabelle XMLDB documentate: **7**.
 - Chiavi impostazioni sito documentate: **57**.
 - Chiavi configurazione player documentate: **128**.
 - Servizi AJAX documentati: **8**.
-- Language pack: otto pacchetti con contratto iniziale comune di 944 chiavi; i testi operativi copiati dall’inglese sono stati tradotti, mentre termini tecnici/propri possono legittimamente coincidere.
+- Language pack: otto pacchetti con contratto iniziale comune di 952 chiavi; i testi operativi copiati dall’inglese sono stati tradotti, mentre termini tecnici/propri possono legittimamente coincidere.
 - Panoramiche root: `README.md` (inglese) e `README_IT.md` (italiano).
 - Sintesi privacy root: `PRIVACY.md` e `PRIVACY_IT.md`.
 

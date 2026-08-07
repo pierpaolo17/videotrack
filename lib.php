@@ -93,7 +93,7 @@ function videotrack_whitelist_record(stdClass $data, bool $resetcache = false): 
  */
 function videotrack_add_instance($data, $mform = null) {
     global $DB;
-    $data->durationseconds = 0;
+    $data->durationseconds = max(0.0, min(86400.0, (float)($data->durationseconds ?? 0)));
     $data->timecreated     = time();
     $data->timemodified    = $data->timecreated;
     $data->videosource     = $data->videosource ?? 'youtube';
@@ -143,6 +143,7 @@ function videotrack_update_instance($data, $mform = null) {
     $data->id          = $data->instance;
     $data->timemodified = time();
     $data->videosource = $data->videosource ?? 'youtube';
+    $data->durationseconds = max(0.0, min(86400.0, (float)($data->durationseconds ?? 0)));
 
     videotrack_process_video_fields($data, $mform);
     videotrack_process_grade_fields($data);

@@ -15,47 +15,17 @@
 // along with Moodle.  If not, see <https://www.gnu.org/licenses/>.
 
 /**
- * VideoTrack plugin file.
+ * Moodle App extension declarations for mod_videotrack.
+ *
+ * Native App support is intentionally not declared until the dedicated App
+ * validation phase provides a real CoreCourseModuleDelegate implementation.
+ * Moodle can still open the normal activity URL through standard links.
  *
  * @package   mod_videotrack
  * @copyright 2026 videotrack contributors
  * @license   https://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 
-
-/**
- * Mobile app support for mod_videotrack.
- *
- * The YouTube IFrame Player API requires a full browser environment and cannot
- * run inside the app's native WebView without the full Moodle JS stack.
- * We therefore declare the plugin as a "site plugin" that opens view.php in
- * the app's in-app browser, which provides a complete browser environment
- * with full JS support.
- *
- * @see https://moodledev.io/general/app/development/plugins-development-guide
- */
-
 defined('MOODLE_INTERNAL') || die();
 
-$addons = [
-    'mod_videotrack' => [
-        'handlers' => [
-            'videotrack' => [
-                'delegate' => 'CoreCourseModuleDelegate',
-                'method'   => 'mobile_course_view',
-                'displaydata' => [
-                    'title'   => 'pluginname',
-                    'icon'    => $CFG->wwwroot . '/mod/videotrack/pix/icon.svg',
-                    'class'   => '',
-                ],
-                'init' => '',
-                // Opens the activity in the in-app browser so the YouTube
-                // IFrame Player API has full browser-level JS support.
-                'offlinefunctions' => [],
-            ],
-        ],
-        'lang' => [
-            ['pluginname', 'videotrack'],
-        ],
-    ],
-];
+$addons = [];

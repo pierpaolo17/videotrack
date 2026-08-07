@@ -1,8 +1,8 @@
 # Distributed file inventory
 
-This inventory is generated against the VideoTrack 1.6.22 tree and lists every non-documentation file. Canonical JavaScript is under `amd/src`; files under `amd/build` are generated.
+This inventory is generated against the VideoTrack 1.6.23 tree and lists every non-documentation file. Canonical JavaScript is under `amd/src`; files under `amd/build` are generated.
 
-Entries: **233**.
+Entries: **234**.
 
 | File | Responsibility |
 |---|---|
@@ -187,6 +187,7 @@ Entries: **233**.
 | `classes/local/csv_export.php` | CSV export configuration and formatting helpers. |
 | `classes/local/forum_bridge.php` | Forum integration adapter for VideoTrack. |
 | `classes/local/integrity.php` | Integrity-indicator definitions and privacy-safe aggregation helpers. |
+| `classes/local/learner_scope.php` | Canonical learner/report visibility rules for role and group-safe reporting. |
 | `classes/local/privacy_manager.php` | Privacy helpers for VideoTrack. |
 | `classes/local/teacher_analytics.php` | Cross-course, capability-safe dashboard aggregation for report viewers. |
 | `classes/local/timed_text.php` | Manages teacher-provided WebVTT transcript and chapter files. |
@@ -195,7 +196,7 @@ Entries: **233**.
 | `classes/task/cleanup_task.php` | Scheduled GDPR retention cleanup task. |
 | `db/access.php` | Capabilities and role archetype defaults. |
 | `db/install.xml` | Canonical XMLDB schema for plugin-owned tables. |
-| `db/mobile.php` | Moodle App support declaration. |
+| `db/mobile.php` | Intentionally empty Moodle App extension declaration until the dedicated App validation phase. |
 | `db/services.php` | AJAX external-function declarations. |
 | `db/tasks.php` | Scheduled task declaration. |
 | `db/upgrade.php` | Incremental XMLDB upgrades and savepoints. |

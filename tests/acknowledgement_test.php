@@ -96,6 +96,31 @@ final class acknowledgement_test extends advanced_testcase {
     }
 
     /**
+     * Historical client/state duration cannot unlock an end-gated acknowledgement.
+     */
+    public function test_video_end_requires_teacher_configured_duration(): void {
+        $instance = (object)[
+            'acknowledgementenabled' => 1,
+            'acknowledgementtext' => 'Required statement',
+            'acknowledgementtiming' => acknowledgement::TIMING_VIDEO_END,
+            'durationseconds' => 0,
+        ];
+        $state = (object)[
+            'durationseconds' => 1,
+            'lastposition' => 1,
+            'uniquecoveredseconds' => 1,
+            'completionpercent' => 100,
+            'intervaljson' => '[[0,1]]',
+        ];
+
+        $snapshot = acknowledgement::progress_snapshot($instance, $state);
+        $this->assertSame(0.0, $snapshot['duration']);
+        $this->assertNull($snapshot['viewedpercent']);
+        $this->assertFalse($snapshot['reachedend']);
+        $this->assertFalse(acknowledgement::can_confirm($instance, $state));
+    }
+
+    /**
      * Empty or disabled statements are never offered for confirmation.
      */
     public function test_enabled_state_requires_nonempty_visible_text(): void {

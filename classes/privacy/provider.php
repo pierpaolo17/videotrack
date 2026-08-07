@@ -70,6 +70,7 @@ class provider implements
             'videotimeend' => 'privacy:metadata:videotrack_seg:videotimeend',
             'playbackrate' => 'privacy:metadata:videotrack_seg:playbackrate',
             'endreason' => 'privacy:metadata:videotrack_seg:endreason',
+            'servervalidated' => 'privacy:metadata:videotrack_seg:servervalidated',
             'timecreated' => 'privacy:metadata:common:timecreated',
         ], 'privacy:metadata:videotrack_seg');
 
@@ -81,6 +82,9 @@ class provider implements
             'videoid' => 'privacy:metadata:common:videoid',
             'lastposition' => 'privacy:metadata:videotrack_state:lastposition',
             'durationseconds' => 'privacy:metadata:videotrack_state:durationseconds',
+            'serverlastactivity' => 'privacy:metadata:videotrack_state:serverlastactivity',
+            'serverbudgetseconds' => 'privacy:metadata:videotrack_state:serverbudgetseconds',
+            'servercreditedseconds' => 'privacy:metadata:videotrack_state:servercreditedseconds',
             'uniquecoveredseconds' => 'privacy:metadata:videotrack_state:uniquecoveredseconds',
             'completionpercent' => 'privacy:metadata:videotrack_state:completionpercent',
             'intervaljson' => 'privacy:metadata:videotrack_state:intervaljson',
@@ -248,6 +252,9 @@ class provider implements
             if ($state) {
                 $state->timemodified = transform::datetime($state->timemodified);
                 $state->timecreated  = transform::datetime($state->timecreated);
+                if (!empty($state->serverlastactivity)) {
+                    $state->serverlastactivity = transform::datetime($state->serverlastactivity);
+                }
                 $state->iscompleted  = transform::yesno((bool)$state->iscompleted);
                 // Convert intervaljson from raw JSON to a human-readable string.
                 // So exported data remains understandable without technical knowledge.

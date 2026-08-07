@@ -95,6 +95,7 @@ Watched segments
 | `videotimeend` | `number`(10) | NOT NULL; default `0.000` |  |
 | `playbackrate` | `number`(6) | NOT NULL; default `1.000` |  |
 | `endreason` | `char`(32) | NOT NULL; default `unknown` |  |
+| `servervalidated` | `int`(1) | NOT NULL; default `0` | Indica se il segmento ha superato il controllo di riproduzione autorevole lato server |
 | `timecreated` | `int`(10) | NOT NULL; default `0` |  |
 
 ### `videotrack_state`
@@ -111,6 +112,9 @@ Aggregated unique coverage per user and activity
 | `videoid` | `char`(32) | NOT NULL |  |
 | `lastposition` | `number`(10) | NOT NULL; default `0.000` |  |
 | `durationseconds` | `number`(10) | NOT NULL; default `0.000` |  |
+| `serverlastactivity` | `int`(10) | NOT NULL; default `0` | Timestamp server dell’ultimo aggiornamento accettato usato dal guard del credito di riproduzione |
+| `serverbudgetseconds` | `number`(12,3) | NOT NULL; default `0.000` | Budget cumulativo di credito di riproduzione autorizzato dal server |
+| `servercreditedseconds` | `number`(12,3) | NOT NULL; default `0.000` | Secondi video grezzi cumulativi addebitati al budget server |
 | `uniquecoveredseconds` | `number`(10) | NOT NULL; default `0.000` |  |
 | `completionpercent` | `number`(6) | NOT NULL; default `0.00` |  |
 | `intervaljson` | `text` | nullable |  |
@@ -274,6 +278,7 @@ Tutte le chiavi sono memorizzate sotto `mod_videotrack`.
 L’elemento script JSON creato da `view.php` è il contratto unico server→player.
 
 - `cmid`
+- `trackingenabled`
 - `videoid`
 - `videosource`
 - `showcontrols`
@@ -396,7 +401,7 @@ L’elemento script JSON creato da `view.php` è il contratto unico server→pla
 - `heartbeatinterval`
 - `videourl`
 - `intervaljson`
-- `duration`
+- `duration` — durata osservata dal player usata soltanto per UI/clamping della timeline; non è mai autorevole per completamento o presa visione a fine video.
 - `forumpostbuttonid`
 - `forumpoststatusid`
 - `forumposturl`

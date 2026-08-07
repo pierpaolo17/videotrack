@@ -1,6 +1,6 @@
 # Indice documentazione VideoTrack
 
-Release documentata: **1.6.22** (`2026060437`).
+Release documentata: **1.6.23** (`2026060438`).
 
 1. `01_DEVELOPER_GUIDE.md` — workflow di manutenzione e disciplina delle modifiche.
 2. `02_ARCHITECTURE.md` — confini dei componenti, adapter, storage e modello di fiducia.
@@ -14,7 +14,7 @@ Release documentata: **1.6.22** (`2026060437`).
 10. `10_BOOKMARKS_AND_ANALYTICS.md` — proprietà, report e privacy dei segnalibri.
 11. `11_INTEGRITY_AND_FOCUS.md` — focus, indicatori, limiti e accessibilità.
 12. `12_ACKNOWLEDGEMENT.md` — presa visione versionata e Analytics.
-13. `13_CONSOLIDATION_AUDIT.md` — risultati e stato di validazione del consolidamento 1.6.22.
+13. `13_CONSOLIDATION_AUDIT.md` — risultati e stato di validazione del consolidamento 1.6.23.
 
 Sintesi correnti aggiuntive:
 
@@ -22,3 +22,5 @@ Sintesi correnti aggiuntive:
 - `struttura_tecnica.md` — mappa tecnica sintetica.
 
 I documenti storici sono isolati in `archive/` e non sono autorevoli per il codice corrente.
+
+14. `14_HARDENING_1_6_23.md` — hardening di sicurezza, confine di fiducia e scope learner prima della fase App.

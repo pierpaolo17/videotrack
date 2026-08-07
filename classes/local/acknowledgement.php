@@ -103,25 +103,21 @@ final class acknowledgement {
      *
      * @param stdClass $instance Activity instance.
      * @param stdClass|null $state Current aggregate tracking state.
-     * @return array{viewedseconds: float, viewedpercent: float, duration: float, reachedend: bool}
+     * @return array{viewedseconds: float, viewedpercent: float|null, duration: float, reachedend: bool}
      */
     public static function progress_snapshot(stdClass $instance, ?stdClass $state): array {
-        $duration = max(
-            0.0,
-            (float)($instance->durationseconds ?? 0),
-            (float)($state->durationseconds ?? 0)
-        );
+        $duration = max(0.0, (float)($instance->durationseconds ?? 0));
         $viewedseconds = max(0.0, (float)($state->uniquecoveredseconds ?? 0));
         if ($duration > 0) {
             $viewedseconds = min($duration, $viewedseconds);
             $viewedpercent = min(100.0, round(($viewedseconds / $duration) * 100, 2));
         } else {
-            $viewedpercent = min(100.0, max(0.0, (float)($state->completionpercent ?? 0)));
+            $viewedpercent = null;
         }
 
         return [
             'viewedseconds' => round($viewedseconds, 3),
-            'viewedpercent' => round($viewedpercent, 2),
+            'viewedpercent' => $viewedpercent === null ? null : round($viewedpercent, 2),
             'duration' => round($duration, 3),
             'reachedend' => self::has_reached_video_end($instance, $state),
         ];
@@ -138,11 +134,7 @@ final class acknowledgement {
         if (!$state) {
             return false;
         }
-        $duration = max(
-            0.0,
-            (float)($instance->durationseconds ?? 0),
-            (float)($state->durationseconds ?? 0)
-        );
+        $duration = max(0.0, (float)($instance->durationseconds ?? 0));
         if ($duration <= 0) {
             return false;
         }

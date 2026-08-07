@@ -148,6 +148,7 @@ class restore_videotrack_activity_structure_step extends restore_activity_struct
             'videotimeend' => isset($data->videotimeend) ? (float)$data->videotimeend : 0.0,
             'playbackrate' => isset($data->playbackrate) ? (float)$data->playbackrate : 1.0,
             'endreason' => isset($data->endreason) ? clean_param($data->endreason, PARAM_ALPHANUMEXT) : 'unknown',
+            'servervalidated' => isset($data->servervalidated) ? (int)$data->servervalidated : 0,
             'timecreated' => isset($data->timecreated) ? (int)$data->timecreated : time(),
         ];
         $newitemid = $DB->insert_record('videotrack_seg', $record);
@@ -184,6 +185,11 @@ class restore_videotrack_activity_structure_step extends restore_activity_struct
             'videoid' => isset($data->videoid) ? clean_param($data->videoid, PARAM_ALPHANUMEXT) : '',
             'lastposition' => isset($data->lastposition) ? (float)$data->lastposition : 0.0,
             'durationseconds' => isset($data->durationseconds) ? (float)$data->durationseconds : 0.0,
+            // The server credit budget is runtime-only security state. Do not carry
+            // unused credit across backup/restore into a different course instance.
+            'serverlastactivity' => 0,
+            'serverbudgetseconds' => 0.0,
+            'servercreditedseconds' => 0.0,
             'uniquecoveredseconds' => isset($data->uniquecoveredseconds) ? (float)$data->uniquecoveredseconds : 0.0,
             'completionpercent' => isset($data->completionpercent) ? (float)$data->completionpercent : 0.0,
             'intervaljson' => self::normalise_interval_json($data->intervaljson ?? null),

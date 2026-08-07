@@ -95,6 +95,7 @@ Watched segments
 | `videotimeend` | `number`(10) | NOT NULL; default `0.000` |  |
 | `playbackrate` | `number`(6) | NOT NULL; default `1.000` |  |
 | `endreason` | `char`(32) | NOT NULL; default `unknown` |  |
+| `servervalidated` | `int`(1) | NOT NULL; default `0` | Whether the segment passed the server-authoritative playback guard |
 | `timecreated` | `int`(10) | NOT NULL; default `0` |  |
 
 ### `videotrack_state`
@@ -111,6 +112,9 @@ Aggregated unique coverage per user and activity
 | `videoid` | `char`(32) | NOT NULL |  |
 | `lastposition` | `number`(10) | NOT NULL; default `0.000` |  |
 | `durationseconds` | `number`(10) | NOT NULL; default `0.000` |  |
+| `serverlastactivity` | `int`(10) | NOT NULL; default `0` | Last accepted server timestamp used by the playback-credit guard |
+| `serverbudgetseconds` | `number`(12,3) | NOT NULL; default `0.000` | Cumulative server-authorised playback-credit budget |
+| `servercreditedseconds` | `number`(12,3) | NOT NULL; default `0.000` | Cumulative raw video seconds charged against the server budget |
 | `uniquecoveredseconds` | `number`(10) | NOT NULL; default `0.000` |  |
 | `completionpercent` | `number`(6) | NOT NULL; default `0.00` |  |
 | `intervaljson` | `text` | nullable |  |
@@ -274,6 +278,7 @@ All keys are stored under `mod_videotrack`.
 The JSON script element created by `view.php` is the single server-to-player configuration contract.
 
 - `cmid`
+- `trackingenabled`
 - `videoid`
 - `videosource`
 - `showcontrols`
@@ -396,7 +401,7 @@ The JSON script element created by `view.php` is the single server-to-player con
 - `heartbeatinterval`
 - `videourl`
 - `intervaljson`
-- `duration`
+- `duration` — player-observed duration for UI/timeline clamping only; never authoritative for completion or end-gated acknowledgement.
 - `forumpostbuttonid`
 - `forumpoststatusid`
 - `forumposturl`

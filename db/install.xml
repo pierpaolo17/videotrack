@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8" ?>
-<XMLDB PATH="mod/videotrack/db" VERSION="2026060435" COMMENT="XMLDB file for mod_videotrack"
+<XMLDB PATH="mod/videotrack/db" VERSION="2026060438" COMMENT="XMLDB file for mod_videotrack"
     xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
     xsi:noNamespaceSchemaLocation="../../../lib/xmldb/xmldb.xsd"
 >
@@ -96,6 +96,7 @@
         <FIELD NAME="videotimeend" TYPE="number" LENGTH="10" DECIMALS="3" NOTNULL="true" DEFAULT="0.000"/>
         <FIELD NAME="playbackrate" TYPE="number" LENGTH="6" DECIMALS="3" NOTNULL="true" DEFAULT="1.000"/>
         <FIELD NAME="endreason" TYPE="char" LENGTH="32" NOTNULL="true" DEFAULT="unknown"/>
+        <FIELD NAME="servervalidated" TYPE="int" LENGTH="1" NOTNULL="true" DEFAULT="0" COMMENT="Whether the segment passed the server-authoritative playback guard"/>
         <FIELD NAME="timecreated" TYPE="int" LENGTH="10" NOTNULL="true" DEFAULT="0"/>
       </FIELDS>
       <KEYS>
@@ -119,6 +120,9 @@
         <FIELD NAME="videoid" TYPE="char" LENGTH="32" NOTNULL="true"/>
         <FIELD NAME="lastposition" TYPE="number" LENGTH="10" DECIMALS="3" NOTNULL="true" DEFAULT="0.000"/>
         <FIELD NAME="durationseconds" TYPE="number" LENGTH="10" DECIMALS="3" NOTNULL="true" DEFAULT="0.000"/>
+        <FIELD NAME="serverlastactivity" TYPE="int" LENGTH="10" NOTNULL="true" DEFAULT="0" COMMENT="Last accepted server timestamp used by playback credit guard"/>
+        <FIELD NAME="serverbudgetseconds" TYPE="number" LENGTH="12" DECIMALS="3" NOTNULL="true" DEFAULT="0.000" COMMENT="Cumulative server-authorised playback credit budget"/>
+        <FIELD NAME="servercreditedseconds" TYPE="number" LENGTH="12" DECIMALS="3" NOTNULL="true" DEFAULT="0.000" COMMENT="Cumulative raw video seconds charged against server budget"/>
         <FIELD NAME="uniquecoveredseconds" TYPE="number" LENGTH="10" DECIMALS="3" NOTNULL="true" DEFAULT="0.000"/>
         <FIELD NAME="completionpercent" TYPE="number" LENGTH="6" DECIMALS="2" NOTNULL="true" DEFAULT="0.00"/>
         <FIELD NAME="intervaljson" TYPE="text" NOTNULL="false"/>

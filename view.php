@@ -44,8 +44,12 @@ require_login($course, true, $cm);
 $cm = cm_info::create($cm); // Moodle 4+: set_module_viewed and completion functions require cm_info.
 $context = context_module::instance($cm->id);
 require_capability('mod/videotrack:view', $context);
+$islearner = !has_capability('mod/videotrack:viewreport', $context);
 
 if ($ackaction === 'confirm') {
+    if (!$islearner) {
+        throw new moodle_exception('error:learnertrackingstaff', 'mod_videotrack');
+    }
     if ($_SERVER['REQUEST_METHOD'] !== 'POST') {
         throw new moodle_exception('invalidrequest', 'error');
     }
@@ -72,17 +76,16 @@ if ($ackaction === 'confirm') {
 videotrack_view($videotrack, $course, $cm, $context);
 
 $reactions = array_values(videotrack_get_reactions($videotrack->id));
-$state = $DB->get_record('videotrack_state', ['videotrackid' => $videotrack->id, 'userid' => $USER->id]);
-$acknowledgementrecord = \mod_videotrack\local\acknowledgement::current_record(
-    $videotrack,
-    (int)$USER->id
-);
+$state = $islearner
+    ? $DB->get_record('videotrack_state', ['videotrackid' => $videotrack->id, 'userid' => $USER->id])
+    : false;
+$acknowledgementrecord = $islearner
+    ? \mod_videotrack\local\acknowledgement::current_record($videotrack, (int)$USER->id)
+    : null;
 $acknowledgementrequiresend = \mod_videotrack\local\acknowledgement::requires_video_end($videotrack);
-$acknowledgementcanconfirm = \mod_videotrack\local\acknowledgement::can_confirm(
-    $videotrack,
-    $state ?: null
-);
-$showstudentreactions = !empty($videotrack->reactionsenabled);
+$acknowledgementcanconfirm = $islearner
+    && \mod_videotrack\local\acknowledgement::can_confirm($videotrack, $state ?: null);
+$showstudentreactions = $islearner && !empty($videotrack->reactionsenabled);
 // Reused by the personal reaction list and by the unique-reaction fallback below.
 $eventwhere = "videotrackid = :vtid AND userid = :uid AND isdeleted = 0 AND (notetype = '' OR notetype IS NULL)";
 $eventparams = ['vtid' => $videotrack->id, 'uid' => $USER->id];
@@ -219,13 +222,14 @@ $playerconfig = [
     'timedtextseekfailedlabel' => get_string('timedtext_seek_failed', 'mod_videotrack'),
     'requiredpercent'        => (int)$videotrack->completionpercent,
     'origin'                 => (string)$CFG->wwwroot,
-    'reactionsenabled'       => (bool)$videotrack->reactionsenabled,
-    'studentnotesenabled'    => !empty($videotrack->studentnotesenabled),
-    'bookmarksenabled'       => !empty($videotrack->bookmarksenabled),
-    'integrityindicatorsenabled' => !empty($videotrack->integrityindicatorsenabled),
-    'pauseonfocusloss'      => !empty($videotrack->pauseonfocusloss),
-    'preventpictureinpicture' => !empty($videotrack->preventpictureinpicture),
-    'randomfocuspauses'     => !empty($videotrack->randomfocuspauses),
+    'trackingenabled'        => $islearner,
+    'reactionsenabled'       => $islearner && !empty($videotrack->reactionsenabled),
+    'studentnotesenabled'    => $islearner && !empty($videotrack->studentnotesenabled),
+    'bookmarksenabled'       => $islearner && !empty($videotrack->bookmarksenabled),
+    'integrityindicatorsenabled' => $islearner && !empty($videotrack->integrityindicatorsenabled),
+    'pauseonfocusloss'      => $islearner && !empty($videotrack->pauseonfocusloss),
+    'preventpictureinpicture' => $islearner && !empty($videotrack->preventpictureinpicture),
+    'randomfocuspauses'     => $islearner && !empty($videotrack->randomfocuspauses),
     'randompauseminseconds' => $randompausebounds['min'],
     'randompausemaxseconds' => $randompausebounds['max'],
     'focuslosspolicy'       => $focuslosspolicy,
@@ -336,6 +340,7 @@ if (
     && !$acknowledgementrecord
     && !$acknowledgementcanconfirm
     && !isguestuser()
+    && $islearner
 ) {
     $PAGE->requires->js_call_amd('mod_videotrack/core/player/acknowledgement', 'init', [[
         'formid' => 'videotrack-acknowledgement-form',
@@ -435,10 +440,13 @@ if (in_array($source, ['youtube', 'vimeo'], true)) {
     echo $OUTPUT->notification(get_string('externalproviderprivacy_notice', 'mod_videotrack', $providername), 'info', true);
 }
 if (
-    !empty($videotrack->integrityindicatorsenabled)
-    || !empty($videotrack->pauseonfocusloss)
-    || !empty($videotrack->preventpictureinpicture)
-    || !empty($videotrack->randomfocuspauses)
+    $islearner
+    && (
+        !empty($videotrack->integrityindicatorsenabled)
+        || !empty($videotrack->pauseonfocusloss)
+        || !empty($videotrack->preventpictureinpicture)
+        || !empty($videotrack->randomfocuspauses)
+    )
 ) {
     echo html_writer::tag(
         'p',
@@ -451,7 +459,7 @@ $covered = $state ? (float)$state->uniquecoveredseconds : 0.0;
 $percent = $state ? (float)$state->completionpercent : 0.0;
 $percentattr = (string)round($percent, 1);
 $uniquereactionids = [];
-if (!empty($videotrack->reactionsenabled)) {
+if ($showstudentreactions) {
     // When the personal reaction rows are complete, reuse them instead of issuing
     // a separate DISTINCT query. If rows were truncated, query distinct ids.
     if ($showstudentreactions && !$eventtruncated) {
@@ -618,7 +626,7 @@ if ($showtranscript) {
 }
 
 // Feature 11: collapsible student personal notes panel.
-if (!empty($videotrack->studentnotesenabled)) {
+if ($islearner && !empty($videotrack->studentnotesenabled)) {
     echo html_writer::start_div('videotrack-notes-panel mt-2 mb-2', [
         'id'   => 'videotrack-notes-panel',
         'role' => 'region',
@@ -766,7 +774,7 @@ if (!empty($videotrack->studentnotesenabled)) {
 }
 
 
-if (!empty($videotrack->bookmarksenabled)) {
+if ($islearner && !empty($videotrack->bookmarksenabled)) {
     echo html_writer::start_div('videotrack-bookmarks-panel mt-2 mb-2', [
         'id' => 'videotrack-bookmarks-panel',
         'role' => 'region',
@@ -898,7 +906,7 @@ echo html_writer::tag(
         ['id' => 'videotrack-covered-seconds']
     )
 );
-if (!empty($videotrack->reactionsenabled)) {
+if ($showstudentreactions) {
     echo html_writer::tag(
         'div',
         get_string('uniquereactions', 'mod_videotrack') . ': ' . html_writer::tag(
@@ -910,7 +918,7 @@ if (!empty($videotrack->reactionsenabled)) {
 }
 echo html_writer::end_div(); // Videotrack-progress.
 
-if (!empty($videotrack->reactionsenabled) && $reactions) {
+if ($showstudentreactions && $reactions) {
     echo html_writer::start_div('videotrack-reactions', ['id' => 'videotrack-reactions']);
     foreach ($reactions as $reaction) {
         $iconwithlabel  = videotrack_render_reaction_icon($reaction, $context, true);
@@ -1098,6 +1106,8 @@ if (\mod_videotrack\local\acknowledgement::is_enabled($videotrack)) {
             )),
             \core\output\notification::NOTIFY_SUCCESS
         );
+    } else if (!$islearner) {
+        // Report-capable staff may preview the statement but never create learner confirmations.
     } else if (isguestuser()) {
         echo $OUTPUT->notification(
             get_string('acknowledgement:guestunavailable', 'mod_videotrack'),

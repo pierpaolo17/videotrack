@@ -1,8 +1,8 @@
 # Named function inventory
 
-Generated from the VideoTrack 1.6.22 sources. Anonymous closures are intentionally omitted.
+Generated from the VideoTrack 1.6.23 sources. Anonymous closures are intentionally omitted.
 
-PHP entries: **461**. AMD entries: **572**.
+PHP entries: **470**. AMD entries: **572**.
 
 ## PHP functions and methods
 
@@ -20,13 +20,13 @@ PHP entries: **461**. AMD entries: **572**.
 | `backup/moodle2/restore_videotrack_stepslib.php:59` | `restore_videotrack_activity_structure_step::process_videotrack` | Restore the main VideoTrack activity record. |
 | `backup/moodle2/restore_videotrack_stepslib.php:93` | `restore_videotrack_activity_structure_step::process_videotrack_reaction` | Restore a configured reaction. |
 | `backup/moodle2/restore_videotrack_stepslib.php:123` | `restore_videotrack_activity_structure_step::process_videotrack_segment` | Restore one user playback segment. |
-| `backup/moodle2/restore_videotrack_stepslib.php:164` | `restore_videotrack_activity_structure_step::process_videotrack_state` | Restore one persisted user playback state. |
-| `backup/moodle2/restore_videotrack_stepslib.php:205` | `restore_videotrack_activity_structure_step::process_videotrack_reactionevent` | Restore one user reaction or note event. |
-| `backup/moodle2/restore_videotrack_stepslib.php:288` | `restore_videotrack_activity_structure_step::process_videotrack_integrityevent` | Restore one privacy-safe integrity signal. |
-| `backup/moodle2/restore_videotrack_stepslib.php:325` | `restore_videotrack_activity_structure_step::process_videotrack_acknowledgement` | Restore one versioned learner acknowledgement. |
-| `backup/moodle2/restore_videotrack_stepslib.php:370` | `restore_videotrack_activity_structure_step::normalise_interval_json` | Normalise restored interval JSON before storing it again. |
-| `backup/moodle2/restore_videotrack_stepslib.php:381` | `restore_videotrack_activity_structure_step::get_restored_cmid` | Return the new course module id created by the restore task. |
-| `backup/moodle2/restore_videotrack_stepslib.php:388` | `restore_videotrack_activity_structure_step::after_execute` | Restore related files and recreate the grade item after records are restored. |
+| `backup/moodle2/restore_videotrack_stepslib.php:165` | `restore_videotrack_activity_structure_step::process_videotrack_state` | Restore one persisted user playback state. |
+| `backup/moodle2/restore_videotrack_stepslib.php:211` | `restore_videotrack_activity_structure_step::process_videotrack_reactionevent` | Restore one user reaction or note event. |
+| `backup/moodle2/restore_videotrack_stepslib.php:294` | `restore_videotrack_activity_structure_step::process_videotrack_integrityevent` | Restore one privacy-safe integrity signal. |
+| `backup/moodle2/restore_videotrack_stepslib.php:331` | `restore_videotrack_activity_structure_step::process_videotrack_acknowledgement` | Restore one versioned learner acknowledgement. |
+| `backup/moodle2/restore_videotrack_stepslib.php:376` | `restore_videotrack_activity_structure_step::normalise_interval_json` | Normalise restored interval JSON before storing it again. |
+| `backup/moodle2/restore_videotrack_stepslib.php:387` | `restore_videotrack_activity_structure_step::get_restored_cmid` | Return the new course module id created by the restore task. |
+| `backup/moodle2/restore_videotrack_stepslib.php:394` | `restore_videotrack_activity_structure_step::after_execute` | Restore related files and recreate the grade item after records are restored. |
 | `classes/admin/setting_int_range.php:43` | `mod_videotrack\admin\setting_int_range::__construct` | Constructor. |
 | `classes/admin/setting_int_range.php:61` | `mod_videotrack\admin\setting_int_range::validate` | Validate the setting value. |
 | `classes/admin/setting_nonnegative_int.php:36` | `mod_videotrack\admin\setting_nonnegative_int::validate` | Validate the setting value. |
@@ -39,74 +39,74 @@ PHP entries: **461**. AMD entries: **572**.
 | `classes/event/acknowledgement_confirmed.php:30` | `mod_videotrack\event\acknowledgement_confirmed::init` | Initialise event metadata. |
 | `classes/event/acknowledgement_confirmed.php:41` | `mod_videotrack\event\acknowledgement_confirmed::get_name` | Return the event display name. |
 | `classes/event/acknowledgement_confirmed.php:50` | `mod_videotrack\event\acknowledgement_confirmed::get_description` | Return a human-readable event description. |
-| `classes/event/acknowledgement_confirmed.php:60` | `get_url` | Return the URL associated with this event. |
-| `classes/event/acknowledgement_confirmed.php:69` | `get_objectid_mapping` | Return object id mapping information for backup and restore. |
+| `classes/event/acknowledgement_confirmed.php:60` | `mod_videotrack\event\acknowledgement_confirmed::get_url` | Return the URL associated with this event. |
+| `classes/event/acknowledgement_confirmed.php:69` | `mod_videotrack\event\acknowledgement_confirmed::get_objectid_mapping` | Return object id mapping information for backup and restore. |
 | `classes/event/activity_completed.php:31` | `mod_videotrack\event\activity_completed::init` | Initialise event metadata. |
 | `classes/event/activity_completed.php:42` | `mod_videotrack\event\activity_completed::get_name` | Return the event display name. |
 | `classes/event/activity_completed.php:51` | `mod_videotrack\event\activity_completed::get_description` | Return a human-readable event description. |
-| `classes/event/activity_completed.php:63` | `get_url` | Return the URL associated with this event. |
-| `classes/event/activity_completed.php:72` | `get_objectid_mapping` | Return object id mapping information for backup and restore. |
+| `classes/event/activity_completed.php:63` | `mod_videotrack\event\activity_completed::get_url` | Return the URL associated with this event. |
+| `classes/event/activity_completed.php:72` | `mod_videotrack\event\activity_completed::get_objectid_mapping` | Return object id mapping information for backup and restore. |
 | `classes/event/bookmark_deleted.php:30` | `mod_videotrack\event\bookmark_deleted::init` | Initialise event metadata. |
 | `classes/event/bookmark_deleted.php:41` | `mod_videotrack\event\bookmark_deleted::get_name` | Return the event display name. |
 | `classes/event/bookmark_deleted.php:50` | `mod_videotrack\event\bookmark_deleted::get_description` | Return a human-readable event description. |
-| `classes/event/bookmark_deleted.php:60` | `get_url` | Return the URL associated with this event. |
-| `classes/event/bookmark_deleted.php:69` | `get_objectid_mapping` | Return object id mapping information for backup and restore. |
+| `classes/event/bookmark_deleted.php:60` | `mod_videotrack\event\bookmark_deleted::get_url` | Return the URL associated with this event. |
+| `classes/event/bookmark_deleted.php:69` | `mod_videotrack\event\bookmark_deleted::get_objectid_mapping` | Return object id mapping information for backup and restore. |
 | `classes/event/bookmark_exported.php:30` | `mod_videotrack\event\bookmark_exported::init` | Initialise event metadata. |
 | `classes/event/bookmark_exported.php:41` | `mod_videotrack\event\bookmark_exported::get_name` | Return the event display name. |
 | `classes/event/bookmark_exported.php:50` | `mod_videotrack\event\bookmark_exported::get_description` | Return a human-readable event description. |
-| `classes/event/bookmark_exported.php:60` | `get_url` | Return the URL associated with this event. |
-| `classes/event/bookmark_exported.php:67` | `validate_data` | Validate event data before dispatch. |
-| `classes/event/bookmark_exported.php:79` | `get_objectid_mapping` | Return object id mapping information for backup and restore. |
+| `classes/event/bookmark_exported.php:60` | `mod_videotrack\event\bookmark_exported::get_url` | Return the URL associated with this event. |
+| `classes/event/bookmark_exported.php:67` | `mod_videotrack\event\bookmark_exported::validate_data` | Validate event data before dispatch. |
+| `classes/event/bookmark_exported.php:79` | `mod_videotrack\event\bookmark_exported::get_objectid_mapping` | Return object id mapping information for backup and restore. |
 | `classes/event/bookmark_saved.php:30` | `mod_videotrack\event\bookmark_saved::init` | Initialise event metadata. |
 | `classes/event/bookmark_saved.php:41` | `mod_videotrack\event\bookmark_saved::get_name` | Return the event display name. |
 | `classes/event/bookmark_saved.php:50` | `mod_videotrack\event\bookmark_saved::get_description` | Return a human-readable event description. |
-| `classes/event/bookmark_saved.php:60` | `get_url` | Return the URL associated with this event. |
-| `classes/event/bookmark_saved.php:69` | `get_objectid_mapping` | Return object id mapping information for backup and restore. |
+| `classes/event/bookmark_saved.php:60` | `mod_videotrack\event\bookmark_saved::get_url` | Return the URL associated with this event. |
+| `classes/event/bookmark_saved.php:69` | `mod_videotrack\event\bookmark_saved::get_objectid_mapping` | Return object id mapping information for backup and restore. |
 | `classes/event/course_module_viewed.php:30` | `mod_videotrack\event\course_module_viewed::init` | Initialise event metadata. |
 | `classes/event/note_deleted.php:30` | `mod_videotrack\event\note_deleted::init` | Initialise event metadata. |
 | `classes/event/note_deleted.php:41` | `mod_videotrack\event\note_deleted::get_name` | Return the event display name. |
 | `classes/event/note_deleted.php:50` | `mod_videotrack\event\note_deleted::get_description` | Return a human-readable event description. |
-| `classes/event/note_deleted.php:60` | `get_url` | Return the URL associated with this event. |
-| `classes/event/note_deleted.php:69` | `get_objectid_mapping` | Return object id mapping information for backup and restore. |
+| `classes/event/note_deleted.php:60` | `mod_videotrack\event\note_deleted::get_url` | Return the URL associated with this event. |
+| `classes/event/note_deleted.php:69` | `mod_videotrack\event\note_deleted::get_objectid_mapping` | Return object id mapping information for backup and restore. |
 | `classes/event/note_saved.php:32` | `mod_videotrack\event\note_saved::init` | Initialise event metadata. |
 | `classes/event/note_saved.php:43` | `mod_videotrack\event\note_saved::get_name` | Return the event display name. |
 | `classes/event/note_saved.php:52` | `mod_videotrack\event\note_saved::get_description` | Return a human-readable event description. |
-| `classes/event/note_saved.php:64` | `get_url` | Return the URL associated with this event. |
-| `classes/event/note_saved.php:73` | `get_objectid_mapping` | Return object id mapping information for backup and restore. |
+| `classes/event/note_saved.php:64` | `mod_videotrack\event\note_saved::get_url` | Return the URL associated with this event. |
+| `classes/event/note_saved.php:73` | `mod_videotrack\event\note_saved::get_objectid_mapping` | Return object id mapping information for backup and restore. |
 | `classes/event/notes_exported.php:30` | `mod_videotrack\event\notes_exported::init` | Initialise event metadata. |
 | `classes/event/notes_exported.php:41` | `mod_videotrack\event\notes_exported::get_name` | Return the event display name. |
 | `classes/event/notes_exported.php:50` | `mod_videotrack\event\notes_exported::get_description` | Return a human-readable event description. |
-| `classes/event/notes_exported.php:62` | `get_url` | Return the URL associated with this event. |
-| `classes/event/notes_exported.php:70` | `validate_data` | Validate event data before dispatch. |
-| `classes/event/notes_exported.php:94` | `get_objectid_mapping` | Return object id mapping information for backup and restore. |
-| `classes/event/notes_exported.php:103` | `get_other_mapping` | Return other-field mapping information for backup and restore. |
+| `classes/event/notes_exported.php:62` | `mod_videotrack\event\notes_exported::get_url` | Return the URL associated with this event. |
+| `classes/event/notes_exported.php:70` | `mod_videotrack\event\notes_exported::validate_data` | Validate event data before dispatch. |
+| `classes/event/notes_exported.php:94` | `mod_videotrack\event\notes_exported::get_objectid_mapping` | Return object id mapping information for backup and restore. |
+| `classes/event/notes_exported.php:103` | `mod_videotrack\event\notes_exported::get_other_mapping` | Return other-field mapping information for backup and restore. |
 | `classes/event/reaction_deleted.php:30` | `mod_videotrack\event\reaction_deleted::init` | Initialise event metadata. |
 | `classes/event/reaction_deleted.php:41` | `mod_videotrack\event\reaction_deleted::get_name` | Return the event display name. |
 | `classes/event/reaction_deleted.php:50` | `mod_videotrack\event\reaction_deleted::get_description` | Return a human-readable event description. |
-| `classes/event/reaction_deleted.php:61` | `get_url` | Return the URL associated with this event. |
-| `classes/event/reaction_deleted.php:70` | `get_objectid_mapping` | Return object id mapping information for backup and restore. |
+| `classes/event/reaction_deleted.php:61` | `mod_videotrack\event\reaction_deleted::get_url` | Return the URL associated with this event. |
+| `classes/event/reaction_deleted.php:70` | `mod_videotrack\event\reaction_deleted::get_objectid_mapping` | Return object id mapping information for backup and restore. |
 | `classes/event/reaction_saved.php:30` | `mod_videotrack\event\reaction_saved::init` | Initialise event metadata. |
 | `classes/event/reaction_saved.php:41` | `mod_videotrack\event\reaction_saved::get_name` | Return the event display name. |
 | `classes/event/reaction_saved.php:50` | `mod_videotrack\event\reaction_saved::get_description` | Return a human-readable event description. |
-| `classes/event/reaction_saved.php:65` | `get_url` | Return the URL associated with this event. |
-| `classes/event/reaction_saved.php:74` | `get_objectid_mapping` | Return object id mapping information for backup and restore. |
+| `classes/event/reaction_saved.php:65` | `mod_videotrack\event\reaction_saved::get_url` | Return the URL associated with this event. |
+| `classes/event/reaction_saved.php:74` | `mod_videotrack\event\reaction_saved::get_objectid_mapping` | Return object id mapping information for backup and restore. |
 | `classes/event/report_exported.php:30` | `mod_videotrack\event\report_exported::init` | Initialise event metadata. |
 | `classes/event/report_exported.php:41` | `mod_videotrack\event\report_exported::get_name` | Return the event display name. |
 | `classes/event/report_exported.php:50` | `mod_videotrack\event\report_exported::get_description` | Return a human-readable event description. |
-| `classes/event/report_exported.php:61` | `get_url` | Return the URL associated with this event. |
-| `classes/event/report_exported.php:68` | `validate_data` | Validate event data before dispatch. |
-| `classes/event/report_exported.php:86` | `get_objectid_mapping` | Return object id mapping information for backup and restore. |
+| `classes/event/report_exported.php:61` | `mod_videotrack\event\report_exported::get_url` | Return the URL associated with this event. |
+| `classes/event/report_exported.php:68` | `mod_videotrack\event\report_exported::validate_data` | Validate event data before dispatch. |
+| `classes/event/report_exported.php:86` | `mod_videotrack\event\report_exported::get_objectid_mapping` | Return object id mapping information for backup and restore. |
 | `classes/event/segment_saved.php:31` | `mod_videotrack\event\segment_saved::init` | Initialise event metadata. |
 | `classes/event/segment_saved.php:42` | `mod_videotrack\event\segment_saved::get_name` | Return the event display name. |
 | `classes/event/segment_saved.php:51` | `mod_videotrack\event\segment_saved::get_description` | Return a human-readable event description. |
-| `classes/event/segment_saved.php:63` | `get_url` | Return the URL associated with this event. |
-| `classes/event/segment_saved.php:72` | `get_objectid_mapping` | Return object id mapping information for backup and restore. |
+| `classes/event/segment_saved.php:63` | `mod_videotrack\event\segment_saved::get_url` | Return the URL associated with this event. |
+| `classes/event/segment_saved.php:72` | `mod_videotrack\event\segment_saved::get_objectid_mapping` | Return object id mapping information for backup and restore. |
 | `classes/event/student_progress_reset.php:30` | `mod_videotrack\event\student_progress_reset::init` | Initialise event metadata. |
 | `classes/event/student_progress_reset.php:41` | `mod_videotrack\event\student_progress_reset::get_name` | Return the event display name. |
 | `classes/event/student_progress_reset.php:50` | `mod_videotrack\event\student_progress_reset::get_description` | Return a human-readable event description. |
-| `classes/event/student_progress_reset.php:62` | `validate_data` | Validate event data before dispatch. |
-| `classes/event/student_progress_reset.php:79` | `get_url` | Return the URL associated with this event. |
-| `classes/event/student_progress_reset.php:88` | `get_objectid_mapping` | Return object id mapping information for backup and restore. |
+| `classes/event/student_progress_reset.php:65` | `mod_videotrack\event\student_progress_reset::validate_data` | Validate event data before dispatch. |
+| `classes/event/student_progress_reset.php:82` | `mod_videotrack\event\student_progress_reset::get_url` | Return the URL associated with this event. |
+| `classes/event/student_progress_reset.php:91` | `mod_videotrack\event\student_progress_reset::get_objectid_mapping` | Return object id mapping information for backup and restore. |
 | `classes/external/delete_bookmark.php:44` | `mod_videotrack\external\delete_bookmark::execute_parameters` | Returns the external function parameters. |
 | `classes/external/delete_bookmark.php:58` | `mod_videotrack\external\delete_bookmark::execute` | Delete a private bookmark. |
 | `classes/external/delete_bookmark.php:91` | `mod_videotrack\external\delete_bookmark::execute_returns` | Returns the external function result structure. |
@@ -137,7 +137,7 @@ PHP entries: **461**. AMD entries: **572**.
 | `classes/external/save_reaction.php:312` | `mod_videotrack\external\save_reaction::execute_returns` | Returns the external function result structure. |
 | `classes/external/save_segment.php:48` | `mod_videotrack\external\save_segment::execute_parameters` | Returns the external function parameters. |
 | `classes/external/save_segment.php:76` | `mod_videotrack\external\save_segment::execute` | Saves a watched video segment and refreshes aggregate progress. |
-| `classes/external/save_segment.php:284` | `mod_videotrack\external\save_segment::execute_returns` | Returns the external function result structure. |
+| `classes/external/save_segment.php:281` | `mod_videotrack\external\save_segment::execute_returns` | Returns the external function result structure. |
 | `classes/form/forum_post_form.php:40` | `mod_videotrack\form\forum_post_form::definition` | Defines the composer form. |
 | `classes/form/forum_post_form.php:114` | `mod_videotrack\form\forum_post_form::validation` | Validates required composer content and the submitted group. |
 | `classes/local/acknowledgement.php:46` | `mod_videotrack\local\acknowledgement::is_enabled` | Return whether the current activity contains an enabled acknowledgement statement. |
@@ -146,12 +146,12 @@ PHP entries: **461**. AMD entries: **572**.
 | `classes/local/acknowledgement.php:82` | `mod_videotrack\local\acknowledgement::requires_video_end` | Return whether the statement requires the final video second. |
 | `classes/local/acknowledgement.php:94` | `mod_videotrack\local\acknowledgement::statement_hash` | Build the stable hash used to identify the current statement version. |
 | `classes/local/acknowledgement.php:108` | `mod_videotrack\local\acknowledgement::progress_snapshot` | Build the immutable viewing snapshot stored with a confirmation. |
-| `classes/local/acknowledgement.php:137` | `mod_videotrack\local\acknowledgement::has_reached_video_end` | Return whether persisted tracking proves that the final video second was reached. |
-| `classes/local/acknowledgement.php:164` | `mod_videotrack\local\acknowledgement::can_confirm` | Return whether the user may submit the current statement now. |
-| `classes/local/acknowledgement.php:180` | `mod_videotrack\local\acknowledgement::analytics_summary` | Build a privacy-safe Analytics summary from current confirmation records. |
-| `classes/local/acknowledgement.php:240` | `mod_videotrack\local\acknowledgement::current_record` | Return the current confirmation record for a user, when present. |
-| `classes/local/acknowledgement.php:264` | `mod_videotrack\local\acknowledgement::confirm` | Record the user's explicit confirmation of the current statement. |
-| `classes/local/acknowledgement.php:324` | `mod_videotrack\local\acknowledgement::current_records` | Return current confirmations keyed by user id. |
+| `classes/local/acknowledgement.php:133` | `mod_videotrack\local\acknowledgement::has_reached_video_end` | Return whether persisted tracking proves that the final video second was reached. |
+| `classes/local/acknowledgement.php:156` | `mod_videotrack\local\acknowledgement::can_confirm` | Return whether the user may submit the current statement now. |
+| `classes/local/acknowledgement.php:172` | `mod_videotrack\local\acknowledgement::analytics_summary` | Build a privacy-safe Analytics summary from current confirmation records. |
+| `classes/local/acknowledgement.php:232` | `mod_videotrack\local\acknowledgement::current_record` | Return the current confirmation record for a user, when present. |
+| `classes/local/acknowledgement.php:256` | `mod_videotrack\local\acknowledgement::confirm` | Record the user's explicit confirmation of the current statement. |
+| `classes/local/acknowledgement.php:316` | `mod_videotrack\local\acknowledgement::current_records` | Return current confirmations keyed by user id. |
 | `classes/local/analytics.php:48` | `mod_videotrack\local\analytics::resolve_duration` | Resolves the best known duration from instance, aggregate state and segments. |
 | `classes/local/analytics.php:66` | `mod_videotrack\local\analytics::default_bin_size` | Chooses a useful default granularity for a video duration. |
 | `classes/local/analytics.php:93` | `mod_videotrack\local\analytics::restrict_to_own_groups` | Determines whether analytics must be restricted to the viewer's own groups. |
@@ -166,11 +166,11 @@ PHP entries: **461**. AMD entries: **572**.
 | `classes/local/analytics.php:439` | `mod_videotrack\local\analytics::add_user_intervals` | Adds one user's raw and merged intervals to global bins. |
 | `classes/local/analytics.php:475` | `mod_videotrack\local\analytics::add_interval_to_map` | Distributes one interval across timeline bins. |
 | `classes/local/analytics_scope.php:42` | `mod_videotrack\local\analytics_scope::matching_accessible_instances` | Returns matching VideoTrack activities for which the user can view reports. |
-| `classes/local/analytics_scope.php:144` | `effective_groupmode` | Returns the effective Moodle group mode for one Analytics scope. |
-| `classes/local/analytics_scope.php:175` | `accessible_group_ids` | Returns the group ids whose learners are visible to a report viewer. |
-| `classes/local/analytics_scope.php:210` | `technical_identity` | Resolves the stable technical identity of one configured video. |
-| `classes/local/analytics_scope.php:261` | `normalise_external_url` | Normalises an external media URL for technical-identity comparisons. |
-| `classes/local/analytics_scope.php:294` | `get_instance_record` | Loads one instance together with course-module fields needed by Analytics. |
+| `classes/local/analytics_scope.php:144` | `mod_videotrack\local\analytics_scope::effective_groupmode` | Returns the effective Moodle group mode for one Analytics scope. |
+| `classes/local/analytics_scope.php:175` | `mod_videotrack\local\analytics_scope::accessible_group_ids` | Returns the group ids whose learners are visible to a report viewer. |
+| `classes/local/analytics_scope.php:210` | `mod_videotrack\local\analytics_scope::technical_identity` | Resolves the stable technical identity of one configured video. |
+| `classes/local/analytics_scope.php:261` | `mod_videotrack\local\analytics_scope::normalise_external_url` | Normalises an external media URL for technical-identity comparisons. |
+| `classes/local/analytics_scope.php:294` | `mod_videotrack\local\analytics_scope::get_instance_record` | Loads one instance together with course-module fields needed by Analytics. |
 | `classes/local/analytics_table_export.php:35` | `mod_videotrack\local\analytics_table_export::enabled_formats` | Returns supported formats that are enabled in the current Moodle site. |
 | `classes/local/analytics_table_export.php:46` | `mod_videotrack\local\analytics_table_export::columns` | Returns localised export column headings. |
 | `classes/local/analytics_table_export.php:72` | `mod_videotrack\local\analytics_table_export::export_columns` | Returns columns for the combined Analytics download. |
@@ -181,8 +181,8 @@ PHP entries: **461**. AMD entries: **572**.
 | `classes/local/course_analytics.php:220` | `mod_videotrack\local\course_analytics::median` | Calculates the median of a numeric list. |
 | `classes/local/course_analytics.php:240` | `mod_videotrack\local\course_analytics::largest_adjacent_drop` | Finds the largest privacy-safe retention decrease between adjacent bins. |
 | `classes/local/course_analytics.php:274` | `mod_videotrack\local\course_analytics::learner_scope_sql` | Builds the SQL condition for active enrolled learners in the permitted groups. |
-| `classes/local/course_analytics.php:308` | `load_states` | Loads aggregate state rows for one activity and learner scope. |
-| `classes/local/course_analytics.php:347` | `load_event_summary` | Loads a privacy-safe reaction, note or bookmark count for one activity. |
+| `classes/local/course_analytics.php:308` | `mod_videotrack\local\course_analytics::load_states` | Loads aggregate state rows for one activity and learner scope. |
+| `classes/local/course_analytics.php:347` | `mod_videotrack\local\course_analytics::load_event_summary` | Loads a privacy-safe reaction, note or bookmark count for one activity. |
 | `classes/local/csv_export.php:78` | `mod_videotrack\local\csv_export::delimiter_options` | Returns delimiter options stored as symbolic values. |
 | `classes/local/csv_export.php:97` | `mod_videotrack\local\csv_export::delimiter` | Resolves the actual one-character delimiter for an activity. |
 | `classes/local/csv_export.php:121` | `mod_videotrack\local\csv_export::field_options` | Returns all configurable export fields. |
@@ -193,16 +193,16 @@ PHP entries: **461**. AMD entries: **572**.
 | `classes/local/csv_export.php:236` | `mod_videotrack\local\csv_export::process_form_fields` | Aggregates submitted export-field checkboxes and removes helper fields. |
 | `classes/local/csv_export.php:256` | `mod_videotrack\local\csv_export::selected_user_fields` | Returns only selected user-table/custom-profile keys. |
 | `classes/local/csv_export.php:269` | `mod_videotrack\local\csv_export::load_users` | Loads users and selected visible identity fields in one query. |
-| `classes/local/csv_export.php:303` | `identity_headers` | Returns localised headers preceding event/state-specific columns. |
-| `classes/local/csv_export.php:332` | `identity_values` | Returns values matching identity_headers(). |
-| `classes/local/csv_export.php:372` | `cluster_notes` | Groups note events into time clusters for the overall CSV export. |
-| `classes/local/csv_export.php:422` | `write_utf8_bom` | Writes a UTF-8 byte-order mark for spreadsheet applications. |
-| `classes/local/csv_export.php:434` | `write_row` | Writes a CSV row using an explicit escape parameter for PHP 8.4 compatibility. |
-| `classes/local/csv_export.php:459` | `safe_value` | Protects spreadsheet consumers from formula injection. |
-| `classes/local/csv_export.php:476` | `normalise_field_list` | Normalises a comma-separated field list. |
-| `classes/local/csv_export.php:490` | `field_label` | Returns a field label. |
-| `classes/local/csv_export.php:507` | `field_value` | Returns one configured field value. |
-| `classes/local/csv_export.php:543` | `video_url` | Returns the configured video URL for CSV exports. |
+| `classes/local/csv_export.php:303` | `mod_videotrack\local\csv_export::identity_headers` | Returns localised headers preceding event/state-specific columns. |
+| `classes/local/csv_export.php:332` | `mod_videotrack\local\csv_export::identity_values` | Returns values matching identity_headers(). |
+| `classes/local/csv_export.php:372` | `mod_videotrack\local\csv_export::cluster_notes` | Groups note events into time clusters for the overall CSV export. |
+| `classes/local/csv_export.php:422` | `mod_videotrack\local\csv_export::write_utf8_bom` | Writes a UTF-8 byte-order mark for spreadsheet applications. |
+| `classes/local/csv_export.php:434` | `mod_videotrack\local\csv_export::write_row` | Writes a CSV row using an explicit escape parameter for PHP 8.4 compatibility. |
+| `classes/local/csv_export.php:459` | `mod_videotrack\local\csv_export::safe_value` | Protects spreadsheet consumers from formula injection. |
+| `classes/local/csv_export.php:476` | `mod_videotrack\local\csv_export::normalise_field_list` | Normalises a comma-separated field list. |
+| `classes/local/csv_export.php:490` | `mod_videotrack\local\csv_export::field_label` | Returns a field label. |
+| `classes/local/csv_export.php:507` | `mod_videotrack\local\csv_export::field_value` | Returns one configured field value. |
+| `classes/local/csv_export.php:543` | `mod_videotrack\local\csv_export::video_url` | Returns the configured video URL for CSV exports. |
 | `classes/local/forum_bridge.php:47` | `mod_videotrack\local\forum_bridge::resolve_destination` | Resolves and validates the configured forum for the current user. |
 | `classes/local/forum_bridge.php:99` | `mod_videotrack\local\forum_bridge::get_group_options` | Returns the groups in which the current user can create a discussion. |
 | `classes/local/forum_bridge.php:135` | `mod_videotrack\local\forum_bridge::can_choose_subscription` | Indicates whether the student can choose discussion subscription. |
@@ -214,6 +214,9 @@ PHP entries: **461**. AMD entries: **572**.
 | `classes/local/integrity.php:139` | `mod_videotrack\local\integrity::validate_event_type` | Validate a client-supplied signal type. |
 | `classes/local/integrity.php:152` | `mod_videotrack\local\integrity::label_string` | Return the language string identifier for one signal type. |
 | `classes/local/integrity.php:164` | `mod_videotrack\local\integrity::summarise` | Build a privacy-safe summary from raw grouped rows. |
+| `classes/local/learner_scope.php:41` | `mod_videotrack\local\learner_scope::sql` | Build canonical learner SQL scoped by enrolment, report capability and groups. |
+| `classes/local/learner_scope.php:91` | `mod_videotrack\local\learner_scope::prefix_named_params` | Prefix named SQL parameters so multi-activity learner scopes cannot collide. |
+| `classes/local/learner_scope.php:116` | `mod_videotrack\local\learner_scope::user_is_visible` | Check whether one learner is visible to the current report viewer. |
 | `classes/local/privacy_manager.php:49` | `mod_videotrack\local\privacy_manager::retention_period_seconds` | Returns the configured retention period in seconds. |
 | `classes/local/privacy_manager.php:67` | `mod_videotrack\local\privacy_manager::anonymisation_salt` | Returns the local anonymisation salt, creating it on first use. |
 | `classes/local/privacy_manager.php:119` | `mod_videotrack\local\privacy_manager::anonymous_userid` | Builds a stable negative user id with collisions that are extremely unlikely in normal Moodle use. |
@@ -256,20 +259,22 @@ PHP entries: **461**. AMD entries: **572**.
 | `classes/local/tracker.php:385` | `mod_videotrack\local\tracker::has_watched_videotime` | Returns true when the requested video time is inside a watched segment. |
 | `classes/local/tracker.php:475` | `mod_videotrack\local\tracker::completion_satisfied` | Evaluates the custom VideoTrack completion rules. |
 | `classes/local/tracker.php:532` | `mod_videotrack\local\tracker::create_default_state` | Creates the default aggregate state record for a user/activity pair. |
-| `classes/local/tracker.php:565` | `mod_videotrack\local\tracker::update_state` | Update the aggregated viewing state for one user. |
-| `classes/local/tracker.php:686` | `mod_videotrack\local\tracker::update_moodle_completion_if_changed` | Synchronises Moodle completion only when the persisted completion state differs from the computed VideoTrack state. This avoids redundant writes on every heartbeat/reaction while preserving normal completion semantics. |
-| `classes/local/tracker.php:710` | `mod_videotrack\local\tracker::aggregate_segments` | Aggregates persisted raw segments without trusting an existing state snapshot. |
-| `classes/local/tracker.php:749` | `mod_videotrack\local\tracker::rebuild_state_from_segments` | Rebuilds one user's aggregate state from raw segment rows and reaction events. |
-| `classes/local/tracker.php:841` | `mod_videotrack\local\tracker::refresh_completion` | Recomputes and persists completion state for one user/activity pair. |
+| `classes/local/tracker.php:568` | `mod_videotrack\local\tracker::advance_server_credit_budget` | Advance the persisted cumulative server-time playback-credit budget and reject over-credit candidates. |
+| `classes/local/tracker.php:609` | `mod_videotrack\local\tracker::forward_interval_allowed` | Enforce the server-known watched frontier when forward seeking is disabled. |
+| `classes/local/tracker.php:641` | `mod_videotrack\local\tracker::update_state` | Update the aggregated viewing state for one user. |
+| `classes/local/tracker.php:791` | `mod_videotrack\local\tracker::update_moodle_completion_if_changed` | Synchronises Moodle completion only when the persisted completion state differs from the computed VideoTrack state. This avoids redundant writes on every heartbeat/reaction while preserving normal completion semantics. |
+| `classes/local/tracker.php:815` | `mod_videotrack\local\tracker::aggregate_segments` | Aggregates persisted raw segments without trusting an existing state snapshot. |
+| `classes/local/tracker.php:854` | `mod_videotrack\local\tracker::rebuild_state_from_segments` | Rebuilds one user's aggregate state from raw segment rows and reaction events. |
+| `classes/local/tracker.php:945` | `mod_videotrack\local\tracker::refresh_completion` | Recomputes and persists completion state for one user/activity pair. |
 | `classes/privacy/provider.php:48` | `mod_videotrack\privacy\provider::format_interval_second` | Formats a number of seconds for human-readable privacy exports. |
 | `classes/privacy/provider.php:59` | `mod_videotrack\privacy\provider::get_metadata` | Describes the personal data stored by this plugin. |
-| `classes/privacy/provider.php:161` | `mod_videotrack\privacy\provider::get_contexts_for_userid` | Returns contexts that contain user information for the specified user. |
-| `classes/privacy/provider.php:200` | `mod_videotrack\privacy\provider::get_users_in_context` | Adds users with data in the supplied context to the user list. |
-| `classes/privacy/provider.php:233` | `mod_videotrack\privacy\provider::export_user_data` | Exports personal data for the approved context list. |
-| `classes/privacy/provider.php:583` | `mod_videotrack\privacy\provider::delete_data_for_all_users_in_context` | Deletes all plugin-owned user data for a module context. |
-| `classes/privacy/provider.php:596` | `mod_videotrack\privacy\provider::delete_data_for_user` | Deletes personal data for the approved context list. |
-| `classes/privacy/provider.php:608` | `mod_videotrack\privacy\provider::delete_data_for_users` | Deletes personal data for users in the supplied user list. |
-| `classes/privacy/provider.php:621` | `mod_videotrack\privacy\provider::delete_records_for_users_in_context` | Deletes user records for GDPR erasure requests. |
+| `classes/privacy/provider.php:165` | `mod_videotrack\privacy\provider::get_contexts_for_userid` | Returns contexts that contain user information for the specified user. |
+| `classes/privacy/provider.php:204` | `mod_videotrack\privacy\provider::get_users_in_context` | Adds users with data in the supplied context to the user list. |
+| `classes/privacy/provider.php:237` | `mod_videotrack\privacy\provider::export_user_data` | Exports personal data for the approved context list. |
+| `classes/privacy/provider.php:590` | `mod_videotrack\privacy\provider::delete_data_for_all_users_in_context` | Deletes all plugin-owned user data for a module context. |
+| `classes/privacy/provider.php:603` | `mod_videotrack\privacy\provider::delete_data_for_user` | Deletes personal data for the approved context list. |
+| `classes/privacy/provider.php:615` | `mod_videotrack\privacy\provider::delete_data_for_users` | Deletes personal data for users in the supplied user list. |
+| `classes/privacy/provider.php:628` | `mod_videotrack\privacy\provider::delete_records_for_users_in_context` | Deletes user records for GDPR erasure requests. |
 | `classes/task/cleanup_task.php:38` | `mod_videotrack\task\cleanup_task::get_name` | Returns the task name. |
 | `classes/task/cleanup_task.php:45` | `mod_videotrack\task\cleanup_task::execute` | Executes the retention task. |
 | `db/upgrade.php:35` | `xmldb_videotrack_upgrade` | Upgrade script for mod_videotrack. |
@@ -277,118 +282,119 @@ PHP entries: **461**. AMD entries: **572**.
 | `lib.php:69` | `videotrack_whitelist_record` | Returns an object containing only fields from the {videotrack} table. Prevents raw form data (including extra fields such as videofile, posterimage, reactionlabel_, etc.) from being passed directly to insert/update_record, which would otherwise trigger DB exceptions for non-existent columns. |
 | `lib.php:94` | `videotrack_add_instance` | Adds a new VideoTrack activity instance. |
 | `lib.php:141` | `videotrack_update_instance` | Updates an existing videotrack activity instance. |
-| `lib.php:185` | `videotrack_process_forum_fields` | Normalises and validates optional Forum integration fields before a database write. |
-| `lib.php:204` | `videotrack_process_acknowledgement_fields` | Normalises the optional learner acknowledgement fields. |
-| `lib.php:231` | `videotrack_process_video_fields` | Normalises video-source-specific fields before DB write. Sets videosource, videoid, videourl appropriately. |
-| `lib.php:273` | `videotrack_process_playbackspeeds_field` | Normalises the playbackspeeds field submitted from mod_form checkboxes. |
-| `lib.php:302` | `videotrack_save_uploaded_video` | Saves the uploaded video file into the mod_videotrack filearea. |
-| `lib.php:323` | `videotrack_delete_upload_source_files` | Deletes upload-only files when an activity is no longer using the upload source. |
-| `lib.php:340` | `videotrack_get_upload_url` | Returns the URL of the uploaded video file for an instance, or null if none. |
-| `lib.php:368` | `videotrack_get_module_context_from_data` | Resolves the context_module for a form data object during instance save. Checks coursemodule, cmid and falls back to get_coursemodule_from_instance. |
-| `lib.php:391` | `videotrack_save_poster_image` | Saves the uploaded poster/preview image into the 'posterimage' filearea. Called from add_instance and update_instance. |
-| `lib.php:424` | `videotrack_is_valid_reaction_icon_class` | Validates the Font Awesome class list used for reaction icons. |
-| `lib.php:459` | `videotrack_save_reaction_definitions` | Saves the configured reaction definitions for a VideoTrack activity. |
-| `lib.php:602` | `videotrack_user_outline` | Returns a summary of a student's viewing progress for the activity outline. Shown in the "Activity report" page of the participant profile. |
-| `lib.php:631` | `videotrack_user_complete` | Prints a detailed view of a student's watching history for the activity. Shown in the "Activity report" page of the participant profile. |
-| `lib.php:672` | `videotrack_extend_settings_navigation` | Adds a "Report" link to the activity's settings navigation (secondary nav). |
-| `lib.php:702` | `videotrack_extend_navigation_course` | Adds a "Video track reports" link to the course reports navigation node. |
-| `lib.php:735` | `videotrack_get_html5controls` | Returns the effective list of HTML5 player controls for an activity. Instance setting overrides site default when present. |
-| `lib.php:751` | `videotrack_process_html5controls_field` | Normalises html5controls field: aggregates html5ctrl_* checkbox fields into a comma-separated string in $data->html5controls. |
-| `lib.php:782` | `videotrack_process_player_behavior_fields` | Normalises autoplay/loop/startmuted/allowdownload boolean fields. |
-| `lib.php:819` | `videotrack_get_player_width` | Returns the effective max player width in px. |
-| `lib.php:834` | `videotrack_get_rewind_step` | Returns effective rewind step in seconds (instance override → site default → 10). |
-| `lib.php:855` | `videotrack_get_fastforward_step` | Returns effective fast-forward step in seconds (instance override → site default → 10). |
-| `lib.php:876` | `videotrack_get_vtt_url` | Returns the URL of the VTT subtitle file for an upload instance, or null. |
-| `lib.php:899` | `videotrack_process_captions_fields` | Normalises captions fields from form data. |
-| `lib.php:942` | `videotrack_process_grade_fields` | Normalises the grade-related fields submitted by mod_form before DB insert/update. Moodle's standard grading elements submit 'grade' as a signed integer: 0   = no grade >0   = numeric max points <0   = -(scale_id) gradepass is submitted separately and must be stored alongside grade. |
-| `lib.php:970` | `videotrack_grade_item_update` | Creates or updates the grade item in the Moodle gradebook for this activity. |
-| `lib.php:1028` | `videotrack_update_grades` | Updates all grades for this activity in the Moodle gradebook. |
-| `lib.php:1040` | `videotrack_set_user_grade` | Pushes a single user grade to the Moodle gradebook. |
-| `lib.php:1057` | `videotrack_get_user_grade` | Returns a user's current raw grade for this activity, or null if not graded. |
-| `lib.php:1082` | `videotrack_get_poster_url` | Returns the URL of the poster/preview image for this instance, or null if not set. The image is stored in the filearea 'posterimage' with itemid=0. |
-| `lib.php:1122` | `videotrack_delete_user_progress` | Deletes all plugin-owned VideoTrack data for one user in an activity. |
-| `lib.php:1154` | `videotrack_grade_item_delete` | Removes the grade item from the gradebook when the activity is deleted. |
-| `lib.php:1175` | `videotrack_delete_instance` | Deletes a VideoTrack activity instance and related records. |
-| `lib.php:1231` | `videotrack_get_coursemodule_info` | Returns cached course-module information for the activity. |
-| `lib.php:1252` | `videotrack_view` | Registers an activity view and updates view-based completion. |
-| `lib.php:1271` | `videotrack_get_completion_active_rule_descriptions` | Returns active custom completion rule descriptions for the activity. |
-| `lib.php:1309` | `videotrack_update_completion_for_user` | Recalculates completion for a specific user. |
-| `lib.php:1325` | `videotrack_reset_course_userdata` | Returns the items that can be reset in a course reset. Called by Moodle when building the course reset form. |
-| `lib.php:1374` | `videotrack_reset_course_form_definition` | Populates the course reset form with videotrack-specific options. Moodle HQ hook: called when building the course reset form. |
-| `lib.php:1394` | `videotrack_reset_course_form_defaults` | Returns default values for the VideoTrack course reset form options. |
-| `lib.php:1410` | `videotrack_resize_reaction_icon` | Resize the reaction icon to 64x64px using a centred crop. |
-| `lib.php:1505` | `videotrack_pluginfile` | Serves files from the reactionicon filearea. |
-| `lib.php:1614` | `videotrack_recalculate_all_states` | Recalculate the aggregate state (completionpercent, iscompleted) for all users in a single VideoTrack instance from raw segments. Useful after changing the video duration or completion criteria. |
+| `lib.php:186` | `videotrack_process_forum_fields` | Normalises and validates optional Forum integration fields before a database write. |
+| `lib.php:205` | `videotrack_process_acknowledgement_fields` | Normalises the optional learner acknowledgement fields. |
+| `lib.php:232` | `videotrack_process_video_fields` | Normalises video-source-specific fields before DB write. Sets videosource, videoid, videourl appropriately. |
+| `lib.php:274` | `videotrack_process_playbackspeeds_field` | Normalises the playbackspeeds field submitted from mod_form checkboxes. |
+| `lib.php:303` | `videotrack_save_uploaded_video` | Saves the uploaded video file into the mod_videotrack filearea. |
+| `lib.php:324` | `videotrack_delete_upload_source_files` | Deletes upload-only files when an activity is no longer using the upload source. |
+| `lib.php:341` | `videotrack_get_upload_url` | Returns the URL of the uploaded video file for an instance, or null if none. |
+| `lib.php:369` | `videotrack_get_module_context_from_data` | Resolves the context_module for a form data object during instance save. Checks coursemodule, cmid and falls back to get_coursemodule_from_instance. |
+| `lib.php:392` | `videotrack_save_poster_image` | Saves the uploaded poster/preview image into the 'posterimage' filearea. Called from add_instance and update_instance. |
+| `lib.php:425` | `videotrack_is_valid_reaction_icon_class` | Validates the Font Awesome class list used for reaction icons. |
+| `lib.php:460` | `videotrack_save_reaction_definitions` | Saves the configured reaction definitions for a VideoTrack activity. |
+| `lib.php:603` | `videotrack_user_outline` | Returns a summary of a student's viewing progress for the activity outline. Shown in the "Activity report" page of the participant profile. |
+| `lib.php:632` | `videotrack_user_complete` | Prints a detailed view of a student's watching history for the activity. Shown in the "Activity report" page of the participant profile. |
+| `lib.php:673` | `videotrack_extend_settings_navigation` | Adds a "Report" link to the activity's settings navigation (secondary nav). |
+| `lib.php:703` | `videotrack_extend_navigation_course` | Adds a "Video track reports" link to the course reports navigation node. |
+| `lib.php:736` | `videotrack_get_html5controls` | Returns the effective list of HTML5 player controls for an activity. Instance setting overrides site default when present. |
+| `lib.php:752` | `videotrack_process_html5controls_field` | Normalises html5controls field: aggregates html5ctrl_* checkbox fields into a comma-separated string in $data->html5controls. |
+| `lib.php:783` | `videotrack_process_player_behavior_fields` | Normalises autoplay/loop/startmuted/allowdownload boolean fields. |
+| `lib.php:820` | `videotrack_get_player_width` | Returns the effective max player width in px. |
+| `lib.php:835` | `videotrack_get_rewind_step` | Returns effective rewind step in seconds (instance override → site default → 10). |
+| `lib.php:856` | `videotrack_get_fastforward_step` | Returns effective fast-forward step in seconds (instance override → site default → 10). |
+| `lib.php:877` | `videotrack_get_vtt_url` | Returns the URL of the VTT subtitle file for an upload instance, or null. |
+| `lib.php:900` | `videotrack_process_captions_fields` | Normalises captions fields from form data. |
+| `lib.php:943` | `videotrack_process_grade_fields` | Normalises the grade-related fields submitted by mod_form before DB insert/update. Moodle's standard grading elements submit 'grade' as a signed integer: 0   = no grade >0   = numeric max points <0   = -(scale_id) gradepass is submitted separately and must be stored alongside grade. |
+| `lib.php:971` | `videotrack_grade_item_update` | Creates or updates the grade item in the Moodle gradebook for this activity. |
+| `lib.php:1029` | `videotrack_update_grades` | Updates all grades for this activity in the Moodle gradebook. |
+| `lib.php:1041` | `videotrack_set_user_grade` | Pushes a single user grade to the Moodle gradebook. |
+| `lib.php:1058` | `videotrack_get_user_grade` | Returns a user's current raw grade for this activity, or null if not graded. |
+| `lib.php:1083` | `videotrack_get_poster_url` | Returns the URL of the poster/preview image for this instance, or null if not set. The image is stored in the filearea 'posterimage' with itemid=0. |
+| `lib.php:1123` | `videotrack_delete_user_progress` | Deletes all plugin-owned VideoTrack data for one user in an activity. |
+| `lib.php:1155` | `videotrack_grade_item_delete` | Removes the grade item from the gradebook when the activity is deleted. |
+| `lib.php:1176` | `videotrack_delete_instance` | Deletes a VideoTrack activity instance and related records. |
+| `lib.php:1232` | `videotrack_get_coursemodule_info` | Returns cached course-module information for the activity. |
+| `lib.php:1253` | `videotrack_view` | Registers an activity view and updates view-based completion. |
+| `lib.php:1272` | `videotrack_get_completion_active_rule_descriptions` | Returns active custom completion rule descriptions for the activity. |
+| `lib.php:1310` | `videotrack_update_completion_for_user` | Recalculates completion for a specific user. |
+| `lib.php:1326` | `videotrack_reset_course_userdata` | Returns the items that can be reset in a course reset. Called by Moodle when building the course reset form. |
+| `lib.php:1375` | `videotrack_reset_course_form_definition` | Populates the course reset form with videotrack-specific options. Moodle HQ hook: called when building the course reset form. |
+| `lib.php:1395` | `videotrack_reset_course_form_defaults` | Returns default values for the VideoTrack course reset form options. |
+| `lib.php:1411` | `videotrack_resize_reaction_icon` | Resize the reaction icon to 64x64px using a centred crop. |
+| `lib.php:1506` | `videotrack_pluginfile` | Serves files from the reactionicon filearea. |
+| `lib.php:1615` | `videotrack_recalculate_all_states` | Recalculate the aggregate state (completionpercent, iscompleted) for all users in a single VideoTrack instance from raw segments. Useful after changing the video duration or completion criteria. |
 | `locallib.php:38` | `videotrack_get_config_int` | Reads an integer mod_videotrack configuration value while preserving explicit zero values. |
 | `locallib.php:57` | `videotrack_extract_videoid` | Extracts the 11-character YouTube video ID from a URL. |
 | `locallib.php:108` | `videotrack_extract_vimeo_id` | Extracts the Vimeo numeric video ID from a Vimeo URL. |
 | `locallib.php:148` | `videotrack_get_playback_speeds` | Returns the effective list of allowed playback speeds for an activity. If the instance has its own playbackspeeds, those override the site default. Speeds above the site maxplaybackrate are filtered out. |
-| `locallib.php:184` | `videotrack_get_max_playback_rate` | Returns the site-wide maximum playback rate cap (0 = no limit). |
-| `locallib.php:197` | `videotrack_get_site_playback_speeds` | Returns the site-wide available playback speeds as configured by the admin. |
-| `locallib.php:216` | `videotrack_format_seconds` | Formats a number of seconds into a human-readable MM:SS or H:MM:SS string. |
-| `locallib.php:234` | `videotrack_format_video_timestamp` | Formats a video timestamp using the video's total duration to select MM:SS or HH:MM:SS. |
-| `locallib.php:254` | `videotrack_parse_video_timestamp` | Parses seconds, MM:SS or HH:MM:SS into a non-negative number of seconds. |
-| `locallib.php:294` | `videotrack_parse_report_timestamp` | Parses a report filter time in MM:SS or HH:MM:SS format. |
-| `locallib.php:314` | `videotrack_build_required_reaction_notice` | Builds a human-readable notice string describing the reaction requirements for this activity. Used as the default reaction notice when the teacher has not written a custom one. |
-| `locallib.php:336` | `videotrack_get_reactions` | Returns all reaction definitions for a videotrack instance, sorted by sortorder. Results are statically cached within the request to avoid duplicate DB queries when both the reaction buttons and the reaction table need the same data. |
-| `locallib.php:363` | `videotrack_reaction_icon_url` | Returns a pluginfile URL for a stored reaction icon. |
-| `locallib.php:404` | `videotrack_render_reaction_icon` | Renders a reaction icon with an optional accessible label. |
-| `locallib.php:451` | `videotrack_get_fallback_reaction_emoji_catalog` | Returns the curated fallback emoji catalogue used when Moodle/TinyMCE data is unavailable. |
-| `locallib.php:485` | `videotrack_get_moodle_reaction_emoji_catalog` | Returns the full Moodle/TinyMCE emoji catalogue when available. |
-| `locallib.php:537` | `videotrack_get_reaction_icon_catalog` | Returns reaction icon values grouped by type and theme. |
-| `locallib.php:583` | `videotrack_get_reaction_icon_suggestions` | Returns common icon values suggested for reaction icons. |
-| `locallib.php:601` | `videotrack_reaction_icon_datalist` | Builds a HTML datalist for reaction icon values. |
-| `locallib.php:628` | `videotrack_reaction_icon_picker` | Builds an accessible visual picker for reaction icon values. |
-| `locallib.php:749` | `videotrack_get_all_presets` | Returns all reaction presets stored in config as a keyed array. |
-| `locallib.php:763` | `videotrack_save_presets` | Saves the full presets array back to config. |
-| `locallib.php:773` | `videotrack_get_preset_select_options` | Returns presets formatted for a Moodle select element. First option is always the empty "manual configuration" choice. |
-| `locallib.php:788` | `videotrack_get_all_presets_for_js` | Returns all presets as a flat array keyed by preset key, for the JS client. |
-| `locallib.php:804` | `videotrack_require_preset_amd` | Registers the AMD preset selector module for the mod_form page. Called from mod_form.php definition() after the preset select element is added. |
-| `locallib.php:820` | `videotrack_optional_iso_date_param` | Reads an optional ISO date (YYYY-MM-DD) report filter safely. |
-| `locallib.php:831` | `videotrack_get_compatible_forum_types` | Returns forum types that can receive repeated student discussions from VideoTrack. |
-| `locallib.php:841` | `videotrack_get_compatible_forums` | Returns compatible Forum instances from one course, including module status metadata. |
-| `locallib.php:868` | `videotrack_get_compatible_forum_options` | Builds form options for compatible forums in a course. |
-| `locallib.php:895` | `videotrack_is_compatible_forum` | Validates that a forum is a compatible destination in the given course. |
-| `locallib.php:911` | `videotrack_build_forum_subject` | Builds the default Forum discussion subject from the configured template. |
-| `locallib.php:940` | `videotrack_build_replay_url` | Builds the canonical replay URL for a timestamp and symmetric pre-roll window. |
+| `locallib.php:196` | `videotrack_get_max_playback_rate` | Returns the site-wide maximum playback rate cap (0 = no limit). |
+| `locallib.php:209` | `videotrack_get_site_playback_speeds` | Returns the site-wide available playback speeds as configured by the admin. |
+| `locallib.php:228` | `videotrack_format_seconds` | Formats a number of seconds into a human-readable MM:SS or H:MM:SS string. |
+| `locallib.php:246` | `videotrack_format_video_timestamp` | Formats a video timestamp using the video's total duration to select MM:SS or HH:MM:SS. |
+| `locallib.php:266` | `videotrack_parse_video_timestamp` | Parses seconds, MM:SS or HH:MM:SS into a non-negative number of seconds. |
+| `locallib.php:306` | `videotrack_parse_report_timestamp` | Parses a report filter time in MM:SS or HH:MM:SS format. |
+| `locallib.php:326` | `videotrack_build_required_reaction_notice` | Builds a human-readable notice string describing the reaction requirements for this activity. Used as the default reaction notice when the teacher has not written a custom one. |
+| `locallib.php:348` | `videotrack_get_reactions` | Returns all reaction definitions for a videotrack instance, sorted by sortorder. Results are statically cached within the request to avoid duplicate DB queries when both the reaction buttons and the reaction table need the same data. |
+| `locallib.php:375` | `videotrack_reaction_icon_url` | Returns a pluginfile URL for a stored reaction icon. |
+| `locallib.php:416` | `videotrack_render_reaction_icon` | Renders a reaction icon with an optional accessible label. |
+| `locallib.php:463` | `videotrack_get_fallback_reaction_emoji_catalog` | Returns the curated fallback emoji catalogue used when Moodle/TinyMCE data is unavailable. |
+| `locallib.php:497` | `videotrack_get_moodle_reaction_emoji_catalog` | Returns the full Moodle/TinyMCE emoji catalogue when available. |
+| `locallib.php:549` | `videotrack_get_reaction_icon_catalog` | Returns reaction icon values grouped by type and theme. |
+| `locallib.php:595` | `videotrack_get_reaction_icon_suggestions` | Returns common icon values suggested for reaction icons. |
+| `locallib.php:613` | `videotrack_reaction_icon_datalist` | Builds a HTML datalist for reaction icon values. |
+| `locallib.php:640` | `videotrack_reaction_icon_picker` | Builds an accessible visual picker for reaction icon values. |
+| `locallib.php:761` | `videotrack_get_all_presets` | Returns all reaction presets stored in config as a keyed array. |
+| `locallib.php:775` | `videotrack_save_presets` | Saves the full presets array back to config. |
+| `locallib.php:785` | `videotrack_get_preset_select_options` | Returns presets formatted for a Moodle select element. First option is always the empty "manual configuration" choice. |
+| `locallib.php:800` | `videotrack_get_all_presets_for_js` | Returns all presets as a flat array keyed by preset key, for the JS client. |
+| `locallib.php:816` | `videotrack_require_preset_amd` | Registers the AMD preset selector module for the mod_form page. Called from mod_form.php definition() after the preset select element is added. |
+| `locallib.php:832` | `videotrack_optional_iso_date_param` | Reads an optional ISO date (YYYY-MM-DD) report filter safely. |
+| `locallib.php:843` | `videotrack_get_compatible_forum_types` | Returns forum types that can receive repeated student discussions from VideoTrack. |
+| `locallib.php:853` | `videotrack_get_compatible_forums` | Returns compatible Forum instances from one course, including module status metadata. |
+| `locallib.php:880` | `videotrack_get_compatible_forum_options` | Builds form options for compatible forums in a course. |
+| `locallib.php:907` | `videotrack_is_compatible_forum` | Validates that a forum is a compatible destination in the given course. |
+| `locallib.php:923` | `videotrack_build_forum_subject` | Builds the default Forum discussion subject from the configured template. |
+| `locallib.php:952` | `videotrack_build_replay_url` | Builds the canonical replay URL for a timestamp and symmetric pre-roll window. |
 | `mod_form.php:40` | `mod_videotrack_mod_form::definition` | Defines the activity settings form. |
-| `mod_form.php:1010` | `apply_default_section_expansion` | Applies the default collapsed state to the instance configuration sections. |
-| `mod_form.php:1053` | `require_filepicker_accept_filter` | Adds a client-side accept attribute to repository upload inputs. |
-| `mod_form.php:1099` | `add_reaction_elements` | Adds repeated form elements used to configure reaction buttons. |
-| `mod_form.php:1273` | `get_reaction_repeat_count` | Returns the number of reaction rows to render in the form. |
-| `mod_form.php:1298` | `add_completion_rules` | Adds VideoTrack-specific completion rules. |
-| `mod_form.php:1341` | `completion_rule_enabled` | Checks whether the custom completion rule is enabled. |
-| `mod_form.php:1353` | `data_preprocessing` | Prepares default values and draft areas before the form is displayed. |
-| `mod_form.php:1603` | `draft_area_contains_only_reaction_images` | Checks that a reaction icon draft area contains only allowed image files. |
-| `mod_form.php:1639` | `draft_area_contains_only_vtt` | Check that a draft area contains only valid WebVTT files. |
-| `mod_form.php:1671` | `validation` | Validates submitted activity settings. |
+| `mod_form.php:1020` | `mod_videotrack_mod_form::apply_default_section_expansion` | Applies the default collapsed state to the instance configuration sections. |
+| `mod_form.php:1063` | `mod_videotrack_mod_form::require_filepicker_accept_filter` | Adds a client-side accept attribute to repository upload inputs. |
+| `mod_form.php:1109` | `mod_videotrack_mod_form::add_reaction_elements` | Adds repeated form elements used to configure reaction buttons. |
+| `mod_form.php:1283` | `mod_videotrack_mod_form::get_reaction_repeat_count` | Returns the number of reaction rows to render in the form. |
+| `mod_form.php:1308` | `mod_videotrack_mod_form::add_completion_rules` | Adds VideoTrack-specific completion rules. |
+| `mod_form.php:1351` | `mod_videotrack_mod_form::completion_rule_enabled` | Checks whether the custom completion rule is enabled. |
+| `mod_form.php:1363` | `mod_videotrack_mod_form::data_preprocessing` | Prepares default values and draft areas before the form is displayed. |
+| `mod_form.php:1613` | `mod_videotrack_mod_form::draft_area_contains_only_reaction_images` | Checks that a reaction icon draft area contains only allowed image files. |
+| `mod_form.php:1649` | `mod_videotrack_mod_form::draft_area_contains_only_vtt` | Check that a draft area contains only valid WebVTT files. |
+| `mod_form.php:1681` | `mod_videotrack_mod_form::validation` | Validates submitted activity settings. |
 | `report.php:36` | `videotrack_report_user_label` | Formats a report user label without exposing anonymised pseudo-user ids. |
 | `report.php:54` | `videotrack_report_date_to_timestamp` | Converts an ISO date-only parameter to a timestamp in the user's timezone. |
 | `report.php:76` | `videotrack_report_optional_time_param` | Reads an optional video-time filter. |
 | `report.php:128` | `videotrack_report_duration_filter` | Renders a structured duration filter using number inputs. |
-| `report.php:190` | `videotrack_report_analytics_scope_condition` | Builds a capability-safe SQL condition for one or more Analytics activities. |
-| `report.php:235` | `videotrack_report_acknowledgement_scope_condition` | Builds a capability-safe SQL condition for current acknowledgement versions. |
-| `report.php:282` | `videotrack_report_tabs` | Builds the report tab set. |
-| `report.php:325` | `videotrack_report_analytics_interval` | Formats a timeline interval for analytics reports. |
-| `report.php:339` | `videotrack_report_render_analytics_heatmap` | Renders the unique-view heatmap with optional reaction-cluster markers. |
-| `report.php:464` | `videotrack_report_render_analytics_methodology` | Renders the expandable explanation of analytics calculations and privacy. |
-| `report.php:524` | `videotrack_report_render_privacy_alert` | Renders one privacy warning only when a dataset cannot be displayed. |
-| `report.php:551` | `videotrack_report_render_heatmap_legend` | Renders a legend explaining heatmap intervals, intensity and markers. |
-| `report.php:596` | `videotrack_report_render_analytics_download` | Renders the analytics table download selector. |
-| `report.php:653` | `videotrack_report_render_reaction_clusters` | Render privacy-safe reaction clusters independently from viewing analytics. |
-| `report.php:688` | `videotrack_report_render_reaction_summary` | Renders a privacy-safe overall reaction summary. |
-| `report.php:711` | `videotrack_report_render_bookmark_summary` | Renders a privacy-safe bookmark usage summary without exposing labels or timestamps. |
-| `report.php:778` | `videotrack_report_render_acknowledgement_summary` | Renders privacy-safe acknowledgement Analytics. |
-| `report.php:886` | `videotrack_report_render_integrity_summary` | Renders privacy-safe diagnostic integrity indicators. |
-| `report.php:977` | `videotrack_report_render_analytics_retention` | Renders the retention line chart. |
+| `report.php:191` | `videotrack_report_analytics_scope_condition` | Builds a capability-safe SQL condition for one or more Analytics activities. |
+| `report.php:258` | `videotrack_report_acknowledgement_scope_condition` | Builds a capability-safe SQL condition for current acknowledgement versions. |
+| `report.php:326` | `videotrack_report_tabs` | Builds the report tab set. |
+| `report.php:369` | `videotrack_report_analytics_interval` | Formats a timeline interval for analytics reports. |
+| `report.php:383` | `videotrack_report_render_analytics_heatmap` | Renders the unique-view heatmap with optional reaction-cluster markers. |
+| `report.php:508` | `videotrack_report_render_analytics_methodology` | Renders the expandable explanation of analytics calculations and privacy. |
+| `report.php:568` | `videotrack_report_render_privacy_alert` | Renders one privacy warning only when a dataset cannot be displayed. |
+| `report.php:595` | `videotrack_report_render_heatmap_legend` | Renders a legend explaining heatmap intervals, intensity and markers. |
+| `report.php:640` | `videotrack_report_render_analytics_download` | Renders the analytics table download selector. |
+| `report.php:697` | `videotrack_report_render_reaction_clusters` | Render privacy-safe reaction clusters independently from viewing analytics. |
+| `report.php:732` | `videotrack_report_render_reaction_summary` | Renders a privacy-safe overall reaction summary. |
+| `report.php:755` | `videotrack_report_render_bookmark_summary` | Renders a privacy-safe bookmark usage summary without exposing labels or timestamps. |
+| `report.php:822` | `videotrack_report_render_acknowledgement_summary` | Renders privacy-safe acknowledgement Analytics. |
+| `report.php:930` | `videotrack_report_render_integrity_summary` | Renders privacy-safe diagnostic integrity indicators. |
+| `report.php:1021` | `videotrack_report_render_analytics_retention` | Renders the retention line chart. |
 | `reports_course.php:35` | `videotrack_course_report_count_cell` | Renders a privacy-safe aggregate count. |
 | `reports_course.php:58` | `videotrack_course_report_percentage_cell` | Renders an aggregate percentage, preserving privacy suppression. |
 | `reports_course.php:99` | `videotrack_course_report_drop_cell` | Renders the largest adjacent retention decrease. |
 | `tests/acknowledgement_test.php:36` | `mod_videotrack\acknowledgement_test::test_statement_hash_versions_the_statement_content` | Statement identity changes when content, format or the end-gating policy changes. |
 | `tests/acknowledgement_test.php:58` | `mod_videotrack\acknowledgement_test::test_video_end_requirement_uses_persisted_intervals` | End-gated confirmation requires persisted tracking to reach the final second. |
 | `tests/acknowledgement_test.php:83` | `mod_videotrack\acknowledgement_test::test_progress_snapshot_uses_unique_coverage` | Confirmation snapshots preserve unique viewed time and percentage at that moment. |
-| `tests/acknowledgement_test.php:101` | `mod_videotrack\acknowledgement_test::test_enabled_state_requires_nonempty_visible_text` | Empty or disabled statements are never offered for confirmation. |
-| `tests/acknowledgement_test.php:121` | `mod_videotrack\acknowledgement_test::test_analytics_summary_preserves_legacy_and_privacy_rules` | Analytics summary averages available snapshots and masks small populations. |
+| `tests/acknowledgement_test.php:101` | `mod_videotrack\acknowledgement_test::test_video_end_requires_teacher_configured_duration` | Historical state/client duration cannot unlock end-gated acknowledgement without teacher-configured verified duration. |
+| `tests/acknowledgement_test.php:126` | `mod_videotrack\acknowledgement_test::test_enabled_state_requires_nonempty_visible_text` | Empty or disabled statements are never offered for confirmation. |
+| `tests/acknowledgement_test.php:146` | `mod_videotrack\acknowledgement_test::test_analytics_summary_preserves_legacy_and_privacy_rules` | Analytics summary averages available snapshots and masks small populations. |
 | `tests/admin_settings_test.php:40` | `mod_videotrack\admin_settings_test::setUp` | Load Moodle admin setting base classes before instantiating plugin settings. |
 | `tests/admin_settings_test.php:50` | `mod_videotrack\admin_settings_test::test_nonnegative_int_validation_accepts_zero_and_rejects_invalid_values` | Non-negative integer settings accept zero and reject unsafe values. |
 | `tests/admin_settings_test.php:63` | `mod_videotrack\admin_settings_test::test_int_range_validation_enforces_configured_bounds` | Range settings enforce both configured boundaries. |
@@ -450,10 +456,10 @@ PHP entries: **461**. AMD entries: **572**.
 | `tests/locallib_test.php:129` | `mod_videotrack\locallib_test::test_get_config_int_preserves_zero_and_clamps_values` | Bounded integer settings preserve explicit zero and clamp out-of-range values. |
 | `tests/locallib_test.php:147` | `mod_videotrack\locallib_test::test_get_config_int_rejects_invalid_bounds` | Invalid helper bounds should fail loudly for developers. |
 | `tests/locallib_test.php:157` | `mod_videotrack\locallib_test::test_get_playback_speeds_filters_and_applies_site_cap` | Instance playback speeds override site defaults and remain capped by the site maximum. |
-| `tests/locallib_test.php:172` | `mod_videotrack\locallib_test::test_compatible_forum_types_exclude_single_use_forums` | Forum compatibility is restricted to repeatable discussion types. |
-| `tests/locallib_test.php:181` | `mod_videotrack\locallib_test::test_build_replay_url_applies_window_and_duration` | Replay links apply the configured symmetric window and duration cap. |
-| `tests/locallib_test.php:195` | `mod_videotrack\locallib_test::test_build_forum_subject_replaces_supported_placeholders` | Forum subject templates replace supported placeholders and preserve static text. |
-| `tests/locallib_test.php:209` | `mod_videotrack\locallib_test::test_build_forum_subject_uses_default_template` | Empty Forum subject templates use the language-pack default. |
+| `tests/locallib_test.php:178` | `mod_videotrack\locallib_test::test_compatible_forum_types_exclude_single_use_forums` | Forum compatibility is restricted to repeatable discussion types. |
+| `tests/locallib_test.php:187` | `mod_videotrack\locallib_test::test_build_replay_url_applies_window_and_duration` | Replay links apply the configured symmetric window and duration cap. |
+| `tests/locallib_test.php:201` | `mod_videotrack\locallib_test::test_build_forum_subject_replaces_supported_placeholders` | Forum subject templates replace supported placeholders and preserve static text. |
+| `tests/locallib_test.php:215` | `mod_videotrack\locallib_test::test_build_forum_subject_uses_default_template` | Empty Forum subject templates use the language-pack default. |
 | `tests/save_bookmark_test.php:37` | `mod_videotrack\save_bookmark_test::test_execute_parameters_uses_supported_moodle_parameter_types` | The external parameters use Moodle-supported types. |
 | `tests/save_integrity_event_test.php:37` | `mod_videotrack\save_integrity_event_test::test_execute_parameters_uses_supported_moodle_parameter_types` | The external parameters use Moodle-supported types. |
 | `tests/save_note_test.php:37` | `mod_videotrack\save_note_test::test_execute_parameters_uses_supported_moodle_parameter_types` | The external parameter structure must use parameter types defined by Moodle. |
@@ -468,7 +474,10 @@ PHP entries: **461**. AMD entries: **572**.
 | `tests/tracker_test.php:91` | `mod_videotrack\tracker_test::test_simplify_intervals_never_overestimates_coverage` | Simplification keeps the longest fragments without merging unseen gaps. |
 | `tests/tracker_test.php:108` | `mod_videotrack\tracker_test::test_aggregate_segments_rebuilds_state_values` | Raw segment aggregation rebuilds coverage and the latest resume position. |
 | `tests/tracker_test.php:146` | `mod_videotrack\tracker_test::test_cap_intervals_limits_count_and_preserves_order` | The interval cap limits pathological data while preserving timeline order. |
-| `tests/tracker_test.php:165` | `mod_videotrack\tracker_test::test_watched_time_validation_uses_aggregate_state_fallback` | Watched-time validation falls back to persisted aggregate intervals. |
+| `tests/tracker_test.php:165` | `mod_videotrack\tracker_test::test_server_credit_budget_is_cumulative` | Verify request frequency cannot replenish the cumulative server-time credit budget. |
+| `tests/tracker_test.php:199` | `mod_videotrack\tracker_test::test_forward_interval_guard_rejects_unwatched_jump` | Verify the server rejects forward jumps when the activity disables forward seeking. |
+| `tests/tracker_test.php:212` | `mod_videotrack\tracker_test::test_watched_time_validation_ignores_unvalidated_raw_segments` | Named function or method; see the source DocBlock and callers for its detailed contract. |
+| `tests/tracker_test.php:240` | `mod_videotrack\tracker_test::test_watched_time_validation_uses_aggregate_state_fallback` | Watched-time validation falls back to persisted aggregate intervals. |
 
 ## AMD named callables
 
@@ -513,8 +522,8 @@ PHP entries: **461**. AMD entries: **572**.
 | `amd/src/core/adapter.js:669` | `seek` | Named callable `seek` in the module; see its JSDoc and callers for parameter and side-effect details. |
 | `amd/src/core/api.js:61` | `call` | Named callable `call` in the module; see its JSDoc and callers for parameter and side-effect details. |
 | `amd/src/core/api.js:87` | `attemptRequest` | Named callable `attemptRequest` in the module; see its JSDoc and callers for parameter and side-effect details. |
-| `amd/src/core/api.js:135` | `buildSegmentArgs` | Named callable `buildSegmentArgs` in the module; see its JSDoc and callers for parameter and side-effect details. |
-| `amd/src/core/api.js:171` | `saveSegment` | Named callable `saveSegment` in the module; see its JSDoc and callers for parameter and side-effect details. |
+| `amd/src/core/api.js:138` | `buildSegmentArgs` | Named callable `buildSegmentArgs` in the module; see its JSDoc and callers for parameter and side-effect details. |
+| `amd/src/core/api.js:174` | `saveSegment` | Named callable `saveSegment` in the module; see its JSDoc and callers for parameter and side-effect details. |
 | `amd/src/core/api/error.js:29` | `getNetworkState` | Named callable `getNetworkState` in the module; see its JSDoc and callers for parameter and side-effect details. |
 | `amd/src/core/api/error.js:41` | `isBrowserOffline` | Named callable `isBrowserOffline` in the module; see its JSDoc and callers for parameter and side-effect details. |
 | `amd/src/core/api/error.js:51` | `getErrorCode` | Named callable `getErrorCode` in the module; see its JSDoc and callers for parameter and side-effect details. |

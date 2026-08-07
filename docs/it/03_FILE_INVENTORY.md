@@ -1,8 +1,8 @@
 # Inventario dei file distribuiti
 
-Questo inventario è generato sull’albero VideoTrack 1.6.22 ed elenca ogni file non documentale. Il JavaScript canonico è in `amd/src`; i file in `amd/build` sono generati.
+Questo inventario è generato sull’albero VideoTrack 1.6.23 ed elenca ogni file non documentale. Il JavaScript canonico è in `amd/src`; i file in `amd/build` sono generati.
 
-Entries: **233**.
+Entries: **234**.
 
 | File | Responsabilità |
 |---|---|
@@ -187,6 +187,7 @@ Entries: **233**.
 | `classes/local/csv_export.php` | Servizio di dominio `csv_export` riusabile da pagine, report o servizi. |
 | `classes/local/forum_bridge.php` | Servizio di dominio `forum_bridge` riusabile da pagine, report o servizi. |
 | `classes/local/integrity.php` | Servizio di dominio `integrity` riusabile da pagine, report o servizi. |
+| `classes/local/learner_scope.php` | Regole canoniche di visibilità learner/report per ruoli e gruppi. |
 | `classes/local/privacy_manager.php` | Servizio di dominio `privacy_manager` riusabile da pagine, report o servizi. |
 | `classes/local/teacher_analytics.php` | Servizio di dominio `teacher_analytics` riusabile da pagine, report o servizi. |
 | `classes/local/timed_text.php` | Servizio di dominio `timed_text` riusabile da pagine, report o servizi. |
@@ -195,7 +196,7 @@ Entries: **233**.
 | `classes/task/cleanup_task.php` | Task pianificato per retention e pulizia. |
 | `db/access.php` | Capability e default degli archetipi di ruolo. |
 | `db/install.xml` | Schema XMLDB canonico delle tabelle del plugin. |
-| `db/mobile.php` | Dichiarazione di supporto Moodle App. |
+| `db/mobile.php` | Dichiarazione Moodle App intenzionalmente vuota fino alla fase dedicata di validazione App. |
 | `db/services.php` | Dichiarazioni delle funzioni esterne AJAX. |
 | `db/tasks.php` | Dichiarazione del task pianificato. |
 | `db/upgrade.php` | Upgrade XMLDB incrementali e savepoint. |

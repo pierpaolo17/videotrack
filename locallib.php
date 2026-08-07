@@ -140,12 +140,16 @@ function videotrack_extract_vimeo_id(string $url): ?string {
 /**
  * Returns the effective list of allowed playback speeds for an activity.
  * If the instance has its own playbackspeeds, those override the site default.
- * Speeds above the site maxplaybackrate are filtered out.
+ * The effective list respects whether rate changes are enabled and the stricter of the site and instance caps.
  *
  * @param  stdClass  $videotrack  Instance record.
  * @return float[]                Sorted array of speed values.
  */
 function videotrack_get_playback_speeds(stdClass $videotrack): array {
+    if (isset($videotrack->allowplaybackratechange) && empty($videotrack->allowplaybackratechange)) {
+        return [1.0];
+    }
+
     $raw = !empty($videotrack->playbackspeeds)
         ? $videotrack->playbackspeeds
         : (string)get_config('mod_videotrack', 'playbackspeeds');
@@ -162,18 +166,26 @@ function videotrack_get_playback_speeds(stdClass $videotrack): array {
         $speeds = [1.0];
     }
 
-    // Apply site-wide hard cap (0 = no limit).
-    $max = videotrack_get_max_playback_rate();
-    if ($max > 0) {
-        $speeds = array_values(array_filter($speeds, function ($s) use ($max) {
-            return $s <= $max;
+    $sitecap = videotrack_get_max_playback_rate();
+    $instancecapraw = (int)($videotrack->maxplaybackrate ?? 0);
+    $instancecap = $instancecapraw > 0 ? round(max(25, min(400, $instancecapraw)) / 100.0, 4) : 0.0;
+    $caps = array_values(array_filter([$sitecap, $instancecap], static function (float $cap): bool {
+        return $cap > 0;
+    }));
+    $effectivecap = $caps ? min($caps) : 0.0;
+    if ($effectivecap > 0) {
+        $speeds = array_values(array_filter($speeds, static function (float $speed) use ($effectivecap): bool {
+            return $speed <= ($effectivecap + 0.001);
         }));
-        // Always include at least 1× so students can play normally.
-        if (empty($speeds)) {
-            $speeds = [1.0];
-        }
     }
-    return $speeds;
+
+    // Normal speed is always available; site/instance settings should never make
+    // a standard 1x playback request invalid.
+    if (!in_array(1.0, $speeds, true)) {
+        $speeds[] = 1.0;
+        sort($speeds);
+    }
+    return array_values(array_unique($speeds));
 }
 
 /**

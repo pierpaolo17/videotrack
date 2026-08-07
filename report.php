@@ -180,14 +180,15 @@ function videotrack_report_duration_filter(string $name, string $label, ?float $
  * Builds a capability-safe SQL condition for one or more Analytics activities.
  *
  * Each scope record must expose an id and an analyticsgroupids property. A null
- * group list means all users allowed by the activity context; an empty list
- * excludes the activity; a populated list restricts users to those groups.
+ * group list means all canonical learners allowed by the activity context; an empty list
+ * excludes the activity; a populated list further restricts learners to those groups.
  *
  * @param array $scopes Analytics activity scope records.
  * @param string $prefix Unique parameter prefix.
+ * @param int $viewerid Report viewer id.
  * @return array SQL condition and named parameters.
  */
-function videotrack_report_analytics_scope_condition(array $scopes, string $prefix): array {
+function videotrack_report_analytics_scope_condition(array $scopes, string $prefix, int $viewerid): array {
     global $DB;
 
     $clauses = [];
@@ -201,6 +202,27 @@ function videotrack_report_analytics_scope_condition(array $scopes, string $pref
         $vtparam = $prefix . 'vt' . $index;
         $clause = 'videotrackid = :' . $vtparam;
         $params[$vtparam] = (int)$scope->id;
+        $scopecontext = context_module::instance((int)$scope->cmid, MUST_EXIST);
+        $scopecm = (object)[
+            'id' => (int)$scope->cmid,
+            'groupmode' => (int)$scope->groupmode,
+            'groupingid' => (int)$scope->groupingid,
+        ];
+        $scopecourse = (object)[
+            'id' => (int)$scope->course,
+            'groupmode' => (int)$scope->coursegroupmode,
+            'groupmodeforce' => (int)$scope->groupmodeforce,
+        ];
+        [$learnersql, $learnerparams] = \mod_videotrack\local\learner_scope::sql(
+            $scopecontext,
+            $scopecm,
+            $scopecourse,
+            $viewerid,
+            'userid',
+            $prefix . 'learner' . $index
+        );
+        $clause .= ' AND ' . $learnersql;
+        $params = array_merge($params, $learnerparams);
         if (is_array($groupids)) {
             [$groupsql, $groupparams] = $DB->get_in_or_equal(
                 array_map('intval', $groupids),
@@ -230,9 +252,10 @@ function videotrack_report_analytics_scope_condition(array $scopes, string $pref
  *
  * @param array $scopes Analytics activity scope records.
  * @param string $prefix Unique parameter prefix.
+ * @param int $viewerid Report viewer id.
  * @return array SQL condition and named parameters.
  */
-function videotrack_report_acknowledgement_scope_condition(array $scopes, string $prefix): array {
+function videotrack_report_acknowledgement_scope_condition(array $scopes, string $prefix, int $viewerid): array {
     global $DB;
 
     $clauses = [];
@@ -251,6 +274,27 @@ function videotrack_report_acknowledgement_scope_condition(array $scopes, string
         $clause = 'videotrackid = :' . $vtparam . ' AND statementhash = :' . $hashparam;
         $params[$vtparam] = (int)$scope->id;
         $params[$hashparam] = \mod_videotrack\local\acknowledgement::statement_hash($scope);
+        $scopecontext = context_module::instance((int)$scope->cmid, MUST_EXIST);
+        $scopecm = (object)[
+            'id' => (int)$scope->cmid,
+            'groupmode' => (int)$scope->groupmode,
+            'groupingid' => (int)$scope->groupingid,
+        ];
+        $scopecourse = (object)[
+            'id' => (int)$scope->course,
+            'groupmode' => (int)$scope->coursegroupmode,
+            'groupmodeforce' => (int)$scope->groupmodeforce,
+        ];
+        [$learnersql, $learnerparams] = \mod_videotrack\local\learner_scope::sql(
+            $scopecontext,
+            $scopecm,
+            $scopecourse,
+            $viewerid,
+            'userid',
+            $prefix . 'learner' . $index
+        );
+        $clause .= ' AND ' . $learnersql;
+        $params = array_merge($params, $learnerparams);
         if (is_array($groupids)) {
             [$groupsql, $groupparams] = $DB->get_in_or_equal(
                 array_map('intval', $groupids),
@@ -1121,6 +1165,12 @@ require_login($course, true, $cm);
 $context = context_module::instance($cm->id);
 $canviewfullreport = has_capability('mod/videotrack:viewreport', $context);
 $canviewownreport = has_capability('mod/videotrack:viewownreport', $context);
+[$learnerwhere, $learnerparams] = \mod_videotrack\local\learner_scope::sql(
+    $context,
+    $cm,
+    $course,
+    (int)$USER->id
+);
 
 $window = $window ?: (int)$videotrack->clusterwindow;
 $validwindows = [10, 15, 20, 30, 60];
@@ -1140,6 +1190,19 @@ if (!$canviewfullreport) {
 $aggregation = in_array($aggregation, ['type', 'peak'], true) ? $aggregation : 'type';
 $sort = in_array($sort, ['time', 'reaction', 'clicks'], true) ? $sort : 'time';
 $csvformat = in_array($csvformat, ['detailed', 'summary', 'overall'], true) ? $csvformat : 'detailed';
+
+if (
+    $useridfilter > 0
+    && !\mod_videotrack\local\learner_scope::user_is_visible(
+        $context,
+        $cm,
+        $course,
+        (int)$USER->id,
+        $useridfilter
+    )
+) {
+    throw new moodle_exception('invaliduser', 'error');
+}
 
 if ($mode === 'analytics') {
     require_capability('mod/videotrack:viewreport', $context);
@@ -1202,49 +1265,27 @@ if ($mode === 'analytics') {
         );
     }
 
-    $scopevtids = array_map('intval', array_keys($analyticsinstances));
-    [$durationvtsql, $durationvtparams] = $DB->get_in_or_equal(
-        $scopevtids,
-        SQL_PARAMS_NAMED,
-        'analyticsdurationvt'
-    );
-    $durationwhere = "videotrackid {$durationvtsql}";
-    if ($providerdataid !== '') {
-        $durationwhere .= ' AND videoid = :analyticsdurationvideoid';
-        $durationvtparams['analyticsdurationvideoid'] = $providerdataid;
-    }
-    $stateduration = (float)$DB->get_field_sql(
-        "SELECT COALESCE(MAX(durationseconds), 0)
-           FROM {videotrack_state}
-          WHERE {$durationwhere}",
-        $durationvtparams
-    );
-    $segmentend = (float)$DB->get_field_sql(
-        "SELECT COALESCE(MAX(videotimeend), 0)
-           FROM {videotrack_seg}
-          WHERE {$durationwhere}",
-        $durationvtparams
-    );
-    $instanceduration = 0.0;
+    // Analytics duration is teacher-authoritative. Client/state/segment values never extend it.
+    $duration = 0.0;
     foreach ($analyticsinstances as $scopeinstance) {
-        $instanceduration = max($instanceduration, (float)$scopeinstance->durationseconds);
+        $duration = max($duration, (float)$scopeinstance->durationseconds);
     }
-    $duration = \mod_videotrack\local\analytics::resolve_duration(
-        $instanceduration,
-        $stateduration,
-        $segmentend
-    );
     $analyticsbinsize = \mod_videotrack\local\analytics::normalise_bin_size($analyticsbinsize, $duration);
     $minusers = videotrack_get_config_int('analyticsminusers', 5, 2, 50);
 
-    [$segmentwhere, $segmentparams] = videotrack_report_analytics_scope_condition(
+    [$analyticsscopewhere, $segmentparams] = videotrack_report_analytics_scope_condition(
         $analyticsinstances,
-        'analyticssegment'
+        'analyticssegment',
+        (int)$USER->id
     );
-    $segmentwhere = '(' . $segmentwhere . ')';
+    $statewhere = $analyticsscopewhere;
+    $stateparams = $segmentparams;
+    $segmentwhere = '(' . $analyticsscopewhere . ') AND servervalidated = 1';
     if ($providerdataid !== '') {
         $segmentwhere .= ' AND videoid = :analyticssegmentvideoid';
         $segmentparams['analyticssegmentvideoid'] = $providerdataid;
+        $statewhere .= ' AND videoid = :analyticsstatevideoid';
+        $stateparams['analyticsstatevideoid'] = $providerdataid;
     }
     $segmentrs = $DB->get_recordset_select(
         'videotrack_seg',
@@ -1263,8 +1304,8 @@ if ($mode === 'analytics') {
     // Multiple states for the same Moodle user are merged across accessible courses.
     $staters = $DB->get_recordset_select(
         'videotrack_state',
-        $segmentwhere,
-        $segmentparams,
+        $statewhere,
+        $stateparams,
         'userid ASC, id ASC',
         'id, userid, intervaljson'
     );
@@ -1301,7 +1342,8 @@ if ($mode === 'analytics') {
     if ($reactionanalyticsenabled) {
         [$reactionwhere, $reactionparams] = videotrack_report_analytics_scope_condition(
             $analyticsinstances,
-            'analyticsreaction'
+            'analyticsreaction',
+            (int)$USER->id
         );
         $reactionwhere = '(' . $reactionwhere . ') AND isdeleted = 0 '
             . "AND (notetype = '' OR notetype IS NULL)";
@@ -1357,7 +1399,8 @@ if ($mode === 'analytics') {
     if ($bookmarkanalyticsenabled) {
         [$bookmarkwhere, $bookmarkparams] = videotrack_report_analytics_scope_condition(
             $bookmarkinstances,
-            'analyticsbookmark'
+            'analyticsbookmark',
+            (int)$USER->id
         );
         $bookmarkwhere = '(' . $bookmarkwhere . ") AND isdeleted = 0 AND notetype = 'bookmark'";
         if ($providerdataid !== '') {
@@ -1397,7 +1440,8 @@ if ($mode === 'analytics') {
         [$acknowledgementwhere, $acknowledgementparams] =
             videotrack_report_acknowledgement_scope_condition(
                 $acknowledgementinstances,
-                'analyticsacknowledgement'
+                'analyticsacknowledgement',
+                (int)$USER->id
             );
         $acknowledgementrs = $DB->get_recordset_select(
             'videotrack_acknowledge',
@@ -1436,7 +1480,8 @@ if ($mode === 'analytics') {
     if ($integrityanalyticsenabled) {
         [$integritywhere, $integrityparams] = videotrack_report_analytics_scope_condition(
             $integrityinstances,
-            'analyticsintegrity'
+            'analyticsintegrity',
+            (int)$USER->id
         );
         if ($providerdataid !== '') {
             $integritywhere = '(' . $integritywhere . ') AND videoid = :analyticsintegrityvideoid';
@@ -1944,8 +1989,8 @@ foreach ($reactions as $reaction) {
 }
 
 // Standard reaction events only. Personal notes and bookmarks are handled separately.
-$eventconditions = "videotrackid = :vtid AND isdeleted = 0 AND (notetype = '' OR notetype IS NULL)";
-$eventparamsnamed = ['vtid' => $videotrack->id];
+$eventconditions = "videotrackid = :vtid AND isdeleted = 0 AND (notetype = '' OR notetype IS NULL) AND {$learnerwhere}";
+$eventparamsnamed = ['vtid' => $videotrack->id] + $learnerparams;
 if ($useridfilter > 0) {
     $eventconditions .= ' AND userid = :uid';
     $eventparamsnamed['uid'] = $useridfilter;
@@ -1990,8 +2035,8 @@ $reportbookmarksummary = [
     'suppressed' => false,
 ];
 if (!empty($videotrack->bookmarksenabled)) {
-    $bookmarkconditions = "videotrackid = :bookmarkvtid AND isdeleted = 0 AND notetype = 'bookmark'";
-    $bookmarkparams = ['bookmarkvtid' => $videotrack->id];
+    $bookmarkconditions = "videotrackid = :bookmarkvtid AND isdeleted = 0 AND notetype = 'bookmark' AND {$learnerwhere}";
+    $bookmarkparams = ['bookmarkvtid' => $videotrack->id] + $learnerparams;
     if ($useridfilter > 0) {
         $bookmarkconditions .= ' AND userid = :bookmarkuserid';
         $bookmarkparams['bookmarkuserid'] = $useridfilter;
@@ -2032,8 +2077,8 @@ $reportintegritysummary = \mod_videotrack\local\integrity::summarise(
     videotrack_get_config_int('analyticsminusers', 5, 2, 50)
 );
 if (!empty($videotrack->integrityindicatorsenabled)) {
-    $integrityconditions = 'videotrackid = :integrityvtid';
-    $integrityparams = ['integrityvtid' => $videotrack->id];
+    $integrityconditions = "videotrackid = :integrityvtid AND {$learnerwhere}";
+    $integrityparams = ['integrityvtid' => $videotrack->id] + $learnerparams;
     if ($useridfilter > 0) {
         $integrityconditions .= ' AND userid = :integrityuserid';
         $integrityparams['integrityuserid'] = $useridfilter;
@@ -2075,16 +2120,24 @@ $acknowledgementrecords = [];
 $acknowledgementuserids = [];
 if (\mod_videotrack\local\acknowledgement::is_enabled($videotrack)) {
     foreach (\mod_videotrack\local\acknowledgement::current_records($videotrack) as $record) {
-        $acknowledgementrecords[(int)$record->userid] = $record;
-        $acknowledgementuserids[] = (int)$record->userid;
+        $ackuserid = (int)$record->userid;
+        if (!\mod_videotrack\local\learner_scope::user_is_visible(
+            $context,
+            $cm,
+            $course,
+            (int)$USER->id,
+            $ackuserid
+        )) {
+            continue;
+        }
+        $acknowledgementrecords[$ackuserid] = $record;
+        $acknowledgementuserids[] = $ackuserid;
     }
 }
 
-$stateparams = ['videotrackid' => $videotrack->id];
-$stateconditions = 'videotrackid = :svtid';
-$stateparamsnamed = ['svtid' => $videotrack->id];
+$stateconditions = "videotrackid = :svtid AND {$learnerwhere}";
+$stateparamsnamed = ['svtid' => $videotrack->id] + $learnerparams;
 if ($useridfilter > 0) {
-    $stateparams['userid'] = $useridfilter;
     $stateconditions .= ' AND userid = :suid';
     $stateparamsnamed['suid'] = $useridfilter;
 }
@@ -2098,18 +2151,23 @@ $stateuserids = array_map('intval', $DB->get_fieldset_select(
 $segmentuserids = array_map('intval', $DB->get_fieldset_select(
     'videotrack_seg',
     'DISTINCT userid',
-    'videotrackid = :vtid',
-    ['vtid' => $videotrack->id]
+    "videotrackid = :vtid AND {$learnerwhere}",
+    ['vtid' => $videotrack->id] + $learnerparams
 ));
-$getstaterecordset = static function () use ($DB, $stateparams) {
-    return $DB->get_recordset('videotrack_state', $stateparams, 'completionpercent DESC, uniquecoveredseconds DESC');
+$getstaterecordset = static function () use ($DB, $stateconditions, $stateparamsnamed) {
+    return $DB->get_recordset_select(
+        'videotrack_state',
+        $stateconditions,
+        $stateparamsnamed,
+        'completionpercent DESC, uniquecoveredseconds DESC'
+    );
 };
 
 // Collect note user ids (they may have neither state nor events).
 $noteuserids = [];
 if (!empty($videotrack->studentnotesenabled)) {
-    $noteuidparams = ['vtid' => $videotrack->id];
-    $noteuidwhere  = "videotrackid = :vtid AND isdeleted = 0 AND notetype = 'note'";
+    $noteuidparams = ['vtid' => $videotrack->id] + $learnerparams;
+    $noteuidwhere  = "videotrackid = :vtid AND isdeleted = 0 AND notetype = 'note' AND {$learnerwhere}";
     if ($useridfilter > 0) {
         $noteuidwhere .= ' AND userid = :uid';
         $noteuidparams['uid'] = $useridfilter;
@@ -2338,7 +2396,13 @@ if ($export === 'custom_csv') {
         $csvuserid = 0;
     }
     if ($csvuserid > 0) {
-        if (!is_enrolled($context, $csvuserid, '', true)) {
+        if (!\mod_videotrack\local\learner_scope::user_is_visible(
+            $context,
+            $cm,
+            $course,
+            (int)$USER->id,
+            $csvuserid
+        )) {
             throw new moodle_exception('invaliduser', 'error');
         }
         $exportuserids = [$csvuserid];
@@ -2346,13 +2410,16 @@ if ($export === 'custom_csv') {
         $exportuserids = array_map('intval', $DB->get_fieldset_select(
             'videotrack_reactev',
             'DISTINCT userid',
-            'videotrackid = :vtid AND isdeleted = 0',
-            ['vtid' => $videotrack->id]
+            "videotrackid = :vtid AND isdeleted = 0 AND {$learnerwhere}",
+            ['vtid' => $videotrack->id] + $learnerparams
         ));
     }
-    $exportuserids = array_values(array_filter(array_unique($exportuserids), static function (int $userid): bool {
-        return $userid > 0;
-    }));
+    $exportuserids = array_values(array_intersect(
+        array_filter(array_unique($exportuserids), static function (int $userid): bool {
+            return $userid > 0;
+        }),
+        $alluserids
+    ));
     $exportusermap = \mod_videotrack\local\csv_export::load_users($exportuserids, $csvfields);
 
     \mod_videotrack\event\report_exported::create([
@@ -2445,8 +2512,8 @@ if ($export === 'custom_csv') {
         \mod_videotrack\local\csv_export::write_row($fh, $row, $csvdelimiter);
     };
 
-    $scopewhere = 'videotrackid = :vtid AND isdeleted = 0';
-    $scopeparams = ['vtid' => $videotrack->id];
+    $scopewhere = "videotrackid = :vtid AND isdeleted = 0 AND {$learnerwhere}";
+    $scopeparams = ['vtid' => $videotrack->id] + $learnerparams;
     if ($csvuserid > 0 && $csvformat !== 'overall') {
         $scopewhere .= ' AND userid = :exportuserid';
         $scopeparams['exportuserid'] = $csvuserid;
@@ -2609,8 +2676,8 @@ if ($export === 'events_csv') {
     $alleventuserids = array_map('intval', $DB->get_fieldset_select(
         'videotrack_reactev',
         'DISTINCT userid',
-        'videotrackid = :vtid AND isdeleted = 0',
-        ['vtid' => $videotrack->id]
+        "videotrackid = :vtid AND isdeleted = 0 AND {$learnerwhere}",
+        ['vtid' => $videotrack->id] + $learnerparams
     ));
     $alleventusermap = \mod_videotrack\local\csv_export::load_users($alleventuserids, $csvfields);
     $event = \mod_videotrack\event\report_exported::create([
@@ -2646,9 +2713,9 @@ if ($export === 'events_csv') {
 
     $rs = $DB->get_recordset_select(
         'videotrack_reactev',
-        "videotrackid = :vtid AND isdeleted = 0 " .
+        "videotrackid = :vtid AND isdeleted = 0 AND {$learnerwhere} " .
             "AND (notetype = '' OR notetype IS NULL OR notetype = 'note')",
-        ['vtid' => $videotrack->id],
+        ['vtid' => $videotrack->id] + $learnerparams,
         'userid ASC, videotime ASC, timecreated ASC',
         'userid, reactionlabel, notetext, notetype, videotime, timecreated'
     );
@@ -2688,7 +2755,16 @@ if ($export === 'notes_csv' && !empty($videotrack->studentnotesenabled)) {
     if (!$confirmnotesexport) {
         throw new moodle_exception('report:exportnotes_confirmrequired', 'mod_videotrack');
     }
-    if ($useridfilter > 0 && !is_enrolled($context, $useridfilter, '', true)) {
+    if (
+        $useridfilter > 0
+        && !\mod_videotrack\local\learner_scope::user_is_visible(
+            $context,
+            $cm,
+            $course,
+            (int)$USER->id,
+            $useridfilter
+        )
+    ) {
         throw new moodle_exception('invaliduser', 'error');
     }
     $event = \mod_videotrack\event\notes_exported::create([
@@ -2720,8 +2796,8 @@ if ($export === 'notes_csv' && !empty($videotrack->studentnotesenabled)) {
         ]
     );
     \mod_videotrack\local\csv_export::write_row($fh, $headers, $csvdelimiter);
-    $notecsvwhere = "videotrackid = :vtid AND isdeleted = 0 AND notetype = 'note'";
-    $notecsvparams = ['vtid' => $videotrack->id];
+    $notecsvwhere = "videotrackid = :vtid AND isdeleted = 0 AND notetype = 'note' AND {$learnerwhere}";
+    $notecsvparams = ['vtid' => $videotrack->id] + $learnerparams;
     if ($useridfilter > 0) {
         $notecsvwhere .= ' AND userid = :uid';
         $notecsvparams['uid'] = $useridfilter;
@@ -2848,7 +2924,12 @@ if ($export === 'csv') {
             $csvheads[] = get_string('report:grade', 'mod_videotrack');
         }
         \mod_videotrack\local\csv_export::write_row($fh, $csvheads, $csvdelimiter);
-        $rs = $DB->get_recordset('videotrack_state', $stateparams, 'completionpercent DESC');
+        $rs = $DB->get_recordset_select(
+            'videotrack_state',
+            $stateconditions,
+            $stateparamsnamed,
+            'completionpercent DESC'
+        );
         foreach ($rs as $state) {
             $userid = (int)$state->userid;
             $user = $csvusermap[$userid] ?? null;
@@ -2910,11 +2991,15 @@ if ($action === 'recalculate') {
     if ($recalculateuserid > 0 && !in_array($recalculateuserid, $alluserids, true)) {
         throw new moodle_exception('invaliduserid', 'error');
     }
-    $updated = videotrack_recalculate_all_states(
-        $videotrack->id,
-        cm_info::create($cm),
-        $recalculateuserid
-    );
+    $updated = 0;
+    $cminfo = cm_info::create($cm);
+    if ($recalculateuserid > 0) {
+        $updated = videotrack_recalculate_all_states($videotrack->id, $cminfo, $recalculateuserid);
+    } else {
+        foreach ($alluserids as $learnerid) {
+            $updated += videotrack_recalculate_all_states($videotrack->id, $cminfo, (int)$learnerid);
+        }
+    }
     redirect(
         new moodle_url('/mod/videotrack/report.php', $baseparams),
         get_string('report:recalculated', 'mod_videotrack', $updated),
@@ -2928,13 +3013,27 @@ if ($resetaction === 'resetstudent' && $_SERVER['REQUEST_METHOD'] === 'POST') {
     require_sesskey();
     $resetuserid = required_param('resetuserid', PARAM_INT);
     require_capability('mod/videotrack:viewreport', $context);
-    if ($resetuserid <= 0 || !is_enrolled($context, $resetuserid, '', true)) {
+    if (
+        $resetuserid <= 0
+        || !\mod_videotrack\local\learner_scope::user_is_visible(
+            $context,
+            $cm,
+            $course,
+            (int)$USER->id,
+            $resetuserid
+        )
+    ) {
         throw new moodle_exception('invaliduserid', 'error');
     }
     $resetcounts = [
         'segments' => $DB->count_records('videotrack_seg', ['videotrackid' => $videotrack->id, 'userid' => $resetuserid]),
         'states' => $DB->count_records('videotrack_state', ['videotrackid' => $videotrack->id, 'userid' => $resetuserid]),
         'events' => $DB->count_records('videotrack_reactev', ['videotrackid' => $videotrack->id, 'userid' => $resetuserid]),
+        'integrity' => $DB->count_records('videotrack_integrity', ['videotrackid' => $videotrack->id, 'userid' => $resetuserid]),
+        'acknowledgements' => $DB->count_records('videotrack_acknowledge', [
+            'videotrackid' => $videotrack->id,
+            'userid' => $resetuserid,
+        ]),
     ];
     require_once(__DIR__ . '/lib.php');
     $transaction = $DB->start_delegated_transaction();
@@ -2988,7 +3087,15 @@ if ($hasgrade && optional_param('savegrade', 0, PARAM_INT)) {
     require_once(__DIR__ . '/lib.php');
     require_once($CFG->libdir . '/gradelib.php');
     $gradeuserid = required_param('grade_userid', PARAM_INT);
-    if (!is_enrolled($context, $gradeuserid, '', true)) {
+    if (
+        !\mod_videotrack\local\learner_scope::user_is_visible(
+            $context,
+            $cm,
+            $course,
+            (int)$USER->id,
+            $gradeuserid
+        )
+    ) {
         throw new moodle_exception('invaliduserid', 'error');
     }
     $gradevalue = optional_param('grade_value', '', PARAM_NOTAGS);
@@ -3770,9 +3877,12 @@ if ($mode === 'student') {
 
 // Student notes section: per-student mode only, and only when notes are enabled.
 if ($mode === 'student' && !empty($videotrack->studentnotesenabled)) {
-    $notewhere = "videotrackid = :vtid AND isdeleted = 0 AND notetype = 'note'" .
+    $notewhere = "videotrackid = :vtid AND isdeleted = 0 AND notetype = 'note' AND {$learnerwhere}" .
         ($useridfilter > 0 ? ' AND userid = :uid' : '');
-    $noteparams = array_filter(['vtid' => $videotrack->id, 'uid' => $useridfilter ?: null]);
+    $noteparams = ['vtid' => $videotrack->id] + $learnerparams;
+    if ($useridfilter > 0) {
+        $noteparams['uid'] = $useridfilter;
+    }
     if ($notecreatedfromts) {
         $notewhere .= ' AND timecreated >= :notecreatedfrom';
         $noteparams['notecreatedfrom'] = $notecreatedfromts;

@@ -133,6 +133,9 @@ define([
      * @returns {SegmentArgs|null} AJAX args or null when the segment is empty.
      */
     function buildSegmentArgs(config, state, start, end, reason) {
+        if (!config || config.trackingenabled === false) {
+            return null;
+        }
         var now = Math.floor(Date.now() / 1000);
         var times = Segment.clampSegmentTimes(start, end, state.duration || config.duration || 0);
         if (times.end <= times.start) {
