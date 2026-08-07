@@ -35,3 +35,11 @@ Per-student reports may include identity, progress, reactions, acknowledgement d
 ## Privacy, retention and deletion
 
 Privacy export streams each record family in bounded chunks. User/context deletion calls `privacy_manager`; activity deletion and reset remove all corresponding records. The scheduled task anonymises or deletes expired data according to policy. Backup includes user tables only with user data and restore remaps identifiers.
+
+## Activity-form duration suggestion
+
+1. The teacher selects YouTube, Vimeo or a local upload and supplies the source.
+2. `mod_videotrack/form/duration` validates the source and performs a best-effort metadata probe: YouTube IFrame API, Vimeo Player SDK, or same-origin HTML media metadata for the Moodle draft file.
+3. The proposed seconds are written only into the teacher-editable form field and announced through a polite live status region. A manual edit is preserved; changing the source starts a new proposal.
+4. `videotrack_add_instance()` or `videotrack_update_instance()` stores the reviewed form value. Only this saved value is authoritative for percentage, completion and end-gated acknowledgement. Learner player metadata cannot update it.
+5. When metadata is unavailable, the field remains manual and `0` keeps percentage-dependent functions disabled.

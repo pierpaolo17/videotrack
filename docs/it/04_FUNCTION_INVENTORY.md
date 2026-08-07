@@ -1,8 +1,8 @@
 # Inventario delle funzioni nominate
 
-Generato dai sorgenti VideoTrack 1.6.26. Le closure anonime sono intenzionalmente omesse.
+Generato dai sorgenti VideoTrack 1.6.27. Le closure anonime sono intenzionalmente omesse.
 
-Voci PHP: **470**. Voci AMD: **573**.
+Voci PHP: **470**. Voci AMD: **596**.
 
 ## Funzioni e metodi PHP
 
@@ -786,6 +786,29 @@ Voci PHP: **470**. Voci AMD: **573**.
 | `amd/src/core/utils.js:255` | `fetchTextWithTimeout` | Callable `fetchTextWithTimeout` del modulo; JSDoc e chiamanti definiscono parametri ed effetti. |
 | `amd/src/core/utils.js:335` | `sessionSet` | Callable `sessionSet` del modulo; JSDoc e chiamanti definiscono parametri ed effetti. |
 | `amd/src/core/utils.js:354` | `sessionGet` | Callable `sessionGet` del modulo; JSDoc e chiamanti definiscono parametri ed effetti. |
+| `amd/src/form/duration.js:35` | `normaliseDuration` | Limita e arrotonda una durata rilevata prima che possa essere proposta nel form. |
+| `amd/src/form/duration.js:44` | `formatDuration` | Formatta una durata rilevata per il campo modificabile dal docente. |
+| `amd/src/form/duration.js:48` | `renderMessage` | Inserisce la durata formattata nel template di stato localizzato. |
+| `amd/src/form/duration.js:52` | `setStatus` | Aggiorna la regione di stato accessibile della durata e lo stato visivo. |
+| `amd/src/form/duration.js:62` | `parseHttpsUrl` | Analizza soltanto URL HTTPS dei provider accettati dal detector del form. |
+| `amd/src/form/duration.js:71` | `extractYouTubeId` | Estrae un ID YouTube supportato usando le stesse forme URL accettate lato server. |
+| `amd/src/form/duration.js:92` | `extractVimeoSource` | Estrae ID Vimeo ed eventuale hash di privacy da un URL supportato. |
+| `amd/src/form/duration.js:120` | `getProbeHost` | Crea il contenitore delle sonde fuori schermo e nascosto alle tecnologie assistive. |
+| `amd/src/form/duration.js:140` | `loadYouTubeApi` | Carica o riusa YouTube IFrame API senza sostituire callback ready già presenti. |
+| `amd/src/form/duration.js:196` | `detectYouTubeDuration` | Legge la durata da un player YouTube fuori schermo e senza riproduzione. |
+| `amd/src/form/duration.js:245` | `onReady` | Completa la sonda YouTube quando il provider espone una durata positiva. |
+| `amd/src/form/duration.js:253` | `onError` | Rifiuta la sonda YouTube quando il provider non carica il video selezionato. |
+| `amd/src/form/duration.js:262` | `loadVimeoApi` | Carica o riusa Vimeo Player SDK evitando conflitti anonymous-define con RequireJS. |
+| `amd/src/form/duration.js:325` | `detectVimeoDuration` | Legge la durata da un iframe Vimeo senza riproduzione, conservando l’eventuale hash di privacy. |
+| `amd/src/form/duration.js:372` | `findLocalFileUrl` | Individua l’URL draft Moodle same-origin esposto dal file picker locale. |
+| `amd/src/form/duration.js:389` | `detectLocalDuration` | Legge la durata audio/video locale dai metadati HTML media senza avviare la riproduzione. |
+| `amd/src/form/duration.js:443` | `resolveSource` | Costruisce fingerprint della sorgente corrente e detector specifico del provider. |
+| `amd/src/form/duration.js:449` | `detect` | Avvia il detector specifico per la sorgente risolta. |
+| `amd/src/form/duration.js:458` | `detect` | Avvia il detector specifico per la sorgente risolta. |
+| `amd/src/form/duration.js:467` | `detect` | Avvia il detector specifico per la sorgente risolta. |
+| `amd/src/form/duration.js:475` | `getElements` | Risolve i controlli necessari del form attività e la regione di stato. |
+| `amd/src/form/duration.js:489` | `install` | Coordina debounce, rifiuto delle risposte obsolete, override manuali e cambi sorgente. |
+| `amd/src/form/duration.js:610` | `init` | Inizializza la proposta best effort della durata nel form docente attendibile. |
 | `amd/src/html5_player.js:56` | `resolveConfig` | Callable `resolveConfig` del modulo; JSDoc e chiamanti definiscono parametri ed effetti. |
 | `amd/src/html5_player.js:67` | `uuid` | Callable `uuid` del modulo; JSDoc e chiamanti definiscono parametri ed effetti. |
 | `amd/src/html5_player.js:71` | `safeNumber` | Callable `safeNumber` del modulo; JSDoc e chiamanti definiscono parametri ed effetti. |

@@ -988,7 +988,12 @@ $string['privacy:metadata:videotrack_acknowledge:viewedpercent'] = 'A percentage
 $string['privacy:metadata:videotrack_acknowledge:timeconfirmed'] = 'Data e hora da confirmação.';
 
 $string['durationseconds'] = 'Duração do vídeo para calcular a percentagem vista (segundos)';
-$string['durationseconds_help'] = 'Duração opcional verificada pelo docente. Quando é superior a 0, o VideoTrack utiliza-a para a percentagem vista, a conclusão percentual e a confirmação após o último segundo. Introduza 0 para manter o acompanhamento dos intervalos sem calcular uma percentagem vista; a conclusão percentual fica então desativada. O leitor do estudante não pode definir nem substituir este valor autoritativo.';
+$string['durationseconds_help'] = 'O VideoTrack pode pré-preencher este valor controlado pelo docente a partir dos metadados disponibilizados pela fonte selecionada do YouTube, Vimeo ou ficheiro local. Confirme-o antes de guardar: depois de a atividade ser guardada, torna-se a duração autoritativa usada para a percentagem vista, a conclusão percentual e a confirmação após o último segundo, e pode continuar a ser alterada posteriormente. Introduza 0 para manter o acompanhamento dos intervalos sem calcular a percentagem vista. Os metadados do leitor do estudante nunca podem substituir o valor guardado.';
 $string['durationseconds_zero_note'] = '0 = não calcular a percentagem vista. Os intervalos de visualização, as reações, as notas e os marcadores continuam disponíveis quando ativados; a confirmação após o último segundo requer uma duração superior a 0.';
+$string['durationseconds_auto_note'] = 'O VideoTrack tenta obter automaticamente a duração a partir da fonte selecionada. Quando disponível, o campo é pré-preenchido; pode alterá-lo antes de guardar ou posteriormente. Introduza 0 para não calcular a percentagem vista.';
+$string['durationseconds_auto_detecting'] = 'A obter a duração do vídeo a partir da fonte selecionada…';
+$string['durationseconds_auto_success'] = 'Duração obtida automaticamente a partir da fonte selecionada: {$a} segundos. Pode alterar este valor agora ou posteriormente.';
+$string['durationseconds_auto_manual'] = 'A fonte selecionada indica uma duração de {$a} segundos. Foi mantido o valor introduzido manualmente; pode alterá-lo agora ou posteriormente.';
+$string['durationseconds_auto_unavailable'] = 'Não foi possível obter automaticamente a duração a partir da fonte selecionada. Introduza-a manualmente ou deixe 0 para não calcular a percentagem vista.';
 $string['durationseconds_invalid'] = 'A duração verificada deve estar entre 0 e 86400 segundos.';
 $string['durationseconds_required'] = 'Defina uma duração verificada superior a 0 antes de exigir a confirmação após o último segundo.';
