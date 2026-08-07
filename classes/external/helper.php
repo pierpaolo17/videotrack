@@ -36,7 +36,7 @@ class helper extends external_api {
      *
      * The activity external functions are intended for authenticated Moodle UI
      * calls. Keeping the check in one helper makes the CSRF requirement explicit
-     * and consistent across segment, reaction and note endpoints.
+     * and consistent across segment, reaction, note, bookmark and integrity endpoints.
      *
      * @throws \moodle_exception
      */
@@ -65,7 +65,7 @@ class helper extends external_api {
      * The client generates 32 hex characters when Web Crypto is available.
      * The legacy fallback always pads at least 16 base36 characters after the
      * sess prefix. Accepting only these bounded formats prevents callers from
-     * using arbitrary long or structured identifiers in segment/reaction/note
+     * using arbitrary long or structured identifiers in tracking and interaction
      * records.
      *
      * @param string $sessionid Session identifier from the AJAX request.

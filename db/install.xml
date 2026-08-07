@@ -36,12 +36,12 @@
         <FIELD NAME="resumeplayback" TYPE="int" LENGTH="1" NOTNULL="true" DEFAULT="0" COMMENT="Resume playback from last saved position"/>
         <FIELD NAME="maxplaybackrate" TYPE="int" LENGTH="4" NOTNULL="true" DEFAULT="0" COMMENT="Max playback rate in centesimal (0=no limit, 150=1.5x, 200=2x)"/>
         <FIELD NAME="blockedseekplaybackrate" TYPE="int" LENGTH="4" NOTNULL="true" DEFAULT="50" COMMENT="Playback rate after blocked forward seek in centesimal (50=0.5x, 100=1x)"/>
-        <FIELD NAME="showtranscript" TYPE="int" LENGTH="1" NOTNULL="true" DEFAULT="0" COMMENT="Show interactive VTT transcript panel (upload source only)"/>
-        <FIELD NAME="showchapters" TYPE="int" LENGTH="1" NOTNULL="true" DEFAULT="0" COMMENT="Show VTT-based chapter navigation bar (upload source only)"/>
+        <FIELD NAME="showtranscript" TYPE="int" LENGTH="1" NOTNULL="true" DEFAULT="0" COMMENT="Show the interactive VTT transcript panel for supported video sources"/>
+        <FIELD NAME="showchapters" TYPE="int" LENGTH="1" NOTNULL="true" DEFAULT="0" COMMENT="Show the VTT-based chapter navigation bar for supported video sources"/>
         <FIELD NAME="studentnotesenabled" TYPE="int" LENGTH="1" NOTNULL="true" DEFAULT="0" COMMENT="Allow students to write personal timestamped notes while watching"/>
         <FIELD NAME="bookmarksenabled" TYPE="int" LENGTH="1" NOTNULL="true" DEFAULT="0" COMMENT="Allow students to save private named bookmarks at watched timestamps"/>
         <FIELD NAME="integrityindicatorsenabled" TYPE="int" LENGTH="1" NOTNULL="true" DEFAULT="0" COMMENT="Record privacy-safe diagnostic integrity signals"/>
-        <FIELD NAME="pauseonfocusloss" TYPE="int" LENGTH="1" NOTNULL="true" DEFAULT="0" COMMENT="Pause playback when the page loses visibility or window focus"/>
+        <FIELD NAME="pauseonfocusloss" TYPE="int" LENGTH="1" NOTNULL="true" DEFAULT="0" COMMENT="Pause when the page is hidden; window-focus behaviour follows the site accessibility policy"/>
         <FIELD NAME="preventpictureinpicture" TYPE="int" LENGTH="1" NOTNULL="true" DEFAULT="0" COMMENT="Best-effort prevention of Picture-in-Picture playback"/>
         <FIELD NAME="randomfocuspauses" TYPE="int" LENGTH="1" NOTNULL="true" DEFAULT="0" COMMENT="Pause playback after a random active interval to prompt learner attention"/>
         <FIELD NAME="acknowledgementenabled" TYPE="int" LENGTH="1" NOTNULL="true" DEFAULT="0" COMMENT="Require an explicit learner acknowledgement for the configured statement"/>

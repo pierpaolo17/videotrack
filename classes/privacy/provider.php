@@ -29,7 +29,7 @@ use core_privacy\local\request\writer;
 use mod_videotrack\local\privacy_manager;
 
 /**
- * Privacy provider for video tracking, reactions, personal notes and private bookmarks.
+ * Privacy provider for tracking, reactions, notes, bookmarks, integrity signals and acknowledgements.
  *
  * @package    mod_videotrack
  * @copyright  2026 videotrack contributors
@@ -162,8 +162,8 @@ class provider implements
         global $DB;
 
         // Use a UNION of module ids instead of joining all tracking tables at once.
-        // This gives database optimisers a simpler plan on large installations and.
-        // Mirrors get_users_in_context().
+        // This gives database optimisers a simpler plan on large installations
+        // and mirrors get_users_in_context().
         $params = [
             'contextmodule' => CONTEXT_MODULE,
             'userid1' => $userid,
@@ -328,6 +328,7 @@ class provider implements
                         ],
                         (object)['segments' => $segments]
                     );
+                    $segments = [];
                     $chunk++;
                 }
             }

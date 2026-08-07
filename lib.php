@@ -902,11 +902,8 @@ function videotrack_process_captions_fields(stdClass $data): void {
 
     $isupload = (($data->videosource ?? 'youtube') === 'upload');
     if (!$isupload || empty($data->captions)) {
-        // Transcript and chapters are meaningful only for uploaded media with.
-        // Captions enabled. Clearing stale subtitle files avoids serving an old.
-        // VTT file after the teacher has disabled captions.
-        $data->showtranscript = 0;
-        $data->showchapters = 0;
+        // The legacy subtitles area belongs only to captions for uploaded media.
+        // Dedicated transcript and chapter files remain valid for every source.
         $context = videotrack_get_module_context_from_data($data, (int)($data->id ?? 0));
         if ($context) {
             get_file_storage()->delete_area_files($context->id, 'mod_videotrack', 'subtitles', 0);
@@ -1113,10 +1110,10 @@ function videotrack_get_poster_url(int $cmid): ?moodle_url {
 }
 
 /**
- * Deletes the viewing progress for a single user in a videotrack instance.
- * Used by the teacher report when only viewing progress needs to be reset.
- * Removes: videotrack_state, videotrack_seg, reaction events and personal notes
- * for this user+instance.
+ * Deletes all plugin-owned VideoTrack data for one user in an activity.
+ *
+ * The teacher reset removes viewing state and segments, reactions, notes,
+ * bookmarks, integrity indicators and acknowledgement records.
  *
  * @param  stdClass  $videotrack  Instance record.
  * @param  int       $userid      The user whose progress to reset.
@@ -1132,10 +1129,8 @@ function videotrack_delete_user_progress(stdClass $videotrack, int $userid): voi
         'videotrackid' => $videotrack->id,
         'userid'       => $userid,
     ]);
-    // Delete reactions and personal notes so the reset is complete.
-    // Without this, reactions/notes survive the reset and still appear in the.
-    // Student view and influence completion. Mirrors the behaviour of the.
-    // Per-student reset in report.php (which already deletes videotrack_reactev).
+    // Delete reactions, notes and bookmarks so the reset is complete.
+    // Otherwise they survive the reset, remain visible and may affect completion.
     $DB->delete_records('videotrack_reactev', [
         'videotrackid' => $videotrack->id,
         'userid'       => $userid,
@@ -1186,10 +1181,9 @@ function videotrack_delete_instance($id) {
 
     $transaction = $DB->start_delegated_transaction();
     try {
-        // Remove the gradebook item while the activity record still exists, so.
-        // Gradebook callbacks can resolve module metadata. Keeping this inside.
-        // The delegated transaction also prevents deleting the module record if.
-        // Gradebook cleanup throws an exception.
+        // Remove the gradebook item while the activity record still exists so
+        // gradebook callbacks can resolve module metadata. Keeping this inside
+        // the delegated transaction prevents deletion if cleanup throws an exception.
         videotrack_grade_item_delete($videotrack);
 
         $DB->delete_records(
@@ -1220,9 +1214,8 @@ function videotrack_delete_instance($id) {
     $cm = get_coursemodule_from_instance('videotrack', $id, $videotrack->course, false, IGNORE_MISSING);
     if ($cm) {
         $context = context_module::instance($cm->id);
-        // Delete all plugin file areas for this module context. File storage is.
-        // Intentionally handled after the DB transaction because files are not.
-        // Covered by Moodle delegated transactions.
+        // Delete all plugin file areas after the DB transaction because Moodle
+        // delegated transactions do not cover file storage.
         get_file_storage()->delete_area_files($context->id, 'mod_videotrack');
     }
 
@@ -1571,8 +1564,8 @@ function videotrack_pluginfile($course, $cm, $context, $filearea, $args, $forced
     }
     if ($filearea === 'intro') {
         // Intro files are managed by Moodle core editor/filepicker controls.
-        // They intentionally follow the standard module intro serving path;.
-        // The stricter per-filearea checks below apply only to VideoTrack-specific uploads.
+        // They intentionally follow the standard module intro serving path.
+        // The stricter checks below apply only to VideoTrack-specific uploads.
         return send_stored_file($file, 0, 0, $forcedownload, $options);
     }
     $extension = strtolower(pathinfo($file->get_filename(), PATHINFO_EXTENSION));

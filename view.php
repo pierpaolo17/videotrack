@@ -494,9 +494,7 @@ echo html_writer::div('', '', ['id' => 'mod-videotrack-player']);
 // Feature 12: poster preview before playback when configured.
 if ($posterurl) {
     echo html_writer::start_div('videotrack-poster-overlay', [
-        'id'         => 'videotrack-poster-overlay',
-        'role'       => 'none',
-        'aria-hidden' => 'true',
+        'id' => 'videotrack-poster-overlay',
     ]);
     echo html_writer::empty_tag('img', [
         'src'   => (string)$posterurl,

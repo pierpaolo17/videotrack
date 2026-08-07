@@ -233,5 +233,4 @@ final class analytics_table_export {
         );
         return $rows;
     }
-
 }

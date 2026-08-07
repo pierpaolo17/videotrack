@@ -1,80 +1,21 @@
-# Integrity indicators and learner focus controls
+# Integrity and focus controls
 
-## Scope and safeguards
+## Controls
 
-Release 1.6.18 consolidates optional, per-activity focus controls and bounded diagnostic indicators. Every option is disabled by default. The feature is designed to support review of unusual playback conditions; it is not a surveillance system and does not establish whether a learner was attentive or acted dishonestly.
+Per activity, a teacher may enable integrity recording, hidden/focus pause, best-effort Picture-in-Picture prevention and random attention pauses. Site settings define random-pause bounds (default 300–1800 seconds), focus policy and grace period. All controls are disabled by default at activity level.
 
-VideoTrack does not use a webcam, microphone, eye tracking, biometrics, screen capture, key logging, content from other tabs or free-text behavioural notes. A recorded signal contains only the activity identifiers, Moodle user id, playback-session id, signal type, approximate video time and creation time.
+## Accessible focus policy
 
-Signals must be interpreted with the learning context. They must not be used as conclusive evidence or as the sole basis for an automatic grade, completion change, disciplinary action or access restriction.
-
-## Instance settings
-
-The activity form exposes four independent options:
-
-- **Record integrity indicators**: stores the diagnostic signal types listed below.
-- **Pause when the page loses focus**: pauses when the video tab becomes hidden. Window blur pauses only when the site uses the strict policy.
-- **Prevent Picture-in-Picture**: applies a best-effort browser/provider policy.
-- **Enable random attention pauses**: while playback is active, pauses after a site-configured random delay from the latest learner interaction. The default range is 300–1800 seconds. The learner resumes manually.
-
-Site administrators configure the random-pause minimum and maximum (defaults 300 and 1800 seconds), the focus-loss policy and a 0–30 second grace period (default 5). The default **hidden-tab only** policy is recommended for accessibility: a browser-window blur is still recorded after the grace period but does not pause. The optional **strict** policy also pauses after sustained window focus loss. Returning focus or interacting with the provider iframe cancels the pending action.
-
-Window focus can be lost for legitimate reasons, including browser chrome, password-manager prompts, accessibility tools and operating-system dialogs. Picture-in-Picture cannot be blocked absolutely when a browser extension or third-party provider ignores iframe/media policy controls.
+The recommended policy pauses when `document.visibilityState` becomes hidden. A window blur starts a grace timer and may be recorded, but it does not pause unless the administrator enables strict mode. Returning focus or interacting with a provider iframe cancels the pending action. This avoids treating screen readers, password managers, browser controls and operating-system dialogs as automatic misconduct.
 
 ## Signals
 
-`videotrack_integrity.eventtype` is restricted to this allowlist:
+Allowed bounded types include blocked forward seek, hidden tab, window blur, player outside viewport, Picture-in-Picture attempt, random pause, unauthorised rate, missing provider callback and inconsistent tracking. The server validates the type, context, enabled state and rate limit. No free text or device capture is accepted.
 
-- `forwardseek`: a disallowed forward seek was blocked;
-- `tabhidden`: the video document became hidden during playback;
-- `windowblur`: the browser window lost focus during playback;
-- `outofviewport`: less than 25% of the player was visible while playing;
-- `pipattempt`: the HTML5 media element entered Picture-in-Picture and VideoTrack attempted to exit it;
-- `randompause`: an enabled random attention pause fired;
-- `ratechange`: the player attempted to exceed the configured playback-rate policy;
-- `callbackmissing`: expected progress callbacks stopped while the player appeared to be playing;
-- `trackinggap`: video-time movement was inconsistent with wall-clock progress and recent learner actions.
+## Interpretation
 
-Provider behaviour differs. HTML5 can expose a direct Picture-in-Picture event; YouTube and Vimeo are protected by removing iframe permission where possible, but the provider may not expose an attempted entry event.
+Signals are visibility/integrity diagnostics, not direct attention measurements. Provider/browser limitations and legitimate accessibility causes can produce missing or false-positive signals. Reports and Analytics therefore present counts and privacy-safe aggregates; they must not automatically alter grades, completion or discipline.
 
-## Runtime flow
+## Lifecycle
 
-```text
-player action / browser visibility signal
--> core/player/focus_guard
--> optional provider pause
--> mod_videotrack_save_integrity_event
--> capability + sesskey + allowlist + debounce validation
--> videotrack_integrity
-```
-
-The shared `focus_guard` controller is instantiated separately by HTML5, YouTube and Vimeo. Player-specific pause, current-time and status callbacks remain distinct. Any click or keyboard activation in the player shell, together with play, pause, seek, rewind, fast-forward, reaction, note and bookmark controls, resets the random-pause deadline.
-
-The external service applies a second same-user/session/type debounce window before insertion. This bounds duplicate browser callbacks without pretending that the signal is unique or definitive.
-
-## Reports and analytics
-
-Teacher reports can show a per-student total indicator count when recording is enabled. The cumulative report and the Analytics tab show counts by signal type. The Analytics section is always visible: it reports whether recording is enabled, warns when focus controls are active without recording, and displays a no-data state when no signals exist. Analytics and cumulative aggregates apply `analyticsminusers` independently to every type; exact event and distinct-student totals are hidden below the threshold.
-
-Reports deliberately omit browser details, URLs, free text and data from other tabs. The report introduction states that the values are diagnostic and cannot be treated as proof of misconduct.
-
-## Privacy, retention and lifecycle
-
-The table is declared in the Privacy API. Subject-access exports include localized signal types and formatted video time. User/context erasure deletes the relevant rows. Scheduled retention anonymises user/session/video-time fields while retaining only non-personal aggregate signal types. Activity deletion, student-progress reset and course reset remove matching rows.
-
-Backup and restore include the new instance settings. Integrity rows are included only when user data are requested, user ids are remapped, and unknown signal types are discarded during restore.
-
-## Required regression matrix
-
-- settings disabled: no focus control and no stored rows;
-- recording enabled without focus controls: signals can be stored but playback is unchanged;
-- hidden-tab pause on HTML5, YouTube and Vimeo, including return and manual resume;
-- accessibility policy: ordinary window blur records after the grace period without pausing;
-- strict policy: sustained window blur pauses only after the configured grace period;
-- HTML5 Picture-in-Picture entry exits where the browser supports the API;
-- YouTube/Vimeo iframe permission removed without breaking playback or fullscreen;
-- random delay uses the site-configured inclusive bounds, defaults to 300–1800 seconds and resets after player interactions;
-- forward seek, rate policy, tracking, resume, replay, notes, reactions and bookmarks remain functional;
-- group/capability scope and `analyticsminusers` suppression in teacher reports;
-- Privacy API export/erasure, retention, backup/restore and all reset paths;
-- PHPUnit, PHPCS Moodle + Extra and real `grunt amd` with generated files included.
+`videotrack_integrity` is included in Privacy API export/erasure, retention, reset, activity deletion and user-data backup/restore.

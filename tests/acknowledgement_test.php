@@ -144,5 +144,4 @@ final class acknowledgement_test extends advanced_testcase {
         $this->assertNull($suppressed['confirmationcount']);
         $this->assertNull($suppressed['averageviewedpercent']);
     }
-
 }

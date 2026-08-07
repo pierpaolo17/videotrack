@@ -1,33 +1,33 @@
 # Developer guide
 
-## Purpose
+## Baseline rule
 
-This guide helps a new developer work on the plugin without an initial reverse-engineering phase.
+Start from the latest real ZIP supplied by the maintainer. Record its checksum and inspect `version.php`, XMLDB, generated AMD assets and local validation logs before editing. Never infer that a previous patch is installed.
 
-## Mandatory patch rules
+## Change workflow
 
-1. Always start from the latest real ZIP provided by the maintainer.
-2. Audit the actual files before editing.
-3. Generate patches from the plugin root, never from internal temporary paths.
-4. Really verify `git apply --check` and `patch -p1 --dry-run` on the delivered patch file.
-5. If `amd/src` changes, include `amd/build` and source maps or clearly state that `grunt amd` must be run.
-6. Do not claim checks that were not actually run.
+1. Extract the archive into a clean worktree and create a baseline commit.
+2. Reconstruct the real request/runtime path. For player defects, analyse HTML5, YouTube and Vimeo separately.
+3. Make the smallest coherent change. Keep privacy, accessibility, backup/restore, completion, reports and translations in the same scope when the data contract changes.
+4. Update English plus all seven translated language packs. Preserve Moodle placeholders exactly.
+5. Update the numbered documentation and both root README/privacy pairs.
+6. If `amd/src/*` changes, run the actual Moodle `grunt amd` task and include the matching `.min.js` and `.map` files.
+7. Run static checks, PHPUnit and PHPCS where available. Report failures honestly.
+8. Generate the patch from the plugin root with `a/` and `b/` paths.
+9. Verify `git apply --check`, actual application to a fresh baseline, tree equality and `patch -p1 --dry-run`.
 
-## Minimum validation commands
+## Trust boundaries
 
-```bash
-php -l lib.php
-php admin/tool/phpunit/cli/init.php
-vendor/bin/phpunit --testsuite mod_videotrack_testsuite
-/root/.config/composer/vendor/bin/phpcs --standard=moodle-extra mod/videotrack
-ulimit -n 65535
-node node_modules/grunt/bin/grunt amd --root=mod/videotrack --force
-```
+- The browser is not trusted for ownership, watched-position or completion decisions.
+- Every write service validates parameters, login, module context, capability and ownership/feature state.
+- Private text is never copied into aggregate reports.
+- Browser focus and Picture-in-Picture controls are best effort; do not promise enforcement unavailable from a browser/provider.
+- Integrity signals are diagnostic and cannot independently prove cheating.
 
-## When editing AMD
+## Coding conventions
 
-Player runtime issues must not be fixed by deduction. First identify the function actually executed, then change the minimal point.
+Follow Moodle coding style, XMLDB rules and Moodle 5.0 APIs. Keep large configuration payloads in a DOM JSON script element instead of `js_call_amd()` arguments. Keep source and generated AMD assets synchronised. Use namespaced classes for reusable logic and explicit Moodle events for auditable actions.
 
-## Documentation patches
+## Definition of done
 
-Documentation patches must update both languages, keep inventories aligned with code and bump the release when requested by the maintainer.
+A release is not complete until code, schema, services, language keys/placeholders, generated assets, Privacy API, reset/deletion, backup/restore, reports/exports and documentation agree with the same current contract.

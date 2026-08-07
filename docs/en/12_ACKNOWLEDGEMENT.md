@@ -1,50 +1,11 @@
-# Optional learner acknowledgement
+# Learner acknowledgement
 
-VideoTrack 1.6.19 adds an optional, explicit acknowledgement statement for compliance-oriented courses. The feature is disabled by default and does not claim to verify comprehension.
+The feature is disabled by default and has a dedicated activity-form section. The teacher supplies formatted text and selects “any time” or “after the final video second”. The current version hash includes text, format and timing.
 
-## Configuration
+Confirmation uses a normal POST form with `sesskey`. “Final second” mode is enforced twice: the player enables controls after the end segment is saved, and the server checks persisted progress with a one-second tolerance. Manual POST cannot bypass the server check.
 
-The teacher enables the statement in the activity settings and enters formatted text. A separate custom-completion option can require confirmation of the current statement.
+`videotrack_acknowledge` stores the user/activity ids, statement hash, activity version, confirmation time and immutable viewed-seconds/percentage snapshot. Older records without snapshots are reported as unavailable, not zero. A text/timing change requires a new current confirmation.
 
-Changing the stored statement text or format creates a new statement hash. Earlier confirmations remain in the audit history but no longer satisfy the current statement or its completion rule.
+Custom completion can require the current acknowledgement. Per-student reports show status, date and snapshot. Analytics/export show current-version confirmations, distinct students, average progress and legacy-missing count, with separate privacy suppression for counts and progress contributors.
 
-## Learner flow
-
-The statement is displayed after the video interface. The learner must select an explicit checkbox and submit the form. VideoTrack stores:
-
-- activity, course module and user identifiers;
-- a non-reversible SHA-256 statement hash;
-- the activity modification timestamp at confirmation;
-- the confirmation timestamp.
-
-The full statement is not duplicated in the confirmation table.
-
-## Completion, reports and export
-
-When enabled as a completion condition, the current statement must be confirmed. Teacher reports and the standard CSV show whether the current version is confirmed and its date. Moodle Privacy API exports the learner's confirmation history.
-
-## Privacy and lifecycle
-
-The table `videotrack_acknowledge` is included in backup/restore only when user data is included. User, activity, course reset and Privacy API erasure remove confirmations. Retention cleanup deletes expired confirmation records rather than pseudonymising them.
-
-## Confirmation availability and progress snapshot (1.6.20)
-
-The acknowledgement has its own collapsed section in the activity form. The teacher chooses one of two policies:
-
-- **At any time**: preserves the 1.6.19 behaviour and legacy statement hash, so existing confirmations remain current after upgrade.
-- **Only after the final video second**: the server accepts confirmation only when persisted `videotrack_state` intervals or the last tracked position reach the final second, with a one-second media-end tolerance.
-
-The reaction notice checkbox and editor belong to the Reactions section and are no longer displayed with the acknowledgement settings. All instance-form sections are collapsed by default except **Video source**.
-
-Each new confirmation stores an immutable viewing snapshot: `viewedseconds` is the unique covered time and `viewedpercent` is its percentage of the effective duration at confirmation time. Teacher HTML and CSV reports display confirmation status, date, viewed seconds and viewed percentage. Later viewing does not rewrite this snapshot.
-
-When end-gating is active, the form is initially disabled until the persisted state already proves the end was reached. During the current page view, the three player modules emit `videotrack:ended` only after the final segment save completes; `core/player/acknowledgement.js` then enables the controls. Server-side validation remains authoritative.
-Confirmations created before 1.6.20 have no historical progress snapshot; reports label that value as unavailable rather than inferring zero or using later viewing data.
-
-## Analytics and data-format export (1.6.21)
-
-The Analytics page loads only confirmations whose `statementhash` matches the current statement of each selected activity. The same activity, group and cross-course capability scope used for viewing Analytics is applied to acknowledgement records.
-
-The dedicated summary shows current confirmations, distinct confirming learners, average unique viewed time and average viewed percentage captured at confirmation. Records created before the progress snapshot existed are counted but excluded from the averages. Exact values are hidden when the number of contributing learners is below `analyticsminusers`.
-
-CSV, Excel and ODS downloads use a combined row-type layout. Viewing intervals remain separate rows and one **Acknowledgement summary** row carries the privacy-safe aggregate values. The summary can be downloaded even when no timeline data is available; masked values remain masked in every format.
+Privacy API, retention, reset and user-data backup/restore cover acknowledgements. The full statement is not duplicated in each user row.

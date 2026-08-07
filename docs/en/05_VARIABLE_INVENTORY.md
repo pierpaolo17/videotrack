@@ -1,150 +1,407 @@
-# Variable inventory
+# Data and configuration inventory
 
-Variables are detected statically. The inventory is a navigation map; it does not replace runtime flow analysis.
+This document records persistent fields and public configuration contracts. Local implementation variables remain documented by source type declarations, DocBlocks and JSDoc.
 
-## PHP
+## XMLDB tables
 
-| File | Variables detected |
-| --- | --- |
-| backup/moodle2/backup_videotrack_activity_task.class.php | $CFG, $base, $content, $search |
-| backup/moodle2/backup_videotrack_stepslib.php | $reaction, $reactionevent, $reactionevents, $reactions, $segment, $segments, $state, $states, $userinfo, $videotrack |
-| backup/moodle2/restore_videotrack_activity_task.class.php | $CFG |
-| backup/moodle2/restore_videotrack_stepslib.php | $CFG, $DB, $cm, $data, $icontype, $intervals, $json, $mappedreactionid, $mappeduserid, $newitemid, $now, $oldid, $oldreactionid, $paths, $placeholder, $record, $transaction, $videotrack, $videotrackid |
-| classes/admin/setting_int_range.php | $data, $defaultsetting, $description, $max, $min, $name, $value, $visiblename |
-| classes/admin/setting_nonnegative_int.php | $data |
-| classes/admin/setting_retention_days.php | $confirmed, $data, $previous, $result, $submitted |
-| classes/completion/custom_completion.php | $DB, $context, $descriptions, $instance, $reactions, $record, $records, $required, $requiredids, $rule, $state, $summary |
-| classes/event/note_saved.php | $videotime |
-| classes/event/notes_exported.php | $useridfilter |
-| classes/event/reaction_saved.php | $reactionlabel, $videotime |
-| classes/event/student_progress_reset.php | $events, $key, $segments, $states |
-| classes/external/delete_note.php | $CFG, $DB, $USER, $cmid, $context, $event, $loaded, $moodleevent, $noteeventid, $params, $reactioneventid, $state, $videotrack |
-| classes/external/delete_reaction.php | $CFG, $DB, $USER, $changed, $cm, $cmid, $completion, $context, $course, $event, $iscompleted, $loaded, $moodleevent, $params, $reactioneventid, $requiredreactionids, $state, $summary, $videotrack |
-| classes/external/helper.php | $CFG, $DB, $allowed, $cm, $cmid, $cmraw, $context, $course, $endreason, $id, $max, $min, $name, $sessionid, $value, $videotrack |
-| classes/external/save_note.php | $CFG, $DB, $USER, $cm, $cmid, $context, $duration, $event, $loaded, $notemaxlength, $notetext, $now, $params, $playbackrate, $rawtext, $rawtime, $recentnotes, $record, $sessionid, $text, $truncated, $videotime, $videotrack, $warnings |
-| classes/external/save_reaction.php | $CFG, $DB, $USER, $burstcount, $cm, $cmid, $completion, $context, $course, $displaysecond, $duplicatereaction, $duration, $e, $event, $eventid, $icontype, $iconvalue, $loaded, $now, $params, $playbackrate, $reaction, $reactionid, $reactionlock, $reactionlockfactory, $reactionlockkey, $record, $requiredreactionids, $sessionid, $state, $summary, $videosecondend, $videosecondstart, $videotime, $videotrack, $warnings |
-| classes/external/save_segment.php | $CFG, $DB, $USER, $clientduration, $cm, $cmid, $completion, $context, $course, $durationseconds, $endreason, $event, $heartbeat, $interval, $isfirstsegment, $knownduration, $lastactivitytime, $lastsessiontime, $lasttimecreated, $lasttimes, $loaded, $loggable, $normaliseduration, $now, $params, $playbackrate, $segment, $segmentid, $serverallowedvideo, $servergrace, $serverspan, $sessionid, $state, $videoduration, $videotimeend, $videotimestart, $videotrack, $wallclockend, $wallclockstart, $wend, $wstart |
-| classes/local/privacy_manager.php | $DB, $a, $anonuserid, $b, $bucket, $cmid, $configured, $context, $counts, $cutoff, $days, $decoded, $e, $end, $eventparams, $existing, $factory, $hash, $interval, $intervals, $json, $key, $left, $lock, $merged, $notetext, $pair, $pairs, $params, $record, $records, $retention, $right, $salt, $select, $sessionid, $sql, $start, $transaction, $userid, $userids |
-| classes/local/tracker.php | $DB, $a, $allreactionids, $b, $check, $checks, $cm, $completedevent, $completestates, $completion, $covered, $current, $currentlycomplete, $currentstate, $data, $duration, $e, $end, $fallbackdays, $fallbackparams, $fallbackselect, $graceseconds, $ids, $interval, $intervals, $iscompleted, $json, $kept, $key, $lastposition, $lock, $lockfactory, $lockkey, $logic, $matchingids, $maxage, $maxageseconds, $merged, $n, $normalised, $p, $params, $percent, $reactioncountscache, $reactionid, $reactionsummary, $recentseconds, $requiredreactionids, $result, $row, $samesessionselect, $segment, $segmentid, $select, $sessionid, $since, $start, $state, $target, $timetolerance, $tol, $total, $transaction, $userid, $videotime, $videotrack, $videotrackid, $vt, $wascompleted, $where |
-| classes/privacy/provider.php | $DB, $active, $activechunk, $chunk, $collection, $context, $contextlist, $deleted, $deletedchunk, $deletednotes, $deletednoteschunk, $end, $eventrs, $intervals, $isdeleted, $notes, $noteschunk, $params, $reactionevent, $readable, $seconds, $seg, $segment, $segmentrs, $segments, $sql, $start, $state, $user, $userid, $userids, $userlist, $writer |
-| classes/task/cleanup_task.php | $counts, $e, $message |
-| db/access.php | $capabilities |
-| db/mobile.php | $CFG, $addons |
-| db/services.php | $functions |
-| db/tasks.php | $tasks |
-| db/upgrade.php | $DB, $dbman, $field, $fieldname, $fields, $index, $legacyfield, $length, $maybefields, $newfield, $newfields, $oldindex, $oldversion, $react, $reactevtable, $reacttable, $retention, $segtable, $statetable, $table, $tablefields, $tablename |
-| index.php | $DB, $OUTPUT, $PAGE, $context, $course, $currentsection, $event, $id, $instance, $instancecontext, $instancename, $instances, $link, $linkattributes, $printsection, $table, $usesections |
-| lang/de/videotrack.php | $a, $string |
-| lang/en/videotrack.php | $a, $string |
-| lang/es/videotrack.php | $a, $string |
-| lang/fr/videotrack.php | $a, $string |
-| lang/hi/videotrack.php | $a, $string |
-| lang/it/videotrack.php | $a, $string |
-| lang/pl/videotrack.php | $a, $string |
-| lang/pt/videotrack.php | $a, $string |
-| lib.php | $CFG, $DB, $PAGE, $allowdownload, $allowedextensions, $allowedsources, $allpossible, $args, $basekey, $beforekey, $behaviourfields, $cm, $cmid, $col, $columns, $completion, $componentstr, $context, $course, $coursemodule, $cropsize, $cropx, $cropy, $ctrl, $data, $descriptions, $draftinfo, $draftitemid, $dst, $e, $event, $existing, $extension, $feature, $field, $fieldname, $file, $filearea, $filename, $fileops, $filepath, $filerecord, $files, $forcedownload, $fs, $grades, $gradevalue, $i, $iconnames, $icontype, $icontypes, $iconvalues, $id, $idx, $info, $instance, $instanceid, $instances, $isupload, $itemid, $keptids, $key, $keys, $label, $labels, $lifetime, $mform, $mod, $navigation, $newname, $node, $now, $nullifnone, $oldname, $oldreaction, $oldreactionid, $op, $options, $params, $part, $parts, $pngdata, $raw, $reaction, $reactionid, $reactionids, $reactionkey, $record, $requiredreactions, $requireds, $resetcache, $result, $return, $rs, $selected, $settings, $site, $sort, $source, $srcdata, $srch, $srcimage, $srcw, $state, $staterow, $status, $styleclasses, $subtitlecontent, $table, $target, $transaction, $transparent, $updated, $url, $user, $userid, $utilitypattern, $v, $value, $videotrack ... |
-| locallib.php | $CFG, $DB, $PAGE, $cache, $candidate, $catalogue, $categories, $category, $char, $classes, $context, $data, $default, $file, $files, $fs, $host, $hours, $html, $iconhtml, $id, $includedeleted, $key, $keywords, $label, $labels, $match, $matches, $max, $min, $minutes, $name, $options, $parts, $path, $pattern, $patterns, $pickerid, $preset, $presets, $preview, $query, $queryparams, $raw, $reaction, $reactions, $repeatcount, $result, $s, $seconds, $secs, $source, $speed, $speeds, $suggestions, $targetname, $type, $typename, $typetargetname, $url, $val, $value, $values, $videotrack, $videotrackid, $where, $withlabel |
-| mod_form.php | $CFG, $COURSE, $DB, $PAGE, $USER, $activecontrols, $activespeeds, $allctrl, $allowedextensions, $allowedimageextensions, $allspeeds, $availablectrl, $availablespeeds, $behaviourdefaults, $canoverride, $canoverridecompleting, $canoverrideplayer, $cfg, $cfgval, $checkboxgroup, $cm, $cmforposter, $cmupload, $configname, $context, $count, $coursecontext, $ctrl, $ctrlgroup, $ctxposter, $ctxupload, $data, $defaultpercent, $defaultvalues, $description, $descriptions, $draftitemid, $draftitemid2, $draftposter, $errors, $extension, $fallback, $field, $file, $fileinfo, $fileoptions, $files, $gradepass, $group, $hasfile, $hasicon, $hasvalidimagefile, $html5controls, $i, $iconlistid, $iconvalue, $isnew, $k, $key, $label, $labels, $lockedfields, $maxspeedoptions, $mform, $options, $playerwidth, $playerwidthelement, $posteropt, $presetjson, $presetoptions, $reaction, $reactionid, $reactionids, $reactionimagefiletypes, $reactionnoticeoptions, $reactionrepeatcount, $reactions, $reactionsenabled, $repeatcount, $rowhastext, $sitecontrols, $sitespeeds, $source, $sourceoptions, $step, $stepfield, $type, $types, $usercontext, $v, $val, $vttopt |
-| presets.php | $OUTPUT, $PAGE, $_SERVER, $action, $actions, $addurl, $attrs, $checkedattr, $defaultreactions, $deleteaction, $deleteform, $descs, $editkey, $editpreset, $editurl, $formaction, $formdata, $found, $i, $iconlistid, $icontypes, $iconvals, $isediting, $key, $keyreadonly, $label, $labels, $name, $p, $presetkey, $presets, $r, $reactionnames, $reactions, $reactiontableheadings, $requireds, $rownum, $selecthtml, $table, $th, $val |
-| report.php | $CFG, $DB, $OUTPUT, $PAGE, $USER, $_SERVER, $a, $action, $activeindex, $aggregation, $aggregationmode, $alluserids, $b, $barh, $baseparams, $baseurl, $cangrade, $canviewemail, $canviewfullreport, $ci, $cluster, $clusterize, $clusterlimitreached, $clusters, $cm, $cminfo, $col, $color, $completion, $confirmnotesexport, $context, $course, $csvheads, $cumulativereportlink, $currentgrade, $date, $day, $duration, $durationparams, $end, $endofday, $event, $eventconditions, $eventcount, $eventparamsnamed, $eventrs, $events, $eventuserid, $eventuserids, $export, $exportform, $fh, $filename, $filterurl, $geteventrecordset, $getstaterecordset, $gradecell, $gradeinfo, $gradeuserid, $gradevalue, $h, $hasgrade, $hasvideotimefilter, $headers, $heads, $id, $idx, $inparams, $insql, $items, $k, $key, $label, $labelled, $labelthreshold, $legendindex, $legenditems, $matches, $maxclusters, $maxcount, $mode, $month, $name, $note, $notecount, $notecreatedfrom, $notecreatedfromts, $notecreatedto, $notecreatedtots, $notecsvparams, $notecsvwhere, $notelimit, $notepage, $noteparams, $notes, $notesexportform, $noteuidparams, $noteuidwhere, $noteuserid, $noteuserids, $notewhere, $ntable, $nu, $nuid, $options, $pady, $pagingurl, $palette, $passed, $passlabel, $patternid, $patternmap, $patternpaths, $patternstyle, $patternstyles, $pi, $r, $reaction, $reactioncolors, $reactionfilter ... |
-| reports_course.php | $DB, $OUTPUT, $PAGE, $aggrows, $avgcell, $avglabel, $barsvg, $barw, $context, $course, $coursefullname, $courseid, $courseshortname, $duration, $inst, $instances, $link, $modinfo, $pct, $report, $row, $sourcelabel, $sql, $src, $table, $vt, $vtrecords |
-| settings.php | $ADMIN, $html5controloptions, $presetsurl, $retentiondays, $settings, $speedoptions, $validationfallbackdesc |
-| tests/admin_settings_test.php | $CFG, $_POST, $result, $setting |
-| tests/locallib_test.php | $videotrack |
-| tests/tracker_test.php | $capped, $i, $interval, $intervals, $json, $merged, $previousstart, $simplified |
-| version.php | $plugin |
-| view.php | $CFG, $DB, $OUTPUT, $PAGE, $USER, $cm, $context, $course, $covered, $decodedcheck, $distractionfree, $durationseconds, $end, $event, $eventparams, $events, $eventtruncated, $eventwhere, $existingnotes, $ffstep, $grademax, $gradepasslabel, $heartbeat, $html5ctrl, $iconsrc, $icontext, $icontype, $iconvalue, $iconwithlabel, $id, $loadingtext, $n, $note, $notemaxlength, $noteslimit, $noteslimited, $notesmaxrendered, $notice, $passed, $percent, $percentattr, $playerconfig, $playerconfigid, $playerconfigjson, $playerwidth, $posterurl, $providername, $r, $rawintervals, $reaction, $reactionmapview, $reactions, $replayend, $replaystart, $reporturl, $rewindstep, $safeintervals, $showninfo, $showstudentreactions, $source, $speeds, $start, $state, $timestampfmt, $totalreactions, $uniquereactionids, $usergrade, $videotrack, $vtturl |
+### `videotrack`
 
-## AMD JavaScript
+Main table for videotrack instances
 
-| File | Variables / constants detected |
-| --- | --- |
-| amd/src/core/adapter.js | CAPABILITIES, MAX_PLAYBACK_RATE, MIN_PLAYBACK_RATE, capability, copy, current, definition, duration, ended, fallback, fallbackRate, fallbackTime, fallbackVolume, logFailure, muted, paused, providerCapabilities, rate, requiredMethods, requiredProperties, result, safeCurrent, safeDelta, safeDuration, safeMuted, safeRate, safeTarget, safeVolume, state, target, time, type, value, volume |
-| amd/src/core/api/error.js | ERROR_CATEGORY_AUTH, ERROR_CATEGORY_CANCELLED, ERROR_CATEGORY_CLIENT, ERROR_CATEGORY_TRANSIENT, ERROR_CATEGORY_UNKNOWN, ERROR_CATEGORY_VALIDATION, NETWORK_STATE_OFFLINE, NETWORK_STATE_ONLINE, NETWORK_STATE_UNKNOWN, code, message, normalised, status |
-| amd/src/core/api/retry.js | AJAX_MAX_RETRIES, AJAX_RETRY_DELAY_MS, Math, attempt, base, calculatedDelay, jitter, limit, locationOffset, maxRetries, multiplier, performanceOffset, retryCounter, retrySeed, values |
-| amd/src/core/api/scope.js | - |
-| amd/src/core/api/transport.js | AJAX_TIMEOUT_MS, promise, reject, timeoutMs, timeoutPromise, timer |
-| amd/src/core/api/validator.js | AJAX_MAX_ARG_DEPTH, AJAX_MAX_ARRAY_LENGTH, AJAX_MAX_OBJECT_KEYS, AJAX_MAX_OBJECT_KEY_LENGTH, AJAX_MAX_PAYLOAD_BYTES, AJAX_MAX_STRING_ARG_LENGTH, ALLOWED_METHODS, METHOD_PREFIX, error, keys, limit, name, payload, value |
-| amd/src/core/api.js | args, debugContext, end, maxRetries, now, reason, requestScope, requestToken, safeArgs, safeMethodName, start, state, times |
-| amd/src/core/beacon.js | MAX_BEACON_PAYLOAD_BYTES, accepted, args, blob, end, payload, payloadText, start, state |
-| amd/src/core/confirm.js | describedById, element, fallback, fallbackMessage, focusModal, focusReturnElement, getFocusableElement, inlineFallbackMessage, labels, logger, message, nativeSubmit, normaliseText, notice, options, resolveString, restoreFocus, root, showInlineFallback, showModalConfirm, submitForm, submitted, target, text |
-| amd/src/core/debug.js | - |
-| amd/src/core/events.js | DEFAULT_MAX_HANDLERS_PER_EVENT, eventName, eventPayload, handlers, i, list, maxHandlersPerEvent, normaliseEventName, removeHandler, result, results, unsubscribe, wrapped |
-| amd/src/core/player/intervalbar.js | Math, Number, baseLabel, canvas, covered, cssHeight, cssWidth, ctx, dpr, duration, end, height, intervalBarCache, intervals, parsed, pct, progress, start, status, text, value, width, x1, x2 |
-| amd/src/core/player/forum.js | button, cleanup, duration, handler, options, setBusy, status, time, url, value |
-| amd/src/core/player/notes/row.js | delBtn, li, list, maxRenderedNotes, removed, textSpan, timeSpan |
-| amd/src/core/player/notes/toggle.js | body, btn, cleanupToggleHandler, isCollapsed, key, label, labelContext, toggleClickHandler |
-| amd/src/core/player/notes.js | Api, CHAR_COUNTER_DEBOUNCE_MS, Utils, charCounterTimer, cleanupNoteHandler, config, currentNoteSaveToken, currentTime, progressResponse, fallbackTime, savedEnd, time, delBtn, dismissLabel, fallbackMessage, getCurrentVideoTime, hint, lastCharThreshold, li, limitedNotesAnnounced, list, live, maxLength, message, next, noteList, noteListClickHandler, noteSaveToken, noteid, panel, playStateHandler, remaining, saveBtn, saveClickHandler, saveCurrentProgress, savingNote, showErrorStatusMessage, showStatusMessage, state, text, textarea, textareaInputHandler, threshold |
-| amd/src/core/player/poster.js | - |
-| amd/src/core/player/progress.js | - |
-| amd/src/core/player/reactions.js | - |
-| amd/src/core/player/resume.js | btn, existing, formatted, notice, shell, suffix, text |
-| amd/src/core/player/status.js | category, message, rawMessage, shell |
-| amd/src/core/player.js | - |
-| amd/src/core/progress.js | covered, coveredNode, duration, end, fallback, i, intervaljson, intervals, label, last, percent, snapshot, start, status, target, value |
-| amd/src/core/reactions.js | DEFAULT_READY_DEBOUNCE_MS, DEFAULT_UNAVAILABLE_ANNOUNCE_INTERVAL, MAX_READY_DEBOUNCE_MS, MAX_UNAVAILABLE_ANNOUNCE_INTERVAL, MIN_READY_DEBOUNCE_MS, MIN_UNAVAILABLE_ANNOUNCE_INTERVAL, hint, interval, now, root, status, text, timer |
-| amd/src/core/segment.js | INTERACTION_MIN_SECONDS, SAVE_REASONS, max |
-| amd/src/core/session.js | bytes, cryptoApi, identifier, perf, perfApi |
-| amd/src/core/state.js | state |
-| amd/src/core/status.js | DEFAULT_ERROR_TIMEOUT_MS, DEFAULT_INFO_TIMEOUT_MS, MAX_ERROR_TIMEOUT_MS, MAX_INFO_TIMEOUT_MS, MIN_ERROR_TIMEOUT_MS, MIN_INFO_TIMEOUT_MS, assertive, button, closeIcon, container, labels, maximum, minimum, notice, numeric, oppositeSelector, polite, region, selector, span, state, states, targets, text, timeout, timeoutMs, timeouts |
-| amd/src/core/tracker/events.js | - |
-| amd/src/core/tracker/heartbeat.js | Math, base, candidate, currentTime, emit, getTransitionToken, hasPlayer, heartbeat, heartbeatSerial, interval, isTransitionCurrent, last, markPaused, normaliseTime, now, resolveCurrentTime, shouldSkip, state, timestamp, transitionToken |
-| amd/src/core/tracker/lifecycle.js | cancelPendingRequests, emit, end, finish, handlers, hasOpenSegment, hasPlayer, normaliseTime, onBeforeUnload, onPageHide, onVisibilityChange, queued, safeBooleanCallback, start, state, stopPolling |
-| amd/src/core/tracker/segment.js | closed, currentTime, emit, end, getTransitionToken, isTransitionCurrent, markPaused, markPlaying, normaliseTime, now, payload, previous, queued, reason, resetHeartbeat, resolveCurrentTime, safeBooleanCallback, saveReason, start, state, timestamp, transitionToken, wasPlaying |
-| amd/src/core/tracker/state.js | STATES, TRANSITIONS, current, emit, next, previous, stateName, time |
-| amd/src/core/tracker/time.js | backward, blocked, delta, drift, emit, forward, markPaused, markPlaying, markSeeking, normaliseTime, oldTime, target, time, tolerance |
-| amd/src/core/tracker.js | STATES, applyTrackerStateFlags, blockSeek, canTransition, captureHeartbeatSegment, clearEvents, clearSeekBlock, closeAndSaveSegment, closeSegment, consumeProgrammaticSeek, countEvents, emit, enqueueSegmentSave, getTrackerState, getTransitionToken, isKnownTrackerState, isPlayerAvailable, isTransitionCurrent, markDestroyed, markEnded, markIdle, markPaused, markPlaying, markProgrammaticSeek, markSeeking, normaliseHeartbeatInterval, normaliseTime, normaliseTrackerState, off, on, once, openSegment, pollInterval, reopenAfterHeartbeat, reopenAfterInteractionSave, resetHeartbeat, resolveCurrentTime, resolveSeek, safeBooleanCallback, saveCurrentProgress, setTrackerState, shouldSaveHeartbeat, shouldStopReplay, startPolling, stopPolling, syncTime, trackerInstallLifecycleHandlers, trackerRunHeartbeat, trackerSaveHeartbeatIfDue, trackerSendUnloadBeacon, trackerUninstallLifecycleHandlers |
-| amd/src/core/ui.js | fa, hasIconName, hint, img, legacy, lower, parts, path, root, span, src, text, trimmed, type, url, window |
-| amd/src/core/utils.js | ENCODED_LT_PATTERN, FETCH_TEXT_TIMEOUT_MS, MAX_TEXT_RESPONSE_BYTES, UNSAFE_EVENT_PATTERN, UNSAFE_PROTOCOL_PATTERN, UNSAFE_TAG_PATTERN, contentType, controller, cueCount, decoded, decodedLower, fetchPromise, hours, i, isPluginFile, length, line, lines, lower, minutes, next, normalised, options, parsed, path, raw, reject, sample, secs, timeoutId, timeoutPromise, timer, timingPattern, trimmedStart, value, window |
-| amd/src/html5_player.js | HEARTBEAT_INTERVAL, Math, active, activeIdx, allowed, autoplayPromise, b, badge, bar, blocks, btn, chapters, cleanupFullscreenHandler, cleanupPipHandler, cleanupReactionRootHandlers, code, config, configured, container, controls, cues, curr, current, currentButton, currentEl, currentRate, currentTime, debounce, delbtn, deletebtn, dlBtn, doc, durationEl, el, elRect, elapsed, end, eventid, fallback, ffBtn, focusBtn, forwardLimit, fsBtn, fsWrapper, function, getAllowedForwardLimit, getPlaybackRatePenalty, hours, i, iconDescriptor, idx, initialVolume, initialVolumePercent, interval, intervals, isActive, isAudio, item, labelspan, lastActive, lastActiveElement, lastScrollAt, lastTracked, lines, list, m, max, maxRate, maxRateLoad, media, message, minutes, msg, muteBtn, muteIcon, muteLabel, muted, naturalLimit, nearest, node, nofileMsg, nofileWrap, normalized, notice, now, numSpan, number, overlay, panel, panelRect, parseFloat, parts, pct, pendingRow, pipBtn, placeholder, playBtn, playBtn2, posterClickHandler, previousButton, progressBar, progressWrap, rate, raw, reactionClickHandler, reactionData, reactionKeydownHandler, reactionState, reactionbtn, reactionsTable, remaining, replayPlay, replaybtn, requested, root, row, rowEventId, rows, rwBtn, safeRate, savedEnd, savedReaction, scrollOptions, seconds, seek, span, speedWrap, speeds, start, state, t, tag, target, tbody, tddel, tddesc, tdicon, tdreplay, tdtime, template, text, textLines, textSpan, time, timeLine, timeRe, timeSpan, tr, track, updateFullscreenPressed, updatePipPressed, volSlider, volumePercent, wasPlaying, wrap, wrapper |
-| amd/src/player.js | HEARTBEAT_INTERVAL, allowed, allowedLimit, bar, cleanupReactionRootHandlers, config, configured, container, current, currentRate, currentTime, debounce, delBtn, deletebtn, delrow, delta, elapsed, end, eventid, expectedDelta, fallback, ffBtn, ffIcon, focusBtn, heading, iconDescriptor, iconSpan, idx, initialStart, interval, intervals, labelSpan, looksLikePlayback, max, maxRate, node, notice, noticeTimeout, now, oldtime, overlay, placeholder, playBtn, player, playerNode, polledTime, posterClickHandler, previous, rate, reactionClickHandler, reactionKeydownHandler, reactionState, reactionbtn, remaining, removeNotice, replayBtn, replaybtn, resetRate, resumePosition, root, row, rows, rwBtn, rwIcon, safeFallback, safeRate, savedEnd, seek, seekconfig, serverPosition, showFF, showRewind, start, state, stored, storedPosition, tag, target, tbody, tdDel, tdDesc, tdReaction, tdReplay, tdTime, threshold, time, tr, videotime, wallclock, wrap |
-| amd/src/presets.js | activeType, button, buttons, categoryVisible, closeButton, dialog, empty, form, haystack, icon, input, inputs, openButton, openDialog, picker, pickers, preview, query, search, selected, show, showType, type, typeSelect, visible |
-| amd/src/report.js | attachConfirm, fallbackMessage, labels |
-| amd/src/vimeo_player.js | HEARTBEAT_INTERVAL, allowed, allowedLimit, amdDefine, attempts, bar, btn, cleanupReactionRootHandlers, completed, config, configured, container, current, currentTime, data, debounce, defaultspeed, delbtn, deletebtn, duration, elapsed, end, eventid, expectedDelta, fallback, ffBtn, ffIcon, focusBtn, hash, hashmatch, iconDescriptor, idindex, idx, iframe, interval, intervals, labelspan, looksLikePlayback, match, max, maxRate, node, notice, now, overlay, params, parsed, parts, paused, pausedPromise, placeholder, playBtn, player, posterClickHandler, posterPlay, previous, rate, rawid, rawurl, reactionClickHandler, reactionKeydownHandler, reactionState, reactionbtn, reactionsTable, remaining, replayStart, replaybtn, resetRate, restoreDefine, result, resumePos, resumePosition, root, row, rows, rwBtn, rwIcon, safeFallback, safeRate, savedEnd, script, seek, seekConfig, serverPosition, showFF, showRewind, source, span, start, state, stored, storedPosition, target, tbody, tddel, tddesc, tdicon, tdreplay, tdtime, threshold, time, timeoutid, token, tr, vimeosource, wallclock, wasPlaying, window, wrap |
+| Field | Type | Null/default | Comment |
+|---|---|---|---|
+| `id` | `int`(10) | NOT NULL |  |
+| `course` | `int`(10) | NOT NULL; default `0` |  |
+| `name` | `char`(255) | NOT NULL |  |
+| `intro` | `text` | nullable |  |
+| `introformat` | `int`(4) | NOT NULL; default `0` |  |
+| `youtubeurl` | `text` | nullable |  |
+| `videoid` | `char`(32) | nullable; default `` |  |
+| `videosource` | `char`(20) | NOT NULL; default `youtube` | youtube | vimeo | upload |
+| `videourl` | `text` | nullable | Vimeo URL or upload filename reference |
+| `playbackspeeds` | `char`(100) | nullable; default `` | Comma-separated allowed speeds; empty = site default |
+| `autoplay` | `int`(1) | NOT NULL; default `0` | Start video automatically |
+| `loopenabled` | `int`(1) | NOT NULL; default `0` | Loop video when ended |
+| `startmuted` | `int`(1) | NOT NULL; default `0` | Start video muted |
+| `allowdownload` | `int`(1) | NOT NULL; default `0` | Show download control (upload source only) |
+| `html5controls` | `char`(255) | nullable; default `` | Comma-separated list of HTML5 player controls; empty = site default |
+| `playerwidth` | `int`(5) | NOT NULL; default `0` | Max player width in px; 0 = use site default |
+| `rewindstep` | `int`(3) | NOT NULL; default `0` | Rewind seconds per click; 0 = use site default |
+| `fastforwardstep` | `int`(3) | NOT NULL; default `0` | Fast-forward seconds per click; 0 = use site default |
+| `captions` | `int`(1) | NOT NULL; default `0` | Enable captions/subtitles |
+| `captionslang` | `char`(10) | nullable; default `` | Default caption language code (e.g. it, en) |
+| `durationseconds` | `number`(10) | NOT NULL; default `0.000` |  |
+| `showcontrols` | `int`(1) | NOT NULL; default `1` |  |
+| `disablekeyboard` | `int`(1) | NOT NULL; default `0` |  |
+| `showfullscreen` | `int`(1) | NOT NULL; default `1` |  |
+| `allowseekforward` | `int`(1) | NOT NULL; default `1` |  |
+| `allowseekbackward` | `int`(1) | NOT NULL; default `1` |  |
+| `allowplaybackratechange` | `int`(1) | NOT NULL; default `1` |  |
+| `resumeplayback` | `int`(1) | NOT NULL; default `0` | Resume playback from last saved position |
+| `maxplaybackrate` | `int`(4) | NOT NULL; default `0` | Max playback rate in centesimal (0=no limit, 150=1.5x, 200=2x) |
+| `blockedseekplaybackrate` | `int`(4) | NOT NULL; default `50` | Playback rate after blocked forward seek in centesimal (50=0.5x, 100=1x) |
+| `showtranscript` | `int`(1) | NOT NULL; default `0` | Show the interactive VTT transcript panel for supported video sources |
+| `showchapters` | `int`(1) | NOT NULL; default `0` | Show the VTT-based chapter navigation bar for supported video sources |
+| `studentnotesenabled` | `int`(1) | NOT NULL; default `0` | Allow students to write personal timestamped notes while watching |
+| `bookmarksenabled` | `int`(1) | NOT NULL; default `0` | Allow students to save private named bookmarks at watched timestamps |
+| `integrityindicatorsenabled` | `int`(1) | NOT NULL; default `0` | Record privacy-safe diagnostic integrity signals |
+| `pauseonfocusloss` | `int`(1) | NOT NULL; default `0` | Pause when the page is hidden; window-focus behaviour follows the site accessibility policy |
+| `preventpictureinpicture` | `int`(1) | NOT NULL; default `0` | Best-effort prevention of Picture-in-Picture playback |
+| `randomfocuspauses` | `int`(1) | NOT NULL; default `0` | Pause playback after a random active interval to prompt learner attention |
+| `acknowledgementenabled` | `int`(1) | NOT NULL; default `0` | Require an explicit learner acknowledgement for the configured statement |
+| `acknowledgementtext` | `text` | nullable | Teacher-authored acknowledgement statement |
+| `acknowledgementformat` | `int`(4) | NOT NULL; default `1` | Text format for acknowledgement statement |
+| `acknowledgementtiming` | `int`(1) | NOT NULL; default `0` | 0=confirmation at any time; 1=confirmation only after the final video second |
+| `completionacknowledgement` | `int`(1) | NOT NULL; default `0` | Use current acknowledgement as a custom completion condition |
+| `forumpostingenabled` | `int`(1) | NOT NULL; default `0` | Allow students to compose a forum discussion from the current video time |
+| `linkedforumid` | `int`(10) | NOT NULL; default `0` | Linked forum instance id in the same course |
+| `forumsubjecttemplate` | `text` | nullable | Forum discussion subject template with {timestamp} and {activity} placeholders |
+| `csvdelimiter` | `char`(20) | NOT NULL; default `inherit` | CSV delimiter override: inherit, comma, semicolon, section, hash or pipe |
+| `csvexportfields` | `text` | nullable | Comma-separated optional context and identity fields included in CSV exports |
+| `countbyvideotime` | `int`(1) | NOT NULL; default `1` |  |
+| `completionpercent` | `int`(3) | NOT NULL; default `0` |  |
+| `reactionsenabled` | `int`(1) | NOT NULL; default `0` |  |
+| `reactionsrequired` | `int`(1) | NOT NULL; default `0` |  |
+| `minreactions` | `int`(10) | NOT NULL; default `0` |  |
+| `requireallreactiontypes` | `int`(1) | NOT NULL; default `0` |  |
+| `completionlogic` | `char`(10) | NOT NULL; default `and` |  |
+| `clusterwindow` | `int`(3) | NOT NULL; default `30` |  |
+| `showstudentreport` | `int`(1) | NOT NULL; default `1` |  |
+| `showreactionnotice` | `int`(1) | NOT NULL; default `1` |  |
+| `reactionnoticeformat` | `int`(4) | NOT NULL; default `1` |  |
+| `reactionnotice` | `text` | nullable |  |
+| `grade` | `int`(10) | NOT NULL; default `0` | 0=no grade, >0=max points, <0=scale id (negative) |
+| `gradepass` | `number`(10) | NOT NULL; default `0.00000` | Minimum grade to pass (gradepass in gradebook) |
+| `showgradeto` | `int`(1) | NOT NULL; default `0` | 1=show grade to student in view.php |
+| `timemodified` | `int`(10) | NOT NULL; default `0` |  |
+| `timecreated` | `int`(10) | NOT NULL; default `0` |  |
 
+### `videotrack_seg`
 
-## Forum configuration fields (1.5.0)
+Watched segments
 
-- `forumpostingenabled`: optional feature flag, default `0`.
-- `linkedforumid`: Forum instance id in the same course, default `0`.
-- `forumsubjecttemplate`: optional subject template with `{timestamp}` and `{activity}`; an empty value uses the language-pack default.
-- Player configuration: `forumpostbuttonid`, `forumpoststatusid`, `forumposturl`, `forumposterrorlabel`.
+| Field | Type | Null/default | Comment |
+|---|---|---|---|
+| `id` | `int`(10) | NOT NULL |  |
+| `videotrackid` | `int`(10) | NOT NULL; default `0` |  |
+| `courseid` | `int`(10) | NOT NULL; default `0` |  |
+| `cmid` | `int`(10) | NOT NULL; default `0` |  |
+| `userid` | `int`(10) | NOT NULL; default `0` |  |
+| `videoid` | `char`(32) | NOT NULL |  |
+| `sessionid` | `char`(64) | NOT NULL |  |
+| `wallclockstart` | `int`(10) | NOT NULL; default `0` |  |
+| `wallclockend` | `int`(10) | NOT NULL; default `0` |  |
+| `videotimestart` | `number`(10) | NOT NULL; default `0.000` |  |
+| `videotimeend` | `number`(10) | NOT NULL; default `0.000` |  |
+| `playbackrate` | `number`(6) | NOT NULL; default `1.000` |  |
+| `endreason` | `char`(32) | NOT NULL; default `unknown` |  |
+| `timecreated` | `int`(10) | NOT NULL; default `0` |  |
 
-## Analytics variables and configuration (1.6.0)
+### `videotrack_state`
 
-- Site configuration `analyticsminusers`: minimum distinct-user threshold, default `5`, allowed range `2–50`.
-- Report parameters: `analyticsbinsize`, `analyticsgroupid`, `analyticsshowreactions`, `analyticsallcourses`. The latter is a temporary GET filter, defaults to `0`, and forces `analyticsgroupid=0` in cross-course scope.
-- `analyticsinstances` contains only same-video instances with `mod/videotrack:viewreport`; every record receives a null, empty or populated `analyticsgroupids` value representing the permitted group scope.
-- `classes/local/analytics.php` processes one user at a time and retains global timeline bins; it does not load user profile records.
-- Analytics bins contain start/end, distinct viewers, retention, raw seconds, unique seconds, repeated seconds and viewers with repeats.
-- Privacy masking is applied to the whole dataset, each positive interval and the replaying subgroup; totals that could reveal masked values are omitted.
+Aggregated unique coverage per user and activity
 
-## Analytics export variables (1.6.11)
+| Field | Type | Null/default | Comment |
+|---|---|---|---|
+| `id` | `int`(10) | NOT NULL |  |
+| `videotrackid` | `int`(10) | NOT NULL; default `0` |  |
+| `courseid` | `int`(10) | NOT NULL; default `0` |  |
+| `cmid` | `int`(10) | NOT NULL; default `0` |  |
+| `userid` | `int`(10) | NOT NULL; default `0` |  |
+| `videoid` | `char`(32) | NOT NULL |  |
+| `lastposition` | `number`(10) | NOT NULL; default `0.000` |  |
+| `durationseconds` | `number`(10) | NOT NULL; default `0.000` |  |
+| `uniquecoveredseconds` | `number`(10) | NOT NULL; default `0.000` |  |
+| `completionpercent` | `number`(6) | NOT NULL; default `0.00` |  |
+| `intervaljson` | `text` | nullable |  |
+| `iscompleted` | `int`(1) | NOT NULL; default `0` |  |
+| `timemodified` | `int`(10) | NOT NULL; default `0` |  |
+| `timecreated` | `int`(10) | NOT NULL; default `0` |  |
 
-- GET parameter `analyticsformat`: requested accessible-table format; allowed values are `csv`, `excel` and `ods` only when the matching Moodle dataformat is enabled.
-- `analyticsformats`: intersection between VideoTrack's allowed formats and the site's enabled dataformat writers.
-- `hasmaskedbins` and `hasmaskedrepeats`: control the legend and conditional explanation of omitted values.
+### `videotrack_integrity`
 
-## Personal bookmark configuration and report variables (1.6.14–1.6.16)
+Privacy-safe diagnostic integrity signals
 
-- Instance field `bookmarksenabled`: strict integer boolean, default `0`.
-- Site settings `bookmarksenabled` and `bookmarkmaxlength`.
-- Event discriminator `notetype = 'bookmark'`.
-- Analytics variables `bookmarkinstances`, `bookmarkanalyticsenabled`, `bookmarksummary`, `bookmarkcounts` and `bookmarkuserids`.
-- Client state `bookmarkSaveInProgress`; configuration includes labels, maximum length and maximum rendered rows.
+| Field | Type | Null/default | Comment |
+|---|---|---|---|
+| `id` | `int`(10) | NOT NULL |  |
+| `videotrackid` | `int`(10) | NOT NULL; default `0` |  |
+| `courseid` | `int`(10) | NOT NULL; default `0` |  |
+| `cmid` | `int`(10) | NOT NULL; default `0` |  |
+| `userid` | `int`(10) | NOT NULL; default `0` |  |
+| `videoid` | `char`(32) | NOT NULL |  |
+| `sessionid` | `char`(64) | NOT NULL |  |
+| `eventtype` | `char`(32) | NOT NULL |  |
+| `videotime` | `number`(10) | NOT NULL; default `0.000` |  |
+| `timecreated` | `int`(10) | NOT NULL; default `0` |  |
 
-## Integrity and focus variables (1.6.18)
+### `videotrack_react`
 
-- Instance booleans: `integrityindicatorsenabled`, `pauseonfocusloss`, `preventpictureinpicture`, `randomfocuspauses`; all default `0`.
+Configured reactions per activity
 
-- Site config: `randompauseminseconds`, `randompausemaxseconds`, `focuslosspolicy`, `focuslossgraceseconds`.
-- Random bounds: defaults `RANDOM_PAUSE_DEFAULT_MIN_SECONDS = 300` and `RANDOM_PAUSE_DEFAULT_MAX_SECONDS = 1800`; accepted site range 60–7200 seconds.
-- Signal fields: `videotrackid`, `courseid`, `cmid`, `userid`, `videoid`, `sessionid`, `eventtype`, `videotime`, `timecreated`.
+| Field | Type | Null/default | Comment |
+|---|---|---|---|
+| `id` | `int`(10) | NOT NULL |  |
+| `videotrackid` | `int`(10) | NOT NULL; default `0` |  |
+| `reactionkey` | `char`(100) | NOT NULL |  |
+| `label` | `char`(255) | NOT NULL |  |
+| `description` | `text` | nullable |  |
+| `icontype` | `char`(10) | NOT NULL; default `emoji` |  |
+| `iconvalue` | `char`(255) | NOT NULL |  |
+| `requiredforcompletion` | `int`(1) | NOT NULL; default `0` |  |
+| `sortorder` | `int`(10) | NOT NULL; default `0` |  |
+| `isdeleted` | `int`(1) | NOT NULL; default `0` |  |
+| `timecreated` | `int`(10) | NOT NULL; default `0` |  |
+| `timemodified` | `int`(10) | NOT NULL; default `0` |  |
 
-## Acknowledgement fields and state (1.6.19)
+### `videotrack_reactev`
 
-- Instance fields: `acknowledgementenabled`, `acknowledgementtext`, `acknowledgementformat`, `acknowledgementtiming`, `completionacknowledgement`.
-- Confirmation fields: `videotrackid`, `courseid`, `cmid`, `userid`, `statementhash`, `instanceversion`, `viewedseconds`, `viewedpercent`, `timeconfirmed`.
-- View/report state: `ackaction`, `ackconfirm`, `acknowledgementrecord`, `acknowledgementrecords`, `acknowledgementuserids`.
-- Analytics state: `acknowledgementinstances`, `acknowledgementsummary`, `acknowledgementanalyticsenabled`, `acknowledgementanytimecount`, `acknowledgementvideoendcount`.
-- The canonical current version is `SHA-256(format + "\n" + stored text)`; old records remain history but do not satisfy the current rule.
+Reaction click events
+
+| Field | Type | Null/default | Comment |
+|---|---|---|---|
+| `id` | `int`(10) | NOT NULL |  |
+| `videotrackid` | `int`(10) | NOT NULL; default `0` |  |
+| `courseid` | `int`(10) | NOT NULL; default `0` |  |
+| `cmid` | `int`(10) | NOT NULL; default `0` |  |
+| `userid` | `int`(10) | NOT NULL; default `0` |  |
+| `videoid` | `char`(32) | NOT NULL |  |
+| `sessionid` | `char`(64) | NOT NULL |  |
+| `reactionid` | `int`(10) | NOT NULL; default `0` |  |
+| `reactionkey` | `char`(100) | NOT NULL |  |
+| `reactionlabel` | `char`(255) | NOT NULL |  |
+| `reactiondesc` | `text` | nullable |  |
+| `notetext` | `text` | nullable | Private text for notes or bookmark labels |
+| `notetype` | `char`(20) | NOT NULL | Empty=reaction; note=student note; bookmark=private bookmark |
+| `videotime` | `number`(10) | NOT NULL; default `0.000` |  |
+| `playbackrate` | `number`(6) | NOT NULL; default `1.000` |  |
+| `isdeleted` | `int`(1) | NOT NULL; default `0` |  |
+| `timecreated` | `int`(10) | NOT NULL; default `0` |  |
+| `timemodified` | `int`(10) | NOT NULL; default `0` |  |
+
+### `videotrack_acknowledge`
+
+Explicit learner acknowledgements of versioned activity statements
+
+| Field | Type | Null/default | Comment |
+|---|---|---|---|
+| `id` | `int`(10) | NOT NULL |  |
+| `videotrackid` | `int`(10) | NOT NULL; default `0` |  |
+| `courseid` | `int`(10) | NOT NULL; default `0` |  |
+| `cmid` | `int`(10) | NOT NULL; default `0` |  |
+| `userid` | `int`(10) | NOT NULL; default `0` |  |
+| `statementhash` | `char`(64) | NOT NULL |  |
+| `instanceversion` | `int`(10) | NOT NULL; default `0` |  |
+| `viewedseconds` | `number`(10) | nullable | Unique covered seconds at confirmation time; null for legacy confirmations |
+| `viewedpercent` | `number`(6) | nullable | Video coverage percentage at confirmation time; null for legacy confirmations |
+| `timeconfirmed` | `int`(10) | NOT NULL; default `0` |  |
+
+## Site settings
+
+All keys are stored under `mod_videotrack`.
+
+- `analyticsminusers`
+- `bookmarkmaxlength`
+- `bookmarksenabled`
+- `csvdelimiter`
+- `csvexportfields`
+- `default_allowdownload`
+- `default_allowplaybackratechange`
+- `default_allowseekbackward`
+- `default_allowseekforward`
+- `default_autoplay`
+- `default_captions`
+- `default_captionslang`
+- `default_clusterwindow`
+- `default_completionpercent`
+- `default_disablekeyboard`
+- `default_loop`
+- `default_showcontrols`
+- `default_showfullscreen`
+- `default_startmuted`
+- `distractionfree`
+- `fastforwardstep`
+- `focuslossgraceseconds`
+- `focuslosspolicy`
+- `gd_missing_warning`
+- `heading_accessibility`
+- `heading_csvexport`
+- `heading_defaults`
+- `heading_html5controls`
+- `heading_integrity`
+- `heading_performance`
+- `heading_player`
+- `heading_playerbehavior`
+- `heading_presets`
+- `heading_privacy`
+- `heartbeatinterval`
+- `html5controls`
+- `maxplaybackrate`
+- `notemaxlength`
+- `playbackspeeds`
+- `playerwidth`
+- `presets_link`
+- `randompausemaxseconds`
+- `randompauseminseconds`
+- `reactionannouncementinterval`
+- `reactionreadydebouncems`
+- `reportclusterlimit`
+- `reportnotespagesize`
+- `resumeplayback`
+- `retention_unlimited_warning`
+- `retentionperioddays`
+- `retentionunlimitedconfirmed`
+- `rewindstep`
+- `statuserrortimeoutms`
+- `statusinfotimeoutms`
+- `strictsessionvalidation`
+- `studentnotesenabled`
+- `validationfallbackdays`
+
+## AJAX services
+
+- `mod_videotrack_save_integrity_event` — authenticated write service with `mod/videotrack:view`.
+- `mod_videotrack_save_segment` — authenticated write service with `mod/videotrack:view`.
+- `mod_videotrack_save_reaction` — authenticated write service with `mod/videotrack:view`.
+- `mod_videotrack_delete_reaction` — authenticated write service with `mod/videotrack:view`.
+- `mod_videotrack_delete_note` — authenticated write service with `mod/videotrack:view`.
+- `mod_videotrack_save_bookmark` — authenticated write service with `mod/videotrack:view`.
+- `mod_videotrack_delete_bookmark` — authenticated write service with `mod/videotrack:view`.
+- `mod_videotrack_save_note` — authenticated write service with `mod/videotrack:view`.
+
+## Browser player configuration keys
+
+The JSON script element created by `view.php` is the single server-to-player configuration contract.
+
+- `cmid`
+- `videoid`
+- `videosource`
+- `showcontrols`
+- `disablekeyboard`
+- `showfullscreen`
+- `allowseekforward`
+- `allowseekbackward`
+- `allowplaybackratechange`
+- `autoplay`
+- `loop`
+- `startmuted`
+- `allowdownload`
+- `playbackspeeds`
+- `html5controls`
+- `playerwidth`
+- `rewindstep`
+- `fastforwardstep`
+- `captions`
+- `captionslang`
+- `vtturl`
+- `showtranscript`
+- `transcripttracks`
+- `transcriptdefaultlanguage`
+- `showchapters`
+- `chapterurl`
+- `chapterlegacymode`
+- `posterurl`
+- `chapterslabel`
+- `chapterlabel`
+- `chaptersunavailablelabel`
+- `chaptersloadinglabel`
+- `transcriptloadinglabel`
+- `transcriptsearchlabel`
+- `transcriptsearchplaceholder`
+- `transcriptresultslabel`
+- `transcriptlanguagelabel`
+- `timedtextseekblockedlabel`
+- `timedtextseekfailedlabel`
+- `requiredpercent`
+- `origin`
+- `reactionsenabled`
+- `studentnotesenabled`
+- `bookmarksenabled`
+- `integrityindicatorsenabled`
+- `pauseonfocusloss`
+- `preventpictureinpicture`
+- `randomfocuspauses`
+- `randompauseminseconds`
+- `randompausemaxseconds`
+- `focuslosspolicy`
+- `focuslossgracems`
+- `focuspausedlabel`
+- `randompausedlabel`
+- `pipblockedlabel`
+- `integrityerrorlabel`
+- `bookmarkmaxlength`
+- `bookmarksmaxrendered`
+- `bookmarkreplaylabel`
+- `removebookmarklabel`
+- `bookmarkerrorlabel`
+- `bookmarksavedlabel`
+- `bookmarkdeletedlabel`
+- `bookmarkemptylabel`
+- `bookmarktoolonglabel`
+- `bookmarkslimitedlabel`
+- `bookmarksnonelabel`
+- `notespaneltitle`
+- `noteshidelabel`
+- `noteshowlabel`
+- `replaylabel`
+- `removelabel`
+- `removenotelabel`
+- `noteerrorlabel`
+- `notesavedlabel`
+- `notedeletedlabel`
+- `noteplaybackrequiredlabel`
+- `noteemptylabel`
+- `notetoolonglabel`
+- `studentnoteslimitedlabel`
+- `notesmaxrendered`
+- `charsremaininglabel`
+- `notemaxlength`
+- `dismisslabel`
+- `statusdefaultlabel`
+- `statuserrorlabel`
+- `rewindlabel`
+- `fastforwardlabel`
+- `secondslabel`
+- `reactionerrorlabel`
+- `reactionunavailablelabel`
+- `reactionsreadylabel`
+- `reactionannouncementinterval`
+- `reactionreadydebouncems`
+- `statusinfotimeoutms`
+- `statuserrortimeoutms`
+- `autoblockedlabel`
+- `vimeocspwarnlabel`
+- `sdkerrorlabel`
+- `transcriptunavailablelabel`
+- `nofilelabel`
+- `html5controlslabel`
+- `html5playlabel`
+- `html5pauselabel`
+- `html5seeklabel`
+- `html5volumelabel`
+- `html5mutelabel`
+- `html5unmutelabel`
+- `html5speedlabel`
+- `html5piplabel`
+- `html5fullscreenlabel`
+- `html5downloadlabel`
+- `html5elapsedlabel`
+- `resumelabel`
+- `beaconurl`
+- `replaystart`
+- `replayend`
+- `resumeposition`
+- `maxplaybackrate`
+- `blockedseekplaybackrate`
+- `heartbeatinterval`
+- `videourl`
+- `intervaljson`
+- `duration`
+- `forumpostbuttonid`
+- `forumpoststatusid`
+- `forumposturl`
+- `forumposterrorlabel`
+
+## File areas
+
+- uploaded video source; poster; caption VTT; searchable transcript tracks; chapter VTT; uploaded reaction icons.
