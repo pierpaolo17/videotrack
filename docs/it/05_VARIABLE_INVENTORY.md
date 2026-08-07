@@ -262,16 +262,20 @@ Tutte le chiavi sono memorizzate sotto `mod_videotrack`.
 - `studentnotesenabled`
 - `validationfallbackdays`
 
+## Capability di partecipazione learner
+
+- `mod/videotrack:participate` — permesso canonico di scrittura nel contesto modulo per tracking learner, reazioni, note, segnalibri, indicatori di integrità, prese visione ed export personale dei segnalibri. I permessi predefiniti sono clonati da `moodle/course:isincompletionreports`; l’accesso ai report è indipendente.
+
 ## Servizi AJAX
 
-- `mod_videotrack_save_integrity_event` — authenticated write service with `mod/videotrack:view`.
-- `mod_videotrack_save_segment` — authenticated write service with `mod/videotrack:view`.
-- `mod_videotrack_save_reaction` — authenticated write service with `mod/videotrack:view`.
-- `mod_videotrack_delete_reaction` — authenticated write service with `mod/videotrack:view`.
-- `mod_videotrack_delete_note` — authenticated write service with `mod/videotrack:view`.
-- `mod_videotrack_save_bookmark` — authenticated write service with `mod/videotrack:view`.
-- `mod_videotrack_delete_bookmark` — authenticated write service with `mod/videotrack:view`.
-- `mod_videotrack_save_note` — authenticated write service with `mod/videotrack:view`.
+- `mod_videotrack_save_integrity_event` — servizio di scrittura autenticato con `mod/videotrack:participate`.
+- `mod_videotrack_save_segment` — servizio di scrittura autenticato con `mod/videotrack:participate`.
+- `mod_videotrack_save_reaction` — servizio di scrittura autenticato con `mod/videotrack:participate`.
+- `mod_videotrack_delete_reaction` — servizio di scrittura autenticato con `mod/videotrack:participate`.
+- `mod_videotrack_delete_note` — servizio di scrittura autenticato con `mod/videotrack:participate`.
+- `mod_videotrack_save_bookmark` — servizio di scrittura autenticato con `mod/videotrack:participate`.
+- `mod_videotrack_delete_bookmark` — servizio di scrittura autenticato con `mod/videotrack:participate`.
+- `mod_videotrack_save_note` — servizio di scrittura autenticato con `mod/videotrack:participate`.
 
 ## Chiavi di configurazione browser/player
 

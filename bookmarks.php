@@ -33,6 +33,7 @@ $context = context_module::instance($cm->id);
 
 require_login($course, true, $cm);
 require_capability('mod/videotrack:view', $context);
+require_capability('mod/videotrack:participate', $context, null, false);
 require_sesskey();
 if ($_SERVER['REQUEST_METHOD'] !== 'POST' || empty($videotrack->bookmarksenabled)) {
     throw new moodle_exception('invalidrequest', 'error');

@@ -26,7 +26,7 @@ Each adapter must provide reliable current time, duration, play/pause, seek, rat
 
 ## Identity and scope
 
-Course-module context and Moodle capabilities are authoritative. Group visibility is resolved with the effective activity group mode. Cross-course Analytics recomputes capability and group scope for every included activity and identifies the same technical video by provider id or uploaded-file content hash.
+Course-module context and Moodle capabilities are authoritative. `mod/videotrack:participate` explicitly identifies users whose learner telemetry and personal study tools may be written; report access is independent. Group visibility is resolved with the effective activity group mode. Cross-course Analytics recomputes participation, report and group scope for every included activity and identifies the same technical video by provider id or uploaded-file content hash.
 
 ## Privacy architecture
 

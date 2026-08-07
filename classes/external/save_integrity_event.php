@@ -90,11 +90,7 @@ class save_integrity_event extends external_api {
         helper::require_ajax_sesskey();
         $videotrack = $loaded['videotrack'];
         $cm = $loaded['cm'];
-        $context = $loaded['context'];
 
-        if (has_capability('mod/videotrack:viewreport', $context)) {
-            return ['stored' => false, 'integrityeventid' => 0, 'warnings' => []];
-        }
         if (empty($videotrack->integrityindicatorsenabled)) {
             return ['stored' => false, 'integrityeventid' => 0, 'warnings' => []];
         }

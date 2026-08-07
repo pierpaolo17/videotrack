@@ -30,9 +30,9 @@ final class course_analytics {
     /**
      * Builds one dashboard row for every visible VideoTrack activity in a course.
      *
-     * Learners are identified through capabilities rather than role names. Active
-     * enrolled users must be able to view the activity and must not be able to view
-     * its full report. This excludes teachers and managers who generated test data.
+     * Learners are identified through the explicit participation capability rather
+     * than role names or the absence of report access. This supports custom and
+     * dual-role learners without including ordinary teacher/manager previews.
      *
      * @param stdClass $course Course record.
      * @param int $viewerid User viewing the dashboard.
@@ -276,22 +276,16 @@ final class course_analytics {
             return ['1 = 0', []];
         }
 
-        [$viewsql, $viewparams] = get_enrolled_sql(
+        [$participantsql, $participantparams] = get_enrolled_sql(
             $context,
-            'mod/videotrack:view',
+            'mod/videotrack:participate',
             $groupids ?? 0,
-            true
-        );
-        [$reportsql, $reportparams] = get_enrolled_sql(
-            $context,
-            'mod/videotrack:viewreport',
-            0,
             true
         );
 
         return [
-            "userid IN ({$viewsql}) AND userid NOT IN ({$reportsql})",
-            array_merge($viewparams, $reportparams),
+            "userid IN ({$participantsql})",
+            $participantparams,
         ];
     }
 

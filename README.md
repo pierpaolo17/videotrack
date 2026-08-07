@@ -2,7 +2,7 @@
 
 VideoTrack is a Moodle activity module for delivering and tracking HTML5/uploaded, YouTube and Vimeo videos. It combines privacy-aware viewing analytics with optional study tools, completion rules and teacher reporting.
 
-Current release documented by this tree: **1.6.28**. Supported Moodle branches: **5.0–5.3**.
+Current release documented by this tree: **1.6.29**. Supported Moodle branches: **5.0–5.3**.
 
 Italian overview: [`README_IT.md`](README_IT.md)
 Privacy summary: [`PRIVACY.md`](PRIVACY.md) / [`PRIVACY_IT.md`](PRIVACY_IT.md)
@@ -29,6 +29,10 @@ VideoTrack records only the data required by enabled features. Bookmark labels r
 
 The default focus policy pauses only when the video page is genuinely hidden. Window-focus loss is treated more cautiously to reduce false positives for screen readers, password managers, browser chrome and operating-system dialogs. Player controls, status regions, transcript navigation and poster actions are designed for keyboard and assistive-technology use. Browser and external-provider limitations are documented rather than presented as guarantees.
 
+### Explicit learner participation in 1.6.29
+
+Release 1.6.29 separates learner participation from report access. Tracking, reactions, notes, bookmarks, integrity signals and acknowledgements now require `mod/videotrack:participate`, which is granted to the standard Student archetype and cloned from Moodle’s completion-report participant capability. A user may therefore participate even when a custom or dual role also grants report access. Ordinary teachers, managers and site administrators remain in non-tracking preview mode unless they switch to, or are explicitly granted, a participating role. Analytics and learner reports use the same participation capability, so UI state, Web Services and report populations share one contract.
+
 ## Installation
 
 1. Place the directory at `mod/videotrack`.
@@ -48,11 +52,11 @@ When the teacher enters a supported YouTube or Vimeo URL, or selects a local med
 
 ### Playback-tool reliability correction in 1.6.26
 
-Release 1.6.26 keeps reaction buttons available while the player is playing or paused, while the server still requires a validated watched timestamp. Enabled personal notes and bookmarks are rendered consistently; report-capable staff see a disabled preview and cannot create learner telemetry. The complete HTML5-controls section is hidden for YouTube and Vimeo sources. The verified-duration field defaults to `0`, explicitly meaning that watched percentage, percentage completion and acknowledgement after the final second are not used; validated watched intervals continue to be collected.
+Release 1.6.26 keeps reaction buttons available while the player is playing or paused, while the server still requires a validated watched timestamp. Enabled personal notes and bookmarks are rendered consistently; users without the explicit participation capability see a disabled preview and cannot create learner telemetry. The complete HTML5-controls section is hidden for YouTube and Vimeo sources. The verified-duration field defaults to `0`, explicitly meaning that watched percentage, percentage completion and acknowledgement after the final second are not used; validated watched intervals continue to be collected.
 
 ### Interface and Analytics correction in 1.6.25
 
-Release 1.6.25 fixes the acknowledgement summary in Analytics, keeps all reaction definitions inside the main Reactions section, restores the reaction controls above Forum posting and bookmarks, and preserves a variable reaction set through the existing **Add reaction** control (up to the established safety cap of 30). Report-capable staff can see a disabled preview of reaction controls, while only canonical learners may record reactions.
+Release 1.6.25 fixes the acknowledgement summary in Analytics, keeps all reaction definitions inside the main Reactions section, restores the reaction controls above Forum posting and bookmarks, and preserves a variable reaction set through the existing **Add reaction** control (up to the established safety cap of 30). Users without the explicit participation capability see a disabled preview of reaction controls, while participants may record reactions even when a separate role also grants report access.
 
 ### Upgrade recovery in 1.6.24
 

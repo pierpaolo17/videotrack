@@ -45,6 +45,15 @@ $capabilities = [
             'manager' => CAP_ALLOW,
         ],
     ],
+    'mod/videotrack:participate' => [
+        'riskbitmask' => RISK_PERSONAL,
+        'captype' => 'write',
+        'contextlevel' => CONTEXT_MODULE,
+        'archetypes' => [
+            'student' => CAP_ALLOW,
+        ],
+        'clonepermissionsfrom' => 'moodle/course:isincompletionreports',
+    ],
     'mod/videotrack:viewreport' => [
         'captype' => 'read',
         'contextlevel' => CONTEXT_MODULE,

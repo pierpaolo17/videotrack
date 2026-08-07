@@ -19,7 +19,7 @@ Partire dall’ultimo ZIP reale fornito dal maintainer. Registrare checksum e co
 ## Confini di fiducia
 
 - Il browser non è affidabile per proprietà, posizione vista o decisioni di completamento.
-- Ogni servizio di scrittura valida parametri, login, contesto modulo, capability, proprietà e stato della funzione.
+- Ogni servizio di scrittura learner valida parametri, login, contesto modulo, `mod/videotrack:participate`, proprietà e stato della funzione.
 - I testi privati non vengono copiati nei report aggregati.
 - Focus e Picture-in-Picture sono best effort: non promettere controlli che browser/provider non consentono.
 - Gli indicatori sono diagnostici e non dimostrano autonomamente un comportamento scorretto.
