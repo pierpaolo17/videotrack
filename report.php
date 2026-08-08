@@ -437,11 +437,18 @@ function videotrack_report_render_analytics_heatmap(
             $attributes = ['fill' => 'url(#videotrack-analytics-suppressed-pattern)'];
         } else {
             $viewers = (int)($bin['viewers'] ?? 0);
-            $tooltip = get_string('report:analytics_bin_title', 'mod_videotrack', [
-                'interval' => $interval,
-                'viewers' => $viewers,
-                'retention' => format_float((float)($bin['retention'] ?? 0), 1),
-            ]);
+            if (!empty($bin['retentionsuppressed'])) {
+                $tooltip = get_string('report:analytics_bin_title_privacy', 'mod_videotrack', [
+                    'interval' => $interval,
+                    'viewers' => $viewers,
+                ]);
+            } else {
+                $tooltip = get_string('report:analytics_bin_title', 'mod_videotrack', [
+                    'interval' => $interval,
+                    'viewers' => $viewers,
+                    'retention' => format_float((float)($bin['retention'] ?? 0), 1),
+                ]);
+            }
             $class = 'videotrack-analytics-bin';
             $opacity = $maxviewers > 0 ? max(0.08, $viewers / $maxviewers) : 0.08;
             $attributes = ['opacity' => format_float($opacity, 3, false, true)];
@@ -1518,6 +1525,7 @@ if ($mode === 'analytics') {
     $hasmaskedbins = count(array_filter($analytics['bins'], static function (array $bin): bool {
         return !empty($bin['suppressed']);
     })) > 0;
+    $viewertotalsuppressed = !empty($analytics['totalsuppressed']);
     $repeatmetricsavailable = !empty($analytics['repeatmetricsavailable']);
     $hasmaskedrepeats = $repeatmetricsavailable && count(array_filter(
         $analytics['bins'],
@@ -1876,7 +1884,10 @@ if ($mode === 'analytics') {
         : get_string('report:analytics_none', 'mod_videotrack');
     $privacyhidden = get_string('report:analytics_notavailable_privacy', 'mod_videotrack');
     $summarycards = [
-        [get_string('report:analytics_totalviewers', 'mod_videotrack'), (string)(int)$analytics['viewers']],
+        [
+            get_string('report:analytics_totalviewers', 'mod_videotrack'),
+            $viewertotalsuppressed ? $privacyhidden : (string)(int)$analytics['viewers'],
+        ],
         [
             get_string('report:analytics_uniquetime', 'mod_videotrack'),
             $hasmaskedbins ? $privacyhidden : videotrack_format_seconds($analytics['uniqueseconds']),

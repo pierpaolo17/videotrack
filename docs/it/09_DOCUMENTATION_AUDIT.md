@@ -1,17 +1,17 @@
 # Audit della documentazione
 
-Baseline: VideoTrack **1.6.30** (`2026060445`).
+Baseline: VideoTrack **1.6.31** (`2026060446`).
 
 ## Copertura
 
-- File non documentali inventariati: **237/237**.
-- Funzioni/metodi PHP nominati inventariati: **471**.
-- Callable AMD nominati rilevati e inventariati: **596**.
+- File non documentali inventariati: **238/238**.
+- Funzioni/metodi PHP nominati inventariati: **476**.
+- Callable AMD nominati rilevati e inventariati: **613**.
 - Tabelle XMLDB documentate: **7**.
 - Chiavi impostazioni sito documentate: **57**.
 - Chiavi configurazione player documentate: **128**.
 - Servizi AJAX documentati: **8**.
-- Language pack: otto pacchetti con lo stesso contratto di **960 chiavi**; i testi operativi sono tradotti, mentre termini tecnici e nomi propri possono legittimamente coincidere.
+- Language pack: otto pacchetti con lo stesso contratto di **961 chiavi**; i testi operativi sono tradotti, mentre termini tecnici e nomi propri possono legittimamente coincidere.
 - Panoramiche root: `README.md` (inglese) e `README_IT.md` (italiano).
 - Sintesi privacy root: `PRIVACY.md` e `PRIVACY_IT.md`.
 
@@ -22,6 +22,14 @@ I documenti correnti non devono contenere affermazioni di release senza indicare
 ## Audit automatici attesi
 
 Ogni release deve confrontare inventario file/albero, inventario funzioni/sorgente, chiavi e placeholder, `get_string` statici, XMLDB/backup-restore, servizi/classi, sorgenti/build AMD e link Markdown/file esistenti.
+
+## Copertura contratto runtime e privacy 1.6.31
+
+- La whitelist AJAX client viene confrontata con tutti i servizi AJAX Moodle dichiarati; gli indicatori di integrità non vengono più rifiutati come `invalid-method`.
+- Ogni endpoint di mutazione learner verifica il sesskey Moodle prima di caricare contesto del modulo o dati dal database.
+- La soppressione privacy di un intervallo si propaga al totale spettatori e alle percentuali di retention che usano quel totale come denominatore.
+- Le risposte delle reazioni espongono soltanto campi icona strutturati; il player HTML5 non analizza più il campo HTML grezzo `iconhtml`.
+- Le release 1.6.25–1.6.31 sono documentate come code-only rispetto a XMLDB e non introducono savepoint no-op.
 
 ## Copertura partecipazione esplicita 1.6.29
 

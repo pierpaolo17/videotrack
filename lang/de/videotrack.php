@@ -785,6 +785,7 @@ $string['report:analytics_tablecaption'] = 'Barrierefreie Datentabelle für Wied
 $string['report:analytics_reactionmarker'] = '{$a->reaction}: {$a->count} Reaktionen von {$a->students} Teilnehmern bei {$a->time}';
 $string['report:analytics_reactions_cell'] = '{$a->clusters} Cluster / {$a->events} Reaktionen';
 $string['report:analytics_bin_title'] = '{$a->interval}: {$a->viewers} Zuschauer, {$a->retention} % Retention';
+$string['report:analytics_bin_title_privacy'] = '{$a->interval}: {$a->viewers} Zuschauer; Retention aus Datenschutzgründen ausgeblendet';
 $string['report:analytics_bin_suppressed_title'] = '{$a->interval}: Wert maskiert, da weniger als {$a->minusers} Zuschauer vorhanden sind';
 $string['report:analytics_retention_point'] = '{$a->interval}: {$a->retention} % Retention, {$a->viewers} Zuschauer';
 $string['report:analytics_invalidgroup'] = 'Die ausgewählte Gruppe ist für diesen Bericht nicht verfügbar.';

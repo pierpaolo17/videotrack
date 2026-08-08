@@ -148,6 +148,7 @@ final class analytics {
                 'retention' => 0.0,
                 'suppressed' => false,
                 'repeatsuppressed' => false,
+                'retentionsuppressed' => false,
             ];
         }
 
@@ -160,6 +161,7 @@ final class analytics {
                 'uniqueseconds' => 0.0,
                 'repeatseconds' => 0.0,
                 'repeatmetricsavailable' => true,
+                'totalsuppressed' => false,
                 'bins' => [],
             ];
         }
@@ -213,6 +215,7 @@ final class analytics {
             'uniqueseconds' => round($uniqueseconds, 3),
             'repeatseconds' => round(max(0.0, $rawseconds - $uniqueseconds), 3),
             'repeatmetricsavailable' => true,
+            'totalsuppressed' => false,
             'bins' => $bins,
         ];
     }
@@ -271,14 +274,17 @@ final class analytics {
         $minusers = max(2, $minusers);
         $result['minusers'] = $minusers;
         $result['datasetsuppressed'] = (int)($result['viewers'] ?? 0) < $minusers;
+        $result['totalsuppressed'] = $result['datasetsuppressed'];
         if ($result['datasetsuppressed']) {
             $result['bins'] = [];
             return $result;
         }
 
         foreach ($result['bins'] as &$bin) {
+            $bin['retentionsuppressed'] = false;
             $viewers = (int)$bin['viewers'];
             if ($viewers > 0 && $viewers < $minusers) {
+                $result['totalsuppressed'] = true;
                 $bin['suppressed'] = true;
                 $bin['viewers'] = null;
                 $bin['repeatviewers'] = null;
@@ -297,6 +303,19 @@ final class analytics {
             }
         }
         unset($bin);
+
+        // Retention percentages use the total distinct-viewer count as their
+        // denominator. Once any interval is hidden, exposing those percentages
+        // would allow the hidden total to be reconstructed from a visible bin.
+        if ($result['totalsuppressed']) {
+            foreach ($result['bins'] as &$bin) {
+                if (empty($bin['suppressed'])) {
+                    $bin['retentionsuppressed'] = true;
+                    $bin['retention'] = null;
+                }
+            }
+            unset($bin);
+        }
         return $result;
     }
 

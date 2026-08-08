@@ -86,8 +86,8 @@ class save_note extends external_api {
         $params['videotime'] = helper::validate_bounded_float((float)$params['videotime'], 'videotime', 0.0, 86400.0);
         $params['playbackrate'] = helper::validate_bounded_float((float)$params['playbackrate'], 'playbackrate', 0.25, 4.0);
 
-        $loaded = helper::load_and_validate_context((int)$params['cmid']);
         helper::require_ajax_sesskey();
+        $loaded = helper::load_and_validate_context((int)$params['cmid']);
         $videotrack = $loaded['videotrack'];
         $cm = $loaded['cm'];
         $context = $loaded['context'];

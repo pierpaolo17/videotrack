@@ -785,6 +785,7 @@ $string['report:analytics_tablecaption'] = 'Tabella dati accessibile per heatmap
 $string['report:analytics_reactionmarker'] = '{$a->reaction}: {$a->count} reazioni di {$a->students} studenti a {$a->time}';
 $string['report:analytics_reactions_cell'] = '{$a->clusters} cluster / {$a->events} reazioni';
 $string['report:analytics_bin_title'] = '{$a->interval}: {$a->viewers} spettatori, retention {$a->retention}%';
+$string['report:analytics_bin_title_privacy'] = '{$a->interval}: {$a->viewers} spettatori; retention nascosta per privacy';
 $string['report:analytics_bin_suppressed_title'] = '{$a->interval}: valore mascherato perché sono presenti meno di {$a->minusers} spettatori';
 $string['report:analytics_retention_point'] = '{$a->interval}: retention {$a->retention}%, {$a->viewers} spettatori';
 $string['report:analytics_invalidgroup'] = 'Il gruppo selezionato non è disponibile per questo report.';

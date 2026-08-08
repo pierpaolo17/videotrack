@@ -86,8 +86,8 @@ class save_integrity_event extends external_api {
             86400.0
         );
 
-        $loaded = helper::load_and_validate_context((int)$params['cmid']);
         helper::require_ajax_sesskey();
+        $loaded = helper::load_and_validate_context((int)$params['cmid']);
         $videotrack = $loaded['videotrack'];
         $cm = $loaded['cm'];
 

@@ -1773,5 +1773,9 @@ function xmldb_videotrack_upgrade($oldversion) {
         upgrade_mod_savepoint(true, 2026060439, 'videotrack');
     }
 
+    // Releases 1.6.25 through 1.6.31 contain code-only changes and do not
+    // require schema or data migrations. Do not add no-op savepoints: a new
+    // upgrade block is required only when a future release changes persisted data.
+
     return true;
 }

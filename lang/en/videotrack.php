@@ -783,6 +783,7 @@ $string['report:analytics_tablecaption'] = 'Accessible data table for the viewin
 $string['report:analytics_reactionmarker'] = '{$a->reaction}: {$a->count} reactions from {$a->students} students at {$a->time}';
 $string['report:analytics_reactions_cell'] = '{$a->clusters} clusters / {$a->events} reactions';
 $string['report:analytics_bin_title'] = '{$a->interval}: {$a->viewers} viewers, {$a->retention}% retention';
+$string['report:analytics_bin_title_privacy'] = '{$a->interval}: {$a->viewers} viewers; retention hidden for privacy';
 $string['report:analytics_bin_suppressed_title'] = '{$a->interval}: value masked because fewer than {$a->minusers} viewers are present';
 $string['report:analytics_retention_point'] = '{$a->interval}: {$a->retention}% retention, {$a->viewers} viewers';
 $string['report:analytics_invalidgroup'] = 'The selected group is not available for this report.';

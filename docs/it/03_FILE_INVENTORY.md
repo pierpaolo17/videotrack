@@ -1,8 +1,8 @@
 # Inventario dei file distribuiti
 
-Questo inventario è generato sull’albero VideoTrack 1.6.30 ed elenca ogni file non documentale. Il JavaScript canonico è in `amd/src`; i file in `amd/build` sono generati.
+Questo inventario è generato sull’albero VideoTrack 1.6.31 ed elenca ogni file non documentale. Il JavaScript canonico è in `amd/src`; i file in `amd/build` sono generati.
 
-Entries: **237**.
+Entries: **238**.
 
 | File | Responsabilità |
 |---|---|
@@ -226,6 +226,7 @@ Entries: **237**.
 | `styles.css` | Stili responsivi e accessibili per player, report, trascrizione, Analytics e controlli. |
 | `tests/acknowledgement_test.php` | Copertura PHPUnit per acknowledgement test. |
 | `tests/admin_settings_test.php` | Copertura PHPUnit per admin settings test. |
+| `tests/ajax_contract_test.php` | Copertura PHPUnit per i contratti AJAX browser e degli endpoint di mutazione. |
 | `tests/analytics_scope_test.php` | Copertura PHPUnit per analytics scope test. |
 | `tests/analytics_table_export_test.php` | Copertura PHPUnit per analytics table export test. |
 | `tests/analytics_test.php` | Copertura PHPUnit per analytics test. |

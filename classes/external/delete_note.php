@@ -72,8 +72,8 @@ class delete_note extends external_api {
             $noteeventid = (int)$params['reactioneventid'];
         }
         $noteeventid = helper::validate_positive_id($noteeventid, 'noteeventid');
-        $loaded = helper::load_and_validate_context((int)$params['cmid']);
         helper::require_ajax_sesskey();
+        $loaded = helper::load_and_validate_context((int)$params['cmid']);
         $videotrack = $loaded['videotrack'];
         $context = $loaded['context'];
 

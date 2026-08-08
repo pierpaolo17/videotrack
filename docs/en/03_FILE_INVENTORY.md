@@ -1,8 +1,8 @@
 # Distributed file inventory
 
-This inventory is generated against the VideoTrack 1.6.30 tree and lists every non-documentation file. Canonical JavaScript is under `amd/src`; files under `amd/build` are generated.
+This inventory is generated against the VideoTrack 1.6.31 tree and lists every non-documentation file. Canonical JavaScript is under `amd/src`; files under `amd/build` are generated.
 
-Entries: **237**.
+Entries: **238**.
 
 | File | Responsibility |
 |---|---|
@@ -226,6 +226,7 @@ Entries: **237**.
 | `styles.css` | Accessible responsive styling for player, reports, transcript, analytics and controls. |
 | `tests/acknowledgement_test.php` | PHPUnit coverage for acknowledgement test. |
 | `tests/admin_settings_test.php` | PHPUnit coverage for admin settings test. |
+| `tests/ajax_contract_test.php` | PHPUnit coverage for browser AJAX and mutation-endpoint contracts. |
 | `tests/analytics_scope_test.php` | PHPUnit coverage for analytics scope test. |
 | `tests/analytics_table_export_test.php` | PHPUnit coverage for analytics table export test. |
 | `tests/analytics_test.php` | PHPUnit coverage for analytics test. |

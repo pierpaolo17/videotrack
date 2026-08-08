@@ -2,10 +2,14 @@
 
 VideoTrack is a Moodle activity module for delivering and tracking HTML5/uploaded, YouTube and Vimeo videos. It combines privacy-aware viewing analytics with optional study tools, completion rules and teacher reporting.
 
-Current release documented by this tree: **1.6.30**. Supported Moodle branches: **5.0–5.3**.
+Current release documented by this tree: **1.6.31**. Supported Moodle branches: **5.0–5.3**.
 
 Italian overview: [`README_IT.md`](README_IT.md)
 Privacy summary: [`PRIVACY.md`](PRIVACY.md) / [`PRIVACY_IT.md`](PRIVACY_IT.md)
+
+### Runtime-contract and Analytics privacy hotfix in 1.6.31
+
+Release 1.6.31 restores integrity-indicator delivery by aligning the client AJAX allowlist with the declared Moodle services. It also prevents inferential disclosure when timeline bins are privacy-masked, removes the dormant raw-HTML reaction field, validates sesskeys before database/context loading, and keeps all generated AMD files aligned with their sources. Releases 1.6.25–1.6.31 are code-only with respect to XMLDB and therefore do not add no-op upgrade savepoints.
 
 ### Bookmark persistence correction in 1.6.30
 
