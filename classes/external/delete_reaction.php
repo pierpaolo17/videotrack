@@ -64,8 +64,8 @@ class delete_reaction extends external_api {
         $params = self::validate_parameters(self::execute_parameters(), compact('cmid', 'reactioneventid'));
         $params['cmid'] = helper::validate_positive_id((int)$params['cmid'], 'cmid');
         $params['reactioneventid'] = helper::validate_positive_id((int)$params['reactioneventid'], 'reactioneventid');
-        $loaded = helper::load_and_validate_context((int)$params['cmid']);
         helper::require_ajax_sesskey();
+        $loaded = helper::load_and_validate_context((int)$params['cmid']);
         $course = $loaded['course'];
         $videotrack = $loaded['videotrack'];
         $cm = $loaded['cm'];

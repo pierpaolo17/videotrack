@@ -140,10 +140,13 @@ final class analytics_table_export {
                 $repeatviewers = (int)$bin['repeatviewers'];
             }
 
+            $retention = !empty($bin['retentionsuppressed'])
+                ? get_string('report:analytics_notavailable_privacy', 'mod_videotrack')
+                : format_float((float)$bin['retention'], 1) . '%';
             $row = [
                 $interval,
                 (int)$bin['viewers'],
-                format_float((float)$bin['retention'], 1) . '%',
+                $retention,
                 \videotrack_format_seconds((float)$bin['uniqueseconds']),
                 $repeatseconds,
                 $repeatviewers,

@@ -123,8 +123,8 @@ class save_segment extends external_api {
             0.0,
             self::MAX_DURATION_SECONDS
         );
-        $loaded = helper::load_and_validate_context((int)$params['cmid']);
         helper::require_ajax_sesskey();
+        $loaded = helper::load_and_validate_context((int)$params['cmid']);
         $course = $loaded['course'];
         $videotrack = $loaded['videotrack'];
         $cm = $loaded['cm'];

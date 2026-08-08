@@ -1,17 +1,17 @@
 # Documentation audit
 
-Baseline: VideoTrack **1.6.30** (`2026060445`).
+Baseline: VideoTrack **1.6.31** (`2026060446`).
 
 ## Coverage
 
-- Non-documentation files inventoried: **237/237**.
-- Named PHP functions/methods inventoried: **471**.
-- Named AMD callables detected and inventoried: **596**.
+- Non-documentation files inventoried: **238/238**.
+- Named PHP functions/methods inventoried: **476**.
+- Named AMD callables detected and inventoried: **613**.
 - XMLDB tables documented: **7**.
 - Site-setting keys documented: **57**.
 - Player configuration keys documented: **128**.
 - AJAX services documented: **8**.
-- Language packs: eight packs with the same **960-key** contract; operational strings are translated while technical and proper terms may legitimately remain identical.
+- Language packs: eight packs with the same **961-key** contract; operational strings are translated while technical and proper terms may legitimately remain identical.
 - Root overviews: `README.md` (English) and `README_IT.md` (Italian).
 - Root privacy summaries: `PRIVACY.md` and `PRIVACY_IT.md`.
 
@@ -22,6 +22,14 @@ Current documents must not include release-specific assertions without a version
 ## Automated audit expectations
 
 A release audit must compare file inventory to the tree, function inventory to source, language key sets/placeholders, static `get_string` references, XMLDB to backup/restore, services to executable classes, AMD sources to generated assets and Markdown links to existing files.
+
+## 1.6.31 runtime-contract and privacy coverage
+
+- The client AJAX allowlist is checked against every declared Moodle AJAX service; integrity indicators are no longer rejected as `invalid-method`.
+- Every learner mutation endpoint validates the Moodle sesskey before loading course-module or database context.
+- Privacy masking propagates from a hidden timeline bin to the total-viewer value and to retention percentages that use that total as their denominator.
+- Reaction responses expose structured icon fields only; the HTML5 player no longer parses a raw `iconhtml` field.
+- Releases 1.6.25–1.6.31 are documented as code-only with respect to XMLDB and intentionally have no no-op upgrade savepoints.
 
 ## 1.6.29 explicit-participation coverage
 

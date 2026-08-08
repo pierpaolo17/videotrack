@@ -35,6 +35,7 @@ define([], function() {
     var AJAX_MAX_OBJECT_KEY_LENGTH = 64;
     var METHOD_PREFIX = 'mod_videotrack_';
     var ALLOWED_METHODS = {
+        mod_videotrack_save_integrity_event: true,
         mod_videotrack_save_segment: true,
         mod_videotrack_save_reaction: true,
         mod_videotrack_delete_reaction: true,
@@ -182,7 +183,13 @@ define([], function() {
             throw createValidationError('payload-too-large', methodname, 'payload-size');
         }
 
-        if (methodname === 'mod_videotrack_save_segment') {
+        if (methodname === 'mod_videotrack_save_integrity_event') {
+            if (!hasNonNegativeNumber(args, 'cmid') || String(args.sessionid || '').length === 0 ||
+                    typeof args.eventtype !== 'string' || args.eventtype.length === 0 ||
+                    !hasNonNegativeNumber(args, 'videotime')) {
+                throw createValidationError('invalid-args', methodname, 'integrity-required-fields');
+            }
+        } else if (methodname === 'mod_videotrack_save_segment') {
             if (!hasNonNegativeNumber(args, 'cmid') || String(args.sessionid || '').length === 0 ||
                     !hasNonNegativeNumber(args, 'videotimestart') || !hasNonNegativeNumber(args, 'videotimeend') ||
                     !hasNonNegativeNumber(args, 'wallclockstart') || !hasNonNegativeNumber(args, 'wallclockend') ||

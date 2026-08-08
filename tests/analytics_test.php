@@ -75,6 +75,7 @@ final class analytics_test extends advanced_testcase {
             'bins' => [['viewers' => 2]],
         ], 5);
         $this->assertTrue($small['datasetsuppressed']);
+        $this->assertTrue($small['totalsuppressed']);
         $this->assertSame([], $small['bins']);
 
         $result = analytics::apply_privacy_threshold([
@@ -104,8 +105,11 @@ final class analytics_test extends advanced_testcase {
         ], 5);
 
         $this->assertFalse($result['datasetsuppressed']);
+        $this->assertTrue($result['totalsuppressed']);
         $this->assertFalse($result['bins'][0]['suppressed']);
         $this->assertTrue($result['bins'][0]['repeatsuppressed']);
+        $this->assertTrue($result['bins'][0]['retentionsuppressed']);
+        $this->assertNull($result['bins'][0]['retention']);
         $this->assertNull($result['bins'][0]['repeatviewers']);
         $this->assertNull($result['bins'][0]['repeatseconds']);
         $this->assertTrue($result['bins'][1]['suppressed']);
@@ -134,10 +138,36 @@ final class analytics_test extends advanced_testcase {
         ], 5);
 
         $this->assertFalse($result['datasetsuppressed']);
+        $this->assertFalse($result['totalsuppressed']);
         $this->assertFalse($result['bins'][0]['suppressed']);
         $this->assertFalse($result['bins'][0]['repeatsuppressed']);
+        $this->assertFalse($result['bins'][0]['retentionsuppressed']);
         $this->assertSame(0, $result['bins'][0]['viewers']);
         $this->assertSame(0.0, $result['bins'][0]['repeatseconds']);
+    }
+
+    /**
+     * A small replay subgroup does not hide the total viewer denominator.
+     */
+    public function test_privacy_threshold_keeps_total_when_only_replays_are_suppressed(): void {
+        $result = analytics::apply_privacy_threshold([
+            'viewers' => 6,
+            'bins' => [[
+                'viewers' => 6,
+                'repeatviewers' => 2,
+                'rawseconds' => 62.0,
+                'uniqueseconds' => 60.0,
+                'repeatseconds' => 2.0,
+                'retention' => 100.0,
+                'suppressed' => false,
+                'repeatsuppressed' => false,
+            ]],
+        ], 5);
+
+        $this->assertFalse($result['totalsuppressed']);
+        $this->assertTrue($result['bins'][0]['repeatsuppressed']);
+        $this->assertFalse($result['bins'][0]['retentionsuppressed']);
+        $this->assertSame(100.0, $result['bins'][0]['retention']);
     }
 
     /**

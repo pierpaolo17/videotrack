@@ -57,6 +57,7 @@ final class analytics_table_export_test extends \advanced_testcase {
                 'repeatviewers' => null,
                 'suppressed' => false,
                 'repeatsuppressed' => true,
+                'retentionsuppressed' => true,
                 'reactionclusters' => 2,
                 'reactionevents' => 9,
             ],
@@ -66,7 +67,7 @@ final class analytics_table_export_test extends \advanced_testcase {
         $this->assertSame(get_string('report:analytics_suppressed_value', 'mod_videotrack', 5), $rows[0][1]);
         $this->assertSame('', $rows[0][2]);
         $this->assertSame(7, $rows[1][1]);
-        $this->assertSame(format_float(70.0, 1) . '%', $rows[1][2]);
+        $this->assertSame(get_string('report:analytics_notavailable_privacy', 'mod_videotrack'), $rows[1][2]);
         $this->assertSame(get_string('report:analytics_suppressed_value', 'mod_videotrack', 5), $rows[1][5]);
         $this->assertSame(get_string('report:analytics_reactions_cell', 'mod_videotrack', [
             'clusters' => 2,

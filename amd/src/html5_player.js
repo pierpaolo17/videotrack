@@ -1198,13 +1198,7 @@ define([
                 iconclass: reaction.iconclass || '',
                 text: reaction.text || reaction.icontext || ''
             };
-            if (reaction.iconhtml) {
-                var template = document.createElement('template');
-                template.innerHTML = String(reaction.iconhtml);
-                span.appendChild(template.content.cloneNode(true));
-            } else {
-                Ui.appendIconSafe(span, iconDescriptor);
-            }
+            Ui.appendIconSafe(span, iconDescriptor);
             if (reaction.label) {
                 var labelspan = document.createElement('span');
                 labelspan.className = 'videotrack-reaction-label';

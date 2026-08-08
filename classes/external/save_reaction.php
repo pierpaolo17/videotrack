@@ -89,8 +89,8 @@ class save_reaction extends external_api {
             0.25,
             4.0
         );
-        $loaded = helper::load_and_validate_context((int)$params['cmid']);
         helper::require_ajax_sesskey();
+        $loaded = helper::load_and_validate_context((int)$params['cmid']);
         $course = $loaded['course'];
         $videotrack = $loaded['videotrack'];
         $cm = $loaded['cm'];
@@ -300,7 +300,6 @@ class save_reaction extends external_api {
             'iconsrc' => $icontype === 'file' ? videotrack_reaction_icon_url($context, $reaction) : '',
             'icontext' => $icontype === 'emoji' ? ($iconvalue !== '' ? $iconvalue : (string)($reaction->label ?? '')) : '',
             'videotime' => $videotime,
-            'iconhtml' => '',
         ];
     }
 
@@ -321,7 +320,6 @@ class save_reaction extends external_api {
                 'iconclass' => new external_value(PARAM_NOTAGS, 'Font Awesome icon classes'),
                 'iconsrc' => new external_value(PARAM_URL, 'Reaction file icon URL'),
                 'icontext' => new external_value(PARAM_TEXT, 'Emoji or text icon fallback'),
-                'iconhtml' => new external_value(PARAM_RAW, 'Sanitised reaction icon HTML'),
                 'videotime' => new external_value(PARAM_FLOAT, 'Saved video time'),
             ], 'Saved reaction data for immediate UI rendering'),
             'warnings' => new external_warnings(),

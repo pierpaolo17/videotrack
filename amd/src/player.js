@@ -788,8 +788,7 @@ define([
         var start = Math.max(0, videotime - 30);
         var end   = videotime + 30;
 
-        // Build via DOM APIs instead of innerHTML to avoid XSS.
-        // nel caso in cui iconhtml contenesse markup non atteso.
+        // Build via DOM APIs so reaction data is never parsed as HTML.
         var tr = document.createElement('tr');
         tr.dataset.eventid = eventid;
 
@@ -798,8 +797,7 @@ define([
         tdTime.textContent = Utils.formatSeconds(videotime);
         tr.appendChild(tdTime);
 
-        // Icon + label cell: iconhtml comes from the PHP server already rendered as HTML
-        // sicuro; rimuoviamo comunque eventuali tag <script> prima di inserirlo.
+        // Icon and label use the structured reaction descriptor only.
         var tdReaction = document.createElement('td');
         var iconSpan = document.createElement('span');
         iconSpan.className = 'videotrack-report-icon';
