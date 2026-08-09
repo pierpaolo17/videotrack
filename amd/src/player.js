@@ -560,9 +560,18 @@ define([
             // Some providers fire it only after a few seconds of normal playback;
             // blocking here caused the opening seconds to be replayed.
             if (!state.playing) {
-                startCurrentSegment();
+                Api.beginPlayback(config, state, player.getCurrentTime(), {
+                    swallowFailures: true,
+                    errorMessage: 'youtube-playback-start'
+                }).then(function(response) {
+                    if (!response || !player || player.getPlayerState() !== YT.PlayerState.PLAYING || state.playing) {
+                        return;
+                    }
+                    startCurrentSegment();
+                }).catch(Log.debug);
             }
         } else if (event.data === YT.PlayerState.PAUSED) {
+            Api.cancelPlaybackStart(state);
             if (focusGuard) {
                 focusGuard.setPlaying(false);
             }
@@ -570,6 +579,7 @@ define([
             rememberResumePosition(player && player.getCurrentTime ? player.getCurrentTime() : state.lasttime);
             closeCurrentSegment('pause');
         } else if (event.data === YT.PlayerState.ENDED) {
+            Api.cancelPlaybackStart(state);
             if (focusGuard) {
                 focusGuard.setPlaying(false);
             }

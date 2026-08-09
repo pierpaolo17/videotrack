@@ -49,6 +49,7 @@ class save_segment extends external_api {
         return new external_function_parameters([
             'cmid' => new external_value(PARAM_INT, 'Course module ID'),
             'sessionid' => new external_value(PARAM_ALPHANUMEXT, 'Browser session ID'),
+            'requestid' => new external_value(PARAM_ALPHANUMEXT, 'Idempotency request ID'),
             'videotimestart' => new external_value(PARAM_FLOAT, 'Video time segment start'),
             'videotimeend' => new external_value(PARAM_FLOAT, 'Video time segment end'),
             'wallclockstart' => new external_value(PARAM_INT, 'Wallclock segment start'),
@@ -64,6 +65,7 @@ class save_segment extends external_api {
      *
      * @param int $cmid Course module id.
      * @param string $sessionid Browser session id.
+     * @param string $requestid Idempotency request id.
      * @param float $videotimestart Segment start time in seconds.
      * @param float $videotimeend Segment end time in seconds.
      * @param int $wallclockstart Client wallclock start timestamp.
@@ -76,6 +78,7 @@ class save_segment extends external_api {
     public static function execute(
         int $cmid,
         string $sessionid,
+        string $requestid,
         float $videotimestart,
         float $videotimeend,
         int $wallclockstart,
@@ -88,6 +91,7 @@ class save_segment extends external_api {
         $params = self::validate_parameters(self::execute_parameters(), compact(
             'cmid',
             'sessionid',
+            'requestid',
             'videotimestart',
             'videotimeend',
             'wallclockstart',
@@ -98,6 +102,7 @@ class save_segment extends external_api {
         ));
         $params['cmid'] = helper::validate_positive_id((int)$params['cmid'], 'cmid');
         $params['sessionid'] = helper::validate_session_id($params['sessionid']);
+        $params['requestid'] = helper::validate_request_id($params['requestid']);
         $params['endreason'] = helper::validate_end_reason($params['endreason']);
         $params['videotimestart'] = helper::validate_bounded_float(
             (float)$params['videotimestart'],
@@ -144,6 +149,7 @@ class save_segment extends external_api {
         if ($interval === null) {
             return [
                 'accepted'             => false,
+                'requestreplayed'      => false,
                 'uniquecoveredseconds' => 0.0,
                 'completionpercent'    => 0.0,
                 'iscompleted'          => false,
@@ -169,6 +175,7 @@ class save_segment extends external_api {
         }
 
         $now = time();
+        $nowmilliseconds = (int)round(microtime(true) * 1000);
         // Client wallclock values remain diagnostic only.
         $wstart = max(0, min($params['wallclockstart'], $now + 5));
         $wend = max($wstart, min($params['wallclockend'], $now + 5));
@@ -181,6 +188,7 @@ class save_segment extends external_api {
             'userid'       => $USER->id,
             'videoid'      => $videotrack->videoid,
             'sessionid'    => $params['sessionid'],
+            'requestid'    => $params['requestid'],
             'wallclockstart' => $wstart,
             'wallclockend'   => $wend,
             'videotimestart' => $interval[0],
@@ -194,6 +202,7 @@ class save_segment extends external_api {
         // transaction managed by update_state. If update_state fails, rollback also
         // removes the inserted segment, leaving no orphan records.
         $segmentid = null;
+        $requestreplayed = false;
         $state = tracker::update_state(
             $videotrack,
             $cm,
@@ -203,16 +212,18 @@ class save_segment extends external_api {
             $segment,
             $segmentid,
             [
-                'now' => $now,
+                'nowmilliseconds' => $nowmilliseconds,
                 'heartbeat' => $heartbeat,
                 'playbackrate' => $playbackrate,
                 'allowseekforward' => !empty($videotrack->allowseekforward),
-            ]
+            ],
+            $requestreplayed
         );
 
         if ($segmentid === -1) {
             return [
                 'accepted'             => false,
+                'requestreplayed'      => $requestreplayed,
                 'uniquecoveredseconds' => (float)$state->uniquecoveredseconds,
                 'completionpercent'    => (float)$state->completionpercent,
                 'iscompleted'          => (bool)$state->iscompleted,
@@ -232,6 +243,7 @@ class save_segment extends external_api {
         if ($segmentid === 0) {
             return [
                 'accepted'             => false,
+                'requestreplayed'      => $requestreplayed,
                 'uniquecoveredseconds' => (float)$state->uniquecoveredseconds,
                 'completionpercent'    => (float)$state->completionpercent,
                 'iscompleted'          => (bool)$state->iscompleted,
@@ -245,7 +257,7 @@ class save_segment extends external_api {
 
         // Log only significant actions; heartbeats produce too many log entries.
         $loggable = ['pause', 'seek', 'ended', 'beforeunload', 'pagehide'];
-        if ($segmentid !== null && in_array($params['endreason'], $loggable, true)) {
+        if (!$requestreplayed && $segmentid !== null && in_array($params['endreason'], $loggable, true)) {
             $event = segment_saved::create([
                 'objectid' => $segmentid,
                 'context'  => $context,
@@ -259,9 +271,12 @@ class save_segment extends external_api {
         }
 
         $completion = new \completion_info($course);
-        tracker::update_moodle_completion_if_changed($completion, $cm, (bool)$state->iscompleted, (int)$USER->id);
+        if (!$requestreplayed) {
+            tracker::update_moodle_completion_if_changed($completion, $cm, (bool)$state->iscompleted, (int)$USER->id);
+        }
         return [
             'accepted'             => true,
+            'requestreplayed'      => $requestreplayed,
             'uniquecoveredseconds' => (float)$state->uniquecoveredseconds,
             'completionpercent'    => (float)$state->completionpercent,
             'iscompleted'          => (bool)$state->iscompleted,
@@ -281,6 +296,7 @@ class save_segment extends external_api {
     public static function execute_returns(): external_single_structure {
         return new external_single_structure([
             'accepted'             => new external_value(PARAM_BOOL, 'Whether the segment was accepted'),
+            'requestreplayed'      => new external_value(PARAM_BOOL, 'Whether an earlier result was replayed'),
             'uniquecoveredseconds' => new external_value(PARAM_FLOAT, 'Unique covered seconds'),
             'completionpercent'    => new external_value(PARAM_FLOAT, 'Computed completion percentage'),
             'iscompleted'          => new external_value(PARAM_BOOL, 'Whether completion threshold has been met'),

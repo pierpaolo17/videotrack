@@ -1,6 +1,6 @@
 # VideoTrack documentation index
 
-Current documented release: **1.6.31** (`2026060446`).
+Current documented release: **1.6.32** (`2026060447`).
 
 1. `01_DEVELOPER_GUIDE.md` — maintenance workflow and change discipline.
 2. `02_ARCHITECTURE.md` — component boundaries, adapters, storage and trust model.
@@ -32,3 +32,5 @@ Historical material is isolated under `archive/` and is not authoritative for th
 17. `17_PARTICIPATION_SCOPE_1_6_29.md` — explicit learner participation capability shared by UI, services and reports.
 
 18. `18_BOOKMARK_PERSISTENCE_1_6_30.md` — bookmark progress persistence and server/client end-reason parity.
+
+19. `19_TRACKING_LEDGER_1_6_32.md` — zero-credit playback handshake, idempotent segment requests and monotonic exact coverage.

@@ -1273,81 +1273,97 @@ define([
             }
             state.ended = false;
             markVimeoPlaybackObserved();
+            if (state.playing) {
+                // Vimeo can emit duplicate play notifications while the current
+                // segment is already open. Do not reset the server ledger window.
+                installPlaybackRateGuard();
+                enforceMaxPlaybackRate('Vimeo repeated play playback rate');
+                return;
+            }
             player.getCurrentTime().then(function(t) {
-                var pendingUserSeek = getRecentVimeoUserSeek();
-                var allowedLimit = pendingUserSeek ? pendingUserSeek.allowedLimit : getAllowedForwardLimit();
-                allowedLimit = getBlockedForwardGuardLimit(allowedLimit);
-                if (state._vimeoBlockedSeekResume) {
-                    var fallback = Tracker.normaliseTime(state._vimeoBlockedForwardSeekFallback || allowedLimit);
-                    if (t > fallback + 1.5) {
-                        markVimeoProgrammaticSeek(fallback);
-                        player.setCurrentTime(fallback).then(function() {
-                            consumeVimeoProgrammaticSeek(fallback);
-                            resetForwardSeekRecovery(fallback);
-                            scheduleBlockedSeekResume(true, state._vimeoBlockedSeekResume.label);
-                        }).catch(function(error) {
-                            Log.debug('Vimeo blocked seek play fallback: ' + error);
-                        });
+                return Api.beginPlayback(config, state, t, {
+                    swallowFailures: true,
+                    errorMessage: 'vimeo-playback-start'
+                }).then(function(response) {
+                    if (!response || state.playing) {
+                        return;
+                    }
+                    var pendingUserSeek = getRecentVimeoUserSeek();
+                    var allowedLimit = pendingUserSeek ? pendingUserSeek.allowedLimit : getAllowedForwardLimit();
+                    allowedLimit = getBlockedForwardGuardLimit(allowedLimit);
+                    if (state._vimeoBlockedSeekResume) {
+                        var fallback = Tracker.normaliseTime(state._vimeoBlockedForwardSeekFallback || allowedLimit);
+                        if (t > fallback + 1.5) {
+                            markVimeoProgrammaticSeek(fallback);
+                            player.setCurrentTime(fallback).then(function() {
+                                consumeVimeoProgrammaticSeek(fallback);
+                                resetForwardSeekRecovery(fallback);
+                                scheduleBlockedSeekResume(true, state._vimeoBlockedSeekResume.label);
+                            }).catch(function(error) {
+                                Log.debug('Vimeo blocked seek play fallback: ' + error);
+                            });
+                            return;
+                        }
+                        clearRecentVimeoUserSeek();
+                        Tracker.syncTime(state, t, state.playbackrate || 1);
+                        ensureVimeoRuntimePlaying(t);
+                        clearBlockedSeekResumeRequest();
+                        return;
+                    }
+                    if (isVimeoForwardTimeBlocked(t, allowedLimit)) {
+                        blockForwardSeek(t, allowedLimit, pendingUserSeek ? pendingUserSeek.wasPlaying : true);
                         return;
                     }
                     clearRecentVimeoUserSeek();
-                    Tracker.syncTime(state, t, state.playbackrate || 1);
-                    ensureVimeoRuntimePlaying(t);
-                    clearBlockedSeekResumeRequest();
-                    return;
-                }
-                if (isVimeoForwardTimeBlocked(t, allowedLimit)) {
-                    blockForwardSeek(t, allowedLimit, pendingUserSeek ? pendingUserSeek.wasPlaying : true);
-                    return;
-                }
-                clearRecentVimeoUserSeek();
-                // Retry an explicit replay seek if Vimeo deferred setCurrentTime until playback.
-                if (state._pendingReplayStart !== null && typeof state._pendingReplayStart !== 'undefined') {
-                    var replayStart = state._pendingReplayStart;
-                    state._pendingReplayStart = null;
-                    markVimeoProgrammaticSeek(replayStart);
-                    markAllowedForwardTime(replayStart);
-                    player.setCurrentTime(replayStart).then(function() {
-                        Tracker.syncTime(state, replayStart, state.playbackrate || 1);
-                        consumeVimeoProgrammaticSeek(replayStart);
-                        state.isProgrammaticSeek = false;
-                        startSegment(replayStart);
-                        startHeartbeat();
-                        startVimeoRuntimePolling();
-                        setReactionButtons(true);
-                    }).catch(function() {
-                        state.isProgrammaticSeek = false;
-                    });
-                    return;
-                }
-                // iOS Safari workaround: setCurrentTime may fail before play.
-                // Retry the seek on first playback when it was pending.
-                if (state._pendingResume && state._pendingResume > 2) {
-                    var resumePos = state._pendingResume;
-                    state._pendingResume = null;
-                    markVimeoProgrammaticSeek(resumePos);
-                    markAllowedForwardTime(resumePos);
-                    player.setCurrentTime(resumePos).then(function() {
-                        consumeVimeoProgrammaticSeek(resumePos);
-                        showResumeNotice(resumePos);
-                    }).catch(function() {
-                        state.isProgrammaticSeek = false;
-                    });
-                    return;
-                }
-                if (startSegment(t) === false) {
-                    return;
-                }
-                startHeartbeat();
-                startVimeoRuntimePolling();
-                setReactionButtons(true);
-                // Enforce max rate on every play event because the student may have changed it.
-                installPlaybackRateGuard();
-                enforceMaxPlaybackRate('Vimeo play playback rate');
-            });
+                    // Retry an explicit replay seek if Vimeo deferred setCurrentTime until playback.
+                    if (state._pendingReplayStart !== null && typeof state._pendingReplayStart !== 'undefined') {
+                        var replayStart = state._pendingReplayStart;
+                        state._pendingReplayStart = null;
+                        markVimeoProgrammaticSeek(replayStart);
+                        markAllowedForwardTime(replayStart);
+                        player.setCurrentTime(replayStart).then(function() {
+                            Tracker.syncTime(state, replayStart, state.playbackrate || 1);
+                            consumeVimeoProgrammaticSeek(replayStart);
+                            state.isProgrammaticSeek = false;
+                            startSegment(replayStart);
+                            startHeartbeat();
+                            startVimeoRuntimePolling();
+                            setReactionButtons(true);
+                        }).catch(function() {
+                            state.isProgrammaticSeek = false;
+                        });
+                        return;
+                    }
+                    // iOS Safari workaround: setCurrentTime may fail before play.
+                    // Retry the seek on first playback when it was pending.
+                    if (state._pendingResume && state._pendingResume > 2) {
+                        var resumePos = state._pendingResume;
+                        state._pendingResume = null;
+                        markVimeoProgrammaticSeek(resumePos);
+                        markAllowedForwardTime(resumePos);
+                        player.setCurrentTime(resumePos).then(function() {
+                            consumeVimeoProgrammaticSeek(resumePos);
+                            showResumeNotice(resumePos);
+                        }).catch(function() {
+                            state.isProgrammaticSeek = false;
+                        });
+                        return;
+                    }
+                    if (startSegment(t) === false) {
+                        return;
+                    }
+                    startHeartbeat();
+                    startVimeoRuntimePolling();
+                    setReactionButtons(true);
+                    // Enforce max rate on every play event because the student may have changed it.
+                    installPlaybackRateGuard();
+                    enforceMaxPlaybackRate('Vimeo play playback rate');
+                });
+            }).catch(Log.debug);
         });
 
         player.on('pause', function() {
+            Api.cancelPlaybackStart(state);
             if (focusGuard) {
                 focusGuard.setPlaying(false);
             }
@@ -1364,6 +1380,7 @@ define([
         });
 
         player.on('ended', function() {
+            Api.cancelPlaybackStart(state);
             if (focusGuard) {
                 focusGuard.setPlaying(false);
             }

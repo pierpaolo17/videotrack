@@ -37,6 +37,17 @@ $functions = [
         'capabilities' => 'mod/videotrack:participate',
     ],
 
+    'mod_videotrack_start_playback' => [
+        'classname' => 'mod_videotrack\\external\\start_playback',
+        'methodname' => 'execute',
+        'classpath' => '',
+        'description' => 'Start a server-authoritative playback credit window.',
+        'type' => 'write',
+        'ajax' => true,
+        'loginrequired' => true,
+        'capabilities' => 'mod/videotrack:participate',
+    ],
+
     'mod_videotrack_save_segment' => [
         'classname' => 'mod_videotrack\\external\\save_segment',
         'methodname' => 'execute',

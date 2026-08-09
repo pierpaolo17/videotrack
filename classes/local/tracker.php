@@ -32,13 +32,8 @@ class tracker {
      */
     public const MAX_INTERVALS = 500;
 
-    /**
-     * Grace window in seconds for the OR branch of has_recent_playback().
-     * Covers high-latency environments where the segment end timestamp may
-     * lag actual playback end by up to this many seconds. Must be >= the
-     * default $timetolerance parameter (8.0) to be meaningful.
-     */
-    public const PLAYBACK_GRACE_SECONDS = 12.0;
+    /** Maximum cumulative provider/server clock drift accepted by the playback ledger. */
+    private const SERVER_CREDIT_TOLERANCE_SECONDS = 1.0;
 
     /** @var array Per-request cache for reaction_counts(). Keyed by "videotrackid:userid". */
     private static $reactioncountscache = [];
@@ -271,102 +266,6 @@ class tracker {
     }
 
     /**
-     * Returns true when a reaction or note is backed by a recent playback heartbeat.
-     *
-     * The browser UI hides these controls outside PLAYING, but this server-side check
-     * prevents direct AJAX calls from creating reactions/notes at arbitrary timestamps.
-     *
-     * @param int $videotrackid Activity id.
-     * @param int $userid User id.
-     * @param string $sessionid Browser session id.
-     * @param float $videotime Video timestamp in seconds.
-     * @param int $recentseconds Recent playback window in seconds.
-     * @param float $timetolerance Timestamp tolerance in seconds.
-     * @return bool Whether recent playback authorises the action.
-     */
-    public static function has_recent_playback(
-        int $videotrackid,
-        int $userid,
-        string $sessionid,
-        float $videotime,
-        int $recentseconds = 20,
-        float $timetolerance = 8.0
-    ): bool {
-        global $DB;
-        // Vtstart/vtend intentionally carry the same value, and tolstart/tolend do the same.
-        // Distinct placeholders avoid driver issues with reusing the same named
-        // parameter more than once in a query.
-        $vt = max(0.0, $videotime);
-        $tol = max(1.0, $timetolerance);
-        $since = time() - max(5, $recentseconds);
-        // S1 fix: replace the magic number 12.0 with a named constant.
-        // This grace window covers high-latency environments where the segment
-        // end timestamp may lag the actual end of playback by up to 12 seconds
-        // (e.g. slow mobile connections or deferred heartbeat delivery).
-        // The value is intentionally larger than $timetolerance to accept
-        // reactions/notes triggered just after a segment has nominally ended.
-        $graceseconds = max($tol, self::PLAYBACK_GRACE_SECONDS);
-        $params = [
-            'vtid'  => $videotrackid,
-            'uid'   => $userid,
-            'sid'   => $sessionid,
-            'since' => $since,
-            'vt'    => $vt,
-            'vt2'   => $vt,
-            'tol1'  => $tol,
-            'tol2'  => $tol,
-            'tolend' => $graceseconds,
-        ];
-
-        // A single query covers both the strict interval match and the grace
-        // period used for clicks immediately after PLAYING/seek in high-latency
-        // environments. This avoids duplicate DB checks for each reaction/note.
-        $select = 'videotrackid = :vtid AND userid = :uid AND sessionid = :sid AND timecreated >= :since
-             AND ((:vt >= (videotimestart - :tol1) AND :vt2 <= (videotimeend + :tol2))
-                  OR ABS(videotimeend - :vt3) <= :tolend)';
-        if ($DB->record_exists_select('videotrack_seg', $select, $params + ['vt3' => $vt])) {
-            return true;
-        }
-
-        if ((int) get_config('mod_videotrack', 'strictsessionvalidation')) {
-            return false;
-        }
-
-        // UX-friendly fallback: after refreshes, browser changes or a longer pause,
-        // accept playback for the same user/activity even when the browser session id
-        // changed or the heartbeat is no longer recent. The timestamp must still be
-        // inside a watched interval, so direct calls cannot create notes/reactions on
-        // unwatched positions.
-        if (
-            $DB->record_exists_select(
-                'videotrack_seg',
-                'videotrackid = :vtid AND userid = :uid AND timecreated >= :since
-                 AND ((:vt >= (videotimestart - :tol1) AND :vt2 <= (videotimeend + :tol2))
-                      OR ABS(videotimeend - :vt3) <= :tolend)',
-                [
-                    'vtid' => $videotrackid,
-                    'uid' => $userid,
-                    'since' => $since,
-                    'vt' => $vt,
-                    'vt2' => $vt,
-                    'vt3' => $vt,
-                    'tol1' => $tol,
-                    'tol2' => $tol,
-                    'tolend' => $graceseconds,
-                ]
-            )
-        ) {
-            return true;
-        }
-
-        // Global helper from locallib.php; the leading backslash selects the global namespace.
-        $fallbackdays = \videotrack_get_config_int('validationfallbackdays', 30, 0, 3650);
-        $maxage = $fallbackdays > 0 ? $fallbackdays * DAYSECS : 0;
-
-        return self::has_watched_videotime($videotrackid, $userid, $sessionid, $videotime, 2.0, $maxage);
-    }
-
-    /**
      * Returns true when the requested video time is inside a watched segment.
      *
      * This check is used for notes and reactions: the target timestamp must fall
@@ -553,48 +452,182 @@ class tracker {
     /**
      * Advances the cumulative server-time playback budget for one candidate segment.
      *
-     * The budget is persisted per user/activity, not per client-provided session id.
-     * Long idle gaps are capped so background time cannot accumulate unlimited credit.
+     * A playback handshake establishes the initial millisecond timestamp without
+     * granting watched time. Later requests earn video-time credit only from real
+     * elapsed server time, capped to one heartbeat window plus a small network margin.
      *
-     * @param int $lastactivity Last accepted server activity timestamp.
+     * @param int $lastactivity Last playback handshake/request time in server milliseconds.
      * @param float $budget Existing server video-time budget.
      * @param float $credited Existing credited raw video seconds.
-     * @param int $now Current server timestamp.
+     * @param int $nowmilliseconds Current server time in milliseconds.
      * @param int $heartbeat Configured heartbeat interval.
      * @param float $playbackrate Validated effective playback rate.
      * @param float $candidate Candidate raw segment duration.
-     * @return array|null Updated guard values, or null when the candidate exceeds the budget.
+     * @return array Updated guard values including an accepted flag.
      */
     public static function advance_server_credit_budget(
         int $lastactivity,
         float $budget,
         float $credited,
-        int $now,
+        int $nowmilliseconds,
         int $heartbeat,
         float $playbackrate,
         float $candidate
-    ): ?array {
+    ): array {
         $heartbeat = max(5, min(300, $heartbeat));
         $playbackrate = max(0.25, min(4.0, $playbackrate));
         $candidate = max(0.0, $candidate);
         $budget = max(0.0, $budget);
         $credited = max(0.0, $credited);
+        $nowmilliseconds = max(1, $nowmilliseconds);
 
         if ($lastactivity <= 0) {
-            $budget += (min($heartbeat, 30) + 2) * $playbackrate;
-        } else {
-            $elapsed = max(0, $now - $lastactivity);
-            $budget += min($elapsed, $heartbeat + 5) * $playbackrate;
+            // A segment request cannot implicitly open a playback window. Keep any
+            // existing tolerance debt, discard positive headroom and require the
+            // explicit start_playback handshake before elapsed time can be earned.
+            return [
+                'accepted' => false,
+                'lastactivity' => 0,
+                'budget' => round(min($budget, $credited), 3),
+                'credited' => round($credited, 3),
+            ];
         }
 
-        if (($credited + $candidate) > ($budget + 0.001)) {
-            return null;
+        $elapsedseconds = max(0.0, ($nowmilliseconds - $lastactivity) / 1000);
+        $earned = min($elapsedseconds, $heartbeat + 5) * $playbackrate;
+        $updatedbudget = $budget + $earned;
+        if (($credited + $candidate) >= ($updatedbudget + self::SERVER_CREDIT_TOLERANCE_SECONDS)) {
+            // Reject the candidate and discard positive headroom without converting
+            // previously tolerated drift into reusable credit. When credited exceeds
+            // the budget, the difference remains a cumulative debt across requests.
+            return [
+                'accepted' => false,
+                'lastactivity' => $nowmilliseconds,
+                'budget' => round(min($updatedbudget, $credited), 3),
+                'credited' => round($credited, 3),
+            ];
         }
+
         return [
-            'lastactivity' => $now,
-            'budget' => round($budget, 3),
+            'accepted' => true,
+            'lastactivity' => $nowmilliseconds,
+            'budget' => round($updatedbudget, 3),
             'credited' => round($credited + $candidate, 3),
         ];
+    }
+
+    /**
+     * Compare an existing ledger row with a retried request payload.
+     *
+     * @param stdClass $existing Persisted request row.
+     * @param stdClass $candidate Candidate request row.
+     * @return bool Whether both rows represent the same browser request.
+     */
+    private static function same_segment_request(\stdClass $existing, \stdClass $candidate): bool {
+        return (string)$existing->sessionid === (string)$candidate->sessionid
+            && (string)$existing->endreason === (string)$candidate->endreason
+            && abs((float)$existing->videotimestart - (float)$candidate->videotimestart) <= 0.001
+            && abs((float)$existing->videotimeend - (float)$candidate->videotimeend) <= 0.001
+            && abs((float)$existing->playbackrate - (float)$candidate->playbackrate) <= 0.001;
+    }
+
+    /**
+     * Establish a playback-credit window without granting watched time.
+     *
+     * @param stdClass $videotrack Activity instance.
+     * @param cm_info $cm Course module.
+     * @param int $userid User id.
+     * @param string $sessionid Browser session id.
+     * @param string $requestid Idempotency request id.
+     * @param float $videotime Current provider time.
+     * @param int $nowmilliseconds Current server time in milliseconds.
+     * @return array State and retry information.
+     */
+    public static function begin_playback(
+        \stdClass $videotrack,
+        \cm_info $cm,
+        int $userid,
+        string $sessionid,
+        string $requestid,
+        float $videotime,
+        int $nowmilliseconds
+    ): array {
+        global $DB;
+
+        $lockfactory = \core\lock\lock_config::get_lock_factory('mod_videotrack');
+        $lock = $lockfactory->get_lock('state:' . $videotrack->id . ':' . $userid, 10);
+        if (!$lock) {
+            throw new \moodle_exception('locktimeout', 'error');
+        }
+
+        $transaction = $DB->start_delegated_transaction();
+        try {
+            $state = $DB->get_record('videotrack_state', [
+                'videotrackid' => $videotrack->id,
+                'userid' => $userid,
+            ]);
+            if (!$state) {
+                $state = self::create_default_state($videotrack, $cm, $userid);
+            }
+
+            $existing = $DB->get_record('videotrack_seg', [
+                'videotrackid' => $videotrack->id,
+                'userid' => $userid,
+                'requestid' => $requestid,
+            ]);
+            $handshake = (object)[
+                'videotrackid' => $videotrack->id,
+                'courseid' => $videotrack->course,
+                'cmid' => $cm->id,
+                'userid' => $userid,
+                'videoid' => $videotrack->videoid,
+                'sessionid' => $sessionid,
+                'requestid' => $requestid,
+                'wallclockstart' => (int)floor($nowmilliseconds / 1000),
+                'wallclockend' => (int)floor($nowmilliseconds / 1000),
+                'videotimestart' => round(max(0.0, $videotime), 3),
+                'videotimeend' => round(max(0.0, $videotime), 3),
+                'playbackrate' => 1.0,
+                'endreason' => 'playstart',
+                'servervalidated' => 0,
+                'timecreated' => time(),
+            ];
+
+            $requestreplayed = false;
+            if ($existing) {
+                if (!self::same_segment_request($existing, $handshake)) {
+                    throw new \invalid_parameter_exception('Request identifier was reused with different playback data');
+                }
+                $requestreplayed = true;
+            } else {
+                $DB->insert_record('videotrack_seg', $handshake);
+                $state->serverlastactivity = $nowmilliseconds;
+                $state->serverbudgetseconds = min(
+                    (float)($state->serverbudgetseconds ?? 0.0),
+                    (float)($state->servercreditedseconds ?? 0.0)
+                );
+                $state->timemodified = time();
+                if (!empty($state->id)) {
+                    $DB->update_record('videotrack_state', $state);
+                } else {
+                    $state->id = $DB->insert_record('videotrack_state', $state);
+                }
+            }
+
+            $transaction->allow_commit();
+            $lock->release();
+            $lock = null;
+            return [
+                'state' => $state,
+                'requestreplayed' => $requestreplayed,
+            ];
+        } catch (\Throwable $e) {
+            if ($lock) {
+                $lock->release();
+            }
+            $transaction->rollback($e);
+            throw $e;
+        }
     }
 
     /**
@@ -636,7 +669,8 @@ class tracker {
      * @param stdClass|null $segment  Segment record to insert, or null when none is needed.
      * @param int|null  &$segmentid   Set to inserted id; -1 means server guard rejected the segment.
      * @param array|null $guard Optional server-credit guard values from save_segment.
-     * @return stdClass               Updated state.
+     * @param bool|null &$requestreplayed Set to true when an existing idempotent result is reused.
+     * @return stdClass Updated state.
      */
     public static function update_state(
         \stdClass $videotrack,
@@ -646,95 +680,151 @@ class tracker {
         float $lastposition,
         ?\stdClass $segment = null,
         ?int &$segmentid = null,
-        ?array $guard = null
+        ?array $guard = null,
+        ?bool &$requestreplayed = null
     ): \stdClass {
         global $DB;
 
-        // Serialise concurrent updates to the same user/activity state record.
-        // The transaction protects atomicity; the lock prevents concurrent inserts
-        // on the unique videotrack_state record when heartbeat and pagehide arrive
-        // almost simultaneously.
+        $requestreplayed = false;
         $lockfactory = \core\lock\lock_config::get_lock_factory('mod_videotrack');
-        $lockkey = 'state:' . $videotrack->id . ':' . $userid;
-        $lock = $lockfactory->get_lock($lockkey, 10);
+        $lock = $lockfactory->get_lock('state:' . $videotrack->id . ':' . $userid, 10);
         if (!$lock) {
-            // Under very high concurrency another request is already updating
-            // the same aggregate row. Avoid surfacing a lock timeout to the
-            // student; return the last committed state and let the next
-            // heartbeat/pagehide retry the write.
             if ($segment !== null) {
                 $segmentid = 0;
             }
             return self::current_state_snapshot($videotrack, $cm, $userid);
         }
 
-        // Use a transaction to serialise concurrent writes, for example heartbeat plus pagehide.
         $transaction = $DB->start_delegated_transaction();
-        $state = null;
         try {
-            $state = $DB->get_record('videotrack_state', ['videotrackid' => $videotrack->id, 'userid' => $userid]);
+            $state = $DB->get_record('videotrack_state', [
+                'videotrackid' => $videotrack->id,
+                'userid' => $userid,
+            ]);
             if (!$state) {
                 $state = self::create_default_state($videotrack, $cm, $userid);
             }
 
+            if ($segment !== null) {
+                $existing = $DB->get_record('videotrack_seg', [
+                    'videotrackid' => $videotrack->id,
+                    'userid' => $userid,
+                    'requestid' => (string)$segment->requestid,
+                ]);
+                if ($existing) {
+                    if (!self::same_segment_request($existing, $segment) || $existing->endreason === 'playstart') {
+                        throw new \invalid_parameter_exception('Request identifier was reused with different segment data');
+                    }
+                    $requestreplayed = true;
+                    $segmentid = !empty($existing->servervalidated) ? (int)$existing->id : -1;
+                    $transaction->allow_commit();
+                    $lock->release();
+                    return $state;
+                }
+            }
+
             if ($segment !== null && $guard !== null) {
+                $nowmilliseconds = (int)($guard['nowmilliseconds'] ?? round(microtime(true) * 1000));
                 $forwardallowed = self::forward_interval_allowed(
                     $state,
                     $interval,
                     !empty($guard['allowseekforward'])
                 );
+                if (!$forwardallowed) {
+                    // An illegal forward jump must not consume candidate seconds or
+                    // preserve elapsed headroom. Start any later earning from this
+                    // rejection point while retaining cumulative tolerance debt.
+                    $state->serverlastactivity = $nowmilliseconds;
+                    $state->serverbudgetseconds = min(
+                        (float)($state->serverbudgetseconds ?? 0.0),
+                        (float)($state->servercreditedseconds ?? 0.0)
+                    );
+                    $state->timemodified = time();
+                    $segment->servervalidated = 0;
+                    $segmentid = $DB->insert_record('videotrack_seg', $segment);
+                    if (!empty($state->id)) {
+                        $DB->update_record('videotrack_state', $state);
+                    } else {
+                        $state->id = $DB->insert_record('videotrack_state', $state);
+                    }
+                    $segmentid = -1;
+                    $transaction->allow_commit();
+                    $lock->release();
+                    return $state;
+                }
+
                 $budgetstate = self::advance_server_credit_budget(
                     (int)($state->serverlastactivity ?? 0),
                     (float)($state->serverbudgetseconds ?? 0),
                     (float)($state->servercreditedseconds ?? 0),
-                    (int)($guard['now'] ?? time()),
+                    $nowmilliseconds,
                     (int)($guard['heartbeat'] ?? 30),
                     (float)($guard['playbackrate'] ?? 1.0),
                     max(0.0, (float)$segment->videotimeend - (float)$segment->videotimestart)
                 );
-                if (!$forwardallowed || $budgetstate === null) {
-                    $segmentid = -1;
-                    $transaction->allow_commit();
-                    $lock->release();
-                    $lock = null;
-                    return $state;
-                }
                 $state->serverlastactivity = $budgetstate['lastactivity'];
                 $state->serverbudgetseconds = $budgetstate['budget'];
                 $state->servercreditedseconds = $budgetstate['credited'];
+
+                if (!$budgetstate['accepted']) {
+                    $state->timemodified = time();
+                    $segment->servervalidated = 0;
+                    $segmentid = $DB->insert_record('videotrack_seg', $segment);
+                    if (!empty($state->id)) {
+                        $DB->update_record('videotrack_state', $state);
+                    } else {
+                        $state->id = $DB->insert_record('videotrack_state', $state);
+                    }
+                    $segmentid = -1;
+                    $transaction->allow_commit();
+                    $lock->release();
+                    return $state;
+                }
+                $segment->servervalidated = 1;
             }
 
-            // Insert the raw segment inside the transaction so it remains atomic with update_state.
             if ($segment !== null) {
                 $segmentid = $DB->insert_record('videotrack_seg', $segment);
             }
-            $intervals = self::decode_intervals($state->intervaljson);
-            $intervals[] = $interval;
-            $intervals = self::merge_intervals($intervals);
-            $intervals = self::cap_intervals($intervals);
-            $covered = self::covered_seconds($intervals);
+
+            $storedintervals = self::decode_intervals($state->intervaljson);
+            $mergedintervals = self::merge_intervals(array_merge($storedintervals, [$interval]));
+            $covered = self::covered_seconds($mergedintervals);
+            $intervals = self::cap_intervals($mergedintervals);
+
+            if (count($mergedintervals) > self::MAX_INTERVALS || count($storedintervals) >= self::MAX_INTERVALS) {
+                $segments = $DB->get_recordset('videotrack_seg', [
+                    'videotrackid' => $videotrack->id,
+                    'userid' => $userid,
+                    'servervalidated' => 1,
+                ], 'timecreated ASC, id ASC', 'id, videotimestart, videotimeend, timecreated');
+                $aggregate = self::aggregate_segments(
+                    $segments,
+                    max(0.0, (float)$videotrack->durationseconds)
+                );
+                $segments->close();
+                $intervals = $aggregate['intervals'];
+                $covered = $aggregate['coveredseconds'];
+            }
+
+            $covered = max((float)($state->uniquecoveredseconds ?? 0.0), $covered);
             $duration = max(0.0, (float)$videotrack->durationseconds);
             $percent = $duration > 0 ? min(100.0, round(($covered / $duration) * 100, 2)) : 0.0;
-
-            $requiredreactionids = array_keys(array_filter((array) $DB->get_records_menu('videotrack_react', [
-                'videotrackid'          => $videotrack->id,
+            $requiredreactionids = array_keys(array_filter((array)$DB->get_records_menu('videotrack_react', [
+                'videotrackid' => $videotrack->id,
                 'requiredforcompletion' => 1,
-                'isdeleted'             => 0,
+                'isdeleted' => 0,
             ], '', 'id,id')));
             $reactionsummary = self::reaction_counts($videotrack->id, $userid);
 
-            // Lastposition is the end of the current segment for automatic resume.
-            // Use the current value only when it is greater than 2 seconds to avoid
-            // resuming from negligible positions. Do not use the historical max():
-            // resume should point to where the user stopped watching, not the furthest point reached.
             if ($lastposition > 2.0) {
                 $state->lastposition = $lastposition;
             }
-            $state->durationseconds      = $duration;
+            $state->durationseconds = $duration;
             $state->uniquecoveredseconds = $covered;
-            $state->completionpercent    = $percent;
-            $state->intervaljson         = self::encode_intervals($intervals);
-            $wascompleted = !empty($state->id) ? (int) ($state->iscompleted ?? 0) : 0;
+            $state->completionpercent = $percent;
+            $state->intervaljson = self::encode_intervals($intervals);
+            $wascompleted = !empty($state->id) ? (int)($state->iscompleted ?? 0) : 0;
             $state->iscompleted = self::completion_satisfied(
                 $videotrack,
                 $state,
@@ -752,30 +842,26 @@ class tracker {
             $lock->release();
             $lock = null;
 
-            // Emit activity_completed on the first 0-to-1 transition.
-            // This is outside the transaction because the event is not critical data.
             if (!$wascompleted && $state->iscompleted) {
-                $completedevent = \mod_videotrack\event\activity_completed::create([
+                $event = \mod_videotrack\event\activity_completed::create([
                     'objectid' => $state->id,
-                    'context'  => \context_module::instance($cm->id),
-                    'userid'   => $userid,
-                    'other'    => [
-                        'completionpercent'    => $state->completionpercent,
+                    'context' => \context_module::instance($cm->id),
+                    'userid' => $userid,
+                    'other' => [
+                        'completionpercent' => $state->completionpercent,
                         'uniquecoveredseconds' => $state->uniquecoveredseconds,
                     ],
                 ]);
-                $completedevent->trigger();
+                $event->trigger();
             }
+            return $state;
         } catch (\Throwable $e) {
             if ($lock) {
                 $lock->release();
             }
             $transaction->rollback($e);
-            // Rollback() already rethrows in Moodle, but rethrow explicitly to ensure
-            // future framework changes never return a silent null state to callers.
             throw $e;
         }
-        return $state;
     }
 
     /**
@@ -835,10 +921,10 @@ class tracker {
                 $lastposition = $normalised[1];
             }
         }
-        $intervals = self::cap_intervals(self::merge_intervals($intervals));
+        $mergedintervals = self::merge_intervals($intervals);
         return [
-            'intervals' => $intervals,
-            'coveredseconds' => self::covered_seconds($intervals),
+            'intervals' => self::cap_intervals($mergedintervals),
+            'coveredseconds' => self::covered_seconds($mergedintervals),
             'lastposition' => round($lastposition, 3),
         ];
     }

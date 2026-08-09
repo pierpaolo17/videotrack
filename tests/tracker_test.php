@@ -160,37 +160,102 @@ final class tracker_test extends advanced_testcase {
     }
 
     /**
+     * Stored interval compaction never reduces exact covered seconds.
+     */
+    public function test_aggregate_segments_keeps_exact_coverage_after_interval_cap(): void {
+        $segments = [];
+        for ($i = 0; $i < tracker::MAX_INTERVALS + 5; $i++) {
+            $segments[] = (object)[
+                'id' => $i + 1,
+                'videotimestart' => (float)($i * 2),
+                'videotimeend' => (float)($i * 2 + 1),
+                'timecreated' => $i + 1,
+            ];
+        }
+
+        $aggregate = tracker::aggregate_segments($segments, 0.0);
+
+        $this->assertCount(tracker::MAX_INTERVALS, $aggregate['intervals']);
+        $this->assertSame((float)(tracker::MAX_INTERVALS + 5), $aggregate['coveredseconds']);
+    }
+
+    /**
      * Server credit budget is cumulative and is not replenished by same-second request frequency.
      */
-    public function test_server_credit_budget_is_cumulative(): void {
-        $first = tracker::advance_server_credit_budget(0, 0.0, 0.0, 100, 30, 1.0, 20.0);
-        $this->assertNotNull($first);
-        $this->assertSame(32.0, $first['budget']);
-        $this->assertSame(20.0, $first['credited']);
+    public function test_server_credit_budget_requires_elapsed_server_time(): void {
+        $withouthandshake = tracker::advance_server_credit_budget(0, 0.0, 0.0, 100000, 30, 1.0, 1.0);
+        $this->assertFalse($withouthandshake['accepted']);
+        $this->assertSame(0.0, $withouthandshake['budget']);
+        $this->assertSame(0.0, $withouthandshake['credited']);
 
-        $samesecond = tracker::advance_server_credit_budget(
-            $first['lastactivity'],
-            $first['budget'],
-            $first['credited'],
-            100,
+        $aftertwentyseconds = tracker::advance_server_credit_budget(100000, 0.0, 0.0, 120000, 30, 1.0, 20.0);
+        $this->assertTrue($aftertwentyseconds['accepted']);
+        $this->assertSame(20.0, $aftertwentyseconds['budget']);
+        $this->assertSame(20.0, $aftertwentyseconds['credited']);
+
+        $samemillisecond = tracker::advance_server_credit_budget(
+            $aftertwentyseconds['lastactivity'],
+            $aftertwentyseconds['budget'],
+            $aftertwentyseconds['credited'],
+            120000,
             30,
             1.0,
-            13.0
+            1.0
         );
-        $this->assertNull($samesecond);
+        $this->assertFalse($samemillisecond['accepted']);
+        $this->assertSame(20.0, $samemillisecond['budget']);
 
-        $afterfiveseconds = tracker::advance_server_credit_budget(
-            $first['lastactivity'],
-            $first['budget'],
-            $first['credited'],
-            105,
-            30,
-            1.0,
-            13.0
-        );
-        $this->assertNotNull($afterfiveseconds);
-        $this->assertSame(37.0, $afterfiveseconds['budget']);
-        $this->assertSame(33.0, $afterfiveseconds['credited']);
+        $afterfiveseconds = tracker::advance_server_credit_budget(120000, 20.0, 20.0, 125000, 30, 1.0, 5.0);
+        $this->assertTrue($afterfiveseconds['accepted']);
+        $this->assertSame(25.0, $afterfiveseconds['budget']);
+        $this->assertSame(25.0, $afterfiveseconds['credited']);
+    }
+
+    /**
+     * The bounded clock-drift tolerance cannot be converted into repeatable credit.
+     */
+    public function test_server_credit_tolerance_is_cumulative_and_not_reusable(): void {
+        $initialdrift = tracker::advance_server_credit_budget(100000, 0.0, 0.0, 100000, 30, 1.0, 0.5);
+        $this->assertTrue($initialdrift['accepted']);
+        $this->assertSame(0.0, $initialdrift['budget']);
+        $this->assertSame(0.5, $initialdrift['credited']);
+
+        $samemillisecond = tracker::advance_server_credit_budget(100000, 0.0, 0.5, 100000, 30, 1.0, 0.5);
+        $this->assertFalse($samemillisecond['accepted']);
+        $this->assertSame(0.0, $samemillisecond['budget']);
+        $this->assertSame(0.5, $samemillisecond['credited']);
+
+        $repeated = tracker::advance_server_credit_budget(100000, 0.0, 0.5, 100000, 30, 1.0, 0.5);
+        $this->assertFalse($repeated['accepted']);
+        $this->assertSame(0.0, $repeated['budget']);
+
+        $afteronesecond = tracker::advance_server_credit_budget(100000, 0.0, 0.5, 101000, 30, 1.0, 0.5);
+        $this->assertTrue($afteronesecond['accepted']);
+        $this->assertSame(1.0, $afteronesecond['credited']);
+    }
+
+    /**
+     * Playback-rate credit is bounded by real elapsed server time.
+     */
+    public function test_server_credit_budget_scales_only_with_validated_rate(): void {
+        $accepted = tracker::advance_server_credit_budget(100000, 0.0, 0.0, 102000, 30, 4.0, 8.0);
+        $this->assertTrue($accepted['accepted']);
+        $this->assertSame(8.0, $accepted['credited']);
+
+        $rateclockdrift = tracker::advance_server_credit_budget(100000, 0.0, 0.0, 102000, 30, 4.0, 8.5);
+        $this->assertTrue($rateclockdrift['accepted']);
+        $this->assertSame(8.5, $rateclockdrift['credited']);
+
+        $rateexcess = tracker::advance_server_credit_budget(100000, 0.0, 0.0, 102000, 30, 4.0, 9.0);
+        $this->assertFalse($rateexcess['accepted']);
+        $this->assertSame(0.0, $rateexcess['credited']);
+
+        $roundingdrift = tracker::advance_server_credit_budget(100000, 0.0, 0.0, 102000, 30, 1.0, 2.5);
+        $this->assertTrue($roundingdrift['accepted']);
+        $this->assertSame(2.5, $roundingdrift['credited']);
+
+        $excessivedrift = tracker::advance_server_credit_budget(100000, 0.0, 0.0, 102000, 30, 1.0, 3.1);
+        $this->assertFalse($excessivedrift['accepted']);
     }
 
     /**
@@ -220,6 +285,7 @@ final class tracker_test extends advanced_testcase {
             'userid' => 123,
             'videoid' => 'test-video',
             'sessionid' => 'legacy-session',
+            'requestid' => str_repeat('a', 32),
             'wallclockstart' => time() - 5,
             'wallclockend' => time(),
             'videotimestart' => 0,
@@ -232,6 +298,109 @@ final class tracker_test extends advanced_testcase {
 
         set_config('strictsessionvalidation', 0, 'mod_videotrack');
         $this->assertFalse(tracker::has_watched_videotime(998, 123, 'legacy-session', 30.0));
+    }
+
+    /**
+     * Retrying an accepted segment is idempotent and does not inflate coverage.
+     */
+    public function test_segment_request_retry_reuses_persisted_result(): void {
+        global $DB;
+
+        $this->resetAfterTest();
+        $generator = $this->getDataGenerator();
+        $course = $generator->create_course();
+        $forum = $generator->create_module('forum', ['course' => $course->id]);
+        $cm = get_fast_modinfo($course)->get_cm($forum->cmid);
+        $user = $generator->create_user();
+        $videotrack = (object)[
+            'id' => 990032,
+            'course' => $course->id,
+            'videoid' => 'ledger-test',
+            'durationseconds' => 60.0,
+            'allowseekforward' => 1,
+            'completionpercent' => 0,
+            'reactionsrequired' => 0,
+            'minreactions' => 0,
+            'requireallreactiontypes' => 0,
+            'completionacknowledgement' => 0,
+            'completionlogic' => 'and',
+        ];
+        $sessionid = str_repeat('b', 32);
+        tracker::begin_playback(
+            $videotrack,
+            $cm,
+            $user->id,
+            $sessionid,
+            str_repeat('c', 32),
+            0.0,
+            100000
+        );
+        $segment = (object)[
+            'videotrackid' => $videotrack->id,
+            'courseid' => $course->id,
+            'cmid' => $cm->id,
+            'userid' => $user->id,
+            'videoid' => $videotrack->videoid,
+            'sessionid' => $sessionid,
+            'requestid' => str_repeat('d', 32),
+            'wallclockstart' => 100,
+            'wallclockend' => 105,
+            'videotimestart' => 0.0,
+            'videotimeend' => 5.0,
+            'playbackrate' => 1.0,
+            'endreason' => 'heartbeat',
+            'servervalidated' => 1,
+            'timecreated' => 105,
+        ];
+        $segmentid = null;
+        $replayed = false;
+        $state = tracker::update_state(
+            $videotrack,
+            $cm,
+            $user->id,
+            [0.0, 5.0],
+            5.0,
+            clone $segment,
+            $segmentid,
+            [
+                'nowmilliseconds' => 105000,
+                'heartbeat' => 30,
+                'playbackrate' => 1.0,
+                'allowseekforward' => true,
+            ],
+            $replayed
+        );
+        $this->assertFalse($replayed);
+        $this->assertGreaterThan(0, $segmentid);
+        $this->assertSame(5.0, (float)$state->uniquecoveredseconds);
+
+        $retriedid = null;
+        $retried = false;
+        $retriedstate = tracker::update_state(
+            $videotrack,
+            $cm,
+            $user->id,
+            [0.0, 5.0],
+            5.0,
+            clone $segment,
+            $retriedid,
+            [
+                'nowmilliseconds' => 106000,
+                'heartbeat' => 30,
+                'playbackrate' => 1.0,
+                'allowseekforward' => true,
+            ],
+            $retried
+        );
+
+        $this->assertTrue($retried);
+        $this->assertSame($segmentid, $retriedid);
+        $this->assertSame(5.0, (float)$retriedstate->uniquecoveredseconds);
+        $this->assertSame(1, $DB->count_records('videotrack_seg', [
+            'videotrackid' => $videotrack->id,
+            'userid' => $user->id,
+            'requestid' => $segment->requestid,
+        ]));
     }
 
     /**

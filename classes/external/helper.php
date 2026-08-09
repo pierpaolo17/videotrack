@@ -80,6 +80,20 @@ class helper extends external_api {
     }
 
     /**
+     * Validate a per-request idempotency identifier.
+     *
+     * @param string $requestid Candidate request identifier.
+     * @return string Validated identifier.
+     */
+    public static function validate_request_id(string $requestid): string {
+        $requestid = trim($requestid);
+        if (!preg_match('/^(?:[a-f0-9]{32}|(?:req[a-z0-9]{16,61}|sess[a-z0-9]{16,60})|restore[a-f0-9]{32,57})$/i', $requestid)) {
+            throw new \invalid_parameter_exception('Invalid request identifier');
+        }
+        return substr($requestid, 0, 64);
+    }
+
+    /**
      * Validates the reason used to close a viewing segment.
      *
      * @param string $endreason Segment end reason.

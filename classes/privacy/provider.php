@@ -64,6 +64,7 @@ class provider implements
             'userid' => 'privacy:metadata:videotrack_seg:userid',
             'videoid' => 'privacy:metadata:common:videoid',
             'sessionid' => 'privacy:metadata:videotrack_seg:sessionid',
+            'requestid' => 'privacy:metadata:videotrack_seg:requestid',
             'wallclockstart' => 'privacy:metadata:videotrack_seg:wallclockstart',
             'wallclockend' => 'privacy:metadata:videotrack_seg:wallclockend',
             'videotimestart' => 'privacy:metadata:videotrack_seg:videotimestart',
@@ -253,7 +254,7 @@ class provider implements
                 $state->timemodified = transform::datetime($state->timemodified);
                 $state->timecreated  = transform::datetime($state->timecreated);
                 if (!empty($state->serverlastactivity)) {
-                    $state->serverlastactivity = transform::datetime($state->serverlastactivity);
+                    $state->serverlastactivity = transform::datetime((int)floor($state->serverlastactivity / 1000));
                 }
                 $state->iscompleted  = transform::yesno((bool)$state->iscompleted);
                 // Convert intervaljson from raw JSON to a human-readable string.

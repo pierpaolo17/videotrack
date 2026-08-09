@@ -8,8 +8,8 @@ Versione inglese: [`PRIVACY.md`](PRIVACY.md).
 
 Quando viene utilizzata la funzione corrispondente, VideoTrack può registrare:
 
-- **Segmenti di visione:** utente, attività/corso, sessione, provider/video, inizio/fine nel video, inizio/fine temporale reale, velocità e data di creazione.
-- **Stato aggregato dello studente:** durata autorevole configurata dal docente, ultima posizione, intervalli visti uniti, secondi unici, stato di completamento, contatori/timestamp limitati del guard server e normali timestamp del record.
+- **Righe del registro di riproduzione:** utente, attività/corso, identificativi di sessione e idempotenza, provider/video, inizio/fine nel video, wall-clock diagnostico, velocità validata, motivo di chiusura, stato di validazione server e data. Le righe `playstart` a durata zero stabiliscono la finestra temporale server e non producono progresso visto.
+- **Stato aggregato dello studente:** durata autorevole configurata dal docente, ultima posizione, intervalli visti compatti, secondi unici esatti e monotoni, stato di completamento, contatori cumulativi limitati del credito server, timestamp in millisecondi dell’ultimo handshake/richiesta e normali timestamp del record.
 - **Reazioni:** chiave configurata, tempo del video, velocità, stato attivo/eliminato e timestamp.
 - **Note personali:** proprietario, testo privato, tempo già visto, velocità, stato attivo/eliminato e timestamp.
 - **Segnalibri privati:** proprietario, etichetta privata, tempo già visto, velocità, stato attivo/eliminato e timestamp.

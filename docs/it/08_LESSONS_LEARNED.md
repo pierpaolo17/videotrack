@@ -14,3 +14,8 @@
 - Un README che accumula note release diventa fuorviante: separare contratto corrente e storia.
 - La parità delle chiavi non prova la qualità delle traduzioni: verificare testi copiati e placeholder.
 - Gli asset AMD generati sono evidenza solo dopo il completamento della build reale.
+
+- Una scrittura soggetta a retry richiede un identificativo di idempotenza generato prima del livello di retry: il successo del trasporto non dimostra che la prima risposta sia arrivata al browser.
+- Un guard di riproduzione deve partire con credito zero. La tolleranza tra clock provider e server deve restare un debito cumulativo fra richieste e handshake; altrimenti cicli ripetuti play/pausa possono creare progresso artificiale.
+- Stato compatto e aggregati esatti hanno responsabilità diverse: limitare l’elenco degli intervalli memorizzati, ma calcolare la copertura autorevole dalle righe grezze validate e mantenere monotona la completion.
+- Quando una correzione privacy nasconde un denominatore, i test devono usare un dataset non inferibile oppure verificare la soppressione; indebolire la regola privacy per soddisfare un’aspettativa vecchia è errato.

@@ -1,8 +1,8 @@
 # Inventario dei file distribuiti
 
-Questo inventario è generato sull’albero VideoTrack 1.6.31 ed elenca ogni file non documentale. Il JavaScript canonico è in `amd/src`; i file in `amd/build` sono generati.
+Questo inventario è generato sull’albero VideoTrack 1.6.32 ed elenca ogni file non documentale. Il JavaScript canonico è in `amd/src`; i file in `amd/build` sono generati.
 
-Entries: **238**.
+Entries: **239**.
 
 | File | Responsabilità |
 |---|---|
@@ -181,6 +181,7 @@ Entries: **238**.
 | `classes/external/save_note.php` | Servizio esterno AJAX `save_note` con validazione lato server. |
 | `classes/external/save_reaction.php` | Servizio esterno AJAX `save_reaction` con validazione lato server. |
 | `classes/external/save_segment.php` | Servizio esterno AJAX `save_segment` con validazione lato server. |
+| `classes/external/start_playback.php` | Servizio AJAX che apre una finestra server idempotente a credito zero. |
 | `classes/form/forum_post_form.php` | Form Moodle `forum_post_form`. |
 | `classes/local/acknowledgement.php` | Servizio di dominio `acknowledgement` riusabile da pagine, report o servizi. |
 | `classes/local/analytics.php` | Servizio di dominio `analytics` riusabile da pagine, report o servizi. |
@@ -244,5 +245,3 @@ Entries: **238**.
 | `tests/tracker_test.php` | Copertura PHPUnit per tracker test. |
 | `version.php` | Metadati, versione, maturità e rami Moodle supportati. |
 | `view.php` | Pagina studente dell’attività: autorizzazione, caricamento stato, configurazione DOM privacy-safe e avvio del player. |
-
-I file documentali sono indicizzati da `00_INDEX.md`; gli archivi sono esplicitamente non autorevoli.

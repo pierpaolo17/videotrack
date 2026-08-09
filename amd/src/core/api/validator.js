@@ -36,6 +36,7 @@ define([], function() {
     var METHOD_PREFIX = 'mod_videotrack_';
     var ALLOWED_METHODS = {
         mod_videotrack_save_integrity_event: true,
+        mod_videotrack_start_playback: true,
         mod_videotrack_save_segment: true,
         mod_videotrack_save_reaction: true,
         mod_videotrack_delete_reaction: true,
@@ -183,14 +184,19 @@ define([], function() {
             throw createValidationError('payload-too-large', methodname, 'payload-size');
         }
 
-        if (methodname === 'mod_videotrack_save_integrity_event') {
+        if (methodname === 'mod_videotrack_start_playback') {
+            if (!hasNonNegativeNumber(args, 'cmid') || String(args.sessionid || '').length === 0 ||
+                    String(args.requestid || '').length === 0 || !hasNonNegativeNumber(args, 'videotime')) {
+                throw createValidationError('invalid-args', methodname, 'playback-start-required-fields');
+            }
+        } else if (methodname === 'mod_videotrack_save_integrity_event') {
             if (!hasNonNegativeNumber(args, 'cmid') || String(args.sessionid || '').length === 0 ||
                     typeof args.eventtype !== 'string' || args.eventtype.length === 0 ||
                     !hasNonNegativeNumber(args, 'videotime')) {
                 throw createValidationError('invalid-args', methodname, 'integrity-required-fields');
             }
         } else if (methodname === 'mod_videotrack_save_segment') {
-            if (!hasNonNegativeNumber(args, 'cmid') || String(args.sessionid || '').length === 0 ||
+            if (!hasNonNegativeNumber(args, 'cmid') || String(args.sessionid || '').length === 0 || String(args.requestid || '').length === 0 ||
                     !hasNonNegativeNumber(args, 'videotimestart') || !hasNonNegativeNumber(args, 'videotimeend') ||
                     !hasNonNegativeNumber(args, 'wallclockstart') || !hasNonNegativeNumber(args, 'wallclockend') ||
                     !hasNonNegativeNumber(args, 'durationseconds')) {

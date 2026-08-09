@@ -14,3 +14,8 @@
 - Documentation with old release notes mixed into a README becomes misleading. Current contracts and historical records must be separated.
 - Equal language key counts do not prove translation quality; copied English values and placeholder parity need separate audits.
 - Generated AMD output is evidence only after the actual build completes.
+
+- A retryable write needs an idempotency key generated before the retry layer; transport success is not proof that the first response reached the browser.
+- A playback guard must start with zero credit. Provider/server drift tolerance must remain cumulative debt across requests and handshakes, otherwise repeated play/pause cycles can manufacture progress.
+- Compact state and exact aggregates have different responsibilities: cap the stored interval list, but calculate authoritative unique coverage from validated raw rows and keep completion monotonic.
+- When a privacy fix suppresses a denominator, tests must use a non-inferible fixture or assert suppression; weakening the privacy rule to satisfy an old expectation is incorrect.
