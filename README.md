@@ -2,14 +2,18 @@
 
 VideoTrack is a Moodle activity module for delivering and tracking HTML5/uploaded, YouTube and Vimeo videos. It combines privacy-aware viewing analytics with optional study tools, completion rules and teacher reporting.
 
-Current release documented by this tree: **1.6.35**. Supported Moodle branches: **5.0–5.3**.
+Current release documented by this tree: **1.6.36**. Supported Moodle branches: **5.0–5.3**.
 
 Italian overview: [`README_IT.md`](README_IT.md)
 Privacy summary: [`PRIVACY.md`](PRIVACY.md) / [`PRIVACY_IT.md`](PRIVACY_IT.md)
 
-### Gradebook upgrade recovery in 1.6.35
+### Pre-production upgrade baseline recovery in 1.6.36
 
-Release 1.6.35 supersedes the failed 1.6.34 gradebook upgrade step. During upgrade it uses Moodle DML only to remove pre-production VideoTrack grade items and their current grade rows; it does not call runtime gradebook APIs while the upgrade is running. Existing graded VideoTrack activities recreate one canonical Moodle grade item (`itemnumber = 0`) the next time the activity is saved. This intentionally discards pre-production VideoTrack grade values and removes ambiguous duplicate grade items.
+Release 1.6.36 detects a complete modern 1.6.x database schema before replaying historical upgrade steps. If the current ledger tables and fields are already present but the stored plugin version is unexpectedly old after interrupted development upgrades, VideoTrack fast-forwards the logical upgrade baseline to 1.6.32. This prevents obsolete 1.4.x/1.5.x migrations from touching tables that no longer belong to the current schema. The recovery is intentionally limited to this pre-production development history and does not fabricate missing modern tables.
+
+### Gradebook upgrade recovery in 1.6.36
+
+Release 1.6.36 supersedes the failed 1.6.34 gradebook upgrade step. During upgrade it uses Moodle DML only to remove pre-production VideoTrack grade items and their current grade rows; it does not call runtime gradebook APIs while the upgrade is running. Existing graded VideoTrack activities recreate one canonical Moodle grade item (`itemnumber = 0`) the next time the activity is saved. This intentionally discards pre-production VideoTrack grade values and removes ambiguous duplicate grade items.
 
 ### Deletion-based GDPR retention in 1.6.33
 

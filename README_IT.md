@@ -2,14 +2,18 @@
 
 VideoTrack è un modulo attività Moodle per distribuire e tracciare video HTML5/caricati, YouTube e Vimeo. Integra analytics di visione attenti alla privacy, strumenti di studio opzionali, condizioni di completamento e report per il docente.
 
-Release documentata da questo albero: **1.6.35**. Versioni Moodle supportate: **5.0–5.3**.
+Release documentata da questo albero: **1.6.36**. Versioni Moodle supportate: **5.0–5.3**.
 
 Panoramica inglese: [`README.md`](README.md)
 Informativa privacy: [`PRIVACY_IT.md`](PRIVACY_IT.md) / [`PRIVACY.md`](PRIVACY.md)
 
-### Recovery del registro valutatore nella 1.6.35
+### Recovery della baseline di upgrade pre-produzione nella 1.6.36
 
-La release 1.6.35 sostituisce il passaggio di upgrade difettoso della 1.6.34. Durante l’upgrade usa esclusivamente il DML Moodle per eliminare i grade item VideoTrack pre-produzione e i relativi voti correnti; non richiama API runtime del gradebook mentre l’upgrade è in corso. Le attività VideoTrack valutate ricreano un solo grade item Moodle canonico (`itemnumber = 0`) al successivo salvataggio dell’attività. I voti VideoTrack pre-produzione vengono intenzionalmente eliminati e i duplicati ambigui vengono rimossi.
+La release 1.6.36 verifica la presenza di uno schema database moderno 1.6.x completo prima di ripercorrere gli step storici di upgrade. Se le tabelle e i campi del ledger corrente sono già presenti ma la versione memorizzata del plugin è rimasta anormalmente indietro dopo upgrade di sviluppo interrotti, VideoTrack porta la baseline logica alla 1.6.32. In questo modo le vecchie migrazioni 1.4.x/1.5.x non possono più operare su tabelle che non appartengono allo schema corrente. La recovery è intenzionalmente limitata alla storia pre-produzione e non crea artificialmente tabelle moderne mancanti.
+
+### Recovery del registro valutatore nella 1.6.36
+
+La release 1.6.36 sostituisce il passaggio di upgrade difettoso della 1.6.34. Durante l’upgrade usa esclusivamente il DML Moodle per eliminare i grade item VideoTrack pre-produzione e i relativi voti correnti; non richiama API runtime del gradebook mentre l’upgrade è in corso. Le attività VideoTrack valutate ricreano un solo grade item Moodle canonico (`itemnumber = 0`) al successivo salvataggio dell’attività. I voti VideoTrack pre-produzione vengono intenzionalmente eliminati e i duplicati ambigui vengono rimossi.
 
 ### Retention GDPR basata sulla cancellazione nella 1.6.33
 

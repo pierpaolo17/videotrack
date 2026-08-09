@@ -36,6 +36,43 @@ function xmldb_videotrack_upgrade($oldversion) {
     global $DB;
     $dbman = $DB->get_manager();
 
+    // Pre-production baseline recovery. VideoTrack has never been deployed in production,
+    // but development databases may contain the current 1.6.x schema while retaining an
+    // unexpectedly old plugin version after interrupted upgrade experiments. In that case
+    // replaying the historical 1.4.x/1.5.x migration chain is both unnecessary and unsafe:
+    // those migrations may reference tables that no longer exist in the current schema.
+    //
+    // Only fast-forward when every table that identifies the modern schema is present and
+    // the ledger fields introduced by 1.6.32 already exist. This keeps genuinely old or
+    // incomplete installations on the normal migration path.
+    $modernschema = [
+        'videotrack',
+        'videotrack_seg',
+        'videotrack_state',
+        'videotrack_integrity',
+        'videotrack_react',
+        'videotrack_reactev',
+        'videotrack_acknowledge',
+    ];
+    $hasmodernschema = true;
+    foreach ($modernschema as $tablename) {
+        if (!$dbman->table_exists(new xmldb_table($tablename))) {
+            $hasmodernschema = false;
+            break;
+        }
+    }
+    if ($hasmodernschema) {
+        $segmenttable = new xmldb_table('videotrack_seg');
+        $statetable = new xmldb_table('videotrack_state');
+        $hasmodernschema = $dbman->field_exists($segmenttable, new xmldb_field('requestid'))
+            && $dbman->field_exists($segmenttable, new xmldb_field('servervalidated'))
+            && $dbman->field_exists($statetable, new xmldb_field('serverlastactivity'))
+            && $dbman->field_exists($statetable, new xmldb_field('servercreditedseconds'));
+    }
+    if ($hasmodernschema && $oldversion < 2026060447) {
+        $oldversion = 2026060447;
+    }
+
     if ($oldversion < 2026043008) {
         $table = new xmldb_table('videotrack');
 
@@ -1887,6 +1924,11 @@ function xmldb_videotrack_upgrade($oldversion) {
     if ($oldversion < 2026060450) {
         // Release 1.6.35 records the corrected, DML-only gradebook recovery baseline.
         upgrade_mod_savepoint(true, 2026060450, 'videotrack');
+    }
+
+    if ($oldversion < 2026060451) {
+        // Release 1.6.36 records the pre-production modern-schema fast-forward recovery.
+        upgrade_mod_savepoint(true, 2026060451, 'videotrack');
     }
 
     return true;
