@@ -1978,5 +1978,16 @@ function xmldb_videotrack_upgrade($oldversion) {
         upgrade_mod_savepoint(true, 2026060453, 'videotrack');
     }
 
+    if ($oldversion < 2026063001) {
+        // Release 1.6.39: recover interrupted pre-production installs left on the
+        // obsolete 2026063000 development lineage. Reconcile only missing schema
+        // objects against the current install.xml and never recreate videotrack_progress.
+        require_once(__DIR__ . '/repairlib.php');
+        videotrack_repair_preproduction_schema();
+        videotrack_repair_preproduction_gradebook_rows();
+
+        upgrade_mod_savepoint(true, 2026063001, 'videotrack');
+    }
+
     return true;
 }
