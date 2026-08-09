@@ -30,6 +30,25 @@ use PHPUnit\Framework\Attributes\CoversNothing;
 #[CoversNothing]
 final class upgrade_contract_test extends advanced_testcase {
     /**
+     * Modern pre-production schemas must bypass incompatible legacy migrations.
+     */
+    public function test_modern_schema_fast_forward_precedes_legacy_steps(): void {
+        global $CFG;
+
+        $source = file_get_contents($CFG->dirroot . '/mod/videotrack/db/upgrade.php');
+        $this->assertIsString($source);
+
+        $fastforward = strpos($source, '$oldversion = 2026060447;');
+        $firstlegacy = strpos($source, 'if ($oldversion < 2026043008)');
+        $this->assertNotFalse($fastforward);
+        $this->assertNotFalse($firstlegacy);
+        $this->assertLessThan($firstlegacy, $fastforward);
+        $this->assertStringContainsString('table_exists(new xmldb_table($tablename))', $source);
+        $this->assertStringContainsString("new xmldb_field('requestid')", $source);
+        $this->assertStringContainsString("new xmldb_field('servervalidated')", $source);
+    }
+
+    /**
      * Gradebook recovery in upgrade.php must not call runtime gradebook APIs.
      */
     public function test_gradebook_recovery_uses_dml_only(): void {
