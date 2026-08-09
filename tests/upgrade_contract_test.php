@@ -54,6 +54,35 @@ final class upgrade_contract_test extends advanced_testcase {
         $this->assertStringContainsString("if ($oldversion < 2026060453)", $source);
     }
 
+
+    /**
+     * Failed pre-production installs must converge above the obsolete 2026063000 lineage.
+     */
+    public function test_failed_install_schema_recovery_supersedes_obsolete_lineage(): void {
+        global $CFG;
+
+        $versionsource = file_get_contents($CFG->dirroot . '/mod/videotrack/version.php');
+        $upgradesource = file_get_contents($CFG->dirroot . '/mod/videotrack/db/upgrade.php');
+        $repairsource = file_get_contents($CFG->dirroot . '/mod/videotrack/db/repairlib.php');
+        $this->assertIsString($versionsource);
+        $this->assertIsString($upgradesource);
+        $this->assertIsString($repairsource);
+
+        $this->assertStringContainsString('$plugin->version = 2026063001;', $versionsource);
+        $this->assertStringContainsString('if ($oldversion < 2026063001)', $upgradesource);
+        $this->assertStringContainsString('videotrack_repair_preproduction_schema();', $upgradesource);
+        $this->assertStringContainsString("new xmldb_table('videotrack_progress')", $repairsource);
+        $this->assertStringContainsString('$dbman->drop_table($legacytable);', $repairsource);
+        $this->assertStringContainsString('foreach ($structure->getTables() as $table)', $repairsource);
+        $this->assertStringContainsString('$dbman->table_exists($table)', $repairsource);
+        $this->assertStringContainsString('$dbman->field_exists($table, $field)', $repairsource);
+        $this->assertStringContainsString('$dbman->index_exists($table, $index)', $repairsource);
+        $this->assertStringNotContainsString(
+            "$dbman->field_exists(new xmldb_table('videotrack_progress')",
+            $upgradesource
+        );
+    }
+
     /**
      * Gradebook recovery in upgrade.php must not call runtime gradebook APIs.
      */
