@@ -37,14 +37,46 @@ function xmldb_videotrack_upgrade($oldversion) {
     $dbman = $DB->get_manager();
 
     // Pre-production baseline recovery. VideoTrack has never been deployed in production,
-    // but development databases may contain the current 1.6.x schema while retaining an
-    // unexpectedly old plugin version after interrupted upgrade experiments. In that case
-    // replaying the historical 1.4.x/1.5.x migration chain is both unnecessary and unsafe:
-    // those migrations may reference tables that no longer exist in the current schema.
+    // but interrupted development upgrades can leave a database with modern core tables and
+    // stale plugin version metadata. Replaying the full historical 1.4.x/1.5.x chain against
+    // that schema is unsafe because obsolete migrations may reference tables that no longer
+    // belong to the current data model.
     //
-    // Only fast-forward when every table that identifies the modern schema is present and
-    // the ledger fields introduced by 1.6.32 already exist. This keeps genuinely old or
-    // incomplete installations on the normal migration path.
+    // Recovery is deliberately staged. First recognise the stable core schema that predates
+    // the 1.6.14+ additions and fast-forward only to 1.6.13. The normal idempotent migrations
+    // then recreate bookmarks, integrity, acknowledgement and server-authoritative ledger
+    // fields as required. If the complete 1.6.32 schema is already present, fast-forward to
+    // that baseline directly. Genuinely old schemas stay on the normal historical path.
+    $coremoderntables = [
+        'videotrack',
+        'videotrack_seg',
+        'videotrack_state',
+        'videotrack_react',
+        'videotrack_reactev',
+    ];
+    $hascoremodernschema = true;
+    foreach ($coremoderntables as $tablename) {
+        if (!$dbman->table_exists(new xmldb_table($tablename))) {
+            $hascoremodernschema = false;
+            break;
+        }
+    }
+    if ($hascoremodernschema) {
+        $maintable = new xmldb_table('videotrack');
+        $segmenttable = new xmldb_table('videotrack_seg');
+        $statetable = new xmldb_table('videotrack_state');
+        $reactiontable = new xmldb_table('videotrack_react');
+        $reactioneventtable = new xmldb_table('videotrack_reactev');
+        $hascoremodernschema = $dbman->field_exists($maintable, new xmldb_field('studentnotesenabled'))
+            && $dbman->field_exists($segmenttable, new xmldb_field('sessionid'))
+            && $dbman->field_exists($statetable, new xmldb_field('videoid'))
+            && $dbman->field_exists($reactiontable, new xmldb_field('reactionkey'))
+            && $dbman->field_exists($reactioneventtable, new xmldb_field('sessionid'));
+    }
+    if ($hascoremodernschema && $oldversion < 2026060428) {
+        $oldversion = 2026060428;
+    }
+
     $modernschema = [
         'videotrack',
         'videotrack_seg',
@@ -1937,6 +1969,13 @@ function xmldb_videotrack_upgrade($oldversion) {
         videotrack_repair_preproduction_gradebook_rows();
 
         upgrade_mod_savepoint(true, 2026060452, 'videotrack');
+    }
+
+    if ($oldversion < 2026060453) {
+        // Release 1.6.38: staged pre-production upgrade baseline recovery.
+        // The recovery logic runs before historical migrations; this savepoint records
+        // the hardened baseline after the normal recent migrations have completed.
+        upgrade_mod_savepoint(true, 2026060453, 'videotrack');
     }
 
     return true;
