@@ -38,14 +38,20 @@ final class upgrade_contract_test extends advanced_testcase {
         $source = file_get_contents($CFG->dirroot . '/mod/videotrack/db/upgrade.php');
         $this->assertIsString($source);
 
-        $fastforward = strpos($source, '$oldversion = 2026060447;');
+        $corefastforward = strpos($source, '$oldversion = 2026060428;');
+        $ledgerfastforward = strpos($source, '$oldversion = 2026060447;');
         $firstlegacy = strpos($source, 'if ($oldversion < 2026043008)');
-        $this->assertNotFalse($fastforward);
+        $this->assertNotFalse($corefastforward);
+        $this->assertNotFalse($ledgerfastforward);
         $this->assertNotFalse($firstlegacy);
-        $this->assertLessThan($firstlegacy, $fastforward);
-        $this->assertStringContainsString('table_exists(new xmldb_table($tablename))', $source);
+        $this->assertLessThan($firstlegacy, $corefastforward);
+        $this->assertLessThan($firstlegacy, $ledgerfastforward);
+        $this->assertStringContainsString('$coremoderntables = [', $source);
+        $this->assertStringContainsString("new xmldb_field('studentnotesenabled')", $source);
+        $this->assertStringContainsString("new xmldb_field('sessionid')", $source);
         $this->assertStringContainsString("new xmldb_field('requestid')", $source);
         $this->assertStringContainsString("new xmldb_field('servervalidated')", $source);
+        $this->assertStringContainsString("if ($oldversion < 2026060453)", $source);
     }
 
     /**
