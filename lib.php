@@ -1016,7 +1016,7 @@ function videotrack_grade_item_update(stdClass $videotrack, $grades = null): int
         $params
     );
 
-    // grade_update() does not accept gradepass in its itemdetails allowlist.
+    // The grade_update() function does not accept gradepass in its itemdetails allowlist.
     // Keep the canonical itemnumber-0 grade item aligned explicitly.
     if ($result === GRADE_UPDATE_OK && !empty($videotrack->grade)) {
         $gradeitem = grade_item::fetch([
