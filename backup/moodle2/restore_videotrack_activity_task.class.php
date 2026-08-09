@@ -62,4 +62,76 @@ class restore_videotrack_activity_task extends restore_activity_task {
             new restore_decode_rule('VIDEOTRACKVIEWBYID', '/mod/videotrack/view.php?id=$1', 'course_module'),
         ];
     }
+
+    /**
+     * Rebuild derived state after all common activity restore steps have completed.
+     *
+     * This hook runs after Moodle restores course-module completion. Rebuilding here
+     * prevents a completion row from the backup from reintroducing evidence that the
+     * destination retention policy discarded.
+     */
+    public function after_restore() {
+        global $CFG, $DB;
+
+        if (!$this->get_setting_value('userinfo')) {
+            return;
+        }
+
+        $videotrackid = (int)$this->get_activityid();
+        $cmid = (int)$this->get_moduleid();
+        if ($videotrackid <= 0 || $cmid <= 0) {
+            return;
+        }
+
+        require_once($CFG->dirroot . '/mod/videotrack/lib.php');
+        $videotrack = $DB->get_record('videotrack', ['id' => $videotrackid]);
+        if (!$videotrack) {
+            return;
+        }
+
+        $course = get_course((int)$videotrack->course);
+        $cm = get_fast_modinfo($course)->get_cm($cmid);
+        videotrack_recalculate_all_states($videotrackid, $cm);
+
+        if ((int)$cm->completion !== COMPLETION_TRACKING_AUTOMATIC) {
+            return;
+        }
+
+        $hasrequiredreactions = $DB->record_exists('videotrack_react', [
+            'videotrackid' => $videotrackid,
+            'requiredforcompletion' => 1,
+            'isdeleted' => 0,
+        ]);
+        $hascustomcompletion = !empty($videotrack->completionpercent)
+            || (!empty($videotrack->reactionsrequired) && !empty($videotrack->minreactions))
+            || !empty($videotrack->requireallreactiontypes)
+            || !empty($videotrack->completionacknowledgement)
+            || $hasrequiredreactions;
+        if (!$hascustomcompletion) {
+            return;
+        }
+
+        $completion = new completion_info($course);
+        $userids = $DB->get_fieldset_select(
+            'course_modules_completion',
+            'DISTINCT userid',
+            'coursemoduleid = :cmid AND userid > 0',
+            ['cmid' => $cmid]
+        );
+        foreach ($userids as $userid) {
+            $userid = (int)$userid;
+            if ($DB->record_exists('videotrack_state', [
+                'videotrackid' => $videotrackid,
+                'userid' => $userid,
+            ])) {
+                continue;
+            }
+            \mod_videotrack\local\tracker::update_moodle_completion_if_changed(
+                $completion,
+                $cm,
+                false,
+                $userid
+            );
+        }
+    }
 }

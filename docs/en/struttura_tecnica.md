@@ -6,3 +6,4 @@
 - Canonical browser code: `amd/src/*`; generated distribution: `amd/build/*`.
 - Persistence: seven XMLDB tables plus File API and gradebook.
 - Quality: PHPUnit tests, eight language packs, source maps, privacy documentation and the numbered maintenance set.
+- Retention: expired personal rows are deleted; derived state is rebuilt from retained trusted evidence and omitted from backup.

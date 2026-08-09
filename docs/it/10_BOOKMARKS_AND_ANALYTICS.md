@@ -4,4 +4,4 @@ I segnalibri sono disabilitati per default e abilitati per istanza. Appartengono
 
 Il proprietario può elencare, riaprire, eliminare ed esportare in CSV. Etichette e timestamp esatti non sono mostrati al docente. I report per studente possono mostrare conteggi; dashboard e Analytics mostrano solo eventi aggregati e utenti distinti quando la funzione è abilitata. `analyticsminusers` maschera le popolazioni piccole.
 
-I segnalibri riusano `videotrack_reactev` con `notetype='bookmark'`. Privacy API, retention, reset e backup/restore li includono. L’eliminazione delle reazioni standard non può eliminare righe bookmark.
+I segnalibri riusano `videotrack_reactev` con `notetype='bookmark'`. Privacy API, retention basata sulla cancellazione, reset e backup/restore li includono. L’eliminazione delle reazioni standard non può eliminare righe bookmark.

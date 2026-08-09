@@ -48,13 +48,15 @@ Activity deletion, course/activity reset and dedicated student-progress reset re
 
 ## Retention
 
-The scheduled cleanup task applies the configured retention period to plugin-owned user records and associated identifying content. A value of `0` disables age-based automated cleanup and therefore requires an explicit, documented site policy and periodic review. Privacy erasure and context deletion still remove records regardless of that value.
+The scheduled cleanup task permanently deletes plugin-owned learner records that fall outside the configured retention window. VideoTrack does not keep deterministic negative-user pseudonyms or a mapping key. After deletion, the derived `videotrack_state` row is rebuilt from retained server-validated segments and retained completion inputs; stale playback credit is cleared and Moodle custom completion is synchronised. Progress and completion may therefore decrease when their supporting evidence expires.
+
+A value of `0` disables age-based automated cleanup and therefore requires an explicit, documented site policy and periodic review. Approved Privacy API erasure still removes the selected learner records regardless of that value. Shared activity files are configuration data and remain until the activity itself is deleted.
 
 Sites should choose the shortest retention period compatible with their educational and legal purpose, publish it to learners and review access to exports containing identities.
 
 ## Backup and restore
 
-Moodle backup includes activity configuration and files. User records are included only when user data is requested. Restore remaps activity, course-module and user identifiers. Runtime playback-credit counters are deliberately excluded from backup payloads and reset on restore so unused anti-tampering credit cannot move to a copied course. Backups containing user data must be protected according to the same policy as the live Moodle database.
+Moodle backup includes activity configuration and files. When user data is requested, VideoTrack includes only positive-user records still inside the source site's current retention window; derived `videotrack_state` rows are not included. Restore remaps identifiers, rejects legacy pseudonymous and destination-expired records, and rebuilds state after Moodle restores course-module completion. A restored custom-completion row without retained VideoTrack evidence is reset to incomplete. Runtime playback-credit counters are not transferred as trusted progress. Backups containing user data must be protected according to the same policy as the live Moodle database.
 
 ## CSV and data-format exports
 

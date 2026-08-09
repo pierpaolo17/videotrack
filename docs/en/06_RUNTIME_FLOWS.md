@@ -34,7 +34,7 @@ Per-student reports may include identity, progress, reactions, acknowledgement d
 
 ## Privacy, retention and deletion
 
-Privacy export streams each record family in bounded chunks. User/context deletion calls `privacy_manager`; activity deletion and reset remove all corresponding records. The scheduled task anonymises or deletes expired data according to policy. Backup includes user tables only with user data and restore remaps identifiers.
+Privacy export streams each record family in bounded chunks. User/context erasure calls `privacy_manager`; activity deletion and reset remove the corresponding records. The scheduled task deletes expired granular rows, rebuilds `videotrack_state` from retained trusted evidence, clears stale playback credit and synchronises custom completion. No deterministic pseudonymous copy is kept. User-data backup includes only positive-user rows inside the source retention window and omits derived state. Restore applies the destination retention policy, remaps users and rebuilds state after Moodle course-module completion has been restored.
 
 ## Activity-form duration suggestion
 

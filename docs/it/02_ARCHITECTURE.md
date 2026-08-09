@@ -34,7 +34,7 @@ Un evento PLAY del provider apre un handshake server a credito zero tramite `mod
 
 ## Architettura privacy
 
-La raccolta è subordinata alle funzioni abilitate. Gli Analytics docente usano aggregati e soglie minime indipendenti. Le etichette dei segnalibri sono visibili solo al proprietario. Il testo delle note personali è visibile al proprietario e può essere consultato/esportato dai docenti autorizzati quando le note sono abilitate; il testo è escluso dagli Analytics aggregati. L’export Privacy elabora collezioni grandi in blocchi limitati. Cancellazione, reset, retention e backup/restore coprono tutte le tabelle utente.
+La raccolta è subordinata alle funzioni abilitate. Gli Analytics docente usano aggregati e soglie minime indipendenti. Le etichette dei segnalibri sono visibili solo al proprietario. Il testo delle note personali è visibile al proprietario e può essere consultato/esportato dai docenti autorizzati quando le note sono abilitate; il testo è escluso dagli Analytics aggregati. L’export Privacy elabora collezioni grandi in blocchi limitati. Cancellazione e retention pianificata eliminano i record personali invece di conservare pseudonimi deterministici. `videotrack_state` è un dato personale derivato e viene ricostruito soltanto dai segmenti validati e dagli input di completamento ancora conservati. Il backup con dati utente esclude record scaduti e stato derivato; il restore applica la retention del sito destinazione e ricostruisce lo stato dopo il ripristino del completamento Moodle. I file di configurazione dell’attività vengono eliminati dal normale ciclo di vita del modulo, non dalla cancellazione dei dati learner.
 
 ## Architettura accessibile
 

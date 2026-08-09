@@ -21,6 +21,7 @@ Video sorgente, poster, sottotitoli, trascrizioni e capitoli caricati sono conse
 ## Limiti di visibilità
 
 - Lo studente accede soltanto alle proprie note e alle proprie etichette dei segnalibri.
+- I docenti autorizzati possono consultare/esportare il testo delle note personali quando la funzione è abilitata e lo scope iscrizione/gruppi lo permette; le etichette dei segnalibri restano visibili soltanto al proprietario.
 - Il docente vede dati per studente solo con la capability di report e nel rispetto dei gruppi.
 - Gli Analytics sono aggregati e applicano `analyticsminusers` separatamente alle popolazioni di visione, reazioni, segnalibri, indicatori e prese visione quando previsto.
 - Il testo delle note e le etichette dei segnalibri non compaiono mai negli Analytics docente.
@@ -47,13 +48,15 @@ Eliminazione dell’attività, reset corso/attività e reset del progresso stude
 
 ## Conservazione
 
-Il task pianificato applica il periodo configurato ai record utente del plugin e ai contenuti identificativi associati. Il valore `0` disabilita la pulizia automatica per età e richiede quindi una politica esplicita, documentata e riesaminata periodicamente. Le richieste privacy e la cancellazione del contesto continuano a rimuovere i dati anche con valore `0`.
+Il task pianificato elimina definitivamente i record learner di proprietà del plugin che superano il periodo configurato. VideoTrack non mantiene pseudonimi deterministici con utente negativo né una chiave di mapping. Dopo la cancellazione, la riga derivata `videotrack_state` viene ricostruita dai segmenti validati e dagli input di completamento ancora conservati; il credito di riproduzione non più attivo viene azzerato e il completamento personalizzato Moodle viene sincronizzato. Progresso e completamento possono quindi diminuire quando scadono le evidenze che li sostenevano.
+
+Il valore `0` disabilita la pulizia automatica per età e richiede una politica esplicita, documentata e riesaminata periodicamente. Le richieste approvate tramite Privacy API continuano a eliminare i record learner selezionati anche con valore `0`. I file condivisi dell’attività sono dati di configurazione e restano fino all’eliminazione dell’attività stessa.
 
 Il sito dovrebbe scegliere il periodo più breve compatibile con lo scopo didattico e giuridico, comunicarlo agli studenti e controllare l’accesso alle esportazioni contenenti identità.
 
 ## Backup e ripristino
 
-Il backup Moodle include configurazione e file dell’attività. I record degli utenti sono inclusi soltanto quando viene richiesto il backup dei dati utente. Il restore rimappa attività, modulo e utenti. I backup con dati utente devono essere protetti come il database Moodle in esercizio.
+Il backup Moodle include configurazione e file dell’attività. Quando sono richiesti i dati utente, VideoTrack include soltanto record con utente positivo ancora compresi nella retention del sito sorgente; le righe derivate `videotrack_state` non vengono incluse. Il restore rimappa gli identificativi, scarta pseudonimi legacy e record già scaduti secondo il sito destinazione e ricostruisce lo stato dopo il ripristino della completion del modulo Moodle. Un completamento personalizzato ripristinato senza evidenze VideoTrack ancora valide viene riportato a incompleto. I contatori runtime del credito non vengono trasferiti come progresso attendibile. I backup con dati utente devono essere protetti come il database Moodle in esercizio.
 
 ## Esportazioni CSV e data format
 

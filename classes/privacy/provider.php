@@ -582,8 +582,9 @@ class provider implements
     /**
      * Deletes all plugin-owned user data for a module context.
      *
-     * Context-level erasure also removes plugin file areas via the shared
-     * privacy manager. Moodle core owns gradebook privacy/export/erasure for
+     * Context-level erasure removes learner records only. Activity configuration
+     * files remain attached to the activity and are removed by the normal module
+     * deletion lifecycle. Moodle core owns gradebook privacy/export/erasure for
      * grade_grades rows linked to this module.
      *
      * @param context $context Moodle context.
