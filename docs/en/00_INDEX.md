@@ -1,6 +1,6 @@
 # VideoTrack documentation index
 
-Current documented release: **1.6.34** (`2026060449`).
+Current documented release: **1.6.35** (`2026060450`).
 
 1. `01_DEVELOPER_GUIDE.md` — maintenance workflow and change discipline.
 2. `02_ARCHITECTURE.md` — component boundaries, adapters, storage and trust model.

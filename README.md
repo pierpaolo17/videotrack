@@ -2,14 +2,14 @@
 
 VideoTrack is a Moodle activity module for delivering and tracking HTML5/uploaded, YouTube and Vimeo videos. It combines privacy-aware viewing analytics with optional study tools, completion rules and teacher reporting.
 
-Current release documented by this tree: **1.6.34**. Supported Moodle branches: **5.0–5.3**.
+Current release documented by this tree: **1.6.35**. Supported Moodle branches: **5.0–5.3**.
 
 Italian overview: [`README_IT.md`](README_IT.md)
 Privacy summary: [`PRIVACY.md`](PRIVACY.md) / [`PRIVACY_IT.md`](PRIVACY_IT.md)
 
-### Gradebook baseline repair in 1.6.34
+### Gradebook upgrade recovery in 1.6.35
 
-Release 1.6.34 resets pre-production VideoTrack gradebook items during upgrade and recreates exactly one canonical Moodle grade item (`itemnumber = 0`) for every graded VideoTrack activity. This intentionally discards pre-production VideoTrack grade values so the standard Moodle activity form cannot fail on ambiguous duplicate grade items.
+Release 1.6.35 supersedes the failed 1.6.34 gradebook upgrade step. During upgrade it uses Moodle DML only to remove pre-production VideoTrack grade items and their current grade rows; it does not call runtime gradebook APIs while the upgrade is running. Existing graded VideoTrack activities recreate one canonical Moodle grade item (`itemnumber = 0`) the next time the activity is saved. This intentionally discards pre-production VideoTrack grade values and removes ambiguous duplicate grade items.
 
 ### Deletion-based GDPR retention in 1.6.33
 
