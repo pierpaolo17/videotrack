@@ -87,16 +87,25 @@ final class privacy_manager_test extends advanced_testcase {
 
         $this->assertFalse($DB->record_exists('videotrack_seg', ['requestid' => 'oldsegment']));
         $this->assertTrue($DB->record_exists('videotrack_seg', ['requestid' => 'recentsegment']));
-        $this->assertFalse($DB->record_exists('videotrack_reactev', [
-            'videotrackid' => $videotrack->id,
-            'userid' => $user->id,
-            'notetext' => 'Old note',
-        ]));
-        $this->assertTrue($DB->record_exists('videotrack_reactev', [
-            'videotrackid' => $videotrack->id,
-            'userid' => $user->id,
-            'notetext' => 'Recent note',
-        ]));
+        $notetextsql = $DB->sql_compare_text('notetext') . ' = ' . $DB->sql_compare_text(':notetext');
+        $this->assertFalse($DB->record_exists_select(
+            'videotrack_reactev',
+            'videotrackid = :videotrackid AND userid = :userid AND ' . $notetextsql,
+            [
+                'videotrackid' => $videotrack->id,
+                'userid' => $user->id,
+                'notetext' => 'Old note',
+            ]
+        ));
+        $this->assertTrue($DB->record_exists_select(
+            'videotrack_reactev',
+            'videotrackid = :videotrackid AND userid = :userid AND ' . $notetextsql,
+            [
+                'videotrackid' => $videotrack->id,
+                'userid' => $user->id,
+                'notetext' => 'Recent note',
+            ]
+        ));
         $this->assertSame(1, $DB->count_records('videotrack_integrity', [
             'videotrackid' => $videotrack->id,
             'userid' => $user->id,

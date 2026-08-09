@@ -3070,8 +3070,10 @@ if ($resetaction === 'resetstudent' && $_SERVER['REQUEST_METHOD'] === 'POST') {
             'videotrack',
             $videotrack->id,
             0,
-            null,
-            ['reset' => true, 'userid' => $resetuserid]
+            (object)[
+                'userid' => $resetuserid,
+                'rawgrade' => null,
+            ]
         );
     }
     // Update Moodle completion to INCOMPLETE for this student.
