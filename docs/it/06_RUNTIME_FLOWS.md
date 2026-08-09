@@ -34,7 +34,7 @@ I report per studente includono soltanto utenti con `mod/videotrack:participate`
 
 ## Privacy, retention e cancellazione
 
-L’export Privacy elabora ogni famiglia in blocchi limitati. Cancellazione utente/contesto usa `privacy_manager`; eliminazione attività e reset rimuovono i record corrispondenti. Il task applica retention/anonimizzazione. Il backup include tabelle utente solo con user data e il restore rimappa gli identificativi.
+L’export Privacy elabora ogni famiglia in blocchi limitati. La cancellazione utente/contesto usa `privacy_manager`; eliminazione attività e reset rimuovono i record corrispondenti. Il task elimina le righe granulari scadute, ricostruisce `videotrack_state` dalle evidenze attendibili ancora conservate, azzera il credito di riproduzione non più attivo e sincronizza il completamento personalizzato. Non viene mantenuta alcuna copia pseudonima deterministica. Il backup con dati utente include soltanto righe con utente positivo comprese nella retention del sito sorgente e omette lo stato derivato. Il restore applica la retention del sito destinazione, rimappa gli utenti e ricostruisce lo stato dopo il ripristino del completamento del modulo Moodle.
 
 ## Proposta della durata nel form attività
 

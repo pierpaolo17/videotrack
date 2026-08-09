@@ -4,4 +4,4 @@ Bookmarks are disabled by default and enabled per activity. A bookmark is owned 
 
 The owner can list, replay, delete and CSV-export their bookmarks. Labels and exact timestamps are not shown to teachers. Per-student reports may show counts; course/teacher dashboards and Analytics show only aggregate event and distinct-user counts when the feature is enabled. `analyticsminusers` masks small populations.
 
-Bookmarks reuse `videotrack_reactev` with `notetype='bookmark'`. Privacy export/erasure, retention anonymisation, reset and backup/restore include them. Standard reaction deletion cannot delete bookmark rows.
+Bookmarks reuse `videotrack_reactev` with `notetype='bookmark'`. Privacy export/erasure, deletion-based retention, reset and backup/restore include them. Standard reaction deletion cannot delete bookmark rows.

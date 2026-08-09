@@ -325,7 +325,7 @@ final class csv_export {
      * @param stdClass $course Course record.
      * @param stdClass $videotrack Activity record.
      * @param stdClass|null $user User record.
-     * @param string $userlabel Fallback label for missing or anonymised users.
+     * @param string $userlabel Fallback label when the user record is unavailable.
      * @param int $cmid Course module id, required for uploaded-video links.
      * @return array
      */

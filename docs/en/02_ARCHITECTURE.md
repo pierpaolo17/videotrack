@@ -34,7 +34,7 @@ A provider PLAY event opens a zero-credit server handshake through `mod_videotra
 
 ## Privacy architecture
 
-Collection is feature-gated. Teacher Analytics consume aggregates and apply independent minimum-user thresholds. Bookmark labels are owner-only. Personal note text is visible to the owner and may be visible/exportable to authorised report viewers when notes are enabled; note text is excluded from aggregate Analytics. Privacy export streams large collections in bounded chunks. Erasure, reset, context deletion, retention and backup/restore cover every user-data table.
+Collection is feature-gated. Teacher Analytics consume aggregates and apply independent minimum-user thresholds. Bookmark labels are owner-only. Personal note text is visible to the owner and may be visible/exportable to authorised report viewers when notes are enabled; note text is excluded from aggregate Analytics. Privacy export streams large collections in bounded chunks. Erasure and scheduled retention delete personal rows rather than retaining deterministic pseudonyms. `videotrack_state` is derived personal data and is rebuilt only from retained server-validated segments and retained completion inputs. User-data backup excludes expired rows and derived state; restore reapplies the destination retention policy and rebuilds state after Moodle completion restore. Activity configuration files are removed by the normal activity-deletion lifecycle, not by learner-data erasure.
 
 ## Accessibility architecture
 

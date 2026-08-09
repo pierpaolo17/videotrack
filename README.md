@@ -2,10 +2,14 @@
 
 VideoTrack is a Moodle activity module for delivering and tracking HTML5/uploaded, YouTube and Vimeo videos. It combines privacy-aware viewing analytics with optional study tools, completion rules and teacher reporting.
 
-Current release documented by this tree: **1.6.32**. Supported Moodle branches: **5.0–5.3**.
+Current release documented by this tree: **1.6.33**. Supported Moodle branches: **5.0–5.3**.
 
 Italian overview: [`README_IT.md`](README_IT.md)
 Privacy summary: [`PRIVACY.md`](PRIVACY.md) / [`PRIVACY_IT.md`](PRIVACY_IT.md)
+
+### Deletion-based GDPR retention in 1.6.33
+
+Release 1.6.33 removes the former deterministic negative-user pseudonyms. Expired playback segments, interactions, notes, bookmarks, integrity signals and acknowledgements are deleted; `videotrack_state` is rebuilt from the retained server-validated evidence and current completion inputs. State and Moodle custom completion can therefore return to incomplete when their evidence expires. User-data backups exclude expired and legacy pseudonymous rows, do not carry derived state, and apply the destination retention policy again on restore before rebuilding state after Moodle completion has been restored. See [`docs/en/20_GDPR_RETENTION_1_6_33.md`](docs/en/20_GDPR_RETENTION_1_6_33.md).
 
 ### Server-authoritative playback ledger in 1.6.32
 

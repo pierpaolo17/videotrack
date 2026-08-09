@@ -6,3 +6,4 @@
 - Browser canonico: `amd/src/*`; distribuzione generata: `amd/build/*`.
 - Persistenza: sette tabelle XMLDB, File API e gradebook.
 - Qualità: test PHPUnit, otto language pack, source map, privacy e documentazione numerata.
+- Retention: i record personali scaduti vengono eliminati; lo stato derivato viene ricostruito dalle evidenze attendibili conservate ed escluso dal backup.

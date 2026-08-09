@@ -94,6 +94,7 @@ class restore_videotrack_activity_structure_step extends restore_activity_struct
         global $DB;
         $data = (object)$data;
         $oldid = (int)$data->id;
+        $timecreated = isset($data->timecreated) ? (int)$data->timecreated : time();
         $icontype = isset($data->icontype) ? clean_param($data->icontype, PARAM_ALPHANUMEXT) : 'emoji';
         if (!in_array($icontype, ['emoji', 'file', 'fa', 'text'], true)) {
             $icontype = 'emoji';
@@ -108,7 +109,7 @@ class restore_videotrack_activity_structure_step extends restore_activity_struct
             'requiredforcompletion' => empty($data->requiredforcompletion) ? 0 : 1,
             'sortorder' => isset($data->sortorder) ? (int)$data->sortorder : 0,
             'isdeleted' => empty($data->isdeleted) ? 0 : 1,
-            'timecreated' => isset($data->timecreated) ? (int)$data->timecreated : time(),
+            'timecreated' => $timecreated,
             'timemodified' => isset($data->timemodified) ? (int)$data->timemodified : time(),
         ];
         $newitemid = $DB->insert_record('videotrack_react', $record);
@@ -124,17 +125,21 @@ class restore_videotrack_activity_structure_step extends restore_activity_struct
         global $DB;
         $data = (object)$data;
         $oldid = isset($data->id) ? (int)$data->id : 0;
+        $timecreated = isset($data->timecreated) ? (int)$data->timecreated : time();
+        if (
+            (int)($data->userid ?? 0) <= 0
+            || !\mod_videotrack\local\privacy_manager::timestamp_is_retained($timecreated)
+        ) {
+            return;
+        }
         $data->videotrackid = $this->get_new_parentid('videotrack');
         $data->courseid = $this->get_courseid();
         $data->cmid = $this->get_restored_cmid();
-        if (!empty($data->userid) && (int)$data->userid > 0) {
-            $mappeduserid = $this->get_mappingid('user', $data->userid);
-            if (empty($mappeduserid)) {
-                return;
-            }
-            $data->userid = $mappeduserid;
+        $mappeduserid = $this->get_mappingid('user', $data->userid);
+        if (empty($mappeduserid)) {
+            return;
         }
-        // Negative user ids are anonymised aggregate records: preserve them as non-user data.
+        $data->userid = $mappeduserid;
         $requestid = !empty($data->requestid)
             ? substr(clean_param((string)$data->requestid, PARAM_ALPHANUMEXT), 0, 64)
             : '';
@@ -165,7 +170,7 @@ class restore_videotrack_activity_structure_step extends restore_activity_struct
             'playbackrate' => isset($data->playbackrate) ? (float)$data->playbackrate : 1.0,
             'endreason' => isset($data->endreason) ? clean_param($data->endreason, PARAM_ALPHANUMEXT) : 'unknown',
             'servervalidated' => isset($data->servervalidated) ? (int)$data->servervalidated : 0,
-            'timecreated' => isset($data->timecreated) ? (int)$data->timecreated : time(),
+            'timecreated' => $timecreated,
         ];
         $newitemid = $DB->insert_record('videotrack_seg', $record);
         if ($oldid > 0) {
@@ -179,44 +184,10 @@ class restore_videotrack_activity_structure_step extends restore_activity_struct
      * @param array|stdClass $data Restored backup data.
      */
     protected function process_videotrack_state($data) {
-        global $DB;
-        $data = (object)$data;
-        $oldid = isset($data->id) ? (int)$data->id : 0;
-        $data->videotrackid = $this->get_new_parentid('videotrack');
-        $data->courseid = $this->get_courseid();
-        $data->cmid = $this->get_restored_cmid();
-        if (!empty($data->userid) && (int)$data->userid > 0) {
-            $mappeduserid = $this->get_mappingid('user', $data->userid);
-            if (empty($mappeduserid)) {
-                return;
-            }
-            $data->userid = $mappeduserid;
-        }
-        // Negative user ids are anonymised aggregate records: preserve them as non-user data.
-        $record = (object)[
-            'videotrackid' => (int)$data->videotrackid,
-            'courseid' => (int)$data->courseid,
-            'cmid' => (int)$data->cmid,
-            'userid' => isset($data->userid) ? (int)$data->userid : 0,
-            'videoid' => isset($data->videoid) ? clean_param($data->videoid, PARAM_ALPHANUMEXT) : '',
-            'lastposition' => isset($data->lastposition) ? (float)$data->lastposition : 0.0,
-            'durationseconds' => isset($data->durationseconds) ? (float)$data->durationseconds : 0.0,
-            // The server credit budget is runtime-only security state. Do not carry
-            // unused credit across backup/restore into a different course instance.
-            'serverlastactivity' => 0,
-            'serverbudgetseconds' => 0.0,
-            'servercreditedseconds' => 0.0,
-            'uniquecoveredseconds' => isset($data->uniquecoveredseconds) ? (float)$data->uniquecoveredseconds : 0.0,
-            'completionpercent' => isset($data->completionpercent) ? (float)$data->completionpercent : 0.0,
-            'intervaljson' => self::normalise_interval_json($data->intervaljson ?? null),
-            'iscompleted' => empty($data->iscompleted) ? 0 : 1,
-            'timemodified' => isset($data->timemodified) ? (int)$data->timemodified : time(),
-            'timecreated' => isset($data->timecreated) ? (int)$data->timecreated : time(),
-        ];
-        $newitemid = $DB->insert_record('videotrack_state', $record);
-        if ($oldid > 0) {
-            $this->set_mapping('videotrack_state', $oldid, $newitemid, true);
-        }
+        // Aggregate state is derived data. Backups created by 1.6.33 and later do
+        // not contain it; older state rows are ignored and rebuilt after restore
+        // from retained server-validated segments and completion inputs.
+        unset($data);
     }
 
     /**
@@ -228,17 +199,21 @@ class restore_videotrack_activity_structure_step extends restore_activity_struct
         global $DB;
         $data = (object)$data;
         $oldid = isset($data->id) ? (int)$data->id : 0;
+        $timecreated = isset($data->timecreated) ? (int)$data->timecreated : time();
+        if (
+            (int)($data->userid ?? 0) <= 0
+            || !\mod_videotrack\local\privacy_manager::timestamp_is_retained($timecreated)
+        ) {
+            return;
+        }
         $data->videotrackid = $this->get_new_parentid('videotrack');
         $data->courseid = $this->get_courseid();
         $data->cmid = $this->get_restored_cmid();
-        if (!empty($data->userid) && (int)$data->userid > 0) {
-            $mappeduserid = $this->get_mappingid('user', $data->userid);
-            if (empty($mappeduserid)) {
-                return;
-            }
-            $data->userid = $mappeduserid;
+        $mappeduserid = $this->get_mappingid('user', $data->userid);
+        if (empty($mappeduserid)) {
+            return;
         }
-        // Negative user ids are anonymised aggregate records: preserve them as non-user data.
+        $data->userid = $mappeduserid;
         $transaction = null;
         if (!empty($data->reactionid)) {
             $oldreactionid = (int)$data->reactionid;
@@ -266,7 +241,7 @@ class restore_videotrack_activity_structure_step extends restore_activity_struct
                     'requiredforcompletion' => 0,
                     'sortorder' => 9999,
                     'isdeleted' => 1,
-                    'timecreated' => $now,
+                    'timecreated' => $timecreated,
                     'timemodified' => $now,
                 ];
                 $mappedreactionid = $DB->insert_record('videotrack_react', $placeholder);
@@ -290,7 +265,7 @@ class restore_videotrack_activity_structure_step extends restore_activity_struct
             'videotime' => isset($data->videotime) ? (float)$data->videotime : 0.0,
             'playbackrate' => isset($data->playbackrate) ? (float)$data->playbackrate : 1.0,
             'isdeleted' => empty($data->isdeleted) ? 0 : 1,
-            'timecreated' => isset($data->timecreated) ? (int)$data->timecreated : time(),
+            'timecreated' => $timecreated,
             'timemodified' => isset($data->timemodified) ? (int)$data->timemodified : time(),
         ];
         $newitemid = $DB->insert_record('videotrack_reactev', $record);
@@ -312,11 +287,16 @@ class restore_videotrack_activity_structure_step extends restore_activity_struct
         $data = (object)$data;
         $oldid = isset($data->id) ? (int)$data->id : 0;
         $userid = isset($data->userid) ? (int)$data->userid : 0;
-        if ($userid > 0) {
-            $userid = (int)$this->get_mappingid('user', $userid, 0);
-            if ($userid <= 0) {
-                return;
-            }
+        $timecreated = isset($data->timecreated) ? (int)$data->timecreated : time();
+        if (
+            $userid <= 0
+            || !\mod_videotrack\local\privacy_manager::timestamp_is_retained($timecreated)
+        ) {
+            return;
+        }
+        $userid = (int)$this->get_mappingid('user', $userid, 0);
+        if ($userid <= 0) {
+            return;
         }
         $eventtype = isset($data->eventtype) ? clean_param($data->eventtype, PARAM_ALPHANUMEXT) : '';
         if (!in_array($eventtype, \mod_videotrack\local\integrity::EVENT_TYPES, true)) {
@@ -331,7 +311,7 @@ class restore_videotrack_activity_structure_step extends restore_activity_struct
             'sessionid' => isset($data->sessionid) ? clean_param($data->sessionid, PARAM_ALPHANUMEXT) : '',
             'eventtype' => $eventtype,
             'videotime' => isset($data->videotime) ? max(0.0, (float)$data->videotime) : 0.0,
-            'timecreated' => isset($data->timecreated) ? (int)$data->timecreated : time(),
+            'timecreated' => $timecreated,
         ];
         $newitemid = $DB->insert_record('videotrack_integrity', $record);
         if ($oldid > 0) {
@@ -350,11 +330,16 @@ class restore_videotrack_activity_structure_step extends restore_activity_struct
         $data = (object)$data;
         $oldid = isset($data->id) ? (int)$data->id : 0;
         $userid = isset($data->userid) ? (int)$data->userid : 0;
-        if ($userid > 0) {
-            $userid = (int)$this->get_mappingid('user', $userid, 0);
-            if ($userid <= 0) {
-                return;
-            }
+        $timeconfirmed = isset($data->timeconfirmed) ? (int)$data->timeconfirmed : time();
+        if (
+            $userid <= 0
+            || !\mod_videotrack\local\privacy_manager::timestamp_is_retained($timeconfirmed)
+        ) {
+            return;
+        }
+        $userid = (int)$this->get_mappingid('user', $userid, 0);
+        if ($userid <= 0) {
+            return;
         }
         $statementhash = strtolower(clean_param((string)($data->statementhash ?? ''), PARAM_ALPHANUM));
         if (strlen($statementhash) !== 64) {
@@ -371,28 +356,12 @@ class restore_videotrack_activity_structure_step extends restore_activity_struct
             'viewedpercent' => isset($data->viewedpercent)
                 ? min(100.0, max(0.0, (float)$data->viewedpercent))
                 : null,
-            'timeconfirmed' => isset($data->timeconfirmed) ? (int)$data->timeconfirmed : time(),
+            'timeconfirmed' => $timeconfirmed,
         ];
         $newitemid = $DB->insert_record('videotrack_acknowledge', $record);
         if ($oldid > 0) {
             $this->set_mapping('videotrack_acknowledge', $oldid, $newitemid, true);
         }
-    }
-
-    /**
-     * Normalise restored interval JSON before storing it again.
-     *
-     * Backup data is trusted only structurally. This keeps the Moodle restore
-     * path aligned with the runtime tracker normalisation and prevents invalid
-     * or unbounded JSON from being persisted in videotrack_state.
-     *
-     * @param mixed $json Raw value from the backup file.
-     * @return string Canonical JSON encoded interval list.
-     */
-    private static function normalise_interval_json($json): string {
-        $intervals = \mod_videotrack\local\tracker::decode_intervals(is_string($json) ? $json : '');
-        $intervals = \mod_videotrack\local\tracker::merge_intervals($intervals);
-        return \mod_videotrack\local\tracker::encode_intervals($intervals);
     }
 
     /**

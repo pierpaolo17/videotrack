@@ -1,17 +1,17 @@
 # Audit della documentazione
 
-Baseline: VideoTrack **1.6.32** (`2026060447`).
+Baseline: VideoTrack **1.6.33** (`2026060448`).
 
 ## Copertura
 
-- File non documentali inventariati: **239/239**.
-- Funzioni/metodi PHP nominati inventariati: **486**.
+- File non documentali inventariati: **240/240**.
+- Funzioni/metodi PHP nominati inventariati: **497**.
 - Callable AMD nominati rilevati e inventariati: **616**.
 - Tabelle XMLDB documentate: **7**.
 - Chiavi impostazioni sito documentate: **57**.
 - Chiavi configurazione player documentate: **128**.
 - Servizi AJAX documentati: **9**.
-- Language pack: otto pacchetti con lo stesso contratto di **962 chiavi**; i testi operativi sono tradotti, mentre termini tecnici e nomi propri possono legittimamente coincidere.
+- Language pack: otto pacchetti con lo stesso contratto di **960 chiavi**; i testi operativi sono tradotti, mentre termini tecnici e nomi propri possono legittimamente coincidere.
 - Panoramiche root: `README.md` (inglese) e `README_IT.md` (italiano).
 - Sintesi privacy root: `PRIVACY.md` e `PRIVACY_IT.md`.
 
@@ -22,6 +22,15 @@ I documenti correnti non devono contenere affermazioni di release senza indicare
 ## Audit automatici attesi
 
 Ogni release deve confrontare inventario file/albero, inventario funzioni/sorgente, chiavi e placeholder, `get_string` statici, XMLDB/backup-restore, servizi/classi, sorgenti/build AMD e link Markdown/file esistenti.
+
+## Copertura retention basata sulla cancellazione 1.6.33
+
+- La retention pianificata elimina definitivamente segmenti, interazioni, indicatori e prese visione scaduti; non conserva più pseudonimi deterministici con utente negativo né una chiave di mapping.
+- `videotrack_state` è trattato come dato personale derivato, ricostruito dai segmenti validati e dagli input di completamento ancora conservati, e rimosso quando tali input non esistono più.
+- I contatori di credito obsoleti vengono azzerati, i guard attivi e limitati vengono preservati e il completamento personalizzato Moodle viene sincronizzato con lo stato ricostruito.
+- I backup con dati utente includono soltanto record con utente positivo entro la retention del sito sorgente e omettono lo stato derivato; il restore applica la retention del sito destinazione e ricostruisce lo stato dopo il ripristino della completion del modulo.
+- La cancellazione Privacy API elimina i record learner, mentre i file condivisi dell’attività restano governati dal ciclo di vita dell’attività.
+- I test di regressione coprono dati vecchi/recenti misti, ricostruzione/rimozione dello stato, guard attivi, rimozione dei pseudonimi legacy e cancellazione utente dopo la retention.
 
 ## Copertura registro di riproduzione 1.6.32
 

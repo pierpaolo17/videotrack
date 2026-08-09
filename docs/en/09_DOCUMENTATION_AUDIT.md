@@ -1,17 +1,17 @@
 # Documentation audit
 
-Baseline: VideoTrack **1.6.32** (`2026060447`).
+Baseline: VideoTrack **1.6.33** (`2026060448`).
 
 ## Coverage
 
-- Non-documentation files inventoried: **239/239**.
-- Named PHP functions/methods inventoried: **486**.
+- Non-documentation files inventoried: **240/240**.
+- Named PHP functions/methods inventoried: **497**.
 - Named AMD callables detected and inventoried: **616**.
 - XMLDB tables documented: **7**.
 - Site-setting keys documented: **57**.
 - Player configuration keys documented: **128**.
 - AJAX services documented: **9**.
-- Language packs: eight packs with the same **962-key** contract; operational strings are translated while technical and proper terms may legitimately remain identical.
+- Language packs: eight packs with the same **960-key** contract; operational strings are translated while technical and proper terms may legitimately remain identical.
 - Root overviews: `README.md` (English) and `README_IT.md` (Italian).
 - Root privacy summaries: `PRIVACY.md` and `PRIVACY_IT.md`.
 
@@ -22,6 +22,15 @@ Current documents must not include release-specific assertions without a version
 ## Automated audit expectations
 
 A release audit must compare file inventory to the tree, function inventory to source, language key sets/placeholders, static `get_string` references, XMLDB to backup/restore, services to executable classes, AMD sources to generated assets and Markdown links to existing files.
+
+## 1.6.33 deletion-based retention coverage
+
+- Scheduled retention permanently deletes expired playback segments, interactions, integrity signals and acknowledgements; it no longer retains deterministic negative-user pseudonyms or a mapping key.
+- `videotrack_state` is treated as derived personal data, rebuilt from retained server-validated segments and retained completion inputs, and removed when no such input remains.
+- Stale playback-credit counters are cleared, active bounded guards are preserved and Moodle custom completion is synchronised with the rebuilt state.
+- User-data backups include only positive-user records inside the source retention window and omit derived state; restore applies the destination retention policy and rebuilds state after course-module completion restore.
+- Privacy API erasure removes learner rows while shared activity files remain governed by the activity lifecycle.
+- Regression tests cover mixed old/recent data, state rebuilding/deletion, active guards, legacy-pseudonym removal and post-retention user erasure.
 
 ## 1.6.32 playback-ledger coverage
 

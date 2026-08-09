@@ -1843,5 +1843,27 @@ function xmldb_videotrack_upgrade($oldversion) {
         upgrade_mod_savepoint(true, 2026060447, 'videotrack');
     }
 
+    if ($oldversion < 2026060448) {
+        // Release 1.6.33: delete legacy pseudonymous rows and retire their local key.
+        // Automated retention now deletes expired personal rows and rebuilds
+        // aggregate state from the remaining server-validated data instead.
+        foreach (
+            [
+                'videotrack_seg',
+                'videotrack_state',
+                'videotrack_reactev',
+                'videotrack_integrity',
+                'videotrack_acknowledge',
+            ] as $tablename
+        ) {
+            if ($dbman->table_exists(new xmldb_table($tablename))) {
+                $DB->delete_records_select($tablename, 'userid < 0');
+            }
+        }
+        unset_config('anonymisationsalt', 'mod_videotrack');
+
+        upgrade_mod_savepoint(true, 2026060448, 'videotrack');
+    }
+
     return true;
 }

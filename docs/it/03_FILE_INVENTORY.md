@@ -1,8 +1,8 @@
 # Inventario dei file distribuiti
 
-Questo inventario è generato sull’albero VideoTrack 1.6.32 ed elenca ogni file non documentale. Il JavaScript canonico è in `amd/src`; i file in `amd/build` sono generati.
+Questo inventario è generato sull’albero VideoTrack 1.6.33 ed elenca ogni file non documentale. Il JavaScript canonico è in `amd/src`; i file in `amd/build` sono generati.
 
-Entries: **239**.
+Entries: **240**.
 
 | File | Responsabilità |
 |---|---|
@@ -237,6 +237,7 @@ Entries: **239**.
 | `tests/integrity_test.php` | Copertura PHPUnit per integrity test. |
 | `tests/lib_test.php` | Copertura PHPUnit per lib test. |
 | `tests/locallib_test.php` | Copertura PHPUnit per locallib test. |
+| `tests/privacy_manager_test.php` | Copertura PHPUnit per retention GDPR basata sulla cancellazione, ricostruzione dello stato e cancellazione utente. |
 | `tests/save_bookmark_test.php` | Copertura PHPUnit per save bookmark test. |
 | `tests/save_integrity_event_test.php` | Copertura PHPUnit per save integrity event test. |
 | `tests/save_note_test.php` | Copertura PHPUnit per save note test. |

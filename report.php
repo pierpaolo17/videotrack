@@ -26,16 +26,16 @@ require_once(__DIR__ . '/../../config.php');
 require_once(__DIR__ . '/locallib.php');
 
 /**
- * Formats a report user label without exposing anonymised pseudo-user ids.
+ * Formats a report user label.
  *
- * @param int $userid User id, potentially an anonymised negative pseudo-id.
+ * @param int $userid Moodle user id.
  * @param array $usermap Real Moodle users keyed by id.
  * @param bool $canviewemail Whether email may be displayed.
  * @return string Safe display label.
  */
 function videotrack_report_user_label(int $userid, array $usermap, bool $canviewemail): string {
-    if ($userid < 0) {
-        return get_string('report:anonymiseduser', 'mod_videotrack');
+    if ($userid <= 0) {
+        return get_string('unknownuser');
     }
     $user = $usermap[$userid] ?? null;
     if (!$user) {

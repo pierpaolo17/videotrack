@@ -1,5 +1,5 @@
 <?php
-// This file is part of Moodle - https://moodle.org/
+// This file is part of Moodle - https://moodle.org/.
 //
 // Moodle is free software: you can redistribute it and/or modify
 // it under the terms of the GNU General Public License as published by
@@ -44,31 +44,38 @@ class cleanup_task extends \core\task\scheduled_task {
      */
     public function execute(): void {
         try {
-            $counts = privacy_manager::anonymise_expired_records();
+            $counts = privacy_manager::delete_expired_records();
         } catch (\Throwable $e) {
             mtrace(get_string('privacy_cleanup_failed', 'mod_videotrack', get_class($e)));
             throw $e;
         }
 
+        if (!empty($counts['legacy'])) {
+            mtrace(get_string('privacy_cleanup_legacy', 'mod_videotrack', $counts['legacy']));
+        }
         if (!empty($counts['skipped'])) {
             mtrace(get_string('privacy_cleanup_unlimited', 'mod_videotrack'));
             return;
         }
 
-        $message = get_string('privacy_cleanup_anonymised', 'mod_videotrack', (object) [
+        $message = get_string('privacy_cleanup_deleted', 'mod_videotrack', (object) [
             'segments' => $counts['segments'],
-            'states' => $counts['states'],
             'events' => $counts['events'],
             'integrity' => $counts['integrity'],
             'acknowledgements' => $counts['acknowledgements'],
+            'statesrebuilt' => $counts['statesrebuilt'],
+            'statesdeleted' => $counts['statesdeleted'],
             'processed' => $counts['processed'],
         ]);
-        if (!empty($counts['remaining'])) {
+        if (!empty($counts['completionerrors'])) {
             $message .= ' ' . get_string(
-                'privacy_cleanup_remaining',
+                'privacy_cleanup_completionerrors',
                 'mod_videotrack',
-                $counts['remaining']
+                $counts['completionerrors']
             );
+        }
+        if (!empty($counts['remaining'])) {
+            $message .= ' ' . get_string('privacy_cleanup_remaining', 'mod_videotrack');
         }
         mtrace($message);
     }

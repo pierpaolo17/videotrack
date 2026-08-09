@@ -1,5 +1,5 @@
 <?php
-// This file is part of Moodle - https://moodle.org/
+// This file is part of Moodle - https://moodle.org/.
 //
 // Moodle is free software: you can redistribute it and/or modify
 // it under the terms of the GNU General Public License as published by
@@ -19,24 +19,22 @@ namespace mod_videotrack\local;
 use context;
 
 /**
- * Privacy helpers for VideoTrack.
+ * Privacy and retention helpers for VideoTrack.
  *
- * User initiated erasure requests delete personal tracking data.
- * Retention cleanup may still anonymise old records when configured by admins.
+ * User erasure and automated retention both delete expired personal rows. The
+ * aggregate state is derived data and is rebuilt only from retained,
+ * server-validated segments and retained completion inputs.
  *
  * @package    mod_videotrack
  * @copyright  2026 videotrack contributors
  * @license    https://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 class privacy_manager {
-    /** Prefix used for anonymised browser session identifiers. */
-    private const ANONYMOUS_SESSION_PREFIX = 'anon-';
-
-    /** Name of the local secret used to make anonymised identifiers non-reversible. */
-    private const ANONYMISATION_SALT_CONFIG = 'anonymisationsalt';
-
     /** Maximum number of user/activity pairs processed by one retention task run. */
     private const RETENTION_BATCH_LIMIT = 500;
+
+    /** Legacy config key used by the removed deterministic pseudonymisation model. */
+    private const LEGACY_ANONYMISATION_SALT_CONFIG = 'anonymisationsalt';
 
     /**
      * Returns the configured retention period in seconds.
@@ -60,86 +58,35 @@ class privacy_manager {
     }
 
     /**
-     * Returns the local anonymisation salt, creating it on first use.
+     * Returns the current retention cutoff timestamp.
      *
-     * @return string
+     * A zero cutoff means age-based cleanup is disabled.
+     *
+     * @param int|null $now Optional deterministic clock for tests.
+     * @return int
      */
-    private static function anonymisation_salt(): string {
-        $salt = (string)get_config('mod_videotrack', self::ANONYMISATION_SALT_CONFIG);
-        if ($salt !== '') {
-            return $salt;
+    public static function retention_cutoff_timestamp(?int $now = null): int {
+        $retention = self::retention_period_seconds();
+        if ($retention <= 0) {
+            return 0;
         }
-
-        $factory = \core\lock\lock_config::get_lock_factory('mod_videotrack_anonymisation');
-        $lock = $factory->get_lock('salt', 10);
-        if (!$lock) {
-            // Do not create a salt without the lock: two concurrent requests could
-            // generate different salts and make anonymised identifiers inconsistent.
-            $salt = (string)get_config('mod_videotrack', self::ANONYMISATION_SALT_CONFIG);
-            if ($salt !== '') {
-                return $salt;
-            }
-            throw new \moodle_exception('locktimeout', 'error');
-        }
-        try {
-            // Re-read after acquiring the lock: another request may have created it.
-            $salt = (string)get_config('mod_videotrack', self::ANONYMISATION_SALT_CONFIG);
-            if ($salt !== '') {
-                return $salt;
-            }
-
-            try {
-                $salt = bin2hex(random_bytes(32));
-            } catch (\Throwable $e) {
-                if (function_exists('random_string')) {
-                    $salt = random_string(64);
-                } else {
-                    throw new \moodle_exception('error:securetokenunavailable', 'mod_videotrack');
-                }
-            }
-            set_config(self::ANONYMISATION_SALT_CONFIG, $salt, 'mod_videotrack');
-            return $salt;
-        } finally {
-            if ($lock) {
-                $lock->release();
-            }
-        }
+        return max(0, ($now ?? time()) - $retention);
     }
 
     /**
-     * Builds a stable negative user id with collisions that are extremely unlikely in normal Moodle use.
+     * Returns whether a timestamp is inside the currently retained window.
      *
-     * The mapping is salted at site level. It is a deterministic pseudonymous key
-     * used only to preserve aggregate analytics after erasure requests.
-     *
-     * @param int $userid Real user id.
-     * @param int $cmid Course module id. Scopes the pseudonymous id to one activity.
-     * @return int Anonymous user id.
+     * @param int $timestamp Record timestamp.
+     * @param int|null $now Optional deterministic clock for tests.
+     * @return bool
      */
-    public static function anonymous_userid(int $userid, int $cmid): int {
-        $hash = hash('sha256', self::anonymisation_salt() . ':' . $userid . ':' . $cmid . ':userid');
-        // Use a wide signed-int safe range to make collisions negligible even on large sites.
-        $bucket = hexdec(substr($hash, 0, 15)) % 2000000000;
-        return -1 * (100000000 + $bucket);
-    }
-
-    /**
-     * Builds a deterministic non-identifying session id.
-     *
-     * @param int $userid Real user id.
-     * @param int $cmid Course module id.
-     * @return string
-     */
-    private static function anonymous_sessionid(int $userid, int $cmid): string {
-        $hash = hash('sha256', self::anonymisation_salt() . ':' . $userid . ':' . $cmid . ':sessionid');
-        return self::ANONYMOUS_SESSION_PREFIX . substr($hash, 0, 59);
+    public static function timestamp_is_retained(int $timestamp, ?int $now = null): bool {
+        $cutoff = self::retention_cutoff_timestamp($now);
+        return $cutoff === 0 || $timestamp >= $cutoff;
     }
 
     /**
      * Permanently deletes all personal tracking records for one user in one module context.
-     *
-     * This is used for Moodle Privacy API erasure requests (GDPR Art. 17). Unlike
-     * retention cleanup, it does not preserve aggregate rows with pseudonymous ids.
      *
      * @param context $context Moodle context.
      * @param int $userid Real user id.
@@ -192,209 +139,62 @@ class privacy_manager {
             throw $e;
         }
 
-        // Context-level erasure removes shared plugin files as well (for example
-        // teacher-uploaded reaction icons, poster images, subtitles and uploaded videos).
-        // Per-user erasure intentionally does not delete these shared activity files.
-        // File operations are outside the delegated transaction because Moodle file
-        // storage is not rolled back together with database writes.
-        get_file_storage()->delete_area_files($context->id, 'mod_videotrack');
+        // Activity configuration files (source video, poster, captions and icons)
+        // are not learner records. They remain attached to the activity and are
+        // removed by the normal activity-deletion lifecycle, not by a user-data
+        // erasure request.
     }
 
     /**
-     * Anonymises all personal tracking records for one user in one module context.
+     * Deletes expired personal rows and rebuilds derived state from retained data.
      *
-     * @param context $context Moodle context.
-     * @param int $userid Real user id.
+     * The task intentionally does not keep pseudonymous copies. Analytics after
+     * cleanup therefore represent only the configured retention window.
+     *
+     * @param int|null $now Optional deterministic clock for tests.
+     * @return array Counts grouped by operation.
      */
-    public static function anonymise_user_in_context(context $context, int $userid): void {
-        if ($context->contextlevel != CONTEXT_MODULE || $userid <= 0) {
-            return;
-        }
-
-        self::anonymise_user_records($userid, (int)$context->instanceid);
-    }
-
-    /**
-     * Anonymises all real users' tracking records in one module context.
-     *
-     * This helper is reserved for explicit retention/anonymisation workflows.
-     * Privacy API erasure paths delete personal tracking rows through the provider.
-     *
-     * @param context $context Moodle context.
-     */
-    public static function anonymise_all_users_in_context(context $context): void {
+    public static function delete_expired_records(?int $now = null): array {
         global $DB;
 
-        if ($context->contextlevel != CONTEXT_MODULE) {
-            return;
-        }
-
-        $cmid = (int)$context->instanceid;
-        $sql = "SELECT DISTINCT userid
-                  FROM {videotrack_seg}
-                 WHERE cmid = :segcmid AND userid > 0
-                 UNION
-                SELECT DISTINCT userid
-                  FROM {videotrack_state}
-                 WHERE cmid = :statecmid AND userid > 0
-                 UNION
-                SELECT DISTINCT userid
-                  FROM {videotrack_reactev}
-                 WHERE cmid = :eventcmid AND userid > 0
-                 UNION
-                SELECT DISTINCT userid
-                  FROM {videotrack_integrity}
-                 WHERE cmid = :integritycmid AND userid > 0
-                 UNION
-                SELECT DISTINCT userid
-                  FROM {videotrack_acknowledge}
-                 WHERE cmid = :ackcmid AND userid > 0";
-        $records = $DB->get_recordset_sql($sql, [
-            'segcmid' => $cmid,
-            'statecmid' => $cmid,
-            'eventcmid' => $cmid,
-            'integritycmid' => $cmid,
-            'ackcmid' => $cmid,
-        ]);
-        $userids = [];
-        foreach ($records as $record) {
-            $userids[(int)$record->userid] = true;
-        }
-        $records->close();
-
-        foreach (array_keys($userids) as $userid) {
-            self::anonymise_user_records((int)$userid, $cmid);
-        }
-    }
-
-    /**
-     * Anonymises one user's records for a course module.
-     *
-     * @param int $userid Real user id.
-     * @param int $cmid Course module id.
-     */
-    private static function anonymise_user_records(int $userid, int $cmid): void {
-        global $DB;
-
-        if ($userid <= 0) {
-            return;
-        }
-
-        $transaction = $DB->start_delegated_transaction();
-        try {
-            $anonuserid = self::anonymous_userid($userid, $cmid);
-            $sessionid = self::anonymous_sessionid($userid, $cmid);
-            $notetext = get_string('privacy:anonymised', 'mod_videotrack');
-
-            $params = [
-                'anonuserid' => $anonuserid,
-                'sessionid' => $sessionid,
-                'cmid' => $cmid,
-                'userid' => $userid,
-            ];
-
-            $DB->execute(
-                "UPDATE {videotrack_seg}
-                    SET userid = :anonuserid, sessionid = :sessionid
-                  WHERE cmid = :cmid AND userid = :userid",
-                $params
-            );
-
-            self::anonymise_state_rows($userid, $cmid);
-
-            $eventparams = $params + [
-                'notetext' => $notetext,
-                'reactionlabel' => get_string('privacy:anonymisedreaction', 'mod_videotrack'),
-            ];
-            $DB->execute(
-                "UPDATE {videotrack_reactev}
-                    SET userid = :anonuserid, sessionid = :sessionid,
-                        videotime = 0, playbackrate = 1, reactionlabel = :reactionlabel, reactiondesc = '',
-                        notetext = CASE WHEN notetype IN ('note', 'bookmark') THEN :notetext ELSE notetext END
-                  WHERE cmid = :cmid AND userid = :userid",
-                $eventparams
-            );
-            $DB->execute(
-                "UPDATE {videotrack_integrity}
-                    SET userid = :anonuserid, sessionid = :sessionid, videotime = 0
-                  WHERE cmid = :cmid AND userid = :userid",
-                $params
-            );
-            $DB->execute(
-                "UPDATE {videotrack_acknowledge}
-                    SET userid = :anonuserid
-                  WHERE cmid = :cmid AND userid = :userid",
-                $params
-            );
-
-            $transaction->allow_commit();
-        } catch (\Throwable $e) {
-            debugging(
-                'mod_videotrack anonymisation failed for cmid ' . $cmid . ' (' . get_class($e) . ')',
-                DEBUG_DEVELOPER
-            );
-            $transaction->rollback($e);
-            // Rollback() already rethrows in Moodle; keep an explicit throw for
-            // clarity and for future compatibility with transaction handling.
-            throw $e;
-        }
-    }
-
-    /**
-     * Anonymises old records according to the configured retention period.
-     *
-     * This is intentionally anonymisation, not deletion: aggregate analytics remain
-     * available while the relation to the real user, personal notes and bookmark labels are removed.
-     * If retention is 0, nothing is changed.
-     *
-     * @return array Counts grouped by table.
-     */
-    public static function anonymise_expired_records(): array {
-        global $DB;
-
-        $retention = self::retention_period_seconds();
-        if ($retention <= 0) {
-            return [
-                'segments' => 0,
-                'states' => 0,
-                'events' => 0,
-                'integrity' => 0,
-                'acknowledgements' => 0,
-                'skipped' => 1,
-                'processed' => 0,
-                'remaining' => 0,
-            ];
-        }
-
-        $cutoff = time() - $retention;
+        $now = $now ?? time();
         $counts = [
             'segments' => 0,
-            'states' => 0,
             'events' => 0,
             'integrity' => 0,
             'acknowledgements' => 0,
-            'skipped' => 0,
+            'statesrebuilt' => 0,
+            'statesdeleted' => 0,
+            'legacy' => self::delete_legacy_pseudonymous_records(),
             'processed' => 0,
             'remaining' => 0,
+            'completionerrors' => 0,
+            'skipped' => 0,
         ];
 
-        $sql = "SELECT DISTINCT userid, cmid
+        $cutoff = self::retention_cutoff_timestamp($now);
+        if ($cutoff <= 0) {
+            $counts['skipped'] = 1;
+            return $counts;
+        }
+
+        $sql = "SELECT DISTINCT userid, cmid, videotrackid
                   FROM {videotrack_seg}
                  WHERE userid > 0 AND timecreated < :segcutoff
                  UNION
-                SELECT DISTINCT userid, cmid
+                SELECT DISTINCT userid, cmid, videotrackid
                   FROM {videotrack_reactev}
                  WHERE userid > 0 AND timecreated < :eventcutoff
                  UNION
-                SELECT DISTINCT userid, cmid
+                SELECT DISTINCT userid, cmid, videotrackid
                   FROM {videotrack_state}
-                 WHERE userid > 0 AND timemodified < :statecutoff
+                 WHERE userid > 0 AND timecreated < :statecutoff
                  UNION
-                SELECT DISTINCT userid, cmid
+                SELECT DISTINCT userid, cmid, videotrackid
                   FROM {videotrack_integrity}
                  WHERE userid > 0 AND timecreated < :integritycutoff
                  UNION
-                SELECT DISTINCT userid, cmid
+                SELECT DISTINCT userid, cmid, videotrackid
                   FROM {videotrack_acknowledge}
                  WHERE userid > 0 AND timeconfirmed < :ackcutoff";
         $params = [
@@ -412,227 +212,381 @@ class privacy_manager {
                 $counts['remaining'] = 1;
                 break;
             }
-            $key = (int)$record->userid . ':' . (int)$record->cmid;
-            $pairs[$key] = [(int)$record->userid, (int)$record->cmid];
+            $key = implode(':', [
+                (int)$record->videotrackid,
+                (int)$record->userid,
+                (int)$record->cmid,
+            ]);
+            $pairs[$key] = [
+                (int)$record->videotrackid,
+                (int)$record->userid,
+                (int)$record->cmid,
+            ];
         }
         $records->close();
 
-        foreach ($pairs as $pair) {
-            self::anonymise_old_user_rows($pair[0], $pair[1], $cutoff, $counts);
-            $counts['processed']++;
+        foreach ($pairs as [$videotrackid, $userid, $cmid]) {
+            if (self::delete_expired_pair($videotrackid, $userid, $cmid, $cutoff, $now, $counts)) {
+                $counts['processed']++;
+            } else {
+                $counts['remaining'] = 1;
+            }
         }
 
         return $counts;
     }
 
     /**
-     * Anonymises old rows for one user/module pair.
+     * Deletes legacy negative-user rows created by releases before 1.6.33.
      *
-     * @param int $userid Real user id.
-     * @param int $cmid Course module id.
-     * @param int $cutoff Unix timestamp.
-     * @param array $counts Running counts.
+     * @return int Number of deleted rows.
      */
-    private static function anonymise_old_user_rows(int $userid, int $cmid, int $cutoff, array &$counts): void {
+    private static function delete_legacy_pseudonymous_records(): int {
         global $DB;
 
-        if ($userid <= 0) {
-            return;
-        }
-
+        $count = 0;
         $transaction = $DB->start_delegated_transaction();
-        $anonuserid = self::anonymous_userid($userid, $cmid);
-        $sessionid = self::anonymous_sessionid($userid, $cmid);
-        $notetext = get_string('privacy:anonymised', 'mod_videotrack');
+        try {
+            foreach (
+                [
+                    'videotrack_seg',
+                    'videotrack_state',
+                    'videotrack_reactev',
+                    'videotrack_integrity',
+                    'videotrack_acknowledge',
+                ] as $table
+            ) {
+                $count += $DB->count_records_select($table, 'userid < 0');
+                $DB->delete_records_select($table, 'userid < 0');
+            }
+            $transaction->allow_commit();
+        } catch (\Throwable $e) {
+            $transaction->rollback($e);
+            throw $e;
+        }
 
-        $counts['segments'] += $DB->count_records_select(
-            'videotrack_seg',
-            'cmid = ? AND userid = ? AND timecreated < ?',
-            [$cmid, $userid, $cutoff]
-        );
-        $DB->execute(
-            "UPDATE {videotrack_seg}
-                SET userid = :anonuserid, sessionid = :sessionid
-              WHERE cmid = :cmid AND userid = :userid AND timecreated < :cutoff",
-            [
-                'anonuserid' => $anonuserid,
-                'sessionid' => $sessionid,
-                'cmid' => $cmid,
-                'userid' => $userid,
-                'cutoff' => $cutoff,
-            ]
-        );
-
-        $counts['states'] += $DB->count_records_select(
-            'videotrack_state',
-            'cmid = ? AND userid = ? AND timemodified < ?',
-            [$cmid, $userid, $cutoff]
-        );
-        self::anonymise_state_rows($userid, $cmid, $cutoff);
-
-        $counts['events'] += $DB->count_records_select(
-            'videotrack_reactev',
-            'cmid = ? AND userid = ? AND timecreated < ?',
-            [$cmid, $userid, $cutoff]
-        );
-        $DB->execute(
-            "UPDATE {videotrack_reactev}
-                SET userid = :anonuserid, sessionid = :sessionid,
-                    videotime = 0, playbackrate = 1, reactionlabel = :reactionlabel, reactiondesc = '',
-                    notetext = CASE WHEN notetype IN ('note', 'bookmark') THEN :notetext ELSE notetext END
-              WHERE cmid = :cmid AND userid = :userid AND timecreated < :cutoff",
-            [
-                'anonuserid' => $anonuserid,
-                'sessionid' => $sessionid,
-                'notetext' => $notetext,
-                'reactionlabel' => get_string('privacy:anonymisedreaction', 'mod_videotrack'),
-                'cmid' => $cmid,
-                'userid' => $userid,
-                'cutoff' => $cutoff,
-            ]
-        );
-
-        $counts['integrity'] += $DB->count_records_select(
-            'videotrack_integrity',
-            'cmid = ? AND userid = ? AND timecreated < ?',
-            [$cmid, $userid, $cutoff]
-        );
-        $DB->execute(
-            "UPDATE {videotrack_integrity}
-                SET userid = :anonuserid, sessionid = :sessionid, videotime = 0
-              WHERE cmid = :cmid AND userid = :userid AND timecreated < :cutoff",
-            [
-                'anonuserid' => $anonuserid,
-                'sessionid' => $sessionid,
-                'cmid' => $cmid,
-                'userid' => $userid,
-                'cutoff' => $cutoff,
-            ]
-        );
-
-        // Acknowledgement records are audit-like personal data and are deleted, not pseudonymised, after retention.
-        $counts['acknowledgements'] += $DB->count_records_select(
-            'videotrack_acknowledge',
-            'cmid = ? AND userid = ? AND timeconfirmed < ?',
-            [$cmid, $userid, $cutoff]
-        );
-        $DB->delete_records_select(
-            'videotrack_acknowledge',
-            'cmid = ? AND userid = ? AND timeconfirmed < ?',
-            [$cmid, $userid, $cutoff]
-        );
-
-        $transaction->allow_commit();
+        unset_config(self::LEGACY_ANONYMISATION_SALT_CONFIG, 'mod_videotrack');
+        return $count;
     }
 
     /**
-     * Anonymises state rows and safely merges with an existing anonymous state row.
+     * Deletes expired rows and rebuilds one user's derived state atomically.
      *
-     * The state table has a unique index on (videotrackid, userid). If the same
-     * user is anonymised more than once, or if partial retention already created an
-     * anonymous row, a plain UPDATE can violate that index. This method merges the
-     * real row into the anonymous row before deleting only the now-duplicate state
-     * row.
-     *
-     * @param int $userid Real user id.
+     * @param int $videotrackid Activity id.
+     * @param int $userid User id.
      * @param int $cmid Course module id.
-     * @param int|null $cutoff Optional timemodified cutoff for retention task.
+     * @param int $cutoff Retention cutoff.
+     * @param int $now Current task timestamp.
+     * @param array $counts Running counters.
+     * @return bool Whether the pair was processed.
      */
-    private static function anonymise_state_rows(int $userid, int $cmid, ?int $cutoff = null): void {
+    private static function delete_expired_pair(
+        int $videotrackid,
+        int $userid,
+        int $cmid,
+        int $cutoff,
+        int $now,
+        array &$counts
+    ): bool {
         global $DB;
 
-        $select = 'cmid = :cmid AND userid = :userid';
-        $params = ['cmid' => $cmid, 'userid' => $userid];
-        if ($cutoff !== null) {
-            $select .= ' AND timemodified < :cutoff';
-            $params['cutoff'] = $cutoff;
+        if ($videotrackid <= 0 || $userid <= 0 || $cmid <= 0) {
+            return true;
         }
 
-        $records = $DB->get_records_select('videotrack_state', $select, $params);
-        foreach ($records as $record) {
-            self::anonymise_one_state_row($record);
+        $lockfactory = \core\lock\lock_config::get_lock_factory('mod_videotrack');
+        $lock = $lockfactory->get_lock('state:' . $videotrackid . ':' . $userid, 10);
+        if (!$lock) {
+            return false;
         }
+
+        $completionpayload = null;
+        $transaction = $DB->start_delegated_transaction();
+        try {
+            $counts['segments'] += self::count_and_delete(
+                'videotrack_seg',
+                'videotrackid = ? AND userid = ? AND cmid = ? AND timecreated < ?',
+                [$videotrackid, $userid, $cmid, $cutoff]
+            );
+            $counts['events'] += self::count_and_delete(
+                'videotrack_reactev',
+                'videotrackid = ? AND userid = ? AND cmid = ? AND timecreated < ?',
+                [$videotrackid, $userid, $cmid, $cutoff]
+            );
+            $counts['integrity'] += self::count_and_delete(
+                'videotrack_integrity',
+                'videotrackid = ? AND userid = ? AND cmid = ? AND timecreated < ?',
+                [$videotrackid, $userid, $cmid, $cutoff]
+            );
+            $counts['acknowledgements'] += self::count_and_delete(
+                'videotrack_acknowledge',
+                'videotrackid = ? AND userid = ? AND cmid = ? AND timeconfirmed < ?',
+                [$videotrackid, $userid, $cmid, $cutoff]
+            );
+            tracker::invalidate_reactioncountscache($videotrackid, $userid);
+
+            $activity = self::load_activity($videotrackid, $cmid);
+            if ($activity === null) {
+                $counts['statesdeleted'] += self::delete_state($videotrackid, $userid, $cmid);
+            } elseif (self::has_retained_state_inputs($videotrackid, $userid)) {
+                [$videotrack, $cm, $course] = $activity;
+                $state = tracker::rebuild_state_from_segments($videotrack, $cm, $userid, true);
+                if ($state === null) {
+                    throw new \coding_exception('State rebuild unexpectedly failed while the retention lock was held.');
+                }
+
+                if (!self::server_guard_is_recent($state, $now)) {
+                    $state->serverlastactivity = 0;
+                    $state->serverbudgetseconds = 0.0;
+                    $state->servercreditedseconds = 0.0;
+                }
+                $state->timecreated = self::earliest_retained_timestamp(
+                    $videotrackid,
+                    $userid,
+                    $cmid,
+                    $now
+                );
+                $state->timemodified = $now;
+                $DB->update_record('videotrack_state', $state);
+                $counts['statesrebuilt']++;
+                $completionpayload = [$videotrack, $cm, $course, !empty($state->iscompleted)];
+            } else {
+                $counts['statesdeleted'] += self::delete_state($videotrackid, $userid, $cmid);
+                [$videotrack, $cm, $course] = $activity;
+                $completionpayload = [$videotrack, $cm, $course, false];
+            }
+
+            $transaction->allow_commit();
+        } catch (\Throwable $e) {
+            try {
+                $transaction->rollback($e);
+            } finally {
+                $lock->release();
+            }
+            throw $e;
+        }
+
+        if ($completionpayload !== null) {
+            try {
+                [$videotrack, $cm, $course, $iscompleted] = $completionpayload;
+                self::synchronise_completion($videotrack, $cm, $course, $iscompleted, $userid);
+            } catch (\Throwable $e) {
+                $counts['completionerrors']++;
+                debugging(
+                    'VideoTrack retention could not synchronise completion for activity ' .
+                    $videotrackid . ', user ' . $userid . ' (' . get_class($e) . ')',
+                    DEBUG_DEVELOPER
+                );
+            }
+        }
+
+        $lock->release();
+        return true;
     }
 
     /**
-     * Anonymises a single state row, merging on unique-key collision.
+     * Returns whether the runtime playback guard belongs to a currently active window.
      *
-     * @param \stdClass $record Existing real-user state row.
+     * Retention must clear stale credit after rebuilding historical state, but it
+     * should not interrupt a learner whose current playback request is still inside
+     * one bounded heartbeat window.
+     *
+     * @param \stdClass $state Rebuilt state record.
+     * @param int $now Current task timestamp.
+     * @return bool
      */
-    private static function anonymise_one_state_row(\stdClass $record): void {
+    private static function server_guard_is_recent(\stdClass $state, int $now): bool {
+        $lastactivity = (int)($state->serverlastactivity ?? 0);
+        if ($lastactivity <= 0) {
+            return false;
+        }
+
+        $configured = get_config('mod_videotrack', 'heartbeatinterval');
+        $heartbeat = ($configured === false || $configured === null || $configured === '')
+            ? 30
+            : (int)$configured;
+        $heartbeat = max(5, min(300, $heartbeat));
+        $oldestaccepted = max(0, ($now - $heartbeat - 10) * 1000);
+        return $lastactivity >= $oldestaccepted;
+    }
+
+    /**
+     * Counts and deletes matching records.
+     *
+     * @param string $table Table name.
+     * @param string $select DML select clause.
+     * @param array $params DML parameters.
+     * @return int Deleted row count.
+     */
+    private static function count_and_delete(string $table, string $select, array $params): int {
         global $DB;
 
-        $anonuserid = self::anonymous_userid((int)$record->userid, (int)$record->cmid);
-        $existing = $DB->get_record('videotrack_state', [
-            'videotrackid' => $record->videotrackid,
-            'userid' => $anonuserid,
-        ]);
+        $count = $DB->count_records_select($table, $select, $params);
+        if ($count > 0) {
+            $DB->delete_records_select($table, $select, $params);
+        }
+        return $count;
+    }
 
-        if (!$existing) {
-            $DB->set_field('videotrack_state', 'userid', $anonuserid, ['id' => $record->id]);
+    /**
+     * Loads the activity, cm_info and course required to rebuild state.
+     *
+     * @param int $videotrackid Activity id.
+     * @param int $cmid Course module id.
+     * @return array|null [activity, cm_info, course] or null when inconsistent.
+     */
+    private static function load_activity(int $videotrackid, int $cmid): ?array {
+        global $DB;
+
+        $cmrecord = get_coursemodule_from_id('videotrack', $cmid, 0, false, IGNORE_MISSING);
+        if (!$cmrecord || (int)$cmrecord->instance !== $videotrackid) {
+            return null;
+        }
+        $videotrack = $DB->get_record('videotrack', [
+            'id' => $videotrackid,
+            'course' => (int)$cmrecord->course,
+        ]);
+        if (!$videotrack) {
+            return null;
+        }
+        $course = get_course((int)$cmrecord->course);
+        $cm = get_fast_modinfo($course)->get_cm($cmid);
+        return [$videotrack, $cm, $course];
+    }
+
+    /**
+     * Returns whether retained rows can contribute to aggregate state/completion.
+     *
+     * @param int $videotrackid Activity id.
+     * @param int $userid User id.
+     * @return bool
+     */
+    private static function has_retained_state_inputs(int $videotrackid, int $userid): bool {
+        global $DB;
+
+        if ($DB->record_exists('videotrack_seg', [
+            'videotrackid' => $videotrackid,
+            'userid' => $userid,
+            'servervalidated' => 1,
+        ])) {
+            return true;
+        }
+        if ($DB->record_exists_select(
+            'videotrack_reactev',
+            "videotrackid = :videotrackid AND userid = :userid AND isdeleted = 0
+                  AND reactionid > 0 AND (notetype = '' OR notetype IS NULL)",
+            ['videotrackid' => $videotrackid, 'userid' => $userid]
+        )) {
+            return true;
+        }
+        return $DB->record_exists('videotrack_acknowledge', [
+            'videotrackid' => $videotrackid,
+            'userid' => $userid,
+        ]);
+    }
+
+    /**
+     * Returns the earliest retained timestamp across all personal data families.
+     *
+     * @param int $videotrackid Activity id.
+     * @param int $userid User id.
+     * @param int $cmid Course module id.
+     * @param int $fallback Fallback timestamp.
+     * @return int
+     */
+    private static function earliest_retained_timestamp(
+        int $videotrackid,
+        int $userid,
+        int $cmid,
+        int $fallback
+    ): int {
+        global $DB;
+
+        $timestamps = [];
+        foreach (
+            [
+                ['videotrack_seg', 'timecreated'],
+                ['videotrack_reactev', 'timecreated'],
+                ['videotrack_integrity', 'timecreated'],
+                ['videotrack_acknowledge', 'timeconfirmed'],
+            ] as [$table, $field]
+        ) {
+            $value = $DB->get_field_sql(
+                "SELECT MIN({$field})
+                   FROM {{$table}}
+                  WHERE videotrackid = :videotrackid AND userid = :userid AND cmid = :cmid",
+                [
+                    'videotrackid' => $videotrackid,
+                    'userid' => $userid,
+                    'cmid' => $cmid,
+                ]
+            );
+            if ($value !== false && (int)$value > 0) {
+                $timestamps[] = (int)$value;
+            }
+        }
+        return $timestamps ? min($timestamps) : $fallback;
+    }
+
+    /**
+     * Deletes one derived state row.
+     *
+     * @param int $videotrackid Activity id.
+     * @param int $userid User id.
+     * @param int $cmid Course module id.
+     * @return int Number of deleted rows.
+     */
+    private static function delete_state(int $videotrackid, int $userid, int $cmid): int {
+        global $DB;
+
+        $params = [
+            'videotrackid' => $videotrackid,
+            'userid' => $userid,
+            'cmid' => $cmid,
+        ];
+        $count = $DB->count_records('videotrack_state', $params);
+        if ($count > 0) {
+            $DB->delete_records('videotrack_state', $params);
+        }
+        return $count;
+    }
+
+    /**
+     * Synchronises custom Moodle completion after retention changed its inputs.
+     *
+     * @param \stdClass $videotrack Activity instance.
+     * @param \cm_info $cm Course module info.
+     * @param \stdClass $course Course record.
+     * @param bool $iscompleted Rebuilt VideoTrack completion state.
+     * @param int $userid User id.
+     */
+    private static function synchronise_completion(
+        \stdClass $videotrack,
+        \cm_info $cm,
+        \stdClass $course,
+        bool $iscompleted,
+        int $userid
+    ): void {
+        global $DB;
+
+        if ((int)$cm->completion !== COMPLETION_TRACKING_AUTOMATIC) {
+            return;
+        }
+        $hasrequiredreactions = $DB->record_exists('videotrack_react', [
+            'videotrackid' => (int)$videotrack->id,
+            'requiredforcompletion' => 1,
+            'isdeleted' => 0,
+        ]);
+        $hascustomcompletion = !empty($videotrack->completionpercent)
+            || (!empty($videotrack->reactionsrequired) && !empty($videotrack->minreactions))
+            || !empty($videotrack->requireallreactiontypes)
+            || !empty($videotrack->completionacknowledgement)
+            || $hasrequiredreactions;
+        if (!$hascustomcompletion) {
             return;
         }
 
-        $existing->lastposition = max((float)$existing->lastposition, (float)$record->lastposition);
-        $existing->durationseconds = max((float)$existing->durationseconds, (float)$record->durationseconds);
-        $existing->uniquecoveredseconds = max(
-            (float)$existing->uniquecoveredseconds,
-            (float)$record->uniquecoveredseconds
-        );
-        $existing->completionpercent = max((float)$existing->completionpercent, (float)$record->completionpercent);
-        $existing->iscompleted = !empty($existing->iscompleted) || !empty($record->iscompleted) ? 1 : 0;
-        $existing->timecreated = min((int)$existing->timecreated, (int)$record->timecreated);
-        $existing->timemodified = max((int)$existing->timemodified, (int)$record->timemodified);
-        $existing->intervaljson = self::merge_interval_json((string)$existing->intervaljson, (string)$record->intervaljson);
-
-        $DB->update_record('videotrack_state', $existing);
-        $DB->delete_records('videotrack_state', ['id' => $record->id]);
-    }
-
-    /**
-     * Merges two JSON interval lists.
-     *
-     * @param string $left First JSON interval list.
-     * @param string $right Second JSON interval list.
-     * @return string Merged JSON interval list.
-     */
-    private static function merge_interval_json(string $left, string $right): string {
-        $intervals = [];
-        foreach ([$left, $right] as $json) {
-            $decoded = json_decode($json, true);
-            if (!is_array($decoded)) {
-                continue;
-            }
-            foreach ($decoded as $interval) {
-                if (!is_array($interval) || count($interval) < 2) {
-                    continue;
-                }
-                $start = (float)$interval[0];
-                $end = (float)$interval[1];
-                if ($end > $start) {
-                    $intervals[] = [$start, $end];
-                }
-            }
-        }
-
-        if (!$intervals) {
-            return '[]';
-        }
-
-        usort($intervals, static function (array $a, array $b): int {
-            return $a[0] <=> $b[0];
-        });
-
-        $merged = [];
-        foreach ($intervals as $interval) {
-            if (!$merged || $interval[0] > $merged[count($merged) - 1][1]) {
-                $merged[] = $interval;
-                continue;
-            }
-            $merged[count($merged) - 1][1] = max($merged[count($merged) - 1][1], $interval[1]);
-        }
-
-        $json = json_encode($merged);
-        return $json === false ? '[]' : $json;
+        $completion = new \completion_info($course);
+        tracker::update_moodle_completion_if_changed($completion, $cm, $iscompleted, $userid);
     }
 }

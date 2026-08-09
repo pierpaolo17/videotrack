@@ -23,8 +23,6 @@ use core_external\external_value;
 use core_external\external_warnings;
 use mod_videotrack\local\tracker;
 
-defined('MOODLE_INTERNAL') || die();
-
 /**
  * Opens a server-authoritative playback-credit window.
  *

@@ -33,6 +33,7 @@ class backup_videotrack_activity_structure_step extends backup_activity_structur
      */
     protected function define_structure() {
         $userinfo = $this->get_setting_value('userinfo');
+        $retentioncutoff = \mod_videotrack\local\privacy_manager::retention_cutoff_timestamp();
 
         $videotrack = new backup_nested_element('videotrack', ['id'], [
             'name', 'intro', 'introformat', 'youtubeurl', 'videoid',
@@ -69,12 +70,6 @@ class backup_videotrack_activity_structure_step extends backup_activity_structur
             'videotimestart', 'videotimeend', 'playbackrate', 'endreason', 'servervalidated', 'timecreated',
         ]);
 
-        $states = new backup_nested_element('states');
-        $state = new backup_nested_element('state', ['id'], [
-            'userid', 'videoid', 'lastposition', 'durationseconds', 'uniquecoveredseconds',
-            'completionpercent', 'intervaljson', 'iscompleted', 'timemodified', 'timecreated',
-        ]);
-
         $reactionevents = new backup_nested_element('reactionevents');
         $reactionevent = new backup_nested_element('reactionevent', ['id'], [
             'userid', 'videoid', 'sessionid', 'reactionid', 'reactionkey', 'reactionlabel',
@@ -98,8 +93,6 @@ class backup_videotrack_activity_structure_step extends backup_activity_structur
         if ($userinfo) {
             $videotrack->add_child($segments);
             $segments->add_child($segment);
-            $videotrack->add_child($states);
-            $states->add_child($state);
             $videotrack->add_child($reactionevents);
             $reactionevents->add_child($reactionevent);
             $videotrack->add_child($integrityevents);
@@ -115,21 +108,49 @@ class backup_videotrack_activity_structure_step extends backup_activity_structur
         $reaction->set_source_table('videotrack_react', ['videotrackid' => backup::VAR_PARENTID]);
 
         if ($userinfo) {
-            $segment->set_source_table('videotrack_seg', ['videotrackid' => backup::VAR_PARENTID]);
+            $retentionparams = [
+                'videotrackid' => backup::VAR_PARENTID,
+                'cutoff' => backup_helper::is_sqlparam($retentioncutoff),
+            ];
+            $segment->set_source_sql(
+                "SELECT *
+                   FROM {videotrack_seg}
+                  WHERE videotrackid = :videotrackid
+                    AND userid > 0
+                    AND timecreated >= :cutoff",
+                $retentionparams
+            );
             $segment->annotate_ids('user', 'userid');
 
-            $state->set_source_table('videotrack_state', ['videotrackid' => backup::VAR_PARENTID]);
-            $state->annotate_ids('user', 'userid');
-
-            $reactionevent->set_source_table('videotrack_reactev', ['videotrackid' => backup::VAR_PARENTID]);
+            // Aggregate state is derived and is intentionally not backed up. Restore
+            // rebuilds it from retained server-validated segments and completion inputs.
+            $reactionevent->set_source_sql(
+                "SELECT *
+                   FROM {videotrack_reactev}
+                  WHERE videotrackid = :videotrackid
+                    AND userid > 0
+                    AND timecreated >= :cutoff",
+                $retentionparams
+            );
             $reactionevent->annotate_ids('user', 'userid');
 
-            $integrityevent->set_source_table('videotrack_integrity', ['videotrackid' => backup::VAR_PARENTID]);
+            $integrityevent->set_source_sql(
+                "SELECT *
+                   FROM {videotrack_integrity}
+                  WHERE videotrackid = :videotrackid
+                    AND userid > 0
+                    AND timecreated >= :cutoff",
+                $retentionparams
+            );
             $integrityevent->annotate_ids('user', 'userid');
 
-            $acknowledgement->set_source_table(
-                'videotrack_acknowledge',
-                ['videotrackid' => backup::VAR_PARENTID]
+            $acknowledgement->set_source_sql(
+                "SELECT *
+                   FROM {videotrack_acknowledge}
+                  WHERE videotrackid = :videotrackid
+                    AND userid > 0
+                    AND timeconfirmed >= :cutoff",
+                $retentionparams
             );
             $acknowledgement->annotate_ids('user', 'userid');
         }
