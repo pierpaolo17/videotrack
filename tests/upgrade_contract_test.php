@@ -79,7 +79,7 @@ final class upgrade_contract_test extends advanced_testcase {
         $this->assertStringContainsString('$dbman->field_exists($table, $field)', $repairsource);
         $this->assertStringContainsString('$dbman->index_exists($table, $index)', $repairsource);
         $this->assertStringNotContainsString(
-            "$dbman->field_exists(new xmldb_table('videotrack_progress')",
+            '$dbman->field_exists(new xmldb_table(\'videotrack_progress\')',
             $upgradesource
         );
     }
