@@ -69,4 +69,28 @@ final class upgrade_contract_test extends advanced_testcase {
         $this->assertStringContainsString("delete_records_select('grade_grades'", $source);
         $this->assertStringContainsString("delete_records_select('grade_items'", $source);
     }
+
+    /**
+     * Fresh installs and 1.6.36 upgrades must repair stale VideoTrack gradebook rows.
+     */
+    public function test_preproduction_gradebook_repair_covers_install_and_upgrade(): void {
+        global $CFG;
+
+        $installsource = file_get_contents($CFG->dirroot . '/mod/videotrack/db/install.php');
+        $upgradesource = file_get_contents($CFG->dirroot . '/mod/videotrack/db/upgrade.php');
+        $repairsource = file_get_contents($CFG->dirroot . '/mod/videotrack/db/repairlib.php');
+        $this->assertIsString($installsource);
+        $this->assertIsString($upgradesource);
+        $this->assertIsString($repairsource);
+
+        $this->assertStringContainsString('videotrack_repair_preproduction_gradebook_rows();', $installsource);
+        $this->assertStringContainsString('if ($oldversion < 2026060452)', $upgradesource);
+        $this->assertStringContainsString('videotrack_repair_preproduction_gradebook_rows();', $upgradesource);
+        $this->assertStringContainsString("itemmodule = :itemmodule", $repairsource);
+        $this->assertStringContainsString("delete_records_select('grade_grades'", $repairsource);
+        $this->assertStringContainsString("delete_records_select('grade_items'", $repairsource);
+        $this->assertStringNotContainsString('grade_item::', $repairsource);
+        $this->assertStringNotContainsString('grade_update(', $repairsource);
+    }
+
 }

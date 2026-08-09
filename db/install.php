@@ -15,21 +15,26 @@
 // along with Moodle.  If not, see <https://www.gnu.org/licenses/>.
 
 /**
- * VideoTrack plugin file.
+ * Post-installation steps for mod_videotrack.
  *
  * @package   mod_videotrack
  * @copyright 2026 videotrack contributors
  * @license   https://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 
-
 defined('MOODLE_INTERNAL') || die();
 
-$plugin->component = 'mod_videotrack';
+require_once(__DIR__ . '/repairlib.php');
 
-$plugin->version = 2026060452;
-$plugin->requires = 2025041400; // Moodle 5.0.
-$plugin->maturity = MATURITY_STABLE;
-$plugin->release = '1.6.37';
-$plugin->supported = [500, 503];
-$plugin->dependencies = [];
+/**
+ * Run post-installation cleanup.
+ *
+ * Fresh installs can follow failed pre-production attempts that left stale
+ * grade_items rows behind even though no VideoTrack instances exist. Remove
+ * those rows before Moodle can build the standard activity grading form.
+ *
+ * @return void
+ */
+function xmldb_videotrack_install(): void {
+    videotrack_repair_preproduction_gradebook_rows();
+}
