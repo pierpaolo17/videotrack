@@ -33,7 +33,7 @@
  * @return bool
  */
 function xmldb_videotrack_upgrade($oldversion) {
-    global $DB;
+    global $CFG, $DB;
     $dbman = $DB->get_manager();
 
     if ($oldversion < 2026043008) {
@@ -1863,6 +1863,94 @@ function xmldb_videotrack_upgrade($oldversion) {
         unset_config('anonymisationsalt', 'mod_videotrack');
 
         upgrade_mod_savepoint(true, 2026060448, 'videotrack');
+    }
+
+    if ($oldversion < 2026060449) {
+        // Release 1.6.34: reset VideoTrack grade items to one canonical item per activity.
+        // The plugin has not been used in production, so removing existing VideoTrack
+        // gradebook data is safer than attempting to preserve ambiguous duplicates.
+        require_once($CFG->libdir . '/gradelib.php');
+
+        $gradeitems = grade_item::fetch_all([
+            'itemtype' => 'mod',
+            'itemmodule' => 'videotrack',
+        ]);
+        if ($gradeitems) {
+            foreach ($gradeitems as $gradeitem) {
+                if (!$gradeitem->delete('mod/videotrack')) {
+                    throw new \coding_exception(
+                        'VideoTrack could not remove pre-production grade item ' . (int)$gradeitem->id
+                    );
+                }
+            }
+        }
+
+        $moduleid = $DB->get_field('modules', 'id', ['name' => 'videotrack'], IGNORE_MISSING);
+        $instances = $DB->get_recordset('videotrack', null, 'id ASC', 'id, course, name, grade, gradepass');
+        foreach ($instances as $instance) {
+            $grade = (int)$instance->grade;
+            if ($grade === 0) {
+                continue;
+            }
+
+            $itemdetails = ['itemname' => $instance->name];
+            if ($grade > 0) {
+                $itemdetails['gradetype'] = GRADE_TYPE_VALUE;
+                $itemdetails['grademax'] = (float)$grade;
+                $itemdetails['grademin'] = 0.0;
+            } else {
+                $itemdetails['gradetype'] = GRADE_TYPE_SCALE;
+                $itemdetails['scaleid'] = -$grade;
+            }
+
+            if ($moduleid) {
+                $cm = $DB->get_record(
+                    'course_modules',
+                    [
+                        'module' => (int)$moduleid,
+                        'instance' => (int)$instance->id,
+                        'course' => (int)$instance->course,
+                    ],
+                    'id, idnumber',
+                    IGNORE_MISSING
+                );
+                if ($cm && !empty($cm->idnumber)) {
+                    $itemdetails['idnumber'] = $cm->idnumber;
+                }
+            }
+
+            $result = grade_update(
+                'mod/videotrack',
+                (int)$instance->course,
+                'mod',
+                'videotrack',
+                (int)$instance->id,
+                0,
+                null,
+                $itemdetails
+            );
+            if ($result !== GRADE_UPDATE_OK) {
+                $instances->close();
+                throw new \coding_exception(
+                    'VideoTrack could not recreate the canonical grade item for activity ' . (int)$instance->id
+                );
+            }
+
+            $gradeitem = grade_item::fetch([
+                'courseid' => (int)$instance->course,
+                'itemtype' => 'mod',
+                'itemmodule' => 'videotrack',
+                'iteminstance' => (int)$instance->id,
+                'itemnumber' => 0,
+            ]);
+            if ($gradeitem && (float)$gradeitem->gradepass !== (float)$instance->gradepass) {
+                $gradeitem->gradepass = max(0.0, (float)$instance->gradepass);
+                $gradeitem->update('mod/videotrack');
+            }
+        }
+        $instances->close();
+
+        upgrade_mod_savepoint(true, 2026060449, 'videotrack');
     }
 
     return true;

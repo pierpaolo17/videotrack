@@ -1000,17 +1000,12 @@ function videotrack_grade_item_update(stdClass $videotrack, $grades = null): int
         $params['scaleid']   = -(int)$videotrack->grade;
     }
 
-    // Set passing grade in the gradebook item.
-    if (!empty($videotrack->gradepass)) {
-        $params['gradepass'] = (float)$videotrack->gradepass;
-    }
-
     if ($grades === 'reset') {
         $params['reset'] = true;
         $grades = null;
     }
 
-    return grade_update(
+    $result = grade_update(
         'mod/videotrack',
         $videotrack->course,
         'mod',
@@ -1020,6 +1015,27 @@ function videotrack_grade_item_update(stdClass $videotrack, $grades = null): int
         $grades,
         $params
     );
+
+    // grade_update() does not accept gradepass in its itemdetails allowlist.
+    // Keep the canonical itemnumber-0 grade item aligned explicitly.
+    if ($result === GRADE_UPDATE_OK && !empty($videotrack->grade)) {
+        $gradeitem = grade_item::fetch([
+            'courseid' => (int)$videotrack->course,
+            'itemtype' => 'mod',
+            'itemmodule' => 'videotrack',
+            'iteminstance' => (int)$videotrack->id,
+            'itemnumber' => 0,
+        ]);
+        if ($gradeitem) {
+            $gradepass = max(0.0, (float)($videotrack->gradepass ?? 0));
+            if (grade_floats_different((float)$gradeitem->gradepass, $gradepass)) {
+                $gradeitem->gradepass = $gradepass;
+                $gradeitem->update('mod/videotrack');
+            }
+        }
+    }
+
+    return $result;
 }
 
 
@@ -1077,10 +1093,11 @@ function videotrack_get_user_grade(stdClass $videotrack, int $userid): ?float {
         $userid
     );
 
-    if (empty($grades->items[0]->grades[$userid]->grade)) {
+    if (!isset($grades->items[0]->grades[$userid])) {
         return null;
     }
-    return (float)$grades->items[0]->grades[$userid]->grade;
+    $grade = $grades->items[0]->grades[$userid]->grade;
+    return $grade === null ? null : (float)$grade;
 }
 
 /**

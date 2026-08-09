@@ -328,7 +328,7 @@ class privacy_manager {
             $activity = self::load_activity($videotrackid, $cmid);
             if ($activity === null) {
                 $counts['statesdeleted'] += self::delete_state($videotrackid, $userid, $cmid);
-            } elseif (self::has_retained_state_inputs($videotrackid, $userid)) {
+            } else if (self::has_retained_state_inputs($videotrackid, $userid)) {
                 [$videotrack, $cm, $course] = $activity;
                 $state = tracker::rebuild_state_from_segments($videotrack, $cm, $userid, true);
                 if ($state === null) {
@@ -464,19 +464,23 @@ class privacy_manager {
     private static function has_retained_state_inputs(int $videotrackid, int $userid): bool {
         global $DB;
 
-        if ($DB->record_exists('videotrack_seg', [
-            'videotrackid' => $videotrackid,
-            'userid' => $userid,
-            'servervalidated' => 1,
-        ])) {
+        if (
+            $DB->record_exists('videotrack_seg', [
+                'videotrackid' => $videotrackid,
+                'userid' => $userid,
+                'servervalidated' => 1,
+            ])
+        ) {
             return true;
         }
-        if ($DB->record_exists_select(
-            'videotrack_reactev',
-            "videotrackid = :videotrackid AND userid = :userid AND isdeleted = 0
-                  AND reactionid > 0 AND (notetype = '' OR notetype IS NULL)",
-            ['videotrackid' => $videotrackid, 'userid' => $userid]
-        )) {
+        if (
+            $DB->record_exists_select(
+                'videotrack_reactev',
+                "videotrackid = :videotrackid AND userid = :userid AND isdeleted = 0
+                      AND reactionid > 0 AND (notetype = '' OR notetype IS NULL)",
+                ['videotrackid' => $videotrackid, 'userid' => $userid]
+            )
+        ) {
             return true;
         }
         return $DB->record_exists('videotrack_acknowledge', [

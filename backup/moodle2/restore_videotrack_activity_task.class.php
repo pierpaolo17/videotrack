@@ -120,10 +120,12 @@ class restore_videotrack_activity_task extends restore_activity_task {
         );
         foreach ($userids as $userid) {
             $userid = (int)$userid;
-            if ($DB->record_exists('videotrack_state', [
-                'videotrackid' => $videotrackid,
-                'userid' => $userid,
-            ])) {
+            if (
+                $DB->record_exists('videotrack_state', [
+                    'videotrackid' => $videotrackid,
+                    'userid' => $userid,
+                ])
+            ) {
                 continue;
             }
             \mod_videotrack\local\tracker::update_moodle_completion_if_changed(
