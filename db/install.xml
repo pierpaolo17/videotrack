@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8" ?>
-<XMLDB PATH="mod/videotrack/db" VERSION="2026060438" COMMENT="XMLDB file for mod_videotrack"
+<XMLDB PATH="mod/videotrack/db" VERSION="2026060447" COMMENT="XMLDB file for mod_videotrack"
     xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
     xsi:noNamespaceSchemaLocation="../../../lib/xmldb/xmldb.xsd"
 >
@@ -81,7 +81,7 @@
       </INDEXES>
     </TABLE>
 
-    <TABLE NAME="videotrack_seg" COMMENT="Watched segments">
+    <TABLE NAME="videotrack_seg" COMMENT="Playback requests and server-validated watched segments">
       <FIELDS>
         <FIELD NAME="id" TYPE="int" LENGTH="10" NOTNULL="true" SEQUENCE="true"/>
         <FIELD NAME="videotrackid" TYPE="int" LENGTH="10" NOTNULL="true" DEFAULT="0"/>
@@ -90,6 +90,7 @@
         <FIELD NAME="userid" TYPE="int" LENGTH="10" NOTNULL="true" DEFAULT="0"/>
         <FIELD NAME="videoid" TYPE="char" LENGTH="32" NOTNULL="true"/>
         <FIELD NAME="sessionid" TYPE="char" LENGTH="64" NOTNULL="true"/>
+        <FIELD NAME="requestid" TYPE="char" LENGTH="64" NOTNULL="true" COMMENT="Idempotency identifier generated once per browser request"/>
         <FIELD NAME="wallclockstart" TYPE="int" LENGTH="10" NOTNULL="true" DEFAULT="0"/>
         <FIELD NAME="wallclockend" TYPE="int" LENGTH="10" NOTNULL="true" DEFAULT="0"/>
         <FIELD NAME="videotimestart" TYPE="number" LENGTH="10" DECIMALS="3" NOTNULL="true" DEFAULT="0.000"/>
@@ -107,6 +108,7 @@
         <INDEX NAME="session_idx" UNIQUE="false" FIELDS="sessionid"/>
         <INDEX NAME="cm_user_idx" UNIQUE="false" FIELDS="cmid, userid"/>
         <INDEX NAME="vt_user_sess_time_idx" UNIQUE="false" FIELDS="videotrackid, userid, sessionid, timecreated"/>
+        <INDEX NAME="vt_user_request_uix" UNIQUE="true" FIELDS="videotrackid, userid, requestid"/>
       </INDEXES>
     </TABLE>
 
@@ -120,7 +122,7 @@
         <FIELD NAME="videoid" TYPE="char" LENGTH="32" NOTNULL="true"/>
         <FIELD NAME="lastposition" TYPE="number" LENGTH="10" DECIMALS="3" NOTNULL="true" DEFAULT="0.000"/>
         <FIELD NAME="durationseconds" TYPE="number" LENGTH="10" DECIMALS="3" NOTNULL="true" DEFAULT="0.000"/>
-        <FIELD NAME="serverlastactivity" TYPE="int" LENGTH="10" NOTNULL="true" DEFAULT="0" COMMENT="Last accepted server timestamp used by playback credit guard"/>
+        <FIELD NAME="serverlastactivity" TYPE="int" LENGTH="20" NOTNULL="true" DEFAULT="0" COMMENT="Last playback handshake or segment request timestamp in server milliseconds"/>
         <FIELD NAME="serverbudgetseconds" TYPE="number" LENGTH="12" DECIMALS="3" NOTNULL="true" DEFAULT="0.000" COMMENT="Cumulative server-authorised playback credit budget"/>
         <FIELD NAME="servercreditedseconds" TYPE="number" LENGTH="12" DECIMALS="3" NOTNULL="true" DEFAULT="0.000" COMMENT="Cumulative raw video seconds charged against server budget"/>
         <FIELD NAME="uniquecoveredseconds" TYPE="number" LENGTH="10" DECIMALS="3" NOTNULL="true" DEFAULT="0.000"/>

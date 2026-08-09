@@ -11,8 +11,9 @@ define([
     'mod_videotrack/core/api/retry',
     'mod_videotrack/core/api/transport',
     'mod_videotrack/core/api/scope',
-    'mod_videotrack/core/segment'
-], function(Debug, Validator, AjaxError, Retry, Transport, Scope, Segment) {
+    'mod_videotrack/core/segment',
+    'mod_videotrack/core/session'
+], function(Debug, Validator, AjaxError, Retry, Transport, Scope, Segment, Session) {
     'use strict';
 
     /**
@@ -34,6 +35,7 @@ define([
      * @typedef {Object} SegmentArgs
      * @property {number} cmid Course module id.
      * @property {string} sessionid Tracking session id.
+     * @property {string} requestid Idempotency identifier reused by transport retries.
      * @property {number} videotimestart Segment start in seconds.
      * @property {number} videotimeend Segment end in seconds.
      * @property {number} wallclockstart Wallclock start timestamp.
@@ -144,6 +146,7 @@ define([
         return {
             cmid: config.cmid,
             sessionid: state.sessionid,
+            requestid: Session.uuid(),
             videotimestart: times.start,
             videotimeend: times.end,
             wallclockstart: state.wallclockstart || now,
@@ -183,6 +186,66 @@ define([
         return call('mod_videotrack_save_segment', args, options);
     }
 
+    /**
+     * Open a server-authoritative playback window before tracking begins.
+     *
+     * Repeated provider PLAYING notifications share one pending request. A pause
+     * invalidates the serial so a late response cannot open a stale segment.
+     *
+     * @param {Object} config Player configuration.
+     * @param {Object} state Mutable player state.
+     * @param {*} videotime Current provider time.
+     * @param {RequestOptions=} options Optional AJAX options.
+     * @returns {Promise<Object|null>} Handshake response or null when cancelled.
+     */
+    function beginPlayback(config, state, videotime, options) {
+        if (!config || config.trackingenabled === false) {
+            return Promise.resolve({accepted: true, preview: true});
+        }
+        if (state._playbackStartPending && state._playbackStartPromise) {
+            return state._playbackStartPromise;
+        }
+        state._playbackStartSerial = (state._playbackStartSerial || 0) + 1;
+        var serial = state._playbackStartSerial;
+        state._playbackStartPending = true;
+        options = options || {};
+        if (typeof options.retries === 'undefined') {
+            options.retries = Retry.MAX_RETRIES;
+        }
+        function clearPending() {
+            if (serial === state._playbackStartSerial) {
+                state._playbackStartPending = false;
+                state._playbackStartPromise = null;
+            }
+        }
+        var request = call('mod_videotrack_start_playback', {
+            cmid: config.cmid,
+            sessionid: state.sessionid,
+            requestid: Session.uuid(),
+            videotime: Math.max(0, Number(videotime) || 0)
+        }, options).then(function(response) {
+            var result = serial === state._playbackStartSerial && response && response.accepted ? response : null;
+            clearPending();
+            return result;
+        }, function(error) {
+            clearPending();
+            return Promise.reject(error);
+        });
+        state._playbackStartPromise = request;
+        return request;
+    }
+
+    /**
+     * Cancel any pending playback handshake.
+     *
+     * @param {Object} state Mutable player state.
+     */
+    function cancelPlaybackStart(state) {
+        state._playbackStartSerial = (state._playbackStartSerial || 0) + 1;
+        state._playbackStartPending = false;
+        state._playbackStartPromise = null;
+    }
+
     return {
         call: call,
         createRequestScope: Scope.createRequestScope,
@@ -192,6 +255,8 @@ define([
         isTransientAjaxError: AjaxError.isTransientAjaxError,
         validateArgs: Validator.validateArgs,
         buildSegmentArgs: buildSegmentArgs,
+        beginPlayback: beginPlayback,
+        cancelPlaybackStart: cancelPlaybackStart,
         saveSegment: saveSegment
     };
 });

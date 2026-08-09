@@ -8,8 +8,9 @@ Dalla root Moodle, adattando i path:
 find mod/videotrack -name '*.php' -print0 | xargs -0 -n1 php -l
 vendor/bin/phpunit --testsuite mod_videotrack_testsuite
 vendor/bin/phpcs --standard=moodle --extensions=php mod/videotrack
+/root/.config/composer/vendor/bin/phpcs --standard=moodle-extra mod/videotrack
 # Solo se cambia amd/src
-npx grunt amd --root=mod/videotrack
+node node_modules/grunt/bin/grunt amd --root=mod/videotrack
 ```
 
 Analizzare anche `db/install.xml` ed `environment.xml`, eseguire `node --check` su sorgenti/build, validare le source map JSON, confrontare chiavi e placeholder delle lingue, verificare ogni `get_string` statico e confrontare XMLDB con backup/restore.
@@ -32,3 +33,15 @@ Applicare la patch a un’estrazione separata e confrontare l’intero albero. I
 ## Evidenze release
 
 Registrare checksum baseline, file modificati, decisioni versione/schema, controlli eseguiti/non eseguiti e checksum patch. Non dichiarare riusciti PHPUnit, PHPCS, browser, upgrade o backup/restore se non eseguiti su quella release esatta.
+
+
+## Controlli del ledger di riproduzione 1.6.32
+
+Quando cambia il ledger di riproduzione o lo schema `videotrack_seg`, verificare anche che:
+
+- `mod_videotrack_start_playback` sia dichiarato in `db/services.php`, ammesso dal validator AMD e protetto dallo stesso contratto sesskey/contesto/capability delle altre scritture learner;
+- un segmento privo di handshake riuscito non riceva credito;
+- gli identificativi richiesta siano univoci per attività/utente e i retry restituiscano il risultato persistito senza duplicare righe, eventi o scritture completion;
+- la tolleranza tra clock provider e server resti un debito cumulativo e non possa essere azzerata da pausa, rifiuto o nuovo handshake;
+- `requestid` sia coerente fra XMLDB, upgrade, Privacy API, backup e restore;
+- la copertura unica esatta resti monotona al raggiungimento dei 500 intervalli compatti.

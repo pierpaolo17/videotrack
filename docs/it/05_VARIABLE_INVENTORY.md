@@ -78,7 +78,7 @@ Main table for videotrack instances
 
 ### `videotrack_seg`
 
-Watched segments
+Richieste di riproduzione e segmenti visti validati dal server
 
 | Campo | Tipo | Null/default | Commento |
 |---|---|---|---|
@@ -89,6 +89,7 @@ Watched segments
 | `userid` | `int`(10) | NOT NULL; default `0` |  |
 | `videoid` | `char`(32) | NOT NULL |  |
 | `sessionid` | `char`(64) | NOT NULL |  |
+| `requestid` | `char`(64) | NOT NULL | Identificativo di idempotenza generato una sola volta per richiesta browser |
 | `wallclockstart` | `int`(10) | NOT NULL; default `0` |  |
 | `wallclockend` | `int`(10) | NOT NULL; default `0` |  |
 | `videotimestart` | `number`(10) | NOT NULL; default `0.000` |  |
@@ -112,7 +113,7 @@ Aggregated unique coverage per user and activity
 | `videoid` | `char`(32) | NOT NULL |  |
 | `lastposition` | `number`(10) | NOT NULL; default `0.000` |  |
 | `durationseconds` | `number`(10) | NOT NULL; default `0.000` |  |
-| `serverlastactivity` | `int`(10) | NOT NULL; default `0` | Timestamp server dell’ultimo aggiornamento accettato usato dal guard del credito di riproduzione |
+| `serverlastactivity` | `int`(20) | NOT NULL; default `0` | Timestamp in millisecondi dell’ultimo handshake o richiesta segmento |
 | `serverbudgetseconds` | `number`(12,3) | NOT NULL; default `0.000` | Budget cumulativo di credito di riproduzione autorizzato dal server |
 | `servercreditedseconds` | `number`(12,3) | NOT NULL; default `0.000` | Secondi video grezzi cumulativi addebitati al budget server |
 | `uniquecoveredseconds` | `number`(10) | NOT NULL; default `0.000` |  |
@@ -269,6 +270,7 @@ Tutte le chiavi sono memorizzate sotto `mod_videotrack`.
 ## Servizi AJAX
 
 - `mod_videotrack_save_integrity_event` — servizio di scrittura autenticato con `mod/videotrack:participate`.
+- `mod_videotrack_start_playback` — apre una finestra server idempotente a credito zero prima del tracking dei segmenti.
 - `mod_videotrack_save_segment` — servizio di scrittura autenticato con `mod/videotrack:participate`.
 - `mod_videotrack_save_reaction` — servizio di scrittura autenticato con `mod/videotrack:participate`.
 - `mod_videotrack_delete_reaction` — servizio di scrittura autenticato con `mod/videotrack:participate`.

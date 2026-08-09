@@ -78,7 +78,7 @@ Main table for videotrack instances
 
 ### `videotrack_seg`
 
-Watched segments
+Playback requests and server-validated watched segments
 
 | Field | Type | Null/default | Comment |
 |---|---|---|---|
@@ -89,6 +89,7 @@ Watched segments
 | `userid` | `int`(10) | NOT NULL; default `0` |  |
 | `videoid` | `char`(32) | NOT NULL |  |
 | `sessionid` | `char`(64) | NOT NULL |  |
+| `requestid` | `char`(64) | NOT NULL | Idempotency identifier generated once per browser request |
 | `wallclockstart` | `int`(10) | NOT NULL; default `0` |  |
 | `wallclockend` | `int`(10) | NOT NULL; default `0` |  |
 | `videotimestart` | `number`(10) | NOT NULL; default `0.000` |  |
@@ -112,7 +113,7 @@ Aggregated unique coverage per user and activity
 | `videoid` | `char`(32) | NOT NULL |  |
 | `lastposition` | `number`(10) | NOT NULL; default `0.000` |  |
 | `durationseconds` | `number`(10) | NOT NULL; default `0.000` |  |
-| `serverlastactivity` | `int`(10) | NOT NULL; default `0` | Last accepted server timestamp used by the playback-credit guard |
+| `serverlastactivity` | `int`(20) | NOT NULL; default `0` | Last playback handshake or segment request timestamp in server milliseconds |
 | `serverbudgetseconds` | `number`(12,3) | NOT NULL; default `0.000` | Cumulative server-authorised playback-credit budget |
 | `servercreditedseconds` | `number`(12,3) | NOT NULL; default `0.000` | Cumulative raw video seconds charged against the server budget |
 | `uniquecoveredseconds` | `number`(10) | NOT NULL; default `0.000` |  |
@@ -269,6 +270,7 @@ All keys are stored under `mod_videotrack`.
 ## AJAX services
 
 - `mod_videotrack_save_integrity_event` — authenticated write service with `mod/videotrack:participate`.
+- `mod_videotrack_start_playback` — opens a zero-credit, idempotent server playback window before segment tracking.
 - `mod_videotrack_save_segment` — authenticated write service with `mod/videotrack:participate`.
 - `mod_videotrack_save_reaction` — authenticated write service with `mod/videotrack:participate`.
 - `mod_videotrack_delete_reaction` — authenticated write service with `mod/videotrack:participate`.

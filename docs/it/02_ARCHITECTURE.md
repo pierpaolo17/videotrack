@@ -4,7 +4,7 @@
 
 1. **Entry point Moodle** — `view.php`, pagine report, form e callback lifecycle eseguono i controlli e preparano stato posseduto dal server.
 2. **Servizi di dominio** — le classi in `classes/local/` implementano tracking, Analytics, scope, export privacy-safe, timed text, integrità e presa visione.
-3. **Servizi esterni** — `classes/external/` espone otto scritture AJAX tramite `db/services.php`; la validazione comune è in `external\helper`.
+3. **Servizi esterni** — `classes/external/` espone nove scritture AJAX tramite `db/services.php`; la validazione comune è in `external\helper`.
 4. **Adapter player** — `html5_player.js`, `player.js` (YouTube) e `vimeo_player.js` traducono le callback dei provider nel contratto condiviso.
 5. **Core AMD condiviso** — trasporto/retry API, lifecycle tracker, intervalli, reazioni, note, segnalibri, trascrizione, presa visione, focus guard, stato e UI.
 6. **Persistenza** — sette tabelle XMLDB, aree Moodle File API e gradebook core.
@@ -27,6 +27,10 @@ Ogni adapter deve fornire tempo corrente, durata, play/pausa, seek, velocità e 
 ## Identità e scope
 
 Contesto modulo e capability Moodle sono autorevoli. `mod/videotrack:participate` identifica esplicitamente gli utenti per cui possono essere scritti telemetria learner e strumenti personali; l’accesso ai report è indipendente. La visibilità dei gruppi usa la modalità effettiva dell’attività. Gli Analytics tra corsi rivalutano partecipazione, report e gruppi per ogni attività e identificano lo stesso video tramite ID provider o content hash del file caricato.
+
+## Confine di fiducia del registro di riproduzione
+
+Un evento PLAY del provider apre un handshake server a credito zero tramite `mod_videotrack_start_playback`. Le richieste segmento maturano poi credito cumulativo soltanto dal tempo server trascorso a una velocità consentita. Ogni richiesta possiede un identificativo persistente di idempotenza protetto da indice univoco; i retry riutilizzano il risultato memorizzato senza inserire un nuovo segmento grezzo. `intervaljson` resta una rappresentazione di trasporto limitata, mentre la copertura unica esatta viene ricalcolata dalle righe validate al raggiungimento del limite.
 
 ## Architettura privacy
 

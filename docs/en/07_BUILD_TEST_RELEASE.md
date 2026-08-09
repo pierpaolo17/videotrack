@@ -11,11 +11,14 @@ find mod/videotrack -name '*.php' -print0 | xargs -0 -n1 php -l
 # PHPUnit
 vendor/bin/phpunit --testsuite mod_videotrack_testsuite
 
-# Moodle coding style / extra rules as configured by the project
+# Moodle coding style
 vendor/bin/phpcs --standard=moodle --extensions=php mod/videotrack
 
+# Moodle Extra (adapt the global Composer path when needed)
+/root/.config/composer/vendor/bin/phpcs --standard=moodle-extra mod/videotrack
+
 # AMD only when amd/src changes
-npx grunt amd --root=mod/videotrack
+node node_modules/grunt/bin/grunt amd --root=mod/videotrack
 ```
 
 Also parse `db/install.xml` and `environment.xml`, run `node --check` on source/build JavaScript, validate every source map as JSON, compare language key sets and placeholders, verify every static `get_string` reference, and compare XMLDB fields with backup/restore declarations.
@@ -38,3 +41,15 @@ Apply the patch to a separate fresh extraction and compare its complete tree wit
 ## Release evidence
 
 Record baseline checksum, changed files, version/schema decisions, executed checks, unexecuted checks and patch checksum. Do not label PHPUnit, PHPCS, browser, upgrade or backup/restore as successful unless that exact release was actually tested.
+
+
+## 1.6.32 playback-ledger checks
+
+When the playback ledger or `videotrack_seg` schema changes, also verify:
+
+- `mod_videotrack_start_playback` is declared in `db/services.php`, accepted by the AMD validator and protected by the same sesskey/context/capability contract as other learner writes;
+- a segment without a successful handshake receives no credit;
+- request identifiers are unique per activity/user and retries return the persisted result without duplicate rows, events or completion writes;
+- provider/server drift tolerance remains a cumulative debt and cannot be reset by pause, rejection or a new handshake;
+- `requestid` is aligned across XMLDB, upgrade, Privacy API, backup and restore;
+- exact unique coverage remains monotonic when the compact interval list reaches 500 entries.

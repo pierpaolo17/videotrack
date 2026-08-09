@@ -135,6 +135,21 @@ class restore_videotrack_activity_structure_step extends restore_activity_struct
             $data->userid = $mappeduserid;
         }
         // Negative user ids are anonymised aggregate records: preserve them as non-user data.
+        $requestid = !empty($data->requestid)
+            ? substr(clean_param((string)$data->requestid, PARAM_ALPHANUMEXT), 0, 64)
+            : '';
+        if ($requestid === '') {
+            $requestid = 'restore' . substr(hash('sha256', implode(':', [
+                $oldid,
+                (int)$data->videotrackid,
+                isset($data->userid) ? (int)$data->userid : 0,
+                isset($data->sessionid) ? (string)$data->sessionid : '',
+                isset($data->videotimestart) ? (float)$data->videotimestart : 0.0,
+                isset($data->videotimeend) ? (float)$data->videotimeend : 0.0,
+                isset($data->endreason) ? (string)$data->endreason : '',
+                isset($data->timecreated) ? (int)$data->timecreated : 0,
+            ])), 0, 57);
+        }
         $record = (object)[
             'videotrackid' => (int)$data->videotrackid,
             'courseid' => (int)$data->courseid,
@@ -142,6 +157,7 @@ class restore_videotrack_activity_structure_step extends restore_activity_struct
             'userid' => isset($data->userid) ? (int)$data->userid : 0,
             'videoid' => isset($data->videoid) ? clean_param($data->videoid, PARAM_ALPHANUMEXT) : '',
             'sessionid' => isset($data->sessionid) ? clean_param($data->sessionid, PARAM_ALPHANUMEXT) : '',
+            'requestid' => $requestid,
             'wallclockstart' => isset($data->wallclockstart) ? (int)$data->wallclockstart : 0,
             'wallclockend' => isset($data->wallclockend) ? (int)$data->wallclockend : 0,
             'videotimestart' => isset($data->videotimestart) ? (float)$data->videotimestart : 0.0,

@@ -1,17 +1,17 @@
 # Audit della documentazione
 
-Baseline: VideoTrack **1.6.31** (`2026060446`).
+Baseline: VideoTrack **1.6.32** (`2026060447`).
 
 ## Copertura
 
-- File non documentali inventariati: **238/238**.
-- Funzioni/metodi PHP nominati inventariati: **476**.
-- Callable AMD nominati rilevati e inventariati: **613**.
+- File non documentali inventariati: **239/239**.
+- Funzioni/metodi PHP nominati inventariati: **486**.
+- Callable AMD nominati rilevati e inventariati: **616**.
 - Tabelle XMLDB documentate: **7**.
 - Chiavi impostazioni sito documentate: **57**.
 - Chiavi configurazione player documentate: **128**.
-- Servizi AJAX documentati: **8**.
-- Language pack: otto pacchetti con lo stesso contratto di **961 chiavi**; i testi operativi sono tradotti, mentre termini tecnici e nomi propri possono legittimamente coincidere.
+- Servizi AJAX documentati: **9**.
+- Language pack: otto pacchetti con lo stesso contratto di **962 chiavi**; i testi operativi sono tradotti, mentre termini tecnici e nomi propri possono legittimamente coincidere.
 - Panoramiche root: `README.md` (inglese) e `README_IT.md` (italiano).
 - Sintesi privacy root: `PRIVACY.md` e `PRIVACY_IT.md`.
 
@@ -22,6 +22,15 @@ I documenti correnti non devono contenere affermazioni di release senza indicare
 ## Audit automatici attesi
 
 Ogni release deve confrontare inventario file/albero, inventario funzioni/sorgente, chiavi e placeholder, `get_string` statici, XMLDB/backup-restore, servizi/classi, sorgenti/build AMD e link Markdown/file esistenti.
+
+## Copertura registro di riproduzione 1.6.32
+
+- `mod_videotrack_start_playback` stabilisce un timestamp server a credito zero prima dell’apertura di un segmento tracciato.
+- Ogni handshake e segmento possiede un identificativo persistente protetto da indice univoco attività/utente/richiesta.
+- I retry riutilizzano un risultato identico già salvato e non possono duplicare righe, transizioni di completamento o eventi.
+- Il credito è cumulativo, deriva dal tempo server trascorso e da una velocità consentita, con una tolleranza limitata per il clock che resta debito cumulativo fra richieste e handshake.
+- I secondi coperti esatti restano monotoni quando la lista compatta raggiunge 500 intervalli.
+- XMLDB, upgrade, backup/restore, Privacy API, metadati lingua, sorgenti/build AMD e test di regressione descrivono lo stesso contratto di ledger.
 
 ## Copertura contratto runtime e privacy 1.6.31
 

@@ -2,10 +2,14 @@
 
 VideoTrack è un modulo attività Moodle per distribuire e tracciare video HTML5/caricati, YouTube e Vimeo. Integra analytics di visione attenti alla privacy, strumenti di studio opzionali, condizioni di completamento e report per il docente.
 
-Release documentata da questo albero: **1.6.31**. Versioni Moodle supportate: **5.0–5.3**.
+Release documentata da questo albero: **1.6.32**. Versioni Moodle supportate: **5.0–5.3**.
 
 Panoramica inglese: [`README.md`](README.md)
 Informativa privacy: [`PRIVACY_IT.md`](PRIVACY_IT.md) / [`PRIVACY.md`](PRIVACY.md)
+
+### Registro di riproduzione autorevole lato server nella 1.6.32
+
+La release 1.6.32 richiede un handshake a credito zero prima che i segmenti tracciati possano produrre progresso. Ogni handshake e segmento riceve un identificativo persistente di idempotenza, così una risposta persa seguita dal retry condiviso non duplica righe grezze, eventi o Analytics. Il credito deriva soltanto dal tempo server cumulativo trascorso a una velocità consentita, la rappresentazione compatta degli intervalli non riduce più la copertura unica esatta e i nuovi contratti schema/backup/privacy sono descritti in [`docs/it/19_TRACKING_LEDGER_1_6_32.md`](docs/it/19_TRACKING_LEDGER_1_6_32.md).
 
 ### Hotfix contratto runtime e privacy Analytics nella 1.6.31
 
@@ -79,7 +83,8 @@ L’albero distribuito è progettato per essere verificato con:
 php admin/tool/phpunit/cli/init.php
 vendor/bin/phpunit --testsuite mod_videotrack_testsuite
 vendor/bin/phpcs --standard=moodle --extensions=php mod/videotrack
-npx grunt amd --root=mod/videotrack
+/root/.config/composer/vendor/bin/phpcs --standard=moodle-extra mod/videotrack
+node node_modules/grunt/bin/grunt amd --root=mod/videotrack
 ```
 
 I comandi esatti dipendono dal checkout Moodle e dalle dipendenze di sviluppo installate. Consultare [`docs/it/07_BUILD_TEST_RELEASE.md`](docs/it/07_BUILD_TEST_RELEASE.md).

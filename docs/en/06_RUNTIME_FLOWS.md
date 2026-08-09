@@ -6,7 +6,7 @@
 
 ## Segment tracking
 
-Provider callbacks update a shared tracker. Only active playback contributes. The client periodically closes bounded segments and calls `mod_videotrack_save_segment`. The service validates context, the explicit `mod/videotrack:participate` capability, session and movement rules; `local\tracker` stores the raw segment, merges intervals into `videotrack_state`, recalculates unique seconds/percentage, updates completion and grade, and emits events where applicable. Lifecycle hooks flush on pause, end, visibility changes and unload using AJAX or a constrained beacon fallback.
+Provider callbacks update a shared tracker. A PLAY event first calls `mod_videotrack_start_playback`, which establishes a server timestamp without granting watched time. After the handshake succeeds, active playback opens a bounded segment. Each segment has one request identifier generated before transport retries; `mod_videotrack_save_segment` reuses an identical persisted result and rejects identifier reuse with different data. The service validates context, `mod/videotrack:participate`, allowed speed, forward frontier and cumulative server-time credit. `local\tracker` stores the raw request, merges validated intervals into `videotrack_state`, preserves exact monotonic unique coverage beyond the compact 500-interval representation, recalculates percentage/completion and emits events only once. Lifecycle hooks flush on pause, end, visibility changes and unload using AJAX or a constrained beacon fallback.
 
 ## Seek, resume and replay
 

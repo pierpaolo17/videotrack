@@ -6,7 +6,7 @@
 
 ## Tracciamento segmenti
 
-Le callback provider aggiornano un tracker condiviso. Contribuisce soltanto la riproduzione attiva. Il client chiude segmenti limitati e chiama `mod_videotrack_save_segment`. Il servizio valida contesto, la capability esplicita `mod/videotrack:participate`, sessione e movimento; `local\tracker` salva il segmento, unisce gli intervalli in `videotrack_state`, ricalcola secondi/percentuale, aggiorna completamento e voto ed emette gli eventi. Il lifecycle esegue flush su pausa, fine, cambio visibilità e unload tramite AJAX o beacon limitato.
+Le callback provider aggiornano un tracker condiviso. Un evento PLAY chiama prima `mod_videotrack_start_playback`, che stabilisce un timestamp server senza assegnare tempo visto. Dopo il successo dell’handshake, la riproduzione attiva apre un segmento limitato. Ogni segmento riceve un identificativo generato prima dei retry di trasporto; `mod_videotrack_save_segment` riusa un risultato identico già persistito e rifiuta il riutilizzo dello stesso identificativo con dati differenti. Il servizio valida contesto, `mod/videotrack:participate`, velocità consentita, frontiera di seek e credito cumulativo basato sul tempo server. `local\tracker` salva la richiesta grezza, unisce gli intervalli validati in `videotrack_state`, mantiene la copertura unica esatta e monotona oltre la rappresentazione compatta di 500 intervalli, ricalcola percentuale/completamento ed emette gli eventi una sola volta. Il lifecycle esegue flush su pausa, fine, cambio visibilità e unload tramite AJAX o beacon limitato.
 
 ## Seek, resume e replay
 

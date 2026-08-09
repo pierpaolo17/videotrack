@@ -41,6 +41,9 @@ define([], function() {
             _transitionSerial: 0,
             _heartbeatSerial: 0,
             _segmentSaveQueue: null,
+            _playbackStartPending: false,
+            _playbackStartPromise: null,
+            _playbackStartSerial: 0,
             ajaxRequestScope: null,
             _posterRemoved: false,
             _posterPlayListener: null

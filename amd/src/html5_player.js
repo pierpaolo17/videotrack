@@ -1002,6 +1002,7 @@ define([
             if (playBtn2) { playBtn2.textContent = '⏸'; playBtn2.setAttribute('aria-label', config.html5pauselabel); }
         });
         media.addEventListener('pause', function() {
+            Api.cancelPlaybackStart(state);
             var playBtn2 = bar.querySelector('.videotrack-ctrl-play');
             if (playBtn2) { playBtn2.textContent = '▶'; playBtn2.setAttribute('aria-label', config.html5playlabel); }
         });
@@ -1040,9 +1041,17 @@ define([
             // resets it first (seeking/pause/ended). The !state.playing branch is the only
             // reachable path; the state.playing=true branch was dead code.
             if (!state.isSeeking && !state.playing) {
-                startSegment();
-                startHeartbeat();
-                setReactionButtons(true);
+                Api.beginPlayback(config, state, media.currentTime, {
+                    swallowFailures: true,
+                    errorMessage: 'html5-playback-start'
+                }).then(function(response) {
+                    if (!response || media.paused || state.isSeeking || state.playing) {
+                        return;
+                    }
+                    startSegment();
+                    startHeartbeat();
+                    setReactionButtons(true);
+                }).catch(Log.debug);
             }
         });
 
@@ -1061,6 +1070,7 @@ define([
         });
 
         media.addEventListener('ended', function() {
+            Api.cancelPlaybackStart(state);
             if (focusGuard) {
                 focusGuard.setPlaying(false);
             }

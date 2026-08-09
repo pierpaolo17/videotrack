@@ -1774,8 +1774,74 @@ function xmldb_videotrack_upgrade($oldversion) {
     }
 
     // Releases 1.6.25 through 1.6.31 contain code-only changes and do not
-    // require schema or data migrations. Do not add no-op savepoints: a new
-    // upgrade block is required only when a future release changes persisted data.
+    // require schema or data migrations. Do not add no-op savepoints.
+
+    if ($oldversion < 2026060447) {
+        // Release 1.6.32: idempotent segment ledger and millisecond playback guard.
+        $segmenttable = new xmldb_table('videotrack_seg');
+        $requestidfield = new xmldb_field(
+            'requestid',
+            XMLDB_TYPE_CHAR,
+            '64',
+            null,
+            null,
+            null,
+            null,
+            'sessionid'
+        );
+        if (!$dbman->field_exists($segmenttable, $requestidfield)) {
+            $dbman->add_field($segmenttable, $requestidfield);
+        }
+
+        $segments = $DB->get_recordset('videotrack_seg', null, 'id ASC', 'id, videotrackid, userid');
+        foreach ($segments as $segment) {
+            $requestid = 'legacy' . substr(hash('sha256', implode(':', [
+                (int)$segment->id,
+                (int)$segment->videotrackid,
+                (int)$segment->userid,
+            ])), 0, 58);
+            $DB->set_field('videotrack_seg', 'requestid', $requestid, ['id' => (int)$segment->id]);
+        }
+        $segments->close();
+
+        $requestidfield->setNotNull(XMLDB_NOTNULL);
+        $dbman->change_field_notnull($segmenttable, $requestidfield);
+        $requestindex = new xmldb_index(
+            'vt_user_request_uix',
+            XMLDB_INDEX_UNIQUE,
+            ['videotrackid', 'userid', 'requestid']
+        );
+        if (!$dbman->index_exists($segmenttable, $requestindex)) {
+            $dbman->add_index($segmenttable, $requestindex);
+        }
+
+        $statetable = new xmldb_table('videotrack_state');
+        $activityfield = new xmldb_field(
+            'serverlastactivity',
+            XMLDB_TYPE_INTEGER,
+            '20',
+            null,
+            XMLDB_NOTNULL,
+            null,
+            '0',
+            'durationseconds'
+        );
+        $dbman->change_field_precision($statetable, $activityfield);
+
+        // Existing guard windows are intentionally closed. The browser performs
+        // a fresh playback handshake before new server-authoritative tracking.
+        $states = $DB->get_recordset('videotrack_state', null, 'id ASC', 'id, servercreditedseconds');
+        foreach ($states as $state) {
+            $DB->update_record('videotrack_state', (object)[
+                'id' => (int)$state->id,
+                'serverlastactivity' => 0,
+                'serverbudgetseconds' => (float)$state->servercreditedseconds,
+            ]);
+        }
+        $states->close();
+
+        upgrade_mod_savepoint(true, 2026060447, 'videotrack');
+    }
 
     return true;
 }

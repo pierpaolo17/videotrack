@@ -1,17 +1,17 @@
 # Documentation audit
 
-Baseline: VideoTrack **1.6.31** (`2026060446`).
+Baseline: VideoTrack **1.6.32** (`2026060447`).
 
 ## Coverage
 
-- Non-documentation files inventoried: **238/238**.
-- Named PHP functions/methods inventoried: **476**.
-- Named AMD callables detected and inventoried: **613**.
+- Non-documentation files inventoried: **239/239**.
+- Named PHP functions/methods inventoried: **486**.
+- Named AMD callables detected and inventoried: **616**.
 - XMLDB tables documented: **7**.
 - Site-setting keys documented: **57**.
 - Player configuration keys documented: **128**.
-- AJAX services documented: **8**.
-- Language packs: eight packs with the same **961-key** contract; operational strings are translated while technical and proper terms may legitimately remain identical.
+- AJAX services documented: **9**.
+- Language packs: eight packs with the same **962-key** contract; operational strings are translated while technical and proper terms may legitimately remain identical.
 - Root overviews: `README.md` (English) and `README_IT.md` (Italian).
 - Root privacy summaries: `PRIVACY.md` and `PRIVACY_IT.md`.
 
@@ -22,6 +22,15 @@ Current documents must not include release-specific assertions without a version
 ## Automated audit expectations
 
 A release audit must compare file inventory to the tree, function inventory to source, language key sets/placeholders, static `get_string` references, XMLDB to backup/restore, services to executable classes, AMD sources to generated assets and Markdown links to existing files.
+
+## 1.6.32 playback-ledger coverage
+
+- `mod_videotrack_start_playback` establishes a zero-credit server timestamp before a tracked segment opens.
+- Every handshake and segment has a persistent request identifier protected by a unique activity/user/request index.
+- Transport retries reuse an identical stored result and cannot duplicate rows, completion transitions or events.
+- Playback credit is cumulative, derived from elapsed server time and an allowed rate, with a bounded clock-drift tolerance that remains cumulative debt across requests and handshakes.
+- Exact covered seconds remain monotonic when the compact interval list reaches 500 entries.
+- XMLDB, upgrade, backup/restore, Privacy API, language metadata, AMD sources/builds and regression tests document the same ledger contract.
 
 ## 1.6.31 runtime-contract and privacy coverage
 

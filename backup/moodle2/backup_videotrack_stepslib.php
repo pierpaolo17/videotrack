@@ -65,7 +65,7 @@ class backup_videotrack_activity_structure_step extends backup_activity_structur
 
         $segments = new backup_nested_element('segments');
         $segment = new backup_nested_element('segment', ['id'], [
-            'userid', 'videoid', 'sessionid', 'wallclockstart', 'wallclockend',
+            'userid', 'videoid', 'sessionid', 'requestid', 'wallclockstart', 'wallclockend',
             'videotimestart', 'videotimeend', 'playbackrate', 'endreason', 'servervalidated', 'timecreated',
         ]);
 

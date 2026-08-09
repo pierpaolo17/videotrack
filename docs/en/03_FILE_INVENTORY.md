@@ -1,8 +1,8 @@
 # Distributed file inventory
 
-This inventory is generated against the VideoTrack 1.6.31 tree and lists every non-documentation file. Canonical JavaScript is under `amd/src`; files under `amd/build` are generated.
+This inventory is generated against the VideoTrack 1.6.32 tree and lists every non-documentation file. Canonical JavaScript is under `amd/src`; files under `amd/build` are generated.
 
-Entries: **238**.
+Entries: **239**.
 
 | File | Responsibility |
 |---|---|
@@ -181,6 +181,7 @@ Entries: **238**.
 | `classes/external/save_note.php` | External function: save a personal timestamped note for the current student. |
 | `classes/external/save_reaction.php` | External function that stores a standard reaction for the current user. |
 | `classes/external/save_segment.php` | External function that persists a watched video segment. |
+| `classes/external/start_playback.php` | AJAX service that opens a zero-credit, idempotent server playback window. |
 | `classes/form/forum_post_form.php` | Forum composer form for VideoTrack. |
 | `classes/local/acknowledgement.php` | Versioned learner acknowledgement helpers. |
 | `classes/local/analytics.php` | Server-side aggregation for instance analytics. |
@@ -244,5 +245,3 @@ Entries: **238**.
 | `tests/tracker_test.php` | PHPUnit coverage for tracker test. |
 | `version.php` | Plugin metadata, version, maturity and supported Moodle branches. |
 | `view.php` | Student-facing activity page: authorisation, state loading, privacy-safe DOM configuration and player bootstrapping. |
-
-Documentation files are indexed by `00_INDEX.md`; archived files are explicitly non-authoritative.

@@ -47,7 +47,7 @@ final class course_analytics_test extends advanced_testcase {
     public function test_state_summary_reuses_timeline_analytics(): void {
         $states = [
             $this->state(1, 100, true, '[[0,40]]', 40),
-            $this->state(2, 75, true, '[[0,30]]', 40),
+            $this->state(2, 100, true, '[[0,40]]', 40),
             $this->state(3, 50, false, '[[0,20]]', 40),
             $this->state(4, 50, false, '[[0,20]]', 40),
             $this->state(5, 25, false, '[[0,10]]', 40),
@@ -57,12 +57,30 @@ final class course_analytics_test extends advanced_testcase {
 
         $this->assertFalse($summary['datasetsuppressed']);
         $this->assertSame(5, $summary['started']['eventcount']);
-        $this->assertSame(60.0, $summary['averagepercent']);
+        $this->assertSame(65.0, $summary['averagepercent']);
         $this->assertSame(50.0, $summary['medianpercent']);
         $this->assertSame(2, $summary['completions']['eventcount']);
         $this->assertSame(3, $summary['noncompleted']['eventcount']);
         $this->assertSame(20.0, $summary['maindrop']['timestamp']);
         $this->assertSame(40.0, $summary['maindrop']['percentagepoints']);
+    }
+
+    /**
+     * A suppressed positive timeline bin hides the retention denominator and main drop.
+     */
+    public function test_state_summary_hides_drop_when_retention_denominator_is_suppressed(): void {
+        $states = [
+            $this->state(1, 100, true, '[[0,40]]', 40),
+            $this->state(2, 75, true, '[[0,30]]', 40),
+            $this->state(3, 50, false, '[[0,20]]', 40),
+            $this->state(4, 50, false, '[[0,20]]', 40),
+            $this->state(5, 25, false, '[[0,10]]', 40),
+        ];
+
+        $summary = course_analytics::summarise_states($states, 40, 2);
+
+        $this->assertFalse($summary['datasetsuppressed']);
+        $this->assertNull($summary['maindrop']);
     }
 
     /**

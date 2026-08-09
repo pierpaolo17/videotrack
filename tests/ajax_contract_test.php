@@ -56,6 +56,7 @@ final class ajax_contract_test extends advanced_testcase {
 
         $this->assertSame($declared, $allowlist);
         $this->assertStringContainsString('integrity-required-fields', $validatorsource);
+        $this->assertStringContainsString('playback-start-required-fields', $validatorsource);
     }
 
     /**
@@ -76,7 +77,7 @@ final class ajax_contract_test extends advanced_testcase {
             }
             $source = file_get_contents($file->getPathname());
             $this->assertIsString($source);
-            preg_match_all('/Api\.call\(\s*[\'"](mod_videotrack_[a-z0-9_]+)[\'"]/', $source, $matches);
+            preg_match_all('/(?:Api\.)?call\(\s*[\'"](mod_videotrack_[a-z0-9_]+)[\'"]/', $source, $matches);
             $called = array_merge($called, $matches[1]);
         }
 
@@ -84,6 +85,7 @@ final class ajax_contract_test extends advanced_testcase {
             $this->assertContains($method, $declared, "Undeclared AJAX method used by AMD: {$method}");
         }
         $this->assertContains('mod_videotrack_save_integrity_event', $called);
+        $this->assertContains('mod_videotrack_start_playback', $called);
     }
 
     /**
@@ -91,6 +93,7 @@ final class ajax_contract_test extends advanced_testcase {
      */
     public function test_sesskey_is_checked_before_context_loading(): void {
         $endpoints = [
+            'start_playback.php',
             'save_segment.php',
             'save_reaction.php',
             'delete_reaction.php',
