@@ -51,9 +51,8 @@ final class upgrade_contract_test extends advanced_testcase {
         $this->assertStringContainsString("new xmldb_field('sessionid')", $source);
         $this->assertStringContainsString("new xmldb_field('requestid')", $source);
         $this->assertStringContainsString("new xmldb_field('servervalidated')", $source);
-        $this->assertStringContainsString("if ($oldversion < 2026060453)", $source);
+        $this->assertStringContainsString('if ($oldversion < 2026060453)', $source);
     }
-
 
     /**
      * Failed pre-production installs must converge above the obsolete 2026063000 lineage.
@@ -68,7 +67,9 @@ final class upgrade_contract_test extends advanced_testcase {
         $this->assertIsString($upgradesource);
         $this->assertIsString($repairsource);
 
-        $this->assertStringContainsString('$plugin->version = 2026063001;', $versionsource);
+        $matched = preg_match('/\$plugin->version\s*=\s*(\d+);/', $versionsource, $matches);
+        $this->assertSame(1, $matched);
+        $this->assertGreaterThan(2026063000, (int) $matches[1]);
         $this->assertStringContainsString('if ($oldversion < 2026063001)', $upgradesource);
         $this->assertStringContainsString('videotrack_repair_preproduction_schema();', $upgradesource);
         $this->assertStringContainsString("new xmldb_table('videotrack_progress')", $repairsource);
@@ -127,5 +128,4 @@ final class upgrade_contract_test extends advanced_testcase {
         $this->assertStringNotContainsString('grade_item::', $repairsource);
         $this->assertStringNotContainsString('grade_update(', $repairsource);
     }
-
 }
