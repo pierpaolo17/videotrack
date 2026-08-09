@@ -1931,5 +1931,13 @@ function xmldb_videotrack_upgrade($oldversion) {
         upgrade_mod_savepoint(true, 2026060451, 'videotrack');
     }
 
+    if ($oldversion < 2026060452) {
+        // Release 1.6.37: repair stale or duplicate pre-production gradebook rows.
+        require_once(__DIR__ . '/repairlib.php');
+        videotrack_repair_preproduction_gradebook_rows();
+
+        upgrade_mod_savepoint(true, 2026060452, 'videotrack');
+    }
+
     return true;
 }
