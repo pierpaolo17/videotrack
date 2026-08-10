@@ -2,6 +2,12 @@
 
 This is the canonical release-history file for the plugin tree. Detailed design notes and historical migration documents remain under `docs/`.
 
+## 1.7.27 - 2026-08-10
+
+- Stabilizes the U-016 phase-2 test contracts without changing Analytics runtime code.
+- Aligns the period-loader contract with the aliased `seg.servervalidated` and `seg.timecreated` SQL used by batched segment reads.
+- Fixes the PHPCS class-closing layout in `analytics_performance_contract_test.php`.
+
 ## 1.7.26 - 2026-08-10
 
 ### Changed

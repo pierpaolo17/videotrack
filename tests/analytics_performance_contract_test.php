@@ -80,5 +80,4 @@ final class analytics_performance_contract_test extends advanced_testcase {
         $this->assertStringNotContainsString('private static function load_current_completion_flags(', $source);
         $this->assertStringNotContainsString('private static function load_completion_flags_for_scopes(', $source);
     }
-
 }
