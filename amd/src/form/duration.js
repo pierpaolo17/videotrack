@@ -147,48 +147,63 @@ define(['core/log'], function(Log) {
         youtubeApiPromise = new Promise(function(resolve, reject) {
             var settled = false;
             var previous = window.onYouTubeIframeAPIReady;
-            var timeout = window.setTimeout(function() {
-                if (!settled) {
-                    settled = true;
-                    reject(new Error('YouTube duration API timeout'));
+            var script = document.querySelector('script[src="https://www.youtube.com/iframe_api"]');
+            var poll = null;
+            var timeout = null;
+            var handler = null;
+            var cleanup = function(removeScript) {
+                if (poll !== null) {
+                    window.clearInterval(poll);
                 }
-            }, 20000);
+                if (timeout !== null) {
+                    window.clearTimeout(timeout);
+                }
+                if (window.onYouTubeIframeAPIReady === handler) {
+                    window.onYouTubeIframeAPIReady = previous;
+                }
+                if (removeScript && script && script.parentNode && (!window.YT || !window.YT.Player)) {
+                    script.parentNode.removeChild(script);
+                }
+            };
+            var fail = function(error) {
+                if (settled) {
+                    return;
+                }
+                settled = true;
+                cleanup(true);
+                reject(error);
+            };
             var ready = function() {
                 if (settled || !window.YT || !window.YT.Player) {
                     return;
                 }
                 settled = true;
-                window.clearTimeout(timeout);
+                cleanup(false);
                 resolve(window.YT);
             };
-            window.onYouTubeIframeAPIReady = function() {
+            handler = function() {
                 if (typeof previous === 'function') {
                     previous();
                 }
                 ready();
             };
-            var poll = window.setInterval(function() {
-                if (settled) {
-                    window.clearInterval(poll);
-                    return;
-                }
-                ready();
-            }, 100);
-            var existing = document.querySelector('script[src="https://www.youtube.com/iframe_api"]');
-            if (!existing) {
-                var script = document.createElement('script');
+            window.onYouTubeIframeAPIReady = handler;
+            timeout = window.setTimeout(function() {
+                fail(new Error('YouTube duration API timeout'));
+            }, 20000);
+            poll = window.setInterval(ready, 100);
+            if (!script) {
+                script = document.createElement('script');
                 script.src = 'https://www.youtube.com/iframe_api';
                 script.async = true;
                 script.onerror = function() {
-                    if (!settled) {
-                        settled = true;
-                        window.clearInterval(poll);
-                        window.clearTimeout(timeout);
-                        reject(new Error('YouTube duration API failed to load'));
-                    }
+                    fail(new Error('YouTube duration API failed to load'));
                 };
                 document.head.appendChild(script);
             }
+        }).catch(function(error) {
+            youtubeApiPromise = null;
+            throw error;
         });
         return youtubeApiPromise;
     }
@@ -259,71 +274,54 @@ define(['core/log'], function(Log) {
         });
     }
 
+    function forgetRequireModule(loader, moduleId) {
+        if (typeof loader.undef !== 'function') {
+            return;
+        }
+        if (typeof loader.specified === 'function' && !loader.specified(moduleId)) {
+            return;
+        }
+        loader.undef(moduleId);
+    }
+
     function loadVimeoApi() {
+        var vimeoUrl = 'https://player.vimeo.com/api/player.js';
         if (window.Vimeo && window.Vimeo.Player) {
-            return Promise.resolve(window.Vimeo);
+            return Promise.resolve(window.Vimeo.Player);
         }
         if (vimeoApiPromise) {
             return vimeoApiPromise;
         }
         vimeoApiPromise = new Promise(function(resolve, reject) {
-            var settled = false;
-            var amdDefine = window.define;
-            var restoreDefine = function() {
-                if (amdDefine && window.define !== amdDefine) {
-                    window.define = amdDefine;
-                }
-            };
-            var timeout = window.setTimeout(function() {
-                if (!settled) {
-                    settled = true;
-                    restoreDefine();
-                    reject(new Error('Vimeo duration API timeout'));
-                }
-            }, 20000);
-            var ready = function() {
-                if (settled || !window.Vimeo || !window.Vimeo.Player) {
-                    return;
-                }
-                settled = true;
-                restoreDefine();
-                window.clearTimeout(timeout);
-                resolve(window.Vimeo);
-            };
-            var poll = window.setInterval(function() {
-                if (settled) {
-                    window.clearInterval(poll);
-                    return;
-                }
-                ready();
-            }, 100);
-            var existing = document.querySelector('script[src="https://player.vimeo.com/api/player.js"]');
-            if (existing) {
+            var loader = window.requirejs || window.require;
+            if (typeof loader !== 'function') {
+                reject(new Error('RequireJS is unavailable for Vimeo duration API'));
                 return;
             }
-            var script = document.createElement('script');
-            script.src = 'https://player.vimeo.com/api/player.js';
-            script.async = true;
-            if (amdDefine && amdDefine.amd) {
-                window.define = undefined;
-            }
-            script.onload = ready;
-            script.onerror = function() {
-                if (!settled) {
-                    settled = true;
-                    restoreDefine();
-                    window.clearInterval(poll);
-                    window.clearTimeout(timeout);
-                    reject(new Error('Vimeo duration API failed to load'));
+            loader([vimeoUrl], function(Player) {
+                if (typeof Player === 'function') {
+                    resolve(Player);
+                    return;
                 }
-            };
-            document.head.appendChild(script);
+                if (window.Vimeo && typeof window.Vimeo.Player === 'function') {
+                    resolve(window.Vimeo.Player);
+                    return;
+                }
+                forgetRequireModule(loader, vimeoUrl);
+                reject(new Error('Vimeo duration API returned no Player constructor'));
+            }, function(error) {
+                forgetRequireModule(loader, vimeoUrl);
+                reject(error || new Error('Vimeo duration API failed to load'));
+            });
+        }).catch(function(error) {
+            vimeoApiPromise = null;
+            throw error;
         });
         return vimeoApiPromise;
     }
 
     function detectVimeoDuration(source) {
-        return loadVimeoApi().then(function() {
+        return loadVimeoApi().then(function(Player) {
             var host = getProbeHost();
             var iframe = document.createElement('iframe');
             var parameters = ['dnt=1', 'autoplay=0', 'controls=0', 'playsinline=1'];
@@ -337,7 +335,7 @@ define(['core/log'], function(Log) {
             iframe.setAttribute('aria-hidden', 'true');
             iframe.setAttribute('title', '');
             host.appendChild(iframe);
-            var player = new window.Vimeo.Player(iframe);
+            var player = new Player(iframe);
             var cleanup = function() {
                 var result = player && typeof player.destroy === 'function' ? player.destroy() : null;
                 if (result && typeof result.catch === 'function') {
