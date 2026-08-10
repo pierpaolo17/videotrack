@@ -10,7 +10,7 @@ define(['mod_videotrack/core/debug'], function(Debug) {
     function resolveBookmarkTime(progressResponse, fallbackTime) {
         var savedEnd = progressResponse && Number(progressResponse.savedvideotimeend);
         var time = Number(fallbackTime);
-        if (Number.isFinite(savedEnd) && savedEnd >= 0) {
+        if (Number.isFinite(savedEnd) && savedEnd > 0) {
             return Math.max(0, savedEnd);
         }
         return Number.isFinite(time) ? Math.max(0, time) : 0;
