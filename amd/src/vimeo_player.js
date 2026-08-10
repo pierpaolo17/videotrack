@@ -696,10 +696,10 @@ define([
             Log.debug((label || 'Vimeo blocked seek immediate resume') + ': ' + error);
         });
         playVimeoAfterSeek(label || 'Vimeo blocked seek resume', [250, 700, 1400, 2600, 4200, 6500, 9000], {
-            requiredPlayingObservations: 1,
+            requiredPlayingObservations: 2,
             fallback: state._vimeoBlockedForwardSeekFallback,
             clearBlockedSeekResume: true,
-            forcePlay: true
+            requireTimeAdvance: true
         });
         state._vimeoBlockedSeekResumeTimer = window.setTimeout(function() {
             clearBlockedSeekResumeRequest();

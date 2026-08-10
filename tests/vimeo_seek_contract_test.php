@@ -5,6 +5,14 @@
 // it under the terms of the GNU General Public License as published by
 // the Free Software Foundation, either version 3 of the License, or
 // (at your option) any later version.
+//
+// Moodle is distributed in the hope that it will be useful,
+// but WITHOUT ANY WARRANTY; without even the implied warranty of
+// MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+// GNU General Public License for more details.
+//
+// You should have received a copy of the GNU General Public License
+// along with Moodle.  If not, see <https://www.gnu.org/licenses/>.
 
 namespace mod_videotrack;
 
@@ -32,13 +40,29 @@ final class vimeo_seek_contract_test extends advanced_testcase {
         $this->assertNotFalse($resume);
         $immediate = strpos($source, 'player.play().catch(function(error)', $resume);
         $retry = strpos($source, 'playVimeoAfterSeek(', $resume);
-        $resumeState = strpos($source, 'state._vimeoBlockedSeekResume = {', $resume);
+        $resumestate = strpos($source, 'state._vimeoBlockedSeekResume = {', $resume);
 
-        $this->assertNotFalse($resumeState);
+        $this->assertNotFalse($resumestate);
         $this->assertNotFalse($immediate);
         $this->assertNotFalse($retry);
-        $this->assertLessThan($immediate, $resumeState);
+        $this->assertLessThan($immediate, $resumestate);
         $this->assertLessThan($retry, $immediate);
         $this->assertStringContainsString('Vimeo blocked seek immediate resume', $source);
+    }
+
+    /**
+     * Blocked seek recovery must wait for stable playback evidence before clearing state.
+     */
+    public function test_blocked_seek_requires_time_advance_before_recovery_completes(): void {
+        $source = file_get_contents(__DIR__ . '/../amd/src/vimeo_player.js');
+        $this->assertIsString($source);
+
+        $resume = strpos($source, 'function scheduleBlockedSeekResume(wasPlaying, label)');
+        $this->assertNotFalse($resume);
+        $section = substr($source, $resume, 1800);
+
+        $this->assertStringContainsString('requiredPlayingObservations: 2', $section);
+        $this->assertStringContainsString('requireTimeAdvance: true', $section);
+        $this->assertStringNotContainsString('forcePlay: true', $section);
     }
 }
