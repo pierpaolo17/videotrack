@@ -65,4 +65,27 @@ final class vimeo_seek_contract_test extends advanced_testcase {
         $this->assertStringContainsString('requireTimeAdvance: true', $section);
         $this->assertStringNotContainsString('forcePlay: true', $section);
     }
+
+    /**
+     * Vimeo play events must not clear blocked-seek recovery before stable playback is confirmed.
+     */
+    public function test_play_event_does_not_clear_blocked_seek_recovery_early(): void {
+        $source = file_get_contents(__DIR__ . '/../amd/src/vimeo_player.js');
+        $this->assertIsString($source);
+
+        $playhandler = strpos($source, "player.on('play', function()");
+        $this->assertNotFalse($playhandler);
+        $branch = strpos($source, 'if (state._vimeoBlockedSeekResume) {', $playhandler);
+        $this->assertNotFalse($branch);
+        $nextbranch = strpos($source, 'if (isVimeoForwardTimeBlocked(t, allowedLimit)) {', $branch);
+        $this->assertNotFalse($nextbranch);
+        $section = substr($source, $branch, $nextbranch - $branch);
+
+        $this->assertStringContainsString('ensureVimeoRuntimePlaying(t);', $section);
+        $this->assertStringNotContainsString('clearBlockedSeekResumeRequest();', $section);
+        $this->assertStringContainsString(
+            'Keep blocked-seek recovery active until playVimeoAfterSeek confirms stable playback.',
+            $section
+        );
+    }
 }
