@@ -383,6 +383,7 @@ $string['report:notecreatedto'] = 'Notes jusqu’à la date';
 $string['report:notedate'] = 'Écrite le';
 $string['report:notes_title'] = 'Notes des étudiants';
 $string['report:perstudent'] = 'Par étudiant';
+$string['report:studentreactions_title'] = 'Réactions par étudiant';
 $string['report:reaction'] = 'Réaction';
 $string['report:recalculate'] = 'Recalculer tous les états d’achèvement';
 $string['report:recalculated'] = 'États d’achèvement recalculés pour {$a} utilisateurs.';
