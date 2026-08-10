@@ -141,6 +141,75 @@ final class course_analytics_test extends advanced_testcase {
     }
 
     /**
+     * Period summaries ignore historical playback even when the learner is recently active.
+     */
+    public function test_period_summary_uses_only_segments_created_inside_period(): void {
+        $now = 2000000000;
+        $start = $now - (7 * DAYSECS);
+        $segments = [
+            (object)[
+                'id' => 1,
+                'userid' => 11,
+                'videotimestart' => 0.0,
+                'videotimeend' => 80.0,
+                'servervalidated' => 1,
+                'timecreated' => $start - 10,
+            ],
+            (object)[
+                'id' => 2,
+                'userid' => 11,
+                'videotimestart' => 0.0,
+                'videotimeend' => 5.0,
+                'servervalidated' => 1,
+                'timecreated' => $start + 10,
+            ],
+            (object)[
+                'id' => 3,
+                'userid' => 12,
+                'videotimestart' => 0.0,
+                'videotimeend' => 70.0,
+                'servervalidated' => 1,
+                'timecreated' => $start - 20,
+            ],
+            (object)[
+                'id' => 4,
+                'userid' => 12,
+                'videotimestart' => 10.0,
+                'videotimeend' => 15.0,
+                'servervalidated' => 1,
+                'timecreated' => $start + 20,
+            ],
+        ];
+
+        $summary = course_analytics::summarise_period_segments(
+            $segments,
+            [11 => true, 12 => false],
+            100.0,
+            2,
+            $start,
+            $now
+        );
+
+        $this->assertSame(2, $summary['started']['eventcount']);
+        $this->assertSame(5.0, $summary['averagepercent']);
+        $this->assertSame(5.0, $summary['medianpercent']);
+        $this->assertSame(1, $summary['completions']['eventcount']);
+        $this->assertSame(1, $summary['noncompleted']['eventcount']);
+    }
+
+    /**
+     * Period loading is anchored to validated segment creation time, not state modification time.
+     */
+    public function test_period_loader_uses_segment_creation_time(): void {
+        $source = file_get_contents(__DIR__ . '/../classes/local/course_analytics.php');
+        $this->assertIsString($source);
+        $this->assertStringContainsString('AND servervalidated = 1', $source);
+        $this->assertStringContainsString('timecreated >= :segmenttimestart', $source);
+        $this->assertStringContainsString('timecreated <= :segmenttimeend', $source);
+        $this->assertStringNotContainsString('timemodified >= :statetimestart', $source);
+    }
+
+    /**
      * Explicit participation remains available to a learner who also has report access.
      */
     public function test_participation_scope_is_independent_from_report_access(): void {

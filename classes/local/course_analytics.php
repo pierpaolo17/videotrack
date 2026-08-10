@@ -102,18 +102,41 @@ final class course_analytics {
                 $groupids = [$groupid];
             }
             [$learnersql, $learnerparams] = self::learner_scope_sql($context, $groupids);
-            $states = self::load_states(
-                (int)$instance->id,
-                $learnersql,
-                $learnerparams,
-                $timestart,
-                $timeend
-            );
-            $summary = self::summarise_states(
-                $states,
-                (float)$instance->durationseconds,
-                $minusers
-            );
+            if ($timestart > 0 || $timeend > 0) {
+                $segments = self::load_period_segments(
+                    (int)$instance->id,
+                    $learnersql,
+                    $learnerparams,
+                    $timestart,
+                    $timeend
+                );
+                $completionflags = self::load_current_completion_flags(
+                    (int)$instance->id,
+                    array_values(array_unique(array_map(
+                        static fn(stdClass $segment): int => (int)$segment->userid,
+                        $segments
+                    )))
+                );
+                $summary = self::summarise_period_segments(
+                    $segments,
+                    $completionflags,
+                    (float)$instance->durationseconds,
+                    $minusers,
+                    $timestart,
+                    $timeend
+                );
+            } else {
+                $states = self::load_states(
+                    (int)$instance->id,
+                    $learnersql,
+                    $learnerparams
+                );
+                $summary = self::summarise_states(
+                    $states,
+                    (float)$instance->durationseconds,
+                    $minusers
+                );
+            }
 
             $row = clone $instance;
             $row->summary = $summary;
@@ -290,16 +313,99 @@ final class course_analytics {
     }
 
     /**
-     * Loads aggregate state rows for one activity and learner scope.
+     * Summarises server-validated playback segments created inside one time period.
+     *
+     * Viewing percentages and retention are rebuilt exclusively from segment rows
+     * whose timecreated belongs to the requested period. Completion is intentionally
+     * a current snapshot for the learners active in that period because VideoTrack
+     * does not persist a historical completion timestamp.
+     *
+     * @param iterable $segments Candidate segment rows.
+     * @param array $completionflags Current completion flags keyed by user id.
+     * @param float $duration Activity duration.
+     * @param int $minusers Privacy threshold.
+     * @param int $timestart Inclusive period start timestamp.
+     * @param int $timeend Inclusive period end timestamp.
+     * @return array Privacy-safe period summary.
+     */
+    public static function summarise_period_segments(
+        iterable $segments,
+        array $completionflags,
+        float $duration,
+        int $minusers,
+        int $timestart,
+        int $timeend
+    ): array {
+        $byuser = [];
+        foreach ($segments as $segment) {
+            if (empty($segment->servervalidated)) {
+                continue;
+            }
+            $timecreated = (int)($segment->timecreated ?? 0);
+            if (($timestart > 0 && $timecreated < $timestart) || ($timeend > 0 && $timecreated > $timeend)) {
+                continue;
+            }
+            $userid = (int)($segment->userid ?? 0);
+            if ($userid <= 0) {
+                continue;
+            }
+            $byuser[$userid][] = $segment;
+        }
+
+        $states = [];
+        foreach ($byuser as $userid => $usersegments) {
+            $aggregate = tracker::aggregate_segments($usersegments, $duration);
+            $covered = (float)$aggregate['coveredseconds'];
+            $percent = $duration > 0
+                ? min(100.0, round(($covered / $duration) * 100, 2))
+                : 0.0;
+            $states[] = (object)[
+                'userid' => $userid,
+                'completionpercent' => $percent,
+                'iscompleted' => !empty($completionflags[$userid]) ? 1 : 0,
+                'intervaljson' => tracker::encode_intervals($aggregate['intervals']),
+                'durationseconds' => $duration,
+            ];
+        }
+
+        return self::summarise_states($states, $duration, $minusers);
+    }
+
+    /**
+     * Loads aggregate all-time state rows for one activity and learner scope.
      *
      * @param int $videotrackid Activity instance id.
      * @param string $learnersql Learner SQL condition.
      * @param array $learnerparams Learner SQL parameters.
-     * @param int $timestart Optional inclusive state modification start time.
-     * @param int $timeend Optional inclusive state modification end time.
      * @return array State records.
      */
     private static function load_states(
+        int $videotrackid,
+        string $learnersql,
+        array $learnerparams
+    ): array {
+        global $DB;
+
+        $params = ['statevideotrackid' => $videotrackid] + $learnerparams;
+        $sql = "SELECT id, userid, completionpercent, iscompleted, intervaljson, durationseconds
+                  FROM {videotrack_state}
+                 WHERE videotrackid = :statevideotrackid
+                   AND {$learnersql}
+              ORDER BY userid ASC, id ASC";
+        return $DB->get_records_sql($sql, $params);
+    }
+
+    /**
+     * Loads server-validated playback segments created inside the requested period.
+     *
+     * @param int $videotrackid Activity instance id.
+     * @param string $learnersql Learner SQL condition.
+     * @param array $learnerparams Learner SQL parameters.
+     * @param int $timestart Optional inclusive segment creation start time.
+     * @param int $timeend Optional inclusive segment creation end time.
+     * @return array Segment records.
+     */
+    private static function load_period_segments(
         int $videotrackid,
         string $learnersql,
         array $learnerparams,
@@ -308,22 +414,54 @@ final class course_analytics {
     ): array {
         global $DB;
 
-        $params = ['statevideotrackid' => $videotrackid] + $learnerparams;
+        $params = ['segmentvideotrackid' => $videotrackid] + $learnerparams;
         $timecondition = '';
         if ($timestart > 0) {
-            $timecondition .= ' AND timemodified >= :statetimestart';
-            $params['statetimestart'] = $timestart;
+            $timecondition .= ' AND timecreated >= :segmenttimestart';
+            $params['segmenttimestart'] = $timestart;
         }
         if ($timeend > 0) {
-            $timecondition .= ' AND timemodified <= :statetimeend';
-            $params['statetimeend'] = $timeend;
+            $timecondition .= ' AND timecreated <= :segmenttimeend';
+            $params['segmenttimeend'] = $timeend;
         }
-        $sql = "SELECT id, userid, completionpercent, iscompleted, intervaljson, durationseconds
-                  FROM {videotrack_state}
-                 WHERE videotrackid = :statevideotrackid
+        $sql = "SELECT id, userid, videotimestart, videotimeend, servervalidated, timecreated
+                  FROM {videotrack_seg}
+                 WHERE videotrackid = :segmentvideotrackid
+                   AND servervalidated = 1
                    AND {$learnersql}{$timecondition}
-              ORDER BY userid ASC, id ASC";
+              ORDER BY userid ASC, timecreated ASC, id ASC";
         return $DB->get_records_sql($sql, $params);
+    }
+
+    /**
+     * Loads current completion flags for learners active inside a period.
+     *
+     * @param int $videotrackid Activity instance id.
+     * @param array $userids Learner ids observed in period segments.
+     * @return array Completion flags keyed by user id.
+     */
+    private static function load_current_completion_flags(int $videotrackid, array $userids): array {
+        global $DB;
+
+        $userids = array_values(array_unique(array_filter(array_map('intval', $userids))));
+        if (!$userids) {
+            return [];
+        }
+        [$insql, $inparams] = $DB->get_in_or_equal($userids, SQL_PARAMS_NAMED, 'perioduser');
+        $params = ['completionvideotrackid' => $videotrackid] + $inparams;
+        $records = $DB->get_records_select(
+            'videotrack_state',
+            "videotrackid = :completionvideotrackid AND userid {$insql}",
+            $params,
+            '',
+            'userid,iscompleted'
+        );
+
+        $flags = [];
+        foreach ($records as $record) {
+            $flags[(int)$record->userid] = !empty($record->iscompleted);
+        }
+        return $flags;
     }
 
     /**
