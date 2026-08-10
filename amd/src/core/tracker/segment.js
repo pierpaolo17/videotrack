@@ -166,6 +166,48 @@ define([
     }
 
     /**
+     * Persist the currently open segment up to a caller-supplied known-good time.
+     *
+     * The start/end snapshot is captured immediately, but persistence is serialised
+     * through the shared segment queue. This is used before rolling back an illegal
+     * forward seek: the provider may already report the forbidden target, while
+     * state.lasttime/fallback still identifies the last legitimately watched point.
+     *
+     * @param {Object} state Mutable player state.
+     * @param {number} end Known-good segment end in seconds.
+     * @param {Function} saveSegment Function used to persist the captured segment.
+     * @param {string} reason Segment save reason.
+     * @returns {Promise} Save result, or a null-equivalent promise when no segment exists.
+     */
+    function saveOpenSegmentSnapshot(state, end, saveSegment, reason) {
+        if (!state || state.segmentstart === null || typeof saveSegment !== 'function') {
+            return Promise.resolve(null);
+        }
+
+        var start = normaliseTime(state.segmentstart);
+        var knownEnd = normaliseTime(end);
+        if (knownEnd <= start) {
+            return Promise.resolve(null);
+        }
+        var saveReason = Segment.normaliseSaveReason(reason);
+
+        return enqueueSegmentSave(state, function() {
+            return Promise.resolve(saveSegment(start, knownEnd, saveReason)).then(function(result) {
+                emit(state, 'segment:snapshot-saved', {start: start, end: knownEnd, reason: saveReason});
+                return result;
+            }, function(error) {
+                emit(state, 'segment:snapshot-error', {
+                    start: start,
+                    end: knownEnd,
+                    reason: saveReason,
+                    error: error
+                });
+                throw error;
+            });
+        });
+    }
+
+    /**
      * Move the open segment start after a successful interaction save.
      *
      * @param {Object} state Mutable player state.
@@ -231,6 +273,7 @@ define([
         closeSegment: closeSegment,
         enqueueSegmentSave: enqueueSegmentSave,
         closeAndSaveSegment: closeAndSaveSegment,
+        saveOpenSegmentSnapshot: saveOpenSegmentSnapshot,
         reopenAfterInteractionSave: reopenAfterInteractionSave,
         isPlayerAvailable: isPlayerAvailable,
         saveCurrentProgress: saveCurrentProgress

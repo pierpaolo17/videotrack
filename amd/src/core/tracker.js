@@ -99,6 +99,7 @@ define([
     var closeSegment = TrackerSegment.closeSegment;
     var enqueueSegmentSave = TrackerSegment.enqueueSegmentSave;
     var closeAndSaveSegment = TrackerSegment.closeAndSaveSegment;
+    var saveOpenSegmentSnapshot = TrackerSegment.saveOpenSegmentSnapshot;
     var reopenAfterInteractionSave = TrackerSegment.reopenAfterInteractionSave;
     var isPlayerAvailable = TrackerSegment.isPlayerAvailable;
     var saveCurrentProgress = TrackerSegment.saveCurrentProgress;
@@ -214,6 +215,7 @@ define([
         closeSegment: closeSegment,
         captureHeartbeatSegment: captureHeartbeatSegment,
         closeAndSaveSegment: closeAndSaveSegment,
+        saveOpenSegmentSnapshot: saveOpenSegmentSnapshot,
         enqueueSegmentSave: enqueueSegmentSave,
         normaliseHeartbeatInterval: normaliseHeartbeatInterval,
         pollInterval: pollInterval,
