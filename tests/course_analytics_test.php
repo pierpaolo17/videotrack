@@ -205,9 +205,9 @@ final class course_analytics_test extends advanced_testcase {
     public function test_period_loader_uses_segment_creation_time(): void {
         $source = file_get_contents(__DIR__ . '/../classes/local/course_analytics.php');
         $this->assertIsString($source);
-        $this->assertStringContainsString('AND servervalidated = 1', $source);
-        $this->assertStringContainsString('timecreated >= :segmenttimestart', $source);
-        $this->assertStringContainsString('timecreated <= :segmenttimeend', $source);
+        $this->assertStringContainsString('AND seg.servervalidated = 1', $source);
+        $this->assertStringContainsString('seg.timecreated >= :segmenttimestart', $source);
+        $this->assertStringContainsString('seg.timecreated <= :segmenttimeend', $source);
         $this->assertStringNotContainsString('timemodified >= :statetimestart', $source);
     }
 

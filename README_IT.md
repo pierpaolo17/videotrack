@@ -2,7 +2,7 @@
 
 VideoTrack è un modulo attività Moodle per distribuire e tracciare video HTML5/caricati, YouTube e Vimeo. Combina progresso di visione validato dal server con strumenti di studio opzionali, regole di completamento, integrazione gradebook e report docente attenti alla privacy.
 
-Release corrente documentata da questo albero: **1.7.26**. Rami Moodle dichiarati come supportati dal plugin: **5.0–5.3**.
+Release corrente documentata da questo albero: **1.7.27**. Rami Moodle dichiarati come supportati dal plugin: **5.0–5.3**.
 
 Panoramica inglese: [`README.md`](README.md)
 Cronologia release: [`CHANGELOG.md`](CHANGELOG.md)
