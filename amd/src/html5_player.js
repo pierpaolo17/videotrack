@@ -309,6 +309,13 @@ define([
         scheduleProgrammaticSeekFallback(target);
     }
 
+    function persistBlockedSeekFrontier(fallback) {
+        return Tracker.saveOpenSegmentSnapshot(state, fallback, saveSegment, 'seek').catch(function(error) {
+            Debug.log('html5blockedseekfrontiersavefailed', {message: error && error.message});
+            return null;
+        });
+    }
+
     function blockForwardSeek(target, fallbackTime) {
         var fallback = typeof fallbackTime === 'number' ? fallbackTime : getAllowedForwardLimit();
         var wasPlaying = resolveHTML5SeekWasPlaying();
@@ -321,6 +328,7 @@ define([
             focusGuard.noteAction('forwardseek');
             focusGuard.record('forwardseek');
         }
+        persistBlockedSeekFrontier(fallback);
         penaltyRate = applyBlockedSeekPenalty(getBlockedSeekPlaybackRate(fallback));
         retryBlockedSeekPenalty(penaltyRate);
         state.isSeeking = true;

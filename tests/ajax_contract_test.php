@@ -144,15 +144,41 @@ final class ajax_contract_test extends advanced_testcase {
      * Interaction timestamps must ignore zero-valued no-op segment responses.
      */
     public function test_note_and_bookmark_timestamps_fall_back_when_saved_end_is_zero(): void {
-        foreach ([
+        $resolvers = [
             'core/player/bookmarks.js' => 'resolveBookmarkTime',
             'core/player/notes.js' => 'resolveNoteTime',
-        ] as $filename => $resolver) {
+        ];
+        foreach ($resolvers as $filename => $resolver) {
             $source = file_get_contents(__DIR__ . '/../amd/src/' . $filename);
             $this->assertIsString($source);
             $this->assertStringContainsString('function ' . $resolver . '(progressResponse, fallbackTime)', $source);
             $this->assertStringContainsString('Number.isFinite(savedEnd) && savedEnd > 0', $source);
             $this->assertStringNotContainsString('Number.isFinite(savedEnd) && savedEnd >= 0', $source);
+        }
+    }
+
+    /**
+     * Blocked forward seeks must persist the last legitimate in-memory frontier.
+     */
+    public function test_blocked_forward_seek_persists_frontier_before_rollback(): void {
+        $tracker = file_get_contents(__DIR__ . '/../amd/src/core/tracker/segment.js');
+        $facade = file_get_contents(__DIR__ . '/../amd/src/core/tracker.js');
+        $this->assertIsString($tracker);
+        $this->assertIsString($facade);
+        $this->assertStringContainsString(
+            'function saveOpenSegmentSnapshot(state, end, saveSegment, reason)',
+            $tracker
+        );
+        $this->assertStringContainsString('saveOpenSegmentSnapshot: saveOpenSegmentSnapshot', $facade);
+
+        foreach (['player.js', 'vimeo_player.js', 'html5_player.js'] as $filename) {
+            $source = file_get_contents(__DIR__ . '/../amd/src/' . $filename);
+            $this->assertIsString($source);
+            $this->assertStringContainsString(
+                "Tracker.saveOpenSegmentSnapshot(state, fallback, saveSegment, 'seek')",
+                $source
+            );
+            $this->assertStringContainsString('persistBlockedSeekFrontier(fallback);', $source);
         }
     }
 

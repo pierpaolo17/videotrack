@@ -788,6 +788,13 @@ define([
         return getPlaybackRatePenalty();
     }
 
+    function persistBlockedSeekFrontier(fallback) {
+        return Tracker.saveOpenSegmentSnapshot(state, fallback, saveSegment, 'seek').catch(function(error) {
+            Debug.log('vimeoblockedseekfrontiersavefailed', {message: error && error.message});
+            return null;
+        });
+    }
+
     function blockForwardSeek(target, fallbackTime, wasPlayingOverride) {
         var fallback = typeof fallbackTime === 'number' ? fallbackTime : Tracker.normaliseTime(state.lasttime);
         var recentSeek = getRecentVimeoUserSeek();
@@ -802,6 +809,7 @@ define([
             focusGuard.noteAction('forwardseek');
             focusGuard.record('forwardseek');
         }
+        persistBlockedSeekFrontier(fallback);
         // A user-originated illegal forward seek should resume at the permitted point
         // even when Vimeo emits seeking before our runtime has observed a stable
         // play state. Otherwise the rollback succeeds but the player remains paused.

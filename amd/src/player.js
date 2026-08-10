@@ -228,6 +228,13 @@ define([
         return getPlaybackRatePenalty();
     }
 
+    function persistBlockedSeekFrontier(fallback) {
+        return Tracker.saveOpenSegmentSnapshot(state, fallback, saveSegment, 'seek').catch(function(error) {
+            Debug.log('youtubeblockedseekfrontiersavefailed', {message: error && error.message});
+            return null;
+        });
+    }
+
     function blockForwardSeek(target, fallbackTime, previousTime) {
         var allowed = getAllowedForwardLimit();
         var fallback = typeof fallbackTime === 'number' ? fallbackTime : Tracker.normaliseTime(state.lasttime);
@@ -240,6 +247,7 @@ define([
             focusGuard.noteAction('forwardseek');
             focusGuard.record('forwardseek');
         }
+        persistBlockedSeekFrontier(fallback);
         recoveryRate = getBlockedSeekPlaybackRate(fallback, previousTime);
         applyBlockedSeekPenalty('YouTube blocked forward seek playback rate', recoveryRate);
         retryBlockedSeekPenalty('YouTube blocked forward seek playback rate', recoveryRate);
@@ -500,6 +508,7 @@ define([
             var oldtime = seek.oldTime;
             if (seek.blocked && seek.forward) {
                 var recoveryRate = getBlockedSeekPlaybackRate(oldtime, previous);
+                persistBlockedSeekFrontier(oldtime);
                 applyBlockedSeekPenalty('YouTube blocked forward seek playback rate', recoveryRate);
                 retryBlockedSeekPenalty('YouTube blocked forward seek playback rate', recoveryRate);
                 Tracker.blockSeek(state, 1000);
