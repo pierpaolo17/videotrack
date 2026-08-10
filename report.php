@@ -1535,6 +1535,11 @@ if ($mode === 'analytics') {
     )) > 0;
     $viewingprivacysuppressed = !empty($analytics['datasetsuppressed']);
     $reactionprivacysuppressed = !empty($reactionsummary['hasdata']) && !empty($reactionsummary['suppressed']);
+    $eventsummaryexportenabled = $reactionanalyticsenabled || $bookmarkanalyticsenabled || $integrityanalyticsenabled;
+    $summaryexportavailable = $acknowledgementanalyticsenabled
+        || !empty($reactionsummary['hasdata'])
+        || $bookmarkanalyticsenabled
+        || $integrityanalyticsenabled;
     $analyticsformats = \mod_videotrack\local\analytics_table_export::enabled_formats();
 
     if ($analyticsformat !== '') {
@@ -1544,13 +1549,14 @@ if ($mode === 'analytics') {
             && !$viewingprivacysuppressed;
         if (
             !in_array($analyticsformat, $analyticsformats, true)
-            || (!$viewingexportavailable && !$acknowledgementanalyticsenabled)
+            || (!$viewingexportavailable && !$summaryexportavailable)
         ) {
             throw new moodle_exception('report:analytics_export_unavailable', 'mod_videotrack');
         }
         $exportcolumns = \mod_videotrack\local\analytics_table_export::export_columns(
             $showreactionanalytics,
-            $acknowledgementanalyticsenabled
+            $acknowledgementanalyticsenabled,
+            $eventsummaryexportenabled
         );
         $exportrows = \mod_videotrack\local\analytics_table_export::export_rows(
             $viewingexportavailable ? $analytics['bins'] : [],
@@ -1558,7 +1564,10 @@ if ($mode === 'analytics') {
             $repeatmetricsavailable,
             $showreactionanalytics,
             $minusers,
-            $acknowledgementanalyticsenabled ? $acknowledgementsummary : null
+            $acknowledgementanalyticsenabled ? $acknowledgementsummary : null,
+            $reactionanalyticsenabled ? $reactionsummary : null,
+            $bookmarkanalyticsenabled ? $bookmarksummary : null,
+            $integrityanalyticsenabled ? $integritysummary : null
         );
         \mod_videotrack\event\report_exported::create([
             'context' => $context,
@@ -1802,7 +1811,7 @@ if ($mode === 'analytics') {
         'analyticsallcourses' => $analyticsallcourses,
     ];
     if (
-        $acknowledgementanalyticsenabled
+        $summaryexportavailable
         || ($duration > 0 && (int)$analytics['viewers'] > 0 && !$viewingprivacysuppressed)
     ) {
         echo videotrack_report_render_analytics_download($analyticsformats, $downloadparams);
