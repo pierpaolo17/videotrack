@@ -189,6 +189,35 @@ function videotrack_get_playback_speeds(stdClass $videotrack): array {
 }
 
 /**
+ * Returns playback speeds accepted for telemetry writes.
+ *
+ * Learner-selectable speeds remain governed by videotrack_get_playback_speeds().
+ * When forward seeking is disabled, the player may temporarily force the
+ * configured blocked-seek penalty speed. That internal recovery speed must also
+ * be accepted by save_segment even when it is not normally selectable.
+ *
+ * @param stdClass $videotrack Instance record.
+ * @return float[] Sorted telemetry-safe speed values.
+ */
+function videotrack_get_tracking_playback_speeds(stdClass $videotrack): array {
+    $speeds = videotrack_get_playback_speeds($videotrack);
+
+    if (empty($videotrack->allowseekforward)) {
+        $blockedseekrate = (int)($videotrack->blockedseekplaybackrate ?? 50);
+        if (!in_array($blockedseekrate, [50, 75, 100], true)) {
+            $blockedseekrate = 50;
+        }
+        $penalty = round($blockedseekrate / 100.0, 2);
+        if (!in_array($penalty, $speeds, true)) {
+            $speeds[] = $penalty;
+            sort($speeds);
+        }
+    }
+
+    return array_values(array_unique($speeds));
+}
+
+/**
  * Returns the site-wide maximum playback rate cap (0 = no limit).
  *
  * @return float  Max allowed rate, e.g. 1.5. 0 means uncapped.

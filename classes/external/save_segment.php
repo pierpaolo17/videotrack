@@ -162,7 +162,7 @@ class save_segment extends external_api {
         }
 
         $playbackrate = (float)$params['playbackrate'];
-        $allowedspeeds = \videotrack_get_playback_speeds($videotrack);
+        $allowedspeeds = \videotrack_get_tracking_playback_speeds($videotrack);
         $rateallowed = false;
         foreach ($allowedspeeds as $allowedspeed) {
             if (abs((float)$allowedspeed - $playbackrate) <= 0.001) {

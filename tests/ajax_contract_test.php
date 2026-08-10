@@ -116,6 +116,31 @@ final class ajax_contract_test extends advanced_testcase {
     }
 
     /**
+     * Segment persistence must accept the internally configured blocked-seek recovery rate.
+     */
+    public function test_segment_rate_validation_uses_tracking_speed_contract(): void {
+        $source = file_get_contents(__DIR__ . '/../classes/external/save_segment.php');
+        $this->assertIsString($source);
+        $this->assertStringContainsString('videotrack_get_tracking_playback_speeds($videotrack)', $source);
+        $this->assertStringNotContainsString('videotrack_get_playback_speeds($videotrack)', $source);
+    }
+
+    /**
+     * Explicit learner interactions must surface progress-save failures instead of swallowing them.
+     */
+    public function test_interaction_progress_flushes_do_not_swallow_ajax_failures(): void {
+        foreach (['player.js', 'vimeo_player.js', 'html5_player.js'] as $filename) {
+            $source = file_get_contents(__DIR__ . '/../amd/src/' . $filename);
+            $this->assertIsString($source);
+            $this->assertStringContainsString(
+                "['reaction', 'note', 'bookmark', 'interaction'].indexOf(reason) !== -1",
+                $source
+            );
+            $this->assertStringContainsString('swallowFailures: !interactionSave', $source);
+        }
+    }
+
+    /**
      * Reaction responses must expose structured icon data only.
      */
     public function test_reaction_runtime_contract_contains_no_raw_html_field(): void {

@@ -171,6 +171,31 @@ final class locallib_test extends advanced_testcase {
     }
 
     /**
+     * Tracking accepts the internal blocked-seek penalty speed without exposing it as a normal learner speed.
+     */
+    public function test_tracking_playback_speeds_include_blocked_seek_penalty_only_when_needed(): void {
+        $this->resetAfterTest();
+        set_config('maxplaybackrate', '0', 'mod_videotrack');
+
+        $videotrack = new stdClass();
+        $videotrack->playbackspeeds = '0.75,1,1.25';
+        $videotrack->allowplaybackratechange = 1;
+        $videotrack->allowseekforward = 0;
+        $videotrack->blockedseekplaybackrate = 50;
+
+        $this->assertSame([0.5, 0.75, 1.0, 1.25], \videotrack_get_tracking_playback_speeds($videotrack));
+        $this->assertSame([0.75, 1.0, 1.25], \videotrack_get_playback_speeds($videotrack));
+
+        $videotrack->allowseekforward = 1;
+        $this->assertSame([0.75, 1.0, 1.25], \videotrack_get_tracking_playback_speeds($videotrack));
+
+        $videotrack->allowseekforward = 0;
+        $videotrack->allowplaybackratechange = 0;
+        $videotrack->blockedseekplaybackrate = 75;
+        $this->assertSame([0.75, 1.0], \videotrack_get_tracking_playback_speeds($videotrack));
+    }
+
+    /**
      * Forum compatibility is restricted to repeatable discussion types.
      *
      * @covers ::videotrack_get_compatible_forum_types
