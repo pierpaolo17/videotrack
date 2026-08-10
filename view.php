@@ -409,7 +409,7 @@ if (
                     '',
                     'moodle',
                     ['class' => 'me-1', 'aria-hidden' => 'true']
-                ) . get_string('grade') . ': '
+                ) . get_string('report:grade', 'mod_videotrack') . ': '
             ) .
             format_float($usergrade, 2) .
             ($grademax !== null ? ' / ' . $grademax : '') .
@@ -425,7 +425,7 @@ if (
                     '',
                     'moodle',
                     ['class' => 'me-1', 'aria-hidden' => 'true']
-                ) . get_string('grade') . ': '
+                ) . get_string('report:grade', 'mod_videotrack') . ': '
             ) .
             get_string('report:gradenotset', 'mod_videotrack'),
             'videotrack-grade-student alert alert-light mt-2'

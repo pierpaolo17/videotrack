@@ -88,4 +88,14 @@ final class report_contract_test extends advanced_testcase {
             $source
         );
     }
+
+    /**
+     * Student grade label uses the plugin-owned translated string.
+     */
+    public function test_student_grade_label_uses_plugin_string(): void {
+        $source = file_get_contents(__DIR__ . '/../view.php');
+        $this->assertIsString($source);
+        $this->assertStringNotContainsString("get_string('grade')", $source);
+        $this->assertStringContainsString("get_string('report:grade', 'mod_videotrack')", $source);
+    }
 }

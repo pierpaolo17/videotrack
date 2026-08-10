@@ -61,11 +61,13 @@ final class learner_scope_test extends advanced_testcase {
      * Learner-facing entry points reuse the canonical participation helper.
      */
     public function test_participation_entrypoints_reuse_canonical_helper(): void {
-        foreach ([
-            __DIR__ . '/../view.php',
-            __DIR__ . '/../bookmarks.php',
-            __DIR__ . '/../classes/external/helper.php',
-        ] as $path) {
+        foreach (
+            [
+                __DIR__ . '/../view.php',
+                __DIR__ . '/../bookmarks.php',
+                __DIR__ . '/../classes/external/helper.php',
+            ] as $path
+        ) {
             $source = file_get_contents($path);
             $this->assertIsString($source);
             $this->assertStringContainsString('learner_scope::can_participate($context)', $source);
