@@ -1253,6 +1253,7 @@ define([
                 statusId: config.forumpoststatusid,
                 composerUrl: config.forumposturl,
                 getCurrentTime: getCurrentVideoTime,
+                saveCurrentProgress: config.trackingenabled ? saveCurrentProgress : null,
                 getDuration: function() {
                     return state.duration || Number(config.duration) || 0;
                 },
