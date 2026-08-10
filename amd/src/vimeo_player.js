@@ -69,8 +69,9 @@ define([
 
 
     function saveSegment(start, end, reason) {
+        var interactionSave = ['reaction', 'note', 'bookmark', 'interaction'].indexOf(reason) !== -1;
         return Api.saveSegment(config, state, start, end, reason, {
-            swallowFailures: true,
+            swallowFailures: !interactionSave,
             errorMessage: 'vimeo-player-event',
             requestScope: state.ajaxRequestScope
         }).then(updateProgress);
