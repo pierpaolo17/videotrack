@@ -132,7 +132,7 @@ final class vimeo_seek_contract_test extends advanced_testcase {
             "}).then(function() {\n                if (recoveryRate) {",
             $section
         );
-        $this->assertStringContainsString('scheduleBlockedSeekResume(wasPlaying, label);', $section);
+        $this->assertStringContainsString('scheduleBlockedSeekResume(wasPlaying, label, recoveryId);', $section);
     }
 
     /**
@@ -173,5 +173,54 @@ final class vimeo_seek_contract_test extends advanced_testcase {
             "recoverBlockedSeek(seek.fallbackTime, !!state.playing, 'Vimeo blocked seek resume')",
             $section
         );
+    }
+
+    /**
+     * Clearing blocked-seek recovery must invalidate delayed play retries.
+     */
+    public function test_blocked_seek_clear_invalidates_play_retry_token(): void {
+        $source = file_get_contents(__DIR__ . '/../amd/src/vimeo_player.js');
+        $this->assertIsString($source);
+
+        $clear = strpos($source, 'function clearBlockedSeekResumeState()');
+        $this->assertNotFalse($clear);
+        $nextfunction = strpos($source, 'function clearBlockedSeekResumeRequest()', $clear);
+        $this->assertNotFalse($nextfunction);
+        $section = substr($source, $clear, $nextfunction - $clear);
+
+        $this->assertStringContainsString('state._vimeoPlayAfterSeekToken = null;', $section);
+    }
+
+    /**
+     * Blocked-seek async work must be scoped to the active recovery generation.
+     */
+    public function test_blocked_seek_async_callbacks_are_generation_scoped(): void {
+        $source = file_get_contents(__DIR__ . '/../amd/src/vimeo_player.js');
+        $this->assertIsString($source);
+
+        $this->assertStringContainsString('function nextBlockedSeekRecoveryId()', $source);
+        $this->assertStringContainsString('function isBlockedSeekRecoveryCurrent(recoveryId)', $source);
+        $this->assertStringContainsString('function scheduleBlockedSeekRecoveryTimer(recoveryId, callback, delay)', $source);
+        $this->assertStringContainsString('function attemptIsCurrent()', $source);
+        $this->assertStringNotContainsString('function verifyBlockedSeekRollback(', $source);
+
+        $recover = strpos($source, 'function recoverBlockedSeek(fallback, wasPlaying, label, recoveryRate)');
+        $this->assertNotFalse($recover);
+        $retry = strpos($source, 'function retryBlockedSeekPenalty(label, rate, recoveryId)', $recover);
+        $this->assertNotFalse($retry);
+        $section = substr($source, $recover, $retry - $recover);
+
+        $this->assertStringContainsString('recoveryId = nextBlockedSeekRecoveryId();', $section);
+        $this->assertStringContainsString('scheduleBlockedSeekResume(wasPlaying, label, recoveryId);', $section);
+        $this->assertStringNotContainsString('verifyBlockedSeekRollback(', $section);
+
+        $retrystart = strpos($source, 'function retryBlockedSeekPenalty(label, rate, recoveryId)');
+        $this->assertNotFalse($retrystart);
+        $next = strpos($source, 'function writePlaybackRate', $retrystart);
+        $this->assertNotFalse($next);
+        $retrysection = substr($source, $retrystart, $next - $retrystart);
+        $this->assertStringContainsString('scheduleBlockedSeekRecoveryTimer(recoveryId, function()', $retrysection);
+        $this->assertStringContainsString('isBlockedSeekRecoveryCurrent(recoveryId)', $retrysection);
+        $this->assertStringNotContainsString('window.setTimeout(function()', $retrysection);
     }
 }
