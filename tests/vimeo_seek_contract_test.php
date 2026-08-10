@@ -88,4 +88,71 @@ final class vimeo_seek_contract_test extends advanced_testcase {
             $section
         );
     }
+
+    /**
+     * First blocked seek must preserve provider playback evidence across the tracker seek guard.
+     */
+    public function test_first_blocked_seek_preserves_provider_playing_state(): void {
+        $source = file_get_contents(__DIR__ . '/../amd/src/vimeo_player.js');
+        $this->assertIsString($source);
+
+        $recover = strpos($source, 'function recoverBlockedSeek(fallback, wasPlaying, label, recoveryRate)');
+        $this->assertNotFalse($recover);
+        $section = substr($source, $recover, 1800);
+        $blockseek = strpos($section, 'Tracker.blockSeek(state, 900);');
+        $restore = strpos($section, 'state.wasPlayingBeforeSeekBlock = !!wasPlaying;');
+
+        $this->assertNotFalse($blockseek);
+        $this->assertNotFalse($restore);
+        $this->assertGreaterThan($blockseek, $restore);
+    }
+
+    /**
+     * Vimeo penalty-rate writes must settle before blocked-seek playback resumes.
+     */
+    public function test_blocked_seek_serialises_rollback_penalty_and_resume(): void {
+        $source = file_get_contents(__DIR__ . '/../amd/src/vimeo_player.js');
+        $this->assertIsString($source);
+
+        $recover = strpos($source, 'function recoverBlockedSeek(fallback, wasPlaying, label, recoveryRate)');
+        $this->assertNotFalse($recover);
+        $nextfunction = strpos($source, 'function getBlockedSeekPlaybackRate', $recover);
+        $this->assertNotFalse($nextfunction);
+        $section = substr($source, $recover, $nextfunction - $recover);
+        $seek = strpos($section, 'player.setCurrentTime(fallback)');
+        $penalty = strpos($section, 'applyBlockedSeekPenalty');
+        $resume = strpos($section, 'scheduleBlockedSeekResume(wasPlaying, label);');
+
+        $this->assertNotFalse($seek);
+        $this->assertNotFalse($penalty);
+        $this->assertNotFalse($resume);
+        $this->assertLessThan($penalty, $seek);
+        $this->assertLessThan($resume, $penalty);
+        $this->assertStringContainsString('penaltypromise.catch(function(penaltyerror)', $section);
+    }
+
+    /**
+     * The seeked fallback must use provider playback evidence and retain the forward penalty rate.
+     */
+    public function test_seeked_fallback_uses_vimeo_playback_resolver_and_penalty(): void {
+        $source = file_get_contents(__DIR__ . '/../amd/src/vimeo_player.js');
+        $this->assertIsString($source);
+
+        $seeked = strpos($source, "player.on('seeked', function(data)");
+        $this->assertNotFalse($seeked);
+        $playbackratechange = strpos($source, "player.on('playbackratechange', function(data)", $seeked);
+        $this->assertNotFalse($playbackratechange);
+        $section = substr($source, $seeked, $playbackratechange - $seeked);
+
+        $this->assertStringContainsString('resolveVimeoSeekWasPlaying()', $section);
+        $this->assertStringContainsString(
+            'seek.forward ? getBlockedSeekPlaybackRate(seek.fallbackTime, seek.oldTime) : undefined',
+            $section
+        );
+        $this->assertStringNotContainsString(
+            "recoverBlockedSeek(seek.fallbackTime, !!state.playing, 'Vimeo blocked seek resume')",
+            $section
+        );
+    }
+
 }
