@@ -183,6 +183,32 @@ final class ajax_contract_test extends advanced_testcase {
     }
 
     /**
+     * Forum navigation must flush learner progress before validating its timestamp.
+     */
+    public function test_forum_timestamp_waits_for_progress_flush(): void {
+        $forum = file_get_contents(__DIR__ . '/../amd/src/core/player/forum.js');
+        $this->assertIsString($forum);
+        $this->assertStringContainsString("options.saveCurrentProgress('interaction')", $forum);
+        $this->assertStringContainsString(
+            'Number.isFinite(savedEnd) && savedEnd > 0',
+            $forum
+        );
+        $this->assertLessThan(
+            strpos($forum, 'window.location.assign'),
+            strpos($forum, "options.saveCurrentProgress('interaction')")
+        );
+
+        foreach (['player.js', 'vimeo_player.js', 'html5_player.js'] as $filename) {
+            $source = file_get_contents(__DIR__ . '/../amd/src/' . $filename);
+            $this->assertIsString($source);
+            $this->assertStringContainsString(
+                'saveCurrentProgress: config.trackingenabled ? saveCurrentProgress : null',
+                $source
+            );
+        }
+    }
+
+    /**
      * Reaction responses must expose structured icon data only.
      */
     public function test_reaction_runtime_contract_contains_no_raw_html_field(): void {
