@@ -141,6 +141,44 @@ final class forum_bridge {
     }
 
     /**
+     * Validates whether a user may attach a Forum discussion to one video timestamp.
+     *
+     * Learners, including users who also have report access, may reference only a
+     * timestamp that is already covered by server-validated watched progress. Pure
+     * report viewers such as teachers may bypass this learner-only restriction.
+     *
+     * @param stdClass $videotrack VideoTrack instance.
+     * @param context_module $context VideoTrack activity context.
+     * @param int $userid User id.
+     * @param float $videotime Requested video timestamp.
+     */
+    public static function validate_timestamp_access(
+        stdClass $videotrack,
+        context_module $context,
+        int $userid,
+        float $videotime
+    ): void {
+        if (learner_scope::can_participate($context, $userid)) {
+            $fallbackdays = \videotrack_get_config_int('validationfallbackdays', 30, 0, 3650);
+            $maxage = $fallbackdays > 0 ? $fallbackdays * DAYSECS : 0;
+            if (!tracker::has_watched_videotime_any_session(
+                (int)$videotrack->id,
+                $userid,
+                $videotime,
+                2.0,
+                $maxage
+            )) {
+                throw new moodle_exception('error:playbackpositionnotwatched', 'mod_videotrack');
+            }
+            return;
+        }
+
+        if (!has_capability('mod/videotrack:viewreport', $context, $userid)) {
+            throw new moodle_exception('error:learnertrackingstaff', 'mod_videotrack');
+        }
+    }
+
+    /**
      * Creates a new Forum discussion through the official external API.
      *
      * @param stdClass $videotrack VideoTrack instance.

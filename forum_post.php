@@ -69,6 +69,12 @@ try {
     echo $OUTPUT->footer();
     exit;
 }
+\mod_videotrack\local\forum_bridge::validate_timestamp_access(
+    $videotrack,
+    $context,
+    (int)$USER->id,
+    (float)$time
+);
 
 $forumname = format_string($destination['forum']->name, true, ['context' => $destination['context']]);
 $form = new \mod_videotrack\form\forum_post_form(null, [

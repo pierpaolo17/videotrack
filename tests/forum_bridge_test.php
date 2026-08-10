@@ -79,4 +79,133 @@ final class forum_bridge_test extends advanced_testcase {
         $this->assertSame((int)$forum->id, (int)$destination['forum']->id);
         $this->assertNotEmpty($destination['groupoptions']);
     }
+
+    /**
+     * A learner cannot attach a Forum discussion to an unwatched timestamp.
+     */
+    public function test_learner_forum_timestamp_requires_watched_progress(): void {
+        global $DB;
+
+        $this->resetAfterTest();
+        $generator = $this->getDataGenerator();
+        $course = $generator->create_course();
+        $user = $generator->create_user();
+        $studentroleid = $DB->get_field('role', 'id', ['shortname' => 'student'], MUST_EXIST);
+        $generator->enrol_user($user->id, $course->id, $studentroleid);
+        $forum = $generator->create_module('forum', ['course' => $course->id]);
+        $context = \context_module::instance($forum->cmid);
+
+        $this->expectException(moodle_exception::class);
+        forum_bridge::validate_timestamp_access((object)['id' => 2001], $context, $user->id, 25.0);
+    }
+
+    /**
+     * A learner may attach a Forum discussion to server-validated watched progress.
+     */
+    public function test_learner_forum_timestamp_accepts_watched_progress(): void {
+        global $DB;
+
+        $this->resetAfterTest();
+        $generator = $this->getDataGenerator();
+        $course = $generator->create_course();
+        $user = $generator->create_user();
+        $studentroleid = $DB->get_field('role', 'id', ['shortname' => 'student'], MUST_EXIST);
+        $generator->enrol_user($user->id, $course->id, $studentroleid);
+        $forum = $generator->create_module('forum', ['course' => $course->id]);
+        $context = \context_module::instance($forum->cmid);
+        $this->insert_validated_segment(2002, $course->id, $forum->cmid, $user->id, 10.0, 30.0);
+
+        forum_bridge::validate_timestamp_access((object)['id' => 2002], $context, $user->id, 25.0);
+        $this->addToAssertionCount(1);
+    }
+
+    /**
+     * A pure report viewer can reference a timestamp without learner playback evidence.
+     */
+    public function test_teacher_forum_timestamp_bypasses_learner_watched_check(): void {
+        global $DB;
+
+        $this->resetAfterTest();
+        $generator = $this->getDataGenerator();
+        $course = $generator->create_course();
+        $teacher = $generator->create_user();
+        $teacherroleid = $DB->get_field('role', 'id', ['shortname' => 'teacher'], MUST_EXIST);
+        $generator->enrol_user($teacher->id, $course->id, $teacherroleid);
+        $forum = $generator->create_module('forum', ['course' => $course->id]);
+        $context = \context_module::instance($forum->cmid);
+
+        forum_bridge::validate_timestamp_access((object)['id' => 2003], $context, $teacher->id, 50.0);
+        $this->addToAssertionCount(1);
+    }
+
+    /**
+     * A dual-role learner remains subject to learner timestamp validation.
+     */
+    public function test_dual_role_learner_does_not_bypass_watched_check(): void {
+        global $DB;
+
+        $this->resetAfterTest();
+        $generator = $this->getDataGenerator();
+        $course = $generator->create_course();
+        $user = $generator->create_user();
+        $studentroleid = $DB->get_field('role', 'id', ['shortname' => 'student'], MUST_EXIST);
+        $teacherroleid = $DB->get_field('role', 'id', ['shortname' => 'teacher'], MUST_EXIST);
+        $generator->enrol_user($user->id, $course->id, $studentroleid);
+        role_assign($teacherroleid, $user->id, \context_course::instance($course->id)->id);
+        $forum = $generator->create_module('forum', ['course' => $course->id]);
+        $context = \context_module::instance($forum->cmid);
+
+        $this->assertTrue(has_capability('mod/videotrack:participate', $context, $user->id, false));
+        $this->assertTrue(has_capability('mod/videotrack:viewreport', $context, $user->id));
+        $this->expectException(moodle_exception::class);
+        forum_bridge::validate_timestamp_access((object)['id' => 2004], $context, $user->id, 15.0);
+    }
+
+    /**
+     * The Forum composer invokes timestamp validation before presenting the form.
+     */
+    public function test_forum_composer_invokes_timestamp_access_validation(): void {
+        $source = file_get_contents(__DIR__ . '/../forum_post.php');
+        $this->assertIsString($source);
+        $this->assertStringContainsString('forum_bridge::validate_timestamp_access(', $source);
+    }
+
+    /**
+     * Inserts one server-validated watched segment fixture.
+     *
+     * @param int $videotrackid VideoTrack activity id.
+     * @param int $courseid Course id.
+     * @param int $cmid Course-module id.
+     * @param int $userid User id.
+     * @param float $start Segment start.
+     * @param float $end Segment end.
+     */
+    private function insert_validated_segment(
+        int $videotrackid,
+        int $courseid,
+        int $cmid,
+        int $userid,
+        float $start,
+        float $end
+    ): void {
+        global $DB;
+
+        $DB->insert_record('videotrack_seg', (object)[
+            'videotrackid' => $videotrackid,
+            'courseid' => $courseid,
+            'cmid' => $cmid,
+            'userid' => $userid,
+            'videoid' => 'forum-video',
+            'sessionid' => 'forum-session',
+            'requestid' => bin2hex(random_bytes(16)),
+            'wallclockstart' => time() - 5,
+            'wallclockend' => time(),
+            'videotimestart' => $start,
+            'videotimeend' => $end,
+            'playbackrate' => 1.0,
+            'endreason' => 'heartbeat',
+            'servervalidated' => 1,
+            'timecreated' => time(),
+        ]);
+    }
 }

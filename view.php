@@ -45,11 +45,10 @@ $cm = cm_info::create($cm); // Moodle 4+: set_module_viewed and completion funct
 $context = context_module::instance($cm->id);
 require_capability('mod/videotrack:view', $context);
 $canviewreport = has_capability('mod/videotrack:viewreport', $context);
-// Participation is explicit and independent from report access. The final false
-// prevents site-admin do-anything privileges from creating learner telemetry
-// unless the administrator has genuinely switched to a participating role.
+// Participation is explicit and independent from report access. The canonical
+// helper disables site-admin do-anything privileges for learner telemetry.
 $islearner = !isguestuser()
-    && has_capability('mod/videotrack:participate', $context, null, false);
+    && \mod_videotrack\local\learner_scope::can_participate($context);
 
 if ($ackaction === 'confirm') {
     if (!$islearner) {
@@ -378,11 +377,11 @@ echo html_writer::tag(
 echo $OUTPUT->heading(format_string($videotrack->name, true, ['context' => $context]));
 
 // SEC-5: the grade block must be rendered after OUTPUT->header() to respect the Moodle layout.
-// It is shown only when showgradeto=1, grading is active and the user is not a teacher/manager.
+// Report access is independent from participation: dual-role learners still see their own grade.
 if (
     !empty($videotrack->showgradeto) &&
     !empty($videotrack->grade) &&
-    !has_capability('mod/videotrack:viewreport', $context)
+    $islearner
 ) {
     require_once($CFG->libdir . '/gradelib.php');
     $usergrade = videotrack_get_user_grade($videotrack, (int)$USER->id);

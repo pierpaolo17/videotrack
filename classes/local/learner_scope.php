@@ -133,6 +133,21 @@ final class learner_scope {
     }
 
     /**
+     * Checks whether a user has the explicit learner participation capability.
+     *
+     * Participation is intentionally independent from report access. Passing
+     * false for Moodle's do-anything flag prevents administrators from creating
+     * learner telemetry unless they genuinely hold a participating role.
+     *
+     * @param context_module $context Activity context.
+     * @param int|null $userid User id, or null for the current user.
+     * @return bool Whether the user may participate as a learner.
+     */
+    public static function can_participate(context_module $context, ?int $userid = null): bool {
+        return has_capability('mod/videotrack:participate', $context, $userid, false);
+    }
+
+    /**
      * Checks whether one user belongs to the canonical learner scope visible to a viewer.
      *
      * @param context_module $context Activity context.
