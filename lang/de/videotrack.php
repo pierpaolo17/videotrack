@@ -383,6 +383,7 @@ $string['report:notecreatedto'] = 'Notizen bis Datum';
 $string['report:notedate'] = 'Geschrieben am';
 $string['report:notes_title'] = 'Teilnehmernotizen';
 $string['report:perstudent'] = 'Pro Teilnehmendem';
+$string['report:studentreactions_title'] = 'Reaktionen pro Teilnehmer';
 $string['report:reaction'] = 'Reaktion';
 $string['report:recalculate'] = 'Alle Abschlusszustände neu berechnen';
 $string['report:recalculated'] = 'Abschlusszustände für {$a} Benutzer neu berechnet.';

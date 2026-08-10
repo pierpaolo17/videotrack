@@ -2036,6 +2036,15 @@ $geteventrecordset = static function () use ($DB, $eventconditions, $eventparams
         'id, userid, reactionid, reactionlabel, videotime'
     );
 };
+$getstudenteventrecordset = static function () use ($DB, $eventconditions, $eventparamsnamed) {
+    return $DB->get_recordset_select(
+        'videotrack_reactev',
+        $eventconditions,
+        $eventparamsnamed,
+        'userid ASC, videotime ASC, id ASC',
+        'id, userid, reactionid, reactionlabel, videotime'
+    );
+};
 
 $bookmarkcounts = [];
 $bookmarkuserids = [];
@@ -3628,6 +3637,56 @@ if ($mode === 'student') {
         $staters->close();
         echo html_writer::table($table);
     }
+
+    echo html_writer::start_div('videotrack-student-reactions mt-4');
+    echo $OUTPUT->heading(get_string('report:studentreactions_title', 'mod_videotrack'), 3);
+    if (!$eventcount) {
+        echo $OUTPUT->notification(get_string('report:noreactions', 'mod_videotrack'), 'notifymessage');
+    } else {
+        $reactiontable = new html_table();
+        $reactiontable->caption = get_string('report:studentreactions_title', 'mod_videotrack');
+        $reactiontable->head = [
+            get_string('report:userid', 'mod_videotrack'),
+            get_string('report:timestamp', 'mod_videotrack'),
+            get_string('report:reaction', 'mod_videotrack'),
+            get_string('report:replay', 'mod_videotrack'),
+        ];
+        echo $OUTPUT->notification(
+            get_string('report:replayoffsetnotice', 'mod_videotrack', $window),
+            'info',
+            false
+        );
+        $studenteventrs = $getstudenteventrecordset();
+        foreach ($studenteventrs as $event) {
+            $eventuserid = (int)$event->userid;
+            $user = $usermap[$eventuserid] ?? null;
+            if (!$user) {
+                continue;
+            }
+            $reaction = $reactionmap[(int)$event->reactionid] ?? null;
+            $reactionhtml = $reaction
+                ? videotrack_render_reaction_icon($reaction, $context, true)
+                : s((string)$event->reactionlabel);
+            $replaytimestamp = max(0, (int)round((float)$event->videotime));
+            $replayurl = new moodle_url('/mod/videotrack/view.php', [
+                'id' => $cm->id,
+                'replaystart' => max(0, $replaytimestamp - $window),
+                'replayend' => $replaytimestamp + $window,
+            ]);
+            $reactiontable->data[] = [
+                videotrack_report_user_label($eventuserid, $usermap, $canviewemail),
+                videotrack_format_seconds($replaytimestamp),
+                html_writer::span($reactionhtml, 'videotrack-report-icon'),
+                html_writer::span(
+                    html_writer::link($replayurl, get_string('report:replay', 'mod_videotrack')),
+                    'videotrack-replay-inline'
+                ),
+            ];
+        }
+        $studenteventrs->close();
+        echo html_writer::table($reactiontable);
+    }
+    echo html_writer::end_div();
 } else {
     if (!empty($videotrack->bookmarksenabled)) {
         echo videotrack_report_render_bookmark_summary(

@@ -394,6 +394,7 @@ $string['report:notecreatedto'] = 'Notes to date';
 $string['report:notedate'] = 'Written on';
 $string['report:notes_title'] = 'Student notes';
 $string['report:perstudent'] = 'Per student';
+$string['report:studentreactions_title'] = 'Reactions per student';
 $string['report:reaction'] = 'Reaction';
 $string['report:recalculate'] = 'Recalculate all completion states';
 $string['report:recalculated'] = 'Completion states recalculated for {$a} users.';

@@ -383,6 +383,7 @@ $string['report:notecreatedto'] = 'Notatki do daty';
 $string['report:notedate'] = 'Napisano';
 $string['report:notes_title'] = 'Notatki studentów';
 $string['report:perstudent'] = 'Według studenta';
+$string['report:studentreactions_title'] = 'Reakcje według studenta';
 $string['report:reaction'] = 'Reakcja';
 $string['report:recalculate'] = 'Przelicz raport';
 $string['report:recalculated'] = 'Stany ukończenia przeliczono dla {$a} użytkowników.';

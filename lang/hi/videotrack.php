@@ -383,6 +383,7 @@ $string['report:notecreatedto'] = 'इस तारीख तक नोट';
 $string['report:notedate'] = 'लिखा गया';
 $string['report:notes_title'] = 'विद्यार्थी नोट्स';
 $string['report:perstudent'] = 'प्रति विद्यार्थी';
+$string['report:studentreactions_title'] = 'विद्यार्थी के अनुसार प्रतिक्रियाएँ';
 $string['report:reaction'] = 'प्रतिक्रिया';
 $string['report:recalculate'] = 'सभी पूर्णता स्थितियों की पुनर्गणना करें';
 $string['report:recalculated'] = '{$a} उपयोगकर्ताओं के लिए पूर्णता स्थितियों की पुनर्गणना की गई।';

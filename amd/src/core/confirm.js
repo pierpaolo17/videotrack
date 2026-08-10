@@ -185,16 +185,14 @@ define([
         return Promise.all([
             resolveString(options.titleString || {key: 'confirm', component: 'moodle'}, normaliseText(labels.confirm)),
             resolveString(options.okString || {key: 'ok', component: 'moodle'}, normaliseText(labels.ok)),
-            resolveString(options.cancelString || {key: 'cancel', component: 'moodle'}, normaliseText(labels.cancel)),
             resolveString(options.fallbackString || {key: 'confirmfallback', component: 'mod_videotrack'}, normaliseText(labels.fallback))
         ]).then(function(strings) {
-            inlineFallbackMessage = strings[3] || inlineFallbackMessage;
+            inlineFallbackMessage = strings[2] || inlineFallbackMessage;
             return ModalSaveCancel.create({
                 title: strings[0],
                 body: message
             }).then(function(modal) {
                 modal.setSaveButtonText(strings[1]);
-                modal.setCancelButtonText(strings[2]);
                 var root = modal.getRoot();
                 if (root && typeof root.find === 'function') {
                     root.find('.modal-body').attr('id', describedById);
