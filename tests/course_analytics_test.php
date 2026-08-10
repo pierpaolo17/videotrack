@@ -193,8 +193,10 @@ final class course_analytics_test extends advanced_testcase {
         $this->assertSame(2, $summary['started']['eventcount']);
         $this->assertSame(5.0, $summary['averagepercent']);
         $this->assertSame(5.0, $summary['medianpercent']);
-        $this->assertSame(1, $summary['completions']['eventcount']);
-        $this->assertSame(1, $summary['noncompleted']['eventcount']);
+        $this->assertTrue($summary['completions']['suppressed']);
+        $this->assertNull($summary['completions']['eventcount']);
+        $this->assertTrue($summary['noncompleted']['suppressed']);
+        $this->assertNull($summary['noncompleted']['eventcount']);
     }
 
     /**

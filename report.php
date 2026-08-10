@@ -3719,6 +3719,13 @@ if ($mode === 'student') {
             ];
             $svg = html_writer::start_tag('svg', $svgattributes);
             $svg .= html_writer::tag('title', $svgtitle);
+            // Mirror the SVG hatch patterns in the legend so reaction types are not distinguished by colour alone.
+            $patternstyles = [
+                'repeating-linear-gradient(135deg,transparent 0,transparent 4px,rgba(0,0,0,.25) 4px,rgba(0,0,0,.25) 5px)',
+                'repeating-linear-gradient(45deg,transparent 0,transparent 4px,rgba(0,0,0,.25) 4px,rgba(0,0,0,.25) 5px)',
+                'repeating-linear-gradient(90deg,transparent 0,transparent 4px,rgba(0,0,0,.25) 4px,rgba(0,0,0,.25) 5px)',
+                'repeating-linear-gradient(0deg,transparent 0,transparent 4px,rgba(0,0,0,.25) 4px,rgba(0,0,0,.25) 5px)',
+            ];
             $patternpaths = [
                 html_writer::empty_tag('path', [
                     'd' => 'M0 6 L6 0',
