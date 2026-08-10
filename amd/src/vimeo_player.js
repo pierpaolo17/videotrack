@@ -1332,7 +1332,7 @@ define([
                         clearRecentVimeoUserSeek();
                         Tracker.syncTime(state, t, state.playbackrate || 1);
                         ensureVimeoRuntimePlaying(t);
-                        clearBlockedSeekResumeRequest();
+                        // Keep blocked-seek recovery active until playVimeoAfterSeek confirms stable playback.
                         return;
                     }
                     if (isVimeoForwardTimeBlocked(t, allowedLimit)) {
