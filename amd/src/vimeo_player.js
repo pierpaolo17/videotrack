@@ -32,6 +32,7 @@ define([
 
     var player  = null;
     var config  = null;
+    var vimeoSdkPromise = null;
     var reactionState = Reactions.createState();
     var focusGuard = null;
     var HEARTBEAT_INTERVAL = 30;
@@ -1015,53 +1016,65 @@ define([
 
     // ── Vimeo SDK ─────────────────────────────────────────────────────────
 
-    function loadVimeoSDK(callback) {
-        if (window.Vimeo && window.Vimeo.Player) {
-            callback();
+    function forgetRequireModule(loader, moduleId) {
+        if (typeof loader.undef !== 'function') {
             return;
         }
-        var script = document.createElement('script');
-        var amdDefine = window.define;
-        var restoreDefine = function() {
-            if (amdDefine && window.define !== amdDefine) {
-                window.define = amdDefine;
-            }
-        };
-        script.src = 'https://player.vimeo.com/api/player.js';
-        script.async = true;
-        // Vimeo's SDK is a UMD script. In Moodle, RequireJS can interpret its
-        // anonymous AMD define() call as a Moodle module and stop initialisation
-        // with a "Mismatched anonymous define()" error. Load it as a plain
-        // browser global so window.Vimeo.Player is available to this module.
-        if (amdDefine && amdDefine.amd) {
-            window.define = undefined;
+        if (typeof loader.specified === 'function' && !loader.specified(moduleId)) {
+            return;
         }
-        // crossorigin='anonymous' prevents credential leakage.
-        // Note: Vimeo does not publish stable SRI hashes as the SDK is updated
-        // dynamically; if your CSP blocks external scripts, add
-        // 'player.vimeo.com' to the script-src directive.
-        script.onload = function() {
-            restoreDefine();
-            if (window.Vimeo && window.Vimeo.Player) {
-                callback();
+        loader.undef(moduleId);
+    }
+
+    function loadVimeoSDK() {
+        var vimeoUrl = 'https://player.vimeo.com/api/player.js';
+        if (window.Vimeo && typeof window.Vimeo.Player === 'function') {
+            return Promise.resolve(window.Vimeo.Player);
+        }
+        if (vimeoSdkPromise) {
+            return vimeoSdkPromise;
+        }
+        vimeoSdkPromise = new Promise(function(resolve, reject) {
+            var loader = window.requirejs || window.require;
+            if (typeof loader !== 'function') {
+                reject(new Error('RequireJS is unavailable for Vimeo Player SDK'));
                 return;
             }
-            Debug.log('vimeosdkmissingafterload');
-        };
-        script.onerror = function() {
-            restoreDefine();
-            Debug.log('vimeosdkfailed');
-            // Show a readable user message: likely CSP or network blocking.
-            var wrap = document.getElementById('mod-videotrack-player');
-            if (wrap) {
-                var notice = document.createElement('div');
-                notice.className = 'alert alert-warning mt-2';
-                notice.setAttribute('role', 'alert');
-                notice.textContent = config.sdkerrorlabel;
-                wrap.parentNode.insertBefore(notice, wrap.nextSibling);
-            }
-        };
-        document.head.appendChild(script);
+            loader([vimeoUrl], function(Player) {
+                if (typeof Player === 'function') {
+                    resolve(Player);
+                    return;
+                }
+                if (window.Vimeo && typeof window.Vimeo.Player === 'function') {
+                    resolve(window.Vimeo.Player);
+                    return;
+                }
+                forgetRequireModule(loader, vimeoUrl);
+                reject(new Error('Vimeo Player SDK returned no Player constructor'));
+            }, function(error) {
+                forgetRequireModule(loader, vimeoUrl);
+                reject(error || new Error('Vimeo Player SDK failed to load'));
+            });
+        }).catch(function(error) {
+            vimeoSdkPromise = null;
+            throw error;
+        });
+        return vimeoSdkPromise;
+    }
+
+    function showVimeoSdkError(error) {
+        Debug.log('vimeosdkfailed');
+        Log.debug('VideoTrack Vimeo SDK load failed: ' + error);
+        var wrap = document.getElementById('mod-videotrack-player');
+        if (!wrap || document.getElementById('videotrack-vimeo-sdk-error')) {
+            return;
+        }
+        var notice = document.createElement('div');
+        notice.id = 'videotrack-vimeo-sdk-error';
+        notice.className = 'alert alert-warning mt-2';
+        notice.setAttribute('role', 'alert');
+        notice.textContent = config.sdkerrorlabel;
+        wrap.parentNode.insertBefore(notice, wrap.nextSibling);
     }
 
     /**
@@ -1187,7 +1200,7 @@ define([
         });
     }
 
-    function buildPlayer() {
+    function buildPlayer(VimeoPlayer) {
         var container = document.getElementById('mod-videotrack-player');
         if (!container) { return; }
 
@@ -1197,9 +1210,9 @@ define([
             if (focusGuard) {
                 focusGuard.applyPictureInPicturePolicy(iframe);
             }
-            player = new window.Vimeo.Player(iframe);
+            player = new VimeoPlayer(iframe);
         } else {
-            player = new window.Vimeo.Player(container, {
+            player = new VimeoPlayer(container, {
                 responsive:  true,
                 controls:    config.showcontrols !== false,
                 autoplay:    !!config.autoplay,
@@ -2000,7 +2013,7 @@ define([
                 },
                 errorLabel: config.forumposterrorlabel
             });
-            loadVimeoSDK(buildPlayer);
+            loadVimeoSDK().then(buildPlayer).catch(showVimeoSdkError);
             state._timedTextController = TimedText.create({
                 config: config,
                 getCurrentTime: getCurrentVideoTime,
