@@ -692,6 +692,9 @@ define([
             until: Date.now() + 12000
         };
         state.wasPlayingBeforeSeekBlock = true;
+        player.play().catch(function(error) {
+            Log.debug((label || 'Vimeo blocked seek immediate resume') + ': ' + error);
+        });
         playVimeoAfterSeek(label || 'Vimeo blocked seek resume', [250, 700, 1400, 2600, 4200, 6500, 9000], {
             requiredPlayingObservations: 1,
             fallback: state._vimeoBlockedForwardSeekFallback,
