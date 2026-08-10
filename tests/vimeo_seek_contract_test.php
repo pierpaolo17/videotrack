@@ -108,7 +108,7 @@ final class vimeo_seek_contract_test extends advanced_testcase {
     }
 
     /**
-     * Vimeo penalty-rate writes must settle before blocked-seek playback resumes.
+     * Vimeo penalty-rate writes must settle after rollback and before playback resumes.
      */
     public function test_blocked_seek_serialises_rollback_penalty_and_resume(): void {
         $source = file_get_contents(__DIR__ . '/../amd/src/vimeo_player.js');
@@ -119,16 +119,36 @@ final class vimeo_seek_contract_test extends advanced_testcase {
         $nextfunction = strpos($source, 'function getBlockedSeekPlaybackRate', $recover);
         $this->assertNotFalse($nextfunction);
         $section = substr($source, $recover, $nextfunction - $recover);
-        $seek = strpos($section, 'player.setCurrentTime(fallback)');
-        $penalty = strpos($section, 'applyBlockedSeekPenalty');
-        $resume = strpos($section, 'scheduleBlockedSeekResume(wasPlaying, label);');
 
-        $this->assertNotFalse($seek);
-        $this->assertNotFalse($penalty);
-        $this->assertNotFalse($resume);
-        $this->assertLessThan($penalty, $seek);
-        $this->assertLessThan($resume, $penalty);
-        $this->assertStringContainsString('penaltypromise.catch(function(penaltyerror)', $section);
+        $this->assertStringContainsString(
+            "player.setCurrentTime(fallback).then(function() {\n            finish();",
+            $section
+        );
+        $this->assertStringContainsString(
+            "penaltypromise.catch(function(penaltyerror)",
+            $section
+        );
+        $this->assertStringContainsString(
+            "}).then(function() {\n                if (recoveryRate) {",
+            $section
+        );
+        $this->assertStringContainsString('scheduleBlockedSeekResume(wasPlaying, label);', $section);
+    }
+
+    /**
+     * Natural playback after rollback must not be mistaken for another forward seek.
+     */
+    public function test_blocked_seek_retries_use_dynamic_recovery_guard(): void {
+        $source = file_get_contents(__DIR__ . '/../amd/src/vimeo_player.js');
+        $this->assertIsString($source);
+
+        $this->assertStringNotContainsString(
+            'current > Tracker.normaliseTime(fallback) + 1.5',
+            $source
+        );
+        $this->assertStringNotContainsString('current <= fallback + 1.5', $source);
+        $this->assertStringNotContainsString('t > fallback + 1.5', $source);
+        $this->assertGreaterThanOrEqual(4, substr_count($source, 'isVimeoForwardTimeBlocked('));
     }
 
     /**
@@ -154,5 +174,4 @@ final class vimeo_seek_contract_test extends advanced_testcase {
             $section
         );
     }
-
 }
