@@ -170,9 +170,14 @@ final class analytics_scope {
      *
      * @param stdClass $instance Analytics scope descriptor.
      * @param int $userid Report viewer id.
+     * @param bool|null $coursehasgroups Optional preloaded course-level group existence.
      * @return array|null Permitted group ids, or null for an unrestricted scope.
      */
-    public static function accessible_group_ids(stdClass $instance, int $userid): ?array {
+    public static function accessible_group_ids(
+        stdClass $instance,
+        int $userid,
+        ?bool $coursehasgroups = null
+    ): ?array {
         global $CFG, $DB;
 
         require_once($CFG->libdir . '/grouplib.php');
@@ -180,11 +185,10 @@ final class analytics_scope {
         $context = context_module::instance((int)$instance->cmid, MUST_EXIST);
         $groupmode = self::effective_groupmode($instance);
         $canaccessallgroups = has_capability('moodle/site:accessallgroups', $context, $userid);
-        if (
-            $canaccessallgroups
-            || $groupmode === NOGROUPS
-            || !$DB->record_exists('groups', ['courseid' => (int)$instance->course])
-        ) {
+        if ($coursehasgroups === null) {
+            $coursehasgroups = $DB->record_exists('groups', ['courseid' => (int)$instance->course]);
+        }
+        if ($canaccessallgroups || $groupmode === NOGROUPS || !$coursehasgroups) {
             return null;
         }
 

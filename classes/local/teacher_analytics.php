@@ -17,6 +17,7 @@
 namespace mod_videotrack\local;
 
 use context_course;
+use context_module;
 use stdClass;
 
 /**
@@ -117,17 +118,27 @@ final class teacher_analytics {
      * @return array Activity labels keyed by instance id.
      */
     public static function activity_options(stdClass $course, int $userid): array {
-        $rows = course_analytics::get_course_rows($course, $userid, 2);
+        $modinfo = get_fast_modinfo($course, $userid);
+        $cms = $modinfo->instances['videotrack'] ?? [];
+        $coursecontext = context_course::instance((int)$course->id);
         $options = [];
-        foreach ($rows as $row) {
-            if (!empty($row->canviewreport)) {
-                $options[(int)$row->id] = format_string(
-                    $row->name,
-                    true,
-                    ['context' => context_course::instance((int)$course->id)]
-                );
+        $sortnames = [];
+        foreach ($cms as $cm) {
+            if (!$cm->uservisible) {
+                continue;
             }
+            $context = context_module::instance((int)$cm->id, IGNORE_MISSING);
+            if (!$context || !has_capability('mod/videotrack:viewreport', $context, $userid)) {
+                continue;
+            }
+            $instanceid = (int)$cm->instance;
+            $sortnames[$instanceid] = (string)$cm->name;
+            $options[$instanceid] = format_string($cm->name, true, ['context' => $coursecontext]);
         }
+        uksort($options, static function (int $leftid, int $rightid) use ($sortnames): int {
+            return [\core_text::strtolower($sortnames[$leftid]), $leftid]
+                <=> [\core_text::strtolower($sortnames[$rightid]), $rightid];
+        });
         return $options;
     }
 

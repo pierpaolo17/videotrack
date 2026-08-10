@@ -27,6 +27,9 @@ use stdClass;
  * @license    https://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 final class course_analytics {
+    /** Maximum activity scopes combined into one event aggregate query. */
+    private const EVENT_SCOPE_BATCH_SIZE = 20;
+
     /**
      * Builds one dashboard row for every visible VideoTrack activity in a course.
      *
@@ -82,7 +85,8 @@ final class course_analytics {
         }
 
         $modinfo = get_fast_modinfo($course, $viewerid);
-        $rows = [];
+        $coursehasgroups = $DB->record_exists('groups', ['courseid' => (int)$course->id]);
+        $scopes = [];
         foreach ($instances as $instance) {
             $cmid = (int)$instance->cmid;
             if (empty($modinfo->cms[$cmid]) || !$modinfo->cms[$cmid]->uservisible) {
@@ -94,24 +98,52 @@ final class course_analytics {
                 continue;
             }
 
-            $groupids = analytics_scope::accessible_group_ids($instance, $viewerid);
+            $groupids = analytics_scope::accessible_group_ids($instance, $viewerid, $coursehasgroups);
             if ($groupid > 0) {
                 if (is_array($groupids) && !in_array($groupid, $groupids, true)) {
                     continue;
                 }
                 $groupids = [$groupid];
             }
-            [$learnersql, $learnerparams] = learner_scope::sql_for_group_ids($context, $groupids);
+            [$learnersql, $learnerparams] = learner_scope::sql_for_group_ids(
+                $context,
+                $groupids,
+                'userid',
+                'course' . (int)$instance->id
+            );
+            $scopes[(int)$instance->id] = [
+                'instance' => $instance,
+                'context' => $context,
+                'learnersql' => $learnersql,
+                'learnerparams' => $learnerparams,
+            ];
+        }
+        if (!$scopes) {
+            return [];
+        }
+
+        $eventsummaries = self::load_event_summaries_for_scopes(
+            $scopes,
+            $minusers,
+            $timestart,
+            $timeend
+        );
+        $rows = [];
+        foreach ($scopes as $videotrackid => $scope) {
+            $instance = $scope['instance'];
+            $context = $scope['context'];
+            $learnersql = $scope['learnersql'];
+            $learnerparams = $scope['learnerparams'];
             if ($timestart > 0 || $timeend > 0) {
                 $segments = self::load_period_segments(
-                    (int)$instance->id,
+                    $videotrackid,
                     $learnersql,
                     $learnerparams,
                     $timestart,
                     $timeend
                 );
                 $completionflags = self::load_current_completion_flags(
-                    (int)$instance->id,
+                    $videotrackid,
                     array_values(array_unique(array_map(
                         static fn(stdClass $segment): int => (int)$segment->userid,
                         $segments
@@ -127,7 +159,7 @@ final class course_analytics {
                 );
             } else {
                 $states = self::load_states(
-                    (int)$instance->id,
+                    $videotrackid,
                     $learnersql,
                     $learnerparams
                 );
@@ -140,38 +172,14 @@ final class course_analytics {
 
             $row = clone $instance;
             $row->summary = $summary;
-            $row->reactions = self::load_event_summary(
-                (int)$instance->id,
-                '',
-                $learnersql,
-                $learnerparams,
-                $minusers,
-                $timestart,
-                $timeend
-            );
-            $row->notes = self::load_event_summary(
-                (int)$instance->id,
-                'note',
-                $learnersql,
-                $learnerparams,
-                $minusers,
-                $timestart,
-                $timeend
-            );
+            $row->reactions = $eventsummaries[$videotrackid]['reactions'];
+            $row->notes = $eventsummaries[$videotrackid]['notes'];
             $row->bookmarks = !empty($instance->bookmarksenabled)
-                ? self::load_event_summary(
-                    (int)$instance->id,
-                    'bookmark',
-                    $learnersql,
-                    $learnerparams,
-                    $minusers,
-                    $timestart,
-                    $timeend
-                )
+                ? $eventsummaries[$videotrackid]['bookmarks']
                 : analytics::count_summary(0, 0, $minusers);
             $row->canviewactivity = has_capability('mod/videotrack:view', $context, $viewerid);
             $row->canviewreport = has_capability('mod/videotrack:viewreport', $context, $viewerid);
-            $rows[(int)$instance->id] = $row;
+            $rows[$videotrackid] = $row;
         }
 
         uasort($rows, static function (stdClass $left, stdClass $right): int {
@@ -440,58 +448,86 @@ final class course_analytics {
     }
 
     /**
-     * Loads a privacy-safe reaction, note or bookmark count for one activity.
+     * Loads privacy-safe reaction, note and bookmark counts for prepared activity scopes.
      *
-     * @param int $videotrackid Activity instance id.
-     * @param string $notetype Empty for reactions, or the personal event type to count.
-     * @param string $learnersql Learner SQL condition.
-     * @param array $learnerparams Learner SQL parameters.
+     * Scopes are chunked so the course dashboard performs one aggregate event query per
+     * batch instead of three event queries for every activity. Each learner subquery has
+     * already received a unique parameter prefix while the scopes were prepared.
+     *
+     * @param array $scopes Prepared activity scopes keyed by VideoTrack id.
      * @param int $minusers Privacy threshold.
      * @param int $timestart Optional inclusive event creation start time.
      * @param int $timeend Optional inclusive event creation end time.
-     * @return array Privacy-safe count summary.
+     * @return array Event summaries keyed by VideoTrack id and event type.
      */
-    private static function load_event_summary(
-        int $videotrackid,
-        string $notetype,
-        string $learnersql,
-        array $learnerparams,
+    private static function load_event_summaries_for_scopes(
+        array $scopes,
         int $minusers,
         int $timestart,
         int $timeend
     ): array {
         global $DB;
 
-        $typecondition = $notetype !== ''
-            ? 'notetype = :eventnotetype'
-            : "(notetype IS NULL OR notetype = '')";
-        $params = ['eventvideotrackid' => $videotrackid] + $learnerparams;
-        if ($notetype !== '') {
-            $params['eventnotetype'] = $notetype;
+        $summaries = [];
+        foreach (array_keys($scopes) as $videotrackid) {
+            $summaries[(int)$videotrackid] = [
+                'reactions' => analytics::count_summary(0, 0, $minusers),
+                'notes' => analytics::count_summary(0, 0, $minusers),
+                'bookmarks' => analytics::count_summary(0, 0, $minusers),
+            ];
         }
-        $timecondition = '';
-        if ($timestart > 0) {
-            $timecondition .= ' AND timecreated >= :eventtimestart';
-            $params['eventtimestart'] = $timestart;
-        }
-        if ($timeend > 0) {
-            $timecondition .= ' AND timecreated <= :eventtimeend';
-            $params['eventtimeend'] = $timeend;
-        }
-        $record = $DB->get_record_sql(
-            "SELECT COUNT(id) AS eventcount, COUNT(DISTINCT userid) AS usercount
-               FROM {videotrack_reactev}
-              WHERE videotrackid = :eventvideotrackid
-                AND isdeleted = 0
-                AND {$typecondition}
-                AND {$learnersql}{$timecondition}",
-            $params
-        );
 
-        return analytics::count_summary(
-            (int)($record->eventcount ?? 0),
-            (int)($record->usercount ?? 0),
-            $minusers
-        );
+        foreach (array_chunk($scopes, self::EVENT_SCOPE_BATCH_SIZE, true) as $batch) {
+            $selects = [];
+            $params = [];
+            foreach ($batch as $videotrackid => $scope) {
+                $suffix = (string)(int)$videotrackid;
+                $branchparams = ['eventvideotrackid' . $suffix => (int)$videotrackid]
+                    + $scope['learnerparams'];
+                $timecondition = '';
+                if ($timestart > 0) {
+                    $timecondition .= ' AND timecreated >= :eventtimestart' . $suffix;
+                    $branchparams['eventtimestart' . $suffix] = $timestart;
+                }
+                if ($timeend > 0) {
+                    $timecondition .= ' AND timecreated <= :eventtimeend' . $suffix;
+                    $branchparams['eventtimeend' . $suffix] = $timeend;
+                }
+                $selects[] = "SELECT MIN(id) AS id, videotrackid, notetype,
+                                     COUNT(id) AS eventcount, COUNT(DISTINCT userid) AS usercount
+                                FROM {videotrack_reactev}
+                               WHERE videotrackid = :eventvideotrackid{$suffix}
+                                 AND isdeleted = 0
+                                 AND (notetype IS NULL OR notetype = '' OR notetype = 'note' OR notetype = 'bookmark')
+                                 AND {$scope['learnersql']}{$timecondition}
+                            GROUP BY videotrackid, notetype";
+                $params += $branchparams;
+            }
+
+            if (!$selects) {
+                continue;
+            }
+            $records = $DB->get_records_sql(implode("
+UNION ALL
+", $selects), $params);
+            foreach ($records as $record) {
+                $videotrackid = (int)$record->videotrackid;
+                if (!isset($summaries[$videotrackid])) {
+                    continue;
+                }
+                $type = (string)($record->notetype ?? '');
+                $key = match ($type) {
+                    'note' => 'notes',
+                    'bookmark' => 'bookmarks',
+                    default => 'reactions',
+                };
+                $summaries[$videotrackid][$key] = analytics::count_summary(
+                    (int)($record->eventcount ?? 0),
+                    (int)($record->usercount ?? 0),
+                    $minusers
+                );
+            }
+        }
+        return $summaries;
     }
 }
