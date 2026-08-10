@@ -248,6 +248,17 @@ final class course_analytics_test extends advanced_testcase {
     }
 
     /**
+     * Course Analytics delegates participant SQL to the canonical learner scope helper.
+     */
+    public function test_course_analytics_reuses_canonical_learner_scope_sql(): void {
+        $source = file_get_contents(__DIR__ . '/../classes/local/course_analytics.php');
+        $this->assertIsString($source);
+        $this->assertStringContainsString('learner_scope::sql_for_group_ids($context, $groupids)', $source);
+        $this->assertStringNotContainsString('private static function learner_scope_sql', $source);
+        $this->assertStringNotContainsString('get_enrolled_sql(', $source);
+    }
+
+    /**
      * Creates one aggregate state fixture.
      *
      * @param int $userid User id.

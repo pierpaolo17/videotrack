@@ -131,4 +131,62 @@ final class analytics_table_export_test extends \advanced_testcase {
         $this->assertSame(2, $rows[0][13]);
         $this->assertSame(1, $rows[0][14]);
     }
+
+    /**
+     * Combined exports include the same privacy-safe event summaries shown on the page.
+     */
+    public function test_export_rows_include_event_summaries_with_privacy_masking(): void {
+        $integritysummary = \mod_videotrack\local\integrity::summarise([
+            (object)[
+                'eventtype' => 'forwardseek',
+                'eventcount' => 4,
+                'studentcount' => 4,
+            ],
+            (object)[
+                'eventtype' => 'windowblur',
+                'eventcount' => 2,
+                'studentcount' => 1,
+            ],
+        ], 2);
+        $columns = analytics_table_export::export_columns(false, false, true);
+        $rows = analytics_table_export::export_rows(
+            [],
+            0,
+            false,
+            false,
+            2,
+            null,
+            [
+                'hasdata' => true,
+                'eventcount' => 9,
+                'studentcount' => 4,
+                'suppressed' => false,
+            ],
+            [
+                'hasdata' => true,
+                'eventcount' => null,
+                'studentcount' => null,
+                'suppressed' => true,
+            ],
+            $integritysummary
+        );
+
+        $hidden = get_string('report:analytics_notavailable_privacy', 'mod_videotrack');
+        $this->assertCount(10, $columns);
+        $this->assertCount(4, $rows);
+        foreach ($rows as $row) {
+            $this->assertCount(10, $row);
+        }
+        $this->assertSame(get_string('report:analytics_export_row_reactions', 'mod_videotrack'), $rows[0][0]);
+        $this->assertSame(9, $rows[0][8]);
+        $this->assertSame(4, $rows[0][9]);
+        $this->assertSame(get_string('report:analytics_export_row_bookmarks', 'mod_videotrack'), $rows[1][0]);
+        $this->assertSame($hidden, $rows[1][8]);
+        $this->assertSame($hidden, $rows[1][9]);
+        $this->assertSame(get_string('report:analytics_export_row_integrity', 'mod_videotrack'), $rows[2][0]);
+        $this->assertSame(4, $rows[2][8]);
+        $this->assertSame(4, $rows[2][9]);
+        $this->assertSame($hidden, $rows[3][8]);
+        $this->assertSame($hidden, $rows[3][9]);
+    }
 }

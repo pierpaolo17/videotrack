@@ -60,6 +60,32 @@ final class learner_scope {
             'groupmodeforce' => (int)$course->groupmodeforce,
         ];
         $groupids = analytics_scope::accessible_group_ids($instance, $viewerid);
+        return self::sql_for_group_ids($context, $groupids, $useridfield, $paramprefix);
+    }
+
+    /**
+     * Returns canonical learner SQL for an already-resolved group scope.
+     *
+     * This keeps participation, active-enrolment and SQL parameter handling in one
+     * place while allowing callers such as course Analytics to apply an explicit
+     * group filter that has already been authorised for the report viewer.
+     *
+     * @param context_module $context Activity context.
+     * @param array|null $groupids Null for all permitted groups, empty for none, or explicit group ids.
+     * @param string $useridfield SQL userid field expression.
+     * @param string $paramprefix Optional prefix used to make named SQL parameters unique.
+     * @return array{0:string,1:array}
+     */
+    public static function sql_for_group_ids(
+        context_module $context,
+        ?array $groupids,
+        string $useridfield = 'userid',
+        string $paramprefix = ''
+    ): array {
+        global $CFG;
+
+        require_once($CFG->libdir . '/enrollib.php');
+
         if (is_array($groupids) && !$groupids) {
             return ['1 = 0', []];
         }

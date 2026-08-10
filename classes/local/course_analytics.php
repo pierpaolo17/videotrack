@@ -101,7 +101,7 @@ final class course_analytics {
                 }
                 $groupids = [$groupid];
             }
-            [$learnersql, $learnerparams] = self::learner_scope_sql($context, $groupids);
+            [$learnersql, $learnerparams] = learner_scope::sql_for_group_ids($context, $groupids);
             if ($timestart > 0 || $timeend > 0) {
                 $segments = self::load_period_segments(
                     (int)$instance->id,
@@ -285,31 +285,6 @@ final class course_analytics {
             ];
         }
         return $largest;
-    }
-
-    /**
-     * Builds the SQL condition for active enrolled learners in the permitted groups.
-     *
-     * @param context_module $context Activity context.
-     * @param array|null $groupids Null for all users, empty for no permitted users.
-     * @return array SQL condition and named parameters.
-     */
-    private static function learner_scope_sql(context_module $context, ?array $groupids): array {
-        if (is_array($groupids) && !$groupids) {
-            return ['1 = 0', []];
-        }
-
-        [$participantsql, $participantparams] = get_enrolled_sql(
-            $context,
-            'mod/videotrack:participate',
-            $groupids ?? 0,
-            true
-        );
-
-        return [
-            "userid IN ({$participantsql})",
-            $participantparams,
-        ];
     }
 
     /**
