@@ -720,7 +720,13 @@ define([
                     player.setCurrentTime(fallback).then(function() {
                         consumeVimeoProgrammaticSeek(fallback);
                         resetForwardSeekRecovery(fallback);
-                        applyBlockedSeekPenalty((label || 'Vimeo blocked seek') + ' retry playback rate', recoveryRate);
+                        return Promise.resolve(
+                            applyBlockedSeekPenalty(
+                                (label || 'Vimeo blocked seek') + ' retry playback rate',
+                                recoveryRate
+                            )
+                        );
+                    }).then(function() {
                         scheduleBlockedSeekResume(wasPlaying, label);
                     }).catch(function(error) {
                         Log.debug((label || 'Vimeo blocked seek rollback retry') + ': ' + error);
@@ -742,12 +748,13 @@ define([
         state._vimeoBlockedSeekInProgress = true;
         markVimeoProgrammaticSeek(fallback);
         Tracker.blockSeek(state, 900);
-        if (recoveryRate) {
-            applyBlockedSeekPenalty((label || 'Vimeo blocked seek') + ' playback rate', recoveryRate);
-            retryBlockedSeekPenalty((label || 'Vimeo blocked seek') + ' playback rate', recoveryRate);
-        }
+        // Tracker.blockSeek snapshots state.playing. Preserve the provider-level
+        // evidence captured before the seek so the first Vimeo seek can resume
+        // even while the asynchronous playback handshake is still settling.
+        state.wasPlayingBeforeSeekBlock = !!wasPlaying;
 
         function finish(error) {
+            var penaltypromise = Promise.resolve();
             if (completed) {
                 return;
             }
@@ -764,13 +771,21 @@ define([
             state._vimeoBlockedForwardSeekUntil = Date.now() + 7500;
             state._vimeoBlockedForwardSeekFallback = fallback;
             Tracker.clearSeekBlock(state);
-            state._vimeoBlockedSeekInProgress = false;
             if (recoveryRate) {
-                applyBlockedSeekPenalty((label || 'Vimeo blocked seek') + ' playback rate confirm', recoveryRate);
-                retryBlockedSeekPenalty((label || 'Vimeo blocked seek') + ' playback rate confirm', recoveryRate);
-                verifyBlockedSeekRollback(fallback, label, wasPlaying, recoveryRate);
+                penaltypromise = Promise.resolve(
+                    applyBlockedSeekPenalty((label || 'Vimeo blocked seek') + ' playback rate confirm', recoveryRate)
+                );
             }
-            scheduleBlockedSeekResume(wasPlaying, label);
+            penaltypromise.catch(function(penaltyerror) {
+                Log.debug((label || 'Vimeo blocked seek playback rate confirm') + ': ' + penaltyerror);
+            }).then(function() {
+                if (recoveryRate) {
+                    retryBlockedSeekPenalty((label || 'Vimeo blocked seek') + ' playback rate confirm', recoveryRate);
+                    verifyBlockedSeekRollback(fallback, label, wasPlaying, recoveryRate);
+                }
+                state._vimeoBlockedSeekInProgress = false;
+                scheduleBlockedSeekResume(wasPlaying, label);
+            });
         }
 
         timeoutid = window.setTimeout(function() {
@@ -1458,7 +1473,12 @@ define([
             var seek = Tracker.resolveSeek(state, data.seconds, seekConfig, 0);
 
             if (seek.blocked) {
-                recoverBlockedSeek(seek.fallbackTime, !!state.playing, 'Vimeo blocked seek resume');
+                recoverBlockedSeek(
+                    seek.fallbackTime,
+                    resolveVimeoSeekWasPlaying(),
+                    'Vimeo blocked seek resume',
+                    seek.forward ? getBlockedSeekPlaybackRate(seek.fallbackTime, seek.oldTime) : undefined
+                );
                 return;
             }
             if (state.playing && seek.changed) {
