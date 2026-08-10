@@ -755,30 +755,48 @@ define([
         updateLiveIntervalBar(current);
     }
 
+    function resumeBlockedSeekIfPaused(label, recoveryId) {
+        var pausedpromise;
+        if (!player || typeof player.play !== 'function' || !state._vimeoBlockedSeekResume ||
+                !isBlockedSeekRecoveryCurrent(recoveryId)) {
+            return;
+        }
+        pausedpromise = typeof player.getPaused === 'function' ? player.getPaused() : Promise.resolve(true);
+        pausedpromise.then(function(paused) {
+            if (!state._vimeoBlockedSeekResume || !isBlockedSeekRecoveryCurrent(recoveryId) || paused === false) {
+                return;
+            }
+            return player.play().catch(function(error) {
+                Log.debug((label || 'Vimeo blocked seek resume') + ': ' + error);
+            });
+        }).catch(function(error) {
+            Log.debug((label || 'Vimeo blocked seek paused check') + ': ' + error);
+        });
+    }
+
     function scheduleBlockedSeekResume(wasPlaying, label, recoveryId) {
+        var resumelabel = label || 'Vimeo blocked seek resume';
         if (!wasPlaying || !player || typeof player.play !== 'function' ||
                 !isBlockedSeekRecoveryCurrent(recoveryId)) {
             return;
         }
         clearBlockedSeekResumeState();
         state._vimeoBlockedSeekResume = {
-            label: label || 'Vimeo blocked seek resume',
-            until: Date.now() + 12000
+            label: resumelabel,
+            until: Date.now() + 5000
         };
         state.wasPlayingBeforeSeekBlock = true;
         player.play().catch(function(error) {
-            Log.debug((label || 'Vimeo blocked seek immediate resume') + ': ' + error);
+            Log.debug(resumelabel + ': ' + error);
         });
-        playVimeoAfterSeek(label || 'Vimeo blocked seek resume', [250, 700, 1400, 2600, 4200, 6500, 9000], {
-            requiredPlayingObservations: 2,
-            fallback: state._vimeoBlockedForwardSeekFallback,
-            clearBlockedSeekResume: true,
-            requireTimeAdvance: true,
-            recoveryId: recoveryId
+        [350, 1000, 2200, 3600].forEach(function(delay) {
+            scheduleBlockedSeekRecoveryTimer(recoveryId, function() {
+                resumeBlockedSeekIfPaused(resumelabel, recoveryId);
+            }, delay);
         });
         state._vimeoBlockedSeekResumeTimer = scheduleBlockedSeekRecoveryTimer(recoveryId, function() {
             clearBlockedSeekResumeRequest();
-        }, 14000);
+        }, 5000);
     }
 
     function recoverBlockedSeek(fallback, wasPlaying, label, recoveryRate) {
@@ -799,7 +817,6 @@ define([
         state.wasPlayingBeforeSeekBlock = !!wasPlaying;
 
         function finish(error) {
-            var penaltypromise = Promise.resolve();
             if (completed) {
                 return;
             }
@@ -817,31 +834,30 @@ define([
             }
             consumeVimeoProgrammaticSeek(fallback);
             resetForwardSeekRecovery(fallback);
-            state._vimeoBlockedForwardSeekUntil = Date.now() + 7500;
-            state._vimeoBlockedForwardSeekFallback = fallback;
+            // The rollback itself is complete. Do not keep a forward-seek guard
+            // alive after returning to the valid timestamp: normal seeking/seeked
+            // handlers will catch any new user seek. Keeping these flags alive can
+            // turn natural post-rollback playback into another recovery cycle.
+            state._vimeoBlockedForwardSeekUntil = 0;
+            state._vimeoBlockedForwardSeekFallback = 0;
             Tracker.clearSeekBlock(state);
+            state._vimeoBlockedSeekInProgress = false;
+            // Resume is independent from the playback-rate write. Vimeo can leave
+            // setPlaybackRate() pending while the seek has already completed; the
+            // learner must not remain paused waiting for that Promise.
+            scheduleBlockedSeekResume(wasPlaying, label, recoveryId);
             if (recoveryRate) {
-                penaltypromise = Promise.resolve(
+                Promise.resolve(
                     applyBlockedSeekPenalty((label || 'Vimeo blocked seek') + ' playback rate confirm', recoveryRate)
+                ).catch(function(penaltyerror) {
+                    Log.debug((label || 'Vimeo blocked seek playback rate confirm') + ': ' + penaltyerror);
+                });
+                retryBlockedSeekPenalty(
+                    (label || 'Vimeo blocked seek') + ' playback rate confirm',
+                    recoveryRate,
+                    recoveryId
                 );
             }
-            penaltypromise.catch(function(penaltyerror) {
-                Log.debug((label || 'Vimeo blocked seek playback rate confirm') + ': ' + penaltyerror);
-            }).then(function() {
-                if (!isBlockedSeekRecoveryCurrent(recoveryId)) {
-                    state._vimeoBlockedSeekInProgress = false;
-                    return;
-                }
-                if (recoveryRate) {
-                    retryBlockedSeekPenalty(
-                        (label || 'Vimeo blocked seek') + ' playback rate confirm',
-                        recoveryRate,
-                        recoveryId
-                    );
-                }
-                state._vimeoBlockedSeekInProgress = false;
-                scheduleBlockedSeekResume(wasPlaying, label, recoveryId);
-            });
         }
 
         timeoutid = window.setTimeout(function() {
@@ -1467,15 +1483,26 @@ define([
         });
 
         player.on('pause', function() {
-            Api.cancelPlaybackStart(state);
-            if (focusGuard) {
-                focusGuard.setPlaying(false);
-            }
+            var recoveryId = state._vimeoBlockedSeekRecoveryId;
+            var resumelabel = state._vimeoBlockedSeekResume && state._vimeoBlockedSeekResume.label;
             state._vimeoRecentPauseAt = Date.now();
             state._vimeoRecentPauseWasPlaying = !!state.playing;
             if (state.ended || state.seekblocked || state.isProgrammaticSeek || state._vimeoBlockedSeekResume ||
                     state._vimeoBlockedSeekInProgress || state._vimeoBlockedForwardSeekUntil) {
+                // Vimeo can emit a transient pause while settling a programmatic
+                // rollback. Ignore it completely: do not cancel beginPlayback or
+                // mark the focus guard paused. If this is an active blocked-seek
+                // recovery, request play again without performing another seek.
+                if (state._vimeoBlockedSeekResume && state.wasPlayingBeforeSeekBlock) {
+                    scheduleBlockedSeekRecoveryTimer(recoveryId, function() {
+                        resumeBlockedSeekIfPaused(resumelabel, recoveryId);
+                    }, 80);
+                }
                 return;
+            }
+            Api.cancelPlaybackStart(state);
+            if (focusGuard) {
+                focusGuard.setPlaying(false);
             }
             stopHeartbeat();
             rememberResumePosition(state.lasttime);
