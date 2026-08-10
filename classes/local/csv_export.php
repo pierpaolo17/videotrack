@@ -17,6 +17,7 @@
 namespace mod_videotrack\local;
 
 use context;
+use context_system;
 use core_user\fields;
 use stdClass;
 
@@ -138,10 +139,11 @@ final class csv_export {
         }
 
         if ($context === null) {
+            $formatcontext = context_system::instance();
             $customfields = $DB->get_records('user_info_field', null, 'sortorder ASC, id ASC', 'id, shortname, name');
             foreach ($customfields as $customfield) {
                 $key = 'profile_field_' . \core_text::strtolower((string)$customfield->shortname);
-                $options[$key] = format_string($customfield->name);
+                $options[$key] = format_string($customfield->name, true, ['context' => $formatcontext]);
             }
         } else {
             foreach ($allowedidentity as $field) {
@@ -182,7 +184,7 @@ final class csv_export {
         $customfields = $DB->get_records('user_info_field', null, 'sortorder ASC, id ASC', 'id, shortname, name');
         foreach ($customfields as $customfield) {
             $key = 'profile_field_' . \core_text::strtolower((string)$customfield->shortname);
-            $options[$key] = format_string($customfield->name);
+            $options[$key] = format_string($customfield->name, true, ['context' => $context]);
         }
         return $options;
     }
@@ -327,6 +329,7 @@ final class csv_export {
      * @param stdClass|null $user User record.
      * @param string $userlabel Fallback label when the user record is unavailable.
      * @param int $cmid Course module id, required for uploaded-video links.
+     * @param context $context Module context used for formatted course/activity strings.
      * @return array
      */
     public static function identity_values(
@@ -335,12 +338,13 @@ final class csv_export {
         stdClass $videotrack,
         ?stdClass $user,
         string $userlabel,
-        int $cmid
+        int $cmid,
+        context $context
     ): array {
         $values = [];
         foreach ($selected as $field) {
             if (in_array($field, self::CONTEXT_FIELDS, true)) {
-                $values[] = self::field_value($field, $course, $videotrack, $user, $cmid);
+                $values[] = self::field_value($field, $course, $videotrack, $user, $cmid, $context);
             }
         }
         if ($user) {
@@ -354,7 +358,7 @@ final class csv_export {
             if (in_array($field, self::CONTEXT_FIELDS, true)) {
                 continue;
             }
-            $values[] = self::field_value($field, $course, $videotrack, $user, $cmid);
+            $values[] = self::field_value($field, $course, $videotrack, $user, $cmid, $context);
         }
         return $values;
     }
@@ -502,6 +506,7 @@ final class csv_export {
      * @param stdClass $videotrack Activity record.
      * @param stdClass|null $user User record.
      * @param int $cmid Course module id.
+     * @param context $context Module context used by Moodle text filters.
      * @return mixed
      */
     private static function field_value(
@@ -509,17 +514,18 @@ final class csv_export {
         stdClass $course,
         stdClass $videotrack,
         ?stdClass $user,
-        int $cmid
+        int $cmid,
+        context $context
     ) {
         switch ($field) {
             case 'coursefullname':
-                return format_string($course->fullname);
+                return format_string($course->fullname, true, ['context' => $context]);
             case 'courseshortname':
-                return format_string($course->shortname);
+                return format_string($course->shortname, true, ['context' => $context]);
             case 'courseid':
                 return (int)$course->id;
             case 'instancename':
-                return format_string($videotrack->name);
+                return format_string($videotrack->name, true, ['context' => $context]);
             case 'videolink':
                 return self::video_url($videotrack, $cmid);
         }

@@ -2528,7 +2528,8 @@ if ($export === 'custom_csv') {
             $videotrack,
             $user,
             $userid > 0 ? videotrack_report_user_label($userid, $exportusermap, false) : '',
-            (int)$cm->id
+            (int)$cm->id,
+            $context
         );
         $row = array_merge($row, [
             $eventtype,
@@ -2812,7 +2813,8 @@ if ($export === 'events_csv') {
             $videotrack,
             $user,
             videotrack_report_user_label($userid, $alleventusermap, false),
-            (int)$cm->id
+            (int)$cm->id,
+            $context
         );
         $isnote = $record->notetype === 'note';
         $row = array_merge($row, [
@@ -2910,7 +2912,8 @@ if ($export === 'notes_csv' && !empty($videotrack->studentnotesenabled)) {
             $videotrack,
             $user,
             videotrack_report_user_label($userid, $csvusermap, false),
-            (int)$cm->id
+            (int)$cm->id,
+            $context
         );
         $row = array_merge($row, [
             videotrack_format_video_timestamp((float)$note->videotime, $videoduration),
@@ -3026,7 +3029,8 @@ if ($export === 'csv') {
                 $videotrack,
                 $user,
                 videotrack_report_user_label($userid, $csvusermap, false),
-                (int)$cm->id
+                (int)$cm->id,
+                $context
             );
             $row = array_merge($row, [
                 videotrack_format_video_timestamp((float)$state->uniquecoveredseconds, $videoduration),

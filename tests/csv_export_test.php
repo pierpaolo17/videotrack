@@ -91,7 +91,7 @@ final class csv_export_test extends advanced_testcase {
         $this->assertSame([get_string('lastname'), get_string('firstname')], csv_export::identity_headers([]));
         $this->assertSame(
             ['Lovelace', 'Ada'],
-            csv_export::identity_values([], $course, $videotrack, $user, 'Ada Lovelace', 1)
+            csv_export::identity_values([], $course, $videotrack, $user, 'Ada Lovelace', 1, \context_system::instance())
         );
     }
 
