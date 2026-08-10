@@ -68,11 +68,18 @@ final class release_hygiene_contract_test extends advanced_testcase {
         $this->assertIsString($readme);
         $this->assertIsString($readmeit);
 
-        $this->assertStringContainsString('## 1.7.23 - 2026-08-10', $changelog);
-        $this->assertStringContainsString('Current release documented by this tree: **1.7.23**', $readme);
-        $this->assertStringContainsString('Release corrente documentata da questo albero: **1.7.23**', $readmeit);
-        $this->assertStringContainsString('[`CHANGELOG.md`](CHANGELOG.md)', $readme);
-        $this->assertStringContainsString('[`CHANGELOG.md`](CHANGELOG.md)', $readmeit);
+        $plugin = new \stdClass();
+        require __DIR__ . '/../version.php';
+        $release = (string)$plugin->release;
+
+        $this->assertStringContainsString('## ' . $release . ' - ', $changelog);
+        $this->assertStringContainsString('Current release documented by this tree: **' . $release . '**', $readme);
+        $this->assertStringContainsString(
+            'Release corrente documentata da questo albero: **' . $release . '**',
+            $readmeit
+        );
+        $this->assertStringContainsString('(CHANGELOG.md)', $readme);
+        $this->assertStringContainsString('(CHANGELOG.md)', $readmeit);
         $this->assertStringNotContainsString('Current release documented by this tree: **1.6.36**', $readme);
         $this->assertStringNotContainsString('Release documentata da questo albero: **1.6.36**', $readmeit);
     }
