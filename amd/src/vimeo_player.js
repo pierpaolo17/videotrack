@@ -356,8 +356,7 @@ define([
                         return readVimeoValue('getCurrentTime', options.fallback || state.lasttime || 0).then(function(current) {
                             var fallback = Number(options.fallback);
                             current = Tracker.normaliseTime(current);
-                            if (isFinite(fallback) && config && config.allowseekforward === false &&
-                                    current > Tracker.normaliseTime(fallback) + 1.5) {
+                            if (isFinite(fallback) && isVimeoForwardTimeBlocked(current, fallback)) {
                                 markVimeoProgrammaticSeek(fallback);
                                 return player.setCurrentTime(Tracker.normaliseTime(fallback)).then(function() {
                                     consumeVimeoProgrammaticSeek(fallback);
@@ -399,8 +398,7 @@ define([
                             var fallback = Number(options.fallback);
                             current = Tracker.normaliseTime(current);
                             markVimeoPlaybackObserved();
-                            if (isFinite(fallback) && config && config.allowseekforward === false &&
-                                    current > Tracker.normaliseTime(fallback) + 1.5) {
+                            if (isFinite(fallback) && isVimeoForwardTimeBlocked(current, fallback)) {
                                 markVimeoProgrammaticSeek(fallback);
                                 return player.setCurrentTime(Tracker.normaliseTime(fallback)).then(function() {
                                     consumeVimeoProgrammaticSeek(fallback);
@@ -713,7 +711,7 @@ define([
                     return;
                 }
                 player.getCurrentTime().then(function(current) {
-                    if (Tracker.normaliseTime(current) <= fallback + 1.5) {
+                    if (!isVimeoForwardTimeBlocked(current, fallback)) {
                         return;
                     }
                     markVimeoProgrammaticSeek(fallback);
@@ -1333,7 +1331,7 @@ define([
                     allowedLimit = getBlockedForwardGuardLimit(allowedLimit);
                     if (state._vimeoBlockedSeekResume) {
                         var fallback = Tracker.normaliseTime(state._vimeoBlockedForwardSeekFallback || allowedLimit);
-                        if (t > fallback + 1.5) {
+                        if (isVimeoForwardTimeBlocked(t, fallback)) {
                             markVimeoProgrammaticSeek(fallback);
                             player.setCurrentTime(fallback).then(function() {
                                 consumeVimeoProgrammaticSeek(fallback);
