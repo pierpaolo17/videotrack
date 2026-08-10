@@ -141,6 +141,22 @@ final class ajax_contract_test extends advanced_testcase {
     }
 
     /**
+     * Interaction timestamps must ignore zero-valued no-op segment responses.
+     */
+    public function test_note_and_bookmark_timestamps_fall_back_when_saved_end_is_zero(): void {
+        foreach ([
+            'core/player/bookmarks.js' => 'resolveBookmarkTime',
+            'core/player/notes.js' => 'resolveNoteTime',
+        ] as $filename => $resolver) {
+            $source = file_get_contents(__DIR__ . '/../amd/src/' . $filename);
+            $this->assertIsString($source);
+            $this->assertStringContainsString('function ' . $resolver . '(progressResponse, fallbackTime)', $source);
+            $this->assertStringContainsString('Number.isFinite(savedEnd) && savedEnd > 0', $source);
+            $this->assertStringNotContainsString('Number.isFinite(savedEnd) && savedEnd >= 0', $source);
+        }
+    }
+
+    /**
      * Reaction responses must expose structured icon data only.
      */
     public function test_reaction_runtime_contract_contains_no_raw_html_field(): void {
