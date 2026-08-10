@@ -30,87 +30,30 @@ use PHPUnit\Framework\Attributes\CoversNothing;
 #[CoversNothing]
 final class vimeo_seek_contract_test extends advanced_testcase {
     /**
-     * Blocked forward-seek recovery must request play before delayed retries.
+     * Blocked-seek recovery must resume independently from playback-rate writes.
      */
-    public function test_blocked_seek_requests_immediate_play_before_retry_loop(): void {
-        $source = file_get_contents(__DIR__ . '/../amd/src/vimeo_player.js');
-        $this->assertIsString($source);
-
-        $resume = strpos($source, 'function scheduleBlockedSeekResume(wasPlaying, label)');
-        $this->assertNotFalse($resume);
-        $immediate = strpos($source, 'player.play().catch(function(error)', $resume);
-        $retry = strpos($source, 'playVimeoAfterSeek(', $resume);
-        $resumestate = strpos($source, 'state._vimeoBlockedSeekResume = {', $resume);
-
-        $this->assertNotFalse($resumestate);
-        $this->assertNotFalse($immediate);
-        $this->assertNotFalse($retry);
-        $this->assertLessThan($immediate, $resumestate);
-        $this->assertLessThan($retry, $immediate);
-        $this->assertStringContainsString('Vimeo blocked seek immediate resume', $source);
-    }
-
-    /**
-     * Blocked seek recovery must wait for stable playback evidence before clearing state.
-     */
-    public function test_blocked_seek_requires_time_advance_before_recovery_completes(): void {
-        $source = file_get_contents(__DIR__ . '/../amd/src/vimeo_player.js');
-        $this->assertIsString($source);
-
-        $resume = strpos($source, 'function scheduleBlockedSeekResume(wasPlaying, label)');
-        $this->assertNotFalse($resume);
-        $section = substr($source, $resume, 1800);
-
-        $this->assertStringContainsString('requiredPlayingObservations: 2', $section);
-        $this->assertStringContainsString('requireTimeAdvance: true', $section);
-        $this->assertStringNotContainsString('forcePlay: true', $section);
-    }
-
-    /**
-     * Vimeo play events must not clear blocked-seek recovery before stable playback is confirmed.
-     */
-    public function test_play_event_does_not_clear_blocked_seek_recovery_early(): void {
-        $source = file_get_contents(__DIR__ . '/../amd/src/vimeo_player.js');
-        $this->assertIsString($source);
-
-        $playhandler = strpos($source, "player.on('play', function()");
-        $this->assertNotFalse($playhandler);
-        $branch = strpos($source, 'if (state._vimeoBlockedSeekResume) {', $playhandler);
-        $this->assertNotFalse($branch);
-        $nextbranch = strpos($source, 'if (isVimeoForwardTimeBlocked(t, allowedLimit)) {', $branch);
-        $this->assertNotFalse($nextbranch);
-        $section = substr($source, $branch, $nextbranch - $branch);
-
-        $this->assertStringContainsString('ensureVimeoRuntimePlaying(t);', $section);
-        $this->assertStringNotContainsString('clearBlockedSeekResumeRequest();', $section);
-        $this->assertStringContainsString(
-            'Keep blocked-seek recovery active until playVimeoAfterSeek confirms stable playback.',
-            $section
-        );
-    }
-
-    /**
-     * First blocked seek must preserve provider playback evidence across the tracker seek guard.
-     */
-    public function test_first_blocked_seek_preserves_provider_playing_state(): void {
+    public function test_blocked_seek_resume_does_not_wait_for_penalty_promise(): void {
         $source = file_get_contents(__DIR__ . '/../amd/src/vimeo_player.js');
         $this->assertIsString($source);
 
         $recover = strpos($source, 'function recoverBlockedSeek(fallback, wasPlaying, label, recoveryRate)');
         $this->assertNotFalse($recover);
-        $section = substr($source, $recover, 1800);
-        $blockseek = strpos($section, 'Tracker.blockSeek(state, 900);');
-        $restore = strpos($section, 'state.wasPlayingBeforeSeekBlock = !!wasPlaying;');
+        $nextfunction = strpos($source, 'function getBlockedSeekPlaybackRate', $recover);
+        $this->assertNotFalse($nextfunction);
+        $section = substr($source, $recover, $nextfunction - $recover);
+        $resume = strpos($section, 'scheduleBlockedSeekResume(wasPlaying, label, recoveryId);');
+        $penalty = strpos($section, 'applyBlockedSeekPenalty(');
 
-        $this->assertNotFalse($blockseek);
-        $this->assertNotFalse($restore);
-        $this->assertGreaterThan($blockseek, $restore);
+        $this->assertNotFalse($resume);
+        $this->assertNotFalse($penalty);
+        $this->assertLessThan($penalty, $resume);
+        $this->assertStringNotContainsString('penaltypromise', $section);
     }
 
     /**
-     * Vimeo penalty-rate writes must settle after rollback and before playback resumes.
+     * Forward guard state must end with the rollback rather than surviving it.
      */
-    public function test_blocked_seek_serialises_rollback_penalty_and_resume(): void {
+    public function test_blocked_seek_clears_forward_guard_after_rollback(): void {
         $source = file_get_contents(__DIR__ . '/../amd/src/vimeo_player.js');
         $this->assertIsString($source);
 
@@ -120,39 +63,70 @@ final class vimeo_seek_contract_test extends advanced_testcase {
         $this->assertNotFalse($nextfunction);
         $section = substr($source, $recover, $nextfunction - $recover);
 
-        $this->assertStringContainsString(
-            "player.setCurrentTime(fallback).then(function() {\n            finish();",
-            $section
-        );
-        $this->assertStringContainsString(
-            "penaltypromise.catch(function(penaltyerror)",
-            $section
-        );
-        $this->assertStringContainsString(
-            "}).then(function() {\n                if (recoveryRate) {",
-            $section
-        );
-        $this->assertStringContainsString('scheduleBlockedSeekResume(wasPlaying, label, recoveryId);', $section);
+        $this->assertStringContainsString('state._vimeoBlockedForwardSeekUntil = 0;', $section);
+        $this->assertStringContainsString('state._vimeoBlockedForwardSeekFallback = 0;', $section);
+        $this->assertStringNotContainsString('Date.now() + 7500', $section);
     }
 
     /**
-     * Natural playback after rollback must not be mistaken for another forward seek.
+     * Resume retries may request play but must never perform another rollback seek.
      */
-    public function test_blocked_seek_retries_use_dynamic_recovery_guard(): void {
+    public function test_blocked_seek_resume_retries_never_reseek(): void {
         $source = file_get_contents(__DIR__ . '/../amd/src/vimeo_player.js');
         $this->assertIsString($source);
 
-        $this->assertStringNotContainsString(
-            'current > Tracker.normaliseTime(fallback) + 1.5',
-            $source
-        );
-        $this->assertStringNotContainsString('current <= fallback + 1.5', $source);
-        $this->assertStringNotContainsString('t > fallback + 1.5', $source);
-        $this->assertGreaterThanOrEqual(4, substr_count($source, 'isVimeoForwardTimeBlocked('));
+        $resume = strpos($source, 'function resumeBlockedSeekIfPaused(label, recoveryId)');
+        $this->assertNotFalse($resume);
+        $recover = strpos($source, 'function recoverBlockedSeek(', $resume);
+        $this->assertNotFalse($recover);
+        $section = substr($source, $resume, $recover - $resume);
+
+        $this->assertStringContainsString("player.play().catch(function(error)", $section);
+        $this->assertStringContainsString("typeof player.getPaused === 'function'", $section);
+        $this->assertStringNotContainsString('player.setCurrentTime(', $section);
+        $this->assertStringNotContainsString('playVimeoAfterSeek(', $section);
     }
 
     /**
-     * The seeked fallback must use provider playback evidence and retain the forward penalty rate.
+     * Transient Vimeo pauses during recovery must not cancel the playback handshake.
+     */
+    public function test_transient_pause_does_not_cancel_blocked_seek_playback(): void {
+        $source = file_get_contents(__DIR__ . '/../amd/src/vimeo_player.js');
+        $this->assertIsString($source);
+
+        $pause = strpos($source, "player.on('pause', function()");
+        $this->assertNotFalse($pause);
+        $ended = strpos($source, "player.on('ended', function()", $pause);
+        $this->assertNotFalse($ended);
+        $section = substr($source, $pause, $ended - $pause);
+        $guard = strpos($section, 'if (state.ended || state.seekblocked');
+        $cancel = strpos($section, 'Api.cancelPlaybackStart(state);');
+        $focuspaused = strpos($section, 'focusGuard.setPlaying(false);');
+
+        $this->assertNotFalse($guard);
+        $this->assertNotFalse($cancel);
+        $this->assertNotFalse($focuspaused);
+        $this->assertLessThan($cancel, $guard);
+        $this->assertLessThan($focuspaused, $guard);
+        $this->assertStringContainsString('resumeBlockedSeekIfPaused(resumelabel, recoveryId);', $section);
+    }
+
+    /**
+     * Blocked-seek delayed work must remain scoped to the current recovery generation.
+     */
+    public function test_blocked_seek_resume_is_generation_scoped(): void {
+        $source = file_get_contents(__DIR__ . '/../amd/src/vimeo_player.js');
+        $this->assertIsString($source);
+
+        $this->assertStringContainsString('function nextBlockedSeekRecoveryId()', $source);
+        $this->assertStringContainsString('function isBlockedSeekRecoveryCurrent(recoveryId)', $source);
+        $this->assertStringContainsString('function scheduleBlockedSeekRecoveryTimer(recoveryId, callback, delay)', $source);
+        $this->assertStringContainsString('resumeBlockedSeekIfPaused(resumelabel, recoveryId);', $source);
+        $this->assertStringNotContainsString('function verifyBlockedSeekRollback(', $source);
+    }
+
+    /**
+     * The seeked fallback must use provider playback evidence and forward penalty rate.
      */
     public function test_seeked_fallback_uses_vimeo_playback_resolver_and_penalty(): void {
         $source = file_get_contents(__DIR__ . '/../amd/src/vimeo_player.js');
@@ -169,58 +143,5 @@ final class vimeo_seek_contract_test extends advanced_testcase {
             'seek.forward ? getBlockedSeekPlaybackRate(seek.fallbackTime, seek.oldTime) : undefined',
             $section
         );
-        $this->assertStringNotContainsString(
-            "recoverBlockedSeek(seek.fallbackTime, !!state.playing, 'Vimeo blocked seek resume')",
-            $section
-        );
-    }
-
-    /**
-     * Clearing blocked-seek recovery must invalidate delayed play retries.
-     */
-    public function test_blocked_seek_clear_invalidates_play_retry_token(): void {
-        $source = file_get_contents(__DIR__ . '/../amd/src/vimeo_player.js');
-        $this->assertIsString($source);
-
-        $clear = strpos($source, 'function clearBlockedSeekResumeState()');
-        $this->assertNotFalse($clear);
-        $nextfunction = strpos($source, 'function clearBlockedSeekResumeRequest()', $clear);
-        $this->assertNotFalse($nextfunction);
-        $section = substr($source, $clear, $nextfunction - $clear);
-
-        $this->assertStringContainsString('state._vimeoPlayAfterSeekToken = null;', $section);
-    }
-
-    /**
-     * Blocked-seek async work must be scoped to the active recovery generation.
-     */
-    public function test_blocked_seek_async_callbacks_are_generation_scoped(): void {
-        $source = file_get_contents(__DIR__ . '/../amd/src/vimeo_player.js');
-        $this->assertIsString($source);
-
-        $this->assertStringContainsString('function nextBlockedSeekRecoveryId()', $source);
-        $this->assertStringContainsString('function isBlockedSeekRecoveryCurrent(recoveryId)', $source);
-        $this->assertStringContainsString('function scheduleBlockedSeekRecoveryTimer(recoveryId, callback, delay)', $source);
-        $this->assertStringContainsString('function attemptIsCurrent()', $source);
-        $this->assertStringNotContainsString('function verifyBlockedSeekRollback(', $source);
-
-        $recover = strpos($source, 'function recoverBlockedSeek(fallback, wasPlaying, label, recoveryRate)');
-        $this->assertNotFalse($recover);
-        $retry = strpos($source, 'function retryBlockedSeekPenalty(label, rate, recoveryId)', $recover);
-        $this->assertNotFalse($retry);
-        $section = substr($source, $recover, $retry - $recover);
-
-        $this->assertStringContainsString('recoveryId = nextBlockedSeekRecoveryId();', $section);
-        $this->assertStringContainsString('scheduleBlockedSeekResume(wasPlaying, label, recoveryId);', $section);
-        $this->assertStringNotContainsString('verifyBlockedSeekRollback(', $section);
-
-        $retrystart = strpos($source, 'function retryBlockedSeekPenalty(label, rate, recoveryId)');
-        $this->assertNotFalse($retrystart);
-        $next = strpos($source, 'function writePlaybackRate', $retrystart);
-        $this->assertNotFalse($next);
-        $retrysection = substr($source, $retrystart, $next - $retrystart);
-        $this->assertStringContainsString('scheduleBlockedSeekRecoveryTimer(recoveryId, function()', $retrysection);
-        $this->assertStringContainsString('isBlockedSeekRecoveryCurrent(recoveryId)', $retrysection);
-        $this->assertStringNotContainsString('window.setTimeout(function()', $retrysection);
     }
 }
