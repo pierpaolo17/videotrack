@@ -314,6 +314,41 @@ class tracker {
             return false;
         }
 
+        return self::has_watched_videotime_any_session(
+            $videotrackid,
+            $userid,
+            $videotime,
+            $timetolerance,
+            $maxageseconds
+        );
+    }
+
+    /**
+     * Checks whether a timestamp was watched in any validated session for one user.
+     *
+     * This is used by server-side actions that do not carry a player session id,
+     * such as the Forum composer. Raw validated segments are preferred, with the
+     * canonical aggregate state used as a fallback after segment compaction.
+     *
+     * @param int $videotrackid Activity id.
+     * @param int $userid User id.
+     * @param float $videotime Video timestamp in seconds.
+     * @param float $timetolerance Small tolerance for heartbeat/network delay.
+     * @param int $maxageseconds Maximum evidence age in seconds, or zero for no limit.
+     * @return bool Whether the timestamp is inside previously watched progress.
+     */
+    public static function has_watched_videotime_any_session(
+        int $videotrackid,
+        int $userid,
+        float $videotime,
+        float $timetolerance = 2.0,
+        int $maxageseconds = 0
+    ): bool {
+        global $DB;
+
+        $vt = max(0.0, $videotime);
+        $tol = max(0.5, $timetolerance);
+
         // UX-friendly fallback: after refreshes or browser changes, allow notes and
         // reactions for timestamps already watched by the same user in this activity.
         // This still rejects unwatched positions because the timestamp must fall

@@ -150,7 +150,7 @@ class helper extends external_api {
         // Learner telemetry is controlled by an explicit participation capability,
         // not by the absence of report access. This supports custom and dual-role
         // learners while keeping ordinary teacher/admin previews non-tracking.
-        if (!has_capability('mod/videotrack:participate', $context, null, false)) {
+        if (!\mod_videotrack\local\learner_scope::can_participate($context)) {
             throw new \moodle_exception('error:learnertrackingstaff', 'mod_videotrack');
         }
 

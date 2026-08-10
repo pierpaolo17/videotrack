@@ -430,4 +430,35 @@ final class tracker_test extends advanced_testcase {
         $this->assertTrue(tracker::has_watched_videotime(999, 123, 'different-session', 20.0));
         $this->assertFalse(tracker::has_watched_videotime(999, 123, 'different-session', 50.0));
     }
+
+    /**
+     * Sessionless server actions can validate watched progress across browser sessions.
+     */
+    public function test_any_session_watched_time_validation_uses_validated_segments(): void {
+        global $DB;
+
+        $this->resetAfterTest();
+        $DB->insert_record('videotrack_seg', (object)[
+            'videotrackid' => 1001,
+            'courseid' => 1,
+            'cmid' => 1,
+            'userid' => 123,
+            'videoid' => 'forum-video',
+            'sessionid' => 'first-session',
+            'requestid' => str_repeat('e', 32),
+            'wallclockstart' => time() - 5,
+            'wallclockend' => time(),
+            'videotimestart' => 10.0,
+            'videotimeend' => 30.0,
+            'playbackrate' => 1.0,
+            'endreason' => 'heartbeat',
+            'servervalidated' => 1,
+            'timecreated' => time(),
+        ]);
+
+        set_config('strictsessionvalidation', 1, 'mod_videotrack');
+        $this->assertFalse(tracker::has_watched_videotime(1001, 123, 'other-session', 20.0));
+        $this->assertTrue(tracker::has_watched_videotime_any_session(1001, 123, 20.0));
+        $this->assertFalse(tracker::has_watched_videotime_any_session(1001, 123, 40.0));
+    }
 }

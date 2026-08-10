@@ -70,4 +70,22 @@ final class report_contract_test extends advanced_testcase {
         $this->assertStringContainsString("get_string('report:csvexport_bookmarks_help'", $source);
         $this->assertStringNotContainsString('SELECT userid, notetext', $source);
     }
+
+    /**
+     * Dual-role learners keep their own grade even when they can also view reports.
+     */
+    public function test_student_grade_visibility_depends_on_participation_not_report_access(): void {
+        $source = file_get_contents(__DIR__ . '/../view.php');
+        $this->assertIsString($source);
+
+        $this->assertStringContainsString('learner_scope::can_participate($context)', $source);
+        $this->assertMatchesRegularExpression(
+            '/showgradeto.*?grade.*?\$islearner/s',
+            $source
+        );
+        $this->assertStringNotContainsString(
+            '!has_capability(\'mod/videotrack:viewreport\', $context)',
+            $source
+        );
+    }
 }
