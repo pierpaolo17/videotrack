@@ -2,6 +2,14 @@
 
 This is the canonical release-history file for the plugin tree. Detailed design notes and historical migration documents remain under `docs/`.
 
+## 1.7.25 - 2026-08-10
+
+### Fixed
+
+- Stabilised the release-hygiene contract to use Moodle-compliant `require(...)` syntax.
+- Updated the learner-scope delegation contract to accept the parameterised batching call introduced by 1.7.24 without weakening the canonical-helper assertion.
+- No Analytics runtime, database, player or AMD behaviour changed in this release.
+
 ## 1.7.24 - 2026-08-10
 
 ### Changed

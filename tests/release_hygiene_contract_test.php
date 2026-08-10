@@ -69,7 +69,7 @@ final class release_hygiene_contract_test extends advanced_testcase {
         $this->assertIsString($readmeit);
 
         $plugin = new \stdClass();
-        require __DIR__ . '/../version.php';
+        require(__DIR__ . '/../version.php');
         $release = (string)$plugin->release;
 
         $this->assertStringContainsString('## ' . $release . ' - ', $changelog);
