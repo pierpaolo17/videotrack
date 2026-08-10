@@ -1139,6 +1139,7 @@ $csvincludereactions = optional_param(
     PARAM_BOOL
 );
 $csvincludenotes = optional_param('csvincludenotes', 0, PARAM_BOOL);
+$csvincludebookmarks = optional_param('csvincludebookmarks', 0, PARAM_BOOL);
 $csvformat = optional_param('csvformat', 'detailed', PARAM_ALPHA);
 $analyticsbinsize = optional_param('analyticsbinsize', 0, PARAM_INT);
 $analyticsgroupid = optional_param('analyticsgroupid', 0, PARAM_INT);
@@ -1168,6 +1169,7 @@ $cm = get_coursemodule_from_id('videotrack', $id, 0, false, MUST_EXIST);
 $course = $DB->get_record('course', ['id' => $cm->course], '*', MUST_EXIST);
 $videotrack = $DB->get_record('videotrack', ['id' => $cm->instance], '*', MUST_EXIST);
 $csvincludenotes = !empty($videotrack->studentnotesenabled) && $csvincludenotes;
+$csvincludebookmarks = !empty($videotrack->bookmarksenabled) && $csvincludebookmarks;
 require_login($course, true, $cm);
 $context = context_module::instance($cm->id);
 $canviewfullreport = has_capability('mod/videotrack:viewreport', $context);
@@ -2420,7 +2422,7 @@ if ($export === 'custom_csv') {
     }
     require_sesskey();
     require_capability('mod/videotrack:viewreport', $context);
-    if (!$csvincludereactions && !$csvincludenotes) {
+    if (!$csvincludereactions && !$csvincludenotes && !$csvincludebookmarks) {
         throw new moodle_exception('report:csvexport_selectcontent', 'mod_videotrack');
     }
     if ($csvformat === 'overall') {
@@ -2499,9 +2501,9 @@ if ($export === 'custom_csv') {
         string $eventtype,
         string $reactionlabel,
         string $comment,
-        float $timestamp,
-        float $firsttimestamp,
-        float $lasttimestamp,
+        ?float $timestamp,
+        ?float $firsttimestamp,
+        ?float $lasttimestamp,
         int $count,
         string $created,
         int $studentcount = 1
@@ -2532,9 +2534,9 @@ if ($export === 'custom_csv') {
             $eventtype,
             $reactionlabel,
             $comment,
-            videotrack_format_video_timestamp($timestamp, $videoduration),
-            videotrack_format_video_timestamp($firsttimestamp, $videoduration),
-            videotrack_format_video_timestamp($lasttimestamp, $videoduration),
+            $timestamp === null ? '' : videotrack_format_video_timestamp($timestamp, $videoduration),
+            $firsttimestamp === null ? '' : videotrack_format_video_timestamp($firsttimestamp, $videoduration),
+            $lasttimestamp === null ? '' : videotrack_format_video_timestamp($lasttimestamp, $videoduration),
             $count,
         ]);
         if ($csvformat === 'overall') {
@@ -2689,6 +2691,55 @@ if ($export === 'custom_csv') {
                 }
             }
             $noters->close();
+        }
+    }
+
+    if ($csvincludebookmarks) {
+        $bookmarkwhere = $scopewhere . " AND notetype = 'bookmark'";
+        if ($csvformat === 'overall') {
+            $bookmarksummary = $DB->get_record_sql(
+                "SELECT COUNT(id) AS eventcount, COUNT(DISTINCT userid) AS studentcount
+                   FROM {videotrack_reactev}
+                  WHERE {$bookmarkwhere}",
+                $scopeparams
+            );
+            $bookmarkcount = (int)($bookmarksummary->eventcount ?? 0);
+            if ($bookmarkcount > 0) {
+                $writeeventrow(
+                    0,
+                    get_string('report:bookmarks_count', 'mod_videotrack'),
+                    '',
+                    '',
+                    null,
+                    null,
+                    null,
+                    $bookmarkcount,
+                    '',
+                    (int)($bookmarksummary->studentcount ?? 0)
+                );
+            }
+        } else {
+            $bookmarkrows = $DB->get_records_sql(
+                "SELECT userid, COUNT(id) AS eventcount
+                   FROM {videotrack_reactev}
+                  WHERE {$bookmarkwhere}
+               GROUP BY userid
+               ORDER BY userid ASC",
+                $scopeparams
+            );
+            foreach ($bookmarkrows as $bookmarkrow) {
+                $writeeventrow(
+                    (int)$bookmarkrow->userid,
+                    get_string('report:bookmarks_count', 'mod_videotrack'),
+                    '',
+                    '',
+                    null,
+                    null,
+                    null,
+                    (int)$bookmarkrow->eventcount,
+                    ''
+                );
+            }
         }
     }
 
@@ -3299,6 +3350,28 @@ if ($mode === 'export') {
             'id_csvincludenotes',
             false,
             ['class' => 'form-check-label']
+        );
+        $exportform .= html_writer::end_div();
+    }
+    if (!empty($videotrack->bookmarksenabled)) {
+        $exportform .= html_writer::start_div('form-check');
+        $exportform .= html_writer::empty_tag('input', [
+            'type' => 'hidden', 'name' => 'csvincludebookmarks', 'value' => 0,
+        ]);
+        $exportform .= html_writer::empty_tag('input', [
+            'type' => 'checkbox', 'name' => 'csvincludebookmarks', 'value' => 1,
+            'id' => 'id_csvincludebookmarks', 'class' => 'form-check-input',
+            'checked' => 'checked',
+        ]);
+        $exportform .= html_writer::label(
+            get_string('report:bookmarks_count', 'mod_videotrack'),
+            'id_csvincludebookmarks',
+            false,
+            ['class' => 'form-check-label']
+        );
+        $exportform .= html_writer::div(
+            get_string('report:csvexport_bookmarks_help', 'mod_videotrack'),
+            'form-text text-muted'
         );
         $exportform .= html_writer::end_div();
     }

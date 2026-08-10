@@ -54,4 +54,20 @@ final class report_contract_test extends advanced_testcase {
         $this->assertStringContainsString('root.on(ModalEvents.save', $source);
         $this->assertStringContainsString('submitForm(form);', $source);
     }
+
+    /**
+     * The custom teacher CSV export must offer privacy-safe bookmark counts.
+     */
+    public function test_custom_csv_export_supports_private_bookmark_counts(): void {
+        $source = file_get_contents(__DIR__ . '/../report.php');
+        $this->assertIsString($source);
+
+        $this->assertStringContainsString("optional_param('csvincludebookmarks'", $source);
+        $this->assertStringContainsString("'name' => 'csvincludebookmarks'", $source);
+        $this->assertStringContainsString("AND notetype = 'bookmark'", $source);
+        $this->assertStringContainsString('COUNT(DISTINCT userid) AS studentcount', $source);
+        $this->assertStringContainsString("get_string('report:bookmarks_count'", $source);
+        $this->assertStringContainsString("get_string('report:csvexport_bookmarks_help'", $source);
+        $this->assertStringNotContainsString('SELECT userid, notetext', $source);
+    }
 }
