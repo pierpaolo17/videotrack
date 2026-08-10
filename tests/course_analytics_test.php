@@ -253,7 +253,8 @@ final class course_analytics_test extends advanced_testcase {
     public function test_course_analytics_reuses_canonical_learner_scope_sql(): void {
         $source = file_get_contents(__DIR__ . '/../classes/local/course_analytics.php');
         $this->assertIsString($source);
-        $this->assertStringContainsString('learner_scope::sql_for_group_ids($context, $groupids)', $source);
+        $this->assertStringContainsString('learner_scope::sql_for_group_ids(', $source);
+        $this->assertStringContainsString("'course' . (int)\$instance->id", $source);
         $this->assertStringNotContainsString('private static function learner_scope_sql', $source);
         $this->assertStringNotContainsString('get_enrolled_sql(', $source);
     }
