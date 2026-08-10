@@ -2,6 +2,16 @@
 
 This is the canonical release-history file for the plugin tree. Detailed design notes and historical migration documents remain under `docs/`.
 
+## 1.7.26 - 2026-08-10
+
+### Changed
+
+- Continued U-016 by batching all-time state reads and period segment reads across up to 20 activity scopes per query.
+- Joined each period segment batch to the unique `(videotrackid, userid)` state row so current completion flags travel with active-period segments instead of requiring a second per-activity or course-wide state pass.
+- Removed the remaining per-activity database reads from the explicit course Analytics aggregation loop while preserving independently capability-filtered learner SQL for every activity.
+- Updated the code-level explicit query model: both all-time and period course rows now use `2 + 2*ceil(N/20)` explicit reads, down from 1.7.24's `2 + N + ceil(N/20)` all-time and `2 + 2N + ceil(N/20)` period shapes, excluding Moodle capability/group helper internals. For 20 activities this is 4 reads instead of 23/43; for 100 activities it is 12 instead of 107/207.
+- Added regression coverage preventing state and segment loaders from reverting to one query per activity or a separate completion-state query.
+
 ## 1.7.25 - 2026-08-10
 
 ### Fixed

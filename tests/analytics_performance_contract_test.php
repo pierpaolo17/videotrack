@@ -51,9 +51,9 @@ final class analytics_performance_contract_test extends advanced_testcase {
         $source = file_get_contents(__DIR__ . '/../classes/local/course_analytics.php');
         $this->assertIsString($source);
 
-        $this->assertStringContainsString('private const EVENT_SCOPE_BATCH_SIZE = 20;', $source);
+        $this->assertStringContainsString('private const SCOPE_BATCH_SIZE = 20;', $source);
         $this->assertStringContainsString('load_event_summaries_for_scopes(', $source);
-        $this->assertStringContainsString('array_chunk($scopes, self::EVENT_SCOPE_BATCH_SIZE, true)', $source);
+        $this->assertStringContainsString('array_chunk($scopes, self::SCOPE_BATCH_SIZE, true)', $source);
         $this->assertStringContainsString('UNION ALL', $source);
         $this->assertStringNotContainsString('private static function load_event_summary(', $source);
         $this->assertStringContainsString('$coursehasgroups = $DB->record_exists(\'groups\'', $source);
@@ -62,4 +62,23 @@ final class analytics_performance_contract_test extends advanced_testcase {
             $source
         );
     }
+
+    /**
+     * State, period-segment and completion reads must be batched across activity scopes.
+     */
+    public function test_course_dashboard_batches_state_and_period_reads(): void {
+        $source = file_get_contents(__DIR__ . '/../classes/local/course_analytics.php');
+        $this->assertIsString($source);
+
+        $this->assertStringContainsString('load_states_for_scopes($scopes)', $source);
+        $this->assertStringContainsString('load_period_segments_for_scopes($scopes, $timestart, $timeend)', $source);
+        $this->assertStringContainsString('COALESCE(st.iscompleted, 0) AS iscompleted', $source);
+        $this->assertStringContainsString("'seg.userid'", $source);
+        $this->assertStringContainsString('array_chunk($scopes, self::SCOPE_BATCH_SIZE, true)', $source);
+        $this->assertStringNotContainsString('private static function load_states(', $source);
+        $this->assertStringNotContainsString('private static function load_period_segments(', $source);
+        $this->assertStringNotContainsString('private static function load_current_completion_flags(', $source);
+        $this->assertStringNotContainsString('private static function load_completion_flags_for_scopes(', $source);
+    }
+
 }
