@@ -1386,9 +1386,7 @@ function videotrack_get_completion_active_rule_descriptions($cm) {
     if (!$conditions) {
         return [];
     }
-    $logic = ($videotrack->completionlogic ?? 'and') === 'or'
-        ? get_string('completiondetail:logicor', 'mod_videotrack')
-        : get_string('completiondetail:logicand', 'mod_videotrack');
+    $logic = get_string('completiondetail:logicand', 'mod_videotrack');
     return [get_string('completiondetail:videotrackconditions', 'mod_videotrack', (object)[
         'logic' => $logic,
         'conditions' => implode('; ', $conditions),

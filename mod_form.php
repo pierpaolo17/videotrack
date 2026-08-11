@@ -793,6 +793,12 @@ class mod_videotrack_mod_form extends moodleform_mod {
         $mform->disabledIf('minreactions', 'reactionsenabled', 'notchecked');
         $mform->disabledIf('minreactions', 'reactionsrequired', 'notchecked');
         $mform->disabledIf('requireallreactiontypes', 'reactionsenabled', 'notchecked');
+        $mform->addElement(
+            'static',
+            'reactioncompletionguide',
+            get_string('completionreactionrules', 'mod_videotrack'),
+            get_string('completionreactionrules_desc', 'mod_videotrack')
+        );
         // Completion settings locked when teacher lacks overridecompletionsettings.
         if (!$canoverridecompleting) {
             $mform->addElement(

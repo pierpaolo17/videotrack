@@ -48,7 +48,7 @@ $string['completiondetail:allreactiontypes'] = 'Requerir al menos una reacción 
 $string['completiondetail:minreactions'] = 'Requerir al menos {$a} reacciones distintas';
 $string['completiondetail:percent'] = 'Requerir la visualización de al menos el {$a}% del vídeo';
 $string['completiondetail:requiredreactions'] = 'Debe incluir estas reacciones obligatorias: {$a}';
-$string['completionlogic'] = 'Lógica de finalización';
+$string['completionlogic'] = 'Lógica de las reacciones';
 $string['completionpercent'] = 'Porcentaje de finalización requerido';
 $string['confirmfallback'] = 'No se pudo abrir el cuadro de confirmación. Inténtelo de nuevo.';
 $string['countbyvideotime'] = 'Contar la cobertura según la línea de tiempo del vídeo';
@@ -168,8 +168,8 @@ $string['intervalbar_title'] = 'Intervalos vistos — segmentos verdes = partes 
 $string['invalidvideosource'] = 'Fuente de vídeo no válida.';
 $string['invalidvimeourl'] = 'La URL no parece ser válida para Vimeo.';
 $string['invalidyoutubeurl'] = 'URL de YouTube no válida.';
-$string['logicand'] = 'Todas las condiciones habilitadas (AND)';
-$string['logicor'] = 'Cualquier condición habilitada (OR)';
+$string['logicand'] = 'Todos los criterios de reacción habilitados (AND)';
+$string['logicor'] = 'Al menos un criterio de reacción habilitado (OR)';
 $string['loop'] = 'Repetir en bucle';
 $string['maxplaybackrate'] = 'Velocidad máxima de reproducción';
 $string['maxplaybackrate_desc'] = 'Limita la velocidad máxima que pueden seleccionar los estudiantes. 0 = sin límite.';

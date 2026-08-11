@@ -2,6 +2,15 @@
 
 This is the canonical release-history file for the plugin tree. Detailed design notes and historical migration documents remain under `docs/`.
 
+## 1.7.30 - 2026-08-11
+
+### Fixed
+
+- Fix Moodle 5.0 completion-detail rendering by listing the composite VideoTrack rule together with all standard automatic conditions in `custom_completion::get_sort_order()`.
+- Scope `completionlogic` to reaction criteria only, so reaction OR logic cannot bypass an enabled viewing-percentage or acknowledgement requirement.
+- Rename the completion-form selector to “Reaction logic” / “Logica delle reazioni” and add explicit guidance for the common “at least one reaction of any available type” configuration.
+- Fix three PHPUnit warnings in the completion contract caused by unintended `$suffix` interpolation in assertion strings.
+
 ## 1.7.29 - 2026-08-11
 
 - Fix Moodle 5.0 completion form suffix handling by using `get_suffix()` and explicit field-name concatenation.

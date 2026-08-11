@@ -154,9 +154,10 @@ final class completion_config {
             );
         }
 
+        $reactiondescriptions = [];
         if (!empty($videotrack->reactionsenabled)) {
             if (!empty($videotrack->reactionsrequired) && !empty($videotrack->minreactions)) {
-                $descriptions[] = get_string(
+                $reactiondescriptions[] = get_string(
                     'completiondetail:minreactions',
                     'mod_videotrack',
                     $videotrack->minreactions
@@ -172,7 +173,7 @@ final class completion_config {
                 $labels = array_map(static function (stdClass $reaction) use ($context): string {
                     return format_string($reaction->label, true, ['context' => $context]);
                 }, array_values($required));
-                $descriptions[] = get_string(
+                $reactiondescriptions[] = get_string(
                     'completiondetail:requiredreactions',
                     'mod_videotrack',
                     implode(', ', $labels)
@@ -180,8 +181,15 @@ final class completion_config {
             }
 
             if (!empty($videotrack->requireallreactiontypes)) {
-                $descriptions[] = get_string('completiondetail:allreactiontypes', 'mod_videotrack');
+                $reactiondescriptions[] = get_string('completiondetail:allreactiontypes', 'mod_videotrack');
             }
+        }
+        if ($reactiondescriptions) {
+            $reactionlogic = ($videotrack->completionlogic ?? 'and') === 'or'
+                ? get_string('logicor', 'mod_videotrack')
+                : get_string('logicand', 'mod_videotrack');
+            $descriptions[] = get_string('completionreactionrules', 'mod_videotrack')
+                . ' — ' . $reactionlogic . ': ' . implode('; ', $reactiondescriptions);
         }
 
         if (!empty($videotrack->completionacknowledgement) && acknowledgement::is_enabled($videotrack)) {

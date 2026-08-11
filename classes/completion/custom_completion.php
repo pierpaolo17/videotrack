@@ -24,11 +24,12 @@ use mod_videotrack\local\tracker;
 /**
  * Composite custom completion rule for the VideoTrack activity module.
  *
- * VideoTrack allows teachers to combine its component conditions with either
- * AND or OR logic. Moodle's base activity_custom_completion class aggregates
- * multiple custom rules with AND semantics, so VideoTrack deliberately exposes
- * one composite rule whose state is calculated by the same tracker service used
- * by runtime writes. This keeps Moodle completion and VideoTrack state aligned.
+ * VideoTrack treats enabled viewing, acknowledgement and reaction requirements
+ * as top-level conditions. When more than one reaction criterion is configured,
+ * teachers can combine those reaction criteria with AND or OR logic. Moodle's
+ * base activity_custom_completion class aggregates multiple custom rules with
+ * AND semantics, so VideoTrack exposes one composite rule whose state is
+ * calculated by the same tracker service used by runtime writes.
  *
  * @package    mod_videotrack
  * @copyright  2026 videotrack contributors
@@ -44,7 +45,12 @@ class custom_completion extends activity_custom_completion {
      * @return array
      */
     public function get_sort_order(): array {
-        return [self::RULE];
+        return [
+            'completionview',
+            self::RULE,
+            'completionusegrade',
+            'completionpassgrade',
+        ];
     }
 
     /**
@@ -65,9 +71,7 @@ class custom_completion extends activity_custom_completion {
     public function get_state(string $rule): int {
         global $DB;
 
-        if ($rule !== self::RULE) {
-            return COMPLETION_INCOMPLETE;
-        }
+        $this->validate_rule($rule);
 
         $instance = $DB->get_record('videotrack', ['id' => $this->cm->instance], '*', MUST_EXIST);
         $state = $DB->get_record('videotrack_state', [
@@ -105,9 +109,7 @@ class custom_completion extends activity_custom_completion {
             return [];
         }
 
-        $logic = ($instance->completionlogic ?? 'and') === 'or'
-            ? get_string('completiondetail:logicor', 'mod_videotrack')
-            : get_string('completiondetail:logicand', 'mod_videotrack');
+        $logic = get_string('completiondetail:logicand', 'mod_videotrack');
         return [
             self::RULE => get_string('completiondetail:videotrackconditions', 'mod_videotrack', (object)[
                 'logic' => $logic,

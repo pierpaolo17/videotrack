@@ -139,9 +139,9 @@ final class completion_contract_test extends advanced_testcase {
         $this->assertStringContainsString("(array)(\$data['reactionrequired'] ?? [])", $source);
         $this->assertStringContainsString("\$mform->freeze('reactionrequired[' . \$i . ']');", $source);
         $this->assertStringContainsString('$suffix = $this->get_suffix();', $source);
-        $this->assertStringContainsString("'completionreactionrules' . $suffix", $source);
-        $this->assertStringContainsString("'completionlogic' . $suffix", $source);
-        $this->assertStringContainsString("'completionpercent' . $suffix", $source);
+        $this->assertStringContainsString("'completionreactionrules' . \$suffix", $source);
+        $this->assertStringContainsString("'completionlogic' . \$suffix", $source);
+        $this->assertStringContainsString("'completionpercent' . \$suffix", $source);
         $this->assertStringNotContainsString('get_suffixed_name(', $source);
         $this->assertStringContainsString('parent::data_preprocessing($defaultvalues);', $source);
     }
@@ -193,4 +193,47 @@ final class completion_contract_test extends advanced_testcase {
         $this->assertStringContainsString("'userid' => \$this->userid", $customcompletion);
         $this->assertStringContainsString('tracker::completion_satisfied($instance, $state,', $customcompletion);
     }
+
+    /**
+     * Moodle sort order lists the composite rule together with every standard automatic condition.
+     */
+    public function test_custom_completion_sort_order_covers_standard_conditions(): void {
+        $source = file_get_contents(dirname(__DIR__) . '/classes/completion/custom_completion.php');
+
+        $this->assertStringContainsString("'completionview'", $source);
+        $this->assertStringContainsString("'completionusegrade'", $source);
+        $this->assertStringContainsString("'completionpassgrade'", $source);
+        $this->assertStringContainsString('self::RULE', $source);
+    }
+
+    /**
+     * Reaction OR logic cannot bypass other enabled VideoTrack completion conditions.
+     */
+    public function test_reaction_or_logic_does_not_bypass_viewing_percentage(): void {
+        $instance = (object)[
+            'id' => 106,
+            'completionpercent' => 50,
+            'completionacknowledgement' => 0,
+            'reactionsenabled' => 1,
+            'reactionsrequired' => 0,
+            'minreactions' => 0,
+            'requireallreactiontypes' => 0,
+            'completionlogic' => 'or',
+        ];
+        $summary = ['uniquecount' => 1, 'uniqueids' => [10]];
+
+        $this->assertFalse(tracker::completion_satisfied(
+            $instance,
+            (object)['completionpercent' => 25, 'userid' => 7],
+            $summary,
+            [10, 11]
+        ));
+        $this->assertTrue(tracker::completion_satisfied(
+            $instance,
+            (object)['completionpercent' => 75, 'userid' => 7],
+            $summary,
+            [10, 11]
+        ));
+    }
+
 }
