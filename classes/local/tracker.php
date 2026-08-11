@@ -414,30 +414,41 @@ class tracker {
     ): bool {
         $checks = [];
         if (!empty($videotrack->completionpercent)) {
-            $checks[] = !empty($state) && (float)$state->completionpercent >= (float) $videotrack->completionpercent;
+            $checks[] = !empty($state) && (float)$state->completionpercent >= (float)$videotrack->completionpercent;
         }
+
+        $reactionchecks = [];
         if (!empty($videotrack->reactionsenabled)) {
             if (!empty($videotrack->reactionsrequired) && !empty($videotrack->minreactions)) {
-                $checks[] = $reactionsummary['uniquecount'] >= (int) $videotrack->minreactions;
+                $reactionchecks[] = $reactionsummary['uniquecount'] >= (int)$videotrack->minreactions;
             }
             foreach ($requiredreactionids as $reactionid) {
-                $checks[] = in_array((int) $reactionid, $reactionsummary['uniqueids'], true);
+                $reactionchecks[] = in_array((int)$reactionid, $reactionsummary['uniqueids'], true);
+            }
+            if (!empty($videotrack->requireallreactiontypes)) {
+                global $DB;
+                $allreactionids = array_map('intval', array_keys((array)$DB->get_records_menu('videotrack_react', [
+                    'videotrackid' => $videotrack->id,
+                    'isdeleted' => 0,
+                ], '', 'id,id')));
+                if ($allreactionids) {
+                    $matchingids = array_intersect($allreactionids, array_map('intval', $reactionsummary['uniqueids']));
+                    $reactionchecks[] = count($matchingids) === count($allreactionids);
+                }
             }
         }
+        if ($reactionchecks) {
+            $reactionlogic = $videotrack->completionlogic ?? 'and';
+            if ($reactionlogic === 'or') {
+                $checks[] = in_array(true, $reactionchecks, true);
+            } else {
+                $checks[] = !in_array(false, $reactionchecks, true);
+            }
+        }
+
         if (!empty($videotrack->completionacknowledgement) && acknowledgement::is_enabled($videotrack)) {
             $userid = !empty($state->userid) ? (int)$state->userid : 0;
             $checks[] = $userid > 0 && acknowledgement::current_record($videotrack, $userid) !== null;
-        }
-        if (!empty($videotrack->reactionsenabled) && !empty($videotrack->requireallreactiontypes)) {
-            global $DB;
-            $allreactionids = array_map('intval', array_keys((array) $DB->get_records_menu('videotrack_react', [
-                'videotrackid' => $videotrack->id,
-                'isdeleted' => 0,
-            ], '', 'id,id')));
-            if ($allreactionids) {
-                $matchingids = array_intersect($allreactionids, array_map('intval', $reactionsummary['uniqueids']));
-                $checks[] = count($matchingids) === count($allreactionids);
-            }
         }
         if (!$checks) {
             // Returning false here is intentional: when no custom completion
@@ -445,16 +456,7 @@ class tracker {
             // and treats the page visit as the completion condition at framework level.
             return false;
         }
-        $logic = $videotrack->completionlogic ?? 'and';
-        if ($logic === 'or') {
-            return in_array(true, $checks, true);
-        }
-        foreach ($checks as $check) {
-            if (!$check) {
-                return false;
-            }
-        }
-        return true;
+        return !in_array(false, $checks, true);
     }
 
     /**
