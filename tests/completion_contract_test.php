@@ -207,9 +207,9 @@ final class completion_contract_test extends advanced_testcase {
     }
 
     /**
-     * Reaction OR logic cannot bypass other enabled VideoTrack completion conditions.
+     * Reaction OR logic can satisfy completion as an alternative to viewing percentage.
      */
-    public function test_reaction_or_logic_does_not_bypass_viewing_percentage(): void {
+    public function test_reaction_or_logic_can_be_alternative_to_viewing_percentage(): void {
         $instance = (object)[
             'id' => 106,
             'completionpercent' => 50,
@@ -222,16 +222,22 @@ final class completion_contract_test extends advanced_testcase {
         ];
         $summary = ['uniquecount' => 1, 'uniqueids' => [10]];
 
-        $this->assertFalse(tracker::completion_satisfied(
+        $this->assertTrue(tracker::completion_satisfied(
             $instance,
             (object)['completionpercent' => 25, 'userid' => 7],
             $summary,
             [10, 11]
         ));
+        $this->assertFalse(tracker::completion_satisfied(
+            $instance,
+            (object)['completionpercent' => 25, 'userid' => 7],
+            ['uniquecount' => 0, 'uniqueids' => []],
+            [10, 11]
+        ));
         $this->assertTrue(tracker::completion_satisfied(
             $instance,
             (object)['completionpercent' => 75, 'userid' => 7],
-            $summary,
+            ['uniquecount' => 0, 'uniqueids' => []],
             [10, 11]
         ));
     }

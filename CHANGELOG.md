@@ -2,6 +2,15 @@
 
 This is the canonical release-history file for the plugin tree. Detailed design notes and historical migration documents remain under `docs/`.
 
+## 1.7.32 - 2026-08-11
+
+### Fixed
+
+- Restore `completionlogic = or` as a true alternative across enabled VideoTrack completion conditions, so a configured reaction requirement can complete the activity instead of the viewing-percentage requirement when OR is selected.
+- Keep the requested “Reaction logic” / “Logica delle reazioni” label while clarifying in the form guidance that OR makes the reaction requirement alternative to other enabled VideoTrack conditions such as viewed percentage or acknowledgement.
+- Avoid false `error:playbackpositionnotwatched` responses immediately after a permitted forward seek: interaction writes now accept a newly reached timestamp only when forward seeking is enabled and recent server-side playback evidence exists for the same browser session.
+- Add completion and interaction-policy regression coverage without changing player/provider seek state machines.
+
 ## 1.7.31 - 2026-08-11
 
 ### Fixed

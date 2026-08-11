@@ -461,4 +461,76 @@ final class tracker_test extends advanced_testcase {
         $this->assertTrue(tracker::has_watched_videotime_any_session(1001, 123, 20.0));
         $this->assertFalse(tracker::has_watched_videotime_any_session(1001, 123, 40.0));
     }
+
+    /**
+     * Allowed forward seeking can authorise an immediate interaction from a recent same-session playback window.
+     */
+    public function test_allowed_forward_seek_accepts_recent_session_interaction_timestamp(): void {
+        global $DB;
+
+        $this->resetAfterTest();
+        set_config('heartbeatinterval', 30, 'mod_videotrack');
+        set_config('strictsessionvalidation', 1, 'mod_videotrack');
+        $sessionid = str_repeat('f', 32);
+        $DB->insert_record('videotrack_seg', (object)[
+            'videotrackid' => 1002,
+            'courseid' => 1,
+            'cmid' => 1,
+            'userid' => 123,
+            'videoid' => 'seek-enabled-video',
+            'sessionid' => $sessionid,
+            'requestid' => str_repeat('g', 32),
+            'wallclockstart' => time(),
+            'wallclockend' => time(),
+            'videotimestart' => 10.0,
+            'videotimeend' => 10.0,
+            'playbackrate' => 1.0,
+            'endreason' => 'playstart',
+            'servervalidated' => 0,
+            'timecreated' => time(),
+        ]);
+        $instance = (object)['id' => 1002, 'allowseekforward' => 1];
+
+        $this->assertTrue(tracker::interaction_timestamp_allowed($instance, 123, $sessionid, 60.0));
+        $instance->allowseekforward = 0;
+        $this->assertFalse(tracker::interaction_timestamp_allowed($instance, 123, $sessionid, 60.0));
+    }
+
+    /**
+     * Forward-seek interaction relaxation requires recent evidence from the same session.
+     */
+    public function test_allowed_forward_seek_rejects_stale_or_different_session_interaction(): void {
+        global $DB;
+
+        $this->resetAfterTest();
+        set_config('heartbeatinterval', 30, 'mod_videotrack');
+        set_config('strictsessionvalidation', 1, 'mod_videotrack');
+        $sessionid = str_repeat('h', 32);
+        $DB->insert_record('videotrack_seg', (object)[
+            'videotrackid' => 1003,
+            'courseid' => 1,
+            'cmid' => 1,
+            'userid' => 123,
+            'videoid' => 'stale-seek-video',
+            'sessionid' => $sessionid,
+            'requestid' => str_repeat('i', 32),
+            'wallclockstart' => time() - 200,
+            'wallclockend' => time() - 190,
+            'videotimestart' => 10.0,
+            'videotimeend' => 20.0,
+            'playbackrate' => 1.0,
+            'endreason' => 'heartbeat',
+            'servervalidated' => 1,
+            'timecreated' => time() - 190,
+        ]);
+        $instance = (object)['id' => 1003, 'allowseekforward' => 1];
+
+        $this->assertFalse(tracker::interaction_timestamp_allowed($instance, 123, $sessionid, 60.0));
+        $this->assertFalse(tracker::interaction_timestamp_allowed(
+            $instance,
+            123,
+            str_repeat('j', 32),
+            60.0
+        ));
+    }
 }
