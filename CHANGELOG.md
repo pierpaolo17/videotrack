@@ -2,6 +2,15 @@
 
 This is the canonical release-history file for the plugin tree. Detailed design notes and historical migration documents remain under `docs/`.
 
+## 1.7.39 - 2026-08-11
+
+### Fixed
+
+- Keep the automatic-resume notice compact by removing Bootstrap's `alert-dismissible` positioning from its close control, so the button stays aligned inside the notice and no longer overlaps adjacent alerts.
+- Show learners a persistent, dismissible policy alert whenever forward seeking is disabled for the activity.
+- When the configured blocked-seek recovery rate differs from 1x, include that configured rate in the persistent policy alert; the existing blocked-seek runtime alert continues to report the actual recovery rate used for each blocked attempt.
+- Update the blocked-forward-seek contract test to match the 1.7.38 pre-seek snapshot semantics for YouTube, Vimeo and HTML5 without changing the server-authoritative tracking logic.
+
 ## 1.7.38 - 2026-08-11
 
 ### Fixed

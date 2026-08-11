@@ -21,7 +21,7 @@ define([], function() {
         var formatted = Utils.formatSeconds(seconds);
         var notice = document.createElement('div');
         notice.id = 'videotrack-resume-notice';
-        notice.className = 'videotrack-resume-notice alert alert-info alert-dismissible mt-1';
+        notice.className = 'videotrack-resume-notice videotrack-inline-notice alert alert-info mt-1';
         notice.setAttribute('role', 'status');
         notice.setAttribute('aria-live', 'polite');
 
@@ -31,7 +31,7 @@ define([], function() {
 
         var btn = document.createElement('button');
         btn.type = 'button';
-        btn.className = 'btn-close ms-2';
+        btn.className = 'btn-close videotrack-inline-notice-close ms-2';
         btn.setAttribute('aria-label', config.dismisslabel);
         btn.addEventListener('click', function() {
             if (notice.parentNode) {
