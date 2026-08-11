@@ -84,6 +84,85 @@ final class release_hygiene_contract_test extends advanced_testcase {
         $this->assertStringNotContainsString('Release documentata da questo albero: **1.6.36**', $readmeit);
     }
 
+
+    /**
+     * Current documentation indexes and inventories must track the plugin release.
+     */
+    public function test_current_documentation_tracks_release(): void {
+        $plugin = new \stdClass();
+        require(__DIR__ . '/../version.php');
+        $release = (string)$plugin->release;
+        $version = (string)$plugin->version;
+        $history = 'VIDEOTRACK_CHANGELOG_LESSONS_ROADMAP_1.7.5_' . $release . '.md';
+
+        $englishindex = file_get_contents(__DIR__ . '/../docs/en/00_INDEX.md');
+        $italianindex = file_get_contents(__DIR__ . '/../docs/it/00_INDEX.md');
+        $englishinventory = file_get_contents(__DIR__ . '/../docs/en/03_FILE_INVENTORY.md');
+        $italianinventory = file_get_contents(__DIR__ . '/../docs/it/03_FILE_INVENTORY.md');
+        $englishaudit = file_get_contents(__DIR__ . '/../docs/en/09_DOCUMENTATION_AUDIT.md');
+        $italianaudit = file_get_contents(__DIR__ . '/../docs/it/09_DOCUMENTATION_AUDIT.md');
+
+        $documents = [$englishindex, $italianindex, $englishinventory, $italianinventory, $englishaudit, $italianaudit];
+        foreach ($documents as $document) {
+            $this->assertIsString($document);
+        }
+        $this->assertFileExists(__DIR__ . '/../' . $history);
+        $this->assertStringContainsString('**' . $release . '** (`' . $version . '`)', $englishindex);
+        $this->assertStringContainsString('**' . $release . '** (`' . $version . '`)', $italianindex);
+        $this->assertStringContainsString('VideoTrack ' . $release . ' tree', $englishinventory);
+        $this->assertStringContainsString('VideoTrack ' . $release, $italianinventory);
+        $this->assertStringContainsString('VideoTrack **' . $release . '** (`' . $version . '`)', $englishaudit);
+        $this->assertStringContainsString('VideoTrack **' . $release . '** (`' . $version . '`)', $italianaudit);
+    }
+
+    /**
+     * Maintained language packs must expose the same keys and Moodle placeholders.
+     */
+    public function test_maintained_language_packs_share_keys_and_placeholders(): void {
+        $langdir = __DIR__ . '/../lang';
+        $languages = ['de', 'en', 'es', 'fr', 'hi', 'it', 'pl', 'pt'];
+        $contracts = [];
+
+        foreach ($languages as $language) {
+            $source = file_get_contents($langdir . '/' . $language . '/videotrack.php');
+            $this->assertIsString($source);
+            preg_match_all(
+                "/\\\$string\['([^']+)'\]\s*=/",
+                $source,
+                $keymatches,
+                PREG_OFFSET_CAPTURE
+            );
+            $keys = array_map(static fn(array $match): string => $match[0], $keymatches[1]);
+            $sortedkeys = $keys;
+            sort($sortedkeys);
+            $this->assertCount(count(array_unique($sortedkeys)), $sortedkeys, 'Duplicate language keys in ' . $language);
+
+            $placeholders = [];
+            $matchcount = count($keymatches[0]);
+            for ($index = 0; $index < $matchcount; $index++) {
+                $key = $keymatches[1][$index][0];
+                $assignmentstart = $keymatches[0][$index][1] + strlen($keymatches[0][$index][0]);
+                $assignmentend = $index + 1 < $matchcount ? $keymatches[0][$index + 1][1] : strlen($source);
+                $assignment = substr($source, $assignmentstart, $assignmentend - $assignmentstart);
+                preg_match_all('/\{\$a(?:->\w+)?\}/', $assignment, $placeholdermatches);
+                $values = array_values(array_unique($placeholdermatches[0]));
+                sort($values);
+                $placeholders[$key] = $values;
+            }
+            ksort($placeholders);
+            $contracts[$language] = ['keys' => $sortedkeys, 'placeholders' => $placeholders];
+        }
+
+        foreach ($languages as $language) {
+            $this->assertSame($contracts['en']['keys'], $contracts[$language]['keys'], 'Key mismatch: ' . $language);
+            $this->assertSame(
+                $contracts['en']['placeholders'],
+                $contracts[$language]['placeholders'],
+                'Placeholder mismatch: ' . $language
+            );
+        }
+    }
+
     /**
      * EN and IT privacy summaries must retain the same section structure.
      */

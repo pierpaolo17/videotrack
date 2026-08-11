@@ -1,19 +1,31 @@
 # Audit della documentazione
 
-Baseline: VideoTrack **1.6.36** (`2026060451`).
+Baseline: VideoTrack **1.7.41** (`2026081202`).
 
 ## Copertura
 
-- File non documentali inventariati: **240/240**.
-- Funzioni/metodi PHP nominati inventariati: **497**.
-- Callable AMD nominati rilevati e inventariati: **616**.
+- File non documentali inventariati: **253/253**.
+- Funzioni/metodi PHP nominati inventariati: **603**.
+- Callable AMD nominati rilevati e inventariati: **647**.
 - Tabelle XMLDB documentate: **7**.
 - Chiavi impostazioni sito documentate: **57**.
-- Chiavi configurazione player documentate: **128**.
+- Chiavi configurazione player documentate: **133**.
 - Servizi AJAX documentati: **9**.
-- Language pack: otto pacchetti con lo stesso contratto di **960 chiavi**; i testi operativi sono tradotti, mentre termini tecnici e nomi propri possono legittimamente coincidere.
+- Language pack: otto pacchetti con lo stesso contratto di **977 chiavi**; i testi operativi sono tradotti, mentre termini tecnici e nomi propri possono legittimamente coincidere.
 - Panoramiche root: `README.md` (inglese) e `README_IT.md` (italiano).
 - Sintesi privacy root: `PRIVACY.md` e `PRIVACY_IT.md`.
+
+## Verifica documentazione pre-produzione 1.7.41
+
+- Inventario corrente dei file non documentali rigenerato sull'albero reale 1.7.41: **253/253** voci.
+- Inventario funzioni rigenerato sulle posizioni sorgente correnti: **603** funzioni/metodi PHP nominati e **647** callable AMD nominati rilevati.
+- L'inventario XMLDB coincide con tutte le **7** tabelle e con ogni campo dichiarato in `db/install.xml`.
+- L'inventario impostazioni coincide con tutte le **57** impostazioni `mod_videotrack`.
+- L'inventario servizi AJAX coincide con tutti i **9** servizi dichiarati.
+- L'inventario configurazione browser/player coincide con tutte le **133** chiavi, incluse le quattro label seek FW introdotte dopo la 1.6.33.
+- Tutti gli otto language pack mantenuti espongono **977** chiavi identiche, nessun duplicato e placeholder Moodle coerenti.
+- I link Markdown relativi della documentazione sono stati verificati contro l'albero senza target mancanti.
+- I documenti storici specifici di release restano storici; soltanto indici e inventari correnti sono ribasati alla 1.7.41.
 
 ## Regole di aggiornamento
 

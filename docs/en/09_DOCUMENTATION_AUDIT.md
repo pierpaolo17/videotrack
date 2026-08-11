@@ -1,19 +1,31 @@
 # Documentation audit
 
-Baseline: VideoTrack **1.6.36** (`2026060451`).
+Baseline: VideoTrack **1.7.41** (`2026081202`).
 
 ## Coverage
 
-- Non-documentation files inventoried: **240/240**.
-- Named PHP functions/methods inventoried: **497**.
-- Named AMD callables detected and inventoried: **616**.
+- Non-documentation files inventoried: **253/253**.
+- Named PHP functions/methods inventoried: **603**.
+- Named AMD callables detected and inventoried: **647**.
 - XMLDB tables documented: **7**.
 - Site-setting keys documented: **57**.
-- Player configuration keys documented: **128**.
+- Player configuration keys documented: **133**.
 - AJAX services documented: **9**.
-- Language packs: eight packs with the same **960-key** contract; operational strings are translated while technical and proper terms may legitimately remain identical.
+- Language packs: eight packs with the same **977-key** contract; operational strings are translated while technical and proper terms may legitimately remain identical.
 - Root overviews: `README.md` (English) and `README_IT.md` (Italian).
 - Root privacy summaries: `PRIVACY.md` and `PRIVACY_IT.md`.
+
+## 1.7.41 pre-production documentation verification
+
+- Current non-documentation file inventory regenerated against the real 1.7.41 tree: **253/253** entries.
+- Current function inventory regenerated from source locations: **603** named PHP functions/methods and **647** detected named AMD callables.
+- XMLDB inventory matches all **7** tables and every declared field in `db/install.xml`.
+- Site-setting inventory matches all **57** `mod_videotrack` settings.
+- AJAX service inventory matches all **9** declared services.
+- Browser player configuration inventory matches all **133** keys, including the four forward-seek policy/runtime labels introduced after 1.6.33.
+- All eight maintained language packs expose **977** identical keys, no duplicates and matching Moodle placeholders.
+- Relative Markdown links across the plugin documentation were checked against the tree with no missing target found.
+- Historical release-specific documents remain historical; only current indexes/inventories are rebased to 1.7.41.
 
 ## Freshness rules
 

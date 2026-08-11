@@ -10,7 +10,7 @@ Provider callbacks update a shared tracker. A PLAY event first calls `mod_videot
 
 ## Seek, resume and replay
 
-User seek is checked against forward/backward policy. A blocked forward seek returns to the latest allowed point and may use the configured recovery speed. Resume and report replay are programmatic seeks and are tagged separately to avoid false integrity events. Transcript, chapter, note and bookmark replay use the same adapter seek policy.
+User seek is checked against forward/backward policy. Before any accepted or blocked seek, the adapter snapshots only the segment that was actually played up to the trusted pre-seek position; the skipped gap is never credited as continuous viewing. A blocked forward seek returns to the latest allowed point and may use the configured recovery speed. While rollback is settling, Forum/reaction/note/bookmark interactions use the last trusted timestamp rather than the transient forbidden provider position. Resume and report replay are programmatic seeks and are tagged separately to avoid false integrity events. Transcript, chapter, note and bookmark replay use the same adapter seek policy.
 
 ## Reactions, notes and bookmarks
 

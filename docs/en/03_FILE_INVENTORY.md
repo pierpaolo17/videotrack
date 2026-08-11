@@ -1,8 +1,8 @@
 # Distributed file inventory
 
-This inventory is generated against the VideoTrack 1.6.33 tree and lists every non-documentation file. Canonical JavaScript is under `amd/src`; files under `amd/build` are generated.
+This inventory is generated against the VideoTrack 1.7.41 tree and lists every non-documentation file. Canonical JavaScript is under `amd/src`; files under `amd/build` are generated.
 
-Entries: **240**.
+Entries: **253**.
 
 | File | Responsibility |
 |---|---|
@@ -187,6 +187,7 @@ Entries: **240**.
 | `classes/local/analytics.php` | Server-side aggregation for instance analytics. |
 | `classes/local/analytics_scope.php` | Resolves capability-safe Analytics scopes for the same technical video. |
 | `classes/local/analytics_table_export.php` | Builds privacy-safe rows for the accessible analytics table export. |
+| `classes/local/completion_config.php` | Current local domain/service class; see source DocBlock for its runtime contract. |
 | `classes/local/course_analytics.php` | Privacy-safe aggregation for the course-level VideoTrack dashboard. |
 | `classes/local/csv_export.php` | CSV export configuration and formatting helpers. |
 | `classes/local/forum_bridge.php` | Forum integration adapter for VideoTrack. |
@@ -199,8 +200,10 @@ Entries: **240**.
 | `classes/privacy/provider.php` | Privacy provider for tracking, reactions, notes, bookmarks, integrity signals and acknowledgements. |
 | `classes/task/cleanup_task.php` | Scheduled GDPR retention cleanup task. |
 | `db/access.php` | Capabilities and role archetype defaults. |
+| `db/install.php` | Current database/install/upgrade support file distributed with the plugin. |
 | `db/install.xml` | Canonical XMLDB schema for plugin-owned tables. |
 | `db/mobile.php` | Intentionally empty Moodle App extension declaration until the dedicated App validation phase. |
+| `db/repairlib.php` | Current database/install/upgrade support file distributed with the plugin. |
 | `db/services.php` | AJAX external-function declarations. |
 | `db/tasks.php` | Scheduled task declaration. |
 | `db/upgrade.php` | Incremental XMLDB upgrades and savepoints. |
@@ -228,21 +231,31 @@ Entries: **240**.
 | `tests/acknowledgement_test.php` | PHPUnit coverage for acknowledgement test. |
 | `tests/admin_settings_test.php` | PHPUnit coverage for admin settings test. |
 | `tests/ajax_contract_test.php` | PHPUnit coverage for browser AJAX and mutation-endpoint contracts. |
+| `tests/analytics_performance_contract_test.php` | Current PHPUnit/contract test distributed with the plugin. |
 | `tests/analytics_scope_test.php` | PHPUnit coverage for analytics scope test. |
 | `tests/analytics_table_export_test.php` | PHPUnit coverage for analytics table export test. |
 | `tests/analytics_test.php` | PHPUnit coverage for analytics test. |
+| `tests/completion_contract_test.php` | Current PHPUnit/contract test distributed with the plugin. |
 | `tests/course_analytics_test.php` | PHPUnit coverage for course analytics test. |
 | `tests/csv_export_test.php` | PHPUnit coverage for csv export test. |
 | `tests/forum_bridge_test.php` | PHPUnit coverage for forum bridge test. |
+| `tests/gradebook_restore_contract_test.php` | Current PHPUnit/contract test distributed with the plugin. |
 | `tests/integrity_test.php` | PHPUnit coverage for integrity test. |
+| `tests/learner_scope_test.php` | Current PHPUnit/contract test distributed with the plugin. |
 | `tests/lib_test.php` | PHPUnit coverage for lib test. |
 | `tests/locallib_test.php` | PHPUnit coverage for locallib test. |
 | `tests/privacy_manager_test.php` | PHPUnit coverage for deletion-based GDPR retention, state rebuilding and user erasure. |
+| `tests/provider_loader_contract_test.php` | Current PHPUnit/contract test distributed with the plugin. |
+| `tests/release_hygiene_contract_test.php` | Current PHPUnit/contract test distributed with the plugin. |
+| `tests/report_contract_test.php` | Current PHPUnit/contract test distributed with the plugin. |
 | `tests/save_bookmark_test.php` | PHPUnit coverage for save bookmark test. |
 | `tests/save_integrity_event_test.php` | PHPUnit coverage for save integrity event test. |
 | `tests/save_note_test.php` | PHPUnit coverage for save note test. |
+| `tests/save_reaction_test.php` | Current PHPUnit/contract test distributed with the plugin. |
 | `tests/teacher_analytics_test.php` | PHPUnit coverage for teacher analytics test. |
 | `tests/timed_text_test.php` | PHPUnit coverage for timed text test. |
 | `tests/tracker_test.php` | PHPUnit coverage for tracker test. |
+| `tests/upgrade_contract_test.php` | Current PHPUnit/contract test distributed with the plugin. |
+| `tests/vimeo_seek_contract_test.php` | Current PHPUnit/contract test distributed with the plugin. |
 | `version.php` | Plugin metadata, version, maturity and supported Moodle branches. |
 | `view.php` | Student-facing activity page: authorisation, state loading, privacy-safe DOM configuration and player bootstrapping. |
