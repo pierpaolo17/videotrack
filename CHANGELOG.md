@@ -2,6 +2,14 @@
 
 This is the canonical release-history file for the plugin tree. Detailed design notes and historical migration documents remain under `docs/`.
 
+## 1.7.40 - 2026-08-12
+
+### Fixed
+
+- Render the combined external-provider privacy and learner integrity/focus notice with VideoTrack's compact in-flow flex alert instead of Moodle's dismissible notification wrapper.
+- Keep the close button small, vertically centred and inside the alert flow so it cannot overlap adjacent notices.
+- No player, tracking, seek, Forum, reaction, note, bookmark, completion, Analytics or database behaviour changed in this release.
+
 ## 1.7.39 - 2026-08-11
 
 ### Fixed

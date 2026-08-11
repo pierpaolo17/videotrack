@@ -474,7 +474,18 @@ if ($playernotices) {
         $classes = $index === array_key_last($playernotices) ? 'mb-0' : 'mb-2';
         $playernoticehtml .= html_writer::tag('p', $playernotice, ['class' => $classes]);
     }
-    echo $OUTPUT->notification($playernoticehtml, 'info', true);
+    $playernoticecontent = html_writer::div($playernoticehtml, 'videotrack-inline-notice-content');
+    $playernoticeclose = html_writer::empty_tag('button', [
+        'type' => 'button',
+        'class' => 'btn-close videotrack-inline-notice-close ms-2',
+        'data-bs-dismiss' => 'alert',
+        'aria-label' => get_string('dismisslabel', 'mod_videotrack'),
+    ]);
+    echo html_writer::div(
+        $playernoticecontent . $playernoticeclose,
+        'videotrack-player-notice videotrack-inline-notice alert alert-info',
+        ['role' => 'status', 'aria-live' => 'polite']
+    );
 }
 
 $covered = $state ? (float)$state->uniquecoveredseconds : 0.0;
