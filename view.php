@@ -64,7 +64,8 @@ if ($ackaction === 'confirm') {
     \mod_videotrack\local\acknowledgement::confirm($videotrack, (int)$cm->id, (int)$USER->id);
     // Ensure acknowledgement-only users have an aggregate row for teacher reports.
     \mod_videotrack\local\tracker::refresh_completion($videotrack, $cm, (int)$USER->id);
-    if (!empty($videotrack->completionacknowledgement)) {
+    if (!empty($videotrack->completionacknowledgement)
+        && \mod_videotrack\local\acknowledgement::is_enabled($videotrack)) {
         $completion = new completion_info($course);
         $completion->update_state($cm, COMPLETION_UNKNOWN, (int)$USER->id);
     }

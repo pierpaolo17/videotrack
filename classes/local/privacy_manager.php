@@ -571,22 +571,10 @@ class privacy_manager {
         bool $iscompleted,
         int $userid
     ): void {
-        global $DB;
-
         if ((int)$cm->completion !== COMPLETION_TRACKING_AUTOMATIC) {
             return;
         }
-        $hasrequiredreactions = $DB->record_exists('videotrack_react', [
-            'videotrackid' => (int)$videotrack->id,
-            'requiredforcompletion' => 1,
-            'isdeleted' => 0,
-        ]);
-        $hascustomcompletion = !empty($videotrack->completionpercent)
-            || (!empty($videotrack->reactionsrequired) && !empty($videotrack->minreactions))
-            || !empty($videotrack->requireallreactiontypes)
-            || !empty($videotrack->completionacknowledgement)
-            || $hasrequiredreactions;
-        if (!$hascustomcompletion) {
+        if (!completion_config::has_custom_rules($videotrack)) {
             return;
         }
 

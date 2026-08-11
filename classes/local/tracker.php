@@ -416,17 +416,19 @@ class tracker {
         if (!empty($videotrack->completionpercent)) {
             $checks[] = !empty($state) && (float)$state->completionpercent >= (float) $videotrack->completionpercent;
         }
-        if (!empty($videotrack->reactionsrequired) && !empty($videotrack->minreactions)) {
-            $checks[] = $reactionsummary['uniquecount'] >= (int) $videotrack->minreactions;
+        if (!empty($videotrack->reactionsenabled)) {
+            if (!empty($videotrack->reactionsrequired) && !empty($videotrack->minreactions)) {
+                $checks[] = $reactionsummary['uniquecount'] >= (int) $videotrack->minreactions;
+            }
+            foreach ($requiredreactionids as $reactionid) {
+                $checks[] = in_array((int) $reactionid, $reactionsummary['uniqueids'], true);
+            }
         }
-        foreach ($requiredreactionids as $reactionid) {
-            $checks[] = in_array((int) $reactionid, $reactionsummary['uniqueids'], true);
-        }
-        if (!empty($videotrack->completionacknowledgement)) {
+        if (!empty($videotrack->completionacknowledgement) && acknowledgement::is_enabled($videotrack)) {
             $userid = !empty($state->userid) ? (int)$state->userid : 0;
             $checks[] = $userid > 0 && acknowledgement::current_record($videotrack, $userid) !== null;
         }
-        if (!empty($videotrack->requireallreactiontypes)) {
+        if (!empty($videotrack->reactionsenabled) && !empty($videotrack->requireallreactiontypes)) {
             global $DB;
             $allreactionids = array_map('intval', array_keys((array) $DB->get_records_menu('videotrack_react', [
                 'videotrackid' => $videotrack->id,
@@ -845,11 +847,9 @@ class tracker {
             $covered = max((float)($state->uniquecoveredseconds ?? 0.0), $covered);
             $duration = max(0.0, (float)$videotrack->durationseconds);
             $percent = $duration > 0 ? min(100.0, round(($covered / $duration) * 100, 2)) : 0.0;
-            $requiredreactionids = array_keys(array_filter((array)$DB->get_records_menu('videotrack_react', [
-                'videotrackid' => $videotrack->id,
-                'requiredforcompletion' => 1,
-                'isdeleted' => 0,
-            ], '', 'id,id')));
+            $requiredreactionids = !empty($videotrack->reactionsenabled)
+                ? completion_config::required_reaction_ids((int)$videotrack->id)
+                : [];
             $reactionsummary = self::reaction_counts($videotrack->id, $userid);
 
             if ($lastposition > 2.0) {
@@ -1027,11 +1027,9 @@ class tracker {
                 : 0.0;
             $state->intervaljson = self::encode_intervals($aggregate['intervals']);
 
-            $requiredreactionids = array_keys(array_filter((array)$DB->get_records_menu('videotrack_react', [
-                'videotrackid' => $videotrack->id,
-                'requiredforcompletion' => 1,
-                'isdeleted' => 0,
-            ], '', 'id,id')));
+            $requiredreactionids = !empty($videotrack->reactionsenabled)
+                ? completion_config::required_reaction_ids((int)$videotrack->id)
+                : [];
             $state->iscompleted = self::completion_satisfied(
                 $videotrack,
                 $state,
@@ -1101,11 +1099,9 @@ class tracker {
             }
 
             if ($requiredreactionids === null) {
-                $requiredreactionids = array_keys(array_filter((array) $DB->get_records_menu('videotrack_react', [
-                    'videotrackid' => $videotrack->id,
-                    'requiredforcompletion' => 1,
-                    'isdeleted' => 0,
-                ], '', 'id,id')));
+                $requiredreactionids = !empty($videotrack->reactionsenabled)
+                    ? completion_config::required_reaction_ids((int)$videotrack->id)
+                    : [];
             }
             if ($reactionsummary === null) {
                 $reactionsummary = self::reaction_counts($videotrack->id, $userid);
