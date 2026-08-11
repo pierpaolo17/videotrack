@@ -104,6 +104,27 @@ define([
     }
 
     /**
+     * Tell a learner that a forward seek was blocked by the activity policy.
+     *
+     * When the configured recovery rate differs from normal playback, include
+     * that rate in the same notice so the resulting player behaviour is clear.
+     *
+     * @param {Object} config Player configuration.
+     * @param {number} playbackRate Recovery playback rate.
+     */
+    function showBlockedForwardSeekNotice(config, playbackRate) {
+        if (!config || !config.seekforwardblockedlabel) {
+            return;
+        }
+        var message = String(config.seekforwardblockedlabel);
+        var rate = Number(playbackRate);
+        if (Number.isFinite(rate) && Math.abs(rate - 1) > 0.001 && config.seekforwardblockedspeedlabel) {
+            message += ' ' + String(config.seekforwardblockedspeedlabel).replace('__RATE__', String(rate));
+        }
+        showStatusMessage(message, false, config.dismisslabel, config.statusinfotimeoutms);
+    }
+
+    /**
      * Show a user-safe error status message without exposing low-level AJAX details.
      *
      * @param {*} error Raw or normalised error object.
@@ -200,6 +221,7 @@ define([
         showResumeNotice: showResumeNotice,
         configureStatus: configureStatus,
         showStatusMessage: showStatusMessage,
+        showBlockedForwardSeekNotice: showBlockedForwardSeekNotice,
         showErrorStatusMessage: showErrorStatusMessage,
         announceStatusMessage: announceStatusMessage,
         setNoteButtonState: PlayerNotes.setButtonState,

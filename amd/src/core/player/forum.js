@@ -70,6 +70,9 @@ define([], function() {
                 }
                 var url = new URL(options.composerUrl, window.location.href);
                 url.searchParams.set('time', String(time));
+                if (options.sessionId) {
+                    url.searchParams.set('sessionid', String(options.sessionId));
+                }
                 setBusy(false);
                 window.location.assign(url.toString());
             }).catch(function() {

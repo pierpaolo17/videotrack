@@ -908,6 +908,7 @@ define([
         state.wasPlayingBeforeSeekBlock = wasPlaying;
         state._vimeoBlockedForwardSeekUntil = Date.now() + 5000;
         state._vimeoBlockedForwardSeekFallback = fallback;
+        PlayerCore.showBlockedForwardSeekNotice(config, recoveryRate);
         recoverBlockedSeek(fallback, wasPlaying, 'Vimeo blocked forward seek resume', recoveryRate);
         return true;
     }
@@ -2120,6 +2121,7 @@ define([
                 buttonId: config.forumpostbuttonid,
                 statusId: config.forumpoststatusid,
                 composerUrl: config.forumposturl,
+                sessionId: state.sessionid,
                 getCurrentTime: getCurrentVideoTime,
                 saveCurrentProgress: config.trackingenabled ? saveCurrentProgress : null,
                 getDuration: function() {

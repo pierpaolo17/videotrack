@@ -151,28 +151,41 @@ final class forum_bridge {
      * @param context_module $context VideoTrack activity context.
      * @param int $userid User id.
      * @param float $videotime Requested video timestamp.
+     * @param string $sessionid Current browser playback session id, when available.
      */
     public static function validate_timestamp_access(
         stdClass $videotrack,
         context_module $context,
         int $userid,
-        float $videotime
+        float $videotime,
+        string $sessionid = ''
     ): void {
         if (learner_scope::can_participate($context, $userid)) {
             $fallbackdays = \videotrack_get_config_int('validationfallbackdays', 30, 0, 3650);
             $maxage = $fallbackdays > 0 ? $fallbackdays * DAYSECS : 0;
+            if (tracker::has_watched_videotime_any_session(
+                (int)$videotrack->id,
+                $userid,
+                $videotime,
+                2.0,
+                $maxage
+            )) {
+                return;
+            }
             if (
-                !tracker::has_watched_videotime_any_session(
-                    (int)$videotrack->id,
+                $sessionid !== ''
+                && tracker::interaction_timestamp_allowed(
+                    $videotrack,
                     $userid,
+                    $sessionid,
                     $videotime,
                     2.0,
                     $maxage
                 )
             ) {
-                throw new moodle_exception('error:playbackpositionnotwatched', 'mod_videotrack');
+                return;
             }
-            return;
+            throw new moodle_exception('error:playbackpositionnotwatched', 'mod_videotrack');
         }
 
         if (!has_capability('mod/videotrack:viewreport', $context, $userid)) {

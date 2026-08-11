@@ -29,6 +29,7 @@ require_once($CFG->libdir . '/formslib.php');
 
 $id = required_param('id', PARAM_INT);
 $time = required_param('time', PARAM_INT);
+$sessionid = optional_param('sessionid', '', PARAM_ALPHANUMEXT);
 $cm = get_coursemodule_from_id('videotrack', $id, 0, false, MUST_EXIST);
 $course = $DB->get_record('course', ['id' => $cm->course], '*', MUST_EXIST);
 $videotrack = $DB->get_record('videotrack', ['id' => $cm->instance], '*', MUST_EXIST);
@@ -49,7 +50,11 @@ $replayurl = videotrack_build_replay_url(
     $duration
 );
 
-$PAGE->set_url('/mod/videotrack/forum_post.php', ['id' => $cm->id, 'time' => $time]);
+$pageparams = ['id' => $cm->id, 'time' => $time];
+if ($sessionid !== '') {
+    $pageparams['sessionid'] = $sessionid;
+}
+$PAGE->set_url('/mod/videotrack/forum_post.php', $pageparams);
 $PAGE->set_context($context);
 $PAGE->set_title(get_string('forum:composetitle', 'mod_videotrack'));
 $PAGE->set_heading(format_string($course->fullname, true, ['context' => context_course::instance($course->id)]));
@@ -73,7 +78,8 @@ try {
     $videotrack,
     $context,
     (int)$USER->id,
-    (float)$time
+    (float)$time,
+    $sessionid
 );
 
 $forumname = format_string($destination['forum']->name, true, ['context' => $destination['context']]);
@@ -92,6 +98,7 @@ if (!$form->is_submitted()) {
     $form->set_data((object)[
         'id' => $cm->id,
         'time' => $time,
+        'sessionid' => $sessionid,
         'groupid' => (int)array_key_first($destination['groupoptions']),
         'subject' => videotrack_build_forum_subject($videotrack, $timestamp),
         'message_editor' => [

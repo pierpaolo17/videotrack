@@ -331,6 +331,7 @@ define([
         persistBlockedSeekFrontier(fallback);
         penaltyRate = applyBlockedSeekPenalty(getBlockedSeekPlaybackRate(fallback));
         retryBlockedSeekPenalty(penaltyRate);
+        PlayerCore.showBlockedForwardSeekNotice(config, penaltyRate);
         state.isSeeking = true;
         Tracker.blockSeek(state, 900);
         media.currentTime = fallback;
@@ -1587,6 +1588,7 @@ define([
                 buttonId: config.forumpostbuttonid,
                 statusId: config.forumpoststatusid,
                 composerUrl: config.forumposturl,
+                sessionId: state.sessionid,
                 getCurrentTime: getCurrentVideoTime,
                 saveCurrentProgress: config.trackingenabled ? saveCurrentProgress : null,
                 getDuration: function() {

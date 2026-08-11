@@ -59,6 +59,32 @@ define([], function() {
     }
 
     /**
+     * Keep the visible watched percentage monotonic during one page session.
+     *
+     * Live playback intentionally shows the open in-memory segment before its
+     * next AJAX flush. A later successful response can therefore describe an
+     * earlier snapshot and must not make the visible percentage jump backwards.
+     * Rejected segment responses remain authoritative and are allowed to reset
+     * the display to the persisted server value.
+     *
+     * @param {Object} state Mutable player state.
+     * @param {number} percent Candidate percentage.
+     * @param {boolean=} allowDecrease Whether a server rejection may lower it.
+     * @returns {number} Percentage to render.
+     */
+    function monotonicPercent(state, percent, allowDecrease) {
+        var previous = state ? Number(state._displayedProgressPercent) : NaN;
+        percent = Math.max(0, Math.min(100, Number(percent) || 0));
+        if (!allowDecrease && Number.isFinite(previous)) {
+            percent = Math.max(previous, percent);
+        }
+        if (state) {
+            state._displayedProgressPercent = percent;
+        }
+        return percent;
+    }
+
+    /**
      * Update the accessible progress fallback used with the interval canvas.
      *
      * @param {number} percent Progress percentage.
@@ -106,6 +132,7 @@ define([], function() {
         }
 
         if (percent !== null) {
+            percent = monotonicPercent(state, percent, response.accepted === false);
             updatePercentText(percent);
             updateFallbackProgress(percent, !intervaljson);
         }
@@ -203,6 +230,7 @@ define([], function() {
             return;
         }
         snapshot = buildLiveSnapshot(state, current, PlayerCore, Log);
+        snapshot.percent = monotonicPercent(state, snapshot.percent, false);
         PlayerCore.updateIntervalBar(snapshot.intervals, state.duration, Log);
         updatePercentText(snapshot.percent);
         updateFallbackProgress(snapshot.percent, false);

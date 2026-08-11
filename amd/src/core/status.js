@@ -291,12 +291,8 @@ define([], function() {
         button.className = 'btn-close ms-2';
         button.setAttribute('aria-label', normaliseDismissLabel(dismissLabel));
 
-        // Moodle 5 uses Bootstrap 5; keep the native close button class only
-        // and preserve an explicit text alternative for assistive technologies.
-        var closeIcon = document.createElement('span');
-        closeIcon.setAttribute('aria-hidden', 'true');
-        closeIcon.textContent = '\u00d7';
-        button.appendChild(closeIcon);
+        // Moodle 5 uses Bootstrap 5. The btn-close class already renders its own
+        // icon; adding another visible multiplication sign overlays two close marks.
 
         button.addEventListener('click', function() {
             if (state.timerId) {

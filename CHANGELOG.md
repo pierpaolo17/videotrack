@@ -2,6 +2,15 @@
 
 This is the canonical release-history file for the plugin tree. Detailed design notes and historical migration documents remain under `docs/`.
 
+## 1.7.36 - 2026-08-11
+
+### Fixed
+
+- Pass the current browser playback session into the Forum composer and apply the same policy-aware timestamp validation already used by note, bookmark and reaction writes, avoiding false `error:playbackpositionnotwatched` failures immediately after an allowed forward seek.
+- Remove the duplicate visible close glyph from temporary Bootstrap status alerts so their dismiss controls no longer overlap.
+- Keep the visible watched percentage monotonic across successful interaction flushes and rewind actions while still allowing an explicitly rejected segment response to restore the server-authoritative percentage.
+- Show learners an informational alert when forward seeking is blocked by the teacher policy; when blocked-seek recovery continues at a rate other than 1x, include that playback rate in the same alert.
+
 ## 1.7.35 - 2026-08-11
 
 ### Fixed

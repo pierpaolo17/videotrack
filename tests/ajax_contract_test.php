@@ -189,6 +189,7 @@ final class ajax_contract_test extends advanced_testcase {
         $forum = file_get_contents(__DIR__ . '/../amd/src/core/player/forum.js');
         $this->assertIsString($forum);
         $this->assertStringContainsString("options.saveCurrentProgress('interaction')", $forum);
+        $this->assertStringContainsString("url.searchParams.set('sessionid', String(options.sessionId))", $forum);
         $this->assertStringContainsString(
             'Number.isFinite(savedEnd) && savedEnd > 0',
             $forum
@@ -205,7 +206,47 @@ final class ajax_contract_test extends advanced_testcase {
                 'saveCurrentProgress: config.trackingenabled ? saveCurrentProgress : null',
                 $source
             );
+            $this->assertStringContainsString('sessionId: state.sessionid', $source);
         }
+    }
+
+    /**
+     * Successful progress flushes must not make the visible watched percentage move backwards.
+     */
+    public function test_progress_ui_preserves_monotonic_percentage(): void {
+        $source = file_get_contents(__DIR__ . '/../amd/src/core/progress.js');
+        $this->assertIsString($source);
+        $this->assertStringContainsString('function monotonicPercent(state, percent, allowDecrease)', $source);
+        $this->assertStringContainsString('Math.max(previous, percent)', $source);
+        $this->assertStringContainsString('response.accepted === false', $source);
+        $this->assertStringContainsString('snapshot.percent = monotonicPercent(state, snapshot.percent, false)', $source);
+    }
+
+    /**
+     * Blocked forward seeks must tell learners what happened and report a non-1x recovery rate.
+     */
+    public function test_blocked_forward_seek_shows_policy_notice(): void {
+        $core = file_get_contents(__DIR__ . '/../amd/src/core/player.js');
+        $this->assertIsString($core);
+        $this->assertStringContainsString('function showBlockedForwardSeekNotice(config, playbackRate)', $core);
+        $this->assertStringContainsString("replace('__RATE__', String(rate))", $core);
+
+        foreach (['player.js', 'vimeo_player.js', 'html5_player.js'] as $filename) {
+            $source = file_get_contents(__DIR__ . '/../amd/src/' . $filename);
+            $this->assertIsString($source);
+            $this->assertStringContainsString('PlayerCore.showBlockedForwardSeekNotice(config,', $source);
+        }
+    }
+
+    /**
+     * Bootstrap close buttons must not receive a second visible close glyph.
+     */
+    public function test_status_alert_uses_single_bootstrap_close_icon(): void {
+        $source = file_get_contents(__DIR__ . '/../amd/src/core/status.js');
+        $this->assertIsString($source);
+        $this->assertStringContainsString("button.className = 'btn-close ms-2'", $source);
+        $this->assertStringNotContainsString("closeIcon.textContent = '\\u00d7'", $source);
+        $this->assertStringNotContainsString('button.appendChild(closeIcon)', $source);
     }
 
     /**
