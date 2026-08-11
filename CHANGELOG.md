@@ -2,6 +2,14 @@
 
 This is the canonical release-history file for the plugin tree. Detailed design notes and historical migration documents remain under `docs/`.
 
+## 1.7.33 - 2026-08-11
+
+### Fixed
+
+- Fixed PSR12 formatting in the interaction timestamp guard without changing its runtime behaviour.
+- Isolated the gradebook duplicate-repair regression test from the runtime grading API by building its grade fixtures with DML only, removing the test-generated PHPUnit notice while preserving the repair scenario.
+- No player, Analytics, completion, database schema or upgrade behaviour changed in this release.
+
 ## 1.7.32 - 2026-08-11
 
 ### Fixed
