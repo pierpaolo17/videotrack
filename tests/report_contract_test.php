@@ -98,4 +98,18 @@ final class report_contract_test extends advanced_testcase {
         $this->assertStringNotContainsString("get_string('grade')", $source);
         $this->assertStringContainsString("get_string('report:grade', 'mod_videotrack')", $source);
     }
+
+    /**
+     * Provider privacy and integrity guidance share the same player alert.
+     */
+    public function test_provider_and_integrity_notices_share_one_alert(): void {
+        $source = file_get_contents(__DIR__ . '/../view.php');
+        $this->assertIsString($source);
+
+        $this->assertStringContainsString('$playernotices = [];', $source);
+        $this->assertStringContainsString("\$playernotices[] = get_string('externalproviderprivacy_notice'", $source);
+        $this->assertStringContainsString("\$playernotices[] = get_string('integrity:studentnotice'", $source);
+        $this->assertStringContainsString("\$OUTPUT->notification(\$playernoticehtml, 'info', true)", $source);
+        $this->assertStringNotContainsString('small text-muted videotrack-integrity-notice', $source);
+    }
 }

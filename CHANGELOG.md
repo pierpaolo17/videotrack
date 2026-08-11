@@ -2,6 +2,14 @@
 
 This is the canonical release-history file for the plugin tree. Detailed design notes and historical migration documents remain under `docs/`.
 
+## 1.7.34 - 2026-08-11
+
+### Changed
+
+- Consolidated the external-provider privacy notice and learner integrity/focus notice into a single informational alert above the player.
+- Kept the existing translated notice text and visibility conditions unchanged; only the presentation container was unified.
+- No player, tracking, completion, Analytics, database or upgrade behaviour changed in this release.
+
 ## 1.7.33 - 2026-08-11
 
 ### Fixed

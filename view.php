@@ -448,9 +448,10 @@ if ($notice !== '') {
         'info'
     );
 }
+$playernotices = [];
 if (in_array($source, ['youtube', 'vimeo'], true)) {
     $providername = get_string('source:' . $source, 'mod_videotrack');
-    echo $OUTPUT->notification(get_string('externalproviderprivacy_notice', 'mod_videotrack', $providername), 'info', true);
+    $playernotices[] = get_string('externalproviderprivacy_notice', 'mod_videotrack', $providername);
 }
 if (
     $islearner
@@ -461,11 +462,15 @@ if (
         || !empty($videotrack->randomfocuspauses)
     )
 ) {
-    echo html_writer::tag(
-        'p',
-        get_string('integrity:studentnotice', 'mod_videotrack'),
-        ['class' => 'small text-muted videotrack-integrity-notice']
-    );
+    $playernotices[] = get_string('integrity:studentnotice', 'mod_videotrack');
+}
+if ($playernotices) {
+    $playernoticehtml = '';
+    foreach ($playernotices as $index => $playernotice) {
+        $classes = $index === array_key_last($playernotices) ? 'mb-0' : 'mb-2';
+        $playernoticehtml .= html_writer::tag('p', $playernotice, ['class' => $classes]);
+    }
+    echo $OUTPUT->notification($playernoticehtml, 'info', true);
 }
 
 $covered = $state ? (float)$state->uniquecoveredseconds : 0.0;
