@@ -106,6 +106,7 @@ final class forum_bridge_test extends advanced_testcase {
         global $DB;
 
         $this->resetAfterTest();
+        set_config('strictsessionvalidation', 1, 'mod_videotrack');
         $generator = $this->getDataGenerator();
         $course = $generator->create_course();
         $user = $generator->create_user();
@@ -115,7 +116,58 @@ final class forum_bridge_test extends advanced_testcase {
         $context = \context_module::instance($forum->cmid);
         $this->insert_validated_segment(2002, $course->id, $forum->cmid, $user->id, 10.0, 30.0);
 
-        forum_bridge::validate_timestamp_access((object)['id' => 2002], $context, $user->id, 25.0);
+        forum_bridge::validate_timestamp_access(
+            (object)['id' => 2002],
+            $context,
+            $user->id,
+            25.0,
+            'different-forum-session'
+        );
+        $this->addToAssertionCount(1);
+    }
+
+    /**
+     * An allowed forward seek can authorise the Forum timestamp from recent same-session playback evidence.
+     */
+    public function test_learner_forum_timestamp_accepts_allowed_forward_seek_session(): void {
+        global $DB;
+
+        $this->resetAfterTest();
+        set_config('heartbeatinterval', 30, 'mod_videotrack');
+        set_config('strictsessionvalidation', 1, 'mod_videotrack');
+        $generator = $this->getDataGenerator();
+        $course = $generator->create_course();
+        $user = $generator->create_user();
+        $studentroleid = $DB->get_field('role', 'id', ['shortname' => 'student'], MUST_EXIST);
+        $generator->enrol_user($user->id, $course->id, $studentroleid);
+        $forum = $generator->create_module('forum', ['course' => $course->id]);
+        $context = \context_module::instance($forum->cmid);
+        $sessionid = 'forum-forward-session';
+        $DB->insert_record('videotrack_seg', (object)[
+            'videotrackid' => 2005,
+            'courseid' => $course->id,
+            'cmid' => $forum->cmid,
+            'userid' => $user->id,
+            'videoid' => 'forum-forward-video',
+            'sessionid' => $sessionid,
+            'requestid' => bin2hex(random_bytes(16)),
+            'wallclockstart' => time(),
+            'wallclockend' => time(),
+            'videotimestart' => 10.0,
+            'videotimeend' => 10.0,
+            'playbackrate' => 1.0,
+            'endreason' => 'playstart',
+            'servervalidated' => 0,
+            'timecreated' => time(),
+        ]);
+
+        forum_bridge::validate_timestamp_access(
+            (object)['id' => 2005, 'allowseekforward' => 1],
+            $context,
+            $user->id,
+            60.0,
+            $sessionid
+        );
         $this->addToAssertionCount(1);
     }
 
@@ -168,6 +220,7 @@ final class forum_bridge_test extends advanced_testcase {
         $source = file_get_contents(__DIR__ . '/../forum_post.php');
         $this->assertIsString($source);
         $this->assertStringContainsString('forum_bridge::validate_timestamp_access(', $source);
+        $this->assertStringContainsString("optional_param('sessionid', '', PARAM_ALPHANUMEXT)", $source);
     }
 
     /**

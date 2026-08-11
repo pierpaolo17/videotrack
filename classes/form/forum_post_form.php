@@ -45,6 +45,8 @@ final class forum_post_form extends moodleform {
         $mform->setType('id', PARAM_INT);
         $mform->addElement('hidden', 'time');
         $mform->setType('time', PARAM_INT);
+        $mform->addElement('hidden', 'sessionid');
+        $mform->setType('sessionid', PARAM_ALPHANUMEXT);
 
         $mform->addElement(
             'static',

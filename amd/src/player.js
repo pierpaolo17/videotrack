@@ -251,6 +251,7 @@ define([
         recoveryRate = getBlockedSeekPlaybackRate(fallback, previousTime);
         applyBlockedSeekPenalty('YouTube blocked forward seek playback rate', recoveryRate);
         retryBlockedSeekPenalty('YouTube blocked forward seek playback rate', recoveryRate);
+        PlayerCore.showBlockedForwardSeekNotice(config, recoveryRate);
         Tracker.blockSeek(state, 1000);
         Adapter.seek(fallback, function(safeTarget) {
             player.seekTo(safeTarget, true);
@@ -1252,6 +1253,7 @@ define([
                 buttonId: config.forumpostbuttonid,
                 statusId: config.forumpoststatusid,
                 composerUrl: config.forumposturl,
+                sessionId: state.sessionid,
                 getCurrentTime: getCurrentVideoTime,
                 saveCurrentProgress: config.trackingenabled ? saveCurrentProgress : null,
                 getDuration: function() {
