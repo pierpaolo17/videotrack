@@ -113,9 +113,9 @@ $capabilities = [
         ],
     ],
 
-    // Allows the teacher to override the platform-wide completion defaults
-    // (completionpercent, clusterwindow) when creating or editing a Video track
-    // activity. Revoke this to enforce uniform completion thresholds across the site.
+    // Allows the teacher to override VideoTrack completion settings when creating
+    // or editing an activity, including percentage, reaction criteria and completion
+    // logic. Revoke this to enforce platform-managed completion policy.
     'mod/videotrack:overridecompletionsettings' => [
         'captype' => 'write',
         'contextlevel' => CONTEXT_COURSE,

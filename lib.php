@@ -24,6 +24,7 @@
 
 defined('MOODLE_INTERNAL') || die();
 
+use mod_videotrack\local\completion_config;
 use mod_videotrack\local\tracker;
 
 require_once(__DIR__ . '/locallib.php');
@@ -144,6 +145,8 @@ function videotrack_add_instance($data, $mform = null) {
  */
 function videotrack_update_instance($data, $mform = null) {
     global $DB;
+    $previous = $DB->get_record('videotrack', ['id' => $data->instance], '*', MUST_EXIST);
+    $previouscompletionsignature = completion_config::signature($previous);
     $data->id          = $data->instance;
     $data->timemodified = time();
     $data->videosource = $data->videosource ?? 'youtube';
@@ -182,6 +185,22 @@ function videotrack_update_instance($data, $mform = null) {
     \mod_videotrack\local\timed_text::save_files($data);
 
     videotrack_save_reaction_definitions($data->id, $data);
+
+    $updated = $DB->get_record('videotrack', ['id' => $data->id], '*', MUST_EXIST);
+    if (
+        !empty($data->coursemodule)
+        && $previouscompletionsignature !== completion_config::signature($updated)
+    ) {
+        // Invalidate modinfo so the state rebuild uses the updated activity record.
+        // During the normal module-edit flow Moodle resets native completion after
+        // update_instance(), using a freshly rebuilt cm_info. Rebuild VideoTrack's
+        // persisted state first, but avoid writing course_modules_completion twice.
+        get_fast_modinfo((int)$data->course, 0, true);
+        $cm = get_fast_modinfo((int)$data->course)->get_cm((int)$data->coursemodule);
+        $synchronisemoodle = empty($data->completionunlocked);
+        videotrack_recalculate_all_states((int)$data->id, $cm, 0, $synchronisemoodle);
+    }
+
     videotrack_grade_item_update($data);
     return $result;
 }
@@ -574,6 +593,8 @@ function videotrack_save_reaction_definitions(int $videotrackid, stdClass $data)
 
     // B3 fix: commit DB transaction before file operations (files are not transactional).
     $transaction->allow_commit();
+
+    completion_config::reset_required_reaction_cache((int)$data->course);
 
     // Execute file-area operations after the DB commit.
     if ($fileops) {
@@ -1266,6 +1287,12 @@ function videotrack_get_coursemodule_info($coursemodule) {
     if ($coursemodule->showdescription) {
         $info->content = format_module_intro('videotrack', $videotrack, $coursemodule->id, false);
     }
+    if ($coursemodule->completion == COMPLETION_TRACKING_AUTOMATIC) {
+        $requiredreactionset = completion_config::required_reaction_activity_set((int)$videotrack->course);
+        $hasrequiredreactions = isset($requiredreactionset[(int)$videotrack->id]);
+        $info->customdata['customcompletionrules'][\mod_videotrack\completion\custom_completion::RULE] =
+            completion_config::has_custom_rules($videotrack, $hasrequiredreactions);
+    }
     return $info;
 }
 
@@ -1291,6 +1318,51 @@ function videotrack_view($videotrack, $course, $cm, $context) {
 }
 
 /**
+ * Returns the automatic completion state using the canonical VideoTrack rules.
+ *
+ * This legacy callback remains useful to Moodle code paths that still ask the
+ * module directly for completion state. The modern custom_completion class uses
+ * the same tracker service, so both APIs have identical AND/OR semantics.
+ *
+ * @param stdClass $course Course record.
+ * @param cm_info $cm Course module information.
+ * @param int $userid User id.
+ * @param bool $type Core aggregation fallback when no custom rule is enabled.
+ * @return bool Completion state, or the supplied fallback when no custom rule is active.
+ */
+function videotrack_get_completion_state($course, $cm, $userid, $type) {
+    global $DB;
+
+    $videotrack = $DB->get_record('videotrack', ['id' => $cm->instance], '*', MUST_EXIST);
+    $requiredreactionids = !empty($videotrack->reactionsenabled)
+        ? completion_config::required_reaction_ids((int)$videotrack->id)
+        : [];
+    if (!completion_config::has_custom_rules($videotrack, !empty($requiredreactionids))) {
+        return $type;
+    }
+    $state = $DB->get_record('videotrack_state', [
+        'videotrackid' => $videotrack->id,
+        'userid' => $userid,
+    ]);
+    if (!$state) {
+        $state = (object)[
+            'userid' => (int)$userid,
+            'completionpercent' => 0,
+        ];
+    }
+    $reactionsummary = !empty($videotrack->reactionsenabled)
+        ? tracker::reaction_counts((int)$videotrack->id, (int)$userid)
+        : ['uniquecount' => 0, 'uniqueids' => []];
+
+    return tracker::completion_satisfied(
+        $videotrack,
+        $state,
+        $reactionsummary,
+        $requiredreactionids
+    );
+}
+
+/**
  * Returns active custom completion rule descriptions for the activity.
  *
  * @param cm_info $cm Course module information.
@@ -1298,33 +1370,29 @@ function videotrack_view($videotrack, $course, $cm, $context) {
  */
 function videotrack_get_completion_active_rule_descriptions($cm) {
     global $DB;
-    $context = context_module::instance($cm->id);
-    $descriptions = [];
+
+    if (
+        empty($cm->customdata['customcompletionrules'][\mod_videotrack\completion\custom_completion::RULE])
+        || $cm->completion != COMPLETION_TRACKING_AUTOMATIC
+    ) {
+        return [];
+    }
     $videotrack = $DB->get_record('videotrack', ['id' => $cm->instance], '*', MUST_EXIST);
-    if (!empty($videotrack->completionpercent)) {
-        $descriptions[] = get_string('completiondetail:percent', 'mod_videotrack', $videotrack->completionpercent);
+    if (!completion_config::has_custom_rules($videotrack)) {
+        return [];
     }
-    if (!empty($videotrack->reactionsrequired) && !empty($videotrack->minreactions)) {
-        $descriptions[] = get_string('completiondetail:minreactions', 'mod_videotrack', $videotrack->minreactions);
+    $context = context_module::instance($cm->id);
+    $conditions = completion_config::active_condition_descriptions($videotrack, $context);
+    if (!$conditions) {
+        return [];
     }
-    $requiredreactions = $DB->get_records('videotrack_react', [
-        'videotrackid' => $videotrack->id,
-        'requiredforcompletion' => 1,
-        'isdeleted' => 0,
-    ], 'sortorder ASC, id ASC', 'id,label');
-    if (!empty($requiredreactions)) {
-        $labels = array_map(static function ($reaction) use ($context) {
-            return format_string($reaction->label, true, ['context' => $context]);
-        }, array_values($requiredreactions));
-        $descriptions[] = get_string('completiondetail:requiredreactions', 'mod_videotrack', implode(', ', $labels));
-    }
-    if (!empty($videotrack->requireallreactiontypes)) {
-        $descriptions[] = get_string('completiondetail:allreactiontypes', 'mod_videotrack');
-    }
-    if (!empty($videotrack->completionacknowledgement) && !empty($videotrack->acknowledgementenabled)) {
-        $descriptions[] = get_string('completiondetail:acknowledgement', 'mod_videotrack');
-    }
-    return $descriptions;
+    $logic = ($videotrack->completionlogic ?? 'and') === 'or'
+        ? get_string('completiondetail:logicor', 'mod_videotrack')
+        : get_string('completiondetail:logicand', 'mod_videotrack');
+    return [get_string('completiondetail:videotrackconditions', 'mod_videotrack', (object)[
+        'logic' => $logic,
+        'conditions' => implode('; ', $conditions),
+    ])];
 }
 
 /**
@@ -1637,23 +1705,20 @@ function videotrack_pluginfile($course, $cm, $context, $filearea, $args, $forced
  * @param  int      $videotrackid   VideoTrack instance id.
  * @param  cm_info  $cm             Course module info.
  * @param  int      $userid          Optional user id; zero recalculates every tracked user.
+ * @param  bool     $synchronisemoodle Whether to ask Moodle to re-evaluate native completion too.
  * @return int                      Number of updated state records.
  */
-function videotrack_recalculate_all_states(int $videotrackid, cm_info $cm, int $userid = 0): int {
+function videotrack_recalculate_all_states(
+    int $videotrackid,
+    cm_info $cm,
+    int $userid = 0,
+    bool $synchronisemoodle = true
+): int {
     global $DB;
 
     $videotrack = $DB->get_record('videotrack', ['id' => $videotrackid], '*', MUST_EXIST);
-    $completion = new completion_info(get_course($videotrack->course));
-    $hasrequiredreactions = $DB->record_exists('videotrack_react', [
-        'videotrackid' => $videotrackid,
-        'requiredforcompletion' => 1,
-        'isdeleted' => 0,
-    ]);
-    $hascustomcompletion = !empty($videotrack->completionpercent)
-        || (!empty($videotrack->reactionsrequired) && !empty($videotrack->minreactions))
-        || !empty($videotrack->requireallreactiontypes)
-        || !empty($videotrack->completionacknowledgement)
-        || $hasrequiredreactions;
+    $completion = $synchronisemoodle ? new completion_info(get_course($videotrack->course)) : null;
+    $hascustomcompletion = $synchronisemoodle && completion_config::has_custom_rules($videotrack);
     $userids = [];
     if ($userid > 0) {
         foreach (['videotrack_state', 'videotrack_seg', 'videotrack_reactev', 'videotrack_acknowledge'] as $table) {
@@ -1685,13 +1750,19 @@ function videotrack_recalculate_all_states(int $videotrackid, cm_info $cm, int $
         if ($state === null) {
             continue;
         }
-        if ($hascustomcompletion) {
-            tracker::update_moodle_completion_if_changed(
-                $completion,
-                $cm,
-                !empty($state->iscompleted),
-                $userid
-            );
+        if ($synchronisemoodle) {
+            if ($hascustomcompletion) {
+                tracker::update_moodle_completion_if_changed(
+                    $completion,
+                    $cm,
+                    !empty($state->iscompleted),
+                    $userid
+                );
+            } else {
+                // Custom rules may have just been removed. Let Moodle recompute any
+                // remaining standard completion conditions such as view or grade.
+                $completion->update_state($cm, COMPLETION_UNKNOWN, $userid);
+            }
         }
         $updated++;
     }

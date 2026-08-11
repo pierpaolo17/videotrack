@@ -789,13 +789,10 @@ class mod_videotrack_mod_form extends moodleform_mod {
 
         $mform->setType('requireallreactiontypes', PARAM_BOOL);
         $mform->setDefault('requireallreactiontypes', 0);
-        $mform->addElement('select', 'completionlogic', get_string('completionlogic', 'mod_videotrack'), [
-            'and' => get_string('logicand', 'mod_videotrack'),
-            'or'  => get_string('logicor', 'mod_videotrack'),
-        ]);
-        $mform->setType('completionlogic', PARAM_ALPHA);
-        $mform->setDefault('completionlogic', 'and');
-
+        $mform->disabledIf('reactionsrequired', 'reactionsenabled', 'notchecked');
+        $mform->disabledIf('minreactions', 'reactionsenabled', 'notchecked');
+        $mform->disabledIf('minreactions', 'reactionsrequired', 'notchecked');
+        $mform->disabledIf('requireallreactiontypes', 'reactionsenabled', 'notchecked');
         // Completion settings locked when teacher lacks overridecompletionsettings.
         if (!$canoverridecompleting) {
             $mform->addElement(
@@ -843,6 +840,14 @@ class mod_videotrack_mod_form extends moodleform_mod {
         }
 
         $this->add_reaction_elements();
+        if (!$canoverridecompleting) {
+            foreach (['reactionsrequired', 'minreactions', 'requireallreactiontypes'] as $field) {
+                $mform->freeze($field);
+            }
+            for ($i = 0; $i < $this->reactionrepeatcount; $i++) {
+                $mform->freeze('reactionrequired[' . $i . ']');
+            }
+        }
 
         // Optional link to a Forum activity in the same course.
         $mform->addElement('header', 'forumlinkheader', get_string('forum:settingsheader', 'mod_videotrack'));
@@ -1375,17 +1380,22 @@ JS);
     public function add_completion_rules() {
         global $COURSE;
         $mform = $this->_form;
-        $coursecontext   = context_course::instance($COURSE->id);
-        $canoverride     = has_capability('mod/videotrack:overridecompletionsettings', $coursecontext);
-        $defaultpercent  = (int)(get_config('mod_videotrack', 'default_completionpercent') ?: 0);
+        $coursecontext = context_course::instance($COURSE->id);
+        $canoverride = has_capability('mod/videotrack:overridecompletionsettings', $coursecontext);
+        $defaultpercent = (int)(get_config('mod_videotrack', 'default_completionpercent') ?: 0);
+        $completionpercent = $this->get_suffixed_name('completionpercent');
+        $completionpercentgroup = $this->get_suffixed_name('completionpercentgroup');
+        $completionacknowledgement = $this->get_suffixed_name('completionacknowledgement');
+        $completionlogic = $this->get_suffixed_name('completionlogic');
+        $completionreactionrules = $this->get_suffixed_name('completionreactionrules');
 
-        $group   = [];
-        $group[] = $mform->createElement('text', 'completionpercent', '', ['size' => 3]);
-        $mform->setType('completionpercent', PARAM_INT);
-        $mform->setDefault('completionpercent', $defaultpercent);
+        $group = [];
+        $group[] = $mform->createElement('text', $completionpercent, '', ['size' => 3]);
+        $mform->setType($completionpercent, PARAM_INT);
+        $mform->setDefault($completionpercent, $defaultpercent);
         $mform->addGroup(
             $group,
-            'completionpercentgroup',
+            $completionpercentgroup,
             get_string('completionpercent', 'mod_videotrack'),
             ' ',
             false
@@ -1393,20 +1403,40 @@ JS);
 
         $mform->addElement(
             'advcheckbox',
-            'completionacknowledgement',
+            $completionacknowledgement,
             get_string('completionacknowledgement', 'mod_videotrack'),
             get_string('completionacknowledgement_desc', 'mod_videotrack')
         );
-        $mform->setType('completionacknowledgement', PARAM_BOOL);
-        $mform->setDefault('completionacknowledgement', 0);
-        $mform->disabledIf('completionacknowledgement', 'acknowledgementenabled', 'notchecked');
+        $mform->setType($completionacknowledgement, PARAM_BOOL);
+        $mform->setDefault($completionacknowledgement, 0);
+        $mform->disabledIf($completionacknowledgement, 'acknowledgementenabled', 'notchecked');
+
+        $mform->addElement('select', $completionlogic, get_string('completionlogic', 'mod_videotrack'), [
+            'and' => get_string('logicand', 'mod_videotrack'),
+            'or' => get_string('logicor', 'mod_videotrack'),
+        ]);
+        $mform->setType($completionlogic, PARAM_ALPHA);
+        $mform->setDefault($completionlogic, 'and');
+
+        $mform->addElement(
+            'static',
+            $completionreactionrules,
+            get_string('completionreactionrules', 'mod_videotrack'),
+            get_string('completionreactionrules_desc', 'mod_videotrack')
+        );
 
         if (!$canoverride) {
-            $mform->freeze('completionpercentgroup');
-            $mform->freeze('completionacknowledgement');
+            $mform->freeze($completionpercentgroup);
+            $mform->freeze($completionacknowledgement);
+            $mform->freeze($completionlogic);
         }
 
-        return ['completionpercentgroup', 'completionacknowledgement'];
+        return [
+            $completionpercentgroup,
+            $completionacknowledgement,
+            $completionlogic,
+            $completionreactionrules,
+        ];
     }
 
     /**
@@ -1416,12 +1446,21 @@ JS);
      * @return bool True when at least one custom completion condition is active.
      */
     public function completion_rule_enabled($data) {
+        $completionpercent = $data[$this->get_suffixed_name('completionpercent')]
+            ?? ($data['completionpercent'] ?? 0);
+        $completionacknowledgement = $data[$this->get_suffixed_name('completionacknowledgement')]
+            ?? ($data['completionacknowledgement'] ?? 0);
+        $requiredreactions = array_filter(array_map('intval', (array)($data['reactionrequired'] ?? [])));
+        $reactionrules = !empty($data['reactionsenabled']) && (
+            (!empty($data['reactionsrequired']) && !empty($data['minreactions']))
+            || !empty($data['requireallreactiontypes'])
+            || !empty($requiredreactions)
+        );
         return (!empty($data['durationseconds'])
-                && !empty($data['completionpercent'])
-                && (int)$data['completionpercent'] > 0) ||
-            (!empty($data['reactionsrequired']) && !empty($data['minreactions'])) ||
-            !empty($data['requireallreactiontypes']) ||
-            !empty($data['completionacknowledgement']);
+                && !empty($completionpercent)
+                && (int)$completionpercent > 0)
+            || $reactionrules
+            || (!empty($completionacknowledgement) && !empty($data['acknowledgementenabled']));
     }
 
     /**
@@ -1431,6 +1470,8 @@ JS);
      */
     public function data_preprocessing(&$defaultvalues) {
         global $COURSE, $DB;
+        parent::data_preprocessing($defaultvalues);
+
         // Load existing reactions for the edit form.
         // Moodle calls data_preprocessing() before displaying the form: this is the correct place.
         // (set_data() is the public base form method and must not be overridden for this logic).
@@ -1491,6 +1532,16 @@ JS);
         if (!isset($defaultvalues['completionpercent'])) {
             $defaultvalues['completionpercent'] = 0;
         }
+        if (!isset($defaultvalues['completionacknowledgement'])) {
+            $defaultvalues['completionacknowledgement'] = 0;
+        }
+        if (empty($defaultvalues['completionlogic'])) {
+            $defaultvalues['completionlogic'] = 'and';
+        }
+        foreach (['completionpercent', 'completionacknowledgement', 'completionlogic'] as $field) {
+            $defaultvalues[$this->get_suffixed_name($field)] = $defaultvalues[$field];
+        }
+
         // Pre-populate gradepass from the database when editing an existing activity.
         if (!isset($defaultvalues['gradepass']) && !empty($this->_instance)) {
             $gradepass = $DB->get_field('videotrack', 'gradepass', ['id' => $this->_instance]);
@@ -1792,11 +1843,14 @@ JS);
             $errors['chapterfile'] = get_string('err:chapterfilerequired', 'mod_videotrack');
         }
 
+        $completionpercentname = $this->get_suffixed_name('completionpercent');
+        $completionpercentgroupname = $this->get_suffixed_name('completionpercentgroup');
+        $completionpercent = $data[$completionpercentname] ?? ($data['completionpercent'] ?? null);
         if (
-            isset($data['completionpercent'])
-            && ((int)$data['completionpercent'] < 0 || (int)$data['completionpercent'] > 100)
+            $completionpercent !== null
+            && ((int)$completionpercent < 0 || (int)$completionpercent > 100)
         ) {
-            $errors['completionpercentgroup'] = get_string('err:completionpercentrange', 'mod_videotrack');
+            $errors[$completionpercentgroupname] = get_string('err:completionpercentrange', 'mod_videotrack');
         }
 
         if (array_key_exists('playerwidth', $data)) {

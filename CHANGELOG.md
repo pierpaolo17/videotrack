@@ -2,6 +2,20 @@
 
 This is the canonical release-history file for the plugin tree. Detailed design notes and historical migration documents remain under `docs/`.
 
+## 1.7.28 - 2026-08-11
+
+### Fixed
+
+- Uses Moodle 4.3+/5.0 suffixed custom-completion form element names for completion-form and bulk/default-form compatibility.
+- Aligns reaction-based completion with Moodle 5.0 custom completion by publishing one composite `videotrackconditions` rule through `cm_info`.
+- Uses the same `tracker::completion_satisfied()` decision for Moodle custom completion and VideoTrack runtime state, preserving configured AND/OR semantics including individually required reactions.
+- Makes individually required reactions activate automatic completion validation, while disabled reactions no longer leave stale reaction requirements blocking completion.
+- Shows reaction-completion integration in the standard Activity completion section and moves the global AND/OR selector there; reaction-specific controls remain in the Reactions section.
+- Locks reaction completion controls when the editor lacks `mod/videotrack:overridecompletionsettings`.
+- Recalculates tracked learner states when duration or completion configuration changes, including acknowledgement statement/version and reaction-definition requirements; normal Moodle edits leave the final native completion reset to core after `update_instance()`.
+- Centralises completion-rule activation and descriptions so runtime, `cm_info`, privacy/retention and restore use the same contract, excluding disabled/empty acknowledgement definitions from completion.
+- Preloads the set of activities with individually required reactions once per course/request while rebuilding `cm_info`, avoiding a per-activity reaction lookup.
+
 ## 1.7.27 - 2026-08-10
 
 - Stabilizes the U-016 phase-2 test contracts without changing Analytics runtime code.

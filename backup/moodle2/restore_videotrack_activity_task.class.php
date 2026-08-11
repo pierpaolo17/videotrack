@@ -97,17 +97,7 @@ class restore_videotrack_activity_task extends restore_activity_task {
             return;
         }
 
-        $hasrequiredreactions = $DB->record_exists('videotrack_react', [
-            'videotrackid' => $videotrackid,
-            'requiredforcompletion' => 1,
-            'isdeleted' => 0,
-        ]);
-        $hascustomcompletion = !empty($videotrack->completionpercent)
-            || (!empty($videotrack->reactionsrequired) && !empty($videotrack->minreactions))
-            || !empty($videotrack->requireallreactiontypes)
-            || !empty($videotrack->completionacknowledgement)
-            || $hasrequiredreactions;
-        if (!$hascustomcompletion) {
+        if (!\mod_videotrack\local\completion_config::has_custom_rules($videotrack)) {
             return;
         }
 
