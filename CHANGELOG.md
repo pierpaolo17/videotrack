@@ -2,6 +2,12 @@
 
 This is the canonical release-history file for the plugin tree. Detailed design notes and historical migration documents remain under `docs/`.
 
+## 1.7.29 - 2026-08-11
+
+- Fix Moodle 5.0 completion form suffix handling by using `get_suffix()` and explicit field-name concatenation.
+- Fix PSR-12 formatting in the acknowledgement completion refresh path.
+- Add regression coverage preventing the unsupported `get_suffixed_name()` call from returning.
+
 ## 1.7.28 - 2026-08-11
 
 ### Fixed

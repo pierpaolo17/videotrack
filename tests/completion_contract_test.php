@@ -138,9 +138,11 @@ final class completion_contract_test extends advanced_testcase {
 
         $this->assertStringContainsString("(array)(\$data['reactionrequired'] ?? [])", $source);
         $this->assertStringContainsString("\$mform->freeze('reactionrequired[' . \$i . ']');", $source);
-        $this->assertStringContainsString("get_suffixed_name('completionreactionrules')", $source);
-        $this->assertStringContainsString("get_suffixed_name('completionlogic')", $source);
-        $this->assertStringContainsString("get_suffixed_name('completionpercent')", $source);
+        $this->assertStringContainsString('$suffix = $this->get_suffix();', $source);
+        $this->assertStringContainsString("'completionreactionrules' . $suffix", $source);
+        $this->assertStringContainsString("'completionlogic' . $suffix", $source);
+        $this->assertStringContainsString("'completionpercent' . $suffix", $source);
+        $this->assertStringNotContainsString('get_suffixed_name(', $source);
         $this->assertStringContainsString('parent::data_preprocessing($defaultvalues);', $source);
     }
 
