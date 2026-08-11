@@ -1428,7 +1428,7 @@ JS);
         $mform->addElement(
             'static',
             $completionreactionrules,
-            get_string('completionreactionrules', 'mod_videotrack'),
+            '',
             get_string('completionreactionrules_desc', 'mod_videotrack')
         );
 

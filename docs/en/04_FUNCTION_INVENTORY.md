@@ -1,8 +1,8 @@
 # Function inventory
 
-Generated from the VideoTrack 1.6.33 source tree. PHP entries include named functions and methods; AMD entries include named declarations, assigned function expressions and object-method functions.
+Generated from the VideoTrack 1.7.41 source tree. PHP entries include named functions and methods; AMD entries include named declarations, assigned function expressions and object-method functions.
 
-**PHP functions/methods:** 497. **Named AMD callables:** 616.
+**PHP functions/methods:** 603. **Named AMD callables:** 647.
 
 | Location | Callable | Responsibility |
 |---|---|---|
@@ -45,11 +45,11 @@ Generated from the VideoTrack 1.6.33 source tree. PHP entries include named func
 | `amd/src/core/adapter.js:669` | `seek` | Named callable `seek` in the module; see its JSDoc and callers for parameter and side-effect details. |
 | `amd/src/core/api.js:63` | `call` | Named callable `call` in the module; see its JSDoc and callers for parameter and side-effect details. |
 | `amd/src/core/api.js:89` | `attemptRequest` | Named callable `attemptRequest` in the module; see its JSDoc and callers for parameter and side-effect details. |
-| `amd/src/core/api.js:137` | `buildSegmentArgs` | Named callable `buildSegmentArgs` in the module; see its JSDoc and callers for parameter and side-effect details. |
-| `amd/src/core/api.js:177` | `saveSegment` | Named callable `saveSegment` in the module; see its JSDoc and callers for parameter and side-effect details. |
-| `amd/src/core/api.js:201` | `beginPlayback` | Named callable `beginPlayback` in the module; see its JSDoc and callers for parameter and side-effect details. |
-| `amd/src/core/api.js:215` | `clearPending` | Named callable `clearPending` in the module; see its JSDoc and callers for parameter and side-effect details. |
-| `amd/src/core/api.js:243` | `cancelPlaybackStart` | Named callable `cancelPlaybackStart` in the module; see its JSDoc and callers for parameter and side-effect details. |
+| `amd/src/core/api.js:138` | `buildSegmentArgs` | Named callable `buildSegmentArgs` in the module; see its JSDoc and callers for parameter and side-effect details. |
+| `amd/src/core/api.js:178` | `saveSegment` | Named callable `saveSegment` in the module; see its JSDoc and callers for parameter and side-effect details. |
+| `amd/src/core/api.js:202` | `beginPlayback` | Named callable `beginPlayback` in the module; see its JSDoc and callers for parameter and side-effect details. |
+| `amd/src/core/api.js:216` | `clearPending` | Named callable `clearPending` in the module; see its JSDoc and callers for parameter and side-effect details. |
+| `amd/src/core/api.js:244` | `cancelPlaybackStart` | Named callable `cancelPlaybackStart` in the module; see its JSDoc and callers for parameter and side-effect details. |
 | `amd/src/core/api/error.js:29` | `getNetworkState` | Named callable `getNetworkState` in the module; see its JSDoc and callers for parameter and side-effect details. |
 | `amd/src/core/api/error.js:41` | `isBrowserOffline` | Named callable `isBrowserOffline` in the module; see its JSDoc and callers for parameter and side-effect details. |
 | `amd/src/core/api/error.js:51` | `getErrorCode` | Named callable `getErrorCode` in the module; see its JSDoc and callers for parameter and side-effect details. |
@@ -83,7 +83,7 @@ Generated from the VideoTrack 1.6.33 source tree. PHP entries include named func
 | `amd/src/core/confirm.js:126` | `resolveString` | Named callable `resolveString` in the module; see its JSDoc and callers for parameter and side-effect details. |
 | `amd/src/core/confirm.js:151` | `showInlineFallback` | Named callable `showInlineFallback` in the module; see its JSDoc and callers for parameter and side-effect details. |
 | `amd/src/core/confirm.js:177` | `showModalConfirm` | Named callable `showModalConfirm` in the module; see its JSDoc and callers for parameter and side-effect details. |
-| `amd/src/core/confirm.js:240` | `attachToForms` | Named callable `attachToForms` in the module; see its JSDoc and callers for parameter and side-effect details. |
+| `amd/src/core/confirm.js:238` | `attachToForms` | Named callable `attachToForms` in the module; see its JSDoc and callers for parameter and side-effect details. |
 | `amd/src/core/debug.js:21` | `log` | Named callable `log` in the module; see its JSDoc and callers for parameter and side-effect details. |
 | `amd/src/core/events.js:21` | `create` | Named callable `create` in the module; see its JSDoc and callers for parameter and side-effect details. |
 | `amd/src/core/events.js:35` | `normaliseEventName` | Named callable `normaliseEventName` in the module; see its JSDoc and callers for parameter and side-effect details. |
@@ -105,13 +105,15 @@ Generated from the VideoTrack 1.6.33 source tree. PHP entries include named func
 | `amd/src/core/player.js:81` | `showResumeNotice` | Named callable `showResumeNotice` in the module; see its JSDoc and callers for parameter and side-effect details. |
 | `amd/src/core/player.js:90` | `configureStatus` | Named callable `configureStatus` in the module; see its JSDoc and callers for parameter and side-effect details. |
 | `amd/src/core/player.js:102` | `showStatusMessage` | Named callable `showStatusMessage` in the module; see its JSDoc and callers for parameter and side-effect details. |
-| `amd/src/core/player.js:114` | `showErrorStatusMessage` | Named callable `showErrorStatusMessage` in the module; see its JSDoc and callers for parameter and side-effect details. |
-| `amd/src/core/player.js:124` | `announceStatusMessage` | Named callable `announceStatusMessage` in the module; see its JSDoc and callers for parameter and side-effect details. |
-| `amd/src/core/player.js:139` | `onFirstPlay` | Named callable `onFirstPlay` in the module; see its JSDoc and callers for parameter and side-effect details. |
-| `amd/src/core/player.js:155` | `installNoteHandler` | Named callable `installNoteHandler` in the module; see its JSDoc and callers for parameter and side-effect details. |
-| `amd/src/core/player.js:164` | `installBookmarkHandler` | Named callable `installBookmarkHandler` in the module; see its JSDoc and callers for parameter and side-effect details. |
-| `amd/src/core/player.js:177` | `removePoster` | Named callable `removePoster` in the module; see its JSDoc and callers for parameter and side-effect details. |
-| `amd/src/core/player.js:187` | `getPlayerShell` | Named callable `getPlayerShell` in the module; see its JSDoc and callers for parameter and side-effect details. |
+| `amd/src/core/player.js:114` | `showForwardSeekPolicyNotice` | Named AMD callable `showForwardSeekPolicyNotice`; see JSDoc and callers for the current contract. |
+| `amd/src/core/player.js:136` | `showBlockedForwardSeekNotice` | Named AMD callable `showBlockedForwardSeekNotice`; see JSDoc and callers for the current contract. |
+| `amd/src/core/player.js:156` | `showErrorStatusMessage` | Named callable `showErrorStatusMessage` in the module; see its JSDoc and callers for parameter and side-effect details. |
+| `amd/src/core/player.js:166` | `announceStatusMessage` | Named callable `announceStatusMessage` in the module; see its JSDoc and callers for parameter and side-effect details. |
+| `amd/src/core/player.js:181` | `onFirstPlay` | Named callable `onFirstPlay` in the module; see its JSDoc and callers for parameter and side-effect details. |
+| `amd/src/core/player.js:197` | `installNoteHandler` | Named callable `installNoteHandler` in the module; see its JSDoc and callers for parameter and side-effect details. |
+| `amd/src/core/player.js:206` | `installBookmarkHandler` | Named callable `installBookmarkHandler` in the module; see its JSDoc and callers for parameter and side-effect details. |
+| `amd/src/core/player.js:219` | `removePoster` | Named callable `removePoster` in the module; see its JSDoc and callers for parameter and side-effect details. |
+| `amd/src/core/player.js:229` | `getPlayerShell` | Named callable `getPlayerShell` in the module; see its JSDoc and callers for parameter and side-effect details. |
 | `amd/src/core/player/acknowledgement.js:17` | `init` | Named callable `init` in the module; see its JSDoc and callers for parameter and side-effect details. |
 | `amd/src/core/player/bookmarks.js:10` | `resolveBookmarkTime` | Named callable `resolveBookmarkTime` in the module; see its JSDoc and callers for parameter and side-effect details. |
 | `amd/src/core/player/bookmarks.js:19` | `appendRow` | Named callable `appendRow` in the module; see its JSDoc and callers for parameter and side-effect details. |
@@ -139,10 +141,11 @@ Generated from the VideoTrack 1.6.33 source tree. PHP entries include named func
 | `amd/src/core/player/focus_guard.js:276` | `onWindowBlur` | Named callable `onWindowBlur` in the module; see its JSDoc and callers for parameter and side-effect details. |
 | `amd/src/core/player/focus_guard.js:305` | `onShellInteraction` | Named callable `onShellInteraction` in the module; see its JSDoc and callers for parameter and side-effect details. |
 | `amd/src/core/player/focus_guard.js:341` | `destroy` | Named callable `destroy` in the module; see its JSDoc and callers for parameter and side-effect details. |
-| `amd/src/core/player/forum.js:15` | `install` | Named callable `install` in the module; see its JSDoc and callers for parameter and side-effect details. |
-| `amd/src/core/player/forum.js:24` | `setBusy` | Named callable `setBusy` in the module; see its JSDoc and callers for parameter and side-effect details. |
-| `amd/src/core/player/forum.js:28` | `handler` | Named callable `handler` in the module; see its JSDoc and callers for parameter and side-effect details. |
-| `amd/src/core/player/forum.js:56` | `cleanup` | Named callable `cleanup` in the module; see its JSDoc and callers for parameter and side-effect details. |
+| `amd/src/core/player/forum.js:19` | `resolveForumTime` | Named AMD callable `resolveForumTime`; see JSDoc and callers for the current contract. |
+| `amd/src/core/player/forum.js:34` | `install` | Named callable `install` in the module; see its JSDoc and callers for parameter and side-effect details. |
+| `amd/src/core/player/forum.js:43` | `setBusy` | Named callable `setBusy` in the module; see its JSDoc and callers for parameter and side-effect details. |
+| `amd/src/core/player/forum.js:47` | `handler` | Named callable `handler` in the module; see its JSDoc and callers for parameter and side-effect details. |
+| `amd/src/core/player/forum.js:87` | `cleanup` | Named callable `cleanup` in the module; see its JSDoc and callers for parameter and side-effect details. |
 | `amd/src/core/player/intervalbar.js:22` | `getColor` | Named callable `getColor` in the module; see its JSDoc and callers for parameter and side-effect details. |
 | `amd/src/core/player/intervalbar.js:33` | `parse` | Named callable `parse` in the module; see its JSDoc and callers for parameter and side-effect details. |
 | `amd/src/core/player/intervalbar.js:55` | `updateTextAlternative` | Named callable `updateTextAlternative` in the module; see its JSDoc and callers for parameter and side-effect details. |
@@ -181,8 +184,9 @@ Generated from the VideoTrack 1.6.33 source tree. PHP entries include named func
 | `amd/src/core/player/status.js:21` | `getShell` | Named callable `getShell` in the module; see its JSDoc and callers for parameter and side-effect details. |
 | `amd/src/core/player/status.js:34` | `configure` | Named callable `configure` in the module; see its JSDoc and callers for parameter and side-effect details. |
 | `amd/src/core/player/status.js:46` | `showMessage` | Named callable `showMessage` in the module; see its JSDoc and callers for parameter and side-effect details. |
-| `amd/src/core/player/status.js:62` | `showErrorMessage` | Named callable `showErrorMessage` in the module; see its JSDoc and callers for parameter and side-effect details. |
-| `amd/src/core/player/status.js:80` | `announce` | Named callable `announce` in the module; see its JSDoc and callers for parameter and side-effect details. |
+| `amd/src/core/player/status.js:56` | `showPolicyMessage` | Named AMD callable `showPolicyMessage`; see JSDoc and callers for the current contract. |
+| `amd/src/core/player/status.js:72` | `showErrorMessage` | Named callable `showErrorMessage` in the module; see its JSDoc and callers for parameter and side-effect details. |
+| `amd/src/core/player/status.js:90` | `announce` | Named callable `announce` in the module; see its JSDoc and callers for parameter and side-effect details. |
 | `amd/src/core/player/timed_text.js:21` | `stripCueMarkup` | Named callable `stripCueMarkup` in the module; see its JSDoc and callers for parameter and side-effect details. |
 | `amd/src/core/player/timed_text.js:41` | `vttTime` | Named callable `vttTime` in the module; see its JSDoc and callers for parameter and side-effect details. |
 | `amd/src/core/player/timed_text.js:64` | `parseVtt` | Named callable `parseVtt` in the module; see its JSDoc and callers for parameter and side-effect details. |
@@ -205,10 +209,11 @@ Generated from the VideoTrack 1.6.33 source tree. PHP entries include named func
 | `amd/src/core/progress.js:21` | `pickNumber` | Named callable `pickNumber` in the module; see its JSDoc and callers for parameter and side-effect details. |
 | `amd/src/core/progress.js:44` | `formatPercent` | Named callable `formatPercent` in the module; see its JSDoc and callers for parameter and side-effect details. |
 | `amd/src/core/progress.js:54` | `updatePercentText` | Named callable `updatePercentText` in the module; see its JSDoc and callers for parameter and side-effect details. |
-| `amd/src/core/progress.js:66` | `updateFallbackProgress` | Named callable `updateFallbackProgress` in the module; see its JSDoc and callers for parameter and side-effect details. |
-| `amd/src/core/progress.js:93` | `updateProgress` | Named callable `updateProgress` in the module; see its JSDoc and callers for parameter and side-effect details. |
-| `amd/src/core/progress.js:139` | `buildLiveSnapshot` | Named callable `buildLiveSnapshot` in the module; see its JSDoc and callers for parameter and side-effect details. |
-| `amd/src/core/progress.js:195` | `updateLiveProgress` | Named callable `updateLiveProgress` in the module; see its JSDoc and callers for parameter and side-effect details. |
+| `amd/src/core/progress.js:75` | `monotonicPercent` | Named AMD callable `monotonicPercent`; see JSDoc and callers for the current contract. |
+| `amd/src/core/progress.js:92` | `updateFallbackProgress` | Named callable `updateFallbackProgress` in the module; see its JSDoc and callers for parameter and side-effect details. |
+| `amd/src/core/progress.js:119` | `updateProgress` | Named callable `updateProgress` in the module; see its JSDoc and callers for parameter and side-effect details. |
+| `amd/src/core/progress.js:166` | `buildLiveSnapshot` | Named callable `buildLiveSnapshot` in the module; see its JSDoc and callers for parameter and side-effect details. |
+| `amd/src/core/progress.js:222` | `updateLiveProgress` | Named callable `updateLiveProgress` in the module; see its JSDoc and callers for parameter and side-effect details. |
 | `amd/src/core/reactions.js:27` | `createState` | Named callable `createState` in the module; see its JSDoc and callers for parameter and side-effect details. |
 | `amd/src/core/reactions.js:50` | `getStatusRegion` | Named callable `getStatusRegion` in the module; see its JSDoc and callers for parameter and side-effect details. |
 | `amd/src/core/reactions.js:69` | `announceStatus` | Named callable `announceStatus` in the module; see its JSDoc and callers for parameter and side-effect details. |
@@ -232,13 +237,14 @@ Generated from the VideoTrack 1.6.33 source tree. PHP entries include named func
 | `amd/src/core/status.js:170` | `normaliseTimeout` | Named callable `normaliseTimeout` in the module; see its JSDoc and callers for parameter and side-effect details. |
 | `amd/src/core/status.js:197` | `announce` | Named callable `announce` in the module; see its JSDoc and callers for parameter and side-effect details. |
 | `amd/src/core/status.js:228` | `clear` | Named callable `clear` in the module; see its JSDoc and callers for parameter and side-effect details. |
-| `amd/src/core/status.js:264` | `show` | Named callable `show` in the module; see its JSDoc and callers for parameter and side-effect details. |
-| `amd/src/core/tracker.js:116` | `saveHeartbeatIfDue` | Named callable `saveHeartbeatIfDue` in the module; see its JSDoc and callers for parameter and side-effect details. |
-| `amd/src/core/tracker.js:126` | `runHeartbeat` | Named callable `runHeartbeat` in the module; see its JSDoc and callers for parameter and side-effect details. |
-| `amd/src/core/tracker.js:136` | `sendUnloadBeacon` | Named callable `sendUnloadBeacon` in the module; see its JSDoc and callers for parameter and side-effect details. |
-| `amd/src/core/tracker.js:146` | `installLifecycleHandlers` | Named callable `installLifecycleHandlers` in the module; see its JSDoc and callers for parameter and side-effect details. |
-| `amd/src/core/tracker.js:158` | `uninstallLifecycleHandlers` | Named callable `uninstallLifecycleHandlers` in the module; see its JSDoc and callers for parameter and side-effect details. |
-| `amd/src/core/tracker.js:173` | `cancelPendingRequests` | Named callable `cancelPendingRequests` in the module; see its JSDoc and callers for parameter and side-effect details. |
+| `amd/src/core/status.js:261` | `showPolicy` | Named AMD callable `showPolicy`; see JSDoc and callers for the current contract. |
+| `amd/src/core/status.js:305` | `show` | Named callable `show` in the module; see its JSDoc and callers for parameter and side-effect details. |
+| `amd/src/core/tracker.js:117` | `saveHeartbeatIfDue` | Named callable `saveHeartbeatIfDue` in the module; see its JSDoc and callers for parameter and side-effect details. |
+| `amd/src/core/tracker.js:127` | `runHeartbeat` | Named callable `runHeartbeat` in the module; see its JSDoc and callers for parameter and side-effect details. |
+| `amd/src/core/tracker.js:137` | `sendUnloadBeacon` | Named callable `sendUnloadBeacon` in the module; see its JSDoc and callers for parameter and side-effect details. |
+| `amd/src/core/tracker.js:147` | `installLifecycleHandlers` | Named callable `installLifecycleHandlers` in the module; see its JSDoc and callers for parameter and side-effect details. |
+| `amd/src/core/tracker.js:159` | `uninstallLifecycleHandlers` | Named callable `uninstallLifecycleHandlers` in the module; see its JSDoc and callers for parameter and side-effect details. |
+| `amd/src/core/tracker.js:174` | `cancelPendingRequests` | Named callable `cancelPendingRequests` in the module; see its JSDoc and callers for parameter and side-effect details. |
 | `amd/src/core/tracker/events.js:19` | `on` | Named callable `on` in the module; see its JSDoc and callers for parameter and side-effect details. |
 | `amd/src/core/tracker/events.js:31` | `once` | Named callable `once` in the module; see its JSDoc and callers for parameter and side-effect details. |
 | `amd/src/core/tracker/events.js:42` | `off` | Named callable `off` in the module; see its JSDoc and callers for parameter and side-effect details. |
@@ -272,11 +278,12 @@ Generated from the VideoTrack 1.6.33 source tree. PHP entries include named func
 | `amd/src/core/tracker/lifecycle.js:203` | `uninstallLifecycleHandlers` | Named callable `uninstallLifecycleHandlers` in the module; see its JSDoc and callers for parameter and side-effect details. |
 | `amd/src/core/tracker/segment.js:34` | `openSegment` | Named callable `openSegment` in the module; see its JSDoc and callers for parameter and side-effect details. |
 | `amd/src/core/tracker/segment.js:62` | `closeSegment` | Named callable `closeSegment` in the module; see its JSDoc and callers for parameter and side-effect details. |
-| `amd/src/core/tracker/segment.js:94` | `enqueueSegmentSave` | Named callable `enqueueSegmentSave` in the module; see its JSDoc and callers for parameter and side-effect details. |
-| `amd/src/core/tracker/segment.js:117` | `isPlayerAvailable` | Named callable `isPlayerAvailable` in the module; see its JSDoc and callers for parameter and side-effect details. |
-| `amd/src/core/tracker/segment.js:134` | `closeAndSaveSegment` | Named callable `closeAndSaveSegment` in the module; see its JSDoc and callers for parameter and side-effect details. |
-| `amd/src/core/tracker/segment.js:175` | `reopenAfterInteractionSave` | Named callable `reopenAfterInteractionSave` in the module; see its JSDoc and callers for parameter and side-effect details. |
-| `amd/src/core/tracker/segment.js:193` | `saveCurrentProgress` | Named callable `saveCurrentProgress` in the module; see its JSDoc and callers for parameter and side-effect details. |
+| `amd/src/core/tracker/segment.js:95` | `enqueueSegmentSave` | Named callable `enqueueSegmentSave` in the module; see its JSDoc and callers for parameter and side-effect details. |
+| `amd/src/core/tracker/segment.js:118` | `isPlayerAvailable` | Named callable `isPlayerAvailable` in the module; see its JSDoc and callers for parameter and side-effect details. |
+| `amd/src/core/tracker/segment.js:135` | `closeAndSaveSegment` | Named callable `closeAndSaveSegment` in the module; see its JSDoc and callers for parameter and side-effect details. |
+| `amd/src/core/tracker/segment.js:183` | `saveOpenSegmentSnapshot` | Named AMD callable `saveOpenSegmentSnapshot`; see JSDoc and callers for the current contract. |
+| `amd/src/core/tracker/segment.js:219` | `reopenAfterInteractionSave` | Named callable `reopenAfterInteractionSave` in the module; see its JSDoc and callers for parameter and side-effect details. |
+| `amd/src/core/tracker/segment.js:237` | `saveCurrentProgress` | Named callable `saveCurrentProgress` in the module; see its JSDoc and callers for parameter and side-effect details. |
 | `amd/src/core/tracker/state.js:17` | `normaliseTime` | Named callable `normaliseTime` in the module; see its JSDoc and callers for parameter and side-effect details. |
 | `amd/src/core/tracker/state.js:65` | `normaliseTrackerState` | Named callable `normaliseTrackerState` in the module; see its JSDoc and callers for parameter and side-effect details. |
 | `amd/src/core/tracker/state.js:83` | `isKnownTrackerState` | Named callable `isKnownTrackerState` in the module; see its JSDoc and callers for parameter and side-effect details. |
@@ -326,111 +333,120 @@ Generated from the VideoTrack 1.6.33 source tree. PHP entries include named func
 | `amd/src/form/duration.js:92` | `extractVimeoSource` | Named callable `extractVimeoSource` in the module; see its JSDoc and callers for parameter and side-effect details. |
 | `amd/src/form/duration.js:120` | `getProbeHost` | Named callable `getProbeHost` in the module; see its JSDoc and callers for parameter and side-effect details. |
 | `amd/src/form/duration.js:140` | `loadYouTubeApi` | Named callable `loadYouTubeApi` in the module; see its JSDoc and callers for parameter and side-effect details. |
-| `amd/src/form/duration.js:156` | `ready` | Named callable `ready` in the module; see its JSDoc and callers for parameter and side-effect details. |
-| `amd/src/form/duration.js:196` | `detectYouTubeDuration` | Named callable `detectYouTubeDuration` in the module; see its JSDoc and callers for parameter and side-effect details. |
-| `amd/src/form/duration.js:206` | `cleanup` | Named callable `cleanup` in the module; see its JSDoc and callers for parameter and side-effect details. |
-| `amd/src/form/duration.js:218` | `finish` | Named callable `finish` in the module; see its JSDoc and callers for parameter and side-effect details. |
-| `amd/src/form/duration.js:245` | `onReady` | Named callable `onReady` in the module; see its JSDoc and callers for parameter and side-effect details. |
-| `amd/src/form/duration.js:253` | `onError` | Named callable `onError` in the module; see its JSDoc and callers for parameter and side-effect details. |
-| `amd/src/form/duration.js:262` | `loadVimeoApi` | Named callable `loadVimeoApi` in the module; see its JSDoc and callers for parameter and side-effect details. |
-| `amd/src/form/duration.js:272` | `restoreDefine` | Named callable `restoreDefine` in the module; see its JSDoc and callers for parameter and side-effect details. |
-| `amd/src/form/duration.js:284` | `ready` | Named callable `ready` in the module; see its JSDoc and callers for parameter and side-effect details. |
-| `amd/src/form/duration.js:325` | `detectVimeoDuration` | Named callable `detectVimeoDuration` in the module; see its JSDoc and callers for parameter and side-effect details. |
-| `amd/src/form/duration.js:341` | `cleanup` | Named callable `cleanup` in the module; see its JSDoc and callers for parameter and side-effect details. |
-| `amd/src/form/duration.js:372` | `findLocalFileUrl` | Named callable `findLocalFileUrl` in the module; see its JSDoc and callers for parameter and side-effect details. |
-| `amd/src/form/duration.js:389` | `detectLocalDuration` | Named callable `detectLocalDuration` in the module; see its JSDoc and callers for parameter and side-effect details. |
-| `amd/src/form/duration.js:399` | `cleanup` | Named callable `cleanup` in the module; see its JSDoc and callers for parameter and side-effect details. |
-| `amd/src/form/duration.js:406` | `finish` | Named callable `finish` in the module; see its JSDoc and callers for parameter and side-effect details. |
-| `amd/src/form/duration.js:443` | `resolveSource` | Named callable `resolveSource` in the module; see its JSDoc and callers for parameter and side-effect details. |
-| `amd/src/form/duration.js:449` | `detect` | Named callable `detect` in the module; see its JSDoc and callers for parameter and side-effect details. |
-| `amd/src/form/duration.js:458` | `detect` | Named callable `detect` in the module; see its JSDoc and callers for parameter and side-effect details. |
-| `amd/src/form/duration.js:467` | `detect` | Named callable `detect` in the module; see its JSDoc and callers for parameter and side-effect details. |
-| `amd/src/form/duration.js:475` | `getElements` | Named callable `getElements` in the module; see its JSDoc and callers for parameter and side-effect details. |
-| `amd/src/form/duration.js:489` | `install` | Named callable `install` in the module; see its JSDoc and callers for parameter and side-effect details. |
-| `amd/src/form/duration.js:505` | `schedule` | Named callable `schedule` in the module; see its JSDoc and callers for parameter and side-effect details. |
-| `amd/src/form/duration.js:510` | `run` | Named callable `run` in the module; see its JSDoc and callers for parameter and side-effect details. |
-| `amd/src/form/duration.js:574` | `sourceChanged` | Named callable `sourceChanged` in the module; see its JSDoc and callers for parameter and side-effect details. |
-| `amd/src/form/duration.js:610` | `init` | Named callable `init` in the module; see its JSDoc and callers for parameter and side-effect details. |
+| `amd/src/form/duration.js:154` | `cleanup` | Named callable `cleanup` in the module; see its JSDoc and callers for parameter and side-effect details. |
+| `amd/src/form/duration.js:168` | `fail` | Named AMD callable `fail`; see JSDoc and callers for the current contract. |
+| `amd/src/form/duration.js:176` | `ready` | Named callable `ready` in the module; see its JSDoc and callers for parameter and side-effect details. |
+| `amd/src/form/duration.js:184` | `handler` | Named AMD callable `handler`; see JSDoc and callers for the current contract. |
+| `amd/src/form/duration.js:199` | `onerror` | Named AMD callable `onerror`; see JSDoc and callers for the current contract. |
+| `amd/src/form/duration.js:211` | `detectYouTubeDuration` | Named callable `detectYouTubeDuration` in the module; see its JSDoc and callers for parameter and side-effect details. |
+| `amd/src/form/duration.js:221` | `cleanup` | Named callable `cleanup` in the module; see its JSDoc and callers for parameter and side-effect details. |
+| `amd/src/form/duration.js:233` | `finish` | Named callable `finish` in the module; see its JSDoc and callers for parameter and side-effect details. |
+| `amd/src/form/duration.js:260` | `onReady` | Named callable `onReady` in the module; see its JSDoc and callers for parameter and side-effect details. |
+| `amd/src/form/duration.js:268` | `onError` | Named callable `onError` in the module; see its JSDoc and callers for parameter and side-effect details. |
+| `amd/src/form/duration.js:277` | `forgetRequireModule` | Named AMD callable `forgetRequireModule`; see JSDoc and callers for the current contract. |
+| `amd/src/form/duration.js:287` | `loadVimeoApi` | Named callable `loadVimeoApi` in the module; see its JSDoc and callers for parameter and side-effect details. |
+| `amd/src/form/duration.js:323` | `detectVimeoDuration` | Named callable `detectVimeoDuration` in the module; see its JSDoc and callers for parameter and side-effect details. |
+| `amd/src/form/duration.js:339` | `cleanup` | Named callable `cleanup` in the module; see its JSDoc and callers for parameter and side-effect details. |
+| `amd/src/form/duration.js:370` | `findLocalFileUrl` | Named callable `findLocalFileUrl` in the module; see its JSDoc and callers for parameter and side-effect details. |
+| `amd/src/form/duration.js:387` | `detectLocalDuration` | Named callable `detectLocalDuration` in the module; see its JSDoc and callers for parameter and side-effect details. |
+| `amd/src/form/duration.js:397` | `cleanup` | Named callable `cleanup` in the module; see its JSDoc and callers for parameter and side-effect details. |
+| `amd/src/form/duration.js:404` | `finish` | Named callable `finish` in the module; see its JSDoc and callers for parameter and side-effect details. |
+| `amd/src/form/duration.js:441` | `resolveSource` | Named callable `resolveSource` in the module; see its JSDoc and callers for parameter and side-effect details. |
+| `amd/src/form/duration.js:447` | `detect` | Named callable `detect` in the module; see its JSDoc and callers for parameter and side-effect details. |
+| `amd/src/form/duration.js:456` | `detect` | Named callable `detect` in the module; see its JSDoc and callers for parameter and side-effect details. |
+| `amd/src/form/duration.js:465` | `detect` | Named callable `detect` in the module; see its JSDoc and callers for parameter and side-effect details. |
+| `amd/src/form/duration.js:473` | `getElements` | Named callable `getElements` in the module; see its JSDoc and callers for parameter and side-effect details. |
+| `amd/src/form/duration.js:487` | `install` | Named callable `install` in the module; see its JSDoc and callers for parameter and side-effect details. |
+| `amd/src/form/duration.js:503` | `schedule` | Named callable `schedule` in the module; see its JSDoc and callers for parameter and side-effect details. |
+| `amd/src/form/duration.js:508` | `run` | Named callable `run` in the module; see its JSDoc and callers for parameter and side-effect details. |
+| `amd/src/form/duration.js:572` | `sourceChanged` | Named callable `sourceChanged` in the module; see its JSDoc and callers for parameter and side-effect details. |
+| `amd/src/form/duration.js:608` | `init` | Named callable `init` in the module; see its JSDoc and callers for parameter and side-effect details. |
 | `amd/src/html5_player.js:56` | `resolveConfig` | Named callable `resolveConfig` in the module; see its JSDoc and callers for parameter and side-effect details. |
 | `amd/src/html5_player.js:67` | `uuid` | Named callable `uuid` in the module; see its JSDoc and callers for parameter and side-effect details. |
 | `amd/src/html5_player.js:71` | `safeNumber` | Named callable `safeNumber` in the module; see its JSDoc and callers for parameter and side-effect details. |
 | `amd/src/html5_player.js:76` | `getMaxWatchedFromIntervals` | Named callable `getMaxWatchedFromIntervals` in the module; see its JSDoc and callers for parameter and side-effect details. |
-| `amd/src/html5_player.js:92` | `markAllowedForwardTime` | Named callable `markAllowedForwardTime` in the module; see its JSDoc and callers for parameter and side-effect details. |
-| `amd/src/html5_player.js:96` | `getAllowedForwardLimit` | Named callable `getAllowedForwardLimit` in the module; see its JSDoc and callers for parameter and side-effect details. |
-| `amd/src/html5_player.js:101` | `normaliseControls` | Named callable `normaliseControls` in the module; see its JSDoc and callers for parameter and side-effect details. |
-| `amd/src/html5_player.js:120` | `getConfiguredMaxPlaybackRate` | Named callable `getConfiguredMaxPlaybackRate` in the module; see its JSDoc and callers for parameter and side-effect details. |
-| `amd/src/html5_player.js:131` | `getPlaybackRatePenalty` | Named callable `getPlaybackRatePenalty` in the module; see its JSDoc and callers for parameter and side-effect details. |
-| `amd/src/html5_player.js:139` | `getNaturalPlaybackTolerance` | Named callable `getNaturalPlaybackTolerance` in the module; see its JSDoc and callers for parameter and side-effect details. |
-| `amd/src/html5_player.js:147` | `setSpeedButtonState` | Named callable `setSpeedButtonState` in the module; see its JSDoc and callers for parameter and side-effect details. |
-| `amd/src/html5_player.js:157` | `writePlaybackRate` | Named callable `writePlaybackRate` in the module; see its JSDoc and callers for parameter and side-effect details. |
-| `amd/src/html5_player.js:168` | `enforceMaxPlaybackRate` | Named callable `enforceMaxPlaybackRate` in the module; see its JSDoc and callers for parameter and side-effect details. |
-| `amd/src/html5_player.js:186` | `getBlockedSeekPlaybackRate` | Named callable `getBlockedSeekPlaybackRate` in the module; see its JSDoc and callers for parameter and side-effect details. |
-| `amd/src/html5_player.js:195` | `applyBlockedSeekPenalty` | Named callable `applyBlockedSeekPenalty` in the module; see its JSDoc and callers for parameter and side-effect details. |
-| `amd/src/html5_player.js:199` | `retryBlockedSeekPenalty` | Named callable `retryBlockedSeekPenalty` in the module; see its JSDoc and callers for parameter and side-effect details. |
-| `amd/src/html5_player.js:212` | `markHTML5PlaybackObserved` | Named callable `markHTML5PlaybackObserved` in the module; see its JSDoc and callers for parameter and side-effect details. |
-| `amd/src/html5_player.js:216` | `resolveHTML5SeekWasPlaying` | Named callable `resolveHTML5SeekWasPlaying` in the module; see its JSDoc and callers for parameter and side-effect details. |
-| `amd/src/html5_player.js:221` | `playHTML5AfterSeek` | Named callable `playHTML5AfterSeek` in the module; see its JSDoc and callers for parameter and side-effect details. |
-| `amd/src/html5_player.js:226` | `attempt` | Named callable `attempt` in the module; see its JSDoc and callers for parameter and side-effect details. |
-| `amd/src/html5_player.js:270` | `scheduleBlockedSeekResume` | Named callable `scheduleBlockedSeekResume` in the module; see its JSDoc and callers for parameter and side-effect details. |
-| `amd/src/html5_player.js:282` | `finishProgrammaticSeek` | Named callable `finishProgrammaticSeek` in the module; see its JSDoc and callers for parameter and side-effect details. |
-| `amd/src/html5_player.js:295` | `scheduleProgrammaticSeekFallback` | Named callable `scheduleProgrammaticSeekFallback` in the module; see its JSDoc and callers for parameter and side-effect details. |
-| `amd/src/html5_player.js:306` | `startProgrammaticSeek` | Named callable `startProgrammaticSeek` in the module; see its JSDoc and callers for parameter and side-effect details. |
-| `amd/src/html5_player.js:312` | `blockForwardSeek` | Named callable `blockForwardSeek` in the module; see its JSDoc and callers for parameter and side-effect details. |
-| `amd/src/html5_player.js:341` | `saveSegment` | Named callable `saveSegment` in the module; see its JSDoc and callers for parameter and side-effect details. |
-| `amd/src/html5_player.js:349` | `hasMedia` | Named callable `hasMedia` in the module; see its JSDoc and callers for parameter and side-effect details. |
-| `amd/src/html5_player.js:356` | `saveCurrentProgress` | Named callable `saveCurrentProgress` in the module; see its JSDoc and callers for parameter and side-effect details. |
-| `amd/src/html5_player.js:360` | `updateProgress` | Named callable `updateProgress` in the module; see its JSDoc and callers for parameter and side-effect details. |
-| `amd/src/html5_player.js:371` | `resolveReactionTime` | Named callable `resolveReactionTime` in the module; see its JSDoc and callers for parameter and side-effect details. |
-| `amd/src/html5_player.js:380` | `isDefinitiveReactionFailure` | Named callable `isDefinitiveReactionFailure` in the module; see its JSDoc and callers for parameter and side-effect details. |
-| `amd/src/html5_player.js:394` | `removeReactionRow` | Named callable `removeReactionRow` in the module; see its JSDoc and callers for parameter and side-effect details. |
-| `amd/src/html5_player.js:402` | `startSegment` | Named callable `startSegment` in the module; see its JSDoc and callers for parameter and side-effect details. |
-| `amd/src/html5_player.js:421` | `closeSegment` | Named callable `closeSegment` in the module; see its JSDoc and callers for parameter and side-effect details. |
-| `amd/src/html5_player.js:429` | `startHeartbeat` | Named callable `startHeartbeat` in the module; see its JSDoc and callers for parameter and side-effect details. |
-| `amd/src/html5_player.js:434` | `getCurrentTime` | Named callable `getCurrentTime` in the module; see its JSDoc and callers for parameter and side-effect details. |
-| `amd/src/html5_player.js:438` | `hasPlayer` | Named callable `hasPlayer` in the module; see its JSDoc and callers for parameter and side-effect details. |
-| `amd/src/html5_player.js:441` | `shouldSkip` | Named callable `shouldSkip` in the module; see its JSDoc and callers for parameter and side-effect details. |
-| `amd/src/html5_player.js:449` | `stopHeartbeat` | Named callable `stopHeartbeat` in the module; see its JSDoc and callers for parameter and side-effect details. |
-| `amd/src/html5_player.js:453` | `showResumeNotice` | Named callable `showResumeNotice` in the module; see its JSDoc and callers for parameter and side-effect details. |
-| `amd/src/html5_player.js:466` | `replayHTML5Fragment` | Named callable `replayHTML5Fragment` in the module; see its JSDoc and callers for parameter and side-effect details. |
-| `amd/src/html5_player.js:481` | `installGlobalListeners` | Named callable `installGlobalListeners` in the module; see its JSDoc and callers for parameter and side-effect details. |
-| `amd/src/html5_player.js:485` | `hasPlayer` | Named callable `hasPlayer` in the module; see its JSDoc and callers for parameter and side-effect details. |
-| `amd/src/html5_player.js:486` | `sendBeacon` | Named callable `sendBeacon` in the module; see its JSDoc and callers for parameter and side-effect details. |
-| `amd/src/html5_player.js:489` | `hasPlayer` | Named callable `hasPlayer` in the module; see its JSDoc and callers for parameter and side-effect details. |
-| `amd/src/html5_player.js:491` | `sendSegment` | Named callable `sendSegment` in the module; see its JSDoc and callers for parameter and side-effect details. |
-| `amd/src/html5_player.js:501` | `handleReplayClick` | Named callable `handleReplayClick` in the module; see its JSDoc and callers for parameter and side-effect details. |
-| `amd/src/html5_player.js:525` | `buildPlayer` | Named callable `buildPlayer` in the module; see its JSDoc and callers for parameter and side-effect details. |
-| `amd/src/html5_player.js:615` | `formatElapsedTime` | Named callable `formatElapsedTime` in the module; see its JSDoc and callers for parameter and side-effect details. |
-| `amd/src/html5_player.js:631` | `updateElapsedDisplays` | Named callable `updateElapsedDisplays` in the module; see its JSDoc and callers for parameter and side-effect details. |
-| `amd/src/html5_player.js:642` | `buildControlBar` | Named callable `buildControlBar` in the module; see its JSDoc and callers for parameter and side-effect details. |
-| `amd/src/html5_player.js:871` | `updatePipPressed` | Named callable `updatePipPressed` in the module; see its JSDoc and callers for parameter and side-effect details. |
-| `amd/src/html5_player.js:881` | `cleanupPipHandler` | Named callable `cleanupPipHandler` in the module; see its JSDoc and callers for parameter and side-effect details. |
-| `amd/src/html5_player.js:899` | `updateFullscreenPressed` | Named callable `updateFullscreenPressed` in the module; see its JSDoc and callers for parameter and side-effect details. |
-| `amd/src/html5_player.js:902` | `cleanupFullscreenHandler` | Named callable `cleanupFullscreenHandler` in the module; see its JSDoc and callers for parameter and side-effect details. |
-| `amd/src/html5_player.js:1016` | `makeBtn` | Named callable `makeBtn` in the module; see its JSDoc and callers for parameter and side-effect details. |
-| `amd/src/html5_player.js:1029` | `attachTrackingEvents` | Named callable `attachTrackingEvents` in the module; see its JSDoc and callers for parameter and side-effect details. |
-| `amd/src/html5_player.js:1172` | `setReactionButtons` | Named callable `setReactionButtons` in the module; see its JSDoc and callers for parameter and side-effect details. |
-| `amd/src/html5_player.js:1177` | `announceReactionUnavailable` | Named callable `announceReactionUnavailable` in the module; see its JSDoc and callers for parameter and side-effect details. |
-| `amd/src/html5_player.js:1185` | `installReactionHandler` | Named callable `installReactionHandler` in the module; see its JSDoc and callers for parameter and side-effect details. |
-| `amd/src/html5_player.js:1189` | `appendReactionRow` | Named callable `appendReactionRow` in the module; see its JSDoc and callers for parameter and side-effect details. |
-| `amd/src/html5_player.js:1259` | `reactionKeydownHandler` | Named callable `reactionKeydownHandler` in the module; see its JSDoc and callers for parameter and side-effect details. |
-| `amd/src/html5_player.js:1268` | `reactionClickHandler` | Named callable `reactionClickHandler` in the module; see its JSDoc and callers for parameter and side-effect details. |
-| `amd/src/html5_player.js:1402` | `cleanupReactionRootHandlers` | Named callable `cleanupReactionRootHandlers` in the module; see its JSDoc and callers for parameter and side-effect details. |
-| `amd/src/html5_player.js:1418` | `getCurrentVideoTime` | Named callable `getCurrentVideoTime` in the module; see its JSDoc and callers for parameter and side-effect details. |
-| `amd/src/html5_player.js:1425` | `initialiseFocusGuard` | Named callable `initialiseFocusGuard` in the module; see its JSDoc and callers for parameter and side-effect details. |
-| `amd/src/html5_player.js:1430` | `pause` | Named callable `pause` in the module; see its JSDoc and callers for parameter and side-effect details. |
-| `amd/src/html5_player.js:1433` | `showMessage` | Named callable `showMessage` in the module; see its JSDoc and callers for parameter and side-effect details. |
-| `amd/src/html5_player.js:1442` | `installNotesToggle` | Named callable `installNotesToggle` in the module; see its JSDoc and callers for parameter and side-effect details. |
-| `amd/src/html5_player.js:1451` | `installNoteHandler` | Named callable `installNoteHandler` in the module; see its JSDoc and callers for parameter and side-effect details. |
-| `amd/src/html5_player.js:1466` | `installBookmarkHandler` | Named callable `installBookmarkHandler` in the module; see its JSDoc and callers for parameter and side-effect details. |
-| `amd/src/html5_player.js:1484` | `navigateTimedText` | Named callable `navigateTimedText` in the module; see its JSDoc and callers for parameter and side-effect details. |
-| `amd/src/html5_player.js:1505` | `installPosterHandler` | Named callable `installPosterHandler` in the module; see its JSDoc and callers for parameter and side-effect details. |
-| `amd/src/html5_player.js:1509` | `removePoster` | Named callable `removePoster` in the module; see its JSDoc and callers for parameter and side-effect details. |
-| `amd/src/html5_player.js:1514` | `posterClickHandler` | Named callable `posterClickHandler` in the module; see its JSDoc and callers for parameter and side-effect details. |
-| `amd/src/html5_player.js:1552` | `init` | Named callable `init` in the module; see its JSDoc and callers for parameter and side-effect details. |
-| `amd/src/html5_player.js:1582` | `getDuration` | Named callable `getDuration` in the module; see its JSDoc and callers for parameter and side-effect details. |
+| `amd/src/html5_player.js:99` | `resolveResumePosition` | Named AMD callable `resolveResumePosition`; see JSDoc and callers for the current contract. |
+| `amd/src/html5_player.js:111` | `markAllowedForwardTime` | Named callable `markAllowedForwardTime` in the module; see its JSDoc and callers for parameter and side-effect details. |
+| `amd/src/html5_player.js:115` | `getAllowedForwardLimit` | Named callable `getAllowedForwardLimit` in the module; see its JSDoc and callers for parameter and side-effect details. |
+| `amd/src/html5_player.js:120` | `normaliseControls` | Named callable `normaliseControls` in the module; see its JSDoc and callers for parameter and side-effect details. |
+| `amd/src/html5_player.js:139` | `getConfiguredMaxPlaybackRate` | Named callable `getConfiguredMaxPlaybackRate` in the module; see its JSDoc and callers for parameter and side-effect details. |
+| `amd/src/html5_player.js:150` | `getPlaybackRatePenalty` | Named callable `getPlaybackRatePenalty` in the module; see its JSDoc and callers for parameter and side-effect details. |
+| `amd/src/html5_player.js:158` | `getNaturalPlaybackTolerance` | Named callable `getNaturalPlaybackTolerance` in the module; see its JSDoc and callers for parameter and side-effect details. |
+| `amd/src/html5_player.js:166` | `setSpeedButtonState` | Named callable `setSpeedButtonState` in the module; see its JSDoc and callers for parameter and side-effect details. |
+| `amd/src/html5_player.js:176` | `writePlaybackRate` | Named callable `writePlaybackRate` in the module; see its JSDoc and callers for parameter and side-effect details. |
+| `amd/src/html5_player.js:187` | `enforceMaxPlaybackRate` | Named callable `enforceMaxPlaybackRate` in the module; see its JSDoc and callers for parameter and side-effect details. |
+| `amd/src/html5_player.js:205` | `getBlockedSeekPlaybackRate` | Named callable `getBlockedSeekPlaybackRate` in the module; see its JSDoc and callers for parameter and side-effect details. |
+| `amd/src/html5_player.js:214` | `applyBlockedSeekPenalty` | Named callable `applyBlockedSeekPenalty` in the module; see its JSDoc and callers for parameter and side-effect details. |
+| `amd/src/html5_player.js:218` | `retryBlockedSeekPenalty` | Named callable `retryBlockedSeekPenalty` in the module; see its JSDoc and callers for parameter and side-effect details. |
+| `amd/src/html5_player.js:231` | `markHTML5PlaybackObserved` | Named callable `markHTML5PlaybackObserved` in the module; see its JSDoc and callers for parameter and side-effect details. |
+| `amd/src/html5_player.js:235` | `resolveHTML5SeekWasPlaying` | Named callable `resolveHTML5SeekWasPlaying` in the module; see its JSDoc and callers for parameter and side-effect details. |
+| `amd/src/html5_player.js:240` | `playHTML5AfterSeek` | Named callable `playHTML5AfterSeek` in the module; see its JSDoc and callers for parameter and side-effect details. |
+| `amd/src/html5_player.js:245` | `attempt` | Named callable `attempt` in the module; see its JSDoc and callers for parameter and side-effect details. |
+| `amd/src/html5_player.js:289` | `scheduleBlockedSeekResume` | Named callable `scheduleBlockedSeekResume` in the module; see its JSDoc and callers for parameter and side-effect details. |
+| `amd/src/html5_player.js:301` | `finishProgrammaticSeek` | Named callable `finishProgrammaticSeek` in the module; see its JSDoc and callers for parameter and side-effect details. |
+| `amd/src/html5_player.js:314` | `scheduleProgrammaticSeekFallback` | Named callable `scheduleProgrammaticSeekFallback` in the module; see its JSDoc and callers for parameter and side-effect details. |
+| `amd/src/html5_player.js:325` | `rotatePlayingSegmentForSeek` | Named AMD callable `rotatePlayingSegmentForSeek`; see JSDoc and callers for the current contract. |
+| `amd/src/html5_player.js:338` | `startProgrammaticSeek` | Named callable `startProgrammaticSeek` in the module; see its JSDoc and callers for parameter and side-effect details. |
+| `amd/src/html5_player.js:346` | `blockForwardSeek` | Named callable `blockForwardSeek` in the module; see its JSDoc and callers for parameter and side-effect details. |
+| `amd/src/html5_player.js:388` | `saveSegment` | Named callable `saveSegment` in the module; see its JSDoc and callers for parameter and side-effect details. |
+| `amd/src/html5_player.js:398` | `hasMedia` | Named callable `hasMedia` in the module; see its JSDoc and callers for parameter and side-effect details. |
+| `amd/src/html5_player.js:405` | `saveCurrentProgress` | Named callable `saveCurrentProgress` in the module; see its JSDoc and callers for parameter and side-effect details. |
+| `amd/src/html5_player.js:415` | `updateProgress` | Named callable `updateProgress` in the module; see its JSDoc and callers for parameter and side-effect details. |
+| `amd/src/html5_player.js:426` | `resolveReactionTime` | Named callable `resolveReactionTime` in the module; see its JSDoc and callers for parameter and side-effect details. |
+| `amd/src/html5_player.js:435` | `isDefinitiveReactionFailure` | Named callable `isDefinitiveReactionFailure` in the module; see its JSDoc and callers for parameter and side-effect details. |
+| `amd/src/html5_player.js:449` | `removeReactionRow` | Named callable `removeReactionRow` in the module; see its JSDoc and callers for parameter and side-effect details. |
+| `amd/src/html5_player.js:457` | `startSegment` | Named callable `startSegment` in the module; see its JSDoc and callers for parameter and side-effect details. |
+| `amd/src/html5_player.js:476` | `closeSegment` | Named callable `closeSegment` in the module; see its JSDoc and callers for parameter and side-effect details. |
+| `amd/src/html5_player.js:484` | `startHeartbeat` | Named callable `startHeartbeat` in the module; see its JSDoc and callers for parameter and side-effect details. |
+| `amd/src/html5_player.js:489` | `getCurrentTime` | Named callable `getCurrentTime` in the module; see its JSDoc and callers for parameter and side-effect details. |
+| `amd/src/html5_player.js:493` | `hasPlayer` | Named callable `hasPlayer` in the module; see its JSDoc and callers for parameter and side-effect details. |
+| `amd/src/html5_player.js:496` | `shouldSkip` | Named callable `shouldSkip` in the module; see its JSDoc and callers for parameter and side-effect details. |
+| `amd/src/html5_player.js:504` | `stopHeartbeat` | Named callable `stopHeartbeat` in the module; see its JSDoc and callers for parameter and side-effect details. |
+| `amd/src/html5_player.js:508` | `showResumeNotice` | Named callable `showResumeNotice` in the module; see its JSDoc and callers for parameter and side-effect details. |
+| `amd/src/html5_player.js:521` | `replayHTML5Fragment` | Named callable `replayHTML5Fragment` in the module; see its JSDoc and callers for parameter and side-effect details. |
+| `amd/src/html5_player.js:536` | `installGlobalListeners` | Named callable `installGlobalListeners` in the module; see its JSDoc and callers for parameter and side-effect details. |
+| `amd/src/html5_player.js:540` | `hasPlayer` | Named callable `hasPlayer` in the module; see its JSDoc and callers for parameter and side-effect details. |
+| `amd/src/html5_player.js:541` | `sendBeacon` | Named callable `sendBeacon` in the module; see its JSDoc and callers for parameter and side-effect details. |
+| `amd/src/html5_player.js:544` | `hasPlayer` | Named callable `hasPlayer` in the module; see its JSDoc and callers for parameter and side-effect details. |
+| `amd/src/html5_player.js:546` | `sendSegment` | Named callable `sendSegment` in the module; see its JSDoc and callers for parameter and side-effect details. |
+| `amd/src/html5_player.js:556` | `handleReplayClick` | Named callable `handleReplayClick` in the module; see its JSDoc and callers for parameter and side-effect details. |
+| `amd/src/html5_player.js:580` | `buildPlayer` | Named callable `buildPlayer` in the module; see its JSDoc and callers for parameter and side-effect details. |
+| `amd/src/html5_player.js:670` | `formatElapsedTime` | Named callable `formatElapsedTime` in the module; see its JSDoc and callers for parameter and side-effect details. |
+| `amd/src/html5_player.js:686` | `updateElapsedDisplays` | Named callable `updateElapsedDisplays` in the module; see its JSDoc and callers for parameter and side-effect details. |
+| `amd/src/html5_player.js:697` | `buildControlBar` | Named callable `buildControlBar` in the module; see its JSDoc and callers for parameter and side-effect details. |
+| `amd/src/html5_player.js:923` | `updatePipPressed` | Named callable `updatePipPressed` in the module; see its JSDoc and callers for parameter and side-effect details. |
+| `amd/src/html5_player.js:933` | `cleanupPipHandler` | Named callable `cleanupPipHandler` in the module; see its JSDoc and callers for parameter and side-effect details. |
+| `amd/src/html5_player.js:951` | `updateFullscreenPressed` | Named callable `updateFullscreenPressed` in the module; see its JSDoc and callers for parameter and side-effect details. |
+| `amd/src/html5_player.js:954` | `cleanupFullscreenHandler` | Named callable `cleanupFullscreenHandler` in the module; see its JSDoc and callers for parameter and side-effect details. |
+| `amd/src/html5_player.js:1070` | `makeBtn` | Named callable `makeBtn` in the module; see its JSDoc and callers for parameter and side-effect details. |
+| `amd/src/html5_player.js:1083` | `attachTrackingEvents` | Named callable `attachTrackingEvents` in the module; see its JSDoc and callers for parameter and side-effect details. |
+| `amd/src/html5_player.js:1224` | `setReactionButtons` | Named callable `setReactionButtons` in the module; see its JSDoc and callers for parameter and side-effect details. |
+| `amd/src/html5_player.js:1229` | `announceReactionUnavailable` | Named callable `announceReactionUnavailable` in the module; see its JSDoc and callers for parameter and side-effect details. |
+| `amd/src/html5_player.js:1237` | `installReactionHandler` | Named callable `installReactionHandler` in the module; see its JSDoc and callers for parameter and side-effect details. |
+| `amd/src/html5_player.js:1241` | `appendReactionRow` | Named callable `appendReactionRow` in the module; see its JSDoc and callers for parameter and side-effect details. |
+| `amd/src/html5_player.js:1311` | `reactionKeydownHandler` | Named callable `reactionKeydownHandler` in the module; see its JSDoc and callers for parameter and side-effect details. |
+| `amd/src/html5_player.js:1320` | `reactionClickHandler` | Named callable `reactionClickHandler` in the module; see its JSDoc and callers for parameter and side-effect details. |
+| `amd/src/html5_player.js:1454` | `cleanupReactionRootHandlers` | Named callable `cleanupReactionRootHandlers` in the module; see its JSDoc and callers for parameter and side-effect details. |
+| `amd/src/html5_player.js:1470` | `getCurrentVideoTime` | Named callable `getCurrentVideoTime` in the module; see its JSDoc and callers for parameter and side-effect details. |
+| `amd/src/html5_player.js:1481` | `getInteractionVideoTime` | Named AMD callable `getInteractionVideoTime`; see JSDoc and callers for the current contract. |
+| `amd/src/html5_player.js:1489` | `initialiseFocusGuard` | Named callable `initialiseFocusGuard` in the module; see its JSDoc and callers for parameter and side-effect details. |
+| `amd/src/html5_player.js:1494` | `pause` | Named callable `pause` in the module; see its JSDoc and callers for parameter and side-effect details. |
+| `amd/src/html5_player.js:1497` | `showMessage` | Named callable `showMessage` in the module; see its JSDoc and callers for parameter and side-effect details. |
+| `amd/src/html5_player.js:1506` | `installNotesToggle` | Named callable `installNotesToggle` in the module; see its JSDoc and callers for parameter and side-effect details. |
+| `amd/src/html5_player.js:1515` | `installNoteHandler` | Named callable `installNoteHandler` in the module; see its JSDoc and callers for parameter and side-effect details. |
+| `amd/src/html5_player.js:1530` | `installBookmarkHandler` | Named callable `installBookmarkHandler` in the module; see its JSDoc and callers for parameter and side-effect details. |
+| `amd/src/html5_player.js:1548` | `navigateTimedText` | Named callable `navigateTimedText` in the module; see its JSDoc and callers for parameter and side-effect details. |
+| `amd/src/html5_player.js:1569` | `installPosterHandler` | Named callable `installPosterHandler` in the module; see its JSDoc and callers for parameter and side-effect details. |
+| `amd/src/html5_player.js:1573` | `removePoster` | Named callable `removePoster` in the module; see its JSDoc and callers for parameter and side-effect details. |
+| `amd/src/html5_player.js:1578` | `posterClickHandler` | Named callable `posterClickHandler` in the module; see its JSDoc and callers for parameter and side-effect details. |
+| `amd/src/html5_player.js:1593` | `_posterPlayListener` | Named AMD callable `_posterPlayListener`; see JSDoc and callers for the current contract. |
+| `amd/src/html5_player.js:1598` | `_posterCleanup` | Named AMD callable `_posterCleanup`; see JSDoc and callers for the current contract. |
+| `amd/src/html5_player.js:1616` | `init` | Named callable `init` in the module; see its JSDoc and callers for parameter and side-effect details. |
+| `amd/src/html5_player.js:1649` | `getDuration` | Named callable `getDuration` in the module; see its JSDoc and callers for parameter and side-effect details. |
 | `amd/src/player.js:42` | `resolveConfig` | Named callable `resolveConfig` in the module; see its JSDoc and callers for parameter and side-effect details. |
 | `amd/src/player.js:53` | `uuid` | Named callable `uuid` in the module; see its JSDoc and callers for parameter and side-effect details. |
 | `amd/src/player.js:57` | `loadApi` | Named callable `loadApi` in the module; see its JSDoc and callers for parameter and side-effect details. |
+| `amd/src/player.js:63` | `onYouTubeIframeAPIReady` | Named AMD callable `onYouTubeIframeAPIReady`; see JSDoc and callers for the current contract. |
 | `amd/src/player.js:75` | `updateProgress` | Named callable `updateProgress` in the module; see its JSDoc and callers for parameter and side-effect details. |
 | `amd/src/player.js:86` | `resolveReactionTime` | Named callable `resolveReactionTime` in the module; see its JSDoc and callers for parameter and side-effect details. |
 | `amd/src/player.js:102` | `updateIntervalBar` | Named callable `updateIntervalBar` in the module; see its JSDoc and callers for parameter and side-effect details. |
@@ -446,60 +462,64 @@ Generated from the VideoTrack 1.6.33 source tree. PHP entries include named func
 | `amd/src/player.js:180` | `readStoredResumePosition` | Named callable `readStoredResumePosition` in the module; see its JSDoc and callers for parameter and side-effect details. |
 | `amd/src/player.js:191` | `rememberResumePosition` | Named callable `rememberResumePosition` in the module; see its JSDoc and callers for parameter and side-effect details. |
 | `amd/src/player.js:205` | `resolveResumePosition` | Named callable `resolveResumePosition` in the module; see its JSDoc and callers for parameter and side-effect details. |
-| `amd/src/player.js:211` | `initialiseKnownProgress` | Named callable `initialiseKnownProgress` in the module; see its JSDoc and callers for parameter and side-effect details. |
-| `amd/src/player.js:222` | `getBlockedSeekPlaybackRate` | Named callable `getBlockedSeekPlaybackRate` in the module; see its JSDoc and callers for parameter and side-effect details. |
-| `amd/src/player.js:231` | `blockForwardSeek` | Named callable `blockForwardSeek` in the module; see its JSDoc and callers for parameter and side-effect details. |
-| `amd/src/player.js:254` | `saveSegment` | Named callable `saveSegment` in the module; see its JSDoc and callers for parameter and side-effect details. |
-| `amd/src/player.js:262` | `hasPlayer` | Named callable `hasPlayer` in the module; see its JSDoc and callers for parameter and side-effect details. |
-| `amd/src/player.js:266` | `saveCurrentProgress` | Named callable `saveCurrentProgress` in the module; see its JSDoc and callers for parameter and side-effect details. |
-| `amd/src/player.js:270` | `closeCurrentSegment` | Named callable `closeCurrentSegment` in the module; see its JSDoc and callers for parameter and side-effect details. |
-| `amd/src/player.js:277` | `getConfiguredMaxPlaybackRate` | Named callable `getConfiguredMaxPlaybackRate` in the module; see its JSDoc and callers for parameter and side-effect details. |
-| `amd/src/player.js:291` | `getPlaybackRatePenalty` | Named callable `getPlaybackRatePenalty` in the module; see its JSDoc and callers for parameter and side-effect details. |
-| `amd/src/player.js:299` | `writePlaybackRate` | Named callable `writePlaybackRate` in the module; see its JSDoc and callers for parameter and side-effect details. |
-| `amd/src/player.js:320` | `applyBlockedSeekPenalty` | Named callable `applyBlockedSeekPenalty` in the module; see its JSDoc and callers for parameter and side-effect details. |
-| `amd/src/player.js:324` | `retryBlockedSeekPenalty` | Named callable `retryBlockedSeekPenalty` in the module; see its JSDoc and callers for parameter and side-effect details. |
-| `amd/src/player.js:335` | `enforceMaxPlaybackRate` | Named callable `enforceMaxPlaybackRate` in the module; see its JSDoc and callers for parameter and side-effect details. |
-| `amd/src/player.js:365` | `installPlaybackRateGuard` | Named callable `installPlaybackRateGuard` in the module; see its JSDoc and callers for parameter and side-effect details. |
-| `amd/src/player.js:376` | `cleanupPlaybackRateGuard` | Named callable `cleanupPlaybackRateGuard` in the module; see its JSDoc and callers for parameter and side-effect details. |
-| `amd/src/player.js:383` | `startCurrentSegment` | Named callable `startCurrentSegment` in the module; see its JSDoc and callers for parameter and side-effect details. |
-| `amd/src/player.js:402` | `setReactionButtons` | Named callable `setReactionButtons` in the module; see its JSDoc and callers for parameter and side-effect details. |
-| `amd/src/player.js:407` | `announceReactionUnavailable` | Named callable `announceReactionUnavailable` in the module; see its JSDoc and callers for parameter and side-effect details. |
-| `amd/src/player.js:411` | `replayFragment` | Named callable `replayFragment` in the module; see its JSDoc and callers for parameter and side-effect details. |
-| `amd/src/player.js:428` | `handleSeekByPolling` | Named callable `handleSeekByPolling` in the module; see its JSDoc and callers for parameter and side-effect details. |
-| `amd/src/player.js:543` | `hasPlayer` | Named callable `hasPlayer` in the module; see its JSDoc and callers for parameter and side-effect details. |
-| `amd/src/player.js:550` | `onPlayerStateChange` | Named callable `onPlayerStateChange` in the module; see its JSDoc and callers for parameter and side-effect details. |
-| `amd/src/player.js:599` | `showResumeNotice` | Named callable `showResumeNotice` in the module; see its JSDoc and callers for parameter and side-effect details. |
-| `amd/src/player.js:606` | `installGlobalListeners` | Named callable `installGlobalListeners` in the module; see its JSDoc and callers for parameter and side-effect details. |
-| `amd/src/player.js:610` | `onHidden` | Named callable `onHidden` in the module; see its JSDoc and callers for parameter and side-effect details. |
-| `amd/src/player.js:613` | `hasPlayer` | Named callable `hasPlayer` in the module; see its JSDoc and callers for parameter and side-effect details. |
-| `amd/src/player.js:614` | `sendBeacon` | Named callable `sendBeacon` in the module; see its JSDoc and callers for parameter and side-effect details. |
-| `amd/src/player.js:617` | `hasPlayer` | Named callable `hasPlayer` in the module; see its JSDoc and callers for parameter and side-effect details. |
-| `amd/src/player.js:619` | `sendSegment` | Named callable `sendSegment` in the module; see its JSDoc and callers for parameter and side-effect details. |
-| `amd/src/player.js:635` | `reactionKeydownHandler` | Named callable `reactionKeydownHandler` in the module; see its JSDoc and callers for parameter and side-effect details. |
-| `amd/src/player.js:644` | `reactionClickHandler` | Named callable `reactionClickHandler` in the module; see its JSDoc and callers for parameter and side-effect details. |
-| `amd/src/player.js:771` | `cleanupReactionRootHandlers` | Named callable `cleanupReactionRootHandlers` in the module; see its JSDoc and callers for parameter and side-effect details. |
-| `amd/src/player.js:790` | `appendReactionRow` | Named callable `appendReactionRow` in the module; see its JSDoc and callers for parameter and side-effect details. |
-| `amd/src/player.js:866` | `buildPlayer` | Named callable `buildPlayer` in the module; see its JSDoc and callers for parameter and side-effect details. |
-| `amd/src/player.js:894` | `onReady` | Named callable `onReady` in the module; see its JSDoc and callers for parameter and side-effect details. |
-| `amd/src/player.js:926` | `onPlaybackRateChange` | Named callable `onPlaybackRateChange` in the module; see its JSDoc and callers for parameter and side-effect details. |
-| `amd/src/player.js:929` | `onAutoplayBlocked` | Named callable `onAutoplayBlocked` in the module; see its JSDoc and callers for parameter and side-effect details. |
-| `amd/src/player.js:943` | `removeNotice` | Named callable `removeNotice` in the module; see its JSDoc and callers for parameter and side-effect details. |
-| `amd/src/player.js:961` | `onError` | Named callable `onError` in the module; see its JSDoc and callers for parameter and side-effect details. |
-| `amd/src/player.js:977` | `buildYouTubeSkipButtons` | Named callable `buildYouTubeSkipButtons` in the module; see its JSDoc and callers for parameter and side-effect details. |
-| `amd/src/player.js:1057` | `getCurrentVideoTime` | Named callable `getCurrentVideoTime` in the module; see its JSDoc and callers for parameter and side-effect details. |
-| `amd/src/player.js:1064` | `initialiseFocusGuard` | Named callable `initialiseFocusGuard` in the module; see its JSDoc and callers for parameter and side-effect details. |
-| `amd/src/player.js:1069` | `pause` | Named callable `pause` in the module; see its JSDoc and callers for parameter and side-effect details. |
-| `amd/src/player.js:1072` | `showMessage` | Named callable `showMessage` in the module; see its JSDoc and callers for parameter and side-effect details. |
-| `amd/src/player.js:1089` | `installReactionHandler` | Named callable `installReactionHandler` in the module; see its JSDoc and callers for parameter and side-effect details. |
-| `amd/src/player.js:1098` | `installNotesToggle` | Named callable `installNotesToggle` in the module; see its JSDoc and callers for parameter and side-effect details. |
-| `amd/src/player.js:1107` | `installNoteHandler` | Named callable `installNoteHandler` in the module; see its JSDoc and callers for parameter and side-effect details. |
-| `amd/src/player.js:1122` | `installBookmarkHandler` | Named callable `installBookmarkHandler` in the module; see its JSDoc and callers for parameter and side-effect details. |
-| `amd/src/player.js:1140` | `navigateTimedText` | Named callable `navigateTimedText` in the module; see its JSDoc and callers for parameter and side-effect details. |
-| `amd/src/player.js:1167` | `installPosterHandler` | Named callable `installPosterHandler` in the module; see its JSDoc and callers for parameter and side-effect details. |
-| `amd/src/player.js:1171` | `removePoster` | Named callable `removePoster` in the module; see its JSDoc and callers for parameter and side-effect details. |
-| `amd/src/player.js:1176` | `posterClickHandler` | Named callable `posterClickHandler` in the module; see its JSDoc and callers for parameter and side-effect details. |
-| `amd/src/player.js:1214` | `init` | Named callable `init` in the module; see its JSDoc and callers for parameter and side-effect details. |
-| `amd/src/player.js:1246` | `getDuration` | Named callable `getDuration` in the module; see its JSDoc and callers for parameter and side-effect details. |
+| `amd/src/player.js:219` | `initialiseKnownProgress` | Named callable `initialiseKnownProgress` in the module; see its JSDoc and callers for parameter and side-effect details. |
+| `amd/src/player.js:230` | `getBlockedSeekPlaybackRate` | Named callable `getBlockedSeekPlaybackRate` in the module; see its JSDoc and callers for parameter and side-effect details. |
+| `amd/src/player.js:239` | `blockForwardSeek` | Named callable `blockForwardSeek` in the module; see its JSDoc and callers for parameter and side-effect details. |
+| `amd/src/player.js:274` | `saveSegment` | Named callable `saveSegment` in the module; see its JSDoc and callers for parameter and side-effect details. |
+| `amd/src/player.js:284` | `hasPlayer` | Named callable `hasPlayer` in the module; see its JSDoc and callers for parameter and side-effect details. |
+| `amd/src/player.js:288` | `saveCurrentProgress` | Named callable `saveCurrentProgress` in the module; see its JSDoc and callers for parameter and side-effect details. |
+| `amd/src/player.js:298` | `closeCurrentSegment` | Named callable `closeCurrentSegment` in the module; see its JSDoc and callers for parameter and side-effect details. |
+| `amd/src/player.js:305` | `getConfiguredMaxPlaybackRate` | Named callable `getConfiguredMaxPlaybackRate` in the module; see its JSDoc and callers for parameter and side-effect details. |
+| `amd/src/player.js:319` | `getPlaybackRatePenalty` | Named callable `getPlaybackRatePenalty` in the module; see its JSDoc and callers for parameter and side-effect details. |
+| `amd/src/player.js:327` | `writePlaybackRate` | Named callable `writePlaybackRate` in the module; see its JSDoc and callers for parameter and side-effect details. |
+| `amd/src/player.js:348` | `applyBlockedSeekPenalty` | Named callable `applyBlockedSeekPenalty` in the module; see its JSDoc and callers for parameter and side-effect details. |
+| `amd/src/player.js:352` | `retryBlockedSeekPenalty` | Named callable `retryBlockedSeekPenalty` in the module; see its JSDoc and callers for parameter and side-effect details. |
+| `amd/src/player.js:363` | `enforceMaxPlaybackRate` | Named callable `enforceMaxPlaybackRate` in the module; see its JSDoc and callers for parameter and side-effect details. |
+| `amd/src/player.js:393` | `installPlaybackRateGuard` | Named callable `installPlaybackRateGuard` in the module; see its JSDoc and callers for parameter and side-effect details. |
+| `amd/src/player.js:404` | `cleanupPlaybackRateGuard` | Named callable `cleanupPlaybackRateGuard` in the module; see its JSDoc and callers for parameter and side-effect details. |
+| `amd/src/player.js:411` | `startCurrentSegment` | Named callable `startCurrentSegment` in the module; see its JSDoc and callers for parameter and side-effect details. |
+| `amd/src/player.js:430` | `setReactionButtons` | Named callable `setReactionButtons` in the module; see its JSDoc and callers for parameter and side-effect details. |
+| `amd/src/player.js:435` | `announceReactionUnavailable` | Named callable `announceReactionUnavailable` in the module; see its JSDoc and callers for parameter and side-effect details. |
+| `amd/src/player.js:439` | `seekProgrammatically` | Named AMD callable `seekProgrammatically`; see JSDoc and callers for the current contract. |
+| `amd/src/player.js:460` | `replayFragment` | Named callable `replayFragment` in the module; see its JSDoc and callers for parameter and side-effect details. |
+| `amd/src/player.js:473` | `handleSeekByPolling` | Named callable `handleSeekByPolling` in the module; see its JSDoc and callers for parameter and side-effect details. |
+| `amd/src/player.js:596` | `hasPlayer` | Named callable `hasPlayer` in the module; see its JSDoc and callers for parameter and side-effect details. |
+| `amd/src/player.js:603` | `onPlayerStateChange` | Named callable `onPlayerStateChange` in the module; see its JSDoc and callers for parameter and side-effect details. |
+| `amd/src/player.js:652` | `showResumeNotice` | Named callable `showResumeNotice` in the module; see its JSDoc and callers for parameter and side-effect details. |
+| `amd/src/player.js:659` | `installGlobalListeners` | Named callable `installGlobalListeners` in the module; see its JSDoc and callers for parameter and side-effect details. |
+| `amd/src/player.js:663` | `onHidden` | Named callable `onHidden` in the module; see its JSDoc and callers for parameter and side-effect details. |
+| `amd/src/player.js:666` | `hasPlayer` | Named callable `hasPlayer` in the module; see its JSDoc and callers for parameter and side-effect details. |
+| `amd/src/player.js:667` | `sendBeacon` | Named callable `sendBeacon` in the module; see its JSDoc and callers for parameter and side-effect details. |
+| `amd/src/player.js:670` | `hasPlayer` | Named callable `hasPlayer` in the module; see its JSDoc and callers for parameter and side-effect details. |
+| `amd/src/player.js:672` | `sendSegment` | Named callable `sendSegment` in the module; see its JSDoc and callers for parameter and side-effect details. |
+| `amd/src/player.js:688` | `reactionKeydownHandler` | Named callable `reactionKeydownHandler` in the module; see its JSDoc and callers for parameter and side-effect details. |
+| `amd/src/player.js:697` | `reactionClickHandler` | Named callable `reactionClickHandler` in the module; see its JSDoc and callers for parameter and side-effect details. |
+| `amd/src/player.js:824` | `cleanupReactionRootHandlers` | Named callable `cleanupReactionRootHandlers` in the module; see its JSDoc and callers for parameter and side-effect details. |
+| `amd/src/player.js:843` | `appendReactionRow` | Named callable `appendReactionRow` in the module; see its JSDoc and callers for parameter and side-effect details. |
+| `amd/src/player.js:919` | `buildPlayer` | Named callable `buildPlayer` in the module; see its JSDoc and callers for parameter and side-effect details. |
+| `amd/src/player.js:947` | `onReady` | Named callable `onReady` in the module; see its JSDoc and callers for parameter and side-effect details. |
+| `amd/src/player.js:979` | `onPlaybackRateChange` | Named callable `onPlaybackRateChange` in the module; see its JSDoc and callers for parameter and side-effect details. |
+| `amd/src/player.js:982` | `onAutoplayBlocked` | Named callable `onAutoplayBlocked` in the module; see its JSDoc and callers for parameter and side-effect details. |
+| `amd/src/player.js:996` | `removeNotice` | Named callable `removeNotice` in the module; see its JSDoc and callers for parameter and side-effect details. |
+| `amd/src/player.js:1014` | `onError` | Named callable `onError` in the module; see its JSDoc and callers for parameter and side-effect details. |
+| `amd/src/player.js:1030` | `buildYouTubeSkipButtons` | Named callable `buildYouTubeSkipButtons` in the module; see its JSDoc and callers for parameter and side-effect details. |
+| `amd/src/player.js:1102` | `getCurrentVideoTime` | Named callable `getCurrentVideoTime` in the module; see its JSDoc and callers for parameter and side-effect details. |
+| `amd/src/player.js:1113` | `getInteractionVideoTime` | Named AMD callable `getInteractionVideoTime`; see JSDoc and callers for the current contract. |
+| `amd/src/player.js:1121` | `initialiseFocusGuard` | Named callable `initialiseFocusGuard` in the module; see its JSDoc and callers for parameter and side-effect details. |
+| `amd/src/player.js:1126` | `pause` | Named callable `pause` in the module; see its JSDoc and callers for parameter and side-effect details. |
+| `amd/src/player.js:1129` | `showMessage` | Named callable `showMessage` in the module; see its JSDoc and callers for parameter and side-effect details. |
+| `amd/src/player.js:1146` | `installReactionHandler` | Named callable `installReactionHandler` in the module; see its JSDoc and callers for parameter and side-effect details. |
+| `amd/src/player.js:1155` | `installNotesToggle` | Named callable `installNotesToggle` in the module; see its JSDoc and callers for parameter and side-effect details. |
+| `amd/src/player.js:1164` | `installNoteHandler` | Named callable `installNoteHandler` in the module; see its JSDoc and callers for parameter and side-effect details. |
+| `amd/src/player.js:1179` | `installBookmarkHandler` | Named callable `installBookmarkHandler` in the module; see its JSDoc and callers for parameter and side-effect details. |
+| `amd/src/player.js:1197` | `navigateTimedText` | Named callable `navigateTimedText` in the module; see its JSDoc and callers for parameter and side-effect details. |
+| `amd/src/player.js:1219` | `installPosterHandler` | Named callable `installPosterHandler` in the module; see its JSDoc and callers for parameter and side-effect details. |
+| `amd/src/player.js:1223` | `removePoster` | Named callable `removePoster` in the module; see its JSDoc and callers for parameter and side-effect details. |
+| `amd/src/player.js:1228` | `posterClickHandler` | Named callable `posterClickHandler` in the module; see its JSDoc and callers for parameter and side-effect details. |
+| `amd/src/player.js:1245` | `_posterPlayListener` | Named AMD callable `_posterPlayListener`; see JSDoc and callers for the current contract. |
+| `amd/src/player.js:1250` | `_posterCleanup` | Named AMD callable `_posterCleanup`; see JSDoc and callers for the current contract. |
+| `amd/src/player.js:1266` | `init` | Named callable `init` in the module; see its JSDoc and callers for parameter and side-effect details. |
+| `amd/src/player.js:1301` | `getDuration` | Named callable `getDuration` in the module; see its JSDoc and callers for parameter and side-effect details. |
 | `amd/src/presets.js:29` | `cssEscape` | Named callable `cssEscape` in the module; see its JSDoc and callers for parameter and side-effect details. |
 | `amd/src/presets.js:36` | `queryByName` | Named callable `queryByName` in the module; see its JSDoc and callers for parameter and side-effect details. |
 | `amd/src/presets.js:43` | `findPicker` | Named callable `findPicker` in the module; see its JSDoc and callers for parameter and side-effect details. |
@@ -518,110 +538,121 @@ Generated from the VideoTrack 1.6.33 source tree. PHP entries include named func
 | `amd/src/report.js:55` | `initialiseExportFormat` | Named callable `initialiseExportFormat` in the module; see its JSDoc and callers for parameter and side-effect details. |
 | `amd/src/report.js:61` | `update` | Named callable `update` in the module; see its JSDoc and callers for parameter and side-effect details. |
 | `amd/src/report.js:80` | `init` | Named callable `init` in the module; see its JSDoc and callers for parameter and side-effect details. |
-| `amd/src/vimeo_player.js:55` | `resolveConfig` | Named callable `resolveConfig` in the module; see its JSDoc and callers for parameter and side-effect details. |
-| `amd/src/vimeo_player.js:66` | `uuid` | Named callable `uuid` in the module; see its JSDoc and callers for parameter and side-effect details. |
-| `amd/src/vimeo_player.js:71` | `saveSegment` | Named callable `saveSegment` in the module; see its JSDoc and callers for parameter and side-effect details. |
-| `amd/src/vimeo_player.js:79` | `hasPlayer` | Named callable `hasPlayer` in the module; see its JSDoc and callers for parameter and side-effect details. |
-| `amd/src/vimeo_player.js:83` | `saveCurrentProgress` | Named callable `saveCurrentProgress` in the module; see its JSDoc and callers for parameter and side-effect details. |
-| `amd/src/vimeo_player.js:87` | `updateProgress` | Named callable `updateProgress` in the module; see its JSDoc and callers for parameter and side-effect details. |
-| `amd/src/vimeo_player.js:98` | `resolveReactionTime` | Named callable `resolveReactionTime` in the module; see its JSDoc and callers for parameter and side-effect details. |
-| `amd/src/vimeo_player.js:107` | `updateLiveIntervalBar` | Named callable `updateLiveIntervalBar` in the module; see its JSDoc and callers for parameter and side-effect details. |
-| `amd/src/vimeo_player.js:111` | `markAllowedForwardTime` | Named callable `markAllowedForwardTime` in the module; see its JSDoc and callers for parameter and side-effect details. |
-| `amd/src/vimeo_player.js:116` | `getAllowedForwardLimit` | Named callable `getAllowedForwardLimit` in the module; see its JSDoc and callers for parameter and side-effect details. |
-| `amd/src/vimeo_player.js:120` | `getBlockedForwardGuardLimit` | Named callable `getBlockedForwardGuardLimit` in the module; see its JSDoc and callers for parameter and side-effect details. |
-| `amd/src/vimeo_player.js:130` | `getBlockedForwardRecoveryLimit` | Named callable `getBlockedForwardRecoveryLimit` in the module; see its JSDoc and callers for parameter and side-effect details. |
-| `amd/src/vimeo_player.js:144` | `isBlockedForwardRecoveryPlayback` | Named callable `isBlockedForwardRecoveryPlayback` in the module; see its JSDoc and callers for parameter and side-effect details. |
-| `amd/src/vimeo_player.js:149` | `isVimeoForwardTimeBlocked` | Named callable `isVimeoForwardTimeBlocked` in the module; see its JSDoc and callers for parameter and side-effect details. |
-| `amd/src/vimeo_player.js:155` | `markVimeoProgrammaticSeek` | Named callable `markVimeoProgrammaticSeek` in the module; see its JSDoc and callers for parameter and side-effect details. |
-| `amd/src/vimeo_player.js:161` | `clearVimeoProgrammaticSeekTarget` | Named callable `clearVimeoProgrammaticSeekTarget` in the module; see its JSDoc and callers for parameter and side-effect details. |
-| `amd/src/vimeo_player.js:166` | `consumeVimeoProgrammaticSeek` | Named callable `consumeVimeoProgrammaticSeek` in the module; see its JSDoc and callers for parameter and side-effect details. |
-| `amd/src/vimeo_player.js:181` | `isNormalForwardPlayback` | Named callable `isNormalForwardPlayback` in the module; see its JSDoc and callers for parameter and side-effect details. |
-| `amd/src/vimeo_player.js:193` | `isForwardSeekRecoveryPlayback` | Named callable `isForwardSeekRecoveryPlayback` in the module; see its JSDoc and callers for parameter and side-effect details. |
-| `amd/src/vimeo_player.js:198` | `resetForwardSeekRecovery` | Named callable `resetForwardSeekRecovery` in the module; see its JSDoc and callers for parameter and side-effect details. |
-| `amd/src/vimeo_player.js:212` | `getMaxWatchedFromIntervals` | Named callable `getMaxWatchedFromIntervals` in the module; see its JSDoc and callers for parameter and side-effect details. |
-| `amd/src/vimeo_player.js:234` | `isVimeoBackwardSeekAllowed` | Named callable `isVimeoBackwardSeekAllowed` in the module; see its JSDoc and callers for parameter and side-effect details. |
-| `amd/src/vimeo_player.js:240` | `isReplaySeekActive` | Named callable `isReplaySeekActive` in the module; see its JSDoc and callers for parameter and side-effect details. |
-| `amd/src/vimeo_player.js:244` | `getRecentVimeoUserSeek` | Named callable `getRecentVimeoUserSeek` in the module; see its JSDoc and callers for parameter and side-effect details. |
-| `amd/src/vimeo_player.js:253` | `clearRecentVimeoUserSeek` | Named callable `clearRecentVimeoUserSeek` in the module; see its JSDoc and callers for parameter and side-effect details. |
-| `amd/src/vimeo_player.js:257` | `markVimeoPlaybackObserved` | Named callable `markVimeoPlaybackObserved` in the module; see its JSDoc and callers for parameter and side-effect details. |
-| `amd/src/vimeo_player.js:261` | `resolveVimeoSeekWasPlaying` | Named callable `resolveVimeoSeekWasPlaying` in the module; see its JSDoc and callers for parameter and side-effect details. |
-| `amd/src/vimeo_player.js:268` | `rememberVimeoUserSeek` | Named callable `rememberVimeoUserSeek` in the module; see its JSDoc and callers for parameter and side-effect details. |
-| `amd/src/vimeo_player.js:283` | `clearBlockedSeekResumeState` | Named callable `clearBlockedSeekResumeState` in the module; see its JSDoc and callers for parameter and side-effect details. |
-| `amd/src/vimeo_player.js:292` | `clearBlockedSeekResumeRequest` | Named callable `clearBlockedSeekResumeRequest` in the module; see its JSDoc and callers for parameter and side-effect details. |
-| `amd/src/vimeo_player.js:310` | `playVimeoAfterSeek` | Named callable `playVimeoAfterSeek` in the module; see its JSDoc and callers for parameter and side-effect details. |
-| `amd/src/vimeo_player.js:321` | `complete` | Named callable `complete` in the module; see its JSDoc and callers for parameter and side-effect details. |
-| `amd/src/vimeo_player.js:338` | `attempt` | Named callable `attempt` in the module; see its JSDoc and callers for parameter and side-effect details. |
-| `amd/src/vimeo_player.js:444` | `ensureVimeoRuntimePlaying` | Named callable `ensureVimeoRuntimePlaying` in the module; see its JSDoc and callers for parameter and side-effect details. |
-| `amd/src/vimeo_player.js:457` | `getResumeStorageKey` | Named callable `getResumeStorageKey` in the module; see its JSDoc and callers for parameter and side-effect details. |
-| `amd/src/vimeo_player.js:461` | `readStoredResumePosition` | Named callable `readStoredResumePosition` in the module; see its JSDoc and callers for parameter and side-effect details. |
-| `amd/src/vimeo_player.js:482` | `rememberResumePosition` | Named callable `rememberResumePosition` in the module; see its JSDoc and callers for parameter and side-effect details. |
-| `amd/src/vimeo_player.js:496` | `resolveResumePosition` | Named callable `resolveResumePosition` in the module; see its JSDoc and callers for parameter and side-effect details. |
-| `amd/src/vimeo_player.js:510` | `startVimeoRuntimePolling` | Named callable `startVimeoRuntimePolling` in the module; see its JSDoc and callers for parameter and side-effect details. |
-| `amd/src/vimeo_player.js:518` | `stopVimeoRuntimePolling` | Named callable `stopVimeoRuntimePolling` in the module; see its JSDoc and callers for parameter and side-effect details. |
-| `amd/src/vimeo_player.js:526` | `readVimeoValue` | Named callable `readVimeoValue` in the module; see its JSDoc and callers for parameter and side-effect details. |
-| `amd/src/vimeo_player.js:536` | `pauseRuntimeSegment` | Named callable `pauseRuntimeSegment` in the module; see its JSDoc and callers for parameter and side-effect details. |
-| `amd/src/vimeo_player.js:546` | `pollVimeoRuntime` | Named callable `pollVimeoRuntime` in the module; see its JSDoc and callers for parameter and side-effect details. |
-| `amd/src/vimeo_player.js:582` | `getCurrentTime` | Named callable `getCurrentTime` in the module; see its JSDoc and callers for parameter and side-effect details. |
-| `amd/src/vimeo_player.js:586` | `hasPlayer` | Named callable `hasPlayer` in the module; see its JSDoc and callers for parameter and side-effect details. |
-| `amd/src/vimeo_player.js:594` | `handleVimeoTime` | Named callable `handleVimeoTime` in the module; see its JSDoc and callers for parameter and side-effect details. |
-| `amd/src/vimeo_player.js:672` | `initialiseKnownProgress` | Named callable `initialiseKnownProgress` in the module; see its JSDoc and callers for parameter and side-effect details. |
-| `amd/src/vimeo_player.js:683` | `scheduleBlockedSeekResume` | Named callable `scheduleBlockedSeekResume` in the module; see its JSDoc and callers for parameter and side-effect details. |
-| `amd/src/vimeo_player.js:704` | `verifyBlockedSeekRollback` | Named callable `verifyBlockedSeekRollback` in the module; see its JSDoc and callers for parameter and side-effect details. |
-| `amd/src/vimeo_player.js:730` | `recoverBlockedSeek` | Named callable `recoverBlockedSeek` in the module; see its JSDoc and callers for parameter and side-effect details. |
-| `amd/src/vimeo_player.js:745` | `finish` | Named callable `finish` in the module; see its JSDoc and callers for parameter and side-effect details. |
-| `amd/src/vimeo_player.js:781` | `getBlockedSeekPlaybackRate` | Named callable `getBlockedSeekPlaybackRate` in the module; see its JSDoc and callers for parameter and side-effect details. |
-| `amd/src/vimeo_player.js:790` | `blockForwardSeek` | Named callable `blockForwardSeek` in the module; see its JSDoc and callers for parameter and side-effect details. |
-| `amd/src/vimeo_player.js:816` | `getConfiguredMaxPlaybackRate` | Named callable `getConfiguredMaxPlaybackRate` in the module; see its JSDoc and callers for parameter and side-effect details. |
-| `amd/src/vimeo_player.js:827` | `getPlaybackRatePenalty` | Named callable `getPlaybackRatePenalty` in the module; see its JSDoc and callers for parameter and side-effect details. |
-| `amd/src/vimeo_player.js:835` | `applyBlockedSeekPenalty` | Named callable `applyBlockedSeekPenalty` in the module; see its JSDoc and callers for parameter and side-effect details. |
-| `amd/src/vimeo_player.js:839` | `retryBlockedSeekPenalty` | Named callable `retryBlockedSeekPenalty` in the module; see its JSDoc and callers for parameter and side-effect details. |
-| `amd/src/vimeo_player.js:854` | `writePlaybackRate` | Named callable `writePlaybackRate` in the module; see its JSDoc and callers for parameter and side-effect details. |
-| `amd/src/vimeo_player.js:868` | `retryPlaybackRateLimit` | Named callable `retryPlaybackRateLimit` in the module; see its JSDoc and callers for parameter and side-effect details. |
-| `amd/src/vimeo_player.js:883` | `enforcePlaybackRateValue` | Named callable `enforcePlaybackRateValue` in the module; see its JSDoc and callers for parameter and side-effect details. |
-| `amd/src/vimeo_player.js:903` | `enforceMaxPlaybackRate` | Named callable `enforceMaxPlaybackRate` in the module; see its JSDoc and callers for parameter and side-effect details. |
-| `amd/src/vimeo_player.js:915` | `installPlaybackRateGuard` | Named callable `installPlaybackRateGuard` in the module; see its JSDoc and callers for parameter and side-effect details. |
-| `amd/src/vimeo_player.js:924` | `cleanupPlaybackRateGuard` | Named callable `cleanupPlaybackRateGuard` in the module; see its JSDoc and callers for parameter and side-effect details. |
-| `amd/src/vimeo_player.js:933` | `startSegment` | Named callable `startSegment` in the module; see its JSDoc and callers for parameter and side-effect details. |
-| `amd/src/vimeo_player.js:947` | `closeSegment` | Named callable `closeSegment` in the module; see its JSDoc and callers for parameter and side-effect details. |
-| `amd/src/vimeo_player.js:955` | `startHeartbeat` | Named callable `startHeartbeat` in the module; see its JSDoc and callers for parameter and side-effect details. |
-| `amd/src/vimeo_player.js:960` | `getCurrentTime` | Named callable `getCurrentTime` in the module; see its JSDoc and callers for parameter and side-effect details. |
-| `amd/src/vimeo_player.js:964` | `hasPlayer` | Named callable `hasPlayer` in the module; see its JSDoc and callers for parameter and side-effect details. |
-| `amd/src/vimeo_player.js:972` | `stopHeartbeat` | Named callable `stopHeartbeat` in the module; see its JSDoc and callers for parameter and side-effect details. |
-| `amd/src/vimeo_player.js:982` | `showResumeNotice` | Named callable `showResumeNotice` in the module; see its JSDoc and callers for parameter and side-effect details. |
-| `amd/src/vimeo_player.js:986` | `installGlobalListeners` | Named callable `installGlobalListeners` in the module; see its JSDoc and callers for parameter and side-effect details. |
-| `amd/src/vimeo_player.js:991` | `onHidden` | Named callable `onHidden` in the module; see its JSDoc and callers for parameter and side-effect details. |
-| `amd/src/vimeo_player.js:994` | `hasPlayer` | Named callable `hasPlayer` in the module; see its JSDoc and callers for parameter and side-effect details. |
-| `amd/src/vimeo_player.js:995` | `sendBeacon` | Named callable `sendBeacon` in the module; see its JSDoc and callers for parameter and side-effect details. |
-| `amd/src/vimeo_player.js:998` | `hasPlayer` | Named callable `hasPlayer` in the module; see its JSDoc and callers for parameter and side-effect details. |
-| `amd/src/vimeo_player.js:999` | `sendSegment` | Named callable `sendSegment` in the module; see its JSDoc and callers for parameter and side-effect details. |
-| `amd/src/vimeo_player.js:1009` | `loadVimeoSDK` | Named callable `loadVimeoSDK` in the module; see its JSDoc and callers for parameter and side-effect details. |
-| `amd/src/vimeo_player.js:1016` | `restoreDefine` | Named callable `restoreDefine` in the module; see its JSDoc and callers for parameter and side-effect details. |
-| `amd/src/vimeo_player.js:1063` | `resolveVimeoSource` | Named callable `resolveVimeoSource` in the module; see its JSDoc and callers for parameter and side-effect details. |
-| `amd/src/vimeo_player.js:1098` | `buildVimeoIframe` | Named callable `buildVimeoIframe` in the module; see its JSDoc and callers for parameter and side-effect details. |
-| `amd/src/vimeo_player.js:1137` | `replayVimeoFragment` | Named callable `replayVimeoFragment` in the module; see its JSDoc and callers for parameter and side-effect details. |
-| `amd/src/vimeo_player.js:1181` | `buildPlayer` | Named callable `buildPlayer` in the module; see its JSDoc and callers for parameter and side-effect details. |
-| `amd/src/vimeo_player.js:1468` | `handleReplayClick` | Named callable `handleReplayClick` in the module; see its JSDoc and callers for parameter and side-effect details. |
-| `amd/src/vimeo_player.js:1497` | `buildVimeoSkipButtons` | Named callable `buildVimeoSkipButtons` in the module; see its JSDoc and callers for parameter and side-effect details. |
-| `amd/src/vimeo_player.js:1581` | `setReactionButtons` | Named callable `setReactionButtons` in the module; see its JSDoc and callers for parameter and side-effect details. |
-| `amd/src/vimeo_player.js:1586` | `announceReactionUnavailable` | Named callable `announceReactionUnavailable` in the module; see its JSDoc and callers for parameter and side-effect details. |
-| `amd/src/vimeo_player.js:1591` | `installReactionHandler` | Named callable `installReactionHandler` in the module; see its JSDoc and callers for parameter and side-effect details. |
-| `amd/src/vimeo_player.js:1595` | `appendReactionRow` | Named callable `appendReactionRow` in the module; see its JSDoc and callers for parameter and side-effect details. |
-| `amd/src/vimeo_player.js:1665` | `reactionKeydownHandler` | Named callable `reactionKeydownHandler` in the module; see its JSDoc and callers for parameter and side-effect details. |
-| `amd/src/vimeo_player.js:1674` | `reactionClickHandler` | Named callable `reactionClickHandler` in the module; see its JSDoc and callers for parameter and side-effect details. |
-| `amd/src/vimeo_player.js:1778` | `cleanupReactionRootHandlers` | Named callable `cleanupReactionRootHandlers` in the module; see its JSDoc and callers for parameter and side-effect details. |
-| `amd/src/vimeo_player.js:1798` | `getCurrentVideoTime` | Named callable `getCurrentVideoTime` in the module; see its JSDoc and callers for parameter and side-effect details. |
-| `amd/src/vimeo_player.js:1812` | `initialiseFocusGuard` | Named callable `initialiseFocusGuard` in the module; see its JSDoc and callers for parameter and side-effect details. |
-| `amd/src/vimeo_player.js:1817` | `pause` | Named callable `pause` in the module; see its JSDoc and callers for parameter and side-effect details. |
-| `amd/src/vimeo_player.js:1820` | `showMessage` | Named callable `showMessage` in the module; see its JSDoc and callers for parameter and side-effect details. |
-| `amd/src/vimeo_player.js:1829` | `installNotesToggle` | Named callable `installNotesToggle` in the module; see its JSDoc and callers for parameter and side-effect details. |
-| `amd/src/vimeo_player.js:1838` | `installNoteHandler` | Named callable `installNoteHandler` in the module; see its JSDoc and callers for parameter and side-effect details. |
-| `amd/src/vimeo_player.js:1853` | `installBookmarkHandler` | Named callable `installBookmarkHandler` in the module; see its JSDoc and callers for parameter and side-effect details. |
-| `amd/src/vimeo_player.js:1871` | `navigateTimedText` | Named callable `navigateTimedText` in the module; see its JSDoc and callers for parameter and side-effect details. |
-| `amd/src/vimeo_player.js:1905` | `installPosterHandler` | Named callable `installPosterHandler` in the module; see its JSDoc and callers for parameter and side-effect details. |
-| `amd/src/vimeo_player.js:1909` | `removePoster` | Named callable `removePoster` in the module; see its JSDoc and callers for parameter and side-effect details. |
-| `amd/src/vimeo_player.js:1914` | `posterClickHandler` | Named callable `posterClickHandler` in the module; see its JSDoc and callers for parameter and side-effect details. |
-| `amd/src/vimeo_player.js:1957` | `init` | Named callable `init` in the module; see its JSDoc and callers for parameter and side-effect details. |
-| `amd/src/vimeo_player.js:1988` | `getDuration` | Named callable `getDuration` in the module; see its JSDoc and callers for parameter and side-effect details. |
+| `amd/src/vimeo_player.js:56` | `resolveConfig` | Named callable `resolveConfig` in the module; see its JSDoc and callers for parameter and side-effect details. |
+| `amd/src/vimeo_player.js:67` | `uuid` | Named callable `uuid` in the module; see its JSDoc and callers for parameter and side-effect details. |
+| `amd/src/vimeo_player.js:72` | `saveSegment` | Named callable `saveSegment` in the module; see its JSDoc and callers for parameter and side-effect details. |
+| `amd/src/vimeo_player.js:82` | `hasPlayer` | Named callable `hasPlayer` in the module; see its JSDoc and callers for parameter and side-effect details. |
+| `amd/src/vimeo_player.js:86` | `saveCurrentProgress` | Named callable `saveCurrentProgress` in the module; see its JSDoc and callers for parameter and side-effect details. |
+| `amd/src/vimeo_player.js:96` | `updateProgress` | Named callable `updateProgress` in the module; see its JSDoc and callers for parameter and side-effect details. |
+| `amd/src/vimeo_player.js:107` | `resolveReactionTime` | Named callable `resolveReactionTime` in the module; see its JSDoc and callers for parameter and side-effect details. |
+| `amd/src/vimeo_player.js:116` | `updateLiveIntervalBar` | Named callable `updateLiveIntervalBar` in the module; see its JSDoc and callers for parameter and side-effect details. |
+| `amd/src/vimeo_player.js:120` | `markAllowedForwardTime` | Named callable `markAllowedForwardTime` in the module; see its JSDoc and callers for parameter and side-effect details. |
+| `amd/src/vimeo_player.js:125` | `getAllowedForwardLimit` | Named callable `getAllowedForwardLimit` in the module; see its JSDoc and callers for parameter and side-effect details. |
+| `amd/src/vimeo_player.js:129` | `getBlockedForwardGuardLimit` | Named callable `getBlockedForwardGuardLimit` in the module; see its JSDoc and callers for parameter and side-effect details. |
+| `amd/src/vimeo_player.js:139` | `getBlockedForwardRecoveryLimit` | Named callable `getBlockedForwardRecoveryLimit` in the module; see its JSDoc and callers for parameter and side-effect details. |
+| `amd/src/vimeo_player.js:153` | `isBlockedForwardRecoveryPlayback` | Named callable `isBlockedForwardRecoveryPlayback` in the module; see its JSDoc and callers for parameter and side-effect details. |
+| `amd/src/vimeo_player.js:158` | `isVimeoForwardTimeBlocked` | Named callable `isVimeoForwardTimeBlocked` in the module; see its JSDoc and callers for parameter and side-effect details. |
+| `amd/src/vimeo_player.js:164` | `markVimeoProgrammaticSeek` | Named callable `markVimeoProgrammaticSeek` in the module; see its JSDoc and callers for parameter and side-effect details. |
+| `amd/src/vimeo_player.js:170` | `clearVimeoProgrammaticSeekTarget` | Named callable `clearVimeoProgrammaticSeekTarget` in the module; see its JSDoc and callers for parameter and side-effect details. |
+| `amd/src/vimeo_player.js:175` | `consumeVimeoProgrammaticSeek` | Named callable `consumeVimeoProgrammaticSeek` in the module; see its JSDoc and callers for parameter and side-effect details. |
+| `amd/src/vimeo_player.js:190` | `isNormalForwardPlayback` | Named callable `isNormalForwardPlayback` in the module; see its JSDoc and callers for parameter and side-effect details. |
+| `amd/src/vimeo_player.js:202` | `isForwardSeekRecoveryPlayback` | Named callable `isForwardSeekRecoveryPlayback` in the module; see its JSDoc and callers for parameter and side-effect details. |
+| `amd/src/vimeo_player.js:207` | `resetForwardSeekRecovery` | Named callable `resetForwardSeekRecovery` in the module; see its JSDoc and callers for parameter and side-effect details. |
+| `amd/src/vimeo_player.js:221` | `getMaxWatchedFromIntervals` | Named callable `getMaxWatchedFromIntervals` in the module; see its JSDoc and callers for parameter and side-effect details. |
+| `amd/src/vimeo_player.js:243` | `isVimeoBackwardSeekAllowed` | Named callable `isVimeoBackwardSeekAllowed` in the module; see its JSDoc and callers for parameter and side-effect details. |
+| `amd/src/vimeo_player.js:249` | `isReplaySeekActive` | Named callable `isReplaySeekActive` in the module; see its JSDoc and callers for parameter and side-effect details. |
+| `amd/src/vimeo_player.js:253` | `getRecentVimeoUserSeek` | Named callable `getRecentVimeoUserSeek` in the module; see its JSDoc and callers for parameter and side-effect details. |
+| `amd/src/vimeo_player.js:262` | `clearRecentVimeoUserSeek` | Named callable `clearRecentVimeoUserSeek` in the module; see its JSDoc and callers for parameter and side-effect details. |
+| `amd/src/vimeo_player.js:266` | `markVimeoPlaybackObserved` | Named callable `markVimeoPlaybackObserved` in the module; see its JSDoc and callers for parameter and side-effect details. |
+| `amd/src/vimeo_player.js:270` | `resolveVimeoSeekWasPlaying` | Named callable `resolveVimeoSeekWasPlaying` in the module; see its JSDoc and callers for parameter and side-effect details. |
+| `amd/src/vimeo_player.js:277` | `rememberVimeoUserSeek` | Named callable `rememberVimeoUserSeek` in the module; see its JSDoc and callers for parameter and side-effect details. |
+| `amd/src/vimeo_player.js:292` | `clearBlockedSeekRecoveryTimers` | Named AMD callable `clearBlockedSeekRecoveryTimers`; see JSDoc and callers for the current contract. |
+| `amd/src/vimeo_player.js:301` | `nextBlockedSeekRecoveryId` | Named AMD callable `nextBlockedSeekRecoveryId`; see JSDoc and callers for the current contract. |
+| `amd/src/vimeo_player.js:308` | `isBlockedSeekRecoveryCurrent` | Named AMD callable `isBlockedSeekRecoveryCurrent`; see JSDoc and callers for the current contract. |
+| `amd/src/vimeo_player.js:312` | `scheduleBlockedSeekRecoveryTimer` | Named AMD callable `scheduleBlockedSeekRecoveryTimer`; see JSDoc and callers for the current contract. |
+| `amd/src/vimeo_player.js:330` | `clearBlockedSeekResumeState` | Named callable `clearBlockedSeekResumeState` in the module; see its JSDoc and callers for parameter and side-effect details. |
+| `amd/src/vimeo_player.js:340` | `clearBlockedSeekResumeRequest` | Named callable `clearBlockedSeekResumeRequest` in the module; see its JSDoc and callers for parameter and side-effect details. |
+| `amd/src/vimeo_player.js:360` | `playVimeoAfterSeek` | Named callable `playVimeoAfterSeek` in the module; see its JSDoc and callers for parameter and side-effect details. |
+| `amd/src/vimeo_player.js:373` | `recoveryIsCurrent` | Named AMD callable `recoveryIsCurrent`; see JSDoc and callers for the current contract. |
+| `amd/src/vimeo_player.js:377` | `attemptIsCurrent` | Named AMD callable `attemptIsCurrent`; see JSDoc and callers for the current contract. |
+| `amd/src/vimeo_player.js:381` | `complete` | Named callable `complete` in the module; see its JSDoc and callers for parameter and side-effect details. |
+| `amd/src/vimeo_player.js:401` | `attempt` | Named callable `attempt` in the module; see its JSDoc and callers for parameter and side-effect details. |
+| `amd/src/vimeo_player.js:526` | `ensureVimeoRuntimePlaying` | Named callable `ensureVimeoRuntimePlaying` in the module; see its JSDoc and callers for parameter and side-effect details. |
+| `amd/src/vimeo_player.js:539` | `getResumeStorageKey` | Named callable `getResumeStorageKey` in the module; see its JSDoc and callers for parameter and side-effect details. |
+| `amd/src/vimeo_player.js:543` | `readStoredResumePosition` | Named callable `readStoredResumePosition` in the module; see its JSDoc and callers for parameter and side-effect details. |
+| `amd/src/vimeo_player.js:564` | `rememberResumePosition` | Named callable `rememberResumePosition` in the module; see its JSDoc and callers for parameter and side-effect details. |
+| `amd/src/vimeo_player.js:578` | `resolveResumePosition` | Named callable `resolveResumePosition` in the module; see its JSDoc and callers for parameter and side-effect details. |
+| `amd/src/vimeo_player.js:592` | `startVimeoRuntimePolling` | Named callable `startVimeoRuntimePolling` in the module; see its JSDoc and callers for parameter and side-effect details. |
+| `amd/src/vimeo_player.js:600` | `stopVimeoRuntimePolling` | Named callable `stopVimeoRuntimePolling` in the module; see its JSDoc and callers for parameter and side-effect details. |
+| `amd/src/vimeo_player.js:608` | `readVimeoValue` | Named callable `readVimeoValue` in the module; see its JSDoc and callers for parameter and side-effect details. |
+| `amd/src/vimeo_player.js:618` | `pauseRuntimeSegment` | Named callable `pauseRuntimeSegment` in the module; see its JSDoc and callers for parameter and side-effect details. |
+| `amd/src/vimeo_player.js:628` | `pollVimeoRuntime` | Named callable `pollVimeoRuntime` in the module; see its JSDoc and callers for parameter and side-effect details. |
+| `amd/src/vimeo_player.js:664` | `getCurrentTime` | Named callable `getCurrentTime` in the module; see its JSDoc and callers for parameter and side-effect details. |
+| `amd/src/vimeo_player.js:668` | `hasPlayer` | Named callable `hasPlayer` in the module; see its JSDoc and callers for parameter and side-effect details. |
+| `amd/src/vimeo_player.js:676` | `handleVimeoTime` | Named callable `handleVimeoTime` in the module; see its JSDoc and callers for parameter and side-effect details. |
+| `amd/src/vimeo_player.js:754` | `initialiseKnownProgress` | Named callable `initialiseKnownProgress` in the module; see its JSDoc and callers for parameter and side-effect details. |
+| `amd/src/vimeo_player.js:765` | `resumeBlockedSeekIfPaused` | Named AMD callable `resumeBlockedSeekIfPaused`; see JSDoc and callers for the current contract. |
+| `amd/src/vimeo_player.js:784` | `scheduleBlockedSeekResume` | Named callable `scheduleBlockedSeekResume` in the module; see its JSDoc and callers for parameter and side-effect details. |
+| `amd/src/vimeo_player.js:809` | `recoverBlockedSeek` | Named callable `recoverBlockedSeek` in the module; see its JSDoc and callers for parameter and side-effect details. |
+| `amd/src/vimeo_player.js:826` | `finish` | Named callable `finish` in the module; see its JSDoc and callers for parameter and side-effect details. |
+| `amd/src/vimeo_player.js:880` | `getBlockedSeekPlaybackRate` | Named callable `getBlockedSeekPlaybackRate` in the module; see its JSDoc and callers for parameter and side-effect details. |
+| `amd/src/vimeo_player.js:889` | `persistBlockedSeekFrontier` | Named AMD callable `persistBlockedSeekFrontier`; see JSDoc and callers for the current contract. |
+| `amd/src/vimeo_player.js:896` | `blockForwardSeek` | Named callable `blockForwardSeek` in the module; see its JSDoc and callers for parameter and side-effect details. |
+| `amd/src/vimeo_player.js:924` | `getConfiguredMaxPlaybackRate` | Named callable `getConfiguredMaxPlaybackRate` in the module; see its JSDoc and callers for parameter and side-effect details. |
+| `amd/src/vimeo_player.js:935` | `getPlaybackRatePenalty` | Named callable `getPlaybackRatePenalty` in the module; see its JSDoc and callers for parameter and side-effect details. |
+| `amd/src/vimeo_player.js:943` | `applyBlockedSeekPenalty` | Named callable `applyBlockedSeekPenalty` in the module; see its JSDoc and callers for parameter and side-effect details. |
+| `amd/src/vimeo_player.js:947` | `retryBlockedSeekPenalty` | Named callable `retryBlockedSeekPenalty` in the module; see its JSDoc and callers for parameter and side-effect details. |
+| `amd/src/vimeo_player.js:965` | `writePlaybackRate` | Named callable `writePlaybackRate` in the module; see its JSDoc and callers for parameter and side-effect details. |
+| `amd/src/vimeo_player.js:979` | `retryPlaybackRateLimit` | Named callable `retryPlaybackRateLimit` in the module; see its JSDoc and callers for parameter and side-effect details. |
+| `amd/src/vimeo_player.js:994` | `enforcePlaybackRateValue` | Named callable `enforcePlaybackRateValue` in the module; see its JSDoc and callers for parameter and side-effect details. |
+| `amd/src/vimeo_player.js:1014` | `enforceMaxPlaybackRate` | Named callable `enforceMaxPlaybackRate` in the module; see its JSDoc and callers for parameter and side-effect details. |
+| `amd/src/vimeo_player.js:1026` | `installPlaybackRateGuard` | Named callable `installPlaybackRateGuard` in the module; see its JSDoc and callers for parameter and side-effect details. |
+| `amd/src/vimeo_player.js:1035` | `cleanupPlaybackRateGuard` | Named callable `cleanupPlaybackRateGuard` in the module; see its JSDoc and callers for parameter and side-effect details. |
+| `amd/src/vimeo_player.js:1044` | `startSegment` | Named callable `startSegment` in the module; see its JSDoc and callers for parameter and side-effect details. |
+| `amd/src/vimeo_player.js:1058` | `closeSegment` | Named callable `closeSegment` in the module; see its JSDoc and callers for parameter and side-effect details. |
+| `amd/src/vimeo_player.js:1066` | `startHeartbeat` | Named callable `startHeartbeat` in the module; see its JSDoc and callers for parameter and side-effect details. |
+| `amd/src/vimeo_player.js:1071` | `getCurrentTime` | Named callable `getCurrentTime` in the module; see its JSDoc and callers for parameter and side-effect details. |
+| `amd/src/vimeo_player.js:1075` | `hasPlayer` | Named callable `hasPlayer` in the module; see its JSDoc and callers for parameter and side-effect details. |
+| `amd/src/vimeo_player.js:1083` | `stopHeartbeat` | Named callable `stopHeartbeat` in the module; see its JSDoc and callers for parameter and side-effect details. |
+| `amd/src/vimeo_player.js:1093` | `showResumeNotice` | Named callable `showResumeNotice` in the module; see its JSDoc and callers for parameter and side-effect details. |
+| `amd/src/vimeo_player.js:1097` | `installGlobalListeners` | Named callable `installGlobalListeners` in the module; see its JSDoc and callers for parameter and side-effect details. |
+| `amd/src/vimeo_player.js:1102` | `onHidden` | Named callable `onHidden` in the module; see its JSDoc and callers for parameter and side-effect details. |
+| `amd/src/vimeo_player.js:1105` | `hasPlayer` | Named callable `hasPlayer` in the module; see its JSDoc and callers for parameter and side-effect details. |
+| `amd/src/vimeo_player.js:1106` | `sendBeacon` | Named callable `sendBeacon` in the module; see its JSDoc and callers for parameter and side-effect details. |
+| `amd/src/vimeo_player.js:1109` | `hasPlayer` | Named callable `hasPlayer` in the module; see its JSDoc and callers for parameter and side-effect details. |
+| `amd/src/vimeo_player.js:1110` | `sendSegment` | Named callable `sendSegment` in the module; see its JSDoc and callers for parameter and side-effect details. |
+| `amd/src/vimeo_player.js:1120` | `forgetRequireModule` | Named AMD callable `forgetRequireModule`; see JSDoc and callers for the current contract. |
+| `amd/src/vimeo_player.js:1130` | `loadVimeoSDK` | Named callable `loadVimeoSDK` in the module; see its JSDoc and callers for parameter and side-effect details. |
+| `amd/src/vimeo_player.js:1166` | `showVimeoSdkError` | Named AMD callable `showVimeoSdkError`; see JSDoc and callers for the current contract. |
+| `amd/src/vimeo_player.js:1186` | `resolveVimeoSource` | Named callable `resolveVimeoSource` in the module; see its JSDoc and callers for parameter and side-effect details. |
+| `amd/src/vimeo_player.js:1221` | `buildVimeoIframe` | Named callable `buildVimeoIframe` in the module; see its JSDoc and callers for parameter and side-effect details. |
+| `amd/src/vimeo_player.js:1260` | `replayVimeoFragment` | Named callable `replayVimeoFragment` in the module; see its JSDoc and callers for parameter and side-effect details. |
+| `amd/src/vimeo_player.js:1304` | `buildPlayer` | Named callable `buildPlayer` in the module; see its JSDoc and callers for parameter and side-effect details. |
+| `amd/src/vimeo_player.js:1612` | `handleReplayClick` | Named callable `handleReplayClick` in the module; see its JSDoc and callers for parameter and side-effect details. |
+| `amd/src/vimeo_player.js:1641` | `buildVimeoSkipButtons` | Named callable `buildVimeoSkipButtons` in the module; see its JSDoc and callers for parameter and side-effect details. |
+| `amd/src/vimeo_player.js:1725` | `setReactionButtons` | Named callable `setReactionButtons` in the module; see its JSDoc and callers for parameter and side-effect details. |
+| `amd/src/vimeo_player.js:1730` | `announceReactionUnavailable` | Named callable `announceReactionUnavailable` in the module; see its JSDoc and callers for parameter and side-effect details. |
+| `amd/src/vimeo_player.js:1735` | `installReactionHandler` | Named callable `installReactionHandler` in the module; see its JSDoc and callers for parameter and side-effect details. |
+| `amd/src/vimeo_player.js:1739` | `appendReactionRow` | Named callable `appendReactionRow` in the module; see its JSDoc and callers for parameter and side-effect details. |
+| `amd/src/vimeo_player.js:1809` | `reactionKeydownHandler` | Named callable `reactionKeydownHandler` in the module; see its JSDoc and callers for parameter and side-effect details. |
+| `amd/src/vimeo_player.js:1818` | `reactionClickHandler` | Named callable `reactionClickHandler` in the module; see its JSDoc and callers for parameter and side-effect details. |
+| `amd/src/vimeo_player.js:1922` | `cleanupReactionRootHandlers` | Named callable `cleanupReactionRootHandlers` in the module; see its JSDoc and callers for parameter and side-effect details. |
+| `amd/src/vimeo_player.js:1942` | `getCurrentVideoTime` | Named callable `getCurrentVideoTime` in the module; see its JSDoc and callers for parameter and side-effect details. |
+| `amd/src/vimeo_player.js:1959` | `getInteractionVideoTime` | Named AMD callable `getInteractionVideoTime`; see JSDoc and callers for the current contract. |
+| `amd/src/vimeo_player.js:1968` | `initialiseFocusGuard` | Named callable `initialiseFocusGuard` in the module; see its JSDoc and callers for parameter and side-effect details. |
+| `amd/src/vimeo_player.js:1973` | `pause` | Named callable `pause` in the module; see its JSDoc and callers for parameter and side-effect details. |
+| `amd/src/vimeo_player.js:1976` | `showMessage` | Named callable `showMessage` in the module; see its JSDoc and callers for parameter and side-effect details. |
+| `amd/src/vimeo_player.js:1985` | `installNotesToggle` | Named callable `installNotesToggle` in the module; see its JSDoc and callers for parameter and side-effect details. |
+| `amd/src/vimeo_player.js:1994` | `installNoteHandler` | Named callable `installNoteHandler` in the module; see its JSDoc and callers for parameter and side-effect details. |
+| `amd/src/vimeo_player.js:2009` | `installBookmarkHandler` | Named callable `installBookmarkHandler` in the module; see its JSDoc and callers for parameter and side-effect details. |
+| `amd/src/vimeo_player.js:2027` | `navigateTimedText` | Named callable `navigateTimedText` in the module; see its JSDoc and callers for parameter and side-effect details. |
+| `amd/src/vimeo_player.js:2061` | `installPosterHandler` | Named callable `installPosterHandler` in the module; see its JSDoc and callers for parameter and side-effect details. |
+| `amd/src/vimeo_player.js:2065` | `removePoster` | Named callable `removePoster` in the module; see its JSDoc and callers for parameter and side-effect details. |
+| `amd/src/vimeo_player.js:2070` | `posterClickHandler` | Named callable `posterClickHandler` in the module; see its JSDoc and callers for parameter and side-effect details. |
+| `amd/src/vimeo_player.js:2090` | `_posterPlayListener` | Named AMD callable `_posterPlayListener`; see JSDoc and callers for the current contract. |
+| `amd/src/vimeo_player.js:2095` | `_posterCleanup` | Named AMD callable `_posterCleanup`; see JSDoc and callers for the current contract. |
+| `amd/src/vimeo_player.js:2113` | `init` | Named callable `init` in the module; see its JSDoc and callers for parameter and side-effect details. |
+| `amd/src/vimeo_player.js:2147` | `getDuration` | Named callable `getDuration` in the module; see its JSDoc and callers for parameter and side-effect details. |
 | `backup/moodle2/backup_videotrack_activity_task.class.php:36` | `define_my_settings` | PHP callable `define_my_settings`; see its DocBlock and callers for parameter, return-value and side-effect details. |
 | `backup/moodle2/backup_videotrack_activity_task.class.php:42` | `define_my_steps` | PHP callable `define_my_steps`; see its DocBlock and callers for parameter, return-value and side-effect details. |
 | `backup/moodle2/backup_videotrack_activity_task.class.php:52` | `encode_content_links` | PHP callable `encode_content_links`; see its DocBlock and callers for parameter, return-value and side-effect details. |
@@ -640,16 +671,15 @@ Generated from the VideoTrack 1.6.33 source tree. PHP entries include named func
 | `backup/moodle2/restore_videotrack_stepslib.php:285` | `process_videotrack_integrityevent` | PHP callable `process_videotrack_integrityevent`; see its DocBlock and callers for parameter, return-value and side-effect details. |
 | `backup/moodle2/restore_videotrack_stepslib.php:327` | `process_videotrack_acknowledgement` | PHP callable `process_videotrack_acknowledgement`; see its DocBlock and callers for parameter, return-value and side-effect details. |
 | `backup/moodle2/restore_videotrack_stepslib.php:372` | `get_restored_cmid` | PHP callable `get_restored_cmid`; see its DocBlock and callers for parameter, return-value and side-effect details. |
-| `backup/moodle2/restore_videotrack_stepslib.php:379` | `after_execute` | PHP callable `after_execute`; see its DocBlock and callers for parameter, return-value and side-effect details. |
+| `backup/moodle2/restore_videotrack_stepslib.php:385` | `after_execute` | PHP callable `after_execute`; see its DocBlock and callers for parameter, return-value and side-effect details. |
 | `classes/admin/setting_int_range.php:43` | `__construct` | PHP callable `__construct`; see its DocBlock and callers for parameter, return-value and side-effect details. |
 | `classes/admin/setting_int_range.php:61` | `validate` | PHP callable `validate`; see its DocBlock and callers for parameter, return-value and side-effect details. |
 | `classes/admin/setting_nonnegative_int.php:36` | `validate` | PHP callable `validate`; see its DocBlock and callers for parameter, return-value and side-effect details. |
 | `classes/admin/setting_retention_days.php:38` | `write_setting` | PHP callable `write_setting`; see its DocBlock and callers for parameter, return-value and side-effect details. |
-| `classes/completion/custom_completion.php:36` | `get_sort_order` | PHP callable `get_sort_order`; see its DocBlock and callers for parameter, return-value and side-effect details. |
-| `classes/completion/custom_completion.php:51` | `get_defined_custom_rules` | PHP callable `get_defined_custom_rules`; see its DocBlock and callers for parameter, return-value and side-effect details. |
-| `classes/completion/custom_completion.php:61` | `get_state` | PHP callable `get_state`; see its DocBlock and callers for parameter, return-value and side-effect details. |
-| `classes/completion/custom_completion.php:147` | `get_custom_rule_descriptions` | PHP callable `get_custom_rule_descriptions`; see its DocBlock and callers for parameter, return-value and side-effect details. |
-| `classes/completion/custom_completion.php:195` | `get_required_reaction_labels` | PHP callable `get_required_reaction_labels`; see its DocBlock and callers for parameter, return-value and side-effect details. |
+| `classes/completion/custom_completion.php:48` | `get_sort_order` | PHP callable `get_sort_order`; see its DocBlock and callers for parameter, return-value and side-effect details. |
+| `classes/completion/custom_completion.php:62` | `get_defined_custom_rules` | PHP callable `get_defined_custom_rules`; see its DocBlock and callers for parameter, return-value and side-effect details. |
+| `classes/completion/custom_completion.php:72` | `get_state` | PHP callable `get_state`; see its DocBlock and callers for parameter, return-value and side-effect details. |
+| `classes/completion/custom_completion.php:105` | `get_custom_rule_descriptions` | PHP callable `get_custom_rule_descriptions`; see its DocBlock and callers for parameter, return-value and side-effect details. |
 | `classes/event/acknowledgement_confirmed.php:30` | `init` | PHP callable `init`; see its DocBlock and callers for parameter, return-value and side-effect details. |
 | `classes/event/acknowledgement_confirmed.php:41` | `get_name` | PHP callable `get_name`; see its DocBlock and callers for parameter, return-value and side-effect details. |
 | `classes/event/acknowledgement_confirmed.php:50` | `get_description` | PHP callable `get_description`; see its DocBlock and callers for parameter, return-value and side-effect details. |
@@ -739,13 +769,13 @@ Generated from the VideoTrack 1.6.33 source tree. PHP entries include named func
 | `classes/external/helper.php:138` | `load_and_validate_context` | PHP callable `load_and_validate_context`; see its DocBlock and callers for parameter, return-value and side-effect details. |
 | `classes/external/save_bookmark.php:45` | `execute_parameters` | PHP callable `execute_parameters`; see its DocBlock and callers for parameter, return-value and side-effect details. |
 | `classes/external/save_bookmark.php:65` | `execute` | PHP callable `execute`; see its DocBlock and callers for parameter, return-value and side-effect details. |
-| `classes/external/save_bookmark.php:168` | `execute_returns` | PHP callable `execute_returns`; see its DocBlock and callers for parameter, return-value and side-effect details. |
+| `classes/external/save_bookmark.php:171` | `execute_returns` | PHP callable `execute_returns`; see its DocBlock and callers for parameter, return-value and side-effect details. |
 | `classes/external/save_integrity_event.php:47` | `execute_parameters` | PHP callable `execute_parameters`; see its DocBlock and callers for parameter, return-value and side-effect details. |
 | `classes/external/save_integrity_event.php:65` | `execute` | PHP callable `execute`; see its DocBlock and callers for parameter, return-value and side-effect details. |
 | `classes/external/save_integrity_event.php:140` | `execute_returns` | PHP callable `execute_returns`; see its DocBlock and callers for parameter, return-value and side-effect details. |
 | `classes/external/save_note.php:48` | `execute_parameters` | PHP callable `execute_parameters`; see its DocBlock and callers for parameter, return-value and side-effect details. |
 | `classes/external/save_note.php:68` | `execute` | PHP callable `execute`; see its DocBlock and callers for parameter, return-value and side-effect details. |
-| `classes/external/save_note.php:215` | `execute_returns` | PHP callable `execute_returns`; see its DocBlock and callers for parameter, return-value and side-effect details. |
+| `classes/external/save_note.php:216` | `execute_returns` | PHP callable `execute_returns`; see its DocBlock and callers for parameter, return-value and side-effect details. |
 | `classes/external/save_reaction.php:45` | `execute_parameters` | PHP callable `execute_parameters`; see its DocBlock and callers for parameter, return-value and side-effect details. |
 | `classes/external/save_reaction.php:65` | `execute` | PHP callable `execute`; see its DocBlock and callers for parameter, return-value and side-effect details. |
 | `classes/external/save_reaction.php:285` | `export_reaction_for_client` | PHP callable `export_reaction_for_client`; see its DocBlock and callers for parameter, return-value and side-effect details. |
@@ -757,7 +787,7 @@ Generated from the VideoTrack 1.6.33 source tree. PHP entries include named func
 | `classes/external/start_playback.php:60` | `execute` | PHP callable `execute`; see its DocBlock and callers for parameter, return-value and side-effect details. |
 | `classes/external/start_playback.php:115` | `execute_returns` | PHP callable `execute_returns`; see its DocBlock and callers for parameter, return-value and side-effect details. |
 | `classes/form/forum_post_form.php:40` | `definition` | PHP callable `definition`; see its DocBlock and callers for parameter, return-value and side-effect details. |
-| `classes/form/forum_post_form.php:114` | `validation` | PHP callable `validation`; see its DocBlock and callers for parameter, return-value and side-effect details. |
+| `classes/form/forum_post_form.php:116` | `validation` | PHP callable `validation`; see its DocBlock and callers for parameter, return-value and side-effect details. |
 | `classes/local/acknowledgement.php:46` | `is_enabled` | PHP callable `is_enabled`; see its DocBlock and callers for parameter, return-value and side-effect details. |
 | `classes/local/acknowledgement.php:57` | `has_visible_text` | PHP callable `has_visible_text`; see its DocBlock and callers for parameter, return-value and side-effect details. |
 | `classes/local/acknowledgement.php:69` | `timing` | PHP callable `timing`; see its DocBlock and callers for parameter, return-value and side-effect details. |
@@ -785,46 +815,57 @@ Generated from the VideoTrack 1.6.33 source tree. PHP entries include named func
 | `classes/local/analytics.php:494` | `add_interval_to_map` | PHP callable `add_interval_to_map`; see its DocBlock and callers for parameter, return-value and side-effect details. |
 | `classes/local/analytics_scope.php:42` | `matching_accessible_instances` | PHP callable `matching_accessible_instances`; see its DocBlock and callers for parameter, return-value and side-effect details. |
 | `classes/local/analytics_scope.php:144` | `effective_groupmode` | PHP callable `effective_groupmode`; see its DocBlock and callers for parameter, return-value and side-effect details. |
-| `classes/local/analytics_scope.php:175` | `accessible_group_ids` | PHP callable `accessible_group_ids`; see its DocBlock and callers for parameter, return-value and side-effect details. |
-| `classes/local/analytics_scope.php:210` | `technical_identity` | PHP callable `technical_identity`; see its DocBlock and callers for parameter, return-value and side-effect details. |
-| `classes/local/analytics_scope.php:261` | `normalise_external_url` | PHP callable `normalise_external_url`; see its DocBlock and callers for parameter, return-value and side-effect details. |
-| `classes/local/analytics_scope.php:294` | `get_instance_record` | PHP callable `get_instance_record`; see its DocBlock and callers for parameter, return-value and side-effect details. |
+| `classes/local/analytics_scope.php:176` | `accessible_group_ids` | PHP callable `accessible_group_ids`; see its DocBlock and callers for parameter, return-value and side-effect details. |
+| `classes/local/analytics_scope.php:214` | `technical_identity` | PHP callable `technical_identity`; see its DocBlock and callers for parameter, return-value and side-effect details. |
+| `classes/local/analytics_scope.php:265` | `normalise_external_url` | PHP callable `normalise_external_url`; see its DocBlock and callers for parameter, return-value and side-effect details. |
+| `classes/local/analytics_scope.php:298` | `get_instance_record` | PHP callable `get_instance_record`; see its DocBlock and callers for parameter, return-value and side-effect details. |
 | `classes/local/analytics_table_export.php:35` | `enabled_formats` | PHP callable `enabled_formats`; see its DocBlock and callers for parameter, return-value and side-effect details. |
 | `classes/local/analytics_table_export.php:46` | `columns` | PHP callable `columns`; see its DocBlock and callers for parameter, return-value and side-effect details. |
-| `classes/local/analytics_table_export.php:72` | `export_columns` | PHP callable `export_columns`; see its DocBlock and callers for parameter, return-value and side-effect details. |
-| `classes/local/analytics_table_export.php:105` | `rows` | PHP callable `rows`; see its DocBlock and callers for parameter, return-value and side-effect details. |
-| `classes/local/analytics_table_export.php:178` | `export_rows` | PHP callable `export_rows`; see its DocBlock and callers for parameter, return-value and side-effect details. |
-| `classes/local/course_analytics.php:46` | `get_course_rows` | PHP callable `get_course_rows`; see its DocBlock and callers for parameter, return-value and side-effect details. |
-| `classes/local/course_analytics.php:169` | `summarise_states` | PHP callable `summarise_states`; see its DocBlock and callers for parameter, return-value and side-effect details. |
-| `classes/local/course_analytics.php:220` | `median` | PHP callable `median`; see its DocBlock and callers for parameter, return-value and side-effect details. |
-| `classes/local/course_analytics.php:240` | `largest_adjacent_drop` | PHP callable `largest_adjacent_drop`; see its DocBlock and callers for parameter, return-value and side-effect details. |
-| `classes/local/course_analytics.php:274` | `learner_scope_sql` | PHP callable `learner_scope_sql`; see its DocBlock and callers for parameter, return-value and side-effect details. |
-| `classes/local/course_analytics.php:302` | `load_states` | PHP callable `load_states`; see its DocBlock and callers for parameter, return-value and side-effect details. |
-| `classes/local/course_analytics.php:341` | `load_event_summary` | PHP callable `load_event_summary`; see its DocBlock and callers for parameter, return-value and side-effect details. |
-| `classes/local/csv_export.php:78` | `delimiter_options` | PHP callable `delimiter_options`; see its DocBlock and callers for parameter, return-value and side-effect details. |
-| `classes/local/csv_export.php:97` | `delimiter` | PHP callable `delimiter`; see its DocBlock and callers for parameter, return-value and side-effect details. |
-| `classes/local/csv_export.php:121` | `field_options` | PHP callable `field_options`; see its DocBlock and callers for parameter, return-value and side-effect details. |
-| `classes/local/csv_export.php:169` | `form_field_options` | PHP callable `form_field_options`; see its DocBlock and callers for parameter, return-value and side-effect details. |
-| `classes/local/csv_export.php:195` | `site_default_fields` | PHP callable `site_default_fields`; see its DocBlock and callers for parameter, return-value and side-effect details. |
-| `classes/local/csv_export.php:210` | `activity_fields` | PHP callable `activity_fields`; see its DocBlock and callers for parameter, return-value and side-effect details. |
-| `classes/local/csv_export.php:225` | `form_element_name` | PHP callable `form_element_name`; see its DocBlock and callers for parameter, return-value and side-effect details. |
-| `classes/local/csv_export.php:236` | `process_form_fields` | PHP callable `process_form_fields`; see its DocBlock and callers for parameter, return-value and side-effect details. |
-| `classes/local/csv_export.php:256` | `selected_user_fields` | PHP callable `selected_user_fields`; see its DocBlock and callers for parameter, return-value and side-effect details. |
-| `classes/local/csv_export.php:269` | `load_users` | PHP callable `load_users`; see its DocBlock and callers for parameter, return-value and side-effect details. |
-| `classes/local/csv_export.php:303` | `identity_headers` | PHP callable `identity_headers`; see its DocBlock and callers for parameter, return-value and side-effect details. |
-| `classes/local/csv_export.php:332` | `identity_values` | PHP callable `identity_values`; see its DocBlock and callers for parameter, return-value and side-effect details. |
-| `classes/local/csv_export.php:372` | `cluster_notes` | PHP callable `cluster_notes`; see its DocBlock and callers for parameter, return-value and side-effect details. |
-| `classes/local/csv_export.php:422` | `write_utf8_bom` | PHP callable `write_utf8_bom`; see its DocBlock and callers for parameter, return-value and side-effect details. |
-| `classes/local/csv_export.php:434` | `write_row` | PHP callable `write_row`; see its DocBlock and callers for parameter, return-value and side-effect details. |
-| `classes/local/csv_export.php:459` | `safe_value` | PHP callable `safe_value`; see its DocBlock and callers for parameter, return-value and side-effect details. |
-| `classes/local/csv_export.php:476` | `normalise_field_list` | PHP callable `normalise_field_list`; see its DocBlock and callers for parameter, return-value and side-effect details. |
-| `classes/local/csv_export.php:490` | `field_label` | PHP callable `field_label`; see its DocBlock and callers for parameter, return-value and side-effect details. |
-| `classes/local/csv_export.php:507` | `field_value` | PHP callable `field_value`; see its DocBlock and callers for parameter, return-value and side-effect details. |
-| `classes/local/csv_export.php:543` | `video_url` | PHP callable `video_url`; see its DocBlock and callers for parameter, return-value and side-effect details. |
+| `classes/local/analytics_table_export.php:73` | `export_columns` | PHP callable `export_columns`; see its DocBlock and callers for parameter, return-value and side-effect details. |
+| `classes/local/analytics_table_export.php:121` | `rows` | PHP callable `rows`; see its DocBlock and callers for parameter, return-value and side-effect details. |
+| `classes/local/analytics_table_export.php:197` | `export_rows` | PHP callable `export_rows`; see its DocBlock and callers for parameter, return-value and side-effect details. |
+| `classes/local/analytics_table_export.php:331` | `count_summary_values` | Named PHP function/method `count_summary_values`; see source DocBlock and callers for the current contract. |
+| `classes/local/analytics_table_export.php:353` | `event_summary_row` | Named PHP function/method `event_summary_row`; see source DocBlock and callers for the current contract. |
+| `classes/local/completion_config.php:39` | `required_reaction_ids` | Named PHP function/method `required_reaction_ids`; see source DocBlock and callers for the current contract. |
+| `classes/local/completion_config.php:61` | `has_custom_rules` | Named PHP function/method `has_custom_rules`; see source DocBlock and callers for the current contract. |
+| `classes/local/completion_config.php:89` | `has_required_reactions` | Named PHP function/method `has_required_reactions`; see source DocBlock and callers for the current contract. |
+| `classes/local/completion_config.php:109` | `required_reaction_activity_set` | Named PHP function/method `required_reaction_activity_set`; see source DocBlock and callers for the current contract. |
+| `classes/local/completion_config.php:130` | `reset_required_reaction_cache` | Named PHP function/method `reset_required_reaction_cache`; see source DocBlock and callers for the current contract. |
+| `classes/local/completion_config.php:145` | `active_condition_descriptions` | Named PHP function/method `active_condition_descriptions`; see source DocBlock and callers for the current contract. |
+| `classes/local/completion_config.php:208` | `signature` | Named PHP function/method `signature`; see source DocBlock and callers for the current contract. |
+| `classes/local/course_analytics.php:49` | `get_course_rows` | PHP callable `get_course_rows`; see its DocBlock and callers for parameter, return-value and side-effect details. |
+| `classes/local/course_analytics.php:198` | `summarise_states` | PHP callable `summarise_states`; see its DocBlock and callers for parameter, return-value and side-effect details. |
+| `classes/local/course_analytics.php:249` | `median` | PHP callable `median`; see its DocBlock and callers for parameter, return-value and side-effect details. |
+| `classes/local/course_analytics.php:269` | `largest_adjacent_drop` | PHP callable `largest_adjacent_drop`; see its DocBlock and callers for parameter, return-value and side-effect details. |
+| `classes/local/course_analytics.php:312` | `summarise_period_segments` | Named PHP function/method `summarise_period_segments`; see source DocBlock and callers for the current contract. |
+| `classes/local/course_analytics.php:361` | `load_states_for_scopes` | Named PHP function/method `load_states_for_scopes`; see source DocBlock and callers for the current contract. |
+| `classes/local/course_analytics.php:397` | `load_period_segments_for_scopes` | Named PHP function/method `load_period_segments_for_scopes`; see source DocBlock and callers for the current contract. |
+| `classes/local/course_analytics.php:458` | `load_event_summaries_for_scopes` | Named PHP function/method `load_event_summaries_for_scopes`; see source DocBlock and callers for the current contract. |
+| `classes/local/csv_export.php:79` | `delimiter_options` | PHP callable `delimiter_options`; see its DocBlock and callers for parameter, return-value and side-effect details. |
+| `classes/local/csv_export.php:98` | `delimiter` | PHP callable `delimiter`; see its DocBlock and callers for parameter, return-value and side-effect details. |
+| `classes/local/csv_export.php:122` | `field_options` | PHP callable `field_options`; see its DocBlock and callers for parameter, return-value and side-effect details. |
+| `classes/local/csv_export.php:171` | `form_field_options` | PHP callable `form_field_options`; see its DocBlock and callers for parameter, return-value and side-effect details. |
+| `classes/local/csv_export.php:197` | `site_default_fields` | PHP callable `site_default_fields`; see its DocBlock and callers for parameter, return-value and side-effect details. |
+| `classes/local/csv_export.php:212` | `activity_fields` | PHP callable `activity_fields`; see its DocBlock and callers for parameter, return-value and side-effect details. |
+| `classes/local/csv_export.php:227` | `form_element_name` | PHP callable `form_element_name`; see its DocBlock and callers for parameter, return-value and side-effect details. |
+| `classes/local/csv_export.php:238` | `process_form_fields` | PHP callable `process_form_fields`; see its DocBlock and callers for parameter, return-value and side-effect details. |
+| `classes/local/csv_export.php:258` | `selected_user_fields` | PHP callable `selected_user_fields`; see its DocBlock and callers for parameter, return-value and side-effect details. |
+| `classes/local/csv_export.php:271` | `load_users` | PHP callable `load_users`; see its DocBlock and callers for parameter, return-value and side-effect details. |
+| `classes/local/csv_export.php:305` | `identity_headers` | PHP callable `identity_headers`; see its DocBlock and callers for parameter, return-value and side-effect details. |
+| `classes/local/csv_export.php:335` | `identity_values` | PHP callable `identity_values`; see its DocBlock and callers for parameter, return-value and side-effect details. |
+| `classes/local/csv_export.php:376` | `cluster_notes` | PHP callable `cluster_notes`; see its DocBlock and callers for parameter, return-value and side-effect details. |
+| `classes/local/csv_export.php:426` | `write_utf8_bom` | PHP callable `write_utf8_bom`; see its DocBlock and callers for parameter, return-value and side-effect details. |
+| `classes/local/csv_export.php:438` | `write_row` | PHP callable `write_row`; see its DocBlock and callers for parameter, return-value and side-effect details. |
+| `classes/local/csv_export.php:463` | `safe_value` | PHP callable `safe_value`; see its DocBlock and callers for parameter, return-value and side-effect details. |
+| `classes/local/csv_export.php:480` | `normalise_field_list` | PHP callable `normalise_field_list`; see its DocBlock and callers for parameter, return-value and side-effect details. |
+| `classes/local/csv_export.php:494` | `field_label` | PHP callable `field_label`; see its DocBlock and callers for parameter, return-value and side-effect details. |
+| `classes/local/csv_export.php:512` | `field_value` | PHP callable `field_value`; see its DocBlock and callers for parameter, return-value and side-effect details. |
+| `classes/local/csv_export.php:549` | `video_url` | PHP callable `video_url`; see its DocBlock and callers for parameter, return-value and side-effect details. |
 | `classes/local/forum_bridge.php:47` | `resolve_destination` | PHP callable `resolve_destination`; see its DocBlock and callers for parameter, return-value and side-effect details. |
 | `classes/local/forum_bridge.php:99` | `get_group_options` | PHP callable `get_group_options`; see its DocBlock and callers for parameter, return-value and side-effect details. |
 | `classes/local/forum_bridge.php:135` | `can_choose_subscription` | PHP callable `can_choose_subscription`; see its DocBlock and callers for parameter, return-value and side-effect details. |
-| `classes/local/forum_bridge.php:154` | `create_discussion` | PHP callable `create_discussion`; see its DocBlock and callers for parameter, return-value and side-effect details. |
+| `classes/local/forum_bridge.php:156` | `validate_timestamp_access` | Named PHP function/method `validate_timestamp_access`; see source DocBlock and callers for the current contract. |
+| `classes/local/forum_bridge.php:209` | `create_discussion` | PHP callable `create_discussion`; see its DocBlock and callers for parameter, return-value and side-effect details. |
 | `classes/local/integrity.php:78` | `normalise_random_pause_bounds` | PHP callable `normalise_random_pause_bounds`; see its DocBlock and callers for parameter, return-value and side-effect details. |
 | `classes/local/integrity.php:100` | `random_pause_bounds` | PHP callable `random_pause_bounds`; see its DocBlock and callers for parameter, return-value and side-effect details. |
 | `classes/local/integrity.php:114` | `focus_loss_policy` | PHP callable `focus_loss_policy`; see its DocBlock and callers for parameter, return-value and side-effect details. |
@@ -833,8 +874,10 @@ Generated from the VideoTrack 1.6.33 source tree. PHP entries include named func
 | `classes/local/integrity.php:152` | `label_string` | PHP callable `label_string`; see its DocBlock and callers for parameter, return-value and side-effect details. |
 | `classes/local/integrity.php:164` | `summarise` | PHP callable `summarise`; see its DocBlock and callers for parameter, return-value and side-effect details. |
 | `classes/local/learner_scope.php:41` | `sql` | PHP callable `sql`; see its DocBlock and callers for parameter, return-value and side-effect details. |
-| `classes/local/learner_scope.php:94` | `prefix_named_params` | PHP callable `prefix_named_params`; see its DocBlock and callers for parameter, return-value and side-effect details. |
-| `classes/local/learner_scope.php:119` | `user_is_visible` | PHP callable `user_is_visible`; see its DocBlock and callers for parameter, return-value and side-effect details. |
+| `classes/local/learner_scope.php:79` | `sql_for_group_ids` | Named PHP function/method `sql_for_group_ids`; see source DocBlock and callers for the current contract. |
+| `classes/local/learner_scope.php:120` | `prefix_named_params` | PHP callable `prefix_named_params`; see its DocBlock and callers for parameter, return-value and side-effect details. |
+| `classes/local/learner_scope.php:146` | `can_participate` | Named PHP function/method `can_participate`; see source DocBlock and callers for the current contract. |
+| `classes/local/learner_scope.php:160` | `user_is_visible` | PHP callable `user_is_visible`; see its DocBlock and callers for parameter, return-value and side-effect details. |
 | `classes/local/privacy_manager.php:47` | `retention_period_seconds` | PHP callable `retention_period_seconds`; see its DocBlock and callers for parameter, return-value and side-effect details. |
 | `classes/local/privacy_manager.php:68` | `retention_cutoff_timestamp` | PHP callable `retention_cutoff_timestamp`; see its DocBlock and callers for parameter, return-value and side-effect details. |
 | `classes/local/privacy_manager.php:83` | `timestamp_is_retained` | PHP callable `timestamp_is_retained`; see its DocBlock and callers for parameter, return-value and side-effect details. |
@@ -847,14 +890,14 @@ Generated from the VideoTrack 1.6.33 source tree. PHP entries include named func
 | `classes/local/privacy_manager.php:421` | `count_and_delete` | PHP callable `count_and_delete`; see its DocBlock and callers for parameter, return-value and side-effect details. |
 | `classes/local/privacy_manager.php:438` | `load_activity` | PHP callable `load_activity`; see its DocBlock and callers for parameter, return-value and side-effect details. |
 | `classes/local/privacy_manager.php:464` | `has_retained_state_inputs` | PHP callable `has_retained_state_inputs`; see its DocBlock and callers for parameter, return-value and side-effect details. |
-| `classes/local/privacy_manager.php:497` | `earliest_retained_timestamp` | PHP callable `earliest_retained_timestamp`; see its DocBlock and callers for parameter, return-value and side-effect details. |
-| `classes/local/privacy_manager.php:539` | `delete_state` | PHP callable `delete_state`; see its DocBlock and callers for parameter, return-value and side-effect details. |
-| `classes/local/privacy_manager.php:563` | `synchronise_completion` | PHP callable `synchronise_completion`; see its DocBlock and callers for parameter, return-value and side-effect details. |
-| `classes/local/teacher_analytics.php:36` | `accessible_courses` | PHP callable `accessible_courses`; see its DocBlock and callers for parameter, return-value and side-effect details. |
-| `classes/local/teacher_analytics.php:72` | `dashboard_rows` | PHP callable `dashboard_rows`; see its DocBlock and callers for parameter, return-value and side-effect details. |
-| `classes/local/teacher_analytics.php:119` | `activity_options` | PHP callable `activity_options`; see its DocBlock and callers for parameter, return-value and side-effect details. |
-| `classes/local/teacher_analytics.php:141` | `group_options` | PHP callable `group_options`; see its DocBlock and callers for parameter, return-value and side-effect details. |
-| `classes/local/teacher_analytics.php:165` | `period_bounds` | PHP callable `period_bounds`; see its DocBlock and callers for parameter, return-value and side-effect details. |
+| `classes/local/privacy_manager.php:501` | `earliest_retained_timestamp` | PHP callable `earliest_retained_timestamp`; see its DocBlock and callers for parameter, return-value and side-effect details. |
+| `classes/local/privacy_manager.php:543` | `delete_state` | PHP callable `delete_state`; see its DocBlock and callers for parameter, return-value and side-effect details. |
+| `classes/local/privacy_manager.php:567` | `synchronise_completion` | PHP callable `synchronise_completion`; see its DocBlock and callers for parameter, return-value and side-effect details. |
+| `classes/local/teacher_analytics.php:37` | `accessible_courses` | PHP callable `accessible_courses`; see its DocBlock and callers for parameter, return-value and side-effect details. |
+| `classes/local/teacher_analytics.php:73` | `dashboard_rows` | PHP callable `dashboard_rows`; see its DocBlock and callers for parameter, return-value and side-effect details. |
+| `classes/local/teacher_analytics.php:120` | `activity_options` | PHP callable `activity_options`; see its DocBlock and callers for parameter, return-value and side-effect details. |
+| `classes/local/teacher_analytics.php:152` | `group_options` | PHP callable `group_options`; see its DocBlock and callers for parameter, return-value and side-effect details. |
+| `classes/local/teacher_analytics.php:176` | `period_bounds` | PHP callable `period_bounds`; see its DocBlock and callers for parameter, return-value and side-effect details. |
 | `classes/local/timed_text.php:44` | `file_options` | PHP callable `file_options`; see its DocBlock and callers for parameter, return-value and side-effect details. |
 | `classes/local/timed_text.php:59` | `save_files` | PHP callable `save_files`; see its DocBlock and callers for parameter, return-value and side-effect details. |
 | `classes/local/timed_text.php:97` | `transcript_tracks` | PHP callable `transcript_tracks`; see its DocBlock and callers for parameter, return-value and side-effect details. |
@@ -875,17 +918,19 @@ Generated from the VideoTrack 1.6.33 source tree. PHP entries include named func
 | `classes/local/tracker.php:221` | `reaction_counts` | PHP callable `reaction_counts`; see its DocBlock and callers for parameter, return-value and side-effect details. |
 | `classes/local/tracker.php:263` | `invalidate_reactioncountscache` | PHP callable `invalidate_reactioncountscache`; see its DocBlock and callers for parameter, return-value and side-effect details. |
 | `classes/local/tracker.php:284` | `has_watched_videotime` | PHP callable `has_watched_videotime`; see its DocBlock and callers for parameter, return-value and side-effect details. |
-| `classes/local/tracker.php:374` | `completion_satisfied` | PHP callable `completion_satisfied`; see its DocBlock and callers for parameter, return-value and side-effect details. |
-| `classes/local/tracker.php:431` | `create_default_state` | PHP callable `create_default_state`; see its DocBlock and callers for parameter, return-value and side-effect details. |
-| `classes/local/tracker.php:468` | `advance_server_credit_budget` | PHP callable `advance_server_credit_budget`; see its DocBlock and callers for parameter, return-value and side-effect details. |
-| `classes/local/tracker.php:526` | `same_segment_request` | PHP callable `same_segment_request`; see its DocBlock and callers for parameter, return-value and side-effect details. |
-| `classes/local/tracker.php:546` | `begin_playback` | PHP callable `begin_playback`; see its DocBlock and callers for parameter, return-value and side-effect details. |
-| `classes/local/tracker.php:642` | `forward_interval_allowed` | PHP callable `forward_interval_allowed`; see its DocBlock and callers for parameter, return-value and side-effect details. |
-| `classes/local/tracker.php:675` | `update_state` | PHP callable `update_state`; see its DocBlock and callers for parameter, return-value and side-effect details. |
-| `classes/local/tracker.php:877` | `update_moodle_completion_if_changed` | PHP callable `update_moodle_completion_if_changed`; see its DocBlock and callers for parameter, return-value and side-effect details. |
-| `classes/local/tracker.php:901` | `aggregate_segments` | PHP callable `aggregate_segments`; see its DocBlock and callers for parameter, return-value and side-effect details. |
-| `classes/local/tracker.php:941` | `rebuild_state_from_segments` | PHP callable `rebuild_state_from_segments`; see its DocBlock and callers for parameter, return-value and side-effect details. |
-| `classes/local/tracker.php:1038` | `refresh_completion` | PHP callable `refresh_completion`; see its DocBlock and callers for parameter, return-value and side-effect details. |
+| `classes/local/tracker.php:340` | `has_watched_videotime_any_session` | Named PHP function/method `has_watched_videotime_any_session`; see source DocBlock and callers for the current contract. |
+| `classes/local/tracker.php:409` | `completion_satisfied` | PHP callable `completion_satisfied`; see its DocBlock and callers for parameter, return-value and side-effect details. |
+| `classes/local/tracker.php:484` | `interaction_timestamp_allowed` | Named PHP function/method `interaction_timestamp_allowed`; see source DocBlock and callers for the current contract. |
+| `classes/local/tracker.php:533` | `create_default_state` | PHP callable `create_default_state`; see its DocBlock and callers for parameter, return-value and side-effect details. |
+| `classes/local/tracker.php:570` | `advance_server_credit_budget` | PHP callable `advance_server_credit_budget`; see its DocBlock and callers for parameter, return-value and side-effect details. |
+| `classes/local/tracker.php:628` | `same_segment_request` | PHP callable `same_segment_request`; see its DocBlock and callers for parameter, return-value and side-effect details. |
+| `classes/local/tracker.php:648` | `begin_playback` | PHP callable `begin_playback`; see its DocBlock and callers for parameter, return-value and side-effect details. |
+| `classes/local/tracker.php:744` | `forward_interval_allowed` | PHP callable `forward_interval_allowed`; see its DocBlock and callers for parameter, return-value and side-effect details. |
+| `classes/local/tracker.php:777` | `update_state` | PHP callable `update_state`; see its DocBlock and callers for parameter, return-value and side-effect details. |
+| `classes/local/tracker.php:977` | `update_moodle_completion_if_changed` | PHP callable `update_moodle_completion_if_changed`; see its DocBlock and callers for parameter, return-value and side-effect details. |
+| `classes/local/tracker.php:1001` | `aggregate_segments` | PHP callable `aggregate_segments`; see its DocBlock and callers for parameter, return-value and side-effect details. |
+| `classes/local/tracker.php:1041` | `rebuild_state_from_segments` | PHP callable `rebuild_state_from_segments`; see its DocBlock and callers for parameter, return-value and side-effect details. |
+| `classes/local/tracker.php:1136` | `refresh_completion` | PHP callable `refresh_completion`; see its DocBlock and callers for parameter, return-value and side-effect details. |
 | `classes/privacy/provider.php:48` | `format_interval_second` | PHP callable `format_interval_second`; see its DocBlock and callers for parameter, return-value and side-effect details. |
 | `classes/privacy/provider.php:59` | `get_metadata` | PHP callable `get_metadata`; see its DocBlock and callers for parameter, return-value and side-effect details. |
 | `classes/privacy/provider.php:166` | `get_contexts_for_userid` | PHP callable `get_contexts_for_userid`; see its DocBlock and callers for parameter, return-value and side-effect details. |
@@ -897,96 +942,107 @@ Generated from the VideoTrack 1.6.33 source tree. PHP entries include named func
 | `classes/privacy/provider.php:630` | `delete_records_for_users_in_context` | PHP callable `delete_records_for_users_in_context`; see its DocBlock and callers for parameter, return-value and side-effect details. |
 | `classes/task/cleanup_task.php:38` | `get_name` | PHP callable `get_name`; see its DocBlock and callers for parameter, return-value and side-effect details. |
 | `classes/task/cleanup_task.php:45` | `execute` | PHP callable `execute`; see its DocBlock and callers for parameter, return-value and side-effect details. |
+| `db/install.php:38` | `xmldb_videotrack_install` | Named PHP function/method `xmldb_videotrack_install`; see source DocBlock and callers for the current contract. |
+| `db/repairlib.php:42` | `videotrack_repair_preproduction_gradebook_rows` | Named PHP function/method `videotrack_repair_preproduction_gradebook_rows`; see source DocBlock and callers for the current contract. |
+| `db/repairlib.php:101` | `videotrack_repair_preproduction_merge_grade_grades` | Named PHP function/method `videotrack_repair_preproduction_merge_grade_grades`; see source DocBlock and callers for the current contract. |
+| `db/repairlib.php:131` | `videotrack_repair_preproduction_delete_grade_items` | Named PHP function/method `videotrack_repair_preproduction_delete_grade_items`; see source DocBlock and callers for the current contract. |
+| `db/repairlib.php:152` | `videotrack_repair_preproduction_schema` | Named PHP function/method `videotrack_repair_preproduction_schema`; see source DocBlock and callers for the current contract. |
+| `db/repairlib.php:219` | `videotrack_repair_preproduction_add_field` | Named PHP function/method `videotrack_repair_preproduction_add_field`; see source DocBlock and callers for the current contract. |
+| `db/repairlib.php:255` | `videotrack_repair_preproduction_unique_index_data` | Named PHP function/method `videotrack_repair_preproduction_unique_index_data`; see source DocBlock and callers for the current contract. |
+| `db/repairlib.php:276` | `videotrack_repair_preproduction_requestids` | Named PHP function/method `videotrack_repair_preproduction_requestids`; see source DocBlock and callers for the current contract. |
+| `db/repairlib.php:317` | `videotrack_repair_preproduction_deduplicate` | Named PHP function/method `videotrack_repair_preproduction_deduplicate`; see source DocBlock and callers for the current contract. |
 | `db/upgrade.php:35` | `xmldb_videotrack_upgrade` | PHP callable `xmldb_videotrack_upgrade`; see its DocBlock and callers for parameter, return-value and side-effect details. |
-| `lib.php:37` | `videotrack_supports` | PHP callable `videotrack_supports`; see its DocBlock and callers for parameter, return-value and side-effect details. |
-| `lib.php:69` | `videotrack_whitelist_record` | PHP callable `videotrack_whitelist_record`; see its DocBlock and callers for parameter, return-value and side-effect details. |
-| `lib.php:94` | `videotrack_add_instance` | PHP callable `videotrack_add_instance`; see its DocBlock and callers for parameter, return-value and side-effect details. |
-| `lib.php:145` | `videotrack_update_instance` | PHP callable `videotrack_update_instance`; see its DocBlock and callers for parameter, return-value and side-effect details. |
-| `lib.php:194` | `videotrack_process_forum_fields` | PHP callable `videotrack_process_forum_fields`; see its DocBlock and callers for parameter, return-value and side-effect details. |
-| `lib.php:213` | `videotrack_process_acknowledgement_fields` | PHP callable `videotrack_process_acknowledgement_fields`; see its DocBlock and callers for parameter, return-value and side-effect details. |
-| `lib.php:240` | `videotrack_process_video_fields` | PHP callable `videotrack_process_video_fields`; see its DocBlock and callers for parameter, return-value and side-effect details. |
-| `lib.php:282` | `videotrack_process_playbackspeeds_field` | PHP callable `videotrack_process_playbackspeeds_field`; see its DocBlock and callers for parameter, return-value and side-effect details. |
-| `lib.php:311` | `videotrack_save_uploaded_video` | PHP callable `videotrack_save_uploaded_video`; see its DocBlock and callers for parameter, return-value and side-effect details. |
-| `lib.php:332` | `videotrack_delete_upload_source_files` | PHP callable `videotrack_delete_upload_source_files`; see its DocBlock and callers for parameter, return-value and side-effect details. |
-| `lib.php:349` | `videotrack_get_upload_url` | PHP callable `videotrack_get_upload_url`; see its DocBlock and callers for parameter, return-value and side-effect details. |
-| `lib.php:377` | `videotrack_get_module_context_from_data` | PHP callable `videotrack_get_module_context_from_data`; see its DocBlock and callers for parameter, return-value and side-effect details. |
-| `lib.php:400` | `videotrack_save_poster_image` | PHP callable `videotrack_save_poster_image`; see its DocBlock and callers for parameter, return-value and side-effect details. |
-| `lib.php:433` | `videotrack_is_valid_reaction_icon_class` | PHP callable `videotrack_is_valid_reaction_icon_class`; see its DocBlock and callers for parameter, return-value and side-effect details. |
-| `lib.php:468` | `videotrack_save_reaction_definitions` | PHP callable `videotrack_save_reaction_definitions`; see its DocBlock and callers for parameter, return-value and side-effect details. |
-| `lib.php:613` | `videotrack_user_outline` | PHP callable `videotrack_user_outline`; see its DocBlock and callers for parameter, return-value and side-effect details. |
-| `lib.php:642` | `videotrack_user_complete` | PHP callable `videotrack_user_complete`; see its DocBlock and callers for parameter, return-value and side-effect details. |
-| `lib.php:683` | `videotrack_extend_settings_navigation` | PHP callable `videotrack_extend_settings_navigation`; see its DocBlock and callers for parameter, return-value and side-effect details. |
-| `lib.php:713` | `videotrack_extend_navigation_course` | PHP callable `videotrack_extend_navigation_course`; see its DocBlock and callers for parameter, return-value and side-effect details. |
-| `lib.php:746` | `videotrack_get_html5controls` | PHP callable `videotrack_get_html5controls`; see its DocBlock and callers for parameter, return-value and side-effect details. |
-| `lib.php:762` | `videotrack_process_html5controls_field` | PHP callable `videotrack_process_html5controls_field`; see its DocBlock and callers for parameter, return-value and side-effect details. |
-| `lib.php:793` | `videotrack_process_player_behavior_fields` | PHP callable `videotrack_process_player_behavior_fields`; see its DocBlock and callers for parameter, return-value and side-effect details. |
-| `lib.php:830` | `videotrack_get_player_width` | PHP callable `videotrack_get_player_width`; see its DocBlock and callers for parameter, return-value and side-effect details. |
-| `lib.php:845` | `videotrack_get_rewind_step` | PHP callable `videotrack_get_rewind_step`; see its DocBlock and callers for parameter, return-value and side-effect details. |
-| `lib.php:866` | `videotrack_get_fastforward_step` | PHP callable `videotrack_get_fastforward_step`; see its DocBlock and callers for parameter, return-value and side-effect details. |
-| `lib.php:887` | `videotrack_get_vtt_url` | PHP callable `videotrack_get_vtt_url`; see its DocBlock and callers for parameter, return-value and side-effect details. |
-| `lib.php:910` | `videotrack_process_captions_fields` | PHP callable `videotrack_process_captions_fields`; see its DocBlock and callers for parameter, return-value and side-effect details. |
-| `lib.php:953` | `videotrack_process_grade_fields` | PHP callable `videotrack_process_grade_fields`; see its DocBlock and callers for parameter, return-value and side-effect details. |
-| `lib.php:981` | `videotrack_grade_item_update` | PHP callable `videotrack_grade_item_update`; see its DocBlock and callers for parameter, return-value and side-effect details. |
-| `lib.php:1055` | `videotrack_update_grades` | PHP callable `videotrack_update_grades`; see its DocBlock and callers for parameter, return-value and side-effect details. |
-| `lib.php:1067` | `videotrack_set_user_grade` | PHP callable `videotrack_set_user_grade`; see its DocBlock and callers for parameter, return-value and side-effect details. |
-| `lib.php:1084` | `videotrack_get_user_grade` | PHP callable `videotrack_get_user_grade`; see its DocBlock and callers for parameter, return-value and side-effect details. |
-| `lib.php:1110` | `videotrack_get_poster_url` | PHP callable `videotrack_get_poster_url`; see its DocBlock and callers for parameter, return-value and side-effect details. |
-| `lib.php:1150` | `videotrack_delete_user_progress` | PHP callable `videotrack_delete_user_progress`; see its DocBlock and callers for parameter, return-value and side-effect details. |
-| `lib.php:1182` | `videotrack_grade_item_delete` | PHP callable `videotrack_grade_item_delete`; see its DocBlock and callers for parameter, return-value and side-effect details. |
-| `lib.php:1203` | `videotrack_delete_instance` | PHP callable `videotrack_delete_instance`; see its DocBlock and callers for parameter, return-value and side-effect details. |
-| `lib.php:1259` | `videotrack_get_coursemodule_info` | PHP callable `videotrack_get_coursemodule_info`; see its DocBlock and callers for parameter, return-value and side-effect details. |
-| `lib.php:1280` | `videotrack_view` | PHP callable `videotrack_view`; see its DocBlock and callers for parameter, return-value and side-effect details. |
-| `lib.php:1299` | `videotrack_get_completion_active_rule_descriptions` | PHP callable `videotrack_get_completion_active_rule_descriptions`; see its DocBlock and callers for parameter, return-value and side-effect details. |
-| `lib.php:1337` | `videotrack_update_completion_for_user` | PHP callable `videotrack_update_completion_for_user`; see its DocBlock and callers for parameter, return-value and side-effect details. |
-| `lib.php:1353` | `videotrack_reset_course_userdata` | PHP callable `videotrack_reset_course_userdata`; see its DocBlock and callers for parameter, return-value and side-effect details. |
-| `lib.php:1402` | `videotrack_reset_course_form_definition` | PHP callable `videotrack_reset_course_form_definition`; see its DocBlock and callers for parameter, return-value and side-effect details. |
-| `lib.php:1422` | `videotrack_reset_course_form_defaults` | PHP callable `videotrack_reset_course_form_defaults`; see its DocBlock and callers for parameter, return-value and side-effect details. |
-| `lib.php:1438` | `videotrack_resize_reaction_icon` | PHP callable `videotrack_resize_reaction_icon`; see its DocBlock and callers for parameter, return-value and side-effect details. |
-| `lib.php:1533` | `videotrack_pluginfile` | PHP callable `videotrack_pluginfile`; see its DocBlock and callers for parameter, return-value and side-effect details. |
-| `lib.php:1642` | `videotrack_recalculate_all_states` | PHP callable `videotrack_recalculate_all_states`; see its DocBlock and callers for parameter, return-value and side-effect details. |
+| `lib.php:38` | `videotrack_supports` | PHP callable `videotrack_supports`; see its DocBlock and callers for parameter, return-value and side-effect details. |
+| `lib.php:70` | `videotrack_whitelist_record` | PHP callable `videotrack_whitelist_record`; see its DocBlock and callers for parameter, return-value and side-effect details. |
+| `lib.php:95` | `videotrack_add_instance` | PHP callable `videotrack_add_instance`; see its DocBlock and callers for parameter, return-value and side-effect details. |
+| `lib.php:146` | `videotrack_update_instance` | PHP callable `videotrack_update_instance`; see its DocBlock and callers for parameter, return-value and side-effect details. |
+| `lib.php:213` | `videotrack_process_forum_fields` | PHP callable `videotrack_process_forum_fields`; see its DocBlock and callers for parameter, return-value and side-effect details. |
+| `lib.php:232` | `videotrack_process_acknowledgement_fields` | PHP callable `videotrack_process_acknowledgement_fields`; see its DocBlock and callers for parameter, return-value and side-effect details. |
+| `lib.php:259` | `videotrack_process_video_fields` | PHP callable `videotrack_process_video_fields`; see its DocBlock and callers for parameter, return-value and side-effect details. |
+| `lib.php:301` | `videotrack_process_playbackspeeds_field` | PHP callable `videotrack_process_playbackspeeds_field`; see its DocBlock and callers for parameter, return-value and side-effect details. |
+| `lib.php:330` | `videotrack_save_uploaded_video` | PHP callable `videotrack_save_uploaded_video`; see its DocBlock and callers for parameter, return-value and side-effect details. |
+| `lib.php:351` | `videotrack_delete_upload_source_files` | PHP callable `videotrack_delete_upload_source_files`; see its DocBlock and callers for parameter, return-value and side-effect details. |
+| `lib.php:368` | `videotrack_get_upload_url` | PHP callable `videotrack_get_upload_url`; see its DocBlock and callers for parameter, return-value and side-effect details. |
+| `lib.php:396` | `videotrack_get_module_context_from_data` | PHP callable `videotrack_get_module_context_from_data`; see its DocBlock and callers for parameter, return-value and side-effect details. |
+| `lib.php:419` | `videotrack_save_poster_image` | PHP callable `videotrack_save_poster_image`; see its DocBlock and callers for parameter, return-value and side-effect details. |
+| `lib.php:452` | `videotrack_is_valid_reaction_icon_class` | PHP callable `videotrack_is_valid_reaction_icon_class`; see its DocBlock and callers for parameter, return-value and side-effect details. |
+| `lib.php:487` | `videotrack_save_reaction_definitions` | PHP callable `videotrack_save_reaction_definitions`; see its DocBlock and callers for parameter, return-value and side-effect details. |
+| `lib.php:634` | `videotrack_user_outline` | PHP callable `videotrack_user_outline`; see its DocBlock and callers for parameter, return-value and side-effect details. |
+| `lib.php:663` | `videotrack_user_complete` | PHP callable `videotrack_user_complete`; see its DocBlock and callers for parameter, return-value and side-effect details. |
+| `lib.php:704` | `videotrack_extend_settings_navigation` | PHP callable `videotrack_extend_settings_navigation`; see its DocBlock and callers for parameter, return-value and side-effect details. |
+| `lib.php:734` | `videotrack_extend_navigation_course` | PHP callable `videotrack_extend_navigation_course`; see its DocBlock and callers for parameter, return-value and side-effect details. |
+| `lib.php:767` | `videotrack_get_html5controls` | PHP callable `videotrack_get_html5controls`; see its DocBlock and callers for parameter, return-value and side-effect details. |
+| `lib.php:783` | `videotrack_process_html5controls_field` | PHP callable `videotrack_process_html5controls_field`; see its DocBlock and callers for parameter, return-value and side-effect details. |
+| `lib.php:814` | `videotrack_process_player_behavior_fields` | PHP callable `videotrack_process_player_behavior_fields`; see its DocBlock and callers for parameter, return-value and side-effect details. |
+| `lib.php:851` | `videotrack_get_player_width` | PHP callable `videotrack_get_player_width`; see its DocBlock and callers for parameter, return-value and side-effect details. |
+| `lib.php:866` | `videotrack_get_rewind_step` | PHP callable `videotrack_get_rewind_step`; see its DocBlock and callers for parameter, return-value and side-effect details. |
+| `lib.php:887` | `videotrack_get_fastforward_step` | PHP callable `videotrack_get_fastforward_step`; see its DocBlock and callers for parameter, return-value and side-effect details. |
+| `lib.php:908` | `videotrack_get_vtt_url` | PHP callable `videotrack_get_vtt_url`; see its DocBlock and callers for parameter, return-value and side-effect details. |
+| `lib.php:931` | `videotrack_process_captions_fields` | PHP callable `videotrack_process_captions_fields`; see its DocBlock and callers for parameter, return-value and side-effect details. |
+| `lib.php:974` | `videotrack_process_grade_fields` | PHP callable `videotrack_process_grade_fields`; see its DocBlock and callers for parameter, return-value and side-effect details. |
+| `lib.php:1002` | `videotrack_grade_item_update` | PHP callable `videotrack_grade_item_update`; see its DocBlock and callers for parameter, return-value and side-effect details. |
+| `lib.php:1076` | `videotrack_update_grades` | PHP callable `videotrack_update_grades`; see its DocBlock and callers for parameter, return-value and side-effect details. |
+| `lib.php:1088` | `videotrack_set_user_grade` | PHP callable `videotrack_set_user_grade`; see its DocBlock and callers for parameter, return-value and side-effect details. |
+| `lib.php:1105` | `videotrack_get_user_grade` | PHP callable `videotrack_get_user_grade`; see its DocBlock and callers for parameter, return-value and side-effect details. |
+| `lib.php:1131` | `videotrack_get_poster_url` | PHP callable `videotrack_get_poster_url`; see its DocBlock and callers for parameter, return-value and side-effect details. |
+| `lib.php:1171` | `videotrack_delete_user_progress` | PHP callable `videotrack_delete_user_progress`; see its DocBlock and callers for parameter, return-value and side-effect details. |
+| `lib.php:1203` | `videotrack_grade_item_delete` | PHP callable `videotrack_grade_item_delete`; see its DocBlock and callers for parameter, return-value and side-effect details. |
+| `lib.php:1224` | `videotrack_delete_instance` | PHP callable `videotrack_delete_instance`; see its DocBlock and callers for parameter, return-value and side-effect details. |
+| `lib.php:1280` | `videotrack_get_coursemodule_info` | PHP callable `videotrack_get_coursemodule_info`; see its DocBlock and callers for parameter, return-value and side-effect details. |
+| `lib.php:1307` | `videotrack_view` | PHP callable `videotrack_view`; see its DocBlock and callers for parameter, return-value and side-effect details. |
+| `lib.php:1333` | `videotrack_get_completion_state` | Named PHP function/method `videotrack_get_completion_state`; see source DocBlock and callers for the current contract. |
+| `lib.php:1371` | `videotrack_get_completion_active_rule_descriptions` | PHP callable `videotrack_get_completion_active_rule_descriptions`; see its DocBlock and callers for parameter, return-value and side-effect details. |
+| `lib.php:1403` | `videotrack_update_completion_for_user` | PHP callable `videotrack_update_completion_for_user`; see its DocBlock and callers for parameter, return-value and side-effect details. |
+| `lib.php:1419` | `videotrack_reset_course_userdata` | PHP callable `videotrack_reset_course_userdata`; see its DocBlock and callers for parameter, return-value and side-effect details. |
+| `lib.php:1468` | `videotrack_reset_course_form_definition` | PHP callable `videotrack_reset_course_form_definition`; see its DocBlock and callers for parameter, return-value and side-effect details. |
+| `lib.php:1488` | `videotrack_reset_course_form_defaults` | PHP callable `videotrack_reset_course_form_defaults`; see its DocBlock and callers for parameter, return-value and side-effect details. |
+| `lib.php:1504` | `videotrack_resize_reaction_icon` | PHP callable `videotrack_resize_reaction_icon`; see its DocBlock and callers for parameter, return-value and side-effect details. |
+| `lib.php:1599` | `videotrack_pluginfile` | PHP callable `videotrack_pluginfile`; see its DocBlock and callers for parameter, return-value and side-effect details. |
+| `lib.php:1709` | `videotrack_recalculate_all_states` | PHP callable `videotrack_recalculate_all_states`; see its DocBlock and callers for parameter, return-value and side-effect details. |
 | `locallib.php:38` | `videotrack_get_config_int` | PHP callable `videotrack_get_config_int`; see its DocBlock and callers for parameter, return-value and side-effect details. |
 | `locallib.php:57` | `videotrack_extract_videoid` | PHP callable `videotrack_extract_videoid`; see its DocBlock and callers for parameter, return-value and side-effect details. |
 | `locallib.php:108` | `videotrack_extract_vimeo_id` | PHP callable `videotrack_extract_vimeo_id`; see its DocBlock and callers for parameter, return-value and side-effect details. |
 | `locallib.php:148` | `videotrack_get_playback_speeds` | PHP callable `videotrack_get_playback_speeds`; see its DocBlock and callers for parameter, return-value and side-effect details. |
-| `locallib.php:196` | `videotrack_get_max_playback_rate` | PHP callable `videotrack_get_max_playback_rate`; see its DocBlock and callers for parameter, return-value and side-effect details. |
-| `locallib.php:209` | `videotrack_get_site_playback_speeds` | PHP callable `videotrack_get_site_playback_speeds`; see its DocBlock and callers for parameter, return-value and side-effect details. |
-| `locallib.php:228` | `videotrack_format_seconds` | PHP callable `videotrack_format_seconds`; see its DocBlock and callers for parameter, return-value and side-effect details. |
-| `locallib.php:246` | `videotrack_format_video_timestamp` | PHP callable `videotrack_format_video_timestamp`; see its DocBlock and callers for parameter, return-value and side-effect details. |
-| `locallib.php:266` | `videotrack_parse_video_timestamp` | PHP callable `videotrack_parse_video_timestamp`; see its DocBlock and callers for parameter, return-value and side-effect details. |
-| `locallib.php:306` | `videotrack_parse_report_timestamp` | PHP callable `videotrack_parse_report_timestamp`; see its DocBlock and callers for parameter, return-value and side-effect details. |
-| `locallib.php:326` | `videotrack_build_required_reaction_notice` | PHP callable `videotrack_build_required_reaction_notice`; see its DocBlock and callers for parameter, return-value and side-effect details. |
-| `locallib.php:348` | `videotrack_get_reactions` | PHP callable `videotrack_get_reactions`; see its DocBlock and callers for parameter, return-value and side-effect details. |
-| `locallib.php:375` | `videotrack_reaction_icon_url` | PHP callable `videotrack_reaction_icon_url`; see its DocBlock and callers for parameter, return-value and side-effect details. |
-| `locallib.php:416` | `videotrack_render_reaction_icon` | PHP callable `videotrack_render_reaction_icon`; see its DocBlock and callers for parameter, return-value and side-effect details. |
-| `locallib.php:463` | `videotrack_get_fallback_reaction_emoji_catalog` | PHP callable `videotrack_get_fallback_reaction_emoji_catalog`; see its DocBlock and callers for parameter, return-value and side-effect details. |
-| `locallib.php:497` | `videotrack_get_moodle_reaction_emoji_catalog` | PHP callable `videotrack_get_moodle_reaction_emoji_catalog`; see its DocBlock and callers for parameter, return-value and side-effect details. |
-| `locallib.php:549` | `videotrack_get_reaction_icon_catalog` | PHP callable `videotrack_get_reaction_icon_catalog`; see its DocBlock and callers for parameter, return-value and side-effect details. |
-| `locallib.php:595` | `videotrack_get_reaction_icon_suggestions` | PHP callable `videotrack_get_reaction_icon_suggestions`; see its DocBlock and callers for parameter, return-value and side-effect details. |
-| `locallib.php:613` | `videotrack_reaction_icon_datalist` | PHP callable `videotrack_reaction_icon_datalist`; see its DocBlock and callers for parameter, return-value and side-effect details. |
-| `locallib.php:640` | `videotrack_reaction_icon_picker` | PHP callable `videotrack_reaction_icon_picker`; see its DocBlock and callers for parameter, return-value and side-effect details. |
-| `locallib.php:761` | `videotrack_get_all_presets` | PHP callable `videotrack_get_all_presets`; see its DocBlock and callers for parameter, return-value and side-effect details. |
-| `locallib.php:775` | `videotrack_save_presets` | PHP callable `videotrack_save_presets`; see its DocBlock and callers for parameter, return-value and side-effect details. |
-| `locallib.php:785` | `videotrack_get_preset_select_options` | PHP callable `videotrack_get_preset_select_options`; see its DocBlock and callers for parameter, return-value and side-effect details. |
-| `locallib.php:800` | `videotrack_get_all_presets_for_js` | PHP callable `videotrack_get_all_presets_for_js`; see its DocBlock and callers for parameter, return-value and side-effect details. |
-| `locallib.php:816` | `videotrack_require_preset_amd` | PHP callable `videotrack_require_preset_amd`; see its DocBlock and callers for parameter, return-value and side-effect details. |
-| `locallib.php:832` | `videotrack_optional_iso_date_param` | PHP callable `videotrack_optional_iso_date_param`; see its DocBlock and callers for parameter, return-value and side-effect details. |
-| `locallib.php:843` | `videotrack_get_compatible_forum_types` | PHP callable `videotrack_get_compatible_forum_types`; see its DocBlock and callers for parameter, return-value and side-effect details. |
-| `locallib.php:853` | `videotrack_get_compatible_forums` | PHP callable `videotrack_get_compatible_forums`; see its DocBlock and callers for parameter, return-value and side-effect details. |
-| `locallib.php:880` | `videotrack_get_compatible_forum_options` | PHP callable `videotrack_get_compatible_forum_options`; see its DocBlock and callers for parameter, return-value and side-effect details. |
-| `locallib.php:907` | `videotrack_is_compatible_forum` | PHP callable `videotrack_is_compatible_forum`; see its DocBlock and callers for parameter, return-value and side-effect details. |
-| `locallib.php:923` | `videotrack_build_forum_subject` | PHP callable `videotrack_build_forum_subject`; see its DocBlock and callers for parameter, return-value and side-effect details. |
-| `locallib.php:952` | `videotrack_build_replay_url` | PHP callable `videotrack_build_replay_url`; see its DocBlock and callers for parameter, return-value and side-effect details. |
+| `locallib.php:202` | `videotrack_get_tracking_playback_speeds` | Named PHP function/method `videotrack_get_tracking_playback_speeds`; see source DocBlock and callers for the current contract. |
+| `locallib.php:225` | `videotrack_get_max_playback_rate` | PHP callable `videotrack_get_max_playback_rate`; see its DocBlock and callers for parameter, return-value and side-effect details. |
+| `locallib.php:238` | `videotrack_get_site_playback_speeds` | PHP callable `videotrack_get_site_playback_speeds`; see its DocBlock and callers for parameter, return-value and side-effect details. |
+| `locallib.php:257` | `videotrack_format_seconds` | PHP callable `videotrack_format_seconds`; see its DocBlock and callers for parameter, return-value and side-effect details. |
+| `locallib.php:275` | `videotrack_format_video_timestamp` | PHP callable `videotrack_format_video_timestamp`; see its DocBlock and callers for parameter, return-value and side-effect details. |
+| `locallib.php:295` | `videotrack_parse_video_timestamp` | PHP callable `videotrack_parse_video_timestamp`; see its DocBlock and callers for parameter, return-value and side-effect details. |
+| `locallib.php:335` | `videotrack_parse_report_timestamp` | PHP callable `videotrack_parse_report_timestamp`; see its DocBlock and callers for parameter, return-value and side-effect details. |
+| `locallib.php:355` | `videotrack_build_required_reaction_notice` | PHP callable `videotrack_build_required_reaction_notice`; see its DocBlock and callers for parameter, return-value and side-effect details. |
+| `locallib.php:377` | `videotrack_get_reactions` | PHP callable `videotrack_get_reactions`; see its DocBlock and callers for parameter, return-value and side-effect details. |
+| `locallib.php:404` | `videotrack_reaction_icon_url` | PHP callable `videotrack_reaction_icon_url`; see its DocBlock and callers for parameter, return-value and side-effect details. |
+| `locallib.php:445` | `videotrack_render_reaction_icon` | PHP callable `videotrack_render_reaction_icon`; see its DocBlock and callers for parameter, return-value and side-effect details. |
+| `locallib.php:492` | `videotrack_get_fallback_reaction_emoji_catalog` | PHP callable `videotrack_get_fallback_reaction_emoji_catalog`; see its DocBlock and callers for parameter, return-value and side-effect details. |
+| `locallib.php:526` | `videotrack_get_moodle_reaction_emoji_catalog` | PHP callable `videotrack_get_moodle_reaction_emoji_catalog`; see its DocBlock and callers for parameter, return-value and side-effect details. |
+| `locallib.php:578` | `videotrack_get_reaction_icon_catalog` | PHP callable `videotrack_get_reaction_icon_catalog`; see its DocBlock and callers for parameter, return-value and side-effect details. |
+| `locallib.php:624` | `videotrack_get_reaction_icon_suggestions` | PHP callable `videotrack_get_reaction_icon_suggestions`; see its DocBlock and callers for parameter, return-value and side-effect details. |
+| `locallib.php:642` | `videotrack_reaction_icon_datalist` | PHP callable `videotrack_reaction_icon_datalist`; see its DocBlock and callers for parameter, return-value and side-effect details. |
+| `locallib.php:669` | `videotrack_reaction_icon_picker` | PHP callable `videotrack_reaction_icon_picker`; see its DocBlock and callers for parameter, return-value and side-effect details. |
+| `locallib.php:790` | `videotrack_get_all_presets` | PHP callable `videotrack_get_all_presets`; see its DocBlock and callers for parameter, return-value and side-effect details. |
+| `locallib.php:804` | `videotrack_save_presets` | PHP callable `videotrack_save_presets`; see its DocBlock and callers for parameter, return-value and side-effect details. |
+| `locallib.php:814` | `videotrack_get_preset_select_options` | PHP callable `videotrack_get_preset_select_options`; see its DocBlock and callers for parameter, return-value and side-effect details. |
+| `locallib.php:829` | `videotrack_get_all_presets_for_js` | PHP callable `videotrack_get_all_presets_for_js`; see its DocBlock and callers for parameter, return-value and side-effect details. |
+| `locallib.php:845` | `videotrack_require_preset_amd` | PHP callable `videotrack_require_preset_amd`; see its DocBlock and callers for parameter, return-value and side-effect details. |
+| `locallib.php:861` | `videotrack_optional_iso_date_param` | PHP callable `videotrack_optional_iso_date_param`; see its DocBlock and callers for parameter, return-value and side-effect details. |
+| `locallib.php:872` | `videotrack_get_compatible_forum_types` | PHP callable `videotrack_get_compatible_forum_types`; see its DocBlock and callers for parameter, return-value and side-effect details. |
+| `locallib.php:882` | `videotrack_get_compatible_forums` | PHP callable `videotrack_get_compatible_forums`; see its DocBlock and callers for parameter, return-value and side-effect details. |
+| `locallib.php:909` | `videotrack_get_compatible_forum_options` | PHP callable `videotrack_get_compatible_forum_options`; see its DocBlock and callers for parameter, return-value and side-effect details. |
+| `locallib.php:936` | `videotrack_is_compatible_forum` | PHP callable `videotrack_is_compatible_forum`; see its DocBlock and callers for parameter, return-value and side-effect details. |
+| `locallib.php:952` | `videotrack_build_forum_subject` | PHP callable `videotrack_build_forum_subject`; see its DocBlock and callers for parameter, return-value and side-effect details. |
+| `locallib.php:981` | `videotrack_build_replay_url` | PHP callable `videotrack_build_replay_url`; see its DocBlock and callers for parameter, return-value and side-effect details. |
 | `mod_form.php:46` | `definition` | PHP callable `definition`; see its DocBlock and callers for parameter, return-value and side-effect details. |
-| `mod_form.php:1086` | `apply_default_section_expansion` | PHP callable `apply_default_section_expansion`; see its DocBlock and callers for parameter, return-value and side-effect details. |
-| `mod_form.php:1123` | `require_filepicker_accept_filter` | PHP callable `require_filepicker_accept_filter`; see its DocBlock and callers for parameter, return-value and side-effect details. |
-| `mod_form.php:1169` | `add_reaction_elements` | PHP callable `add_reaction_elements`; see its DocBlock and callers for parameter, return-value and side-effect details. |
-| `mod_form.php:1348` | `get_reaction_repeat_count` | PHP callable `get_reaction_repeat_count`; see its DocBlock and callers for parameter, return-value and side-effect details. |
-| `mod_form.php:1375` | `add_completion_rules` | PHP callable `add_completion_rules`; see its DocBlock and callers for parameter, return-value and side-effect details. |
-| `mod_form.php:1418` | `completion_rule_enabled` | PHP callable `completion_rule_enabled`; see its DocBlock and callers for parameter, return-value and side-effect details. |
-| `mod_form.php:1432` | `data_preprocessing` | PHP callable `data_preprocessing`; see its DocBlock and callers for parameter, return-value and side-effect details. |
-| `mod_form.php:1682` | `draft_area_contains_only_reaction_images` | PHP callable `draft_area_contains_only_reaction_images`; see its DocBlock and callers for parameter, return-value and side-effect details. |
-| `mod_form.php:1718` | `draft_area_contains_only_vtt` | PHP callable `draft_area_contains_only_vtt`; see its DocBlock and callers for parameter, return-value and side-effect details. |
-| `mod_form.php:1750` | `validation` | PHP callable `validation`; see its DocBlock and callers for parameter, return-value and side-effect details. |
+| `mod_form.php:1097` | `apply_default_section_expansion` | PHP callable `apply_default_section_expansion`; see its DocBlock and callers for parameter, return-value and side-effect details. |
+| `mod_form.php:1134` | `require_filepicker_accept_filter` | PHP callable `require_filepicker_accept_filter`; see its DocBlock and callers for parameter, return-value and side-effect details. |
+| `mod_form.php:1180` | `add_reaction_elements` | PHP callable `add_reaction_elements`; see its DocBlock and callers for parameter, return-value and side-effect details. |
+| `mod_form.php:1359` | `get_reaction_repeat_count` | PHP callable `get_reaction_repeat_count`; see its DocBlock and callers for parameter, return-value and side-effect details. |
+| `mod_form.php:1386` | `add_completion_rules` | PHP callable `add_completion_rules`; see its DocBlock and callers for parameter, return-value and side-effect details. |
+| `mod_form.php:1455` | `completion_rule_enabled` | PHP callable `completion_rule_enabled`; see its DocBlock and callers for parameter, return-value and side-effect details. |
+| `mod_form.php:1479` | `data_preprocessing` | PHP callable `data_preprocessing`; see its DocBlock and callers for parameter, return-value and side-effect details. |
+| `mod_form.php:1742` | `draft_area_contains_only_reaction_images` | PHP callable `draft_area_contains_only_reaction_images`; see its DocBlock and callers for parameter, return-value and side-effect details. |
+| `mod_form.php:1778` | `draft_area_contains_only_vtt` | PHP callable `draft_area_contains_only_vtt`; see its DocBlock and callers for parameter, return-value and side-effect details. |
+| `mod_form.php:1810` | `validation` | PHP callable `validation`; see its DocBlock and callers for parameter, return-value and side-effect details. |
 | `report.php:36` | `videotrack_report_user_label` | PHP callable `videotrack_report_user_label`; see its DocBlock and callers for parameter, return-value and side-effect details. |
 | `report.php:54` | `videotrack_report_date_to_timestamp` | PHP callable `videotrack_report_date_to_timestamp`; see its DocBlock and callers for parameter, return-value and side-effect details. |
 | `report.php:76` | `videotrack_report_optional_time_param` | PHP callable `videotrack_report_optional_time_param`; see its DocBlock and callers for parameter, return-value and side-effect details. |
@@ -1022,7 +1078,24 @@ Generated from the VideoTrack 1.6.33 source tree. PHP entries include named func
 | `tests/ajax_contract_test.php:35` | `test_ajax_service_allowlist_matches_declared_services` | PHP callable `test_ajax_service_allowlist_matches_declared_services`; see its DocBlock and callers for parameter, return-value and side-effect details. |
 | `tests/ajax_contract_test.php:65` | `test_static_amd_api_calls_are_declared` | PHP callable `test_static_amd_api_calls_are_declared`; see its DocBlock and callers for parameter, return-value and side-effect details. |
 | `tests/ajax_contract_test.php:94` | `test_sesskey_is_checked_before_context_loading` | PHP callable `test_sesskey_is_checked_before_context_loading`; see its DocBlock and callers for parameter, return-value and side-effect details. |
-| `tests/ajax_contract_test.php:121` | `test_reaction_runtime_contract_contains_no_raw_html_field` | PHP callable `test_reaction_runtime_contract_contains_no_raw_html_field`; see its DocBlock and callers for parameter, return-value and side-effect details. |
+| `tests/ajax_contract_test.php:121` | `test_segment_rate_validation_uses_tracking_speed_contract` | Named PHP function/method `test_segment_rate_validation_uses_tracking_speed_contract`; see source DocBlock and callers for the current contract. |
+| `tests/ajax_contract_test.php:131` | `test_interaction_progress_flushes_do_not_swallow_ajax_failures` | Named PHP function/method `test_interaction_progress_flushes_do_not_swallow_ajax_failures`; see source DocBlock and callers for the current contract. |
+| `tests/ajax_contract_test.php:146` | `test_note_and_bookmark_timestamps_fall_back_when_saved_end_is_zero` | Named PHP function/method `test_note_and_bookmark_timestamps_fall_back_when_saved_end_is_zero`; see source DocBlock and callers for the current contract. |
+| `tests/ajax_contract_test.php:163` | `test_blocked_forward_seek_persists_frontier_before_rollback` | Named PHP function/method `test_blocked_forward_seek_persists_frontier_before_rollback`; see source DocBlock and callers for the current contract. |
+| `tests/ajax_contract_test.php:199` | `test_forum_timestamp_waits_for_progress_flush` | Named PHP function/method `test_forum_timestamp_waits_for_progress_flush`; see source DocBlock and callers for the current contract. |
+| `tests/ajax_contract_test.php:227` | `test_progress_ui_preserves_monotonic_percentage` | Named PHP function/method `test_progress_ui_preserves_monotonic_percentage`; see source DocBlock and callers for the current contract. |
+| `tests/ajax_contract_test.php:239` | `test_blocked_forward_seek_shows_policy_notice` | Named PHP function/method `test_blocked_forward_seek_shows_policy_notice`; see source DocBlock and callers for the current contract. |
+| `tests/ajax_contract_test.php:259` | `test_status_alert_uses_single_bootstrap_close_icon` | Named PHP function/method `test_status_alert_uses_single_bootstrap_close_icon`; see source DocBlock and callers for the current contract. |
+| `tests/ajax_contract_test.php:270` | `test_compact_player_notices_keep_close_button_in_flow` | Named PHP function/method `test_compact_player_notices_keep_close_button_in_flow`; see source DocBlock and callers for the current contract. |
+| `tests/ajax_contract_test.php:294` | `test_resume_respects_server_validated_frontier` | Named PHP function/method `test_resume_respects_server_validated_frontier`; see source DocBlock and callers for the current contract. |
+| `tests/ajax_contract_test.php:311` | `test_closed_segment_keeps_wallclock_start_for_ajax` | Named PHP function/method `test_closed_segment_keeps_wallclock_start_for_ajax`; see source DocBlock and callers for the current contract. |
+| `tests/ajax_contract_test.php:335` | `test_seek_closes_segment_at_known_pre_seek_boundary` | Named PHP function/method `test_seek_closes_segment_at_known_pre_seek_boundary`; see source DocBlock and callers for the current contract. |
+| `tests/ajax_contract_test.php:358` | `test_interactions_use_safe_time_during_blocked_seek` | Named PHP function/method `test_interactions_use_safe_time_during_blocked_seek`; see source DocBlock and callers for the current contract. |
+| `tests/ajax_contract_test.php:372` | `test_reaction_runtime_contract_contains_no_raw_html_field` | PHP callable `test_reaction_runtime_contract_contains_no_raw_html_field`; see its DocBlock and callers for parameter, return-value and side-effect details. |
+| `tests/ajax_contract_test.php:386` | `test_interaction_writes_use_policy_aware_timestamp_validation` | Named PHP function/method `test_interaction_writes_use_policy_aware_timestamp_validation`; see source DocBlock and callers for the current contract. |
+| `tests/analytics_performance_contract_test.php:33` | `test_teacher_activity_options_use_lightweight_modinfo_path` | Named PHP function/method `test_teacher_activity_options_use_lightweight_modinfo_path`; see source DocBlock and callers for the current contract. |
+| `tests/analytics_performance_contract_test.php:50` | `test_course_dashboard_batches_event_summaries_and_group_scope` | Named PHP function/method `test_course_dashboard_batches_event_summaries_and_group_scope`; see source DocBlock and callers for the current contract. |
+| `tests/analytics_performance_contract_test.php:69` | `test_course_dashboard_batches_state_and_period_reads` | Named PHP function/method `test_course_dashboard_batches_state_and_period_reads`; see source DocBlock and callers for the current contract. |
 | `tests/analytics_scope_test.php:36` | `test_provider_identity_uses_exact_video_id` | PHP callable `test_provider_identity_uses_exact_video_id`; see its DocBlock and callers for parameter, return-value and side-effect details. |
 | `tests/analytics_scope_test.php:55` | `test_external_url_identity_is_normalised` | PHP callable `test_external_url_identity_is_normalised`; see its DocBlock and callers for parameter, return-value and side-effect details. |
 | `tests/analytics_scope_test.php:69` | `test_effective_groupmode_satisfies_moodle_course_module_contract` | PHP callable `test_effective_groupmode_satisfies_moodle_course_module_contract`; see its DocBlock and callers for parameter, return-value and side-effect details. |
@@ -1030,6 +1103,7 @@ Generated from the VideoTrack 1.6.33 source tree. PHP entries include named func
 | `tests/analytics_table_export_test.php:42` | `test_rows_match_accessible_table_privacy_rules` | PHP callable `test_rows_match_accessible_table_privacy_rules`; see its DocBlock and callers for parameter, return-value and side-effect details. |
 | `tests/analytics_table_export_test.php:81` | `test_rows_mark_unavailable_replay_metrics` | PHP callable `test_rows_mark_unavailable_replay_metrics`; see its DocBlock and callers for parameter, return-value and side-effect details. |
 | `tests/analytics_table_export_test.php:100` | `test_export_rows_include_acknowledgement_summary` | PHP callable `test_export_rows_include_acknowledgement_summary`; see its DocBlock and callers for parameter, return-value and side-effect details. |
+| `tests/analytics_table_export_test.php:138` | `test_export_rows_include_event_summaries_with_privacy_masking` | Named PHP function/method `test_export_rows_include_event_summaries_with_privacy_masking`; see source DocBlock and callers for the current contract. |
 | `tests/analytics_test.php:36` | `test_bin_size_is_normalised_for_duration` | PHP callable `test_bin_size_is_normalised_for_duration`; see its DocBlock and callers for parameter, return-value and side-effect details. |
 | `tests/analytics_test.php:45` | `test_build_separates_unique_and_repeated_viewing` | PHP callable `test_build_separates_unique_and_repeated_viewing`; see its DocBlock and callers for parameter, return-value and side-effect details. |
 | `tests/analytics_test.php:72` | `test_privacy_threshold_masks_small_values` | PHP callable `test_privacy_threshold_masks_small_values`; see its DocBlock and callers for parameter, return-value and side-effect details. |
@@ -1043,14 +1117,29 @@ Generated from the VideoTrack 1.6.33 source tree. PHP entries include named func
 | `tests/analytics_test.php:318` | `test_reaction_summary_masks_small_populations` | PHP callable `test_reaction_summary_masks_small_populations`; see its DocBlock and callers for parameter, return-value and side-effect details. |
 | `tests/analytics_test.php:339` | `test_build_from_states_recovers_unique_viewers` | PHP callable `test_build_from_states_recovers_unique_viewers`; see its DocBlock and callers for parameter, return-value and side-effect details. |
 | `tests/analytics_test.php:359` | `test_resolve_duration_uses_best_persisted_source` | PHP callable `test_resolve_duration_uses_best_persisted_source`; see its DocBlock and callers for parameter, return-value and side-effect details. |
+| `tests/completion_contract_test.php:34` | `test_required_reactions_activate_custom_completion` | Named PHP function/method `test_required_reactions_activate_custom_completion`; see source DocBlock and callers for the current contract. |
+| `tests/completion_contract_test.php:54` | `test_required_reaction_or_semantics_match_tracker` | Named PHP function/method `test_required_reaction_or_semantics_match_tracker`; see source DocBlock and callers for the current contract. |
+| `tests/completion_contract_test.php:75` | `test_disabled_acknowledgement_is_excluded_from_tracker_completion` | Named PHP function/method `test_disabled_acknowledgement_is_excluded_from_tracker_completion`; see source DocBlock and callers for the current contract. |
+| `tests/completion_contract_test.php:100` | `test_disabled_reactions_are_excluded_from_tracker_completion` | Named PHP function/method `test_disabled_reactions_are_excluded_from_tracker_completion`; see source DocBlock and callers for the current contract. |
+| `tests/completion_contract_test.php:120` | `test_moodle_completion_uses_composite_rule_contract` | Named PHP function/method `test_moodle_completion_uses_composite_rule_contract`; see source DocBlock and callers for the current contract. |
+| `tests/completion_contract_test.php:136` | `test_form_includes_required_reactions_in_completion_contract` | Named PHP function/method `test_form_includes_required_reactions_in_completion_contract`; see source DocBlock and callers for the current contract. |
+| `tests/completion_contract_test.php:156` | `test_instance_update_recalculates_changed_completion_configuration` | Named PHP function/method `test_instance_update_recalculates_changed_completion_configuration`; see source DocBlock and callers for the current contract. |
+| `tests/completion_contract_test.php:172` | `test_empty_acknowledgement_is_not_a_custom_rule` | Named PHP function/method `test_empty_acknowledgement_is_not_a_custom_rule`; see source DocBlock and callers for the current contract. |
+| `tests/completion_contract_test.php:191` | `test_completion_adapters_preserve_userid_without_state_row` | Named PHP function/method `test_completion_adapters_preserve_userid_without_state_row`; see source DocBlock and callers for the current contract. |
+| `tests/completion_contract_test.php:204` | `test_custom_completion_sort_order_covers_standard_conditions` | Named PHP function/method `test_custom_completion_sort_order_covers_standard_conditions`; see source DocBlock and callers for the current contract. |
+| `tests/completion_contract_test.php:216` | `test_reaction_or_logic_can_be_alternative_to_viewing_percentage` | Named PHP function/method `test_reaction_or_logic_can_be_alternative_to_viewing_percentage`; see source DocBlock and callers for the current contract. |
+| `tests/completion_contract_test.php:252` | `test_activity_header_completion_badges_have_readable_contrast` | Named PHP function/method `test_activity_header_completion_badges_have_readable_contrast`; see source DocBlock and callers for the current contract. |
 | `tests/course_analytics_test.php:38` | `test_median_handles_common_dataset_shapes` | PHP callable `test_median_handles_common_dataset_shapes`; see its DocBlock and callers for parameter, return-value and side-effect details. |
 | `tests/course_analytics_test.php:47` | `test_state_summary_reuses_timeline_analytics` | PHP callable `test_state_summary_reuses_timeline_analytics`; see its DocBlock and callers for parameter, return-value and side-effect details. |
 | `tests/course_analytics_test.php:71` | `test_state_summary_hides_drop_when_retention_denominator_is_suppressed` | PHP callable `test_state_summary_hides_drop_when_retention_denominator_is_suppressed`; see its DocBlock and callers for parameter, return-value and side-effect details. |
 | `tests/course_analytics_test.php:89` | `test_state_summary_masks_small_activity_population` | PHP callable `test_state_summary_masks_small_activity_population`; see its DocBlock and callers for parameter, return-value and side-effect details. |
 | `tests/course_analytics_test.php:110` | `test_state_summary_masks_small_completion_subgroups` | PHP callable `test_state_summary_masks_small_completion_subgroups`; see its DocBlock and callers for parameter, return-value and side-effect details. |
 | `tests/course_analytics_test.php:131` | `test_largest_drop_ignores_suppressed_bins` | PHP callable `test_largest_drop_ignores_suppressed_bins`; see its DocBlock and callers for parameter, return-value and side-effect details. |
-| `tests/course_analytics_test.php:146` | `test_participation_scope_is_independent_from_report_access` | PHP callable `test_participation_scope_is_independent_from_report_access`; see its DocBlock and callers for parameter, return-value and side-effect details. |
-| `tests/course_analytics_test.php:189` | `state` | PHP callable `state`; see its DocBlock and callers for parameter, return-value and side-effect details. |
+| `tests/course_analytics_test.php:146` | `test_period_summary_uses_only_segments_created_inside_period` | Named PHP function/method `test_period_summary_uses_only_segments_created_inside_period`; see source DocBlock and callers for the current contract. |
+| `tests/course_analytics_test.php:205` | `test_period_loader_uses_segment_creation_time` | Named PHP function/method `test_period_loader_uses_segment_creation_time`; see source DocBlock and callers for the current contract. |
+| `tests/course_analytics_test.php:217` | `test_participation_scope_is_independent_from_report_access` | PHP callable `test_participation_scope_is_independent_from_report_access`; see its DocBlock and callers for parameter, return-value and side-effect details. |
+| `tests/course_analytics_test.php:253` | `test_course_analytics_reuses_canonical_learner_scope_sql` | Named PHP function/method `test_course_analytics_reuses_canonical_learner_scope_sql`; see source DocBlock and callers for the current contract. |
+| `tests/course_analytics_test.php:272` | `state` | PHP callable `state`; see its DocBlock and callers for parameter, return-value and side-effect details. |
 | `tests/csv_export_test.php:37` | `test_delimiter_resolution` | PHP callable `test_delimiter_resolution`; see its DocBlock and callers for parameter, return-value and side-effect details. |
 | `tests/csv_export_test.php:60` | `test_process_form_fields` | PHP callable `test_process_form_fields`; see its DocBlock and callers for parameter, return-value and side-effect details. |
 | `tests/csv_export_test.php:77` | `test_field_options_include_video_link` | PHP callable `test_field_options_include_video_link`; see its DocBlock and callers for parameter, return-value and side-effect details. |
@@ -1062,10 +1151,21 @@ Generated from the VideoTrack 1.6.33 source tree. PHP entries include named func
 | `tests/forum_bridge_test.php:37` | `setUp` | PHP callable `setUp`; see its DocBlock and callers for parameter, return-value and side-effect details. |
 | `tests/forum_bridge_test.php:45` | `test_disabled_integration_is_rejected` | PHP callable `test_disabled_integration_is_rejected`; see its DocBlock and callers for parameter, return-value and side-effect details. |
 | `tests/forum_bridge_test.php:59` | `test_enrolled_student_can_resolve_compatible_forum` | PHP callable `test_enrolled_student_can_resolve_compatible_forum`; see its DocBlock and callers for parameter, return-value and side-effect details. |
+| `tests/forum_bridge_test.php:86` | `test_learner_forum_timestamp_requires_watched_progress` | Named PHP function/method `test_learner_forum_timestamp_requires_watched_progress`; see source DocBlock and callers for the current contract. |
+| `tests/forum_bridge_test.php:105` | `test_learner_forum_timestamp_accepts_watched_progress` | Named PHP function/method `test_learner_forum_timestamp_accepts_watched_progress`; see source DocBlock and callers for the current contract. |
+| `tests/forum_bridge_test.php:132` | `test_learner_forum_timestamp_accepts_allowed_forward_seek_session` | Named PHP function/method `test_learner_forum_timestamp_accepts_allowed_forward_seek_session`; see source DocBlock and callers for the current contract. |
+| `tests/forum_bridge_test.php:177` | `test_teacher_forum_timestamp_bypasses_learner_watched_check` | Named PHP function/method `test_teacher_forum_timestamp_bypasses_learner_watched_check`; see source DocBlock and callers for the current contract. |
+| `tests/forum_bridge_test.php:196` | `test_dual_role_learner_does_not_bypass_watched_check` | Named PHP function/method `test_dual_role_learner_does_not_bypass_watched_check`; see source DocBlock and callers for the current contract. |
+| `tests/forum_bridge_test.php:219` | `test_forum_composer_invokes_timestamp_access_validation` | Named PHP function/method `test_forum_composer_invokes_timestamp_access_validation`; see source DocBlock and callers for the current contract. |
+| `tests/forum_bridge_test.php:236` | `insert_validated_segment` | Named PHP function/method `insert_validated_segment`; see source DocBlock and callers for the current contract. |
+| `tests/gradebook_restore_contract_test.php:35` | `test_restore_step_does_not_create_grade_item_before_core_grade_restore` | Named PHP function/method `test_restore_step_does_not_create_grade_item_before_core_grade_restore`; see source DocBlock and callers for the current contract. |
+| `tests/gradebook_restore_contract_test.php:49` | `test_gradebook_repair_keeps_one_item_and_moves_user_grades` | Named PHP function/method `test_gradebook_repair_keeps_one_item_and_moves_user_grades`; see source DocBlock and callers for the current contract. |
 | `tests/integrity_test.php:36` | `test_event_type_validation_is_allowlist_based` | PHP callable `test_event_type_validation_is_allowlist_based`; see its DocBlock and callers for parameter, return-value and side-effect details. |
 | `tests/integrity_test.php:48` | `test_summary_applies_distinct_user_privacy_threshold` | PHP callable `test_summary_applies_distinct_user_privacy_threshold`; see its DocBlock and callers for parameter, return-value and side-effect details. |
 | `tests/integrity_test.php:66` | `test_random_pause_bounds_are_configurable_and_normalised` | PHP callable `test_random_pause_bounds_are_configurable_and_normalised`; see its DocBlock and callers for parameter, return-value and side-effect details. |
 | `tests/integrity_test.php:84` | `test_focus_policy_defaults_and_strict_override` | PHP callable `test_focus_policy_defaults_and_strict_override`; see its DocBlock and callers for parameter, return-value and side-effect details. |
+| `tests/learner_scope_test.php:36` | `test_can_participate_is_independent_from_report_access` | Named PHP function/method `test_can_participate_is_independent_from_report_access`; see source DocBlock and callers for the current contract. |
+| `tests/learner_scope_test.php:63` | `test_participation_entrypoints_reuse_canonical_helper` | Named PHP function/method `test_participation_entrypoints_reuse_canonical_helper`; see source DocBlock and callers for the current contract. |
 | `tests/lib_test.php:37` | `setUp` | PHP callable `setUp`; see its DocBlock and callers for parameter, return-value and side-effect details. |
 | `tests/lib_test.php:47` | `test_supports_expected_core_features` | PHP callable `test_supports_expected_core_features`; see its DocBlock and callers for parameter, return-value and side-effect details. |
 | `tests/lib_test.php:61` | `test_groups_are_explicitly_not_supported` | PHP callable `test_groups_are_explicitly_not_supported`; see its DocBlock and callers for parameter, return-value and side-effect details. |
@@ -1083,23 +1183,46 @@ Generated from the VideoTrack 1.6.33 source tree. PHP entries include named func
 | `tests/locallib_test.php:129` | `test_get_config_int_preserves_zero_and_clamps_values` | PHP callable `test_get_config_int_preserves_zero_and_clamps_values`; see its DocBlock and callers for parameter, return-value and side-effect details. |
 | `tests/locallib_test.php:147` | `test_get_config_int_rejects_invalid_bounds` | PHP callable `test_get_config_int_rejects_invalid_bounds`; see its DocBlock and callers for parameter, return-value and side-effect details. |
 | `tests/locallib_test.php:157` | `test_get_playback_speeds_filters_and_applies_site_cap` | PHP callable `test_get_playback_speeds_filters_and_applies_site_cap`; see its DocBlock and callers for parameter, return-value and side-effect details. |
-| `tests/locallib_test.php:178` | `test_compatible_forum_types_exclude_single_use_forums` | PHP callable `test_compatible_forum_types_exclude_single_use_forums`; see its DocBlock and callers for parameter, return-value and side-effect details. |
-| `tests/locallib_test.php:187` | `test_build_replay_url_applies_window_and_duration` | PHP callable `test_build_replay_url_applies_window_and_duration`; see its DocBlock and callers for parameter, return-value and side-effect details. |
-| `tests/locallib_test.php:201` | `test_build_forum_subject_replaces_supported_placeholders` | PHP callable `test_build_forum_subject_replaces_supported_placeholders`; see its DocBlock and callers for parameter, return-value and side-effect details. |
-| `tests/locallib_test.php:215` | `test_build_forum_subject_uses_default_template` | PHP callable `test_build_forum_subject_uses_default_template`; see its DocBlock and callers for parameter, return-value and side-effect details. |
+| `tests/locallib_test.php:176` | `test_tracking_playback_speeds_include_blocked_seek_penalty_only_when_needed` | Named PHP function/method `test_tracking_playback_speeds_include_blocked_seek_penalty_only_when_needed`; see source DocBlock and callers for the current contract. |
+| `tests/locallib_test.php:203` | `test_compatible_forum_types_exclude_single_use_forums` | PHP callable `test_compatible_forum_types_exclude_single_use_forums`; see its DocBlock and callers for parameter, return-value and side-effect details. |
+| `tests/locallib_test.php:212` | `test_build_replay_url_applies_window_and_duration` | PHP callable `test_build_replay_url_applies_window_and_duration`; see its DocBlock and callers for parameter, return-value and side-effect details. |
+| `tests/locallib_test.php:226` | `test_build_forum_subject_replaces_supported_placeholders` | PHP callable `test_build_forum_subject_replaces_supported_placeholders`; see its DocBlock and callers for parameter, return-value and side-effect details. |
+| `tests/locallib_test.php:240` | `test_build_forum_subject_uses_default_template` | PHP callable `test_build_forum_subject_uses_default_template`; see its DocBlock and callers for parameter, return-value and side-effect details. |
 | `tests/privacy_manager_test.php:37` | `test_cleanup_deletes_expired_rows_and_rebuilds_state` | PHP callable `test_cleanup_deletes_expired_rows_and_rebuilds_state`; see its DocBlock and callers for parameter, return-value and side-effect details. |
-| `tests/privacy_manager_test.php:127` | `test_cleanup_removes_state_when_no_retained_inputs_remain` | PHP callable `test_cleanup_removes_state_when_no_retained_inputs_remain`; see its DocBlock and callers for parameter, return-value and side-effect details. |
-| `tests/privacy_manager_test.php:167` | `test_cleanup_preserves_recent_playback_guard` | PHP callable `test_cleanup_preserves_recent_playback_guard`; see its DocBlock and callers for parameter, return-value and side-effect details. |
-| `tests/privacy_manager_test.php:218` | `test_user_erasure_after_retention_keeps_shared_activity_files` | PHP callable `test_user_erasure_after_retention_keeps_shared_activity_files`; see its DocBlock and callers for parameter, return-value and side-effect details. |
-| `tests/privacy_manager_test.php:276` | `test_unlimited_retention_purges_only_legacy_pseudonymous_rows` | PHP callable `test_unlimited_retention_purges_only_legacy_pseudonymous_rows`; see its DocBlock and callers for parameter, return-value and side-effect details. |
-| `tests/privacy_manager_test.php:321` | `create_test_activity` | PHP callable `create_test_activity`; see its DocBlock and callers for parameter, return-value and side-effect details. |
-| `tests/privacy_manager_test.php:361` | `insert_segment` | PHP callable `insert_segment`; see its DocBlock and callers for parameter, return-value and side-effect details. |
-| `tests/privacy_manager_test.php:400` | `insert_interaction` | PHP callable `insert_interaction`; see its DocBlock and callers for parameter, return-value and side-effect details. |
-| `tests/privacy_manager_test.php:439` | `insert_integrity` | PHP callable `insert_integrity`; see its DocBlock and callers for parameter, return-value and side-effect details. |
-| `tests/privacy_manager_test.php:470` | `insert_acknowledgement` | PHP callable `insert_acknowledgement`; see its DocBlock and callers for parameter, return-value and side-effect details. |
+| `tests/privacy_manager_test.php:136` | `test_cleanup_removes_state_when_no_retained_inputs_remain` | PHP callable `test_cleanup_removes_state_when_no_retained_inputs_remain`; see its DocBlock and callers for parameter, return-value and side-effect details. |
+| `tests/privacy_manager_test.php:176` | `test_cleanup_preserves_recent_playback_guard` | PHP callable `test_cleanup_preserves_recent_playback_guard`; see its DocBlock and callers for parameter, return-value and side-effect details. |
+| `tests/privacy_manager_test.php:227` | `test_user_erasure_after_retention_keeps_shared_activity_files` | PHP callable `test_user_erasure_after_retention_keeps_shared_activity_files`; see its DocBlock and callers for parameter, return-value and side-effect details. |
+| `tests/privacy_manager_test.php:285` | `test_unlimited_retention_purges_only_legacy_pseudonymous_rows` | PHP callable `test_unlimited_retention_purges_only_legacy_pseudonymous_rows`; see its DocBlock and callers for parameter, return-value and side-effect details. |
+| `tests/privacy_manager_test.php:330` | `create_test_activity` | PHP callable `create_test_activity`; see its DocBlock and callers for parameter, return-value and side-effect details. |
+| `tests/privacy_manager_test.php:370` | `insert_segment` | PHP callable `insert_segment`; see its DocBlock and callers for parameter, return-value and side-effect details. |
+| `tests/privacy_manager_test.php:409` | `insert_interaction` | PHP callable `insert_interaction`; see its DocBlock and callers for parameter, return-value and side-effect details. |
+| `tests/privacy_manager_test.php:448` | `insert_integrity` | PHP callable `insert_integrity`; see its DocBlock and callers for parameter, return-value and side-effect details. |
+| `tests/privacy_manager_test.php:479` | `insert_acknowledgement` | PHP callable `insert_acknowledgement`; see its DocBlock and callers for parameter, return-value and side-effect details. |
+| `tests/provider_loader_contract_test.php:35` | `test_vimeo_loaders_use_requirejs_without_global_define_mutation` | Named PHP function/method `test_vimeo_loaders_use_requirejs_without_global_define_mutation`; see source DocBlock and callers for the current contract. |
+| `tests/provider_loader_contract_test.php:51` | `test_provider_loader_promises_reset_after_rejection` | Named PHP function/method `test_provider_loader_promises_reset_after_rejection`; see source DocBlock and callers for the current contract. |
+| `tests/provider_loader_contract_test.php:66` | `test_vimeo_requirejs_result_is_used_as_player_constructor` | Named PHP function/method `test_vimeo_requirejs_result_is_used_as_player_constructor`; see source DocBlock and callers for the current contract. |
+| `tests/release_hygiene_contract_test.php:33` | `test_csv_export_format_strings_have_explicit_context` | Named PHP function/method `test_csv_export_format_strings_have_explicit_context`; see source DocBlock and callers for the current contract. |
+| `tests/release_hygiene_contract_test.php:47` | `test_environment_italian_feedback_uses_utf8` | Named PHP function/method `test_environment_italian_feedback_uses_utf8`; see source DocBlock and callers for the current contract. |
+| `tests/release_hygiene_contract_test.php:63` | `test_readmes_and_changelog_track_current_release` | Named PHP function/method `test_readmes_and_changelog_track_current_release`; see source DocBlock and callers for the current contract. |
+| `tests/release_hygiene_contract_test.php:91` | `test_current_documentation_tracks_release` | Named PHP function/method `test_current_documentation_tracks_release`; see source DocBlock and callers for the current contract. |
+| `tests/release_hygiene_contract_test.php:121` | `test_maintained_language_packs_share_keys_and_placeholders` | Named PHP function/method `test_maintained_language_packs_share_keys_and_placeholders`; see source DocBlock and callers for the current contract. |
+| `tests/release_hygiene_contract_test.php:169` | `test_privacy_summaries_keep_parallel_section_structure` | Named PHP function/method `test_privacy_summaries_keep_parallel_section_structure`; see source DocBlock and callers for the current contract. |
+| `tests/report_contract_test.php:35` | `test_student_report_contains_reaction_replay_section` | Named PHP function/method `test_student_report_contains_reaction_replay_section`; see source DocBlock and callers for the current contract. |
+| `tests/report_contract_test.php:48` | `test_report_confirmation_uses_supported_modal_api` | Named PHP function/method `test_report_confirmation_uses_supported_modal_api`; see source DocBlock and callers for the current contract. |
+| `tests/report_contract_test.php:61` | `test_custom_csv_export_supports_private_bookmark_counts` | Named PHP function/method `test_custom_csv_export_supports_private_bookmark_counts`; see source DocBlock and callers for the current contract. |
+| `tests/report_contract_test.php:77` | `test_student_grade_visibility_depends_on_participation_not_report_access` | Named PHP function/method `test_student_grade_visibility_depends_on_participation_not_report_access`; see source DocBlock and callers for the current contract. |
+| `tests/report_contract_test.php:95` | `test_student_grade_label_uses_plugin_string` | Named PHP function/method `test_student_grade_label_uses_plugin_string`; see source DocBlock and callers for the current contract. |
+| `tests/report_contract_test.php:105` | `test_provider_and_integrity_notices_share_one_alert` | Named PHP function/method `test_provider_and_integrity_notices_share_one_alert`; see source DocBlock and callers for the current contract. |
 | `tests/save_bookmark_test.php:39` | `test_execute_parameters_uses_supported_moodle_parameter_types` | PHP callable `test_execute_parameters_uses_supported_moodle_parameter_types`; see its DocBlock and callers for parameter, return-value and side-effect details. |
 | `tests/save_integrity_event_test.php:37` | `test_execute_parameters_uses_supported_moodle_parameter_types` | PHP callable `test_execute_parameters_uses_supported_moodle_parameter_types`; see its DocBlock and callers for parameter, return-value and side-effect details. |
 | `tests/save_note_test.php:37` | `test_execute_parameters_uses_supported_moodle_parameter_types` | PHP callable `test_execute_parameters_uses_supported_moodle_parameter_types`; see its DocBlock and callers for parameter, return-value and side-effect details. |
+| `tests/save_reaction_test.php:43` | `source` | Named PHP function/method `source`; see source DocBlock and callers for the current contract. |
+| `tests/save_reaction_test.php:52` | `test_same_displayed_second_is_global_across_reaction_types` | Named PHP function/method `test_same_displayed_second_is_global_across_reaction_types`; see source DocBlock and callers for the current contract. |
+| `tests/save_reaction_test.php:67` | `test_same_reaction_keeps_three_second_temporal_window` | Named PHP function/method `test_same_reaction_keeps_three_second_temporal_window`; see source DocBlock and callers for the current contract. |
+| `tests/save_reaction_test.php:81` | `test_different_reactions_are_not_globally_blocked_by_three_second_window` | Named PHP function/method `test_different_reactions_are_not_globally_blocked_by_three_second_window`; see source DocBlock and callers for the current contract. |
+| `tests/save_reaction_test.php:92` | `test_burst_limit_is_ten_in_ten_seconds_and_not_session_scoped` | Named PHP function/method `test_burst_limit_is_ten_in_ten_seconds_and_not_session_scoped`; see source DocBlock and callers for the current contract. |
+| `tests/save_reaction_test.php:109` | `test_reaction_writes_remain_serialised_per_activity_and_user` | Named PHP function/method `test_reaction_writes_remain_serialised_per_activity_and_user`; see source DocBlock and callers for the current contract. |
+| `tests/save_reaction_test.php:123` | `test_duplicate_reaction_is_soft_ignored` | Named PHP function/method `test_duplicate_reaction_is_soft_ignored`; see source DocBlock and callers for the current contract. |
 | `tests/teacher_analytics_test.php:34` | `test_period_bounds` | PHP callable `test_period_bounds`; see its DocBlock and callers for parameter, return-value and side-effect details. |
 | `tests/timed_text_test.php:35` | `test_language_from_filename_accepts_bcp47_like_names` | PHP callable `test_language_from_filename_accepts_bcp47_like_names`; see its DocBlock and callers for parameter, return-value and side-effect details. |
 | `tests/timed_text_test.php:47` | `test_is_valid_vtt_content_checks_signature_and_size` | PHP callable `test_is_valid_vtt_content_checks_signature_and_size`; see its DocBlock and callers for parameter, return-value and side-effect details. |
@@ -1119,3 +1242,17 @@ Generated from the VideoTrack 1.6.33 source tree. PHP entries include named func
 | `tests/tracker_test.php:277` | `test_watched_time_validation_ignores_unvalidated_raw_segments` | PHP callable `test_watched_time_validation_ignores_unvalidated_raw_segments`; see its DocBlock and callers for parameter, return-value and side-effect details. |
 | `tests/tracker_test.php:306` | `test_segment_request_retry_reuses_persisted_result` | PHP callable `test_segment_request_retry_reuses_persisted_result`; see its DocBlock and callers for parameter, return-value and side-effect details. |
 | `tests/tracker_test.php:409` | `test_watched_time_validation_uses_aggregate_state_fallback` | PHP callable `test_watched_time_validation_uses_aggregate_state_fallback`; see its DocBlock and callers for parameter, return-value and side-effect details. |
+| `tests/tracker_test.php:437` | `test_any_session_watched_time_validation_uses_validated_segments` | Named PHP function/method `test_any_session_watched_time_validation_uses_validated_segments`; see source DocBlock and callers for the current contract. |
+| `tests/tracker_test.php:468` | `test_allowed_forward_seek_accepts_recent_session_interaction_timestamp` | Named PHP function/method `test_allowed_forward_seek_accepts_recent_session_interaction_timestamp`; see source DocBlock and callers for the current contract. |
+| `tests/tracker_test.php:502` | `test_allowed_forward_seek_rejects_stale_or_different_session_interaction` | Named PHP function/method `test_allowed_forward_seek_rejects_stale_or_different_session_interaction`; see source DocBlock and callers for the current contract. |
+| `tests/upgrade_contract_test.php:35` | `test_modern_schema_fast_forward_precedes_legacy_steps` | Named PHP function/method `test_modern_schema_fast_forward_precedes_legacy_steps`; see source DocBlock and callers for the current contract. |
+| `tests/upgrade_contract_test.php:60` | `test_failed_install_schema_recovery_supersedes_obsolete_lineage` | Named PHP function/method `test_failed_install_schema_recovery_supersedes_obsolete_lineage`; see source DocBlock and callers for the current contract. |
+| `tests/upgrade_contract_test.php:90` | `test_gradebook_recovery_uses_dml_only` | Named PHP function/method `test_gradebook_recovery_uses_dml_only`; see source DocBlock and callers for the current contract. |
+| `tests/upgrade_contract_test.php:112` | `test_preproduction_gradebook_repair_covers_install_and_upgrade` | Named PHP function/method `test_preproduction_gradebook_repair_covers_install_and_upgrade`; see source DocBlock and callers for the current contract. |
+| `tests/upgrade_contract_test.php:134` | `test_duplicate_grade_item_repair_is_upgrade_safe` | Named PHP function/method `test_duplicate_grade_item_repair_is_upgrade_safe`; see source DocBlock and callers for the current contract. |
+| `tests/vimeo_seek_contract_test.php:35` | `test_blocked_seek_resume_does_not_wait_for_penalty_promise` | Named PHP function/method `test_blocked_seek_resume_does_not_wait_for_penalty_promise`; see source DocBlock and callers for the current contract. |
+| `tests/vimeo_seek_contract_test.php:56` | `test_blocked_seek_clears_forward_guard_after_rollback` | Named PHP function/method `test_blocked_seek_clears_forward_guard_after_rollback`; see source DocBlock and callers for the current contract. |
+| `tests/vimeo_seek_contract_test.php:74` | `test_blocked_seek_resume_retries_never_reseek` | Named PHP function/method `test_blocked_seek_resume_retries_never_reseek`; see source DocBlock and callers for the current contract. |
+| `tests/vimeo_seek_contract_test.php:93` | `test_transient_pause_does_not_cancel_blocked_seek_playback` | Named PHP function/method `test_transient_pause_does_not_cancel_blocked_seek_playback`; see source DocBlock and callers for the current contract. |
+| `tests/vimeo_seek_contract_test.php:117` | `test_blocked_seek_resume_is_generation_scoped` | Named PHP function/method `test_blocked_seek_resume_is_generation_scoped`; see source DocBlock and callers for the current contract. |
+| `tests/vimeo_seek_contract_test.php:131` | `test_seeked_fallback_uses_vimeo_playback_resolver_and_penalty` | Named PHP function/method `test_seeked_fallback_uses_vimeo_playback_resolver_and_penalty`; see source DocBlock and callers for the current contract. |

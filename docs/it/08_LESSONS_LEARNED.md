@@ -19,3 +19,9 @@
 - Un guard di riproduzione deve partire con credito zero. La tolleranza tra clock provider e server deve restare un debito cumulativo fra richieste e handshake; altrimenti cicli ripetuti play/pausa possono creare progresso artificiale.
 - Stato compatto e aggregati esatti hanno responsabilità diverse: limitare l’elenco degli intervalli memorizzati, ma calcolare la copertura autorevole dalle righe grezze validate e mantenere monotona la completion.
 - Quando una correzione privacy nasconde un denominatore, i test devono usare un dataset non inferibile oppure verificare la soppressione; indebolire la regola privacy per soddisfare un’aspettativa vecchia è errato.
+
+- Un guard server-authoritative può rendere visibile un difetto client di segmentazione più vecchio. Se dopo un hardening fallisce un’azione legittima, va verificato prima il confine dei segmenti invece di allentare il controllo server.
+- Un segmento chiuso da un seek deve terminare al timestamp pre-seek affidabile e conservare il wall-clock originale. La destinazione apre un nuovo segmento; il tratto saltato non è tempo visto.
+- Durante il rollback di un seek bloccato, le interazioni learner devono usare un timestamp affidabile e non la posizione provider transitoria.
+- Negli alert compatti impilati il pulsante di chiusura deve restare nel normale flusso flex; il posizionamento assoluto di Bootstrap `alert-dismissible` può sovrapporsi agli avvisi adiacenti.
+- Tutti i language pack mantenuti devono avere parità di chiavi e placeholder. Il solo conteggio non basta se nuove stringhe operative mancano in alcune lingue.

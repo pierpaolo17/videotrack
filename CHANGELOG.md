@@ -2,6 +2,17 @@
 
 This is the canonical release-history file for the plugin tree. Detailed design notes and historical migration documents remain under `docs/`.
 
+## 1.7.41 - 2026-08-12
+
+### Changed
+
+- Merge the Activity completion labels “Reaction logic” and “Reaction completion” into one visible heading, “Completion via reactions and viewed percentage”, while preserving the existing AND/OR selector and explanatory guidance.
+- Complete the maintained German, Spanish, French, Hindi, Polish and Portuguese packs with the nine completion/seek strings that were already present in English and Italian; all eight packs now expose the same 977-key and placeholder contract.
+- Refresh the current technical-documentation baseline, distributed-file/function/configuration inventories and documentation audit for the 1.7.41 tree.
+- Add `VIDEOTRACK_CHANGELOG_LESSONS_ROADMAP_1.7.5_1.7.41.md` as the consolidated pre-production history, lessons-learned and future-roadmap document.
+- Add regression contracts for the single completion heading and language-pack key/placeholder parity.
+- No player, tracking, seek, Forum, reaction-write, note-write, bookmark-write, Analytics, database schema or upgrade behaviour changed in this release.
+
 ## 1.7.40 - 2026-08-12
 
 ### Fixed

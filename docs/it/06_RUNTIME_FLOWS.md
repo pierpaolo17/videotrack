@@ -10,7 +10,7 @@ Le callback provider aggiornano un tracker condiviso. Un evento PLAY chiama prim
 
 ## Seek, resume e replay
 
-Il seek utente rispetta le policy avanti/indietro. Un avanzamento bloccato torna all’ultimo punto consentito e può usare la velocità di recupero. Resume e replay da report sono seek programmatici distinti per evitare falsi indicatori. Trascrizione, capitoli, note e segnalibri usano la stessa policy dell’adapter.
+Il seek utente rispetta le policy avanti/indietro. Prima di ogni seek accettato o bloccato, l’adapter salva soltanto il segmento realmente riprodotto fino alla posizione pre-seek affidabile; il tratto saltato non viene mai accreditato come visione continua. Un avanzamento bloccato torna all’ultimo punto consentito e può usare la velocità di recupero. Durante il rollback, Forum, reazioni, note e segnalibri usano l’ultimo timestamp affidabile invece della posizione provider transitoria e vietata. Resume e replay da report sono seek programmatici distinti per evitare falsi indicatori. Trascrizione, capitoli, note e segnalibri usano la stessa policy dell’adapter.
 
 ## Reazioni, note e segnalibri
 

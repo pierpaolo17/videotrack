@@ -141,6 +141,10 @@ final class completion_contract_test extends advanced_testcase {
         $this->assertStringContainsString('$suffix = $this->get_suffix();', $source);
         $this->assertStringContainsString("'completionreactionrules' . \$suffix", $source);
         $this->assertStringContainsString("'completionlogic' . \$suffix", $source);
+        $completionguide = "\$completionreactionrules,\n";
+        $completionguide .= "            '',\n";
+        $completionguide .= "            get_string('completionreactionrules_desc'";
+        $this->assertStringContainsString($completionguide, $source);
         $this->assertStringContainsString("'completionpercent' . \$suffix", $source);
         $this->assertStringNotContainsString('get_suffixed_name(', $source);
         $this->assertStringContainsString('parent::data_preprocessing($defaultvalues);', $source);
