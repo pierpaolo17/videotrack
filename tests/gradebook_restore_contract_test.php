@@ -50,9 +50,7 @@ final class gradebook_restore_contract_test extends advanced_testcase {
         global $CFG, $DB;
 
         $this->resetAfterTest(true);
-        require_once($CFG->dirroot . '/mod/videotrack/lib.php');
         require_once($CFG->dirroot . '/mod/videotrack/db/repairlib.php');
-        require_once($CFG->libdir . '/gradelib.php');
 
         $course = $this->getDataGenerator()->create_course();
         $student = $this->getDataGenerator()->create_user();
@@ -62,18 +60,32 @@ final class gradebook_restore_contract_test extends advanced_testcase {
             'grade' => 100,
             'gradepass' => 50,
         ]);
-        $videotrack = $DB->get_record('videotrack', ['id' => $videotrackid], '*', MUST_EXIST);
-
-        $this->assertSame(GRADE_UPDATE_OK, videotrack_grade_item_update($videotrack));
-        $this->assertSame(GRADE_UPDATE_OK, videotrack_set_user_grade($videotrack, (int)$student->id, 80.0));
-
-        $original = $DB->get_record('grade_items', [
+        $now = time();
+        $originalid = (int)$DB->insert_record('grade_items', (object)[
             'courseid' => (int)$course->id,
+            'itemname' => 'Duplicate grade item repair',
             'itemtype' => 'mod',
             'itemmodule' => 'videotrack',
             'iteminstance' => $videotrackid,
             'itemnumber' => 0,
-        ], '*', MUST_EXIST);
+            'grademax' => 100,
+            'grademin' => 0,
+            'gradepass' => 50,
+            'timecreated' => $now,
+            'timemodified' => $now,
+        ]);
+        $DB->insert_record('grade_grades', (object)[
+            'itemid' => $originalid,
+            'userid' => (int)$student->id,
+            'rawgrade' => 80,
+            'rawgrademax' => 100,
+            'rawgrademin' => 0,
+            'finalgrade' => 80,
+            'timecreated' => $now,
+            'timemodified' => $now,
+        ]);
+
+        $original = $DB->get_record('grade_items', ['id' => $originalid], '*', MUST_EXIST);
         $duplicate = clone $original;
         unset($duplicate->id);
         $duplicateid = (int)$DB->insert_record('grade_items', $duplicate);
@@ -97,6 +109,6 @@ final class gradebook_restore_contract_test extends advanced_testcase {
         $grade = reset($grades);
         $this->assertSame((int)$student->id, (int)$grade->userid);
         $this->assertEquals(80.0, (float)$grade->rawgrade);
-        $this->assertFalse($DB->record_exists('grade_grades', ['itemid' => (int)$original->id]));
+        $this->assertFalse($DB->record_exists('grade_grades', ['itemid' => $originalid]));
     }
 }

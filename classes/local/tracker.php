@@ -491,14 +491,16 @@ class tracker {
     ): bool {
         global $DB;
 
-        if (self::has_watched_videotime(
-            (int)$videotrack->id,
-            $userid,
-            $sessionid,
-            $videotime,
-            $timetolerance,
-            $maxageseconds
-        )) {
+        if (
+            self::has_watched_videotime(
+                (int)$videotrack->id,
+                $userid,
+                $sessionid,
+                $videotime,
+                $timetolerance,
+                $maxageseconds
+            )
+        ) {
             return true;
         }
         if (empty($videotrack->allowseekforward)) {
