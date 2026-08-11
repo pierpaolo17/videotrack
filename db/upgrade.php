@@ -1989,5 +1989,15 @@ function xmldb_videotrack_upgrade($oldversion) {
         upgrade_mod_savepoint(true, 2026063001, 'videotrack');
     }
 
+    if ($oldversion < 2026081131) {
+        // Release 1.7.31: reconcile duplicate grade items created by the former
+        // module-specific restore callback before Moodle core restored grades.xml.
+        // This is deliberately DML-only so upgrades remain safe and resumable.
+        require_once(__DIR__ . '/repairlib.php');
+        videotrack_repair_preproduction_gradebook_rows();
+
+        upgrade_mod_savepoint(true, 2026081131, 'videotrack');
+    }
+
     return true;
 }

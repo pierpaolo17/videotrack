@@ -31,10 +31,11 @@
  * Moodle's standard grading form fail with morethanonerecordinfetch before the
  * activity form is rendered.
  *
- * The repair intentionally uses DML only. A single valid canonical grade item
- * is preserved. When duplicate canonical rows exist, all ambiguous rows for
- * that instance are removed so the normal VideoTrack save path can recreate
- * exactly one canonical item.
+ * The repair intentionally uses DML only. For duplicate canonical rows the
+ * newest item is retained because Moodle's common restore step inserts it after
+ * the former VideoTrack module-specific restore step. Any non-conflicting
+ * grade_grades rows attached to an older duplicate are moved to the retained
+ * item before the duplicate is removed.
  *
  * @return void
  */
@@ -71,15 +72,67 @@ function videotrack_repair_preproduction_gradebook_rows(): void {
     }
 
     foreach ($canonicalbyinstance as $gradeitemids) {
-        if (count($gradeitemids) > 1) {
-            foreach ($gradeitemids as $gradeitemid) {
-                $deleteids[] = $gradeitemid;
-            }
+        if (count($gradeitemids) <= 1) {
+            continue;
+        }
+
+        sort($gradeitemids, SORT_NUMERIC);
+        $keepid = (int)array_pop($gradeitemids);
+        foreach ($gradeitemids as $duplicateid) {
+            videotrack_repair_preproduction_merge_grade_grades($keepid, (int)$duplicateid);
+            $deleteids[] = (int)$duplicateid;
         }
     }
 
-    $deleteids = array_values(array_unique($deleteids));
-    foreach (array_chunk($deleteids, 500) as $chunk) {
+    videotrack_repair_preproduction_delete_grade_items($deleteids);
+}
+
+/**
+ * Move user grades from one duplicate grade item to the canonical item.
+ *
+ * If both items already contain a grade for the same user, the retained item's
+ * row wins because it belongs to the grade item created later by Moodle's core
+ * restore step. The older conflicting row is removed.
+ *
+ * @param int $keepid Canonical grade item id to retain.
+ * @param int $duplicateid Duplicate grade item id to remove.
+ * @return void
+ */
+function videotrack_repair_preproduction_merge_grade_grades(int $keepid, int $duplicateid): void {
+    global $DB;
+
+    $grades = $DB->get_records(
+        'grade_grades',
+        ['itemid' => $duplicateid],
+        'id ASC',
+        'id, userid'
+    );
+    foreach ($grades as $grade) {
+        $existingid = $DB->get_field(
+            'grade_grades',
+            'id',
+            ['itemid' => $keepid, 'userid' => (int)$grade->userid],
+            IGNORE_MISSING
+        );
+        if ($existingid) {
+            $DB->delete_records('grade_grades', ['id' => (int)$grade->id]);
+            continue;
+        }
+        $DB->set_field('grade_grades', 'itemid', $keepid, ['id' => (int)$grade->id]);
+    }
+}
+
+/**
+ * Delete grade items and their active user-grade rows using DML only.
+ *
+ * @param int[] $gradeitemids Grade item ids to delete.
+ * @return void
+ */
+function videotrack_repair_preproduction_delete_grade_items(array $gradeitemids): void {
+    global $DB;
+
+    $gradeitemids = array_values(array_unique(array_filter(array_map('intval', $gradeitemids))));
+    foreach (array_chunk($gradeitemids, 500) as $chunk) {
         [$insql, $params] = $DB->get_in_or_equal($chunk, SQL_PARAMS_NAMED, 'vtgradeitemrepair');
         $DB->delete_records_select('grade_grades', "itemid {$insql}", $params);
         $DB->delete_records_select('grade_items', "id {$insql}", $params);

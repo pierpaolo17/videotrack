@@ -2,6 +2,14 @@
 
 This is the canonical release-history file for the plugin tree. Detailed design notes and historical migration documents remain under `docs/`.
 
+## 1.7.31 - 2026-08-11
+
+### Fixed
+
+- Stop creating a VideoTrack grade item from the module-specific restore `after_execute()` hook; Moodle's common activity-grade restore step already restores `grades.xml`, and the former double creation could leave duplicate canonical grade items after activity duplication.
+- Add a DML-only 1.7.31 upgrade repair that keeps the newest canonical itemnumber-0 grade item per VideoTrack instance, migrates non-conflicting `grade_grades` rows from older duplicates, and removes stale/duplicate grade items so already-duplicated activities become editable again.
+- Add restore/gradebook regression coverage and fix the remaining PHPCS class-closing layout in the completion contract test.
+
 ## 1.7.30 - 2026-08-11
 
 ### Fixed
