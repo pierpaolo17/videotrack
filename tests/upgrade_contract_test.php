@@ -128,4 +128,23 @@ final class upgrade_contract_test extends advanced_testcase {
         $this->assertStringNotContainsString('grade_item::', $repairsource);
         $this->assertStringNotContainsString('grade_update(', $repairsource);
     }
+    /**
+     * The 1.7.31 recovery must collapse restore-created duplicate grade items using DML only.
+     */
+    public function test_duplicate_grade_item_repair_is_upgrade_safe(): void {
+        global $CFG;
+
+        $upgradesource = file_get_contents($CFG->dirroot . '/mod/videotrack/db/upgrade.php');
+        $repairsource = file_get_contents($CFG->dirroot . '/mod/videotrack/db/repairlib.php');
+        $this->assertIsString($upgradesource);
+        $this->assertIsString($repairsource);
+
+        $this->assertStringContainsString('if ($oldversion < 2026081131)', $upgradesource);
+        $this->assertStringContainsString('videotrack_repair_preproduction_gradebook_rows();', $upgradesource);
+        $this->assertStringContainsString('array_pop($gradeitemids)', $repairsource);
+        $this->assertStringContainsString('videotrack_repair_preproduction_merge_grade_grades', $repairsource);
+        $this->assertStringContainsString("set_field('grade_grades', 'itemid'", $repairsource);
+        $this->assertStringNotContainsString('grade_item::', $repairsource);
+        $this->assertStringNotContainsString('grade_update(', $repairsource);
+    }
 }

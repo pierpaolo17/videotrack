@@ -374,11 +374,15 @@ class restore_videotrack_activity_structure_step extends restore_activity_struct
     }
 
     /**
-     * Restore related files and recreate the grade item after records are restored.
+     * Restore related files after the VideoTrack records are restored.
+     *
+     * Grade items are deliberately not created here. Moodle's common
+     * restore_activity_grades_structure_step runs after this module-specific
+     * step and restores the activity grade item from grades.xml. Creating it
+     * here as well produces duplicate canonical grade_items during activity
+     * duplication.
      */
     protected function after_execute() {
-        global $DB, $CFG;
-
         $this->add_related_files('mod_videotrack', 'intro', null);
         $this->add_related_files('mod_videotrack', 'reactionicon', 'videotrack_react');
         $this->add_related_files('mod_videotrack', 'videocontent', null);
@@ -386,27 +390,5 @@ class restore_videotrack_activity_structure_step extends restore_activity_struct
         $this->add_related_files('mod_videotrack', 'transcripts', null);
         $this->add_related_files('mod_videotrack', 'chapters', null);
         $this->add_related_files('mod_videotrack', 'posterimage', null);
-
-        $videotrackid = $this->get_new_parentid('videotrack');
-
-        // Recreate the grade item in the destination course gradebook.
-        // Without this call, the grade does not appear in the grader report after restore.
-        if (!empty($videotrackid)) {
-            $videotrack = $DB->get_record('videotrack', ['id' => $videotrackid]);
-            if ($videotrack && !empty($videotrack->grade)) {
-                require_once($CFG->dirroot . '/mod/videotrack/lib.php');
-                require_once($CFG->libdir . '/gradelib.php');
-                // Cmidnumber is required by grade_update; retrieve it from the course module.
-                $cm = get_coursemodule_from_instance(
-                    'videotrack',
-                    $videotrackid,
-                    $videotrack->course,
-                    false,
-                    IGNORE_MISSING
-                );
-                $videotrack->cmidnumber = $cm ? $cm->idnumber : '';
-                videotrack_grade_item_update($videotrack);
-            }
-        }
     }
 }

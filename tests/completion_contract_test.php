@@ -235,5 +235,4 @@ final class completion_contract_test extends advanced_testcase {
             [10, 11]
         ));
     }
-
 }
