@@ -109,7 +109,10 @@ final class report_contract_test extends advanced_testcase {
         $this->assertStringContainsString('$playernotices = [];', $source);
         $this->assertStringContainsString("\$playernotices[] = get_string('externalproviderprivacy_notice'", $source);
         $this->assertStringContainsString("\$playernotices[] = get_string('integrity:studentnotice'", $source);
-        $this->assertStringContainsString("\$OUTPUT->notification(\$playernoticehtml, 'info', true)", $source);
+        $this->assertStringContainsString('videotrack-player-notice videotrack-inline-notice alert alert-info', $source);
+        $this->assertStringContainsString('btn-close videotrack-inline-notice-close ms-2', $source);
+        $this->assertStringContainsString("'data-bs-dismiss' => 'alert'", $source);
+        $this->assertStringNotContainsString("\$OUTPUT->notification(\$playernoticehtml, 'info', true)", $source);
         $this->assertStringNotContainsString('small text-muted videotrack-integrity-notice', $source);
     }
 }

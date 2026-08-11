@@ -740,6 +740,10 @@
     margin: 0 !important;
     background-size: 0.65rem;
 }
+.videotrack-player-notice .videotrack-inline-notice-content {
+    flex: 1 1 auto;
+    min-width: 0;
+}
 
 /* ── Report: reset student button ─────────────────────────────────────────── */
 .videotrack-reset-student {
