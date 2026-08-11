@@ -24,12 +24,13 @@ use mod_videotrack\local\tracker;
 /**
  * Composite custom completion rule for the VideoTrack activity module.
  *
- * VideoTrack treats enabled viewing, acknowledgement and reaction requirements
- * as top-level conditions. When more than one reaction criterion is configured,
- * teachers can combine those reaction criteria with AND or OR logic. Moodle's
- * base activity_custom_completion class aggregates multiple custom rules with
- * AND semantics, so VideoTrack exposes one composite rule whose state is
- * calculated by the same tracker service used by runtime writes.
+ * VideoTrack combines enabled viewing, acknowledgement and reaction requirements
+ * with the configured AND/OR completion logic. Reaction requirements are first
+ * reduced to one reaction-group result using the same AND/OR choice, then that
+ * result participates alongside viewing and acknowledgement. Moodle's base
+ * activity_custom_completion class aggregates multiple custom rules with AND
+ * semantics, so VideoTrack exposes one composite rule whose state is calculated
+ * by the same tracker service used by runtime writes.
  *
  * @package    mod_videotrack
  * @copyright  2026 videotrack contributors
@@ -109,7 +110,9 @@ class custom_completion extends activity_custom_completion {
             return [];
         }
 
-        $logic = get_string('completiondetail:logicand', 'mod_videotrack');
+        $logic = ($instance->completionlogic ?? 'and') === 'or'
+            ? get_string('completiondetail:logicor', 'mod_videotrack')
+            : get_string('completiondetail:logicand', 'mod_videotrack');
         return [
             self::RULE => get_string('completiondetail:videotrackconditions', 'mod_videotrack', (object)[
                 'logic' => $logic,

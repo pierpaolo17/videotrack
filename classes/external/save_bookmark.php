@@ -100,11 +100,14 @@ class save_bookmark extends external_api {
 
         $duration = (float)($videotrack->durationseconds ?? 0);
         $videotime = max(0.0, $duration > 0 ? min((float)$params['videotime'], $duration) : (float)$params['videotime']);
+        // A permitted forward seek may reach a timestamp before the next validated
+        // segment is persisted. The policy-aware helper accepts that timestamp only
+        // with recent same-session playback evidence.
         $fallbackdays = \videotrack_get_config_int('validationfallbackdays', 30, 0, 3650);
         $maxage = $fallbackdays > 0 ? $fallbackdays * DAYSECS : 0;
         if (
-            !tracker::has_watched_videotime(
-                $videotrack->id,
+            !tracker::interaction_timestamp_allowed(
+                $videotrack,
                 (int)$USER->id,
                 $params['sessionid'],
                 $videotime,

@@ -221,4 +221,16 @@ final class ajax_contract_test extends advanced_testcase {
         $this->assertStringNotContainsString('reaction.iconhtml', $html5);
         $this->assertStringNotContainsString('template.innerHTML', $html5);
     }
+
+    /**
+     * Interaction writes honour allowed forward seeking without dropping same-session playback validation.
+     */
+    public function test_interaction_writes_use_policy_aware_timestamp_validation(): void {
+        $root = dirname(__DIR__);
+        foreach (['save_reaction.php', 'save_note.php', 'save_bookmark.php'] as $file) {
+            $source = file_get_contents($root . '/classes/external/' . $file);
+            $this->assertIsString($source);
+            $this->assertStringContainsString('tracker::interaction_timestamp_allowed(', $source);
+        }
+    }
 }
