@@ -2,6 +2,16 @@
 
 This is the canonical release-history file for the plugin tree. Detailed design notes and historical migration documents remain under `docs/`.
 
+## 1.7.38 - 2026-08-11
+
+### Fixed
+
+- Restore the proven Vimeo seek-segmentation contract in YouTube and HTML5: a seek now persists viewing only up to the pre-seek position and opens a new segment at the destination, never crediting the skipped gap as continuous playback.
+- Close HTML5 programmatic rewind, fast-forward, replay, chapter and resume segments before changing `currentTime`, preventing pause/interaction flushes from being rejected by the server-authoritative ledger after a seek.
+- Preserve the original wall-clock start also for known-boundary seek snapshots.
+- While a blocked forward seek is rolling back, use the last trusted player time for Forum, reaction, note and bookmark flushes instead of the transient forbidden provider timestamp.
+- Keep the 1.6.23 server-authoritative anti-tampering ledger and the 1.7.12/1.7.32 interaction guards intact; this release fixes the player-side segment boundary that those guards exposed.
+
 ## 1.7.37 - 2026-08-11
 
 ### Fixed

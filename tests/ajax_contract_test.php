@@ -291,6 +291,43 @@ final class ajax_contract_test extends advanced_testcase {
     }
 
     /**
+     * Seek persistence must stop at the pre-seek boundary instead of crediting the skipped gap.
+     */
+    public function test_seek_closes_segment_at_known_pre_seek_boundary(): void {
+        $segment = file_get_contents(__DIR__ . '/../amd/src/core/tracker/segment.js');
+        $youtube = file_get_contents(__DIR__ . '/../amd/src/player.js');
+        $html5 = file_get_contents(__DIR__ . '/../amd/src/html5_player.js');
+        $vimeo = file_get_contents(__DIR__ . '/../amd/src/vimeo_player.js');
+        $this->assertIsString($segment);
+        $this->assertIsString($youtube);
+        $this->assertIsString($html5);
+        $this->assertIsString($vimeo);
+
+        $this->assertStringContainsString('saveOpenSegmentSnapshot(state, seek.oldTime, saveSegment', $youtube);
+        $this->assertStringContainsString('function rotatePlayingSegmentForSeek(oldTime, newTime)', $html5);
+        $this->assertStringContainsString('rotatePlayingSegmentForSeek(seek.oldTime, seek.newTime)', $html5);
+        $this->assertStringContainsString('saveOpenSegmentSnapshot(state, oldTime, saveSegment', $html5);
+        $this->assertStringContainsString('function seekProgrammatically(target, label)', $youtube);
+        $this->assertStringContainsString('saveOpenSegmentSnapshot(state, previous, saveSegment', $youtube);
+        $this->assertStringContainsString('function startProgrammaticSeek(target)', $html5);
+        $this->assertStringContainsString("saveSegment(state.segmentstart, seek.oldTime, 'seek')", $vimeo);
+    }
+
+    /**
+     * Learner interactions must use the trusted pre-rollback time while a seek is blocked.
+     */
+    public function test_interactions_use_safe_time_during_blocked_seek(): void {
+        foreach (['player.js', 'vimeo_player.js', 'html5_player.js'] as $filename) {
+            $source = file_get_contents(__DIR__ . '/../amd/src/' . $filename);
+            $this->assertIsString($source);
+            $this->assertStringContainsString('function getInteractionVideoTime()', $source);
+            $this->assertStringContainsString('state.seekblocked', $source);
+            $this->assertStringContainsString('getCurrentVideoTime: getInteractionVideoTime', $source);
+            $this->assertStringContainsString('getCurrentTime: getInteractionVideoTime', $source);
+        }
+    }
+
+    /**
      * Reaction responses must expose structured icon data only.
      */
     public function test_reaction_runtime_contract_contains_no_raw_html_field(): void {
