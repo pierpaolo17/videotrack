@@ -48,6 +48,16 @@ define(['mod_videotrack/core/status', 'mod_videotrack/core/debug'], function(Sta
     }
 
     /**
+     * Show a persistent player policy notice that coexists with transient status messages.
+     *
+     * @param {string} message Policy text.
+     * @param {string} dismissLabel Accessible dismiss label.
+     */
+    function showPolicyMessage(message, dismissLabel) {
+        Status.showPolicy(message, dismissLabel, getShell());
+    }
+
+    /**
      * Show a user-safe error status message without exposing low-level AJAX details.
      *
      * Validation messages may carry intentional server-side wording, for example
@@ -84,6 +94,7 @@ define(['mod_videotrack/core/status', 'mod_videotrack/core/debug'], function(Sta
     return {
         configure: configure,
         showMessage: showMessage,
+        showPolicyMessage: showPolicyMessage,
         showErrorMessage: showErrorMessage,
         announce: announce,
         getShell: getShell

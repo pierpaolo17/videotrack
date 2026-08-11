@@ -171,15 +171,26 @@ final class ajax_contract_test extends advanced_testcase {
         );
         $this->assertStringContainsString('saveOpenSegmentSnapshot: saveOpenSegmentSnapshot', $facade);
 
-        foreach (['player.js', 'vimeo_player.js', 'html5_player.js'] as $filename) {
-            $source = file_get_contents(__DIR__ . '/../amd/src/' . $filename);
-            $this->assertIsString($source);
-            $this->assertStringContainsString(
-                "Tracker.saveOpenSegmentSnapshot(state, fallback, saveSegment, 'seek')",
-                $source
-            );
-            $this->assertStringContainsString('persistBlockedSeekFrontier(fallback);', $source);
-        }
+        $youtube = file_get_contents(__DIR__ . '/../amd/src/player.js');
+        $vimeo = file_get_contents(__DIR__ . '/../amd/src/vimeo_player.js');
+        $html5 = file_get_contents(__DIR__ . '/../amd/src/html5_player.js');
+        $this->assertIsString($youtube);
+        $this->assertIsString($vimeo);
+        $this->assertIsString($html5);
+
+        $this->assertStringContainsString(
+            "Tracker.saveOpenSegmentSnapshot(state, previous, saveSegment, 'seek')",
+            $youtube
+        );
+        $this->assertStringContainsString('persistBlockedSeekFrontier(fallback);', $vimeo);
+        $this->assertStringContainsString(
+            "Tracker.saveOpenSegmentSnapshot(state, fallback, saveSegment, 'seek')",
+            $vimeo
+        );
+        $this->assertStringContainsString(
+            "Tracker.saveOpenSegmentSnapshot(state, previous, saveSegment, 'seek')",
+            $html5
+        );
     }
 
     /**
@@ -228,12 +239,16 @@ final class ajax_contract_test extends advanced_testcase {
     public function test_blocked_forward_seek_shows_policy_notice(): void {
         $core = file_get_contents(__DIR__ . '/../amd/src/core/player.js');
         $this->assertIsString($core);
+        $this->assertStringContainsString('function showForwardSeekPolicyNotice(config)', $core);
+        $this->assertStringContainsString('PlayerStatus.showPolicyMessage(message, config.dismisslabel)', $core);
+        $this->assertStringContainsString("replace('__RATE__', String(configuredRate))", $core);
         $this->assertStringContainsString('function showBlockedForwardSeekNotice(config, playbackRate)', $core);
         $this->assertStringContainsString("replace('__RATE__', String(rate))", $core);
 
         foreach (['player.js', 'vimeo_player.js', 'html5_player.js'] as $filename) {
             $source = file_get_contents(__DIR__ . '/../amd/src/' . $filename);
             $this->assertIsString($source);
+            $this->assertStringContainsString('PlayerCore.showForwardSeekPolicyNotice(config);', $source);
             $this->assertStringContainsString('PlayerCore.showBlockedForwardSeekNotice(config,', $source);
         }
     }
@@ -247,6 +262,30 @@ final class ajax_contract_test extends advanced_testcase {
         $this->assertStringContainsString("button.className = 'btn-close ms-2'", $source);
         $this->assertStringNotContainsString("closeIcon.textContent = '\\u00d7'", $source);
         $this->assertStringNotContainsString('button.appendChild(closeIcon)', $source);
+    }
+
+    /**
+     * Resume and policy notices must keep their dismiss buttons in normal flow.
+     */
+    public function test_compact_player_notices_keep_close_button_in_flow(): void {
+        $resume = file_get_contents(__DIR__ . '/../amd/src/core/player/resume.js');
+        $status = file_get_contents(__DIR__ . '/../amd/src/core/status.js');
+        $styles = file_get_contents(__DIR__ . '/../styles.css');
+        $this->assertIsString($resume);
+        $this->assertIsString($status);
+        $this->assertIsString($styles);
+
+        $this->assertStringContainsString(
+            "notice.className = 'videotrack-resume-notice videotrack-inline-notice alert alert-info mt-1'",
+            $resume
+        );
+        $this->assertStringNotContainsString(
+            "videotrack-resume-notice alert alert-info alert-dismissible",
+            $resume
+        );
+        $this->assertStringContainsString('videotrack-seek-policy-notice videotrack-inline-notice', $status);
+        $this->assertStringContainsString('.videotrack-inline-notice .videotrack-inline-notice-close', $styles);
+        $this->assertStringContainsString('position: static;', $styles);
     }
 
     /**

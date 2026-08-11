@@ -1617,6 +1617,7 @@ define([
             controlBar        = null;
             config             = resolveConfig(initConfig);
             PlayerCore.configureStatus(config);
+            PlayerCore.showForwardSeekPolicyNotice(config);
             // Reaction timing caps match settings.php limits and are centralised in core/reactions.
             var interval = parseInt(config.reactionannouncementinterval, 10);
             reactionState.unavailableInterval = interval === 0 ? Number.MAX_SAFE_INTEGER :

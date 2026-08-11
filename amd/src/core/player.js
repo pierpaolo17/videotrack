@@ -104,6 +104,27 @@ define([
     }
 
     /**
+     * Show the activity's forward-seek policy before the learner attempts to skip.
+     *
+     * The configured recovery rate is included when it differs from 1x. Runtime
+     * blocked-seek notices still report the actual rate used for each attempt.
+     *
+     * @param {Object} config Player configuration.
+     */
+    function showForwardSeekPolicyNotice(config) {
+        if (!config || config.allowseekforward !== false || !config.seekforwarddisabledlabel) {
+            return;
+        }
+        var message = String(config.seekforwarddisabledlabel);
+        var configuredRate = Number(config.blockedseekplaybackrate) / 100;
+        if (Number.isFinite(configuredRate) && Math.abs(configuredRate - 1) > 0.001 &&
+                config.seekforwarddisabledspeedlabel) {
+            message += ' ' + String(config.seekforwarddisabledspeedlabel).replace('__RATE__', String(configuredRate));
+        }
+        PlayerStatus.showPolicyMessage(message, config.dismisslabel);
+    }
+
+    /**
      * Tell a learner that a forward seek was blocked by the activity policy.
      *
      * When the configured recovery rate differs from normal playback, include
@@ -221,6 +242,7 @@ define([
         showResumeNotice: showResumeNotice,
         configureStatus: configureStatus,
         showStatusMessage: showStatusMessage,
+        showForwardSeekPolicyNotice: showForwardSeekPolicyNotice,
         showBlockedForwardSeekNotice: showBlockedForwardSeekNotice,
         showErrorStatusMessage: showErrorStatusMessage,
         announceStatusMessage: announceStatusMessage,

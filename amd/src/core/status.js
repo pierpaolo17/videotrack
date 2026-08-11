@@ -252,6 +252,47 @@ define([], function() {
     }
 
     /**
+     * Show a persistent forward-seek policy notice without clearing transient status messages.
+     *
+     * @param {string} message Policy text.
+     * @param {string=} dismissLabel Accessible dismiss label.
+     * @param {HTMLElement=} container Preferred status container.
+     */
+    function showPolicy(message, dismissLabel, container) {
+        var text = normaliseMessage(message, false);
+
+        container = container || getContainer();
+        if (!container) {
+            return;
+        }
+
+        remove(container.querySelector('.videotrack-seek-policy-notice'));
+        announce(text, false, container);
+
+        var notice = document.createElement('div');
+        notice.className = 'videotrack-seek-policy-notice videotrack-inline-notice alert alert-info mt-1';
+        notice.setAttribute('role', 'status');
+
+        var span = document.createElement('span');
+        span.id = 'videotrack-seek-policy-notice-text-' + Date.now().toString(36) + '-' +
+            Math.floor(Math.random() * 1000000);
+        span.textContent = text;
+        notice.setAttribute('aria-describedby', span.id);
+        notice.appendChild(span);
+
+        var button = document.createElement('button');
+        button.type = 'button';
+        button.className = 'btn-close videotrack-inline-notice-close ms-2';
+        button.setAttribute('aria-label', normaliseDismissLabel(dismissLabel));
+        button.addEventListener('click', function() {
+            remove(notice);
+        });
+        notice.appendChild(button);
+
+        container.insertBefore(notice, container.firstChild || null);
+    }
+
+    /**
      * Show a temporary accessible status message.
      *
      * @param {string} message Message text.
@@ -318,6 +359,7 @@ define([], function() {
         configure: configure,
         announce: announce,
         clear: clear,
+        showPolicy: showPolicy,
         show: show
     };
 });
