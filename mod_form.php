@@ -1383,11 +1383,12 @@ JS);
         $coursecontext = context_course::instance($COURSE->id);
         $canoverride = has_capability('mod/videotrack:overridecompletionsettings', $coursecontext);
         $defaultpercent = (int)(get_config('mod_videotrack', 'default_completionpercent') ?: 0);
-        $completionpercent = $this->get_suffixed_name('completionpercent');
-        $completionpercentgroup = $this->get_suffixed_name('completionpercentgroup');
-        $completionacknowledgement = $this->get_suffixed_name('completionacknowledgement');
-        $completionlogic = $this->get_suffixed_name('completionlogic');
-        $completionreactionrules = $this->get_suffixed_name('completionreactionrules');
+        $suffix = $this->get_suffix();
+        $completionpercent = 'completionpercent' . $suffix;
+        $completionpercentgroup = 'completionpercentgroup' . $suffix;
+        $completionacknowledgement = 'completionacknowledgement' . $suffix;
+        $completionlogic = 'completionlogic' . $suffix;
+        $completionreactionrules = 'completionreactionrules' . $suffix;
 
         $group = [];
         $group[] = $mform->createElement('text', $completionpercent, '', ['size' => 3]);
@@ -1446,9 +1447,10 @@ JS);
      * @return bool True when at least one custom completion condition is active.
      */
     public function completion_rule_enabled($data) {
-        $completionpercent = $data[$this->get_suffixed_name('completionpercent')]
+        $suffix = $this->get_suffix();
+        $completionpercent = $data['completionpercent' . $suffix]
             ?? ($data['completionpercent'] ?? 0);
-        $completionacknowledgement = $data[$this->get_suffixed_name('completionacknowledgement')]
+        $completionacknowledgement = $data['completionacknowledgement' . $suffix]
             ?? ($data['completionacknowledgement'] ?? 0);
         $requiredreactions = array_filter(array_map('intval', (array)($data['reactionrequired'] ?? [])));
         $reactionrules = !empty($data['reactionsenabled']) && (
@@ -1538,8 +1540,9 @@ JS);
         if (empty($defaultvalues['completionlogic'])) {
             $defaultvalues['completionlogic'] = 'and';
         }
+        $suffix = $this->get_suffix();
         foreach (['completionpercent', 'completionacknowledgement', 'completionlogic'] as $field) {
-            $defaultvalues[$this->get_suffixed_name($field)] = $defaultvalues[$field];
+            $defaultvalues[$field . $suffix] = $defaultvalues[$field];
         }
 
         // Pre-populate gradepass from the database when editing an existing activity.
@@ -1843,8 +1846,9 @@ JS);
             $errors['chapterfile'] = get_string('err:chapterfilerequired', 'mod_videotrack');
         }
 
-        $completionpercentname = $this->get_suffixed_name('completionpercent');
-        $completionpercentgroupname = $this->get_suffixed_name('completionpercentgroup');
+        $suffix = $this->get_suffix();
+        $completionpercentname = 'completionpercent' . $suffix;
+        $completionpercentgroupname = 'completionpercentgroup' . $suffix;
         $completionpercent = $data[$completionpercentname] ?? ($data['completionpercent'] ?? null);
         if (
             $completionpercent !== null
