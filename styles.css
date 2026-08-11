@@ -41,6 +41,19 @@
     max-width: 960px;
 }
 
+/* Moodle 5.0 renders incomplete automatic-completion conditions as
+ * bg-light/text-dark badges inside the activity header. Keep those badges
+ * readable even when a theme remaps Bootstrap dark/light colour variables. */
+.path-mod-videotrack .activity-header .badge.bg-light.text-dark {
+    --bs-dark-rgb: 33, 37, 41;
+    --bs-light-rgb: 248, 249, 250;
+    color: #212529;
+    border: 1px solid var(--bs-border-color, #dee2e6);
+    white-space: normal;
+    line-height: 1.4;
+    text-align: left;
+}
+
 /* Contenitore responsive 16:9 per il player YouTube.
  * YT.Player sostituisce il div interno con un <iframe>: il padding-bottom
  * forza l'altezza proporzionale alla larghezza in tutti i browser. */
