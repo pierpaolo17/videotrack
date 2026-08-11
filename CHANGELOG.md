@@ -2,6 +2,14 @@
 
 This is the canonical release-history file for the plugin tree. Detailed design notes and historical migration documents remain under `docs/`.
 
+## 1.7.35 - 2026-08-11
+
+### Fixed
+
+- Restored readable contrast for Moodle automatic-completion badges on VideoTrack pages when a theme remaps Bootstrap light/dark utility colours.
+- Allowed long completion descriptions to wrap inside the Moodle activity header and added a subtle border so incomplete conditions remain visually distinct.
+- No completion logic, player, Analytics, database or upgrade behaviour changed in this release.
+
 ## 1.7.34 - 2026-08-11
 
 ### Changed

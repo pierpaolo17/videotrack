@@ -241,4 +241,19 @@ final class completion_contract_test extends advanced_testcase {
             [10, 11]
         ));
     }
+
+    /**
+     * Moodle incomplete completion badges remain readable on VideoTrack pages.
+     */
+    public function test_activity_header_completion_badges_have_readable_contrast(): void {
+        $source = file_get_contents(dirname(__DIR__) . '/styles.css');
+        $this->assertIsString($source);
+
+        $this->assertStringContainsString(
+            '.path-mod-videotrack .activity-header .badge.bg-light.text-dark',
+            $source
+        );
+        $this->assertStringContainsString('--bs-dark-rgb: 33, 37, 41;', $source);
+        $this->assertStringContainsString('white-space: normal;', $source);
+    }
 }
