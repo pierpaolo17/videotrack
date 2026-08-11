@@ -236,16 +236,11 @@ define([
         return getPlaybackRatePenalty();
     }
 
-    function persistBlockedSeekFrontier(fallback) {
-        return Tracker.saveOpenSegmentSnapshot(state, fallback, saveSegment, 'seek').catch(function(error) {
-            Debug.log('youtubeblockedseekfrontiersavefailed', {message: error && error.message});
-            return null;
-        });
-    }
-
     function blockForwardSeek(target, fallbackTime, previousTime) {
         var allowed = getAllowedForwardLimit();
-        var fallback = typeof fallbackTime === 'number' ? fallbackTime : Tracker.normaliseTime(state.lasttime);
+        var previous = typeof previousTime === 'number' ? previousTime : Tracker.normaliseTime(state.lasttime);
+        var fallback = typeof fallbackTime === 'number' ? fallbackTime : previous;
+        var wasPlaying = !!state.playing;
         var recoveryRate;
         fallback = Math.max(0, Tracker.normaliseTime(Math.max(fallback, allowed)));
         if (target <= fallback + 0.75 || isForwardTargetAlreadyWatched(target, 0.75)) {
@@ -255,8 +250,13 @@ define([
             focusGuard.noteAction('forwardseek');
             focusGuard.record('forwardseek');
         }
-        persistBlockedSeekFrontier(fallback);
-        recoveryRate = getBlockedSeekPlaybackRate(fallback, previousTime);
+        if (wasPlaying) {
+            // Persist only what actually played before the forbidden jump. The
+            // rollback destination may be farther ahead because it was watched
+            // in an older session, but that gap must not consume fresh credit.
+            Tracker.saveOpenSegmentSnapshot(state, previous, saveSegment, 'seek').catch(Log.debug);
+        }
+        recoveryRate = getBlockedSeekPlaybackRate(fallback, previous);
         applyBlockedSeekPenalty('YouTube blocked forward seek playback rate', recoveryRate);
         retryBlockedSeekPenalty('YouTube blocked forward seek playback rate', recoveryRate);
         PlayerCore.showBlockedForwardSeekNotice(config, recoveryRate);
@@ -264,6 +264,9 @@ define([
         Adapter.seek(fallback, function(safeTarget) {
             player.seekTo(safeTarget, true);
             resetForwardSeekRecovery(safeTarget);
+            if (wasPlaying) {
+                Tracker.openSegment(state, safeTarget, Math.floor(Date.now() / 1000), recoveryRate);
+            }
         }, Log, 'YouTube blocked forward seek');
         return true;
     }
@@ -283,7 +286,13 @@ define([
     }
 
     function saveCurrentProgress(reason) {
-        return PlayerCore.saveCurrentProgress(state, getCurrentVideoTime, saveSegment, reason, hasPlayer(null, 'currentTime'));
+        return PlayerCore.saveCurrentProgress(
+            state,
+            getInteractionVideoTime,
+            saveSegment,
+            reason,
+            hasPlayer(null, 'currentTime')
+        );
     }
 
     function closeCurrentSegment(reason) {
@@ -427,16 +436,33 @@ define([
         PlayerCore.announceReactionUnavailable(config, reactionState);
     }
 
+    function seekProgrammatically(target, label) {
+        if (!hasPlayer(['seekTo'])) {
+            return false;
+        }
+        var destination = Tracker.normaliseTime(target);
+        var previous = Tracker.normaliseTime(player.getCurrentTime());
+        var wasPlaying = !!state.playing;
+        if (wasPlaying) {
+            Tracker.saveOpenSegmentSnapshot(state, previous, saveSegment, 'seek').catch(Log.debug);
+        }
+        Tracker.markProgrammaticSeek(state);
+        Adapter.seek(destination, function(safeTarget) {
+            player.seekTo(safeTarget, true);
+            Tracker.syncTime(state, safeTarget);
+            if (wasPlaying) {
+                Tracker.openSegment(state, safeTarget, Math.floor(Date.now() / 1000), state.playbackrate);
+            }
+        }, Log, label || 'YouTube programmatic seek');
+        return true;
+    }
+
     function replayFragment(start, end, autoplay) {
         if (!hasPlayer(['seekTo'])) {
             return;
         }
         state.currentReplayEnd = typeof end === 'number' ? end : null;
-        // Mark as programmatic so handleSeekByPolling ignores this seek.
-        Tracker.markProgrammaticSeek(state);
-        Adapter.seek(start || 0, function(target) {
-            player.seekTo(target, true);
-        }, Log, 'YouTube replay seek');
+        seekProgrammatically(start || 0, 'YouTube replay seek');
         if (autoplay !== false) {
             Adapter.play(function() {
                 return player.playVideo();
@@ -518,7 +544,13 @@ define([
             var oldtime = seek.oldTime;
             if (seek.blocked && seek.forward) {
                 var recoveryRate = getBlockedSeekPlaybackRate(oldtime, previous);
-                persistBlockedSeekFrontier(oldtime);
+                var wasPlayingBeforeBlock = !!state.playing;
+                if (wasPlayingBeforeBlock) {
+                    Tracker.saveOpenSegmentSnapshot(state, oldtime, saveSegment, 'seek').catch(Log.debug);
+                    // Rotate the in-memory segment at the trusted old position so
+                    // the snapshot is not submitted again on the next pause or interaction.
+                    Tracker.openSegment(state, oldtime, Math.floor(Date.now() / 1000), recoveryRate);
+                }
                 applyBlockedSeekPenalty('YouTube blocked forward seek playback rate', recoveryRate);
                 retryBlockedSeekPenalty('YouTube blocked forward seek playback rate', recoveryRate);
                 Tracker.blockSeek(state, 1000);
@@ -537,9 +569,10 @@ define([
                 return;
             }
             if (state.playing) {
-                closeCurrentSegment('seek');
-                // Seek permesso: apre nuovo segmento dalla posizione corrente.
-                Tracker.openSegment(state, player.getCurrentTime(), Math.floor(Date.now() / 1000), state.playbackrate);
+                // Match Vimeo's proven seek contract: persist only up to the
+                // pre-seek position and never credit the skipped interval.
+                Tracker.saveOpenSegmentSnapshot(state, seek.oldTime, saveSegment, 'seek').catch(Log.debug);
+                Tracker.openSegment(state, seek.newTime, Math.floor(Date.now() / 1000), state.playbackrate);
             }
         }
         Tracker.syncTime(state, current);
@@ -681,7 +714,7 @@ define([
                 reactionbtn.setAttribute('aria-busy', 'true');
                 reactionbtn.disabled = true;
                 saveCurrentProgress('reaction').then(function(progressResponse) {
-                    return Promise.resolve(getCurrentVideoTime()).then(function(time) {
+                    return Promise.resolve(getInteractionVideoTime()).then(function(time) {
                         currentTime = resolveReactionTime(progressResponse, time);
                     });
                 }).then(function() {
@@ -1023,12 +1056,8 @@ define([
                     focusGuard.noteAction('rewind');
                 }
                 if (player && player.getCurrentTime) {
-                    Adapter.seek(
+                    seekProgrammatically(
                         Adapter.resolveSkipTarget(player.getCurrentTime(), -config.rewindstep, state.duration),
-                        function(target) {
-                            player.seekTo(target, true);
-                        },
-                        Log,
                         'YouTube rewind'
                     );
                 }
@@ -1052,12 +1081,8 @@ define([
                     focusGuard.noteAction('fastforward');
                 }
                 if (player && player.getCurrentTime && player.getDuration) {
-                    Adapter.seek(
+                    seekProgrammatically(
                         Adapter.resolveSkipTarget(player.getCurrentTime(), config.fastforwardstep, player.getDuration()),
-                        function(target) {
-                            player.seekTo(target, true);
-                        },
-                        Log,
                         'YouTube fast-forward'
                     );
                 }
@@ -1078,6 +1103,18 @@ define([
         return Adapter.getCurrentTime(state, function() {
             return player && player.getCurrentTime ? player.getCurrentTime() : state.lasttime;
         }, Log, 'YouTube');
+    }
+
+    /**
+     * Return the trusted pre-rollback timestamp while a blocked seek is settling.
+     *
+     * @returns {number|Promise<number>} Safe timestamp for learner interactions.
+     */
+    function getInteractionVideoTime() {
+        if (state.seekblocked || (state.forwardseekrecoveryuntil && Date.now() <= state.forwardseekrecoveryuntil)) {
+            return Tracker.normaliseTime(state.lasttime);
+        }
+        return getCurrentVideoTime();
     }
 
     /** Initialise privacy-safe integrity indicators and optional focus controls. */
@@ -1131,7 +1168,7 @@ define([
             Utils: Utils,
             config: config,
             state: state,
-            getCurrentVideoTime: getCurrentVideoTime,
+            getCurrentVideoTime: getInteractionVideoTime,
             saveCurrentProgress: saveCurrentProgress
         });
     }
@@ -1146,7 +1183,7 @@ define([
             Utils: Utils,
             config: config,
             state: state,
-            getCurrentVideoTime: getCurrentVideoTime,
+            getCurrentVideoTime: getInteractionVideoTime,
             saveCurrentProgress: saveCurrentProgress
         });
     }
@@ -1170,12 +1207,7 @@ define([
         if (destination < current - 0.5 && config.allowseekbackward === false) {
             return false;
         }
-        if (state.playing) {
-            closeCurrentSegment('seek');
-        }
-        Tracker.markProgrammaticSeek(state);
-        player.seekTo(destination, true);
-        Tracker.syncTime(state, destination);
+        seekProgrammatically(destination, 'YouTube timed-text seek');
         updateLiveIntervalBar(destination);
         return true;
     }
@@ -1263,7 +1295,7 @@ define([
                 statusId: config.forumpoststatusid,
                 composerUrl: config.forumposturl,
                 sessionId: state.sessionid,
-                getCurrentTime: getCurrentVideoTime,
+                getCurrentTime: getInteractionVideoTime,
                 saveCurrentProgress: config.trackingenabled ? saveCurrentProgress : null,
                 getDuration: function() {
                     return state.duration || Number(config.duration) || 0;

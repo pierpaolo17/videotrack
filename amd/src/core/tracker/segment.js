@@ -187,13 +187,14 @@ define([
 
         var start = normaliseTime(state.segmentstart);
         var knownEnd = normaliseTime(end);
+        var wallclockstart = Number(state.wallclockstart) || Math.floor(Date.now() / 1000);
         if (knownEnd <= start) {
             return Promise.resolve(null);
         }
         var saveReason = Segment.normaliseSaveReason(reason);
 
         return enqueueSegmentSave(state, function() {
-            return Promise.resolve(saveSegment(start, knownEnd, saveReason)).then(function(result) {
+            return Promise.resolve(saveSegment(start, knownEnd, saveReason, wallclockstart)).then(function(result) {
                 emit(state, 'segment:snapshot-saved', {start: start, end: knownEnd, reason: saveReason});
                 return result;
             }, function(error) {

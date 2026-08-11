@@ -84,7 +84,13 @@ define([
     }
 
     function saveCurrentProgress(reason) {
-        return PlayerCore.saveCurrentProgress(state, getCurrentVideoTime, saveSegment, reason, hasPlayer(null, 'currentTime'));
+        return PlayerCore.saveCurrentProgress(
+            state,
+            getInteractionVideoTime,
+            saveSegment,
+            reason,
+            hasPlayer(null, 'currentTime')
+        );
     }
 
     function updateProgress(response) {
@@ -1828,7 +1834,7 @@ define([
                 reactionbtn.setAttribute('aria-busy', 'true');
                 reactionbtn.disabled = true;
                 saveCurrentProgress('reaction').then(function(progressResponse) {
-                    return Promise.resolve(getCurrentVideoTime()).then(function(time) {
+                    return Promise.resolve(getInteractionVideoTime()).then(function(time) {
                         currentTime = resolveReactionTime(progressResponse, time);
                     });
                 }).then(function() {
@@ -1945,6 +1951,18 @@ define([
         return Tracker.normaliseTime(state.lasttime);
     }
 
+    /**
+     * Return the trusted pre-rollback timestamp while a blocked seek is settling.
+     *
+     * @returns {number|Promise<number>} Safe timestamp for learner interactions.
+     */
+    function getInteractionVideoTime() {
+        if (state.seekblocked || state._vimeoBlockedSeekInProgress || state._vimeoBlockedSeekResume) {
+            return Tracker.normaliseTime(state.lasttime);
+        }
+        return getCurrentVideoTime();
+    }
+
 
     /** Initialise privacy-safe integrity indicators and optional focus controls. */
     function initialiseFocusGuard() {
@@ -1980,7 +1998,7 @@ define([
             Utils: Utils,
             config: config,
             state: state,
-            getCurrentVideoTime: getCurrentVideoTime,
+            getCurrentVideoTime: getInteractionVideoTime,
             saveCurrentProgress: saveCurrentProgress
         });
     }
@@ -1995,7 +2013,7 @@ define([
             Utils: Utils,
             config: config,
             state: state,
-            getCurrentVideoTime: getCurrentVideoTime,
+            getCurrentVideoTime: getInteractionVideoTime,
             saveCurrentProgress: saveCurrentProgress
         });
     }
@@ -2123,7 +2141,7 @@ define([
                 statusId: config.forumpoststatusid,
                 composerUrl: config.forumposturl,
                 sessionId: state.sessionid,
-                getCurrentTime: getCurrentVideoTime,
+                getCurrentTime: getInteractionVideoTime,
                 saveCurrentProgress: config.trackingenabled ? saveCurrentProgress : null,
                 getDuration: function() {
                     return state.duration || Number(config.duration) || 0;
