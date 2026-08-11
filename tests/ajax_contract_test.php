@@ -250,6 +250,47 @@ final class ajax_contract_test extends advanced_testcase {
     }
 
     /**
+     * Automatic resume must not reopen beyond validated progress when forward seek is disabled.
+     */
+    public function test_resume_respects_server_validated_frontier(): void {
+        foreach (['player.js', 'vimeo_player.js', 'html5_player.js'] as $filename) {
+            $source = file_get_contents(__DIR__ . '/../amd/src/' . $filename);
+            $this->assertIsString($source);
+            $this->assertStringContainsString('config.allowseekforward === false', $source);
+            $this->assertStringContainsString('getMaxWatchedFromIntervals(', $source);
+        }
+
+        $youtube = file_get_contents(__DIR__ . '/../amd/src/player.js');
+        $this->assertIsString($youtube);
+        $this->assertStringContainsString('Math.max(serverPosition, storedPosition)', $youtube);
+        $this->assertStringContainsString('if (position > allowed + 0.75)', $youtube);
+    }
+
+    /**
+     * Closing a segment must retain its original wall-clock start for persistence.
+     */
+    public function test_closed_segment_keeps_wallclock_start_for_ajax(): void {
+        $segment = file_get_contents(__DIR__ . '/../amd/src/core/tracker/segment.js');
+        $api = file_get_contents(__DIR__ . '/../amd/src/core/api.js');
+        $this->assertIsString($segment);
+        $this->assertIsString($api);
+
+        $this->assertStringContainsString('wallclockstart: Number(state.wallclockstart)', $segment);
+        $this->assertStringContainsString(
+            'saveSegment(closed.start, closed.end, saveReason, closed.wallclockstart)',
+            $segment
+        );
+        $this->assertStringContainsString('options.wallclockstart', $api);
+
+        foreach (['player.js', 'vimeo_player.js', 'html5_player.js'] as $filename) {
+            $source = file_get_contents(__DIR__ . '/../amd/src/' . $filename);
+            $this->assertIsString($source);
+            $this->assertStringContainsString('function saveSegment(start, end, reason, wallclockstart)', $source);
+            $this->assertStringContainsString('wallclockstart: wallclockstart', $source);
+        }
+    }
+
+    /**
      * Reaction responses must expose structured icon data only.
      */
     public function test_reaction_runtime_contract_contains_no_raw_html_field(): void {

@@ -132,9 +132,10 @@ define([
      * @param {*} start Segment start candidate.
      * @param {*} end Segment end candidate.
      * @param {string} reason Segment close reason.
+     * @param {number=} wallclockstart Captured wall-clock start for an already-closed segment.
      * @returns {SegmentArgs|null} AJAX args or null when the segment is empty.
      */
-    function buildSegmentArgs(config, state, start, end, reason) {
+    function buildSegmentArgs(config, state, start, end, reason, wallclockstart) {
         if (!config || config.trackingenabled === false) {
             return null;
         }
@@ -149,7 +150,7 @@ define([
             requestid: Session.uuid(),
             videotimestart: times.start,
             videotimeend: times.end,
-            wallclockstart: state.wallclockstart || now,
+            wallclockstart: typeof wallclockstart === 'number' ? wallclockstart : (state.wallclockstart || now),
             wallclockend: now,
             playbackrate: state.playbackrate || 1,
             endreason: Segment.normaliseSaveReason(reason),
@@ -179,7 +180,7 @@ define([
         if (typeof options.retries === 'undefined') {
             options.retries = Retry.MAX_RETRIES;
         }
-        var args = buildSegmentArgs(config, state, start, end, reason);
+        var args = buildSegmentArgs(config, state, start, end, reason, options.wallclockstart);
         if (!args) {
             return Promise.resolve(null);
         }

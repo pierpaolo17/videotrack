@@ -57,7 +57,7 @@ define([
      *
      * @param {Object} state Mutable player state.
      * @param {number} end Current media time.
-     * @returns {{start: number, end: number}|null} Closed segment payload.
+     * @returns {{start: number, end: number, wallclockstart: number}|null} Closed segment payload.
      */
     function closeSegment(state, end) {
         if (!state || state.segmentstart === null) {
@@ -65,7 +65,8 @@ define([
         }
         var payload = {
             start: normaliseTime(state.segmentstart),
-            end: normaliseTime(end)
+            end: normaliseTime(end),
+            wallclockstart: Number(state.wallclockstart) || Math.floor(Date.now() / 1000)
         };
         if (payload.end <= payload.start) {
             var wasPlaying = !!state.playing;
@@ -153,7 +154,7 @@ define([
                     return false;
                 }
                 var saveReason = Segment.normaliseSaveReason(reason);
-                return Promise.resolve(saveSegment(closed.start, closed.end, saveReason))
+                return Promise.resolve(saveSegment(closed.start, closed.end, saveReason, closed.wallclockstart))
                     .then(function() {
                         emit(state, 'segment:saved', {start: closed.start, end: closed.end, reason: saveReason});
                         return true;

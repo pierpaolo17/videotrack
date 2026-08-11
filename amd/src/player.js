@@ -205,7 +205,15 @@ define([
     function resolveResumePosition() {
         var serverPosition = Number(config && config.resumeposition) || 0;
         var storedPosition = readStoredResumePosition();
-        return Math.max(serverPosition, storedPosition);
+        var position = Math.max(serverPosition, storedPosition);
+        var allowed;
+        if (config && config.allowseekforward === false && (config.intervaljson || state.intervaljson)) {
+            allowed = getMaxWatchedFromIntervals(config.intervaljson || state.intervaljson);
+            if (position > allowed + 0.75) {
+                return allowed;
+            }
+        }
+        return position;
     }
 
     function initialiseKnownProgress(position) {
@@ -260,12 +268,13 @@ define([
         return true;
     }
 
-    function saveSegment(start, end, reason) {
+    function saveSegment(start, end, reason, wallclockstart) {
         var interactionSave = ['reaction', 'note', 'bookmark', 'interaction'].indexOf(reason) !== -1;
         return Api.saveSegment(config, state, start, end, reason, {
             swallowFailures: !interactionSave,
             errorMessage: 'youtube-player-event',
-            requestScope: state.ajaxRequestScope
+            requestScope: state.ajaxRequestScope,
+            wallclockstart: wallclockstart
         }).then(updateProgress);
     }
 

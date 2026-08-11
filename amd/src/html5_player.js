@@ -89,6 +89,25 @@ define([
         return Tracker.normaliseTime(max);
     }
 
+    /**
+     * Clamp automatic resume to progress the server has already validated when
+     * forward seeking is disabled.
+     *
+     * @param {*} candidate Resume candidate in seconds.
+     * @returns {number} Safe resume position.
+     */
+    function resolveResumePosition(candidate) {
+        var position = Tracker.normaliseTime(candidate);
+        var allowed;
+        if (config && config.allowseekforward === false && (config.intervaljson || state.intervaljson)) {
+            allowed = getMaxWatchedFromIntervals(config.intervaljson || state.intervaljson);
+            if (position > allowed + 0.75) {
+                return allowed;
+            }
+        }
+        return position;
+    }
+
     function markAllowedForwardTime(current) {
         state.maxallowedtime = Math.max(Number(state.maxallowedtime) || 0, Tracker.normaliseTime(current));
     }
@@ -347,12 +366,13 @@ define([
     }
 
 
-    function saveSegment(start, end, reason) {
+    function saveSegment(start, end, reason, wallclockstart) {
         var interactionSave = ['reaction', 'note', 'bookmark', 'interaction'].indexOf(reason) !== -1;
         return Api.saveSegment(config, state, start, end, reason, {
             swallowFailures: !interactionSave,
             errorMessage: 'html5-player-event',
-            requestScope: state.ajaxRequestScope
+            requestScope: state.ajaxRequestScope,
+            wallclockstart: wallclockstart
         }).then(updateProgress);
     }
 
@@ -998,12 +1018,14 @@ define([
                     config.replaystart,
                     typeof config.replayend === 'number' ? config.replayend : null
                 );
-            } else if (typeof config.resumeposition === 'number' && config.resumeposition > 2
-                    && config.resumeposition < (state.duration || Infinity)) {
-                startProgrammaticSeek(config.resumeposition);
-                Tracker.syncTime(state, config.resumeposition, safeNumber(media.playbackRate, 1));
-                markAllowedForwardTime(Math.max(config.resumeposition, getMaxWatchedFromIntervals(state.intervaljson)));
-                showResumeNotice(config.resumeposition);
+            } else {
+                var resumePosition = resolveResumePosition(config.resumeposition);
+                if (resumePosition > 2 && resumePosition < (state.duration || Infinity)) {
+                    startProgrammaticSeek(resumePosition);
+                    Tracker.syncTime(state, resumePosition, safeNumber(media.playbackRate, 1));
+                    markAllowedForwardTime(Math.max(resumePosition, getMaxWatchedFromIntervals(state.intervaljson)));
+                    showResumeNotice(resumePosition);
+                }
             }
         });
 

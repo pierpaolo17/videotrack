@@ -2,6 +2,15 @@
 
 This is the canonical release-history file for the plugin tree. Detailed design notes and historical migration documents remain under `docs/`.
 
+## 1.7.37 - 2026-08-11
+
+### Fixed
+
+- Clamp automatic resume to the server-validated watched frontier whenever forward seeking is disabled, preventing stale browser resume positions from reopening playback beyond authorised progress.
+- Preserve the original segment wall-clock start when pause, seek or end closes a segment before the AJAX payload is built.
+- Restore Forum, note and bookmark timestamp writes after normal viewing by preventing invalid resume positions from causing every subsequent segment flush to be rejected as suspicious.
+- Fix PSR-12 formatting in the Forum timestamp guard and update root release documentation to the current plugin release.
+
 ## 1.7.36 - 2026-08-11
 
 ### Fixed

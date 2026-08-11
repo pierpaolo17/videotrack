@@ -163,13 +163,15 @@ final class forum_bridge {
         if (learner_scope::can_participate($context, $userid)) {
             $fallbackdays = \videotrack_get_config_int('validationfallbackdays', 30, 0, 3650);
             $maxage = $fallbackdays > 0 ? $fallbackdays * DAYSECS : 0;
-            if (tracker::has_watched_videotime_any_session(
-                (int)$videotrack->id,
-                $userid,
-                $videotime,
-                2.0,
-                $maxage
-            )) {
+            if (
+                tracker::has_watched_videotime_any_session(
+                    (int)$videotrack->id,
+                    $userid,
+                    $videotime,
+                    2.0,
+                    $maxage
+                )
+            ) {
                 return;
             }
             if (
