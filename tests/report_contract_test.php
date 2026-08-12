@@ -127,5 +127,4 @@ final class report_contract_test extends advanced_testcase {
         $this->assertStringContainsString('$retentionprivacyhidden = !$hasvisibleretention && $hasprivacysuppression;', $source);
         $this->assertStringContainsString("'class' => 'videotrack-analytics-privacy-label'", $source);
     }
-
 }
