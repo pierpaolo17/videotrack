@@ -276,6 +276,7 @@ define([], function() {
         var span = document.createElement('span');
         span.id = 'videotrack-seek-policy-notice-text-' + Date.now().toString(36) + '-' +
             Math.floor(Math.random() * 1000000);
+        span.className = 'videotrack-inline-notice-content';
         span.textContent = text;
         notice.setAttribute('aria-describedby', span.id);
         notice.appendChild(span);
@@ -316,20 +317,21 @@ define([], function() {
         announce(text, !!isError, container);
 
         var notice = document.createElement('div');
-        notice.className = 'videotrack-status-message alert ' +
-            (isError ? 'alert-danger' : 'alert-info') + ' alert-dismissible mt-2';
+        notice.className = 'videotrack-status-message videotrack-inline-notice alert ' +
+            (isError ? 'alert-danger' : 'alert-info') + ' mt-2';
         notice.setAttribute('role', isError ? 'alert' : 'status');
 
         var span = document.createElement('span');
         span.id = 'videotrack-status-message-text-' + Date.now().toString(36) + '-' +
             Math.floor(Math.random() * 1000000);
+        span.className = 'videotrack-inline-notice-content';
         span.textContent = text;
         notice.setAttribute('aria-describedby', span.id);
         notice.appendChild(span);
 
         var button = document.createElement('button');
         button.type = 'button';
-        button.className = 'btn-close ms-2';
+        button.className = 'btn-close videotrack-inline-notice-close ms-2';
         button.setAttribute('aria-label', normaliseDismissLabel(dismissLabel));
 
         // Moodle 5 uses Bootstrap 5. The btn-close class already renders its own

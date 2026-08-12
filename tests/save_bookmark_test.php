@@ -40,4 +40,20 @@ final class save_bookmark_test extends advanced_testcase {
         $this->assertInstanceOf(external_function_parameters::class, save_bookmark::execute_parameters());
         $this->assertSame('bookmark', helper::validate_end_reason('bookmark'));
     }
+
+    /**
+     * Previously watched positions remain bookmarkable after a backward seek.
+     */
+    public function test_bookmark_validation_prefers_existing_watched_progress(): void {
+        $source = file_get_contents(__DIR__ . '/../classes/external/save_bookmark.php');
+        $this->assertIsString($source);
+
+        $anysession = strpos($source, 'tracker::has_watched_videotime_any_session(');
+        $policy = strpos($source, 'tracker::interaction_timestamp_allowed(');
+        $this->assertIsInt($anysession);
+        $this->assertIsInt($policy);
+        $this->assertLessThan($policy, $anysession);
+        $this->assertStringContainsString('!$alreadywatched', $source);
+    }
+
 }

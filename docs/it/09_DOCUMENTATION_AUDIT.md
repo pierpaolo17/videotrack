@@ -1,11 +1,11 @@
 # Audit della documentazione
 
-Baseline: VideoTrack **1.7.41** (`2026081202`).
+Baseline: VideoTrack **1.7.42** (`2026081203`).
 
 ## Copertura
 
 - File non documentali inventariati: **253/253**.
-- Funzioni/metodi PHP nominati inventariati: **603**.
+- Funzioni/metodi PHP nominati inventariati: **604**.
 - Callable AMD nominati rilevati e inventariati: **647**.
 - Tabelle XMLDB documentate: **7**.
 - Chiavi impostazioni sito documentate: **57**.
@@ -15,10 +15,10 @@ Baseline: VideoTrack **1.7.41** (`2026081202`).
 - Panoramiche root: `README.md` (inglese) e `README_IT.md` (italiano).
 - Sintesi privacy root: `PRIVACY.md` e `PRIVACY_IT.md`.
 
-## Verifica documentazione pre-produzione 1.7.41
+## Verifica documentazione pre-produzione 1.7.42
 
-- Inventario corrente dei file non documentali rigenerato sull'albero reale 1.7.41: **253/253** voci.
-- Inventario funzioni rigenerato sulle posizioni sorgente correnti: **603** funzioni/metodi PHP nominati e **647** callable AMD nominati rilevati.
+- Inventario corrente dei file non documentali rigenerato sull'albero reale 1.7.42: **253/253** voci.
+- Inventario funzioni rigenerato sulle posizioni sorgente correnti: **604** funzioni/metodi PHP nominati e **647** callable AMD nominati rilevati.
 - L'inventario XMLDB coincide con tutte le **7** tabelle e con ogni campo dichiarato in `db/install.xml`.
 - L'inventario impostazioni coincide con tutte le **57** impostazioni `mod_videotrack`.
 - L'inventario servizi AJAX coincide con tutti i **9** servizi dichiarati.

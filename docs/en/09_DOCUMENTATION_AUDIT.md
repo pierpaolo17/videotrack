@@ -1,11 +1,11 @@
 # Documentation audit
 
-Baseline: VideoTrack **1.7.41** (`2026081202`).
+Baseline: VideoTrack **1.7.42** (`2026081203`).
 
 ## Coverage
 
 - Non-documentation files inventoried: **253/253**.
-- Named PHP functions/methods inventoried: **603**.
+- Named PHP functions/methods inventoried: **604**.
 - Named AMD callables detected and inventoried: **647**.
 - XMLDB tables documented: **7**.
 - Site-setting keys documented: **57**.
@@ -15,17 +15,17 @@ Baseline: VideoTrack **1.7.41** (`2026081202`).
 - Root overviews: `README.md` (English) and `README_IT.md` (Italian).
 - Root privacy summaries: `PRIVACY.md` and `PRIVACY_IT.md`.
 
-## 1.7.41 pre-production documentation verification
+## 1.7.42 pre-production documentation verification
 
-- Current non-documentation file inventory regenerated against the real 1.7.41 tree: **253/253** entries.
-- Current function inventory regenerated from source locations: **603** named PHP functions/methods and **647** detected named AMD callables.
+- Current non-documentation file inventory regenerated against the real 1.7.42 tree: **253/253** entries.
+- Current function inventory regenerated from source locations: **604** named PHP functions/methods and **647** detected named AMD callables.
 - XMLDB inventory matches all **7** tables and every declared field in `db/install.xml`.
 - Site-setting inventory matches all **57** `mod_videotrack` settings.
 - AJAX service inventory matches all **9** declared services.
 - Browser player configuration inventory matches all **133** keys, including the four forward-seek policy/runtime labels introduced after 1.6.33.
 - All eight maintained language packs expose **977** identical keys, no duplicates and matching Moodle placeholders.
 - Relative Markdown links across the plugin documentation were checked against the tree with no missing target found.
-- Historical release-specific documents remain historical; only current indexes/inventories are rebased to 1.7.41.
+- Historical release-specific documents remain historical; only current indexes/inventories are rebased to 1.7.42.
 
 ## Freshness rules
 

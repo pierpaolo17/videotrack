@@ -1,16 +1,16 @@
 # VideoTrack — Changelog, lesson learned e roadmap pre-produzione
 
-**Intervallo coperto:** `1.7.5` → `1.7.41`  
-**Baseline documentale candidata:** VideoTrack `1.7.41` (`2026081202`)  
+**Intervallo coperto:** `1.7.5` → `1.7.42`
+**Baseline documentale candidata:** VideoTrack `1.7.42` (`2026081203`)
 **Data consolidamento:** 2026-08-12
 
 ## 1. Regola di lettura
 
 Questo documento consolida la cronologia effettiva del ramo 1.7.x a partire dalla 1.7.5, le lesson learned emerse dai test automatici e dai test browser del maintainer e la roadmap residua prima/dopo il rilascio in produzione.
 
-La baseline tecnica resta sempre l'ultimo ZIP reale auditato. Le verifiche riportate per release precedenti sono evidenze storiche e non vengono automaticamente attribuite alla 1.7.41. Per la candidata 1.7.41 PHPUnit, PHPCS Extra e test browser devono essere eseguiti nuovamente dopo l'applicazione della patch.
+La baseline tecnica resta sempre l'ultimo ZIP reale auditato. Le verifiche riportate per release precedenti sono evidenze storiche e non vengono automaticamente attribuite alla 1.7.42. Per la candidata 1.7.42 PHPUnit, PHPCS Extra e test browser devono essere eseguiti nuovamente dopo l'applicazione della patch.
 
-## 2. Changelog consolidato 1.7.5 → 1.7.41
+## 2. Changelog consolidato 1.7.5 → 1.7.42
 
 ### 1.7.5 — report per studente e ricalcolo
 
@@ -130,7 +130,15 @@ La baseline tecnica resta sempre l'ultimo ZIP reale auditato. Le verifiche ripor
 - Aggiunti contract test per parità delle lingue e intestazione completion unica.
 - Nessuna modifica a runtime player, tracking, Forum, reaction/note/bookmark, Analytics, schema o upgrade.
 
-## 3. Lesson learned 1.7.5 → 1.7.41
+
+### 1.7.42 — bookmark dopo seek indietro e alert transienti
+
+- Un bookmark privato può essere salvato su una posizione già coperta da progresso server-validato anche dopo un seek indietro; i timestamp mai visti restano rifiutati.
+- La validazione bookmark verifica prima l'evidenza vista persistita in qualunque sessione ammessa dalla finestra storica, quindi mantiene il fallback session-aware solo per una posizione appena raggiunta tramite seek FW consentito.
+- Gli alert transienti del player, inclusi gli errori, usano lo stesso close compatto nel normale flusso flex di resume, privacy/provider e policy seek, senza `alert-dismissible` assoluto.
+- Rimossi i due trailing whitespace noti presenti nell'intestazione del documento consolidato 1.7.41.
+
+## 3. Lesson learned 1.7.5 → 1.7.42
 
 ### LL-01 — Baseline reale prima di tutto
 
@@ -180,9 +188,9 @@ Alla 1.7.40 gli indici dichiaravano ancora 1.6.36 e l'inventario file 1.6.33. I 
 
 Gli imprevisti di upgrade, gradebook e runtime player hanno cambiato più volte l'ordine delle release. La roadmap indica priorità future, non prova che un finding sia chiuso solo perché il numero di release è stato superato.
 
-## 4. Stato roadmap sulla baseline 1.7.41
+## 4. Stato roadmap sulla baseline 1.7.42
 
-| Finding/area | Stato 1.7.41 | Evidenza / residuo |
+| Finding/area | Stato 1.7.42 | Evidenza / residuo |
 |---|---|---|
 | U-007 browser/Behat | **APERTO** | Nel tree non esiste ancora `tests/behat`; i bug 1.7.36–1.7.38 dimostrano il valore di test browser automatici. |
 | U-011 doppio ruolo/voto | **CHIUSO codice+test** | Learner scope indipendente dall'accesso report e test dedicati sul voto/partecipazione. |
@@ -203,9 +211,9 @@ Gli imprevisti di upgrade, gradebook e runtime player hanno cambiato più volte 
 
 ## 5. Roadmap futura consigliata
 
-### Fase P0 — gate di produzione della 1.7.41
+### Fase P0 — gate di produzione della 1.7.42
 
-1. Eseguire PHPUnit e PHPCS Extra sulla 1.7.41 reale.
+1. Eseguire PHPUnit e PHPCS Extra sulla 1.7.42 reale.
 2. Se nessun `amd/src/*` è cambiato, verificare che `amd/build` sia identico alla baseline; non rigenerare AMD inutilmente.
 3. Test browser manuale almeno su HTML5, YouTube e Vimeo per: play/pause, resume, RW, seek FW consentito/vietato, reaction, note, bookmark, Forum, completion e alert impilati.
 4. Verificare Privacy API/retention e backup/restore su un corso di prova prima del deploy definitivo.
@@ -242,4 +250,4 @@ Riprendere lo script CLI previsto dopo la stabilizzazione runtime. Deve essere n
 
 ## 6. Criterio per dichiarare “production ready”
 
-La 1.7.41 può diventare baseline di produzione soltanto dopo esito reale del gate P0. Il fatto che una release sia `MATURITY_STABLE`, che compili o che i test di una release precedente siano verdi non sostituisce la verifica sulla build esatta da distribuire.
+La 1.7.42 può diventare baseline di produzione soltanto dopo esito reale del gate P0. Il fatto che una release sia `MATURITY_STABLE`, che compili o che i test di una release precedente siano verdi non sostituisce la verifica sulla build esatta da distribuire.
