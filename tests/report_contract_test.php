@@ -115,4 +115,17 @@ final class report_contract_test extends advanced_testcase {
         $this->assertStringNotContainsString("\$OUTPUT->notification(\$playernoticehtml, 'info', true)", $source);
         $this->assertStringNotContainsString('small text-muted videotrack-integrity-notice', $source);
     }
+
+    /**
+     * A fully privacy-suppressed retention series must explain why the SVG has no line.
+     */
+    public function test_retention_chart_explains_full_privacy_suppression(): void {
+        $source = file_get_contents(__DIR__ . '/../report.php');
+        $this->assertIsString($source);
+
+        $this->assertStringContainsString("get_string('report:analytics_retention_privacy_hidden'", $source);
+        $this->assertStringContainsString('$retentionprivacyhidden = !$hasvisibleretention && $hasprivacysuppression;', $source);
+        $this->assertStringContainsString("'class' => 'videotrack-analytics-privacy-label'", $source);
+    }
+
 }

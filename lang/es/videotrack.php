@@ -778,6 +778,7 @@ $string['report:analytics_heatmap_legend_suppressed'] = 'Rayado: valor oculto po
 $string['report:analytics_heatmap_legend_reaction'] = 'Punto y línea: grupo de reacciones compatible con la privacidad.';
 $string['report:analytics_retention_title'] = 'Retención a lo largo de la línea temporal';
 $string['report:analytics_retention_desc'] = 'Porcentaje de espectadores distintos que cubrió cada intervalo. Los huecos representan valores ocultos por el umbral de privacidad.';
+$string['report:analytics_retention_privacy_hidden'] = 'Retención oculta por el umbral de privacidad configurado.';
 $string['report:analytics_interval'] = 'Intervalo';
 $string['report:analytics_uniqueviewers'] = 'Espectadores distintos';
 $string['report:analytics_retention'] = 'Retención';

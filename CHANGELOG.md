@@ -2,6 +2,15 @@
 
 This is the canonical release-history file for the plugin tree. Detailed design notes and historical migration documents remain under `docs/`.
 
+## 1.7.43 - 2026-08-12
+
+### Fixed
+
+- Explain directly inside the “Retention along the timeline” SVG when the full retention series is hidden by the configured privacy threshold, instead of leaving a graph with axes but no line or points.
+- Include the same privacy explanation in the SVG accessible description without changing Analytics calculations, thresholds or masked values.
+- Fix the PHPCS close-brace formatting error in `tests/save_bookmark_test.php` reported against 1.7.42.
+- Add the retention privacy message to all eight maintained language packs and extend the report contract test.
+
 ## 1.7.42 - 2026-08-12
 
 ### Fixed

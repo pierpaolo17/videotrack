@@ -776,6 +776,7 @@ $string['report:analytics_heatmap_legend_suppressed'] = 'Hatching: value hidden 
 $string['report:analytics_heatmap_legend_reaction'] = 'Dot and line: privacy-safe reaction cluster.';
 $string['report:analytics_retention_title'] = 'Retention along the timeline';
 $string['report:analytics_retention_desc'] = 'Percentage of distinct viewers who covered each timeline interval. Gaps represent values masked by the privacy threshold.';
+$string['report:analytics_retention_privacy_hidden'] = 'Retention hidden by the configured privacy threshold.';
 $string['report:analytics_interval'] = 'Interval';
 $string['report:analytics_uniqueviewers'] = 'Distinct viewers';
 $string['report:analytics_retention'] = 'Retention';
