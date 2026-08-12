@@ -259,7 +259,7 @@ final class ajax_contract_test extends advanced_testcase {
     public function test_status_alert_uses_single_bootstrap_close_icon(): void {
         $source = file_get_contents(__DIR__ . '/../amd/src/core/status.js');
         $this->assertIsString($source);
-        $this->assertStringContainsString("button.className = 'btn-close ms-2'", $source);
+        $this->assertStringContainsString("button.className = 'btn-close videotrack-inline-notice-close ms-2'", $source);
         $this->assertStringNotContainsString("closeIcon.textContent = '\\u00d7'", $source);
         $this->assertStringNotContainsString('button.appendChild(closeIcon)', $source);
     }
@@ -284,7 +284,11 @@ final class ajax_contract_test extends advanced_testcase {
             $resume
         );
         $this->assertStringContainsString('videotrack-seek-policy-notice videotrack-inline-notice', $status);
+        $this->assertStringContainsString('videotrack-status-message videotrack-inline-notice alert', $status);
+        $this->assertStringContainsString("button.className = 'btn-close videotrack-inline-notice-close ms-2'", $status);
+        $this->assertStringNotContainsString('alert-dismissible mt-2', $status);
         $this->assertStringContainsString('.videotrack-inline-notice .videotrack-inline-notice-close', $styles);
+        $this->assertStringContainsString('.videotrack-inline-notice .videotrack-inline-notice-content', $styles);
         $this->assertStringContainsString('position: static;', $styles);
     }
 

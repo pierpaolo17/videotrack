@@ -2,6 +2,15 @@
 
 This is the canonical release-history file for the plugin tree. Detailed design notes and historical migration documents remain under `docs/`.
 
+## 1.7.42 - 2026-08-12
+
+### Fixed
+
+- Allow a private bookmark after seeking backward to a timestamp already covered by server-validated watched progress, while continuing to reject genuinely unwatched positions.
+- Keep the existing allowed-forward-seek fallback for newly reached bookmark timestamps; historical watched evidence is checked first so backward navigation does not depend on the current session policy.
+- Render transient player information and error alerts with the same compact in-flow flex close control already used by resume, seek-policy and provider/privacy notices; remove Bootstrap `alert-dismissible` absolute positioning from these status alerts.
+- Remove the two known trailing-whitespace lines from the consolidated changelog/lessons/roadmap document.
+
 ## 1.7.41 - 2026-08-12
 
 ### Changed

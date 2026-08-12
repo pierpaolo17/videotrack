@@ -1,8 +1,8 @@
 # Function inventory
 
-Generated from the VideoTrack 1.7.41 source tree. PHP entries include named functions and methods; AMD entries include named declarations, assigned function expressions and object-method functions.
+Generated from the VideoTrack 1.7.42 source tree. PHP entries include named functions and methods; AMD entries include named declarations, assigned function expressions and object-method functions.
 
-**PHP functions/methods:** 603. **Named AMD callables:** 647.
+**PHP functions/methods:** 604. **Named AMD callables:** 647.
 
 | Location | Callable | Responsibility |
 |---|---|---|
@@ -238,7 +238,7 @@ Generated from the VideoTrack 1.7.41 source tree. PHP entries include named func
 | `amd/src/core/status.js:197` | `announce` | Named callable `announce` in the module; see its JSDoc and callers for parameter and side-effect details. |
 | `amd/src/core/status.js:228` | `clear` | Named callable `clear` in the module; see its JSDoc and callers for parameter and side-effect details. |
 | `amd/src/core/status.js:261` | `showPolicy` | Named AMD callable `showPolicy`; see JSDoc and callers for the current contract. |
-| `amd/src/core/status.js:305` | `show` | Named callable `show` in the module; see its JSDoc and callers for parameter and side-effect details. |
+| `amd/src/core/status.js:306` | `show` | Named callable `show` in the module; see its JSDoc and callers for parameter and side-effect details. |
 | `amd/src/core/tracker.js:117` | `saveHeartbeatIfDue` | Named callable `saveHeartbeatIfDue` in the module; see its JSDoc and callers for parameter and side-effect details. |
 | `amd/src/core/tracker.js:127` | `runHeartbeat` | Named callable `runHeartbeat` in the module; see its JSDoc and callers for parameter and side-effect details. |
 | `amd/src/core/tracker.js:137` | `sendUnloadBeacon` | Named callable `sendUnloadBeacon` in the module; see its JSDoc and callers for parameter and side-effect details. |
@@ -769,7 +769,7 @@ Generated from the VideoTrack 1.7.41 source tree. PHP entries include named func
 | `classes/external/helper.php:138` | `load_and_validate_context` | PHP callable `load_and_validate_context`; see its DocBlock and callers for parameter, return-value and side-effect details. |
 | `classes/external/save_bookmark.php:45` | `execute_parameters` | PHP callable `execute_parameters`; see its DocBlock and callers for parameter, return-value and side-effect details. |
 | `classes/external/save_bookmark.php:65` | `execute` | PHP callable `execute`; see its DocBlock and callers for parameter, return-value and side-effect details. |
-| `classes/external/save_bookmark.php:171` | `execute_returns` | PHP callable `execute_returns`; see its DocBlock and callers for parameter, return-value and side-effect details. |
+| `classes/external/save_bookmark.php:180` | `execute_returns` | PHP callable `execute_returns`; see its DocBlock and callers for parameter, return-value and side-effect details. |
 | `classes/external/save_integrity_event.php:47` | `execute_parameters` | PHP callable `execute_parameters`; see its DocBlock and callers for parameter, return-value and side-effect details. |
 | `classes/external/save_integrity_event.php:65` | `execute` | PHP callable `execute`; see its DocBlock and callers for parameter, return-value and side-effect details. |
 | `classes/external/save_integrity_event.php:140` | `execute_returns` | PHP callable `execute_returns`; see its DocBlock and callers for parameter, return-value and side-effect details. |
@@ -1214,6 +1214,7 @@ Generated from the VideoTrack 1.7.41 source tree. PHP entries include named func
 | `tests/report_contract_test.php:95` | `test_student_grade_label_uses_plugin_string` | Named PHP function/method `test_student_grade_label_uses_plugin_string`; see source DocBlock and callers for the current contract. |
 | `tests/report_contract_test.php:105` | `test_provider_and_integrity_notices_share_one_alert` | Named PHP function/method `test_provider_and_integrity_notices_share_one_alert`; see source DocBlock and callers for the current contract. |
 | `tests/save_bookmark_test.php:39` | `test_execute_parameters_uses_supported_moodle_parameter_types` | PHP callable `test_execute_parameters_uses_supported_moodle_parameter_types`; see its DocBlock and callers for parameter, return-value and side-effect details. |
+| `tests/save_bookmark_test.php:47` | `test_bookmark_validation_prefers_existing_watched_progress` | PHP callable `test_bookmark_validation_prefers_existing_watched_progress`; see its DocBlock and callers for parameter, return-value and side-effect details. |
 | `tests/save_integrity_event_test.php:37` | `test_execute_parameters_uses_supported_moodle_parameter_types` | PHP callable `test_execute_parameters_uses_supported_moodle_parameter_types`; see its DocBlock and callers for parameter, return-value and side-effect details. |
 | `tests/save_note_test.php:37` | `test_execute_parameters_uses_supported_moodle_parameter_types` | PHP callable `test_execute_parameters_uses_supported_moodle_parameter_types`; see its DocBlock and callers for parameter, return-value and side-effect details. |
 | `tests/save_reaction_test.php:43` | `source` | Named PHP function/method `source`; see source DocBlock and callers for the current contract. |

@@ -1,8 +1,8 @@
 # Inventario delle funzioni
 
-Generato dall’albero sorgente VideoTrack 1.7.41. Le voci PHP includono funzioni e metodi nominati; le voci AMD includono dichiarazioni nominate, espressioni funzione assegnate e funzioni-metodo di oggetti.
+Generato dall’albero sorgente VideoTrack 1.7.42. Le voci PHP includono funzioni e metodi nominati; le voci AMD includono dichiarazioni nominate, espressioni funzione assegnate e funzioni-metodo di oggetti.
 
-**PHP functions/methods:** 603. **Named AMD callables:** 647.
+**PHP functions/methods:** 604. **Named AMD callables:** 647.
 
 | Posizione | Callable | Responsabilità |
 |---|---|---|
@@ -238,7 +238,7 @@ Generato dall’albero sorgente VideoTrack 1.7.41. Le voci PHP includono funzion
 | `amd/src/core/status.js:197` | `announce` | Callable `announce` del modulo; JSDoc e chiamanti definiscono parametri ed effetti. |
 | `amd/src/core/status.js:228` | `clear` | Callable `clear` del modulo; JSDoc e chiamanti definiscono parametri ed effetti. |
 | `amd/src/core/status.js:261` | `showPolicy` | Callable AMD nominato `showPolicy`; vedere JSDoc e chiamanti per il contratto corrente. |
-| `amd/src/core/status.js:305` | `show` | Callable `show` del modulo; JSDoc e chiamanti definiscono parametri ed effetti. |
+| `amd/src/core/status.js:306` | `show` | Callable `show` del modulo; JSDoc e chiamanti definiscono parametri ed effetti. |
 | `amd/src/core/tracker.js:117` | `saveHeartbeatIfDue` | Callable `saveHeartbeatIfDue` del modulo; JSDoc e chiamanti definiscono parametri ed effetti. |
 | `amd/src/core/tracker.js:127` | `runHeartbeat` | Callable `runHeartbeat` del modulo; JSDoc e chiamanti definiscono parametri ed effetti. |
 | `amd/src/core/tracker.js:137` | `sendUnloadBeacon` | Callable `sendUnloadBeacon` del modulo; JSDoc e chiamanti definiscono parametri ed effetti. |
@@ -769,7 +769,7 @@ Generato dall’albero sorgente VideoTrack 1.7.41. Le voci PHP includono funzion
 | `classes/external/helper.php:138` | `load_and_validate_context` | Callable PHP `load_and_validate_context`; DocBlock e chiamanti definiscono parametri, valori restituiti ed effetti. |
 | `classes/external/save_bookmark.php:45` | `execute_parameters` | Callable PHP `execute_parameters`; DocBlock e chiamanti definiscono parametri, valori restituiti ed effetti. |
 | `classes/external/save_bookmark.php:65` | `execute` | Callable PHP `execute`; DocBlock e chiamanti definiscono parametri, valori restituiti ed effetti. |
-| `classes/external/save_bookmark.php:171` | `execute_returns` | Callable PHP `execute_returns`; DocBlock e chiamanti definiscono parametri, valori restituiti ed effetti. |
+| `classes/external/save_bookmark.php:180` | `execute_returns` | Callable PHP `execute_returns`; DocBlock e chiamanti definiscono parametri, valori restituiti ed effetti. |
 | `classes/external/save_integrity_event.php:47` | `execute_parameters` | Callable PHP `execute_parameters`; DocBlock e chiamanti definiscono parametri, valori restituiti ed effetti. |
 | `classes/external/save_integrity_event.php:65` | `execute` | Callable PHP `execute`; DocBlock e chiamanti definiscono parametri, valori restituiti ed effetti. |
 | `classes/external/save_integrity_event.php:140` | `execute_returns` | Callable PHP `execute_returns`; DocBlock e chiamanti definiscono parametri, valori restituiti ed effetti. |
@@ -1214,6 +1214,7 @@ Generato dall’albero sorgente VideoTrack 1.7.41. Le voci PHP includono funzion
 | `tests/report_contract_test.php:95` | `test_student_grade_label_uses_plugin_string` | Funzione/metodo PHP nominato `test_student_grade_label_uses_plugin_string`; vedere DocBlock e chiamanti per il contratto corrente. |
 | `tests/report_contract_test.php:105` | `test_provider_and_integrity_notices_share_one_alert` | Funzione/metodo PHP nominato `test_provider_and_integrity_notices_share_one_alert`; vedere DocBlock e chiamanti per il contratto corrente. |
 | `tests/save_bookmark_test.php:39` | `test_execute_parameters_uses_supported_moodle_parameter_types` | Callable PHP `test_execute_parameters_uses_supported_moodle_parameter_types`; DocBlock e chiamanti definiscono parametri, valori restituiti ed effetti. |
+| `tests/save_bookmark_test.php:47` | `test_bookmark_validation_prefers_existing_watched_progress` | Callable PHP `test_bookmark_validation_prefers_existing_watched_progress`; DocBlock e chiamanti definiscono parametri, valori restituiti ed effetti. |
 | `tests/save_integrity_event_test.php:37` | `test_execute_parameters_uses_supported_moodle_parameter_types` | Callable PHP `test_execute_parameters_uses_supported_moodle_parameter_types`; DocBlock e chiamanti definiscono parametri, valori restituiti ed effetti. |
 | `tests/save_note_test.php:37` | `test_execute_parameters_uses_supported_moodle_parameter_types` | Callable PHP `test_execute_parameters_uses_supported_moodle_parameter_types`; DocBlock e chiamanti definiscono parametri, valori restituiti ed effetti. |
 | `tests/save_reaction_test.php:43` | `source` | Funzione/metodo PHP nominato `source`; vedere DocBlock e chiamanti per il contratto corrente. |

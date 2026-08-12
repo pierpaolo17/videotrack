@@ -1,8 +1,8 @@
 # Indice documentazione VideoTrack
 
-Release documentata: **1.7.41** (`2026081202`).
+Release documentata: **1.7.42** (`2026081203`).
 
-Cronologia consolidata della release corrente: [`../../VIDEOTRACK_CHANGELOG_LESSONS_ROADMAP_1.7.5_1.7.41.md`](../../VIDEOTRACK_CHANGELOG_LESSONS_ROADMAP_1.7.5_1.7.41.md).
+Cronologia consolidata della release corrente: [`../../VIDEOTRACK_CHANGELOG_LESSONS_ROADMAP_1.7.5_1.7.42.md`](../../VIDEOTRACK_CHANGELOG_LESSONS_ROADMAP_1.7.5_1.7.42.md).
 
 1. `01_DEVELOPER_GUIDE.md` — workflow di manutenzione e disciplina delle modifiche.
 2. `02_ARCHITECTURE.md` — confini dei componenti, adapter, storage e modello di fiducia.
