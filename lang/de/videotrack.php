@@ -778,6 +778,7 @@ $string['report:analytics_heatmap_legend_suppressed'] = 'Schraffur: durch die Da
 $string['report:analytics_heatmap_legend_reaction'] = 'Punkt und Linie: datenschutzkonformes Reaktionscluster.';
 $string['report:analytics_retention_title'] = 'Retention entlang der Zeitachse';
 $string['report:analytics_retention_desc'] = 'Prozentsatz der unterschiedlichen Zuschauer, die jedes Intervall abgedeckt haben. Lücken stehen für maskierte Werte.';
+$string['report:analytics_retention_privacy_hidden'] = 'Retention durch den konfigurierten Datenschutzschwellenwert ausgeblendet.';
 $string['report:analytics_interval'] = 'Intervall';
 $string['report:analytics_uniqueviewers'] = 'Unterschiedliche Zuschauer';
 $string['report:analytics_retention'] = 'Zuschauerbindung';

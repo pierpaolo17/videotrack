@@ -1,6 +1,6 @@
 # Audit della documentazione
 
-Baseline: VideoTrack **1.7.42** (`2026081203`).
+Baseline: VideoTrack **1.7.43** (`2026081204`).
 
 ## Copertura
 
@@ -15,15 +15,15 @@ Baseline: VideoTrack **1.7.42** (`2026081203`).
 - Panoramiche root: `README.md` (inglese) e `README_IT.md` (italiano).
 - Sintesi privacy root: `PRIVACY.md` e `PRIVACY_IT.md`.
 
-## Verifica documentazione pre-produzione 1.7.42
+## Verifica documentazione pre-produzione 1.7.43
 
-- Inventario corrente dei file non documentali rigenerato sull'albero reale 1.7.42: **253/253** voci.
+- Inventario corrente dei file non documentali rigenerato sull'albero reale 1.7.43: **253/253** voci.
 - Inventario funzioni rigenerato sulle posizioni sorgente correnti: **604** funzioni/metodi PHP nominati e **647** callable AMD nominati rilevati.
 - L'inventario XMLDB coincide con tutte le **7** tabelle e con ogni campo dichiarato in `db/install.xml`.
 - L'inventario impostazioni coincide con tutte le **57** impostazioni `mod_videotrack`.
 - L'inventario servizi AJAX coincide con tutti i **9** servizi dichiarati.
 - L'inventario configurazione browser/player coincide con tutte le **133** chiavi, incluse le quattro label seek FW introdotte dopo la 1.6.33.
-- Tutti gli otto language pack mantenuti espongono **977** chiavi identiche, nessun duplicato e placeholder Moodle coerenti.
+- Tutti gli otto language pack mantenuti espongono **978** chiavi identiche, nessun duplicato e placeholder Moodle coerenti.
 - I link Markdown relativi della documentazione sono stati verificati contro l'albero senza target mancanti.
 - I documenti storici specifici di release restano storici; soltanto indici e inventari correnti sono ribasati alla 1.7.41.
 

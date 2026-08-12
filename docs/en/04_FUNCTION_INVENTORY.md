@@ -1,6 +1,6 @@
 # Function inventory
 
-Generated from the VideoTrack 1.7.42 source tree. PHP entries include named functions and methods; AMD entries include named declarations, assigned function expressions and object-method functions.
+Generated from the VideoTrack 1.7.43 source tree. PHP entries include named functions and methods; AMD entries include named declarations, assigned function expressions and object-method functions.
 
 **PHP functions/methods:** 604. **Named AMD callables:** 647.
 

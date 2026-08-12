@@ -1,16 +1,16 @@
 # VideoTrack — Changelog, lesson learned e roadmap pre-produzione
 
-**Intervallo coperto:** `1.7.5` → `1.7.42`
-**Baseline documentale candidata:** VideoTrack `1.7.42` (`2026081203`)
+**Intervallo coperto:** `1.7.5` → `1.7.43`
+**Baseline documentale candidata:** VideoTrack `1.7.43` (`2026081204`)
 **Data consolidamento:** 2026-08-12
 
 ## 1. Regola di lettura
 
 Questo documento consolida la cronologia effettiva del ramo 1.7.x a partire dalla 1.7.5, le lesson learned emerse dai test automatici e dai test browser del maintainer e la roadmap residua prima/dopo il rilascio in produzione.
 
-La baseline tecnica resta sempre l'ultimo ZIP reale auditato. Le verifiche riportate per release precedenti sono evidenze storiche e non vengono automaticamente attribuite alla 1.7.42. Per la candidata 1.7.42 PHPUnit, PHPCS Extra e test browser devono essere eseguiti nuovamente dopo l'applicazione della patch.
+La baseline tecnica resta sempre l'ultimo ZIP reale auditato. Le verifiche riportate per release precedenti sono evidenze storiche e non vengono automaticamente attribuite alla 1.7.43. Per la candidata 1.7.43 PHPUnit, PHPCS Extra e test browser devono essere eseguiti nuovamente dopo l'applicazione della patch.
 
-## 2. Changelog consolidato 1.7.5 → 1.7.42
+## 2. Changelog consolidato 1.7.5 → 1.7.43
 
 ### 1.7.5 — report per studente e ricalcolo
 
@@ -138,7 +138,14 @@ La baseline tecnica resta sempre l'ultimo ZIP reale auditato. Le verifiche ripor
 - Gli alert transienti del player, inclusi gli errori, usano lo stesso close compatto nel normale flusso flex di resume, privacy/provider e policy seek, senza `alert-dismissible` assoluto.
 - Rimossi i due trailing whitespace noti presenti nell'intestazione del documento consolidato 1.7.41.
 
-## 3. Lesson learned 1.7.5 → 1.7.42
+### 1.7.43 — chiarezza retention privacy e hygiene bookmark
+
+- Il grafico “Retention lungo la timeline” mostra ora un messaggio esplicito quando l’intera serie è nascosta dalla soglia privacy, mantenendo invariata la soppressione dei dati.
+- La descrizione accessibile dell’SVG include la stessa informazione quando non esistono punti di retention visualizzabili.
+- Corretto l’unico errore PHPCS fixable emerso nella 1.7.42 in `tests/save_bookmark_test.php`; gli 8 warning noti sui backtick restano backlog separato.
+- Lesson: un comportamento privacy corretto deve essere anche esplicito nella UI; un grafico vuoto senza spiegazione è ambiguo pur con dati correttamente mascherati.
+
+## 3. Lesson learned 1.7.5 → 1.7.43
 
 ### LL-01 — Baseline reale prima di tutto
 
@@ -188,9 +195,13 @@ Alla 1.7.40 gli indici dichiaravano ancora 1.6.36 e l'inventario file 1.6.33. I 
 
 Gli imprevisti di upgrade, gradebook e runtime player hanno cambiato più volte l'ordine delle release. La roadmap indica priorità future, non prova che un finding sia chiuso solo perché il numero di release è stato superato.
 
-## 4. Stato roadmap sulla baseline 1.7.42
+### LL-13 — Privacy corretta ma invisibile è comunque un problema UX
 
-| Finding/area | Stato 1.7.42 | Evidenza / residuo |
+Quando la soglia privacy sopprime tutti i valori di retention, lasciare solo assi e griglia fa sembrare il grafico rotto. La UI deve dichiarare esplicitamente che la serie è stata nascosta, senza esporre valori o denominatori ricostruibili.
+
+## 4. Stato roadmap sulla baseline 1.7.43
+
+| Finding/area | Stato 1.7.43 | Evidenza / residuo |
 |---|---|---|
 | U-007 browser/Behat | **APERTO** | Nel tree non esiste ancora `tests/behat`; i bug 1.7.36–1.7.38 dimostrano il valore di test browser automatici. |
 | U-011 doppio ruolo/voto | **CHIUSO codice+test** | Learner scope indipendente dall'accesso report e test dedicati sul voto/partecipazione. |
@@ -211,9 +222,9 @@ Gli imprevisti di upgrade, gradebook e runtime player hanno cambiato più volte 
 
 ## 5. Roadmap futura consigliata
 
-### Fase P0 — gate di produzione della 1.7.42
+### Fase P0 — gate di produzione della 1.7.43
 
-1. Eseguire PHPUnit e PHPCS Extra sulla 1.7.42 reale.
+1. Eseguire PHPUnit e PHPCS Extra sulla 1.7.43 reale.
 2. Se nessun `amd/src/*` è cambiato, verificare che `amd/build` sia identico alla baseline; non rigenerare AMD inutilmente.
 3. Test browser manuale almeno su HTML5, YouTube e Vimeo per: play/pause, resume, RW, seek FW consentito/vietato, reaction, note, bookmark, Forum, completion e alert impilati.
 4. Verificare Privacy API/retention e backup/restore su un corso di prova prima del deploy definitivo.
@@ -250,4 +261,4 @@ Riprendere lo script CLI previsto dopo la stabilizzazione runtime. Deve essere n
 
 ## 6. Criterio per dichiarare “production ready”
 
-La 1.7.42 può diventare baseline di produzione soltanto dopo esito reale del gate P0. Il fatto che una release sia `MATURITY_STABLE`, che compili o che i test di una release precedente siano verdi non sostituisce la verifica sulla build esatta da distribuire.
+La 1.7.43 può diventare baseline di produzione soltanto dopo esito reale del gate P0. Il fatto che una release sia `MATURITY_STABLE`, che compili o che i test di una release precedente siano verdi non sostituisce la verifica sulla build esatta da distribuire.

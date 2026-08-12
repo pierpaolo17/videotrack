@@ -778,6 +778,7 @@ $string['report:analytics_heatmap_legend_suppressed'] = 'Hachures : valeur masqu
 $string['report:analytics_heatmap_legend_reaction'] = 'Point et ligne : groupe de réactions conforme à la confidentialité.';
 $string['report:analytics_retention_title'] = 'Rétention sur la chronologie';
 $string['report:analytics_retention_desc'] = 'Pourcentage de spectateurs distincts ayant couvert chaque intervalle. Les interruptions correspondent aux valeurs masquées par le seuil de confidentialité.';
+$string['report:analytics_retention_privacy_hidden'] = 'Rétention masquée par le seuil de confidentialité configuré.';
 $string['report:analytics_interval'] = 'Intervalle';
 $string['report:analytics_uniqueviewers'] = 'Spectateurs distincts';
 $string['report:analytics_retention'] = 'Rétention';

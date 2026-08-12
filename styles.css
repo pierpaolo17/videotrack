@@ -1418,6 +1418,13 @@
     font-size: 12px;
 }
 
+.videotrack-analytics-privacy-label {
+    fill: currentColor;
+    color: var(--videotrack-muted-text, #495057);
+    font-size: 14px;
+    font-weight: 600;
+}
+
 @media (forced-colors: active) {
     .videotrack-analytics-bin,
     .videotrack-analytics-retention-line,

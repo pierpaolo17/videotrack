@@ -778,6 +778,7 @@ $string['report:analytics_heatmap_legend_suppressed'] = 'Tratteggio: valore nasc
 $string['report:analytics_heatmap_legend_reaction'] = 'Punto e linea: cluster di reazioni conforme alla privacy.';
 $string['report:analytics_retention_title'] = 'Retention lungo la timeline';
 $string['report:analytics_retention_desc'] = 'Percentuale degli spettatori distinti che ha coperto ciascun intervallo della timeline. Le interruzioni rappresentano valori mascherati dalla soglia privacy.';
+$string['report:analytics_retention_privacy_hidden'] = 'Retention nascosta dalla soglia privacy configurata.';
 $string['report:analytics_interval'] = 'Intervallo';
 $string['report:analytics_uniqueviewers'] = 'Spettatori distinti';
 $string['report:analytics_retention'] = 'Ritenzione';

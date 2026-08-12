@@ -778,6 +778,7 @@ $string['report:analytics_heatmap_legend_suppressed'] = 'धारीदार �
 $string['report:analytics_heatmap_legend_reaction'] = 'बिंदु और रेखा: गोपनीयता-अनुकूल प्रतिक्रिया समूह।';
 $string['report:analytics_retention_title'] = 'टाइमलाइन पर रिटेंशन';
 $string['report:analytics_retention_desc'] = 'प्रत्येक अंतराल को कवर करने वाले अलग दर्शकों का प्रतिशत। रिक्त स्थान गोपनीयता सीमा से छिपाए गए मान दर्शाते हैं।';
+$string['report:analytics_retention_privacy_hidden'] = 'कॉन्फ़िगर की गई गोपनीयता सीमा के कारण रिटेंशन छिपाया गया है।';
 $string['report:analytics_interval'] = 'अंतराल';
 $string['report:analytics_uniqueviewers'] = 'अलग दर्शक';
 $string['report:analytics_retention'] = 'प्रतिधारण';

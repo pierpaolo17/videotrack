@@ -778,6 +778,7 @@ $string['report:analytics_heatmap_legend_suppressed'] = 'Kreskowanie: wartość 
 $string['report:analytics_heatmap_legend_reaction'] = 'Punkt i linia: klaster reakcji zgodny z zasadami prywatności.';
 $string['report:analytics_retention_title'] = 'Retencja na osi czasu';
 $string['report:analytics_retention_desc'] = 'Procent różnych widzów, którzy obejrzeli każdy przedział. Przerwy oznaczają wartości zamaskowane przez próg prywatności.';
+$string['report:analytics_retention_privacy_hidden'] = 'Retencja ukryta przez skonfigurowany próg prywatności.';
 $string['report:analytics_interval'] = 'Przedział';
 $string['report:analytics_uniqueviewers'] = 'Różni widzowie';
 $string['report:analytics_retention'] = 'Retencja';

@@ -1036,6 +1036,23 @@ function videotrack_report_render_analytics_retention(array $bins, float $durati
     $plotheight = $height - $top - $bottom;
     $title = get_string('report:analytics_retention_title', 'mod_videotrack');
     $description = get_string('report:analytics_retention_desc', 'mod_videotrack');
+    $hasvisibleretention = false;
+    $hasprivacysuppression = false;
+    foreach ($bins as $bin) {
+        if (empty($bin['suppressed']) && $bin['retention'] !== null) {
+            $hasvisibleretention = true;
+        }
+        if (!empty($bin['suppressed']) || !empty($bin['retentionsuppressed'])) {
+            $hasprivacysuppression = true;
+        }
+    }
+    $retentionprivacyhidden = !$hasvisibleretention && $hasprivacysuppression;
+    $privacyhiddenmessage = $retentionprivacyhidden
+        ? get_string('report:analytics_retention_privacy_hidden', 'mod_videotrack')
+        : '';
+    if ($retentionprivacyhidden) {
+        $description .= ' ' . $privacyhiddenmessage;
+    }
 
     $svg = html_writer::start_tag('svg', [
         'viewBox' => "0 0 {$width} {$height}",
@@ -1082,6 +1099,15 @@ function videotrack_report_render_analytics_retention(array $bins, float $durati
     }
     if ($currentpath) {
         $paths[] = $currentpath;
+    }
+
+    if ($retentionprivacyhidden) {
+        $svg .= html_writer::tag('text', s($privacyhiddenmessage), [
+            'x' => format_float($left + ($plotwidth / 2), 3, false, true),
+            'y' => format_float($top + ($plotheight / 2), 3, false, true),
+            'text-anchor' => 'middle',
+            'class' => 'videotrack-analytics-privacy-label',
+        ]);
     }
 
     foreach ($paths as $path) {

@@ -55,5 +55,4 @@ final class save_bookmark_test extends advanced_testcase {
         $this->assertLessThan($policy, $anysession);
         $this->assertStringContainsString('!$alreadywatched', $source);
     }
-
 }
