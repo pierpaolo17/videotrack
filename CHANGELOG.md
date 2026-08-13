@@ -2,6 +2,21 @@
 
 This is the canonical release-history file for the plugin tree. Detailed design notes and historical migration documents remain under `docs/`.
 
+## 1.7.47 - 2026-08-13
+
+### Changed
+
+- Reorder the learner page into one stable vertical flow: completion conditions → notices → player/watched bar → progress summary → reaction controls/history → note composer/history → bookmark composer/history → optional acknowledgement/transcript → Forum action.
+- Keep the configured player width but remove the landscape two-column split so the interaction order remains visually stable on phones and tablets in landscape.
+- Render Moodle automatic-completion condition badges without the rounded boxed treatment while preserving readable wrapping and contrast.
+- Move the progress summary immediately below the watched-interval bar and move the optional Forum action to the end of the learner interaction flow.
+- Extend learner Behat/static contracts so the watched bar, progress summary, reaction controls, personal histories and Forum action cannot silently drift out of order.
+
+### Fixed
+
+- Fix the PHPCS multi-line condition reported in `tests/generator/lib.php` on the 1.7.46 tree.
+- Replace the brittle learner-order contract marker that caused the single PHPUnit failure reported against 1.7.46.
+
 ## 1.7.46 - 2026-08-13
 
 - Learner page: note and bookmark composers remain always visible; only saved reaction/note/bookmark history is collapsed.

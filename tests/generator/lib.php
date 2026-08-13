@@ -54,10 +54,13 @@ class mod_videotrack_generator extends testing_module_generator {
 
         $instance = parent::create_instance($record, (array)$options);
 
-        if (!empty($record['reactionsenabled']) && !$DB->record_exists('videotrack_react', [
-            'videotrackid' => $instance->id,
-            'isdeleted' => 0,
-        ])) {
+        if (
+            !empty($record['reactionsenabled'])
+            && !$DB->record_exists('videotrack_react', [
+                'videotrackid' => $instance->id,
+                'isdeleted' => 0,
+            ])
+        ) {
             $now = time();
             $DB->insert_record('videotrack_react', (object)[
                 'videotrackid' => $instance->id,

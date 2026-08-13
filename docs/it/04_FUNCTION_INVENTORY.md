@@ -1,8 +1,8 @@
 # Inventario delle funzioni
 
-Generato dall’albero sorgente VideoTrack 1.7.46. Le voci PHP includono funzioni e metodi nominati; le voci AMD includono dichiarazioni nominate, espressioni funzione assegnate e funzioni-metodo di oggetti.
+Generato dall’albero sorgente VideoTrack 1.7.47. Le voci PHP includono funzioni e metodi nominati; le voci AMD includono dichiarazioni nominate, espressioni funzione assegnate e funzioni-metodo di oggetti.
 
-**PHP functions/methods:** 610. **Named AMD callables:** 647.
+**PHP functions/methods:** 611. **Named AMD callables:** 647.
 
 | Posizione | Callable | Responsabilità |
 |---|---|---|
@@ -1261,6 +1261,7 @@ Generato dall’albero sorgente VideoTrack 1.7.46. Le voci PHP includono funzion
 | `tests/vimeo_seek_contract_test.php:117` | `test_blocked_seek_resume_is_generation_scoped` | Funzione/metodo PHP nominato `test_blocked_seek_resume_is_generation_scoped`; vedere DocBlock e chiamanti per il contratto corrente. |
 | `tests/vimeo_seek_contract_test.php:131` | `test_seeked_fallback_uses_vimeo_playback_resolver_and_penalty` | Funzione/metodo PHP nominato `test_seeked_fallback_uses_vimeo_playback_resolver_and_penalty`; vedere DocBlock e chiamanti per il contratto corrente. |
 
-| `tests/generator/lib.php:44` | `create_instance` | Creates deterministic VideoTrack module fixtures for PHPUnit and Behat. |
+| `tests/generator/lib.php:43` | `create_instance` | Creates deterministic VideoTrack module fixtures for PHPUnit and Behat. |
 | `tests/generator_test.php:33` | `test_generator_creates_activity_with_learner_features` | Verifies the generator can create an activity with learner study tools enabled. |
 | `tests/student_view_contract_test.php:35` | `test_personal_lists_are_native_collapsible_sections` | Protects the three native collapsed learner sections. |
+| `tests/student_view_contract_test.php:58` | `test_learner_page_has_stable_vertical_order` | Protects the learner vertical order, active composers and unboxed completion-condition presentation. |

@@ -1,11 +1,11 @@
 # Audit della documentazione
 
-Baseline: VideoTrack **1.7.46** (`2026081303`).
+Baseline: VideoTrack **1.7.47** (`2026081304`).
 
 ## Copertura
 
 - File non documentali inventariati: **261/261**.
-- Funzioni/metodi PHP nominati inventariati: **610**.
+- Funzioni/metodi PHP nominati inventariati: **611**.
 - Callable AMD nominati rilevati e inventariati: **647**.
 - Tabelle XMLDB documentate: **7**.
 - Chiavi impostazioni sito documentate: **57**.
@@ -17,17 +17,17 @@ Baseline: VideoTrack **1.7.46** (`2026081303`).
 - Diagnostica CLI distribuita documentata in `21_CLI_DIAGNOSTICS.md` e coperta da contratti statici di sola lettura.
 - Automazione browser Behat documentata in `22_TEST_BROWSER_BEHAT.md`; U-007 è tracciato come in corso.
 
-## Verifica documentazione pre-produzione 1.7.46
+## Verifica documentazione pre-produzione 1.7.47
 
-- Inventario corrente dei file non documentali rigenerato sull'albero reale 1.7.46: **261/261** voci.
-- Inventario funzioni rigenerato sulle posizioni sorgente correnti: **610** funzioni/metodi PHP nominati e **647** callable AMD nominati rilevati.
+- Inventario corrente dei file non documentali rigenerato sull'albero reale 1.7.47: **261/261** voci.
+- Inventario funzioni rigenerato sulle posizioni sorgente correnti: **611** funzioni/metodi PHP nominati e **647** callable AMD nominati rilevati.
 - L'inventario XMLDB coincide con tutte le **7** tabelle e con ogni campo dichiarato in `db/install.xml`.
 - L'inventario impostazioni coincide con tutte le **57** impostazioni `mod_videotrack`.
 - L'inventario servizi AJAX coincide con tutti i **9** servizi dichiarati.
 - L'inventario configurazione browser/player coincide con tutte le **133** chiavi, incluse le quattro label seek FW introdotte dopo la 1.6.33.
 - Tutti gli otto language pack mantenuti espongono **978** chiavi identiche, nessun duplicato e placeholder Moodle coerenti.
 - I link Markdown relativi della documentazione sono stati verificati contro l'albero senza target mancanti.
-- I documenti storici specifici di release restano storici; soltanto indici e inventari correnti sono ribasati alla 1.7.46.
+- I documenti storici specifici di release restano storici; soltanto indici e inventari correnti sono ribasati alla 1.7.47.
 
 ## Regole di aggiornamento
 

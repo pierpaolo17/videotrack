@@ -47,8 +47,11 @@
 .path-mod-videotrack .activity-header .badge.bg-light.text-dark {
     --bs-dark-rgb: 33, 37, 41;
     --bs-light-rgb: 248, 249, 250;
+    --bs-bg-opacity: 0;
     color: #212529;
-    border: 1px solid var(--bs-border-color, #dee2e6);
+    border: 0;
+    border-radius: 0;
+    padding: 0;
     white-space: normal;
     line-height: 1.4;
     text-align: left;
@@ -102,25 +105,18 @@
     gap: 0.75rem;
 }
 
-/* ─── Layout landscape su mobile/tablet (max 1024px, orientamento orizzontale) ─ */
-/* Player fisso a sinistra (~60%), sidebar con reazioni scrollabile a destra. */
+/* ─── Landscape mobile/tablet ────────────────────────────────────────────── */
+/* Keep the learner flow in one semantic/visual column in every orientation. */
 
 @media (orientation: landscape) and (max-width: 1024px) {
     .videotrack-layout {
-        flex-direction: row;
-        align-items: flex-start;
+        flex-direction: column;
     }
 
-    .videotrack-player-section {
-        flex: 0 0 60%;
-        max-width: 60%;
-    }
-
+    .videotrack-player-section,
     .videotrack-sidebar {
-        flex: 1 1 auto;
-        max-height: 100vh; /* non supera l'altezza del viewport */
-        overflow-y: auto;
-        padding-right: 0.25rem;
+        width: 100%;
+        max-width: 100%;
     }
 }
 

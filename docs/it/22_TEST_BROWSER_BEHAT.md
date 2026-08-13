@@ -1,6 +1,6 @@
 # Automazione browser con Behat
 
-VideoTrack ha avviato la fase di automazione browser nella release 1.7.45; la 1.7.46 rafforza il primo scenario deterministico. Il plugin distribuisce un generator Moodle in `tests/generator/lib.php` e gli scenari browser in `tests/behat/`.
+VideoTrack ha avviato la fase di automazione browser nella release 1.7.45; la 1.7.47 estende lo scenario learner deterministico al contratto completo di ordinamento verticale. Il plugin distribuisce un generator Moodle in `tests/generator/lib.php` e gli scenari browser in `tests/behat/`.
 
 ## Scopo
 
@@ -32,7 +32,7 @@ php admin/tool/behat/cli/run.php --name='Active controls stay visible and saved 
 
 ## Copertura automatica corrente
 
-La copertura corrente, rafforzata nella 1.7.46:
+La copertura corrente, rafforzata nella 1.7.47:
 
 - crea un'attività VideoTrack tramite `mod_videotrack_generator`;
 - abilita reazioni, note personali e segnalibri personali;

@@ -603,6 +603,37 @@ echo html_writer::tag(
     get_string('intervalbar_title', 'mod_videotrack') . ' — ' . format_float($percent, 1) . '%',
     ['id' => 'videotrack-interval-bar-status', 'class' => 'videotrack-interval-bar-status']
 );
+
+echo html_writer::start_div('videotrack-progress videotrack-progress-summary mt-2 mb-2', [
+    'id' => 'videotrack-progress-summary',
+]);
+echo html_writer::tag(
+    'div',
+    get_string('progress', 'mod_videotrack') . ': ' . html_writer::tag(
+        'strong',
+        format_float($percent, 2) . '%',
+        ['id' => 'videotrack-progress-percent']
+    )
+);
+echo html_writer::tag(
+    'div',
+    get_string('report:uniquecoveredseconds', 'mod_videotrack') . ': ' . html_writer::tag(
+        'span',
+        s(videotrack_format_seconds($covered)),
+        ['id' => 'videotrack-covered-seconds']
+    )
+);
+if ($showstudentreactions) {
+    echo html_writer::tag(
+        'div',
+        get_string('uniquereactions', 'mod_videotrack') . ': ' . html_writer::tag(
+            'span',
+            (string)count($uniquereactionids),
+            ['id' => 'videotrack-unique-reactions']
+        )
+    );
+}
+echo html_writer::end_div(); // Videotrack-progress.
 if ($showreactioncontrols) {
     echo html_writer::start_div('videotrack-reactions mt-3', ['id' => 'videotrack-reactions']);
     echo html_writer::tag(
@@ -654,34 +685,9 @@ if ($showreactioncontrols) {
     echo html_writer::end_div(); // Videotrack-reactions.
 }
 
-if (!empty($videotrack->forumpostingenabled)) {
-    $buttonattributes = [
-        'type' => 'button',
-        'class' => 'btn btn-secondary mt-2',
-        'id' => $forumpostbuttonid,
-        'aria-describedby' => $forumpoststatusid,
-    ];
-    if (!$forumpostavailable) {
-        $buttonattributes['disabled'] = 'disabled';
-    }
-    echo html_writer::tag(
-        'button',
-        get_string('forum:addpostbutton', 'mod_videotrack'),
-        $buttonattributes
-    );
-    $statusattributes = [
-        'id' => $forumpoststatusid,
-        'class' => $forumpostreason === '' ? 'sr-only' : 'd-block text-muted small mt-1',
-        'role' => 'status',
-    ];
-    if ($forumpostreason === '') {
-        $statusattributes['hidden'] = 'hidden';
-    }
-    echo html_writer::tag('span', $forumpostreason, $statusattributes);
-}
 echo html_writer::end_div(); // Videotrack-player-section.
 
-// Sidebar: progress, reactions and student reactions table.
+// Personal learner controls and saved-history sections.
 echo html_writer::start_div('videotrack-sidebar');
 
 if ($showstudentreactions) {
@@ -1096,34 +1102,6 @@ if ($showtranscript) {
     echo html_writer::end_div(); // Videotrack-transcript-panel.
 }
 
-echo html_writer::start_div('videotrack-progress mb-2');
-echo html_writer::tag(
-    'div',
-    get_string('progress', 'mod_videotrack') . ': ' . html_writer::tag(
-        'strong',
-        format_float($percent, 2) . '%',
-        ['id' => 'videotrack-progress-percent']
-    )
-);
-echo html_writer::tag(
-    'div',
-    get_string('report:uniquecoveredseconds', 'mod_videotrack') . ': ' . html_writer::tag(
-        'span',
-        s(videotrack_format_seconds($covered)),
-        ['id' => 'videotrack-covered-seconds']
-    )
-);
-if ($showstudentreactions) {
-    echo html_writer::tag(
-        'div',
-        get_string('uniquereactions', 'mod_videotrack') . ': ' . html_writer::tag(
-            'span',
-            (string)count($uniquereactionids),
-            ['id' => 'videotrack-unique-reactions']
-        )
-    );
-}
-echo html_writer::end_div(); // Videotrack-progress.
 
 echo html_writer::end_div(); // Videotrack-sidebar.
 echo html_writer::end_div(); // Videotrack-layout.
@@ -1233,6 +1211,37 @@ if (\mod_videotrack\local\acknowledgement::is_enabled($videotrack)) {
     );
     echo html_writer::end_div();
     echo html_writer::end_tag('section');
+}
+
+if (!empty($videotrack->forumpostingenabled)) {
+    echo html_writer::start_div('videotrack-forum-action mt-3 mb-2', [
+        'id' => 'videotrack-forum-action',
+        'style' => 'max-width:' . (int)$playerwidth . 'px',
+    ]);
+    $buttonattributes = [
+        'type' => 'button',
+        'class' => 'btn btn-secondary',
+        'id' => $forumpostbuttonid,
+        'aria-describedby' => $forumpoststatusid,
+    ];
+    if (!$forumpostavailable) {
+        $buttonattributes['disabled'] = 'disabled';
+    }
+    echo html_writer::tag(
+        'button',
+        get_string('forum:addpostbutton', 'mod_videotrack'),
+        $buttonattributes
+    );
+    $statusattributes = [
+        'id' => $forumpoststatusid,
+        'class' => $forumpostreason === '' ? 'sr-only' : 'd-block text-muted small mt-1',
+        'role' => 'status',
+    ];
+    if ($forumpostreason === '') {
+        $statusattributes['hidden'] = 'hidden';
+    }
+    echo html_writer::tag('span', $forumpostreason, $statusattributes);
+    echo html_writer::end_div(); // Videotrack-forum-action.
 }
 
 echo $OUTPUT->footer();
