@@ -53,3 +53,14 @@ When the playback ledger or `videotrack_seg` schema changes, also verify:
 - provider/server drift tolerance remains a cumulative debt and cannot be reset by pause, rejection or a new handshake;
 - `requestid` is aligned across XMLDB, upgrade, Privacy API, backup and restore;
 - exact unique coverage remains monotonic when the compact interval list reaches 500 entries.
+
+## Distributed CLI diagnostics
+
+VideoTrack ships read-only local diagnostics. Run them from the Moodle root after installation/upgrade:
+
+```bash
+php mod/videotrack/cli/validate.php --json
+php mod/videotrack/cli/benchmark_course_analytics.php --courseid=<id> --userid=<id> --runs=5 --perioddays=7
+```
+
+The validator is useful for every release. Re-run the Analytics benchmark when course aggregation, learner/group scope, Analytics SQL or related indexes change. Full options, interpretation and the recorded U-016 baseline are documented in [`21_CLI_DIAGNOSTICS.md`](21_CLI_DIAGNOSTICS.md).

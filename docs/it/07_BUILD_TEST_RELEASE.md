@@ -45,3 +45,14 @@ Quando cambia il ledger di riproduzione o lo schema `videotrack_seg`, verificare
 - la tolleranza tra clock provider e server resti un debito cumulativo e non possa essere azzerata da pausa, rifiuto o nuovo handshake;
 - `requestid` sia coerente fra XMLDB, upgrade, Privacy API, backup e restore;
 - la copertura unica esatta resti monotona al raggiungimento dei 500 intervalli compatti.
+
+## Diagnostica CLI distribuita
+
+VideoTrack include diagnostica locale in sola lettura. Eseguirla dalla root Moodle dopo installazione/upgrade:
+
+```bash
+php mod/videotrack/cli/validate.php --json
+php mod/videotrack/cli/benchmark_course_analytics.php --courseid=<id> --userid=<id> --runs=5 --perioddays=7
+```
+
+Il validatore è utile per ogni release. Rieseguire il benchmark Analytics quando cambiano aggregazione di corso, learner/group scope, forma SQL Analytics o indici correlati. Opzioni complete, interpretazione e baseline U-016 registrata sono documentate in [`21_CLI_DIAGNOSTICS.md`](21_CLI_DIAGNOSTICS.md).

@@ -2,6 +2,21 @@
 
 This is the canonical release-history file for the plugin tree. Detailed design notes and historical migration documents remain under `docs/`.
 
+## 1.7.44 - 2026-08-13
+
+### Added
+
+- Ship `cli/validate.php`, a read-only installation/release diagnostic covering installed/file version alignment, Moodle support range, XMLDB tables/fields/indexes, AJAX external methods, maintained language contracts, AMD src/build/source-map parity, current documentation markers and selected critical configuration.
+- Ship `cli/benchmark_course_analytics.php`, the read-only four-scenario Course Analytics benchmark used for the real-dataset U-016 performance gate, with configurable course/viewer/activity/group/privacy threshold/run count/period.
+- Add English and Italian administrator/maintainer documentation for both CLI tools, including safety model, exit semantics, interpretation and the recorded real-course benchmark baseline.
+- Add static CLI contracts that prevent accidental write operations and keep the tools tied to the real batched `course_analytics` path.
+
+### Changed
+
+- Mark the real-dataset U-016 benchmark gate complete based on the maintainer run with 40 configured activities: 86 median reads/queries for the all-activity scenarios, 37.913 ms median all-time wall time and 46.645 ms median seven-day wall time; not all activities contained learner logs, so this is a production-like baseline rather than a synthetic worst-case claim.
+- Remove the eight recurring Moodle Extra warnings caused by literal backticks inside `release_hygiene_contract_test.php` strings while preserving the exact documentation-marker assertions.
+- Advance the roadmap: P1 CLI diagnostics is implemented in-tree; P2 browser automation/U-007 is the next engineering phase.
+
 ## 1.7.43 - 2026-08-12
 
 ### Fixed

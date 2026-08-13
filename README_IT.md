@@ -2,11 +2,11 @@
 
 VideoTrack è un modulo attività Moodle per distribuire e tracciare video HTML5/caricati, YouTube e Vimeo. Combina progresso di visione validato dal server con strumenti di studio opzionali, regole di completamento, integrazione gradebook e report docente attenti alla privacy.
 
-Release corrente documentata da questo albero: **1.7.43**. Rami Moodle dichiarati come supportati dal plugin: **5.0–5.3**.
+Release corrente documentata da questo albero: **1.7.44**. Rami Moodle dichiarati come supportati dal plugin: **5.0–5.3**.
 
 Panoramica inglese: [`README.md`](README.md)
 Cronologia release: [`CHANGELOG.md`](CHANGELOG.md)
-Changelog/lesson learned/roadmap consolidati 1.7.5–1.7.43: [`VIDEOTRACK_CHANGELOG_LESSONS_ROADMAP_1.7.5_1.7.43.md`](VIDEOTRACK_CHANGELOG_LESSONS_ROADMAP_1.7.5_1.7.43.md)
+Changelog/lesson learned/roadmap consolidati 1.7.5–1.7.44: [`VIDEOTRACK_CHANGELOG_LESSONS_ROADMAP_1.7.5_1.7.44.md`](VIDEOTRACK_CHANGELOG_LESSONS_ROADMAP_1.7.5_1.7.44.md)
 Sintesi privacy: [`PRIVACY_IT.md`](PRIVACY_IT.md) / [`PRIVACY.md`](PRIVACY.md)
 Documentazione tecnica: [`docs/it/00_INDEX.md`](docs/it/00_INDEX.md) / [`docs/en/00_INDEX.md`](docs/en/00_INDEX.md)
 
@@ -23,6 +23,7 @@ Documentazione tecnica: [`docs/it/00_INDEX.md`](docs/it/00_INDEX.md) / [`docs/en
 - Report per studente, dashboard di corso, analytics dello stesso video tra corsi ed esportazioni CSV/Excel/ODS.
 - Integrazione gradebook, completamento personalizzato, eventi Moodle, backup/restore, Privacy API e retention pianificata.
 - Otto language pack mantenuti: tedesco, inglese, spagnolo, francese, hindi, italiano, polacco e portoghese.
+- Validazione CLI locale e benchmark Course Analytics in sola lettura per amministratori e maintainer.
 
 ## Partecipazione, privacy e accessibilità
 
@@ -40,6 +41,10 @@ La politica focus predefinita mette in pausa soltanto quando la pagina del video
 4. Creare un'attività VideoTrack e abilitare soltanto le funzioni necessarie allo scenario didattico.
 
 Non modificare direttamente i sorgenti installati. Utilizzare release o patch revisionate e mantenere sincronizzati `amd/src` e `amd/build`.
+
+## Diagnostica CLI locale
+
+VideoTrack distribuisce strumenti CLI in sola lettura per amministratori e maintainer. Dalla root Moodle, usare `php mod/videotrack/cli/validate.php --json` per la diagnostica installazione/release e `php mod/videotrack/cli/benchmark_course_analytics.php --courseid=<id> --userid=<id>` per il benchmark Course Analytics. Opzioni e interpretazione complete sono documentate in [`docs/it/21_CLI_DIAGNOSTICS.md`](docs/it/21_CLI_DIAGNOSTICS.md).
 
 ## Baseline di validazione
 

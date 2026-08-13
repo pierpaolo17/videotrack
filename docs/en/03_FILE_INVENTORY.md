@@ -1,8 +1,8 @@
 # Distributed file inventory
 
-This inventory is generated against the VideoTrack 1.7.43 tree and lists every non-documentation file. Canonical JavaScript is under `amd/src`; files under `amd/build` are generated.
+This inventory is generated against the VideoTrack 1.7.44 tree and lists every non-documentation file. Canonical JavaScript is under `amd/src`; files under `amd/build` are generated.
 
-Entries: **253**.
+Entries: **256**.
 
 | File | Responsibility |
 |---|---|
@@ -199,6 +199,8 @@ Entries: **253**.
 | `classes/local/tracker.php` | Tracking and completion helper methods for VideoTrack. |
 | `classes/privacy/provider.php` | Privacy provider for tracking, reactions, notes, bookmarks, integrity signals and acknowledgements. |
 | `classes/task/cleanup_task.php` | Scheduled GDPR retention cleanup task. |
+| `cli/benchmark_course_analytics.php` | Read-only CLI benchmark for batched course Analytics query and timing behaviour. |
+| `cli/validate.php` | Read-only CLI validator for installed version, XMLDB, services, languages, AMD and critical configuration. |
 | `db/access.php` | Capabilities and role archetype defaults. |
 | `db/install.php` | Current database/install/upgrade support file distributed with the plugin. |
 | `db/install.xml` | Canonical XMLDB schema for plugin-owned tables. |
@@ -235,6 +237,7 @@ Entries: **253**.
 | `tests/analytics_scope_test.php` | PHPUnit coverage for analytics scope test. |
 | `tests/analytics_table_export_test.php` | PHPUnit coverage for analytics table export test. |
 | `tests/analytics_test.php` | PHPUnit coverage for analytics test. |
+| `tests/cli_contract_test.php` | Static contracts keeping the distributed CLI tools read-only, documented and tied to real Analytics paths. |
 | `tests/completion_contract_test.php` | Current PHPUnit/contract test distributed with the plugin. |
 | `tests/course_analytics_test.php` | PHPUnit coverage for course analytics test. |
 | `tests/csv_export_test.php` | PHPUnit coverage for csv export test. |

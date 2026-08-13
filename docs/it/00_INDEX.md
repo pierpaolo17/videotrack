@@ -1,8 +1,8 @@
 # Indice documentazione VideoTrack
 
-Release documentata: **1.7.43** (`2026081204`).
+Release documentata: **1.7.44** (`2026081301`).
 
-Cronologia consolidata della release corrente: [`../../VIDEOTRACK_CHANGELOG_LESSONS_ROADMAP_1.7.5_1.7.43.md`](../../VIDEOTRACK_CHANGELOG_LESSONS_ROADMAP_1.7.5_1.7.43.md).
+Cronologia consolidata della release corrente: [`../../VIDEOTRACK_CHANGELOG_LESSONS_ROADMAP_1.7.5_1.7.44.md`](../../VIDEOTRACK_CHANGELOG_LESSONS_ROADMAP_1.7.5_1.7.44.md).
 
 1. `01_DEVELOPER_GUIDE.md` — workflow di manutenzione e disciplina delle modifiche.
 2. `02_ARCHITECTURE.md` — confini dei componenti, adapter, storage e modello di fiducia.
@@ -38,3 +38,5 @@ I documenti storici sono isolati in `archive/` e non sono autorevoli per il codi
 19. `19_TRACKING_LEDGER_1_6_32.md` — handshake a credito zero, richieste segmento idempotenti e copertura esatta monotona.
 
 20. `20_GDPR_RETENTION_1_6_33.md` — retention basata sulla cancellazione, ricostruzione dello stato e confini privacy di backup/restore.
+
+21. `21_CLI_DIAGNOSTICS.md` — validatore release in sola lettura e benchmark Course Analytics per diagnostica locale/staging.

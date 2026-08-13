@@ -1,11 +1,11 @@
 # Documentation audit
 
-Baseline: VideoTrack **1.7.43** (`2026081204`).
+Baseline: VideoTrack **1.7.44** (`2026081301`).
 
 ## Coverage
 
-- Non-documentation files inventoried: **253/253**.
-- Named PHP functions/methods inventoried: **604**.
+- Non-documentation files inventoried: **256/256**.
+- Named PHP functions/methods inventoried: **607**.
 - Named AMD callables detected and inventoried: **647**.
 - XMLDB tables documented: **7**.
 - Site-setting keys documented: **57**.
@@ -14,18 +14,19 @@ Baseline: VideoTrack **1.7.43** (`2026081204`).
 - Language packs: eight packs with the same **978-key** contract; operational strings are translated while technical and proper terms may legitimately remain identical.
 - Root overviews: `README.md` (English) and `README_IT.md` (Italian).
 - Root privacy summaries: `PRIVACY.md` and `PRIVACY_IT.md`.
+- Distributed CLI diagnostics documented in `21_CLI_DIAGNOSTICS.md` and covered by static read-only contracts.
 
-## 1.7.43 pre-production documentation verification
+## 1.7.44 pre-production documentation verification
 
-- Current non-documentation file inventory regenerated against the real 1.7.43 tree: **253/253** entries.
-- Current function inventory regenerated from source locations: **604** named PHP functions/methods and **647** detected named AMD callables.
+- Current non-documentation file inventory regenerated against the real 1.7.44 tree: **256/256** entries.
+- Current function inventory regenerated from source locations: **607** named PHP functions/methods and **647** detected named AMD callables.
 - XMLDB inventory matches all **7** tables and every declared field in `db/install.xml`.
 - Site-setting inventory matches all **57** `mod_videotrack` settings.
 - AJAX service inventory matches all **9** declared services.
 - Browser player configuration inventory matches all **133** keys, including the four forward-seek policy/runtime labels introduced after 1.6.33.
 - All eight maintained language packs expose **978** identical keys, no duplicates and matching Moodle placeholders.
 - Relative Markdown links across the plugin documentation were checked against the tree with no missing target found.
-- Historical release-specific documents remain historical; only current indexes/inventories are rebased to 1.7.43.
+- Historical release-specific documents remain historical; only current indexes/inventories are rebased to 1.7.44.
 
 ## Freshness rules
 
