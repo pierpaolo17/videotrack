@@ -1,16 +1,16 @@
 # VideoTrack — Changelog, lesson learned e roadmap pre-produzione
 
-**Intervallo coperto:** `1.7.5` → `1.7.47`
-**Baseline documentale candidata:** VideoTrack `1.7.47` (`2026081304`)
+**Intervallo coperto:** `1.7.5` → `1.7.48`
+**Baseline documentale candidata:** VideoTrack `1.7.48` (`2026081305`)
 **Data consolidamento:** 2026-08-13
 
 ## 1. Regola di lettura
 
 Questo documento consolida la cronologia effettiva del ramo 1.7.x a partire dalla 1.7.5, le lesson learned emerse dai test automatici e dai test browser del maintainer e la roadmap residua prima/dopo il rilascio in produzione.
 
-La baseline tecnica resta sempre l'ultimo ZIP reale auditato. Le verifiche riportate per release precedenti sono evidenze storiche e non vengono automaticamente attribuite alla 1.7.47. Per la candidata 1.7.47 PHPUnit, PHPCS Extra e i CLI distribuiti devono essere eseguiti nuovamente dopo l'applicazione della patch; i test browser restano un gate separato quando cambia il runtime.
+La baseline tecnica resta sempre l'ultimo ZIP reale auditato. Le verifiche riportate per release precedenti sono evidenze storiche e non vengono automaticamente attribuite alla 1.7.48. Per la candidata 1.7.48 PHPUnit, PHPCS Extra e i CLI distribuiti devono essere eseguiti nuovamente dopo l'applicazione della patch; i test browser restano un gate separato quando cambia il runtime.
 
-## 2. Changelog consolidato 1.7.5 → 1.7.47
+## 2. Changelog consolidato 1.7.5 → 1.7.48
 
 ### 1.7.5 — report per studente e ricalcolo
 
@@ -184,7 +184,17 @@ La baseline tecnica resta sempre l'ultimo ZIP reale auditato. Le verifiche ripor
 - P2/U-007 resta IN CORSO: la regressione browser copre ora anche l’ordine della pagina; la slice successiva resta provider/seek/interazioni con harness deterministica.
 - Lesson: l’ordine visuale responsive deve coincidere con l’ordine semantico/DOM quando le azioni formano un flusso didattico sequenziale.
 
-## 3. Lesson learned 1.7.5 → 1.7.47
+
+### 1.7.48 — Forum prima della presa visione e seek HTML5 Behat deterministico
+
+- Invertito l'ultimo ordine learner: l'azione Forum opzionale viene ora renderizzata prima del box di presa visione/acknowledgement.
+- Aggiunta una fixture MP4 locale di 60 secondi codificata Base64 e il campo generator di solo test `behathtml5fixture=1`, che crea una sorgente upload tramite la normale File API Moodle.
+- Aggiunti step Behat VideoTrack per attendere il media HTML5, effettuare seek deterministici e verificare il timestamp risultante.
+- Aggiunta regressione browser per seek avanti HTML5 consentito/bloccato senza dipendenze dalla rete pubblica: il seek bloccato torna alla frontier, quello consentito resta al target.
+- P2/U-007 resta IN CORSO ma la matrice provider/seek ha ora la prima copertura browser reale e locale su HTML5; la slice successiva è la harness deterministica YouTube/Vimeo più interazioni immediatamente dopo seek/rollback.
+- Lesson: per i contratti browser di timing è preferibile una fixture locale reale che eserciti l'adapter effettivo, evitando di scambiare la disponibilità di un provider pubblico per correttezza del codice.
+
+## 3. Lesson learned 1.7.5 → 1.7.48
 
 ### LL-01 — Baseline reale prima di tutto
 
@@ -242,11 +252,11 @@ Quando la soglia privacy sopprime tutti i valori di retention, lasciare solo ass
 
 Un benchmark eseguito una volta fuori dal tree è difficile da ripetere e confrontare. I CLI di validazione e performance devono essere distribuiti, read-only per default, documentati e versionati insieme al codice che misurano; il risultato va interpretato con dataset, cache e ambiente esplicitati.
 
-## 4. Stato roadmap sulla baseline 1.7.46
+## 4. Stato roadmap sulla baseline 1.7.48
 
-| Finding/area | Stato 1.7.46 | Evidenza / residuo |
+| Finding/area | Stato 1.7.48 | Evidenza / residuo |
 |---|---|---|
-| U-007 browser/Behat | **IN CORSO** | La 1.7.46 rafforza il generator con una reazione deterministica, verifica ordine/visibilità delle aree learner e aggiunge la matrice learner/docente/dual-role; restano aperte la matrice provider/seek/interazioni e il contratto pre-seek/rollback. |
+| U-007 browser/Behat | **IN CORSO** | La 1.7.48 aggiunge una harness HTML5 locale con seek avanti consentito/bloccato nel browser reale; restano aperte le harness deterministiche YouTube/Vimeo, le interazioni post-seek/rollback e la copertura pre-seek segment snapshot end-to-end. |
 | U-011 doppio ruolo/voto | **CHIUSO codice+test** | Learner scope indipendente dall'accesso report e test dedicati sul voto/partecipazione. |
 | U-012 contratto partecipazione | **CHIUSO codice+test** | `learner_scope::can_participate()` è usato da view, Web Service e Forum con test di delega. |
 | U-013 Analytics/export parity | **CHIUSO implementazione** | Serie 1.7.7–1.7.11 e contract export/report. Gate dataset reale consigliato. |
@@ -265,9 +275,9 @@ Un benchmark eseguito una volta fuori dal tree è difficile da ripetere e confro
 
 ## 5. Roadmap futura consigliata
 
-### Fase P0 — gate di produzione della 1.7.47
+### Fase P0 — gate di produzione della 1.7.48
 
-1. Eseguire PHPUnit e PHPCS Extra sulla 1.7.47 reale.
+1. Eseguire PHPUnit e PHPCS Extra sulla 1.7.48 reale.
 2. Se nessun `amd/src/*` è cambiato, verificare che `amd/build` sia identico alla baseline; non rigenerare AMD inutilmente.
 3. Test browser manuale almeno su HTML5, YouTube e Vimeo per: play/pause, resume, RW, seek FW consentito/vietato, reaction, note, bookmark, Forum, completion e alert impilati.
 4. Verificare Privacy API/retention e backup/restore su un corso di prova prima del deploy definitivo.
@@ -281,9 +291,9 @@ Un benchmark eseguito una volta fuori dal tree è difficile da ripetere e confro
 
 ### Fase P2 — browser automation / U-007 — IN CORSO dalla 1.7.45
 
-- Infrastruttura presente: `mod_videotrack_generator`, `tests/behat/`, scenario sezioni learner e regressione sull’ordine verticale barra/progresso/interazioni.
-- La matrice di ruolo learner/dual-role/teacher ha ora una prima copertura sui controlli; prossima slice: HTML5/YouTube/Vimeo × seek consentito/vietato × interazioni.
-- Aggiungere regressioni deterministiche per pre-seek segment snapshot e rollback timestamp; evitare dipendenze fragili dalla rete pubblica quando una harness locale può esercitare lo stesso adapter contract.
+- Infrastruttura presente: `mod_videotrack_generator`, `tests/behat/`, scenario sezioni learner, matrice ruoli e harness locale HTML5 con fixture File API.
+- HTML5 ha ora una regressione browser deterministica per seek avanti consentito/bloccato; prossima slice: harness YouTube/Vimeo deterministiche e interazioni reaction/note/bookmark/Forum subito dopo seek/rollback.
+- Aggiungere quindi il contratto end-to-end del pre-seek segment snapshot e del rollback timestamp, evitando dipendenze fragili dalla rete pubblica quando una harness locale può esercitare lo stesso adapter contract.
 
 ### Fase P3 — compatibilità Moodle / U-022
 
@@ -306,4 +316,4 @@ Un benchmark eseguito una volta fuori dal tree è difficile da ripetere e confro
 
 ## 6. Criterio per dichiarare “production ready”
 
-La 1.7.47 può diventare baseline di produzione soltanto dopo esito reale del gate P0. Il fatto che una release sia `MATURITY_STABLE`, che compili o che i test di una release precedente siano verdi non sostituisce la verifica sulla build esatta da distribuire.
+La 1.7.48 può diventare baseline di produzione soltanto dopo esito reale del gate P0. Il fatto che una release sia `MATURITY_STABLE`, che compili o che i test di una release precedente siano verdi non sostituisce la verifica sulla build esatta da distribuire.

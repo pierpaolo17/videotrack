@@ -2,6 +2,19 @@
 
 This is the canonical release-history file for the plugin tree. Detailed design notes and historical migration documents remain under `docs/`.
 
+## 1.7.48 - 2026-08-13
+
+### Changed
+
+- Render the optional Forum action before the acknowledgement box on the learner page, preserving the established interaction order while keeping acknowledgement as the final learner confirmation block.
+- Advance P2/U-007 with a deterministic local HTML5 Behat seek harness: the module generator can now upload a bundled 60-second fixture and browser steps can drive/assert media timestamps without public-network dependencies.
+- Add browser scenarios for blocked and allowed HTML5 forward seeks; blocked seek returns to the watched frontier while allowed seek remains at the requested timestamp.
+
+### Tests
+
+- Extend the generator PHPUnit coverage to verify the local HTML5 fixture is stored in the module `videocontent` filearea.
+- Extend the learner static order contract so the Forum action must precede the acknowledgement section.
+
 ## 1.7.47 - 2026-08-13
 
 ### Changed
