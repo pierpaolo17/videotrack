@@ -23,7 +23,6 @@
  * @license    https://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 
-defined('MOODLE_INTERNAL') || die();
 
 /**
  * Generator used by PHPUnit and Behat fixtures.
@@ -42,6 +41,8 @@ class mod_videotrack_generator extends testing_module_generator {
      * @return stdClass Created instance with cmid.
      */
     public function create_instance($record = null, ?array $options = null) {
+        global $DB;
+
         $record = (array)$record + [
             'videosource' => 'youtube',
             'youtubeurl' => 'https://www.youtube.com/watch?v=dQw4w9WgXcQ',
@@ -51,6 +52,28 @@ class mod_videotrack_generator extends testing_module_generator {
             'bookmarksenabled' => 0,
         ];
 
-        return parent::create_instance($record, (array)$options);
+        $instance = parent::create_instance($record, (array)$options);
+
+        if (!empty($record['reactionsenabled']) && !$DB->record_exists('videotrack_react', [
+            'videotrackid' => $instance->id,
+            'isdeleted' => 0,
+        ])) {
+            $now = time();
+            $DB->insert_record('videotrack_react', (object)[
+                'videotrackid' => $instance->id,
+                'reactionkey' => 'behat_test_reaction',
+                'label' => 'Test reaction',
+                'description' => 'Deterministic reaction created by the VideoTrack test generator.',
+                'icontype' => 'emoji',
+                'iconvalue' => '👍',
+                'requiredforcompletion' => 0,
+                'sortorder' => 0,
+                'isdeleted' => 0,
+                'timecreated' => $now,
+                'timemodified' => $now,
+            ]);
+        }
+
+        return $instance;
     }
 }

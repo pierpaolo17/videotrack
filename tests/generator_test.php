@@ -31,6 +31,8 @@ final class generator_test extends advanced_testcase {
      * The generator must create a browser-test-ready activity without UI form interaction.
      */
     public function test_generator_creates_activity_with_learner_features(): void {
+        global $DB;
+
         $this->resetAfterTest();
         $this->setAdminUser();
 
@@ -49,5 +51,11 @@ final class generator_test extends advanced_testcase {
         $this->assertSame(1, (int)$activity->reactionsenabled);
         $this->assertSame(1, (int)$activity->studentnotesenabled);
         $this->assertSame(1, (int)$activity->bookmarksenabled);
+        $reaction = $DB->get_record('videotrack_react', [
+            'videotrackid' => $activity->id,
+            'reactionkey' => 'behat_test_reaction',
+            'isdeleted' => 0,
+        ], '*', MUST_EXIST);
+        $this->assertSame('Test reaction', $reaction->label);
     }
 }

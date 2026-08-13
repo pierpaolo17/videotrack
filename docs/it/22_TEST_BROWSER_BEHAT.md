@@ -1,6 +1,6 @@
 # Automazione browser con Behat
 
-VideoTrack avvia la fase di automazione browser nella release 1.7.45. Il plugin distribuisce un generator Moodle in `tests/generator/lib.php` e gli scenari browser in `tests/behat/`.
+VideoTrack ha avviato la fase di automazione browser nella release 1.7.45; la 1.7.46 rafforza il primo scenario deterministico. Il plugin distribuisce un generator Moodle in `tests/generator/lib.php` e gli scenari browser in `tests/behat/`.
 
 ## Scopo
 
@@ -27,18 +27,20 @@ php admin/tool/behat/cli/run.php --tags='@mod_videotrack'
 Per eseguire soltanto lo scenario delle sezioni personali compatte:
 
 ```bash
-php admin/tool/behat/cli/run.php --name='Personal sections are collapsed by default and can be opened independently'
+php admin/tool/behat/cli/run.php --name='Active controls stay visible and saved personal history is collapsed by default'
 ```
 
 ## Copertura automatica corrente
 
-La 1.7.45 introduce la prima regressione browser deterministica:
+La copertura corrente, rafforzata nella 1.7.46:
 
 - crea un'attività VideoTrack tramite `mod_videotrack_generator`;
 - abilita reazioni, note personali e segnalibri personali;
 - apre l'attività come learner;
-- verifica che **Le mie reazioni**, **Le mie note** e **I miei segnalibri** siano tre sezioni native `<details>` distinte;
-- verifica che tutte partano chiuse e possano essere aperte indipendentemente.
+- verifica che i pulsanti reazione, il composer nota e il composer segnalibro restino visibili fuori dai `<details>`;
+- verifica l'ordine pulsanti reazione → **Le mie reazioni** → form nota → **Le mie note** → form segnalibro → **I miei segnalibri**;
+- verifica che le tre cronologie partano chiuse e possano essere aperte indipendentemente.
+- aggiunge una regressione ruoli learner/docente/dual-role: i controlli sono attivi per learner e dual-role e read-only per il solo docente.
 
 Il contratto nativo `<details>/<summary>` non richiede JavaScript VideoTrack: le sezioni restano quindi utilizzabili anche da tastiera se un modulo AMD non viene caricato.
 

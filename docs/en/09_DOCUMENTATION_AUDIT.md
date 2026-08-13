@@ -1,10 +1,10 @@
 # Documentation audit
 
-Baseline: VideoTrack **1.7.45** (`2026081302`).
+Baseline: VideoTrack **1.7.46** (`2026081303`).
 
 ## Coverage
 
-- Non-documentation files inventoried: **260/260**.
+- Non-documentation files inventoried: **261/261**.
 - Named PHP functions/methods inventoried: **610**.
 - Named AMD callables detected and inventoried: **647**.
 - XMLDB tables documented: **7**.
@@ -17,9 +17,9 @@ Baseline: VideoTrack **1.7.45** (`2026081302`).
 - Distributed CLI diagnostics documented in `21_CLI_DIAGNOSTICS.md` and covered by static read-only contracts.
 - Behat browser automation documented in `22_BEHAT_BROWSER_TESTS.md`; U-007 is tracked as in progress.
 
-## 1.7.45 pre-production documentation verification
+## 1.7.46 pre-production documentation verification
 
-- Current non-documentation file inventory regenerated against the real 1.7.45 tree: **260/260** entries.
+- Current non-documentation file inventory regenerated against the real 1.7.46 tree: **261/261** entries.
 - Current function inventory regenerated from source locations: **610** named PHP functions/methods and **647** detected named AMD callables.
 - XMLDB inventory matches all **7** tables and every declared field in `db/install.xml`.
 - Site-setting inventory matches all **57** `mod_videotrack` settings.
@@ -27,7 +27,7 @@ Baseline: VideoTrack **1.7.45** (`2026081302`).
 - Browser player configuration inventory matches all **133** keys, including the four forward-seek policy/runtime labels introduced after 1.6.33.
 - All eight maintained language packs expose **978** identical keys, no duplicates and matching Moodle placeholders.
 - Relative Markdown links across the plugin documentation were checked against the tree with no missing target found.
-- Historical release-specific documents remain historical; only current indexes/inventories are rebased to 1.7.45.
+- Historical release-specific documents remain historical; only current indexes/inventories are rebased to 1.7.46.
 
 ## Freshness rules
 

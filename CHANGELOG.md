@@ -2,6 +2,13 @@
 
 This is the canonical release-history file for the plugin tree. Detailed design notes and historical migration documents remain under `docs/`.
 
+## 1.7.46 - 2026-08-13
+
+- Learner page: note and bookmark composers remain always visible; only saved reaction/note/bookmark history is collapsed.
+- Learner page order is now reaction controls → My reactions → note composer → My notes → bookmark composer → My bookmarks.
+- Behat generator now seeds one deterministic reaction when reactions are enabled; browser contract verifies active controls and DOM order.
+- Fix PHPCS findings in the learner-view contract test and test generator.
+
 ## 1.7.45 - 2026-08-13
 
 ### Added
