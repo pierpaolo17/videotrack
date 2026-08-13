@@ -1,8 +1,8 @@
 # Function inventory
 
-Generated from the VideoTrack 1.7.44 source tree. PHP entries include named functions and methods; AMD entries include named declarations, assigned function expressions and object-method functions.
+Generated from the VideoTrack 1.7.45 source tree. PHP entries include named functions and methods; AMD entries include named declarations, assigned function expressions and object-method functions.
 
-**PHP functions/methods:** 607. **Named AMD callables:** 647.
+**PHP functions/methods:** 610. **Named AMD callables:** 647.
 
 | Location | Callable | Responsibility |
 |---|---|---|
@@ -1260,3 +1260,7 @@ Generated from the VideoTrack 1.7.44 source tree. PHP entries include named func
 | `tests/vimeo_seek_contract_test.php:93` | `test_transient_pause_does_not_cancel_blocked_seek_playback` | Named PHP function/method `test_transient_pause_does_not_cancel_blocked_seek_playback`; see source DocBlock and callers for the current contract. |
 | `tests/vimeo_seek_contract_test.php:117` | `test_blocked_seek_resume_is_generation_scoped` | Named PHP function/method `test_blocked_seek_resume_is_generation_scoped`; see source DocBlock and callers for the current contract. |
 | `tests/vimeo_seek_contract_test.php:131` | `test_seeked_fallback_uses_vimeo_playback_resolver_and_penalty` | Named PHP function/method `test_seeked_fallback_uses_vimeo_playback_resolver_and_penalty`; see source DocBlock and callers for the current contract. |
+
+| `tests/generator/lib.php:44` | `create_instance` | Creates deterministic VideoTrack module fixtures for PHPUnit and Behat. |
+| `tests/generator_test.php:33` | `test_generator_creates_activity_with_learner_features` | Verifies the generator can create an activity with learner study tools enabled. |
+| `tests/student_view_contract_test.php:35` | `test_personal_lists_are_native_collapsible_sections` | Protects the three native collapsed learner sections. |

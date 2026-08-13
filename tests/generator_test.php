@@ -1,0 +1,53 @@
+<?php
+// This file is part of Moodle - https://moodle.org/.
+//
+// Moodle is free software: you can redistribute it and/or modify
+// it under the terms of the GNU General Public License as published by
+// the Free Software Foundation, either version 3 of the License, or
+// (at your option) any later version.
+//
+// Moodle is distributed in the hope that it will be useful,
+// but WITHOUT ANY WARRANTY; without even the implied warranty of
+// MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+// GNU General Public License for more details.
+//
+// You should have received a copy of the GNU General Public License
+// along with Moodle.  If not, see <https://www.gnu.org/licenses/>.
+
+namespace mod_videotrack;
+
+use advanced_testcase;
+
+/**
+ * Test the module generator used by PHPUnit and Behat.
+ *
+ * @package    mod_videotrack
+ * @category   test
+ * @copyright  2026 videotrack contributors
+ * @license    https://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
+ */
+final class generator_test extends advanced_testcase {
+    /**
+     * The generator must create a browser-test-ready activity without UI form interaction.
+     */
+    public function test_generator_creates_activity_with_learner_features(): void {
+        $this->resetAfterTest();
+        $this->setAdminUser();
+
+        $course = $this->getDataGenerator()->create_course();
+        $generator = $this->getDataGenerator()->get_plugin_generator('mod_videotrack');
+        $activity = $generator->create_instance([
+            'course' => $course->id,
+            'name' => 'Generated VideoTrack',
+            'reactionsenabled' => 1,
+            'studentnotesenabled' => 1,
+            'bookmarksenabled' => 1,
+        ]);
+
+        $this->assertGreaterThan(0, (int)$activity->cmid);
+        $this->assertSame('youtube', $activity->videosource);
+        $this->assertSame(1, (int)$activity->reactionsenabled);
+        $this->assertSame(1, (int)$activity->studentnotesenabled);
+        $this->assertSame(1, (int)$activity->bookmarksenabled);
+    }
+}

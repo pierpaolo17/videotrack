@@ -419,8 +419,7 @@
 
 
     .videotrack-transcript-panel,
-    .videotrack-notes-panel,
-    .videotrack-bookmarks-panel {
+    .videotrack-student-section {
         background: var(--videotrack-panel-bg);
         border-color: var(--videotrack-panel-border);
         color: var(--bs-body-color, #e0e0e0);
@@ -437,12 +436,7 @@
         color: var(--bs-body-bg, #0f172a);
     }
 
-    .videotrack-notes-toggle:hover {
-        color: var(--videotrack-focus-ring);
-    }
-
-    .videotrack-notes-header,
-    .videotrack-reactions-section-heading,
+    .videotrack-student-section-summary,
     .videotrack-notes-report {
         border-color: var(--videotrack-panel-border);
     }
@@ -838,13 +832,47 @@
 .videotrack-chapter-active .videotrack-chapter-num { background: rgba(255,255,255,.25); }
 
 /* ── Student notes panel ───────────────────────────────────────────────── */
-.videotrack-notes-panel,
-.videotrack-bookmarks-panel {
+.videotrack-student-section {
     border: 1px solid var(--videotrack-panel-border);
     border-radius: .375rem;
-    padding: .5rem .75rem;
     background: var(--videotrack-control-surface-bg);
     font-size: .875rem;
+    overflow: hidden;
+}
+.videotrack-student-section-summary {
+    display: flex;
+    align-items: center;
+    gap: .65rem;
+    padding: .65rem .75rem;
+    cursor: pointer;
+    font-weight: 600;
+    list-style: none;
+}
+.videotrack-student-section-summary::-webkit-details-marker {
+    display: none;
+}
+.videotrack-student-section-summary::before {
+    content: '';
+    width: .5rem;
+    height: .5rem;
+    flex: 0 0 .5rem;
+    border-right: 2px solid currentColor;
+    border-bottom: 2px solid currentColor;
+    transform: rotate(-45deg);
+    transition: transform .15s ease;
+}
+.videotrack-student-section[open] > .videotrack-student-section-summary::before {
+    transform: rotate(45deg);
+}
+.videotrack-student-section[open] > .videotrack-student-section-summary {
+    border-bottom: 1px solid var(--videotrack-subtle-border);
+}
+.videotrack-student-section-summary:focus-visible {
+    outline: 3px solid var(--videotrack-focus-ring);
+    outline-offset: -3px;
+}
+.videotrack-student-section-body {
+    padding: .65rem .75rem;
 }
 .videotrack-note-input {
     font-size: .85rem;
@@ -917,32 +945,6 @@
 .videotrack-note-save-saving {
     opacity: .6;
     cursor: wait;
-}
-
-/* ── Note toggle e separazione visiva ──────────────────────────────────── */
-.videotrack-notes-header {
-    border-bottom: 1px solid var(--videotrack-subtle-border);
-    padding-bottom: .35rem;
-    margin-bottom: .5rem;
-}
-.videotrack-notes-toggle {
-    font-size: .8rem;
-    color: var(--videotrack-muted-text);
-    text-decoration: none;
-}
-.videotrack-notes-toggle:hover { color: var(--videotrack-active-bg); }
-
-.videotrack-notes-body {
-    /* Transizione collapse smooth */
-    overflow: hidden;
-    transition: max-height .25s ease;
-}
-
-/* Separazione visiva reazioni/note nella vista studente */
-.videotrack-reactions-section-heading {
-    border-top: 2px solid var(--videotrack-subtle-border);
-    padding-top: .75rem;
-    margin-top: 1rem;
 }
 
 /* Sezione note nel report docente */

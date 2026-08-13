@@ -57,7 +57,7 @@ Notes:
     environment evidence instead of treating one timing threshold as universal.
 USAGE;
 
-list($options, $unrecognised) = cli_get_params([
+[$options, $unrecognised] = cli_get_params([
     'help' => false,
     'courseid' => null,
     'userid' => null,
@@ -155,7 +155,15 @@ $runscenario = static function (
     int $scenarioactivityid,
     int $timestart,
     int $timeend
-) use ($DB, $course, $userid, $minusers, $groupid, $runs, $summarise): array {
+) use (
+    $DB,
+    $course,
+    $userid,
+    $minusers,
+    $groupid,
+    $runs,
+    $summarise
+): array {
     $runsdata = [];
     $rowcount = null;
     for ($run = 0; $run < $runs; $run++) {

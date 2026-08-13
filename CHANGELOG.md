@@ -2,6 +2,21 @@
 
 This is the canonical release-history file for the plugin tree. Detailed design notes and historical migration documents remain under `docs/`.
 
+## 1.7.45 - 2026-08-13
+
+### Added
+
+- Start roadmap phase P2/U-007 with a Moodle-native `mod_videotrack_generator` and the first `@mod_videotrack` Behat browser scenario.
+- Add English and Italian Behat setup/run documentation and an exact-tree browser release gate.
+- Add PHPUnit contracts for the new test generator and native learner-section markup.
+
+### Changed
+
+- Render **My reactions**, **My notes** and **My bookmarks** as independent native `<details>/<summary>` sections, collapsed by default to reduce distraction and vertical scrolling while preserving the existing list IDs and interaction handlers.
+- Keep the learner UI collapsible contract independent of VideoTrack AMD so keyboard/browser-native disclosure remains available even if JavaScript fails.
+- Fix the 12 Moodle Extra coding-style errors reported against 1.7.44: CLI list/control-structure formatting and the final newline in `tests/report_contract_test.php`.
+- Mark U-007 as in progress: browser infrastructure now exists, while the role/provider/seek/interaction matrix and pre-seek/rollback regressions remain open.
+
 ## 1.7.44 - 2026-08-13
 
 ### Added

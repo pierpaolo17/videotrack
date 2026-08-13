@@ -709,44 +709,22 @@ if ($showtranscript) {
     echo html_writer::end_div(); // Videotrack-transcript-panel.
 }
 
-// Feature 11: collapsible student personal notes panel.
+// Feature 11: student personal notes in a compact, native collapsible section.
 if ($showstudentnotespanel) {
-    echo html_writer::start_div('videotrack-notes-panel mt-2 mb-2', [
-        'id'   => 'videotrack-notes-panel',
-        'role' => 'region',
-        'aria-label' => get_string('studentnotes_title', 'mod_videotrack'),
+    echo html_writer::start_tag('details', [
+        'id' => 'videotrack-notes-panel',
+        'class' => 'videotrack-student-section videotrack-student-section-notes mt-2 mb-2',
     ]);
-    // Header with show/hide toggle. The initial aria-label is updated synchronously.
-    // By the AMD player from sessionStorage before the panel is used.
-    echo html_writer::start_div('videotrack-notes-header d-flex align-items-center justify-content-between mb-1');
     echo html_writer::tag(
-        'h3',
+        'summary',
         get_string('studentnotes_title', 'mod_videotrack'),
-        ['class' => 'h6 mt-0 mb-0']
+        ['class' => 'videotrack-student-section-summary']
     );
-    echo html_writer::tag(
-        'button',
-        get_string('notes_hide', 'mod_videotrack'),
-        [
-            'type' => 'button',
-            'id' => 'videotrack-notes-toggle',
-            'class' => 'btn btn-link btn-sm p-0 videotrack-notes-toggle',
-            'aria-expanded' => 'true',
-            'aria-controls' => 'videotrack-notes-body',
-            'aria-label' => get_string('notes_hide', 'mod_videotrack') . ': ' .
-                get_string('studentnotes_title', 'mod_videotrack'),
-        ]
-    );
-    echo html_writer::end_div(); // Notes-header.
-    // Collapsible body, hidden or shown by the toggle.
-    // Data-collapsed is read by installNotesToggle before rendering to avoid a flash.
-    echo html_writer::start_div('videotrack-notes-body', [
-        'id'             => 'videotrack-notes-body',
-        'data-collapsed' => '0',
-        // JavaScript overrides this with the sessionStorage value.
+    echo html_writer::start_div('videotrack-student-section-body videotrack-notes-body', [
+        'id' => 'videotrack-notes-body',
     ]);
     // Textarea and Save button, managed by JavaScript.
-    echo html_writer::tag('label', get_string('studentnotes_title', 'mod_videotrack'), [
+    echo html_writer::tag('label', get_string('studentnote_label', 'mod_videotrack'), [
         'for'   => 'videotrack-note-input',
         'class' => 'form-label small mb-1 videotrack-note-label',
     ]);
@@ -868,7 +846,7 @@ if ($showstudentnotespanel) {
     }
     echo html_writer::end_tag('ol');
     echo html_writer::end_div(); // Videotrack-notes-body.
-    echo html_writer::end_div(); // Videotrack-notes-panel.
+    echo html_writer::end_tag('details'); // Videotrack-notes-panel.
 }
 
 
@@ -902,13 +880,15 @@ if ($showstudentreactions) {
 echo html_writer::end_div(); // Videotrack-progress.
 
 if ($showstudentreactions) {
-    // Clear visual separation between personal notes and reactions in the student view.
+    echo html_writer::start_tag('details', [
+        'class' => 'videotrack-student-section videotrack-student-section-reactions mt-3 mb-2',
+    ]);
     echo html_writer::tag(
-        'h4',
+        'summary',
         get_string('reportstudent', 'mod_videotrack'),
-        ['class' => 'h5 mt-3 mb-2 videotrack-reactions-section-heading']
+        ['class' => 'videotrack-student-section-summary']
     );
-    echo html_writer::start_div('videotrack-reactions-table-wrap');
+    echo html_writer::start_div('videotrack-student-section-body videotrack-reactions-table-wrap');
     // A2: the sr-only caption is enough; removing aria-label avoids assistive technologies.
     // Announcing the table title twice (caption + aria-label).
     echo html_writer::start_tag('table', ['class' => 'generaltable']);
@@ -1013,15 +993,20 @@ if ($showstudentreactions) {
     echo html_writer::end_tag('tbody');
     echo html_writer::end_tag('table');
     echo html_writer::end_div(); // Videotrack-reactions-table-wrap.
+    echo html_writer::end_tag('details');
 }
 
 if ($showbookmarkspanel) {
-    echo html_writer::start_div('videotrack-bookmarks-panel mt-2 mb-2', [
+    echo html_writer::start_tag('details', [
         'id' => 'videotrack-bookmarks-panel',
-        'role' => 'region',
-        'aria-label' => get_string('bookmarks_title', 'mod_videotrack'),
+        'class' => 'videotrack-student-section videotrack-student-section-bookmarks mt-2 mb-2',
     ]);
-    echo html_writer::tag('h3', get_string('bookmarks_title', 'mod_videotrack'), ['class' => 'h6 mt-0 mb-1']);
+    echo html_writer::tag(
+        'summary',
+        get_string('bookmarks_title', 'mod_videotrack'),
+        ['class' => 'videotrack-student-section-summary']
+    );
+    echo html_writer::start_div('videotrack-student-section-body');
     echo html_writer::tag(
         'p',
         get_string('bookmarks_private_notice', 'mod_videotrack'),
@@ -1147,7 +1132,8 @@ if ($showbookmarkspanel) {
         ]);
         echo html_writer::end_tag('form');
     }
-    echo html_writer::end_div();
+    echo html_writer::end_div(); // Videotrack-student-section-body.
+    echo html_writer::end_tag('details');
 }
 
 echo html_writer::end_div(); // Videotrack-sidebar.
