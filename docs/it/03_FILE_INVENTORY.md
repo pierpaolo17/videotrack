@@ -1,8 +1,8 @@
 # Inventario dei file distribuiti
 
-Questo inventario è generato sull’albero VideoTrack 1.7.43 ed elenca ogni file non documentale. Il JavaScript canonico è in `amd/src`; i file in `amd/build` sono generati.
+Questo inventario è generato sull’albero VideoTrack 1.7.44 ed elenca ogni file non documentale. Il JavaScript canonico è in `amd/src`; i file in `amd/build` sono generati.
 
-Entries: **253**.
+Entries: **256**.
 
 | File | Responsabilità |
 |---|---|
@@ -199,6 +199,8 @@ Entries: **253**.
 | `classes/local/tracker.php` | Servizio di dominio `tracker` riusabile da pagine, report o servizi. |
 | `classes/privacy/provider.php` | Provider Moodle Privacy API del plugin. |
 | `classes/task/cleanup_task.php` | Task pianificato per retention e pulizia. |
+| `cli/benchmark_course_analytics.php` | Benchmark CLI in sola lettura per query e tempi dell’aggregazione Course Analytics batchata. |
+| `cli/validate.php` | Validatore CLI in sola lettura per versione installata, XMLDB, servizi, lingue, AMD e configurazione critica. |
 | `db/access.php` | Capability e default degli archetipi di ruolo. |
 | `db/install.php` | File corrente di supporto database/installazione/upgrade distribuito con il plugin. |
 | `db/install.xml` | Schema XMLDB canonico delle tabelle del plugin. |
@@ -235,6 +237,7 @@ Entries: **253**.
 | `tests/analytics_scope_test.php` | Copertura PHPUnit per analytics scope test. |
 | `tests/analytics_table_export_test.php` | Copertura PHPUnit per analytics table export test. |
 | `tests/analytics_test.php` | Copertura PHPUnit per analytics test. |
+| `tests/cli_contract_test.php` | Contratti statici che mantengono i CLI distribuiti in sola lettura, documentati e legati ai percorsi Analytics reali. |
 | `tests/completion_contract_test.php` | Test PHPUnit/di contratto corrente distribuito con il plugin. |
 | `tests/course_analytics_test.php` | Copertura PHPUnit per course analytics test. |
 | `tests/csv_export_test.php` | Copertura PHPUnit per csv export test. |

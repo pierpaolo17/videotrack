@@ -107,12 +107,14 @@ final class release_hygiene_contract_test extends advanced_testcase {
             $this->assertIsString($document);
         }
         $this->assertFileExists(__DIR__ . '/../' . $history);
-        $this->assertStringContainsString('**' . $release . '** (`' . $version . '`)', $englishindex);
-        $this->assertStringContainsString('**' . $release . '** (`' . $version . '`)', $italianindex);
+        $tick = chr(96);
+        $versionmarker = '** (' . $tick . $version . $tick . ')';
+        $this->assertStringContainsString('**' . $release . $versionmarker, $englishindex);
+        $this->assertStringContainsString('**' . $release . $versionmarker, $italianindex);
         $this->assertStringContainsString('VideoTrack ' . $release . ' tree', $englishinventory);
         $this->assertStringContainsString('VideoTrack ' . $release, $italianinventory);
-        $this->assertStringContainsString('VideoTrack **' . $release . '** (`' . $version . '`)', $englishaudit);
-        $this->assertStringContainsString('VideoTrack **' . $release . '** (`' . $version . '`)', $italianaudit);
+        $this->assertStringContainsString('VideoTrack **' . $release . $versionmarker, $englishaudit);
+        $this->assertStringContainsString('VideoTrack **' . $release . $versionmarker, $italianaudit);
     }
 
     /**

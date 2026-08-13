@@ -1,8 +1,8 @@
 # VideoTrack documentation index
 
-Current documented release: **1.7.43** (`2026081204`).
+Current documented release: **1.7.44** (`2026081301`).
 
-Current consolidated release history: [`../../VIDEOTRACK_CHANGELOG_LESSONS_ROADMAP_1.7.5_1.7.43.md`](../../VIDEOTRACK_CHANGELOG_LESSONS_ROADMAP_1.7.5_1.7.43.md).
+Current consolidated release history: [`../../VIDEOTRACK_CHANGELOG_LESSONS_ROADMAP_1.7.5_1.7.44.md`](../../VIDEOTRACK_CHANGELOG_LESSONS_ROADMAP_1.7.5_1.7.44.md).
 
 1. `01_DEVELOPER_GUIDE.md` — maintenance workflow and change discipline.
 2. `02_ARCHITECTURE.md` — component boundaries, adapters, storage and trust model.
@@ -38,3 +38,5 @@ Historical material is isolated under `archive/` and is not authoritative for th
 19. `19_TRACKING_LEDGER_1_6_32.md` — zero-credit playback handshake, idempotent segment requests and monotonic exact coverage.
 
 20. `20_GDPR_RETENTION_1_6_33.md` — deletion-based retention, state rebuilding and backup/restore privacy boundaries.
+
+21. `21_CLI_DIAGNOSTICS.md` — read-only release validator and course Analytics benchmark for local/staging diagnostics.

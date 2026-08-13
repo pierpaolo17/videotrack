@@ -1,16 +1,16 @@
 # VideoTrack — Changelog, lesson learned e roadmap pre-produzione
 
-**Intervallo coperto:** `1.7.5` → `1.7.43`
-**Baseline documentale candidata:** VideoTrack `1.7.43` (`2026081204`)
-**Data consolidamento:** 2026-08-12
+**Intervallo coperto:** `1.7.5` → `1.7.44`
+**Baseline documentale candidata:** VideoTrack `1.7.44` (`2026081301`)
+**Data consolidamento:** 2026-08-13
 
 ## 1. Regola di lettura
 
 Questo documento consolida la cronologia effettiva del ramo 1.7.x a partire dalla 1.7.5, le lesson learned emerse dai test automatici e dai test browser del maintainer e la roadmap residua prima/dopo il rilascio in produzione.
 
-La baseline tecnica resta sempre l'ultimo ZIP reale auditato. Le verifiche riportate per release precedenti sono evidenze storiche e non vengono automaticamente attribuite alla 1.7.43. Per la candidata 1.7.43 PHPUnit, PHPCS Extra e test browser devono essere eseguiti nuovamente dopo l'applicazione della patch.
+La baseline tecnica resta sempre l'ultimo ZIP reale auditato. Le verifiche riportate per release precedenti sono evidenze storiche e non vengono automaticamente attribuite alla 1.7.44. Per la candidata 1.7.44 PHPUnit, PHPCS Extra e i CLI distribuiti devono essere eseguiti nuovamente dopo l'applicazione della patch; i test browser restano un gate separato quando cambia il runtime.
 
-## 2. Changelog consolidato 1.7.5 → 1.7.43
+## 2. Changelog consolidato 1.7.5 → 1.7.44
 
 ### 1.7.5 — report per studente e ricalcolo
 
@@ -145,7 +145,17 @@ La baseline tecnica resta sempre l'ultimo ZIP reale auditato. Le verifiche ripor
 - Corretto l’unico errore PHPCS fixable emerso nella 1.7.42 in `tests/save_bookmark_test.php`; gli 8 warning noti sui backtick restano backlog separato.
 - Lesson: un comportamento privacy corretto deve essere anche esplicito nella UI; un grafico vuoto senza spiegazione è ambiguo pur con dati correttamente mascherati.
 
-## 3. Lesson learned 1.7.5 → 1.7.43
+### 1.7.44 — CLI diagnostica distribuita e benchmark U-016
+
+- Aggiunto `cli/validate.php`, validatore non distruttivo di versione installata/file, range Moodle, XMLDB, servizi AJAX, language contract, AMD src/build/map, documentazione corrente e configurazione critica.
+- Aggiunto `cli/benchmark_course_analytics.php`, benchmark read-only dei quattro scenari Course Analytics già usati dal maintainer: singola/tutte × all-time/periodo.
+- Documentati uso, parametri, codici di uscita, limiti interpretativi e workflow per amministratori locali/staging e sviluppo futuro.
+- Registrato il benchmark reale su Moodle 5.0.9 / PHP 8.2.32 / DB famiglia MySQL: 40 attività configurate, non tutte con log learner, 86 read/query mediani negli scenari all-activity, 37,913 ms wall mediano all-time e 46,645 ms wall mediano su 7 giorni; rapporto all-vs-naive 0,3583.
+- U-016 viene chiuso per il gate su dataset reale osservato; una fixture sintetica densamente popolata resta utile come stress test futuro, non come blocco della baseline.
+- Rimossi gli 8 warning Moodle Extra dovuti ai backtick letterali nel contract test di documentazione senza indebolire le asserzioni.
+- La fase P1 della roadmap è quindi implementata nel tree; il prossimo passo ingegneristico è P2 browser automation/U-007.
+
+## 3. Lesson learned 1.7.5 → 1.7.44
 
 ### LL-01 — Baseline reale prima di tutto
 
@@ -199,9 +209,13 @@ Gli imprevisti di upgrade, gradebook e runtime player hanno cambiato più volte 
 
 Quando la soglia privacy sopprime tutti i valori di retention, lasciare solo assi e griglia fa sembrare il grafico rotto. La UI deve dichiarare esplicitamente che la serie è stata nascosta, senza esporre valori o denominatori ricostruibili.
 
-## 4. Stato roadmap sulla baseline 1.7.43
+### LL-14 — Gli strumenti diagnostici utili devono vivere nel plugin
 
-| Finding/area | Stato 1.7.43 | Evidenza / residuo |
+Un benchmark eseguito una volta fuori dal tree è difficile da ripetere e confrontare. I CLI di validazione e performance devono essere distribuiti, read-only per default, documentati e versionati insieme al codice che misurano; il risultato va interpretato con dataset, cache e ambiente esplicitati.
+
+## 4. Stato roadmap sulla baseline 1.7.44
+
+| Finding/area | Stato 1.7.44 | Evidenza / residuo |
 |---|---|---|
 | U-007 browser/Behat | **APERTO** | Nel tree non esiste ancora `tests/behat`; i bug 1.7.36–1.7.38 dimostrano il valore di test browser automatici. |
 | U-011 doppio ruolo/voto | **CHIUSO codice+test** | Learner scope indipendente dall'accesso report e test dedicati sul voto/partecipazione. |
@@ -209,30 +223,32 @@ Quando la soglia privacy sopprime tutti i valori di retention, lasciare solo ass
 | U-013 Analytics/export parity | **CHIUSO implementazione** | Serie 1.7.7–1.7.11 e contract export/report. Gate dataset reale consigliato. |
 | U-014 privacy EN/IT | **IMPLEMENTATO / GATE SEMANTICO** | Struttura parallela testata; resta utile revisione semantica finale pre-produzione. |
 | U-015 provider loader retry-safe | **CHIUSO codice+test** | Promise azzerate dopo reject e niente manipolazione globale `window.define`. |
-| U-016 performance Analytics | **CHIUSO implementazione / BENCHMARK PENDENTE** | Batch e modello query coperti da test; manca benchmark su dataset reale grande. |
+| U-016 performance Analytics | **CHIUSO codice+benchmark reale** | Batch/query contract coperti da test; benchmark maintainer su 40 attività registra 86 read/query mediani e wall mediano < 50 ms negli scenari all-activity. Dataset non worst-case perché non tutte le attività hanno log. |
 | U-017 manutenibilità file grandi | **APERTO** | `report.php`, `mod_form.php`, `vimeo_player.js`, `html5_player.js` restano molto grandi. |
 | U-018 `format_string` context | **CHIUSO area originaria** | CSV export ha context espliciti e contract test; ulteriori chiamate vanno mantenute sotto audit. |
 | U-020 WCAG capitoli | **PARZIALE** | forced-colors globale presente; manca un focus-visible dedicato ai chapter button e una matrice manuale completa. |
 | U-022 Moodle 5.0–5.3 | **APERTO** | `$plugin->supported = [500, 503]`, ma l'evidenza reale corrente è Moodle 5.0.9. Testare 5.1/5.2/5.3 o restringere il range. |
 | U-023 learner scope duplicato | **CHIUSO codice+test** | `course_analytics` riusa lo scope canonico; contract impedisce la reintroduzione dell'helper privato. |
 | U-028 changelog root | **CHIUSO** | `CHANGELOG.md` canonico presente dalla 1.7.23. |
-| U-029 i18n italiano | **CHIUSO** | `environment.xml` UTF-8 corretto; 1.7.41 riallinea tutti gli otto pack a 977 chiavi. |
+| U-029 i18n italiano | **CHIUSO** | `environment.xml` UTF-8 corretto; 1.7.41 riallinea gli otto pack a 977 chiavi e la nuova stringa retention porta il contratto corrente a 978. |
 | U-030 Forum timestamp watched | **CHIUSO codice+runtime remediation** | Guard server presente; 1.7.38 corregge il confine client che produceva falsi rifiuti. |
 | U-031 PHPUnit 12 | **DEFERRED / APERTO** | Restano le 20 deprecazioni DocBlock note finché Moodle CS/toolchain target non consente migrazione coerente agli attributes. |
 
 ## 5. Roadmap futura consigliata
 
-### Fase P0 — gate di produzione della 1.7.43
+### Fase P0 — gate di produzione della 1.7.44
 
-1. Eseguire PHPUnit e PHPCS Extra sulla 1.7.43 reale.
+1. Eseguire PHPUnit e PHPCS Extra sulla 1.7.44 reale.
 2. Se nessun `amd/src/*` è cambiato, verificare che `amd/build` sia identico alla baseline; non rigenerare AMD inutilmente.
 3. Test browser manuale almeno su HTML5, YouTube e Vimeo per: play/pause, resume, RW, seek FW consentito/vietato, reaction, note, bookmark, Forum, completion e alert impilati.
 4. Verificare Privacy API/retention e backup/restore su un corso di prova prima del deploy definitivo.
 5. Deploy pulito della directory plugin e purge cache Moodle/browser.
 
-### Fase P1 — script CLI di validazione/diagnostica
+### Fase P1 — script CLI di validazione/diagnostica — COMPLETATA 1.7.44
 
-Riprendere lo script CLI previsto dopo la stabilizzazione runtime. Deve essere non distruttivo per default e produrre un report ripetibile su versione/schema, tabelle/indici, servizi, language contract, AMD src/build, configurazione critica e finding pre-produzione. Qualunque modalità di repair deve essere separata, esplicita e idempotente.
+- `cli/validate.php` è distribuito in sola lettura e produce output testuale o JSON su versione/schema, tabelle/indici, servizi, language contract, AMD src/build/map, documentazione e configurazione critica.
+- `cli/benchmark_course_analytics.php` conserva nel plugin lo strumento di benchmark U-016 con output JSON ripetibile.
+- Non esiste modalità repair: qualunque futura riparazione dovrà restare separata, esplicita e idempotente.
 
 ### Fase P2 — browser automation / U-007
 
@@ -252,7 +268,7 @@ Riprendere lo script CLI previsto dopo la stabilizzazione runtime. Deve essere n
 
 ### Fase P5 — performance/manutenibilità
 
-- Benchmark Analytics con dataset reale grande per chiudere definitivamente U-016.
+- Conservare il benchmark U-016 e ripeterlo dopo modifiche SQL/scope; aggiungere in futuro una fixture sintetica densamente popolata se serve stress testing.
 - Ridurre per piccoli passi i file più grandi (U-017), mantenendo test di regressione e senza rifattorizzazioni simultanee ai bug runtime.
 
 ### Fase P6 — PHPUnit 12 / U-031
@@ -261,4 +277,4 @@ Riprendere lo script CLI previsto dopo la stabilizzazione runtime. Deve essere n
 
 ## 6. Criterio per dichiarare “production ready”
 
-La 1.7.43 può diventare baseline di produzione soltanto dopo esito reale del gate P0. Il fatto che una release sia `MATURITY_STABLE`, che compili o che i test di una release precedente siano verdi non sostituisce la verifica sulla build esatta da distribuire.
+La 1.7.44 può diventare baseline di produzione soltanto dopo esito reale del gate P0. Il fatto che una release sia `MATURITY_STABLE`, che compili o che i test di una release precedente siano verdi non sostituisce la verifica sulla build esatta da distribuire.

@@ -16,6 +16,10 @@ Partire dall’ultimo ZIP reale fornito dal maintainer. Registrare checksum e co
 8. Generare la patch dalla root del plugin con path `a/` e `b/`.
 9. Verificare `git apply --check`, applicazione reale su baseline pulita, uguaglianza degli alberi e `patch -p1 --dry-run`.
 
+## Diagnostica distribuita
+
+Usare `php mod/videotrack/cli/validate.php --json` come diagnostica ripetibile di release/installazione e archiviare l'output insieme agli esiti dei test server. Rieseguire `php mod/videotrack/cli/benchmark_course_analytics.php --courseid=<id> --userid=<id>` quando cambiano SQL Course Analytics, learner/group scope o indici correlati. Entrambi gli strumenti sono intenzionalmente in sola lettura; opzioni e interpretazione sono in `21_CLI_DIAGNOSTICS.md`.
+
 ## Confini di fiducia
 
 - Il browser non è affidabile per proprietà, posizione vista o decisioni di completamento.

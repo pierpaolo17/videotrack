@@ -1,8 +1,8 @@
 # Function inventory
 
-Generated from the VideoTrack 1.7.43 source tree. PHP entries include named functions and methods; AMD entries include named declarations, assigned function expressions and object-method functions.
+Generated from the VideoTrack 1.7.44 source tree. PHP entries include named functions and methods; AMD entries include named declarations, assigned function expressions and object-method functions.
 
-**PHP functions/methods:** 604. **Named AMD callables:** 647.
+**PHP functions/methods:** 607. **Named AMD callables:** 647.
 
 | Location | Callable | Responsibility |
 |---|---|---|
@@ -1117,6 +1117,9 @@ Generated from the VideoTrack 1.7.43 source tree. PHP entries include named func
 | `tests/analytics_test.php:318` | `test_reaction_summary_masks_small_populations` | PHP callable `test_reaction_summary_masks_small_populations`; see its DocBlock and callers for parameter, return-value and side-effect details. |
 | `tests/analytics_test.php:339` | `test_build_from_states_recovers_unique_viewers` | PHP callable `test_build_from_states_recovers_unique_viewers`; see its DocBlock and callers for parameter, return-value and side-effect details. |
 | `tests/analytics_test.php:359` | `test_resolve_duration_uses_best_persisted_source` | PHP callable `test_resolve_duration_uses_best_persisted_source`; see its DocBlock and callers for parameter, return-value and side-effect details. |
+| `tests/cli_contract_test.php:33` | `test_validator_is_read_only_and_covers_release_contracts` | Named PHP function/method `test_validator_is_read_only_and_covers_release_contracts`; see source DocBlock and callers for the current contract. |
+| `tests/cli_contract_test.php:53` | `test_course_analytics_benchmark_uses_real_read_only_metrics` | Named PHP function/method `test_course_analytics_benchmark_uses_real_read_only_metrics`; see source DocBlock and callers for the current contract. |
+| `tests/cli_contract_test.php:75` | `test_cli_tools_are_documented_for_admins_and_maintainers` | Named PHP function/method `test_cli_tools_are_documented_for_admins_and_maintainers`; see source DocBlock and callers for the current contract. |
 | `tests/completion_contract_test.php:34` | `test_required_reactions_activate_custom_completion` | Named PHP function/method `test_required_reactions_activate_custom_completion`; see source DocBlock and callers for the current contract. |
 | `tests/completion_contract_test.php:54` | `test_required_reaction_or_semantics_match_tracker` | Named PHP function/method `test_required_reaction_or_semantics_match_tracker`; see source DocBlock and callers for the current contract. |
 | `tests/completion_contract_test.php:75` | `test_disabled_acknowledgement_is_excluded_from_tracker_completion` | Named PHP function/method `test_disabled_acknowledgement_is_excluded_from_tracker_completion`; see source DocBlock and callers for the current contract. |
