@@ -58,4 +58,36 @@ final class generator_test extends advanced_testcase {
         ], '*', MUST_EXIST);
         $this->assertSame('Test reaction', $reaction->label);
     }
+
+    /**
+     * The generator must be able to create a local HTML5 fixture without public network access.
+     */
+    public function test_generator_creates_local_html5_fixture(): void {
+        $this->resetAfterTest();
+        $this->setAdminUser();
+
+        $course = $this->getDataGenerator()->create_course();
+        $generator = $this->getDataGenerator()->get_plugin_generator('mod_videotrack');
+        $activity = $generator->create_instance([
+            'course' => $course->id,
+            'name' => 'Generated HTML5 VideoTrack',
+            'behathtml5fixture' => 1,
+        ]);
+
+        $this->assertSame('upload', $activity->videosource);
+        $context = \context_module::instance((int)$activity->cmid);
+        $files = get_file_storage()->get_area_files(
+            $context->id,
+            'mod_videotrack',
+            'videocontent',
+            0,
+            'id',
+            false
+        );
+        $this->assertCount(1, $files);
+        $file = reset($files);
+        $this->assertInstanceOf(\stored_file::class, $file);
+        $this->assertSame('behat-video.mp4', $file->get_filename());
+    }
+
 }

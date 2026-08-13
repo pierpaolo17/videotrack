@@ -1,8 +1,8 @@
 # Inventario delle funzioni
 
-Generato dall’albero sorgente VideoTrack 1.7.47. Le voci PHP includono funzioni e metodi nominati; le voci AMD includono dichiarazioni nominate, espressioni funzione assegnate e funzioni-metodo di oggetti.
+Generato dall’albero sorgente VideoTrack 1.7.48. Le voci PHP includono funzioni e metodi nominati; le voci AMD includono dichiarazioni nominate, espressioni funzione assegnate e funzioni-metodo di oggetti.
 
-**PHP functions/methods:** 611. **Named AMD callables:** 647.
+**PHP functions/methods:** 615. **Named AMD callables:** 647.
 
 | Posizione | Callable | Responsabilità |
 |---|---|---|
@@ -1261,7 +1261,11 @@ Generato dall’albero sorgente VideoTrack 1.7.47. Le voci PHP includono funzion
 | `tests/vimeo_seek_contract_test.php:117` | `test_blocked_seek_resume_is_generation_scoped` | Funzione/metodo PHP nominato `test_blocked_seek_resume_is_generation_scoped`; vedere DocBlock e chiamanti per il contratto corrente. |
 | `tests/vimeo_seek_contract_test.php:131` | `test_seeked_fallback_uses_vimeo_playback_resolver_and_penalty` | Funzione/metodo PHP nominato `test_seeked_fallback_uses_vimeo_playback_resolver_and_penalty`; vedere DocBlock e chiamanti per il contratto corrente. |
 
+| `tests/behat/behat_mod_videotrack.php:41` | `the_videotrack_html5_media_is_ready` | Waits for local HTML5 fixture metadata in Behat. |
+| `tests/behat/behat_mod_videotrack.php:61` | `i_seek_the_videotrack_html5_media_to_seconds` | Drives a deterministic HTML5 seek in the browser test harness. |
+| `tests/behat/behat_mod_videotrack.php:78` | `the_videotrack_html5_media_time_should_be_between` | Asserts the HTML5 media timestamp is inside the expected browser-test range. |
 | `tests/generator/lib.php:43` | `create_instance` | Creates deterministic VideoTrack module fixtures for PHPUnit and Behat. |
 | `tests/generator_test.php:33` | `test_generator_creates_activity_with_learner_features` | Verifies the generator can create an activity with learner study tools enabled. |
+| `tests/generator_test.php:65` | `test_generator_creates_local_html5_fixture` | Verifies the generator stores the deterministic HTML5 fixture in the module filearea. |
 | `tests/student_view_contract_test.php:35` | `test_personal_lists_are_native_collapsible_sections` | Protects the three native collapsed learner sections. |
 | `tests/student_view_contract_test.php:58` | `test_learner_page_has_stable_vertical_order` | Protects the learner vertical order, active composers and unboxed completion-condition presentation. |

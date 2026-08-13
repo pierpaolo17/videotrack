@@ -71,6 +71,7 @@ final class student_view_contract_test extends advanced_testcase {
             "'id' => 'videotrack-bookmark-composer'",
             "'id' => 'videotrack-bookmarks-panel'",
             "'id' => 'videotrack-forum-action'",
+            "'class' => 'videotrack-acknowledgement card mt-4'",
         ];
         $positions = [];
         foreach ($markers as $marker) {

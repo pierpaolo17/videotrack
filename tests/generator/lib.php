@@ -43,7 +43,16 @@ class mod_videotrack_generator extends testing_module_generator {
     public function create_instance($record = null, ?array $options = null) {
         global $DB;
 
-        $record = (array)$record + [
+        $record = (array)$record;
+        $html5fixture = !empty($record['behathtml5fixture']);
+        unset($record['behathtml5fixture']);
+
+        if ($html5fixture) {
+            $record['videosource'] = 'upload';
+            $record['durationseconds'] = $record['durationseconds'] ?? 60;
+        }
+
+        $record += [
             'videosource' => 'youtube',
             'youtubeurl' => 'https://www.youtube.com/watch?v=dQw4w9WgXcQ',
             'durationseconds' => 120,
@@ -53,6 +62,23 @@ class mod_videotrack_generator extends testing_module_generator {
         ];
 
         $instance = parent::create_instance($record, (array)$options);
+
+        if ($html5fixture) {
+            $context = context_module::instance((int)$instance->cmid);
+            $encodedfixture = file_get_contents(dirname(__DIR__) . '/fixtures/behat-video.mp4.b64');
+            $fixturecontent = is_string($encodedfixture) ? base64_decode($encodedfixture, true) : false;
+            if ($fixturecontent === false) {
+                throw new coding_exception('Invalid VideoTrack HTML5 Behat fixture.');
+            }
+            get_file_storage()->create_file_from_string([
+                'contextid' => $context->id,
+                'component' => 'mod_videotrack',
+                'filearea' => 'videocontent',
+                'itemid' => 0,
+                'filepath' => '/',
+                'filename' => 'behat-video.mp4',
+            ], $fixturecontent);
+        }
 
         if (
             !empty($record['reactionsenabled'])

@@ -1107,6 +1107,38 @@ echo html_writer::end_div(); // Videotrack-sidebar.
 echo html_writer::end_div(); // Videotrack-layout.
 echo html_writer::end_div(); // Videotrack-player-shell.
 
+if (!empty($videotrack->forumpostingenabled)) {
+    echo html_writer::start_div('videotrack-forum-action mt-3 mb-2', [
+        'id' => 'videotrack-forum-action',
+        'style' => 'max-width:' . (int)$playerwidth . 'px',
+    ]);
+    $buttonattributes = [
+        'type' => 'button',
+        'class' => 'btn btn-secondary',
+        'id' => $forumpostbuttonid,
+        'aria-describedby' => $forumpoststatusid,
+    ];
+    if (!$forumpostavailable) {
+        $buttonattributes['disabled'] = 'disabled';
+    }
+    echo html_writer::tag(
+        'button',
+        get_string('forum:addpostbutton', 'mod_videotrack'),
+        $buttonattributes
+    );
+    $statusattributes = [
+        'id' => $forumpoststatusid,
+        'class' => $forumpostreason === '' ? 'sr-only' : 'd-block text-muted small mt-1',
+        'role' => 'status',
+    ];
+    if ($forumpostreason === '') {
+        $statusattributes['hidden'] = 'hidden';
+    }
+    echo html_writer::tag('span', $forumpostreason, $statusattributes);
+    echo html_writer::end_div(); // Videotrack-forum-action.
+}
+
+
 if (\mod_videotrack\local\acknowledgement::is_enabled($videotrack)) {
     echo html_writer::start_tag('section', [
         'class' => 'videotrack-acknowledgement card mt-4',
@@ -1211,37 +1243,6 @@ if (\mod_videotrack\local\acknowledgement::is_enabled($videotrack)) {
     );
     echo html_writer::end_div();
     echo html_writer::end_tag('section');
-}
-
-if (!empty($videotrack->forumpostingenabled)) {
-    echo html_writer::start_div('videotrack-forum-action mt-3 mb-2', [
-        'id' => 'videotrack-forum-action',
-        'style' => 'max-width:' . (int)$playerwidth . 'px',
-    ]);
-    $buttonattributes = [
-        'type' => 'button',
-        'class' => 'btn btn-secondary',
-        'id' => $forumpostbuttonid,
-        'aria-describedby' => $forumpoststatusid,
-    ];
-    if (!$forumpostavailable) {
-        $buttonattributes['disabled'] = 'disabled';
-    }
-    echo html_writer::tag(
-        'button',
-        get_string('forum:addpostbutton', 'mod_videotrack'),
-        $buttonattributes
-    );
-    $statusattributes = [
-        'id' => $forumpoststatusid,
-        'class' => $forumpostreason === '' ? 'sr-only' : 'd-block text-muted small mt-1',
-        'role' => 'status',
-    ];
-    if ($forumpostreason === '') {
-        $statusattributes['hidden'] = 'hidden';
-    }
-    echo html_writer::tag('span', $forumpostreason, $statusattributes);
-    echo html_writer::end_div(); // Videotrack-forum-action.
 }
 
 echo $OUTPUT->footer();

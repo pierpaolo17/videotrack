@@ -1,6 +1,6 @@
 # Behat browser automation
 
-VideoTrack started its browser-automation phase in release 1.7.45; release 1.7.47 extends the deterministic learner-page scenario with the full vertical ordering contract. The plugin ships a Moodle module generator under `tests/generator/lib.php` and browser scenarios under `tests/behat/`.
+VideoTrack started its browser-automation phase in release 1.7.45; release 1.7.48 extends the deterministic learner-page scenario with the full vertical ordering contract. The plugin ships a Moodle module generator under `tests/generator/lib.php` and browser scenarios under `tests/behat/`.
 
 ## Purpose
 
@@ -32,7 +32,7 @@ php admin/tool/behat/cli/run.php --name='Active controls stay visible and saved 
 
 ## Current automated coverage
 
-Current coverage, strengthened in 1.7.47:
+Current coverage, strengthened in 1.7.48:
 
 - creates a VideoTrack activity through `mod_videotrack_generator`;
 - enables reactions, personal notes and personal bookmarks;
@@ -45,12 +45,25 @@ Current coverage, strengthened in 1.7.47:
 
 The native `<details>/<summary>` contract intentionally needs no VideoTrack JavaScript, so the sections remain keyboard-accessible even if an AMD module fails.
 
+
+### Deterministic local HTML5 seek harness
+
+From 1.7.48 the generator accepts the test-only field `behathtml5fixture=1`. It creates an upload-source VideoTrack instance backed by `tests/fixtures/behat-video.mp4.b64`, a tiny 60-second local fixture. `tests/behat/behat_mod_videotrack.php` provides browser steps that wait for metadata, seek the HTML5 media and assert the resulting timestamp.
+
+Run only the seek-policy feature with:
+
+```bash
+php admin/tool/behat/cli/run.php --tags='@mod_videotrack_html5_seek'
+```
+
+The deterministic assertions cover both policies: a blocked jump to 20 seconds must return to the watched frontier, while the same jump remains at 20 seconds when forward seeking is allowed. The scenario exercises the real HTML5 adapter and Moodle-local file delivery without depending on YouTube or Vimeo availability.
+
 ## P2 roadmap still open
 
 U-007 is **in progress**, not closed by this first scenario. The remaining browser matrix must add deterministic coverage for:
 
 1. learner / dual-role / teacher;
-2. HTML5 / YouTube / Vimeo;
+2. YouTube / Vimeo deterministic provider harnesses (HTML5 local seek policy is covered from 1.7.48);
 3. forward seek allowed / blocked and backward seek;
 4. pre-seek segment snapshot and rollback timestamp;
 5. reaction / note / bookmark / Forum immediately after seek and rollback;
