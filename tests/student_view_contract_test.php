@@ -30,17 +30,19 @@ use PHPUnit\Framework\Attributes\CoversNothing;
 #[CoversNothing]
 final class student_view_contract_test extends advanced_testcase {
     /**
-     * Personal lists must use independent native details sections and existing labels.
+     * Personal history lists must use independent native details sections.
      */
     public function test_personal_lists_are_native_collapsible_sections(): void {
         $source = file_get_contents(__DIR__ . '/../view.php');
         $this->assertIsString($source);
 
-        foreach ([
-            'videotrack-student-section-reactions',
-            'videotrack-student-section-notes',
-            'videotrack-student-section-bookmarks',
-        ] as $class) {
+        foreach (
+            [
+                'videotrack-student-section-reactions',
+                'videotrack-student-section-notes',
+                'videotrack-student-section-bookmarks',
+            ] as $class
+        ) {
             $this->assertStringContainsString($class, $source);
         }
         $this->assertGreaterThanOrEqual(3, substr_count($source, "html_writer::start_tag('details'"));
@@ -48,5 +50,51 @@ final class student_view_contract_test extends advanced_testcase {
         $this->assertStringContainsString("get_string('studentnotes_title', 'mod_videotrack')", $source);
         $this->assertStringContainsString("get_string('bookmarks_title', 'mod_videotrack')", $source);
         $this->assertStringNotContainsString("'open' => 'open'", $source);
+    }
+
+    /**
+     * Active controls stay visible and personal history follows the requested learner-page order.
+     */
+    public function test_personal_controls_and_lists_have_stable_order(): void {
+        $source = file_get_contents(__DIR__ . '/../view.php');
+        $this->assertIsString($source);
+
+        $markers = [
+            "start_div('videotrack-reactions mt-3'",
+            "'id' => 'videotrack-reactions-list-section'",
+            "'id' => 'videotrack-note-composer'",
+            "'id' => 'videotrack-notes-panel'",
+            "'id' => 'videotrack-bookmark-composer'",
+            "'id' => 'videotrack-bookmarks-panel'",
+        ];
+        $positions = [];
+        foreach ($markers as $marker) {
+            $position = strpos($source, $marker);
+            $this->assertNotFalse($position, 'Missing learner-page marker: ' . $marker);
+            $positions[] = $position;
+        }
+        $sorted = $positions;
+        sort($sorted);
+        $this->assertSame($positions, $sorted);
+
+        $notecomposer = substr(
+            $source,
+            $positions[2],
+            $positions[3] - $positions[2]
+        );
+        $notesdetails = substr(
+            $source,
+            $positions[3],
+            $positions[4] - $positions[3]
+        );
+        $bookmarkcomposer = substr(
+            $source,
+            $positions[4],
+            $positions[5] - $positions[4]
+        );
+
+        $this->assertStringContainsString("'id' => 'videotrack-note-input'", $notecomposer);
+        $this->assertStringNotContainsString("'id' => 'videotrack-note-input'", $notesdetails);
+        $this->assertStringContainsString("'id' => 'videotrack-bookmark-input'", $bookmarkcomposer);
     }
 }

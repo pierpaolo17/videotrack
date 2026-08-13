@@ -1,6 +1,6 @@
 # Behat browser automation
 
-VideoTrack starts its browser-automation phase in release 1.7.45. The plugin ships a Moodle module generator under `tests/generator/lib.php` and browser scenarios under `tests/behat/`.
+VideoTrack started its browser-automation phase in release 1.7.45; release 1.7.46 strengthens the first deterministic scenario. The plugin ships a Moodle module generator under `tests/generator/lib.php` and browser scenarios under `tests/behat/`.
 
 ## Purpose
 
@@ -27,18 +27,20 @@ php admin/tool/behat/cli/run.php --tags='@mod_videotrack'
 To run only the compact learner-section scenario:
 
 ```bash
-php admin/tool/behat/cli/run.php --name='Personal sections are collapsed by default and can be opened independently'
+php admin/tool/behat/cli/run.php --name='Active controls stay visible and saved personal history is collapsed by default'
 ```
 
 ## Current automated coverage
 
-Release 1.7.45 introduces the first deterministic browser regression:
+Current coverage, strengthened in 1.7.46:
 
 - creates a VideoTrack activity through `mod_videotrack_generator`;
 - enables reactions, personal notes and personal bookmarks;
 - opens the activity as a learner;
-- verifies that **My reactions**, **My notes** and **My bookmarks** are separate native `<details>` sections;
-- verifies that all three start collapsed and can be opened independently.
+- verifies that reaction buttons, the note composer and the bookmark composer remain visible outside `<details>`;
+- verifies the order reaction controls → **My reactions** → note form → **My notes** → bookmark form → **My bookmarks**;
+- verifies that all three history sections start collapsed and can be opened independently.
+- adds learner/teacher/dual-role scope coverage: controls stay active for learner and dual-role users and read-only for teacher-only users.
 
 The native `<details>/<summary>` contract intentionally needs no VideoTrack JavaScript, so the sections remain keyboard-accessible even if an AMD module fails.
 

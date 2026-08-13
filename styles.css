@@ -1479,3 +1479,8 @@
         border-bottom-color: CanvasText;
     }
 }
+
+/* Active learner inputs stay visible; only saved personal history is collapsible. */
+.videotrack-personal-composer {
+    font-size: .875rem;
+}
