@@ -22,7 +22,9 @@ Feature: Student personal history uses compact collapsible sections
     Given I log in as "student1"
     And I am on "Course 1" course homepage
     When I click on "Video 1" "link"
-    Then "#videotrack-reactions .videotrack-reaction-btn" "css_element" should exist
+    Then "#videotrack-interval-bar ~ #videotrack-progress-summary" "css_element" should exist
+    And "#videotrack-progress-summary ~ #videotrack-reactions" "css_element" should exist
+    And "#videotrack-reactions .videotrack-reaction-btn" "css_element" should exist
     And "#videotrack-note-composer #videotrack-note-input" "css_element" should exist
     And ".videotrack-student-section-notes #videotrack-note-input" "css_element" should not exist
     And "#videotrack-bookmark-composer #videotrack-bookmark-input" "css_element" should exist

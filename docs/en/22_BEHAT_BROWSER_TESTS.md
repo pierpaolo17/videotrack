@@ -1,6 +1,6 @@
 # Behat browser automation
 
-VideoTrack started its browser-automation phase in release 1.7.45; release 1.7.46 strengthens the first deterministic scenario. The plugin ships a Moodle module generator under `tests/generator/lib.php` and browser scenarios under `tests/behat/`.
+VideoTrack started its browser-automation phase in release 1.7.45; release 1.7.47 extends the deterministic learner-page scenario with the full vertical ordering contract. The plugin ships a Moodle module generator under `tests/generator/lib.php` and browser scenarios under `tests/behat/`.
 
 ## Purpose
 
@@ -32,13 +32,14 @@ php admin/tool/behat/cli/run.php --name='Active controls stay visible and saved 
 
 ## Current automated coverage
 
-Current coverage, strengthened in 1.7.46:
+Current coverage, strengthened in 1.7.47:
 
 - creates a VideoTrack activity through `mod_videotrack_generator`;
 - enables reactions, personal notes and personal bookmarks;
 - opens the activity as a learner;
 - verifies that reaction buttons, the note composer and the bookmark composer remain visible outside `<details>`;
-- verifies the order reaction controls → **My reactions** → note form → **My notes** → bookmark form → **My bookmarks**;
+- verifies watched-interval bar → progress summary → reaction controls, then **My reactions** → note form → **My notes** → bookmark form → **My bookmarks**;
+- the static learner-view contract additionally keeps the optional Forum action after the personal-history flow;
 - verifies that all three history sections start collapsed and can be opened independently.
 - adds learner/teacher/dual-role scope coverage: controls stay active for learner and dual-role users and read-only for teacher-only users.
 

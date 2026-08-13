@@ -53,19 +53,24 @@ final class student_view_contract_test extends advanced_testcase {
     }
 
     /**
-     * Active controls stay visible and personal history follows the requested learner-page order.
+     * Learner controls and saved history must follow the stable vertical page order.
      */
-    public function test_personal_controls_and_lists_have_stable_order(): void {
+    public function test_learner_page_has_stable_vertical_order(): void {
         $source = file_get_contents(__DIR__ . '/../view.php');
         $this->assertIsString($source);
 
         $markers = [
+            "'videotrack-player-notice videotrack-inline-notice alert alert-info'",
+            "start_div('videotrack-player-wrap'",
+            "'id'         => 'videotrack-interval-bar'",
+            "'id' => 'videotrack-progress-summary'",
             "start_div('videotrack-reactions mt-3'",
             "'id' => 'videotrack-reactions-list-section'",
             "'id' => 'videotrack-note-composer'",
             "'id' => 'videotrack-notes-panel'",
             "'id' => 'videotrack-bookmark-composer'",
             "'id' => 'videotrack-bookmarks-panel'",
+            "'id' => 'videotrack-forum-action'",
         ];
         $positions = [];
         foreach ($markers as $marker) {
@@ -79,22 +84,35 @@ final class student_view_contract_test extends advanced_testcase {
 
         $notecomposer = substr(
             $source,
-            $positions[2],
-            $positions[3] - $positions[2]
+            $positions[6],
+            $positions[7] - $positions[6]
         );
         $notesdetails = substr(
             $source,
-            $positions[3],
-            $positions[4] - $positions[3]
+            $positions[7],
+            $positions[8] - $positions[7]
         );
         $bookmarkcomposer = substr(
             $source,
-            $positions[4],
-            $positions[5] - $positions[4]
+            $positions[8],
+            $positions[9] - $positions[8]
         );
 
-        $this->assertStringContainsString("'id' => 'videotrack-note-input'", $notecomposer);
-        $this->assertStringNotContainsString("'id' => 'videotrack-note-input'", $notesdetails);
+        $this->assertStringContainsString("'id'          => 'videotrack-note-input'", $notecomposer);
+        $this->assertStringNotContainsString("'id'          => 'videotrack-note-input'", $notesdetails);
         $this->assertStringContainsString("'id' => 'videotrack-bookmark-input'", $bookmarkcomposer);
+
+        $styles = file_get_contents(__DIR__ . '/../styles.css');
+        $this->assertIsString($styles);
+        $selector = '.path-mod-videotrack .activity-header .badge.bg-light.text-dark {';
+        $start = strpos($styles, $selector);
+        $this->assertNotFalse($start);
+        $end = strpos($styles, '}', $start);
+        $this->assertNotFalse($end);
+        $rule = substr($styles, $start, $end - $start);
+        $this->assertStringContainsString('--bs-bg-opacity: 0;', $rule);
+        $this->assertStringContainsString('border: 0;', $rule);
+        $this->assertStringContainsString('border-radius: 0;', $rule);
+        $this->assertStringContainsString('padding: 0;', $rule);
     }
 }
