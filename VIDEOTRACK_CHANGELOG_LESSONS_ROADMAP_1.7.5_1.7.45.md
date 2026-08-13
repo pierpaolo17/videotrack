@@ -1,16 +1,16 @@
 # VideoTrack — Changelog, lesson learned e roadmap pre-produzione
 
-**Intervallo coperto:** `1.7.5` → `1.7.44`
-**Baseline documentale candidata:** VideoTrack `1.7.44` (`2026081301`)
+**Intervallo coperto:** `1.7.5` → `1.7.45`
+**Baseline documentale candidata:** VideoTrack `1.7.45` (`2026081302`)
 **Data consolidamento:** 2026-08-13
 
 ## 1. Regola di lettura
 
 Questo documento consolida la cronologia effettiva del ramo 1.7.x a partire dalla 1.7.5, le lesson learned emerse dai test automatici e dai test browser del maintainer e la roadmap residua prima/dopo il rilascio in produzione.
 
-La baseline tecnica resta sempre l'ultimo ZIP reale auditato. Le verifiche riportate per release precedenti sono evidenze storiche e non vengono automaticamente attribuite alla 1.7.44. Per la candidata 1.7.44 PHPUnit, PHPCS Extra e i CLI distribuiti devono essere eseguiti nuovamente dopo l'applicazione della patch; i test browser restano un gate separato quando cambia il runtime.
+La baseline tecnica resta sempre l'ultimo ZIP reale auditato. Le verifiche riportate per release precedenti sono evidenze storiche e non vengono automaticamente attribuite alla 1.7.45. Per la candidata 1.7.45 PHPUnit, PHPCS Extra e i CLI distribuiti devono essere eseguiti nuovamente dopo l'applicazione della patch; i test browser restano un gate separato quando cambia il runtime.
 
-## 2. Changelog consolidato 1.7.5 → 1.7.44
+## 2. Changelog consolidato 1.7.5 → 1.7.45
 
 ### 1.7.5 — report per studente e ricalcolo
 
@@ -153,9 +153,18 @@ La baseline tecnica resta sempre l'ultimo ZIP reale auditato. Le verifiche ripor
 - Registrato il benchmark reale su Moodle 5.0.9 / PHP 8.2.32 / DB famiglia MySQL: 40 attività configurate, non tutte con log learner, 86 read/query mediani negli scenari all-activity, 37,913 ms wall mediano all-time e 46,645 ms wall mediano su 7 giorni; rapporto all-vs-naive 0,3583.
 - U-016 viene chiuso per il gate su dataset reale osservato; una fixture sintetica densamente popolata resta utile come stress test futuro, non come blocco della baseline.
 - Rimossi gli 8 warning Moodle Extra dovuti ai backtick letterali nel contract test di documentazione senza indebolire le asserzioni.
-- La fase P1 della roadmap è quindi implementata nel tree; il prossimo passo ingegneristico è P2 browser automation/U-007.
+- La fase P1 della roadmap è implementata nel tree; dalla 1.7.45 P2 browser automation/U-007 è avviata con generator e primo scenario Behat.
 
-## 3. Lesson learned 1.7.5 → 1.7.44
+### 1.7.45 — avvio Behat P2 e sezioni learner collassabili
+
+- Aggiunto `tests/generator/lib.php` per creare attività VideoTrack in PHPUnit/Behat senza dipendere dal form UI.
+- Aggiunto il primo scenario `tests/behat` con tag `@mod_videotrack`, che verifica in browser reale le tre sezioni personali learner.
+- “Le mie reazioni”, “Le mie note” e “I miei segnalibri” sono ora `<details>/<summary>` nativi, chiusi per impostazione iniziale, mantenendo invariati ID delle liste e handler di salvataggio/rimozione/replay.
+- Corretti i 12 errori PHPCS Extra della baseline 1.7.44 nei CLI e nel newline finale del contract test report.
+- U-007 passa da APERTO a IN CORSO: esiste l'infrastruttura browser, ma restano da automatizzare matrice ruoli/provider/seek/interazioni e regressioni pre-seek/rollback.
+- Lesson: l'automazione browser va introdotta per slice deterministiche; non è utile dichiarare “coperto” un provider esterno se il test dipende dalla rete pubblica e non riproduce stabilmente il contratto.
+
+## 3. Lesson learned 1.7.5 → 1.7.45
 
 ### LL-01 — Baseline reale prima di tutto
 
@@ -213,11 +222,11 @@ Quando la soglia privacy sopprime tutti i valori di retention, lasciare solo ass
 
 Un benchmark eseguito una volta fuori dal tree è difficile da ripetere e confrontare. I CLI di validazione e performance devono essere distribuiti, read-only per default, documentati e versionati insieme al codice che misurano; il risultato va interpretato con dataset, cache e ambiente esplicitati.
 
-## 4. Stato roadmap sulla baseline 1.7.44
+## 4. Stato roadmap sulla baseline 1.7.45
 
-| Finding/area | Stato 1.7.44 | Evidenza / residuo |
+| Finding/area | Stato 1.7.45 | Evidenza / residuo |
 |---|---|---|
-| U-007 browser/Behat | **APERTO** | Nel tree non esiste ancora `tests/behat`; i bug 1.7.36–1.7.38 dimostrano il valore di test browser automatici. |
+| U-007 browser/Behat | **IN CORSO** | La 1.7.45 introduce generator Moodle + primo scenario `tests/behat` per le sezioni learner; resta aperta la matrice ruoli/provider/seek/interazioni e il contratto pre-seek/rollback. |
 | U-011 doppio ruolo/voto | **CHIUSO codice+test** | Learner scope indipendente dall'accesso report e test dedicati sul voto/partecipazione. |
 | U-012 contratto partecipazione | **CHIUSO codice+test** | `learner_scope::can_participate()` è usato da view, Web Service e Forum con test di delega. |
 | U-013 Analytics/export parity | **CHIUSO implementazione** | Serie 1.7.7–1.7.11 e contract export/report. Gate dataset reale consigliato. |
@@ -236,9 +245,9 @@ Un benchmark eseguito una volta fuori dal tree è difficile da ripetere e confro
 
 ## 5. Roadmap futura consigliata
 
-### Fase P0 — gate di produzione della 1.7.44
+### Fase P0 — gate di produzione della 1.7.45
 
-1. Eseguire PHPUnit e PHPCS Extra sulla 1.7.44 reale.
+1. Eseguire PHPUnit e PHPCS Extra sulla 1.7.45 reale.
 2. Se nessun `amd/src/*` è cambiato, verificare che `amd/build` sia identico alla baseline; non rigenerare AMD inutilmente.
 3. Test browser manuale almeno su HTML5, YouTube e Vimeo per: play/pause, resume, RW, seek FW consentito/vietato, reaction, note, bookmark, Forum, completion e alert impilati.
 4. Verificare Privacy API/retention e backup/restore su un corso di prova prima del deploy definitivo.
@@ -250,11 +259,11 @@ Un benchmark eseguito una volta fuori dal tree è difficile da ripetere e confro
 - `cli/benchmark_course_analytics.php` conserva nel plugin lo strumento di benchmark U-016 con output JSON ripetibile.
 - Non esiste modalità repair: qualunque futura riparazione dovrà restare separata, esplicita e idempotente.
 
-### Fase P2 — browser automation / U-007
+### Fase P2 — browser automation / U-007 — IN CORSO dalla 1.7.45
 
-- Introdurre scenari Behat o una harness browser compatibile con Moodle per i flussi che i contract test non hanno intercettato.
-- Matrice minima: ruolo learner/dual-role/teacher × HTML5/YouTube/Vimeo × seek consentito/vietato × interazioni.
-- Aggiungere regressioni per pre-seek segment snapshot e rollback timestamp.
+- Infrastruttura iniziale presente: `mod_videotrack_generator`, `tests/behat/` e scenario browser per le sezioni learner collassabili.
+- Prossima slice: matrice ruolo learner/dual-role/teacher × HTML5/YouTube/Vimeo × seek consentito/vietato × interazioni.
+- Aggiungere regressioni deterministiche per pre-seek segment snapshot e rollback timestamp; evitare dipendenze fragili dalla rete pubblica quando una harness locale può esercitare lo stesso adapter contract.
 
 ### Fase P3 — compatibilità Moodle / U-022
 
@@ -277,4 +286,4 @@ Un benchmark eseguito una volta fuori dal tree è difficile da ripetere e confro
 
 ## 6. Criterio per dichiarare “production ready”
 
-La 1.7.44 può diventare baseline di produzione soltanto dopo esito reale del gate P0. Il fatto che una release sia `MATURITY_STABLE`, che compili o che i test di una release precedente siano verdi non sostituisce la verifica sulla build esatta da distribuire.
+La 1.7.45 può diventare baseline di produzione soltanto dopo esito reale del gate P0. Il fatto che una release sia `MATURITY_STABLE`, che compili o che i test di una release precedente siano verdi non sostituisce la verifica sulla build esatta da distribuire.

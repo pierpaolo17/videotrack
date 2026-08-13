@@ -64,3 +64,14 @@ php mod/videotrack/cli/benchmark_course_analytics.php --courseid=<id> --userid=<
 ```
 
 The validator is useful for every release. Re-run the Analytics benchmark when course aggregation, learner/group scope, Analytics SQL or related indexes change. Full options, interpretation and the recorded U-016 baseline are documented in [`21_CLI_DIAGNOSTICS.md`](21_CLI_DIAGNOSTICS.md).
+
+## Behat browser gate
+
+When learner-page markup, browser interactions, player adapters or seek state changes, initialise Moodle Behat and run the VideoTrack tag:
+
+```bash
+php admin/tool/behat/cli/init.php
+php admin/tool/behat/cli/run.php --tags='@mod_videotrack'
+```
+
+See [`22_BEHAT_BROWSER_TESTS.md`](22_BEHAT_BROWSER_TESTS.md). Behat is an exact-tree release gate and does not replace manual provider smoke tests until the U-007 matrix is complete.

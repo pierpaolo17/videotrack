@@ -53,7 +53,7 @@ Checks:
 This command is read-only. It has no repair mode and performs no writes.
 USAGE;
 
-list($options, $unrecognised) = cli_get_params([
+[$options, $unrecognised] = cli_get_params([
     'help' => false,
     'json' => false,
     'verbose' => false,
@@ -94,7 +94,7 @@ $fileversion = (int)$plugin->version;
 
 if ($installedversion === false) {
     $addcheck('installed_version', 'warn', 'Plugin version is not present in config_plugins.');
-} elseif ((int)$installedversion !== $fileversion) {
+} else if ((int)$installedversion !== $fileversion) {
     $addcheck(
         'installed_version',
         'fail',
@@ -303,9 +303,11 @@ if ($amdissues) {
 $historyfile = $pluginroot . '/VIDEOTRACK_CHANGELOG_LESSONS_ROADMAP_1.7.5_' . $filerelease . '.md';
 $readme = file_get_contents($pluginroot . '/README.md');
 $readmeit = file_get_contents($pluginroot . '/README_IT.md');
-if (!is_file($historyfile) || $readme === false || $readmeit === false ||
-        !str_contains($readme, 'Current release documented by this tree: **' . $filerelease . '**') ||
-        !str_contains($readmeit, 'Release corrente documentata da questo albero: **' . $filerelease . '**')) {
+if (
+    !is_file($historyfile) || $readme === false || $readmeit === false ||
+    !str_contains($readme, 'Current release documented by this tree: **' . $filerelease . '**') ||
+    !str_contains($readmeit, 'Release corrente documentata da questo albero: **' . $filerelease . '**')
+) {
     $addcheck('documentation_release', 'fail', 'Current release documentation markers are incomplete or stale.');
 } else {
     $addcheck('documentation_release', 'pass', 'README and consolidated history track release ' . $filerelease . '.');

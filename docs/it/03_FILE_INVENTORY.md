@@ -1,8 +1,8 @@
 # Inventario dei file distribuiti
 
-Questo inventario è generato sull’albero VideoTrack 1.7.44 ed elenca ogni file non documentale. Il JavaScript canonico è in `amd/src`; i file in `amd/build` sono generati.
+Questo inventario è generato sull’albero VideoTrack 1.7.45 ed elenca ogni file non documentale. Il JavaScript canonico è in `amd/src`; i file in `amd/build` sono generati.
 
-Entries: **256**.
+Entries: **260**.
 
 | File | Responsabilità |
 |---|---|
@@ -262,3 +262,8 @@ Entries: **256**.
 | `tests/vimeo_seek_contract_test.php` | Test PHPUnit/di contratto corrente distribuito con il plugin. |
 | `version.php` | Metadati, versione, maturità e rami Moodle supportati. |
 | `view.php` | Pagina studente dell’attività: autorizzazione, caricamento stato, configurazione DOM privacy-safe e avvio del player. |
+
+| `tests/behat/student_personal_sections.feature` | Regressione browser Behat per le sezioni personali collassabili del learner. |
+| `tests/generator/lib.php` | Generator del modulo Moodle usato dalle fixture PHPUnit e Behat. |
+| `tests/generator_test.php` | Copertura PHPUnit del generator del modulo VideoTrack. |
+| `tests/student_view_contract_test.php` | Contratto statico della vista learner per le sezioni personali native. |

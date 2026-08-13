@@ -2,11 +2,11 @@
 
 VideoTrack è un modulo attività Moodle per distribuire e tracciare video HTML5/caricati, YouTube e Vimeo. Combina progresso di visione validato dal server con strumenti di studio opzionali, regole di completamento, integrazione gradebook e report docente attenti alla privacy.
 
-Release corrente documentata da questo albero: **1.7.44**. Rami Moodle dichiarati come supportati dal plugin: **5.0–5.3**.
+Release corrente documentata da questo albero: **1.7.45**. Rami Moodle dichiarati come supportati dal plugin: **5.0–5.3**.
 
 Panoramica inglese: [`README.md`](README.md)
 Cronologia release: [`CHANGELOG.md`](CHANGELOG.md)
-Changelog/lesson learned/roadmap consolidati 1.7.5–1.7.44: [`VIDEOTRACK_CHANGELOG_LESSONS_ROADMAP_1.7.5_1.7.44.md`](VIDEOTRACK_CHANGELOG_LESSONS_ROADMAP_1.7.5_1.7.44.md)
+Changelog/lesson learned/roadmap consolidati 1.7.5–1.7.45: [`VIDEOTRACK_CHANGELOG_LESSONS_ROADMAP_1.7.5_1.7.45.md`](VIDEOTRACK_CHANGELOG_LESSONS_ROADMAP_1.7.5_1.7.45.md)
 Sintesi privacy: [`PRIVACY_IT.md`](PRIVACY_IT.md) / [`PRIVACY.md`](PRIVACY.md)
 Documentazione tecnica: [`docs/it/00_INDEX.md`](docs/it/00_INDEX.md) / [`docs/en/00_INDEX.md`](docs/en/00_INDEX.md)
 
@@ -62,3 +62,5 @@ Regole principali di release:
 ## Licenza
 
 GNU GPL v3 o successiva, coerentemente con Moodle.
+
+Reazioni personali, note e segnalibri learner sono presentati in sezioni native collassabili compatte; l’automazione browser inizia in `tests/behat/`.
