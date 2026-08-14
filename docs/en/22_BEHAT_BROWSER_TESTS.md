@@ -1,6 +1,6 @@
 # Behat browser automation
 
-VideoTrack started its browser-automation phase in release 1.7.45; release 1.7.50 extends the deterministic HTML5 post-rollback scenario through the linked Forum composer. The plugin ships a Moodle module generator under `tests/generator/lib.php` and browser scenarios under `tests/behat/`.
+VideoTrack started its browser-automation phase in release 1.7.45; release 1.7.51 adds provider seek/interaction PHPUnit parity contracts while retaining the deterministic HTML5 post-rollback Behat suite introduced through 1.7.50. The plugin ships a Moodle module generator under `tests/generator/lib.php` and browser scenarios under `tests/behat/`.
 
 ## Purpose
 
@@ -57,6 +57,8 @@ php admin/tool/behat/cli/run.php --tags='@mod_videotrack_html5_seek'
 ```
 
 The deterministic assertions cover both policies: a blocked jump to 20 seconds must return to the watched frontier, while the same jump remains at 20 seconds when forward seeking is allowed. The scenario exercises the real HTML5 adapter and Moodle-local file delivery without depending on YouTube or Vimeo availability. From 1.7.50 the generator also accepts `behatlinkedforum=<name>` to resolve a same-course Forum fixture for the post-rollback composer scenario.
+
+Release 1.7.51 also adds `tests/provider_seek_snapshot_contract_test.php`: it statically guards pre-seek snapshot ordering and rollback-safe interaction timestamps across YouTube, HTML5 and Vimeo. This is complementary coverage only; it does not make the outstanding YouTube/Vimeo browser harnesses complete.
 
 ## Current browser-test coverage limits
 

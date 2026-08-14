@@ -1,8 +1,8 @@
 # Distributed file inventory
 
-This inventory is generated against the VideoTrack 1.7.50 tree and lists every non-documentation file. Canonical JavaScript is under `amd/src`; files under `amd/build` are generated.
+This inventory is generated against the VideoTrack 1.7.51 tree and lists every non-documentation file. Canonical JavaScript is under `amd/src`; files under `amd/build` are generated.
 
-Entries: **264**.
+Entries: **265**.
 
 | File | Responsibility |
 |---|---|
@@ -249,6 +249,7 @@ Entries: **264**.
 | `tests/locallib_test.php` | PHPUnit coverage for locallib test. |
 | `tests/privacy_manager_test.php` | PHPUnit coverage for deletion-based GDPR retention, state rebuilding and user erasure. |
 | `tests/provider_loader_contract_test.php` | Current PHPUnit/contract test distributed with the plugin. |
+| `tests/provider_seek_snapshot_contract_test.php` | Current PHPUnit/contract test distributed with the plugin. |
 | `tests/release_hygiene_contract_test.php` | Current PHPUnit/contract test distributed with the plugin. |
 | `tests/report_contract_test.php` | Current PHPUnit/contract test distributed with the plugin. |
 | `tests/save_bookmark_test.php` | PHPUnit coverage for save bookmark test. |

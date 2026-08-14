@@ -1,5 +1,12 @@
 # VideoTrack changelog
 
+## 1.7.51 - 2026-08-15
+
+- Add a provider seek-snapshot PHPUnit contract covering YouTube, HTML5 and Vimeo without changing production AMD runtime.
+- Lock YouTube/HTML5 blocked-forward-seek ordering so the trusted pre-seek position is snapshotted before rollback and the rollback destination is not credited as fresh playback.
+- Lock Vimeo user-seek capture/valid-seek rotation and require all three providers to route reaction, note, bookmark and Forum timestamps through their rollback-safe interaction-time resolver.
+- Keep the existing Behat HTML5 suite unchanged; the new static contracts complement browser coverage and do not claim the outstanding deterministic YouTube/Vimeo harnesses are complete.
+
 ## 1.7.50 - 2026-08-14
 
 - Keep maintainer-only consolidated roadmap/lesson-history artifacts outside the distributed plugin tree; public release history remains in `CHANGELOG.md`, and `.moodleignore` prevents accidental packaging of those private artifacts.

@@ -27,6 +27,8 @@ Also parse `db/install.xml` and `environment.xml`, run `node --check` on source/
 
 A line ending in “OK, but there were issues” is not a clean pass if failures/errors exist. Known PHPUnit 11 deprecations for DocBlock metadata must be reported separately from failures. Keep `@covers` DocBlocks where required by Moodle PHPCS Extra until the toolchain supports attributes consistently.
 
+The PHPUnit suite also includes `provider_seek_snapshot_contract_test.php`, which protects provider seek/rollback invariants without pretending to replace browser execution. It must remain green when provider seek code changes; Behat/manual provider tests are still required for runtime evidence.
+
 ## Patch validation
 
 ```bash
