@@ -43,3 +43,7 @@ L’export Privacy elabora ogni famiglia in blocchi limitati. La cancellazione u
 3. I secondi proposti vengono scritti soltanto nel campo modificabile del form docente e annunciati tramite una regione live non invasiva. Una modifica manuale viene preservata; il cambio di sorgente avvia una nuova proposta.
 4. `videotrack_add_instance()` o `videotrack_update_instance()` salva il valore revisionato nel form. Solo questo valore salvato è autorevole per percentuale, completamento e presa visione vincolata alla fine. I metadati del player learner non possono aggiornarlo.
 5. Quando i metadati non sono disponibili, il campo resta manuale e `0` mantiene disabilitate le funzioni dipendenti dalla percentuale.
+
+### Layout delle interazioni studente
+
+La pagina studente mantiene visibili i controlli attivi e collassabili le cronologie personali salvate. **Reazioni** è seguito da una riga dedicata di pulsanti e da **Le mie reazioni**; il composer delle note è introdotto da **Note studente** e seguito da **Le mie note**; il composer dei segnalibri è introdotto da **Segnalibri studente**, conserva l’avviso sulla natura privata dello strumento ed è seguito da **I miei segnalibri**. Quando il Forum è abilitato, **Post nel forum** spiega che il pulsante porta al forum scelto dal docente per creare un post riferito al punto corrente del video. La presa visione resta dopo l’azione Forum ma viene resa nel normale flusso della pagina, senza card o riquadro.

@@ -2,6 +2,14 @@
 
 This is the canonical release-history file for the plugin tree. Detailed design notes and historical migration documents remain under `docs/`.
 
+## 1.7.49 - 2026-08-13
+
+- Refined the learner page hierarchy: reaction buttons now start below the Reactions heading; Student notes, Student bookmarks and Forum posting have explicit H3 headings and contextual help.
+- Removed the visual card container from learner acknowledgement while preserving its statement, status, confirmation controls and privacy hint in the normal page flow.
+- Extended the deterministic HTML5 Behat harness with watched-evidence seeding and a post-rollback regression for reaction, note and bookmark saves after a blocked forward seek.
+- Fixed the remaining PHPCS class-closing whitespace issue in `tests/generator_test.php`.
+- Updated all eight maintained language packs and EN/IT release/runtime/Behat documentation.
+
 ## 1.7.48 - 2026-08-13
 
 ### Changed

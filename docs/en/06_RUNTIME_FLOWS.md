@@ -43,3 +43,7 @@ Privacy export streams each record family in bounded chunks. User/context erasur
 3. The proposed seconds are written only into the teacher-editable form field and announced through a polite live status region. A manual edit is preserved; changing the source starts a new proposal.
 4. `videotrack_add_instance()` or `videotrack_update_instance()` stores the reviewed form value. Only this saved value is authoritative for percentage, completion and end-gated acknowledgement. Learner player metadata cannot update it.
 5. When metadata is unavailable, the field remains manual and `0` keeps percentage-dependent functions disabled.
+
+### Learner interaction layout
+
+The learner page keeps active controls visible and saved personal history collapsible. Reactions use a heading followed by a dedicated button row and **My reactions**; the note composer is introduced by **Student notes** and followed by **My notes**; the bookmark composer is introduced by **Student bookmarks**, retains the private-study notice, and is followed by **My bookmarks**. When Forum posting is enabled, **Post in the forum** explains that the learner is sent to the teacher-selected forum to create a post tied to the current video point. Acknowledgement remains after the Forum action but is rendered in the normal document flow rather than inside a card.

@@ -1,16 +1,16 @@
 # VideoTrack — Changelog, lesson learned e roadmap pre-produzione
 
-**Intervallo coperto:** `1.7.5` → `1.7.48`
-**Baseline documentale candidata:** VideoTrack `1.7.48` (`2026081305`)
+**Intervallo coperto:** `1.7.5` → `1.7.49`
+**Baseline documentale candidata:** VideoTrack `1.7.49` (`2026081306`)
 **Data consolidamento:** 2026-08-13
 
 ## 1. Regola di lettura
 
 Questo documento consolida la cronologia effettiva del ramo 1.7.x a partire dalla 1.7.5, le lesson learned emerse dai test automatici e dai test browser del maintainer e la roadmap residua prima/dopo il rilascio in produzione.
 
-La baseline tecnica resta sempre l'ultimo ZIP reale auditato. Le verifiche riportate per release precedenti sono evidenze storiche e non vengono automaticamente attribuite alla 1.7.48. Per la candidata 1.7.48 PHPUnit, PHPCS Extra e i CLI distribuiti devono essere eseguiti nuovamente dopo l'applicazione della patch; i test browser restano un gate separato quando cambia il runtime.
+La baseline tecnica resta sempre l'ultimo ZIP reale auditato. Le verifiche riportate per release precedenti sono evidenze storiche e non vengono automaticamente attribuite alla 1.7.49. Per la candidata 1.7.49 PHPUnit, PHPCS Extra e i CLI distribuiti devono essere eseguiti nuovamente dopo l'applicazione della patch; i test browser restano un gate separato quando cambia il runtime.
 
-## 2. Changelog consolidato 1.7.5 → 1.7.48
+## 2. Changelog consolidato 1.7.5 → 1.7.49
 
 ### 1.7.5 — report per studente e ricalcolo
 
@@ -191,10 +191,18 @@ La baseline tecnica resta sempre l'ultimo ZIP reale auditato. Le verifiche ripor
 - Aggiunta una fixture MP4 locale di 60 secondi codificata Base64 e il campo generator di solo test `behathtml5fixture=1`, che crea una sorgente upload tramite la normale File API Moodle.
 - Aggiunti step Behat VideoTrack per attendere il media HTML5, effettuare seek deterministici e verificare il timestamp risultante.
 - Aggiunta regressione browser per seek avanti HTML5 consentito/bloccato senza dipendenze dalla rete pubblica: il seek bloccato torna alla frontier, quello consentito resta al target.
-- P2/U-007 resta IN CORSO ma la matrice provider/seek ha ora la prima copertura browser reale e locale su HTML5; la slice successiva è la harness deterministica YouTube/Vimeo più interazioni immediatamente dopo seek/rollback.
+- P2/U-007 resta IN CORSO ma la matrice provider/seek ha ora la prima copertura browser reale e locale su HTML5; la slice successiva resta la harness deterministica YouTube/Vimeo più interazioni immediatamente dopo seek/rollback.
 - Lesson: per i contratti browser di timing è preferibile una fixture locale reale che eserciti l'adapter effettivo, evitando di scambiare la disponibilità di un provider pubblico per correttezza del codice.
 
-## 3. Lesson learned 1.7.5 → 1.7.48
+### 1.7.49 — gerarchia learner e interazioni post-rollback HTML5
+
+- Rifinita la gerarchia learner: i pulsanti reazione iniziano sotto l’H3 **Reazioni**; aggiunti H3 localizzati per **Note studente**, **Segnalibri studente** e **Post nel forum**, con testo esplicativo per l’azione Forum.
+- Rimossa la card della presa visione: dichiarazione, stato, checkbox, pulsante e privacy hint restano nel normale corpo pagina dopo l’azione Forum.
+- Aggiornati tutti gli 8 language pack e i documenti EN/IT relativi a runtime, Behat e release.
+- P2/U-007 avanza con seed test-only di watched evidence e scenario HTML5 che salva reazione, nota e segnalibro dopo un seek avanti bloccato e rollback su progresso già visto.
+- Corretto l’ultimo rilievo PHPCS noto della 1.7.48 in `tests/generator_test.php`.
+
+## 3. Lesson learned 1.7.5 → 1.7.49
 
 ### LL-01 — Baseline reale prima di tutto
 
@@ -252,11 +260,11 @@ Quando la soglia privacy sopprime tutti i valori di retention, lasciare solo ass
 
 Un benchmark eseguito una volta fuori dal tree è difficile da ripetere e confrontare. I CLI di validazione e performance devono essere distribuiti, read-only per default, documentati e versionati insieme al codice che misurano; il risultato va interpretato con dataset, cache e ambiente esplicitati.
 
-## 4. Stato roadmap sulla baseline 1.7.48
+## 4. Stato roadmap sulla baseline 1.7.49
 
-| Finding/area | Stato 1.7.48 | Evidenza / residuo |
+| Finding/area | Stato 1.7.49 | Evidenza / residuo |
 |---|---|---|
-| U-007 browser/Behat | **IN CORSO** | La 1.7.48 aggiunge una harness HTML5 locale con seek avanti consentito/bloccato nel browser reale; restano aperte le harness deterministiche YouTube/Vimeo, le interazioni post-seek/rollback e la copertura pre-seek segment snapshot end-to-end. |
+| U-007 browser/Behat | **IN CORSO** | La harness HTML5 locale copre seek avanti consentito/bloccato e, dalla 1.7.49, reazione/nota/segnalibro dopo rollback su watched evidence pre-caricata; restano aperte le harness deterministiche YouTube/Vimeo, il Forum post-seek e la copertura pre-seek segment snapshot end-to-end. |
 | U-011 doppio ruolo/voto | **CHIUSO codice+test** | Learner scope indipendente dall'accesso report e test dedicati sul voto/partecipazione. |
 | U-012 contratto partecipazione | **CHIUSO codice+test** | `learner_scope::can_participate()` è usato da view, Web Service e Forum con test di delega. |
 | U-013 Analytics/export parity | **CHIUSO implementazione** | Serie 1.7.7–1.7.11 e contract export/report. Gate dataset reale consigliato. |
@@ -269,15 +277,15 @@ Un benchmark eseguito una volta fuori dal tree è difficile da ripetere e confro
 | U-022 Moodle 5.0–5.3 | **APERTO** | `$plugin->supported = [500, 503]`, ma l'evidenza reale corrente è Moodle 5.0.9. Testare 5.1/5.2/5.3 o restringere il range. |
 | U-023 learner scope duplicato | **CHIUSO codice+test** | `course_analytics` riusa lo scope canonico; contract impedisce la reintroduzione dell'helper privato. |
 | U-028 changelog root | **CHIUSO** | `CHANGELOG.md` canonico presente dalla 1.7.23. |
-| U-029 i18n italiano | **CHIUSO** | `environment.xml` UTF-8 corretto; 1.7.41 riallinea gli otto pack a 977 chiavi e la nuova stringa retention porta il contratto corrente a 978. |
+| U-029 i18n italiano | **CHIUSO** | `environment.xml` UTF-8 corretto; 1.7.41 riallinea gli otto pack a 977 chiavi e la stringa retention ha portato il contratto a 978; le quattro nuove stringhe learner della 1.7.49 portano il contratto corrente a 982. |
 | U-030 Forum timestamp watched | **CHIUSO codice+runtime remediation** | Guard server presente; 1.7.38 corregge il confine client che produceva falsi rifiuti. |
 | U-031 PHPUnit 12 | **DEFERRED / APERTO** | Restano le 20 deprecazioni DocBlock note finché Moodle CS/toolchain target non consente migrazione coerente agli attributes. |
 
 ## 5. Roadmap futura consigliata
 
-### Fase P0 — gate di produzione della 1.7.48
+### Fase P0 — gate di produzione della 1.7.49
 
-1. Eseguire PHPUnit e PHPCS Extra sulla 1.7.48 reale.
+1. Eseguire PHPUnit e PHPCS Extra sulla 1.7.49 reale.
 2. Se nessun `amd/src/*` è cambiato, verificare che `amd/build` sia identico alla baseline; non rigenerare AMD inutilmente.
 3. Test browser manuale almeno su HTML5, YouTube e Vimeo per: play/pause, resume, RW, seek FW consentito/vietato, reaction, note, bookmark, Forum, completion e alert impilati.
 4. Verificare Privacy API/retention e backup/restore su un corso di prova prima del deploy definitivo.
@@ -316,4 +324,4 @@ Un benchmark eseguito una volta fuori dal tree è difficile da ripetere e confro
 
 ## 6. Criterio per dichiarare “production ready”
 
-La 1.7.48 può diventare baseline di produzione soltanto dopo esito reale del gate P0. Il fatto che una release sia `MATURITY_STABLE`, che compili o che i test di una release precedente siano verdi non sostituisce la verifica sulla build esatta da distribuire.
+La 1.7.49 può diventare baseline di produzione soltanto dopo esito reale del gate P0. Il fatto che una release sia `MATURITY_STABLE`, che compili o che i test di una release precedente siano verdi non sostituisce la verifica sulla build esatta da distribuire.

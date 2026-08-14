@@ -1,6 +1,6 @@
 # Behat browser automation
 
-VideoTrack started its browser-automation phase in release 1.7.45; release 1.7.48 extends the deterministic learner-page scenario with the full vertical ordering contract. The plugin ships a Moodle module generator under `tests/generator/lib.php` and browser scenarios under `tests/behat/`.
+VideoTrack started its browser-automation phase in release 1.7.45; release 1.7.49 extends the deterministic learner-page scenario with the full vertical ordering contract. The plugin ships a Moodle module generator under `tests/generator/lib.php` and browser scenarios under `tests/behat/`.
 
 ## Purpose
 
@@ -32,7 +32,7 @@ php admin/tool/behat/cli/run.php --name='Active controls stay visible and saved 
 
 ## Current automated coverage
 
-Current coverage, strengthened in 1.7.48:
+Current coverage, strengthened in 1.7.49:
 
 - creates a VideoTrack activity through `mod_videotrack_generator`;
 - enables reactions, personal notes and personal bookmarks;
@@ -74,3 +74,5 @@ Provider scenarios should avoid depending on public third-party network availabi
 ## Release evidence
 
 Behat results belong to the exact tree on which they ran. Record the Moodle version, browser/driver, scenario count and failures. A green PHPUnit/PHPCS/Grunt run is not a substitute for browser automation, and a Behat result from an older VideoTrack release must not be attributed to a newer tree.
+
+From 1.7.49 the HTML5 seek feature also seeds a bounded validated watched interval for a named learner and verifies that reaction, note and bookmark saves remain valid after a blocked forward seek rolls the player back into watched progress. This advances the post-seek/rollback interaction matrix without relying on public provider networks.

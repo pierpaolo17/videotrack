@@ -1,33 +1,33 @@
 # Audit della documentazione
 
-Baseline: VideoTrack **1.7.48** (`2026081305`).
+Baseline: VideoTrack **1.7.49** (`2026081306`).
 
 ## Copertura
 
 - File non documentali inventariati: **264/264**.
-- Funzioni/metodi PHP nominati inventariati: **615**.
+- Funzioni/metodi PHP nominati inventariati: **616**.
 - Callable AMD nominati rilevati e inventariati: **647**.
 - Tabelle XMLDB documentate: **7**.
 - Chiavi impostazioni sito documentate: **57**.
 - Chiavi configurazione player documentate: **133**.
 - Servizi AJAX documentati: **9**.
-- Language pack: otto pacchetti con lo stesso contratto di **978 chiavi**; i testi operativi sono tradotti, mentre termini tecnici e nomi propri possono legittimamente coincidere.
+- Language pack: otto pacchetti con lo stesso contratto di **982 chiavi**; i testi operativi sono tradotti, mentre termini tecnici e nomi propri possono legittimamente coincidere.
 - Panoramiche root: `README.md` (inglese) e `README_IT.md` (italiano).
 - Sintesi privacy root: `PRIVACY.md` e `PRIVACY_IT.md`.
 - Diagnostica CLI distribuita documentata in `21_CLI_DIAGNOSTICS.md` e coperta da contratti statici di sola lettura.
 - Automazione browser Behat documentata in `22_TEST_BROWSER_BEHAT.md`; U-007 è tracciato come in corso.
 
-## Verifica documentazione pre-produzione 1.7.47
+## Verifica documentazione pre-produzione 1.7.49
 
-- Inventario corrente dei file non documentali rigenerato sull'albero reale 1.7.48: **264/264** voci.
-- Inventario funzioni rigenerato sulle posizioni sorgente correnti: **615** funzioni/metodi PHP nominati e **647** callable AMD nominati rilevati.
+- Inventario corrente dei file non documentali rigenerato sull'albero reale 1.7.49: **264/264** voci.
+- Inventario funzioni rigenerato sulle posizioni sorgente correnti: **616** funzioni/metodi PHP nominati e **647** callable AMD nominati rilevati.
 - L'inventario XMLDB coincide con tutte le **7** tabelle e con ogni campo dichiarato in `db/install.xml`.
 - L'inventario impostazioni coincide con tutte le **57** impostazioni `mod_videotrack`.
 - L'inventario servizi AJAX coincide con tutti i **9** servizi dichiarati.
 - L'inventario configurazione browser/player coincide con tutte le **133** chiavi, incluse le quattro label seek FW introdotte dopo la 1.6.33.
-- Tutti gli otto language pack mantenuti espongono **978** chiavi identiche, nessun duplicato e placeholder Moodle coerenti.
+- Tutti gli otto language pack mantenuti espongono **982** chiavi identiche, nessun duplicato e placeholder Moodle coerenti.
 - I link Markdown relativi della documentazione sono stati verificati contro l'albero senza target mancanti.
-- I documenti storici specifici di release restano storici; soltanto indici e inventari correnti sono ribasati alla 1.7.47.
+- I documenti storici specifici di release restano storici; soltanto indici e inventari correnti sono ribasati alla 1.7.49.
 
 ## Regole di aggiornamento
 
