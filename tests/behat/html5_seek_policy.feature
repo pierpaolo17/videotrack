@@ -15,10 +15,13 @@ Feature: HTML5 forward seek policy is enforced in the browser
       | user | course | role |
       | student1 | C1 | student |
     And the following "activities" exist:
-      | activity   | course | name                     | behathtml5fixture | allowseekforward | reactionsenabled | studentnotesenabled | bookmarksenabled |
-      | videotrack | C1     | Blocked seek             | 1                 | 0                | 0                | 0                   | 0                |
-      | videotrack | C1     | Allowed seek             | 1                 | 1                | 0                | 0                   | 0                |
-      | videotrack | C1     | Blocked interaction seek | 1                 | 0                | 1                | 1                   | 1                |
+      | activity | course | name |
+      | forum    | C1     | Linked Forum |
+    And the following "activities" exist:
+      | activity   | course | name                     | behathtml5fixture | allowseekforward | reactionsenabled | studentnotesenabled | bookmarksenabled | behatlinkedforum |
+      | videotrack | C1     | Blocked seek             | 1                 | 0                | 0                | 0                   | 0                |                  |
+      | videotrack | C1     | Allowed seek             | 1                 | 1                | 0                | 0                   | 0                |                  |
+      | videotrack | C1     | Blocked interaction seek | 1                 | 0                | 1                | 1                   | 1                | Linked Forum     |
 
   Scenario: A blocked forward seek returns to the watched frontier
     Given I log in as "student1"
@@ -37,7 +40,7 @@ Feature: HTML5 forward seek policy is enforced in the browser
     Then the VideoTrack HTML5 media time is between "19" and "21"
 
   Scenario: Personal interactions remain valid after a blocked seek rolls back
-    Given the user "student1" has watched VideoTrack "Blocked interaction seek" through "5" seconds
+    Given "student1" watched "Blocked interaction seek" through "5" seconds
     And I log in as "student1"
     And I am on "Course 1" course homepage
     When I click on "Blocked interaction seek" "link"
@@ -55,3 +58,7 @@ Feature: HTML5 forward seek policy is enforced in the browser
     And I press "Add bookmark"
     And I click on "My bookmarks" "text"
     Then I should see "Post-seek bookmark" in the "#videotrack-bookmarks-list" "css_element"
+    When I press "Add post to Forum"
+    Then I should see "Add a Forum post about this video"
+    And I should see "Linked Forum"
+    And the VideoTrack Forum time is between "0" and "6"

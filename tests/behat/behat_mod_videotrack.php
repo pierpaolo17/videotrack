@@ -98,7 +98,7 @@ class behat_mod_videotrack extends behat_base {
     /**
      * Seed validated watched evidence for a learner before a browser interaction scenario.
      *
-     * @Given /^the user "(?P<username>[^"]+)" has watched VideoTrack "(?P<activityname>[^"]+)" through "(?P<seconds>[0-9.]+)" seconds$/
+     * @Given /^"(?P<username>[^"]+)" watched "(?P<activityname>[^"]+)" through "(?P<seconds>[0-9.]+)" seconds$/
      * @param string $username Moodle username.
      * @param string $activityname VideoTrack activity name.
      * @param float $seconds End of the validated watched interval.
@@ -171,5 +171,28 @@ class behat_mod_videotrack extends behat_base {
             'timemodified' => $now,
             'timecreated' => $now,
         ]);
+    }
+
+    /**
+     * Assert the Forum composer URL carries a safe VideoTrack timestamp.
+     *
+     * @Then /^the VideoTrack Forum time is between "(?P<minimum>[0-9.]+)" and "(?P<maximum>[0-9.]+)"$/
+     * @param float $minimum Minimum accepted timestamp.
+     * @param float $maximum Maximum accepted timestamp.
+     */
+    public function the_videotrack_forum_time_should_be_between(float $minimum, float $maximum): void {
+        $query = parse_url($this->getSession()->getCurrentUrl(), PHP_URL_QUERY);
+        $params = [];
+        if (is_string($query)) {
+            parse_str($query, $params);
+        }
+        $time = isset($params['time']) && is_numeric($params['time']) ? (float)$params['time'] : null;
+        if ($time === null || $time < $minimum || $time > $maximum) {
+            throw new ExpectationException(
+                'VideoTrack Forum composer time ' . var_export($time, true)
+                    . ' is outside the expected range ' . $minimum . '-' . $maximum . ' seconds.',
+                $this->getSession()
+            );
+        }
     }
 }

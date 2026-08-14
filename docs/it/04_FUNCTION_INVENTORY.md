@@ -1,8 +1,8 @@
 # Inventario delle funzioni
 
-Generato dall’albero sorgente VideoTrack 1.7.49. Le voci PHP includono funzioni e metodi nominati; le voci AMD includono dichiarazioni nominate, espressioni funzione assegnate e funzioni-metodo di oggetti.
+Generato dall’albero sorgente VideoTrack 1.7.50. Le voci PHP includono funzioni e metodi nominati; le voci AMD includono dichiarazioni nominate, espressioni funzione assegnate e funzioni-metodo di oggetti.
 
-**PHP functions/methods:** 616. **Named AMD callables:** 647.
+**PHP functions/methods:** 618. **Named AMD callables:** 647.
 
 | Posizione | Callable | Responsabilità |
 |---|---|---|
@@ -1265,8 +1265,10 @@ Generato dall’albero sorgente VideoTrack 1.7.49. Le voci PHP includono funzion
 | `tests/behat/behat_mod_videotrack.php:61` | `i_seek_the_videotrack_html5_media_to_seconds` | Drives a deterministic HTML5 seek in the browser test harness. |
 | `tests/behat/behat_mod_videotrack.php:78` | `the_videotrack_html5_media_time_should_be_between` | Asserts the HTML5 media timestamp is inside the expected browser-test range. |
 | `tests/behat/behat_mod_videotrack.php:106` | `the_user_has_watched_videotrack_through_seconds` | Seeds bounded validated watched evidence for deterministic post-seek Behat interaction scenarios. |
+| `tests/behat/behat_mod_videotrack.php:183` | `the_videotrack_forum_time_should_be_between` | Verifica che il composer Forum collegato mantenga un timestamp nell’intervallo validato atteso dopo il rollback. |
 | `tests/generator/lib.php:43` | `create_instance` | Creates deterministic VideoTrack module fixtures for PHPUnit and Behat. |
 | `tests/generator_test.php:33` | `test_generator_creates_activity_with_learner_features` | Verifies the generator can create an activity with learner study tools enabled. |
 | `tests/generator_test.php:65` | `test_generator_creates_local_html5_fixture` | Verifies the generator stores the deterministic HTML5 fixture in the module filearea. |
+| `tests/generator_test.php:96` | `test_generator_links_named_forum_fixture` | Verifica che il generator risolva per nome un Forum dello stesso corso per fixture browser deterministiche. |
 | `tests/student_view_contract_test.php:35` | `test_personal_lists_are_native_collapsible_sections` | Protects the three native collapsed learner sections. |
 | `tests/student_view_contract_test.php:58` | `test_learner_page_has_stable_vertical_order` | Protects the learner vertical order, active composers and unboxed completion-condition presentation. |

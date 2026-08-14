@@ -1,8 +1,8 @@
 # VideoTrack documentation index
 
-Current documented release: **1.7.49** (`2026081306`).
+Current documented release: **1.7.50** (`2026081401`).
 
-Current consolidated release history: [`../../VIDEOTRACK_CHANGELOG_LESSONS_ROADMAP_1.7.5_1.7.49.md`](../../VIDEOTRACK_CHANGELOG_LESSONS_ROADMAP_1.7.5_1.7.49.md).
+Public release history is maintained in [`../../CHANGELOG.md`](../../CHANGELOG.md). Maintainer-only roadmap and lessons-history artifacts are intentionally not distributed with the plugin.
 
 1. `01_DEVELOPER_GUIDE.md` — maintenance workflow and change discipline.
 2. `02_ARCHITECTURE.md` — component boundaries, adapters, storage and trust model.
@@ -41,4 +41,4 @@ Historical material is isolated under `archive/` and is not authoritative for th
 
 21. `21_CLI_DIAGNOSTICS.md` — read-only release validator and course Analytics benchmark for local/staging diagnostics.
 
-22. `22_BEHAT_BROWSER_TESTS.md` — Moodle Behat setup, current browser coverage and the remaining U-007 matrix.
+22. `22_BEHAT_BROWSER_TESTS.md` — Moodle Behat setup, current browser coverage and explicit provider/test limits.

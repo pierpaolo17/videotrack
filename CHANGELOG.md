@@ -1,5 +1,12 @@
 # VideoTrack changelog
 
+## 1.7.50 - 2026-08-14
+
+- Keep maintainer-only consolidated roadmap/lesson-history artifacts outside the distributed plugin tree; public release history remains in `CHANGELOG.md`, and `.moodleignore` prevents accidental packaging of those private artifacts.
+- Extend the deterministic HTML5 post-rollback Behat scenario through the Forum composer, asserting that a blocked forward seek still opens the linked Forum at a server-acceptable watched timestamp.
+- Add the test-only `behatlinkedforum` generator field so browser fixtures can resolve a same-course Forum by name without runtime-only configuration shortcuts.
+- Remove the remaining PHPCS line-length warning in the custom Behat context by shortening the watched-evidence step expression.
+
 This is the canonical release-history file for the plugin tree. Detailed design notes and historical migration documents remain under `docs/`.
 
 ## 1.7.49 - 2026-08-13

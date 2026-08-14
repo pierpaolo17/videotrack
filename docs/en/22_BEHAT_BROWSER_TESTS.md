@@ -1,6 +1,6 @@
 # Behat browser automation
 
-VideoTrack started its browser-automation phase in release 1.7.45; release 1.7.49 extends the deterministic learner-page scenario with the full vertical ordering contract. The plugin ships a Moodle module generator under `tests/generator/lib.php` and browser scenarios under `tests/behat/`.
+VideoTrack started its browser-automation phase in release 1.7.45; release 1.7.50 extends the deterministic HTML5 post-rollback scenario through the linked Forum composer. The plugin ships a Moodle module generator under `tests/generator/lib.php` and browser scenarios under `tests/behat/`.
 
 ## Purpose
 
@@ -32,7 +32,7 @@ php admin/tool/behat/cli/run.php --name='Active controls stay visible and saved 
 
 ## Current automated coverage
 
-Current coverage, strengthened in 1.7.49:
+Current coverage, strengthened in 1.7.50:
 
 - creates a VideoTrack activity through `mod_videotrack_generator`;
 - enables reactions, personal notes and personal bookmarks;
@@ -48,7 +48,7 @@ The native `<details>/<summary>` contract intentionally needs no VideoTrack Java
 
 ### Deterministic local HTML5 seek harness
 
-From 1.7.48 the generator accepts the test-only field `behathtml5fixture=1`. It creates an upload-source VideoTrack instance backed by `tests/fixtures/behat-video.mp4.b64`, a tiny 60-second local fixture. `tests/behat/behat_mod_videotrack.php` provides browser steps that wait for metadata, seek the HTML5 media and assert the resulting timestamp.
+The generator accepts the test-only field `behathtml5fixture=1`. It creates an upload-source VideoTrack instance backed by `tests/fixtures/behat-video.mp4.b64`, a tiny 60-second local fixture. `tests/behat/behat_mod_videotrack.php` provides browser steps that wait for metadata, seek the HTML5 media and assert the resulting timestamp.
 
 Run only the seek-policy feature with:
 
@@ -56,18 +56,16 @@ Run only the seek-policy feature with:
 php admin/tool/behat/cli/run.php --tags='@mod_videotrack_html5_seek'
 ```
 
-The deterministic assertions cover both policies: a blocked jump to 20 seconds must return to the watched frontier, while the same jump remains at 20 seconds when forward seeking is allowed. The scenario exercises the real HTML5 adapter and Moodle-local file delivery without depending on YouTube or Vimeo availability.
+The deterministic assertions cover both policies: a blocked jump to 20 seconds must return to the watched frontier, while the same jump remains at 20 seconds when forward seeking is allowed. The scenario exercises the real HTML5 adapter and Moodle-local file delivery without depending on YouTube or Vimeo availability. From 1.7.50 the generator also accepts `behatlinkedforum=<name>` to resolve a same-course Forum fixture for the post-rollback composer scenario.
 
-## P2 roadmap still open
+## Current browser-test coverage limits
 
-U-007 is **in progress**, not closed by this first scenario. The remaining browser matrix must add deterministic coverage for:
+The distributed suite intentionally records what is not yet deterministic. Remaining coverage gaps are:
 
-1. learner / dual-role / teacher;
-2. YouTube / Vimeo deterministic provider harnesses (HTML5 local seek policy is covered from 1.7.48);
-3. forward seek allowed / blocked and backward seek;
-4. pre-seek segment snapshot and rollback timestamp;
-5. reaction / note / bookmark / Forum immediately after seek and rollback;
-6. resume, completion and stacked alerts.
+1. deterministic YouTube / Vimeo provider harnesses;
+2. backward-seek provider parity beyond the current HTML5 forward-seek scenarios;
+3. end-to-end assertion of the exact pre-seek segment snapshot persisted before a jump;
+4. resume, completion and stacked-alert browser scenarios.
 
 Provider scenarios should avoid depending on public third-party network availability when a deterministic local harness can exercise the same adapter contract.
 
@@ -75,4 +73,4 @@ Provider scenarios should avoid depending on public third-party network availabi
 
 Behat results belong to the exact tree on which they ran. Record the Moodle version, browser/driver, scenario count and failures. A green PHPUnit/PHPCS/Grunt run is not a substitute for browser automation, and a Behat result from an older VideoTrack release must not be attributed to a newer tree.
 
-From 1.7.49 the HTML5 seek feature also seeds a bounded validated watched interval for a named learner and verifies that reaction, note and bookmark saves remain valid after a blocked forward seek rolls the player back into watched progress. This advances the post-seek/rollback interaction matrix without relying on public provider networks.
+The HTML5 seek feature seeds a bounded validated watched interval for a named learner; in 1.7.50 that scenario verifies reaction, note, bookmark and linked-Forum composer access after a blocked forward seek rolls the player back into watched progress. The Forum assertion also checks that the composer URL carries a timestamp inside the already validated interval.

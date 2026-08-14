@@ -45,7 +45,8 @@ class mod_videotrack_generator extends testing_module_generator {
 
         $record = (array)$record;
         $html5fixture = !empty($record['behathtml5fixture']);
-        unset($record['behathtml5fixture']);
+        $linkedforumname = trim((string)($record['behatlinkedforum'] ?? ''));
+        unset($record['behathtml5fixture'], $record['behatlinkedforum']);
 
         if ($html5fixture) {
             $record['videosource'] = 'upload';
@@ -60,6 +61,15 @@ class mod_videotrack_generator extends testing_module_generator {
             'studentnotesenabled' => 0,
             'bookmarksenabled' => 0,
         ];
+
+        if ($linkedforumname !== '') {
+            $forum = $DB->get_record('forum', [
+                'course' => (int)$record['course'],
+                'name' => $linkedforumname,
+            ], '*', MUST_EXIST);
+            $record['forumpostingenabled'] = 1;
+            $record['linkedforumid'] = (int)$forum->id;
+        }
 
         $instance = parent::create_instance($record, (array)$options);
 
