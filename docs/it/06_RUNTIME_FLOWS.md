@@ -6,6 +6,8 @@
 
 ## Tracciamento segmenti
 
+La copertura aggregata corregge soltanto micro-gap strumentali ai bordi: fino a 0,25 s all’avvio e fino a 1,25 s in coda esclusivamente per un segmento validato con `ended`; i timestamp grezzi restano invariati e il ricalcolo usa la stessa regola.
+
 Le callback provider aggiornano un tracker condiviso. Un evento PLAY chiama prima `mod_videotrack_start_playback`, che stabilisce un timestamp server senza assegnare tempo visto. Dopo il successo dell’handshake, la riproduzione attiva apre un segmento limitato. Ogni segmento riceve un identificativo generato prima dei retry di trasporto; `mod_videotrack_save_segment` riusa un risultato identico già persistito e rifiuta il riutilizzo dello stesso identificativo con dati differenti. Il servizio valida contesto, `mod/videotrack:participate`, velocità consentita, frontiera di seek e credito cumulativo basato sul tempo server. `local\tracker` salva la richiesta grezza, unisce gli intervalli validati in `videotrack_state`, mantiene la copertura unica esatta e monotona oltre la rappresentazione compatta di 500 intervalli, ricalcola percentuale/completamento ed emette gli eventi una sola volta. Il lifecycle esegue flush su pausa, fine, cambio visibilità e unload tramite AJAX o beacon limitato.
 
 ## Seek, resume e replay
@@ -42,7 +44,7 @@ L’export Privacy elabora ogni famiglia in blocchi limitati. La cancellazione u
 2. `mod_videotrack/form/duration` valida la sorgente ed esegue un rilevamento best effort dei metadati: YouTube IFrame API, Vimeo Player SDK oppure metadati HTML media same-origin del file draft Moodle.
 3. I secondi proposti vengono scritti soltanto nel campo modificabile del form docente e annunciati tramite una regione live non invasiva. Una modifica manuale viene preservata; il cambio di sorgente avvia una nuova proposta.
 4. `videotrack_add_instance()` o `videotrack_update_instance()` salva il valore revisionato nel form. Solo questo valore salvato è autorevole per percentuale, completamento e presa visione vincolata alla fine. I metadati del player learner non possono aggiornarlo.
-5. Quando i metadati non sono disponibili, il campo resta manuale e `0` mantiene disabilitate le funzioni dipendenti dalla percentuale.
+5. Quando i metadati non sono disponibili, il campo resta manuale e `0` mantiene disabilitate le funzioni dipendenti dalla percentuale. La durata riportata dal provider può differire leggermente dal timer visibile arrotondato ai secondi interi; il valore salvato dal docente resta autorevole e solo la fine naturale validata usa la tolleranza di coda descritta nel tracciamento segmenti.
 
 ### Layout delle interazioni studente
 

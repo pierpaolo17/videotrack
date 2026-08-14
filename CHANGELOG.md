@@ -1,5 +1,13 @@
 # VideoTrack changelog
 
+## 1.7.52 - 2026-08-15
+
+- Fix sub-second watched-percentage loss at playback boundaries without generic percentage rounding: a tiny initial instrumentation gap (up to 0.25 s) is normalised to zero, and only a validated natural `ended` segment may recover a bounded provider-tail discrepancy (up to 1.25 s).
+- Apply the same boundary normalisation during `rebuild_state_from_segments()`, so completion recalculation repairs already stored full-watch evidence such as YouTube sessions that remained at 99.97%.
+- Preserve raw `videotrack_seg` timestamps unchanged; the correction affects only aggregate watched coverage and therefore keeps the original evidence available for audit/debugging.
+- Add PHPUnit coverage for live aggregation, historical recalculation, bounded start recovery and end-reason-specific tail recovery; production AMD remains unchanged.
+- Fix the distributed `cli/validate.php` release-documentation check so it validates README and public `CHANGELOG.md` markers instead of requiring the maintainer-only roadmap/lesson-history file that is intentionally excluded from the product package.
+
 ## 1.7.51 - 2026-08-15
 
 - Add a provider seek-snapshot PHPUnit contract covering YouTube, HTML5 and Vimeo without changing production AMD runtime.

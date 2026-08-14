@@ -23,7 +23,7 @@ The validator checks:
 - AJAX functions declared by `db/services.php` and their external classes/methods;
 - maintained language-pack key/placeholder parity;
 - every AMD source against its minified build and source-map `sourcesContent`;
-- current README/consolidated-history release markers;
+- current README/CHANGELOG public release markers;
 - selected privacy, tracking and performance configuration values.
 
 Exit status is `0` when there are no failures. Warnings do not fail the command unless `--strict` is used. `--json` is recommended for archived release evidence.

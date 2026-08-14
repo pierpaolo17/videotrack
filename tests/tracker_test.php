@@ -141,6 +141,180 @@ final class tracker_test extends advanced_testcase {
     }
 
     /**
+     * Tiny start-handshake gaps are treated as instrumentation delay, not unseen content.
+     */
+    public function test_start_boundary_normalisation_recovers_only_tiny_initial_gap(): void {
+        $this->assertSame(
+            [[0.0, 20.0]],
+            tracker::normalise_start_boundary([[0.058, 20.0]], 194.0)
+        );
+        $this->assertSame(
+            [[0.5, 20.0]],
+            tracker::normalise_start_boundary([[0.5, 20.0]], 194.0)
+        );
+    }
+
+    /**
+     * Only a natural ended segment may recover a bounded provider tail discrepancy.
+     */
+    public function test_natural_end_normalisation_is_bounded_and_reason_specific(): void {
+        $this->assertSame(
+            [180.0, 195.0],
+            tracker::normalise_natural_end([180.0, 193.942], 195.0, 'ended')
+        );
+        $this->assertSame(
+            [180.0, 193.942],
+            tracker::normalise_natural_end([180.0, 193.942], 195.0, 'pause')
+        );
+        $this->assertSame(
+            [180.0, 193.0],
+            tracker::normalise_natural_end([180.0, 193.0], 195.0, 'ended')
+        );
+    }
+
+    /**
+     * Aggregate rebuild repairs start and natural-end boundary drift from stored segments.
+     */
+    public function test_aggregate_segments_recovers_full_watch_boundary_drift(): void {
+        $startdriftsegments = [
+            (object)[
+                'id' => 1,
+                'videotimestart' => 0.058,
+                'videotimeend' => 194.0,
+                'endreason' => 'ended',
+                'timecreated' => 100,
+            ],
+        ];
+        $reportedpercent = round(((194.0 - 0.058) / 194.0) * 100, 2);
+        $this->assertSame(99.97, $reportedpercent);
+
+        $aggregate = tracker::aggregate_segments($startdriftsegments, 194.0);
+
+        $this->assertSame([[0.0, 194.0]], $aggregate['intervals']);
+        $this->assertSame(194.0, $aggregate['coveredseconds']);
+        $this->assertSame(194.0, $aggregate['lastposition']);
+
+        $providerdriftsegments = [
+            (object)[
+                'id' => 2,
+                'videotimestart' => 0.058,
+                'videotimeend' => 193.942,
+                'endreason' => 'ended',
+                'timecreated' => 101,
+            ],
+        ];
+        $aggregate = tracker::aggregate_segments($providerdriftsegments, 195.0);
+
+        $this->assertSame([[0.0, 195.0]], $aggregate['intervals']);
+        $this->assertSame(195.0, $aggregate['coveredseconds']);
+        $this->assertSame(195.0, $aggregate['lastposition']);
+    }
+
+    /**
+     * Live state aggregation corrects boundary drift without rewriting the raw segment evidence.
+     */
+    public function test_update_state_recovers_boundary_drift_but_preserves_raw_segment(): void {
+        global $DB;
+
+        $this->resetAfterTest();
+        $this->setAdminUser();
+
+        $course = $this->getDataGenerator()->create_course();
+        $generator = $this->getDataGenerator()->get_plugin_generator('mod_videotrack');
+        $activity = $generator->create_instance([
+            'course' => $course->id,
+            'durationseconds' => 195.0,
+            'completionpercent' => 100,
+        ]);
+        $user = $this->getDataGenerator()->create_user();
+        $cm = get_fast_modinfo($course)->get_cm((int)$activity->cmid);
+        $rawsegment = (object)[
+            'videotrackid' => $activity->id,
+            'courseid' => $course->id,
+            'cmid' => $cm->id,
+            'userid' => $user->id,
+            'videoid' => $activity->videoid,
+            'sessionid' => str_repeat('v', 32),
+            'requestid' => str_repeat('w', 32),
+            'wallclockstart' => time() - 194,
+            'wallclockend' => time(),
+            'videotimestart' => 0.058,
+            'videotimeend' => 193.942,
+            'playbackrate' => 1.0,
+            'endreason' => 'ended',
+            'servervalidated' => 1,
+            'timecreated' => time(),
+        ];
+        $segmentid = null;
+        $replayed = false;
+
+        $state = tracker::update_state(
+            $activity,
+            $cm,
+            $user->id,
+            [0.058, 193.942],
+            193.942,
+            clone $rawsegment,
+            $segmentid,
+            null,
+            $replayed
+        );
+
+        $this->assertFalse($replayed);
+        $this->assertGreaterThan(0, $segmentid);
+        $this->assertSame(195.0, (float)$state->uniquecoveredseconds);
+        $this->assertSame(100.0, (float)$state->completionpercent);
+        $persisted = $DB->get_record('videotrack_seg', ['id' => $segmentid], '*', MUST_EXIST);
+        $this->assertSame(0.058, (float)$persisted->videotimestart);
+        $this->assertSame(193.942, (float)$persisted->videotimeend);
+    }
+
+    /**
+     * Recalculation from persisted raw data turns a genuine natural full watch back into 100%.
+     */
+    public function test_rebuild_state_recovers_provider_boundary_drift(): void {
+        global $DB;
+
+        $this->resetAfterTest();
+        $this->setAdminUser();
+
+        $course = $this->getDataGenerator()->create_course();
+        $generator = $this->getDataGenerator()->get_plugin_generator('mod_videotrack');
+        $activity = $generator->create_instance([
+            'course' => $course->id,
+            'durationseconds' => 194.0,
+            'completionpercent' => 100,
+        ]);
+        $user = $this->getDataGenerator()->create_user();
+        $cm = get_fast_modinfo($course)->get_cm((int)$activity->cmid);
+        $DB->insert_record('videotrack_seg', (object)[
+            'videotrackid' => $activity->id,
+            'courseid' => $course->id,
+            'cmid' => $cm->id,
+            'userid' => $user->id,
+            'videoid' => $activity->videoid,
+            'sessionid' => str_repeat('t', 32),
+            'requestid' => str_repeat('u', 32),
+            'wallclockstart' => time() - 194,
+            'wallclockend' => time(),
+            'videotimestart' => 0.058,
+            'videotimeend' => 194.0,
+            'playbackrate' => 1.0,
+            'endreason' => 'ended',
+            'servervalidated' => 1,
+            'timecreated' => time(),
+        ]);
+
+        $state = tracker::rebuild_state_from_segments($activity, $cm, $user->id);
+
+        $this->assertNotNull($state);
+        $this->assertSame(194.0, (float)$state->uniquecoveredseconds);
+        $this->assertSame(100.0, (float)$state->completionpercent);
+        $this->assertSame(1, (int)$state->iscompleted);
+        $this->assertSame('[[0,194]]', (string)$state->intervaljson);
+    }
+
+    /**
      * The interval cap limits pathological data while preserving timeline order.
      */
     public function test_cap_intervals_limits_count_and_preserves_order(): void {

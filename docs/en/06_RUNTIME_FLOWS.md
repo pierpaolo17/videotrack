@@ -6,7 +6,7 @@
 
 ## Segment tracking
 
-Provider callbacks update a shared tracker. A PLAY event first calls `mod_videotrack_start_playback`, which establishes a server timestamp without granting watched time. After the handshake succeeds, active playback opens a bounded segment. Each segment has one request identifier generated before transport retries; `mod_videotrack_save_segment` reuses an identical persisted result and rejects identifier reuse with different data. The service validates context, `mod/videotrack:participate`, allowed speed, forward frontier and cumulative server-time credit. `local\tracker` stores the raw request, merges validated intervals into `videotrack_state`, preserves exact monotonic unique coverage beyond the compact 500-interval representation, recalculates percentage/completion and emits events only once. Lifecycle hooks flush on pause, end, visibility changes and unload using AJAX or a constrained beacon fallback.
+Provider callbacks update a shared tracker. A PLAY event first calls `mod_videotrack_start_playback`, which establishes a server timestamp without granting watched time. After the handshake succeeds, active playback opens a bounded segment. Each segment has one request identifier generated before transport retries; `mod_videotrack_save_segment` reuses an identical persisted result and rejects identifier reuse with different data. The service validates context, `mod/videotrack:participate`, allowed speed, forward frontier and cumulative server-time credit. `local\tracker` stores the raw request, merges validated intervals into `videotrack_state`, preserves exact monotonic unique coverage beyond the compact 500-interval representation, recalculates percentage/completion and emits events only once. Aggregate coverage also applies two bounded playback-boundary corrections: an initial interval beginning no more than 0.25 seconds after zero is treated as handshake instrumentation delay, while only a server-validated segment closed with `ended` may bridge a provider-duration tail of at most 1.25 seconds. Raw segment timestamps are never rewritten, and recalculation applies the same rules to historical evidence. Lifecycle hooks flush on pause, end, visibility changes and unload using AJAX or a constrained beacon fallback.
 
 ## Seek, resume and replay
 
@@ -42,7 +42,7 @@ Privacy export streams each record family in bounded chunks. User/context erasur
 2. `mod_videotrack/form/duration` validates the source and performs a best-effort metadata probe: YouTube IFrame API, Vimeo Player SDK, or same-origin HTML media metadata for the Moodle draft file.
 3. The proposed seconds are written only into the teacher-editable form field and announced through a polite live status region. A manual edit is preserved; changing the source starts a new proposal.
 4. `videotrack_add_instance()` or `videotrack_update_instance()` stores the reviewed form value. Only this saved value is authoritative for percentage, completion and end-gated acknowledgement. Learner player metadata cannot update it.
-5. When metadata is unavailable, the field remains manual and `0` keeps percentage-dependent functions disabled.
+5. When metadata is unavailable, the field remains manual and `0` keeps percentage-dependent functions disabled. Provider-reported duration can differ slightly from the visible whole-second timer; the saved teacher value remains authoritative, while a validated natural end has only the bounded tail tolerance described in Segment tracking.
 
 ### Learner interaction layout
 
