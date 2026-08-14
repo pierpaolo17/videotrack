@@ -1,8 +1,8 @@
 # Function inventory
 
-Generated from the VideoTrack 1.7.50 source tree. PHP entries include named functions and methods; AMD entries include named declarations, assigned function expressions and object-method functions.
+Generated from the VideoTrack 1.7.51 source tree. PHP entries include named functions and methods; AMD entries include named declarations, assigned function expressions and object-method functions.
 
-**PHP functions/methods:** 618. **Named AMD callables:** 647.
+**PHP functions/methods:** 622. **Named AMD callables:** 647.
 
 | Location | Callable | Responsibility |
 |---|---|---|
@@ -1204,6 +1204,10 @@ Generated from the VideoTrack 1.7.50 source tree. PHP entries include named func
 | `tests/provider_loader_contract_test.php:35` | `test_vimeo_loaders_use_requirejs_without_global_define_mutation` | Named PHP function/method `test_vimeo_loaders_use_requirejs_without_global_define_mutation`; see source DocBlock and callers for the current contract. |
 | `tests/provider_loader_contract_test.php:51` | `test_provider_loader_promises_reset_after_rejection` | Named PHP function/method `test_provider_loader_promises_reset_after_rejection`; see source DocBlock and callers for the current contract. |
 | `tests/provider_loader_contract_test.php:66` | `test_vimeo_requirejs_result_is_used_as_player_constructor` | Named PHP function/method `test_vimeo_requirejs_result_is_used_as_player_constructor`; see source DocBlock and callers for the current contract. |
+| `tests/provider_seek_snapshot_contract_test.php:35` | `test_youtube_blocked_seek_snapshots_pre_seek_position_before_rollback` | Named PHP function/method `test_youtube_blocked_seek_snapshots_pre_seek_position_before_rollback`; see source DocBlock and callers for the current contract. |
+| `tests/provider_seek_snapshot_contract_test.php:56` | `test_html5_blocked_seek_snapshots_pre_seek_position_before_rollback` | Named PHP function/method `test_html5_blocked_seek_snapshots_pre_seek_position_before_rollback`; see source DocBlock and callers for the current contract. |
+| `tests/provider_seek_snapshot_contract_test.php:77` | `test_vimeo_user_seek_retains_pre_seek_position_for_seek_resolution` | Named PHP function/method `test_vimeo_user_seek_retains_pre_seek_position_for_seek_resolution`; see source DocBlock and callers for the current contract. |
+| `tests/provider_seek_snapshot_contract_test.php:104` | `test_all_providers_wire_rollback_safe_timestamp_to_personal_actions` | Named PHP function/method `test_all_providers_wire_rollback_safe_timestamp_to_personal_actions`; see source DocBlock and callers for the current contract. |
 | `tests/release_hygiene_contract_test.php:33` | `test_csv_export_format_strings_have_explicit_context` | Named PHP function/method `test_csv_export_format_strings_have_explicit_context`; see source DocBlock and callers for the current contract. |
 | `tests/release_hygiene_contract_test.php:47` | `test_environment_italian_feedback_uses_utf8` | Named PHP function/method `test_environment_italian_feedback_uses_utf8`; see source DocBlock and callers for the current contract. |
 | `tests/release_hygiene_contract_test.php:63` | `test_readmes_and_changelog_track_current_release` | Named PHP function/method `test_readmes_and_changelog_track_current_release`; see source DocBlock and callers for the current contract. |

@@ -1,8 +1,8 @@
 # Inventario delle funzioni
 
-Generato dall’albero sorgente VideoTrack 1.7.50. Le voci PHP includono funzioni e metodi nominati; le voci AMD includono dichiarazioni nominate, espressioni funzione assegnate e funzioni-metodo di oggetti.
+Generato dall’albero sorgente VideoTrack 1.7.51. Le voci PHP includono funzioni e metodi nominati; le voci AMD includono dichiarazioni nominate, espressioni funzione assegnate e funzioni-metodo di oggetti.
 
-**PHP functions/methods:** 618. **Named AMD callables:** 647.
+**PHP functions/methods:** 622. **Named AMD callables:** 647.
 
 | Posizione | Callable | Responsabilità |
 |---|---|---|
@@ -1204,6 +1204,10 @@ Generato dall’albero sorgente VideoTrack 1.7.50. Le voci PHP includono funzion
 | `tests/provider_loader_contract_test.php:35` | `test_vimeo_loaders_use_requirejs_without_global_define_mutation` | Funzione/metodo PHP nominato `test_vimeo_loaders_use_requirejs_without_global_define_mutation`; vedere DocBlock e chiamanti per il contratto corrente. |
 | `tests/provider_loader_contract_test.php:51` | `test_provider_loader_promises_reset_after_rejection` | Funzione/metodo PHP nominato `test_provider_loader_promises_reset_after_rejection`; vedere DocBlock e chiamanti per il contratto corrente. |
 | `tests/provider_loader_contract_test.php:66` | `test_vimeo_requirejs_result_is_used_as_player_constructor` | Funzione/metodo PHP nominato `test_vimeo_requirejs_result_is_used_as_player_constructor`; vedere DocBlock e chiamanti per il contratto corrente. |
+| `tests/provider_seek_snapshot_contract_test.php:35` | `test_youtube_blocked_seek_snapshots_pre_seek_position_before_rollback` | Funzione/metodo PHP nominato `test_youtube_blocked_seek_snapshots_pre_seek_position_before_rollback`; vedere DocBlock e chiamanti per il contratto corrente. |
+| `tests/provider_seek_snapshot_contract_test.php:56` | `test_html5_blocked_seek_snapshots_pre_seek_position_before_rollback` | Funzione/metodo PHP nominato `test_html5_blocked_seek_snapshots_pre_seek_position_before_rollback`; vedere DocBlock e chiamanti per il contratto corrente. |
+| `tests/provider_seek_snapshot_contract_test.php:77` | `test_vimeo_user_seek_retains_pre_seek_position_for_seek_resolution` | Funzione/metodo PHP nominato `test_vimeo_user_seek_retains_pre_seek_position_for_seek_resolution`; vedere DocBlock e chiamanti per il contratto corrente. |
+| `tests/provider_seek_snapshot_contract_test.php:104` | `test_all_providers_wire_rollback_safe_timestamp_to_personal_actions` | Funzione/metodo PHP nominato `test_all_providers_wire_rollback_safe_timestamp_to_personal_actions`; vedere DocBlock e chiamanti per il contratto corrente. |
 | `tests/release_hygiene_contract_test.php:33` | `test_csv_export_format_strings_have_explicit_context` | Funzione/metodo PHP nominato `test_csv_export_format_strings_have_explicit_context`; vedere DocBlock e chiamanti per il contratto corrente. |
 | `tests/release_hygiene_contract_test.php:47` | `test_environment_italian_feedback_uses_utf8` | Funzione/metodo PHP nominato `test_environment_italian_feedback_uses_utf8`; vedere DocBlock e chiamanti per il contratto corrente. |
 | `tests/release_hygiene_contract_test.php:63` | `test_readmes_and_changelog_track_current_release` | Funzione/metodo PHP nominato `test_readmes_and_changelog_track_current_release`; vedere DocBlock e chiamanti per il contratto corrente. |
