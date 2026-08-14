@@ -71,7 +71,7 @@ final class student_view_contract_test extends advanced_testcase {
             "'id' => 'videotrack-bookmark-composer'",
             "'id' => 'videotrack-bookmarks-panel'",
             "'id' => 'videotrack-forum-action'",
-            "'class' => 'videotrack-acknowledgement card mt-4'",
+            "'class' => 'videotrack-acknowledgement mt-4 mb-2'",
         ];
         $positions = [];
         foreach ($markers as $marker) {
@@ -102,6 +102,13 @@ final class student_view_contract_test extends advanced_testcase {
         $this->assertStringContainsString("'id'          => 'videotrack-note-input'", $notecomposer);
         $this->assertStringNotContainsString("'id'          => 'videotrack-note-input'", $notesdetails);
         $this->assertStringContainsString("'id' => 'videotrack-bookmark-input'", $bookmarkcomposer);
+        $this->assertStringContainsString("start_div('videotrack-reaction-buttons')", $source);
+        $this->assertStringContainsString("get_string('studentnotesheader', 'mod_videotrack')", $source);
+        $this->assertStringContainsString("get_string('bookmarks_student_heading', 'mod_videotrack')", $source);
+        $this->assertStringContainsString("get_string('forum:studentheading', 'mod_videotrack')", $source);
+        $this->assertStringContainsString("get_string('forum:studenthelp', 'mod_videotrack')", $source);
+        $this->assertStringNotContainsString('videotrack-acknowledgement card', $source);
+        $this->assertStringNotContainsString("start_div('card-body')", $source);
 
         $styles = file_get_contents(__DIR__ . '/../styles.css');
         $this->assertIsString($styles);

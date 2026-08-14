@@ -15,9 +15,10 @@ Feature: HTML5 forward seek policy is enforced in the browser
       | user | course | role |
       | student1 | C1 | student |
     And the following "activities" exist:
-      | activity   | course | name         | behathtml5fixture | allowseekforward |
-      | videotrack | C1     | Blocked seek | 1                 | 0                |
-      | videotrack | C1     | Allowed seek | 1                 | 1                |
+      | activity   | course | name                     | behathtml5fixture | allowseekforward | reactionsenabled | studentnotesenabled | bookmarksenabled |
+      | videotrack | C1     | Blocked seek             | 1                 | 0                | 0                | 0                   | 0                |
+      | videotrack | C1     | Allowed seek             | 1                 | 1                | 0                | 0                   | 0                |
+      | videotrack | C1     | Blocked interaction seek | 1                 | 0                | 1                | 1                   | 1                |
 
   Scenario: A blocked forward seek returns to the watched frontier
     Given I log in as "student1"
@@ -34,3 +35,23 @@ Feature: HTML5 forward seek policy is enforced in the browser
     Then the VideoTrack HTML5 media is ready
     When I seek the VideoTrack HTML5 media to "20" seconds
     Then the VideoTrack HTML5 media time is between "19" and "21"
+
+  Scenario: Personal interactions remain valid after a blocked seek rolls back
+    Given the user "student1" has watched VideoTrack "Blocked interaction seek" through "5" seconds
+    And I log in as "student1"
+    And I am on "Course 1" course homepage
+    When I click on "Blocked interaction seek" "link"
+    Then the VideoTrack HTML5 media is ready
+    When I seek the VideoTrack HTML5 media to "20" seconds
+    Then the VideoTrack HTML5 media time is between "0" and "6"
+    When I click on "Test reaction" "button"
+    And I click on "My reactions" "text"
+    Then I should see "Test reaction" in the "#videotrack-my-reactions" "css_element"
+    When I set the field "videotrack-note-input" to "Post-seek note"
+    And I press "Save note"
+    And I click on "My notes" "text"
+    Then I should see "Post-seek note" in the "#videotrack-notes-list" "css_element"
+    When I set the field "videotrack-bookmark-input" to "Post-seek bookmark"
+    And I press "Add bookmark"
+    And I click on "My bookmarks" "text"
+    Then I should see "Post-seek bookmark" in the "#videotrack-bookmarks-list" "css_element"

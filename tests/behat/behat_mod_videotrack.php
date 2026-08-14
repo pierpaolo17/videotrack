@@ -94,4 +94,82 @@ class behat_mod_videotrack extends behat_base {
             );
         }
     }
+
+    /**
+     * Seed validated watched evidence for a learner before a browser interaction scenario.
+     *
+     * @Given /^the user "(?P<username>[^"]+)" has watched VideoTrack "(?P<activityname>[^"]+)" through "(?P<seconds>[0-9.]+)" seconds$/
+     * @param string $username Moodle username.
+     * @param string $activityname VideoTrack activity name.
+     * @param float $seconds End of the validated watched interval.
+     */
+    public function the_user_has_watched_videotrack_through_seconds(
+        string $username,
+        string $activityname,
+        float $seconds
+    ): void {
+        global $DB;
+
+        $user = $DB->get_record('user', ['username' => $username], '*', MUST_EXIST);
+        $videotrack = $DB->get_record('videotrack', ['name' => $activityname], '*', MUST_EXIST);
+        $cm = get_coursemodule_from_instance(
+            'videotrack',
+            (int)$videotrack->id,
+            (int)$videotrack->course,
+            false,
+            MUST_EXIST
+        );
+        $duration = max(1.0, (float)($videotrack->durationseconds ?? 0));
+        $end = min($duration, max(0.5, $seconds));
+        $now = time();
+        $videoid = (string)($videotrack->videoid ?? '');
+        if ($videoid === '') {
+            $videoid = 'behat-video';
+        }
+
+        $DB->delete_records('videotrack_seg', [
+            'videotrackid' => (int)$videotrack->id,
+            'userid' => (int)$user->id,
+        ]);
+        $DB->delete_records('videotrack_state', [
+            'videotrackid' => (int)$videotrack->id,
+            'userid' => (int)$user->id,
+        ]);
+
+        $DB->insert_record('videotrack_seg', (object)[
+            'videotrackid' => (int)$videotrack->id,
+            'courseid' => (int)$videotrack->course,
+            'cmid' => (int)$cm->id,
+            'userid' => (int)$user->id,
+            'videoid' => $videoid,
+            'sessionid' => 'behatseed',
+            'requestid' => 'behatseed-' . (int)$videotrack->id . '-' . (int)$user->id,
+            'wallclockstart' => $now - (int)ceil($end),
+            'wallclockend' => $now,
+            'videotimestart' => 0.0,
+            'videotimeend' => $end,
+            'playbackrate' => 1.0,
+            'endreason' => 'heartbeat',
+            'servervalidated' => 1,
+            'timecreated' => $now,
+        ]);
+        $DB->insert_record('videotrack_state', (object)[
+            'videotrackid' => (int)$videotrack->id,
+            'courseid' => (int)$videotrack->course,
+            'cmid' => (int)$cm->id,
+            'userid' => (int)$user->id,
+            'videoid' => $videoid,
+            'lastposition' => $end,
+            'durationseconds' => $duration,
+            'serverlastactivity' => $now * 1000,
+            'serverbudgetseconds' => $end,
+            'servercreditedseconds' => $end,
+            'uniquecoveredseconds' => $end,
+            'completionpercent' => round(($end / $duration) * 100, 2),
+            'intervaljson' => json_encode([[0.0, $end]], JSON_THROW_ON_ERROR),
+            'iscompleted' => 0,
+            'timemodified' => $now,
+            'timecreated' => $now,
+        ]);
+    }
 }

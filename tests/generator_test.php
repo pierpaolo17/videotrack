@@ -89,5 +89,4 @@ final class generator_test extends advanced_testcase {
         $this->assertInstanceOf(\stored_file::class, $file);
         $this->assertSame('behat-video.mp4', $file->get_filename());
     }
-
 }

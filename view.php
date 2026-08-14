@@ -641,6 +641,7 @@ if ($showreactioncontrols) {
         get_string('reactionsheader', 'mod_videotrack'),
         ['class' => 'h5 mb-2']
     );
+    echo html_writer::start_div('videotrack-reaction-buttons');
     foreach ($reactions as $reaction) {
         $iconwithlabel  = videotrack_render_reaction_icon($reaction, $context, true);
         $icontype = clean_param((string)($reaction->icontype ?? 'emoji'), PARAM_ALPHA);
@@ -666,6 +667,7 @@ if ($showreactioncontrols) {
             'aria-label'            => $reaction->label,
         ]);
     }
+    echo html_writer::end_div(); // Videotrack-reaction-buttons.
     // Learners may react while the player is playing or paused. The server
     // still accepts only timestamps already covered by validated viewing data.
     echo html_writer::tag(
@@ -811,9 +813,14 @@ if ($showstudentreactions) {
 
 // Feature 11: keep the note composer visible and collapse only the saved-note list.
 if ($showstudentnotespanel) {
-    echo html_writer::start_div('videotrack-personal-composer videotrack-notes-panel mt-2 mb-2', [
+    echo html_writer::start_div('videotrack-personal-composer videotrack-notes-panel mt-3 mb-2', [
         'id' => 'videotrack-note-composer',
     ]);
+    echo html_writer::tag(
+        'h3',
+        get_string('studentnotesheader', 'mod_videotrack'),
+        ['class' => 'h5 mb-2']
+    );
     echo html_writer::tag('label', get_string('studentnote_label', 'mod_videotrack'), [
         'for'   => 'videotrack-note-input',
         'class' => 'form-label small mb-1 videotrack-note-label',
@@ -938,9 +945,14 @@ if ($showstudentnotespanel) {
 }
 
 if ($showbookmarkspanel) {
-    echo html_writer::start_div('videotrack-personal-composer videotrack-bookmark-composer mt-2 mb-2', [
+    echo html_writer::start_div('videotrack-personal-composer videotrack-bookmark-composer mt-3 mb-2', [
         'id' => 'videotrack-bookmark-composer',
     ]);
+    echo html_writer::tag(
+        'h3',
+        get_string('bookmarks_student_heading', 'mod_videotrack'),
+        ['class' => 'h5 mb-2']
+    );
     echo html_writer::tag(
         'p',
         get_string('bookmarks_private_notice', 'mod_videotrack'),
@@ -1112,6 +1124,16 @@ if (!empty($videotrack->forumpostingenabled)) {
         'id' => 'videotrack-forum-action',
         'style' => 'max-width:' . (int)$playerwidth . 'px',
     ]);
+    echo html_writer::tag(
+        'h3',
+        get_string('forum:studentheading', 'mod_videotrack'),
+        ['class' => 'h5 mb-2']
+    );
+    echo html_writer::tag(
+        'p',
+        get_string('forum:studenthelp', 'mod_videotrack'),
+        ['class' => 'small text-muted mb-2']
+    );
     $buttonattributes = [
         'type' => 'button',
         'class' => 'btn btn-secondary',
@@ -1141,14 +1163,13 @@ if (!empty($videotrack->forumpostingenabled)) {
 
 if (\mod_videotrack\local\acknowledgement::is_enabled($videotrack)) {
     echo html_writer::start_tag('section', [
-        'class' => 'videotrack-acknowledgement card mt-4',
+        'class' => 'videotrack-acknowledgement mt-4 mb-2',
         'aria-labelledby' => 'videotrack-acknowledgement-title',
     ]);
-    echo html_writer::start_div('card-body');
     echo html_writer::tag(
         'h3',
         get_string('acknowledgement:heading', 'mod_videotrack'),
-        ['id' => 'videotrack-acknowledgement-title', 'class' => 'h5']
+        ['id' => 'videotrack-acknowledgement-title', 'class' => 'h5 mb-2']
     );
     echo html_writer::div(
         format_text(
@@ -1241,7 +1262,6 @@ if (\mod_videotrack\local\acknowledgement::is_enabled($videotrack)) {
         get_string('acknowledgement:privacyhint', 'mod_videotrack'),
         ['class' => 'small text-muted mt-3 mb-0']
     );
-    echo html_writer::end_div();
     echo html_writer::end_tag('section');
 }
 

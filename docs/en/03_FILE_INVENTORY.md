@@ -1,6 +1,6 @@
 # Distributed file inventory
 
-This inventory is generated against the VideoTrack 1.7.48 tree and lists every non-documentation file. Canonical JavaScript is under `amd/src`; files under `amd/build` are generated.
+This inventory is generated against the VideoTrack 1.7.49 tree and lists every non-documentation file. Canonical JavaScript is under `amd/src`; files under `amd/build` are generated.
 
 Entries: **264**.
 
@@ -263,7 +263,7 @@ Entries: **264**.
 | `version.php` | Plugin metadata, version, maturity and supported Moodle branches. |
 | `view.php` | Student-facing activity page: authorisation, state loading, privacy-safe DOM configuration and player bootstrapping. |
 
-| `tests/behat/behat_mod_videotrack.php` | Deterministic Behat steps for local HTML5 readiness, seeking and timestamp assertions. |
+| `tests/behat/behat_mod_videotrack.php` | Deterministic Behat steps for local HTML5 readiness, seeking, timestamp assertions and bounded watched-evidence seeding. |
 | `tests/behat/html5_seek_policy.feature` | Browser regression for allowed and blocked HTML5 forward seeking without public-network dependencies. |
 | `tests/behat/learner_role_controls.feature` | Behat role-scope regression for learner, teacher and dual-role interaction controls. |
 | `tests/behat/student_personal_sections.feature` | Behat browser regression for the learner personal collapsible sections. |
