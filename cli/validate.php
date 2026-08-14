@@ -300,17 +300,18 @@ if ($amdissues) {
     $addcheck('amd_contract', 'pass', $amdcount . ' AMD sources have matching builds and source-map source content.');
 }
 
-$historyfile = $pluginroot . '/VIDEOTRACK_CHANGELOG_LESSONS_ROADMAP_1.7.5_' . $filerelease . '.md';
 $readme = file_get_contents($pluginroot . '/README.md');
 $readmeit = file_get_contents($pluginroot . '/README_IT.md');
+$changelog = file_get_contents($pluginroot . '/CHANGELOG.md');
 if (
-    !is_file($historyfile) || $readme === false || $readmeit === false ||
+    $readme === false || $readmeit === false || $changelog === false ||
     !str_contains($readme, 'Current release documented by this tree: **' . $filerelease . '**') ||
-    !str_contains($readmeit, 'Release corrente documentata da questo albero: **' . $filerelease . '**')
+    !str_contains($readmeit, 'Release corrente documentata da questo albero: **' . $filerelease . '**') ||
+    !str_contains($changelog, '## ' . $filerelease . ' - ')
 ) {
-    $addcheck('documentation_release', 'fail', 'Current release documentation markers are incomplete or stale.');
+    $addcheck('documentation_release', 'fail', 'Current public release documentation markers are incomplete or stale.');
 } else {
-    $addcheck('documentation_release', 'pass', 'README and consolidated history track release ' . $filerelease . '.');
+    $addcheck('documentation_release', 'pass', 'README and CHANGELOG track release ' . $filerelease . '.');
 }
 
 $criticalsettings = [

@@ -35,6 +35,12 @@ class tracker {
     /** Maximum cumulative provider/server clock drift accepted by the playback ledger. */
     private const SERVER_CREDIT_TOLERANCE_SECONDS = 1.0;
 
+    /** Maximum instrumentation gap tolerated at the beginning of the first watched interval. */
+    private const PLAYBACK_START_TOLERANCE_SECONDS = 0.25;
+
+    /** Maximum provider-timeline gap tolerated when a validated segment ends naturally. */
+    private const NATURAL_END_TOLERANCE_SECONDS = 1.25;
+
     /** @var array Per-request cache for reaction_counts(). Keyed by "videotrackid:userid". */
     private static $reactioncountscache = [];
 
@@ -209,6 +215,54 @@ class tracker {
             $total += max(0.0, $interval[1] - $interval[0]);
         }
         return round($total, 3);
+    }
+
+    /**
+     * Recover a tiny instrumentation gap at the beginning of watched coverage.
+     *
+     * YouTube and HTML5 start the server playback handshake before the first
+     * persisted segment is opened. A short AJAX round trip can therefore make a
+     * genuine watch-from-zero interval begin a few milliseconds after 0. This
+     * bounded correction prevents that transport delay from making 100% coverage
+     * mathematically impossible while never bridging a meaningful unwatched gap.
+     *
+     * @param array $intervals Already merged intervals in timeline order.
+     * @param float $duration Configured video duration.
+     * @return array Boundary-normalised intervals.
+     */
+    public static function normalise_start_boundary(array $intervals, float $duration): array {
+        if (!$intervals || $duration <= 0) {
+            return $intervals;
+        }
+        $start = (float)$intervals[0][0];
+        if ($start > 0.0 && $start <= self::PLAYBACK_START_TOLERANCE_SECONDS) {
+            $intervals[0][0] = 0.0;
+        }
+        return $intervals;
+    }
+
+    /**
+     * Recover a bounded provider timeline discrepancy at a natural video end.
+     *
+     * Some providers can emit their natural ended state while getCurrentTime()
+     * remains slightly below the configured/provider duration. Only an accepted
+     * segment explicitly closed as "ended" may receive this correction. Pauses,
+     * seeks and other segment reasons never gain terminal coverage.
+     *
+     * @param array $interval Normalised [start, end] interval.
+     * @param float $duration Configured video duration.
+     * @param string $endreason Segment end reason.
+     * @return array Boundary-normalised interval.
+     */
+    public static function normalise_natural_end(array $interval, float $duration, string $endreason): array {
+        if ($duration <= 0 || $endreason !== 'ended') {
+            return $interval;
+        }
+        $gap = $duration - (float)$interval[1];
+        if ($gap > 0.0 && $gap <= self::NATURAL_END_TOLERANCE_SECONDS) {
+            $interval[1] = round($duration, 3);
+        }
+        return $interval;
     }
 
     /**
@@ -889,8 +943,18 @@ class tracker {
                 $segmentid = $DB->insert_record('videotrack_seg', $segment);
             }
 
+            $duration = max(0.0, (float)$videotrack->durationseconds);
+            $coverageinterval = self::normalise_natural_end(
+                $interval,
+                $duration,
+                (string)($segment->endreason ?? '')
+            );
+            if ($coverageinterval[1] > $lastposition) {
+                $lastposition = $coverageinterval[1];
+            }
             $storedintervals = self::decode_intervals($state->intervaljson);
-            $mergedintervals = self::merge_intervals(array_merge($storedintervals, [$interval]));
+            $mergedintervals = self::merge_intervals(array_merge($storedintervals, [$coverageinterval]));
+            $mergedintervals = self::normalise_start_boundary($mergedintervals, $duration);
             $covered = self::covered_seconds($mergedintervals);
             $intervals = self::cap_intervals($mergedintervals);
 
@@ -899,7 +963,7 @@ class tracker {
                     'videotrackid' => $videotrack->id,
                     'userid' => $userid,
                     'servervalidated' => 1,
-                ], 'timecreated ASC, id ASC', 'id, videotimestart, videotimeend, timecreated');
+                ], 'timecreated ASC, id ASC', 'id, videotimestart, videotimeend, endreason, timecreated');
                 $aggregate = self::aggregate_segments(
                     $segments,
                     max(0.0, (float)$videotrack->durationseconds)
@@ -910,7 +974,6 @@ class tracker {
             }
 
             $covered = max((float)($state->uniquecoveredseconds ?? 0.0), $covered);
-            $duration = max(0.0, (float)$videotrack->durationseconds);
             $percent = $duration > 0 ? min(100.0, round(($covered / $duration) * 100, 2)) : 0.0;
             $requiredreactionids = !empty($videotrack->reactionsenabled)
                 ? completion_config::required_reaction_ids((int)$videotrack->id)
@@ -1012,6 +1075,11 @@ class tracker {
             if ($normalised === null) {
                 continue;
             }
+            $normalised = self::normalise_natural_end(
+                $normalised,
+                $duration,
+                (string)($segment->endreason ?? '')
+            );
             $intervals[] = $normalised;
             $timecreated = (int)($segment->timecreated ?? 0);
             $segmentid = (int)($segment->id ?? 0);
@@ -1022,6 +1090,7 @@ class tracker {
             }
         }
         $mergedintervals = self::merge_intervals($intervals);
+        $mergedintervals = self::normalise_start_boundary($mergedintervals, $duration);
         return [
             'intervals' => self::cap_intervals($mergedintervals),
             'coveredseconds' => self::covered_seconds($mergedintervals),
@@ -1074,7 +1143,7 @@ class tracker {
                 'videotrackid' => $videotrack->id,
                 'userid' => $userid,
                 'servervalidated' => 1,
-            ], 'timecreated ASC, id ASC', 'id, videotimestart, videotimeend, timecreated');
+            ], 'timecreated ASC, id ASC', 'id, videotimestart, videotimeend, endreason, timecreated');
             $aggregate = self::aggregate_segments($segments, $duration);
             $segments->close();
 

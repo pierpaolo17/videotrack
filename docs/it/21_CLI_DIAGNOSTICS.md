@@ -23,7 +23,7 @@ Il validatore controlla:
 - funzioni AJAX dichiarate in `db/services.php` e relative classi/metodi external;
 - parità di chiavi e placeholder fra i language pack mantenuti;
 - ogni sorgente AMD rispetto a build minificata e `sourcesContent` della source map;
-- marker di release correnti in README e cronologia consolidata;
+- marker di release pubblici correnti in README e CHANGELOG;
 - valori selezionati di configurazione privacy, tracking e performance.
 
 Il codice di uscita è `0` se non esistono failure. I warning non rendono fallito il comando salvo uso di `--strict`. Per archiviare evidenze di release è consigliato `--json`.
