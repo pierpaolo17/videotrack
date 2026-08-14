@@ -89,4 +89,28 @@ final class generator_test extends advanced_testcase {
         $this->assertInstanceOf(\stored_file::class, $file);
         $this->assertSame('behat-video.mp4', $file->get_filename());
     }
+
+    /**
+     * The generator must resolve a named Forum for deterministic Behat scenarios.
+     */
+    public function test_generator_links_named_forum_fixture(): void {
+        $this->resetAfterTest();
+        $this->setAdminUser();
+
+        $course = $this->getDataGenerator()->create_course();
+        $forum = $this->getDataGenerator()->create_module('forum', [
+            'course' => $course->id,
+            'name' => 'Linked Forum',
+            'type' => 'general',
+        ]);
+        $generator = $this->getDataGenerator()->get_plugin_generator('mod_videotrack');
+        $activity = $generator->create_instance([
+            'course' => $course->id,
+            'name' => 'Generated Forum VideoTrack',
+            'behatlinkedforum' => 'Linked Forum',
+        ]);
+
+        $this->assertSame(1, (int)$activity->forumpostingenabled);
+        $this->assertSame((int)$forum->id, (int)$activity->linkedforumid);
+    }
 }

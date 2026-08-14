@@ -4,3 +4,6 @@ tests/*_static_test.js
 tests/smoke_amd.js
 tests/tracker_segment_test.js
 tests/adapter_test.js
+
+# Maintainer-only history/roadmap artifacts are kept outside distributed plugin packages.
+VIDEOTRACK_CHANGELOG_LESSONS_ROADMAP_*.md

@@ -80,6 +80,11 @@ final class release_hygiene_contract_test extends advanced_testcase {
         );
         $this->assertStringContainsString('(CHANGELOG.md)', $readme);
         $this->assertStringContainsString('(CHANGELOG.md)', $readmeit);
+        $this->assertStringNotContainsString('VIDEOTRACK_CHANGELOG_LESSONS_ROADMAP_', $readme);
+        $this->assertStringNotContainsString('VIDEOTRACK_CHANGELOG_LESSONS_ROADMAP_', $readmeit);
+        $moodleignore = file_get_contents(__DIR__ . '/../.moodleignore');
+        $this->assertIsString($moodleignore);
+        $this->assertStringContainsString('VIDEOTRACK_CHANGELOG_LESSONS_ROADMAP_*.md', $moodleignore);
         $this->assertStringNotContainsString('Current release documented by this tree: **1.6.36**', $readme);
         $this->assertStringNotContainsString('Release documentata da questo albero: **1.6.36**', $readmeit);
     }
@@ -93,7 +98,6 @@ final class release_hygiene_contract_test extends advanced_testcase {
         require(__DIR__ . '/../version.php');
         $release = (string)$plugin->release;
         $version = (string)$plugin->version;
-        $history = 'VIDEOTRACK_CHANGELOG_LESSONS_ROADMAP_1.7.5_' . $release . '.md';
 
         $englishindex = file_get_contents(__DIR__ . '/../docs/en/00_INDEX.md');
         $italianindex = file_get_contents(__DIR__ . '/../docs/it/00_INDEX.md');
@@ -106,7 +110,11 @@ final class release_hygiene_contract_test extends advanced_testcase {
         foreach ($documents as $document) {
             $this->assertIsString($document);
         }
-        $this->assertFileExists(__DIR__ . '/../' . $history);
+        $privatehistory = glob(__DIR__ . '/../VIDEOTRACK_CHANGELOG_LESSONS_ROADMAP_*.md');
+        $this->assertIsArray($privatehistory);
+        $this->assertCount(0, $privatehistory);
+        $this->assertStringNotContainsString('VIDEOTRACK_CHANGELOG_LESSONS_ROADMAP_', $englishindex);
+        $this->assertStringNotContainsString('VIDEOTRACK_CHANGELOG_LESSONS_ROADMAP_', $italianindex);
         $tick = chr(96);
         $versionmarker = '** (' . $tick . $version . $tick . ')';
         $this->assertStringContainsString('**' . $release . $versionmarker, $englishindex);

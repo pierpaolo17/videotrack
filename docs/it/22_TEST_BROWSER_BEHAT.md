@@ -1,6 +1,6 @@
 # Automazione browser con Behat
 
-VideoTrack ha avviato la fase di automazione browser nella release 1.7.45; la 1.7.49 estende lo scenario learner deterministico al contratto completo di ordinamento verticale. Il plugin distribuisce un generator Moodle in `tests/generator/lib.php` e gli scenari browser in `tests/behat/`.
+VideoTrack ha avviato la fase di automazione browser nella release 1.7.45; la 1.7.50 estende lo scenario HTML5 post-rollback fino al composer del Forum collegato. Il plugin distribuisce un generator Moodle in `tests/generator/lib.php` e gli scenari browser in `tests/behat/`.
 
 ## Scopo
 
@@ -32,7 +32,7 @@ php admin/tool/behat/cli/run.php --name='Active controls stay visible and saved 
 
 ## Copertura automatica corrente
 
-La copertura corrente, rafforzata nella 1.7.49:
+La copertura corrente, rafforzata nella 1.7.50:
 
 - crea un'attività VideoTrack tramite `mod_videotrack_generator`;
 - abilita reazioni, note personali e segnalibri personali;
@@ -47,7 +47,7 @@ Il contratto nativo `<details>/<summary>` non richiede JavaScript VideoTrack: le
 
 ### Harness locale deterministica per il seek HTML5
 
-Dalla 1.7.49 il generator accetta il campo di solo test `behathtml5fixture=1`. Crea un'attività VideoTrack con sorgente upload usando `tests/fixtures/behat-video.mp4.b64`, una piccola fixture locale di 60 secondi. `tests/behat/behat_mod_videotrack.php` espone step browser che attendono i metadata, eseguono un seek sul media HTML5 e verificano il timestamp risultante.
+Il generator accetta il campo di solo test `behathtml5fixture=1`. Crea un'attività VideoTrack con sorgente upload usando `tests/fixtures/behat-video.mp4.b64`, una piccola fixture locale di 60 secondi. `tests/behat/behat_mod_videotrack.php` espone step browser che attendono i metadata, eseguono un seek sul media HTML5 e verificano il timestamp risultante.
 
 Per eseguire soltanto la regressione seek HTML5:
 
@@ -55,18 +55,16 @@ Per eseguire soltanto la regressione seek HTML5:
 php admin/tool/behat/cli/run.php --tags='@mod_videotrack_html5_seek'
 ```
 
-Le asserzioni deterministiche correnti coprono entrambe le policy: un salto avanti bloccato a 20 secondi deve tornare alla frontier già vista, mentre lo stesso salto resta a 20 secondi quando il seek avanti è consentito. Il test usa l'adapter HTML5 reale e la File API Moodle locale, senza dipendere dalla disponibilità di YouTube o Vimeo.
+Le asserzioni deterministiche correnti coprono entrambe le policy: un salto avanti bloccato a 20 secondi deve tornare alla frontier già vista, mentre lo stesso salto resta a 20 secondi quando il seek avanti è consentito. Il test usa l'adapter HTML5 reale e la File API Moodle locale, senza dipendere dalla disponibilità di YouTube o Vimeo. Dalla 1.7.50 il generator accetta anche `behatlinkedforum=<nome>` per risolvere un Forum fixture dello stesso corso usato nello scenario composer post-rollback.
 
-## Roadmap P2 ancora aperta
+## Limiti correnti della copertura browser
 
-U-007 è **in corso**, non chiuso da questo primo scenario. La matrice browser residua deve aggiungere copertura deterministica per:
+La suite distribuita documenta esplicitamente ciò che non è ancora deterministico. Restano da coprire:
 
-1. learner / dual-role / teacher;
-2. harness provider deterministiche YouTube / Vimeo (la policy seek HTML5 locale è coperta dalla 1.7.49);
-3. seek avanti consentito / bloccato e seek indietro;
-4. snapshot del segmento al timestamp pre-seek e timestamp di rollback;
-5. reazione / nota / segnalibro / Forum subito dopo seek e rollback;
-6. resume, completion e alert impilati.
+1. harness provider deterministiche YouTube / Vimeo;
+2. parity del seek indietro sui provider oltre agli scenari HTML5 correnti sul seek avanti;
+3. asserzione end-to-end dell'esatto snapshot del segmento pre-seek persistito prima del salto;
+4. scenari browser per resume, completion e alert impilati.
 
 Gli scenari provider dovrebbero evitare dipendenze dalla disponibilità della rete pubblica quando una harness locale deterministica può esercitare lo stesso contratto dell'adapter.
 
@@ -74,4 +72,4 @@ Gli scenari provider dovrebbero evitare dipendenze dalla disponibilità della re
 
 I risultati Behat appartengono all'albero esatto su cui sono stati eseguiti. Registrare versione Moodle, browser/driver, numero scenari e failure. PHPUnit/PHPCS/Grunt verdi non sostituiscono l'automazione browser e un risultato Behat di una release precedente non va attribuito a un tree successivo.
 
-Dalla 1.7.49 la feature HTML5 può anche pre-caricare un intervallo di visione validato e verifica che reazione, nota e segnalibro restino salvabili dopo un seek avanti bloccato e il conseguente rollback su una posizione già vista. In questo modo avanza la matrice post-seek/rollback senza dipendere da provider pubblici.
+La feature HTML5 può pre-caricare un intervallo di visione validato; nella 1.7.50 lo scenario verifica che reazione, nota, segnalibro e accesso al composer del Forum collegato restino validi dopo un seek avanti bloccato e il conseguente rollback su una posizione già vista. L'asserzione Forum controlla anche che l'URL del composer contenga un timestamp interno all'intervallo già validato.
