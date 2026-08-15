@@ -1,8 +1,8 @@
 # Inventario delle funzioni
 
-Generato dall’albero sorgente VideoTrack 1.7.52. Le voci PHP includono funzioni e metodi nominati; le voci AMD includono dichiarazioni nominate, espressioni funzione assegnate e funzioni-metodo di oggetti.
+Generato dall’albero sorgente VideoTrack 1.7.53. Le voci PHP includono funzioni e metodi nominati; le voci AMD includono dichiarazioni nominate, espressioni funzione assegnate e funzioni-metodo di oggetti.
 
-**PHP functions/methods:** 629. **Named AMD callables:** 647.
+**PHP functions/methods:** 635. **Named AMD callables:** 647.
 
 | Posizione | Callable | Responsabilità |
 |---|---|---|
@@ -1210,6 +1210,11 @@ Generato dall’albero sorgente VideoTrack 1.7.52. Le voci PHP includono funzion
 | `tests/provider_seek_snapshot_contract_test.php:56` | `test_html5_blocked_seek_snapshots_pre_seek_position_before_rollback` | Funzione/metodo PHP nominato `test_html5_blocked_seek_snapshots_pre_seek_position_before_rollback`; vedere DocBlock e chiamanti per il contratto corrente. |
 | `tests/provider_seek_snapshot_contract_test.php:77` | `test_vimeo_user_seek_retains_pre_seek_position_for_seek_resolution` | Funzione/metodo PHP nominato `test_vimeo_user_seek_retains_pre_seek_position_for_seek_resolution`; vedere DocBlock e chiamanti per il contratto corrente. |
 | `tests/provider_seek_snapshot_contract_test.php:104` | `test_all_providers_wire_rollback_safe_timestamp_to_personal_actions` | Funzione/metodo PHP nominato `test_all_providers_wire_rollback_safe_timestamp_to_personal_actions`; vedere DocBlock e chiamanti per il contratto corrente. |
+| `tests/player_resume_completion_alert_contract_test.php:35` | `test_all_providers_clamp_resume_to_validated_frontier` | Funzione/metodo PHP nominato `test_all_providers_clamp_resume_to_validated_frontier`; vedere DocBlock sorgente e chiamanti per il contratto corrente. |
+| `tests/player_resume_completion_alert_contract_test.php:55` | `test_direct_replay_precedes_automatic_resume_for_all_providers` | Funzione/metodo PHP nominato `test_direct_replay_precedes_automatic_resume_for_all_providers`; vedere DocBlock sorgente e chiamanti per il contratto corrente. |
+| `tests/player_resume_completion_alert_contract_test.php:89` | `test_completion_mutations_synchronise_moodle_state` | Funzione/metodo PHP nominato `test_completion_mutations_synchronise_moodle_state`; vedere DocBlock sorgente e chiamanti per il contratto corrente. |
+| `tests/player_resume_completion_alert_contract_test.php:118` | `test_completion_transitions_avoid_redundant_events_and_writes` | Funzione/metodo PHP nominato `test_completion_transitions_avoid_redundant_events_and_writes`; vedere DocBlock sorgente e chiamanti per il contratto corrente. |
+| `tests/player_resume_completion_alert_contract_test.php:134` | `test_persistent_notices_coexist_with_transient_status_messages` | Funzione/metodo PHP nominato `test_persistent_notices_coexist_with_transient_status_messages`; vedere DocBlock sorgente e chiamanti per il contratto corrente. |
 | `tests/release_hygiene_contract_test.php:33` | `test_csv_export_format_strings_have_explicit_context` | Funzione/metodo PHP nominato `test_csv_export_format_strings_have_explicit_context`; vedere DocBlock e chiamanti per il contratto corrente. |
 | `tests/release_hygiene_contract_test.php:47` | `test_environment_italian_feedback_uses_utf8` | Funzione/metodo PHP nominato `test_environment_italian_feedback_uses_utf8`; vedere DocBlock e chiamanti per il contratto corrente. |
 | `tests/release_hygiene_contract_test.php:63` | `test_readmes_and_changelog_track_current_release` | Funzione/metodo PHP nominato `test_readmes_and_changelog_track_current_release`; vedere DocBlock e chiamanti per il contratto corrente. |
@@ -1222,6 +1227,7 @@ Generato dall’albero sorgente VideoTrack 1.7.52. Le voci PHP includono funzion
 | `tests/report_contract_test.php:77` | `test_student_grade_visibility_depends_on_participation_not_report_access` | Funzione/metodo PHP nominato `test_student_grade_visibility_depends_on_participation_not_report_access`; vedere DocBlock e chiamanti per il contratto corrente. |
 | `tests/report_contract_test.php:95` | `test_student_grade_label_uses_plugin_string` | Funzione/metodo PHP nominato `test_student_grade_label_uses_plugin_string`; vedere DocBlock e chiamanti per il contratto corrente. |
 | `tests/report_contract_test.php:105` | `test_provider_and_integrity_notices_share_one_alert` | Funzione/metodo PHP nominato `test_provider_and_integrity_notices_share_one_alert`; vedere DocBlock e chiamanti per il contratto corrente. |
+| `tests/report_contract_test.php:122` | `test_retention_chart_explains_full_privacy_suppression` | Funzione/metodo PHP nominato `test_retention_chart_explains_full_privacy_suppression`; vedere DocBlock sorgente e chiamanti per il contratto corrente. |
 | `tests/save_bookmark_test.php:39` | `test_execute_parameters_uses_supported_moodle_parameter_types` | Callable PHP `test_execute_parameters_uses_supported_moodle_parameter_types`; DocBlock e chiamanti definiscono parametri, valori restituiti ed effetti. |
 | `tests/save_bookmark_test.php:47` | `test_bookmark_validation_prefers_existing_watched_progress` | Callable PHP `test_bookmark_validation_prefers_existing_watched_progress`; DocBlock e chiamanti definiscono parametri, valori restituiti ed effetti. |
 | `tests/save_integrity_event_test.php:37` | `test_execute_parameters_uses_supported_moodle_parameter_types` | Callable PHP `test_execute_parameters_uses_supported_moodle_parameter_types`; DocBlock e chiamanti definiscono parametri, valori restituiti ed effetti. |

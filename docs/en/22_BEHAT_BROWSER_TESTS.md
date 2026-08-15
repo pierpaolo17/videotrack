@@ -1,6 +1,6 @@
 # Behat browser automation
 
-VideoTrack started its browser-automation phase in release 1.7.45; release 1.7.52 retains the provider seek/interaction PHPUnit parity contracts and adds server-side playback-boundary regression coverage while retaining the deterministic HTML5 post-rollback Behat suite introduced through 1.7.50. The plugin ships a Moodle module generator under `tests/generator/lib.php` and browser scenarios under `tests/behat/`.
+VideoTrack started its browser-automation phase in release 1.7.45; release 1.7.53 keeps the deterministic HTML5 post-rollback Behat suite and adds non-browser contracts for resume, completion synchronisation and stacked notices across YouTube, HTML5 and Vimeo while the maintainer Behat endpoint is unavailable. The plugin ships a Moodle module generator under `tests/generator/lib.php` and browser scenarios under `tests/behat/`.
 
 ## Purpose
 
@@ -60,6 +60,8 @@ The deterministic assertions cover both policies: a blocked jump to 20 seconds m
 
 Release 1.7.51 added `tests/provider_seek_snapshot_contract_test.php`: it statically guards pre-seek snapshot ordering and rollback-safe interaction timestamps across YouTube, HTML5 and Vimeo. This is complementary coverage only; it does not make the outstanding YouTube/Vimeo browser harnesses complete.
 
+Release 1.7.53 adds `tests/player_resume_completion_alert_contract_test.php`: it locks validated-frontier resume, direct-replay precedence, completion synchronisation and coexistence of persistent/transient notices across providers. These remain non-browser contracts; the corresponding Behat scenarios are still pending.
+
 ## Current browser-test coverage limits
 
 The distributed suite intentionally records what is not yet deterministic. Remaining coverage gaps are:
@@ -67,7 +69,7 @@ The distributed suite intentionally records what is not yet deterministic. Remai
 1. deterministic YouTube / Vimeo provider harnesses;
 2. backward-seek provider parity beyond the current HTML5 forward-seek scenarios;
 3. end-to-end assertion of the exact pre-seek segment snapshot persisted before a jump;
-4. resume, completion and stacked-alert browser scenarios.
+4. resume, completion and stacked-alert browser scenarios (their non-browser contracts are covered from 1.7.53).
 
 Provider scenarios should avoid depending on public third-party network availability when a deterministic local harness can exercise the same adapter contract.
 

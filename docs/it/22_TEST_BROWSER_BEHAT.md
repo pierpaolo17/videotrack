@@ -1,6 +1,6 @@
 # Automazione browser con Behat
 
-VideoTrack ha avviato la fase di automazione browser nella release 1.7.45; la 1.7.52 mantiene i contratti PHPUnit di parità seek/interazioni fra provider e aggiunge copertura server-side sui micro-gap ai bordi della riproduzione, mantenendo la suite Behat HTML5 post-rollback deterministica introdotta fino alla 1.7.50. Il plugin distribuisce un generator Moodle in `tests/generator/lib.php` e gli scenari browser in `tests/behat/`.
+VideoTrack ha avviato la fase di automazione browser nella release 1.7.45; la 1.7.53 mantiene la suite Behat HTML5 post-rollback deterministica e aggiunge contratti non-browser per resume, sincronizzazione completion e alert impilati su YouTube, HTML5 e Vimeo mentre l’endpoint Behat del maintainer non è disponibile. Il plugin distribuisce un generator Moodle in `tests/generator/lib.php` e gli scenari browser in `tests/behat/`.
 
 ## Scopo
 
@@ -59,6 +59,8 @@ Le asserzioni deterministiche correnti coprono entrambe le policy: un salto avan
 
 La release 1.7.51 ha aggiunto `tests/provider_seek_snapshot_contract_test.php`: protegge staticamente l’ordine dello snapshot pre-seek e l’uso di timestamp rollback-safe per YouTube, HTML5 e Vimeo. È copertura complementare: non rende complete le harness browser YouTube/Vimeo ancora aperte.
 
+La release 1.7.53 aggiunge `tests/player_resume_completion_alert_contract_test.php`: protegge resume entro la frontier validata, precedenza del replay esplicito, sincronizzazione completion e coesistenza degli avvisi persistenti/transienti sui provider. Restano contratti non-browser; i corrispondenti scenari Behat sono ancora pendenti.
+
 ## Limiti correnti della copertura browser
 
 La suite distribuita documenta esplicitamente ciò che non è ancora deterministico. Restano da coprire:
@@ -66,7 +68,7 @@ La suite distribuita documenta esplicitamente ciò che non è ancora determinist
 1. harness provider deterministiche YouTube / Vimeo;
 2. parity del seek indietro sui provider oltre agli scenari HTML5 correnti sul seek avanti;
 3. asserzione end-to-end dell'esatto snapshot del segmento pre-seek persistito prima del salto;
-4. scenari browser per resume, completion e alert impilati.
+4. scenari browser per resume, completion e alert impilati (i relativi contratti non-browser sono coperti dalla 1.7.53).
 
 Gli scenari provider dovrebbero evitare dipendenze dalla disponibilità della rete pubblica quando una harness locale deterministica può esercitare lo stesso contratto dell'adapter.
 

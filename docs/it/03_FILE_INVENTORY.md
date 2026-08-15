@@ -1,8 +1,8 @@
 # Inventario dei file distribuiti
 
-Questo inventario è generato sull’albero VideoTrack 1.7.52 ed elenca ogni file non documentale. Il JavaScript canonico è in `amd/src`; i file in `amd/build` sono generati.
+Questo inventario è generato sull’albero VideoTrack 1.7.53 ed elenca ogni file non documentale. Il JavaScript canonico è in `amd/src`; i file in `amd/build` sono generati.
 
-Entries: **265**.
+Entries: **266**.
 
 | File | Responsabilità |
 |---|---|
@@ -250,6 +250,7 @@ Entries: **265**.
 | `tests/privacy_manager_test.php` | Copertura PHPUnit per retention GDPR basata sulla cancellazione, ricostruzione dello stato e cancellazione utente. |
 | `tests/provider_loader_contract_test.php` | Test PHPUnit/di contratto corrente distribuito con il plugin. |
 | `tests/provider_seek_snapshot_contract_test.php` | Test PHPUnit/di contratto corrente distribuito con il plugin. |
+| `tests/player_resume_completion_alert_contract_test.php` | Test PHPUnit/di contratto corrente distribuito con il plugin. |
 | `tests/release_hygiene_contract_test.php` | Test PHPUnit/di contratto corrente distribuito con il plugin. |
 | `tests/report_contract_test.php` | Test PHPUnit/di contratto corrente distribuito con il plugin. |
 | `tests/save_bookmark_test.php` | Copertura PHPUnit per save bookmark test. |
