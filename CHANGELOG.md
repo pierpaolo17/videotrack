@@ -1,5 +1,13 @@
 # VideoTrack changelog
 
+## 1.7.53 - 2026-08-15
+
+- Advance P2/U-007 without changing production AMD while the maintainer Behat endpoint is unavailable: add static contracts for automatic resume, completion synchronisation and stacked player notices across the three providers.
+- Lock automatic resume to the server-validated watched frontier when forward seeking is disabled, and lock explicit report/replay targets ahead of stored resume positions for YouTube, HTML5 and Vimeo.
+- Lock completion-changing learner mutations to Moodle completion synchronisation, keep VideoTrack completion events transition-only and prevent redundant Moodle completion writes on repeated heartbeats/interactions.
+- Lock persistent resume/forward-seek notices so transient status messages cannot clear them; browser/Behat validation of these contracts remains pending.
+- Correct the current documentation audit callable count and regenerate file/function inventories for the 1.7.53 tree.
+
 ## 1.7.52 - 2026-08-15
 
 - Fix sub-second watched-percentage loss at playback boundaries without generic percentage rounding: a tiny initial instrumentation gap (up to 0.25 s) is normalised to zero, and only a validated natural `ended` segment may recover a bounded provider-tail discrepancy (up to 1.25 s).
