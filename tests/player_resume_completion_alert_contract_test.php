@@ -39,7 +39,7 @@ final class player_resume_completion_alert_contract_test extends advanced_testca
 
             $start = strpos($source, 'function resolveResumePosition(');
             $this->assertNotFalse($start, $filename);
-            $end = strpos($source, '\n    function ', $start + 1);
+            $end = strpos($source, "\n    function ", $start + 1);
             $section = $end === false ? substr($source, $start) : substr($source, $start, $end - $start);
 
             $this->assertStringContainsString('config.allowseekforward === false', $section, $filename);
@@ -60,46 +60,46 @@ final class player_resume_completion_alert_contract_test extends advanced_testca
         $this->assertIsString($html5);
         $this->assertIsString($vimeo);
 
-        $youtubeBuild = strpos($youtube, 'function buildPlayer()');
-        $youtubeReplay = strpos($youtube, "typeof config.replaystart === 'number'", $youtubeBuild);
-        $youtubeResume = strpos($youtube, 'initialStart = Math.floor(resolveResumePosition());', $youtubeBuild);
-        $this->assertNotFalse($youtubeReplay);
-        $this->assertNotFalse($youtubeResume);
-        $this->assertLessThan($youtubeResume, $youtubeReplay);
+        $youtubebuild = strpos($youtube, 'function buildPlayer()');
+        $youtubereplay = strpos($youtube, "typeof config.replaystart === 'number'", $youtubebuild);
+        $youtuberesume = strpos($youtube, 'initialStart = Math.floor(resolveResumePosition());', $youtubebuild);
+        $this->assertNotFalse($youtubereplay);
+        $this->assertNotFalse($youtuberesume);
+        $this->assertLessThan($youtuberesume, $youtubereplay);
 
-        $html5Replay = strpos($html5, "typeof config.replaystart === 'number' && config.replaystart >= 0");
-        $html5Resume = strpos($html5, 'var resumePosition = resolveResumePosition(config.resumeposition);', $html5Replay);
-        $this->assertNotFalse($html5Replay);
-        $this->assertNotFalse($html5Resume);
-        $this->assertLessThan($html5Resume, $html5Replay);
+        $html5replay = strpos($html5, "typeof config.replaystart === 'number' && config.replaystart >= 0");
+        $html5resume = strpos($html5, 'var resumePosition = resolveResumePosition(config.resumeposition);', $html5replay);
+        $this->assertNotFalse($html5replay);
+        $this->assertNotFalse($html5resume);
+        $this->assertLessThan($html5resume, $html5replay);
 
-        $vimeoReady = strpos($vimeo, 'player.ready().then(function()');
-        $vimeoReplay = strpos($vimeo, 'var directReplayStart =', $vimeoReady);
-        $vimeoBranch = strpos($vimeo, 'if (directReplayStart !== null)', $vimeoReplay);
-        $vimeoResume = strpos($vimeo, '} else if (resumePosition > 2)', $vimeoBranch);
-        $this->assertNotFalse($vimeoReplay);
-        $this->assertNotFalse($vimeoBranch);
-        $this->assertNotFalse($vimeoResume);
-        $this->assertLessThan($vimeoResume, $vimeoBranch);
+        $vimeoready = strpos($vimeo, 'player.ready().then(function()');
+        $vimeoreplay = strpos($vimeo, 'var directReplayStart =', $vimeoready);
+        $vimeobranch = strpos($vimeo, 'if (directReplayStart !== null)', $vimeoreplay);
+        $vimeoresume = strpos($vimeo, '} else if (resumePosition > 2)', $vimeobranch);
+        $this->assertNotFalse($vimeoreplay);
+        $this->assertNotFalse($vimeobranch);
+        $this->assertNotFalse($vimeoresume);
+        $this->assertLessThan($vimeoresume, $vimeobranch);
     }
 
     /**
      * Learner mutations that can change custom completion must synchronise Moodle completion.
      */
     public function test_completion_mutations_synchronise_moodle_state(): void {
-        $saveSegment = file_get_contents(__DIR__ . '/../classes/external/save_segment.php');
-        $saveReaction = file_get_contents(__DIR__ . '/../classes/external/save_reaction.php');
-        $deleteReaction = file_get_contents(__DIR__ . '/../classes/external/delete_reaction.php');
+        $savesegment = file_get_contents(__DIR__ . '/../classes/external/save_segment.php');
+        $savereaction = file_get_contents(__DIR__ . '/../classes/external/save_reaction.php');
+        $deletereaction = file_get_contents(__DIR__ . '/../classes/external/delete_reaction.php');
         $view = file_get_contents(__DIR__ . '/../view.php');
-        $this->assertIsString($saveSegment);
-        $this->assertIsString($saveReaction);
-        $this->assertIsString($deleteReaction);
+        $this->assertIsString($savesegment);
+        $this->assertIsString($savereaction);
+        $this->assertIsString($deletereaction);
         $this->assertIsString($view);
 
-        foreach ([$saveSegment, $saveReaction, $deleteReaction] as $source) {
+        foreach ([$savesegment, $savereaction, $deletereaction] as $source) {
             $this->assertStringContainsString('tracker::update_moodle_completion_if_changed(', $source);
         }
-        foreach ([$saveReaction, $deleteReaction] as $source) {
+        foreach ([$savereaction, $deletereaction] as $source) {
             $this->assertStringContainsString('tracker::refresh_completion(', $source);
         }
 
@@ -137,19 +137,20 @@ final class player_resume_completion_alert_contract_test extends advanced_testca
         $this->assertIsString($status);
         $this->assertIsString($resume);
 
-        $clearStart = strpos($status, 'function clear(container)');
-        $policyStart = strpos($status, 'function showPolicy(', $clearStart);
-        $this->assertNotFalse($clearStart);
-        $this->assertNotFalse($policyStart);
-        $clearSection = substr($status, $clearStart, $policyStart - $clearStart);
-        $this->assertStringContainsString("remove(target.querySelector('.videotrack-status-message'))", $clearSection);
-        $this->assertStringNotContainsString('videotrack-seek-policy-notice', $clearSection);
-        $this->assertStringNotContainsString('videotrack-resume-notice', $clearSection);
+        $clearstart = strpos($status, 'function clear(container)');
+        $policystart = strpos($status, 'function showPolicy(', $clearstart);
+        $this->assertNotFalse($clearstart);
+        $this->assertNotFalse($policystart);
+        $clearsection = substr($status, $clearstart, $policystart - $clearstart);
+        $this->assertStringContainsString("remove(target.querySelector('.videotrack-status-message'))", $clearsection);
+        $this->assertStringNotContainsString('videotrack-seek-policy-notice', $clearsection);
+        $this->assertStringNotContainsString('videotrack-resume-notice', $clearsection);
 
-        $policyEnd = strpos($status, '\n    function show(', $policyStart);
-        $policySection = substr($status, $policyStart, $policyEnd - $policyStart);
-        $this->assertStringContainsString('videotrack-seek-policy-notice videotrack-inline-notice', $policySection);
-        $this->assertStringNotContainsString('clear(container);', $policySection);
+        $policyend = strpos($status, "\n    function show(", $policystart);
+        $this->assertNotFalse($policyend);
+        $policysection = substr($status, $policystart, $policyend - $policystart);
+        $this->assertStringContainsString('videotrack-seek-policy-notice videotrack-inline-notice', $policysection);
+        $this->assertStringNotContainsString('clear(container);', $policysection);
 
         $this->assertStringContainsString("notice.id = 'videotrack-resume-notice';", $resume);
         $this->assertStringContainsString("notice.setAttribute('role', 'status');", $resume);

@@ -1,6 +1,6 @@
 # Behat browser automation
 
-VideoTrack started its browser-automation phase in release 1.7.45; release 1.7.53 keeps the deterministic HTML5 post-rollback Behat suite and adds non-browser contracts for resume, completion synchronisation and stacked notices across YouTube, HTML5 and Vimeo while the maintainer Behat endpoint is unavailable. The plugin ships a Moodle module generator under `tests/generator/lib.php` and browser scenarios under `tests/behat/`.
+VideoTrack started its browser-automation phase in release 1.7.45; release 1.7.54 keeps the deterministic HTML5 post-rollback Behat suite and the corrected non-browser contracts for resume, completion synchronisation and stacked notices across YouTube, HTML5 and Vimeo while the maintainer Behat endpoint is unavailable. The plugin ships a Moodle module generator under `tests/generator/lib.php` and browser scenarios under `tests/behat/`.
 
 ## Purpose
 
@@ -60,7 +60,7 @@ The deterministic assertions cover both policies: a blocked jump to 20 seconds m
 
 Release 1.7.51 added `tests/provider_seek_snapshot_contract_test.php`: it statically guards pre-seek snapshot ordering and rollback-safe interaction timestamps across YouTube, HTML5 and Vimeo. This is complementary coverage only; it does not make the outstanding YouTube/Vimeo browser harnesses complete.
 
-Release 1.7.53 adds `tests/player_resume_completion_alert_contract_test.php`: it locks validated-frontier resume, direct-replay precedence, completion synchronisation and coexistence of persistent/transient notices across providers. These remain non-browser contracts; the corresponding Behat scenarios are still pending.
+Release 1.7.53 added `tests/player_resume_completion_alert_contract_test.php`; release 1.7.54 corrects that test without changing runtime: it locks validated-frontier resume, direct-replay precedence, completion synchronisation and coexistence of persistent/transient notices across providers. These remain non-browser contracts; the corresponding Behat scenarios are still pending.
 
 ## Current browser-test coverage limits
 

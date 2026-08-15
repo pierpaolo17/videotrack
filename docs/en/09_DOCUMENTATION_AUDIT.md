@@ -1,6 +1,6 @@
 # Documentation audit
 
-Baseline: VideoTrack **1.7.53** (`2026081503`).
+Baseline: VideoTrack **1.7.54** (`2026081504`).
 
 ## Coverage
 
@@ -19,9 +19,9 @@ Baseline: VideoTrack **1.7.53** (`2026081503`).
 - Static resume/completion/stacked-alert contracts cover the three providers while Behat remains unavailable in the maintainer environment; browser evidence is still explicitly pending.
 - Maintainer-only consolidated roadmap/lessons-history files are intentionally excluded from the distributed plugin tree and protected by `.moodleignore`.
 
-## 1.7.53 pre-production documentation verification
+## 1.7.54 pre-production documentation verification
 
-- Current non-documentation file inventory regenerated against the candidate 1.7.53 tree: **266/266** entries.
+- Current non-documentation file inventory regenerated against the candidate 1.7.54 tree: **266/266** entries.
 - Current function inventory regenerated from source locations: **635** named PHP functions/methods and **647** detected named AMD callables.
 - XMLDB inventory matches all **7** tables and every declared field in `db/install.xml`.
 - Site-setting inventory matches all **57** `mod_videotrack` settings.
@@ -29,7 +29,7 @@ Baseline: VideoTrack **1.7.53** (`2026081503`).
 - Browser player configuration inventory matches all **133** keys, including the four forward-seek policy/runtime labels introduced after 1.6.33.
 - All eight maintained language packs expose **982** identical keys, no duplicates and matching Moodle placeholders.
 - Relative Markdown links across the plugin documentation were checked against the tree with no missing target found.
-- Historical technical documents under `archive/` remain historical; current indexes/inventories are rebased to 1.7.53. Internal maintainer roadmap/lesson artifacts are not part of the distributed tree.
+- Historical technical documents under `archive/` remain historical; current indexes/inventories are rebased to 1.7.54. Internal maintainer roadmap/lesson artifacts are not part of the distributed tree.
 
 ## Freshness rules
 
