@@ -1,6 +1,6 @@
 # Automazione browser con Behat
 
-VideoTrack ha avviato la fase di automazione browser nella release 1.7.45; la 1.7.54 mantiene la suite Behat HTML5 post-rollback deterministica e i contratti non-browser corretti per resume, sincronizzazione completion e alert impilati su YouTube, HTML5 e Vimeo mentre l’endpoint Behat del maintainer non è disponibile. Il plugin distribuisce un generator Moodle in `tests/generator/lib.php` e gli scenari browser in `tests/behat/`.
+VideoTrack ha avviato la fase di automazione browser nella release 1.7.45; la 1.7.55 mantiene la suite Behat HTML5 post-rollback deterministica e i contratti non-browser per resume, sincronizzazione completion e alert impilati su YouTube, HTML5 e Vimeo mentre l’endpoint Behat del maintainer non è disponibile; la versionatura della presa visione è inoltre coperta da verifiche PHPUnit comportamentali. Il plugin distribuisce un generator Moodle in `tests/generator/lib.php` e gli scenari browser in `tests/behat/`.
 
 ## Scopo
 
@@ -59,7 +59,7 @@ Le asserzioni deterministiche correnti coprono entrambe le policy: un salto avan
 
 La release 1.7.51 ha aggiunto `tests/provider_seek_snapshot_contract_test.php`: protegge staticamente l’ordine dello snapshot pre-seek e l’uso di timestamp rollback-safe per YouTube, HTML5 e Vimeo. È copertura complementare: non rende complete le harness browser YouTube/Vimeo ancora aperte.
 
-La release 1.7.53 ha aggiunto `tests/player_resume_completion_alert_contract_test.php`; la 1.7.54 corregge quel test senza cambiare il runtime: protegge resume entro la frontier validata, precedenza del replay esplicito, sincronizzazione completion e coesistenza degli avvisi persistenti/transienti sui provider. Restano contratti non-browser; i corrispondenti scenari Behat sono ancora pendenti.
+La release 1.7.53 ha aggiunto `tests/player_resume_completion_alert_contract_test.php`; la 1.7.54 ha corretto quel test senza cambiare il runtime. La 1.7.55 elimina il residuo failure del marker acknowledgement e aggiunge copertura PHPUnit comportamentale per firma completion e versione corrente della presa visione. I controlli provider resume/alert restano non-browser; i corrispondenti scenari Behat sono ancora pendenti.
 
 ## Limiti correnti della copertura browser
 

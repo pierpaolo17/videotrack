@@ -53,6 +53,43 @@ final class acknowledgement_test extends advanced_testcase {
     }
 
     /**
+     * Only a confirmation matching the current statement version is returned.
+     */
+    public function test_current_record_rejects_superseded_statement_versions(): void {
+        global $DB;
+
+        $this->resetAfterTest(true);
+        $instance = (object)[
+            'id' => 92001,
+            'acknowledgementenabled' => 1,
+            'acknowledgementtext' => '<p>Original statement</p>',
+            'acknowledgementformat' => FORMAT_HTML,
+            'acknowledgementtiming' => acknowledgement::TIMING_ANYTIME,
+        ];
+        $userid = 92002;
+        $recordid = $DB->insert_record('videotrack_acknowledge', (object)[
+            'videotrackid' => $instance->id,
+            'courseid' => 1,
+            'cmid' => 1,
+            'userid' => $userid,
+            'statementhash' => acknowledgement::statement_hash($instance),
+            'instanceversion' => 1,
+            'timeconfirmed' => time(),
+        ]);
+
+        $current = acknowledgement::current_record($instance, $userid);
+        $this->assertNotNull($current);
+        $this->assertSame($recordid, (int)$current->id);
+
+        $instance->acknowledgementtext = '<p>Updated statement</p>';
+        $this->assertNull(acknowledgement::current_record($instance, $userid));
+
+        $instance->acknowledgementtext = '<p>Original statement</p>';
+        $instance->acknowledgementtiming = acknowledgement::TIMING_VIDEO_END;
+        $this->assertNull(acknowledgement::current_record($instance, $userid));
+    }
+
+    /**
      * End-gated confirmation requires persisted tracking to reach the final second.
      */
     public function test_video_end_requirement_uses_persisted_intervals(): void {

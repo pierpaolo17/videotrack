@@ -1,5 +1,11 @@
 # VideoTrack changelog
 
+## 1.7.55 - 2026-08-16
+
+- Correct the remaining 1.7.54 completion-contract interpolation bug: the static marker now searches for the literal `$videotrack` argument instead of interpolating an undefined PHPUnit variable.
+- Replace part of the fragile source-text-only acknowledgement coverage with behavioural PHPUnit checks: acknowledgement text/timing changes must alter the canonical completion signature, and `current_record()` must reject confirmations for superseded statement versions.
+- Keep production PHP/AMD behaviour unchanged while Behat remains unavailable; this release strengthens server-side regression evidence only.
+
 ## 1.7.54 - 2026-08-16
 
 - Correct the 1.7.53 non-browser resume/completion/alert contract itself without changing production runtime: use Moodle-compliant lower-case test variable names and real newline delimiters when slicing AMD source sections.
