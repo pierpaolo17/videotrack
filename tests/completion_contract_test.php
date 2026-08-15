@@ -154,8 +154,14 @@ final class completion_contract_test extends advanced_testcase {
      * Updating completion configuration triggers a full tracked-state recalculation.
      */
     public function test_instance_update_recalculates_changed_completion_configuration(): void {
-        $source = file_get_contents(dirname(__DIR__) . '/lib.php');
+        $root = dirname(__DIR__);
+        $source = file_get_contents($root . '/lib.php');
+        $configsource = file_get_contents($root . '/classes/local/completion_config.php');
+        $acksource = file_get_contents($root . '/classes/local/acknowledgement.php');
 
+        $this->assertIsString($source);
+        $this->assertIsString($configsource);
+        $this->assertIsString($acksource);
         $this->assertStringContainsString('completion_config::signature($previous)', $source);
         $this->assertStringContainsString('completion_config::signature($updated)', $source);
         $this->assertStringContainsString('$synchronisemoodle = empty($data->completionunlocked);', $source);
@@ -164,6 +170,11 @@ final class completion_contract_test extends advanced_testcase {
             $source
         );
         $this->assertStringContainsString('bool $synchronisemoodle = true', $source);
+        $this->assertStringContainsString(
+            "'acknowledgementhash' => acknowledgement::statement_hash($videotrack)",
+            $configsource
+        );
+        $this->assertStringContainsString("'statementhash' => self::statement_hash($instance)", $acksource);
     }
 
     /**

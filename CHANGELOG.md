@@ -1,5 +1,12 @@
 # VideoTrack changelog
 
+## 1.7.54 - 2026-08-16
+
+- Correct the 1.7.53 non-browser resume/completion/alert contract itself without changing production runtime: use Moodle-compliant lower-case test variable names and real newline delimiters when slicing AMD source sections.
+- Preserve the existing persistent-notice runtime contract after confirming the reported PHPUnit failure was caused by the test's literal `\n` search, not by `core/status.js`.
+- Strengthen completion-configuration regression coverage so acknowledgement statement/version changes remain part of the canonical completion signature and only the current statement hash can satisfy acknowledgement completion.
+- Keep Behat explicitly not run while the maintainer endpoint is unavailable; no browser/provider result is inferred from static or PHPUnit contracts.
+
 ## 1.7.53 - 2026-08-15
 
 - Advance P2/U-007 without changing production AMD while the maintainer Behat endpoint is unavailable: add static contracts for automatic resume, completion synchronisation and stacked player notices across the three providers.

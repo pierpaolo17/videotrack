@@ -1,6 +1,6 @@
 # Audit della documentazione
 
-Baseline: VideoTrack **1.7.53** (`2026081503`).
+Baseline: VideoTrack **1.7.54** (`2026081504`).
 
 ## Copertura
 
@@ -18,9 +18,9 @@ Baseline: VideoTrack **1.7.53** (`2026081503`).
 - Automazione browser Behat documentata in `22_TEST_BROWSER_BEHAT.md`; U-007 è tracciato come in corso.
 - I contratti statici resume/completion/alert impilati coprono i tre provider mentre Behat resta indisponibile nell’ambiente maintainer; l’evidenza browser resta esplicitamente pendente.
 
-## Verifica documentazione pre-produzione 1.7.53
+## Verifica documentazione pre-produzione 1.7.54
 
-- Inventario corrente dei file non documentali rigenerato sull'albero candidato 1.7.53: **266/266** voci.
+- Inventario corrente dei file non documentali rigenerato sull'albero candidato 1.7.54: **266/266** voci.
 - Inventario funzioni rigenerato sulle posizioni sorgente correnti: **635** funzioni/metodi PHP nominati e **647** callable AMD nominati rilevati.
 - L'inventario XMLDB coincide con tutte le **7** tabelle e con ogni campo dichiarato in `db/install.xml`.
 - L'inventario impostazioni coincide con tutte le **57** impostazioni `mod_videotrack`.
@@ -28,7 +28,7 @@ Baseline: VideoTrack **1.7.53** (`2026081503`).
 - L'inventario configurazione browser/player coincide con tutte le **133** chiavi, incluse le quattro label seek FW introdotte dopo la 1.6.33.
 - Tutti gli otto language pack mantenuti espongono **982** chiavi identiche, nessun duplicato e placeholder Moodle coerenti.
 - I link Markdown relativi della documentazione sono stati verificati contro l'albero senza target mancanti.
-- I documenti tecnici storici sotto `archive/` restano storici; indici e inventari correnti sono ribasati alla 1.7.53. Gli artefatti interni roadmap/lesson del maintainer non fanno parte del tree distribuito.
+- I documenti tecnici storici sotto `archive/` restano storici; indici e inventari correnti sono ribasati alla 1.7.54. Gli artefatti interni roadmap/lesson del maintainer non fanno parte del tree distribuito.
 
 ## Regole di aggiornamento
 
