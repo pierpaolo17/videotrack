@@ -1,5 +1,12 @@
 # VideoTrack changelog
 
+## 1.7.56 - 2026-08-16
+
+- Advance the roadmap outside the temporarily blocked Behat/P2 browser gate by completing the code-side U-020 chapter-focus accessibility gap.
+- Give VTT chapter buttons the same explicit keyboard `:focus`/`:focus-visible` treatment as the other VideoTrack controls, including dark-mode focus parity.
+- Preserve chapter visibility in Windows/high-contrast forced-colour mode and keep the active chapter distinguishable with a system-colour outline.
+- Add a static accessibility contract for chapter button semantics, accessible names, keyboard focus and forced-colour active state; no AMD source/build change is required.
+
 ## 1.7.55 - 2026-08-16
 
 - Correct the remaining 1.7.54 completion-contract interpolation bug: the static marker now searches for the literal `$videotrack` argument instead of interpolating an undefined PHPUnit variable.

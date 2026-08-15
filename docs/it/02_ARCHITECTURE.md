@@ -38,7 +38,7 @@ La raccolta è subordinata alle funzioni abilitate. Gli Analytics docente usano 
 
 ## Architettura accessibile
 
-I controlli sono da tastiera e hanno nomi accessibili; gli stati dinamici usano live region; sono supportati movimento ridotto e colori forzati; l’overlay poster espone il pulsante Play alle tecnologie assistive. La politica focus predefinita usa la visibilità del documento, non il semplice blur della finestra.
+I controlli sono da tastiera e hanno nomi accessibili; gli stati dinamici usano live region; sono supportati movimento ridotto e colori forzati; l’overlay poster espone il pulsante Play alle tecnologie assistive. La politica focus predefinita usa la visibilità del documento, non il semplice blur della finestra. I pulsanti dei capitoli VTT condividono il contratto focus-visible esplicito e mantengono un contorno di stato attivo in modalità colori forzati.
 
 ## Asset generati
 

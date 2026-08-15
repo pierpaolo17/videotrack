@@ -270,7 +270,8 @@
 .videotrack-delete-reaction:focus,
 .videotrack-replay:focus,
 .videotrack-poster-play-btn:focus,
-.videotrack-transcript-btn:focus {
+.videotrack-transcript-btn:focus,
+.videotrack-chapter-btn:focus {
     outline: 3px solid var(--videotrack-focus-ring);
     outline-offset: 2px;
 }
@@ -299,6 +300,7 @@
     .videotrack-replay:focus:not(:focus-visible),
     .videotrack-poster-play-btn:focus:not(:focus-visible),
     .videotrack-transcript-btn:focus:not(:focus-visible),
+    .videotrack-chapter-btn:focus:not(:focus-visible),
     .videotrack-ctrl-progress:focus:not(:focus-visible),
     .videotrack-ctrl-volume:focus:not(:focus-visible) {
         outline: none;
@@ -323,7 +325,8 @@
 .videotrack-delete-reaction:focus-visible,
 .videotrack-replay:focus-visible,
 .videotrack-poster-play-btn:focus-visible,
-.videotrack-transcript-btn:focus-visible {
+.videotrack-transcript-btn:focus-visible,
+.videotrack-chapter-btn:focus-visible {
     outline: 3px solid var(--videotrack-focus-ring);
     outline-offset: 2px;
 }
@@ -359,6 +362,7 @@
     .btn.videotrack-delete-note:focus,
     .videotrack-poster-play-btn:focus,
     .videotrack-transcript-btn:focus,
+    .videotrack-chapter-btn:focus,
     .videotrack-reaction-btn:focus-visible,
     .videotrack-skip-btn:focus-visible,
     .videotrack-ctrl-play:focus-visible,
@@ -375,7 +379,8 @@
     .btn.videotrack-delete-reaction:focus-visible,
     .btn.videotrack-delete-note:focus-visible,
     .videotrack-poster-play-btn:focus-visible,
-    .videotrack-transcript-btn:focus-visible {
+    .videotrack-transcript-btn:focus-visible,
+    .videotrack-chapter-btn:focus-visible {
         outline-color: var(--videotrack-focus-ring);
     }
 
@@ -968,7 +973,8 @@
     .videotrack-ctrl-pip,
     .videotrack-ctrl-fs,
     .videotrack-ctrl-download,
-    .videotrack-html5-controls .videotrack-speed-btn {
+    .videotrack-html5-controls .videotrack-speed-btn,
+    .videotrack-chapter-btn {
         background: ButtonFace;
         border-color: ButtonText;
         color: ButtonText;
@@ -976,6 +982,11 @@
     }
     .videotrack-poster-play-icon svg {
         fill: ButtonText;
+    }
+    .videotrack-chapter-btn.videotrack-chapter-active {
+        border-width: 2px;
+        outline: 2px solid Highlight;
+        outline-offset: 1px;
     }
 }
 

@@ -1,8 +1,8 @@
 # Function inventory
 
-Generated from the VideoTrack 1.7.55 source tree. PHP entries include named functions and methods; AMD entries include named declarations, assigned function expressions and object-method functions.
+Generated from the VideoTrack 1.7.56 source tree. PHP entries include named functions and methods; AMD entries include named declarations, assigned function expressions and object-method functions.
 
-**PHP functions/methods:** 637. **Named AMD callables:** 647.
+**PHP functions/methods:** 639. **Named AMD callables:** 647.
 
 | Location | Callable | Responsibility |
 |---|---|---|
@@ -1067,6 +1067,8 @@ Generated from the VideoTrack 1.7.55 source tree. PHP entries include named func
 | `reports_course.php:35` | `videotrack_course_report_count_cell` | PHP callable `videotrack_course_report_count_cell`; see its DocBlock and callers for parameter, return-value and side-effect details. |
 | `reports_course.php:58` | `videotrack_course_report_percentage_cell` | PHP callable `videotrack_course_report_percentage_cell`; see its DocBlock and callers for parameter, return-value and side-effect details. |
 | `reports_course.php:99` | `videotrack_course_report_drop_cell` | PHP callable `videotrack_course_report_drop_cell`; see its DocBlock and callers for parameter, return-value and side-effect details. |
+| `tests/accessibility_contract_test.php:35` | `test_chapter_buttons_have_visible_keyboard_focus_contract` | PHP callable `test_chapter_buttons_have_visible_keyboard_focus_contract`; verifies explicit keyboard focus and forced-colour chapter styling. |
+| `tests/accessibility_contract_test.php:50` | `test_chapter_navigation_keeps_native_button_semantics` | PHP callable `test_chapter_navigation_keeps_native_button_semantics`; verifies native button semantics and accessible chapter labels. |
 | `tests/acknowledgement_test.php:36` | `test_statement_hash_versions_the_statement_content` | PHP callable `test_statement_hash_versions_the_statement_content`; see its DocBlock and callers for parameter, return-value and side-effect details. |
 | `tests/acknowledgement_test.php:58` | `test_current_record_rejects_superseded_statement_versions` | PHP callable `test_current_record_rejects_superseded_statement_versions`; see its DocBlock and callers for parameter, return-value and side-effect details. |
 | `tests/acknowledgement_test.php:95` | `test_video_end_requirement_uses_persisted_intervals` | PHP callable `test_video_end_requirement_uses_persisted_intervals`; see its DocBlock and callers for parameter, return-value and side-effect details. |
