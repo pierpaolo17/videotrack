@@ -17,6 +17,7 @@
 namespace mod_videotrack;
 
 use advanced_testcase;
+use mod_videotrack\local\acknowledgement;
 use mod_videotrack\local\completion_config;
 use mod_videotrack\local\tracker;
 
@@ -171,10 +172,45 @@ final class completion_contract_test extends advanced_testcase {
         );
         $this->assertStringContainsString('bool $synchronisemoodle = true', $source);
         $this->assertStringContainsString(
-            "'acknowledgementhash' => acknowledgement::statement_hash($videotrack)",
+            "'acknowledgementhash' => acknowledgement::statement_hash(\$videotrack)",
             $configsource
         );
-        $this->assertStringContainsString("'statementhash' => self::statement_hash($instance)", $acksource);
+        $this->assertStringContainsString("'statementhash' => self::statement_hash(\$instance)", $acksource);
+    }
+
+    /**
+     * Acknowledgement content and timing changes alter the canonical completion signature.
+     */
+    public function test_acknowledgement_policy_changes_completion_signature_behaviorally(): void {
+        $this->resetAfterTest(true);
+
+        $instance = (object)[
+            'id' => 91001,
+            'durationseconds' => 120,
+            'completionpercent' => 80,
+            'reactionsenabled' => 0,
+            'reactionsrequired' => 0,
+            'minreactions' => 0,
+            'requireallreactiontypes' => 0,
+            'completionlogic' => 'and',
+            'acknowledgementenabled' => 1,
+            'completionacknowledgement' => 1,
+            'acknowledgementtext' => '<p>Original statement</p>',
+            'acknowledgementformat' => FORMAT_HTML,
+            'acknowledgementtiming' => acknowledgement::TIMING_ANYTIME,
+        ];
+
+        $original = completion_config::signature($instance);
+        $this->assertSame($original, completion_config::signature(clone $instance));
+
+        $instance->acknowledgementtext = '<p>Updated statement</p>';
+        $updatedtext = completion_config::signature($instance);
+        $this->assertNotSame($original, $updatedtext);
+
+        $instance->acknowledgementtext = '<p>Original statement</p>';
+        $instance->acknowledgementtiming = acknowledgement::TIMING_VIDEO_END;
+        $updatedtiming = completion_config::signature($instance);
+        $this->assertNotSame($original, $updatedtiming);
     }
 
     /**
