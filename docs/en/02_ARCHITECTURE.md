@@ -38,7 +38,7 @@ Collection is feature-gated. Teacher Analytics consume aggregates and apply inde
 
 ## Accessibility architecture
 
-Controls have keyboard operation and accessible names; dynamic status uses live regions; reduced-motion and forced-colour modes are supported; the poster overlay exposes its Play control to assistive technology. The default focus policy uses document visibility rather than raw window blur for automatic pausing.
+Controls have keyboard operation and accessible names; dynamic status uses live regions; reduced-motion and forced-colour modes are supported; the poster overlay exposes its Play control to assistive technology. The default focus policy uses document visibility rather than raw window blur for automatic pausing. VTT chapter buttons share the explicit focus-visible contract and retain an active-state outline in forced-colour mode.
 
 ## Generated assets
 

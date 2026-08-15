@@ -1,8 +1,8 @@
 # Inventario delle funzioni
 
-Generato dall’albero sorgente VideoTrack 1.7.55. Le voci PHP includono funzioni e metodi nominati; le voci AMD includono dichiarazioni nominate, espressioni funzione assegnate e funzioni-metodo di oggetti.
+Generato dall’albero sorgente VideoTrack 1.7.56. Le voci PHP includono funzioni e metodi nominati; le voci AMD includono dichiarazioni nominate, espressioni funzione assegnate e funzioni-metodo di oggetti.
 
-**PHP functions/methods:** 637. **Named AMD callables:** 647.
+**PHP functions/methods:** 639. **Named AMD callables:** 647.
 
 | Posizione | Callable | Responsabilità |
 |---|---|---|
@@ -1067,6 +1067,8 @@ Generato dall’albero sorgente VideoTrack 1.7.55. Le voci PHP includono funzion
 | `reports_course.php:35` | `videotrack_course_report_count_cell` | Callable PHP `videotrack_course_report_count_cell`; DocBlock e chiamanti definiscono parametri, valori restituiti ed effetti. |
 | `reports_course.php:58` | `videotrack_course_report_percentage_cell` | Callable PHP `videotrack_course_report_percentage_cell`; DocBlock e chiamanti definiscono parametri, valori restituiti ed effetti. |
 | `reports_course.php:99` | `videotrack_course_report_drop_cell` | Callable PHP `videotrack_course_report_drop_cell`; DocBlock e chiamanti definiscono parametri, valori restituiti ed effetti. |
+| `tests/accessibility_contract_test.php:35` | `test_chapter_buttons_have_visible_keyboard_focus_contract` | Callable PHP `test_chapter_buttons_have_visible_keyboard_focus_contract`; verifica focus tastiera esplicito e stili capitolo in colori forzati. |
+| `tests/accessibility_contract_test.php:50` | `test_chapter_navigation_keeps_native_button_semantics` | Callable PHP `test_chapter_navigation_keeps_native_button_semantics`; verifica semantica button nativa e label accessibili dei capitoli. |
 | `tests/acknowledgement_test.php:36` | `test_statement_hash_versions_the_statement_content` | Callable PHP `test_statement_hash_versions_the_statement_content`; DocBlock e chiamanti definiscono parametri, valori restituiti ed effetti. |
 | `tests/acknowledgement_test.php:58` | `test_current_record_rejects_superseded_statement_versions` | Callable PHP `test_current_record_rejects_superseded_statement_versions`; DocBlock e chiamanti definiscono parametri, valori restituiti ed effetti. |
 | `tests/acknowledgement_test.php:95` | `test_video_end_requirement_uses_persisted_intervals` | Callable PHP `test_video_end_requirement_uses_persisted_intervals`; DocBlock e chiamanti definiscono parametri, valori restituiti ed effetti. |
