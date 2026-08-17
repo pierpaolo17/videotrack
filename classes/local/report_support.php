@@ -16,6 +16,7 @@
 
 namespace mod_videotrack\local;
 
+use context;
 use context_module;
 use html_writer;
 use invalid_parameter_exception;
@@ -318,6 +319,113 @@ final class report_support {
         }
 
         return [$clauses ? implode(' OR ', $clauses) : '1 = 0', $params];
+    }
+
+    /**
+     * Builds the report user filter options in source-priority order.
+     *
+     * @param array $useridgroups Ordered groups of Moodle user ids.
+     * @param array $usermap Real Moodle users keyed by id.
+     * @param bool $canviewemail Whether email may be displayed.
+     * @return array User filter options keyed by Moodle user id.
+     */
+    public static function user_options(array $useridgroups, array $usermap, bool $canviewemail): array {
+        $options = [0 => get_string('all')];
+        foreach ($useridgroups as $userids) {
+            foreach ($userids as $userid) {
+                $userid = (int)$userid;
+                if ($userid <= 0 || isset($options[$userid])) {
+                    continue;
+                }
+                if (!isset($usermap[$userid])) {
+                    continue;
+                }
+                $options[$userid] = self::user_label($userid, $usermap, $canviewemail);
+            }
+        }
+        return $options;
+    }
+
+    /**
+     * Clusters standard reaction events using the report window and sort policy.
+     *
+     * Events must arrive in ascending video-time order, matching the controller recordsets.
+     * The bounded cluster limit preserves the report safety valve without loading additional data.
+     *
+     * @param iterable $events Standard reaction events.
+     * @param int $windowseconds Cluster window in seconds.
+     * @param string $aggregationmode Aggregation mode: type or peak.
+     * @param array $reactionmap Reaction definitions keyed by id.
+     * @param string $sort Report sort mode.
+     * @param context $context Formatting context for reaction labels.
+     * @param bool $limitreached Shared flag set when the configured cluster cap is reached.
+     * @return array Cluster rows in report order.
+     */
+    public static function cluster_reaction_events(
+        iterable $events,
+        int $windowseconds,
+        string $aggregationmode,
+        array $reactionmap,
+        string $sort,
+        context $context,
+        bool &$limitreached
+    ): array {
+        // Keep only the latest open cluster per reaction (or one cluster for peak mode),
+        // avoiding the former O(n * clusters) scan for every event.
+        $clusters = [];
+        $activeindex = [];
+        $maxclusters = videotrack_get_config_int('reportclusterlimit', 2000, 500, 10000);
+        foreach ($events as $event) {
+            $reactionid = (int)$event->reactionid;
+            $time = (float)$event->videotime;
+            $key = ($aggregationmode === 'peak') ? 0 : $reactionid;
+            $idx = $activeindex[$key] ?? null;
+
+            if ($idx !== null && ($time - (float)$clusters[$idx]['anchor']) <= $windowseconds) {
+                $clusters[$idx]['count']++;
+                $clusters[$idx]['students'][(int)$event->userid] = true;
+                $clusters[$idx]['timesum'] += $time;
+                $clusters[$idx]['first'] = min($clusters[$idx]['first'], $time);
+                $clusters[$idx]['last'] = max($clusters[$idx]['last'], $time);
+                continue;
+            }
+
+            if (count($clusters) >= $maxclusters) {
+                $limitreached = true;
+                continue;
+            }
+            $clusters[] = [
+                'reactionid' => $reactionid,
+                'reactionlabel' => format_string($event->reactionlabel, true, ['context' => $context]),
+                'reaction' => $reactionmap[$reactionid] ?? null,
+                'anchor' => $time,
+                'first' => $time,
+                'last' => $time,
+                'count' => 1,
+                'students' => [(int)$event->userid => true],
+                'timesum' => $time,
+            ];
+            $activeindex[$key] = count($clusters) - 1;
+        }
+
+        foreach ($clusters as &$cluster) {
+            $cluster['students'] = count($cluster['students']);
+            $cluster['timestamp'] = $cluster['timesum'] / $cluster['count'];
+            unset($cluster['timesum']);
+        }
+        unset($cluster);
+
+        if ($aggregationmode === 'type' && $sort === 'reaction') {
+            usort(
+                $clusters,
+                static fn($a, $b) => [$a['reactionlabel'], $a['timestamp']] <=> [$b['reactionlabel'], $b['timestamp']]
+            );
+        } else if ($sort === 'clicks') {
+            usort($clusters, static fn($a, $b) => $b['count'] <=> $a['count']);
+        } else {
+            usort($clusters, static fn($a, $b) => $a['timestamp'] <=> $b['timestamp']);
+        }
+        return $clusters;
     }
 
     /**

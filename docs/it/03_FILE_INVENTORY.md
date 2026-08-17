@@ -1,6 +1,6 @@
 # Inventario dei file distribuiti
 
-Questo inventario è generato sull’albero VideoTrack 1.7.60 ed elenca ogni file non documentale. Il JavaScript canonico è in `amd/src`; i file in `amd/build` sono generati.
+Questo inventario è generato sull’albero VideoTrack 1.7.61 ed elenca ogni file non documentale. Il JavaScript canonico è in `amd/src`; i file in `amd/build` sono generati.
 
 Entries: **271**.
 
@@ -194,7 +194,7 @@ Entries: **271**.
 | `classes/local/integrity.php` | Servizio di dominio `integrity` riusabile da pagine, report o servizi. |
 | `classes/local/learner_scope.php` | Regole canoniche di visibilità learner/report per ruoli e gruppi. |
 | `classes/local/privacy_manager.php` | Servizio di dominio `privacy_manager` riusabile da pagine, report o servizi. |
-| `classes/local/report_support.php` | Helper per richiesta, filtri e scope capability-safe del report docente estratto dal controller. |
+| `classes/local/report_support.php` | Supporto estratto dal controller per richiesta, filtri, scope capability-safe, opzioni utente e clustering reazioni del report docente. |
 | `classes/local/report_view.php` | Helper di presentazione Analytics docente estratto dal controller del report. |
 | `classes/local/teacher_analytics.php` | Servizio di dominio `teacher_analytics` riusabile da pagine, report o servizi. |
 | `classes/local/timed_text.php` | Servizio di dominio `timed_text` riusabile da pagine, report o servizi. |

@@ -1,8 +1,8 @@
 # Function inventory
 
-Generated from the VideoTrack 1.7.60 source tree. PHP entries include named functions and methods; AMD entries include named declarations, assigned function expressions and object-method functions.
+Generated from the VideoTrack 1.7.61 source tree. PHP entries include named functions and methods; AMD entries include named declarations, assigned function expressions and object-method functions.
 
-**PHP functions/methods:** 649. **Named AMD callables:** 647.
+**PHP functions/methods:** 653. **Named AMD callables:** 647.
 
 | Location | Callable | Responsibility |
 |---|---|---|
@@ -893,13 +893,15 @@ Generated from the VideoTrack 1.7.60 source tree. PHP entries include named func
 | `classes/local/privacy_manager.php:501` | `earliest_retained_timestamp` | PHP callable `earliest_retained_timestamp`; see its DocBlock and callers for parameter, return-value and side-effect details. |
 | `classes/local/privacy_manager.php:543` | `delete_state` | PHP callable `delete_state`; see its DocBlock and callers for parameter, return-value and side-effect details. |
 | `classes/local/privacy_manager.php:567` | `synchronise_completion` | PHP callable `synchronise_completion`; see its DocBlock and callers for parameter, return-value and side-effect details. |
-| `classes/local/report_support.php:41` | `user_label` | PHP callable `report_support::user_label`; extracted report-user label formatting with email-visibility preservation. |
-| `classes/local/report_support.php:59` | `date_to_timestamp` | PHP callable `report_support::date_to_timestamp`; canonical date-only report-filter parsing. |
-| `classes/local/report_support.php:81` | `optional_time_param` | PHP callable `report_support::optional_time_param`; structured and legacy video-time request parsing. |
-| `classes/local/report_support.php:133` | `duration_filter` | PHP callable `report_support::duration_filter`; accessible structured duration-filter markup. |
-| `classes/local/report_support.php:196` | `analytics_scope_condition` | PHP callable `report_support::analytics_scope_condition`; capability-safe Analytics scope SQL construction. |
-| `classes/local/report_support.php:263` | `acknowledgement_scope_condition` | PHP callable `report_support::acknowledgement_scope_condition`; current-version acknowledgement scope SQL construction. |
-| `classes/local/report_support.php:331` | `tabs` | PHP callable `report_support::tabs`; capability-dependent teacher-report tab construction. |
+| `classes/local/report_support.php:42` | `user_label` | PHP callable `report_support::user_label`; extracted report-user label formatting with email-visibility preservation. |
+| `classes/local/report_support.php:60` | `date_to_timestamp` | PHP callable `report_support::date_to_timestamp`; canonical date-only report-filter parsing. |
+| `classes/local/report_support.php:82` | `optional_time_param` | PHP callable `report_support::optional_time_param`; structured and legacy video-time request parsing. |
+| `classes/local/report_support.php:134` | `duration_filter` | PHP callable `report_support::duration_filter`; accessible structured duration-filter markup. |
+| `classes/local/report_support.php:197` | `analytics_scope_condition` | PHP callable `report_support::analytics_scope_condition`; capability-safe Analytics scope SQL construction. |
+| `classes/local/report_support.php:264` | `acknowledgement_scope_condition` | PHP callable `report_support::acknowledgement_scope_condition`; current-version acknowledgement scope SQL construction. |
+| `classes/local/report_support.php:332` | `user_options` | PHP callable `report_support::user_options`; source-priority report-user option assembly with privacy-preserving labels. |
+| `classes/local/report_support.php:364` | `cluster_reaction_events` | PHP callable `report_support::cluster_reaction_events`; bounded reaction clustering with existing window, student-count and sort semantics. |
+| `classes/local/report_support.php:439` | `tabs` | PHP callable `report_support::tabs`; capability-dependent teacher-report tab construction. |
 | `classes/local/report_view.php:42` | `analytics_interval` | PHP callable `report_view::analytics_interval`; see its DocBlock and callers for parameter, return-value and side-effect details. |
 | `classes/local/report_view.php:56` | `analytics_heatmap` | PHP callable `report_view::analytics_heatmap`; see its DocBlock and callers for parameter, return-value and side-effect details. |
 | `classes/local/report_view.php:188` | `analytics_methodology` | PHP callable `report_view::analytics_methodology`; see its DocBlock and callers for parameter, return-value and side-effect details. |
@@ -1122,6 +1124,11 @@ Generated from the VideoTrack 1.7.60 source tree. PHP entries include named func
 | `tests/analytics_test.php:318` | `test_reaction_summary_masks_small_populations` | PHP callable `test_reaction_summary_masks_small_populations`; see its DocBlock and callers for parameter, return-value and side-effect details. |
 | `tests/analytics_test.php:339` | `test_build_from_states_recovers_unique_viewers` | PHP callable `test_build_from_states_recovers_unique_viewers`; see its DocBlock and callers for parameter, return-value and side-effect details. |
 | `tests/analytics_test.php:359` | `test_resolve_duration_uses_best_persisted_source` | PHP callable `test_resolve_duration_uses_best_persisted_source`; see its DocBlock and callers for parameter, return-value and side-effect details. |
+| `tests/behat/behat_mod_videotrack.php:41` | `the_videotrack_html5_media_is_ready` | Waits for local HTML5 fixture metadata in Behat. |
+| `tests/behat/behat_mod_videotrack.php:61` | `i_seek_the_videotrack_html5_media_to_seconds` | Drives a deterministic HTML5 seek in the browser test harness. |
+| `tests/behat/behat_mod_videotrack.php:78` | `the_videotrack_html5_media_time_should_be_between` | Asserts the HTML5 media timestamp is inside the expected browser-test range. |
+| `tests/behat/behat_mod_videotrack.php:106` | `the_user_has_watched_videotrack_through_seconds` | Seeds bounded validated watched evidence for deterministic post-seek Behat interaction scenarios. |
+| `tests/behat/behat_mod_videotrack.php:183` | `the_videotrack_forum_time_should_be_between` | Asserts the linked Forum composer keeps a timestamp inside the expected validated range after rollback. |
 | `tests/cli_contract_test.php:33` | `test_validator_is_read_only_and_covers_release_contracts` | Named PHP function/method `test_validator_is_read_only_and_covers_release_contracts`; see source DocBlock and callers for the current contract. |
 | `tests/cli_contract_test.php:55` | `test_course_analytics_benchmark_uses_real_read_only_metrics` | Named PHP function/method `test_course_analytics_benchmark_uses_real_read_only_metrics`; see source DocBlock and callers for the current contract. |
 | `tests/cli_contract_test.php:77` | `test_cli_tools_are_documented_for_admins_and_maintainers` | Named PHP function/method `test_cli_tools_are_documented_for_admins_and_maintainers`; see source DocBlock and callers for the current contract. |
@@ -1167,6 +1174,10 @@ Generated from the VideoTrack 1.7.60 source tree. PHP entries include named func
 | `tests/forum_bridge_test.php:196` | `test_dual_role_learner_does_not_bypass_watched_check` | Named PHP function/method `test_dual_role_learner_does_not_bypass_watched_check`; see source DocBlock and callers for the current contract. |
 | `tests/forum_bridge_test.php:219` | `test_forum_composer_invokes_timestamp_access_validation` | Named PHP function/method `test_forum_composer_invokes_timestamp_access_validation`; see source DocBlock and callers for the current contract. |
 | `tests/forum_bridge_test.php:236` | `insert_validated_segment` | Named PHP function/method `insert_validated_segment`; see source DocBlock and callers for the current contract. |
+| `tests/generator/lib.php:43` | `create_instance` | Creates deterministic VideoTrack module fixtures for PHPUnit and Behat. |
+| `tests/generator_test.php:33` | `test_generator_creates_activity_with_learner_features` | Verifies the generator can create an activity with learner study tools enabled. |
+| `tests/generator_test.php:65` | `test_generator_creates_local_html5_fixture` | Verifies the generator stores the deterministic HTML5 fixture in the module filearea. |
+| `tests/generator_test.php:96` | `test_generator_links_named_forum_fixture` | Verifies the generator resolves a named same-course Forum for deterministic browser fixtures. |
 | `tests/gradebook_restore_contract_test.php:35` | `test_restore_step_does_not_create_grade_item_before_core_grade_restore` | Named PHP function/method `test_restore_step_does_not_create_grade_item_before_core_grade_restore`; see source DocBlock and callers for the current contract. |
 | `tests/gradebook_restore_contract_test.php:49` | `test_gradebook_repair_keeps_one_item_and_moves_user_grades` | Named PHP function/method `test_gradebook_repair_keeps_one_item_and_moves_user_grades`; see source DocBlock and callers for the current contract. |
 | `tests/integrity_test.php:36` | `test_event_type_validation_is_allowlist_based` | PHP callable `test_event_type_validation_is_allowlist_based`; see its DocBlock and callers for parameter, return-value and side-effect details. |
@@ -1197,6 +1208,11 @@ Generated from the VideoTrack 1.7.60 source tree. PHP entries include named func
 | `tests/locallib_test.php:212` | `test_build_replay_url_applies_window_and_duration` | PHP callable `test_build_replay_url_applies_window_and_duration`; see its DocBlock and callers for parameter, return-value and side-effect details. |
 | `tests/locallib_test.php:226` | `test_build_forum_subject_replaces_supported_placeholders` | PHP callable `test_build_forum_subject_replaces_supported_placeholders`; see its DocBlock and callers for parameter, return-value and side-effect details. |
 | `tests/locallib_test.php:240` | `test_build_forum_subject_uses_default_template` | PHP callable `test_build_forum_subject_uses_default_template`; see its DocBlock and callers for parameter, return-value and side-effect details. |
+| `tests/player_resume_completion_alert_contract_test.php:35` | `test_all_providers_clamp_resume_to_validated_frontier` | Named PHP function/method `test_all_providers_clamp_resume_to_validated_frontier`; see source DocBlock and callers for the current contract. |
+| `tests/player_resume_completion_alert_contract_test.php:55` | `test_direct_replay_precedes_automatic_resume_for_all_providers` | Named PHP function/method `test_direct_replay_precedes_automatic_resume_for_all_providers`; see source DocBlock and callers for the current contract. |
+| `tests/player_resume_completion_alert_contract_test.php:89` | `test_completion_mutations_synchronise_moodle_state` | Named PHP function/method `test_completion_mutations_synchronise_moodle_state`; see source DocBlock and callers for the current contract. |
+| `tests/player_resume_completion_alert_contract_test.php:118` | `test_completion_transitions_avoid_redundant_events_and_writes` | Named PHP function/method `test_completion_transitions_avoid_redundant_events_and_writes`; see source DocBlock and callers for the current contract. |
+| `tests/player_resume_completion_alert_contract_test.php:134` | `test_persistent_notices_coexist_with_transient_status_messages` | Named PHP function/method `test_persistent_notices_coexist_with_transient_status_messages`; see source DocBlock and callers for the current contract. |
 | `tests/privacy_manager_test.php:37` | `test_cleanup_deletes_expired_rows_and_rebuilds_state` | PHP callable `test_cleanup_deletes_expired_rows_and_rebuilds_state`; see its DocBlock and callers for parameter, return-value and side-effect details. |
 | `tests/privacy_manager_test.php:136` | `test_cleanup_removes_state_when_no_retained_inputs_remain` | PHP callable `test_cleanup_removes_state_when_no_retained_inputs_remain`; see its DocBlock and callers for parameter, return-value and side-effect details. |
 | `tests/privacy_manager_test.php:176` | `test_cleanup_preserves_recent_playback_guard` | PHP callable `test_cleanup_preserves_recent_playback_guard`; see its DocBlock and callers for parameter, return-value and side-effect details. |
@@ -1214,11 +1230,6 @@ Generated from the VideoTrack 1.7.60 source tree. PHP entries include named func
 | `tests/provider_seek_snapshot_contract_test.php:56` | `test_html5_blocked_seek_snapshots_pre_seek_position_before_rollback` | Named PHP function/method `test_html5_blocked_seek_snapshots_pre_seek_position_before_rollback`; see source DocBlock and callers for the current contract. |
 | `tests/provider_seek_snapshot_contract_test.php:77` | `test_vimeo_user_seek_retains_pre_seek_position_for_seek_resolution` | Named PHP function/method `test_vimeo_user_seek_retains_pre_seek_position_for_seek_resolution`; see source DocBlock and callers for the current contract. |
 | `tests/provider_seek_snapshot_contract_test.php:104` | `test_all_providers_wire_rollback_safe_timestamp_to_personal_actions` | Named PHP function/method `test_all_providers_wire_rollback_safe_timestamp_to_personal_actions`; see source DocBlock and callers for the current contract. |
-| `tests/player_resume_completion_alert_contract_test.php:35` | `test_all_providers_clamp_resume_to_validated_frontier` | Named PHP function/method `test_all_providers_clamp_resume_to_validated_frontier`; see source DocBlock and callers for the current contract. |
-| `tests/player_resume_completion_alert_contract_test.php:55` | `test_direct_replay_precedes_automatic_resume_for_all_providers` | Named PHP function/method `test_direct_replay_precedes_automatic_resume_for_all_providers`; see source DocBlock and callers for the current contract. |
-| `tests/player_resume_completion_alert_contract_test.php:89` | `test_completion_mutations_synchronise_moodle_state` | Named PHP function/method `test_completion_mutations_synchronise_moodle_state`; see source DocBlock and callers for the current contract. |
-| `tests/player_resume_completion_alert_contract_test.php:118` | `test_completion_transitions_avoid_redundant_events_and_writes` | Named PHP function/method `test_completion_transitions_avoid_redundant_events_and_writes`; see source DocBlock and callers for the current contract. |
-| `tests/player_resume_completion_alert_contract_test.php:134` | `test_persistent_notices_coexist_with_transient_status_messages` | Named PHP function/method `test_persistent_notices_coexist_with_transient_status_messages`; see source DocBlock and callers for the current contract. |
 | `tests/release_hygiene_contract_test.php:33` | `test_csv_export_format_strings_have_explicit_context` | Named PHP function/method `test_csv_export_format_strings_have_explicit_context`; see source DocBlock and callers for the current contract. |
 | `tests/release_hygiene_contract_test.php:47` | `test_environment_italian_feedback_uses_utf8` | Named PHP function/method `test_environment_italian_feedback_uses_utf8`; see source DocBlock and callers for the current contract. |
 | `tests/release_hygiene_contract_test.php:63` | `test_readmes_and_changelog_track_current_release` | Named PHP function/method `test_readmes_and_changelog_track_current_release`; see source DocBlock and callers for the current contract. |
@@ -1232,12 +1243,14 @@ Generated from the VideoTrack 1.7.60 source tree. PHP entries include named func
 | `tests/report_contract_test.php:95` | `test_student_grade_label_uses_plugin_string` | PHP callable `test_student_grade_label_uses_plugin_string`; static regression contract for the teacher report controller. |
 | `tests/report_contract_test.php:105` | `test_provider_and_integrity_notices_share_one_alert` | PHP callable `test_provider_and_integrity_notices_share_one_alert`; static regression contract for the teacher report controller. |
 | `tests/report_contract_test.php:122` | `test_report_support_helpers_are_extracted_from_controller` | PHP callable `test_report_support_helpers_are_extracted_from_controller`; static regression contract for the teacher report controller. |
-| `tests/report_contract_test.php:139` | `test_analytics_rendering_is_extracted_from_report_controller` | PHP callable `test_analytics_rendering_is_extracted_from_report_controller`; static regression contract for the teacher report controller. |
-| `tests/report_support_test.php:35` | `test_date_to_timestamp_rejects_invalid_values` | PHP callable `test_date_to_timestamp_rejects_invalid_values`; behavioural coverage for extracted report request/filter/scope helpers. |
-| `tests/report_support_test.php:52` | `test_duration_filter_preserves_structured_controls` | PHP callable `test_duration_filter_preserves_structured_controls`; behavioural coverage for extracted report request/filter/scope helpers. |
-| `tests/report_support_test.php:66` | `test_user_label_respects_email_visibility` | PHP callable `test_user_label_respects_email_visibility`; behavioural coverage for extracted report request/filter/scope helpers. |
-| `tests/report_support_test.php:86` | `test_tabs_preserve_capability_dependent_set` | PHP callable `test_tabs_preserve_capability_dependent_set`; behavioural coverage for extracted report request/filter/scope helpers. |
-| `tests/report_support_test.php:102` | `test_empty_scope_conditions_remain_deny_all` | PHP callable `test_empty_scope_conditions_remain_deny_all`; behavioural coverage for extracted report request/filter/scope helpers. |
+| `tests/report_contract_test.php:142` | `test_analytics_rendering_is_extracted_from_report_controller` | PHP callable `test_analytics_rendering_is_extracted_from_report_controller`; static regression contract for the teacher report controller. |
+| `tests/report_support_test.php:36` | `test_date_to_timestamp_rejects_invalid_values` | PHP callable `test_date_to_timestamp_rejects_invalid_values`; behavioural coverage for extracted report request/filter/scope helpers. |
+| `tests/report_support_test.php:53` | `test_duration_filter_preserves_structured_controls` | PHP callable `test_duration_filter_preserves_structured_controls`; behavioural coverage for extracted report request/filter/scope helpers. |
+| `tests/report_support_test.php:67` | `test_user_label_respects_email_visibility` | PHP callable `test_user_label_respects_email_visibility`; behavioural coverage for extracted report request/filter/scope helpers. |
+| `tests/report_support_test.php:87` | `test_tabs_preserve_capability_dependent_set` | PHP callable `test_tabs_preserve_capability_dependent_set`; behavioural coverage for extracted report request/filter/scope helpers. |
+| `tests/report_support_test.php:103` | `test_empty_scope_conditions_remain_deny_all` | PHP callable `test_empty_scope_conditions_remain_deny_all`; behavioural coverage for extracted report request/filter/scope helpers. |
+| `tests/report_support_test.php:115` | `test_user_options_preserve_source_priority_and_privacy` | PHP callable `test_user_options_preserve_source_priority_and_privacy`; behavioural coverage for extracted report-user option assembly. |
+| `tests/report_support_test.php:147` | `test_cluster_reaction_events_preserves_report_semantics` | PHP callable `test_cluster_reaction_events_preserves_report_semantics`; behavioural coverage for extracted reaction clustering. |
 | `tests/report_view_test.php:35` | `setUp` | PHP callable `setUp`; behavioural coverage for the extracted Analytics presentation helper. |
 | `tests/report_view_test.php:43` | `test_reaction_summary_preserves_privacy_contract` | PHP callable `test_reaction_summary_preserves_privacy_contract`; behavioural coverage for the extracted Analytics presentation helper. |
 | `tests/report_view_test.php:65` | `test_retention_chart_explains_full_privacy_suppression` | PHP callable `test_retention_chart_explains_full_privacy_suppression`; behavioural coverage for the extracted Analytics presentation helper. |
@@ -1253,6 +1266,8 @@ Generated from the VideoTrack 1.7.60 source tree. PHP entries include named func
 | `tests/save_reaction_test.php:92` | `test_burst_limit_is_ten_in_ten_seconds_and_not_session_scoped` | Named PHP function/method `test_burst_limit_is_ten_in_ten_seconds_and_not_session_scoped`; see source DocBlock and callers for the current contract. |
 | `tests/save_reaction_test.php:109` | `test_reaction_writes_remain_serialised_per_activity_and_user` | Named PHP function/method `test_reaction_writes_remain_serialised_per_activity_and_user`; see source DocBlock and callers for the current contract. |
 | `tests/save_reaction_test.php:123` | `test_duplicate_reaction_is_soft_ignored` | Named PHP function/method `test_duplicate_reaction_is_soft_ignored`; see source DocBlock and callers for the current contract. |
+| `tests/student_view_contract_test.php:35` | `test_personal_lists_are_native_collapsible_sections` | Protects the three native collapsed learner sections. |
+| `tests/student_view_contract_test.php:58` | `test_learner_page_has_stable_vertical_order` | Protects the learner vertical order, active composers and unboxed completion-condition presentation. |
 | `tests/teacher_analytics_test.php:34` | `test_period_bounds` | PHP callable `test_period_bounds`; see its DocBlock and callers for parameter, return-value and side-effect details. |
 | `tests/timed_text_test.php:35` | `test_language_from_filename_accepts_bcp47_like_names` | PHP callable `test_language_from_filename_accepts_bcp47_like_names`; see its DocBlock and callers for parameter, return-value and side-effect details. |
 | `tests/timed_text_test.php:47` | `test_is_valid_vtt_content_checks_signature_and_size` | PHP callable `test_is_valid_vtt_content_checks_signature_and_size`; see its DocBlock and callers for parameter, return-value and side-effect details. |
@@ -1291,15 +1306,3 @@ Generated from the VideoTrack 1.7.60 source tree. PHP entries include named func
 | `tests/vimeo_seek_contract_test.php:93` | `test_transient_pause_does_not_cancel_blocked_seek_playback` | Named PHP function/method `test_transient_pause_does_not_cancel_blocked_seek_playback`; see source DocBlock and callers for the current contract. |
 | `tests/vimeo_seek_contract_test.php:117` | `test_blocked_seek_resume_is_generation_scoped` | Named PHP function/method `test_blocked_seek_resume_is_generation_scoped`; see source DocBlock and callers for the current contract. |
 | `tests/vimeo_seek_contract_test.php:131` | `test_seeked_fallback_uses_vimeo_playback_resolver_and_penalty` | Named PHP function/method `test_seeked_fallback_uses_vimeo_playback_resolver_and_penalty`; see source DocBlock and callers for the current contract. |
-
-| `tests/behat/behat_mod_videotrack.php:41` | `the_videotrack_html5_media_is_ready` | Waits for local HTML5 fixture metadata in Behat. |
-| `tests/behat/behat_mod_videotrack.php:61` | `i_seek_the_videotrack_html5_media_to_seconds` | Drives a deterministic HTML5 seek in the browser test harness. |
-| `tests/behat/behat_mod_videotrack.php:78` | `the_videotrack_html5_media_time_should_be_between` | Asserts the HTML5 media timestamp is inside the expected browser-test range. |
-| `tests/behat/behat_mod_videotrack.php:106` | `the_user_has_watched_videotrack_through_seconds` | Seeds bounded validated watched evidence for deterministic post-seek Behat interaction scenarios. |
-| `tests/behat/behat_mod_videotrack.php:183` | `the_videotrack_forum_time_should_be_between` | Asserts the linked Forum composer keeps a timestamp inside the expected validated range after rollback. |
-| `tests/generator/lib.php:43` | `create_instance` | Creates deterministic VideoTrack module fixtures for PHPUnit and Behat. |
-| `tests/generator_test.php:33` | `test_generator_creates_activity_with_learner_features` | Verifies the generator can create an activity with learner study tools enabled. |
-| `tests/generator_test.php:65` | `test_generator_creates_local_html5_fixture` | Verifies the generator stores the deterministic HTML5 fixture in the module filearea. |
-| `tests/generator_test.php:96` | `test_generator_links_named_forum_fixture` | Verifies the generator resolves a named same-course Forum for deterministic browser fixtures. |
-| `tests/student_view_contract_test.php:35` | `test_personal_lists_are_native_collapsible_sections` | Protects the three native collapsed learner sections. |
-| `tests/student_view_contract_test.php:58` | `test_learner_page_has_stable_vertical_order` | Protects the learner vertical order, active composers and unboxed completion-condition presentation. |

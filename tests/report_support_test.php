@@ -16,6 +16,7 @@
 
 namespace mod_videotrack;
 
+use context_system;
 use mod_videotrack\local\report_support;
 use PHPUnit\Framework\Attributes\CoversClass;
 
@@ -108,4 +109,72 @@ final class report_support_test extends \advanced_testcase {
         $this->assertSame('1 = 0', $acksql);
         $this->assertSame([], $ackparams);
     }
+    /**
+     * User options preserve source-group priority, deduplicate ids and omit missing users.
+     */
+    public function test_user_options_preserve_source_priority_and_privacy(): void {
+        $this->resetAfterTest();
+        $first = $this->getDataGenerator()->create_user([
+            'firstname' => 'First',
+            'lastname' => 'Learner',
+            'email' => 'first@example.invalid',
+        ]);
+        $second = $this->getDataGenerator()->create_user([
+            'firstname' => 'Second',
+            'lastname' => 'Learner',
+            'email' => 'second@example.invalid',
+        ]);
+        $usermap = [
+            (int)$first->id => $first,
+            (int)$second->id => $second,
+        ];
+
+        $options = report_support::user_options(
+            [[(int)$second->id, 999], [(int)$first->id, (int)$second->id]],
+            $usermap,
+            false
+        );
+
+        $this->assertSame([0, (int)$second->id, (int)$first->id], array_keys($options));
+        $this->assertStringContainsString('Second', $options[(int)$second->id]);
+        $this->assertStringNotContainsString('second@example.invalid', $options[(int)$second->id]);
+        $this->assertArrayNotHasKey(999, $options);
+    }
+
+    /**
+     * Reaction clustering preserves per-type windows, unique-student counts and report sorting.
+     */
+    public function test_cluster_reaction_events_preserves_report_semantics(): void {
+        $reactionone = (object)['id' => 1, 'label' => 'Like'];
+        $reactiontwo = (object)['id' => 2, 'label' => 'Question'];
+        $events = [
+            (object)['reactionid' => 2, 'reactionlabel' => 'Question', 'userid' => 10, 'videotime' => 5.0],
+            (object)['reactionid' => 1, 'reactionlabel' => 'Like', 'userid' => 10, 'videotime' => 10.0],
+            (object)['reactionid' => 1, 'reactionlabel' => 'Like', 'userid' => 11, 'videotime' => 15.0],
+            (object)['reactionid' => 2, 'reactionlabel' => 'Question', 'userid' => 11, 'videotime' => 20.0],
+        ];
+        $limitreached = false;
+
+        $clusters = report_support::cluster_reaction_events(
+            $events,
+            10,
+            'type',
+            [1 => $reactionone, 2 => $reactiontwo],
+            'reaction',
+            context_system::instance(),
+            $limitreached
+        );
+
+        $this->assertFalse($limitreached);
+        $this->assertCount(3, $clusters);
+        $this->assertSame('Like', $clusters[0]['reactionlabel']);
+        $this->assertSame(2, $clusters[0]['count']);
+        $this->assertSame(2, $clusters[0]['students']);
+        $this->assertSame(10.0, $clusters[0]['first']);
+        $this->assertSame(15.0, $clusters[0]['last']);
+        $this->assertSame(12.5, $clusters[0]['timestamp']);
+        $this->assertSame($reactionone, $clusters[0]['reaction']);
+        $this->assertSame(['Question', 'Question'], array_column(array_slice($clusters, 1), 'reactionlabel'));
+    }
+
 }
