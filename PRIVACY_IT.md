@@ -23,7 +23,7 @@ Video sorgente, poster, sottotitoli, trascrizioni e capitoli caricati sono conse
 - Lo studente accede soltanto alle proprie note e alle proprie etichette dei segnalibri.
 - I docenti autorizzati possono consultare/esportare il testo delle note personali quando la funzione è abilitata e lo scope iscrizione/gruppi lo permette; le etichette dei segnalibri restano visibili soltanto al proprietario.
 - Il docente vede dati per studente solo con la capability di report e nel rispetto dei gruppi.
-- Gli Analytics di istanza usano aggregati e mostrano valori aggregati esatti ai report viewer autorizzati entro lo scope Moodle già consentito per attività/corso/gruppi; `analyticsminusers` continua ad applicarsi alle dashboard aggregate corso/docente fino alla loro revisione dedicata.
+- Gli Analytics di istanza usano aggregati e mostrano valori aggregati esatti ai report viewer autorizzati entro lo scope Moodle già consentito per attività/corso/gruppi; `analyticsminusers` continua ad applicarsi solo alla dashboard aggregata docente trasversale in attesa della sua revisione dedicata; la dashboard di corso è esatta per i viewer autorizzati del report di corso.
 - Il testo delle note e le etichette dei segnalibri non compaiono mai negli Analytics docente.
 - Gli Analytics tra corsi includono solo attività per cui il docente possiede `mod/videotrack:viewreport`; le regole dei gruppi vengono risolte separatamente in ogni corso.
 - Gli indicatori di integrità sono diagnostici: non sono una prova conclusiva e non devono determinare da soli voti, completamento, sanzioni o accesso.

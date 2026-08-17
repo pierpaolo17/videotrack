@@ -1,6 +1,6 @@
 # Inventario dei file distribuiti
 
-Questo inventario è generato sull’albero VideoTrack 1.7.64 ed elenca ogni file non documentale. Il JavaScript canonico è in `amd/src`; i file in `amd/build` sono generati.
+Questo inventario è generato sull’albero VideoTrack 1.7.65 ed elenca ogni file non documentale. Il JavaScript canonico è in `amd/src`; i file in `amd/build` sono generati.
 
 Entries: **271**.
 
