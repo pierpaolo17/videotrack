@@ -1,8 +1,8 @@
 # Inventario delle funzioni
 
-Generato dall’albero sorgente VideoTrack 1.7.62. Le voci PHP includono funzioni e metodi nominati; le voci AMD includono dichiarazioni nominate, espressioni funzione assegnate e funzioni-metodo di oggetti.
+Generato dall’albero sorgente VideoTrack 1.7.63. Le voci PHP includono funzioni e metodi nominati; le voci AMD includono dichiarazioni nominate, espressioni funzione assegnate e funzioni-metodo di oggetti.
 
-**PHP functions/methods:** 653. **Named AMD callables:** 647.
+**PHP functions/methods:** 654. **Named AMD callables:** 647.
 
 | Posizione | Callable | Responsabilità |
 |---|---|---|
@@ -1236,14 +1236,6 @@ Generato dall’albero sorgente VideoTrack 1.7.62. Le voci PHP includono funzion
 | `tests/release_hygiene_contract_test.php:96` | `test_current_documentation_tracks_release` | Funzione/metodo PHP nominato `test_current_documentation_tracks_release`; vedere DocBlock e chiamanti per il contratto corrente. |
 | `tests/release_hygiene_contract_test.php:131` | `test_maintained_language_packs_share_keys_and_placeholders` | Funzione/metodo PHP nominato `test_maintained_language_packs_share_keys_and_placeholders`; vedere DocBlock e chiamanti per il contratto corrente. |
 | `tests/release_hygiene_contract_test.php:179` | `test_privacy_summaries_keep_parallel_section_structure` | Funzione/metodo PHP nominato `test_privacy_summaries_keep_parallel_section_structure`; vedere DocBlock e chiamanti per il contratto corrente. |
-| `tests/report_contract_test.php:35` | `test_student_report_contains_reaction_replay_section` | Callable PHP `test_student_report_contains_reaction_replay_section`; contratto statico di regressione per il controller del report docente. |
-| `tests/report_contract_test.php:48` | `test_report_confirmation_uses_supported_modal_api` | Callable PHP `test_report_confirmation_uses_supported_modal_api`; contratto statico di regressione per il controller del report docente. |
-| `tests/report_contract_test.php:61` | `test_custom_csv_export_supports_private_bookmark_counts` | Callable PHP `test_custom_csv_export_supports_private_bookmark_counts`; contratto statico di regressione per il controller del report docente. |
-| `tests/report_contract_test.php:77` | `test_student_grade_visibility_depends_on_participation_not_report_access` | Callable PHP `test_student_grade_visibility_depends_on_participation_not_report_access`; contratto statico di regressione per il controller del report docente. |
-| `tests/report_contract_test.php:95` | `test_student_grade_label_uses_plugin_string` | Callable PHP `test_student_grade_label_uses_plugin_string`; contratto statico di regressione per il controller del report docente. |
-| `tests/report_contract_test.php:105` | `test_provider_and_integrity_notices_share_one_alert` | Callable PHP `test_provider_and_integrity_notices_share_one_alert`; contratto statico di regressione per il controller del report docente. |
-| `tests/report_contract_test.php:122` | `test_report_support_helpers_are_extracted_from_controller` | Callable PHP `test_report_support_helpers_are_extracted_from_controller`; contratto statico di regressione per il controller del report docente. |
-| `tests/report_contract_test.php:142` | `test_analytics_rendering_is_extracted_from_report_controller` | Callable PHP `test_analytics_rendering_is_extracted_from_report_controller`; contratto statico di regressione per il controller del report docente. |
 | `tests/report_support_test.php:36` | `test_date_to_timestamp_rejects_invalid_values` | Callable PHP `test_date_to_timestamp_rejects_invalid_values`; copertura comportamentale degli helper estratti per richiesta/filtri/scope report. |
 | `tests/report_support_test.php:53` | `test_duration_filter_preserves_structured_controls` | Callable PHP `test_duration_filter_preserves_structured_controls`; copertura comportamentale degli helper estratti per richiesta/filtri/scope report. |
 | `tests/report_support_test.php:67` | `test_user_label_respects_email_visibility` | Callable PHP `test_user_label_respects_email_visibility`; copertura comportamentale degli helper estratti per richiesta/filtri/scope report. |
@@ -1255,6 +1247,15 @@ Generato dall’albero sorgente VideoTrack 1.7.62. Le voci PHP includono funzion
 | `tests/report_view_test.php:43` | `test_reaction_summary_preserves_privacy_contract` | Callable PHP `test_reaction_summary_preserves_privacy_contract`; copertura comportamentale del helper di presentazione Analytics estratto. |
 | `tests/report_view_test.php:65` | `test_retention_chart_explains_full_privacy_suppression` | Callable PHP `test_retention_chart_explains_full_privacy_suppression`; copertura comportamentale del helper di presentazione Analytics estratto. |
 | `tests/report_view_test.php:83` | `test_analytics_interval_uses_canonical_video_timestamp_format` | Callable PHP `test_analytics_interval_uses_canonical_video_timestamp_format`; copertura comportamentale del helper di presentazione Analytics estratto. |
+| `tests/report_contract_test.php:35` | `test_student_report_contains_reaction_replay_section` | Callable PHP `test_student_report_contains_reaction_replay_section`; contratto statico di regressione per il controller del report docente. |
+| `tests/report_contract_test.php:48` | `test_report_confirmation_uses_supported_modal_api` | Callable PHP `test_report_confirmation_uses_supported_modal_api`; contratto statico di regressione per il controller del report docente. |
+| `tests/report_contract_test.php:61` | `test_custom_csv_export_supports_private_bookmark_counts` | Callable PHP `test_custom_csv_export_supports_private_bookmark_counts`; contratto statico di regressione per il controller del report docente. |
+| `tests/report_contract_test.php:77` | `test_custom_csv_event_writer_captures_module_context` | Callable PHP `test_custom_csv_event_writer_captures_module_context`; contratto statico di regressione per il controller del report docente. |
+| `tests/report_contract_test.php:93` | `test_student_grade_visibility_depends_on_participation_not_report_access` | Callable PHP `test_student_grade_visibility_depends_on_participation_not_report_access`; contratto statico di regressione per il controller del report docente. |
+| `tests/report_contract_test.php:111` | `test_student_grade_label_uses_plugin_string` | Callable PHP `test_student_grade_label_uses_plugin_string`; contratto statico di regressione per il controller del report docente. |
+| `tests/report_contract_test.php:121` | `test_provider_and_integrity_notices_share_one_alert` | Callable PHP `test_provider_and_integrity_notices_share_one_alert`; contratto statico di regressione per il controller del report docente. |
+| `tests/report_contract_test.php:138` | `test_report_support_helpers_are_extracted_from_controller` | Callable PHP `test_report_support_helpers_are_extracted_from_controller`; contratto statico di regressione per il controller del report docente. |
+| `tests/report_contract_test.php:158` | `test_analytics_rendering_is_extracted_from_report_controller` | Callable PHP `test_analytics_rendering_is_extracted_from_report_controller`; contratto statico di regressione per il controller del report docente. |
 | `tests/save_bookmark_test.php:39` | `test_execute_parameters_uses_supported_moodle_parameter_types` | Callable PHP `test_execute_parameters_uses_supported_moodle_parameter_types`; DocBlock e chiamanti definiscono parametri, valori restituiti ed effetti. |
 | `tests/save_bookmark_test.php:47` | `test_bookmark_validation_prefers_existing_watched_progress` | Callable PHP `test_bookmark_validation_prefers_existing_watched_progress`; DocBlock e chiamanti definiscono parametri, valori restituiti ed effetti. |
 | `tests/save_integrity_event_test.php:37` | `test_execute_parameters_uses_supported_moodle_parameter_types` | Callable PHP `test_execute_parameters_uses_supported_moodle_parameter_types`; DocBlock e chiamanti definiscono parametri, valori restituiti ed effetti. |

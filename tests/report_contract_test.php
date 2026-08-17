@@ -72,6 +72,22 @@ final class report_contract_test extends advanced_testcase {
     }
 
     /**
+     * The custom CSV row writer must capture the module context used by identity formatting.
+     */
+    public function test_custom_csv_event_writer_captures_module_context(): void {
+        $source = file_get_contents(__DIR__ . '/../report.php');
+        $this->assertIsString($source);
+
+        $start = strpos($source, '$writeeventrow = static function (');
+        $this->assertNotFalse($start);
+        $body = strpos($source, '): void {', $start);
+        $this->assertNotFalse($body);
+        $signature = substr($source, $start, $body - $start);
+
+        $this->assertStringContainsString('$context', $signature);
+    }
+
+    /**
      * Dual-role learners keep their own grade even when they can also view reports.
      */
     public function test_student_grade_visibility_depends_on_participation_not_report_access(): void {

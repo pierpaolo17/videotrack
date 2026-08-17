@@ -1,8 +1,8 @@
 # Function inventory
 
-Generated from the VideoTrack 1.7.62 source tree. PHP entries include named functions and methods; AMD entries include named declarations, assigned function expressions and object-method functions.
+Generated from the VideoTrack 1.7.63 source tree. PHP entries include named functions and methods; AMD entries include named declarations, assigned function expressions and object-method functions.
 
-**PHP functions/methods:** 653. **Named AMD callables:** 647.
+**PHP functions/methods:** 654. **Named AMD callables:** 647.
 
 | Location | Callable | Responsibility |
 |---|---|---|
@@ -1236,14 +1236,6 @@ Generated from the VideoTrack 1.7.62 source tree. PHP entries include named func
 | `tests/release_hygiene_contract_test.php:96` | `test_current_documentation_tracks_release` | Named PHP function/method `test_current_documentation_tracks_release`; see source DocBlock and callers for the current contract. |
 | `tests/release_hygiene_contract_test.php:131` | `test_maintained_language_packs_share_keys_and_placeholders` | Named PHP function/method `test_maintained_language_packs_share_keys_and_placeholders`; see source DocBlock and callers for the current contract. |
 | `tests/release_hygiene_contract_test.php:179` | `test_privacy_summaries_keep_parallel_section_structure` | Named PHP function/method `test_privacy_summaries_keep_parallel_section_structure`; see source DocBlock and callers for the current contract. |
-| `tests/report_contract_test.php:35` | `test_student_report_contains_reaction_replay_section` | PHP callable `test_student_report_contains_reaction_replay_section`; static regression contract for the teacher report controller. |
-| `tests/report_contract_test.php:48` | `test_report_confirmation_uses_supported_modal_api` | PHP callable `test_report_confirmation_uses_supported_modal_api`; static regression contract for the teacher report controller. |
-| `tests/report_contract_test.php:61` | `test_custom_csv_export_supports_private_bookmark_counts` | PHP callable `test_custom_csv_export_supports_private_bookmark_counts`; static regression contract for the teacher report controller. |
-| `tests/report_contract_test.php:77` | `test_student_grade_visibility_depends_on_participation_not_report_access` | PHP callable `test_student_grade_visibility_depends_on_participation_not_report_access`; static regression contract for the teacher report controller. |
-| `tests/report_contract_test.php:95` | `test_student_grade_label_uses_plugin_string` | PHP callable `test_student_grade_label_uses_plugin_string`; static regression contract for the teacher report controller. |
-| `tests/report_contract_test.php:105` | `test_provider_and_integrity_notices_share_one_alert` | PHP callable `test_provider_and_integrity_notices_share_one_alert`; static regression contract for the teacher report controller. |
-| `tests/report_contract_test.php:122` | `test_report_support_helpers_are_extracted_from_controller` | PHP callable `test_report_support_helpers_are_extracted_from_controller`; static regression contract for the teacher report controller. |
-| `tests/report_contract_test.php:142` | `test_analytics_rendering_is_extracted_from_report_controller` | PHP callable `test_analytics_rendering_is_extracted_from_report_controller`; static regression contract for the teacher report controller. |
 | `tests/report_support_test.php:36` | `test_date_to_timestamp_rejects_invalid_values` | PHP callable `test_date_to_timestamp_rejects_invalid_values`; behavioural coverage for extracted report request/filter/scope helpers. |
 | `tests/report_support_test.php:53` | `test_duration_filter_preserves_structured_controls` | PHP callable `test_duration_filter_preserves_structured_controls`; behavioural coverage for extracted report request/filter/scope helpers. |
 | `tests/report_support_test.php:67` | `test_user_label_respects_email_visibility` | PHP callable `test_user_label_respects_email_visibility`; behavioural coverage for extracted report request/filter/scope helpers. |
@@ -1255,6 +1247,15 @@ Generated from the VideoTrack 1.7.62 source tree. PHP entries include named func
 | `tests/report_view_test.php:43` | `test_reaction_summary_preserves_privacy_contract` | PHP callable `test_reaction_summary_preserves_privacy_contract`; behavioural coverage for the extracted Analytics presentation helper. |
 | `tests/report_view_test.php:65` | `test_retention_chart_explains_full_privacy_suppression` | PHP callable `test_retention_chart_explains_full_privacy_suppression`; behavioural coverage for the extracted Analytics presentation helper. |
 | `tests/report_view_test.php:83` | `test_analytics_interval_uses_canonical_video_timestamp_format` | PHP callable `test_analytics_interval_uses_canonical_video_timestamp_format`; behavioural coverage for the extracted Analytics presentation helper. |
+| `tests/report_contract_test.php:35` | `test_student_report_contains_reaction_replay_section` | PHP callable `test_student_report_contains_reaction_replay_section`; static regression contract for the teacher report controller. |
+| `tests/report_contract_test.php:48` | `test_report_confirmation_uses_supported_modal_api` | PHP callable `test_report_confirmation_uses_supported_modal_api`; static regression contract for the teacher report controller. |
+| `tests/report_contract_test.php:61` | `test_custom_csv_export_supports_private_bookmark_counts` | PHP callable `test_custom_csv_export_supports_private_bookmark_counts`; static regression contract for the teacher report controller. |
+| `tests/report_contract_test.php:77` | `test_custom_csv_event_writer_captures_module_context` | PHP callable `test_custom_csv_event_writer_captures_module_context`; static regression contract for the teacher report controller. |
+| `tests/report_contract_test.php:93` | `test_student_grade_visibility_depends_on_participation_not_report_access` | PHP callable `test_student_grade_visibility_depends_on_participation_not_report_access`; static regression contract for the teacher report controller. |
+| `tests/report_contract_test.php:111` | `test_student_grade_label_uses_plugin_string` | PHP callable `test_student_grade_label_uses_plugin_string`; static regression contract for the teacher report controller. |
+| `tests/report_contract_test.php:121` | `test_provider_and_integrity_notices_share_one_alert` | PHP callable `test_provider_and_integrity_notices_share_one_alert`; static regression contract for the teacher report controller. |
+| `tests/report_contract_test.php:138` | `test_report_support_helpers_are_extracted_from_controller` | PHP callable `test_report_support_helpers_are_extracted_from_controller`; static regression contract for the teacher report controller. |
+| `tests/report_contract_test.php:158` | `test_analytics_rendering_is_extracted_from_report_controller` | PHP callable `test_analytics_rendering_is_extracted_from_report_controller`; static regression contract for the teacher report controller. |
 | `tests/save_bookmark_test.php:39` | `test_execute_parameters_uses_supported_moodle_parameter_types` | PHP callable `test_execute_parameters_uses_supported_moodle_parameter_types`; see its DocBlock and callers for parameter, return-value and side-effect details. |
 | `tests/save_bookmark_test.php:47` | `test_bookmark_validation_prefers_existing_watched_progress` | PHP callable `test_bookmark_validation_prefers_existing_watched_progress`; see its DocBlock and callers for parameter, return-value and side-effect details. |
 | `tests/save_integrity_event_test.php:37` | `test_execute_parameters_uses_supported_moodle_parameter_types` | PHP callable `test_execute_parameters_uses_supported_moodle_parameter_types`; see its DocBlock and callers for parameter, return-value and side-effect details. |

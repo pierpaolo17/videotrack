@@ -1312,6 +1312,7 @@ if ($export === 'custom_csv') {
         $videotrack,
         $exportusermap,
         $cm,
+        $context,
         $videoduration,
         $csvformat
     ): void {
