@@ -962,20 +962,14 @@ $reportbookmarksummary = [
     'suppressed' => false,
 ];
 if (!empty($videotrack->bookmarksenabled)) {
-    $bookmarkconditions = "videotrackid = :bookmarkvtid AND isdeleted = 0 AND notetype = 'bookmark' AND {$learnerwhere}";
-    $bookmarkparams = ['bookmarkvtid' => $videotrack->id] + $learnerparams;
-    if ($useridfilter > 0) {
-        $bookmarkconditions .= ' AND userid = :bookmarkuserid';
-        $bookmarkparams['bookmarkuserid'] = $useridfilter;
-    }
-    if ($timefrom !== null) {
-        $bookmarkconditions .= ' AND videotime >= :bookmarktimefrom';
-        $bookmarkparams['bookmarktimefrom'] = $timefrom;
-    }
-    if ($timeto !== null) {
-        $bookmarkconditions .= ' AND videotime <= :bookmarktimeto';
-        $bookmarkparams['bookmarktimeto'] = $timeto;
-    }
+    [$bookmarkconditions, $bookmarkparams] = \mod_videotrack\local\report_support::bookmark_event_condition(
+        (int)$videotrack->id,
+        $learnerwhere,
+        $learnerparams,
+        $useridfilter,
+        $timefrom,
+        $timeto
+    );
     $bookmarkrecords = $DB->get_records_sql(
         "SELECT userid, COUNT(id) AS eventcount
            FROM {videotrack_reactev}

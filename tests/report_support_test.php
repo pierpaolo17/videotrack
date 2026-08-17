@@ -158,6 +158,50 @@ final class report_support_test extends \advanced_testcase {
     }
 
     /**
+     * Bookmark-event filters preserve learner scope and optional bounds.
+     */
+    public function test_bookmark_event_condition_preserves_filters_and_scope(): void {
+        [$conditions, $params] = report_support::bookmark_event_condition(
+            42,
+            'userid IN (:learnerone, :learnertwo)',
+            ['learnerone' => 7, 'learnertwo' => 8],
+            7,
+            12.5,
+            90.0
+        );
+
+        $this->assertSame(
+            "videotrackid = :bookmarkvtid AND isdeleted = 0 AND notetype = 'bookmark'" .
+                ' AND userid IN (:learnerone, :learnertwo)' .
+                ' AND userid = :bookmarkuserid' .
+                ' AND videotime >= :bookmarktimefrom AND videotime <= :bookmarktimeto',
+            $conditions
+        );
+        $this->assertSame([
+            'bookmarkvtid' => 42,
+            'learnerone' => 7,
+            'learnertwo' => 8,
+            'bookmarkuserid' => 7,
+            'bookmarktimefrom' => 12.5,
+            'bookmarktimeto' => 90.0,
+        ], $params);
+
+        [$minimalconditions, $minimalparams] = report_support::bookmark_event_condition(
+            42,
+            'userid = :learner',
+            ['learner' => 7],
+            0,
+            null,
+            null
+        );
+        $this->assertSame(
+            "videotrackid = :bookmarkvtid AND isdeleted = 0 AND notetype = 'bookmark' AND userid = :learner",
+            $minimalconditions
+        );
+        $this->assertSame(['bookmarkvtid' => 42, 'learner' => 7], $minimalparams);
+    }
+
+    /**
      * User options preserve source-group priority, deduplicate ids and omit missing users.
      */
     public function test_user_options_preserve_source_priority_and_privacy(): void {

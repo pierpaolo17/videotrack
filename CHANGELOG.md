@@ -1,5 +1,11 @@
 # VideoTrack changelog
 
+## 1.7.73 - 2026-08-17
+
+- Continue U-017 maintainability from the server-green 1.7.72 baseline by moving standard bookmark-event SQL/parameter construction out of `report.php` into `local\report_support::bookmark_event_condition()`.
+- Preserve learner scope, deleted/bookmark selection, optional user filter and inclusive video-time bounds under direct behavioural PHPUnit coverage plus a controller-delegation contract.
+- Reduce `report.php` from 2,887 to 2,881 lines without changing bookmark aggregation queries, report summaries, CSV export paths, Analytics, schema, tracking, completion or AMD/player runtime.
+
 ## 1.7.72 - 2026-08-17
 
 - Continue U-017 maintainability from the server-green 1.7.71 baseline by moving standard reaction-event SQL/parameter construction out of `report.php` into `local\report_support::reaction_event_condition()`.
