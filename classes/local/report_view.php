@@ -21,7 +21,7 @@ use html_writer;
 use moodle_url;
 
 /**
- * Rendering helpers for the teacher Analytics report.
+ * Presentation helpers for the teacher Analytics report.
  *
  * Keeping presentation-only code out of report.php makes the request controller
  * easier to audit without changing Analytics queries or privacy semantics.
@@ -30,7 +30,7 @@ use moodle_url;
  * @copyright  2026 videotrack contributors
  * @license    https://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
-final class report_renderer {
+final class report_view {
     /**
      * Formats a timeline interval for analytics reports.
      *

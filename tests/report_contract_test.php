@@ -117,17 +117,17 @@ final class report_contract_test extends advanced_testcase {
     }
 
     /**
-     * The request controller delegates Analytics presentation to the dedicated renderer.
+     * The request controller delegates Analytics presentation to the dedicated presentation helper.
      */
     public function test_analytics_rendering_is_extracted_from_report_controller(): void {
         $report = file_get_contents(__DIR__ . '/../report.php');
-        $renderer = file_get_contents(__DIR__ . '/../classes/local/report_renderer.php');
+        $renderer = file_get_contents(__DIR__ . '/../classes/local/report_view.php');
         $this->assertIsString($report);
         $this->assertIsString($renderer);
 
-        $this->assertStringContainsString('report_renderer::analytics_heatmap(', $report);
-        $this->assertStringContainsString('report_renderer::analytics_retention(', $report);
-        $this->assertStringContainsString('final class report_renderer', $renderer);
+        $this->assertStringContainsString('report_view::analytics_heatmap(', $report);
+        $this->assertStringContainsString('report_view::analytics_retention(', $report);
+        $this->assertStringContainsString('final class report_view', $renderer);
         $this->assertStringNotContainsString('function videotrack_report_render_analytics_heatmap(', $report);
         $this->assertStringNotContainsString('function videotrack_report_render_analytics_retention(', $report);
     }
