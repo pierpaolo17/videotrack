@@ -1150,75 +1150,18 @@ if ($alluserids) {
     }
 }
 
-$useroptions = [0 => get_string('all')];
-foreach ($stateuserids as $stateuserid) {
-    $user = $usermap[(int)$stateuserid] ?? null;
-    if ($user) {
-        $useroptions[(int)$user->id] = \mod_videotrack\local\report_support::user_label((int)$user->id, $usermap, $canviewemail);
-    }
-}
-foreach ($segmentuserids as $segmentuserid) {
-    if (!isset($useroptions[(int)$segmentuserid])) {
-        $user = $usermap[(int)$segmentuserid] ?? null;
-        if ($user) {
-            $useroptions[(int)$user->id] = \mod_videotrack\local\report_support::user_label(
-                (int)$user->id,
-                $usermap,
-                $canviewemail
-            );
-        }
-    }
-}
-foreach ($eventuserids as $eventuserid) {
-    if (!isset($useroptions[(int)$eventuserid])) {
-        $user = $usermap[(int)$eventuserid] ?? null;
-        if ($user) {
-            $useroptions[(int)$user->id] = \mod_videotrack\local\report_support::user_label(
-                (int)$user->id,
-                $usermap,
-                $canviewemail
-            );
-        }
-    }
-}
-foreach ($noteuserids as $noteuserid) {
-    if (!isset($useroptions[(int)$noteuserid])) {
-        $user = $usermap[(int)$noteuserid] ?? null;
-        if ($user) {
-            $useroptions[(int)$user->id] = \mod_videotrack\local\report_support::user_label(
-                (int)$user->id,
-                $usermap,
-                $canviewemail
-            );
-        }
-    }
-}
-
-foreach ($bookmarkuserids as $bookmarkuserid) {
-    if (!isset($useroptions[(int)$bookmarkuserid])) {
-        $user = $usermap[(int)$bookmarkuserid] ?? null;
-        if ($user) {
-            $useroptions[(int)$user->id] = \mod_videotrack\local\report_support::user_label(
-                (int)$user->id,
-                $usermap,
-                $canviewemail
-            );
-        }
-    }
-}
-
-foreach ($acknowledgementuserids as $acknowledgementuserid) {
-    if (!isset($useroptions[$acknowledgementuserid])) {
-        $user = $usermap[$acknowledgementuserid] ?? null;
-        if ($user) {
-            $useroptions[$acknowledgementuserid] = \mod_videotrack\local\report_support::user_label(
-                $acknowledgementuserid,
-                $usermap,
-                $canviewemail
-            );
-        }
-    }
-}
+$useroptions = \mod_videotrack\local\report_support::user_options(
+    [
+        $stateuserids,
+        $segmentuserids,
+        $eventuserids,
+        $noteuserids,
+        $bookmarkuserids,
+        $acknowledgementuserids,
+    ],
+    $usermap,
+    $canviewemail
+);
 
 $reactionoptions = [0 => get_string('all')];
 foreach ($reactions as $reaction) {
@@ -1264,73 +1207,6 @@ if ($hasgrade && $cangrade && $alluserids) {
 }
 
 $clusterlimitreached = false;
-$clusterize = function (
-    iterable $events,
-    int $windowseconds,
-    string $aggregationmode
-) use (
-    $reactionmap,
-    $sort,
-    $context,
-    &$clusterlimitreached
-) {
-    // Events are processed in timestamp order. Keep only the latest open cluster
-    // per reaction (or a single cluster for peak mode), avoiding the former O(n * clusters).
-    // scan for every event.
-    $clusters = [];
-    $activeindex = [];
-    $maxclusters = videotrack_get_config_int('reportclusterlimit', 2000, 500, 10000);
-    foreach ($events as $event) {
-        $reactionid = (int)$event->reactionid;
-        $time = (float)$event->videotime;
-        $key = ($aggregationmode === 'peak') ? 0 : $reactionid;
-        $idx = $activeindex[$key] ?? null;
-
-        if ($idx !== null && ($time - (float)$clusters[$idx]['anchor']) <= $windowseconds) {
-            $clusters[$idx]['count']++;
-            $clusters[$idx]['students'][(int)$event->userid] = true;
-            $clusters[$idx]['timesum'] += $time;
-            $clusters[$idx]['first'] = min($clusters[$idx]['first'], $time);
-            $clusters[$idx]['last'] = max($clusters[$idx]['last'], $time);
-            continue;
-        }
-
-        if (count($clusters) >= $maxclusters) {
-            // Safety valve for very large datasets. CSV/report remains deterministic;
-            // administrators should use filters for deeper analysis on huge courses.
-            $clusterlimitreached = true;
-            continue;
-        }
-        $clusters[] = [
-            'reactionid' => $reactionid,
-            'reactionlabel' => format_string($event->reactionlabel, true, ['context' => $context]),
-            'reaction' => $reactionmap[$reactionid] ?? null,
-            'anchor' => $time,
-            'first' => $time,
-            'last' => $time,
-            'count' => 1,
-            'students' => [(int)$event->userid => true],
-            'timesum' => $time,
-        ];
-        $activeindex[$key] = count($clusters) - 1;
-    }
-
-    foreach ($clusters as &$cluster) {
-        $cluster['students'] = count($cluster['students']);
-        $cluster['timestamp'] = $cluster['timesum'] / $cluster['count'];
-        unset($cluster['timesum']);
-    }
-    unset($cluster);
-
-    if ($aggregationmode === 'type' && $sort === 'reaction') {
-        usort($clusters, static fn($a, $b) => [$a['reactionlabel'], $a['timestamp']] <=> [$b['reactionlabel'], $b['timestamp']]);
-    } else if ($sort === 'clicks') {
-        usort($clusters, static fn($a, $b) => $b['count'] <=> $a['count']);
-    } else {
-        usort($clusters, static fn($a, $b) => $a['timestamp'] <=> $b['timestamp']);
-    }
-    return $clusters;
-};
 
 $csvdelimiter = \mod_videotrack\local\csv_export::delimiter($videotrack);
 $csvfields = \mod_videotrack\local\csv_export::activity_fields($videotrack, $context);
@@ -1518,7 +1394,15 @@ if ($export === 'custom_csv') {
                 'userid, reactionid, reactionlabel, videotime'
             );
             if ($csvformat === 'overall') {
-                foreach ($clusterize($reactionrs, $window, 'type') as $cluster) {
+                foreach (\mod_videotrack\local\report_support::cluster_reaction_events(
+                    $reactionrs,
+                    $window,
+                    'type',
+                    $reactionmap,
+                    $sort,
+                    $context,
+                    $clusterlimitreached
+                ) as $cluster) {
                     $writeeventrow(
                         0,
                         get_string('report:eventtype_reaction', 'mod_videotrack'),
@@ -1538,14 +1422,25 @@ if ($export === 'custom_csv') {
                 $flushclusters = static function () use (
                     &$currentuserid,
                     &$userevents,
-                    $clusterize,
+                    &$clusterlimitreached,
                     $window,
-                    $writeeventrow
+                    $writeeventrow,
+                    $reactionmap,
+                    $sort,
+                    $context
                 ): void {
                     if ($currentuserid <= 0 || !$userevents) {
                         return;
                     }
-                    foreach ($clusterize($userevents, $window, 'type') as $cluster) {
+                    foreach (\mod_videotrack\local\report_support::cluster_reaction_events(
+                        $userevents,
+                        $window,
+                        'type',
+                        $reactionmap,
+                        $sort,
+                        $context,
+                        $clusterlimitreached
+                    ) as $cluster) {
                         $writeeventrow(
                             $currentuserid,
                             get_string('report:eventtype_reaction', 'mod_videotrack'),
@@ -1863,7 +1758,15 @@ if ($export === 'csv') {
     \mod_videotrack\local\csv_export::write_utf8_bom($fh);
     if ($mode === 'cumulative') {
         $eventrs = $geteventrecordset();
-        $clusters = $clusterize($eventrs, $window, $aggregation);
+        $clusters = \mod_videotrack\local\report_support::cluster_reaction_events(
+            $eventrs,
+            $window,
+            $aggregation,
+            $reactionmap,
+            $sort,
+            $context,
+            $clusterlimitreached
+        );
         $eventrs->close();
         if ($clusterlimitreached) {
             $warninglabel = get_string('report:csvcol_warning', 'mod_videotrack');
@@ -2717,7 +2620,15 @@ if ($mode === 'student') {
         echo $OUTPUT->notification(get_string('report:noreactions', 'mod_videotrack'), 'notifymessage');
     } else {
         $eventrs = $geteventrecordset();
-        $clusters = $clusterize($eventrs, $window, $aggregation);
+        $clusters = \mod_videotrack\local\report_support::cluster_reaction_events(
+            $eventrs,
+            $window,
+            $aggregation,
+            $reactionmap,
+            $sort,
+            $context,
+            $clusterlimitreached
+        );
         $eventrs->close();
         if ($clusterlimitreached) {
             echo $OUTPUT->notification(get_string('report:clusterlimitreached', 'mod_videotrack'), 'notifymessage');

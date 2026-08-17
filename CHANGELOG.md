@@ -1,5 +1,11 @@
 # VideoTrack changelog
 
+## 1.7.61 - 2026-08-17
+
+- Advance U-017 maintainability with a third mechanically equivalent `report.php` decomposition slice: move report user-option assembly and standard reaction clustering into `local\report_support`.
+- Preserve source-priority user filtering, email-visibility behaviour, cluster windows, unique-student counts, sort semantics and the configured cluster safety cap under behavioural PHPUnit coverage and a controller-delegation contract.
+- Reduce the report request controller further without changing report queries, exports, tracking, completion, schema or AMD/player runtime; P2 remains blocked only on real browser/Behat evidence.
+
 ## 1.7.60 - 2026-08-17
 
 - Advance U-017 maintainability with a second mechanically equivalent `report.php` decomposition slice: move report request/filter/scope helpers into the autoloaded `local\report_support` class.
