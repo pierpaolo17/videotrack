@@ -1,5 +1,11 @@
 # VideoTrack changelog
 
+## 1.7.69 - 2026-08-17
+
+- Fix the remaining teacher-dashboard course-discovery defect exposed by the 1.7.68 behavioural test: Moodle's `get_user_capability_course()` returns a numerically indexed list, so `teacher_analytics::accessible_courses()` now keys validated courses explicitly by each record's real `course->id` instead of treating the source array key as a course id.
+- Preserve the 1.7.68 explicit `fullname,visible` field request and the exact one-learner Analytics semantics while keeping hidden-course checks, capability scopes and all report filters unchanged.
+- Reuse the existing behavioural test as the regression gate for course-id keying and metadata discovery; no change to `report.php`, `reports_course.php`, `reports_teacher.php`, `course_analytics.php`, AMD, schema, tracking, completion or U-017 is included.
+
 ## 1.7.68 - 2026-08-17
 
 - Fix teacher-dashboard course discovery exposed by the 1.7.67 behavioural test: `teacher_analytics::accessible_courses()` now explicitly requests the `fullname` and `visible` course fields from Moodle's `get_user_capability_course()` API instead of reading fields that were not requested.
