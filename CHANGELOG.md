@@ -1,5 +1,11 @@
 # VideoTrack changelog
 
+## 1.7.60 - 2026-08-17
+
+- Advance U-017 maintainability with a second mechanically equivalent `report.php` decomposition slice: move report request/filter/scope helpers into the autoloaded `local\report_support` class.
+- Keep representative helper behaviour covered for user labels, date parsing, structured duration filters, deny-all empty scopes and capability-dependent tabs, plus a static controller-delegation contract, while reducing the request controller from 3,360 to 3,038 lines.
+- Keep Analytics rendering, exports, tracking, completion, schema and AMD/player runtime unchanged; P2 remains blocked only on real browser/Behat evidence.
+
 ## 1.7.59 - 2026-08-17
 
 - Correct release-documentation freshness after 1.7.58: rebase the distributed file/function inventories and current documentation markers to the actual 1.7.59 tree.

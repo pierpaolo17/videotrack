@@ -1,8 +1,8 @@
 # Inventario delle funzioni
 
-Generato dall’albero sorgente VideoTrack 1.7.59. Le voci PHP includono funzioni e metodi nominati; le voci AMD includono dichiarazioni nominate, espressioni funzione assegnate e funzioni-metodo di oggetti.
+Generato dall’albero sorgente VideoTrack 1.7.60. Le voci PHP includono funzioni e metodi nominati; le voci AMD includono dichiarazioni nominate, espressioni funzione assegnate e funzioni-metodo di oggetti.
 
-**PHP functions/methods:** 643. **Named AMD callables:** 647.
+**PHP functions/methods:** 649. **Named AMD callables:** 647.
 
 | Posizione | Callable | Responsabilità |
 |---|---|---|
@@ -893,6 +893,13 @@ Generato dall’albero sorgente VideoTrack 1.7.59. Le voci PHP includono funzion
 | `classes/local/privacy_manager.php:501` | `earliest_retained_timestamp` | Callable PHP `earliest_retained_timestamp`; DocBlock e chiamanti definiscono parametri, valori restituiti ed effetti. |
 | `classes/local/privacy_manager.php:543` | `delete_state` | Callable PHP `delete_state`; DocBlock e chiamanti definiscono parametri, valori restituiti ed effetti. |
 | `classes/local/privacy_manager.php:567` | `synchronise_completion` | Callable PHP `synchronise_completion`; DocBlock e chiamanti definiscono parametri, valori restituiti ed effetti. |
+| `classes/local/report_support.php:41` | `user_label` | Callable PHP `report_support::user_label`; formattazione etichetta utente con rispetto della visibilità email. |
+| `classes/local/report_support.php:59` | `date_to_timestamp` | Callable PHP `report_support::date_to_timestamp`; parsing canonico dei filtri data-only del report. |
+| `classes/local/report_support.php:81` | `optional_time_param` | Callable PHP `report_support::optional_time_param`; parsing dei tempi video strutturati e legacy dalla richiesta. |
+| `classes/local/report_support.php:133` | `duration_filter` | Callable PHP `report_support::duration_filter`; markup accessibile del filtro durata strutturato. |
+| `classes/local/report_support.php:196` | `analytics_scope_condition` | Callable PHP `report_support::analytics_scope_condition`; costruzione SQL capability-safe dello scope Analytics. |
+| `classes/local/report_support.php:263` | `acknowledgement_scope_condition` | Callable PHP `report_support::acknowledgement_scope_condition`; costruzione SQL dello scope presa visione sulla versione corrente. |
+| `classes/local/report_support.php:331` | `tabs` | Callable PHP `report_support::tabs`; costruzione dei tab report dipendente dalle capability. |
 | `classes/local/report_view.php:42` | `analytics_interval` | Callable PHP `report_view::analytics_interval`; DocBlock e chiamanti definiscono parametri, valori restituiti ed effetti. |
 | `classes/local/report_view.php:56` | `analytics_heatmap` | Callable PHP `report_view::analytics_heatmap`; DocBlock e chiamanti definiscono parametri, valori restituiti ed effetti. |
 | `classes/local/report_view.php:188` | `analytics_methodology` | Callable PHP `report_view::analytics_methodology`; DocBlock e chiamanti definiscono parametri, valori restituiti ed effetti. |
@@ -1057,13 +1064,6 @@ Generato dall’albero sorgente VideoTrack 1.7.59. Le voci PHP includono funzion
 | `mod_form.php:1742` | `draft_area_contains_only_reaction_images` | Callable PHP `draft_area_contains_only_reaction_images`; DocBlock e chiamanti definiscono parametri, valori restituiti ed effetti. |
 | `mod_form.php:1778` | `draft_area_contains_only_vtt` | Callable PHP `draft_area_contains_only_vtt`; DocBlock e chiamanti definiscono parametri, valori restituiti ed effetti. |
 | `mod_form.php:1810` | `validation` | Callable PHP `validation`; DocBlock e chiamanti definiscono parametri, valori restituiti ed effetti. |
-| `report.php:36` | `videotrack_report_user_label` | Callable PHP `videotrack_report_user_label`; DocBlock e chiamanti definiscono parametri, valori restituiti ed effetti. |
-| `report.php:54` | `videotrack_report_date_to_timestamp` | Callable PHP `videotrack_report_date_to_timestamp`; DocBlock e chiamanti definiscono parametri, valori restituiti ed effetti. |
-| `report.php:76` | `videotrack_report_optional_time_param` | Callable PHP `videotrack_report_optional_time_param`; DocBlock e chiamanti definiscono parametri, valori restituiti ed effetti. |
-| `report.php:128` | `videotrack_report_duration_filter` | Callable PHP `videotrack_report_duration_filter`; DocBlock e chiamanti definiscono parametri, valori restituiti ed effetti. |
-| `report.php:191` | `videotrack_report_analytics_scope_condition` | Callable PHP `videotrack_report_analytics_scope_condition`; DocBlock e chiamanti definiscono parametri, valori restituiti ed effetti. |
-| `report.php:258` | `videotrack_report_acknowledgement_scope_condition` | Callable PHP `videotrack_report_acknowledgement_scope_condition`; DocBlock e chiamanti definiscono parametri, valori restituiti ed effetti. |
-| `report.php:326` | `videotrack_report_tabs` | Callable PHP `videotrack_report_tabs`; DocBlock e chiamanti definiscono parametri, valori restituiti ed effetti. |
 | `reports_course.php:35` | `videotrack_course_report_count_cell` | Callable PHP `videotrack_course_report_count_cell`; DocBlock e chiamanti definiscono parametri, valori restituiti ed effetti. |
 | `reports_course.php:58` | `videotrack_course_report_percentage_cell` | Callable PHP `videotrack_course_report_percentage_cell`; DocBlock e chiamanti definiscono parametri, valori restituiti ed effetti. |
 | `reports_course.php:99` | `videotrack_course_report_drop_cell` | Callable PHP `videotrack_course_report_drop_cell`; DocBlock e chiamanti definiscono parametri, valori restituiti ed effetti. |
@@ -1225,13 +1225,19 @@ Generato dall’albero sorgente VideoTrack 1.7.59. Le voci PHP includono funzion
 | `tests/release_hygiene_contract_test.php:96` | `test_current_documentation_tracks_release` | Funzione/metodo PHP nominato `test_current_documentation_tracks_release`; vedere DocBlock e chiamanti per il contratto corrente. |
 | `tests/release_hygiene_contract_test.php:131` | `test_maintained_language_packs_share_keys_and_placeholders` | Funzione/metodo PHP nominato `test_maintained_language_packs_share_keys_and_placeholders`; vedere DocBlock e chiamanti per il contratto corrente. |
 | `tests/release_hygiene_contract_test.php:179` | `test_privacy_summaries_keep_parallel_section_structure` | Funzione/metodo PHP nominato `test_privacy_summaries_keep_parallel_section_structure`; vedere DocBlock e chiamanti per il contratto corrente. |
-| `tests/report_contract_test.php:35` | `test_student_report_contains_reaction_replay_section` | Funzione/metodo PHP nominato `test_student_report_contains_reaction_replay_section`; vedere DocBlock e chiamanti per il contratto corrente. |
-| `tests/report_contract_test.php:48` | `test_report_confirmation_uses_supported_modal_api` | Funzione/metodo PHP nominato `test_report_confirmation_uses_supported_modal_api`; vedere DocBlock e chiamanti per il contratto corrente. |
-| `tests/report_contract_test.php:61` | `test_custom_csv_export_supports_private_bookmark_counts` | Funzione/metodo PHP nominato `test_custom_csv_export_supports_private_bookmark_counts`; vedere DocBlock e chiamanti per il contratto corrente. |
-| `tests/report_contract_test.php:77` | `test_student_grade_visibility_depends_on_participation_not_report_access` | Funzione/metodo PHP nominato `test_student_grade_visibility_depends_on_participation_not_report_access`; vedere DocBlock e chiamanti per il contratto corrente. |
-| `tests/report_contract_test.php:95` | `test_student_grade_label_uses_plugin_string` | Funzione/metodo PHP nominato `test_student_grade_label_uses_plugin_string`; vedere DocBlock e chiamanti per il contratto corrente. |
-| `tests/report_contract_test.php:105` | `test_provider_and_integrity_notices_share_one_alert` | Funzione/metodo PHP nominato `test_provider_and_integrity_notices_share_one_alert`; vedere DocBlock e chiamanti per il contratto corrente. |
-| `tests/report_contract_test.php:122` | `test_analytics_rendering_is_extracted_from_report_controller` | Callable PHP `test_analytics_rendering_is_extracted_from_report_controller`; verifica la delega del rendering Analytics al renderer dedicato. |
+| `tests/report_contract_test.php:35` | `test_student_report_contains_reaction_replay_section` | Callable PHP `test_student_report_contains_reaction_replay_section`; contratto statico di regressione per il controller del report docente. |
+| `tests/report_contract_test.php:48` | `test_report_confirmation_uses_supported_modal_api` | Callable PHP `test_report_confirmation_uses_supported_modal_api`; contratto statico di regressione per il controller del report docente. |
+| `tests/report_contract_test.php:61` | `test_custom_csv_export_supports_private_bookmark_counts` | Callable PHP `test_custom_csv_export_supports_private_bookmark_counts`; contratto statico di regressione per il controller del report docente. |
+| `tests/report_contract_test.php:77` | `test_student_grade_visibility_depends_on_participation_not_report_access` | Callable PHP `test_student_grade_visibility_depends_on_participation_not_report_access`; contratto statico di regressione per il controller del report docente. |
+| `tests/report_contract_test.php:95` | `test_student_grade_label_uses_plugin_string` | Callable PHP `test_student_grade_label_uses_plugin_string`; contratto statico di regressione per il controller del report docente. |
+| `tests/report_contract_test.php:105` | `test_provider_and_integrity_notices_share_one_alert` | Callable PHP `test_provider_and_integrity_notices_share_one_alert`; contratto statico di regressione per il controller del report docente. |
+| `tests/report_contract_test.php:122` | `test_report_support_helpers_are_extracted_from_controller` | Callable PHP `test_report_support_helpers_are_extracted_from_controller`; contratto statico di regressione per il controller del report docente. |
+| `tests/report_contract_test.php:139` | `test_analytics_rendering_is_extracted_from_report_controller` | Callable PHP `test_analytics_rendering_is_extracted_from_report_controller`; contratto statico di regressione per il controller del report docente. |
+| `tests/report_support_test.php:35` | `test_date_to_timestamp_rejects_invalid_values` | Callable PHP `test_date_to_timestamp_rejects_invalid_values`; copertura comportamentale degli helper estratti per richiesta/filtri/scope report. |
+| `tests/report_support_test.php:52` | `test_duration_filter_preserves_structured_controls` | Callable PHP `test_duration_filter_preserves_structured_controls`; copertura comportamentale degli helper estratti per richiesta/filtri/scope report. |
+| `tests/report_support_test.php:66` | `test_user_label_respects_email_visibility` | Callable PHP `test_user_label_respects_email_visibility`; copertura comportamentale degli helper estratti per richiesta/filtri/scope report. |
+| `tests/report_support_test.php:86` | `test_tabs_preserve_capability_dependent_set` | Callable PHP `test_tabs_preserve_capability_dependent_set`; copertura comportamentale degli helper estratti per richiesta/filtri/scope report. |
+| `tests/report_support_test.php:102` | `test_empty_scope_conditions_remain_deny_all` | Callable PHP `test_empty_scope_conditions_remain_deny_all`; copertura comportamentale degli helper estratti per richiesta/filtri/scope report. |
 | `tests/report_view_test.php:35` | `setUp` | Callable PHP `setUp`; copertura comportamentale del helper di presentazione Analytics estratto. |
 | `tests/report_view_test.php:43` | `test_reaction_summary_preserves_privacy_contract` | Callable PHP `test_reaction_summary_preserves_privacy_contract`; copertura comportamentale del helper di presentazione Analytics estratto. |
 | `tests/report_view_test.php:65` | `test_retention_chart_explains_full_privacy_suppression` | Callable PHP `test_retention_chart_explains_full_privacy_suppression`; copertura comportamentale del helper di presentazione Analytics estratto. |

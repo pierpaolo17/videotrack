@@ -1,8 +1,8 @@
 # Distributed file inventory
 
-This inventory is generated against the VideoTrack 1.7.59 tree and lists every non-documentation file. Canonical JavaScript is under `amd/src`; files under `amd/build` are generated.
+This inventory is generated against the VideoTrack 1.7.60 tree and lists every non-documentation file. Canonical JavaScript is under `amd/src`; files under `amd/build` are generated.
 
-Entries: **269**.
+Entries: **271**.
 
 | File | Responsibility |
 |---|---|
@@ -194,6 +194,7 @@ Entries: **269**.
 | `classes/local/integrity.php` | Integrity-indicator definitions and privacy-safe aggregation helpers. |
 | `classes/local/learner_scope.php` | Canonical learner/report visibility rules for role and group-safe reporting. |
 | `classes/local/privacy_manager.php` | Privacy helpers for VideoTrack. |
+| `classes/local/report_support.php` | Teacher-report request, filter and capability-safe scope helper extracted from the report controller. |
 | `classes/local/report_view.php` | Teacher Analytics presentation helper extracted from the report controller. |
 | `classes/local/teacher_analytics.php` | Cross-course, capability-safe dashboard aggregation for report viewers. |
 | `classes/local/timed_text.php` | Manages teacher-provided WebVTT transcript and chapter files. |
@@ -255,6 +256,7 @@ Entries: **269**.
 | `tests/player_resume_completion_alert_contract_test.php` | Current PHPUnit/contract test distributed with the plugin. |
 | `tests/release_hygiene_contract_test.php` | Current PHPUnit/contract test distributed with the plugin. |
 | `tests/report_contract_test.php` | Current PHPUnit/contract test distributed with the plugin. |
+| `tests/report_support_test.php` | Behavioural PHPUnit coverage for the extracted teacher-report support helper. |
 | `tests/report_view_test.php` | Behavioural PHPUnit coverage for the extracted teacher Analytics presentation helper. |
 | `tests/save_bookmark_test.php` | PHPUnit coverage for save bookmark test. |
 | `tests/save_integrity_event_test.php` | PHPUnit coverage for save integrity event test. |

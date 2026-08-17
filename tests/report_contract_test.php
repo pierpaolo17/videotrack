@@ -117,6 +117,23 @@ final class report_contract_test extends advanced_testcase {
     }
 
     /**
+     * Request/filter/scope helpers stay outside the report controller.
+     */
+    public function test_report_support_helpers_are_extracted_from_controller(): void {
+        $report = file_get_contents(__DIR__ . '/../report.php');
+        $support = file_get_contents(__DIR__ . '/../classes/local/report_support.php');
+        $this->assertIsString($report);
+        $this->assertIsString($support);
+
+        $this->assertStringContainsString('report_support::optional_time_param(', $report);
+        $this->assertStringContainsString('report_support::analytics_scope_condition(', $report);
+        $this->assertStringContainsString('report_support::tabs(', $report);
+        $this->assertStringContainsString('final class report_support', $support);
+        $this->assertStringNotContainsString('function videotrack_report_user_label(', $report);
+        $this->assertStringNotContainsString('function videotrack_report_tabs(', $report);
+    }
+
+    /**
      * The request controller delegates Analytics presentation to the dedicated presentation helper.
      */
     public function test_analytics_rendering_is_extracted_from_report_controller(): void {
