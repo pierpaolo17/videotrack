@@ -1,6 +1,6 @@
 # Documentation audit
 
-Baseline: VideoTrack **1.7.61** (`2026081703`).
+Baseline: VideoTrack **1.7.62** (`2026081704`).
 
 ## Coverage
 
@@ -20,9 +20,9 @@ Baseline: VideoTrack **1.7.61** (`2026081703`).
 - Maintainer-only consolidated roadmap/lessons-history files are intentionally excluded from the distributed plugin tree and protected by `.moodleignore`.
 - Chapter navigation now has an explicit focus-visible/forced-colour contract; a manual keyboard/high-contrast matrix remains a release gate for final U-020 closure.
 
-## 1.7.61 pre-production documentation verification
+## 1.7.62 pre-production documentation verification
 
-- Current non-documentation file inventory regenerated against the candidate 1.7.61 tree: **271/271** entries.
+- Current non-documentation file inventory regenerated against the candidate 1.7.62 tree: **271/271** entries.
 - Current function inventory regenerated from source locations: **653** named PHP functions/methods and **647** detected named AMD callables.
 - XMLDB inventory matches all **7** tables and every declared field in `db/install.xml`.
 - Site-setting inventory matches all **57** `mod_videotrack` settings.
@@ -30,7 +30,7 @@ Baseline: VideoTrack **1.7.61** (`2026081703`).
 - Browser player configuration inventory matches all **133** keys, including the four forward-seek policy/runtime labels introduced after 1.6.33.
 - All eight maintained language packs expose **982** identical keys, no duplicates and matching Moodle placeholders.
 - Relative Markdown links across the plugin documentation were checked against the tree with no missing target found.
-- Historical technical documents under `archive/` remain historical; current indexes/inventories are rebased to 1.7.61. Internal maintainer roadmap/lesson artifacts are not part of the distributed tree.
+- Historical technical documents under `archive/` remain historical; current indexes/inventories are rebased to 1.7.62. Internal maintainer roadmap/lesson artifacts are not part of the distributed tree.
 
 ## Freshness rules
 

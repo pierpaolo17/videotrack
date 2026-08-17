@@ -1,5 +1,11 @@
 # VideoTrack changelog
 
+## 1.7.62 - 2026-08-17
+
+- Correct the 1.7.61 U-017 extraction formatting reported by Moodle PHPCS: format the two multi-line reaction-cluster `foreach` statements according to PSR-12 and remove the extra blank line before the `report_support_test` class closing brace.
+- Keep report-support behaviour, Analytics queries/exports, tracking, completion, schema and AMD/player runtime unchanged; this is a corrective-only release before U-017 continues.
+- Rebase current release/documentation markers to 1.7.62 while Behat remains explicitly not run in the maintainer environment.
+
 ## 1.7.61 - 2026-08-17
 
 - Advance U-017 maintainability with a third mechanically equivalent `report.php` decomposition slice: move report user-option assembly and standard reaction clustering into `local\report_support`.

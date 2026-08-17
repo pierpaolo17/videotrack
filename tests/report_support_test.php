@@ -176,5 +176,4 @@ final class report_support_test extends \advanced_testcase {
         $this->assertSame($reactionone, $clusters[0]['reaction']);
         $this->assertSame(['Question', 'Question'], array_column(array_slice($clusters, 1), 'reactionlabel'));
     }
-
 }

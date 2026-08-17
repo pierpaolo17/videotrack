@@ -1394,15 +1394,17 @@ if ($export === 'custom_csv') {
                 'userid, reactionid, reactionlabel, videotime'
             );
             if ($csvformat === 'overall') {
-                foreach (\mod_videotrack\local\report_support::cluster_reaction_events(
-                    $reactionrs,
-                    $window,
-                    'type',
-                    $reactionmap,
-                    $sort,
-                    $context,
-                    $clusterlimitreached
-                ) as $cluster) {
+                foreach (
+                    \mod_videotrack\local\report_support::cluster_reaction_events(
+                        $reactionrs,
+                        $window,
+                        'type',
+                        $reactionmap,
+                        $sort,
+                        $context,
+                        $clusterlimitreached
+                    ) as $cluster
+                ) {
                     $writeeventrow(
                         0,
                         get_string('report:eventtype_reaction', 'mod_videotrack'),
@@ -1432,15 +1434,17 @@ if ($export === 'custom_csv') {
                     if ($currentuserid <= 0 || !$userevents) {
                         return;
                     }
-                    foreach (\mod_videotrack\local\report_support::cluster_reaction_events(
-                        $userevents,
-                        $window,
-                        'type',
-                        $reactionmap,
-                        $sort,
-                        $context,
-                        $clusterlimitreached
-                    ) as $cluster) {
+                    foreach (
+                        \mod_videotrack\local\report_support::cluster_reaction_events(
+                            $userevents,
+                            $window,
+                            'type',
+                            $reactionmap,
+                            $sort,
+                            $context,
+                            $clusterlimitreached
+                        ) as $cluster
+                    ) {
                         $writeeventrow(
                             $currentuserid,
                             get_string('report:eventtype_reaction', 'mod_videotrack'),
