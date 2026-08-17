@@ -1,8 +1,8 @@
 # Function inventory
 
-Generated from the VideoTrack 1.7.56 source tree. PHP entries include named functions and methods; AMD entries include named declarations, assigned function expressions and object-method functions.
+Generated from the VideoTrack 1.7.57 source tree. PHP entries include named functions and methods; AMD entries include named declarations, assigned function expressions and object-method functions.
 
-**PHP functions/methods:** 639. **Named AMD callables:** 647.
+**PHP functions/methods:** 643. **Named AMD callables:** 647.
 
 | Location | Callable | Responsibility |
 |---|---|---|
@@ -893,6 +893,18 @@ Generated from the VideoTrack 1.7.56 source tree. PHP entries include named func
 | `classes/local/privacy_manager.php:501` | `earliest_retained_timestamp` | PHP callable `earliest_retained_timestamp`; see its DocBlock and callers for parameter, return-value and side-effect details. |
 | `classes/local/privacy_manager.php:543` | `delete_state` | PHP callable `delete_state`; see its DocBlock and callers for parameter, return-value and side-effect details. |
 | `classes/local/privacy_manager.php:567` | `synchronise_completion` | PHP callable `synchronise_completion`; see its DocBlock and callers for parameter, return-value and side-effect details. |
+| `classes/local/report_renderer.php:42` | `analytics_interval` | PHP callable `report_renderer::analytics_interval`; see its DocBlock and callers for parameter, return-value and side-effect details. |
+| `classes/local/report_renderer.php:56` | `analytics_heatmap` | PHP callable `report_renderer::analytics_heatmap`; see its DocBlock and callers for parameter, return-value and side-effect details. |
+| `classes/local/report_renderer.php:188` | `analytics_methodology` | PHP callable `report_renderer::analytics_methodology`; see its DocBlock and callers for parameter, return-value and side-effect details. |
+| `classes/local/report_renderer.php:248` | `privacy_alert` | PHP callable `report_renderer::privacy_alert`; see its DocBlock and callers for parameter, return-value and side-effect details. |
+| `classes/local/report_renderer.php:275` | `heatmap_legend` | PHP callable `report_renderer::heatmap_legend`; see its DocBlock and callers for parameter, return-value and side-effect details. |
+| `classes/local/report_renderer.php:320` | `analytics_download` | PHP callable `report_renderer::analytics_download`; see its DocBlock and callers for parameter, return-value and side-effect details. |
+| `classes/local/report_renderer.php:377` | `reaction_clusters` | PHP callable `report_renderer::reaction_clusters`; see its DocBlock and callers for parameter, return-value and side-effect details. |
+| `classes/local/report_renderer.php:412` | `reaction_summary` | PHP callable `report_renderer::reaction_summary`; see its DocBlock and callers for parameter, return-value and side-effect details. |
+| `classes/local/report_renderer.php:435` | `bookmark_summary` | PHP callable `report_renderer::bookmark_summary`; see its DocBlock and callers for parameter, return-value and side-effect details. |
+| `classes/local/report_renderer.php:501` | `acknowledgement_summary` | PHP callable `report_renderer::acknowledgement_summary`; see its DocBlock and callers for parameter, return-value and side-effect details. |
+| `classes/local/report_renderer.php:610` | `integrity_summary` | PHP callable `report_renderer::integrity_summary`; see its DocBlock and callers for parameter, return-value and side-effect details. |
+| `classes/local/report_renderer.php:701` | `analytics_retention` | PHP callable `report_renderer::analytics_retention`; see its DocBlock and callers for parameter, return-value and side-effect details. |
 | `classes/local/teacher_analytics.php:37` | `accessible_courses` | PHP callable `accessible_courses`; see its DocBlock and callers for parameter, return-value and side-effect details. |
 | `classes/local/teacher_analytics.php:73` | `dashboard_rows` | PHP callable `dashboard_rows`; see its DocBlock and callers for parameter, return-value and side-effect details. |
 | `classes/local/teacher_analytics.php:120` | `activity_options` | PHP callable `activity_options`; see its DocBlock and callers for parameter, return-value and side-effect details. |
@@ -1052,18 +1064,6 @@ Generated from the VideoTrack 1.7.56 source tree. PHP entries include named func
 | `report.php:191` | `videotrack_report_analytics_scope_condition` | PHP callable `videotrack_report_analytics_scope_condition`; see its DocBlock and callers for parameter, return-value and side-effect details. |
 | `report.php:258` | `videotrack_report_acknowledgement_scope_condition` | PHP callable `videotrack_report_acknowledgement_scope_condition`; see its DocBlock and callers for parameter, return-value and side-effect details. |
 | `report.php:326` | `videotrack_report_tabs` | PHP callable `videotrack_report_tabs`; see its DocBlock and callers for parameter, return-value and side-effect details. |
-| `report.php:369` | `videotrack_report_analytics_interval` | PHP callable `videotrack_report_analytics_interval`; see its DocBlock and callers for parameter, return-value and side-effect details. |
-| `report.php:383` | `videotrack_report_render_analytics_heatmap` | PHP callable `videotrack_report_render_analytics_heatmap`; see its DocBlock and callers for parameter, return-value and side-effect details. |
-| `report.php:515` | `videotrack_report_render_analytics_methodology` | PHP callable `videotrack_report_render_analytics_methodology`; see its DocBlock and callers for parameter, return-value and side-effect details. |
-| `report.php:575` | `videotrack_report_render_privacy_alert` | PHP callable `videotrack_report_render_privacy_alert`; see its DocBlock and callers for parameter, return-value and side-effect details. |
-| `report.php:602` | `videotrack_report_render_heatmap_legend` | PHP callable `videotrack_report_render_heatmap_legend`; see its DocBlock and callers for parameter, return-value and side-effect details. |
-| `report.php:647` | `videotrack_report_render_analytics_download` | PHP callable `videotrack_report_render_analytics_download`; see its DocBlock and callers for parameter, return-value and side-effect details. |
-| `report.php:704` | `videotrack_report_render_reaction_clusters` | PHP callable `videotrack_report_render_reaction_clusters`; see its DocBlock and callers for parameter, return-value and side-effect details. |
-| `report.php:739` | `videotrack_report_render_reaction_summary` | PHP callable `videotrack_report_render_reaction_summary`; see its DocBlock and callers for parameter, return-value and side-effect details. |
-| `report.php:762` | `videotrack_report_render_bookmark_summary` | PHP callable `videotrack_report_render_bookmark_summary`; see its DocBlock and callers for parameter, return-value and side-effect details. |
-| `report.php:828` | `videotrack_report_render_acknowledgement_summary` | PHP callable `videotrack_report_render_acknowledgement_summary`; see its DocBlock and callers for parameter, return-value and side-effect details. |
-| `report.php:937` | `videotrack_report_render_integrity_summary` | PHP callable `videotrack_report_render_integrity_summary`; see its DocBlock and callers for parameter, return-value and side-effect details. |
-| `report.php:1028` | `videotrack_report_render_analytics_retention` | PHP callable `videotrack_report_render_analytics_retention`; see its DocBlock and callers for parameter, return-value and side-effect details. |
 | `reports_course.php:35` | `videotrack_course_report_count_cell` | PHP callable `videotrack_course_report_count_cell`; see its DocBlock and callers for parameter, return-value and side-effect details. |
 | `reports_course.php:58` | `videotrack_course_report_percentage_cell` | PHP callable `videotrack_course_report_percentage_cell`; see its DocBlock and callers for parameter, return-value and side-effect details. |
 | `reports_course.php:99` | `videotrack_course_report_drop_cell` | PHP callable `videotrack_course_report_drop_cell`; see its DocBlock and callers for parameter, return-value and side-effect details. |
@@ -1231,7 +1231,11 @@ Generated from the VideoTrack 1.7.56 source tree. PHP entries include named func
 | `tests/report_contract_test.php:77` | `test_student_grade_visibility_depends_on_participation_not_report_access` | Named PHP function/method `test_student_grade_visibility_depends_on_participation_not_report_access`; see source DocBlock and callers for the current contract. |
 | `tests/report_contract_test.php:95` | `test_student_grade_label_uses_plugin_string` | Named PHP function/method `test_student_grade_label_uses_plugin_string`; see source DocBlock and callers for the current contract. |
 | `tests/report_contract_test.php:105` | `test_provider_and_integrity_notices_share_one_alert` | Named PHP function/method `test_provider_and_integrity_notices_share_one_alert`; see source DocBlock and callers for the current contract. |
-| `tests/report_contract_test.php:122` | `test_retention_chart_explains_full_privacy_suppression` | Named PHP function/method `test_retention_chart_explains_full_privacy_suppression`; see source DocBlock and callers for the current contract. |
+| `tests/report_contract_test.php:122` | `test_analytics_rendering_is_extracted_from_report_controller` | PHP callable `test_analytics_rendering_is_extracted_from_report_controller`; verifies Analytics rendering is delegated to the dedicated renderer. |
+| `tests/report_renderer_test.php:35` | `setUp` | PHP callable `setUp`; behavioural coverage for the extracted Analytics renderer. |
+| `tests/report_renderer_test.php:43` | `test_reaction_summary_preserves_privacy_contract` | PHP callable `test_reaction_summary_preserves_privacy_contract`; behavioural coverage for the extracted Analytics renderer. |
+| `tests/report_renderer_test.php:65` | `test_retention_chart_explains_full_privacy_suppression` | PHP callable `test_retention_chart_explains_full_privacy_suppression`; behavioural coverage for the extracted Analytics renderer. |
+| `tests/report_renderer_test.php:83` | `test_analytics_interval_uses_canonical_video_timestamp_format` | PHP callable `test_analytics_interval_uses_canonical_video_timestamp_format`; behavioural coverage for the extracted Analytics renderer. |
 | `tests/save_bookmark_test.php:39` | `test_execute_parameters_uses_supported_moodle_parameter_types` | PHP callable `test_execute_parameters_uses_supported_moodle_parameter_types`; see its DocBlock and callers for parameter, return-value and side-effect details. |
 | `tests/save_bookmark_test.php:47` | `test_bookmark_validation_prefers_existing_watched_progress` | PHP callable `test_bookmark_validation_prefers_existing_watched_progress`; see its DocBlock and callers for parameter, return-value and side-effect details. |
 | `tests/save_integrity_event_test.php:37` | `test_execute_parameters_uses_supported_moodle_parameter_types` | PHP callable `test_execute_parameters_uses_supported_moodle_parameter_types`; see its DocBlock and callers for parameter, return-value and side-effect details. |

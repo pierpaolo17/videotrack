@@ -1,5 +1,12 @@
 # VideoTrack changelog
 
+## 1.7.57 - 2026-08-16
+
+- Advance U-017 maintainability without changing Analytics data, privacy or query semantics: move the teacher Analytics presentation helpers out of the 4,143-line `report.php` request controller into the autoloaded `local\report_renderer` class.
+- Keep heatmap, retention, reaction/bookmark/acknowledgement/integrity summaries and analytics-download markup behaviourally covered in the dedicated renderer while the controller delegates presentation work.
+- Reduce `report.php` by roughly 800 lines and add behavioural/static regression coverage for privacy suppression, canonical timestamp formatting and controller-to-renderer delegation.
+- Keep AMD/runtime player code unchanged; P2 remains blocked only on real browser/Behat evidence.
+
 ## 1.7.56 - 2026-08-16
 
 - Advance the roadmap outside the temporarily blocked Behat/P2 browser gate by completing the code-side U-020 chapter-focus accessibility gap.

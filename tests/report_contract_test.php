@@ -117,14 +117,18 @@ final class report_contract_test extends advanced_testcase {
     }
 
     /**
-     * A fully privacy-suppressed retention series must explain why the SVG has no line.
+     * The request controller delegates Analytics presentation to the dedicated renderer.
      */
-    public function test_retention_chart_explains_full_privacy_suppression(): void {
-        $source = file_get_contents(__DIR__ . '/../report.php');
-        $this->assertIsString($source);
+    public function test_analytics_rendering_is_extracted_from_report_controller(): void {
+        $report = file_get_contents(__DIR__ . '/../report.php');
+        $renderer = file_get_contents(__DIR__ . '/../classes/local/report_renderer.php');
+        $this->assertIsString($report);
+        $this->assertIsString($renderer);
 
-        $this->assertStringContainsString("get_string('report:analytics_retention_privacy_hidden'", $source);
-        $this->assertStringContainsString('$retentionprivacyhidden = !$hasvisibleretention && $hasprivacysuppression;', $source);
-        $this->assertStringContainsString("'class' => 'videotrack-analytics-privacy-label'", $source);
+        $this->assertStringContainsString('report_renderer::analytics_heatmap(', $report);
+        $this->assertStringContainsString('report_renderer::analytics_retention(', $report);
+        $this->assertStringContainsString('final class report_renderer', $renderer);
+        $this->assertStringNotContainsString('function videotrack_report_render_analytics_heatmap(', $report);
+        $this->assertStringNotContainsString('function videotrack_report_render_analytics_retention(', $report);
     }
 }

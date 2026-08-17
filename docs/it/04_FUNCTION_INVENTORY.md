@@ -1,8 +1,8 @@
 # Inventario delle funzioni
 
-Generato dall’albero sorgente VideoTrack 1.7.56. Le voci PHP includono funzioni e metodi nominati; le voci AMD includono dichiarazioni nominate, espressioni funzione assegnate e funzioni-metodo di oggetti.
+Generato dall’albero sorgente VideoTrack 1.7.57. Le voci PHP includono funzioni e metodi nominati; le voci AMD includono dichiarazioni nominate, espressioni funzione assegnate e funzioni-metodo di oggetti.
 
-**PHP functions/methods:** 639. **Named AMD callables:** 647.
+**PHP functions/methods:** 643. **Named AMD callables:** 647.
 
 | Posizione | Callable | Responsabilità |
 |---|---|---|
@@ -893,6 +893,18 @@ Generato dall’albero sorgente VideoTrack 1.7.56. Le voci PHP includono funzion
 | `classes/local/privacy_manager.php:501` | `earliest_retained_timestamp` | Callable PHP `earliest_retained_timestamp`; DocBlock e chiamanti definiscono parametri, valori restituiti ed effetti. |
 | `classes/local/privacy_manager.php:543` | `delete_state` | Callable PHP `delete_state`; DocBlock e chiamanti definiscono parametri, valori restituiti ed effetti. |
 | `classes/local/privacy_manager.php:567` | `synchronise_completion` | Callable PHP `synchronise_completion`; DocBlock e chiamanti definiscono parametri, valori restituiti ed effetti. |
+| `classes/local/report_renderer.php:42` | `analytics_interval` | Callable PHP `report_renderer::analytics_interval`; DocBlock e chiamanti definiscono parametri, valori restituiti ed effetti. |
+| `classes/local/report_renderer.php:56` | `analytics_heatmap` | Callable PHP `report_renderer::analytics_heatmap`; DocBlock e chiamanti definiscono parametri, valori restituiti ed effetti. |
+| `classes/local/report_renderer.php:188` | `analytics_methodology` | Callable PHP `report_renderer::analytics_methodology`; DocBlock e chiamanti definiscono parametri, valori restituiti ed effetti. |
+| `classes/local/report_renderer.php:248` | `privacy_alert` | Callable PHP `report_renderer::privacy_alert`; DocBlock e chiamanti definiscono parametri, valori restituiti ed effetti. |
+| `classes/local/report_renderer.php:275` | `heatmap_legend` | Callable PHP `report_renderer::heatmap_legend`; DocBlock e chiamanti definiscono parametri, valori restituiti ed effetti. |
+| `classes/local/report_renderer.php:320` | `analytics_download` | Callable PHP `report_renderer::analytics_download`; DocBlock e chiamanti definiscono parametri, valori restituiti ed effetti. |
+| `classes/local/report_renderer.php:377` | `reaction_clusters` | Callable PHP `report_renderer::reaction_clusters`; DocBlock e chiamanti definiscono parametri, valori restituiti ed effetti. |
+| `classes/local/report_renderer.php:412` | `reaction_summary` | Callable PHP `report_renderer::reaction_summary`; DocBlock e chiamanti definiscono parametri, valori restituiti ed effetti. |
+| `classes/local/report_renderer.php:435` | `bookmark_summary` | Callable PHP `report_renderer::bookmark_summary`; DocBlock e chiamanti definiscono parametri, valori restituiti ed effetti. |
+| `classes/local/report_renderer.php:501` | `acknowledgement_summary` | Callable PHP `report_renderer::acknowledgement_summary`; DocBlock e chiamanti definiscono parametri, valori restituiti ed effetti. |
+| `classes/local/report_renderer.php:610` | `integrity_summary` | Callable PHP `report_renderer::integrity_summary`; DocBlock e chiamanti definiscono parametri, valori restituiti ed effetti. |
+| `classes/local/report_renderer.php:701` | `analytics_retention` | Callable PHP `report_renderer::analytics_retention`; DocBlock e chiamanti definiscono parametri, valori restituiti ed effetti. |
 | `classes/local/teacher_analytics.php:37` | `accessible_courses` | Callable PHP `accessible_courses`; DocBlock e chiamanti definiscono parametri, valori restituiti ed effetti. |
 | `classes/local/teacher_analytics.php:73` | `dashboard_rows` | Callable PHP `dashboard_rows`; DocBlock e chiamanti definiscono parametri, valori restituiti ed effetti. |
 | `classes/local/teacher_analytics.php:120` | `activity_options` | Callable PHP `activity_options`; DocBlock e chiamanti definiscono parametri, valori restituiti ed effetti. |
@@ -1052,18 +1064,6 @@ Generato dall’albero sorgente VideoTrack 1.7.56. Le voci PHP includono funzion
 | `report.php:191` | `videotrack_report_analytics_scope_condition` | Callable PHP `videotrack_report_analytics_scope_condition`; DocBlock e chiamanti definiscono parametri, valori restituiti ed effetti. |
 | `report.php:258` | `videotrack_report_acknowledgement_scope_condition` | Callable PHP `videotrack_report_acknowledgement_scope_condition`; DocBlock e chiamanti definiscono parametri, valori restituiti ed effetti. |
 | `report.php:326` | `videotrack_report_tabs` | Callable PHP `videotrack_report_tabs`; DocBlock e chiamanti definiscono parametri, valori restituiti ed effetti. |
-| `report.php:369` | `videotrack_report_analytics_interval` | Callable PHP `videotrack_report_analytics_interval`; DocBlock e chiamanti definiscono parametri, valori restituiti ed effetti. |
-| `report.php:383` | `videotrack_report_render_analytics_heatmap` | Callable PHP `videotrack_report_render_analytics_heatmap`; DocBlock e chiamanti definiscono parametri, valori restituiti ed effetti. |
-| `report.php:515` | `videotrack_report_render_analytics_methodology` | Callable PHP `videotrack_report_render_analytics_methodology`; DocBlock e chiamanti definiscono parametri, valori restituiti ed effetti. |
-| `report.php:575` | `videotrack_report_render_privacy_alert` | Callable PHP `videotrack_report_render_privacy_alert`; DocBlock e chiamanti definiscono parametri, valori restituiti ed effetti. |
-| `report.php:602` | `videotrack_report_render_heatmap_legend` | Callable PHP `videotrack_report_render_heatmap_legend`; DocBlock e chiamanti definiscono parametri, valori restituiti ed effetti. |
-| `report.php:647` | `videotrack_report_render_analytics_download` | Callable PHP `videotrack_report_render_analytics_download`; DocBlock e chiamanti definiscono parametri, valori restituiti ed effetti. |
-| `report.php:704` | `videotrack_report_render_reaction_clusters` | Callable PHP `videotrack_report_render_reaction_clusters`; DocBlock e chiamanti definiscono parametri, valori restituiti ed effetti. |
-| `report.php:739` | `videotrack_report_render_reaction_summary` | Callable PHP `videotrack_report_render_reaction_summary`; DocBlock e chiamanti definiscono parametri, valori restituiti ed effetti. |
-| `report.php:762` | `videotrack_report_render_bookmark_summary` | Callable PHP `videotrack_report_render_bookmark_summary`; DocBlock e chiamanti definiscono parametri, valori restituiti ed effetti. |
-| `report.php:828` | `videotrack_report_render_acknowledgement_summary` | Callable PHP `videotrack_report_render_acknowledgement_summary`; DocBlock e chiamanti definiscono parametri, valori restituiti ed effetti. |
-| `report.php:937` | `videotrack_report_render_integrity_summary` | Callable PHP `videotrack_report_render_integrity_summary`; DocBlock e chiamanti definiscono parametri, valori restituiti ed effetti. |
-| `report.php:1028` | `videotrack_report_render_analytics_retention` | Callable PHP `videotrack_report_render_analytics_retention`; DocBlock e chiamanti definiscono parametri, valori restituiti ed effetti. |
 | `reports_course.php:35` | `videotrack_course_report_count_cell` | Callable PHP `videotrack_course_report_count_cell`; DocBlock e chiamanti definiscono parametri, valori restituiti ed effetti. |
 | `reports_course.php:58` | `videotrack_course_report_percentage_cell` | Callable PHP `videotrack_course_report_percentage_cell`; DocBlock e chiamanti definiscono parametri, valori restituiti ed effetti. |
 | `reports_course.php:99` | `videotrack_course_report_drop_cell` | Callable PHP `videotrack_course_report_drop_cell`; DocBlock e chiamanti definiscono parametri, valori restituiti ed effetti. |
@@ -1231,7 +1231,11 @@ Generato dall’albero sorgente VideoTrack 1.7.56. Le voci PHP includono funzion
 | `tests/report_contract_test.php:77` | `test_student_grade_visibility_depends_on_participation_not_report_access` | Funzione/metodo PHP nominato `test_student_grade_visibility_depends_on_participation_not_report_access`; vedere DocBlock e chiamanti per il contratto corrente. |
 | `tests/report_contract_test.php:95` | `test_student_grade_label_uses_plugin_string` | Funzione/metodo PHP nominato `test_student_grade_label_uses_plugin_string`; vedere DocBlock e chiamanti per il contratto corrente. |
 | `tests/report_contract_test.php:105` | `test_provider_and_integrity_notices_share_one_alert` | Funzione/metodo PHP nominato `test_provider_and_integrity_notices_share_one_alert`; vedere DocBlock e chiamanti per il contratto corrente. |
-| `tests/report_contract_test.php:122` | `test_retention_chart_explains_full_privacy_suppression` | Funzione/metodo PHP nominato `test_retention_chart_explains_full_privacy_suppression`; vedere DocBlock sorgente e chiamanti per il contratto corrente. |
+| `tests/report_contract_test.php:122` | `test_analytics_rendering_is_extracted_from_report_controller` | Callable PHP `test_analytics_rendering_is_extracted_from_report_controller`; verifica la delega del rendering Analytics al renderer dedicato. |
+| `tests/report_renderer_test.php:35` | `setUp` | Callable PHP `setUp`; copertura comportamentale del renderer Analytics estratto. |
+| `tests/report_renderer_test.php:43` | `test_reaction_summary_preserves_privacy_contract` | Callable PHP `test_reaction_summary_preserves_privacy_contract`; copertura comportamentale del renderer Analytics estratto. |
+| `tests/report_renderer_test.php:65` | `test_retention_chart_explains_full_privacy_suppression` | Callable PHP `test_retention_chart_explains_full_privacy_suppression`; copertura comportamentale del renderer Analytics estratto. |
+| `tests/report_renderer_test.php:83` | `test_analytics_interval_uses_canonical_video_timestamp_format` | Callable PHP `test_analytics_interval_uses_canonical_video_timestamp_format`; copertura comportamentale del renderer Analytics estratto. |
 | `tests/save_bookmark_test.php:39` | `test_execute_parameters_uses_supported_moodle_parameter_types` | Callable PHP `test_execute_parameters_uses_supported_moodle_parameter_types`; DocBlock e chiamanti definiscono parametri, valori restituiti ed effetti. |
 | `tests/save_bookmark_test.php:47` | `test_bookmark_validation_prefers_existing_watched_progress` | Callable PHP `test_bookmark_validation_prefers_existing_watched_progress`; DocBlock e chiamanti definiscono parametri, valori restituiti ed effetti. |
 | `tests/save_integrity_event_test.php:37` | `test_execute_parameters_uses_supported_moodle_parameter_types` | Callable PHP `test_execute_parameters_uses_supported_moodle_parameter_types`; DocBlock e chiamanti definiscono parametri, valori restituiti ed effetti. |

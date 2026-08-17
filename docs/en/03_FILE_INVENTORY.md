@@ -1,8 +1,8 @@
 # Distributed file inventory
 
-This inventory is generated against the VideoTrack 1.7.56 tree and lists every non-documentation file. Canonical JavaScript is under `amd/src`; files under `amd/build` are generated.
+This inventory is generated against the VideoTrack 1.7.57 tree and lists every non-documentation file. Canonical JavaScript is under `amd/src`; files under `amd/build` are generated.
 
-Entries: **267**.
+Entries: **269**.
 
 | File | Responsibility |
 |---|---|
@@ -194,6 +194,7 @@ Entries: **267**.
 | `classes/local/integrity.php` | Integrity-indicator definitions and privacy-safe aggregation helpers. |
 | `classes/local/learner_scope.php` | Canonical learner/report visibility rules for role and group-safe reporting. |
 | `classes/local/privacy_manager.php` | Privacy helpers for VideoTrack. |
+| `classes/local/report_renderer.php` | Teacher Analytics presentation renderer extracted from the report controller. |
 | `classes/local/teacher_analytics.php` | Cross-course, capability-safe dashboard aggregation for report viewers. |
 | `classes/local/timed_text.php` | Manages teacher-provided WebVTT transcript and chapter files. |
 | `classes/local/tracker.php` | Tracking and completion helper methods for VideoTrack. |
@@ -254,6 +255,7 @@ Entries: **267**.
 | `tests/player_resume_completion_alert_contract_test.php` | Current PHPUnit/contract test distributed with the plugin. |
 | `tests/release_hygiene_contract_test.php` | Current PHPUnit/contract test distributed with the plugin. |
 | `tests/report_contract_test.php` | Current PHPUnit/contract test distributed with the plugin. |
+| `tests/report_renderer_test.php` | Behavioural PHPUnit coverage for the extracted teacher Analytics renderer. |
 | `tests/save_bookmark_test.php` | PHPUnit coverage for save bookmark test. |
 | `tests/save_integrity_event_test.php` | PHPUnit coverage for save integrity event test. |
 | `tests/save_note_test.php` | PHPUnit coverage for save note test. |

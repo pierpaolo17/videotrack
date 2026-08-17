@@ -1,11 +1,11 @@
 # Audit della documentazione
 
-Baseline: VideoTrack **1.7.56** (`2026081602`).
+Baseline: VideoTrack **1.7.57** (`2026081603`).
 
 ## Copertura
 
-- File non documentali inventariati: **267/267**.
-- Funzioni/metodi PHP nominati inventariati: **639**.
+- File non documentali inventariati: **269/269**.
+- Funzioni/metodi PHP nominati inventariati: **643**.
 - Callable AMD nominati rilevati e inventariati: **647**.
 - Tabelle XMLDB documentate: **7**.
 - Chiavi impostazioni sito documentate: **57**.
@@ -19,17 +19,17 @@ Baseline: VideoTrack **1.7.56** (`2026081602`).
 - I contratti statici resume/completion/alert impilati coprono i tre provider mentre Behat resta indisponibile nell’ambiente maintainer; l’evidenza browser resta esplicitamente pendente.
 - La navigazione capitoli ha ora un contratto esplicito focus-visible/colori forzati; la matrice manuale tastiera/high-contrast resta un gate per la chiusura finale di U-020.
 
-## Verifica documentazione pre-produzione 1.7.56
+## Verifica documentazione pre-produzione 1.7.57
 
-- Inventario corrente dei file non documentali rigenerato sull'albero candidato 1.7.56: **267/267** voci.
-- Inventario funzioni rigenerato sulle posizioni sorgente correnti: **639** funzioni/metodi PHP nominati e **647** callable AMD nominati rilevati.
+- Inventario corrente dei file non documentali rigenerato sull'albero candidato 1.7.57: **269/269** voci.
+- Inventario funzioni rigenerato sulle posizioni sorgente correnti: **643** funzioni/metodi PHP nominati e **647** callable AMD nominati rilevati.
 - L'inventario XMLDB coincide con tutte le **7** tabelle e con ogni campo dichiarato in `db/install.xml`.
 - L'inventario impostazioni coincide con tutte le **57** impostazioni `mod_videotrack`.
 - L'inventario servizi AJAX coincide con tutti i **9** servizi dichiarati.
 - L'inventario configurazione browser/player coincide con tutte le **133** chiavi, incluse le quattro label seek FW introdotte dopo la 1.6.33.
 - Tutti gli otto language pack mantenuti espongono **982** chiavi identiche, nessun duplicato e placeholder Moodle coerenti.
 - I link Markdown relativi della documentazione sono stati verificati contro l'albero senza target mancanti.
-- I documenti tecnici storici sotto `archive/` restano storici; indici e inventari correnti sono ribasati alla 1.7.56. Gli artefatti interni roadmap/lesson del maintainer non fanno parte del tree distribuito.
+- I documenti tecnici storici sotto `archive/` restano storici; indici e inventari correnti sono ribasati alla 1.7.57. Gli artefatti interni roadmap/lesson del maintainer non fanno parte del tree distribuito.
 
 ## Regole di aggiornamento
 
