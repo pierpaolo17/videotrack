@@ -16,7 +16,7 @@
 
 namespace mod_videotrack;
 
-use mod_videotrack\local\report_renderer;
+use mod_videotrack\local\report_view;
 use PHPUnit\Framework\Attributes\CoversClass;
 
 /**
@@ -27,10 +27,10 @@ use PHPUnit\Framework\Attributes\CoversClass;
  * @copyright  2026 videotrack contributors
  * @license    https://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
-#[CoversClass(report_renderer::class)]
-final class report_renderer_test extends \advanced_testcase {
+#[CoversClass(report_view::class)]
+final class report_view_test extends \advanced_testcase {
     /**
-     * Load the shared video timestamp helpers used by the renderer.
+     * Load the shared video timestamp helpers used by the presentation helper.
      */
     protected function setUp(): void {
         parent::setUp();
@@ -41,7 +41,7 @@ final class report_renderer_test extends \advanced_testcase {
      * Visible reaction totals remain rendered while privacy-suppressed totals remain hidden.
      */
     public function test_reaction_summary_preserves_privacy_contract(): void {
-        $visible = report_renderer::reaction_summary([
+        $visible = report_view::reaction_summary([
             'hasdata' => true,
             'suppressed' => false,
             'eventcount' => 7,
@@ -50,7 +50,7 @@ final class report_renderer_test extends \advanced_testcase {
         $this->assertStringContainsString('7', $visible);
         $this->assertStringContainsString('3', $visible);
 
-        $suppressed = report_renderer::reaction_summary([
+        $suppressed = report_view::reaction_summary([
             'hasdata' => true,
             'suppressed' => true,
             'eventcount' => 7,
@@ -63,7 +63,7 @@ final class report_renderer_test extends \advanced_testcase {
      * A fully privacy-suppressed retention series explains why no line is visible.
      */
     public function test_retention_chart_explains_full_privacy_suppression(): void {
-        $markup = report_renderer::analytics_retention([[
+        $markup = report_view::analytics_retention([[
             'start' => 0.0,
             'end' => 10.0,
             'viewers' => null,
@@ -83,7 +83,7 @@ final class report_renderer_test extends \advanced_testcase {
     public function test_analytics_interval_uses_canonical_video_timestamp_format(): void {
         $this->assertSame(
             videotrack_format_video_timestamp(5.0, 65.0) . '–' . videotrack_format_video_timestamp(15.0, 65.0),
-            report_renderer::analytics_interval(5.0, 15.0, 65.0)
+            report_view::analytics_interval(5.0, 15.0, 65.0)
         );
     }
 }

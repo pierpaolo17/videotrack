@@ -1,5 +1,12 @@
 # VideoTrack changelog
 
+## 1.7.58 - 2026-08-17
+
+- Correct the U-017 extraction naming introduced in 1.7.57: rename `local\report_renderer` to the neutral `local\report_view` helper so Moodle PHPCS no longer treats the static presentation helper as a renderer that must use `$this->output`.
+- Keep Analytics markup, privacy semantics and controller delegation unchanged; only the helper/test names and references change.
+- Wrap the two 133-character Analytics interval delegation lines reported by PHPCS.
+- Keep AMD/player runtime unchanged and do not advance U-017 further in this corrective release.
+
 ## 1.7.57 - 2026-08-16
 
 - Advance U-017 maintainability without changing Analytics data, privacy or query semantics: move the teacher Analytics presentation helpers out of the 4,143-line `report.php` request controller into the autoloaded `local\report_renderer` class.
