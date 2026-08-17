@@ -403,6 +403,42 @@ final class report_support {
     }
 
     /**
+     * Builds the standard integrity-event report condition and named parameters.
+     *
+     * @param int $videotrackid VideoTrack instance id.
+     * @param string $learnerwhere Canonical learner-scope SQL fragment.
+     * @param array $learnerparams Canonical learner-scope named parameters.
+     * @param int $useridfilter Optional Moodle user id filter.
+     * @param float|null $timefrom Optional inclusive lower video-time bound.
+     * @param float|null $timeto Optional inclusive upper video-time bound.
+     * @return array Tuple of SQL condition and named parameters.
+     */
+    public static function integrity_event_condition(
+        int $videotrackid,
+        string $learnerwhere,
+        array $learnerparams,
+        int $useridfilter,
+        ?float $timefrom,
+        ?float $timeto
+    ): array {
+        $conditions = "videotrackid = :integrityvtid AND {$learnerwhere}";
+        $params = ['integrityvtid' => $videotrackid] + $learnerparams;
+        if ($useridfilter > 0) {
+            $conditions .= ' AND userid = :integrityuserid';
+            $params['integrityuserid'] = $useridfilter;
+        }
+        if ($timefrom !== null) {
+            $conditions .= ' AND videotime >= :integritytimefrom';
+            $params['integritytimefrom'] = $timefrom;
+        }
+        if ($timeto !== null) {
+            $conditions .= ' AND videotime <= :integritytimeto';
+            $params['integritytimeto'] = $timeto;
+        }
+        return [$conditions, $params];
+    }
+
+    /**
      * Builds the report user filter options in source-priority order.
      *
      * @param array $useridgroups Ordered groups of Moodle user ids.

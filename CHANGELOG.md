@@ -1,5 +1,11 @@
 # VideoTrack changelog
 
+## 1.7.74 - 2026-08-17
+
+- Continue U-017 maintainability from the server-green 1.7.73 baseline by moving standard integrity-event SQL/parameter construction out of `report.php` into `local\report_support::integrity_event_condition()`.
+- Preserve learner scope, optional user selection and inclusive video-time bounds under direct behavioural PHPUnit coverage plus a controller-delegation contract, retaining the existing integrity table, parameter keys and aggregate queries.
+- Reduce `report.php` from 2,881 to 2,875 lines without changing integrity aggregation semantics, exports, Analytics, schema, tracking, completion or AMD/player runtime.
+
 ## 1.7.73 - 2026-08-17
 
 - Continue U-017 maintainability from the server-green 1.7.72 baseline by moving standard bookmark-event SQL/parameter construction out of `report.php` into `local\report_support::bookmark_event_condition()`.
