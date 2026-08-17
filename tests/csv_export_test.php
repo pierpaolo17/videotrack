@@ -81,6 +81,19 @@ final class csv_export_test extends advanced_testcase {
     }
 
     /**
+     * Event headers end with the format-specific count/date column.
+     */
+    public function test_event_headers_match_custom_export_format(): void {
+        $detailed = csv_export::event_headers(false);
+        $overall = csv_export::event_headers(true);
+
+        $this->assertSame(get_string('report:csvcol_created', 'mod_videotrack'), end($detailed));
+        $this->assertSame(get_string('report:students', 'mod_videotrack'), end($overall));
+        $this->assertSame(8, count($detailed));
+        $this->assertSame(8, count($overall));
+    }
+
+    /**
      * Identity columns export last name and first name separately.
      */
     public function test_identity_columns_split_lastname_and_firstname(): void {

@@ -1,8 +1,8 @@
 # Inventario dei file distribuiti
 
-Questo inventario è generato sull’albero VideoTrack 1.7.69 ed elenca ogni file non documentale. Il JavaScript canonico è in `amd/src`; i file in `amd/build` sono generati.
+Questo inventario è generato sull’albero VideoTrack 1.7.70 ed elenca ogni file non documentale. Il JavaScript canonico è in `amd/src`; i file in `amd/build` sono generati.
 
-Entries: **271**.
+Entries: **273**.
 
 | File | Responsabilità |
 |---|---|
@@ -189,6 +189,7 @@ Entries: **271**.
 | `classes/local/analytics_table_export.php` | Servizio di dominio `analytics_table_export` riusabile da pagine, report o servizi. |
 | `classes/local/completion_config.php` | Classe locale di dominio/servizio corrente; vedere il DocBlock sorgente per il contratto runtime. |
 | `classes/local/course_analytics.php` | Servizio di dominio `course_analytics` riusabile da pagine, report o servizi. |
+| `classes/local/csv_event_writer.php` | Writer contestuale per le righe evento CSV personalizzate del report docente. |
 | `classes/local/csv_export.php` | Servizio di dominio `csv_export` riusabile da pagine, report o servizi. |
 | `classes/local/forum_bridge.php` | Servizio di dominio `forum_bridge` riusabile da pagine, report o servizi. |
 | `classes/local/integrity.php` | Servizio di dominio `integrity` riusabile da pagine, report o servizi. |
@@ -243,6 +244,7 @@ Entries: **271**.
 | `tests/cli_contract_test.php` | Contratti statici che mantengono i CLI distribuiti in sola lettura, documentati e legati ai percorsi Analytics reali. |
 | `tests/completion_contract_test.php` | Test PHPUnit/di contratto corrente distribuito con il plugin. |
 | `tests/course_analytics_test.php` | Copertura PHPUnit per course analytics test. |
+| `tests/csv_event_writer_test.php` | Copertura PHPUnit per la scrittura delle righe evento CSV personalizzate. |
 | `tests/csv_export_test.php` | Copertura PHPUnit per csv export test. |
 | `tests/forum_bridge_test.php` | Copertura PHPUnit per forum bridge test. |
 | `tests/gradebook_restore_contract_test.php` | Test PHPUnit/di contratto corrente distribuito con il plugin. |

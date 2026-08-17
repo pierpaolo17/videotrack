@@ -297,6 +297,29 @@ final class csv_export {
     }
 
     /**
+     * Returns localised headers for custom teacher-report event columns.
+     *
+     * @param bool $overall Whether the export is the aggregate overall format.
+     * @return string[]
+     */
+    public static function event_headers(bool $overall): array {
+        $headers = [
+            get_string('report:csvcol_eventtype', 'mod_videotrack'),
+            get_string('report:reaction', 'mod_videotrack'),
+            get_string('report:csvcol_comment', 'mod_videotrack'),
+            get_string('report:timestamp', 'mod_videotrack'),
+            get_string('report:csvcol_firsttimestamp', 'mod_videotrack'),
+            get_string('report:csvcol_lasttimestamp', 'mod_videotrack'),
+            get_string('report:csvcol_count', 'mod_videotrack'),
+        ];
+        $headers[] = get_string(
+            $overall ? 'report:students' : 'report:csvcol_created',
+            'mod_videotrack'
+        );
+        return $headers;
+    }
+
+    /**
      * Returns localised headers preceding event/state-specific columns.
      *
      * @param string[] $selected Selected optional fields.
