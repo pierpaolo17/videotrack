@@ -2,7 +2,7 @@
 
 VideoTrack is a Moodle activity module for delivering and tracking HTML5/uploaded, YouTube and Vimeo videos. It combines server-validated viewing progress with optional study tools, completion rules, gradebook integration and privacy-aware teacher reporting.
 
-Current release documented by this tree: **1.7.63**. Supported Moodle branches declared by the plugin: **5.0–5.3**.
+Current release documented by this tree: **1.7.64**. Supported Moodle branches declared by the plugin: **5.0–5.3**.
 
 Italian overview: [`README_IT.md`](README_IT.md)
 Release history: [`CHANGELOG.md`](CHANGELOG.md)
@@ -28,7 +28,7 @@ Technical documentation: [`docs/en/00_INDEX.md`](docs/en/00_INDEX.md) / [`docs/i
 
 Learner participation is controlled by `mod/videotrack:participate` and is independent from report access. A user with a dual/custom role can therefore remain a tracked learner while also holding reporting capabilities. Teachers, managers and administrators remain in non-tracking preview mode unless they also receive the participation capability.
 
-VideoTrack records only data required by enabled features. Bookmark labels remain private to their owner. Personal note text is visible to its owner and may be viewed/exported by authorised report viewers; aggregate Analytics exclude note text. Analytics apply the configured minimum-user privacy threshold. Integrity signals are diagnostic and must not be treated as proof of misconduct.
+VideoTrack records only data required by enabled features. Bookmark labels remain private to their owner. Personal note text is visible to its owner and may be viewed/exported by authorised report viewers; aggregate Analytics exclude note text. Instance Analytics show exact aggregates to authorised report viewers within their Moodle scope; course/teacher dashboards still apply the configured minimum-user threshold pending their dedicated review. Integrity signals are diagnostic and must not be treated as proof of misconduct.
 
 The default focus policy pauses only when the video page is genuinely hidden. Player controls, status regions, transcript navigation and poster actions are designed for keyboard and assistive-technology use. External-provider and browser limitations are documented as best-effort behaviour rather than guarantees.
 

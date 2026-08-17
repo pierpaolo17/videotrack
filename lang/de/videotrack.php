@@ -725,7 +725,7 @@ $string['forum:restorelinkmissing'] = 'Das verknüpfte Forum wurde nicht wiederh
 
 // Instance analytics.
 $string['setting:analyticsminusers'] = 'Mindestanzahl für Analysen';
-$string['setting:analyticsminusers_desc'] = 'Mindestanzahl unterschiedlicher Nutzer, bevor Instanzanalysen oder Reaktionscluster exakte aggregierte Werte anzeigen. Positive Zeitintervalle unterhalb des Schwellenwerts werden maskiert; für Wiederholungen wird der Schwellenwert getrennt auf Nutzer mit Wiederholungen angewendet. Summen, aus denen maskierte Werte rekonstruiert werden könnten, werden weggelassen. Zulässiger Bereich: 2–50.';
+$string['setting:analyticsminusers_desc'] = 'Mindestanzahl unterschiedlicher Nutzer, bevor weiterhin datenschutzmaskierte Aggregatansichten exakte Werte anzeigen. Die Instanzanalysen sind für autorisierte Berichtsnutzer exakt und verwenden diesen Schwellenwert nicht. Zulässiger Bereich: 2–50.';
 $string['report:analytics_tab'] = 'Analysen';
 $string['report:analytics_heading'] = 'Wiedergabe-Heatmap und Retention';
 $string['report:analytics_method_toggle'] = 'Berechnung der Kennzahlen';

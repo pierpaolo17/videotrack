@@ -1,5 +1,11 @@
 # VideoTrack changelog
 
+## 1.7.64 - 2026-08-17
+
+- Make `report.php?mode=analytics` exact for authorised report viewers inside the existing Moodle capability, activity/course and group scopes: the configured minimum-user privacy threshold no longer masks instance Analytics viewing bins, replay metrics, reactions/clusters, bookmark counts, integrity indicators or acknowledgement aggregates.
+- Keep personal note text excluded from aggregate Analytics and bookmark labels/timestamps owner-only; this changes aggregate visibility for an already-authorised teacher/report viewer, not Moodle access control.
+- Keep CSV/Excel/ODS instance-Analytics exports aligned with the page by exporting the same exact aggregates, while leaving `reports_course.php`, `reports_teacher.php`, their current threshold behaviour, schema, tracking, completion and AMD/player runtime unchanged for dedicated follow-up releases.
+
 ## 1.7.63 - 2026-08-17
 
 - Fix the custom CSV export row writer so its static closure explicitly captures the module `$context` required by `csv_export::identity_values()`; without that capture the real download path can pass an undefined/null context despite the surrounding report controller having a valid module context.

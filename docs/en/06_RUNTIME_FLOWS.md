@@ -30,7 +30,7 @@ The statement version is a hash of current text/format/timing. The POST form is 
 
 ## Reports and exports
 
-Per-student reports may include identity, progress, reactions, acknowledgement date/snapshot and diagnostic counts according to capability. Course and teacher dashboards aggregate accessible activities. Instance Analytics builds privacy-safe bins and separate summaries for reactions, bookmarks, integrity and acknowledgements. CSV/Excel/ODS use the same masked aggregates; individual CSV exports require explicit confirmation where personal data is present.
+Per-student reports may include identity, progress, reactions, acknowledgement date/snapshot and diagnostic counts according to capability. Course and teacher dashboards aggregate accessible activities. Instance Analytics builds exact aggregate bins and separate summaries for reactions, bookmarks, integrity and acknowledgements for authorised report viewers within their Moodle scope. CSV/Excel/ODS use the same exact aggregates; individual CSV exports require explicit confirmation where personal data is present.
 
 ## Privacy, retention and deletion
 

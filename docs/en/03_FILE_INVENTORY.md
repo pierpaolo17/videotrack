@@ -1,6 +1,6 @@
 # Distributed file inventory
 
-This inventory is generated against the VideoTrack 1.7.63 tree and lists every non-documentation file. Canonical JavaScript is under `amd/src`; files under `amd/build` are generated.
+This inventory is generated against the VideoTrack 1.7.64 tree and lists every non-documentation file. Canonical JavaScript is under `amd/src`; files under `amd/build` are generated.
 
 Entries: **271**.
 
@@ -227,7 +227,7 @@ Entries: **271**.
 | `mod_form.php` | Activity settings form, validation, file managers and custom completion fields. |
 | `pix/icon.svg` | Activity icon. |
 | `presets.php` | Teacher/admin interface for reusable reaction presets. |
-| `report.php` | Instance teacher report and Analytics page, including privacy thresholds and CSV/Excel/ODS export. |
+| `report.php` | Instance teacher report and exact authorised Analytics page, including CSV/Excel/ODS export. |
 | `reports_course.php` | Course-level teacher dashboard across VideoTrack activities. |
 | `reports_teacher.php` | Teacher-centric dashboard across accessible courses and activities. |
 | `settings.php` | Site administration settings, defaults, privacy, performance and accessibility policies. |

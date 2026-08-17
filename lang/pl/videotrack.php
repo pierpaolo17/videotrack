@@ -725,7 +725,7 @@ $string['forum:restorelinkmissing'] = 'Połączone forum nie zostało przywróco
 
 // Instance analytics.
 $string['setting:analyticsminusers'] = 'Minimalna liczba użytkowników dla analityki';
-$string['setting:analyticsminusers_desc'] = 'Minimalna liczba różnych użytkowników wymagana do pokazania dokładnych wartości zbiorczych w analityce aktywności lub klastrze reakcji. Dodatnie przedziały poniżej progu są maskowane; dla powtórek próg jest stosowany osobno do użytkowników, którzy ponownie obejrzeli przedział. Pomijane są sumy pozwalające odtworzyć ukryte wartości. Dozwolony zakres: 2–50.';
+$string['setting:analyticsminusers_desc'] = 'Minimalna liczba różnych użytkowników wymagana, zanim widoki zbiorcze nadal stosujące maskowanie będą mogły pokazać dokładne wartości. Analityka aktywności jest dokładna dla uprawnionych użytkowników raportów i nie używa tego progu. Dozwolony zakres: 2–50.';
 $string['report:analytics_tab'] = 'Analityka';
 $string['report:analytics_heading'] = 'Mapa oglądania i retencja';
 $string['report:analytics_method_toggle'] = 'Sposób obliczania metryk';

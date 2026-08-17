@@ -24,6 +24,9 @@ namespace mod_videotrack\local;
  * @license    https://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 final class analytics {
+    /** Minimum distinct-user threshold that exposes exact aggregates to authorised report viewers. */
+    public const EXACT_REPORT_MIN_USERS = 1;
+
     /** Maximum number of timeline bins rendered by the report. */
     public const MAX_BINS = 720;
 
@@ -271,7 +274,7 @@ final class analytics {
      * @return array Privacy-safe result.
      */
     public static function apply_privacy_threshold(array $result, int $minusers): array {
-        $minusers = max(2, $minusers);
+        $minusers = max(self::EXACT_REPORT_MIN_USERS, $minusers);
         $result['minusers'] = $minusers;
         $result['datasetsuppressed'] = (int)($result['viewers'] ?? 0) < $minusers;
         $result['totalsuppressed'] = $result['datasetsuppressed'];
@@ -333,7 +336,7 @@ final class analytics {
     public static function count_summary(int $eventcount, int $usercount, int $minusers): array {
         $eventcount = max(0, $eventcount);
         $usercount = max(0, $usercount);
-        $minusers = max(2, $minusers);
+        $minusers = max(self::EXACT_REPORT_MIN_USERS, $minusers);
         $hasdata = $eventcount > 0;
         $suppressed = $hasdata && $usercount < $minusers;
 
@@ -367,7 +370,7 @@ final class analytics {
      */
     public static function cluster_reactions(iterable $events, int $windowseconds, int $minusers): array {
         $windowseconds = max(1, $windowseconds);
-        $minusers = max(2, $minusers);
+        $minusers = max(self::EXACT_REPORT_MIN_USERS, $minusers);
         $active = [];
         $visible = [];
         $truncated = false;

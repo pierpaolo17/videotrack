@@ -23,7 +23,7 @@ Video sorgente, poster, sottotitoli, trascrizioni e capitoli caricati sono conse
 - Lo studente accede soltanto alle proprie note e alle proprie etichette dei segnalibri.
 - I docenti autorizzati possono consultare/esportare il testo delle note personali quando la funzione è abilitata e lo scope iscrizione/gruppi lo permette; le etichette dei segnalibri restano visibili soltanto al proprietario.
 - Il docente vede dati per studente solo con la capability di report e nel rispetto dei gruppi.
-- Gli Analytics sono aggregati e applicano `analyticsminusers` separatamente alle popolazioni di visione, reazioni, segnalibri, indicatori e prese visione quando previsto.
+- Gli Analytics di istanza usano aggregati e mostrano valori aggregati esatti ai report viewer autorizzati entro lo scope Moodle già consentito per attività/corso/gruppi; `analyticsminusers` continua ad applicarsi alle dashboard aggregate corso/docente fino alla loro revisione dedicata.
 - Il testo delle note e le etichette dei segnalibri non compaiono mai negli Analytics docente.
 - Gli Analytics tra corsi includono solo attività per cui il docente possiede `mod/videotrack:viewreport`; le regole dei gruppi vengono risolte separatamente in ogni corso.
 - Gli indicatori di integrità sono diagnostici: non sono una prova conclusiva e non devono determinare da soli voti, completamento, sanzioni o accesso.
@@ -60,7 +60,7 @@ Il backup Moodle include configurazione e file dell’attività. Quando sono ric
 
 ## Esportazioni CSV e data format
 
-I campi identificativi dei report individuali sono configurabili a livello sito/istanza e limitati ai dati visibili a chi esporta. Gli export con reazioni o commenti individuali richiedono conferma esplicita e generano eventi Moodle. Gli export Analytics CSV/Excel/ODS contengono righe aggregate privacy-safe; i valori mascherati restano mascherati in ogni formato.
+I campi identificativi dei report individuali sono configurabili a livello sito/istanza e limitati ai dati visibili a chi esporta. Gli export con reazioni o commenti individuali richiedono conferma esplicita e generano eventi Moodle. Gli export CSV/Excel/ODS degli Analytics di istanza contengono gli stessi aggregati esatti mostrati al report viewer autorizzato. Il testo delle note personali e le etichette/timestamp privati dei segnalibri restano esclusi; le dashboard corso/docente mantengono la soglia minima corrente fino alla revisione dedicata.
 
 ## Memoria del browser
 
