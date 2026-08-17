@@ -178,6 +178,24 @@ final class acknowledgement_test extends advanced_testcase {
     }
 
     /**
+     * Authorised exact reporting can expose one learner's aggregate acknowledgement snapshot.
+     */
+    public function test_analytics_summary_supports_exact_single_user_reporting(): void {
+        $summary = acknowledgement::analytics_summary([(object)[
+            'userid' => 10,
+            'viewedseconds' => 45.0,
+            'viewedpercent' => 75.0,
+        ]], 1);
+
+        $this->assertFalse($summary['suppressed']);
+        $this->assertFalse($summary['progresssuppressed']);
+        $this->assertSame(1, $summary['confirmationcount']);
+        $this->assertSame(1, $summary['studentcount']);
+        $this->assertSame(45.0, $summary['averageviewedseconds']);
+        $this->assertSame(75.0, $summary['averageviewedpercent']);
+    }
+
+    /**
      * Analytics summary averages available snapshots and masks small populations.
      */
     public function test_analytics_summary_preserves_legacy_and_privacy_rules(): void {

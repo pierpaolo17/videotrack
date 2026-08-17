@@ -32,7 +32,7 @@ La versione è l’hash di testo/formato/modalità correnti. Il form POST usa `s
 
 ## Report ed export
 
-I report per studente includono soltanto utenti con `mod/videotrack:participate` e possono mostrare identità, progresso, reazioni, data/fotografia della presa visione e conteggi diagnostici secondo capability. Le dashboard aggregano attività accessibili. Gli Analytics di istanza costruiscono bin privacy-safe e riepiloghi separati per reazioni, segnalibri, integrità e prese visione. CSV/Excel/ODS mantengono le mascherature; gli export individuali con dati personali richiedono conferma.
+I report per studente includono soltanto utenti con `mod/videotrack:participate` e possono mostrare identità, progresso, reazioni, data/fotografia della presa visione e conteggi diagnostici secondo capability. Le dashboard aggregano attività accessibili. Gli Analytics di istanza costruiscono bin aggregati esatti e riepiloghi separati per reazioni, segnalibri, integrità e prese visione per i report viewer autorizzati entro il loro scope Moodle. CSV/Excel/ODS usano gli stessi aggregati esatti; gli export individuali con dati personali richiedono conferma.
 
 ## Privacy, retention e cancellazione
 

@@ -181,7 +181,8 @@ if ($mode === 'analytics') {
         $duration = max($duration, (float)$scopeinstance->durationseconds);
     }
     $analyticsbinsize = \mod_videotrack\local\analytics::normalise_bin_size($analyticsbinsize, $duration);
-    $minusers = videotrack_get_config_int('analyticsminusers', 5, 2, 50);
+    // Authorised instance Analytics show exact aggregate values within the viewer's Moodle scope.
+    $minusers = \mod_videotrack\local\analytics::EXACT_REPORT_MIN_USERS;
 
     [$analyticsscopewhere, $segmentparams] = \mod_videotrack\local\report_support::analytics_scope_condition(
         $analyticsinstances,
@@ -668,11 +669,6 @@ if ($mode === 'analytics') {
         );
     }
 
-    echo \mod_videotrack\local\report_view::privacy_alert(
-        $viewingprivacysuppressed,
-        $reactionprivacysuppressed,
-        $minusers
-    );
     echo \mod_videotrack\local\report_view::reaction_summary($reactionsummary);
     if ($bookmarkanalyticsenabled) {
         echo \mod_videotrack\local\report_view::bookmark_summary($bookmarksummary, $minusers);

@@ -23,7 +23,7 @@ Uploaded source video, poster, captions, transcript and chapter files are stored
 - A learner can access only their own notes and bookmark labels.
 - Authorised report viewers may read/export personal note text when the notes feature is enabled and Moodle enrolment/group scope permits access; bookmark labels remain owner-only.
 - Teachers may see per-student progress where they hold the report capability and group access permits it.
-- Analytics use aggregates and apply `analyticsminusers` independently to viewing, reaction, bookmark, integrity and acknowledgement populations where applicable.
+- Instance Analytics use aggregates and show exact aggregate values to authorised report viewers inside their existing Moodle activity/course/group scope; `analyticsminusers` continues to apply to the separate course/teacher aggregate dashboards until their dedicated review.
 - Private note text and bookmark labels are never exposed in teacher analytics.
 - Cross-course analytics include only activities for which the viewer has `mod/videotrack:viewreport`; group restrictions are resolved separately in every course.
 - Integrity indicators are diagnostic. They must not be treated as conclusive proof or used alone for automatic grading, completion, discipline or access decisions.
@@ -60,7 +60,7 @@ Moodle backup includes activity configuration and files. When user data is reque
 
 ## CSV and data-format exports
 
-Identity fields in individual reports are configurable by site and activity and are limited to fields visible to the exporter. Exports containing individual reactions or comments require explicit confirmation and generate Moodle events. Analytics CSV/Excel/ODS exports contain privacy-safe aggregate rows; suppressed values remain suppressed in every format.
+Identity fields in individual reports are configurable by site and activity and are limited to fields visible to the exporter. Exports containing individual reactions or comments require explicit confirmation and generate Moodle events. Instance Analytics CSV/Excel/ODS exports contain the same exact aggregate rows shown to the authorised report viewer. Personal note text and private bookmark labels/timestamps remain excluded; the separate course/teacher dashboards retain their current minimum-user masking until reviewed.
 
 ## Browser storage
 

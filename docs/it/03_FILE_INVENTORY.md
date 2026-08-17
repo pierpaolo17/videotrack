@@ -1,6 +1,6 @@
 # Inventario dei file distribuiti
 
-Questo inventario è generato sull’albero VideoTrack 1.7.63 ed elenca ogni file non documentale. Il JavaScript canonico è in `amd/src`; i file in `amd/build` sono generati.
+Questo inventario è generato sull’albero VideoTrack 1.7.64 ed elenca ogni file non documentale. Il JavaScript canonico è in `amd/src`; i file in `amd/build` sono generati.
 
 Entries: **271**.
 
@@ -227,7 +227,7 @@ Entries: **271**.
 | `mod_form.php` | Form impostazioni attività, validazione, file manager e completamento personalizzato. |
 | `pix/icon.svg` | Icona dell’attività. |
 | `presets.php` | Interfaccia docente/amministratore per preset riutilizzabili delle reazioni. |
-| `report.php` | Report docente di istanza e pagina Analytics, con soglie privacy ed export CSV/Excel/ODS. |
+| `report.php` | Report docente di istanza e pagina Analytics esatta per viewer autorizzati, con export CSV/Excel/ODS. |
 | `reports_course.php` | Dashboard docente delle attività VideoTrack del corso. |
 | `reports_teacher.php` | Dashboard centrata sul docente tra corsi e attività accessibili. |
 | `settings.php` | Impostazioni sito, default, privacy, prestazioni e politiche di accessibilità. |

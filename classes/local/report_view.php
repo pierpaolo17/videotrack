@@ -213,17 +213,19 @@ final class report_view {
             ['class' => 'mb-2']
         );
         $content .= html_writer::alist($items, ['class' => 'mb-2']);
-        $content .= html_writer::tag(
-            'p',
-            get_string('report:analytics_method_privacy', 'mod_videotrack', $minusers),
-            ['class' => 'mb-0']
-        );
-        if ($haspartialmasking) {
+        if ($minusers > \mod_videotrack\local\analytics::EXACT_REPORT_MIN_USERS) {
             $content .= html_writer::tag(
                 'p',
-                get_string('report:analytics_method_partial', 'mod_videotrack'),
-                ['class' => 'mt-2 mb-0']
+                get_string('report:analytics_method_privacy', 'mod_videotrack', $minusers),
+                ['class' => 'mb-0']
             );
+            if ($haspartialmasking) {
+                $content .= html_writer::tag(
+                    'p',
+                    get_string('report:analytics_method_partial', 'mod_videotrack'),
+                    ['class' => 'mt-2 mb-0']
+                );
+            }
         }
 
         return html_writer::tag(

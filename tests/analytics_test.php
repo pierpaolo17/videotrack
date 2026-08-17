@@ -67,6 +67,53 @@ final class analytics_test extends advanced_testcase {
     }
 
     /**
+     * Authorised exact reporting can expose aggregates from a single contributing user.
+     */
+    public function test_exact_reporting_threshold_preserves_single_user_aggregates(): void {
+        $viewing = analytics::apply_privacy_threshold([
+            'viewers' => 1,
+            'repeatmetricsavailable' => true,
+            'bins' => [[
+                'start' => 0.0,
+                'end' => 10.0,
+                'viewers' => 1,
+                'repeatviewers' => 1,
+                'rawseconds' => 12.0,
+                'uniqueseconds' => 10.0,
+                'repeatseconds' => 2.0,
+                'retention' => 100.0,
+                'suppressed' => false,
+                'repeatsuppressed' => false,
+            ]],
+        ], analytics::EXACT_REPORT_MIN_USERS);
+        $this->assertFalse($viewing['datasetsuppressed']);
+        $this->assertFalse($viewing['totalsuppressed']);
+        $this->assertSame(1, $viewing['bins'][0]['viewers']);
+        $this->assertSame(1, $viewing['bins'][0]['repeatviewers']);
+        $this->assertSame(10.0, $viewing['bins'][0]['uniqueseconds']);
+        $this->assertSame(2.0, $viewing['bins'][0]['repeatseconds']);
+
+        $summary = analytics::reaction_summary(3, 1, analytics::EXACT_REPORT_MIN_USERS);
+        $this->assertFalse($summary['suppressed']);
+        $this->assertSame(3, $summary['eventcount']);
+        $this->assertSame(1, $summary['studentcount']);
+
+        $countsummary = analytics::count_summary(2, 1, analytics::EXACT_REPORT_MIN_USERS);
+        $this->assertFalse($countsummary['suppressed']);
+        $this->assertSame(2, $countsummary['eventcount']);
+        $this->assertSame(1, $countsummary['studentcount']);
+
+        $clusters = analytics::cluster_reactions([(object)[
+            'userid' => 7,
+            'reactionid' => 10,
+            'reactionlabel' => 'Question',
+            'videotime' => 12.0,
+        ]], 10, analytics::EXACT_REPORT_MIN_USERS);
+        $this->assertCount(1, $clusters['clusters']);
+        $this->assertSame(1, $clusters['clusters'][0]['students']);
+    }
+
+    /**
      * Small datasets and small positive bins are hidden by the privacy threshold.
      */
     public function test_privacy_threshold_masks_small_values(): void {

@@ -43,6 +43,32 @@ final class report_contract_test extends advanced_testcase {
     }
 
     /**
+     * Instance Analytics exposes exact aggregates only after the normal report capability/scope checks.
+     */
+    public function test_instance_analytics_uses_exact_authorised_aggregate_threshold(): void {
+        $source = file_get_contents(__DIR__ . '/../report.php');
+        $this->assertIsString($source);
+
+        $start = strpos($source, "if (\$mode === 'analytics') {");
+        $this->assertNotFalse($start);
+        $end = strpos($source, "\n\$sortsql = 'videotime ASC';", $start);
+        $this->assertNotFalse($end);
+        $analytics = substr($source, $start, $end - $start);
+
+        $this->assertStringContainsString(
+            "require_capability('mod/videotrack:viewreport', \$context);",
+            $analytics
+        );
+        $this->assertStringContainsString(
+            '$minusers = \mod_videotrack\local\analytics::EXACT_REPORT_MIN_USERS;',
+            $analytics
+        );
+        $this->assertStringContainsString('analytics::apply_privacy_threshold($analytics, $minusers)', $analytics);
+        $this->assertStringNotContainsString("videotrack_get_config_int('analyticsminusers'", $analytics);
+        $this->assertStringNotContainsString('report_view::privacy_alert(', $analytics);
+    }
+
+    /**
      * Moodle 5.0 save/cancel modals do not expose setCancelButtonText().
      */
     public function test_report_confirmation_uses_supported_modal_api(): void {

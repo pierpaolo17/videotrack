@@ -58,6 +58,13 @@ final class integrity_test extends advanced_testcase {
         $this->assertNull($summary['pipattempt']['studentcount']);
         $this->assertTrue($summary['pipattempt']['suppressed']);
         $this->assertFalse($summary['windowblur']['hasdata']);
+
+        $exact = integrity::summarise([
+            (object)['eventtype' => 'pipattempt', 'eventcount' => 1, 'studentcount' => 1],
+        ], 1);
+        $this->assertFalse($exact['pipattempt']['suppressed']);
+        $this->assertSame(1, $exact['pipattempt']['eventcount']);
+        $this->assertSame(1, $exact['pipattempt']['studentcount']);
     }
 
     /**

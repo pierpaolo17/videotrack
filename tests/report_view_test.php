@@ -60,6 +60,22 @@ final class report_view_test extends \advanced_testcase {
     }
 
     /**
+     * Exact instance Analytics methodology does not present a minimum-user privacy threshold.
+     */
+    public function test_exact_analytics_methodology_omits_privacy_threshold_text(): void {
+        $markup = report_view::analytics_methodology(1, false, true, true, true);
+
+        $this->assertStringContainsString(
+            get_string('report:analytics_method_intro', 'mod_videotrack'),
+            $markup
+        );
+        $this->assertStringNotContainsString(
+            get_string('report:analytics_method_privacy', 'mod_videotrack', 1),
+            $markup
+        );
+    }
+
+    /**
      * A fully privacy-suppressed retention series explains why no line is visible.
      */
     public function test_retention_chart_explains_full_privacy_suppression(): void {

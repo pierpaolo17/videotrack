@@ -198,7 +198,7 @@ final class acknowledgement {
         $studentcount = count($userids);
         $progressstudentcount = count($progressuserids);
         $hasdata = $confirmationcount > 0;
-        $minusers = max(2, $minusers);
+        $minusers = max(1, $minusers);
         $suppressed = $hasdata && $studentcount < $minusers;
         $progresssuppressed = !$suppressed && $progresscount > 0 && $progressstudentcount < $minusers;
         $averageviewedseconds = $progresscount > 0
