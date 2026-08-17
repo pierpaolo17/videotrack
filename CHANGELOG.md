@@ -1,5 +1,11 @@
 # VideoTrack changelog
 
+## 1.7.72 - 2026-08-17
+
+- Continue U-017 maintainability from the server-green 1.7.71 baseline by moving standard reaction-event SQL/parameter construction out of `report.php` into `local\report_support::reaction_event_condition()`.
+- Preserve learner scope, deleted/note/bookmark exclusion, optional user/reaction filters and inclusive video-time bounds under direct behavioural PHPUnit coverage plus a controller-delegation contract.
+- Reduce `report.php` from 2,896 to 2,887 lines without changing database reads, event recordset fields/order, exports, Analytics, schema, tracking, completion or AMD/player runtime.
+
 ## 1.7.71 - 2026-08-17
 
 - Correct the 1.7.70 U-017 CSV-writer test/style findings without changing runtime export semantics: replace constructor-promoted dependencies in `local\csv_event_writer` with explicitly documented readonly member variables required by Moodle PHPCS.

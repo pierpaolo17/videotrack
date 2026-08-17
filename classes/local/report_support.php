@@ -322,6 +322,51 @@ final class report_support {
     }
 
     /**
+     * Builds the standard reaction-event report condition and named parameters.
+     *
+     * Personal notes and bookmarks are intentionally excluded from this event stream.
+     *
+     * @param int $videotrackid VideoTrack instance id.
+     * @param string $learnerwhere Canonical learner-scope SQL fragment.
+     * @param array $learnerparams Canonical learner-scope named parameters.
+     * @param int $useridfilter Optional Moodle user id filter.
+     * @param int $reactionidfilter Optional reaction id filter.
+     * @param float|null $timefrom Optional inclusive lower video-time bound.
+     * @param float|null $timeto Optional inclusive upper video-time bound.
+     * @return array Tuple of SQL condition and named parameters.
+     */
+    public static function reaction_event_condition(
+        int $videotrackid,
+        string $learnerwhere,
+        array $learnerparams,
+        int $useridfilter,
+        int $reactionidfilter,
+        ?float $timefrom,
+        ?float $timeto
+    ): array {
+        $conditions = "videotrackid = :vtid AND isdeleted = 0 AND (notetype = '' OR notetype IS NULL)";
+        $conditions .= " AND {$learnerwhere}";
+        $params = ['vtid' => $videotrackid] + $learnerparams;
+        if ($useridfilter > 0) {
+            $conditions .= ' AND userid = :uid';
+            $params['uid'] = $useridfilter;
+        }
+        if ($reactionidfilter > 0) {
+            $conditions .= ' AND reactionid = :rid';
+            $params['rid'] = $reactionidfilter;
+        }
+        if ($timefrom !== null) {
+            $conditions .= ' AND videotime >= :timefrom';
+            $params['timefrom'] = $timefrom;
+        }
+        if ($timeto !== null) {
+            $conditions .= ' AND videotime <= :timeto';
+            $params['timeto'] = $timeto;
+        }
+        return [$conditions, $params];
+    }
+
+    /**
      * Builds the report user filter options in source-priority order.
      *
      * @param array $useridgroups Ordered groups of Moodle user ids.
