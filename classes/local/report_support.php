@@ -367,6 +367,42 @@ final class report_support {
     }
 
     /**
+     * Builds the standard bookmark-event report condition and named parameters.
+     *
+     * @param int $videotrackid VideoTrack instance id.
+     * @param string $learnerwhere Canonical learner-scope SQL fragment.
+     * @param array $learnerparams Canonical learner-scope named parameters.
+     * @param int $useridfilter Optional Moodle user id filter.
+     * @param float|null $timefrom Optional inclusive lower video-time bound.
+     * @param float|null $timeto Optional inclusive upper video-time bound.
+     * @return array Tuple of SQL condition and named parameters.
+     */
+    public static function bookmark_event_condition(
+        int $videotrackid,
+        string $learnerwhere,
+        array $learnerparams,
+        int $useridfilter,
+        ?float $timefrom,
+        ?float $timeto
+    ): array {
+        $conditions = "videotrackid = :bookmarkvtid AND isdeleted = 0 AND notetype = 'bookmark' AND {$learnerwhere}";
+        $params = ['bookmarkvtid' => $videotrackid] + $learnerparams;
+        if ($useridfilter > 0) {
+            $conditions .= ' AND userid = :bookmarkuserid';
+            $params['bookmarkuserid'] = $useridfilter;
+        }
+        if ($timefrom !== null) {
+            $conditions .= ' AND videotime >= :bookmarktimefrom';
+            $params['bookmarktimefrom'] = $timefrom;
+        }
+        if ($timeto !== null) {
+            $conditions .= ' AND videotime <= :bookmarktimeto';
+            $params['bookmarktimeto'] = $timeto;
+        }
+        return [$conditions, $params];
+    }
+
+    /**
      * Builds the report user filter options in source-priority order.
      *
      * @param array $useridgroups Ordered groups of Moodle user ids.

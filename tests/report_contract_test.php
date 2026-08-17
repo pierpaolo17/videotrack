@@ -185,12 +185,17 @@ final class report_contract_test extends advanced_testcase {
         $this->assertStringContainsString('report_support::user_options(', $report);
         $this->assertStringContainsString('report_support::cluster_reaction_events(', $report);
         $this->assertStringContainsString('report_support::reaction_event_condition(', $report);
+        $this->assertStringContainsString('report_support::bookmark_event_condition(', $report);
         $this->assertStringContainsString('final class report_support', $support);
         $this->assertStringNotContainsString('function videotrack_report_user_label(', $report);
         $this->assertStringNotContainsString('function videotrack_report_tabs(', $report);
         $this->assertStringNotContainsString('$clusterize = function', $report);
         $this->assertStringNotContainsString(
             '$eventconditions = "videotrackid = :vtid AND isdeleted = 0',
+            $report
+        );
+        $this->assertStringNotContainsString(
+            '$bookmarkconditions = "videotrackid = :bookmarkvtid AND isdeleted = 0',
             $report
         );
     }
