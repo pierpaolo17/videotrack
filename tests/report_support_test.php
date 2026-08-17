@@ -202,6 +202,49 @@ final class report_support_test extends \advanced_testcase {
     }
 
     /**
+     * Integrity-event filters preserve learner scope and optional bounds.
+     */
+    public function test_integrity_event_condition_preserves_filters_and_scope(): void {
+        [$conditions, $params] = report_support::integrity_event_condition(
+            42,
+            'userid IN (:learnerone, :learnertwo)',
+            ['learnerone' => 7, 'learnertwo' => 8],
+            7,
+            12.5,
+            90.0
+        );
+
+        $this->assertSame(
+            'videotrackid = :integrityvtid AND userid IN (:learnerone, :learnertwo)' .
+                ' AND userid = :integrityuserid' .
+                ' AND videotime >= :integritytimefrom AND videotime <= :integritytimeto',
+            $conditions
+        );
+        $this->assertSame([
+            'integrityvtid' => 42,
+            'learnerone' => 7,
+            'learnertwo' => 8,
+            'integrityuserid' => 7,
+            'integritytimefrom' => 12.5,
+            'integritytimeto' => 90.0,
+        ], $params);
+
+        [$minimalconditions, $minimalparams] = report_support::integrity_event_condition(
+            42,
+            'userid = :learner',
+            ['learner' => 7],
+            0,
+            null,
+            null
+        );
+        $this->assertSame(
+            'videotrackid = :integrityvtid AND userid = :learner',
+            $minimalconditions
+        );
+        $this->assertSame(['integrityvtid' => 42, 'learner' => 7], $minimalparams);
+    }
+
+    /**
      * User options preserve source-group priority, deduplicate ids and omit missing users.
      */
     public function test_user_options_preserve_source_priority_and_privacy(): void {

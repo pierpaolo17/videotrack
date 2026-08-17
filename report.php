@@ -998,20 +998,14 @@ $reportintegritysummary = \mod_videotrack\local\integrity::summarise(
     videotrack_get_config_int('analyticsminusers', 5, 2, 50)
 );
 if (!empty($videotrack->integrityindicatorsenabled)) {
-    $integrityconditions = "videotrackid = :integrityvtid AND {$learnerwhere}";
-    $integrityparams = ['integrityvtid' => $videotrack->id] + $learnerparams;
-    if ($useridfilter > 0) {
-        $integrityconditions .= ' AND userid = :integrityuserid';
-        $integrityparams['integrityuserid'] = $useridfilter;
-    }
-    if ($timefrom !== null) {
-        $integrityconditions .= ' AND videotime >= :integritytimefrom';
-        $integrityparams['integritytimefrom'] = $timefrom;
-    }
-    if ($timeto !== null) {
-        $integrityconditions .= ' AND videotime <= :integritytimeto';
-        $integrityparams['integritytimeto'] = $timeto;
-    }
+    [$integrityconditions, $integrityparams] = \mod_videotrack\local\report_support::integrity_event_condition(
+        $videotrack->id,
+        $learnerwhere,
+        $learnerparams,
+        $useridfilter,
+        $timefrom,
+        $timeto
+    );
     $integritycountrows = $DB->get_records_sql(
         "SELECT userid, COUNT(id) AS eventcount
            FROM {videotrack_integrity}

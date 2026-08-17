@@ -1,11 +1,11 @@
 # Documentation audit
 
-Baseline: VideoTrack **1.7.73** (`2026081715`).
+Baseline: VideoTrack **1.7.74** (`2026081716`).
 
 ## Coverage
 
 - Non-documentation files inventoried: **273/273**.
-- Named PHP functions/methods inventoried: **675**.
+- Named PHP functions/methods inventoried: **677**.
 - Named AMD callables detected and inventoried: **647**.
 - XMLDB tables documented: **7**.
 - Site-setting keys documented: **57**.
@@ -19,6 +19,20 @@ Baseline: VideoTrack **1.7.73** (`2026081715`).
 - Static resume/completion/stacked-alert contracts cover the three providers while Behat remains unavailable in the maintainer environment; browser evidence is still explicitly pending.
 - Maintainer-only consolidated roadmap/lessons-history files are intentionally excluded from the distributed plugin tree and protected by `.moodleignore`.
 - Chapter navigation now has an explicit focus-visible/forced-colour contract; a manual keyboard/high-contrast matrix remains a release gate for final U-020 closure.
+
+## 1.7.74 pre-production documentation verification
+
+- Current non-documentation file inventory regenerated against the candidate 1.7.74 tree: **273/273** entries.
+- Current function inventory regenerated from source locations: **677** named PHP functions/methods and **647** detected named AMD callables.
+- Release 1.7.74 advances U-017 with a mechanically equivalent extraction of standard integrity-event SQL/parameter construction from `report.php` into `local\report_support::integrity_event_condition()`, with behavioural and controller-delegation coverage.
+- Learner scope, optional user selection, inclusive video-time bounds and the existing `integrityvtid`/`integrityuserid`/`integritytimefrom`/`integritytimeto` parameter keys remain unchanged from the 1.7.73 controller.
+- XMLDB inventory matches all **7** tables and every declared field in `db/install.xml`.
+- Site-setting inventory matches all **57** `mod_videotrack` settings.
+- AJAX service inventory matches all **9** declared services.
+- Browser player configuration inventory matches all **133** keys.
+- All eight maintained language packs expose **982** identical keys, no duplicates and matching Moodle placeholders.
+- Relative Markdown links across the plugin documentation were checked against the tree with no missing target found.
+- Historical technical documents under `archive/` remain historical; current indexes/inventories are rebased to 1.7.74. Internal maintainer roadmap/lesson artifacts are not part of the distributed tree.
 
 ## 1.7.73 pre-production documentation verification
 

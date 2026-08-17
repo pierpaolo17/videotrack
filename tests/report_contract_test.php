@@ -186,6 +186,7 @@ final class report_contract_test extends advanced_testcase {
         $this->assertStringContainsString('report_support::cluster_reaction_events(', $report);
         $this->assertStringContainsString('report_support::reaction_event_condition(', $report);
         $this->assertStringContainsString('report_support::bookmark_event_condition(', $report);
+        $this->assertStringContainsString('report_support::integrity_event_condition(', $report);
         $this->assertStringContainsString('final class report_support', $support);
         $this->assertStringNotContainsString('function videotrack_report_user_label(', $report);
         $this->assertStringNotContainsString('function videotrack_report_tabs(', $report);
