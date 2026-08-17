@@ -916,24 +916,15 @@ foreach ($reactions as $reaction) {
 }
 
 // Standard reaction events only. Personal notes and bookmarks are handled separately.
-$eventconditions = "videotrackid = :vtid AND isdeleted = 0 AND (notetype = '' OR notetype IS NULL) AND {$learnerwhere}";
-$eventparamsnamed = ['vtid' => $videotrack->id] + $learnerparams;
-if ($useridfilter > 0) {
-    $eventconditions .= ' AND userid = :uid';
-    $eventparamsnamed['uid'] = $useridfilter;
-}
-if ($reactionidfilter > 0) {
-    $eventconditions .= ' AND reactionid = :rid';
-    $eventparamsnamed['rid'] = $reactionidfilter;
-}
-if ($timefrom !== null) {
-    $eventconditions .= ' AND videotime >= :timefrom';
-    $eventparamsnamed['timefrom'] = $timefrom;
-}
-if ($timeto !== null) {
-    $eventconditions .= ' AND videotime <= :timeto';
-    $eventparamsnamed['timeto'] = $timeto;
-}
+[$eventconditions, $eventparamsnamed] = \mod_videotrack\local\report_support::reaction_event_condition(
+    (int)$videotrack->id,
+    $learnerwhere,
+    $learnerparams,
+    $useridfilter,
+    $reactionidfilter,
+    $timefrom,
+    $timeto
+);
 // Avoid loading all reaction events into memory. Use count/distinct queries for filters
 // and recordsets only where the full event stream is required for CSV or the clustered report.
 $eventcount = $DB->count_records_select('videotrack_reactev', $eventconditions, $eventparamsnamed);

@@ -110,6 +110,54 @@ final class report_support_test extends \advanced_testcase {
         $this->assertSame([], $ackparams);
     }
     /**
+     * Standard reaction-event filters preserve learner scope and optional bounds.
+     */
+    public function test_reaction_event_condition_preserves_filters_and_scope(): void {
+        [$conditions, $params] = report_support::reaction_event_condition(
+            42,
+            'userid IN (:learnerone, :learnertwo)',
+            ['learnerone' => 7, 'learnertwo' => 8],
+            7,
+            3,
+            12.5,
+            90.0
+        );
+
+        $this->assertSame(
+            "videotrackid = :vtid AND isdeleted = 0 AND (notetype = '' OR notetype IS NULL)" .
+                ' AND userid IN (:learnerone, :learnertwo)' .
+                ' AND userid = :uid AND reactionid = :rid' .
+                ' AND videotime >= :timefrom AND videotime <= :timeto',
+            $conditions
+        );
+        $this->assertSame([
+            'vtid' => 42,
+            'learnerone' => 7,
+            'learnertwo' => 8,
+            'uid' => 7,
+            'rid' => 3,
+            'timefrom' => 12.5,
+            'timeto' => 90.0,
+        ], $params);
+
+        [$minimalconditions, $minimalparams] = report_support::reaction_event_condition(
+            42,
+            'userid = :learner',
+            ['learner' => 7],
+            0,
+            0,
+            null,
+            null
+        );
+        $this->assertSame(
+            "videotrackid = :vtid AND isdeleted = 0 AND (notetype = '' OR notetype IS NULL)" .
+                ' AND userid = :learner',
+            $minimalconditions
+        );
+        $this->assertSame(['vtid' => 42, 'learner' => 7], $minimalparams);
+    }
+
+    /**
      * User options preserve source-group priority, deduplicate ids and omit missing users.
      */
     public function test_user_options_preserve_source_priority_and_privacy(): void {

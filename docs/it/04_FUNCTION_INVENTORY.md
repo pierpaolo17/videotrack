@@ -1,8 +1,8 @@
 # Inventario delle funzioni
 
-Generato dall’albero sorgente VideoTrack 1.7.71. Le voci PHP includono funzioni e metodi nominati; le voci AMD includono dichiarazioni nominate, espressioni funzione assegnate e funzioni-metodo di oggetti.
+Generato dall’albero sorgente VideoTrack 1.7.72. Le voci PHP includono funzioni e metodi nominati; le voci AMD includono dichiarazioni nominate, espressioni funzione assegnate e funzioni-metodo di oggetti.
 
-**Funzioni/metodi PHP:** 671. **Callable AMD nominati:** 647.
+**Funzioni/metodi PHP:** 673. **Callable AMD nominati:** 647.
 
 | Posizione | Callable | Responsabilità |
 |---|---|---|
@@ -902,9 +902,10 @@ Generato dall’albero sorgente VideoTrack 1.7.71. Le voci PHP includono funzion
 | `classes/local/report_support.php:134` | `duration_filter` | Callable PHP `report_support::duration_filter`; markup accessibile del filtro durata strutturato. |
 | `classes/local/report_support.php:197` | `analytics_scope_condition` | Callable PHP `report_support::analytics_scope_condition`; costruzione SQL capability-safe dello scope Analytics. |
 | `classes/local/report_support.php:264` | `acknowledgement_scope_condition` | Callable PHP `report_support::acknowledgement_scope_condition`; costruzione SQL dello scope presa visione sulla versione corrente. |
-| `classes/local/report_support.php:332` | `user_options` | Callable PHP `report_support::user_options`; costruzione delle opzioni utente del report in ordine di priorità con label rispettose della privacy. |
-| `classes/local/report_support.php:364` | `cluster_reaction_events` | Callable PHP `report_support::cluster_reaction_events`; clustering limitato delle reazioni con semantica invariata per finestra, conteggio studenti e ordinamento. |
-| `classes/local/report_support.php:439` | `tabs` | Callable PHP `report_support::tabs`; costruzione dei tab report dipendente dalle capability. |
+| `classes/local/report_support.php:338` | `reaction_event_condition` | Callable PHP `report_support::reaction_event_condition`; costruzione SQL/parametri degli eventi di reazione standard con scope learner e filtri report opzionali. |
+| `classes/local/report_support.php:377` | `user_options` | Callable PHP `report_support::user_options`; costruzione delle opzioni utente del report in ordine di priorità con label rispettose della privacy. |
+| `classes/local/report_support.php:409` | `cluster_reaction_events` | Callable PHP `report_support::cluster_reaction_events`; clustering limitato delle reazioni con semantica invariata per finestra, conteggio studenti e ordinamento. |
+| `classes/local/report_support.php:484` | `tabs` | Callable PHP `report_support::tabs`; costruzione dei tab report dipendente dalle capability. |
 | `classes/local/report_view.php:42` | `analytics_interval` | Callable PHP `report_view::analytics_interval`; DocBlock e chiamanti definiscono parametri, valori restituiti ed effetti. |
 | `classes/local/report_view.php:56` | `analytics_heatmap` | Callable PHP `report_view::analytics_heatmap`; DocBlock e chiamanti definiscono parametri, valori restituiti ed effetti. |
 | `classes/local/report_view.php:188` | `analytics_methodology` | Callable PHP `report_view::analytics_methodology`; DocBlock e chiamanti definiscono parametri, valori restituiti ed effetti. |
@@ -1258,14 +1259,15 @@ Generato dall’albero sorgente VideoTrack 1.7.71. Le voci PHP includono funzion
 | `tests/report_contract_test.php:149` | `test_student_grade_label_uses_plugin_string` | Callable PHP `test_student_grade_label_uses_plugin_string`; contratto statico di regressione per il controller del report docente. |
 | `tests/report_contract_test.php:159` | `test_provider_and_integrity_notices_share_one_alert` | Callable PHP `test_provider_and_integrity_notices_share_one_alert`; contratto statico di regressione per il controller del report docente. |
 | `tests/report_contract_test.php:176` | `test_report_support_helpers_are_extracted_from_controller` | Callable PHP `test_report_support_helpers_are_extracted_from_controller`; contratto statico di regressione per il controller del report docente. |
-| `tests/report_contract_test.php:196` | `test_analytics_rendering_is_extracted_from_report_controller` | Callable PHP `test_analytics_rendering_is_extracted_from_report_controller`; contratto statico di regressione per il controller del report docente. |
+| `tests/report_contract_test.php:201` | `test_analytics_rendering_is_extracted_from_report_controller` | Callable PHP `test_analytics_rendering_is_extracted_from_report_controller`; contratto statico di regressione per il controller del report docente. |
 | `tests/report_support_test.php:36` | `test_date_to_timestamp_rejects_invalid_values` | Callable PHP `test_date_to_timestamp_rejects_invalid_values`; copertura comportamentale degli helper estratti per richiesta/filtri/scope report. |
 | `tests/report_support_test.php:53` | `test_duration_filter_preserves_structured_controls` | Callable PHP `test_duration_filter_preserves_structured_controls`; copertura comportamentale degli helper estratti per richiesta/filtri/scope report. |
 | `tests/report_support_test.php:67` | `test_user_label_respects_email_visibility` | Callable PHP `test_user_label_respects_email_visibility`; copertura comportamentale degli helper estratti per richiesta/filtri/scope report. |
 | `tests/report_support_test.php:87` | `test_tabs_preserve_capability_dependent_set` | Callable PHP `test_tabs_preserve_capability_dependent_set`; copertura comportamentale degli helper estratti per richiesta/filtri/scope report. |
 | `tests/report_support_test.php:103` | `test_empty_scope_conditions_remain_deny_all` | Callable PHP `test_empty_scope_conditions_remain_deny_all`; copertura comportamentale degli helper estratti per richiesta/filtri/scope report. |
-| `tests/report_support_test.php:115` | `test_user_options_preserve_source_priority_and_privacy` | Callable PHP `test_user_options_preserve_source_priority_and_privacy`; copertura comportamentale della costruzione estratta delle opzioni utente. |
-| `tests/report_support_test.php:147` | `test_cluster_reaction_events_preserves_report_semantics` | Callable PHP `test_cluster_reaction_events_preserves_report_semantics`; copertura comportamentale del clustering reazioni estratto. |
+| `tests/report_support_test.php:115` | `test_reaction_event_condition_preserves_filters_and_scope` | Callable PHP `test_reaction_event_condition_preserves_filters_and_scope`; copertura comportamentale della costruzione SQL/parametri estratta per gli eventi di reazione standard. |
+| `tests/report_support_test.php:163` | `test_user_options_preserve_source_priority_and_privacy` | Callable PHP `test_user_options_preserve_source_priority_and_privacy`; copertura comportamentale della costruzione estratta delle opzioni utente. |
+| `tests/report_support_test.php:195` | `test_cluster_reaction_events_preserves_report_semantics` | Callable PHP `test_cluster_reaction_events_preserves_report_semantics`; copertura comportamentale del clustering reazioni estratto. |
 | `tests/report_view_test.php:35` | `setUp` | Callable PHP `setUp`; copertura comportamentale del helper di presentazione Analytics estratto. |
 | `tests/report_view_test.php:43` | `test_reaction_summary_preserves_privacy_contract` | Callable PHP `test_reaction_summary_preserves_privacy_contract`; copertura comportamentale del helper di presentazione Analytics estratto. |
 | `tests/report_view_test.php:65` | `test_exact_analytics_methodology_omits_privacy_threshold_text` | Funzione/metodo PHP nominato `test_exact_analytics_methodology_omits_privacy_threshold_text`; vedere DocBlock e chiamanti per il contratto corrente. |
