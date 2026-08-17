@@ -25,6 +25,7 @@
 require_once(__DIR__ . '/../../config.php');
 require_once(__DIR__ . '/locallib.php');
 
+use mod_videotrack\local\analytics;
 use mod_videotrack\local\teacher_analytics;
 
 global $OUTPUT, $PAGE, $USER;
@@ -73,10 +74,10 @@ $PAGE->set_context(context_system::instance());
 $PAGE->set_title(get_string('teacherdashboard:title', 'mod_videotrack'));
 $PAGE->set_heading(get_string('teacherdashboard:title', 'mod_videotrack'));
 
-$minusers = videotrack_get_config_int('analyticsminusers', 5, 2, 50);
+$exactminusers = analytics::EXACT_REPORT_MIN_USERS;
 $dashboard = teacher_analytics::dashboard_rows(
     (int)$USER->id,
-    $minusers,
+    $exactminusers,
     $courseid,
     $activityid,
     $groupid,
@@ -100,11 +101,6 @@ $periodoptions = [
 echo $OUTPUT->header();
 echo $OUTPUT->heading(get_string('teacherdashboard:title', 'mod_videotrack'));
 echo html_writer::tag('p', get_string('teacherdashboard:intro', 'mod_videotrack'), ['class' => 'text-muted']);
-echo $OUTPUT->notification(
-    get_string('coursereport:privacy_notice', 'mod_videotrack', $minusers),
-    'info'
-);
-
 $filterurl = new moodle_url('/mod/videotrack/reports_teacher.php');
 echo html_writer::start_tag('form', ['method' => 'get', 'action' => $filterurl->out_omit_querystring(), 'class' => 'mb-4']);
 echo html_writer::start_div('row g-3 align-items-end');
@@ -175,18 +171,10 @@ foreach ($dashboard as $courseblock) {
     }
     $table->head[] = get_string('coursereport:col_actions', 'mod_videotrack');
     foreach ($courseblock['rows'] as $row) {
-        $suppressed = !empty($row->summary['datasetsuppressed']);
-        $privacy = get_string('coursereport:privacy_suppressed', 'mod_videotrack', $minusers);
-        $countcell = static function (array $summary) use ($privacy): string {
-            if (empty($summary['hasdata'])) {
-                return '0';
-            }
-            return !empty($summary['suppressed']) ? $privacy : (string)(int)$summary['eventcount'];
+        $countcell = static function (array $summary): string {
+            return (string)(int)($summary['eventcount'] ?? 0);
         };
-        $percentagecell = static function (?float $value) use ($suppressed, $privacy): string {
-            if ($suppressed) {
-                return $privacy;
-            }
+        $percentagecell = static function (?float $value): string {
             return $value === null ? '-' : format_float($value, 1) . '%';
         };
         $activityname = format_string($row->name, true, ['context' => $context]);

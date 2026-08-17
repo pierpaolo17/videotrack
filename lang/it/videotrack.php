@@ -725,7 +725,7 @@ $string['forum:restorelinkmissing'] = 'Il forum collegato non è stato ripristin
 
 // Instance analytics.
 $string['setting:analyticsminusers'] = 'Utenti minimi per gli analytics';
-$string['setting:analyticsminusers_desc'] = 'Numero minimo di utenti distinti necessario prima che le viste aggregate ancora soggette a mascheratura possano mostrare valori esatti. Gli Analytics di istanza sono esatti per i report viewer autorizzati e non usano questa soglia. Intervallo consentito: 2–50.';
+$string['setting:analyticsminusers_desc'] = 'Numero minimo di utenti distinti necessario prima che i riepiloghi aggregati soggetti a mascheratura al di fuori delle dashboard Analytics esatte possano mostrare valori esatti. Gli Analytics di istanza, corso e docente sono esatti per i report viewer autorizzati e non usano questa soglia. Intervallo consentito: 2–50.';
 $string['report:analytics_tab'] = 'Analytics';
 $string['report:analytics_heading'] = 'Heatmap di visione e retention';
 $string['report:analytics_method_toggle'] = 'Come sono calcolate le metriche';

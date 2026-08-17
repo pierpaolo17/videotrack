@@ -1,5 +1,11 @@
 # VideoTrack changelog
 
+## 1.7.67 - 2026-08-17
+
+- Make `reports_teacher.php` exact for users already authorised by `mod/videotrack:viewcoursereport`: the cross-course dashboard now requests `analytics::EXACT_REPORT_MIN_USERS` instead of the configured `analyticsminusers`, so one-learner courses/activities and event subgroups are no longer masked.
+- Remove the teacher-dashboard privacy notice and masked-cell presentation while preserving accessible-course discovery, activity/module visibility, group filters, period filters and per-activity report capabilities.
+- Keep `teacher_analytics` and `course_analytics` generic threshold-capable services, leave instance/course Analytics semantics unchanged, and retain `analyticsminusers` only for aggregate summaries outside the exact Analytics dashboards. U-017 remains paused until this teacher-dashboard correction is server-green.
+
 ## 1.7.66 - 2026-08-17
 
 - Fix the course Analytics exact-report path introduced in 1.7.65: `course_analytics::summarise_states()` now honours `analytics::EXACT_REPORT_MIN_USERS` instead of silently clamping every requested threshold to at least two users.
