@@ -77,6 +77,11 @@ final class teacher_analytics_test extends \advanced_testcase {
             'timecreated' => $now,
         ]);
 
+        $courses = teacher_analytics::accessible_courses($teacher->id);
+        $this->assertArrayHasKey($course->id, $courses);
+        $this->assertSame($course->fullname, $courses[$course->id]->fullname);
+        $this->assertSame((int)$course->visible, (int)$courses[$course->id]->visible);
+
         $dashboard = teacher_analytics::dashboard_rows(
             $teacher->id,
             analytics::EXACT_REPORT_MIN_USERS,
