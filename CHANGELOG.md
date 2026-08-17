@@ -1,5 +1,11 @@
 # VideoTrack changelog
 
+## 1.7.68 - 2026-08-17
+
+- Fix teacher-dashboard course discovery exposed by the 1.7.67 behavioural test: `teacher_analytics::accessible_courses()` now explicitly requests the `fullname` and `visible` course fields from Moodle's `get_user_capability_course()` API instead of reading fields that were not requested.
+- Keep the exact one-learner Analytics semantics introduced in 1.7.67 unchanged while preserving hidden-course filtering, course/activity/group/period scopes and report capabilities.
+- Strengthen the existing behavioural test to assert the discovered course metadata before exercising the exact dashboard row; no AMD, schema, tracking, completion or U-017 change is included.
+
 ## 1.7.67 - 2026-08-17
 
 - Make `reports_teacher.php` exact for users already authorised by `mod/videotrack:viewcoursereport`: the cross-course dashboard now requests `analytics::EXACT_REPORT_MIN_USERS` instead of the configured `analyticsminusers`, so one-learner courses/activities and event subgroups are no longer masked.

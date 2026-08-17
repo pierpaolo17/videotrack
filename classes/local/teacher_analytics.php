@@ -35,7 +35,12 @@ final class teacher_analytics {
      * @return array Courses keyed by id.
      */
     public static function accessible_courses(int $userid): array {
-        $courses = get_user_capability_course('mod/videotrack:viewcoursereport', $userid, true);
+        $courses = get_user_capability_course(
+            'mod/videotrack:viewcoursereport',
+            $userid,
+            true,
+            'fullname,visible'
+        );
         foreach ($courses as $courseid => $course) {
             if ((int)$courseid === SITEID) {
                 unset($courses[$courseid]);
