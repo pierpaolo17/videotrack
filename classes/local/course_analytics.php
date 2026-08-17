@@ -196,7 +196,7 @@ final class course_analytics {
      * @return array Privacy-safe completion and retention summary.
      */
     public static function summarise_states(iterable $states, float $instanceduration, int $minusers): array {
-        $minusers = max(2, $minusers);
+        $minusers = max(analytics::EXACT_REPORT_MIN_USERS, $minusers);
         $statesbyuser = [];
         $percentages = [];
         $completions = 0;

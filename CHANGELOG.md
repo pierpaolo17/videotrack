@@ -1,5 +1,11 @@
 # VideoTrack changelog
 
+## 1.7.66 - 2026-08-17
+
+- Fix the course Analytics exact-report path introduced in 1.7.65: `course_analytics::summarise_states()` now honours `analytics::EXACT_REPORT_MIN_USERS` instead of silently clamping every requested threshold to at least two users.
+- Preserve generic threshold behaviour for callers that pass values greater than one; only the explicit exact-report threshold now disables suppression as intended.
+- Keep `reports_course.php`, `reports_teacher.php`, instance Analytics, schema, tracking, completion and AMD/player runtime otherwise unchanged; this is a corrective-only release before the dedicated `reports_teacher.php` follow-up.
+
 ## 1.7.65 - 2026-08-17
 
 - Make `reports_course.php` exact for users already authorised by `mod/videotrack:viewcoursereport`: the page now requests `analytics::EXACT_REPORT_MIN_USERS` instead of the configured `analyticsminusers`, so one-learner activities and completion/reaction/note/bookmark subgroups are no longer masked.
