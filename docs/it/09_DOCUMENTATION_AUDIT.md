@@ -1,6 +1,6 @@
 # Audit della documentazione
 
-Baseline: VideoTrack **1.7.70** (`2026081712`).
+Baseline: VideoTrack **1.7.71** (`2026081713`).
 
 ## Copertura
 
@@ -19,19 +19,19 @@ Baseline: VideoTrack **1.7.70** (`2026081712`).
 - I contratti statici resume/completion/alert impilati coprono i tre provider mentre Behat resta indisponibile nell’ambiente maintainer; l’evidenza browser resta esplicitamente pendente.
 - La navigazione capitoli ha ora un contratto esplicito focus-visible/colori forzati; la matrice manuale tastiera/high-contrast resta un gate per la chiusura finale di U-020.
 
-## Verifica documentazione pre-produzione 1.7.70
+## Verifica documentazione pre-produzione 1.7.71
 
-- Inventario corrente dei file non documentali rigenerato sull'albero candidato 1.7.70: **273/273** voci.
+- Inventario corrente dei file non documentali rigenerato sull'albero candidato 1.7.71: **273/273** voci.
 - Inventario funzioni rigenerato sulle posizioni sorgente correnti: **671** funzioni/metodi PHP nominati e **647** callable AMD nominati rilevati.
-- La tranche U-017 del CSV personalizzato sposta la scrittura delle righe evento in `local\csv_event_writer` e la costruzione delle intestazioni evento in `local\csv_export`; `report.php` delega tutte le righe evento personalizzate senza la precedente closure con molte variabili catturate.
-- Il writer dedicato preserva ordine delle colonne detailed/overall, timestamp video canonici, filtro degli utenti preparati e conteggi studenti aggregati sotto copertura PHPUnit diretta.
+- La release correttiva 1.7.71 mantiene invariata la decomposizione U-017 del CSV personalizzato introdotta in 1.7.70 e documenta esplicitamente tutte le proprietà readonly di `local\csv_event_writer` richieste da Moodle PHPCS.
+- Le asserzioni dirette del writer seguono ora il contratto line-feed esistente di `csv_export::write_row()` / `fputcsv()` per delimitatori a un carattere; valori evento, ordine colonne e delega del controller restano invariati.
 - L'inventario XMLDB coincide con tutte le **7** tabelle e con ogni campo dichiarato in `db/install.xml`.
 - L'inventario impostazioni coincide con tutte le **57** impostazioni `mod_videotrack`.
 - L'inventario servizi AJAX coincide con tutti i **9** servizi dichiarati.
 - L'inventario configurazione browser/player coincide con tutte le **133** chiavi, incluse le quattro label seek FW introdotte dopo la 1.6.33.
 - Tutti gli otto language pack mantenuti espongono **982** chiavi identiche, nessun duplicato e placeholder Moodle coerenti.
 - I link Markdown relativi della documentazione sono stati verificati contro l'albero senza target mancanti.
-- I documenti tecnici storici sotto `archive/` restano storici; indici e inventari correnti sono ribasati alla 1.7.70. Gli artefatti interni roadmap/lesson del maintainer non fanno parte del tree distribuito.
+- I documenti tecnici storici sotto `archive/` restano storici; indici e inventari correnti sono ribasati alla 1.7.71. Gli artefatti interni roadmap/lesson del maintainer non fanno parte del tree distribuito.
 
 ## Regole di aggiornamento
 

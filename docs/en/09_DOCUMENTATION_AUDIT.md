@@ -1,6 +1,6 @@
 # Documentation audit
 
-Baseline: VideoTrack **1.7.70** (`2026081712`).
+Baseline: VideoTrack **1.7.71** (`2026081713`).
 
 ## Coverage
 
@@ -20,19 +20,19 @@ Baseline: VideoTrack **1.7.70** (`2026081712`).
 - Maintainer-only consolidated roadmap/lessons-history files are intentionally excluded from the distributed plugin tree and protected by `.moodleignore`.
 - Chapter navigation now has an explicit focus-visible/forced-colour contract; a manual keyboard/high-contrast matrix remains a release gate for final U-020 closure.
 
-## 1.7.70 pre-production documentation verification
+## 1.7.71 pre-production documentation verification
 
-- Current non-documentation file inventory regenerated against the candidate 1.7.70 tree: **273/273** entries.
+- Current non-documentation file inventory regenerated against the candidate 1.7.71 tree: **273/273** entries.
 - Current function inventory regenerated from source locations: **671** named PHP functions/methods and **647** detected named AMD callables.
-- U-017 custom-CSV decomposition moves event-row writing to `local\csv_event_writer` and custom event-header assembly to `local\csv_export`; `report.php` delegates all custom event rows without the former multi-variable closure.
-- The dedicated writer preserves detailed/overall column ordering, canonical video timestamps, prepared-user filtering and aggregate student counts under direct PHPUnit coverage.
+- The 1.7.71 corrective release keeps the 1.7.70 U-017 custom-CSV decomposition unchanged while documenting all `local\csv_event_writer` readonly member variables explicitly for Moodle PHPCS.
+- Direct writer assertions now follow the existing one-character `csv_export::write_row()` / `fputcsv()` line-feed contract; event values, column order and controller delegation remain unchanged.
 - XMLDB inventory matches all **7** tables and every declared field in `db/install.xml`.
 - Site-setting inventory matches all **57** `mod_videotrack` settings.
 - AJAX service inventory matches all **9** declared services.
 - Browser player configuration inventory matches all **133** keys, including the four forward-seek policy/runtime labels introduced after 1.6.33.
 - All eight maintained language packs expose **982** identical keys, no duplicates and matching Moodle placeholders.
 - Relative Markdown links across the plugin documentation were checked against the tree with no missing target found.
-- Historical technical documents under `archive/` remain historical; current indexes/inventories are rebased to 1.7.70. Internal maintainer roadmap/lesson artifacts are not part of the distributed tree.
+- Historical technical documents under `archive/` remain historical; current indexes/inventories are rebased to 1.7.71. Internal maintainer roadmap/lesson artifacts are not part of the distributed tree.
 
 ## Freshness rules
 
