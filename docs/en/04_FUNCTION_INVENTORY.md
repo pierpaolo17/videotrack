@@ -1,6 +1,6 @@
 # Function inventory
 
-Generated from the VideoTrack 1.7.70 source tree. PHP entries include named functions and methods; AMD entries include named declarations, assigned function expressions and object-method functions.
+Generated from the VideoTrack 1.7.71 source tree. PHP entries include named functions and methods; AMD entries include named declarations, assigned function expressions and object-method functions.
 
 **PHP functions/methods:** 671. **Named AMD callables:** 647.
 
@@ -841,8 +841,8 @@ Generated from the VideoTrack 1.7.70 source tree. PHP entries include named func
 | `classes/local/course_analytics.php:361` | `load_states_for_scopes` | Named PHP function/method `load_states_for_scopes`; see source DocBlock and callers for the current contract. |
 | `classes/local/course_analytics.php:397` | `load_period_segments_for_scopes` | Named PHP function/method `load_period_segments_for_scopes`; see source DocBlock and callers for the current contract. |
 | `classes/local/course_analytics.php:458` | `load_event_summaries_for_scopes` | Named PHP function/method `load_event_summaries_for_scopes`; see source DocBlock and callers for the current contract. |
-| `classes/local/csv_event_writer.php:47` | `__construct` | PHP callable `__construct`; see its DocBlock and callers for parameter, return-value and side-effect details. |
-| `classes/local/csv_event_writer.php:77` | `write` | PHP callable `write`; see its DocBlock and callers for parameter, return-value and side-effect details. |
+| `classes/local/csv_event_writer.php:74` | `__construct` | PHP callable `__construct`; see its DocBlock and callers for parameter, return-value and side-effect details. |
+| `classes/local/csv_event_writer.php:113` | `write` | PHP callable `write`; see its DocBlock and callers for parameter, return-value and side-effect details. |
 | `classes/local/csv_export.php:79` | `delimiter_options` | PHP callable `delimiter_options`; see its DocBlock and callers for parameter, return-value and side-effect details. |
 | `classes/local/csv_export.php:98` | `delimiter` | PHP callable `delimiter`; see its DocBlock and callers for parameter, return-value and side-effect details. |
 | `classes/local/csv_export.php:122` | `field_options` | PHP callable `field_options`; see its DocBlock and callers for parameter, return-value and side-effect details. |
@@ -918,10 +918,10 @@ Generated from the VideoTrack 1.7.70 source tree. PHP entries include named func
 | `classes/local/report_view.php:612` | `integrity_summary` | PHP callable `report_view::integrity_summary`; see its DocBlock and callers for parameter, return-value and side-effect details. |
 | `classes/local/report_view.php:703` | `analytics_retention` | PHP callable `report_view::analytics_retention`; see its DocBlock and callers for parameter, return-value and side-effect details. |
 | `classes/local/teacher_analytics.php:37` | `accessible_courses` | PHP callable `accessible_courses`; see its DocBlock and callers for parameter, return-value and side-effect details. |
-| `classes/local/teacher_analytics.php:73` | `dashboard_rows` | PHP callable `dashboard_rows`; see its DocBlock and callers for parameter, return-value and side-effect details. |
-| `classes/local/teacher_analytics.php:120` | `activity_options` | PHP callable `activity_options`; see its DocBlock and callers for parameter, return-value and side-effect details. |
-| `classes/local/teacher_analytics.php:152` | `group_options` | PHP callable `group_options`; see its DocBlock and callers for parameter, return-value and side-effect details. |
-| `classes/local/teacher_analytics.php:176` | `period_bounds` | PHP callable `period_bounds`; see its DocBlock and callers for parameter, return-value and side-effect details. |
+| `classes/local/teacher_analytics.php:80` | `dashboard_rows` | PHP callable `dashboard_rows`; see its DocBlock and callers for parameter, return-value and side-effect details. |
+| `classes/local/teacher_analytics.php:127` | `activity_options` | PHP callable `activity_options`; see its DocBlock and callers for parameter, return-value and side-effect details. |
+| `classes/local/teacher_analytics.php:159` | `group_options` | PHP callable `group_options`; see its DocBlock and callers for parameter, return-value and side-effect details. |
+| `classes/local/teacher_analytics.php:183` | `period_bounds` | PHP callable `period_bounds`; see its DocBlock and callers for parameter, return-value and side-effect details. |
 | `classes/local/timed_text.php:44` | `file_options` | PHP callable `file_options`; see its DocBlock and callers for parameter, return-value and side-effect details. |
 | `classes/local/timed_text.php:59` | `save_files` | PHP callable `save_files`; see its DocBlock and callers for parameter, return-value and side-effect details. |
 | `classes/local/timed_text.php:97` | `transcript_tracks` | PHP callable `transcript_tracks`; see its DocBlock and callers for parameter, return-value and side-effect details. |
@@ -1286,7 +1286,7 @@ Generated from the VideoTrack 1.7.70 source tree. PHP entries include named func
 | `tests/student_view_contract_test.php:58` | `test_learner_page_has_stable_vertical_order` | Protects the learner vertical order, active composers and unboxed completion-condition presentation. |
 | `tests/teacher_analytics_test.php:35` | `test_period_bounds` | PHP callable `test_period_bounds`; see its DocBlock and callers for parameter, return-value and side-effect details. |
 | `tests/teacher_analytics_test.php:45` | `test_dashboard_rows_expose_single_learner_with_exact_threshold` | PHP callable `test_dashboard_rows_expose_single_learner_with_exact_threshold`; see its DocBlock and callers for parameter, return-value and side-effect details. |
-| `tests/teacher_analytics_test.php:99` | `test_teacher_dashboard_controller_requests_exact_aggregates` | PHP callable `test_teacher_dashboard_controller_requests_exact_aggregates`; see its DocBlock and callers for parameter, return-value and side-effect details. |
+| `tests/teacher_analytics_test.php:104` | `test_teacher_dashboard_controller_requests_exact_aggregates` | PHP callable `test_teacher_dashboard_controller_requests_exact_aggregates`; see its DocBlock and callers for parameter, return-value and side-effect details. |
 | `tests/timed_text_test.php:35` | `test_language_from_filename_accepts_bcp47_like_names` | PHP callable `test_language_from_filename_accepts_bcp47_like_names`; see its DocBlock and callers for parameter, return-value and side-effect details. |
 | `tests/timed_text_test.php:47` | `test_is_valid_vtt_content_checks_signature_and_size` | PHP callable `test_is_valid_vtt_content_checks_signature_and_size`; see its DocBlock and callers for parameter, return-value and side-effect details. |
 | `tests/timed_text_test.php:59` | `test_file_options_enforce_vtt_limits` | PHP callable `test_file_options_enforce_vtt_limits`; see its DocBlock and callers for parameter, return-value and side-effect details. |

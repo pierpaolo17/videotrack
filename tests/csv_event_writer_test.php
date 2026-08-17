@@ -52,7 +52,7 @@ final class csv_event_writer_test extends advanced_testcase {
         rewind($handle);
 
         $this->assertSame(
-            "Lovelace,Ada,Reaction,Like,,01:05,01:00,01:10,3,Created\r\n",
+            "Lovelace,Ada,Reaction,Like,,01:05,01:00,01:10,3,Created\n",
             stream_get_contents($handle)
         );
         fclose($handle);
@@ -80,7 +80,7 @@ final class csv_event_writer_test extends advanced_testcase {
         rewind($handle);
 
         $this->assertSame(
-            ",,Reaction,Like,,01:05,01:00,01:10,3,2\r\n",
+            ",,Reaction,Like,,01:05,01:00,01:10,3,2\n",
             stream_get_contents($handle)
         );
         fclose($handle);

@@ -30,6 +30,33 @@ final class csv_event_writer {
     /** @var resource Output stream. */
     private $handle;
 
+    /** @var string CSV delimiter. */
+    private readonly string $delimiter;
+
+    /** @var string[] Selected identity/context fields. */
+    private readonly array $fields;
+
+    /** @var stdClass Course record. */
+    private readonly stdClass $course;
+
+    /** @var stdClass Activity record. */
+    private readonly stdClass $videotrack;
+
+    /** @var array<int, stdClass> Export users keyed by id. */
+    private readonly array $usermap;
+
+    /** @var int Course-module id. */
+    private readonly int $cmid;
+
+    /** @var context Module context. */
+    private readonly context $context;
+
+    /** @var float Video duration in seconds. */
+    private readonly float $duration;
+
+    /** @var bool Whether the export is the aggregate overall format. */
+    private readonly bool $overall;
+
     /**
      * Creates a writer for one custom CSV export response.
      *
@@ -46,17 +73,26 @@ final class csv_event_writer {
      */
     public function __construct(
         $handle,
-        private readonly string $delimiter,
-        private readonly array $fields,
-        private readonly stdClass $course,
-        private readonly stdClass $videotrack,
-        private readonly array $usermap,
-        private readonly int $cmid,
-        private readonly context $context,
-        private readonly float $duration,
-        private readonly bool $overall
+        string $delimiter,
+        array $fields,
+        stdClass $course,
+        stdClass $videotrack,
+        array $usermap,
+        int $cmid,
+        context $context,
+        float $duration,
+        bool $overall
     ) {
         $this->handle = $handle;
+        $this->delimiter = $delimiter;
+        $this->fields = $fields;
+        $this->course = $course;
+        $this->videotrack = $videotrack;
+        $this->usermap = $usermap;
+        $this->cmid = $cmid;
+        $this->context = $context;
+        $this->duration = $duration;
+        $this->overall = $overall;
     }
 
     /**

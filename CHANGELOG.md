@@ -1,5 +1,11 @@
 # VideoTrack changelog
 
+## 1.7.71 - 2026-08-17
+
+- Correct the 1.7.70 U-017 CSV-writer test/style findings without changing runtime export semantics: replace constructor-promoted dependencies in `local\csv_event_writer` with explicitly documented readonly member variables required by Moodle PHPCS.
+- Align the two direct writer assertions with the existing `csv_export::write_row()` one-character-delimiter contract, which delegates to `fputcsv()` and therefore emits a line-feed (`\n`) terminator rather than the CRLF literal assumed by the new tests.
+- Keep `csv_event_writer::write()`, custom CSV column values/order, `report.php`, queries, Analytics, tracking, completion, schema and AMD/player runtime unchanged; this is a corrective-only release before U-017 continues.
+
 ## 1.7.70 - 2026-08-17
 
 - Resume U-017 maintainability from the server-green 1.7.69 baseline by moving the custom teacher CSV event-row writer out of `report.php` into the autoloaded `local\csv_event_writer` service and moving custom-event header assembly into `local\csv_export`.

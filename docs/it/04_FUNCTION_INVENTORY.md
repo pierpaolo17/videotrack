@@ -1,6 +1,6 @@
 # Inventario delle funzioni
 
-Generato dall’albero sorgente VideoTrack 1.7.70. Le voci PHP includono funzioni e metodi nominati; le voci AMD includono dichiarazioni nominate, espressioni funzione assegnate e funzioni-metodo di oggetti.
+Generato dall’albero sorgente VideoTrack 1.7.71. Le voci PHP includono funzioni e metodi nominati; le voci AMD includono dichiarazioni nominate, espressioni funzione assegnate e funzioni-metodo di oggetti.
 
 **Funzioni/metodi PHP:** 671. **Callable AMD nominati:** 647.
 
@@ -841,8 +841,8 @@ Generato dall’albero sorgente VideoTrack 1.7.70. Le voci PHP includono funzion
 | `classes/local/course_analytics.php:361` | `load_states_for_scopes` | Funzione/metodo PHP nominato `load_states_for_scopes`; vedere DocBlock e chiamanti per il contratto corrente. |
 | `classes/local/course_analytics.php:397` | `load_period_segments_for_scopes` | Funzione/metodo PHP nominato `load_period_segments_for_scopes`; vedere DocBlock e chiamanti per il contratto corrente. |
 | `classes/local/course_analytics.php:458` | `load_event_summaries_for_scopes` | Funzione/metodo PHP nominato `load_event_summaries_for_scopes`; vedere DocBlock e chiamanti per il contratto corrente. |
-| `classes/local/csv_event_writer.php:47` | `__construct` | Callable PHP `__construct`; DocBlock e chiamanti definiscono parametri, valori restituiti ed effetti. |
-| `classes/local/csv_event_writer.php:77` | `write` | Callable PHP `write`; DocBlock e chiamanti definiscono parametri, valori restituiti ed effetti. |
+| `classes/local/csv_event_writer.php:74` | `__construct` | Callable PHP `__construct`; DocBlock e chiamanti definiscono parametri, valori restituiti ed effetti. |
+| `classes/local/csv_event_writer.php:113` | `write` | Callable PHP `write`; DocBlock e chiamanti definiscono parametri, valori restituiti ed effetti. |
 | `classes/local/csv_export.php:79` | `delimiter_options` | Callable PHP `delimiter_options`; DocBlock e chiamanti definiscono parametri, valori restituiti ed effetti. |
 | `classes/local/csv_export.php:98` | `delimiter` | Callable PHP `delimiter`; DocBlock e chiamanti definiscono parametri, valori restituiti ed effetti. |
 | `classes/local/csv_export.php:122` | `field_options` | Callable PHP `field_options`; DocBlock e chiamanti definiscono parametri, valori restituiti ed effetti. |
@@ -918,10 +918,10 @@ Generato dall’albero sorgente VideoTrack 1.7.70. Le voci PHP includono funzion
 | `classes/local/report_view.php:612` | `integrity_summary` | Callable PHP `report_view::integrity_summary`; DocBlock e chiamanti definiscono parametri, valori restituiti ed effetti. |
 | `classes/local/report_view.php:703` | `analytics_retention` | Callable PHP `report_view::analytics_retention`; DocBlock e chiamanti definiscono parametri, valori restituiti ed effetti. |
 | `classes/local/teacher_analytics.php:37` | `accessible_courses` | Callable PHP `accessible_courses`; DocBlock e chiamanti definiscono parametri, valori restituiti ed effetti. |
-| `classes/local/teacher_analytics.php:73` | `dashboard_rows` | Callable PHP `dashboard_rows`; DocBlock e chiamanti definiscono parametri, valori restituiti ed effetti. |
-| `classes/local/teacher_analytics.php:120` | `activity_options` | Callable PHP `activity_options`; DocBlock e chiamanti definiscono parametri, valori restituiti ed effetti. |
-| `classes/local/teacher_analytics.php:152` | `group_options` | Callable PHP `group_options`; DocBlock e chiamanti definiscono parametri, valori restituiti ed effetti. |
-| `classes/local/teacher_analytics.php:176` | `period_bounds` | Callable PHP `period_bounds`; DocBlock e chiamanti definiscono parametri, valori restituiti ed effetti. |
+| `classes/local/teacher_analytics.php:80` | `dashboard_rows` | Callable PHP `dashboard_rows`; DocBlock e chiamanti definiscono parametri, valori restituiti ed effetti. |
+| `classes/local/teacher_analytics.php:127` | `activity_options` | Callable PHP `activity_options`; DocBlock e chiamanti definiscono parametri, valori restituiti ed effetti. |
+| `classes/local/teacher_analytics.php:159` | `group_options` | Callable PHP `group_options`; DocBlock e chiamanti definiscono parametri, valori restituiti ed effetti. |
+| `classes/local/teacher_analytics.php:183` | `period_bounds` | Callable PHP `period_bounds`; DocBlock e chiamanti definiscono parametri, valori restituiti ed effetti. |
 | `classes/local/timed_text.php:44` | `file_options` | Callable PHP `file_options`; DocBlock e chiamanti definiscono parametri, valori restituiti ed effetti. |
 | `classes/local/timed_text.php:59` | `save_files` | Callable PHP `save_files`; DocBlock e chiamanti definiscono parametri, valori restituiti ed effetti. |
 | `classes/local/timed_text.php:97` | `transcript_tracks` | Callable PHP `transcript_tracks`; DocBlock e chiamanti definiscono parametri, valori restituiti ed effetti. |
@@ -1286,7 +1286,7 @@ Generato dall’albero sorgente VideoTrack 1.7.70. Le voci PHP includono funzion
 | `tests/student_view_contract_test.php:58` | `test_learner_page_has_stable_vertical_order` | Protects the learner vertical order, active composers and unboxed completion-condition presentation. |
 | `tests/teacher_analytics_test.php:35` | `test_period_bounds` | Callable PHP `test_period_bounds`; DocBlock e chiamanti definiscono parametri, valori restituiti ed effetti. |
 | `tests/teacher_analytics_test.php:45` | `test_dashboard_rows_expose_single_learner_with_exact_threshold` | Callable PHP `test_dashboard_rows_expose_single_learner_with_exact_threshold`; DocBlock e chiamanti definiscono parametri, valori restituiti ed effetti. |
-| `tests/teacher_analytics_test.php:99` | `test_teacher_dashboard_controller_requests_exact_aggregates` | Callable PHP `test_teacher_dashboard_controller_requests_exact_aggregates`; DocBlock e chiamanti definiscono parametri, valori restituiti ed effetti. |
+| `tests/teacher_analytics_test.php:104` | `test_teacher_dashboard_controller_requests_exact_aggregates` | Callable PHP `test_teacher_dashboard_controller_requests_exact_aggregates`; DocBlock e chiamanti definiscono parametri, valori restituiti ed effetti. |
 | `tests/timed_text_test.php:35` | `test_language_from_filename_accepts_bcp47_like_names` | Callable PHP `test_language_from_filename_accepts_bcp47_like_names`; DocBlock e chiamanti definiscono parametri, valori restituiti ed effetti. |
 | `tests/timed_text_test.php:47` | `test_is_valid_vtt_content_checks_signature_and_size` | Callable PHP `test_is_valid_vtt_content_checks_signature_and_size`; DocBlock e chiamanti definiscono parametri, valori restituiti ed effetti. |
 | `tests/timed_text_test.php:59` | `test_file_options_enforce_vtt_limits` | Callable PHP `test_file_options_enforce_vtt_limits`; DocBlock e chiamanti definiscono parametri, valori restituiti ed effetti. |
