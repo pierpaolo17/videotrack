@@ -1,8 +1,8 @@
 # Function inventory
 
-Generated from the VideoTrack 1.7.66 source tree. PHP entries include named functions and methods; AMD entries include named declarations, assigned function expressions and object-method functions.
+Generated from the VideoTrack 1.7.67 source tree. PHP entries include named functions and methods; AMD entries include named declarations, assigned function expressions and object-method functions.
 
-**PHP functions/methods:** 661. **Named AMD callables:** 647.
+**PHP functions/methods:** 663. **Named AMD callables:** 647.
 
 | Location | Callable | Responsibility |
 |---|---|---|
@@ -1276,7 +1276,9 @@ Generated from the VideoTrack 1.7.66 source tree. PHP entries include named func
 | `tests/save_reaction_test.php:123` | `test_duplicate_reaction_is_soft_ignored` | Named PHP function/method `test_duplicate_reaction_is_soft_ignored`; see source DocBlock and callers for the current contract. |
 | `tests/student_view_contract_test.php:35` | `test_personal_lists_are_native_collapsible_sections` | Protects the three native collapsed learner sections. |
 | `tests/student_view_contract_test.php:58` | `test_learner_page_has_stable_vertical_order` | Protects the learner vertical order, active composers and unboxed completion-condition presentation. |
-| `tests/teacher_analytics_test.php:34` | `test_period_bounds` | PHP callable `test_period_bounds`; see its DocBlock and callers for parameter, return-value and side-effect details. |
+| `tests/teacher_analytics_test.php:35` | `test_period_bounds` | PHP callable `test_period_bounds`; see its DocBlock and callers for parameter, return-value and side-effect details. |
+| `tests/teacher_analytics_test.php:45` | `test_dashboard_rows_expose_single_learner_with_exact_threshold` | PHP callable `test_dashboard_rows_expose_single_learner_with_exact_threshold`; see its DocBlock and callers for parameter, return-value and side-effect details. |
+| `tests/teacher_analytics_test.php:99` | `test_teacher_dashboard_controller_requests_exact_aggregates` | PHP callable `test_teacher_dashboard_controller_requests_exact_aggregates`; see its DocBlock and callers for parameter, return-value and side-effect details. |
 | `tests/timed_text_test.php:35` | `test_language_from_filename_accepts_bcp47_like_names` | PHP callable `test_language_from_filename_accepts_bcp47_like_names`; see its DocBlock and callers for parameter, return-value and side-effect details. |
 | `tests/timed_text_test.php:47` | `test_is_valid_vtt_content_checks_signature_and_size` | PHP callable `test_is_valid_vtt_content_checks_signature_and_size`; see its DocBlock and callers for parameter, return-value and side-effect details. |
 | `tests/timed_text_test.php:59` | `test_file_options_enforce_vtt_limits` | PHP callable `test_file_options_enforce_vtt_limits`; see its DocBlock and callers for parameter, return-value and side-effect details. |

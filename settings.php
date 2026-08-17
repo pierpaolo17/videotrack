@@ -135,7 +135,7 @@ if ($ADMIN->fulltree) {
         500
     ));
 
-    // Privacy threshold for aggregate instance analytics.
+    // Privacy threshold for aggregate summaries outside the exact Analytics dashboards.
     $settings->add(new \mod_videotrack\admin\setting_int_range(
         'mod_videotrack/analyticsminusers',
         get_string('setting:analyticsminusers', 'mod_videotrack'),

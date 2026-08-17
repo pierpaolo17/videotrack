@@ -1,8 +1,8 @@
 # Inventario delle funzioni
 
-Generato dall’albero sorgente VideoTrack 1.7.66. Le voci PHP includono funzioni e metodi nominati; le voci AMD includono dichiarazioni nominate, espressioni funzione assegnate e funzioni-metodo di oggetti.
+Generato dall’albero sorgente VideoTrack 1.7.67. Le voci PHP includono funzioni e metodi nominati; le voci AMD includono dichiarazioni nominate, espressioni funzione assegnate e funzioni-metodo di oggetti.
 
-**PHP functions/methods:** 661. **Named AMD callables:** 647.
+**PHP functions/methods:** 663. **Named AMD callables:** 647.
 
 | Posizione | Callable | Responsabilità |
 |---|---|---|
@@ -1276,7 +1276,9 @@ Generato dall’albero sorgente VideoTrack 1.7.66. Le voci PHP includono funzion
 | `tests/save_reaction_test.php:123` | `test_duplicate_reaction_is_soft_ignored` | Funzione/metodo PHP nominato `test_duplicate_reaction_is_soft_ignored`; vedere DocBlock e chiamanti per il contratto corrente. |
 | `tests/student_view_contract_test.php:35` | `test_personal_lists_are_native_collapsible_sections` | Protects the three native collapsed learner sections. |
 | `tests/student_view_contract_test.php:58` | `test_learner_page_has_stable_vertical_order` | Protects the learner vertical order, active composers and unboxed completion-condition presentation. |
-| `tests/teacher_analytics_test.php:34` | `test_period_bounds` | Callable PHP `test_period_bounds`; DocBlock e chiamanti definiscono parametri, valori restituiti ed effetti. |
+| `tests/teacher_analytics_test.php:35` | `test_period_bounds` | Callable PHP `test_period_bounds`; DocBlock e chiamanti definiscono parametri, valori restituiti ed effetti. |
+| `tests/teacher_analytics_test.php:45` | `test_dashboard_rows_expose_single_learner_with_exact_threshold` | Callable PHP `test_dashboard_rows_expose_single_learner_with_exact_threshold`; DocBlock e chiamanti definiscono parametri, valori restituiti ed effetti. |
+| `tests/teacher_analytics_test.php:99` | `test_teacher_dashboard_controller_requests_exact_aggregates` | Callable PHP `test_teacher_dashboard_controller_requests_exact_aggregates`; DocBlock e chiamanti definiscono parametri, valori restituiti ed effetti. |
 | `tests/timed_text_test.php:35` | `test_language_from_filename_accepts_bcp47_like_names` | Callable PHP `test_language_from_filename_accepts_bcp47_like_names`; DocBlock e chiamanti definiscono parametri, valori restituiti ed effetti. |
 | `tests/timed_text_test.php:47` | `test_is_valid_vtt_content_checks_signature_and_size` | Callable PHP `test_is_valid_vtt_content_checks_signature_and_size`; DocBlock e chiamanti definiscono parametri, valori restituiti ed effetti. |
 | `tests/timed_text_test.php:59` | `test_file_options_enforce_vtt_limits` | Callable PHP `test_file_options_enforce_vtt_limits`; DocBlock e chiamanti definiscono parametri, valori restituiti ed effetti. |

@@ -1,6 +1,6 @@
 # Automazione browser con Behat
 
-VideoTrack ha avviato la fase di automazione browser nella release 1.7.45; la 1.7.66 mantiene la suite Behat HTML5 post-rollback deterministica e i contratti non-browser per resume, sincronizzazione completion e alert impilati su YouTube, HTML5 e Vimeo mentre l’endpoint Behat del maintainer non è disponibile; la versionatura della presa visione è inoltre coperta da verifiche PHPUnit comportamentali. Il plugin distribuisce un generator Moodle in `tests/generator/lib.php` e gli scenari browser in `tests/behat/`.
+VideoTrack ha avviato la fase di automazione browser nella release 1.7.45; la 1.7.67 mantiene la suite Behat HTML5 post-rollback deterministica e i contratti non-browser per resume, sincronizzazione completion e alert impilati su YouTube, HTML5 e Vimeo mentre l’endpoint Behat del maintainer non è disponibile; la versionatura della presa visione è inoltre coperta da verifiche PHPUnit comportamentali. Il plugin distribuisce un generator Moodle in `tests/generator/lib.php` e gli scenari browser in `tests/behat/`.
 
 ## Scopo
 

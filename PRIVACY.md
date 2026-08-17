@@ -23,7 +23,7 @@ Uploaded source video, poster, captions, transcript and chapter files are stored
 - A learner can access only their own notes and bookmark labels.
 - Authorised report viewers may read/export personal note text when the notes feature is enabled and Moodle enrolment/group scope permits access; bookmark labels remain owner-only.
 - Teachers may see per-student progress where they hold the report capability and group access permits it.
-- Instance Analytics use aggregates and show exact aggregate values to authorised report viewers inside their existing Moodle activity/course/group scope; `analyticsminusers` continues to apply only to the separate teacher-centric aggregate dashboard pending its dedicated review; the course dashboard is exact for authorised course-report viewers.
+- Instance, course and teacher-centric Analytics dashboards use aggregates and show exact aggregate values to authorised report viewers inside their existing Moodle activity/course/group scope. `analyticsminusers` does not apply to these exact Analytics dashboards and remains available only for other aggregate report summaries.
 - Private note text and bookmark labels are never exposed in teacher analytics.
 - Cross-course analytics include only activities for which the viewer has `mod/videotrack:viewreport`; group restrictions are resolved separately in every course.
 - Integrity indicators are diagnostic. They must not be treated as conclusive proof or used alone for automatic grading, completion, discipline or access decisions.

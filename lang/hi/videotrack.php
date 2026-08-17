@@ -725,7 +725,7 @@ $string['forum:restorelinkmissing'] = 'लिंक किया गया फ�
 
 // Instance analytics.
 $string['setting:analyticsminusers'] = 'विश्लेषण के लिए न्यूनतम उपयोगकर्ता';
-$string['setting:analyticsminusers_desc'] = 'उन समेकित दृश्यों में सटीक मान दिखाने से पहले आवश्यक अलग उपयोगकर्ताओं की न्यूनतम संख्या जहाँ अभी भी गोपनीयता-आधारित छिपाव लागू है। अधिकृत रिपोर्ट दर्शकों के लिए गतिविधि Analytics सटीक हैं और इस सीमा का उपयोग नहीं करते। मान्य सीमा: 2–50।';
+$string['setting:analyticsminusers_desc'] = 'सटीक Analytics डैशबोर्ड के बाहर गोपनीयता-आधारित मास्किंग वाले समेकित सारांशों में सटीक मान दिखाने से पहले आवश्यक अलग उपयोगकर्ताओं की न्यूनतम संख्या। अधिकृत रिपोर्ट दर्शकों के लिए गतिविधि, पाठ्यक्रम और शिक्षक Analytics सटीक हैं और इस सीमा का उपयोग नहीं करते। मान्य सीमा: 2–50।';
 $string['report:analytics_tab'] = 'विश्लेषण';
 $string['report:analytics_heading'] = 'देखने की हीटमैप और रिटेंशन';
 $string['report:analytics_method_toggle'] = 'मेट्रिक की गणना कैसे की जाती है';

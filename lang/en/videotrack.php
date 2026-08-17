@@ -723,7 +723,7 @@ $string['forum:restorelinkmissing'] = 'The linked Forum was not restored; Forum 
 
 // Instance analytics.
 $string['setting:analyticsminusers'] = 'Minimum users for analytics';
-$string['setting:analyticsminusers_desc'] = 'Minimum number of distinct users required before privacy-masked aggregate views that still use this setting can display exact values. Instance Analytics are exact for authorised report viewers and do not use this threshold. Allowed range: 2–50.';
+$string['setting:analyticsminusers_desc'] = 'Minimum number of distinct users required before privacy-masked aggregate summaries outside the exact Analytics dashboards can display exact values. Instance, course and teacher Analytics dashboards are exact for authorised report viewers and do not use this threshold. Allowed range: 2–50.';
 $string['report:analytics_tab'] = 'Analytics';
 $string['report:analytics_heading'] = 'Viewing heatmap and retention';
 $string['report:analytics_method_toggle'] = 'How metrics are calculated';
