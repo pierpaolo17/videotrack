@@ -1,5 +1,11 @@
 # VideoTrack changelog
 
+## 1.7.63 - 2026-08-17
+
+- Fix the custom CSV export row writer so its static closure explicitly captures the module `$context` required by `csv_export::identity_values()`; without that capture the real download path can pass an undefined/null context despite the surrounding report controller having a valid module context.
+- Add a static regression contract that isolates the `$writeeventrow` closure signature and requires `$context` to remain captured.
+- Keep U-017 decomposition, report queries, export formats/content, tracking, completion, schema and AMD/player runtime otherwise unchanged; this is a corrective-only release before maintainability work resumes.
+
 ## 1.7.62 - 2026-08-17
 
 - Correct the 1.7.61 U-017 extraction formatting reported by Moodle PHPCS: format the two multi-line reaction-cluster `foreach` statements according to PSR-12 and remove the extra blank line before the `report_support_test` class closing brace.

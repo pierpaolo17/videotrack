@@ -1,6 +1,6 @@
 # Behat browser automation
 
-VideoTrack started its browser-automation phase in release 1.7.45; release 1.7.62 keeps the deterministic HTML5 post-rollback Behat suite and the non-browser contracts for resume, completion synchronisation and stacked notices across YouTube, HTML5 and Vimeo while the maintainer Behat endpoint is unavailable; acknowledgement versioning is additionally covered by behavioural PHPUnit checks. The plugin ships a Moodle module generator under `tests/generator/lib.php` and browser scenarios under `tests/behat/`.
+VideoTrack started its browser-automation phase in release 1.7.45; release 1.7.63 keeps the deterministic HTML5 post-rollback Behat suite and the non-browser contracts for resume, completion synchronisation and stacked notices across YouTube, HTML5 and Vimeo while the maintainer Behat endpoint is unavailable; acknowledgement versioning is additionally covered by behavioural PHPUnit checks. The plugin ships a Moodle module generator under `tests/generator/lib.php` and browser scenarios under `tests/behat/`.
 
 ## Purpose
 
