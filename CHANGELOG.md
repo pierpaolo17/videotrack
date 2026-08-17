@@ -1,5 +1,11 @@
 # VideoTrack changelog
 
+## 1.7.59 - 2026-08-17
+
+- Correct release-documentation freshness after 1.7.58: rebase the distributed file/function inventories and current documentation markers to the actual 1.7.59 tree.
+- Keep runtime, Analytics presentation helper, AMD/player code, schema and U-017 scope unchanged; this is a corrective-only release.
+- Preserve Behat as explicitly not run while the maintainer endpoint remains unavailable.
+
 ## 1.7.58 - 2026-08-17
 
 - Correct the U-017 extraction naming introduced in 1.7.57: rename `local\report_renderer` to the neutral `local\report_view` helper so Moodle PHPCS no longer treats the static presentation helper as a renderer that must use `$this->output`.

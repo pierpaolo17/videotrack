@@ -1,6 +1,6 @@
 # Audit della documentazione
 
-Baseline: VideoTrack **1.7.58** (`2026081604`).
+Baseline: VideoTrack **1.7.59** (`2026081701`).
 
 ## Copertura
 
@@ -19,9 +19,9 @@ Baseline: VideoTrack **1.7.58** (`2026081604`).
 - I contratti statici resume/completion/alert impilati coprono i tre provider mentre Behat resta indisponibile nell’ambiente maintainer; l’evidenza browser resta esplicitamente pendente.
 - La navigazione capitoli ha ora un contratto esplicito focus-visible/colori forzati; la matrice manuale tastiera/high-contrast resta un gate per la chiusura finale di U-020.
 
-## Verifica documentazione pre-produzione 1.7.58
+## Verifica documentazione pre-produzione 1.7.59
 
-- Inventario corrente dei file non documentali rigenerato sull'albero candidato 1.7.58: **269/269** voci.
+- Inventario corrente dei file non documentali rigenerato sull'albero candidato 1.7.59: **269/269** voci.
 - Inventario funzioni rigenerato sulle posizioni sorgente correnti: **643** funzioni/metodi PHP nominati e **647** callable AMD nominati rilevati.
 - L'inventario XMLDB coincide con tutte le **7** tabelle e con ogni campo dichiarato in `db/install.xml`.
 - L'inventario impostazioni coincide con tutte le **57** impostazioni `mod_videotrack`.
@@ -29,7 +29,7 @@ Baseline: VideoTrack **1.7.58** (`2026081604`).
 - L'inventario configurazione browser/player coincide con tutte le **133** chiavi, incluse le quattro label seek FW introdotte dopo la 1.6.33.
 - Tutti gli otto language pack mantenuti espongono **982** chiavi identiche, nessun duplicato e placeholder Moodle coerenti.
 - I link Markdown relativi della documentazione sono stati verificati contro l'albero senza target mancanti.
-- I documenti tecnici storici sotto `archive/` restano storici; indici e inventari correnti sono ribasati alla 1.7.58. Gli artefatti interni roadmap/lesson del maintainer non fanno parte del tree distribuito.
+- I documenti tecnici storici sotto `archive/` restano storici; indici e inventari correnti sono ribasati alla 1.7.59. Gli artefatti interni roadmap/lesson del maintainer non fanno parte del tree distribuito.
 
 ## Regole di aggiornamento
 
