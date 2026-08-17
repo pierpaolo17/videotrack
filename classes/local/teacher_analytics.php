@@ -41,26 +41,28 @@ final class teacher_analytics {
             true,
             'fullname,visible'
         );
-        foreach ($courses as $courseid => $course) {
-            if ((int)$courseid === SITEID) {
-                unset($courses[$courseid]);
+        $accessible = [];
+        foreach ($courses as $course) {
+            $courseid = (int)$course->id;
+            if ($courseid === SITEID) {
                 continue;
             }
-            $context = context_course::instance((int)$courseid, IGNORE_MISSING);
+            $context = context_course::instance($courseid, IGNORE_MISSING);
             if (
                 !$context
                 || (empty($course->visible)
                     && !has_capability('moodle/course:viewhiddencourses', $context, $userid))
             ) {
-                unset($courses[$courseid]);
+                continue;
             }
+            $accessible[$courseid] = $course;
         }
 
-        uasort($courses, static function (stdClass $left, stdClass $right): int {
+        uasort($accessible, static function (stdClass $left, stdClass $right): int {
             return [\core_text::strtolower((string)$left->fullname), (int)$left->id]
                 <=> [\core_text::strtolower((string)$right->fullname), (int)$right->id];
         });
-        return $courses;
+        return $accessible;
     }
 
     /**

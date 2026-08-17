@@ -1,6 +1,6 @@
 # Audit della documentazione
 
-Baseline: VideoTrack **1.7.68** (`2026081710`).
+Baseline: VideoTrack **1.7.69** (`2026081711`).
 
 ## Copertura
 
@@ -19,9 +19,9 @@ Baseline: VideoTrack **1.7.68** (`2026081710`).
 - I contratti statici resume/completion/alert impilati coprono i tre provider mentre Behat resta indisponibile nell’ambiente maintainer; l’evidenza browser resta esplicitamente pendente.
 - La navigazione capitoli ha ora un contratto esplicito focus-visible/colori forzati; la matrice manuale tastiera/high-contrast resta un gate per la chiusura finale di U-020.
 
-## Verifica documentazione pre-produzione 1.7.68
+## Verifica documentazione pre-produzione 1.7.69
 
-- Inventario corrente dei file non documentali rigenerato sull'albero candidato 1.7.68: **271/271** voci.
+- Inventario corrente dei file non documentali rigenerato sull'albero candidato 1.7.69: **271/271** voci.
 - Inventario funzioni rigenerato sulle posizioni sorgente correnti: **663** funzioni/metodi PHP nominati e **647** callable AMD nominati rilevati.
 - `reports_course.php` e `reports_teacher.php` richiedono entrambi la soglia esatta per il report autorizzato e non mostrano più avvisi di soppressione privacy o celle mascherate; Analytics di istanza, corso e docente condividono ora la stessa semantica esatta per il viewer autorizzato.
 - L'inventario XMLDB coincide con tutte le **7** tabelle e con ogni campo dichiarato in `db/install.xml`.
@@ -30,7 +30,7 @@ Baseline: VideoTrack **1.7.68** (`2026081710`).
 - L'inventario configurazione browser/player coincide con tutte le **133** chiavi, incluse le quattro label seek FW introdotte dopo la 1.6.33.
 - Tutti gli otto language pack mantenuti espongono **982** chiavi identiche, nessun duplicato e placeholder Moodle coerenti.
 - I link Markdown relativi della documentazione sono stati verificati contro l'albero senza target mancanti.
-- I documenti tecnici storici sotto `archive/` restano storici; indici e inventari correnti sono ribasati alla 1.7.68. Gli artefatti interni roadmap/lesson del maintainer non fanno parte del tree distribuito.
+- I documenti tecnici storici sotto `archive/` restano storici; indici e inventari correnti sono ribasati alla 1.7.69. Gli artefatti interni roadmap/lesson del maintainer non fanno parte del tree distribuito.
 
 ## Regole di aggiornamento
 
