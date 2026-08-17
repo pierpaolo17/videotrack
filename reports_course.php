@@ -15,7 +15,7 @@
 // along with Moodle.  If not, see <https://www.gnu.org/licenses/>.
 
 /**
- * Privacy-safe course-level dashboard for mod_videotrack.
+ * Course-level dashboard for authorised mod_videotrack report viewers.
  *
  * @package   mod_videotrack
  * @copyright 2026 videotrack contributors
@@ -26,48 +26,31 @@ require_once(__DIR__ . '/../../config.php');
 require_once(__DIR__ . '/locallib.php');
 
 /**
- * Renders a privacy-safe aggregate count.
+ * Renders an exact aggregate count for an authorised course report viewer.
  *
  * @param array $summary Summary returned by analytics::count_summary().
- * @param int $minusers Configured privacy threshold.
  * @return string Rendered table-cell content.
  */
-function videotrack_course_report_count_cell(array $summary, int $minusers): string {
+function videotrack_course_report_count_cell(array $summary): string {
     if (empty($summary['hasdata'])) {
         return '0';
-    }
-    if (!empty($summary['suppressed'])) {
-        return html_writer::span(
-            get_string('coursereport:privacy_suppressed', 'mod_videotrack', $minusers),
-            'text-muted'
-        );
     }
     return (string)(int)$summary['eventcount'];
 }
 
 /**
- * Renders an aggregate percentage, preserving privacy suppression.
+ * Renders an exact aggregate percentage for an authorised course report viewer.
  *
  * @param float|null $value Percentage value.
- * @param bool $suppressed Whether the underlying population is below threshold.
- * @param int $minusers Configured privacy threshold.
  * @param string $labelstring Language key used for the accessible label.
  * @param bool $showbar Whether to include the compact coverage bar.
  * @return string Rendered table-cell content.
  */
 function videotrack_course_report_percentage_cell(
     ?float $value,
-    bool $suppressed,
-    int $minusers,
     string $labelstring,
     bool $showbar = false
 ): string {
-    if ($suppressed) {
-        return html_writer::span(
-            get_string('coursereport:privacy_suppressed', 'mod_videotrack', $minusers),
-            'text-muted'
-        );
-    }
     if ($value === null) {
         return html_writer::span(get_string('coursereport:notavailable', 'mod_videotrack'), 'text-muted');
     }
@@ -91,18 +74,10 @@ function videotrack_course_report_percentage_cell(
 /**
  * Renders the largest adjacent retention decrease.
  *
- * @param array|null $drop Privacy-safe drop details.
- * @param bool $suppressed Whether the activity population is below threshold.
- * @param int $minusers Configured privacy threshold.
+ * @param array|null $drop Exact drop details.
  * @return string Rendered table-cell content.
  */
-function videotrack_course_report_drop_cell(?array $drop, bool $suppressed, int $minusers): string {
-    if ($suppressed) {
-        return html_writer::span(
-            get_string('coursereport:privacy_suppressed', 'mod_videotrack', $minusers),
-            'text-muted'
-        );
-    }
+function videotrack_course_report_drop_cell(?array $drop): string {
     if ($drop === null) {
         return html_writer::span(get_string('coursereport:notavailable', 'mod_videotrack'), 'text-muted');
     }
@@ -128,21 +103,16 @@ $coursefullname = format_string($course->fullname, true, ['context' => $context]
 $PAGE->set_title($courseshortname . ': ' . get_string('coursereport:title', 'mod_videotrack'));
 $PAGE->set_heading($coursefullname);
 
-$minusers = videotrack_get_config_int('analyticsminusers', 5, 2, 50);
+$exactminusers = \mod_videotrack\local\analytics::EXACT_REPORT_MIN_USERS;
 $instances = \mod_videotrack\local\course_analytics::get_course_rows(
     $course,
     (int)$USER->id,
-    $minusers
+    $exactminusers
 );
 
 echo $OUTPUT->header();
 echo $OUTPUT->heading(get_string('coursereport:title', 'mod_videotrack'));
 echo html_writer::tag('p', get_string('coursereport:intro', 'mod_videotrack'), ['class' => 'text-muted']);
-echo $OUTPUT->notification(
-    get_string('coursereport:privacy_notice', 'mod_videotrack', $minusers),
-    'info'
-);
-
 if (!$instances) {
     echo $OUTPUT->notification(get_string('coursereport:nodata', 'mod_videotrack'), 'notifymessage');
     echo $OUTPUT->footer();
@@ -195,35 +165,29 @@ foreach ($instances as $instance) {
     $duration = (float)$instance->summary['duration'] > 0
         ? videotrack_format_seconds((float)$instance->summary['duration'])
         : get_string('coursereport:notavailable', 'mod_videotrack');
-    $suppressed = !empty($instance->summary['datasetsuppressed']);
-
     $row = [
         $activity,
         s($sourcelabel),
         s($duration),
-        videotrack_course_report_count_cell($instance->summary['started'], $minusers),
+        videotrack_course_report_count_cell($instance->summary['started']),
         videotrack_course_report_percentage_cell(
             $instance->summary['averagepercent'],
-            $suppressed,
-            $minusers,
             'coursereport:avgcoverage',
             true
         ),
         videotrack_course_report_percentage_cell(
             $instance->summary['medianpercent'],
-            $suppressed,
-            $minusers,
             'coursereport:mediancoverage'
         ),
-        videotrack_course_report_count_cell($instance->summary['completions'], $minusers),
-        videotrack_course_report_count_cell($instance->summary['noncompleted'], $minusers),
-        videotrack_course_report_drop_cell($instance->summary['maindrop'], $suppressed, $minusers),
-        videotrack_course_report_count_cell($instance->reactions, $minusers),
-        videotrack_course_report_count_cell($instance->notes, $minusers),
+        videotrack_course_report_count_cell($instance->summary['completions']),
+        videotrack_course_report_count_cell($instance->summary['noncompleted']),
+        videotrack_course_report_drop_cell($instance->summary['maindrop']),
+        videotrack_course_report_count_cell($instance->reactions),
+        videotrack_course_report_count_cell($instance->notes),
     ];
     if ($showbookmarks) {
         $row[] = !empty($instance->bookmarksenabled)
-            ? videotrack_course_report_count_cell($instance->bookmarks, $minusers)
+            ? videotrack_course_report_count_cell($instance->bookmarks)
             : html_writer::span(get_string('coursereport:disabled', 'mod_videotrack'), 'text-muted');
     }
     $row[] = $report;

@@ -1,5 +1,11 @@
 # VideoTrack changelog
 
+## 1.7.65 - 2026-08-17
+
+- Make `reports_course.php` exact for users already authorised by `mod/videotrack:viewcoursereport`: the page now requests `analytics::EXACT_REPORT_MIN_USERS` instead of the configured `analyticsminusers`, so one-learner activities and completion/reaction/note/bookmark subgroups are no longer masked.
+- Remove the course-dashboard privacy-suppression notice and unreachable masked-cell presentation while preserving course/module visibility, group scopes and the underlying generic `course_analytics` threshold support for other callers.
+- Keep `reports_teacher.php`, instance Analytics semantics, schema, tracking, completion and AMD/player runtime unchanged; the teacher-centric dashboard remains the next dedicated follow-up before U-017 resumes.
+
 ## 1.7.64 - 2026-08-17
 
 - Make `report.php?mode=analytics` exact for authorised report viewers inside the existing Moodle capability, activity/course and group scopes: the configured minimum-user privacy threshold no longer masks instance Analytics viewing bins, replay metrics, reactions/clusters, bookmark counts, integrity indicators or acknowledgement aggregates.

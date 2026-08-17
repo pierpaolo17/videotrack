@@ -17,6 +17,7 @@
 namespace mod_videotrack;
 
 use advanced_testcase;
+use mod_videotrack\local\analytics;
 use mod_videotrack\local\course_analytics;
 use mod_videotrack\local\learner_scope;
 use PHPUnit\Framework\Attributes\CoversClass;
@@ -257,6 +258,69 @@ final class course_analytics_test extends advanced_testcase {
         $this->assertStringContainsString("'course' . (int)\$instance->id", $source);
         $this->assertStringNotContainsString('private static function learner_scope_sql', $source);
         $this->assertStringNotContainsString('get_enrolled_sql(', $source);
+    }
+
+    /**
+     * The exact report threshold exposes a one-learner current-state summary.
+     */
+    public function test_exact_report_threshold_exposes_single_learner_state_summary(): void {
+        $summary = course_analytics::summarise_states(
+            [$this->state(1, 50, true, '[[0,20]]', 40)],
+            40,
+            analytics::EXACT_REPORT_MIN_USERS
+        );
+
+        $this->assertFalse($summary['datasetsuppressed']);
+        $this->assertFalse($summary['started']['suppressed']);
+        $this->assertSame(1, $summary['started']['eventcount']);
+        $this->assertSame(50.0, $summary['averagepercent']);
+        $this->assertSame(50.0, $summary['medianpercent']);
+        $this->assertFalse($summary['completions']['suppressed']);
+        $this->assertSame(1, $summary['completions']['eventcount']);
+        $this->assertFalse($summary['noncompleted']['suppressed']);
+        $this->assertSame(0, $summary['noncompleted']['eventcount']);
+    }
+
+    /**
+     * The exact report threshold exposes a one-learner period summary.
+     */
+    public function test_exact_report_threshold_exposes_single_learner_period_summary(): void {
+        $summary = course_analytics::summarise_period_segments(
+            [(object)[
+                'id' => 1,
+                'userid' => 11,
+                'videotimestart' => 0.0,
+                'videotimeend' => 10.0,
+                'servervalidated' => 1,
+                'timecreated' => 100,
+            ]],
+            [11 => false],
+            100.0,
+            analytics::EXACT_REPORT_MIN_USERS,
+            1,
+            200
+        );
+
+        $this->assertFalse($summary['datasetsuppressed']);
+        $this->assertFalse($summary['started']['suppressed']);
+        $this->assertSame(1, $summary['started']['eventcount']);
+        $this->assertSame(10.0, $summary['averagepercent']);
+        $this->assertSame(10.0, $summary['medianpercent']);
+        $this->assertFalse($summary['noncompleted']['suppressed']);
+        $this->assertSame(1, $summary['noncompleted']['eventcount']);
+    }
+
+    /**
+     * The course dashboard uses exact aggregates without the site privacy threshold.
+     */
+    public function test_course_report_controller_requests_exact_aggregates(): void {
+        $source = file_get_contents(__DIR__ . '/../reports_course.php');
+        $this->assertIsString($source);
+        $this->assertStringContainsString('analytics::EXACT_REPORT_MIN_USERS', $source);
+        $this->assertStringContainsString("require_capability('mod/videotrack:viewcoursereport'", $source);
+        $this->assertStringNotContainsString("videotrack_get_config_int('analyticsminusers'", $source);
+        $this->assertStringNotContainsString("get_string('coursereport:privacy_notice'", $source);
+        $this->assertStringNotContainsString("get_string('coursereport:privacy_suppressed'", $source);
     }
 
     /**
