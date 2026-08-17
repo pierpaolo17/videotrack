@@ -25,340 +25,6 @@
 require_once(__DIR__ . '/../../config.php');
 require_once(__DIR__ . '/locallib.php');
 
-/**
- * Formats a report user label.
- *
- * @param int $userid Moodle user id.
- * @param array $usermap Real Moodle users keyed by id.
- * @param bool $canviewemail Whether email may be displayed.
- * @return string Safe display label.
- */
-function videotrack_report_user_label(int $userid, array $usermap, bool $canviewemail): string {
-    if ($userid <= 0) {
-        return get_string('unknownuser');
-    }
-    $user = $usermap[$userid] ?? null;
-    if (!$user) {
-        return '#' . $userid;
-    }
-    return fullname($user) . ($canviewemail ? ' (' . s($user->email) . ')' : '');
-}
-
-/**
- * Converts an ISO date-only parameter to a timestamp in the user's timezone.
- *
- * @param string $date Date in YYYY-MM-DD format.
- * @param bool $endofday Whether to use the last second of the day.
- * @return int Timestamp, or 0 when the value is empty or invalid.
- */
-function videotrack_report_date_to_timestamp(string $date, bool $endofday = false): int {
-    if ($date === '' || !preg_match('/^(\d{4})-(\d{2})-(\d{2})$/', $date, $matches)) {
-        return 0;
-    }
-    $year = (int)$matches[1];
-    $month = (int)$matches[2];
-    $day = (int)$matches[3];
-    if (!checkdate($month, $day, $year)) {
-        return 0;
-    }
-    return make_timestamp($year, $month, $day, $endofday ? 23 : 0, $endofday ? 59 : 0, $endofday ? 59 : 0);
-}
-
-/**
- * Reads an optional video-time filter.
- *
- * The report form submits numeric hour/minute/second controls. Legacy MM:SS and
- * HH:MM:SS links remain supported for backwards compatibility.
- *
- * @param string $name Parameter name.
- * @return float|null Non-negative float value, or null when unset/empty.
- */
-function videotrack_report_optional_time_param(string $name): ?float {
-    $componentnames = [
-        'hours' => $name . '_hours',
-        'minutes' => $name . '_minutes',
-        'seconds' => $name . '_seconds',
-    ];
-    $rawparts = [];
-    foreach ($componentnames as $part => $componentname) {
-        $rawparts[$part] = optional_param($componentname, null, PARAM_RAW_TRIMMED);
-    }
-    $hascomponents = count(array_filter($rawparts, static function ($value): bool {
-        return $value !== null;
-    })) > 0;
-    if ($hascomponents) {
-        if (
-            ($rawparts['hours'] === '' || $rawparts['hours'] === null)
-            && ($rawparts['minutes'] === '' || $rawparts['minutes'] === null)
-            && ($rawparts['seconds'] === '' || $rawparts['seconds'] === null)
-        ) {
-            return null;
-        }
-        foreach ($rawparts as $rawpart) {
-            if ($rawpart !== '' && $rawpart !== null && !preg_match('/^\d+$/', $rawpart)) {
-                throw new invalid_parameter_exception(get_string('report:timeformatplaceholder', 'mod_videotrack'));
-            }
-        }
-        $hours = ($rawparts['hours'] === '' || $rawparts['hours'] === null) ? 0 : (int)$rawparts['hours'];
-        $minutes = ($rawparts['minutes'] === '' || $rawparts['minutes'] === null) ? 0 : (int)$rawparts['minutes'];
-        $seconds = ($rawparts['seconds'] === '' || $rawparts['seconds'] === null) ? 0 : (int)$rawparts['seconds'];
-        if ($minutes > 59 || $seconds > 59) {
-            throw new invalid_parameter_exception(get_string('report:timeformatplaceholder', 'mod_videotrack'));
-        }
-        return (float)(($hours * HOURSECS) + ($minutes * MINSECS) + $seconds);
-    }
-
-    $rawvalue = optional_param($name, '', PARAM_RAW_TRIMMED);
-    $parsed = videotrack_parse_report_timestamp($rawvalue);
-    if ($rawvalue !== '' && $parsed === null) {
-        throw new invalid_parameter_exception(get_string('report:timeformatplaceholder', 'mod_videotrack'));
-    }
-    return $parsed;
-}
-
-/**
- * Renders a structured duration filter using number inputs.
- *
- * @param string $name Base parameter name.
- * @param string $label Visible field label.
- * @param float|null $value Current value in seconds.
- * @param bool $showhours Whether to render the hours control.
- * @return string HTML fragment.
- */
-function videotrack_report_duration_filter(string $name, string $label, ?float $value, bool $showhours): string {
-    $totalseconds = $value === null ? null : max(0, (int)round($value));
-    $hours = $totalseconds === null ? '' : (string)floor($totalseconds / HOURSECS);
-    $minutes = $totalseconds === null ? '' : (string)floor(($totalseconds % HOURSECS) / MINSECS);
-    $seconds = $totalseconds === null ? '' : (string)($totalseconds % MINSECS);
-    if (!$showhours && $totalseconds !== null) {
-        $minutes = (string)floor($totalseconds / MINSECS);
-    }
-
-    $groupid = 'id_' . $name . '_group';
-    $html = html_writer::span($label, 'mr-1', ['id' => $groupid . '_label']);
-    $attributes = [
-        'type' => 'number',
-        'min' => 0,
-        'step' => 1,
-        'inputmode' => 'numeric',
-        'autocomplete' => 'off',
-        'class' => 'form-control form-control-sm videotrack-time-part',
-        'style' => 'width:4.5rem',
-    ];
-    if ($showhours) {
-        $html .= html_writer::empty_tag('input', array_merge($attributes, [
-            'name' => $name . '_hours',
-            'id' => 'id_' . $name . '_hours',
-            'value' => $hours,
-            'aria-label' => get_string('hours'),
-        ]));
-        $html .= html_writer::span(':', 'mx-1', ['aria-hidden' => 'true']);
-    }
-    $html .= html_writer::empty_tag('input', array_merge($attributes, [
-        'name' => $name . '_minutes',
-        'id' => 'id_' . $name . '_minutes',
-        'value' => $minutes,
-        'max' => 59,
-        'aria-label' => get_string('minutes'),
-    ]));
-    $html .= html_writer::span(':', 'mx-1', ['aria-hidden' => 'true']);
-    $html .= html_writer::empty_tag('input', array_merge($attributes, [
-        'name' => $name . '_seconds',
-        'id' => 'id_' . $name . '_seconds',
-        'value' => $seconds,
-        'max' => 59,
-        'aria-label' => get_string('seconds'),
-    ]));
-    return html_writer::div($html, 'd-inline-flex align-items-center mr-3 mb-2', [
-        'id' => $groupid,
-        'role' => 'group',
-        'aria-labelledby' => $groupid . '_label',
-    ]);
-}
-
-/**
- * Builds a capability-safe SQL condition for one or more Analytics activities.
- *
- * Each scope record must expose an id and an analyticsgroupids property. A null
- * group list means all canonical learners allowed by the activity context; an empty list
- * excludes the activity; a populated list further restricts learners to those groups.
- *
- * @param array $scopes Analytics activity scope records.
- * @param string $prefix Unique parameter prefix.
- * @param int $viewerid Report viewer id.
- * @return array SQL condition and named parameters.
- */
-function videotrack_report_analytics_scope_condition(array $scopes, string $prefix, int $viewerid): array {
-    global $DB;
-
-    $clauses = [];
-    $params = [];
-    $index = 0;
-    foreach ($scopes as $scope) {
-        $groupids = $scope->analyticsgroupids ?? null;
-        if (is_array($groupids) && !$groupids) {
-            continue;
-        }
-        $vtparam = $prefix . 'vt' . $index;
-        $clause = 'videotrackid = :' . $vtparam;
-        $params[$vtparam] = (int)$scope->id;
-        $scopecontext = context_module::instance((int)$scope->cmid, MUST_EXIST);
-        $scopecm = (object)[
-            'id' => (int)$scope->cmid,
-            'groupmode' => (int)$scope->groupmode,
-            'groupingid' => (int)$scope->groupingid,
-        ];
-        $scopecourse = (object)[
-            'id' => (int)$scope->course,
-            'groupmode' => (int)$scope->coursegroupmode,
-            'groupmodeforce' => (int)$scope->groupmodeforce,
-        ];
-        [$learnersql, $learnerparams] = \mod_videotrack\local\learner_scope::sql(
-            $scopecontext,
-            $scopecm,
-            $scopecourse,
-            $viewerid,
-            'userid',
-            $prefix . 'learner' . $index
-        );
-        $clause .= ' AND ' . $learnersql;
-        $params = array_merge($params, $learnerparams);
-        if (is_array($groupids)) {
-            [$groupsql, $groupparams] = $DB->get_in_or_equal(
-                array_map('intval', $groupids),
-                SQL_PARAMS_NAMED,
-                $prefix . 'group' . $index
-            );
-            $clause .= " AND userid IN (
-                SELECT scopegm.userid
-                  FROM {groups_members} scopegm
-                 WHERE scopegm.groupid {$groupsql}
-            )";
-            $params = array_merge($params, $groupparams);
-        }
-        $clauses[] = '(' . $clause . ')';
-        $index++;
-    }
-
-    return [$clauses ? implode(' OR ', $clauses) : '1 = 0', $params];
-}
-
-/**
- * Builds a capability-safe SQL condition for current acknowledgement versions.
- *
- * Each enabled activity contributes its own statement hash. Group restrictions
- * mirror the viewing Analytics scope so cross-course results cannot include
- * confirmations outside the teacher's accessible groups.
- *
- * @param array $scopes Analytics activity scope records.
- * @param string $prefix Unique parameter prefix.
- * @param int $viewerid Report viewer id.
- * @return array SQL condition and named parameters.
- */
-function videotrack_report_acknowledgement_scope_condition(array $scopes, string $prefix, int $viewerid): array {
-    global $DB;
-
-    $clauses = [];
-    $params = [];
-    $index = 0;
-    foreach ($scopes as $scope) {
-        if (!\mod_videotrack\local\acknowledgement::is_enabled($scope)) {
-            continue;
-        }
-        $groupids = $scope->analyticsgroupids ?? null;
-        if (is_array($groupids) && !$groupids) {
-            continue;
-        }
-        $vtparam = $prefix . 'vt' . $index;
-        $hashparam = $prefix . 'hash' . $index;
-        $clause = 'videotrackid = :' . $vtparam . ' AND statementhash = :' . $hashparam;
-        $params[$vtparam] = (int)$scope->id;
-        $params[$hashparam] = \mod_videotrack\local\acknowledgement::statement_hash($scope);
-        $scopecontext = context_module::instance((int)$scope->cmid, MUST_EXIST);
-        $scopecm = (object)[
-            'id' => (int)$scope->cmid,
-            'groupmode' => (int)$scope->groupmode,
-            'groupingid' => (int)$scope->groupingid,
-        ];
-        $scopecourse = (object)[
-            'id' => (int)$scope->course,
-            'groupmode' => (int)$scope->coursegroupmode,
-            'groupmodeforce' => (int)$scope->groupmodeforce,
-        ];
-        [$learnersql, $learnerparams] = \mod_videotrack\local\learner_scope::sql(
-            $scopecontext,
-            $scopecm,
-            $scopecourse,
-            $viewerid,
-            'userid',
-            $prefix . 'learner' . $index
-        );
-        $clause .= ' AND ' . $learnersql;
-        $params = array_merge($params, $learnerparams);
-        if (is_array($groupids)) {
-            [$groupsql, $groupparams] = $DB->get_in_or_equal(
-                array_map('intval', $groupids),
-                SQL_PARAMS_NAMED,
-                $prefix . 'group' . $index
-            );
-            $clause .= " AND userid IN (
-                SELECT ackgm.userid
-                  FROM {groups_members} ackgm
-                 WHERE ackgm.groupid {$groupsql}
-            )";
-            $params = array_merge($params, $groupparams);
-        }
-        $clauses[] = '(' . $clause . ')';
-        $index++;
-    }
-
-    return [$clauses ? implode(' OR ', $clauses) : '1 = 0', $params];
-}
-
-/**
- * Builds the report tab set.
- *
- * @param int $cmid Course module id.
- * @param bool $canviewfullreport Whether the current user may view teacher reports.
- * @param array $baseparams Existing report filter parameters.
- * @return array Report tabs.
- */
-function videotrack_report_tabs(int $cmid, bool $canviewfullreport, array $baseparams = []): array {
-    $studentparams = array_merge($baseparams, ['id' => $cmid, 'mode' => 'student']);
-    $cumulativeparams = array_merge($baseparams, ['id' => $cmid, 'mode' => 'cumulative']);
-    $tabs = [
-        new tabobject(
-            'student',
-            new moodle_url('/mod/videotrack/report.php', $studentparams),
-            get_string('report:perstudent', 'mod_videotrack')
-        ),
-        new tabobject(
-            'cumulative',
-            new moodle_url('/mod/videotrack/report.php', $cumulativeparams),
-            get_string('report:cumulative', 'mod_videotrack')
-        ),
-    ];
-    if ($canviewfullreport) {
-        $tabs[] = new tabobject(
-            'analytics',
-            new moodle_url('/mod/videotrack/report.php', ['id' => $cmid, 'mode' => 'analytics']),
-            get_string('report:analytics_tab', 'mod_videotrack')
-        );
-        $tabs[] = new tabobject(
-            'export',
-            new moodle_url('/mod/videotrack/report.php', ['id' => $cmid, 'mode' => 'export']),
-            get_string('report:csvexport_tab', 'mod_videotrack')
-        );
-        $tabs[] = new tabobject(
-            'recalculate',
-            new moodle_url('/mod/videotrack/report.php', ['id' => $cmid, 'mode' => 'recalculate']),
-            get_string('report:recalculate_tab', 'mod_videotrack')
-        );
-    }
-    return $tabs;
-}
-
-
 global $DB, $USER, $CFG, $PAGE, $OUTPUT;
 
 $id = required_param('id', PARAM_INT);
@@ -389,13 +55,13 @@ $reactionidfilter = optional_param('reactionid', 0, PARAM_INT);
 $notepage = max(0, optional_param('notepage', 0, PARAM_INT));
 $notecreatedfrom = videotrack_optional_iso_date_param('notecreatedfrom');
 $notecreatedto = videotrack_optional_iso_date_param('notecreatedto');
-$timefrom = videotrack_report_optional_time_param('timefrom');
-$timeto = videotrack_report_optional_time_param('timeto');
+$timefrom = \mod_videotrack\local\report_support::optional_time_param('timefrom');
+$timeto = \mod_videotrack\local\report_support::optional_time_param('timeto');
 if ($timefrom !== null && $timeto !== null && $timeto < $timefrom) {
     [$timefrom, $timeto] = [$timeto, $timefrom];
 }
-$notecreatedfromts = videotrack_report_date_to_timestamp($notecreatedfrom);
-$notecreatedtots = videotrack_report_date_to_timestamp($notecreatedto, true);
+$notecreatedfromts = \mod_videotrack\local\report_support::date_to_timestamp($notecreatedfrom);
+$notecreatedtots = \mod_videotrack\local\report_support::date_to_timestamp($notecreatedto, true);
 if ($notecreatedfromts && $notecreatedtots && $notecreatedtots < $notecreatedfromts) {
     [$notecreatedfromts, $notecreatedtots] = [$notecreatedtots, $notecreatedfromts];
 }
@@ -517,7 +183,7 @@ if ($mode === 'analytics') {
     $analyticsbinsize = \mod_videotrack\local\analytics::normalise_bin_size($analyticsbinsize, $duration);
     $minusers = videotrack_get_config_int('analyticsminusers', 5, 2, 50);
 
-    [$analyticsscopewhere, $segmentparams] = videotrack_report_analytics_scope_condition(
+    [$analyticsscopewhere, $segmentparams] = \mod_videotrack\local\report_support::analytics_scope_condition(
         $analyticsinstances,
         'analyticssegment',
         (int)$USER->id
@@ -584,7 +250,7 @@ if ($mode === 'analytics') {
     )) > 0;
     $showreactionanalytics = $reactionanalyticsenabled && $analyticsshowreactions;
     if ($reactionanalyticsenabled) {
-        [$reactionwhere, $reactionparams] = videotrack_report_analytics_scope_condition(
+        [$reactionwhere, $reactionparams] = \mod_videotrack\local\report_support::analytics_scope_condition(
             $analyticsinstances,
             'analyticsreaction',
             (int)$USER->id
@@ -641,7 +307,7 @@ if ($mode === 'analytics') {
     );
     $bookmarkanalyticsenabled = !empty($bookmarkinstances);
     if ($bookmarkanalyticsenabled) {
-        [$bookmarkwhere, $bookmarkparams] = videotrack_report_analytics_scope_condition(
+        [$bookmarkwhere, $bookmarkparams] = \mod_videotrack\local\report_support::analytics_scope_condition(
             $bookmarkinstances,
             'analyticsbookmark',
             (int)$USER->id
@@ -682,7 +348,7 @@ if ($mode === 'analytics') {
     }
     if ($acknowledgementanalyticsenabled) {
         [$acknowledgementwhere, $acknowledgementparams] =
-            videotrack_report_acknowledgement_scope_condition(
+            \mod_videotrack\local\report_support::acknowledgement_scope_condition(
                 $acknowledgementinstances,
                 'analyticsacknowledgement',
                 (int)$USER->id
@@ -722,7 +388,7 @@ if ($mode === 'analytics') {
     );
     $integrityfocuscontrolsenabled = !empty($integrityfocusinstances);
     if ($integrityanalyticsenabled) {
-        [$integritywhere, $integrityparams] = videotrack_report_analytics_scope_condition(
+        [$integritywhere, $integrityparams] = \mod_videotrack\local\report_support::analytics_scope_condition(
             $integrityinstances,
             'analyticsintegrity',
             (int)$USER->id
@@ -842,7 +508,7 @@ if ($mode === 'analytics') {
 
     echo $OUTPUT->header();
     echo $OUTPUT->heading(get_string('reportteacher', 'mod_videotrack'));
-    echo $OUTPUT->tabtree(videotrack_report_tabs($cm->id, true), $mode);
+    echo $OUTPUT->tabtree(\mod_videotrack\local\report_support::tabs($cm->id, true), $mode);
     echo $OUTPUT->heading(get_string('report:analytics_heading', 'mod_videotrack'), 3);
 
     $filterform = html_writer::start_tag('form', [
@@ -1488,14 +1154,18 @@ $useroptions = [0 => get_string('all')];
 foreach ($stateuserids as $stateuserid) {
     $user = $usermap[(int)$stateuserid] ?? null;
     if ($user) {
-        $useroptions[(int)$user->id] = videotrack_report_user_label((int)$user->id, $usermap, $canviewemail);
+        $useroptions[(int)$user->id] = \mod_videotrack\local\report_support::user_label((int)$user->id, $usermap, $canviewemail);
     }
 }
 foreach ($segmentuserids as $segmentuserid) {
     if (!isset($useroptions[(int)$segmentuserid])) {
         $user = $usermap[(int)$segmentuserid] ?? null;
         if ($user) {
-            $useroptions[(int)$user->id] = videotrack_report_user_label((int)$user->id, $usermap, $canviewemail);
+            $useroptions[(int)$user->id] = \mod_videotrack\local\report_support::user_label(
+                (int)$user->id,
+                $usermap,
+                $canviewemail
+            );
         }
     }
 }
@@ -1503,7 +1173,11 @@ foreach ($eventuserids as $eventuserid) {
     if (!isset($useroptions[(int)$eventuserid])) {
         $user = $usermap[(int)$eventuserid] ?? null;
         if ($user) {
-            $useroptions[(int)$user->id] = videotrack_report_user_label((int)$user->id, $usermap, $canviewemail);
+            $useroptions[(int)$user->id] = \mod_videotrack\local\report_support::user_label(
+                (int)$user->id,
+                $usermap,
+                $canviewemail
+            );
         }
     }
 }
@@ -1511,7 +1185,11 @@ foreach ($noteuserids as $noteuserid) {
     if (!isset($useroptions[(int)$noteuserid])) {
         $user = $usermap[(int)$noteuserid] ?? null;
         if ($user) {
-            $useroptions[(int)$user->id] = videotrack_report_user_label((int)$user->id, $usermap, $canviewemail);
+            $useroptions[(int)$user->id] = \mod_videotrack\local\report_support::user_label(
+                (int)$user->id,
+                $usermap,
+                $canviewemail
+            );
         }
     }
 }
@@ -1520,7 +1198,7 @@ foreach ($bookmarkuserids as $bookmarkuserid) {
     if (!isset($useroptions[(int)$bookmarkuserid])) {
         $user = $usermap[(int)$bookmarkuserid] ?? null;
         if ($user) {
-            $useroptions[(int)$user->id] = videotrack_report_user_label(
+            $useroptions[(int)$user->id] = \mod_videotrack\local\report_support::user_label(
                 (int)$user->id,
                 $usermap,
                 $canviewemail
@@ -1533,7 +1211,7 @@ foreach ($acknowledgementuserids as $acknowledgementuserid) {
     if (!isset($useroptions[$acknowledgementuserid])) {
         $user = $usermap[$acknowledgementuserid] ?? null;
         if ($user) {
-            $useroptions[$acknowledgementuserid] = videotrack_report_user_label(
+            $useroptions[$acknowledgementuserid] = \mod_videotrack\local\report_support::user_label(
                 $acknowledgementuserid,
                 $usermap,
                 $canviewemail
@@ -1770,7 +1448,7 @@ if ($export === 'custom_csv') {
             $course,
             $videotrack,
             $user,
-            $userid > 0 ? videotrack_report_user_label($userid, $exportusermap, false) : '',
+            $userid > 0 ? \mod_videotrack\local\report_support::user_label($userid, $exportusermap, false) : '',
             (int)$cm->id,
             $context
         );
@@ -2055,7 +1733,7 @@ if ($export === 'events_csv') {
             $course,
             $videotrack,
             $user,
-            videotrack_report_user_label($userid, $alleventusermap, false),
+            \mod_videotrack\local\report_support::user_label($userid, $alleventusermap, false),
             (int)$cm->id,
             $context
         );
@@ -2154,7 +1832,7 @@ if ($export === 'notes_csv' && !empty($videotrack->studentnotesenabled)) {
             $course,
             $videotrack,
             $user,
-            videotrack_report_user_label($userid, $csvusermap, false),
+            \mod_videotrack\local\report_support::user_label($userid, $csvusermap, false),
             (int)$cm->id,
             $context
         );
@@ -2271,7 +1949,7 @@ if ($export === 'csv') {
                 $course,
                 $videotrack,
                 $user,
-                videotrack_report_user_label($userid, $csvusermap, false),
+                \mod_videotrack\local\report_support::user_label($userid, $csvusermap, false),
                 (int)$cm->id,
                 $context
             );
@@ -2476,7 +2154,7 @@ $PAGE->requires->js_call_amd('mod_videotrack/report', 'init', [[
 echo $OUTPUT->header();
 echo $OUTPUT->heading(get_string('reportteacher', 'mod_videotrack'));
 
-$tabs = videotrack_report_tabs($cm->id, $canviewfullreport, $baseparams);
+$tabs = \mod_videotrack\local\report_support::tabs($cm->id, $canviewfullreport, $baseparams);
 echo $OUTPUT->tabtree($tabs, $mode);
 
 if ($mode === 'recalculate') {
@@ -2697,13 +2375,13 @@ $showtimehours = $reportduration <= 0 || max(
     $timefrom ?? 0,
     $timeto ?? 0
 ) >= HOURSECS;
-echo videotrack_report_duration_filter(
+echo \mod_videotrack\local\report_support::duration_filter(
     'timefrom',
     get_string('report:timefrom', 'mod_videotrack'),
     $timefrom,
     $showtimehours
 );
-echo videotrack_report_duration_filter(
+echo \mod_videotrack\local\report_support::duration_filter(
     'timeto',
     get_string('report:timeto', 'mod_videotrack'),
     $timeto,
@@ -2797,7 +2475,7 @@ if ($mode === 'student') {
                 continue;
             }
             $row = [
-                videotrack_report_user_label((int)$state->userid, $usermap, $canviewemail),
+                \mod_videotrack\local\report_support::user_label((int)$state->userid, $usermap, $canviewemail),
                 videotrack_format_seconds((float)$state->uniquecoveredseconds),
                 format_float((float)$state->completionpercent, 2),
                 videotrack_format_seconds((float)$state->lastposition),
@@ -2834,7 +2512,7 @@ if ($mode === 'student') {
 
             if ($hasgrade && $cangrade) {
                 // Read the current grade for this user.
-                $studentname = videotrack_report_user_label((int)$state->userid, $usermap, false);
+                $studentname = \mod_videotrack\local\report_support::user_label((int)$state->userid, $usermap, false);
                 $currentgrade = $gradeinfo->items[0]->grades[(int)$state->userid]->grade ?? '';
                 $gradecell = html_writer::start_tag('form', [
                     'method' => 'post',
@@ -3003,7 +2681,7 @@ if ($mode === 'student') {
                 'replayend' => $replaytimestamp + $window,
             ]);
             $reactiontable->data[] = [
-                videotrack_report_user_label($eventuserid, $usermap, $canviewemail),
+                \mod_videotrack\local\report_support::user_label($eventuserid, $usermap, $canviewemail),
                 videotrack_format_seconds($replaytimestamp),
                 html_writer::span($reactionhtml, 'videotrack-report-icon'),
                 html_writer::span(
@@ -3331,7 +3009,7 @@ if ($mode === 'student' && !empty($videotrack->studentnotesenabled)) {
     $ntable->attributes['class'] = 'generaltable';
     $ntable->caption = get_string('report:notes_title', 'mod_videotrack');
     foreach ($notes as $note) {
-        $username = videotrack_report_user_label((int)$note->userid, $usermap, $canviewemail);
+        $username = \mod_videotrack\local\report_support::user_label((int)$note->userid, $usermap, $canviewemail);
         $ntable->data[] = [
             $username,
             videotrack_format_seconds((float)$note->videotime),
