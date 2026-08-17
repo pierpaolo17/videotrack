@@ -1,5 +1,11 @@
 # VideoTrack changelog
 
+## 1.7.70 - 2026-08-17
+
+- Resume U-017 maintainability from the server-green 1.7.69 baseline by moving the custom teacher CSV event-row writer out of `report.php` into the autoloaded `local\csv_event_writer` service and moving custom-event header assembly into `local\csv_export`.
+- Preserve detailed/per-student/overall row ordering, canonical video timestamps, identity-field formatting, unknown-user exclusion and aggregate student counts under direct behavioural PHPUnit coverage, while removing the fragile multi-variable `$writeeventrow` closure from the controller.
+- Reduce `report.php` from 2,950 to 2,896 lines without changing report queries, filters, clustering, Analytics semantics, schema, tracking, completion or AMD/player runtime.
+
 ## 1.7.69 - 2026-08-17
 
 - Fix the remaining teacher-dashboard course-discovery defect exposed by the 1.7.68 behavioural test: Moodle's `get_user_capability_course()` returns a numerically indexed list, so `teacher_analytics::accessible_courses()` now keys validated courses explicitly by each record's real `course->id` instead of treating the source array key as a course id.

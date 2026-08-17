@@ -1269,78 +1269,24 @@ if ($export === 'custom_csv') {
     $fh = fopen('php://output', 'w');
     \mod_videotrack\local\csv_export::write_utf8_bom($fh);
 
-    $eventheaders = [
-        get_string('report:csvcol_eventtype', 'mod_videotrack'),
-        get_string('report:reaction', 'mod_videotrack'),
-        get_string('report:csvcol_comment', 'mod_videotrack'),
-        get_string('report:timestamp', 'mod_videotrack'),
-        get_string('report:csvcol_firsttimestamp', 'mod_videotrack'),
-        get_string('report:csvcol_lasttimestamp', 'mod_videotrack'),
-        get_string('report:csvcol_count', 'mod_videotrack'),
-    ];
-    if ($csvformat === 'overall') {
-        $eventheaders[] = get_string('report:students', 'mod_videotrack');
-    } else {
-        $eventheaders[] = get_string('report:csvcol_created', 'mod_videotrack');
-    }
     $headers = array_merge(
         \mod_videotrack\local\csv_export::identity_headers($csvfields),
-        $eventheaders
+        \mod_videotrack\local\csv_export::event_headers($csvformat === 'overall')
     );
     \mod_videotrack\local\csv_export::write_row($fh, $headers, $csvdelimiter);
 
-    $writeeventrow = static function (
-        int $userid,
-        string $eventtype,
-        string $reactionlabel,
-        string $comment,
-        ?float $timestamp,
-        ?float $firsttimestamp,
-        ?float $lasttimestamp,
-        int $count,
-        string $created,
-        int $studentcount = 1
-    ) use (
+    $eventwriter = new \mod_videotrack\local\csv_event_writer(
         $fh,
         $csvdelimiter,
         $csvfields,
         $course,
         $videotrack,
         $exportusermap,
-        $cm,
+        (int)$cm->id,
         $context,
         $videoduration,
-        $csvformat
-    ): void {
-        $user = $userid > 0 ? ($exportusermap[$userid] ?? null) : null;
-        if ($userid > 0 && !$user) {
-            return;
-        }
-        $row = \mod_videotrack\local\csv_export::identity_values(
-            $csvfields,
-            $course,
-            $videotrack,
-            $user,
-            $userid > 0 ? \mod_videotrack\local\report_support::user_label($userid, $exportusermap, false) : '',
-            (int)$cm->id,
-            $context
-        );
-        $row = array_merge($row, [
-            $eventtype,
-            $reactionlabel,
-            $comment,
-            $timestamp === null ? '' : videotrack_format_video_timestamp($timestamp, $videoduration),
-            $firsttimestamp === null ? '' : videotrack_format_video_timestamp($firsttimestamp, $videoduration),
-            $lasttimestamp === null ? '' : videotrack_format_video_timestamp($lasttimestamp, $videoduration),
-            $count,
-        ]);
-        if ($csvformat === 'overall') {
-            $row[] = $studentcount;
-        } else {
-            $row[] = $created;
-        }
-        \mod_videotrack\local\csv_export::write_row($fh, $row, $csvdelimiter);
-    };
+        $csvformat === 'overall'
+    );
 
     $scopewhere = "videotrackid = :vtid AND isdeleted = 0 AND {$learnerwhere}";
     $scopeparams = ['vtid' => $videotrack->id] + $learnerparams;
@@ -1367,7 +1313,7 @@ if ($export === 'custom_csv') {
             );
             foreach ($rs as $record) {
                 $isnote = $record->notetype === 'note';
-                $writeeventrow(
+                $eventwriter->write(
                     (int)$record->userid,
                     get_string($isnote ? 'report:eventtype_note' : 'report:eventtype_reaction', 'mod_videotrack'),
                     $isnote ? '' : format_string($record->reactionlabel, true, ['context' => $context]),
@@ -1402,7 +1348,7 @@ if ($export === 'custom_csv') {
                         $clusterlimitreached
                     ) as $cluster
                 ) {
-                    $writeeventrow(
+                    $eventwriter->write(
                         0,
                         get_string('report:eventtype_reaction', 'mod_videotrack'),
                         (string)$cluster['reactionlabel'],
@@ -1423,7 +1369,7 @@ if ($export === 'custom_csv') {
                     &$userevents,
                     &$clusterlimitreached,
                     $window,
-                    $writeeventrow,
+                    $eventwriter,
                     $reactionmap,
                     $sort,
                     $context
@@ -1442,7 +1388,7 @@ if ($export === 'custom_csv') {
                             $clusterlimitreached
                         ) as $cluster
                     ) {
-                        $writeeventrow(
+                        $eventwriter->write(
                             $currentuserid,
                             get_string('report:eventtype_reaction', 'mod_videotrack'),
                             (string)$cluster['reactionlabel'],
@@ -1480,7 +1426,7 @@ if ($export === 'custom_csv') {
             );
             if ($csvformat === 'overall') {
                 foreach (\mod_videotrack\local\csv_export::cluster_notes($noters, $window) as $cluster) {
-                    $writeeventrow(
+                    $eventwriter->write(
                         0,
                         get_string('report:eventtype_note', 'mod_videotrack'),
                         '',
@@ -1495,7 +1441,7 @@ if ($export === 'custom_csv') {
                 }
             } else {
                 foreach ($noters as $note) {
-                    $writeeventrow(
+                    $eventwriter->write(
                         (int)$note->userid,
                         get_string('report:eventtype_note', 'mod_videotrack'),
                         '',
@@ -1523,7 +1469,7 @@ if ($export === 'custom_csv') {
             );
             $bookmarkcount = (int)($bookmarksummary->eventcount ?? 0);
             if ($bookmarkcount > 0) {
-                $writeeventrow(
+                $eventwriter->write(
                     0,
                     get_string('report:bookmarks_count', 'mod_videotrack'),
                     '',
@@ -1546,7 +1492,7 @@ if ($export === 'custom_csv') {
                 $scopeparams
             );
             foreach ($bookmarkrows as $bookmarkrow) {
-                $writeeventrow(
+                $eventwriter->write(
                     (int)$bookmarkrow->userid,
                     get_string('report:bookmarks_count', 'mod_videotrack'),
                     '',

@@ -1,8 +1,8 @@
 # Inventario delle funzioni
 
-Generato dall’albero sorgente VideoTrack 1.7.69. Le voci PHP includono funzioni e metodi nominati; le voci AMD includono dichiarazioni nominate, espressioni funzione assegnate e funzioni-metodo di oggetti.
+Generato dall’albero sorgente VideoTrack 1.7.70. Le voci PHP includono funzioni e metodi nominati; le voci AMD includono dichiarazioni nominate, espressioni funzione assegnate e funzioni-metodo di oggetti.
 
-**PHP functions/methods:** 663. **Named AMD callables:** 647.
+**Funzioni/metodi PHP:** 671. **Callable AMD nominati:** 647.
 
 | Posizione | Callable | Responsabilità |
 |---|---|---|
@@ -841,6 +841,8 @@ Generato dall’albero sorgente VideoTrack 1.7.69. Le voci PHP includono funzion
 | `classes/local/course_analytics.php:361` | `load_states_for_scopes` | Funzione/metodo PHP nominato `load_states_for_scopes`; vedere DocBlock e chiamanti per il contratto corrente. |
 | `classes/local/course_analytics.php:397` | `load_period_segments_for_scopes` | Funzione/metodo PHP nominato `load_period_segments_for_scopes`; vedere DocBlock e chiamanti per il contratto corrente. |
 | `classes/local/course_analytics.php:458` | `load_event_summaries_for_scopes` | Funzione/metodo PHP nominato `load_event_summaries_for_scopes`; vedere DocBlock e chiamanti per il contratto corrente. |
+| `classes/local/csv_event_writer.php:47` | `__construct` | Callable PHP `__construct`; DocBlock e chiamanti definiscono parametri, valori restituiti ed effetti. |
+| `classes/local/csv_event_writer.php:77` | `write` | Callable PHP `write`; DocBlock e chiamanti definiscono parametri, valori restituiti ed effetti. |
 | `classes/local/csv_export.php:79` | `delimiter_options` | Callable PHP `delimiter_options`; DocBlock e chiamanti definiscono parametri, valori restituiti ed effetti. |
 | `classes/local/csv_export.php:98` | `delimiter` | Callable PHP `delimiter`; DocBlock e chiamanti definiscono parametri, valori restituiti ed effetti. |
 | `classes/local/csv_export.php:122` | `field_options` | Callable PHP `field_options`; DocBlock e chiamanti definiscono parametri, valori restituiti ed effetti. |
@@ -851,16 +853,17 @@ Generato dall’albero sorgente VideoTrack 1.7.69. Le voci PHP includono funzion
 | `classes/local/csv_export.php:238` | `process_form_fields` | Callable PHP `process_form_fields`; DocBlock e chiamanti definiscono parametri, valori restituiti ed effetti. |
 | `classes/local/csv_export.php:258` | `selected_user_fields` | Callable PHP `selected_user_fields`; DocBlock e chiamanti definiscono parametri, valori restituiti ed effetti. |
 | `classes/local/csv_export.php:271` | `load_users` | Callable PHP `load_users`; DocBlock e chiamanti definiscono parametri, valori restituiti ed effetti. |
-| `classes/local/csv_export.php:305` | `identity_headers` | Callable PHP `identity_headers`; DocBlock e chiamanti definiscono parametri, valori restituiti ed effetti. |
-| `classes/local/csv_export.php:335` | `identity_values` | Callable PHP `identity_values`; DocBlock e chiamanti definiscono parametri, valori restituiti ed effetti. |
-| `classes/local/csv_export.php:376` | `cluster_notes` | Callable PHP `cluster_notes`; DocBlock e chiamanti definiscono parametri, valori restituiti ed effetti. |
-| `classes/local/csv_export.php:426` | `write_utf8_bom` | Callable PHP `write_utf8_bom`; DocBlock e chiamanti definiscono parametri, valori restituiti ed effetti. |
-| `classes/local/csv_export.php:438` | `write_row` | Callable PHP `write_row`; DocBlock e chiamanti definiscono parametri, valori restituiti ed effetti. |
-| `classes/local/csv_export.php:463` | `safe_value` | Callable PHP `safe_value`; DocBlock e chiamanti definiscono parametri, valori restituiti ed effetti. |
-| `classes/local/csv_export.php:480` | `normalise_field_list` | Callable PHP `normalise_field_list`; DocBlock e chiamanti definiscono parametri, valori restituiti ed effetti. |
-| `classes/local/csv_export.php:494` | `field_label` | Callable PHP `field_label`; DocBlock e chiamanti definiscono parametri, valori restituiti ed effetti. |
-| `classes/local/csv_export.php:512` | `field_value` | Callable PHP `field_value`; DocBlock e chiamanti definiscono parametri, valori restituiti ed effetti. |
-| `classes/local/csv_export.php:549` | `video_url` | Callable PHP `video_url`; DocBlock e chiamanti definiscono parametri, valori restituiti ed effetti. |
+| `classes/local/csv_export.php:305` | `event_headers` | Callable PHP `event_headers`; DocBlock e chiamanti definiscono parametri, valori restituiti ed effetti. |
+| `classes/local/csv_export.php:328` | `identity_headers` | Callable PHP `identity_headers`; DocBlock e chiamanti definiscono parametri, valori restituiti ed effetti. |
+| `classes/local/csv_export.php:358` | `identity_values` | Callable PHP `identity_values`; DocBlock e chiamanti definiscono parametri, valori restituiti ed effetti. |
+| `classes/local/csv_export.php:399` | `cluster_notes` | Callable PHP `cluster_notes`; DocBlock e chiamanti definiscono parametri, valori restituiti ed effetti. |
+| `classes/local/csv_export.php:449` | `write_utf8_bom` | Callable PHP `write_utf8_bom`; DocBlock e chiamanti definiscono parametri, valori restituiti ed effetti. |
+| `classes/local/csv_export.php:461` | `write_row` | Callable PHP `write_row`; DocBlock e chiamanti definiscono parametri, valori restituiti ed effetti. |
+| `classes/local/csv_export.php:486` | `safe_value` | Callable PHP `safe_value`; DocBlock e chiamanti definiscono parametri, valori restituiti ed effetti. |
+| `classes/local/csv_export.php:503` | `normalise_field_list` | Callable PHP `normalise_field_list`; DocBlock e chiamanti definiscono parametri, valori restituiti ed effetti. |
+| `classes/local/csv_export.php:517` | `field_label` | Callable PHP `field_label`; DocBlock e chiamanti definiscono parametri, valori restituiti ed effetti. |
+| `classes/local/csv_export.php:535` | `field_value` | Callable PHP `field_value`; DocBlock e chiamanti definiscono parametri, valori restituiti ed effetti. |
+| `classes/local/csv_export.php:572` | `video_url` | Callable PHP `video_url`; DocBlock e chiamanti definiscono parametri, valori restituiti ed effetti. |
 | `classes/local/forum_bridge.php:47` | `resolve_destination` | Callable PHP `resolve_destination`; DocBlock e chiamanti definiscono parametri, valori restituiti ed effetti. |
 | `classes/local/forum_bridge.php:99` | `get_group_options` | Callable PHP `get_group_options`; DocBlock e chiamanti definiscono parametri, valori restituiti ed effetti. |
 | `classes/local/forum_bridge.php:135` | `can_choose_subscription` | Callable PHP `can_choose_subscription`; DocBlock e chiamanti definiscono parametri, valori restituiti ed effetti. |
@@ -1161,14 +1164,18 @@ Generato dall’albero sorgente VideoTrack 1.7.69. Le voci PHP includono funzion
 | `tests/course_analytics_test.php:287` | `test_exact_report_threshold_exposes_single_learner_period_summary` | Callable PHP `test_exact_report_threshold_exposes_single_learner_period_summary`; DocBlock e chiamanti definiscono parametri, valori restituiti ed effetti. |
 | `tests/course_analytics_test.php:316` | `test_course_report_controller_requests_exact_aggregates` | Callable PHP `test_course_report_controller_requests_exact_aggregates`; DocBlock e chiamanti definiscono parametri, valori restituiti ed effetti. |
 | `tests/course_analytics_test.php:336` | `state` | Callable PHP `state`; DocBlock e chiamanti definiscono parametri, valori restituiti ed effetti. |
+| `tests/csv_event_writer_test.php:36` | `test_write_detailed_event_row` | Callable PHP `test_write_detailed_event_row`; DocBlock e chiamanti definiscono parametri, valori restituiti ed effetti. |
+| `tests/csv_event_writer_test.php:64` | `test_write_overall_event_row` | Callable PHP `test_write_overall_event_row`; DocBlock e chiamanti definiscono parametri, valori restituiti ed effetti. |
+| `tests/csv_event_writer_test.php:92` | `test_write_skips_unknown_positive_user` | Callable PHP `test_write_skips_unknown_positive_user`; DocBlock e chiamanti definiscono parametri, valori restituiti ed effetti. |
 | `tests/csv_export_test.php:37` | `test_delimiter_resolution` | Callable PHP `test_delimiter_resolution`; DocBlock e chiamanti definiscono parametri, valori restituiti ed effetti. |
 | `tests/csv_export_test.php:60` | `test_process_form_fields` | Callable PHP `test_process_form_fields`; DocBlock e chiamanti definiscono parametri, valori restituiti ed effetti. |
 | `tests/csv_export_test.php:77` | `test_field_options_include_video_link` | Callable PHP `test_field_options_include_video_link`; DocBlock e chiamanti definiscono parametri, valori restituiti ed effetti. |
-| `tests/csv_export_test.php:86` | `test_identity_columns_split_lastname_and_firstname` | Callable PHP `test_identity_columns_split_lastname_and_firstname`; DocBlock e chiamanti definiscono parametri, valori restituiti ed effetti. |
-| `tests/csv_export_test.php:101` | `test_cluster_notes_concatenates_comments_and_counts_students` | Callable PHP `test_cluster_notes_concatenates_comments_and_counts_students`; DocBlock e chiamanti definiscono parametri, valori restituiti ed effetti. |
-| `tests/csv_export_test.php:123` | `test_safe_value_blocks_formula_injection` | Callable PHP `test_safe_value_blocks_formula_injection`; DocBlock e chiamanti definiscono parametri, valori restituiti ed effetti. |
-| `tests/csv_export_test.php:133` | `test_write_utf8_bom` | Callable PHP `test_write_utf8_bom`; DocBlock e chiamanti definiscono parametri, valori restituiti ed effetti. |
-| `tests/csv_export_test.php:145` | `test_write_row_supports_section_sign_delimiter` | Callable PHP `test_write_row_supports_section_sign_delimiter`; DocBlock e chiamanti definiscono parametri, valori restituiti ed effetti. |
+| `tests/csv_export_test.php:86` | `test_event_headers_match_custom_export_format` | Callable PHP `test_event_headers_match_custom_export_format`; DocBlock e chiamanti definiscono parametri, valori restituiti ed effetti. |
+| `tests/csv_export_test.php:99` | `test_identity_columns_split_lastname_and_firstname` | Callable PHP `test_identity_columns_split_lastname_and_firstname`; DocBlock e chiamanti definiscono parametri, valori restituiti ed effetti. |
+| `tests/csv_export_test.php:114` | `test_cluster_notes_concatenates_comments_and_counts_students` | Callable PHP `test_cluster_notes_concatenates_comments_and_counts_students`; DocBlock e chiamanti definiscono parametri, valori restituiti ed effetti. |
+| `tests/csv_export_test.php:136` | `test_safe_value_blocks_formula_injection` | Callable PHP `test_safe_value_blocks_formula_injection`; DocBlock e chiamanti definiscono parametri, valori restituiti ed effetti. |
+| `tests/csv_export_test.php:146` | `test_write_utf8_bom` | Callable PHP `test_write_utf8_bom`; DocBlock e chiamanti definiscono parametri, valori restituiti ed effetti. |
+| `tests/csv_export_test.php:158` | `test_write_row_supports_section_sign_delimiter` | Callable PHP `test_write_row_supports_section_sign_delimiter`; DocBlock e chiamanti definiscono parametri, valori restituiti ed effetti. |
 | `tests/forum_bridge_test.php:37` | `setUp` | Callable PHP `setUp`; DocBlock e chiamanti definiscono parametri, valori restituiti ed effetti. |
 | `tests/forum_bridge_test.php:45` | `test_disabled_integration_is_rejected` | Callable PHP `test_disabled_integration_is_rejected`; DocBlock e chiamanti definiscono parametri, valori restituiti ed effetti. |
 | `tests/forum_bridge_test.php:59` | `test_enrolled_student_can_resolve_compatible_forum` | Callable PHP `test_enrolled_student_can_resolve_compatible_forum`; DocBlock e chiamanti definiscono parametri, valori restituiti ed effetti. |
@@ -1244,13 +1251,14 @@ Generato dall’albero sorgente VideoTrack 1.7.69. Le voci PHP includono funzion
 | `tests/report_contract_test.php:35` | `test_student_report_contains_reaction_replay_section` | Callable PHP `test_student_report_contains_reaction_replay_section`; contratto statico di regressione per il controller del report docente. |
 | `tests/report_contract_test.php:48` | `test_instance_analytics_uses_exact_authorised_aggregate_threshold` | Funzione/metodo PHP nominato `test_instance_analytics_uses_exact_authorised_aggregate_threshold`; vedere DocBlock e chiamanti per il contratto corrente. |
 | `tests/report_contract_test.php:74` | `test_report_confirmation_uses_supported_modal_api` | Callable PHP `test_report_confirmation_uses_supported_modal_api`; contratto statico di regressione per il controller del report docente. |
-| `tests/report_contract_test.php:87` | `test_custom_csv_export_supports_private_bookmark_counts` | Callable PHP `test_custom_csv_export_supports_private_bookmark_counts`; contratto statico di regressione per il controller del report docente. |
-| `tests/report_contract_test.php:103` | `test_custom_csv_event_writer_captures_module_context` | Callable PHP `test_custom_csv_event_writer_captures_module_context`; contratto statico di regressione per il controller del report docente. |
-| `tests/report_contract_test.php:119` | `test_student_grade_visibility_depends_on_participation_not_report_access` | Callable PHP `test_student_grade_visibility_depends_on_participation_not_report_access`; contratto statico di regressione per il controller del report docente. |
-| `tests/report_contract_test.php:137` | `test_student_grade_label_uses_plugin_string` | Callable PHP `test_student_grade_label_uses_plugin_string`; contratto statico di regressione per il controller del report docente. |
-| `tests/report_contract_test.php:147` | `test_provider_and_integrity_notices_share_one_alert` | Callable PHP `test_provider_and_integrity_notices_share_one_alert`; contratto statico di regressione per il controller del report docente. |
-| `tests/report_contract_test.php:164` | `test_report_support_helpers_are_extracted_from_controller` | Callable PHP `test_report_support_helpers_are_extracted_from_controller`; contratto statico di regressione per il controller del report docente. |
-| `tests/report_contract_test.php:184` | `test_analytics_rendering_is_extracted_from_report_controller` | Callable PHP `test_analytics_rendering_is_extracted_from_report_controller`; contratto statico di regressione per il controller del report docente. |
+| `tests/report_contract_test.php:87` | `test_custom_csv_event_rows_delegate_to_writer` | Callable PHP `test_custom_csv_event_rows_delegate_to_writer`; DocBlock e chiamanti definiscono parametri, valori restituiti ed effetti. |
+| `tests/report_contract_test.php:99` | `test_custom_csv_export_supports_private_bookmark_counts` | Callable PHP `test_custom_csv_export_supports_private_bookmark_counts`; contratto statico di regressione per il controller del report docente. |
+| `tests/report_contract_test.php:115` | `test_custom_csv_event_writer_receives_module_context` | Callable PHP `test_custom_csv_event_writer_receives_module_context`; DocBlock e chiamanti definiscono parametri, valori restituiti ed effetti. |
+| `tests/report_contract_test.php:131` | `test_student_grade_visibility_depends_on_participation_not_report_access` | Callable PHP `test_student_grade_visibility_depends_on_participation_not_report_access`; contratto statico di regressione per il controller del report docente. |
+| `tests/report_contract_test.php:149` | `test_student_grade_label_uses_plugin_string` | Callable PHP `test_student_grade_label_uses_plugin_string`; contratto statico di regressione per il controller del report docente. |
+| `tests/report_contract_test.php:159` | `test_provider_and_integrity_notices_share_one_alert` | Callable PHP `test_provider_and_integrity_notices_share_one_alert`; contratto statico di regressione per il controller del report docente. |
+| `tests/report_contract_test.php:176` | `test_report_support_helpers_are_extracted_from_controller` | Callable PHP `test_report_support_helpers_are_extracted_from_controller`; contratto statico di regressione per il controller del report docente. |
+| `tests/report_contract_test.php:196` | `test_analytics_rendering_is_extracted_from_report_controller` | Callable PHP `test_analytics_rendering_is_extracted_from_report_controller`; contratto statico di regressione per il controller del report docente. |
 | `tests/report_support_test.php:36` | `test_date_to_timestamp_rejects_invalid_values` | Callable PHP `test_date_to_timestamp_rejects_invalid_values`; copertura comportamentale degli helper estratti per richiesta/filtri/scope report. |
 | `tests/report_support_test.php:53` | `test_duration_filter_preserves_structured_controls` | Callable PHP `test_duration_filter_preserves_structured_controls`; copertura comportamentale degli helper estratti per richiesta/filtri/scope report. |
 | `tests/report_support_test.php:67` | `test_user_label_respects_email_visibility` | Callable PHP `test_user_label_respects_email_visibility`; copertura comportamentale degli helper estratti per richiesta/filtri/scope report. |

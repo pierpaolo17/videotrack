@@ -1,8 +1,8 @@
 # Function inventory
 
-Generated from the VideoTrack 1.7.69 source tree. PHP entries include named functions and methods; AMD entries include named declarations, assigned function expressions and object-method functions.
+Generated from the VideoTrack 1.7.70 source tree. PHP entries include named functions and methods; AMD entries include named declarations, assigned function expressions and object-method functions.
 
-**PHP functions/methods:** 663. **Named AMD callables:** 647.
+**PHP functions/methods:** 671. **Named AMD callables:** 647.
 
 | Location | Callable | Responsibility |
 |---|---|---|
@@ -841,6 +841,8 @@ Generated from the VideoTrack 1.7.69 source tree. PHP entries include named func
 | `classes/local/course_analytics.php:361` | `load_states_for_scopes` | Named PHP function/method `load_states_for_scopes`; see source DocBlock and callers for the current contract. |
 | `classes/local/course_analytics.php:397` | `load_period_segments_for_scopes` | Named PHP function/method `load_period_segments_for_scopes`; see source DocBlock and callers for the current contract. |
 | `classes/local/course_analytics.php:458` | `load_event_summaries_for_scopes` | Named PHP function/method `load_event_summaries_for_scopes`; see source DocBlock and callers for the current contract. |
+| `classes/local/csv_event_writer.php:47` | `__construct` | PHP callable `__construct`; see its DocBlock and callers for parameter, return-value and side-effect details. |
+| `classes/local/csv_event_writer.php:77` | `write` | PHP callable `write`; see its DocBlock and callers for parameter, return-value and side-effect details. |
 | `classes/local/csv_export.php:79` | `delimiter_options` | PHP callable `delimiter_options`; see its DocBlock and callers for parameter, return-value and side-effect details. |
 | `classes/local/csv_export.php:98` | `delimiter` | PHP callable `delimiter`; see its DocBlock and callers for parameter, return-value and side-effect details. |
 | `classes/local/csv_export.php:122` | `field_options` | PHP callable `field_options`; see its DocBlock and callers for parameter, return-value and side-effect details. |
@@ -851,16 +853,17 @@ Generated from the VideoTrack 1.7.69 source tree. PHP entries include named func
 | `classes/local/csv_export.php:238` | `process_form_fields` | PHP callable `process_form_fields`; see its DocBlock and callers for parameter, return-value and side-effect details. |
 | `classes/local/csv_export.php:258` | `selected_user_fields` | PHP callable `selected_user_fields`; see its DocBlock and callers for parameter, return-value and side-effect details. |
 | `classes/local/csv_export.php:271` | `load_users` | PHP callable `load_users`; see its DocBlock and callers for parameter, return-value and side-effect details. |
-| `classes/local/csv_export.php:305` | `identity_headers` | PHP callable `identity_headers`; see its DocBlock and callers for parameter, return-value and side-effect details. |
-| `classes/local/csv_export.php:335` | `identity_values` | PHP callable `identity_values`; see its DocBlock and callers for parameter, return-value and side-effect details. |
-| `classes/local/csv_export.php:376` | `cluster_notes` | PHP callable `cluster_notes`; see its DocBlock and callers for parameter, return-value and side-effect details. |
-| `classes/local/csv_export.php:426` | `write_utf8_bom` | PHP callable `write_utf8_bom`; see its DocBlock and callers for parameter, return-value and side-effect details. |
-| `classes/local/csv_export.php:438` | `write_row` | PHP callable `write_row`; see its DocBlock and callers for parameter, return-value and side-effect details. |
-| `classes/local/csv_export.php:463` | `safe_value` | PHP callable `safe_value`; see its DocBlock and callers for parameter, return-value and side-effect details. |
-| `classes/local/csv_export.php:480` | `normalise_field_list` | PHP callable `normalise_field_list`; see its DocBlock and callers for parameter, return-value and side-effect details. |
-| `classes/local/csv_export.php:494` | `field_label` | PHP callable `field_label`; see its DocBlock and callers for parameter, return-value and side-effect details. |
-| `classes/local/csv_export.php:512` | `field_value` | PHP callable `field_value`; see its DocBlock and callers for parameter, return-value and side-effect details. |
-| `classes/local/csv_export.php:549` | `video_url` | PHP callable `video_url`; see its DocBlock and callers for parameter, return-value and side-effect details. |
+| `classes/local/csv_export.php:305` | `event_headers` | PHP callable `event_headers`; see its DocBlock and callers for parameter, return-value and side-effect details. |
+| `classes/local/csv_export.php:328` | `identity_headers` | PHP callable `identity_headers`; see its DocBlock and callers for parameter, return-value and side-effect details. |
+| `classes/local/csv_export.php:358` | `identity_values` | PHP callable `identity_values`; see its DocBlock and callers for parameter, return-value and side-effect details. |
+| `classes/local/csv_export.php:399` | `cluster_notes` | PHP callable `cluster_notes`; see its DocBlock and callers for parameter, return-value and side-effect details. |
+| `classes/local/csv_export.php:449` | `write_utf8_bom` | PHP callable `write_utf8_bom`; see its DocBlock and callers for parameter, return-value and side-effect details. |
+| `classes/local/csv_export.php:461` | `write_row` | PHP callable `write_row`; see its DocBlock and callers for parameter, return-value and side-effect details. |
+| `classes/local/csv_export.php:486` | `safe_value` | PHP callable `safe_value`; see its DocBlock and callers for parameter, return-value and side-effect details. |
+| `classes/local/csv_export.php:503` | `normalise_field_list` | PHP callable `normalise_field_list`; see its DocBlock and callers for parameter, return-value and side-effect details. |
+| `classes/local/csv_export.php:517` | `field_label` | PHP callable `field_label`; see its DocBlock and callers for parameter, return-value and side-effect details. |
+| `classes/local/csv_export.php:535` | `field_value` | PHP callable `field_value`; see its DocBlock and callers for parameter, return-value and side-effect details. |
+| `classes/local/csv_export.php:572` | `video_url` | PHP callable `video_url`; see its DocBlock and callers for parameter, return-value and side-effect details. |
 | `classes/local/forum_bridge.php:47` | `resolve_destination` | PHP callable `resolve_destination`; see its DocBlock and callers for parameter, return-value and side-effect details. |
 | `classes/local/forum_bridge.php:99` | `get_group_options` | PHP callable `get_group_options`; see its DocBlock and callers for parameter, return-value and side-effect details. |
 | `classes/local/forum_bridge.php:135` | `can_choose_subscription` | PHP callable `can_choose_subscription`; see its DocBlock and callers for parameter, return-value and side-effect details. |
@@ -1161,14 +1164,18 @@ Generated from the VideoTrack 1.7.69 source tree. PHP entries include named func
 | `tests/course_analytics_test.php:287` | `test_exact_report_threshold_exposes_single_learner_period_summary` | PHP callable `test_exact_report_threshold_exposes_single_learner_period_summary`; see its DocBlock and callers for parameter, return-value and side-effect details. |
 | `tests/course_analytics_test.php:316` | `test_course_report_controller_requests_exact_aggregates` | PHP callable `test_course_report_controller_requests_exact_aggregates`; see its DocBlock and callers for parameter, return-value and side-effect details. |
 | `tests/course_analytics_test.php:336` | `state` | PHP callable `state`; see its DocBlock and callers for parameter, return-value and side-effect details. |
+| `tests/csv_event_writer_test.php:36` | `test_write_detailed_event_row` | PHP callable `test_write_detailed_event_row`; see its DocBlock and callers for parameter, return-value and side-effect details. |
+| `tests/csv_event_writer_test.php:64` | `test_write_overall_event_row` | PHP callable `test_write_overall_event_row`; see its DocBlock and callers for parameter, return-value and side-effect details. |
+| `tests/csv_event_writer_test.php:92` | `test_write_skips_unknown_positive_user` | PHP callable `test_write_skips_unknown_positive_user`; see its DocBlock and callers for parameter, return-value and side-effect details. |
 | `tests/csv_export_test.php:37` | `test_delimiter_resolution` | PHP callable `test_delimiter_resolution`; see its DocBlock and callers for parameter, return-value and side-effect details. |
 | `tests/csv_export_test.php:60` | `test_process_form_fields` | PHP callable `test_process_form_fields`; see its DocBlock and callers for parameter, return-value and side-effect details. |
 | `tests/csv_export_test.php:77` | `test_field_options_include_video_link` | PHP callable `test_field_options_include_video_link`; see its DocBlock and callers for parameter, return-value and side-effect details. |
-| `tests/csv_export_test.php:86` | `test_identity_columns_split_lastname_and_firstname` | PHP callable `test_identity_columns_split_lastname_and_firstname`; see its DocBlock and callers for parameter, return-value and side-effect details. |
-| `tests/csv_export_test.php:101` | `test_cluster_notes_concatenates_comments_and_counts_students` | PHP callable `test_cluster_notes_concatenates_comments_and_counts_students`; see its DocBlock and callers for parameter, return-value and side-effect details. |
-| `tests/csv_export_test.php:123` | `test_safe_value_blocks_formula_injection` | PHP callable `test_safe_value_blocks_formula_injection`; see its DocBlock and callers for parameter, return-value and side-effect details. |
-| `tests/csv_export_test.php:133` | `test_write_utf8_bom` | PHP callable `test_write_utf8_bom`; see its DocBlock and callers for parameter, return-value and side-effect details. |
-| `tests/csv_export_test.php:145` | `test_write_row_supports_section_sign_delimiter` | PHP callable `test_write_row_supports_section_sign_delimiter`; see its DocBlock and callers for parameter, return-value and side-effect details. |
+| `tests/csv_export_test.php:86` | `test_event_headers_match_custom_export_format` | PHP callable `test_event_headers_match_custom_export_format`; see its DocBlock and callers for parameter, return-value and side-effect details. |
+| `tests/csv_export_test.php:99` | `test_identity_columns_split_lastname_and_firstname` | PHP callable `test_identity_columns_split_lastname_and_firstname`; see its DocBlock and callers for parameter, return-value and side-effect details. |
+| `tests/csv_export_test.php:114` | `test_cluster_notes_concatenates_comments_and_counts_students` | PHP callable `test_cluster_notes_concatenates_comments_and_counts_students`; see its DocBlock and callers for parameter, return-value and side-effect details. |
+| `tests/csv_export_test.php:136` | `test_safe_value_blocks_formula_injection` | PHP callable `test_safe_value_blocks_formula_injection`; see its DocBlock and callers for parameter, return-value and side-effect details. |
+| `tests/csv_export_test.php:146` | `test_write_utf8_bom` | PHP callable `test_write_utf8_bom`; see its DocBlock and callers for parameter, return-value and side-effect details. |
+| `tests/csv_export_test.php:158` | `test_write_row_supports_section_sign_delimiter` | PHP callable `test_write_row_supports_section_sign_delimiter`; see its DocBlock and callers for parameter, return-value and side-effect details. |
 | `tests/forum_bridge_test.php:37` | `setUp` | PHP callable `setUp`; see its DocBlock and callers for parameter, return-value and side-effect details. |
 | `tests/forum_bridge_test.php:45` | `test_disabled_integration_is_rejected` | PHP callable `test_disabled_integration_is_rejected`; see its DocBlock and callers for parameter, return-value and side-effect details. |
 | `tests/forum_bridge_test.php:59` | `test_enrolled_student_can_resolve_compatible_forum` | PHP callable `test_enrolled_student_can_resolve_compatible_forum`; see its DocBlock and callers for parameter, return-value and side-effect details. |
@@ -1244,13 +1251,14 @@ Generated from the VideoTrack 1.7.69 source tree. PHP entries include named func
 | `tests/report_contract_test.php:35` | `test_student_report_contains_reaction_replay_section` | PHP callable `test_student_report_contains_reaction_replay_section`; static regression contract for the teacher report controller. |
 | `tests/report_contract_test.php:48` | `test_instance_analytics_uses_exact_authorised_aggregate_threshold` | Named PHP function/method `test_instance_analytics_uses_exact_authorised_aggregate_threshold`; see source DocBlock and callers for the current contract. |
 | `tests/report_contract_test.php:74` | `test_report_confirmation_uses_supported_modal_api` | PHP callable `test_report_confirmation_uses_supported_modal_api`; static regression contract for the teacher report controller. |
-| `tests/report_contract_test.php:87` | `test_custom_csv_export_supports_private_bookmark_counts` | PHP callable `test_custom_csv_export_supports_private_bookmark_counts`; static regression contract for the teacher report controller. |
-| `tests/report_contract_test.php:103` | `test_custom_csv_event_writer_captures_module_context` | PHP callable `test_custom_csv_event_writer_captures_module_context`; static regression contract for the teacher report controller. |
-| `tests/report_contract_test.php:119` | `test_student_grade_visibility_depends_on_participation_not_report_access` | PHP callable `test_student_grade_visibility_depends_on_participation_not_report_access`; static regression contract for the teacher report controller. |
-| `tests/report_contract_test.php:137` | `test_student_grade_label_uses_plugin_string` | PHP callable `test_student_grade_label_uses_plugin_string`; static regression contract for the teacher report controller. |
-| `tests/report_contract_test.php:147` | `test_provider_and_integrity_notices_share_one_alert` | PHP callable `test_provider_and_integrity_notices_share_one_alert`; static regression contract for the teacher report controller. |
-| `tests/report_contract_test.php:164` | `test_report_support_helpers_are_extracted_from_controller` | PHP callable `test_report_support_helpers_are_extracted_from_controller`; static regression contract for the teacher report controller. |
-| `tests/report_contract_test.php:184` | `test_analytics_rendering_is_extracted_from_report_controller` | PHP callable `test_analytics_rendering_is_extracted_from_report_controller`; static regression contract for the teacher report controller. |
+| `tests/report_contract_test.php:87` | `test_custom_csv_event_rows_delegate_to_writer` | PHP callable `test_custom_csv_event_rows_delegate_to_writer`; see its DocBlock and callers for parameter, return-value and side-effect details. |
+| `tests/report_contract_test.php:99` | `test_custom_csv_export_supports_private_bookmark_counts` | PHP callable `test_custom_csv_export_supports_private_bookmark_counts`; static regression contract for the teacher report controller. |
+| `tests/report_contract_test.php:115` | `test_custom_csv_event_writer_receives_module_context` | PHP callable `test_custom_csv_event_writer_receives_module_context`; see its DocBlock and callers for parameter, return-value and side-effect details. |
+| `tests/report_contract_test.php:131` | `test_student_grade_visibility_depends_on_participation_not_report_access` | PHP callable `test_student_grade_visibility_depends_on_participation_not_report_access`; static regression contract for the teacher report controller. |
+| `tests/report_contract_test.php:149` | `test_student_grade_label_uses_plugin_string` | PHP callable `test_student_grade_label_uses_plugin_string`; static regression contract for the teacher report controller. |
+| `tests/report_contract_test.php:159` | `test_provider_and_integrity_notices_share_one_alert` | PHP callable `test_provider_and_integrity_notices_share_one_alert`; static regression contract for the teacher report controller. |
+| `tests/report_contract_test.php:176` | `test_report_support_helpers_are_extracted_from_controller` | PHP callable `test_report_support_helpers_are_extracted_from_controller`; static regression contract for the teacher report controller. |
+| `tests/report_contract_test.php:196` | `test_analytics_rendering_is_extracted_from_report_controller` | PHP callable `test_analytics_rendering_is_extracted_from_report_controller`; static regression contract for the teacher report controller. |
 | `tests/report_support_test.php:36` | `test_date_to_timestamp_rejects_invalid_values` | PHP callable `test_date_to_timestamp_rejects_invalid_values`; behavioural coverage for extracted report request/filter/scope helpers. |
 | `tests/report_support_test.php:53` | `test_duration_filter_preserves_structured_controls` | PHP callable `test_duration_filter_preserves_structured_controls`; behavioural coverage for extracted report request/filter/scope helpers. |
 | `tests/report_support_test.php:67` | `test_user_label_respects_email_visibility` | PHP callable `test_user_label_respects_email_visibility`; behavioural coverage for extracted report request/filter/scope helpers. |

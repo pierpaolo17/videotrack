@@ -82,6 +82,18 @@ final class report_contract_test extends advanced_testcase {
     }
 
     /**
+     * Custom CSV event rows must delegate stable export context to the dedicated writer.
+     */
+    public function test_custom_csv_event_rows_delegate_to_writer(): void {
+        $source = file_get_contents(__DIR__ . '/../report.php');
+        $this->assertIsString($source);
+
+        $this->assertStringContainsString('new \mod_videotrack\local\csv_event_writer(', $source);
+        $this->assertStringContainsString('$eventwriter->write(', $source);
+        $this->assertStringNotContainsString('$writeeventrow = static function', $source);
+    }
+
+    /**
      * The custom teacher CSV export must offer privacy-safe bookmark counts.
      */
     public function test_custom_csv_export_supports_private_bookmark_counts(): void {
@@ -98,19 +110,19 @@ final class report_contract_test extends advanced_testcase {
     }
 
     /**
-     * The custom CSV row writer must capture the module context used by identity formatting.
+     * The custom CSV event writer must receive the module context used by identity formatting.
      */
-    public function test_custom_csv_event_writer_captures_module_context(): void {
+    public function test_custom_csv_event_writer_receives_module_context(): void {
         $source = file_get_contents(__DIR__ . '/../report.php');
         $this->assertIsString($source);
 
-        $start = strpos($source, '$writeeventrow = static function (');
+        $start = strpos($source, 'new \mod_videotrack\local\csv_event_writer(');
         $this->assertNotFalse($start);
-        $body = strpos($source, '): void {', $start);
-        $this->assertNotFalse($body);
-        $signature = substr($source, $start, $body - $start);
+        $end = strpos($source, ');', $start);
+        $this->assertNotFalse($end);
+        $constructor = substr($source, $start, $end - $start);
 
-        $this->assertStringContainsString('$context', $signature);
+        $this->assertStringContainsString('$context', $constructor);
     }
 
     /**

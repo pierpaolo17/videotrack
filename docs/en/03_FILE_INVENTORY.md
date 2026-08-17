@@ -1,8 +1,8 @@
 # Distributed file inventory
 
-This inventory is generated against the VideoTrack 1.7.69 tree and lists every non-documentation file. Canonical JavaScript is under `amd/src`; files under `amd/build` are generated.
+This inventory is generated against the VideoTrack 1.7.70 tree and lists every non-documentation file. Canonical JavaScript is under `amd/src`; files under `amd/build` are generated.
 
-Entries: **271**.
+Entries: **273**.
 
 | File | Responsibility |
 |---|---|
@@ -189,6 +189,7 @@ Entries: **271**.
 | `classes/local/analytics_table_export.php` | Builds privacy-safe rows for the accessible analytics table export. |
 | `classes/local/completion_config.php` | Current local domain/service class; see source DocBlock for its runtime contract. |
 | `classes/local/course_analytics.php` | Privacy-safe aggregation for the course-level VideoTrack dashboard. |
+| `classes/local/csv_event_writer.php` | Stateful writer for custom teacher-report CSV event rows. |
 | `classes/local/csv_export.php` | CSV export configuration and formatting helpers. |
 | `classes/local/forum_bridge.php` | Forum integration adapter for VideoTrack. |
 | `classes/local/integrity.php` | Integrity-indicator definitions and privacy-safe aggregation helpers. |
@@ -243,6 +244,7 @@ Entries: **271**.
 | `tests/cli_contract_test.php` | Static contracts keeping the distributed CLI tools read-only, documented and tied to real Analytics paths. |
 | `tests/completion_contract_test.php` | Current PHPUnit/contract test distributed with the plugin. |
 | `tests/course_analytics_test.php` | PHPUnit coverage for course analytics test. |
+| `tests/csv_event_writer_test.php` | PHPUnit coverage for custom CSV event-row writing. |
 | `tests/csv_export_test.php` | PHPUnit coverage for csv export test. |
 | `tests/forum_bridge_test.php` | PHPUnit coverage for forum bridge test. |
 | `tests/gradebook_restore_contract_test.php` | Current PHPUnit/contract test distributed with the plugin. |
