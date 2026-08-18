@@ -109,6 +109,42 @@ final class report_support_test extends \advanced_testcase {
         $this->assertSame('1 = 0', $acksql);
         $this->assertSame([], $ackparams);
     }
+
+    /**
+     * Reaction Analytics filtering preserves scope, event type and optional provider selection.
+     */
+    public function test_analytics_reaction_condition_preserves_scope_and_provider_filter(): void {
+        [$conditions, $params] = report_support::analytics_reaction_condition(
+            'videotrackid = :analyticsreactionvt0 AND userid = :analyticsreactionlearner0',
+            ['analyticsreactionvt0' => 42, 'analyticsreactionlearner0' => 7],
+            'provider-video-123'
+        );
+
+        $this->assertSame(
+            "(videotrackid = :analyticsreactionvt0 AND userid = :analyticsreactionlearner0)" .
+                " AND isdeleted = 0 AND (notetype = '' OR notetype IS NULL)" .
+                ' AND videoid = :analyticsreactionvideoid',
+            $conditions
+        );
+        $this->assertSame([
+            'analyticsreactionvt0' => 42,
+            'analyticsreactionlearner0' => 7,
+            'analyticsreactionvideoid' => 'provider-video-123',
+        ], $params);
+
+        [$minimalconditions, $minimalparams] = report_support::analytics_reaction_condition(
+            'videotrackid = :analyticsreactionvt0',
+            ['analyticsreactionvt0' => 42],
+            ''
+        );
+        $this->assertSame(
+            "(videotrackid = :analyticsreactionvt0) AND isdeleted = 0 " .
+                "AND (notetype = '' OR notetype IS NULL)",
+            $minimalconditions
+        );
+        $this->assertSame(['analyticsreactionvt0' => 42], $minimalparams);
+    }
+
     /**
      * Standard reaction-event filters preserve learner scope and optional bounds.
      */
