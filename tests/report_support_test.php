@@ -313,6 +313,35 @@ final class report_support_test extends \advanced_testcase {
     }
 
     /**
+     * Segment-user discovery preserves the canonical learner scope and parameter names.
+     */
+    public function test_segment_user_condition_preserves_scope(): void {
+        [$conditions, $params] = report_support::segment_user_condition(
+            42,
+            'userid IN (:learnerone, :learnertwo)',
+            ['learnerone' => 7, 'learnertwo' => 8]
+        );
+
+        $this->assertSame(
+            'videotrackid = :vtid AND userid IN (:learnerone, :learnertwo)',
+            $conditions
+        );
+        $this->assertSame([
+            'vtid' => 42,
+            'learnerone' => 7,
+            'learnertwo' => 8,
+        ], $params);
+
+        [$minimalconditions, $minimalparams] = report_support::segment_user_condition(
+            42,
+            'userid = :learner',
+            ['learner' => 7]
+        );
+        $this->assertSame('videotrackid = :vtid AND userid = :learner', $minimalconditions);
+        $this->assertSame(['vtid' => 42, 'learner' => 7], $minimalparams);
+    }
+
+    /**
      * User options preserve source-group priority, deduplicate ids and omit missing users.
      */
     public function test_user_options_preserve_source_priority_and_privacy(): void {

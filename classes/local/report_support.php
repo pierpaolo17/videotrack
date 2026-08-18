@@ -490,6 +490,28 @@ final class report_support {
     }
 
     /**
+     * Builds the segment-user discovery condition and named parameters.
+     *
+     * This condition is used only to discover learners represented by validated/raw segment rows
+     * when assembling the report user filter options. Segment loading and Analytics remain separate.
+     *
+     * @param int $videotrackid VideoTrack instance id.
+     * @param string $learnerwhere Canonical learner-scope SQL fragment.
+     * @param array $learnerparams Canonical learner-scope named parameters.
+     * @return array Tuple of SQL condition and named parameters.
+     */
+    public static function segment_user_condition(
+        int $videotrackid,
+        string $learnerwhere,
+        array $learnerparams
+    ): array {
+        return [
+            "videotrackid = :vtid AND {$learnerwhere}",
+            ['vtid' => $videotrackid] + $learnerparams,
+        ];
+    }
+
+    /**
      * Builds the report user filter options in source-priority order.
      *
      * @param array $useridgroups Ordered groups of Moodle user ids.

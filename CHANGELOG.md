@@ -1,5 +1,11 @@
 # VideoTrack changelog
 
+## 1.7.79 - 2026-08-18
+
+- Continue U-017 maintainability from the server-green 1.7.78 baseline by moving segment-user discovery SQL/parameter construction out of `report.php` into `local\report_support::segment_user_condition()`.
+- Preserve the canonical learner scope and existing `vtid` named parameter exactly under direct behavioural PHPUnit coverage plus the controller-delegation contract; no learner filter is added because the original segment-user discovery query did not apply one.
+- Keep segment loading/validation, state queries, report capabilities/privacy, export paths, Analytics, schema, tracking, completion and AMD/player runtime unchanged.
+
 ## 1.7.78 - 2026-08-18
 
 - Continue U-017 maintainability from the server-green 1.7.77 baseline by moving `videotrack_state` report SQL/parameter construction out of `report.php` into `local\report_support::state_condition()`.
