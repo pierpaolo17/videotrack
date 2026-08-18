@@ -1121,11 +1121,16 @@ $stateuserids = array_map('intval', $DB->get_fieldset_select(
     $stateconditions,
     $stateparamsnamed
 ));
+[$segmentuserwhere, $segmentuserparams] = \mod_videotrack\local\report_support::segment_user_condition(
+    (int)$videotrack->id,
+    $learnerwhere,
+    $learnerparams
+);
 $segmentuserids = array_map('intval', $DB->get_fieldset_select(
     'videotrack_seg',
     'DISTINCT userid',
-    "videotrackid = :vtid AND {$learnerwhere}",
-    ['vtid' => $videotrack->id] + $learnerparams
+    $segmentuserwhere,
+    $segmentuserparams
 ));
 $getstaterecordset = static function () use ($DB, $stateconditions, $stateparamsnamed) {
     return $DB->get_recordset_select(

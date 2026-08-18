@@ -1,8 +1,8 @@
 # Function inventory
 
-Generated from the VideoTrack 1.7.78 source tree. PHP entries include named functions and methods; AMD entries include named declarations, assigned function expressions and object-method functions.
+Generated from the VideoTrack 1.7.79 source tree. PHP entries include named functions and methods; AMD entries include named declarations, assigned function expressions and object-method functions.
 
-**PHP functions/methods:** 691. **Named AMD callables:** 647.
+**PHP functions/methods:** 693. **Named AMD callables:** 647.
 
 | Location | Callable | Responsibility |
 |---|---|---|
@@ -912,9 +912,10 @@ Generated from the VideoTrack 1.7.78 source tree. PHP entries include named func
 | `classes/local/report_support.php:416` | `integrity_event_condition` | PHP callable `report_support::integrity_event_condition`; standard integrity-event SQL/parameter construction with learner scope and optional report filters. |
 | `classes/local/report_support.php:453` | `note_user_condition` | PHP callable `report_support::note_user_condition`; personal-note user-discovery SQL/parameter construction with learner scope and optional learner filtering. |
 | `classes/local/report_support.php:477` | `state_condition` | PHP callable `report_support::state_condition`; state-row SQL/parameter construction with learner scope and optional learner filtering. |
-| `classes/local/report_support.php:500` | `user_options` | PHP callable `report_support::user_options`; source-priority report-user option assembly with privacy-preserving labels. |
-| `classes/local/report_support.php:532` | `cluster_reaction_events` | PHP callable `report_support::cluster_reaction_events`; bounded reaction clustering with existing window, student-count and sort semantics. |
-| `classes/local/report_support.php:610` | `tabs` | PHP callable `report_support::tabs`; capability-dependent teacher-report tab construction. |
+| `classes/local/report_support.php:503` | `segment_user_condition` | PHP callable `report_support::segment_user_condition`; segment-user discovery SQL/parameter construction with the canonical learner scope. |
+| `classes/local/report_support.php:522` | `user_options` | PHP callable `report_support::user_options`; source-priority report-user option assembly with privacy-preserving labels. |
+| `classes/local/report_support.php:554` | `cluster_reaction_events` | PHP callable `report_support::cluster_reaction_events`; bounded reaction clustering with existing window, student-count and sort semantics. |
+| `classes/local/report_support.php:632` | `tabs` | PHP callable `report_support::tabs`; capability-dependent teacher-report tab construction. |
 | `classes/local/report_view.php:42` | `analytics_interval` | PHP callable `report_view::analytics_interval`; see its DocBlock and callers for parameter, return-value and side-effect details. |
 | `classes/local/report_view.php:56` | `analytics_heatmap` | PHP callable `report_view::analytics_heatmap`; see its DocBlock and callers for parameter, return-value and side-effect details. |
 | `classes/local/report_view.php:188` | `analytics_methodology` | PHP callable `report_view::analytics_methodology`; see its DocBlock and callers for parameter, return-value and side-effect details. |
@@ -1284,8 +1285,9 @@ Generated from the VideoTrack 1.7.78 source tree. PHP entries include named func
 | `tests/report_support_test.php:207` | `test_integrity_event_condition_preserves_filters_and_scope` | PHP callable `test_integrity_event_condition_preserves_filters_and_scope`; behavioural coverage for extracted standard integrity-event SQL/parameter construction. |
 | `tests/report_support_test.php:250` | `test_note_user_condition_preserves_scope_and_optional_user` | PHP callable `test_note_user_condition_preserves_scope_and_optional_user`; behavioural coverage for extracted personal-note user-discovery SQL/parameter construction. |
 | `tests/report_support_test.php:286` | `test_state_condition_preserves_scope_and_optional_user` | PHP callable `test_state_condition_preserves_scope_and_optional_user`; behavioural coverage for extracted state-row SQL/parameter construction. |
-| `tests/report_support_test.php:318` | `test_user_options_preserve_source_priority_and_privacy` | PHP callable `test_user_options_preserve_source_priority_and_privacy`; behavioural coverage for extracted report-user option assembly. |
-| `tests/report_support_test.php:350` | `test_cluster_reaction_events_preserves_report_semantics` | PHP callable `test_cluster_reaction_events_preserves_report_semantics`; behavioural coverage for extracted reaction clustering. |
+| `tests/report_support_test.php:318` | `test_segment_user_condition_preserves_scope` | PHP callable `test_segment_user_condition_preserves_scope`; behavioural coverage for extracted segment-user discovery SQL/parameter construction. |
+| `tests/report_support_test.php:347` | `test_user_options_preserve_source_priority_and_privacy` | PHP callable `test_user_options_preserve_source_priority_and_privacy`; behavioural coverage for extracted report-user option assembly. |
+| `tests/report_support_test.php:379` | `test_cluster_reaction_events_preserves_report_semantics` | PHP callable `test_cluster_reaction_events_preserves_report_semantics`; behavioural coverage for extracted reaction clustering. |
 | `tests/report_view_test.php:35` | `setUp` | PHP callable `setUp`; behavioural coverage for the extracted Analytics presentation helper. |
 | `tests/report_view_test.php:43` | `test_reaction_summary_preserves_privacy_contract` | PHP callable `test_reaction_summary_preserves_privacy_contract`; behavioural coverage for the extracted Analytics presentation helper. |
 | `tests/report_view_test.php:65` | `test_exact_analytics_methodology_omits_privacy_threshold_text` | Named PHP function/method `test_exact_analytics_methodology_omits_privacy_threshold_text`; see source DocBlock and callers for the current contract. |
