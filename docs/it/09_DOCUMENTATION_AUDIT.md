@@ -1,6 +1,6 @@
 # Audit della documentazione
 
-Baseline: VideoTrack **1.7.76** (`2026081800`).
+Baseline: VideoTrack **1.7.77** (`2026081801`).
 
 ## Copertura
 
@@ -18,6 +18,17 @@ Baseline: VideoTrack **1.7.76** (`2026081800`).
 - Automazione browser Behat documentata in `22_TEST_BROWSER_BEHAT.md`; U-007 è tracciato come in corso.
 - I contratti statici resume/completion/alert impilati coprono i tre provider mentre Behat resta indisponibile nell’ambiente maintainer; l’evidenza browser resta esplicitamente pendente.
 - La navigazione capitoli ha ora un contratto esplicito focus-visible/colori forzati; la matrice manuale tastiera/high-contrast resta un gate per la chiusura finale di U-020.
+
+## Verifica documentazione pre-produzione 1.7.77
+
+- Inventario corrente dei file non documentali rigenerato sull'albero candidato 1.7.77: **275/275** voci.
+- Inventario funzioni rigenerato dalle posizioni sorgente: **689** funzioni/metodi PHP nominati e **647** callable AMD nominati rilevati.
+- La release 1.7.77 riprende U-017 con l'estrazione meccanicamente equivalente della costruzione SQL/parametri usata per individuare gli utenti con note personali da `report.php` a `local\report_support::note_user_condition()`, con copertura comportamentale e contratto di delega del controller.
+- Learner scope, selezione opzionale dello studente e chiavi parametro `vtid`/`uid` restano invariati; contenuto/filtri data delle note, privacy delle note ed export restano intenzionalmente fuori da questa tranche.
+- Le tabelle XMLDB restano **7**, le impostazioni **57**, i servizi AJAX **9** e le chiavi di configurazione browser/player **133**.
+- Gli otto language pack mantenuti restano allineati a **987** chiavi con placeholder Moodle coerenti.
+- I link Markdown relativi sono stati ricontrollati sull'albero candidato senza target mancanti.
+- U-017 resta in corso; la tranche successiva deve continuare con un'altra piccola estrazione server-side autonoma solo dopo gate maintainer PHPUnit/PHPCS verdi.
 
 ## Verifica documentazione pre-produzione 1.7.76
 

@@ -245,6 +245,42 @@ final class report_support_test extends \advanced_testcase {
     }
 
     /**
+     * Note-user discovery preserves learner scope and optional user filtering.
+     */
+    public function test_note_user_condition_preserves_scope_and_optional_user(): void {
+        [$conditions, $params] = report_support::note_user_condition(
+            42,
+            'userid IN (:learnerone, :learnertwo)',
+            ['learnerone' => 7, 'learnertwo' => 8],
+            7
+        );
+
+        $this->assertSame(
+            "videotrackid = :vtid AND isdeleted = 0 AND notetype = 'note'" .
+                ' AND userid IN (:learnerone, :learnertwo) AND userid = :uid',
+            $conditions
+        );
+        $this->assertSame([
+            'vtid' => 42,
+            'learnerone' => 7,
+            'learnertwo' => 8,
+            'uid' => 7,
+        ], $params);
+
+        [$minimalconditions, $minimalparams] = report_support::note_user_condition(
+            42,
+            'userid = :learner',
+            ['learner' => 7],
+            0
+        );
+        $this->assertSame(
+            "videotrackid = :vtid AND isdeleted = 0 AND notetype = 'note' AND userid = :learner",
+            $minimalconditions
+        );
+        $this->assertSame(['vtid' => 42, 'learner' => 7], $minimalparams);
+    }
+
+    /**
      * User options preserve source-group priority, deduplicate ids and omit missing users.
      */
     public function test_user_options_preserve_source_priority_and_privacy(): void {

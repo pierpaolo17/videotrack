@@ -439,6 +439,33 @@ final class report_support {
     }
 
     /**
+     * Builds the note-user discovery condition and named parameters.
+     *
+     * This condition is used only to discover learners with personal notes for report user options.
+     * Note content, date filtering and export paths remain separate.
+     *
+     * @param int $videotrackid VideoTrack instance id.
+     * @param string $learnerwhere Canonical learner-scope SQL fragment.
+     * @param array $learnerparams Canonical learner-scope named parameters.
+     * @param int $useridfilter Optional Moodle user id filter.
+     * @return array Tuple of SQL condition and named parameters.
+     */
+    public static function note_user_condition(
+        int $videotrackid,
+        string $learnerwhere,
+        array $learnerparams,
+        int $useridfilter
+    ): array {
+        $conditions = "videotrackid = :vtid AND isdeleted = 0 AND notetype = 'note' AND {$learnerwhere}";
+        $params = ['vtid' => $videotrackid] + $learnerparams;
+        if ($useridfilter > 0) {
+            $conditions .= ' AND userid = :uid';
+            $params['uid'] = $useridfilter;
+        }
+        return [$conditions, $params];
+    }
+
+    /**
      * Builds the report user filter options in source-priority order.
      *
      * @param array $useridgroups Ordered groups of Moodle user ids.

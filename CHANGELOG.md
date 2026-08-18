@@ -1,5 +1,11 @@
 # VideoTrack changelog
 
+## 1.7.77 - 2026-08-18
+
+- Resume U-017 maintainability from the server-green 1.7.76 baseline by moving personal-note user-discovery SQL/parameter construction out of `report.php` into `local\report_support::note_user_condition()`.
+- Preserve the canonical learner scope, optional learner filter and existing `vtid`/`uid` named parameters under direct behavioural PHPUnit coverage plus the controller-delegation contract.
+- Keep note content/date filtering, personal-note privacy, CSV exports, report capabilities, Analytics, schema, tracking, completion and AMD/player runtime unchanged.
+
 ## 1.7.76 - 2026-08-18
 
 - Correct the PHPCS/Moodle Extra PSR-12 blocker in `tests/report_contract_test.php` reported against the otherwise-green 1.7.75 authorisation release by assigning the granular capability names to a local array before iterating them.

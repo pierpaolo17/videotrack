@@ -1139,12 +1139,12 @@ $getstaterecordset = static function () use ($DB, $stateconditions, $stateparams
 // Collect note user ids (they may have neither state nor events).
 $noteuserids = [];
 if (!empty($videotrack->studentnotesenabled)) {
-    $noteuidparams = ['vtid' => $videotrack->id] + $learnerparams;
-    $noteuidwhere  = "videotrackid = :vtid AND isdeleted = 0 AND notetype = 'note' AND {$learnerwhere}";
-    if ($useridfilter > 0) {
-        $noteuidwhere .= ' AND userid = :uid';
-        $noteuidparams['uid'] = $useridfilter;
-    }
+    [$noteuidwhere, $noteuidparams] = \mod_videotrack\local\report_support::note_user_condition(
+        (int)$videotrack->id,
+        $learnerwhere,
+        $learnerparams,
+        $useridfilter
+    );
     foreach ($DB->get_fieldset_select('videotrack_reactev', 'DISTINCT userid', $noteuidwhere, $noteuidparams) as $nuid) {
         $noteuserids[] = (int)$nuid;
     }
