@@ -146,6 +146,40 @@ final class report_support_test extends \advanced_testcase {
     }
 
     /**
+     * Bookmark Analytics filtering preserves scope, event type and optional provider selection.
+     */
+    public function test_analytics_bookmark_condition_preserves_scope_and_provider_filter(): void {
+        [$conditions, $params] = report_support::analytics_bookmark_condition(
+            'videotrackid = :analyticsbookmarkvt0 AND userid = :analyticsbookmarklearner0',
+            ['analyticsbookmarkvt0' => 42, 'analyticsbookmarklearner0' => 7],
+            'provider-video-123'
+        );
+
+        $this->assertSame(
+            "(videotrackid = :analyticsbookmarkvt0 AND userid = :analyticsbookmarklearner0)" .
+                " AND isdeleted = 0 AND notetype = 'bookmark'" .
+                ' AND videoid = :analyticsbookmarkvideoid',
+            $conditions
+        );
+        $this->assertSame([
+            'analyticsbookmarkvt0' => 42,
+            'analyticsbookmarklearner0' => 7,
+            'analyticsbookmarkvideoid' => 'provider-video-123',
+        ], $params);
+
+        [$minimalconditions, $minimalparams] = report_support::analytics_bookmark_condition(
+            'videotrackid = :analyticsbookmarkvt0',
+            ['analyticsbookmarkvt0' => 42],
+            ''
+        );
+        $this->assertSame(
+            "(videotrackid = :analyticsbookmarkvt0) AND isdeleted = 0 AND notetype = 'bookmark'",
+            $minimalconditions
+        );
+        $this->assertSame(['analyticsbookmarkvt0' => 42], $minimalparams);
+    }
+
+    /**
      * Standard reaction-event filters preserve learner scope and optional bounds.
      */
     public function test_reaction_event_condition_preserves_filters_and_scope(): void {

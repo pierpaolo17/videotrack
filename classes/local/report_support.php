@@ -275,6 +275,30 @@ final class report_support {
     }
 
     /**
+     * Adds bookmark and optional provider filtering to an Analytics scope condition.
+     *
+     * Deleted rows and non-bookmark reaction events are intentionally excluded from bookmark Analytics.
+     *
+     * @param string $scopewhere Capability-safe Analytics scope SQL fragment.
+     * @param array $scopeparams Capability-safe Analytics scope named parameters.
+     * @param string $providerdataid Optional provider video id filter.
+     * @return array Tuple of SQL condition and named parameters.
+     */
+    public static function analytics_bookmark_condition(
+        string $scopewhere,
+        array $scopeparams,
+        string $providerdataid
+    ): array {
+        $conditions = '(' . $scopewhere . ") AND isdeleted = 0 AND notetype = 'bookmark'";
+        $params = $scopeparams;
+        if ($providerdataid !== '') {
+            $conditions .= ' AND videoid = :analyticsbookmarkvideoid';
+            $params['analyticsbookmarkvideoid'] = $providerdataid;
+        }
+        return [$conditions, $params];
+    }
+
+    /**
      * Builds a capability-safe SQL condition for current acknowledgement versions.
      *
      * Each enabled activity contributes its own statement hash. Group restrictions

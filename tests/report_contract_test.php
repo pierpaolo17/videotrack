@@ -240,6 +240,7 @@ final class report_contract_test extends advanced_testcase {
         $this->assertStringContainsString('report_support::optional_time_param(', $report);
         $this->assertStringContainsString('report_support::analytics_scope_condition(', $report);
         $this->assertStringContainsString('report_support::analytics_reaction_condition(', $report);
+        $this->assertStringContainsString('report_support::analytics_bookmark_condition(', $report);
         $this->assertStringContainsString('report_support::tabs(', $report);
         $this->assertStringContainsString('report_support::user_options(', $report);
         $this->assertStringContainsString('report_support::cluster_reaction_events(', $report);
@@ -256,6 +257,10 @@ final class report_contract_test extends advanced_testcase {
         $this->assertStringNotContainsString('$clusterize = function', $report);
         $this->assertStringNotContainsString(
             "\$reactionwhere = '(' . \$reactionwhere . ') AND isdeleted = 0'",
+            $report
+        );
+        $this->assertStringNotContainsString(
+            '$bookmarkwhere = \'(\' . $bookmarkwhere . ") AND isdeleted = 0 AND notetype = \'bookmark\'";',
             $report
         );
         $this->assertStringNotContainsString(

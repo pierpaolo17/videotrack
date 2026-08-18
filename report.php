@@ -354,11 +354,11 @@ if ($mode === 'analytics') {
             'analyticsbookmark',
             (int)$USER->id
         );
-        $bookmarkwhere = '(' . $bookmarkwhere . ") AND isdeleted = 0 AND notetype = 'bookmark'";
-        if ($providerdataid !== '') {
-            $bookmarkwhere .= ' AND videoid = :analyticsbookmarkvideoid';
-            $bookmarkparams['analyticsbookmarkvideoid'] = $providerdataid;
-        }
+        [$bookmarkwhere, $bookmarkparams] = \mod_videotrack\local\report_support::analytics_bookmark_condition(
+            $bookmarkwhere,
+            $bookmarkparams,
+            $providerdataid
+        );
         $bookmarksummaryrecord = $DB->get_record_sql(
             "SELECT COUNT(id) AS eventcount, COUNT(DISTINCT userid) AS studentcount
                FROM {videotrack_reactev}
