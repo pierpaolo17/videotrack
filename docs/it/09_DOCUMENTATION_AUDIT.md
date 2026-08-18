@@ -1,6 +1,6 @@
 # Audit della documentazione
 
-Baseline: VideoTrack **1.7.75** (`2026081717`).
+Baseline: VideoTrack **1.7.76** (`2026081800`).
 
 ## Copertura
 
@@ -19,9 +19,9 @@ Baseline: VideoTrack **1.7.75** (`2026081717`).
 - I contratti statici resume/completion/alert impilati coprono i tre provider mentre Behat resta indisponibile nell’ambiente maintainer; l’evidenza browser resta esplicitamente pendente.
 - La navigazione capitoli ha ora un contratto esplicito focus-visible/colori forzati; la matrice manuale tastiera/high-contrast resta un gate per la chiusura finale di U-020.
 
-## Verifica documentazione pre-produzione 1.7.75
+## Verifica documentazione pre-produzione 1.7.76
 
-- Inventario corrente dei file non documentali rigenerato sull'albero candidato 1.7.75: **275/275** voci.
+- Inventario corrente dei file non documentali rigenerato sull'albero candidato 1.7.76: **275/275** voci.
 - Inventario funzioni rigenerato sulle posizioni sorgente correnti: **687** funzioni/metodi PHP nominati e **647** callable AMD nominati rilevati.
 - I report di attività separano ora vista aggregata, vista individuale, export aggregato ed export individuale tramite quattro capability nel contesto modulo; la capability storica `mod/videotrack:viewreport` resta un grant completo retrocompatibile e l’upgrade ne clona le assegnazioni di ruolo esistenti sulle quattro nuove capability prima di eventuali personalizzazioni successive.
 - Chi dispone soltanto dell’accesso aggregato non può filtrare per learner e mantiene il masking `analyticsminusers`; chi possiede la vista individuale riceve valori cumulativi/Analytics di istanza esatti entro il proprio scope Moodle learner/gruppi. Gli Analytics cross-course dello stesso video sono esatti soltanto se l’accesso individuale copre ogni attività inclusa.

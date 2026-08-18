@@ -107,12 +107,13 @@ final class report_contract_test extends advanced_testcase {
         $source = file_get_contents(__DIR__ . '/../db/access.php');
         $this->assertIsString($source);
 
-        foreach ([
+        $capabilities = [
             'viewaggregatereport',
             'viewindividualreport',
             'exportaggregatereport',
             'exportindividualreport',
-        ] as $capability) {
+        ];
+        foreach ($capabilities as $capability) {
             $start = strpos($source, "'mod/videotrack:" . $capability . "' => [");
             $this->assertNotFalse($start);
             $end = strpos($source, "\n    ],", $start);
