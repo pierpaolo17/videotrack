@@ -1,11 +1,11 @@
 # Documentation audit
 
-Baseline: VideoTrack **1.7.77** (`2026081801`).
+Baseline: VideoTrack **1.7.78** (`2026081802`).
 
 ## Coverage
 
 - Non-documentation files inventoried: **275/275**.
-- Named PHP functions/methods inventoried: **689**.
+- Named PHP functions/methods inventoried: **691**.
 - Named AMD callables detected and inventoried: **647**.
 - XMLDB tables documented: **7**.
 - Site-setting keys documented: **57**.
@@ -19,6 +19,18 @@ Baseline: VideoTrack **1.7.77** (`2026081801`).
 - Static resume/completion/stacked-alert contracts cover the three providers while Behat remains unavailable in the maintainer environment; browser evidence is still explicitly pending.
 - Maintainer-only consolidated roadmap/lessons-history files are intentionally excluded from the distributed plugin tree and protected by `.moodleignore`.
 - Chapter navigation now has an explicit focus-visible/forced-colour contract; a manual keyboard/high-contrast matrix remains a release gate for final U-020 closure.
+
+## 1.7.78 pre-production documentation verification
+
+- Current non-documentation file inventory regenerated against the candidate 1.7.78 tree: **275/275** entries.
+- Current function inventory regenerated from source locations: **691** named PHP functions/methods and **647** detected named AMD callables.
+- Release 1.7.78 continues U-017 with a mechanically equivalent extraction of `videotrack_state` SQL/parameter construction from `report.php` into `local\report_support::state_condition()`, with behavioural and controller-delegation coverage.
+- Canonical learner scope, optional learner selection and the existing `svtid`/`suid` parameter keys remain unchanged; state query ordering, segment scope, report capabilities/privacy, exports, Analytics, schema, tracking, completion and AMD/player runtime are intentionally outside this tranche.
+- The current Italian function-inventory/audit headline count is reconciled with the generated inventory while preserving historical per-release counts.
+- XMLDB tables remain **7**, site settings **57**, AJAX services **9** and browser/player configuration keys **133**.
+- All eight maintained language packs remain aligned at **987** keys with matching Moodle placeholders.
+- Relative Markdown links were rechecked against the candidate tree with no missing target found.
+- U-017 remains in progress; the next tranche should continue with another small autonomous server-side extraction only after maintainer PHPUnit/PHPCS gates are green.
 
 ## 1.7.77 pre-production documentation verification
 

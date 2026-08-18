@@ -466,6 +466,30 @@ final class report_support {
     }
 
     /**
+     * Builds the state-row report condition and named parameters.
+     *
+     * @param int $videotrackid VideoTrack instance id.
+     * @param string $learnerwhere Canonical learner-scope SQL fragment.
+     * @param array $learnerparams Canonical learner-scope named parameters.
+     * @param int $useridfilter Optional Moodle user id filter.
+     * @return array Tuple of SQL condition and named parameters.
+     */
+    public static function state_condition(
+        int $videotrackid,
+        string $learnerwhere,
+        array $learnerparams,
+        int $useridfilter
+    ): array {
+        $conditions = "videotrackid = :svtid AND {$learnerwhere}";
+        $params = ['svtid' => $videotrackid] + $learnerparams;
+        if ($useridfilter > 0) {
+            $conditions .= ' AND userid = :suid';
+            $params['suid'] = $useridfilter;
+        }
+        return [$conditions, $params];
+    }
+
+    /**
      * Builds the report user filter options in source-priority order.
      *
      * @param array $useridgroups Ordered groups of Moodle user ids.
