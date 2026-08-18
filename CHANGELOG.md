@@ -1,5 +1,11 @@
 # VideoTrack changelog
 
+## 1.7.76 - 2026-08-18
+
+- Correct the PHPCS/Moodle Extra PSR-12 blocker in `tests/report_contract_test.php` reported against the otherwise-green 1.7.75 authorisation release by assigning the granular capability names to a local array before iterating them.
+- Preserve the 1.7.75 four-capability report model, legacy `mod/videotrack:viewreport` compatibility, upgrade permission cloning, aggregate privacy thresholds, individual visibility and export gating without runtime changes.
+- Keep U-017 paused for this root-cause-only corrective release; no report query, Analytics, schema, tracking, completion or AMD/player behaviour changes are included.
+
 ## 1.7.75 - 2026-08-17
 
 - Separate activity-report authorisation into four granular capabilities: aggregate viewing, individual viewing, aggregate export and individual export, while retaining the historical `mod/videotrack:viewreport` capability as a backwards-compatible full-access grant. On upgrade, each new capability clones the site's existing `viewreport` role assignments so customised grants/revocations are preserved; fresh installs use the standard report-viewer archetypes.

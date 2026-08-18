@@ -1,6 +1,6 @@
 # Documentation audit
 
-Baseline: VideoTrack **1.7.75** (`2026081717`).
+Baseline: VideoTrack **1.7.76** (`2026081800`).
 
 ## Coverage
 
@@ -20,9 +20,9 @@ Baseline: VideoTrack **1.7.75** (`2026081717`).
 - Maintainer-only consolidated roadmap/lessons-history files are intentionally excluded from the distributed plugin tree and protected by `.moodleignore`.
 - Chapter navigation now has an explicit focus-visible/forced-colour contract; a manual keyboard/high-contrast matrix remains a release gate for final U-020 closure.
 
-## 1.7.75 pre-production documentation verification
+## 1.7.76 pre-production documentation verification
 
-- Current non-documentation file inventory regenerated against the candidate 1.7.75 tree: **275/275** entries.
+- Current non-documentation file inventory regenerated against the candidate 1.7.76 tree: **275/275** entries.
 - Current function inventory regenerated from source locations: **687** named PHP functions/methods and **647** detected named AMD callables.
 - Activity reporting now separates aggregate view, individual view, aggregate export and individual export through four module-context capabilities, while historical `mod/videotrack:viewreport` remains a backwards-compatible full-access grant; upgrades clone its existing role assignments into all four new capabilities before later administrator customisation.
 - Aggregate-only viewers cannot use learner filtering and retain configured `analyticsminusers` masking; individual-report viewers receive exact cumulative/instance-Analytics values inside their Moodle learner/group scope. Cross-course same-video Analytics are exact only when individual-report access covers every included activity.
