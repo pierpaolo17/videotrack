@@ -1,23 +1,35 @@
 # Audit della documentazione
 
-Baseline: VideoTrack **1.7.74** (`2026081716`).
+Baseline: VideoTrack **1.7.75** (`2026081717`).
 
 ## Copertura
 
-- File non documentali inventariati: **273/273**.
-- Funzioni/metodi PHP nominati inventariati: **677**.
+- File non documentali inventariati: **275/275**.
+- Funzioni/metodi PHP nominati inventariati: **687**.
 - Callable AMD nominati rilevati e inventariati: **647**.
 - Tabelle XMLDB documentate: **7**.
 - Chiavi impostazioni sito documentate: **57**.
 - Chiavi configurazione player documentate: **133**.
 - Servizi AJAX documentati: **9**.
-- Language pack: otto pacchetti con lo stesso contratto di **982 chiavi**; i testi operativi sono tradotti, mentre termini tecnici e nomi propri possono legittimamente coincidere.
+- Language pack: otto pacchetti con lo stesso contratto di **987 chiavi**; i testi operativi sono tradotti, mentre termini tecnici e nomi propri possono legittimamente coincidere.
 - Panoramiche root: `README.md` (inglese) e `README_IT.md` (italiano).
 - Sintesi privacy root: `PRIVACY.md` e `PRIVACY_IT.md`.
 - Diagnostica CLI distribuita documentata in `21_CLI_DIAGNOSTICS.md` e coperta da contratti statici di sola lettura.
 - Automazione browser Behat documentata in `22_TEST_BROWSER_BEHAT.md`; U-007 è tracciato come in corso.
 - I contratti statici resume/completion/alert impilati coprono i tre provider mentre Behat resta indisponibile nell’ambiente maintainer; l’evidenza browser resta esplicitamente pendente.
 - La navigazione capitoli ha ora un contratto esplicito focus-visible/colori forzati; la matrice manuale tastiera/high-contrast resta un gate per la chiusura finale di U-020.
+
+## Verifica documentazione pre-produzione 1.7.75
+
+- Inventario corrente dei file non documentali rigenerato sull'albero candidato 1.7.75: **275/275** voci.
+- Inventario funzioni rigenerato sulle posizioni sorgente correnti: **687** funzioni/metodi PHP nominati e **647** callable AMD nominati rilevati.
+- I report di attività separano ora vista aggregata, vista individuale, export aggregato ed export individuale tramite quattro capability nel contesto modulo; la capability storica `mod/videotrack:viewreport` resta un grant completo retrocompatibile e l’upgrade ne clona le assegnazioni di ruolo esistenti sulle quattro nuove capability prima di eventuali personalizzazioni successive.
+- Chi dispone soltanto dell’accesso aggregato non può filtrare per learner e mantiene il masking `analyticsminusers`; chi possiede la vista individuale riceve valori cumulativi/Analytics di istanza esatti entro il proprio scope Moodle learner/gruppi. Gli Analytics cross-course dello stesso video sono esatti soltanto se l’accesso individuale copre ogni attività inclusa.
+- I CSV dettagliati/personali richiedono vista individuale più export individuale; i download aggregati richiedono export aggregato e mantengono la stessa soglia privacy della pagina. Reset/ricalcolo/manutenzione report restano dietro l’accesso storico completo.
+- L'inventario XMLDB resta di **7** tabelle; impostazioni sito **57**, servizi AJAX **9**, chiavi browser/player **133**.
+- Tutti gli otto language pack mantenuti espongono **987** chiavi identiche, nessun duplicato e placeholder Moodle coerenti.
+- I link Markdown relativi della documentazione sono stati verificati contro l’albero senza target mancanti.
+- Questa è una release correttiva di autorizzazione/privacy; U-017 è intenzionalmente sospeso fino ai gate maintainer PHPUnit/PHPCS verdi.
 
 ## Verifica documentazione pre-produzione 1.7.74
 

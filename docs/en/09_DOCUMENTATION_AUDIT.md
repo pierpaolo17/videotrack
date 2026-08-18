@@ -1,17 +1,17 @@
 # Documentation audit
 
-Baseline: VideoTrack **1.7.74** (`2026081716`).
+Baseline: VideoTrack **1.7.75** (`2026081717`).
 
 ## Coverage
 
-- Non-documentation files inventoried: **273/273**.
-- Named PHP functions/methods inventoried: **677**.
+- Non-documentation files inventoried: **275/275**.
+- Named PHP functions/methods inventoried: **687**.
 - Named AMD callables detected and inventoried: **647**.
 - XMLDB tables documented: **7**.
 - Site-setting keys documented: **57**.
 - Player configuration keys documented: **133**.
 - AJAX services documented: **9**.
-- Language packs: eight packs with the same **982-key** contract; operational strings are translated while technical and proper terms may legitimately remain identical.
+- Language packs: eight packs with the same **987-key** contract; operational strings are translated while technical and proper terms may legitimately remain identical.
 - Root overviews: `README.md` (English) and `README_IT.md` (Italian).
 - Root privacy summaries: `PRIVACY.md` and `PRIVACY_IT.md`.
 - Distributed CLI diagnostics documented in `21_CLI_DIAGNOSTICS.md` and covered by static read-only contracts.
@@ -19,6 +19,18 @@ Baseline: VideoTrack **1.7.74** (`2026081716`).
 - Static resume/completion/stacked-alert contracts cover the three providers while Behat remains unavailable in the maintainer environment; browser evidence is still explicitly pending.
 - Maintainer-only consolidated roadmap/lessons-history files are intentionally excluded from the distributed plugin tree and protected by `.moodleignore`.
 - Chapter navigation now has an explicit focus-visible/forced-colour contract; a manual keyboard/high-contrast matrix remains a release gate for final U-020 closure.
+
+## 1.7.75 pre-production documentation verification
+
+- Current non-documentation file inventory regenerated against the candidate 1.7.75 tree: **275/275** entries.
+- Current function inventory regenerated from source locations: **687** named PHP functions/methods and **647** detected named AMD callables.
+- Activity reporting now separates aggregate view, individual view, aggregate export and individual export through four module-context capabilities, while historical `mod/videotrack:viewreport` remains a backwards-compatible full-access grant; upgrades clone its existing role assignments into all four new capabilities before later administrator customisation.
+- Aggregate-only viewers cannot use learner filtering and retain configured `analyticsminusers` masking; individual-report viewers receive exact cumulative/instance-Analytics values inside their Moodle learner/group scope. Cross-course same-video Analytics are exact only when individual-report access covers every included activity.
+- Detailed/personal CSV paths require individual view plus individual export; aggregate downloads require aggregate export and preserve the same privacy threshold as the page. Reset/recalculate/report-maintenance actions remain behind historical full report access.
+- XMLDB inventory still matches all **7** tables; site settings remain **57**, AJAX services **9**, browser/player configuration keys **133**.
+- All eight maintained language packs expose **987** identical keys, no duplicates and matching Moodle placeholders.
+- Relative Markdown links across the plugin documentation were checked against the tree with no missing target found.
+- This is a corrective authorisation/privacy release; U-017 maintainability work is intentionally paused until maintainer PHPUnit/PHPCS gates are green.
 
 ## 1.7.74 pre-production documentation verification
 

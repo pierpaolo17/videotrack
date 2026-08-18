@@ -30,7 +30,7 @@ The statement version is a hash of current text/format/timing. The POST form is 
 
 ## Reports and exports
 
-Per-student reports may include identity, progress, reactions, acknowledgement date/snapshot and diagnostic counts according to capability. Course and teacher dashboards aggregate accessible activities. Instance Analytics builds exact aggregate bins and separate summaries for reactions, bookmarks, integrity and acknowledgements for authorised report viewers within their Moodle scope. CSV/Excel/ODS use the same exact aggregates; individual CSV exports require explicit confirmation where personal data is present.
+Per-student reports may include identity, progress, reactions, acknowledgement date/snapshot and diagnostic counts only with individual-report access. Aggregate-only activity viewers cannot filter by learner and keep the configured minimum-user masking. Course and teacher dashboards aggregate accessible activities. Instance Analytics uses exact bins and event summaries only when individual-report access covers the whole selected scope; otherwise it applies the configured threshold. Aggregate CSV/Excel/ODS downloads preserve that same privacy level, while individual CSV exports require the dedicated individual-export permission and explicit confirmation where personal data is present.
 
 ## Privacy, retention and deletion
 

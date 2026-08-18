@@ -1,8 +1,8 @@
 # Distributed file inventory
 
-This inventory is generated against the VideoTrack 1.7.74 tree and lists every non-documentation file. Canonical JavaScript is under `amd/src`; files under `amd/build` are generated.
+This inventory is generated against the VideoTrack 1.7.75 tree and lists every non-documentation file. Canonical JavaScript is under `amd/src`; files under `amd/build` are generated.
 
-Entries: **273**.
+Entries: **275**.
 
 | File | Responsibility |
 |---|---|
@@ -195,6 +195,7 @@ Entries: **273**.
 | `classes/local/integrity.php` | Integrity-indicator definitions and privacy-safe aggregation helpers. |
 | `classes/local/learner_scope.php` | Canonical learner/report visibility rules for role and group-safe reporting. |
 | `classes/local/privacy_manager.php` | Privacy helpers for VideoTrack. |
+| `classes/local/report_access.php` | Centralised granular activity-report capability policy with backwards-compatible full-report fallback. |
 | `classes/local/report_support.php` | Teacher-report request, filter, capability-safe scope, user-option and reaction-clustering support extracted from the report controller. |
 | `classes/local/report_view.php` | Teacher Analytics presentation helper extracted from the report controller. |
 | `classes/local/teacher_analytics.php` | Cross-course, capability-safe dashboard aggregation for report viewers. |
@@ -233,30 +234,38 @@ Entries: **273**.
 | `reports_teacher.php` | Teacher-centric dashboard across accessible courses and activities. |
 | `settings.php` | Site administration settings, defaults, privacy, performance and accessibility policies. |
 | `styles.css` | Accessible responsive styling for player, reports, transcript, analytics and controls. |
-| `tests/acknowledgement_test.php` | PHPUnit coverage for acknowledgement test. |
 | `tests/accessibility_contract_test.php` | Static accessibility contracts for timed-text chapter controls. |
+| `tests/acknowledgement_test.php` | PHPUnit coverage for acknowledgement test. |
 | `tests/admin_settings_test.php` | PHPUnit coverage for admin settings test. |
 | `tests/ajax_contract_test.php` | PHPUnit coverage for browser AJAX and mutation-endpoint contracts. |
 | `tests/analytics_performance_contract_test.php` | Current PHPUnit/contract test distributed with the plugin. |
 | `tests/analytics_scope_test.php` | PHPUnit coverage for analytics scope test. |
 | `tests/analytics_table_export_test.php` | PHPUnit coverage for analytics table export test. |
 | `tests/analytics_test.php` | PHPUnit coverage for analytics test. |
+| `tests/behat/behat_mod_videotrack.php` | Deterministic Behat steps for local HTML5 readiness, seeking, timestamp assertions and bounded watched-evidence seeding. |
+| `tests/behat/html5_seek_policy.feature` | Browser regression for allowed and blocked HTML5 forward seeking without public-network dependencies. |
+| `tests/behat/learner_role_controls.feature` | Behat role-scope regression for learner, teacher and dual-role interaction controls. |
+| `tests/behat/student_personal_sections.feature` | Behat browser regression for the learner personal collapsible sections. |
 | `tests/cli_contract_test.php` | Static contracts keeping the distributed CLI tools read-only, documented and tied to real Analytics paths. |
 | `tests/completion_contract_test.php` | Current PHPUnit/contract test distributed with the plugin. |
 | `tests/course_analytics_test.php` | PHPUnit coverage for course analytics test. |
 | `tests/csv_event_writer_test.php` | PHPUnit coverage for custom CSV event-row writing. |
 | `tests/csv_export_test.php` | PHPUnit coverage for csv export test. |
+| `tests/fixtures/behat-video.mp4.b64` | Base64-encoded 60-second local video fixture decoded only by deterministic HTML5 browser tests. |
 | `tests/forum_bridge_test.php` | PHPUnit coverage for forum bridge test. |
+| `tests/generator/lib.php` | Moodle module generator used by PHPUnit and Behat fixtures. |
+| `tests/generator_test.php` | PHPUnit coverage for the VideoTrack module generator. |
 | `tests/gradebook_restore_contract_test.php` | Current PHPUnit/contract test distributed with the plugin. |
 | `tests/integrity_test.php` | PHPUnit coverage for integrity test. |
 | `tests/learner_scope_test.php` | Current PHPUnit/contract test distributed with the plugin. |
 | `tests/lib_test.php` | PHPUnit coverage for lib test. |
 | `tests/locallib_test.php` | PHPUnit coverage for locallib test. |
+| `tests/player_resume_completion_alert_contract_test.php` | Current PHPUnit/contract test distributed with the plugin. |
 | `tests/privacy_manager_test.php` | PHPUnit coverage for deletion-based GDPR retention, state rebuilding and user erasure. |
 | `tests/provider_loader_contract_test.php` | Current PHPUnit/contract test distributed with the plugin. |
 | `tests/provider_seek_snapshot_contract_test.php` | Current PHPUnit/contract test distributed with the plugin. |
-| `tests/player_resume_completion_alert_contract_test.php` | Current PHPUnit/contract test distributed with the plugin. |
 | `tests/release_hygiene_contract_test.php` | Current PHPUnit/contract test distributed with the plugin. |
+| `tests/report_access_test.php` | Behavioural PHPUnit coverage for aggregate/individual report-view and export capability separation. |
 | `tests/report_contract_test.php` | Current PHPUnit/contract test distributed with the plugin. |
 | `tests/report_support_test.php` | Behavioural PHPUnit coverage for the extracted teacher-report support helper. |
 | `tests/report_view_test.php` | Behavioural PHPUnit coverage for the extracted teacher Analytics presentation helper. |
@@ -264,6 +273,7 @@ Entries: **273**.
 | `tests/save_integrity_event_test.php` | PHPUnit coverage for save integrity event test. |
 | `tests/save_note_test.php` | PHPUnit coverage for save note test. |
 | `tests/save_reaction_test.php` | Current PHPUnit/contract test distributed with the plugin. |
+| `tests/student_view_contract_test.php` | Static learner-view contract for native personal disclosure sections. |
 | `tests/teacher_analytics_test.php` | PHPUnit coverage for teacher analytics test. |
 | `tests/timed_text_test.php` | PHPUnit coverage for timed text test. |
 | `tests/tracker_test.php` | PHPUnit coverage for tracker test. |
@@ -271,12 +281,3 @@ Entries: **273**.
 | `tests/vimeo_seek_contract_test.php` | Current PHPUnit/contract test distributed with the plugin. |
 | `version.php` | Plugin metadata, version, maturity and supported Moodle branches. |
 | `view.php` | Student-facing activity page: authorisation, state loading, privacy-safe DOM configuration and player bootstrapping. |
-
-| `tests/behat/behat_mod_videotrack.php` | Deterministic Behat steps for local HTML5 readiness, seeking, timestamp assertions and bounded watched-evidence seeding. |
-| `tests/behat/html5_seek_policy.feature` | Browser regression for allowed and blocked HTML5 forward seeking without public-network dependencies. |
-| `tests/behat/learner_role_controls.feature` | Behat role-scope regression for learner, teacher and dual-role interaction controls. |
-| `tests/behat/student_personal_sections.feature` | Behat browser regression for the learner personal collapsible sections. |
-| `tests/fixtures/behat-video.mp4.b64` | Base64-encoded 60-second local video fixture decoded only by deterministic HTML5 browser tests. |
-| `tests/generator/lib.php` | Moodle module generator used by PHPUnit and Behat fixtures. |
-| `tests/generator_test.php` | PHPUnit coverage for the VideoTrack module generator. |
-| `tests/student_view_contract_test.php` | Static learner-view contract for native personal disclosure sections. |

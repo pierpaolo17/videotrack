@@ -21,11 +21,11 @@ Uploaded source video, poster, captions, transcript and chapter files are stored
 ## Visibility boundaries
 
 - A learner can access only their own notes and bookmark labels.
-- Authorised report viewers may read/export personal note text when the notes feature is enabled and Moodle enrolment/group scope permits access; bookmark labels remain owner-only.
-- Teachers may see per-student progress where they hold the report capability and group access permits it.
-- Instance, course and teacher-centric Analytics dashboards use aggregates and show exact aggregate values to authorised report viewers inside their existing Moodle activity/course/group scope. `analyticsminusers` does not apply to these exact Analytics dashboards and remains available only for other aggregate report summaries.
-- Private note text and bookmark labels are never exposed in teacher analytics.
-- Cross-course analytics include only activities for which the viewer has `mod/videotrack:viewreport`; group restrictions are resolved separately in every course.
+- Personal note text in activity reports requires individual-report visibility and individual-export permission for downloads; bookmark labels remain owner-only.
+- Per-student progress requires `mod/videotrack:viewindividualreport` (or the historical full `mod/videotrack:viewreport`) and remains constrained by Moodle enrolment/group scope.
+- `mod/videotrack:viewaggregatereport` permits cumulative and instance Analytics without learner filtering. Aggregate-only viewers remain protected by `analyticsminusers`; viewers who also have individual-report access receive exact aggregate values inside the same Moodle scope.
+- Private note text and bookmark labels are never exposed in aggregate Analytics.
+- Cross-course instance Analytics include only activities where aggregate report access is available. Exact values are used only when individual-report access is available for every included activity; otherwise the configured minimum-user threshold remains active.
 - Integrity indicators are diagnostic. They must not be treated as conclusive proof or used alone for automatic grading, completion, discipline or access decisions.
 
 ## Accessibility and focus controls
@@ -60,7 +60,7 @@ Moodle backup includes activity configuration and files. When user data is reque
 
 ## CSV and data-format exports
 
-Identity fields in individual reports are configurable by site and activity and are limited to fields visible to the exporter. Exports containing individual reactions or comments require explicit confirmation and generate Moodle events. Instance Analytics CSV/Excel/ODS exports contain the same exact aggregate rows shown to the authorised report viewer. Personal note text and private bookmark labels/timestamps remain excluded; the separate course/teacher dashboards retain their current minimum-user masking until reviewed.
+Identity fields in individual reports are configurable by site and activity and are limited to fields visible to the exporter. Individual downloads require `mod/videotrack:exportindividualreport` (or the historical full report capability); exports containing individual reactions or comments also require explicit confirmation and generate Moodle events. Aggregate downloads require `mod/videotrack:exportaggregatereport` and preserve the same exact-or-thresholded values shown on the authorised aggregate page. Personal note text and private bookmark labels/timestamps remain excluded from aggregate exports.
 
 ## Browser storage
 

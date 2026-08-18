@@ -73,7 +73,11 @@ $csvincludenotes = !empty($videotrack->studentnotesenabled) && $csvincludenotes;
 $csvincludebookmarks = !empty($videotrack->bookmarksenabled) && $csvincludebookmarks;
 require_login($course, true, $cm);
 $context = context_module::instance($cm->id);
-$canviewfullreport = has_capability('mod/videotrack:viewreport', $context);
+$canviewfullreport = \mod_videotrack\local\report_access::has_legacy_full_access($context);
+$canviewaggregatereport = \mod_videotrack\local\report_access::can_view_aggregate($context);
+$canviewindividualreport = \mod_videotrack\local\report_access::can_view_individual($context);
+$canexportaggregatereport = \mod_videotrack\local\report_access::can_export_aggregate($context);
+$canexportindividualreport = \mod_videotrack\local\report_access::can_export_individual($context);
 $canviewownreport = has_capability('mod/videotrack:viewownreport', $context);
 [$learnerwhere, $learnerparams] = \mod_videotrack\local\learner_scope::sql(
     $context,
@@ -88,15 +92,41 @@ if (!in_array($window, $validwindows, true)) {
     $window = 30;
 }
 $mode = in_array($mode, ['student', 'cumulative', 'analytics', 'export', 'recalculate'], true) ? $mode : 'student';
-if (!$canviewfullreport) {
-    require_capability('mod/videotrack:viewownreport', $context);
-    if ($mode !== 'student' || ($export !== '' && $export !== 'csv') || $action !== '' || $resetaction !== '') {
-        require_capability('mod/videotrack:viewreport', $context);
+if ($mode === 'student' && !$canviewindividualreport && !$canviewownreport && $canviewaggregatereport) {
+    // Aggregate-only report viewers land on a report they are authorised to use.
+    $mode = 'cumulative';
+}
+if ($action !== '' || $resetaction !== '' || $mode === 'recalculate') {
+    // Mutating/report-maintenance actions retain the historical full-report gate.
+    require_capability('mod/videotrack:viewreport', $context);
+}
+if ($mode === 'analytics' || $mode === 'cumulative') {
+    if (!$canviewaggregatereport) {
+        require_capability('mod/videotrack:viewaggregatereport', $context);
     }
+} else if ($mode === 'export') {
+    if (!$canviewindividualreport) {
+        require_capability('mod/videotrack:viewindividualreport', $context);
+    }
+    if (!$canexportindividualreport) {
+        require_capability('mod/videotrack:exportindividualreport', $context);
+    }
+} else if (!$canviewindividualreport) {
+    require_capability('mod/videotrack:viewownreport', $context);
     // Users with only the own-report capability may see only their own student report.
     $mode = 'student';
     $useridfilter = (int)$USER->id;
 }
+if (
+    $useridfilter > 0
+    && !$canviewindividualreport
+    && !($mode === 'student' && $useridfilter === (int)$USER->id && $canviewownreport)
+) {
+    require_capability('mod/videotrack:viewindividualreport', $context);
+}
+$reportminusers = $canviewindividualreport
+    ? \mod_videotrack\local\analytics::EXACT_REPORT_MIN_USERS
+    : videotrack_get_config_int('analyticsminusers', 5, 2, 50);
 $aggregation = in_array($aggregation, ['type', 'peak'], true) ? $aggregation : 'type';
 $sort = in_array($sort, ['time', 'reaction', 'clicks'], true) ? $sort : 'time';
 $csvformat = in_array($csvformat, ['detailed', 'summary', 'overall'], true) ? $csvformat : 'detailed';
@@ -115,7 +145,6 @@ if (
 }
 
 if ($mode === 'analytics') {
-    require_capability('mod/videotrack:viewreport', $context);
     require_once($CFG->libdir . '/grouplib.php');
 
     $coursecontext = context_course::instance($course->id);
@@ -177,12 +206,25 @@ if ($mode === 'analytics') {
 
     // Analytics duration is teacher-authoritative. Client/state/segment values never extend it.
     $duration = 0.0;
+    $canviewexactanalytics = true;
     foreach ($analyticsinstances as $scopeinstance) {
         $duration = max($duration, (float)$scopeinstance->durationseconds);
+        $scopecontext = context_module::instance((int)$scopeinstance->cmid, IGNORE_MISSING);
+        if (
+            !$scopecontext
+            || !\mod_videotrack\local\report_access::can_view_individual(
+                $scopecontext,
+                (int)$USER->id
+            )
+        ) {
+            $canviewexactanalytics = false;
+        }
     }
     $analyticsbinsize = \mod_videotrack\local\analytics::normalise_bin_size($analyticsbinsize, $duration);
-    // Authorised instance Analytics show exact aggregate values within the viewer's Moodle scope.
-    $minusers = \mod_videotrack\local\analytics::EXACT_REPORT_MIN_USERS;
+    // Exact aggregates are safe only when every included activity permits individual report access.
+    $minusers = $canviewexactanalytics
+        ? \mod_videotrack\local\analytics::EXACT_REPORT_MIN_USERS
+        : videotrack_get_config_int('analyticsminusers', 5, 2, 50);
 
     [$analyticsscopewhere, $segmentparams] = \mod_videotrack\local\report_support::analytics_scope_condition(
         $analyticsinstances,
@@ -447,6 +489,9 @@ if ($mode === 'analytics') {
     $analyticsformats = \mod_videotrack\local\analytics_table_export::enabled_formats();
 
     if ($analyticsformat !== '') {
+        if (!$canexportaggregatereport) {
+            require_capability('mod/videotrack:exportaggregatereport', $context);
+        }
         require_sesskey();
         $viewingexportavailable = $duration > 0
             && (int)$analytics['viewers'] > 0
@@ -509,7 +554,13 @@ if ($mode === 'analytics') {
 
     echo $OUTPUT->header();
     echo $OUTPUT->heading(get_string('reportteacher', 'mod_videotrack'));
-    echo $OUTPUT->tabtree(\mod_videotrack\local\report_support::tabs($cm->id, true), $mode);
+    echo $OUTPUT->tabtree(\mod_videotrack\local\report_support::tabs(
+        $cm->id,
+        $canviewindividualreport || $canviewownreport,
+        $canviewaggregatereport,
+        $canviewindividualreport && $canexportindividualreport,
+        $canviewfullreport
+    ), $mode);
     echo $OUTPUT->heading(get_string('report:analytics_heading', 'mod_videotrack'), 3);
 
     $filterform = html_writer::start_tag('form', [
@@ -710,8 +761,11 @@ if ($mode === 'analytics') {
         'analyticsallcourses' => $analyticsallcourses,
     ];
     if (
-        $summaryexportavailable
-        || ($duration > 0 && (int)$analytics['viewers'] > 0 && !$viewingprivacysuppressed)
+        $canexportaggregatereport
+        && (
+            $summaryexportavailable
+            || ($duration > 0 && (int)$analytics['viewers'] > 0 && !$viewingprivacysuppressed)
+        )
     ) {
         echo \mod_videotrack\local\report_view::analytics_download($analyticsformats, $downloadparams);
     }
@@ -934,6 +988,8 @@ $eventuserids = array_map('intval', $DB->get_fieldset_select(
     $eventconditions,
     $eventparamsnamed
 ));
+$reportreactionssuppressed = $eventcount > 0
+    && count($eventuserids) < $reportminusers;
 $geteventrecordset = static function () use ($DB, $eventconditions, $eventparamsnamed) {
     return $DB->get_recordset_select(
         'videotrack_reactev',
@@ -987,7 +1043,7 @@ if (!empty($videotrack->bookmarksenabled)) {
     $reportbookmarksummary = \mod_videotrack\local\analytics::count_summary(
         $bookmarkeventcount,
         count($bookmarkuserids),
-        videotrack_get_config_int('analyticsminusers', 5, 2, 50)
+        $reportminusers
     );
 }
 
@@ -995,7 +1051,7 @@ $integritycounts = [];
 $integrityuserids = [];
 $reportintegritysummary = \mod_videotrack\local\integrity::summarise(
     [],
-    videotrack_get_config_int('analyticsminusers', 5, 2, 50)
+    $reportminusers
 );
 if (!empty($videotrack->integrityindicatorsenabled)) {
     [$integrityconditions, $integrityparams] = \mod_videotrack\local\report_support::integrity_event_condition(
@@ -1027,7 +1083,7 @@ if (!empty($videotrack->integrityindicatorsenabled)) {
     );
     $reportintegritysummary = \mod_videotrack\local\integrity::summarise(
         $integritytyperows,
-        videotrack_get_config_int('analyticsminusers', 5, 2, 50)
+        $reportminusers
     );
 }
 
@@ -1193,7 +1249,12 @@ if ($export === 'custom_csv') {
         throw new moodle_exception('invalidrequest', 'error');
     }
     require_sesskey();
-    require_capability('mod/videotrack:viewreport', $context);
+    if (!$canviewindividualreport) {
+        require_capability('mod/videotrack:viewindividualreport', $context);
+    }
+    if (!$canexportindividualreport) {
+        require_capability('mod/videotrack:exportindividualreport', $context);
+    }
     if (!$csvincludereactions && !$csvincludenotes && !$csvincludebookmarks) {
         throw new moodle_exception('report:csvexport_selectcontent', 'mod_videotrack');
     }
@@ -1495,7 +1556,12 @@ if ($export === 'events_csv') {
         throw new moodle_exception('invalidrequest', 'error');
     }
     require_sesskey();
-    require_capability('mod/videotrack:viewreport', $context);
+    if (!$canviewindividualreport) {
+        require_capability('mod/videotrack:viewindividualreport', $context);
+    }
+    if (!$canexportindividualreport) {
+        require_capability('mod/videotrack:exportindividualreport', $context);
+    }
     if (!optional_param('confirmeventsexport', 0, PARAM_BOOL)) {
         throw new moodle_exception('report:exportallevents_confirmrequired', 'mod_videotrack');
     }
@@ -1578,7 +1644,12 @@ if ($export === 'notes_csv' && !empty($videotrack->studentnotesenabled)) {
         throw new moodle_exception('invalidrequest', 'error');
     }
     require_sesskey();
-    require_capability('mod/videotrack:viewreport', $context);
+    if (!$canviewindividualreport) {
+        require_capability('mod/videotrack:viewindividualreport', $context);
+    }
+    if (!$canexportindividualreport) {
+        require_capability('mod/videotrack:exportindividualreport', $context);
+    }
     $confirmnotesexport = optional_param('confirmnotesexport', 0, PARAM_BOOL);
     if (!$confirmnotesexport) {
         throw new moodle_exception('report:exportnotes_confirmrequired', 'mod_videotrack');
@@ -1674,6 +1745,17 @@ if ($export === 'csv') {
         throw new moodle_exception('invalidrequest', 'error');
     }
     require_sesskey();
+    if ($mode === 'cumulative') {
+        if (!$canexportaggregatereport) {
+            require_capability('mod/videotrack:exportaggregatereport', $context);
+        }
+    } else if ($mode === 'student' && $canviewindividualreport) {
+        if (!$canexportindividualreport) {
+            require_capability('mod/videotrack:exportindividualreport', $context);
+        }
+    } else if ($mode !== 'student') {
+        throw new moodle_exception('invalidrequest', 'error');
+    }
     $filename = 'videotrack_report_' . $cm->id . '_' . $mode . '.csv';
     header('Content-Type: text/csv; charset=utf-8');
     header('X-Content-Type-Options: nosniff');
@@ -1683,6 +1765,18 @@ if ($export === 'csv') {
     $fh = fopen('php://output', 'w');
     \mod_videotrack\local\csv_export::write_utf8_bom($fh);
     if ($mode === 'cumulative') {
+        if ($reportreactionssuppressed) {
+            \mod_videotrack\local\csv_export::write_row(
+                $fh,
+                [
+                    get_string('report:csvcol_warning', 'mod_videotrack'),
+                    get_string('report:cumulative_privacy_suppressed', 'mod_videotrack', $reportminusers),
+                ],
+                $csvdelimiter
+            );
+            fclose($fh);
+            exit;
+        }
         $eventrs = $geteventrecordset();
         $clusters = \mod_videotrack\local\report_support::cluster_reaction_events(
             $eventrs,
@@ -1923,6 +2017,9 @@ if ($hasgrade && optional_param('savegrade', 0, PARAM_INT)) {
         throw new moodle_exception('invalidrequest', 'error');
     }
     require_sesskey();
+    if (!$canviewindividualreport) {
+        require_capability('mod/videotrack:viewindividualreport', $context);
+    }
     require_capability('mod/videotrack:grade', $context);
     require_once(__DIR__ . '/lib.php');
     require_once($CFG->libdir . '/gradelib.php');
@@ -1983,7 +2080,14 @@ $PAGE->requires->js_call_amd('mod_videotrack/report', 'init', [[
 echo $OUTPUT->header();
 echo $OUTPUT->heading(get_string('reportteacher', 'mod_videotrack'));
 
-$tabs = \mod_videotrack\local\report_support::tabs($cm->id, $canviewfullreport, $baseparams);
+$tabs = \mod_videotrack\local\report_support::tabs(
+    $cm->id,
+    $canviewindividualreport || $canviewownreport,
+    $canviewaggregatereport,
+    $canviewindividualreport && $canexportindividualreport,
+    $canviewfullreport,
+    $baseparams
+);
 echo $OUTPUT->tabtree($tabs, $mode);
 
 if ($mode === 'recalculate') {
@@ -2172,18 +2276,21 @@ echo html_writer::empty_tag('input', ['type' => 'hidden', 'name' => 'mode', 'val
 echo html_writer::empty_tag('input', ['type' => 'hidden', 'name' => 'sort', 'value' => $sort]);
 echo html_writer::empty_tag('input', ['type' => 'hidden', 'name' => 'aggregation', 'value' => $aggregation]);
 echo html_writer::empty_tag('input', ['type' => 'hidden', 'name' => 'window', 'value' => $window]);
-$userfilter = html_writer::label(
-    get_string('report:userid', 'mod_videotrack'),
-    'id_userid',
-    false,
-    ['class' => 'mr-1']
-) . html_writer::select(
-    $useroptions,
-    'userid',
-    $useridfilter,
-    false,
-    ['id' => 'id_userid', 'class' => 'custom-select']
-);
+$userfilter = '';
+if ($canviewindividualreport) {
+    $userfilter = html_writer::label(
+        get_string('report:userid', 'mod_videotrack'),
+        'id_userid',
+        false,
+        ['class' => 'mr-1']
+    ) . html_writer::select(
+        $useroptions,
+        'userid',
+        $useridfilter,
+        false,
+        ['id' => 'id_userid', 'class' => 'custom-select']
+    );
+}
 $reactionfilter = html_writer::label(
     get_string('report:reaction', 'mod_videotrack'),
     'id_reactionid',
@@ -2196,7 +2303,9 @@ $reactionfilter = html_writer::label(
     false,
     ['id' => 'id_reactionid', 'class' => 'custom-select']
 );
-echo html_writer::div($userfilter, 'd-inline-flex align-items-center mr-3 mb-2');
+if ($userfilter !== '') {
+    echo html_writer::div($userfilter, 'd-inline-flex align-items-center mr-3 mb-2');
+}
 echo html_writer::div($reactionfilter, 'd-inline-flex align-items-center mr-3 mb-2');
 $reportduration = (float)$videotrack->durationseconds;
 $showtimehours = $reportduration <= 0 || max(
@@ -2289,7 +2398,7 @@ if ($mode === 'student') {
         if ($hasgrade && $cangrade) {
             $heads[] = get_string('report:grade', 'mod_videotrack');
         }
-        if (has_capability('mod/videotrack:managereactions', $context)) {
+        if ($canviewfullreport && has_capability('mod/videotrack:managereactions', $context)) {
             $heads[] = get_string('report:actions', 'mod_videotrack');
         }
 
@@ -2438,7 +2547,7 @@ if ($mode === 'student') {
             }
 
             // Reset one student's progress (only for users with the manage capability).
-            if (has_capability('mod/videotrack:managereactions', $context)) {
+            if ($canviewfullreport && has_capability('mod/videotrack:managereactions', $context)) {
                 $resetform = html_writer::start_tag('form', [
                     'method' => 'post',
                     'action' => (new moodle_url('/mod/videotrack/report.php', $baseparams))->out(false),
@@ -2527,23 +2636,37 @@ if ($mode === 'student') {
     if (!empty($videotrack->bookmarksenabled)) {
         echo \mod_videotrack\local\report_view::bookmark_summary(
             $reportbookmarksummary,
-            videotrack_get_config_int('analyticsminusers', 5, 2, 50)
+            $reportminusers
         );
     }
     if (!empty($videotrack->integrityindicatorsenabled)) {
         echo \mod_videotrack\local\report_view::integrity_summary(
             $reportintegritysummary,
-            videotrack_get_config_int('analyticsminusers', 5, 2, 50)
+            $reportminusers
         );
     }
     if (\mod_videotrack\local\acknowledgement::is_enabled($videotrack)) {
-        echo html_writer::div(
-            get_string('report:acknowledgement_summary', 'mod_videotrack', count($acknowledgementrecords)),
-            'alert alert-light'
-        );
+        $acknowledgementsuppressed = count($acknowledgementuserids) > 0
+            && count($acknowledgementuserids) < $reportminusers;
+        if ($acknowledgementsuppressed) {
+            echo $OUTPUT->notification(
+                get_string('report:cumulative_privacy_suppressed', 'mod_videotrack', $reportminusers),
+                'warning'
+            );
+        } else {
+            echo html_writer::div(
+                get_string('report:acknowledgement_summary', 'mod_videotrack', count($acknowledgementrecords)),
+                'alert alert-light'
+            );
+        }
     }
     if (!$eventcount) {
         echo $OUTPUT->notification(get_string('report:noreactions', 'mod_videotrack'), 'notifymessage');
+    } else if ($reportreactionssuppressed) {
+        echo $OUTPUT->notification(
+            get_string('report:cumulative_privacy_suppressed', 'mod_videotrack', $reportminusers),
+            'warning'
+        );
     } else {
         $eventrs = $geteventrecordset();
         $clusters = \mod_videotrack\local\report_support::cluster_reaction_events(

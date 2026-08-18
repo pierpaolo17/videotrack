@@ -267,6 +267,14 @@ All keys are stored under `mod_videotrack`.
 
 - `mod/videotrack:participate` — canonical module-context write permission for learner tracking, reactions, notes, bookmarks, integrity indicators, acknowledgements and personal bookmark export. Default permissions are cloned from `moodle/course:isincompletionreports`; report access is independent.
 
+## Activity-report capabilities
+
+- `mod/videotrack:viewreport` — historical backwards-compatible full activity-report grant; it implies all granular report permissions and still gates report maintenance/reset/recalculation. On plugin upgrade, each new granular capability clones existing `viewreport` role assignments before administrators optionally split them.
+- `mod/videotrack:viewaggregatereport` — view cumulative and instance Analytics while retaining `analyticsminusers` masking and without learner filtering.
+- `mod/videotrack:viewindividualreport` — view learner-level report detail; it also makes authorised activity aggregates exact inside the same Moodle learner/group scope.
+- `mod/videotrack:exportaggregatereport` — download aggregate cumulative/Analytics outputs at the same privacy level as the aggregate view.
+- `mod/videotrack:exportindividualreport` — download learner-level/detailed report data when individual viewing is also authorised.
+
 ## AJAX services
 
 - `mod_videotrack_save_integrity_event` — authenticated write service with `mod/videotrack:participate`.

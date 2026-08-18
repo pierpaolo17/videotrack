@@ -21,11 +21,11 @@ Video sorgente, poster, sottotitoli, trascrizioni e capitoli caricati sono conse
 ## Limiti di visibilità
 
 - Lo studente accede soltanto alle proprie note e alle proprie etichette dei segnalibri.
-- I docenti autorizzati possono consultare/esportare il testo delle note personali quando la funzione è abilitata e lo scope iscrizione/gruppi lo permette; le etichette dei segnalibri restano visibili soltanto al proprietario.
-- Il docente vede dati per studente solo con la capability di report e nel rispetto dei gruppi.
-- Gli Analytics di istanza, la dashboard di corso e la dashboard docente trasversale usano aggregati e mostrano valori aggregati esatti ai report viewer autorizzati entro lo scope Moodle già consentito per attività/corso/gruppi. `analyticsminusers` non si applica a queste dashboard Analytics esatte e resta disponibile soltanto per altri riepiloghi aggregati del report.
-- Il testo delle note e le etichette dei segnalibri non compaiono mai negli Analytics docente.
-- Gli Analytics tra corsi includono solo attività per cui il docente possiede `mod/videotrack:viewreport`; le regole dei gruppi vengono risolte separatamente in ogni corso.
+- Il testo delle note personali nei report di attività richiede la visualizzazione individuale e, per il download, il permesso di esportazione individuale; le etichette dei segnalibri restano visibili soltanto al proprietario.
+- I dati per studente richiedono `mod/videotrack:viewindividualreport` (oppure la capability storica completa `mod/videotrack:viewreport`) e restano vincolati allo scope Moodle di iscrizioni e gruppi.
+- `mod/videotrack:viewaggregatereport` consente il report cumulativo e gli Analytics di istanza senza filtro learner. Per chi possiede solo l’accesso aggregato resta attiva `analyticsminusers`; chi possiede anche l’accesso individuale vede aggregati esatti nello stesso scope Moodle.
+- Il testo delle note e le etichette dei segnalibri non compaiono mai negli Analytics aggregati.
+- Gli Analytics di istanza tra corsi includono solo attività per cui è disponibile l’accesso aggregato. I valori sono esatti soltanto se l’utente possiede l’accesso individuale per tutte le attività incluse; altrimenti resta attiva la soglia minima configurata.
 - Gli indicatori di integrità sono diagnostici: non sono una prova conclusiva e non devono determinare da soli voti, completamento, sanzioni o accesso.
 
 ## Accessibilità e controlli focus
@@ -60,7 +60,7 @@ Il backup Moodle include configurazione e file dell’attività. Quando sono ric
 
 ## Esportazioni CSV e data format
 
-I campi identificativi dei report individuali sono configurabili a livello sito/istanza e limitati ai dati visibili a chi esporta. Gli export con reazioni o commenti individuali richiedono conferma esplicita e generano eventi Moodle. Gli export CSV/Excel/ODS degli Analytics di istanza contengono gli stessi aggregati esatti mostrati al report viewer autorizzato. Il testo delle note personali e le etichette/timestamp privati dei segnalibri restano esclusi; le dashboard corso/docente mantengono la soglia minima corrente fino alla revisione dedicata.
+I campi identificativi dei report individuali sono configurabili a livello sito/istanza e limitati ai dati visibili a chi esporta. I download individuali richiedono `mod/videotrack:exportindividualreport` (oppure la capability storica completa di report); gli export con reazioni o commenti individuali richiedono inoltre conferma esplicita e generano eventi Moodle. I download aggregati richiedono `mod/videotrack:exportaggregatereport` e mantengono gli stessi valori esatti o soggetti a soglia mostrati nella pagina aggregata autorizzata. Testo delle note personali ed etichette/timestamp privati dei segnalibri restano esclusi dagli export aggregati.
 
 ## Memoria del browser
 

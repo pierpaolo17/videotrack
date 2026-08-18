@@ -135,7 +135,7 @@ final class teacher_analytics {
                 continue;
             }
             $context = context_module::instance((int)$cm->id, IGNORE_MISSING);
-            if (!$context || !has_capability('mod/videotrack:viewreport', $context, $userid)) {
+            if (!$context || !report_access::can_view_aggregate($context, $userid)) {
                 continue;
             }
             $instanceid = (int)$cm->instance;

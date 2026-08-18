@@ -108,7 +108,7 @@ final class analytics_scope {
         $accessible = [];
         foreach ($candidates as $candidate) {
             $candidatecontext = context_module::instance((int)$candidate->cmid, IGNORE_MISSING);
-            if (!$candidatecontext || !has_capability('mod/videotrack:viewreport', $candidatecontext, $userid)) {
+            if (!$candidatecontext || !report_access::can_view_aggregate($candidatecontext, $userid)) {
                 continue;
             }
             $candidate->contextid = (int)$candidatecontext->id;
@@ -117,7 +117,7 @@ final class analytics_scope {
 
         if (!isset($accessible[(int)$videotrack->id])) {
             $currentcontext = context_module::instance((int)$cm->id, IGNORE_MISSING);
-            if ($currentcontext && has_capability('mod/videotrack:viewreport', $currentcontext, $userid)) {
+            if ($currentcontext && report_access::can_view_aggregate($currentcontext, $userid)) {
                 $current->contextid = (int)$currentcontext->id;
                 $accessible[(int)$current->id] = $current;
             }

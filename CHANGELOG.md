@@ -1,5 +1,11 @@
 # VideoTrack changelog
 
+## 1.7.75 - 2026-08-17
+
+- Separate activity-report authorisation into four granular capabilities: aggregate viewing, individual viewing, aggregate export and individual export, while retaining the historical `mod/videotrack:viewreport` capability as a backwards-compatible full-access grant. On upgrade, each new capability clones the site's existing `viewreport` role assignments so customised grants/revocations are preserved; fresh installs use the standard report-viewer archetypes.
+- Keep `mode=cumulative` and instance Analytics exact for viewers who may inspect individual learner reports, but preserve the configured `analyticsminusers` masking for aggregate-only viewers; aggregate-only access cannot use the learner filter, and cross-course instance Analytics become exact only when individual-report access is present for every included activity.
+- Gate aggregate and individual download paths independently, keep personal-note/detailed CSV exports behind individual permissions, retain report maintenance/reset/recalculation behind the historical full-report capability, and add behavioural/static coverage plus privacy documentation for delegated assistant roles. U-017 remains paused for this corrective authorisation release.
+
 ## 1.7.74 - 2026-08-17
 
 - Continue U-017 maintainability from the server-green 1.7.73 baseline by moving standard integrity-event SQL/parameter construction out of `report.php` into `local\report_support::integrity_event_condition()`.
