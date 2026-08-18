@@ -1,8 +1,8 @@
 # Inventario delle funzioni
 
-Generato dall’albero sorgente VideoTrack 1.7.74. Le voci PHP includono funzioni e metodi nominati; le voci AMD includono dichiarazioni nominate, espressioni funzione assegnate e funzioni-metodo di oggetti.
+Generato dall’albero sorgente VideoTrack 1.7.75. Le voci PHP includono funzioni e metodi nominati; le voci AMD includono dichiarazioni nominate, espressioni funzione assegnate e funzioni-metodo di oggetti.
 
-**Funzioni/metodi PHP:** 677. **Callable AMD nominati:** 647.
+**Funzioni/metodi PHP:** 687. **Callable AMD nominati:** 647.
 
 | Posizione | Callable | Responsabilità |
 |---|---|---|
@@ -896,6 +896,11 @@ Generato dall’albero sorgente VideoTrack 1.7.74. Le voci PHP includono funzion
 | `classes/local/privacy_manager.php:501` | `earliest_retained_timestamp` | Callable PHP `earliest_retained_timestamp`; DocBlock e chiamanti definiscono parametri, valori restituiti ed effetti. |
 | `classes/local/privacy_manager.php:543` | `delete_state` | Callable PHP `delete_state`; DocBlock e chiamanti definiscono parametri, valori restituiti ed effetti. |
 | `classes/local/privacy_manager.php:567` | `synchronise_completion` | Callable PHP `synchronise_completion`; DocBlock e chiamanti definiscono parametri, valori restituiti ed effetti. |
+| `classes/local/report_access.php:40` | `has_legacy_full_access` | Callable PHP `report_access::has_legacy_full_access`; verifica retrocompatibile della capability completa di report. |
+| `classes/local/report_access.php:54` | `can_view_aggregate` | Callable PHP `report_access::can_view_aggregate`; policy di visualizzazione aggregata con fallback legacy e implicazione dalla vista individuale. |
+| `classes/local/report_access.php:67` | `can_view_individual` | Callable PHP `report_access::can_view_individual`; policy di visualizzazione learner-level con fallback legacy completo. |
+| `classes/local/report_access.php:79` | `can_export_aggregate` | Callable PHP `report_access::can_export_aggregate`; policy di download aggregato con fallback legacy completo. |
+| `classes/local/report_access.php:91` | `can_export_individual` | Callable PHP `report_access::can_export_individual`; policy di download learner-level con fallback legacy completo. |
 | `classes/local/report_support.php:42` | `user_label` | Callable PHP `report_support::user_label`; formattazione etichetta utente con rispetto della visibilità email. |
 | `classes/local/report_support.php:60` | `date_to_timestamp` | Callable PHP `report_support::date_to_timestamp`; parsing canonico dei filtri data-only del report. |
 | `classes/local/report_support.php:82` | `optional_time_param` | Callable PHP `report_support::optional_time_param`; parsing dei tempi video strutturati e legacy dalla richiesta. |
@@ -907,7 +912,7 @@ Generato dall’albero sorgente VideoTrack 1.7.74. Le voci PHP includono funzion
 | `classes/local/report_support.php:416` | `integrity_event_condition` | Callable PHP `report_support::integrity_event_condition`; costruzione SQL/parametri degli eventi integrity standard con scope learner e filtri report opzionali. |
 | `classes/local/report_support.php:449` | `user_options` | Callable PHP `report_support::user_options`; costruzione delle opzioni utente del report in ordine di priorità con label rispettose della privacy. |
 | `classes/local/report_support.php:481` | `cluster_reaction_events` | Callable PHP `report_support::cluster_reaction_events`; clustering limitato delle reazioni con semantica invariata per finestra, conteggio studenti e ordinamento. |
-| `classes/local/report_support.php:556` | `tabs` | Callable PHP `report_support::tabs`; costruzione dei tab report dipendente dalle capability. |
+| `classes/local/report_support.php:559` | `tabs` | Callable PHP `report_support::tabs`; costruzione dei tab report dipendente dalle capability. |
 | `classes/local/report_view.php:42` | `analytics_interval` | Callable PHP `report_view::analytics_interval`; DocBlock e chiamanti definiscono parametri, valori restituiti ed effetti. |
 | `classes/local/report_view.php:56` | `analytics_heatmap` | Callable PHP `report_view::analytics_heatmap`; DocBlock e chiamanti definiscono parametri, valori restituiti ed effetti. |
 | `classes/local/report_view.php:188` | `analytics_methodology` | Callable PHP `report_view::analytics_methodology`; DocBlock e chiamanti definiscono parametri, valori restituiti ed effetti. |
@@ -1251,17 +1256,22 @@ Generato dall’albero sorgente VideoTrack 1.7.74. Le voci PHP includono funzion
 | `tests/release_hygiene_contract_test.php:96` | `test_current_documentation_tracks_release` | Funzione/metodo PHP nominato `test_current_documentation_tracks_release`; vedere DocBlock e chiamanti per il contratto corrente. |
 | `tests/release_hygiene_contract_test.php:131` | `test_maintained_language_packs_share_keys_and_placeholders` | Funzione/metodo PHP nominato `test_maintained_language_packs_share_keys_and_placeholders`; vedere DocBlock e chiamanti per il contratto corrente. |
 | `tests/release_hygiene_contract_test.php:179` | `test_privacy_summaries_keep_parallel_section_structure` | Funzione/metodo PHP nominato `test_privacy_summaries_keep_parallel_section_structure`; vedere DocBlock e chiamanti per il contratto corrente. |
+| `tests/report_access_test.php:37` | `test_aggregate_only_role_keeps_individual_access_separate` | Callable PHP `test_aggregate_only_role_keeps_individual_access_separate`; contratto comportamentale per accesso delegato solo aggregato. |
+| `tests/report_access_test.php:59` | `test_individual_view_implies_aggregate_view_without_export_permissions` | Callable PHP `test_individual_view_implies_aggregate_view_without_export_permissions`; contratto comportamentale per separare vista ed export. |
+| `tests/report_access_test.php:79` | `test_legacy_viewreport_remains_full_access` | Callable PHP `test_legacy_viewreport_remains_full_access`; contratto di retrocompatibilità per i ruoli report storici. |
 | `tests/report_contract_test.php:35` | `test_student_report_contains_reaction_replay_section` | Callable PHP `test_student_report_contains_reaction_replay_section`; contratto statico di regressione per il controller del report docente. |
-| `tests/report_contract_test.php:48` | `test_instance_analytics_uses_exact_authorised_aggregate_threshold` | Funzione/metodo PHP nominato `test_instance_analytics_uses_exact_authorised_aggregate_threshold`; vedere DocBlock e chiamanti per il contratto corrente. |
-| `tests/report_contract_test.php:74` | `test_report_confirmation_uses_supported_modal_api` | Callable PHP `test_report_confirmation_uses_supported_modal_api`; contratto statico di regressione per il controller del report docente. |
-| `tests/report_contract_test.php:87` | `test_custom_csv_event_rows_delegate_to_writer` | Callable PHP `test_custom_csv_event_rows_delegate_to_writer`; DocBlock e chiamanti definiscono parametri, valori restituiti ed effetti. |
-| `tests/report_contract_test.php:99` | `test_custom_csv_export_supports_private_bookmark_counts` | Callable PHP `test_custom_csv_export_supports_private_bookmark_counts`; contratto statico di regressione per il controller del report docente. |
-| `tests/report_contract_test.php:115` | `test_custom_csv_event_writer_receives_module_context` | Callable PHP `test_custom_csv_event_writer_receives_module_context`; DocBlock e chiamanti definiscono parametri, valori restituiti ed effetti. |
-| `tests/report_contract_test.php:131` | `test_student_grade_visibility_depends_on_participation_not_report_access` | Callable PHP `test_student_grade_visibility_depends_on_participation_not_report_access`; contratto statico di regressione per il controller del report docente. |
-| `tests/report_contract_test.php:149` | `test_student_grade_label_uses_plugin_string` | Callable PHP `test_student_grade_label_uses_plugin_string`; contratto statico di regressione per il controller del report docente. |
-| `tests/report_contract_test.php:159` | `test_provider_and_integrity_notices_share_one_alert` | Callable PHP `test_provider_and_integrity_notices_share_one_alert`; contratto statico di regressione per il controller del report docente. |
-| `tests/report_contract_test.php:176` | `test_report_support_helpers_are_extracted_from_controller` | Callable PHP `test_report_support_helpers_are_extracted_from_controller`; contratto statico di regressione per il controller del report docente. |
-| `tests/report_contract_test.php:207` | `test_analytics_rendering_is_extracted_from_report_controller` | Callable PHP `test_analytics_rendering_is_extracted_from_report_controller`; contratto statico di regressione per il controller del report docente. |
+| `tests/report_contract_test.php:48` | `test_instance_analytics_uses_capability_aware_privacy_threshold` | Callable PHP `test_instance_analytics_uses_capability_aware_privacy_threshold`; contratto statico per Analytics di istanza esatti o soggetti a soglia. |
+| `tests/report_contract_test.php:71` | `test_report_controller_enforces_granular_report_capabilities` | Callable PHP `test_report_controller_enforces_granular_report_capabilities`; contratto statico del controller sui gate granulari di vista/export report. |
+| `tests/report_contract_test.php:106` | `test_granular_report_capabilities_clone_legacy_assignments` | Callable PHP `test_granular_report_capabilities_clone_legacy_assignments`; contratto statico di upgrade che preserva le assegnazioni personalizzate dei ruoli report legacy. |
+| `tests/report_contract_test.php:131` | `test_report_confirmation_uses_supported_modal_api` | Callable PHP `test_report_confirmation_uses_supported_modal_api`; contratto statico di regressione per il controller del report docente. |
+| `tests/report_contract_test.php:144` | `test_custom_csv_event_rows_delegate_to_writer` | Callable PHP `test_custom_csv_event_rows_delegate_to_writer`; DocBlock e chiamanti definiscono parametri, valori restituiti ed effetti. |
+| `tests/report_contract_test.php:156` | `test_custom_csv_export_supports_private_bookmark_counts` | Callable PHP `test_custom_csv_export_supports_private_bookmark_counts`; contratto statico di regressione per il controller del report docente. |
+| `tests/report_contract_test.php:172` | `test_custom_csv_event_writer_receives_module_context` | Callable PHP `test_custom_csv_event_writer_receives_module_context`; DocBlock e chiamanti definiscono parametri, valori restituiti ed effetti. |
+| `tests/report_contract_test.php:188` | `test_student_grade_visibility_depends_on_participation_not_report_access` | Callable PHP `test_student_grade_visibility_depends_on_participation_not_report_access`; contratto statico di regressione per il controller del report docente. |
+| `tests/report_contract_test.php:206` | `test_student_grade_label_uses_plugin_string` | Callable PHP `test_student_grade_label_uses_plugin_string`; contratto statico di regressione per il controller del report docente. |
+| `tests/report_contract_test.php:216` | `test_provider_and_integrity_notices_share_one_alert` | Callable PHP `test_provider_and_integrity_notices_share_one_alert`; contratto statico di regressione per il controller del report docente. |
+| `tests/report_contract_test.php:233` | `test_report_support_helpers_are_extracted_from_controller` | Callable PHP `test_report_support_helpers_are_extracted_from_controller`; contratto statico di regressione per il controller del report docente. |
+| `tests/report_contract_test.php:264` | `test_analytics_rendering_is_extracted_from_report_controller` | Callable PHP `test_analytics_rendering_is_extracted_from_report_controller`; contratto statico di regressione per il controller del report docente. |
 | `tests/report_support_test.php:36` | `test_date_to_timestamp_rejects_invalid_values` | Callable PHP `test_date_to_timestamp_rejects_invalid_values`; copertura comportamentale degli helper estratti per richiesta/filtri/scope report. |
 | `tests/report_support_test.php:53` | `test_duration_filter_preserves_structured_controls` | Callable PHP `test_duration_filter_preserves_structured_controls`; copertura comportamentale degli helper estratti per richiesta/filtri/scope report. |
 | `tests/report_support_test.php:67` | `test_user_label_respects_email_visibility` | Callable PHP `test_user_label_respects_email_visibility`; copertura comportamentale degli helper estratti per richiesta/filtri/scope report. |

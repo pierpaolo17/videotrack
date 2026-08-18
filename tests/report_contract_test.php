@@ -43,9 +43,9 @@ final class report_contract_test extends advanced_testcase {
     }
 
     /**
-     * Instance Analytics exposes exact aggregates only after the normal report capability/scope checks.
+     * Instance Analytics is exact only when every included activity permits individual report access.
      */
-    public function test_instance_analytics_uses_exact_authorised_aggregate_threshold(): void {
+    public function test_instance_analytics_uses_capability_aware_privacy_threshold(): void {
         $source = file_get_contents(__DIR__ . '/../report.php');
         $this->assertIsString($source);
 
@@ -55,17 +55,74 @@ final class report_contract_test extends advanced_testcase {
         $this->assertNotFalse($end);
         $analytics = substr($source, $start, $end - $start);
 
+        $this->assertStringContainsString('report_access::can_view_individual(', $analytics);
         $this->assertStringContainsString(
-            "require_capability('mod/videotrack:viewreport', \$context);",
+            '$minusers = $canviewexactanalytics',
             $analytics
         );
-        $this->assertStringContainsString(
-            '$minusers = \mod_videotrack\local\analytics::EXACT_REPORT_MIN_USERS;',
-            $analytics
-        );
+        $this->assertStringContainsString('analytics::EXACT_REPORT_MIN_USERS', $analytics);
+        $this->assertStringContainsString("videotrack_get_config_int('analyticsminusers'", $analytics);
         $this->assertStringContainsString('analytics::apply_privacy_threshold($analytics, $minusers)', $analytics);
-        $this->assertStringNotContainsString("videotrack_get_config_int('analyticsminusers'", $analytics);
-        $this->assertStringNotContainsString('report_view::privacy_alert(', $analytics);
+    }
+
+    /**
+     * Activity reports keep aggregate viewing, individual viewing and both export levels separated.
+     */
+    public function test_report_controller_enforces_granular_report_capabilities(): void {
+        $source = file_get_contents(__DIR__ . '/../report.php');
+        $this->assertIsString($source);
+
+        $this->assertStringContainsString('report_access::can_view_aggregate($context)', $source);
+        $this->assertStringContainsString('report_access::can_view_individual($context)', $source);
+        $this->assertStringContainsString('report_access::can_export_aggregate($context)', $source);
+        $this->assertStringContainsString('report_access::can_export_individual($context)', $source);
+        $this->assertStringContainsString(
+            "require_capability('mod/videotrack:viewindividualreport', \$context);",
+            $source
+        );
+        $this->assertStringContainsString(
+            "require_capability('mod/videotrack:exportaggregatereport', \$context);",
+            $source
+        );
+        $this->assertStringContainsString(
+            "require_capability('mod/videotrack:exportindividualreport', \$context);",
+            $source
+        );
+        $this->assertStringContainsString('$reportreactionssuppressed', $source);
+        $this->assertStringContainsString('report:cumulative_privacy_suppressed', $source);
+        $this->assertStringContainsString(
+            "if (!\$canviewindividualreport) {\n        require_capability('mod/videotrack:viewindividualreport', \$context);",
+            $source
+        );
+        $this->assertStringContainsString(
+            "\$canviewfullreport && has_capability('mod/videotrack:managereactions', \$context)",
+            $source
+        );
+    }
+
+    /**
+     * Granular report capabilities must preserve customised legacy permissions on upgrade.
+     */
+    public function test_granular_report_capabilities_clone_legacy_assignments(): void {
+        $source = file_get_contents(__DIR__ . '/../db/access.php');
+        $this->assertIsString($source);
+
+        foreach ([
+            'viewaggregatereport',
+            'viewindividualreport',
+            'exportaggregatereport',
+            'exportindividualreport',
+        ] as $capability) {
+            $start = strpos($source, "'mod/videotrack:" . $capability . "' => [");
+            $this->assertNotFalse($start);
+            $end = strpos($source, "\n    ],", $start);
+            $this->assertNotFalse($end);
+            $definition = substr($source, $start, $end - $start);
+            $this->assertStringContainsString(
+                "'clonepermissionsfrom' => 'mod/videotrack:viewreport'",
+                $definition
+            );
+        }
     }
 
     /**

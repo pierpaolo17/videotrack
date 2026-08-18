@@ -176,7 +176,7 @@ final class course_analytics {
                 ? $eventsummaries[$videotrackid]['bookmarks']
                 : analytics::count_summary(0, 0, $minusers);
             $row->canviewactivity = has_capability('mod/videotrack:view', $context, $viewerid);
-            $row->canviewreport = has_capability('mod/videotrack:viewreport', $context, $viewerid);
+            $row->canviewreport = report_access::can_view_aggregate($context, $viewerid);
             $rows[$videotrackid] = $row;
         }
 

@@ -85,12 +85,12 @@ final class report_support_test extends \advanced_testcase {
      * Report tabs keep learner-only and full-report visibility separated.
      */
     public function test_tabs_preserve_capability_dependent_set(): void {
-        $learner = report_support::tabs(123, false, ['userid' => 7]);
-        $teacher = report_support::tabs(123, true, ['userid' => 7]);
+        $learner = report_support::tabs(123, true, false, false, false, ['userid' => 7]);
+        $aggregateassistant = report_support::tabs(123, false, true, false, false, ['userid' => 7]);
+        $teacher = report_support::tabs(123, true, true, true, true, ['userid' => 7]);
 
-        $this->assertCount(2, $learner);
-        $this->assertSame(['student', 'cumulative'], array_column($learner, 'id'));
-        $this->assertCount(5, $teacher);
+        $this->assertSame(['student'], array_column($learner, 'id'));
+        $this->assertSame(['cumulative', 'analytics'], array_column($aggregateassistant, 'id'));
         $this->assertSame(
             ['student', 'cumulative', 'analytics', 'export', 'recalculate'],
             array_column($teacher, 'id')

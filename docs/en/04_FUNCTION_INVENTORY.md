@@ -1,8 +1,8 @@
 # Function inventory
 
-Generated from the VideoTrack 1.7.74 source tree. PHP entries include named functions and methods; AMD entries include named declarations, assigned function expressions and object-method functions.
+Generated from the VideoTrack 1.7.75 source tree. PHP entries include named functions and methods; AMD entries include named declarations, assigned function expressions and object-method functions.
 
-**PHP functions/methods:** 677. **Named AMD callables:** 647.
+**PHP functions/methods:** 687. **Named AMD callables:** 647.
 
 | Location | Callable | Responsibility |
 |---|---|---|
@@ -896,6 +896,11 @@ Generated from the VideoTrack 1.7.74 source tree. PHP entries include named func
 | `classes/local/privacy_manager.php:501` | `earliest_retained_timestamp` | PHP callable `earliest_retained_timestamp`; see its DocBlock and callers for parameter, return-value and side-effect details. |
 | `classes/local/privacy_manager.php:543` | `delete_state` | PHP callable `delete_state`; see its DocBlock and callers for parameter, return-value and side-effect details. |
 | `classes/local/privacy_manager.php:567` | `synchronise_completion` | PHP callable `synchronise_completion`; see its DocBlock and callers for parameter, return-value and side-effect details. |
+| `classes/local/report_access.php:40` | `has_legacy_full_access` | PHP callable `report_access::has_legacy_full_access`; backwards-compatible full-report capability check. |
+| `classes/local/report_access.php:54` | `can_view_aggregate` | PHP callable `report_access::can_view_aggregate`; aggregate report-view policy including legacy and individual-view inheritance. |
+| `classes/local/report_access.php:67` | `can_view_individual` | PHP callable `report_access::can_view_individual`; learner-level report-view policy with legacy full-access fallback. |
+| `classes/local/report_access.php:79` | `can_export_aggregate` | PHP callable `report_access::can_export_aggregate`; aggregate report-download policy with legacy full-access fallback. |
+| `classes/local/report_access.php:91` | `can_export_individual` | PHP callable `report_access::can_export_individual`; learner-level report-download policy with legacy full-access fallback. |
 | `classes/local/report_support.php:42` | `user_label` | PHP callable `report_support::user_label`; extracted report-user label formatting with email-visibility preservation. |
 | `classes/local/report_support.php:60` | `date_to_timestamp` | PHP callable `report_support::date_to_timestamp`; canonical date-only report-filter parsing. |
 | `classes/local/report_support.php:82` | `optional_time_param` | PHP callable `report_support::optional_time_param`; structured and legacy video-time request parsing. |
@@ -907,7 +912,7 @@ Generated from the VideoTrack 1.7.74 source tree. PHP entries include named func
 | `classes/local/report_support.php:416` | `integrity_event_condition` | PHP callable `report_support::integrity_event_condition`; standard integrity-event SQL/parameter construction with learner scope and optional report filters. |
 | `classes/local/report_support.php:449` | `user_options` | PHP callable `report_support::user_options`; source-priority report-user option assembly with privacy-preserving labels. |
 | `classes/local/report_support.php:481` | `cluster_reaction_events` | PHP callable `report_support::cluster_reaction_events`; bounded reaction clustering with existing window, student-count and sort semantics. |
-| `classes/local/report_support.php:556` | `tabs` | PHP callable `report_support::tabs`; capability-dependent teacher-report tab construction. |
+| `classes/local/report_support.php:559` | `tabs` | PHP callable `report_support::tabs`; capability-dependent teacher-report tab construction. |
 | `classes/local/report_view.php:42` | `analytics_interval` | PHP callable `report_view::analytics_interval`; see its DocBlock and callers for parameter, return-value and side-effect details. |
 | `classes/local/report_view.php:56` | `analytics_heatmap` | PHP callable `report_view::analytics_heatmap`; see its DocBlock and callers for parameter, return-value and side-effect details. |
 | `classes/local/report_view.php:188` | `analytics_methodology` | PHP callable `report_view::analytics_methodology`; see its DocBlock and callers for parameter, return-value and side-effect details. |
@@ -1251,17 +1256,22 @@ Generated from the VideoTrack 1.7.74 source tree. PHP entries include named func
 | `tests/release_hygiene_contract_test.php:96` | `test_current_documentation_tracks_release` | Named PHP function/method `test_current_documentation_tracks_release`; see source DocBlock and callers for the current contract. |
 | `tests/release_hygiene_contract_test.php:131` | `test_maintained_language_packs_share_keys_and_placeholders` | Named PHP function/method `test_maintained_language_packs_share_keys_and_placeholders`; see source DocBlock and callers for the current contract. |
 | `tests/release_hygiene_contract_test.php:179` | `test_privacy_summaries_keep_parallel_section_structure` | Named PHP function/method `test_privacy_summaries_keep_parallel_section_structure`; see source DocBlock and callers for the current contract. |
+| `tests/report_access_test.php:37` | `test_aggregate_only_role_keeps_individual_access_separate` | PHP callable `test_aggregate_only_role_keeps_individual_access_separate`; behavioural contract for delegated aggregate-only report access. |
+| `tests/report_access_test.php:59` | `test_individual_view_implies_aggregate_view_without_export_permissions` | PHP callable `test_individual_view_implies_aggregate_view_without_export_permissions`; behavioural contract for view/export separation. |
+| `tests/report_access_test.php:79` | `test_legacy_viewreport_remains_full_access` | PHP callable `test_legacy_viewreport_remains_full_access`; backwards-compatibility contract for historical report roles. |
 | `tests/report_contract_test.php:35` | `test_student_report_contains_reaction_replay_section` | PHP callable `test_student_report_contains_reaction_replay_section`; static regression contract for the teacher report controller. |
-| `tests/report_contract_test.php:48` | `test_instance_analytics_uses_exact_authorised_aggregate_threshold` | Named PHP function/method `test_instance_analytics_uses_exact_authorised_aggregate_threshold`; see source DocBlock and callers for the current contract. |
-| `tests/report_contract_test.php:74` | `test_report_confirmation_uses_supported_modal_api` | PHP callable `test_report_confirmation_uses_supported_modal_api`; static regression contract for the teacher report controller. |
-| `tests/report_contract_test.php:87` | `test_custom_csv_event_rows_delegate_to_writer` | PHP callable `test_custom_csv_event_rows_delegate_to_writer`; see its DocBlock and callers for parameter, return-value and side-effect details. |
-| `tests/report_contract_test.php:99` | `test_custom_csv_export_supports_private_bookmark_counts` | PHP callable `test_custom_csv_export_supports_private_bookmark_counts`; static regression contract for the teacher report controller. |
-| `tests/report_contract_test.php:115` | `test_custom_csv_event_writer_receives_module_context` | PHP callable `test_custom_csv_event_writer_receives_module_context`; see its DocBlock and callers for parameter, return-value and side-effect details. |
-| `tests/report_contract_test.php:131` | `test_student_grade_visibility_depends_on_participation_not_report_access` | PHP callable `test_student_grade_visibility_depends_on_participation_not_report_access`; static regression contract for the teacher report controller. |
-| `tests/report_contract_test.php:149` | `test_student_grade_label_uses_plugin_string` | PHP callable `test_student_grade_label_uses_plugin_string`; static regression contract for the teacher report controller. |
-| `tests/report_contract_test.php:159` | `test_provider_and_integrity_notices_share_one_alert` | PHP callable `test_provider_and_integrity_notices_share_one_alert`; static regression contract for the teacher report controller. |
-| `tests/report_contract_test.php:176` | `test_report_support_helpers_are_extracted_from_controller` | PHP callable `test_report_support_helpers_are_extracted_from_controller`; static regression contract for the teacher report controller. |
-| `tests/report_contract_test.php:207` | `test_analytics_rendering_is_extracted_from_report_controller` | PHP callable `test_analytics_rendering_is_extracted_from_report_controller`; static regression contract for the teacher report controller. |
+| `tests/report_contract_test.php:48` | `test_instance_analytics_uses_capability_aware_privacy_threshold` | PHP callable `test_instance_analytics_uses_capability_aware_privacy_threshold`; static contract for exact versus thresholded instance Analytics. |
+| `tests/report_contract_test.php:71` | `test_report_controller_enforces_granular_report_capabilities` | PHP callable `test_report_controller_enforces_granular_report_capabilities`; static controller contract for granular report view/export gates. |
+| `tests/report_contract_test.php:106` | `test_granular_report_capabilities_clone_legacy_assignments` | PHP callable `test_granular_report_capabilities_clone_legacy_assignments`; static upgrade contract preserving customised legacy report-role assignments. |
+| `tests/report_contract_test.php:131` | `test_report_confirmation_uses_supported_modal_api` | PHP callable `test_report_confirmation_uses_supported_modal_api`; static regression contract for the teacher report controller. |
+| `tests/report_contract_test.php:144` | `test_custom_csv_event_rows_delegate_to_writer` | PHP callable `test_custom_csv_event_rows_delegate_to_writer`; see its DocBlock and callers for parameter, return-value and side-effect details. |
+| `tests/report_contract_test.php:156` | `test_custom_csv_export_supports_private_bookmark_counts` | PHP callable `test_custom_csv_export_supports_private_bookmark_counts`; static regression contract for the teacher report controller. |
+| `tests/report_contract_test.php:172` | `test_custom_csv_event_writer_receives_module_context` | PHP callable `test_custom_csv_event_writer_receives_module_context`; see its DocBlock and callers for parameter, return-value and side-effect details. |
+| `tests/report_contract_test.php:188` | `test_student_grade_visibility_depends_on_participation_not_report_access` | PHP callable `test_student_grade_visibility_depends_on_participation_not_report_access`; static regression contract for the teacher report controller. |
+| `tests/report_contract_test.php:206` | `test_student_grade_label_uses_plugin_string` | PHP callable `test_student_grade_label_uses_plugin_string`; static regression contract for the teacher report controller. |
+| `tests/report_contract_test.php:216` | `test_provider_and_integrity_notices_share_one_alert` | PHP callable `test_provider_and_integrity_notices_share_one_alert`; static regression contract for the teacher report controller. |
+| `tests/report_contract_test.php:233` | `test_report_support_helpers_are_extracted_from_controller` | PHP callable `test_report_support_helpers_are_extracted_from_controller`; static regression contract for the teacher report controller. |
+| `tests/report_contract_test.php:264` | `test_analytics_rendering_is_extracted_from_report_controller` | PHP callable `test_analytics_rendering_is_extracted_from_report_controller`; static regression contract for the teacher report controller. |
 | `tests/report_support_test.php:36` | `test_date_to_timestamp_rejects_invalid_values` | PHP callable `test_date_to_timestamp_rejects_invalid_values`; behavioural coverage for extracted report request/filter/scope helpers. |
 | `tests/report_support_test.php:53` | `test_duration_filter_preserves_structured_controls` | PHP callable `test_duration_filter_preserves_structured_controls`; behavioural coverage for extracted report request/filter/scope helpers. |
 | `tests/report_support_test.php:67` | `test_user_label_respects_email_visibility` | PHP callable `test_user_label_respects_email_visibility`; behavioural coverage for extracted report request/filter/scope helpers. |

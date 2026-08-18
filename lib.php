@@ -711,7 +711,7 @@ function videotrack_extend_settings_navigation($settings, $videotracknode) {
     } else if (array_key_exists($i + 1, $keys)) {
         $beforekey = $keys[$i + 1];
     }
-    if (has_capability('mod/videotrack:viewreport', $PAGE->cm->context)) {
+    if (\mod_videotrack\local\report_access::can_view_aggregate($PAGE->cm->context)) {
         $node = navigation_node::create(
             get_string('reportteacher', 'mod_videotrack'),
             new moodle_url('/mod/videotrack/report.php', ['id' => $PAGE->cm->id]),

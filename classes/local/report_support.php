@@ -549,36 +549,51 @@ final class report_support {
      * Builds the report tab set.
      *
      * @param int $cmid Course module id.
-     * @param bool $canviewfullreport Whether the current user may view teacher reports.
+     * @param bool $canviewstudentreport Whether a student/individual report tab may be shown.
+     * @param bool $canviewaggregatereport Whether cumulative and Analytics tabs may be shown.
+     * @param bool $canexportindividualreport Whether the detailed export tab may be shown.
+     * @param bool $canrecalculate Whether the maintenance/recalculation tab may be shown.
      * @param array $baseparams Existing report filter parameters.
      * @return array Report tabs.
      */
-    public static function tabs(int $cmid, bool $canviewfullreport, array $baseparams = []): array {
-        $studentparams = array_merge($baseparams, ['id' => $cmid, 'mode' => 'student']);
-        $cumulativeparams = array_merge($baseparams, ['id' => $cmid, 'mode' => 'cumulative']);
-        $tabs = [
-            new tabobject(
+    public static function tabs(
+        int $cmid,
+        bool $canviewstudentreport,
+        bool $canviewaggregatereport,
+        bool $canexportindividualreport,
+        bool $canrecalculate,
+        array $baseparams = []
+    ): array {
+        $tabs = [];
+        if ($canviewstudentreport) {
+            $studentparams = array_merge($baseparams, ['id' => $cmid, 'mode' => 'student']);
+            $tabs[] = new tabobject(
                 'student',
                 new moodle_url('/mod/videotrack/report.php', $studentparams),
                 get_string('report:perstudent', 'mod_videotrack')
-            ),
-            new tabobject(
+            );
+        }
+        if ($canviewaggregatereport) {
+            $cumulativeparams = array_merge($baseparams, ['id' => $cmid, 'mode' => 'cumulative']);
+            $tabs[] = new tabobject(
                 'cumulative',
                 new moodle_url('/mod/videotrack/report.php', $cumulativeparams),
                 get_string('report:cumulative', 'mod_videotrack')
-            ),
-        ];
-        if ($canviewfullreport) {
+            );
             $tabs[] = new tabobject(
                 'analytics',
                 new moodle_url('/mod/videotrack/report.php', ['id' => $cmid, 'mode' => 'analytics']),
                 get_string('report:analytics_tab', 'mod_videotrack')
             );
+        }
+        if ($canexportindividualreport) {
             $tabs[] = new tabobject(
                 'export',
                 new moodle_url('/mod/videotrack/report.php', ['id' => $cmid, 'mode' => 'export']),
                 get_string('report:csvexport_tab', 'mod_videotrack')
             );
+        }
+        if ($canrecalculate) {
             $tabs[] = new tabobject(
                 'recalculate',
                 new moodle_url('/mod/videotrack/report.php', ['id' => $cmid, 'mode' => 'recalculate']),

@@ -2,7 +2,7 @@
 
 VideoTrack è un modulo attività Moodle per distribuire e tracciare video HTML5/caricati, YouTube e Vimeo. Combina progresso di visione validato dal server con strumenti di studio opzionali, regole di completamento, integrazione gradebook e report docente attenti alla privacy.
 
-Release corrente documentata da questo albero: **1.7.74**. Rami Moodle dichiarati come supportati dal plugin: **5.0–5.3**.
+Release corrente documentata da questo albero: **1.7.75**. Rami Moodle dichiarati come supportati dal plugin: **5.0–5.3**.
 
 Panoramica inglese: [`README.md`](README.md)
 Cronologia release: [`CHANGELOG.md`](CHANGELOG.md)
@@ -28,7 +28,7 @@ Documentazione tecnica: [`docs/it/00_INDEX.md`](docs/it/00_INDEX.md) / [`docs/en
 
 La partecipazione learner è controllata da `mod/videotrack:participate` ed è indipendente dall'accesso ai report. Un utente con ruolo doppio o personalizzato può quindi restare un learner tracciato pur possedendo capability di report. Docenti, manager e amministratori restano in anteprima non tracciata salvo assegnazione anche della capability di partecipazione.
 
-VideoTrack registra soltanto i dati necessari alle funzioni abilitate. Le etichette dei segnalibri restano private al proprietario. Il testo delle note personali è visibile al proprietario e può essere consultato/esportato dai report viewer autorizzati; gli Analytics aggregati escludono il testo delle note. Gli Analytics di istanza mostrano aggregati esatti ai report viewer autorizzati entro il loro scope Moodle; le dashboard corso/docente applicano ancora la soglia minima configurata in attesa della revisione dedicata. Gli indicatori di integrità sono diagnostici e non devono essere trattati come prova di comportamento scorretto.
+VideoTrack registra soltanto i dati necessari alle funzioni abilitate. Le etichette dei segnalibri restano private al proprietario. I report di attività separano visualizzazione aggregata, visualizzazione individuale, export aggregato ed export individuale. Chi possiede soltanto l’accesso aggregato non può filtrare per studente e mantiene la soglia minima configurata; chi possiede l’accesso individuale vede aggregati esatti entro il proprio scope Moodle. Il testo delle note personali è escluso dagli Analytics aggregati e gli indicatori di integrità restano segnali diagnostici, non prove di comportamento scorretto.
 
 La politica focus predefinita mette in pausa soltanto quando la pagina del video è realmente nascosta. Controlli del player, regioni di stato, navigazione della trascrizione e azioni sul poster sono progettati per tastiera e tecnologie assistive. I limiti di browser e provider esterni sono documentati come comportamento best effort, non come garanzie.
 

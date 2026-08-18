@@ -64,6 +64,54 @@ $capabilities = [
         ],
     ],
 
+    // Aggregate report access preserves the configured privacy threshold and does not permit learner filtering.
+    'mod/videotrack:viewaggregatereport' => [
+        'captype' => 'read',
+        'contextlevel' => CONTEXT_MODULE,
+        'archetypes' => [
+            'teacher' => CAP_ALLOW,
+            'editingteacher' => CAP_ALLOW,
+            'manager' => CAP_ALLOW,
+        ],
+        'clonepermissionsfrom' => 'mod/videotrack:viewreport',
+    ],
+    // Individual report access permits learner-level detail and exact aggregate values within the Moodle learner scope.
+    'mod/videotrack:viewindividualreport' => [
+        'riskbitmask' => RISK_PERSONAL,
+        'captype' => 'read',
+        'contextlevel' => CONTEXT_MODULE,
+        'archetypes' => [
+            'teacher' => CAP_ALLOW,
+            'editingteacher' => CAP_ALLOW,
+            'manager' => CAP_ALLOW,
+        ],
+        'clonepermissionsfrom' => 'mod/videotrack:viewreport',
+    ],
+    // Aggregate downloads remain privacy-thresholded unless the viewer can also inspect individual report data.
+    'mod/videotrack:exportaggregatereport' => [
+        'riskbitmask' => RISK_PERSONAL,
+        'captype' => 'read',
+        'contextlevel' => CONTEXT_MODULE,
+        'archetypes' => [
+            'teacher' => CAP_ALLOW,
+            'editingteacher' => CAP_ALLOW,
+            'manager' => CAP_ALLOW,
+        ],
+        'clonepermissionsfrom' => 'mod/videotrack:viewreport',
+    ],
+    // Individual downloads may contain learner identities and detailed activity records.
+    'mod/videotrack:exportindividualreport' => [
+        'riskbitmask' => RISK_PERSONAL,
+        'captype' => 'read',
+        'contextlevel' => CONTEXT_MODULE,
+        'archetypes' => [
+            'teacher' => CAP_ALLOW,
+            'editingteacher' => CAP_ALLOW,
+            'manager' => CAP_ALLOW,
+        ],
+        'clonepermissionsfrom' => 'mod/videotrack:viewreport',
+    ],
+
     'mod/videotrack:viewcoursereport' => [
         'captype' => 'read',
         'contextlevel' => CONTEXT_COURSE,

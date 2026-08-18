@@ -40,7 +40,7 @@ final class analytics_performance_contract_test extends advanced_testcase {
         $method = substr($source, $start, $end - $start);
 
         $this->assertStringContainsString('get_fast_modinfo($course, $userid)', $method);
-        $this->assertStringContainsString("has_capability('mod/videotrack:viewreport'", $method);
+        $this->assertStringContainsString('report_access::can_view_aggregate($context, $userid)', $method);
         $this->assertStringNotContainsString('course_analytics::get_course_rows', $method);
     }
 

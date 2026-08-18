@@ -267,6 +267,14 @@ Tutte le chiavi sono memorizzate sotto `mod_videotrack`.
 
 - `mod/videotrack:participate` — permesso canonico di scrittura nel contesto modulo per tracking learner, reazioni, note, segnalibri, indicatori di integrità, prese visione ed export personale dei segnalibri. I permessi predefiniti sono clonati da `moodle/course:isincompletionreports`; l’accesso ai report è indipendente.
 
+## Capability dei report di attività
+
+- `mod/videotrack:viewreport` — autorizzazione storica completa e retrocompatibile ai report di attività; implica tutti i permessi granulari e continua a proteggere manutenzione/reset/ricalcolo dei report. Durante l’upgrade ciascuna nuova capability granulare clona le assegnazioni di ruolo esistenti di `viewreport`, che l’amministratore può poi separare.
+- `mod/videotrack:viewaggregatereport` — visualizza cumulativo e Analytics di istanza mantenendo il masking `analyticsminusers` e senza filtro per studente.
+- `mod/videotrack:viewindividualreport` — visualizza il dettaglio learner; rende inoltre esatti gli aggregati autorizzati dell’attività entro lo stesso scope Moodle learner/gruppi.
+- `mod/videotrack:exportaggregatereport` — scarica output aggregati cumulativi/Analytics con lo stesso livello privacy della vista aggregata.
+- `mod/videotrack:exportindividualreport` — scarica dati learner/dettagliati quando è autorizzata anche la visualizzazione individuale.
+
 ## Servizi AJAX
 
 - `mod_videotrack_save_integrity_event` — servizio di scrittura autenticato con `mod/videotrack:participate`.
