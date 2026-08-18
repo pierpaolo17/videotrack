@@ -1,11 +1,11 @@
 # Audit della documentazione
 
-Baseline: VideoTrack **1.7.79** (`2026081803`).
+Baseline: VideoTrack **1.7.80** (`2026081804`).
 
 ## Copertura
 
 - File non documentali inventariati: **275/275**.
-- Funzioni/metodi PHP nominati inventariati: **693**.
+- Funzioni/metodi PHP nominati inventariati: **695**.
 - Callable AMD nominati rilevati e inventariati: **647**.
 - Tabelle XMLDB documentate: **7**.
 - Chiavi impostazioni sito documentate: **57**.
@@ -18,6 +18,17 @@ Baseline: VideoTrack **1.7.79** (`2026081803`).
 - Automazione browser Behat documentata in `22_TEST_BROWSER_BEHAT.md`; U-007 è tracciato come in corso.
 - I contratti statici resume/completion/alert impilati coprono i tre provider mentre Behat resta indisponibile nell’ambiente maintainer; l’evidenza browser resta esplicitamente pendente.
 - La navigazione capitoli ha ora un contratto esplicito focus-visible/colori forzati; la matrice manuale tastiera/high-contrast resta un gate per la chiusura finale di U-020.
+
+## Verifica documentazione pre-produzione 1.7.80
+
+- Inventario corrente dei file non documentali rigenerato sull'albero candidato 1.7.80: **275/275** voci.
+- Inventario funzioni rigenerato dalle posizioni sorgente: **695** funzioni/metodi PHP nominati e **647** callable AMD nominati rilevati.
+- La release 1.7.80 continua U-017 con l'estrazione meccanicamente equivalente della costruzione SQL/parametri delle note personali per-studente da `report.php` a `local\report_support::note_event_condition()`, con copertura comportamentale e contratto di delega del controller.
+- Lo scope learner canonico, la selezione note personali/righe non eliminate, il filtro studente opzionale e i limiti inclusivi `timecreated` inferiore/superiore restano invariati. Export note, privacy note, capability report, Analytics, schema, tracking, completion e runtime AMD/player restano intenzionalmente fuori da questa tranche.
+- Le tabelle XMLDB restano **7**, le impostazioni **57**, i servizi AJAX **9** e le chiavi di configurazione browser/player **133**.
+- Gli otto language pack mantenuti restano allineati a **987** chiavi con placeholder Moodle coerenti.
+- I link Markdown relativi sono stati ricontrollati sull'albero candidato senza target mancanti.
+- U-017 resta in corso; la tranche successiva deve continuare solo dopo gate maintainer PHPUnit/PHPCS verdi per la 1.7.80.
 
 ## Verifica documentazione pre-produzione 1.7.79
 

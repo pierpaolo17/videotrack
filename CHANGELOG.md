@@ -1,5 +1,11 @@
 # VideoTrack changelog
 
+## 1.7.80 - 2026-08-18
+
+- Continue U-017 maintainability from the server-green 1.7.79 baseline by moving per-student note-list SQL/parameter construction out of `report.php` into `local\report_support::note_event_condition()`.
+- Preserve the canonical learner scope, personal-note/deleted-row selection, optional learner filter and inclusive note creation-date bounds under direct behavioural PHPUnit coverage plus the controller-delegation contract.
+- Keep note export paths, note privacy, report capabilities, Analytics, schema, tracking, completion and AMD/player runtime unchanged.
+
 ## 1.7.79 - 2026-08-18
 
 - Continue U-017 maintainability from the server-green 1.7.78 baseline by moving segment-user discovery SQL/parameter construction out of `report.php` into `local\report_support::segment_user_condition()`.

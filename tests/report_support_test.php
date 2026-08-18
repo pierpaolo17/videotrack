@@ -281,6 +281,49 @@ final class report_support_test extends \advanced_testcase {
     }
 
     /**
+     * Personal-note event filters preserve scope, learner filtering and creation-time bounds.
+     */
+    public function test_note_event_condition_preserves_scope_user_and_creation_bounds(): void {
+        [$conditions, $params] = report_support::note_event_condition(
+            42,
+            'userid IN (:learnerone, :learnertwo)',
+            ['learnerone' => 7, 'learnertwo' => 8],
+            7,
+            100,
+            200
+        );
+
+        $this->assertSame(
+            "videotrackid = :vtid AND isdeleted = 0 AND notetype = 'note'" .
+                ' AND userid IN (:learnerone, :learnertwo) AND userid = :uid' .
+                ' AND timecreated >= :notecreatedfrom AND timecreated <= :notecreatedto',
+            $conditions
+        );
+        $this->assertSame([
+            'vtid' => 42,
+            'learnerone' => 7,
+            'learnertwo' => 8,
+            'uid' => 7,
+            'notecreatedfrom' => 100,
+            'notecreatedto' => 200,
+        ], $params);
+
+        [$minimalconditions, $minimalparams] = report_support::note_event_condition(
+            42,
+            'userid = :learner',
+            ['learner' => 7],
+            0,
+            0,
+            0
+        );
+        $this->assertSame(
+            "videotrackid = :vtid AND isdeleted = 0 AND notetype = 'note' AND userid = :learner",
+            $minimalconditions
+        );
+        $this->assertSame(['vtid' => 42, 'learner' => 7], $minimalparams);
+    }
+
+    /**
      * State-row filters preserve learner scope and optional user filtering.
      */
     public function test_state_condition_preserves_scope_and_optional_user(): void {

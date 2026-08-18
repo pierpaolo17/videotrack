@@ -1,6 +1,6 @@
 # Indice documentazione VideoTrack
 
-Release documentata: **1.7.79** (`2026081803`).
+Release documentata: **1.7.80** (`2026081804`).
 
 Lo storico pubblico delle release è mantenuto in [`../../CHANGELOG.md`](../../CHANGELOG.md). Gli artefatti interni di roadmap e lesson learned per il maintainer non sono distribuiti con il plugin.
 

@@ -466,6 +466,44 @@ final class report_support {
     }
 
     /**
+     * Builds the personal-note event condition and named parameters.
+     *
+     * This condition is used by the per-student note list. Note exports remain separate.
+     *
+     * @param int $videotrackid VideoTrack instance id.
+     * @param string $learnerwhere Canonical learner-scope SQL fragment.
+     * @param array $learnerparams Canonical learner-scope named parameters.
+     * @param int $useridfilter Optional Moodle user id filter.
+     * @param int $createdfrom Optional inclusive creation-time lower bound.
+     * @param int $createdto Optional inclusive creation-time upper bound.
+     * @return array Tuple of SQL condition and named parameters.
+     */
+    public static function note_event_condition(
+        int $videotrackid,
+        string $learnerwhere,
+        array $learnerparams,
+        int $useridfilter,
+        int $createdfrom,
+        int $createdto
+    ): array {
+        $conditions = "videotrackid = :vtid AND isdeleted = 0 AND notetype = 'note' AND {$learnerwhere}";
+        $params = ['vtid' => $videotrackid] + $learnerparams;
+        if ($useridfilter > 0) {
+            $conditions .= ' AND userid = :uid';
+            $params['uid'] = $useridfilter;
+        }
+        if ($createdfrom) {
+            $conditions .= ' AND timecreated >= :notecreatedfrom';
+            $params['notecreatedfrom'] = $createdfrom;
+        }
+        if ($createdto) {
+            $conditions .= ' AND timecreated <= :notecreatedto';
+            $params['notecreatedto'] = $createdto;
+        }
+        return [$conditions, $params];
+    }
+
+    /**
      * Builds the state-row report condition and named parameters.
      *
      * @param int $videotrackid VideoTrack instance id.

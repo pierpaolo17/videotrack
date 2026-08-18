@@ -1,8 +1,8 @@
 # Inventario delle funzioni
 
-Generato dall’albero sorgente VideoTrack 1.7.79. Le voci PHP includono funzioni e metodi nominati; le voci AMD includono dichiarazioni nominate, espressioni funzione assegnate e funzioni-metodo di oggetti.
+Generato dall’albero sorgente VideoTrack 1.7.80. Le voci PHP includono funzioni e metodi nominati; le voci AMD includono dichiarazioni nominate, espressioni funzione assegnate e funzioni-metodo di oggetti.
 
-**Funzioni/metodi PHP:** 693. **Callable AMD nominati:** 647.
+**Funzioni/metodi PHP:** 695. **Callable AMD nominati:** 647.
 
 | Posizione | Callable | Responsabilità |
 |---|---|---|
@@ -911,11 +911,12 @@ Generato dall’albero sorgente VideoTrack 1.7.79. Le voci PHP includono funzion
 | `classes/local/report_support.php:380` | `bookmark_event_condition` | Callable PHP `report_support::bookmark_event_condition`; costruzione SQL/parametri degli eventi bookmark standard con scope learner e filtri report opzionali. |
 | `classes/local/report_support.php:416` | `integrity_event_condition` | Callable PHP `report_support::integrity_event_condition`; costruzione SQL/parametri degli eventi integrity standard con scope learner e filtri report opzionali. |
 | `classes/local/report_support.php:453` | `note_user_condition` | Callable PHP `report_support::note_user_condition`; costruzione SQL/parametri per individuare gli utenti con note personali, con scope learner e filtro studente opzionale. |
-| `classes/local/report_support.php:477` | `state_condition` | Callable PHP `report_support::state_condition`; costruzione SQL/parametri delle righe di stato con scope learner e filtro studente opzionale. |
-| `classes/local/report_support.php:503` | `segment_user_condition` | Callable PHP `report_support::segment_user_condition`; costruzione SQL/parametri per individuare gli utenti rappresentati nei segmenti con scope learner canonico. |
-| `classes/local/report_support.php:522` | `user_options` | Callable PHP `report_support::user_options`; costruzione delle opzioni utente del report in ordine di priorità con label rispettose della privacy. |
-| `classes/local/report_support.php:554` | `cluster_reaction_events` | Callable PHP `report_support::cluster_reaction_events`; clustering limitato delle reazioni con semantica invariata per finestra, conteggio studenti e ordinamento. |
-| `classes/local/report_support.php:632` | `tabs` | Callable PHP `report_support::tabs`; costruzione dei tab report dipendente dalle capability. |
+| `classes/local/report_support.php:481` | `note_event_condition` | Callable PHP `report_support::note_event_condition`; costruzione SQL/parametri delle note personali per-studente con scope learner, filtro studente opzionale e limiti inclusivi sul tempo di creazione. |
+| `classes/local/report_support.php:515` | `state_condition` | Callable PHP `report_support::state_condition`; costruzione SQL/parametri delle righe di stato con scope learner e filtro studente opzionale. |
+| `classes/local/report_support.php:541` | `segment_user_condition` | Callable PHP `report_support::segment_user_condition`; costruzione SQL/parametri per individuare gli utenti rappresentati nei segmenti con scope learner canonico. |
+| `classes/local/report_support.php:560` | `user_options` | Callable PHP `report_support::user_options`; costruzione delle opzioni utente del report in ordine di priorità con label rispettose della privacy. |
+| `classes/local/report_support.php:592` | `cluster_reaction_events` | Callable PHP `report_support::cluster_reaction_events`; clustering limitato delle reazioni con semantica invariata per finestra, conteggio studenti e ordinamento. |
+| `classes/local/report_support.php:670` | `tabs` | Callable PHP `report_support::tabs`; costruzione dei tab report dipendente dalle capability. |
 | `classes/local/report_view.php:42` | `analytics_interval` | Callable PHP `report_view::analytics_interval`; DocBlock e chiamanti definiscono parametri, valori restituiti ed effetti. |
 | `classes/local/report_view.php:56` | `analytics_heatmap` | Callable PHP `report_view::analytics_heatmap`; DocBlock e chiamanti definiscono parametri, valori restituiti ed effetti. |
 | `classes/local/report_view.php:188` | `analytics_methodology` | Callable PHP `report_view::analytics_methodology`; DocBlock e chiamanti definiscono parametri, valori restituiti ed effetti. |
@@ -1284,10 +1285,11 @@ Generato dall’albero sorgente VideoTrack 1.7.79. Le voci PHP includono funzion
 | `tests/report_support_test.php:163` | `test_bookmark_event_condition_preserves_filters_and_scope` | Callable PHP `test_bookmark_event_condition_preserves_filters_and_scope`; copertura comportamentale della costruzione SQL/parametri estratta per gli eventi bookmark standard. |
 | `tests/report_support_test.php:207` | `test_integrity_event_condition_preserves_filters_and_scope` | Callable PHP `test_integrity_event_condition_preserves_filters_and_scope`; copertura comportamentale della costruzione SQL/parametri estratta per gli eventi integrity standard. |
 | `tests/report_support_test.php:250` | `test_note_user_condition_preserves_scope_and_optional_user` | Callable PHP `test_note_user_condition_preserves_scope_and_optional_user`; copertura comportamentale della costruzione SQL/parametri estratta per individuare gli utenti con note personali. |
-| `tests/report_support_test.php:286` | `test_state_condition_preserves_scope_and_optional_user` | Callable PHP `test_state_condition_preserves_scope_and_optional_user`; copertura comportamentale della costruzione SQL/parametri delle righe di stato estratta. |
-| `tests/report_support_test.php:318` | `test_segment_user_condition_preserves_scope` | Callable PHP `test_segment_user_condition_preserves_scope`; copertura comportamentale della costruzione SQL/parametri estratta per individuare gli utenti rappresentati nei segmenti. |
-| `tests/report_support_test.php:347` | `test_user_options_preserve_source_priority_and_privacy` | Callable PHP `test_user_options_preserve_source_priority_and_privacy`; copertura comportamentale della costruzione estratta delle opzioni utente. |
-| `tests/report_support_test.php:379` | `test_cluster_reaction_events_preserves_report_semantics` | Callable PHP `test_cluster_reaction_events_preserves_report_semantics`; copertura comportamentale del clustering reazioni estratto. |
+| `tests/report_support_test.php:286` | `test_note_event_condition_preserves_scope_user_and_creation_bounds` | Callable PHP `test_note_event_condition_preserves_scope_user_and_creation_bounds`; copertura comportamentale della costruzione SQL/parametri estratta per le note personali per-studente. |
+| `tests/report_support_test.php:329` | `test_state_condition_preserves_scope_and_optional_user` | Callable PHP `test_state_condition_preserves_scope_and_optional_user`; copertura comportamentale della costruzione SQL/parametri delle righe di stato estratta. |
+| `tests/report_support_test.php:361` | `test_segment_user_condition_preserves_scope` | Callable PHP `test_segment_user_condition_preserves_scope`; copertura comportamentale della costruzione SQL/parametri estratta per individuare gli utenti rappresentati nei segmenti. |
+| `tests/report_support_test.php:390` | `test_user_options_preserve_source_priority_and_privacy` | Callable PHP `test_user_options_preserve_source_priority_and_privacy`; copertura comportamentale della costruzione estratta delle opzioni utente. |
+| `tests/report_support_test.php:422` | `test_cluster_reaction_events_preserves_report_semantics` | Callable PHP `test_cluster_reaction_events_preserves_report_semantics`; copertura comportamentale del clustering reazioni estratto. |
 | `tests/report_view_test.php:35` | `setUp` | Callable PHP `setUp`; copertura comportamentale del helper di presentazione Analytics estratto. |
 | `tests/report_view_test.php:43` | `test_reaction_summary_preserves_privacy_contract` | Callable PHP `test_reaction_summary_preserves_privacy_contract`; copertura comportamentale del helper di presentazione Analytics estratto. |
 | `tests/report_view_test.php:65` | `test_exact_analytics_methodology_omits_privacy_threshold_text` | Funzione/metodo PHP nominato `test_exact_analytics_methodology_omits_privacy_threshold_text`; vedere DocBlock e chiamanti per il contratto corrente. |
