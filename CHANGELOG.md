@@ -1,5 +1,11 @@
 # VideoTrack changelog
 
+## 1.7.78 - 2026-08-18
+
+- Continue U-017 maintainability from the server-green 1.7.77 baseline by moving `videotrack_state` report SQL/parameter construction out of `report.php` into `local\report_support::state_condition()`.
+- Preserve the canonical learner scope, optional learner filter and existing `svtid`/`suid` named parameters under direct behavioural PHPUnit coverage plus the controller-delegation contract.
+- Keep state queries/order, segment scope, report capabilities/privacy, export paths, Analytics, schema, tracking, completion and AMD/player runtime unchanged.
+
 ## 1.7.77 - 2026-08-18
 
 - Resume U-017 maintainability from the server-green 1.7.76 baseline by moving personal-note user-discovery SQL/parameter construction out of `report.php` into `local\report_support::note_user_condition()`.

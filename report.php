@@ -1108,12 +1108,12 @@ if (\mod_videotrack\local\acknowledgement::is_enabled($videotrack)) {
     }
 }
 
-$stateconditions = "videotrackid = :svtid AND {$learnerwhere}";
-$stateparamsnamed = ['svtid' => $videotrack->id] + $learnerparams;
-if ($useridfilter > 0) {
-    $stateconditions .= ' AND userid = :suid';
-    $stateparamsnamed['suid'] = $useridfilter;
-}
+[$stateconditions, $stateparamsnamed] = \mod_videotrack\local\report_support::state_condition(
+    (int)$videotrack->id,
+    $learnerwhere,
+    $learnerparams,
+    $useridfilter
+);
 $statecount = $DB->count_records_select('videotrack_state', $stateconditions, $stateparamsnamed);
 $stateuserids = array_map('intval', $DB->get_fieldset_select(
     'videotrack_state',

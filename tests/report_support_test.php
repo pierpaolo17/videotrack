@@ -281,6 +281,38 @@ final class report_support_test extends \advanced_testcase {
     }
 
     /**
+     * State-row filters preserve learner scope and optional user filtering.
+     */
+    public function test_state_condition_preserves_scope_and_optional_user(): void {
+        [$conditions, $params] = report_support::state_condition(
+            42,
+            'userid IN (:learnerone, :learnertwo)',
+            ['learnerone' => 7, 'learnertwo' => 8],
+            7
+        );
+
+        $this->assertSame(
+            'videotrackid = :svtid AND userid IN (:learnerone, :learnertwo) AND userid = :suid',
+            $conditions
+        );
+        $this->assertSame([
+            'svtid' => 42,
+            'learnerone' => 7,
+            'learnertwo' => 8,
+            'suid' => 7,
+        ], $params);
+
+        [$minimalconditions, $minimalparams] = report_support::state_condition(
+            42,
+            'userid = :learner',
+            ['learner' => 7],
+            0
+        );
+        $this->assertSame('videotrackid = :svtid AND userid = :learner', $minimalconditions);
+        $this->assertSame(['svtid' => 42, 'learner' => 7], $minimalparams);
+    }
+
+    /**
      * User options preserve source-group priority, deduplicate ids and omit missing users.
      */
     public function test_user_options_preserve_source_priority_and_privacy(): void {
