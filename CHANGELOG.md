@@ -1,5 +1,11 @@
 # VideoTrack changelog
 
+## 1.7.82 - 2026-08-18
+
+- Continue U-017 maintainability from the server-green 1.7.81 baseline by moving bookmark-Analytics SQL decoration out of `report.php` into `local\report_support::analytics_bookmark_condition()`.
+- Preserve the capability-safe Analytics scope, deleted-row exclusion, bookmark-only selection and optional provider `videoid` filter with the existing `analyticsbookmarkvideoid` parameter under direct behavioural coverage plus the controller-delegation contract.
+- Keep Analytics privacy thresholds/clustering, reaction/integrity/acknowledgement Analytics, report capabilities, export paths, schema, tracking, completion and AMD/player runtime unchanged.
+
 ## 1.7.81 - 2026-08-18
 
 - Continue U-017 maintainability from the server-green 1.7.80 baseline by moving standard reaction-Analytics SQL decoration out of `report.php` into `local\report_support::analytics_reaction_condition()`.
