@@ -246,6 +246,7 @@ final class report_contract_test extends advanced_testcase {
         $this->assertStringContainsString('report_support::bookmark_event_condition(', $report);
         $this->assertStringContainsString('report_support::integrity_event_condition(', $report);
         $this->assertStringContainsString('report_support::note_user_condition(', $report);
+        $this->assertStringContainsString('report_support::note_event_condition(', $report);
         $this->assertStringContainsString('report_support::state_condition(', $report);
         $this->assertStringContainsString('report_support::segment_user_condition(', $report);
         $this->assertStringContainsString('final class report_support', $support);
@@ -262,6 +263,10 @@ final class report_contract_test extends advanced_testcase {
         );
         $this->assertStringNotContainsString(
             '"videotrackid = :vtid AND {$learnerwhere}",',
+            $report
+        );
+        $this->assertStringNotContainsString(
+            '$notewhere = "videotrackid = :vtid AND isdeleted = 0 AND notetype = \'note\'',
             $report
         );
     }

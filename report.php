@@ -2932,20 +2932,14 @@ if ($mode === 'student') {
 
 // Student notes section: per-student mode only, and only when notes are enabled.
 if ($mode === 'student' && !empty($videotrack->studentnotesenabled)) {
-    $notewhere = "videotrackid = :vtid AND isdeleted = 0 AND notetype = 'note' AND {$learnerwhere}" .
-        ($useridfilter > 0 ? ' AND userid = :uid' : '');
-    $noteparams = ['vtid' => $videotrack->id] + $learnerparams;
-    if ($useridfilter > 0) {
-        $noteparams['uid'] = $useridfilter;
-    }
-    if ($notecreatedfromts) {
-        $notewhere .= ' AND timecreated >= :notecreatedfrom';
-        $noteparams['notecreatedfrom'] = $notecreatedfromts;
-    }
-    if ($notecreatedtots) {
-        $notewhere .= ' AND timecreated <= :notecreatedto';
-        $noteparams['notecreatedto'] = $notecreatedtots;
-    }
+    [$notewhere, $noteparams] = \mod_videotrack\local\report_support::note_event_condition(
+        (int)$videotrack->id,
+        $learnerwhere,
+        $learnerparams,
+        $useridfilter,
+        $notecreatedfromts,
+        $notecreatedtots
+    );
     $notelimit = videotrack_get_config_int('reportnotespagesize', 100, 20, 500);
     $notecount = $DB->count_records_select('videotrack_reactev', $notewhere, $noteparams);
     if ($notecount > 0) {
