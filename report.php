@@ -298,12 +298,11 @@ if ($mode === 'analytics') {
             'analyticsreaction',
             (int)$USER->id
         );
-        $reactionwhere = '(' . $reactionwhere . ') AND isdeleted = 0 '
-            . "AND (notetype = '' OR notetype IS NULL)";
-        if ($providerdataid !== '') {
-            $reactionwhere .= ' AND videoid = :analyticsreactionvideoid';
-            $reactionparams['analyticsreactionvideoid'] = $providerdataid;
-        }
+        [$reactionwhere, $reactionparams] = \mod_videotrack\local\report_support::analytics_reaction_condition(
+            $reactionwhere,
+            $reactionparams,
+            $providerdataid
+        );
         $reactionsummaryrecord = $DB->get_record_sql(
             "SELECT COUNT(id) AS eventcount, COUNT(DISTINCT userid) AS studentcount
                FROM {videotrack_reactev}

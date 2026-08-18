@@ -250,6 +250,31 @@ final class report_support {
     }
 
     /**
+     * Adds standard-reaction and optional provider filtering to an Analytics scope condition.
+     *
+     * Personal notes, bookmarks and deleted rows are intentionally excluded from reaction Analytics.
+     *
+     * @param string $scopewhere Capability-safe Analytics scope SQL fragment.
+     * @param array $scopeparams Capability-safe Analytics scope named parameters.
+     * @param string $providerdataid Optional provider video id filter.
+     * @return array Tuple of SQL condition and named parameters.
+     */
+    public static function analytics_reaction_condition(
+        string $scopewhere,
+        array $scopeparams,
+        string $providerdataid
+    ): array {
+        $conditions = '(' . $scopewhere . ') AND isdeleted = 0 ' .
+            "AND (notetype = '' OR notetype IS NULL)";
+        $params = $scopeparams;
+        if ($providerdataid !== '') {
+            $conditions .= ' AND videoid = :analyticsreactionvideoid';
+            $params['analyticsreactionvideoid'] = $providerdataid;
+        }
+        return [$conditions, $params];
+    }
+
+    /**
      * Builds a capability-safe SQL condition for current acknowledgement versions.
      *
      * Each enabled activity contributes its own statement hash. Group restrictions
