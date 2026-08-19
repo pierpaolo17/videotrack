@@ -20,6 +20,7 @@ use advanced_testcase;
 use mod_videotrack\local\acknowledgement;
 use mod_videotrack\local\completion_config;
 use mod_videotrack\local\tracker;
+use PHPUnit\Framework\Attributes\CoversClass;
 
 /**
  * Completion integration contracts.
@@ -28,6 +29,9 @@ use mod_videotrack\local\tracker;
  * @copyright  2026 videotrack contributors
  * @license    https://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
+#[CoversClass(acknowledgement::class)]
+#[CoversClass(completion_config::class)]
+#[CoversClass(tracker::class)]
 final class completion_contract_test extends advanced_testcase {
     /**
      * Individually required reactions participate in custom completion only when reactions are enabled.

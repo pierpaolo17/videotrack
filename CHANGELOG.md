@@ -1,5 +1,13 @@
 # VideoTrack changelog
 
+## 1.7.85 - 2026-08-19
+
+- Eliminated the remaining 36 `moodle.PHPUnit.TestCaseCovers.Missing` findings by assigning explicit PHPUnit coverage metadata according to test intent: `CoversNothing` for source/documentation contracts, `CoversClass` for completion and generator behavior, and `CoversFunction` for global helper callbacks.
+- Migrated the remaining legacy `@covers` doc-comment metadata in `lib_test.php`, `locallib_test.php` and `timed_text_test.php` to PHPUnit attributes, targeting removal of the 20 known PHPUnit 12 coverage-metadata deprecations.
+- Removed the final PHPCS exclusion from `phpcs.xml.dist`; the canonical release gate is now the full `moodle-extra` ruleset with no VideoTrack-specific warning exclusions.
+- Added a release-hygiene contract that prevents legacy `@covers` annotations from returning and requires every top-level PHPUnit test class to declare coverage metadata through attributes.
+- No runtime, database, capability, privacy, report, Analytics, completion behavior, tracking or AMD/player implementation changed in this tranche.
+
 ## 1.7.84 - 2026-08-19
 
 - Quality cleanup: globally alphabetised all eight maintained VideoTrack language packs without changing any key, translated value or Moodle placeholder contract.

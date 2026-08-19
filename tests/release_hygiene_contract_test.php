@@ -17,6 +17,7 @@
 namespace mod_videotrack;
 
 use advanced_testcase;
+use PHPUnit\Framework\Attributes\CoversNothing;
 
 /**
  * Static contracts for release hygiene and documentation alignment.
@@ -26,6 +27,7 @@ use advanced_testcase;
  * @copyright  2026
  * @license    https://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
+#[CoversNothing]
 final class release_hygiene_contract_test extends advanced_testcase {
     /**
      * CSV export formatting must always specify a Moodle context.
@@ -90,10 +92,10 @@ final class release_hygiene_contract_test extends advanced_testcase {
 
         $phpcsconfig = file_get_contents(__DIR__ . '/../phpcs.xml.dist');
         $this->assertIsString($phpcsconfig);
-        $this->assertStringContainsString('<rule ref="moodle-extra">', $phpcsconfig);
+        $this->assertStringContainsString('<rule ref="moodle-extra"/>', $phpcsconfig);
         $this->assertStringNotContainsString('moodle.Files.LangFilesOrdering.IncorrectOrder', $phpcsconfig);
-        $this->assertStringNotContainsString('moodle.Files.LangFilesOrdering.UnexpectedComment', $phpcsconfig);
-        $this->assertStringContainsString('moodle.PHPUnit.TestCaseCovers.Missing', $phpcsconfig);
+        $this->assertStringNotContainsString('<exclude ', $phpcsconfig);
+        $this->assertStringNotContainsString('moodle.PHPUnit.TestCaseCovers.Missing', $phpcsconfig);
     }
 
 
@@ -130,6 +132,27 @@ final class release_hygiene_contract_test extends advanced_testcase {
         $this->assertStringContainsString('VideoTrack ' . $release, $italianinventory);
         $this->assertStringContainsString('VideoTrack **' . $release . $versionmarker, $englishaudit);
         $this->assertStringContainsString('VideoTrack **' . $release . $versionmarker, $italianaudit);
+    }
+
+    /**
+     * PHPUnit coverage metadata must use attributes rather than deprecated doc-comment metadata.
+     */
+    public function test_phpunit_coverage_metadata_uses_attributes(): void {
+        $testfiles = glob(__DIR__ . '/*_test.php');
+        $this->assertIsArray($testfiles);
+        $this->assertNotEmpty($testfiles);
+
+        foreach ($testfiles as $testfile) {
+            $source = file_get_contents($testfile);
+            $this->assertIsString($source, basename($testfile));
+            $legacytag = '@' . 'covers';
+            $this->assertStringNotContainsString($legacytag, $source, basename($testfile));
+            $this->assertMatchesRegularExpression(
+                '/#\[Covers(?:Class|Function|Nothing)/',
+                $source,
+                basename($testfile)
+            );
+        }
     }
 
     /**

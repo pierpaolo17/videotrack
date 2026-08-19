@@ -17,6 +17,7 @@
 namespace mod_videotrack;
 
 use advanced_testcase;
+use PHPUnit\Framework\Attributes\CoversFunction;
 
 /**
  * Minimal PHPUnit coverage for the videotrack module callbacks.
@@ -30,6 +31,9 @@ use advanced_testcase;
  * @copyright  2026
  * @license    https://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
+#[CoversFunction('videotrack_supports')]
+#[CoversFunction('videotrack_process_player_behavior_fields')]
+#[CoversFunction('videotrack_process_captions_fields')]
 final class lib_test extends advanced_testcase {
     /**
      * Load module callbacks under test.
@@ -41,8 +45,6 @@ final class lib_test extends advanced_testcase {
 
     /**
      * Basic supported feature flags should remain stable across refactors.
-     *
-     * @covers ::videotrack_supports
      */
     public function test_supports_expected_core_features(): void {
         $this->assertTrue(\videotrack_supports(FEATURE_MOD_INTRO));
@@ -55,8 +57,6 @@ final class lib_test extends advanced_testcase {
 
     /**
      * Group features are intentionally disabled for this activity.
-     *
-     * @covers ::videotrack_supports
      */
     public function test_groups_are_explicitly_not_supported(): void {
         $this->assertFalse(\videotrack_supports(FEATURE_GROUPS));
@@ -65,8 +65,6 @@ final class lib_test extends advanced_testcase {
 
     /**
      * Activity chooser metadata should remain predictable.
-     *
-     * @covers ::videotrack_supports
      */
     public function test_activity_chooser_metadata_is_reported(): void {
         $this->assertSame(MOD_ARCHETYPE_RESOURCE, \videotrack_supports(FEATURE_MOD_ARCHETYPE));
@@ -75,8 +73,6 @@ final class lib_test extends advanced_testcase {
 
     /**
      * Unknown features should keep Moodle's default handling path.
-     *
-     * @covers ::videotrack_supports
      */
     public function test_unknown_feature_returns_null(): void {
         $this->assertNull(\videotrack_supports('mod_videotrack_unknown_feature'));
@@ -84,8 +80,6 @@ final class lib_test extends advanced_testcase {
 
     /**
      * The instance bookmark checkbox must be persisted as a strict boolean field.
-     *
-     * @covers ::videotrack_process_player_behavior_fields
      */
     public function test_player_behavior_fields_normalise_bookmark_setting(): void {
         $disabled = (object)[];
@@ -112,8 +106,6 @@ final class lib_test extends advanced_testcase {
 
     /**
      * Provider transcript and chapter switches must survive caption normalisation.
-     *
-     * @covers ::videotrack_process_captions_fields
      */
     public function test_caption_normalisation_preserves_provider_timed_text_settings(): void {
         $data = (object)[

@@ -18,6 +18,7 @@ namespace mod_videotrack;
 
 use advanced_testcase;
 use mod_videotrack\local\timed_text;
+use PHPUnit\Framework\Attributes\CoversClass;
 
 /**
  * Tests for teacher-provided timed-text helpers.
@@ -26,11 +27,10 @@ use mod_videotrack\local\timed_text;
  * @copyright  2026 videotrack contributors
  * @license    https://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
+#[CoversClass(timed_text::class)]
 final class timed_text_test extends advanced_testcase {
     /**
      * Language codes are derived from conventional WebVTT filenames.
-     *
-     * @covers \mod_videotrack\local\timed_text::language_from_filename
      */
     public function test_language_from_filename_accepts_bcp47_like_names(): void {
         $this->assertSame('it', timed_text::language_from_filename('it.vtt'));
@@ -41,8 +41,6 @@ final class timed_text_test extends advanced_testcase {
 
     /**
      * WebVTT validation accepts a BOM and rejects malformed or oversized files.
-     *
-     * @covers \mod_videotrack\local\timed_text::is_valid_vtt_content
      */
     public function test_is_valid_vtt_content_checks_signature_and_size(): void {
         $this->assertTrue(timed_text::is_valid_vtt_content("WEBVTT\n\n00:00.000 --> 00:01.000\nText"));
@@ -53,8 +51,6 @@ final class timed_text_test extends advanced_testcase {
 
     /**
      * File options enforce the project limits and WebVTT extension.
-     *
-     * @covers \mod_videotrack\local\timed_text::file_options
      */
     public function test_file_options_enforce_vtt_limits(): void {
         $options = timed_text::file_options(timed_text::MAX_TRANSCRIPT_FILES);
