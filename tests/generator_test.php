@@ -17,6 +17,7 @@
 namespace mod_videotrack;
 
 use advanced_testcase;
+use PHPUnit\Framework\Attributes\CoversClass;
 
 /**
  * Test the module generator used by PHPUnit and Behat.
@@ -26,6 +27,7 @@ use advanced_testcase;
  * @copyright  2026 videotrack contributors
  * @license    https://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
+#[CoversClass(\mod_videotrack_generator::class)]
 final class generator_test extends advanced_testcase {
     /**
      * The generator must create a browser-test-ready activity without UI form interaction.

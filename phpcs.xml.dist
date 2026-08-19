@@ -4,12 +4,5 @@
 
     <arg name="extensions" value="php"/>
 
-    <rule ref="moodle-extra">
-        <!--
-            Remaining baseline debt after the 1.7.84 language-pack cleanup.
-            Keep this exclusion exact: all other moodle-extra warnings/errors
-            remain release-blocking. Revisit it with the PHPUnit coverage-metadata migration.
-        -->
-        <exclude name="moodle.PHPUnit.TestCaseCovers.Missing"/>
-    </rule>
+    <rule ref="moodle-extra"/>
 </ruleset>

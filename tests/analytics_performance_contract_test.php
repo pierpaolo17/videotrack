@@ -17,6 +17,7 @@
 namespace mod_videotrack;
 
 use advanced_testcase;
+use PHPUnit\Framework\Attributes\CoversNothing;
 
 /**
  * Contract tests for Analytics query-shape optimisations.
@@ -26,6 +27,7 @@ use advanced_testcase;
  * @copyright  2026 videotrack contributors
  * @license    https://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
+#[CoversNothing]
 final class analytics_performance_contract_test extends advanced_testcase {
     /**
      * Teacher activity options must not execute the full Analytics aggregation.

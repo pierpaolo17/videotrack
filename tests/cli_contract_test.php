@@ -17,6 +17,7 @@
 namespace mod_videotrack;
 
 use advanced_testcase;
+use PHPUnit\Framework\Attributes\CoversNothing;
 
 /**
  * Static contracts for the distributed VideoTrack CLI tools.
@@ -26,6 +27,7 @@ use advanced_testcase;
  * @copyright  2026 videotrack contributors
  * @license    https://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
+#[CoversNothing]
 final class cli_contract_test extends advanced_testcase {
     /**
      * The validator must remain read-only and cover the release-critical contracts.

@@ -18,6 +18,7 @@ namespace mod_videotrack;
 
 use advanced_testcase;
 use coding_exception;
+use PHPUnit\Framework\Attributes\CoversFunction;
 use stdClass;
 
 /**
@@ -28,6 +29,18 @@ use stdClass;
  * @copyright  2026
  * @license    https://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
+#[CoversFunction('videotrack_extract_videoid')]
+#[CoversFunction('videotrack_extract_vimeo_id')]
+#[CoversFunction('videotrack_format_seconds')]
+#[CoversFunction('videotrack_format_video_timestamp')]
+#[CoversFunction('videotrack_parse_video_timestamp')]
+#[CoversFunction('videotrack_parse_report_timestamp')]
+#[CoversFunction('videotrack_get_config_int')]
+#[CoversFunction('videotrack_get_playback_speeds')]
+#[CoversFunction('videotrack_get_tracking_playback_speeds')]
+#[CoversFunction('videotrack_get_compatible_forum_types')]
+#[CoversFunction('videotrack_build_replay_url')]
+#[CoversFunction('videotrack_build_forum_subject')]
 final class locallib_test extends advanced_testcase {
     /**
      * Load helper functions under test.
@@ -39,8 +52,6 @@ final class locallib_test extends advanced_testcase {
 
     /**
      * YouTube extraction accepts supported HTTPS URL shapes and rejects unsafe input.
-     *
-     * @covers ::videotrack_extract_videoid
      */
     public function test_extract_videoid_accepts_supported_youtube_urls(): void {
         $this->assertSame('AbCdEfGhIj1', \videotrack_extract_videoid('https://youtu.be/AbCdEfGhIj1'));
@@ -56,8 +67,6 @@ final class locallib_test extends advanced_testcase {
 
     /**
      * Vimeo extraction accepts supported HTTPS URL shapes and rejects unsafe input.
-     *
-     * @covers ::videotrack_extract_vimeo_id
      */
     public function test_extract_vimeo_id_accepts_supported_vimeo_urls(): void {
         $this->assertSame('123456789', \videotrack_extract_vimeo_id('https://vimeo.com/123456789'));
@@ -72,8 +81,6 @@ final class locallib_test extends advanced_testcase {
 
     /**
      * Human-readable time formatting clamps negative values and switches to hours when needed.
-     *
-     * @covers ::videotrack_format_seconds
      */
     public function test_format_seconds_clamps_and_formats_duration(): void {
         $this->assertSame('00:00', \videotrack_format_seconds(-5));
@@ -84,8 +91,6 @@ final class locallib_test extends advanced_testcase {
 
     /**
      * Video timestamps use the total duration to keep one stable display format.
-     *
-     * @covers ::videotrack_format_video_timestamp
      */
     public function test_format_video_timestamp_uses_total_duration(): void {
         $this->assertSame('01:01', \videotrack_format_video_timestamp(61, 3599));
@@ -95,8 +100,6 @@ final class locallib_test extends advanced_testcase {
 
     /**
      * Video-time filters accept seconds, MM:SS and HH:MM:SS.
-     *
-     * @covers ::videotrack_parse_video_timestamp
      */
     public function test_parse_video_timestamp_accepts_supported_formats(): void {
         $this->assertSame(90.0, \videotrack_parse_video_timestamp('90'));
@@ -110,8 +113,6 @@ final class locallib_test extends advanced_testcase {
 
     /**
      * Report filters accept only MM:SS and HH:MM:SS durations.
-     *
-     * @covers ::videotrack_parse_report_timestamp
      */
     public function test_parse_report_timestamp_requires_colon_format(): void {
         $this->assertSame(65.0, \videotrack_parse_report_timestamp('1:05'));
@@ -123,8 +124,6 @@ final class locallib_test extends advanced_testcase {
 
     /**
      * Bounded integer settings preserve explicit zero and clamp out-of-range values.
-     *
-     * @covers ::videotrack_get_config_int
      */
     public function test_get_config_int_preserves_zero_and_clamps_values(): void {
         $this->resetAfterTest();
@@ -141,8 +140,6 @@ final class locallib_test extends advanced_testcase {
 
     /**
      * Invalid helper bounds should fail loudly for developers.
-     *
-     * @covers ::videotrack_get_config_int
      */
     public function test_get_config_int_rejects_invalid_bounds(): void {
         $this->expectException(coding_exception::class);
@@ -151,8 +148,6 @@ final class locallib_test extends advanced_testcase {
 
     /**
      * Instance playback speeds override site defaults and remain capped by the site maximum.
-     *
-     * @covers ::videotrack_get_playback_speeds
      */
     public function test_get_playback_speeds_filters_and_applies_site_cap(): void {
         $this->resetAfterTest();
@@ -197,8 +192,6 @@ final class locallib_test extends advanced_testcase {
 
     /**
      * Forum compatibility is restricted to repeatable discussion types.
-     *
-     * @covers ::videotrack_get_compatible_forum_types
      */
     public function test_compatible_forum_types_exclude_single_use_forums(): void {
         $this->assertSame(['general', 'qanda', 'blog'], \videotrack_get_compatible_forum_types());
@@ -206,8 +199,6 @@ final class locallib_test extends advanced_testcase {
 
     /**
      * Replay links apply the configured symmetric window and duration cap.
-     *
-     * @covers ::videotrack_build_replay_url
      */
     public function test_build_replay_url_applies_window_and_duration(): void {
         $url = \videotrack_build_replay_url(42, 100.0, 30, 110.0);

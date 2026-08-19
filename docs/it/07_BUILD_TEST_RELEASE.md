@@ -7,21 +7,19 @@ Dalla root Moodle, adattando i path:
 ```bash
 find mod/videotrack -name '*.php' -print0 | xargs -0 -n1 php -l
 vendor/bin/phpunit --testsuite mod_videotrack_testsuite
-# Gate PHPCS canonico (Moodle Extra + baseline debito differito VideoTrack)
+# Gate PHPCS canonico (Moodle Extra completo, nessuna esclusione VideoTrack)
 /root/.config/composer/vendor/bin/phpcs --standard=mod/videotrack/phpcs.xml.dist mod/videotrack
-# Scansione periodica consultiva del debito, non bloccante per ogni release
-/root/.config/composer/vendor/bin/phpcs --standard=moodle-extra mod/videotrack
 # Solo se cambia amd/src
 node node_modules/grunt/bin/grunt amd --root=mod/videotrack
 ```
 
-Il file repository-level `phpcs.xml.dist` è il gate PHPCS canonico di release e estende `moodle-extra`. Dalla 1.7.84 il debito di ordinamento/commenti dei language pack è ripulito e quei controlli tornano bloccanti; resta differito soltanto il warning baseline `moodle.PHPUnit.TestCaseCovers.Missing`, in attesa della tranche dedicata alla migrazione dei metadata di coverage PHPUnit. Ogni altro warning o errore PHPCS resta bloccante. Eseguire periodicamente il comando `moodle-extra` senza esclusioni per monitorare il debito residuo e registrare le versioni di PHP_CodeSniffer e `moodlehq/moodle-cs` quando cambia la toolchain.
+Il file repository-level `phpcs.xml.dist` è il gate PHPCS canonico di release. Dalla 1.7.85 coincide con il ruleset `moodle-extra` completo senza esclusioni specifiche VideoTrack: ogni warning o errore PHPCS è bloccante. Registrare le versioni di PHP_CodeSniffer e `moodlehq/moodle-cs` insieme alle evidenze quando cambia la toolchain.
 
 Analizzare anche `db/install.xml` ed `environment.xml`, eseguire `node --check` su sorgenti/build, validare le source map JSON, confrontare chiavi e placeholder delle lingue, verificare ogni `get_string` statico e confrontare XMLDB con backup/restore.
 
 ## Interpretazione PHPUnit
 
-“OK, but there were issues” non è un pass pulito se esistono failure/error. Le deprecazioni note PHPUnit 11 dei metadata DocBlock vanno distinte dai failure. Conservare i DocBlock `@covers` quando richiesti da Moodle PHPCS Extra finché la toolchain non supporta coerentemente gli attributi.
+“OK, but there were issues” non è un pass pulito se esistono failure/error. Dalla 1.7.85 VideoTrack esprime i metadata di coverage con attributi PHPUnit; l’eventuale ritorno di deprecazioni sui metadata di coverage va trattato come regressione e analizzato separatamente dai failure funzionali.
 
 La suite PHPUnit include anche `provider_seek_snapshot_contract_test.php`, che protegge gli invarianti provider di seek/rollback senza sostituire artificialmente l'esecuzione browser. Deve restare verde quando cambia il codice seek dei provider; Behat/test manuali provider restano necessari come evidenza runtime.
 

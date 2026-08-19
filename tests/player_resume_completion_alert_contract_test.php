@@ -17,17 +17,19 @@
 namespace mod_videotrack;
 
 use advanced_testcase;
+use PHPUnit\Framework\Attributes\CoversNothing;
 
 /**
  * Static contracts for resume, completion synchronisation and player notices.
  *
- * These contracts protect provider parity while browser/Behat execution is
- * temporarily unavailable in the maintainer environment.
+ * These contracts protect provider parity between the full browser/Behat
+ * compatibility runs used for milestone and runtime-sensitive releases.
  *
  * @package   mod_videotrack
  * @copyright 2026 videotrack contributors
  * @license   https://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
+#[CoversNothing]
 final class player_resume_completion_alert_contract_test extends advanced_testcase {
     /**
      * Automatic resume must stay inside the server-validated frontier when forward seek is disabled.

@@ -11,23 +11,21 @@ find mod/videotrack -name '*.php' -print0 | xargs -0 -n1 php -l
 # PHPUnit
 vendor/bin/phpunit --testsuite mod_videotrack_testsuite
 
-# Canonical PHPCS release gate (Moodle Extra + VideoTrack deferred-debt baseline)
+# Canonical PHPCS release gate (full Moodle Extra, no VideoTrack exclusions)
 /root/.config/composer/vendor/bin/phpcs --standard=mod/videotrack/phpcs.xml.dist mod/videotrack
 
-# Periodic advisory debt scan (not the per-release blocker)
-/root/.config/composer/vendor/bin/phpcs --standard=moodle-extra mod/videotrack
 
 # AMD only when amd/src changes
 node node_modules/grunt/bin/grunt amd --root=mod/videotrack
 ```
 
-The repository-level `phpcs.xml.dist` is the canonical PHPCS release gate. It extends `moodle-extra`. Since 1.7.84 the language ordering/comment debt is cleaned and those sniffs are release-blocking again; only the exact baseline warning `moodle.PHPUnit.TestCaseCovers.Missing` remains deferred pending the dedicated PHPUnit coverage-metadata migration. Any other PHPCS warning or error is release-blocking. Run the unfiltered `moodle-extra` command periodically to track that remaining debt, and record both the PHP_CodeSniffer and `moodlehq/moodle-cs` versions with the evidence when the toolchain changes.
+The repository-level `phpcs.xml.dist` is the canonical PHPCS release gate. Since 1.7.85 it is the full `moodle-extra` ruleset with no VideoTrack-specific warning exclusions: every PHPCS warning or error is release-blocking. Record both the PHP_CodeSniffer and `moodlehq/moodle-cs` versions with the evidence when the toolchain changes.
 
 Also parse `db/install.xml` and `environment.xml`, run `node --check` on source/build JavaScript, validate every source map as JSON, compare language key sets and placeholders, verify every static `get_string` reference, and compare XMLDB fields with backup/restore declarations.
 
 ## PHPUnit interpretation
 
-A line ending in “OK, but there were issues” is not a clean pass if failures/errors exist. Known PHPUnit 11 deprecations for DocBlock metadata must be reported separately from failures. Keep `@covers` DocBlocks where required by Moodle PHPCS Extra until the toolchain supports attributes consistently.
+A line ending in “OK, but there were issues” is not a clean pass if failures/errors exist. Since 1.7.85 VideoTrack coverage metadata is expressed with PHPUnit attributes; any return of coverage-metadata deprecations must be treated as a regression and investigated separately from functional failures.
 
 The PHPUnit suite also includes `provider_seek_snapshot_contract_test.php`, which protects provider seek/rollback invariants without pretending to replace browser execution. It must remain green when provider seek code changes; Behat/manual provider tests are still required for runtime evidence.
 

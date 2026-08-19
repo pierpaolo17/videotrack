@@ -1,11 +1,11 @@
 # Documentation audit
 
-Baseline: VideoTrack **1.7.84** (`2026081901`).
+Baseline: VideoTrack **1.7.85** (`2026081902`).
 
 ## Coverage
 
 - Non-documentation files inventoried: **276/276**.
-- Named PHP functions/methods inventoried: **699**.
+- Named PHP functions/methods inventoried: **700**.
 - Named AMD callables detected and inventoried: **647**.
 - XMLDB tables documented: **7**.
 - Site-setting keys documented: **57**.
@@ -19,6 +19,14 @@ Baseline: VideoTrack **1.7.84** (`2026081901`).
 - Static resume/completion/stacked-alert contracts complement the operational Behat environment; the 1.7.83 Moodle 5.0–5.3 matrix passed 7/7 scenarios, while broader provider smoke coverage remains explicitly separate.
 - Maintainer-only consolidated roadmap/lessons-history files are intentionally excluded from the distributed plugin tree and protected by `.moodleignore`.
 - Chapter navigation now has an explicit focus-visible/forced-colour contract; a manual keyboard/high-contrast matrix remains a release gate for final U-020 closure.
+
+## 1.7.85 pre-production documentation verification
+
+- Current non-documentation file inventory remains **276/276** entries.
+- Function inventory remains **700 PHP / 647 AMD** named callables.
+- PHPUnit coverage metadata is attribute-based across every top-level test class; no legacy `@covers` annotations remain.
+- Canonical `phpcs.xml.dist` now contains the full `moodle-extra` rule with no VideoTrack-specific exclusions.
+- This tranche changes tests, release metadata and documentation only; runtime implementation and AMD assets are unchanged.
 
 ## 1.7.84 pre-production documentation verification
 
