@@ -6,12 +6,10 @@
 
     <rule ref="moodle-extra">
         <!--
-            Deferred baseline debt discovered by the 1.7.82 multi-version audit.
-            Keep these exclusions exact: all other moodle-extra warnings/errors
-            remain release-blocking. Re-enable them only in dedicated cleanup work.
+            Remaining baseline debt after the 1.7.84 language-pack cleanup.
+            Keep this exclusion exact: all other moodle-extra warnings/errors
+            remain release-blocking. Revisit it with the PHPUnit coverage-metadata migration.
         -->
-        <exclude name="moodle.Files.LangFilesOrdering.IncorrectOrder"/>
-        <exclude name="moodle.Files.LangFilesOrdering.UnexpectedComment"/>
         <exclude name="moodle.PHPUnit.TestCaseCovers.Missing"/>
     </rule>
 </ruleset>

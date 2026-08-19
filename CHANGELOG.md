@@ -1,5 +1,14 @@
 # VideoTrack changelog
 
+## 1.7.84 - 2026-08-19
+
+- Quality cleanup: globally alphabetised all eight maintained VideoTrack language packs without changing any key, translated value or Moodle placeholder contract.
+- Removed post-header language-file section comments that triggered `moodle.Files.LangFilesOrdering.UnexpectedComment`; language grouping remains discoverable from the alphabetic keys themselves.
+- Tightened the canonical `phpcs.xml.dist`: language ordering/comment sniffs are release-blocking again, leaving only the known `moodle.PHPUnit.TestCaseCovers.Missing` baseline debt deferred.
+- Extended release-hygiene contracts so language packs must remain alphabetically ordered and free of post-header `//` comments.
+- Refreshed documentation-audit facts that were stale after the 1.7.83 multi-version run: current non-documentation inventory is 276/276 and the maintainer Behat environment is operational with the 7/7 scenario matrix recorded.
+- No runtime, report, capability, privacy, schema, tracking, completion, Analytics, export, AMD or player behaviour changes.
+
 ## 1.7.83 - 2026-08-19
 
 - Stabilize the two common Behat failures seen identically on Moodle 5.0, 5.1, 5.2 and 5.3 by clicking the native learner-history `<summary>` elements through their unique CSS selectors instead of Moodle's generic `text` selector; runtime markup and behaviour are unchanged.

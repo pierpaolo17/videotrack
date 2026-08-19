@@ -1,10 +1,10 @@
 # Audit della documentazione
 
-Baseline: VideoTrack **1.7.83** (`2026081900`).
+Baseline: VideoTrack **1.7.84** (`2026081901`).
 
 ## Copertura
 
-- File non documentali inventariati: **275/275**.
+- File non documentali inventariati: **276/276**.
 - Funzioni/metodi PHP nominati inventariati: **699**.
 - Callable AMD nominati rilevati e inventariati: **647**.
 - Tabelle XMLDB documentate: **7**.
@@ -16,8 +16,16 @@ Baseline: VideoTrack **1.7.83** (`2026081900`).
 - Sintesi privacy root: `PRIVACY.md` e `PRIVACY_IT.md`.
 - Diagnostica CLI distribuita documentata in `21_CLI_DIAGNOSTICS.md` e coperta da contratti statici di sola lettura.
 - Automazione browser Behat documentata in `22_TEST_BROWSER_BEHAT.md`; U-007 è tracciato come in corso.
-- I contratti statici resume/completion/alert impilati coprono i tre provider mentre Behat resta indisponibile nell’ambiente maintainer; l’evidenza browser resta esplicitamente pendente.
+- I contratti statici resume/completion/alert impilati completano l’ambiente Behat ora operativo; la matrice 1.7.83 su Moodle 5.0–5.3 ha superato 7/7 scenari, mentre gli smoke test provider più ampi restano separati.
 - La navigazione capitoli ha ora un contratto esplicito focus-visible/colori forzati; la matrice manuale tastiera/high-contrast resta un gate per la chiusura finale di U-020.
+
+## Verifica documentazione pre-produzione 1.7.84
+
+- L'inventario corrente dei file non documentali resta a **276/276** voci.
+- L'inventario funzioni resta a **699 PHP / 647 AMD** callable nominati.
+- Tutti gli 8 language pack mantengono **987 chiavi** e contratti placeholder identici; le assegnazioni sono ora alfabetiche globalmente e i commenti di sezione post-header sono stati rimossi.
+- Il `phpcs.xml.dist` canonico riattiva entrambi i controlli `moodle.Files.LangFilesOrdering` e differisce soltanto `moodle.PHPUnit.TestCaseCovers.Missing`.
+- Nessuna modifica a runtime, schema, capability, privacy, export, Analytics, completion, tracking o AMD/player.
 
 ## Verifica documentazione pre-produzione 1.7.83
 

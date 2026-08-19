@@ -1,10 +1,10 @@
 # Documentation audit
 
-Baseline: VideoTrack **1.7.83** (`2026081900`).
+Baseline: VideoTrack **1.7.84** (`2026081901`).
 
 ## Coverage
 
-- Non-documentation files inventoried: **275/275**.
+- Non-documentation files inventoried: **276/276**.
 - Named PHP functions/methods inventoried: **699**.
 - Named AMD callables detected and inventoried: **647**.
 - XMLDB tables documented: **7**.
@@ -16,9 +16,17 @@ Baseline: VideoTrack **1.7.83** (`2026081900`).
 - Root privacy summaries: `PRIVACY.md` and `PRIVACY_IT.md`.
 - Distributed CLI diagnostics documented in `21_CLI_DIAGNOSTICS.md` and covered by static read-only contracts.
 - Behat browser automation is documented in `22_BEHAT_BROWSER_TESTS.md`, including current deterministic coverage and explicit provider coverage limits.
-- Static resume/completion/stacked-alert contracts cover the three providers while Behat remains unavailable in the maintainer environment; browser evidence is still explicitly pending.
+- Static resume/completion/stacked-alert contracts complement the operational Behat environment; the 1.7.83 Moodle 5.0–5.3 matrix passed 7/7 scenarios, while broader provider smoke coverage remains explicitly separate.
 - Maintainer-only consolidated roadmap/lessons-history files are intentionally excluded from the distributed plugin tree and protected by `.moodleignore`.
 - Chapter navigation now has an explicit focus-visible/forced-colour contract; a manual keyboard/high-contrast matrix remains a release gate for final U-020 closure.
+
+## 1.7.84 pre-production documentation verification
+
+- Current non-documentation file inventory remains **276/276** entries.
+- Function inventory remains **699 PHP / 647 AMD** named callables.
+- All eight maintained language packs retain **987 keys** and identical placeholder contracts; assignments are now globally alphabetised and post-header section comments removed.
+- Canonical `phpcs.xml.dist` re-enables both `moodle.Files.LangFilesOrdering` checks and defers only `moodle.PHPUnit.TestCaseCovers.Missing`.
+- No runtime, schema, capability, privacy, export, Analytics, completion, tracking or AMD/player behaviour changed.
 
 ## 1.7.83 pre-production documentation verification
 

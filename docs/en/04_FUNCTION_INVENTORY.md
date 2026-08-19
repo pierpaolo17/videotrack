@@ -1,6 +1,6 @@
 # Function inventory
 
-Generated from the VideoTrack 1.7.83 source tree. PHP entries include named functions and methods; AMD entries include named declarations, assigned function expressions and object-method functions.
+Generated from the VideoTrack 1.7.84 source tree. PHP entries include named functions and methods; AMD entries include named declarations, assigned function expressions and object-method functions.
 
 **PHP functions/methods:** 699. **Named AMD callables:** 647.
 
@@ -1261,7 +1261,7 @@ Generated from the VideoTrack 1.7.83 source tree. PHP entries include named func
 | `tests/release_hygiene_contract_test.php:63` | `test_readmes_and_changelog_track_current_release` | Named PHP function/method `test_readmes_and_changelog_track_current_release`; see source DocBlock and callers for the current contract. |
 | `tests/release_hygiene_contract_test.php:103` | `test_current_documentation_tracks_release` | Named PHP function/method `test_current_documentation_tracks_release`; see source DocBlock and callers for the current contract. |
 | `tests/release_hygiene_contract_test.php:138` | `test_maintained_language_packs_share_keys_and_placeholders` | Named PHP function/method `test_maintained_language_packs_share_keys_and_placeholders`; see source DocBlock and callers for the current contract. |
-| `tests/release_hygiene_contract_test.php:186` | `test_privacy_summaries_keep_parallel_section_structure` | Named PHP function/method `test_privacy_summaries_keep_parallel_section_structure`; see source DocBlock and callers for the current contract. |
+| `tests/release_hygiene_contract_test.php:190` | `test_privacy_summaries_keep_parallel_section_structure` | Named PHP function/method `test_privacy_summaries_keep_parallel_section_structure`; see source DocBlock and callers for the current contract. |
 | `tests/report_access_test.php:37` | `test_aggregate_only_role_keeps_individual_access_separate` | PHP callable `test_aggregate_only_role_keeps_individual_access_separate`; behavioural contract for delegated aggregate-only report access. |
 | `tests/report_access_test.php:59` | `test_individual_view_implies_aggregate_view_without_export_permissions` | PHP callable `test_individual_view_implies_aggregate_view_without_export_permissions`; behavioural contract for view/export separation. |
 | `tests/report_access_test.php:79` | `test_legacy_viewreport_remains_full_access` | PHP callable `test_legacy_viewreport_remains_full_access`; backwards-compatibility contract for historical report roles. |

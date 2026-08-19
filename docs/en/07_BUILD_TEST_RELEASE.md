@@ -21,7 +21,7 @@ vendor/bin/phpunit --testsuite mod_videotrack_testsuite
 node node_modules/grunt/bin/grunt amd --root=mod/videotrack
 ```
 
-The repository-level `phpcs.xml.dist` is the canonical PHPCS release gate. It extends `moodle-extra` and defers only the exact 1.7.82 baseline warnings `moodle.Files.LangFilesOrdering.IncorrectOrder`, `moodle.Files.LangFilesOrdering.UnexpectedComment` and `moodle.PHPUnit.TestCaseCovers.Missing`. Any other PHPCS warning or error is release-blocking. Run the unfiltered `moodle-extra` command periodically to track that deferred debt, and record both the PHP_CodeSniffer and `moodlehq/moodle-cs` versions with the evidence when the toolchain changes.
+The repository-level `phpcs.xml.dist` is the canonical PHPCS release gate. It extends `moodle-extra`. Since 1.7.84 the language ordering/comment debt is cleaned and those sniffs are release-blocking again; only the exact baseline warning `moodle.PHPUnit.TestCaseCovers.Missing` remains deferred pending the dedicated PHPUnit coverage-metadata migration. Any other PHPCS warning or error is release-blocking. Run the unfiltered `moodle-extra` command periodically to track that remaining debt, and record both the PHP_CodeSniffer and `moodlehq/moodle-cs` versions with the evidence when the toolchain changes.
 
 Also parse `db/install.xml` and `environment.xml`, run `node --check` on source/build JavaScript, validate every source map as JSON, compare language key sets and placeholders, verify every static `get_string` reference, and compare XMLDB fields with backup/restore declarations.
 
