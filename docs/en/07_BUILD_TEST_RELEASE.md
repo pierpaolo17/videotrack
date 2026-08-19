@@ -11,15 +11,17 @@ find mod/videotrack -name '*.php' -print0 | xargs -0 -n1 php -l
 # PHPUnit
 vendor/bin/phpunit --testsuite mod_videotrack_testsuite
 
-# Moodle coding style
-vendor/bin/phpcs --standard=moodle --extensions=php mod/videotrack
+# Canonical PHPCS release gate (Moodle Extra + VideoTrack deferred-debt baseline)
+/root/.config/composer/vendor/bin/phpcs --standard=mod/videotrack/phpcs.xml.dist mod/videotrack
 
-# Moodle Extra (adapt the global Composer path when needed)
+# Periodic advisory debt scan (not the per-release blocker)
 /root/.config/composer/vendor/bin/phpcs --standard=moodle-extra mod/videotrack
 
 # AMD only when amd/src changes
 node node_modules/grunt/bin/grunt amd --root=mod/videotrack
 ```
+
+The repository-level `phpcs.xml.dist` is the canonical PHPCS release gate. It extends `moodle-extra` and defers only the exact 1.7.82 baseline warnings `moodle.Files.LangFilesOrdering.IncorrectOrder`, `moodle.Files.LangFilesOrdering.UnexpectedComment` and `moodle.PHPUnit.TestCaseCovers.Missing`. Any other PHPCS warning or error is release-blocking. Run the unfiltered `moodle-extra` command periodically to track that deferred debt, and record both the PHP_CodeSniffer and `moodlehq/moodle-cs` versions with the evidence when the toolchain changes.
 
 Also parse `db/install.xml` and `environment.xml`, run `node --check` on source/build JavaScript, validate every source map as JSON, compare language key sets and placeholders, verify every static `get_string` reference, and compare XMLDB fields with backup/restore declarations.
 

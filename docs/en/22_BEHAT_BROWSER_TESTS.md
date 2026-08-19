@@ -1,6 +1,6 @@
 # Behat browser automation
 
-VideoTrack started its browser-automation phase in release 1.7.45; release 1.7.74 keeps the deterministic HTML5 post-rollback Behat suite and the non-browser contracts for resume, completion synchronisation and stacked notices across YouTube, HTML5 and Vimeo while the maintainer Behat endpoint is unavailable; acknowledgement versioning is additionally covered by behavioural PHPUnit checks. The plugin ships a Moodle module generator under `tests/generator/lib.php` and browser scenarios under `tests/behat/`.
+VideoTrack started its browser-automation phase in release 1.7.45; release 1.7.83 keeps the deterministic HTML5 post-rollback Behat suite and stabilizes the native learner-history toggles after the 1.7.82 multi-version run made the maintainer Behat environment operational on Moodle 5.0–5.3. The two common Chrome 151 failures were caused by broad text-based clicks in the scenarios; the features now click the unique native `<summary>` elements through CSS selectors, without changing learner runtime markup. The plugin ships a Moodle module generator under `tests/generator/lib.php` and browser scenarios under `tests/behat/`.
 
 ## Purpose
 
@@ -44,6 +44,8 @@ Current coverage, strengthened in 1.7.50:
 - adds learner/teacher/dual-role scope coverage: controls stay active for learner and dual-role users and read-only for teacher-only users.
 
 The native `<details>/<summary>` contract intentionally needs no VideoTrack JavaScript, so the sections remain keyboard-accessible even if an AMD module fails.
+
+Release 1.7.83 deliberately uses the unique `.videotrack-student-section-… > summary` CSS selectors for browser clicks. Do not revert these steps to the generic Moodle `text` selector: the visible label remains asserted separately, while the click must target the interactive `<summary>` node itself.
 
 
 ### Deterministic local HTML5 seek harness

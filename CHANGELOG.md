@@ -1,5 +1,11 @@
 # VideoTrack changelog
 
+## 1.7.83 - 2026-08-19
+
+- Stabilize the two common Behat failures seen identically on Moodle 5.0, 5.1, 5.2 and 5.3 by clicking the native learner-history `<summary>` elements through their unique CSS selectors instead of Moodle's generic `text` selector; runtime markup and behaviour are unchanged.
+- Add repository-level `phpcs.xml.dist` as the canonical release-gate configuration based on `moodle-extra`, deferring only the three exact warning codes exposed as pre-existing 1.7.82 debt: language-key ordering, unexpected language-file comments and missing PHPUnit coverage metadata.
+- Keep a full unfiltered `moodle-extra` scan as an advisory quality/debt report; U-017 is intentionally paused for this corrective release.
+
 ## 1.7.82 - 2026-08-18
 
 - Continue U-017 maintainability from the server-green 1.7.81 baseline by moving bookmark-Analytics SQL decoration out of `report.php` into `local\report_support::analytics_bookmark_condition()`.

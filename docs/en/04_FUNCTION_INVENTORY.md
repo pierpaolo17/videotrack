@@ -1,6 +1,6 @@
 # Function inventory
 
-Generated from the VideoTrack 1.7.82 source tree. PHP entries include named functions and methods; AMD entries include named declarations, assigned function expressions and object-method functions.
+Generated from the VideoTrack 1.7.83 source tree. PHP entries include named functions and methods; AMD entries include named declarations, assigned function expressions and object-method functions.
 
 **PHP functions/methods:** 699. **Named AMD callables:** 647.
 
@@ -1259,9 +1259,9 @@ Generated from the VideoTrack 1.7.82 source tree. PHP entries include named func
 | `tests/release_hygiene_contract_test.php:33` | `test_csv_export_format_strings_have_explicit_context` | Named PHP function/method `test_csv_export_format_strings_have_explicit_context`; see source DocBlock and callers for the current contract. |
 | `tests/release_hygiene_contract_test.php:47` | `test_environment_italian_feedback_uses_utf8` | Named PHP function/method `test_environment_italian_feedback_uses_utf8`; see source DocBlock and callers for the current contract. |
 | `tests/release_hygiene_contract_test.php:63` | `test_readmes_and_changelog_track_current_release` | Named PHP function/method `test_readmes_and_changelog_track_current_release`; see source DocBlock and callers for the current contract. |
-| `tests/release_hygiene_contract_test.php:96` | `test_current_documentation_tracks_release` | Named PHP function/method `test_current_documentation_tracks_release`; see source DocBlock and callers for the current contract. |
-| `tests/release_hygiene_contract_test.php:131` | `test_maintained_language_packs_share_keys_and_placeholders` | Named PHP function/method `test_maintained_language_packs_share_keys_and_placeholders`; see source DocBlock and callers for the current contract. |
-| `tests/release_hygiene_contract_test.php:179` | `test_privacy_summaries_keep_parallel_section_structure` | Named PHP function/method `test_privacy_summaries_keep_parallel_section_structure`; see source DocBlock and callers for the current contract. |
+| `tests/release_hygiene_contract_test.php:103` | `test_current_documentation_tracks_release` | Named PHP function/method `test_current_documentation_tracks_release`; see source DocBlock and callers for the current contract. |
+| `tests/release_hygiene_contract_test.php:138` | `test_maintained_language_packs_share_keys_and_placeholders` | Named PHP function/method `test_maintained_language_packs_share_keys_and_placeholders`; see source DocBlock and callers for the current contract. |
+| `tests/release_hygiene_contract_test.php:186` | `test_privacy_summaries_keep_parallel_section_structure` | Named PHP function/method `test_privacy_summaries_keep_parallel_section_structure`; see source DocBlock and callers for the current contract. |
 | `tests/report_access_test.php:37` | `test_aggregate_only_role_keeps_individual_access_separate` | PHP callable `test_aggregate_only_role_keeps_individual_access_separate`; behavioural contract for delegated aggregate-only report access. |
 | `tests/report_access_test.php:59` | `test_individual_view_implies_aggregate_view_without_export_permissions` | PHP callable `test_individual_view_implies_aggregate_view_without_export_permissions`; behavioural contract for view/export separation. |
 | `tests/report_access_test.php:79` | `test_legacy_viewreport_remains_full_access` | PHP callable `test_legacy_viewreport_remains_full_access`; backwards-compatibility contract for historical report roles. |
@@ -1311,7 +1311,7 @@ Generated from the VideoTrack 1.7.82 source tree. PHP entries include named func
 | `tests/save_reaction_test.php:109` | `test_reaction_writes_remain_serialised_per_activity_and_user` | Named PHP function/method `test_reaction_writes_remain_serialised_per_activity_and_user`; see source DocBlock and callers for the current contract. |
 | `tests/save_reaction_test.php:123` | `test_duplicate_reaction_is_soft_ignored` | Named PHP function/method `test_duplicate_reaction_is_soft_ignored`; see source DocBlock and callers for the current contract. |
 | `tests/student_view_contract_test.php:35` | `test_personal_lists_are_native_collapsible_sections` | Protects the three native collapsed learner sections. |
-| `tests/student_view_contract_test.php:58` | `test_learner_page_has_stable_vertical_order` | Protects the learner vertical order, active composers and unboxed completion-condition presentation. |
+| `tests/student_view_contract_test.php:71` | `test_learner_page_has_stable_vertical_order` | Protects the learner vertical order, active composers and unboxed completion-condition presentation. |
 | `tests/teacher_analytics_test.php:35` | `test_period_bounds` | PHP callable `test_period_bounds`; see its DocBlock and callers for parameter, return-value and side-effect details. |
 | `tests/teacher_analytics_test.php:45` | `test_dashboard_rows_expose_single_learner_with_exact_threshold` | PHP callable `test_dashboard_rows_expose_single_learner_with_exact_threshold`; see its DocBlock and callers for parameter, return-value and side-effect details. |
 | `tests/teacher_analytics_test.php:104` | `test_teacher_dashboard_controller_requests_exact_aggregates` | PHP callable `test_teacher_dashboard_controller_requests_exact_aggregates`; see its DocBlock and callers for parameter, return-value and side-effect details. |

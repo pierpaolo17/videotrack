@@ -41,10 +41,10 @@ Feature: Student personal history uses compact collapsible sections
     And "#videotrack-note-composer ~ #videotrack-notes-panel" "css_element" should exist
     And "#videotrack-notes-panel ~ #videotrack-bookmark-composer" "css_element" should exist
     And "#videotrack-bookmark-composer ~ #videotrack-bookmarks-panel" "css_element" should exist
-    When I click on "My reactions" "text"
+    When I click on ".videotrack-student-section-reactions > summary" "css_element"
     Then ".videotrack-student-section-reactions[open]" "css_element" should exist
     And ".videotrack-student-section-notes[open]" "css_element" should not exist
-    When I click on "My notes" "text"
+    When I click on ".videotrack-student-section-notes > summary" "css_element"
     Then ".videotrack-student-section-notes[open]" "css_element" should exist
-    When I click on "My bookmarks" "text"
+    When I click on ".videotrack-student-section-bookmarks > summary" "css_element"
     Then ".videotrack-student-section-bookmarks[open]" "css_element" should exist

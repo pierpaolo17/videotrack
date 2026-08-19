@@ -1,6 +1,6 @@
 # Documentation audit
 
-Baseline: VideoTrack **1.7.82** (`2026081806`).
+Baseline: VideoTrack **1.7.83** (`2026081900`).
 
 ## Coverage
 
@@ -19,6 +19,14 @@ Baseline: VideoTrack **1.7.82** (`2026081806`).
 - Static resume/completion/stacked-alert contracts cover the three providers while Behat remains unavailable in the maintainer environment; browser evidence is still explicitly pending.
 - Maintainer-only consolidated roadmap/lessons-history files are intentionally excluded from the distributed plugin tree and protected by `.moodleignore`.
 - Chapter navigation now has an explicit focus-visible/forced-colour contract; a manual keyboard/high-contrast matrix remains a release gate for final U-020 closure.
+
+## 1.7.83 pre-production documentation verification
+
+- Current non-documentation file inventory regenerated against the candidate 1.7.83 tree: **276/276** entries; the added file is the repository-level `phpcs.xml.dist`.
+- Function inventory remains **699** named PHP functions/methods and **647** detected named AMD callables; changed source positions were refreshed.
+- The two cross-version Behat failures are stabilized by targeting the unique native learner-history `<summary>` CSS selectors instead of the generic Moodle `text` selector; learner markup/runtime is unchanged.
+- Canonical PHPCS release gate is now `moodle-extra` through `phpcs.xml.dist`, excluding only the three exact 1.7.82 baseline warning codes; a full unfiltered `moodle-extra` scan remains advisory debt evidence.
+- U-017 is paused for this corrective release.
 
 ## 1.7.82 pre-production documentation verification
 
