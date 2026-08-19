@@ -233,10 +233,12 @@ if ($mode === 'analytics') {
     );
     $statewhere = $analyticsscopewhere;
     $stateparams = $segmentparams;
-    $segmentwhere = '(' . $analyticsscopewhere . ') AND servervalidated = 1';
+    [$segmentwhere, $segmentparams] = \mod_videotrack\local\report_support::analytics_segment_condition(
+        $analyticsscopewhere,
+        $segmentparams,
+        $providerdataid
+    );
     if ($providerdataid !== '') {
-        $segmentwhere .= ' AND videoid = :analyticssegmentvideoid';
-        $segmentparams['analyticssegmentvideoid'] = $providerdataid;
         $statewhere .= ' AND videoid = :analyticsstatevideoid';
         $stateparams['analyticsstatevideoid'] = $providerdataid;
     }

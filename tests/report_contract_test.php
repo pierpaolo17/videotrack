@@ -242,6 +242,7 @@ final class report_contract_test extends advanced_testcase {
         $this->assertStringContainsString('report_support::analytics_reaction_condition(', $report);
         $this->assertStringContainsString('report_support::analytics_bookmark_condition(', $report);
         $this->assertStringContainsString('report_support::analytics_integrity_condition(', $report);
+        $this->assertStringContainsString('report_support::analytics_segment_condition(', $report);
         $this->assertStringContainsString('report_support::tabs(', $report);
         $this->assertStringContainsString('report_support::user_options(', $report);
         $this->assertStringContainsString('report_support::cluster_reaction_events(', $report);
@@ -266,6 +267,10 @@ final class report_contract_test extends advanced_testcase {
         );
         $this->assertStringNotContainsString(
             "\$integritywhere = '(' . \$integritywhere . ') AND videoid = :analyticsintegrityvideoid'",
+            $report
+        );
+        $this->assertStringNotContainsString(
+            "\$segmentwhere = '(' . \$analyticsscopewhere . ') AND servervalidated = 1'",
             $report
         );
         $this->assertStringNotContainsString(

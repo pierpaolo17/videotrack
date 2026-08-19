@@ -210,6 +210,39 @@ final class report_support_test extends \advanced_testcase {
     }
 
     /**
+     * Segment Analytics filtering preserves validated rows, scope and optional provider selection.
+     */
+    public function test_analytics_segment_condition_preserves_scope_and_provider_filter(): void {
+        [$conditions, $params] = report_support::analytics_segment_condition(
+            'videotrackid = :analyticssegmentvt0 AND userid = :analyticssegmentlearner0',
+            ['analyticssegmentvt0' => 42, 'analyticssegmentlearner0' => 7],
+            'provider-video-123'
+        );
+
+        $this->assertSame(
+            '(videotrackid = :analyticssegmentvt0 AND userid = :analyticssegmentlearner0)' .
+                ' AND servervalidated = 1 AND videoid = :analyticssegmentvideoid',
+            $conditions
+        );
+        $this->assertSame([
+            'analyticssegmentvt0' => 42,
+            'analyticssegmentlearner0' => 7,
+            'analyticssegmentvideoid' => 'provider-video-123',
+        ], $params);
+
+        [$minimalconditions, $minimalparams] = report_support::analytics_segment_condition(
+            'videotrackid = :analyticssegmentvt0',
+            ['analyticssegmentvt0' => 42],
+            ''
+        );
+        $this->assertSame(
+            '(videotrackid = :analyticssegmentvt0) AND servervalidated = 1',
+            $minimalconditions
+        );
+        $this->assertSame(['analyticssegmentvt0' => 42], $minimalparams);
+    }
+
+    /**
      * Standard reaction-event filters preserve learner scope and optional bounds.
      */
     public function test_reaction_event_condition_preserves_filters_and_scope(): void {
