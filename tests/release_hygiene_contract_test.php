@@ -91,8 +91,8 @@ final class release_hygiene_contract_test extends advanced_testcase {
         $phpcsconfig = file_get_contents(__DIR__ . '/../phpcs.xml.dist');
         $this->assertIsString($phpcsconfig);
         $this->assertStringContainsString('<rule ref="moodle-extra">', $phpcsconfig);
-        $this->assertStringContainsString('moodle.Files.LangFilesOrdering.IncorrectOrder', $phpcsconfig);
-        $this->assertStringContainsString('moodle.Files.LangFilesOrdering.UnexpectedComment', $phpcsconfig);
+        $this->assertStringNotContainsString('moodle.Files.LangFilesOrdering.IncorrectOrder', $phpcsconfig);
+        $this->assertStringNotContainsString('moodle.Files.LangFilesOrdering.UnexpectedComment', $phpcsconfig);
         $this->assertStringContainsString('moodle.PHPUnit.TestCaseCovers.Missing', $phpcsconfig);
     }
 
@@ -153,6 +153,10 @@ final class release_hygiene_contract_test extends advanced_testcase {
             $sortedkeys = $keys;
             sort($sortedkeys);
             $this->assertCount(count(array_unique($sortedkeys)), $sortedkeys, 'Duplicate language keys in ' . $language);
+            $this->assertSame($sortedkeys, $keys, 'Language keys must remain alphabetically ordered: ' . $language);
+            $firststring = strpos($source, '$string[');
+            $this->assertNotFalse($firststring);
+            $this->assertStringNotContainsString("\n//", substr($source, $firststring));
 
             $placeholders = [];
             $matchcount = count($keymatches[0]);
