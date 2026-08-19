@@ -299,6 +299,30 @@ final class report_support {
     }
 
     /**
+     * Adds optional provider filtering to an integrity-Analytics scope condition.
+     *
+     * The capability-safe scope is preserved exactly when no provider filter is requested.
+     *
+     * @param string $scopewhere Capability-safe Analytics scope SQL fragment.
+     * @param array $scopeparams Capability-safe Analytics scope named parameters.
+     * @param string $providerdataid Optional provider video id filter.
+     * @return array Tuple of SQL condition and named parameters.
+     */
+    public static function analytics_integrity_condition(
+        string $scopewhere,
+        array $scopeparams,
+        string $providerdataid
+    ): array {
+        $conditions = $scopewhere;
+        $params = $scopeparams;
+        if ($providerdataid !== '') {
+            $conditions = '(' . $conditions . ') AND videoid = :analyticsintegrityvideoid';
+            $params['analyticsintegrityvideoid'] = $providerdataid;
+        }
+        return [$conditions, $params];
+    }
+
+    /**
      * Builds a capability-safe SQL condition for current acknowledgement versions.
      *
      * Each enabled activity contributes its own statement hash. Group restrictions

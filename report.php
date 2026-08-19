@@ -435,10 +435,11 @@ if ($mode === 'analytics') {
             'analyticsintegrity',
             (int)$USER->id
         );
-        if ($providerdataid !== '') {
-            $integritywhere = '(' . $integritywhere . ') AND videoid = :analyticsintegrityvideoid';
-            $integrityparams['analyticsintegrityvideoid'] = $providerdataid;
-        }
+        [$integritywhere, $integrityparams] = \mod_videotrack\local\report_support::analytics_integrity_condition(
+            $integritywhere,
+            $integrityparams,
+            $providerdataid
+        );
         $integrityrows = $DB->get_records_sql(
             "SELECT eventtype, COUNT(id) AS eventcount, COUNT(DISTINCT userid) AS studentcount
                FROM {videotrack_integrity}

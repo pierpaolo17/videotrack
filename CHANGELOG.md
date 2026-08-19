@@ -1,5 +1,11 @@
 # VideoTrack changelog
 
+## 1.7.86 - 2026-08-19
+
+- Resume U-017 maintainability from the server-green 1.7.85 baseline by moving integrity-Analytics provider-filter SQL/parameter decoration out of `report.php` into `local\report_support::analytics_integrity_condition()`.
+- Preserve the capability-safe Analytics scope exactly when no provider filter is selected and preserve the existing `analyticsintegrityvideoid` named parameter when a provider video id is selected, under direct behavioural PHPUnit coverage plus the controller-delegation contract.
+- Keep integrity summarisation/query ordering, reaction/bookmark/acknowledgement Analytics, privacy thresholds, report capabilities, exports, schema, tracking, completion and AMD/player runtime unchanged.
+
 ## 1.7.85 - 2026-08-19
 
 - Eliminated the remaining 36 `moodle.PHPUnit.TestCaseCovers.Missing` findings by assigning explicit PHPUnit coverage metadata according to test intent: `CoversNothing` for source/documentation contracts, `CoversClass` for completion and generator behavior, and `CoversFunction` for global helper callbacks.
