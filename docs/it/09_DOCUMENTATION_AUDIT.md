@@ -1,11 +1,11 @@
 # Audit della documentazione
 
-Baseline: VideoTrack **1.7.85** (`2026081902`).
+Baseline: VideoTrack **1.7.86** (`2026081903`).
 
 ## Copertura
 
 - File non documentali inventariati: **276/276**.
-- Funzioni/metodi PHP nominati inventariati: **700**.
+- Funzioni/metodi PHP nominati inventariati: **702**.
 - Callable AMD nominati rilevati e inventariati: **647**.
 - Tabelle XMLDB documentate: **7**.
 - Chiavi impostazioni sito documentate: **57**.
@@ -18,6 +18,14 @@ Baseline: VideoTrack **1.7.85** (`2026081902`).
 - Automazione browser Behat documentata in `22_TEST_BROWSER_BEHAT.md`; U-007 è tracciato come in corso.
 - I contratti statici resume/completion/alert impilati completano l’ambiente Behat ora operativo; la matrice 1.7.83 su Moodle 5.0–5.3 ha superato 7/7 scenari, mentre gli smoke test provider più ampi restano separati.
 - La navigazione capitoli ha ora un contratto esplicito focus-visible/colori forzati; la matrice manuale tastiera/high-contrast resta un gate per la chiusura finale di U-020.
+
+## Verifica documentazione pre-produzione 1.7.86
+
+- L'inventario corrente dei file non documentali resta a **276/276** voci.
+- L'inventario funzioni passa a **702 PHP / 647 AMD** callable nominati dopo l'aggiunta dell'helper Analytics integrity e del relativo test comportamentale.
+- La release 1.7.86 riprende U-017 con un'estrazione meccanicamente equivalente del filtro provider opzionale per gli Analytics integrity da `report.php` in `local\report_support::analytics_integrity_condition()`.
+- Lo scope Analytics capability-safe e il filtro provider opzionale `videoid` con parametro `analyticsintegrityvideoid` restano identici; Analytics reaction/bookmark/acknowledgement, soglie privacy, capability report, export, schema, tracking, completion e runtime AMD/player restano invariati.
+- Il `phpcs.xml.dist` canonico resta il gate full `moodle-extra` senza esclusioni introdotto dalla 1.7.85.
 
 ## Verifica documentazione pre-produzione 1.7.85
 

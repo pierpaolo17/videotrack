@@ -180,6 +180,36 @@ final class report_support_test extends \advanced_testcase {
     }
 
     /**
+     * Integrity Analytics filtering preserves scope and optional provider selection.
+     */
+    public function test_analytics_integrity_condition_preserves_scope_and_provider_filter(): void {
+        [$conditions, $params] = report_support::analytics_integrity_condition(
+            'videotrackid = :analyticsintegrityvt0 AND userid = :analyticsintegritylearner0',
+            ['analyticsintegrityvt0' => 42, 'analyticsintegritylearner0' => 7],
+            'provider-video-123'
+        );
+
+        $this->assertSame(
+            '(videotrackid = :analyticsintegrityvt0 AND userid = :analyticsintegritylearner0)' .
+                ' AND videoid = :analyticsintegrityvideoid',
+            $conditions
+        );
+        $this->assertSame([
+            'analyticsintegrityvt0' => 42,
+            'analyticsintegritylearner0' => 7,
+            'analyticsintegrityvideoid' => 'provider-video-123',
+        ], $params);
+
+        [$minimalconditions, $minimalparams] = report_support::analytics_integrity_condition(
+            'videotrackid = :analyticsintegrityvt0',
+            ['analyticsintegrityvt0' => 42],
+            ''
+        );
+        $this->assertSame('videotrackid = :analyticsintegrityvt0', $minimalconditions);
+        $this->assertSame(['analyticsintegrityvt0' => 42], $minimalparams);
+    }
+
+    /**
      * Standard reaction-event filters preserve learner scope and optional bounds.
      */
     public function test_reaction_event_condition_preserves_filters_and_scope(): void {
