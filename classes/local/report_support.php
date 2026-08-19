@@ -323,6 +323,28 @@ final class report_support {
     }
 
     /**
+     * Adds validated-segment and optional provider filtering to an Analytics scope condition.
+     *
+     * @param string $scopewhere Capability-safe Analytics scope SQL fragment.
+     * @param array $scopeparams Capability-safe Analytics scope named parameters.
+     * @param string $providerdataid Optional provider video id filter.
+     * @return array Tuple of SQL condition and named parameters.
+     */
+    public static function analytics_segment_condition(
+        string $scopewhere,
+        array $scopeparams,
+        string $providerdataid
+    ): array {
+        $conditions = '(' . $scopewhere . ') AND servervalidated = 1';
+        $params = $scopeparams;
+        if ($providerdataid !== '') {
+            $conditions .= ' AND videoid = :analyticssegmentvideoid';
+            $params['analyticssegmentvideoid'] = $providerdataid;
+        }
+        return [$conditions, $params];
+    }
+
+    /**
      * Builds a capability-safe SQL condition for current acknowledgement versions.
      *
      * Each enabled activity contributes its own statement hash. Group restrictions

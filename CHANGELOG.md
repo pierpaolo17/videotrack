@@ -1,5 +1,11 @@
 # VideoTrack changelog
 
+## 1.7.87 - 2026-08-19
+
+- Continue U-017 maintainability from the server-green 1.7.86 baseline by moving validated-segment Analytics SQL/parameter decoration out of `report.php` into `local\report_support::analytics_segment_condition()`.
+- Preserve the capability-safe Analytics scope, mandatory `servervalidated = 1` filter and optional provider `videoid` filter with the existing `analyticssegmentvideoid` named parameter under direct behavioural PHPUnit coverage plus the controller-delegation/non-inline contract.
+- Keep state Analytics filtering, reaction/bookmark/integrity/acknowledgement Analytics, privacy thresholds, report capabilities, exports, schema, tracking, completion and AMD/player runtime unchanged.
+
 ## 1.7.86 - 2026-08-19
 
 - Resume U-017 maintainability from the server-green 1.7.85 baseline by moving integrity-Analytics provider-filter SQL/parameter decoration out of `report.php` into `local\report_support::analytics_integrity_condition()`.

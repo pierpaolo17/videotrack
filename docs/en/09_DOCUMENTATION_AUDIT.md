@@ -1,11 +1,11 @@
 # Documentation audit
 
-Baseline: VideoTrack **1.7.86** (`2026081903`).
+Baseline: VideoTrack **1.7.87** (`2026081904`).
 
 ## Coverage
 
 - Non-documentation files inventoried: **276/276**.
-- Named PHP functions/methods inventoried: **702**.
+- Named PHP functions/methods inventoried: **704**.
 - Named AMD callables detected and inventoried: **647**.
 - XMLDB tables documented: **7**.
 - Site-setting keys documented: **57**.
@@ -19,6 +19,13 @@ Baseline: VideoTrack **1.7.86** (`2026081903`).
 - Static resume/completion/stacked-alert contracts complement the operational Behat environment; the 1.7.83 Moodle 5.0–5.3 matrix passed 7/7 scenarios, while broader provider smoke coverage remains explicitly separate.
 - Maintainer-only consolidated roadmap/lessons-history files are intentionally excluded from the distributed plugin tree and protected by `.moodleignore`.
 - Chapter navigation now has an explicit focus-visible/forced-colour contract; a manual keyboard/high-contrast matrix remains a release gate for final U-020 closure.
+
+## 1.7.87 pre-production documentation verification
+
+- Current non-documentation file inventory remains **276/276** entries.
+- Function inventory is **704 PHP / 647 AMD** named callables after adding the segment-Analytics helper and its behavioural test.
+- Release 1.7.87 continues U-017 with a mechanically equivalent extraction of mandatory `servervalidated = 1` and optional provider filtering for segment Analytics from `report.php` into `local\report_support::analytics_segment_condition()`.
+- Capability-safe Analytics scope and the optional provider parameter `analyticssegmentvideoid` are preserved exactly; state Analytics filtering remains in the controller and reaction/bookmark/integrity/acknowledgement Analytics, privacy thresholds, report capabilities, exports, schema, tracking, completion and AMD/player runtime are unchanged.
 
 ## 1.7.86 pre-production documentation verification
 

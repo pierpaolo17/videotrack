@@ -1,6 +1,6 @@
 # Inventario dei file distribuiti
 
-Questo inventario è generato sull’albero VideoTrack 1.7.86 ed elenca ogni file non documentale. Il JavaScript canonico è in `amd/src`; i file in `amd/build` sono generati.
+Questo inventario è generato sull’albero VideoTrack 1.7.87 ed elenca ogni file non documentale. Il JavaScript canonico è in `amd/src`; i file in `amd/build` sono generati.
 
 Entries: **276**.
 
@@ -8,7 +8,7 @@ Entries: **276**.
 |---|---|
 | `.gitattributes` | Attributi testuali/binari del repository. |
 | `.moodleignore` | File esclusi dal pacchetto Moodle. |
-| `phpcs.xml.dist` | Configurazione canonica del gate PHPCS basata su Moodle Extra con esclusioni esatte del debito differito. |
+| `phpcs.xml.dist` | Configurazione canonica del gate PHPCS basata sul ruleset Moodle Extra completo, senza esclusioni specifiche VideoTrack. |
 | `amd/build/core/adapter.min.js` | Build AMD minificata generata per `core/adapter` tramite Grunt Moodle. |
 | `amd/build/core/adapter.min.js.map` | Source map generata per la build AMD `core/adapter`; non modificare manualmente. |
 | `amd/build/core/api.min.js` | Build AMD minificata generata per `core/api` tramite Grunt Moodle. |
