@@ -1,6 +1,6 @@
 # Audit della documentazione
 
-Baseline: VideoTrack **1.7.82** (`2026081806`).
+Baseline: VideoTrack **1.7.83** (`2026081900`).
 
 ## Copertura
 
@@ -18,6 +18,14 @@ Baseline: VideoTrack **1.7.82** (`2026081806`).
 - Automazione browser Behat documentata in `22_TEST_BROWSER_BEHAT.md`; U-007 è tracciato come in corso.
 - I contratti statici resume/completion/alert impilati coprono i tre provider mentre Behat resta indisponibile nell’ambiente maintainer; l’evidenza browser resta esplicitamente pendente.
 - La navigazione capitoli ha ora un contratto esplicito focus-visible/colori forzati; la matrice manuale tastiera/high-contrast resta un gate per la chiusura finale di U-020.
+
+## Verifica documentazione pre-produzione 1.7.83
+
+- Inventario corrente dei file non documentali rigenerato sull'albero candidato 1.7.83: **276/276** voci; il file aggiunto è `phpcs.xml.dist` a livello repository.
+- L'inventario funzioni resta a **699** funzioni/metodi PHP nominati e **647** callable AMD nominati; sono state riallineate le posizioni sorgente modificate.
+- I due failure Behat comuni alle quattro versioni Moodle sono stabilizzati puntando i selector CSS univoci dei `<summary>` nativi dello storico learner invece del selector Moodle generico `text`; markup e runtime learner restano invariati.
+- Il gate PHPCS canonico usa ora `moodle-extra` tramite `phpcs.xml.dist`, escludendo soltanto i tre codici warning esatti presenti nella baseline 1.7.82; la scansione `moodle-extra` completa resta evidenza consultiva del debito.
+- U-017 è sospeso per questa release correttiva.
 
 ## Verifica documentazione pre-produzione 1.7.82
 

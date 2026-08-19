@@ -7,11 +7,15 @@ Dalla root Moodle, adattando i path:
 ```bash
 find mod/videotrack -name '*.php' -print0 | xargs -0 -n1 php -l
 vendor/bin/phpunit --testsuite mod_videotrack_testsuite
-vendor/bin/phpcs --standard=moodle --extensions=php mod/videotrack
+# Gate PHPCS canonico (Moodle Extra + baseline debito differito VideoTrack)
+/root/.config/composer/vendor/bin/phpcs --standard=mod/videotrack/phpcs.xml.dist mod/videotrack
+# Scansione periodica consultiva del debito, non bloccante per ogni release
 /root/.config/composer/vendor/bin/phpcs --standard=moodle-extra mod/videotrack
 # Solo se cambia amd/src
 node node_modules/grunt/bin/grunt amd --root=mod/videotrack
 ```
+
+Il file repository-level `phpcs.xml.dist` è il gate PHPCS canonico di release. Estende `moodle-extra` e differisce soltanto i warning esatti della baseline 1.7.82 `moodle.Files.LangFilesOrdering.IncorrectOrder`, `moodle.Files.LangFilesOrdering.UnexpectedComment` e `moodle.PHPUnit.TestCaseCovers.Missing`. Ogni altro warning o errore PHPCS resta bloccante. Eseguire periodicamente il comando `moodle-extra` senza esclusioni per monitorare il debito differito e registrare le versioni di PHP_CodeSniffer e `moodlehq/moodle-cs` quando cambia la toolchain.
 
 Analizzare anche `db/install.xml` ed `environment.xml`, eseguire `node --check` su sorgenti/build, validare le source map JSON, confrontare chiavi e placeholder delle lingue, verificare ogni `get_string` statico e confrontare XMLDB con backup/restore.
 

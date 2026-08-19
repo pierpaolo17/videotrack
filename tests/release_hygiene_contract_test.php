@@ -87,6 +87,13 @@ final class release_hygiene_contract_test extends advanced_testcase {
         $this->assertStringContainsString('VIDEOTRACK_CHANGELOG_LESSONS_ROADMAP_*.md', $moodleignore);
         $this->assertStringNotContainsString('Current release documented by this tree: **1.6.36**', $readme);
         $this->assertStringNotContainsString('Release documentata da questo albero: **1.6.36**', $readmeit);
+
+        $phpcsconfig = file_get_contents(__DIR__ . '/../phpcs.xml.dist');
+        $this->assertIsString($phpcsconfig);
+        $this->assertStringContainsString('<rule ref="moodle-extra">', $phpcsconfig);
+        $this->assertStringContainsString('moodle.Files.LangFilesOrdering.IncorrectOrder', $phpcsconfig);
+        $this->assertStringContainsString('moodle.Files.LangFilesOrdering.UnexpectedComment', $phpcsconfig);
+        $this->assertStringContainsString('moodle.PHPUnit.TestCaseCovers.Missing', $phpcsconfig);
     }
 
 

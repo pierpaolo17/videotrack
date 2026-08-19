@@ -77,3 +77,8 @@ Gli scenari provider dovrebbero evitare dipendenze dalla disponibilità della re
 I risultati Behat appartengono all'albero esatto su cui sono stati eseguiti. Registrare versione Moodle, browser/driver, numero scenari e failure. PHPUnit/PHPCS/Grunt verdi non sostituiscono l'automazione browser e un risultato Behat di una release precedente non va attribuito a un tree successivo.
 
 La feature HTML5 può pre-caricare un intervallo di visione validato; nella 1.7.50 lo scenario verifica che reazione, nota, segnalibro e accesso al composer del Forum collegato restino validi dopo un seek avanti bloccato e il conseguente rollback su una posizione già vista. L'asserzione Forum controlla anche che l'URL del composer contenga un timestamp interno all'intervallo già validato.
+
+
+## Stabilizzazione selector 1.7.83
+
+La matrice 1.7.82 ha reso operativo Behat su Moodle 5.0–5.3 ma ha mostrato due failure identici con Chrome 151 sul click testuale di `My notes`. La 1.7.83 mantiene invariato il markup runtime e usa nei feature i selector CSS univoci `.videotrack-student-section-… > summary`, così il click punta direttamente al nodo `<summary>` interattivo. Le etichette visibili restano verificate separatamente.

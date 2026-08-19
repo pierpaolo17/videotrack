@@ -50,6 +50,19 @@ final class student_view_contract_test extends advanced_testcase {
         $this->assertStringContainsString("get_string('studentnotes_title', 'mod_videotrack')", $source);
         $this->assertStringContainsString("get_string('bookmarks_title', 'mod_videotrack')", $source);
         $this->assertStringNotContainsString("'open' => 'open'", $source);
+
+        foreach (['html5_seek_policy.feature', 'student_personal_sections.feature'] as $featurefile) {
+            $feature = file_get_contents(__DIR__ . '/behat/' . $featurefile);
+            $this->assertIsString($feature);
+            foreach (['reactions', 'notes', 'bookmarks'] as $section) {
+                $selector = '.videotrack-student-section-' . $section . ' > summary';
+                $this->assertStringContainsString(
+                    'I click on "' . $selector . '" "css_element"',
+                    $feature
+                );
+            }
+            $this->assertStringNotContainsString('I click on "My notes" "text"', $feature);
+        }
     }
 
     /**

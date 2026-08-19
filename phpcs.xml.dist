@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ruleset name="VideoTrack Moodle Extra">
+    <description>Canonical PHPCS release gate for mod_videotrack.</description>
+
+    <arg name="extensions" value="php"/>
+
+    <rule ref="moodle-extra">
+        <!--
+            Deferred baseline debt discovered by the 1.7.82 multi-version audit.
+            Keep these exclusions exact: all other moodle-extra warnings/errors
+            remain release-blocking. Re-enable them only in dedicated cleanup work.
+        -->
+        <exclude name="moodle.Files.LangFilesOrdering.IncorrectOrder"/>
+        <exclude name="moodle.Files.LangFilesOrdering.UnexpectedComment"/>
+        <exclude name="moodle.PHPUnit.TestCaseCovers.Missing"/>
+    </rule>
+</ruleset>
