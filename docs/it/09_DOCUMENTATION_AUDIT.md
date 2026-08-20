@@ -1,6 +1,6 @@
 # Audit della documentazione
 
-Baseline: VideoTrack **1.7.93** (`2026082005`).
+Baseline: VideoTrack **1.7.94** (`2026082006`).
 
 ## Copertura
 
@@ -18,6 +18,14 @@ Baseline: VideoTrack **1.7.93** (`2026082005`).
 - Automazione browser Behat documentata in `22_TEST_BROWSER_BEHAT.md`; U-007 è tracciato come in corso.
 - I contratti statici resume/completion/alert impilati completano l’ambiente Behat ora operativo; la matrice 1.7.83 su Moodle 5.0–5.3 ha superato 7/7 scenari, mentre gli smoke test provider più ampi restano separati.
 - La navigazione capitoli ha ora un contratto esplicito focus-visible/colori forzati; la matrice manuale tastiera/high-contrast resta un gate per la chiusura finale di U-020.
+
+## Verifica documentale correttiva 1.7.94
+
+- L'inventario corrente dei file non documentali resta a **278/278** voci.
+- L'inventario funzioni resta a **719 PHP / 647 AMD** callable nominati; questa tranche correttiva non aggiunge callable di produzione o test.
+- La release 1.7.94 corregge l'unico errore PHPCS `PSR2.Classes.ClassDeclaration.CloseBraceAfterBody` rilevato in `tests/form_validation_test.php` dal gate maintainer reale della 1.7.93.
+- Il comportamento PHPUnit resta invariato rispetto alla 1.7.93; U-017 non avanza in questa release correttiva.
+- Indici, inventari e marker audit della release corrente sono sincronizzati alla 1.7.94.
 
 ## Verifica documentale pre-produzione 1.7.93
 

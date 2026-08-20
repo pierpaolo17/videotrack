@@ -118,5 +118,4 @@ final class form_validation_test extends \advanced_testcase {
         $this->assertStringContainsString('file_get_draft_area_info(', $source);
         $this->assertStringContainsString('videotrack_is_compatible_forum(', $source);
     }
-
 }
