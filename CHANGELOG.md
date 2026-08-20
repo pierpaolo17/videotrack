@@ -1,5 +1,12 @@
 # VideoTrack changelog
 
+## 1.7.90 - 2026-08-20
+
+- Continue U-017 by extracting acknowledgement-Analytics timing bucket counting from `report.php` into `local\report_support::analytics_acknowledgement_timing_counts()`.
+- Preserve the canonical acknowledgement timing semantics by delegating each enabled instance to `acknowledgement::requires_video_end()`, including its invalid/missing-value fallback to anytime.
+- Add behavioural coverage for anytime/video-end/invalid timing buckets and strengthen the controller-delegation contract.
+- No SQL, Analytics aggregation/privacy threshold, capability, export, schema, tracking, completion, player/AMD, Behat or language-pack changes.
+
 ## 1.7.89 - 2026-08-20
 
 - Correct state-Analytics provider filtering so a selected YouTube/Vimeo `videoid` applies to the complete capability-safe multi-activity scope, rather than only the final `OR` branch under SQL operator precedence.

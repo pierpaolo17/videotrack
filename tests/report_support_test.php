@@ -17,6 +17,7 @@
 namespace mod_videotrack;
 
 use context_system;
+use mod_videotrack\local\acknowledgement;
 use mod_videotrack\local\report_support;
 use PHPUnit\Framework\Attributes\CoversClass;
 
@@ -108,6 +109,26 @@ final class report_support_test extends \advanced_testcase {
         $this->assertSame([], $analyticsparams);
         $this->assertSame('1 = 0', $acksql);
         $this->assertSame([], $ackparams);
+    }
+
+    /**
+     * Acknowledgement timing counts preserve the canonical timing fallback and buckets.
+     */
+    public function test_analytics_acknowledgement_timing_counts_preserve_policy_buckets(): void {
+        $instances = [
+            (object)[],
+            (object)['acknowledgementtiming' => acknowledgement::TIMING_VIDEO_END],
+            (object)['acknowledgementtiming' => 99],
+        ];
+
+        $this->assertSame(
+            [2, 1],
+            report_support::analytics_acknowledgement_timing_counts($instances)
+        );
+        $this->assertSame(
+            [0, 0],
+            report_support::analytics_acknowledgement_timing_counts([])
+        );
     }
 
     /**

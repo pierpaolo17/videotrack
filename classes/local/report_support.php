@@ -442,6 +442,29 @@ final class report_support {
     }
 
     /**
+     * Counts acknowledgement Analytics instances by confirmation timing.
+     *
+     * The caller already supplies acknowledgement-enabled instances. Invalid or missing
+     * timing values keep the canonical acknowledgement fallback to anytime.
+     *
+     * @param array $instances Acknowledgement-enabled Analytics activity instances.
+     * @return array Tuple containing anytime count and video-end count.
+     */
+    public static function analytics_acknowledgement_timing_counts(array $instances): array {
+        $anytimecount = 0;
+        $videoendcount = 0;
+        foreach ($instances as $instance) {
+            if (acknowledgement::requires_video_end($instance)) {
+                $videoendcount++;
+            } else {
+                $anytimecount++;
+            }
+        }
+
+        return [$anytimecount, $videoendcount];
+    }
+
+    /**
      * Builds the standard reaction-event report condition and named parameters.
      *
      * Personal notes and bookmarks are intentionally excluded from this event stream.

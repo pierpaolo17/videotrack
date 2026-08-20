@@ -1,11 +1,11 @@
 # Audit della documentazione
 
-Baseline: VideoTrack **1.7.89** (`2026082001`).
+Baseline: VideoTrack **1.7.90** (`2026082002`).
 
 ## Copertura
 
 - File non documentali inventariati: **276/276**.
-- Funzioni/metodi PHP nominati inventariati: **706**.
+- Funzioni/metodi PHP nominati inventariati: **708**.
 - Callable AMD nominati rilevati e inventariati: **647**.
 - Tabelle XMLDB documentate: **7**.
 - Chiavi impostazioni sito documentate: **57**.
@@ -18,6 +18,14 @@ Baseline: VideoTrack **1.7.89** (`2026082001`).
 - Automazione browser Behat documentata in `22_TEST_BROWSER_BEHAT.md`; U-007 è tracciato come in corso.
 - I contratti statici resume/completion/alert impilati completano l’ambiente Behat ora operativo; la matrice 1.7.83 su Moodle 5.0–5.3 ha superato 7/7 scenari, mentre gli smoke test provider più ampi restano separati.
 - La navigazione capitoli ha ora un contratto esplicito focus-visible/colori forzati; la matrice manuale tastiera/high-contrast resta un gate per la chiusura finale di U-020.
+
+## Verifica documentazione pre-produzione 1.7.90
+
+- L'inventario corrente dei file non documentali resta a **276/276** voci.
+- L'inventario funzioni passa a **708 PHP / 647 AMD** callable nominati dopo l'aggiunta dell'helper per i conteggi di timing della presa visione e del relativo test comportamentale.
+- La release 1.7.90 riprende U-017 dalla baseline server-green 1.7.89 spostando da `report.php` a `local\report_support::analytics_acknowledgement_timing_counts()` il conteggio dei bucket timing degli Analytics di presa visione.
+- L'helper preserva la semantica di `acknowledgement::requires_video_end()`, incluso il fallback esistente su anytime per valori timing mancanti o non validi.
+- Non sono incluse modifiche a SQL, aggregazioni/soglie privacy Analytics, capability report, export, schema, tracking, completion o runtime AMD/player.
 
 ## Verifica documentazione correttiva 1.7.89
 

@@ -380,15 +380,8 @@ if ($mode === 'analytics') {
             \mod_videotrack\local\acknowledgement::is_enabled($scopeinstance)
     );
     $acknowledgementanalyticsenabled = !empty($acknowledgementinstances);
-    $acknowledgementanytimecount = 0;
-    $acknowledgementvideoendcount = 0;
-    foreach ($acknowledgementinstances as $acknowledgementinstance) {
-        if (\mod_videotrack\local\acknowledgement::requires_video_end($acknowledgementinstance)) {
-            $acknowledgementvideoendcount++;
-        } else {
-            $acknowledgementanytimecount++;
-        }
-    }
+    [$acknowledgementanytimecount, $acknowledgementvideoendcount] =
+        \mod_videotrack\local\report_support::analytics_acknowledgement_timing_counts($acknowledgementinstances);
     if ($acknowledgementanalyticsenabled) {
         [$acknowledgementwhere, $acknowledgementparams] =
             \mod_videotrack\local\report_support::acknowledgement_scope_condition(
