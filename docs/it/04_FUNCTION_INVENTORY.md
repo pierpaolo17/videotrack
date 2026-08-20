@@ -1,6 +1,6 @@
 # Inventario delle funzioni
 
-Generato dall’albero sorgente VideoTrack 1.7.95. Le voci PHP includono funzioni e metodi nominati; le voci AMD includono dichiarazioni nominate, espressioni funzione assegnate e funzioni-metodo di oggetti.
+Generato dall’albero sorgente VideoTrack 1.7.96. Le voci PHP includono funzioni e metodi nominati; le voci AMD includono dichiarazioni nominate, espressioni funzione assegnate e funzioni-metodo di oggetti.
 
 **Funzioni/metodi PHP:** 721. **Callable AMD nominati:** 647.
 
@@ -1167,13 +1167,13 @@ Generato dall’albero sorgente VideoTrack 1.7.95. Le voci PHP includono funzion
 | `tests/completion_contract_test.php:105` | `test_disabled_reactions_are_excluded_from_tracker_completion` | Funzione/metodo PHP nominato `test_disabled_reactions_are_excluded_from_tracker_completion`; vedere DocBlock e chiamanti per il contratto corrente. |
 | `tests/completion_contract_test.php:125` | `test_moodle_completion_uses_composite_rule_contract` | Funzione/metodo PHP nominato `test_moodle_completion_uses_composite_rule_contract`; vedere DocBlock e chiamanti per il contratto corrente. |
 | `tests/completion_contract_test.php:141` | `test_form_includes_required_reactions_in_completion_contract` | Funzione/metodo PHP nominato `test_form_includes_required_reactions_in_completion_contract`; vedere DocBlock e chiamanti per il contratto corrente. |
-| `tests/completion_contract_test.php:161` | `test_instance_update_recalculates_changed_completion_configuration` | Funzione/metodo PHP nominato `test_instance_update_recalculates_changed_completion_configuration`; vedere DocBlock e chiamanti per il contratto corrente. |
-| `tests/completion_contract_test.php:188` | `test_acknowledgement_policy_changes_completion_signature_behaviorally` | Funzione/metodo PHP nominato `test_acknowledgement_policy_changes_completion_signature_behaviorally`; vedere DocBlock e chiamanti per il contratto corrente. |
-| `tests/completion_contract_test.php:223` | `test_empty_acknowledgement_is_not_a_custom_rule` | Funzione/metodo PHP nominato `test_empty_acknowledgement_is_not_a_custom_rule`; vedere DocBlock e chiamanti per il contratto corrente. |
-| `tests/completion_contract_test.php:242` | `test_completion_adapters_preserve_userid_without_state_row` | Funzione/metodo PHP nominato `test_completion_adapters_preserve_userid_without_state_row`; vedere DocBlock e chiamanti per il contratto corrente. |
-| `tests/completion_contract_test.php:255` | `test_custom_completion_sort_order_covers_standard_conditions` | Funzione/metodo PHP nominato `test_custom_completion_sort_order_covers_standard_conditions`; vedere DocBlock e chiamanti per il contratto corrente. |
-| `tests/completion_contract_test.php:267` | `test_reaction_or_logic_can_be_alternative_to_viewing_percentage` | Funzione/metodo PHP nominato `test_reaction_or_logic_can_be_alternative_to_viewing_percentage`; vedere DocBlock e chiamanti per il contratto corrente. |
-| `tests/completion_contract_test.php:303` | `test_activity_header_completion_badges_have_readable_contrast` | Funzione/metodo PHP nominato `test_activity_header_completion_badges_have_readable_contrast`; vedere DocBlock e chiamanti per il contratto corrente. |
+| `tests/completion_contract_test.php:162` | `test_instance_update_recalculates_changed_completion_configuration` | Funzione/metodo PHP nominato `test_instance_update_recalculates_changed_completion_configuration`; vedere DocBlock e chiamanti per il contratto corrente. |
+| `tests/completion_contract_test.php:189` | `test_acknowledgement_policy_changes_completion_signature_behaviorally` | Funzione/metodo PHP nominato `test_acknowledgement_policy_changes_completion_signature_behaviorally`; vedere DocBlock e chiamanti per il contratto corrente. |
+| `tests/completion_contract_test.php:224` | `test_empty_acknowledgement_is_not_a_custom_rule` | Funzione/metodo PHP nominato `test_empty_acknowledgement_is_not_a_custom_rule`; vedere DocBlock e chiamanti per il contratto corrente. |
+| `tests/completion_contract_test.php:243` | `test_completion_adapters_preserve_userid_without_state_row` | Funzione/metodo PHP nominato `test_completion_adapters_preserve_userid_without_state_row`; vedere DocBlock e chiamanti per il contratto corrente. |
+| `tests/completion_contract_test.php:256` | `test_custom_completion_sort_order_covers_standard_conditions` | Funzione/metodo PHP nominato `test_custom_completion_sort_order_covers_standard_conditions`; vedere DocBlock e chiamanti per il contratto corrente. |
+| `tests/completion_contract_test.php:268` | `test_reaction_or_logic_can_be_alternative_to_viewing_percentage` | Funzione/metodo PHP nominato `test_reaction_or_logic_can_be_alternative_to_viewing_percentage`; vedere DocBlock e chiamanti per il contratto corrente. |
+| `tests/completion_contract_test.php:304` | `test_activity_header_completion_badges_have_readable_contrast` | Funzione/metodo PHP nominato `test_activity_header_completion_badges_have_readable_contrast`; vedere DocBlock e chiamanti per il contratto corrente. |
 | `tests/course_analytics_test.php:39` | `test_median_handles_common_dataset_shapes` | Callable PHP `test_median_handles_common_dataset_shapes`; DocBlock e chiamanti definiscono parametri, valori restituiti ed effetti. |
 | `tests/course_analytics_test.php:48` | `test_state_summary_reuses_timeline_analytics` | Callable PHP `test_state_summary_reuses_timeline_analytics`; DocBlock e chiamanti definiscono parametri, valori restituiti ed effetti. |
 | `tests/course_analytics_test.php:72` | `test_state_summary_hides_drop_when_retention_denominator_is_suppressed` | Callable PHP `test_state_summary_hides_drop_when_retention_denominator_is_suppressed`; DocBlock e chiamanti definiscono parametri, valori restituiti ed effetti. |

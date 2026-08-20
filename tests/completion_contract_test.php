@@ -140,8 +140,9 @@ final class completion_contract_test extends advanced_testcase {
      */
     public function test_form_includes_required_reactions_in_completion_contract(): void {
         $source = file_get_contents(dirname(__DIR__) . '/mod_form.php');
+        $validation = file_get_contents(dirname(__DIR__) . '/classes/local/form_validation.php');
 
-        $this->assertStringContainsString("(array)(\$data['reactionrequired'] ?? [])", $source);
+        $this->assertStringContainsString("(array)(\$data['reactionrequired'] ?? [])", $validation);
         $this->assertStringContainsString("\$mform->freeze('reactionrequired[' . \$i . ']');", $source);
         $this->assertStringContainsString('$suffix = $this->get_suffix();', $source);
         $this->assertStringContainsString("'completionreactionrules' . \$suffix", $source);
