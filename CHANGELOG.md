@@ -1,5 +1,12 @@
 # VideoTrack changelog
 
+## 1.7.91 - 2026-08-20
+
+- Continue U-017 by extracting the raw-segment versus state-fallback Analytics selection from `report.php` into `local\report_support::analytics_prefers_state_fallback()`.
+- Preserve the existing priority exactly: state data wins on a higher viewer count, or on equal viewers only when unique watched seconds exceed the raw result by more than `0.001`.
+- Add direct behavioural coverage for viewer priority, strict epsilon handling and equal-data fallback, plus strengthen the controller-delegation/non-inline contract.
+- No SQL, Analytics builders/privacy threshold, capability, export, schema, tracking, completion, player/AMD, Behat or language-pack changes.
+
 ## 1.7.90 - 2026-08-20
 
 - Continue U-017 by extracting acknowledgement-Analytics timing bucket counting from `report.php` into `local\report_support::analytics_acknowledgement_timing_counts()`.

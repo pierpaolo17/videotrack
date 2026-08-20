@@ -272,11 +272,10 @@ if ($mode === 'analytics') {
     } finally {
         $staters->close();
     }
-    $analyticsstatefallback = (int)$stateanalytics['viewers'] > (int)$rawanalytics['viewers']
-        || (
-            (int)$stateanalytics['viewers'] === (int)$rawanalytics['viewers']
-            && (float)$stateanalytics['uniqueseconds'] > (float)$rawanalytics['uniqueseconds'] + 0.001
-        );
+    $analyticsstatefallback = \mod_videotrack\local\report_support::analytics_prefers_state_fallback(
+        $rawanalytics,
+        $stateanalytics
+    );
     $analytics = $analyticsstatefallback ? $stateanalytics : $rawanalytics;
     $analytics = \mod_videotrack\local\analytics::apply_privacy_threshold($analytics, $minusers);
 

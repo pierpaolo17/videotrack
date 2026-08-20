@@ -244,6 +244,7 @@ final class report_contract_test extends advanced_testcase {
         $this->assertStringContainsString('report_support::analytics_integrity_condition(', $report);
         $this->assertStringContainsString('report_support::analytics_state_condition(', $report);
         $this->assertStringContainsString('report_support::analytics_segment_condition(', $report);
+        $this->assertStringContainsString('report_support::analytics_prefers_state_fallback(', $report);
         $this->assertStringContainsString('report_support::analytics_acknowledgement_timing_counts(', $report);
         $this->assertStringContainsString('report_support::tabs(', $report);
         $this->assertStringContainsString('report_support::user_options(', $report);
@@ -263,6 +264,7 @@ final class report_contract_test extends advanced_testcase {
             "\$reactionwhere = '(' . \$reactionwhere . ') AND isdeleted = 0'",
             $report
         );
+        $this->assertStringNotContainsString("(float)\$stateanalytics['uniqueseconds']", $report);
         $this->assertStringNotContainsString(
             '$bookmarkwhere = \'(\' . $bookmarkwhere . ") AND isdeleted = 0 AND notetype = \'bookmark\'";',
             $report

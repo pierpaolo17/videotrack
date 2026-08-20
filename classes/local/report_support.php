@@ -370,6 +370,24 @@ final class report_support {
     }
 
     /**
+     * Determines whether state-derived Analytics should replace raw segment Analytics.
+     *
+     * State data wins when it covers more viewers, or when viewer counts are equal and
+     * its unique watched duration exceeds the raw result by more than the existing epsilon.
+     *
+     * @param array $rawanalytics Analytics built from validated segments.
+     * @param array $stateanalytics Analytics rebuilt from aggregate state rows.
+     * @return bool True when the state fallback should be used.
+     */
+    public static function analytics_prefers_state_fallback(array $rawanalytics, array $stateanalytics): bool {
+        return (int)$stateanalytics['viewers'] > (int)$rawanalytics['viewers']
+            || (
+                (int)$stateanalytics['viewers'] === (int)$rawanalytics['viewers']
+                && (float)$stateanalytics['uniqueseconds'] > (float)$rawanalytics['uniqueseconds'] + 0.001
+            );
+    }
+
+    /**
      * Builds a capability-safe SQL condition for current acknowledgement versions.
      *
      * Each enabled activity contributes its own statement hash. Group restrictions
