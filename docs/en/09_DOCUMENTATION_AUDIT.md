@@ -1,6 +1,6 @@
 # Documentation audit
 
-Baseline: VideoTrack **1.7.88** (`2026082000`).
+Baseline: VideoTrack **1.7.89** (`2026082001`).
 
 ## Coverage
 
@@ -19,6 +19,14 @@ Baseline: VideoTrack **1.7.88** (`2026082000`).
 - Static resume/completion/stacked-alert contracts complement the operational Behat environment; the 1.7.83 Moodle 5.0–5.3 matrix passed 7/7 scenarios, while broader provider smoke coverage remains explicitly separate.
 - Maintainer-only consolidated roadmap/lessons-history files are intentionally excluded from the distributed plugin tree and protected by `.moodleignore`.
 - Chapter navigation now has an explicit focus-visible/forced-colour contract; a manual keyboard/high-contrast matrix remains a release gate for final U-020 closure.
+
+## 1.7.89 corrective documentation verification
+
+- Current non-documentation file inventory remains **276/276** entries.
+- Function inventory remains **706 PHP / 647 AMD** named callables; this corrective tranche adds no production or test callable.
+- State Analytics now wraps the complete capability-safe scope before appending `videoid = :analyticsstatevideoid`, so the provider filter applies to every `OR` branch.
+- The no-provider state scope and named parameter contract remain unchanged.
+- Current release indexes/inventory headers are synchronised after the 1.7.88 release-hygiene failure; U-017 does not advance in this corrective release.
 
 ## 1.7.88 pre-production documentation verification
 

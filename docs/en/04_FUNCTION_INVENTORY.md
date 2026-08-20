@@ -1,8 +1,8 @@
 # Function inventory
 
-Generated from the VideoTrack 1.7.87 source tree. PHP entries include named functions and methods; AMD entries include named declarations, assigned function expressions and object-method functions.
+Generated from the VideoTrack 1.7.89 source tree. PHP entries include named functions and methods; AMD entries include named declarations, assigned function expressions and object-method functions.
 
-**PHP functions/methods:** 704. **Named AMD callables:** 647.
+**PHP functions/methods:** 706. **Named AMD callables:** 647.
 
 | Location | Callable | Responsibility |
 |---|---|---|
@@ -909,7 +909,7 @@ Generated from the VideoTrack 1.7.87 source tree. PHP entries include named func
 | `classes/local/report_support.php:262` | `analytics_reaction_condition` | PHP callable `report_support::analytics_reaction_condition`; standard reaction-Analytics SQL decoration preserving scope and optional provider filtering. |
 | `classes/local/report_support.php:287` | `analytics_bookmark_condition` | PHP callable `report_support::analytics_bookmark_condition`; bookmark-Analytics SQL decoration preserving scope and optional provider filtering. |
 | `classes/local/report_support.php:311` | `analytics_integrity_condition` | PHP callable `report_support::analytics_integrity_condition`; integrity-Analytics SQL decoration preserving capability-safe scope and optional provider filtering. |
-| `classes/local/report_support.php:336` | `analytics_state_condition` | PHP callable `report_support::analytics_state_condition`; state-Analytics SQL decoration preserving capability-safe scope and existing optional provider-filter concatenation. |
+| `classes/local/report_support.php:336` | `analytics_state_condition` | PHP callable `report_support::analytics_state_condition`; state-Analytics SQL decoration that applies the optional provider filter to the complete capability-safe scope. |
 | `classes/local/report_support.php:358` | `analytics_segment_condition` | PHP callable `report_support::analytics_segment_condition`; validated-segment Analytics SQL decoration preserving capability-safe scope and optional provider filtering. |
 | `classes/local/report_support.php:384` | `acknowledgement_scope_condition` | PHP callable `report_support::acknowledgement_scope_condition`; current-version acknowledgement scope SQL construction. |
 | `classes/local/report_support.php:458` | `reaction_event_condition` | PHP callable `report_support::reaction_event_condition`; standard reaction-event SQL/parameter construction with learner scope and optional report filters. |
@@ -1290,7 +1290,7 @@ Generated from the VideoTrack 1.7.87 source tree. PHP entries include named func
 | `tests/report_support_test.php:116` | `test_analytics_reaction_condition_preserves_scope_and_provider_filter` | PHP callable `test_analytics_reaction_condition_preserves_scope_and_provider_filter`; behavioural coverage for extracted reaction-Analytics scope/event/provider filtering. |
 | `tests/report_support_test.php:151` | `test_analytics_bookmark_condition_preserves_scope_and_provider_filter` | PHP callable `test_analytics_bookmark_condition_preserves_scope_and_provider_filter`; behavioural coverage for extracted bookmark-Analytics scope/event/provider filtering. |
 | `tests/report_support_test.php:185` | `test_analytics_integrity_condition_preserves_scope_and_provider_filter` | PHP callable `test_analytics_integrity_condition_preserves_scope_and_provider_filter`; behavioural coverage for extracted integrity-Analytics scope/provider filtering. |
-| `tests/report_support_test.php:215` | `test_analytics_state_condition_preserves_scope_and_provider_filter` | PHP callable `test_analytics_state_condition_preserves_scope_and_provider_filter`; behavioural coverage for extracted state-Analytics scope/provider filtering. |
+| `tests/report_support_test.php:215` | `test_analytics_state_condition_preserves_scope_and_provider_filter` | PHP callable `test_analytics_state_condition_preserves_scope_and_provider_filter`; behavioural coverage that locks whole-scope parenthesisation for state-Analytics provider filtering. |
 | `tests/report_support_test.php:245` | `test_analytics_segment_condition_preserves_scope_and_provider_filter` | PHP callable `test_analytics_segment_condition_preserves_scope_and_provider_filter`; behavioural coverage for extracted validated-segment Analytics scope/provider filtering. |
 | `tests/report_support_test.php:278` | `test_reaction_event_condition_preserves_filters_and_scope` | PHP callable `test_reaction_event_condition_preserves_filters_and_scope`; behavioural coverage for extracted standard reaction-event SQL/parameter construction. |
 | `tests/report_support_test.php:326` | `test_bookmark_event_condition_preserves_filters_and_scope` | PHP callable `test_bookmark_event_condition_preserves_filters_and_scope`; behavioural coverage for extracted standard bookmark-event SQL/parameter construction. |

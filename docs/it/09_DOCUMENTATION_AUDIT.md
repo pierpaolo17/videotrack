@@ -1,6 +1,6 @@
 # Audit della documentazione
 
-Baseline: VideoTrack **1.7.88** (`2026082000`).
+Baseline: VideoTrack **1.7.89** (`2026082001`).
 
 ## Copertura
 
@@ -18,6 +18,14 @@ Baseline: VideoTrack **1.7.88** (`2026082000`).
 - Automazione browser Behat documentata in `22_TEST_BROWSER_BEHAT.md`; U-007 è tracciato come in corso.
 - I contratti statici resume/completion/alert impilati completano l’ambiente Behat ora operativo; la matrice 1.7.83 su Moodle 5.0–5.3 ha superato 7/7 scenari, mentre gli smoke test provider più ampi restano separati.
 - La navigazione capitoli ha ora un contratto esplicito focus-visible/colori forzati; la matrice manuale tastiera/high-contrast resta un gate per la chiusura finale di U-020.
+
+## Verifica documentazione correttiva 1.7.89
+
+- L'inventario corrente dei file non documentali resta a **276/276** voci.
+- L'inventario funzioni resta a **706 PHP / 647 AMD** callable nominati; questa tranche correttiva non aggiunge callable di produzione o test.
+- Gli Analytics state racchiudono ora l'intero scope capability-safe prima di aggiungere `videoid = :analyticsstatevideoid`, quindi il filtro provider si applica a ogni ramo `OR`.
+- Lo scope state senza filtro provider e il contratto del parametro nominato restano invariati.
+- Indici e intestazioni inventario della release corrente sono sincronizzati dopo il fallimento release-hygiene della 1.7.88; U-017 non avanza in questa release correttiva.
 
 ## Verifica documentazione pre-produzione 1.7.88
 
