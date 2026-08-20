@@ -86,6 +86,38 @@ final class form_validation_test extends \advanced_testcase {
     }
 
     /**
+     * Completion enablement preserves percent, reaction and acknowledgement semantics.
+     */
+    public function test_completion_rule_enabled_preserves_existing_rules(): void {
+        $this->assertTrue(form_validation::completion_rule_enabled([
+            'durationseconds' => 120,
+            'completionpercentcustom' => 50,
+        ], 'custom'));
+        $this->assertTrue(form_validation::completion_rule_enabled([
+            'reactionsenabled' => 1,
+            'reactionsrequired' => 1,
+            'minreactions' => 1,
+        ], 'custom'));
+        $this->assertTrue(form_validation::completion_rule_enabled([
+            'reactionsenabled' => 1,
+            'requireallreactiontypes' => 1,
+        ], 'custom'));
+        $this->assertTrue(form_validation::completion_rule_enabled([
+            'reactionsenabled' => 1,
+            'reactionrequired' => [0, 1, 0],
+        ], 'custom'));
+        $this->assertTrue(form_validation::completion_rule_enabled([
+            'acknowledgementenabled' => 1,
+            'completionacknowledgementcustom' => 1,
+        ], 'custom'));
+        $this->assertFalse(form_validation::completion_rule_enabled([
+            'durationseconds' => 120,
+            'completionpercentcustom' => 0,
+            'reactionrequired' => [0, 0],
+        ], 'custom'));
+    }
+
+    /**
      * Duration validation preserves range and video-end dependency semantics.
      */
     public function test_duration_errors_preserve_existing_rules(): void {
@@ -113,7 +145,9 @@ final class form_validation_test extends \advanced_testcase {
         $this->assertStringContainsString('form_validation::scalar_settings_errors(', $source);
         $this->assertStringContainsString('form_validation::acknowledgement_errors(', $source);
         $this->assertStringContainsString('form_validation::duration_errors(', $source);
+        $this->assertStringContainsString('form_validation::completion_rule_enabled(', $source);
         $this->assertStringNotContainsString('$playerwidth < 0 || $playerwidth > 4096', $source);
+        $this->assertStringNotContainsString("array_filter(array_map('intval', (array)(\$data['reactionrequired']", $source);
         $this->assertStringNotContainsString("json_decode((string)\$data['reactionpreset_json']", $source);
         $this->assertStringContainsString('file_get_draft_area_info(', $source);
         $this->assertStringContainsString('videotrack_is_compatible_forum(', $source);

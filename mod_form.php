@@ -1453,22 +1453,10 @@ JS);
      * @return bool True when at least one custom completion condition is active.
      */
     public function completion_rule_enabled($data) {
-        $suffix = $this->get_suffix();
-        $completionpercent = $data['completionpercent' . $suffix]
-            ?? ($data['completionpercent'] ?? 0);
-        $completionacknowledgement = $data['completionacknowledgement' . $suffix]
-            ?? ($data['completionacknowledgement'] ?? 0);
-        $requiredreactions = array_filter(array_map('intval', (array)($data['reactionrequired'] ?? [])));
-        $reactionrules = !empty($data['reactionsenabled']) && (
-            (!empty($data['reactionsrequired']) && !empty($data['minreactions']))
-            || !empty($data['requireallreactiontypes'])
-            || !empty($requiredreactions)
+        return \mod_videotrack\local\form_validation::completion_rule_enabled(
+            $data,
+            $this->get_suffix()
         );
-        return (!empty($data['durationseconds'])
-                && !empty($completionpercent)
-                && (int)$completionpercent > 0)
-            || $reactionrules
-            || (!empty($completionacknowledgement) && !empty($data['acknowledgementenabled']));
     }
 
     /**

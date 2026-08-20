@@ -1,5 +1,12 @@
 # VideoTrack changelog
 
+## 1.7.95 - 2026-08-20
+
+- Continue U-017 on `mod_form.php` by extracting the pure custom-completion enablement decision into `local\\form_validation`.
+- Preserve completion-percent + duration, reaction-rule and acknowledgement completion semantics while keeping the Moodle form callback as a thin delegate.
+- Add behavioural coverage for every completion-enablement branch and strengthen the delegation contract.
+- No changes to schema, capability, privacy, report/Analytics, tracking, runtime completion, player, AMD, Behat or language packs.
+
 ## 1.7.94 - 2026-08-20
 
 - Correct the single canonical-PHPCS `PSR2.Classes.ClassDeclaration.CloseBraceAfterBody` error in `tests/form_validation_test.php` by removing the blank line immediately before the class closing brace.
