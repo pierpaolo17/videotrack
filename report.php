@@ -793,46 +793,10 @@ if ($mode === 'analytics') {
         exit;
     }
 
-    $visiblebins = array_values(array_filter($analytics['bins'], static function (array $bin): bool {
-        return empty($bin['suppressed']) && $bin['viewers'] !== null && (int)$bin['viewers'] > 0;
-    }));
-    $topwatched = $visiblebins;
-    usort($topwatched, static function (array $a, array $b): int {
-        return [$b['viewers'], $b['uniqueseconds'], -$b['start']] <=>
-            [$a['viewers'], $a['uniqueseconds'], -$a['start']];
-    });
-    $topwatched = array_slice($topwatched, 0, 5);
-
-    $topreplayed = $repeatmetricsavailable ? array_values(array_filter(
-        $visiblebins,
-        static function (array $bin): bool {
-            return $bin['repeatseconds'] !== null && (float)$bin['repeatseconds'] > 0;
-        }
-    )) : [];
-    usort($topreplayed, static function (array $a, array $b): int {
-        return [$b['repeatseconds'], $b['repeatviewers'], -$b['start']] <=>
-            [$a['repeatseconds'], $a['repeatviewers'], -$a['start']];
-    });
-    $topreplayed = array_slice($topreplayed, 0, 5);
-
-    $drops = [];
-    $previousbin = null;
-    foreach ($analytics['bins'] as $bin) {
-        if (!empty($bin['suppressed']) || $bin['viewers'] === null) {
-            $previousbin = null;
-            continue;
-        }
-        if ($previousbin !== null && (int)$previousbin['viewers'] > (int)$bin['viewers']) {
-            $drops[] = [
-                'from' => $previousbin,
-                'to' => $bin,
-                'count' => (int)$previousbin['viewers'] - (int)$bin['viewers'],
-            ];
-        }
-        $previousbin = $bin;
-    }
-    usort($drops, static fn(array $a, array $b): int => $b['count'] <=> $a['count']);
-    $drops = array_slice($drops, 0, 5);
+    [$topwatched, $topreplayed, $drops] = \mod_videotrack\local\report_support::analytics_highlights(
+        $analytics['bins'],
+        $repeatmetricsavailable
+    );
 
     $peakinterval = $topwatched
         ? \mod_videotrack\local\report_view::analytics_interval($topwatched[0]['start'], $topwatched[0]['end'], $duration)

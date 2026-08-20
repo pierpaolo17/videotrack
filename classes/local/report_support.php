@@ -388,6 +388,59 @@ final class report_support {
     }
 
     /**
+     * Builds the deterministic Analytics highlight lists from privacy-processed bins.
+     *
+     * @param array $bins Privacy-processed Analytics bins.
+     * @param bool $repeatmetricsavailable Whether repeat metrics are available for the selected data.
+     * @return array Tuple containing top-watched bins, top-replayed bins and largest viewer drops.
+     */
+    public static function analytics_highlights(array $bins, bool $repeatmetricsavailable): array {
+        $visiblebins = array_values(array_filter($bins, static function (array $bin): bool {
+            return empty($bin['suppressed']) && $bin['viewers'] !== null && (int)$bin['viewers'] > 0;
+        }));
+
+        $topwatched = $visiblebins;
+        usort($topwatched, static function (array $a, array $b): int {
+            return [$b['viewers'], $b['uniqueseconds'], -$b['start']] <=>
+                [$a['viewers'], $a['uniqueseconds'], -$a['start']];
+        });
+        $topwatched = array_slice($topwatched, 0, 5);
+
+        $topreplayed = $repeatmetricsavailable ? array_values(array_filter(
+            $visiblebins,
+            static function (array $bin): bool {
+                return $bin['repeatseconds'] !== null && (float)$bin['repeatseconds'] > 0;
+            }
+        )) : [];
+        usort($topreplayed, static function (array $a, array $b): int {
+            return [$b['repeatseconds'], $b['repeatviewers'], -$b['start']] <=>
+                [$a['repeatseconds'], $a['repeatviewers'], -$a['start']];
+        });
+        $topreplayed = array_slice($topreplayed, 0, 5);
+
+        $drops = [];
+        $previousbin = null;
+        foreach ($bins as $bin) {
+            if (!empty($bin['suppressed']) || $bin['viewers'] === null) {
+                $previousbin = null;
+                continue;
+            }
+            if ($previousbin !== null && (int)$previousbin['viewers'] > (int)$bin['viewers']) {
+                $drops[] = [
+                    'from' => $previousbin,
+                    'to' => $bin,
+                    'count' => (int)$previousbin['viewers'] - (int)$bin['viewers'],
+                ];
+            }
+            $previousbin = $bin;
+        }
+        usort($drops, static fn(array $a, array $b): int => $b['count'] <=> $a['count']);
+        $drops = array_slice($drops, 0, 5);
+
+        return [$topwatched, $topreplayed, $drops];
+    }
+
+    /**
      * Builds a capability-safe SQL condition for current acknowledgement versions.
      *
      * Each enabled activity contributes its own statement hash. Group restrictions
