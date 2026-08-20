@@ -325,8 +325,8 @@ final class report_support {
     /**
      * Adds optional provider filtering to a state-Analytics scope condition.
      *
-     * This preserves the controller's existing concatenation semantics exactly, including
-     * leaving the capability-safe scope unwrapped when a provider filter is appended.
+     * The provider constraint applies to the whole capability-safe scope, including
+     * multi-activity scopes joined with OR.
      *
      * @param string $scopewhere Capability-safe Analytics scope SQL fragment.
      * @param array $scopeparams Capability-safe Analytics scope named parameters.
@@ -341,7 +341,7 @@ final class report_support {
         $conditions = $scopewhere;
         $params = $scopeparams;
         if ($providerdataid !== '') {
-            $conditions .= ' AND videoid = :analyticsstatevideoid';
+            $conditions = '(' . $conditions . ') AND videoid = :analyticsstatevideoid';
             $params['analyticsstatevideoid'] = $providerdataid;
         }
         return [$conditions, $params];

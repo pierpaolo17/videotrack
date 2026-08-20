@@ -1,8 +1,8 @@
 # Inventario delle funzioni
 
-Generato dall’albero sorgente VideoTrack 1.7.87. Le voci PHP includono funzioni e metodi nominati; le voci AMD includono dichiarazioni nominate, espressioni funzione assegnate e funzioni-metodo di oggetti.
+Generato dall’albero sorgente VideoTrack 1.7.89. Le voci PHP includono funzioni e metodi nominati; le voci AMD includono dichiarazioni nominate, espressioni funzione assegnate e funzioni-metodo di oggetti.
 
-**Funzioni/metodi PHP:** 704. **Callable AMD nominati:** 647.
+**Funzioni/metodi PHP:** 706. **Callable AMD nominati:** 647.
 
 | Posizione | Callable | Responsabilità |
 |---|---|---|
@@ -909,7 +909,7 @@ Generato dall’albero sorgente VideoTrack 1.7.87. Le voci PHP includono funzion
 | `classes/local/report_support.php:262` | `analytics_reaction_condition` | Callable PHP `report_support::analytics_reaction_condition`; decorazione SQL delle reazioni Analytics standard con scope e filtro provider opzionale invariati. |
 | `classes/local/report_support.php:287` | `analytics_bookmark_condition` | Callable PHP `report_support::analytics_bookmark_condition`; decorazione SQL dei bookmark Analytics con scope e filtro provider opzionale invariati. |
 | `classes/local/report_support.php:311` | `analytics_integrity_condition` | Callable PHP `report_support::analytics_integrity_condition`; decorazione SQL degli Analytics integrity con scope capability-safe e filtro provider opzionale invariati. |
-| `classes/local/report_support.php:336` | `analytics_state_condition` | Callable PHP `report_support::analytics_state_condition`; decorazione SQL Analytics state che preserva scope capability-safe e concatenazione esistente del filtro provider opzionale. |
+| `classes/local/report_support.php:336` | `analytics_state_condition` | Callable PHP `report_support::analytics_state_condition`; decorazione SQL Analytics state che applica il filtro provider opzionale all'intero scope capability-safe. |
 | `classes/local/report_support.php:358` | `analytics_segment_condition` | PHP callable `report_support::analytics_segment_condition`; decorazione SQL Analytics dei segmenti validati con scope capability-safe e filtro provider opzionale. |
 | `classes/local/report_support.php:384` | `acknowledgement_scope_condition` | Callable PHP `report_support::acknowledgement_scope_condition`; costruzione SQL dello scope presa visione sulla versione corrente. |
 | `classes/local/report_support.php:458` | `reaction_event_condition` | Callable PHP `report_support::reaction_event_condition`; costruzione SQL/parametri degli eventi di reazione standard con scope learner e filtri report opzionali. |
@@ -1290,7 +1290,7 @@ Generato dall’albero sorgente VideoTrack 1.7.87. Le voci PHP includono funzion
 | `tests/report_support_test.php:116` | `test_analytics_reaction_condition_preserves_scope_and_provider_filter` | Callable PHP `test_analytics_reaction_condition_preserves_scope_and_provider_filter`; copertura comportamentale del filtro scope/evento/provider estratto per le reazioni Analytics. |
 | `tests/report_support_test.php:151` | `test_analytics_bookmark_condition_preserves_scope_and_provider_filter` | Callable PHP `test_analytics_bookmark_condition_preserves_scope_and_provider_filter`; copertura comportamentale del filtro scope/evento/provider estratto per i bookmark Analytics. |
 | `tests/report_support_test.php:185` | `test_analytics_integrity_condition_preserves_scope_and_provider_filter` | Callable PHP `test_analytics_integrity_condition_preserves_scope_and_provider_filter`; copertura comportamentale del filtro scope/provider estratto per gli Analytics integrity. |
-| `tests/report_support_test.php:215` | `test_analytics_state_condition_preserves_scope_and_provider_filter` | Callable PHP `test_analytics_state_condition_preserves_scope_and_provider_filter`; copertura comportamentale del filtro scope/provider Analytics state estratto. |
+| `tests/report_support_test.php:215` | `test_analytics_state_condition_preserves_scope_and_provider_filter` | Callable PHP `test_analytics_state_condition_preserves_scope_and_provider_filter`; copertura comportamentale che vincola la parentesizzazione dell'intero scope per il filtro provider Analytics state. |
 | `tests/report_support_test.php:245` | `test_analytics_segment_condition_preserves_scope_and_provider_filter` | PHP callable `test_analytics_segment_condition_preserves_scope_and_provider_filter`; copertura comportamentale per lo scope/filtro provider Analytics dei segmenti validati estratto. |
 | `tests/report_support_test.php:278` | `test_reaction_event_condition_preserves_filters_and_scope` | Callable PHP `test_reaction_event_condition_preserves_filters_and_scope`; copertura comportamentale della costruzione SQL/parametri estratta per gli eventi di reazione standard. |
 | `tests/report_support_test.php:326` | `test_bookmark_event_condition_preserves_filters_and_scope` | Callable PHP `test_bookmark_event_condition_preserves_filters_and_scope`; copertura comportamentale della costruzione SQL/parametri estratta per gli eventi bookmark standard. |

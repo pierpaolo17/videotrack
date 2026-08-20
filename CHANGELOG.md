@@ -1,5 +1,12 @@
 # VideoTrack changelog
 
+## 1.7.89 - 2026-08-20
+
+- Correct state-Analytics provider filtering so a selected YouTube/Vimeo `videoid` applies to the complete capability-safe multi-activity scope, rather than only the final `OR` branch under SQL operator precedence.
+- Preserve the existing `analyticsstatevideoid` parameter and leave the no-provider state scope byte-for-byte unchanged.
+- Add/adjust the behavioural contract with a multi-branch `OR` scope to lock the corrected parenthesisation.
+- Correct current-release documentation metadata left stale in 1.7.88; no U-017 expansion, schema, capability, export, tracking, completion, player/AMD or Behat changes.
+
 ## 1.7.88 - 2026-08-20
 
 - Continue U-017 by extracting state-Analytics optional provider filtering from `report.php` into `local\report_support::analytics_state_condition()`.

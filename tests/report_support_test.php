@@ -210,7 +210,7 @@ final class report_support_test extends \advanced_testcase {
     }
 
     /**
-     * State Analytics filtering preserves the existing scope concatenation and optional provider selection.
+     * State Analytics provider filtering applies to the complete multi-activity scope.
      */
     public function test_analytics_state_condition_preserves_scope_and_provider_filter(): void {
         [$conditions, $params] = report_support::analytics_state_condition(
@@ -220,7 +220,7 @@ final class report_support_test extends \advanced_testcase {
         );
 
         $this->assertSame(
-            '(videotrackid = :analyticsstatevt0) OR (videotrackid = :analyticsstatevt1)' .
+            '((videotrackid = :analyticsstatevt0) OR (videotrackid = :analyticsstatevt1))' .
                 ' AND videoid = :analyticsstatevideoid',
             $conditions
         );
