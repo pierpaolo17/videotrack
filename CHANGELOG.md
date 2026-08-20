@@ -1,5 +1,12 @@
 # VideoTrack changelog
 
+## 1.7.93 - 2026-08-20
+
+- Continue U-017 by moving autonomous scalar/JSON activity-form validation policy out of `mod_form.php` into `local\form_validation`.
+- Preserve completion-percent, player-width, rewind/fast-forward step, reaction-minimum/preset JSON, acknowledgement timing/text and duration validation semantics exactly.
+- Keep upload/draft-file, VTT, reaction-icon and forum/context validation inside `mod_form.php`; add direct behavioural coverage plus a delegation contract.
+- No database/schema, capability, report/Analytics, tracking, completion runtime, player/AMD, Behat or language-pack changes.
+
 ## 1.7.92 - 2026-08-20
 
 - Continue U-017 by extracting Analytics highlight selection from `report.php` into `local\report_support::analytics_highlights()`.

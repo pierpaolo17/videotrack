@@ -1,8 +1,8 @@
 # Distributed file inventory
 
-This inventory is generated against the VideoTrack 1.7.92 tree and lists every non-documentation file. Canonical JavaScript is under `amd/src`; files under `amd/build` are generated.
+This inventory is generated against the VideoTrack 1.7.93 tree and lists every non-documentation file. Canonical JavaScript is under `amd/src`; files under `amd/build` are generated.
 
-Entries: **276**.
+Entries: **278**.
 
 | File | Responsibility |
 |---|---|
@@ -192,6 +192,7 @@ Entries: **276**.
 | `classes/local/course_analytics.php` | Privacy-safe aggregation for the course-level VideoTrack dashboard. |
 | `classes/local/csv_event_writer.php` | Stateful writer for custom teacher-report CSV event rows. |
 | `classes/local/csv_export.php` | CSV export configuration and formatting helpers. |
+| `classes/local/form_validation.php` | Autonomous scalar/JSON validation policy for the activity settings form. |
 | `classes/local/forum_bridge.php` | Forum integration adapter for VideoTrack. |
 | `classes/local/integrity.php` | Integrity-indicator definitions and privacy-safe aggregation helpers. |
 | `classes/local/learner_scope.php` | Canonical learner/report visibility rules for role and group-safe reporting. |
@@ -253,6 +254,7 @@ Entries: **276**.
 | `tests/csv_event_writer_test.php` | PHPUnit coverage for custom CSV event-row writing. |
 | `tests/csv_export_test.php` | PHPUnit coverage for csv export test. |
 | `tests/fixtures/behat-video.mp4.b64` | Base64-encoded 60-second local video fixture decoded only by deterministic HTML5 browser tests. |
+| `tests/form_validation_test.php` | Behavioural and delegation coverage for autonomous activity-form validation policy. |
 | `tests/forum_bridge_test.php` | PHPUnit coverage for forum bridge test. |
 | `tests/generator/lib.php` | Moodle module generator used by PHPUnit and Behat fixtures. |
 | `tests/generator_test.php` | PHPUnit coverage for the VideoTrack module generator. |

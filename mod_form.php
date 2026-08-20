@@ -1852,46 +1852,10 @@ JS);
             $errors['chapterfile'] = get_string('err:chapterfilerequired', 'mod_videotrack');
         }
 
-        $suffix = $this->get_suffix();
-        $completionpercentname = 'completionpercent' . $suffix;
-        $completionpercentgroupname = 'completionpercentgroup' . $suffix;
-        $completionpercent = $data[$completionpercentname] ?? ($data['completionpercent'] ?? null);
-        if (
-            $completionpercent !== null
-            && ((int)$completionpercent < 0 || (int)$completionpercent > 100)
-        ) {
-            $errors[$completionpercentgroupname] = get_string('err:completionpercentrange', 'mod_videotrack');
-        }
-
-        if (array_key_exists('playerwidth', $data)) {
-            $playerwidth = (int)$data['playerwidth'];
-            if ($playerwidth < 0 || $playerwidth > 4096) {
-                $errors['playerwidth'] = get_string('err:playerwidthrequired', 'mod_videotrack');
-            }
-        }
-
-        foreach (['rewindstep', 'fastforwardstep'] as $stepfield) {
-            if (array_key_exists($stepfield, $data)) {
-                $step = (int)$data[$stepfield];
-                if ($step < 0 || $step > 300) {
-                    $errors[$stepfield] = get_string('err:playbacksteprequired', 'mod_videotrack');
-                }
-            }
-        }
-        if (
-            !empty($data['reactionsrequired'])
-            && empty($data['minreactions'])
-            && empty($data['requireallreactiontypes'])
-        ) {
-            $errors['minreactions'] = get_string('err:minreactionsrequired', 'mod_videotrack');
-        }
-
-        if (array_key_exists('reactionpreset_json', $data) && trim((string)$data['reactionpreset_json']) !== '') {
-            $presetjson = json_decode((string)$data['reactionpreset_json'], true);
-            if (json_last_error() !== JSON_ERROR_NONE || !is_array($presetjson)) {
-                $errors['reactionpreset'] = get_string('err:reactionpresetjson', 'mod_videotrack');
-            }
-        }
+        $errors = array_replace(
+            $errors,
+            \mod_videotrack\local\form_validation::scalar_settings_errors($data, $this->get_suffix())
+        );
 
         $labels = $data['reactionlabel'] ?? [];
         $descriptions = $data['reactiondescription'] ?? [];
@@ -1967,32 +1931,10 @@ JS);
             }
         }
 
-        if (!empty($data['acknowledgementenabled'])) {
-            $rawtiming = $data['acknowledgementtiming'] ??
-                \mod_videotrack\local\acknowledgement::TIMING_ANYTIME;
-            $timing = (int)$rawtiming;
-            if (
-                !in_array($timing, [
-                    \mod_videotrack\local\acknowledgement::TIMING_ANYTIME,
-                    \mod_videotrack\local\acknowledgement::TIMING_VIDEO_END,
-                ], true)
-            ) {
-                $errors['acknowledgementtiming'] = get_string(
-                    'acknowledgement:errortiming',
-                    'mod_videotrack'
-                );
-            }
-            $acknowledgementeditor = $data['acknowledgement_editor'] ?? [];
-            $acknowledgementtext = is_array($acknowledgementeditor)
-                ? (string)($acknowledgementeditor['text'] ?? '')
-                : '';
-            if (!\mod_videotrack\local\acknowledgement::has_visible_text($acknowledgementtext)) {
-                $errors['acknowledgement_editor'] = get_string(
-                    'acknowledgement:errorstatementrequired',
-                    'mod_videotrack'
-                );
-            }
-        }
+        $errors = array_replace(
+            $errors,
+            \mod_videotrack\local\form_validation::acknowledgement_errors($data)
+        );
 
         if (!empty($data['forumpostingenabled'])) {
             $forumid = isset($data['linkedforumid']) ? (int)$data['linkedforumid'] : 0;
@@ -2003,16 +1945,10 @@ JS);
             }
         }
 
-        $durationseconds = isset($data['durationseconds']) ? (float)$data['durationseconds'] : 0.0;
-        if (!is_finite($durationseconds) || $durationseconds < 0 || $durationseconds > 86400) {
-            $errors['durationseconds'] = get_string('durationseconds_invalid', 'mod_videotrack');
-        }
-        $requiresduration = !empty($data['acknowledgementenabled'])
-            && (int)($data['acknowledgementtiming'] ?? 0) ===
-                \mod_videotrack\local\acknowledgement::TIMING_VIDEO_END;
-        if ($requiresduration && $durationseconds <= 0) {
-            $errors['durationseconds'] = get_string('durationseconds_required', 'mod_videotrack');
-        }
+        $errors = array_replace(
+            $errors,
+            \mod_videotrack\local\form_validation::duration_errors($data)
+        );
 
         return $errors;
     }

@@ -1,8 +1,8 @@
 # Inventario delle funzioni
 
-Generato dall’albero sorgente VideoTrack 1.7.92. Le voci PHP includono funzioni e metodi nominati; le voci AMD includono dichiarazioni nominate, espressioni funzione assegnate e funzioni-metodo di oggetti.
+Generato dall’albero sorgente VideoTrack 1.7.93. Le voci PHP includono funzioni e metodi nominati; le voci AMD includono dichiarazioni nominate, espressioni funzione assegnate e funzioni-metodo di oggetti.
 
-**Funzioni/metodi PHP:** 712. **Callable AMD nominati:** 647.
+**Funzioni/metodi PHP:** 719. **Callable AMD nominati:** 647.
 
 | Posizione | Callable | Responsabilità |
 |---|---|---|
@@ -864,6 +864,9 @@ Generato dall’albero sorgente VideoTrack 1.7.92. Le voci PHP includono funzion
 | `classes/local/csv_export.php:517` | `field_label` | Callable PHP `field_label`; DocBlock e chiamanti definiscono parametri, valori restituiti ed effetti. |
 | `classes/local/csv_export.php:535` | `field_value` | Callable PHP `field_value`; DocBlock e chiamanti definiscono parametri, valori restituiti ed effetti. |
 | `classes/local/csv_export.php:572` | `video_url` | Callable PHP `video_url`; DocBlock e chiamanti definiscono parametri, valori restituiti ed effetti. |
+| `classes/local/form_validation.php:36` | `scalar_settings_errors` | Funzione/metodo PHP nominato `scalar_settings_errors`; vedere DocBlock e chiamanti per il contratto corrente. |
+| `classes/local/form_validation.php:89` | `acknowledgement_errors` | Funzione/metodo PHP nominato `acknowledgement_errors`; vedere DocBlock e chiamanti per il contratto corrente. |
+| `classes/local/form_validation.php:129` | `duration_errors` | Funzione/metodo PHP nominato `duration_errors`; vedere DocBlock e chiamanti per il contratto corrente. |
 | `classes/local/forum_bridge.php:47` | `resolve_destination` | Callable PHP `resolve_destination`; DocBlock e chiamanti definiscono parametri, valori restituiti ed effetti. |
 | `classes/local/forum_bridge.php:99` | `get_group_options` | Callable PHP `get_group_options`; DocBlock e chiamanti definiscono parametri, valori restituiti ed effetti. |
 | `classes/local/forum_bridge.php:135` | `can_choose_subscription` | Callable PHP `can_choose_subscription`; DocBlock e chiamanti definiscono parametri, valori restituiti ed effetti. |
@@ -1196,6 +1199,10 @@ Generato dall’albero sorgente VideoTrack 1.7.92. Le voci PHP includono funzion
 | `tests/csv_export_test.php:136` | `test_safe_value_blocks_formula_injection` | Callable PHP `test_safe_value_blocks_formula_injection`; DocBlock e chiamanti definiscono parametri, valori restituiti ed effetti. |
 | `tests/csv_export_test.php:146` | `test_write_utf8_bom` | Callable PHP `test_write_utf8_bom`; DocBlock e chiamanti definiscono parametri, valori restituiti ed effetti. |
 | `tests/csv_export_test.php:158` | `test_write_row_supports_section_sign_delimiter` | Callable PHP `test_write_row_supports_section_sign_delimiter`; DocBlock e chiamanti definiscono parametri, valori restituiti ed effetti. |
+| `tests/form_validation_test.php:36` | `test_scalar_settings_errors_preserve_existing_rules` | Funzione/metodo PHP nominato `test_scalar_settings_errors_preserve_existing_rules`; vedere DocBlock e chiamanti per il contratto corrente. |
+| `tests/form_validation_test.php:72` | `test_acknowledgement_errors_preserve_existing_rules` | Funzione/metodo PHP nominato `test_acknowledgement_errors_preserve_existing_rules`; vedere DocBlock e chiamanti per il contratto corrente. |
+| `tests/form_validation_test.php:91` | `test_duration_errors_preserve_existing_rules` | Funzione/metodo PHP nominato `test_duration_errors_preserve_existing_rules`; vedere DocBlock e chiamanti per il contratto corrente. |
+| `tests/form_validation_test.php:109` | `test_mod_form_delegates_autonomous_validation_policy` | Funzione/metodo PHP nominato `test_mod_form_delegates_autonomous_validation_policy`; vedere DocBlock e chiamanti per il contratto corrente. |
 | `tests/forum_bridge_test.php:37` | `setUp` | Callable PHP `setUp`; DocBlock e chiamanti definiscono parametri, valori restituiti ed effetti. |
 | `tests/forum_bridge_test.php:45` | `test_disabled_integration_is_rejected` | Callable PHP `test_disabled_integration_is_rejected`; DocBlock e chiamanti definiscono parametri, valori restituiti ed effetti. |
 | `tests/forum_bridge_test.php:59` | `test_enrolled_student_can_resolve_compatible_forum` | Callable PHP `test_enrolled_student_can_resolve_compatible_forum`; DocBlock e chiamanti definiscono parametri, valori restituiti ed effetti. |

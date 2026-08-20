@@ -1,8 +1,8 @@
 # Function inventory
 
-Generated from the VideoTrack 1.7.92 source tree. PHP entries include named functions and methods; AMD entries include named declarations, assigned function expressions and object-method functions.
+Generated from the VideoTrack 1.7.93 source tree. PHP entries include named functions and methods; AMD entries include named declarations, assigned function expressions and object-method functions.
 
-**PHP functions/methods:** 712. **Named AMD callables:** 647.
+**PHP functions/methods:** 719. **Named AMD callables:** 647.
 
 | Location | Callable | Responsibility |
 |---|---|---|
@@ -864,6 +864,9 @@ Generated from the VideoTrack 1.7.92 source tree. PHP entries include named func
 | `classes/local/csv_export.php:517` | `field_label` | PHP callable `field_label`; see its DocBlock and callers for parameter, return-value and side-effect details. |
 | `classes/local/csv_export.php:535` | `field_value` | PHP callable `field_value`; see its DocBlock and callers for parameter, return-value and side-effect details. |
 | `classes/local/csv_export.php:572` | `video_url` | PHP callable `video_url`; see its DocBlock and callers for parameter, return-value and side-effect details. |
+| `classes/local/form_validation.php:36` | `scalar_settings_errors` | Named PHP function/method `scalar_settings_errors`; see source DocBlock and callers for the current contract. |
+| `classes/local/form_validation.php:89` | `acknowledgement_errors` | Named PHP function/method `acknowledgement_errors`; see source DocBlock and callers for the current contract. |
+| `classes/local/form_validation.php:129` | `duration_errors` | Named PHP function/method `duration_errors`; see source DocBlock and callers for the current contract. |
 | `classes/local/forum_bridge.php:47` | `resolve_destination` | PHP callable `resolve_destination`; see its DocBlock and callers for parameter, return-value and side-effect details. |
 | `classes/local/forum_bridge.php:99` | `get_group_options` | PHP callable `get_group_options`; see its DocBlock and callers for parameter, return-value and side-effect details. |
 | `classes/local/forum_bridge.php:135` | `can_choose_subscription` | PHP callable `can_choose_subscription`; see its DocBlock and callers for parameter, return-value and side-effect details. |
@@ -1196,6 +1199,10 @@ Generated from the VideoTrack 1.7.92 source tree. PHP entries include named func
 | `tests/csv_export_test.php:136` | `test_safe_value_blocks_formula_injection` | PHP callable `test_safe_value_blocks_formula_injection`; see its DocBlock and callers for parameter, return-value and side-effect details. |
 | `tests/csv_export_test.php:146` | `test_write_utf8_bom` | PHP callable `test_write_utf8_bom`; see its DocBlock and callers for parameter, return-value and side-effect details. |
 | `tests/csv_export_test.php:158` | `test_write_row_supports_section_sign_delimiter` | PHP callable `test_write_row_supports_section_sign_delimiter`; see its DocBlock and callers for parameter, return-value and side-effect details. |
+| `tests/form_validation_test.php:36` | `test_scalar_settings_errors_preserve_existing_rules` | Named PHP function/method `test_scalar_settings_errors_preserve_existing_rules`; see source DocBlock and callers for the current contract. |
+| `tests/form_validation_test.php:72` | `test_acknowledgement_errors_preserve_existing_rules` | Named PHP function/method `test_acknowledgement_errors_preserve_existing_rules`; see source DocBlock and callers for the current contract. |
+| `tests/form_validation_test.php:91` | `test_duration_errors_preserve_existing_rules` | Named PHP function/method `test_duration_errors_preserve_existing_rules`; see source DocBlock and callers for the current contract. |
+| `tests/form_validation_test.php:109` | `test_mod_form_delegates_autonomous_validation_policy` | Named PHP function/method `test_mod_form_delegates_autonomous_validation_policy`; see source DocBlock and callers for the current contract. |
 | `tests/forum_bridge_test.php:37` | `setUp` | PHP callable `setUp`; see its DocBlock and callers for parameter, return-value and side-effect details. |
 | `tests/forum_bridge_test.php:45` | `test_disabled_integration_is_rejected` | PHP callable `test_disabled_integration_is_rejected`; see its DocBlock and callers for parameter, return-value and side-effect details. |
 | `tests/forum_bridge_test.php:59` | `test_enrolled_student_can_resolve_compatible_forum` | PHP callable `test_enrolled_student_can_resolve_compatible_forum`; see its DocBlock and callers for parameter, return-value and side-effect details. |

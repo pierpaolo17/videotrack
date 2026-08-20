@@ -1,11 +1,11 @@
 # Documentation audit
 
-Baseline: VideoTrack **1.7.92** (`2026082004`).
+Baseline: VideoTrack **1.7.93** (`2026082005`).
 
 ## Coverage
 
-- Non-documentation files inventoried: **276/276**.
-- Named PHP functions/methods inventoried: **712**.
+- Non-documentation files inventoried: **278/278**.
+- Named PHP functions/methods inventoried: **719**.
 - Named AMD callables detected and inventoried: **647**.
 - XMLDB tables documented: **7**.
 - Site-setting keys documented: **57**.
@@ -19,6 +19,13 @@ Baseline: VideoTrack **1.7.92** (`2026082004`).
 - Static resume/completion/stacked-alert contracts complement the operational Behat environment; the 1.7.83 Moodle 5.0–5.3 matrix passed 7/7 scenarios, while broader provider smoke coverage remains explicitly separate.
 - Maintainer-only consolidated roadmap/lessons-history files are intentionally excluded from the distributed plugin tree and protected by `.moodleignore`.
 - Chapter navigation now has an explicit focus-visible/forced-colour contract; a manual keyboard/high-contrast matrix remains a release gate for final U-020 closure.
+
+## 1.7.93 pre-production documentation verification
+
+- Current non-documentation file inventory is **278/278** entries after adding `classes/local/form_validation.php` and `tests/form_validation_test.php`.
+- Function inventory is **719 PHP / 647 AMD** named callables.
+- Release 1.7.93 continues U-017 by moving only autonomous scalar/JSON validation policy out of `mod_form.php`; contextual file, VTT, reaction-icon and forum validation remain local to the form.
+- No AMD or language-pack files change in this tranche.
 
 ## 1.7.92 pre-production documentation verification
 
