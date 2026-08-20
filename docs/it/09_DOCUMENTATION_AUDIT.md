@@ -1,11 +1,11 @@
 # Audit della documentazione
 
-Baseline: VideoTrack **1.7.92** (`2026082004`).
+Baseline: VideoTrack **1.7.93** (`2026082005`).
 
 ## Copertura
 
-- File non documentali inventariati: **276/276**.
-- Funzioni/metodi PHP nominati inventariati: **712**.
+- File non documentali inventariati: **278/278**.
+- Funzioni/metodi PHP nominati inventariati: **719**.
 - Callable AMD nominati rilevati e inventariati: **647**.
 - Tabelle XMLDB documentate: **7**.
 - Chiavi impostazioni sito documentate: **57**.
@@ -18,6 +18,13 @@ Baseline: VideoTrack **1.7.92** (`2026082004`).
 - Automazione browser Behat documentata in `22_TEST_BROWSER_BEHAT.md`; U-007 è tracciato come in corso.
 - I contratti statici resume/completion/alert impilati completano l’ambiente Behat ora operativo; la matrice 1.7.83 su Moodle 5.0–5.3 ha superato 7/7 scenari, mentre gli smoke test provider più ampi restano separati.
 - La navigazione capitoli ha ora un contratto esplicito focus-visible/colori forzati; la matrice manuale tastiera/high-contrast resta un gate per la chiusura finale di U-020.
+
+## Verifica documentale pre-produzione 1.7.93
+
+- L'inventario corrente dei file non documentali è **278/278** dopo l'aggiunta di `classes/local/form_validation.php` e `tests/form_validation_test.php`.
+- L'inventario funzioni è **719 PHP / 647 AMD** callable nominati.
+- La release 1.7.93 prosegue U-017 spostando fuori da `mod_form.php` soltanto la policy autonoma di validazione scalare/JSON; la validazione contestuale di file, VTT, icone reaction e forum resta nel form.
+- Nessun file AMD o language pack cambia in questa tranche.
 
 ## Verifica documentale pre-produzione 1.7.92
 

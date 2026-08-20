@@ -1,8 +1,8 @@
 # Inventario dei file distribuiti
 
-Questo inventario è generato sull’albero VideoTrack 1.7.92 ed elenca ogni file non documentale. Il JavaScript canonico è in `amd/src`; i file in `amd/build` sono generati.
+Questo inventario è generato sull’albero VideoTrack 1.7.93 ed elenca ogni file non documentale. Il JavaScript canonico è in `amd/src`; i file in `amd/build` sono generati.
 
-Entries: **276**.
+Entries: **278**.
 
 | File | Responsabilità |
 |---|---|
@@ -192,6 +192,7 @@ Entries: **276**.
 | `classes/local/course_analytics.php` | Servizio di dominio `course_analytics` riusabile da pagine, report o servizi. |
 | `classes/local/csv_event_writer.php` | Writer contestuale per le righe evento CSV personalizzate del report docente. |
 | `classes/local/csv_export.php` | Servizio di dominio `csv_export` riusabile da pagine, report o servizi. |
+| `classes/local/form_validation.php` | Policy autonoma di validazione scalare/JSON per il form delle impostazioni attività. |
 | `classes/local/forum_bridge.php` | Servizio di dominio `forum_bridge` riusabile da pagine, report o servizi. |
 | `classes/local/integrity.php` | Servizio di dominio `integrity` riusabile da pagine, report o servizi. |
 | `classes/local/learner_scope.php` | Regole canoniche di visibilità learner/report per ruoli e gruppi. |
@@ -253,6 +254,7 @@ Entries: **276**.
 | `tests/csv_event_writer_test.php` | Copertura PHPUnit per la scrittura delle righe evento CSV personalizzate. |
 | `tests/csv_export_test.php` | Copertura PHPUnit per csv export test. |
 | `tests/fixtures/behat-video.mp4.b64` | Fixture video locale di 60 secondi codificata Base64 e decodificata esclusivamente dai test browser HTML5. |
+| `tests/form_validation_test.php` | Copertura comportamentale e di delega per la validazione autonoma del form attività. |
 | `tests/forum_bridge_test.php` | Copertura PHPUnit per forum bridge test. |
 | `tests/generator/lib.php` | Generator del modulo Moodle usato dalle fixture PHPUnit e Behat. |
 | `tests/generator_test.php` | Copertura PHPUnit del generator del modulo VideoTrack. |
