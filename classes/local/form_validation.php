@@ -121,6 +121,32 @@ final class form_validation {
     }
 
     /**
+     * Determine whether at least one custom completion rule is enabled.
+     *
+     * @param array $data Submitted form data.
+     * @param string $suffix Moodle completion-field suffix.
+     * @return bool True when at least one custom completion condition is active.
+     */
+    public static function completion_rule_enabled(array $data, string $suffix): bool {
+        $completionpercent = $data['completionpercent' . $suffix]
+            ?? ($data['completionpercent'] ?? 0);
+        $completionacknowledgement = $data['completionacknowledgement' . $suffix]
+            ?? ($data['completionacknowledgement'] ?? 0);
+        $requiredreactions = array_filter(array_map('intval', (array)($data['reactionrequired'] ?? [])));
+        $reactionrules = !empty($data['reactionsenabled']) && (
+            (!empty($data['reactionsrequired']) && !empty($data['minreactions']))
+            || !empty($data['requireallreactiontypes'])
+            || !empty($requiredreactions)
+        );
+
+        return (!empty($data['durationseconds'])
+                && !empty($completionpercent)
+                && (int)$completionpercent > 0)
+            || $reactionrules
+            || (!empty($completionacknowledgement) && !empty($data['acknowledgementenabled']));
+    }
+
+    /**
      * Validate teacher-authoritative duration and the video-end acknowledgement dependency.
      *
      * @param array $data Submitted form data.

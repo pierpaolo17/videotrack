@@ -1,11 +1,11 @@
 # Audit della documentazione
 
-Baseline: VideoTrack **1.7.94** (`2026082006`).
+Baseline: VideoTrack **1.7.95** (`2026082007`).
 
 ## Copertura
 
 - File non documentali inventariati: **278/278**.
-- Funzioni/metodi PHP nominati inventariati: **719**.
+- Funzioni/metodi PHP nominati inventariati: **721**.
 - Callable AMD nominati rilevati e inventariati: **647**.
 - Tabelle XMLDB documentate: **7**.
 - Chiavi impostazioni sito documentate: **57**.
@@ -18,6 +18,14 @@ Baseline: VideoTrack **1.7.94** (`2026082006`).
 - Automazione browser Behat documentata in `22_TEST_BROWSER_BEHAT.md`; U-007 è tracciato come in corso.
 - I contratti statici resume/completion/alert impilati completano l’ambiente Behat ora operativo; la matrice 1.7.83 su Moodle 5.0–5.3 ha superato 7/7 scenari, mentre gli smoke test provider più ampi restano separati.
 - La navigazione capitoli ha ora un contratto esplicito focus-visible/colori forzati; la matrice manuale tastiera/high-contrast resta un gate per la chiusura finale di U-020.
+
+## Verifica documentale pre-produzione 1.7.95
+
+- L'inventario corrente dei file non documentali resta a **278/278** voci.
+- L'inventario funzioni è **721 PHP / 647 AMD** callable nominati dopo l'aggiunta dell'helper puro di abilitazione completion e del relativo test comportamentale.
+- La release 1.7.95 continua U-017 su `mod_form.php` spostando la decisione di abilitazione delle regole di completion personalizzate in `local\form_validation::completion_rule_enabled()`.
+- Il callback Moodle del form resta un delegato sottile; sono preservate le semantiche durata/percentuale, regole reaction e acknowledgement.
+- Non sono incluse modifiche a schema, capability, privacy, report/Analytics, tracking, completion runtime, player, AMD, Behat o language pack.
 
 ## Verifica documentale correttiva 1.7.94
 

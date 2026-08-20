@@ -1,11 +1,11 @@
 # Documentation audit
 
-Baseline: VideoTrack **1.7.94** (`2026082006`).
+Baseline: VideoTrack **1.7.95** (`2026082007`).
 
 ## Coverage
 
 - Non-documentation files inventoried: **278/278**.
-- Named PHP functions/methods inventoried: **719**.
+- Named PHP functions/methods inventoried: **721**.
 - Named AMD callables detected and inventoried: **647**.
 - XMLDB tables documented: **7**.
 - Site-setting keys documented: **57**.
@@ -19,6 +19,14 @@ Baseline: VideoTrack **1.7.94** (`2026082006`).
 - Static resume/completion/stacked-alert contracts complement the operational Behat environment; the 1.7.83 Moodle 5.0–5.3 matrix passed 7/7 scenarios, while broader provider smoke coverage remains explicitly separate.
 - Maintainer-only consolidated roadmap/lessons-history files are intentionally excluded from the distributed plugin tree and protected by `.moodleignore`.
 - Chapter navigation now has an explicit focus-visible/forced-colour contract; a manual keyboard/high-contrast matrix remains a release gate for final U-020 closure.
+
+## 1.7.95 pre-production documentation verification
+
+- Current non-documentation file inventory remains **278/278** entries.
+- Function inventory is **721 PHP / 647 AMD** named callables after adding the pure completion-enablement helper and its behavioural test.
+- Release 1.7.95 continues U-017 on `mod_form.php` by moving the custom-completion enablement decision into `local\form_validation::completion_rule_enabled()`.
+- The Moodle form callback remains a thin delegate; duration/percent, reaction-rule and acknowledgement completion semantics are preserved.
+- No schema, capability, privacy, report/Analytics, tracking, runtime completion, player, AMD, Behat or language-pack changes are included.
 
 ## 1.7.94 corrective documentation verification
 
