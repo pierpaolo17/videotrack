@@ -1,11 +1,11 @@
 # Documentation audit
 
-Baseline: VideoTrack **1.7.90** (`2026082002`).
+Baseline: VideoTrack **1.7.91** (`2026082003`).
 
 ## Coverage
 
 - Non-documentation files inventoried: **276/276**.
-- Named PHP functions/methods inventoried: **708**.
+- Named PHP functions/methods inventoried: **710**.
 - Named AMD callables detected and inventoried: **647**.
 - XMLDB tables documented: **7**.
 - Site-setting keys documented: **57**.
@@ -19,6 +19,14 @@ Baseline: VideoTrack **1.7.90** (`2026082002`).
 - Static resume/completion/stacked-alert contracts complement the operational Behat environment; the 1.7.83 Moodle 5.0–5.3 matrix passed 7/7 scenarios, while broader provider smoke coverage remains explicitly separate.
 - Maintainer-only consolidated roadmap/lessons-history files are intentionally excluded from the distributed plugin tree and protected by `.moodleignore`.
 - Chapter navigation now has an explicit focus-visible/forced-colour contract; a manual keyboard/high-contrast matrix remains a release gate for final U-020 closure.
+
+## 1.7.91 pre-production documentation verification
+
+- Current non-documentation file inventory remains **276/276** entries.
+- Function inventory is **710 PHP / 647 AMD** named callables after adding the state-fallback selection helper and its behavioural test.
+- Release 1.7.91 continues U-017 from the server-green 1.7.90 baseline by moving raw-segment versus state-fallback selection out of `report.php` into `local\report_support::analytics_prefers_state_fallback()`.
+- The helper preserves viewer-count priority and the existing strict `0.001` unique-seconds epsilon exactly; privacy thresholding still happens afterwards in the controller.
+- No SQL, Analytics builders/privacy threshold, report capabilities, exports, schema, tracking, completion or AMD/player runtime change is included.
 
 ## 1.7.90 pre-production documentation verification
 

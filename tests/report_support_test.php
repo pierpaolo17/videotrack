@@ -112,6 +112,31 @@ final class report_support_test extends \advanced_testcase {
     }
 
     /**
+     * State fallback selection preserves viewer priority and the existing unique-time epsilon.
+     */
+    public function test_analytics_prefers_state_fallback_preserves_selection_rules(): void {
+        $raw = ['viewers' => 4, 'uniqueseconds' => 120.0];
+
+        $this->assertTrue(report_support::analytics_prefers_state_fallback(
+            $raw,
+            ['viewers' => 5, 'uniqueseconds' => 10.0]
+        ));
+        $this->assertFalse(report_support::analytics_prefers_state_fallback(
+            $raw,
+            ['viewers' => 3, 'uniqueseconds' => 500.0]
+        ));
+        $this->assertTrue(report_support::analytics_prefers_state_fallback(
+            $raw,
+            ['viewers' => 4, 'uniqueseconds' => 120.002]
+        ));
+        $this->assertFalse(report_support::analytics_prefers_state_fallback(
+            $raw,
+            ['viewers' => 4, 'uniqueseconds' => 120.001]
+        ));
+        $this->assertFalse(report_support::analytics_prefers_state_fallback($raw, $raw));
+    }
+
+    /**
      * Acknowledgement timing counts preserve the canonical timing fallback and buckets.
      */
     public function test_analytics_acknowledgement_timing_counts_preserve_policy_buckets(): void {
