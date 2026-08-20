@@ -1,6 +1,6 @@
 # Audit della documentazione
 
-Baseline: VideoTrack **1.7.95** (`2026082007`).
+Baseline: VideoTrack **1.7.96** (`2026082008`).
 
 ## Copertura
 
@@ -18,6 +18,13 @@ Baseline: VideoTrack **1.7.95** (`2026082007`).
 - Automazione browser Behat documentata in `22_TEST_BROWSER_BEHAT.md`; U-007 è tracciato come in corso.
 - I contratti statici resume/completion/alert impilati completano l’ambiente Behat ora operativo; la matrice 1.7.83 su Moodle 5.0–5.3 ha superato 7/7 scenari, mentre gli smoke test provider più ampi restano separati.
 - La navigazione capitoli ha ora un contratto esplicito focus-visible/colori forzati; la matrice manuale tastiera/high-contrast resta un gate per la chiusura finale di U-020.
+
+## Verifica documentale correttiva 1.7.96
+- L'inventario corrente dei file non documentali resta a **278/278** voci.
+- L'inventario funzioni resta a **721 PHP / 647 AMD** callable nominati; questa tranche correttiva non aggiunge callable.
+- La release 1.7.96 corregge l'aspettativa obsoleta di `completion_contract_test` emersa dal gate PHPUnit reale della 1.7.95: l'implementazione delle reaction richieste viene ora verificata in `local\form_validation`, dove la policy è stata intenzionalmente estratta.
+- Il comportamento di abilitazione completion e lo scope U-017 della 1.7.95 restano invariati.
+- Non sono incluse modifiche a runtime di produzione, schema, capability, privacy, report/Analytics, tracking, player, AMD, Behat o language pack.
 
 ## Verifica documentale pre-produzione 1.7.95
 

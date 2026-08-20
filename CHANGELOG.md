@@ -1,5 +1,12 @@
 # VideoTrack changelog
 
+## 1.7.96 - 2026-08-20
+
+- Correct the stale completion static contract introduced by the 1.7.95 `mod_form.php` delegation: required-reaction inspection now follows the extracted `local\form_validation` policy instead of requiring the implementation to remain inline in the form.
+- Keep the 1.7.95 completion-enablement behaviour unchanged; no U-017 expansion is included.
+- Synchronise current release documentation markers to 1.7.96.
+- No production runtime, database/schema, capability, report/Analytics, tracking, completion behaviour, player/AMD, Behat or language-pack changes.
+
 ## 1.7.95 - 2026-08-20
 
 - Continue U-017 on `mod_form.php` by extracting the pure custom-completion enablement decision into `local\\form_validation`.
