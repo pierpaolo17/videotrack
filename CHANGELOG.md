@@ -1,5 +1,12 @@
 # VideoTrack changelog
 
+## 1.7.94 - 2026-08-20
+
+- Correct the single canonical-PHPCS `PSR2.Classes.ClassDeclaration.CloseBraceAfterBody` error in `tests/form_validation_test.php` by removing the blank line immediately before the class closing brace.
+- Keep the 1.7.93 form-validation extraction and PHPUnit behaviour unchanged; no U-017 expansion is included.
+- Synchronise current release documentation markers to 1.7.94.
+- No production runtime, database/schema, capability, report/Analytics, tracking, completion, player/AMD, Behat or language-pack changes.
+
 ## 1.7.93 - 2026-08-20
 
 - Continue U-017 by moving autonomous scalar/JSON activity-form validation policy out of `mod_form.php` into `local\form_validation`.

@@ -1,6 +1,6 @@
 # Documentation audit
 
-Baseline: VideoTrack **1.7.93** (`2026082005`).
+Baseline: VideoTrack **1.7.94** (`2026082006`).
 
 ## Coverage
 
@@ -19,6 +19,14 @@ Baseline: VideoTrack **1.7.93** (`2026082005`).
 - Static resume/completion/stacked-alert contracts complement the operational Behat environment; the 1.7.83 Moodle 5.0–5.3 matrix passed 7/7 scenarios, while broader provider smoke coverage remains explicitly separate.
 - Maintainer-only consolidated roadmap/lessons-history files are intentionally excluded from the distributed plugin tree and protected by `.moodleignore`.
 - Chapter navigation now has an explicit focus-visible/forced-colour contract; a manual keyboard/high-contrast matrix remains a release gate for final U-020 closure.
+
+## 1.7.94 corrective documentation verification
+
+- Current non-documentation file inventory remains **278/278** entries.
+- Function inventory remains **719 PHP / 647 AMD** named callables; this corrective tranche adds no production or test callable.
+- Release 1.7.94 corrects the single PHPCS `PSR2.Classes.ClassDeclaration.CloseBraceAfterBody` error reported for `tests/form_validation_test.php` in the real 1.7.93 maintainer gate.
+- PHPUnit behaviour is unchanged from 1.7.93; U-017 does not advance in this corrective release.
+- Current release indexes, inventories and audit markers are synchronised to 1.7.94.
 
 ## 1.7.93 pre-production documentation verification
 
