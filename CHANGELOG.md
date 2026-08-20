@@ -1,5 +1,12 @@
 # VideoTrack changelog
 
+## 1.7.92 - 2026-08-20
+
+- Continue U-017 by extracting Analytics highlight selection from `report.php` into `local\report_support::analytics_highlights()`.
+- Preserve top-watched, top-replayed and largest-drop filtering, ordering, suppression handling and five-item limits exactly.
+- Add direct behavioural coverage for suppressed/null bins, replay availability, tie ordering, discontinuities and top-five truncation, plus strengthen the controller-delegation/non-inline contract.
+- No SQL, Analytics builders/privacy threshold, capability, export, schema, tracking, completion, player/AMD, Behat or language-pack changes.
+
 ## 1.7.91 - 2026-08-20
 
 - Continue U-017 by extracting the raw-segment versus state-fallback Analytics selection from `report.php` into `local\report_support::analytics_prefers_state_fallback()`.

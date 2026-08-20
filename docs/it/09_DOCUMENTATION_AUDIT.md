@@ -1,11 +1,11 @@
 # Audit della documentazione
 
-Baseline: VideoTrack **1.7.91** (`2026082003`).
+Baseline: VideoTrack **1.7.92** (`2026082004`).
 
 ## Copertura
 
 - File non documentali inventariati: **276/276**.
-- Funzioni/metodi PHP nominati inventariati: **710**.
+- Funzioni/metodi PHP nominati inventariati: **712**.
 - Callable AMD nominati rilevati e inventariati: **647**.
 - Tabelle XMLDB documentate: **7**.
 - Chiavi impostazioni sito documentate: **57**.
@@ -18,6 +18,14 @@ Baseline: VideoTrack **1.7.91** (`2026082003`).
 - Automazione browser Behat documentata in `22_TEST_BROWSER_BEHAT.md`; U-007 è tracciato come in corso.
 - I contratti statici resume/completion/alert impilati completano l’ambiente Behat ora operativo; la matrice 1.7.83 su Moodle 5.0–5.3 ha superato 7/7 scenari, mentre gli smoke test provider più ampi restano separati.
 - La navigazione capitoli ha ora un contratto esplicito focus-visible/colori forzati; la matrice manuale tastiera/high-contrast resta un gate per la chiusura finale di U-020.
+
+## Verifica documentale pre-produzione 1.7.92
+
+- L’inventario corrente dei file non documentali resta a **276/276** voci.
+- L’inventario funzioni è **712 PHP / 647 AMD** callable nominati dopo l’aggiunta dell’helper highlight Analytics e del relativo test comportamentale.
+- La release 1.7.92 continua U-017 dalla baseline server-green 1.7.91 spostando la selezione di top-watched, top-replayed e largest-drop fuori da `report.php` in `local\report_support::analytics_highlights()`.
+- L’helper preserva esattamente filtro dei bin già sottoposti a privacy, disponibilità dei replay, ordinamento, reset sulle discontinuità e limite a cinque elementi.
+- Non sono incluse modifiche a SQL, builder/soglia privacy Analytics, capability dei report, export, schema, tracking, completion o runtime AMD/player.
 
 ## Verifica documentazione pre-produzione 1.7.91
 

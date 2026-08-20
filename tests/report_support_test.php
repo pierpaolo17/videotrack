@@ -137,6 +137,38 @@ final class report_support_test extends \advanced_testcase {
     }
 
     /**
+     * Analytics highlight extraction preserves visibility, ordering, discontinuity and top-five rules.
+     */
+    public function test_analytics_highlights_preserve_report_semantics(): void {
+        $bins = [
+            ['start' => 0, 'viewers' => 10, 'uniqueseconds' => 10.0, 'repeatseconds' => 2.0, 'repeatviewers' => 2],
+            ['start' => 10, 'viewers' => 8, 'uniqueseconds' => 20.0, 'repeatseconds' => 0.0, 'repeatviewers' => 0],
+            [
+                'start' => 20,
+                'viewers' => 100,
+                'uniqueseconds' => 100.0,
+                'repeatseconds' => 100.0,
+                'repeatviewers' => 100,
+                'suppressed' => true,
+            ],
+            ['start' => 30, 'viewers' => 7, 'uniqueseconds' => 30.0, 'repeatseconds' => 5.0, 'repeatviewers' => 3],
+            ['start' => 40, 'viewers' => 6, 'uniqueseconds' => 40.0, 'repeatseconds' => 6.0, 'repeatviewers' => 2],
+            ['start' => 50, 'viewers' => 6, 'uniqueseconds' => 50.0, 'repeatseconds' => 6.0, 'repeatviewers' => 4],
+            ['start' => 60, 'viewers' => 5, 'uniqueseconds' => 60.0, 'repeatseconds' => 1.0, 'repeatviewers' => 1],
+            ['start' => 70, 'viewers' => null, 'uniqueseconds' => 70.0, 'repeatseconds' => null, 'repeatviewers' => 0],
+            ['start' => 80, 'viewers' => 4, 'uniqueseconds' => 80.0, 'repeatseconds' => 7.0, 'repeatviewers' => 1],
+            ['start' => 90, 'viewers' => 3, 'uniqueseconds' => 90.0, 'repeatseconds' => 8.0, 'repeatviewers' => 1],
+        ];
+
+        [$topwatched, $topreplayed, $drops] = report_support::analytics_highlights($bins, true);
+
+        $this->assertSame([0, 10, 30, 50, 40], array_column($topwatched, 'start'));
+        $this->assertSame([90, 80, 50, 40, 30], array_column($topreplayed, 'start'));
+        $this->assertSame([2, 1, 1, 1], array_column($drops, 'count'));
+        $this->assertSame([], report_support::analytics_highlights($bins, false)[1]);
+    }
+
+    /**
      * Acknowledgement timing counts preserve the canonical timing fallback and buckets.
      */
     public function test_analytics_acknowledgement_timing_counts_preserve_policy_buckets(): void {

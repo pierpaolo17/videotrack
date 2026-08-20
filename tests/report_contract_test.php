@@ -245,6 +245,7 @@ final class report_contract_test extends advanced_testcase {
         $this->assertStringContainsString('report_support::analytics_state_condition(', $report);
         $this->assertStringContainsString('report_support::analytics_segment_condition(', $report);
         $this->assertStringContainsString('report_support::analytics_prefers_state_fallback(', $report);
+        $this->assertStringContainsString('report_support::analytics_highlights(', $report);
         $this->assertStringContainsString('report_support::analytics_acknowledgement_timing_counts(', $report);
         $this->assertStringContainsString('report_support::tabs(', $report);
         $this->assertStringContainsString('report_support::user_options(', $report);
@@ -265,6 +266,9 @@ final class report_contract_test extends advanced_testcase {
             $report
         );
         $this->assertStringNotContainsString("(float)\$stateanalytics['uniqueseconds']", $report);
+        $this->assertStringNotContainsString('$visiblebins = array_values(array_filter(', $report);
+        $this->assertStringNotContainsString('$topwatched = array_slice($topwatched, 0, 5);', $report);
+        $this->assertStringNotContainsString('$drops = array_slice($drops, 0, 5);', $report);
         $this->assertStringNotContainsString(
             '$bookmarkwhere = \'(\' . $bookmarkwhere . ") AND isdeleted = 0 AND notetype = \'bookmark\'";',
             $report
