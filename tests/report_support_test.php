@@ -210,6 +210,36 @@ final class report_support_test extends \advanced_testcase {
     }
 
     /**
+     * State Analytics filtering preserves the existing scope concatenation and optional provider selection.
+     */
+    public function test_analytics_state_condition_preserves_scope_and_provider_filter(): void {
+        [$conditions, $params] = report_support::analytics_state_condition(
+            '(videotrackid = :analyticsstatevt0) OR (videotrackid = :analyticsstatevt1)',
+            ['analyticsstatevt0' => 42, 'analyticsstatevt1' => 43],
+            'provider-video-123'
+        );
+
+        $this->assertSame(
+            '(videotrackid = :analyticsstatevt0) OR (videotrackid = :analyticsstatevt1)' .
+                ' AND videoid = :analyticsstatevideoid',
+            $conditions
+        );
+        $this->assertSame([
+            'analyticsstatevt0' => 42,
+            'analyticsstatevt1' => 43,
+            'analyticsstatevideoid' => 'provider-video-123',
+        ], $params);
+
+        [$minimalconditions, $minimalparams] = report_support::analytics_state_condition(
+            'videotrackid = :analyticsstatevt0',
+            ['analyticsstatevt0' => 42],
+            ''
+        );
+        $this->assertSame('videotrackid = :analyticsstatevt0', $minimalconditions);
+        $this->assertSame(['analyticsstatevt0' => 42], $minimalparams);
+    }
+
+    /**
      * Segment Analytics filtering preserves validated rows, scope and optional provider selection.
      */
     public function test_analytics_segment_condition_preserves_scope_and_provider_filter(): void {
