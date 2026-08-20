@@ -1,5 +1,12 @@
 # VideoTrack changelog
 
+## 1.7.88 - 2026-08-20
+
+- Continue U-017 by extracting state-Analytics optional provider filtering from `report.php` into `local\report_support::analytics_state_condition()`.
+- Preserve the existing capability-safe state scope, provider parameter name `analyticsstatevideoid`, and existing SQL concatenation semantics exactly; no query-normalisation or precedence change is included in this refactor.
+- Add behavioural and controller-delegation contracts for the extracted helper.
+- No changes to Analytics aggregation/privacy thresholds, report capabilities, exports, schema, tracking, completion, player/AMD, Behat or language packs.
+
 ## 1.7.87 - 2026-08-19
 
 - Continue U-017 maintainability from the server-green 1.7.86 baseline by moving validated-segment Analytics SQL/parameter decoration out of `report.php` into `local\report_support::analytics_segment_condition()`.

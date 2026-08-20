@@ -231,17 +231,16 @@ if ($mode === 'analytics') {
         'analyticssegment',
         (int)$USER->id
     );
-    $statewhere = $analyticsscopewhere;
-    $stateparams = $segmentparams;
+    [$statewhere, $stateparams] = \mod_videotrack\local\report_support::analytics_state_condition(
+        $analyticsscopewhere,
+        $segmentparams,
+        $providerdataid
+    );
     [$segmentwhere, $segmentparams] = \mod_videotrack\local\report_support::analytics_segment_condition(
         $analyticsscopewhere,
         $segmentparams,
         $providerdataid
     );
-    if ($providerdataid !== '') {
-        $statewhere .= ' AND videoid = :analyticsstatevideoid';
-        $stateparams['analyticsstatevideoid'] = $providerdataid;
-    }
     $segmentrs = $DB->get_recordset_select(
         'videotrack_seg',
         $segmentwhere,
