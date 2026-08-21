@@ -59,7 +59,7 @@ final class focus_policy_test extends advanced_testcase {
         $this->resetAfterTest();
         $generator = $this->getDataGenerator();
         $course = $generator->create_course();
-        $member = $generator->create_user();
+        $member = $generator->create_and_enrol($course);
         $groupid = focus_policy::ensure_exception_group((int)$course->id);
         $generator->create_group_member([
             'groupid' => $groupid,
