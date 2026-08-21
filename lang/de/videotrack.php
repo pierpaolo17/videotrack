@@ -451,6 +451,8 @@ $string['privacy:metadata:videotrack_state:lastposition'] = 'Letzte bekannte Pos
 $string['privacy:metadata:videotrack_state:serverbudgetseconds'] = 'Kumulierte Wiedergabesekunden, die durch die serverzeitbasierte Guthaben-Prüfung autorisiert wurden.';
 $string['privacy:metadata:videotrack_state:servercreditedseconds'] = 'Kumulierte rohe Videosekunden, die bereits dem serverzeitbasierten Wiedergabeguthaben belastet wurden.';
 $string['privacy:metadata:videotrack_state:serverlastactivity'] = 'Server-Zeitstempel in Millisekunden des letzten Wiedergabe-Handshakes oder der letzten Segmentanfrage für das Wiedergabeguthaben-Ledger.';
+$string['privacy:metadata:videotrack_state:serverplaybacksessionid'] =
+    'Kennung der Browser-Wiedergabesitzung, die derzeit zum Verbrauch des serverseitigen Wiedergabeguthabens berechtigt ist.';
 $string['privacy:metadata:videotrack_state:uniquecoveredseconds'] = 'Anzahl eindeutiger Sekunden der Zeitleiste, die vom Nutzer abgedeckt wurden.';
 $string['privacy:metadata:videotrack_state:userid'] = 'Der Nutzer, dessen aggregierter Status gespeichert wurde.';
 $string['privacy:metadata:vimeo'] = 'Bei Verwendung eines Vimeo-Videos verbindet sich der Browser des Nutzers mit Vimeo, um das Video zu laden und abzuspielen.';

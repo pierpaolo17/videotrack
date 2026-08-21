@@ -594,6 +594,7 @@ class tracker {
             'lastposition'         => 0,
             'durationseconds'      => (float) ($videotrack->durationseconds ?? 0),
             'serverlastactivity'    => 0,
+            'serverplaybacksessionid' => '',
             'serverbudgetseconds'   => 0.0,
             'servercreditedseconds' => 0.0,
             'uniquecoveredseconds' => 0,
@@ -758,6 +759,7 @@ class tracker {
             } else {
                 $DB->insert_record('videotrack_seg', $handshake);
                 $state->serverlastactivity = $nowmilliseconds;
+                $state->serverplaybacksessionid = $sessionid;
                 $state->serverbudgetseconds = min(
                     (float)($state->serverbudgetseconds ?? 0.0),
                     (float)($state->servercreditedseconds ?? 0.0)
@@ -881,6 +883,20 @@ class tracker {
 
             if ($segment !== null && $guard !== null) {
                 $nowmilliseconds = (int)($guard['nowmilliseconds'] ?? round(microtime(true) * 1000));
+                $activesessionid = (string)($state->serverplaybacksessionid ?? '');
+                $segmentsessionid = (string)($segment->sessionid ?? '');
+                if ($activesessionid === '' || !hash_equals($activesessionid, $segmentsessionid)) {
+                    // Credit belongs only to the browser session that opened the current
+                    // playback window. A stale/cross-tab request is retained for audit but
+                    // must not consume, reset, or steal another session's server budget.
+                    $segment->servervalidated = 0;
+                    $DB->insert_record('videotrack_seg', $segment);
+                    $segmentid = -1;
+                    $transaction->allow_commit();
+                    $lock->release();
+                    return $state;
+                }
+
                 $forwardallowed = self::forward_interval_allowed(
                     $state,
                     $interval,
@@ -937,6 +953,23 @@ class tracker {
                     return $state;
                 }
                 $segment->servervalidated = 1;
+                if (in_array((string)$segment->endreason, [
+                    'pause',
+                    'ended',
+                    'beforeunload',
+                    'pagehide',
+                    'tab',
+                    'visibilitychange',
+                ], true)) {
+                    // Terminal/lifecycle closes require a new explicit playback handshake.
+                    // This also prevents a hidden/background tab from spending stale credit.
+                    $state->serverlastactivity = 0;
+                    $state->serverplaybacksessionid = '';
+                    $state->serverbudgetseconds = min(
+                        (float)($state->serverbudgetseconds ?? 0.0),
+                        (float)($state->servercreditedseconds ?? 0.0)
+                    );
+                }
             }
 
             if ($segment !== null) {

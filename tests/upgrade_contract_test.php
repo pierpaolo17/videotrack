@@ -52,6 +52,8 @@ final class upgrade_contract_test extends advanced_testcase {
         $this->assertStringContainsString("new xmldb_field('requestid')", $source);
         $this->assertStringContainsString("new xmldb_field('servervalidated')", $source);
         $this->assertStringContainsString('if ($oldversion < 2026060453)', $source);
+        $this->assertStringContainsString('if ($oldversion < 2026082104)', $source);
+        $this->assertStringContainsString("'serverplaybacksessionid'", $source);
     }
 
     /**

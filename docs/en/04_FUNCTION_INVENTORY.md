@@ -1,8 +1,8 @@
 # Function inventory
 
-Generated from the VideoTrack 1.7.100 source tree. PHP entries include named functions and methods; AMD entries include named declarations, assigned function expressions and object-method functions.
+Generated from the VideoTrack 1.7.101 source tree. PHP entries include named functions and methods; AMD entries include named declarations, assigned function expressions and object-method functions.
 
-**PHP functions/methods:** 723. **Named AMD callables:** 647.
+**PHP functions/methods:** 724. **Named AMD callables:** 647.
 
 | Location | Callable | Responsibility |
 |---|---|---|
@@ -893,13 +893,13 @@ Generated from the VideoTrack 1.7.100 source tree. PHP entries include named fun
 | `classes/local/privacy_manager.php:157` | `delete_expired_records` | PHP callable `delete_expired_records`; see its DocBlock and callers for parameter, return-value and side-effect details. |
 | `classes/local/privacy_manager.php:244` | `delete_legacy_pseudonymous_records` | PHP callable `delete_legacy_pseudonymous_records`; see its DocBlock and callers for parameter, return-value and side-effect details. |
 | `classes/local/privacy_manager.php:283` | `delete_expired_pair` | PHP callable `delete_expired_pair`; see its DocBlock and callers for parameter, return-value and side-effect details. |
-| `classes/local/privacy_manager.php:398` | `server_guard_is_recent` | PHP callable `server_guard_is_recent`; see its DocBlock and callers for parameter, return-value and side-effect details. |
-| `classes/local/privacy_manager.php:421` | `count_and_delete` | PHP callable `count_and_delete`; see its DocBlock and callers for parameter, return-value and side-effect details. |
-| `classes/local/privacy_manager.php:438` | `load_activity` | PHP callable `load_activity`; see its DocBlock and callers for parameter, return-value and side-effect details. |
-| `classes/local/privacy_manager.php:464` | `has_retained_state_inputs` | PHP callable `has_retained_state_inputs`; see its DocBlock and callers for parameter, return-value and side-effect details. |
-| `classes/local/privacy_manager.php:501` | `earliest_retained_timestamp` | PHP callable `earliest_retained_timestamp`; see its DocBlock and callers for parameter, return-value and side-effect details. |
-| `classes/local/privacy_manager.php:543` | `delete_state` | PHP callable `delete_state`; see its DocBlock and callers for parameter, return-value and side-effect details. |
-| `classes/local/privacy_manager.php:567` | `synchronise_completion` | PHP callable `synchronise_completion`; see its DocBlock and callers for parameter, return-value and side-effect details. |
+| `classes/local/privacy_manager.php:399` | `server_guard_is_recent` | PHP callable `server_guard_is_recent`; see its DocBlock and callers for parameter, return-value and side-effect details. |
+| `classes/local/privacy_manager.php:423` | `count_and_delete` | PHP callable `count_and_delete`; see its DocBlock and callers for parameter, return-value and side-effect details. |
+| `classes/local/privacy_manager.php:440` | `load_activity` | PHP callable `load_activity`; see its DocBlock and callers for parameter, return-value and side-effect details. |
+| `classes/local/privacy_manager.php:466` | `has_retained_state_inputs` | PHP callable `has_retained_state_inputs`; see its DocBlock and callers for parameter, return-value and side-effect details. |
+| `classes/local/privacy_manager.php:503` | `earliest_retained_timestamp` | PHP callable `earliest_retained_timestamp`; see its DocBlock and callers for parameter, return-value and side-effect details. |
+| `classes/local/privacy_manager.php:545` | `delete_state` | PHP callable `delete_state`; see its DocBlock and callers for parameter, return-value and side-effect details. |
+| `classes/local/privacy_manager.php:569` | `synchronise_completion` | PHP callable `synchronise_completion`; see its DocBlock and callers for parameter, return-value and side-effect details. |
 | `classes/local/report_access.php:40` | `has_legacy_full_access` | PHP callable `report_access::has_legacy_full_access`; backwards-compatible full-report capability check. |
 | `classes/local/report_access.php:54` | `can_view_aggregate` | PHP callable `report_access::can_view_aggregate`; aggregate report-view policy including legacy and individual-view inheritance. |
 | `classes/local/report_access.php:67` | `can_view_individual` | PHP callable `report_access::can_view_individual`; learner-level report-view policy with legacy full-access fallback. |
@@ -972,24 +972,24 @@ Generated from the VideoTrack 1.7.100 source tree. PHP entries include named fun
 | `classes/local/tracker.php:463` | `completion_satisfied` | PHP callable `completion_satisfied`; see its DocBlock and callers for parameter, return-value and side-effect details. |
 | `classes/local/tracker.php:538` | `interaction_timestamp_allowed` | Named PHP function/method `interaction_timestamp_allowed`; see source DocBlock and callers for the current contract. |
 | `classes/local/tracker.php:587` | `create_default_state` | PHP callable `create_default_state`; see its DocBlock and callers for parameter, return-value and side-effect details. |
-| `classes/local/tracker.php:624` | `advance_server_credit_budget` | PHP callable `advance_server_credit_budget`; see its DocBlock and callers for parameter, return-value and side-effect details. |
-| `classes/local/tracker.php:682` | `same_segment_request` | PHP callable `same_segment_request`; see its DocBlock and callers for parameter, return-value and side-effect details. |
-| `classes/local/tracker.php:702` | `begin_playback` | PHP callable `begin_playback`; see its DocBlock and callers for parameter, return-value and side-effect details. |
-| `classes/local/tracker.php:798` | `forward_interval_allowed` | PHP callable `forward_interval_allowed`; see its DocBlock and callers for parameter, return-value and side-effect details. |
-| `classes/local/tracker.php:831` | `update_state` | PHP callable `update_state`; see its DocBlock and callers for parameter, return-value and side-effect details. |
-| `classes/local/tracker.php:1040` | `update_moodle_completion_if_changed` | PHP callable `update_moodle_completion_if_changed`; see its DocBlock and callers for parameter, return-value and side-effect details. |
-| `classes/local/tracker.php:1064` | `aggregate_segments` | PHP callable `aggregate_segments`; see its DocBlock and callers for parameter, return-value and side-effect details. |
-| `classes/local/tracker.php:1110` | `rebuild_state_from_segments` | PHP callable `rebuild_state_from_segments`; see its DocBlock and callers for parameter, return-value and side-effect details. |
-| `classes/local/tracker.php:1205` | `refresh_completion` | PHP callable `refresh_completion`; see its DocBlock and callers for parameter, return-value and side-effect details. |
+| `classes/local/tracker.php:625` | `advance_server_credit_budget` | PHP callable `advance_server_credit_budget`; see its DocBlock and callers for parameter, return-value and side-effect details. |
+| `classes/local/tracker.php:683` | `same_segment_request` | PHP callable `same_segment_request`; see its DocBlock and callers for parameter, return-value and side-effect details. |
+| `classes/local/tracker.php:703` | `begin_playback` | PHP callable `begin_playback`; see its DocBlock and callers for parameter, return-value and side-effect details. |
+| `classes/local/tracker.php:800` | `forward_interval_allowed` | PHP callable `forward_interval_allowed`; see its DocBlock and callers for parameter, return-value and side-effect details. |
+| `classes/local/tracker.php:833` | `update_state` | PHP callable `update_state`; see its DocBlock and callers for parameter, return-value and side-effect details. |
+| `classes/local/tracker.php:1073` | `update_moodle_completion_if_changed` | PHP callable `update_moodle_completion_if_changed`; see its DocBlock and callers for parameter, return-value and side-effect details. |
+| `classes/local/tracker.php:1097` | `aggregate_segments` | PHP callable `aggregate_segments`; see its DocBlock and callers for parameter, return-value and side-effect details. |
+| `classes/local/tracker.php:1143` | `rebuild_state_from_segments` | PHP callable `rebuild_state_from_segments`; see its DocBlock and callers for parameter, return-value and side-effect details. |
+| `classes/local/tracker.php:1238` | `refresh_completion` | PHP callable `refresh_completion`; see its DocBlock and callers for parameter, return-value and side-effect details. |
 | `classes/privacy/provider.php:48` | `format_interval_second` | PHP callable `format_interval_second`; see its DocBlock and callers for parameter, return-value and side-effect details. |
 | `classes/privacy/provider.php:59` | `get_metadata` | PHP callable `get_metadata`; see its DocBlock and callers for parameter, return-value and side-effect details. |
-| `classes/privacy/provider.php:166` | `get_contexts_for_userid` | PHP callable `get_contexts_for_userid`; see its DocBlock and callers for parameter, return-value and side-effect details. |
-| `classes/privacy/provider.php:205` | `get_users_in_context` | PHP callable `get_users_in_context`; see its DocBlock and callers for parameter, return-value and side-effect details. |
-| `classes/privacy/provider.php:238` | `export_user_data` | PHP callable `export_user_data`; see its DocBlock and callers for parameter, return-value and side-effect details. |
-| `classes/privacy/provider.php:592` | `delete_data_for_all_users_in_context` | PHP callable `delete_data_for_all_users_in_context`; see its DocBlock and callers for parameter, return-value and side-effect details. |
-| `classes/privacy/provider.php:605` | `delete_data_for_user` | PHP callable `delete_data_for_user`; see its DocBlock and callers for parameter, return-value and side-effect details. |
-| `classes/privacy/provider.php:617` | `delete_data_for_users` | PHP callable `delete_data_for_users`; see its DocBlock and callers for parameter, return-value and side-effect details. |
-| `classes/privacy/provider.php:630` | `delete_records_for_users_in_context` | PHP callable `delete_records_for_users_in_context`; see its DocBlock and callers for parameter, return-value and side-effect details. |
+| `classes/privacy/provider.php:167` | `get_contexts_for_userid` | PHP callable `get_contexts_for_userid`; see its DocBlock and callers for parameter, return-value and side-effect details. |
+| `classes/privacy/provider.php:206` | `get_users_in_context` | PHP callable `get_users_in_context`; see its DocBlock and callers for parameter, return-value and side-effect details. |
+| `classes/privacy/provider.php:239` | `export_user_data` | PHP callable `export_user_data`; see its DocBlock and callers for parameter, return-value and side-effect details. |
+| `classes/privacy/provider.php:593` | `delete_data_for_all_users_in_context` | PHP callable `delete_data_for_all_users_in_context`; see its DocBlock and callers for parameter, return-value and side-effect details. |
+| `classes/privacy/provider.php:606` | `delete_data_for_user` | PHP callable `delete_data_for_user`; see its DocBlock and callers for parameter, return-value and side-effect details. |
+| `classes/privacy/provider.php:618` | `delete_data_for_users` | PHP callable `delete_data_for_users`; see its DocBlock and callers for parameter, return-value and side-effect details. |
+| `classes/privacy/provider.php:631` | `delete_records_for_users_in_context` | PHP callable `delete_records_for_users_in_context`; see its DocBlock and callers for parameter, return-value and side-effect details. |
 | `classes/task/cleanup_task.php:38` | `get_name` | PHP callable `get_name`; see its DocBlock and callers for parameter, return-value and side-effect details. |
 | `classes/task/cleanup_task.php:45` | `execute` | PHP callable `execute`; see its DocBlock and callers for parameter, return-value and side-effect details. |
 | `db/install.php:38` | `xmldb_videotrack_install` | Named PHP function/method `xmldb_videotrack_install`; see source DocBlock and callers for the current contract. |
@@ -1257,15 +1257,15 @@ Generated from the VideoTrack 1.7.100 source tree. PHP entries include named fun
 | `tests/player_resume_completion_alert_contract_test.php:120` | `test_completion_transitions_avoid_redundant_events_and_writes` | Named PHP function/method `test_completion_transitions_avoid_redundant_events_and_writes`; see source DocBlock and callers for the current contract. |
 | `tests/player_resume_completion_alert_contract_test.php:136` | `test_persistent_notices_coexist_with_transient_status_messages` | Named PHP function/method `test_persistent_notices_coexist_with_transient_status_messages`; see source DocBlock and callers for the current contract. |
 | `tests/privacy_manager_test.php:37` | `test_cleanup_deletes_expired_rows_and_rebuilds_state` | PHP callable `test_cleanup_deletes_expired_rows_and_rebuilds_state`; see its DocBlock and callers for parameter, return-value and side-effect details. |
-| `tests/privacy_manager_test.php:136` | `test_cleanup_removes_state_when_no_retained_inputs_remain` | PHP callable `test_cleanup_removes_state_when_no_retained_inputs_remain`; see its DocBlock and callers for parameter, return-value and side-effect details. |
-| `tests/privacy_manager_test.php:176` | `test_cleanup_preserves_recent_playback_guard` | PHP callable `test_cleanup_preserves_recent_playback_guard`; see its DocBlock and callers for parameter, return-value and side-effect details. |
-| `tests/privacy_manager_test.php:227` | `test_user_erasure_after_retention_keeps_shared_activity_files` | PHP callable `test_user_erasure_after_retention_keeps_shared_activity_files`; see its DocBlock and callers for parameter, return-value and side-effect details. |
-| `tests/privacy_manager_test.php:285` | `test_unlimited_retention_purges_only_legacy_pseudonymous_rows` | PHP callable `test_unlimited_retention_purges_only_legacy_pseudonymous_rows`; see its DocBlock and callers for parameter, return-value and side-effect details. |
-| `tests/privacy_manager_test.php:330` | `create_test_activity` | PHP callable `create_test_activity`; see its DocBlock and callers for parameter, return-value and side-effect details. |
-| `tests/privacy_manager_test.php:370` | `insert_segment` | PHP callable `insert_segment`; see its DocBlock and callers for parameter, return-value and side-effect details. |
-| `tests/privacy_manager_test.php:409` | `insert_interaction` | PHP callable `insert_interaction`; see its DocBlock and callers for parameter, return-value and side-effect details. |
-| `tests/privacy_manager_test.php:448` | `insert_integrity` | PHP callable `insert_integrity`; see its DocBlock and callers for parameter, return-value and side-effect details. |
-| `tests/privacy_manager_test.php:479` | `insert_acknowledgement` | PHP callable `insert_acknowledgement`; see its DocBlock and callers for parameter, return-value and side-effect details. |
+| `tests/privacy_manager_test.php:138` | `test_cleanup_removes_state_when_no_retained_inputs_remain` | PHP callable `test_cleanup_removes_state_when_no_retained_inputs_remain`; see its DocBlock and callers for parameter, return-value and side-effect details. |
+| `tests/privacy_manager_test.php:178` | `test_cleanup_preserves_recent_playback_guard` | PHP callable `test_cleanup_preserves_recent_playback_guard`; see its DocBlock and callers for parameter, return-value and side-effect details. |
+| `tests/privacy_manager_test.php:231` | `test_user_erasure_after_retention_keeps_shared_activity_files` | PHP callable `test_user_erasure_after_retention_keeps_shared_activity_files`; see its DocBlock and callers for parameter, return-value and side-effect details. |
+| `tests/privacy_manager_test.php:289` | `test_unlimited_retention_purges_only_legacy_pseudonymous_rows` | PHP callable `test_unlimited_retention_purges_only_legacy_pseudonymous_rows`; see its DocBlock and callers for parameter, return-value and side-effect details. |
+| `tests/privacy_manager_test.php:334` | `create_test_activity` | PHP callable `create_test_activity`; see its DocBlock and callers for parameter, return-value and side-effect details. |
+| `tests/privacy_manager_test.php:374` | `insert_segment` | PHP callable `insert_segment`; see its DocBlock and callers for parameter, return-value and side-effect details. |
+| `tests/privacy_manager_test.php:413` | `insert_interaction` | PHP callable `insert_interaction`; see its DocBlock and callers for parameter, return-value and side-effect details. |
+| `tests/privacy_manager_test.php:452` | `insert_integrity` | PHP callable `insert_integrity`; see its DocBlock and callers for parameter, return-value and side-effect details. |
+| `tests/privacy_manager_test.php:483` | `insert_acknowledgement` | PHP callable `insert_acknowledgement`; see its DocBlock and callers for parameter, return-value and side-effect details. |
 | `tests/provider_loader_contract_test.php:35` | `test_vimeo_loaders_use_requirejs_without_global_define_mutation` | Named PHP function/method `test_vimeo_loaders_use_requirejs_without_global_define_mutation`; see source DocBlock and callers for the current contract. |
 | `tests/provider_loader_contract_test.php:51` | `test_provider_loader_promises_reset_after_rejection` | Named PHP function/method `test_provider_loader_promises_reset_after_rejection`; see source DocBlock and callers for the current contract. |
 | `tests/provider_loader_contract_test.php:66` | `test_vimeo_requirejs_result_is_used_as_player_constructor` | Named PHP function/method `test_vimeo_requirejs_result_is_used_as_player_constructor`; see source DocBlock and callers for the current contract. |
@@ -1361,15 +1361,16 @@ Generated from the VideoTrack 1.7.100 source tree. PHP entries include named fun
 | `tests/tracker_test.php:438` | `test_forward_interval_guard_rejects_unwatched_jump` | PHP callable `test_forward_interval_guard_rejects_unwatched_jump`; see its DocBlock and callers for parameter, return-value and side-effect details. |
 | `tests/tracker_test.php:451` | `test_watched_time_validation_ignores_unvalidated_raw_segments` | PHP callable `test_watched_time_validation_ignores_unvalidated_raw_segments`; see its DocBlock and callers for parameter, return-value and side-effect details. |
 | `tests/tracker_test.php:480` | `test_segment_request_retry_reuses_persisted_result` | PHP callable `test_segment_request_retry_reuses_persisted_result`; see its DocBlock and callers for parameter, return-value and side-effect details. |
-| `tests/tracker_test.php:583` | `test_watched_time_validation_uses_aggregate_state_fallback` | PHP callable `test_watched_time_validation_uses_aggregate_state_fallback`; see its DocBlock and callers for parameter, return-value and side-effect details. |
-| `tests/tracker_test.php:611` | `test_any_session_watched_time_validation_uses_validated_segments` | Named PHP function/method `test_any_session_watched_time_validation_uses_validated_segments`; see source DocBlock and callers for the current contract. |
-| `tests/tracker_test.php:642` | `test_allowed_forward_seek_accepts_recent_session_interaction_timestamp` | Named PHP function/method `test_allowed_forward_seek_accepts_recent_session_interaction_timestamp`; see source DocBlock and callers for the current contract. |
-| `tests/tracker_test.php:676` | `test_allowed_forward_seek_rejects_stale_or_different_session_interaction` | Named PHP function/method `test_allowed_forward_seek_rejects_stale_or_different_session_interaction`; see source DocBlock and callers for the current contract. |
+| `tests/tracker_test.php:583` | `test_playback_credit_is_bound_to_active_session_and_pause_closes_window` | PHP callable `test_playback_credit_is_bound_to_active_session_and_pause_closes_window`; see its DocBlock and callers for parameter, return-value and side-effect details. |
+| `tests/tracker_test.php:807` | `test_watched_time_validation_uses_aggregate_state_fallback` | PHP callable `test_watched_time_validation_uses_aggregate_state_fallback`; see its DocBlock and callers for parameter, return-value and side-effect details. |
+| `tests/tracker_test.php:835` | `test_any_session_watched_time_validation_uses_validated_segments` | Named PHP function/method `test_any_session_watched_time_validation_uses_validated_segments`; see source DocBlock and callers for the current contract. |
+| `tests/tracker_test.php:866` | `test_allowed_forward_seek_accepts_recent_session_interaction_timestamp` | Named PHP function/method `test_allowed_forward_seek_accepts_recent_session_interaction_timestamp`; see source DocBlock and callers for the current contract. |
+| `tests/tracker_test.php:900` | `test_allowed_forward_seek_rejects_stale_or_different_session_interaction` | Named PHP function/method `test_allowed_forward_seek_rejects_stale_or_different_session_interaction`; see source DocBlock and callers for the current contract. |
 | `tests/upgrade_contract_test.php:35` | `test_modern_schema_fast_forward_precedes_legacy_steps` | Named PHP function/method `test_modern_schema_fast_forward_precedes_legacy_steps`; see source DocBlock and callers for the current contract. |
-| `tests/upgrade_contract_test.php:60` | `test_failed_install_schema_recovery_supersedes_obsolete_lineage` | Named PHP function/method `test_failed_install_schema_recovery_supersedes_obsolete_lineage`; see source DocBlock and callers for the current contract. |
-| `tests/upgrade_contract_test.php:90` | `test_gradebook_recovery_uses_dml_only` | Named PHP function/method `test_gradebook_recovery_uses_dml_only`; see source DocBlock and callers for the current contract. |
-| `tests/upgrade_contract_test.php:112` | `test_preproduction_gradebook_repair_covers_install_and_upgrade` | Named PHP function/method `test_preproduction_gradebook_repair_covers_install_and_upgrade`; see source DocBlock and callers for the current contract. |
-| `tests/upgrade_contract_test.php:134` | `test_duplicate_grade_item_repair_is_upgrade_safe` | Named PHP function/method `test_duplicate_grade_item_repair_is_upgrade_safe`; see source DocBlock and callers for the current contract. |
+| `tests/upgrade_contract_test.php:62` | `test_failed_install_schema_recovery_supersedes_obsolete_lineage` | Named PHP function/method `test_failed_install_schema_recovery_supersedes_obsolete_lineage`; see source DocBlock and callers for the current contract. |
+| `tests/upgrade_contract_test.php:92` | `test_gradebook_recovery_uses_dml_only` | Named PHP function/method `test_gradebook_recovery_uses_dml_only`; see source DocBlock and callers for the current contract. |
+| `tests/upgrade_contract_test.php:114` | `test_preproduction_gradebook_repair_covers_install_and_upgrade` | Named PHP function/method `test_preproduction_gradebook_repair_covers_install_and_upgrade`; see source DocBlock and callers for the current contract. |
+| `tests/upgrade_contract_test.php:136` | `test_duplicate_grade_item_repair_is_upgrade_safe` | Named PHP function/method `test_duplicate_grade_item_repair_is_upgrade_safe`; see source DocBlock and callers for the current contract. |
 | `tests/vimeo_seek_contract_test.php:35` | `test_blocked_seek_resume_does_not_wait_for_penalty_promise` | Named PHP function/method `test_blocked_seek_resume_does_not_wait_for_penalty_promise`; see source DocBlock and callers for the current contract. |
 | `tests/vimeo_seek_contract_test.php:56` | `test_blocked_seek_clears_forward_guard_after_rollback` | Named PHP function/method `test_blocked_seek_clears_forward_guard_after_rollback`; see source DocBlock and callers for the current contract. |
 | `tests/vimeo_seek_contract_test.php:74` | `test_blocked_seek_resume_retries_never_reseek` | Named PHP function/method `test_blocked_seek_resume_retries_never_reseek`; see source DocBlock and callers for the current contract. |

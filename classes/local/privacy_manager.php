@@ -337,6 +337,7 @@ class privacy_manager {
 
                 if (!self::server_guard_is_recent($state, $now)) {
                     $state->serverlastactivity = 0;
+                    $state->serverplaybacksessionid = '';
                     $state->serverbudgetseconds = 0.0;
                     $state->servercreditedseconds = 0.0;
                 }
@@ -397,7 +398,8 @@ class privacy_manager {
      */
     private static function server_guard_is_recent(\stdClass $state, int $now): bool {
         $lastactivity = (int)($state->serverlastactivity ?? 0);
-        if ($lastactivity <= 0) {
+        $sessionid = (string)($state->serverplaybacksessionid ?? '');
+        if ($lastactivity <= 0 || $sessionid === '') {
             return false;
         }
 

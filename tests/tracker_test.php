@@ -578,6 +578,230 @@ final class tracker_test extends advanced_testcase {
     }
 
     /**
+     * Server playback credit belongs to one active browser session and closes on pause.
+     */
+    public function test_playback_credit_is_bound_to_active_session_and_pause_closes_window(): void {
+        global $DB;
+
+        $this->resetAfterTest();
+        $generator = $this->getDataGenerator();
+        $course = $generator->create_course();
+        $forum = $generator->create_module('forum', ['course' => $course->id]);
+        $cm = get_fast_modinfo($course)->get_cm($forum->cmid);
+        $user = $generator->create_user();
+        $videotrack = (object)[
+            'id' => 990033,
+            'course' => $course->id,
+            'videoid' => 'session-binding-test',
+            'durationseconds' => 60.0,
+            'allowseekforward' => 1,
+            'completionpercent' => 0,
+            'reactionsrequired' => 0,
+            'minreactions' => 0,
+            'requireallreactiontypes' => 0,
+            'completionacknowledgement' => 0,
+            'completionlogic' => 'and',
+        ];
+        $sessiona = str_repeat('a', 32);
+        $sessionb = str_repeat('b', 32);
+
+        $started = tracker::begin_playback(
+            $videotrack,
+            $cm,
+            $user->id,
+            $sessiona,
+            str_repeat('c', 32),
+            0.0,
+            100000
+        );
+        $this->assertSame($sessiona, (string)$started['state']->serverplaybacksessionid);
+
+        $crosssession = (object)[
+            'videotrackid' => $videotrack->id,
+            'courseid' => $course->id,
+            'cmid' => $cm->id,
+            'userid' => $user->id,
+            'videoid' => $videotrack->videoid,
+            'sessionid' => $sessionb,
+            'requestid' => str_repeat('d', 32),
+            'wallclockstart' => 100,
+            'wallclockend' => 105,
+            'videotimestart' => 0.0,
+            'videotimeend' => 5.0,
+            'playbackrate' => 1.0,
+            'endreason' => 'heartbeat',
+            'servervalidated' => 1,
+            'timecreated' => 105,
+        ];
+        $segmentid = null;
+        $replayed = false;
+        $state = tracker::update_state(
+            $videotrack,
+            $cm,
+            $user->id,
+            [0.0, 5.0],
+            5.0,
+            $crosssession,
+            $segmentid,
+            [
+                'nowmilliseconds' => 105000,
+                'heartbeat' => 30,
+                'playbackrate' => 1.0,
+                'allowseekforward' => true,
+            ],
+            $replayed
+        );
+        $this->assertSame(-1, $segmentid);
+        $this->assertSame(0.0, (float)$state->uniquecoveredseconds);
+        $this->assertSame($sessiona, (string)$state->serverplaybacksessionid);
+        $this->assertSame(100000, (int)$state->serverlastactivity);
+
+        $validsegment = clone $crosssession;
+        $validsegment->sessionid = $sessiona;
+        $validsegment->requestid = str_repeat('e', 32);
+        $segmentid = null;
+        $state = tracker::update_state(
+            $videotrack,
+            $cm,
+            $user->id,
+            [0.0, 5.0],
+            5.0,
+            $validsegment,
+            $segmentid,
+            [
+                'nowmilliseconds' => 105000,
+                'heartbeat' => 30,
+                'playbackrate' => 1.0,
+                'allowseekforward' => true,
+            ]
+        );
+        $this->assertGreaterThan(0, $segmentid);
+        $this->assertSame(5.0, (float)$state->uniquecoveredseconds);
+        $this->assertSame($sessiona, (string)$state->serverplaybacksessionid);
+
+        $pause = clone $validsegment;
+        $pause->requestid = str_repeat('f', 32);
+        $pause->wallclockstart = 105;
+        $pause->wallclockend = 106;
+        $pause->videotimestart = 5.0;
+        $pause->videotimeend = 6.0;
+        $pause->endreason = 'pause';
+        $pause->timecreated = 106;
+        $segmentid = null;
+        $state = tracker::update_state(
+            $videotrack,
+            $cm,
+            $user->id,
+            [5.0, 6.0],
+            6.0,
+            $pause,
+            $segmentid,
+            [
+                'nowmilliseconds' => 106000,
+                'heartbeat' => 30,
+                'playbackrate' => 1.0,
+                'allowseekforward' => true,
+            ]
+        );
+        $this->assertGreaterThan(0, $segmentid);
+        $this->assertSame('', (string)$state->serverplaybacksessionid);
+        $this->assertSame(0, (int)$state->serverlastactivity);
+
+        $afterpause = clone $pause;
+        $afterpause->requestid = str_repeat('g', 32);
+        $afterpause->endreason = 'heartbeat';
+        $afterpause->videotimestart = 6.0;
+        $afterpause->videotimeend = 7.0;
+        $afterpause->wallclockstart = 106;
+        $afterpause->wallclockend = 107;
+        $afterpause->timecreated = 107;
+        $segmentid = null;
+        $state = tracker::update_state(
+            $videotrack,
+            $cm,
+            $user->id,
+            [6.0, 7.0],
+            7.0,
+            $afterpause,
+            $segmentid,
+            [
+                'nowmilliseconds' => 107000,
+                'heartbeat' => 30,
+                'playbackrate' => 1.0,
+                'allowseekforward' => true,
+            ]
+        );
+        $this->assertSame(-1, $segmentid);
+        $this->assertSame(6.0, (float)$state->uniquecoveredseconds);
+        $this->assertSame('', (string)$state->serverplaybacksessionid);
+
+        $storedcross = $DB->get_record('videotrack_seg', ['requestid' => str_repeat('d', 32)], '*', MUST_EXIST);
+        $storedafterpause = $DB->get_record('videotrack_seg', ['requestid' => str_repeat('g', 32)], '*', MUST_EXIST);
+        $this->assertSame(0, (int)$storedcross->servervalidated);
+        $this->assertSame(0, (int)$storedafterpause->servervalidated);
+
+        $secondtab = tracker::begin_playback(
+            $videotrack,
+            $cm,
+            $user->id,
+            $sessionb,
+            str_repeat('h', 32),
+            6.0,
+            108000
+        );
+        $this->assertSame($sessionb, (string)$secondtab['state']->serverplaybacksessionid);
+
+        $stalefirsttab = clone $afterpause;
+        $stalefirsttab->sessionid = $sessiona;
+        $stalefirsttab->requestid = str_repeat('i', 32);
+        $stalefirsttab->timecreated = 109;
+        $segmentid = null;
+        $state = tracker::update_state(
+            $videotrack,
+            $cm,
+            $user->id,
+            [6.0, 7.0],
+            7.0,
+            $stalefirsttab,
+            $segmentid,
+            [
+                'nowmilliseconds' => 109000,
+                'heartbeat' => 30,
+                'playbackrate' => 1.0,
+                'allowseekforward' => true,
+            ]
+        );
+        $this->assertSame(-1, $segmentid);
+        $this->assertSame($sessionb, (string)$state->serverplaybacksessionid);
+        $this->assertSame(108000, (int)$state->serverlastactivity);
+
+        $tabclose = clone $stalefirsttab;
+        $tabclose->sessionid = $sessionb;
+        $tabclose->requestid = str_repeat('j', 32);
+        $tabclose->endreason = 'tab';
+        $tabclose->timecreated = 109;
+        $segmentid = null;
+        $state = tracker::update_state(
+            $videotrack,
+            $cm,
+            $user->id,
+            [6.0, 7.0],
+            7.0,
+            $tabclose,
+            $segmentid,
+            [
+                'nowmilliseconds' => 109000,
+                'heartbeat' => 30,
+                'playbackrate' => 1.0,
+                'allowseekforward' => true,
+            ]
+        );
+        $this->assertGreaterThan(0, $segmentid);
+        $this->assertSame('', (string)$state->serverplaybacksessionid);
+        $this->assertSame(0, (int)$state->serverlastactivity);
+    }
+
+    /**
      * Watched-time validation falls back to persisted aggregate intervals.
      */
     public function test_watched_time_validation_uses_aggregate_state_fallback(): void {

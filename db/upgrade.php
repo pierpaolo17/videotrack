@@ -1999,5 +1999,46 @@ function xmldb_videotrack_upgrade($oldversion) {
         upgrade_mod_savepoint(true, 2026081131, 'videotrack');
     }
 
+    if ($oldversion < 2026082104) {
+        // Release 1.7.101: bind server playback credit to the browser session that opened the window.
+        $statetable = new xmldb_table('videotrack_state');
+        $sessionfield = new xmldb_field(
+            'serverplaybacksessionid',
+            XMLDB_TYPE_CHAR,
+            '64',
+            null,
+            XMLDB_NOTNULL,
+            null,
+            '',
+            'serverlastactivity'
+        );
+        if (!$dbman->field_exists($statetable, $sessionfield)) {
+            $dbman->add_field($statetable, $sessionfield);
+        }
+
+        // Existing windows predate session binding and must not survive the upgrade.
+        // Preserve cumulative tolerance debt while discarding positive headroom.
+        $states = $DB->get_recordset(
+            'videotrack_state',
+            null,
+            'id ASC',
+            'id, serverbudgetseconds, servercreditedseconds'
+        );
+        foreach ($states as $state) {
+            $DB->update_record('videotrack_state', (object)[
+                'id' => (int)$state->id,
+                'serverlastactivity' => 0,
+                'serverplaybacksessionid' => '',
+                'serverbudgetseconds' => min(
+                    (float)$state->serverbudgetseconds,
+                    (float)$state->servercreditedseconds
+                ),
+            ]);
+        }
+        $states->close();
+
+        upgrade_mod_savepoint(true, 2026082104, 'videotrack');
+    }
+
     return true;
 }

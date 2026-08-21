@@ -114,6 +114,7 @@ Aggregated unique coverage per user and activity
 | `lastposition` | `number`(10) | NOT NULL; default `0.000` |  |
 | `durationseconds` | `number`(10) | NOT NULL; default `0.000` |  |
 | `serverlastactivity` | `int`(20) | NOT NULL; default `0` | Timestamp in millisecondi dell’ultimo handshake o richiesta segmento |
+| `serverplaybacksessionid` | `char`(64) | NOT NULL; default vuoto | Sessione browser attualmente autorizzata a consumare il credito server |
 | `serverbudgetseconds` | `number`(12,3) | NOT NULL; default `0.000` | Budget cumulativo di credito di riproduzione autorizzato dal server |
 | `servercreditedseconds` | `number`(12,3) | NOT NULL; default `0.000` | Secondi video grezzi cumulativi addebitati al budget server |
 | `uniquecoveredseconds` | `number`(10) | NOT NULL; default `0.000` |  |

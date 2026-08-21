@@ -1,17 +1,17 @@
 # Documentation audit
 
-Baseline: VideoTrack **1.7.100** (`2026082103`).
+Baseline: VideoTrack **1.7.101** (`2026082104`).
 
 ## Coverage
 
 - Non-documentation files inventoried: **281/281**.
-- Named PHP functions/methods inventoried: **723**.
+- Named PHP functions/methods inventoried: **724**.
 - Named AMD callables detected and inventoried: **647**.
 - XMLDB tables documented: **7**.
 - Site-setting keys documented: **57**.
 - Player configuration keys documented: **133**.
 - AJAX services documented: **9**.
-- Language packs: eight packs with the same **987-key** contract; operational strings are translated while technical and proper terms may legitimately remain identical.
+- Language packs: eight packs with the same **988-key** contract; operational strings are translated while technical and proper terms may legitimately remain identical.
 - Root overviews: `README.md` (English) and `README_IT.md` (Italian).
 - Root privacy summaries: `PRIVACY.md` and `PRIVACY_IT.md`.
 - Distributed CLI diagnostics documented in `21_CLI_DIAGNOSTICS.md` and covered by static read-only contracts.
@@ -19,6 +19,15 @@ Baseline: VideoTrack **1.7.100** (`2026082103`).
 - Static resume/completion/stacked-alert contracts complement the operational Behat environment; the real 1.7.98 browser gate passed 13/13 scenarios and 195/195 steps on Moodle 5.0 and 5.3, while broader provider smoke coverage remains explicitly separate.
 - Maintainer-only consolidated roadmap/lessons-history files are intentionally excluded from the distributed plugin tree and protected by `.moodleignore`.
 - Chapter navigation now has an explicit focus-visible/forced-colour contract; a manual keyboard/high-contrast matrix remains a release gate for final U-020 closure.
+
+## 1.7.101 anti-cheat/session-binding documentation verification
+
+- Playback credit is bound to the active browser `sessionid`; stale/cross-tab writes are persisted only as non-authoritative evidence.
+- Accepted pause/end/hidden-page lifecycle closes clear the active credit window and require a fresh `start_playback` handshake.
+- Browser focus is not treated as proof of attention: hidden-page state stops tracking, while visible-window blur remains diagnostic by default so split view and side-by-side workflows are not falsely penalised.
+- `videotrack_state.serverplaybacksessionid` is declared in XMLDB, upgrade logic, Privacy API and retention cleanup.
+- Production AMD is unchanged; the hardening boundary is entirely server-side.
+
 
 ## 1.7.100 corrective documentation verification
 

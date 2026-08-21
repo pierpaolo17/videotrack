@@ -451,6 +451,8 @@ $string['privacy:metadata:videotrack_state:lastposition'] = 'Última posición c
 $string['privacy:metadata:videotrack_state:serverbudgetseconds'] = 'Segundos de reproducción acumulados autorizados por el control de crédito basado en el tiempo del servidor.';
 $string['privacy:metadata:videotrack_state:servercreditedseconds'] = 'Segundos de vídeo brutos acumulados ya cargados al presupuesto de crédito basado en el tiempo del servidor.';
 $string['privacy:metadata:videotrack_state:serverlastactivity'] = 'Marca de tiempo del servidor en milisegundos del último inicio de reproducción o solicitud de segmento usada por el registro de crédito de reproducción.';
+$string['privacy:metadata:videotrack_state:serverplaybacksessionid'] =
+    'ID de la sesión de reproducción del navegador autorizada a consumir crédito de reproducción del servidor.';
 $string['privacy:metadata:videotrack_state:uniquecoveredseconds'] = 'Número de segundos únicos de la línea de tiempo cubiertos por el usuario.';
 $string['privacy:metadata:videotrack_state:userid'] = 'El usuario cuyo estado agregado fue almacenado.';
 $string['privacy:metadata:vimeo'] = 'Cuando se usa un vídeo de Vimeo, el navegador del usuario se conecta a Vimeo para cargar y reproducir el vídeo.';

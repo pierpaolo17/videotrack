@@ -84,6 +84,7 @@ class provider implements
             'lastposition' => 'privacy:metadata:videotrack_state:lastposition',
             'durationseconds' => 'privacy:metadata:videotrack_state:durationseconds',
             'serverlastactivity' => 'privacy:metadata:videotrack_state:serverlastactivity',
+            'serverplaybacksessionid' => 'privacy:metadata:videotrack_state:serverplaybacksessionid',
             'serverbudgetseconds' => 'privacy:metadata:videotrack_state:serverbudgetseconds',
             'servercreditedseconds' => 'privacy:metadata:videotrack_state:servercreditedseconds',
             'uniquecoveredseconds' => 'privacy:metadata:videotrack_state:uniquecoveredseconds',

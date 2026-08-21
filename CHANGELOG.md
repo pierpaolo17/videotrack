@@ -1,5 +1,13 @@
 # VideoTrack changelog
 
+## 1.7.101 - 2026-08-21
+
+- Harden the server-authoritative playback ledger by binding each credit window to the browser session that opened it with `start_playback`.
+- Reject cross-session or stale-session segment writes as `servervalidated=0` without allowing them to consume or reset another tab's budget.
+- Close the authorised credit window on accepted pause/end/page-hide/tab-hide lifecycle endings so resumed playback requires a fresh explicit handshake.
+- Document why hidden-page state is authoritative for stopping credit while plain visible-window blur remains diagnostic/default-accessibility-safe for split view, grouped tabs and side-by-side windows.
+- Add schema/upgrade/privacy/retention and regression coverage for the active playback-session identifier.
+
 ## 1.7.100 - 2026-08-21
 
 - Correct the 1.7.99 Behat completion fixture after the real Moodle 5.0/5.3 gate showed that direct validated-state seeding did not execute the normal Moodle completion synchronisation performed by runtime writes.
