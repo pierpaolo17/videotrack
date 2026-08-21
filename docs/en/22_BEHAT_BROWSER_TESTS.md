@@ -1,6 +1,6 @@
 # Behat browser automation
 
-VideoTrack started its browser-automation phase in release 1.7.45; release 1.7.98 expands the deterministic local HTML5 harness after 1.7.83 kept the deterministic HTML5 post-rollback Behat suite and stabilizes the native learner-history toggles after the 1.7.82 multi-version run made the maintainer Behat environment operational on Moodle 5.0–5.3. The two common Chrome 151 failures were caused by broad text-based clicks in the scenarios; the features now click the unique native `<summary>` elements through CSS selectors, without changing learner runtime markup. The plugin ships a Moodle module generator under `tests/generator/lib.php` and browser scenarios under `tests/behat/`.
+VideoTrack started its browser-automation phase in release 1.7.45; release 1.7.99 expands the deterministic local HTML5 harness after 1.7.83 kept the deterministic HTML5 post-rollback Behat suite and stabilizes the native learner-history toggles after the 1.7.82 multi-version run made the maintainer Behat environment operational on Moodle 5.0–5.3. The two common Chrome 151 failures were caused by broad text-based clicks in the scenarios; the features now click the unique native `<summary>` elements through CSS selectors, without changing learner runtime markup. The plugin ships a Moodle module generator under `tests/generator/lib.php` and browser scenarios under `tests/behat/`.
 
 ## Purpose
 
@@ -66,9 +66,12 @@ Release 1.7.53 added `tests/player_resume_completion_alert_contract_test.php`; r
 
 Release 1.7.97 adds `html5_playback_contract.feature`. Using the same local MP4 fixture and validated-state seeding, it verifies that HTML5 resumes near a trusted saved position, allows an explicit backward seek inside watched progress, and really transitions between playing and paused states through the custom control bar. These scenarios are deterministic and do not require a public video provider.
 
-The real 1.7.97 Behat gate passed **10/10 scenarios and 152/152 steps** on both Moodle 5.0 and Moodle 5.3 with Chrome 151/Selenium.
+The real 1.7.98 Behat gate passed **13/13 scenarios and 195/195 steps** on both Moodle 5.0 and Moodle 5.3 with Chrome 151/Selenium.
 
 Release 1.7.98 adds `html5_acknowledgement_contract.feature`. It verifies that an anytime acknowledgement is immediately confirmable and persists after submission, that a video-end acknowledgement remains disabled before validated playback reaches the end, and that validated evidence through the final second unlocks confirmation. The feature reuses existing browser steps and adds no production or Behat-PHP helper logic.
+
+Release 1.7.99 adds `html5_completion_contract.feature`. It verifies persisted Moodle core completion after real browser interactions for three contracts: viewing-only completion crosses from incomplete to complete at the configured threshold, acknowledgement-only completion becomes complete after confirmation, and combined AND completion remains incomplete until both viewing and acknowledgement are satisfied. A single Behat assertion step reads the persisted `course_modules_completion` state so the contract stays stable across Moodle 5.0 and 5.3 markup differences.
+
 
 ## Current browser-test coverage limits
 
@@ -77,7 +80,8 @@ The distributed suite intentionally records what is not yet deterministic. Remai
 1. deterministic YouTube / Vimeo provider harnesses;
 2. backward-seek parity for YouTube/Vimeo beyond the deterministic HTML5 resume/backward-seek coverage;
 3. end-to-end assertion of the exact pre-seek segment snapshot persisted before a jump;
-4. Moodle completion-state and stacked-alert browser scenarios; acknowledgement gating/persistence is covered from 1.7.98 while provider-specific resume parity remains pending.
+4. stacked-alert browser scenarios; Moodle completion-state persistence is covered from 1.7.99, while provider-specific resume parity remains pending.
+5. an explicit anti-cheat browser/runtime tranche before the final Moodle 5.0–5.3 milestone.
 
 Provider scenarios should avoid depending on public third-party network availability when a deterministic local harness can exercise the same adapter contract.
 

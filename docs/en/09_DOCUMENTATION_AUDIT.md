@@ -1,11 +1,11 @@
 # Documentation audit
 
-Baseline: VideoTrack **1.7.98** (`2026082101`).
+Baseline: VideoTrack **1.7.99** (`2026082102`).
 
 ## Coverage
 
-- Non-documentation files inventoried: **280/280**.
-- Named PHP functions/methods inventoried: **722**.
+- Non-documentation files inventoried: **281/281**.
+- Named PHP functions/methods inventoried: **723**.
 - Named AMD callables detected and inventoried: **647**.
 - XMLDB tables documented: **7**.
 - Site-setting keys documented: **57**.
@@ -16,12 +16,21 @@ Baseline: VideoTrack **1.7.98** (`2026082101`).
 - Root privacy summaries: `PRIVACY.md` and `PRIVACY_IT.md`.
 - Distributed CLI diagnostics documented in `21_CLI_DIAGNOSTICS.md` and covered by static read-only contracts.
 - Behat browser automation is documented in `22_BEHAT_BROWSER_TESTS.md`, including current deterministic coverage and explicit provider coverage limits.
-- Static resume/completion/stacked-alert contracts complement the operational Behat environment; the real 1.7.97 browser gate passed 10/10 scenarios and 152/152 steps on Moodle 5.0 and 5.3, while broader provider smoke coverage remains explicitly separate.
+- Static resume/completion/stacked-alert contracts complement the operational Behat environment; the real 1.7.98 browser gate passed 13/13 scenarios and 195/195 steps on Moodle 5.0 and 5.3, while broader provider smoke coverage remains explicitly separate.
 - Maintainer-only consolidated roadmap/lessons-history files are intentionally excluded from the distributed plugin tree and protected by `.moodleignore`.
 - Chapter navigation now has an explicit focus-visible/forced-colour contract; a manual keyboard/high-contrast matrix remains a release gate for final U-020 closure.
 
-## 1.7.98 pre-production documentation verification
+## 1.7.99 pre-production documentation verification
 
+- Current non-documentation file inventory is **281/281** after adding the deterministic Moodle-completion Behat feature.
+- Function inventory is **723 PHP / 647 AMD** named callables after adding one Behat assertion for persisted core completion state.
+- U-007 now covers end-to-end Moodle completion persistence for viewing-only, acknowledgement-only and combined AND conditions after real browser interactions.
+- Production runtime, AMD, schema, capability, privacy, Analytics, tracking and language packs are unchanged.
+- The next U-007 tranche is reserved for the explicit anti-cheat browser/runtime review requested by the maintainer after this completion gate is green.
+
+## 1.7.98 browser-gate documentation verification
+
+- The real 1.7.98 Behat gate passed **13/13 scenarios and 195/195 steps** on both Moodle 5.0 and 5.3 with Chrome 151/Selenium.
 - Current non-documentation file inventory is **280/280** after adding the deterministic HTML5 acknowledgement Behat feature.
 - Function inventory remains **722 PHP / 647 AMD** named callables; this test-only tranche adds no PHP step or production callable.
 - U-007 now covers immediate acknowledgement confirmation/persistence, video-end gating before validated completion of playback, and unlock after validated evidence reaches the final second.
