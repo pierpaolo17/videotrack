@@ -1,5 +1,12 @@
 # VideoTrack changelog
 
+## 1.7.97 - 2026-08-21
+
+- Close U-017 by stop condition after the final `mod_form.php`, player and PHP-hotspot audits found no further obvious low-risk extraction whose benefit exceeds added indirection or runtime risk.
+- Start the U-007 browser-automation closure phase with a deterministic local HTML5 playback feature covering validated resume, allowed backward seek and real play/pause state.
+- Add a Behat playback-state assertion step without changing production runtime, AMD sources, schema, capability, privacy, tracking or completion behaviour.
+- Keep public-network YouTube/Vimeo harnesses out of this tranche; provider-specific deterministic coverage remains a later U-007 step.
+
 ## 1.7.96 - 2026-08-20
 
 - Correct the stale completion static contract introduced by the 1.7.95 `mod_form.php` delegation: required-reaction inspection now follows the extracted `local\form_validation` policy instead of requiring the implementation to remain inline in the form.

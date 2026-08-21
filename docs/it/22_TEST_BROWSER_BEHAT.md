@@ -1,6 +1,6 @@
 # Automazione browser con Behat
 
-VideoTrack ha avviato la fase di automazione browser nella release 1.7.45; la 1.7.74 mantiene la suite Behat HTML5 post-rollback deterministica e i contratti non-browser per resume, sincronizzazione completion e alert impilati su YouTube, HTML5 e Vimeo mentre l’endpoint Behat del maintainer non è disponibile; la versionatura della presa visione è inoltre coperta da verifiche PHPUnit comportamentali. Il plugin distribuisce un generator Moodle in `tests/generator/lib.php` e gli scenari browser in `tests/behat/`.
+VideoTrack ha avviato la fase di automazione browser nella release 1.7.45; dalla 1.7.83 l’ambiente Behat del maintainer è operativo su Moodle 5.0–5.3 e la 1.7.97 estende l’harness HTML5 locale deterministico con resume, seek indietro e play/pause reali. I contratti non-browser continuano a coprire sincronizzazione completion e alert impilati su YouTube, HTML5 e Vimeo. Il plugin distribuisce un generator Moodle in `tests/generator/lib.php` e gli scenari browser in `tests/behat/`.
 
 ## Scopo
 
@@ -59,16 +59,16 @@ Le asserzioni deterministiche correnti coprono entrambe le policy: un salto avan
 
 La release 1.7.51 ha aggiunto `tests/provider_seek_snapshot_contract_test.php`: protegge staticamente l’ordine dello snapshot pre-seek e l’uso di timestamp rollback-safe per YouTube, HTML5 e Vimeo. È copertura complementare: non rende complete le harness browser YouTube/Vimeo ancora aperte.
 
-La release 1.7.53 ha aggiunto `tests/player_resume_completion_alert_contract_test.php`; la 1.7.54 ha corretto quel test senza cambiare il runtime. La 1.7.55 elimina il residuo failure del marker acknowledgement e aggiunge copertura PHPUnit comportamentale per firma completion e versione corrente della presa visione. I controlli provider resume/alert restano non-browser; i corrispondenti scenari Behat sono ancora pendenti.
+La release 1.7.53 ha aggiunto `tests/player_resume_completion_alert_contract_test.php`; la 1.7.54 ha corretto quel test senza cambiare il runtime. La 1.7.55 elimina il residuo failure del marker acknowledgement e aggiunge copertura PHPUnit comportamentale per firma completion e versione corrente della presa visione. La 1.7.97 porta il resume HTML5 nel browser deterministico; restano pendenti la parity resume dei provider esterni e gli alert impilati browser.
 
 ## Limiti correnti della copertura browser
 
 La suite distribuita documenta esplicitamente ciò che non è ancora deterministico. Restano da coprire:
 
 1. harness provider deterministiche YouTube / Vimeo;
-2. parity del seek indietro sui provider oltre agli scenari HTML5 correnti sul seek avanti;
+2. parity del seek indietro su YouTube/Vimeo oltre alla copertura HTML5 deterministica resume/seek indietro;
 3. asserzione end-to-end dell'esatto snapshot del segmento pre-seek persistito prima del salto;
-4. scenari browser per resume, completion e alert impilati (i relativi contratti non-browser sono coperti dalla 1.7.53).
+4. scenari browser per completion e alert impilati; il resume HTML5 è coperto dalla 1.7.97, mentre resta pendente la parity resume provider-specifica.
 
 Gli scenari provider dovrebbero evitare dipendenze dalla disponibilità della rete pubblica quando una harness locale deterministica può esercitare lo stesso contratto dell'adapter.
 
@@ -82,3 +82,13 @@ La feature HTML5 può pre-caricare un intervallo di visione validato; nella 1.7.
 ## Stabilizzazione selector 1.7.83
 
 La matrice 1.7.82 ha reso operativo Behat su Moodle 5.0–5.3 ma ha mostrato due failure identici con Chrome 151 sul click testuale di `My notes`. La 1.7.83 mantiene invariato il markup runtime e usa nei feature i selector CSS univoci `.videotrack-student-section-… > summary`, così il click punta direttamente al nodo `<summary>` interattivo. Le etichette visibili restano verificate separatamente.
+
+## Estensione deterministica HTML5 — 1.7.97
+
+La 1.7.97 aggiunge `html5_playback_contract.feature` e riusa il fixture MP4 locale già impiegato per il seek. I nuovi scenari verificano senza rete pubblica:
+
+- resume HTML5 vicino alla posizione validata salvata;
+- seek indietro consentito all'interno del progresso già validato;
+- transizione reale play/pause tramite il control bar VideoTrack.
+
+Il nuovo step Behat legge direttamente lo stato `paused` del media HTML5 e attende la transizione, evitando sleep fissi. Restano fuori da questa tranche gli harness deterministici YouTube/Vimeo, la completion browser end-to-end e gli alert impilati.

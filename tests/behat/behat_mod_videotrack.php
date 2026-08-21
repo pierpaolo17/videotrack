@@ -96,6 +96,31 @@ class behat_mod_videotrack extends behat_base {
     }
 
     /**
+     * Assert whether the deterministic HTML5 media is currently playing or paused.
+     *
+     * @Then /^the VideoTrack HTML5 media playback is "(?P<state>playing|paused)"$/
+     * @param string $state Expected playback state.
+     */
+    public function the_videotrack_html5_media_playback_is(string $state): void {
+        $expectedpaused = $state === 'paused' ? 'true' : 'false';
+        $condition = "(function() {"
+            . "var media = document.querySelector('#mod-videotrack-player video');"
+            . "return !!media && media.paused === " . $expectedpaused . ";"
+            . "}())";
+        if (!$this->getSession()->wait(3000, $condition)) {
+            $paused = $this->getSession()->evaluateScript(
+                "(function() {var media = document.querySelector('#mod-videotrack-player video');"
+                . "return media ? media.paused : null;}())"
+            );
+            throw new ExpectationException(
+                'VideoTrack HTML5 media paused=' . var_export($paused, true)
+                    . ' while expecting ' . $state . '.',
+                $this->getSession()
+            );
+        }
+    }
+
+    /**
      * Seed validated watched evidence for a learner before a browser interaction scenario.
      *
      * @Given /^"(?P<username>[^"]+)" watched "(?P<activityname>[^"]+)" through "(?P<seconds>[0-9.]+)" seconds$/
