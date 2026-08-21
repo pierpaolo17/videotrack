@@ -264,6 +264,16 @@ All keys are stored under `mod_videotrack`.
 - `studentnotesenabled`
 - `validationfallbackdays`
 
+## Course focus-exception group
+
+The strict-focus accessibility exception uses one Moodle core group per course; VideoTrack does not store an accommodation reason or any additional learner attribute.
+
+- Stable `idnumber`: `mod_videotrack_focus_exception`
+- `visibility`: `GROUPS_VISIBILITY_NONE`
+- `participation`: `0`
+- Direct membership changes an effective `strict` window-blur policy to `hiddenonly` for that learner only.
+- Hidden-document pause, playback validation, completion and interaction rules remain unchanged.
+
 ## Learner participation capability
 
 - `mod/videotrack:participate` — canonical module-context write permission for learner tracking, reactions, notes, bookmarks, integrity indicators, acknowledgements and personal bookmark export. Default permissions are cloned from `moodle/course:isincompletionreports`; report access is independent.

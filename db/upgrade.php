@@ -2037,6 +2037,13 @@ function xmldb_videotrack_upgrade($oldversion) {
         }
         $states->close();
 
+        // Existing courses receive the hidden, non-participating strict-focus
+        // exception group without transferring any membership between courses.
+        $courseids = $DB->get_fieldset_select('videotrack', 'DISTINCT course', 'course > 0');
+        foreach ($courseids as $courseid) {
+            \mod_videotrack\local\focus_policy::ensure_exception_group((int)$courseid);
+        }
+
         upgrade_mod_savepoint(true, 2026082104, 'videotrack');
     }
 

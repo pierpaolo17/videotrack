@@ -49,6 +49,7 @@ $canviewreport = has_capability('mod/videotrack:viewreport', $context);
 // helper disables site-admin do-anything privileges for learner telemetry.
 $islearner = !isguestuser()
     && \mod_videotrack\local\learner_scope::can_participate($context);
+\mod_videotrack\local\focus_policy::ensure_exception_group((int)$course->id);
 
 if ($ackaction === 'confirm') {
     if (!$islearner) {
@@ -167,7 +168,11 @@ $notesmaxrendered = 200;
 $bookmarkmaxlength = videotrack_get_config_int('bookmarkmaxlength', 120, 20, 255);
 $bookmarksmaxrendered = 200;
 $randompausebounds = \mod_videotrack\local\integrity::random_pause_bounds();
-$focuslosspolicy = \mod_videotrack\local\integrity::focus_loss_policy();
+$focuslosspolicy = \mod_videotrack\local\focus_policy::effective_policy(
+    (int)$course->id,
+    (int)$USER->id,
+    \mod_videotrack\local\integrity::focus_loss_policy()
+);
 $focuslossgraceseconds = \mod_videotrack\local\integrity::focus_loss_grace_seconds();
 
 // Validate intervaljson before passing it to JS, keeping a valid JSON array.

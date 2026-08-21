@@ -4,14 +4,14 @@ Baseline: VideoTrack **1.7.101** (`2026082104`).
 
 ## Coverage
 
-- Non-documentation files inventoried: **281/281**.
-- Named PHP functions/methods inventoried: **724**.
+- Non-documentation files inventoried: **284/284**.
+- Named PHP functions/methods inventoried: **734**.
 - Named AMD callables detected and inventoried: **647**.
 - XMLDB tables documented: **7**.
 - Site-setting keys documented: **57**.
 - Player configuration keys documented: **133**.
 - AJAX services documented: **9**.
-- Language packs: eight packs with the same **988-key** contract; operational strings are translated while technical and proper terms may legitimately remain identical.
+- Language packs: eight packs with the same **990-key** contract; operational strings are translated while technical and proper terms may legitimately remain identical.
 - Root overviews: `README.md` (English) and `README_IT.md` (Italian).
 - Root privacy summaries: `PRIVACY.md` and `PRIVACY_IT.md`.
 - Distributed CLI diagnostics documented in `21_CLI_DIAGNOSTICS.md` and covered by static read-only contracts.
@@ -25,6 +25,8 @@ Baseline: VideoTrack **1.7.101** (`2026082104`).
 - Playback credit is bound to the active browser `sessionid`; stale/cross-tab writes are persisted only as non-authoritative evidence.
 - Accepted pause/end/hidden-page lifecycle closes clear the active credit window and require a fresh `start_playback` handshake.
 - Browser focus is not treated as proof of attention: hidden-page state stops tracking, while visible-window blur remains diagnostic by default so split view and side-by-side workflows are not falsely penalised.
+- The optional strict policy is resolved per learner through the hidden, non-participating course group `mod_videotrack_focus_exception`; membership changes only strict blur handling to `hiddenonly`.
+- Group creation is idempotently wired to add, update, restore, upgrade and view; no accommodation reason or VideoTrack learner attribute is stored.
 - `videotrack_state.serverplaybacksessionid` is declared in XMLDB, upgrade logic, Privacy API and retention cleanup.
 - Production AMD is unchanged; the hardening boundary is entirely server-side.
 

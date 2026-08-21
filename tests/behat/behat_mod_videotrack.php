@@ -34,6 +34,30 @@ use Behat\Mink\Exception\ExpectationException;
  */
 class behat_mod_videotrack extends behat_base {
     /**
+     * Assert the effective focus policy exposed by the real player JSON.
+     *
+     * @Then /^the VideoTrack focus policy is "(?P<policy>strict|hiddenonly)"$/
+     * @param string $policy Expected effective policy.
+     */
+    public function the_videotrack_focus_policy_is(string $policy): void {
+        $actual = $this->getSession()->evaluateScript(
+            "(function() {"
+                . "var node = document.querySelector('script[id^=\"mod-videotrack-player-config-\"]');"
+                . "if (!node) { return null; }"
+                . "try { return JSON.parse(node.textContent || '{}').focuslosspolicy || null; }"
+                . "catch (error) { return null; }"
+                . "}())"
+        );
+        if ($actual !== $policy) {
+            throw new ExpectationException(
+                'VideoTrack focus policy ' . var_export($actual, true)
+                    . ' does not match expected policy ' . $policy . '.',
+                $this->getSession()
+            );
+        }
+    }
+
+    /**
      * Wait until the deterministic HTML5 fixture has loaded metadata.
      *
      * @Then /^the VideoTrack HTML5 media is ready$/

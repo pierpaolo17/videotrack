@@ -82,6 +82,8 @@ La 1.7.99 aggiunge `html5_completion_contract.feature` e una sola asserzione Beh
 
 Il gate reale 1.7.99 ha evidenziato un gap del fixture: il seed diretto dello stato validato non chiamava la stessa sincronizzazione completion Moodle usata dalle write runtime, quindi lo scenario per sola visione restava incompleto sia su Moodle 5.0 sia su 5.3. La 1.7.100 corregge soltanto il fixture Behat: per le attività con completion automatica il seed richiama `tracker::refresh_completion()` e `tracker::update_moodle_completion_if_changed()` dopo aver scritto l’evidenza server-validata. Gli scenari acknowledgement continuano a usare submit browser reali. L’asserzione sul record core evita dipendenze dal markup completion tra versioni Moodle.
 
+La 1.7.101 aggiunge `focus_exception_policy.feature`. Due scenari candidati ispezionano il JSON reale del player: un learner esterno al gruppo corso nascosto mantiene `strict`, mentre un membro riceve `hiddenonly`. Il contratto server di split-view/accessibilità viene così verificato senza simulare in modo non portabile il blur del window manager. La suite distribuita passa a 7 feature e 18 scenari candidati; i due nuovi scenari non sono dichiarati verdi finché il maintainer non esegue Behat sull’esatto albero patchato.
+
 ## Limiti correnti della copertura browser
 
 La suite distribuita documenta esplicitamente ciò che non è ancora deterministico. Restano da coprire:

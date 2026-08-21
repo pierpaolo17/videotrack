@@ -953,14 +953,20 @@ class tracker {
                     return $state;
                 }
                 $segment->servervalidated = 1;
-                if (in_array((string)$segment->endreason, [
-                    'pause',
-                    'ended',
-                    'beforeunload',
-                    'pagehide',
-                    'tab',
-                    'visibilitychange',
-                ], true)) {
+                if (
+                    in_array(
+                        (string)$segment->endreason,
+                        [
+                            'pause',
+                            'ended',
+                            'beforeunload',
+                            'pagehide',
+                            'tab',
+                            'visibilitychange',
+                        ],
+                        true
+                    )
+                ) {
                     // Terminal/lifecycle closes require a new explicit playback handshake.
                     // This also prevents a hidden/background tab from spending stale credit.
                     $state->serverlastactivity = 0;

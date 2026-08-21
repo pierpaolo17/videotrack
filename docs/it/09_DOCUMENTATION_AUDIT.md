@@ -4,14 +4,14 @@ Baseline: VideoTrack **1.7.101** (`2026082104`).
 
 ## Copertura
 
-- File non documentali inventariati: **281/281**.
-- Funzioni/metodi PHP nominati inventariati: **724**.
+- File non documentali inventariati: **284/284**.
+- Funzioni/metodi PHP nominati inventariati: **734**.
 - Callable AMD nominati rilevati e inventariati: **647**.
 - Tabelle XMLDB documentate: **7**.
 - Chiavi impostazioni sito documentate: **57**.
 - Chiavi configurazione player documentate: **133**.
 - Servizi AJAX documentati: **9**.
-- Language pack: otto pacchetti con lo stesso contratto di **988 chiavi**; i testi operativi sono tradotti, mentre termini tecnici e nomi propri possono legittimamente coincidere.
+- Language pack: otto pacchetti con lo stesso contratto di **990 chiavi**; i testi operativi sono tradotti, mentre termini tecnici e nomi propri possono legittimamente coincidere.
 - Panoramiche root: `README.md` (inglese) e `README_IT.md` (italiano).
 - Sintesi privacy root: `PRIVACY.md` e `PRIVACY_IT.md`.
 - Diagnostica CLI distribuita documentata in `21_CLI_DIAGNOSTICS.md` e coperta da contratti statici di sola lettura.
@@ -24,6 +24,8 @@ Baseline: VideoTrack **1.7.101** (`2026082104`).
 - Il credito di playback è legato alla `sessionid` browser attiva; write stale/cross-tab sono conservate solo come evidenza non autorevole.
 - Le chiusure lifecycle accettate pause/end/pagina hidden azzerano la finestra attiva e richiedono un nuovo handshake `start_playback`.
 - Il focus browser non è trattato come prova di attenzione: lo stato hidden interrompe il tracking, mentre il blur con pagina visibile resta diagnostico per default così split view e finestre affiancate non generano falsi positivi.
+- La policy rigida opzionale è risolta per learner tramite il gruppo corso nascosto e non partecipante `mod_videotrack_focus_exception`; la membership modifica soltanto il blur strict in `hiddenonly`.
+- La creazione idempotente del gruppo è collegata ad add, update, restore, upgrade e view; non viene memorizzata alcuna motivazione o attributo learner VideoTrack.
 - `videotrack_state.serverplaybacksessionid` è dichiarato in XMLDB, upgrade, Privacy API e retention cleanup.
 - Gli AMD di produzione restano invariati; l'hardening è interamente server-side.
 

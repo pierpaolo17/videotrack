@@ -73,6 +73,8 @@ class restore_videotrack_activity_task extends restore_activity_task {
     public function after_restore() {
         global $CFG, $DB;
 
+        \mod_videotrack\local\focus_policy::ensure_exception_group((int)$this->get_courseid());
+
         if (!$this->get_setting_value('userinfo')) {
             return;
         }

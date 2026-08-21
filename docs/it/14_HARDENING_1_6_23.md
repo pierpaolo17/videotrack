@@ -45,4 +45,6 @@ Il focus del browser **non** è intenzionalmente una condizione server di comple
 - la policy sito predefinita resta quindi `hiddenonly`; il blur persistente con pagina visibile è diagnostico, mentre la policy opzionale `strict` può mettere in pausa dopo il grace period;
 - il blocco Picture-in-Picture è best-effort. Se il documento sorgente diventa hidden, VideoTrack interrompe comunque il tracking anche se il browser mantiene il media visibile altrove.
 
-Questa scelta evita di classificare come cheating l'uso legittimo di split-screen, strumenti di accessibilità o finestre multiple, mantenendo però non autorevoli il playback hidden/background e la condivisione del credito fra schede diverse.
+Per i siti che abilitano intenzionalmente `strict`, VideoTrack crea nel corso il gruppo nascosto e non partecipante `mod_videotrack_focus_exception`. Un membro riceve la policy effettiva `hiddenonly`, così split-view visibile e strumenti assistivi non vengono messi in pausa dal solo blur della finestra. L’eccezione non modifica il trattamento del documento hidden né alcun controllo server-authoritative, e VideoTrack non memorizza la motivazione dell’accomodamento.
+
+Questa scelta evita di classificare come cheating l’uso legittimo di split-screen, strumenti di accessibilità o finestre multiple, mantenendo però non autorevoli il playback hidden/background e la condivisione del credito fra schede diverse.

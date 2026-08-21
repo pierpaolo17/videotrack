@@ -45,4 +45,6 @@ Browser focus is intentionally **not** a server completion condition. Page Visib
 - the default site policy therefore remains `hiddenonly`; sustained visible-window blur is diagnostic, while the optional `strict` policy may pause after its grace period;
 - Picture-in-Picture prevention is best-effort. If the source document becomes hidden, VideoTrack stops tracking even if the browser keeps media visible elsewhere.
 
+For sites that deliberately enable `strict`, VideoTrack creates the hidden, non-participating course group `mod_videotrack_focus_exception`. A member receives the effective `hiddenonly` policy so visible split-view and assistive-tool workflows are not paused by window blur alone. The exception does not affect hidden-document handling or any server-authoritative playback control, and no accommodation reason is stored by VideoTrack.
+
 This design avoids treating legitimate split-screen, accessibility or multi-window workflows as cheating while still preventing background/hidden playback and cross-tab credit sharing from becoming authoritative completion evidence.

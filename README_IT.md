@@ -30,7 +30,7 @@ La partecipazione learner è controllata da `mod/videotrack:participate` ed è i
 
 VideoTrack registra soltanto i dati necessari alle funzioni abilitate. Le etichette dei segnalibri restano private al proprietario. I report di attività separano visualizzazione aggregata, visualizzazione individuale, export aggregato ed export individuale. Chi possiede soltanto l’accesso aggregato non può filtrare per studente e mantiene la soglia minima configurata; chi possiede l’accesso individuale vede aggregati esatti entro il proprio scope Moodle. Il testo delle note personali è escluso dagli Analytics aggregati e gli indicatori di integrità restano segnali diagnostici, non prove di comportamento scorretto.
 
-La politica focus predefinita mette in pausa soltanto quando la pagina del video è realmente nascosta. Controlli del player, regioni di stato, navigazione della trascrizione e azioni sul poster sono progettati per tastiera e tecnologie assistive. I limiti di browser e provider esterni sono documentati come comportamento best effort, non come garanzie.
+La politica focus predefinita mette in pausa soltanto quando la pagina del video è realmente nascosta. Se il sito abilita la pausa rigida sul focus finestra, gli studenti autorizzati possono essere inseriti nel gruppo corso nascosto e non partecipante `mod_videotrack_focus_exception`; cambia soltanto il blur strict, senza bypassare scheda nascosta o validazione server della riproduzione. Controlli del player, regioni di stato, navigazione della trascrizione e azioni sul poster sono progettati per tastiera e tecnologie assistive. I limiti di browser e provider esterni sono documentati come comportamento best effort, non come garanzie.
 
 ## Installazione
 

@@ -72,6 +72,8 @@ Release 1.7.98 adds `html5_acknowledgement_contract.feature`. It verifies that a
 
 Release 1.7.99 adds `html5_completion_contract.feature`. The real 1.7.99 gate exposed a fixture gap: the direct validated-state seed did not call the same Moodle completion synchronisation used by runtime writes, so the viewing-only scenario stayed incomplete on both Moodle 5.0 and 5.3. Release 1.7.100 corrects only that Behat fixture. When an activity uses automatic completion, the seed now calls the existing `tracker::refresh_completion()` and `tracker::update_moodle_completion_if_changed()` helpers after writing server-validated evidence. Acknowledgement scenarios still exercise real browser submits. The assertion step continues to read persisted `course_modules_completion`, avoiding markup-version dependencies.
 
+Release 1.7.101 adds `focus_exception_policy.feature`. Two candidate scenarios inspect the real player JSON: a learner outside the hidden course exception group retains `strict`, while a member receives `hiddenonly`. This verifies the server-resolved split-view/accessibility contract without attempting a non-portable window-manager blur simulation. The distributed suite now contains 7 features and 18 candidate scenarios; these two new scenarios are not declared green until the maintainer runs Behat on the exact patched tree.
+
 
 ## Current browser-test coverage limits
 

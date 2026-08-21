@@ -32,6 +32,8 @@ Uploaded source video, poster, captions, transcript and chapter files are stored
 
 The default focus policy pauses playback when the document becomes hidden. Window blur is recorded only after a configurable grace period and pauses playback only if the site administrator enables the strict policy. This distinction reduces false positives caused by assistive technologies, browser chrome, password managers and operating-system dialogs.
 
+Courses containing VideoTrack may use a hidden, non-participating Moodle core group to exempt authorised learners from strict window-blur pausing. VideoTrack reads only core group membership and stores neither an accommodation reason nor a new learner attribute. The exception does not weaken hidden-tab or server-side playback validation.
+
 Picture-in-Picture prevention is best effort. HTML5 exposes stronger controls than embedded YouTube or Vimeo, and browsers/extensions may override provider policy. These limitations are displayed in configuration help and must be considered when interpreting integrity data.
 
 ## Export, erasure and reset

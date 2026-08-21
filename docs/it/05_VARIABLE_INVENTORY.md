@@ -264,6 +264,16 @@ Tutte le chiavi sono memorizzate sotto `mod_videotrack`.
 - `studentnotesenabled`
 - `validationfallbackdays`
 
+## Gruppo di eccezione focus del corso
+
+L'eccezione di accessibilità alla policy focus strict usa un gruppo Moodle core per corso; VideoTrack non memorizza la motivazione dell'accomodamento né altri attributi del partecipante.
+
+- `idnumber` stabile: `mod_videotrack_focus_exception`
+- `visibility`: `GROUPS_VISIBILITY_NONE`
+- `participation`: `0`
+- L'appartenenza diretta trasforma solo per quel partecipante la policy effettiva di sfocatura finestra da `strict` a `hiddenonly`.
+- Pausa su documento nascosto, validazione della riproduzione, completamento e regole di interazione restano invariati.
+
 ## Capability di partecipazione learner
 
 - `mod/videotrack:participate` — permesso canonico di scrittura nel contesto modulo per tracking learner, reazioni, note, segnalibri, indicatori di integrità, prese visione ed export personale dei segnalibri. I permessi predefiniti sono clonati da `moodle/course:isincompletionreports`; l’accesso ai report è indipendente.

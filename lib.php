@@ -122,6 +122,7 @@ function videotrack_add_instance($data, $mform = null) {
     }
     $id     = $DB->insert_record('videotrack', videotrack_whitelist_record($data));
     $data->id = $id;
+    \mod_videotrack\local\focus_policy::ensure_exception_group((int)$data->course);
 
     // Save uploaded video file (if any).
     if ($data->videosource === 'upload') {
@@ -174,6 +175,7 @@ function videotrack_update_instance($data, $mform = null) {
         $data->reactionnoticeformat = $data->reactionnotice_editor['format'] ?? FORMAT_HTML;
     }
     $result = $DB->update_record('videotrack', videotrack_whitelist_record($data));
+    \mod_videotrack\local\focus_policy::ensure_exception_group((int)$data->course);
 
     if ($data->videosource === 'upload') {
         videotrack_save_uploaded_video($data->id, $data);

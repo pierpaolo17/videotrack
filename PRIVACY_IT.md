@@ -32,6 +32,8 @@ Video sorgente, poster, sottotitoli, trascrizioni e capitoli caricati sono conse
 
 La politica predefinita mette in pausa quando il documento diventa nascosto. La perdita di focus della finestra viene registrata solo dopo una tolleranza configurabile e causa pausa esclusivamente se l’amministratore sceglie la modalità rigida. Questa distinzione riduce falsi positivi dovuti a tecnologie assistive, controlli del browser, password manager e finestre del sistema operativo.
 
+I corsi che contengono VideoTrack possono usare un gruppo core Moodle nascosto e non partecipante per escludere gli studenti autorizzati dalla pausa rigida dovuta al blur della finestra. VideoTrack legge soltanto la membership del gruppo core e non memorizza né la motivazione dell’accomodamento né un nuovo attributo dello studente. L’eccezione non indebolisce la gestione della scheda nascosta o la validazione server della riproduzione.
+
 La prevenzione Picture-in-Picture è best effort. HTML5 offre controlli più forti rispetto agli iframe YouTube/Vimeo e browser o estensioni possono ignorare alcune policy. Questi limiti devono essere considerati nell’interpretazione degli indicatori.
 
 ## Esportazione, cancellazione e reset

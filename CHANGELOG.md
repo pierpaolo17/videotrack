@@ -7,6 +7,9 @@
 - Close the authorised credit window on accepted pause/end/page-hide/tab-hide lifecycle endings so resumed playback requires a fresh explicit handshake.
 - Document why hidden-page state is authoritative for stopping credit while plain visible-window blur remains diagnostic/default-accessibility-safe for split view, grouped tabs and side-by-side windows.
 - Add schema/upgrade/privacy/retention and regression coverage for the active playback-session identifier.
+- Add a hidden, non-participating Moodle course group with stable idnumber `mod_videotrack_focus_exception` for learners who need visible split-view or assistive-tool use under the optional strict window-focus policy.
+- Limit the group exception to strict `window.blur` handling: hidden tabs, AC-01 session binding, server credit, seek/rate controls and completion validation remain unchanged.
+- Ensure the group during add, update, restore, upgrade and activity view; add PHPUnit and browser-contract coverage and correct the PHPCS formatting of the AC-01 terminal-reason condition.
 
 ## 1.7.100 - 2026-08-21
 

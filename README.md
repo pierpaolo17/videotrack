@@ -30,7 +30,7 @@ Learner participation is controlled by `mod/videotrack:participate` and is indep
 
 VideoTrack records only data required by enabled features. Bookmark labels remain private to their owner. Activity reporting separates aggregate viewing, individual viewing, aggregate export and individual export. Aggregate-only viewers cannot filter by learner and retain the configured minimum-user masking; viewers with individual-report access receive exact aggregates within their Moodle scope. Personal note text is excluded from aggregate Analytics, and integrity signals remain diagnostic rather than proof of misconduct.
 
-The default focus policy pauses only when the video page is genuinely hidden. Player controls, status regions, transcript navigation and poster actions are designed for keyboard and assistive-technology use. External-provider and browser limitations are documented as best-effort behaviour rather than guarantees.
+The default focus policy pauses only when the video page is genuinely hidden. If a site enables strict window-focus pausing, authorised learners can be placed in the hidden, non-participating course group `mod_videotrack_focus_exception`; this changes only strict blur handling and does not bypass hidden-tab or server playback validation. Player controls, status regions, transcript navigation and poster actions are designed for keyboard and assistive-technology use. External-provider and browser limitations are documented as best-effort behaviour rather than guarantees.
 
 ## Installation
 

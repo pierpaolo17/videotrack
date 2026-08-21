@@ -2,7 +2,7 @@
 
 This inventory is generated against the VideoTrack 1.7.101 tree and lists every non-documentation file. Canonical JavaScript is under `amd/src`; files under `amd/build` are generated.
 
-Entries: **281**.
+Entries: **284**.
 
 | File | Responsibility |
 |---|---|
@@ -192,6 +192,7 @@ Entries: **281**.
 | `classes/local/course_analytics.php` | Privacy-safe aggregation for the course-level VideoTrack dashboard. |
 | `classes/local/csv_event_writer.php` | Stateful writer for custom teacher-report CSV event rows. |
 | `classes/local/csv_export.php` | CSV export configuration and formatting helpers. |
+| `classes/local/focus_policy.php` | Course-local strict-focus accessibility exception backed by a hidden Moodle core group. |
 | `classes/local/form_validation.php` | Autonomous scalar/JSON validation policy for the activity settings form. |
 | `classes/local/forum_bridge.php` | Forum integration adapter for VideoTrack. |
 | `classes/local/integrity.php` | Integrity-indicator definitions and privacy-safe aggregation helpers. |
@@ -245,6 +246,7 @@ Entries: **281**.
 | `tests/analytics_table_export_test.php` | PHPUnit coverage for analytics table export test. |
 | `tests/analytics_test.php` | PHPUnit coverage for analytics test. |
 | `tests/behat/behat_mod_videotrack.php` | Deterministic Behat steps for local HTML5 readiness, seeking, playback-state/timestamp assertions and bounded watched-evidence seeding. |
+| `tests/behat/focus_exception_policy.feature` | Browser contract for strict focus policy with and without hidden exception-group membership. |
 | `tests/behat/html5_acknowledgement_contract.feature` | Deterministic browser regression for immediate acknowledgement, video-end gating and persisted confirmation. |
 | `tests/behat/html5_completion_contract.feature` | Deterministic browser regression for Moodle completion persistence after validated viewing and acknowledgement. |
 | `tests/behat/html5_playback_contract.feature` | Deterministic browser regression for validated HTML5 resume, allowed backward seek and real play/pause state. |
@@ -257,6 +259,7 @@ Entries: **281**.
 | `tests/csv_event_writer_test.php` | PHPUnit coverage for custom CSV event-row writing. |
 | `tests/csv_export_test.php` | PHPUnit coverage for csv export test. |
 | `tests/fixtures/behat-video.mp4.b64` | Base64-encoded 60-second local video fixture decoded only by deterministic HTML5 browser tests. |
+| `tests/focus_policy_test.php` | PHPUnit coverage for hidden-group creation, membership and effective focus policy. |
 | `tests/form_validation_test.php` | Behavioural and delegation coverage for autonomous activity-form validation policy. |
 | `tests/forum_bridge_test.php` | PHPUnit coverage for forum bridge test. |
 | `tests/generator/lib.php` | Moodle module generator used by PHPUnit and Behat fixtures. |

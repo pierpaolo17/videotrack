@@ -2,7 +2,7 @@
 
 Questo inventario è generato sull’albero VideoTrack 1.7.101 ed elenca ogni file non documentale. Il JavaScript canonico è in `amd/src`; i file in `amd/build` sono generati.
 
-Entries: **281**.
+Entries: **284**.
 
 | File | Responsabilità |
 |---|---|
@@ -192,6 +192,7 @@ Entries: **281**.
 | `classes/local/course_analytics.php` | Servizio di dominio `course_analytics` riusabile da pagine, report o servizi. |
 | `classes/local/csv_event_writer.php` | Writer contestuale per le righe evento CSV personalizzate del report docente. |
 | `classes/local/csv_export.php` | Servizio di dominio `csv_export` riusabile da pagine, report o servizi. |
+| `classes/local/focus_policy.php` | Eccezione di accessibilità al focus rigido per corso basata su un gruppo core Moodle nascosto. |
 | `classes/local/form_validation.php` | Policy autonoma di validazione scalare/JSON per il form delle impostazioni attività. |
 | `classes/local/forum_bridge.php` | Servizio di dominio `forum_bridge` riusabile da pagine, report o servizi. |
 | `classes/local/integrity.php` | Servizio di dominio `integrity` riusabile da pagine, report o servizi. |
@@ -245,6 +246,7 @@ Entries: **281**.
 | `tests/analytics_table_export_test.php` | Copertura PHPUnit per analytics table export test. |
 | `tests/analytics_test.php` | Copertura PHPUnit per analytics test. |
 | `tests/behat/behat_mod_videotrack.php` | Step Behat deterministici per readiness, seek, verifica stato play/pause e timestamp, e seed controllato di watched evidence del player HTML5 locale. |
+| `tests/behat/focus_exception_policy.feature` | Contratto browser per la policy focus rigida con e senza membership nel gruppo eccezioni nascosto. |
 | `tests/behat/html5_acknowledgement_contract.feature` | Regressione browser deterministica per presa visione immediata, gate al video-end e conferma persistita. |
 | `tests/behat/html5_completion_contract.feature` | Regressione browser deterministica per la persistenza della completion Moodle dopo visione validata e presa visione. |
 | `tests/behat/html5_playback_contract.feature` | Regressione browser deterministica per resume HTML5 validato, seek indietro consentito e stato reale play/pause. |
@@ -257,6 +259,7 @@ Entries: **281**.
 | `tests/csv_event_writer_test.php` | Copertura PHPUnit per la scrittura delle righe evento CSV personalizzate. |
 | `tests/csv_export_test.php` | Copertura PHPUnit per csv export test. |
 | `tests/fixtures/behat-video.mp4.b64` | Fixture video locale di 60 secondi codificata Base64 e decodificata esclusivamente dai test browser HTML5. |
+| `tests/focus_policy_test.php` | Copertura PHPUnit per creazione gruppo nascosto, membership e policy focus effettiva. |
 | `tests/form_validation_test.php` | Copertura comportamentale e di delega per la validazione autonoma del form attività. |
 | `tests/forum_bridge_test.php` | Copertura PHPUnit per forum bridge test. |
 | `tests/generator/lib.php` | Generator del modulo Moodle usato dalle fixture PHPUnit e Behat. |
