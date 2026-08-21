@@ -1,8 +1,8 @@
 # Inventario dei file distribuiti
 
-Questo inventario è generato sull’albero VideoTrack 1.7.96 ed elenca ogni file non documentale. Il JavaScript canonico è in `amd/src`; i file in `amd/build` sono generati.
+Questo inventario è generato sull’albero VideoTrack 1.7.97 ed elenca ogni file non documentale. Il JavaScript canonico è in `amd/src`; i file in `amd/build` sono generati.
 
-Entries: **278**.
+Entries: **279**.
 
 | File | Responsabilità |
 |---|---|
@@ -244,7 +244,8 @@ Entries: **278**.
 | `tests/analytics_scope_test.php` | Copertura PHPUnit per analytics scope test. |
 | `tests/analytics_table_export_test.php` | Copertura PHPUnit per analytics table export test. |
 | `tests/analytics_test.php` | Copertura PHPUnit per analytics test. |
-| `tests/behat/behat_mod_videotrack.php` | Step Behat deterministici per readiness, seek, verifica timestamp e seed controllato di watched evidence del player HTML5 locale. |
+| `tests/behat/behat_mod_videotrack.php` | Step Behat deterministici per readiness, seek, verifica stato play/pause e timestamp, e seed controllato di watched evidence del player HTML5 locale. |
+| `tests/behat/html5_playback_contract.feature` | Regressione browser deterministica per resume HTML5 validato, seek indietro consentito e stato reale play/pause. |
 | `tests/behat/html5_seek_policy.feature` | Regressione browser per seek avanti HTML5 consentito e bloccato senza dipendenze di rete pubblica. |
 | `tests/behat/learner_role_controls.feature` | Regressione Behat dello scope ruoli per controlli learner, docente e dual-role. |
 | `tests/behat/student_personal_sections.feature` | Regressione browser Behat per le sezioni personali collassabili del learner. |

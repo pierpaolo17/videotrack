@@ -1,6 +1,6 @@
 # Behat browser automation
 
-VideoTrack started its browser-automation phase in release 1.7.45; release 1.7.83 keeps the deterministic HTML5 post-rollback Behat suite and stabilizes the native learner-history toggles after the 1.7.82 multi-version run made the maintainer Behat environment operational on Moodle 5.0–5.3. The two common Chrome 151 failures were caused by broad text-based clicks in the scenarios; the features now click the unique native `<summary>` elements through CSS selectors, without changing learner runtime markup. The plugin ships a Moodle module generator under `tests/generator/lib.php` and browser scenarios under `tests/behat/`.
+VideoTrack started its browser-automation phase in release 1.7.45; release 1.7.97 expands the deterministic local HTML5 harness after 1.7.83 kept the deterministic HTML5 post-rollback Behat suite and stabilizes the native learner-history toggles after the 1.7.82 multi-version run made the maintainer Behat environment operational on Moodle 5.0–5.3. The two common Chrome 151 failures were caused by broad text-based clicks in the scenarios; the features now click the unique native `<summary>` elements through CSS selectors, without changing learner runtime markup. The plugin ships a Moodle module generator under `tests/generator/lib.php` and browser scenarios under `tests/behat/`.
 
 ## Purpose
 
@@ -62,16 +62,18 @@ The deterministic assertions cover both policies: a blocked jump to 20 seconds m
 
 Release 1.7.51 added `tests/provider_seek_snapshot_contract_test.php`: it statically guards pre-seek snapshot ordering and rollback-safe interaction timestamps across YouTube, HTML5 and Vimeo. This is complementary coverage only; it does not make the outstanding YouTube/Vimeo browser harnesses complete.
 
-Release 1.7.53 added `tests/player_resume_completion_alert_contract_test.php`; release 1.7.54 corrected that test without changing runtime. Release 1.7.55 removes the remaining fragile acknowledgement marker failure and adds behavioural PHPUnit coverage for completion-signature and current-statement versioning. Resume/alert provider checks remain non-browser contracts; the corresponding Behat scenarios are still pending.
+Release 1.7.53 added `tests/player_resume_completion_alert_contract_test.php`; release 1.7.54 corrected that test without changing runtime. Release 1.7.55 removes the remaining fragile acknowledgement marker failure and adds behavioural PHPUnit coverage for completion-signature and current-statement versioning. Provider-specific resume parity and stacked-alert browser coverage remain pending; deterministic HTML5 resume is added in 1.7.97.
+
+Release 1.7.97 adds `html5_playback_contract.feature`. Using the same local MP4 fixture and validated-state seeding, it verifies that HTML5 resumes near a trusted saved position, allows an explicit backward seek inside watched progress, and really transitions between playing and paused states through the custom control bar. These scenarios are deterministic and do not require a public video provider.
 
 ## Current browser-test coverage limits
 
 The distributed suite intentionally records what is not yet deterministic. Remaining coverage gaps are:
 
 1. deterministic YouTube / Vimeo provider harnesses;
-2. backward-seek provider parity beyond the current HTML5 forward-seek scenarios;
+2. backward-seek parity for YouTube/Vimeo beyond the deterministic HTML5 resume/backward-seek coverage;
 3. end-to-end assertion of the exact pre-seek segment snapshot persisted before a jump;
-4. resume, completion and stacked-alert browser scenarios (their non-browser contracts are covered from 1.7.53).
+4. completion and stacked-alert browser scenarios; HTML5 resume is covered from 1.7.97 while provider-specific resume parity remains pending.
 
 Provider scenarios should avoid depending on public third-party network availability when a deterministic local harness can exercise the same adapter contract.
 

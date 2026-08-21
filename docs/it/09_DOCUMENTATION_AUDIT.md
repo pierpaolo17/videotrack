@@ -1,11 +1,11 @@
 # Audit della documentazione
 
-Baseline: VideoTrack **1.7.96** (`2026082008`).
+Baseline: VideoTrack **1.7.97** (`2026082100`).
 
 ## Copertura
 
-- File non documentali inventariati: **278/278**.
-- Funzioni/metodi PHP nominati inventariati: **721**.
+- File non documentali inventariati: **279/279**.
+- Funzioni/metodi PHP nominati inventariati: **722**.
 - Callable AMD nominati rilevati e inventariati: **647**.
 - Tabelle XMLDB documentate: **7**.
 - Chiavi impostazioni sito documentate: **57**.
@@ -18,6 +18,14 @@ Baseline: VideoTrack **1.7.96** (`2026082008`).
 - Automazione browser Behat documentata in `22_TEST_BROWSER_BEHAT.md`; U-007 è tracciato come in corso.
 - I contratti statici resume/completion/alert impilati completano l’ambiente Behat ora operativo; la matrice 1.7.83 su Moodle 5.0–5.3 ha superato 7/7 scenari, mentre gli smoke test provider più ampi restano separati.
 - La navigazione capitoli ha ora un contratto esplicito focus-visible/colori forzati; la matrice manuale tastiera/high-contrast resta un gate per la chiusura finale di U-020.
+
+## Verifica documentazione pre-produzione 1.7.97
+
+- L’inventario corrente dei file non documentali è **279/279** dopo l’aggiunta del feature Behat deterministico per il playback HTML5.
+- L’inventario funzioni è **722 PHP / 647 AMD** callable nominati dopo l’aggiunta di un metodo Behat per verificare lo stato play/pause.
+- U-017 viene chiuso per stop condition: gli audit finali di `mod_form.php`, degli entrypoint HTML5/Vimeo/YouTube e degli hotspot PHP residui non evidenziano un’ulteriore estrazione ovvia a basso rischio con rapporto beneficio/rischio favorevole.
+- È attiva la chiusura U-007 browser: la 1.7.97 aggiunge scenari deterministici HTML5 per resume, seek indietro e play/pause senza modificare runtime di produzione o sorgenti AMD.
+- Restano pendenti harness YouTube/Vimeo indipendenti dalla rete pubblica, completion browser e alert impilati.
 
 ## Verifica documentale correttiva 1.7.96
 - L'inventario corrente dei file non documentali resta a **278/278** voci.

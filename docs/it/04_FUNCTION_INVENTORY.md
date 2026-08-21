@@ -1,8 +1,8 @@
 # Inventario delle funzioni
 
-Generato dall’albero sorgente VideoTrack 1.7.96. Le voci PHP includono funzioni e metodi nominati; le voci AMD includono dichiarazioni nominate, espressioni funzione assegnate e funzioni-metodo di oggetti.
+Generato dall’albero sorgente VideoTrack 1.7.97. Le voci PHP includono funzioni e metodi nominati; le voci AMD includono dichiarazioni nominate, espressioni funzione assegnate e funzioni-metodo di oggetti.
 
-**Funzioni/metodi PHP:** 721. **Callable AMD nominati:** 647.
+**Funzioni/metodi PHP:** 722. **Callable AMD nominati:** 647.
 
 | Posizione | Callable | Responsabilità |
 |---|---|---|
@@ -1156,8 +1156,9 @@ Generato dall’albero sorgente VideoTrack 1.7.96. Le voci PHP includono funzion
 | `tests/behat/behat_mod_videotrack.php:41` | `the_videotrack_html5_media_is_ready` | Waits for local HTML5 fixture metadata in Behat. |
 | `tests/behat/behat_mod_videotrack.php:61` | `i_seek_the_videotrack_html5_media_to_seconds` | Drives a deterministic HTML5 seek in the browser test harness. |
 | `tests/behat/behat_mod_videotrack.php:78` | `the_videotrack_html5_media_time_should_be_between` | Asserts the HTML5 media timestamp is inside the expected browser-test range. |
-| `tests/behat/behat_mod_videotrack.php:106` | `the_user_has_watched_videotrack_through_seconds` | Seeds bounded validated watched evidence for deterministic post-seek Behat interaction scenarios. |
-| `tests/behat/behat_mod_videotrack.php:183` | `the_videotrack_forum_time_should_be_between` | Verifica che il composer Forum collegato mantenga un timestamp nell’intervallo validato atteso dopo il rollback. |
+| `tests/behat/behat_mod_videotrack.php:104` | `the_videotrack_html5_media_playback_is` | Asserts deterministic HTML5 play/pause state in the Behat browser harness. |
+| `tests/behat/behat_mod_videotrack.php:131` | `the_user_has_watched_videotrack_through_seconds` | Seeds bounded validated watched evidence for deterministic post-seek Behat interaction scenarios. |
+| `tests/behat/behat_mod_videotrack.php:208` | `the_videotrack_forum_time_should_be_between` | Verifica che il composer Forum collegato mantenga un timestamp nell’intervallo validato atteso dopo il rollback. |
 | `tests/cli_contract_test.php:35` | `test_validator_is_read_only_and_covers_release_contracts` | Funzione/metodo PHP nominato `test_validator_is_read_only_and_covers_release_contracts`; vedere DocBlock e chiamanti per il contratto corrente. |
 | `tests/cli_contract_test.php:57` | `test_course_analytics_benchmark_uses_real_read_only_metrics` | Funzione/metodo PHP nominato `test_course_analytics_benchmark_uses_real_read_only_metrics`; vedere DocBlock e chiamanti per il contratto corrente. |
 | `tests/cli_contract_test.php:79` | `test_cli_tools_are_documented_for_admins_and_maintainers` | Funzione/metodo PHP nominato `test_cli_tools_are_documented_for_admins_and_maintainers`; vedere DocBlock e chiamanti per il contratto corrente. |

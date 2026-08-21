@@ -1,11 +1,11 @@
 # Documentation audit
 
-Baseline: VideoTrack **1.7.96** (`2026082008`).
+Baseline: VideoTrack **1.7.97** (`2026082100`).
 
 ## Coverage
 
-- Non-documentation files inventoried: **278/278**.
-- Named PHP functions/methods inventoried: **721**.
+- Non-documentation files inventoried: **279/279**.
+- Named PHP functions/methods inventoried: **722**.
 - Named AMD callables detected and inventoried: **647**.
 - XMLDB tables documented: **7**.
 - Site-setting keys documented: **57**.
@@ -19,6 +19,14 @@ Baseline: VideoTrack **1.7.96** (`2026082008`).
 - Static resume/completion/stacked-alert contracts complement the operational Behat environment; the 1.7.83 Moodle 5.0–5.3 matrix passed 7/7 scenarios, while broader provider smoke coverage remains explicitly separate.
 - Maintainer-only consolidated roadmap/lessons-history files are intentionally excluded from the distributed plugin tree and protected by `.moodleignore`.
 - Chapter navigation now has an explicit focus-visible/forced-colour contract; a manual keyboard/high-contrast matrix remains a release gate for final U-020 closure.
+
+## 1.7.97 pre-production documentation verification
+
+- Current non-documentation file inventory is **279/279** after adding the deterministic HTML5 playback Behat feature.
+- Function inventory is **722 PHP / 647 AMD** named callables after adding one Behat playback-state assertion method.
+- U-017 is closed by stop condition after final audits of `mod_form.php`, HTML5/Vimeo/YouTube entrypoints and the remaining PHP hotspots found no further obvious low-risk extraction with a favourable complexity/risk trade-off.
+- U-007 browser closure is now active: 1.7.97 adds deterministic HTML5 resume, backward-seek and play/pause scenarios without changing production runtime or AMD sources.
+- Public-network-independent YouTube/Vimeo harnesses, completion browser coverage and stacked-alert browser coverage remain pending.
 
 ## 1.7.96 corrective documentation verification
 - Current non-documentation file inventory remains **278/278** entries.
