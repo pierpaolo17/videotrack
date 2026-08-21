@@ -1,8 +1,8 @@
 # Distributed file inventory
 
-This inventory is generated against the VideoTrack 1.7.97 tree and lists every non-documentation file. Canonical JavaScript is under `amd/src`; files under `amd/build` are generated.
+This inventory is generated against the VideoTrack 1.7.98 tree and lists every non-documentation file. Canonical JavaScript is under `amd/src`; files under `amd/build` are generated.
 
-Entries: **279**.
+Entries: **280**.
 
 | File | Responsibility |
 |---|---|
@@ -245,6 +245,7 @@ Entries: **279**.
 | `tests/analytics_table_export_test.php` | PHPUnit coverage for analytics table export test. |
 | `tests/analytics_test.php` | PHPUnit coverage for analytics test. |
 | `tests/behat/behat_mod_videotrack.php` | Deterministic Behat steps for local HTML5 readiness, seeking, playback-state/timestamp assertions and bounded watched-evidence seeding. |
+| `tests/behat/html5_acknowledgement_contract.feature` | Deterministic browser regression for immediate acknowledgement, video-end gating and persisted confirmation. |
 | `tests/behat/html5_playback_contract.feature` | Deterministic browser regression for validated HTML5 resume, allowed backward seek and real play/pause state. |
 | `tests/behat/html5_seek_policy.feature` | Browser regression for allowed and blocked HTML5 forward seeking without public-network dependencies. |
 | `tests/behat/learner_role_controls.feature` | Behat role-scope regression for learner, teacher and dual-role interaction controls. |
