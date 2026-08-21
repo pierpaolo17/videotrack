@@ -1,9 +1,15 @@
 # VideoTrack changelog
 
+## 1.7.100 - 2026-08-21
+
+- Correct the 1.7.99 Behat completion fixture after the real Moodle 5.0/5.3 gate showed that direct validated-state seeding did not execute the normal Moodle completion synchronisation performed by runtime writes.
+- Make the existing validated-watched Behat seed call the canonical `tracker::refresh_completion()` and `tracker::update_moodle_completion_if_changed()` path only when the activity uses automatic completion.
+- Keep production runtime, completion logic, player/AMD, schema, capability, privacy, Analytics and language packs unchanged; this is a corrective-only release and anti-cheat work remains paused until the completion browser gate is green.
+
 ## 1.7.99 - 2026-08-21
 
 - Continue U-007 browser-automation closure with deterministic Moodle completion synchronisation coverage on the local HTML5 fixture.
-- Verify persisted core completion transitions for viewing-only, acknowledgement-only and combined AND completion after real browser interactions.
+- Verify persisted core completion transitions for viewing-only, acknowledgement-only and combined AND completion; viewing evidence is seeded as server-validated fixture data while acknowledgement transitions use real browser interactions.
 - Add one Behat assertion step for `course_modules_completion`; keep production runtime, AMD, schema, capability, privacy, Analytics and language packs unchanged.
 - Reserve the next U-007 tranche for the explicit anti-cheat browser/runtime review requested by the maintainer after this completion gate is green.
 

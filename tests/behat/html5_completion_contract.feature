@@ -2,7 +2,7 @@
 Feature: VideoTrack conditions synchronise Moodle completion in the browser
   In order to trust activity completion outside the VideoTrack page
   As a VideoTrack learner
-  I need validated viewing and acknowledgement conditions to update Moodle completion end to end
+  I need server-validated viewing evidence and browser acknowledgements to update Moodle completion end to end
 
   Background:
     Given the following "users" exist:

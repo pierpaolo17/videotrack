@@ -1,6 +1,6 @@
 # Automazione browser con Behat
 
-VideoTrack ha avviato la fase di automazione browser nella release 1.7.45; dalla 1.7.83 l’ambiente Behat del maintainer è operativo su Moodle 5.0–5.3 e la 1.7.99 estende ulteriormente l’harness HTML5 locale deterministico includendo anche la persistenza della completion Moodle. I contratti non-browser continuano a coprire sincronizzazione completion e alert impilati su YouTube, HTML5 e Vimeo. Il plugin distribuisce un generator Moodle in `tests/generator/lib.php` e gli scenari browser in `tests/behat/`.
+VideoTrack ha avviato la fase di automazione browser nella release 1.7.45; dalla 1.7.83 l’ambiente Behat del maintainer è operativo su Moodle 5.0–5.3 e la 1.7.100 corregge il fixture completion introdotto dalla 1.7.99 e estende ulteriormente l’harness HTML5 locale deterministico includendo anche la persistenza della completion Moodle. I contratti non-browser continuano a coprire sincronizzazione completion e alert impilati su YouTube, HTML5 e Vimeo. Il plugin distribuisce un generator Moodle in `tests/generator/lib.php` e gli scenari browser in `tests/behat/`.
 
 ## Scopo
 
@@ -80,7 +80,7 @@ La 1.7.99 aggiunge `html5_completion_contract.feature` e una sola asserzione Beh
 - completion per sola presa visione: completa dopo la conferma;
 - logica AND percentuale + presa visione: resta incompleta finché non sono soddisfatte entrambe.
 
-Le transizioni sono innescate da interazioni browser reali; l’asserzione sul record core evita dipendenze dal markup completion, che può variare tra Moodle 5.0 e 5.3.
+Il gate reale 1.7.99 ha evidenziato un gap del fixture: il seed diretto dello stato validato non chiamava la stessa sincronizzazione completion Moodle usata dalle write runtime, quindi lo scenario per sola visione restava incompleto sia su Moodle 5.0 sia su 5.3. La 1.7.100 corregge soltanto il fixture Behat: per le attività con completion automatica il seed richiama `tracker::refresh_completion()` e `tracker::update_moodle_completion_if_changed()` dopo aver scritto l’evidenza server-validata. Gli scenari acknowledgement continuano a usare submit browser reali. L’asserzione sul record core evita dipendenze dal markup completion tra versioni Moodle.
 
 ## Limiti correnti della copertura browser
 

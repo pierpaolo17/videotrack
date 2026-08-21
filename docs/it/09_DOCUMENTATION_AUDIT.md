@@ -1,6 +1,6 @@
 # Audit della documentazione
 
-Baseline: VideoTrack **1.7.99** (`2026082102`).
+Baseline: VideoTrack **1.7.100** (`2026082103`).
 
 ## Copertura
 
@@ -19,13 +19,22 @@ Baseline: VideoTrack **1.7.99** (`2026082102`).
 - I contratti statici resume/completion/alert impilati completano l’ambiente Behat ora operativo; il gate browser reale 1.7.98 ha superato 13/13 scenari e 195/195 step su Moodle 5.0 e 5.3, mentre gli smoke test provider più ampi restano separati.
 - La navigazione capitoli ha ora un contratto esplicito focus-visible/colori forzati; la matrice manuale tastiera/high-contrast resta un gate per la chiusura finale di U-020.
 
+## Verifica documentazione correttiva 1.7.100
+
+- Il gate reale 1.7.99 ha superato PHPCS canonico ma ha fallito lo stesso scenario completion per sola visione su Moodle 5.0 e 5.3: **15/16 scenari e 235/236 step** passati su ciascun ramo.
+- La causa è limitata al fixture di test: il seed diretto dello stato validato scriveva `videotrack_seg`/`videotrack_state` senza eseguire la sincronizzazione completion Moodle che il runtime `save_segment` esegue normalmente.
+- Il seed 1.7.100 esegue ora refresh VideoTrack e sincronizzazione `course_modules_completion` tramite gli helper tracker esistenti soltanto per attività con completion automatica.
+- Gli inventari restano **281/281** file non documentali e **723 PHP / 647 AMD** callable nominati.
+- Runtime di produzione, regole completion, AMD, schema, capability, privacy, Analytics, tracking e language pack restano invariati.
+- L’anti-cheat resta la tranche successiva solo dopo il gate verde della completion corretta.
+
 ## Verifica documentazione pre-produzione 1.7.99
 
 - L’inventario corrente dei file non documentali è **281/281** dopo l’aggiunta del feature Behat deterministico per la completion Moodle.
 - L’inventario funzioni è **723 PHP / 647 AMD** callable nominati dopo l’aggiunta di una singola asserzione Behat sullo stato completion core persistito.
-- U-007 copre ora la persistenza end-to-end della completion Moodle per sola visione, sola presa visione e logica AND combinata dopo interazioni browser reali.
+- La feature copre sola visione, sola presa visione e logica AND; l’evidenza di visione è un seed server-validato, mentre le transizioni di presa visione avvengono tramite submit browser reale.
 - Runtime di produzione, AMD, schema, capability, privacy, Analytics, tracking e language pack restano invariati.
-- La prossima tranche U-007 è riservata alla revisione anti-cheat browser/runtime richiesta esplicitamente dal maintainer dopo il gate verde della completion.
+- La prossima tranche U-007 resta riservata alla revisione anti-cheat browser/runtime dopo il gate verde della completion corretta.
 
 ## Verifica gate browser 1.7.98
 
