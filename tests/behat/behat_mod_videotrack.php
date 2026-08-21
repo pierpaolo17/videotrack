@@ -196,6 +196,22 @@ class behat_mod_videotrack extends behat_base {
             'timemodified' => $now,
             'timecreated' => $now,
         ]);
+
+        if ((int)$cm->completion === COMPLETION_TRACKING_AUTOMATIC) {
+            $cminfo = \cm_info::create($cm);
+            $state = \mod_videotrack\local\tracker::refresh_completion(
+                $videotrack,
+                $cminfo,
+                (int)$user->id
+            );
+            $completion = new \completion_info(get_course((int)$videotrack->course));
+            \mod_videotrack\local\tracker::update_moodle_completion_if_changed(
+                $completion,
+                $cminfo,
+                (bool)$state->iscompleted,
+                (int)$user->id
+            );
+        }
     }
 
     /**

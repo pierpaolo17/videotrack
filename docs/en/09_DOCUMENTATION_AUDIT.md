@@ -1,6 +1,6 @@
 # Documentation audit
 
-Baseline: VideoTrack **1.7.99** (`2026082102`).
+Baseline: VideoTrack **1.7.100** (`2026082103`).
 
 ## Coverage
 
@@ -20,13 +20,22 @@ Baseline: VideoTrack **1.7.99** (`2026082102`).
 - Maintainer-only consolidated roadmap/lessons-history files are intentionally excluded from the distributed plugin tree and protected by `.moodleignore`.
 - Chapter navigation now has an explicit focus-visible/forced-colour contract; a manual keyboard/high-contrast matrix remains a release gate for final U-020 closure.
 
+## 1.7.100 corrective documentation verification
+
+- The real 1.7.99 gate passed canonical PHPCS but failed the same viewing-only completion scenario on Moodle 5.0 and 5.3: 15/16 scenarios and 235/236 steps passed on each branch.
+- Root cause is test-fixture-only: direct validated-state seeding wrote `videotrack_seg`/`videotrack_state` but did not execute the canonical Moodle completion synchronisation that runtime `save_segment` performs.
+- The 1.7.100 seed now refreshes VideoTrack completion and synchronises `course_modules_completion` through the existing tracker helpers only for automatic-completion activities.
+- Current inventory remains **281/281** non-documentation files and **723 PHP / 647 AMD** named callables.
+- Production runtime, completion rules, AMD, schema, capability, privacy, Analytics, tracking and language packs are unchanged.
+- Anti-cheat remains the next planned tranche only after this corrected completion browser gate is green.
+
 ## 1.7.99 pre-production documentation verification
 
 - Current non-documentation file inventory is **281/281** after adding the deterministic Moodle-completion Behat feature.
 - Function inventory is **723 PHP / 647 AMD** named callables after adding one Behat assertion for persisted core completion state.
-- U-007 now covers end-to-end Moodle completion persistence for viewing-only, acknowledgement-only and combined AND conditions after real browser interactions.
+- The feature covers viewing-only, acknowledgement-only and combined AND completion; viewing evidence is a server-validated fixture seed, while acknowledgement transitions are real browser submits.
 - Production runtime, AMD, schema, capability, privacy, Analytics, tracking and language packs are unchanged.
-- The next U-007 tranche is reserved for the explicit anti-cheat browser/runtime review requested by the maintainer after this completion gate is green.
+- The next U-007 tranche is reserved for the explicit anti-cheat browser/runtime review requested by the maintainer after the corrected completion gate is green.
 
 ## 1.7.98 browser-gate documentation verification
 
