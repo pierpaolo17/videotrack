@@ -10,7 +10,7 @@ VideoTrack 1.6.23 è una release esclusivamente di hardening prima della fase Mo
 - `save_segment` verifica la velocità dichiarata rispetto all’elenco effettivamente consentito dall’attività/sito.
 - L’accettazione dei segmenti usa un budget cumulativo basato sul tempo server persistito per utente/attività. La rotazione del `sessionid` client e l’aumento della frequenza delle richieste non rigenerano credito; i lunghi periodi inattivi sono limitati.
 - Il server applica anche la frontiera già vista quando il seek in avanti è disabilitato.
-- Lo stato conserva soltanto contatori e timestamp limitati del guard (`serverlastactivity`, `serverbudgetseconds`, `servercreditedseconds`). Sono dichiarati nella Privacy API ma intenzionalmente esclusi dal payload di backup e azzerati al restore, così il credito di riproduzione residuo non può trasferirsi tra copie del corso.
+- Lo stato conserva soltanto valori limitati del guard/sessione (`serverlastactivity`, `serverplaybacksessionid`, `serverbudgetseconds`, `servercreditedseconds`). Sono dichiarati nella Privacy API ma intenzionalmente esclusi dal payload di backup e azzerati al restore, così il credito di riproduzione residuo non può trasferirsi tra copie del corso.
 
 ## Scope learner
 
@@ -32,3 +32,17 @@ Il primo pacchetto 1.6.23 tentava di azzerare il progresso aggregato, conservare
 ## Correzione upgrade nella 1.6.24
 
 La release 1.6.24 sostituisce il ricalcolo runtime della completion originario con un cleanup idempotente basato esclusivamente sul database. Poiché il plugin non era mai stato usato in produzione, vengono eliminati intenzionalmente i dati runtime learner precedenti al guard e le righe di completamento dei moduli VideoTrack. Restano conservati configurazione delle attività, file caricati e definizioni delle reazioni configurate. Il blocco schema 1.6.23 è ora idempotente e il cleanup 1.6.24 può riprendere in sicurezza dopo un upgrade completato solo parzialmente.
+
+## 1.7.101 binding della sessione di playback e semantica di visibilità del browser
+
+La finestra di credito server-authoritative è ora legata alla `sessionid` del browser che l'ha aperta tramite `start_playback`. Un segmento proveniente da un'altra scheda/sessione viene conservato con `servervalidated=0`, ma non può consumare, azzerare o sottrarre il budget della sessione attiva. Le chiusure terminali/lifecycle accettate (`pause`, `ended`, `beforeunload`, `pagehide`, `tab`, `visibilitychange`) rimuovono la sessione autorizzata e richiedono un nuovo handshake prima di poter maturare altro credito.
+
+Il focus del browser **non** è intenzionalmente una condizione server di completion. Page Visibility e focus di tastiera/finestra descrivono fatti diversi:
+
+- una scheda in background, una finestra minimizzata o una pagina sospesa/bloccata diventa hidden; il tracker chiude il segmento aperto e interrompe il credito;
+- i gruppi di schede si comportano come normali schede: continua il tracking solo il contenuto che il browser dichiara visibile;
+- pagine affiancate/split view possono restare visibili mentre una sola finestra/pane possiede il focus di tastiera, quindi un semplice `window.blur` non dimostra che lo studente non possa vedere il video;
+- la policy sito predefinita resta quindi `hiddenonly`; il blur persistente con pagina visibile è diagnostico, mentre la policy opzionale `strict` può mettere in pausa dopo il grace period;
+- il blocco Picture-in-Picture è best-effort. Se il documento sorgente diventa hidden, VideoTrack interrompe comunque il tracking anche se il browser mantiene il media visibile altrove.
+
+Questa scelta evita di classificare come cheating l'uso legittimo di split-screen, strumenti di accessibilità o finestre multiple, mantenendo però non autorevoli il playback hidden/background e la condivisione del credito fra schede diverse.

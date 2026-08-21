@@ -63,6 +63,7 @@ final class privacy_manager_test extends advanced_testcase {
             'lastposition' => 60.0,
             'durationseconds' => 100.0,
             'serverlastactivity' => 123456,
+            'serverplaybacksessionid' => str_repeat('p', 32),
             'serverbudgetseconds' => 90.0,
             'servercreditedseconds' => 80.0,
             'uniquecoveredseconds' => 60.0,
@@ -124,6 +125,7 @@ final class privacy_manager_test extends advanced_testcase {
         $this->assertEqualsWithDelta(40.0, (float)$state->lastposition, 0.001);
         $this->assertSame([[20.0, 40.0]], tracker::decode_intervals($state->intervaljson));
         $this->assertSame(0, (int)$state->serverlastactivity);
+        $this->assertSame('', (string)$state->serverplaybacksessionid);
         $this->assertEqualsWithDelta(0.0, (float)$state->serverbudgetseconds, 0.001);
         $this->assertEqualsWithDelta(0.0, (float)$state->servercreditedseconds, 0.001);
         $this->assertSame($recent, (int)$state->timecreated);
@@ -197,6 +199,7 @@ final class privacy_manager_test extends advanced_testcase {
             'lastposition' => 20.0,
             'durationseconds' => 100.0,
             'serverlastactivity' => $lastactivity,
+            'serverplaybacksessionid' => str_repeat('r', 32),
             'serverbudgetseconds' => 18.0,
             'servercreditedseconds' => 15.0,
             'uniquecoveredseconds' => 20.0,
@@ -216,6 +219,7 @@ final class privacy_manager_test extends advanced_testcase {
         $this->assertSame(1, $counts['segments']);
         $this->assertSame(1, $counts['statesrebuilt']);
         $this->assertSame($lastactivity, (int)$state->serverlastactivity);
+        $this->assertSame(str_repeat('r', 32), (string)$state->serverplaybacksessionid);
         $this->assertEqualsWithDelta(18.0, (float)$state->serverbudgetseconds, 0.001);
         $this->assertEqualsWithDelta(15.0, (float)$state->servercreditedseconds, 0.001);
         $this->assertEqualsWithDelta(10.0, (float)$state->uniquecoveredseconds, 0.001);

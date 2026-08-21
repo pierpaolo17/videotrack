@@ -89,6 +89,8 @@ final class integrity_test extends advanced_testcase {
      * Site focus settings default to the accessibility-oriented policy.
      */
     public function test_focus_policy_defaults_and_strict_override(): void {
+        global $CFG;
+
         $this->resetAfterTest();
 
         unset_config('focuslosspolicy', 'mod_videotrack');
@@ -100,5 +102,13 @@ final class integrity_test extends advanced_testcase {
         set_config('focuslossgraceseconds', 12, 'mod_videotrack');
         $this->assertSame(integrity::FOCUS_POLICY_STRICT, integrity::focus_loss_policy());
         $this->assertSame(12, integrity::focus_loss_grace_seconds());
+
+        $focusguard = file_get_contents($CFG->dirroot . '/mod/videotrack/amd/src/core/player/focus_guard.js');
+        $lifecycle = file_get_contents($CFG->dirroot . '/mod/videotrack/amd/src/core/tracker/lifecycle.js');
+        $this->assertIsString($focusguard);
+        $this->assertIsString($lifecycle);
+        $this->assertStringContainsString('if (document.hidden) {', $focusguard);
+        $this->assertStringContainsString("config.focuslosspolicy === 'strict'", $focusguard);
+        $this->assertStringContainsString("closeThenStop(state, handlers, 'tab'", $lifecycle);
     }
 }

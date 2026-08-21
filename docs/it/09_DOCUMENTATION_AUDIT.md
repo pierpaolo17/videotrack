@@ -1,23 +1,32 @@
 # Audit della documentazione
 
-Baseline: VideoTrack **1.7.100** (`2026082103`).
+Baseline: VideoTrack **1.7.101** (`2026082104`).
 
 ## Copertura
 
 - File non documentali inventariati: **281/281**.
-- Funzioni/metodi PHP nominati inventariati: **723**.
+- Funzioni/metodi PHP nominati inventariati: **724**.
 - Callable AMD nominati rilevati e inventariati: **647**.
 - Tabelle XMLDB documentate: **7**.
 - Chiavi impostazioni sito documentate: **57**.
 - Chiavi configurazione player documentate: **133**.
 - Servizi AJAX documentati: **9**.
-- Language pack: otto pacchetti con lo stesso contratto di **987 chiavi**; i testi operativi sono tradotti, mentre termini tecnici e nomi propri possono legittimamente coincidere.
+- Language pack: otto pacchetti con lo stesso contratto di **988 chiavi**; i testi operativi sono tradotti, mentre termini tecnici e nomi propri possono legittimamente coincidere.
 - Panoramiche root: `README.md` (inglese) e `README_IT.md` (italiano).
 - Sintesi privacy root: `PRIVACY.md` e `PRIVACY_IT.md`.
 - Diagnostica CLI distribuita documentata in `21_CLI_DIAGNOSTICS.md` e coperta da contratti statici di sola lettura.
 - Automazione browser Behat documentata in `22_TEST_BROWSER_BEHAT.md`; U-007 è tracciato come in corso.
 - I contratti statici resume/completion/alert impilati completano l’ambiente Behat ora operativo; il gate browser reale 1.7.98 ha superato 13/13 scenari e 195/195 step su Moodle 5.0 e 5.3, mentre gli smoke test provider più ampi restano separati.
 - La navigazione capitoli ha ora un contratto esplicito focus-visible/colori forzati; la matrice manuale tastiera/high-contrast resta un gate per la chiusura finale di U-020.
+
+## Verifica documentazione anti-cheat/session binding 1.7.101
+
+- Il credito di playback è legato alla `sessionid` browser attiva; write stale/cross-tab sono conservate solo come evidenza non autorevole.
+- Le chiusure lifecycle accettate pause/end/pagina hidden azzerano la finestra attiva e richiedono un nuovo handshake `start_playback`.
+- Il focus browser non è trattato come prova di attenzione: lo stato hidden interrompe il tracking, mentre il blur con pagina visibile resta diagnostico per default così split view e finestre affiancate non generano falsi positivi.
+- `videotrack_state.serverplaybacksessionid` è dichiarato in XMLDB, upgrade, Privacy API e retention cleanup.
+- Gli AMD di produzione restano invariati; l'hardening è interamente server-side.
+
 
 ## Verifica documentazione correttiva 1.7.100
 

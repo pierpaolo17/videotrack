@@ -451,6 +451,8 @@ $string['privacy:metadata:videotrack_state:lastposition'] = 'वीडियो 
 $string['privacy:metadata:videotrack_state:serverbudgetseconds'] = 'सर्वर-समय आधारित क्रेडिट सुरक्षा द्वारा अधिकृत संचयी प्लेबैक सेकंड।';
 $string['privacy:metadata:videotrack_state:servercreditedseconds'] = 'सर्वर-समय आधारित क्रेडिट बजट में पहले से जोड़े गए संचयी कच्चे वीडियो सेकंड।';
 $string['privacy:metadata:videotrack_state:serverlastactivity'] = 'प्लेबैक क्रेडिट लेजर द्वारा उपयोग किए गए अंतिम प्लेबैक हैंडशेक या सेगमेंट अनुरोध का मिलीसेकंड में सर्वर टाइमस्टैम्प।';
+$string['privacy:metadata:videotrack_state:serverplaybacksessionid'] =
+    'वह ब्राउज़र प्लेबैक-सत्र पहचानकर्ता जिसे वर्तमान में सर्वर प्लेबैक क्रेडिट उपयोग करने की अनुमति है।';
 $string['privacy:metadata:videotrack_state:uniquecoveredseconds'] = 'उपयोगकर्ता द्वारा कवर किए गए टाइमलाइन के अद्वितीय सेकंड की संख्या।';
 $string['privacy:metadata:videotrack_state:userid'] = 'वह उपयोगकर्ता जिसकी समेकित स्थिति संग्रहीत की गई।';
 $string['privacy:metadata:vimeo'] = 'जब Vimeo वीडियो उपयोग किया जाता है, तो उपयोगकर्ता का ब्राउज़र वीडियो लोड और चलाने के लिए Vimeo से जुड़ता है।';

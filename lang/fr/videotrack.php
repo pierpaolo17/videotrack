@@ -451,6 +451,8 @@ $string['privacy:metadata:videotrack_state:lastposition'] = 'Dernière position 
 $string['privacy:metadata:videotrack_state:serverbudgetseconds'] = 'Secondes de lecture cumulées autorisées par le contrôle de crédit fondé sur le temps serveur.';
 $string['privacy:metadata:videotrack_state:servercreditedseconds'] = 'Secondes vidéo brutes cumulées déjà imputées au budget de crédit fondé sur le temps serveur.';
 $string['privacy:metadata:videotrack_state:serverlastactivity'] = 'Horodatage serveur en millisecondes de la dernière initialisation de lecture ou requête de segment utilisée par le registre de crédit de lecture.';
+$string['privacy:metadata:videotrack_state:serverplaybacksessionid'] =
+    'Identifiant de session de lecture du navigateur actuellement autorisé à consommer le crédit de lecture serveur.';
 $string['privacy:metadata:videotrack_state:uniquecoveredseconds'] = 'Nombre de secondes uniques de la chronologie couvertes par l’utilisateur.';
 $string['privacy:metadata:videotrack_state:userid'] = 'L’utilisateur dont l’état agrégé a été stocké.';
 $string['privacy:metadata:vimeo'] = 'Lorsqu’une vidéo Vimeo est utilisée, le navigateur de l’utilisateur se connecte à Vimeo pour charger et lire la vidéo.';

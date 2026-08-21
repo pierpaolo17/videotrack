@@ -1,8 +1,8 @@
 # Inventario delle funzioni
 
-Generato dall’albero sorgente VideoTrack 1.7.100. Le voci PHP includono funzioni e metodi nominati; le voci AMD includono dichiarazioni nominate, espressioni funzione assegnate e funzioni-metodo di oggetti.
+Generato dall’albero sorgente VideoTrack 1.7.101. Le voci PHP includono funzioni e metodi nominati; le voci AMD includono dichiarazioni nominate, espressioni funzione assegnate e funzioni-metodo di oggetti.
 
-**Funzioni/metodi PHP:** 723. **Callable AMD nominati:** 647.
+**Funzioni/metodi PHP:** 724. **Callable AMD nominati:** 647.
 
 | Posizione | Callable | Responsabilità |
 |---|---|---|
@@ -893,13 +893,13 @@ Generato dall’albero sorgente VideoTrack 1.7.100. Le voci PHP includono funzio
 | `classes/local/privacy_manager.php:157` | `delete_expired_records` | Callable PHP `delete_expired_records`; DocBlock e chiamanti definiscono parametri, valori restituiti ed effetti. |
 | `classes/local/privacy_manager.php:244` | `delete_legacy_pseudonymous_records` | Callable PHP `delete_legacy_pseudonymous_records`; DocBlock e chiamanti definiscono parametri, valori restituiti ed effetti. |
 | `classes/local/privacy_manager.php:283` | `delete_expired_pair` | Callable PHP `delete_expired_pair`; DocBlock e chiamanti definiscono parametri, valori restituiti ed effetti. |
-| `classes/local/privacy_manager.php:398` | `server_guard_is_recent` | Callable PHP `server_guard_is_recent`; DocBlock e chiamanti definiscono parametri, valori restituiti ed effetti. |
-| `classes/local/privacy_manager.php:421` | `count_and_delete` | Callable PHP `count_and_delete`; DocBlock e chiamanti definiscono parametri, valori restituiti ed effetti. |
-| `classes/local/privacy_manager.php:438` | `load_activity` | Callable PHP `load_activity`; DocBlock e chiamanti definiscono parametri, valori restituiti ed effetti. |
-| `classes/local/privacy_manager.php:464` | `has_retained_state_inputs` | Callable PHP `has_retained_state_inputs`; DocBlock e chiamanti definiscono parametri, valori restituiti ed effetti. |
-| `classes/local/privacy_manager.php:501` | `earliest_retained_timestamp` | Callable PHP `earliest_retained_timestamp`; DocBlock e chiamanti definiscono parametri, valori restituiti ed effetti. |
-| `classes/local/privacy_manager.php:543` | `delete_state` | Callable PHP `delete_state`; DocBlock e chiamanti definiscono parametri, valori restituiti ed effetti. |
-| `classes/local/privacy_manager.php:567` | `synchronise_completion` | Callable PHP `synchronise_completion`; DocBlock e chiamanti definiscono parametri, valori restituiti ed effetti. |
+| `classes/local/privacy_manager.php:399` | `server_guard_is_recent` | Callable PHP `server_guard_is_recent`; DocBlock e chiamanti definiscono parametri, valori restituiti ed effetti. |
+| `classes/local/privacy_manager.php:423` | `count_and_delete` | Callable PHP `count_and_delete`; DocBlock e chiamanti definiscono parametri, valori restituiti ed effetti. |
+| `classes/local/privacy_manager.php:440` | `load_activity` | Callable PHP `load_activity`; DocBlock e chiamanti definiscono parametri, valori restituiti ed effetti. |
+| `classes/local/privacy_manager.php:466` | `has_retained_state_inputs` | Callable PHP `has_retained_state_inputs`; DocBlock e chiamanti definiscono parametri, valori restituiti ed effetti. |
+| `classes/local/privacy_manager.php:503` | `earliest_retained_timestamp` | Callable PHP `earliest_retained_timestamp`; DocBlock e chiamanti definiscono parametri, valori restituiti ed effetti. |
+| `classes/local/privacy_manager.php:545` | `delete_state` | Callable PHP `delete_state`; DocBlock e chiamanti definiscono parametri, valori restituiti ed effetti. |
+| `classes/local/privacy_manager.php:569` | `synchronise_completion` | Callable PHP `synchronise_completion`; DocBlock e chiamanti definiscono parametri, valori restituiti ed effetti. |
 | `classes/local/report_access.php:40` | `has_legacy_full_access` | Callable PHP `report_access::has_legacy_full_access`; verifica retrocompatibile della capability completa di report. |
 | `classes/local/report_access.php:54` | `can_view_aggregate` | Callable PHP `report_access::can_view_aggregate`; policy di visualizzazione aggregata con fallback legacy e implicazione dalla vista individuale. |
 | `classes/local/report_access.php:67` | `can_view_individual` | Callable PHP `report_access::can_view_individual`; policy di visualizzazione learner-level con fallback legacy completo. |
@@ -972,24 +972,24 @@ Generato dall’albero sorgente VideoTrack 1.7.100. Le voci PHP includono funzio
 | `classes/local/tracker.php:463` | `completion_satisfied` | Callable PHP `completion_satisfied`; DocBlock e chiamanti definiscono parametri, valori restituiti ed effetti. |
 | `classes/local/tracker.php:538` | `interaction_timestamp_allowed` | Funzione/metodo PHP nominato `interaction_timestamp_allowed`; vedere DocBlock e chiamanti per il contratto corrente. |
 | `classes/local/tracker.php:587` | `create_default_state` | Callable PHP `create_default_state`; DocBlock e chiamanti definiscono parametri, valori restituiti ed effetti. |
-| `classes/local/tracker.php:624` | `advance_server_credit_budget` | Callable PHP `advance_server_credit_budget`; DocBlock e chiamanti definiscono parametri, valori restituiti ed effetti. |
-| `classes/local/tracker.php:682` | `same_segment_request` | Callable PHP `same_segment_request`; DocBlock e chiamanti definiscono parametri, valori restituiti ed effetti. |
-| `classes/local/tracker.php:702` | `begin_playback` | Callable PHP `begin_playback`; DocBlock e chiamanti definiscono parametri, valori restituiti ed effetti. |
-| `classes/local/tracker.php:798` | `forward_interval_allowed` | Callable PHP `forward_interval_allowed`; DocBlock e chiamanti definiscono parametri, valori restituiti ed effetti. |
-| `classes/local/tracker.php:831` | `update_state` | Callable PHP `update_state`; DocBlock e chiamanti definiscono parametri, valori restituiti ed effetti. |
-| `classes/local/tracker.php:1040` | `update_moodle_completion_if_changed` | Callable PHP `update_moodle_completion_if_changed`; DocBlock e chiamanti definiscono parametri, valori restituiti ed effetti. |
-| `classes/local/tracker.php:1064` | `aggregate_segments` | Callable PHP `aggregate_segments`; DocBlock e chiamanti definiscono parametri, valori restituiti ed effetti. |
-| `classes/local/tracker.php:1110` | `rebuild_state_from_segments` | Callable PHP `rebuild_state_from_segments`; DocBlock e chiamanti definiscono parametri, valori restituiti ed effetti. |
-| `classes/local/tracker.php:1205` | `refresh_completion` | Callable PHP `refresh_completion`; DocBlock e chiamanti definiscono parametri, valori restituiti ed effetti. |
+| `classes/local/tracker.php:625` | `advance_server_credit_budget` | Callable PHP `advance_server_credit_budget`; DocBlock e chiamanti definiscono parametri, valori restituiti ed effetti. |
+| `classes/local/tracker.php:683` | `same_segment_request` | Callable PHP `same_segment_request`; DocBlock e chiamanti definiscono parametri, valori restituiti ed effetti. |
+| `classes/local/tracker.php:703` | `begin_playback` | Callable PHP `begin_playback`; DocBlock e chiamanti definiscono parametri, valori restituiti ed effetti. |
+| `classes/local/tracker.php:800` | `forward_interval_allowed` | Callable PHP `forward_interval_allowed`; DocBlock e chiamanti definiscono parametri, valori restituiti ed effetti. |
+| `classes/local/tracker.php:833` | `update_state` | Callable PHP `update_state`; DocBlock e chiamanti definiscono parametri, valori restituiti ed effetti. |
+| `classes/local/tracker.php:1073` | `update_moodle_completion_if_changed` | Callable PHP `update_moodle_completion_if_changed`; DocBlock e chiamanti definiscono parametri, valori restituiti ed effetti. |
+| `classes/local/tracker.php:1097` | `aggregate_segments` | Callable PHP `aggregate_segments`; DocBlock e chiamanti definiscono parametri, valori restituiti ed effetti. |
+| `classes/local/tracker.php:1143` | `rebuild_state_from_segments` | Callable PHP `rebuild_state_from_segments`; DocBlock e chiamanti definiscono parametri, valori restituiti ed effetti. |
+| `classes/local/tracker.php:1238` | `refresh_completion` | Callable PHP `refresh_completion`; DocBlock e chiamanti definiscono parametri, valori restituiti ed effetti. |
 | `classes/privacy/provider.php:48` | `format_interval_second` | Callable PHP `format_interval_second`; DocBlock e chiamanti definiscono parametri, valori restituiti ed effetti. |
 | `classes/privacy/provider.php:59` | `get_metadata` | Callable PHP `get_metadata`; DocBlock e chiamanti definiscono parametri, valori restituiti ed effetti. |
-| `classes/privacy/provider.php:166` | `get_contexts_for_userid` | Callable PHP `get_contexts_for_userid`; DocBlock e chiamanti definiscono parametri, valori restituiti ed effetti. |
-| `classes/privacy/provider.php:205` | `get_users_in_context` | Callable PHP `get_users_in_context`; DocBlock e chiamanti definiscono parametri, valori restituiti ed effetti. |
-| `classes/privacy/provider.php:238` | `export_user_data` | Callable PHP `export_user_data`; DocBlock e chiamanti definiscono parametri, valori restituiti ed effetti. |
-| `classes/privacy/provider.php:592` | `delete_data_for_all_users_in_context` | Callable PHP `delete_data_for_all_users_in_context`; DocBlock e chiamanti definiscono parametri, valori restituiti ed effetti. |
-| `classes/privacy/provider.php:605` | `delete_data_for_user` | Callable PHP `delete_data_for_user`; DocBlock e chiamanti definiscono parametri, valori restituiti ed effetti. |
-| `classes/privacy/provider.php:617` | `delete_data_for_users` | Callable PHP `delete_data_for_users`; DocBlock e chiamanti definiscono parametri, valori restituiti ed effetti. |
-| `classes/privacy/provider.php:630` | `delete_records_for_users_in_context` | Callable PHP `delete_records_for_users_in_context`; DocBlock e chiamanti definiscono parametri, valori restituiti ed effetti. |
+| `classes/privacy/provider.php:167` | `get_contexts_for_userid` | Callable PHP `get_contexts_for_userid`; DocBlock e chiamanti definiscono parametri, valori restituiti ed effetti. |
+| `classes/privacy/provider.php:206` | `get_users_in_context` | Callable PHP `get_users_in_context`; DocBlock e chiamanti definiscono parametri, valori restituiti ed effetti. |
+| `classes/privacy/provider.php:239` | `export_user_data` | Callable PHP `export_user_data`; DocBlock e chiamanti definiscono parametri, valori restituiti ed effetti. |
+| `classes/privacy/provider.php:593` | `delete_data_for_all_users_in_context` | Callable PHP `delete_data_for_all_users_in_context`; DocBlock e chiamanti definiscono parametri, valori restituiti ed effetti. |
+| `classes/privacy/provider.php:606` | `delete_data_for_user` | Callable PHP `delete_data_for_user`; DocBlock e chiamanti definiscono parametri, valori restituiti ed effetti. |
+| `classes/privacy/provider.php:618` | `delete_data_for_users` | Callable PHP `delete_data_for_users`; DocBlock e chiamanti definiscono parametri, valori restituiti ed effetti. |
+| `classes/privacy/provider.php:631` | `delete_records_for_users_in_context` | Callable PHP `delete_records_for_users_in_context`; DocBlock e chiamanti definiscono parametri, valori restituiti ed effetti. |
 | `classes/task/cleanup_task.php:38` | `get_name` | Callable PHP `get_name`; DocBlock e chiamanti definiscono parametri, valori restituiti ed effetti. |
 | `classes/task/cleanup_task.php:45` | `execute` | Callable PHP `execute`; DocBlock e chiamanti definiscono parametri, valori restituiti ed effetti. |
 | `db/install.php:38` | `xmldb_videotrack_install` | Funzione/metodo PHP nominato `xmldb_videotrack_install`; vedere DocBlock e chiamanti per il contratto corrente. |
@@ -1257,15 +1257,15 @@ Generato dall’albero sorgente VideoTrack 1.7.100. Le voci PHP includono funzio
 | `tests/player_resume_completion_alert_contract_test.php:120` | `test_completion_transitions_avoid_redundant_events_and_writes` | Funzione/metodo PHP nominato `test_completion_transitions_avoid_redundant_events_and_writes`; vedere DocBlock sorgente e chiamanti per il contratto corrente. |
 | `tests/player_resume_completion_alert_contract_test.php:136` | `test_persistent_notices_coexist_with_transient_status_messages` | Funzione/metodo PHP nominato `test_persistent_notices_coexist_with_transient_status_messages`; vedere DocBlock sorgente e chiamanti per il contratto corrente. |
 | `tests/privacy_manager_test.php:37` | `test_cleanup_deletes_expired_rows_and_rebuilds_state` | Callable PHP `test_cleanup_deletes_expired_rows_and_rebuilds_state`; DocBlock e chiamanti definiscono parametri, valori restituiti ed effetti. |
-| `tests/privacy_manager_test.php:136` | `test_cleanup_removes_state_when_no_retained_inputs_remain` | Callable PHP `test_cleanup_removes_state_when_no_retained_inputs_remain`; DocBlock e chiamanti definiscono parametri, valori restituiti ed effetti. |
-| `tests/privacy_manager_test.php:176` | `test_cleanup_preserves_recent_playback_guard` | Callable PHP `test_cleanup_preserves_recent_playback_guard`; DocBlock e chiamanti definiscono parametri, valori restituiti ed effetti. |
-| `tests/privacy_manager_test.php:227` | `test_user_erasure_after_retention_keeps_shared_activity_files` | Callable PHP `test_user_erasure_after_retention_keeps_shared_activity_files`; DocBlock e chiamanti definiscono parametri, valori restituiti ed effetti. |
-| `tests/privacy_manager_test.php:285` | `test_unlimited_retention_purges_only_legacy_pseudonymous_rows` | Callable PHP `test_unlimited_retention_purges_only_legacy_pseudonymous_rows`; DocBlock e chiamanti definiscono parametri, valori restituiti ed effetti. |
-| `tests/privacy_manager_test.php:330` | `create_test_activity` | Callable PHP `create_test_activity`; DocBlock e chiamanti definiscono parametri, valori restituiti ed effetti. |
-| `tests/privacy_manager_test.php:370` | `insert_segment` | Callable PHP `insert_segment`; DocBlock e chiamanti definiscono parametri, valori restituiti ed effetti. |
-| `tests/privacy_manager_test.php:409` | `insert_interaction` | Callable PHP `insert_interaction`; DocBlock e chiamanti definiscono parametri, valori restituiti ed effetti. |
-| `tests/privacy_manager_test.php:448` | `insert_integrity` | Callable PHP `insert_integrity`; DocBlock e chiamanti definiscono parametri, valori restituiti ed effetti. |
-| `tests/privacy_manager_test.php:479` | `insert_acknowledgement` | Callable PHP `insert_acknowledgement`; DocBlock e chiamanti definiscono parametri, valori restituiti ed effetti. |
+| `tests/privacy_manager_test.php:138` | `test_cleanup_removes_state_when_no_retained_inputs_remain` | Callable PHP `test_cleanup_removes_state_when_no_retained_inputs_remain`; DocBlock e chiamanti definiscono parametri, valori restituiti ed effetti. |
+| `tests/privacy_manager_test.php:178` | `test_cleanup_preserves_recent_playback_guard` | Callable PHP `test_cleanup_preserves_recent_playback_guard`; DocBlock e chiamanti definiscono parametri, valori restituiti ed effetti. |
+| `tests/privacy_manager_test.php:231` | `test_user_erasure_after_retention_keeps_shared_activity_files` | Callable PHP `test_user_erasure_after_retention_keeps_shared_activity_files`; DocBlock e chiamanti definiscono parametri, valori restituiti ed effetti. |
+| `tests/privacy_manager_test.php:289` | `test_unlimited_retention_purges_only_legacy_pseudonymous_rows` | Callable PHP `test_unlimited_retention_purges_only_legacy_pseudonymous_rows`; DocBlock e chiamanti definiscono parametri, valori restituiti ed effetti. |
+| `tests/privacy_manager_test.php:334` | `create_test_activity` | Callable PHP `create_test_activity`; DocBlock e chiamanti definiscono parametri, valori restituiti ed effetti. |
+| `tests/privacy_manager_test.php:374` | `insert_segment` | Callable PHP `insert_segment`; DocBlock e chiamanti definiscono parametri, valori restituiti ed effetti. |
+| `tests/privacy_manager_test.php:413` | `insert_interaction` | Callable PHP `insert_interaction`; DocBlock e chiamanti definiscono parametri, valori restituiti ed effetti. |
+| `tests/privacy_manager_test.php:452` | `insert_integrity` | Callable PHP `insert_integrity`; DocBlock e chiamanti definiscono parametri, valori restituiti ed effetti. |
+| `tests/privacy_manager_test.php:483` | `insert_acknowledgement` | Callable PHP `insert_acknowledgement`; DocBlock e chiamanti definiscono parametri, valori restituiti ed effetti. |
 | `tests/provider_loader_contract_test.php:35` | `test_vimeo_loaders_use_requirejs_without_global_define_mutation` | Funzione/metodo PHP nominato `test_vimeo_loaders_use_requirejs_without_global_define_mutation`; vedere DocBlock e chiamanti per il contratto corrente. |
 | `tests/provider_loader_contract_test.php:51` | `test_provider_loader_promises_reset_after_rejection` | Funzione/metodo PHP nominato `test_provider_loader_promises_reset_after_rejection`; vedere DocBlock e chiamanti per il contratto corrente. |
 | `tests/provider_loader_contract_test.php:66` | `test_vimeo_requirejs_result_is_used_as_player_constructor` | Funzione/metodo PHP nominato `test_vimeo_requirejs_result_is_used_as_player_constructor`; vedere DocBlock e chiamanti per il contratto corrente. |
@@ -1361,15 +1361,16 @@ Generato dall’albero sorgente VideoTrack 1.7.100. Le voci PHP includono funzio
 | `tests/tracker_test.php:438` | `test_forward_interval_guard_rejects_unwatched_jump` | Callable PHP `test_forward_interval_guard_rejects_unwatched_jump`; DocBlock e chiamanti definiscono parametri, valori restituiti ed effetti. |
 | `tests/tracker_test.php:451` | `test_watched_time_validation_ignores_unvalidated_raw_segments` | Callable PHP `test_watched_time_validation_ignores_unvalidated_raw_segments`; DocBlock e chiamanti definiscono parametri, valori restituiti ed effetti. |
 | `tests/tracker_test.php:480` | `test_segment_request_retry_reuses_persisted_result` | Callable PHP `test_segment_request_retry_reuses_persisted_result`; DocBlock e chiamanti definiscono parametri, valori restituiti ed effetti. |
-| `tests/tracker_test.php:583` | `test_watched_time_validation_uses_aggregate_state_fallback` | Callable PHP `test_watched_time_validation_uses_aggregate_state_fallback`; DocBlock e chiamanti definiscono parametri, valori restituiti ed effetti. |
-| `tests/tracker_test.php:611` | `test_any_session_watched_time_validation_uses_validated_segments` | Funzione/metodo PHP nominato `test_any_session_watched_time_validation_uses_validated_segments`; vedere DocBlock e chiamanti per il contratto corrente. |
-| `tests/tracker_test.php:642` | `test_allowed_forward_seek_accepts_recent_session_interaction_timestamp` | Funzione/metodo PHP nominato `test_allowed_forward_seek_accepts_recent_session_interaction_timestamp`; vedere DocBlock e chiamanti per il contratto corrente. |
-| `tests/tracker_test.php:676` | `test_allowed_forward_seek_rejects_stale_or_different_session_interaction` | Funzione/metodo PHP nominato `test_allowed_forward_seek_rejects_stale_or_different_session_interaction`; vedere DocBlock e chiamanti per il contratto corrente. |
+| `tests/tracker_test.php:583` | `test_playback_credit_is_bound_to_active_session_and_pause_closes_window` | PHP callable `test_playback_credit_is_bound_to_active_session_and_pause_closes_window`; see its DocBlock and callers for parameter, return-value and side-effect details. |
+| `tests/tracker_test.php:807` | `test_watched_time_validation_uses_aggregate_state_fallback` | Callable PHP `test_watched_time_validation_uses_aggregate_state_fallback`; DocBlock e chiamanti definiscono parametri, valori restituiti ed effetti. |
+| `tests/tracker_test.php:835` | `test_any_session_watched_time_validation_uses_validated_segments` | Funzione/metodo PHP nominato `test_any_session_watched_time_validation_uses_validated_segments`; vedere DocBlock e chiamanti per il contratto corrente. |
+| `tests/tracker_test.php:866` | `test_allowed_forward_seek_accepts_recent_session_interaction_timestamp` | Funzione/metodo PHP nominato `test_allowed_forward_seek_accepts_recent_session_interaction_timestamp`; vedere DocBlock e chiamanti per il contratto corrente. |
+| `tests/tracker_test.php:900` | `test_allowed_forward_seek_rejects_stale_or_different_session_interaction` | Funzione/metodo PHP nominato `test_allowed_forward_seek_rejects_stale_or_different_session_interaction`; vedere DocBlock e chiamanti per il contratto corrente. |
 | `tests/upgrade_contract_test.php:35` | `test_modern_schema_fast_forward_precedes_legacy_steps` | Funzione/metodo PHP nominato `test_modern_schema_fast_forward_precedes_legacy_steps`; vedere DocBlock e chiamanti per il contratto corrente. |
-| `tests/upgrade_contract_test.php:60` | `test_failed_install_schema_recovery_supersedes_obsolete_lineage` | Funzione/metodo PHP nominato `test_failed_install_schema_recovery_supersedes_obsolete_lineage`; vedere DocBlock e chiamanti per il contratto corrente. |
-| `tests/upgrade_contract_test.php:90` | `test_gradebook_recovery_uses_dml_only` | Funzione/metodo PHP nominato `test_gradebook_recovery_uses_dml_only`; vedere DocBlock e chiamanti per il contratto corrente. |
-| `tests/upgrade_contract_test.php:112` | `test_preproduction_gradebook_repair_covers_install_and_upgrade` | Funzione/metodo PHP nominato `test_preproduction_gradebook_repair_covers_install_and_upgrade`; vedere DocBlock e chiamanti per il contratto corrente. |
-| `tests/upgrade_contract_test.php:134` | `test_duplicate_grade_item_repair_is_upgrade_safe` | Funzione/metodo PHP nominato `test_duplicate_grade_item_repair_is_upgrade_safe`; vedere DocBlock e chiamanti per il contratto corrente. |
+| `tests/upgrade_contract_test.php:62` | `test_failed_install_schema_recovery_supersedes_obsolete_lineage` | Funzione/metodo PHP nominato `test_failed_install_schema_recovery_supersedes_obsolete_lineage`; vedere DocBlock e chiamanti per il contratto corrente. |
+| `tests/upgrade_contract_test.php:92` | `test_gradebook_recovery_uses_dml_only` | Funzione/metodo PHP nominato `test_gradebook_recovery_uses_dml_only`; vedere DocBlock e chiamanti per il contratto corrente. |
+| `tests/upgrade_contract_test.php:114` | `test_preproduction_gradebook_repair_covers_install_and_upgrade` | Funzione/metodo PHP nominato `test_preproduction_gradebook_repair_covers_install_and_upgrade`; vedere DocBlock e chiamanti per il contratto corrente. |
+| `tests/upgrade_contract_test.php:136` | `test_duplicate_grade_item_repair_is_upgrade_safe` | Funzione/metodo PHP nominato `test_duplicate_grade_item_repair_is_upgrade_safe`; vedere DocBlock e chiamanti per il contratto corrente. |
 | `tests/vimeo_seek_contract_test.php:35` | `test_blocked_seek_resume_does_not_wait_for_penalty_promise` | Funzione/metodo PHP nominato `test_blocked_seek_resume_does_not_wait_for_penalty_promise`; vedere DocBlock e chiamanti per il contratto corrente. |
 | `tests/vimeo_seek_contract_test.php:56` | `test_blocked_seek_clears_forward_guard_after_rollback` | Funzione/metodo PHP nominato `test_blocked_seek_clears_forward_guard_after_rollback`; vedere DocBlock e chiamanti per il contratto corrente. |
 | `tests/vimeo_seek_contract_test.php:74` | `test_blocked_seek_resume_retries_never_reseek` | Funzione/metodo PHP nominato `test_blocked_seek_resume_retries_never_reseek`; vedere DocBlock e chiamanti per il contratto corrente. |
