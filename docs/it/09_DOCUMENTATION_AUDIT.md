@@ -1,10 +1,10 @@
 # Audit della documentazione
 
-Baseline: VideoTrack **1.7.97** (`2026082100`).
+Baseline: VideoTrack **1.7.98** (`2026082101`).
 
 ## Copertura
 
-- File non documentali inventariati: **279/279**.
+- File non documentali inventariati: **280/280**.
 - Funzioni/metodi PHP nominati inventariati: **722**.
 - Callable AMD nominati rilevati e inventariati: **647**.
 - Tabelle XMLDB documentate: **7**.
@@ -16,8 +16,16 @@ Baseline: VideoTrack **1.7.97** (`2026082100`).
 - Sintesi privacy root: `PRIVACY.md` e `PRIVACY_IT.md`.
 - Diagnostica CLI distribuita documentata in `21_CLI_DIAGNOSTICS.md` e coperta da contratti statici di sola lettura.
 - Automazione browser Behat documentata in `22_TEST_BROWSER_BEHAT.md`; U-007 è tracciato come in corso.
-- I contratti statici resume/completion/alert impilati completano l’ambiente Behat ora operativo; la matrice 1.7.83 su Moodle 5.0–5.3 ha superato 7/7 scenari, mentre gli smoke test provider più ampi restano separati.
+- I contratti statici resume/completion/alert impilati completano l’ambiente Behat ora operativo; il gate browser reale 1.7.97 ha superato 10/10 scenari e 152/152 step su Moodle 5.0 e 5.3, mentre gli smoke test provider più ampi restano separati.
 - La navigazione capitoli ha ora un contratto esplicito focus-visible/colori forzati; la matrice manuale tastiera/high-contrast resta un gate per la chiusura finale di U-020.
+
+## Verifica documentazione pre-produzione 1.7.98
+
+- L’inventario corrente dei file non documentali è **280/280** dopo l’aggiunta del feature Behat deterministico per la presa visione HTML5.
+- L’inventario funzioni resta **722 PHP / 647 AMD** callable nominati; questa tranche test-only non aggiunge step PHP o callable di produzione.
+- U-007 copre ora conferma/persistenza della presa visione immediata, blocco prima del video-end e sblocco dopo evidenza validata fino all’ultimo secondo.
+- Runtime di produzione, AMD, schema, capability, privacy, Analytics, tracking e language pack restano invariati.
+- Restano pendenti asserzioni browser sullo stato completion, alert impilati e harness deterministici dei provider esterni.
 
 ## Verifica documentazione pre-produzione 1.7.97
 

@@ -27,9 +27,9 @@ defined('MOODLE_INTERNAL') || die();
 
 $plugin->component = 'mod_videotrack';
 
-$plugin->version = 2026082100;
+$plugin->version = 2026082101;
 $plugin->requires = 2025041400; // Moodle 5.0.
 $plugin->maturity = MATURITY_STABLE;
-$plugin->release = '1.7.97';
+$plugin->release = '1.7.98';
 $plugin->supported = [500, 503];
 $plugin->dependencies = [];

@@ -1,5 +1,11 @@
 # VideoTrack changelog
 
+## 1.7.98 - 2026-08-21
+
+- Continue U-007 browser-automation closure with deterministic HTML5 acknowledgement coverage for immediate confirmation, video-end gating and persistence after confirmation.
+- Reuse the local MP4 fixture and existing validated-state seeding; add no production runtime, PHP step definition or AMD change.
+- Keep completion-state browser assertions, stacked-alert coverage and deterministic YouTube/Vimeo harnesses for later U-007 tranches.
+
 ## 1.7.97 - 2026-08-21
 
 - Close U-017 by stop condition after the final `mod_form.php`, player and PHP-hotspot audits found no further obvious low-risk extraction whose benefit exceeds added indirection or runtime risk.
