@@ -1,8 +1,8 @@
 # Function inventory
 
-Generated from the VideoTrack 1.7.98 source tree. PHP entries include named functions and methods; AMD entries include named declarations, assigned function expressions and object-method functions.
+Generated from the VideoTrack 1.7.99 source tree. PHP entries include named functions and methods; AMD entries include named declarations, assigned function expressions and object-method functions.
 
-**PHP functions/methods:** 722. **Named AMD callables:** 647.
+**PHP functions/methods:** 723. **Named AMD callables:** 647.
 
 | Location | Callable | Responsibility |
 |---|---|---|
@@ -1158,7 +1158,8 @@ Generated from the VideoTrack 1.7.98 source tree. PHP entries include named func
 | `tests/behat/behat_mod_videotrack.php:78` | `the_videotrack_html5_media_time_should_be_between` | Asserts the HTML5 media timestamp is inside the expected browser-test range. |
 | `tests/behat/behat_mod_videotrack.php:104` | `the_videotrack_html5_media_playback_is` | Asserts deterministic HTML5 play/pause state in the Behat browser harness. |
 | `tests/behat/behat_mod_videotrack.php:131` | `the_user_has_watched_videotrack_through_seconds` | Seeds bounded validated watched evidence for deterministic post-seek Behat interaction scenarios. |
-| `tests/behat/behat_mod_videotrack.php:208` | `the_videotrack_forum_time_should_be_between` | Asserts the linked Forum composer keeps a timestamp inside the expected validated range after rollback. |
+| `tests/behat/behat_mod_videotrack.php:209` | `the_moodle_completion_state_for_videotrack_is` | Asserts the persisted Moodle core completion state after a VideoTrack browser interaction. |
+| `tests/behat/behat_mod_videotrack.php:250` | `the_videotrack_forum_time_should_be_between` | Asserts the linked Forum composer keeps a timestamp inside the expected validated range after rollback. |
 | `tests/cli_contract_test.php:35` | `test_validator_is_read_only_and_covers_release_contracts` | Named PHP function/method `test_validator_is_read_only_and_covers_release_contracts`; see source DocBlock and callers for the current contract. |
 | `tests/cli_contract_test.php:57` | `test_course_analytics_benchmark_uses_real_read_only_metrics` | Named PHP function/method `test_course_analytics_benchmark_uses_real_read_only_metrics`; see source DocBlock and callers for the current contract. |
 | `tests/cli_contract_test.php:79` | `test_cli_tools_are_documented_for_admins_and_maintainers` | Named PHP function/method `test_cli_tools_are_documented_for_admins_and_maintainers`; see source DocBlock and callers for the current contract. |

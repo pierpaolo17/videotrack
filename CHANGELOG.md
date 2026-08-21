@@ -1,5 +1,12 @@
 # VideoTrack changelog
 
+## 1.7.99 - 2026-08-21
+
+- Continue U-007 browser-automation closure with deterministic Moodle completion synchronisation coverage on the local HTML5 fixture.
+- Verify persisted core completion transitions for viewing-only, acknowledgement-only and combined AND completion after real browser interactions.
+- Add one Behat assertion step for `course_modules_completion`; keep production runtime, AMD, schema, capability, privacy, Analytics and language packs unchanged.
+- Reserve the next U-007 tranche for the explicit anti-cheat browser/runtime review requested by the maintainer after this completion gate is green.
+
 ## 1.7.98 - 2026-08-21
 
 - Continue U-007 browser-automation closure with deterministic HTML5 acknowledgement coverage for immediate confirmation, video-end gating and persistence after confirmation.

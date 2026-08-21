@@ -1,6 +1,6 @@
 # Automazione browser con Behat
 
-VideoTrack ha avviato la fase di automazione browser nella release 1.7.45; dalla 1.7.83 l’ambiente Behat del maintainer è operativo su Moodle 5.0–5.3 e la 1.7.98 estende ulteriormente l’harness HTML5 locale deterministico includendo anche la presa visione immediata e con gate al video-end. I contratti non-browser continuano a coprire sincronizzazione completion e alert impilati su YouTube, HTML5 e Vimeo. Il plugin distribuisce un generator Moodle in `tests/generator/lib.php` e gli scenari browser in `tests/behat/`.
+VideoTrack ha avviato la fase di automazione browser nella release 1.7.45; dalla 1.7.83 l’ambiente Behat del maintainer è operativo su Moodle 5.0–5.3 e la 1.7.99 estende ulteriormente l’harness HTML5 locale deterministico includendo anche la persistenza della completion Moodle. I contratti non-browser continuano a coprire sincronizzazione completion e alert impilati su YouTube, HTML5 e Vimeo. Il plugin distribuisce un generator Moodle in `tests/generator/lib.php` e gli scenari browser in `tests/behat/`.
 
 ## Scopo
 
@@ -61,7 +61,7 @@ La release 1.7.51 ha aggiunto `tests/provider_seek_snapshot_contract_test.php`: 
 
 La release 1.7.53 ha aggiunto `tests/player_resume_completion_alert_contract_test.php`; la 1.7.54 ha corretto quel test senza cambiare il runtime. La 1.7.55 elimina il residuo failure del marker acknowledgement e aggiunge copertura PHPUnit comportamentale per firma completion e versione corrente della presa visione. La 1.7.97 porta il resume HTML5 nel browser deterministico; restano pendenti la parity resume dei provider esterni e gli alert impilati browser.
 
-Il gate Behat reale 1.7.97 ha superato **10/10 scenari e 152/152 step** sia su Moodle 5.0 sia su Moodle 5.3 con Chrome 151/Selenium.
+Il gate Behat reale 1.7.98 ha superato **13/13 scenari e 195/195 step** sia su Moodle 5.0 sia su Moodle 5.3 con Chrome 151/Selenium.
 
 ## Presa visione deterministica HTML5 — 1.7.98
 
@@ -71,6 +71,17 @@ La 1.7.98 aggiunge `html5_acknowledgement_contract.feature`, senza modificare ru
 - checkbox e pulsante disabilitati quando la presa visione richiede il video-end ma il progresso validato non ha ancora raggiunto l’ultimo secondo;
 - sblocco della conferma dopo evidenza validata fino a 59,5 secondi sul fixture locale da 60 secondi.
 
+
+## Completion Moodle end-to-end — 1.7.99
+
+La 1.7.99 aggiunge `html5_completion_contract.feature` e una sola asserzione Behat sullo stato persistito in `course_modules_completion`. I tre scenari verificano:
+
+- completion per sola percentuale: insufficiente prima della soglia e completa dopo il raggiungimento della soglia;
+- completion per sola presa visione: completa dopo la conferma;
+- logica AND percentuale + presa visione: resta incompleta finché non sono soddisfatte entrambe.
+
+Le transizioni sono innescate da interazioni browser reali; l’asserzione sul record core evita dipendenze dal markup completion, che può variare tra Moodle 5.0 e 5.3.
+
 ## Limiti correnti della copertura browser
 
 La suite distribuita documenta esplicitamente ciò che non è ancora deterministico. Restano da coprire:
@@ -78,7 +89,8 @@ La suite distribuita documenta esplicitamente ciò che non è ancora determinist
 1. harness provider deterministiche YouTube / Vimeo;
 2. parity del seek indietro su YouTube/Vimeo oltre alla copertura HTML5 deterministica resume/seek indietro;
 3. asserzione end-to-end dell'esatto snapshot del segmento pre-seek persistito prima del salto;
-4. stato completion Moodle e alert impilati nel browser; il gating/persistenza acknowledgement è coperto dalla 1.7.98, mentre resta pendente la parity resume provider-specifica.
+4. alert impilati nel browser; la persistenza dello stato completion Moodle è coperta dalla 1.7.99, mentre resta pendente la parity resume provider-specifica.
+5. una tranche anti-cheat browser/runtime esplicita prima della milestone finale Moodle 5.0–5.3.
 
 Gli scenari provider dovrebbero evitare dipendenze dalla disponibilità della rete pubblica quando una harness locale deterministica può esercitare lo stesso contratto dell'adapter.
 

@@ -199,6 +199,48 @@ class behat_mod_videotrack extends behat_base {
     }
 
     /**
+     * Assert the persisted Moodle completion state after a browser interaction.
+     *
+     * @Then /^Moodle completion for "(?P<username>[^"]+)" in "(?P<activityname>[^"]+)" is "(?P<state>complete|incomplete)"$/
+     * @param string $username Moodle username.
+     * @param string $activityname VideoTrack activity name.
+     * @param string $state Expected Moodle completion state.
+     */
+    public function the_moodle_completion_state_for_videotrack_is(
+        string $username,
+        string $activityname,
+        string $state
+    ): void {
+        global $DB;
+
+        $user = $DB->get_record('user', ['username' => $username], '*', MUST_EXIST);
+        $videotrack = $DB->get_record('videotrack', ['name' => $activityname], '*', MUST_EXIST);
+        $cm = get_coursemodule_from_instance(
+            'videotrack',
+            (int)$videotrack->id,
+            (int)$videotrack->course,
+            false,
+            MUST_EXIST
+        );
+        $record = $DB->get_record('course_modules_completion', [
+            'coursemoduleid' => (int)$cm->id,
+            'userid' => (int)$user->id,
+        ]);
+        $actualstate = $record ? (int)$record->completionstate : COMPLETION_INCOMPLETE;
+        $completestates = [COMPLETION_COMPLETE, COMPLETION_COMPLETE_PASS, COMPLETION_COMPLETE_FAIL];
+        $actualcomplete = in_array($actualstate, $completestates, true);
+        $expectedcomplete = $state === 'complete';
+
+        if ($actualcomplete !== $expectedcomplete) {
+            throw new ExpectationException(
+                'Moodle completion for "' . $activityname . '" and user "' . $username
+                    . '" is state ' . $actualstate . ' while expecting ' . $state . '.',
+                $this->getSession()
+            );
+        }
+    }
+
+    /**
      * Assert the Forum composer URL carries a safe VideoTrack timestamp.
      *
      * @Then /^the VideoTrack Forum time is between "(?P<minimum>[0-9.]+)" and "(?P<maximum>[0-9.]+)"$/
