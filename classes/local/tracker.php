@@ -520,12 +520,10 @@ class tracker {
     /**
      * Checks whether an interaction timestamp is valid for the current playback policy.
      *
-     * Previously watched timestamps are always accepted. When forward seeking is
-     * enabled, a newly reached timestamp may not yet have a validated segment at the
-     * instant an interaction is saved. In that case, require recent server-side
-     * playback evidence from the same browser session before accepting the timestamp.
-     * This preserves anti-forgery protection while avoiding false negatives after a
-     * legitimate forward seek.
+     * Interaction timestamps require server-validated watched progress. Allowing
+     * forward seeking controls navigation, but a playback-start row alone must not
+     * authorise an unrelated timestamp. Player clients flush the current segment
+     * before an interaction and use the server-returned saved endpoint.
      *
      * @param stdClass $videotrack Activity instance.
      * @param int $userid User id.
@@ -543,36 +541,13 @@ class tracker {
         float $timetolerance = 2.0,
         int $maxageseconds = 0
     ): bool {
-        global $DB;
-
-        if (
-            self::has_watched_videotime(
-                (int)$videotrack->id,
-                $userid,
-                $sessionid,
-                $videotime,
-                $timetolerance,
-                $maxageseconds
-            )
-        ) {
-            return true;
-        }
-        if (empty($videotrack->allowseekforward)) {
-            return false;
-        }
-
-        $heartbeat = \videotrack_get_config_int('heartbeatinterval', 30, 5, 300);
-        $recentwindow = min(610, max(30, ($heartbeat * 2) + 10));
-        return $DB->record_exists_select(
-            'videotrack_seg',
-            'videotrackid = :vtid AND userid = :uid AND sessionid = :sid AND timecreated >= :since '
-                . "AND (servervalidated = 1 OR endreason = 'playstart')",
-            [
-                'vtid' => (int)$videotrack->id,
-                'uid' => $userid,
-                'sid' => $sessionid,
-                'since' => time() - $recentwindow,
-            ]
+        return self::has_watched_videotime(
+            (int)$videotrack->id,
+            $userid,
+            $sessionid,
+            $videotime,
+            $timetolerance,
+            $maxageseconds
         );
     }
 

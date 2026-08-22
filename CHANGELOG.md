@@ -1,5 +1,13 @@
 # VideoTrack changelog
 
+## 1.7.102 - 2026-08-22
+
+- Close U-007 acceptance condition AC-F02: reaction, note, bookmark and Forum timestamps now require server-validated watched evidence at the requested position, even when forward seeking is allowed.
+- Remove the permissive fallback that treated any recent same-session `playstart` row as authority for an unrelated interaction timestamp.
+- Preserve legitimate allowed-forward-seek interactions by relying on the existing client progress flush and its server-returned saved endpoint before each write.
+- Replace the incomplete synthetic user in `csv_event_writer_test` with a real Moodle-generated user, addressing the single PHPUnit Notice localised at test 85 across Moodle 5.0–5.3.
+- Add regression coverage for rejected `playstart`-only evidence, accepted validated same-session progress and rejected distant timestamps; no schema, capability, privacy, language-pack or AMD change is included.
+
 ## 1.7.101 - 2026-08-21
 
 - Harden the server-authoritative playback ledger by binding each credit window to the browser session that opened it with `start_playback`.

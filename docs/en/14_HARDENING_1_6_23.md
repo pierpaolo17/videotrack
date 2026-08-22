@@ -48,3 +48,9 @@ Browser focus is intentionally **not** a server completion condition. Page Visib
 For sites that deliberately enable `strict`, VideoTrack creates the hidden, non-participating course group `mod_videotrack_focus_exception`. A member receives the effective `hiddenonly` policy so visible split-view and assistive-tool workflows are not paused by window blur alone. The exception does not affect hidden-document handling or any server-authoritative playback control, and no accommodation reason is stored by VideoTrack.
 
 This design avoids treating legitimate split-screen, accessibility or multi-window workflows as cheating while still preventing background/hidden playback and cross-tab credit sharing from becoming authoritative completion evidence.
+
+## 1.7.102 interaction timestamp authority
+
+Forward-seek permission allows a learner to navigate to a later point; it does not by itself prove that an interaction belongs to that point. Reaction, note, bookmark and Forum clients first flush the current segment and prefer the saved endpoint returned by `save_segment`. The server therefore accepts the interaction only when the requested timestamp is covered by server-validated watched evidence under the configured session policy.
+
+A recent `playstart` row grants no watched time and can no longer authorise an unrelated timestamp. This closes AC-F02 without changing seek controls, playback credit, completion, AMD assets or the behaviour of interactions at already validated positions.

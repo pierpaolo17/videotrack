@@ -1,6 +1,6 @@
 # Function inventory
 
-Generated from the VideoTrack 1.7.101 source tree. PHP entries include named functions and methods; AMD entries include named declarations, assigned function expressions and object-method functions.
+Generated from the VideoTrack 1.7.102 source tree. PHP entries include named functions and methods; AMD entries include named declarations, assigned function expressions and object-method functions.
 
 **PHP functions/methods:** 734. **Named AMD callables:** 647.
 
@@ -769,7 +769,7 @@ Generated from the VideoTrack 1.7.101 source tree. PHP entries include named fun
 | `classes/external/helper.php:138` | `load_and_validate_context` | PHP callable `load_and_validate_context`; see its DocBlock and callers for parameter, return-value and side-effect details. |
 | `classes/external/save_bookmark.php:45` | `execute_parameters` | PHP callable `execute_parameters`; see its DocBlock and callers for parameter, return-value and side-effect details. |
 | `classes/external/save_bookmark.php:65` | `execute` | PHP callable `execute`; see its DocBlock and callers for parameter, return-value and side-effect details. |
-| `classes/external/save_bookmark.php:180` | `execute_returns` | PHP callable `execute_returns`; see its DocBlock and callers for parameter, return-value and side-effect details. |
+| `classes/external/save_bookmark.php:181` | `execute_returns` | PHP callable `execute_returns`; see its DocBlock and callers for parameter, return-value and side-effect details. |
 | `classes/external/save_integrity_event.php:47` | `execute_parameters` | PHP callable `execute_parameters`; see its DocBlock and callers for parameter, return-value and side-effect details. |
 | `classes/external/save_integrity_event.php:65` | `execute` | PHP callable `execute`; see its DocBlock and callers for parameter, return-value and side-effect details. |
 | `classes/external/save_integrity_event.php:140` | `execute_returns` | PHP callable `execute_returns`; see its DocBlock and callers for parameter, return-value and side-effect details. |
@@ -974,17 +974,17 @@ Generated from the VideoTrack 1.7.101 source tree. PHP entries include named fun
 | `classes/local/tracker.php:338` | `has_watched_videotime` | PHP callable `has_watched_videotime`; see its DocBlock and callers for parameter, return-value and side-effect details. |
 | `classes/local/tracker.php:394` | `has_watched_videotime_any_session` | Named PHP function/method `has_watched_videotime_any_session`; see source DocBlock and callers for the current contract. |
 | `classes/local/tracker.php:463` | `completion_satisfied` | PHP callable `completion_satisfied`; see its DocBlock and callers for parameter, return-value and side-effect details. |
-| `classes/local/tracker.php:538` | `interaction_timestamp_allowed` | Named PHP function/method `interaction_timestamp_allowed`; see source DocBlock and callers for the current contract. |
-| `classes/local/tracker.php:587` | `create_default_state` | PHP callable `create_default_state`; see its DocBlock and callers for parameter, return-value and side-effect details. |
-| `classes/local/tracker.php:625` | `advance_server_credit_budget` | PHP callable `advance_server_credit_budget`; see its DocBlock and callers for parameter, return-value and side-effect details. |
-| `classes/local/tracker.php:683` | `same_segment_request` | PHP callable `same_segment_request`; see its DocBlock and callers for parameter, return-value and side-effect details. |
-| `classes/local/tracker.php:703` | `begin_playback` | PHP callable `begin_playback`; see its DocBlock and callers for parameter, return-value and side-effect details. |
-| `classes/local/tracker.php:800` | `forward_interval_allowed` | PHP callable `forward_interval_allowed`; see its DocBlock and callers for parameter, return-value and side-effect details. |
-| `classes/local/tracker.php:833` | `update_state` | PHP callable `update_state`; see its DocBlock and callers for parameter, return-value and side-effect details. |
-| `classes/local/tracker.php:1079` | `update_moodle_completion_if_changed` | PHP callable `update_moodle_completion_if_changed`; see its DocBlock and callers for parameter, return-value and side-effect details. |
-| `classes/local/tracker.php:1103` | `aggregate_segments` | PHP callable `aggregate_segments`; see its DocBlock and callers for parameter, return-value and side-effect details. |
-| `classes/local/tracker.php:1149` | `rebuild_state_from_segments` | PHP callable `rebuild_state_from_segments`; see its DocBlock and callers for parameter, return-value and side-effect details. |
-| `classes/local/tracker.php:1244` | `refresh_completion` | PHP callable `refresh_completion`; see its DocBlock and callers for parameter, return-value and side-effect details. |
+| `classes/local/tracker.php:536` | `interaction_timestamp_allowed` | Named PHP function/method `interaction_timestamp_allowed`; see source DocBlock and callers for the current contract. |
+| `classes/local/tracker.php:562` | `create_default_state` | PHP callable `create_default_state`; see its DocBlock and callers for parameter, return-value and side-effect details. |
+| `classes/local/tracker.php:600` | `advance_server_credit_budget` | PHP callable `advance_server_credit_budget`; see its DocBlock and callers for parameter, return-value and side-effect details. |
+| `classes/local/tracker.php:658` | `same_segment_request` | PHP callable `same_segment_request`; see its DocBlock and callers for parameter, return-value and side-effect details. |
+| `classes/local/tracker.php:678` | `begin_playback` | PHP callable `begin_playback`; see its DocBlock and callers for parameter, return-value and side-effect details. |
+| `classes/local/tracker.php:775` | `forward_interval_allowed` | PHP callable `forward_interval_allowed`; see its DocBlock and callers for parameter, return-value and side-effect details. |
+| `classes/local/tracker.php:808` | `update_state` | PHP callable `update_state`; see its DocBlock and callers for parameter, return-value and side-effect details. |
+| `classes/local/tracker.php:1054` | `update_moodle_completion_if_changed` | PHP callable `update_moodle_completion_if_changed`; see its DocBlock and callers for parameter, return-value and side-effect details. |
+| `classes/local/tracker.php:1078` | `aggregate_segments` | PHP callable `aggregate_segments`; see its DocBlock and callers for parameter, return-value and side-effect details. |
+| `classes/local/tracker.php:1124` | `rebuild_state_from_segments` | PHP callable `rebuild_state_from_segments`; see its DocBlock and callers for parameter, return-value and side-effect details. |
+| `classes/local/tracker.php:1219` | `refresh_completion` | PHP callable `refresh_completion`; see its DocBlock and callers for parameter, return-value and side-effect details. |
 | `classes/privacy/provider.php:48` | `format_interval_second` | PHP callable `format_interval_second`; see its DocBlock and callers for parameter, return-value and side-effect details. |
 | `classes/privacy/provider.php:59` | `get_metadata` | PHP callable `get_metadata`; see its DocBlock and callers for parameter, return-value and side-effect details. |
 | `classes/privacy/provider.php:167` | `get_contexts_for_userid` | PHP callable `get_contexts_for_userid`; see its DocBlock and callers for parameter, return-value and side-effect details. |
@@ -1196,8 +1196,8 @@ Generated from the VideoTrack 1.7.101 source tree. PHP entries include named fun
 | `tests/course_analytics_test.php:316` | `test_course_report_controller_requests_exact_aggregates` | PHP callable `test_course_report_controller_requests_exact_aggregates`; see its DocBlock and callers for parameter, return-value and side-effect details. |
 | `tests/course_analytics_test.php:336` | `state` | PHP callable `state`; see its DocBlock and callers for parameter, return-value and side-effect details. |
 | `tests/csv_event_writer_test.php:36` | `test_write_detailed_event_row` | PHP callable `test_write_detailed_event_row`; see its DocBlock and callers for parameter, return-value and side-effect details. |
-| `tests/csv_event_writer_test.php:64` | `test_write_overall_event_row` | PHP callable `test_write_overall_event_row`; see its DocBlock and callers for parameter, return-value and side-effect details. |
-| `tests/csv_event_writer_test.php:92` | `test_write_skips_unknown_positive_user` | PHP callable `test_write_skips_unknown_positive_user`; see its DocBlock and callers for parameter, return-value and side-effect details. |
+| `tests/csv_event_writer_test.php:69` | `test_write_overall_event_row` | PHP callable `test_write_overall_event_row`; see its DocBlock and callers for parameter, return-value and side-effect details. |
+| `tests/csv_event_writer_test.php:97` | `test_write_skips_unknown_positive_user` | PHP callable `test_write_skips_unknown_positive_user`; see its DocBlock and callers for parameter, return-value and side-effect details. |
 | `tests/csv_export_test.php:37` | `test_delimiter_resolution` | PHP callable `test_delimiter_resolution`; see its DocBlock and callers for parameter, return-value and side-effect details. |
 | `tests/csv_export_test.php:60` | `test_process_form_fields` | PHP callable `test_process_form_fields`; see its DocBlock and callers for parameter, return-value and side-effect details. |
 | `tests/csv_export_test.php:77` | `test_field_options_include_video_link` | PHP callable `test_field_options_include_video_link`; see its DocBlock and callers for parameter, return-value and side-effect details. |
@@ -1374,8 +1374,8 @@ Generated from the VideoTrack 1.7.101 source tree. PHP entries include named fun
 | `tests/tracker_test.php:583` | `test_playback_credit_is_bound_to_active_session_and_pause_closes_window` | PHP callable `test_playback_credit_is_bound_to_active_session_and_pause_closes_window`; see its DocBlock and callers for parameter, return-value and side-effect details. |
 | `tests/tracker_test.php:807` | `test_watched_time_validation_uses_aggregate_state_fallback` | PHP callable `test_watched_time_validation_uses_aggregate_state_fallback`; see its DocBlock and callers for parameter, return-value and side-effect details. |
 | `tests/tracker_test.php:835` | `test_any_session_watched_time_validation_uses_validated_segments` | Named PHP function/method `test_any_session_watched_time_validation_uses_validated_segments`; see source DocBlock and callers for the current contract. |
-| `tests/tracker_test.php:866` | `test_allowed_forward_seek_accepts_recent_session_interaction_timestamp` | Named PHP function/method `test_allowed_forward_seek_accepts_recent_session_interaction_timestamp`; see source DocBlock and callers for the current contract. |
-| `tests/tracker_test.php:900` | `test_allowed_forward_seek_rejects_stale_or_different_session_interaction` | Named PHP function/method `test_allowed_forward_seek_rejects_stale_or_different_session_interaction`; see source DocBlock and callers for the current contract. |
+| `tests/tracker_test.php:866` | `test_allowed_forward_seek_requires_validated_interaction_timestamp` | Named PHP function/method `test_allowed_forward_seek_requires_validated_interaction_timestamp`; see source DocBlock and callers for the current contract. |
+| `tests/tracker_test.php:919` | `test_allowed_forward_seek_rejects_stale_or_different_session_interaction` | Named PHP function/method `test_allowed_forward_seek_rejects_stale_or_different_session_interaction`; see source DocBlock and callers for the current contract. |
 | `tests/upgrade_contract_test.php:35` | `test_modern_schema_fast_forward_precedes_legacy_steps` | Named PHP function/method `test_modern_schema_fast_forward_precedes_legacy_steps`; see source DocBlock and callers for the current contract. |
 | `tests/upgrade_contract_test.php:63` | `test_failed_install_schema_recovery_supersedes_obsolete_lineage` | Named PHP function/method `test_failed_install_schema_recovery_supersedes_obsolete_lineage`; see source DocBlock and callers for the current contract. |
 | `tests/upgrade_contract_test.php:93` | `test_gradebook_recovery_uses_dml_only` | Named PHP function/method `test_gradebook_recovery_uses_dml_only`; see source DocBlock and callers for the current contract. |

@@ -48,3 +48,9 @@ Il focus del browser **non** è intenzionalmente una condizione server di comple
 Per i siti che abilitano intenzionalmente `strict`, VideoTrack crea nel corso il gruppo nascosto e non partecipante `mod_videotrack_focus_exception`. Un membro riceve la policy effettiva `hiddenonly`, così split-view visibile e strumenti assistivi non vengono messi in pausa dal solo blur della finestra. L’eccezione non modifica il trattamento del documento hidden né alcun controllo server-authoritative, e VideoTrack non memorizza la motivazione dell’accomodamento.
 
 Questa scelta evita di classificare come cheating l’uso legittimo di split-screen, strumenti di accessibilità o finestre multiple, mantenendo però non autorevoli il playback hidden/background e la condivisione del credito fra schede diverse.
+
+## 1.7.102 autorità del timestamp delle interazioni
+
+Il permesso di seek avanti consente al learner di spostarsi a un punto successivo; da solo non dimostra che un’interazione appartenga a quel punto. I client di reazioni, note, segnalibri e Forum eseguono prima il flush del segmento corrente e preferiscono l’estremo salvato restituito da `save_segment`. Il server accetta quindi l’interazione soltanto quando il timestamp richiesto è coperto da evidenza di visione validata dal server secondo la policy di sessione configurata.
+
+Una riga `playstart` recente non assegna tempo visto e non può più autorizzare un timestamp non correlato. Questo chiude AC-F02 senza modificare controlli di seek, credito di riproduzione, completamento, asset AMD o il comportamento delle interazioni in posizioni già validate.

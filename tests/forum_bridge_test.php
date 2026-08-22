@@ -127,7 +127,7 @@ final class forum_bridge_test extends advanced_testcase {
     }
 
     /**
-     * An allowed forward seek can authorise the Forum timestamp from recent same-session playback evidence.
+     * An allowed forward seek can authorise the Forum timestamp from validated same-session progress.
      */
     public function test_learner_forum_timestamp_accepts_allowed_forward_seek_session(): void {
         global $DB;
@@ -153,11 +153,11 @@ final class forum_bridge_test extends advanced_testcase {
             'requestid' => bin2hex(random_bytes(16)),
             'wallclockstart' => time(),
             'wallclockend' => time(),
-            'videotimestart' => 10.0,
-            'videotimeend' => 10.0,
+            'videotimestart' => 59.0,
+            'videotimeend' => 60.0,
             'playbackrate' => 1.0,
-            'endreason' => 'playstart',
-            'servervalidated' => 0,
+            'endreason' => 'interaction',
+            'servervalidated' => 1,
             'timecreated' => time(),
         ]);
 

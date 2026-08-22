@@ -102,8 +102,9 @@ class save_bookmark extends external_api {
         $videotime = max(0.0, $duration > 0 ? min((float)$params['videotime'], $duration) : (float)$params['videotime']);
         // A bookmark may target any position this learner already watched, including
         // after seeking backward to validated progress from an earlier session. If the
-        // timestamp is newly reached through a permitted forward seek, fall back to
-        // recent same-session playback evidence. Unwatched positions remain rejected.
+        // player flushes current progress first, so a newly reached timestamp must
+        // already be covered by server-validated evidence. Unwatched positions remain
+        // rejected even when forward seeking is permitted.
         $fallbackdays = \videotrack_get_config_int('validationfallbackdays', 30, 0, 3650);
         $maxage = $fallbackdays > 0 ? $fallbackdays * DAYSECS : 0;
         $alreadywatched = tracker::has_watched_videotime_any_session(
