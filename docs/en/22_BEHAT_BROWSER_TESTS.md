@@ -76,6 +76,8 @@ Release 1.7.101 adds `focus_exception_policy.feature`. Two candidate scenarios i
 
 Release 1.7.103 extends `html5_seek_policy.feature` with a real persisted pre-seek snapshot assertion. The scenario plays the local media before a blocked jump, captures `currentTime` immediately before assigning the forbidden target and waits for the resulting `endreason = 'seek'` database row. The assertion requires a non-empty server-validated interval whose endpoint matches the captured browser boundary within 0.75 seconds. This closes the deterministic HTML5 part of the former static-only snapshot gap without changing production JavaScript.
 
+The real 1.7.103 gate exposed that the extra `servervalidated = 1` expectation was stricter than the persisted-snapshot contract. On both Moodle 5.0 and 5.3 the raw row ended within about 0.22 seconds of the captured pre-seek time, but the server guard retained it as non-authoritative evidence. Release 1.7.104 preserves the raw-endpoint assertion and additionally verifies that aggregate unique coverage and resume position do not cross into the skipped gap. This validates both accepted and conservatively rejected ledger outcomes without weakening the server-authoritative guard.
+
 
 ## Current browser-test coverage limits
 

@@ -1,5 +1,12 @@
 # VideoTrack changelog
 
+## 1.7.104 - 2026-08-22
+
+- Correct the two canonical PHPCS spacing errors in the 1.7.103 persisted-seek Behat assertion.
+- Align the browser contract with the real server-authoritative ledger: the raw seek snapshot must end at the pre-seek browser boundary, while the aggregate state must never credit or resume inside the skipped gap whether the strict server budget accepts or retains that row as non-authoritative evidence.
+- Preserve the 1.7.103 runtime, scenario count and 0.75-second media-event tolerance; this is a root-cause-only corrective release after the identical Moodle 5.0/5.3 gate failure.
+- Keep production runtime, AMD, schema, capability, privacy, completion and language packs unchanged.
+
 ## 1.7.103 - 2026-08-22
 
 - Continue U-007 with a deterministic HTML5 browser scenario that plays real media, performs a blocked forward seek and verifies the persisted `videotrack_seg` row end-to-end.

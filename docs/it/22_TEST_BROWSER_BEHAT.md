@@ -86,6 +86,8 @@ La 1.7.101 aggiunge `focus_exception_policy.feature`. Due scenari candidati ispe
 
 La 1.7.103 estende `html5_seek_policy.feature` con un’asserzione reale sullo snapshot pre-seek persistito. Lo scenario riproduce il media locale prima di un salto bloccato, acquisisce `currentTime` immediatamente prima di assegnare il target vietato e attende la riga database risultante con `endreason = 'seek'`. L’asserzione richiede un intervallo non vuoto validato dal server il cui estremo coincide con il confine browser entro 0,75 secondi. Questo chiude la parte HTML5 deterministica del precedente gap coperto soltanto staticamente, senza modificare il JavaScript di produzione.
 
+Il gate reale 1.7.103 ha mostrato che l’aspettativa aggiuntiva `servervalidated = 1` era più restrittiva del contratto sullo snapshot persistito. Sia su Moodle 5.0 sia su 5.3 la riga grezza terminava entro circa 0,22 secondi dal tempo pre-seek acquisito, ma il guard server la conservava come evidenza non autorevole. La 1.7.104 mantiene l’asserzione sull’estremo grezzo e verifica inoltre che copertura unica aggregata e posizione resume non entrino nel gap saltato. Questo valida sia gli esiti accettati sia quelli conservativamente rifiutati dal ledger senza indebolire il guard server-authoritative.
+
 ## Limiti correnti della copertura browser
 
 La suite distribuita documenta esplicitamente ciò che non è ancora deterministico. Restano da coprire:

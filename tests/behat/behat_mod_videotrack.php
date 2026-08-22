@@ -305,7 +305,7 @@ class behat_mod_videotrack extends behat_base {
     }
 
     /**
-     * Assert that the persisted seek row ends at the browser time captured before the jump.
+     * Assert the persisted seek boundary and the absence of aggregate credit for the skipped gap.
      *
      * @Then /^the seek segment for "(?P<username>[^"]+)" in "(?P<activityname>[^"]+)" matches the pre-seek time$/
      * @param string $username Moodle username.
@@ -356,14 +356,25 @@ class behat_mod_videotrack extends behat_base {
         $expectedend = (float)$expected;
         $actualstart = (float)$segment->videotimestart;
         $actualend = (float)$segment->videotimeend;
-        if ((int)$segment->servervalidated !== 1
-                || $actualstart < 0.0
-                || $actualend <= $actualstart
-                || abs($actualend - $expectedend) > 0.75) {
+        $state = $DB->get_record('videotrack_state', [
+            'videotrackid' => (int)$videotrack->id,
+            'userid' => (int)$user->id,
+        ], '*', MUST_EXIST);
+        $covered = (float)$state->uniquecoveredseconds;
+        $lastposition = (float)$state->lastposition;
+        $maximumallowed = $expectedend + 0.75;
+        if (
+            $actualstart < 0.0
+            || $actualend <= $actualstart
+            || abs($actualend - $expectedend) > 0.75
+            || $covered > $maximumallowed
+            || $lastposition > $maximumallowed
+        ) {
             throw new ExpectationException(
                 'Persisted seek segment [' . $actualstart . ', ' . $actualend . '] with servervalidated='
-                    . (int)$segment->servervalidated . ' does not match pre-seek browser time '
-                    . $expectedend . ' within 0.75 seconds.',
+                    . (int)$segment->servervalidated . ', covered=' . $covered . ' and lastposition='
+                    . $lastposition . ' does not preserve pre-seek browser boundary ' . $expectedend
+                    . ' within 0.75 seconds.',
                 $this->getSession()
             );
         }
