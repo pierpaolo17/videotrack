@@ -1,11 +1,11 @@
 # Documentation audit
 
-Baseline: VideoTrack **1.7.102** (`2026082201`).
+Baseline: VideoTrack **1.7.103** (`2026082202`).
 
 ## Coverage
 
 - Non-documentation files inventoried: **284/284**.
-- Named PHP functions/methods inventoried: **734**.
+- Named PHP functions/methods inventoried: **735**.
 - Named AMD callables detected and inventoried: **647**.
 - XMLDB tables documented: **7**.
 - Site-setting keys documented: **57**.
@@ -19,6 +19,15 @@ Baseline: VideoTrack **1.7.102** (`2026082201`).
 - Static resume/completion/stacked-alert contracts complement the operational Behat environment; the real 1.7.98 browser gate passed 13/13 scenarios and 195/195 steps on Moodle 5.0 and 5.3, while broader provider smoke coverage remains explicitly separate.
 - Maintainer-only consolidated roadmap/lessons-history files are intentionally excluded from the distributed plugin tree and protected by `.moodleignore`.
 - Chapter navigation now has an explicit focus-visible/forced-colour contract; a manual keyboard/high-contrast matrix remains a release gate for final U-020 closure.
+
+## 1.7.103 persisted pre-seek browser verification
+
+- The real 1.7.102 gate passed canonical/extra PHPCS, PHP lint, Grunt, PHPUnit and all 18 Behat scenarios / 256 steps on Moodle 5.0–5.3; PHPUnit reported 263 tests / 2342 assertions without the former Notice.
+- U-007 now includes an end-to-end deterministic HTML5 assertion for the previously static-only pre-seek snapshot contract.
+- The new scenario starts real local-fixture playback, records the browser timestamp immediately before a blocked jump and queries the actual `videotrack_seg` write after its asynchronous save.
+- The latest seek row must be server-validated, non-empty and end within 0.75 seconds of the captured browser boundary, proving that the skipped interval is not persisted as watched evidence.
+- The distributed suite now contains 7 features and 19 candidate scenarios. The new scenario is not declared green until the maintainer runs Behat on this exact patched tree.
+- Current inventory remains **284/284** non-documentation files and becomes **735 PHP / 647 AMD** named callables; production runtime, AMD, schema, capability, privacy and language packs are unchanged.
 
 ## 1.7.102 interaction-timestamp hardening verification
 

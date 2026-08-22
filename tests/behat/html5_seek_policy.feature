@@ -21,6 +21,7 @@ Feature: HTML5 forward seek policy is enforced in the browser
       | activity   | course | name                     | behathtml5fixture | allowseekforward | reactionsenabled | studentnotesenabled | bookmarksenabled | behatlinkedforum |
       | videotrack | C1     | Blocked seek             | 1                 | 0                | 0                | 0                   | 0                |                  |
       | videotrack | C1     | Allowed seek             | 1                 | 1                | 0                | 0                   | 0                |                  |
+      | videotrack | C1     | Persisted seek snapshot  | 1                 | 0                | 0                | 0                   | 0                |                  |
       | videotrack | C1     | Blocked interaction seek | 1                 | 0                | 1                | 1                   | 1                | Linked Forum     |
 
   Scenario: A blocked forward seek returns to the watched frontier
@@ -38,6 +39,18 @@ Feature: HTML5 forward seek policy is enforced in the browser
     Then the VideoTrack HTML5 media is ready
     When I seek the VideoTrack HTML5 media to "20" seconds
     Then the VideoTrack HTML5 media time is between "19" and "21"
+
+  Scenario: A blocked forward seek persists only the played pre-seek interval
+    Given I log in as "student1"
+    And I am on "Course 1" course homepage
+    When I click on "Persisted seek snapshot" "link"
+    Then the VideoTrack HTML5 media is ready
+    When I click on ".videotrack-ctrl-play" "css_element"
+    Then the VideoTrack HTML5 media playback is "playing"
+    And the VideoTrack HTML5 media time is between "4" and "10"
+    When I seek the VideoTrack HTML5 media to "20" seconds
+    Then the VideoTrack HTML5 media time is between "0" and "11"
+    And the seek segment for "student1" in "Persisted seek snapshot" matches the pre-seek time
 
   Scenario: Personal interactions remain valid after a blocked seek rolls back
     Given "student1" watched "Blocked interaction seek" through "5" seconds

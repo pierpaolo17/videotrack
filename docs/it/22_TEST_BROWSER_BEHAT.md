@@ -1,6 +1,6 @@
 # Automazione browser con Behat
 
-VideoTrack ha avviato la fase di automazione browser nella release 1.7.45; dalla 1.7.83 l’ambiente Behat del maintainer è operativo su Moodle 5.0–5.3 e la 1.7.100 corregge il fixture completion introdotto dalla 1.7.99 e estende ulteriormente l’harness HTML5 locale deterministico includendo anche la persistenza della completion Moodle. I contratti non-browser continuano a coprire sincronizzazione completion e alert impilati su YouTube, HTML5 e Vimeo. Il plugin distribuisce un generator Moodle in `tests/generator/lib.php` e gli scenari browser in `tests/behat/`.
+VideoTrack ha avviato la fase di automazione browser nella release 1.7.45; la 1.7.103 aggiunge la verifica del confine pre-seek persistito all’harness HTML5 locale deterministica dopo che la 1.7.100 aveva corretto il fixture completion introdotto dalla 1.7.99. L’ambiente Behat del maintainer è operativo su Moodle 5.0–5.3 e la suite usa selector CSS univoci sui `<summary>` nativi invece di click testuali ambigui. Il plugin distribuisce un generator Moodle in `tests/generator/lib.php` e gli scenari browser in `tests/behat/`.
 
 ## Scopo
 
@@ -84,15 +84,16 @@ Il gate reale 1.7.99 ha evidenziato un gap del fixture: il seed diretto dello st
 
 La 1.7.101 aggiunge `focus_exception_policy.feature`. Due scenari candidati ispezionano il JSON reale del player: un learner esterno al gruppo corso nascosto mantiene `strict`, mentre un membro riceve `hiddenonly`. Il contratto server di split-view/accessibilità viene così verificato senza simulare in modo non portabile il blur del window manager. La suite distribuita passa a 7 feature e 18 scenari candidati; i due nuovi scenari non sono dichiarati verdi finché il maintainer non esegue Behat sull’esatto albero patchato.
 
+La 1.7.103 estende `html5_seek_policy.feature` con un’asserzione reale sullo snapshot pre-seek persistito. Lo scenario riproduce il media locale prima di un salto bloccato, acquisisce `currentTime` immediatamente prima di assegnare il target vietato e attende la riga database risultante con `endreason = 'seek'`. L’asserzione richiede un intervallo non vuoto validato dal server il cui estremo coincide con il confine browser entro 0,75 secondi. Questo chiude la parte HTML5 deterministica del precedente gap coperto soltanto staticamente, senza modificare il JavaScript di produzione.
+
 ## Limiti correnti della copertura browser
 
 La suite distribuita documenta esplicitamente ciò che non è ancora deterministico. Restano da coprire:
 
 1. harness provider deterministiche YouTube / Vimeo;
 2. parity del seek indietro su YouTube/Vimeo oltre alla copertura HTML5 deterministica resume/seek indietro;
-3. asserzione end-to-end dell'esatto snapshot del segmento pre-seek persistito prima del salto;
-4. alert impilati nel browser; la persistenza dello stato completion Moodle è coperta dalla 1.7.99, mentre resta pendente la parity resume provider-specifica.
-5. una tranche anti-cheat browser/runtime esplicita prima della milestone finale Moodle 5.0–5.3.
+3. alert impilati nel browser; la persistenza dello stato completion Moodle è coperta dalla 1.7.99, mentre resta pendente la parity resume provider-specifica.
+4. una tranche anti-cheat browser/runtime esplicita prima della milestone finale Moodle 5.0–5.3.
 
 Gli scenari provider dovrebbero evitare dipendenze dalla disponibilità della rete pubblica quando una harness locale deterministica può esercitare lo stesso contratto dell'adapter.
 

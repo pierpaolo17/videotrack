@@ -1,6 +1,6 @@
 # Behat browser automation
 
-VideoTrack started its browser-automation phase in release 1.7.45; release 1.7.100 corrects the completion fixture introduced in 1.7.99 and expands the deterministic local HTML5 harness after 1.7.83 kept the deterministic HTML5 post-rollback Behat suite and stabilizes the native learner-history toggles after the 1.7.82 multi-version run made the maintainer Behat environment operational on Moodle 5.0–5.3. The two common Chrome 151 failures were caused by broad text-based clicks in the scenarios; the features now click the unique native `<summary>` elements through CSS selectors, without changing learner runtime markup. The plugin ships a Moodle module generator under `tests/generator/lib.php` and browser scenarios under `tests/behat/`.
+VideoTrack started its browser-automation phase in release 1.7.45; release 1.7.103 adds persisted pre-seek boundary verification to the deterministic local HTML5 harness after release 1.7.100 corrected the completion fixture introduced in 1.7.99. The maintainer Behat environment is operational on Moodle 5.0–5.3, and the suite uses unique native `<summary>` CSS selectors instead of ambiguous text clicks. The plugin ships a Moodle module generator under `tests/generator/lib.php` and browser scenarios under `tests/behat/`.
 
 ## Purpose
 
@@ -74,6 +74,8 @@ Release 1.7.99 adds `html5_completion_contract.feature`. The real 1.7.99 gate ex
 
 Release 1.7.101 adds `focus_exception_policy.feature`. Two candidate scenarios inspect the real player JSON: a learner outside the hidden course exception group retains `strict`, while a member receives `hiddenonly`. This verifies the server-resolved split-view/accessibility contract without attempting a non-portable window-manager blur simulation. The distributed suite now contains 7 features and 18 candidate scenarios; these two new scenarios are not declared green until the maintainer runs Behat on the exact patched tree.
 
+Release 1.7.103 extends `html5_seek_policy.feature` with a real persisted pre-seek snapshot assertion. The scenario plays the local media before a blocked jump, captures `currentTime` immediately before assigning the forbidden target and waits for the resulting `endreason = 'seek'` database row. The assertion requires a non-empty server-validated interval whose endpoint matches the captured browser boundary within 0.75 seconds. This closes the deterministic HTML5 part of the former static-only snapshot gap without changing production JavaScript.
+
 
 ## Current browser-test coverage limits
 
@@ -81,9 +83,8 @@ The distributed suite intentionally records what is not yet deterministic. Remai
 
 1. deterministic YouTube / Vimeo provider harnesses;
 2. backward-seek parity for YouTube/Vimeo beyond the deterministic HTML5 resume/backward-seek coverage;
-3. end-to-end assertion of the exact pre-seek segment snapshot persisted before a jump;
-4. stacked-alert browser scenarios; Moodle completion-state persistence is covered from 1.7.99, while provider-specific resume parity remains pending.
-5. an explicit anti-cheat browser/runtime tranche before the final Moodle 5.0–5.3 milestone.
+3. stacked-alert browser scenarios; Moodle completion-state persistence is covered from 1.7.99, while provider-specific resume parity remains pending.
+4. an explicit anti-cheat browser/runtime tranche before the final Moodle 5.0–5.3 milestone.
 
 Provider scenarios should avoid depending on public third-party network availability when a deterministic local harness can exercise the same adapter contract.
 

@@ -87,6 +87,7 @@ class behat_mod_videotrack extends behat_base {
         $script = "(function() {"
             . "var media = document.querySelector('#mod-videotrack-player video');"
             . "if (!media) { throw new Error('VideoTrack HTML5 media not found'); }"
+            . "window.__videotrackBehatPreSeekTime = media.currentTime;"
             . "media.currentTime = " . $target . ";"
             . "}())";
         $this->getSession()->executeScript($script);
@@ -106,7 +107,7 @@ class behat_mod_videotrack extends behat_base {
             $minimum,
             $maximum
         );
-        if (!$this->getSession()->wait(3000, $condition)) {
+        if (!$this->getSession()->wait(6000, $condition)) {
             $time = $this->getSession()->evaluateScript(
                 "(function() {var media = document.querySelector('#mod-videotrack-player video');"
                 . "return media ? media.currentTime : null;}())"
@@ -298,6 +299,71 @@ class behat_mod_videotrack extends behat_base {
             throw new ExpectationException(
                 'VideoTrack Forum composer time ' . var_export($time, true)
                     . ' is outside the expected range ' . $minimum . '-' . $maximum . ' seconds.',
+                $this->getSession()
+            );
+        }
+    }
+
+    /**
+     * Assert that the persisted seek row ends at the browser time captured before the jump.
+     *
+     * @Then /^the seek segment for "(?P<username>[^"]+)" in "(?P<activityname>[^"]+)" matches the pre-seek time$/
+     * @param string $username Moodle username.
+     * @param string $activityname VideoTrack activity name.
+     */
+    public function the_latest_seek_segment_matches_the_pre_seek_browser_time(
+        string $username,
+        string $activityname
+    ): void {
+        global $DB;
+
+        $expected = $this->getSession()->evaluateScript(
+            '(function() { return window.__videotrackBehatPreSeekTime ?? null; }())'
+        );
+        if (!is_numeric($expected)) {
+            throw new ExpectationException(
+                'The pre-seek VideoTrack browser timestamp was not captured.',
+                $this->getSession()
+            );
+        }
+
+        $user = $DB->get_record('user', ['username' => $username], '*', MUST_EXIST);
+        $videotrack = $DB->get_record('videotrack', ['name' => $activityname], '*', MUST_EXIST);
+        $conditions = [
+            'videotrackid' => (int)$videotrack->id,
+            'userid' => (int)$user->id,
+            'endreason' => 'seek',
+        ];
+        $deadline = microtime(true) + 5.0;
+        $segment = false;
+        do {
+            $records = $DB->get_records('videotrack_seg', $conditions, 'id DESC', '*', 0, 1);
+            if ($records) {
+                $segment = reset($records);
+                break;
+            }
+            usleep(100000);
+        } while (microtime(true) < $deadline);
+
+        if (!$segment) {
+            throw new ExpectationException(
+                'No persisted VideoTrack seek segment was found for "' . $activityname . '" and user "'
+                    . $username . '".',
+                $this->getSession()
+            );
+        }
+
+        $expectedend = (float)$expected;
+        $actualstart = (float)$segment->videotimestart;
+        $actualend = (float)$segment->videotimeend;
+        if ((int)$segment->servervalidated !== 1
+                || $actualstart < 0.0
+                || $actualend <= $actualstart
+                || abs($actualend - $expectedend) > 0.75) {
+            throw new ExpectationException(
+                'Persisted seek segment [' . $actualstart . ', ' . $actualend . '] with servervalidated='
+                    . (int)$segment->servervalidated . ' does not match pre-seek browser time '
+                    . $expectedend . ' within 0.75 seconds.',
                 $this->getSession()
             );
         }

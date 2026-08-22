@@ -1,5 +1,12 @@
 # VideoTrack changelog
 
+## 1.7.103 - 2026-08-22
+
+- Continue U-007 with a deterministic HTML5 browser scenario that plays real media, performs a blocked forward seek and verifies the persisted `videotrack_seg` row end-to-end.
+- Capture the browser timestamp immediately before the jump and require the latest `endreason = 'seek'` row to be server-validated, non-empty and aligned with that pre-seek boundary within the documented media-event tolerance.
+- Prove that the skipped interval is not credited by querying the real Moodle database after the asynchronous segment write instead of relying only on a static JavaScript ordering contract.
+- Keep production runtime, AMD sources/builds, schema, capability, privacy, completion and language packs unchanged; public YouTube/Vimeo availability remains outside this deterministic tranche.
+
 ## 1.7.102 - 2026-08-22
 
 - Close U-007 acceptance condition AC-F02: reaction, note, bookmark and Forum timestamps now require server-validated watched evidence at the requested position, even when forward seeking is allowed.

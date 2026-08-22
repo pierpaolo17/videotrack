@@ -1,11 +1,11 @@
 # Audit della documentazione
 
-Baseline: VideoTrack **1.7.102** (`2026082201`).
+Baseline: VideoTrack **1.7.103** (`2026082202`).
 
 ## Copertura
 
 - File non documentali inventariati: **284/284**.
-- Funzioni/metodi PHP nominati inventariati: **734**.
+- Funzioni/metodi PHP nominati inventariati: **735**.
 - Callable AMD nominati rilevati e inventariati: **647**.
 - Tabelle XMLDB documentate: **7**.
 - Chiavi impostazioni sito documentate: **57**.
@@ -18,6 +18,15 @@ Baseline: VideoTrack **1.7.102** (`2026082201`).
 - Automazione browser Behat documentata in `22_TEST_BROWSER_BEHAT.md`; U-007 è tracciato come in corso.
 - I contratti statici resume/completion/alert impilati completano l’ambiente Behat ora operativo; il gate browser reale 1.7.98 ha superato 13/13 scenari e 195/195 step su Moodle 5.0 e 5.3, mentre gli smoke test provider più ampi restano separati.
 - La navigazione capitoli ha ora un contratto esplicito focus-visible/colori forzati; la matrice manuale tastiera/high-contrast resta un gate per la chiusura finale di U-020.
+
+## Verifica browser dello snapshot pre-seek persistito 1.7.103
+
+- Il gate reale 1.7.102 ha superato PHPCS canonico/extra, PHP lint, Grunt, PHPUnit e tutti i 18 scenari / 256 step Behat su Moodle 5.0–5.3; PHPUnit ha riportato 263 test / 2342 asserzioni senza il precedente Notice.
+- U-007 include ora un’asserzione HTML5 deterministica end-to-end per il contratto snapshot pre-seek prima coperto soltanto staticamente.
+- Il nuovo scenario avvia la riproduzione reale del fixture locale, acquisisce il timestamp browser immediatamente prima di un salto bloccato e interroga la write effettiva in `videotrack_seg` dopo il salvataggio asincrono.
+- L’ultima riga seek deve essere validata dal server, non vuota e terminare entro 0,75 secondi dal confine acquisito nel browser, dimostrando che l’intervallo saltato non viene persistito come visione.
+- La suite distribuita contiene ora 7 feature e 19 scenari candidati. Il nuovo scenario non è dichiarato verde finché il maintainer non esegue Behat sull’esatto albero patchato.
+- L’inventario corrente resta **284/284** file non documentali e diventa **735 PHP / 647 AMD** callable nominati; runtime di produzione, AMD, schema, capability, privacy e language pack restano invariati.
 
 ## Verifica hardening timestamp delle interazioni 1.7.102
 
