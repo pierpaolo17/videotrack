@@ -1,6 +1,6 @@
 # Audit della documentazione
 
-Baseline: VideoTrack **1.7.103** (`2026082202`).
+Baseline: VideoTrack **1.7.104** (`2026082203`).
 
 ## Copertura
 
@@ -18,6 +18,15 @@ Baseline: VideoTrack **1.7.103** (`2026082202`).
 - Automazione browser Behat documentata in `22_TEST_BROWSER_BEHAT.md`; U-007 è tracciato come in corso.
 - I contratti statici resume/completion/alert impilati completano l’ambiente Behat ora operativo; il gate browser reale 1.7.98 ha superato 13/13 scenari e 195/195 step su Moodle 5.0 e 5.3, mentre gli smoke test provider più ampi restano separati.
 - La navigazione capitoli ha ora un contratto esplicito focus-visible/colori forzati; la matrice manuale tastiera/high-contrast resta un gate per la chiusura finale di U-020.
+
+## Correzione del gate seek persistito 1.7.104
+
+- L’esatto albero 1.7.103 ha superato PHP lint e PHPUnit su Moodle 5.0/5.3 ma ha fallito il gate release: PHPCS canonico ha trovato due errori correggibili di spaziatura PSR-12 della struttura di controllo e Behat ha superato 18/19 scenari e 270/271 step su entrambi i rami.
+- Entrambi i failure browser hanno dimostrato che la riga grezza `endreason = 'seek'` terminava sul confine pre-seek corretto: `[0.079, 3.980]` rispetto al browser `4.192294` su Moodle 5.0 e `[0.084, 3.978]` rispetto a `4.214009` su Moodle 5.3.
+- L’asserzione fallita richiedeva inoltre `servervalidated = 1`. Questa condizione eccedeva il gap documentato: il ledger server conserva intenzionalmente le righe rifiutate dai guard come evidenza non autorevole, mentre il contratto browser richiesto è che lo snapshot grezzo termini prima del salto e che il gap saltato non entri nel credito visto aggregato o nello stato resume.
+- Lo step corretto verifica quindi l’estremo grezzo e richiede inoltre che `uniquecoveredseconds` e `lastposition` non superino il confine pre-seek acquisito più la tolleranza eventi-media esistente di 0,75 secondi.
+- L’`if` multilinea segue ora la spaziatura PSR-12 canonica. Runtime, numero scenari, AMD, schema, capability, privacy, completion e language pack restano invariati.
+- L’inventario corrente resta **284/284** file non documentali e **735 PHP / 647 AMD** callable nominati. L’esito 1.7.104 non è dichiarato verde prima del rerun maintainer sull’esatto albero patchato.
 
 ## Verifica browser dello snapshot pre-seek persistito 1.7.103
 

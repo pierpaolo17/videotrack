@@ -1,6 +1,6 @@
 # Documentation audit
 
-Baseline: VideoTrack **1.7.103** (`2026082202`).
+Baseline: VideoTrack **1.7.104** (`2026082203`).
 
 ## Coverage
 
@@ -19,6 +19,15 @@ Baseline: VideoTrack **1.7.103** (`2026082202`).
 - Static resume/completion/stacked-alert contracts complement the operational Behat environment; the real 1.7.98 browser gate passed 13/13 scenarios and 195/195 steps on Moodle 5.0 and 5.3, while broader provider smoke coverage remains explicitly separate.
 - Maintainer-only consolidated roadmap/lessons-history files are intentionally excluded from the distributed plugin tree and protected by `.moodleignore`.
 - Chapter navigation now has an explicit focus-visible/forced-colour contract; a manual keyboard/high-contrast matrix remains a release gate for final U-020 closure.
+
+## 1.7.104 persisted-seek gate correction
+
+- The exact 1.7.103 tree passed PHP lint and PHPUnit on Moodle 5.0/5.3 but failed the release gate: canonical PHPCS found two fixable PSR-12 control-structure spacing errors, and Behat passed 18/19 scenarios and 270/271 steps on both branches.
+- Both browser failures proved that the raw `endreason = 'seek'` row ended at the correct pre-seek boundary: `[0.079, 3.980]` versus browser `4.192294` on Moodle 5.0 and `[0.084, 3.978]` versus `4.214009` on Moodle 5.3.
+- The failed assertion additionally required `servervalidated = 1`. That condition exceeded the documented gap: the server ledger deliberately retains guard-rejected rows as non-authoritative evidence, while the required browser contract is that the raw snapshot stops before the jump and the skipped gap never enters aggregate watched credit or resume state.
+- The corrected step therefore checks the raw endpoint and additionally requires both `uniquecoveredseconds` and `lastposition` to remain no farther than the captured pre-seek boundary plus the existing 0.75-second media-event tolerance.
+- The multi-line `if` now follows canonical PSR-12 spacing. Runtime, scenario count, AMD, schema, capability, privacy, completion and language packs remain unchanged.
+- Current inventory remains **284/284** non-documentation files and **735 PHP / 647 AMD** named callables. The 1.7.104 result is not declared green before the maintainer reruns the exact patched tree.
 
 ## 1.7.103 persisted pre-seek browser verification
 
