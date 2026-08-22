@@ -93,6 +93,26 @@ final class generator_test extends advanced_testcase {
     }
 
     /**
+     * The generator must create the stable identifier reserved for the deterministic YouTube SDK double.
+     */
+    public function test_generator_creates_youtube_provider_fixture(): void {
+        $this->resetAfterTest();
+        $this->setAdminUser();
+
+        $course = $this->getDataGenerator()->create_course();
+        $generator = $this->getDataGenerator()->get_plugin_generator('mod_videotrack');
+        $activity = $generator->create_instance([
+            'course' => $course->id,
+            'name' => 'Generated YouTube VideoTrack',
+            'behatproviderfixture' => 'youtube',
+        ]);
+
+        $this->assertSame('youtube', $activity->videosource);
+        $this->assertSame('VTBehat0001', $activity->videoid);
+        $this->assertSame(60, (int)$activity->durationseconds);
+    }
+
+    /**
      * The generator must resolve a named Forum for deterministic Behat scenarios.
      */
     public function test_generator_links_named_forum_fixture(): void {

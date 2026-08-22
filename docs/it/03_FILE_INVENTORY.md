@@ -1,8 +1,8 @@
 # Inventario dei file distribuiti
 
-Questo inventario è generato sull’albero VideoTrack 1.7.106 ed elenca ogni file non documentale. Il JavaScript canonico è in `amd/src`; i file in `amd/build` sono generati.
+Questo inventario è generato sull’albero VideoTrack 1.7.107 ed elenca ogni file non documentale. Il JavaScript canonico è in `amd/src`; i file in `amd/build` sono generati.
 
-Entries: **284**.
+Entries: **286**.
 
 | File | Responsabilità |
 |---|---|
@@ -245,7 +245,7 @@ Entries: **284**.
 | `tests/analytics_scope_test.php` | Copertura PHPUnit per analytics scope test. |
 | `tests/analytics_table_export_test.php` | Copertura PHPUnit per analytics table export test. |
 | `tests/analytics_test.php` | Copertura PHPUnit per analytics test. |
-| `tests/behat/behat_mod_videotrack.php` | Step Behat deterministici per readiness, seek, verifica stato play/pause e timestamp, e seed controllato di watched evidence del player HTML5 locale. |
+| `tests/behat/behat_mod_videotrack.php` | Step Behat deterministici per readiness, controlli, timestamp, rollback e watched evidence dei player HTML5 e provider. |
 | `tests/behat/focus_exception_policy.feature` | Contratto browser per la policy focus rigida con e senza membership nel gruppo eccezioni nascosto. |
 | `tests/behat/html5_acknowledgement_contract.feature` | Regressione browser deterministica per presa visione immediata, gate al video-end e conferma persistita. |
 | `tests/behat/html5_completion_contract.feature` | Regressione browser deterministica per la persistenza della completion Moodle dopo visione validata e presa visione. |
@@ -253,12 +253,14 @@ Entries: **284**.
 | `tests/behat/html5_seek_policy.feature` | Regressione browser per seek avanti HTML5 consentito e bloccato senza dipendenze di rete pubblica. |
 | `tests/behat/learner_role_controls.feature` | Regressione Behat dello scope ruoli per controlli learner, docente e dual-role. |
 | `tests/behat/student_personal_sections.feature` | Regressione browser Behat per le sezioni personali collassabili del learner. |
+| `tests/behat/youtube_provider_contract.feature` | Contratto browser senza rete pubblica per l’adapter YouTube di produzione invariato. |
 | `tests/cli_contract_test.php` | Contratti statici che mantengono i CLI distribuiti in sola lettura, documentati e legati ai percorsi Analytics reali. |
 | `tests/completion_contract_test.php` | Test PHPUnit/di contratto corrente distribuito con il plugin. |
 | `tests/course_analytics_test.php` | Copertura PHPUnit per course analytics test. |
 | `tests/csv_event_writer_test.php` | Copertura PHPUnit per la scrittura delle righe evento CSV personalizzate. |
 | `tests/csv_export_test.php` | Copertura PHPUnit per csv export test. |
 | `tests/fixtures/behat-video.mp4.b64` | Fixture video locale di 60 secondi codificata Base64 e decodificata esclusivamente dai test browser HTML5. |
+| `tests/fixtures/behat-youtube-player.js` | Doppio deterministico test-only dell’SDK YouTube caricato esclusivamente dal fixture Behat riservato. |
 | `tests/focus_policy_test.php` | Copertura PHPUnit per creazione gruppo nascosto, membership e policy focus effettiva. |
 | `tests/form_validation_test.php` | Copertura comportamentale e di delega per la validazione autonoma del form attività. |
 | `tests/forum_bridge_test.php` | Copertura PHPUnit per forum bridge test. |

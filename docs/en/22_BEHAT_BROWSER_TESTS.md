@@ -1,6 +1,6 @@
 # Behat browser automation
 
-VideoTrack started its browser-automation phase in release 1.7.45; release 1.7.106 adds a real-browser assertion for the server-authoritative playback-credit lifecycle after the 1.7.105 gate passed. The maintainer Behat environment is operational on Moodle 5.0–5.3, and the suite uses unique native `<summary>` CSS selectors instead of ambiguous text clicks. The plugin ships a Moodle module generator under `tests/generator/lib.php` and browser scenarios under `tests/behat/`.
+VideoTrack started its browser-automation phase in release 1.7.45; release 1.7.107 adds a deterministic YouTube SDK harness after the exact 1.7.106 gate passed. The maintainer Behat environment is operational on Moodle 5.0–5.3, and the suite uses unique native `<summary>` CSS selectors instead of ambiguous text clicks. The plugin ships a Moodle module generator under `tests/generator/lib.php` and browser scenarios under `tests/behat/`.
 
 ## Purpose
 
@@ -86,14 +86,18 @@ The exact 1.7.105 tree passed canonical PHPCS and PHP lint, 263 PHPUnit tests / 
 
 Release 1.7.106 strengthens the existing HTML5 play/pause scenario. After the browser has played real local media for at least two seconds, the final step waits for the asynchronous ledger write and requires an unvalidated `playstart`, a non-empty server-validated `pause` with the same session identifier, and cleared `serverplaybacksessionid` / `serverlastactivity` state. This is the explicit browser/runtime verification of the AC-01 terminal lifecycle; cross-session rejection and credit-budget edges remain covered by behavioural PHPUnit tests. The candidate suite remains at 7 features / 20 scenarios and rises to 293 expected steps.
 
+The exact 1.7.106 tree passed canonical PHPCS and PHP lint, 263 PHPUnit tests / 2342 assertions, and all 20 Behat scenarios / 293 steps on both Moodle 5.0 and Moodle 5.3.
+
+Release 1.7.107 adds `youtube_provider_contract.feature` and the test-only field `behatproviderfixture=youtube`. Only while `BEHAT_SITE_RUNNING` is defined and the activity carries the reserved `VTBehat0001` video identifier does `view.php` load a local SDK double before the unchanged production YouTube AMD entrypoint. The scenario therefore exercises the real resume, AJAX play/pause, polling, backward-seek and blocked-forward-seek paths without loading `youtube.com`. It also checks the actual accepted-pause ledger and requires blocked rollback to match an unchanged persisted frontier. The candidate suite contains 8 features / 21 scenarios / 311 expected executed steps; it is not declared green before the maintainer runs this exact tree.
+
 
 ## Current browser-test coverage limits
 
 The distributed suite intentionally records what is not yet deterministic. Remaining coverage gaps are:
 
-1. deterministic YouTube / Vimeo provider harnesses;
-2. backward-seek parity for YouTube/Vimeo beyond the deterministic HTML5 resume/backward-seek coverage;
-3. provider-specific resume parity beyond the deterministic HTML5 resume coverage.
+1. deterministic Vimeo provider harness;
+2. Vimeo backward-seek parity beyond the deterministic HTML5 and YouTube coverage;
+3. Vimeo resume parity beyond the deterministic HTML5 and YouTube coverage.
 
 Provider scenarios should avoid depending on public third-party network availability when a deterministic local harness can exercise the same adapter contract.
 

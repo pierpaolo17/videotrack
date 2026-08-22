@@ -146,7 +146,169 @@ class behat_mod_videotrack extends behat_base {
     }
 
     /**
-     * Assert the real browser play/pause lifecycle against the server-authoritative ledger.
+     * Wait until a deterministic provider SDK double and the production adapter are ready.
+     *
+     * @Then /^the deterministic VideoTrack "(?P<provider>youtube|vimeo)" provider is ready$/
+     * @param string $provider Expected provider type.
+     */
+    public function the_deterministic_videotrack_provider_is_ready(string $provider): void {
+        $expected = json_encode($provider, JSON_THROW_ON_ERROR);
+        $condition = "(function() {var fixture = window.__videotrackBehatProvider;"
+            . "return !!fixture && fixture.kind === " . $expected . " && fixture.ready === true; }())";
+        if (!$this->getSession()->wait(5000, $condition)) {
+            throw new ExpectationException(
+                'The deterministic VideoTrack ' . $provider . ' provider did not become ready.',
+                $this->getSession()
+            );
+        }
+    }
+
+    /**
+     * Drive play or pause through the deterministic provider SDK surface.
+     *
+     * @When /^I (?P<action>play|pause) the deterministic VideoTrack "(?P<provider>youtube|vimeo)" provider$/
+     * @param string $action Requested provider action.
+     * @param string $provider Expected provider type.
+     */
+    public function i_control_the_deterministic_videotrack_provider(string $action, string $provider): void {
+        $expected = json_encode($provider, JSON_THROW_ON_ERROR);
+        $requested = json_encode($action, JSON_THROW_ON_ERROR);
+        $this->getSession()->executeScript(
+            "(function() {var fixture = window.__videotrackBehatProvider;"
+                . "if (!fixture || fixture.kind !== " . $expected . ") {"
+                . "throw new Error('VideoTrack provider fixture not found');}"
+                . "fixture[" . $requested . "]();}())"
+        );
+        $expectedstate = $action === 'play' ? 1 : 2;
+        $condition = "(function() {var fixture = window.__videotrackBehatProvider;"
+            . "return !!fixture && fixture.getState() === " . $expectedstate . ";}())";
+        if (!$this->getSession()->wait(3000, $condition)) {
+            throw new ExpectationException(
+                'The deterministic VideoTrack ' . $provider . ' provider did not ' . $action . '.',
+                $this->getSession()
+            );
+        }
+    }
+
+    /**
+     * Seek through the deterministic provider SDK surface.
+     *
+     * @When /^I seek the deterministic VideoTrack "(?P<provider>youtube|vimeo)" provider to "(?P<seconds>[0-9.]+)" seconds$/
+     * @param string $provider Expected provider type.
+     * @param float $seconds Requested timestamp.
+     */
+    public function i_seek_the_deterministic_videotrack_provider_to_seconds(
+        string $provider,
+        float $seconds
+    ): void {
+        $expected = json_encode($provider, JSON_THROW_ON_ERROR);
+        $target = json_encode($seconds, JSON_THROW_ON_ERROR);
+        $this->getSession()->executeScript(
+            "(function() {var fixture = window.__videotrackBehatProvider;"
+                . "if (!fixture || fixture.kind !== " . $expected . ") {"
+                . "throw new Error('VideoTrack provider fixture not found');}"
+                . "fixture.seek(" . $target . ");}())"
+        );
+    }
+
+    /**
+     * Require the provider timestamp to remain inside a range for a complete polling window.
+     *
+     * @Then /^the "(?P<provider>youtube|vimeo)" provider time is between "(?P<minimum>[0-9.]+)" and "(?P<maximum>[0-9.]+)"$/
+     * @param string $provider Expected provider type.
+     * @param float $minimum Minimum accepted timestamp.
+     * @param float $maximum Maximum accepted timestamp.
+     */
+    public function the_deterministic_videotrack_provider_time_is_between(
+        string $provider,
+        float $minimum,
+        float $maximum
+    ): void {
+        $condition = sprintf(
+            "(function() {var fixture = window.__videotrackBehatProvider;"
+                . "if (!fixture || fixture.kind !== %s) {return false;}"
+                . "var time = fixture.getTime();"
+                . "var key = '%.6F:%.6F';"
+                . "if (fixture.rangeKey !== key) {fixture.rangeKey = key; fixture.rangeSince = 0;}"
+                . "if (time < %.6F || time > %.6F) {fixture.rangeSince = 0; return false;}"
+                . "fixture.rangeSince = fixture.rangeSince || Date.now();"
+                . "return Date.now() - fixture.rangeSince >= 750;}())",
+            json_encode($provider, JSON_THROW_ON_ERROR),
+            $minimum,
+            $maximum,
+            $minimum,
+            $maximum
+        );
+        if (!$this->getSession()->wait(7000, $condition)) {
+            $time = $this->getSession()->evaluateScript(
+                "(function() {var fixture = window.__videotrackBehatProvider;"
+                    . "return fixture ? fixture.getTime() : null;}())"
+            );
+            throw new ExpectationException(
+                'Deterministic VideoTrack ' . $provider . ' time ' . var_export($time, true)
+                    . ' is outside the stable range ' . $minimum . '-' . $maximum . ' seconds.',
+                $this->getSession()
+            );
+        }
+    }
+
+    /**
+     * Verify that a blocked provider seek returns to the persisted validated frontier.
+     *
+     * @Then /^the "(?P<provider>youtube|vimeo)" provider matches "(?P<username>[^"]+)" frontier in "(?P<activityname>[^"]+)"$/
+     * @param string $provider Expected provider type.
+     * @param string $username Moodle username.
+     * @param string $activityname VideoTrack activity name.
+     */
+    public function the_deterministic_videotrack_provider_time_matches_the_validated_frontier(
+        string $provider,
+        string $username,
+        string $activityname
+    ): void {
+        global $DB;
+
+        $user = $DB->get_record('user', ['username' => $username], '*', MUST_EXIST);
+        $videotrack = $DB->get_record('videotrack', ['name' => $activityname], '*', MUST_EXIST);
+        $state = $DB->get_record('videotrack_state', [
+            'videotrackid' => (int)$videotrack->id,
+            'userid' => (int)$user->id,
+        ], '*', MUST_EXIST);
+        $frontier = (float)$state->lastposition;
+        $condition = sprintf(
+            "(function() {var fixture = window.__videotrackBehatProvider;"
+                . "if (!fixture || fixture.kind !== %s) {return false;}"
+                . "var matches = Math.abs(fixture.getTime() - %.6F) <= 1.25;"
+                . "if (!matches) {fixture.frontierSince = 0; return false;}"
+                . "fixture.frontierSince = fixture.frontierSince || Date.now();"
+                . "return Date.now() - fixture.frontierSince >= 750;}())",
+            json_encode($provider, JSON_THROW_ON_ERROR),
+            $frontier
+        );
+        if (!$this->getSession()->wait(7000, $condition)) {
+            $time = $this->getSession()->evaluateScript(
+                "(function() {var fixture = window.__videotrackBehatProvider;"
+                    . "return fixture ? fixture.getTime() : null;}())"
+            );
+            throw new ExpectationException(
+                'Deterministic VideoTrack ' . $provider . ' time ' . var_export($time, true)
+                    . ' did not return to validated frontier ' . $frontier . '.',
+                $this->getSession()
+            );
+        }
+        $unchanged = $DB->get_field('videotrack_state', 'lastposition', [
+            'videotrackid' => (int)$videotrack->id,
+            'userid' => (int)$user->id,
+        ], MUST_EXIST);
+        if (abs((float)$unchanged - $frontier) > 0.001) {
+            throw new ExpectationException(
+                'Blocked provider seek changed the validated frontier from ' . $frontier . ' to ' . $unchanged . '.',
+                $this->getSession()
+            );
+        }
+    }
+
+    /**
+     * Assert a real browser play/pause lifecycle against the server-authoritative ledger.
      *
      * @Then /^the playback credit window for "(?P<username>[^"]+)" in "(?P<activityname>[^"]+)" is closed by an accepted pause$/
      * @param string $username Moodle username.

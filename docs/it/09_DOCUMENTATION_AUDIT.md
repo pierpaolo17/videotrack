@@ -1,11 +1,11 @@
 # Audit della documentazione
 
-Baseline: VideoTrack **1.7.106** (`2026082205`).
+Baseline: VideoTrack **1.7.107** (`2026082206`).
 
 ## Copertura
 
-- File non documentali inventariati: **284/284**.
-- Funzioni/metodi PHP nominati inventariati: **736**.
+- File non documentali inventariati: **286/286**.
+- Funzioni/metodi PHP nominati inventariati: **743**.
 - Callable AMD nominati rilevati e inventariati: **647**.
 - Tabelle XMLDB documentate: **7**.
 - Chiavi impostazioni sito documentate: **57**.
@@ -16,8 +16,16 @@ Baseline: VideoTrack **1.7.106** (`2026082205`).
 - Sintesi privacy root: `PRIVACY.md` e `PRIVACY_IT.md`.
 - Diagnostica CLI distribuita documentata in `21_CLI_DIAGNOSTICS.md` e coperta da contratti statici di sola lettura.
 - Automazione browser Behat documentata in `22_TEST_BROWSER_BEHAT.md`; U-007 è tracciato come in corso.
-- I contratti statici resume/completion/alert impilati e ledger server completano l’ambiente Behat ora operativo; la release 1.7.106 aggiunge un’asserzione browser reale sul ciclo della finestra di credito, mentre la copertura più ampia dei provider esterni resta separata.
+- I contratti statici resume/completion/alert impilati e ledger server completano l’ambiente Behat ora operativo; la release 1.7.107 aggiunge copertura deterministica del provider YouTube, mentre Vimeo resta separato.
 - La navigazione capitoli ha ora un contratto esplicito focus-visible/colori forzati; la matrice manuale tastiera/high-contrast resta un gate per la chiusura finale di U-020.
+
+## Harness provider YouTube deterministico 1.7.107
+
+- L’esatto albero 1.7.106 ha superato PHPCS canonico e PHP lint, 263 test PHPUnit / 2342 asserzioni e tutti i 20 scenari Behat / 293 step sia su Moodle 5.0 sia su Moodle 5.3.
+- Il generator test accetta `behatproviderfixture=youtube` e crea l’identificatore riservato `VTBehat0001`. Solo in modalità Behat, `view.php` carica un doppio SDK locale prima dell’entrypoint AMD YouTube di produzione invariato.
+- Un solo scenario verifica resume validato, vero lifecycle AJAX play/pausa, seek indietro consentito, rollback del seek avanti bloccato e frontiera vista persistita invariata senza accesso di rete al provider pubblico.
+- La suite distribuita contiene 8 feature, 21 scenari candidati e 311 step eseguiti attesi. Il guard rigido del loader aggiunge un contratto PHPUnit statico; gli inventari diventano **286/286** file non documentali e **743 PHP / 647 AMD** callable nominati.
+- Comportamento YouTube di produzione, sorgenti/build AMD, schema, servizi, capability, privacy, completion e language pack restano invariati. La tranche non viene dichiarata verde prima del run del maintainer sull’esatto albero patchato.
 
 ## Ciclo browser della finestra di credito 1.7.106
 

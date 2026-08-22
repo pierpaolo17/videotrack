@@ -45,11 +45,23 @@ class mod_videotrack_generator extends testing_module_generator {
 
         $record = (array)$record;
         $html5fixture = !empty($record['behathtml5fixture']);
+        $providerfixture = strtolower(trim((string)($record['behatproviderfixture'] ?? '')));
         $linkedforumname = trim((string)($record['behatlinkedforum'] ?? ''));
-        unset($record['behathtml5fixture'], $record['behatlinkedforum']);
+        unset($record['behathtml5fixture'], $record['behatproviderfixture'], $record['behatlinkedforum']);
+
+        if ($html5fixture && $providerfixture !== '') {
+            throw new coding_exception('VideoTrack Behat fixtures cannot combine HTML5 and provider doubles.');
+        }
+        if (!in_array($providerfixture, ['', 'youtube'], true)) {
+            throw new coding_exception('Unknown VideoTrack Behat provider fixture: ' . $providerfixture);
+        }
 
         if ($html5fixture) {
             $record['videosource'] = 'upload';
+            $record['durationseconds'] = $record['durationseconds'] ?? 60;
+        } else if ($providerfixture === 'youtube') {
+            $record['videosource'] = 'youtube';
+            $record['youtubeurl'] = 'https://www.youtube.com/watch?v=VTBehat0001';
             $record['durationseconds'] = $record['durationseconds'] ?? 60;
         }
 

@@ -1,8 +1,8 @@
 # Function inventory
 
-Generated from the VideoTrack 1.7.106 source tree. PHP entries include named functions and methods; AMD entries include named declarations, assigned function expressions and object-method functions.
+Generated from the VideoTrack 1.7.107 source tree. PHP entries include named functions and methods; AMD entries include named declarations, assigned function expressions and object-method functions.
 
-**PHP functions/methods:** 736. **Named AMD callables:** 647.
+**PHP functions/methods:** 743. **Named AMD callables:** 647.
 
 | Location | Callable | Responsibility |
 |---|---|---|
@@ -1162,11 +1162,16 @@ Generated from the VideoTrack 1.7.106 source tree. PHP entries include named fun
 | `tests/behat/behat_mod_videotrack.php:85` | `i_seek_the_videotrack_html5_media_to_seconds` | Drives a deterministic HTML5 seek in the browser test harness. |
 | `tests/behat/behat_mod_videotrack.php:103` | `the_videotrack_html5_media_time_should_be_between` | Asserts the HTML5 media timestamp is inside the expected browser-test range. |
 | `tests/behat/behat_mod_videotrack.php:129` | `the_videotrack_html5_media_playback_is` | Asserts deterministic HTML5 play/pause state in the Behat browser harness. |
-| `tests/behat/behat_mod_videotrack.php:155` | `the_playback_credit_window_is_closed_by_an_accepted_pause` | Verifies that a real browser play/pause cycle uses one server-bound session and closes its credit window. |
-| `tests/behat/behat_mod_videotrack.php:225` | `the_user_has_watched_videotrack_through_seconds` | Seeds bounded validated watched evidence for deterministic post-seek Behat interaction scenarios. |
-| `tests/behat/behat_mod_videotrack.php:319` | `the_moodle_completion_state_for_videotrack_is` | Asserts the persisted Moodle core completion state after a VideoTrack browser interaction. |
-| `tests/behat/behat_mod_videotrack.php:360` | `the_videotrack_forum_time_should_be_between` | Asserts the linked Forum composer keeps a timestamp inside the expected validated range after rollback. |
-| `tests/behat/behat_mod_videotrack.php:383` | `the_latest_seek_segment_matches_the_pre_seek_browser_time` | Verifies the raw pre-seek endpoint and rejects any aggregate credit or resume position inside the skipped gap. |
+| `tests/behat/behat_mod_videotrack.php:154` | `the_deterministic_videotrack_provider_is_ready` | Waits for the selected deterministic provider SDK double and production adapter. |
+| `tests/behat/behat_mod_videotrack.php:173` | `i_control_the_deterministic_videotrack_provider` | Drives provider play/pause through the SDK surface used by production. |
+| `tests/behat/behat_mod_videotrack.php:200` | `i_seek_the_deterministic_videotrack_provider_to_seconds` | Drives a deterministic provider seek through the production adapter boundary. |
+| `tests/behat/behat_mod_videotrack.php:222` | `the_deterministic_videotrack_provider_time_is_between` | Requires a provider timestamp to remain inside the expected range for one polling window. |
+| `tests/behat/behat_mod_videotrack.php:263` | `the_deterministic_videotrack_provider_time_matches_the_validated_frontier` | Verifies blocked provider rollback and unchanged persisted validated frontier. |
+| `tests/behat/behat_mod_videotrack.php:317` | `the_playback_credit_window_is_closed_by_an_accepted_pause` | Verifies that a real browser play/pause cycle uses one server-bound session and closes its credit window. |
+| `tests/behat/behat_mod_videotrack.php:387` | `the_user_has_watched_videotrack_through_seconds` | Seeds bounded validated watched evidence for deterministic post-seek Behat interaction scenarios. |
+| `tests/behat/behat_mod_videotrack.php:481` | `the_moodle_completion_state_for_videotrack_is` | Asserts the persisted Moodle core completion state after a VideoTrack browser interaction. |
+| `tests/behat/behat_mod_videotrack.php:522` | `the_videotrack_forum_time_should_be_between` | Asserts the linked Forum composer keeps a timestamp inside the expected validated range after rollback. |
+| `tests/behat/behat_mod_videotrack.php:545` | `the_latest_seek_segment_matches_the_pre_seek_browser_time` | Verifies the raw pre-seek endpoint and rejects any aggregate credit or resume position inside the skipped gap. |
 | `tests/cli_contract_test.php:35` | `test_validator_is_read_only_and_covers_release_contracts` | Named PHP function/method `test_validator_is_read_only_and_covers_release_contracts`; see source DocBlock and callers for the current contract. |
 | `tests/cli_contract_test.php:57` | `test_course_analytics_benchmark_uses_real_read_only_metrics` | Named PHP function/method `test_course_analytics_benchmark_uses_real_read_only_metrics`; see source DocBlock and callers for the current contract. |
 | `tests/cli_contract_test.php:79` | `test_cli_tools_are_documented_for_admins_and_maintainers` | Named PHP function/method `test_cli_tools_are_documented_for_admins_and_maintainers`; see source DocBlock and callers for the current contract. |
@@ -1232,7 +1237,8 @@ Generated from the VideoTrack 1.7.106 source tree. PHP entries include named fun
 | `tests/generator/lib.php:43` | `create_instance` | Creates deterministic VideoTrack module fixtures for PHPUnit and Behat. |
 | `tests/generator_test.php:35` | `test_generator_creates_activity_with_learner_features` | Verifies the generator can create an activity with learner study tools enabled. |
 | `tests/generator_test.php:67` | `test_generator_creates_local_html5_fixture` | Verifies the generator stores the deterministic HTML5 fixture in the module filearea. |
-| `tests/generator_test.php:98` | `test_generator_links_named_forum_fixture` | Verifies the generator resolves a named same-course Forum for deterministic browser fixtures. |
+| `tests/generator_test.php:98` | `test_generator_creates_youtube_provider_fixture` | Verifies the reserved deterministic YouTube fixture identifier and duration. |
+| `tests/generator_test.php:118` | `test_generator_links_named_forum_fixture` | Verifies the generator resolves a named same-course Forum for deterministic browser fixtures. |
 | `tests/gradebook_restore_contract_test.php:35` | `test_restore_step_does_not_create_grade_item_before_core_grade_restore` | Named PHP function/method `test_restore_step_does_not_create_grade_item_before_core_grade_restore`; see source DocBlock and callers for the current contract. |
 | `tests/gradebook_restore_contract_test.php:49` | `test_gradebook_repair_keeps_one_item_and_moves_user_grades` | Named PHP function/method `test_gradebook_repair_keeps_one_item_and_moves_user_grades`; see source DocBlock and callers for the current contract. |
 | `tests/integrity_test.php:36` | `test_event_type_validation_is_allowlist_based` | PHP callable `test_event_type_validation_is_allowlist_based`; see its DocBlock and callers for parameter, return-value and side-effect details. |
@@ -1281,6 +1287,7 @@ Generated from the VideoTrack 1.7.106 source tree. PHP entries include named fun
 | `tests/provider_loader_contract_test.php:35` | `test_vimeo_loaders_use_requirejs_without_global_define_mutation` | Named PHP function/method `test_vimeo_loaders_use_requirejs_without_global_define_mutation`; see source DocBlock and callers for the current contract. |
 | `tests/provider_loader_contract_test.php:51` | `test_provider_loader_promises_reset_after_rejection` | Named PHP function/method `test_provider_loader_promises_reset_after_rejection`; see source DocBlock and callers for the current contract. |
 | `tests/provider_loader_contract_test.php:66` | `test_vimeo_requirejs_result_is_used_as_player_constructor` | Named PHP function/method `test_vimeo_requirejs_result_is_used_as_player_constructor`; see source DocBlock and callers for the current contract. |
+| `tests/provider_loader_contract_test.php:82` | `test_youtube_behat_sdk_double_is_strictly_gated_and_loaded_first` | Verifies that the local YouTube SDK double is Behat-only, identifier-bound and loaded before the production adapter. |
 | `tests/provider_seek_snapshot_contract_test.php:35` | `test_youtube_blocked_seek_snapshots_pre_seek_position_before_rollback` | Named PHP function/method `test_youtube_blocked_seek_snapshots_pre_seek_position_before_rollback`; see source DocBlock and callers for the current contract. |
 | `tests/provider_seek_snapshot_contract_test.php:56` | `test_html5_blocked_seek_snapshots_pre_seek_position_before_rollback` | Named PHP function/method `test_html5_blocked_seek_snapshots_pre_seek_position_before_rollback`; see source DocBlock and callers for the current contract. |
 | `tests/provider_seek_snapshot_contract_test.php:77` | `test_vimeo_user_seek_retains_pre_seek_position_for_seek_resolution` | Named PHP function/method `test_vimeo_user_seek_retains_pre_seek_position_for_seek_resolution`; see source DocBlock and callers for the current contract. |
