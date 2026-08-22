@@ -352,8 +352,18 @@ if ($distractionfree) {
 $behatyoutubefixture = defined('BEHAT_SITE_RUNNING')
     && $source === 'youtube'
     && (string)$videotrack->videoid === 'VTBehat0001';
+$behatvimeofixture = defined('BEHAT_SITE_RUNNING')
+    && $source === 'vimeo'
+    && (string)$videotrack->videoid === '987654321';
 if ($behatyoutubefixture) {
     $PAGE->requires->js('/mod/videotrack/tests/fixtures/behat-youtube-player.js', true);
+}
+if ($behatvimeofixture) {
+    // Keep the production adapter on its container-constructor path so the
+    // deterministic test does not create or wait for a public-provider iframe.
+    $playerconfig['videourl'] = 'behat-vimeo';
+    $playerconfig['videoid'] = 'behat-vimeo';
+    $PAGE->requires->js('/mod/videotrack/tests/fixtures/behat-vimeo-player.js', true);
 }
 if ($source === 'vimeo') {
     $PAGE->requires->js_call_amd('mod_videotrack/vimeo_player', 'init', [['configid' => $playerconfigid]]);

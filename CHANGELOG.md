@@ -1,5 +1,12 @@
 # VideoTrack changelog
 
+## 1.7.108 - 2026-08-22
+
+- Complete the deterministic external-provider matrix for U-007 with a public-network-independent Vimeo SDK double driving the unchanged production Vimeo adapter.
+- Verify validated resume, allowed backward seeking, blocked forward-seek rollback, playback continuity after recovery and the accepted play/pause credit lifecycle.
+- Restrict the SDK double to Moodle Behat mode and one reserved Vimeo identifier; normal Vimeo construction, SDK loading and public-provider behaviour remain unchanged.
+- Keep production AMD sources/builds, schema, services, capability, privacy, completion and language packs unchanged; U-007 closure remains conditional on the exact 1.7.108 maintainer gate.
+
 ## 1.7.107 - 2026-08-22
 
 - Continue U-007 with a deterministic, public-network-independent YouTube browser harness that drives the unchanged production adapter through a local SDK double.

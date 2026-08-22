@@ -1,8 +1,8 @@
 # Inventario dei file distribuiti
 
-Questo inventario è generato sull’albero VideoTrack 1.7.107 ed elenca ogni file non documentale. Il JavaScript canonico è in `amd/src`; i file in `amd/build` sono generati.
+Questo inventario è generato sull’albero VideoTrack 1.7.108 ed elenca ogni file non documentale. Il JavaScript canonico è in `amd/src`; i file in `amd/build` sono generati.
 
-Entries: **286**.
+Entries: **288**.
 
 | File | Responsabilità |
 |---|---|
@@ -253,6 +253,7 @@ Entries: **286**.
 | `tests/behat/html5_seek_policy.feature` | Regressione browser per seek avanti HTML5 consentito e bloccato senza dipendenze di rete pubblica. |
 | `tests/behat/learner_role_controls.feature` | Regressione Behat dello scope ruoli per controlli learner, docente e dual-role. |
 | `tests/behat/student_personal_sections.feature` | Regressione browser Behat per le sezioni personali collassabili del learner. |
+| `tests/behat/vimeo_provider_contract.feature` | Contratto browser senza rete pubblica per l’adapter Vimeo di produzione invariato. |
 | `tests/behat/youtube_provider_contract.feature` | Contratto browser senza rete pubblica per l’adapter YouTube di produzione invariato. |
 | `tests/cli_contract_test.php` | Contratti statici che mantengono i CLI distribuiti in sola lettura, documentati e legati ai percorsi Analytics reali. |
 | `tests/completion_contract_test.php` | Test PHPUnit/di contratto corrente distribuito con il plugin. |
@@ -260,6 +261,7 @@ Entries: **286**.
 | `tests/csv_event_writer_test.php` | Copertura PHPUnit per la scrittura delle righe evento CSV personalizzate. |
 | `tests/csv_export_test.php` | Copertura PHPUnit per csv export test. |
 | `tests/fixtures/behat-video.mp4.b64` | Fixture video locale di 60 secondi codificata Base64 e decodificata esclusivamente dai test browser HTML5. |
+| `tests/fixtures/behat-vimeo-player.js` | Doppio deterministico test-only dell’SDK Vimeo caricato esclusivamente dal fixture Behat riservato. |
 | `tests/fixtures/behat-youtube-player.js` | Doppio deterministico test-only dell’SDK YouTube caricato esclusivamente dal fixture Behat riservato. |
 | `tests/focus_policy_test.php` | Copertura PHPUnit per creazione gruppo nascosto, membership e policy focus effettiva. |
 | `tests/form_validation_test.php` | Copertura comportamentale e di delega per la validazione autonoma del form attività. |

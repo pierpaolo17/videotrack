@@ -1,11 +1,11 @@
 # Audit della documentazione
 
-Baseline: VideoTrack **1.7.107** (`2026082206`).
+Baseline: VideoTrack **1.7.108** (`2026082207`).
 
 ## Copertura
 
-- File non documentali inventariati: **286/286**.
-- Funzioni/metodi PHP nominati inventariati: **743**.
+- File non documentali inventariati: **288/288**.
+- Funzioni/metodi PHP nominati inventariati: **745**.
 - Callable AMD nominati rilevati e inventariati: **647**.
 - Tabelle XMLDB documentate: **7**.
 - Chiavi impostazioni sito documentate: **57**.
@@ -16,8 +16,16 @@ Baseline: VideoTrack **1.7.107** (`2026082206`).
 - Sintesi privacy root: `PRIVACY.md` e `PRIVACY_IT.md`.
 - Diagnostica CLI distribuita documentata in `21_CLI_DIAGNOSTICS.md` e coperta da contratti statici di sola lettura.
 - Automazione browser Behat documentata in `22_TEST_BROWSER_BEHAT.md`; U-007 è tracciato come in corso.
-- I contratti statici resume/completion/alert impilati e ledger server completano l’ambiente Behat ora operativo; la release 1.7.107 aggiunge copertura deterministica del provider YouTube, mentre Vimeo resta separato.
+- I contratti statici resume/completion/alert impilati e ledger server completano l’ambiente Behat ora operativo; la release 1.7.108 completa come candidata la matrice provider deterministica YouTube/Vimeo.
 - La navigazione capitoli ha ora un contratto esplicito focus-visible/colori forzati; la matrice manuale tastiera/high-contrast resta un gate per la chiusura finale di U-020.
+
+## Harness provider Vimeo deterministico 1.7.108
+
+- L’esatto albero 1.7.107 ha superato PHPCS canonico e PHP lint, 265 test PHPUnit / 2352 asserzioni e tutti i 21 scenari Behat / 311 step sia su Moodle 5.0 sia su Moodle 5.3.
+- Il generator test accetta `behatproviderfixture=vimeo` e crea l’identificatore numerico riservato `987654321`. Solo in modalità Behat, `view.php` carica un doppio SDK locale prima dell’entrypoint AMD Vimeo di produzione invariato e ne seleziona il percorso con container senza creare iframe pubblico.
+- Un solo scenario verifica resume validato, seek indietro consentito, rollback del seek avanti bloccato su una frontiera persistita stabile, continuità del playback dopo il recovery e vero ledger della pausa accettata.
+- La suite distribuita contiene 9 feature, 22 scenari candidati e 331 step eseguiti attesi. I contratti generator/loader portano gli inventari a **288/288** file non documentali e **745 PHP / 647 AMD** callable nominati.
+- Comportamento Vimeo di produzione, sorgenti/build AMD, schema, servizi, capability, privacy, completion e language pack restano invariati. U-007 non viene dichiarata chiusa prima del run del maintainer sull’esatto albero 1.7.108.
 
 ## Harness provider YouTube deterministico 1.7.107
 
