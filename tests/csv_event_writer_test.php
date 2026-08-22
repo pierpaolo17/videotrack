@@ -34,6 +34,11 @@ final class csv_event_writer_test extends advanced_testcase {
      * Detailed rows retain user identity, canonical timestamps and creation time.
      */
     public function test_write_detailed_event_row(): void {
+        $this->resetAfterTest();
+        $user = $this->getDataGenerator()->create_user([
+            'firstname' => 'Ada',
+            'lastname' => 'Lovelace',
+        ]);
         $handle = fopen('php://temp', 'w+');
         $writer = new csv_event_writer(
             $handle,
@@ -41,14 +46,14 @@ final class csv_event_writer_test extends advanced_testcase {
             [],
             (object)['id' => 7, 'fullname' => 'Course', 'shortname' => 'C'],
             (object)['name' => 'Video'],
-            [11 => (object)['id' => 11, 'firstname' => 'Ada', 'lastname' => 'Lovelace']],
+            [$user->id => $user],
             21,
             \context_system::instance(),
             120.0,
             false
         );
 
-        $writer->write(11, 'Reaction', 'Like', '', 65.0, 60.0, 70.0, 3, 'Created');
+        $writer->write((int)$user->id, 'Reaction', 'Like', '', 65.0, 60.0, 70.0, 3, 'Created');
         rewind($handle);
 
         $this->assertSame(

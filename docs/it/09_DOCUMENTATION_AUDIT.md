@@ -1,6 +1,6 @@
 # Audit della documentazione
 
-Baseline: VideoTrack **1.7.101** (`2026082104`).
+Baseline: VideoTrack **1.7.102** (`2026082201`).
 
 ## Copertura
 
@@ -18,6 +18,15 @@ Baseline: VideoTrack **1.7.101** (`2026082104`).
 - Automazione browser Behat documentata in `22_TEST_BROWSER_BEHAT.md`; U-007 è tracciato come in corso.
 - I contratti statici resume/completion/alert impilati completano l’ambiente Behat ora operativo; il gate browser reale 1.7.98 ha superato 13/13 scenari e 195/195 step su Moodle 5.0 e 5.3, mentre gli smoke test provider più ampi restano separati.
 - La navigazione capitoli ha ora un contratto esplicito focus-visible/colori forzati; la matrice manuale tastiera/high-contrast resta un gate per la chiusura finale di U-020.
+
+## Verifica hardening timestamp delle interazioni 1.7.102
+
+- Il gate reale 1.7.101 ha superato PHPCS, regole extra, PHP lint, Grunt, PHPUnit e tutti i 18 scenari / 256 step Behat su Moodle 5.0–5.3; ciascuna delle quattro esecuzioni PHPUnit ha segnalato un Notice al test 85.
+- La condizione di accettazione AC-F02 della U-007 è chiusa rimuovendo il fallback di riproduzione recente da `interaction_timestamp_allowed()`: soltanto evidenza vista validata dal server può autorizzare il timestamp richiesto.
+- Il permesso di seek avanti resta una policy di navigazione, non un’autorità sul timestamp. I client esistenti di reazioni, note, segnalibri e Forum eseguono il flush del progresso corrente prima dell’interazione e preferiscono l’estremo salvato restituito dal server.
+- La copertura di regressione rifiuta un `playstart` recente non validato, accetta progresso validato della stessa sessione nella posizione richiesta e rifiuta un timestamp distante.
+- La fixture CSV del test 85 ora usa un utente Moodle completo generato dal framework invece di invocare `fullname()` con un record sintetico parziale.
+- L’inventario corrente resta **284/284** file non documentali e **734 PHP / 647 AMD** callable nominati; AMD di produzione, schema, capability, privacy e language pack restano invariati.
 
 ## Verifica documentazione anti-cheat/session binding 1.7.101
 

@@ -861,9 +861,9 @@ final class tracker_test extends advanced_testcase {
     }
 
     /**
-     * Allowed forward seeking can authorise an immediate interaction from a recent same-session playback window.
+     * Allowed forward seeking still requires validated evidence at the requested timestamp.
      */
-    public function test_allowed_forward_seek_accepts_recent_session_interaction_timestamp(): void {
+    public function test_allowed_forward_seek_requires_validated_interaction_timestamp(): void {
         global $DB;
 
         $this->resetAfterTest();
@@ -889,9 +889,28 @@ final class tracker_test extends advanced_testcase {
         ]);
         $instance = (object)['id' => 1002, 'allowseekforward' => 1];
 
-        $this->assertTrue(tracker::interaction_timestamp_allowed($instance, 123, $sessionid, 60.0));
-        $instance->allowseekforward = 0;
         $this->assertFalse(tracker::interaction_timestamp_allowed($instance, 123, $sessionid, 60.0));
+
+        $DB->insert_record('videotrack_seg', (object)[
+            'videotrackid' => 1002,
+            'courseid' => 1,
+            'cmid' => 1,
+            'userid' => 123,
+            'videoid' => 'seek-enabled-video',
+            'sessionid' => $sessionid,
+            'requestid' => str_repeat('k', 32),
+            'wallclockstart' => time(),
+            'wallclockend' => time(),
+            'videotimestart' => 59.0,
+            'videotimeend' => 60.0,
+            'playbackrate' => 1.0,
+            'endreason' => 'reaction',
+            'servervalidated' => 1,
+            'timecreated' => time(),
+        ]);
+
+        $this->assertTrue(tracker::interaction_timestamp_allowed($instance, 123, $sessionid, 60.0));
+        $this->assertFalse(tracker::interaction_timestamp_allowed($instance, 123, $sessionid, 80.0));
     }
 
     /**

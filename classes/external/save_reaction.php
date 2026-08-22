@@ -110,9 +110,9 @@ class save_reaction extends external_api {
         if ($duration > 0) {
             $videotime = min($videotime, $duration);
         }
-        // Reactions are valid during playback and while paused. Prefer persisted
-        // watched evidence; when forward seeking is enabled, a recent same-session
-        // playback window also authorises the newly reached timestamp.
+        // Reactions are valid during playback and while paused. The player flushes
+        // current progress first, so the requested time must be covered by persisted
+        // server-validated watched evidence from the applicable session policy.
         if (!tracker::interaction_timestamp_allowed($videotrack, (int)$USER->id, $params['sessionid'], $videotime)) {
             throw new \moodle_exception('error:playbackpositionnotwatched', 'mod_videotrack');
         }

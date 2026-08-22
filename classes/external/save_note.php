@@ -115,9 +115,9 @@ class save_note extends external_api {
         $videotime = max(0.0, $duration > 0 ? min($rawtime, $duration) : $rawtime);
 
         // Notes are private study aids and may be saved while the player is paused.
-        // Prefer progress already watched by the current user. When forward seeking
-        // is enabled, recent same-session playback also authorises the newly reached
-        // position so a legitimate seek does not race the persistence heartbeat.
+        // The player flushes current progress first, so the requested time must be
+        // covered by server-validated watched evidence from the applicable session
+        // policy.
         $fallbackdays = \videotrack_get_config_int('validationfallbackdays', 30, 0, 3650);
         $maxage = $fallbackdays > 0 ? $fallbackdays * DAYSECS : 0;
         if (

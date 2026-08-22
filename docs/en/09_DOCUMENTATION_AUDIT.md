@@ -1,6 +1,6 @@
 # Documentation audit
 
-Baseline: VideoTrack **1.7.101** (`2026082104`).
+Baseline: VideoTrack **1.7.102** (`2026082201`).
 
 ## Coverage
 
@@ -19,6 +19,15 @@ Baseline: VideoTrack **1.7.101** (`2026082104`).
 - Static resume/completion/stacked-alert contracts complement the operational Behat environment; the real 1.7.98 browser gate passed 13/13 scenarios and 195/195 steps on Moodle 5.0 and 5.3, while broader provider smoke coverage remains explicitly separate.
 - Maintainer-only consolidated roadmap/lessons-history files are intentionally excluded from the distributed plugin tree and protected by `.moodleignore`.
 - Chapter navigation now has an explicit focus-visible/forced-colour contract; a manual keyboard/high-contrast matrix remains a release gate for final U-020 closure.
+
+## 1.7.102 interaction-timestamp hardening verification
+
+- The real 1.7.101 gate passed PHPCS, extra rules, PHP lint, Grunt, PHPUnit and all 18 Behat scenarios / 256 steps on Moodle 5.0–5.3; its four PHPUnit runs each reported one Notice at test 85.
+- U-007 acceptance condition AC-F02 is closed by removing the recent-playback fallback from `interaction_timestamp_allowed()`: only server-validated watched evidence can authorise the requested timestamp.
+- Forward-seek permission remains a navigation policy, not timestamp authority. The existing reaction, note, bookmark and Forum clients flush current progress before the interaction and prefer the server-returned saved endpoint.
+- Regression coverage rejects a recent unvalidated `playstart`, accepts validated same-session progress at the requested position and rejects a distant timestamp.
+- The test-85 CSV fixture now uses a complete Moodle-generated user instead of invoking `fullname()` with a partial synthetic record.
+- Current inventory remains **284/284** non-documentation files and **734 PHP / 647 AMD** named callables; production AMD, schema, capability, privacy and language packs are unchanged.
 
 ## 1.7.101 anti-cheat/session-binding documentation verification
 
