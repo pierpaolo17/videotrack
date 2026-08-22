@@ -52,7 +52,7 @@ class mod_videotrack_generator extends testing_module_generator {
         if ($html5fixture && $providerfixture !== '') {
             throw new coding_exception('VideoTrack Behat fixtures cannot combine HTML5 and provider doubles.');
         }
-        if (!in_array($providerfixture, ['', 'youtube'], true)) {
+        if (!in_array($providerfixture, ['', 'youtube', 'vimeo'], true)) {
             throw new coding_exception('Unknown VideoTrack Behat provider fixture: ' . $providerfixture);
         }
 
@@ -62,6 +62,10 @@ class mod_videotrack_generator extends testing_module_generator {
         } else if ($providerfixture === 'youtube') {
             $record['videosource'] = 'youtube';
             $record['youtubeurl'] = 'https://www.youtube.com/watch?v=VTBehat0001';
+            $record['durationseconds'] = $record['durationseconds'] ?? 60;
+        } else if ($providerfixture === 'vimeo') {
+            $record['videosource'] = 'vimeo';
+            $record['vimeourl'] = 'https://vimeo.com/987654321';
             $record['durationseconds'] = $record['durationseconds'] ?? 60;
         }
 

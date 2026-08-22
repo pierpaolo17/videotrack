@@ -77,19 +77,27 @@ final class provider_loader_contract_test extends advanced_testcase {
     }
 
     /**
-     * The local YouTube SDK double must remain restricted to its reserved Behat-only activity.
+     * Local provider SDK doubles must remain restricted to their reserved Behat-only activities.
      */
-    public function test_youtube_behat_sdk_double_is_strictly_gated_and_loaded_first(): void {
+    public function test_provider_behat_sdk_doubles_are_strictly_gated_and_loaded_first(): void {
         $view = file_get_contents(__DIR__ . '/../view.php');
         $this->assertIsString($view);
         $this->assertStringContainsString("defined('BEHAT_SITE_RUNNING')", $view);
         $this->assertStringContainsString("\$source === 'youtube'", $view);
         $this->assertStringContainsString("videoid === 'VTBehat0001'", $view);
+        $this->assertStringContainsString("\$source === 'vimeo'", $view);
+        $this->assertStringContainsString("videoid === '987654321'", $view);
 
-        $fixtureposition = strpos($view, "requires->js('/mod/videotrack/tests/fixtures/behat-youtube-player.js'");
-        $adapterposition = strpos($view, "js_call_amd('mod_videotrack/player'");
-        $this->assertNotFalse($fixtureposition);
-        $this->assertNotFalse($adapterposition);
-        $this->assertLessThan($adapterposition, $fixtureposition);
+        $youtubefixtureposition = strpos($view, "requires->js('/mod/videotrack/tests/fixtures/behat-youtube-player.js'");
+        $youtubeadapterposition = strpos($view, "js_call_amd('mod_videotrack/player'");
+        $this->assertNotFalse($youtubefixtureposition);
+        $this->assertNotFalse($youtubeadapterposition);
+        $this->assertLessThan($youtubeadapterposition, $youtubefixtureposition);
+
+        $vimeofixtureposition = strpos($view, "requires->js('/mod/videotrack/tests/fixtures/behat-vimeo-player.js'");
+        $vimeoadapterposition = strpos($view, "js_call_amd('mod_videotrack/vimeo_player'");
+        $this->assertNotFalse($vimeofixtureposition);
+        $this->assertNotFalse($vimeoadapterposition);
+        $this->assertLessThan($vimeoadapterposition, $vimeofixtureposition);
     }
 }

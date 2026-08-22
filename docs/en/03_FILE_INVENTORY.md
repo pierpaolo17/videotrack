@@ -1,8 +1,8 @@
 # Distributed file inventory
 
-This inventory is generated against the VideoTrack 1.7.107 tree and lists every non-documentation file. Canonical JavaScript is under `amd/src`; files under `amd/build` are generated.
+This inventory is generated against the VideoTrack 1.7.108 tree and lists every non-documentation file. Canonical JavaScript is under `amd/src`; files under `amd/build` are generated.
 
-Entries: **286**.
+Entries: **288**.
 
 | File | Responsibility |
 |---|---|
@@ -253,6 +253,7 @@ Entries: **286**.
 | `tests/behat/html5_seek_policy.feature` | Browser regression for allowed and blocked HTML5 forward seeking without public-network dependencies. |
 | `tests/behat/learner_role_controls.feature` | Behat role-scope regression for learner, teacher and dual-role interaction controls. |
 | `tests/behat/student_personal_sections.feature` | Behat browser regression for the learner personal collapsible sections. |
+| `tests/behat/vimeo_provider_contract.feature` | Public-network-independent browser contract for the unchanged production Vimeo adapter. |
 | `tests/behat/youtube_provider_contract.feature` | Public-network-independent browser contract for the unchanged production YouTube adapter. |
 | `tests/cli_contract_test.php` | Static contracts keeping the distributed CLI tools read-only, documented and tied to real Analytics paths. |
 | `tests/completion_contract_test.php` | Current PHPUnit/contract test distributed with the plugin. |
@@ -260,6 +261,7 @@ Entries: **286**.
 | `tests/csv_event_writer_test.php` | PHPUnit coverage for custom CSV event-row writing. |
 | `tests/csv_export_test.php` | PHPUnit coverage for csv export test. |
 | `tests/fixtures/behat-video.mp4.b64` | Base64-encoded 60-second local video fixture decoded only by deterministic HTML5 browser tests. |
+| `tests/fixtures/behat-vimeo-player.js` | Test-only deterministic Vimeo SDK double loaded exclusively for the reserved Behat fixture. |
 | `tests/fixtures/behat-youtube-player.js` | Test-only deterministic YouTube SDK double loaded exclusively for the reserved Behat fixture. |
 | `tests/focus_policy_test.php` | PHPUnit coverage for hidden-group creation, membership and effective focus policy. |
 | `tests/form_validation_test.php` | Behavioural and delegation coverage for autonomous activity-form validation policy. |

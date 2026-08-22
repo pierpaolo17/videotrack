@@ -1,6 +1,6 @@
 # Behat browser automation
 
-VideoTrack started its browser-automation phase in release 1.7.45; release 1.7.107 adds a deterministic YouTube SDK harness after the exact 1.7.106 gate passed. The maintainer Behat environment is operational on Moodle 5.0–5.3, and the suite uses unique native `<summary>` CSS selectors instead of ambiguous text clicks. The plugin ships a Moodle module generator under `tests/generator/lib.php` and browser scenarios under `tests/behat/`.
+VideoTrack started its browser-automation phase in release 1.7.45; release 1.7.108 adds deterministic Vimeo parity after the exact 1.7.107 gate passed. The maintainer Behat environment is operational on Moodle 5.0–5.3, and the suite uses unique native `<summary>` CSS selectors instead of ambiguous text clicks. The plugin ships a Moodle module generator under `tests/generator/lib.php` and browser scenarios under `tests/behat/`.
 
 ## Purpose
 
@@ -62,7 +62,7 @@ The deterministic assertions cover both policies: a blocked jump to 20 seconds m
 
 Release 1.7.51 added `tests/provider_seek_snapshot_contract_test.php`: it statically guards pre-seek snapshot ordering and rollback-safe interaction timestamps across YouTube, HTML5 and Vimeo. This is complementary coverage only; it does not make the outstanding YouTube/Vimeo browser harnesses complete.
 
-Release 1.7.53 added `tests/player_resume_completion_alert_contract_test.php`; release 1.7.54 corrected that test without changing runtime. Release 1.7.55 removes the remaining fragile acknowledgement marker failure and adds behavioural PHPUnit coverage for completion-signature and current-statement versioning. Deterministic HTML5 resume is added in 1.7.97, and stacked-alert browser coverage follows in 1.7.105; provider-specific resume parity remains pending.
+Release 1.7.53 added `tests/player_resume_completion_alert_contract_test.php`; release 1.7.54 corrected that test without changing runtime. Release 1.7.55 removes the remaining fragile acknowledgement marker failure and adds behavioural PHPUnit coverage for completion-signature and current-statement versioning. Deterministic HTML5 resume is added in 1.7.97, stacked-alert browser coverage follows in 1.7.105, and releases 1.7.107–1.7.108 add provider-specific parity.
 
 Release 1.7.97 adds `html5_playback_contract.feature`. Using the same local MP4 fixture and validated-state seeding, it verifies that HTML5 resumes near a trusted saved position, allows an explicit backward seek inside watched progress, and really transitions between playing and paused states through the custom control bar. These scenarios are deterministic and do not require a public video provider.
 
@@ -90,14 +90,14 @@ The exact 1.7.106 tree passed canonical PHPCS and PHP lint, 263 PHPUnit tests / 
 
 Release 1.7.107 adds `youtube_provider_contract.feature` and the test-only field `behatproviderfixture=youtube`. Only while `BEHAT_SITE_RUNNING` is defined and the activity carries the reserved `VTBehat0001` video identifier does `view.php` load a local SDK double before the unchanged production YouTube AMD entrypoint. The scenario therefore exercises the real resume, AJAX play/pause, polling, backward-seek and blocked-forward-seek paths without loading `youtube.com`. It also checks the actual accepted-pause ledger and requires blocked rollback to match an unchanged persisted frontier. The candidate suite contains 8 features / 21 scenarios / 311 expected executed steps; it is not declared green before the maintainer runs this exact tree.
 
+The exact 1.7.107 tree passed canonical PHPCS and PHP lint, 265 PHPUnit tests / 2352 assertions, and all 21 Behat scenarios / 311 steps on both Moodle 5.0 and Moodle 5.3.
+
+Release 1.7.108 adds `vimeo_provider_contract.feature` and `behatproviderfixture=vimeo`. The reserved numeric identifier `987654321` activates a local Vimeo SDK double only in Behat mode. `view.php` keeps the production Vimeo adapter unchanged and selects its container constructor so no public Vimeo iframe or SDK request is created. The scenario covers validated resume, backward seek, blocked-forward recovery to a stable database frontier, continued playback after recovery and an accepted terminal pause. The candidate suite contains 9 features / 22 scenarios / 331 expected executed steps and remains pending until the exact maintainer gate runs.
+
 
 ## Current browser-test coverage limits
 
-The distributed suite intentionally records what is not yet deterministic. Remaining coverage gaps are:
-
-1. deterministic Vimeo provider harness;
-2. Vimeo backward-seek parity beyond the deterministic HTML5 and YouTube coverage;
-3. Vimeo resume parity beyond the deterministic HTML5 and YouTube coverage.
+The candidate distributed suite has deterministic HTML5, YouTube and Vimeo coverage for resume, backward seeking and blocked-forward recovery. U-007 closure remains conditional on the exact 1.7.108 Moodle 5.0/5.3 browser gate; public-provider rendering and availability are external integration concerns, not correctness dependencies of this suite.
 
 Provider scenarios should avoid depending on public third-party network availability when a deterministic local harness can exercise the same adapter contract.
 

@@ -191,7 +191,28 @@ class behat_mod_videotrack extends behat_base {
     }
 
     /**
-     * Seek through the deterministic provider SDK surface.
+     * Assert deterministic provider playback state without invoking another command.
+     *
+     * @Then /^the "(?P<provider>youtube|vimeo)" provider playback is "(?P<state>playing|paused)"$/
+     * @param string $provider Expected provider type.
+     * @param string $state Expected playback state.
+     */
+    public function the_deterministic_videotrack_provider_playback_is(string $provider, string $state): void {
+        $expectedprovider = json_encode($provider, JSON_THROW_ON_ERROR);
+        $expectedstate = $state === 'playing' ? 1 : 2;
+        $condition = "(function() {var fixture = window.__videotrackBehatProvider;"
+            . "return !!fixture && fixture.kind === " . $expectedprovider
+            . " && fixture.getState() === " . $expectedstate . ";}())";
+        if (!$this->getSession()->wait(3000, $condition)) {
+            throw new ExpectationException(
+                'The deterministic VideoTrack ' . $provider . ' provider is not ' . $state . '.',
+                $this->getSession()
+            );
+        }
+    }
+
+    /**
+     * Seek via the deterministic provider SDK surface.
      *
      * @When /^I seek the deterministic VideoTrack "(?P<provider>youtube|vimeo)" provider to "(?P<seconds>[0-9.]+)" seconds$/
      * @param string $provider Expected provider type.
@@ -269,42 +290,52 @@ class behat_mod_videotrack extends behat_base {
 
         $user = $DB->get_record('user', ['username' => $username], '*', MUST_EXIST);
         $videotrack = $DB->get_record('videotrack', ['name' => $activityname], '*', MUST_EXIST);
-        $state = $DB->get_record('videotrack_state', [
+        $conditions = [
             'videotrackid' => (int)$videotrack->id,
             'userid' => (int)$user->id,
-        ], '*', MUST_EXIST);
-        $frontier = (float)$state->lastposition;
-        $condition = sprintf(
-            "(function() {var fixture = window.__videotrackBehatProvider;"
-                . "if (!fixture || fixture.kind !== %s) {return false;}"
-                . "var matches = Math.abs(fixture.getTime() - %.6F) <= 1.25;"
-                . "if (!matches) {fixture.frontierSince = 0; return false;}"
-                . "fixture.frontierSince = fixture.frontierSince || Date.now();"
-                . "return Date.now() - fixture.frontierSince >= 750;}())",
-            json_encode($provider, JSON_THROW_ON_ERROR),
-            $frontier
-        );
-        if (!$this->getSession()->wait(7000, $condition)) {
+        ];
+        $expectedprovider = json_encode($provider, JSON_THROW_ON_ERROR);
+        $deadline = microtime(true) + 7.0;
+        $stablefrontier = null;
+        $stablesince = null;
+        $time = null;
+        $frontier = null;
+        do {
+            $frontier = (float)$DB->get_field('videotrack_state', 'lastposition', $conditions, MUST_EXIST);
             $time = $this->getSession()->evaluateScript(
                 "(function() {var fixture = window.__videotrackBehatProvider;"
-                    . "return fixture ? fixture.getTime() : null;}())"
+                    . "if (!fixture || fixture.kind !== " . $expectedprovider . ") {return null;}"
+                    . "return fixture.getTime();}())"
             );
-            throw new ExpectationException(
-                'Deterministic VideoTrack ' . $provider . ' time ' . var_export($time, true)
-                    . ' did not return to validated frontier ' . $frontier . '.',
-                $this->getSession()
-            );
-        }
-        $unchanged = $DB->get_field('videotrack_state', 'lastposition', [
-            'videotrackid' => (int)$videotrack->id,
-            'userid' => (int)$user->id,
-        ], MUST_EXIST);
-        if (abs((float)$unchanged - $frontier) > 0.001) {
-            throw new ExpectationException(
-                'Blocked provider seek changed the validated frontier from ' . $frontier . ' to ' . $unchanged . '.',
-                $this->getSession()
-            );
-        }
+            if (is_numeric($time) && abs((float)$time - $frontier) <= 1.25) {
+                if ($stablefrontier === null || abs($stablefrontier - $frontier) > 0.001) {
+                    $stablefrontier = $frontier;
+                    $stablesince = microtime(true);
+                } else if ($stablesince !== null && microtime(true) - $stablesince >= 0.75) {
+                    $unchanged = (float)$DB->get_field(
+                        'videotrack_state',
+                        'lastposition',
+                        $conditions,
+                        MUST_EXIST
+                    );
+                    if (abs($unchanged - $stablefrontier) <= 0.001) {
+                        return;
+                    }
+                    $stablefrontier = null;
+                    $stablesince = null;
+                }
+            } else {
+                $stablefrontier = null;
+                $stablesince = null;
+            }
+            usleep(100000);
+        } while (microtime(true) < $deadline);
+
+        throw new ExpectationException(
+            'Deterministic VideoTrack ' . $provider . ' time ' . var_export($time, true)
+                . ' did not stably match validated frontier ' . var_export($frontier, true) . '.',
+            $this->getSession()
+        );
     }
 
     /**

@@ -1,11 +1,11 @@
 # Documentation audit
 
-Baseline: VideoTrack **1.7.107** (`2026082206`).
+Baseline: VideoTrack **1.7.108** (`2026082207`).
 
 ## Coverage
 
-- Non-documentation files inventoried: **286/286**.
-- Named PHP functions/methods inventoried: **743**.
+- Non-documentation files inventoried: **288/288**.
+- Named PHP functions/methods inventoried: **745**.
 - Named AMD callables detected and inventoried: **647**.
 - XMLDB tables documented: **7**.
 - Site-setting keys documented: **57**.
@@ -16,9 +16,17 @@ Baseline: VideoTrack **1.7.107** (`2026082206`).
 - Root privacy summaries: `PRIVACY.md` and `PRIVACY_IT.md`.
 - Distributed CLI diagnostics documented in `21_CLI_DIAGNOSTICS.md` and covered by static read-only contracts.
 - Behat browser automation is documented in `22_BEHAT_BROWSER_TESTS.md`, including current deterministic coverage and explicit provider coverage limits.
-- Static resume/completion/stacked-alert and server-ledger contracts complement the operational Behat environment; release 1.7.107 adds deterministic YouTube provider coverage, while Vimeo remains explicitly separate.
+- Static resume/completion/stacked-alert and server-ledger contracts complement the operational Behat environment; release 1.7.108 completes the deterministic YouTube/Vimeo provider matrix as a candidate gate.
 - Maintainer-only consolidated roadmap/lessons-history files are intentionally excluded from the distributed plugin tree and protected by `.moodleignore`.
 - Chapter navigation now has an explicit focus-visible/forced-colour contract; a manual keyboard/high-contrast matrix remains a release gate for final U-020 closure.
+
+## 1.7.108 deterministic Vimeo provider harness
+
+- The exact 1.7.107 tree passed canonical PHPCS and PHP lint, 265 PHPUnit tests / 2352 assertions and all 21 Behat scenarios / 311 steps on both Moodle 5.0 and 5.3.
+- The test generator accepts `behatproviderfixture=vimeo` and creates the reserved numeric identifier `987654321`. In Behat mode only, `view.php` loads a local SDK double before the unchanged production Vimeo AMD entrypoint and selects its container-constructor path without creating a public iframe.
+- One scenario verifies validated resume, allowed backward seeking, blocked forward-seek rollback to a stable persisted frontier, playback continuity after recovery and the real accepted-pause ledger.
+- The distributed suite contains 9 features, 22 candidate scenarios and 331 expected executed steps. Generator and loader contracts bring the inventories to **288/288** non-documentation files and **745 PHP / 647 AMD** named callables.
+- Production Vimeo behaviour, AMD sources/builds, schema, services, capability, privacy, completion and language packs are unchanged. U-007 is not declared closed before the maintainer runs the exact 1.7.108 tree.
 
 ## 1.7.107 deterministic YouTube provider harness
 

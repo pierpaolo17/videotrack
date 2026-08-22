@@ -113,7 +113,27 @@ final class generator_test extends advanced_testcase {
     }
 
     /**
-     * The generator must resolve a named Forum for deterministic Behat scenarios.
+     * The generator must create the stable identifier reserved for the deterministic Vimeo SDK double.
+     */
+    public function test_generator_creates_vimeo_provider_fixture(): void {
+        $this->resetAfterTest();
+        $this->setAdminUser();
+
+        $course = $this->getDataGenerator()->create_course();
+        $generator = $this->getDataGenerator()->get_plugin_generator('mod_videotrack');
+        $activity = $generator->create_instance([
+            'course' => $course->id,
+            'name' => 'Generated Vimeo VideoTrack',
+            'behatproviderfixture' => 'vimeo',
+        ]);
+
+        $this->assertSame('vimeo', $activity->videosource);
+        $this->assertSame('987654321', $activity->videoid);
+        $this->assertSame(60, (int)$activity->durationseconds);
+    }
+
+    /**
+     * The generator resolves a named Forum for deterministic Behat scenarios.
      */
     public function test_generator_links_named_forum_fixture(): void {
         $this->resetAfterTest();
