@@ -146,6 +146,75 @@ class behat_mod_videotrack extends behat_base {
     }
 
     /**
+     * Assert the real browser play/pause lifecycle against the server-authoritative ledger.
+     *
+     * @Then /^the playback credit window for "(?P<username>[^"]+)" in "(?P<activityname>[^"]+)" is closed by an accepted pause$/
+     * @param string $username Moodle username.
+     * @param string $activityname VideoTrack activity name.
+     */
+    public function the_playback_credit_window_is_closed_by_an_accepted_pause(
+        string $username,
+        string $activityname
+    ): void {
+        global $DB;
+
+        $user = $DB->get_record('user', ['username' => $username], '*', MUST_EXIST);
+        $videotrack = $DB->get_record('videotrack', ['name' => $activityname], '*', MUST_EXIST);
+        $conditions = [
+            'videotrackid' => (int)$videotrack->id,
+            'userid' => (int)$user->id,
+        ];
+        $deadline = microtime(true) + 5.0;
+        $playstart = false;
+        $pause = false;
+        $state = false;
+        do {
+            $playstarts = $DB->get_records(
+                'videotrack_seg',
+                $conditions + ['endreason' => 'playstart'],
+                'id DESC',
+                '*',
+                0,
+                1
+            );
+            $pauses = $DB->get_records(
+                'videotrack_seg',
+                $conditions + ['endreason' => 'pause'],
+                'id DESC',
+                '*',
+                0,
+                1
+            );
+            $playstart = $playstarts ? reset($playstarts) : false;
+            $pause = $pauses ? reset($pauses) : false;
+            $state = $DB->get_record('videotrack_state', $conditions);
+            if (
+                $playstart
+                && $pause
+                && $state
+                && (int)$playstart->servervalidated === 0
+                && (int)$pause->servervalidated === 1
+                && hash_equals((string)$playstart->sessionid, (string)$pause->sessionid)
+                && (float)$pause->videotimeend > (float)$pause->videotimestart
+                && (string)$state->serverplaybacksessionid === ''
+                && (int)$state->serverlastactivity === 0
+            ) {
+                return;
+            }
+            usleep(100000);
+        } while (microtime(true) < $deadline);
+
+        throw new ExpectationException(
+            'The VideoTrack playback-credit lifecycle for "' . $activityname . '" and user "' . $username
+                . '" did not persist a same-session accepted pause and close the active server window. '
+                . 'playstart=' . ($playstart ? json_encode($playstart) : 'missing')
+                . '; pause=' . ($pause ? json_encode($pause) : 'missing')
+                . '; state=' . ($state ? json_encode($state) : 'missing') . '.',
+            $this->getSession()
+        );
+    }
+
+    /**
      * Seed validated watched evidence for a learner before a browser interaction scenario.
      *
      * @Given /^"(?P<username>[^"]+)" watched "(?P<activityname>[^"]+)" through "(?P<seconds>[0-9.]+)" seconds$/

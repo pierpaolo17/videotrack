@@ -43,8 +43,10 @@ Feature: HTML5 playback contracts remain stable in the browser
     Then the VideoTrack HTML5 media is ready
     When I click on ".videotrack-ctrl-play" "css_element"
     Then the VideoTrack HTML5 media playback is "playing"
+    And the VideoTrack HTML5 media time is between "2" and "8"
     When I click on ".videotrack-ctrl-play" "css_element"
     Then the VideoTrack HTML5 media playback is "paused"
+    And the playback credit window for "student1" in "Playback contracts" is closed by an accepted pause
 
   Scenario: Persistent player notices survive a transient validation alert
     Given the following "activities" exist:

@@ -10,6 +10,10 @@ The recommended policy pauses when `document.visibilityState` becomes hidden. A 
 
 When strict mode is required, each course containing VideoTrack receives a hidden, non-participating core group whose stable idnumber is `mod_videotrack_focus_exception`. Membership changes only the effective strict blur policy to `hiddenonly`; it never permits hidden-tab playback or bypasses server validation, seek, rate, completion or interaction rules. VideoTrack stores no reason for membership and reads the Moodle core group relation directly because hidden membership is intentionally not exposed by normal visibility-aware helpers.
 
+## Server-authoritative playback credit
+
+Tracked playback starts only after `start_playback` opens a credit window bound to the current browser session. Segment writes from another or stale session remain available as non-authoritative audit evidence but cannot advance watched coverage. An accepted pause, end or hidden-page lifecycle save clears the active session and server activity timestamp, so resumed playback must perform a new handshake. Release 1.7.106 verifies the real HTML5 play/pause path end-to-end by matching the `playstart` and accepted `pause` session identifiers and checking that the server window is closed.
+
 ## Signals
 
 Allowed bounded types include blocked forward seek, hidden tab, window blur, player outside viewport, Picture-in-Picture attempt, random pause, unauthorised rate, missing provider callback and inconsistent tracking. The server validates the type, context, enabled state and rate limit. No free text or device capture is accepted.

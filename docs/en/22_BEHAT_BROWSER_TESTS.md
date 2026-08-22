@@ -1,6 +1,6 @@
 # Behat browser automation
 
-VideoTrack started its browser-automation phase in release 1.7.45; release 1.7.105 adds deterministic stacked-notice coverage after the 1.7.104 persisted pre-seek correction passed its real browser gate. The maintainer Behat environment is operational on Moodle 5.0–5.3, and the suite uses unique native `<summary>` CSS selectors instead of ambiguous text clicks. The plugin ships a Moodle module generator under `tests/generator/lib.php` and browser scenarios under `tests/behat/`.
+VideoTrack started its browser-automation phase in release 1.7.45; release 1.7.106 adds a real-browser assertion for the server-authoritative playback-credit lifecycle after the 1.7.105 gate passed. The maintainer Behat environment is operational on Moodle 5.0–5.3, and the suite uses unique native `<summary>` CSS selectors instead of ambiguous text clicks. The plugin ships a Moodle module generator under `tests/generator/lib.php` and browser scenarios under `tests/behat/`.
 
 ## Purpose
 
@@ -82,6 +82,10 @@ The exact 1.7.104 tree subsequently passed canonical PHPCS and PHP lint, 263 PHP
 
 Release 1.7.105 extends `html5_playback_contract.feature` with a deterministic stacked-notice scenario. Validated progress activates the normal resume notice while the activity policy independently activates the disabled-forward-seek notice. An empty submission through the real learner-note form then creates the transient validation alert. The scenario verifies that all three notices coexist and that dismissing the transient alert does not remove either persistent notice. No production JavaScript or PHP helper is changed.
 
+The exact 1.7.105 tree passed canonical PHPCS and PHP lint, 263 PHPUnit tests / 2342 assertions, and all 20 Behat scenarios / 291 steps on both Moodle 5.0 and Moodle 5.3.
+
+Release 1.7.106 strengthens the existing HTML5 play/pause scenario. After the browser has played real local media for at least two seconds, the final step waits for the asynchronous ledger write and requires an unvalidated `playstart`, a non-empty server-validated `pause` with the same session identifier, and cleared `serverplaybacksessionid` / `serverlastactivity` state. This is the explicit browser/runtime verification of the AC-01 terminal lifecycle; cross-session rejection and credit-budget edges remain covered by behavioural PHPUnit tests. The candidate suite remains at 7 features / 20 scenarios and rises to 293 expected steps.
+
 
 ## Current browser-test coverage limits
 
@@ -89,8 +93,7 @@ The distributed suite intentionally records what is not yet deterministic. Remai
 
 1. deterministic YouTube / Vimeo provider harnesses;
 2. backward-seek parity for YouTube/Vimeo beyond the deterministic HTML5 resume/backward-seek coverage;
-3. provider-specific resume parity beyond the deterministic HTML5 resume coverage;
-4. an explicit anti-cheat browser/runtime tranche before the final Moodle 5.0–5.3 milestone.
+3. provider-specific resume parity beyond the deterministic HTML5 resume coverage.
 
 Provider scenarios should avoid depending on public third-party network availability when a deterministic local harness can exercise the same adapter contract.
 
