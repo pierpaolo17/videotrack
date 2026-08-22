@@ -45,3 +45,23 @@ Feature: HTML5 playback contracts remain stable in the browser
     Then the VideoTrack HTML5 media playback is "playing"
     When I click on ".videotrack-ctrl-play" "css_element"
     Then the VideoTrack HTML5 media playback is "paused"
+
+  Scenario: Persistent player notices survive a transient validation alert
+    Given the following "activities" exist:
+      | activity   | course | name            | behathtml5fixture | allowseekforward | resumeplayback | studentnotesenabled |
+      | videotrack | C1     | Stacked notices | 1                 | 0                | 1              | 1                   |
+    And "student1" watched "Stacked notices" through "12" seconds
+    And I log in as "student1"
+    And I am on "Course 1" course homepage
+    When I click on "Stacked notices" "link"
+    Then the VideoTrack HTML5 media is ready
+    And ".videotrack-resume-notice" "css_element" should exist
+    And ".videotrack-seek-policy-notice" "css_element" should exist
+    When I press "Save note"
+    Then ".videotrack-status-message[role=\"alert\"]" "css_element" should exist
+    And ".videotrack-resume-notice" "css_element" should exist
+    And ".videotrack-seek-policy-notice" "css_element" should exist
+    When I click on ".videotrack-status-message .videotrack-inline-notice-close" "css_element"
+    Then ".videotrack-status-message" "css_element" should not exist
+    And ".videotrack-resume-notice" "css_element" should exist
+    And ".videotrack-seek-policy-notice" "css_element" should exist

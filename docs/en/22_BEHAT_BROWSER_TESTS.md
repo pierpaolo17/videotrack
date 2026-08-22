@@ -1,6 +1,6 @@
 # Behat browser automation
 
-VideoTrack started its browser-automation phase in release 1.7.45; release 1.7.103 adds persisted pre-seek boundary verification to the deterministic local HTML5 harness after release 1.7.100 corrected the completion fixture introduced in 1.7.99. The maintainer Behat environment is operational on Moodle 5.0–5.3, and the suite uses unique native `<summary>` CSS selectors instead of ambiguous text clicks. The plugin ships a Moodle module generator under `tests/generator/lib.php` and browser scenarios under `tests/behat/`.
+VideoTrack started its browser-automation phase in release 1.7.45; release 1.7.105 adds deterministic stacked-notice coverage after the 1.7.104 persisted pre-seek correction passed its real browser gate. The maintainer Behat environment is operational on Moodle 5.0–5.3, and the suite uses unique native `<summary>` CSS selectors instead of ambiguous text clicks. The plugin ships a Moodle module generator under `tests/generator/lib.php` and browser scenarios under `tests/behat/`.
 
 ## Purpose
 
@@ -62,7 +62,7 @@ The deterministic assertions cover both policies: a blocked jump to 20 seconds m
 
 Release 1.7.51 added `tests/provider_seek_snapshot_contract_test.php`: it statically guards pre-seek snapshot ordering and rollback-safe interaction timestamps across YouTube, HTML5 and Vimeo. This is complementary coverage only; it does not make the outstanding YouTube/Vimeo browser harnesses complete.
 
-Release 1.7.53 added `tests/player_resume_completion_alert_contract_test.php`; release 1.7.54 corrected that test without changing runtime. Release 1.7.55 removes the remaining fragile acknowledgement marker failure and adds behavioural PHPUnit coverage for completion-signature and current-statement versioning. Provider-specific resume parity and stacked-alert browser coverage remain pending; deterministic HTML5 resume is added in 1.7.97.
+Release 1.7.53 added `tests/player_resume_completion_alert_contract_test.php`; release 1.7.54 corrected that test without changing runtime. Release 1.7.55 removes the remaining fragile acknowledgement marker failure and adds behavioural PHPUnit coverage for completion-signature and current-statement versioning. Deterministic HTML5 resume is added in 1.7.97, and stacked-alert browser coverage follows in 1.7.105; provider-specific resume parity remains pending.
 
 Release 1.7.97 adds `html5_playback_contract.feature`. Using the same local MP4 fixture and validated-state seeding, it verifies that HTML5 resumes near a trusted saved position, allows an explicit backward seek inside watched progress, and really transitions between playing and paused states through the custom control bar. These scenarios are deterministic and do not require a public video provider.
 
@@ -78,6 +78,10 @@ Release 1.7.103 extends `html5_seek_policy.feature` with a real persisted pre-se
 
 The real 1.7.103 gate exposed that the extra `servervalidated = 1` expectation was stricter than the persisted-snapshot contract. On both Moodle 5.0 and 5.3 the raw row ended within about 0.22 seconds of the captured pre-seek time, but the server guard retained it as non-authoritative evidence. Release 1.7.104 preserves the raw-endpoint assertion and additionally verifies that aggregate unique coverage and resume position do not cross into the skipped gap. This validates both accepted and conservatively rejected ledger outcomes without weakening the server-authoritative guard.
 
+The exact 1.7.104 tree subsequently passed canonical PHPCS and PHP lint, 263 PHPUnit tests / 2342 assertions, and all 19 Behat scenarios / 271 steps on both Moodle 5.0 and Moodle 5.3.
+
+Release 1.7.105 extends `html5_playback_contract.feature` with a deterministic stacked-notice scenario. Validated progress activates the normal resume notice while the activity policy independently activates the disabled-forward-seek notice. An empty submission through the real learner-note form then creates the transient validation alert. The scenario verifies that all three notices coexist and that dismissing the transient alert does not remove either persistent notice. No production JavaScript or PHP helper is changed.
+
 
 ## Current browser-test coverage limits
 
@@ -85,7 +89,7 @@ The distributed suite intentionally records what is not yet deterministic. Remai
 
 1. deterministic YouTube / Vimeo provider harnesses;
 2. backward-seek parity for YouTube/Vimeo beyond the deterministic HTML5 resume/backward-seek coverage;
-3. stacked-alert browser scenarios; Moodle completion-state persistence is covered from 1.7.99, while provider-specific resume parity remains pending.
+3. provider-specific resume parity beyond the deterministic HTML5 resume coverage;
 4. an explicit anti-cheat browser/runtime tranche before the final Moodle 5.0–5.3 milestone.
 
 Provider scenarios should avoid depending on public third-party network availability when a deterministic local harness can exercise the same adapter contract.

@@ -1,6 +1,6 @@
 # Documentation audit
 
-Baseline: VideoTrack **1.7.104** (`2026082203`).
+Baseline: VideoTrack **1.7.105** (`2026082204`).
 
 ## Coverage
 
@@ -16,9 +16,18 @@ Baseline: VideoTrack **1.7.104** (`2026082203`).
 - Root privacy summaries: `PRIVACY.md` and `PRIVACY_IT.md`.
 - Distributed CLI diagnostics documented in `21_CLI_DIAGNOSTICS.md` and covered by static read-only contracts.
 - Behat browser automation is documented in `22_BEHAT_BROWSER_TESTS.md`, including current deterministic coverage and explicit provider coverage limits.
-- Static resume/completion/stacked-alert contracts complement the operational Behat environment; the real 1.7.98 browser gate passed 13/13 scenarios and 195/195 steps on Moodle 5.0 and 5.3, while broader provider smoke coverage remains explicitly separate.
+- Static resume/completion/stacked-alert contracts complement the operational Behat environment; release 1.7.105 adds the corresponding deterministic stacked-alert browser scenario, while broader external-provider coverage remains explicitly separate.
 - Maintainer-only consolidated roadmap/lessons-history files are intentionally excluded from the distributed plugin tree and protected by `.moodleignore`.
 - Chapter navigation now has an explicit focus-visible/forced-colour contract; a manual keyboard/high-contrast matrix remains a release gate for final U-020 closure.
+
+## 1.7.105 stacked player notices in the browser
+
+- The exact 1.7.104 tree passed canonical PHPCS, PHP lint, PHPUnit and Behat on Moodle 5.0 and 5.3; Behat passed 19/19 scenarios and 271/271 steps on each branch.
+- U-007 now exercises the existing stacked-notice runtime contract in a real browser using the deterministic local HTML5 fixture.
+- The scenario seeds validated progress so that a persistent resume notice is shown while the disabled-forward-seek policy independently shows its persistent notice.
+- Submitting the real learner-note form with an empty value creates a transient validation alert. The scenario requires both persistent notices to remain visible before and after the transient alert is dismissed.
+- The distributed suite contains 7 features, 20 candidate scenarios and 291 expected executed steps. This tranche adds no production PHP or AMD callable and keeps the inventories at **284/284** non-documentation files and **735 PHP / 647 AMD** named callables.
+- Runtime, AMD sources/builds, schema, services, capability, privacy, completion and language packs are unchanged. The new scenario is not declared green before the maintainer runs Behat on the exact patched tree.
 
 ## 1.7.104 persisted-seek gate correction
 

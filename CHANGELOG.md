@@ -1,5 +1,12 @@
 # VideoTrack changelog
 
+## 1.7.105 - 2026-08-22
+
+- Continue U-007 with a deterministic HTML5 browser scenario for stacked player notices.
+- Verify that the persistent resume and forward-seek policy notices coexist with a transient validation error produced by the real learner-note form.
+- Verify that dismissing the transient status message leaves both persistent notices in place.
+- Keep production runtime, AMD sources/builds, schema, services, capability, privacy, completion and language packs unchanged.
+
 ## 1.7.104 - 2026-08-22
 
 - Correct the two canonical PHPCS spacing errors in the 1.7.103 persisted-seek Behat assertion.
