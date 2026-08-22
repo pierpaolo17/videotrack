@@ -1,8 +1,8 @@
 # Distributed file inventory
 
-This inventory is generated against the VideoTrack 1.7.106 tree and lists every non-documentation file. Canonical JavaScript is under `amd/src`; files under `amd/build` are generated.
+This inventory is generated against the VideoTrack 1.7.107 tree and lists every non-documentation file. Canonical JavaScript is under `amd/src`; files under `amd/build` are generated.
 
-Entries: **284**.
+Entries: **286**.
 
 | File | Responsibility |
 |---|---|
@@ -245,7 +245,7 @@ Entries: **284**.
 | `tests/analytics_scope_test.php` | PHPUnit coverage for analytics scope test. |
 | `tests/analytics_table_export_test.php` | PHPUnit coverage for analytics table export test. |
 | `tests/analytics_test.php` | PHPUnit coverage for analytics test. |
-| `tests/behat/behat_mod_videotrack.php` | Deterministic Behat steps for local HTML5 readiness, seeking, playback-state/timestamp assertions and bounded watched-evidence seeding. |
+| `tests/behat/behat_mod_videotrack.php` | Deterministic Behat steps for local HTML5 and provider readiness, controls, timestamps, rollback and bounded watched-evidence assertions. |
 | `tests/behat/focus_exception_policy.feature` | Browser contract for strict focus policy with and without hidden exception-group membership. |
 | `tests/behat/html5_acknowledgement_contract.feature` | Deterministic browser regression for immediate acknowledgement, video-end gating and persisted confirmation. |
 | `tests/behat/html5_completion_contract.feature` | Deterministic browser regression for Moodle completion persistence after validated viewing and acknowledgement. |
@@ -253,12 +253,14 @@ Entries: **284**.
 | `tests/behat/html5_seek_policy.feature` | Browser regression for allowed and blocked HTML5 forward seeking without public-network dependencies. |
 | `tests/behat/learner_role_controls.feature` | Behat role-scope regression for learner, teacher and dual-role interaction controls. |
 | `tests/behat/student_personal_sections.feature` | Behat browser regression for the learner personal collapsible sections. |
+| `tests/behat/youtube_provider_contract.feature` | Public-network-independent browser contract for the unchanged production YouTube adapter. |
 | `tests/cli_contract_test.php` | Static contracts keeping the distributed CLI tools read-only, documented and tied to real Analytics paths. |
 | `tests/completion_contract_test.php` | Current PHPUnit/contract test distributed with the plugin. |
 | `tests/course_analytics_test.php` | PHPUnit coverage for course analytics test. |
 | `tests/csv_event_writer_test.php` | PHPUnit coverage for custom CSV event-row writing. |
 | `tests/csv_export_test.php` | PHPUnit coverage for csv export test. |
 | `tests/fixtures/behat-video.mp4.b64` | Base64-encoded 60-second local video fixture decoded only by deterministic HTML5 browser tests. |
+| `tests/fixtures/behat-youtube-player.js` | Test-only deterministic YouTube SDK double loaded exclusively for the reserved Behat fixture. |
 | `tests/focus_policy_test.php` | PHPUnit coverage for hidden-group creation, membership and effective focus policy. |
 | `tests/form_validation_test.php` | Behavioural and delegation coverage for autonomous activity-form validation policy. |
 | `tests/forum_bridge_test.php` | PHPUnit coverage for forum bridge test. |

@@ -1,11 +1,11 @@
 # Documentation audit
 
-Baseline: VideoTrack **1.7.106** (`2026082205`).
+Baseline: VideoTrack **1.7.107** (`2026082206`).
 
 ## Coverage
 
-- Non-documentation files inventoried: **284/284**.
-- Named PHP functions/methods inventoried: **736**.
+- Non-documentation files inventoried: **286/286**.
+- Named PHP functions/methods inventoried: **743**.
 - Named AMD callables detected and inventoried: **647**.
 - XMLDB tables documented: **7**.
 - Site-setting keys documented: **57**.
@@ -16,9 +16,17 @@ Baseline: VideoTrack **1.7.106** (`2026082205`).
 - Root privacy summaries: `PRIVACY.md` and `PRIVACY_IT.md`.
 - Distributed CLI diagnostics documented in `21_CLI_DIAGNOSTICS.md` and covered by static read-only contracts.
 - Behat browser automation is documented in `22_BEHAT_BROWSER_TESTS.md`, including current deterministic coverage and explicit provider coverage limits.
-- Static resume/completion/stacked-alert and server-ledger contracts complement the operational Behat environment; release 1.7.106 adds a real-browser assertion for the playback-credit lifecycle, while broader external-provider coverage remains explicitly separate.
+- Static resume/completion/stacked-alert and server-ledger contracts complement the operational Behat environment; release 1.7.107 adds deterministic YouTube provider coverage, while Vimeo remains explicitly separate.
 - Maintainer-only consolidated roadmap/lessons-history files are intentionally excluded from the distributed plugin tree and protected by `.moodleignore`.
 - Chapter navigation now has an explicit focus-visible/forced-colour contract; a manual keyboard/high-contrast matrix remains a release gate for final U-020 closure.
+
+## 1.7.107 deterministic YouTube provider harness
+
+- The exact 1.7.106 tree passed canonical PHPCS and PHP lint, 263 PHPUnit tests / 2342 assertions and all 20 Behat scenarios / 293 steps on both Moodle 5.0 and 5.3.
+- The test generator accepts `behatproviderfixture=youtube` and creates the reserved `VTBehat0001` identifier. In Behat mode only, `view.php` loads a local SDK double before the unchanged production YouTube AMD entrypoint.
+- One scenario verifies validated resume, the real AJAX play/pause credit lifecycle, allowed backward seeking, blocked forward-seek rollback and an unchanged persisted watched frontier without public-provider network access.
+- The distributed suite contains 8 features, 21 candidate scenarios and 311 expected executed steps. The strict loader guard adds a static PHPUnit contract; inventories become **286/286** non-documentation files and **743 PHP / 647 AMD** named callables.
+- Production YouTube behaviour, AMD sources/builds, schema, services, capability, privacy, completion and language packs are unchanged. This tranche is not declared green before the maintainer runs the exact patched tree.
 
 ## 1.7.106 playback-credit lifecycle in the browser
 

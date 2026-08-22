@@ -1,5 +1,12 @@
 # VideoTrack changelog
 
+## 1.7.107 - 2026-08-22
+
+- Continue U-007 with a deterministic, public-network-independent YouTube browser harness that drives the unchanged production adapter through a local SDK double.
+- Verify validated resume, accepted play/pause credit lifecycle, allowed backward seeking and blocked forward-seek rollback against the persisted watched frontier.
+- Restrict the SDK double to Moodle Behat mode and one reserved fixture video identifier; normal YouTube runtime and public-provider loading remain unchanged.
+- Keep production AMD sources/builds, schema, services, capability, privacy, completion and language packs unchanged; deterministic Vimeo parity remains the next provider tranche.
+
 ## 1.7.106 - 2026-08-22
 
 - Continue U-007 with an end-to-end browser assertion for the server-authoritative playback-credit lifecycle.

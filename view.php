@@ -349,6 +349,12 @@ if ($distractionfree) {
 }
 
 // Load the correct AMD module depending on video source.
+$behatyoutubefixture = defined('BEHAT_SITE_RUNNING')
+    && $source === 'youtube'
+    && (string)$videotrack->videoid === 'VTBehat0001';
+if ($behatyoutubefixture) {
+    $PAGE->requires->js('/mod/videotrack/tests/fixtures/behat-youtube-player.js', true);
+}
 if ($source === 'vimeo') {
     $PAGE->requires->js_call_amd('mod_videotrack/vimeo_player', 'init', [['configid' => $playerconfigid]]);
 } else if ($source === 'upload') {

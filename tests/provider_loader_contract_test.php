@@ -75,4 +75,21 @@ final class provider_loader_contract_test extends advanced_testcase {
         $this->assertStringContainsString('player = new VimeoPlayer(iframe);', $vimeo);
         $this->assertStringContainsString('player = new VimeoPlayer(container, {', $vimeo);
     }
+
+    /**
+     * The local YouTube SDK double must remain restricted to its reserved Behat-only activity.
+     */
+    public function test_youtube_behat_sdk_double_is_strictly_gated_and_loaded_first(): void {
+        $view = file_get_contents(__DIR__ . '/../view.php');
+        $this->assertIsString($view);
+        $this->assertStringContainsString("defined('BEHAT_SITE_RUNNING')", $view);
+        $this->assertStringContainsString("\$source === 'youtube'", $view);
+        $this->assertStringContainsString("videoid === 'VTBehat0001'", $view);
+
+        $fixtureposition = strpos($view, "requires->js('/mod/videotrack/tests/fixtures/behat-youtube-player.js'");
+        $adapterposition = strpos($view, "js_call_amd('mod_videotrack/player'");
+        $this->assertNotFalse($fixtureposition);
+        $this->assertNotFalse($adapterposition);
+        $this->assertLessThan($adapterposition, $fixtureposition);
+    }
 }
