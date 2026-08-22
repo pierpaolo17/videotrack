@@ -1,6 +1,6 @@
 # Automazione browser con Behat
 
-VideoTrack ha avviato la fase di automazione browser nella release 1.7.45; la 1.7.105 aggiunge la copertura deterministica degli alert impilati dopo che la correzione 1.7.104 del persisted pre-seek ha superato il gate browser reale. L’ambiente Behat del maintainer è operativo su Moodle 5.0–5.3 e la suite usa selector CSS univoci sui `<summary>` nativi invece di click testuali ambigui. Il plugin distribuisce un generator Moodle in `tests/generator/lib.php` e gli scenari browser in `tests/behat/`.
+VideoTrack ha avviato la fase di automazione browser nella release 1.7.45; la 1.7.106 aggiunge un’asserzione browser reale sul ciclo server-authoritative della finestra di credito dopo il gate verde della 1.7.105. L’ambiente Behat del maintainer è operativo su Moodle 5.0–5.3 e la suite usa selector CSS univoci sui `<summary>` nativi invece di click testuali ambigui. Il plugin distribuisce un generator Moodle in `tests/generator/lib.php` e gli scenari browser in `tests/behat/`.
 
 ## Scopo
 
@@ -92,14 +92,17 @@ L’esatto albero 1.7.104 ha poi superato PHPCS canonico e PHP lint, 263 test PH
 
 La release 1.7.105 estende `html5_playback_contract.feature` con uno scenario deterministico sugli alert impilati. Il progresso validato attiva il normale avviso di resume, mentre la policy dell’attività attiva indipendentemente l’avviso di seek avanti disabilitato. Un invio vuoto tramite il vero form note learner crea quindi l’alert di validazione transiente. Lo scenario verifica che i tre avvisi coesistano e che chiudere l’alert transiente non rimuova nessuno dei due avvisi persistenti. Non cambia JavaScript di produzione né helper PHP.
 
+L’esatto albero 1.7.105 ha superato PHPCS canonico e PHP lint, 263 test PHPUnit / 2342 asserzioni e tutti i 20 scenari Behat / 291 step sia su Moodle 5.0 sia su Moodle 5.3.
+
+La release 1.7.106 rafforza lo scenario HTML5 play/pause esistente. Dopo almeno due secondi di media locale realmente riprodotto, lo step finale attende la scrittura asincrona del ledger e richiede un `playstart` non validato, una `pause` server-validata e non vuota con lo stesso identificatore di sessione e lo svuotamento di `serverplaybacksessionid` / `serverlastactivity`. È la verifica browser/runtime esplicita del lifecycle terminale AC-01; rifiuto cross-session e confini del budget restano coperti dai test PHPUnit comportamentali. La suite candidata resta a 7 feature / 20 scenari e sale a 293 step attesi.
+
 ## Limiti correnti della copertura browser
 
 La suite distribuita documenta esplicitamente ciò che non è ancora deterministico. Restano da coprire:
 
 1. harness provider deterministiche YouTube / Vimeo;
 2. parity del seek indietro su YouTube/Vimeo oltre alla copertura HTML5 deterministica resume/seek indietro;
-3. parity resume provider-specifica oltre alla copertura HTML5 deterministica;
-4. una tranche anti-cheat browser/runtime esplicita prima della milestone finale Moodle 5.0–5.3.
+3. parity resume provider-specifica oltre alla copertura HTML5 deterministica.
 
 Gli scenari provider dovrebbero evitare dipendenze dalla disponibilità della rete pubblica quando una harness locale deterministica può esercitare lo stesso contratto dell'adapter.
 

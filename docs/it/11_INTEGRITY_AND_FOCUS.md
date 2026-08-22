@@ -10,6 +10,10 @@ La modalità consigliata mette in pausa quando `document.visibilityState` divent
 
 Quando è richiesta la modalità rigida, ogni corso contenente VideoTrack riceve un gruppo core nascosto e non partecipante con idnumber stabile `mod_videotrack_focus_exception`. L’appartenenza modifica soltanto la policy effettiva del blur rigido in `hiddenonly`: non consente playback con scheda nascosta e non aggira validazione server, seek, velocità, completion o regole delle interazioni. VideoTrack non registra la motivazione dell’appartenenza e legge direttamente la relazione gruppi core perché i normali helper visibility-aware nascondono intenzionalmente le membership non visibili.
 
+## Credito di riproduzione server-authoritative
+
+Il playback tracciato inizia soltanto dopo che `start_playback` apre una finestra di credito vincolata alla sessione browser corrente. Le scritture di segmenti provenienti da una sessione diversa o obsoleta restano disponibili come evidenza di audit non autorevole, ma non possono avanzare la copertura vista. Una pausa, fine o chiusura lifecycle per pagina nascosta accettata svuota sessione attiva e timestamp attività server, quindi la ripresa deve eseguire un nuovo handshake. La release 1.7.106 verifica end-to-end il percorso HTML5 reale play/pause facendo coincidere gli identificatori di sessione `playstart` e `pause` accettato e controllando la chiusura della finestra server.
+
 ## Segnali
 
 I tipi ammessi includono avanzamento bloccato, scheda nascosta, blur finestra, player fuori viewport, tentativo PiP, pausa casuale, velocità non autorizzata, callback provider mancante e tracking incoerente. Il server valida tipo, contesto, abilitazione e rate limit. Non accetta testo libero o acquisizioni del dispositivo.

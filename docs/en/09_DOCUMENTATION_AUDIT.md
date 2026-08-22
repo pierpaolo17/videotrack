@@ -1,11 +1,11 @@
 # Documentation audit
 
-Baseline: VideoTrack **1.7.105** (`2026082204`).
+Baseline: VideoTrack **1.7.106** (`2026082205`).
 
 ## Coverage
 
 - Non-documentation files inventoried: **284/284**.
-- Named PHP functions/methods inventoried: **735**.
+- Named PHP functions/methods inventoried: **736**.
 - Named AMD callables detected and inventoried: **647**.
 - XMLDB tables documented: **7**.
 - Site-setting keys documented: **57**.
@@ -16,9 +16,18 @@ Baseline: VideoTrack **1.7.105** (`2026082204`).
 - Root privacy summaries: `PRIVACY.md` and `PRIVACY_IT.md`.
 - Distributed CLI diagnostics documented in `21_CLI_DIAGNOSTICS.md` and covered by static read-only contracts.
 - Behat browser automation is documented in `22_BEHAT_BROWSER_TESTS.md`, including current deterministic coverage and explicit provider coverage limits.
-- Static resume/completion/stacked-alert contracts complement the operational Behat environment; release 1.7.105 adds the corresponding deterministic stacked-alert browser scenario, while broader external-provider coverage remains explicitly separate.
+- Static resume/completion/stacked-alert and server-ledger contracts complement the operational Behat environment; release 1.7.106 adds a real-browser assertion for the playback-credit lifecycle, while broader external-provider coverage remains explicitly separate.
 - Maintainer-only consolidated roadmap/lessons-history files are intentionally excluded from the distributed plugin tree and protected by `.moodleignore`.
 - Chapter navigation now has an explicit focus-visible/forced-colour contract; a manual keyboard/high-contrast matrix remains a release gate for final U-020 closure.
+
+## 1.7.106 playback-credit lifecycle in the browser
+
+- The exact 1.7.105 tree passed canonical PHPCS and PHP lint, 263 PHPUnit tests / 2342 assertions and all 20 Behat scenarios / 291 steps on both Moodle 5.0 and 5.3.
+- The deterministic HTML5 play/pause scenario now waits for real media progress before pausing and queries the actual `videotrack_seg` and `videotrack_state` records after the asynchronous write.
+- The assertion requires one unvalidated `playstart` handshake, a non-empty accepted `pause` segment carrying the same browser session, and cleared `serverplaybacksessionid` / `serverlastactivity` state after the terminal save.
+- This proves in a browser flow that pause cannot retain stale credit and that later playback requires a fresh handshake; cross-session rejection and budget boundaries remain behaviourally covered by PHPUnit.
+- The distributed suite contains 7 features, 20 candidate scenarios and 293 expected executed steps. The tranche adds one Behat PHP callable and keeps the inventories at **284/284** non-documentation files and **736 PHP / 647 AMD** named callables.
+- Production runtime, AMD sources/builds, schema, services, capability, privacy, completion and language packs are unchanged. The new assertion is not declared green before the maintainer runs Behat on the exact patched tree.
 
 ## 1.7.105 stacked player notices in the browser
 

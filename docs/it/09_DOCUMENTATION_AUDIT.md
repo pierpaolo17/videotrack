@@ -1,11 +1,11 @@
 # Audit della documentazione
 
-Baseline: VideoTrack **1.7.105** (`2026082204`).
+Baseline: VideoTrack **1.7.106** (`2026082205`).
 
 ## Copertura
 
 - File non documentali inventariati: **284/284**.
-- Funzioni/metodi PHP nominati inventariati: **735**.
+- Funzioni/metodi PHP nominati inventariati: **736**.
 - Callable AMD nominati rilevati e inventariati: **647**.
 - Tabelle XMLDB documentate: **7**.
 - Chiavi impostazioni sito documentate: **57**.
@@ -16,8 +16,17 @@ Baseline: VideoTrack **1.7.105** (`2026082204`).
 - Sintesi privacy root: `PRIVACY.md` e `PRIVACY_IT.md`.
 - Diagnostica CLI distribuita documentata in `21_CLI_DIAGNOSTICS.md` e coperta da contratti statici di sola lettura.
 - Automazione browser Behat documentata in `22_TEST_BROWSER_BEHAT.md`; U-007 è tracciato come in corso.
-- I contratti statici resume/completion/alert impilati completano l’ambiente Behat ora operativo; la release 1.7.105 aggiunge il corrispondente scenario browser deterministico per gli alert impilati, mentre la copertura più ampia dei provider esterni resta separata.
+- I contratti statici resume/completion/alert impilati e ledger server completano l’ambiente Behat ora operativo; la release 1.7.106 aggiunge un’asserzione browser reale sul ciclo della finestra di credito, mentre la copertura più ampia dei provider esterni resta separata.
 - La navigazione capitoli ha ora un contratto esplicito focus-visible/colori forzati; la matrice manuale tastiera/high-contrast resta un gate per la chiusura finale di U-020.
+
+## Ciclo browser della finestra di credito 1.7.106
+
+- L’esatto albero 1.7.105 ha superato PHPCS canonico e PHP lint, 263 test PHPUnit / 2342 asserzioni e tutti i 20 scenari Behat / 291 step sia su Moodle 5.0 sia su Moodle 5.3.
+- Lo scenario deterministico HTML5 play/pause ora attende un progresso reale del media prima della pausa e interroga i record effettivi `videotrack_seg` e `videotrack_state` dopo la scrittura asincrona.
+- L’asserzione richiede un handshake `playstart` non validato, un segmento `pause` non vuoto e accettato con la stessa sessione browser e lo svuotamento di `serverplaybacksessionid` / `serverlastactivity` dopo il salvataggio terminale.
+- Questo dimostra in un flusso browser che la pausa non conserva credito obsoleto e che la riproduzione successiva richiede un nuovo handshake; rifiuto cross-session e limiti budget restano coperti comportamentalmente da PHPUnit.
+- La suite distribuita contiene 7 feature, 20 scenari candidati e 293 step eseguiti attesi. La tranche aggiunge un callable PHP Behat e mantiene gli inventari a **284/284** file non documentali e **736 PHP / 647 AMD** callable nominati.
+- Runtime di produzione, sorgenti/build AMD, schema, servizi, capability, privacy, completion e language pack restano invariati. La nuova asserzione non è dichiarata verde prima dell’esecuzione Behat del maintainer sull’esatto albero patchato.
 
 ## Alert player impilati nel browser 1.7.105
 

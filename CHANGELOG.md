@@ -1,5 +1,12 @@
 # VideoTrack changelog
 
+## 1.7.106 - 2026-08-22
+
+- Continue U-007 with an end-to-end browser assertion for the server-authoritative playback-credit lifecycle.
+- Verify that real HTML5 play creates a `playstart` handshake and real pause persists a non-empty, server-validated segment bound to the same browser session.
+- Verify that the accepted pause clears both the active playback-session identifier and server activity timestamp, so later credit requires a fresh handshake.
+- Keep production runtime, AMD sources/builds, schema, services, capability, privacy, completion and language packs unchanged.
+
 ## 1.7.105 - 2026-08-22
 
 - Continue U-007 with a deterministic HTML5 browser scenario for stacked player notices.
