@@ -1,5 +1,12 @@
 # VideoTrack changelog
 
+## 1.7.110 - 2026-08-23
+
+- Align the seven non-English language packs with the current completion-policy, player-policy and uploaded-media contracts while preserving all 990 keys and placeholders.
+- Remove the obsolete Polish completion reference to the reaction cluster window; the capability now accurately describes required percentage, reaction criteria and AND/OR completion logic.
+- Restore omitted operational details for site-level HTML5 controls, autoplay/mute behaviour, captions, transcripts, uploaded-file formats and enrolled-learner delivery.
+- Keep runtime PHP, AMD, schema, services, capability definitions, privacy implementation, tracking and completion behaviour unchanged; this release changes user-facing translations and release documentation only.
+
 ## 1.7.109 - 2026-08-23
 
 - Correct the installation-blocking XMLDB declaration of `videotrack_state.serverplaybacksessionid`: a `CHAR NOT NULL` field no longer declares the forbidden empty-string schema default.

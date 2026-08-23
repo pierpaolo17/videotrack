@@ -1,6 +1,6 @@
 # Audit della documentazione
 
-Baseline: VideoTrack **1.7.109** (`2026082301`).
+Baseline: VideoTrack **1.7.110** (`2026082302`).
 
 ## Copertura
 
@@ -18,6 +18,14 @@ Baseline: VideoTrack **1.7.109** (`2026082301`).
 - Automazione browser Behat documentata in `22_TEST_BROWSER_BEHAT.md`; la tranche provider deterministica U-007 è chiusa dal gate esatto 1.7.108.
 - I contratti statici resume/completion/alert impilati e ledger server completano l’ambiente Behat ora operativo; il gate esatto 1.7.108 ha completato la matrice provider deterministica YouTube/Vimeo.
 - La navigazione capitoli ha ora un contratto esplicito focus-visible/colori forzati; la matrice manuale tastiera/high-contrast resta un gate per la chiusura finale di U-020.
+
+## Allineamento semantico language pack 1.7.110
+
+- Gli otto pacchetti mantengono lo stesso insieme di 990 chiavi, lo stesso ordinamento e gli stessi placeholder; l’inglese resta il contratto di riferimento.
+- Le descrizioni tedesche, spagnole, francesi, hindi, italiane, polacche e portoghesi sono state confrontate con il comportamento corrente di completamento, player e media caricati. Sono state modificate soltanto omissioni semantiche certe o affermazioni obsolete.
+- È stato rimosso il riferimento polacco obsoleto alla finestra cluster nella capability di override del completamento. La descrizione ora corrisponde a percentuale, criteri di reazione e logica AND/OR.
+- Sono state ripristinate clausole operative assenti nelle traduzioni più vecchie su restrizioni player di sito, collegamento autoplay/muto, formati e accesso ai file caricati, sottotitoli e trascrizioni ricercabili.
+- Non viene dichiarata una certificazione linguistica madrelingua. Runtime, AMD, schema, servizi, capability, tracking, completion e implementazione privacy restano invariati.
 
 ## Correzione default XMLDB 1.7.109
 

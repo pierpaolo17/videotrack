@@ -1,6 +1,6 @@
 # Documentation audit
 
-Baseline: VideoTrack **1.7.109** (`2026082301`).
+Baseline: VideoTrack **1.7.110** (`2026082302`).
 
 ## Coverage
 
@@ -19,6 +19,14 @@ Baseline: VideoTrack **1.7.109** (`2026082301`).
 - Static resume/completion/stacked-alert and server-ledger contracts complement the operational Behat environment; the exact 1.7.108 gate completed the deterministic YouTube/Vimeo provider matrix.
 - Maintainer-only consolidated roadmap/lessons-history files are intentionally excluded from the distributed plugin tree and protected by `.moodleignore`.
 - Chapter navigation now has an explicit focus-visible/forced-colour contract; a manual keyboard/high-contrast matrix remains a release gate for final U-020 closure.
+
+## 1.7.110 semantic language-pack alignment
+
+- The eight packs retain the same 990-key set, ordering and placeholders; English remains the reference contract.
+- German, Spanish, French, Hindi, Italian, Polish and Portuguese descriptions were compared against current completion, player and uploaded-media behaviour. Only clear semantic omissions or obsolete statements were changed.
+- The obsolete Polish reference to a reaction cluster window in the completion-override capability was removed. The translated description now matches percentage, reaction criteria and AND/OR completion logic.
+- Operational clauses omitted from older translations were restored for site-level player restrictions, autoplay/mute coupling, uploaded-file formats and access, captions and searchable transcripts.
+- No claim of native-language certification is made. Runtime, AMD, schema, services, capabilities, tracking, completion and privacy implementation are unchanged.
 
 ## 1.7.109 XMLDB default correction
 
