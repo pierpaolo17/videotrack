@@ -1,6 +1,6 @@
 # Audit della documentazione
 
-Baseline: VideoTrack **1.7.108** (`2026082207`).
+Baseline: VideoTrack **1.7.109** (`2026082301`).
 
 ## Copertura
 
@@ -15,9 +15,16 @@ Baseline: VideoTrack **1.7.108** (`2026082207`).
 - Panoramiche root: `README.md` (inglese) e `README_IT.md` (italiano).
 - Sintesi privacy root: `PRIVACY.md` e `PRIVACY_IT.md`.
 - Diagnostica CLI distribuita documentata in `21_CLI_DIAGNOSTICS.md` e coperta da contratti statici di sola lettura.
-- Automazione browser Behat documentata in `22_TEST_BROWSER_BEHAT.md`; U-007 è tracciato come in corso.
-- I contratti statici resume/completion/alert impilati e ledger server completano l’ambiente Behat ora operativo; la release 1.7.108 completa come candidata la matrice provider deterministica YouTube/Vimeo.
+- Automazione browser Behat documentata in `22_TEST_BROWSER_BEHAT.md`; la tranche provider deterministica U-007 è chiusa dal gate esatto 1.7.108.
+- I contratti statici resume/completion/alert impilati e ledger server completano l’ambiente Behat ora operativo; il gate esatto 1.7.108 ha completato la matrice provider deterministica YouTube/Vimeo.
 - La navigazione capitoli ha ora un contratto esplicito focus-visible/colori forzati; la matrice manuale tastiera/high-contrast resta un gate per la chiusura finale di U-020.
+
+## Correzione default XMLDB 1.7.109
+
+- L’esatto albero 1.7.108 ha superato PHPCS canonico, PHP lint, 266 test PHPUnit / 2360 asserzioni e tutti i 22 scenari Behat / 331 step sia su Moodle 5.0 sia su Moodle 5.3.
+- L’installazione ha poi evidenziato un difetto nel contratto sorgente XMLDB: `serverplaybacksessionid` era dichiarato `CHAR NOT NULL DEFAULT ''`, combinazione rifiutata da XMLDB prima della creazione del campo quando i messaggi di debug diventano eccezioni.
+- L’XML di installazione e il campo dell’upgrade storico 1.7.101 ora non dichiarano alcun default di schema. Il runtime continua a scrivere esplicitamente l’identificatore vuoto inattivo, preservando la semantica del ledger.
+- Un contratto PHPUnit protegge entrambe le dichiarazioni XMLDB. Tracking di produzione, AMD, servizi, capability, privacy, completion e language pack restano invariati.
 
 ## Harness provider Vimeo deterministico 1.7.108
 
@@ -25,7 +32,7 @@ Baseline: VideoTrack **1.7.108** (`2026082207`).
 - Il generator test accetta `behatproviderfixture=vimeo` e crea l’identificatore numerico riservato `987654321`. Solo in modalità Behat, `view.php` carica un doppio SDK locale prima dell’entrypoint AMD Vimeo di produzione invariato e ne seleziona il percorso con container senza creare iframe pubblico.
 - Un solo scenario verifica resume validato, seek indietro consentito, rollback del seek avanti bloccato su una frontiera persistita stabile, continuità del playback dopo il recovery e vero ledger della pausa accettata.
 - La suite distribuita contiene 9 feature, 22 scenari candidati e 331 step eseguiti attesi. I contratti generator/loader portano gli inventari a **288/288** file non documentali e **745 PHP / 647 AMD** callable nominati.
-- Comportamento Vimeo di produzione, sorgenti/build AMD, schema, servizi, capability, privacy, completion e language pack restano invariati. U-007 non viene dichiarata chiusa prima del run del maintainer sull’esatto albero 1.7.108.
+- Comportamento Vimeo di produzione, sorgenti/build AMD, schema, servizi, capability, privacy, completion e language pack restano invariati. Il gate esatto 1.7.108 su Moodle 5.0/5.3 ha superato 22 scenari / 331 step su entrambi i rami e chiude la tranche provider deterministica U-007.
 
 ## Harness provider YouTube deterministico 1.7.107
 

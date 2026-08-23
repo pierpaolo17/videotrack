@@ -1,5 +1,12 @@
 # VideoTrack changelog
 
+## 1.7.109 - 2026-08-23
+
+- Correct the installation-blocking XMLDB declaration of `videotrack_state.serverplaybacksessionid`: a `CHAR NOT NULL` field no longer declares the forbidden empty-string schema default.
+- Keep the inactive runtime value as an explicitly written empty session identifier; only the XMLDB field default changes from empty string to no declared default.
+- Cover both fresh-install `install.xml` and historical-upgrade `xmldb_field` declarations with a PHPUnit regression contract.
+- Preserve production tracking, AMD, services, capability, privacy, completion and language-pack behaviour unchanged.
+
 ## 1.7.108 - 2026-08-22
 
 - Complete the deterministic external-provider matrix for U-007 with a public-network-independent Vimeo SDK double driving the unchanged production Vimeo adapter.

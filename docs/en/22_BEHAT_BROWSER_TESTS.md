@@ -92,12 +92,12 @@ Release 1.7.107 adds `youtube_provider_contract.feature` and the test-only field
 
 The exact 1.7.107 tree passed canonical PHPCS and PHP lint, 265 PHPUnit tests / 2352 assertions, and all 21 Behat scenarios / 311 steps on both Moodle 5.0 and Moodle 5.3.
 
-Release 1.7.108 adds `vimeo_provider_contract.feature` and `behatproviderfixture=vimeo`. The reserved numeric identifier `987654321` activates a local Vimeo SDK double only in Behat mode. `view.php` keeps the production Vimeo adapter unchanged and selects its container constructor so no public Vimeo iframe or SDK request is created. The scenario covers validated resume, backward seek, blocked-forward recovery to a stable database frontier, continued playback after recovery and an accepted terminal pause. The candidate suite contains 9 features / 22 scenarios / 331 expected executed steps and remains pending until the exact maintainer gate runs.
+Release 1.7.108 adds `vimeo_provider_contract.feature` and `behatproviderfixture=vimeo`. The reserved numeric identifier `987654321` activates a local Vimeo SDK double only in Behat mode. `view.php` keeps the production Vimeo adapter unchanged and selects its container constructor so no public Vimeo iframe or SDK request is created. The scenario covers validated resume, backward seek, blocked-forward recovery to a stable database frontier, continued playback after recovery and an accepted terminal pause. The exact suite contains 9 features / 22 scenarios / 331 executed steps and passed on Moodle 5.0 and 5.3.
 
 
 ## Current browser-test coverage limits
 
-The candidate distributed suite has deterministic HTML5, YouTube and Vimeo coverage for resume, backward seeking and blocked-forward recovery. U-007 closure remains conditional on the exact 1.7.108 Moodle 5.0/5.3 browser gate; public-provider rendering and availability are external integration concerns, not correctness dependencies of this suite.
+The distributed suite has deterministic HTML5, YouTube and Vimeo coverage for resume, backward seeking and blocked-forward recovery. The exact 1.7.108 Moodle 5.0/5.3 browser gate passed and closes this U-007 provider tranche; public-provider rendering and availability remain external integration concerns, not correctness dependencies of the suite.
 
 Provider scenarios should avoid depending on public third-party network availability when a deterministic local harness can exercise the same adapter contract.
 

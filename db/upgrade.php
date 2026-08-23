@@ -2009,7 +2009,7 @@ function xmldb_videotrack_upgrade($oldversion) {
             null,
             XMLDB_NOTNULL,
             null,
-            '',
+            null,
             'serverlastactivity'
         );
         if (!$dbman->field_exists($statetable, $sessionfield)) {
@@ -2045,6 +2045,12 @@ function xmldb_videotrack_upgrade($oldversion) {
         }
 
         upgrade_mod_savepoint(true, 2026082104, 'videotrack');
+    }
+
+    if ($oldversion < 2026082301) {
+        // Release 1.7.109: source-only XMLDB correction. The field remains
+        // NOT NULL, while runtime writes the inactive empty-session value explicitly.
+        upgrade_mod_savepoint(true, 2026082301, 'videotrack');
     }
 
     return true;
