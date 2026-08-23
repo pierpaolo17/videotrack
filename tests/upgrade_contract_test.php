@@ -35,7 +35,9 @@ final class upgrade_contract_test extends advanced_testcase {
     public function test_modern_schema_fast_forward_precedes_legacy_steps(): void {
         global $CFG;
 
+        $installsource = file_get_contents($CFG->dirroot . '/mod/videotrack/db/install.xml');
         $source = file_get_contents($CFG->dirroot . '/mod/videotrack/db/upgrade.php');
+        $this->assertIsString($installsource);
         $this->assertIsString($source);
 
         $corefastforward = strpos($source, '$oldversion = 2026060428;');
@@ -54,6 +56,19 @@ final class upgrade_contract_test extends advanced_testcase {
         $this->assertStringContainsString('if ($oldversion < 2026060453)', $source);
         $this->assertStringContainsString('if ($oldversion < 2026082104)', $source);
         $this->assertStringContainsString("'serverplaybacksessionid'", $source);
+        $this->assertStringContainsString('if ($oldversion < 2026082301)', $source);
+        $this->assertStringContainsString(
+            '<FIELD NAME="serverplaybacksessionid" TYPE="char" LENGTH="64" NOTNULL="true" COMMENT=',
+            $installsource
+        );
+        $this->assertStringNotContainsString(
+            '<FIELD NAME="serverplaybacksessionid" TYPE="char" LENGTH="64" NOTNULL="true" DEFAULT=""',
+            $installsource
+        );
+        $this->assertStringContainsString(
+            "XMLDB_NOTNULL,\n            null,\n            null,\n            'serverlastactivity'",
+            $source
+        );
         $this->assertStringContainsString('focus_policy::ensure_exception_group', $source);
     }
 

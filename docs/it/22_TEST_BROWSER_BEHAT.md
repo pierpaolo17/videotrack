@@ -102,11 +102,11 @@ La release 1.7.107 aggiunge `youtube_provider_contract.feature` e il campo test-
 
 L’esatto albero 1.7.107 ha superato PHPCS canonico e PHP lint, 265 test PHPUnit / 2352 asserzioni e tutti i 21 scenari Behat / 311 step sia su Moodle 5.0 sia su Moodle 5.3.
 
-La release 1.7.108 aggiunge `vimeo_provider_contract.feature` e `behatproviderfixture=vimeo`. L’identificatore numerico riservato `987654321` attiva un doppio SDK Vimeo locale soltanto in modalità Behat. `view.php` lascia invariato l’adapter Vimeo di produzione e ne seleziona il costruttore su container, senza creare iframe o richieste SDK pubbliche. Lo scenario copre resume validato, seek indietro, recovery del seek avanti bloccato su una frontiera database stabile, continuità della riproduzione dopo il recovery e pausa terminale accettata. La suite candidata contiene 9 feature / 22 scenari / 331 step eseguiti attesi e resta pendente fino al gate maintainer esatto.
+La release 1.7.108 aggiunge `vimeo_provider_contract.feature` e `behatproviderfixture=vimeo`. L’identificatore numerico riservato `987654321` attiva un doppio SDK Vimeo locale soltanto in modalità Behat. `view.php` lascia invariato l’adapter Vimeo di produzione e ne seleziona il costruttore su container, senza creare iframe o richieste SDK pubbliche. Lo scenario copre resume validato, seek indietro, recovery del seek avanti bloccato su una frontiera database stabile, continuità della riproduzione dopo il recovery e pausa terminale accettata. La suite esatta contiene 9 feature / 22 scenari / 331 step eseguiti ed è passata su Moodle 5.0 e 5.3.
 
 ## Limiti correnti della copertura browser
 
-La suite candidata distribuita copre deterministicamente HTML5, YouTube e Vimeo per resume, seek indietro e recovery del seek avanti bloccato. La chiusura U-007 resta condizionata al gate browser 1.7.108 esatto su Moodle 5.0/5.3; rendering e disponibilità del provider pubblico sono aspetti di integrazione esterna, non dipendenze di correttezza della suite.
+La suite distribuita copre deterministicamente HTML5, YouTube e Vimeo per resume, seek indietro e recovery del seek avanti bloccato. Il gate browser esatto 1.7.108 su Moodle 5.0/5.3 è passato e chiude questa tranche provider U-007; rendering e disponibilità del provider pubblico restano aspetti di integrazione esterna, non dipendenze di correttezza della suite.
 
 Gli scenari provider dovrebbero evitare dipendenze dalla disponibilità della rete pubblica quando una harness locale deterministica può esercitare lo stesso contratto dell'adapter.
 
