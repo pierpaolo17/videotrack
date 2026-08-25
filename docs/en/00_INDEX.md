@@ -1,6 +1,6 @@
 # VideoTrack documentation index
 
-Current documented release: **1.7.110** (`2026082302`).
+Current documented release: **1.7.111** (`2026082501`).
 
 Public release history is maintained in [`../../CHANGELOG.md`](../../CHANGELOG.md). Maintainer-only roadmap and lessons-history artifacts are intentionally not distributed with the plugin.
 

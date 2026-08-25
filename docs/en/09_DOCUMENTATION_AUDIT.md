@@ -1,11 +1,11 @@
 # Documentation audit
 
-Baseline: VideoTrack **1.7.110** (`2026082302`).
+Baseline: VideoTrack **1.7.111** (`2026082501`).
 
 ## Coverage
 
 - Non-documentation files inventoried: **288/288**.
-- Named PHP functions/methods inventoried: **745**.
+- Named PHP functions/methods inventoried: **746**.
 - Named AMD callables detected and inventoried: **647**.
 - XMLDB tables documented: **7**.
 - Site-setting keys documented: **57**.
@@ -19,6 +19,13 @@ Baseline: VideoTrack **1.7.110** (`2026082302`).
 - Static resume/completion/stacked-alert and server-ledger contracts complement the operational Behat environment; the exact 1.7.108 gate completed the deterministic YouTube/Vimeo provider matrix.
 - Maintainer-only consolidated roadmap/lessons-history files are intentionally excluded from the distributed plugin tree and protected by `.moodleignore`.
 - Chapter navigation now has an explicit focus-visible/forced-colour contract; a manual keyboard/high-contrast matrix remains a release gate for final U-020 closure.
+
+## 1.7.111 YouTube form-duration correction
+
+- The YouTube IFrame API may return duration zero at `onReady` until media metadata has loaded. The former form probe treated that first zero as a terminal failure.
+- The probe now accepts an immediately positive duration or, only when necessary, starts muted playback and polls for metadata within the existing timeout. Cleanup clears both timeout and polling interval and destroys the hidden player.
+- A static PHPUnit contract protects the delayed-metadata path. Vimeo/local-file detection, learner playback, VideoTrack tracking, schema, services, completion, privacy and language packs are unchanged.
+- Manual WCAG validation remains explicitly deferred under U-020 and is not claimed by this corrective release.
 
 ## 1.7.110 semantic language-pack alignment
 

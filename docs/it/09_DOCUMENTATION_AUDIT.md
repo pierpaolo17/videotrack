@@ -1,11 +1,11 @@
 # Audit della documentazione
 
-Baseline: VideoTrack **1.7.110** (`2026082302`).
+Baseline: VideoTrack **1.7.111** (`2026082501`).
 
 ## Copertura
 
 - File non documentali inventariati: **288/288**.
-- Funzioni/metodi PHP nominati inventariati: **745**.
+- Funzioni/metodi PHP nominati inventariati: **746**.
 - Callable AMD nominati rilevati e inventariati: **647**.
 - Tabelle XMLDB documentate: **7**.
 - Chiavi impostazioni sito documentate: **57**.
@@ -18,6 +18,13 @@ Baseline: VideoTrack **1.7.110** (`2026082302`).
 - Automazione browser Behat documentata in `22_TEST_BROWSER_BEHAT.md`; la tranche provider deterministica U-007 è chiusa dal gate esatto 1.7.108.
 - I contratti statici resume/completion/alert impilati e ledger server completano l’ambiente Behat ora operativo; il gate esatto 1.7.108 ha completato la matrice provider deterministica YouTube/Vimeo.
 - La navigazione capitoli ha ora un contratto esplicito focus-visible/colori forzati; la matrice manuale tastiera/high-contrast resta un gate per la chiusura finale di U-020.
+
+## Correzione durata YouTube nel form 1.7.111
+
+- L’API IFrame YouTube può restituire durata zero in `onReady` finché i metadati non sono caricati. Il probe precedente trattava quel primo zero come errore definitivo.
+- Il probe ora accetta una durata immediatamente positiva oppure, solo se necessario, avvia la riproduzione muta e interroga i metadati entro il timeout esistente. Il cleanup annulla timeout e polling e distrugge il player nascosto.
+- Un contratto PHPUnit statico protegge il percorso con metadati ritardati. Rilevamento Vimeo/file locale, player studente, tracciamento VideoTrack, schema, servizi, completamento, privacy e language pack restano invariati.
+- La verifica WCAG manuale resta esplicitamente differita in U-020 e non viene dichiarata da questa release correttiva.
 
 ## Allineamento semantico language pack 1.7.110
 

@@ -1,8 +1,8 @@
 # Inventario delle funzioni
 
-Generato dall’albero sorgente VideoTrack 1.7.110. Le voci PHP includono funzioni e metodi nominati; le voci AMD includono dichiarazioni nominate, espressioni funzione assegnate e funzioni-metodo di oggetti.
+Generato dall’albero sorgente VideoTrack 1.7.111. Le voci PHP includono funzioni e metodi nominati; le voci AMD includono dichiarazioni nominate, espressioni funzione assegnate e funzioni-metodo di oggetti.
 
-**Funzioni/metodi PHP:** 745. **Callable AMD nominati:** 647.
+**Funzioni/metodi PHP:** 746. **Callable AMD nominati:** 647.
 
 | Posizione | Callable | Responsabilità |
 |---|---|---|
@@ -339,28 +339,28 @@ Generato dall’albero sorgente VideoTrack 1.7.110. Le voci PHP includono funzio
 | `amd/src/form/duration.js:184` | `handler` | Callable AMD nominato `handler`; vedere JSDoc e chiamanti per il contratto corrente. |
 | `amd/src/form/duration.js:199` | `onerror` | Callable AMD nominato `onerror`; vedere JSDoc e chiamanti per il contratto corrente. |
 | `amd/src/form/duration.js:211` | `detectYouTubeDuration` | Callable `detectYouTubeDuration` del modulo; JSDoc e chiamanti definiscono parametri ed effetti. |
-| `amd/src/form/duration.js:221` | `cleanup` | Callable `cleanup` del modulo; JSDoc e chiamanti definiscono parametri ed effetti. |
-| `amd/src/form/duration.js:233` | `finish` | Callable `finish` del modulo; JSDoc e chiamanti definiscono parametri ed effetti. |
-| `amd/src/form/duration.js:260` | `onReady` | Callable `onReady` del modulo; JSDoc e chiamanti definiscono parametri ed effetti. |
-| `amd/src/form/duration.js:268` | `onError` | Callable `onError` del modulo; JSDoc e chiamanti definiscono parametri ed effetti. |
-| `amd/src/form/duration.js:277` | `forgetRequireModule` | Callable AMD nominato `forgetRequireModule`; vedere JSDoc e chiamanti per il contratto corrente. |
-| `amd/src/form/duration.js:287` | `loadVimeoApi` | Callable `loadVimeoApi` del modulo; JSDoc e chiamanti definiscono parametri ed effetti. |
-| `amd/src/form/duration.js:323` | `detectVimeoDuration` | Callable `detectVimeoDuration` del modulo; JSDoc e chiamanti definiscono parametri ed effetti. |
-| `amd/src/form/duration.js:339` | `cleanup` | Callable `cleanup` del modulo; JSDoc e chiamanti definiscono parametri ed effetti. |
-| `amd/src/form/duration.js:370` | `findLocalFileUrl` | Callable `findLocalFileUrl` del modulo; JSDoc e chiamanti definiscono parametri ed effetti. |
-| `amd/src/form/duration.js:387` | `detectLocalDuration` | Callable `detectLocalDuration` del modulo; JSDoc e chiamanti definiscono parametri ed effetti. |
-| `amd/src/form/duration.js:397` | `cleanup` | Callable `cleanup` del modulo; JSDoc e chiamanti definiscono parametri ed effetti. |
-| `amd/src/form/duration.js:404` | `finish` | Callable `finish` del modulo; JSDoc e chiamanti definiscono parametri ed effetti. |
-| `amd/src/form/duration.js:441` | `resolveSource` | Callable `resolveSource` del modulo; JSDoc e chiamanti definiscono parametri ed effetti. |
-| `amd/src/form/duration.js:447` | `detect` | Callable `detect` del modulo; JSDoc e chiamanti definiscono parametri ed effetti. |
-| `amd/src/form/duration.js:456` | `detect` | Callable `detect` del modulo; JSDoc e chiamanti definiscono parametri ed effetti. |
-| `amd/src/form/duration.js:465` | `detect` | Callable `detect` del modulo; JSDoc e chiamanti definiscono parametri ed effetti. |
-| `amd/src/form/duration.js:473` | `getElements` | Callable `getElements` del modulo; JSDoc e chiamanti definiscono parametri ed effetti. |
-| `amd/src/form/duration.js:487` | `install` | Callable `install` del modulo; JSDoc e chiamanti definiscono parametri ed effetti. |
-| `amd/src/form/duration.js:503` | `schedule` | Callable `schedule` del modulo; JSDoc e chiamanti definiscono parametri ed effetti. |
-| `amd/src/form/duration.js:508` | `run` | Callable `run` del modulo; JSDoc e chiamanti definiscono parametri ed effetti. |
-| `amd/src/form/duration.js:572` | `sourceChanged` | Callable `sourceChanged` del modulo; JSDoc e chiamanti definiscono parametri ed effetti. |
-| `amd/src/form/duration.js:608` | `init` | Callable `init` del modulo; JSDoc e chiamanti definiscono parametri ed effetti. |
+| `amd/src/form/duration.js:222` | `cleanup` | Callable `cleanup` del modulo; JSDoc e chiamanti definiscono parametri ed effetti. |
+| `amd/src/form/duration.js:237` | `finish` | Callable `finish` del modulo; JSDoc e chiamanti definiscono parametri ed effetti. |
+| `amd/src/form/duration.js:265` | `onReady` | Callable `onReady` del modulo; JSDoc e chiamanti definiscono parametri ed effetti. |
+| `amd/src/form/duration.js:278` | `onError` | Callable `onError` del modulo; JSDoc e chiamanti definiscono parametri ed effetti. |
+| `amd/src/form/duration.js:298` | `forgetRequireModule` | Callable AMD nominato `forgetRequireModule`; vedere JSDoc e chiamanti per il contratto corrente. |
+| `amd/src/form/duration.js:308` | `loadVimeoApi` | Callable `loadVimeoApi` del modulo; JSDoc e chiamanti definiscono parametri ed effetti. |
+| `amd/src/form/duration.js:344` | `detectVimeoDuration` | Callable `detectVimeoDuration` del modulo; JSDoc e chiamanti definiscono parametri ed effetti. |
+| `amd/src/form/duration.js:360` | `cleanup` | Callable `cleanup` del modulo; JSDoc e chiamanti definiscono parametri ed effetti. |
+| `amd/src/form/duration.js:391` | `findLocalFileUrl` | Callable `findLocalFileUrl` del modulo; JSDoc e chiamanti definiscono parametri ed effetti. |
+| `amd/src/form/duration.js:408` | `detectLocalDuration` | Callable `detectLocalDuration` del modulo; JSDoc e chiamanti definiscono parametri ed effetti. |
+| `amd/src/form/duration.js:418` | `cleanup` | Callable `cleanup` del modulo; JSDoc e chiamanti definiscono parametri ed effetti. |
+| `amd/src/form/duration.js:425` | `finish` | Callable `finish` del modulo; JSDoc e chiamanti definiscono parametri ed effetti. |
+| `amd/src/form/duration.js:462` | `resolveSource` | Callable `resolveSource` del modulo; JSDoc e chiamanti definiscono parametri ed effetti. |
+| `amd/src/form/duration.js:468` | `detect` | Callable `detect` del modulo; JSDoc e chiamanti definiscono parametri ed effetti. |
+| `amd/src/form/duration.js:477` | `detect` | Callable `detect` del modulo; JSDoc e chiamanti definiscono parametri ed effetti. |
+| `amd/src/form/duration.js:486` | `detect` | Callable `detect` del modulo; JSDoc e chiamanti definiscono parametri ed effetti. |
+| `amd/src/form/duration.js:494` | `getElements` | Callable `getElements` del modulo; JSDoc e chiamanti definiscono parametri ed effetti. |
+| `amd/src/form/duration.js:508` | `install` | Callable `install` del modulo; JSDoc e chiamanti definiscono parametri ed effetti. |
+| `amd/src/form/duration.js:524` | `schedule` | Callable `schedule` del modulo; JSDoc e chiamanti definiscono parametri ed effetti. |
+| `amd/src/form/duration.js:529` | `run` | Callable `run` del modulo; JSDoc e chiamanti definiscono parametri ed effetti. |
+| `amd/src/form/duration.js:593` | `sourceChanged` | Callable `sourceChanged` del modulo; JSDoc e chiamanti definiscono parametri ed effetti. |
+| `amd/src/form/duration.js:629` | `init` | Callable `init` del modulo; JSDoc e chiamanti definiscono parametri ed effetti. |
 | `amd/src/html5_player.js:56` | `resolveConfig` | Callable `resolveConfig` del modulo; JSDoc e chiamanti definiscono parametri ed effetti. |
 | `amd/src/html5_player.js:67` | `uuid` | Callable `uuid` del modulo; JSDoc e chiamanti definiscono parametri ed effetti. |
 | `amd/src/html5_player.js:71` | `safeNumber` | Callable `safeNumber` del modulo; JSDoc e chiamanti definiscono parametri ed effetti. |
@@ -1288,8 +1288,9 @@ Generato dall’albero sorgente VideoTrack 1.7.110. Le voci PHP includono funzio
 | `tests/privacy_manager_test.php:483` | `insert_acknowledgement` | Callable PHP `insert_acknowledgement`; DocBlock e chiamanti definiscono parametri, valori restituiti ed effetti. |
 | `tests/provider_loader_contract_test.php:35` | `test_vimeo_loaders_use_requirejs_without_global_define_mutation` | Funzione/metodo PHP nominato `test_vimeo_loaders_use_requirejs_without_global_define_mutation`; vedere DocBlock e chiamanti per il contratto corrente. |
 | `tests/provider_loader_contract_test.php:51` | `test_provider_loader_promises_reset_after_rejection` | Funzione/metodo PHP nominato `test_provider_loader_promises_reset_after_rejection`; vedere DocBlock e chiamanti per il contratto corrente. |
-| `tests/provider_loader_contract_test.php:66` | `test_vimeo_requirejs_result_is_used_as_player_constructor` | Funzione/metodo PHP nominato `test_vimeo_requirejs_result_is_used_as_player_constructor`; vedere DocBlock e chiamanti per il contratto corrente. |
-| `tests/provider_loader_contract_test.php:82` | `test_provider_behat_sdk_doubles_are_strictly_gated_and_loaded_first` | Verifica che i doppi SDK YouTube/Vimeo locali siano solo Behat, vincolati agli identificatori e caricati prima degli adapter di produzione. |
+| `tests/provider_loader_contract_test.php:66` | `test_youtube_duration_probe_waits_for_metadata_after_ready` | Verifica che il rilevamento durata YouTube nel form attenda i metadati ritardati e liberi il polling. |
+| `tests/provider_loader_contract_test.php:82` | `test_vimeo_requirejs_result_is_used_as_player_constructor` | Funzione/metodo PHP nominato `test_vimeo_requirejs_result_is_used_as_player_constructor`; vedere DocBlock e chiamanti per il contratto corrente. |
+| `tests/provider_loader_contract_test.php:98` | `test_provider_behat_sdk_doubles_are_strictly_gated_and_loaded_first` | Verifica che i doppi SDK YouTube/Vimeo locali siano solo Behat, vincolati agli identificatori e caricati prima degli adapter di produzione. |
 | `tests/provider_seek_snapshot_contract_test.php:35` | `test_youtube_blocked_seek_snapshots_pre_seek_position_before_rollback` | Funzione/metodo PHP nominato `test_youtube_blocked_seek_snapshots_pre_seek_position_before_rollback`; vedere DocBlock e chiamanti per il contratto corrente. |
 | `tests/provider_seek_snapshot_contract_test.php:56` | `test_html5_blocked_seek_snapshots_pre_seek_position_before_rollback` | Funzione/metodo PHP nominato `test_html5_blocked_seek_snapshots_pre_seek_position_before_rollback`; vedere DocBlock e chiamanti per il contratto corrente. |
 | `tests/provider_seek_snapshot_contract_test.php:77` | `test_vimeo_user_seek_retains_pre_seek_position_for_seek_resolution` | Funzione/metodo PHP nominato `test_vimeo_user_seek_retains_pre_seek_position_for_seek_resolution`; vedere DocBlock e chiamanti per il contratto corrente. |
@@ -1388,10 +1389,10 @@ Generato dall’albero sorgente VideoTrack 1.7.110. Le voci PHP includono funzio
 | `tests/tracker_test.php:866` | `test_allowed_forward_seek_requires_validated_interaction_timestamp` | Funzione/metodo PHP nominato `test_allowed_forward_seek_requires_validated_interaction_timestamp`; vedere DocBlock e chiamanti per il contratto corrente. |
 | `tests/tracker_test.php:919` | `test_allowed_forward_seek_rejects_stale_or_different_session_interaction` | Funzione/metodo PHP nominato `test_allowed_forward_seek_rejects_stale_or_different_session_interaction`; vedere DocBlock e chiamanti per il contratto corrente. |
 | `tests/upgrade_contract_test.php:35` | `test_modern_schema_fast_forward_precedes_legacy_steps` | Funzione/metodo PHP nominato `test_modern_schema_fast_forward_precedes_legacy_steps`; vedere DocBlock e chiamanti per il contratto corrente. |
-| `tests/upgrade_contract_test.php:63` | `test_failed_install_schema_recovery_supersedes_obsolete_lineage` | Funzione/metodo PHP nominato `test_failed_install_schema_recovery_supersedes_obsolete_lineage`; vedere DocBlock e chiamanti per il contratto corrente. |
-| `tests/upgrade_contract_test.php:93` | `test_gradebook_recovery_uses_dml_only` | Funzione/metodo PHP nominato `test_gradebook_recovery_uses_dml_only`; vedere DocBlock e chiamanti per il contratto corrente. |
-| `tests/upgrade_contract_test.php:115` | `test_preproduction_gradebook_repair_covers_install_and_upgrade` | Funzione/metodo PHP nominato `test_preproduction_gradebook_repair_covers_install_and_upgrade`; vedere DocBlock e chiamanti per il contratto corrente. |
-| `tests/upgrade_contract_test.php:137` | `test_duplicate_grade_item_repair_is_upgrade_safe` | Funzione/metodo PHP nominato `test_duplicate_grade_item_repair_is_upgrade_safe`; vedere DocBlock e chiamanti per il contratto corrente. |
+| `tests/upgrade_contract_test.php:78` | `test_failed_install_schema_recovery_supersedes_obsolete_lineage` | Funzione/metodo PHP nominato `test_failed_install_schema_recovery_supersedes_obsolete_lineage`; vedere DocBlock e chiamanti per il contratto corrente. |
+| `tests/upgrade_contract_test.php:108` | `test_gradebook_recovery_uses_dml_only` | Funzione/metodo PHP nominato `test_gradebook_recovery_uses_dml_only`; vedere DocBlock e chiamanti per il contratto corrente. |
+| `tests/upgrade_contract_test.php:130` | `test_preproduction_gradebook_repair_covers_install_and_upgrade` | Funzione/metodo PHP nominato `test_preproduction_gradebook_repair_covers_install_and_upgrade`; vedere DocBlock e chiamanti per il contratto corrente. |
+| `tests/upgrade_contract_test.php:152` | `test_duplicate_grade_item_repair_is_upgrade_safe` | Funzione/metodo PHP nominato `test_duplicate_grade_item_repair_is_upgrade_safe`; vedere DocBlock e chiamanti per il contratto corrente. |
 | `tests/vimeo_seek_contract_test.php:35` | `test_blocked_seek_resume_does_not_wait_for_penalty_promise` | Funzione/metodo PHP nominato `test_blocked_seek_resume_does_not_wait_for_penalty_promise`; vedere DocBlock e chiamanti per il contratto corrente. |
 | `tests/vimeo_seek_contract_test.php:56` | `test_blocked_seek_clears_forward_guard_after_rollback` | Funzione/metodo PHP nominato `test_blocked_seek_clears_forward_guard_after_rollback`; vedere DocBlock e chiamanti per il contratto corrente. |
 | `tests/vimeo_seek_contract_test.php:74` | `test_blocked_seek_resume_retries_never_reseek` | Funzione/metodo PHP nominato `test_blocked_seek_resume_retries_never_reseek`; vedere DocBlock e chiamanti per il contratto corrente. |
