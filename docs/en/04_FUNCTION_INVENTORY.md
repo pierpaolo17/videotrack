@@ -1,8 +1,8 @@
 # Function inventory
 
-Generated from the VideoTrack 1.7.110 source tree. PHP entries include named functions and methods; AMD entries include named declarations, assigned function expressions and object-method functions.
+Generated from the VideoTrack 1.7.111 source tree. PHP entries include named functions and methods; AMD entries include named declarations, assigned function expressions and object-method functions.
 
-**PHP functions/methods:** 745. **Named AMD callables:** 647.
+**PHP functions/methods:** 746. **Named AMD callables:** 647.
 
 | Location | Callable | Responsibility |
 |---|---|---|
@@ -339,28 +339,28 @@ Generated from the VideoTrack 1.7.110 source tree. PHP entries include named fun
 | `amd/src/form/duration.js:184` | `handler` | Named AMD callable `handler`; see JSDoc and callers for the current contract. |
 | `amd/src/form/duration.js:199` | `onerror` | Named AMD callable `onerror`; see JSDoc and callers for the current contract. |
 | `amd/src/form/duration.js:211` | `detectYouTubeDuration` | Named callable `detectYouTubeDuration` in the module; see its JSDoc and callers for parameter and side-effect details. |
-| `amd/src/form/duration.js:221` | `cleanup` | Named callable `cleanup` in the module; see its JSDoc and callers for parameter and side-effect details. |
-| `amd/src/form/duration.js:233` | `finish` | Named callable `finish` in the module; see its JSDoc and callers for parameter and side-effect details. |
-| `amd/src/form/duration.js:260` | `onReady` | Named callable `onReady` in the module; see its JSDoc and callers for parameter and side-effect details. |
-| `amd/src/form/duration.js:268` | `onError` | Named callable `onError` in the module; see its JSDoc and callers for parameter and side-effect details. |
-| `amd/src/form/duration.js:277` | `forgetRequireModule` | Named AMD callable `forgetRequireModule`; see JSDoc and callers for the current contract. |
-| `amd/src/form/duration.js:287` | `loadVimeoApi` | Named callable `loadVimeoApi` in the module; see its JSDoc and callers for parameter and side-effect details. |
-| `amd/src/form/duration.js:323` | `detectVimeoDuration` | Named callable `detectVimeoDuration` in the module; see its JSDoc and callers for parameter and side-effect details. |
-| `amd/src/form/duration.js:339` | `cleanup` | Named callable `cleanup` in the module; see its JSDoc and callers for parameter and side-effect details. |
-| `amd/src/form/duration.js:370` | `findLocalFileUrl` | Named callable `findLocalFileUrl` in the module; see its JSDoc and callers for parameter and side-effect details. |
-| `amd/src/form/duration.js:387` | `detectLocalDuration` | Named callable `detectLocalDuration` in the module; see its JSDoc and callers for parameter and side-effect details. |
-| `amd/src/form/duration.js:397` | `cleanup` | Named callable `cleanup` in the module; see its JSDoc and callers for parameter and side-effect details. |
-| `amd/src/form/duration.js:404` | `finish` | Named callable `finish` in the module; see its JSDoc and callers for parameter and side-effect details. |
-| `amd/src/form/duration.js:441` | `resolveSource` | Named callable `resolveSource` in the module; see its JSDoc and callers for parameter and side-effect details. |
-| `amd/src/form/duration.js:447` | `detect` | Named callable `detect` in the module; see its JSDoc and callers for parameter and side-effect details. |
-| `amd/src/form/duration.js:456` | `detect` | Named callable `detect` in the module; see its JSDoc and callers for parameter and side-effect details. |
-| `amd/src/form/duration.js:465` | `detect` | Named callable `detect` in the module; see its JSDoc and callers for parameter and side-effect details. |
-| `amd/src/form/duration.js:473` | `getElements` | Named callable `getElements` in the module; see its JSDoc and callers for parameter and side-effect details. |
-| `amd/src/form/duration.js:487` | `install` | Named callable `install` in the module; see its JSDoc and callers for parameter and side-effect details. |
-| `amd/src/form/duration.js:503` | `schedule` | Named callable `schedule` in the module; see its JSDoc and callers for parameter and side-effect details. |
-| `amd/src/form/duration.js:508` | `run` | Named callable `run` in the module; see its JSDoc and callers for parameter and side-effect details. |
-| `amd/src/form/duration.js:572` | `sourceChanged` | Named callable `sourceChanged` in the module; see its JSDoc and callers for parameter and side-effect details. |
-| `amd/src/form/duration.js:608` | `init` | Named callable `init` in the module; see its JSDoc and callers for parameter and side-effect details. |
+| `amd/src/form/duration.js:222` | `cleanup` | Named callable `cleanup` in the module; see its JSDoc and callers for parameter and side-effect details. |
+| `amd/src/form/duration.js:237` | `finish` | Named callable `finish` in the module; see its JSDoc and callers for parameter and side-effect details. |
+| `amd/src/form/duration.js:265` | `onReady` | Named callable `onReady` in the module; see its JSDoc and callers for parameter and side-effect details. |
+| `amd/src/form/duration.js:278` | `onError` | Named callable `onError` in the module; see its JSDoc and callers for parameter and side-effect details. |
+| `amd/src/form/duration.js:298` | `forgetRequireModule` | Named AMD callable `forgetRequireModule`; see JSDoc and callers for the current contract. |
+| `amd/src/form/duration.js:308` | `loadVimeoApi` | Named callable `loadVimeoApi` in the module; see its JSDoc and callers for parameter and side-effect details. |
+| `amd/src/form/duration.js:344` | `detectVimeoDuration` | Named callable `detectVimeoDuration` in the module; see its JSDoc and callers for parameter and side-effect details. |
+| `amd/src/form/duration.js:360` | `cleanup` | Named callable `cleanup` in the module; see its JSDoc and callers for parameter and side-effect details. |
+| `amd/src/form/duration.js:391` | `findLocalFileUrl` | Named callable `findLocalFileUrl` in the module; see its JSDoc and callers for parameter and side-effect details. |
+| `amd/src/form/duration.js:408` | `detectLocalDuration` | Named callable `detectLocalDuration` in the module; see its JSDoc and callers for parameter and side-effect details. |
+| `amd/src/form/duration.js:418` | `cleanup` | Named callable `cleanup` in the module; see its JSDoc and callers for parameter and side-effect details. |
+| `amd/src/form/duration.js:425` | `finish` | Named callable `finish` in the module; see its JSDoc and callers for parameter and side-effect details. |
+| `amd/src/form/duration.js:462` | `resolveSource` | Named callable `resolveSource` in the module; see its JSDoc and callers for parameter and side-effect details. |
+| `amd/src/form/duration.js:468` | `detect` | Named callable `detect` in the module; see its JSDoc and callers for parameter and side-effect details. |
+| `amd/src/form/duration.js:477` | `detect` | Named callable `detect` in the module; see its JSDoc and callers for parameter and side-effect details. |
+| `amd/src/form/duration.js:486` | `detect` | Named callable `detect` in the module; see its JSDoc and callers for parameter and side-effect details. |
+| `amd/src/form/duration.js:494` | `getElements` | Named callable `getElements` in the module; see its JSDoc and callers for parameter and side-effect details. |
+| `amd/src/form/duration.js:508` | `install` | Named callable `install` in the module; see its JSDoc and callers for parameter and side-effect details. |
+| `amd/src/form/duration.js:524` | `schedule` | Named callable `schedule` in the module; see its JSDoc and callers for parameter and side-effect details. |
+| `amd/src/form/duration.js:529` | `run` | Named callable `run` in the module; see its JSDoc and callers for parameter and side-effect details. |
+| `amd/src/form/duration.js:593` | `sourceChanged` | Named callable `sourceChanged` in the module; see its JSDoc and callers for parameter and side-effect details. |
+| `amd/src/form/duration.js:629` | `init` | Named callable `init` in the module; see its JSDoc and callers for parameter and side-effect details. |
 | `amd/src/html5_player.js:56` | `resolveConfig` | Named callable `resolveConfig` in the module; see its JSDoc and callers for parameter and side-effect details. |
 | `amd/src/html5_player.js:67` | `uuid` | Named callable `uuid` in the module; see its JSDoc and callers for parameter and side-effect details. |
 | `amd/src/html5_player.js:71` | `safeNumber` | Named callable `safeNumber` in the module; see its JSDoc and callers for parameter and side-effect details. |
@@ -1288,8 +1288,9 @@ Generated from the VideoTrack 1.7.110 source tree. PHP entries include named fun
 | `tests/privacy_manager_test.php:483` | `insert_acknowledgement` | PHP callable `insert_acknowledgement`; see its DocBlock and callers for parameter, return-value and side-effect details. |
 | `tests/provider_loader_contract_test.php:35` | `test_vimeo_loaders_use_requirejs_without_global_define_mutation` | Named PHP function/method `test_vimeo_loaders_use_requirejs_without_global_define_mutation`; see source DocBlock and callers for the current contract. |
 | `tests/provider_loader_contract_test.php:51` | `test_provider_loader_promises_reset_after_rejection` | Named PHP function/method `test_provider_loader_promises_reset_after_rejection`; see source DocBlock and callers for the current contract. |
-| `tests/provider_loader_contract_test.php:66` | `test_vimeo_requirejs_result_is_used_as_player_constructor` | Named PHP function/method `test_vimeo_requirejs_result_is_used_as_player_constructor`; see source DocBlock and callers for the current contract. |
-| `tests/provider_loader_contract_test.php:82` | `test_provider_behat_sdk_doubles_are_strictly_gated_and_loaded_first` | Verifies that local YouTube/Vimeo SDK doubles are Behat-only, identifier-bound and loaded before their production adapters. |
+| `tests/provider_loader_contract_test.php:66` | `test_youtube_duration_probe_waits_for_metadata_after_ready` | Verifies that YouTube form-duration detection waits for delayed metadata and cleans up its polling probe. |
+| `tests/provider_loader_contract_test.php:82` | `test_vimeo_requirejs_result_is_used_as_player_constructor` | Named PHP function/method `test_vimeo_requirejs_result_is_used_as_player_constructor`; see source DocBlock and callers for the current contract. |
+| `tests/provider_loader_contract_test.php:98` | `test_provider_behat_sdk_doubles_are_strictly_gated_and_loaded_first` | Verifies that local YouTube/Vimeo SDK doubles are Behat-only, identifier-bound and loaded before their production adapters. |
 | `tests/provider_seek_snapshot_contract_test.php:35` | `test_youtube_blocked_seek_snapshots_pre_seek_position_before_rollback` | Named PHP function/method `test_youtube_blocked_seek_snapshots_pre_seek_position_before_rollback`; see source DocBlock and callers for the current contract. |
 | `tests/provider_seek_snapshot_contract_test.php:56` | `test_html5_blocked_seek_snapshots_pre_seek_position_before_rollback` | Named PHP function/method `test_html5_blocked_seek_snapshots_pre_seek_position_before_rollback`; see source DocBlock and callers for the current contract. |
 | `tests/provider_seek_snapshot_contract_test.php:77` | `test_vimeo_user_seek_retains_pre_seek_position_for_seek_resolution` | Named PHP function/method `test_vimeo_user_seek_retains_pre_seek_position_for_seek_resolution`; see source DocBlock and callers for the current contract. |
@@ -1388,10 +1389,10 @@ Generated from the VideoTrack 1.7.110 source tree. PHP entries include named fun
 | `tests/tracker_test.php:866` | `test_allowed_forward_seek_requires_validated_interaction_timestamp` | Named PHP function/method `test_allowed_forward_seek_requires_validated_interaction_timestamp`; see source DocBlock and callers for the current contract. |
 | `tests/tracker_test.php:919` | `test_allowed_forward_seek_rejects_stale_or_different_session_interaction` | Named PHP function/method `test_allowed_forward_seek_rejects_stale_or_different_session_interaction`; see source DocBlock and callers for the current contract. |
 | `tests/upgrade_contract_test.php:35` | `test_modern_schema_fast_forward_precedes_legacy_steps` | Named PHP function/method `test_modern_schema_fast_forward_precedes_legacy_steps`; see source DocBlock and callers for the current contract. |
-| `tests/upgrade_contract_test.php:63` | `test_failed_install_schema_recovery_supersedes_obsolete_lineage` | Named PHP function/method `test_failed_install_schema_recovery_supersedes_obsolete_lineage`; see source DocBlock and callers for the current contract. |
-| `tests/upgrade_contract_test.php:93` | `test_gradebook_recovery_uses_dml_only` | Named PHP function/method `test_gradebook_recovery_uses_dml_only`; see source DocBlock and callers for the current contract. |
-| `tests/upgrade_contract_test.php:115` | `test_preproduction_gradebook_repair_covers_install_and_upgrade` | Named PHP function/method `test_preproduction_gradebook_repair_covers_install_and_upgrade`; see source DocBlock and callers for the current contract. |
-| `tests/upgrade_contract_test.php:137` | `test_duplicate_grade_item_repair_is_upgrade_safe` | Named PHP function/method `test_duplicate_grade_item_repair_is_upgrade_safe`; see source DocBlock and callers for the current contract. |
+| `tests/upgrade_contract_test.php:78` | `test_failed_install_schema_recovery_supersedes_obsolete_lineage` | Named PHP function/method `test_failed_install_schema_recovery_supersedes_obsolete_lineage`; see source DocBlock and callers for the current contract. |
+| `tests/upgrade_contract_test.php:108` | `test_gradebook_recovery_uses_dml_only` | Named PHP function/method `test_gradebook_recovery_uses_dml_only`; see source DocBlock and callers for the current contract. |
+| `tests/upgrade_contract_test.php:130` | `test_preproduction_gradebook_repair_covers_install_and_upgrade` | Named PHP function/method `test_preproduction_gradebook_repair_covers_install_and_upgrade`; see source DocBlock and callers for the current contract. |
+| `tests/upgrade_contract_test.php:152` | `test_duplicate_grade_item_repair_is_upgrade_safe` | Named PHP function/method `test_duplicate_grade_item_repair_is_upgrade_safe`; see source DocBlock and callers for the current contract. |
 | `tests/vimeo_seek_contract_test.php:35` | `test_blocked_seek_resume_does_not_wait_for_penalty_promise` | Named PHP function/method `test_blocked_seek_resume_does_not_wait_for_penalty_promise`; see source DocBlock and callers for the current contract. |
 | `tests/vimeo_seek_contract_test.php:56` | `test_blocked_seek_clears_forward_guard_after_rollback` | Named PHP function/method `test_blocked_seek_clears_forward_guard_after_rollback`; see source DocBlock and callers for the current contract. |
 | `tests/vimeo_seek_contract_test.php:74` | `test_blocked_seek_resume_retries_never_reseek` | Named PHP function/method `test_blocked_seek_resume_retries_never_reseek`; see source DocBlock and callers for the current contract. |

@@ -215,10 +215,14 @@ define(['core/log'], function(Log) {
                 var node = document.createElement('div');
                 var nodeId = 'videotrack-youtube-duration-' + (++probeSequence);
                 var player = null;
+                var metadataPoll = null;
                 var settled = false;
                 node.id = nodeId;
                 host.appendChild(node);
                 var cleanup = function() {
+                    if (metadataPoll !== null) {
+                        window.clearInterval(metadataPoll);
+                    }
                     if (player && typeof player.destroy === 'function') {
                         try {
                             player.destroy();
@@ -254,15 +258,21 @@ define(['core/log'], function(Log) {
                         autoplay: 0,
                         controls: 0,
                         playsinline: 1,
-                        rel: 0
+                        rel: 0,
+                        origin: window.location.origin
                     },
                     events: {
                         onReady: function(event) {
                             var duration = Number(event.target.getDuration());
                             if (duration > 0) {
                                 finish(duration, null);
-                            } else {
-                                finish(0, new Error('YouTube duration unavailable'));
+                                return;
+                            }
+                            try {
+                                event.target.mute();
+                                event.target.playVideo();
+                            } catch (error) {
+                                Log.debug('VideoTrack could not start the muted YouTube duration probe.');
                             }
                         },
                         onError: function() {
@@ -270,6 +280,17 @@ define(['core/log'], function(Log) {
                         }
                     }
                 });
+                if (!settled) {
+                    metadataPoll = window.setInterval(function() {
+                        if (!player || typeof player.getDuration !== 'function') {
+                            return;
+                        }
+                        var duration = Number(player.getDuration());
+                        if (duration > 0) {
+                            finish(duration, null);
+                        }
+                    }, 100);
+                }
             });
         });
     }

@@ -1,5 +1,12 @@
 # VideoTrack changelog
 
+## 1.7.111 - 2026-08-25
+
+- Correct YouTube duration detection in the activity form by waiting for metadata when the IFrame API initially reports duration zero at `onReady`.
+- Start a muted hidden metadata probe only when the immediate duration is unavailable, poll within the existing timeout and destroy the probe as soon as a positive duration is returned.
+- Preserve Vimeo and local-file duration detection, learner playback, tracking, schema, services, completion, privacy and language packs unchanged.
+- Add a PHPUnit source contract protecting the delayed-metadata path and generated AMD cleanup.
+
 ## 1.7.110 - 2026-08-23
 
 - Align the seven non-English language packs with the current completion-policy, player-policy and uploaded-media contracts while preserving all 990 keys and placeholders.

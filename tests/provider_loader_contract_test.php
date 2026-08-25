@@ -61,6 +61,22 @@ final class provider_loader_contract_test extends advanced_testcase {
     }
 
     /**
+     * YouTube duration detection must wait for metadata instead of rejecting the first zero value.
+     */
+    public function test_youtube_duration_probe_waits_for_metadata_after_ready(): void {
+        $duration = file_get_contents(__DIR__ . '/../amd/src/form/duration.js');
+        $this->assertIsString($duration);
+
+        $this->assertStringContainsString('origin: window.location.origin', $duration);
+        $this->assertStringContainsString('event.target.mute();', $duration);
+        $this->assertStringContainsString('event.target.playVideo();', $duration);
+        $this->assertStringContainsString('metadataPoll = window.setInterval(function()', $duration);
+        $this->assertStringContainsString('var duration = Number(player.getDuration());', $duration);
+        $this->assertStringContainsString('window.clearInterval(metadataPoll);', $duration);
+        $this->assertSame(1, substr_count($duration, "new Error('YouTube duration unavailable')"));
+    }
+
+    /**
      * RequireJS Vimeo imports must be consumed as Player constructors.
      */
     public function test_vimeo_requirejs_result_is_used_as_player_constructor(): void {
