@@ -1,0 +1,163 @@
+%% VideoTrack 1.7.114 / 2026082703 / XMLDB 2026082301
+%% FK = relazione logica: db/install.xml non dichiara foreign key fisiche.
+erDiagram
+    COURSE {
+        bigint id PK
+    }
+    MODULES {
+        bigint id PK
+        string name UK
+    }
+    COURSE_MODULES {
+        bigint id PK
+        bigint course FK
+        bigint module FK
+        bigint instance "videotrack.id when module=videotrack"
+    }
+    USER {
+        bigint id PK
+    }
+    FORUM {
+        bigint id PK
+        bigint course FK
+    }
+    CONTEXT {
+        bigint id PK
+        bigint contextlevel
+        bigint instanceid "course_modules.id for module contexts"
+    }
+    FILES {
+        bigint id PK
+        bigint contextid FK
+        string component "mod_videotrack"
+        string filearea
+        bigint itemid
+    }
+    GRADE_ITEMS {
+        bigint id PK
+        bigint courseid FK
+        string itemmodule "videotrack"
+        bigint iteminstance "videotrack.id"
+    }
+    COURSE_MODULES_COMPLETION {
+        bigint id PK
+        bigint coursemoduleid FK
+        bigint userid FK
+        bigint completionstate
+    }
+    VIDEOTRACK {
+        bigint id PK
+        bigint course FK
+        bigint linkedforumid FK "0 or forum.id"
+        string name
+        string videosource
+        string videoid
+        decimal durationseconds
+        int completionpercent
+        string completionlogic
+        int grade
+        decimal gradepass
+    }
+    VIDEOTRACK_SEG {
+        bigint id PK
+        bigint videotrackid FK
+        bigint courseid FK
+        bigint cmid FK
+        bigint userid FK
+        string sessionid
+        string requestid UK
+        decimal videotimestart
+        decimal videotimeend
+        decimal playbackrate
+        int servervalidated
+    }
+    VIDEOTRACK_STATE {
+        bigint id PK
+        bigint videotrackid FK
+        bigint courseid FK
+        bigint cmid FK
+        bigint userid FK
+        decimal lastposition
+        decimal uniquecoveredseconds
+        decimal completionpercent
+        int iscompleted
+    }
+    VIDEOTRACK_INTEGRITY {
+        bigint id PK
+        bigint videotrackid FK
+        bigint courseid FK
+        bigint cmid FK
+        bigint userid FK
+        string sessionid
+        string eventtype
+        decimal videotime
+    }
+    VIDEOTRACK_REACT {
+        bigint id PK
+        bigint videotrackid FK
+        string reactionkey
+        string label
+        int requiredforcompletion
+        int sortorder
+        int isdeleted
+    }
+    VIDEOTRACK_REACTEV {
+        bigint id PK
+        bigint videotrackid FK
+        bigint courseid FK
+        bigint cmid FK
+        bigint userid FK
+        bigint reactionid FK "0 for notes and bookmarks"
+        string notetype "empty, note or bookmark"
+        decimal videotime
+        int isdeleted
+    }
+    VIDEOTRACK_ACKNOWLEDGE {
+        bigint id PK
+        bigint videotrackid FK
+        bigint courseid FK
+        bigint cmid FK
+        bigint userid FK
+        string statementhash UK
+        bigint instanceversion
+        decimal viewedseconds
+        decimal viewedpercent
+    }
+
+    COURSE ||--o{ VIDEOTRACK : "course"
+    COURSE ||--o{ COURSE_MODULES : "course"
+    MODULES ||--o{ COURSE_MODULES : "module"
+    VIDEOTRACK ||--|| COURSE_MODULES : "instance"
+    COURSE_MODULES ||--|| CONTEXT : "module context"
+    CONTEXT ||--o{ FILES : "contextid"
+    COURSE ||--o{ FORUM : "course"
+    FORUM o|--o{ VIDEOTRACK : "linkedforumid"
+    COURSE ||--o{ GRADE_ITEMS : "courseid"
+    VIDEOTRACK ||--o| GRADE_ITEMS : "iteminstance"
+    COURSE_MODULES ||--o{ COURSE_MODULES_COMPLETION : "coursemoduleid"
+    USER ||--o{ COURSE_MODULES_COMPLETION : "userid"
+
+    VIDEOTRACK ||--o{ VIDEOTRACK_SEG : "videotrackid"
+    VIDEOTRACK ||--o{ VIDEOTRACK_STATE : "per user"
+    VIDEOTRACK ||--o{ VIDEOTRACK_INTEGRITY : "videotrackid"
+    VIDEOTRACK ||--o{ VIDEOTRACK_REACT : "videotrackid"
+    VIDEOTRACK ||--o{ VIDEOTRACK_REACTEV : "videotrackid"
+    VIDEOTRACK ||--o{ VIDEOTRACK_ACKNOWLEDGE : "videotrackid"
+    VIDEOTRACK_REACT o|--o{ VIDEOTRACK_REACTEV : "reactionid"
+
+    COURSE ||--o{ VIDEOTRACK_SEG : "courseid"
+    COURSE ||--o{ VIDEOTRACK_STATE : "courseid"
+    COURSE ||--o{ VIDEOTRACK_INTEGRITY : "courseid"
+    COURSE ||--o{ VIDEOTRACK_REACTEV : "courseid"
+    COURSE ||--o{ VIDEOTRACK_ACKNOWLEDGE : "courseid"
+    COURSE_MODULES ||--o{ VIDEOTRACK_SEG : "cmid"
+    COURSE_MODULES ||--o{ VIDEOTRACK_STATE : "cmid"
+    COURSE_MODULES ||--o{ VIDEOTRACK_INTEGRITY : "cmid"
+    COURSE_MODULES ||--o{ VIDEOTRACK_REACTEV : "cmid"
+    COURSE_MODULES ||--o{ VIDEOTRACK_ACKNOWLEDGE : "cmid"
+    USER ||--o{ VIDEOTRACK_SEG : "userid"
+    USER ||--o{ VIDEOTRACK_STATE : "userid"
+    USER ||--o{ VIDEOTRACK_INTEGRITY : "userid"
+    USER ||--o{ VIDEOTRACK_REACTEV : "userid"
+    USER ||--o{ VIDEOTRACK_ACKNOWLEDGE : "userid"
+    VIDEOTRACK_REACT o|--o{ FILES : "reactionicon itemid"

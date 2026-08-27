@@ -321,10 +321,12 @@ final class completion_contract_test extends advanced_testcase {
         $view = file_get_contents($root . '/view.php');
         $source = file_get_contents($root . '/amd/src/completion_requirements.js');
         $build = file_get_contents($root . '/amd/build/completion_requirements.min.js');
+        $styles = file_get_contents($root . '/styles.css');
 
         $this->assertIsString($view);
         $this->assertIsString($source);
         $this->assertIsString($build);
+        $this->assertIsString($styles);
         $this->assertStringContainsString("'mod_videotrack/completion_requirements', 'init'", $view);
         $this->assertStringContainsString("'compositedescription' => get_string(", $view);
         $this->assertStringContainsString('directListItems(list).length < 2', $source);
@@ -332,5 +334,9 @@ final class completion_contract_test extends advanced_testcase {
         $this->assertStringContainsString('description.textContent = config.conditionsdescription;', $source);
         $this->assertStringNotContainsString('innerHTML', $source);
         $this->assertStringContainsString('define("mod_videotrack/completion_requirements"', $build);
+        $this->assertStringContainsString('data-videotrack-completion-grouped="1"', $styles);
+        $this->assertStringContainsString('display: flex;', $styles);
+        $this->assertStringContainsString('flex-direction: column;', $styles);
+        $this->assertStringContainsString('align-items: flex-start;', $styles);
     }
 }

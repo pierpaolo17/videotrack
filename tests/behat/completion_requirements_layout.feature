@@ -25,3 +25,4 @@ Feature: VideoTrack composite completion requirements remain visually grouped
     And I should see "Receive a grade" in the "[data-region='completionrequirements']" "css_element"
     And I should see "Receive a passing grade" in the "[data-region='completionrequirements']" "css_element"
     And I should not see "All of the following VideoTrack conditions: Require viewing" in the "[data-region='completionrequirements']" "css_element"
+    And the VideoTrack completion requirements are stacked vertically

@@ -1,11 +1,11 @@
 # Documentation audit
 
-Baseline: VideoTrack **1.7.113** (`2026082702`).
+Baseline: VideoTrack **1.7.114** (`2026082703`).
 
 ## Coverage
 
 - Non-documentation files inventoried: **292/292**.
-- Named PHP functions/methods inventoried: **747**.
+- Named PHP functions/methods inventoried: **748**.
 - Named AMD callables detected and inventoried: **652**.
 - XMLDB tables documented: **7**.
 - Site-setting keys documented: **57**.
@@ -16,9 +16,18 @@ Baseline: VideoTrack **1.7.113** (`2026082702`).
 - Root privacy summaries: `PRIVACY.md` and `PRIVACY_IT.md`.
 - Distributed CLI diagnostics documented in `21_CLI_DIAGNOSTICS.md` and covered by static read-only contracts.
 - Behat browser automation is documented in `22_BEHAT_BROWSER_TESTS.md`, including current deterministic coverage and explicit provider coverage limits.
+- The shared `VIDEOTRACK_DB_ER_SCHEMA.md`, `.mmd` and `.svg` artifacts document all seven XMLDB tables and their logical Moodle-core relationships.
 - Static resume/completion/stacked-alert and server-ledger contracts complement the operational Behat environment; the exact 1.7.108 gate completed the deterministic YouTube/Vimeo provider matrix.
 - Maintainer-only consolidated roadmap/lessons-history files are intentionally excluded from the distributed plugin tree and protected by `.moodleignore`.
-- Chapter navigation now has an explicit focus-visible/forced-colour contract; a manual keyboard/high-contrast matrix remains a release gate for final U-020 closure.
+- The manual keyboard, reflow, contrast and screen-reader matrix has been executed on the 1.7.111 runtime. Its only plugin-attributable residual visual finding is addressed by 1.7.114; final U-020 closure therefore depends on the exact-tree automatic gate and the focused completion-layout smoke test.
+
+## 1.7.114 vertical completion layout and ER documentation
+
+- Real Moodle 5.0/Boost evidence confirmed that the logical VideoTrack label was correctly separated and the three completion requirements remained three semantic list items, but Bootstrap badge layout placed them on one horizontal line.
+- A page-scoped rule now turns only a VideoTrack-grouped completion container into a vertical flex column. List roles, item order, completion states and the configured AND/OR calculation remain unchanged.
+- The Behat regression checks the computed `flex-direction` and verifies that each rendered item begins below the preceding item; the static contract protects the scoped selector.
+- The database reference is now distributed in Markdown, standalone Mermaid and accessible SVG formats. It is derived from `db/install.xml` version `2026082301`; no schema or upgrade change is included.
+- The current-version markers, EN/IT indexes, non-documentation inventory and callable inventory were refreshed for the exact 1.7.114 tree. Unescaped provider separators that broke one EN/IT data-inventory table row were also corrected. U-020 and this pre-production phase may be closed only after the server gate and focused visual smoke test pass.
 
 ## 1.7.113 completion-layout browser-contract correction
 

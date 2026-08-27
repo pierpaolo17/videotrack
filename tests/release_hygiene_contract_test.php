@@ -114,8 +114,21 @@ final class release_hygiene_contract_test extends advanced_testcase {
         $italianinventory = file_get_contents(__DIR__ . '/../docs/it/03_FILE_INVENTORY.md');
         $englishaudit = file_get_contents(__DIR__ . '/../docs/en/09_DOCUMENTATION_AUDIT.md');
         $italianaudit = file_get_contents(__DIR__ . '/../docs/it/09_DOCUMENTATION_AUDIT.md');
+        $erschema = file_get_contents(__DIR__ . '/../docs/VIDEOTRACK_DB_ER_SCHEMA.md');
+        $ermermaid = file_get_contents(__DIR__ . '/../docs/VIDEOTRACK_DB_ER_SCHEMA.mmd');
+        $ersvg = file_get_contents(__DIR__ . '/../docs/VIDEOTRACK_DB_ER_SCHEMA.svg');
 
-        $documents = [$englishindex, $italianindex, $englishinventory, $italianinventory, $englishaudit, $italianaudit];
+        $documents = [
+            $englishindex,
+            $italianindex,
+            $englishinventory,
+            $italianinventory,
+            $englishaudit,
+            $italianaudit,
+            $erschema,
+            $ermermaid,
+            $ersvg,
+        ];
         foreach ($documents as $document) {
             $this->assertIsString($document);
         }
@@ -132,6 +145,13 @@ final class release_hygiene_contract_test extends advanced_testcase {
         $this->assertStringContainsString('VideoTrack ' . $release, $italianinventory);
         $this->assertStringContainsString('VideoTrack **' . $release . $versionmarker, $englishaudit);
         $this->assertStringContainsString('VideoTrack **' . $release . $versionmarker, $italianaudit);
+        $this->assertStringContainsString('VideoTrack ' . $release . ' / ' . $version, $erschema);
+        $this->assertStringContainsString('VideoTrack ' . $release . ' / ' . $version, $ermermaid);
+        $this->assertStringContainsString('VideoTrack ' . $release . ' / ' . $version, $ersvg);
+        $this->assertStringContainsString('../VIDEOTRACK_DB_ER_SCHEMA.md', $englishindex);
+        $this->assertStringContainsString('../VIDEOTRACK_DB_ER_SCHEMA.md', $italianindex);
+        $this->assertStringContainsString('(VIDEOTRACK_DB_ER_SCHEMA.mmd)', $erschema);
+        $this->assertStringContainsString('(VIDEOTRACK_DB_ER_SCHEMA.svg)', $erschema);
     }
 
     /**

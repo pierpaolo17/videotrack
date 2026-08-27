@@ -641,4 +641,52 @@ class behat_mod_videotrack extends behat_base {
             );
         }
     }
+
+    /**
+     * Assert that Moodle's grouped completion items use separate visual rows.
+     *
+     * @Then /^the VideoTrack completion requirements are stacked vertically$/
+     */
+    public function the_videotrack_completion_requirements_are_stacked_vertically(): void {
+        $result = $this->getSession()->evaluateScript(<<<'JS'
+(function() {
+    const selector = '[data-region="completionrequirements"]' +
+        '[data-videotrack-completion-grouped="1"]';
+    const list = document.querySelector(selector);
+    if (!list) {
+        return JSON.stringify({found: false});
+    }
+    const items = Array.from(list.children).filter((item) =>
+        item.matches('li, [role="listitem"]')
+    );
+    const style = window.getComputedStyle(list);
+    const rectangles = items.map((item) => item.getBoundingClientRect());
+    const stacked = rectangles.every((rectangle, index) =>
+        index === 0 || rectangle.top >= rectangles[index - 1].bottom - 0.5
+    );
+    return JSON.stringify({
+        found: true,
+        itemcount: items.length,
+        display: style.display,
+        direction: style.flexDirection,
+        stacked: stacked,
+    });
+}())
+JS
+        );
+        $layout = json_decode((string)$result, true);
+        if (
+            !is_array($layout)
+            || empty($layout['found'])
+            || ($layout['itemcount'] ?? 0) < 2
+            || ($layout['display'] ?? '') !== 'flex'
+            || ($layout['direction'] ?? '') !== 'column'
+            || empty($layout['stacked'])
+        ) {
+            throw new ExpectationException(
+                'VideoTrack completion requirements are not stacked vertically: ' . (string)$result,
+                $this->getSession()
+            );
+        }
+    }
 }

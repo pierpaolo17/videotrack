@@ -1,5 +1,13 @@
 # VideoTrack changelog
 
+## 1.7.114 - 2026-08-27
+
+- Stack Moodle's grouped completion status items vertically after the VideoTrack AND/OR label is separated from the composite description.
+- Preserve the existing list semantics, completion states and configured VideoTrack AND/OR logic; the change is scoped to the grouped activity-header presentation.
+- Extend the deterministic browser regression to assert computed flex direction and the real geometry of every completion item.
+- Distribute the current database and entity-relationship reference as Markdown, standalone Mermaid and accessible SVG, linked from both documentation indexes.
+- Refresh and audit the complete release documentation, inventories and current-version contracts for the 1.7.114 tree, including escaped provider separators in the EN/IT data-inventory tables.
+
 ## 1.7.113 - 2026-08-27
 
 - Correct the completion-layout Behat contract after the real Moodle 5.0/5.3 gate exposed two harness-only assumptions.
