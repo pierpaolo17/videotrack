@@ -1,11 +1,16 @@
 # Inventario delle funzioni
 
-Generato dall’albero sorgente VideoTrack 1.7.111. Le voci PHP includono funzioni e metodi nominati; le voci AMD includono dichiarazioni nominate, espressioni funzione assegnate e funzioni-metodo di oggetti.
+Generato dall’albero sorgente VideoTrack 1.7.112. Le voci PHP includono funzioni e metodi nominati; le voci AMD includono dichiarazioni nominate, espressioni funzione assegnate e funzioni-metodo di oggetti.
 
-**Funzioni/metodi PHP:** 746. **Callable AMD nominati:** 647.
+**Funzioni/metodi PHP:** 747. **Callable AMD nominati:** 652.
 
 | Posizione | Callable | Responsabilità |
 |---|---|---|
+| `amd/src/completion_requirements.js:38` | `normaliseText` | Normalizza il testo dei requisiti per confronti esatti e sicuri rispetto agli spazi introdotti dal tema. |
+| `amd/src/completion_requirements.js:48` | `directListItems` | Restituisce le voci figlie dirette di un elenco nativo o ARIA. |
+| `amd/src/completion_requirements.js:62` | `updateAccessibleAttribute` | Rimuove il prefisso composito dagli attributi accessibili opzionali dopo il raggruppamento visivo. |
+| `amd/src/completion_requirements.js:76` | `groupDescription` | Sposta l’etichetta logica prima di un elenco con più requisiti preservando la voce di stato esistente. |
+| `amd/src/completion_requirements.js:107` | `init` | Inizializza la presentazione localizzata e idempotente dei requisiti nella pagina attività VideoTrack. |
 | `amd/src/core/adapter.js:74` | `normaliseProviderType` | Callable `normaliseProviderType` del modulo; JSDoc e chiamanti definiscono parametri ed effetti. |
 | `amd/src/core/adapter.js:85` | `isKnownProviderType` | Callable `isKnownProviderType` del modulo; JSDoc e chiamanti definiscono parametri ed effetti. |
 | `amd/src/core/adapter.js:96` | `getCapabilityDefinition` | Callable `getCapabilityDefinition` del modulo; JSDoc e chiamanti definiscono parametri ed effetti. |
@@ -1189,6 +1194,7 @@ Generato dall’albero sorgente VideoTrack 1.7.111. Le voci PHP includono funzio
 | `tests/completion_contract_test.php:256` | `test_custom_completion_sort_order_covers_standard_conditions` | Funzione/metodo PHP nominato `test_custom_completion_sort_order_covers_standard_conditions`; vedere DocBlock e chiamanti per il contratto corrente. |
 | `tests/completion_contract_test.php:268` | `test_reaction_or_logic_can_be_alternative_to_viewing_percentage` | Funzione/metodo PHP nominato `test_reaction_or_logic_can_be_alternative_to_viewing_percentage`; vedere DocBlock e chiamanti per il contratto corrente. |
 | `tests/completion_contract_test.php:304` | `test_activity_header_completion_badges_have_readable_contrast` | Funzione/metodo PHP nominato `test_activity_header_completion_badges_have_readable_contrast`; vedere DocBlock e chiamanti per il contratto corrente. |
+| `tests/completion_contract_test.php:319` | `test_activity_header_groups_composite_completion_description_safely` | Verifica il contratto esatto server-AMD per il raggruppamento, la gestione sicura del testo e la presenza della build generata. |
 | `tests/course_analytics_test.php:39` | `test_median_handles_common_dataset_shapes` | Callable PHP `test_median_handles_common_dataset_shapes`; DocBlock e chiamanti definiscono parametri, valori restituiti ed effetti. |
 | `tests/course_analytics_test.php:48` | `test_state_summary_reuses_timeline_analytics` | Callable PHP `test_state_summary_reuses_timeline_analytics`; DocBlock e chiamanti definiscono parametri, valori restituiti ed effetti. |
 | `tests/course_analytics_test.php:72` | `test_state_summary_hides_drop_when_retention_denominator_is_suppressed` | Callable PHP `test_state_summary_hides_drop_when_retention_denominator_is_suppressed`; DocBlock e chiamanti definiscono parametri, valori restituiti ed effetti. |

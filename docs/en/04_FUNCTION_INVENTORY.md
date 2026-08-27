@@ -1,11 +1,16 @@
 # Function inventory
 
-Generated from the VideoTrack 1.7.111 source tree. PHP entries include named functions and methods; AMD entries include named declarations, assigned function expressions and object-method functions.
+Generated from the VideoTrack 1.7.112 source tree. PHP entries include named functions and methods; AMD entries include named declarations, assigned function expressions and object-method functions.
 
-**PHP functions/methods:** 746. **Named AMD callables:** 647.
+**PHP functions/methods:** 747. **Named AMD callables:** 652.
 
 | Location | Callable | Responsibility |
 |---|---|---|
+| `amd/src/completion_requirements.js:38` | `normaliseText` | Normalises rendered completion text for exact locale-safe comparisons across theme whitespace. |
+| `amd/src/completion_requirements.js:48` | `directListItems` | Returns the direct completion items of a native or ARIA list. |
+| `amd/src/completion_requirements.js:62` | `updateAccessibleAttribute` | Removes the composite prefix from optional item accessibility attributes after visual grouping. |
+| `amd/src/completion_requirements.js:76` | `groupDescription` | Moves the logical group label before a multi-item completion list while preserving the existing status item. |
+| `amd/src/completion_requirements.js:107` | `init` | Initialises the localised, idempotent completion-requirements presentation on the VideoTrack activity page. |
 | `amd/src/core/adapter.js:74` | `normaliseProviderType` | Named callable `normaliseProviderType` in the module; see its JSDoc and callers for parameter and side-effect details. |
 | `amd/src/core/adapter.js:85` | `isKnownProviderType` | Named callable `isKnownProviderType` in the module; see its JSDoc and callers for parameter and side-effect details. |
 | `amd/src/core/adapter.js:96` | `getCapabilityDefinition` | Named callable `getCapabilityDefinition` in the module; see its JSDoc and callers for parameter and side-effect details. |
@@ -1189,6 +1194,7 @@ Generated from the VideoTrack 1.7.111 source tree. PHP entries include named fun
 | `tests/completion_contract_test.php:256` | `test_custom_completion_sort_order_covers_standard_conditions` | Named PHP function/method `test_custom_completion_sort_order_covers_standard_conditions`; see source DocBlock and callers for the current contract. |
 | `tests/completion_contract_test.php:268` | `test_reaction_or_logic_can_be_alternative_to_viewing_percentage` | Named PHP function/method `test_reaction_or_logic_can_be_alternative_to_viewing_percentage`; see source DocBlock and callers for the current contract. |
 | `tests/completion_contract_test.php:304` | `test_activity_header_completion_badges_have_readable_contrast` | Named PHP function/method `test_activity_header_completion_badges_have_readable_contrast`; see source DocBlock and callers for the current contract. |
+| `tests/completion_contract_test.php:319` | `test_activity_header_groups_composite_completion_description_safely` | Verifies the exact server-to-AMD grouping contract, safe text handling and presence of the generated build. |
 | `tests/course_analytics_test.php:39` | `test_median_handles_common_dataset_shapes` | PHP callable `test_median_handles_common_dataset_shapes`; see its DocBlock and callers for parameter, return-value and side-effect details. |
 | `tests/course_analytics_test.php:48` | `test_state_summary_reuses_timeline_analytics` | PHP callable `test_state_summary_reuses_timeline_analytics`; see its DocBlock and callers for parameter, return-value and side-effect details. |
 | `tests/course_analytics_test.php:72` | `test_state_summary_hides_drop_when_retention_denominator_is_suppressed` | PHP callable `test_state_summary_hides_drop_when_retention_denominator_is_suppressed`; see its DocBlock and callers for parameter, return-value and side-effect details. |

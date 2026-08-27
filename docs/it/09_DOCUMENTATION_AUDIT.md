@@ -1,12 +1,12 @@
 # Audit della documentazione
 
-Baseline: VideoTrack **1.7.111** (`2026082501`).
+Baseline: VideoTrack **1.7.112** (`2026082701`).
 
 ## Copertura
 
-- File non documentali inventariati: **288/288**.
-- Funzioni/metodi PHP nominati inventariati: **746**.
-- Callable AMD nominati rilevati e inventariati: **647**.
+- File non documentali inventariati: **292/292**.
+- Funzioni/metodi PHP nominati inventariati: **747**.
+- Callable AMD nominati rilevati e inventariati: **652**.
 - Tabelle XMLDB documentate: **7**.
 - Chiavi impostazioni sito documentate: **57**.
 - Chiavi configurazione player documentate: **133**.
@@ -18,6 +18,13 @@ Baseline: VideoTrack **1.7.111** (`2026082501`).
 - Automazione browser Behat documentata in `22_TEST_BROWSER_BEHAT.md`; la tranche provider deterministica U-007 è chiusa dal gate esatto 1.7.108.
 - I contratti statici resume/completion/alert impilati e ledger server completano l’ambiente Behat ora operativo; il gate esatto 1.7.108 ha completato la matrice provider deterministica YouTube/Vimeo.
 - La navigazione capitoli ha ora un contratto esplicito focus-visible/colori forzati; la matrice manuale tastiera/high-contrast resta un gate per la chiusura finale di U-020.
+
+## Presentazione raggruppata dei requisiti di completamento 1.7.112
+
+- L'API di completamento personalizzato Moodle riceve intenzionalmente una sola regola composita VideoTrack perché il core aggrega con logica AND regole personalizzate distinte; separare le condizioni cambierebbe o rappresenterebbe in modo errato il completamento OR configurato.
+- Quando l'intestazione dell'attività contiene più requisiti, l'etichetta AND/OR localizzata di VideoTrack viene ora collocata subito prima dell'elenco e la voce composita esistente conserva soltanto il testo delle condizioni componenti.
+- L'adattamento confronta la descrizione esatta generata dal server, usa `textContent`, evita iniezioni HTML, è idempotente e aggiorna gli attributi accessibili opzionali senza modificare stato o ordinamento del completamento.
+- Uno scenario Behat deterministico copre percentuale, reazioni, presa visione, voto e sufficienza. La validazione WCAG manuale resta differita in U-020 e non viene dichiarata da questa release.
 
 ## Correzione durata YouTube nel form 1.7.111
 
