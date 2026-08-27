@@ -1,6 +1,6 @@
 # Audit della documentazione
 
-Baseline: VideoTrack **1.7.112** (`2026082701`).
+Baseline: VideoTrack **1.7.113** (`2026082702`).
 
 ## Copertura
 
@@ -18,6 +18,12 @@ Baseline: VideoTrack **1.7.112** (`2026082701`).
 - Automazione browser Behat documentata in `22_TEST_BROWSER_BEHAT.md`; la tranche provider deterministica U-007 è chiusa dal gate esatto 1.7.108.
 - I contratti statici resume/completion/alert impilati e ledger server completano l’ambiente Behat ora operativo; il gate esatto 1.7.108 ha completato la matrice provider deterministica YouTube/Vimeo.
 - La navigazione capitoli ha ora un contratto esplicito focus-visible/colori forzati; la matrice manuale tastiera/high-contrast resta un gate per la chiusura finale di U-020.
+
+## Correzione del contratto browser sui requisiti di completamento 1.7.113
+
+- Il gate esatto 1.7.112 ha superato PHPCS canonico, PHP lint, Grunt e 268 test PHPUnit / 2384 asserzioni su Moodle 5.0 e 5.3. Behat ha raggiunto il nuovo layout di completamento, evidenziando due sole assunzioni errate dell’harness.
+- Lo scenario ora corrisponde alla stringa inglese canonica `Require viewing at least 90% of the video` e riconosce sia gli elenchi nativi `ul`/`ol` sia `role=list`, come già fa il modulo di produzione.
+- La suite distribuita contiene 10 feature, 23 scenari candidati e 341 step eseguiti attesi. Runtime di produzione, sorgente/build AMD, semantica completion, schema, servizi, privacy e language pack restano invariati.
 
 ## Presentazione raggruppata dei requisiti di completamento 1.7.112
 

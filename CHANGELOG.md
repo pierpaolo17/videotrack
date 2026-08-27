@@ -1,5 +1,11 @@
 # VideoTrack changelog
 
+## 1.7.113 - 2026-08-27
+
+- Correct the completion-layout Behat contract after the real Moodle 5.0/5.3 gate exposed two harness-only assumptions.
+- Match the canonical English completion string (`Require viewing`) and accept both native `ul`/`ol` lists and ARIA `role=list`, reflecting the two supported Moodle renderings.
+- Preserve the 1.7.112 runtime, AMD build, completion logic, schema, services, privacy and language packs unchanged.
+
 ## 1.7.112 - 2026-08-27
 
 - Present the composite VideoTrack AND/OR label before Moodle's completion-requirements list when standard grade, pass-grade or view requirements create multiple list items.
