@@ -1,8 +1,8 @@
 # Inventario delle funzioni
 
-Generato dall’albero sorgente VideoTrack 1.7.113. Le voci PHP includono funzioni e metodi nominati; le voci AMD includono dichiarazioni nominate, espressioni funzione assegnate e funzioni-metodo di oggetti.
+Generato dall’albero sorgente VideoTrack 1.7.114. Le voci PHP includono funzioni e metodi nominati; le voci AMD includono dichiarazioni nominate, espressioni funzione assegnate e funzioni-metodo di oggetti.
 
-**Funzioni/metodi PHP:** 747. **Callable AMD nominati:** 652.
+**Funzioni/metodi PHP:** 748. **Callable AMD nominati:** 652.
 
 | Posizione | Callable | Responsabilità |
 |---|---|---|
@@ -1178,6 +1178,7 @@ Generato dall’albero sorgente VideoTrack 1.7.113. Le voci PHP includono funzio
 | `tests/behat/behat_mod_videotrack.php:512` | `the_moodle_completion_state_for_videotrack_is` | Verifica lo stato completion core Moodle persistito dopo un’interazione browser VideoTrack. |
 | `tests/behat/behat_mod_videotrack.php:553` | `the_videotrack_forum_time_should_be_between` | Verifica che il composer Forum collegato mantenga un timestamp nell’intervallo validato atteso dopo il rollback. |
 | `tests/behat/behat_mod_videotrack.php:576` | `the_latest_seek_segment_matches_the_pre_seek_browser_time` | Verifica l’estremo pre-seek grezzo e rifiuta credito aggregato o resume all’interno del gap saltato. |
+| `tests/behat/behat_mod_videotrack.php:650` | `the_videotrack_completion_requirements_are_stacked_vertically` | Verifica layout a colonna calcolato e geometria verticale non sovrapposta per i requisiti Moodle raggruppati. |
 | `tests/cli_contract_test.php:35` | `test_validator_is_read_only_and_covers_release_contracts` | Funzione/metodo PHP nominato `test_validator_is_read_only_and_covers_release_contracts`; vedere DocBlock e chiamanti per il contratto corrente. |
 | `tests/cli_contract_test.php:57` | `test_course_analytics_benchmark_uses_real_read_only_metrics` | Funzione/metodo PHP nominato `test_course_analytics_benchmark_uses_real_read_only_metrics`; vedere DocBlock e chiamanti per il contratto corrente. |
 | `tests/cli_contract_test.php:79` | `test_cli_tools_are_documented_for_admins_and_maintainers` | Funzione/metodo PHP nominato `test_cli_tools_are_documented_for_admins_and_maintainers`; vedere DocBlock e chiamanti per il contratto corrente. |
@@ -1305,9 +1306,9 @@ Generato dall’albero sorgente VideoTrack 1.7.113. Le voci PHP includono funzio
 | `tests/release_hygiene_contract_test.php:49` | `test_environment_italian_feedback_uses_utf8` | Funzione/metodo PHP nominato `test_environment_italian_feedback_uses_utf8`; vedere DocBlock e chiamanti per il contratto corrente. |
 | `tests/release_hygiene_contract_test.php:65` | `test_readmes_and_changelog_track_current_release` | Funzione/metodo PHP nominato `test_readmes_and_changelog_track_current_release`; vedere DocBlock e chiamanti per il contratto corrente. |
 | `tests/release_hygiene_contract_test.php:105` | `test_current_documentation_tracks_release` | Funzione/metodo PHP nominato `test_current_documentation_tracks_release`; vedere DocBlock e chiamanti per il contratto corrente. |
-| `tests/release_hygiene_contract_test.php:140` | `test_phpunit_coverage_metadata_uses_attributes` | Named PHP function/method `test_phpunit_coverage_metadata_uses_attributes`; see source DocBlock and callers for the current contract. |
-| `tests/release_hygiene_contract_test.php:161` | `test_maintained_language_packs_share_keys_and_placeholders` | Funzione/metodo PHP nominato `test_maintained_language_packs_share_keys_and_placeholders`; vedere DocBlock e chiamanti per il contratto corrente. |
-| `tests/release_hygiene_contract_test.php:213` | `test_privacy_summaries_keep_parallel_section_structure` | Funzione/metodo PHP nominato `test_privacy_summaries_keep_parallel_section_structure`; vedere DocBlock e chiamanti per il contratto corrente. |
+| `tests/release_hygiene_contract_test.php:160` | `test_phpunit_coverage_metadata_uses_attributes` | Named PHP function/method `test_phpunit_coverage_metadata_uses_attributes`; see source DocBlock and callers for the current contract. |
+| `tests/release_hygiene_contract_test.php:181` | `test_maintained_language_packs_share_keys_and_placeholders` | Funzione/metodo PHP nominato `test_maintained_language_packs_share_keys_and_placeholders`; vedere DocBlock e chiamanti per il contratto corrente. |
+| `tests/release_hygiene_contract_test.php:233` | `test_privacy_summaries_keep_parallel_section_structure` | Funzione/metodo PHP nominato `test_privacy_summaries_keep_parallel_section_structure`; vedere DocBlock e chiamanti per il contratto corrente. |
 | `tests/report_access_test.php:37` | `test_aggregate_only_role_keeps_individual_access_separate` | Callable PHP `test_aggregate_only_role_keeps_individual_access_separate`; contratto comportamentale per accesso delegato solo aggregato. |
 | `tests/report_access_test.php:59` | `test_individual_view_implies_aggregate_view_without_export_permissions` | Callable PHP `test_individual_view_implies_aggregate_view_without_export_permissions`; contratto comportamentale per separare vista ed export. |
 | `tests/report_access_test.php:79` | `test_legacy_viewreport_remains_full_access` | Callable PHP `test_legacy_viewreport_remains_full_access`; contratto di retrocompatibilità per i ruoli report storici. |

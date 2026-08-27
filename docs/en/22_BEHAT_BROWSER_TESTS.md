@@ -94,6 +94,8 @@ The exact 1.7.107 tree passed canonical PHPCS and PHP lint, 265 PHPUnit tests / 
 
 Release 1.7.108 adds `vimeo_provider_contract.feature` and `behatproviderfixture=vimeo`. The reserved numeric identifier `987654321` activates a local Vimeo SDK double only in Behat mode. `view.php` keeps the production Vimeo adapter unchanged and selects its container constructor so no public Vimeo iframe or SDK request is created. The scenario covers validated resume, backward seek, blocked-forward recovery to a stable database frontier, continued playback after recovery and an accepted terminal pause. The exact suite contains 9 features / 22 scenarios / 331 executed steps and passed on Moodle 5.0 and 5.3.
 
+Release 1.7.112 added `completion_requirements_layout.feature`, and 1.7.113 aligned its selectors with both native and ARIA Moodle list renderings. The exact 1.7.113 suite passed 23 scenarios / 341 steps on Moodle 5.0–5.3. Release 1.7.114 adds one geometry assertion: the grouped container must compute to a vertical flex column and each completion item must begin below the preceding one. The candidate suite remains at 23 scenarios and rises to 342 expected steps; it is not declared green before the exact-tree server gate.
+
 
 ## Current browser-test coverage limits
 

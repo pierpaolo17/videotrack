@@ -1,11 +1,11 @@
 # Audit della documentazione
 
-Baseline: VideoTrack **1.7.113** (`2026082702`).
+Baseline: VideoTrack **1.7.114** (`2026082703`).
 
 ## Copertura
 
 - File non documentali inventariati: **292/292**.
-- Funzioni/metodi PHP nominati inventariati: **747**.
+- Funzioni/metodi PHP nominati inventariati: **748**.
 - Callable AMD nominati rilevati e inventariati: **652**.
 - Tabelle XMLDB documentate: **7**.
 - Chiavi impostazioni sito documentate: **57**.
@@ -16,8 +16,17 @@ Baseline: VideoTrack **1.7.113** (`2026082702`).
 - Sintesi privacy root: `PRIVACY.md` e `PRIVACY_IT.md`.
 - Diagnostica CLI distribuita documentata in `21_CLI_DIAGNOSTICS.md` e coperta da contratti statici di sola lettura.
 - Automazione browser Behat documentata in `22_TEST_BROWSER_BEHAT.md`; la tranche provider deterministica U-007 è chiusa dal gate esatto 1.7.108.
+- Gli artefatti condivisi `VIDEOTRACK_DB_ER_SCHEMA.md`, `.mmd` e `.svg` documentano tutte le sette tabelle XMLDB e le relazioni logiche con il core Moodle.
 - I contratti statici resume/completion/alert impilati e ledger server completano l’ambiente Behat ora operativo; il gate esatto 1.7.108 ha completato la matrice provider deterministica YouTube/Vimeo.
-- La navigazione capitoli ha ora un contratto esplicito focus-visible/colori forzati; la matrice manuale tastiera/high-contrast resta un gate per la chiusura finale di U-020.
+- La matrice manuale tastiera, reflow, contrasto e screen reader è stata eseguita sul runtime 1.7.111. L’unico rilievo visivo residuo attribuibile al plugin è corretto dalla 1.7.114; la chiusura finale di U-020 dipende quindi dal gate automatico sull’albero esatto e dallo smoke test mirato sul layout completion.
+
+## Layout completion verticale e documentazione ER 1.7.114
+
+- L’evidenza reale Moodle 5.0/Boost ha confermato che l’etichetta logica VideoTrack era correttamente separata e che i tre requisiti restavano tre elementi semantici, ma il layout dei badge Bootstrap li collocava su un’unica riga orizzontale.
+- Una regola circoscritta alla pagina trasforma soltanto il contenitore completion raggruppato da VideoTrack in una colonna flex. Ruoli dell’elenco, ordine, stati di completamento e calcolo AND/OR configurato restano invariati.
+- La regressione Behat controlla la `flex-direction` calcolata e verifica che ogni elemento renderizzato inizi sotto il precedente; il contratto statico protegge il selettore circoscritto.
+- Il riferimento database viene ora distribuito nei formati Markdown, Mermaid autonomo e SVG accessibile. Deriva da `db/install.xml` versione `2026082301`; non è inclusa alcuna modifica allo schema o all’upgrade.
+- Marker di versione corrente, indici EN/IT, inventario non documentale e inventario dei callable sono stati aggiornati sull’albero esatto 1.7.114. Sono stati corretti anche i separatori provider non escapati che spezzavano una riga della tabella inventario dati EN/IT. U-020 e questa fase di pre-produzione potranno essere chiuse solo dopo il gate server e lo smoke test visivo mirato positivi.
 
 ## Correzione del contratto browser sui requisiti di completamento 1.7.113
 

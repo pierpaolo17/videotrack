@@ -104,6 +104,8 @@ L’esatto albero 1.7.107 ha superato PHPCS canonico e PHP lint, 265 test PHPUni
 
 La release 1.7.108 aggiunge `vimeo_provider_contract.feature` e `behatproviderfixture=vimeo`. L’identificatore numerico riservato `987654321` attiva un doppio SDK Vimeo locale soltanto in modalità Behat. `view.php` lascia invariato l’adapter Vimeo di produzione e ne seleziona il costruttore su container, senza creare iframe o richieste SDK pubbliche. Lo scenario copre resume validato, seek indietro, recovery del seek avanti bloccato su una frontiera database stabile, continuità della riproduzione dopo il recovery e pausa terminale accettata. La suite esatta contiene 9 feature / 22 scenari / 331 step eseguiti ed è passata su Moodle 5.0 e 5.3.
 
+La release 1.7.112 ha aggiunto `completion_requirements_layout.feature` e la 1.7.113 ne ha allineato i selettori alle rappresentazioni Moodle con elenco nativo o ARIA. La suite esatta 1.7.113 ha superato 23 scenari / 341 step su Moodle 5.0–5.3. La 1.7.114 aggiunge un’asserzione geometrica: il contenitore raggruppato deve risultare una colonna flex verticale e ogni requisito deve iniziare sotto il precedente. La suite candidata resta a 23 scenari e sale a 342 step attesi; non viene dichiarata verde prima del gate server sull’albero esatto.
+
 ## Limiti correnti della copertura browser
 
 La suite distribuita copre deterministicamente HTML5, YouTube e Vimeo per resume, seek indietro e recovery del seek avanti bloccato. Il gate browser esatto 1.7.108 su Moodle 5.0/5.3 è passato e chiude questa tranche provider U-007; rendering e disponibilità del provider pubblico restano aspetti di integrazione esterna, non dipendenze di correttezza della suite.

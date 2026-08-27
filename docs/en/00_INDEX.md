@@ -1,6 +1,6 @@
 # VideoTrack documentation index
 
-Current documented release: **1.7.113** (`2026082702`).
+Current documented release: **1.7.114** (`2026082703`).
 
 Public release history is maintained in [`../../CHANGELOG.md`](../../CHANGELOG.md). Maintainer-only roadmap and lessons-history artifacts are intentionally not distributed with the plugin.
 
@@ -42,3 +42,5 @@ Historical material is isolated under `archive/` and is not authoritative for th
 21. `21_CLI_DIAGNOSTICS.md` — read-only release validator and course Analytics benchmark for local/staging diagnostics.
 
 22. `22_BEHAT_BROWSER_TESTS.md` — Moodle Behat setup, current browser coverage and explicit provider/test limits.
+
+23. [`../VIDEOTRACK_DB_ER_SCHEMA.md`](../VIDEOTRACK_DB_ER_SCHEMA.md) — shared database/ER reference, with standalone Mermaid and SVG companions.

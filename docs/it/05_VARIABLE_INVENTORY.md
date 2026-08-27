@@ -17,7 +17,7 @@ Main table for videotrack instances
 | `introformat` | `int`(4) | NOT NULL; default `0` |  |
 | `youtubeurl` | `text` | nullable |  |
 | `videoid` | `char`(32) | nullable; default `` |  |
-| `videosource` | `char`(20) | NOT NULL; default `youtube` | youtube | vimeo | upload |
+| `videosource` | `char`(20) | NOT NULL; default `youtube` | youtube \| vimeo \| upload |
 | `videourl` | `text` | nullable | URL Vimeo o riferimento al nome del file caricato |
 | `playbackspeeds` | `char`(100) | nullable; default `` | Velocità consentite separate da virgola; vuoto = default sito |
 | `autoplay` | `int`(1) | NOT NULL; default `0` | Avvia automaticamente il video |

@@ -57,6 +57,24 @@
     text-align: left;
 }
 
+/* The grouped VideoTrack label is inserted before Moodle's shared completion
+ * list. Stack its status items vertically so long composite conditions do not
+ * force the following grade requirements onto the same horizontal line. */
+.path-mod-videotrack [data-region="completionrequirements"][data-videotrack-completion-grouped="1"] {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 0.25rem;
+}
+
+.path-mod-videotrack [data-region="completionrequirements"][data-videotrack-completion-grouped="1"] > li,
+.path-mod-videotrack [data-region="completionrequirements"][data-videotrack-completion-grouped="1"] > [role="listitem"] {
+    max-width: 100%;
+    white-space: normal;
+    line-height: 1.4;
+    text-align: left;
+}
+
 /* Contenitore responsive 16:9 per il player YouTube.
  * YT.Player sostituisce il div interno con un <iframe>: il padding-bottom
  * forza l'altezza proporzionale alla larghezza in tutti i browser. */
