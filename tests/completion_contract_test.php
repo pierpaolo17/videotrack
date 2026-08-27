@@ -312,4 +312,25 @@ final class completion_contract_test extends advanced_testcase {
         $this->assertStringContainsString('--bs-dark-rgb: 33, 37, 41;', $source);
         $this->assertStringContainsString('white-space: normal;', $source);
     }
+
+    /**
+     * Multiple Moodle completion items present the composite VideoTrack logic as a separate group label.
+     */
+    public function test_activity_header_groups_composite_completion_description_safely(): void {
+        $root = dirname(__DIR__);
+        $view = file_get_contents($root . '/view.php');
+        $source = file_get_contents($root . '/amd/src/completion_requirements.js');
+        $build = file_get_contents($root . '/amd/build/completion_requirements.min.js');
+
+        $this->assertIsString($view);
+        $this->assertIsString($source);
+        $this->assertIsString($build);
+        $this->assertStringContainsString("'mod_videotrack/completion_requirements', 'init'", $view);
+        $this->assertStringContainsString("'compositedescription' => get_string(", $view);
+        $this->assertStringContainsString('directListItems(list).length < 2', $source);
+        $this->assertStringContainsString("heading.textContent = config.logiclabel + ':';", $source);
+        $this->assertStringContainsString('description.textContent = config.conditionsdescription;', $source);
+        $this->assertStringNotContainsString('innerHTML', $source);
+        $this->assertStringContainsString('define("mod_videotrack/completion_requirements"', $build);
+    }
 }

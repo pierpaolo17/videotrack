@@ -1,14 +1,16 @@
 # Inventario dei file distribuiti
 
-Questo inventario è generato sull’albero VideoTrack 1.7.111 ed elenca ogni file non documentale. Il JavaScript canonico è in `amd/src`; i file in `amd/build` sono generati.
+Questo inventario è generato sull’albero VideoTrack 1.7.112 ed elenca ogni file non documentale. Il JavaScript canonico è in `amd/src`; i file in `amd/build` sono generati.
 
-Entries: **288**.
+Entries: **292**.
 
 | File | Responsabilità |
 |---|---|
 | `.gitattributes` | Attributi testuali/binari del repository. |
 | `.moodleignore` | File esclusi dal pacchetto Moodle. |
 | `phpcs.xml.dist` | Configurazione canonica del gate PHPCS basata sul ruleset Moodle Extra completo, senza esclusioni specifiche VideoTrack. |
+| `amd/build/completion_requirements.min.js` | Build AMD minificata generata per la presentazione raggruppata dei requisiti di completamento tramite Grunt Moodle. |
+| `amd/build/completion_requirements.min.js.map` | Source map generata per la build AMD `completion_requirements`; non modificare manualmente. |
 | `amd/build/core/adapter.min.js` | Build AMD minificata generata per `core/adapter` tramite Grunt Moodle. |
 | `amd/build/core/adapter.min.js.map` | Source map generata per la build AMD `core/adapter`; non modificare manualmente. |
 | `amd/build/core/api.min.js` | Build AMD minificata generata per `core/api` tramite Grunt Moodle. |
@@ -103,6 +105,7 @@ Entries: **288**.
 | `amd/build/report.min.js.map` | Source map generata per la build AMD `report`; non modificare manualmente. |
 | `amd/build/vimeo_player.min.js` | Build AMD minificata generata per `vimeo_player` tramite Grunt Moodle. |
 | `amd/build/vimeo_player.min.js.map` | Source map generata per la build AMD `vimeo_player`; non modificare manualmente. |
+| `amd/src/completion_requirements.js` | Sorgente AMD canonica che colloca l’etichetta AND/OR VideoTrack prima di un elenco Moodle con più requisiti, senza cambiare stato o semantica del completamento. |
 | `amd/src/core/adapter.js` | Sorgente AMD canonica modificabile per `core/adapter`. |
 | `amd/src/core/api.js` | Sorgente AMD canonica modificabile per `core/api`. |
 | `amd/src/core/api/error.js` | Sorgente AMD canonica modificabile per `core/api/error`. |
@@ -246,6 +249,7 @@ Entries: **288**.
 | `tests/analytics_table_export_test.php` | Copertura PHPUnit per analytics table export test. |
 | `tests/analytics_test.php` | Copertura PHPUnit per analytics test. |
 | `tests/behat/behat_mod_videotrack.php` | Step Behat deterministici per readiness, controlli, timestamp, rollback e watched evidence dei player HTML5 e provider. |
+| `tests/behat/completion_requirements_layout.feature` | Regressione browser per il raggruppamento dell’etichetta logica composita VideoTrack sopra l’elenco condiviso dei requisiti Moodle. |
 | `tests/behat/focus_exception_policy.feature` | Contratto browser per la policy focus rigida con e senza membership nel gruppo eccezioni nascosto. |
 | `tests/behat/html5_acknowledgement_contract.feature` | Regressione browser deterministica per presa visione immediata, gate al video-end e conferma persistita. |
 | `tests/behat/html5_completion_contract.feature` | Regressione browser deterministica per la persistenza della completion Moodle dopo visione validata e presa visione. |

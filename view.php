@@ -365,6 +365,32 @@ if ($behatvimeofixture) {
     $playerconfig['videoid'] = 'behat-vimeo';
     $PAGE->requires->js('/mod/videotrack/tests/fixtures/behat-vimeo-player.js', true);
 }
+$completionconditions = [];
+if ((int)$cm->completion === COMPLETION_TRACKING_AUTOMATIC) {
+    $completionconditions = \mod_videotrack\local\completion_config::active_condition_descriptions(
+        $videotrack,
+        $context
+    );
+}
+if ($completionconditions) {
+    $completionlogic = ($videotrack->completionlogic ?? 'and') === 'or'
+        ? get_string('completiondetail:logicor', 'mod_videotrack')
+        : get_string('completiondetail:logicand', 'mod_videotrack');
+    $completionconditionstext = implode('; ', $completionconditions);
+    $PAGE->requires->js_call_amd('mod_videotrack/completion_requirements', 'init', [[
+        'cmid' => (int)$cm->id,
+        'logiclabel' => $completionlogic,
+        'compositedescription' => get_string(
+            'completiondetail:videotrackconditions',
+            'mod_videotrack',
+            (object)[
+                'logic' => $completionlogic,
+                'conditions' => $completionconditionstext,
+            ]
+        ),
+        'conditionsdescription' => $completionconditionstext,
+    ]]);
+}
 if ($source === 'vimeo') {
     $PAGE->requires->js_call_amd('mod_videotrack/vimeo_player', 'init', [['configid' => $playerconfigid]]);
 } else if ($source === 'upload') {

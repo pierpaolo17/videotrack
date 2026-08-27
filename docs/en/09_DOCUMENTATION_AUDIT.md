@@ -1,12 +1,12 @@
 # Documentation audit
 
-Baseline: VideoTrack **1.7.111** (`2026082501`).
+Baseline: VideoTrack **1.7.112** (`2026082701`).
 
 ## Coverage
 
-- Non-documentation files inventoried: **288/288**.
-- Named PHP functions/methods inventoried: **746**.
-- Named AMD callables detected and inventoried: **647**.
+- Non-documentation files inventoried: **292/292**.
+- Named PHP functions/methods inventoried: **747**.
+- Named AMD callables detected and inventoried: **652**.
 - XMLDB tables documented: **7**.
 - Site-setting keys documented: **57**.
 - Player configuration keys documented: **133**.
@@ -19,6 +19,13 @@ Baseline: VideoTrack **1.7.111** (`2026082501`).
 - Static resume/completion/stacked-alert and server-ledger contracts complement the operational Behat environment; the exact 1.7.108 gate completed the deterministic YouTube/Vimeo provider matrix.
 - Maintainer-only consolidated roadmap/lessons-history files are intentionally excluded from the distributed plugin tree and protected by `.moodleignore`.
 - Chapter navigation now has an explicit focus-visible/forced-colour contract; a manual keyboard/high-contrast matrix remains a release gate for final U-020 closure.
+
+## 1.7.112 grouped completion-requirements presentation
+
+- Moodle's custom-completion API deliberately receives one composite VideoTrack rule because core aggregates separate custom rules with AND semantics; splitting component conditions would break or misrepresent configured OR completion.
+- When the activity header contains multiple completion items, the localised VideoTrack AND/OR label is now placed immediately before the requirements list and the existing composite item retains only its component-condition text.
+- The enhancement matches the exact server-generated description, uses `textContent`, avoids HTML injection, is idempotent and updates optional item accessibility attributes without changing completion status or ordering.
+- One deterministic Behat scenario covers percentage, reactions, acknowledgement, grade and pass-grade requirements. WCAG manual validation remains deferred under U-020 and is not claimed by this release.
 
 ## 1.7.111 YouTube form-duration correction
 

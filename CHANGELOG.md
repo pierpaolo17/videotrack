@@ -1,5 +1,12 @@
 # VideoTrack changelog
 
+## 1.7.112 - 2026-08-27
+
+- Present the composite VideoTrack AND/OR label before Moodle's completion-requirements list when standard grade, pass-grade or view requirements create multiple list items.
+- Keep the component VideoTrack conditions in their existing single status item, preserving the one-rule completion contract and its configured AND/OR semantics.
+- Restrict the enhancement to the VideoTrack activity page, use exact localised text matching and safe `textContent`, and leave single-item completion displays unchanged.
+- Add a browser regression for percentage, reactions, acknowledgement, grade and pass-grade requirements plus a PHPUnit source/build contract.
+
 ## 1.7.111 - 2026-08-25
 
 - Correct YouTube duration detection in the activity form by waiting for metadata when the IFrame API initially reports duration zero at `onReady`.
