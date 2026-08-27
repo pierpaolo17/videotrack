@@ -1,6 +1,6 @@
 # Audit della documentazione
 
-Baseline: VideoTrack **1.7.114** (`2026082703`).
+Baseline: VideoTrack **1.7.115** (`2026082704`).
 
 ## Copertura
 
@@ -18,7 +18,14 @@ Baseline: VideoTrack **1.7.114** (`2026082703`).
 - Automazione browser Behat documentata in `22_TEST_BROWSER_BEHAT.md`; la tranche provider deterministica U-007 è chiusa dal gate esatto 1.7.108.
 - Gli artefatti condivisi `VIDEOTRACK_DB_ER_SCHEMA.md`, `.mmd` e `.svg` documentano tutte le sette tabelle XMLDB e le relazioni logiche con il core Moodle.
 - I contratti statici resume/completion/alert impilati e ledger server completano l’ambiente Behat ora operativo; il gate esatto 1.7.108 ha completato la matrice provider deterministica YouTube/Vimeo.
-- La matrice manuale tastiera, reflow, contrasto e screen reader è stata eseguita sul runtime 1.7.111. L’unico rilievo visivo residuo attribuibile al plugin è corretto dalla 1.7.114; la chiusura finale di U-020 dipende quindi dal gate automatico sull’albero esatto e dallo smoke test mirato sul layout completion.
+- La matrice manuale tastiera, reflow, contrasto e screen reader è stata eseguita sul runtime 1.7.111. L’unico rilievo visivo residuo attribuibile al plugin è stato corretto e confermato visivamente su Moodle 5.0/Boost; la chiusura finale di U-020 dipende ora soltanto dal gate automatico esatto 1.7.115 su Moodle 5.0–5.3.
+
+## Selettore cross-versione del layout completion 1.7.115
+
+- Il gate esatto 1.7.114 ha superato PHPCS canonico, PHP lint e Grunt su Moodle 5.0–5.3, oltre a 268 test PHPUnit / 2399 asserzioni su ogni ramo. Behat ha superato 23 scenari / 342 step su Moodle 5.0 e 5.1, mentre lo scenario del layout è fallito su Moodle 5.2 e 5.3.
+- Moodle 5.0/5.1 colloca `data-region="completionrequirements"` sull’elenco marcato da VideoTrack, mentre Moodle 5.2/5.3 può collocare la regione su un antenato. I precedenti selettori CSS e Behat richiedevano erroneamente entrambi gli attributi sullo stesso nodo.
+- Lo stile ora usa direttamente il marker univoco e circoscritto alla pagina `data-videotrack-completion-grouped="1"`. L’asserzione browser accetta entrambe le strutture DOM, ma continua a richiedere che l’elenco marcato appartenga alla regione dei requisiti di completamento Moodle.
+- Lo smoke test mirato Moodle 5.0/Boost è visivamente positivo. Logica completion, ordine degli elementi, ruoli accessibili, AMD, schema, servizi, privacy e language pack restano invariati; il gate candidato attende 268 test PHPUnit / 2400 asserzioni e 23 scenari Behat / 342 step per ramo.
 
 ## Layout completion verticale e documentazione ER 1.7.114
 

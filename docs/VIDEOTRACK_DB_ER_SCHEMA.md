@@ -1,6 +1,6 @@
 # VideoTrack — schema database ed Entity–Relationship
 
-- **Baseline analizzata:** VideoTrack 1.7.114 / 2026082703
+- **Baseline analizzata:** VideoTrack 1.7.115 / 2026082704
 - **Schema XMLDB:** `db/install.xml`, versione `2026082301`
 - **Data del documento:** 2026-08-27
 - **Compatibilità dichiarata:** Moodle 5.0–5.3
@@ -8,9 +8,10 @@
 File complementari: [sorgente Mermaid](VIDEOTRACK_DB_ER_SCHEMA.mmd) ·
 [diagramma SVG](VIDEOTRACK_DB_ER_SCHEMA.svg)
 
-Lo schema è invariato rispetto alla 1.7.112. La 1.7.114 modifica soltanto la
-presentazione dei requisiti di completamento, i relativi contratti di test e
-la documentazione distribuita; non contiene migrazioni database.
+Lo schema è invariato rispetto alla 1.7.112. La 1.7.115 corregge soltanto il
+selettore di presentazione dei requisiti di completamento tra le versioni
+Moodle, i relativi contratti di test e la documentazione distribuita; non
+contiene migrazioni database.
 
 ## Avvertenza sulle relazioni
 
@@ -23,7 +24,7 @@ al database vincoli referenziali che Moodle non installa realmente.
 ## Diagramma ER Mermaid
 
 ```mermaid
-%% VideoTrack 1.7.114 / 2026082703 / XMLDB 2026082301
+%% VideoTrack 1.7.115 / 2026082704 / XMLDB 2026082301
 %% FK = relazione logica: db/install.xml non dichiara foreign key fisiche.
 erDiagram
     COURSE {
