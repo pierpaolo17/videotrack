@@ -1,6 +1,6 @@
 # Documentation audit
 
-Baseline: VideoTrack **1.7.114** (`2026082703`).
+Baseline: VideoTrack **1.7.115** (`2026082704`).
 
 ## Coverage
 
@@ -19,7 +19,14 @@ Baseline: VideoTrack **1.7.114** (`2026082703`).
 - The shared `VIDEOTRACK_DB_ER_SCHEMA.md`, `.mmd` and `.svg` artifacts document all seven XMLDB tables and their logical Moodle-core relationships.
 - Static resume/completion/stacked-alert and server-ledger contracts complement the operational Behat environment; the exact 1.7.108 gate completed the deterministic YouTube/Vimeo provider matrix.
 - Maintainer-only consolidated roadmap/lessons-history files are intentionally excluded from the distributed plugin tree and protected by `.moodleignore`.
-- The manual keyboard, reflow, contrast and screen-reader matrix has been executed on the 1.7.111 runtime. Its only plugin-attributable residual visual finding is addressed by 1.7.114; final U-020 closure therefore depends on the exact-tree automatic gate and the focused completion-layout smoke test.
+- The manual keyboard, reflow, contrast and screen-reader matrix was executed on the 1.7.111 runtime. Its only plugin-attributable residual visual finding was corrected and visually confirmed on Moodle 5.0/Boost; final U-020 closure now depends only on the exact 1.7.115 automatic gate across Moodle 5.0–5.3.
+
+## 1.7.115 cross-version completion-layout selector
+
+- The exact 1.7.114 gate passed canonical PHPCS, PHP lint and Grunt on Moodle 5.0–5.3, plus 268 PHPUnit tests / 2399 assertions on every branch. Behat passed 23 scenarios / 342 steps on Moodle 5.0 and 5.1, but its layout scenario failed on Moodle 5.2 and 5.3.
+- Moodle 5.0/5.1 places `data-region="completionrequirements"` on the list marked by VideoTrack, while Moodle 5.2/5.3 may place that region on an ancestor. The former CSS and Behat selectors incorrectly required both attributes on the same node.
+- Styling now targets the page-scoped, unique `data-videotrack-completion-grouped="1"` marker directly. The browser assertion accepts both DOM structures but still requires the marked list to be inside Moodle's completion-requirements region.
+- The focused Moodle 5.0/Boost smoke test is visually positive. Completion logic, item order, accessibility roles, AMD, schema, services, privacy and language packs are unchanged; the candidate gate expects 268 PHPUnit tests / 2400 assertions and 23 Behat scenarios / 342 steps per branch.
 
 ## 1.7.114 vertical completion layout and ER documentation
 

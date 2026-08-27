@@ -15,8 +15,8 @@
   </style>
 </defs>
 <rect class="background" x="0" y="0" width="2160" height="1260"/>
-<text class="title" x="40" y="52">VideoTrack 1.7.114 / 2026082703 — schema ER e integrazioni Moodle core</text>
-<text class="subtitle" x="40" y="82">XMLDB 2026082301 · nessuna migrazione nella 1.7.114 · FK(L) = relazione logica, non foreign key fisica</text>
+<text class="title" x="40" y="52">VideoTrack 1.7.115 / 2026082704 — schema ER e integrazioni Moodle core</text>
+<text class="subtitle" x="40" y="82">XMLDB 2026082301 · nessuna migrazione nella 1.7.115 · FK(L) = relazione logica, non foreign key fisica</text>
 <line class="relation" x1="40" y1="110" x2="105" y2="110"/><text class="legend" x="115" y="115">relazione persistita/logica</text>
 <line class="indirect" x1="345" y1="110" x2="410" y2="110"/><text class="legend" x="420" y="115">integrazione gestita dalle API Moodle</text>
 <text class="section" x="40" y="138">Moodle core</text>

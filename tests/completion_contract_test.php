@@ -334,7 +334,14 @@ final class completion_contract_test extends advanced_testcase {
         $this->assertStringContainsString('description.textContent = config.conditionsdescription;', $source);
         $this->assertStringNotContainsString('innerHTML', $source);
         $this->assertStringContainsString('define("mod_videotrack/completion_requirements"', $build);
-        $this->assertStringContainsString('data-videotrack-completion-grouped="1"', $styles);
+        $this->assertStringContainsString(
+            '.path-mod-videotrack [data-videotrack-completion-grouped="1"]',
+            $styles
+        );
+        $this->assertStringNotContainsString(
+            '[data-region="completionrequirements"][data-videotrack-completion-grouped="1"]',
+            $styles
+        );
         $this->assertStringContainsString('display: flex;', $styles);
         $this->assertStringContainsString('flex-direction: column;', $styles);
         $this->assertStringContainsString('align-items: flex-start;', $styles);

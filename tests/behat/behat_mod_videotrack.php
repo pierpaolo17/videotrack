@@ -650,12 +650,12 @@ class behat_mod_videotrack extends behat_base {
     public function the_videotrack_completion_requirements_are_stacked_vertically(): void {
         $result = $this->getSession()->evaluateScript(<<<'JS'
 (function() {
-    const selector = '[data-region="completionrequirements"]' +
-        '[data-videotrack-completion-grouped="1"]';
+    const selector = '[data-videotrack-completion-grouped="1"]';
     const list = document.querySelector(selector);
     if (!list) {
         return JSON.stringify({found: false});
     }
+    const completionRegion = list.closest('[data-region="completionrequirements"]');
     const items = Array.from(list.children).filter((item) =>
         item.matches('li, [role="listitem"]')
     );
@@ -666,6 +666,7 @@ class behat_mod_videotrack extends behat_base {
     );
     return JSON.stringify({
         found: true,
+        incompletionregion: Boolean(completionRegion),
         itemcount: items.length,
         display: style.display,
         direction: style.flexDirection,
@@ -678,6 +679,7 @@ JS
         if (
             !is_array($layout)
             || empty($layout['found'])
+            || empty($layout['incompletionregion'])
             || ($layout['itemcount'] ?? 0) < 2
             || ($layout['display'] ?? '') !== 'flex'
             || ($layout['direction'] ?? '') !== 'column'

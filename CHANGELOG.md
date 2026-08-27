@@ -1,5 +1,12 @@
 # VideoTrack changelog
 
+## 1.7.115 - 2026-08-27
+
+- Make the vertical completion layout independent of Moodle's version-specific completion-region nesting by styling the list through VideoTrack's unique grouping marker.
+- Strengthen the browser assertion so the marked list must still belong to Moodle's completion-requirements region while accepting both same-node and nested structures used across Moodle 5.0–5.3.
+- Preserve completion semantics, item order, accessibility roles, AMD runtime, schema, services, privacy and language packs unchanged.
+- Refresh all current-version documentation markers, including the Markdown, Mermaid and accessible SVG database/ER references.
+
 ## 1.7.114 - 2026-08-27
 
 - Stack Moodle's grouped completion status items vertically after the VideoTrack AND/OR label is separated from the composite description.
