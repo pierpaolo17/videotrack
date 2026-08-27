@@ -1,6 +1,6 @@
 # Documentation audit
 
-Baseline: VideoTrack **1.7.112** (`2026082701`).
+Baseline: VideoTrack **1.7.113** (`2026082702`).
 
 ## Coverage
 
@@ -19,6 +19,12 @@ Baseline: VideoTrack **1.7.112** (`2026082701`).
 - Static resume/completion/stacked-alert and server-ledger contracts complement the operational Behat environment; the exact 1.7.108 gate completed the deterministic YouTube/Vimeo provider matrix.
 - Maintainer-only consolidated roadmap/lessons-history files are intentionally excluded from the distributed plugin tree and protected by `.moodleignore`.
 - Chapter navigation now has an explicit focus-visible/forced-colour contract; a manual keyboard/high-contrast matrix remains a release gate for final U-020 closure.
+
+## 1.7.113 completion-layout browser-contract correction
+
+- The exact 1.7.112 gate passed canonical PHPCS, PHP lint, Grunt and 268 PHPUnit tests / 2384 assertions on Moodle 5.0 and 5.3. Behat reached the new completion layout but exposed two test-only assumptions.
+- The scenario now matches the canonical English string `Require viewing at least 90% of the video` and recognises both native `ul`/`ol` lists and ARIA `role=list`, as supported by the production module.
+- The distributed suite contains 10 features, 23 candidate scenarios and 341 expected executed steps. Production runtime, AMD source/build, completion semantics, schema, services, privacy and language packs are unchanged.
 
 ## 1.7.112 grouped completion-requirements presentation
 
