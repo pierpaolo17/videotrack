@@ -1,5 +1,17 @@
 # VideoTrack changelog
 
+## 1.7.118 - 2026-08-28
+
+### Changed
+
+- Replaced the VideoTrack brand artwork with the maintainer-selected transparent play-and-analytics icon.
+- Regenerated the self-contained SVG activity counterpart from the same canonical PNG; the existing PNG/SVG
+  rendering contract and regression test remain unchanged.
+
+### Documentation
+
+- Updated current release markers and both documentation trees for 1.7.118.
+
 ## 1.7.117 - 2026-08-28
 
 ### Fixed

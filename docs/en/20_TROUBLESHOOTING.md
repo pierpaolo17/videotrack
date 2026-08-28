@@ -13,6 +13,7 @@ installed code/version before investigating cached behaviour.
 | Forward seek counted | Inspect latest `videotrack_seg`, `servervalidated`, interval JSON and trusted frontier. | Tracker/provider regression. |
 | Resume wrong | Compare `videotrack_state.lastposition`, duration, retained validated intervals and direct replay parameter. | Derived state or provider readiness. |
 | Completion label/layout wrong | Confirm current `completion_requirements` AMD is loaded and grouping marker is `1`; inspect Moodle completion region. | Deployment/cache or cross-version markup. |
+| Activity icon is blank or monochrome | Confirm both `pix/icon.png` and `pix/icon.svg`, purge caches, then inspect theme rules applying `filter` to `.activityicon`; keep theme-specific colour overrides in the theme/custom CSS. | Theme presentation, not plugin image data. |
 | Reaction/note/bookmark rejected | Check capability, ownership, trusted timestamp, duplicate/burst limit and AJAX JSON response. | Scope or interaction validation. |
 | Forum action unavailable | Check same-course Forum, availability, groups, permissions and saved `linkedforumid`. | Moodle Forum integration. |
 | Report values masked | Check aggregate vs individual capability and `analyticsminusers`; verify learner/group scope. | Intentional privacy policy. |

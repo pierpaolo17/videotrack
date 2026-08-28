@@ -13,6 +13,7 @@ codice/versione installati prima di indagare un comportamento che può dipendere
 | Seek avanti conteggiato | Ispezionare ultimo `videotrack_seg`, `servervalidated`, interval JSON e frontiera attendibile. | Regressione tracker/provider. |
 | Resume errato | Confrontare `videotrack_state.lastposition`, durata, intervalli conservati e parametro replay diretto. | Stato derivato o readiness provider. |
 | Label/layout completion errato | Confermare AMD `completion_requirements`, marker raggruppamento `1` e regione Moodle. | Deploy/cache o markup cross-versione. |
+| Icona attività vuota o monocromatica | Confermare `pix/icon.png` e `pix/icon.svg`, svuotare le cache e ispezionare le regole del tema che applicano `filter` a `.activityicon`; mantenere nel tema/CSS personalizzato gli override colore specifici. | Presentazione del tema, non dati immagine del plugin. |
 | Reazione/nota/bookmark rifiutati | Controllare capability, proprietà, timestamp attendibile, limiti duplicato/raffica e JSON AJAX. | Scope o validazione interazione. |
 | Azione Forum non disponibile | Controllare Forum stesso corso, disponibilità, gruppi, permessi e `linkedforumid`. | Integrazione Forum Moodle. |
 | Valori report mascherati | Controllare capability aggregate/individuali, `analyticsminusers` e scope learner/gruppo. | Policy privacy intenzionale. |
