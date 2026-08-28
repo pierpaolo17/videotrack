@@ -1,5 +1,6 @@
-%% VideoTrack 1.7.118 / 2026082802 / XMLDB 2026082301
-%% FK(L) = logical relation / relazione logica not declared as an XMLDB foreign key.
+%% VideoTrack 1.7.119 / 2026082803 / XMLDB 2026082803
+%% FK = stable XMLDB foreign key metadata; REF(C) = conditional application reference.
+%% Moodle generates backing indexes for XMLDB foreign keys but no physical database constraints.
 erDiagram
     COURSE {
         bigint id PK
@@ -48,7 +49,7 @@ erDiagram
     VIDEOTRACK {
         bigint id PK
         bigint course FK
-        bigint linkedforumid FK "0 or forum.id"
+        bigint linkedforumid "REF(C): 0 or forum.id"
         string name
         string videosource
         string videoid
@@ -107,7 +108,7 @@ erDiagram
         bigint courseid FK
         bigint cmid FK
         bigint userid FK
-        bigint reactionid FK "0 for notes and bookmarks"
+        bigint reactionid "REF(C): 0 for notes and bookmarks"
         string notetype "empty, note or bookmark"
         decimal videotime
         int isdeleted
@@ -131,7 +132,7 @@ erDiagram
     COURSE_MODULES ||--|| CONTEXT : "module context"
     CONTEXT ||--o{ FILES : "contextid"
     COURSE ||--o{ FORUM : "course"
-    FORUM o|--o{ VIDEOTRACK : "linkedforumid"
+    FORUM o|--o{ VIDEOTRACK : "REF(C) linkedforumid"
     COURSE ||--o{ GRADE_ITEMS : "courseid"
     VIDEOTRACK ||--o| GRADE_ITEMS : "iteminstance"
     COURSE_MODULES ||--o{ COURSE_MODULES_COMPLETION : "coursemoduleid"
@@ -143,7 +144,7 @@ erDiagram
     VIDEOTRACK ||--o{ VIDEOTRACK_REACT : "videotrackid"
     VIDEOTRACK ||--o{ VIDEOTRACK_REACTEV : "videotrackid"
     VIDEOTRACK ||--o{ VIDEOTRACK_ACKNOWLEDGE : "videotrackid"
-    VIDEOTRACK_REACT o|--o{ VIDEOTRACK_REACTEV : "reactionid"
+    VIDEOTRACK_REACT o|--o{ VIDEOTRACK_REACTEV : "REF(C) reactionid"
 
     COURSE ||--o{ VIDEOTRACK_SEG : "courseid"
     COURSE ||--o{ VIDEOTRACK_STATE : "courseid"

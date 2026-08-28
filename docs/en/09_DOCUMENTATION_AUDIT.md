@@ -1,6 +1,6 @@
 # Documentation audit
 
-Baseline: VideoTrack **1.7.118** (`2026082802`).
+Baseline: VideoTrack **1.7.119** (`2026082803`).
 
 ## Scope
 
@@ -33,13 +33,13 @@ not duplicate implementation procedures, field dictionaries or long security/pri
 ## Current-tree findings
 
 - English and Italian indexes have matching scope and ordering.
-- Documentation markers, root README files and ER artefacts identify 1.7.118 / 2026082802.
+- Documentation markers, root README files and ER artefacts identify 1.7.119 / 2026082803.
 - The activity identity includes the full-colour `pix/icon.png` and a transparent `pix/icon.svg` for course formats.
-- `db/install.xml` currently declares seven primary keys and indexes but no foreign-key metadata. The ER documents
-  label those references accurately and do not claim physical constraints. This is recorded for a separate
-  data/schema corrective cycle because installed sites require orphan checks and an explicit XMLDB upgrade.
-- No runtime, AJAX, privacy, completion, gradebook or database behaviour is changed by this documentation/branding
-  release.
+- `db/install.xml` declares seven primary keys, 22 stable foreign keys and 22 explicit indexes. XMLDB generates an
+  additional exact backing index for every foreign key but no physical database constraint or cascade.
+- `linkedforumid` and `reactionid` remain documented conditional references because their `0` sentinel is valid.
+- The read-only CLI validator checks declared relations, backing indexes, orphans and denormalised context
+  consistency. Runtime CRUD, AJAX, privacy, completion and gradebook behaviour is unchanged.
 
 ## Release checks
 
@@ -49,5 +49,5 @@ Before promotion, verify:
 2. no obsolete version narrative remains in current docs;
 3. local Markdown links resolve and the EN/IT document sets are paired;
 4. file/callable inventories match the exact tree;
-5. PNG icon validity and package path are correct;
-6. release-hygiene PHPUnit contracts and the proportionate server gate pass.
+5. XMLDB/ER counts and conditional-reference labels match `db/install.xml`;
+6. release-hygiene and XMLDB relationship PHPUnit contracts and the proportionate server gate pass.

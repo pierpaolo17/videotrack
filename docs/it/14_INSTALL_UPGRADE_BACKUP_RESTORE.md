@@ -8,7 +8,8 @@ Installare l'unica directory `videotrack/` sotto `mod/` oppure usare l'installer
 Dopo l'installazione:
 
 1. dalla root Moodle eseguire `php mod/videotrack/cli/validate.php --json`;
-2. confermare 7 tabelle, 149 campi, 23 indici, 9 servizi AJAX, 8 lingue e 48 sorgenti AMD;
+2. confermare 7 tabelle, 149 campi, 22 indici espliciti, 22 foreign key/indici generati, 9 servizi AJAX,
+   8 lingue e 48 sorgenti AMD;
 3. verificare impostazioni retention, privacy, prestazioni, player, focus ed export;
 4. svuotare le cache e creare un'attività di prova per ogni sorgente usata dal sito.
 
@@ -20,6 +21,12 @@ adatte alla fase; assunzioni runtime su course module, completion o browser non 
 
 Non modificare soltanto `db/install.xml` per un plugin già rilasciato. Le installazioni nuove usano `install.xml`;
 i siti esistenti richiedono uno step di upgrade esplicito e un `$plugin->version` maggiore.
+
+La release 1.7.119 aggiunge i metadata delle relazioni stabili tramite `add_key()`. Moodle crea o riusa un indice
+esatto per ogni chiave, ma non crea foreign key fisiche né cascade nel database. L'upgrade è idempotente a livello
+di indici e non elimina o riscrive dati. Al termine va eseguito il validatore con `--strict`: ogni orfano o incoerenza
+corso/course module è un failure di qualità dati da indagare, mai una riparazione automatica. I campi condizionali
+`linkedforumid` e `reactionid` vengono controllati separatamente solo quando contengono un riferimento.
 
 ## Contenuto del backup
 

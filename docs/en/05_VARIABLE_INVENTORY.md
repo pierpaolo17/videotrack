@@ -2,10 +2,10 @@
 
 This document records persistent fields and public configuration contracts. Local implementation variables remain documented by source type declarations, DocBlocks and JSDoc.
 
-`db/install.xml` currently declares primary keys and explicit indexes but no XMLDB foreign keys. Fields such as
-`videotrackid`, `courseid`, `cmid` and `userid` are application-level references in the current tree. Moodle XMLDB
-foreign/unique keys are metadata that generate indexes rather than physical referential constraints; the exact
-relationship classification and the separate schema-quality finding are documented in
+`db/install.xml` declares 22 stable XMLDB foreign keys for `videotrackid`, `courseid`, `cmid`, `userid` and the main
+`course` field. Moodle generates an exact backing index for each declaration but no physical referential constraint
+or cascade. `linkedforumid` and `reactionid` remain conditional application references because `0` is valid. The
+exact relationship classification and validator contract are documented in
 [`../VIDEOTRACK_DB_ER_SCHEMA.md`](../VIDEOTRACK_DB_ER_SCHEMA.md).
 
 ## XMLDB tables
@@ -207,6 +207,24 @@ Explicit learner acknowledgements of versioned activity statements
 | `viewedseconds` | `number`(10) | nullable | Unique covered seconds at confirmation time; null for legacy confirmations |
 | `viewedpercent` | `number`(6) | nullable | Video coverage percentage at confirmation time; null for legacy confirmations |
 | `timeconfirmed` | `int`(10) | NOT NULL; default `0` |  |
+
+## Keys and indexes
+
+Every table has a primary key on `id`. Foreign keys generate exact non-unique backing indexes; those generated
+indexes are intentionally not duplicated under `<INDEXES>`.
+
+| Table | XMLDB foreign keys | Explicit indexes |
+|---|---|---|
+| `videotrack` | `course → course.id` | `videoid_idx(videoid)` |
+| `videotrack_seg` | `videotrackid → videotrack.id`; `courseid → course.id`; `cmid → course_modules.id`; `userid → user.id` | `vt_user_idx(videotrackid,userid)`; `session_idx(sessionid)`; `cm_user_idx(cmid,userid)`; `vt_user_sess_time_idx(videotrackid,userid,sessionid,timecreated)`; unique `vt_user_request_uix(videotrackid,userid,requestid)` |
+| `videotrack_state` | same four stable child relations | unique `vt_user_uix(videotrackid,userid)`; `cm_user_idx(cmid,userid)` |
+| `videotrack_integrity` | same four stable child relations | `vt_user_idx(videotrackid,userid)`; `cm_user_idx(cmid,userid)`; `event_idx(videotrackid,eventtype)`; `time_idx(timecreated)` |
+| `videotrack_react` | `videotrackid → videotrack.id` | `vt_sort_idx(videotrackid,sortorder)` |
+| `videotrack_reactev` | same four stable child relations | `vt_reaction_idx`; `user_vt_idx`; `vt_user_sess_time_idx`; `vt_user_del_type_time_idx`; `vt_user_reaction_del_time_idx`; `vt_user_note_del_time_idx` (field order is authoritative in `install.xml`) |
+| `videotrack_acknowledge` | same four stable child relations | unique `vt_user_hash_uix(videotrackid,userid,statementhash)`; `cm_user_idx(cmid,userid)`; `time_idx(timeconfirmed)` |
+
+The installed non-primary total is 44 indexes: 22 explicit indexes plus 22 exact foreign-key backing indexes.
+`cli/validate.php` checks both groups and reports any orphan or semantic context mismatch without writing data.
 
 ## Site settings
 

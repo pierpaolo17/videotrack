@@ -1,6 +1,6 @@
 # Audit della documentazione
 
-Baseline: VideoTrack **1.7.118** (`2026082802`).
+Baseline: VideoTrack **1.7.119** (`2026082803`).
 
 ## Perimetro
 
@@ -33,12 +33,13 @@ duplicano intenzionalmente procedure implementative, dizionari dei campi o lungh
 ## Rilievi sull'albero corrente
 
 - Gli indici inglese e italiano hanno stesso perimetro e ordinamento.
-- Marker documentali, README principali e artefatti ER identificano 1.7.118 / 2026082802.
+- Marker documentali, README principali e artefatti ER identificano 1.7.119 / 2026082803.
 - L'identità dell'attività include `pix/icon.png` a colori e `pix/icon.svg` trasparente per i formati corso.
-- `db/install.xml` dichiara attualmente sette chiavi primarie e gli indici, ma nessun metadata di foreign key. I
-  documenti ER descrivono correttamente i riferimenti senza attribuire vincoli fisici. Il punto è separato in un
-  ciclo correttivo dati/schema perché i siti installati richiedono controllo degli orfani e upgrade XMLDB esplicito.
-- Questa release documentale/grafica non cambia runtime, AJAX, privacy, completion, gradebook o database.
+- `db/install.xml` dichiara sette chiavi primarie, 22 foreign key stabili e 22 indici espliciti. XMLDB genera inoltre
+  un indice esatto per ogni foreign key, ma nessun vincolo fisico o cascade nel database.
+- `linkedforumid` e `reactionid` restano riferimenti condizionali documentati perché la sentinella `0` è valida.
+- Il validatore CLI in sola lettura controlla relazioni dichiarate, indici generati, orfani e coerenza del contesto
+  denormalizzato. Il comportamento runtime CRUD, AJAX, privacy, completion e gradebook resta invariato.
 
 ## Controlli di release
 
@@ -48,5 +49,5 @@ Prima della promozione verificare:
 2. assenza di narrazioni di versioni obsolete nei documenti correnti;
 3. risoluzione dei link Markdown e parità dei set EN/IT;
 4. identità degli inventari file/callable con l'albero esatto;
-5. validità PNG e percorso dell'icona;
-6. contratti PHPUnit di release hygiene e gate server proporzionato verdi.
+5. corrispondenza dei conteggi XMLDB/ER e delle etichette dei riferimenti condizionali con `db/install.xml`;
+6. contratti PHPUnit di release hygiene e relazioni XMLDB, più gate server proporzionato, verdi.

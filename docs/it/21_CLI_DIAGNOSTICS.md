@@ -14,7 +14,10 @@ Il validatore controlla:
 
 - versione installata rispetto a `version.php`;
 - ramo Moodle supportato;
-- schema database installato rispetto a `db/install.xml`;
+- tabelle, campi, indici espliciti e indici generati dalle foreign key rispetto a `db/install.xml`;
+- rilevamento orfani per tutte le 22 relazioni stabili dichiarate;
+- coerenza di ogni `courseid`/`cmid` denormalizzato con attività padre e course module VideoTrack;
+- riferimenti condizionali Forum e reazione, rispettando le sentinelle `0` legittime;
 - servizi AJAX e metodi external;
 - parità chiavi/placeholder degli otto language pack;
 - corrispondenza sorgenti/build/source map AMD;
@@ -23,6 +26,11 @@ Il validatore controlla:
 
 Lo status di uscita è non zero se un controllo fallisce. I warning vanno analizzati anche senza failure. Lo strumento
 non installa, non aggiorna, non scrive impostazioni e non ripara dati.
+
+Per l'evidenza di release usare `--strict`. Nel JSON, il dettaglio `xmldb` separa conteggi di indici espliciti e
+foreign key ed elenca oggetti mancanti o orfani. `reference_integrity` riporta incoerenze semantiche di contesto e
+riferimenti condizionali. Un failure va indagato partendo da un backup del database: il validatore non ha volutamente
+una modalità di riparazione.
 
 ## Benchmark Course Analytics
 

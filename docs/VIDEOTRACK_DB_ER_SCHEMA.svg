@@ -1,24 +1,26 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 2160 1260" width="2160" height="1260" role="img" aria-labelledby="title desc">
 <title id="title">Schema ER VideoTrack e integrazioni Moodle core</title>
-<desc id="desc">Sette tabelle VideoTrack collegate logicamente a corso, course module, utente, forum, contesto, file, gradebook e completion Moodle.</desc>
+<desc id="desc">Sette tabelle VideoTrack con 22 foreign key XMLDB stabili, due riferimenti applicativi condizionali e integrazioni Moodle core.</desc>
 <defs>
   <marker id="arrow" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M 0 0 L 10 5 L 0 10 z"/></marker>
+  <marker id="conditionalarrow" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M 0 0 L 10 5 L 0 10 z" fill="#8b3fa8"/></marker>
   <style>
     .background{fill:#f7f9fc} .title{font:500 30px system-ui,sans-serif;fill:#172033} .subtitle{font:400 16px system-ui,sans-serif;fill:#526174}
     .section{font:500 19px system-ui,sans-serif;fill:#172033} .entity rect{stroke:#6b7a90;stroke-width:1.5} .entity line{stroke:#6b7a90}
     .entity.core rect{fill:#fff4d6} .entity.plugin rect{fill:#e7f1ff} .entity.child rect{fill:#eaf8f3}
     .entity-title{font:500 18px ui-monospace,SFMono-Regular,Consolas,monospace;fill:#172033} .entity-row{font:400 14px ui-monospace,SFMono-Regular,Consolas,monospace;fill:#172033}
-    .relation{fill:none;stroke:#1769aa;stroke-width:2} .indirect{fill:none;stroke:#806000;stroke-width:2;stroke-dasharray:8 6} marker path{fill:#1769aa}
+    .relation{fill:none;stroke:#1769aa;stroke-width:2} .conditional{fill:none;stroke:#8b3fa8;stroke-width:2;stroke-dasharray:3 5} .indirect{fill:none;stroke:#806000;stroke-width:2;stroke-dasharray:8 6} marker path{fill:#1769aa}
     .edge-label{font:500 13px system-ui,sans-serif;fill:#172033;text-anchor:middle;paint-order:stroke;stroke:#f7f9fc;stroke-width:5px;stroke-linejoin:round}
     .legend{font:400 14px system-ui,sans-serif;fill:#526174} .note{font:400 15px system-ui,sans-serif;fill:#172033}
   </style>
 </defs>
 <rect class="background" x="0" y="0" width="2160" height="1260"/>
-<text class="title" x="40" y="52">VideoTrack 1.7.118 / 2026082802 — database ER and Moodle core integrations</text>
-<text class="subtitle" x="40" y="82">XMLDB 2026082301 · FK(L) = logical relation not declared as an XMLDB foreign key</text>
-<line class="relation" x1="40" y1="110" x2="105" y2="110"/><text class="legend" x="115" y="115">relazione persistita/logica</text>
+<text class="title" x="40" y="52">VideoTrack 1.7.119 / 2026082803 — database ER and Moodle core integrations</text>
+<text class="subtitle" x="40" y="82">XMLDB 2026082803 · FK = metadata XMLDB + indice; REF(C) = riferimento condizionale</text>
+<line class="relation" x1="40" y1="110" x2="105" y2="110"/><text class="legend" x="115" y="115">foreign key XMLDB stabile</text>
 <line class="indirect" x1="345" y1="110" x2="410" y2="110"/><text class="legend" x="420" y="115">integrazione gestita dalle API Moodle</text>
+<line class="conditional" x1="730" y1="110" x2="795" y2="110"/><text class="legend" x="805" y="115">riferimento condizionale REF(C)</text>
 <text class="section" x="40" y="138">Moodle core</text>
 <text class="section" x="40" y="660">Tabelle possedute da mod_videotrack</text>
 
@@ -89,8 +91,8 @@
 <text class="entity-title" x="833" y="397">videotrack</text>
 <line x1="815" y1="411" x2="1315" y2="411"/>
 <text class="entity-row" x="833" y="437">PK id</text>
-<text class="entity-row" x="833" y="461">FK(L) course → course.id</text>
-<text class="entity-row" x="833" y="485">linkedforumid → forum.id or 0</text>
+<text class="entity-row" x="833" y="461">FK course → course.id</text>
+<text class="entity-row" x="833" y="485">REF(C) linkedforumid → forum.id or 0</text>
 <text class="entity-row" x="833" y="509">source / video / player policy</text>
 <text class="entity-row" x="833" y="533">completion / reactions / acknowledgement</text>
 <text class="entity-row" x="833" y="557">grade / gradepass</text>
@@ -109,8 +111,8 @@
 <text class="entity-title" x="53" y="722">videotrack_seg</text>
 <line x1="35" y1="736" x2="355" y2="736"/>
 <text class="entity-row" x="53" y="762">PK id</text>
-<text class="entity-row" x="53" y="786">FK(L) videotrackid</text>
-<text class="entity-row" x="53" y="810">FK(L) courseid / cmid / userid</text>
+<text class="entity-row" x="53" y="786">FK videotrackid</text>
+<text class="entity-row" x="53" y="810">FK courseid / cmid / userid</text>
 <text class="entity-row" x="53" y="834">UK vt + user + requestid</text>
 <text class="entity-row" x="53" y="858">sessionid / requestid</text>
 <text class="entity-row" x="53" y="882">video start / end / rate</text>
@@ -121,8 +123,8 @@
 <text class="entity-title" x="398" y="722">videotrack_state</text>
 <line x1="380" y1="736" x2="700" y2="736"/>
 <text class="entity-row" x="398" y="762">PK id</text>
-<text class="entity-row" x="398" y="786">FK(L) videotrackid</text>
-<text class="entity-row" x="398" y="810">FK(L) courseid / cmid / userid</text>
+<text class="entity-row" x="398" y="786">FK videotrackid</text>
+<text class="entity-row" x="398" y="810">FK courseid / cmid / userid</text>
 <text class="entity-row" x="398" y="834">UK videotrackid + userid</text>
 <text class="entity-row" x="398" y="858">lastposition / duration</text>
 <text class="entity-row" x="398" y="882">unique covered seconds</text>
@@ -133,8 +135,8 @@
 <text class="entity-title" x="743" y="722">videotrack_integrity</text>
 <line x1="725" y1="736" x2="1045" y2="736"/>
 <text class="entity-row" x="743" y="762">PK id</text>
-<text class="entity-row" x="743" y="786">FK(L) videotrackid</text>
-<text class="entity-row" x="743" y="810">FK(L) courseid / cmid / userid</text>
+<text class="entity-row" x="743" y="786">FK videotrackid</text>
+<text class="entity-row" x="743" y="810">FK courseid / cmid / userid</text>
 <text class="entity-row" x="743" y="834">sessionid / eventtype</text>
 <text class="entity-row" x="743" y="858">videotime / timecreated</text>
 </g>
@@ -143,7 +145,7 @@
 <text class="entity-title" x="1088" y="722">videotrack_react</text>
 <line x1="1070" y1="736" x2="1390" y2="736"/>
 <text class="entity-row" x="1088" y="762">PK id</text>
-<text class="entity-row" x="1088" y="786">FK(L) videotrackid</text>
+<text class="entity-row" x="1088" y="786">FK videotrackid</text>
 <text class="entity-row" x="1088" y="810">reactionkey / label</text>
 <text class="entity-row" x="1088" y="834">icon type / value</text>
 <text class="entity-row" x="1088" y="858">required for completion</text>
@@ -154,9 +156,9 @@
 <text class="entity-title" x="1433" y="722">videotrack_reactev</text>
 <line x1="1415" y1="736" x2="1735" y2="736"/>
 <text class="entity-row" x="1433" y="762">PK id</text>
-<text class="entity-row" x="1433" y="786">FK(L) videotrackid</text>
-<text class="entity-row" x="1433" y="810">FK(L) courseid / cmid / userid</text>
-<text class="entity-row" x="1433" y="834">reactionid → react.id or 0</text>
+<text class="entity-row" x="1433" y="786">FK videotrackid</text>
+<text class="entity-row" x="1433" y="810">FK courseid / cmid / userid</text>
+<text class="entity-row" x="1433" y="834">REF(C) reactionid → react.id or 0</text>
 <text class="entity-row" x="1433" y="858">reaction / note / bookmark</text>
 <text class="entity-row" x="1433" y="882">videotime / isdeleted</text>
 </g>
@@ -165,8 +167,8 @@
 <text class="entity-title" x="1778" y="722">videotrack_acknowledge</text>
 <line x1="1760" y1="736" x2="2080" y2="736"/>
 <text class="entity-row" x="1778" y="762">PK id</text>
-<text class="entity-row" x="1778" y="786">FK(L) videotrackid</text>
-<text class="entity-row" x="1778" y="810">FK(L) courseid / cmid / userid</text>
+<text class="entity-row" x="1778" y="786">FK videotrackid</text>
+<text class="entity-row" x="1778" y="810">FK courseid / cmid / userid</text>
 <text class="entity-row" x="1778" y="834">UK vt + user + statementhash</text>
 <text class="entity-row" x="1778" y="858">instanceversion</text>
 <text class="entity-row" x="1778" y="882">viewed seconds / percent</text>
@@ -175,8 +177,8 @@
 <text class="edge-label" x="510.0" y="313.0">course</text>
 <path class="relation" d="M655,325 L900,365" marker-end="url(#arrow)"/>
 <text class="edge-label" x="777.5" y="338.0">instance</text>
-<path class="relation" d="M1165,295 L1240,365" marker-end="url(#arrow)"/>
-<text class="edge-label" x="1202.5" y="323.0">linkedforumid</text>
+<path class="conditional" d="M1165,295 L1240,365" marker-end="url(#conditionalarrow)"/>
+<text class="edge-label" x="1202.5" y="323.0">REF(C) linkedforumid</text>
 <path class="indirect" d="M1985,325 L1300,445" marker-end="url(#arrow)"/>
 <text class="edge-label" x="1642.5" y="378.0">grade item</text>
 <path class="indirect" d="M655,325 L925,1015" marker-end="url(#arrow)"/>
@@ -194,8 +196,8 @@
 <path class="relation" d="M1065,652 L1575,652 L1575,690"/>
 <path class="relation" d="M1065,652 L1920,652 L1920,690"/>
 <text class="edge-label" x="1065" y="646">videotrackid · 1 → 0..N</text>
-<path class="relation" d="M1230,975 L1575,975" marker-end="url(#arrow)"/>
-<text class="edge-label" x="1402.5" y="968.0">reactionid opzionale</text>
+<path class="conditional" d="M1230,975 L1575,975" marker-end="url(#conditionalarrow)"/>
+<text class="edge-label" x="1402.5" y="968.0">REF(C) reactionid opzionale</text>
 <text class="section" x="40" y="1205">Riferimenti comuni delle tabelle personali</text>
-<text class="note" x="40" y="1234">courseid → course.id · cmid → course_modules.id · userid → user.id · these relations are not declared as XMLDB foreign keys</text>
+<text class="note" x="40" y="1234">22 stable XMLDB foreign keys create exact indexes; Moodle does not create physical database constraints or cascades</text>
 </svg>

@@ -43,7 +43,8 @@ Options:
 
 Checks:
     - plugin file version vs installed version and supported Moodle branch;
-    - XMLDB tables, fields and indexes declared by db/install.xml;
+    - XMLDB tables, fields, indexes and foreign-key backing indexes;
+    - orphaned references and denormalised course/course-module consistency;
     - AJAX external functions declared by db/services.php;
     - maintained language-pack key and placeholder parity;
     - AMD src/build/source-map pairing and sourcesContent alignment;
@@ -128,9 +129,11 @@ if (!$installxml->loadXMLStructure() || !$installxml->getStructure()) {
     $addcheck('xmldb_schema', 'fail', 'Unable to parse db/install.xml.');
 } else {
     $missing = [];
+    $orphaned = [];
     $tablecount = 0;
     $fieldcount = 0;
     $indexcount = 0;
+    $foreignkeycount = 0;
     foreach ($installxml->getStructure()->getTables() as $table) {
         $tablecount++;
         if (!$dbman->table_exists($table)) {
@@ -149,20 +152,151 @@ if (!$installxml->loadXMLStructure() || !$installxml->getStructure()) {
                 $missing[] = 'index:' . $table->getName() . '.' . $index->getName();
             }
         }
+        foreach ($table->getKeys() as $key) {
+            if ($key->getType() !== XMLDB_KEY_FOREIGN) {
+                continue;
+            }
+            $foreignkeycount++;
+            $backingindex = new xmldb_index(
+                $key->getName() . '_idx',
+                XMLDB_INDEX_NOTUNIQUE,
+                $key->getFields()
+            );
+            if (!$dbman->index_exists($table, $backingindex)) {
+                $missing[] = 'foreign-index:' . $table->getName() . '.' . $key->getName();
+            }
+
+            $comparisons = [];
+            foreach (array_combine($key->getFields(), $key->getRefFields()) as $field => $reffield) {
+                $comparisons[] = 'parentrow.' . $reffield . ' = childrow.' . $field;
+            }
+            $sql = 'SELECT COUNT(1)
+                      FROM {' . $table->getName() . '} childrow
+                     WHERE NOT EXISTS (
+                               SELECT 1
+                                 FROM {' . $key->getRefTable() . '} parentrow
+                                WHERE ' . implode(' AND ', $comparisons) . '
+                           )';
+            $orphancount = (int)$DB->count_records_sql($sql);
+            if ($orphancount > 0) {
+                $orphaned[$table->getName() . '.' . $key->getName()] = $orphancount;
+            }
+        }
     }
     $details['xmldb'] = [
         'tables' => $tablecount,
         'fields' => $fieldcount,
         'indexes' => $indexcount,
+        'explicit_indexes' => $indexcount,
+        'foreign_keys' => $foreignkeycount,
+        'foreign_key_indexes' => $foreignkeycount,
         'missing' => $missing,
+        'orphans' => $orphaned,
     ];
-    if ($missing) {
-        $addcheck('xmldb_schema', 'fail', 'Missing schema objects: ' . implode(', ', $missing));
+    if ($missing || $orphaned) {
+        $issues = [];
+        if ($missing) {
+            $issues[] = 'missing schema objects: ' . implode(', ', $missing);
+        }
+        if ($orphaned) {
+            $orphanlabels = [];
+            foreach ($orphaned as $relation => $count) {
+                $orphanlabels[] = $relation . '=' . $count;
+            }
+            $issues[] = 'orphaned references: ' . implode(', ', $orphanlabels);
+        }
+        $addcheck('xmldb_schema', 'fail', ucfirst(implode('; ', $issues)) . '.');
     } else {
         $addcheck(
             'xmldb_schema',
             'pass',
-            $tablecount . ' tables, ' . $fieldcount . ' fields and ' . $indexcount . ' indexes match db/install.xml.'
+            $tablecount . ' tables, ' . $fieldcount . ' fields, ' . $indexcount . ' explicit indexes and ' .
+                $foreignkeycount . ' foreign keys match db/install.xml; no orphans found.'
+        );
+    }
+
+    $relationissues = [];
+    $usertables = [
+        'videotrack_seg',
+        'videotrack_state',
+        'videotrack_integrity',
+        'videotrack_reactev',
+        'videotrack_acknowledge',
+    ];
+    foreach ($usertables as $tablename) {
+        $sql = 'SELECT COUNT(1)
+                  FROM {' . $tablename . '} child
+             LEFT JOIN {videotrack} activity ON activity.id = child.videotrackid
+             LEFT JOIN {course_modules} cm ON cm.id = child.cmid
+             LEFT JOIN {modules} md ON md.id = cm.module
+                 WHERE activity.id IS NULL
+                    OR child.courseid <> activity.course
+                    OR cm.id IS NULL
+                    OR cm.course <> child.courseid
+                    OR cm.instance <> child.videotrackid
+                    OR md.name <> :modulename';
+        $mismatchcount = (int)$DB->count_records_sql($sql, ['modulename' => 'videotrack']);
+        if ($mismatchcount > 0) {
+            $relationissues[$tablename . '.context'] = $mismatchcount;
+        }
+    }
+
+    $linkedforumsql = "SELECT COUNT(1)
+                         FROM {videotrack} activity
+                        WHERE activity.linkedforumid > 0
+                          AND NOT EXISTS (
+                                  SELECT 1
+                                    FROM {forum} forum
+                                    JOIN {course_modules} cm
+                                      ON cm.instance = forum.id
+                                    JOIN {modules} md
+                                      ON md.id = cm.module
+                                   WHERE forum.id = activity.linkedforumid
+                                     AND cm.course = activity.course
+                                     AND md.name = :forumname
+                              )";
+    $linkedforumcount = (int)$DB->count_records_sql($linkedforumsql, ['forumname' => 'forum']);
+    if ($linkedforumcount > 0) {
+        $relationissues['videotrack.linkedforumid'] = $linkedforumcount;
+    }
+
+    $reactionsql = "SELECT COUNT(1)
+                      FROM {videotrack_reactev} reactionevent
+                     WHERE (reactionevent.reactionid > 0
+                            AND NOT EXISTS (
+                                SELECT 1
+                                  FROM {videotrack_react} reaction
+                                 WHERE reaction.id = reactionevent.reactionid
+                                   AND reaction.videotrackid = reactionevent.videotrackid
+                            ))
+                        OR (reactionevent.reactionid = 0 AND reactionevent.notetype NOT IN (:note, :bookmark))";
+    $reactioncount = (int)$DB->count_records_sql($reactionsql, [
+        'note' => 'note',
+        'bookmark' => 'bookmark',
+    ]);
+    if ($reactioncount > 0) {
+        $relationissues['videotrack_reactev.reactionid'] = $reactioncount;
+    }
+
+    $details['reference_integrity'] = [
+        'checked_user_tables' => $usertables,
+        'issues' => $relationissues,
+        'conditional_references' => [
+            'videotrack.linkedforumid' => '0 or a forum instance in the same course',
+            'videotrack_reactev.reactionid' => '0 for notes/bookmarks or a reaction in the same activity',
+        ],
+    ];
+    if ($relationissues) {
+        $relationlabels = [];
+        foreach ($relationissues as $relation => $count) {
+            $relationlabels[] = $relation . '=' . $count;
+        }
+        $addcheck('reference_integrity', 'fail', 'Inconsistent references: ' . implode(', ', $relationlabels) . '.');
+    } else {
+        $addcheck(
+            'reference_integrity',
+            'pass',
+            'Course, course-module and conditional application references are consistent.'
         );
     }
 }
