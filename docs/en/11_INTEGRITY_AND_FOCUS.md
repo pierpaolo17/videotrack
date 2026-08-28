@@ -12,7 +12,7 @@ When strict mode is required, each course containing VideoTrack receives a hidde
 
 ## Server-authoritative playback credit
 
-Tracked playback starts only after `start_playback` opens a credit window bound to the current browser session. Segment writes from another or stale session remain available as non-authoritative audit evidence but cannot advance watched coverage. An accepted pause, end or hidden-page lifecycle save clears the active session and server activity timestamp, so resumed playback must perform a new handshake. Release 1.7.106 verifies the real HTML5 play/pause path end-to-end by matching the `playstart` and accepted `pause` session identifiers and checking that the server window is closed.
+Tracked playback starts only after `start_playback` opens a credit window bound to the current browser session. Segment writes from another or stale session remain available as non-authoritative audit evidence but cannot advance watched coverage. An accepted pause, end or hidden-page lifecycle save clears the active session and server activity timestamp, so resumed playback must perform a new handshake. The deterministic HTML5 browser contract matches `playstart` and accepted `pause` session identifiers and verifies that the server window is closed.
 
 ## Signals
 

@@ -1,5 +1,17 @@
 # VideoTrack changelog
 
+## 1.7.116 - 2026-08-28
+
+- Reorganised the Italian and English documentation as a current-version reference for users,
+  administrators and developers, removing release-by-release narratives and both `archive/` trees.
+- Reworked the root English and Italian README files into complete feature maps with links to the
+  authoritative detailed guides, avoiding duplicated implementation detail.
+- Replaced the activity icon with the full-colour VideoTrack artwork supplied for this release.
+- Clarified the current XMLDB relationship model and recorded the undeclared foreign-key metadata
+  as a separate schema-review item; no database or runtime change is included in this release.
+- Updated documentation indexes, inventories, ER artefacts, maintenance rules and troubleshooting
+  guidance for the exact 1.7.116 tree.
+
 ## 1.7.115 - 2026-08-27
 
 - Make the vertical completion layout independent of Moodle's version-specific completion-region nesting by styling the list through VideoTrack's unique grouping marker.
@@ -753,4 +765,4 @@ This is the canonical release-history file for the plugin tree. Detailed design 
 - Moved GDPR retention to deletion-based expiry and state reconstruction from retained evidence.
 - Repaired gradebook upgrade handling and protected modern schemas from replay of obsolete legacy migrations.
 
-For older detailed implementation history, see the numbered documents under `docs/en/`, `docs/it/` and their historical archives.
+For older implementation detail, inspect the documentation bundled with the corresponding source tag.

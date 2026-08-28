@@ -1,79 +1,79 @@
 # Build, test and release
 
-## Required checks
+Every result belongs to the exact source tree on which it ran. A later documentation, generated-asset, schema
+or version change requires a new package identity and a proportionate gate.
 
-From the Moodle root, adapt paths to the local installation:
+## Baseline and change classification
+
+1. Start from the latest real archive supplied or published by the maintainer.
+2. Record release/version, file list, modes and SHA-256 before editing.
+3. Classify the delta: PHP, XMLDB, AMD, browser UI, language, privacy/backup, documentation or packaging.
+4. Run every gate capable of detecting a defect in that delta; document why omitted gates are irrelevant.
+
+## Required static gates
+
+From the Moodle root, the maintainer wrapper may run:
 
 ```bash
-# PHP syntax
-find mod/videotrack -name '*.php' -print0 | xargs -0 -n1 php -l
-
-# PHPUnit
-vendor/bin/phpunit --testsuite mod_videotrack_testsuite
-
-# Canonical PHPCS release gate (full Moodle Extra, no VideoTrack exclusions)
-/root/.config/composer/vendor/bin/phpcs --standard=mod/videotrack/phpcs.xml.dist mod/videotrack
-
-
-# AMD only when amd/src changes
-node node_modules/grunt/bin/grunt amd --root=mod/videotrack
+videotrack-update
+moodle-test -p mod_videotrack -m 50,51,52,53 -c canon,lint,phpunit,behat
 ```
 
-The repository-level `phpcs.xml.dist` is the canonical PHPCS release gate. Since 1.7.85 it is the full `moodle-extra` ruleset with no VideoTrack-specific warning exclusions: every PHPCS warning or error is release-blocking. Record both the PHP_CodeSniffer and `moodlehq/moodle-cs` versions with the evidence when the toolchain changes.
+Add `grunt` whenever `amd/src` changes. The repository `phpcs.xml.dist` is the canonical full
+`moodle-extra` gate and has no VideoTrack-specific exclusions. Any PHPCS error or warning is blocking.
 
-Also parse `db/install.xml` and `environment.xml`, run `node --check` on source/build JavaScript, validate every source map as JSON, compare language key sets and placeholders, verify every static `get_string` reference, and compare XMLDB fields with backup/restore declarations.
-
-## PHPUnit interpretation
-
-A line ending in “OK, but there were issues” is not a clean pass if failures/errors exist. Since 1.7.85 VideoTrack coverage metadata is expressed with PHPUnit attributes; any return of coverage-metadata deprecations must be treated as a regression and investigated separately from functional failures.
-
-The PHPUnit suite also includes `provider_seek_snapshot_contract_test.php`, which protects provider seek/rollback invariants without pretending to replace browser execution. It must remain green when provider seek code changes; Behat/manual provider tests are still required for runtime evidence.
-
-## Patch validation
+Minimum direct checks when wrappers are unavailable:
 
 ```bash
-git diff --check
-git diff --binary BASELINE..WORKTREE > videotrack-x.y.z.patch
+find mod/videotrack -name '*.php' -print0 | xargs -0 -n1 php -l
+php admin/tool/phpunit/cli/util.php --buildcomponentconfigs
+vendor/bin/phpunit --testsuite mod_videotrack_testsuite
+```
+
+For AMD changes, run Moodle's real Grunt task from the Moodle tree and distribute every changed `.min.js`
+and `.map`. Syntax-only JavaScript checks do not replace Grunt/ESLint.
+
+## Behavioural gates
+
+- PHPUnit: all component tests, no failure, error, warning, notice or unexpected deprecation.
+- Behat: `@mod_videotrack` across Moodle 5.0–5.3 for changes affecting browser-visible contracts.
+- Manual provider smoke: public HTML5, YouTube and Vimeo when provider/network behaviour is relevant.
+- Manual accessibility: keyboard, focus, reflow, forced colours and screen reader for UI changes.
+- Lifecycle: fresh install, upgrade, backup/restore, reset and Privacy API when related code/schema changes.
+
+The current distributed suites contain 268 PHPUnit tests / 2400 assertions and 23 Behat scenarios /
+342 steps per supported Moodle branch. These numbers are expectations, not a pass claim.
+
+## Schema and data checks
+
+- edit `db/install.xml` with XMLDB-compatible definitions;
+- add an idempotent `db/upgrade.php` step and savepoint for installed sites;
+- verify fresh install and upgrade separately;
+- compare installed schema through `cli/validate.php --json`;
+- inspect data for orphans before adding keys or changing null/default semantics;
+- validate backup/restore and Privacy API against the changed relations.
+
+## Patch and package validation
+
+Patch files are generated from the plugin root with relative paths:
+
+```bash
 git apply --check videotrack-x.y.z.patch
 patch -p1 --dry-run < videotrack-x.y.z.patch
 ```
 
-Apply the patch to a separate fresh extraction and compare its complete tree with the worktree. New/untracked files must be included explicitly.
+GNU `patch` cannot apply Git binary-diff records. When a delta adds or changes a binary asset, `git apply` is the
+authoritative patch path and the GNU dry run is expected to stop at that record; use the complete release ZIP when
+Git is unavailable. Also verify application, rollback, reapplication rejection and byte/mode identity with the candidate. A release
+ZIP must contain one top-level `videotrack/` directory, no unsafe/duplicate paths and no development-only files.
+Rebuild twice and require identical SHA-256 when reproducible packaging is part of the gate.
 
 ## Release evidence
 
-Record baseline checksum, changed files, version/schema decisions, executed checks, unexecuted checks and patch checksum. Do not label PHPUnit, PHPCS, browser, upgrade or backup/restore as successful unless that exact release was actually tested.
+Record package SHA-256, commit/tag, Moodle/PHP/database versions, exact commands, test counts, failures/warnings,
+manual smoke results and any deferred gate. Do not promote a candidate while a required result is missing.
 
-
-## 1.6.32 playback-ledger checks
-
-When the playback ledger or `videotrack_seg` schema changes, also verify:
-
-- `mod_videotrack_start_playback` is declared in `db/services.php`, accepted by the AMD validator and protected by the same sesskey/context/capability contract as other learner writes;
-- a segment without a successful handshake receives no credit;
-- request identifiers are unique per activity/user and retries return the persisted result without duplicate rows, events or completion writes;
-- provider/server drift tolerance remains a cumulative debt and cannot be reset by pause, rejection or a new handshake;
-- `requestid` is aligned across XMLDB, upgrade, Privacy API, backup and restore;
-- exact unique coverage remains monotonic when the compact interval list reaches 500 entries.
-
-## Distributed CLI diagnostics
-
-VideoTrack ships read-only local diagnostics. Run them from the Moodle root after installation/upgrade:
-
-```bash
-php mod/videotrack/cli/validate.php --json
-php mod/videotrack/cli/benchmark_course_analytics.php --courseid=<id> --userid=<id> --runs=5 --perioddays=7
-```
-
-The validator is useful for every release. Re-run the Analytics benchmark when course aggregation, learner/group scope, Analytics SQL or related indexes change. Full options, interpretation and the recorded U-016 baseline are documented in [`21_CLI_DIAGNOSTICS.md`](21_CLI_DIAGNOSTICS.md).
-
-## Behat browser gate
-
-When learner-page markup, browser interactions, player adapters or seek state changes, initialise Moodle Behat and run the VideoTrack tag:
-
-```bash
-php admin/tool/behat/cli/init.php
-php admin/tool/behat/cli/run.php --tags='@mod_videotrack'
-```
-
-See [`22_BEHAT_BROWSER_TESTS.md`](22_BEHAT_BROWSER_TESTS.md). Behat is an exact-tree release gate and does not replace manual provider smoke tests until the U-007 matrix is complete.
+The read-only `cli/validate.php` installation validator and
+`cli/benchmark_course_analytics.php` Analytics benchmark are documented in
+[`21_CLI_DIAGNOSTICS.md`](21_CLI_DIAGNOSTICS.md); browser coverage is in
+[`22_BEHAT_BROWSER_TESTS.md`](22_BEHAT_BROWSER_TESTS.md).
