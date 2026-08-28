@@ -1,6 +1,6 @@
 # Documentation audit
 
-Baseline: VideoTrack **1.7.117** (`2026082801`).
+Baseline: VideoTrack **1.7.118** (`2026082802`).
 
 ## Scope
 
@@ -33,7 +33,7 @@ not duplicate implementation procedures, field dictionaries or long security/pri
 ## Current-tree findings
 
 - English and Italian indexes have matching scope and ordering.
-- Documentation markers, root README files and ER artefacts identify 1.7.117 / 2026082801.
+- Documentation markers, root README files and ER artefacts identify 1.7.118 / 2026082802.
 - The activity identity includes the full-colour `pix/icon.png` and a transparent `pix/icon.svg` for course formats.
 - `db/install.xml` currently declares seven primary keys and indexes but no foreign-key metadata. The ER documents
   label those references accurately and do not claim physical constraints. This is recorded for a separate

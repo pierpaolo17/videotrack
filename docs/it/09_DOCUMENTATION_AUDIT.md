@@ -1,6 +1,6 @@
 # Audit della documentazione
 
-Baseline: VideoTrack **1.7.117** (`2026082801`).
+Baseline: VideoTrack **1.7.118** (`2026082802`).
 
 ## Perimetro
 
@@ -33,7 +33,7 @@ duplicano intenzionalmente procedure implementative, dizionari dei campi o lungh
 ## Rilievi sull'albero corrente
 
 - Gli indici inglese e italiano hanno stesso perimetro e ordinamento.
-- Marker documentali, README principali e artefatti ER identificano 1.7.117 / 2026082801.
+- Marker documentali, README principali e artefatti ER identificano 1.7.118 / 2026082802.
 - L'identità dell'attività include `pix/icon.png` a colori e `pix/icon.svg` trasparente per i formati corso.
 - `db/install.xml` dichiara attualmente sette chiavi primarie e gli indici, ma nessun metadata di foreign key. I
   documenti ER descrivono correttamente i riferimenti senza attribuire vincoli fisici. Il punto è separato in un
