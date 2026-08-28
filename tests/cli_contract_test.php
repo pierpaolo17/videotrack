@@ -39,6 +39,11 @@ final class cli_contract_test extends advanced_testcase {
         $this->assertStringContainsString("define('CLI_SCRIPT', true);", $source);
         $this->assertStringContainsString("require_once(\$CFG->libdir . '/clilib.php');", $source);
         $this->assertStringContainsString("new xmldb_file(\$pluginroot . '/db/install.xml')", $source);
+        $this->assertStringContainsString("'foreign_keys' => \$foreignkeycount", $source);
+        $this->assertStringContainsString("'reference_integrity'", $source);
+        $this->assertStringContainsString("count_records_sql", $source);
+        $this->assertStringContainsString("activity.linkedforumid > 0", $source);
+        $this->assertStringContainsString("reactionevent.reactionid = 0", $source);
         $this->assertStringContainsString("require(\$pluginroot . '/db/services.php');", $source);
         $this->assertStringContainsString("\$pluginroot . '/amd/src'", $source);
         $this->assertStringContainsString("\$pluginroot . '/lang/'", $source);

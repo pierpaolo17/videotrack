@@ -57,6 +57,10 @@ final class upgrade_contract_test extends advanced_testcase {
         $this->assertStringContainsString('if ($oldversion < 2026082104)', $source);
         $this->assertStringContainsString("'serverplaybacksessionid'", $source);
         $this->assertStringContainsString('if ($oldversion < 2026082301)', $source);
+        $this->assertStringContainsString('if ($oldversion < 2026082803)', $source);
+        $this->assertStringContainsString('$dbman->add_key($table, new xmldb_key(', $source);
+        $this->assertStringContainsString('XMLDB_KEY_FOREIGN', $source);
+        $this->assertStringContainsString('upgrade_mod_savepoint(true, 2026082803', $source);
         $this->assertStringContainsString(
             '<FIELD NAME="serverplaybacksessionid" TYPE="char" LENGTH="64" NOTNULL="true" COMMENT=',
             $installsource

@@ -2053,5 +2053,64 @@ function xmldb_videotrack_upgrade($oldversion) {
         upgrade_mod_savepoint(true, 2026082301, 'videotrack');
     }
 
+    if ($oldversion < 2026082803) {
+        // Release 1.7.119: declare the stable XMLDB relationships. Moodle represents
+        // foreign keys as metadata plus exact backing indexes; it does not create
+        // physical database constraints. Conditional references that legitimately use
+        // zero (linkedforumid and reactionid) are intentionally excluded.
+        $foreignkeys = [
+            'videotrack' => [
+                ['course_fk', ['course'], 'course', ['id']],
+            ],
+            'videotrack_seg' => [
+                ['videotrack_fk', ['videotrackid'], 'videotrack', ['id']],
+                ['course_fk', ['courseid'], 'course', ['id']],
+                ['cm_fk', ['cmid'], 'course_modules', ['id']],
+                ['user_fk', ['userid'], 'user', ['id']],
+            ],
+            'videotrack_state' => [
+                ['videotrack_fk', ['videotrackid'], 'videotrack', ['id']],
+                ['course_fk', ['courseid'], 'course', ['id']],
+                ['cm_fk', ['cmid'], 'course_modules', ['id']],
+                ['user_fk', ['userid'], 'user', ['id']],
+            ],
+            'videotrack_integrity' => [
+                ['videotrack_fk', ['videotrackid'], 'videotrack', ['id']],
+                ['course_fk', ['courseid'], 'course', ['id']],
+                ['cm_fk', ['cmid'], 'course_modules', ['id']],
+                ['user_fk', ['userid'], 'user', ['id']],
+            ],
+            'videotrack_react' => [
+                ['videotrack_fk', ['videotrackid'], 'videotrack', ['id']],
+            ],
+            'videotrack_reactev' => [
+                ['videotrack_fk', ['videotrackid'], 'videotrack', ['id']],
+                ['course_fk', ['courseid'], 'course', ['id']],
+                ['cm_fk', ['cmid'], 'course_modules', ['id']],
+                ['user_fk', ['userid'], 'user', ['id']],
+            ],
+            'videotrack_acknowledge' => [
+                ['videotrack_fk', ['videotrackid'], 'videotrack', ['id']],
+                ['course_fk', ['courseid'], 'course', ['id']],
+                ['cm_fk', ['cmid'], 'course_modules', ['id']],
+                ['user_fk', ['userid'], 'user', ['id']],
+            ],
+        ];
+        foreach ($foreignkeys as $tablename => $definitions) {
+            $table = new xmldb_table($tablename);
+            foreach ($definitions as [$name, $fields, $reftable, $reffields]) {
+                $dbman->add_key($table, new xmldb_key(
+                    $name,
+                    XMLDB_KEY_FOREIGN,
+                    $fields,
+                    $reftable,
+                    $reffields
+                ));
+            }
+        }
+
+        upgrade_mod_savepoint(true, 2026082803, 'videotrack');
+    }
+
     return true;
 }

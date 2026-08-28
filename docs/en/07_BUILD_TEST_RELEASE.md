@@ -41,7 +41,7 @@ and `.map`. Syntax-only JavaScript checks do not replace Grunt/ESLint.
 - Manual accessibility: keyboard, focus, reflow, forced colours and screen reader for UI changes.
 - Lifecycle: fresh install, upgrade, backup/restore, reset and Privacy API when related code/schema changes.
 
-The current distributed suites contain 269 PHPUnit tests / 2409 assertions and 23 Behat scenarios /
+The current distributed suites contain 272 PHPUnit tests / 2491 assertions and 23 Behat scenarios /
 342 steps per supported Moodle branch. These numbers are expectations, not a pass claim.
 
 ## Schema and data checks

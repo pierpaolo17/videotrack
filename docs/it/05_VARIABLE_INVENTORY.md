@@ -2,10 +2,10 @@
 
 Questo documento registra campi persistenti e contratti di configurazione pubblici. Le variabili locali restano documentate da tipi, DocBlock e JSDoc del sorgente.
 
-`db/install.xml` dichiara attualmente chiavi primarie e indici espliciti, ma nessuna foreign key XMLDB. Campi come
-`videotrackid`, `courseid`, `cmid` e `userid` sono riferimenti applicativi nell'albero corrente. Le chiavi
-foreign/unique XMLDB sono metadata che generano indici, non vincoli fisici di integrità referenziale; classificazione
-completa e finding separato di qualità schema sono in
+`db/install.xml` dichiara 22 foreign key XMLDB stabili per `videotrackid`, `courseid`, `cmid`, `userid` e il campo
+principale `course`. Moodle genera un indice esatto per ogni dichiarazione, ma nessun vincolo fisico di integrità o
+cascade. `linkedforumid` e `reactionid` restano riferimenti applicativi condizionali perché `0` è valido. La
+classificazione completa e il contratto del validatore sono in
 [`../VIDEOTRACK_DB_ER_SCHEMA.md`](../VIDEOTRACK_DB_ER_SCHEMA.md).
 
 ## Tabelle XMLDB
@@ -207,6 +207,24 @@ Explicit learner acknowledgements of versioned activity statements
 | `viewedseconds` | `number`(10) | nullable | Secondi unici coperti alla conferma; null per conferme storiche |
 | `viewedpercent` | `number`(6) | nullable | Percentuale video coperta alla conferma; null per conferme storiche |
 | `timeconfirmed` | `int`(10) | NOT NULL; default `0` |  |
+
+## Chiavi e indici
+
+Ogni tabella ha la chiave primaria su `id`. Le foreign key generano indici non univoci esatti; tali indici generati
+non sono duplicati intenzionalmente sotto `<INDEXES>`.
+
+| Tabella | Foreign key XMLDB | Indici espliciti |
+|---|---|---|
+| `videotrack` | `course → course.id` | `videoid_idx(videoid)` |
+| `videotrack_seg` | `videotrackid → videotrack.id`; `courseid → course.id`; `cmid → course_modules.id`; `userid → user.id` | `vt_user_idx(videotrackid,userid)`; `session_idx(sessionid)`; `cm_user_idx(cmid,userid)`; `vt_user_sess_time_idx(videotrackid,userid,sessionid,timecreated)`; univoco `vt_user_request_uix(videotrackid,userid,requestid)` |
+| `videotrack_state` | le stesse quattro relazioni stabili delle tabelle figlie | univoco `vt_user_uix(videotrackid,userid)`; `cm_user_idx(cmid,userid)` |
+| `videotrack_integrity` | le stesse quattro relazioni stabili delle tabelle figlie | `vt_user_idx(videotrackid,userid)`; `cm_user_idx(cmid,userid)`; `event_idx(videotrackid,eventtype)`; `time_idx(timecreated)` |
+| `videotrack_react` | `videotrackid → videotrack.id` | `vt_sort_idx(videotrackid,sortorder)` |
+| `videotrack_reactev` | le stesse quattro relazioni stabili delle tabelle figlie | `vt_reaction_idx`; `user_vt_idx`; `vt_user_sess_time_idx`; `vt_user_del_type_time_idx`; `vt_user_reaction_del_time_idx`; `vt_user_note_del_time_idx` (ordine campi autorevole in `install.xml`) |
+| `videotrack_acknowledge` | le stesse quattro relazioni stabili delle tabelle figlie | univoco `vt_user_hash_uix(videotrackid,userid,statementhash)`; `cm_user_idx(cmid,userid)`; `time_idx(timeconfirmed)` |
+
+Il totale installato non primario è di 44 indici: 22 indici espliciti e 22 indici esatti generati dalle foreign key.
+`cli/validate.php` controlla entrambi i gruppi e segnala orfani o incoerenze semantiche di contesto senza scrivere dati.
 
 ## Impostazioni sito
 

@@ -14,7 +14,10 @@ The validator checks:
 
 - installed plugin version against `version.php`;
 - supported Moodle branch;
-- installed database schema against `db/install.xml`;
+- installed tables, fields, explicit indexes and foreign-key backing indexes against `db/install.xml`;
+- orphan detection for all 22 declared stable relations;
+- consistency of each denormalised `courseid`/`cmid` with the parent activity and the VideoTrack course module;
+- conditional Forum and reaction references, respecting their legitimate `0` sentinels;
 - AJAX service declarations and external methods;
 - key/placeholder parity across eight language packs;
 - AMD source/build/source-map correspondence;
@@ -23,6 +26,10 @@ The validator checks:
 
 Exit status is non-zero when a check fails. Warnings require review even when no failure is present. The tool does
 not install, upgrade, write settings or repair data.
+
+Use `--strict` for release evidence. The JSON `xmldb` detail separates explicit index and foreign-key counts and
+lists missing objects or orphan counts. `reference_integrity` reports semantic context and conditional-reference
+findings. A failure must be investigated against a database backup; the validator deliberately has no repair mode.
 
 ## Course Analytics benchmark
 

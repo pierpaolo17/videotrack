@@ -1,5 +1,21 @@
 # VideoTrack changelog
 
+## 1.7.119 - 2026-08-28
+
+### Changed
+
+- Declared 22 stable VideoTrack-to-plugin/core relationships as XMLDB foreign-key metadata and added their exact
+  backing indexes through an idempotent upgrade step.
+- Kept `videotrack.linkedforumid` and `videotrack_reactev.reactionid` as conditional application references because
+  both legitimately use `0` as a sentinel.
+- Extended the read-only release validator with foreign-key/index parity, orphan detection, denormalised
+  course/course-module consistency and conditional Forum/reaction checks.
+
+### Tests and documentation
+
+- Added XMLDB relationship and migration regression tests.
+- Aligned the bilingual database, lifecycle, CLI and ER documentation with the hardened schema.
+
 ## 1.7.118 - 2026-08-28
 
 ### Changed

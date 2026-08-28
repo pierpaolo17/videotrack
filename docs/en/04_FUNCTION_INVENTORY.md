@@ -1,6 +1,6 @@
 # Function inventory
 
-Generated from the VideoTrack 1.7.118 source tree. PHP entries include named functions and methods; AMD entries include named declarations, assigned function expressions and object-method functions.
+Generated from the VideoTrack 1.7.119 source tree. PHP entries include named functions and methods; AMD entries include named declarations, assigned function expressions and object-method functions.
 
 **PHP functions/methods:** 749. **Named AMD callables:** 652.
 
@@ -1180,8 +1180,8 @@ Generated from the VideoTrack 1.7.118 source tree. PHP entries include named fun
 | `tests/behat/behat_mod_videotrack.php:576` | `the_latest_seek_segment_matches_the_pre_seek_browser_time` | Verifies the raw pre-seek endpoint and rejects any aggregate credit or resume position inside the skipped gap. |
 | `tests/behat/behat_mod_videotrack.php:650` | `the_videotrack_completion_requirements_are_stacked_vertically` | Verifies computed column layout and non-overlapping vertical geometry for grouped Moodle completion items. |
 | `tests/cli_contract_test.php:35` | `test_validator_is_read_only_and_covers_release_contracts` | Named PHP function/method `test_validator_is_read_only_and_covers_release_contracts`; see source DocBlock and callers for the current contract. |
-| `tests/cli_contract_test.php:57` | `test_course_analytics_benchmark_uses_real_read_only_metrics` | Named PHP function/method `test_course_analytics_benchmark_uses_real_read_only_metrics`; see source DocBlock and callers for the current contract. |
-| `tests/cli_contract_test.php:79` | `test_cli_tools_are_documented_for_admins_and_maintainers` | Named PHP function/method `test_cli_tools_are_documented_for_admins_and_maintainers`; see source DocBlock and callers for the current contract. |
+| `tests/cli_contract_test.php:62` | `test_course_analytics_benchmark_uses_real_read_only_metrics` | Named PHP function/method `test_course_analytics_benchmark_uses_real_read_only_metrics`; see source DocBlock and callers for the current contract. |
+| `tests/cli_contract_test.php:84` | `test_cli_tools_are_documented_for_admins_and_maintainers` | Named PHP function/method `test_cli_tools_are_documented_for_admins_and_maintainers`; see source DocBlock and callers for the current contract. |
 | `tests/completion_contract_test.php:39` | `test_required_reactions_activate_custom_completion` | Named PHP function/method `test_required_reactions_activate_custom_completion`; see source DocBlock and callers for the current contract. |
 | `tests/completion_contract_test.php:59` | `test_required_reaction_or_semantics_match_tracker` | Named PHP function/method `test_required_reaction_or_semantics_match_tracker`; see source DocBlock and callers for the current contract. |
 | `tests/completion_contract_test.php:80` | `test_disabled_acknowledgement_is_excluded_from_tracker_completion` | Named PHP function/method `test_disabled_acknowledgement_is_excluded_from_tracker_completion`; see source DocBlock and callers for the current contract. |
@@ -1397,10 +1397,13 @@ Generated from the VideoTrack 1.7.118 source tree. PHP entries include named fun
 | `tests/tracker_test.php:866` | `test_allowed_forward_seek_requires_validated_interaction_timestamp` | Named PHP function/method `test_allowed_forward_seek_requires_validated_interaction_timestamp`; see source DocBlock and callers for the current contract. |
 | `tests/tracker_test.php:919` | `test_allowed_forward_seek_rejects_stale_or_different_session_interaction` | Named PHP function/method `test_allowed_forward_seek_rejects_stale_or_different_session_interaction`; see source DocBlock and callers for the current contract. |
 | `tests/upgrade_contract_test.php:35` | `test_modern_schema_fast_forward_precedes_legacy_steps` | Named PHP function/method `test_modern_schema_fast_forward_precedes_legacy_steps`; see source DocBlock and callers for the current contract. |
-| `tests/upgrade_contract_test.php:78` | `test_failed_install_schema_recovery_supersedes_obsolete_lineage` | Named PHP function/method `test_failed_install_schema_recovery_supersedes_obsolete_lineage`; see source DocBlock and callers for the current contract. |
-| `tests/upgrade_contract_test.php:108` | `test_gradebook_recovery_uses_dml_only` | Named PHP function/method `test_gradebook_recovery_uses_dml_only`; see source DocBlock and callers for the current contract. |
-| `tests/upgrade_contract_test.php:130` | `test_preproduction_gradebook_repair_covers_install_and_upgrade` | Named PHP function/method `test_preproduction_gradebook_repair_covers_install_and_upgrade`; see source DocBlock and callers for the current contract. |
-| `tests/upgrade_contract_test.php:152` | `test_duplicate_grade_item_repair_is_upgrade_safe` | Named PHP function/method `test_duplicate_grade_item_repair_is_upgrade_safe`; see source DocBlock and callers for the current contract. |
+| `tests/upgrade_contract_test.php:82` | `test_failed_install_schema_recovery_supersedes_obsolete_lineage` | Named PHP function/method `test_failed_install_schema_recovery_supersedes_obsolete_lineage`; see source DocBlock and callers for the current contract. |
+| `tests/upgrade_contract_test.php:112` | `test_gradebook_recovery_uses_dml_only` | Named PHP function/method `test_gradebook_recovery_uses_dml_only`; see source DocBlock and callers for the current contract. |
+| `tests/upgrade_contract_test.php:134` | `test_preproduction_gradebook_repair_covers_install_and_upgrade` | Named PHP function/method `test_preproduction_gradebook_repair_covers_install_and_upgrade`; see source DocBlock and callers for the current contract. |
+| `tests/upgrade_contract_test.php:156` | `test_duplicate_grade_item_repair_is_upgrade_safe` | Named PHP function/method `test_duplicate_grade_item_repair_is_upgrade_safe`; see source DocBlock and callers for the current contract. |
+| `tests/xmldb_relationship_contract_test.php:35` | `test_stable_foreign_keys_are_declared` | Verifies the exact 22 stable XMLDB foreign-key declarations. |
+| `tests/xmldb_relationship_contract_test.php:94` | `test_conditional_references_are_not_declared_as_foreign_keys` | Protects legitimate zero-sentinel Forum and reaction references. |
+| `tests/xmldb_relationship_contract_test.php:121` | `test_foreign_key_indexes_are_not_duplicated_explicitly` | Prevents explicit duplication of XMLDB-generated backing indexes. |
 | `tests/vimeo_seek_contract_test.php:35` | `test_blocked_seek_resume_does_not_wait_for_penalty_promise` | Named PHP function/method `test_blocked_seek_resume_does_not_wait_for_penalty_promise`; see source DocBlock and callers for the current contract. |
 | `tests/vimeo_seek_contract_test.php:56` | `test_blocked_seek_clears_forward_guard_after_rollback` | Named PHP function/method `test_blocked_seek_clears_forward_guard_after_rollback`; see source DocBlock and callers for the current contract. |
 | `tests/vimeo_seek_contract_test.php:74` | `test_blocked_seek_resume_retries_never_reseek` | Named PHP function/method `test_blocked_seek_resume_retries_never_reseek`; see source DocBlock and callers for the current contract. |

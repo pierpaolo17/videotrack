@@ -41,7 +41,7 @@ La sola sintassi JavaScript non sostituisce Grunt/ESLint.
 - Accessibilità manuale: tastiera, focus, reflow, forced colours e screen reader per modifiche UI.
 - Ciclo di vita: installazione, upgrade, backup/restore, reset e Privacy API per codice/schema correlato.
 
-Le suite distribuite correnti contengono 269 test PHPUnit / 2409 asserzioni e 23 scenari Behat /
+Le suite distribuite correnti contengono 272 test PHPUnit / 2491 asserzioni e 23 scenari Behat /
 342 step per ramo Moodle supportato. I conteggi sono aspettative, non una dichiarazione di pass.
 
 ## Controlli schema e dati
