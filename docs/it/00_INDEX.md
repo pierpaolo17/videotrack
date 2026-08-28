@@ -1,46 +1,50 @@
-# Indice documentazione VideoTrack
+# Indice della documentazione VideoTrack
 
-Release documentata: **1.7.115** (`2026082704`).
+Questa è la documentazione italiana autorevole di VideoTrack **1.7.116** (`2026082800`), compatibile
+con Moodle 5.0–5.3. Descrive esclusivamente l'albero corrente. La cronologia delle release appartiene
+al `CHANGELOG.md` principale e al tag sorgente della versione interessata.
 
-Lo storico pubblico delle release è mantenuto in [`../../CHANGELOG.md`](../../CHANGELOG.md). Gli artefatti interni di roadmap e lesson learned per il maintainer non sono distribuiti con il plugin.
+## Da dove iniziare
 
-1. `01_DEVELOPER_GUIDE.md` — workflow di manutenzione e disciplina delle modifiche.
-2. `02_ARCHITECTURE.md` — confini dei componenti, adapter, storage e modello di fiducia.
-3. `03_FILE_INVENTORY.md` — ogni file non documentale distribuito dal plugin.
-4. `04_FUNCTION_INVENTORY.md` — ogni funzione/metodo PHP nominato e callable AMD nominato rilevato.
-5. `05_VARIABLE_INVENTORY.md` — campi XMLDB, impostazioni sito, servizi AJAX e chiavi di configurazione player.
-6. `06_RUNTIME_FLOWS.md` — flussi completi di player, tracking, strumenti di studio, report e privacy.
-7. `07_BUILD_TEST_RELEASE.md` — procedura di validazione e rilascio.
-8. `08_LESSONS_LEARNED.md` — regole tecniche specifiche del progetto.
-9. `09_DOCUMENTATION_AUDIT.md` — contratto di copertura e aggiornamento documentale.
-10. `10_BOOKMARKS_AND_ANALYTICS.md` — proprietà, report e privacy dei segnalibri.
-11. `11_INTEGRITY_AND_FOCUS.md` — focus, indicatori, limiti e accessibilità.
-12. `12_ACKNOWLEDGEMENT.md` — presa visione versionata e Analytics.
-13. `13_CONSOLIDATION_AUDIT.md` — risultati e stato di validazione del consolidamento 1.6.23.
+1. [`funzionalita.md`](funzionalita.md) — guida completa per utenti e amministratori.
+2. [`01_DEVELOPER_GUIDE.md`](01_DEVELOPER_GUIDE.md) — workflow di sviluppo sicuro e confini di fiducia.
+3. [`02_ARCHITECTURE.md`](02_ARCHITECTURE.md) — componenti, responsabilità e integrazioni.
+4. [`struttura_tecnica.md`](struttura_tecnica.md) — mappa tecnica sintetica per orientarsi.
 
-Sintesi correnti aggiuntive:
+## Documentazione di riferimento
 
-- `funzionalita.md` — catalogo funzionale.
-- `struttura_tecnica.md` — mappa tecnica sintetica.
+5. [`03_FILE_INVENTORY.md`](03_FILE_INVENTORY.md) — tutti i file non documentali distribuiti.
+6. [`04_FUNCTION_INVENTORY.md`](04_FUNCTION_INVENTORY.md) — callable PHP e AMD nominati.
+7. [`05_VARIABLE_INVENTORY.md`](05_VARIABLE_INVENTORY.md) — tabelle, impostazioni, capability, servizi e file area.
+8. [`06_RUNTIME_FLOWS.md`](06_RUNTIME_FLOWS.md) — flussi correnti dal caricamento pagina alla persistenza.
+9. [`07_BUILD_TEST_RELEASE.md`](07_BUILD_TEST_RELEASE.md) — build, validazione e gate di release.
+10. [`08_MAINTENANCE_RULES.md`](08_MAINTENANCE_RULES.md) — regole obbligatorie di manutenzione.
+11. [`09_DOCUMENTATION_AUDIT.md`](09_DOCUMENTATION_AUDIT.md) — audit di copertura, freschezza e parità.
+12. [`10_BOOKMARKS_AND_ANALYTICS.md`](10_BOOKMARKS_AND_ANALYTICS.md) — dati di studio personali e analytics aggregati.
+13. [`11_INTEGRITY_AND_FOCUS.md`](11_INTEGRITY_AND_FOCUS.md) — segnali diagnostici e politica focus.
+14. [`12_ACKNOWLEDGEMENT.md`](12_ACKNOWLEDGEMENT.md) — presa visione learner versionata.
+15. [`13_SECURITY_TRUST_BOUNDARIES.md`](13_SECURITY_TRUST_BOUNDARIES.md) — autorità server e modello di sicurezza.
+16. [`14_INSTALL_UPGRADE_BACKUP_RESTORE.md`](14_INSTALL_UPGRADE_BACKUP_RESTORE.md) — operazioni sul ciclo di vita dati.
+17. [`15_MEDIA_PROVIDERS_DURATION.md`](15_MEDIA_PROVIDERS_DURATION.md) — contratti HTML5, YouTube e Vimeo.
+18. [`16_ROLES_CAPABILITIES.md`](16_ROLES_CAPABILITIES.md) — partecipazione e modello dei permessi.
+19. [`17_TRACKING_COMPLETION_GRADEBOOK.md`](17_TRACKING_COMPLETION_GRADEBOOK.md) — evidenze viste e risultati.
+20. [`18_PRIVACY_RETENTION.md`](18_PRIVACY_RETENTION.md) — dati personali, Privacy API e retention.
+21. [`19_ACCESSIBILITY.md`](19_ACCESSIBILITY.md) — tastiera, focus, reflow e tecnologie assistive.
+22. [`20_TROUBLESHOOTING.md`](20_TROUBLESHOOTING.md) — diagnostica operativa per sintomo.
+23. [`21_CLI_DIAGNOSTICS.md`](21_CLI_DIAGNOSTICS.md) — validatore in sola lettura e benchmark Analytics.
+24. [`22_TEST_BROWSER_BEHAT.md`](22_TEST_BROWSER_BEHAT.md) — copertura browser deterministica.
 
-I documenti storici sono isolati in `archive/` e non sono autorevoli per il codice corrente.
+## Artefatti database ed ER
 
-14. `14_HARDENING_1_6_23.md` — hardening di sicurezza, confine di fiducia e scope learner prima della fase App.
+- [Riferimento database/ER](../VIDEOTRACK_DB_ER_SCHEMA.md)
+- [Sorgente Mermaid](../VIDEOTRACK_DB_ER_SCHEMA.mmd)
+- [SVG accessibile](../VIDEOTRACK_DB_ER_SCHEMA.svg)
 
-15. `15_UPGRADE_RECOVERY_1_6_24.md` — recovery idempotente dall’upgrade database 1.6.23 fallito.
+Il riferimento ER distingue dichiarazioni XMLDB, collegamenti Moodle standard, riferimenti condizionali
+e snapshot denormalizzati. Una linea del diagramma non implica da sola un vincolo fisico nel database.
 
-16. `16_AUTOMATIC_DURATION_1_6_27.md` — proposta della durata nel form docente da metadati YouTube, Vimeo e locali.
+## Parità linguistica
 
-17. `17_PARTICIPATION_SCOPE_1_6_29.md` — capability learner esplicita condivisa da UI, servizi e report.
-
-18. `18_BOOKMARK_PERSISTENCE_1_6_30.md` — persistenza del progresso dei segnalibri e parità dei motivi client/server.
-
-19. `19_TRACKING_LEDGER_1_6_32.md` — handshake a credito zero, richieste segmento idempotenti e copertura esatta monotona.
-
-20. `20_GDPR_RETENTION_1_6_33.md` — retention basata sulla cancellazione, ricostruzione dello stato e confini privacy di backup/restore.
-
-21. `21_CLI_DIAGNOSTICS.md` — validatore release in sola lettura e benchmark Course Analytics per diagnostica locale/staging.
-
-22. `22_TEST_BROWSER_BEHAT.md` — setup Moodle Behat, copertura browser corrente e limiti provider/test espliciti.
-
-23. [`../VIDEOTRACK_DB_ER_SCHEMA.md`](../VIDEOTRACK_DB_ER_SCHEMA.md) — riferimento condiviso database/ER, con file Mermaid e SVG autonomi.
+L'albero inglese in `docs/en/` ha lo stesso perimetro e la stessa struttura documentale. I nomi dei file
+differiscono solo dove viene mantenuta una denominazione italiana consolidata. Una release non è completa
+finché entrambi gli alberi e le README principali non concordano con il codice corrente.

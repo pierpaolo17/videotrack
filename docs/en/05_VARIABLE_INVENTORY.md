@@ -2,6 +2,12 @@
 
 This document records persistent fields and public configuration contracts. Local implementation variables remain documented by source type declarations, DocBlocks and JSDoc.
 
+`db/install.xml` currently declares primary keys and explicit indexes but no XMLDB foreign keys. Fields such as
+`videotrackid`, `courseid`, `cmid` and `userid` are application-level references in the current tree. Moodle XMLDB
+foreign/unique keys are metadata that generate indexes rather than physical referential constraints; the exact
+relationship classification and the separate schema-quality finding are documented in
+[`../VIDEOTRACK_DB_ER_SCHEMA.md`](../VIDEOTRACK_DB_ER_SCHEMA.md).
+
 ## XMLDB tables
 
 ### `videotrack`

@@ -2,6 +2,12 @@
 
 Questo documento registra campi persistenti e contratti di configurazione pubblici. Le variabili locali restano documentate da tipi, DocBlock e JSDoc del sorgente.
 
+`db/install.xml` dichiara attualmente chiavi primarie e indici espliciti, ma nessuna foreign key XMLDB. Campi come
+`videotrackid`, `courseid`, `cmid` e `userid` sono riferimenti applicativi nell'albero corrente. Le chiavi
+foreign/unique XMLDB sono metadata che generano indici, non vincoli fisici di integrità referenziale; classificazione
+completa e finding separato di qualità schema sono in
+[`../VIDEOTRACK_DB_ER_SCHEMA.md`](../VIDEOTRACK_DB_ER_SCHEMA.md).
+
 ## Tabelle XMLDB
 
 ### `videotrack`

@@ -15,8 +15,8 @@
   </style>
 </defs>
 <rect class="background" x="0" y="0" width="2160" height="1260"/>
-<text class="title" x="40" y="52">VideoTrack 1.7.115 / 2026082704 — schema ER e integrazioni Moodle core</text>
-<text class="subtitle" x="40" y="82">XMLDB 2026082301 · nessuna migrazione nella 1.7.115 · FK(L) = relazione logica, non foreign key fisica</text>
+<text class="title" x="40" y="52">VideoTrack 1.7.116 / 2026082800 — database ER and Moodle core integrations</text>
+<text class="subtitle" x="40" y="82">XMLDB 2026082301 · FK(L) = logical relation not declared as an XMLDB foreign key</text>
 <line class="relation" x1="40" y1="110" x2="105" y2="110"/><text class="legend" x="115" y="115">relazione persistita/logica</text>
 <line class="indirect" x1="345" y1="110" x2="410" y2="110"/><text class="legend" x="420" y="115">integrazione gestita dalle API Moodle</text>
 <text class="section" x="40" y="138">Moodle core</text>
@@ -197,5 +197,5 @@
 <path class="relation" d="M1230,975 L1575,975" marker-end="url(#arrow)"/>
 <text class="edge-label" x="1402.5" y="968.0">reactionid opzionale</text>
 <text class="section" x="40" y="1205">Riferimenti comuni delle tabelle personali</text>
-<text class="note" x="40" y="1234">courseid → course.id · cmid → course_modules.id · userid → user.id · nessuno di questi vincoli è dichiarato come FK fisica in install.xml</text>
+<text class="note" x="40" y="1234">courseid → course.id · cmid → course_modules.id · userid → user.id · these relations are not declared as XMLDB foreign keys</text>
 </svg>

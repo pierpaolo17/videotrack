@@ -1,6 +1,6 @@
 # Inventario dei file distribuiti
 
-Questo inventario è generato sull’albero VideoTrack 1.7.115 ed elenca ogni file non documentale. Il JavaScript canonico è in `amd/src`; i file in `amd/build` sono generati.
+Questo inventario è generato sull’albero VideoTrack 1.7.116 ed elenca ogni file non documentale. Il JavaScript canonico è in `amd/src`; i file in `amd/build` sono generati.
 
 Entries: **292**.
 
@@ -233,7 +233,7 @@ Entries: **292**.
 | `lib.php` | Lifecycle Moodle, feature support, gradebook, completamento, File API e callback di reset. |
 | `locallib.php` | Helper procedurali condivisi per URL, timestamp, stato, report, file area e configurazione. |
 | `mod_form.php` | Form impostazioni attività, validazione, file manager e completamento personalizzato. |
-| `pix/icon.svg` | Icona dell’attività. |
+| `pix/icon.png` | Icona attività Moodle a colori fornita per questa release. |
 | `presets.php` | Interfaccia docente/amministratore per preset riutilizzabili delle reazioni. |
 | `report.php` | Report docente di istanza e pagina Analytics esatta per viewer autorizzati, con export CSV/Excel/ODS. |
 | `reports_course.php` | Dashboard docente delle attività VideoTrack del corso. |

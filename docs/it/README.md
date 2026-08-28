@@ -1,9 +1,11 @@
-# Documentazione tecnica VideoTrack
+# Documentazione VideoTrack
 
-Questa cartella è la fonte italiana corrente per la manutenzione di VideoTrack 1.7.74. Il punto di ingresso è `00_INDEX.md`.
+Questa directory contiene la documentazione italiana corrente per utenti, amministratori e sviluppatori
+di VideoTrack 1.7.116. Il punto di ingresso è [`00_INDEX.md`](00_INDEX.md).
 
-I documenti numerati descrivono architettura, ogni file sorgente/build distribuito, funzioni PHP e AMD nominate, contratti dati/configurazione, flussi runtime, regole build/test/release, privacy, accessibilità e comportamento delle funzioni principali.
+La documentazione è intenzionalmente legata alla versione: spiega il codice distribuito in questa release
+e non incorpora l'evoluzione delle release precedenti. Per una cronologia sintetica usare il `CHANGELOG.md`
+principale; per i dettagli di una versione precedente consultare il relativo tag Git.
 
-I file in `archive/` sono documenti tecnici storici e non devono essere usati come guida dell’implementazione corrente.
-
-La documentazione inglese si trova in `../en/`.
+Ogni modifica documentale deve essere riportata anche in `docs/en/`, verificata sul sorgente e inclusa
+nelle stesse evidenze di release delle modifiche al codice.

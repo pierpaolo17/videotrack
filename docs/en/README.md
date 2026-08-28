@@ -1,9 +1,11 @@
-# VideoTrack technical documentation
+# VideoTrack documentation
 
-This directory is the current English maintenance source for VideoTrack 1.7.74. Start with `00_INDEX.md`.
+This directory contains the current English user, administrator and developer documentation for
+VideoTrack 1.7.116. Start with [`00_INDEX.md`](00_INDEX.md).
 
-The numbered documents describe architecture, every distributed source/build file, named PHP and AMD functions, data/configuration contracts, runtime flows, build/test/release rules, privacy, accessibility and feature-specific behaviour.
+The documentation is deliberately version-local: it explains the code shipped in this release and
+does not embed the evolution of older releases. Use the root `CHANGELOG.md` for a concise release
+history and the corresponding Git tag when older implementation details are required.
 
-Files under `archive/` are historical engineering records and must not be used as current implementation guidance.
-
-Italian technical documentation is in `../it/`.
+Documentation changes must be mirrored in `docs/it/`, checked against the source and included in the
+same release evidence as code changes.

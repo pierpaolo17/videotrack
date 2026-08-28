@@ -12,7 +12,7 @@ Quando è richiesta la modalità rigida, ogni corso contenente VideoTrack riceve
 
 ## Credito di riproduzione server-authoritative
 
-Il playback tracciato inizia soltanto dopo che `start_playback` apre una finestra di credito vincolata alla sessione browser corrente. Le scritture di segmenti provenienti da una sessione diversa o obsoleta restano disponibili come evidenza di audit non autorevole, ma non possono avanzare la copertura vista. Una pausa, fine o chiusura lifecycle per pagina nascosta accettata svuota sessione attiva e timestamp attività server, quindi la ripresa deve eseguire un nuovo handshake. La release 1.7.106 verifica end-to-end il percorso HTML5 reale play/pause facendo coincidere gli identificatori di sessione `playstart` e `pause` accettato e controllando la chiusura della finestra server.
+Il playback tracciato inizia soltanto dopo che `start_playback` apre una finestra di credito vincolata alla sessione browser corrente. Le scritture di segmenti provenienti da una sessione diversa o obsoleta restano disponibili come evidenza di audit non autorevole, ma non possono avanzare la copertura vista. Una pausa, fine o chiusura lifecycle per pagina nascosta accettata svuota sessione attiva e timestamp attività server, quindi la ripresa deve eseguire un nuovo handshake. Il contratto browser HTML5 deterministico fa coincidere gli identificatori di sessione `playstart` e `pause` accettato e verifica la chiusura della finestra server.
 
 ## Segnali
 
