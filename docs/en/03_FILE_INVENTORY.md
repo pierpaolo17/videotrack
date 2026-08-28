@@ -1,8 +1,8 @@
 # Distributed file inventory
 
-This inventory is generated against the VideoTrack 1.7.116 tree and lists every non-documentation file. Canonical JavaScript is under `amd/src`; files under `amd/build` are generated.
+This inventory is generated against the VideoTrack 1.7.117 tree and lists every non-documentation file. Canonical JavaScript is under `amd/src`; files under `amd/build` are generated.
 
-Entries: **292**.
+Entries: **293**.
 
 | File | Responsibility |
 |---|---|
@@ -234,6 +234,7 @@ Entries: **292**.
 | `locallib.php` | Shared procedural helpers for URLs, timestamps, state, reports, file areas and configuration. |
 | `mod_form.php` | Activity settings form, validation, file managers and custom completion fields. |
 | `pix/icon.png` | Full-colour Moodle activity icon supplied for this release. |
+| `pix/icon.svg` | Self-contained transparent counterpart of the selected PNG, used by Moodle course formats and Boost activity containers. |
 | `presets.php` | Teacher/admin interface for reusable reaction presets. |
 | `report.php` | Instance teacher report and exact authorised Analytics page, including CSV/Excel/ODS export. |
 | `reports_course.php` | Course-level teacher dashboard across VideoTrack activities. |
