@@ -1,5 +1,17 @@
 # VideoTrack changelog
 
+## 1.7.117 - 2026-08-28
+
+### Fixed
+
+- Restored the SVG activity-icon contract required by Moodle course formats and Boost. The selected full-colour
+  transparent PNG remains available for plugin-management surfaces; a self-contained SVG counterpart renders the
+  same artwork inside the coloured course activity container instead of leaving an empty `#0099ad` square.
+
+### Documentation
+
+- Updated both documentation trees, file inventories and ER/release markers for 1.7.117.
+
 ## 1.7.116 - 2026-08-28
 
 - Reorganised the Italian and English documentation as a current-version reference for users,

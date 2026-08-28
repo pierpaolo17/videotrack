@@ -1,8 +1,8 @@
 # Function inventory
 
-Generated from the VideoTrack 1.7.116 source tree. PHP entries include named functions and methods; AMD entries include named declarations, assigned function expressions and object-method functions.
+Generated from the VideoTrack 1.7.117 source tree. PHP entries include named functions and methods; AMD entries include named declarations, assigned function expressions and object-method functions.
 
-**PHP functions/methods:** 748. **Named AMD callables:** 652.
+**PHP functions/methods:** 749. **Named AMD callables:** 652.
 
 | Location | Callable | Responsibility |
 |---|---|---|
@@ -1306,9 +1306,10 @@ Generated from the VideoTrack 1.7.116 source tree. PHP entries include named fun
 | `tests/release_hygiene_contract_test.php:49` | `test_environment_italian_feedback_uses_utf8` | Named PHP function/method `test_environment_italian_feedback_uses_utf8`; see source DocBlock and callers for the current contract. |
 | `tests/release_hygiene_contract_test.php:65` | `test_readmes_and_changelog_track_current_release` | Named PHP function/method `test_readmes_and_changelog_track_current_release`; see source DocBlock and callers for the current contract. |
 | `tests/release_hygiene_contract_test.php:105` | `test_current_documentation_tracks_release` | Named PHP function/method `test_current_documentation_tracks_release`; see source DocBlock and callers for the current contract. |
-| `tests/release_hygiene_contract_test.php:160` | `test_phpunit_coverage_metadata_uses_attributes` | Named PHP function/method `test_phpunit_coverage_metadata_uses_attributes`; see source DocBlock and callers for the current contract. |
-| `tests/release_hygiene_contract_test.php:181` | `test_maintained_language_packs_share_keys_and_placeholders` | Named PHP function/method `test_maintained_language_packs_share_keys_and_placeholders`; see source DocBlock and callers for the current contract. |
-| `tests/release_hygiene_contract_test.php:233` | `test_privacy_summaries_keep_parallel_section_structure` | Named PHP function/method `test_privacy_summaries_keep_parallel_section_structure`; see source DocBlock and callers for the current contract. |
+| `tests/release_hygiene_contract_test.php:160` | `test_activity_icon_assets_cover_png_and_svg_renderers` | Named PHP function/method `test_activity_icon_assets_cover_png_and_svg_renderers`; see source DocBlock and callers for the current contract. |
+| `tests/release_hygiene_contract_test.php:177` | `test_phpunit_coverage_metadata_uses_attributes` | Named PHP function/method `test_phpunit_coverage_metadata_uses_attributes`; see source DocBlock and callers for the current contract. |
+| `tests/release_hygiene_contract_test.php:198` | `test_maintained_language_packs_share_keys_and_placeholders` | Named PHP function/method `test_maintained_language_packs_share_keys_and_placeholders`; see source DocBlock and callers for the current contract. |
+| `tests/release_hygiene_contract_test.php:250` | `test_privacy_summaries_keep_parallel_section_structure` | Named PHP function/method `test_privacy_summaries_keep_parallel_section_structure`; see source DocBlock and callers for the current contract. |
 | `tests/report_access_test.php:37` | `test_aggregate_only_role_keeps_individual_access_separate` | PHP callable `test_aggregate_only_role_keeps_individual_access_separate`; behavioural contract for delegated aggregate-only report access. |
 | `tests/report_access_test.php:59` | `test_individual_view_implies_aggregate_view_without_export_permissions` | PHP callable `test_individual_view_implies_aggregate_view_without_export_permissions`; behavioural contract for view/export separation. |
 | `tests/report_access_test.php:79` | `test_legacy_viewreport_remains_full_access` | PHP callable `test_legacy_viewreport_remains_full_access`; backwards-compatibility contract for historical report roles. |
