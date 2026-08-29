@@ -1010,7 +1010,7 @@ Generato dall’albero sorgente VideoTrack 1.7.119. Le voci PHP includono funzio
 | `db/repairlib.php:272` | `videotrack_repair_preproduction_unique_index_data` | Funzione/metodo PHP nominato `videotrack_repair_preproduction_unique_index_data`; vedere DocBlock e chiamanti per il contratto corrente. |
 | `db/repairlib.php:293` | `videotrack_repair_preproduction_requestids` | Funzione/metodo PHP nominato `videotrack_repair_preproduction_requestids`; vedere DocBlock e chiamanti per il contratto corrente. |
 | `db/repairlib.php:334` | `videotrack_repair_preproduction_deduplicate` | Funzione/metodo PHP nominato `videotrack_repair_preproduction_deduplicate`; vedere DocBlock e chiamanti per il contratto corrente. |
-| `db/uninstall.php:38` | `xmldb_videotrack_uninstall` | Elimina i dati gradebook prima che il core rimuova i contesti modulo, con fallback circoscritto per record incoerenti. |
+| `db/uninstall.php:36` | `xmldb_videotrack_uninstall` | Elimina i dati gradebook prima che il core rimuova i contesti modulo, con fallback circoscritto per record incoerenti. |
 | `db/upgrade.php:35` | `xmldb_videotrack_upgrade` | Callable PHP `xmldb_videotrack_upgrade`; DocBlock e chiamanti definiscono parametri, valori restituiti ed effetti. |
 | `lib.php:38` | `videotrack_supports` | Callable PHP `videotrack_supports`; DocBlock e chiamanti definiscono parametri, valori restituiti ed effetti. |
 | `lib.php:70` | `videotrack_whitelist_record` | Callable PHP `videotrack_whitelist_record`; DocBlock e chiamanti definiscono parametri, valori restituiti ed effetti. |

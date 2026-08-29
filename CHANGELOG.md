@@ -16,6 +16,8 @@
   VideoTrack activity, course and course module.
 - Advanced the internal version code to `2026082901` while retaining release `1.7.119`, allowing sites that already
   installed the original `2026082803` build to execute the corrective upgrade.
+- Removed the unnecessary `MOODLE_INTERNAL` guard from the side-effect-free uninstall hook definition file, satisfying
+  the canonical Moodle coding-standard rule without changing uninstall behaviour.
 
 ### Tests and documentation
 

@@ -1010,7 +1010,7 @@ Generated from the VideoTrack 1.7.119 source tree. PHP entries include named fun
 | `db/repairlib.php:272` | `videotrack_repair_preproduction_unique_index_data` | Named PHP function/method `videotrack_repair_preproduction_unique_index_data`; see source DocBlock and callers for the current contract. |
 | `db/repairlib.php:293` | `videotrack_repair_preproduction_requestids` | Named PHP function/method `videotrack_repair_preproduction_requestids`; see source DocBlock and callers for the current contract. |
 | `db/repairlib.php:334` | `videotrack_repair_preproduction_deduplicate` | Named PHP function/method `videotrack_repair_preproduction_deduplicate`; see source DocBlock and callers for the current contract. |
-| `db/uninstall.php:38` | `xmldb_videotrack_uninstall` | Removes VideoTrack gradebook data before Moodle core deletes module contexts, with a scoped fallback for malformed rows. |
+| `db/uninstall.php:36` | `xmldb_videotrack_uninstall` | Removes VideoTrack gradebook data before Moodle core deletes module contexts, with a scoped fallback for malformed rows. |
 | `db/upgrade.php:35` | `xmldb_videotrack_upgrade` | PHP callable `xmldb_videotrack_upgrade`; see its DocBlock and callers for parameter, return-value and side-effect details. |
 | `lib.php:38` | `videotrack_supports` | PHP callable `videotrack_supports`; see its DocBlock and callers for parameter, return-value and side-effect details. |
 | `lib.php:70` | `videotrack_whitelist_record` | PHP callable `videotrack_whitelist_record`; see its DocBlock and callers for parameter, return-value and side-effect details. |
