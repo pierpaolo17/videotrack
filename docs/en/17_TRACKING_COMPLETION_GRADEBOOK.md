@@ -37,7 +37,12 @@ can drive the core pass-grade completion condition. `showgradeto` controls activ
 permissions still govern access.
 
 Create/update/delete and restore use Moodle grade APIs. Repair logic normalises duplicate legacy items and moves
-user grades to the retained canonical item when necessary.
+user grades to the retained canonical item when necessary. A canonical item must identify item number `0`, the
+same course as its VideoTrack instance and exactly one corresponding VideoTrack course module.
+
+Full plugin uninstall does not call the normal instance-deletion callback for every activity. The custom early
+uninstall hook therefore removes valid grade items through the Grade API before Moodle core deletes module contexts.
+Only rows that cannot resolve a unique context use the DML-only cleanup path.
 
 ## Verification invariants
 
@@ -47,3 +52,4 @@ user grades to the retained canonical item when necessary.
 - reaction deletion and acknowledgement version changes refresh completion;
 - repeated refresh without a transition does not emit duplicate completion events/writes;
 - backup/restore rebuilds derived state and preserves grade/completion consistency.
+- CLI `gradebook_integrity` reports no invalid contexts or duplicate canonical items before uninstall.

@@ -26,10 +26,10 @@
  * Remove stale or ambiguous pre-production VideoTrack grade items.
  *
  * A valid VideoTrack grade item must be the unique itemnumber 0 row for an
- * existing VideoTrack instance in the same course. Orphan rows, non-canonical
- * item numbers, course mismatches and duplicate canonical rows can make
- * Moodle's standard grading form fail with morethanonerecordinfetch before the
- * activity form is rendered.
+ * existing VideoTrack instance and exactly one matching course module in the
+ * same course. Orphan rows, non-canonical item numbers, course/context
+ * mismatches and duplicate canonical rows can make Moodle's standard grading
+ * form fail with morethanonerecordinfetch before the activity form is rendered.
  *
  * The repair intentionally uses DML only. For duplicate canonical rows the
  * newest item is retained because Moodle's common restore step inserts it after
@@ -54,6 +54,21 @@ function videotrack_repair_preproduction_gradebook_rows(): void {
     }
 
     $instances = $DB->get_records('videotrack', null, '', 'id, course');
+    $coursemodulecounts = [];
+    $moduleid = (int)$DB->get_field('modules', 'id', ['name' => 'videotrack'], IGNORE_MISSING);
+    if ($moduleid > 0) {
+        $coursemodules = $DB->get_recordset(
+            'course_modules',
+            ['module' => $moduleid],
+            'id ASC',
+            'id, course, instance'
+        );
+        foreach ($coursemodules as $coursemodule) {
+            $contextkey = (int)$coursemodule->instance . ':' . (int)$coursemodule->course;
+            $coursemodulecounts[$contextkey] = ($coursemodulecounts[$contextkey] ?? 0) + 1;
+        }
+        $coursemodules->close();
+    }
     $canonicalbyinstance = [];
     $deleteids = [];
 
@@ -61,9 +76,11 @@ function videotrack_repair_preproduction_gradebook_rows(): void {
         $instanceid = (int)$gradeitem->iteminstance;
         $validinstance = isset($instances[$instanceid]);
         $validcourse = $validinstance && (int)$gradeitem->courseid === (int)$instances[$instanceid]->course;
+        $contextkey = $instanceid . ':' . (int)$gradeitem->courseid;
+        $validcontext = $validcourse && ($coursemodulecounts[$contextkey] ?? 0) === 1;
         $validitemnumber = isset($gradeitem->itemnumber) && (int)$gradeitem->itemnumber === 0;
 
-        if (!$validinstance || !$validcourse || !$validitemnumber) {
+        if (!$validinstance || !$validcourse || !$validcontext || !$validitemnumber) {
             $deleteids[] = (int)$gradeitem->id;
             continue;
         }

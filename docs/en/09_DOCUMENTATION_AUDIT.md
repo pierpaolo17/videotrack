@@ -1,6 +1,6 @@
 # Documentation audit
 
-Baseline: VideoTrack **1.7.119** (`2026082803`).
+Baseline: VideoTrack **1.7.119** (`2026082901`).
 
 ## Scope
 
@@ -33,13 +33,15 @@ not duplicate implementation procedures, field dictionaries or long security/pri
 ## Current-tree findings
 
 - English and Italian indexes have matching scope and ordering.
-- Documentation markers, root README files and ER artefacts identify 1.7.119 / 2026082803.
+- Documentation markers, root README files and ER artefacts identify 1.7.119 / 2026082901.
 - The activity identity includes the full-colour `pix/icon.png` and a transparent `pix/icon.svg` for course formats.
 - `db/install.xml` declares seven primary keys, 22 stable foreign keys and 22 explicit indexes. XMLDB generates an
   additional exact backing index for every foreign key but no physical database constraint or cascade.
 - `linkedforumid` and `reactionid` remain documented conditional references because their `0` sentinel is valid.
-- The read-only CLI validator checks declared relations, backing indexes, orphans and denormalised context
-  consistency. Runtime CRUD, AJAX, privacy, completion and gradebook behaviour is unchanged.
+- The read-only CLI validator checks declared relations, backing indexes, orphans, denormalised context consistency
+  and gradebook integrity.
+- Lifecycle documentation covers the pre-core gradebook uninstall hook, malformed-row fallback, CLI preflight and
+  zero-residue uninstall verification. CRUD, AJAX, privacy and completion runtime behaviour is unchanged.
 
 ## Release checks
 
@@ -50,4 +52,4 @@ Before promotion, verify:
 3. local Markdown links resolve and the EN/IT document sets are paired;
 4. file/callable inventories match the exact tree;
 5. XMLDB/ER counts and conditional-reference labels match `db/install.xml`;
-6. release-hygiene and XMLDB relationship PHPUnit contracts and the proportionate server gate pass.
+6. release-hygiene, XMLDB relationship and uninstall/gradebook PHPUnit contracts plus the proportionate server gate pass.

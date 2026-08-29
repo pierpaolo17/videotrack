@@ -38,7 +38,12 @@ guidare la condizione core di sufficienza. `showgradeto` governa la visualizzazi
 Moodle sui voti restano autorevoli.
 
 Creazione/modifica/cancellazione e restore usano le API grade. La riparazione normalizza item legacy duplicati e
-sposta i voti utente nell'item canonico conservato quando necessario.
+sposta i voti utente nell'item canonico conservato quando necessario. Un item canonico deve avere `itemnumber` uguale
+a `0`, appartenere allo stesso corso dell'istanza VideoTrack e risolvere un solo course module VideoTrack.
+
+La disinstallazione completa del plugin non richiama il normale callback di cancellazione per ogni istanza. L'hook
+anticipato elimina quindi tramite Grade API i grade item validi prima che il core rimuova i contesti modulo. Solo i
+record che non possono risolvere un contesto univoco passano dalla pulizia DML.
 
 ## Invarianti di verifica
 
@@ -48,3 +53,4 @@ sposta i voti utente nell'item canonico conservato quando necessario.
 - cancellazione reazioni e nuova versione della presa visione aggiornano completion;
 - refresh ripetuto senza transizione non duplica eventi/scritture completion;
 - backup/restore ricostruisce lo stato e mantiene coerenza voti/completion.
+- `gradebook_integrity` del validatore CLI non segnala contesti invalidi o item canonici duplicati prima dell'uninstall.

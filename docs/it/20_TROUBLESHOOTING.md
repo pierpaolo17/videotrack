@@ -18,6 +18,7 @@ codice/versione installati prima di indagare un comportamento che può dipendere
 | Azione Forum non disponibile | Controllare Forum stesso corso, disponibilità, gruppi, permessi e `linkedforumid`. | Integrazione Forum Moodle. |
 | Valori report mascherati | Controllare capability aggregate/individuali, `analyticsminusers` e scope learner/gruppo. | Policy privacy intenzionale. |
 | Backup senza dati learner | Confermare `userinfo`, cutoff retention e mapping utenti validi. | Policy backup/retention. |
+| Disinstallazione interrotta durante la cancellazione voti | Fermare i tentativi, salvare il database e misurare `modules`, `course_modules`, `videotrack`, `grade_items`, `grade_grades` e `config_plugins`; non reinstallare sullo stato parziale. | Ciclo core interrotto o codice precedente a `2026082901` senza pulizia grade anticipata. |
 | Retention non eseguita | Controllare task pianificati, setting/conferma, log task, lock ed error log. | Configurazione cron/task. |
 | Pause focus inattese | Controllare `focuslosspolicy`, flag attività, visibility documento e gruppo eccezione. | Policy focus o appartenenza. |
 
@@ -25,6 +26,7 @@ codice/versione installati prima di indagare un comportamento che può dipendere
 
 ```bash
 php mod/videotrack/cli/validate.php --json
+php mod/videotrack/cli/validate.php --strict
 php admin/cli/purge_caches.php
 php admin/cli/scheduled_task.php --execute='\mod_videotrack\task\cleanup_retention'
 ```

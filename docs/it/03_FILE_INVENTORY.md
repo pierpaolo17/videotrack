@@ -2,7 +2,7 @@
 
 Questo inventario è generato sull’albero VideoTrack 1.7.119 ed elenca ogni file non documentale. Il JavaScript canonico è in `amd/src`; i file in `amd/build` sono generati.
 
-Entries: **293**.
+Voci: **295**.
 
 | File | Responsabilità |
 |---|---|
@@ -210,7 +210,7 @@ Entries: **293**.
 | `classes/privacy/provider.php` | Provider Moodle Privacy API del plugin. |
 | `classes/task/cleanup_task.php` | Task pianificato per retention e pulizia. |
 | `cli/benchmark_course_analytics.php` | Benchmark CLI in sola lettura per query e tempi dell’aggregazione Course Analytics batchata. |
-| `cli/validate.php` | Validatore CLI in sola lettura per versione installata, XMLDB, servizi, lingue, AMD e configurazione critica. |
+| `cli/validate.php` | Validatore CLI in sola lettura per versione, XMLDB, integrità riferimenti/gradebook, servizi, lingue, AMD e configurazione critica. |
 | `db/access.php` | Capability e default degli archetipi di ruolo. |
 | `db/install.php` | File corrente di supporto database/installazione/upgrade distribuito con il plugin. |
 | `db/install.xml` | Schema XMLDB canonico delle tabelle del plugin. |
@@ -218,6 +218,7 @@ Entries: **293**.
 | `db/repairlib.php` | File corrente di supporto database/installazione/upgrade distribuito con il plugin. |
 | `db/services.php` | Dichiarazioni delle funzioni esterne AJAX. |
 | `db/tasks.php` | Dichiarazione del task pianificato. |
+| `db/uninstall.php` | Hook anticipato che elimina i dati gradebook VideoTrack prima che Moodle rimuova i contesti modulo. |
 | `db/upgrade.php` | Upgrade XMLDB incrementali e savepoint. |
 | `environment.xml` | Requisiti di ambiente verificati da Moodle. |
 | `forum_post.php` | Composer Forum temporizzato; la memorizzazione finale è delegata a mod_forum. |

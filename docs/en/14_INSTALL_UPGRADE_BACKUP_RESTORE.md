@@ -28,6 +28,11 @@ idempotent at index level and does not delete or rewrite data. After it complete
 any orphan or course/course-module mismatch is a data-quality failure to investigate, never an automatic repair.
 The conditional `linkedforumid` and `reactionid` fields are validated separately only when they carry a reference.
 
+The corrective `2026082901` revision retains release number 1.7.119 and reruns the DML-safe gradebook repair. A
+canonical VideoTrack grade item must now resolve to an existing activity in the same course and exactly one matching
+course module. This internal version increment is required for sites that already installed the original
+`2026082803` build.
+
 ## Backup content
 
 Without user data, backup includes activity configuration, configured reactions and Moodle-managed files. With
@@ -52,6 +57,20 @@ Course reset and instance deletion remove scoped state, segments, reaction event
 acknowledgements and configured reactions in an order that avoids plugin-owned orphans. Moodle file areas and
 grade items are removed through their APIs. Privacy deletion uses its own context/user-scoped operations.
 
+## Plugin uninstall
+
+Uninstall is destructive and requires a verified database/file backup. Moodle executes `db/uninstall.php` before it
+removes VideoTrack course modules, module contexts and the module registry row. VideoTrack uses that early hook to
+delete grade items with valid contexts through the Grade API. Rows that are already orphaned or ambiguous use a
+strictly scoped DML fallback that deletes their active `grade_grades` rows before `grade_items` and marks existing
+courses for regrading.
+
+Before uninstalling, run `php mod/videotrack/cli/validate.php --strict`. `gradebook_integrity` must pass. On a
+disposable lifecycle-test site, create at least one graded VideoTrack activity and learner grade, uninstall the
+plugin, then verify that the module registry, course modules, VideoTrack tables, grade items, active grade rows and
+plugin configuration have all been removed. An interrupted uninstall must be repaired from a backup-led procedure;
+do not reinstall over a partially removed module without first measuring the residual state.
+
 ## Required tests for lifecycle changes
 
 - fresh install and validator;
@@ -59,4 +78,5 @@ grade items are removed through their APIs. Privacy deletion uses its own contex
 - interrupted/retried upgrade where relevant;
 - backup/restore with and without user data, linked Forum and uploaded files;
 - reset, activity deletion, gradebook and completion consistency;
+- full plugin uninstall with populated gradebook data and a zero-residue database check;
 - Privacy API export/delete and scheduled retention after restore.

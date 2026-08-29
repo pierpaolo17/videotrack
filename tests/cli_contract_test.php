@@ -41,6 +41,8 @@ final class cli_contract_test extends advanced_testcase {
         $this->assertStringContainsString("new xmldb_file(\$pluginroot . '/db/install.xml')", $source);
         $this->assertStringContainsString("'foreign_keys' => \$foreignkeycount", $source);
         $this->assertStringContainsString("'reference_integrity'", $source);
+        $this->assertStringContainsString("'gradebook_integrity'", $source);
+        $this->assertStringContainsString("'duplicate_canonical_items'", $source);
         $this->assertStringContainsString("count_records_sql", $source);
         $this->assertStringContainsString("activity.linkedforumid > 0", $source);
         $this->assertStringContainsString("reactionevent.reactionid = 0", $source);

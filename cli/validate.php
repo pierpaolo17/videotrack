@@ -45,6 +45,7 @@ Checks:
     - plugin file version vs installed version and supported Moodle branch;
     - XMLDB tables, fields, indexes and foreign-key backing indexes;
     - orphaned references and denormalised course/course-module consistency;
+    - VideoTrack grade-item uniqueness and resolvable activity contexts;
     - AJAX external functions declared by db/services.php;
     - maintained language-pack key and placeholder parity;
     - AMD src/build/source-map pairing and sourcesContent alignment;
@@ -299,6 +300,94 @@ if (!$installxml->loadXMLStructure() || !$installxml->getStructure()) {
             'Course, course-module and conditional application references are consistent.'
         );
     }
+}
+
+$gradebookissues = [];
+$gradeitemcount = (int)$DB->count_records('grade_items', [
+    'itemtype' => 'mod',
+    'itemmodule' => 'videotrack',
+]);
+$graderowcount = (int)$DB->count_records_sql(
+    "SELECT COUNT(1)
+       FROM {grade_grades} gradevalue
+       JOIN {grade_items} gradeitem
+         ON gradeitem.id = gradevalue.itemid
+      WHERE gradeitem.itemtype = :itemtype
+        AND gradeitem.itemmodule = :itemmodule",
+    ['itemtype' => 'mod', 'itemmodule' => 'videotrack']
+);
+if ($dbman->table_exists('videotrack')) {
+    $invalidcontextsql = "SELECT COUNT(1)
+                            FROM {grade_items} gradeitem
+                       LEFT JOIN {videotrack} activity
+                              ON activity.id = gradeitem.iteminstance
+                           WHERE gradeitem.itemtype = :itemtype
+                             AND gradeitem.itemmodule = :itemmodule
+                             AND (
+                                    activity.id IS NULL
+                                    OR gradeitem.courseid <> activity.course
+                                    OR gradeitem.itemnumber IS NULL
+                                    OR gradeitem.itemnumber <> 0
+                                    OR (
+                                        SELECT COUNT(1)
+                                          FROM {course_modules} coursemodule
+                                          JOIN {modules} module
+                                            ON module.id = coursemodule.module
+                                         WHERE coursemodule.instance = gradeitem.iteminstance
+                                           AND coursemodule.course = gradeitem.courseid
+                                           AND module.name = :modulename
+                                    ) <> 1
+                                 )";
+    $invalidcontextcount = (int)$DB->count_records_sql($invalidcontextsql, [
+        'itemtype' => 'mod',
+        'itemmodule' => 'videotrack',
+        'modulename' => 'videotrack',
+    ]);
+    if ($invalidcontextcount > 0) {
+        $gradebookissues['invalid_context'] = $invalidcontextcount;
+    }
+
+    $duplicatesql = "SELECT COUNT(1)
+                       FROM (
+                            SELECT gradeitem.courseid, gradeitem.iteminstance, gradeitem.itemnumber
+                              FROM {grade_items} gradeitem
+                             WHERE gradeitem.itemtype = :itemtype
+                               AND gradeitem.itemmodule = :itemmodule
+                          GROUP BY gradeitem.courseid, gradeitem.iteminstance, gradeitem.itemnumber
+                            HAVING COUNT(1) > 1
+                       ) duplicateitems";
+    $duplicatecount = (int)$DB->count_records_sql($duplicatesql, [
+        'itemtype' => 'mod',
+        'itemmodule' => 'videotrack',
+    ]);
+    if ($duplicatecount > 0) {
+        $gradebookissues['duplicate_canonical_items'] = $duplicatecount;
+    }
+} else if ($gradeitemcount > 0) {
+    $gradebookissues['missing_activity_table'] = $gradeitemcount;
+}
+
+$details['gradebook_integrity'] = [
+    'grade_items' => $gradeitemcount,
+    'grade_rows' => $graderowcount,
+    'issues' => $gradebookissues,
+];
+if ($gradebookissues) {
+    $gradelabels = [];
+    foreach ($gradebookissues as $issue => $count) {
+        $gradelabels[] = $issue . '=' . $count;
+    }
+    $addcheck(
+        'gradebook_integrity',
+        'fail',
+        'VideoTrack gradebook inconsistencies: ' . implode(', ', $gradelabels) . '.'
+    );
+} else {
+    $addcheck(
+        'gradebook_integrity',
+        'pass',
+        $gradeitemcount . ' grade items and ' . $graderowcount . ' grade rows have canonical activity contexts.'
+    );
 }
 
 $functions = [];

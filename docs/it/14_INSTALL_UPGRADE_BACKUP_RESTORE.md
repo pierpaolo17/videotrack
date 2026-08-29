@@ -28,6 +28,11 @@ di indici e non elimina o riscrive dati. Al termine va eseguito il validatore co
 corso/course module è un failure di qualità dati da indagare, mai una riparazione automatica. I campi condizionali
 `linkedforumid` e `reactionid` vengono controllati separatamente solo quando contengono un riferimento.
 
+La revisione correttiva `2026082901` mantiene il numero di release 1.7.119 e riesegue la riparazione gradebook sicura
+per la fase di upgrade. Un grade item VideoTrack canonico deve ora risolvere un'attività nello stesso corso e un solo
+course module corrispondente. L'incremento della versione interna è necessario per i siti che hanno già installato
+la build originaria `2026082803`.
+
 ## Contenuto del backup
 
 Senza dati utente il backup include configurazione attività, reazioni definite e file gestiti da Moodle. Con dati
@@ -53,6 +58,20 @@ Reset corso e cancellazione istanza rimuovono stato, segmenti, eventi reazione, 
 configurate nello scope, con un ordine che evita orfani del plugin. File area e grade item passano dalle API Moodle.
 La cancellazione Privacy usa operazioni proprie per contesto/utente.
 
+## Disinstallazione del plugin
+
+La disinstallazione è distruttiva e richiede un backup verificato di database e file. Moodle esegue
+`db/uninstall.php` prima di eliminare course module VideoTrack, contesti modulo e registro `modules`. VideoTrack usa
+questo hook anticipato per eliminare tramite Grade API i grade item con contesto valido. I record già orfani o
+ambigui passano da un fallback DML strettamente circoscritto, che cancella prima le righe attive `grade_grades`, poi
+i `grade_items`, e marca per il ricalcolo i corsi ancora esistenti.
+
+Prima della disinstallazione eseguire `php mod/videotrack/cli/validate.php --strict`: `gradebook_integrity` deve
+risultare PASS. Su un sito sacrificabile per i test di ciclo di vita, creare almeno un'attività VideoTrack valutata e
+un voto learner, disinstallare il plugin e verificare l'assenza residua di registro modulo, course module, tabelle
+VideoTrack, grade item, voti attivi e configurazione plugin. Una disinstallazione interrotta va riparata con una
+procedura basata su backup; non reinstallare sopra un modulo rimosso parzialmente senza prima misurare i residui.
+
 ## Test richiesti per modifiche al ciclo di vita
 
 - fresh install e validatore;
@@ -60,4 +79,5 @@ La cancellazione Privacy usa operazioni proprie per contesto/utente.
 - upgrade interrotto/ritentato quando rilevante;
 - backup/restore con e senza dati utente, Forum collegato e file caricati;
 - reset, cancellazione attività, coerenza gradebook e completion;
+- disinstallazione completa con gradebook popolato e controllo database a residuo zero;
 - export/delete Privacy API e retention pianificata dopo il restore.

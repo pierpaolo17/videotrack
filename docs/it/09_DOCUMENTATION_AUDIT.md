@@ -1,6 +1,6 @@
 # Audit della documentazione
 
-Baseline: VideoTrack **1.7.119** (`2026082803`).
+Baseline: VideoTrack **1.7.119** (`2026082901`).
 
 ## Perimetro
 
@@ -33,13 +33,15 @@ duplicano intenzionalmente procedure implementative, dizionari dei campi o lungh
 ## Rilievi sull'albero corrente
 
 - Gli indici inglese e italiano hanno stesso perimetro e ordinamento.
-- Marker documentali, README principali e artefatti ER identificano 1.7.119 / 2026082803.
+- Marker documentali, README principali e artefatti ER identificano 1.7.119 / 2026082901.
 - L'identità dell'attività include `pix/icon.png` a colori e `pix/icon.svg` trasparente per i formati corso.
 - `db/install.xml` dichiara sette chiavi primarie, 22 foreign key stabili e 22 indici espliciti. XMLDB genera inoltre
   un indice esatto per ogni foreign key, ma nessun vincolo fisico o cascade nel database.
 - `linkedforumid` e `reactionid` restano riferimenti condizionali documentati perché la sentinella `0` è valida.
-- Il validatore CLI in sola lettura controlla relazioni dichiarate, indici generati, orfani e coerenza del contesto
-  denormalizzato. Il comportamento runtime CRUD, AJAX, privacy, completion e gradebook resta invariato.
+- Il validatore CLI in sola lettura controlla relazioni dichiarate, indici generati, orfani, coerenza del contesto
+  denormalizzato e integrità gradebook.
+- La documentazione lifecycle copre hook anticipato di uninstall gradebook, fallback per record incoerenti, preflight
+  CLI e verifica della disinstallazione a residuo zero. Il runtime CRUD, AJAX, privacy e completion resta invariato.
 
 ## Controlli di release
 
@@ -50,4 +52,4 @@ Prima della promozione verificare:
 3. risoluzione dei link Markdown e parità dei set EN/IT;
 4. identità degli inventari file/callable con l'albero esatto;
 5. corrispondenza dei conteggi XMLDB/ER e delle etichette dei riferimenti condizionali con `db/install.xml`;
-6. contratti PHPUnit di release hygiene e relazioni XMLDB, più gate server proporzionato, verdi.
+6. contratti PHPUnit di release hygiene, relazioni XMLDB e uninstall/gradebook, più gate server proporzionato, verdi.

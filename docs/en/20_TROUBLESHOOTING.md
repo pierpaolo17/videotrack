@@ -18,6 +18,7 @@ installed code/version before investigating cached behaviour.
 | Forum action unavailable | Check same-course Forum, availability, groups, permissions and saved `linkedforumid`. | Moodle Forum integration. |
 | Report values masked | Check aggregate vs individual capability and `analyticsminusers`; verify learner/group scope. | Intentional privacy policy. |
 | Backup omits learner data | Confirm backup `userinfo`, retention cutoff and valid user mappings. | Backup policy/retention. |
+| Plugin uninstall stops while deleting grades | Stop retries, back up the database and measure `modules`, `course_modules`, `videotrack`, `grade_items`, `grade_grades` and `config_plugins`; do not reinstall over partial state. | Interrupted core lifecycle or pre-`2026082901` code without early grade cleanup. |
 | Retention does not run | Check scheduled tasks, setting/confirmation, task log, locks and error log. | Cron/task configuration. |
 | Focus pauses unexpectedly | Check site `focuslosspolicy`, activity flag, document visibility and exception-group membership. | Focus policy or membership. |
 
@@ -25,6 +26,7 @@ installed code/version before investigating cached behaviour.
 
 ```bash
 php mod/videotrack/cli/validate.php --json
+php mod/videotrack/cli/validate.php --strict
 php admin/cli/purge_caches.php
 php admin/cli/scheduled_task.php --execute='\mod_videotrack\task\cleanup_retention'
 ```

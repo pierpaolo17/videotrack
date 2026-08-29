@@ -2112,5 +2112,15 @@ function xmldb_videotrack_upgrade($oldversion) {
         upgrade_mod_savepoint(true, 2026082803, 'videotrack');
     }
 
+    if ($oldversion < 2026082901) {
+        // Release 1.7.119 corrective revision: remove grade items that cannot
+        // resolve exactly one VideoTrack course-module context. The uninstall
+        // hook can then use the Grade API before core removes those contexts.
+        require_once(__DIR__ . '/repairlib.php');
+        videotrack_repair_preproduction_gradebook_rows();
+
+        upgrade_mod_savepoint(true, 2026082901, 'videotrack');
+    }
+
     return true;
 }

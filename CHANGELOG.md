@@ -1,6 +1,6 @@
 # VideoTrack changelog
 
-## 1.7.119 - 2026-08-28
+## 1.7.119 - 2026-08-29
 
 ### Changed
 
@@ -10,10 +10,18 @@
   both legitimately use `0` as a sentinel.
 - Extended the read-only release validator with foreign-key/index parity, orphan detection, denormalised
   course/course-module consistency and conditional Forum/reaction checks.
+- Added a pre-core uninstall hook that removes valid VideoTrack grade items through the Grade API while module
+  contexts still exist, with a DML-only fallback for rows that are already orphaned or ambiguous.
+- Hardened gradebook repair and CLI validation so a grade item is valid only when it resolves to one canonical
+  VideoTrack activity, course and course module.
+- Advanced the internal version code to `2026082901` while retaining release `1.7.119`, allowing sites that already
+  installed the original `2026082803` build to execute the corrective upgrade.
 
 ### Tests and documentation
 
 - Added XMLDB relationship and migration regression tests.
+- Added regressions for missing course-module grade contexts and for valid/orphan grade cleanup before core
+  module removal.
 - Aligned the bilingual database, lifecycle, CLI and ER documentation with the hardened schema.
 
 ## 1.7.118 - 2026-08-28

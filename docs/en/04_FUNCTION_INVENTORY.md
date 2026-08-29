@@ -2,7 +2,7 @@
 
 Generated from the VideoTrack 1.7.119 source tree. PHP entries include named functions and methods; AMD entries include named declarations, assigned function expressions and object-method functions.
 
-**PHP functions/methods:** 749. **Named AMD callables:** 652.
+**PHP functions/methods:** 755. **Named AMD callables:** 652.
 
 | Location | Callable | Responsibility |
 |---|---|---|
@@ -1003,13 +1003,14 @@ Generated from the VideoTrack 1.7.119 source tree. PHP entries include named fun
 | `classes/task/cleanup_task.php:45` | `execute` | PHP callable `execute`; see its DocBlock and callers for parameter, return-value and side-effect details. |
 | `db/install.php:38` | `xmldb_videotrack_install` | Named PHP function/method `xmldb_videotrack_install`; see source DocBlock and callers for the current contract. |
 | `db/repairlib.php:42` | `videotrack_repair_preproduction_gradebook_rows` | Named PHP function/method `videotrack_repair_preproduction_gradebook_rows`; see source DocBlock and callers for the current contract. |
-| `db/repairlib.php:101` | `videotrack_repair_preproduction_merge_grade_grades` | Named PHP function/method `videotrack_repair_preproduction_merge_grade_grades`; see source DocBlock and callers for the current contract. |
-| `db/repairlib.php:131` | `videotrack_repair_preproduction_delete_grade_items` | Named PHP function/method `videotrack_repair_preproduction_delete_grade_items`; see source DocBlock and callers for the current contract. |
-| `db/repairlib.php:152` | `videotrack_repair_preproduction_schema` | Named PHP function/method `videotrack_repair_preproduction_schema`; see source DocBlock and callers for the current contract. |
-| `db/repairlib.php:219` | `videotrack_repair_preproduction_add_field` | Named PHP function/method `videotrack_repair_preproduction_add_field`; see source DocBlock and callers for the current contract. |
-| `db/repairlib.php:255` | `videotrack_repair_preproduction_unique_index_data` | Named PHP function/method `videotrack_repair_preproduction_unique_index_data`; see source DocBlock and callers for the current contract. |
-| `db/repairlib.php:276` | `videotrack_repair_preproduction_requestids` | Named PHP function/method `videotrack_repair_preproduction_requestids`; see source DocBlock and callers for the current contract. |
-| `db/repairlib.php:317` | `videotrack_repair_preproduction_deduplicate` | Named PHP function/method `videotrack_repair_preproduction_deduplicate`; see source DocBlock and callers for the current contract. |
+| `db/repairlib.php:118` | `videotrack_repair_preproduction_merge_grade_grades` | Named PHP function/method `videotrack_repair_preproduction_merge_grade_grades`; see source DocBlock and callers for the current contract. |
+| `db/repairlib.php:148` | `videotrack_repair_preproduction_delete_grade_items` | Named PHP function/method `videotrack_repair_preproduction_delete_grade_items`; see source DocBlock and callers for the current contract. |
+| `db/repairlib.php:169` | `videotrack_repair_preproduction_schema` | Named PHP function/method `videotrack_repair_preproduction_schema`; see source DocBlock and callers for the current contract. |
+| `db/repairlib.php:236` | `videotrack_repair_preproduction_add_field` | Named PHP function/method `videotrack_repair_preproduction_add_field`; see source DocBlock and callers for the current contract. |
+| `db/repairlib.php:272` | `videotrack_repair_preproduction_unique_index_data` | Named PHP function/method `videotrack_repair_preproduction_unique_index_data`; see source DocBlock and callers for the current contract. |
+| `db/repairlib.php:293` | `videotrack_repair_preproduction_requestids` | Named PHP function/method `videotrack_repair_preproduction_requestids`; see source DocBlock and callers for the current contract. |
+| `db/repairlib.php:334` | `videotrack_repair_preproduction_deduplicate` | Named PHP function/method `videotrack_repair_preproduction_deduplicate`; see source DocBlock and callers for the current contract. |
+| `db/uninstall.php:38` | `xmldb_videotrack_uninstall` | Removes VideoTrack gradebook data before Moodle core deletes module contexts, with a scoped fallback for malformed rows. |
 | `db/upgrade.php:35` | `xmldb_videotrack_upgrade` | PHP callable `xmldb_videotrack_upgrade`; see its DocBlock and callers for parameter, return-value and side-effect details. |
 | `lib.php:38` | `videotrack_supports` | PHP callable `videotrack_supports`; see its DocBlock and callers for parameter, return-value and side-effect details. |
 | `lib.php:70` | `videotrack_whitelist_record` | PHP callable `videotrack_whitelist_record`; see its DocBlock and callers for parameter, return-value and side-effect details. |
@@ -1180,8 +1181,8 @@ Generated from the VideoTrack 1.7.119 source tree. PHP entries include named fun
 | `tests/behat/behat_mod_videotrack.php:576` | `the_latest_seek_segment_matches_the_pre_seek_browser_time` | Verifies the raw pre-seek endpoint and rejects any aggregate credit or resume position inside the skipped gap. |
 | `tests/behat/behat_mod_videotrack.php:650` | `the_videotrack_completion_requirements_are_stacked_vertically` | Verifies computed column layout and non-overlapping vertical geometry for grouped Moodle completion items. |
 | `tests/cli_contract_test.php:35` | `test_validator_is_read_only_and_covers_release_contracts` | Named PHP function/method `test_validator_is_read_only_and_covers_release_contracts`; see source DocBlock and callers for the current contract. |
-| `tests/cli_contract_test.php:62` | `test_course_analytics_benchmark_uses_real_read_only_metrics` | Named PHP function/method `test_course_analytics_benchmark_uses_real_read_only_metrics`; see source DocBlock and callers for the current contract. |
-| `tests/cli_contract_test.php:84` | `test_cli_tools_are_documented_for_admins_and_maintainers` | Named PHP function/method `test_cli_tools_are_documented_for_admins_and_maintainers`; see source DocBlock and callers for the current contract. |
+| `tests/cli_contract_test.php:64` | `test_course_analytics_benchmark_uses_real_read_only_metrics` | Named PHP function/method `test_course_analytics_benchmark_uses_real_read_only_metrics`; see source DocBlock and callers for the current contract. |
+| `tests/cli_contract_test.php:86` | `test_cli_tools_are_documented_for_admins_and_maintainers` | Named PHP function/method `test_cli_tools_are_documented_for_admins_and_maintainers`; see source DocBlock and callers for the current contract. |
 | `tests/completion_contract_test.php:39` | `test_required_reactions_activate_custom_completion` | Named PHP function/method `test_required_reactions_activate_custom_completion`; see source DocBlock and callers for the current contract. |
 | `tests/completion_contract_test.php:59` | `test_required_reaction_or_semantics_match_tracker` | Named PHP function/method `test_required_reaction_or_semantics_match_tracker`; see source DocBlock and callers for the current contract. |
 | `tests/completion_contract_test.php:80` | `test_disabled_acknowledgement_is_excluded_from_tracker_completion` | Named PHP function/method `test_disabled_acknowledgement_is_excluded_from_tracker_completion`; see source DocBlock and callers for the current contract. |
@@ -1250,6 +1251,8 @@ Generated from the VideoTrack 1.7.119 source tree. PHP entries include named fun
 | `tests/generator_test.php:138` | `test_generator_links_named_forum_fixture` | Verifies the generator resolves a named same-course Forum for deterministic browser fixtures. |
 | `tests/gradebook_restore_contract_test.php:35` | `test_restore_step_does_not_create_grade_item_before_core_grade_restore` | Named PHP function/method `test_restore_step_does_not_create_grade_item_before_core_grade_restore`; see source DocBlock and callers for the current contract. |
 | `tests/gradebook_restore_contract_test.php:49` | `test_gradebook_repair_keeps_one_item_and_moves_user_grades` | Named PHP function/method `test_gradebook_repair_keeps_one_item_and_moves_user_grades`; see source DocBlock and callers for the current contract. |
+| `tests/gradebook_restore_contract_test.php:113` | `test_gradebook_repair_removes_missing_course_module_context` | Verifies that upgrade-safe repair removes a grade item whose activity no longer has a course-module context. |
+| `tests/gradebook_restore_contract_test.php:162` | `test_uninstall_hook_cleans_valid_and_orphan_grade_items_first` | Verifies Grade API cleanup for valid contexts and DML fallback for existing orphan rows before core module removal. |
 | `tests/integrity_test.php:36` | `test_event_type_validation_is_allowlist_based` | PHP callable `test_event_type_validation_is_allowlist_based`; see its DocBlock and callers for parameter, return-value and side-effect details. |
 | `tests/integrity_test.php:48` | `test_summary_applies_distinct_user_privacy_threshold` | PHP callable `test_summary_applies_distinct_user_privacy_threshold`; see its DocBlock and callers for parameter, return-value and side-effect details. |
 | `tests/integrity_test.php:73` | `test_random_pause_bounds_are_configurable_and_normalised` | PHP callable `test_random_pause_bounds_are_configurable_and_normalised`; see its DocBlock and callers for parameter, return-value and side-effect details. |
@@ -1397,10 +1400,10 @@ Generated from the VideoTrack 1.7.119 source tree. PHP entries include named fun
 | `tests/tracker_test.php:866` | `test_allowed_forward_seek_requires_validated_interaction_timestamp` | Named PHP function/method `test_allowed_forward_seek_requires_validated_interaction_timestamp`; see source DocBlock and callers for the current contract. |
 | `tests/tracker_test.php:919` | `test_allowed_forward_seek_rejects_stale_or_different_session_interaction` | Named PHP function/method `test_allowed_forward_seek_rejects_stale_or_different_session_interaction`; see source DocBlock and callers for the current contract. |
 | `tests/upgrade_contract_test.php:35` | `test_modern_schema_fast_forward_precedes_legacy_steps` | Named PHP function/method `test_modern_schema_fast_forward_precedes_legacy_steps`; see source DocBlock and callers for the current contract. |
-| `tests/upgrade_contract_test.php:82` | `test_failed_install_schema_recovery_supersedes_obsolete_lineage` | Named PHP function/method `test_failed_install_schema_recovery_supersedes_obsolete_lineage`; see source DocBlock and callers for the current contract. |
-| `tests/upgrade_contract_test.php:112` | `test_gradebook_recovery_uses_dml_only` | Named PHP function/method `test_gradebook_recovery_uses_dml_only`; see source DocBlock and callers for the current contract. |
-| `tests/upgrade_contract_test.php:134` | `test_preproduction_gradebook_repair_covers_install_and_upgrade` | Named PHP function/method `test_preproduction_gradebook_repair_covers_install_and_upgrade`; see source DocBlock and callers for the current contract. |
-| `tests/upgrade_contract_test.php:156` | `test_duplicate_grade_item_repair_is_upgrade_safe` | Named PHP function/method `test_duplicate_grade_item_repair_is_upgrade_safe`; see source DocBlock and callers for the current contract. |
+| `tests/upgrade_contract_test.php:84` | `test_failed_install_schema_recovery_supersedes_obsolete_lineage` | Named PHP function/method `test_failed_install_schema_recovery_supersedes_obsolete_lineage`; see source DocBlock and callers for the current contract. |
+| `tests/upgrade_contract_test.php:114` | `test_gradebook_recovery_uses_dml_only` | Named PHP function/method `test_gradebook_recovery_uses_dml_only`; see source DocBlock and callers for the current contract. |
+| `tests/upgrade_contract_test.php:136` | `test_preproduction_gradebook_repair_covers_install_and_upgrade` | Named PHP function/method `test_preproduction_gradebook_repair_covers_install_and_upgrade`; see source DocBlock and callers for the current contract. |
+| `tests/upgrade_contract_test.php:160` | `test_duplicate_grade_item_repair_is_upgrade_safe` | Named PHP function/method `test_duplicate_grade_item_repair_is_upgrade_safe`; see source DocBlock and callers for the current contract. |
 | `tests/xmldb_relationship_contract_test.php:35` | `test_stable_foreign_keys_are_declared` | Verifies the exact 22 stable XMLDB foreign-key declarations. |
 | `tests/xmldb_relationship_contract_test.php:94` | `test_conditional_references_are_not_declared_as_foreign_keys` | Protects legitimate zero-sentinel Forum and reaction references. |
 | `tests/xmldb_relationship_contract_test.php:121` | `test_foreign_key_indexes_are_not_duplicated_explicitly` | Prevents explicit duplication of XMLDB-generated backing indexes. |

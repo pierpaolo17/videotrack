@@ -61,6 +61,8 @@ final class upgrade_contract_test extends advanced_testcase {
         $this->assertStringContainsString('$dbman->add_key($table, new xmldb_key(', $source);
         $this->assertStringContainsString('XMLDB_KEY_FOREIGN', $source);
         $this->assertStringContainsString('upgrade_mod_savepoint(true, 2026082803', $source);
+        $this->assertStringContainsString('if ($oldversion < 2026082901)', $source);
+        $this->assertStringContainsString('upgrade_mod_savepoint(true, 2026082901', $source);
         $this->assertStringContainsString(
             '<FIELD NAME="serverplaybacksessionid" TYPE="char" LENGTH="64" NOTNULL="true" COMMENT=',
             $installsource
@@ -147,6 +149,8 @@ final class upgrade_contract_test extends advanced_testcase {
         $this->assertStringContainsString("itemmodule = :itemmodule", $repairsource);
         $this->assertStringContainsString("delete_records_select('grade_grades'", $repairsource);
         $this->assertStringContainsString("delete_records_select('grade_items'", $repairsource);
+        $this->assertStringContainsString("get_recordset(\n            'course_modules'", $repairsource);
+        $this->assertStringContainsString('$coursemodulecounts[$contextkey]', $repairsource);
         $this->assertStringNotContainsString('grade_item::', $repairsource);
         $this->assertStringNotContainsString('grade_update(', $repairsource);
     }

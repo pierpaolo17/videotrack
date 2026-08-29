@@ -39,9 +39,10 @@ La sola sintassi JavaScript non sostituisce Grunt/ESLint.
 - Behat: tag `@mod_videotrack` su Moodle 5.0–5.3 per contratti visibili nel browser.
 - Smoke provider: HTML5, YouTube e Vimeo pubblici quando conta il comportamento rete/provider.
 - Accessibilità manuale: tastiera, focus, reflow, forced colours e screen reader per modifiche UI.
-- Ciclo di vita: installazione, upgrade, backup/restore, reset e Privacy API per codice/schema correlato.
+- Ciclo di vita: installazione, upgrade, backup/restore, reset, disinstallazione con gradebook popolato e Privacy API
+  per codice/schema correlato.
 
-Le suite distribuite correnti contengono 272 test PHPUnit / 2491 asserzioni e 23 scenari Behat /
+Le suite distribuite correnti contengono 274 test PHPUnit / 2510 asserzioni e 23 scenari Behat /
 342 step per ramo Moodle supportato. I conteggi sono aspettative, non una dichiarazione di pass.
 
 ## Controlli schema e dati

@@ -54,26 +54,22 @@ final class gradebook_restore_contract_test extends advanced_testcase {
 
         $course = $this->getDataGenerator()->create_course();
         $student = $this->getDataGenerator()->create_user();
-        $videotrackid = $DB->insert_record('videotrack', (object)[
+        $videotrack = $this->getDataGenerator()->create_module('videotrack', [
             'course' => (int)$course->id,
             'name' => 'Duplicate grade item repair',
             'grade' => 100,
             'gradepass' => 50,
         ]);
+        $videotrackid = (int)$videotrack->id;
         $now = time();
-        $originalid = (int)$DB->insert_record('grade_items', (object)[
+        $original = $DB->get_record('grade_items', [
             'courseid' => (int)$course->id,
-            'itemname' => 'Duplicate grade item repair',
             'itemtype' => 'mod',
             'itemmodule' => 'videotrack',
             'iteminstance' => $videotrackid,
             'itemnumber' => 0,
-            'grademax' => 100,
-            'grademin' => 0,
-            'gradepass' => 50,
-            'timecreated' => $now,
-            'timemodified' => $now,
-        ]);
+        ], '*', MUST_EXIST);
+        $originalid = (int)$original->id;
         $DB->insert_record('grade_grades', (object)[
             'itemid' => $originalid,
             'userid' => (int)$student->id,
@@ -85,7 +81,6 @@ final class gradebook_restore_contract_test extends advanced_testcase {
             'timemodified' => $now,
         ]);
 
-        $original = $DB->get_record('grade_items', ['id' => $originalid], '*', MUST_EXIST);
         $duplicate = clone $original;
         unset($duplicate->id);
         $duplicateid = (int)$DB->insert_record('grade_items', $duplicate);
@@ -110,5 +105,124 @@ final class gradebook_restore_contract_test extends advanced_testcase {
         $this->assertSame((int)$student->id, (int)$grade->userid);
         $this->assertEquals(80.0, (float)$grade->rawgrade);
         $this->assertFalse($DB->record_exists('grade_grades', ['itemid' => $originalid]));
+    }
+
+    /**
+     * Gradebook repair must remove an item whose activity has no course module.
+     */
+    public function test_gradebook_repair_removes_missing_course_module_context(): void {
+        global $CFG, $DB;
+
+        $this->resetAfterTest(true);
+        require_once($CFG->dirroot . '/mod/videotrack/db/repairlib.php');
+
+        $course = $this->getDataGenerator()->create_course();
+        $student = $this->getDataGenerator()->create_user();
+        $videotrackid = (int)$DB->insert_record('videotrack', (object)[
+            'course' => (int)$course->id,
+            'name' => 'Missing course module',
+            'grade' => 100,
+            'gradepass' => 50,
+        ]);
+        $now = time();
+        $gradeitemid = (int)$DB->insert_record('grade_items', (object)[
+            'courseid' => (int)$course->id,
+            'itemname' => 'Missing course module',
+            'itemtype' => 'mod',
+            'itemmodule' => 'videotrack',
+            'iteminstance' => $videotrackid,
+            'itemnumber' => 0,
+            'grademax' => 100,
+            'grademin' => 0,
+            'gradepass' => 50,
+            'timecreated' => $now,
+            'timemodified' => $now,
+        ]);
+        $DB->insert_record('grade_grades', (object)[
+            'itemid' => $gradeitemid,
+            'userid' => (int)$student->id,
+            'rawgrade' => 75,
+            'rawgrademax' => 100,
+            'rawgrademin' => 0,
+            'finalgrade' => 75,
+            'timecreated' => $now,
+            'timemodified' => $now,
+        ]);
+
+        videotrack_repair_preproduction_gradebook_rows();
+
+        $this->assertFalse($DB->record_exists('grade_items', ['id' => $gradeitemid]));
+        $this->assertFalse($DB->record_exists('grade_grades', ['itemid' => $gradeitemid]));
+        $this->assertTrue($DB->record_exists('videotrack', ['id' => $videotrackid]));
+    }
+
+    /**
+     * The custom uninstall hook must clear grades before core removes contexts.
+     */
+    public function test_uninstall_hook_cleans_valid_and_orphan_grade_items_first(): void {
+        global $CFG, $DB;
+
+        $this->resetAfterTest(true);
+        require_once($CFG->dirroot . '/mod/videotrack/db/uninstall.php');
+
+        $course = $this->getDataGenerator()->create_course();
+        $student = $this->getDataGenerator()->create_user();
+        $videotrack = $this->getDataGenerator()->create_module('videotrack', [
+            'course' => (int)$course->id,
+            'name' => 'Uninstall grade cleanup',
+            'grade' => 100,
+        ]);
+        $validitem = $DB->get_record('grade_items', [
+            'courseid' => (int)$course->id,
+            'itemtype' => 'mod',
+            'itemmodule' => 'videotrack',
+            'iteminstance' => (int)$videotrack->id,
+            'itemnumber' => 0,
+        ], '*', MUST_EXIST);
+        $now = time();
+        $DB->insert_record('grade_grades', (object)[
+            'itemid' => (int)$validitem->id,
+            'userid' => (int)$student->id,
+            'rawgrade' => 90,
+            'rawgrademax' => 100,
+            'rawgrademin' => 0,
+            'finalgrade' => 90,
+            'timecreated' => $now,
+            'timemodified' => $now,
+        ]);
+        $orphanitemid = (int)$DB->insert_record('grade_items', (object)[
+            'courseid' => (int)$course->id,
+            'itemname' => 'Orphan uninstall residue',
+            'itemtype' => 'mod',
+            'itemmodule' => 'videotrack',
+            'iteminstance' => 987654321,
+            'itemnumber' => 0,
+            'grademax' => 100,
+            'grademin' => 0,
+            'timecreated' => $now,
+            'timemodified' => $now,
+        ]);
+        $DB->insert_record('grade_grades', (object)[
+            'itemid' => $orphanitemid,
+            'userid' => (int)$student->id,
+            'rawgrade' => 60,
+            'rawgrademax' => 100,
+            'rawgrademin' => 0,
+            'finalgrade' => 60,
+            'timecreated' => $now,
+            'timemodified' => $now,
+        ]);
+
+        $this->assertTrue(\xmldb_videotrack_uninstall());
+
+        $this->assertFalse($DB->record_exists('grade_items', [
+            'itemtype' => 'mod',
+            'itemmodule' => 'videotrack',
+        ]));
+        $this->assertFalse($DB->record_exists('grade_grades', ['itemid' => (int)$validitem->id]));
+        $this->assertFalse($DB->record_exists('grade_grades', ['itemid' => $orphanitemid]));
+        $this->assertTrue($DB->record_exists('videotrack', ['id' => (int)$videotrack->id]));
+        $this->assertTrue($DB->record_exists('course_modules', ['id' => (int)$videotrack->cmid]));
+        $this->assertTrue($DB->record_exists('modules', ['name' => 'videotrack']));
     }
 }
