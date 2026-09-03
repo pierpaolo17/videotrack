@@ -4,7 +4,7 @@ VideoTrack è un modulo attività Moodle per video HTML5/caricati, YouTube e Vim
 visione validato dal server, strumenti di studio, completamento personalizzato, gradebook e report attenti
 alla privacy.
 
-Release corrente documentata da questo albero: **1.7.119**. Rami Moodle supportati: **5.0–5.3**.
+Release corrente documentata da questo albero: **1.7.120**. Rami Moodle supportati: **5.0–5.3**.
 
 - Panoramica inglese: [`README.md`](README.md)
 - Guida italiana completa: [`docs/it/funzionalita.md`](docs/it/funzionalita.md)
@@ -17,13 +17,13 @@ Release corrente documentata da questo albero: **1.7.119**. Rami Moodle supporta
 
 | Area | Funzionalità disponibili |
 |---|---|
-| Media | Video caricati/HTML5, YouTube e Vimeo; proposta durata nel form; poster; download opzionale dei file caricati. |
+| Media | Video caricati/HTML5, YouTube e Vimeo; proposta durata nel form con equivalente `HH:MM:SS`; poster; download opzionale dei file caricati. |
 | Player | Autoplay, loop, avvio muto, larghezza responsiva, controlli configurabili, policy tastiera/fullscreen, passi avanti/indietro. |
 | Navigazione | Policy seek avanti/indietro indipendenti, resume attendibile, replay limitato dai report e recupero dai salti bloccati. |
 | Velocità | Elenco velocità, modifica learner, limite massimo e velocità di fallback dopo un salto bloccato. |
 | Evidenze viste | Sessioni autorizzate dal server, richieste segmento idempotenti, copertura di intervalli unici e stato derivato. |
 | Testo temporizzato | Sottotitoli WebVTT, trascrizione ricercabile, capitoli e navigazione per timestamp. |
-| Reazioni | Preset e icone emoji, testuali, Font Awesome o caricate; aggiunta/rimozione, deduplica e limiti raffica. |
+| Reazioni | Preset opt-in e icone emoji, testuali, Font Awesome o caricate; controllo configurazione, aggiunta/rimozione, deduplica e limiti raffica. |
 | Strumenti di studio | Note personali temporizzate, segnalibri privati nominati, replay/export del proprietario e cronologie comprimibili. |
 | Forum | Composer temporizzato opzionale collegato a un Forum compatibile dello stesso corso. |
 | Presa visione | Dichiarazione learner versionata, conferma immediata/fine video e integrazione completion. |

@@ -32,6 +32,7 @@ La suite verifica:
 
 - comportamento learner, solo docente e doppio ruolo;
 - composer reazione/nota/bookmark visibili e cronologie comprimibili indipendenti;
+- assenza delle sezioni reazioni, note, bookmark e Forum quando la configurazione effettiva non è disponibile;
 - lifecycle play/pause HTML5 e scrittura terminale ledger accettata;
 - resume attendibile, seek indietro e seek avanti consentito/bloccato;
 - persistenza snapshot pre-seek ed esclusione dei gap da copertura/resume;

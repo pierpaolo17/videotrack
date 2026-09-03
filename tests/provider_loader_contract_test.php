@@ -74,6 +74,15 @@ final class provider_loader_contract_test extends advanced_testcase {
         $this->assertStringContainsString('var duration = Number(player.getDuration());', $duration);
         $this->assertStringContainsString('window.clearInterval(metadataPoll);', $duration);
         $this->assertSame(1, substr_count($duration, "new Error('YouTube duration unavailable')"));
+        $this->assertStringContainsString('function formatHumanDuration(value)', $duration);
+        $this->assertStringContainsString("}).join(':')", $duration);
+        $this->assertStringContainsString('setHumanDuration(elements.human, config.messages.human', $duration);
+        $this->assertStringContainsString('formatHumanDuration: formatHumanDuration', $duration);
+
+        $form = file_get_contents(__DIR__ . '/../mod_form.php');
+        $this->assertIsString($form);
+        $this->assertStringContainsString("'humanid' => 'videotrack-durationseconds-human'", $form);
+        $this->assertStringContainsString("get_string('durationseconds_human'", $form);
     }
 
     /**

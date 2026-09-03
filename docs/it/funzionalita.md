@@ -1,6 +1,6 @@
 # Guida per utenti e amministratori
 
-VideoTrack 1.7.119 è un'attività Moodle per distribuire video, registrare evidenze di visione validate dal
+VideoTrack 1.7.120 è un'attività Moodle per distribuire video, registrare evidenze di visione validate dal
 server, offrire strumenti di studio e valutare il completamento. Ogni raccolta dati opzionale deve essere
 abilitata esplicitamente. Le politiche di sito possono limitare le impostazioni modificabili dal docente.
 
@@ -16,6 +16,8 @@ La durata salvata dal docente è autorevole per le percentuali. Il rilevamento a
 proposta: va verificato prima del salvataggio, inserito manualmente se non disponibile oppure lasciato a `0`
 per disabilitare il calcolo percentuale. Gli adapter condividono un contratto ma hanno implementazioni e limiti
 del provider distinti.
+Il form mostra lo stesso valore anche come `HH:MM:SS` e aggiorna l'equivalente dopo il rilevamento automatico o
+l'inserimento manuale.
 
 ## Configurazione dell'attività
 
@@ -64,6 +66,11 @@ Il docente può partire da un preset o definire reazioni personalizzate con etic
 Font Awesome, testuale o caricata. Una reazione può essere obbligatoria per il completamento. Il learner può
 aggiungere o rimuovere le proprie reazioni in timestamp attendibili. Controlli su duplicati e raffiche riducono
 invii accidentali o automatizzati.
+
+Le reazioni sono disabilitate per impostazione predefinita. Per abilitarle serve almeno una definizione attiva e
+completa: il form avvisa e rifiuta una configurazione vuota. Controlli learner, integrazione col player, avviso e
+cronologia **Le mie reazioni** compaiono soltanto se sono presenti sia l'abilitazione sia una definizione attiva.
+Note, segnalibri e azione Forum restano governati indipendentemente dai rispettivi flag e dalla destinazione.
 
 Il completamento può richiedere un numero minimo di reazioni distinte, tutti i tipi abilitati, tipi specifici
 obbligatori o una combinazione. La logica `AND`/`OR` configurata opera dentro l'unica regola composita VideoTrack.

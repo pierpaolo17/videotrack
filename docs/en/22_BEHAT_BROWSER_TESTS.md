@@ -32,6 +32,7 @@ The suite verifies:
 
 - learner, teacher-only and dual-role participation behaviour;
 - visible reaction/note/bookmark composers and independently collapsible saved histories;
+- absence of reaction, note, bookmark and Forum sections when their effective configuration is unavailable;
 - HTML5 play/pause session lifecycle and accepted terminal ledger write;
 - trusted resume, backward seek and allowed/blocked forward seek;
 - pre-seek snapshot persistence and exclusion of skipped gaps from coverage/resume;

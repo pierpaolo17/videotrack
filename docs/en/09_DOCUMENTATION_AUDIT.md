@@ -1,6 +1,6 @@
 # Documentation audit
 
-Baseline: VideoTrack **1.7.119** (`2026082901`).
+Baseline: VideoTrack **1.7.120** (`2026090301`).
 
 ## Scope
 
@@ -33,8 +33,9 @@ not duplicate implementation procedures, field dictionaries or long security/pri
 ## Current-tree findings
 
 - English and Italian indexes have matching scope and ordering.
-- Documentation markers, root README files and ER artefacts identify 1.7.119 / 2026082901.
-- The activity identity includes the full-colour `pix/icon.png` and a transparent `pix/icon.svg` for course formats.
+- Documentation markers, root README files and ER artefacts identify 1.7.120 / 2026090301.
+- The activity identity includes a 1024-pixel `pix/icon.png` and an accessible native `pix/icon.svg` derived from
+  the same maintainer-supplied artwork.
 - `db/install.xml` declares seven primary keys, 22 stable foreign keys and 22 explicit indexes. XMLDB generates an
   additional exact backing index for every foreign key but no physical database constraint or cascade.
 - `linkedforumid` and `reactionid` remain documented conditional references because their `0` sentinel is valid.
@@ -42,6 +43,8 @@ not duplicate implementation procedures, field dictionaries or long security/pri
   and gradebook integrity.
 - Lifecycle documentation covers the pre-core gradebook uninstall hook, malformed-row fallback, CLI preflight and
   zero-residue uninstall verification. CRUD, AJAX, privacy and completion runtime behaviour is unchanged.
+- The activity and media guides document opt-in reaction configuration, effective learner-section visibility and
+  the live `HH:MM:SS` duration equivalent.
 
 ## Release checks
 

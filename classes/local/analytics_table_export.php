@@ -116,7 +116,7 @@ final class analytics_table_export {
      * @param bool $repeatmetricsavailable Whether replay metrics are available.
      * @param bool $includereactions Whether the reaction-cluster column is included.
      * @param int $minusers Privacy threshold.
-     * @return array<int, array<int, int|string>> Export rows.
+     * @return array Export rows.
      */
     public static function rows(
         array $bins,
@@ -192,7 +192,7 @@ final class analytics_table_export {
      * @param array|null $reactionsummary Privacy-safe overall reaction summary.
      * @param array|null $bookmarksummary Privacy-safe bookmark summary.
      * @param array|null $integritysummary Privacy-safe per-signal integrity summary.
-     * @return array<int, array<int, int|float|string>> Export rows.
+     * @return array Export rows.
      */
     public static function export_rows(
         array $bins,
@@ -326,7 +326,7 @@ final class analytics_table_export {
      * Converts a privacy-safe count summary to export values.
      *
      * @param array $summary Summary containing eventcount, studentcount and suppression state.
-     * @return array{0:int|string,1:int|string} Event and student values.
+     * @return array Event and student values.
      */
     private static function count_summary_values(array $summary): array {
         if (!empty($summary['hasdata']) && !empty($summary['suppressed'])) {
@@ -348,7 +348,7 @@ final class analytics_table_export {
      * @param int|string $studentvalue Privacy-safe student value.
      * @param int $timelinecolumncount Number of timeline columns to pad.
      * @param int $acknowledgementcolumncount Number of acknowledgement columns to pad.
-     * @return array<int, int|string> Export row.
+     * @return array Export row.
      */
     private static function event_summary_row(
         string $recordtype,

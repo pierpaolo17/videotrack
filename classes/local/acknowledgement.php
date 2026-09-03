@@ -103,7 +103,7 @@ final class acknowledgement {
      *
      * @param stdClass $instance Activity instance.
      * @param stdClass|null $state Current aggregate tracking state.
-     * @return array{viewedseconds: float, viewedpercent: float|null, duration: float, reachedend: bool}
+     * @return array Immutable viewing snapshot.
      */
     public static function progress_snapshot(stdClass $instance, ?stdClass $state): array {
         $duration = max(0.0, (float)($instance->durationseconds ?? 0));
@@ -310,7 +310,7 @@ final class acknowledgement {
      * Return current confirmations keyed by user id.
      *
      * @param stdClass $instance Activity instance.
-     * @param int[] $userids Optional user restriction.
+     * @param array $userids Optional user restriction.
      * @return stdClass[]
      */
     public static function current_records(stdClass $instance, array $userids = []): array {

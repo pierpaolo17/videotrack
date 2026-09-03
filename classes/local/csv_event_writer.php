@@ -62,10 +62,10 @@ final class csv_event_writer {
      *
      * @param resource $handle Output stream.
      * @param string $delimiter CSV delimiter.
-     * @param string[] $fields Selected identity/context fields.
+     * @param array $fields Selected identity/context fields.
      * @param stdClass $course Course record.
      * @param stdClass $videotrack Activity record.
-     * @param array<int, stdClass> $usermap Export users keyed by id.
+     * @param array $usermap Export users keyed by id.
      * @param int $cmid Course-module id.
      * @param context $context Module context.
      * @param float $duration Video duration in seconds.

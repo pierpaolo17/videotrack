@@ -94,8 +94,9 @@ $acknowledgementrequiresend = \mod_videotrack\local\acknowledgement::requires_vi
 $acknowledgementcanconfirm = $islearner
     && \mod_videotrack\local\acknowledgement::can_confirm($videotrack, $state ?: null);
 $reactionfeatureenabled = !empty($videotrack->reactionsenabled);
-$showreactioncontrols = !isguestuser() && $reactionfeatureenabled && !empty($reactions);
-$showstudentreactions = $islearner && $reactionfeatureenabled;
+$hasactivereactions = $reactionfeatureenabled && !empty($reactions);
+$showreactioncontrols = !isguestuser() && $hasactivereactions;
+$showstudentreactions = $islearner && $hasactivereactions;
 $showstudentnotespanel = !isguestuser() && !empty($videotrack->studentnotesenabled);
 $showbookmarkspanel = !isguestuser() && !empty($videotrack->bookmarksenabled);
 // Reused by the personal reaction list and by the unique-reaction fallback below.
@@ -121,9 +122,12 @@ if ($showstudentreactions) {
         $events = array_slice($events, 0, 200, true);
     }
 }
-$notice = trim((string)$videotrack->reactionnotice);
-if ($notice === '' && !empty($videotrack->showreactionnotice)) {
-    $notice = videotrack_build_required_reaction_notice($videotrack, $reactions);
+$notice = '';
+if ($hasactivereactions && !empty($videotrack->showreactionnotice)) {
+    $notice = trim((string)$videotrack->reactionnotice);
+    if ($notice === '') {
+        $notice = videotrack_build_required_reaction_notice($videotrack, $reactions);
+    }
 }
 
 $PAGE->set_url('/mod/videotrack/view.php', ['id' => $cm->id]);
@@ -239,7 +243,7 @@ $playerconfig = [
     'requiredpercent'        => (int)$videotrack->completionpercent,
     'origin'                 => (string)$CFG->wwwroot,
     'trackingenabled'        => $islearner,
-    'reactionsenabled'       => $islearner && !empty($videotrack->reactionsenabled),
+    'reactionsenabled'       => $islearner && $hasactivereactions,
     'studentnotesenabled'    => $islearner && !empty($videotrack->studentnotesenabled),
     'bookmarksenabled'       => $islearner && !empty($videotrack->bookmarksenabled),
     'integrityindicatorsenabled' => $islearner && !empty($videotrack->integrityindicatorsenabled),

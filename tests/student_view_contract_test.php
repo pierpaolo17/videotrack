@@ -122,6 +122,21 @@ final class student_view_contract_test extends advanced_testcase {
         $this->assertStringContainsString("get_string('forum:studenthelp', 'mod_videotrack')", $source);
         $this->assertStringNotContainsString('videotrack-acknowledgement card', $source);
         $this->assertStringNotContainsString("start_div('card-body')", $source);
+        $this->assertStringContainsString(
+            '$hasactivereactions = $reactionfeatureenabled && !empty($reactions);',
+            $source
+        );
+        $this->assertStringContainsString('$showstudentreactions = $islearner && $hasactivereactions;', $source);
+        $this->assertStringContainsString("'reactionsenabled'       => \$islearner && \$hasactivereactions", $source);
+        $this->assertStringContainsString(
+            '$showstudentnotespanel = !isguestuser() && !empty($videotrack->studentnotesenabled);',
+            $source
+        );
+        $this->assertStringContainsString(
+            '$showbookmarkspanel = !isguestuser() && !empty($videotrack->bookmarksenabled);',
+            $source
+        );
+        $this->assertStringContainsString("if (!empty(\$videotrack->forumpostingenabled)) {", $source);
 
         $styles = file_get_contents(__DIR__ . '/../styles.css');
         $this->assertIsString($styles);
@@ -135,5 +150,13 @@ final class student_view_contract_test extends advanced_testcase {
         $this->assertStringContainsString('border: 0;', $rule);
         $this->assertStringContainsString('border-radius: 0;', $rule);
         $this->assertStringContainsString('padding: 0;', $rule);
+
+        $feature = file_get_contents(__DIR__ . '/behat/student_personal_sections.feature');
+        $this->assertIsString($feature);
+        $this->assertStringContainsString('behatemptyreactions', $feature);
+        $this->assertStringContainsString(
+            '".videotrack-student-section-reactions" "css_element" should not exist',
+            $feature
+        );
     }
 }

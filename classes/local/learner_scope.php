@@ -36,7 +36,7 @@ final class learner_scope {
      * @param int $viewerid Report viewer id.
      * @param string $useridfield SQL userid field expression.
      * @param string $paramprefix Optional prefix used to make named SQL parameters unique.
-     * @return array{0:string,1:array}
+     * @return array SQL fragment and parameters.
      */
     public static function sql(
         context_module $context,
@@ -74,7 +74,7 @@ final class learner_scope {
      * @param array|null $groupids Null for all permitted groups, empty for none, or explicit group ids.
      * @param string $useridfield SQL userid field expression.
      * @param string $paramprefix Optional prefix used to make named SQL parameters unique.
-     * @return array{0:string,1:array}
+     * @return array SQL fragment and parameters.
      */
     public static function sql_for_group_ids(
         context_module $context,
@@ -115,7 +115,7 @@ final class learner_scope {
      * @param string $sql SQL containing named placeholders.
      * @param array $params Named SQL parameters.
      * @param string $prefix Unique alphanumeric prefix.
-     * @return array{0:string,1:array}
+     * @return array Rewritten SQL and parameters.
      */
     private static function prefix_named_params(string $sql, array $params, string $prefix): array {
         $renamed = [];

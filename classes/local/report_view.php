@@ -315,7 +315,7 @@ final class report_view {
     /**
      * Renders the analytics table download selector.
      *
-     * @param string[] $formats Enabled data formats.
+     * @param array $formats Enabled data formats.
      * @param array $params Current analytics filter parameters.
      * @return string Download form or an empty string.
      */

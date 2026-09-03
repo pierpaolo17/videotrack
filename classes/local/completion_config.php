@@ -104,7 +104,7 @@ final class completion_config {
      * only possible custom rule is an individually required reaction.
      *
      * @param int $courseid Course id.
-     * @return array<int, bool> Set keyed by VideoTrack instance id.
+     * @return array Set keyed by VideoTrack instance id.
      */
     public static function required_reaction_activity_set(int $courseid): array {
         global $DB;

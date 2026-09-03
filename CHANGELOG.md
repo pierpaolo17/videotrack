@@ -1,5 +1,26 @@
 # VideoTrack changelog
 
+## 1.7.120 - 2026-09-03
+
+### Fixed
+
+- Hidden learner reaction controls and personal reaction history unless reactions are enabled and at least one
+  active definition exists; the same effective state now governs the player configuration and reaction notice.
+- Added a form warning and validation error when reactions are enabled without a complete definition.
+
+### Changed
+
+- New activities no longer enable reactions by default.
+- The authoritative duration field now exposes a live, accessible `HH:MM:SS` equivalent for automatic and manual
+  values.
+- Replaced both activity icon formats with the maintainer-supplied native SVG artwork and its 1024-pixel PNG render.
+
+### Quality and documentation
+
+- Added browser/static regressions for empty reaction configuration and all optional learner sections.
+- Normalised the 31 reported PHPDoc signatures for the PHPDoc Checker while retaining detailed descriptions.
+- Updated the English and Italian guides, release markers and generated inventories for the current tree.
+
 ## 1.7.119 - 2026-08-29
 
 ### Changed

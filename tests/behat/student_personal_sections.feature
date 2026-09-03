@@ -48,3 +48,18 @@ Feature: Student personal history uses compact collapsible sections
     Then ".videotrack-student-section-notes[open]" "css_element" should exist
     When I click on ".videotrack-student-section-bookmarks > summary" "css_element"
     Then ".videotrack-student-section-bookmarks[open]" "css_element" should exist
+
+  Scenario: Empty or disabled optional features do not expose learner sections
+    Given the following "activities" exist:
+      | activity   | course | name    | reactionsenabled | behatemptyreactions | studentnotesenabled | bookmarksenabled |
+      | videotrack | C1     | Video 2 | 1                | 1                   | 0                   | 0                |
+    And I log in as "student1"
+    And I am on "Course 1" course homepage
+    When I click on "Video 2" "link"
+    Then "#videotrack-reactions" "css_element" should not exist
+    And ".videotrack-student-section-reactions" "css_element" should not exist
+    And "#videotrack-note-composer" "css_element" should not exist
+    And ".videotrack-student-section-notes" "css_element" should not exist
+    And "#videotrack-bookmark-composer" "css_element" should not exist
+    And ".videotrack-student-section-bookmarks" "css_element" should not exist
+    And "#videotrack-forum-action" "css_element" should not exist

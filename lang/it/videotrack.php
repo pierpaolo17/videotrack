@@ -188,6 +188,7 @@ $string['durationseconds_auto_note'] = 'VideoTrack prova a ricavare automaticame
 $string['durationseconds_auto_success'] = 'Durata ricavata automaticamente dalla sorgente selezionata: {$a} secondi. Puoi modificare questo valore ora o anche in seguito.';
 $string['durationseconds_auto_unavailable'] = 'Non è stato possibile ricavare automaticamente la durata dalla sorgente selezionata. Inseriscila manualmente oppure lascia 0 per non calcolare la percentuale vista.';
 $string['durationseconds_help'] = 'VideoTrack può precompilare questo valore controllato dal docente usando i metadati resi disponibili dalla sorgente YouTube, Vimeo o dal file locale selezionato. Verificalo prima del salvataggio: dopo il salvataggio dell’attività diventa la durata autorevole usata per percentuale vista, completamento percentuale e presa visione dopo l’ultimo secondo, e può comunque essere modificata in seguito. Inserisci 0 per mantenere il tracciamento degli intervalli senza calcolare la percentuale vista. I metadati del player dello studente non possono mai sovrascrivere il valore salvato.';
+$string['durationseconds_human'] = 'Pari a {$a}.';
 $string['durationseconds_invalid'] = 'La durata verificata deve essere compresa tra 0 e 86400 secondi.';
 $string['durationseconds_required'] = 'Imposta una durata verificata maggiore di 0 prima di richiedere la presa visione dopo l’ultimo secondo.';
 $string['durationseconds_zero_note'] = '0 = non calcolare la percentuale vista. Intervalli di visione, reazioni, note e segnalibri restano disponibili quando abilitati; la presa visione dopo l’ultimo secondo richiede una durata maggiore di 0.';
@@ -197,6 +198,7 @@ $string['err:invalidvttfile'] = 'Carica un file WebVTT valido di dimensione non 
 $string['err:minreactionsrequired'] = 'Impostare un numero minimo di reazioni distinte oppure abilitare la regola che richiede tutti i tipi di reazione.';
 $string['err:playbacksteprequired'] = 'Inserisci un numero intero da 0 a 300 secondi. Usa 0 per il default di piattaforma.';
 $string['err:playerwidthrequired'] = 'Inserisci 0 per usare il default di piattaforma oppure un numero intero da 1 a 4096 pixel.';
+$string['err:reactionconfigurationrequired'] = 'Configura almeno una reazione completa oppure disabilita le reazioni.';
 $string['err:reactioniconfileinvalid'] = 'Carica soltanto immagini in formato JPG, PNG, GIF o WebP.';
 $string['err:reactioniconfilerequired'] = 'Caricare un file icona quando il tipo icona è impostato su File caricato.';
 $string['err:reactionicontyperequired'] = 'Scegli il tipo di icona per questa reazione.';

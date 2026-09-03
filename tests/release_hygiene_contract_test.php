@@ -163,10 +163,12 @@ final class release_hygiene_contract_test extends advanced_testcase {
 
         $svg = file_get_contents(__DIR__ . '/../pix/icon.svg');
         $this->assertIsString($svg);
-        $this->assertStringContainsString('viewBox="0 0 256 256"', $svg);
+        $this->assertStringContainsString('viewBox="0 0 512 512"', $svg);
         $this->assertStringContainsString('<title id="title">VideoTrack</title>', $svg);
-        $this->assertStringContainsString('data:image/png;base64,', $svg);
-        $this->assertStringContainsString('preserveAspectRatio="xMidYMid meet"', $svg);
+        $this->assertStringContainsString('id="blueGrad2"', $svg);
+        $this->assertStringContainsString('id="greenGlossy"', $svg);
+        $this->assertStringNotContainsString('<image', $svg);
+        $this->assertStringNotContainsString('data:image/png;base64,', $svg);
         $this->assertStringNotContainsString('<script', $svg);
         $this->assertStringNotContainsString('href="http', $svg);
     }

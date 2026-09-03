@@ -22,7 +22,8 @@ arguments and keeps text/URLs safely encoded.
 
 The saved `durationseconds` is the denominator for watched percentage and completion. The teacher must verify the
 proposal. Manual input is required when provider privacy settings, consent, network policy, deleted/private media
-or browser metadata prevent detection. Saving `0` explicitly disables percentage calculation.
+or browser metadata prevent detection. Saving `0` explicitly disables percentage calculation. The adjacent live
+status converts the current value to `HH:MM:SS`; it is informational and does not introduce a second stored value.
 
 ## Adapter contract
 

@@ -1,6 +1,6 @@
 # Audit della documentazione
 
-Baseline: VideoTrack **1.7.119** (`2026082901`).
+Baseline: VideoTrack **1.7.120** (`2026090301`).
 
 ## Perimetro
 
@@ -33,8 +33,9 @@ duplicano intenzionalmente procedure implementative, dizionari dei campi o lungh
 ## Rilievi sull'albero corrente
 
 - Gli indici inglese e italiano hanno stesso perimetro e ordinamento.
-- Marker documentali, README principali e artefatti ER identificano 1.7.119 / 2026082901.
-- L'identità dell'attività include `pix/icon.png` a colori e `pix/icon.svg` trasparente per i formati corso.
+- Marker documentali, README principali e artefatti ER identificano 1.7.120 / 2026090301.
+- L'identità dell'attività include `pix/icon.png` da 1024 pixel e un `pix/icon.svg` nativo e accessibile derivati
+  dalla stessa grafica fornita dal maintainer.
 - `db/install.xml` dichiara sette chiavi primarie, 22 foreign key stabili e 22 indici espliciti. XMLDB genera inoltre
   un indice esatto per ogni foreign key, ma nessun vincolo fisico o cascade nel database.
 - `linkedforumid` e `reactionid` restano riferimenti condizionali documentati perché la sentinella `0` è valida.
@@ -42,6 +43,8 @@ duplicano intenzionalmente procedure implementative, dizionari dei campi o lungh
   denormalizzato e integrità gradebook.
 - La documentazione lifecycle copre hook anticipato di uninstall gradebook, fallback per record incoerenti, preflight
   CLI e verifica della disinstallazione a residuo zero. Il runtime CRUD, AJAX, privacy e completion resta invariato.
+- Le guide dell'attività e dei media documentano reazioni opt-in, visibilità effettiva delle sezioni learner e
+  l'equivalente live della durata in `HH:MM:SS`.
 
 ## Controlli di release
 

@@ -1,8 +1,8 @@
 # Function inventory
 
-Generated from the VideoTrack 1.7.119 source tree. PHP entries include named functions and methods; AMD entries include named declarations, assigned function expressions and object-method functions.
+Generated from the VideoTrack 1.7.120 source tree. PHP entries include named functions and methods; AMD entries include named declarations, assigned function expressions and object-method functions.
 
-**PHP functions/methods:** 755. **Named AMD callables:** 652.
+**PHP functions/methods:** 755. **Named AMD callables:** 654.
 
 | Location | Callable | Responsibility |
 |---|---|---|
@@ -329,43 +329,45 @@ Generated from the VideoTrack 1.7.119 source tree. PHP entries include named fun
 | `amd/src/core/utils.js:255` | `fetchTextWithTimeout` | Named callable `fetchTextWithTimeout` in the module; see its JSDoc and callers for parameter and side-effect details. |
 | `amd/src/core/utils.js:335` | `sessionSet` | Named callable `sessionSet` in the module; see its JSDoc and callers for parameter and side-effect details. |
 | `amd/src/core/utils.js:354` | `sessionGet` | Named callable `sessionGet` in the module; see its JSDoc and callers for parameter and side-effect details. |
-| `amd/src/form/duration.js:35` | `normaliseDuration` | Named callable `normaliseDuration` in the module; see its JSDoc and callers for parameter and side-effect details. |
-| `amd/src/form/duration.js:44` | `formatDuration` | Named callable `formatDuration` in the module; see its JSDoc and callers for parameter and side-effect details. |
-| `amd/src/form/duration.js:48` | `renderMessage` | Named callable `renderMessage` in the module; see its JSDoc and callers for parameter and side-effect details. |
-| `amd/src/form/duration.js:52` | `setStatus` | Named callable `setStatus` in the module; see its JSDoc and callers for parameter and side-effect details. |
-| `amd/src/form/duration.js:62` | `parseHttpsUrl` | Named callable `parseHttpsUrl` in the module; see its JSDoc and callers for parameter and side-effect details. |
-| `amd/src/form/duration.js:71` | `extractYouTubeId` | Named callable `extractYouTubeId` in the module; see its JSDoc and callers for parameter and side-effect details. |
-| `amd/src/form/duration.js:92` | `extractVimeoSource` | Named callable `extractVimeoSource` in the module; see its JSDoc and callers for parameter and side-effect details. |
-| `amd/src/form/duration.js:120` | `getProbeHost` | Named callable `getProbeHost` in the module; see its JSDoc and callers for parameter and side-effect details. |
-| `amd/src/form/duration.js:140` | `loadYouTubeApi` | Named callable `loadYouTubeApi` in the module; see its JSDoc and callers for parameter and side-effect details. |
-| `amd/src/form/duration.js:154` | `cleanup` | Named callable `cleanup` in the module; see its JSDoc and callers for parameter and side-effect details. |
-| `amd/src/form/duration.js:168` | `fail` | Named AMD callable `fail`; see JSDoc and callers for the current contract. |
-| `amd/src/form/duration.js:176` | `ready` | Named callable `ready` in the module; see its JSDoc and callers for parameter and side-effect details. |
-| `amd/src/form/duration.js:184` | `handler` | Named AMD callable `handler`; see JSDoc and callers for the current contract. |
-| `amd/src/form/duration.js:199` | `onerror` | Named AMD callable `onerror`; see JSDoc and callers for the current contract. |
-| `amd/src/form/duration.js:211` | `detectYouTubeDuration` | Named callable `detectYouTubeDuration` in the module; see its JSDoc and callers for parameter and side-effect details. |
-| `amd/src/form/duration.js:222` | `cleanup` | Named callable `cleanup` in the module; see its JSDoc and callers for parameter and side-effect details. |
-| `amd/src/form/duration.js:237` | `finish` | Named callable `finish` in the module; see its JSDoc and callers for parameter and side-effect details. |
-| `amd/src/form/duration.js:265` | `onReady` | Named callable `onReady` in the module; see its JSDoc and callers for parameter and side-effect details. |
-| `amd/src/form/duration.js:278` | `onError` | Named callable `onError` in the module; see its JSDoc and callers for parameter and side-effect details. |
-| `amd/src/form/duration.js:298` | `forgetRequireModule` | Named AMD callable `forgetRequireModule`; see JSDoc and callers for the current contract. |
-| `amd/src/form/duration.js:308` | `loadVimeoApi` | Named callable `loadVimeoApi` in the module; see its JSDoc and callers for parameter and side-effect details. |
-| `amd/src/form/duration.js:344` | `detectVimeoDuration` | Named callable `detectVimeoDuration` in the module; see its JSDoc and callers for parameter and side-effect details. |
-| `amd/src/form/duration.js:360` | `cleanup` | Named callable `cleanup` in the module; see its JSDoc and callers for parameter and side-effect details. |
-| `amd/src/form/duration.js:391` | `findLocalFileUrl` | Named callable `findLocalFileUrl` in the module; see its JSDoc and callers for parameter and side-effect details. |
-| `amd/src/form/duration.js:408` | `detectLocalDuration` | Named callable `detectLocalDuration` in the module; see its JSDoc and callers for parameter and side-effect details. |
-| `amd/src/form/duration.js:418` | `cleanup` | Named callable `cleanup` in the module; see its JSDoc and callers for parameter and side-effect details. |
-| `amd/src/form/duration.js:425` | `finish` | Named callable `finish` in the module; see its JSDoc and callers for parameter and side-effect details. |
-| `amd/src/form/duration.js:462` | `resolveSource` | Named callable `resolveSource` in the module; see its JSDoc and callers for parameter and side-effect details. |
-| `amd/src/form/duration.js:468` | `detect` | Named callable `detect` in the module; see its JSDoc and callers for parameter and side-effect details. |
-| `amd/src/form/duration.js:477` | `detect` | Named callable `detect` in the module; see its JSDoc and callers for parameter and side-effect details. |
+| `amd/src/form/duration.js:36` | `normaliseDuration` | Named callable `normaliseDuration` in the module; see its JSDoc and callers for parameter and side-effect details. |
+| `amd/src/form/duration.js:45` | `formatDuration` | Named callable `formatDuration` in the module; see its JSDoc and callers for parameter and side-effect details. |
+| `amd/src/form/duration.js:49` | `formatHumanDuration` | Formats the authoritative duration as `HH:MM:SS` for the activity form. |
+| `amd/src/form/duration.js:60` | `setHumanDuration` | Updates the accessible human-readable duration status. |
+| `amd/src/form/duration.js:66` | `renderMessage` | Named callable `renderMessage` in the module; see its JSDoc and callers for parameter and side-effect details. |
+| `amd/src/form/duration.js:70` | `setStatus` | Named callable `setStatus` in the module; see its JSDoc and callers for parameter and side-effect details. |
+| `amd/src/form/duration.js:80` | `parseHttpsUrl` | Named callable `parseHttpsUrl` in the module; see its JSDoc and callers for parameter and side-effect details. |
+| `amd/src/form/duration.js:89` | `extractYouTubeId` | Named callable `extractYouTubeId` in the module; see its JSDoc and callers for parameter and side-effect details. |
+| `amd/src/form/duration.js:110` | `extractVimeoSource` | Named callable `extractVimeoSource` in the module; see its JSDoc and callers for parameter and side-effect details. |
+| `amd/src/form/duration.js:138` | `getProbeHost` | Named callable `getProbeHost` in the module; see its JSDoc and callers for parameter and side-effect details. |
+| `amd/src/form/duration.js:158` | `loadYouTubeApi` | Named callable `loadYouTubeApi` in the module; see its JSDoc and callers for parameter and side-effect details. |
+| `amd/src/form/duration.js:172` | `cleanup` | Named callable `cleanup` in the module; see its JSDoc and callers for parameter and side-effect details. |
+| `amd/src/form/duration.js:186` | `fail` | Named AMD callable `fail`; see JSDoc and callers for the current contract. |
+| `amd/src/form/duration.js:194` | `ready` | Named callable `ready` in the module; see its JSDoc and callers for parameter and side-effect details. |
+| `amd/src/form/duration.js:202` | `handler` | Named AMD callable `handler`; see JSDoc and callers for the current contract. |
+| `amd/src/form/duration.js:217` | `onerror` | Named AMD callable `onerror`; see JSDoc and callers for the current contract. |
+| `amd/src/form/duration.js:229` | `detectYouTubeDuration` | Named callable `detectYouTubeDuration` in the module; see its JSDoc and callers for parameter and side-effect details. |
+| `amd/src/form/duration.js:240` | `cleanup` | Named callable `cleanup` in the module; see its JSDoc and callers for parameter and side-effect details. |
+| `amd/src/form/duration.js:255` | `finish` | Named callable `finish` in the module; see its JSDoc and callers for parameter and side-effect details. |
+| `amd/src/form/duration.js:283` | `onReady` | Named callable `onReady` in the module; see its JSDoc and callers for parameter and side-effect details. |
+| `amd/src/form/duration.js:296` | `onError` | Named callable `onError` in the module; see its JSDoc and callers for parameter and side-effect details. |
+| `amd/src/form/duration.js:316` | `forgetRequireModule` | Named AMD callable `forgetRequireModule`; see JSDoc and callers for the current contract. |
+| `amd/src/form/duration.js:326` | `loadVimeoApi` | Named callable `loadVimeoApi` in the module; see its JSDoc and callers for parameter and side-effect details. |
+| `amd/src/form/duration.js:362` | `detectVimeoDuration` | Named callable `detectVimeoDuration` in the module; see its JSDoc and callers for parameter and side-effect details. |
+| `amd/src/form/duration.js:378` | `cleanup` | Named callable `cleanup` in the module; see its JSDoc and callers for parameter and side-effect details. |
+| `amd/src/form/duration.js:409` | `findLocalFileUrl` | Named callable `findLocalFileUrl` in the module; see its JSDoc and callers for parameter and side-effect details. |
+| `amd/src/form/duration.js:426` | `detectLocalDuration` | Named callable `detectLocalDuration` in the module; see its JSDoc and callers for parameter and side-effect details. |
+| `amd/src/form/duration.js:436` | `cleanup` | Named callable `cleanup` in the module; see its JSDoc and callers for parameter and side-effect details. |
+| `amd/src/form/duration.js:443` | `finish` | Named callable `finish` in the module; see its JSDoc and callers for parameter and side-effect details. |
+| `amd/src/form/duration.js:480` | `resolveSource` | Named callable `resolveSource` in the module; see its JSDoc and callers for parameter and side-effect details. |
 | `amd/src/form/duration.js:486` | `detect` | Named callable `detect` in the module; see its JSDoc and callers for parameter and side-effect details. |
-| `amd/src/form/duration.js:494` | `getElements` | Named callable `getElements` in the module; see its JSDoc and callers for parameter and side-effect details. |
-| `amd/src/form/duration.js:508` | `install` | Named callable `install` in the module; see its JSDoc and callers for parameter and side-effect details. |
-| `amd/src/form/duration.js:524` | `schedule` | Named callable `schedule` in the module; see its JSDoc and callers for parameter and side-effect details. |
-| `amd/src/form/duration.js:529` | `run` | Named callable `run` in the module; see its JSDoc and callers for parameter and side-effect details. |
-| `amd/src/form/duration.js:593` | `sourceChanged` | Named callable `sourceChanged` in the module; see its JSDoc and callers for parameter and side-effect details. |
-| `amd/src/form/duration.js:629` | `init` | Named callable `init` in the module; see its JSDoc and callers for parameter and side-effect details. |
+| `amd/src/form/duration.js:495` | `detect` | Named callable `detect` in the module; see its JSDoc and callers for parameter and side-effect details. |
+| `amd/src/form/duration.js:504` | `detect` | Named callable `detect` in the module; see its JSDoc and callers for parameter and side-effect details. |
+| `amd/src/form/duration.js:512` | `getElements` | Named callable `getElements` in the module; see its JSDoc and callers for parameter and side-effect details. |
+| `amd/src/form/duration.js:527` | `install` | Named callable `install` in the module; see its JSDoc and callers for parameter and side-effect details. |
+| `amd/src/form/duration.js:543` | `schedule` | Named callable `schedule` in the module; see its JSDoc and callers for parameter and side-effect details. |
+| `amd/src/form/duration.js:548` | `run` | Named callable `run` in the module; see its JSDoc and callers for parameter and side-effect details. |
+| `amd/src/form/duration.js:612` | `sourceChanged` | Named callable `sourceChanged` in the module; see its JSDoc and callers for parameter and side-effect details. |
+| `amd/src/form/duration.js:650` | `init` | Named callable `init` in the module; see its JSDoc and callers for parameter and side-effect details. |
 | `amd/src/html5_player.js:56` | `resolveConfig` | Named callable `resolveConfig` in the module; see its JSDoc and callers for parameter and side-effect details. |
 | `amd/src/html5_player.js:67` | `uuid` | Named callable `uuid` in the module; see its JSDoc and callers for parameter and side-effect details. |
 | `amd/src/html5_player.js:71` | `safeNumber` | Named callable `safeNumber` in the module; see its JSDoc and callers for parameter and side-effect details. |
@@ -1093,16 +1095,16 @@ Generated from the VideoTrack 1.7.119 source tree. PHP entries include named fun
 | `locallib.php:952` | `videotrack_build_forum_subject` | PHP callable `videotrack_build_forum_subject`; see its DocBlock and callers for parameter, return-value and side-effect details. |
 | `locallib.php:981` | `videotrack_build_replay_url` | PHP callable `videotrack_build_replay_url`; see its DocBlock and callers for parameter, return-value and side-effect details. |
 | `mod_form.php:46` | `definition` | PHP callable `definition`; see its DocBlock and callers for parameter, return-value and side-effect details. |
-| `mod_form.php:1097` | `apply_default_section_expansion` | PHP callable `apply_default_section_expansion`; see its DocBlock and callers for parameter, return-value and side-effect details. |
-| `mod_form.php:1134` | `require_filepicker_accept_filter` | PHP callable `require_filepicker_accept_filter`; see its DocBlock and callers for parameter, return-value and side-effect details. |
-| `mod_form.php:1180` | `add_reaction_elements` | PHP callable `add_reaction_elements`; see its DocBlock and callers for parameter, return-value and side-effect details. |
-| `mod_form.php:1359` | `get_reaction_repeat_count` | PHP callable `get_reaction_repeat_count`; see its DocBlock and callers for parameter, return-value and side-effect details. |
-| `mod_form.php:1386` | `add_completion_rules` | PHP callable `add_completion_rules`; see its DocBlock and callers for parameter, return-value and side-effect details. |
-| `mod_form.php:1455` | `completion_rule_enabled` | PHP callable `completion_rule_enabled`; see its DocBlock and callers for parameter, return-value and side-effect details. |
-| `mod_form.php:1467` | `data_preprocessing` | PHP callable `data_preprocessing`; see its DocBlock and callers for parameter, return-value and side-effect details. |
-| `mod_form.php:1730` | `draft_area_contains_only_reaction_images` | PHP callable `draft_area_contains_only_reaction_images`; see its DocBlock and callers for parameter, return-value and side-effect details. |
-| `mod_form.php:1766` | `draft_area_contains_only_vtt` | PHP callable `draft_area_contains_only_vtt`; see its DocBlock and callers for parameter, return-value and side-effect details. |
-| `mod_form.php:1798` | `validation` | PHP callable `validation`; see its DocBlock and callers for parameter, return-value and side-effect details. |
+| `mod_form.php:1127` | `apply_default_section_expansion` | PHP callable `apply_default_section_expansion`; see its DocBlock and callers for parameter, return-value and side-effect details. |
+| `mod_form.php:1164` | `require_filepicker_accept_filter` | PHP callable `require_filepicker_accept_filter`; see its DocBlock and callers for parameter, return-value and side-effect details. |
+| `mod_form.php:1210` | `add_reaction_elements` | PHP callable `add_reaction_elements`; see its DocBlock and callers for parameter, return-value and side-effect details. |
+| `mod_form.php:1389` | `get_reaction_repeat_count` | PHP callable `get_reaction_repeat_count`; see its DocBlock and callers for parameter, return-value and side-effect details. |
+| `mod_form.php:1416` | `add_completion_rules` | PHP callable `add_completion_rules`; see its DocBlock and callers for parameter, return-value and side-effect details. |
+| `mod_form.php:1485` | `completion_rule_enabled` | PHP callable `completion_rule_enabled`; see its DocBlock and callers for parameter, return-value and side-effect details. |
+| `mod_form.php:1497` | `data_preprocessing` | PHP callable `data_preprocessing`; see its DocBlock and callers for parameter, return-value and side-effect details. |
+| `mod_form.php:1760` | `draft_area_contains_only_reaction_images` | PHP callable `draft_area_contains_only_reaction_images`; see its DocBlock and callers for parameter, return-value and side-effect details. |
+| `mod_form.php:1796` | `draft_area_contains_only_vtt` | PHP callable `draft_area_contains_only_vtt`; see its DocBlock and callers for parameter, return-value and side-effect details. |
+| `mod_form.php:1828` | `validation` | PHP callable `validation`; see its DocBlock and callers for parameter, return-value and side-effect details. |
 | `reports_course.php:34` | `videotrack_course_report_count_cell` | PHP callable `videotrack_course_report_count_cell`; see its DocBlock and callers for parameter, return-value and side-effect details. |
 | `reports_course.php:49` | `videotrack_course_report_percentage_cell` | PHP callable `videotrack_course_report_percentage_cell`; see its DocBlock and callers for parameter, return-value and side-effect details. |
 | `reports_course.php:80` | `videotrack_course_report_drop_cell` | PHP callable `videotrack_course_report_drop_cell`; see its DocBlock and callers for parameter, return-value and side-effect details. |
@@ -1299,8 +1301,8 @@ Generated from the VideoTrack 1.7.119 source tree. PHP entries include named fun
 | `tests/provider_loader_contract_test.php:35` | `test_vimeo_loaders_use_requirejs_without_global_define_mutation` | Named PHP function/method `test_vimeo_loaders_use_requirejs_without_global_define_mutation`; see source DocBlock and callers for the current contract. |
 | `tests/provider_loader_contract_test.php:51` | `test_provider_loader_promises_reset_after_rejection` | Named PHP function/method `test_provider_loader_promises_reset_after_rejection`; see source DocBlock and callers for the current contract. |
 | `tests/provider_loader_contract_test.php:66` | `test_youtube_duration_probe_waits_for_metadata_after_ready` | Verifies that YouTube form-duration detection waits for delayed metadata and cleans up its polling probe. |
-| `tests/provider_loader_contract_test.php:82` | `test_vimeo_requirejs_result_is_used_as_player_constructor` | Named PHP function/method `test_vimeo_requirejs_result_is_used_as_player_constructor`; see source DocBlock and callers for the current contract. |
-| `tests/provider_loader_contract_test.php:98` | `test_provider_behat_sdk_doubles_are_strictly_gated_and_loaded_first` | Verifies that local YouTube/Vimeo SDK doubles are Behat-only, identifier-bound and loaded before their production adapters. |
+| `tests/provider_loader_contract_test.php:91` | `test_vimeo_requirejs_result_is_used_as_player_constructor` | Named PHP function/method `test_vimeo_requirejs_result_is_used_as_player_constructor`; see source DocBlock and callers for the current contract. |
+| `tests/provider_loader_contract_test.php:107` | `test_provider_behat_sdk_doubles_are_strictly_gated_and_loaded_first` | Verifies that local YouTube/Vimeo SDK doubles are Behat-only, identifier-bound and loaded before their production adapters. |
 | `tests/provider_seek_snapshot_contract_test.php:35` | `test_youtube_blocked_seek_snapshots_pre_seek_position_before_rollback` | Named PHP function/method `test_youtube_blocked_seek_snapshots_pre_seek_position_before_rollback`; see source DocBlock and callers for the current contract. |
 | `tests/provider_seek_snapshot_contract_test.php:56` | `test_html5_blocked_seek_snapshots_pre_seek_position_before_rollback` | Named PHP function/method `test_html5_blocked_seek_snapshots_pre_seek_position_before_rollback`; see source DocBlock and callers for the current contract. |
 | `tests/provider_seek_snapshot_contract_test.php:77` | `test_vimeo_user_seek_retains_pre_seek_position_for_seek_resolution` | Named PHP function/method `test_vimeo_user_seek_retains_pre_seek_position_for_seek_resolution`; see source DocBlock and callers for the current contract. |

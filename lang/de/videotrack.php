@@ -188,6 +188,7 @@ $string['durationseconds_auto_note'] = 'VideoTrack versucht, die Dauer automatis
 $string['durationseconds_auto_success'] = 'Automatisch aus der ausgewählten Quelle ermittelte Dauer: {$a} Sekunden. Sie können diesen Wert jetzt oder später ändern.';
 $string['durationseconds_auto_unavailable'] = 'Die Dauer konnte nicht automatisch aus der ausgewählten Quelle ermittelt werden. Geben Sie sie manuell ein oder lassen Sie 0 stehen, um die Prozentberechnung zu überspringen.';
 $string['durationseconds_help'] = 'VideoTrack kann diesen von der Lehrperson kontrollierten Wert anhand der Metadaten der ausgewählten YouTube-, Vimeo- oder lokalen Dateiquelle vorausfüllen. Prüfen Sie ihn vor dem Speichern: Nach dem Speichern der Aktivität wird er zur verbindlichen Dauer für den angesehenen Prozentsatz, den prozentualen Abschluss und die Bestätigung nach der letzten Sekunde und kann später weiterhin geändert werden. Geben Sie 0 ein, um die Intervallverfolgung ohne Prozentberechnung beizubehalten. Metadaten aus dem Player der Lernenden können den gespeicherten Wert niemals überschreiben.';
+$string['durationseconds_human'] = 'Entspricht {$a}.';
 $string['durationseconds_invalid'] = 'Die verifizierte Dauer muss zwischen 0 und 86400 Sekunden liegen.';
 $string['durationseconds_required'] = 'Legen Sie eine verifizierte Videodauer größer als 0 fest, bevor Sie eine Bestätigung nach der letzten Sekunde verlangen.';
 $string['durationseconds_zero_note'] = '0 = keinen angesehenen Prozentsatz berechnen. Betrachtungsintervalle, Reaktionen, Notizen und Lesezeichen bleiben verfügbar, wenn sie aktiviert sind; die Bestätigung nach der letzten Sekunde erfordert eine Dauer größer als 0.';
@@ -197,6 +198,7 @@ $string['err:invalidvttfile'] = 'Laden Sie eine gültige WebVTT-Datei mit höchs
 $string['err:minreactionsrequired'] = 'Legen Sie eine Mindestanzahl unterschiedlicher Reaktionen fest oder aktivieren Sie die Regel, die alle Reaktionstypen verlangt.';
 $string['err:playbacksteprequired'] = 'Geben Sie eine ganze Zahl von 0 bis 300 Sekunden ein. Verwenden Sie 0 für den Plattformstandard.';
 $string['err:playerwidthrequired'] = 'Geben Sie 0 ein, um den Plattformstandard zu verwenden, oder eine ganze Zahl von 1 bis 4096 Pixeln.';
+$string['err:reactionconfigurationrequired'] = 'Konfigurieren Sie mindestens eine vollständige Reaktion oder deaktivieren Sie Reaktionen.';
 $string['err:reactioniconfileinvalid'] = 'Laden Sie nur Bilddateien im Format JPG, PNG, GIF oder WebP hoch.';
 $string['err:reactioniconfilerequired'] = 'Laden Sie eine Symboldatei hoch, wenn als Symboltyp Hochgeladene Datei ausgewählt ist.';
 $string['err:reactionicontyperequired'] = 'Wählen Sie den Symboltyp für diese Reaktion.';
