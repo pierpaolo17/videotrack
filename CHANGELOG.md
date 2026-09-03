@@ -1,5 +1,29 @@
 # VideoTrack changelog
 
+## 1.7.121 - 2026-09-04
+
+### Continuous integration
+
+- Added a repository-native GitHub Actions workflow based on the current `moodle-plugin-ci` v4 reference model.
+- Added six explicit Moodle/PHP/database jobs covering Moodle 5.0–5.3 development, MariaDB and PostgreSQL.
+- Made PHP lint, Moodle PHPCS, PHPDoc, plugin validation, savepoints, Mustache, Grunt, the VideoTrack validator,
+  PHPUnit and Behat reproducible in disposable runners, with downloadable logs and Behat faildumps.
+- Kept PHPMD advisory until a Moodle-aware ruleset is reviewed; PHPStan and Psalm remain excluded until their
+  bootstrap/stub configuration resolves Moodle symbols without analysing unrelated core/vendor code.
+- Recorded post-Grunt AMD differences as an advisory artifact to support canonical source-map closure.
+- Excluded repository-only `.github` automation from Moodle release archives.
+
+### Fixed
+
+- Removed the incompatible local PHPDoc override from the inherited test-generator method, which now uses its
+  parent contract and resolves the sole PHPDoc Checker warning left by 1.7.120 without changing the signature.
+- Corrected the documented Behat baseline from the preliminary 353-step estimate to the observed 357 steps.
+
+### Documentation
+
+- Added complete English and Italian GitHub Actions CI guides and linked them from the indexes and maintainer gates.
+- Recorded the 1.7.120 analyzer results and the distinction between plugin findings and invalid fallback setups.
+
 ## 1.7.120 - 2026-09-03
 
 ### Fixed

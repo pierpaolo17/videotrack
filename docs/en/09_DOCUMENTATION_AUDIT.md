@@ -1,6 +1,6 @@
 # Documentation audit
 
-Baseline: VideoTrack **1.7.120** (`2026090301`).
+Baseline: VideoTrack **1.7.121** (`2026090401`).
 
 ## Scope
 
@@ -17,7 +17,7 @@ Current coverage includes:
 - tracking, completion, gradebook, reports, Analytics and exports;
 - reactions, notes, bookmarks, Forum bridge and acknowledgement;
 - privacy, retention, reset, backup/restore and CLI diagnostics;
-- accessibility contract, troubleshooting and build/release gates;
+- accessibility contract, troubleshooting, build/release gates and repository CI;
 - exhaustive non-documentation file and named-callable inventories;
 - Markdown, Mermaid and accessible SVG database/ER artefacts.
 
@@ -33,7 +33,7 @@ not duplicate implementation procedures, field dictionaries or long security/pri
 ## Current-tree findings
 
 - English and Italian indexes have matching scope and ordering.
-- Documentation markers, root README files and ER artefacts identify 1.7.120 / 2026090301.
+- Documentation markers, root README files and ER artefacts identify 1.7.121 / 2026090401.
 - The activity identity includes a 1024-pixel `pix/icon.png` and an accessible native `pix/icon.svg` derived from
   the same maintainer-supplied artwork.
 - `db/install.xml` declares seven primary keys, 22 stable foreign keys and 22 explicit indexes. XMLDB generates an
@@ -45,6 +45,10 @@ not duplicate implementation procedures, field dictionaries or long security/pri
   zero-residue uninstall verification. CRUD, AJAX, privacy and completion runtime behaviour is unchanged.
 - The activity and media guides document opt-in reaction configuration, effective learner-section visibility and
   the live `HH:MM:SS` duration equivalent.
+- The GitHub Actions guide documents triggers, least-privilege permissions, the six-job Moodle/PHP/database matrix,
+  strict and advisory checks, retained logs, faildumps and the current PHPStan/Psalm configuration boundary.
+- `.github/workflows/ci.yml` is present in the repository but excluded from Moodle release archives through both
+  `.gitattributes` and `.moodleignore`.
 
 ## Release checks
 
@@ -55,4 +59,5 @@ Before promotion, verify:
 3. local Markdown links resolve and the EN/IT document sets are paired;
 4. file/callable inventories match the exact tree;
 5. XMLDB/ER counts and conditional-reference labels match `db/install.xml`;
-6. release-hygiene, XMLDB relationship and uninstall/gradebook PHPUnit contracts plus the proportionate server gate pass.
+6. release-hygiene, XMLDB relationship and uninstall/gradebook PHPUnit contracts plus the proportionate server gate pass;
+7. GitHub workflow syntax, action versions, matrix selectors, permissions and links match the repository file.

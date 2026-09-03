@@ -1,0 +1,230 @@
+name: Moodle Plugin CI
+
+"on":
+  push:
+    branches:
+      - main
+      - "release/**"
+  pull_request:
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: "videotrack-ci-${{ github.workflow }}-${{ github.ref }}"
+  cancel-in-progress: true
+
+jobs:
+  test:
+    name: "Moodle ${{ matrix.moodle }} | PHP ${{ matrix.php }} | ${{ matrix.database }}"
+    runs-on: ubuntu-24.04
+    timeout-minutes: 75
+
+    services:
+      postgres:
+        image: ${{ matrix.database == 'pgsql' && 'postgres:17' || '' }}
+        env:
+          POSTGRES_USER: postgres
+          POSTGRES_HOST_AUTH_METHOD: trust
+        ports:
+          - 5432:5432
+        options: >-
+          --health-cmd pg_isready
+          --health-interval 10s
+          --health-timeout 5s
+          --health-retries 3
+
+      mariadb:
+        image: ${{ matrix.database == 'mariadb' && 'mariadb:11' || '' }}
+        env:
+          MARIADB_ALLOW_EMPTY_ROOT_PASSWORD: "1"
+          MYSQL_CHARACTER_SET_SERVER: utf8mb4
+          MYSQL_COLLATION_SERVER: utf8mb4_unicode_ci
+        ports:
+          - 3306:3306
+        options: >-
+          --health-cmd="healthcheck.sh --connect --innodb_initialized"
+          --health-interval 10s
+          --health-timeout 5s
+          --health-retries 3
+
+    strategy:
+      fail-fast: false
+      matrix:
+        include:
+          - id: moodle50-mariadb
+            moodle: "5.0"
+            moodle-branch: MOODLE_500_STABLE
+            php: "8.2"
+            database: mariadb
+            quality: true
+          - id: moodle50-pgsql
+            moodle: "5.0"
+            moodle-branch: MOODLE_500_STABLE
+            php: "8.2"
+            database: pgsql
+            quality: false
+          - id: moodle51-mariadb
+            moodle: "5.1"
+            moodle-branch: MOODLE_501_STABLE
+            php: "8.3"
+            database: mariadb
+            quality: false
+          - id: moodle52-mariadb
+            moodle: "5.2"
+            moodle-branch: MOODLE_502_STABLE
+            php: "8.3"
+            database: mariadb
+            quality: false
+          - id: moodle53-mariadb
+            moodle: "5.3-dev"
+            moodle-branch: main
+            php: "8.3"
+            database: mariadb
+            quality: false
+          - id: moodle53-pgsql
+            moodle: "5.3-dev"
+            moodle-branch: main
+            php: "8.3"
+            database: pgsql
+            quality: false
+
+    steps:
+      - name: Check out repository code
+        uses: actions/checkout@v6
+        with:
+          path: plugin
+          persist-credentials: false
+
+      - name: Create report directory
+        run: mkdir -p ci-reports
+
+      - name: Setup PHP ${{ matrix.php }}
+        uses: shivammathur/setup-php@v2
+        with:
+          php-version: ${{ matrix.php }}
+          ini-values: max_input_vars=5000, opcache.enable_cli=1
+          coverage: none
+
+      - name: Initialise moodle-plugin-ci
+        run: |
+          set -o pipefail
+          composer create-project -n --no-dev --prefer-dist moodlehq/moodle-plugin-ci ci ^4 2>&1 \
+            | tee ci-reports/bootstrap.txt
+          echo "$(cd ci/bin && pwd)" >> "$GITHUB_PATH"
+          echo "$(cd ci/vendor/bin && pwd)" >> "$GITHUB_PATH"
+          sudo locale-gen en_AU.UTF-8
+          echo "NVM_DIR=$HOME/.nvm" >> "$GITHUB_ENV"
+
+      - name: Install Moodle and VideoTrack
+        env:
+          DB: ${{ matrix.database }}
+          MOODLE_BRANCH: ${{ matrix.moodle-branch }}
+        run: |
+          set -o pipefail
+          moodle-plugin-ci install --plugin ./plugin --db-host=127.0.0.1 2>&1 \
+            | tee ci-reports/install.txt
+
+      - name: PHP lint
+        if: ${{ !cancelled() && matrix.quality }}
+        run: |
+          set -o pipefail
+          moodle-plugin-ci phplint 2>&1 | tee ci-reports/phplint.txt
+
+      - name: PHP Mess Detector (advisory baseline)
+        if: ${{ !cancelled() && matrix.quality }}
+        continue-on-error: true
+        run: |
+          set -o pipefail
+          moodle-plugin-ci phpmd 2>&1 | tee ci-reports/phpmd.txt
+
+      - name: Moodle Code Checker
+        if: ${{ !cancelled() && matrix.quality }}
+        run: |
+          set -o pipefail
+          moodle-plugin-ci phpcs --max-warnings 0 2>&1 | tee ci-reports/phpcs.txt
+
+      - name: Moodle PHPDoc Checker
+        if: ${{ !cancelled() && matrix.quality }}
+        run: |
+          set -o pipefail
+          moodle-plugin-ci phpdoc --max-warnings 0 2>&1 | tee ci-reports/phpdoc.txt
+
+      - name: Validate plugin metadata
+        if: ${{ !cancelled() && matrix.quality }}
+        run: |
+          set -o pipefail
+          moodle-plugin-ci validate 2>&1 | tee ci-reports/validate.txt
+
+      - name: Check upgrade savepoints
+        if: ${{ !cancelled() && matrix.quality }}
+        run: |
+          set -o pipefail
+          moodle-plugin-ci savepoints 2>&1 | tee ci-reports/savepoints.txt
+
+      - name: Mustache lint
+        if: ${{ !cancelled() && matrix.quality }}
+        run: |
+          set -o pipefail
+          moodle-plugin-ci mustache 2>&1 | tee ci-reports/mustache.txt
+
+      - name: Grunt AMD
+        if: ${{ !cancelled() }}
+        run: |
+          set -o pipefail
+          moodle-plugin-ci grunt --max-lint-warnings 0 2>&1 | tee ci-reports/grunt.txt
+
+      - name: Record generated AMD differences
+        if: ${{ !cancelled() }}
+        run: |
+          git -C plugin diff -- amd/build > ci-reports/amd-build.diff
+          if test -s ci-reports/amd-build.diff; then
+            echo "::warning::Grunt changed tracked AMD build files; inspect the uploaded amd-build.diff artifact."
+          else
+            echo "Tracked AMD build files already match the Grunt output." > ci-reports/amd-build.diff
+          fi
+
+      - name: VideoTrack installation validator
+        if: ${{ !cancelled() }}
+        run: |
+          set -o pipefail
+          pluginroot="$(find "$GITHUB_WORKSPACE" -path '*/mod/videotrack' -print -quit)"
+          validator="$pluginroot/cli/validate.php"
+          test -n "$pluginroot" && test -f "$validator"
+          php "$validator" --strict 2>&1 | tee ci-reports/videotrack-validate.txt
+
+      - name: PHPUnit tests
+        if: ${{ !cancelled() }}
+        run: |
+          set -o pipefail
+          moodle-plugin-ci phpunit --fail-on-warning 2>&1 | tee ci-reports/phpunit.txt
+
+      - name: Behat features
+        id: behat
+        if: ${{ !cancelled() }}
+        run: |
+          set -o pipefail
+          moodle-plugin-ci behat --profile chrome --scss-deprecations 2>&1 | tee ci-reports/behat.txt
+
+      - name: Upload CI reports
+        if: ${{ always() }}
+        uses: actions/upload-artifact@v7
+        with:
+          name: "videotrack-ci-${{ matrix.id }}"
+          path: ci-reports
+          retention-days: 14
+          if-no-files-found: warn
+
+      - name: Upload Behat faildump
+        if: ${{ failure() && steps.behat.outcome == 'failure' }}
+        uses: actions/upload-artifact@v7
+        with:
+          name: "videotrack-behat-faildump-${{ matrix.id }}"
+          path: ${{ github.workspace }}/moodledata/behat_dump
+          retention-days: 14
+          if-no-files-found: ignore
+
+      - name: Mark cancelled jobs as failed
+        if: ${{ cancelled() }}
+        run: exit 1

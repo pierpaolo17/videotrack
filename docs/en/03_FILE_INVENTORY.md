@@ -1,13 +1,16 @@
 # Distributed file inventory
 
-This inventory is generated against the VideoTrack 1.7.120 tree and lists every non-documentation file. Canonical JavaScript is under `amd/src`; files under `amd/build` are generated.
+This inventory is generated against the VideoTrack 1.7.121 repository tree. It lists every distributed
+non-documentation file plus the repository-only CI workflow. Canonical JavaScript is under `amd/src`; files under
+`amd/build` are generated.
 
-Entries: **295**.
+Entries: **296** — 295 distributed files and one workflow excluded from release archives.
 
 | File | Responsibility |
 |---|---|
 | `.gitattributes` | Repository text/binary attributes. |
 | `.moodleignore` | Files excluded by Moodle packaging. |
+| `.github/workflows/ci.yml` | Repository-only GitHub Actions matrix; export-ignored from Moodle release archives. |
 | `phpcs.xml.dist` | Canonical PHPCS release-gate configuration using the full Moodle Extra ruleset with no VideoTrack-specific exclusions. |
 | `amd/build/completion_requirements.min.js` | Generated minified AMD build for the grouped completion-requirements presentation; produced by Moodle Grunt. |
 | `amd/build/completion_requirements.min.js.map` | Generated source map for the `completion_requirements` AMD build; never edit manually. |

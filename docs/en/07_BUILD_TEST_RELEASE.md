@@ -33,11 +33,11 @@ vendor/bin/phpunit --testsuite mod_videotrack_testsuite
 For AMD changes, run Moodle's real Grunt task from the Moodle tree and distribute every changed `.min.js`
 and `.map`. Syntax-only JavaScript checks do not replace Grunt/ESLint.
 
-PHPStan, PHPDoc Checker, PHPMD and Psalm are supplementary release analyzers. Record each tool version,
-configuration and complete output; warnings are not silently suppressed. Their successful execution complements,
-but does not replace, Moodle PHPCS, PHP lint, PHPUnit, Behat or Grunt. Tool-specific configuration is promoted only
-after it has been exercised against every supported Moodle branch, so a locally convenient ruleset is never
-documented as a cross-version guarantee prematurely.
+PHPDoc Checker is a blocking repository-CI gate with `--max-warnings 0`. PHPMD is advisory until a reviewed
+Moodle-aware ruleset and explicit baseline exist. PHPStan and Psalm require committed bootstrap/stub configurations
+that resolve Moodle symbols and exclude unrelated core/vendor code before either result can become a plugin gate.
+Record every tool version, configuration and complete output; warnings are not silently suppressed. These analyzers
+complement, but do not replace, Moodle PHPCS, PHP lint, PHPUnit, Behat or Grunt.
 
 ## Behavioural gates
 
@@ -49,7 +49,20 @@ documented as a cross-version guarantee prematurely.
   related code/schema changes.
 
 The current distributed suites contain 274 PHPUnit tests / 2533 assertions and 24 Behat scenarios /
-353 steps per supported Moodle branch. These numbers are expectations, not a pass claim.
+357 steps per supported Moodle branch. These numbers are expectations, not a pass claim.
+
+## Repository continuous integration
+
+`.github/workflows/ci.yml` applies the maintained `moodle-plugin-ci` v4 workflow model to six explicit
+Moodle/PHP/database environments. It runs on pushes to `main` and `release/**`, pull requests and manual dispatch.
+The workflow uses read-only repository permissions, retains no checkout credential and uploads command logs plus
+Behat faildumps. See [`23_GITHUB_ACTIONS_CI.md`](23_GITHUB_ACTIONS_CI.md) for the exact matrix, strict/advisory
+classification and result interpretation.
+
+The workflow records post-Grunt differences under `amd/build` as evidence. During initial adoption this is an
+advisory warning; it becomes blocking only after the complete tracked AMD baseline has been regenerated and
+reviewed. A green Grunt step proves buildability, while a clean post-build diff proves that generated files were
+already packaged canonically; these are different claims.
 
 ## Schema and data checks
 
@@ -83,4 +96,5 @@ manual smoke results and any deferred gate. Do not promote a candidate while a r
 The read-only `cli/validate.php` installation validator and
 `cli/benchmark_course_analytics.php` Analytics benchmark are documented in
 [`21_CLI_DIAGNOSTICS.md`](21_CLI_DIAGNOSTICS.md); browser coverage is in
-[`22_BEHAT_BROWSER_TESTS.md`](22_BEHAT_BROWSER_TESTS.md).
+[`22_BEHAT_BROWSER_TESTS.md`](22_BEHAT_BROWSER_TESTS.md), and repository automation is in
+[`23_GITHUB_ACTIONS_CI.md`](23_GITHUB_ACTIONS_CI.md).
