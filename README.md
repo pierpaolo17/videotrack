@@ -4,7 +4,7 @@ VideoTrack is a Moodle activity module for HTML5/uploaded, YouTube and Vimeo vid
 server-validated watched progress, study interactions, custom completion, gradebook integration and
 privacy-aware reporting.
 
-Current release documented by this tree: **1.7.119**. Supported Moodle branches: **5.0–5.3**.
+Current release documented by this tree: **1.7.120**. Supported Moodle branches: **5.0–5.3**.
 
 - Italian overview: [`README_IT.md`](README_IT.md)
 - Complete English guide: [`docs/en/funzionalita.md`](docs/en/funzionalita.md)
@@ -17,13 +17,13 @@ Current release documented by this tree: **1.7.119**. Supported Moodle branches:
 
 | Area | Available functionality |
 |---|---|
-| Media | Uploaded/HTML5 video, YouTube and Vimeo; form-only duration suggestion; poster; optional uploaded-file download. |
+| Media | Uploaded/HTML5 video, YouTube and Vimeo; form-only duration suggestion with `HH:MM:SS` equivalent; poster; optional uploaded-file download. |
 | Player | Autoplay, loop, initial mute, responsive width, configurable controls, keyboard/fullscreen policy, rewind/forward steps. |
 | Navigation | Independent forward/backward seek policy, trusted resume, bounded report replay and blocked-seek recovery. |
 | Speed | Configurable speed list, learner rate-change policy, maximum rate and fallback rate after a blocked seek. |
 | Watched evidence | Server-authorised playback sessions, idempotent segment requests, unique-interval coverage and derived progress state. |
 | Timed text | WebVTT subtitles, searchable transcript, chapters and timestamp navigation. |
-| Reactions | Presets and custom emoji, text, Font Awesome or uploaded icons; add/remove, deduplication and burst limits. |
+| Reactions | Opt-in presets and custom emoji, text, Font Awesome or uploaded icons; configuration guard, add/remove, deduplication and burst limits. |
 | Study tools | Personal timestamped notes, private named bookmarks, owner bookmark replay/export and compact collapsible histories. |
 | Forum | Optional timestamped composer linked to a compatible Forum in the same course. |
 | Acknowledgement | Versioned learner statement, anytime/final-second timing and completion integration. |

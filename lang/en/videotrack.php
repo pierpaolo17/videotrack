@@ -188,6 +188,7 @@ $string['durationseconds_auto_note'] = 'VideoTrack attempts to obtain the durati
 $string['durationseconds_auto_success'] = 'Duration obtained automatically from the selected source: {$a} seconds. You can change this value now or later.';
 $string['durationseconds_auto_unavailable'] = 'The duration could not be obtained automatically from the selected source. Enter it manually, or leave 0 to skip watched-percentage calculation.';
 $string['durationseconds_help'] = 'VideoTrack can pre-fill this teacher-controlled value from metadata exposed by the selected YouTube, Vimeo or local-file source. Review it before saving: after the activity is saved, it becomes the authoritative duration used for watched percentage, percentage-based completion and acknowledgement after the final second, and it can still be edited later. Enter 0 to keep interval tracking active without calculating a watched percentage. Learner-player metadata can never overwrite the saved value.';
+$string['durationseconds_human'] = 'Equivalent to {$a}.';
 $string['durationseconds_invalid'] = 'The verified duration must be between 0 and 86400 seconds.';
 $string['durationseconds_required'] = 'Set a verified video duration greater than 0 before requiring acknowledgement after the final second.';
 $string['durationseconds_zero_note'] = '0 = do not calculate watched percentage. Viewing intervals, reactions, notes and bookmarks remain available when enabled; acknowledgement after the final second requires a duration greater than 0.';
@@ -197,6 +198,7 @@ $string['err:invalidvttfile'] = 'Upload a valid WebVTT file no larger than 1 MB.
 $string['err:minreactionsrequired'] = 'Set a minimum number of distinct reactions or enable the rule requiring all reaction types.';
 $string['err:playbacksteprequired'] = 'Enter a whole number from 0 to 300 seconds. Use 0 for the platform default.';
 $string['err:playerwidthrequired'] = 'Enter 0 to use the platform default, or a whole number from 1 to 4096 pixels.';
+$string['err:reactionconfigurationrequired'] = 'Configure at least one complete reaction, or disable reactions.';
 $string['err:reactioniconfileinvalid'] = 'Upload only image files in JPG, PNG, GIF or WebP format.';
 $string['err:reactioniconfilerequired'] = 'Upload an icon file when the icon type is set to Uploaded file.';
 $string['err:reactionicontyperequired'] = 'Choose the icon type for this reaction.';

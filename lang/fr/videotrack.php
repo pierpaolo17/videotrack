@@ -188,6 +188,7 @@ $string['durationseconds_auto_note'] = 'VideoTrack tente d’obtenir automatique
 $string['durationseconds_auto_success'] = 'Durée obtenue automatiquement depuis la source sélectionnée : {$a} secondes. Vous pouvez modifier cette valeur maintenant ou ultérieurement.';
 $string['durationseconds_auto_unavailable'] = 'La durée n’a pas pu être obtenue automatiquement depuis la source sélectionnée. Saisissez-la manuellement ou laissez 0 pour ne pas calculer le pourcentage visionné.';
 $string['durationseconds_help'] = 'VideoTrack peut préremplir cette valeur contrôlée par l’enseignant à partir des métadonnées fournies par la source YouTube, Vimeo ou le fichier local sélectionné. Vérifiez-la avant l’enregistrement : après l’enregistrement de l’activité, elle devient la durée de référence utilisée pour le pourcentage visionné, l’achèvement en pourcentage et l’attestation après la dernière seconde, et elle peut encore être modifiée ultérieurement. Saisissez 0 pour conserver le suivi des intervalles sans calculer de pourcentage visionné. Les métadonnées du lecteur de l’étudiant ne peuvent jamais remplacer la valeur enregistrée.';
+$string['durationseconds_human'] = 'Équivaut à {$a}.';
 $string['durationseconds_invalid'] = 'La durée vérifiée doit être comprise entre 0 et 86400 secondes.';
 $string['durationseconds_required'] = 'Définissez une durée vérifiée supérieure à 0 avant d’exiger l’attestation après la dernière seconde.';
 $string['durationseconds_zero_note'] = '0 = ne pas calculer le pourcentage visionné. Les intervalles de visionnage, réactions, notes et signets restent disponibles lorsqu’ils sont activés ; l’attestation après la dernière seconde exige une durée supérieure à 0.';
@@ -197,6 +198,7 @@ $string['err:invalidvttfile'] = 'Déposez un fichier WebVTT valide de 1 Mo maxim
 $string['err:minreactionsrequired'] = 'Définissez un nombre minimal de réactions distinctes ou activez la règle exigeant tous les types de réaction.';
 $string['err:playbacksteprequired'] = 'Saisissez un nombre entier de 0 à 300 secondes. Utilisez 0 pour la valeur par défaut de la plateforme.';
 $string['err:playerwidthrequired'] = 'Saisissez 0 pour utiliser la valeur par défaut de la plateforme, ou un nombre entier de 1 à 4096 pixels.';
+$string['err:reactionconfigurationrequired'] = 'Configurez au moins une réaction complète ou désactivez les réactions.';
 $string['err:reactioniconfileinvalid'] = 'Téléversez uniquement des images au format JPG, PNG, GIF ou WebP.';
 $string['err:reactioniconfilerequired'] = 'Téléversez un fichier d’icône lorsque le type d’icône est défini sur Fichier téléversé.';
 $string['err:reactionicontyperequired'] = 'Choisissez le type d’icône pour cette réaction.';

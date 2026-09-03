@@ -31,6 +31,7 @@ define(['core/log'], function(Log) {
     var vimeoApiPromise = null;
     var probeSequence = 0;
     var DURATION_TOKEN = '__VIDEOTRACK_DURATION__';
+    var HUMAN_DURATION_TOKEN = '__VIDEOTRACK_DURATION_HUMAN__';
 
     function normaliseDuration(value, maximum) {
         value = Number(value);
@@ -43,6 +44,23 @@ define(['core/log'], function(Log) {
 
     function formatDuration(value) {
         return normaliseDuration(value, 86400).toFixed(3).replace(/\.000$/, '').replace(/(\.\d*?)0+$/, '$1');
+    }
+
+    function formatHumanDuration(value) {
+        value = Number(value);
+        var totalSeconds = Number.isFinite(value) && value > 0 ? Math.min(86400, Math.round(value)) : 0;
+        var hours = Math.floor(totalSeconds / 3600);
+        var minutes = Math.floor((totalSeconds % 3600) / 60);
+        var seconds = totalSeconds % 60;
+        return [hours, minutes, seconds].map(function(part) {
+            return part < 10 ? '0' + part : String(part);
+        }).join(':');
+    }
+
+    function setHumanDuration(output, template, value) {
+        if (output) {
+            output.textContent = String(template || '').split(HUMAN_DURATION_TOKEN).join(formatHumanDuration(value));
+        }
     }
 
     function renderMessage(template, duration) {
@@ -498,9 +516,10 @@ define(['core/log'], function(Log) {
             vimeo: document.getElementById(config.vimeoid),
             file: document.getElementById(config.fileid),
             duration: document.getElementById(config.durationid),
-            note: document.getElementById(config.noteid)
+            note: document.getElementById(config.noteid),
+            human: document.getElementById(config.humanid)
         };
-        return elements.source && elements.youtube && elements.vimeo && elements.file && elements.duration
+        return elements.source && elements.youtube && elements.vimeo && elements.file && elements.duration && elements.human
             ? elements
             : null;
     }
@@ -607,6 +626,7 @@ define(['core/log'], function(Log) {
             schedule(150);
         });
         elements.duration.addEventListener('input', function() {
+            setHumanDuration(elements.human, config.messages.human, elements.duration.value);
             if (!state.programmatic) {
                 state.durationRevision++;
                 setStatus(elements.note, config.messages.idle, 'idle');
@@ -621,6 +641,7 @@ define(['core/log'], function(Log) {
                 }
             }).observe(fileFieldset, {childList: true, subtree: true});
         }
+        setHumanDuration(elements.human, config.messages.human, elements.duration.value);
         setStatus(elements.note, config.messages.idle, 'idle');
         schedule(400);
     }
@@ -647,6 +668,7 @@ define(['core/log'], function(Log) {
         },
         extractYouTubeId: extractYouTubeId,
         extractVimeoSource: extractVimeoSource,
-        normaliseDuration: normaliseDuration
+        normaliseDuration: normaliseDuration,
+        formatHumanDuration: formatHumanDuration
     };
 });

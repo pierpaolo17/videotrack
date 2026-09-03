@@ -1,6 +1,6 @@
 # User and administrator guide
 
-VideoTrack 1.7.119 is a Moodle activity for delivering video, recording server-validated watched evidence,
+VideoTrack 1.7.120 is a Moodle activity for delivering video, recording server-validated watched evidence,
 supporting study interactions and evaluating completion. Every optional collection feature must be enabled
 explicitly. Site policy can restrict which settings a teacher may override.
 
@@ -15,6 +15,7 @@ explicitly. Site policy can restrict which settings a teacher may override.
 The duration stored by the teacher is authoritative for percentages. Automatic detection is only a proposal:
 review it before saving, enter it manually when detection is unavailable, or use `0` to disable percentage
 calculation. Player adapters share a contract but have separate implementations and external-provider limits.
+The form displays the same value as `HH:MM:SS` and updates that equivalent after automatic detection or manual input.
 
 ## Activity configuration
 
@@ -63,6 +64,11 @@ ledger remains the authority for earned progress.
 Teachers may start from a preset or define custom reactions with label, description and emoji, Font Awesome,
 text or uploaded icon. A reaction can be marked as required for completion. Learners can add or remove their
 own reactions at trusted timestamps. Duplicate and burst controls reduce accidental or automated spam.
+
+Reactions are disabled by default. Enabling them requires at least one complete active definition; the form warns
+and rejects an empty configuration. The learner controls, player reaction integration, notice and **My reactions**
+history are rendered only when both the feature and an active definition are present. Notes, bookmarks and the
+Forum action remain independently governed by their own enablement and destination settings.
 
 Completion can require a minimum number of distinct reactions, every enabled reaction type, specific required
 types, or a combination. The configured `AND`/`OR` logic applies inside the single composite VideoTrack rule.

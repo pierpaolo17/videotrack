@@ -800,9 +800,9 @@ class tracker {
      * @param array     $interval     Normalised [start, end] interval.
      * @param float     $lastposition Resume position.
      * @param stdClass|null $segment  Segment record to insert, or null when none is needed.
-     * @param int|null  &$segmentid   Set to inserted id; -1 means server guard rejected the segment.
+     * @param int|null  $segmentid    Set to inserted id; -1 means server guard rejected the segment.
      * @param array|null $guard Optional server-credit guard values from save_segment.
-     * @param bool|null &$requestreplayed Set to true when an existing idempotent result is reused.
+     * @param bool|null $requestreplayed Set to true when an existing idempotent result is reused.
      * @return stdClass Updated state.
      */
     public static function update_state(

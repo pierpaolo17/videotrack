@@ -73,7 +73,7 @@ class integrity {
      *
      * @param int|null $minimum Configured minimum in seconds.
      * @param int|null $maximum Configured maximum in seconds.
-     * @return array{min:int,max:int} Normalised inclusive bounds.
+     * @return array Normalised inclusive bounds.
      */
     public static function normalise_random_pause_bounds(?int $minimum, ?int $maximum): array {
         $minimum = $minimum ?? self::RANDOM_PAUSE_DEFAULT_MIN_SECONDS;
@@ -95,7 +95,7 @@ class integrity {
     /**
      * Return the effective site-level random attention-pause bounds.
      *
-     * @return array{min:int,max:int} Inclusive bounds in seconds.
+     * @return array Inclusive bounds in seconds.
      */
     public static function random_pause_bounds(): array {
         $minimum = get_config('mod_videotrack', 'randompauseminseconds');
@@ -159,7 +159,7 @@ class integrity {
      *
      * @param array $rows Rows containing eventtype, eventcount and studentcount.
      * @param int $minusers Minimum distinct users required for exact values.
-     * @return array<string, array{eventcount:int|null,studentcount:int|null,suppressed:bool,hasdata:bool}>
+     * @return array Privacy-safe summary keyed by event type.
      */
     public static function summarise(array $rows, int $minusers): array {
         $summary = [];

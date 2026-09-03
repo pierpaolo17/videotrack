@@ -1,8 +1,8 @@
 # Inventario delle funzioni
 
-Generato dall’albero sorgente VideoTrack 1.7.119. Le voci PHP includono funzioni e metodi nominati; le voci AMD includono dichiarazioni nominate, espressioni funzione assegnate e funzioni-metodo di oggetti.
+Generato dall’albero sorgente VideoTrack 1.7.120. Le voci PHP includono funzioni e metodi nominati; le voci AMD includono dichiarazioni nominate, espressioni funzione assegnate e funzioni-metodo di oggetti.
 
-**Funzioni/metodi PHP:** 755. **Callable AMD nominati:** 652.
+**Funzioni/metodi PHP:** 755. **Callable AMD nominati:** 654.
 
 | Posizione | Callable | Responsabilità |
 |---|---|---|
@@ -329,43 +329,45 @@ Generato dall’albero sorgente VideoTrack 1.7.119. Le voci PHP includono funzio
 | `amd/src/core/utils.js:255` | `fetchTextWithTimeout` | Callable `fetchTextWithTimeout` del modulo; JSDoc e chiamanti definiscono parametri ed effetti. |
 | `amd/src/core/utils.js:335` | `sessionSet` | Callable `sessionSet` del modulo; JSDoc e chiamanti definiscono parametri ed effetti. |
 | `amd/src/core/utils.js:354` | `sessionGet` | Callable `sessionGet` del modulo; JSDoc e chiamanti definiscono parametri ed effetti. |
-| `amd/src/form/duration.js:35` | `normaliseDuration` | Callable `normaliseDuration` del modulo; JSDoc e chiamanti definiscono parametri ed effetti. |
-| `amd/src/form/duration.js:44` | `formatDuration` | Callable `formatDuration` del modulo; JSDoc e chiamanti definiscono parametri ed effetti. |
-| `amd/src/form/duration.js:48` | `renderMessage` | Callable `renderMessage` del modulo; JSDoc e chiamanti definiscono parametri ed effetti. |
-| `amd/src/form/duration.js:52` | `setStatus` | Callable `setStatus` del modulo; JSDoc e chiamanti definiscono parametri ed effetti. |
-| `amd/src/form/duration.js:62` | `parseHttpsUrl` | Callable `parseHttpsUrl` del modulo; JSDoc e chiamanti definiscono parametri ed effetti. |
-| `amd/src/form/duration.js:71` | `extractYouTubeId` | Callable `extractYouTubeId` del modulo; JSDoc e chiamanti definiscono parametri ed effetti. |
-| `amd/src/form/duration.js:92` | `extractVimeoSource` | Callable `extractVimeoSource` del modulo; JSDoc e chiamanti definiscono parametri ed effetti. |
-| `amd/src/form/duration.js:120` | `getProbeHost` | Callable `getProbeHost` del modulo; JSDoc e chiamanti definiscono parametri ed effetti. |
-| `amd/src/form/duration.js:140` | `loadYouTubeApi` | Callable `loadYouTubeApi` del modulo; JSDoc e chiamanti definiscono parametri ed effetti. |
-| `amd/src/form/duration.js:154` | `cleanup` | Callable `cleanup` del modulo; JSDoc e chiamanti definiscono parametri ed effetti. |
-| `amd/src/form/duration.js:168` | `fail` | Callable AMD nominato `fail`; vedere JSDoc e chiamanti per il contratto corrente. |
-| `amd/src/form/duration.js:176` | `ready` | Callable `ready` del modulo; JSDoc e chiamanti definiscono parametri ed effetti. |
-| `amd/src/form/duration.js:184` | `handler` | Callable AMD nominato `handler`; vedere JSDoc e chiamanti per il contratto corrente. |
-| `amd/src/form/duration.js:199` | `onerror` | Callable AMD nominato `onerror`; vedere JSDoc e chiamanti per il contratto corrente. |
-| `amd/src/form/duration.js:211` | `detectYouTubeDuration` | Callable `detectYouTubeDuration` del modulo; JSDoc e chiamanti definiscono parametri ed effetti. |
-| `amd/src/form/duration.js:222` | `cleanup` | Callable `cleanup` del modulo; JSDoc e chiamanti definiscono parametri ed effetti. |
-| `amd/src/form/duration.js:237` | `finish` | Callable `finish` del modulo; JSDoc e chiamanti definiscono parametri ed effetti. |
-| `amd/src/form/duration.js:265` | `onReady` | Callable `onReady` del modulo; JSDoc e chiamanti definiscono parametri ed effetti. |
-| `amd/src/form/duration.js:278` | `onError` | Callable `onError` del modulo; JSDoc e chiamanti definiscono parametri ed effetti. |
-| `amd/src/form/duration.js:298` | `forgetRequireModule` | Callable AMD nominato `forgetRequireModule`; vedere JSDoc e chiamanti per il contratto corrente. |
-| `amd/src/form/duration.js:308` | `loadVimeoApi` | Callable `loadVimeoApi` del modulo; JSDoc e chiamanti definiscono parametri ed effetti. |
-| `amd/src/form/duration.js:344` | `detectVimeoDuration` | Callable `detectVimeoDuration` del modulo; JSDoc e chiamanti definiscono parametri ed effetti. |
-| `amd/src/form/duration.js:360` | `cleanup` | Callable `cleanup` del modulo; JSDoc e chiamanti definiscono parametri ed effetti. |
-| `amd/src/form/duration.js:391` | `findLocalFileUrl` | Callable `findLocalFileUrl` del modulo; JSDoc e chiamanti definiscono parametri ed effetti. |
-| `amd/src/form/duration.js:408` | `detectLocalDuration` | Callable `detectLocalDuration` del modulo; JSDoc e chiamanti definiscono parametri ed effetti. |
-| `amd/src/form/duration.js:418` | `cleanup` | Callable `cleanup` del modulo; JSDoc e chiamanti definiscono parametri ed effetti. |
-| `amd/src/form/duration.js:425` | `finish` | Callable `finish` del modulo; JSDoc e chiamanti definiscono parametri ed effetti. |
-| `amd/src/form/duration.js:462` | `resolveSource` | Callable `resolveSource` del modulo; JSDoc e chiamanti definiscono parametri ed effetti. |
-| `amd/src/form/duration.js:468` | `detect` | Callable `detect` del modulo; JSDoc e chiamanti definiscono parametri ed effetti. |
-| `amd/src/form/duration.js:477` | `detect` | Callable `detect` del modulo; JSDoc e chiamanti definiscono parametri ed effetti. |
+| `amd/src/form/duration.js:36` | `normaliseDuration` | Callable `normaliseDuration` del modulo; JSDoc e chiamanti definiscono parametri ed effetti. |
+| `amd/src/form/duration.js:45` | `formatDuration` | Callable `formatDuration` del modulo; JSDoc e chiamanti definiscono parametri ed effetti. |
+| `amd/src/form/duration.js:49` | `formatHumanDuration` | Formatta la durata autorevole come `HH:MM:SS` nel form attività. |
+| `amd/src/form/duration.js:60` | `setHumanDuration` | Aggiorna lo stato accessibile della durata leggibile. |
+| `amd/src/form/duration.js:66` | `renderMessage` | Callable `renderMessage` del modulo; JSDoc e chiamanti definiscono parametri ed effetti. |
+| `amd/src/form/duration.js:70` | `setStatus` | Callable `setStatus` del modulo; JSDoc e chiamanti definiscono parametri ed effetti. |
+| `amd/src/form/duration.js:80` | `parseHttpsUrl` | Callable `parseHttpsUrl` del modulo; JSDoc e chiamanti definiscono parametri ed effetti. |
+| `amd/src/form/duration.js:89` | `extractYouTubeId` | Callable `extractYouTubeId` del modulo; JSDoc e chiamanti definiscono parametri ed effetti. |
+| `amd/src/form/duration.js:110` | `extractVimeoSource` | Callable `extractVimeoSource` del modulo; JSDoc e chiamanti definiscono parametri ed effetti. |
+| `amd/src/form/duration.js:138` | `getProbeHost` | Callable `getProbeHost` del modulo; JSDoc e chiamanti definiscono parametri ed effetti. |
+| `amd/src/form/duration.js:158` | `loadYouTubeApi` | Callable `loadYouTubeApi` del modulo; JSDoc e chiamanti definiscono parametri ed effetti. |
+| `amd/src/form/duration.js:172` | `cleanup` | Callable `cleanup` del modulo; JSDoc e chiamanti definiscono parametri ed effetti. |
+| `amd/src/form/duration.js:186` | `fail` | Callable AMD nominato `fail`; vedere JSDoc e chiamanti per il contratto corrente. |
+| `amd/src/form/duration.js:194` | `ready` | Callable `ready` del modulo; JSDoc e chiamanti definiscono parametri ed effetti. |
+| `amd/src/form/duration.js:202` | `handler` | Callable AMD nominato `handler`; vedere JSDoc e chiamanti per il contratto corrente. |
+| `amd/src/form/duration.js:217` | `onerror` | Callable AMD nominato `onerror`; vedere JSDoc e chiamanti per il contratto corrente. |
+| `amd/src/form/duration.js:229` | `detectYouTubeDuration` | Callable `detectYouTubeDuration` del modulo; JSDoc e chiamanti definiscono parametri ed effetti. |
+| `amd/src/form/duration.js:240` | `cleanup` | Callable `cleanup` del modulo; JSDoc e chiamanti definiscono parametri ed effetti. |
+| `amd/src/form/duration.js:255` | `finish` | Callable `finish` del modulo; JSDoc e chiamanti definiscono parametri ed effetti. |
+| `amd/src/form/duration.js:283` | `onReady` | Callable `onReady` del modulo; JSDoc e chiamanti definiscono parametri ed effetti. |
+| `amd/src/form/duration.js:296` | `onError` | Callable `onError` del modulo; JSDoc e chiamanti definiscono parametri ed effetti. |
+| `amd/src/form/duration.js:316` | `forgetRequireModule` | Callable AMD nominato `forgetRequireModule`; vedere JSDoc e chiamanti per il contratto corrente. |
+| `amd/src/form/duration.js:326` | `loadVimeoApi` | Callable `loadVimeoApi` del modulo; JSDoc e chiamanti definiscono parametri ed effetti. |
+| `amd/src/form/duration.js:362` | `detectVimeoDuration` | Callable `detectVimeoDuration` del modulo; JSDoc e chiamanti definiscono parametri ed effetti. |
+| `amd/src/form/duration.js:378` | `cleanup` | Callable `cleanup` del modulo; JSDoc e chiamanti definiscono parametri ed effetti. |
+| `amd/src/form/duration.js:409` | `findLocalFileUrl` | Callable `findLocalFileUrl` del modulo; JSDoc e chiamanti definiscono parametri ed effetti. |
+| `amd/src/form/duration.js:426` | `detectLocalDuration` | Callable `detectLocalDuration` del modulo; JSDoc e chiamanti definiscono parametri ed effetti. |
+| `amd/src/form/duration.js:436` | `cleanup` | Callable `cleanup` del modulo; JSDoc e chiamanti definiscono parametri ed effetti. |
+| `amd/src/form/duration.js:443` | `finish` | Callable `finish` del modulo; JSDoc e chiamanti definiscono parametri ed effetti. |
+| `amd/src/form/duration.js:480` | `resolveSource` | Callable `resolveSource` del modulo; JSDoc e chiamanti definiscono parametri ed effetti. |
 | `amd/src/form/duration.js:486` | `detect` | Callable `detect` del modulo; JSDoc e chiamanti definiscono parametri ed effetti. |
-| `amd/src/form/duration.js:494` | `getElements` | Callable `getElements` del modulo; JSDoc e chiamanti definiscono parametri ed effetti. |
-| `amd/src/form/duration.js:508` | `install` | Callable `install` del modulo; JSDoc e chiamanti definiscono parametri ed effetti. |
-| `amd/src/form/duration.js:524` | `schedule` | Callable `schedule` del modulo; JSDoc e chiamanti definiscono parametri ed effetti. |
-| `amd/src/form/duration.js:529` | `run` | Callable `run` del modulo; JSDoc e chiamanti definiscono parametri ed effetti. |
-| `amd/src/form/duration.js:593` | `sourceChanged` | Callable `sourceChanged` del modulo; JSDoc e chiamanti definiscono parametri ed effetti. |
-| `amd/src/form/duration.js:629` | `init` | Callable `init` del modulo; JSDoc e chiamanti definiscono parametri ed effetti. |
+| `amd/src/form/duration.js:495` | `detect` | Callable `detect` del modulo; JSDoc e chiamanti definiscono parametri ed effetti. |
+| `amd/src/form/duration.js:504` | `detect` | Callable `detect` del modulo; JSDoc e chiamanti definiscono parametri ed effetti. |
+| `amd/src/form/duration.js:512` | `getElements` | Callable `getElements` del modulo; JSDoc e chiamanti definiscono parametri ed effetti. |
+| `amd/src/form/duration.js:527` | `install` | Callable `install` del modulo; JSDoc e chiamanti definiscono parametri ed effetti. |
+| `amd/src/form/duration.js:543` | `schedule` | Callable `schedule` del modulo; JSDoc e chiamanti definiscono parametri ed effetti. |
+| `amd/src/form/duration.js:548` | `run` | Callable `run` del modulo; JSDoc e chiamanti definiscono parametri ed effetti. |
+| `amd/src/form/duration.js:612` | `sourceChanged` | Callable `sourceChanged` del modulo; JSDoc e chiamanti definiscono parametri ed effetti. |
+| `amd/src/form/duration.js:650` | `init` | Callable `init` del modulo; JSDoc e chiamanti definiscono parametri ed effetti. |
 | `amd/src/html5_player.js:56` | `resolveConfig` | Callable `resolveConfig` del modulo; JSDoc e chiamanti definiscono parametri ed effetti. |
 | `amd/src/html5_player.js:67` | `uuid` | Callable `uuid` del modulo; JSDoc e chiamanti definiscono parametri ed effetti. |
 | `amd/src/html5_player.js:71` | `safeNumber` | Callable `safeNumber` del modulo; JSDoc e chiamanti definiscono parametri ed effetti. |
@@ -1093,16 +1095,16 @@ Generato dall’albero sorgente VideoTrack 1.7.119. Le voci PHP includono funzio
 | `locallib.php:952` | `videotrack_build_forum_subject` | Callable PHP `videotrack_build_forum_subject`; DocBlock e chiamanti definiscono parametri, valori restituiti ed effetti. |
 | `locallib.php:981` | `videotrack_build_replay_url` | Callable PHP `videotrack_build_replay_url`; DocBlock e chiamanti definiscono parametri, valori restituiti ed effetti. |
 | `mod_form.php:46` | `definition` | Callable PHP `definition`; DocBlock e chiamanti definiscono parametri, valori restituiti ed effetti. |
-| `mod_form.php:1097` | `apply_default_section_expansion` | Callable PHP `apply_default_section_expansion`; DocBlock e chiamanti definiscono parametri, valori restituiti ed effetti. |
-| `mod_form.php:1134` | `require_filepicker_accept_filter` | Callable PHP `require_filepicker_accept_filter`; DocBlock e chiamanti definiscono parametri, valori restituiti ed effetti. |
-| `mod_form.php:1180` | `add_reaction_elements` | Callable PHP `add_reaction_elements`; DocBlock e chiamanti definiscono parametri, valori restituiti ed effetti. |
-| `mod_form.php:1359` | `get_reaction_repeat_count` | Callable PHP `get_reaction_repeat_count`; DocBlock e chiamanti definiscono parametri, valori restituiti ed effetti. |
-| `mod_form.php:1386` | `add_completion_rules` | Callable PHP `add_completion_rules`; DocBlock e chiamanti definiscono parametri, valori restituiti ed effetti. |
-| `mod_form.php:1455` | `completion_rule_enabled` | Callable PHP `completion_rule_enabled`; DocBlock e chiamanti definiscono parametri, valori restituiti ed effetti. |
-| `mod_form.php:1467` | `data_preprocessing` | Callable PHP `data_preprocessing`; DocBlock e chiamanti definiscono parametri, valori restituiti ed effetti. |
-| `mod_form.php:1730` | `draft_area_contains_only_reaction_images` | Callable PHP `draft_area_contains_only_reaction_images`; DocBlock e chiamanti definiscono parametri, valori restituiti ed effetti. |
-| `mod_form.php:1766` | `draft_area_contains_only_vtt` | Callable PHP `draft_area_contains_only_vtt`; DocBlock e chiamanti definiscono parametri, valori restituiti ed effetti. |
-| `mod_form.php:1798` | `validation` | Callable PHP `validation`; DocBlock e chiamanti definiscono parametri, valori restituiti ed effetti. |
+| `mod_form.php:1127` | `apply_default_section_expansion` | Callable PHP `apply_default_section_expansion`; DocBlock e chiamanti definiscono parametri, valori restituiti ed effetti. |
+| `mod_form.php:1164` | `require_filepicker_accept_filter` | Callable PHP `require_filepicker_accept_filter`; DocBlock e chiamanti definiscono parametri, valori restituiti ed effetti. |
+| `mod_form.php:1210` | `add_reaction_elements` | Callable PHP `add_reaction_elements`; DocBlock e chiamanti definiscono parametri, valori restituiti ed effetti. |
+| `mod_form.php:1389` | `get_reaction_repeat_count` | Callable PHP `get_reaction_repeat_count`; DocBlock e chiamanti definiscono parametri, valori restituiti ed effetti. |
+| `mod_form.php:1416` | `add_completion_rules` | Callable PHP `add_completion_rules`; DocBlock e chiamanti definiscono parametri, valori restituiti ed effetti. |
+| `mod_form.php:1485` | `completion_rule_enabled` | Callable PHP `completion_rule_enabled`; DocBlock e chiamanti definiscono parametri, valori restituiti ed effetti. |
+| `mod_form.php:1497` | `data_preprocessing` | Callable PHP `data_preprocessing`; DocBlock e chiamanti definiscono parametri, valori restituiti ed effetti. |
+| `mod_form.php:1760` | `draft_area_contains_only_reaction_images` | Callable PHP `draft_area_contains_only_reaction_images`; DocBlock e chiamanti definiscono parametri, valori restituiti ed effetti. |
+| `mod_form.php:1796` | `draft_area_contains_only_vtt` | Callable PHP `draft_area_contains_only_vtt`; DocBlock e chiamanti definiscono parametri, valori restituiti ed effetti. |
+| `mod_form.php:1828` | `validation` | Callable PHP `validation`; DocBlock e chiamanti definiscono parametri, valori restituiti ed effetti. |
 | `reports_course.php:34` | `videotrack_course_report_count_cell` | Callable PHP `videotrack_course_report_count_cell`; DocBlock e chiamanti definiscono parametri, valori restituiti ed effetti. |
 | `reports_course.php:49` | `videotrack_course_report_percentage_cell` | Callable PHP `videotrack_course_report_percentage_cell`; DocBlock e chiamanti definiscono parametri, valori restituiti ed effetti. |
 | `reports_course.php:80` | `videotrack_course_report_drop_cell` | Callable PHP `videotrack_course_report_drop_cell`; DocBlock e chiamanti definiscono parametri, valori restituiti ed effetti. |
@@ -1299,8 +1301,8 @@ Generato dall’albero sorgente VideoTrack 1.7.119. Le voci PHP includono funzio
 | `tests/provider_loader_contract_test.php:35` | `test_vimeo_loaders_use_requirejs_without_global_define_mutation` | Funzione/metodo PHP nominato `test_vimeo_loaders_use_requirejs_without_global_define_mutation`; vedere DocBlock e chiamanti per il contratto corrente. |
 | `tests/provider_loader_contract_test.php:51` | `test_provider_loader_promises_reset_after_rejection` | Funzione/metodo PHP nominato `test_provider_loader_promises_reset_after_rejection`; vedere DocBlock e chiamanti per il contratto corrente. |
 | `tests/provider_loader_contract_test.php:66` | `test_youtube_duration_probe_waits_for_metadata_after_ready` | Verifica che il rilevamento durata YouTube nel form attenda i metadati ritardati e liberi il polling. |
-| `tests/provider_loader_contract_test.php:82` | `test_vimeo_requirejs_result_is_used_as_player_constructor` | Funzione/metodo PHP nominato `test_vimeo_requirejs_result_is_used_as_player_constructor`; vedere DocBlock e chiamanti per il contratto corrente. |
-| `tests/provider_loader_contract_test.php:98` | `test_provider_behat_sdk_doubles_are_strictly_gated_and_loaded_first` | Verifica che i doppi SDK YouTube/Vimeo locali siano solo Behat, vincolati agli identificatori e caricati prima degli adapter di produzione. |
+| `tests/provider_loader_contract_test.php:91` | `test_vimeo_requirejs_result_is_used_as_player_constructor` | Funzione/metodo PHP nominato `test_vimeo_requirejs_result_is_used_as_player_constructor`; vedere DocBlock e chiamanti per il contratto corrente. |
+| `tests/provider_loader_contract_test.php:107` | `test_provider_behat_sdk_doubles_are_strictly_gated_and_loaded_first` | Verifica che i doppi SDK YouTube/Vimeo locali siano solo Behat, vincolati agli identificatori e caricati prima degli adapter di produzione. |
 | `tests/provider_seek_snapshot_contract_test.php:35` | `test_youtube_blocked_seek_snapshots_pre_seek_position_before_rollback` | Funzione/metodo PHP nominato `test_youtube_blocked_seek_snapshots_pre_seek_position_before_rollback`; vedere DocBlock e chiamanti per il contratto corrente. |
 | `tests/provider_seek_snapshot_contract_test.php:56` | `test_html5_blocked_seek_snapshots_pre_seek_position_before_rollback` | Funzione/metodo PHP nominato `test_html5_blocked_seek_snapshots_pre_seek_position_before_rollback`; vedere DocBlock e chiamanti per il contratto corrente. |
 | `tests/provider_seek_snapshot_contract_test.php:77` | `test_vimeo_user_seek_retains_pre_seek_position_for_seek_resolution` | Funzione/metodo PHP nominato `test_vimeo_user_seek_retains_pre_seek_position_for_seek_resolution`; vedere DocBlock e chiamanti per il contratto corrente. |

@@ -133,7 +133,7 @@ class helper extends external_api {
      * Loads the activity and validates login, context and view capability.
      *
      * @param int $cmid Course module id.
-     * @return array{course: \stdClass, videotrack: \stdClass, cm: \cm_info, context: \context_module}
+     * @return array Course, activity, course-module and context records.
      */
     public static function load_and_validate_context(int $cmid): array {
         global $DB;

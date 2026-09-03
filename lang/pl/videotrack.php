@@ -188,6 +188,7 @@ $string['durationseconds_auto_note'] = 'VideoTrack próbuje automatycznie uzyska
 $string['durationseconds_auto_success'] = 'Długość uzyskana automatycznie z wybranego źródła: {$a} s. Możesz zmienić tę wartość teraz lub później.';
 $string['durationseconds_auto_unavailable'] = 'Nie udało się automatycznie uzyskać długości z wybranego źródła. Wpisz ją ręcznie albo pozostaw 0, aby pominąć obliczanie obejrzanego procentu.';
 $string['durationseconds_help'] = 'VideoTrack może wstępnie uzupełnić tę wartość kontrolowaną przez prowadzącego na podstawie metadanych udostępnianych przez wybrane źródło YouTube, Vimeo lub plik lokalny. Sprawdź ją przed zapisaniem: po zapisaniu aktywności staje się wiążącą długością używaną do obliczania obejrzanego procentu, ukończenia procentowego i potwierdzenia po ostatniej sekundzie, a później nadal można ją zmienić. Wpisz 0, aby zachować śledzenie przedziałów bez obliczania obejrzanego procentu. Metadane odtwarzacza studenta nigdy nie mogą nadpisać zapisanej wartości.';
+$string['durationseconds_human'] = 'Odpowiada {$a}.';
 $string['durationseconds_invalid'] = 'Zweryfikowany czas trwania musi mieścić się w zakresie od 0 do 86400 sekund.';
 $string['durationseconds_required'] = 'Ustaw zweryfikowany czas trwania filmu większy od 0, zanim włączysz wymóg potwierdzenia po ostatniej sekundzie.';
 $string['durationseconds_zero_note'] = '0 = nie obliczaj procentu obejrzenia. Przedziały oglądania, reakcje, notatki i zakładki pozostają dostępne, gdy są włączone; potwierdzenie po ostatniej sekundzie wymaga czasu trwania większego od 0.';
@@ -197,6 +198,7 @@ $string['err:invalidvttfile'] = 'Prześlij prawidłowy plik WebVTT o rozmiarze d
 $string['err:minreactionsrequired'] = 'Ustaw minimalną liczbę różnych reakcji albo włącz regułę wymagającą wszystkich typów reakcji.';
 $string['err:playbacksteprequired'] = 'Wprowadź liczbę całkowitą od 0 do 300 sekund. Użyj 0, aby zastosować domyślną wartość platformy.';
 $string['err:playerwidthrequired'] = 'Wpisz 0, aby użyć domyślnej wartości platformy, albo liczbę całkowitą od 1 do 4096 pikseli.';
+$string['err:reactionconfigurationrequired'] = 'Skonfiguruj co najmniej jedną kompletną reakcję albo wyłącz reakcje.';
 $string['err:reactioniconfileinvalid'] = 'Przesyłaj wyłącznie obrazy w formacie JPG, PNG, GIF lub WebP.';
 $string['err:reactioniconfilerequired'] = 'Prześlij plik ikony, gdy typ ikony jest ustawiony na Przesłany plik.';
 $string['err:reactionicontyperequired'] = 'Wybierz typ ikony dla tej reakcji.';

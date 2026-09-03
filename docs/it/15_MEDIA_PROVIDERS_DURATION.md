@@ -22,7 +22,8 @@ grandi e si mantengono testi/URL codificati in sicurezza.
 
 `durationseconds` salvato è il denominatore della percentuale vista e della completion. Il docente deve verificare
 la proposta. L'inserimento manuale è necessario se privacy/consenso del provider, rete, media privato/eliminato o
-metadati browser impediscono il rilevamento. Salvare `0` disabilita esplicitamente il calcolo percentuale.
+metadati browser impediscono il rilevamento. Salvare `0` disabilita esplicitamente il calcolo percentuale. Lo stato
+live adiacente converte il valore corrente in `HH:MM:SS`; è informativo e non introduce un secondo dato salvato.
 
 ## Contratto degli adapter
 

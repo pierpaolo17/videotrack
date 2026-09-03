@@ -74,7 +74,7 @@ final class csv_export {
      * Returns delimiter options stored as symbolic values.
      *
      * @param bool $includeinherit Include the per-instance inherit option.
-     * @return array<string, string>
+     * @return array Delimiter options keyed by symbolic value.
      */
     public static function delimiter_options(bool $includeinherit = false): array {
         $options = [];
@@ -117,7 +117,7 @@ final class csv_export {
      * configuration list.
      *
      * @param context|null $context Permission context, or null for site settings.
-     * @return array<string, string>
+     * @return array Export-field labels keyed by field name.
      */
     public static function field_options(?context $context = null): array {
         global $DB;
@@ -166,7 +166,7 @@ final class csv_export {
      * not available in the current context are shown read-only by mod_form.
      *
      * @param context $context Activity or course context.
-     * @return array<string, string>
+     * @return array Form field labels keyed by field name.
      */
     public static function form_field_options(context $context): array {
         global $DB;
@@ -252,7 +252,7 @@ final class csv_export {
     /**
      * Returns only selected user-table/custom-profile keys.
      *
-     * @param string[] $selected Selected export fields.
+     * @param array $selected Selected export fields.
      * @return string[]
      */
     public static function selected_user_fields(array $selected): array {
@@ -264,9 +264,9 @@ final class csv_export {
     /**
      * Loads users and selected visible identity fields in one query.
      *
-     * @param int[] $userids User ids.
-     * @param string[] $selected Selected export fields.
-     * @return array<int, stdClass>
+     * @param array $userids User ids.
+     * @param array $selected Selected export fields.
+     * @return array User records keyed by id.
      */
     public static function load_users(array $userids, array $selected): array {
         global $DB;
@@ -322,7 +322,7 @@ final class csv_export {
     /**
      * Returns localised headers preceding event/state-specific columns.
      *
-     * @param string[] $selected Selected optional fields.
+     * @param array $selected Selected optional fields.
      * @return string[]
      */
     public static function identity_headers(array $selected): array {
@@ -346,7 +346,7 @@ final class csv_export {
     /**
      * Returns values matching identity_headers().
      *
-     * @param string[] $selected Selected optional fields.
+     * @param array $selected Selected optional fields.
      * @param stdClass $course Course record.
      * @param stdClass $videotrack Activity record.
      * @param stdClass|null $user User record.
@@ -394,7 +394,7 @@ final class csv_export {
      *
      * @param iterable $notes Note records with userid, notetext and videotime.
      * @param int $windowseconds Cluster window in seconds.
-     * @return array<int, array<string, mixed>>
+     * @return array Note clusters.
      */
     public static function cluster_notes(iterable $notes, int $windowseconds): array {
         $windowseconds = max(0, $windowseconds);
@@ -497,7 +497,7 @@ final class csv_export {
      * Normalises a comma-separated field list.
      *
      * @param string $raw Raw field list.
-     * @param string[]|null $allowed Optional allowed keys.
+     * @param array|null $allowed Optional allowed keys.
      * @return string[]
      */
     private static function normalise_field_list(string $raw, ?array $allowed = null): array {

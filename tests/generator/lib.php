@@ -36,7 +36,7 @@ class mod_videotrack_generator extends testing_module_generator {
     /**
      * Create a VideoTrack instance with deterministic test-safe defaults.
      *
-     * @param array|stdClass|null $record Instance fields.
+     * @param mixed|null $record Instance fields.
      * @param array|null $options Course-module options.
      * @return stdClass Created instance with cmid.
      */
@@ -47,7 +47,13 @@ class mod_videotrack_generator extends testing_module_generator {
         $html5fixture = !empty($record['behathtml5fixture']);
         $providerfixture = strtolower(trim((string)($record['behatproviderfixture'] ?? '')));
         $linkedforumname = trim((string)($record['behatlinkedforum'] ?? ''));
-        unset($record['behathtml5fixture'], $record['behatproviderfixture'], $record['behatlinkedforum']);
+        $emptyreactionfixture = !empty($record['behatemptyreactions']);
+        unset(
+            $record['behathtml5fixture'],
+            $record['behatproviderfixture'],
+            $record['behatlinkedforum'],
+            $record['behatemptyreactions']
+        );
 
         if ($html5fixture && $providerfixture !== '') {
             throw new coding_exception('VideoTrack Behat fixtures cannot combine HTML5 and provider doubles.');
@@ -108,6 +114,7 @@ class mod_videotrack_generator extends testing_module_generator {
 
         if (
             !empty($record['reactionsenabled'])
+            && !$emptyreactionfixture
             && !$DB->record_exists('videotrack_react', [
                 'videotrackid' => $instance->id,
                 'isdeleted' => 0,

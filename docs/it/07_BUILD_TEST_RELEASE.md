@@ -33,6 +33,12 @@ vendor/bin/phpunit --testsuite mod_videotrack_testsuite
 Per modifiche AMD eseguire il vero task Grunt di Moodle e distribuire ogni `.min.js` e `.map` modificato.
 La sola sintassi JavaScript non sostituisce Grunt/ESLint.
 
+PHPStan, PHPDoc Checker, PHPMD e Psalm sono analizzatori supplementari di release. Per ciascuno vanno registrati
+versione, configurazione e output completo, senza sopprimere implicitamente i warning. Il loro esito positivo integra
+ma non sostituisce Moodle PHPCS, lint PHP, PHPUnit, Behat o Grunt. Una configurazione specifica entra nel progetto
+soltanto dopo essere stata provata su tutti i rami Moodle supportati, evitando di presentare prematuramente come
+garanzia cross-versione un ruleset comodo soltanto in locale.
+
 ## Gate comportamentali
 
 - PHPUnit: tutti i test componente, senza failure, errori, warning, notice o deprecazioni inattese.
@@ -42,8 +48,8 @@ La sola sintassi JavaScript non sostituisce Grunt/ESLint.
 - Ciclo di vita: installazione, upgrade, backup/restore, reset, disinstallazione con gradebook popolato e Privacy API
   per codice/schema correlato.
 
-Le suite distribuite correnti contengono 274 test PHPUnit / 2510 asserzioni e 23 scenari Behat /
-342 step per ramo Moodle supportato. I conteggi sono aspettative, non una dichiarazione di pass.
+Le suite distribuite correnti contengono 274 test PHPUnit / 2533 asserzioni e 24 scenari Behat /
+353 step per ramo Moodle supportato. I conteggi sono aspettative, non una dichiarazione di pass.
 
 ## Controlli schema e dati
 

@@ -163,8 +163,25 @@ class mod_videotrack_mod_form extends moodleform_mod {
                 ]
             )
         );
+        $durationhumantoken = '__VIDEOTRACK_DURATION_HUMAN__';
+        $mform->addElement(
+            'static',
+            'durationseconds_human',
+            '',
+            html_writer::tag(
+                'small',
+                get_string('durationseconds_human', 'mod_videotrack', '00:00:00'),
+                [
+                    'id' => 'videotrack-durationseconds-human',
+                    'class' => 'text-muted form-text',
+                    'role' => 'status',
+                    'aria-live' => 'polite',
+                    'aria-atomic' => 'true',
+                ]
+            )
+        );
         $durationelement->updateAttributes([
-            'aria-describedby' => 'videotrack-durationseconds-auto-note',
+            'aria-describedby' => 'videotrack-durationseconds-auto-note videotrack-durationseconds-human',
         ]);
 
         $durationtoken = '__VIDEOTRACK_DURATION__';
@@ -176,6 +193,7 @@ class mod_videotrack_mod_form extends moodleform_mod {
             'fileid' => 'id_videofile',
             'durationid' => 'id_durationseconds',
             'noteid' => 'videotrack-durationseconds-auto-note',
+            'humanid' => 'videotrack-durationseconds-human',
             'maximum' => 86400,
             'messages' => [
                 'idle' => get_string('durationseconds_auto_note', 'mod_videotrack'),
@@ -183,6 +201,7 @@ class mod_videotrack_mod_form extends moodleform_mod {
                 'success' => get_string('durationseconds_auto_success', 'mod_videotrack', $durationtoken),
                 'manual' => get_string('durationseconds_auto_manual', 'mod_videotrack', $durationtoken),
                 'unavailable' => get_string('durationseconds_auto_unavailable', 'mod_videotrack'),
+                'human' => get_string('durationseconds_human', 'mod_videotrack', $durationhumantoken),
             ],
         ];
         $durationconfigjson = json_encode(
@@ -756,7 +775,18 @@ class mod_videotrack_mod_form extends moodleform_mod {
         $mform->addElement('advcheckbox', 'reactionsenabled', get_string('reactionsenabled', 'mod_videotrack'));
 
         $mform->setType('reactionsenabled', PARAM_BOOL);
-        $mform->setDefault('reactionsenabled', 1);
+        $mform->setDefault('reactionsenabled', 0);
+        $mform->addElement(
+            'static',
+            'reactionconfiguration_note',
+            '',
+            html_writer::tag(
+                'div',
+                get_string('err:reactionconfigurationrequired', 'mod_videotrack'),
+                ['class' => 'alert alert-info mb-0']
+            )
+        );
+        $mform->hideIf('reactionconfiguration_note', 'reactionsenabled', 'notchecked');
 
         $mform->addElement('advcheckbox', 'showreactionnotice', get_string('showreactionnotice', 'mod_videotrack'));
         $mform->setType('showreactionnotice', PARAM_BOOL);
@@ -1851,6 +1881,7 @@ JS);
         $reactionids = $data['reactionid'] ?? [];
         $allowedimageextensions = ['jpg', 'jpeg', 'png', 'webp', 'gif'];
         $reactionsenabled = !empty($data['reactionsenabled']);
+        $configuredreactioncount = 0;
         for ($i = 0; $i < $this->reactionrepeatcount; $i++) {
             $label = trim((string)($labels[$i] ?? ''));
             $description = trim((string)($descriptions[$i] ?? ''));
@@ -1916,7 +1947,13 @@ JS);
                 if ($description === '') {
                     $errors['reactiondescription[' . $i . ']'] = get_string('required');
                 }
+                if ($label !== '' && $description !== '') {
+                    $configuredreactioncount++;
+                }
             }
+        }
+        if ($reactionsenabled && $configuredreactioncount === 0) {
+            $errors['reactionsenabled'] = get_string('err:reactionconfigurationrequired', 'mod_videotrack');
         }
 
         $errors = array_replace(
