@@ -1,6 +1,6 @@
 # Inventario delle funzioni
 
-Generato dall’albero sorgente VideoTrack 1.7.120. Le voci PHP includono funzioni e metodi nominati; le voci AMD includono dichiarazioni nominate, espressioni funzione assegnate e funzioni-metodo di oggetti.
+Generato dall’albero sorgente VideoTrack 1.7.122. Le voci PHP includono funzioni e metodi nominati; le voci AMD includono dichiarazioni nominate, espressioni funzione assegnate e funzioni-metodo di oggetti.
 
 **Funzioni/metodi PHP:** 755. **Callable AMD nominati:** 654.
 
@@ -1245,7 +1245,7 @@ Generato dall’albero sorgente VideoTrack 1.7.120. Le voci PHP includono funzio
 | `tests/forum_bridge_test.php:196` | `test_dual_role_learner_does_not_bypass_watched_check` | Funzione/metodo PHP nominato `test_dual_role_learner_does_not_bypass_watched_check`; vedere DocBlock e chiamanti per il contratto corrente. |
 | `tests/forum_bridge_test.php:219` | `test_forum_composer_invokes_timestamp_access_validation` | Funzione/metodo PHP nominato `test_forum_composer_invokes_timestamp_access_validation`; vedere DocBlock e chiamanti per il contratto corrente. |
 | `tests/forum_bridge_test.php:236` | `insert_validated_segment` | Funzione/metodo PHP nominato `insert_validated_segment`; vedere DocBlock e chiamanti per il contratto corrente. |
-| `tests/generator/lib.php:43` | `create_instance` | Creates deterministic VideoTrack module fixtures for PHPUnit and Behat. |
+| `tests/generator/lib.php:39` | `create_instance` | Creates deterministic VideoTrack module fixtures for PHPUnit and Behat. |
 | `tests/generator_test.php:35` | `test_generator_creates_activity_with_learner_features` | Verifies the generator can create an activity with learner study tools enabled. |
 | `tests/generator_test.php:67` | `test_generator_creates_local_html5_fixture` | Verifies the generator stores the deterministic HTML5 fixture in the module filearea. |
 | `tests/generator_test.php:98` | `test_generator_creates_youtube_provider_fixture` | Verifica identificatore riservato e durata del fixture YouTube deterministico. |
@@ -1312,9 +1312,9 @@ Generato dall’albero sorgente VideoTrack 1.7.120. Le voci PHP includono funzio
 | `tests/release_hygiene_contract_test.php:65` | `test_readmes_and_changelog_track_current_release` | Funzione/metodo PHP nominato `test_readmes_and_changelog_track_current_release`; vedere DocBlock e chiamanti per il contratto corrente. |
 | `tests/release_hygiene_contract_test.php:105` | `test_current_documentation_tracks_release` | Funzione/metodo PHP nominato `test_current_documentation_tracks_release`; vedere DocBlock e chiamanti per il contratto corrente. |
 | `tests/release_hygiene_contract_test.php:160` | `test_activity_icon_assets_cover_png_and_svg_renderers` | Funzione/metodo PHP nominato `test_activity_icon_assets_cover_png_and_svg_renderers`; vedere DocBlock e chiamanti per il contratto corrente. |
-| `tests/release_hygiene_contract_test.php:177` | `test_phpunit_coverage_metadata_uses_attributes` | Funzione/metodo PHP nominato `test_phpunit_coverage_metadata_uses_attributes`; vedere DocBlock e chiamanti per il contratto corrente. |
-| `tests/release_hygiene_contract_test.php:198` | `test_maintained_language_packs_share_keys_and_placeholders` | Funzione/metodo PHP nominato `test_maintained_language_packs_share_keys_and_placeholders`; vedere DocBlock e chiamanti per il contratto corrente. |
-| `tests/release_hygiene_contract_test.php:250` | `test_privacy_summaries_keep_parallel_section_structure` | Funzione/metodo PHP nominato `test_privacy_summaries_keep_parallel_section_structure`; vedere DocBlock e chiamanti per il contratto corrente. |
+| `tests/release_hygiene_contract_test.php:179` | `test_phpunit_coverage_metadata_uses_attributes` | Funzione/metodo PHP nominato `test_phpunit_coverage_metadata_uses_attributes`; vedere DocBlock e chiamanti per il contratto corrente. |
+| `tests/release_hygiene_contract_test.php:200` | `test_maintained_language_packs_share_keys_and_placeholders` | Funzione/metodo PHP nominato `test_maintained_language_packs_share_keys_and_placeholders`; vedere DocBlock e chiamanti per il contratto corrente. |
+| `tests/release_hygiene_contract_test.php:252` | `test_privacy_summaries_keep_parallel_section_structure` | Funzione/metodo PHP nominato `test_privacy_summaries_keep_parallel_section_structure`; vedere DocBlock e chiamanti per il contratto corrente. |
 | `tests/report_access_test.php:37` | `test_aggregate_only_role_keeps_individual_access_separate` | Callable PHP `test_aggregate_only_role_keeps_individual_access_separate`; contratto comportamentale per accesso delegato solo aggregato. |
 | `tests/report_access_test.php:59` | `test_individual_view_implies_aggregate_view_without_export_permissions` | Callable PHP `test_individual_view_implies_aggregate_view_without_export_permissions`; contratto comportamentale per separare vista ed export. |
 | `tests/report_access_test.php:79` | `test_legacy_viewreport_remains_full_access` | Callable PHP `test_legacy_viewreport_remains_full_access`; contratto di retrocompatibilità per i ruoli report storici. |

@@ -1,4 +1,5 @@
 # Development-only local static harnesses are not part of the Moodle Plugin Directory package.
+.github/
 tests/*.js
 tests/*_static_test.js
 tests/smoke_amd.js

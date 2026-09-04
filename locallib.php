@@ -368,10 +368,10 @@ function videotrack_build_required_reaction_notice(stdClass $videotrack, array $
 
 /**
  * Returns all reaction definitions for a videotrack instance, sorted by sortorder.
- * Results are statically cached within the request to avoid duplicate DB queries
- * when both the reaction buttons and the reaction table need the same data.
+ * Results are request-cached to serve both the reaction buttons and table without duplicate DB queries.
  *
  * @param  int    $videotrackid  Instance ID.
+ * @param  bool   $includedeleted Include soft-deleted reaction definitions.
  * @return array                 Keyed array of reaction objects (id → stdClass).
  */
 function videotrack_get_reactions(int $videotrackid, bool $includedeleted = false): array {
@@ -715,7 +715,7 @@ function videotrack_reaction_icon_picker(string $targetname, string $typetargetn
     $html .= html_writer::tag(
         'label',
         get_string('reactioniconpicker:search', 'mod_videotrack'),
-        ['for' => $pickerid . '-search', 'class' => 'sr-only visually-hidden']
+        ['for' => $pickerid . '-search', 'class' => 'visually-hidden']
     );
     $html .= html_writer::empty_tag('input', [
         'type' => 'search',
