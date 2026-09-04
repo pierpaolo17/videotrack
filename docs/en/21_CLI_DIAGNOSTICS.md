@@ -22,7 +22,7 @@ The validator checks:
   contexts;
 - AJAX service declarations and external methods;
 - key/placeholder parity across eight language packs;
-- AMD source/build/source-map correspondence;
+- AMD source/build/source-map correspondence, including non-empty mappings and embedded-source identity;
 - README and changelog release markers;
 - selected privacy, performance and tracking configuration.
 

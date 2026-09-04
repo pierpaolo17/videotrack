@@ -508,6 +508,10 @@ foreach ($iterator as $fileinfo) {
         $amdissues[] = $relative . ':invalid-map';
         continue;
     }
+    if (!isset($map['mappings']) || !is_string($map['mappings']) || trim($map['mappings']) === '') {
+        $amdissues[] = $relative . ':empty-map-mappings';
+        continue;
+    }
     $source = (string)file_get_contents($sourcepath);
     if ($normalise($source) !== $normalise((string)$map['sourcesContent'][0])) {
         $amdissues[] = $relative . ':map-source-mismatch';
@@ -520,7 +524,11 @@ $details['amd'] = [
 if ($amdissues) {
     $addcheck('amd_contract', 'fail', 'AMD build/source-map issues: ' . implode(', ', $amdissues));
 } else {
-    $addcheck('amd_contract', 'pass', $amdcount . ' AMD sources have matching builds and source-map source content.');
+    $addcheck(
+        'amd_contract',
+        'pass',
+        $amdcount . ' AMD sources have matching builds, non-empty source maps and matching source content.'
+    );
 }
 
 $readme = file_get_contents($pluginroot . '/README.md');

@@ -34,9 +34,13 @@
  */
 class mod_videotrack_generator extends testing_module_generator {
     /**
-     * {@inheritdoc}
+     * Creates a VideoTrack activity for PHPUnit or Behat.
+     *
+     * @param mixed|null $record Activity properties accepted by the parent generator.
+     * @param array|null $options Additional generator options.
+     * @return stdClass The created activity record, including its course-module identifier.
      */
-    public function create_instance($record = null, ?array $options = null) {
+    public function create_instance(mixed $record = null, ?array $options = null) {
         global $DB;
 
         $record = (array)$record;

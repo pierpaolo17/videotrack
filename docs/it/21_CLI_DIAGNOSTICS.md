@@ -22,7 +22,7 @@ Il validatore controlla:
   attività/corso/course module;
 - servizi AJAX e metodi external;
 - parità chiavi/placeholder degli otto language pack;
-- corrispondenza sorgenti/build/source map AMD;
+- corrispondenza sorgenti/build/source map AMD, compresi mapping non vuoti e identità dei sorgenti incorporati;
 - marker release in README e changelog;
 - configurazione selezionata di privacy, prestazioni e tracking.
 

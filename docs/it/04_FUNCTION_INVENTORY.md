@@ -1,6 +1,6 @@
 # Inventario delle funzioni
 
-Generato dall’albero sorgente VideoTrack 1.7.122. Le voci PHP includono funzioni e metodi nominati; le voci AMD includono dichiarazioni nominate, espressioni funzione assegnate e funzioni-metodo di oggetti.
+Generato dall’albero sorgente VideoTrack 1.7.123. Le voci PHP includono funzioni e metodi nominati; le voci AMD includono dichiarazioni nominate, espressioni funzione assegnate e funzioni-metodo di oggetti.
 
 **Funzioni/metodi PHP:** 755. **Callable AMD nominati:** 654.
 
@@ -1183,8 +1183,8 @@ Generato dall’albero sorgente VideoTrack 1.7.122. Le voci PHP includono funzio
 | `tests/behat/behat_mod_videotrack.php:576` | `the_latest_seek_segment_matches_the_pre_seek_browser_time` | Verifica l’estremo pre-seek grezzo e rifiuta credito aggregato o resume all’interno del gap saltato. |
 | `tests/behat/behat_mod_videotrack.php:650` | `the_videotrack_completion_requirements_are_stacked_vertically` | Verifica layout a colonna calcolato e geometria verticale non sovrapposta per i requisiti Moodle raggruppati. |
 | `tests/cli_contract_test.php:35` | `test_validator_is_read_only_and_covers_release_contracts` | Funzione/metodo PHP nominato `test_validator_is_read_only_and_covers_release_contracts`; vedere DocBlock e chiamanti per il contratto corrente. |
-| `tests/cli_contract_test.php:64` | `test_course_analytics_benchmark_uses_real_read_only_metrics` | Funzione/metodo PHP nominato `test_course_analytics_benchmark_uses_real_read_only_metrics`; vedere DocBlock e chiamanti per il contratto corrente. |
-| `tests/cli_contract_test.php:86` | `test_cli_tools_are_documented_for_admins_and_maintainers` | Funzione/metodo PHP nominato `test_cli_tools_are_documented_for_admins_and_maintainers`; vedere DocBlock e chiamanti per il contratto corrente. |
+| `tests/cli_contract_test.php:65` | `test_course_analytics_benchmark_uses_real_read_only_metrics` | Funzione/metodo PHP nominato `test_course_analytics_benchmark_uses_real_read_only_metrics`; vedere DocBlock e chiamanti per il contratto corrente. |
+| `tests/cli_contract_test.php:87` | `test_cli_tools_are_documented_for_admins_and_maintainers` | Funzione/metodo PHP nominato `test_cli_tools_are_documented_for_admins_and_maintainers`; vedere DocBlock e chiamanti per il contratto corrente. |
 | `tests/completion_contract_test.php:39` | `test_required_reactions_activate_custom_completion` | Funzione/metodo PHP nominato `test_required_reactions_activate_custom_completion`; vedere DocBlock e chiamanti per il contratto corrente. |
 | `tests/completion_contract_test.php:59` | `test_required_reaction_or_semantics_match_tracker` | Funzione/metodo PHP nominato `test_required_reaction_or_semantics_match_tracker`; vedere DocBlock e chiamanti per il contratto corrente. |
 | `tests/completion_contract_test.php:80` | `test_disabled_acknowledgement_is_excluded_from_tracker_completion` | Funzione/metodo PHP nominato `test_disabled_acknowledgement_is_excluded_from_tracker_completion`; vedere DocBlock e chiamanti per il contratto corrente. |
@@ -1245,7 +1245,7 @@ Generato dall’albero sorgente VideoTrack 1.7.122. Le voci PHP includono funzio
 | `tests/forum_bridge_test.php:196` | `test_dual_role_learner_does_not_bypass_watched_check` | Funzione/metodo PHP nominato `test_dual_role_learner_does_not_bypass_watched_check`; vedere DocBlock e chiamanti per il contratto corrente. |
 | `tests/forum_bridge_test.php:219` | `test_forum_composer_invokes_timestamp_access_validation` | Funzione/metodo PHP nominato `test_forum_composer_invokes_timestamp_access_validation`; vedere DocBlock e chiamanti per il contratto corrente. |
 | `tests/forum_bridge_test.php:236` | `insert_validated_segment` | Funzione/metodo PHP nominato `insert_validated_segment`; vedere DocBlock e chiamanti per il contratto corrente. |
-| `tests/generator/lib.php:39` | `create_instance` | Creates deterministic VideoTrack module fixtures for PHPUnit and Behat. |
+| `tests/generator/lib.php:43` | `create_instance` | Creates deterministic VideoTrack module fixtures for PHPUnit and Behat. |
 | `tests/generator_test.php:35` | `test_generator_creates_activity_with_learner_features` | Verifies the generator can create an activity with learner study tools enabled. |
 | `tests/generator_test.php:67` | `test_generator_creates_local_html5_fixture` | Verifies the generator stores the deterministic HTML5 fixture in the module filearea. |
 | `tests/generator_test.php:98` | `test_generator_creates_youtube_provider_fixture` | Verifica identificatore riservato e durata del fixture YouTube deterministico. |

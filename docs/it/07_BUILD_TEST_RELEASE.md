@@ -49,7 +49,7 @@ Moodle PHPCS, lint PHP, PHPUnit, Behat o Grunt.
 - Ciclo di vita: installazione, upgrade, backup/restore, reset, disinstallazione con gradebook popolato e Privacy API
   per codice/schema correlato.
 
-Le suite distribuite correnti contengono 274 test PHPUnit / 2533 asserzioni e 24 scenari Behat /
+Le suite distribuite correnti contengono 274 test PHPUnit / 2534 asserzioni e 24 scenari Behat /
 357 step per ramo Moodle supportato. I conteggi sono aspettative, non una dichiarazione di pass.
 
 ## Integrazione continua del repository
@@ -60,10 +60,12 @@ repository in sola lettura, non conserva credenziali del checkout e pubblica log
 Matrice esatta, classificazione bloccante/consultiva e lettura dei risultati sono in
 [`23_GITHUB_ACTIONS_CI.md`](23_GITHUB_ACTIONS_CI.md).
 
-Il workflow limita Grunt al task AMD e considera bloccante ogni differenza post-build in `amd/build`. Un Grunt verde
-dimostra che il sorgente è compilabile; un diff post-build vuoto dimostra che gli artefatti generati erano già
-confezionati in forma canonica: entrambe le affermazioni sono richieste. Prima del validatore strict VideoTrack viene
-inoltre installato il database Moodle ordinario, separato dai prefissi database di PHPUnit e Behat.
+Il workflow limita Grunt al task AMD. `moodle-plugin-ci grunt` elimina la directory build della copia installata,
+la rigenera, confronta il risultato con il backup del plugin e fallisce se gli artefatti versionati sono obsoleti;
+al termine ripristina la copia installata. Il suo exit status e il log `grunt.txt` sono quindi il gate autorevole,
+non un successivo Git diff sul checkout repository rimasto immutato. Il workflow individua inoltre separatamente il
+plugin installato e l'installer CLI Moodle, così il database ordinario usato dal validatore strict VideoTrack viene
+installato sia nell'albero Moodle classico sia nel layout Moodle 5.1+ con directory `public/`.
 
 ## Controlli schema e dati
 

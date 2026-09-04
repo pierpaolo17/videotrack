@@ -48,6 +48,7 @@ final class cli_contract_test extends advanced_testcase {
         $this->assertStringContainsString("reactionevent.reactionid = 0", $source);
         $this->assertStringContainsString("require(\$pluginroot . '/db/services.php');", $source);
         $this->assertStringContainsString("\$pluginroot . '/amd/src'", $source);
+        $this->assertStringContainsString("':empty-map-mappings'", $source);
         $this->assertStringContainsString("\$pluginroot . '/lang/'", $source);
         $this->assertStringContainsString("\$pluginroot . '/CHANGELOG.md'", $source);
         $this->assertStringContainsString("'critical_config'", $source);

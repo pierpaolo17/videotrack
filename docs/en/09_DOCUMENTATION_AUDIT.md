@@ -1,6 +1,6 @@
 # Documentation audit
 
-Baseline: VideoTrack **1.7.122** (`2026090402`).
+Baseline: VideoTrack **1.7.123** (`2026090403`).
 
 ## Scope
 
@@ -33,7 +33,7 @@ not duplicate implementation procedures, field dictionaries or long security/pri
 ## Current-tree findings
 
 - English and Italian indexes have matching scope and ordering.
-- Documentation markers, root README files and ER artefacts identify 1.7.122 / 2026090402.
+- Documentation markers, root README files and ER artefacts identify 1.7.123 / 2026090403.
 - The activity identity includes a 1024-pixel `pix/icon.png` and an accessible native `pix/icon.svg` derived from
   the same maintainer-supplied artwork.
 - `db/install.xml` declares seven primary keys, 22 stable foreign keys and 22 explicit indexes. XMLDB generates an
@@ -46,8 +46,10 @@ not duplicate implementation procedures, field dictionaries or long security/pri
 - The activity and media guides document opt-in reaction configuration, effective learner-section visibility and
   the live `HH:MM:SS` duration equivalent.
 - The GitHub Actions guide documents triggers, least-privilege permissions, the six-job Moodle/PHP/database matrix,
-  ordinary-site database bootstrap, blocking AMD drift, strict and advisory checks, retained logs, faildumps and
-  the current PHPStan/Psalm configuration boundary.
+  classic/`public/` ordinary-site database bootstrap, the authoritative `moodle-plugin-ci grunt` comparison,
+  strict and advisory checks, retained logs, faildumps and the current PHPStan/Psalm configuration boundary.
+- The two AMD build pairs corrected in 1.7.123 are canonical Moodle Grunt output; their source maps have non-empty
+  mappings and embed source content byte-identical to the distributed AMD sources.
 - Rendered accessibility helpers use Moodle 5 / Bootstrap 5 `visually-hidden` classes; player live regions are
   present in the initial markup so normal activity views do not use the deprecated Bootstrap 4 `sr-only` fallback.
 - `.github/workflows/ci.yml` is present in the repository but excluded from Moodle release archives through both
