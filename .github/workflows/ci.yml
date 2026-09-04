@@ -175,40 +175,45 @@ jobs:
           set -o pipefail
           moodle-plugin-ci grunt --tasks amd 2>&1 | tee ci-reports/grunt.txt
 
-      - name: Verify generated AMD artifacts
-        if: ${{ !cancelled() }}
-        run: |
-          git -C plugin diff -- amd/build > ci-reports/amd-build.diff
-          if test -s ci-reports/amd-build.diff; then
-            echo "::error::Grunt changed tracked AMD build files; inspect the uploaded amd-build.diff artifact."
-            exit 1
-          else
-            echo "Tracked AMD build files already match the Grunt output." > ci-reports/amd-build.diff
-          fi
-
       - name: Install standard Moodle database for VideoTrack validator
         if: ${{ !cancelled() }}
         run: |
           set -o pipefail
-          pluginroot="$(find "$GITHUB_WORKSPACE" -path '*/mod/videotrack' -print -quit)"
-          moodleroot="$(dirname "$(dirname "$pluginroot")")"
-          installer="$moodleroot/admin/cli/install_database.php"
-          test -n "$pluginroot" && test -f "$installer"
-          adminpass="Vt!9$(openssl rand -hex 24)"
-          php "$installer" \
-            --agree-license \
-            --adminpass="$adminpass" \
-            --fullname='VideoTrack CI' \
-            --shortname='videotrack-ci' 2>&1 | tee ci-reports/site-install.txt
+          {
+            pluginroot="$(find "$GITHUB_WORKSPACE" -type d -path '*/mod/videotrack' -print -quit)"
+            installer="$(find "$GITHUB_WORKSPACE" -type f -path '*/admin/cli/install_database.php' -print -quit)"
+            printf 'VideoTrack root: %s\n' "${pluginroot:-NOT FOUND}"
+            printf 'Moodle installer: %s\n' "${installer:-NOT FOUND}"
+            if test -z "$pluginroot" || test ! -f "$pluginroot/cli/validate.php"; then
+              echo 'VideoTrack installation was not found in the Moodle tree.'
+              exit 1
+            fi
+            if test -z "$installer" || test ! -f "$installer"; then
+              echo 'Moodle admin/cli/install_database.php was not found.'
+              exit 1
+            fi
+            adminpass="Vt!9$(openssl rand -hex 24)"
+            php "$installer" \
+              --agree-license \
+              --adminpass="$adminpass" \
+              --fullname='VideoTrack CI' \
+              --shortname='videotrack-ci'
+          } 2>&1 | tee ci-reports/site-install.txt
 
       - name: VideoTrack installation validator
         if: ${{ !cancelled() }}
         run: |
           set -o pipefail
-          pluginroot="$(find "$GITHUB_WORKSPACE" -path '*/mod/videotrack' -print -quit)"
-          validator="$pluginroot/cli/validate.php"
-          test -n "$pluginroot" && test -f "$validator"
-          php "$validator" --strict 2>&1 | tee ci-reports/videotrack-validate.txt
+          {
+            pluginroot="$(find "$GITHUB_WORKSPACE" -type d -path '*/mod/videotrack' -print -quit)"
+            validator="$pluginroot/cli/validate.php"
+            printf 'VideoTrack validator: %s\n' "${validator:-NOT FOUND}"
+            if test -z "$pluginroot" || test ! -f "$validator"; then
+              echo 'VideoTrack validator was not found in the Moodle tree.'
+              exit 1
+            fi
+            php "$validator" --strict
+          } 2>&1 | tee ci-reports/videotrack-validate.txt
 
       - name: PHPUnit tests
         if: ${{ !cancelled() }}

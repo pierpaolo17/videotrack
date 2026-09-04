@@ -1,5 +1,31 @@
 # VideoTrack changelog
 
+## 1.7.123 - 2026-09-04
+
+### Fixed
+
+- Added the explicit parameter and return contract required by Moodle PHPDoc Checker to the inherited test
+  generator method, without narrowing its runtime signature.
+- Replaced the two affected AMD builds and source maps with the exact output produced by Moodle 5.0 Grunt. The
+  regenerated maps now contain real mappings and embed source content identical to the distributed AMD sources.
+- Extended the read-only installation validator so an empty source-map `mappings` payload is a release failure;
+  source embedding alone can no longer make a placeholder map appear valid.
+
+### Continuous integration
+
+- Made the ordinary-site database bootstrap locate the installed VideoTrack directory and Moodle CLI installer
+  independently, covering both the classic Moodle root and the Moodle 5.1+ `public/` layout.
+- Ensured locator failures are retained in `site-install.txt` and `videotrack-validate.txt` instead of failing before
+  useful evidence is written.
+- Removed the misleading repository `git diff` check after `moodle-plugin-ci grunt`; the command already compares
+  regenerated artifacts with the installed plugin backup and restores that working copy after the check.
+
+### Quality and documentation
+
+- Recorded the 1.7.122 server analyzer baseline: `moodle-extra` is clean, while the fallback PHPStan/Psalm setups do
+  not resolve the Moodle environment and the generic PHPMD ruleset is not yet a valid blocking plugin policy.
+- Updated the English and Italian release, build and CI documentation for the corrected gates.
+
 ## 1.7.122 - 2026-09-04
 
 ### Fixed

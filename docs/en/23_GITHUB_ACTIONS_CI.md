@@ -31,11 +31,11 @@ operation.
 
 ## Blocking checks
 
-Every matrix entry installs the PHPUnit and Behat environments, runs the Moodle AMD Grunt task, verifies that the
-tracked build and source-map files remain unchanged, installs the ordinary Moodle database, runs the VideoTrack
-read-only installation validator, and then executes PHPUnit and Behat. The normal, PHPUnit and Behat schemas use
-their configured independent prefixes. The canonical Moodle 5.0/MariaDB entry also runs PHP lint, PHPCS with zero
-warnings, PHPDoc with zero warnings, plugin validation, upgrade-savepoint validation and Mustache lint.
+Every matrix entry installs the PHPUnit and Behat environments, runs the Moodle AMD Grunt task and its canonical
+artifact comparison, installs the ordinary Moodle database, runs the VideoTrack read-only installation validator,
+and then executes PHPUnit and Behat. The normal, PHPUnit and Behat schemas use their configured independent
+prefixes. The canonical Moodle 5.0/MariaDB entry also runs PHP lint, PHPCS with zero warnings, PHPDoc with zero
+warnings, plugin validation, upgrade-savepoint validation and Mustache lint.
 
 The workflow uses `set -o pipefail` before piping output through `tee`, so a failing checker remains a failing
 step. Console logs are also collected in a downloadable `videotrack-ci-<matrix-id>` artifact for 14 days. A Behat
@@ -43,38 +43,44 @@ failure uploads the browser faildump separately.
 
 ## Advisory checks
 
-PHPMD is initially `continue-on-error`. Its generic rules flag required Moodle names such as `$DB`, prescribed
-backup/restore class names and static Moodle APIs; the output is evidence for refactoring, not a safe mechanical
-rewrite list. It may become blocking only after a reviewed VideoTrack ruleset and baseline exist.
+PHPMD is initially `continue-on-error`. The 1.7.122 server fallback reported 1,537 findings, dominated by 798
+`StaticAccess`, 249 `MissingImport` and 225 `ShortVariable` findings. Its generic rules flag required Moodle names
+such as `$DB`, prescribed backup/restore class names and static Moodle APIs; the output is evidence for designing a
+reviewed ruleset, not a safe mechanical rewrite list. It may become blocking only after a VideoTrack ruleset and
+explicit baseline exist.
 
-PHPStan and Psalm are not enabled by this workflow yet. The 1.7.120 fallback run did not load a complete Moodle
-analysis environment: PHPStan stopped after more than 1,000 unresolved Moodle symbols and Psalm analysed Moodle
-core/vendor files as well as the plugin, returning 1,712 errors. Adding either tool requires a committed,
-reproducible bootstrap/stub configuration that limits findings to VideoTrack and is verified across supported
-branches.
+PHPStan and Psalm are not enabled by this workflow yet. The 1.7.122 server fallback did not load a complete Moodle
+analysis environment: PHPStan stopped at level 1 after more than 1,000 predominantly unresolved Moodle symbols;
+Psalm stopped at level 8 with 1,712 errors while reporting Moodle core, vendor and tool files as well as the plugin.
+Adding either tool requires a committed, reproducible Moodle-aware bootstrap/stub configuration that limits
+actionable findings to VideoTrack and is verified across supported branches.
 
 ## Generated AMD evidence
 
-Grunt is explicitly limited to the `amd` task. After it runs, the workflow records `git diff -- amd/build` in
-`amd-build.diff`; a non-empty diff is blocking because it proves that a source, minified build or source map was
-not packaged canonically. The diff remains available in the report artifact. The broader Grunt lint groups are
-not mislabeled as the AMD build gate: CSS and JavaScript lint debt must be handled by dedicated reviewed gates.
+Grunt is explicitly limited to the `amd` task. `moodle-plugin-ci grunt` backs up the installed plugin, removes its
+build directory, regenerates AMD artifacts, compares their content with the backup and fails when a tracked file is
+missing or stale. It restores the installed plugin after the comparison, so a subsequent diff of the separate
+repository checkout cannot validate the generated result. The retained `grunt.txt` log and step exit status are the
+authoritative evidence. The broader Grunt lint groups are not mislabeled as the AMD build gate: CSS and JavaScript
+lint debt must be handled by dedicated reviewed gates.
 
 ## Installation validator bootstrap
 
 `moodle-plugin-ci install` prepares the isolated PHPUnit and Behat databases but does not install the ordinary site
-schema used by `cli/validate.php`. Before that validator, the workflow therefore locates the active Moodle root
-from `mod/videotrack` and runs Moodle's official `admin/cli/install_database.php`. Its output is retained in
-`site-install.txt`; the administrator password is generated inside the disposable job and is neither committed nor
-retained. The following validator must report zero failures in strict mode.
+schema used by `cli/validate.php`. Before that validator, the workflow locates the installed `mod/videotrack`
+directory and Moodle's official `admin/cli/install_database.php` independently. This supports both the classic tree
+and the Moodle 5.1+ layout where web-accessible plugin code lives below `public/` while CLI administration files are
+outside that directory. Resolved paths and installer output are retained in `site-install.txt`, including locator
+failures; the administrator password is generated inside the disposable job and is neither committed nor retained.
+The following validator must report zero failures in strict mode and retains its own locator diagnostics.
 
 ## Reading a result
 
 1. Open **Actions → Moodle Plugin CI** and select the commit or pull request.
 2. Check all six matrix jobs; a green summary with a failed advisory PHPMD step is expected only while the PHPMD
    baseline is explicitly documented.
-3. Download the `videotrack-ci-*` artifacts for complete command output; verify `site-install.txt`, the strict
-   VideoTrack validator report and the empty `amd-build.diff` statement.
+3. Download the `videotrack-ci-*` artifacts for complete command output; verify the authoritative `grunt.txt`,
+   `site-install.txt` and strict VideoTrack validator report.
 4. For Behat failures, download the corresponding faildump and inspect screenshots, HTML and browser diagnostics.
 5. Associate every result with the tested commit SHA. A later commit requires a new run.
 

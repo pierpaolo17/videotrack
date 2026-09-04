@@ -48,7 +48,7 @@ complement, but do not replace, Moodle PHPCS, PHP lint, PHPUnit, Behat or Grunt.
 - Lifecycle: fresh install, upgrade, backup/restore, reset, populated-gradebook uninstall and Privacy API when
   related code/schema changes.
 
-The current distributed suites contain 274 PHPUnit tests / 2533 assertions and 24 Behat scenarios /
+The current distributed suites contain 274 PHPUnit tests / 2534 assertions and 24 Behat scenarios /
 357 steps per supported Moodle branch. These numbers are expectations, not a pass claim.
 
 ## Repository continuous integration
@@ -59,10 +59,12 @@ The workflow uses read-only repository permissions, retains no checkout credenti
 Behat faildumps. See [`23_GITHUB_ACTIONS_CI.md`](23_GITHUB_ACTIONS_CI.md) for the exact matrix, strict/advisory
 classification and result interpretation.
 
-The workflow limits Grunt to the AMD task and treats every post-build difference under `amd/build` as blocking.
-A green Grunt step proves buildability, while a clean post-build diff proves that generated files were already
-packaged canonically; both claims are required. It also installs the ordinary Moodle database before executing the
-strict VideoTrack installation validator, independently from the PHPUnit and Behat database prefixes.
+The workflow limits Grunt to the AMD task. `moodle-plugin-ci grunt` removes the installed build directory,
+regenerates it, compares the result with the backed-up plugin and fails when tracked artifacts are stale; it then
+restores the installed copy. Its exit status and retained `grunt.txt` are therefore the authoritative build gate,
+not a later Git diff against the untouched repository checkout. The workflow also locates the installed plugin and
+Moodle's CLI installer independently, so the ordinary database used by the strict VideoTrack validator is installed
+in both the classic Moodle tree and the Moodle 5.1+ `public/` layout.
 
 ## Schema and data checks
 
