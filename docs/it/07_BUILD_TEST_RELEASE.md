@@ -33,11 +33,12 @@ vendor/bin/phpunit --testsuite mod_videotrack_testsuite
 Per modifiche AMD eseguire il vero task Grunt di Moodle e distribuire ogni `.min.js` e `.map` modificato.
 La sola sintassi JavaScript non sostituisce Grunt/ESLint.
 
-PHPStan, PHPDoc Checker, PHPMD e Psalm sono analizzatori supplementari di release. Per ciascuno vanno registrati
-versione, configurazione e output completo, senza sopprimere implicitamente i warning. Il loro esito positivo integra
-ma non sostituisce Moodle PHPCS, lint PHP, PHPUnit, Behat o Grunt. Una configurazione specifica entra nel progetto
-soltanto dopo essere stata provata su tutti i rami Moodle supportati, evitando di presentare prematuramente come
-garanzia cross-versione un ruleset comodo soltanto in locale.
+PHPDoc Checker è un gate bloccante della CI del repository con `--max-warnings 0`. PHPMD resta consultivo finché
+non esistono un ruleset consapevole delle convenzioni Moodle e una baseline revisionata. PHPStan e Psalm richiedono
+configurazioni bootstrap/stub versionate che risolvano i simboli Moodle ed escludano core/vendor non pertinenti
+prima che il loro risultato possa diventare un gate del plugin. Per ogni strumento vanno registrati versione,
+configurazione e output completo, senza soppressioni implicite. Questi analizzatori integrano ma non sostituiscono
+Moodle PHPCS, lint PHP, PHPUnit, Behat o Grunt.
 
 ## Gate comportamentali
 
@@ -49,7 +50,20 @@ garanzia cross-versione un ruleset comodo soltanto in locale.
   per codice/schema correlato.
 
 Le suite distribuite correnti contengono 274 test PHPUnit / 2533 asserzioni e 24 scenari Behat /
-353 step per ramo Moodle supportato. I conteggi sono aspettative, non una dichiarazione di pass.
+357 step per ramo Moodle supportato. I conteggi sono aspettative, non una dichiarazione di pass.
+
+## Integrazione continua del repository
+
+`.github/workflows/ci.yml` applica il modello mantenuto `moodle-plugin-ci` v4 a sei ambienti espliciti
+Moodle/PHP/database. Parte con push su `main` e `release/**`, pull request e avvio manuale. Il workflow usa permessi
+repository in sola lettura, non conserva credenziali del checkout e pubblica log dei comandi e faildump Behat.
+Matrice esatta, classificazione bloccante/consultiva e lettura dei risultati sono in
+[`23_GITHUB_ACTIONS_CI.md`](23_GITHUB_ACTIONS_CI.md).
+
+Il workflow limita Grunt al task AMD e considera bloccante ogni differenza post-build in `amd/build`. Un Grunt verde
+dimostra che il sorgente è compilabile; un diff post-build vuoto dimostra che gli artefatti generati erano già
+confezionati in forma canonica: entrambe le affermazioni sono richieste. Prima del validatore strict VideoTrack viene
+inoltre installato il database Moodle ordinario, separato dai prefissi database di PHPUnit e Behat.
 
 ## Controlli schema e dati
 
@@ -82,4 +96,5 @@ failure/warning, smoke manuali e gate differiti. Non promuovere una candidata co
 
 Il validatore in sola lettura `cli/validate.php` e il benchmark Analytics
 `cli/benchmark_course_analytics.php` sono in [`21_CLI_DIAGNOSTICS.md`](21_CLI_DIAGNOSTICS.md);
-la copertura browser è in [`22_TEST_BROWSER_BEHAT.md`](22_TEST_BROWSER_BEHAT.md).
+la copertura browser è in [`22_TEST_BROWSER_BEHAT.md`](22_TEST_BROWSER_BEHAT.md) e l'automazione del repository è
+in [`23_GITHUB_ACTIONS_CI.md`](23_GITHUB_ACTIONS_CI.md).

@@ -141,7 +141,7 @@ final class release_hygiene_contract_test extends advanced_testcase {
         $versionmarker = '** (' . $tick . $version . $tick . ')';
         $this->assertStringContainsString('**' . $release . $versionmarker, $englishindex);
         $this->assertStringContainsString('**' . $release . $versionmarker, $italianindex);
-        $this->assertStringContainsString('VideoTrack ' . $release . ' tree', $englishinventory);
+        $this->assertStringContainsString('VideoTrack ' . $release, $englishinventory);
         $this->assertStringContainsString('VideoTrack ' . $release, $italianinventory);
         $this->assertStringContainsString('VideoTrack **' . $release . $versionmarker, $englishaudit);
         $this->assertStringContainsString('VideoTrack **' . $release . $versionmarker, $italianaudit);

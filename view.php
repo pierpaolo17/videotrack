@@ -567,6 +567,14 @@ if ($showstudentreactions) {
 echo html_writer::start_div(
     'videotrack-player-shell',
     ['style' => 'max-width:' . (int)$playerwidth . 'px']
+) . html_writer::tag(
+    'div',
+    '',
+    ['class' => 'visually-hidden videotrack-status-live-polite', 'role' => 'status']
+) . html_writer::tag(
+    'div',
+    '',
+    ['class' => 'visually-hidden videotrack-status-live-assertive', 'role' => 'alert']
 );
 echo html_writer::start_div('videotrack-layout');
 
@@ -577,7 +585,7 @@ echo html_writer::start_div('videotrack-player-wrap');
 // Automatically removed when the player is created (YouTube/Vimeo replaces the div).
 $loadingtext = get_string('playerloading', 'mod_videotrack');
 echo html_writer::div(
-    html_writer::tag('span', $loadingtext, ['class' => 'sr-only']) .
+    html_writer::tag('span', $loadingtext, ['class' => 'visually-hidden']) .
     html_writer::tag('div', '', ['class' => 'videotrack-loading-spinner', 'aria-hidden' => 'true']),
     'videotrack-player-loading',
     ['aria-label' => $loadingtext, 'role' => 'status']
@@ -730,7 +738,7 @@ if ($showreactioncontrols) {
     );
     echo html_writer::tag('span', '', [
         'id'          => 'videotrack-reactions-live-status',
-        'class'       => 'sr-only visually-hidden',
+        'class'       => 'visually-hidden',
         'role'        => 'status',
         'aria-live'   => 'polite',
         'aria-atomic' => 'true',
@@ -754,13 +762,13 @@ if ($showstudentreactions) {
         ['class' => 'videotrack-student-section-summary']
     );
     echo html_writer::start_div('videotrack-student-section-body videotrack-reactions-table-wrap');
-    // A2: the sr-only caption is enough; removing aria-label avoids assistive technologies.
+    // A2: the visually hidden caption is enough; removing aria-label avoids assistive technologies.
     // Announcing the table title twice (caption + aria-label).
     echo html_writer::start_tag('table', ['class' => 'generaltable']);
     echo html_writer::tag(
         'caption',
         get_string('reportstudent', 'mod_videotrack'),
-        ['class' => 'sr-only']
+        ['class' => 'visually-hidden']
     );
     echo html_writer::start_tag('thead');
     echo html_writer::tag(
@@ -905,7 +913,7 @@ if ($showstudentnotespanel) {
     ]);
     echo html_writer::tag('span', '', [
         'id' => 'videotrack-note-live-status',
-        'class' => 'sr-only visually-hidden',
+        'class' => 'visually-hidden',
         'role' => 'status',
         'aria-live' => 'polite',
         'aria-atomic' => 'true',
@@ -1201,7 +1209,7 @@ if (!empty($videotrack->forumpostingenabled)) {
     );
     $statusattributes = [
         'id' => $forumpoststatusid,
-        'class' => $forumpostreason === '' ? 'sr-only' : 'd-block text-muted small mt-1',
+        'class' => $forumpostreason === '' ? 'visually-hidden' : 'd-block text-muted small mt-1',
         'role' => 'status',
     ];
     if ($forumpostreason === '') {

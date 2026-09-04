@@ -280,7 +280,7 @@ if ($isediting) {
     echo html_writer::tag(
         'caption',
         get_string('presets:reactionstablecaption', 'mod_videotrack'),
-        ['class' => 'sr-only visually-hidden']
+        ['class' => 'visually-hidden']
     );
     echo html_writer::start_tag('thead');
     echo html_writer::start_tag('tr');

@@ -1,10 +1,12 @@
 # VideoTrack per Moodle
 
+[![Moodle Plugin CI](https://github.com/pierpaolo17/videotrack/actions/workflows/ci.yml/badge.svg)](https://github.com/pierpaolo17/videotrack/actions/workflows/ci.yml)
+
 VideoTrack è un modulo attività Moodle per video HTML5/caricati, YouTube e Vimeo. Integra progresso di
 visione validato dal server, strumenti di studio, completamento personalizzato, gradebook e report attenti
 alla privacy.
 
-Release corrente documentata da questo albero: **1.7.120**. Rami Moodle supportati: **5.0–5.3**.
+Release corrente documentata da questo albero: **1.7.122**. Rami Moodle supportati: **5.0–5.3**.
 
 - Panoramica inglese: [`README.md`](README.md)
 - Guida italiana completa: [`docs/it/funzionalita.md`](docs/it/funzionalita.md)
@@ -37,7 +39,7 @@ Release corrente documentata da questo albero: **1.7.120**. Rami Moodle supporta
 | Privacy | Privacy API Moodle, export/cancellazione proprietario, cancellazione context/user-list, retention a eliminazione e conferma retention illimitata. |
 | Ciclo di vita | Backup/restore con o senza dati utente, reset, cancellazione istanza, riparazione gradebook ed eventi Moodle. |
 | Amministrazione | Default sito, policy player/completion imponibili, preset reazioni, otto lingue, validatore e benchmark Analytics in sola lettura. |
-| Qualità | Contratti PHPUnit, Behat deterministico HTML5/YouTube/Vimeo e gate Moodle PHPCS/AMD canonici. |
+| Qualità | GitHub Actions integrato nel repository, contratti PHPUnit, Behat deterministico HTML5/YouTube/Vimeo, PHPCS/PHPDoc/validazione Moodle e gate AMD canonici. |
 
 La tabella è una mappa completa, non la specifica operativa. Comportamento, permessi, confini dati e limiti dei
 provider sono descritti una sola volta nella [guida completa](docs/it/funzionalita.md) e nei riferimenti tecnici.
@@ -78,6 +80,9 @@ Gli strumenti sono in sola lettura. Opzioni e interpretazione sono in
 [`docs/it/21_CLI_DIAGNOSTICS.md`](docs/it/21_CLI_DIAGNOSTICS.md). I maintainer devono seguire
 [`docs/it/07_BUILD_TEST_RELEASE.md`](docs/it/07_BUILD_TEST_RELEASE.md); quando cambia `amd/src`, build Moodle
 Grunt e source map corrispondenti sono obbligatori.
+
+La CI del repository, la matrice Moodle/PHP/database, i controlli bloccanti/consultivi e gli artefatti scaricabili
+sono descritti in [`docs/it/23_GITHUB_ACTIONS_CI.md`](docs/it/23_GITHUB_ACTIONS_CI.md).
 
 ## Licenza
 

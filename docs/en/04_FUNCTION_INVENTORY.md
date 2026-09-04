@@ -1,6 +1,6 @@
 # Function inventory
 
-Generated from the VideoTrack 1.7.120 source tree. PHP entries include named functions and methods; AMD entries include named declarations, assigned function expressions and object-method functions.
+Generated from the VideoTrack 1.7.122 source tree. PHP entries include named functions and methods; AMD entries include named declarations, assigned function expressions and object-method functions.
 
 **PHP functions/methods:** 755. **Named AMD callables:** 654.
 
@@ -1245,7 +1245,7 @@ Generated from the VideoTrack 1.7.120 source tree. PHP entries include named fun
 | `tests/forum_bridge_test.php:196` | `test_dual_role_learner_does_not_bypass_watched_check` | Named PHP function/method `test_dual_role_learner_does_not_bypass_watched_check`; see source DocBlock and callers for the current contract. |
 | `tests/forum_bridge_test.php:219` | `test_forum_composer_invokes_timestamp_access_validation` | Named PHP function/method `test_forum_composer_invokes_timestamp_access_validation`; see source DocBlock and callers for the current contract. |
 | `tests/forum_bridge_test.php:236` | `insert_validated_segment` | Named PHP function/method `insert_validated_segment`; see source DocBlock and callers for the current contract. |
-| `tests/generator/lib.php:43` | `create_instance` | Creates deterministic VideoTrack module fixtures for PHPUnit and Behat. |
+| `tests/generator/lib.php:39` | `create_instance` | Creates deterministic VideoTrack module fixtures for PHPUnit and Behat. |
 | `tests/generator_test.php:35` | `test_generator_creates_activity_with_learner_features` | Verifies the generator can create an activity with learner study tools enabled. |
 | `tests/generator_test.php:67` | `test_generator_creates_local_html5_fixture` | Verifies the generator stores the deterministic HTML5 fixture in the module filearea. |
 | `tests/generator_test.php:98` | `test_generator_creates_youtube_provider_fixture` | Verifies the reserved deterministic YouTube fixture identifier and duration. |
@@ -1312,9 +1312,9 @@ Generated from the VideoTrack 1.7.120 source tree. PHP entries include named fun
 | `tests/release_hygiene_contract_test.php:65` | `test_readmes_and_changelog_track_current_release` | Named PHP function/method `test_readmes_and_changelog_track_current_release`; see source DocBlock and callers for the current contract. |
 | `tests/release_hygiene_contract_test.php:105` | `test_current_documentation_tracks_release` | Named PHP function/method `test_current_documentation_tracks_release`; see source DocBlock and callers for the current contract. |
 | `tests/release_hygiene_contract_test.php:160` | `test_activity_icon_assets_cover_png_and_svg_renderers` | Named PHP function/method `test_activity_icon_assets_cover_png_and_svg_renderers`; see source DocBlock and callers for the current contract. |
-| `tests/release_hygiene_contract_test.php:177` | `test_phpunit_coverage_metadata_uses_attributes` | Named PHP function/method `test_phpunit_coverage_metadata_uses_attributes`; see source DocBlock and callers for the current contract. |
-| `tests/release_hygiene_contract_test.php:198` | `test_maintained_language_packs_share_keys_and_placeholders` | Named PHP function/method `test_maintained_language_packs_share_keys_and_placeholders`; see source DocBlock and callers for the current contract. |
-| `tests/release_hygiene_contract_test.php:250` | `test_privacy_summaries_keep_parallel_section_structure` | Named PHP function/method `test_privacy_summaries_keep_parallel_section_structure`; see source DocBlock and callers for the current contract. |
+| `tests/release_hygiene_contract_test.php:179` | `test_phpunit_coverage_metadata_uses_attributes` | Named PHP function/method `test_phpunit_coverage_metadata_uses_attributes`; see source DocBlock and callers for the current contract. |
+| `tests/release_hygiene_contract_test.php:200` | `test_maintained_language_packs_share_keys_and_placeholders` | Named PHP function/method `test_maintained_language_packs_share_keys_and_placeholders`; see source DocBlock and callers for the current contract. |
+| `tests/release_hygiene_contract_test.php:252` | `test_privacy_summaries_keep_parallel_section_structure` | Named PHP function/method `test_privacy_summaries_keep_parallel_section_structure`; see source DocBlock and callers for the current contract. |
 | `tests/report_access_test.php:37` | `test_aggregate_only_role_keeps_individual_access_separate` | PHP callable `test_aggregate_only_role_keeps_individual_access_separate`; behavioural contract for delegated aggregate-only report access. |
 | `tests/report_access_test.php:59` | `test_individual_view_implies_aggregate_view_without_export_permissions` | PHP callable `test_individual_view_implies_aggregate_view_without_export_permissions`; behavioural contract for view/export separation. |
 | `tests/report_access_test.php:79` | `test_legacy_viewreport_remains_full_access` | PHP callable `test_legacy_viewreport_remains_full_access`; backwards-compatibility contract for historical report roles. |

@@ -1,13 +1,16 @@
 # Inventario dei file distribuiti
 
-Questo inventario è generato sull’albero VideoTrack 1.7.120 ed elenca ogni file non documentale. Il JavaScript canonico è in `amd/src`; i file in `amd/build` sono generati.
+Questo inventario è generato sull'albero repository VideoTrack 1.7.122. Elenca ogni file non documentale distribuito
+e il workflow CI presente soltanto nel repository. Il JavaScript canonico è in `amd/src`; i file in `amd/build` sono
+generati.
 
-Voci: **295**.
+Voci: **296** — 295 file distribuiti e un workflow escluso dagli archivi di release.
 
 | File | Responsabilità |
 |---|---|
 | `.gitattributes` | Attributi testuali/binari del repository. |
 | `.moodleignore` | File esclusi dal pacchetto Moodle. |
+| `.github/workflows/ci.yml` | Matrice GitHub Actions del repository, esclusa dagli archivi Moodle tramite `export-ignore`. |
 | `phpcs.xml.dist` | Configurazione canonica del gate PHPCS basata sul ruleset Moodle Extra completo, senza esclusioni specifiche VideoTrack. |
 | `amd/build/completion_requirements.min.js` | Build AMD minificata generata per la presentazione raggruppata dei requisiti di completamento tramite Grunt Moodle. |
 | `amd/build/completion_requirements.min.js.map` | Source map generata per la build AMD `completion_requirements`; non modificare manualmente. |

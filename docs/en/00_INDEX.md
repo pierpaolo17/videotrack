@@ -1,6 +1,6 @@
 # VideoTrack documentation index
 
-This is the authoritative English documentation for VideoTrack **1.7.120** (`2026090301`),
+This is the authoritative English documentation for VideoTrack **1.7.122** (`2026090402`),
 supporting Moodle 5.0–5.3. It describes the current tree only. Release history belongs in the
 root `CHANGELOG.md` and in the source tag for the relevant version.
 
@@ -33,6 +33,7 @@ root `CHANGELOG.md` and in the source tag for the relevant version.
 22. [`20_TROUBLESHOOTING.md`](20_TROUBLESHOOTING.md) — symptom-led operational diagnostics.
 23. [`21_CLI_DIAGNOSTICS.md`](21_CLI_DIAGNOSTICS.md) — read-only validator and analytics benchmark.
 24. [`22_BEHAT_BROWSER_TESTS.md`](22_BEHAT_BROWSER_TESTS.md) — deterministic browser coverage.
+25. [`23_GITHUB_ACTIONS_CI.md`](23_GITHUB_ACTIONS_CI.md) — repository CI matrix, gates, artifacts and diagnostics.
 
 ## Database and ER artefacts
 

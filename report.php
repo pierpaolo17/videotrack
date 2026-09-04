@@ -2493,7 +2493,7 @@ if ($mode === 'student') {
                     $gradecell .= html_writer::tag(
                         'span',
                         html_writer::span($passed ? '✓' : '✗', '', ['aria-hidden' => 'true']) .
-                            html_writer::span($passlabel, 'sr-only'),
+                            html_writer::span($passlabel, 'visually-hidden'),
                         [
                             'class' => 'ms-1 ' . ($passed ? 'text-success' : 'text-danger'),
                             'title' => get_string(
@@ -2812,7 +2812,7 @@ if ($mode === 'student') {
                 'class' => 'small mb-1',
             ]);
             echo html_writer::link('#videotrack-heatmap-table', get_string('report:skiptoheatmaptable', 'mod_videotrack'), [
-                'class' => 'sr-only sr-only-focusable d-block mb-2',
+                'class' => 'visually-hidden visually-hidden-focusable d-block mb-2',
             ]);
             echo html_writer::tag('p', get_string('report:heatmap_desc', 'mod_videotrack') . ' ' .
                 get_string('report:heatmap_textsummary', 'mod_videotrack', [
