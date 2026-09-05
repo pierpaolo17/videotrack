@@ -42,11 +42,13 @@ giorni. Se fallisce Behat viene pubblicato separatamente il faildump del browser
 
 ## Controlli consultivi
 
-PHPMD è inizialmente `continue-on-error`. Il fallback server 1.7.122 ha prodotto 1.537 rilievi, dominati da 798
-`StaticAccess`, 249 `MissingImport` e 225 `ShortVariable`. Le regole generiche segnalano nomi Moodle obbligatori come
-`$DB`, nomi prescritti delle classi backup/restore e API Moodle statiche; l'output serve a progettare un ruleset
-revisionato, non è una lista sicura di riscritture meccaniche. Potrà diventare bloccante soltanto dopo un ruleset
-VideoTrack e una baseline esplicita.
+PHPMD è inizialmente `continue-on-error`. L'esecuzione CI Moodle-aware sulla 1.7.123 ha prodotto 215 violazioni in 42
+file e zero errori dello strumento. I rilievi comprendono hotspot reali di complessità e dimensione dei metodi,
+insieme a regole generiche che segnalano firme Moodle obbligatorie, nomi prescritti delle classi backup/restore e
+convenzioni del framework. L'output serve a progettare un ruleset revisionato, non è una lista sicura di riscritture
+meccaniche. Potrà diventare bloccante soltanto dopo un ruleset VideoTrack e una baseline esplicita. Il precedente
+risultato fallback 1.7.122 di 1.537 rilievi non è la baseline attiva perché proveniva da un setup più ampio e non
+equivalente.
 
 PHPStan e Psalm non sono ancora attivati dal workflow. Il fallback server 1.7.122 non caricava un ambiente Moodle
 completo: PHPStan si è fermato al livello 1 dopo oltre 1.000 simboli Moodle prevalentemente non risolti; Psalm si è
@@ -66,21 +68,26 @@ gate della build AMD: il debito lint CSS e JavaScript richiede gate dedicati e r
 ## Bootstrap del validatore dell'installazione
 
 `moodle-plugin-ci install` prepara i database isolati di PHPUnit e Behat, ma non installa lo schema ordinario del
-sito usato da `cli/validate.php`. Prima del validatore il workflow individua separatamente la directory installata
-`mod/videotrack` e lo script ufficiale Moodle `admin/cli/install_database.php`. Questo copre sia l'albero classico
-sia il layout Moodle 5.1+, dove il plugin accessibile dal web si trova sotto `public/` mentre i file amministrativi
-CLI sono esterni. Percorsi risolti e output dell'installer vengono conservati in `site-install.txt`, compresi gli
-errori del locator; la password amministratore viene generata nel job usa e getta e non viene né versionata né
-conservata. Il validatore successivo deve terminare in modalità strict senza fallimenti e conserva la propria
-diagnostica di localizzazione.
+sito usato da `cli/validate.php`. Subito dopo l'installazione il workflow risolve i percorsi dalla root Moodle nota,
+in ordine deterministico: prima `moodle/public/mod/videotrack`, poi il layout classico
+`moodle/mod/videotrack`. L'installer Moodle viene verificato separatamente nel percorso
+`moodle/admin/cli/install_database.php`.
+
+Il resolver non scandisce l'intero workspace. Questo è essenziale sui rami Moodle in cui il task Grunt `amdtypes`
+crea il mirror generato `.types/amd/public/mod/videotrack`: il percorso somiglia a quello del plugin ma non contiene
+un'attività installabile. Un controllo difensivo rifiuta qualsiasi risultato `.types`. I percorsi validati vengono
+scritti una volta nell'ambiente del job e riutilizzati sia dall'installazione ordinaria sia dal validatore strict.
+`paths.txt`, `site-install.txt` e `videotrack-validate.txt` conservano il contratto dei percorsi e le evidenze dei
+comandi. La password amministratore viene generata nel job usa e getta e non viene né versionata né conservata. Il
+validatore deve terminare in modalità strict senza fallimenti.
 
 ## Lettura del risultato
 
 1. Aprire **Actions → Moodle Plugin CI** e scegliere il commit o la pull request.
 2. Controllare tutti i sei job della matrice; durante la baseline PHPMD dichiarata, il suo step consultivo può
    fallire senza rendere rosso il job.
-3. Scaricare gli artefatti `videotrack-ci-*` per i log completi; verificare `grunt.txt`, `site-install.txt` e il
-   report strict del validatore VideoTrack.
+3. Scaricare gli artefatti `videotrack-ci-*` per i log completi; verificare `paths.txt`, `grunt.txt`,
+   `site-install.txt` e il report strict del validatore VideoTrack.
 4. In caso di errore Behat, scaricare il faildump corrispondente e controllare screenshot, HTML e diagnostica
    browser.
 5. Associare ogni risultato allo SHA del commit testato; un commit successivo richiede una nuova esecuzione.

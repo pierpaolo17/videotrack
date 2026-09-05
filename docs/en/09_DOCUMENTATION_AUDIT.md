@@ -1,6 +1,6 @@
 # Documentation audit
 
-Baseline: VideoTrack **1.7.123** (`2026090403`).
+Baseline: VideoTrack **1.7.124** (`2026090501`).
 
 ## Scope
 
@@ -33,7 +33,7 @@ not duplicate implementation procedures, field dictionaries or long security/pri
 ## Current-tree findings
 
 - English and Italian indexes have matching scope and ordering.
-- Documentation markers, root README files and ER artefacts identify 1.7.123 / 2026090403.
+- Documentation markers, root README files and ER artefacts identify 1.7.124 / 2026090501.
 - The activity identity includes a 1024-pixel `pix/icon.png` and an accessible native `pix/icon.svg` derived from
   the same maintainer-supplied artwork.
 - `db/install.xml` declares seven primary keys, 22 stable foreign keys and 22 explicit indexes. XMLDB generates an
@@ -46,8 +46,10 @@ not duplicate implementation procedures, field dictionaries or long security/pri
 - The activity and media guides document opt-in reaction configuration, effective learner-section visibility and
   the live `HH:MM:SS` duration equivalent.
 - The GitHub Actions guide documents triggers, least-privilege permissions, the six-job Moodle/PHP/database matrix,
-  classic/`public/` ordinary-site database bootstrap, the authoritative `moodle-plugin-ci grunt` comparison,
-  strict and advisory checks, retained logs, faildumps and the current PHPStan/Psalm configuration boundary.
+  deterministic classic/`public/` ordinary-site bootstrap, rejection of generated `.types` mirrors, the
+  authoritative `moodle-plugin-ci grunt` comparison, strict and advisory checks, retained logs, faildumps and the
+  current PHPStan/Psalm configuration boundary.
+- The active advisory PHPMD baseline is the 1.7.123 CI result: 215 violations across 42 files and zero tool errors.
 - The two AMD build pairs corrected in 1.7.123 are canonical Moodle Grunt output; their source maps have non-empty
   mappings and embed source content byte-identical to the distributed AMD sources.
 - Rendered accessibility helpers use Moodle 5 / Bootstrap 5 `visually-hidden` classes; player live regions are

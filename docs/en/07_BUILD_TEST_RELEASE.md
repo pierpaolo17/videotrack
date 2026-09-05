@@ -62,9 +62,10 @@ classification and result interpretation.
 The workflow limits Grunt to the AMD task. `moodle-plugin-ci grunt` removes the installed build directory,
 regenerates it, compares the result with the backed-up plugin and fails when tracked artifacts are stale; it then
 restores the installed copy. Its exit status and retained `grunt.txt` are therefore the authoritative build gate,
-not a later Git diff against the untouched repository checkout. The workflow also locates the installed plugin and
-Moodle's CLI installer independently, so the ordinary database used by the strict VideoTrack validator is installed
-in both the classic Moodle tree and the Moodle 5.1+ `public/` layout.
+not a later Git diff against the untouched repository checkout. The workflow resolves the plugin deterministically
+from the known Moodle root, prefers the Moodle 5.1+ `public/` layout, falls back to the classic layout and rejects
+generated `.types` mirrors. The retained `paths.txt` records the exact plugin and installer selected before the
+ordinary database and strict VideoTrack validator are run.
 
 ## Schema and data checks
 

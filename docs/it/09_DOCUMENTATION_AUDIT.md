@@ -1,6 +1,6 @@
 # Audit della documentazione
 
-Baseline: VideoTrack **1.7.123** (`2026090403`).
+Baseline: VideoTrack **1.7.124** (`2026090501`).
 
 ## Perimetro
 
@@ -33,7 +33,7 @@ duplicano intenzionalmente procedure implementative, dizionari dei campi o lungh
 ## Rilievi sull'albero corrente
 
 - Gli indici inglese e italiano hanno stesso perimetro e ordinamento.
-- Marker documentali, README principali e artefatti ER identificano 1.7.123 / 2026090403.
+- Marker documentali, README principali e artefatti ER identificano 1.7.124 / 2026090501.
 - L'identità dell'attività include `pix/icon.png` da 1024 pixel e un `pix/icon.svg` nativo e accessibile derivati
   dalla stessa grafica fornita dal maintainer.
 - `db/install.xml` dichiara sette chiavi primarie, 22 foreign key stabili e 22 indici espliciti. XMLDB genera inoltre
@@ -46,8 +46,10 @@ duplicano intenzionalmente procedure implementative, dizionari dei campi o lungh
 - Le guide dell'attività e dei media documentano reazioni opt-in, visibilità effettiva delle sezioni learner e
   l'equivalente live della durata in `HH:MM:SS`.
 - La guida GitHub Actions documenta trigger, permessi minimi, matrice Moodle/PHP/database a sei job, controlli
-  bloccanti e consultivi, bootstrap del database ordinario nei layout classico/`public/`, confronto autorevole
-  `moodle-plugin-ci grunt`, log conservati, faildump e l'attuale confine di configurazione PHPStan/Psalm.
+  bloccanti e consultivi, bootstrap deterministico nei layout classico/`public/`, rifiuto dei mirror `.types`,
+  confronto autorevole `moodle-plugin-ci grunt`, log conservati, faildump e l'attuale confine di configurazione
+  PHPStan/Psalm.
+- La baseline PHPMD consultiva attiva è l'esito CI 1.7.123: 215 violazioni in 42 file e zero errori dello strumento.
 - Le due coppie di build AMD corrette nella 1.7.123 sono output canonico di Moodle Grunt; le source map hanno mapping
   non vuoti e includono sorgenti byte per byte identici agli AMD distribuiti.
 - Gli helper accessibili renderizzati usano le classi Moodle 5 / Bootstrap 5 `visually-hidden`; i live region del
