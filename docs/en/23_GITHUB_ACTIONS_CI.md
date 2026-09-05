@@ -43,11 +43,12 @@ failure uploads the browser faildump separately.
 
 ## Advisory checks
 
-PHPMD is initially `continue-on-error`. The 1.7.122 server fallback reported 1,537 findings, dominated by 798
-`StaticAccess`, 249 `MissingImport` and 225 `ShortVariable` findings. Its generic rules flag required Moodle names
-such as `$DB`, prescribed backup/restore class names and static Moodle APIs; the output is evidence for designing a
-reviewed ruleset, not a safe mechanical rewrite list. It may become blocking only after a VideoTrack ruleset and
-explicit baseline exist.
+PHPMD is initially `continue-on-error`. The Moodle-aware CI invocation on 1.7.123 reported 215 violations across 42
+files and zero tool errors. Findings include genuine complexity and method-size hotspots together with generic
+rules that flag required Moodle signatures, prescribed backup/restore class names and framework conventions. The
+output is evidence for designing a reviewed ruleset, not a safe mechanical rewrite list. It may become blocking
+only after a VideoTrack ruleset and explicit baseline exist. The earlier 1.7.122 fallback result of 1,537 findings
+is not the active baseline because it used a broader, non-equivalent setup.
 
 PHPStan and Psalm are not enabled by this workflow yet. The 1.7.122 server fallback did not load a complete Moodle
 analysis environment: PHPStan stopped at level 1 after more than 1,000 predominantly unresolved Moodle symbols;
@@ -67,20 +68,26 @@ lint debt must be handled by dedicated reviewed gates.
 ## Installation validator bootstrap
 
 `moodle-plugin-ci install` prepares the isolated PHPUnit and Behat databases but does not install the ordinary site
-schema used by `cli/validate.php`. Before that validator, the workflow locates the installed `mod/videotrack`
-directory and Moodle's official `admin/cli/install_database.php` independently. This supports both the classic tree
-and the Moodle 5.1+ layout where web-accessible plugin code lives below `public/` while CLI administration files are
-outside that directory. Resolved paths and installer output are retained in `site-install.txt`, including locator
-failures; the administrator password is generated inside the disposable job and is neither committed nor retained.
-The following validator must report zero failures in strict mode and retains its own locator diagnostics.
+schema used by `cli/validate.php`. Immediately after installation, the workflow resolves paths from the known Moodle
+root in a deterministic order: `moodle/public/mod/videotrack` first and the classic
+`moodle/mod/videotrack` second. Moodle's installer is always checked separately at
+`moodle/admin/cli/install_database.php`.
+
+The resolver never scans the complete workspace. This is important on Moodle branches whose Grunt `amdtypes` task
+creates a generated `.types/amd/public/mod/videotrack` mirror: that directory resembles a plugin path but does not
+contain an installable activity. A defensive check rejects any `.types` result. The validated paths are written to
+the job environment once and reused by both ordinary-site installation and the strict validator. `paths.txt`,
+`site-install.txt` and `videotrack-validate.txt` retain the path contract and command evidence. The administrator
+password is generated inside the disposable job and is neither committed nor retained. The validator must report
+zero failures in strict mode.
 
 ## Reading a result
 
 1. Open **Actions → Moodle Plugin CI** and select the commit or pull request.
 2. Check all six matrix jobs; a green summary with a failed advisory PHPMD step is expected only while the PHPMD
    baseline is explicitly documented.
-3. Download the `videotrack-ci-*` artifacts for complete command output; verify the authoritative `grunt.txt`,
-   `site-install.txt` and strict VideoTrack validator report.
+3. Download the `videotrack-ci-*` artifacts for complete command output; verify `paths.txt`, the authoritative
+   `grunt.txt`, `site-install.txt` and the strict VideoTrack validator report.
 4. For Behat failures, download the corresponding faildump and inspect screenshots, HTML and browser diagnostics.
 5. Associate every result with the tested commit SHA. A later commit requires a new run.
 

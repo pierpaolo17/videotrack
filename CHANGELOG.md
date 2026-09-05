@@ -1,5 +1,20 @@
 # VideoTrack changelog
 
+## 1.7.124 - 2026-09-05
+
+### Continuous integration
+
+- Replaced the recursive plugin locator with deterministic checks of Moodle's supported `public/mod/videotrack`
+  and classic `mod/videotrack` locations.
+- Rejected generated `.types` AMD mirrors explicitly and reused one validated path contract for ordinary-site
+  installation and the strict VideoTrack validator.
+- Added `paths.txt` to retained CI evidence so the selected Moodle root, plugin root and installer remain auditable.
+
+### Documentation
+
+- Recorded the 1.7.123 server and GitHub evidence, the Moodle 5.3 locator failure and the corrected CI contract in
+  both documentation trees.
+
 ## 1.7.123 - 2026-09-04
 
 ### Fixed
