@@ -40,21 +40,30 @@ Il workflow usa `set -o pipefail` prima di inviare l'output a `tee`: un checker 
 fallito. I log della console sono raccolti anche in un artefatto scaricabile `videotrack-ci-<matrix-id>` per 14
 giorni. Se fallisce Behat viene pubblicato separatamente il faildump del browser.
 
-## Controlli consultivi
+## Analisi statica consultiva
 
-PHPMD è inizialmente `continue-on-error`. L'esecuzione CI Moodle-aware sulla 1.7.123 ha prodotto 215 violazioni in 42
-file e zero errori dello strumento. I rilievi comprendono hotspot reali di complessità e dimensione dei metodi,
-insieme a regole generiche che segnalano firme Moodle obbligatorie, nomi prescritti delle classi backup/restore e
-convenzioni del framework. L'output serve a progettare un ruleset revisionato, non è una lista sicura di riscritture
-meccaniche. Potrà diventare bloccante soltanto dopo un ruleset VideoTrack e una baseline esplicita. Il precedente
-risultato fallback 1.7.122 di 1.537 rilievi non è la baseline attiva perché proveniva da un setup più ampio e non
-equivalente.
+Il `phpmd.xml` versionato seleziona regole revisionate di clean code, dimensione, design e codice inutilizzato sul
+PHP di produzione ed esclude test, lingue, documentazione e strumenti. Moodle PHPCS resta autorevole per naming e
+convenzioni del framework. Prima del ruleset, l'esecuzione generica 1.7.123 aveva rilevato 215 finding in 42 file:
+56 complessità ciclomatica, 35 NPath, 34 variabili lunghe, 23 metodi eccessivi, 14 flag booleani, 13 parametri
+inutilizzati, 13 classi con troppi metodi pubblici, otto variabili locali inutilizzate, tre liste parametri eccessive
+e 16 altri finding. È un riferimento pre-ruleset, non la baseline corrente. L'exit 2 di PHPMD (finding) è
+consultivo; ogni altro stato non zero è un errore dello strumento/configurazione e blocca il job.
 
-PHPStan e Psalm non sono ancora attivati dal workflow. Il fallback server 1.7.122 non caricava un ambiente Moodle
-completo: PHPStan si è fermato al livello 1 dopo oltre 1.000 simboli Moodle prevalentemente non risolti; Psalm si è
-fermato al livello 8 con 1.712 errori, segnalando anche file core, vendor e degli strumenti oltre al plugin. Per
-aggiungere uno dei due serve una configurazione bootstrap/stub Moodle-aware riproducibile, versionata, che limiti i
-rilievi azionabili a VideoTrack e sia verificata sui rami supportati.
+PHPStan 2.2.13 e Psalm 6.16.1 sono fissati da `.github/static-analysis/composer.json`. Nei job MariaDB Moodle 5.0 e
+5.3 vengono eseguiti dopo l'installazione del sito ordinario, solo sui percorsi VideoTrack di produzione. Le
+configurazioni versionate caricano `tools/static-analysis/bootstrap.php`; `MOODLE_ROOT` seleziona l'esatto albero
+testato, con fallback deterministico classico/`public/` per i runner maintainer. PHPStan parte dal livello 1 e Psalm
+dal livello 8. I finding sono temporaneamente
+consultivi finché si raccolgono le prime baseline valide cross-versione; `static-tools.txt`, `phpstan.txt` e
+`psalm.txt` conservano identità degli strumenti e output completo.
+
+I vecchi output fallback 1.7.122 sono baseline invalide: PHPStan conteneva oltre 1.000 simboli Moodle perlopiù non
+risolti e Psalm mescolava 1.712 errori del plugin, core, vendor e strumenti. Non vanno confrontati numericamente con
+i report Moodle-aware limitati. Ogni step CI accetta un exit con finding soltanto se l'output contiene il riepilogo
+di analisi completata dello strumento; un riepilogo assente resta un errore bloccante di esecuzione/configurazione.
+I finding vengono raggruppati per causa e sanati in tranche circoscritte; i gate diventano bloccanti soltanto dopo
+una baseline accettata a zero o una policy di baseline esplicita e revisionata.
 
 ## Evidenza delle build AMD
 
@@ -84,10 +93,10 @@ validatore deve terminare in modalità strict senza fallimenti.
 ## Lettura del risultato
 
 1. Aprire **Actions → Moodle Plugin CI** e scegliere il commit o la pull request.
-2. Controllare tutti i sei job della matrice; durante la baseline PHPMD dichiarata, il suo step consultivo può
-   fallire senza rendere rosso il job.
+2. Controllare tutti i sei job. I report riconosciuti con finding PHPStan/Psalm/PHPMD sono consultivi durante la
+   fase di baseline dichiarata; un errore di strumento/configurazione rende rosso il job.
 3. Scaricare gli artefatti `videotrack-ci-*` per i log completi; verificare `paths.txt`, `grunt.txt`,
-   `site-install.txt` e il report strict del validatore VideoTrack.
+   `site-install.txt`, `videotrack-validate.txt` e, dove previsti, `static-tools.txt`, `phpstan.txt` e `psalm.txt`.
 4. In caso di errore Behat, scaricare il faildump corrispondente e controllare screenshot, HTML e diagnostica
    browser.
 5. Associare ogni risultato allo SHA del commit testato; un commit successivo richiede una nuova esecuzione.

@@ -1,17 +1,21 @@
 # Inventario dei file distribuiti
 
-Questo inventario è generato sull'albero repository VideoTrack 1.7.124. Elenca ogni file non documentale distribuito
-e il workflow CI presente soltanto nel repository. Il JavaScript canonico è in `amd/src`; i file in `amd/build` sono
-generati.
+Questo inventario è generato sull'albero repository VideoTrack 1.7.125. Elenca ogni file non documentale distribuito
+e i file CI/tooling presenti soltanto nel repository. Il JavaScript canonico è in `amd/src`; i file in `amd/build`
+sono generati.
 
-Voci: **296** — 295 file distribuiti e un workflow escluso dagli archivi di release.
+Voci: **301** — 299 file distribuiti e due file presenti soltanto nel repository, esclusi dagli archivi di release.
 
 | File | Responsabilità |
 |---|---|
 | `.gitattributes` | Attributi testuali/binari del repository. |
 | `.moodleignore` | File esclusi dal pacchetto Moodle. |
+| `.github/static-analysis/composer.json` | Ambiente strumenti PHPStan/Psalm versionato e riservato alla CI del repository. |
 | `.github/workflows/ci.yml` | Matrice GitHub Actions del repository, esclusa dagli archivi Moodle tramite `export-ignore`. |
+| `phpmd.xml` | Ruleset PHPMD di produzione revisionato; il naming Moodle resta governato da PHPCS. |
 | `phpcs.xml.dist` | Configurazione canonica del gate PHPCS basata sul ruleset Moodle Extra completo, senza esclusioni specifiche VideoTrack. |
+| `phpstan.neon.dist` | Perimetro PHPStan Moodle-aware sul codice di produzione e livello iniziale. |
+| `psalm.xml` | Perimetro Psalm Moodle-aware sul codice di produzione e livello iniziale. |
 | `amd/build/completion_requirements.min.js` | Build AMD minificata generata per la presentazione raggruppata dei requisiti di completamento tramite Grunt Moodle. |
 | `amd/build/completion_requirements.min.js.map` | Source map generata per la build AMD `completion_requirements`; non modificare manualmente. |
 | `amd/build/core/adapter.min.js` | Build AMD minificata generata per `core/adapter` tramite Grunt Moodle. |
@@ -302,5 +306,6 @@ Voci: **296** — 295 file distribuiti e un workflow escluso dagli archivi di re
 | `tests/upgrade_contract_test.php` | Test PHPUnit/di contratto corrente distribuito con il plugin. |
 | `tests/vimeo_seek_contract_test.php` | Test PHPUnit/di contratto corrente distribuito con il plugin. |
 | `tests/xmldb_relationship_contract_test.php` | Contratti XMLDB per foreign key, riferimenti-sentinella e indici generati. |
+| `tools/static-analysis/bootstrap.php` | Bootstrap comune degli analizzatori che carica il Moodle installato indicato da `MOODLE_ROOT`. |
 | `version.php` | Metadati, versione, maturità e rami Moodle supportati. |
 | `view.php` | Pagina studente dell’attività: autorizzazione, caricamento stato, configurazione DOM privacy-safe e avvio del player. |

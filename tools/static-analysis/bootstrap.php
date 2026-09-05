@@ -15,21 +15,33 @@
 // along with Moodle.  If not, see <https://www.gnu.org/licenses/>.
 
 /**
- * VideoTrack plugin file.
+ * Moodle-aware bootstrap shared by PHPStan and Psalm.
  *
  * @package   mod_videotrack
  * @copyright 2026 videotrack contributors
  * @license   https://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 
+$pluginroot = dirname(__DIR__, 2);
+$candidates = [];
+$environmentroot = getenv('MOODLE_ROOT');
+if (is_string($environmentroot) && $environmentroot !== '') {
+    $candidates[] = $environmentroot;
+}
+$candidates[] = dirname($pluginroot, 2);
+$candidates[] = dirname($pluginroot, 3);
 
-defined('MOODLE_INTERNAL') || die();
+$moodleconfig = '';
+foreach (array_unique($candidates) as $candidate) {
+    $config = rtrim($candidate, DIRECTORY_SEPARATOR) . DIRECTORY_SEPARATOR . 'config.php';
+    if (is_file($config)) {
+        $moodleconfig = $config;
+        break;
+    }
+}
+if ($moodleconfig === '') {
+    throw new RuntimeException('No installed Moodle config.php could be resolved for static analysis.');
+}
 
-$plugin->component = 'mod_videotrack';
-
-$plugin->version = 2026090502;
-$plugin->requires = 2025041400; // Moodle 5.0.
-$plugin->maturity = MATURITY_STABLE;
-$plugin->release = '1.7.125';
-$plugin->supported = [500, 503];
-$plugin->dependencies = [];
+defined('CLI_SCRIPT') || define('CLI_SCRIPT', true);
+require_once($moodleconfig);

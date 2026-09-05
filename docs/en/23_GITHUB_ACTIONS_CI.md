@@ -41,20 +41,30 @@ The workflow uses `set -o pipefail` before piping output through `tee`, so a fai
 step. Console logs are also collected in a downloadable `videotrack-ci-<matrix-id>` artifact for 14 days. A Behat
 failure uploads the browser faildump separately.
 
-## Advisory checks
+## Advisory static analysis
 
-PHPMD is initially `continue-on-error`. The Moodle-aware CI invocation on 1.7.123 reported 215 violations across 42
-files and zero tool errors. Findings include genuine complexity and method-size hotspots together with generic
-rules that flag required Moodle signatures, prescribed backup/restore class names and framework conventions. The
-output is evidence for designing a reviewed ruleset, not a safe mechanical rewrite list. It may become blocking
-only after a VideoTrack ruleset and explicit baseline exist. The earlier 1.7.122 fallback result of 1,537 findings
-is not the active baseline because it used a broader, non-equivalent setup.
+The versioned `phpmd.xml` selects reviewed clean-code, size, design and unused-code rules for production PHP and
+excludes tests, language packs, documentation and tooling. Moodle PHPCS remains authoritative for naming and
+framework conventions. Before this ruleset existed, the 1.7.123 generic run reported 215 findings in 42 files:
+56 cyclomatic-complexity, 35 NPath, 34 long-variable, 23 excessive-method-length, 14 boolean-flag, 13
+unused-parameter, 13 too-many-public-methods, eight unused-local-variable, three excessive-parameter-list and 16
+other findings. That result is a pre-ruleset reference, not the current baseline. PHPMD exit 2 (findings) is
+advisory; any different non-zero status is treated as a tool/configuration failure and blocks the job.
 
-PHPStan and Psalm are not enabled by this workflow yet. The 1.7.122 server fallback did not load a complete Moodle
-analysis environment: PHPStan stopped at level 1 after more than 1,000 predominantly unresolved Moodle symbols;
-Psalm stopped at level 8 with 1,712 errors while reporting Moodle core, vendor and tool files as well as the plugin.
-Adding either tool requires a committed, reproducible Moodle-aware bootstrap/stub configuration that limits
-actionable findings to VideoTrack and is verified across supported branches.
+PHPStan 2.2.13 and Psalm 6.16.1 are pinned by `.github/static-analysis/composer.json`. On the Moodle 5.0 and 5.3
+MariaDB entries, they run after ordinary-site installation against production VideoTrack paths only. Their
+versioned configurations load `tools/static-analysis/bootstrap.php`; the explicit `MOODLE_ROOT` selects the exact
+tested tree, with deterministic classic/`public/` fallback available to maintainer runners. PHPStan starts at level
+1 and Psalm at level 8. Findings are temporarily
+advisory while the first valid cross-branch baselines are collected; the retained `static-tools.txt`,
+`phpstan.txt` and `psalm.txt` make tool identity and complete output auditable.
+
+The former 1.7.122 fallback outputs are invalid baselines: PHPStan produced more than 1,000 predominantly unresolved
+Moodle symbols, while Psalm mixed 1,712 plugin, core, vendor and tool errors. They must not be compared numerically
+with the scoped Moodle-aware reports. Each CI step accepts a non-zero finding exit only when the output contains the
+analyser's completed-report summary; a missing summary remains a blocking execution/configuration failure. Static
+findings are reviewed by root cause and remediated in bounded tranches; the gates become blocking only after the
+accepted baseline is zero or an explicit reviewed baseline policy exists.
 
 ## Generated AMD evidence
 
@@ -84,10 +94,11 @@ zero failures in strict mode.
 ## Reading a result
 
 1. Open **Actions → Moodle Plugin CI** and select the commit or pull request.
-2. Check all six matrix jobs; a green summary with a failed advisory PHPMD step is expected only while the PHPMD
-   baseline is explicitly documented.
+2. Check all six matrix jobs. Recognised PHPStan/Psalm/PHPMD finding reports are advisory during the declared
+   baseline phase; a tool/configuration failure still fails the job.
 3. Download the `videotrack-ci-*` artifacts for complete command output; verify `paths.txt`, the authoritative
-   `grunt.txt`, `site-install.txt` and the strict VideoTrack validator report.
+   `grunt.txt`, `site-install.txt`, `videotrack-validate.txt` and, where present, `static-tools.txt`, `phpstan.txt`
+   and `psalm.txt`.
 4. For Behat failures, download the corresponding faildump and inspect screenshots, HTML and browser diagnostics.
 5. Associate every result with the tested commit SHA. A later commit requires a new run.
 

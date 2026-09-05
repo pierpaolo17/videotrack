@@ -1,5 +1,24 @@
 # VideoTrack changelog
 
+## 1.7.125 - 2026-09-05
+
+### Static analysis
+
+- Added versioned, Moodle-aware PHPStan 2.2 and Psalm 6 configurations limited to production VideoTrack code.
+- Added a shared CLI bootstrap that loads the disposable Moodle installation before either analyser resolves core
+  symbols, avoiding the invalid standalone results previously dominated by missing Moodle classes and functions.
+- Added a reviewed PHPMD runtime ruleset that keeps complexity, design, clean-code and unused-code findings while
+  excluding Moodle naming noise and non-production trees.
+- Added pinned analyser tooling and advisory PHPStan/Psalm jobs to the Moodle 5.0 and 5.3 MariaDB CI entries. Their
+  first valid reports establish the remediation baseline; they do not silently become release claims.
+- Distinguished PHPMD findings (exit 2, currently advisory) from PHPMD execution/configuration failures, which now
+  fail CI, and retained all analyser outputs with the existing job artefacts.
+
+### Documentation
+
+- Documented configuration ownership, analyser scope, progressive server commands, evidence interpretation and the
+  staged path from a valid baseline to blocking gates in both English and Italian.
+
 ## 1.7.124 - 2026-09-05
 
 ### Continuous integration

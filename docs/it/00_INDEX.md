@@ -1,6 +1,6 @@
 # Indice della documentazione VideoTrack
 
-Questa è la documentazione italiana autorevole di VideoTrack **1.7.124** (`2026090501`), compatibile
+Questa è la documentazione italiana autorevole di VideoTrack **1.7.125** (`2026090502`), compatibile
 con Moodle 5.0–5.3. Descrive esclusivamente l'albero corrente. La cronologia delle release appartiene
 al `CHANGELOG.md` principale e al tag sorgente della versione interessata.
 
@@ -34,6 +34,7 @@ al `CHANGELOG.md` principale e al tag sorgente della versione interessata.
 23. [`21_CLI_DIAGNOSTICS.md`](21_CLI_DIAGNOSTICS.md) — validatore in sola lettura e benchmark Analytics.
 24. [`22_TEST_BROWSER_BEHAT.md`](22_TEST_BROWSER_BEHAT.md) — copertura browser deterministica.
 25. [`23_GITHUB_ACTIONS_CI.md`](23_GITHUB_ACTIONS_CI.md) — matrice CI, gate, artefatti e diagnostica del repository.
+26. [`24_ANALISI_STATICA.md`](24_ANALISI_STATICA.md) — perimetro, esecuzione e risanamento PHPStan, Psalm e PHPMD.
 
 ## Artefatti database ed ER
 

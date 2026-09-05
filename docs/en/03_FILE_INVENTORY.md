@@ -1,17 +1,21 @@
 # Distributed file inventory
 
-This inventory is generated against the VideoTrack 1.7.124 repository tree. It lists every distributed
-non-documentation file plus the repository-only CI workflow. Canonical JavaScript is under `amd/src`; files under
+This inventory is generated against the VideoTrack 1.7.125 repository tree. It lists every distributed
+non-documentation file plus repository-only CI/tooling files. Canonical JavaScript is under `amd/src`; files under
 `amd/build` are generated.
 
-Entries: **296** — 295 distributed files and one workflow excluded from release archives.
+Entries: **301** — 299 distributed files and two repository-only files excluded from release archives.
 
 | File | Responsibility |
 |---|---|
 | `.gitattributes` | Repository text/binary attributes. |
 | `.moodleignore` | Files excluded by Moodle packaging. |
+| `.github/static-analysis/composer.json` | Repository-only pinned PHPStan/Psalm tool environment used by CI. |
 | `.github/workflows/ci.yml` | Repository-only GitHub Actions matrix; export-ignored from Moodle release archives. |
+| `phpmd.xml` | Reviewed PHPMD production ruleset; Moodle naming remains governed by PHPCS. |
 | `phpcs.xml.dist` | Canonical PHPCS release-gate configuration using the full Moodle Extra ruleset with no VideoTrack-specific exclusions. |
+| `phpstan.neon.dist` | Moodle-aware PHPStan production scope and initial level. |
+| `psalm.xml` | Moodle-aware Psalm production scope and initial level. |
 | `amd/build/completion_requirements.min.js` | Generated minified AMD build for the grouped completion-requirements presentation; produced by Moodle Grunt. |
 | `amd/build/completion_requirements.min.js.map` | Generated source map for the `completion_requirements` AMD build; never edit manually. |
 | `amd/build/core/adapter.min.js` | Generated minified AMD build for `core/adapter`; produced by Moodle Grunt. |
@@ -302,5 +306,6 @@ Entries: **296** — 295 distributed files and one workflow excluded from releas
 | `tests/upgrade_contract_test.php` | Current PHPUnit/contract test distributed with the plugin. |
 | `tests/vimeo_seek_contract_test.php` | Current PHPUnit/contract test distributed with the plugin. |
 | `tests/xmldb_relationship_contract_test.php` | XMLDB foreign-key, sentinel-reference and generated-index contracts. |
+| `tools/static-analysis/bootstrap.php` | Shared analyser bootstrap requiring the selected installed Moodle through `MOODLE_ROOT`. |
 | `version.php` | Plugin metadata, version, maturity and supported Moodle branches. |
 | `view.php` | Student-facing activity page: authorisation, state loading, privacy-safe DOM configuration and player bootstrapping. |
