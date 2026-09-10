@@ -56,6 +56,8 @@ $legacyfiles = [
     $CFG->libdir . '/adminlib.php',
     $CFG->libdir . '/formslib.php',
     $CFG->dirroot . '/course/moodleform_mod.php',
+    $CFG->dirroot . '/backup/util/includes/backup_includes.php',
+    $CFG->dirroot . '/backup/util/includes/restore_includes.php',
     $CFG->dirroot . '/backup/moodle2/backup_stepslib.php',
     $CFG->dirroot . '/backup/moodle2/backup_activity_task.class.php',
     $CFG->dirroot . '/backup/moodle2/restore_stepslib.php',

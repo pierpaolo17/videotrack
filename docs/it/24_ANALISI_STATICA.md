@@ -21,10 +21,12 @@ consultivi: sono errori infrastrutturali.
 
 `tools/static-analysis/bootstrap.php` carica il `config.php` del Moodle installato prima dell'analisi. Usa
 `MOODLE_ROOT` quando definita, poi verifica le root deterministiche ricavate dai layout classico `mod/videotrack` e
-Moodle `public/mod/videotrack`. Carica quindi le API parent stabili di amministrazione, form e backup/restore usate
-dal perimetro di produzione, perché gli analizzatori non seguono in modo affidabile ogni `require` legacy basata su
-variabili. Non scandisce l'intero filesystem e non seleziona mirror `.types` generati. Il sito scelto deve essere
-già installato e il database deve essere raggiungibile.
+Moodle `public/mod/videotrack`. Carica quindi le API stabili di amministrazione e form, seguite dai grafi di include
+canonici di backup e restore Moodle prima delle librerie step Moodle 2 usate dal perimetro di produzione. L'ordine è
+necessario perché le librerie step dichiarano immediatamente le sottoclassi. Questo bootstrap esplicito serve perché
+gli analizzatori non seguono in modo affidabile ogni `require` legacy basata su variabili. Non scandisce l'intero
+filesystem e non seleziona mirror `.types` generati. Il sito scelto deve essere già installato e il database deve
+essere raggiungibile.
 
 ## Comando maintainer
 
@@ -81,5 +83,7 @@ invalide. I primi report GitHub 1.7.125 sono rifiutati come baseline di risaname
 segnalato classi parent legacy irrisolte e Psalm si è interrotto con un errore interno sullo storage di `renderable`;
 Moodle PHPCS ha inoltre rilevato lo stato globale intenzionale del bootstrap eseguito prima del caricamento di
 Moodle. Su Moodle 5.3 Psalm ha completato l'analisi con finding, ma il workflow ha classificato erroneamente il suo
-exit 2 documentato come errore dello strumento. La release 1.7.126 corregge bootstrap e classificazione degli exit
-code; prima di iniziare il risanamento dei finding servono nuovi report Moodle 5.0 e 5.3.
+exit 2 documentato come errore dello strumento. La release 1.7.126 ha corretto PHPCS e classificazione degli exit
+code, ma il suo bootstrap degli analizzatori caricava `backup_stepslib.php` prima di `backup_execution_step` e i due
+job statici si sono fermati all'avvio. La release 1.7.127 carica prima i grafi di include canonici Moodle di
+backup/restore; prima di iniziare il risanamento dei finding servono nuovi report Moodle 5.0 e 5.3.

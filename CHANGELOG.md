@@ -1,5 +1,14 @@
 # VideoTrack changelog
 
+## 1.7.127 - 2026-09-10
+
+### Static-analysis bootstrap
+
+- Loaded Moodle's canonical backup and restore include graphs before the Moodle 2 step libraries, ensuring their
+  `backup_execution_step` and `restore_execution_step` parent classes exist on both classic and `public/` layouts.
+- Rejected the 1.7.126 PHPStan and Psalm startup failures as baselines; all six runtime matrix jobs, PHPCS, PHPUnit,
+  Behat, Grunt AMD and the strict installation validator had otherwise completed successfully.
+
 ## 1.7.126 - 2026-09-10
 
 ### Static-analysis bootstrap

@@ -21,10 +21,11 @@ an advisory finding: it is an infrastructure failure.
 
 `tools/static-analysis/bootstrap.php` loads the installed Moodle `config.php` before analysis. It uses
 `MOODLE_ROOT` when set, then checks the deterministic roots implied by classic `mod/videotrack` and Moodle's
-`public/mod/videotrack` layout. It then loads the stable admin, form and backup/restore parent APIs used by the
-production scope; this is necessary because the analysers do not reliably follow every variable-based legacy
-require. It never searches the complete filesystem and never selects generated `.types` mirrors. The selected site
-must already be installed and its database must be reachable.
+`public/mod/videotrack` layout. It then loads the stable admin and form APIs plus Moodle's canonical backup and
+restore include graphs before the Moodle 2 step libraries used by the production scope. The order matters because
+the step libraries declare subclasses immediately. This explicit bootstrap is necessary because the analysers do
+not reliably follow every variable-based legacy require. It never searches the complete filesystem and never
+selects generated `.types` mirrors. The selected site must already be installed and its database must be reachable.
 
 ## Maintainer command
 
@@ -80,5 +81,7 @@ pre-ruleset reference. Earlier standalone PHPStan/Psalm outputs did not resolve 
 The first 1.7.125 GitHub reports are rejected as remediation baselines. On Moodle 5.0, PHPStan reported unresolved
 legacy parent classes and Psalm stopped with an internal `renderable` storage error; Moodle PHPCS also identified
 the standalone bootstrap's intentional pre-Moodle global state. On Moodle 5.3, Psalm completed with findings but
-the workflow misclassified its documented exit 2 as a tool failure. Release 1.7.126 corrects those bootstrap and
-exit-classification defects; fresh Moodle 5.0 and 5.3 reports are required before code-finding remediation begins.
+the workflow misclassified its documented exit 2 as a tool failure. Release 1.7.126 corrected the PHPCS and exit
+classification defects, but its analyser bootstrap loaded `backup_stepslib.php` before `backup_execution_step` and
+both static jobs stopped at startup. Release 1.7.127 loads Moodle's canonical backup/restore include graphs first;
+fresh Moodle 5.0 and 5.3 reports are required before code-finding remediation begins.
