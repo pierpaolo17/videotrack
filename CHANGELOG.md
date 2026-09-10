@@ -1,5 +1,23 @@
 # VideoTrack changelog
 
+## 1.7.126 - 2026-09-10
+
+### Static-analysis bootstrap
+
+- Loaded the stable Moodle admin, form and backup/restore parent APIs explicitly so PHPStan and Psalm can resolve
+  the legacy class graph consistently on Moodle 5.0 and 5.3.
+- Documented the narrowly scoped Moodle PHPCS exception required by the standalone pre-bootstrap code instead of
+  excluding the analyser tooling tree from the canonical coding-style gate.
+
+### Continuous integration
+
+- Accepted Psalm exit 2 as the documented successful-analysis-with-findings result while retaining every other
+  non-zero exit as a blocking tool/configuration failure.
+- Prevented PHPStan internal and incomplete-analysis reports from being misclassified as ordinary advisory code
+  findings merely because they also contain a final error count.
+- Recorded the rejected 1.7.125 Moodle 5.0 analyser output and the Moodle 5.3 Psalm exit-classification defect;
+  neither failed run is treated as an accepted remediation baseline.
+
 ## 1.7.125 - 2026-09-05
 
 ### Static analysis

@@ -21,8 +21,10 @@ consultivi: sono errori infrastrutturali.
 
 `tools/static-analysis/bootstrap.php` carica il `config.php` del Moodle installato prima dell'analisi. Usa
 `MOODLE_ROOT` quando definita, poi verifica le root deterministiche ricavate dai layout classico `mod/videotrack` e
-Moodle `public/mod/videotrack`. Non scandisce l'intero filesystem e non seleziona mirror `.types` generati. Il sito
-scelto deve essere già installato e il database deve essere raggiungibile.
+Moodle `public/mod/videotrack`. Carica quindi le API parent stabili di amministrazione, form e backup/restore usate
+dal perimetro di produzione, perché gli analizzatori non seguono in modo affidabile ogni `require` legacy basata su
+variabili. Non scandisce l'intero filesystem e non seleziona mirror `.types` generati. Il sito scelto deve essere
+già installato e il database deve essere raggiungibile.
 
 ## Comando maintainer
 
@@ -51,10 +53,11 @@ Il workflow del repository installa le versioni dirette esatte dichiarate in
 nei job MariaDB Moodle 5.0 e 5.3. Output completi e versioni installate sono conservati in `phpstan.txt`, `psalm.txt`
 e `static-tools.txt`. PHPMD viene eseguito nel job qualità canonico Moodle 5.0.
 
-Durante la baseline iniziale, un exit non zero PHPStan/Psalm è accettato come consultivo soltanto se l'output
-contiene un riepilogo riconoscibile di analisi completata. Anche l'exit 2 di PHPMD viene convertito in esito
-consultivo. Riepiloghi mancanti e ogni altro errore di strumento/configurazione restano bloccanti: un workflow verde
-dimostra quindi l'esecuzione degli analizzatori e la presenza di evidenze leggibili anche prima di azzerare i finding.
+Durante la baseline iniziale, l'exit 2 di Psalm viene accettato come esito documentato di analisi completata con
+finding; l'exit 1 e ogni altro stato non zero restano errori bloccanti. L'exit 1 di PHPStan è consultivo soltanto
+quando è presente il normale riepilogo numerico e non compare alcun indicatore di errore interno o analisi
+incompleta. Anche l'exit 2 di PHPMD viene convertito in esito consultivo. I finding restano quindi visibili senza
+accettare crash o report parziali come evidenze valide.
 
 ## Lettura e risanamento dei finding
 
@@ -74,5 +77,9 @@ soltanto a ottenere un output verde.
 
 L'esecuzione PHPMD generica precedente a questa configurazione aveva rilevato 215 problemi in 42 file e resta solo
 un riferimento pre-ruleset. I vecchi output PHPStan/Psalm standalone non risolvevano Moodle e sono baseline
-invalide. I primi report GitHub/server 1.7.125 costituiscono quindi l'inizio del risanamento del codice e devono
-essere auditati prima di dichiarare corretto qualsiasi finding.
+invalide. I primi report GitHub 1.7.125 sono rifiutati come baseline di risanamento. Su Moodle 5.0 PHPStan ha
+segnalato classi parent legacy irrisolte e Psalm si è interrotto con un errore interno sullo storage di `renderable`;
+Moodle PHPCS ha inoltre rilevato lo stato globale intenzionale del bootstrap eseguito prima del caricamento di
+Moodle. Su Moodle 5.3 Psalm ha completato l'analisi con finding, ma il workflow ha classificato erroneamente il suo
+exit 2 documentato come errore dello strumento. La release 1.7.126 corregge bootstrap e classificazione degli exit
+code; prima di iniziare il risanamento dei finding servono nuovi report Moodle 5.0 e 5.3.

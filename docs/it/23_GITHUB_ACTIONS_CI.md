@@ -60,10 +60,11 @@ consultivi finché si raccolgono le prime baseline valide cross-versione; `stati
 
 I vecchi output fallback 1.7.122 sono baseline invalide: PHPStan conteneva oltre 1.000 simboli Moodle perlopiù non
 risolti e Psalm mescolava 1.712 errori del plugin, core, vendor e strumenti. Non vanno confrontati numericamente con
-i report Moodle-aware limitati. Ogni step CI accetta un exit con finding soltanto se l'output contiene il riepilogo
-di analisi completata dello strumento; un riepilogo assente resta un errore bloccante di esecuzione/configurazione.
-I finding vengono raggruppati per causa e sanati in tranche circoscritte; i gate diventano bloccanti soltanto dopo
-una baseline accettata a zero o una policy di baseline esplicita e revisionata.
+i report Moodle-aware limitati. L'exit 2 di Psalm è l'esito documentato di analisi completata con finding ed è
+consultivo; l'exit 1 e ogni altro stato non zero bloccano il job. L'exit 1 di PHPStan è consultivo soltanto con il
+normale riepilogo numerico e senza indicatori di errore interno o analisi incompleta. I finding vengono raggruppati
+per causa e sanati in tranche circoscritte; i gate diventano bloccanti soltanto dopo una baseline accettata a zero o
+una policy di baseline esplicita e revisionata.
 
 ## Evidenza delle build AMD
 

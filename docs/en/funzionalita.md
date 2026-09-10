@@ -1,6 +1,6 @@
 # User and administrator guide
 
-VideoTrack 1.7.125 is a Moodle activity for delivering video, recording server-validated watched evidence,
+VideoTrack 1.7.126 is a Moodle activity for delivering video, recording server-validated watched evidence,
 supporting study interactions and evaluating completion. Every optional collection feature must be enabled
 explicitly. Site policy can restrict which settings a teacher may override.
 

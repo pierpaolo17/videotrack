@@ -22,6 +22,9 @@
  * @license   https://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 
+// This standalone bootstrap must resolve Moodle before MOODLE_INTERNAL exists.
+// phpcs:disable moodle.Files.MoodleInternal.MoodleInternalGlobalState
+
 $pluginroot = dirname(__DIR__, 2);
 $candidates = [];
 $environmentroot = getenv('MOODLE_ROOT');
@@ -45,3 +48,21 @@ if ($moodleconfig === '') {
 
 defined('CLI_SCRIPT') || define('CLI_SCRIPT', true);
 require_once($moodleconfig);
+
+// Static analysers do not follow every variable-based require used by legacy Moodle entry points. Load the stable
+// parent APIs required by the production files in this analysis scope so both supported Moodle layouts expose the
+// same class graph.
+$legacyfiles = [
+    $CFG->libdir . '/adminlib.php',
+    $CFG->libdir . '/formslib.php',
+    $CFG->dirroot . '/course/moodleform_mod.php',
+    $CFG->dirroot . '/backup/moodle2/backup_stepslib.php',
+    $CFG->dirroot . '/backup/moodle2/backup_activity_task.class.php',
+    $CFG->dirroot . '/backup/moodle2/restore_stepslib.php',
+    $CFG->dirroot . '/backup/moodle2/restore_activity_task.class.php',
+];
+foreach ($legacyfiles as $legacyfile) {
+    require_once($legacyfile);
+}
+
+// phpcs:enable moodle.Files.MoodleInternal.MoodleInternalGlobalState

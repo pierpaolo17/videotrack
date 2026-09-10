@@ -1,6 +1,6 @@
 # Audit della documentazione
 
-Baseline: VideoTrack **1.7.125** (`2026090502`).
+Baseline: VideoTrack **1.7.126** (`2026091001`).
 
 ## Perimetro
 
@@ -33,7 +33,7 @@ duplicano intenzionalmente procedure implementative, dizionari dei campi o lungh
 ## Rilievi sull'albero corrente
 
 - Gli indici inglese e italiano hanno stesso perimetro e ordinamento.
-- Marker documentali, README principali e artefatti ER identificano 1.7.125 / 2026090502.
+- Marker documentali, README principali e artefatti ER identificano 1.7.126 / 2026091001.
 - L'identità dell'attività include `pix/icon.png` da 1024 pixel e un `pix/icon.svg` nativo e accessibile derivati
   dalla stessa grafica fornita dal maintainer.
 - `db/install.xml` dichiara sette chiavi primarie, 22 foreign key stabili e 22 indici espliciti. XMLDB genera inoltre
@@ -48,8 +48,10 @@ duplicano intenzionalmente procedure implementative, dizionari dei campi o lungh
 - La guida GitHub Actions documenta trigger, permessi minimi, matrice Moodle/PHP/database a sei job, controlli
   bloccanti e consultivi, bootstrap deterministico nei layout classico/`public/`, rifiuto dei mirror `.types`,
   confronto autorevole `moodle-plugin-ci grunt`, log conservati e faildump.
-- PHPStan/Psalm hanno perimetri versionati limitati alla produzione e un bootstrap Moodle installato comune; i job
-  fissati su Moodle 5.0 e 5.3 costruiscono le prime baseline valide senza nascondere finding.
+- PHPStan/Psalm hanno perimetri versionati limitati alla produzione e un bootstrap Moodle installato comune. Il
+  bootstrap carica le API parent legacy stabili richieste dal perimetro, l'exit documentato di Psalm con finding è
+  consultivo e i report PHPStan interni/incompleti restano bloccanti. Servono nuove esecuzioni Moodle 5.0 e 5.3 per
+  costruire le prime baseline di risanamento valide.
 - Il risultato PHPMD generico 1.7.123 (215 finding in 42 file, nessun errore strumento) resta un riferimento
   pre-ruleset. Il `phpmd.xml` attivo elimina il rumore naming/framework, mantiene regole runtime revisionate e
   distingue l'exit 2 consultivo dei finding dagli errori bloccanti di analizzatore/configurazione.

@@ -1,6 +1,6 @@
 # Documentation audit
 
-Baseline: VideoTrack **1.7.125** (`2026090502`).
+Baseline: VideoTrack **1.7.126** (`2026091001`).
 
 ## Scope
 
@@ -33,7 +33,7 @@ not duplicate implementation procedures, field dictionaries or long security/pri
 ## Current-tree findings
 
 - English and Italian indexes have matching scope and ordering.
-- Documentation markers, root README files and ER artefacts identify 1.7.125 / 2026090502.
+- Documentation markers, root README files and ER artefacts identify 1.7.126 / 2026091001.
 - The activity identity includes a 1024-pixel `pix/icon.png` and an accessible native `pix/icon.svg` derived from
   the same maintainer-supplied artwork.
 - `db/install.xml` declares seven primary keys, 22 stable foreign keys and 22 explicit indexes. XMLDB generates an
@@ -48,8 +48,10 @@ not duplicate implementation procedures, field dictionaries or long security/pri
 - The GitHub Actions guide documents triggers, least-privilege permissions, the six-job Moodle/PHP/database matrix,
   deterministic classic/`public/` ordinary-site bootstrap, rejection of generated `.types` mirrors, the
   authoritative `moodle-plugin-ci grunt` comparison, strict/advisory checks, retained logs and faildumps.
-- PHPStan/Psalm have versioned production-only scopes and a shared installed-Moodle bootstrap; their pinned CI jobs
-  on Moodle 5.0 and 5.3 establish the first valid remediation baselines without hiding findings.
+- PHPStan/Psalm have versioned production-only scopes and a shared installed-Moodle bootstrap. The bootstrap loads
+  the stable legacy parent APIs required by the scope, Psalm's documented finding exit is advisory, and PHPStan
+  internal/incomplete reports remain blocking. Fresh Moodle 5.0 and 5.3 runs are required for the first valid
+  remediation baselines.
 - The generic PHPMD 1.7.123 result (215 findings in 42 files, no tool errors) is retained as a pre-ruleset reference.
   The active `phpmd.xml` removes naming/framework noise, keeps reviewed runtime rules and distinguishes advisory
   finding exit 2 from blocking analyser/configuration errors.

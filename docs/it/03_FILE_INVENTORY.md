@@ -1,6 +1,6 @@
 # Inventario dei file distribuiti
 
-Questo inventario è generato sull'albero repository VideoTrack 1.7.125. Elenca ogni file non documentale distribuito
+Questo inventario è generato sull'albero repository VideoTrack 1.7.126. Elenca ogni file non documentale distribuito
 e i file CI/tooling presenti soltanto nel repository. Il JavaScript canonico è in `amd/src`; i file in `amd/build`
 sono generati.
 
@@ -306,6 +306,6 @@ Voci: **301** — 299 file distribuiti e due file presenti soltanto nel reposito
 | `tests/upgrade_contract_test.php` | Test PHPUnit/di contratto corrente distribuito con il plugin. |
 | `tests/vimeo_seek_contract_test.php` | Test PHPUnit/di contratto corrente distribuito con il plugin. |
 | `tests/xmldb_relationship_contract_test.php` | Contratti XMLDB per foreign key, riferimenti-sentinella e indici generati. |
-| `tools/static-analysis/bootstrap.php` | Bootstrap comune degli analizzatori che carica il Moodle installato indicato da `MOODLE_ROOT`. |
+| `tools/static-analysis/bootstrap.php` | Bootstrap comune che carica il Moodle selezionato e le API parent legacy stabili richieste dal perimetro di produzione. |
 | `version.php` | Metadati, versione, maturità e rami Moodle supportati. |
 | `view.php` | Pagina studente dell’attività: autorizzazione, caricamento stato, configurazione DOM privacy-safe e avvio del player. |

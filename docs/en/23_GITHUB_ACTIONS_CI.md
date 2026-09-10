@@ -61,10 +61,11 @@ advisory while the first valid cross-branch baselines are collected; the retaine
 
 The former 1.7.122 fallback outputs are invalid baselines: PHPStan produced more than 1,000 predominantly unresolved
 Moodle symbols, while Psalm mixed 1,712 plugin, core, vendor and tool errors. They must not be compared numerically
-with the scoped Moodle-aware reports. Each CI step accepts a non-zero finding exit only when the output contains the
-analyser's completed-report summary; a missing summary remains a blocking execution/configuration failure. Static
-findings are reviewed by root cause and remediated in bounded tranches; the gates become blocking only after the
-accepted baseline is zero or an explicit reviewed baseline policy exists.
+with the scoped Moodle-aware reports. Psalm exit 2 is its documented completed-with-findings result and is advisory;
+exit 1 or any other non-zero status blocks the job. PHPStan exit 1 is advisory only with its normal error-count
+summary and without internal or incomplete-analysis markers. Static findings are reviewed by root cause and
+remediated in bounded tranches; the gates become blocking only after the accepted baseline is zero or an explicit
+reviewed baseline policy exists.
 
 ## Generated AMD evidence
 

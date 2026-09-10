@@ -303,7 +303,10 @@ jobs:
           phpstanstatus=${PIPESTATUS[0]}
           set -e
           if test "$phpstanstatus" -ne 0; then
-            if grep -Eq 'Found [0-9]+ errors?' ci-reports/phpstan.txt; then
+            if grep -Eq 'Internal error:|Result is incomplete because of severe errors' ci-reports/phpstan.txt; then
+              echo "PHPStan incomplete/internal failure (exit $phpstanstatus)." | tee -a ci-reports/phpstan.txt
+              exit "$phpstanstatus"
+            elif test "$phpstanstatus" -eq 1 && grep -Eq 'Found [0-9]+ errors?' ci-reports/phpstan.txt; then
               echo 'PHPStan completed with advisory findings.' | tee -a ci-reports/phpstan.txt
             else
               echo "PHPStan tool/configuration failure (exit $phpstanstatus)." | tee -a ci-reports/phpstan.txt
@@ -326,13 +329,11 @@ jobs:
           ) 2>&1 | tee ci-reports/psalm.txt
           psalmstatus=${PIPESTATUS[0]}
           set -e
-          if test "$psalmstatus" -ne 0; then
-            if grep -Eqi '[0-9]+ errors? found' ci-reports/psalm.txt; then
-              echo 'Psalm completed with advisory findings.' | tee -a ci-reports/psalm.txt
-            else
-              echo "Psalm tool/configuration failure (exit $psalmstatus)." | tee -a ci-reports/psalm.txt
-              exit "$psalmstatus"
-            fi
+          if test "$psalmstatus" -eq 2; then
+            echo 'Psalm completed with advisory findings.' | tee -a ci-reports/psalm.txt
+          elif test "$psalmstatus" -ne 0; then
+            echo "Psalm tool/configuration failure (exit $psalmstatus)." | tee -a ci-reports/psalm.txt
+            exit "$psalmstatus"
           fi
 
       - name: PHPUnit tests
