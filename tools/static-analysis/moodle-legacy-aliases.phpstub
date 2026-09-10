@@ -15,21 +15,12 @@
 // along with Moodle.  If not, see <https://www.gnu.org/licenses/>.
 
 /**
- * VideoTrack plugin file.
+ * Psalm-only declarations for Moodle legacy class aliases used by supported branches.
  *
  * @package   mod_videotrack
  * @copyright 2026 videotrack contributors
  * @license   https://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 
-
-defined('MOODLE_INTERNAL') || die();
-
-$plugin->component = 'mod_videotrack';
-
-$plugin->version = 2026091003;
-$plugin->requires = 2025041400; // Moodle 5.0.
-$plugin->maturity = MATURITY_STABLE;
-$plugin->release = '1.7.128';
-$plugin->supported = [500, 503];
-$plugin->dependencies = [];
+// Moodle 5.0 creates this compatibility alias at runtime. Psalm must see the literal mapping while scanning.
+class_alias(\core\output\renderable::class, \renderable::class);

@@ -1,5 +1,16 @@
 # VideoTrack changelog
 
+## 1.7.128 - 2026-09-10
+
+### Psalm Moodle 5.0 compatibility
+
+- Added a Psalm-only stub for Moodle 5.0's runtime `renderable` compatibility alias, preventing Psalm 6.16.1 from
+  aborting because no class storage was registered for the legacy global name.
+- Kept the complete production analysis scope unchanged: PHPStan completed with 366 advisory findings on both
+  Moodle 5.0 and 5.3, while Psalm completed with 468 advisory findings on Moodle 5.3.
+- Rejected the Moodle 5.0 Psalm crash from the 1.7.127 run as a baseline; all runtime, quality and build gates in
+  the six-job matrix had otherwise completed successfully.
+
 ## 1.7.127 - 2026-09-10
 
 ### Static-analysis bootstrap

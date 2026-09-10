@@ -17,6 +17,10 @@ dalla scansione, ma caricano le definizioni core dal sito installato. PHPMD escl
 documentazione e strumenti nel proprio ruleset. Crash, configurazione invalida o report mancante non sono finding
 consultivi: sono errori infrastrutturali.
 
+`psalm.xml` carica inoltre `tools/static-analysis/moodle-legacy-aliases.phpstub`. Questo stub circoscritto registra
+per Psalm l'alias di compatibilità runtime di Moodle 5.0 da `core\output\renderable` al nome globale `renderable`.
+Non sostituisce classi Moodle, non sopprime finding e non riduce il perimetro di produzione.
+
 ## Bootstrap Moodle
 
 `tools/static-analysis/bootstrap.php` carica il `config.php` del Moodle installato prima dell'analisi. Usa
@@ -85,5 +89,8 @@ Moodle PHPCS ha inoltre rilevato lo stato globale intenzionale del bootstrap ese
 Moodle. Su Moodle 5.3 Psalm ha completato l'analisi con finding, ma il workflow ha classificato erroneamente il suo
 exit 2 documentato come errore dello strumento. La release 1.7.126 ha corretto PHPCS e classificazione degli exit
 code, ma il suo bootstrap degli analizzatori caricava `backup_stepslib.php` prima di `backup_execution_step` e i due
-job statici si sono fermati all'avvio. La release 1.7.127 carica prima i grafi di include canonici Moodle di
-backup/restore; prima di iniziare il risanamento dei finding servono nuovi report Moodle 5.0 e 5.3.
+job statici si sono fermati all'avvio. La release 1.7.127 ha poi consentito a PHPStan di completare con 366 finding
+su entrambi i rami e a Psalm di completare con 468 finding su Moodle 5.3. Psalm 6.16.1 si interrompeva ancora su
+Moodle 5.0 perché l'alias runtime `renderable` di Moodle non aveva uno storage Psalm. La release 1.7.128 dichiara
+quell'esatto alias in uno stub riservato a Psalm; prima di iniziare il risanamento dei finding serve un nuovo report
+Moodle 5.0.

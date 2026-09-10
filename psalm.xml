@@ -12,6 +12,9 @@
     findUnusedCode="false"
     findUnusedBaselineEntry="true"
 >
+    <stubs>
+        <file name="tools/static-analysis/moodle-legacy-aliases.phpstub" />
+    </stubs>
     <projectFiles>
         <directory name="backup" />
         <directory name="classes" />

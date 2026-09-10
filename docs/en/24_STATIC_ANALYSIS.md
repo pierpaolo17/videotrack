@@ -17,6 +17,10 @@ core from the project scan, but load core definitions from the installed site. P
 packs, documentation and tooling in its own ruleset. A tool crash, invalid configuration or missing report is not
 an advisory finding: it is an infrastructure failure.
 
+`psalm.xml` also loads `tools/static-analysis/moodle-legacy-aliases.phpstub`. This narrow stub records Moodle 5.0's
+runtime `core\output\renderable` to global `renderable` compatibility alias for Psalm. It does not replace Moodle
+classes, suppress findings or reduce the production scope.
+
 ## Moodle bootstrap
 
 `tools/static-analysis/bootstrap.php` loads the installed Moodle `config.php` before analysis. It uses
@@ -83,5 +87,7 @@ legacy parent classes and Psalm stopped with an internal `renderable` storage er
 the standalone bootstrap's intentional pre-Moodle global state. On Moodle 5.3, Psalm completed with findings but
 the workflow misclassified its documented exit 2 as a tool failure. Release 1.7.126 corrected the PHPCS and exit
 classification defects, but its analyser bootstrap loaded `backup_stepslib.php` before `backup_execution_step` and
-both static jobs stopped at startup. Release 1.7.127 loads Moodle's canonical backup/restore include graphs first;
-fresh Moodle 5.0 and 5.3 reports are required before code-finding remediation begins.
+both static jobs stopped at startup. Release 1.7.127 then allowed PHPStan to complete with 366 findings on both
+branches and Psalm to complete with 468 findings on Moodle 5.3. Psalm 6.16.1 still aborted on Moodle 5.0 because
+Moodle's runtime `renderable` class alias had no Psalm class storage. Release 1.7.128 declares that exact alias in a
+Psalm-only stub; a fresh Moodle 5.0 report is required before code-finding remediation begins.
