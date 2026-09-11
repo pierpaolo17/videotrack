@@ -1,0 +1,24 @@
+parameters:
+    level: 1
+    paths:
+        - backup
+        - classes
+        - cli
+        - db
+        - bookmarks.php
+        - forum_post.php
+        - index.php
+        - lib.php
+        - locallib.php
+        - mod_form.php
+        - presets.php
+        - report.php
+        - reports_course.php
+        - reports_teacher.php
+        - settings.php
+        - version.php
+        - view.php
+    bootstrapFiles:
+        - tools/static-analysis/bootstrap.php
+    treatPhpDocTypesAsCertain: false
+    reportUnmatchedIgnoredErrors: true

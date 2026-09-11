@@ -1,6 +1,6 @@
 # Documentation audit
 
-Baseline: VideoTrack **1.7.124** (`2026090501`).
+Baseline: VideoTrack **1.7.129** (`2026091101`).
 
 ## Scope
 
@@ -17,7 +17,7 @@ Current coverage includes:
 - tracking, completion, gradebook, reports, Analytics and exports;
 - reactions, notes, bookmarks, Forum bridge and acknowledgement;
 - privacy, retention, reset, backup/restore and CLI diagnostics;
-- accessibility contract, troubleshooting, build/release gates and repository CI;
+- accessibility contract, troubleshooting, build/release gates, repository CI and static-analysis policy;
 - exhaustive non-documentation file and named-callable inventories;
 - Markdown, Mermaid and accessible SVG database/ER artefacts.
 
@@ -33,7 +33,7 @@ not duplicate implementation procedures, field dictionaries or long security/pri
 ## Current-tree findings
 
 - English and Italian indexes have matching scope and ordering.
-- Documentation markers, root README files and ER artefacts identify 1.7.124 / 2026090501.
+- Documentation markers, root README files and ER artefacts identify 1.7.129 / 2026091101.
 - The activity identity includes a 1024-pixel `pix/icon.png` and an accessible native `pix/icon.svg` derived from
   the same maintainer-supplied artwork.
 - `db/install.xml` declares seven primary keys, 22 stable foreign keys and 22 explicit indexes. XMLDB generates an
@@ -47,15 +47,22 @@ not duplicate implementation procedures, field dictionaries or long security/pri
   the live `HH:MM:SS` duration equivalent.
 - The GitHub Actions guide documents triggers, least-privilege permissions, the six-job Moodle/PHP/database matrix,
   deterministic classic/`public/` ordinary-site bootstrap, rejection of generated `.types` mirrors, the
-  authoritative `moodle-plugin-ci grunt` comparison, strict and advisory checks, retained logs, faildumps and the
-  current PHPStan/Psalm configuration boundary.
-- The active advisory PHPMD baseline is the 1.7.123 CI result: 215 violations across 42 files and zero tool errors.
+  authoritative `moodle-plugin-ci grunt` comparison, strict/advisory checks, retained logs and faildumps.
+- PHPStan/Psalm have versioned production-only scopes and a shared installed-Moodle bootstrap. The bootstrap loads
+  the canonical backup/restore include graphs before the Moodle 2 step libraries. A narrow Psalm stub statically
+  declares Moodle 5.0's global `renderable` compatibility name because Psalm indexes stub declarations but does not
+  execute `class_alias()` calls. It does not suppress findings or reduce scope. Psalm's finding exit is advisory, while
+  PHPStan internal/incomplete reports remain blocking. A fresh Moodle 5.0 Psalm run is required for the first
+  complete cross-branch remediation baseline.
+- The generic PHPMD 1.7.123 result (215 findings in 42 files, no tool errors) is retained as a pre-ruleset reference.
+  The active `phpmd.xml` removes naming/framework noise, keeps reviewed runtime rules and distinguishes advisory
+  finding exit 2 from blocking analyser/configuration errors.
 - The two AMD build pairs corrected in 1.7.123 are canonical Moodle Grunt output; their source maps have non-empty
   mappings and embed source content byte-identical to the distributed AMD sources.
 - Rendered accessibility helpers use Moodle 5 / Bootstrap 5 `visually-hidden` classes; player live regions are
   present in the initial markup so normal activity views do not use the deprecated Bootstrap 4 `sr-only` fallback.
-- `.github/workflows/ci.yml` is present in the repository but excluded from Moodle release archives through both
-  `.gitattributes` and `.moodleignore`.
+- `.github/workflows/ci.yml` and its pinned analyser-tool manifest are present in the repository but excluded from
+  Moodle release archives. The distributed configs and bootstrap remain available to maintainers and server gates.
 
 ## Release checks
 

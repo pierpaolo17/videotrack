@@ -1,5 +1,73 @@
 # VideoTrack changelog
 
+## 1.7.129 - 2026-09-11
+
+### Psalm Moodle 5.0 legacy alias declaration
+
+- Replaced the executable `class_alias()` call in the Psalm stub with a static global `renderable` interface
+  declaration extending `core\output\renderable`. Psalm indexes declarations in stub files but does not execute
+  alias calls, which is why the 1.7.128 Moodle 5.0 run repeated the internal storage exception.
+- Kept the complete production analysis scope and all runtime code unchanged. In the 1.7.128 six-job matrix,
+  installation, strict validation, PHPUnit, Behat and Grunt passed everywhere; PHPStan completed with 366 advisory
+  findings on Moodle 5.0 and 5.3, and Psalm completed with 468 advisory findings on Moodle 5.3.
+
+## 1.7.128 - 2026-09-10
+
+### Psalm Moodle 5.0 compatibility
+
+- Added a Psalm-only stub for Moodle 5.0's runtime `renderable` compatibility alias, preventing Psalm 6.16.1 from
+  aborting because no class storage was registered for the legacy global name.
+- Kept the complete production analysis scope unchanged: PHPStan completed with 366 advisory findings on both
+  Moodle 5.0 and 5.3, while Psalm completed with 468 advisory findings on Moodle 5.3.
+- Rejected the Moodle 5.0 Psalm crash from the 1.7.127 run as a baseline; all runtime, quality and build gates in
+  the six-job matrix had otherwise completed successfully.
+
+## 1.7.127 - 2026-09-10
+
+### Static-analysis bootstrap
+
+- Loaded Moodle's canonical backup and restore include graphs before the Moodle 2 step libraries, ensuring their
+  `backup_execution_step` and `restore_execution_step` parent classes exist on both classic and `public/` layouts.
+- Rejected the 1.7.126 PHPStan and Psalm startup failures as baselines; all six runtime matrix jobs, PHPCS, PHPUnit,
+  Behat, Grunt AMD and the strict installation validator had otherwise completed successfully.
+
+## 1.7.126 - 2026-09-10
+
+### Static-analysis bootstrap
+
+- Loaded the stable Moodle admin, form and backup/restore parent APIs explicitly so PHPStan and Psalm can resolve
+  the legacy class graph consistently on Moodle 5.0 and 5.3.
+- Documented the narrowly scoped Moodle PHPCS exception required by the standalone pre-bootstrap code instead of
+  excluding the analyser tooling tree from the canonical coding-style gate.
+
+### Continuous integration
+
+- Accepted Psalm exit 2 as the documented successful-analysis-with-findings result while retaining every other
+  non-zero exit as a blocking tool/configuration failure.
+- Prevented PHPStan internal and incomplete-analysis reports from being misclassified as ordinary advisory code
+  findings merely because they also contain a final error count.
+- Recorded the rejected 1.7.125 Moodle 5.0 analyser output and the Moodle 5.3 Psalm exit-classification defect;
+  neither failed run is treated as an accepted remediation baseline.
+
+## 1.7.125 - 2026-09-05
+
+### Static analysis
+
+- Added versioned, Moodle-aware PHPStan 2.2 and Psalm 6 configurations limited to production VideoTrack code.
+- Added a shared CLI bootstrap that loads the disposable Moodle installation before either analyser resolves core
+  symbols, avoiding the invalid standalone results previously dominated by missing Moodle classes and functions.
+- Added a reviewed PHPMD runtime ruleset that keeps complexity, design, clean-code and unused-code findings while
+  excluding Moodle naming noise and non-production trees.
+- Added pinned analyser tooling and advisory PHPStan/Psalm jobs to the Moodle 5.0 and 5.3 MariaDB CI entries. Their
+  first valid reports establish the remediation baseline; they do not silently become release claims.
+- Distinguished PHPMD findings (exit 2, currently advisory) from PHPMD execution/configuration failures, which now
+  fail CI, and retained all analyser outputs with the existing job artefacts.
+
+### Documentation
+
+- Documented configuration ownership, analyser scope, progressive server commands, evidence interpretation and the
+  staged path from a valid baseline to blocking gates in both English and Italian.
+
 ## 1.7.124 - 2026-09-05
 
 ### Continuous integration

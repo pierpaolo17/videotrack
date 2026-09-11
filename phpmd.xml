@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ruleset name="VideoTrack runtime rules"
+         xmlns="http://pmd.sf.net/ruleset/1.0.0"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://pmd.sf.net/ruleset/1.0.0
+                             https://pmd.sourceforge.io/ruleset_xml_schema.xsd">
+    <description>
+        Runtime-oriented PHPMD rules for VideoTrack. Moodle naming is enforced by PHPCS, while this ruleset keeps
+        complexity, design, boolean-flag and unused-code findings visible for reviewed refactoring.
+    </description>
+
+    <exclude-pattern>*/tests/*</exclude-pattern>
+    <exclude-pattern>*/lang/*</exclude-pattern>
+    <exclude-pattern>*/docs/*</exclude-pattern>
+    <exclude-pattern>*/tools/*</exclude-pattern>
+
+    <rule ref="rulesets/cleancode.xml/BooleanArgumentFlag" />
+    <rule ref="rulesets/codesize.xml" />
+    <rule ref="rulesets/design.xml" />
+    <rule ref="rulesets/unusedcode.xml" />
+</ruleset>

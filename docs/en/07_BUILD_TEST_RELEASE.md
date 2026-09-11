@@ -33,11 +33,29 @@ vendor/bin/phpunit --testsuite mod_videotrack_testsuite
 For AMD changes, run Moodle's real Grunt task from the Moodle tree and distribute every changed `.min.js`
 and `.map`. Syntax-only JavaScript checks do not replace Grunt/ESLint.
 
-PHPDoc Checker is a blocking repository-CI gate with `--max-warnings 0`. PHPMD is advisory until a reviewed
-Moodle-aware ruleset and explicit baseline exist. PHPStan and Psalm require committed bootstrap/stub configurations
-that resolve Moodle symbols and exclude unrelated core/vendor code before either result can become a plugin gate.
-Record every tool version, configuration and complete output; warnings are not silently suppressed. These analyzers
-complement, but do not replace, Moodle PHPCS, PHP lint, PHPUnit, Behat or Grunt.
+PHPDoc Checker is a blocking repository-CI gate with `--max-warnings 0`. The versioned `phpmd.xml` ruleset analyses
+production PHP with reviewed clean-code, size, design and unused-code rules; naming is left to Moodle PHPCS. PHPMD
+findings remain advisory during staged remediation, but an analyser/configuration failure is blocking.
+
+`phpstan.neon.dist` (initial level 1) and `psalm.xml` (initial level 8) limit analysis to production VideoTrack code.
+Both load `tools/static-analysis/bootstrap.php`, which prefers `MOODLE_ROOT`, recognises the classic and `public/`
+plugin layouts, and bootstraps an installed Moodle site so core symbols resolve without analysing unrelated code. The repository
+workflow pins PHPStan 2.2.13 and Psalm 6.16.1 in `.github/static-analysis/composer.json`; its first Moodle 5.0/5.3
+reports establish the valid remediation baseline. Findings are advisory at this stage, while installation or tool
+execution failures remain visible failures. Record every tool version, configuration and complete output; warnings
+are never silently suppressed. These analysers complement, but do not replace, Moodle PHPCS, PHP lint, PHPUnit,
+Behat or Grunt.
+
+With the current maintainer runner, execute the complete static tranche from the Moodle root:
+
+```bash
+moodle-test -p mod_videotrack -m 50,53 -c phpstan,phpdoc,phpmd,psalm
+```
+
+The runner progressively tests PHPStan levels `1` through `8` and Psalm levels `8` through `1`, stopping at the
+first failing level and retaining each attempted-level log. It uses the committed configurations and temporary
+Psalm level copies; it must not modify the plugin tree. For a direct run outside an installed plugin path, set
+`MOODLE_ROOT` to the actual Moodle root and use the analyser binaries installed for maintenance.
 
 ## Behavioural gates
 

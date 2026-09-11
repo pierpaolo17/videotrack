@@ -1,0 +1,15 @@
+{
+    "name": "videotrack/static-analysis-tools",
+    "description": "Pinned static-analysis tools used by the VideoTrack CI workflow.",
+    "type": "project",
+    "license": "GPL-3.0-or-later",
+    "require": {
+        "php": "^8.2 || ^8.3",
+        "phpstan/phpstan": "2.2.13",
+        "vimeo/psalm": "6.16.1"
+    },
+    "config": {
+        "allow-plugins": false,
+        "sort-packages": true
+    }
+}

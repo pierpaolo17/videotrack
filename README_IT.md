@@ -6,7 +6,7 @@ VideoTrack è un modulo attività Moodle per video HTML5/caricati, YouTube e Vim
 visione validato dal server, strumenti di studio, completamento personalizzato, gradebook e report attenti
 alla privacy.
 
-Release corrente documentata da questo albero: **1.7.124**. Rami Moodle supportati: **5.0–5.3**.
+Release corrente documentata da questo albero: **1.7.129**. Rami Moodle supportati: **5.0–5.3**.
 
 - Panoramica inglese: [`README.md`](README.md)
 - Guida italiana completa: [`docs/it/funzionalita.md`](docs/it/funzionalita.md)
@@ -39,7 +39,7 @@ Release corrente documentata da questo albero: **1.7.124**. Rami Moodle supporta
 | Privacy | Privacy API Moodle, export/cancellazione proprietario, cancellazione context/user-list, retention a eliminazione e conferma retention illimitata. |
 | Ciclo di vita | Backup/restore con o senza dati utente, reset, cancellazione istanza, riparazione gradebook ed eventi Moodle. |
 | Amministrazione | Default sito, policy player/completion imponibili, preset reazioni, otto lingue, validatore e benchmark Analytics in sola lettura. |
-| Qualità | GitHub Actions integrato nel repository, contratti PHPUnit, Behat deterministico HTML5/YouTube/Vimeo, PHPCS/PHPDoc/validazione Moodle e gate AMD canonici. |
+| Qualità | GitHub Actions integrato, PHPUnit/Behat, PHPCS/PHPDoc/validazione Moodle, gate AMD canonici, PHPMD revisionato e baseline PHPStan/Psalm Moodle-aware. |
 
 La tabella è una mappa completa, non la specifica operativa. Comportamento, permessi, confini dati e limiti dei
 provider sono descritti una sola volta nella [guida completa](docs/it/funzionalita.md) e nei riferimenti tecnici.

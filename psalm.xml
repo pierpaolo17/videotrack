@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<psalm
+    xmlns="https://getpsalm.org/schema/config"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:schemaLocation="https://getpsalm.org/schema/config https://getpsalm.org/schema/config.xsd"
+    errorLevel="8"
+    resolveFromConfigFile="true"
+    autoloader="tools/static-analysis/bootstrap.php"
+    hideExternalErrors="true"
+    allFunctionsGlobal="true"
+    allConstantsGlobal="true"
+    findUnusedCode="false"
+    findUnusedBaselineEntry="true"
+>
+    <stubs>
+        <file name="tools/static-analysis/moodle-legacy-aliases.phpstub" />
+    </stubs>
+    <projectFiles>
+        <directory name="backup" />
+        <directory name="classes" />
+        <directory name="cli" />
+        <directory name="db" />
+        <file name="bookmarks.php" />
+        <file name="forum_post.php" />
+        <file name="index.php" />
+        <file name="lib.php" />
+        <file name="locallib.php" />
+        <file name="mod_form.php" />
+        <file name="presets.php" />
+        <file name="report.php" />
+        <file name="reports_course.php" />
+        <file name="reports_teacher.php" />
+        <file name="settings.php" />
+        <file name="version.php" />
+        <file name="view.php" />
+    </projectFiles>
+</psalm>

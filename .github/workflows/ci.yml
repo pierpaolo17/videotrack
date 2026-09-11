@@ -59,6 +59,7 @@ jobs:
             php: "8.2"
             database: mariadb
             quality: true
+            static: true
           - id: moodle50-pgsql
             moodle: "5.0"
             moodle-branch: MOODLE_500_STABLE
@@ -83,6 +84,7 @@ jobs:
             php: "8.3"
             database: mariadb
             quality: false
+            static: true
           - id: moodle53-pgsql
             moodle: "5.3-dev"
             moodle-branch: main
@@ -177,12 +179,24 @@ jobs:
           set -o pipefail
           moodle-plugin-ci phplint 2>&1 | tee ci-reports/phplint.txt
 
-      - name: PHP Mess Detector (advisory baseline)
+      - name: PHP Mess Detector (reviewed runtime baseline)
         if: ${{ !cancelled() && matrix.quality }}
-        continue-on-error: true
         run: |
-          set -o pipefail
-          moodle-plugin-ci phpmd 2>&1 | tee ci-reports/phpmd.txt
+          set +e
+          "$GITHUB_WORKSPACE/ci/vendor/bin/phpmd" \
+            "$VIDEOTRACK_ROOT" \
+            text \
+            "$GITHUB_WORKSPACE/plugin/phpmd.xml" \
+            --exclude '*/tests/*,*/lang/*,*/docs/*,*/tools/*' \
+            2>&1 | tee ci-reports/phpmd.txt
+          phpmdstatus=${PIPESTATUS[0]}
+          set -e
+          if test "$phpmdstatus" -eq 2; then
+            echo 'PHPMD completed with reviewed advisory findings.' | tee -a ci-reports/phpmd.txt
+          elif test "$phpmdstatus" -ne 0; then
+            echo "PHPMD tool failure (exit $phpmdstatus)." | tee -a ci-reports/phpmd.txt
+            exit "$phpmdstatus"
+          fi
 
       - name: Moodle Code Checker
         if: ${{ !cancelled() && matrix.quality }}
@@ -256,6 +270,71 @@ jobs:
             fi
             php "$validator" --strict
           } 2>&1 | tee ci-reports/videotrack-validate.txt
+
+      - name: Install pinned static-analysis tools
+        if: ${{ !cancelled() && matrix.static }}
+        run: |
+          set -o pipefail
+          toolsroot="$GITHUB_WORKSPACE/plugin/.github/static-analysis"
+          composer install \
+            --working-dir="$toolsroot" \
+            --no-dev \
+            --no-interaction \
+            --no-progress \
+            --prefer-dist \
+            --no-plugins \
+            --no-scripts \
+            2>&1 | tee ci-reports/static-tools.txt
+          {
+            "$toolsroot/vendor/bin/phpstan" --version
+            "$toolsroot/vendor/bin/psalm" --version
+          } 2>&1 | tee -a ci-reports/static-tools.txt
+
+      - name: PHPStan production analysis (advisory baseline)
+        if: ${{ !cancelled() && matrix.static }}
+        run: |
+          set +e
+          toolsroot="$GITHUB_WORKSPACE/plugin/.github/static-analysis"
+          "$toolsroot/vendor/bin/phpstan" analyse \
+            --configuration="$VIDEOTRACK_ROOT/phpstan.neon.dist" \
+            --no-progress \
+            --error-format=table \
+            2>&1 | tee ci-reports/phpstan.txt
+          phpstanstatus=${PIPESTATUS[0]}
+          set -e
+          if test "$phpstanstatus" -ne 0; then
+            if grep -Eq 'Internal error:|Result is incomplete because of severe errors' ci-reports/phpstan.txt; then
+              echo "PHPStan incomplete/internal failure (exit $phpstanstatus)." | tee -a ci-reports/phpstan.txt
+              exit "$phpstanstatus"
+            elif test "$phpstanstatus" -eq 1 && grep -Eq 'Found [0-9]+ errors?' ci-reports/phpstan.txt; then
+              echo 'PHPStan completed with advisory findings.' | tee -a ci-reports/phpstan.txt
+            else
+              echo "PHPStan tool/configuration failure (exit $phpstanstatus)." | tee -a ci-reports/phpstan.txt
+              exit "$phpstanstatus"
+            fi
+          fi
+
+      - name: Psalm production analysis (advisory baseline)
+        if: ${{ !cancelled() && matrix.static }}
+        run: |
+          set +e
+          toolsroot="$GITHUB_WORKSPACE/plugin/.github/static-analysis"
+          (
+            cd "$VIDEOTRACK_ROOT"
+            "$toolsroot/vendor/bin/psalm" \
+              --config=psalm.xml \
+              --no-cache \
+              --no-progress \
+              --show-info=false
+          ) 2>&1 | tee ci-reports/psalm.txt
+          psalmstatus=${PIPESTATUS[0]}
+          set -e
+          if test "$psalmstatus" -eq 2; then
+            echo 'Psalm completed with advisory findings.' | tee -a ci-reports/psalm.txt
+          elif test "$psalmstatus" -ne 0; then
+            echo "Psalm tool/configuration failure (exit $psalmstatus)." | tee -a ci-reports/psalm.txt
+            exit "$psalmstatus"
+          fi
 
       - name: PHPUnit tests
         if: ${{ !cancelled() }}
