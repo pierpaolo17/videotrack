@@ -17,19 +17,20 @@ core from the project scan, but load core definitions from the installed site. P
 packs, documentation and tooling in its own ruleset. A tool crash, invalid configuration or missing report is not
 an advisory finding: it is an infrastructure failure.
 
-`psalm.xml` also loads `tools/static-analysis/moodle-legacy-aliases.phpstub`. This narrow stub records Moodle 5.0's
-runtime `core\output\renderable` to global `renderable` compatibility alias for Psalm. It does not replace Moodle
-classes, suppress findings or reduce the production scope.
-
 ## Moodle bootstrap
 
 `tools/static-analysis/bootstrap.php` loads the installed Moodle `config.php` before analysis. It uses
 `MOODLE_ROOT` when set, then checks the deterministic roots implied by classic `mod/videotrack` and Moodle's
 `public/mod/videotrack` layout. It then loads the stable admin and form APIs plus Moodle's canonical backup and
-restore include graphs before the Moodle 2 step libraries used by the production scope. The order matters because
-the step libraries declare subclasses immediately. This explicit bootstrap is necessary because the analysers do
-not reliably follow every variable-based legacy require. It never searches the complete filesystem and never
-selects generated `.types` mirrors. The selected site must already be installed and its database must be reachable.
+restore include graphs before the Moodle 2 step libraries used by the production
+scope. The order matters because the step libraries declare subclasses immediately. This explicit bootstrap is
+necessary because the analysers do not reliably follow every variable-based legacy require. It never searches the
+complete filesystem and never selects generated `.types` mirrors. The selected site must already be installed and
+its database must be reachable.
+
+`psalm.xml` also loads `tools/static-analysis/moodle-legacy-aliases.phpstub`. The stub statically declares the global
+`renderable` compatibility name as extending `core\output\renderable`. This represents Moodle 5.0's runtime alias in
+a form Psalm can index; stub files are parsed for declarations, so an executable `class_alias()` call is ineffective.
 
 ## Maintainer command
 
@@ -89,5 +90,8 @@ the workflow misclassified its documented exit 2 as a tool failure. Release 1.7.
 classification defects, but its analyser bootstrap loaded `backup_stepslib.php` before `backup_execution_step` and
 both static jobs stopped at startup. Release 1.7.127 then allowed PHPStan to complete with 366 findings on both
 branches and Psalm to complete with 468 findings on Moodle 5.3. Psalm 6.16.1 still aborted on Moodle 5.0 because
-Moodle's runtime `renderable` class alias had no Psalm class storage. Release 1.7.128 declares that exact alias in a
-Psalm-only stub; a fresh Moodle 5.0 report is required before code-finding remediation begins.
+Moodle's runtime `renderable` class alias had no Psalm class storage. Release 1.7.128 placed the executable
+`class_alias()` mapping in a configured stub, but the 1.7.128 report proved that Psalm does not process that
+statement as a class declaration there and repeated the same exception. Release 1.7.129 replaces it with a static
+global interface declaration that Psalm can index. A fresh Moodle 5.0 report is required before code-finding
+remediation begins.

@@ -22,5 +22,10 @@
  * @license   https://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 
-// Moodle 5.0 creates this compatibility alias at runtime. Psalm must see the literal mapping while scanning.
-class_alias(\core\output\renderable::class, \renderable::class);
+/**
+ * Static representation of Moodle 5.0's global renderable compatibility alias.
+ *
+ * Psalm parses stub declarations but does not execute class_alias(), so the legacy name must be declared.
+ */
+interface renderable extends \core\output\renderable {
+}

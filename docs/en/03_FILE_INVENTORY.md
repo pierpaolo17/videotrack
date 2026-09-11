@@ -1,6 +1,6 @@
 # Distributed file inventory
 
-This inventory is generated against the VideoTrack 1.7.128 repository tree. It lists every distributed
+This inventory is generated against the VideoTrack 1.7.129 repository tree. It lists every distributed
 non-documentation file plus repository-only CI/tooling files. Canonical JavaScript is under `amd/src`; files under
 `amd/build` are generated.
 
@@ -307,6 +307,6 @@ Entries: **302** — 300 distributed files and two repository-only files exclude
 | `tests/vimeo_seek_contract_test.php` | Current PHPUnit/contract test distributed with the plugin. |
 | `tests/xmldb_relationship_contract_test.php` | XMLDB foreign-key, sentinel-reference and generated-index contracts. |
 | `tools/static-analysis/bootstrap.php` | Shared analyser bootstrap loading the selected Moodle and the stable legacy parent APIs required by the production scope. |
-| `tools/static-analysis/moodle-legacy-aliases.phpstub` | Psalm-only declaration of Moodle 5.0 runtime class aliases required by the production type graph. |
+| `tools/static-analysis/moodle-legacy-aliases.phpstub` | Psalm-only static declaration of Moodle 5.0's global `renderable` compatibility name. |
 | `version.php` | Plugin metadata, version, maturity and supported Moodle branches. |
 | `view.php` | Student-facing activity page: authorisation, state loading, privacy-safe DOM configuration and player bootstrapping. |

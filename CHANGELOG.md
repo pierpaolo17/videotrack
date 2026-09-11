@@ -1,5 +1,16 @@
 # VideoTrack changelog
 
+## 1.7.129 - 2026-09-11
+
+### Psalm Moodle 5.0 legacy alias declaration
+
+- Replaced the executable `class_alias()` call in the Psalm stub with a static global `renderable` interface
+  declaration extending `core\output\renderable`. Psalm indexes declarations in stub files but does not execute
+  alias calls, which is why the 1.7.128 Moodle 5.0 run repeated the internal storage exception.
+- Kept the complete production analysis scope and all runtime code unchanged. In the 1.7.128 six-job matrix,
+  installation, strict validation, PHPUnit, Behat and Grunt passed everywhere; PHPStan completed with 366 advisory
+  findings on Moodle 5.0 and 5.3, and Psalm completed with 468 advisory findings on Moodle 5.3.
+
 ## 1.7.128 - 2026-09-10
 
 ### Psalm Moodle 5.0 compatibility
