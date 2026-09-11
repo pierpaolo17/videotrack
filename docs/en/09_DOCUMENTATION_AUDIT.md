@@ -1,6 +1,6 @@
 # Documentation audit
 
-Baseline: VideoTrack **1.7.129** (`2026091101`).
+Baseline: VideoTrack **1.7.130** (`2026091102`).
 
 ## Scope
 
@@ -33,7 +33,7 @@ not duplicate implementation procedures, field dictionaries or long security/pri
 ## Current-tree findings
 
 - English and Italian indexes have matching scope and ordering.
-- Documentation markers, root README files and ER artefacts identify 1.7.129 / 2026091101.
+- Documentation markers, root README files and ER artefacts identify 1.7.130 / 2026091102.
 - The activity identity includes a 1024-pixel `pix/icon.png` and an accessible native `pix/icon.svg` derived from
   the same maintainer-supplied artwork.
 - `db/install.xml` declares seven primary keys, 22 stable foreign keys and 22 explicit indexes. XMLDB generates an
@@ -51,9 +51,11 @@ not duplicate implementation procedures, field dictionaries or long security/pri
 - PHPStan/Psalm have versioned production-only scopes and a shared installed-Moodle bootstrap. The bootstrap loads
   the canonical backup/restore include graphs before the Moodle 2 step libraries. A narrow Psalm stub statically
   declares Moodle 5.0's global `renderable` compatibility name because Psalm indexes stub declarations but does not
-  execute `class_alias()` calls. It does not suppress findings or reduce scope. Psalm's finding exit is advisory, while
-  PHPStan internal/incomplete reports remain blocking. A fresh Moodle 5.0 Psalm run is required for the first
-  complete cross-branch remediation baseline.
+  execute `class_alias()` calls. It does not suppress findings or reduce scope. Psalm's finding exit is advisory,
+  while
+  PHPStan internal/incomplete reports remain blocking. The accepted 1.7.129 baseline is 366 PHPStan and 468 Psalm
+  findings on both analysed Moodle branches, plus 161 reviewed PHPMD findings. Release 1.7.130 loads the additional
+  real Moodle APIs referenced by the production scope before comparing the next reports.
 - The generic PHPMD 1.7.123 result (215 findings in 42 files, no tool errors) is retained as a pre-ruleset reference.
   The active `phpmd.xml` removes naming/framework noise, keeps reviewed runtime rules and distinguishes advisory
   finding exit 2 from blocking analyser/configuration errors.

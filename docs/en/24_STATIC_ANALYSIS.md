@@ -21,8 +21,8 @@ an advisory finding: it is an infrastructure failure.
 
 `tools/static-analysis/bootstrap.php` loads the installed Moodle `config.php` before analysis. It uses
 `MOODLE_ROOT` when set, then checks the deterministic roots implied by classic `mod/videotrack` and Moodle's
-`public/mod/videotrack` layout. It then loads the stable admin and form APIs plus Moodle's canonical backup and
-restore include graphs before the Moodle 2 step libraries used by the production
+`public/mod/videotrack` layout. It then loads the stable upgrade, CLI, group, Forum external, admin and form APIs
+plus Moodle's canonical backup and restore include graphs before the Moodle 2 step libraries used by the production
 scope. The order matters because the step libraries declare subclasses immediately. This explicit bootstrap is
 necessary because the analysers do not reliably follow every variable-based legacy require. It never searches the
 complete filesystem and never selects generated `.types` mirrors. The selected site must already be installed and
@@ -93,5 +93,7 @@ branches and Psalm to complete with 468 findings on Moodle 5.3. Psalm 6.16.1 sti
 Moodle's runtime `renderable` class alias had no Psalm class storage. Release 1.7.128 placed the executable
 `class_alias()` mapping in a configured stub, but the 1.7.128 report proved that Psalm does not process that
 statement as a class declaration there and repeated the same exception. Release 1.7.129 replaces it with a static
-global interface declaration that Psalm can index. A fresh Moodle 5.0 report is required before code-finding
-remediation begins.
+global interface declaration that Psalm can index. The 1.7.129 matrix then completed successfully: PHPStan reported
+366 findings and Psalm 468 findings on both Moodle 5.0 and 5.3, while the reviewed PHPMD ruleset reported 161
+findings. Release 1.7.130 begins remediation by loading the real Moodle upgrade, CLI, group and Forum external API
+definitions needed by the production scope; no runtime file or analysis scope is changed.

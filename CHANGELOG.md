@@ -1,5 +1,18 @@
 # VideoTrack changelog
 
+## 1.7.130 - 2026-09-11
+
+### Static-analysis Moodle API graph
+
+- Extended the shared PHPStan/Psalm bootstrap with Moodle's upgrade, CLI, group and Forum external API files used
+  by the production scope. This exposes the real legacy function and class declarations without runtime changes,
+  generated baselines, global suppressions or reduced analysis scope.
+- Accepted the complete 1.7.129 cross-version remediation baseline: PHPStan completed with 366 findings and Psalm
+  with 468 findings on both Moodle 5.0 and 5.3; PHPMD completed with 161 reviewed findings. All six GitHub jobs and
+  the Moodle 5.0/5.3 server validation, PHPCS, PHP lint, Grunt and PHPUnit checks passed.
+- Recorded browser verification as deferred rather than executed; the maintainer explicitly accepted advancement
+  to static-analysis remediation without that optional manual check.
+
 ## 1.7.129 - 2026-09-11
 
 ### Psalm Moodle 5.0 legacy alias declaration
