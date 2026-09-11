@@ -53,8 +53,12 @@ require_once($moodleconfig);
 // parent APIs required by the production files in this analysis scope so both supported Moodle layouts expose the
 // same class graph.
 $legacyfiles = [
+    $CFG->libdir . '/upgradelib.php',
+    $CFG->libdir . '/clilib.php',
     $CFG->libdir . '/adminlib.php',
     $CFG->libdir . '/formslib.php',
+    $CFG->dirroot . '/group/lib.php',
+    $CFG->dirroot . '/mod/forum/externallib.php',
     $CFG->dirroot . '/course/moodleform_mod.php',
     $CFG->dirroot . '/backup/util/includes/backup_includes.php',
     $CFG->dirroot . '/backup/util/includes/restore_includes.php',

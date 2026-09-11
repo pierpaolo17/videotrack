@@ -21,8 +21,8 @@ consultivi: sono errori infrastrutturali.
 
 `tools/static-analysis/bootstrap.php` carica il `config.php` del Moodle installato prima dell'analisi. Usa
 `MOODLE_ROOT` quando definita, poi verifica le root deterministiche ricavate dai layout classico `mod/videotrack` e
-Moodle `public/mod/videotrack`. Carica le API stabili di amministrazione e form, seguite dai grafi di include
-canonici di backup e restore Moodle prima delle librerie
+Moodle `public/mod/videotrack`. Carica le API stabili di upgrade, CLI, gruppi, API esterna Forum, amministrazione e
+form, seguite dai grafi di include canonici di backup e restore Moodle prima delle librerie
 step Moodle 2 usate dal perimetro di produzione. L'ordine è necessario perché le librerie step dichiarano
 immediatamente le sottoclassi. Questo bootstrap esplicito serve perché gli analizzatori non seguono in modo
 affidabile ogni `require` legacy basata su variabili. Non scandisce l'intero filesystem e non seleziona mirror
@@ -95,5 +95,8 @@ su entrambi i rami e a Psalm di completare con 468 finding su Moodle 5.3. Psalm 
 Moodle 5.0 perché l'alias runtime `renderable` di Moodle non aveva uno storage Psalm. La release 1.7.128 aveva
 inserito la mappatura eseguibile `class_alias()` in uno stub configurato, ma il report 1.7.128 ha dimostrato che
 Psalm non elabora lì quella istruzione come dichiarazione di classe e ha ripetuto la stessa eccezione. La release
-1.7.129 la sostituisce con una dichiarazione statica dell'interfaccia globale, indicizzabile da Psalm. Prima di
-iniziare il risanamento dei finding serve un nuovo report Moodle 5.0.
+1.7.129 la sostituisce con una dichiarazione statica dell'interfaccia globale, indicizzabile da Psalm. La matrice
+1.7.129 si è quindi conclusa correttamente: PHPStan ha rilevato 366 finding e Psalm 468 finding sia su Moodle 5.0 sia
+su Moodle 5.3, mentre il ruleset PHPMD revisionato ne ha rilevati 161. La release 1.7.130 avvia il risanamento
+caricando le vere definizioni Moodle di upgrade, CLI, gruppi e API esterna Forum richieste dal perimetro di
+produzione; nessun file runtime o perimetro di analisi viene modificato.
