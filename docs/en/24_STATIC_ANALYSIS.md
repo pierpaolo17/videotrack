@@ -115,3 +115,7 @@ The 1.7.133 matrix confirms PHPStan remains clean and Psalm completes with 56 fi
 the Moodle 5.3 Psalm run because the runtime `admin_root` compatibility alias has no Psalm class storage. Release
 1.7.134 keeps the globals typed through two minimal analysis-only contracts in the existing stub, covering only
 `$ADMIN->fulltree` and `$settings->add()` without changing production code or using `mixed`.
+The verified 1.7.134 matrix completes with zero PHPStan findings and 56 identical Psalm findings on both branches.
+Release 1.7.135 qualifies twelve global PHPDoc type names in `tracker`, targeting thirteen direct and sixteen
+propagated `UndefinedDocblockClass` findings. The remaining `xmlddb_field` report originates in Moodle's
+`xmldb_table::add_field()` return DocBlock and remains visible rather than being hidden by a plugin suppression.

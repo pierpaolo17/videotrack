@@ -122,3 +122,8 @@ l'esecuzione Psalm su Moodle 5.3 perché l'alias runtime di compatibilità `admi
 Psalm. La release 1.7.134 mantiene i globali tipizzati tramite due contratti minimi riservati all'analisi nello stub
 esistente, limitati a `$ADMIN->fulltree` e `$settings->add()`, senza modificare il codice di produzione o usare
 `mixed`.
+La matrice 1.7.134 verificata si conclude con zero finding PHPStan e 56 finding Psalm identici su entrambi i rami.
+La release 1.7.135 qualifica dodici nomi di tipo globali nei PHPDoc di `tracker`, intervenendo su tredici finding
+`UndefinedDocblockClass` diretti e sedici propagati. Il rilievo residuo `xmlddb_field` proviene dal DocBlock di
+ritorno di `xmldb_table::add_field()` in Moodle e rimane visibile invece di essere nascosto da una soppressione nel
+plugin.

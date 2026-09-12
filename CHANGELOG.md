@@ -1,5 +1,19 @@
 # VideoTrack changelog
 
+## 1.7.135 - 2026-09-12
+
+### Namespaced PHPDoc type resolution
+
+- Qualified the global `\stdClass` and `\cm_info` names in twelve `tracker` PHPDoc entries. Their native method
+  signatures were already fully qualified; aligning the documentation prevents Psalm from resolving those names
+  incorrectly inside the `mod_videotrack\local` namespace.
+- Targeted 29 of the 30 `UndefinedDocblockClass` findings measured on both Moodle 5.0 and 5.3: thirteen direct
+  PHPDoc findings and sixteen propagated property-access findings in `save_segment.php`. No executable statement,
+  signature or runtime behaviour changes.
+- Left Moodle's `xmldb_table::add_field()` `xmlddb_field` return-type typo unsuppressed and documented as an
+  external finding. Accepted the complete 1.7.134 baseline: PHPStan reported zero findings, Psalm 56 and the
+  reviewed PHPMD ruleset 161; all GitHub and server gates passed.
+
 ## 1.7.134 - 2026-09-12
 
 ### Psalm Moodle 5.3 admin alias compatibility

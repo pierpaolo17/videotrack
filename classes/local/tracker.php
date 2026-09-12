@@ -49,10 +49,10 @@ class tracker {
      * state row exists yet. Used as a non-fatal fallback when the per-user state
      * lock is temporarily contended.
      *
-     * @param stdClass $videotrack Activity instance.
-     * @param cm_info $cm Course module info.
+     * @param \stdClass $videotrack Activity instance.
+     * @param \cm_info $cm Course module info.
      * @param int $userid User id.
-     * @return stdClass
+     * @return \stdClass
      */
     private static function current_state_snapshot(\stdClass $videotrack, \cm_info $cm, int $userid): \stdClass {
         global $DB;
@@ -525,7 +525,7 @@ class tracker {
      * authorise an unrelated timestamp. Player clients flush the current segment
      * before an interaction and use the server-returned saved endpoint.
      *
-     * @param stdClass $videotrack Activity instance.
+     * @param \stdClass $videotrack Activity instance.
      * @param int $userid User id.
      * @param string $sessionid Browser session id.
      * @param float $videotime Requested interaction timestamp.
@@ -651,8 +651,8 @@ class tracker {
     /**
      * Compare an existing ledger row with a retried request payload.
      *
-     * @param stdClass $existing Persisted request row.
-     * @param stdClass $candidate Candidate request row.
+     * @param \stdClass $existing Persisted request row.
+     * @param \stdClass $candidate Candidate request row.
      * @return bool Whether both rows represent the same browser request.
      */
     private static function same_segment_request(\stdClass $existing, \stdClass $candidate): bool {
@@ -666,8 +666,8 @@ class tracker {
     /**
      * Establish a playback-credit window without granting watched time.
      *
-     * @param stdClass $videotrack Activity instance.
-     * @param cm_info $cm Course module.
+     * @param \stdClass $videotrack Activity instance.
+     * @param \cm_info $cm Course module.
      * @param int $userid User id.
      * @param string $sessionid Browser session id.
      * @param string $requestid Idempotency request id.
@@ -766,7 +766,7 @@ class tracker {
     /**
      * Checks a candidate interval against the server-known forward-seek frontier.
      *
-     * @param stdClass $state Current state record.
+     * @param \stdClass $state Current state record.
      * @param array $interval Normalised [start, end] interval.
      * @param bool $allowseekforward Whether forward seeking is enabled.
      * @param float $tolerance Small tolerance for timer/provider drift.
@@ -794,16 +794,16 @@ class tracker {
      * Inserts the raw segment and updates videotrack_state in a single atomic
      * transaction: if anything fails, no orphan segment remains in the database.
      *
-     * @param stdClass  $videotrack   Activity instance.
-     * @param cm_info   $cm           Course module.
+     * @param \stdClass  $videotrack   Activity instance.
+     * @param \cm_info   $cm           Course module.
      * @param int       $userid       User id.
      * @param array     $interval     Normalised [start, end] interval.
      * @param float     $lastposition Resume position.
-     * @param stdClass|null $segment  Segment record to insert, or null when none is needed.
+     * @param \stdClass|null $segment  Segment record to insert, or null when none is needed.
      * @param int|null  $segmentid    Set to inserted id; -1 means server guard rejected the segment.
      * @param array|null $guard Optional server-credit guard values from save_segment.
      * @param bool|null $requestreplayed Set to true when an existing idempotent result is reused.
-     * @return stdClass Updated state.
+     * @return \stdClass Updated state.
      */
     public static function update_state(
         \stdClass $videotrack,
