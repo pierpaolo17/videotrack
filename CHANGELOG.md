@@ -1,5 +1,19 @@
 # VideoTrack changelog
 
+## 1.7.133 - 2026-09-12
+
+### Moodle loader-global analysis contract
+
+- Removed the three loader-contract `@var` annotations rejected by Moodle PHPCS in `settings.php` and
+  `version.php`. Psalm now declares `$ADMIN`, `$settings` and `$plugin` through its native typed `globals`
+  configuration; PHPStan uses two path-specific `variable.undefined` rules limited to those framework-injected
+  names and retains unmatched-ignore reporting.
+- Accepted the 1.7.132 static-analysis result: PHPStan reached zero findings and Psalm decreased from 136 to 57 on
+  both Moodle 5.0 and 5.3. PHPUnit, Behat, Grunt, installation and strict validation passed across the six jobs;
+  only the three PHPCS formatting errors blocked the Moodle 5.0/MariaDB job.
+- Kept all runtime behaviour, analysis scopes and the remaining seventeen accepted loader annotations unchanged.
+  No executable PHP, AMD, database or API file is modified.
+
 ## 1.7.132 - 2026-09-12
 
 ### Moodle-injected global type contracts

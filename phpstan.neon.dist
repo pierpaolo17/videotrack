@@ -22,3 +22,12 @@ parameters:
         - tools/static-analysis/bootstrap.php
     treatPhpDocTypesAsCertain: false
     reportUnmatchedIgnoredErrors: true
+    ignoreErrors:
+        -
+            message: '#Variable \$(ADMIN|settings) might not be defined\.#'
+            identifier: variable.undefined
+            path: settings.php
+        -
+            message: '#Variable \$plugin might not be defined\.#'
+            identifier: variable.undefined
+            path: version.php

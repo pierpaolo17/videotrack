@@ -112,3 +112,8 @@ La matrice 1.7.131 verificata riporta 137 finding PHPStan, tutti con identificat
 finding Psalm su ciascun ramo Moodle analizzato. La release 1.7.132 documenta le variabili globali iniettate dai
 loader Moodle con dichiarazioni `@var` circoscritte nei dieci file di produzione interessati. Queste dichiarazioni
 sono neutre a runtime e non sostituiscono valori del framework né inizializzazioni eseguibili.
+La matrice 1.7.132 conferma zero finding PHPStan e 57 finding Psalm su entrambi i rami. La release 1.7.133 modifica
+le tre annotazioni rifiutate da Moodle PHPCS in `settings.php` e `version.php`: Psalm usa la configurazione nativa
+tipizzata `globals`, mentre PHPStan include due regole specifiche per percorso che corrispondono soltanto ai nomi
+iniettati dal framework. Il controllo degli ignore non più utilizzati resta attivo e tutti i perimetri rimangono
+invariati.

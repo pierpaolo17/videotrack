@@ -22,15 +22,13 @@
  * @license   https://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 
-
 defined('MOODLE_INTERNAL') || die();
 
-/** @var stdClass $plugin Plugin metadata container provided by Moodle. */
 $plugin->component = 'mod_videotrack';
 
-$plugin->version = 2026091202;
+$plugin->version = 2026091203;
 $plugin->requires = 2025041400; // Moodle 5.0.
 $plugin->maturity = MATURITY_STABLE;
-$plugin->release = '1.7.132';
+$plugin->release = '1.7.133';
 $plugin->supported = [500, 503];
 $plugin->dependencies = [];

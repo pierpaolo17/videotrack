@@ -16,6 +16,11 @@
     <stubs>
         <file name="tools/static-analysis/moodle-legacy-aliases.phpstub" />
     </stubs>
+    <globals>
+        <var name="ADMIN" type="admin_root" />
+        <var name="settings" type="admin_settingpage" />
+        <var name="plugin" type="stdClass" />
+    </globals>
     <projectFiles>
         <directory name="backup" />
         <directory name="classes" />
