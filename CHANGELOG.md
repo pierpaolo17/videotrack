@@ -1,5 +1,18 @@
 # VideoTrack changelog
 
+## 1.7.134 - 2026-09-12
+
+### Psalm Moodle 5.3 admin alias compatibility
+
+- Replaced the Psalm global types based on Moodle's legacy `admin_root` and `admin_settingpage` names with two
+  minimal analysis-only contracts declared in the existing stub. They expose only `$ADMIN->fulltree` and
+  `$settings->add()`, the members used by the plugin settings file.
+- Rejected the Moodle 5.3 Psalm crash from the 1.7.133 matrix as a baseline. Psalm 6.16.1 completed on Moodle 5.0
+  with 56 advisory findings, but Moodle 5.3's runtime `admin_root` alias had no Psalm class storage. Installation,
+  strict validation, PHPUnit, Behat, Grunt, PHPCS, PHPStan and PHPMD completed successfully in all applicable jobs.
+- Kept the three framework globals declared explicitly without using `mixed`, modifying production code or
+  broadening any suppression. PHPStan remains at zero findings with unmatched-ignore reporting enabled.
+
 ## 1.7.133 - 2026-09-12
 
 ### Moodle loader-global analysis contract

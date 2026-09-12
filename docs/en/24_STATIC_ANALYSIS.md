@@ -111,3 +111,7 @@ The 1.7.132 matrix confirms zero PHPStan findings and 57 Psalm findings on both 
 the three annotations that Moodle PHPCS rejected in `settings.php` and `version.php`: Psalm uses its native typed
 `globals` configuration, while PHPStan has two path-specific rules matching only the framework-injected names.
 Unmatched-ignore reporting remains active, and all analyser scopes are unchanged.
+The 1.7.133 matrix confirms PHPStan remains clean and Psalm completes with 56 findings on Moodle 5.0, but rejects
+the Moodle 5.3 Psalm run because the runtime `admin_root` compatibility alias has no Psalm class storage. Release
+1.7.134 keeps the globals typed through two minimal analysis-only contracts in the existing stub, covering only
+`$ADMIN->fulltree` and `$settings->add()` without changing production code or using `mixed`.

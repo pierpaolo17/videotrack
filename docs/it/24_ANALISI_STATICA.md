@@ -117,3 +117,8 @@ le tre annotazioni rifiutate da Moodle PHPCS in `settings.php` e `version.php`: 
 tipizzata `globals`, mentre PHPStan include due regole specifiche per percorso che corrispondono soltanto ai nomi
 iniettati dal framework. Il controllo degli ignore non più utilizzati resta attivo e tutti i perimetri rimangono
 invariati.
+La matrice 1.7.133 conferma che PHPStan resta pulito e che Psalm completa con 56 finding su Moodle 5.0, ma rifiuta
+l'esecuzione Psalm su Moodle 5.3 perché l'alias runtime di compatibilità `admin_root` non dispone di uno storage
+Psalm. La release 1.7.134 mantiene i globali tipizzati tramite due contratti minimi riservati all'analisi nello stub
+esistente, limitati a `$ADMIN->fulltree` e `$settings->add()`, senza modificare il codice di produzione o usare
+`mixed`.

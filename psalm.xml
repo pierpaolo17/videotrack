@@ -17,8 +17,8 @@
         <file name="tools/static-analysis/moodle-legacy-aliases.phpstub" />
     </stubs>
     <globals>
-        <var name="ADMIN" type="admin_root" />
-        <var name="settings" type="admin_settingpage" />
+        <var name="ADMIN" type="mod_videotrack_psalm_admin_root" />
+        <var name="settings" type="mod_videotrack_psalm_admin_settingpage" />
         <var name="plugin" type="stdClass" />
     </globals>
     <projectFiles>
