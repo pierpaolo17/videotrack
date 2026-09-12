@@ -1,6 +1,6 @@
 # Audit della documentazione
 
-Baseline: VideoTrack **1.7.131** (`2026091201`).
+Baseline: VideoTrack **1.7.134** (`2026091204`).
 
 ## Perimetro
 
@@ -33,7 +33,7 @@ duplicano intenzionalmente procedure implementative, dizionari dei campi o lungh
 ## Rilievi sull'albero corrente
 
 - Gli indici inglese e italiano hanno stesso perimetro e ordinamento.
-- Marker documentali, README principali e artefatti ER identificano 1.7.131 / 2026091201.
+- Marker documentali, README principali e artefatti ER identificano 1.7.134 / 2026091204.
 - L'identità dell'attività include `pix/icon.png` da 1024 pixel e un `pix/icon.svg` nativo e accessibile derivati
   dalla stessa grafica fornita dal maintainer.
 - `db/install.xml` dichiara sette chiavi primarie, 22 foreign key stabili e 22 indici espliciti. XMLDB genera inoltre
@@ -58,6 +58,10 @@ duplicano intenzionalmente procedure implementative, dizionari dei campi o lungh
   referenziate dal perimetro di produzione prima del confronto dei nuovi report.
 - Psalm disabilita esplicitamente soltanto `ensureOverrideAttribute`: la correzione nativa richiede PHP 8.3, ma la
   matrice Moodle 5.0 supportata include PHP 8.2. I controlli di ereditarietà e firma restano attivi.
+- I dieci file di produzione che consumano globali o contenitori forniti dai loader Moodle hanno contratti di
+  analisi circoscritti. Otto includono dichiarazioni `@var` accettate da Moodle PHPCS; `settings.php` e `version.php`
+  usano i globali tipizzati Psalm e due regole PHPStan specifiche per percorso e nome, con controllo degli ignore
+  non più utilizzati attivo.
 - Il risultato PHPMD generico 1.7.123 (215 finding in 42 file, nessun errore strumento) resta un riferimento
   pre-ruleset. Il `phpmd.xml` attivo elimina il rumore naming/framework, mantiene regole runtime revisionate e
   distingue l'exit 2 consultivo dei finding dagli errori bloccanti di analizzatore/configurazione.

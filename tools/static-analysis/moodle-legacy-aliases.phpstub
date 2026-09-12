@@ -29,3 +29,26 @@
  */
 interface renderable extends \core\output\renderable {
 }
+
+/**
+ * Psalm-only contract for the admin tree injected into plugin settings files.
+ *
+ * Moodle 5.3 exposes the legacy admin_root name through class_alias(). Psalm does not create class storage for
+ * that runtime alias, so the configured global uses this stable, analysis-only contract instead.
+ */
+abstract class mod_videotrack_psalm_admin_root {
+    /** @var bool Whether the complete settings tree is being built. */
+    public bool $fulltree;
+}
+
+/**
+ * Psalm-only contract for the settings page injected into plugin settings files.
+ */
+abstract class mod_videotrack_psalm_admin_settingpage {
+    /**
+     * Add a setting to the page.
+     *
+     * @param mixed $setting Moodle admin setting instance.
+     */
+    abstract public function add(mixed $setting): void;
+}

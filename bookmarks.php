@@ -23,6 +23,10 @@
  */
 
 require_once(__DIR__ . '/../../config.php');
+
+/** @var stdClass $CFG Moodle configuration initialised by config.php. */
+/** @var moodle_database $DB Moodle database connection initialised by config.php. */
+/** @var stdClass $USER Current Moodle user initialised by config.php. */
 require_once($CFG->dirroot . '/mod/videotrack/lib.php');
 
 $id = required_param('id', PARAM_INT);

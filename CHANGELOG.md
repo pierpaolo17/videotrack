@@ -1,5 +1,44 @@
 # VideoTrack changelog
 
+## 1.7.134 - 2026-09-12
+
+### Psalm Moodle 5.3 admin alias compatibility
+
+- Replaced the Psalm global types based on Moodle's legacy `admin_root` and `admin_settingpage` names with two
+  minimal analysis-only contracts declared in the existing stub. They expose only `$ADMIN->fulltree` and
+  `$settings->add()`, the members used by the plugin settings file.
+- Rejected the Moodle 5.3 Psalm crash from the 1.7.133 matrix as a baseline. Psalm 6.16.1 completed on Moodle 5.0
+  with 56 advisory findings, but Moodle 5.3's runtime `admin_root` alias had no Psalm class storage. Installation,
+  strict validation, PHPUnit, Behat, Grunt, PHPCS, PHPStan and PHPMD completed successfully in all applicable jobs.
+- Kept the three framework globals declared explicitly without using `mixed`, modifying production code or
+  broadening any suppression. PHPStan remains at zero findings with unmatched-ignore reporting enabled.
+
+## 1.7.133 - 2026-09-12
+
+### Moodle loader-global analysis contract
+
+- Removed the three loader-contract `@var` annotations rejected by Moodle PHPCS in `settings.php` and
+  `version.php`. Psalm now declares `$ADMIN`, `$settings` and `$plugin` through its native typed `globals`
+  configuration; PHPStan uses two path-specific `variable.undefined` rules limited to those framework-injected
+  names and retains unmatched-ignore reporting.
+- Accepted the 1.7.132 static-analysis result: PHPStan reached zero findings and Psalm decreased from 136 to 57 on
+  both Moodle 5.0 and 5.3. PHPUnit, Behat, Grunt, installation and strict validation passed across the six jobs;
+  only the three PHPCS formatting errors blocked the Moodle 5.0/MariaDB job.
+- Kept all runtime behaviour, analysis scopes and the remaining seventeen accepted loader annotations unchanged.
+  No executable PHP, AMD, database or API file is modified.
+
+## 1.7.132 - 2026-09-12
+
+### Moodle-injected global type contracts
+
+- Added narrow `@var` declarations for the Moodle globals and loader-provided containers used by ten production
+  entry-point, CLI, settings, version and backup/restore files. The declarations document the existing framework
+  contract without assigning values, changing execution order or adding analyser suppressions.
+- Targeted all 137 remaining PHPStan `variable.undefined` findings and the corresponding 78 Psalm
+  `UndefinedGlobalVariable` findings measured identically on Moodle 5.0 and 5.3.
+- Accepted the complete 1.7.131 result: all GitHub and server gates passed; PHPStan reported 137 findings, Psalm
+  136 findings and the reviewed PHPMD ruleset 161 findings. Browser verification remains explicitly deferred.
+
 ## 1.7.131 - 2026-09-12
 
 ### Psalm PHP 8.2 override policy

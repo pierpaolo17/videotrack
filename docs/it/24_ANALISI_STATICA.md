@@ -108,3 +108,17 @@ produzione; nessun file runtime o perimetro di analisi viene modificato.
 La release 1.7.131 disabilita quindi la policy opzionale sull'attributo override, perché applicare l'attributo nativo
 suggerito violerebbe il minimo PHP 8.2 supportato. I 104 finding stilistici risultanti non sono accettati come difetti
 del codice.
+La matrice 1.7.131 verificata riporta 137 finding PHPStan, tutti con identificatore `variable.undefined`, e 136
+finding Psalm su ciascun ramo Moodle analizzato. La release 1.7.132 documenta le variabili globali iniettate dai
+loader Moodle con dichiarazioni `@var` circoscritte nei dieci file di produzione interessati. Queste dichiarazioni
+sono neutre a runtime e non sostituiscono valori del framework né inizializzazioni eseguibili.
+La matrice 1.7.132 conferma zero finding PHPStan e 57 finding Psalm su entrambi i rami. La release 1.7.133 modifica
+le tre annotazioni rifiutate da Moodle PHPCS in `settings.php` e `version.php`: Psalm usa la configurazione nativa
+tipizzata `globals`, mentre PHPStan include due regole specifiche per percorso che corrispondono soltanto ai nomi
+iniettati dal framework. Il controllo degli ignore non più utilizzati resta attivo e tutti i perimetri rimangono
+invariati.
+La matrice 1.7.133 conferma che PHPStan resta pulito e che Psalm completa con 56 finding su Moodle 5.0, ma rifiuta
+l'esecuzione Psalm su Moodle 5.3 perché l'alias runtime di compatibilità `admin_root` non dispone di uno storage
+Psalm. La release 1.7.134 mantiene i globali tipizzati tramite due contratti minimi riservati all'analisi nello stub
+esistente, limitati a `$ADMIN->fulltree` e `$settings->add()`, senza modificare il codice di produzione o usare
+`mixed`.

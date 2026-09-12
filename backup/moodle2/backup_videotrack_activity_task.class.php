@@ -24,6 +24,7 @@
 
 defined('MOODLE_INTERNAL') || die();
 
+/** @var stdClass $CFG Moodle configuration injected by the backup subsystem. */
 require_once($CFG->dirroot . '/mod/videotrack/backup/moodle2/backup_videotrack_stepslib.php');
 
 /**

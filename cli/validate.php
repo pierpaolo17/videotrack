@@ -25,6 +25,9 @@
 define('CLI_SCRIPT', true);
 
 require(__DIR__ . '/../../../config.php');
+
+/** @var stdClass $CFG Moodle configuration initialised by config.php. */
+/** @var moodle_database $DB Moodle database connection initialised by config.php. */
 require_once($CFG->libdir . '/clilib.php');
 require_once($CFG->libdir . '/ddllib.php');
 

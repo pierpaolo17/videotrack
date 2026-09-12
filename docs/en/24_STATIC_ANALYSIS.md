@@ -103,3 +103,15 @@ findings. Release 1.7.130 begins remediation by loading the real Moodle upgrade,
 definitions needed by the production scope; no runtime file or analysis scope is changed.
 Release 1.7.131 then disables the optional override-attribute policy because applying its suggested native attribute
 would violate the supported PHP 8.2 minimum. The 104 resulting style findings are not accepted as code defects.
+The verified 1.7.131 matrix reports 137 PHPStan findings, all with the `variable.undefined` identifier, and 136
+Psalm findings on each analysed Moodle branch. Release 1.7.132 documents Moodle's loader-injected global variables
+with narrow `@var` declarations in the ten affected production files. These declarations are analysis-neutral at
+runtime and replace neither framework values nor executable initialisation.
+The 1.7.132 matrix confirms zero PHPStan findings and 57 Psalm findings on both branches. Release 1.7.133 changes
+the three annotations that Moodle PHPCS rejected in `settings.php` and `version.php`: Psalm uses its native typed
+`globals` configuration, while PHPStan has two path-specific rules matching only the framework-injected names.
+Unmatched-ignore reporting remains active, and all analyser scopes are unchanged.
+The 1.7.133 matrix confirms PHPStan remains clean and Psalm completes with 56 findings on Moodle 5.0, but rejects
+the Moodle 5.3 Psalm run because the runtime `admin_root` compatibility alias has no Psalm class storage. Release
+1.7.134 keeps the globals typed through two minimal analysis-only contracts in the existing stub, covering only
+`$ADMIN->fulltree` and `$settings->add()` without changing production code or using `mixed`.
