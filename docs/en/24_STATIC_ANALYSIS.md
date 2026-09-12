@@ -123,3 +123,8 @@ The verified 1.7.135 matrix reports zero PHPStan findings and 27 identical Psalm
 Release 1.7.136 adds Moodle's stable `CONTEXT_MODULE = 70` value to the Psalm-only stub because the analyser does
 not index the runtime `define()` reached through `accesslib.php`. This targets the six remaining
 `UndefinedConstant` findings without modifying production code or suppressing other issue types.
+
+The verified 1.7.136 matrix showed that the global stub declaration did not resolve unqualified constant lookup
+inside VideoTrack namespaces: Psalm remained at 27 findings, including all six `UndefinedConstant` results. Release
+1.7.137 replaces it with equivalent analysis-only declarations in `mod_videotrack\local` and
+`mod_videotrack\privacy`, the two namespaces that contain the affected uses. Runtime resolution remains unchanged.

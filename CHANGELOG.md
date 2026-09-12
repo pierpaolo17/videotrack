@@ -1,5 +1,17 @@
 # VideoTrack changelog
 
+## 1.7.137 - 2026-09-12
+
+### Psalm namespaced Moodle context contract
+
+- Replaced the ineffective global `CONTEXT_MODULE` stub declaration from 1.7.136 with analysis-only declarations in
+  the two namespaces where VideoTrack resolves the Moodle constant: `mod_videotrack\local` and
+  `mod_videotrack\privacy`.
+- Preserved the runtime fallback to Moodle's global `CONTEXT_MODULE = 70`; production files, context selection,
+  privacy behaviour and the analyser scope remain unchanged.
+- Accepted the complete 1.7.136 matrix: all functional gates passed, PHPStan remained at zero, but Psalm remained at
+  27 identical findings on Moodle 5.0 and 5.3 because all six `UndefinedConstant` findings survived the global stub.
+
 ## 1.7.136 - 2026-09-12
 
 ### Psalm Moodle context constant contract

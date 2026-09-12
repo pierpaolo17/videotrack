@@ -1,6 +1,6 @@
 # Documentation audit
 
-Baseline: VideoTrack **1.7.136** (`2026091206`).
+Baseline: VideoTrack **1.7.137** (`2026091207`).
 
 ## Scope
 
@@ -33,7 +33,7 @@ not duplicate implementation procedures, field dictionaries or long security/pri
 ## Current-tree findings
 
 - English and Italian indexes have matching scope and ordering.
-- Documentation markers, root README files and ER artefacts identify 1.7.136 / 2026091206.
+- Documentation markers, root README files and ER artefacts identify 1.7.137 / 2026091207.
 - The activity identity includes a 1024-pixel `pix/icon.png` and an accessible native `pix/icon.svg` derived from
   the same maintainer-supplied artwork.
 - `db/install.xml` declares seven primary keys, 22 stable foreign keys and 22 explicit indexes. XMLDB generates an

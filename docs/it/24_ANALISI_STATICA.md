@@ -131,3 +131,8 @@ La matrice 1.7.135 verificata riporta zero finding PHPStan e 27 finding Psalm id
 release 1.7.136 aggiunge il valore stabile Moodle `CONTEXT_MODULE = 70` allo stub riservato a Psalm, poiché
 l'analizzatore non indicizza la chiamata runtime a `define()` raggiunta tramite `accesslib.php`. La modifica affronta
 i sei finding `UndefinedConstant` residui senza cambiare il codice di produzione o sopprimere altri tipi di rilievo.
+
+La matrice 1.7.136 verificata ha mostrato che la dichiarazione globale nello stub non risolve la ricerca delle
+costanti non qualificate dentro i namespace VideoTrack: Psalm è rimasto a 27 finding, inclusi tutti e sei gli
+`UndefinedConstant`. La release 1.7.137 la sostituisce con dichiarazioni equivalenti e riservate all'analisi nei
+namespace `mod_videotrack\local` e `mod_videotrack\privacy`. La risoluzione runtime resta invariata.
