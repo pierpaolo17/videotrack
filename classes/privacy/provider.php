@@ -171,7 +171,7 @@ class provider implements
         // This gives database optimisers a simpler plan on large installations
         // and mirrors get_users_in_context().
         $params = [
-            'contextmodule' => CONTEXT_MODULE,
+            'contextmodule' => \core\context\module::LEVEL,
             'userid1' => $userid,
             'userid2' => $userid,
             'userid3' => $userid,
@@ -205,7 +205,7 @@ class provider implements
      */
     public static function get_users_in_context(userlist $userlist): void {
         $context = $userlist->get_context();
-        if ($context->contextlevel != CONTEXT_MODULE) {
+        if ($context->contextlevel != \core\context\module::LEVEL) {
             return;
         }
 
@@ -241,7 +241,7 @@ class provider implements
 
         $userid = $contextlist->get_user()->id;
         foreach ($contextlist->get_contexts() as $context) {
-            if ($context->contextlevel != CONTEXT_MODULE) {
+            if ($context->contextlevel != \core\context\module::LEVEL) {
                 continue;
             }
 
@@ -591,7 +591,7 @@ class provider implements
      * @param context $context Moodle context.
      */
     public static function delete_data_for_all_users_in_context(context $context): void {
-        if ($context->contextlevel != CONTEXT_MODULE) {
+        if ($context->contextlevel != \core\context\module::LEVEL) {
             return;
         }
 
@@ -629,7 +629,7 @@ class provider implements
      * @param array $userids User ids.
      */
     protected static function delete_records_for_users_in_context(context $context, array $userids): void {
-        if ($context->contextlevel != CONTEXT_MODULE || empty($userids)) {
+        if ($context->contextlevel != \core\context\module::LEVEL || empty($userids)) {
             return;
         }
 

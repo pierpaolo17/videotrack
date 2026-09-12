@@ -73,7 +73,7 @@ final class analytics_scope {
                  AND vf.filename <> :directoryfilename";
             $where .= ' AND vf.contenthash = :contenthash';
             $params += [
-                'modulecontext' => CONTEXT_MODULE,
+                'modulecontext' => \core\context\module::LEVEL,
                 'filecomponent' => 'mod_videotrack',
                 'filearea' => 'videocontent',
                 'directoryfilename' => '.',

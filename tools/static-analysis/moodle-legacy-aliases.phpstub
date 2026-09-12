@@ -15,7 +15,7 @@
 // along with Moodle.  If not, see <https://www.gnu.org/licenses/>.
 
 /**
- * Psalm-only declarations for Moodle legacy class aliases used by supported branches.
+ * Psalm-only declarations for Moodle runtime symbols used by supported branches.
  *
  * @package   mod_videotrack
  * @copyright 2026 videotrack contributors

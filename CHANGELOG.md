@@ -1,5 +1,42 @@
 # VideoTrack changelog
 
+## 1.7.138 - 2026-09-12
+
+### Canonical Moodle context level API
+
+- Replaced the six remaining namespaced `CONTEXT_MODULE` references with Moodle's public
+  `\core\context\module::LEVEL` constant, which exposes the same framework-owned numeric value through an
+  autoloadable class symbol supported since Moodle 4.2.
+- Removed the ineffective global and namespaced constant declarations introduced in the Psalm-only stub by
+  releases 1.7.136 and 1.7.137; the existing legacy class contracts remain unchanged.
+- Accepted the complete 1.7.137 matrix: all functional gates passed and PHPStan remained at zero, but Psalm remained
+  at 27 identical findings on Moodle 5.0 and 5.3 because all six `UndefinedConstant` findings survived both stub
+  declaration forms.
+
+## 1.7.137 - 2026-09-12
+
+### Psalm namespaced Moodle context contract
+
+- Replaced the ineffective global `CONTEXT_MODULE` stub declaration from 1.7.136 with analysis-only declarations in
+  the two namespaces where VideoTrack resolves the Moodle constant: `mod_videotrack\local` and
+  `mod_videotrack\privacy`.
+- Preserved the runtime fallback to Moodle's global `CONTEXT_MODULE = 70`; production files, context selection,
+  privacy behaviour and the analyser scope remain unchanged.
+- Accepted the complete 1.7.136 matrix: all functional gates passed, PHPStan remained at zero, but Psalm remained at
+  27 identical findings on Moodle 5.0 and 5.3 because all six `UndefinedConstant` findings survived the global stub.
+
+## 1.7.136 - 2026-09-12
+
+### Psalm Moodle context constant contract
+
+- Declared `CONTEXT_MODULE = 70` statically in the existing Psalm-only Moodle stub. Moodle defines the same stable
+  value dynamically in `lib/accesslib.php`; Psalm does not index that runtime `define()` through the bootstrap even
+  when `allConstantsGlobal` is enabled.
+- Targeted all six remaining `UndefinedConstant` findings in `analytics_scope` and the privacy provider without
+  changing production code, context selection, privacy behaviour or the analyser scope.
+- Accepted the complete 1.7.135 result: PHPStan remained at zero and Psalm decreased from 56 to 27 identical
+  findings on Moodle 5.0 and 5.3; PHPMD remained at 161 and all GitHub and server gates passed.
+
 ## 1.7.135 - 2026-09-12
 
 ### Namespaced PHPDoc type resolution

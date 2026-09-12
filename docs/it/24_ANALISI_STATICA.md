@@ -127,3 +127,18 @@ La release 1.7.135 qualifica dodici nomi di tipo globali nei PHPDoc di `tracker`
 `UndefinedDocblockClass` diretti e sedici propagati. Il rilievo residuo `xmlddb_field` proviene dal DocBlock di
 ritorno di `xmldb_table::add_field()` in Moodle e rimane visibile invece di essere nascosto da una soppressione nel
 plugin.
+La matrice 1.7.135 verificata riporta zero finding PHPStan e 27 finding Psalm identici su entrambi i rami. La
+release 1.7.136 aggiunge il valore stabile Moodle `CONTEXT_MODULE = 70` allo stub riservato a Psalm, poiché
+l'analizzatore non indicizza la chiamata runtime a `define()` raggiunta tramite `accesslib.php`. La modifica affronta
+i sei finding `UndefinedConstant` residui senza cambiare il codice di produzione o sopprimere altri tipi di rilievo.
+
+La matrice 1.7.136 verificata ha mostrato che la dichiarazione globale nello stub non risolve la ricerca delle
+costanti non qualificate dentro i namespace VideoTrack: Psalm è rimasto a 27 finding, inclusi tutti e sei gli
+`UndefinedConstant`. La release 1.7.137 la sostituisce con dichiarazioni equivalenti e riservate all'analisi nei
+namespace `mod_videotrack\local` e `mod_videotrack\privacy`. La risoluzione runtime resta invariata.
+
+La matrice 1.7.137 verificata ha mostrato che Psalm 6.16.1 ignora anche le dichiarazioni di costante nei namespace:
+entrambi i rami Moodle sono rimasti sugli stessi 27 finding. La release 1.7.138 usa la costante pubblica Moodle
+`\core\context\module::LEVEL` nei sei riferimenti interessati e rimuove le dichiarazioni inefficaci dallo stub.
+Moodle documenta questo simbolo autocaricabile come livello numerico equivalente al precedente `CONTEXT_MODULE`,
+quindi la semantica runtime resta invariata e l'analizzatore riceve una normale costante di classe.
