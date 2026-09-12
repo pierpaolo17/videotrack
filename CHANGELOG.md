@@ -1,5 +1,17 @@
 # VideoTrack changelog
 
+## 1.7.131 - 2026-09-12
+
+### Psalm PHP 8.2 override policy
+
+- Disabled Psalm's optional `ensureOverrideAttribute` policy explicitly. VideoTrack supports Moodle 5.0 on PHP
+  8.2, while the native `#[\Override]` attribute is available only from PHP 8.3; adding it to production methods
+  would therefore break the supported minimum runtime.
+- Kept inheritance analysis active: only the attribute-presence style check is disabled, with no generated
+  baseline, issue suppression or reduction of the production scan.
+- Accepted the 1.7.130 remediation result: PHPStan decreased from 366 to 137 findings and Psalm from 468 to 240 on
+  both Moodle 5.0 and 5.3; PHPMD remained at 161 reviewed findings. GitHub and server validation gates passed.
+
 ## 1.7.130 - 2026-09-11
 
 ### Static-analysis Moodle API graph

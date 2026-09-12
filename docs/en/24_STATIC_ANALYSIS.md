@@ -32,6 +32,10 @@ its database must be reachable.
 `renderable` compatibility name as extending `core\output\renderable`. This represents Moodle 5.0's runtime alias in
 a form Psalm can index; stub files are parsed for declarations, so an executable `class_alias()` call is ineffective.
 
+Psalm's optional `ensureOverrideAttribute` policy is explicitly disabled. The native `#[\Override]` attribute is a
+PHP 8.3 feature, while the supported Moodle 5.0 matrix includes PHP 8.2. Inheritance and signature analysis remain
+enabled; only the incompatible attribute-presence style rule is disabled.
+
 ## Maintainer command
 
 From the Moodle root, after synchronising the exact candidate:
@@ -97,3 +101,5 @@ global interface declaration that Psalm can index. The 1.7.129 matrix then compl
 366 findings and Psalm 468 findings on both Moodle 5.0 and 5.3, while the reviewed PHPMD ruleset reported 161
 findings. Release 1.7.130 begins remediation by loading the real Moodle upgrade, CLI, group and Forum external API
 definitions needed by the production scope; no runtime file or analysis scope is changed.
+Release 1.7.131 then disables the optional override-attribute policy because applying its suggested native attribute
+would violate the supported PHP 8.2 minimum. The 104 resulting style findings are not accepted as code defects.
