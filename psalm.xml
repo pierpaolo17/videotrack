@@ -9,6 +9,7 @@
     hideExternalErrors="true"
     allFunctionsGlobal="true"
     allConstantsGlobal="true"
+    ensureOverrideAttribute="false"
     findUnusedCode="false"
     findUnusedBaselineEntry="true"
 >

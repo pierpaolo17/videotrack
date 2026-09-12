@@ -33,6 +33,11 @@ globale di compatibilità `renderable` come estensione di `core\output\renderabl
 di Moodle 5.0 in una forma indicizzabile da Psalm: gli stub vengono analizzati per le dichiarazioni, mentre una
 chiamata eseguibile a `class_alias()` non è efficace.
 
+La policy opzionale Psalm `ensureOverrideAttribute` è disabilitata esplicitamente. L'attributo nativo
+`#[\Override]` è disponibile da PHP 8.3, mentre la matrice Moodle 5.0 supportata include PHP 8.2. L'analisi di
+ereditarietà e firme resta attiva; viene disabilitata soltanto la regola stilistica incompatibile sulla presenza
+dell'attributo.
+
 ## Comando maintainer
 
 Dalla root Moodle, dopo aver sincronizzato l'esatta candidata:
@@ -100,3 +105,6 @@ Psalm non elabora lì quella istruzione come dichiarazione di classe e ha ripetu
 su Moodle 5.3, mentre il ruleset PHPMD revisionato ne ha rilevati 161. La release 1.7.130 avvia il risanamento
 caricando le vere definizioni Moodle di upgrade, CLI, gruppi e API esterna Forum richieste dal perimetro di
 produzione; nessun file runtime o perimetro di analisi viene modificato.
+La release 1.7.131 disabilita quindi la policy opzionale sull'attributo override, perché applicare l'attributo nativo
+suggerito violerebbe il minimo PHP 8.2 supportato. I 104 finding stilistici risultanti non sono accettati come difetti
+del codice.
