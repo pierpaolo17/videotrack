@@ -136,3 +136,9 @@ La matrice 1.7.136 verificata ha mostrato che la dichiarazione globale nello stu
 costanti non qualificate dentro i namespace VideoTrack: Psalm è rimasto a 27 finding, inclusi tutti e sei gli
 `UndefinedConstant`. La release 1.7.137 la sostituisce con dichiarazioni equivalenti e riservate all'analisi nei
 namespace `mod_videotrack\local` e `mod_videotrack\privacy`. La risoluzione runtime resta invariata.
+
+La matrice 1.7.137 verificata ha mostrato che Psalm 6.16.1 ignora anche le dichiarazioni di costante nei namespace:
+entrambi i rami Moodle sono rimasti sugli stessi 27 finding. La release 1.7.138 usa la costante pubblica Moodle
+`\core\context\module::LEVEL` nei sei riferimenti interessati e rimuove le dichiarazioni inefficaci dallo stub.
+Moodle documenta questo simbolo autocaricabile come livello numerico equivalente al precedente `CONTEXT_MODULE`,
+quindi la semantica runtime resta invariata e l'analizzatore riceve una normale costante di classe.

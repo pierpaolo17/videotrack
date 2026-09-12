@@ -128,3 +128,9 @@ The verified 1.7.136 matrix showed that the global stub declaration did not reso
 inside VideoTrack namespaces: Psalm remained at 27 findings, including all six `UndefinedConstant` results. Release
 1.7.137 replaces it with equivalent analysis-only declarations in `mod_videotrack\local` and
 `mod_videotrack\privacy`, the two namespaces that contain the affected uses. Runtime resolution remains unchanged.
+
+The verified 1.7.137 matrix showed that Psalm 6.16.1 also ignored the namespaced constant declarations: both Moodle
+branches remained at the same 27 findings. Release 1.7.138 uses Moodle's public `\core\context\module::LEVEL` class
+constant for the six affected references and removes the ineffective stub declarations. Moodle documents this
+autoloadable constant as the numeric context level matching legacy `CONTEXT_MODULE`, so runtime semantics remain
+unchanged while the analyser receives a normal class-constant symbol.

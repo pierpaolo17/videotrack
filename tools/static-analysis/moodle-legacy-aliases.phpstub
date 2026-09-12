@@ -22,45 +22,33 @@
  * @license   https://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 
-namespace mod_videotrack\local {
-    /** Course-module context level resolved through Moodle's global runtime fallback. */
-    const CONTEXT_MODULE = 70;
+/**
+ * Static representation of Moodle 5.0's global renderable compatibility alias.
+ *
+ * Psalm parses stub declarations but does not execute class_alias(), so the legacy name must be declared.
+ */
+interface renderable extends \core\output\renderable {
 }
 
-namespace mod_videotrack\privacy {
-    /** Course-module context level resolved through Moodle's global runtime fallback. */
-    const CONTEXT_MODULE = 70;
+/**
+ * Psalm-only contract for the admin tree injected into plugin settings files.
+ *
+ * Moodle 5.3 exposes the legacy admin_root name through class_alias(). Psalm does not create class storage for
+ * that runtime alias, so the configured global uses this stable, analysis-only contract instead.
+ */
+abstract class mod_videotrack_psalm_admin_root {
+    /** @var bool Whether the complete settings tree is being built. */
+    public bool $fulltree;
 }
 
-namespace {
+/**
+ * Psalm-only contract for the settings page injected into plugin settings files.
+ */
+abstract class mod_videotrack_psalm_admin_settingpage {
     /**
-     * Static representation of Moodle 5.0's global renderable compatibility alias.
+     * Add a setting to the page.
      *
-     * Psalm parses stub declarations but does not execute class_alias(), so the legacy name must be declared.
+     * @param mixed $setting Moodle admin setting instance.
      */
-    interface renderable extends \core\output\renderable {
-    }
-
-    /**
-     * Psalm-only contract for the admin tree injected into plugin settings files.
-     *
-     * Moodle 5.3 exposes the legacy admin_root name through class_alias(). Psalm does not create class storage for
-     * that runtime alias, so the configured global uses this stable, analysis-only contract instead.
-     */
-    abstract class mod_videotrack_psalm_admin_root {
-        /** @var bool Whether the complete settings tree is being built. */
-        public bool $fulltree;
-    }
-
-    /**
-     * Psalm-only contract for the settings page injected into plugin settings files.
-     */
-    abstract class mod_videotrack_psalm_admin_settingpage {
-        /**
-         * Add a setting to the page.
-         *
-         * @param mixed $setting Moodle admin setting instance.
-         */
-        abstract public function add(mixed $setting): void;
-    }
+    abstract public function add(mixed $setting): void;
 }

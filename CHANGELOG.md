@@ -1,5 +1,18 @@
 # VideoTrack changelog
 
+## 1.7.138 - 2026-09-12
+
+### Canonical Moodle context level API
+
+- Replaced the six remaining namespaced `CONTEXT_MODULE` references with Moodle's public
+  `\core\context\module::LEVEL` constant, which exposes the same framework-owned numeric value through an
+  autoloadable class symbol supported since Moodle 4.2.
+- Removed the ineffective global and namespaced constant declarations introduced in the Psalm-only stub by
+  releases 1.7.136 and 1.7.137; the existing legacy class contracts remain unchanged.
+- Accepted the complete 1.7.137 matrix: all functional gates passed and PHPStan remained at zero, but Psalm remained
+  at 27 identical findings on Moodle 5.0 and 5.3 because all six `UndefinedConstant` findings survived both stub
+  declaration forms.
+
 ## 1.7.137 - 2026-09-12
 
 ### Psalm namespaced Moodle context contract
