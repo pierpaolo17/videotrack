@@ -127,3 +127,7 @@ La release 1.7.135 qualifica dodici nomi di tipo globali nei PHPDoc di `tracker`
 `UndefinedDocblockClass` diretti e sedici propagati. Il rilievo residuo `xmlddb_field` proviene dal DocBlock di
 ritorno di `xmldb_table::add_field()` in Moodle e rimane visibile invece di essere nascosto da una soppressione nel
 plugin.
+La matrice 1.7.135 verificata riporta zero finding PHPStan e 27 finding Psalm identici su entrambi i rami. La
+release 1.7.136 aggiunge il valore stabile Moodle `CONTEXT_MODULE = 70` allo stub riservato a Psalm, poiché
+l'analizzatore non indicizza la chiamata runtime a `define()` raggiunta tramite `accesslib.php`. La modifica affronta
+i sei finding `UndefinedConstant` residui senza cambiare il codice di produzione o sopprimere altri tipi di rilievo.

@@ -1,5 +1,17 @@
 # VideoTrack changelog
 
+## 1.7.136 - 2026-09-12
+
+### Psalm Moodle context constant contract
+
+- Declared `CONTEXT_MODULE = 70` statically in the existing Psalm-only Moodle stub. Moodle defines the same stable
+  value dynamically in `lib/accesslib.php`; Psalm does not index that runtime `define()` through the bootstrap even
+  when `allConstantsGlobal` is enabled.
+- Targeted all six remaining `UndefinedConstant` findings in `analytics_scope` and the privacy provider without
+  changing production code, context selection, privacy behaviour or the analyser scope.
+- Accepted the complete 1.7.135 result: PHPStan remained at zero and Psalm decreased from 56 to 27 identical
+  findings on Moodle 5.0 and 5.3; PHPMD remained at 161 and all GitHub and server gates passed.
+
 ## 1.7.135 - 2026-09-12
 
 ### Namespaced PHPDoc type resolution

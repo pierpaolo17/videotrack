@@ -15,12 +15,20 @@
 // along with Moodle.  If not, see <https://www.gnu.org/licenses/>.
 
 /**
- * Psalm-only declarations for Moodle legacy class aliases used by supported branches.
+ * Psalm-only declarations for Moodle runtime symbols used by supported branches.
  *
  * @package   mod_videotrack
  * @copyright 2026 videotrack contributors
  * @license   https://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
+
+/**
+ * Course-module context level declared dynamically by Moodle's accesslib.php.
+ *
+ * Psalm parses static constant declarations in stub files but does not index this value from Moodle's runtime
+ * define() call reached through the analysis bootstrap.
+ */
+const CONTEXT_MODULE = 70;
 
 /**
  * Static representation of Moodle 5.0's global renderable compatibility alias.

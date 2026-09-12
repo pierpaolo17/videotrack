@@ -119,3 +119,7 @@ The verified 1.7.134 matrix completes with zero PHPStan findings and 56 identica
 Release 1.7.135 qualifies twelve global PHPDoc type names in `tracker`, targeting thirteen direct and sixteen
 propagated `UndefinedDocblockClass` findings. The remaining `xmlddb_field` report originates in Moodle's
 `xmldb_table::add_field()` return DocBlock and remains visible rather than being hidden by a plugin suppression.
+The verified 1.7.135 matrix reports zero PHPStan findings and 27 identical Psalm findings on both branches.
+Release 1.7.136 adds Moodle's stable `CONTEXT_MODULE = 70` value to the Psalm-only stub because the analyser does
+not index the runtime `define()` reached through `accesslib.php`. This targets the six remaining
+`UndefinedConstant` findings without modifying production code or suppressing other issue types.
