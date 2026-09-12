@@ -24,6 +24,7 @@
 
 defined('MOODLE_INTERNAL') || die();
 
+/** @var stdClass $CFG Moodle configuration provided by the activity form loader. */
 require_once($CFG->dirroot . '/course/moodleform_mod.php');
 require_once(__DIR__ . '/locallib.php');
 

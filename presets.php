@@ -30,6 +30,9 @@
  */
 
 require_once(__DIR__ . '/../../config.php');
+
+/** @var moodle_page $PAGE Moodle page initialised by config.php. */
+/** @var core_renderer $OUTPUT Moodle renderer initialised by config.php. */
 require_once(__DIR__ . '/locallib.php');
 
 require_login();

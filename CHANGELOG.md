@@ -1,5 +1,17 @@
 # VideoTrack changelog
 
+## 1.7.132 - 2026-09-12
+
+### Moodle-injected global type contracts
+
+- Added narrow `@var` declarations for the Moodle globals and loader-provided containers used by ten production
+  entry-point, CLI, settings, version and backup/restore files. The declarations document the existing framework
+  contract without assigning values, changing execution order or adding analyser suppressions.
+- Targeted all 137 remaining PHPStan `variable.undefined` findings and the corresponding 78 Psalm
+  `UndefinedGlobalVariable` findings measured identically on Moodle 5.0 and 5.3.
+- Accepted the complete 1.7.131 result: all GitHub and server gates passed; PHPStan reported 137 findings, Psalm
+  136 findings and the reviewed PHPMD ruleset 161 findings. Browser verification remains explicitly deferred.
+
 ## 1.7.131 - 2026-09-12
 
 ### Psalm PHP 8.2 override policy

@@ -108,3 +108,7 @@ produzione; nessun file runtime o perimetro di analisi viene modificato.
 La release 1.7.131 disabilita quindi la policy opzionale sull'attributo override, perché applicare l'attributo nativo
 suggerito violerebbe il minimo PHP 8.2 supportato. I 104 finding stilistici risultanti non sono accettati come difetti
 del codice.
+La matrice 1.7.131 verificata riporta 137 finding PHPStan, tutti con identificatore `variable.undefined`, e 136
+finding Psalm su ciascun ramo Moodle analizzato. La release 1.7.132 documenta le variabili globali iniettate dai
+loader Moodle con dichiarazioni `@var` circoscritte nei dieci file di produzione interessati. Queste dichiarazioni
+sono neutre a runtime e non sostituiscono valori del framework né inizializzazioni eseguibili.

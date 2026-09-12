@@ -103,3 +103,7 @@ findings. Release 1.7.130 begins remediation by loading the real Moodle upgrade,
 definitions needed by the production scope; no runtime file or analysis scope is changed.
 Release 1.7.131 then disables the optional override-attribute policy because applying its suggested native attribute
 would violate the supported PHP 8.2 minimum. The 104 resulting style findings are not accepted as code defects.
+The verified 1.7.131 matrix reports 137 PHPStan findings, all with the `variable.undefined` identifier, and 136
+Psalm findings on each analysed Moodle branch. Release 1.7.132 documents Moodle's loader-injected global variables
+with narrow `@var` declarations in the ten affected production files. These declarations are analysis-neutral at
+runtime and replace neither framework values nor executable initialisation.

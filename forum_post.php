@@ -23,6 +23,12 @@
  */
 
 require_once(__DIR__ . '/../../config.php');
+
+/** @var stdClass $CFG Moodle configuration initialised by config.php. */
+/** @var moodle_database $DB Moodle database connection initialised by config.php. */
+/** @var moodle_page $PAGE Moodle page initialised by config.php. */
+/** @var core_renderer $OUTPUT Moodle renderer initialised by config.php. */
+/** @var stdClass $USER Current Moodle user initialised by config.php. */
 require_once(__DIR__ . '/lib.php');
 require_once(__DIR__ . '/locallib.php');
 require_once($CFG->libdir . '/formslib.php');

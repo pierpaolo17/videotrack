@@ -25,6 +25,8 @@
 
 defined('MOODLE_INTERNAL') || die();
 
+/** @var admin_root $ADMIN Moodle administration tree. */
+/** @var admin_settingpage $settings VideoTrack settings page. */
 if ($ADMIN->fulltree) {
     // Show a persistent admin warning when GD is not available.
     if (!function_exists('imagecreatefromstring')) {
