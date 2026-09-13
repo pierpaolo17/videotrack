@@ -1,5 +1,18 @@
 # VideoTrack changelog
 
+## 1.7.142 - 2026-09-13
+
+### PHPStan Moodle entry-point global contracts
+
+- Restored the 20 typed declarations for the `$CFG`, `$DB`, `$OUTPUT`, `$PAGE` and `$USER` objects created by
+  Moodle's `config.php` in the five directly executed entry points. These declarations model the actual runtime
+  environment for PHPStan and do not assign, replace or mutate any global object.
+- Scoped the Moodle PHPCS `InlineComment.DocBlock` exception to those five declaration blocks. The exception covers
+  only the analyser contracts: every other Moodle commenting rule remains enabled and no PHPStan finding is ignored.
+- Accepted the complete 1.7.141 matrix as a diagnostic iteration: the functional gates in all six jobs, Moodle PHPCS
+  and Psalm passed, but removing the declarations caused PHPStan to report 202 `variable.undefined` findings
+  identically on Moodle 5.0 and 5.3. PHPMD remained at 161 reviewed advisory findings.
+
 ## 1.7.141 - 2026-09-13
 
 ### Psalm database global contract and Moodle PHPCS compatibility

@@ -166,3 +166,11 @@ rifiutato le 20 annotazioni `@var` monoriga isolate e la disposizione dei due pa
 1.7.141 rimuove quelle annotazioni non valide, formatta la closure secondo lo standard e dichiara una sola volta
 l'oggetto `moodle_database` fornito dal bootstrap Moodle nel contratto `<globals>` di Psalm. È una dichiarazione di
 tipo, non una soppressione; codice runtime e perimetro dell'analisi restano invariati.
+
+La matrice completa 1.7.141 ha confermato la rimozione del blocco PHPCS e di tutti gli errori Psalm, mantenendo verdi
+tutti i gate funzionali. Ha anche dimostrato perché le dichiarazioni nei cinque entry point non possono essere
+semplicemente eliminate: PHPStan ha prodotto 202 finding `variable.undefined` identici su Moodle 5.0 e 5.3, poiché
+non importa nello scope di ogni file analizzato separatamente le variabili create eseguendo il bootstrap `config.php`.
+La release 1.7.142 ripristina le 20 dichiarazioni tipizzate e disabilita soltanto lo sniff Moodle sui DocBlock inline
+attorno ai cinque blocchi dichiarativi. Le dichiarazioni non eseguono né modificano lo stato runtime e nessun
+identificatore o percorso PHPStan viene ignorato.

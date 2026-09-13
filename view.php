@@ -26,6 +26,14 @@ require_once(__DIR__ . '/../../config.php');
 require_once(__DIR__ . '/lib.php');
 require_once(__DIR__ . '/locallib.php');
 
+// phpcs:disable moodle.Commenting.InlineComment.DocBlock -- Static types for globals created by config.php.
+/** @var moodle_database $DB Moodle database connection initialised by config.php. */
+/** @var stdClass $USER Current Moodle user initialised by config.php. */
+/** @var stdClass $CFG Moodle configuration initialised by config.php. */
+/** @var moodle_page $PAGE Moodle page initialised by config.php. */
+/** @var core_renderer $OUTPUT Moodle renderer initialised by config.php. */
+// phpcs:enable moodle.Commenting.InlineComment.DocBlock
+
 $id = optional_param('id', 0, PARAM_INT);
 $n = optional_param('n', 0, PARAM_INT);
 $ackaction = optional_param('ackaction', '', PARAM_ALPHA);

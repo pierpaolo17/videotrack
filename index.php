@@ -24,6 +24,12 @@
 
 require_once(__DIR__ . '/../../config.php');
 
+// phpcs:disable moodle.Commenting.InlineComment.DocBlock -- Static types for globals created by config.php.
+/** @var moodle_database $DB Moodle database connection initialised by config.php. */
+/** @var core_renderer $OUTPUT Moodle renderer initialised by config.php. */
+/** @var moodle_page $PAGE Moodle page initialised by config.php. */
+// phpcs:enable moodle.Commenting.InlineComment.DocBlock
+
 $id = required_param('id', PARAM_INT);
 $course = $DB->get_record('course', ['id' => $id], '*', MUST_EXIST);
 require_login($course);
