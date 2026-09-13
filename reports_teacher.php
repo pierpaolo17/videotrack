@@ -28,7 +28,11 @@ require_once(__DIR__ . '/locallib.php');
 use mod_videotrack\local\analytics;
 use mod_videotrack\local\teacher_analytics;
 
-global $OUTPUT, $PAGE, $USER;
+// phpcs:disable moodle.Commenting.InlineComment.DocBlock -- Static types for globals created by config.php.
+/** @var core_renderer $OUTPUT Moodle renderer initialised by config.php. */
+/** @var moodle_page $PAGE Moodle page initialised by config.php. */
+/** @var stdClass $USER Current Moodle user initialised by config.php. */
+// phpcs:enable moodle.Commenting.InlineComment.DocBlock
 
 require_login();
 $courseid = optional_param('course', 0, PARAM_INT);

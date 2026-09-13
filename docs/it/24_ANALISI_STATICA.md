@@ -149,3 +149,28 @@ identici su Moodle 5.0 e 5.3 e 161 finding PHPMD revisionati. I sei `UndefinedCo
 il nome inesistente `xmlddb_field`, benché il metodo crei e restituisca `xmldb_field`. La release 1.7.139 dichiara
 quel nome esterno errato tramite un contratto minimo, riservato a Psalm e derivato da `xmldb_field`. Non modifica
 Moodle, le istruzioni storiche di upgrade VideoTrack o il caricamento runtime e non sopprime la categoria del rilievo.
+
+Le matrici 1.7.139 della branch di release e di `main` hanno confermato zero finding PHPStan, 20 finding Psalm
+identici su Moodle 5.0 e 5.3 e 161 finding PHPMD revisionati. Il finding XMLDB `UndefinedDocblockClass` è stato
+eliminato. I finding Psalm residui sono 18 `InvalidGlobal` e due `NoValue`. La release 1.7.140 sostituisce le
+importazioni `$CFG` al livello globale delle classi external autocaricate con include relativi deterministici,
+rimuove le dichiarazioni globali ridondanti dagli entry point diretti e porta le importazioni `$DB` condizionali
+nello scope delle rispettive funzioni. La closure che scarica i cluster CSV riceve utente ed eventi come argomenti
+tipizzati invece di catturarne per riferimento i valori iniziali vuoti. Nessun finding Psalm viene soppresso e il
+perimetro di produzione analizzato resta invariato.
+
+La matrice 1.7.140 ha verificato il delta statico previsto: tutti i 18 `InvalidGlobal` e i due `NoValue` sono
+scomparsi, lasciando quattro finding `UndefinedGlobalVariable` identici per `$DB` su Moodle 5.0 e 5.3. PHPStan è
+rimasto a zero e PHPMD a 161. L'unico job rosso è stato quello statico Moodle 5.0/MariaDB, perché Moodle PHPCS ha
+rifiutato le 20 annotazioni `@var` monoriga isolate e la disposizione dei due parametri della closure. La release
+1.7.141 rimuove quelle annotazioni non valide, formatta la closure secondo lo standard e dichiara una sola volta
+l'oggetto `moodle_database` fornito dal bootstrap Moodle nel contratto `<globals>` di Psalm. È una dichiarazione di
+tipo, non una soppressione; codice runtime e perimetro dell'analisi restano invariati.
+
+La matrice completa 1.7.141 ha confermato la rimozione del blocco PHPCS e di tutti gli errori Psalm, mantenendo verdi
+tutti i gate funzionali. Ha anche dimostrato perché le dichiarazioni nei cinque entry point non possono essere
+semplicemente eliminate: PHPStan ha prodotto 202 finding `variable.undefined` identici su Moodle 5.0 e 5.3, poiché
+non importa nello scope di ogni file analizzato separatamente le variabili create eseguendo il bootstrap `config.php`.
+La release 1.7.142 ripristina le 20 dichiarazioni tipizzate e disabilita soltanto lo sniff Moodle sui DocBlock inline
+attorno ai cinque blocchi dichiarativi. Le dichiarazioni non eseguono né modificano lo stato runtime e nessun
+identificatore o percorso PHPStan viene ignorato.

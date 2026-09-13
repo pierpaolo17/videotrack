@@ -466,6 +466,8 @@ class tracker {
         array $reactionsummary,
         array $requiredreactionids
     ): bool {
+        global $DB;
+
         $checks = [];
         if (!empty($videotrack->completionpercent)) {
             $checks[] = !empty($state) && (float)$state->completionpercent >= (float)$videotrack->completionpercent;
@@ -480,7 +482,6 @@ class tracker {
                 $reactionchecks[] = in_array((int)$reactionid, $reactionsummary['uniqueids'], true);
             }
             if (!empty($videotrack->requireallreactiontypes)) {
-                global $DB;
                 $allreactionids = array_map('intval', array_keys((array)$DB->get_records_menu('videotrack_react', [
                     'videotrackid' => $videotrack->id,
                     'isdeleted' => 0,

@@ -1388,11 +1388,12 @@ JS);
      * @return int Number of reaction rows.
      */
     protected function get_reaction_repeat_count(): int {
+        global $DB;
+
         $count = optional_param('reaction_repeats', 0, PARAM_INT);
         if ($count <= 0) {
             $activecount = 0;
             if (!empty($this->_instance)) {
-                global $DB;
                 $activecount = (int)$DB->count_records(
                     'videotrack_react',
                     ['videotrackid' => $this->_instance, 'isdeleted' => 0]
@@ -1827,7 +1828,7 @@ JS);
      * @return array Validation errors indexed by form element name.
      */
     public function validation($data, $files) {
-        global $COURSE;
+        global $COURSE, $DB;
         $errors = parent::validation($data, $files);
         $source = $data['videosource'] ?? 'youtube';
         if ($source === 'youtube') {
@@ -1907,7 +1908,6 @@ JS);
                 // Associated with this reaction and the draft area was not populated.
                 $reactionid  = (int)($reactionids[$i] ?? 0);
                 if (!$hasfile && $reactionid > 0 && !empty($this->_instance)) {
-                    global $DB;
                     $cm = get_coursemodule_from_instance('videotrack', $this->_instance, 0, false, IGNORE_MISSING);
                     if ($cm) {
                         $context = context_module::instance($cm->id);

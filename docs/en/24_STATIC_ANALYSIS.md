@@ -141,3 +141,26 @@ single `UndefinedDocblockClass` comes from Moodle's legacy `xmldb_table::add_fie
 non-existent `xmlddb_field` name although the method creates and returns `xmldb_field`. Release 1.7.139 declares
 that misspelled external name as a minimal Psalm-only subclass contract. It does not modify Moodle, the historical
 VideoTrack upgrade statements or runtime loading, and it does not suppress the issue category.
+
+The release and merged-main 1.7.139 matrices confirmed zero PHPStan findings, 20 identical Psalm findings on Moodle
+5.0 and 5.3, and 161 reviewed PHPMD findings. The XMLDB `UndefinedDocblockClass` finding is gone. The remaining Psalm
+set consists of 18 `InvalidGlobal` findings and two `NoValue` findings. Release 1.7.140 replaces top-level `$CFG`
+imports in autoloaded external classes with deterministic plugin-relative includes, removes redundant global-scope
+declarations from direct entry points, and moves conditional `$DB` imports to function scope. Its CSV cluster-flush
+closure receives the current user id and event buffer as typed arguments rather than capturing their initial empty
+values by reference. No Psalm issue is suppressed and the analysed production scope is unchanged.
+
+The 1.7.140 matrix verified the intended static delta: all 18 `InvalidGlobal` and both `NoValue` findings disappeared,
+leaving four identical `UndefinedGlobalVariable` findings for `$DB` on Moodle 5.0 and 5.3. PHPStan remained at zero
+and PHPMD at 161. The only red job was the static Moodle 5.0/MariaDB job because Moodle PHPCS rejected the 20
+standalone one-line `@var` annotations and the two-parameter closure layout. Release 1.7.141 removes those invalid
+annotations, formats the closure canonically and declares Moodle's bootstrap-provided `moodle_database` object once
+in Psalm's `<globals>` contract. This is a type declaration, not a suppression; runtime code and analysis scope remain
+unchanged.
+
+The complete 1.7.141 matrix confirmed that the PHPCS blocker and all Psalm errors were removed, while every
+functional gate continued to pass. It also exposed why the five entry-point declarations cannot simply be deleted:
+PHPStan reported 202 `variable.undefined` findings on both Moodle 5.0 and 5.3 because it does not import variables
+created by the executed `config.php` bootstrap into each separately analysed file scope. Release 1.7.142 restores
+those 20 typed declarations and disables only Moodle's inline-DocBlock sniff around their five declaration blocks.
+The declarations neither execute nor mutate runtime state, and no PHPStan error identifier or path is ignored.

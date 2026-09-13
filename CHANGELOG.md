@@ -1,5 +1,48 @@
 # VideoTrack changelog
 
+## 1.7.142 - 2026-09-13
+
+### PHPStan Moodle entry-point global contracts
+
+- Restored the 20 typed declarations for the `$CFG`, `$DB`, `$OUTPUT`, `$PAGE` and `$USER` objects created by
+  Moodle's `config.php` in the five directly executed entry points. These declarations model the actual runtime
+  environment for PHPStan and do not assign, replace or mutate any global object.
+- Scoped the Moodle PHPCS `InlineComment.DocBlock` exception to those five declaration blocks. The exception covers
+  only the analyser contracts: every other Moodle commenting rule remains enabled and no PHPStan finding is ignored.
+- Accepted the complete 1.7.141 matrix as a diagnostic iteration: the functional gates in all six jobs, Moodle PHPCS
+  and Psalm passed, but removing the declarations caused PHPStan to report 202 `variable.undefined` findings
+  identically on Moodle 5.0 and 5.3. PHPMD remained at 161 reviewed advisory findings.
+
+## 1.7.141 - 2026-09-13
+
+### Psalm database global contract and Moodle PHPCS compatibility
+
+- Removed the 20 standalone `@var` annotations added to five entry points in 1.7.140 because Moodle PHPCS correctly
+  treats unattached one-line DocBlocks as invalid inline documentation.
+- Declared Moodle's bootstrap-provided `$DB` object once in Psalm's typed global contract. This models the real
+  `config.php` environment for the four remaining `UndefinedGlobalVariable` findings without changing runtime code,
+  suppressing an issue or excluding a file.
+- Reformatted the typed CSV cluster-flush closure with one parameter per line, as required by the Moodle standard.
+- The 1.7.140 matrix confirmed that the previous 18 `InvalidGlobal` and two `NoValue` findings were eliminated:
+  PHPStan remained at zero and Psalm fell from 20 to four on both analysed Moodle branches. All functional gates
+  passed; only Moodle PHPCS blocked the static Moodle 5.0/MariaDB job. PHPMD remained at 161 reviewed findings.
+
+## 1.7.140 - 2026-09-13
+
+### Psalm global-scope and CSV closure cleanup
+
+- Replaced nine analysis-hostile top-level `$CFG` imports in autoloaded external classes with deterministic
+  plugin-relative `require_once` paths. Runtime still loads the same `lib.php` file without depending on the scope
+  used by Moodle's class loader.
+- Removed redundant top-level `global` declarations from the five directly executed report/activity entry points,
+  and moved four conditional `$DB` declarations to the beginning of their owning function or method. These changes
+  preserve Moodle's global objects while satisfying PHP's normal scope model.
+- Refactored the custom CSV cluster-flush closure to receive its user id and event buffer as typed arguments instead
+  of capturing their initial empty values by reference. Buffer reset remains explicit at each user boundary.
+- Accepted the complete 1.7.139 baseline: release and `main` matrices passed with zero PHPStan findings, 20 Psalm
+  findings and 161 reviewed PHPMD findings; the tagged ZIP then passed server PHPCS, PHP lint, Grunt, PHPUnit and
+  strict validation on Moodle 5.0 and 5.3.
+
 ## 1.7.139 - 2026-09-13
 
 ### Psalm XMLDB legacy return contract
