@@ -1,5 +1,19 @@
 # VideoTrack changelog
 
+## 1.7.139 - 2026-09-13
+
+### Psalm XMLDB legacy return contract
+
+- Added a minimal Psalm-only `xmlddb_field` declaration extending the real Moodle `xmldb_field` class. The name
+  reproduces the one-character typo in the upstream `xmldb_table::add_field()` return DocBlock without changing
+  Moodle, VideoTrack's historical upgrade code or runtime class loading.
+- Targeted the single remaining `UndefinedDocblockClass` finding emitted at the first legacy `add_field()` call in
+  `db/upgrade.php`; the method actually creates and returns an `xmldb_field`, and VideoTrack does not consume that
+  return value.
+- Accepted the complete 1.7.138 baseline: both release and `main` matrices passed with zero PHPStan findings, 21
+  Psalm findings and 161 reviewed PHPMD findings. The tagged ZIP then passed server PHPCS, PHP lint, Grunt, PHPUnit
+  and strict validation on Moodle 5.0 and 5.3.
+
 ## 1.7.138 - 2026-09-12
 
 ### Canonical Moodle context level API

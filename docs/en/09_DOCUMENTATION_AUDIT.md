@@ -1,6 +1,6 @@
 # Documentation audit
 
-Baseline: VideoTrack **1.7.138** (`2026091208`).
+Baseline: VideoTrack **1.7.139** (`2026091301`).
 
 ## Scope
 
@@ -33,7 +33,7 @@ not duplicate implementation procedures, field dictionaries or long security/pri
 ## Current-tree findings
 
 - English and Italian indexes have matching scope and ordering.
-- Documentation markers, root README files and ER artefacts identify 1.7.138 / 2026091208.
+- Documentation markers, root README files and ER artefacts identify 1.7.139 / 2026091301.
 - The activity identity includes a 1024-pixel `pix/icon.png` and an accessible native `pix/icon.svg` derived from
   the same maintainer-supplied artwork.
 - `db/install.xml` declares seven primary keys, 22 stable foreign keys and 22 explicit indexes. XMLDB generates an
@@ -51,11 +51,11 @@ not duplicate implementation procedures, field dictionaries or long security/pri
 - PHPStan/Psalm have versioned production-only scopes and a shared installed-Moodle bootstrap. The bootstrap loads
   the canonical backup/restore include graphs before the Moodle 2 step libraries. A narrow Psalm stub statically
   declares Moodle 5.0's global `renderable` compatibility name because Psalm indexes stub declarations but does not
-  execute `class_alias()` calls. It does not suppress findings or reduce scope. Psalm's finding exit is advisory,
-  while
-  PHPStan internal/incomplete reports remain blocking. The accepted 1.7.129 baseline is 366 PHPStan and 468 Psalm
-  findings on both analysed Moodle branches, plus 161 reviewed PHPMD findings. Release 1.7.130 loads the additional
-  real Moodle APIs referenced by the production scope before comparing the next reports.
+  execute `class_alias()` calls. The same stub declares Moodle's misspelled `xmlddb_field` return name as a minimal
+  subclass of the real `xmldb_field`; this models only the upstream `xmldb_table::add_field()` DocBlock typo. It does
+  not suppress findings or reduce scope. Psalm's finding exit is advisory, while PHPStan internal/incomplete reports
+  remain blocking. The accepted 1.7.138 baseline is zero PHPStan, 21 Psalm and 161 reviewed PHPMD findings on both
+  analysed Moodle branches.
 - Psalm explicitly disables only `ensureOverrideAttribute`: its native fix requires PHP 8.3, but the supported
   Moodle 5.0 matrix includes PHP 8.2. Inheritance and signature checks remain enabled.
 - The ten production files that consume globals or containers supplied by Moodle loaders have narrow analysis

@@ -52,3 +52,12 @@ abstract class mod_videotrack_psalm_admin_settingpage {
      */
     abstract public function add(mixed $setting): void;
 }
+
+/**
+ * Psalm-only representation of Moodle's misspelled xmldb_table::add_field() return DocBlock.
+ *
+ * Moodle creates and returns an xmldb_field at runtime. The legacy method's upstream `@return xmlddb_field`
+ * annotation contains an extra "d", so Psalm needs the documented name to be declared while scanning that method.
+ */
+class xmlddb_field extends \xmldb_field {
+}

@@ -142,3 +142,10 @@ entrambi i rami Moodle sono rimasti sugli stessi 27 finding. La release 1.7.138 
 `\core\context\module::LEVEL` nei sei riferimenti interessati e rimuove le dichiarazioni inefficaci dallo stub.
 Moodle documenta questo simbolo autocaricabile come livello numerico equivalente al precedente `CONTEXT_MODULE`,
 quindi la semantica runtime resta invariata e l'analizzatore riceve una normale costante di classe.
+
+Le matrici 1.7.138 della branch di release e di `main` si sono concluse con zero finding PHPStan, 21 finding Psalm
+identici su Moodle 5.0 e 5.3 e 161 finding PHPMD revisionati. I sei `UndefinedConstant` sono stati eliminati. Il solo
+`UndefinedDocblockClass` residuo proviene dal DocBlock del metodo legacy Moodle `xmldb_table::add_field()`: dichiara
+il nome inesistente `xmlddb_field`, benché il metodo crei e restituisca `xmldb_field`. La release 1.7.139 dichiara
+quel nome esterno errato tramite un contratto minimo, riservato a Psalm e derivato da `xmldb_field`. Non modifica
+Moodle, le istruzioni storiche di upgrade VideoTrack o il caricamento runtime e non sopprime la categoria del rilievo.

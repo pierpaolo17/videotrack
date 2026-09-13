@@ -134,3 +134,10 @@ branches remained at the same 27 findings. Release 1.7.138 uses Moodle's public 
 constant for the six affected references and removes the ineffective stub declarations. Moodle documents this
 autoloadable constant as the numeric context level matching legacy `CONTEXT_MODULE`, so runtime semantics remain
 unchanged while the analyser receives a normal class-constant symbol.
+
+Both the release and merged-main 1.7.138 matrices completed with zero PHPStan findings, 21 identical Psalm findings
+on Moodle 5.0 and 5.3, and 161 reviewed PHPMD findings. The six `UndefinedConstant` findings are gone. The remaining
+single `UndefinedDocblockClass` comes from Moodle's legacy `xmldb_table::add_field()` DocBlock: it declares the
+non-existent `xmlddb_field` name although the method creates and returns `xmldb_field`. Release 1.7.139 declares
+that misspelled external name as a minimal Psalm-only subclass contract. It does not modify Moodle, the historical
+VideoTrack upgrade statements or runtime loading, and it does not suppress the issue category.
