@@ -1,5 +1,19 @@
 # VideoTrack changelog
 
+## 1.7.141 - 2026-09-13
+
+### Psalm database global contract and Moodle PHPCS compatibility
+
+- Removed the 20 standalone `@var` annotations added to five entry points in 1.7.140 because Moodle PHPCS correctly
+  treats unattached one-line DocBlocks as invalid inline documentation.
+- Declared Moodle's bootstrap-provided `$DB` object once in Psalm's typed global contract. This models the real
+  `config.php` environment for the four remaining `UndefinedGlobalVariable` findings without changing runtime code,
+  suppressing an issue or excluding a file.
+- Reformatted the typed CSV cluster-flush closure with one parameter per line, as required by the Moodle standard.
+- The 1.7.140 matrix confirmed that the previous 18 `InvalidGlobal` and two `NoValue` findings were eliminated:
+  PHPStan remained at zero and Psalm fell from 20 to four on both analysed Moodle branches. All functional gates
+  passed; only Moodle PHPCS blocked the static Moodle 5.0/MariaDB job. PHPMD remained at 161 reviewed findings.
+
 ## 1.7.140 - 2026-09-13
 
 ### Psalm global-scope and CSV closure cleanup

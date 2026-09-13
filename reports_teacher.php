@@ -28,10 +28,6 @@ require_once(__DIR__ . '/locallib.php');
 use mod_videotrack\local\analytics;
 use mod_videotrack\local\teacher_analytics;
 
-/** @var core_renderer $OUTPUT Moodle renderer initialised by config.php. */
-/** @var moodle_page $PAGE Moodle page initialised by config.php. */
-/** @var stdClass $USER Current Moodle user initialised by config.php. */
-
 require_login();
 $courseid = optional_param('course', 0, PARAM_INT);
 $activityid = optional_param('activity', 0, PARAM_INT);

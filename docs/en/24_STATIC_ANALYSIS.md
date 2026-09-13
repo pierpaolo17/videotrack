@@ -149,3 +149,11 @@ imports in autoloaded external classes with deterministic plugin-relative includ
 declarations from direct entry points, and moves conditional `$DB` imports to function scope. Its CSV cluster-flush
 closure receives the current user id and event buffer as typed arguments rather than capturing their initial empty
 values by reference. No Psalm issue is suppressed and the analysed production scope is unchanged.
+
+The 1.7.140 matrix verified the intended static delta: all 18 `InvalidGlobal` and both `NoValue` findings disappeared,
+leaving four identical `UndefinedGlobalVariable` findings for `$DB` on Moodle 5.0 and 5.3. PHPStan remained at zero
+and PHPMD at 161. The only red job was the static Moodle 5.0/MariaDB job because Moodle PHPCS rejected the 20
+standalone one-line `@var` annotations and the two-parameter closure layout. Release 1.7.141 removes those invalid
+annotations, formats the closure canonically and declares Moodle's bootstrap-provided `moodle_database` object once
+in Psalm's `<globals>` contract. This is a type declaration, not a suppression; runtime code and analysis scope remain
+unchanged.

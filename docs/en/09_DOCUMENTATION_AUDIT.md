@@ -1,6 +1,6 @@
 # Documentation audit
 
-Baseline: VideoTrack **1.7.140** (`2026091302`).
+Baseline: VideoTrack **1.7.141** (`2026091303`).
 
 ## Scope
 
@@ -33,7 +33,7 @@ not duplicate implementation procedures, field dictionaries or long security/pri
 ## Current-tree findings
 
 - English and Italian indexes have matching scope and ordering.
-- Documentation markers, root README files and ER artefacts identify 1.7.140 / 2026091302.
+- Documentation markers, root README files and ER artefacts identify 1.7.141 / 2026091303.
 - The activity identity includes a 1024-pixel `pix/icon.png` and an accessible native `pix/icon.svg` derived from
   the same maintainer-supplied artwork.
 - `db/install.xml` declares seven primary keys, 22 stable foreign keys and 22 explicit indexes. XMLDB generates an
@@ -55,13 +55,14 @@ not duplicate implementation procedures, field dictionaries or long security/pri
   subclass of the real `xmldb_field`; this models only the upstream `xmldb_table::add_field()` DocBlock typo. It does
   not suppress findings or reduce scope. Psalm's finding exit is advisory, while PHPStan internal/incomplete reports
   remain blocking. The accepted 1.7.139 baseline is zero PHPStan, 20 Psalm and 161 reviewed PHPMD findings on both
-  analysed Moodle branches. Release 1.7.140 addresses those 20 remaining Psalm findings through explicit PHP scope
-  and typed closure contracts, without analyser exclusions.
+  analysed Moodle branches. Release 1.7.140 eliminated the 18 `InvalidGlobal` and two `NoValue` findings but exposed
+  four missing `$DB` global contracts; release 1.7.141 declares that bootstrap-provided object once in `psalm.xml`.
 - Psalm explicitly disables only `ensureOverrideAttribute`: its native fix requires PHP 8.3, but the supported
   Moodle 5.0 matrix includes PHP 8.2. Inheritance and signature checks remain enabled.
-- The 15 production files that consume globals or containers supplied by Moodle loaders have narrow analysis
-  contracts. Thirteen carry `@var` declarations accepted by Moodle PHPCS; `settings.php` and `version.php` use Psalm's
-  typed globals and two PHPStan path/name-specific rules with unmatched-ignore reporting enabled.
+- The ten production files that consume globals or containers supplied by Moodle loaders have narrow analysis
+  contracts. Eight carry `@var` declarations accepted by Moodle PHPCS; Psalm also has a typed `$DB` global plus the
+  loader variables used by `settings.php` and `version.php`. Two PHPStan path/name-specific rules keep unmatched-ignore
+  reporting enabled.
 - The generic PHPMD 1.7.123 result (215 findings in 42 files, no tool errors) is retained as a pre-ruleset reference.
   The active `phpmd.xml` removes naming/framework noise, keeps reviewed runtime rules and distinguishes advisory
   finding exit 2 from blocking analyser/configuration errors.

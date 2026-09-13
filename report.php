@@ -25,12 +25,6 @@
 require_once(__DIR__ . '/../../config.php');
 require_once(__DIR__ . '/locallib.php');
 
-/** @var moodle_database $DB Moodle database connection initialised by config.php. */
-/** @var stdClass $USER Current Moodle user initialised by config.php. */
-/** @var stdClass $CFG Moodle configuration initialised by config.php. */
-/** @var moodle_page $PAGE Moodle page initialised by config.php. */
-/** @var core_renderer $OUTPUT Moodle renderer initialised by config.php. */
-
 $id = required_param('id', PARAM_INT);
 $sort = optional_param('sort', 'time', PARAM_ALPHA);
 $mode = optional_param('mode', 'student', PARAM_ALPHA);
@@ -1370,7 +1364,10 @@ if ($export === 'custom_csv') {
             } else {
                 $currentuserid = 0;
                 $userevents = [];
-                $flushclusters = static function (int $userid, array $events) use (
+                $flushclusters = static function (
+                    int $userid,
+                    array $events
+                ) use (
                     &$clusterlimitreached,
                     $window,
                     $eventwriter,

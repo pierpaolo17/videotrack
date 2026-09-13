@@ -158,3 +158,11 @@ rimuove le dichiarazioni globali ridondanti dagli entry point diretti e porta le
 nello scope delle rispettive funzioni. La closure che scarica i cluster CSV riceve utente ed eventi come argomenti
 tipizzati invece di catturarne per riferimento i valori iniziali vuoti. Nessun finding Psalm viene soppresso e il
 perimetro di produzione analizzato resta invariato.
+
+La matrice 1.7.140 ha verificato il delta statico previsto: tutti i 18 `InvalidGlobal` e i due `NoValue` sono
+scomparsi, lasciando quattro finding `UndefinedGlobalVariable` identici per `$DB` su Moodle 5.0 e 5.3. PHPStan è
+rimasto a zero e PHPMD a 161. L'unico job rosso è stato quello statico Moodle 5.0/MariaDB, perché Moodle PHPCS ha
+rifiutato le 20 annotazioni `@var` monoriga isolate e la disposizione dei due parametri della closure. La release
+1.7.141 rimuove quelle annotazioni non valide, formatta la closure secondo lo standard e dichiara una sola volta
+l'oggetto `moodle_database` fornito dal bootstrap Moodle nel contratto `<globals>` di Psalm. È una dichiarazione di
+tipo, non una soppressione; codice runtime e perimetro dell'analisi restano invariati.
