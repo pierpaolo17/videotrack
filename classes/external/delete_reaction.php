@@ -26,8 +26,7 @@ use mod_videotrack\event\reaction_deleted;
 
 defined('MOODLE_INTERNAL') || die();
 
-global $CFG;
-require_once($CFG->dirroot . '/mod/videotrack/lib.php');
+require_once(__DIR__ . '/../../lib.php');
 
 /**
  * External function that soft-deletes a standard reaction owned by the current user.

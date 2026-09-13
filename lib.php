@@ -68,12 +68,13 @@ function videotrack_supports($feature) {
  * @return stdClass Object containing table fields only.
  */
 function videotrack_whitelist_record(stdClass $data, bool $resetcache = false): stdClass {
+    global $DB;
+
     static $columns = null;
     if ($resetcache) {
         $columns = null;
     }
     if ($columns === null) {
-        global $DB;
         $columns = array_keys($DB->get_columns('videotrack'));
     }
     $record = new stdClass();

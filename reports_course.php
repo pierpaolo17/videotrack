@@ -87,7 +87,10 @@ function videotrack_course_report_drop_cell(?array $drop): string {
     ]);
 }
 
-global $DB, $OUTPUT, $PAGE, $USER;
+/** @var moodle_database $DB Moodle database connection initialised by config.php. */
+/** @var core_renderer $OUTPUT Moodle renderer initialised by config.php. */
+/** @var moodle_page $PAGE Moodle page initialised by config.php. */
+/** @var stdClass $USER Current Moodle user initialised by config.php. */
 
 $courseid = required_param('course', PARAM_INT);
 $course = $DB->get_record('course', ['id' => $courseid], '*', MUST_EXIST);

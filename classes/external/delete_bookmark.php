@@ -25,8 +25,7 @@ use mod_videotrack\event\bookmark_deleted;
 
 defined('MOODLE_INTERNAL') || die();
 
-global $CFG;
-require_once($CFG->dirroot . '/mod/videotrack/lib.php');
+require_once(__DIR__ . '/../../lib.php');
 
 /**
  * Soft-deletes a private bookmark owned by the current user.

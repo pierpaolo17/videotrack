@@ -1,6 +1,6 @@
 # Audit della documentazione
 
-Baseline: VideoTrack **1.7.139** (`2026091301`).
+Baseline: VideoTrack **1.7.140** (`2026091302`).
 
 ## Perimetro
 
@@ -33,7 +33,7 @@ duplicano intenzionalmente procedure implementative, dizionari dei campi o lungh
 ## Rilievi sull'albero corrente
 
 - Gli indici inglese e italiano hanno stesso perimetro e ordinamento.
-- Marker documentali, README principali e artefatti ER identificano 1.7.139 / 2026091301.
+- Marker documentali, README principali e artefatti ER identificano 1.7.140 / 2026091302.
 - L'identità dell'attività include `pix/icon.png` da 1024 pixel e un `pix/icon.svg` nativo e accessibile derivati
   dalla stessa grafica fornita dal maintainer.
 - `db/install.xml` dichiara sette chiavi primarie, 22 foreign key stabili e 22 indici espliciti. XMLDB genera inoltre
@@ -54,12 +54,14 @@ duplicano intenzionalmente procedure implementative, dizionari dei campi o lungh
   indicizza le dichiarazioni degli stub ma non esegue `class_alias()`. Lo stesso stub dichiara il nome di ritorno
   Moodle errato `xmlddb_field` come sottoclasse minima del vero `xmldb_field`, modellando soltanto il refuso nel
   DocBlock di `xmldb_table::add_field()`. Non sopprime finding né riduce il perimetro. L'exit documentato di Psalm con
-  finding è consultivo, mentre i report PHPStan interni/incompleti restano bloccanti. La baseline 1.7.138 accettata è
-  di zero finding PHPStan, 21 finding Psalm e 161 finding PHPMD revisionati su entrambi i rami Moodle analizzati.
+  finding è consultivo, mentre i report PHPStan interni/incompleti restano bloccanti. La baseline 1.7.139 accettata è
+  di zero finding PHPStan, 20 finding Psalm e 161 finding PHPMD revisionati su entrambi i rami Moodle analizzati. La
+  release 1.7.140 affronta i 20 finding Psalm residui tramite contratti espliciti di scope PHP e closure tipizzate,
+  senza esclusioni dell'analizzatore.
 - Psalm disabilita esplicitamente soltanto `ensureOverrideAttribute`: la correzione nativa richiede PHP 8.3, ma la
   matrice Moodle 5.0 supportata include PHP 8.2. I controlli di ereditarietà e firma restano attivi.
-- I dieci file di produzione che consumano globali o contenitori forniti dai loader Moodle hanno contratti di
-  analisi circoscritti. Otto includono dichiarazioni `@var` accettate da Moodle PHPCS; `settings.php` e `version.php`
+- I 15 file di produzione che consumano globali o contenitori forniti dai loader Moodle hanno contratti di
+  analisi circoscritti. Tredici includono dichiarazioni `@var` accettate da Moodle PHPCS; `settings.php` e `version.php`
   usano i globali tipizzati Psalm e due regole PHPStan specifiche per percorso e nome, con controllo degli ignore
   non più utilizzati attivo.
 - Il risultato PHPMD generico 1.7.123 (215 finding in 42 file, nessun errore strumento) resta un riferimento

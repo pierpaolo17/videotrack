@@ -1,5 +1,21 @@
 # VideoTrack changelog
 
+## 1.7.140 - 2026-09-13
+
+### Psalm global-scope and CSV closure cleanup
+
+- Replaced nine analysis-hostile top-level `$CFG` imports in autoloaded external classes with deterministic
+  plugin-relative `require_once` paths. Runtime still loads the same `lib.php` file without depending on the scope
+  used by Moodle's class loader.
+- Removed redundant top-level `global` declarations from the five directly executed report/activity entry points,
+  and moved four conditional `$DB` declarations to the beginning of their owning function or method. These changes
+  preserve Moodle's global objects while satisfying PHP's normal scope model.
+- Refactored the custom CSV cluster-flush closure to receive its user id and event buffer as typed arguments instead
+  of capturing their initial empty values by reference. Buffer reset remains explicit at each user boundary.
+- Accepted the complete 1.7.139 baseline: release and `main` matrices passed with zero PHPStan findings, 20 Psalm
+  findings and 161 reviewed PHPMD findings; the tagged ZIP then passed server PHPCS, PHP lint, Grunt, PHPUnit and
+  strict validation on Moodle 5.0 and 5.3.
+
 ## 1.7.139 - 2026-09-13
 
 ### Psalm XMLDB legacy return contract

@@ -149,3 +149,12 @@ identici su Moodle 5.0 e 5.3 e 161 finding PHPMD revisionati. I sei `UndefinedCo
 il nome inesistente `xmlddb_field`, benché il metodo crei e restituisca `xmldb_field`. La release 1.7.139 dichiara
 quel nome esterno errato tramite un contratto minimo, riservato a Psalm e derivato da `xmldb_field`. Non modifica
 Moodle, le istruzioni storiche di upgrade VideoTrack o il caricamento runtime e non sopprime la categoria del rilievo.
+
+Le matrici 1.7.139 della branch di release e di `main` hanno confermato zero finding PHPStan, 20 finding Psalm
+identici su Moodle 5.0 e 5.3 e 161 finding PHPMD revisionati. Il finding XMLDB `UndefinedDocblockClass` è stato
+eliminato. I finding Psalm residui sono 18 `InvalidGlobal` e due `NoValue`. La release 1.7.140 sostituisce le
+importazioni `$CFG` al livello globale delle classi external autocaricate con include relativi deterministici,
+rimuove le dichiarazioni globali ridondanti dagli entry point diretti e porta le importazioni `$DB` condizionali
+nello scope delle rispettive funzioni. La closure che scarica i cluster CSV riceve utente ed eventi come argomenti
+tipizzati invece di catturarne per riferimento i valori iniziali vuoti. Nessun finding Psalm viene soppresso e il
+perimetro di produzione analizzato resta invariato.

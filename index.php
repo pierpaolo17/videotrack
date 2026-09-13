@@ -24,7 +24,9 @@
 
 require_once(__DIR__ . '/../../config.php');
 
-global $DB, $OUTPUT, $PAGE;
+/** @var moodle_database $DB Moodle database connection initialised by config.php. */
+/** @var core_renderer $OUTPUT Moodle renderer initialised by config.php. */
+/** @var moodle_page $PAGE Moodle page initialised by config.php. */
 
 $id = required_param('id', PARAM_INT);
 $course = $DB->get_record('course', ['id' => $id], '*', MUST_EXIST);
