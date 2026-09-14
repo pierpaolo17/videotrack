@@ -164,3 +164,9 @@ PHPStan reported 202 `variable.undefined` findings on both Moodle 5.0 and 5.3 be
 created by the executed `config.php` bootstrap into each separately analysed file scope. Release 1.7.142 restores
 those 20 typed declarations and disables only Moodle's inline-DocBlock sniff around their five declaration blocks.
 The declarations neither execute nor mutate runtime state, and no PHPStan error identifier or path is ignored.
+
+Both 1.7.142 GitHub matrices then completed with zero PHPStan, Psalm and Moodle PHPCS errors. The tagged archive also
+passed server PHPCS, PHP lint, Grunt, PHPUnit and strict validation on Moodle 5.0 and 5.3. Its 161 reviewed PHPMD
+findings include seven genuine unused locals: four redundant Moodle database imports and three unused values in
+key/value loops. Release 1.7.143 removes only that first low-risk group. Public callback signatures, database access,
+iteration order and analyser configuration remain unchanged.

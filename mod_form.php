@@ -1630,7 +1630,7 @@ JS);
             $activecsvfields = array_values(array_filter(array_map('trim', explode(',', $csvraw))));
         }
         $csvcontext = $this->context ?: context_course::instance($COURSE->id);
-        foreach (\mod_videotrack\local\csv_export::form_field_options($csvcontext) as $field => $label) {
+        foreach (array_keys(\mod_videotrack\local\csv_export::form_field_options($csvcontext)) as $field) {
             $elementname = \mod_videotrack\local\csv_export::form_element_name($field);
             $defaultvalues[$elementname] = in_array($field, $activecsvfields, true) ? 1 : 0;
         }
@@ -1828,7 +1828,7 @@ JS);
      * @return array Validation errors indexed by form element name.
      */
     public function validation($data, $files) {
-        global $COURSE, $DB;
+        global $COURSE;
         $errors = parent::validation($data, $files);
         $source = $data['videosource'] ?? 'youtube';
         if ($source === 'youtube') {

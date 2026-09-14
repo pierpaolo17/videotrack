@@ -1,5 +1,18 @@
 # VideoTrack changelog
 
+## 1.7.143 - 2026-09-13
+
+### PHPMD unused-local cleanup
+
+- Removed four unused Moodle database imports from the segment external service, privacy context discovery,
+  grade retrieval and form validation. Each owning routine already used a service or API that encapsulates its own
+  database access; no query, transaction or public signature changed.
+- Replaced three key/value loops whose values were unused with key-only iteration in reaction cleanup and CSV field
+  processing. Ordering, key comparison and generated form element names remain unchanged.
+- Accepted the complete 1.7.142 baseline: release and `main` matrices passed with zero PHPStan, Psalm and Moodle
+  PHPCS errors; the tagged ZIP then passed server PHPCS, PHP lint, Grunt, PHPUnit and strict validation on Moodle 5.0
+  and 5.3. PHPMD reported 161 reviewed advisory findings, seven of which are targeted by this release.
+
 ## 1.7.142 - 2026-09-13
 
 ### PHPStan Moodle entry-point global contracts

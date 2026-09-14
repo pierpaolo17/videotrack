@@ -585,7 +585,7 @@ function videotrack_save_reaction_definitions(int $videotrackid, stdClass $data)
         $sort++;
     }
 
-    foreach ($existing as $oldreactionid => $oldreaction) {
+    foreach (array_keys($existing) as $oldreactionid) {
         if (!isset($keptids[$oldreactionid])) {
             // Soft-delete: keep the definition and its file area intact.
             // Historical reports/events may still reference this reaction and should.
@@ -1106,7 +1106,7 @@ function videotrack_set_user_grade(stdClass $videotrack, int $userid, float $gra
  * @return float|null
  */
 function videotrack_get_user_grade(stdClass $videotrack, int $userid): ?float {
-    global $CFG, $DB;
+    global $CFG;
     require_once($CFG->libdir . '/gradelib.php');
 
     $grades = grade_get_grades(

@@ -1,6 +1,6 @@
 # Documentation audit
 
-Baseline: VideoTrack **1.7.142** (`2026091304`).
+Baseline: VideoTrack **1.7.143** (`2026091305`).
 
 ## Scope
 
@@ -33,7 +33,7 @@ not duplicate implementation procedures, field dictionaries or long security/pri
 ## Current-tree findings
 
 - English and Italian indexes have matching scope and ordering.
-- Documentation markers, root README files and ER artefacts identify 1.7.142 / 2026091304.
+- Documentation markers, root README files and ER artefacts identify 1.7.143 / 2026091305.
 - The activity identity includes a 1024-pixel `pix/icon.png` and an accessible native `pix/icon.svg` derived from
   the same maintainer-supplied artwork.
 - `db/install.xml` declares seven primary keys, 22 stable foreign keys and 22 explicit indexes. XMLDB generates an
@@ -59,7 +59,8 @@ not duplicate implementation procedures, field dictionaries or long security/pri
   four missing `$DB` global contracts; release 1.7.141 declares that bootstrap-provided object once in `psalm.xml`.
   Its matrix passed PHPCS and Psalm but showed 202 PHPStan `variable.undefined` findings after removal of the
   entry-point declarations. Release 1.7.142 restores those analyser contracts under five narrowly scoped Moodle
-  inline-DocBlock sniff exceptions; no PHPStan finding or production path is ignored.
+  inline-DocBlock sniff exceptions; no PHPStan finding or production path is ignored. Both GitHub matrices and the
+  tagged server archive then passed their complete gates with zero PHPStan, Psalm and Moodle PHPCS errors.
 - Psalm explicitly disables only `ensureOverrideAttribute`: its native fix requires PHP 8.3, but the supported
   Moodle 5.0 matrix includes PHP 8.2. Inheritance and signature checks remain enabled.
 - Production files that consume globals or containers supplied by Moodle loaders have narrow analysis contracts.
@@ -69,7 +70,8 @@ not duplicate implementation procedures, field dictionaries or long security/pri
   reporting enabled.
 - The generic PHPMD 1.7.123 result (215 findings in 42 files, no tool errors) is retained as a pre-ruleset reference.
   The active `phpmd.xml` removes naming/framework noise, keeps reviewed runtime rules and distinguishes advisory
-  finding exit 2 from blocking analyser/configuration errors.
+  finding exit 2 from blocking analyser/configuration errors. The accepted 1.7.142 result contains 161 findings;
+  release 1.7.143 targets its seven genuine unused locals without changing public signatures or analyser rules.
 - The two AMD build pairs corrected in 1.7.123 are canonical Moodle Grunt output; their source maps have non-empty
   mappings and embed source content byte-identical to the distributed AMD sources.
 - Rendered accessibility helpers use Moodle 5 / Bootstrap 5 `visually-hidden` classes; player live regions are
