@@ -174,3 +174,10 @@ non importa nello scope di ogni file analizzato separatamente le variabili creat
 La release 1.7.142 ripristina le 20 dichiarazioni tipizzate e disabilita soltanto lo sniff Moodle sui DocBlock inline
 attorno ai cinque blocchi dichiarativi. Le dichiarazioni non eseguono né modificano lo stato runtime e nessun
 identificatore o percorso PHPStan viene ignorato.
+
+Entrambe le matrici GitHub 1.7.142 si sono quindi concluse con zero errori PHPStan, Psalm e Moodle PHPCS. Anche
+l'archivio taggato ha superato sul server PHPCS, PHP lint, Grunt, PHPUnit e validazione strict su Moodle 5.0 e 5.3.
+I 161 finding PHPMD revisionati includono sette variabili locali realmente inutilizzate: quattro importazioni Moodle
+del database ridondanti e tre valori non utilizzati in cicli chiave/valore. La release 1.7.143 rimuove soltanto questo
+primo gruppo a basso rischio. Firme dei callback pubblici, accesso al database, ordine di iterazione e configurazione
+degli analizzatori restano invariati.

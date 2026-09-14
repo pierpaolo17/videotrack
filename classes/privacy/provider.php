@@ -165,8 +165,6 @@ class provider implements
      * @return contextlist Context list.
      */
     public static function get_contexts_for_userid(int $userid): contextlist {
-        global $DB;
-
         // Use a UNION of module ids instead of joining all tracking tables at once.
         // This gives database optimisers a simpler plan on large installations
         // and mirrors get_users_in_context().

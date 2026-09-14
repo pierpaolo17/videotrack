@@ -239,7 +239,7 @@ final class csv_export {
         $selected = [];
         $allowed = array_keys(self::field_options($context));
         $formoptions = $context === null ? self::field_options(null) : self::form_field_options($context);
-        foreach ($formoptions as $field => $label) {
+        foreach (array_keys($formoptions) as $field) {
             $elementname = self::form_element_name($field);
             if (!empty($data->{$elementname}) && in_array($field, $allowed, true)) {
                 $selected[] = $field;

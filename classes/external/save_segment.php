@@ -86,7 +86,7 @@ class save_segment extends external_api {
         string $endreason,
         float $durationseconds = 0.0
     ): array {
-        global $DB, $USER;
+        global $USER;
         $params = self::validate_parameters(self::execute_parameters(), compact(
             'cmid',
             'sessionid',
