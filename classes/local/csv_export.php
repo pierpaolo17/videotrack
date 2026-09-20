@@ -71,22 +71,30 @@ final class csv_export {
     ];
 
     /**
-     * Returns delimiter options stored as symbolic values.
+     * Returns site-level delimiter options stored as symbolic values.
      *
-     * @param bool $includeinherit Include the per-instance inherit option.
      * @return array Delimiter options keyed by symbolic value.
      */
-    public static function delimiter_options(bool $includeinherit = false): array {
-        $options = [];
-        if ($includeinherit) {
-            $options[self::DELIMITER_INHERIT] = get_string('setting:csvdelimiter_inherit', 'mod_videotrack');
-        }
-        $options[self::DELIMITER_COMMA] = get_string('setting:csvdelimiter_comma', 'mod_videotrack');
-        $options[self::DELIMITER_SEMICOLON] = get_string('setting:csvdelimiter_semicolon', 'mod_videotrack');
-        $options[self::DELIMITER_SECTION] = get_string('setting:csvdelimiter_section', 'mod_videotrack');
-        $options[self::DELIMITER_HASH] = get_string('setting:csvdelimiter_hash', 'mod_videotrack');
-        $options[self::DELIMITER_PIPE] = get_string('setting:csvdelimiter_pipe', 'mod_videotrack');
-        return $options;
+    public static function delimiter_options(): array {
+        return [
+            self::DELIMITER_COMMA => get_string('setting:csvdelimiter_comma', 'mod_videotrack'),
+            self::DELIMITER_SEMICOLON => get_string('setting:csvdelimiter_semicolon', 'mod_videotrack'),
+            self::DELIMITER_SECTION => get_string('setting:csvdelimiter_section', 'mod_videotrack'),
+            self::DELIMITER_HASH => get_string('setting:csvdelimiter_hash', 'mod_videotrack'),
+            self::DELIMITER_PIPE => get_string('setting:csvdelimiter_pipe', 'mod_videotrack'),
+        ];
+    }
+
+    /**
+     * Returns activity-level delimiter options, including site-default inheritance.
+     *
+     * @return array Delimiter options keyed by symbolic value.
+     */
+    public static function delimiter_options_with_inherit(): array {
+        return [
+            self::DELIMITER_INHERIT => get_string('setting:csvdelimiter_inherit', 'mod_videotrack'),
+            ...self::delimiter_options(),
+        ];
     }
 
     /**

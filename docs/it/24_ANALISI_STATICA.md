@@ -181,3 +181,16 @@ I 161 finding PHPMD revisionati includono sette variabili locali realmente inuti
 del database ridondanti e tre valori non utilizzati in cicli chiave/valore. La release 1.7.143 rimuove soltanto questo
 primo gruppo a basso rischio. Firme dei callback pubblici, accesso al database, ordine di iterazione e configurazione
 degli analizzatori restano invariati.
+
+Le matrici 1.7.143 della branch di release e di `main` si sono concluse con zero errori PHPStan, Psalm e Moodle PHPCS
+e 154 finding PHPMD revisionati. L'archivio taggato ha poi superato sul server PHPCS, PHP lint, Grunt, PHPUnit e
+validazione strict su Moodle 5.0 e 5.3. La release 1.7.144 avvia il successivo gruppo PHPMD a basso rischio sostituendo
+due flag booleani interni con API esplicite: opzioni delimitatore CSV di sito o attività e limiti data di inizio o
+fine giornata. Valori persistiti, semantica del fuso orario e configurazione degli analizzatori restano invariati;
+la modifica affronta due finding `BooleanArgumentFlag`.
+
+La matrice completa 1.7.144 ha superato validazione, PHPUnit, Behat, Grunt, Moodle PHPCS, PHPStan e Psalm in tutti i
+job applicabili. PHPMD è sceso da 154 a 153 invece dei 152 previsti: entrambi i finding sui flag booleani sono stati
+eliminati, ma l'helper data privato aggiuntivo ha portato `report_support` a 26 metodi, introducendo
+`TooManyMethods`. La release 1.7.145 rimuove soltanto quell'helper e mantiene le due API esplicite per i limiti della
+giornata. La validazione viene ripetuta nei due piccoli entry point, preservando limiti esatti anche nei cambi d'ora.

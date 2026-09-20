@@ -32,6 +32,18 @@ use stdClass;
 #[CoversClass(csv_export::class)]
 final class csv_export_test extends advanced_testcase {
     /**
+     * Site and activity delimiter selectors expose their explicit option sets.
+     */
+    public function test_delimiter_options_are_scope_specific(): void {
+        $siteoptions = csv_export::delimiter_options();
+        $activityoptions = csv_export::delimiter_options_with_inherit();
+
+        $this->assertArrayNotHasKey(csv_export::DELIMITER_INHERIT, $siteoptions);
+        $this->assertArrayHasKey(csv_export::DELIMITER_INHERIT, $activityoptions);
+        $this->assertSame($siteoptions, array_diff_key($activityoptions, [csv_export::DELIMITER_INHERIT => true]));
+    }
+
+    /**
      * Activity delimiter settings inherit or override the site default.
      */
     public function test_delimiter_resolution(): void {

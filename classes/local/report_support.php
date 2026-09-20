@@ -51,13 +51,12 @@ final class report_support {
     }
 
     /**
-     * Converts an ISO date-only parameter to a timestamp in the user's timezone.
+     * Converts an ISO date-only parameter to the start of that day in the user's timezone.
      *
      * @param string $date Date in YYYY-MM-DD format.
-     * @param bool $endofday Whether to use the last second of the day.
      * @return int Timestamp, or 0 when the value is empty or invalid.
      */
-    public static function date_to_timestamp(string $date, bool $endofday = false): int {
+    public static function date_to_timestamp(string $date): int {
         if ($date === '' || !preg_match('/^(\d{4})-(\d{2})-(\d{2})$/', $date, $matches)) {
             return 0;
         }
@@ -67,7 +66,26 @@ final class report_support {
         if (!checkdate($month, $day, $year)) {
             return 0;
         }
-        return make_timestamp($year, $month, $day, $endofday ? 23 : 0, $endofday ? 59 : 0, $endofday ? 59 : 0);
+        return make_timestamp($year, $month, $day, 0, 0, 0);
+    }
+
+    /**
+     * Converts an ISO date-only parameter to the end of that day in the user's timezone.
+     *
+     * @param string $date Date in YYYY-MM-DD format.
+     * @return int Timestamp, or 0 when the value is empty or invalid.
+     */
+    public static function end_date_to_timestamp(string $date): int {
+        if ($date === '' || !preg_match('/^(\d{4})-(\d{2})-(\d{2})$/', $date, $matches)) {
+            return 0;
+        }
+        $year = (int)$matches[1];
+        $month = (int)$matches[2];
+        $day = (int)$matches[3];
+        if (!checkdate($month, $day, $year)) {
+            return 0;
+        }
+        return make_timestamp($year, $month, $day, 23, 59, 59);
     }
 
     /**

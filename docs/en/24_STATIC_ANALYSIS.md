@@ -170,3 +170,15 @@ passed server PHPCS, PHP lint, Grunt, PHPUnit and strict validation on Moodle 5.
 findings include seven genuine unused locals: four redundant Moodle database imports and three unused values in
 key/value loops. Release 1.7.143 removes only that first low-risk group. Public callback signatures, database access,
 iteration order and analyser configuration remain unchanged.
+
+The release and merged-main 1.7.143 matrices completed with zero PHPStan, Psalm and Moodle PHPCS errors and 154
+reviewed PHPMD findings. The tagged archive then passed server PHPCS, PHP lint, Grunt, PHPUnit and strict validation
+on Moodle 5.0 and 5.3. Release 1.7.144 begins the next low-risk PHPMD group by replacing two internal boolean flags
+with explicit APIs: site versus activity CSV delimiter choices, and start versus end date boundaries. Stored values,
+timezone semantics and analyser configuration remain unchanged; two `BooleanArgumentFlag` findings are targeted.
+
+The complete 1.7.144 matrix passed validation, PHPUnit, Behat, Grunt, Moodle PHPCS, PHPStan and Psalm on every
+applicable job. PHPMD fell from 154 to 153 rather than the intended 152: both boolean-flag findings were removed,
+but the additional private date helper raised `report_support` to 26 methods and introduced `TooManyMethods`.
+Release 1.7.145 removes only that helper and keeps the two explicit boundary APIs. The validation logic is repeated
+inside those small entry points so timezone boundaries remain exact even across daylight-saving transitions.

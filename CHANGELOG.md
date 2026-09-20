@@ -1,5 +1,34 @@
 # VideoTrack changelog
 
+## 1.7.145 - 2026-09-20
+
+### PHPMD method-count correction
+
+- Removed the additional private date-boundary helper introduced by 1.7.144. The two explicit public entry points
+  now validate their ISO date directly and still produce the same user-timezone boundaries at `00:00:00` and
+  `23:59:59`.
+- Preserved the 1.7.144 removal of the CSV delimiter and report-date boolean flags without adding another method to
+  the already broad report-support class. Database schema, persisted settings, report parameters and output remain
+  unchanged.
+- The complete 1.7.144 matrix passed every functional and blocking static gate, but PHPMD measured 153 findings:
+  the two intended `BooleanArgumentFlag` findings disappeared while the extra helper introduced one
+  `TooManyMethods` finding. This release removes that new finding and targets the intended 152-result baseline.
+
+## 1.7.144 - 2026-09-18
+
+### Explicit delimiter and date-boundary APIs
+
+- Replaced the CSV delimiter option flag with separate site-level and activity-level helpers. The activity helper
+  adds the existing inherit choice explicitly, while the stored symbolic values and their order remain unchanged.
+- Replaced the report date helper's end-of-day flag with distinct start-of-day and end-of-day entry points backed
+  by one validated ISO-date conversion routine. The report filter still uses `00:00:00` and `23:59:59` boundaries
+  in the user's timezone.
+- Added PHPUnit coverage for both delimiter scopes and both date boundaries. No database schema, service signature,
+  player, AMD module or analyser rule changed.
+- Accepted the complete 1.7.143 baseline: release and `main` matrices passed with zero PHPStan, Psalm and Moodle
+  PHPCS errors and 154 reviewed PHPMD findings; its tagged ZIP then passed server PHPCS, PHP lint, Grunt, PHPUnit
+  and strict validation on Moodle 5.0 and 5.3. This release targets two `BooleanArgumentFlag` findings.
+
 ## 1.7.143 - 2026-09-13
 
 ### PHPMD unused-local cleanup
