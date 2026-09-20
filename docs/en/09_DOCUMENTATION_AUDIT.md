@@ -1,6 +1,6 @@
 # Documentation audit
 
-Baseline: VideoTrack **1.7.144** (`2026091801`).
+Baseline: VideoTrack **1.7.145** (`2026092001`).
 
 ## Scope
 
@@ -33,7 +33,7 @@ not duplicate implementation procedures, field dictionaries or long security/pri
 ## Current-tree findings
 
 - English and Italian indexes have matching scope and ordering.
-- Documentation markers, root README files and ER artefacts identify 1.7.144 / 2026091801.
+- Documentation markers, root README files and ER artefacts identify 1.7.145 / 2026092001.
 - The activity identity includes a 1024-pixel `pix/icon.png` and an accessible native `pix/icon.svg` derived from
   the same maintainer-supplied artwork.
 - `db/install.xml` declares seven primary keys, 22 stable foreign keys and 22 explicit indexes. XMLDB generates an
@@ -71,8 +71,9 @@ not duplicate implementation procedures, field dictionaries or long security/pri
 - The generic PHPMD 1.7.123 result (215 findings in 42 files, no tool errors) is retained as a pre-ruleset reference.
   The active `phpmd.xml` removes naming/framework noise, keeps reviewed runtime rules and distinguishes advisory
   finding exit 2 from blocking analyser/configuration errors. The accepted 1.7.143 result contains 154 findings
-  after its seven genuine unused locals were removed. Release 1.7.144 targets two internal boolean flags with
-  explicit delimiter-scope and date-boundary APIs, without changing persisted values or analyser rules.
+  after its seven genuine unused locals were removed. The 1.7.144 diagnostic matrix removed two internal boolean
+  flags but introduced one `TooManyMethods` result, ending at 153. Release 1.7.145 removes that added helper while
+  preserving the explicit delimiter-scope and date-boundary APIs, targeting 152 without changing analyser rules.
 - The two AMD build pairs corrected in 1.7.123 are canonical Moodle Grunt output; their source maps have non-empty
   mappings and embed source content byte-identical to the distributed AMD sources.
 - Rendered accessibility helpers use Moodle 5 / Bootstrap 5 `visually-hidden` classes; player live regions are

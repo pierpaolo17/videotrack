@@ -1,6 +1,6 @@
 # Distributed file inventory
 
-This inventory is generated against the VideoTrack 1.7.144 repository tree. It lists every distributed
+This inventory is generated against the VideoTrack 1.7.145 repository tree. It lists every distributed
 non-documentation file plus repository-only CI/tooling files. Canonical JavaScript is under `amd/src`; files under
 `amd/build` are generated.
 

@@ -176,3 +176,9 @@ reviewed PHPMD findings. The tagged archive then passed server PHPCS, PHP lint, 
 on Moodle 5.0 and 5.3. Release 1.7.144 begins the next low-risk PHPMD group by replacing two internal boolean flags
 with explicit APIs: site versus activity CSV delimiter choices, and start versus end date boundaries. Stored values,
 timezone semantics and analyser configuration remain unchanged; two `BooleanArgumentFlag` findings are targeted.
+
+The complete 1.7.144 matrix passed validation, PHPUnit, Behat, Grunt, Moodle PHPCS, PHPStan and Psalm on every
+applicable job. PHPMD fell from 154 to 153 rather than the intended 152: both boolean-flag findings were removed,
+but the additional private date helper raised `report_support` to 26 methods and introduced `TooManyMethods`.
+Release 1.7.145 removes only that helper and keeps the two explicit boundary APIs. The validation logic is repeated
+inside those small entry points so timezone boundaries remain exact even across daylight-saving transitions.

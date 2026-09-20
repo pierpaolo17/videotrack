@@ -1,8 +1,8 @@
 # Function inventory
 
-Generated from the VideoTrack 1.7.144 source tree. PHP entries include named functions and methods; AMD entries include named declarations, assigned function expressions and object-method functions.
+Generated from the VideoTrack 1.7.145 source tree. PHP entries include named functions and methods; AMD entries include named declarations, assigned function expressions and object-method functions.
 
-**PHP functions/methods:** 759. **Named AMD callables:** 654.
+**PHP functions/methods:** 758. **Named AMD callables:** 654.
 
 | Location | Callable | Responsibility |
 |---|---|---|
@@ -919,30 +919,29 @@ Generated from the VideoTrack 1.7.144 source tree. PHP entries include named fun
 | `classes/local/report_access.php:91` | `can_export_individual` | PHP callable `report_access::can_export_individual`; learner-level report-download policy with legacy full-access fallback. |
 | `classes/local/report_support.php:42` | `user_label` | PHP callable `report_support::user_label`; extracted report-user label formatting with email-visibility preservation. |
 | `classes/local/report_support.php:59` | `date_to_timestamp` | PHP callable `report_support::date_to_timestamp`; canonical date-only report-filter parsing. |
-| `classes/local/report_support.php:69` | `end_date_to_timestamp` | PHP callable `report_support::end_date_to_timestamp`; canonical inclusive end-of-day report boundary. |
-| `classes/local/report_support.php:82` | `date_to_timestamp_at` | Private PHP callable `report_support::date_to_timestamp_at`; validates an ISO date and applies an explicit time boundary. |
-| `classes/local/report_support.php:104` | `optional_time_param` | PHP callable `report_support::optional_time_param`; structured and legacy video-time request parsing. |
-| `classes/local/report_support.php:156` | `duration_filter` | PHP callable `report_support::duration_filter`; accessible structured duration-filter markup. |
-| `classes/local/report_support.php:219` | `analytics_scope_condition` | PHP callable `report_support::analytics_scope_condition`; capability-safe Analytics scope SQL construction. |
-| `classes/local/report_support.php:284` | `analytics_reaction_condition` | PHP callable `report_support::analytics_reaction_condition`; standard reaction-Analytics SQL decoration preserving scope and optional provider filtering. |
-| `classes/local/report_support.php:309` | `analytics_bookmark_condition` | PHP callable `report_support::analytics_bookmark_condition`; bookmark-Analytics SQL decoration preserving scope and optional provider filtering. |
-| `classes/local/report_support.php:333` | `analytics_integrity_condition` | PHP callable `report_support::analytics_integrity_condition`; integrity-Analytics SQL decoration preserving capability-safe scope and optional provider filtering. |
-| `classes/local/report_support.php:358` | `analytics_state_condition` | PHP callable `report_support::analytics_state_condition`; state-Analytics SQL decoration that applies the optional provider filter to the complete capability-safe scope. |
-| `classes/local/report_support.php:380` | `analytics_segment_condition` | PHP callable `report_support::analytics_segment_condition`; validated-segment Analytics SQL decoration preserving capability-safe scope and optional provider filtering. |
-| `classes/local/report_support.php:404` | `analytics_prefers_state_fallback` | PHP callable `report_support::analytics_prefers_state_fallback`; pure state-fallback Analytics selection preserving viewer priority and unique-seconds epsilon. |
-| `classes/local/report_support.php:419` | `analytics_highlights` | PHP callable `report_support::analytics_highlights`; pure selection of top-watched, top-replayed and largest-drop Analytics highlights with existing suppression and ordering semantics. |
-| `classes/local/report_support.php:477` | `acknowledgement_scope_condition` | PHP callable `report_support::acknowledgement_scope_condition`; current-version acknowledgement scope SQL construction. |
-| `classes/local/report_support.php:546` | `analytics_acknowledgement_timing_counts` | PHP callable `report_support::analytics_acknowledgement_timing_counts`; acknowledgement Analytics timing-bucket counting with canonical timing fallback. |
-| `classes/local/report_support.php:574` | `reaction_event_condition` | PHP callable `report_support::reaction_event_condition`; standard reaction-event SQL/parameter construction with learner scope and optional report filters. |
-| `classes/local/report_support.php:616` | `bookmark_event_condition` | PHP callable `report_support::bookmark_event_condition`; standard bookmark-event SQL/parameter construction with learner scope and optional report filters. |
-| `classes/local/report_support.php:652` | `integrity_event_condition` | PHP callable `report_support::integrity_event_condition`; standard integrity-event SQL/parameter construction with learner scope and optional report filters. |
-| `classes/local/report_support.php:689` | `note_user_condition` | PHP callable `report_support::note_user_condition`; personal-note user-discovery SQL/parameter construction with learner scope and optional learner filtering. |
-| `classes/local/report_support.php:717` | `note_event_condition` | PHP callable `report_support::note_event_condition`; per-student personal-note SQL/parameter construction with learner scope, optional learner filtering and inclusive creation-time bounds. |
-| `classes/local/report_support.php:751` | `state_condition` | PHP callable `report_support::state_condition`; state-row SQL/parameter construction with learner scope and optional learner filtering. |
-| `classes/local/report_support.php:777` | `segment_user_condition` | PHP callable `report_support::segment_user_condition`; segment-user discovery SQL/parameter construction with the canonical learner scope. |
-| `classes/local/report_support.php:796` | `user_options` | PHP callable `report_support::user_options`; source-priority report-user option assembly with privacy-preserving labels. |
-| `classes/local/report_support.php:828` | `cluster_reaction_events` | PHP callable `report_support::cluster_reaction_events`; bounded reaction clustering with existing window, student-count and sort semantics. |
-| `classes/local/report_support.php:906` | `tabs` | PHP callable `report_support::tabs`; capability-dependent teacher-report tab construction. |
+| `classes/local/report_support.php:78` | `end_date_to_timestamp` | PHP callable `report_support::end_date_to_timestamp`; canonical inclusive end-of-day report boundary. |
+| `classes/local/report_support.php:100` | `optional_time_param` | PHP callable `report_support::optional_time_param`; structured and legacy video-time request parsing. |
+| `classes/local/report_support.php:152` | `duration_filter` | PHP callable `report_support::duration_filter`; accessible structured duration-filter markup. |
+| `classes/local/report_support.php:215` | `analytics_scope_condition` | PHP callable `report_support::analytics_scope_condition`; capability-safe Analytics scope SQL construction. |
+| `classes/local/report_support.php:280` | `analytics_reaction_condition` | PHP callable `report_support::analytics_reaction_condition`; standard reaction-Analytics SQL decoration preserving scope and optional provider filtering. |
+| `classes/local/report_support.php:305` | `analytics_bookmark_condition` | PHP callable `report_support::analytics_bookmark_condition`; bookmark-Analytics SQL decoration preserving scope and optional provider filtering. |
+| `classes/local/report_support.php:329` | `analytics_integrity_condition` | PHP callable `report_support::analytics_integrity_condition`; integrity-Analytics SQL decoration preserving capability-safe scope and optional provider filtering. |
+| `classes/local/report_support.php:354` | `analytics_state_condition` | PHP callable `report_support::analytics_state_condition`; state-Analytics SQL decoration that applies the optional provider filter to the complete capability-safe scope. |
+| `classes/local/report_support.php:376` | `analytics_segment_condition` | PHP callable `report_support::analytics_segment_condition`; validated-segment Analytics SQL decoration preserving capability-safe scope and optional provider filtering. |
+| `classes/local/report_support.php:400` | `analytics_prefers_state_fallback` | PHP callable `report_support::analytics_prefers_state_fallback`; pure state-fallback Analytics selection preserving viewer priority and unique-seconds epsilon. |
+| `classes/local/report_support.php:415` | `analytics_highlights` | PHP callable `report_support::analytics_highlights`; pure selection of top-watched, top-replayed and largest-drop Analytics highlights with existing suppression and ordering semantics. |
+| `classes/local/report_support.php:473` | `acknowledgement_scope_condition` | PHP callable `report_support::acknowledgement_scope_condition`; current-version acknowledgement scope SQL construction. |
+| `classes/local/report_support.php:542` | `analytics_acknowledgement_timing_counts` | PHP callable `report_support::analytics_acknowledgement_timing_counts`; acknowledgement Analytics timing-bucket counting with canonical timing fallback. |
+| `classes/local/report_support.php:570` | `reaction_event_condition` | PHP callable `report_support::reaction_event_condition`; standard reaction-event SQL/parameter construction with learner scope and optional report filters. |
+| `classes/local/report_support.php:612` | `bookmark_event_condition` | PHP callable `report_support::bookmark_event_condition`; standard bookmark-event SQL/parameter construction with learner scope and optional report filters. |
+| `classes/local/report_support.php:648` | `integrity_event_condition` | PHP callable `report_support::integrity_event_condition`; standard integrity-event SQL/parameter construction with learner scope and optional report filters. |
+| `classes/local/report_support.php:685` | `note_user_condition` | PHP callable `report_support::note_user_condition`; personal-note user-discovery SQL/parameter construction with learner scope and optional learner filtering. |
+| `classes/local/report_support.php:713` | `note_event_condition` | PHP callable `report_support::note_event_condition`; per-student personal-note SQL/parameter construction with learner scope, optional learner filtering and inclusive creation-time bounds. |
+| `classes/local/report_support.php:747` | `state_condition` | PHP callable `report_support::state_condition`; state-row SQL/parameter construction with learner scope and optional learner filtering. |
+| `classes/local/report_support.php:773` | `segment_user_condition` | PHP callable `report_support::segment_user_condition`; segment-user discovery SQL/parameter construction with the canonical learner scope. |
+| `classes/local/report_support.php:792` | `user_options` | PHP callable `report_support::user_options`; source-priority report-user option assembly with privacy-preserving labels. |
+| `classes/local/report_support.php:824` | `cluster_reaction_events` | PHP callable `report_support::cluster_reaction_events`; bounded reaction clustering with existing window, student-count and sort semantics. |
+| `classes/local/report_support.php:902` | `tabs` | PHP callable `report_support::tabs`; capability-dependent teacher-report tab construction. |
 | `classes/local/report_view.php:42` | `analytics_interval` | PHP callable `report_view::analytics_interval`; see its DocBlock and callers for parameter, return-value and side-effect details. |
 | `classes/local/report_view.php:56` | `analytics_heatmap` | PHP callable `report_view::analytics_heatmap`; see its DocBlock and callers for parameter, return-value and side-effect details. |
 | `classes/local/report_view.php:188` | `analytics_methodology` | PHP callable `report_view::analytics_methodology`; see its DocBlock and callers for parameter, return-value and side-effect details. |

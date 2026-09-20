@@ -57,29 +57,6 @@ final class report_support {
      * @return int Timestamp, or 0 when the value is empty or invalid.
      */
     public static function date_to_timestamp(string $date): int {
-        return self::date_to_timestamp_at($date, 0, 0, 0);
-    }
-
-    /**
-     * Converts an ISO date-only parameter to the end of that day in the user's timezone.
-     *
-     * @param string $date Date in YYYY-MM-DD format.
-     * @return int Timestamp, or 0 when the value is empty or invalid.
-     */
-    public static function end_date_to_timestamp(string $date): int {
-        return self::date_to_timestamp_at($date, 23, 59, 59);
-    }
-
-    /**
-     * Converts an ISO date-only parameter using an explicit time boundary.
-     *
-     * @param string $date Date in YYYY-MM-DD format.
-     * @param int $hour Hour boundary.
-     * @param int $minute Minute boundary.
-     * @param int $second Second boundary.
-     * @return int Timestamp, or 0 when the value is empty or invalid.
-     */
-    private static function date_to_timestamp_at(string $date, int $hour, int $minute, int $second): int {
         if ($date === '' || !preg_match('/^(\d{4})-(\d{2})-(\d{2})$/', $date, $matches)) {
             return 0;
         }
@@ -89,7 +66,26 @@ final class report_support {
         if (!checkdate($month, $day, $year)) {
             return 0;
         }
-        return make_timestamp($year, $month, $day, $hour, $minute, $second);
+        return make_timestamp($year, $month, $day, 0, 0, 0);
+    }
+
+    /**
+     * Converts an ISO date-only parameter to the end of that day in the user's timezone.
+     *
+     * @param string $date Date in YYYY-MM-DD format.
+     * @return int Timestamp, or 0 when the value is empty or invalid.
+     */
+    public static function end_date_to_timestamp(string $date): int {
+        if ($date === '' || !preg_match('/^(\d{4})-(\d{2})-(\d{2})$/', $date, $matches)) {
+            return 0;
+        }
+        $year = (int)$matches[1];
+        $month = (int)$matches[2];
+        $day = (int)$matches[3];
+        if (!checkdate($month, $day, $year)) {
+            return 0;
+        }
+        return make_timestamp($year, $month, $day, 23, 59, 59);
     }
 
     /**
