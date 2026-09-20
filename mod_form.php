@@ -724,7 +724,7 @@ class mod_videotrack_mod_form extends moodleform_mod {
             'select',
             'csvdelimiter',
             get_string('setting:csvdelimiter', 'mod_videotrack'),
-            \mod_videotrack\local\csv_export::delimiter_options(true)
+            \mod_videotrack\local\csv_export::delimiter_options_with_inherit()
         );
         $mform->setType('csvdelimiter', PARAM_ALPHA);
         $mform->setDefault('csvdelimiter', \mod_videotrack\local\csv_export::DELIMITER_INHERIT);

@@ -181,3 +181,10 @@ I 161 finding PHPMD revisionati includono sette variabili locali realmente inuti
 del database ridondanti e tre valori non utilizzati in cicli chiave/valore. La release 1.7.143 rimuove soltanto questo
 primo gruppo a basso rischio. Firme dei callback pubblici, accesso al database, ordine di iterazione e configurazione
 degli analizzatori restano invariati.
+
+Le matrici 1.7.143 della branch di release e di `main` si sono concluse con zero errori PHPStan, Psalm e Moodle PHPCS
+e 154 finding PHPMD revisionati. L'archivio taggato ha poi superato sul server PHPCS, PHP lint, Grunt, PHPUnit e
+validazione strict su Moodle 5.0 e 5.3. La release 1.7.144 avvia il successivo gruppo PHPMD a basso rischio sostituendo
+due flag booleani interni con API esplicite: opzioni delimitatore CSV di sito o attività e limiti data di inizio o
+fine giornata. Valori persistiti, semantica del fuso orario e configurazione degli analizzatori restano invariati;
+la modifica affronta due finding `BooleanArgumentFlag`.

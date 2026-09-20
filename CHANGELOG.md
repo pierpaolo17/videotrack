@@ -1,5 +1,20 @@
 # VideoTrack changelog
 
+## 1.7.144 - 2026-09-18
+
+### Explicit delimiter and date-boundary APIs
+
+- Replaced the CSV delimiter option flag with separate site-level and activity-level helpers. The activity helper
+  adds the existing inherit choice explicitly, while the stored symbolic values and their order remain unchanged.
+- Replaced the report date helper's end-of-day flag with distinct start-of-day and end-of-day entry points backed
+  by one validated ISO-date conversion routine. The report filter still uses `00:00:00` and `23:59:59` boundaries
+  in the user's timezone.
+- Added PHPUnit coverage for both delimiter scopes and both date boundaries. No database schema, service signature,
+  player, AMD module or analyser rule changed.
+- Accepted the complete 1.7.143 baseline: release and `main` matrices passed with zero PHPStan, Psalm and Moodle
+  PHPCS errors and 154 reviewed PHPMD findings; its tagged ZIP then passed server PHPCS, PHP lint, Grunt, PHPUnit
+  and strict validation on Moodle 5.0 and 5.3. This release targets two `BooleanArgumentFlag` findings.
+
 ## 1.7.143 - 2026-09-13
 
 ### PHPMD unused-local cleanup

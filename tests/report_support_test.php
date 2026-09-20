@@ -44,8 +44,9 @@ final class report_support_test extends \advanced_testcase {
         );
         $this->assertSame(
             make_timestamp(2026, 8, 17, 23, 59, 59),
-            report_support::date_to_timestamp('2026-08-17', true)
+            report_support::end_date_to_timestamp('2026-08-17')
         );
+        $this->assertSame(0, report_support::end_date_to_timestamp('2026-02-30'));
     }
 
     /**

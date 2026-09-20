@@ -67,7 +67,7 @@ if ($timefrom !== null && $timeto !== null && $timeto < $timefrom) {
     [$timefrom, $timeto] = [$timeto, $timefrom];
 }
 $notecreatedfromts = \mod_videotrack\local\report_support::date_to_timestamp($notecreatedfrom);
-$notecreatedtots = \mod_videotrack\local\report_support::date_to_timestamp($notecreatedto, true);
+$notecreatedtots = \mod_videotrack\local\report_support::end_date_to_timestamp($notecreatedto);
 if ($notecreatedfromts && $notecreatedtots && $notecreatedtots < $notecreatedfromts) {
     [$notecreatedfromts, $notecreatedtots] = [$notecreatedtots, $notecreatedfromts];
 }

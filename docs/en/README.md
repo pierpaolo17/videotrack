@@ -1,7 +1,7 @@
 # VideoTrack documentation
 
 This directory contains the current English user, administrator and developer documentation for
-VideoTrack 1.7.143. Start with [`00_INDEX.md`](00_INDEX.md).
+VideoTrack 1.7.144. Start with [`00_INDEX.md`](00_INDEX.md).
 
 The documentation is deliberately version-local: it explains the code shipped in this release and
 does not embed the evolution of older releases. Use the root `CHANGELOG.md` for a concise release
