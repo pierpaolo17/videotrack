@@ -34,6 +34,7 @@ use PHPUnit\Framework\Attributes\CoversFunction;
 #[CoversFunction('videotrack_supports')]
 #[CoversFunction('videotrack_process_player_behavior_fields')]
 #[CoversFunction('videotrack_process_captions_fields')]
+#[CoversFunction('videotrack_whitelist_record')]
 final class lib_test extends advanced_testcase {
     /**
      * Load module callbacks under test.
@@ -121,5 +122,20 @@ final class lib_test extends advanced_testcase {
         $this->assertSame(1, $data->showtranscript);
         $this->assertSame(1, $data->showchapters);
         $this->assertSame(0, $data->captions);
+    }
+
+    /**
+     * Record whitelisting keeps table columns and discards form-only fields.
+     */
+    public function test_whitelist_record_discards_non_table_fields(): void {
+        $record = \videotrack_whitelist_record((object)[
+            'course' => 17,
+            'name' => 'Whitelisted activity',
+            'videofile' => 42,
+        ]);
+
+        $this->assertSame(17, $record->course);
+        $this->assertSame('Whitelisted activity', $record->name);
+        $this->assertFalse(property_exists($record, 'videofile'));
     }
 }

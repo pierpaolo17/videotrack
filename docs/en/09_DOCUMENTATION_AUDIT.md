@@ -1,6 +1,6 @@
 # Documentation audit
 
-Baseline: VideoTrack **1.7.146** (`2026092101`).
+Baseline: VideoTrack **1.7.147** (`2026092102`).
 
 ## Scope
 
@@ -33,7 +33,7 @@ not duplicate implementation procedures, field dictionaries or long security/pri
 ## Current-tree findings
 
 - English and Italian indexes have matching scope and ordering.
-- Documentation markers, root README files and ER artefacts identify 1.7.146 / 2026092101.
+- Documentation markers, root README files and ER artefacts identify 1.7.147 / 2026092102.
 - The activity identity includes a 1024-pixel `pix/icon.png` and an accessible native `pix/icon.svg` derived from
   the same maintainer-supplied artwork.
 - `db/install.xml` declares seven primary keys, 22 stable foreign keys and 22 explicit indexes. XMLDB generates an
@@ -45,6 +45,9 @@ not duplicate implementation procedures, field dictionaries or long security/pri
   zero-residue uninstall verification. CRUD, AJAX, privacy and completion runtime behaviour is unchanged.
 - The activity and media guides document opt-in reaction configuration, effective learner-section visibility and
   the live `HH:MM:SS` duration equivalent.
+- Reaction reads have explicit scopes: the standard helper returns active definitions, while lifecycle code can
+  request active and soft-deleted definitions without a boolean behaviour flag. Activity records are filtered to
+  real table columns through one request-local metadata cache before insert or update.
 - The GitHub Actions guide documents triggers, least-privilege permissions, the six-job Moodle/PHP/database matrix,
   deterministic classic/`public/` ordinary-site bootstrap, rejection of generated `.types` mirrors, the
   authoritative `moodle-plugin-ci grunt` comparison, strict/advisory checks, retained logs and faildumps.

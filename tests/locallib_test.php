@@ -42,6 +42,8 @@ use stdClass;
 #[CoversFunction('videotrack_build_replay_url')]
 #[CoversFunction('videotrack_build_forum_subject')]
 #[CoversFunction('videotrack_render_reaction_icon')]
+#[CoversFunction('videotrack_get_reactions')]
+#[CoversFunction('videotrack_get_all_reactions')]
 final class locallib_test extends advanced_testcase {
     /**
      * Load helper functions under test.
@@ -252,5 +254,48 @@ final class locallib_test extends advanced_testcase {
         $this->assertStringContainsString('videotrack-reaction-icon-wrapper', $html);
         $this->assertStringContainsString('videotrack-reaction-label', $html);
         $this->assertStringContainsString('Useful', $html);
+    }
+
+    /**
+     * Active and lifecycle reaction APIs expose their distinct deletion scopes.
+     */
+    public function test_reaction_collections_use_explicit_deletion_scopes(): void {
+        global $DB;
+
+        $this->resetAfterTest();
+        $course = $this->getDataGenerator()->create_course();
+        $videotrack = $this->getDataGenerator()->create_module('videotrack', [
+            'course' => $course->id,
+        ]);
+        $base = [
+            'videotrackid' => $videotrack->id,
+            'description' => '',
+            'icontype' => 'emoji',
+            'requiredforcompletion' => 0,
+            'timecreated' => time(),
+            'timemodified' => time(),
+        ];
+        $activeid = $DB->insert_record('videotrack_react', (object)($base + [
+            'reactionkey' => 'active',
+            'label' => 'Active',
+            'iconvalue' => '👍',
+            'sortorder' => 1,
+            'isdeleted' => 0,
+        ]));
+        $deletedid = $DB->insert_record('videotrack_react', (object)($base + [
+            'reactionkey' => 'deleted',
+            'label' => 'Deleted',
+            'iconvalue' => '👎',
+            'sortorder' => 2,
+            'isdeleted' => 1,
+        ]));
+
+        $active = \videotrack_get_reactions($videotrack->id);
+        $all = \videotrack_get_all_reactions($videotrack->id);
+
+        $this->assertArrayHasKey($activeid, $active);
+        $this->assertArrayNotHasKey($deletedid, $active);
+        $this->assertArrayHasKey($activeid, $all);
+        $this->assertArrayHasKey($deletedid, $all);
     }
 }

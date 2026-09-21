@@ -64,16 +64,12 @@ function videotrack_supports($feature) {
  * which would otherwise trigger DB exceptions for non-existent columns.
  *
  * @param stdClass $data Raw form data.
- * @param bool $resetcache If true, refreshes the column cache (useful in tests).
  * @return stdClass Object containing table fields only.
  */
-function videotrack_whitelist_record(stdClass $data, bool $resetcache = false): stdClass {
+function videotrack_whitelist_record(stdClass $data): stdClass {
     global $DB;
 
     static $columns = null;
-    if ($resetcache) {
-        $columns = null;
-    }
     if ($columns === null) {
         $columns = array_keys($DB->get_columns('videotrack'));
     }

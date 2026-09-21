@@ -367,31 +367,47 @@ function videotrack_build_required_reaction_notice(stdClass $videotrack, array $
 }
 
 /**
- * Returns all reaction definitions for a videotrack instance, sorted by sortorder.
+ * Returns active reaction definitions for a videotrack instance, sorted by sortorder.
  * Results are request-cached to serve both the reaction buttons and table without duplicate DB queries.
  *
  * @param  int    $videotrackid  Instance ID.
- * @param  bool   $includedeleted Include soft-deleted reaction definitions.
  * @return array                 Keyed array of reaction objects (id → stdClass).
  */
-function videotrack_get_reactions(int $videotrackid, bool $includedeleted = false): array {
+function videotrack_get_reactions(int $videotrackid): array {
     global $DB;
     // Static cache to avoid repeated queries for the same activity in one request.
-    // Separate cache key for includedeleted=true (rarely used, for example backup).
     static $cache = [];
-    $key = $videotrackid . ($includedeleted ? ':all' : ':active');
-    if (!isset($cache[$key])) {
-        $where = ['videotrackid' => $videotrackid];
-        if (!$includedeleted) {
-            $where['isdeleted'] = 0;
-        }
-        $cache[$key] = $DB->get_records(
+    if (!isset($cache[$videotrackid])) {
+        $cache[$videotrackid] = $DB->get_records(
             'videotrack_react',
-            $where,
+            ['videotrackid' => $videotrackid, 'isdeleted' => 0],
             'sortorder ASC, id ASC'
         );
     }
-    return $cache[$key];
+    return $cache[$videotrackid];
+}
+
+/**
+ * Returns every reaction definition for a videotrack instance, including soft-deleted rows.
+ *
+ * This explicit API is intended for lifecycle operations that must preserve historical reaction references.
+ * Results are request-cached independently from the active-only collection.
+ *
+ * @param int $videotrackid Instance ID.
+ * @return array Keyed array of reaction objects (id → stdClass).
+ */
+function videotrack_get_all_reactions(int $videotrackid): array {
+    global $DB;
+
+    static $cache = [];
+    if (!isset($cache[$videotrackid])) {
+        $cache[$videotrackid] = $DB->get_records(
+            'videotrack_react',
+            ['videotrackid' => $videotrackid],
+            'sortorder ASC, id ASC'
+        );
+    }
+    return $cache[$videotrackid];
 }
 
 /**

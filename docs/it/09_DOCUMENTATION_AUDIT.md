@@ -1,6 +1,6 @@
 # Audit della documentazione
 
-Baseline: VideoTrack **1.7.146** (`2026092101`).
+Baseline: VideoTrack **1.7.147** (`2026092102`).
 
 ## Perimetro
 
@@ -33,7 +33,7 @@ duplicano intenzionalmente procedure implementative, dizionari dei campi o lungh
 ## Rilievi sull'albero corrente
 
 - Gli indici inglese e italiano hanno stesso perimetro e ordinamento.
-- Marker documentali, README principali e artefatti ER identificano 1.7.146 / 2026092101.
+- Marker documentali, README principali e artefatti ER identificano 1.7.147 / 2026092102.
 - L'identità dell'attività include `pix/icon.png` da 1024 pixel e un `pix/icon.svg` nativo e accessibile derivati
   dalla stessa grafica fornita dal maintainer.
 - `db/install.xml` dichiara sette chiavi primarie, 22 foreign key stabili e 22 indici espliciti. XMLDB genera inoltre
@@ -45,6 +45,9 @@ duplicano intenzionalmente procedure implementative, dizionari dei campi o lungh
   CLI e verifica della disinstallazione a residuo zero. Il runtime CRUD, AJAX, privacy e completion resta invariato.
 - Le guide dell'attività e dei media documentano reazioni opt-in, visibilità effettiva delle sezioni learner e
   l'equivalente live della durata in `HH:MM:SS`.
+- Le letture delle reazioni hanno scope espliciti: l'helper standard restituisce le definizioni attive, mentre il
+  codice lifecycle può richiedere definizioni attive e soft-deleted senza flag booleani. Prima di insert/update i
+  record attività sono filtrati sulle vere colonne della tabella tramite una cache di metadata per richiesta.
 - La guida GitHub Actions documenta trigger, permessi minimi, matrice Moodle/PHP/database a sei job, controlli
   bloccanti e consultivi, bootstrap deterministico nei layout classico/`public/`, rifiuto dei mirror `.types`,
   confronto autorevole `moodle-plugin-ci grunt`, log conservati e faildump.

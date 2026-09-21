@@ -98,8 +98,11 @@ soltanto a ottenere un output verde.
   delimitatore CSV usa entry point distinti per sito e attività; nessuna delle due API usa flag di comportamento.
 - `videotrack_render_reaction_icon()` restituisce sempre l'icona insieme alla relativa etichetta accessibile visibile.
   I chiamanti non passano più un flag booleano di presentazione inutilizzato.
+- La lettura delle reazioni usa funzioni distinte per scope attivo e lifecycle completo. Il filtro dei record ha un
+  solo contratto stabile con cache per richiesta; nessuna delle due API usa uno switch booleano opzionale.
 - PHPMD resta consultivo. I rilievi residui riguardano complessità, dimensione, classi pubbliche ampie, parametri
   obbligatori dei callback Moodle e flag booleani che richiedono refactoring comportamentali separati. I conteggi
   correnti esatti vanno letti nell'artifact CI prodotto per la candidata in esame.
 - Configurazione degli analizzatori, perimetro di produzione, schema database e asset AMD non cambiano con queste
-  pulizie delle API.
+  pulizie delle API. I conteggi della candidata diventano autorevoli soltanto dopo aver conservato e revisionato gli
+  artifact CI completi.
