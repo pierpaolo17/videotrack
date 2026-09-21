@@ -435,17 +435,15 @@ function videotrack_reaction_icon_url(\context_module $context, stdClass $reacti
 }
 
 /**
- * Renders a reaction icon with an optional accessible label.
+ * Renders a reaction icon with its visible accessible label.
  *
  * @param stdClass $reaction Reaction definition record.
  * @param \context_module|null $context Module context used for file icons.
- * @param bool $withlabel Whether to include the visible label.
  * @return string HTML fragment for the reaction icon.
  */
 function videotrack_render_reaction_icon(
     stdClass $reaction,
-    ?\context_module $context = null,
-    bool $withlabel = true
+    ?\context_module $context = null
 ): string {
     $label = s($reaction->label ?? '');
     $iconhtml = '';
@@ -474,9 +472,6 @@ function videotrack_render_reaction_icon(
             s($reaction->iconvalue !== '' ? $reaction->iconvalue : $label),
             'videotrack-reaction-icon-text'
         );
-    }
-    if (!$withlabel) {
-        return $iconhtml;
     }
     return html_writer::span($iconhtml, 'videotrack-reaction-icon-wrapper')
         . ' '

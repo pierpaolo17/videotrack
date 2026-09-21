@@ -1,5 +1,18 @@
 # VideoTrack changelog
 
+## 1.7.146 - 2026-09-21
+
+### Current documentation and reaction-icon API
+
+- Aligned the English and Italian documentation audit and static-analysis guides with the current source tree.
+  Technical guides now describe the active contracts and configuration; release-by-release diagnostics remain in
+  the changelog and in the documentation bundled with the corresponding tags.
+- Removed the unused boolean presentation argument from `videotrack_render_reaction_icon()`. Every production caller
+  requested the visible label, so the helper now guarantees the same labelled output directly and the dead
+  icon-only branch is gone.
+- Added PHPUnit coverage for the icon wrapper, visible label element and label text. Database schema, persisted
+  values, services, permissions, privacy behaviour, player code and AMD assets are unchanged.
+
 ## 1.7.145 - 2026-09-20
 
 ### PHPMD method-count correction

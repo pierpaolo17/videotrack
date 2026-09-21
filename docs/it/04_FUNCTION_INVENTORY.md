@@ -1,8 +1,8 @@
 # Inventario delle funzioni
 
-Generato dall’albero sorgente VideoTrack 1.7.145. Le voci PHP includono funzioni e metodi nominati; le voci AMD includono dichiarazioni nominate, espressioni funzione assegnate e funzioni-metodo di oggetti.
+Generato dall’albero sorgente VideoTrack 1.7.146. Le voci PHP includono funzioni e metodi nominati; le voci AMD includono dichiarazioni nominate, espressioni funzione assegnate e funzioni-metodo di oggetti.
 
-**Funzioni/metodi PHP:** 758. **Callable AMD nominati:** 654.
+**Funzioni/metodi PHP:** 759. **Callable AMD nominati:** 654.
 
 | Posizione | Callable | Responsabilità |
 |---|---|---|
@@ -1077,25 +1077,25 @@ Generato dall’albero sorgente VideoTrack 1.7.145. Le voci PHP includono funzio
 | `locallib.php:355` | `videotrack_build_required_reaction_notice` | Callable PHP `videotrack_build_required_reaction_notice`; DocBlock e chiamanti definiscono parametri, valori restituiti ed effetti. |
 | `locallib.php:377` | `videotrack_get_reactions` | Callable PHP `videotrack_get_reactions`; DocBlock e chiamanti definiscono parametri, valori restituiti ed effetti. |
 | `locallib.php:404` | `videotrack_reaction_icon_url` | Callable PHP `videotrack_reaction_icon_url`; DocBlock e chiamanti definiscono parametri, valori restituiti ed effetti. |
-| `locallib.php:445` | `videotrack_render_reaction_icon` | Callable PHP `videotrack_render_reaction_icon`; DocBlock e chiamanti definiscono parametri, valori restituiti ed effetti. |
-| `locallib.php:492` | `videotrack_get_fallback_reaction_emoji_catalog` | Callable PHP `videotrack_get_fallback_reaction_emoji_catalog`; DocBlock e chiamanti definiscono parametri, valori restituiti ed effetti. |
-| `locallib.php:526` | `videotrack_get_moodle_reaction_emoji_catalog` | Callable PHP `videotrack_get_moodle_reaction_emoji_catalog`; DocBlock e chiamanti definiscono parametri, valori restituiti ed effetti. |
-| `locallib.php:578` | `videotrack_get_reaction_icon_catalog` | Callable PHP `videotrack_get_reaction_icon_catalog`; DocBlock e chiamanti definiscono parametri, valori restituiti ed effetti. |
-| `locallib.php:624` | `videotrack_get_reaction_icon_suggestions` | Callable PHP `videotrack_get_reaction_icon_suggestions`; DocBlock e chiamanti definiscono parametri, valori restituiti ed effetti. |
-| `locallib.php:642` | `videotrack_reaction_icon_datalist` | Callable PHP `videotrack_reaction_icon_datalist`; DocBlock e chiamanti definiscono parametri, valori restituiti ed effetti. |
-| `locallib.php:669` | `videotrack_reaction_icon_picker` | Callable PHP `videotrack_reaction_icon_picker`; DocBlock e chiamanti definiscono parametri, valori restituiti ed effetti. |
-| `locallib.php:790` | `videotrack_get_all_presets` | Callable PHP `videotrack_get_all_presets`; DocBlock e chiamanti definiscono parametri, valori restituiti ed effetti. |
-| `locallib.php:804` | `videotrack_save_presets` | Callable PHP `videotrack_save_presets`; DocBlock e chiamanti definiscono parametri, valori restituiti ed effetti. |
-| `locallib.php:814` | `videotrack_get_preset_select_options` | Callable PHP `videotrack_get_preset_select_options`; DocBlock e chiamanti definiscono parametri, valori restituiti ed effetti. |
-| `locallib.php:829` | `videotrack_get_all_presets_for_js` | Callable PHP `videotrack_get_all_presets_for_js`; DocBlock e chiamanti definiscono parametri, valori restituiti ed effetti. |
-| `locallib.php:845` | `videotrack_require_preset_amd` | Callable PHP `videotrack_require_preset_amd`; DocBlock e chiamanti definiscono parametri, valori restituiti ed effetti. |
-| `locallib.php:861` | `videotrack_optional_iso_date_param` | Callable PHP `videotrack_optional_iso_date_param`; DocBlock e chiamanti definiscono parametri, valori restituiti ed effetti. |
-| `locallib.php:872` | `videotrack_get_compatible_forum_types` | Callable PHP `videotrack_get_compatible_forum_types`; DocBlock e chiamanti definiscono parametri, valori restituiti ed effetti. |
-| `locallib.php:882` | `videotrack_get_compatible_forums` | Callable PHP `videotrack_get_compatible_forums`; DocBlock e chiamanti definiscono parametri, valori restituiti ed effetti. |
-| `locallib.php:909` | `videotrack_get_compatible_forum_options` | Callable PHP `videotrack_get_compatible_forum_options`; DocBlock e chiamanti definiscono parametri, valori restituiti ed effetti. |
-| `locallib.php:936` | `videotrack_is_compatible_forum` | Callable PHP `videotrack_is_compatible_forum`; DocBlock e chiamanti definiscono parametri, valori restituiti ed effetti. |
-| `locallib.php:952` | `videotrack_build_forum_subject` | Callable PHP `videotrack_build_forum_subject`; DocBlock e chiamanti definiscono parametri, valori restituiti ed effetti. |
-| `locallib.php:981` | `videotrack_build_replay_url` | Callable PHP `videotrack_build_replay_url`; DocBlock e chiamanti definiscono parametri, valori restituiti ed effetti. |
+| `locallib.php:444` | `videotrack_render_reaction_icon` | Callable PHP `videotrack_render_reaction_icon`; DocBlock e chiamanti definiscono parametri, valori restituiti ed effetti. |
+| `locallib.php:487` | `videotrack_get_fallback_reaction_emoji_catalog` | Callable PHP `videotrack_get_fallback_reaction_emoji_catalog`; DocBlock e chiamanti definiscono parametri, valori restituiti ed effetti. |
+| `locallib.php:521` | `videotrack_get_moodle_reaction_emoji_catalog` | Callable PHP `videotrack_get_moodle_reaction_emoji_catalog`; DocBlock e chiamanti definiscono parametri, valori restituiti ed effetti. |
+| `locallib.php:573` | `videotrack_get_reaction_icon_catalog` | Callable PHP `videotrack_get_reaction_icon_catalog`; DocBlock e chiamanti definiscono parametri, valori restituiti ed effetti. |
+| `locallib.php:619` | `videotrack_get_reaction_icon_suggestions` | Callable PHP `videotrack_get_reaction_icon_suggestions`; DocBlock e chiamanti definiscono parametri, valori restituiti ed effetti. |
+| `locallib.php:637` | `videotrack_reaction_icon_datalist` | Callable PHP `videotrack_reaction_icon_datalist`; DocBlock e chiamanti definiscono parametri, valori restituiti ed effetti. |
+| `locallib.php:664` | `videotrack_reaction_icon_picker` | Callable PHP `videotrack_reaction_icon_picker`; DocBlock e chiamanti definiscono parametri, valori restituiti ed effetti. |
+| `locallib.php:785` | `videotrack_get_all_presets` | Callable PHP `videotrack_get_all_presets`; DocBlock e chiamanti definiscono parametri, valori restituiti ed effetti. |
+| `locallib.php:799` | `videotrack_save_presets` | Callable PHP `videotrack_save_presets`; DocBlock e chiamanti definiscono parametri, valori restituiti ed effetti. |
+| `locallib.php:809` | `videotrack_get_preset_select_options` | Callable PHP `videotrack_get_preset_select_options`; DocBlock e chiamanti definiscono parametri, valori restituiti ed effetti. |
+| `locallib.php:824` | `videotrack_get_all_presets_for_js` | Callable PHP `videotrack_get_all_presets_for_js`; DocBlock e chiamanti definiscono parametri, valori restituiti ed effetti. |
+| `locallib.php:840` | `videotrack_require_preset_amd` | Callable PHP `videotrack_require_preset_amd`; DocBlock e chiamanti definiscono parametri, valori restituiti ed effetti. |
+| `locallib.php:856` | `videotrack_optional_iso_date_param` | Callable PHP `videotrack_optional_iso_date_param`; DocBlock e chiamanti definiscono parametri, valori restituiti ed effetti. |
+| `locallib.php:867` | `videotrack_get_compatible_forum_types` | Callable PHP `videotrack_get_compatible_forum_types`; DocBlock e chiamanti definiscono parametri, valori restituiti ed effetti. |
+| `locallib.php:877` | `videotrack_get_compatible_forums` | Callable PHP `videotrack_get_compatible_forums`; DocBlock e chiamanti definiscono parametri, valori restituiti ed effetti. |
+| `locallib.php:904` | `videotrack_get_compatible_forum_options` | Callable PHP `videotrack_get_compatible_forum_options`; DocBlock e chiamanti definiscono parametri, valori restituiti ed effetti. |
+| `locallib.php:931` | `videotrack_is_compatible_forum` | Callable PHP `videotrack_is_compatible_forum`; DocBlock e chiamanti definiscono parametri, valori restituiti ed effetti. |
+| `locallib.php:947` | `videotrack_build_forum_subject` | Callable PHP `videotrack_build_forum_subject`; DocBlock e chiamanti definiscono parametri, valori restituiti ed effetti. |
+| `locallib.php:976` | `videotrack_build_replay_url` | Callable PHP `videotrack_build_replay_url`; DocBlock e chiamanti definiscono parametri, valori restituiti ed effetti. |
 | `mod_form.php:46` | `definition` | Callable PHP `definition`; DocBlock e chiamanti definiscono parametri, valori restituiti ed effetti. |
 | `mod_form.php:1127` | `apply_default_section_expansion` | Callable PHP `apply_default_section_expansion`; DocBlock e chiamanti definiscono parametri, valori restituiti ed effetti. |
 | `mod_form.php:1164` | `require_filepicker_accept_filter` | Callable PHP `require_filepicker_accept_filter`; DocBlock e chiamanti definiscono parametri, valori restituiti ed effetti. |
@@ -1271,21 +1271,22 @@ Generato dall’albero sorgente VideoTrack 1.7.145. Le voci PHP includono funzio
 | `tests/lib_test.php:77` | `test_unknown_feature_returns_null` | Callable PHP `test_unknown_feature_returns_null`; DocBlock e chiamanti definiscono parametri, valori restituiti ed effetti. |
 | `tests/lib_test.php:84` | `test_player_behavior_fields_normalise_bookmark_setting` | Callable PHP `test_player_behavior_fields_normalise_bookmark_setting`; DocBlock e chiamanti definiscono parametri, valori restituiti ed effetti. |
 | `tests/lib_test.php:110` | `test_caption_normalisation_preserves_provider_timed_text_settings` | Callable PHP `test_caption_normalisation_preserves_provider_timed_text_settings`; DocBlock e chiamanti definiscono parametri, valori restituiti ed effetti. |
-| `tests/locallib_test.php:48` | `setUp` | Callable PHP `setUp`; DocBlock e chiamanti definiscono parametri, valori restituiti ed effetti. |
-| `tests/locallib_test.php:56` | `test_extract_videoid_accepts_supported_youtube_urls` | Callable PHP `test_extract_videoid_accepts_supported_youtube_urls`; DocBlock e chiamanti definiscono parametri, valori restituiti ed effetti. |
-| `tests/locallib_test.php:71` | `test_extract_vimeo_id_accepts_supported_vimeo_urls` | Callable PHP `test_extract_vimeo_id_accepts_supported_vimeo_urls`; DocBlock e chiamanti definiscono parametri, valori restituiti ed effetti. |
-| `tests/locallib_test.php:85` | `test_format_seconds_clamps_and_formats_duration` | Callable PHP `test_format_seconds_clamps_and_formats_duration`; DocBlock e chiamanti definiscono parametri, valori restituiti ed effetti. |
-| `tests/locallib_test.php:95` | `test_format_video_timestamp_uses_total_duration` | Callable PHP `test_format_video_timestamp_uses_total_duration`; DocBlock e chiamanti definiscono parametri, valori restituiti ed effetti. |
-| `tests/locallib_test.php:104` | `test_parse_video_timestamp_accepts_supported_formats` | Callable PHP `test_parse_video_timestamp_accepts_supported_formats`; DocBlock e chiamanti definiscono parametri, valori restituiti ed effetti. |
-| `tests/locallib_test.php:117` | `test_parse_report_timestamp_requires_colon_format` | Callable PHP `test_parse_report_timestamp_requires_colon_format`; DocBlock e chiamanti definiscono parametri, valori restituiti ed effetti. |
-| `tests/locallib_test.php:128` | `test_get_config_int_preserves_zero_and_clamps_values` | Callable PHP `test_get_config_int_preserves_zero_and_clamps_values`; DocBlock e chiamanti definiscono parametri, valori restituiti ed effetti. |
-| `tests/locallib_test.php:144` | `test_get_config_int_rejects_invalid_bounds` | Callable PHP `test_get_config_int_rejects_invalid_bounds`; DocBlock e chiamanti definiscono parametri, valori restituiti ed effetti. |
-| `tests/locallib_test.php:152` | `test_get_playback_speeds_filters_and_applies_site_cap` | Callable PHP `test_get_playback_speeds_filters_and_applies_site_cap`; DocBlock e chiamanti definiscono parametri, valori restituiti ed effetti. |
-| `tests/locallib_test.php:171` | `test_tracking_playback_speeds_include_blocked_seek_penalty_only_when_needed` | Funzione/metodo PHP nominato `test_tracking_playback_speeds_include_blocked_seek_penalty_only_when_needed`; vedere DocBlock e chiamanti per il contratto corrente. |
-| `tests/locallib_test.php:196` | `test_compatible_forum_types_exclude_single_use_forums` | Callable PHP `test_compatible_forum_types_exclude_single_use_forums`; DocBlock e chiamanti definiscono parametri, valori restituiti ed effetti. |
-| `tests/locallib_test.php:203` | `test_build_replay_url_applies_window_and_duration` | Callable PHP `test_build_replay_url_applies_window_and_duration`; DocBlock e chiamanti definiscono parametri, valori restituiti ed effetti. |
-| `tests/locallib_test.php:217` | `test_build_forum_subject_replaces_supported_placeholders` | Callable PHP `test_build_forum_subject_replaces_supported_placeholders`; DocBlock e chiamanti definiscono parametri, valori restituiti ed effetti. |
-| `tests/locallib_test.php:231` | `test_build_forum_subject_uses_default_template` | Callable PHP `test_build_forum_subject_uses_default_template`; DocBlock e chiamanti definiscono parametri, valori restituiti ed effetti. |
+| `tests/locallib_test.php:49` | `setUp` | Callable PHP `setUp`; DocBlock e chiamanti definiscono parametri, valori restituiti ed effetti. |
+| `tests/locallib_test.php:57` | `test_extract_videoid_accepts_supported_youtube_urls` | Callable PHP `test_extract_videoid_accepts_supported_youtube_urls`; DocBlock e chiamanti definiscono parametri, valori restituiti ed effetti. |
+| `tests/locallib_test.php:72` | `test_extract_vimeo_id_accepts_supported_vimeo_urls` | Callable PHP `test_extract_vimeo_id_accepts_supported_vimeo_urls`; DocBlock e chiamanti definiscono parametri, valori restituiti ed effetti. |
+| `tests/locallib_test.php:86` | `test_format_seconds_clamps_and_formats_duration` | Callable PHP `test_format_seconds_clamps_and_formats_duration`; DocBlock e chiamanti definiscono parametri, valori restituiti ed effetti. |
+| `tests/locallib_test.php:96` | `test_format_video_timestamp_uses_total_duration` | Callable PHP `test_format_video_timestamp_uses_total_duration`; DocBlock e chiamanti definiscono parametri, valori restituiti ed effetti. |
+| `tests/locallib_test.php:105` | `test_parse_video_timestamp_accepts_supported_formats` | Callable PHP `test_parse_video_timestamp_accepts_supported_formats`; DocBlock e chiamanti definiscono parametri, valori restituiti ed effetti. |
+| `tests/locallib_test.php:118` | `test_parse_report_timestamp_requires_colon_format` | Callable PHP `test_parse_report_timestamp_requires_colon_format`; DocBlock e chiamanti definiscono parametri, valori restituiti ed effetti. |
+| `tests/locallib_test.php:129` | `test_get_config_int_preserves_zero_and_clamps_values` | Callable PHP `test_get_config_int_preserves_zero_and_clamps_values`; DocBlock e chiamanti definiscono parametri, valori restituiti ed effetti. |
+| `tests/locallib_test.php:145` | `test_get_config_int_rejects_invalid_bounds` | Callable PHP `test_get_config_int_rejects_invalid_bounds`; DocBlock e chiamanti definiscono parametri, valori restituiti ed effetti. |
+| `tests/locallib_test.php:153` | `test_get_playback_speeds_filters_and_applies_site_cap` | Callable PHP `test_get_playback_speeds_filters_and_applies_site_cap`; DocBlock e chiamanti definiscono parametri, valori restituiti ed effetti. |
+| `tests/locallib_test.php:172` | `test_tracking_playback_speeds_include_blocked_seek_penalty_only_when_needed` | Funzione/metodo PHP nominato `test_tracking_playback_speeds_include_blocked_seek_penalty_only_when_needed`; vedere DocBlock e chiamanti per il contratto corrente. |
+| `tests/locallib_test.php:197` | `test_compatible_forum_types_exclude_single_use_forums` | Callable PHP `test_compatible_forum_types_exclude_single_use_forums`; DocBlock e chiamanti definiscono parametri, valori restituiti ed effetti. |
+| `tests/locallib_test.php:204` | `test_build_replay_url_applies_window_and_duration` | Callable PHP `test_build_replay_url_applies_window_and_duration`; DocBlock e chiamanti definiscono parametri, valori restituiti ed effetti. |
+| `tests/locallib_test.php:218` | `test_build_forum_subject_replaces_supported_placeholders` | Callable PHP `test_build_forum_subject_replaces_supported_placeholders`; DocBlock e chiamanti definiscono parametri, valori restituiti ed effetti. |
+| `tests/locallib_test.php:232` | `test_build_forum_subject_uses_default_template` | Callable PHP `test_build_forum_subject_uses_default_template`; DocBlock e chiamanti definiscono parametri, valori restituiti ed effetti. |
+| `tests/locallib_test.php:243` | `test_render_reaction_icon_includes_visible_label` | Verifica che le icone di reazione includano sempre l'etichetta accessibile visibile. |
 | `tests/player_resume_completion_alert_contract_test.php:37` | `test_all_providers_clamp_resume_to_validated_frontier` | Funzione/metodo PHP nominato `test_all_providers_clamp_resume_to_validated_frontier`; vedere DocBlock sorgente e chiamanti per il contratto corrente. |
 | `tests/player_resume_completion_alert_contract_test.php:57` | `test_direct_replay_precedes_automatic_resume_for_all_providers` | Funzione/metodo PHP nominato `test_direct_replay_precedes_automatic_resume_for_all_providers`; vedere DocBlock sorgente e chiamanti per il contratto corrente. |
 | `tests/player_resume_completion_alert_contract_test.php:91` | `test_completion_mutations_synchronise_moodle_state` | Funzione/metodo PHP nominato `test_completion_mutations_synchronise_moodle_state`; vedere DocBlock sorgente e chiamanti per il contratto corrente. |
