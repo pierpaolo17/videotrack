@@ -42,6 +42,10 @@ derivata `videotrack_state` non viene intenzionalmente salvata.
 Tutte le definizioni di reazione, comprese quelle soft-deleted richiamate da eventi storici, entrano nel backup per
 rimappare coerentemente gli identificatori. I record utente precedenti al cutoff di retention sono esclusi.
 
+I consumatori runtime ottengono le definizioni attive tramite `videotrack_get_reactions()`. Il codice che richiede
+la collezione lifecycle completa può chiamare esplicitamente `videotrack_get_all_reactions()`; nessuno dei due
+contratti espone un flag di comportamento include-deleted.
+
 ## Comportamento del restore
 
 Il restore crea l'attività, rimappa Forum opzionale, reazioni e utenti, ripristina file ed eventi granulari
@@ -51,6 +55,11 @@ di trasformare tacitamente l'evento in sentinella nota/bookmark.
 
 La riparazione gradebook avviene dopo il restore core dei voti per normalizzare item duplicati o obsoleti senza
 perdere valutazioni.
+
+Prima di inserire o aggiornare la configurazione dell'attività, `videotrack_whitelist_record()` conserva soltanto
+le colonne presenti nella tabella `videotrack` installata. I valori riservati al form non possono quindi entrare nei
+record DML. I metadata delle colonne sono memorizzati per la richiesta corrente e l'helper non espone modalità di
+reset della cache.
 
 ## Reset e cancellazione
 

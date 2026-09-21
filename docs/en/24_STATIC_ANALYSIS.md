@@ -94,8 +94,10 @@ output.
   likewise uses separate site and activity entry points; neither API uses a boolean behaviour switch.
 - `videotrack_render_reaction_icon()` always returns the icon together with its visible accessible label. Its callers
   no longer pass an unused boolean presentation flag.
+- Reaction lookup uses distinct active-only and complete-lifecycle functions. Record whitelisting has one stable
+  request-cached contract; neither API uses an optional boolean behaviour switch.
 - PHPMD remains advisory. Its remaining reports concern reviewed complexity, size, broad public classes, required
   Moodle callback parameters and boolean switches that need separate behavioural refactoring. Exact current counts
   must be read from the CI artifact produced for the candidate under review.
 - Static-analysis configuration, production scope, database schema and AMD assets are unchanged by these API
-  cleanups.
+  cleanups. Candidate counts remain authoritative only after the complete CI artifacts are retained and reviewed.

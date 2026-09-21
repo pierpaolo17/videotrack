@@ -42,6 +42,10 @@ events and acknowledgements. The derived `videotrack_state` table is intentional
 All configured reactions, including soft-deleted definitions referenced by historical events, are backed up so
 reaction identifiers can be remapped consistently. User records older than the retention cutoff are excluded.
 
+Runtime consumers obtain active definitions through `videotrack_get_reactions()`. Code that needs the complete
+lifecycle collection can call `videotrack_get_all_reactions()` explicitly; no include-deleted behaviour flag is
+part of either contract.
+
 ## Restore behaviour
 
 Restore creates the activity, remaps the optional Forum, reactions and users, restores files and retained granular
@@ -50,6 +54,10 @@ disabled with a warning. Missing reaction mappings are handled defensively with 
 silently converting a historical reaction into a note/bookmark sentinel.
 
 Gradebook repair runs after core grade restore so duplicate or stale items are normalised without losing grades.
+
+Before activity configuration is inserted or updated, `videotrack_whitelist_record()` retains only columns that
+exist in the installed `videotrack` table. Form-only values therefore cannot leak into DML records. Column metadata
+is cached for the current request and the helper exposes no cache-reset mode.
 
 ## Reset and deletion
 

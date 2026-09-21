@@ -24,6 +24,11 @@ Each adapter must provide reliable current time, duration, play/pause, seek, rat
 - `videotrack_integrity`: bounded diagnostic signals.
 - `videotrack_acknowledge`: versioned acknowledgement confirmations and progress snapshots.
 
+Ordinary presentation and participation code reads active reaction definitions through
+`videotrack_get_reactions()`. Lifecycle operations that must preserve historical event references use the explicit
+`videotrack_get_all_reactions()` contract, which also returns soft-deleted definitions. The two scopes are separate
+APIs rather than a boolean mode on one function, so callers state their data-retention intent directly.
+
 ## Identity and scope
 
 Course-module context and Moodle capabilities are authoritative. `mod/videotrack:participate` explicitly identifies users whose learner telemetry and personal study tools may be written; report access is independent. Group visibility is resolved with the effective activity group mode. Cross-course Analytics recomputes participation, report and group scope for every included activity and identifies the same technical video by provider id or uploaded-file content hash.

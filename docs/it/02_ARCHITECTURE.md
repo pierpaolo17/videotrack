@@ -24,6 +24,12 @@ Ogni adapter deve fornire tempo corrente, durata, play/pausa, seek, velocità e 
 - `videotrack_integrity`: segnali diagnostici limitati.
 - `videotrack_acknowledge`: conferme versionate e fotografia del progresso.
 
+Il codice ordinario di presentazione e partecipazione legge le definizioni di reazione attive tramite
+`videotrack_get_reactions()`. Le operazioni lifecycle che devono preservare i riferimenti degli eventi storici usano
+il contratto esplicito `videotrack_get_all_reactions()`, che restituisce anche le definizioni soft-deleted. I due
+scope sono API separate invece di modalità booleane della stessa funzione, quindi ogni chiamante dichiara il proprio
+intento di conservazione dei dati.
+
 ## Identità e scope
 
 Contesto modulo e capability Moodle sono autorevoli. `mod/videotrack:participate` identifica esplicitamente gli utenti per cui possono essere scritti telemetria learner e strumenti personali; l’accesso ai report è indipendente. La visibilità dei gruppi usa la modalità effettiva dell’attività. Gli Analytics tra corsi rivalutano partecipazione, report e gruppi per ogni attività e identificano lo stesso video tramite ID provider o content hash del file caricato.

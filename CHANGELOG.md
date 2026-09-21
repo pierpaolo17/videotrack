@@ -1,5 +1,18 @@
 # VideoTrack changelog
 
+## 1.7.147 - 2026-09-21
+
+### Explicit reaction scopes and stable record whitelisting
+
+- Replaced the optional include-deleted flag on `videotrack_get_reactions()` with two explicit contracts: the
+  existing function now returns active definitions only, while `videotrack_get_all_reactions()` returns active and
+  soft-deleted definitions for lifecycle operations that must preserve historical references.
+- Removed the unused cache-reset argument and dead branch from `videotrack_whitelist_record()`. All distributed
+  callers use the request-local table-column cache, while record filtering and restore behaviour remain unchanged.
+- Added PHPUnit coverage for active/all reaction scopes and for exclusion of form-only fields from database records.
+  Database schema, stored data, services, permissions, player code, AMD assets and analyser configuration are
+  unchanged.
+
 ## 1.7.146 - 2026-09-21
 
 ### Current documentation and reaction-icon API
