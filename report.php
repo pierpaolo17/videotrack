@@ -2579,7 +2579,7 @@ if ($mode === 'student') {
             }
             $reaction = $reactionmap[(int)$event->reactionid] ?? null;
             $reactionhtml = $reaction
-                ? videotrack_render_reaction_icon($reaction, $context, true)
+                ? videotrack_render_reaction_icon($reaction, $context)
                 : s((string)$event->reactionlabel);
             $replaytimestamp = max(0, (int)round((float)$event->videotime));
             $replayurl = new moodle_url('/mod/videotrack/view.php', [
@@ -2869,7 +2869,7 @@ if ($mode === 'student') {
         echo $OUTPUT->notification($replaynotice, 'info', false);
         foreach ($clusters as $cluster) {
             $reactionhtml = $cluster['reaction']
-                ? videotrack_render_reaction_icon($cluster['reaction'], $context, true)
+                ? videotrack_render_reaction_icon($cluster['reaction'], $context)
                 : s($cluster['reactionlabel']);
             $replaytimestamp = max(0, (int)round($cluster['timestamp']));
             $start = max(0, $replaytimestamp - $replayoffset);

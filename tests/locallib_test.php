@@ -41,6 +41,7 @@ use stdClass;
 #[CoversFunction('videotrack_get_compatible_forum_types')]
 #[CoversFunction('videotrack_build_replay_url')]
 #[CoversFunction('videotrack_build_forum_subject')]
+#[CoversFunction('videotrack_render_reaction_icon')]
 final class locallib_test extends advanced_testcase {
     /**
      * Load helper functions under test.
@@ -234,5 +235,22 @@ final class locallib_test extends advanced_testcase {
             'forumsubjecttemplate' => '',
         ];
         $this->assertSame('Comment at 01:02', \videotrack_build_forum_subject($videotrack, '01:02'));
+    }
+
+    /**
+     * Reaction icons always include their visible accessible label.
+     */
+    public function test_render_reaction_icon_includes_visible_label(): void {
+        $reaction = (object)[
+            'label' => 'Useful',
+            'icontype' => 'emoji',
+            'iconvalue' => '👍',
+        ];
+
+        $html = \videotrack_render_reaction_icon($reaction);
+
+        $this->assertStringContainsString('videotrack-reaction-icon-wrapper', $html);
+        $this->assertStringContainsString('videotrack-reaction-label', $html);
+        $this->assertStringContainsString('Useful', $html);
     }
 }

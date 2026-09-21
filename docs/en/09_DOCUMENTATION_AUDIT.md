@@ -1,6 +1,6 @@
 # Documentation audit
 
-Baseline: VideoTrack **1.7.145** (`2026092001`).
+Baseline: VideoTrack **1.7.146** (`2026092101`).
 
 ## Scope
 
@@ -33,7 +33,7 @@ not duplicate implementation procedures, field dictionaries or long security/pri
 ## Current-tree findings
 
 - English and Italian indexes have matching scope and ordering.
-- Documentation markers, root README files and ER artefacts identify 1.7.145 / 2026092001.
+- Documentation markers, root README files and ER artefacts identify 1.7.146 / 2026092101.
 - The activity identity includes a 1024-pixel `pix/icon.png` and an accessible native `pix/icon.svg` derived from
   the same maintainer-supplied artwork.
 - `db/install.xml` declares seven primary keys, 22 stable foreign keys and 22 explicit indexes. XMLDB generates an
@@ -48,19 +48,11 @@ not duplicate implementation procedures, field dictionaries or long security/pri
 - The GitHub Actions guide documents triggers, least-privilege permissions, the six-job Moodle/PHP/database matrix,
   deterministic classic/`public/` ordinary-site bootstrap, rejection of generated `.types` mirrors, the
   authoritative `moodle-plugin-ci grunt` comparison, strict/advisory checks, retained logs and faildumps.
-- PHPStan/Psalm have versioned production-only scopes and a shared installed-Moodle bootstrap. The bootstrap loads
-  the canonical backup/restore include graphs before the Moodle 2 step libraries. A narrow Psalm stub statically
-  declares Moodle 5.0's global `renderable` compatibility name because Psalm indexes stub declarations but does not
-  execute `class_alias()` calls. The same stub declares Moodle's misspelled `xmlddb_field` return name as a minimal
-  subclass of the real `xmldb_field`; this models only the upstream `xmldb_table::add_field()` DocBlock typo. It does
-  not suppress findings or reduce scope. Psalm's finding exit is advisory, while PHPStan internal/incomplete reports
-  remain blocking. The accepted 1.7.139 baseline is zero PHPStan, 20 Psalm and 161 reviewed PHPMD findings on both
-  analysed Moodle branches. Release 1.7.140 eliminated the 18 `InvalidGlobal` and two `NoValue` findings but exposed
-  four missing `$DB` global contracts; release 1.7.141 declares that bootstrap-provided object once in `psalm.xml`.
-  Its matrix passed PHPCS and Psalm but showed 202 PHPStan `variable.undefined` findings after removal of the
-  entry-point declarations. Release 1.7.142 restores those analyser contracts under five narrowly scoped Moodle
-  inline-DocBlock sniff exceptions; no PHPStan finding or production path is ignored. Both GitHub matrices and the
-  tagged server archive then passed their complete gates with zero PHPStan, Psalm and Moodle PHPCS errors.
+- PHPStan/Psalm have production-only scopes and a shared installed-Moodle bootstrap. The bootstrap loads canonical
+  backup/restore include graphs before the Moodle 2 step libraries. A narrow Psalm stub models only Moodle's global
+  `renderable` compatibility name and the upstream `xmlddb_field` DocBlock typo. Five entry points document the
+  globals created by `config.php` under narrowly scoped PHPCS exceptions; no analyser category or production path
+  is ignored.
 - Psalm explicitly disables only `ensureOverrideAttribute`: its native fix requires PHP 8.3, but the supported
   Moodle 5.0 matrix includes PHP 8.2. Inheritance and signature checks remain enabled.
 - Production files that consume globals or containers supplied by Moodle loaders have narrow analysis contracts.
@@ -68,12 +60,10 @@ not duplicate implementation procedures, field dictionaries or long security/pri
   the inline-DocBlock sniff around their 20 PHPStan declarations. Psalm also has a typed `$DB` global plus the loader
   variables used by `settings.php` and `version.php`. Two PHPStan path/name-specific rules keep unmatched-ignore
   reporting enabled.
-- The generic PHPMD 1.7.123 result (215 findings in 42 files, no tool errors) is retained as a pre-ruleset reference.
-  The active `phpmd.xml` removes naming/framework noise, keeps reviewed runtime rules and distinguishes advisory
-  finding exit 2 from blocking analyser/configuration errors. The accepted 1.7.143 result contains 154 findings
-  after its seven genuine unused locals were removed. The 1.7.144 diagnostic matrix removed two internal boolean
-  flags but introduced one `TooManyMethods` result, ending at 153. Release 1.7.145 removes that added helper while
-  preserving the explicit delimiter-scope and date-boundary APIs, targeting 152 without changing analyser rules.
+- The active `phpmd.xml` removes reviewed Moodle naming/framework noise, keeps selected runtime rules and
+  distinguishes advisory findings from analyser/configuration errors. Production code uses explicit delimiter and
+  date-boundary APIs, `report_support` contains 25 methods, and reaction icons always include their visible label
+  without a boolean presentation flag. Exact finding counts are read from the current candidate's CI artifact.
 - The two AMD build pairs corrected in 1.7.123 are canonical Moodle Grunt output; their source maps have non-empty
   mappings and embed source content byte-identical to the distributed AMD sources.
 - Rendered accessibility helpers use Moodle 5 / Bootstrap 5 `visually-hidden` classes; player live regions are

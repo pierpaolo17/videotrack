@@ -708,7 +708,7 @@ if ($showreactioncontrols) {
     );
     echo html_writer::start_div('videotrack-reaction-buttons');
     foreach ($reactions as $reaction) {
-        $iconwithlabel  = videotrack_render_reaction_icon($reaction, $context, true);
+        $iconwithlabel  = videotrack_render_reaction_icon($reaction, $context);
         $icontype = clean_param((string)($reaction->icontype ?? 'emoji'), PARAM_ALPHA);
         $iconvalue = (string)($reaction->iconvalue ?? '');
         $iconsrc = ($icontype === 'file') ? videotrack_reaction_icon_url($context, $reaction) : '';
@@ -832,7 +832,7 @@ if ($showstudentreactions) {
         echo html_writer::tag(
             'td',
             html_writer::span(
-                $reaction ? videotrack_render_reaction_icon($reaction, $context, true) : s($event->reactionlabel),
+                $reaction ? videotrack_render_reaction_icon($reaction, $context) : s($event->reactionlabel),
                 'videotrack-report-icon'
             )
         );
