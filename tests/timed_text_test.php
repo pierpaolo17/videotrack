@@ -60,4 +60,91 @@ final class timed_text_test extends advanced_testcase {
         $this->assertSame(timed_text::MAX_FILE_SIZE, $options['maxbytes']);
         $this->assertSame(['.vtt'], $options['accepted_types']);
     }
+
+    /**
+     * Canonical timed-text lookups do not read the legacy subtitle area.
+     */
+    public function test_canonical_lookups_ignore_legacy_subtitle_file(): void {
+        $this->resetAfterTest();
+        $course = $this->getDataGenerator()->create_course();
+        $activity = $this->getDataGenerator()->create_module('videotrack', ['course' => $course->id]);
+        $context = \context_module::instance((int)$activity->cmid);
+        get_file_storage()->create_file_from_string([
+            'contextid' => $context->id,
+            'component' => 'mod_videotrack',
+            'filearea' => 'subtitles',
+            'itemid' => 0,
+            'filepath' => '/',
+            'filename' => 'it.vtt',
+        ], "WEBVTT\n\n00:00.000 --> 00:01.000\nLegacy");
+
+        $this->assertSame([], timed_text::transcript_tracks((int)$activity->cmid, 'it'));
+        $this->assertNull(timed_text::chapter_source((int)$activity->cmid));
+    }
+
+    /**
+     * Explicit fallback lookups expose the legacy subtitle file when canonical areas are empty.
+     */
+    public function test_explicit_legacy_fallback_uses_subtitle_file(): void {
+        $this->resetAfterTest();
+        $course = $this->getDataGenerator()->create_course();
+        $activity = $this->getDataGenerator()->create_module('videotrack', ['course' => $course->id]);
+        $context = \context_module::instance((int)$activity->cmid);
+        get_file_storage()->create_file_from_string([
+            'contextid' => $context->id,
+            'component' => 'mod_videotrack',
+            'filearea' => 'subtitles',
+            'itemid' => 0,
+            'filepath' => '/',
+            'filename' => 'it.vtt',
+        ], "WEBVTT\n\n00:00.000 --> 00:01.000\nLegacy");
+
+        $tracks = timed_text::transcript_tracks_with_legacy_fallback((int)$activity->cmid, 'en');
+        $this->assertCount(1, $tracks);
+        $this->assertSame('it', $tracks[0]['language']);
+        $this->assertTrue($tracks[0]['legacy']);
+        $this->assertStringContainsString('/subtitles/0/it.vtt', $tracks[0]['url']);
+
+        $chapter = timed_text::chapter_source_with_legacy_fallback((int)$activity->cmid);
+        $this->assertNotNull($chapter);
+        $this->assertTrue($chapter['legacy']);
+        $this->assertStringContainsString('/subtitles/0/it.vtt', $chapter['url']);
+    }
+
+    /**
+     * Explicit fallback lookups prefer dedicated transcript and chapter files.
+     */
+    public function test_explicit_legacy_fallback_prefers_canonical_files(): void {
+        $this->resetAfterTest();
+        $course = $this->getDataGenerator()->create_course();
+        $activity = $this->getDataGenerator()->create_module('videotrack', ['course' => $course->id]);
+        $context = \context_module::instance((int)$activity->cmid);
+        foreach (
+            [
+                'subtitles' => 'legacy.vtt',
+                'transcripts' => 'en.vtt',
+                'chapters' => 'chapters.vtt',
+            ] as $filearea => $filename
+        ) {
+            get_file_storage()->create_file_from_string([
+                'contextid' => $context->id,
+                'component' => 'mod_videotrack',
+                'filearea' => $filearea,
+                'itemid' => 0,
+                'filepath' => '/',
+                'filename' => $filename,
+            ], "WEBVTT\n\n00:00.000 --> 00:01.000\nCanonical");
+        }
+
+        $tracks = timed_text::transcript_tracks_with_legacy_fallback((int)$activity->cmid, 'it');
+        $this->assertCount(1, $tracks);
+        $this->assertSame('en', $tracks[0]['language']);
+        $this->assertFalse($tracks[0]['legacy']);
+        $this->assertStringContainsString('/transcripts/0/en.vtt', $tracks[0]['url']);
+
+        $chapter = timed_text::chapter_source_with_legacy_fallback((int)$activity->cmid);
+        $this->assertNotNull($chapter);
+        $this->assertFalse($chapter['legacy']);
+        $this->assertStringContainsString('/chapters/0/chapters.vtt', $chapter['url']);
+    }
 }

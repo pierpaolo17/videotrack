@@ -1,6 +1,6 @@
 # User and administrator guide
 
-VideoTrack 1.7.147 is a Moodle activity for delivering video, recording server-validated watched evidence,
+VideoTrack 1.7.148 is a Moodle activity for delivering video, recording server-validated watched evidence,
 supporting study interactions and evaluating completion. Every optional collection feature must be enabled
 explicitly. Site policy can restrict which settings a teacher may override.
 
@@ -91,7 +91,8 @@ history while respecting current visibility.
 - a poster can be displayed before playback.
 
 The teacher is responsible for valid, correctly timed and licensed content. Provider-native captions and
-uploaded VideoTrack VTT files are separate facilities.
+uploaded VideoTrack VTT files are separate facilities. Dedicated transcript and chapter files take precedence;
+the historical uploaded-caption file is used as an explicit compatibility fallback only for migrated activities.
 
 ## Timestamped Forum bridge
 

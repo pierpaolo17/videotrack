@@ -162,12 +162,18 @@ $rewindstep  = videotrack_get_rewind_step($videotrack);
 $ffstep      = videotrack_get_fastforward_step($videotrack);
 $vtturl      = ($source === 'upload' && !empty($videotrack->captions)) ? videotrack_get_vtt_url((int)$cm->id) : null;
 $legacytimedtext = $vtturl !== null;
-$transcripttracks = \mod_videotrack\local\timed_text::transcript_tracks(
-    (int)$cm->id,
-    (string)($videotrack->captionslang ?? ''),
-    $legacytimedtext
-);
-$chaptersource = \mod_videotrack\local\timed_text::chapter_source((int)$cm->id, $legacytimedtext);
+$transcripttracks = $legacytimedtext
+    ? \mod_videotrack\local\timed_text::transcript_tracks_with_legacy_fallback(
+        (int)$cm->id,
+        (string)($videotrack->captionslang ?? '')
+    )
+    : \mod_videotrack\local\timed_text::transcript_tracks(
+        (int)$cm->id,
+        (string)($videotrack->captionslang ?? '')
+    );
+$chaptersource = $legacytimedtext
+    ? \mod_videotrack\local\timed_text::chapter_source_with_legacy_fallback((int)$cm->id)
+    : \mod_videotrack\local\timed_text::chapter_source((int)$cm->id);
 $showtranscript = !empty($videotrack->showtranscript) && !empty($transcripttracks);
 $showchapters = !empty($videotrack->showchapters) && $chaptersource !== null;
 $posterurl   = videotrack_get_poster_url((int)$cm->id);

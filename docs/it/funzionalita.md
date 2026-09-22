@@ -1,6 +1,6 @@
 # Guida per utenti e amministratori
 
-VideoTrack 1.7.147 è un'attività Moodle per distribuire video, registrare evidenze di visione validate dal
+VideoTrack 1.7.148 è un'attività Moodle per distribuire video, registrare evidenze di visione validate dal
 server, offrire strumenti di studio e valutare il completamento. Ogni raccolta dati opzionale deve essere
 abilitata esplicitamente. Le politiche di sito possono limitare le impostazioni modificabili dal docente.
 
@@ -93,7 +93,8 @@ report, retention e restore nel rispetto della visibilità corrente.
 - poster mostrabile prima della riproduzione.
 
 Il docente è responsabile di validità, sincronizzazione e licenza dei contenuti. I sottotitoli nativi del provider
-e i file VTT caricati in VideoTrack sono funzioni distinte.
+e i file VTT caricati in VideoTrack sono funzioni distinte. I file dedicati a trascrizione e capitoli hanno la
+precedenza; il vecchio file sottotitoli caricato viene usato come fallback esplicito soltanto per attività migrate.
 
 ## Collegamento Forum temporizzato
 

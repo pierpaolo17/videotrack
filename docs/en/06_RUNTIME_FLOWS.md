@@ -18,7 +18,7 @@ Reaction definitions are configured inside one collapsible Reactions section. Th
 
 ## Timed text
 
-Teacher-uploaded WebVTT is parsed by `local\timed_text`. Native YouTube/Vimeo captions stay inside the provider and are not searchable by VideoTrack. Searchable transcript tracks and chapter VTT are separate File API resources. Language choice, search, active-cue highlighting and chapter navigation run in the shared timed-text module.
+Teacher-uploaded WebVTT is parsed by `local\timed_text`. Native YouTube/Vimeo captions stay inside the provider and are not searchable by VideoTrack. Searchable transcript tracks and chapter VTT are separate File API resources. Their canonical lookup methods never inspect the historical subtitle area. When an uploaded-video activity still has that legacy caption file, `view.php` selects explicitly named compatibility methods that prefer the dedicated resources and use the subtitle only when the corresponding canonical area is empty. Language choice, search, active-cue highlighting and chapter navigation run in the shared timed-text module.
 
 ## Focus and integrity
 

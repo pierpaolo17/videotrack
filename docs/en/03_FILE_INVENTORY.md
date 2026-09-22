@@ -1,6 +1,6 @@
 # Distributed file inventory
 
-This inventory is generated against the VideoTrack 1.7.147 repository tree. It lists every distributed
+This inventory is generated against the VideoTrack 1.7.148 repository tree. It lists every distributed
 non-documentation file plus repository-only CI/tooling files. Canonical JavaScript is under `amd/src`; files under
 `amd/build` are generated.
 
@@ -212,7 +212,7 @@ Entries: **302** — 300 distributed files and two repository-only files exclude
 | `classes/local/report_support.php` | Teacher-report request, filter, capability-safe scope, user-option and reaction-clustering support extracted from the report controller. |
 | `classes/local/report_view.php` | Teacher Analytics presentation helper extracted from the report controller. |
 | `classes/local/teacher_analytics.php` | Cross-course, capability-safe dashboard aggregation for report viewers. |
-| `classes/local/timed_text.php` | Manages teacher-provided WebVTT transcript and chapter files. |
+| `classes/local/timed_text.php` | Resolves canonical WebVTT transcript/chapter files and explicit legacy subtitle fallbacks. |
 | `classes/local/tracker.php` | Tracking and completion helper methods for VideoTrack. |
 | `classes/privacy/provider.php` | Privacy provider for tracking, reactions, notes, bookmarks, integrity signals and acknowledgements. |
 | `classes/task/cleanup_task.php` | Scheduled GDPR retention cleanup task. |
@@ -301,7 +301,7 @@ Entries: **302** — 300 distributed files and two repository-only files exclude
 | `tests/save_reaction_test.php` | Current PHPUnit/contract test distributed with the plugin. |
 | `tests/student_view_contract_test.php` | Static learner-view contract for native personal disclosure sections. |
 | `tests/teacher_analytics_test.php` | PHPUnit coverage for teacher analytics test. |
-| `tests/timed_text_test.php` | PHPUnit coverage for timed text test. |
+| `tests/timed_text_test.php` | PHPUnit coverage for VTT validation, canonical File API areas and legacy fallback precedence. |
 | `tests/tracker_test.php` | PHPUnit coverage for tracker test. |
 | `tests/upgrade_contract_test.php` | Current PHPUnit/contract test distributed with the plugin. |
 | `tests/vimeo_seek_contract_test.php` | Current PHPUnit/contract test distributed with the plugin. |

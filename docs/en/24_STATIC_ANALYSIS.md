@@ -96,6 +96,8 @@ output.
   no longer pass an unused boolean presentation flag.
 - Reaction lookup uses distinct active-only and complete-lifecycle functions. Record whitelisting has one stable
   request-cached contract; neither API uses an optional boolean behaviour switch.
+- Timed-text lookup uses canonical transcript/chapter methods plus explicitly named legacy-fallback methods. The
+  compatibility paths preserve canonical precedence without boolean behaviour switches.
 - PHPMD remains advisory. Its remaining reports concern reviewed complexity, size, broad public classes, required
   Moodle callback parameters and boolean switches that need separate behavioural refactoring. Exact current counts
   must be read from the CI artifact produced for the candidate under review.

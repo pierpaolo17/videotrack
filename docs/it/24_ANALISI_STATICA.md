@@ -100,6 +100,8 @@ soltanto a ottenere un output verde.
   I chiamanti non passano più un flag booleano di presentazione inutilizzato.
 - La lettura delle reazioni usa funzioni distinte per scope attivo e lifecycle completo. Il filtro dei record ha un
   solo contratto stabile con cache per richiesta; nessuna delle due API usa uno switch booleano opzionale.
+- La lettura timed text usa metodi canonici per trascrizioni/capitoli e metodi di fallback legacy nominati
+  esplicitamente. I percorsi di compatibilità mantengono la precedenza canonica senza switch booleani.
 - PHPMD resta consultivo. I rilievi residui riguardano complessità, dimensione, classi pubbliche ampie, parametri
   obbligatori dei callback Moodle e flag booleani che richiedono refactoring comportamentali separati. I conteggi
   correnti esatti vanno letti nell'artifact CI prodotto per la candidata in esame.
