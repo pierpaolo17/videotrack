@@ -501,11 +501,15 @@ if ($mode === 'analytics') {
         ) {
             throw new moodle_exception('report:analytics_export_unavailable', 'mod_videotrack');
         }
-        $exportcolumns = \mod_videotrack\local\analytics_table_export::export_columns(
-            $showreactionanalytics,
-            $acknowledgementanalyticsenabled,
-            $eventsummaryexportenabled
-        );
+        $exportcolumns = $eventsummaryexportenabled
+            ? \mod_videotrack\local\analytics_table_export::export_columns_with_event_summaries(
+                $showreactionanalytics,
+                $acknowledgementanalyticsenabled
+            )
+            : \mod_videotrack\local\analytics_table_export::export_columns(
+                $showreactionanalytics,
+                $acknowledgementanalyticsenabled
+            );
         $exportrows = \mod_videotrack\local\analytics_table_export::export_rows(
             $viewingexportavailable ? $analytics['bins'] : [],
             $duration,

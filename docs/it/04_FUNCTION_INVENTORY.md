@@ -1,8 +1,8 @@
 # Inventario delle funzioni
 
-Generato dall’albero sorgente VideoTrack 1.7.148. Le voci PHP includono funzioni e metodi nominati; le voci AMD includono dichiarazioni nominate, espressioni funzione assegnate e funzioni-metodo di oggetti.
+Generato dall’albero sorgente VideoTrack 1.7.150. Le voci PHP includono funzioni e metodi nominati; le voci AMD includono dichiarazioni nominate, espressioni funzione assegnate e funzioni-metodo di oggetti.
 
-**Funzioni/metodi PHP:** 767. **Callable AMD nominati:** 654.
+**Funzioni/metodi PHP:** 770. **Callable AMD nominati:** 654.
 
 | Posizione | Callable | Responsabilità |
 |---|---|---|
@@ -828,11 +828,13 @@ Generato dall’albero sorgente VideoTrack 1.7.148. Le voci PHP includono funzio
 | `classes/local/analytics_scope.php:298` | `get_instance_record` | Callable PHP `get_instance_record`; DocBlock e chiamanti definiscono parametri, valori restituiti ed effetti. |
 | `classes/local/analytics_table_export.php:35` | `enabled_formats` | Callable PHP `enabled_formats`; DocBlock e chiamanti definiscono parametri, valori restituiti ed effetti. |
 | `classes/local/analytics_table_export.php:46` | `columns` | Callable PHP `columns`; DocBlock e chiamanti definiscono parametri, valori restituiti ed effetti. |
-| `classes/local/analytics_table_export.php:73` | `export_columns` | Callable PHP `export_columns`; DocBlock e chiamanti definiscono parametri, valori restituiti ed effetti. |
-| `classes/local/analytics_table_export.php:121` | `rows` | Callable PHP `rows`; DocBlock e chiamanti definiscono parametri, valori restituiti ed effetti. |
-| `classes/local/analytics_table_export.php:197` | `export_rows` | Callable PHP `export_rows`; DocBlock e chiamanti definiscono parametri, valori restituiti ed effetti. |
-| `classes/local/analytics_table_export.php:331` | `count_summary_values` | Funzione/metodo PHP nominato `count_summary_values`; vedere DocBlock e chiamanti per il contratto corrente. |
-| `classes/local/analytics_table_export.php:353` | `event_summary_row` | Funzione/metodo PHP nominato `event_summary_row`; vedere DocBlock e chiamanti per il contratto corrente. |
+| `classes/local/analytics_table_export.php:72` | `export_columns` | Callable PHP `export_columns`; costruisce le intestazioni della forma export standard senza riepiloghi evento. |
+| `classes/local/analytics_table_export.php:86` | `export_columns_with_event_summaries` | Callable PHP `export_columns_with_event_summaries`; costruisce le intestazioni degli export con riepiloghi evento aggregati. |
+| `classes/local/analytics_table_export.php:109` | `build_export_columns` | Costruttore interno condiviso dalle due forme export esplicite. |
+| `classes/local/analytics_table_export.php:153` | `rows` | Callable PHP `rows`; DocBlock e chiamanti definiscono parametri, valori restituiti ed effetti. |
+| `classes/local/analytics_table_export.php:229` | `export_rows` | Callable PHP `export_rows`; DocBlock e chiamanti definiscono parametri, valori restituiti ed effetti. |
+| `classes/local/analytics_table_export.php:363` | `count_summary_values` | Funzione/metodo PHP nominato `count_summary_values`; vedere DocBlock e chiamanti per il contratto corrente. |
+| `classes/local/analytics_table_export.php:385` | `event_summary_row` | Funzione/metodo PHP nominato `event_summary_row`; vedere DocBlock e chiamanti per il contratto corrente. |
 | `classes/local/completion_config.php:39` | `required_reaction_ids` | Funzione/metodo PHP nominato `required_reaction_ids`; vedere DocBlock e chiamanti per il contratto corrente. |
 | `classes/local/completion_config.php:61` | `has_custom_rules` | Funzione/metodo PHP nominato `has_custom_rules`; vedere DocBlock e chiamanti per il contratto corrente. |
 | `classes/local/completion_config.php:89` | `has_required_reactions` | Funzione/metodo PHP nominato `has_required_reactions`; vedere DocBlock e chiamanti per il contratto corrente. |
@@ -1111,8 +1113,9 @@ Generato dall’albero sorgente VideoTrack 1.7.148. Le voci PHP includono funzio
 | `mod_form.php:1796` | `draft_area_contains_only_vtt` | Callable PHP `draft_area_contains_only_vtt`; DocBlock e chiamanti definiscono parametri, valori restituiti ed effetti. |
 | `mod_form.php:1828` | `validation` | Callable PHP `validation`; DocBlock e chiamanti definiscono parametri, valori restituiti ed effetti. |
 | `reports_course.php:34` | `videotrack_course_report_count_cell` | Callable PHP `videotrack_course_report_count_cell`; DocBlock e chiamanti definiscono parametri, valori restituiti ed effetti. |
-| `reports_course.php:49` | `videotrack_course_report_percentage_cell` | Callable PHP `videotrack_course_report_percentage_cell`; DocBlock e chiamanti definiscono parametri, valori restituiti ed effetti. |
-| `reports_course.php:80` | `videotrack_course_report_drop_cell` | Callable PHP `videotrack_course_report_drop_cell`; DocBlock e chiamanti definiscono parametri, valori restituiti ed effetti. |
+| `reports_course.php:48` | `videotrack_course_report_percentage_cell` | Callable PHP `videotrack_course_report_percentage_cell`; renderizza la percentuale aggregata in forma testuale. |
+| `reports_course.php:67` | `videotrack_course_report_percentage_bar_cell` | Callable PHP `videotrack_course_report_percentage_bar_cell`; renderizza la percentuale aggregata con barra compatta accessibile. |
+| `reports_course.php:90` | `videotrack_course_report_drop_cell` | Callable PHP `videotrack_course_report_drop_cell`; DocBlock e chiamanti definiscono parametri, valori restituiti ed effetti. |
 | `tests/accessibility_contract_test.php:35` | `test_chapter_buttons_have_visible_keyboard_focus_contract` | Callable PHP `test_chapter_buttons_have_visible_keyboard_focus_contract`; verifica focus tastiera esplicito e stili capitolo in colori forzati. |
 | `tests/accessibility_contract_test.php:50` | `test_chapter_navigation_keeps_native_button_semantics` | Callable PHP `test_chapter_navigation_keeps_native_button_semantics`; verifica semantica button nativa e label accessibili dei capitoli. |
 | `tests/acknowledgement_test.php:36` | `test_statement_hash_versions_the_statement_content` | Callable PHP `test_statement_hash_versions_the_statement_content`; DocBlock e chiamanti definiscono parametri, valori restituiti ed effetti. |
@@ -1217,7 +1220,7 @@ Generato dall’albero sorgente VideoTrack 1.7.148. Le voci PHP includono funzio
 | `tests/course_analytics_test.php:266` | `test_exact_report_threshold_exposes_single_learner_state_summary` | Callable PHP `test_exact_report_threshold_exposes_single_learner_state_summary`; DocBlock e chiamanti definiscono parametri, valori restituiti ed effetti. |
 | `tests/course_analytics_test.php:287` | `test_exact_report_threshold_exposes_single_learner_period_summary` | Callable PHP `test_exact_report_threshold_exposes_single_learner_period_summary`; DocBlock e chiamanti definiscono parametri, valori restituiti ed effetti. |
 | `tests/course_analytics_test.php:316` | `test_course_report_controller_requests_exact_aggregates` | Callable PHP `test_course_report_controller_requests_exact_aggregates`; DocBlock e chiamanti definiscono parametri, valori restituiti ed effetti. |
-| `tests/course_analytics_test.php:336` | `state` | Callable PHP `state`; DocBlock e chiamanti definiscono parametri, valori restituiti ed effetti. |
+| `tests/course_analytics_test.php:338` | `state` | Callable PHP `state`; DocBlock e chiamanti definiscono parametri, valori restituiti ed effetti. |
 | `tests/csv_event_writer_test.php:36` | `test_write_detailed_event_row` | Callable PHP `test_write_detailed_event_row`; DocBlock e chiamanti definiscono parametri, valori restituiti ed effetti. |
 | `tests/csv_event_writer_test.php:69` | `test_write_overall_event_row` | Callable PHP `test_write_overall_event_row`; DocBlock e chiamanti definiscono parametri, valori restituiti ed effetti. |
 | `tests/csv_event_writer_test.php:97` | `test_write_skips_unknown_positive_user` | Callable PHP `test_write_skips_unknown_positive_user`; DocBlock e chiamanti definiscono parametri, valori restituiti ed effetti. |

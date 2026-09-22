@@ -148,7 +148,7 @@ final class analytics_table_export_test extends \advanced_testcase {
                 'studentcount' => 1,
             ],
         ], 2);
-        $columns = analytics_table_export::export_columns(false, false, true);
+        $columns = analytics_table_export::export_columns_with_event_summaries(false, false);
         $rows = analytics_table_export::export_rows(
             [],
             0,

@@ -1,6 +1,6 @@
 # Audit della documentazione
 
-Baseline: VideoTrack **1.7.148** (`2026092201`).
+Baseline: VideoTrack **1.7.150** (`2026092203`).
 
 ## Perimetro
 
@@ -33,7 +33,7 @@ duplicano intenzionalmente procedure implementative, dizionari dei campi o lungh
 ## Rilievi sull'albero corrente
 
 - Gli indici inglese e italiano hanno stesso perimetro e ordinamento.
-- Marker documentali, README principali e artefatti ER identificano 1.7.148 / 2026092201.
+- Marker documentali, README principali e artefatti ER identificano 1.7.150 / 2026092203.
 - L'identità dell'attività include `pix/icon.png` da 1024 pixel e un `pix/icon.svg` nativo e accessibile derivati
   dalla stessa grafica fornita dal maintainer.
 - `db/install.xml` dichiara sette chiavi primarie, 22 foreign key stabili e 22 indici espliciti. XMLDB genera inoltre
@@ -68,9 +68,9 @@ duplicano intenzionalmente procedure implementative, dizionari dei campi o lungh
   PHPStan specifiche per percorso e nome mantengono attivo il controllo degli ignore non più utilizzati.
 - Il `phpmd.xml` attivo elimina il rumore Moodle di naming/framework già revisionato, mantiene le regole runtime
   selezionate e distingue i finding consultivi dagli errori di analizzatore/configurazione. Il codice usa API
-  esplicite per delimitatori e limiti data, `report_support` contiene 25 metodi e le icone di reazione includono
-  sempre l'etichetta visibile senza un flag booleano di presentazione. I conteggi esatti si leggono nell'artifact CI
-  della candidata corrente.
+  esplicite per delimitatori, limiti data, forma degli export Analytics e rendering delle percentuali di corso;
+  `report_support` contiene 25 metodi e le icone di reazione includono sempre l'etichetta visibile senza un flag
+  booleano di presentazione. I conteggi esatti si leggono nell'artifact CI della candidata corrente.
 - Le due coppie di build AMD corrette nella 1.7.123 sono output canonico di Moodle Grunt; le source map hanno mapping
   non vuoti e includono sorgenti byte per byte identici agli AMD distribuiti.
 - Gli helper accessibili renderizzati usano le classi Moodle 5 / Bootstrap 5 `visually-hidden`; i live region del

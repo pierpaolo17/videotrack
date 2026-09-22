@@ -1,8 +1,8 @@
 # Function inventory
 
-Generated from the VideoTrack 1.7.148 source tree. PHP entries include named functions and methods; AMD entries include named declarations, assigned function expressions and object-method functions.
+Generated from the VideoTrack 1.7.150 source tree. PHP entries include named functions and methods; AMD entries include named declarations, assigned function expressions and object-method functions.
 
-**PHP functions/methods:** 767. **Named AMD callables:** 654.
+**PHP functions/methods:** 770. **Named AMD callables:** 654.
 
 | Location | Callable | Responsibility |
 |---|---|---|
@@ -828,11 +828,13 @@ Generated from the VideoTrack 1.7.148 source tree. PHP entries include named fun
 | `classes/local/analytics_scope.php:298` | `get_instance_record` | PHP callable `get_instance_record`; see its DocBlock and callers for parameter, return-value and side-effect details. |
 | `classes/local/analytics_table_export.php:35` | `enabled_formats` | PHP callable `enabled_formats`; see its DocBlock and callers for parameter, return-value and side-effect details. |
 | `classes/local/analytics_table_export.php:46` | `columns` | PHP callable `columns`; see its DocBlock and callers for parameter, return-value and side-effect details. |
-| `classes/local/analytics_table_export.php:73` | `export_columns` | PHP callable `export_columns`; see its DocBlock and callers for parameter, return-value and side-effect details. |
-| `classes/local/analytics_table_export.php:121` | `rows` | PHP callable `rows`; see its DocBlock and callers for parameter, return-value and side-effect details. |
-| `classes/local/analytics_table_export.php:197` | `export_rows` | PHP callable `export_rows`; see its DocBlock and callers for parameter, return-value and side-effect details. |
-| `classes/local/analytics_table_export.php:331` | `count_summary_values` | Named PHP function/method `count_summary_values`; see source DocBlock and callers for the current contract. |
-| `classes/local/analytics_table_export.php:353` | `event_summary_row` | Named PHP function/method `event_summary_row`; see source DocBlock and callers for the current contract. |
+| `classes/local/analytics_table_export.php:72` | `export_columns` | PHP callable `export_columns`; builds headings for the standard export shape without event summaries. |
+| `classes/local/analytics_table_export.php:86` | `export_columns_with_event_summaries` | PHP callable `export_columns_with_event_summaries`; builds headings for exports that include aggregate event summaries. |
+| `classes/local/analytics_table_export.php:109` | `build_export_columns` | Internal heading builder shared by the two explicit export shapes. |
+| `classes/local/analytics_table_export.php:153` | `rows` | PHP callable `rows`; see its DocBlock and callers for parameter, return-value and side-effect details. |
+| `classes/local/analytics_table_export.php:229` | `export_rows` | PHP callable `export_rows`; see its DocBlock and callers for parameter, return-value and side-effect details. |
+| `classes/local/analytics_table_export.php:363` | `count_summary_values` | Named PHP function/method `count_summary_values`; see source DocBlock and callers for the current contract. |
+| `classes/local/analytics_table_export.php:385` | `event_summary_row` | Named PHP function/method `event_summary_row`; see source DocBlock and callers for the current contract. |
 | `classes/local/completion_config.php:39` | `required_reaction_ids` | Named PHP function/method `required_reaction_ids`; see source DocBlock and callers for the current contract. |
 | `classes/local/completion_config.php:61` | `has_custom_rules` | Named PHP function/method `has_custom_rules`; see source DocBlock and callers for the current contract. |
 | `classes/local/completion_config.php:89` | `has_required_reactions` | Named PHP function/method `has_required_reactions`; see source DocBlock and callers for the current contract. |
@@ -1111,8 +1113,9 @@ Generated from the VideoTrack 1.7.148 source tree. PHP entries include named fun
 | `mod_form.php:1796` | `draft_area_contains_only_vtt` | PHP callable `draft_area_contains_only_vtt`; see its DocBlock and callers for parameter, return-value and side-effect details. |
 | `mod_form.php:1828` | `validation` | PHP callable `validation`; see its DocBlock and callers for parameter, return-value and side-effect details. |
 | `reports_course.php:34` | `videotrack_course_report_count_cell` | PHP callable `videotrack_course_report_count_cell`; see its DocBlock and callers for parameter, return-value and side-effect details. |
-| `reports_course.php:49` | `videotrack_course_report_percentage_cell` | PHP callable `videotrack_course_report_percentage_cell`; see its DocBlock and callers for parameter, return-value and side-effect details. |
-| `reports_course.php:80` | `videotrack_course_report_drop_cell` | PHP callable `videotrack_course_report_drop_cell`; see its DocBlock and callers for parameter, return-value and side-effect details. |
+| `reports_course.php:48` | `videotrack_course_report_percentage_cell` | PHP callable `videotrack_course_report_percentage_cell`; renders the text-only aggregate percentage. |
+| `reports_course.php:67` | `videotrack_course_report_percentage_bar_cell` | PHP callable `videotrack_course_report_percentage_bar_cell`; renders the aggregate percentage with its accessible compact bar. |
+| `reports_course.php:90` | `videotrack_course_report_drop_cell` | PHP callable `videotrack_course_report_drop_cell`; see its DocBlock and callers for parameter, return-value and side-effect details. |
 | `tests/accessibility_contract_test.php:35` | `test_chapter_buttons_have_visible_keyboard_focus_contract` | PHP callable `test_chapter_buttons_have_visible_keyboard_focus_contract`; verifies explicit keyboard focus and forced-colour chapter styling. |
 | `tests/accessibility_contract_test.php:50` | `test_chapter_navigation_keeps_native_button_semantics` | PHP callable `test_chapter_navigation_keeps_native_button_semantics`; verifies native button semantics and accessible chapter labels. |
 | `tests/acknowledgement_test.php:36` | `test_statement_hash_versions_the_statement_content` | PHP callable `test_statement_hash_versions_the_statement_content`; see its DocBlock and callers for parameter, return-value and side-effect details. |
@@ -1217,7 +1220,7 @@ Generated from the VideoTrack 1.7.148 source tree. PHP entries include named fun
 | `tests/course_analytics_test.php:266` | `test_exact_report_threshold_exposes_single_learner_state_summary` | PHP callable `test_exact_report_threshold_exposes_single_learner_state_summary`; see its DocBlock and callers for parameter, return-value and side-effect details. |
 | `tests/course_analytics_test.php:287` | `test_exact_report_threshold_exposes_single_learner_period_summary` | PHP callable `test_exact_report_threshold_exposes_single_learner_period_summary`; see its DocBlock and callers for parameter, return-value and side-effect details. |
 | `tests/course_analytics_test.php:316` | `test_course_report_controller_requests_exact_aggregates` | PHP callable `test_course_report_controller_requests_exact_aggregates`; see its DocBlock and callers for parameter, return-value and side-effect details. |
-| `tests/course_analytics_test.php:336` | `state` | PHP callable `state`; see its DocBlock and callers for parameter, return-value and side-effect details. |
+| `tests/course_analytics_test.php:338` | `state` | PHP callable `state`; see its DocBlock and callers for parameter, return-value and side-effect details. |
 | `tests/csv_event_writer_test.php:36` | `test_write_detailed_event_row` | PHP callable `test_write_detailed_event_row`; see its DocBlock and callers for parameter, return-value and side-effect details. |
 | `tests/csv_event_writer_test.php:69` | `test_write_overall_event_row` | PHP callable `test_write_overall_event_row`; see its DocBlock and callers for parameter, return-value and side-effect details. |
 | `tests/csv_event_writer_test.php:97` | `test_write_skips_unknown_positive_user` | PHP callable `test_write_skips_unknown_positive_user`; see its DocBlock and callers for parameter, return-value and side-effect details. |

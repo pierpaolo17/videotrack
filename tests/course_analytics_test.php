@@ -318,6 +318,8 @@ final class course_analytics_test extends advanced_testcase {
         $this->assertIsString($source);
         $this->assertStringContainsString('analytics::EXACT_REPORT_MIN_USERS', $source);
         $this->assertStringContainsString("require_capability('mod/videotrack:viewcoursereport'", $source);
+        $this->assertStringContainsString('function videotrack_course_report_percentage_bar_cell(', $source);
+        $this->assertStringNotContainsString('bool $showbar', $source);
         $this->assertStringNotContainsString("videotrack_get_config_int('analyticsminusers'", $source);
         $this->assertStringNotContainsString("get_string('coursereport:privacy_notice'", $source);
         $this->assertStringNotContainsString("get_string('coursereport:privacy_suppressed'", $source);
