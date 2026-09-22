@@ -1,5 +1,17 @@
 # VideoTrack changelog
 
+## 1.7.149 - 2026-09-22
+
+### Explicit Analytics export and course-percentage renderers
+
+- Replaced the optional event-summary flag on Analytics export headings with separate standard and
+  event-summary entry points. Both paths retain the same privacy-safe column order and acknowledgement behaviour.
+- Replaced the course-dashboard percentage helper's optional bar flag with separate plain-percentage and
+  percentage-with-bar renderers. Average coverage keeps its accessible SVG bar, while median coverage remains
+  text-only.
+- Updated PHPUnit contracts, callable inventories and current technical documentation. Database schema, stored
+  data, service signatures, permissions, privacy rules, player adapters and AMD assets are unchanged.
+
 ## 1.7.148 - 2026-09-22
 
 ### Explicit canonical and legacy timed-text lookups

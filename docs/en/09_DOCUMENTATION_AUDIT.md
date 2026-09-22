@@ -1,6 +1,6 @@
 # Documentation audit
 
-Baseline: VideoTrack **1.7.148** (`2026092201`).
+Baseline: VideoTrack **1.7.149** (`2026092202`).
 
 ## Scope
 
@@ -33,7 +33,7 @@ not duplicate implementation procedures, field dictionaries or long security/pri
 ## Current-tree findings
 
 - English and Italian indexes have matching scope and ordering.
-- Documentation markers, root README files and ER artefacts identify 1.7.148 / 2026092201.
+- Documentation markers, root README files and ER artefacts identify 1.7.149 / 2026092202.
 - The activity identity includes a 1024-pixel `pix/icon.png` and an accessible native `pix/icon.svg` derived from
   the same maintainer-supplied artwork.
 - `db/install.xml` declares seven primary keys, 22 stable foreign keys and 22 explicit indexes. XMLDB generates an
@@ -67,9 +67,10 @@ not duplicate implementation procedures, field dictionaries or long security/pri
   variables used by `settings.php` and `version.php`. Two PHPStan path/name-specific rules keep unmatched-ignore
   reporting enabled.
 - The active `phpmd.xml` removes reviewed Moodle naming/framework noise, keeps selected runtime rules and
-  distinguishes advisory findings from analyser/configuration errors. Production code uses explicit delimiter and
-  date-boundary APIs, `report_support` contains 25 methods, and reaction icons always include their visible label
-  without a boolean presentation flag. Exact finding counts are read from the current candidate's CI artifact.
+  distinguishes advisory findings from analyser/configuration errors. Production code uses explicit delimiter,
+  date-boundary, Analytics export-shape and course-percentage rendering APIs; `report_support` contains 25 methods,
+  and reaction icons always include their visible label without a boolean presentation flag. Exact finding counts
+  are read from the current candidate's CI artifact.
 - The two AMD build pairs corrected in 1.7.123 are canonical Moodle Grunt output; their source maps have non-empty
   mappings and embed source content byte-identical to the distributed AMD sources.
 - Rendered accessibility helpers use Moodle 5 / Bootstrap 5 `visually-hidden` classes; player live regions are

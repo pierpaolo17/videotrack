@@ -67,15 +67,51 @@ final class analytics_table_export {
      *
      * @param bool $includereactions Whether the reaction-cluster column is included.
      * @param bool $includeacknowledgements Whether acknowledgement summary columns are included.
-     * @param bool $includeeventsummaries Whether aggregate event summary columns are included.
      * @return string[] Export column headings.
      */
     public static function export_columns(
         bool $includereactions,
-        bool $includeacknowledgements,
-        bool $includeeventsummaries = false
+        bool $includeacknowledgements
     ): array {
-        if (!$includeacknowledgements && !$includeeventsummaries) {
+        return self::build_export_columns($includereactions, $includeacknowledgements, []);
+    }
+
+    /**
+     * Returns combined Analytics download columns including aggregate event summaries.
+     *
+     * @param bool $includereactions Whether the reaction-cluster column is included.
+     * @param bool $includeacknowledgements Whether acknowledgement summary columns are included.
+     * @return string[] Export column headings.
+     */
+    public static function export_columns_with_event_summaries(
+        bool $includereactions,
+        bool $includeacknowledgements
+    ): array {
+        return self::build_export_columns(
+            $includereactions,
+            $includeacknowledgements,
+            [
+                get_string('report:analytics_export_summary', 'mod_videotrack'),
+                get_string('report:analytics_export_events', 'mod_videotrack'),
+                get_string('report:analytics_export_students', 'mod_videotrack'),
+            ]
+        );
+    }
+
+    /**
+     * Builds the shared combined Analytics download heading set.
+     *
+     * @param bool $includereactions Whether the reaction-cluster column is included.
+     * @param bool $includeacknowledgements Whether acknowledgement summary columns are included.
+     * @param string[] $eventsummarycolumns Aggregate event summary headings, or an empty list.
+     * @return string[] Export column headings.
+     */
+    private static function build_export_columns(
+        bool $includereactions,
+        bool $includeacknowledgements,
+        array $eventsummarycolumns
+    ): array {
+        if (!$includeacknowledgements && !$eventsummarycolumns) {
             return self::columns($includereactions);
         }
 
@@ -83,12 +119,8 @@ final class analytics_table_export {
             [get_string('report:analytics_export_recordtype', 'mod_videotrack')],
             self::columns($includereactions)
         );
-        if ($includeeventsummaries) {
-            $columns = array_merge($columns, [
-                get_string('report:analytics_export_summary', 'mod_videotrack'),
-                get_string('report:analytics_export_events', 'mod_videotrack'),
-                get_string('report:analytics_export_students', 'mod_videotrack'),
-            ]);
+        if ($eventsummarycolumns) {
+            $columns = array_merge($columns, $eventsummarycolumns);
         }
         if ($includeacknowledgements) {
             $columns = array_merge($columns, [

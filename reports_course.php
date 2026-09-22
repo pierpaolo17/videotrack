@@ -43,23 +43,33 @@ function videotrack_course_report_count_cell(array $summary): string {
  *
  * @param float|null $value Percentage value.
  * @param string $labelstring Language key used for the accessible label.
- * @param bool $showbar Whether to include the compact coverage bar.
  * @return string Rendered table-cell content.
  */
 function videotrack_course_report_percentage_cell(
     ?float $value,
-    string $labelstring,
-    bool $showbar = false
+    string $labelstring
 ): string {
     if ($value === null) {
         return html_writer::span(get_string('coursereport:notavailable', 'mod_videotrack'), 'text-muted');
     }
 
     $label = get_string($labelstring, 'mod_videotrack', format_float($value, 1));
-    if (!$showbar) {
-        return html_writer::span($label);
+    return html_writer::span($label);
+}
+
+/**
+ * Renders an exact aggregate percentage with its compact coverage bar.
+ *
+ * @param float|null $value Percentage value.
+ * @param string $labelstring Language key used for the accessible label.
+ * @return string Rendered table-cell content.
+ */
+function videotrack_course_report_percentage_bar_cell(?float $value, string $labelstring): string {
+    if ($value === null) {
+        return videotrack_course_report_percentage_cell($value, $labelstring);
     }
 
+    $label = get_string($labelstring, 'mod_videotrack', format_float($value, 1));
     $barwidth = max(0, min(80, round($value * 0.8)));
     $svg = '<svg width="80" height="14" role="img" focusable="false" '
         . 'style="vertical-align:middle;margin-left:4px">'
@@ -175,10 +185,9 @@ foreach ($instances as $instance) {
         s($sourcelabel),
         s($duration),
         videotrack_course_report_count_cell($instance->summary['started']),
-        videotrack_course_report_percentage_cell(
+        videotrack_course_report_percentage_bar_cell(
             $instance->summary['averagepercent'],
-            'coursereport:avgcoverage',
-            true
+            'coursereport:avgcoverage'
         ),
         videotrack_course_report_percentage_cell(
             $instance->summary['medianpercent'],
