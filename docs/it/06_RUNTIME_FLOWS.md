@@ -20,7 +20,7 @@ Le definizioni delle reazioni sono configurate in un’unica sezione richiudibil
 
 ## Testo temporizzato
 
-Il WebVTT caricato è analizzato da `local\timed_text`. I sottotitoli nativi YouTube/Vimeo restano nel provider e non sono ricercabili da VideoTrack. Trascrizioni e capitoli sono risorse File API separate. Lingua, ricerca, cue attiva e navigazione capitoli sono gestite dal modulo condiviso.
+Il WebVTT caricato è analizzato da `local\timed_text`. I sottotitoli nativi YouTube/Vimeo restano nel provider e non sono ricercabili da VideoTrack. Trascrizioni e capitoli sono risorse File API separate. I metodi canonici non leggono mai la vecchia area sottotitoli. Quando un'attività con video caricato conserva ancora quel file legacy, `view.php` seleziona metodi di compatibilità espliciti che preferiscono le risorse dedicate e usano il sottotitolo soltanto se l'area canonica corrispondente è vuota. Lingua, ricerca, cue attiva e navigazione capitoli sono gestite dal modulo condiviso.
 
 ## Focus e integrità
 

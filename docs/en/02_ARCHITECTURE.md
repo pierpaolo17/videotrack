@@ -29,6 +29,11 @@ Ordinary presentation and participation code reads active reaction definitions t
 `videotrack_get_all_reactions()` contract, which also returns soft-deleted definitions. The two scopes are separate
 APIs rather than a boolean mode on one function, so callers state their data-retention intent directly.
 
+Timed-text storage likewise has explicit scopes. The standard `timed_text` lookups read only the dedicated
+`transcripts` and `chapters` areas. Separately named compatibility methods first prefer those canonical resources
+and then fall back to the historical `subtitles` area for migrated uploaded-video activities. `view.php` selects
+that compatibility contract only when the legacy caption source exists.
+
 ## Identity and scope
 
 Course-module context and Moodle capabilities are authoritative. `mod/videotrack:participate` explicitly identifies users whose learner telemetry and personal study tools may be written; report access is independent. Group visibility is resolved with the effective activity group mode. Cross-course Analytics recomputes participation, report and group scope for every included activity and identifies the same technical video by provider id or uploaded-file content hash.

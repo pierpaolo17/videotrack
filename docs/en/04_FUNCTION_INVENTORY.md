@@ -1,8 +1,8 @@
 # Function inventory
 
-Generated from the VideoTrack 1.7.147 source tree. PHP entries include named functions and methods; AMD entries include named declarations, assigned function expressions and object-method functions.
+Generated from the VideoTrack 1.7.148 source tree. PHP entries include named functions and methods; AMD entries include named declarations, assigned function expressions and object-method functions.
 
-**PHP functions/methods:** 762. **Named AMD callables:** 654.
+**PHP functions/methods:** 767. **Named AMD callables:** 654.
 
 | Location | Callable | Responsibility |
 |---|---|---|
@@ -961,13 +961,15 @@ Generated from the VideoTrack 1.7.147 source tree. PHP entries include named fun
 | `classes/local/teacher_analytics.php:183` | `period_bounds` | PHP callable `period_bounds`; see its DocBlock and callers for parameter, return-value and side-effect details. |
 | `classes/local/timed_text.php:44` | `file_options` | PHP callable `file_options`; see its DocBlock and callers for parameter, return-value and side-effect details. |
 | `classes/local/timed_text.php:59` | `save_files` | PHP callable `save_files`; see its DocBlock and callers for parameter, return-value and side-effect details. |
-| `classes/local/timed_text.php:97` | `transcript_tracks` | PHP callable `transcript_tracks`; see its DocBlock and callers for parameter, return-value and side-effect details. |
-| `classes/local/timed_text.php:133` | `chapter_source` | PHP callable `chapter_source`; see its DocBlock and callers for parameter, return-value and side-effect details. |
-| `classes/local/timed_text.php:158` | `language_from_filename` | PHP callable `language_from_filename`; see its DocBlock and callers for parameter, return-value and side-effect details. |
-| `classes/local/timed_text.php:176` | `is_valid_vtt_content` | PHP callable `is_valid_vtt_content`; see its DocBlock and callers for parameter, return-value and side-effect details. |
-| `classes/local/timed_text.php:191` | `area_files` | PHP callable `area_files`; see its DocBlock and callers for parameter, return-value and side-effect details. |
-| `classes/local/timed_text.php:211` | `file_url` | PHP callable `file_url`; see its DocBlock and callers for parameter, return-value and side-effect details. |
-| `classes/local/timed_text.php:229` | `language_label` | PHP callable `language_label`; see its DocBlock and callers for parameter, return-value and side-effect details. |
+| `classes/local/timed_text.php:96` | `transcript_tracks` | Returns only dedicated transcript-area tracks. |
+| `classes/local/timed_text.php:126` | `transcript_tracks_with_legacy_fallback` | Prefers dedicated transcript tracks, then reads the historical subtitle area. |
+| `classes/local/timed_text.php:159` | `chapter_source` | Returns only the dedicated chapter-area source. |
+| `classes/local/timed_text.php:181` | `chapter_source_with_legacy_fallback` | Prefers the dedicated chapter source, then reads the historical subtitle area. |
+| `classes/local/timed_text.php:206` | `language_from_filename` | PHP callable `language_from_filename`; see its DocBlock and callers for parameter, return-value and side-effect details. |
+| `classes/local/timed_text.php:224` | `is_valid_vtt_content` | PHP callable `is_valid_vtt_content`; see its DocBlock and callers for parameter, return-value and side-effect details. |
+| `classes/local/timed_text.php:239` | `area_files` | PHP callable `area_files`; see its DocBlock and callers for parameter, return-value and side-effect details. |
+| `classes/local/timed_text.php:259` | `file_url` | PHP callable `file_url`; see its DocBlock and callers for parameter, return-value and side-effect details. |
+| `classes/local/timed_text.php:277` | `language_label` | PHP callable `language_label`; see its DocBlock and callers for parameter, return-value and side-effect details. |
 | `classes/local/tracker.php:57` | `current_state_snapshot` | PHP callable `current_state_snapshot`; see its DocBlock and callers for parameter, return-value and side-effect details. |
 | `classes/local/tracker.php:76` | `normalise_interval` | PHP callable `normalise_interval`; see its DocBlock and callers for parameter, return-value and side-effect details. |
 | `classes/local/tracker.php:96` | `decode_intervals` | PHP callable `decode_intervals`; see its DocBlock and callers for parameter, return-value and side-effect details. |
@@ -1384,6 +1386,9 @@ Generated from the VideoTrack 1.7.147 source tree. PHP entries include named fun
 | `tests/timed_text_test.php:35` | `test_language_from_filename_accepts_bcp47_like_names` | PHP callable `test_language_from_filename_accepts_bcp47_like_names`; see its DocBlock and callers for parameter, return-value and side-effect details. |
 | `tests/timed_text_test.php:45` | `test_is_valid_vtt_content_checks_signature_and_size` | PHP callable `test_is_valid_vtt_content_checks_signature_and_size`; see its DocBlock and callers for parameter, return-value and side-effect details. |
 | `tests/timed_text_test.php:55` | `test_file_options_enforce_vtt_limits` | PHP callable `test_file_options_enforce_vtt_limits`; see its DocBlock and callers for parameter, return-value and side-effect details. |
+| `tests/timed_text_test.php:67` | `test_canonical_lookups_ignore_legacy_subtitle_file` | Verifies that canonical APIs never read the historical subtitle area. |
+| `tests/timed_text_test.php:88` | `test_explicit_legacy_fallback_uses_subtitle_file` | Verifies explicit compatibility fallback when canonical areas are empty. |
+| `tests/timed_text_test.php:117` | `test_explicit_legacy_fallback_prefers_canonical_files` | Verifies canonical transcript/chapter precedence over the legacy subtitle file. |
 | `tests/tracker_test.php:40` | `setUp` | PHP callable `setUp`; see its DocBlock and callers for parameter, return-value and side-effect details. |
 | `tests/tracker_test.php:48` | `test_normalise_interval_clamps_and_rejects_empty_ranges` | PHP callable `test_normalise_interval_clamps_and_rejects_empty_ranges`; see its DocBlock and callers for parameter, return-value and side-effect details. |
 | `tests/tracker_test.php:59` | `test_decode_intervals_filters_invalid_ranges` | PHP callable `test_decode_intervals_filters_invalid_ranges`; see its DocBlock and callers for parameter, return-value and side-effect details. |

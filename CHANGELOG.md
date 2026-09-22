@@ -1,5 +1,17 @@
 # VideoTrack changelog
 
+## 1.7.148 - 2026-09-22
+
+### Explicit canonical and legacy timed-text lookups
+
+- Removed the optional legacy-fallback flags from the transcript and chapter lookup APIs. The standard methods now
+  read only the dedicated `transcripts` and `chapters` File API areas, while explicitly named fallback methods
+  preserve migrated activities that still use the historical `subtitles` area.
+- Updated `view.php` to select the explicit lookup contract only when the existing uploaded-caption source is
+  available. Dedicated transcript and chapter files retain precedence over the legacy subtitle file.
+- Added File API PHPUnit coverage for canonical isolation, legacy fallback and canonical precedence. Database
+  schema, stored files, service signatures, permissions, player adapters and AMD assets are unchanged.
+
 ## 1.7.147 - 2026-09-21
 
 ### Explicit reaction scopes and stable record whitelisting

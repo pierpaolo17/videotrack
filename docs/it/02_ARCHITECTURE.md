@@ -30,6 +30,11 @@ il contratto esplicito `videotrack_get_all_reactions()`, che restituisce anche l
 scope sono API separate invece di modalità booleane della stessa funzione, quindi ogni chiamante dichiara il proprio
 intento di conservazione dei dati.
 
+Anche lo storage timed text usa scope espliciti. Le letture standard di `timed_text` accedono soltanto alle aree
+dedicate `transcripts` e `chapters`. Metodi di compatibilità nominati separatamente preferiscono prima queste
+risorse canoniche e poi usano la vecchia area `subtitles` per le attività video caricate migrate. `view.php`
+seleziona il contratto di compatibilità soltanto quando esiste la sorgente sottotitoli legacy.
+
 ## Identità e scope
 
 Contesto modulo e capability Moodle sono autorevoli. `mod/videotrack:participate` identifica esplicitamente gli utenti per cui possono essere scritti telemetria learner e strumenti personali; l’accesso ai report è indipendente. La visibilità dei gruppi usa la modalità effettiva dell’attività. Gli Analytics tra corsi rivalutano partecipazione, report e gruppi per ogni attività e identificano lo stesso video tramite ID provider o content hash del file caricato.

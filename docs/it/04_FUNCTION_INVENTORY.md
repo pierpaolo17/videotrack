@@ -1,8 +1,8 @@
 # Inventario delle funzioni
 
-Generato dall’albero sorgente VideoTrack 1.7.147. Le voci PHP includono funzioni e metodi nominati; le voci AMD includono dichiarazioni nominate, espressioni funzione assegnate e funzioni-metodo di oggetti.
+Generato dall’albero sorgente VideoTrack 1.7.148. Le voci PHP includono funzioni e metodi nominati; le voci AMD includono dichiarazioni nominate, espressioni funzione assegnate e funzioni-metodo di oggetti.
 
-**Funzioni/metodi PHP:** 762. **Callable AMD nominati:** 654.
+**Funzioni/metodi PHP:** 767. **Callable AMD nominati:** 654.
 
 | Posizione | Callable | Responsabilità |
 |---|---|---|
@@ -961,13 +961,15 @@ Generato dall’albero sorgente VideoTrack 1.7.147. Le voci PHP includono funzio
 | `classes/local/teacher_analytics.php:183` | `period_bounds` | Callable PHP `period_bounds`; DocBlock e chiamanti definiscono parametri, valori restituiti ed effetti. |
 | `classes/local/timed_text.php:44` | `file_options` | Callable PHP `file_options`; DocBlock e chiamanti definiscono parametri, valori restituiti ed effetti. |
 | `classes/local/timed_text.php:59` | `save_files` | Callable PHP `save_files`; DocBlock e chiamanti definiscono parametri, valori restituiti ed effetti. |
-| `classes/local/timed_text.php:97` | `transcript_tracks` | Callable PHP `transcript_tracks`; DocBlock e chiamanti definiscono parametri, valori restituiti ed effetti. |
-| `classes/local/timed_text.php:133` | `chapter_source` | Callable PHP `chapter_source`; DocBlock e chiamanti definiscono parametri, valori restituiti ed effetti. |
-| `classes/local/timed_text.php:158` | `language_from_filename` | Callable PHP `language_from_filename`; DocBlock e chiamanti definiscono parametri, valori restituiti ed effetti. |
-| `classes/local/timed_text.php:176` | `is_valid_vtt_content` | Callable PHP `is_valid_vtt_content`; DocBlock e chiamanti definiscono parametri, valori restituiti ed effetti. |
-| `classes/local/timed_text.php:191` | `area_files` | Callable PHP `area_files`; DocBlock e chiamanti definiscono parametri, valori restituiti ed effetti. |
-| `classes/local/timed_text.php:211` | `file_url` | Callable PHP `file_url`; DocBlock e chiamanti definiscono parametri, valori restituiti ed effetti. |
-| `classes/local/timed_text.php:229` | `language_label` | Callable PHP `language_label`; DocBlock e chiamanti definiscono parametri, valori restituiti ed effetti. |
+| `classes/local/timed_text.php:96` | `transcript_tracks` | Restituisce soltanto le tracce dell'area trascrizioni dedicata. |
+| `classes/local/timed_text.php:126` | `transcript_tracks_with_legacy_fallback` | Preferisce le trascrizioni dedicate, poi legge la vecchia area sottotitoli. |
+| `classes/local/timed_text.php:159` | `chapter_source` | Restituisce soltanto la sorgente dell'area capitoli dedicata. |
+| `classes/local/timed_text.php:181` | `chapter_source_with_legacy_fallback` | Preferisce la sorgente capitoli dedicata, poi legge la vecchia area sottotitoli. |
+| `classes/local/timed_text.php:206` | `language_from_filename` | Callable PHP `language_from_filename`; DocBlock e chiamanti definiscono parametri, valori restituiti ed effetti. |
+| `classes/local/timed_text.php:224` | `is_valid_vtt_content` | Callable PHP `is_valid_vtt_content`; DocBlock e chiamanti definiscono parametri, valori restituiti ed effetti. |
+| `classes/local/timed_text.php:239` | `area_files` | Callable PHP `area_files`; DocBlock e chiamanti definiscono parametri, valori restituiti ed effetti. |
+| `classes/local/timed_text.php:259` | `file_url` | Callable PHP `file_url`; DocBlock e chiamanti definiscono parametri, valori restituiti ed effetti. |
+| `classes/local/timed_text.php:277` | `language_label` | Callable PHP `language_label`; DocBlock e chiamanti definiscono parametri, valori restituiti ed effetti. |
 | `classes/local/tracker.php:57` | `current_state_snapshot` | Callable PHP `current_state_snapshot`; DocBlock e chiamanti definiscono parametri, valori restituiti ed effetti. |
 | `classes/local/tracker.php:76` | `normalise_interval` | Callable PHP `normalise_interval`; DocBlock e chiamanti definiscono parametri, valori restituiti ed effetti. |
 | `classes/local/tracker.php:96` | `decode_intervals` | Callable PHP `decode_intervals`; DocBlock e chiamanti definiscono parametri, valori restituiti ed effetti. |
@@ -1384,6 +1386,9 @@ Generato dall’albero sorgente VideoTrack 1.7.147. Le voci PHP includono funzio
 | `tests/timed_text_test.php:35` | `test_language_from_filename_accepts_bcp47_like_names` | Callable PHP `test_language_from_filename_accepts_bcp47_like_names`; DocBlock e chiamanti definiscono parametri, valori restituiti ed effetti. |
 | `tests/timed_text_test.php:45` | `test_is_valid_vtt_content_checks_signature_and_size` | Callable PHP `test_is_valid_vtt_content_checks_signature_and_size`; DocBlock e chiamanti definiscono parametri, valori restituiti ed effetti. |
 | `tests/timed_text_test.php:55` | `test_file_options_enforce_vtt_limits` | Callable PHP `test_file_options_enforce_vtt_limits`; DocBlock e chiamanti definiscono parametri, valori restituiti ed effetti. |
+| `tests/timed_text_test.php:67` | `test_canonical_lookups_ignore_legacy_subtitle_file` | Verifica che le API canoniche non leggano mai la vecchia area sottotitoli. |
+| `tests/timed_text_test.php:88` | `test_explicit_legacy_fallback_uses_subtitle_file` | Verifica il fallback di compatibilità esplicito quando le aree canoniche sono vuote. |
+| `tests/timed_text_test.php:117` | `test_explicit_legacy_fallback_prefers_canonical_files` | Verifica la precedenza di trascrizioni/capitoli canonici sul file sottotitoli legacy. |
 | `tests/tracker_test.php:40` | `setUp` | Callable PHP `setUp`; DocBlock e chiamanti definiscono parametri, valori restituiti ed effetti. |
 | `tests/tracker_test.php:48` | `test_normalise_interval_clamps_and_rejects_empty_ranges` | Callable PHP `test_normalise_interval_clamps_and_rejects_empty_ranges`; DocBlock e chiamanti definiscono parametri, valori restituiti ed effetti. |
 | `tests/tracker_test.php:59` | `test_decode_intervals_filters_invalid_ranges` | Callable PHP `test_decode_intervals_filters_invalid_ranges`; DocBlock e chiamanti definiscono parametri, valori restituiti ed effetti. |

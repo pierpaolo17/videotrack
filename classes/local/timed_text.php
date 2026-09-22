@@ -84,28 +84,18 @@ final class timed_text {
     }
 
     /**
-     * Return transcript tracks, falling back to the legacy subtitle file.
+     * Return transcript tracks from the dedicated transcript area.
      *
      * Transcript file names may be language codes such as en.vtt or pt-BR.vtt.
      * Files with other names remain usable and are labelled with their base name.
      *
      * @param int $cmid Course-module id.
      * @param string $fallbacklanguage Default language code.
-     * @param bool $allowlegacy Whether the legacy subtitles area may be used.
      * @return array Track descriptors for JavaScript.
      */
-    public static function transcript_tracks(
-        int $cmid,
-        string $fallbacklanguage = '',
-        bool $allowlegacy = false
-    ): array {
+    public static function transcript_tracks(int $cmid, string $fallbacklanguage = ''): array {
         $context = context_module::instance($cmid);
         $files = self::area_files($context->id, 'transcripts');
-        $legacy = false;
-        if (!$files && $allowlegacy) {
-            $files = self::area_files($context->id, 'subtitles');
-            $legacy = true;
-        }
 
         $tracks = [];
         foreach ($files as $file) {
@@ -117,34 +107,92 @@ final class timed_text {
                 'url' => (string)self::file_url($context->id, $file->get_filearea(), $file),
                 'language' => $language,
                 'label' => self::language_label($language, $file->get_filename()),
-                'legacy' => $legacy,
+                'legacy' => false,
             ];
         }
         return $tracks;
     }
 
     /**
-     * Return the dedicated chapter source or a legacy subtitle fallback.
+     * Return transcript tracks with fallback to the legacy subtitle area.
+     *
+     * Dedicated transcript files always take precedence. The legacy subtitle file is returned only when the
+     * canonical area is empty, preserving migrated activities without exposing a boolean behaviour switch.
      *
      * @param int $cmid Course-module id.
-     * @param bool $allowlegacy Whether the old subtitle-based chapter source may be used.
+     * @param string $fallbacklanguage Default language code.
+     * @return array Track descriptors for JavaScript.
+     */
+    public static function transcript_tracks_with_legacy_fallback(
+        int $cmid,
+        string $fallbacklanguage = ''
+    ): array {
+        $tracks = self::transcript_tracks($cmid, $fallbacklanguage);
+        if ($tracks) {
+            return $tracks;
+        }
+
+        $context = context_module::instance($cmid);
+        $files = self::area_files($context->id, 'subtitles');
+        $tracks = [];
+        foreach ($files as $file) {
+            $language = self::language_from_filename(
+                $file->get_filename(),
+                count($files) === 1 ? $fallbacklanguage : ''
+            );
+            $tracks[] = [
+                'url' => (string)self::file_url($context->id, $file->get_filearea(), $file),
+                'language' => $language,
+                'label' => self::language_label($language, $file->get_filename()),
+                'legacy' => true,
+            ];
+        }
+        return $tracks;
+    }
+
+    /**
+     * Return the chapter source from the dedicated chapter area.
+     *
+     * @param int $cmid Course-module id.
      * @return array|null Source descriptor with url and legacy keys.
      */
-    public static function chapter_source(int $cmid, bool $allowlegacy = false): ?array {
+    public static function chapter_source(int $cmid): ?array {
         $context = context_module::instance($cmid);
         $files = self::area_files($context->id, 'chapters');
-        $legacy = false;
-        if (!$files && $allowlegacy) {
-            $files = self::area_files($context->id, 'subtitles');
-            $legacy = true;
-        }
         if (!$files) {
             return null;
         }
         $file = reset($files);
         return [
             'url' => (string)self::file_url($context->id, $file->get_filearea(), $file),
-            'legacy' => $legacy,
+            'legacy' => false,
+        ];
+    }
+
+    /**
+     * Return the chapter source with fallback to the legacy subtitle area.
+     *
+     * The dedicated chapter file always takes precedence. The legacy subtitle file is returned only when the
+     * canonical area is empty, preserving migrated activities without exposing a boolean behaviour switch.
+     *
+     * @param int $cmid Course-module id.
+     * @return array|null Source descriptor with url and legacy keys.
+     */
+    public static function chapter_source_with_legacy_fallback(int $cmid): ?array {
+        $source = self::chapter_source($cmid);
+        if ($source !== null) {
+            return $source;
+        }
+
+        $context = context_module::instance($cmid);
+        $files = self::area_files($context->id, 'subtitles');
+        if (!$files) {
+            return null;
+        }
+        $file = reset($files);
+        return [
+            'url' => (string)self::file_url($context->id, $file->get_filearea(), $file),
+            'legacy' => true,
         ];
     }
 
