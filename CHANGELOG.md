@@ -1,5 +1,16 @@
 # VideoTrack changelog
 
+## 1.7.150 - 2026-09-22
+
+### Complete release markers for database ER artefacts
+
+- Aligned the Mermaid source and accessible SVG database diagrams with the release marker already updated in the
+  Markdown ER reference. This restores the release-hygiene contract across all three representations.
+- Retained the `1.7.149` code and static-analysis result: every functional gate except the release-marker PHPUnit
+  assertion completed successfully, PHPStan and Psalm report zero errors, and PHPMD records 145 advisory findings
+  including five `BooleanArgumentFlag` findings. Runtime code, database schema, stored data, services, permissions,
+  player adapters, AMD assets and language packs are unchanged.
+
 ## 1.7.149 - 2026-09-22
 
 ### Explicit Analytics export and course-percentage renderers
