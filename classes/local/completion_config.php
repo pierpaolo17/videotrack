@@ -143,8 +143,6 @@ final class completion_config {
      * @return string[] Active condition descriptions in display order.
      */
     public static function active_condition_descriptions(stdClass $videotrack, context_module $context): array {
-        global $DB;
-
         $descriptions = [];
         if (!empty($videotrack->completionpercent)) {
             $descriptions[] = get_string(
@@ -154,36 +152,7 @@ final class completion_config {
             );
         }
 
-        $reactiondescriptions = [];
-        if (!empty($videotrack->reactionsenabled)) {
-            if (!empty($videotrack->reactionsrequired) && !empty($videotrack->minreactions)) {
-                $reactiondescriptions[] = get_string(
-                    'completiondetail:minreactions',
-                    'mod_videotrack',
-                    $videotrack->minreactions
-                );
-            }
-
-            $required = $DB->get_records('videotrack_react', [
-                'videotrackid' => $videotrack->id,
-                'requiredforcompletion' => 1,
-                'isdeleted' => 0,
-            ], 'sortorder ASC, id ASC', 'id,label');
-            if ($required) {
-                $labels = array_map(static function (stdClass $reaction) use ($context): string {
-                    return format_string($reaction->label, true, ['context' => $context]);
-                }, array_values($required));
-                $reactiondescriptions[] = get_string(
-                    'completiondetail:requiredreactions',
-                    'mod_videotrack',
-                    implode(', ', $labels)
-                );
-            }
-
-            if (!empty($videotrack->requireallreactiontypes)) {
-                $reactiondescriptions[] = get_string('completiondetail:allreactiontypes', 'mod_videotrack');
-            }
-        }
+        $reactiondescriptions = self::reaction_condition_descriptions($videotrack, $context);
         if ($reactiondescriptions) {
             $reactionlogic = ($videotrack->completionlogic ?? 'and') === 'or'
                 ? get_string('logicor', 'mod_videotrack')
@@ -194,6 +163,52 @@ final class completion_config {
 
         if (!empty($videotrack->completionacknowledgement) && acknowledgement::is_enabled($videotrack)) {
             $descriptions[] = get_string('completiondetail:acknowledgement', 'mod_videotrack');
+        }
+
+        return $descriptions;
+    }
+
+    /**
+     * Returns descriptions for the enabled reaction-based completion conditions.
+     *
+     * @param stdClass $videotrack Activity instance.
+     * @param context_module $context Module context used to format reaction labels.
+     * @return string[] Active reaction-condition descriptions in display order.
+     */
+    private static function reaction_condition_descriptions(stdClass $videotrack, context_module $context): array {
+        global $DB;
+
+        if (empty($videotrack->reactionsenabled)) {
+            return [];
+        }
+
+        $descriptions = [];
+        if (!empty($videotrack->reactionsrequired) && !empty($videotrack->minreactions)) {
+            $descriptions[] = get_string(
+                'completiondetail:minreactions',
+                'mod_videotrack',
+                $videotrack->minreactions
+            );
+        }
+
+        $required = $DB->get_records('videotrack_react', [
+            'videotrackid' => $videotrack->id,
+            'requiredforcompletion' => 1,
+            'isdeleted' => 0,
+        ], 'sortorder ASC, id ASC', 'id,label');
+        if ($required) {
+            $labels = array_map(static function (stdClass $reaction) use ($context): string {
+                return format_string($reaction->label, true, ['context' => $context]);
+            }, array_values($required));
+            $descriptions[] = get_string(
+                'completiondetail:requiredreactions',
+                'mod_videotrack',
+                implode(', ', $labels)
+            );
+        }
+
+        if (!empty($videotrack->requireallreactiontypes)) {
+            $descriptions[] = get_string('completiondetail:allreactiontypes', 'mod_videotrack');
         }
 
         return $descriptions;

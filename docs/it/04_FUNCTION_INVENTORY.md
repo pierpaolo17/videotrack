@@ -1,8 +1,8 @@
 # Inventario delle funzioni
 
-Generato dall’albero sorgente VideoTrack 1.7.150. Le voci PHP includono funzioni e metodi nominati; le voci AMD includono dichiarazioni nominate, espressioni funzione assegnate e funzioni-metodo di oggetti.
+Generato dall’albero sorgente VideoTrack 1.7.151. Le voci PHP includono funzioni e metodi nominati; le voci AMD includono dichiarazioni nominate, espressioni funzione assegnate e funzioni-metodo di oggetti.
 
-**Funzioni/metodi PHP:** 770. **Callable AMD nominati:** 654.
+**Funzioni/metodi PHP:** 772. **Callable AMD nominati:** 654.
 
 | Posizione | Callable | Responsabilità |
 |---|---|---|
@@ -841,7 +841,8 @@ Generato dall’albero sorgente VideoTrack 1.7.150. Le voci PHP includono funzio
 | `classes/local/completion_config.php:109` | `required_reaction_activity_set` | Funzione/metodo PHP nominato `required_reaction_activity_set`; vedere DocBlock e chiamanti per il contratto corrente. |
 | `classes/local/completion_config.php:130` | `reset_required_reaction_cache` | Funzione/metodo PHP nominato `reset_required_reaction_cache`; vedere DocBlock e chiamanti per il contratto corrente. |
 | `classes/local/completion_config.php:145` | `active_condition_descriptions` | Funzione/metodo PHP nominato `active_condition_descriptions`; vedere DocBlock e chiamanti per il contratto corrente. |
-| `classes/local/completion_config.php:208` | `signature` | Funzione/metodo PHP nominato `signature`; vedere DocBlock e chiamanti per il contratto corrente. |
+| `classes/local/completion_config.php:178` | `reaction_condition_descriptions` | Costruisce le descrizioni ordinate delle condizioni di completamento basate sulle reazioni per la descrizione composita pubblica. |
+| `classes/local/completion_config.php:223` | `signature` | Funzione/metodo PHP nominato `signature`; vedere DocBlock e chiamanti per il contratto corrente. |
 | `classes/local/course_analytics.php:49` | `get_course_rows` | Callable PHP `get_course_rows`; DocBlock e chiamanti definiscono parametri, valori restituiti ed effetti. |
 | `classes/local/course_analytics.php:198` | `summarise_states` | Callable PHP `summarise_states`; DocBlock e chiamanti definiscono parametri, valori restituiti ed effetti. |
 | `classes/local/course_analytics.php:249` | `median` | Callable PHP `median`; DocBlock e chiamanti definiscono parametri, valori restituiti ed effetti. |
@@ -1207,6 +1208,7 @@ Generato dall’albero sorgente VideoTrack 1.7.150. Le voci PHP includono funzio
 | `tests/completion_contract_test.php:268` | `test_reaction_or_logic_can_be_alternative_to_viewing_percentage` | Funzione/metodo PHP nominato `test_reaction_or_logic_can_be_alternative_to_viewing_percentage`; vedere DocBlock e chiamanti per il contratto corrente. |
 | `tests/completion_contract_test.php:304` | `test_activity_header_completion_badges_have_readable_contrast` | Funzione/metodo PHP nominato `test_activity_header_completion_badges_have_readable_contrast`; vedere DocBlock e chiamanti per il contratto corrente. |
 | `tests/completion_contract_test.php:319` | `test_activity_header_groups_composite_completion_description_safely` | Verifica il contratto esatto server-AMD per il raggruppamento, la gestione sicura del testo e la presenza della build generata. |
+| `tests/completion_contract_test.php:353` | `test_active_condition_descriptions_preserve_composite_contract` | Verifica ordine pubblico, formattazione e composizione OR delle descrizioni di completamento percentuale e per reazioni. |
 | `tests/course_analytics_test.php:39` | `test_median_handles_common_dataset_shapes` | Callable PHP `test_median_handles_common_dataset_shapes`; DocBlock e chiamanti definiscono parametri, valori restituiti ed effetti. |
 | `tests/course_analytics_test.php:48` | `test_state_summary_reuses_timeline_analytics` | Callable PHP `test_state_summary_reuses_timeline_analytics`; DocBlock e chiamanti definiscono parametri, valori restituiti ed effetti. |
 | `tests/course_analytics_test.php:72` | `test_state_summary_hides_drop_when_retention_denominator_is_suppressed` | Callable PHP `test_state_summary_hides_drop_when_retention_denominator_is_suppressed`; DocBlock e chiamanti definiscono parametri, valori restituiti ed effetti. |
