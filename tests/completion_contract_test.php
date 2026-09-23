@@ -346,4 +346,48 @@ final class completion_contract_test extends advanced_testcase {
         $this->assertStringContainsString('flex-direction: column;', $styles);
         $this->assertStringContainsString('align-items: flex-start;', $styles);
     }
+
+    /**
+     * Completion descriptions preserve display order and reaction logic after internal decomposition.
+     */
+    public function test_active_condition_descriptions_preserve_composite_contract(): void {
+        global $DB;
+
+        $this->resetAfterTest();
+        $this->setAdminUser();
+
+        $course = $this->getDataGenerator()->create_course();
+        $generator = $this->getDataGenerator()->get_plugin_generator('mod_videotrack');
+        $activity = $generator->create_instance([
+            'course' => $course->id,
+            'name' => 'Composite completion descriptions',
+            'reactionsenabled' => 1,
+        ]);
+        $reaction = $DB->get_record('videotrack_react', [
+            'videotrackid' => $activity->id,
+            'isdeleted' => 0,
+        ], '*', MUST_EXIST);
+        $reaction->label = 'Required reaction';
+        $reaction->requiredforcompletion = 1;
+        $DB->update_record('videotrack_react', $reaction);
+
+        $activity->completionpercent = 80;
+        $activity->completionacknowledgement = 0;
+        $activity->reactionsrequired = 1;
+        $activity->minreactions = 2;
+        $activity->requireallreactiontypes = 1;
+        $activity->completionlogic = 'or';
+        $context = \context_module::instance((int)$activity->cmid);
+
+        $reactionconditions = [
+            get_string('completiondetail:minreactions', 'mod_videotrack', 2),
+            get_string('completiondetail:requiredreactions', 'mod_videotrack', 'Required reaction'),
+            get_string('completiondetail:allreactiontypes', 'mod_videotrack'),
+        ];
+        $this->assertSame([
+            get_string('completiondetail:percent', 'mod_videotrack', 80),
+            get_string('completionreactionrules', 'mod_videotrack')
+                . ' — ' . get_string('logicor', 'mod_videotrack') . ': ' . implode('; ', $reactionconditions),
+        ], completion_config::active_condition_descriptions($activity, $context));
+    }
 }

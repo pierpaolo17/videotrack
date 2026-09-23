@@ -27,6 +27,12 @@ internal OR semantics are not misrepresented as separate mandatory Moodle rules.
 The custom completion provider and tracker use the same configuration/signature. Every mutation that can change a
 criterion refreshes derived state and synchronises Moodle completion only when the state actually changes.
 
+`completion_config::active_condition_descriptions()` assembles the public list in this order: viewed percentage,
+the grouped reaction conditions, then acknowledgement. Its internal reaction-description routine returns nothing
+when reactions are disabled; otherwise it adds the minimum count, active individually required reactions ordered by
+definition sort order/id, and the all-types condition. Reaction labels are formatted in the activity context before
+the group is joined with the configured AND/OR label.
+
 Moodle core conditions such as activity view, grade received and pass grade remain separate. The browser layout
 may move the VideoTrack AND/OR label before a multi-item requirement list but never changes state or ordering.
 

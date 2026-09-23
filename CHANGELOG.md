@@ -1,5 +1,19 @@
 # VideoTrack changelog
 
+## 1.7.151 - 2026-09-23
+
+### Decomposed completion-condition descriptions
+
+- Isolated reaction-based completion descriptions from the public composite-description assembler. The public
+  contract, display order, AND/OR label, required-reaction ordering and Moodle context formatting remain unchanged.
+- Added a behavioural PHPUnit contract covering percentage, minimum reactions, individually required reactions,
+  all reaction types and OR composition in one deterministic activity fixture.
+- Updated the current English and Italian completion documentation and callable inventories. This refactoring is
+  designed to remove the `CyclomaticComplexity` and `NPathComplexity` findings previously attributed to
+  `completion_config::active_condition_descriptions()`; the CI PHPMD report remains the authoritative measurement.
+  Database schema, stored data, services, permissions, privacy behaviour, player adapters, AMD assets and language
+  packs are unchanged.
+
 ## 1.7.150 - 2026-09-22
 
 ### Complete release markers for database ER artefacts

@@ -28,6 +28,13 @@ rappresentata erroneamente come più regole Moodle obbligatorie.
 Provider custom completion e tracker usano la stessa configurazione/firma. Ogni mutazione che cambia un criterio
 aggiorna lo stato derivato e sincronizza la completion Moodle soltanto al cambio effettivo di stato.
 
+`completion_config::active_condition_descriptions()` costruisce l'elenco pubblico in questo ordine: percentuale
+vista, gruppo delle condizioni sulle reazioni e infine presa visione. La routine interna per le descrizioni delle
+reazioni non restituisce nulla quando le reazioni sono disabilitate; altrimenti aggiunge numero minimo, reazioni
+singolarmente obbligatorie attive ordinate per ordine/id della definizione e condizione su tutti i tipi. Le etichette
+delle reazioni sono formattate nel contesto dell'attività prima che il gruppo sia unito con l'etichetta AND/OR
+configurata.
+
 Le condizioni core Moodle come apertura attività, voto ricevuto e sufficienza restano separate. Il layout browser
 può spostare l'etichetta AND/OR prima dell'elenco, senza cambiare stato o ordinamento.
 

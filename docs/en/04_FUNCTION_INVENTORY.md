@@ -1,8 +1,8 @@
 # Function inventory
 
-Generated from the VideoTrack 1.7.150 source tree. PHP entries include named functions and methods; AMD entries include named declarations, assigned function expressions and object-method functions.
+Generated from the VideoTrack 1.7.151 source tree. PHP entries include named functions and methods; AMD entries include named declarations, assigned function expressions and object-method functions.
 
-**PHP functions/methods:** 770. **Named AMD callables:** 654.
+**PHP functions/methods:** 772. **Named AMD callables:** 654.
 
 | Location | Callable | Responsibility |
 |---|---|---|
@@ -841,7 +841,8 @@ Generated from the VideoTrack 1.7.150 source tree. PHP entries include named fun
 | `classes/local/completion_config.php:109` | `required_reaction_activity_set` | Named PHP function/method `required_reaction_activity_set`; see source DocBlock and callers for the current contract. |
 | `classes/local/completion_config.php:130` | `reset_required_reaction_cache` | Named PHP function/method `reset_required_reaction_cache`; see source DocBlock and callers for the current contract. |
 | `classes/local/completion_config.php:145` | `active_condition_descriptions` | Named PHP function/method `active_condition_descriptions`; see source DocBlock and callers for the current contract. |
-| `classes/local/completion_config.php:208` | `signature` | Named PHP function/method `signature`; see source DocBlock and callers for the current contract. |
+| `classes/local/completion_config.php:178` | `reaction_condition_descriptions` | Builds the ordered descriptions of active reaction-based completion conditions for the composite public description. |
+| `classes/local/completion_config.php:223` | `signature` | Named PHP function/method `signature`; see source DocBlock and callers for the current contract. |
 | `classes/local/course_analytics.php:49` | `get_course_rows` | PHP callable `get_course_rows`; see its DocBlock and callers for parameter, return-value and side-effect details. |
 | `classes/local/course_analytics.php:198` | `summarise_states` | PHP callable `summarise_states`; see its DocBlock and callers for parameter, return-value and side-effect details. |
 | `classes/local/course_analytics.php:249` | `median` | PHP callable `median`; see its DocBlock and callers for parameter, return-value and side-effect details. |
@@ -1207,6 +1208,7 @@ Generated from the VideoTrack 1.7.150 source tree. PHP entries include named fun
 | `tests/completion_contract_test.php:268` | `test_reaction_or_logic_can_be_alternative_to_viewing_percentage` | Named PHP function/method `test_reaction_or_logic_can_be_alternative_to_viewing_percentage`; see source DocBlock and callers for the current contract. |
 | `tests/completion_contract_test.php:304` | `test_activity_header_completion_badges_have_readable_contrast` | Named PHP function/method `test_activity_header_completion_badges_have_readable_contrast`; see source DocBlock and callers for the current contract. |
 | `tests/completion_contract_test.php:319` | `test_activity_header_groups_composite_completion_description_safely` | Verifies the exact server-to-AMD grouping contract, safe text handling and presence of the generated build. |
+| `tests/completion_contract_test.php:353` | `test_active_condition_descriptions_preserve_composite_contract` | Verifies the public ordering, formatting and OR composition of percentage and reaction completion descriptions. |
 | `tests/course_analytics_test.php:39` | `test_median_handles_common_dataset_shapes` | PHP callable `test_median_handles_common_dataset_shapes`; see its DocBlock and callers for parameter, return-value and side-effect details. |
 | `tests/course_analytics_test.php:48` | `test_state_summary_reuses_timeline_analytics` | PHP callable `test_state_summary_reuses_timeline_analytics`; see its DocBlock and callers for parameter, return-value and side-effect details. |
 | `tests/course_analytics_test.php:72` | `test_state_summary_hides_drop_when_retention_denominator_is_suppressed` | PHP callable `test_state_summary_hides_drop_when_retention_denominator_is_suppressed`; see its DocBlock and callers for parameter, return-value and side-effect details. |
