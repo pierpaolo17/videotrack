@@ -1,8 +1,8 @@
 # Inventario delle funzioni
 
-Generato dall’albero sorgente VideoTrack 1.7.151. Le voci PHP includono funzioni e metodi nominati; le voci AMD includono dichiarazioni nominate, espressioni funzione assegnate e funzioni-metodo di oggetti.
+Generato dall’albero sorgente VideoTrack 1.7.152. Le voci PHP includono funzioni e metodi nominati; le voci AMD includono dichiarazioni nominate, espressioni funzione assegnate e funzioni-metodo di oggetti.
 
-**Funzioni/metodi PHP:** 772. **Callable AMD nominati:** 654.
+**Funzioni/metodi PHP:** 779. **Callable AMD nominati:** 654.
 
 | Posizione | Callable | Responsabilità |
 |---|---|---|
@@ -880,9 +880,16 @@ Generato dall’albero sorgente VideoTrack 1.7.151. Le voci PHP includono funzio
 | `classes/local/focus_policy.php:97` | `user_has_exception` | Risolve la membership core diretta senza esporre l’appartenenza nascosta. |
 | `classes/local/focus_policy.php:121` | `effective_policy` | Riduce soltanto il blur strict per i membri autorizzati del gruppo. |
 | `classes/local/form_validation.php:36` | `scalar_settings_errors` | Funzione/metodo PHP nominato `scalar_settings_errors`; vedere DocBlock e chiamanti per il contratto corrente. |
-| `classes/local/form_validation.php:89` | `acknowledgement_errors` | Funzione/metodo PHP nominato `acknowledgement_errors`; vedere DocBlock e chiamanti per il contratto corrente. |
-| `classes/local/form_validation.php:130` | `completion_rule_enabled` | Funzione/metodo PHP nominato `completion_rule_enabled`; vedere DocBlock e chiamanti per il contratto corrente. |
-| `classes/local/form_validation.php:155` | `duration_errors` | Funzione/metodo PHP nominato `duration_errors`; vedere DocBlock e chiamanti per il contratto corrente. |
+| `classes/local/form_validation.php:69` | `completion_percent_errors` | Valida la percentuale di completamento opzionale con suffisso o fallback e restituisce l'errore del gruppo. |
+| `classes/local/form_validation.php:91` | `bounded_integer_errors` | Valida un'impostazione intera opzionale rispetto a limiti inclusivi. |
+| `classes/local/form_validation.php:116` | `reaction_requirement_errors` | Valida la dipendenza tra requisiti reazioni abilitati, numero minimo e modalità tutti-i-tipi. |
+| `classes/local/form_validation.php:134` | `reaction_preset_errors` | Valida il JSON opzionale non vuoto del preset reazioni. |
+| `classes/local/form_validation.php:158` | `acknowledgement_errors` | Funzione/metodo PHP nominato `acknowledgement_errors`; vedere DocBlock e chiamanti per il contratto corrente. |
+| `classes/local/form_validation.php:199` | `completion_rule_enabled` | Combina i predicati espliciti di completamento percentuale, reazioni e presa visione. |
+| `classes/local/form_validation.php:212` | `percentage_completion_rule_enabled` | Rileva una regola percentuale positiva sostenuta da una durata configurata. |
+| `classes/local/form_validation.php:227` | `reaction_completion_rule_enabled` | Rileva regole attive su minimo, tutti i tipi o singole reazioni obbligatorie. |
+| `classes/local/form_validation.php:245` | `acknowledgement_completion_rule_enabled` | Rileva una regola attiva di completamento per presa visione. |
+| `classes/local/form_validation.php:258` | `duration_errors` | Funzione/metodo PHP nominato `duration_errors`; vedere DocBlock e chiamanti per il contratto corrente. |
 | `classes/local/forum_bridge.php:47` | `resolve_destination` | Callable PHP `resolve_destination`; DocBlock e chiamanti definiscono parametri, valori restituiti ed effetti. |
 | `classes/local/forum_bridge.php:99` | `get_group_options` | Callable PHP `get_group_options`; DocBlock e chiamanti definiscono parametri, valori restituiti ed effetti. |
 | `classes/local/forum_bridge.php:135` | `can_choose_subscription` | Callable PHP `can_choose_subscription`; DocBlock e chiamanti definiscono parametri, valori restituiti ed effetti. |
@@ -1244,8 +1251,8 @@ Generato dall’albero sorgente VideoTrack 1.7.151. Le voci PHP includono funzio
 | `tests/form_validation_test.php:36` | `test_scalar_settings_errors_preserve_existing_rules` | Funzione/metodo PHP nominato `test_scalar_settings_errors_preserve_existing_rules`; vedere DocBlock e chiamanti per il contratto corrente. |
 | `tests/form_validation_test.php:72` | `test_acknowledgement_errors_preserve_existing_rules` | Funzione/metodo PHP nominato `test_acknowledgement_errors_preserve_existing_rules`; vedere DocBlock e chiamanti per il contratto corrente. |
 | `tests/form_validation_test.php:91` | `test_completion_rule_enabled_preserves_existing_rules` | Funzione/metodo PHP nominato `test_completion_rule_enabled_preserves_existing_rules`; vedere DocBlock e chiamanti per il contratto corrente. |
-| `tests/form_validation_test.php:123` | `test_duration_errors_preserve_existing_rules` | Funzione/metodo PHP nominato `test_duration_errors_preserve_existing_rules`; vedere DocBlock e chiamanti per il contratto corrente. |
-| `tests/form_validation_test.php:141` | `test_mod_form_delegates_autonomous_validation_policy` | Funzione/metodo PHP nominato `test_mod_form_delegates_autonomous_validation_policy`; vedere DocBlock e chiamanti per il contratto corrente. |
+| `tests/form_validation_test.php:138` | `test_duration_errors_preserve_existing_rules` | Funzione/metodo PHP nominato `test_duration_errors_preserve_existing_rules`; vedere DocBlock e chiamanti per il contratto corrente. |
+| `tests/form_validation_test.php:156` | `test_mod_form_delegates_autonomous_validation_policy` | Funzione/metodo PHP nominato `test_mod_form_delegates_autonomous_validation_policy`; vedere DocBlock e chiamanti per il contratto corrente. |
 | `tests/forum_bridge_test.php:37` | `setUp` | Callable PHP `setUp`; DocBlock e chiamanti definiscono parametri, valori restituiti ed effetti. |
 | `tests/forum_bridge_test.php:45` | `test_disabled_integration_is_rejected` | Callable PHP `test_disabled_integration_is_rejected`; DocBlock e chiamanti definiscono parametri, valori restituiti ed effetti. |
 | `tests/forum_bridge_test.php:59` | `test_enrolled_student_can_resolve_compatible_forum` | Callable PHP `test_enrolled_student_can_resolve_compatible_forum`; DocBlock e chiamanti definiscono parametri, valori restituiti ed effetti. |

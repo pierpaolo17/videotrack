@@ -1,8 +1,8 @@
 # Function inventory
 
-Generated from the VideoTrack 1.7.151 source tree. PHP entries include named functions and methods; AMD entries include named declarations, assigned function expressions and object-method functions.
+Generated from the VideoTrack 1.7.152 source tree. PHP entries include named functions and methods; AMD entries include named declarations, assigned function expressions and object-method functions.
 
-**PHP functions/methods:** 772. **Named AMD callables:** 654.
+**PHP functions/methods:** 779. **Named AMD callables:** 654.
 
 | Location | Callable | Responsibility |
 |---|---|---|
@@ -880,9 +880,16 @@ Generated from the VideoTrack 1.7.151 source tree. PHP entries include named fun
 | `classes/local/focus_policy.php:97` | `user_has_exception` | Resolves direct core group membership without exposing hidden membership. |
 | `classes/local/focus_policy.php:121` | `effective_policy` | Downgrades only strict window-blur handling for authorised group members. |
 | `classes/local/form_validation.php:36` | `scalar_settings_errors` | Named PHP function/method `scalar_settings_errors`; see source DocBlock and callers for the current contract. |
-| `classes/local/form_validation.php:89` | `acknowledgement_errors` | Named PHP function/method `acknowledgement_errors`; see source DocBlock and callers for the current contract. |
-| `classes/local/form_validation.php:130` | `completion_rule_enabled` | Named PHP function/method `completion_rule_enabled`; see source DocBlock and callers for the current contract. |
-| `classes/local/form_validation.php:155` | `duration_errors` | Named PHP function/method `duration_errors`; see source DocBlock and callers for the current contract. |
+| `classes/local/form_validation.php:69` | `completion_percent_errors` | Validates the optional suffixed or fallback completion percentage and returns its group error. |
+| `classes/local/form_validation.php:91` | `bounded_integer_errors` | Validates one optional integer setting against inclusive bounds. |
+| `classes/local/form_validation.php:116` | `reaction_requirement_errors` | Validates the dependency between enabled reaction requirements, minimum count and all-types mode. |
+| `classes/local/form_validation.php:134` | `reaction_preset_errors` | Validates non-empty optional reaction-preset JSON. |
+| `classes/local/form_validation.php:158` | `acknowledgement_errors` | Named PHP function/method `acknowledgement_errors`; see source DocBlock and callers for the current contract. |
+| `classes/local/form_validation.php:199` | `completion_rule_enabled` | Combines the explicit percentage, reaction and acknowledgement completion predicates. |
+| `classes/local/form_validation.php:212` | `percentage_completion_rule_enabled` | Detects a positive percentage rule backed by a configured duration. |
+| `classes/local/form_validation.php:227` | `reaction_completion_rule_enabled` | Detects active minimum, all-types or individually required reaction rules. |
+| `classes/local/form_validation.php:245` | `acknowledgement_completion_rule_enabled` | Detects an active acknowledgement completion rule. |
+| `classes/local/form_validation.php:258` | `duration_errors` | Named PHP function/method `duration_errors`; see source DocBlock and callers for the current contract. |
 | `classes/local/forum_bridge.php:47` | `resolve_destination` | PHP callable `resolve_destination`; see its DocBlock and callers for parameter, return-value and side-effect details. |
 | `classes/local/forum_bridge.php:99` | `get_group_options` | PHP callable `get_group_options`; see its DocBlock and callers for parameter, return-value and side-effect details. |
 | `classes/local/forum_bridge.php:135` | `can_choose_subscription` | PHP callable `can_choose_subscription`; see its DocBlock and callers for parameter, return-value and side-effect details. |
@@ -1244,8 +1251,8 @@ Generated from the VideoTrack 1.7.151 source tree. PHP entries include named fun
 | `tests/form_validation_test.php:36` | `test_scalar_settings_errors_preserve_existing_rules` | Named PHP function/method `test_scalar_settings_errors_preserve_existing_rules`; see source DocBlock and callers for the current contract. |
 | `tests/form_validation_test.php:72` | `test_acknowledgement_errors_preserve_existing_rules` | Named PHP function/method `test_acknowledgement_errors_preserve_existing_rules`; see source DocBlock and callers for the current contract. |
 | `tests/form_validation_test.php:91` | `test_completion_rule_enabled_preserves_existing_rules` | Named PHP function/method `test_completion_rule_enabled_preserves_existing_rules`; see source DocBlock and callers for the current contract. |
-| `tests/form_validation_test.php:123` | `test_duration_errors_preserve_existing_rules` | Named PHP function/method `test_duration_errors_preserve_existing_rules`; see source DocBlock and callers for the current contract. |
-| `tests/form_validation_test.php:141` | `test_mod_form_delegates_autonomous_validation_policy` | Named PHP function/method `test_mod_form_delegates_autonomous_validation_policy`; see source DocBlock and callers for the current contract. |
+| `tests/form_validation_test.php:138` | `test_duration_errors_preserve_existing_rules` | Named PHP function/method `test_duration_errors_preserve_existing_rules`; see source DocBlock and callers for the current contract. |
+| `tests/form_validation_test.php:156` | `test_mod_form_delegates_autonomous_validation_policy` | Named PHP function/method `test_mod_form_delegates_autonomous_validation_policy`; see source DocBlock and callers for the current contract. |
 | `tests/forum_bridge_test.php:37` | `setUp` | PHP callable `setUp`; see its DocBlock and callers for parameter, return-value and side-effect details. |
 | `tests/forum_bridge_test.php:45` | `test_disabled_integration_is_rejected` | PHP callable `test_disabled_integration_is_rejected`; see its DocBlock and callers for parameter, return-value and side-effect details. |
 | `tests/forum_bridge_test.php:59` | `test_enrolled_student_can_resolve_compatible_forum` | PHP callable `test_enrolled_student_can_resolve_compatible_forum`; see its DocBlock and callers for parameter, return-value and side-effect details. |

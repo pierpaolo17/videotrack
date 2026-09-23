@@ -1,5 +1,21 @@
 # VideoTrack changelog
 
+## 1.7.152 - 2026-09-23
+
+### Decomposed autonomous form validation
+
+- Split scalar activity-form validation into focused private policies for completion percentage, bounded integer
+  fields, reaction-rule dependencies and optional preset JSON. Error keys, ordering, boundaries and language strings
+  remain unchanged.
+- Split custom-completion detection into explicit percentage, reaction and acknowledgement predicates. Suffixed
+  Moodle completion fields retain their unsuffixed fallback, and disabled feature families cannot activate stale
+  rules.
+- Extended PHPUnit coverage for fallback percentage input and disabled reaction/acknowledgement gates. Updated the
+  current English and Italian architecture documentation and callable inventories. This refactoring targets the
+  three PHPMD complexity findings assigned to `form_validation`; CI remains the authoritative measurement.
+  Database schema, stored data, public APIs, services, permissions, player adapters, AMD assets and language packs
+  are unchanged.
+
 ## 1.7.151 - 2026-09-23
 
 ### Decomposed completion-condition descriptions
