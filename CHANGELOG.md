@@ -1,5 +1,34 @@
 # VideoTrack changelog
 
+## 1.7.154 - 2026-09-23
+
+### PHPCS control-structure conformance
+
+- Reflowed the multiline timestamp-parser condition to the PSR-12 layout required by Moodle CodeSniffer. The
+  expression, regular expression and parser behaviour are unchanged.
+- The preceding CI run confirmed 282 PHPUnit tests with 2577 assertions, 24 Behat scenarios with 357 steps,
+  zero PHPStan/Psalm errors and the intended PHPMD reduction from 140 to 135 findings. Database schema, stored data,
+  services, permissions, tracking, player adapters, AMD assets, language packs and public APIs are unchanged.
+
+## 1.7.153 - 2026-09-23
+
+### Normalised provider URL and timestamp parsing
+
+- Centralised absolute HTTPS media-URL parsing before the YouTube and Vimeo host/path policies. The shared
+  normaliser rejects empty, malformed, non-HTTPS and line-broken input; returns a lowercase host without a trailing
+  dot; collapses repeated path separators; and always exposes string path/query values.
+- Isolated YouTube identifier validation so malformed array-shaped query values are rejected instead of reaching
+  the provider parser. Existing supported short, watch, embed, shorts, live, Vimeo channel/group/showcase and
+  private-hash paths retain their contracts.
+- Replaced branch-heavy colon timestamp parsing with one anchored two/three-component grammar followed by explicit
+  minute/second bounds. Numeric seconds, whitespace trimming, negative-number clamping and report-filter
+  restrictions remain unchanged.
+- Extended PHPUnit coverage for case/trailing-dot provider hosts, array-shaped YouTube query parameters,
+  single-digit timestamp components and malformed component counts. Updated current English and Italian provider
+  documentation and callable inventories. This refactoring targets five PHPMD complexity findings; CI remains the
+  authoritative measurement. Database schema, stored data, services, permissions, tracking, player adapters, AMD
+  assets and language packs are unchanged.
+
 ## 1.7.152 - 2026-09-23
 
 ### Decomposed autonomous form validation

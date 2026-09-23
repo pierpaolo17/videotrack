@@ -14,6 +14,20 @@ comportamento condiviso; il timing specifico degli SDK resta dentro ogni adapter
 Il detector opera soltanto nel form docente. Non scrive dati di tracking learner, non rende i metadata provider
 autorevoli da soli e distrugge player temporanei/timer dopo successo, errore o timeout.
 
+## Parsing server di URL e timestamp
+
+`videotrack_parse_https_media_url()` è il confine neutrale rispetto al provider per gli URL multimediali esterni
+inviati. Rifiuta valori vuoti, malformati, non HTTPS o con interruzioni di riga e restituisce host minuscolo senza
+punto finale, percorso con separatori ripetuti compressi e query sempre stringa. `videotrack_extract_videoid()` e
+`videotrack_extract_vimeo_id()` applicano poi allowlist distinte di host e percorsi. I valori della query YouTube
+passano anche da `videotrack_normalise_youtube_video_id()`, che accetta soltanto un identificatore provider scalare
+di 11 caratteri.
+
+`videotrack_parse_video_timestamp()` accetta secondi numerici oppure due/tre componenti numeriche separate da due
+punti. La grammatica limita minuti e secondi a 0–59, consentendo ore o minuti accumulati. Valori vuoti e malformati
+restituiscono `null`; i numeri negativi conservano il clamp consolidato a zero. I filtri report richiedono prima il
+formato con due punti tramite `videotrack_parse_report_timestamp()`.
+
 La configurazione localizzata è serializzata in un elemento DOM `application/json`. Il bootstrap AMD riceve solo
 l'id dell'elemento, analizza il JSON e installa listener per sorgente. Si evitano argomenti `js_call_amd()` troppo
 grandi e si mantengono testi/URL codificati in sicurezza.
@@ -37,6 +51,7 @@ servizio pubblico. Le promise dei loader si azzerano dopo un errore perché un t
 ## Verifica
 
 - testare parsing URL/id e input non validi/privati;
+- testare host maiuscoli/con punto finale, interruzioni di riga, query non scalari e componenti timestamp malformate;
 - testare metadata durata immediati e ritardati;
 - verificare probe muti, limitati e distrutti;
 - testare per ogni provider resume, seek indietro, recupero salto bloccato, velocità e pausa terminale;

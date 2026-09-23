@@ -14,6 +14,19 @@ coordinated by the browser core; provider-specific SDK timing stays inside each 
 The detector runs only in the teacher form. It does not write learner tracking data, does not make provider
 metadata authoritative by itself and destroys temporary players/timers after success, error or timeout.
 
+## Server URL and timestamp parsing
+
+`videotrack_parse_https_media_url()` is the provider-neutral boundary for submitted external media URLs. It rejects
+empty, malformed, non-HTTPS or line-broken values and returns a lowercase host without a trailing dot, a path with
+repeated separators collapsed and a string query. `videotrack_extract_videoid()` and
+`videotrack_extract_vimeo_id()` then apply separate host/path allowlists. YouTube query values also pass through
+`videotrack_normalise_youtube_video_id()`, which accepts only a scalar 11-character provider identifier.
+
+`videotrack_parse_video_timestamp()` accepts numeric seconds or two/three colon-separated digit components. The
+colon grammar bounds minutes and seconds to 0–59 while allowing accumulated hours or minutes. Empty and malformed
+values return `null`; numeric negatives retain the established clamp to zero. Report filters first require a colon
+form through `videotrack_parse_report_timestamp()`.
+
 Localised detector configuration is serialised in an `application/json` DOM element. The AMD bootstrap receives
 only its element id, parses the JSON and installs source-specific listeners. This avoids oversized `js_call_amd()`
 arguments and keeps text/URLs safely encoded.
@@ -37,6 +50,7 @@ public service availability. Provider loader promises reset after failure so a l
 ## Verification
 
 - test URL/id parsing and invalid/private inputs;
+- test uppercase/trailing-dot hosts, line breaks, non-scalar query values and malformed timestamp components;
 - test immediate and delayed duration metadata;
 - ensure probes are muted, bounded and destroyed;
 - test resume, backward seek, blocked-forward recovery, rate policy and terminal pause separately per provider;

@@ -20,6 +20,16 @@ stesso modo tre predicati espliciti: la percentuale richiede durata e valore pos
 richiedono che le reazioni siano abilitate; la presa visione richiede sia la funzione sia il relativo flag di
 completamento. I campi Moodle con suffisso usano come fallback i corrispondenti valori senza suffisso.
 
+## Confine di parsing degli input multimediali
+
+La gestione server degli URL YouTube e Vimeo inizia in `locallib.php` con un unico normalizzatore HTTPS neutrale
+rispetto al provider. Rifiuta interruzioni di riga, host mancanti e schemi non HTTPS, poi rende canonici host,
+percorso e query. Solo dopo questo passaggio gli estrattori applicano le rispettive allowlist esplicite di host e
+percorsi. Gli identificatori YouTube attraversano un validatore dedicato per scalarità, lunghezza e alfabeto,
+compresi i valori decodificati dalla query. I timestamp video accettano secondi numerici oppure una grammatica
+ancorata a due/tre componenti; solo minuti e secondi sono limitati a 0–59. I filtri report restano più restrittivi e
+richiedono il formato con due punti prima di usare il parser condiviso.
+
 ## Contratto player
 
 Ogni adapter deve fornire tempo corrente, durata, play/pausa, seek, velocità e fine. I moduli condivisi non assumono comportamenti uguali tra provider. Resume, replay e correzione seek programmatici sono distinti dal seek utente. I limiti SDK di YouTube e Vimeo sono trattati esplicitamente.
