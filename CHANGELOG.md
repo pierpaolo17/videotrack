@@ -1,5 +1,15 @@
 # VideoTrack changelog
 
+## 1.7.154 - 2026-09-23
+
+### PHPCS control-structure conformance
+
+- Reflowed the multiline timestamp-parser condition to the PSR-12 layout required by Moodle CodeSniffer. The
+  expression, regular expression and parser behaviour are unchanged.
+- The preceding CI run confirmed 282 PHPUnit tests with 2577 assertions, 24 Behat scenarios with 357 steps,
+  zero PHPStan/Psalm errors and the intended PHPMD reduction from 140 to 135 findings. Database schema, stored data,
+  services, permissions, tracking, player adapters, AMD assets, language packs and public APIs are unchanged.
+
 ## 1.7.153 - 2026-09-23
 
 ### Normalised provider URL and timestamp parsing

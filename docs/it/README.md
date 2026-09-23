@@ -1,7 +1,7 @@
 # Documentazione VideoTrack
 
 Questa directory contiene la documentazione italiana corrente per utenti, amministratori e sviluppatori
-di VideoTrack 1.7.153. Il punto di ingresso è [`00_INDEX.md`](00_INDEX.md).
+di VideoTrack 1.7.154. Il punto di ingresso è [`00_INDEX.md`](00_INDEX.md).
 
 La documentazione è intenzionalmente legata alla versione: spiega il codice distribuito in questa release
 e non incorpora l'evoluzione delle release precedenti. Per una cronologia sintetica usare il `CHANGELOG.md`

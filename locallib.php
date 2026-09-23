@@ -325,11 +325,13 @@ function videotrack_parse_video_timestamp(string $value): ?float {
         return max(0.0, (float)$value);
     }
 
-    if (!preg_match(
-        '/^(?:(?<hours>[0-9]+):)?(?<minutes>[0-9]+):(?<seconds>[0-9]+)$/D',
-        $value,
-        $matches
-    )) {
+    if (
+        !preg_match(
+            '/^(?:(?<hours>[0-9]+):)?(?<minutes>[0-9]+):(?<seconds>[0-9]+)$/D',
+            $value,
+            $matches
+        )
+    ) {
         return null;
     }
 
