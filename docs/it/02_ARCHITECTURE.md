@@ -10,6 +10,16 @@
 6. **Persistenza** — sette tabelle XMLDB, aree Moodle File API e gradebook core.
 7. **Report** — report per studente, dashboard corso/docente e Analytics di istanza/tra corsi con data-format export.
 
+## Confine di validazione del form
+
+`mod_form.php` conserva la validazione che dipende da file draft, stato del database o contesto del corso. La policy
+pura sui valori inviati appartiene a `classes/local/form_validation.php`. L'aggregatore scalare mantiene l'ordine
+degli errori delegando percentuale di completamento, campi interi limitati, dipendenze delle regole di reazione e
+JSON opzionale dei preset a validatori privati mirati. L'attivazione del completamento personalizzato combina allo
+stesso modo tre predicati espliciti: la percentuale richiede durata e valore positivo; le regole di reazione
+richiedono che le reazioni siano abilitate; la presa visione richiede sia la funzione sia il relativo flag di
+completamento. I campi Moodle con suffisso usano come fallback i corrispondenti valori senza suffisso.
+
 ## Contratto player
 
 Ogni adapter deve fornire tempo corrente, durata, play/pausa, seek, velocità e fine. I moduli condivisi non assumono comportamenti uguali tra provider. Resume, replay e correzione seek programmatici sono distinti dal seek utente. I limiti SDK di YouTube e Vimeo sono trattati esplicitamente.

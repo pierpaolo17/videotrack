@@ -10,6 +10,15 @@
 6. **Persistence** — seven XMLDB tables plus Moodle File API areas and the core gradebook.
 7. **Reporting** — per-student report, course dashboard, teacher dashboard and instance/cross-course Analytics with data-format exports.
 
+## Form validation boundary
+
+`mod_form.php` retains validation that depends on draft files, database state or course context. Pure submitted-value
+policy belongs to `classes/local/form_validation.php`. Its scalar aggregator preserves error order while delegating
+completion percentage, bounded integer fields, reaction-rule dependencies and optional preset JSON to focused
+private validators. Custom completion enablement similarly combines three explicit predicates: percentage requires
+a duration and positive percentage; reaction rules require reactions to be enabled; acknowledgement requires both
+the feature and its completion flag. Suffixed Moodle completion fields fall back to their unsuffixed values.
+
 ## Player contract
 
 Each adapter must provide reliable current time, duration, play/pause, seek, rate and end callbacks. Shared modules never assume identical provider behaviour. Programmatic resume, replay and blocked-seek correction are distinguished from user seek. YouTube and Vimeo SDK limitations are handled explicitly.

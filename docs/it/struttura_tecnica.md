@@ -5,7 +5,7 @@ Questa pagina è una mappa di navigazione. Per il contratto completo usare i doc
 | Livello | Percorsi principali | Responsabilità |
 |---|---|---|
 | Entrypoint Moodle | `view.php`, `index.php`, `report.php`, `course_report.php`, `teacher_report.php` | Accesso, contesto, rendering e routing report. |
-| Ciclo attività | `lib.php`, `mod_form.php`, `db/install.xml`, `db/upgrade.php` | Creazione/modifica/cancellazione, validazione form, file, voti e schema. |
+| Ciclo attività | `lib.php`, `mod_form.php`, `classes/local/form_validation.php`, `db/install.xml`, `db/upgrade.php` | Creazione/modifica/cancellazione, validazione contestuale e autonoma del form, file, voti e schema. |
 | Servizi dominio | `classes/local/` | Tracking, analytics, privacy, export, scope report, Forum e configurazione. |
 | Completion | `classes/completion/custom_completion.php`, `classes/local/completion_config.php` | Regola composita VideoTrack, descrizioni ordinate delle condizioni, firme di configurazione e sincronizzazione Moodle. |
 | Confine AJAX | `db/services.php`, `classes/external/` | Nove metodi di scrittura autenticati con validazione di parametri, contesto e capability. |

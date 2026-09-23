@@ -5,7 +5,7 @@ This page is a navigation map. Use the linked documents and source files for the
 | Layer | Main paths | Responsibility |
 |---|---|---|
 | Moodle entrypoints | `view.php`, `index.php`, `report.php`, `course_report.php`, `teacher_report.php` | Access checks, context setup, rendering and report routing. |
-| Activity lifecycle | `lib.php`, `mod_form.php`, `db/install.xml`, `db/upgrade.php` | Create/update/delete, form validation, files, grades and schema lifecycle. |
+| Activity lifecycle | `lib.php`, `mod_form.php`, `classes/local/form_validation.php`, `db/install.xml`, `db/upgrade.php` | Create/update/delete, contextual and autonomous form validation, files, grades and schema lifecycle. |
 | Domain services | `classes/local/` | Tracking, analytics, privacy operations, exports, report scope, forum bridge and configuration. |
 | Completion | `classes/completion/custom_completion.php`, `classes/local/completion_config.php` | Composite VideoTrack rule, ordered condition descriptions, configuration signatures and Moodle completion synchronisation. |
 | AJAX boundary | `db/services.php`, `classes/external/` | Nine authenticated write methods with parameter, context and capability validation. |

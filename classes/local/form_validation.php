@@ -34,50 +34,119 @@ final class form_validation {
      * @return array Validation errors indexed by form field name.
      */
     public static function scalar_settings_errors(array $data, string $suffix): array {
-        $errors = [];
-
-        $completionpercentname = 'completionpercent' . $suffix;
-        $completionpercentgroupname = 'completionpercentgroup' . $suffix;
-        $completionpercent = $data[$completionpercentname] ?? ($data['completionpercent'] ?? null);
-        if (
-            $completionpercent !== null
-            && ((int)$completionpercent < 0 || (int)$completionpercent > 100)
-        ) {
-            $errors[$completionpercentgroupname] = get_string('err:completionpercentrange', 'mod_videotrack');
-        }
-
-        if (array_key_exists('playerwidth', $data)) {
-            $playerwidth = (int)$data['playerwidth'];
-            if ($playerwidth < 0 || $playerwidth > 4096) {
-                $errors['playerwidth'] = get_string('err:playerwidthrequired', 'mod_videotrack');
-            }
-        }
+        $errors = self::completion_percent_errors($data, $suffix);
+        $errors += self::bounded_integer_errors(
+            $data,
+            'playerwidth',
+            0,
+            4096,
+            'err:playerwidthrequired'
+        );
 
         foreach (['rewindstep', 'fastforwardstep'] as $stepfield) {
-            if (array_key_exists($stepfield, $data)) {
-                $step = (int)$data[$stepfield];
-                if ($step < 0 || $step > 300) {
-                    $errors[$stepfield] = get_string('err:playbacksteprequired', 'mod_videotrack');
-                }
-            }
+            $errors += self::bounded_integer_errors(
+                $data,
+                $stepfield,
+                0,
+                300,
+                'err:playbacksteprequired'
+            );
         }
 
-        if (
-            !empty($data['reactionsrequired'])
-            && empty($data['minreactions'])
-            && empty($data['requireallreactiontypes'])
-        ) {
-            $errors['minreactions'] = get_string('err:minreactionsrequired', 'mod_videotrack');
-        }
-
-        if (array_key_exists('reactionpreset_json', $data) && trim((string)$data['reactionpreset_json']) !== '') {
-            $presetjson = json_decode((string)$data['reactionpreset_json'], true);
-            if (json_last_error() !== JSON_ERROR_NONE || !is_array($presetjson)) {
-                $errors['reactionpreset'] = get_string('err:reactionpresetjson', 'mod_videotrack');
-            }
-        }
+        $errors += self::reaction_requirement_errors($data);
+        $errors += self::reaction_preset_errors($data);
 
         return $errors;
+    }
+
+    /**
+     * Validate the custom-completion percentage field.
+     *
+     * @param array $data Submitted form data.
+     * @param string $suffix Moodle completion-field suffix.
+     * @return array Empty array or the percentage-group validation error.
+     */
+    private static function completion_percent_errors(array $data, string $suffix): array {
+        $fieldname = 'completionpercent' . $suffix;
+        $value = $data[$fieldname] ?? ($data['completionpercent'] ?? null);
+        if ($value === null || ((int)$value >= 0 && (int)$value <= 100)) {
+            return [];
+        }
+
+        return [
+            'completionpercentgroup' . $suffix => get_string('err:completionpercentrange', 'mod_videotrack'),
+        ];
+    }
+
+    /**
+     * Validate one optional bounded integer setting.
+     *
+     * @param array $data Submitted form data.
+     * @param string $fieldname Form field name.
+     * @param int $minimum Inclusive minimum value.
+     * @param int $maximum Inclusive maximum value.
+     * @param string $errorstring Language-string identifier used for invalid values.
+     * @return array Empty array or the field validation error.
+     */
+    private static function bounded_integer_errors(
+        array $data,
+        string $fieldname,
+        int $minimum,
+        int $maximum,
+        string $errorstring
+    ): array {
+        if (!array_key_exists($fieldname, $data)) {
+            return [];
+        }
+
+        $value = (int)$data[$fieldname];
+        if ($value >= $minimum && $value <= $maximum) {
+            return [];
+        }
+
+        return [$fieldname => get_string($errorstring, 'mod_videotrack')];
+    }
+
+    /**
+     * Validate the dependency between minimum and all-type reaction rules.
+     *
+     * @param array $data Submitted form data.
+     * @return array Empty array or the minimum-reactions validation error.
+     */
+    private static function reaction_requirement_errors(array $data): array {
+        if (
+            empty($data['reactionsrequired'])
+            || !empty($data['minreactions'])
+            || !empty($data['requireallreactiontypes'])
+        ) {
+            return [];
+        }
+
+        return ['minreactions' => get_string('err:minreactionsrequired', 'mod_videotrack')];
+    }
+
+    /**
+     * Validate optional reaction-preset JSON.
+     *
+     * @param array $data Submitted form data.
+     * @return array Empty array or the reaction-preset validation error.
+     */
+    private static function reaction_preset_errors(array $data): array {
+        if (!array_key_exists('reactionpreset_json', $data)) {
+            return [];
+        }
+
+        $json = trim((string)$data['reactionpreset_json']);
+        if ($json === '') {
+            return [];
+        }
+
+        $preset = json_decode($json, true);
+        if (json_last_error() === JSON_ERROR_NONE && is_array($preset)) {
+            return [];
+        }
+
+        return ['reactionpreset' => get_string('err:reactionpresetjson', 'mod_videotrack')];
     }
 
     /**
@@ -128,22 +197,56 @@ final class form_validation {
      * @return bool True when at least one custom completion condition is active.
      */
     public static function completion_rule_enabled(array $data, string $suffix): bool {
+        return self::percentage_completion_rule_enabled($data, $suffix)
+            || self::reaction_completion_rule_enabled($data)
+            || self::acknowledgement_completion_rule_enabled($data, $suffix);
+    }
+
+    /**
+     * Determine whether percentage completion is active.
+     *
+     * @param array $data Submitted form data.
+     * @param string $suffix Moodle completion-field suffix.
+     * @return bool True when duration and a positive percentage are configured.
+     */
+    private static function percentage_completion_rule_enabled(array $data, string $suffix): bool {
         $completionpercent = $data['completionpercent' . $suffix]
             ?? ($data['completionpercent'] ?? 0);
+
+        return !empty($data['durationseconds'])
+            && !empty($completionpercent)
+            && (int)$completionpercent > 0;
+    }
+
+    /**
+     * Determine whether any reaction completion rule is active.
+     *
+     * @param array $data Submitted form data.
+     * @return bool True when reactions and at least one reaction rule are enabled.
+     */
+    private static function reaction_completion_rule_enabled(array $data): bool {
+        if (empty($data['reactionsenabled'])) {
+            return false;
+        }
+
+        $requiredreactions = array_filter(array_map('intval', (array)($data['reactionrequired'] ?? [])));
+        return (!empty($data['reactionsrequired']) && !empty($data['minreactions']))
+            || !empty($data['requireallreactiontypes'])
+            || !empty($requiredreactions);
+    }
+
+    /**
+     * Determine whether acknowledgement completion is active.
+     *
+     * @param array $data Submitted form data.
+     * @param string $suffix Moodle completion-field suffix.
+     * @return bool True when acknowledgement and its completion rule are enabled.
+     */
+    private static function acknowledgement_completion_rule_enabled(array $data, string $suffix): bool {
         $completionacknowledgement = $data['completionacknowledgement' . $suffix]
             ?? ($data['completionacknowledgement'] ?? 0);
-        $requiredreactions = array_filter(array_map('intval', (array)($data['reactionrequired'] ?? [])));
-        $reactionrules = !empty($data['reactionsenabled']) && (
-            (!empty($data['reactionsrequired']) && !empty($data['minreactions']))
-            || !empty($data['requireallreactiontypes'])
-            || !empty($requiredreactions)
-        );
 
-        return (!empty($data['durationseconds'])
-                && !empty($completionpercent)
-                && (int)$completionpercent > 0)
-            || $reactionrules
-            || (!empty($completionacknowledgement) && !empty($data['acknowledgementenabled']));
+        return !empty($completionacknowledgement) && !empty($data['acknowledgementenabled']);
     }
 
     /**

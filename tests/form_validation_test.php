@@ -94,6 +94,10 @@ final class form_validation_test extends \advanced_testcase {
             'completionpercentcustom' => 50,
         ], 'custom'));
         $this->assertTrue(form_validation::completion_rule_enabled([
+            'durationseconds' => 120,
+            'completionpercent' => 50,
+        ], 'custom'));
+        $this->assertTrue(form_validation::completion_rule_enabled([
             'reactionsenabled' => 1,
             'reactionsrequired' => 1,
             'minreactions' => 1,
@@ -114,6 +118,17 @@ final class form_validation_test extends \advanced_testcase {
             'durationseconds' => 120,
             'completionpercentcustom' => 0,
             'reactionrequired' => [0, 0],
+        ], 'custom'));
+        $this->assertFalse(form_validation::completion_rule_enabled([
+            'reactionsenabled' => 0,
+            'reactionsrequired' => 1,
+            'minreactions' => 1,
+            'requireallreactiontypes' => 1,
+            'reactionrequired' => [1],
+        ], 'custom'));
+        $this->assertFalse(form_validation::completion_rule_enabled([
+            'acknowledgementenabled' => 0,
+            'completionacknowledgementcustom' => 1,
         ], 'custom'));
     }
 
