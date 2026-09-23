@@ -48,6 +48,51 @@ function videotrack_get_config_int(string $name, int $default, int $min, int $ma
     $value = (int)$value;
     return max($min, min($max, $value));
 }
+
+/**
+ * Parses and normalises an absolute HTTPS media URL.
+ *
+ * The returned host is lowercase without a trailing dot, the path has repeated
+ * slashes collapsed and the query key is always present. Provider-specific
+ * host and path rules remain the responsibility of the caller.
+ *
+ * @param string $url Candidate media URL.
+ * @return array<string, mixed>|null Normalised parse_url parts, or null for unsafe/invalid input.
+ */
+function videotrack_parse_https_media_url(string $url): ?array {
+    if ($url === '' || preg_match('/[\r\n]/', $url)) {
+        return null;
+    }
+
+    $parts = parse_url(trim($url));
+    if (!is_array($parts)) {
+        return null;
+    }
+
+    $scheme = strtolower((string)($parts['scheme'] ?? ''));
+    $host = strtolower(rtrim((string)($parts['host'] ?? ''), '.'));
+    if ($scheme !== 'https' || $host === '') {
+        return null;
+    }
+
+    $parts['host'] = $host;
+    $parts['path'] = (string)preg_replace('~/+~', '/', (string)($parts['path'] ?? ''));
+    $parts['query'] = (string)($parts['query'] ?? '');
+    return $parts;
+}
+
+/**
+ * Returns a valid YouTube video identifier or null.
+ *
+ * @param mixed $candidate Candidate value, including values produced by parse_str().
+ * @return string|null Canonical 11-character identifier.
+ */
+function videotrack_normalise_youtube_video_id(mixed $candidate): ?string {
+    return is_string($candidate) && preg_match('/^[A-Za-z0-9_-]{11}$/', $candidate)
+        ? $candidate
+        : null;
+}
+
 /**
  * Extracts the 11-character YouTube video ID from a URL.
  *
@@ -55,41 +100,28 @@ function videotrack_get_config_int(string $name, int $default, int $min, int $ma
  * @return string|null
  */
 function videotrack_extract_videoid(string $url): ?string {
-    if ($url === '' || preg_match('/[\r\n]/', $url)) {
-        return null;
-    }
-    $url = trim($url);
-
-    $parts = parse_url($url);
-    if ($parts === false || empty($parts['scheme']) || empty($parts['host'])) {
-        return null;
-    }
-    if (strtolower($parts['scheme']) !== 'https') {
+    $parts = videotrack_parse_https_media_url($url);
+    if ($parts === null) {
         return null;
     }
 
-    $host = strtolower(rtrim($parts['host'], '.'));
+    $host = $parts['host'];
     $host = preg_replace('/^(?:www|m|music)\./', '', $host);
-    $path = $parts['path'] ?? '';
-    $query = $parts['query'] ?? '';
+    $path = $parts['path'];
 
     if ($host === 'youtu.be') {
         $candidate = ltrim($path, '/');
         $candidate = explode('/', $candidate, 2)[0];
-        return preg_match('/^[A-Za-z0-9_-]{11}$/', $candidate) ? $candidate : null;
+        return videotrack_normalise_youtube_video_id($candidate);
     }
 
     if (!in_array($host, ['youtube.com', 'youtube-nocookie.com'], true)) {
         return null;
     }
 
-    $path = preg_replace('~/+~', '/', $path);
-
     if ($path === '/watch') {
-        parse_str($query, $queryparams);
-        return (!empty($queryparams['v']) && preg_match('/^[A-Za-z0-9_-]{11}$/', $queryparams['v']))
-            ? $queryparams['v']
-            : null;
+        parse_str($parts['query'], $queryparams);
+        return videotrack_normalise_youtube_video_id($queryparams['v'] ?? null);
     }
 
     if (preg_match('~^/(?:embed|shorts|live)/([A-Za-z0-9_-]{11})(?:/)?$~', $path, $matches)) {
@@ -106,25 +138,17 @@ function videotrack_extract_videoid(string $url): ?string {
  * @return string|null
  */
 function videotrack_extract_vimeo_id(string $url): ?string {
-    if ($url === '' || preg_match('/[\r\n]/', $url)) {
-        return null;
-    }
-    $url = trim($url);
-
-    $parts = parse_url($url);
-    if ($parts === false || empty($parts['scheme']) || empty($parts['host'])) {
-        return null;
-    }
-    if (strtolower($parts['scheme']) !== 'https') {
+    $parts = videotrack_parse_https_media_url($url);
+    if ($parts === null) {
         return null;
     }
 
-    $host = preg_replace('/^www\./', '', strtolower(rtrim($parts['host'], '.')));
+    $host = preg_replace('/^www\./', '', $parts['host']);
     if (!in_array($host, ['vimeo.com', 'player.vimeo.com'], true)) {
         return null;
     }
 
-    $path = preg_replace('~/+~', '/', $parts['path'] ?? '');
+    $path = $parts['path'];
     $patterns = [
         '~^/(?:video/)?(\d+)(?:/[A-Za-z0-9_-]{6,})?/?$~',
         '~^/(?:channels/[^/]+|groups/[^/]+/videos|showcase/\d+)/(?P<id>\d+)(?:/[A-Za-z0-9_-]{6,})?/?$~',
@@ -301,25 +325,17 @@ function videotrack_parse_video_timestamp(string $value): ?float {
         return max(0.0, (float)$value);
     }
 
-    $parts = explode(':', $value);
-    if (count($parts) < 2 || count($parts) > 3) {
+    if (!preg_match(
+        '/^(?:(?<hours>[0-9]+):)?(?<minutes>[0-9]+):(?<seconds>[0-9]+)$/D',
+        $value,
+        $matches
+    )) {
         return null;
     }
-    foreach ($parts as $part) {
-        if ($part === '' || !ctype_digit($part)) {
-            return null;
-        }
-    }
 
-    if (count($parts) === 2) {
-        [$minutes, $seconds] = array_map('intval', $parts);
-        if ($seconds > 59) {
-            return null;
-        }
-        return (float)(($minutes * 60) + $seconds);
-    }
-
-    [$hours, $minutes, $seconds] = array_map('intval', $parts);
+    $hours = (int)($matches['hours'] ?? 0);
+    $minutes = (int)$matches['minutes'];
+    $seconds = (int)$matches['seconds'];
     if ($minutes > 59 || $seconds > 59) {
         return null;
     }

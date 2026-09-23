@@ -31,6 +31,8 @@ use stdClass;
  */
 #[CoversFunction('videotrack_extract_videoid')]
 #[CoversFunction('videotrack_extract_vimeo_id')]
+#[CoversFunction('videotrack_parse_https_media_url')]
+#[CoversFunction('videotrack_normalise_youtube_video_id')]
 #[CoversFunction('videotrack_format_seconds')]
 #[CoversFunction('videotrack_format_video_timestamp')]
 #[CoversFunction('videotrack_parse_video_timestamp')]
@@ -61,11 +63,13 @@ final class locallib_test extends advanced_testcase {
         $this->assertSame('AbCdEfGhIj1', \videotrack_extract_videoid('https://www.youtube.com/watch?v=AbCdEfGhIj1'));
         $this->assertSame('AbCdEfGhIj1', \videotrack_extract_videoid('https://youtube.com/embed/AbCdEfGhIj1'));
         $this->assertSame('AbCdEfGhIj1', \videotrack_extract_videoid('https://music.youtube.com/shorts/AbCdEfGhIj1'));
+        $this->assertSame('AbCdEfGhIj1', \videotrack_extract_videoid('HTTPS://WWW.YOUTUBE.COM./watch?v=AbCdEfGhIj1'));
 
         $this->assertNull(\videotrack_extract_videoid('http://youtu.be/AbCdEfGhIj1'));
         $this->assertNull(\videotrack_extract_videoid("https://youtu.be/AbCdEfGhIj1\n"));
         $this->assertNull(\videotrack_extract_videoid('https://example.com/watch?v=AbCdEfGhIj1'));
         $this->assertNull(\videotrack_extract_videoid('https://youtu.be/not-valid'));
+        $this->assertNull(\videotrack_extract_videoid('https://youtube.com/watch?v[]=AbCdEfGhIj1'));
     }
 
     /**
@@ -75,6 +79,7 @@ final class locallib_test extends advanced_testcase {
         $this->assertSame('123456789', \videotrack_extract_vimeo_id('https://vimeo.com/123456789'));
         $this->assertSame('123456789', \videotrack_extract_vimeo_id('https://player.vimeo.com/video/123456789'));
         $this->assertSame('123456789', \videotrack_extract_vimeo_id('https://vimeo.com/channels/staffpicks/123456789'));
+        $this->assertSame('123456789', \videotrack_extract_vimeo_id('HTTPS://WWW.VIMEO.COM./123456789'));
 
         $this->assertNull(\videotrack_extract_vimeo_id('http://vimeo.com/123456789'));
         $this->assertNull(\videotrack_extract_vimeo_id("https://vimeo.com/123456789\n"));
@@ -108,10 +113,14 @@ final class locallib_test extends advanced_testcase {
         $this->assertSame(90.0, \videotrack_parse_video_timestamp('90'));
         $this->assertSame(90.0, \videotrack_parse_video_timestamp('01:30'));
         $this->assertSame(3690.0, \videotrack_parse_video_timestamp('01:01:30'));
+        $this->assertSame(62.0, \videotrack_parse_video_timestamp('1:2'));
+        $this->assertSame(3723.0, \videotrack_parse_video_timestamp('1:2:3'));
         $this->assertSame(0.0, \videotrack_parse_video_timestamp('-10'));
         $this->assertNull(\videotrack_parse_video_timestamp(''));
         $this->assertNull(\videotrack_parse_video_timestamp('01:70'));
         $this->assertNull(\videotrack_parse_video_timestamp('1:99:00'));
+        $this->assertNull(\videotrack_parse_video_timestamp('1::03'));
+        $this->assertNull(\videotrack_parse_video_timestamp('1:2:3:4'));
     }
 
     /**

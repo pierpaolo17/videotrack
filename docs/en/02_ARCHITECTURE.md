@@ -19,6 +19,15 @@ private validators. Custom completion enablement similarly combines three explic
 a duration and positive percentage; reaction rules require reactions to be enabled; acknowledgement requires both
 the feature and its completion flag. Suffixed Moodle completion fields fall back to their unsuffixed values.
 
+## Media input parsing boundary
+
+Server-side YouTube and Vimeo URL handling starts in `locallib.php` with one provider-neutral HTTPS normaliser.
+It rejects line breaks, missing hosts and non-HTTPS schemes, then canonicalises host, path and query representation.
+Provider extractors apply their own explicit host and path allowlists only after that step. YouTube identifiers pass
+through a dedicated scalar/length/alphabet validator, including values decoded from query strings. Video timestamps
+accept numeric seconds or an anchored two/three-component colon grammar; only minute and second components are
+bounded to 0–59. Report filters remain stricter and require the colon form before using the shared timestamp parser.
+
 ## Player contract
 
 Each adapter must provide reliable current time, duration, play/pause, seek, rate and end callbacks. Shared modules never assume identical provider behaviour. Programmatic resume, replay and blocked-seek correction are distinguished from user seek. YouTube and Vimeo SDK limitations are handled explicitly.
