@@ -16,7 +16,14 @@ Ogni scrittura AJAX è dichiarata in `db/services.php` e implementata in `classe
 7. restituire soltanto la forma di risposta dichiarata.
 
 La protezione CSRF/sessione è fornita dal framework AJAX autenticato di Moodle. Le azioni pagina dirette usano
-inoltre `require_sesskey()` quando necessario.
+inoltre `require_sesskey()` quando necessario. I servizi di scrittura originati dal browser chiamano il confine
+comune `external\helper::require_ajax_sesskey()` prima di ogni mutazione. I callback lifecycle Moodle (`lib.php`),
+upgrade, installazione/disinstallazione, backup/ripristino e Privacy API sono invocati da orchestratori core fidati,
+non come azioni browser dirette; aggiungere controlli sesskey di richiesta dentro tali callback ne violerebbe il
+contratto core.
+
+I file procedurali condivisi (`locallib.php` e `db/repairlib.php`) rifiutano l'esecuzione diretta tramite il guard
+standard `MOODLE_INTERNAL`. Le pagine dirette inizializzano Moodle con `config.php` prima di caricare le librerie.
 
 ## Autorità sul playback
 
@@ -45,8 +52,11 @@ ma la validazione server resta obbligatoria.
 
 ## Minimizzazione e sicurezza output
 
-L'output usa API Moodle di escaping/formattazione. I file sono serviti tramite file area e contesti Moodle. Le query
-usano parametri DML. Gli Analytics aggregati escludono testo note/bookmark e applicano il mascheramento privacy salvo
+L'output usa API Moodle di escaping/formattazione. `html_writer` produce markup strutturale già sottoposto a escaping:
+tabelle e link generati vengono emessi direttamente, senza filtri contenuto o un secondo escaping. I file sono
+serviti tramite file area e contesti Moodle. Le query usano placeholder DML e array di parametri. Le clausole `IN`
+dinamiche sono accettate soltanto come coppie frammento SQL/parametri restituite dagli helper DML Moodle come
+`get_in_or_equal()`. Gli Analytics aggregati escludono testo note/bookmark e applicano il mascheramento privacy salvo
 accesso individuale. Gli eventi di integrità sono limitati e diagnostici.
 
 ## Limiti esterni

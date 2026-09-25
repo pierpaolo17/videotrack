@@ -1,5 +1,27 @@
 # VideoTrack changelog
 
+## 1.7.155 - 2026-09-23
+
+### Security boundary audit and external-media identity normalisation
+
+- Added the standard `MOODLE_INTERNAL` direct-access guard to both shared procedural include files and a release
+  hygiene regression contract covering them. Audited the scanner-reported SQL, CSRF and output-encoding locations:
+  SQL uses bound Moodle DML parameters, browser writes enforce the common AJAX sesskey boundary, lifecycle/upgrade/
+  backup/privacy mutations are core-orchestrated callbacks, and `html_writer` output is already escaped. No unsafe
+  scanner proposal was applied to those framework-managed paths.
+- Updated the English and Italian trust-boundary documentation so future maintainers and automated agents can
+  distinguish direct request controls from Moodle-managed callbacks, and generated markup from untrusted content.
+
+- Split external-media URL identity normalisation into focused private authority, path and query helpers. The public
+  contract still trims input, requires a host, defaults a missing scheme to HTTPS, lowercases scheme/host, removes
+  default ports, preserves non-default ports, collapses repeated path separators, ignores fragments and sorts query
+  keys using RFC 3986 encoding.
+- Extended PHPUnit coverage for implicit HTTPS URLs, default and non-default ports, empty paths, repeated separators,
+  query ordering and missing hosts. Updated the current English and Italian Analytics documentation and callable
+  inventories. This refactoring targets two PHPMD complexity findings; CI remains the authoritative measurement.
+  Database schema, stored data, public APIs, services, permissions, tracking, player adapters, AMD assets and language
+  packs are unchanged.
+
 ## 1.7.154 - 2026-09-23
 
 ### PHPCS control-structure conformance

@@ -21,7 +21,7 @@
  * @copyright 2026 videotrack contributors
  * @license   https://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
-
+defined('MOODLE_INTERNAL') || die();
 
 /**
  * Reads an integer mod_videotrack configuration value while preserving explicit zero values.

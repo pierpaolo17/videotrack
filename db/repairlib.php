@@ -21,6 +21,7 @@
  * @copyright 2026 videotrack contributors
  * @license   https://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
+defined('MOODLE_INTERNAL') || die();
 
 /**
  * Remove stale or ambiguous pre-production VideoTrack grade items.

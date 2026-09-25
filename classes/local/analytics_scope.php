@@ -272,21 +272,53 @@ final class analytics_scope {
             return '';
         }
         $scheme = \core_text::strtolower((string)($parts['scheme'] ?? 'https'));
+        $authority = self::normalise_external_authority($parts, $scheme);
+        $path = self::normalise_external_path($parts);
+        $query = self::normalise_external_query($parts);
+        return $scheme . '://' . $authority . $path . ($query === '' ? '' : '?' . $query);
+    }
+
+    /**
+     * Builds the canonical authority for an external media URL.
+     *
+     * @param array $parts Parsed URL parts containing the validated host and optional port.
+     * @param string $scheme Lowercase URL scheme.
+     * @return string Lowercase host with a non-default port when present.
+     */
+    private static function normalise_external_authority(array $parts, string $scheme): string {
         $host = \core_text::strtolower((string)$parts['host']);
         $port = isset($parts['port']) ? (int)$parts['port'] : 0;
-        $authority = $host;
-        if ($port > 0 && !(($scheme === 'http' && $port === 80) || ($scheme === 'https' && $port === 443))) {
-            $authority .= ':' . $port;
-        }
+        $isdefaultport = ($scheme === 'http' && $port === 80)
+            || ($scheme === 'https' && $port === 443);
+
+        return $port > 0 && !$isdefaultport ? $host . ':' . $port : $host;
+    }
+
+    /**
+     * Builds the canonical path for an external media URL.
+     *
+     * @param array $parts Parsed URL parts.
+     * @return string Non-empty path with repeated separators collapsed.
+     */
+    private static function normalise_external_path(array $parts): string {
         $path = (string)($parts['path'] ?? '/');
-        $path = $path === '' ? '/' : preg_replace('#/{2,}#', '/', $path);
-        $query = '';
-        if (!empty($parts['query'])) {
-            parse_str((string)$parts['query'], $queryparts);
-            ksort($queryparts);
-            $query = http_build_query($queryparts, '', '&', PHP_QUERY_RFC3986);
+        return $path === '' ? '/' : (string)preg_replace('#/{2,}#', '/', $path);
+    }
+
+    /**
+     * Builds the canonical query for an external media URL.
+     *
+     * @param array $parts Parsed URL parts.
+     * @return string RFC 3986 query with top-level keys sorted, or an empty string.
+     */
+    private static function normalise_external_query(array $parts): string {
+        if (empty($parts['query'])) {
+            return '';
         }
-        return $scheme . '://' . $authority . $path . ($query === '' ? '' : '?' . $query);
+
+        parse_str((string)$parts['query'], $queryparts);
+        ksort($queryparts);
+        return http_build_query($queryparts, '', '&', PHP_QUERY_RFC3986);
     }
 
     /**

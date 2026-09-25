@@ -30,6 +30,17 @@ use PHPUnit\Framework\Attributes\CoversNothing;
 #[CoversNothing]
 final class release_hygiene_contract_test extends advanced_testcase {
     /**
+     * Shared procedural libraries must not execute outside a bootstrapped Moodle request.
+     */
+    public function test_shared_php_libraries_reject_direct_access(): void {
+        foreach (['locallib.php', 'db/repairlib.php'] as $relativepath) {
+            $source = file_get_contents(__DIR__ . '/../' . $relativepath);
+            $this->assertIsString($source, $relativepath);
+            $this->assertStringContainsString("defined('MOODLE_INTERNAL') || die();", $source, $relativepath);
+        }
+    }
+
+    /**
      * CSV export formatting must always specify a Moodle context.
      */
     public function test_csv_export_format_strings_have_explicit_context(): void {
