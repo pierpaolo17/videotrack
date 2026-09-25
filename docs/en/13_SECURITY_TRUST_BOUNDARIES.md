@@ -16,7 +16,17 @@ Every AJAX write is declared in `db/services.php` and implemented in `classes/ex
 7. return only the declared response shape.
 
 CSRF/session protection is provided by Moodle's authenticated AJAX framework. Direct page actions additionally
-use `require_sesskey()` where appropriate.
+use `require_sesskey()` where appropriate. VideoTrack's browser-originated write services call the common
+`external\helper::require_ajax_sesskey()` boundary before mutation. Moodle lifecycle callbacks (`lib.php`), upgrade,
+install/uninstall, backup/restore and Privacy API methods are invoked by trusted core orchestrators rather than as
+direct browser actions; adding request-level sesskey checks inside those callbacks would break their core contracts.
+
+Shared procedural include files (`locallib.php` and `db/repairlib.php`) reject direct execution with the standard
+`MOODLE_INTERNAL` guard. Direct pages bootstrap Moodle through `config.php` before loading either library. These
+side-effect-free definition files do not require that guard under the canonical Moodle coding standard, so the
+corresponding `MoodleInternalNotNeeded` exception is deliberately scoped to each guard line. The extra check is kept
+as defence in depth; no file-wide coding-standard rule is disabled, and the release-hygiene contract protects both
+the guard and the narrow exception scope.
 
 ## Playback authority
 
@@ -45,9 +55,12 @@ but server validation remains mandatory.
 
 ## Data minimisation and output safety
 
-Output uses Moodle escaping/formatting APIs. File delivery uses Moodle file areas and contexts. SQL uses DML
-parameters. Aggregate Analytics excludes personal note/bookmark text and applies privacy masking unless the
-viewer has individual access. Integrity events are bounded and diagnostic.
+Output uses Moodle escaping/formatting APIs. `html_writer` produces already escaped structural markup; generated
+tables and links are emitted directly rather than being passed through content filters or escaped a second time.
+File delivery uses Moodle file areas and contexts. SQL uses DML placeholders and parameter arrays. Dynamic `IN`
+clauses are accepted only as paired SQL fragments and parameters returned by Moodle DML helpers such as
+`get_in_or_equal()`. Aggregate Analytics excludes personal note/bookmark text and applies privacy masking unless
+the viewer has individual access. Integrity events are bounded and diagnostic.
 
 ## External limits
 

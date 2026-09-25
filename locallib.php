@@ -22,6 +22,8 @@
  * @license   https://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 
+// phpcs:ignore moodle.Files.MoodleInternal.MoodleInternalNotNeeded -- Deliberate defence-in-depth access guard.
+defined('MOODLE_INTERNAL') || die();
 
 /**
  * Reads an integer mod_videotrack configuration value while preserving explicit zero values.

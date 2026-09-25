@@ -57,7 +57,7 @@ seleziona il contratto di compatibilità soltanto quando esiste la sorgente sott
 
 ## Identità e scope
 
-Contesto modulo e capability Moodle sono autorevoli. `mod/videotrack:participate` identifica esplicitamente gli utenti per cui possono essere scritti telemetria learner e strumenti personali; l’accesso ai report è indipendente. La visibilità dei gruppi usa la modalità effettiva dell’attività. Gli Analytics tra corsi rivalutano partecipazione, report e gruppi per ogni attività e identificano lo stesso video tramite ID provider o content hash del file caricato.
+Contesto modulo e capability Moodle sono autorevoli. `mod/videotrack:participate` identifica esplicitamente gli utenti per cui possono essere scritti telemetria learner e strumenti personali; l’accesso ai report è indipendente. La visibilità dei gruppi usa la modalità effettiva dell’attività. Gli Analytics tra corsi rivalutano partecipazione, report e gruppi per ogni attività e identificano lo stesso video tramite ID provider, content hash del file caricato o URL esterno canonico. L'identità URL esterna espone un solo contratto pubblico; normalizzatori privati per authority, percorso e query rendono esplicite le regole per porte predefinite, separatori, frammenti e ordine della query.
 
 ## Confine di fiducia del registro di riproduzione
 

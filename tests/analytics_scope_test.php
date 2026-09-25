@@ -60,7 +60,20 @@ final class analytics_scope_test extends advanced_testcase {
             analytics_scope::normalise_external_url($left),
             analytics_scope::normalise_external_url($right)
         );
+        $this->assertSame(
+            'https://media.example.test/video.mp4?a=1&b=2',
+            analytics_scope::normalise_external_url('//Media.Example.test:443//video.mp4?b=2&a=1#fragment')
+        );
+        $this->assertSame(
+            'http://media.example.test/video.mp4',
+            analytics_scope::normalise_external_url('http://Media.Example.test:80//video.mp4')
+        );
+        $this->assertSame(
+            'http://media.example.test:8080/',
+            analytics_scope::normalise_external_url('http://Media.Example.test:8080')
+        );
         $this->assertSame('', analytics_scope::normalise_external_url('not a url'));
+        $this->assertSame('', analytics_scope::normalise_external_url('https:///missing-host'));
     }
 
     /**

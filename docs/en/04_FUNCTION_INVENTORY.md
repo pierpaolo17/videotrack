@@ -1,8 +1,8 @@
 # Function inventory
 
-Generated from the VideoTrack 1.7.154 source tree. PHP entries include named functions and methods; AMD entries include named declarations, assigned function expressions and object-method functions.
+Generated from the VideoTrack 1.7.156 source tree. PHP entries include named functions and methods; AMD entries include named declarations, assigned function expressions and object-method functions.
 
-**PHP functions/methods:** 781. **Named AMD callables:** 654.
+**PHP functions/methods:** 785. **Named AMD callables:** 654.
 
 | Location | Callable | Responsibility |
 |---|---|---|
@@ -825,7 +825,10 @@ Generated from the VideoTrack 1.7.154 source tree. PHP entries include named fun
 | `classes/local/analytics_scope.php:176` | `accessible_group_ids` | PHP callable `accessible_group_ids`; see its DocBlock and callers for parameter, return-value and side-effect details. |
 | `classes/local/analytics_scope.php:214` | `technical_identity` | PHP callable `technical_identity`; see its DocBlock and callers for parameter, return-value and side-effect details. |
 | `classes/local/analytics_scope.php:265` | `normalise_external_url` | PHP callable `normalise_external_url`; see its DocBlock and callers for parameter, return-value and side-effect details. |
-| `classes/local/analytics_scope.php:298` | `get_instance_record` | PHP callable `get_instance_record`; see its DocBlock and callers for parameter, return-value and side-effect details. |
+| `classes/local/analytics_scope.php:288` | `normalise_external_authority` | Builds the lowercase host and preserves only non-default ports for canonical external-media identity. |
+| `classes/local/analytics_scope.php:303` | `normalise_external_path` | Produces a non-empty canonical path with repeated separators collapsed. |
+| `classes/local/analytics_scope.php:314` | `normalise_external_query` | Sorts top-level query keys and encodes the canonical query using RFC 3986 rules. |
+| `classes/local/analytics_scope.php:330` | `get_instance_record` | PHP callable `get_instance_record`; see its DocBlock and callers for parameter, return-value and side-effect details. |
 | `classes/local/analytics_table_export.php:35` | `enabled_formats` | PHP callable `enabled_formats`; see its DocBlock and callers for parameter, return-value and side-effect details. |
 | `classes/local/analytics_table_export.php:46` | `columns` | PHP callable `columns`; see its DocBlock and callers for parameter, return-value and side-effect details. |
 | `classes/local/analytics_table_export.php:72` | `export_columns` | PHP callable `export_columns`; builds headings for the standard export shape without event summaries. |
@@ -1018,14 +1021,14 @@ Generated from the VideoTrack 1.7.154 source tree. PHP entries include named fun
 | `classes/task/cleanup_task.php:38` | `get_name` | PHP callable `get_name`; see its DocBlock and callers for parameter, return-value and side-effect details. |
 | `classes/task/cleanup_task.php:45` | `execute` | PHP callable `execute`; see its DocBlock and callers for parameter, return-value and side-effect details. |
 | `db/install.php:38` | `xmldb_videotrack_install` | Named PHP function/method `xmldb_videotrack_install`; see source DocBlock and callers for the current contract. |
-| `db/repairlib.php:42` | `videotrack_repair_preproduction_gradebook_rows` | Named PHP function/method `videotrack_repair_preproduction_gradebook_rows`; see source DocBlock and callers for the current contract. |
-| `db/repairlib.php:118` | `videotrack_repair_preproduction_merge_grade_grades` | Named PHP function/method `videotrack_repair_preproduction_merge_grade_grades`; see source DocBlock and callers for the current contract. |
-| `db/repairlib.php:148` | `videotrack_repair_preproduction_delete_grade_items` | Named PHP function/method `videotrack_repair_preproduction_delete_grade_items`; see source DocBlock and callers for the current contract. |
-| `db/repairlib.php:169` | `videotrack_repair_preproduction_schema` | Named PHP function/method `videotrack_repair_preproduction_schema`; see source DocBlock and callers for the current contract. |
-| `db/repairlib.php:236` | `videotrack_repair_preproduction_add_field` | Named PHP function/method `videotrack_repair_preproduction_add_field`; see source DocBlock and callers for the current contract. |
-| `db/repairlib.php:272` | `videotrack_repair_preproduction_unique_index_data` | Named PHP function/method `videotrack_repair_preproduction_unique_index_data`; see source DocBlock and callers for the current contract. |
-| `db/repairlib.php:293` | `videotrack_repair_preproduction_requestids` | Named PHP function/method `videotrack_repair_preproduction_requestids`; see source DocBlock and callers for the current contract. |
-| `db/repairlib.php:334` | `videotrack_repair_preproduction_deduplicate` | Named PHP function/method `videotrack_repair_preproduction_deduplicate`; see source DocBlock and callers for the current contract. |
+| `db/repairlib.php:43` | `videotrack_repair_preproduction_gradebook_rows` | Named PHP function/method `videotrack_repair_preproduction_gradebook_rows`; see source DocBlock and callers for the current contract. |
+| `db/repairlib.php:119` | `videotrack_repair_preproduction_merge_grade_grades` | Named PHP function/method `videotrack_repair_preproduction_merge_grade_grades`; see source DocBlock and callers for the current contract. |
+| `db/repairlib.php:149` | `videotrack_repair_preproduction_delete_grade_items` | Named PHP function/method `videotrack_repair_preproduction_delete_grade_items`; see source DocBlock and callers for the current contract. |
+| `db/repairlib.php:170` | `videotrack_repair_preproduction_schema` | Named PHP function/method `videotrack_repair_preproduction_schema`; see source DocBlock and callers for the current contract. |
+| `db/repairlib.php:237` | `videotrack_repair_preproduction_add_field` | Named PHP function/method `videotrack_repair_preproduction_add_field`; see source DocBlock and callers for the current contract. |
+| `db/repairlib.php:273` | `videotrack_repair_preproduction_unique_index_data` | Named PHP function/method `videotrack_repair_preproduction_unique_index_data`; see source DocBlock and callers for the current contract. |
+| `db/repairlib.php:294` | `videotrack_repair_preproduction_requestids` | Named PHP function/method `videotrack_repair_preproduction_requestids`; see source DocBlock and callers for the current contract. |
+| `db/repairlib.php:335` | `videotrack_repair_preproduction_deduplicate` | Named PHP function/method `videotrack_repair_preproduction_deduplicate`; see source DocBlock and callers for the current contract. |
 | `db/uninstall.php:36` | `xmldb_videotrack_uninstall` | Removes VideoTrack gradebook data before Moodle core deletes module contexts, with a scoped fallback for malformed rows. |
 | `db/upgrade.php:35` | `xmldb_videotrack_upgrade` | PHP callable `xmldb_videotrack_upgrade`; see its DocBlock and callers for parameter, return-value and side-effect details. |
 | `lib.php:38` | `videotrack_supports` | PHP callable `videotrack_supports`; see its DocBlock and callers for parameter, return-value and side-effect details. |
@@ -1163,7 +1166,7 @@ Generated from the VideoTrack 1.7.154 source tree. PHP entries include named fun
 | `tests/analytics_performance_contract_test.php:71` | `test_course_dashboard_batches_state_and_period_reads` | Named PHP function/method `test_course_dashboard_batches_state_and_period_reads`; see source DocBlock and callers for the current contract. |
 | `tests/analytics_scope_test.php:36` | `test_provider_identity_uses_exact_video_id` | PHP callable `test_provider_identity_uses_exact_video_id`; see its DocBlock and callers for parameter, return-value and side-effect details. |
 | `tests/analytics_scope_test.php:55` | `test_external_url_identity_is_normalised` | PHP callable `test_external_url_identity_is_normalised`; see its DocBlock and callers for parameter, return-value and side-effect details. |
-| `tests/analytics_scope_test.php:69` | `test_effective_groupmode_satisfies_moodle_course_module_contract` | PHP callable `test_effective_groupmode_satisfies_moodle_course_module_contract`; see its DocBlock and callers for parameter, return-value and side-effect details. |
+| `tests/analytics_scope_test.php:82` | `test_effective_groupmode_satisfies_moodle_course_module_contract` | PHP callable `test_effective_groupmode_satisfies_moodle_course_module_contract`; see its DocBlock and callers for parameter, return-value and side-effect details. |
 | `tests/analytics_table_export_test.php:34` | `setUp` | PHP callable `setUp`; see its DocBlock and callers for parameter, return-value and side-effect details. |
 | `tests/analytics_table_export_test.php:42` | `test_rows_match_accessible_table_privacy_rules` | PHP callable `test_rows_match_accessible_table_privacy_rules`; see its DocBlock and callers for parameter, return-value and side-effect details. |
 | `tests/analytics_table_export_test.php:81` | `test_rows_mark_unavailable_replay_metrics` | PHP callable `test_rows_mark_unavailable_replay_metrics`; see its DocBlock and callers for parameter, return-value and side-effect details. |
@@ -1330,14 +1333,15 @@ Generated from the VideoTrack 1.7.154 source tree. PHP entries include named fun
 | `tests/provider_seek_snapshot_contract_test.php:56` | `test_html5_blocked_seek_snapshots_pre_seek_position_before_rollback` | Named PHP function/method `test_html5_blocked_seek_snapshots_pre_seek_position_before_rollback`; see source DocBlock and callers for the current contract. |
 | `tests/provider_seek_snapshot_contract_test.php:77` | `test_vimeo_user_seek_retains_pre_seek_position_for_seek_resolution` | Named PHP function/method `test_vimeo_user_seek_retains_pre_seek_position_for_seek_resolution`; see source DocBlock and callers for the current contract. |
 | `tests/provider_seek_snapshot_contract_test.php:104` | `test_all_providers_wire_rollback_safe_timestamp_to_personal_actions` | Named PHP function/method `test_all_providers_wire_rollback_safe_timestamp_to_personal_actions`; see source DocBlock and callers for the current contract. |
-| `tests/release_hygiene_contract_test.php:35` | `test_csv_export_format_strings_have_explicit_context` | Named PHP function/method `test_csv_export_format_strings_have_explicit_context`; see source DocBlock and callers for the current contract. |
-| `tests/release_hygiene_contract_test.php:49` | `test_environment_italian_feedback_uses_utf8` | Named PHP function/method `test_environment_italian_feedback_uses_utf8`; see source DocBlock and callers for the current contract. |
-| `tests/release_hygiene_contract_test.php:65` | `test_readmes_and_changelog_track_current_release` | Named PHP function/method `test_readmes_and_changelog_track_current_release`; see source DocBlock and callers for the current contract. |
-| `tests/release_hygiene_contract_test.php:105` | `test_current_documentation_tracks_release` | Named PHP function/method `test_current_documentation_tracks_release`; see source DocBlock and callers for the current contract. |
-| `tests/release_hygiene_contract_test.php:160` | `test_activity_icon_assets_cover_png_and_svg_renderers` | Named PHP function/method `test_activity_icon_assets_cover_png_and_svg_renderers`; see source DocBlock and callers for the current contract. |
-| `tests/release_hygiene_contract_test.php:179` | `test_phpunit_coverage_metadata_uses_attributes` | Named PHP function/method `test_phpunit_coverage_metadata_uses_attributes`; see source DocBlock and callers for the current contract. |
-| `tests/release_hygiene_contract_test.php:200` | `test_maintained_language_packs_share_keys_and_placeholders` | Named PHP function/method `test_maintained_language_packs_share_keys_and_placeholders`; see source DocBlock and callers for the current contract. |
-| `tests/release_hygiene_contract_test.php:252` | `test_privacy_summaries_keep_parallel_section_structure` | Named PHP function/method `test_privacy_summaries_keep_parallel_section_structure`; see source DocBlock and callers for the current contract. |
+| `tests/release_hygiene_contract_test.php:35` | `test_shared_php_libraries_reject_direct_access` | Ensures shared procedural include files retain the standard Moodle direct-access guard. |
+| `tests/release_hygiene_contract_test.php:46` | `test_csv_export_format_strings_have_explicit_context` | Named PHP function/method `test_csv_export_format_strings_have_explicit_context`; see source DocBlock and callers for the current contract. |
+| `tests/release_hygiene_contract_test.php:60` | `test_environment_italian_feedback_uses_utf8` | Named PHP function/method `test_environment_italian_feedback_uses_utf8`; see source DocBlock and callers for the current contract. |
+| `tests/release_hygiene_contract_test.php:76` | `test_readmes_and_changelog_track_current_release` | Named PHP function/method `test_readmes_and_changelog_track_current_release`; see source DocBlock and callers for the current contract. |
+| `tests/release_hygiene_contract_test.php:116` | `test_current_documentation_tracks_release` | Named PHP function/method `test_current_documentation_tracks_release`; see source DocBlock and callers for the current contract. |
+| `tests/release_hygiene_contract_test.php:171` | `test_activity_icon_assets_cover_png_and_svg_renderers` | Named PHP function/method `test_activity_icon_assets_cover_png_and_svg_renderers`; see source DocBlock and callers for the current contract. |
+| `tests/release_hygiene_contract_test.php:190` | `test_phpunit_coverage_metadata_uses_attributes` | Named PHP function/method `test_phpunit_coverage_metadata_uses_attributes`; see source DocBlock and callers for the current contract. |
+| `tests/release_hygiene_contract_test.php:211` | `test_maintained_language_packs_share_keys_and_placeholders` | Named PHP function/method `test_maintained_language_packs_share_keys_and_placeholders`; see source DocBlock and callers for the current contract. |
+| `tests/release_hygiene_contract_test.php:263` | `test_privacy_summaries_keep_parallel_section_structure` | Named PHP function/method `test_privacy_summaries_keep_parallel_section_structure`; see source DocBlock and callers for the current contract. |
 | `tests/report_access_test.php:37` | `test_aggregate_only_role_keeps_individual_access_separate` | PHP callable `test_aggregate_only_role_keeps_individual_access_separate`; behavioural contract for delegated aggregate-only report access. |
 | `tests/report_access_test.php:59` | `test_individual_view_implies_aggregate_view_without_export_permissions` | PHP callable `test_individual_view_implies_aggregate_view_without_export_permissions`; behavioural contract for view/export separation. |
 | `tests/report_access_test.php:79` | `test_legacy_viewreport_remains_full_access` | PHP callable `test_legacy_viewreport_remains_full_access`; backwards-compatibility contract for historical report roles. |

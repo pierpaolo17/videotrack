@@ -1,5 +1,47 @@
 # VideoTrack changelog
 
+## 1.7.156 - 2026-09-25
+
+### Scoped defence-in-depth guard exceptions
+
+- Retained the deliberate `MOODLE_INTERNAL` guards in `locallib.php` and `db/repairlib.php` as additional
+  direct-access checks, while limiting the canonical
+  `moodle.Files.MoodleInternal.MoodleInternalNotNeeded` exception to each individual guard line.
+- Strengthened the release-hygiene contract so both guards and both scoped exceptions are required and a broad
+  `phpcs:disable` for this sniff is rejected.
+- Accepted the functional evidence from the first 1.7.155 matrix: installation and strict validation completed on
+  Moodle 5.0–5.3 with MariaDB/PostgreSQL, PHPUnit passed 283 tests with 2585 assertions, Behat passed 24 scenarios
+  and 357 steps, Grunt completed, and PHPStan/Psalm reported no errors. The two guard warnings were the only newly
+  introduced canonical-PHPCS findings and are the target of this corrective release.
+- Updated the current English and Italian security documentation and release markers. Runtime behaviour, database
+  schema, stored data, service signatures, permissions, privacy behaviour, tracking, player adapters, AMD assets and
+  language packs are unchanged.
+
+## 1.7.155 - 2026-09-23
+
+### Security boundary audit and external-media identity normalisation
+
+- Added the standard `MOODLE_INTERNAL` direct-access guard to both shared procedural include files and a release
+  hygiene regression contract covering them. The canonical Moodle sniff does not require guards for side-effect-free
+  definition files, so its exception is documented and limited to each guard line while retaining the additional
+  defence-in-depth check; the regression contract also rejects a file-wide sniff disable. Audited the
+  scanner-reported SQL, CSRF and output-encoding locations:
+  SQL uses bound Moodle DML parameters, browser writes enforce the common AJAX sesskey boundary, lifecycle/upgrade/
+  backup/privacy mutations are core-orchestrated callbacks, and `html_writer` output is already escaped. No unsafe
+  scanner proposal was applied to those framework-managed paths.
+- Updated the English and Italian trust-boundary documentation so future maintainers and automated agents can
+  distinguish direct request controls from Moodle-managed callbacks, and generated markup from untrusted content.
+
+- Split external-media URL identity normalisation into focused private authority, path and query helpers. The public
+  contract still trims input, requires a host, defaults a missing scheme to HTTPS, lowercases scheme/host, removes
+  default ports, preserves non-default ports, collapses repeated path separators, ignores fragments and sorts query
+  keys using RFC 3986 encoding.
+- Extended PHPUnit coverage for implicit HTTPS URLs, default and non-default ports, empty paths, repeated separators,
+  query ordering and missing hosts. Updated the current English and Italian Analytics documentation and callable
+  inventories. This refactoring targets two PHPMD complexity findings; CI remains the authoritative measurement.
+  Database schema, stored data, public APIs, services, permissions, tracking, player adapters, AMD assets and language
+  packs are unchanged.
+
 ## 1.7.154 - 2026-09-23
 
 ### PHPCS control-structure conformance
