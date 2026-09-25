@@ -1,11 +1,31 @@
 # VideoTrack changelog
 
+## 1.7.156 - 2026-09-25
+
+### Scoped defence-in-depth guard exceptions
+
+- Retained the deliberate `MOODLE_INTERNAL` guards in `locallib.php` and `db/repairlib.php` as additional
+  direct-access checks, while limiting the canonical
+  `moodle.Files.MoodleInternal.MoodleInternalNotNeeded` exception to each individual guard line.
+- Strengthened the release-hygiene contract so both guards and both scoped exceptions are required and a broad
+  `phpcs:disable` for this sniff is rejected.
+- Accepted the functional evidence from the first 1.7.155 matrix: installation and strict validation completed on
+  Moodle 5.0–5.3 with MariaDB/PostgreSQL, PHPUnit passed 283 tests with 2585 assertions, Behat passed 24 scenarios
+  and 357 steps, Grunt completed, and PHPStan/Psalm reported no errors. The two guard warnings were the only newly
+  introduced canonical-PHPCS findings and are the target of this corrective release.
+- Updated the current English and Italian security documentation and release markers. Runtime behaviour, database
+  schema, stored data, service signatures, permissions, privacy behaviour, tracking, player adapters, AMD assets and
+  language packs are unchanged.
+
 ## 1.7.155 - 2026-09-23
 
 ### Security boundary audit and external-media identity normalisation
 
 - Added the standard `MOODLE_INTERNAL` direct-access guard to both shared procedural include files and a release
-  hygiene regression contract covering them. Audited the scanner-reported SQL, CSRF and output-encoding locations:
+  hygiene regression contract covering them. The canonical Moodle sniff does not require guards for side-effect-free
+  definition files, so its exception is documented and limited to each guard line while retaining the additional
+  defence-in-depth check; the regression contract also rejects a file-wide sniff disable. Audited the
+  scanner-reported SQL, CSRF and output-encoding locations:
   SQL uses bound Moodle DML parameters, browser writes enforce the common AJAX sesskey boundary, lifecycle/upgrade/
   backup/privacy mutations are core-orchestrated callbacks, and `html_writer` output is already escaped. No unsafe
   scanner proposal was applied to those framework-managed paths.

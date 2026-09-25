@@ -22,7 +22,11 @@ install/uninstall, backup/restore and Privacy API methods are invoked by trusted
 direct browser actions; adding request-level sesskey checks inside those callbacks would break their core contracts.
 
 Shared procedural include files (`locallib.php` and `db/repairlib.php`) reject direct execution with the standard
-`MOODLE_INTERNAL` guard. Direct pages bootstrap Moodle through `config.php` before loading either library.
+`MOODLE_INTERNAL` guard. Direct pages bootstrap Moodle through `config.php` before loading either library. These
+side-effect-free definition files do not require that guard under the canonical Moodle coding standard, so the
+corresponding `MoodleInternalNotNeeded` exception is deliberately scoped to each guard line. The extra check is kept
+as defence in depth; no file-wide coding-standard rule is disabled, and the release-hygiene contract protects both
+the guard and the narrow exception scope.
 
 ## Playback authority
 

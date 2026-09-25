@@ -24,6 +24,10 @@ contratto core.
 
 I file procedurali condivisi (`locallib.php` e `db/repairlib.php`) rifiutano l'esecuzione diretta tramite il guard
 standard `MOODLE_INTERNAL`. Le pagine dirette inizializzano Moodle con `config.php` prima di caricare le librerie.
+Lo standard di codice Moodle non richiede il guard in questi file di sole definizioni, privi di effetti collaterali;
+perciò l'eccezione `MoodleInternalNotNeeded` è circoscritta intenzionalmente alla singola riga di ciascun guard. Il
+controllo aggiuntivo resta come difesa in profondità, nessuna regola PHPCS viene disabilitata a livello di file e il
+contratto di release protegge sia il guard sia l'ambito ristretto dell'eccezione.
 
 ## Autorità sul playback
 

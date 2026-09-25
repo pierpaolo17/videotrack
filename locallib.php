@@ -21,6 +21,8 @@
  * @copyright 2026 videotrack contributors
  * @license   https://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
+
+// phpcs:ignore moodle.Files.MoodleInternal.MoodleInternalNotNeeded -- Deliberate defence-in-depth access guard.
 defined('MOODLE_INTERNAL') || die();
 
 /**
