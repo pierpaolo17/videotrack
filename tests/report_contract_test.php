@@ -318,6 +318,17 @@ final class report_contract_test extends advanced_testcase {
 
         $this->assertStringContainsString('report_view::analytics_heatmap(', $report);
         $this->assertStringContainsString('report_view::analytics_retention(', $report);
+        $this->assertStringContainsString('report_view::integrity_summary(', $report);
+        $this->assertStringContainsString('report_view::integrity_disabled_summary()', $report);
+        $this->assertStringContainsString(
+            'report_view::integrity_controls_without_recording_summary()',
+            $report
+        );
+        $this->assertStringContainsString(
+            "get_string('integrity:analytics_recording_disabled_controls', 'mod_videotrack'),\n" .
+                "            'warning'",
+            $renderer
+        );
         $this->assertStringContainsString('final class report_view', $renderer);
         $this->assertStringNotContainsString('function videotrack_report_render_analytics_heatmap(', $report);
         $this->assertStringNotContainsString('function videotrack_report_render_analytics_retention(', $report);

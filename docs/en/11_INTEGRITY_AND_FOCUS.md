@@ -22,6 +22,19 @@ Allowed bounded types include blocked forward seek, hidden tab, window blur, pla
 
 Signals are visibility/integrity diagnostics, not direct attention measurements. Provider/browser limitations and legitimate accessibility causes can produce missing or false-positive signals. Reports and Analytics therefore present counts and privacy-safe aggregates; they must not automatically alter grades, completion or discipline.
 
+## Report presentation states
+
+The controller selects one explicit presentation contract before rendering the integrity section:
+
+- `report_view::integrity_summary()` renders privacy-safe counts when recording is enabled;
+- `report_view::integrity_disabled_summary()` explains that both recording and focus controls are disabled;
+- `report_view::integrity_controls_without_recording_summary()` warns that focus controls are active but no
+  integrity signals are being recorded.
+
+These entry points change presentation only. They do not enable recording, infer misconduct or bypass the
+distinct-user privacy threshold. Shared private helpers keep the heading, explanatory text and accessible section
+landmark identical in every state.
+
 ## Lifecycle
 
 `videotrack_integrity` is included in Privacy API export/erasure, retention, reset, activity deletion and user-data backup/restore.

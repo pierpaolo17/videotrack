@@ -736,13 +736,17 @@ if ($mode === 'analytics') {
             $acknowledgementvideoendcount
         );
     }
-    echo \mod_videotrack\local\report_view::integrity_summary(
-        $integritysummary,
-        $minusers,
-        $integrityanalyticsenabled,
-        $integrityfocuscontrolsenabled,
-        count($integrityinstances)
-    );
+    if ($integrityanalyticsenabled) {
+        echo \mod_videotrack\local\report_view::integrity_summary(
+            $integritysummary,
+            $minusers,
+            count($integrityinstances)
+        );
+    } else if ($integrityfocuscontrolsenabled) {
+        echo \mod_videotrack\local\report_view::integrity_controls_without_recording_summary();
+    } else {
+        echo \mod_videotrack\local\report_view::integrity_disabled_summary();
+    }
     if (
         $analyticsshowreactions
         && !empty($reactionsummary['hasdata'])

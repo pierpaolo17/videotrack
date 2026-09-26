@@ -101,6 +101,8 @@ output.
 - Playback-rate policy exposes one public contract backed by named parsing, effective-cap, filtering and mandatory
   normal-speed stages. TinyMCE emoji parsing and reaction-picker header/tab/body rendering are likewise isolated,
   while retention-setting persistence separates confirmation from post-save transition auditing.
+- Integrity-report presentation uses distinct enabled, disabled and focus-controls-without-recording entry points;
+  no boolean behaviour flag remains in the presentation API.
 - PHPMD remains advisory. Its remaining reports concern reviewed complexity, size, broad public classes, required
   Moodle callback parameters and boolean switches that need separate behavioural refactoring. Exact current counts
   must be read from the CI artifact produced for the candidate under review.

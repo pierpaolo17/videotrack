@@ -105,6 +105,8 @@ soltanto a ottenere un output verde.
 - La policy delle velocità espone un contratto pubblico supportato da fasi nominate per parsing, limite effettivo,
   filtro e garanzia della velocità normale. Anche parsing emoji TinyMCE e rendering di intestazione/tab/corpo del
   selettore reazioni sono isolati, mentre il salvataggio retention separa conferma e audit successivo al salvataggio.
+- La presentazione degli indicatori di integrità usa entry point distinti per stato attivo, disattivato e controlli
+  focus senza registrazione; l'API di presentazione non contiene più flag booleani di comportamento.
 - PHPMD resta consultivo. I rilievi residui riguardano complessità, dimensione, classi pubbliche ampie, parametri
   obbligatori dei callback Moodle e flag booleani che richiedono refactoring comportamentali separati. I conteggi
   correnti esatti vanno letti nell'artifact CI prodotto per la candidata in esame.
