@@ -102,4 +102,42 @@ final class report_view_test extends \advanced_testcase {
             report_view::analytics_interval(5.0, 15.0, 65.0)
         );
     }
+
+    /**
+     * Integrity rendering exposes separate contracts for enabled, disabled and control-only states.
+     */
+    public function test_integrity_summary_states_preserve_messages_and_privacy_table(): void {
+        $eventtype = \mod_videotrack\local\integrity::EVENT_TYPES[0];
+        $enabled = report_view::integrity_summary([
+            $eventtype => [
+                'hasdata' => true,
+                'suppressed' => false,
+                'eventcount' => 7,
+                'studentcount' => 3,
+            ],
+        ], 2, 4);
+
+        $this->assertStringContainsString(
+            get_string('integrity:analytics_enabled', 'mod_videotrack', 4),
+            $enabled
+        );
+        $this->assertStringContainsString('<table', $enabled);
+        $this->assertStringContainsString('>7<', $enabled);
+        $this->assertStringContainsString('>3<', $enabled);
+
+        $disabled = report_view::integrity_disabled_summary();
+        $this->assertStringContainsString(
+            get_string('integrity:analytics_disabled', 'mod_videotrack'),
+            $disabled
+        );
+        $this->assertStringNotContainsString('<table', $disabled);
+
+        $controls = report_view::integrity_controls_without_recording_summary();
+        $this->assertStringContainsString(
+            get_string('integrity:analytics_recording_disabled_controls', 'mod_videotrack'),
+            $controls
+        );
+        $this->assertStringContainsString('alert-warning', $controls);
+        $this->assertStringNotContainsString('<table', $controls);
+    }
 }

@@ -1,6 +1,6 @@
 # Inventario delle funzioni
 
-Generato dall’albero sorgente VideoTrack 1.7.157. Le voci PHP includono funzioni e metodi nominati; le voci AMD includono dichiarazioni nominate, espressioni funzione assegnate e funzioni-metodo di oggetti.
+Generato dall’albero sorgente VideoTrack 1.7.158. Le voci PHP includono funzioni e metodi nominati; le voci AMD includono dichiarazioni nominate, espressioni funzione assegnate e funzioni-metodo di oggetti.
 
 **Funzioni/metodi PHP:** 785. **Callable AMD nominati:** 654.
 
@@ -968,8 +968,13 @@ Generato dall’albero sorgente VideoTrack 1.7.157. Le voci PHP includono funzio
 | `classes/local/report_view.php:414` | `reaction_summary` | Callable PHP `report_view::reaction_summary`; DocBlock e chiamanti definiscono parametri, valori restituiti ed effetti. |
 | `classes/local/report_view.php:437` | `bookmark_summary` | Callable PHP `report_view::bookmark_summary`; DocBlock e chiamanti definiscono parametri, valori restituiti ed effetti. |
 | `classes/local/report_view.php:503` | `acknowledgement_summary` | Callable PHP `report_view::acknowledgement_summary`; DocBlock e chiamanti definiscono parametri, valori restituiti ed effetti. |
-| `classes/local/report_view.php:612` | `integrity_summary` | Callable PHP `report_view::integrity_summary`; DocBlock e chiamanti definiscono parametri, valori restituiti ed effetti. |
-| `classes/local/report_view.php:703` | `analytics_retention` | Callable PHP `report_view::analytics_retention`; DocBlock e chiamanti definiscono parametri, valori restituiti ed effetti. |
+| `classes/local/report_view.php:610` | `integrity_summary` | Callable PHP `report_view::integrity_summary`; renderizza lo stato con registrazione attiva senza flag booleani di comportamento. |
+| `classes/local/report_view.php:673` | `integrity_disabled_summary` | Callable PHP `report_view::integrity_disabled_summary`; renderizza lo stato informativo esplicito con registrazione disattivata. |
+| `classes/local/report_view.php:685` | `integrity_controls_without_recording_summary` | Callable PHP `report_view::integrity_controls_without_recording_summary`; renderizza lo stato di avviso esplicito con soli controlli focus. |
+| `classes/local/report_view.php:697` | `integrity_intro` | Callable PHP privato che costruisce titolo e testo esplicativo condivisi della sezione integrità. |
+| `classes/local/report_view.php:718` | `integrity_unavailable_summary` | Callable PHP privato che renderizza uno stato integrità privo della tabella eventi. |
+| `classes/local/report_view.php:732` | `integrity_section` | Callable PHP privato che racchiude il contenuto nel landmark accessibile della sezione. |
+| `classes/local/report_view.php:746` | `analytics_retention` | Callable PHP `report_view::analytics_retention`; DocBlock e chiamanti definiscono parametri, valori restituiti ed effetti. |
 | `classes/local/teacher_analytics.php:37` | `accessible_courses` | Callable PHP `accessible_courses`; DocBlock e chiamanti definiscono parametri, valori restituiti ed effetti. |
 | `classes/local/teacher_analytics.php:80` | `dashboard_rows` | Callable PHP `dashboard_rows`; DocBlock e chiamanti definiscono parametri, valori restituiti ed effetti. |
 | `classes/local/teacher_analytics.php:127` | `activity_options` | Callable PHP `activity_options`; DocBlock e chiamanti definiscono parametri, valori restituiti ed effetti. |
@@ -1400,6 +1405,7 @@ Generato dall’albero sorgente VideoTrack 1.7.157. Le voci PHP includono funzio
 | `tests/report_view_test.php:65` | `test_exact_analytics_methodology_omits_privacy_threshold_text` | Funzione/metodo PHP nominato `test_exact_analytics_methodology_omits_privacy_threshold_text`; vedere DocBlock e chiamanti per il contratto corrente. |
 | `tests/report_view_test.php:81` | `test_retention_chart_explains_full_privacy_suppression` | Callable PHP `test_retention_chart_explains_full_privacy_suppression`; copertura comportamentale del helper di presentazione Analytics estratto. |
 | `tests/report_view_test.php:99` | `test_analytics_interval_uses_canonical_video_timestamp_format` | Callable PHP `test_analytics_interval_uses_canonical_video_timestamp_format`; copertura comportamentale del helper di presentazione Analytics estratto. |
+| `tests/report_view_test.php:109` | `test_integrity_summary_states_preserve_messages_and_privacy_table` | Contratto PHPUnit per gli stati di presentazione attivo, disattivato e controlli focus senza registrazione. |
 | `tests/save_bookmark_test.php:39` | `test_execute_parameters_uses_supported_moodle_parameter_types` | Callable PHP `test_execute_parameters_uses_supported_moodle_parameter_types`; DocBlock e chiamanti definiscono parametri, valori restituiti ed effetti. |
 | `tests/save_bookmark_test.php:47` | `test_bookmark_validation_prefers_existing_watched_progress` | Callable PHP `test_bookmark_validation_prefers_existing_watched_progress`; DocBlock e chiamanti definiscono parametri, valori restituiti ed effetti. |
 | `tests/save_integrity_event_test.php:37` | `test_execute_parameters_uses_supported_moodle_parameter_types` | Callable PHP `test_execute_parameters_uses_supported_moodle_parameter_types`; DocBlock e chiamanti definiscono parametri, valori restituiti ed effetti. |

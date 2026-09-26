@@ -22,6 +22,19 @@ I tipi ammessi includono avanzamento bloccato, scheda nascosta, blur finestra, p
 
 Sono indicatori diagnostici, non misure dirette dell’attenzione. Limiti provider/browser e cause accessibili legittime possono produrre assenze o falsi positivi. Report e Analytics mostrano quindi conteggi/aggregati privacy-safe; non devono modificare automaticamente voto, completamento o disciplina.
 
+## Stati di presentazione nel report
+
+Il controller seleziona un contratto di presentazione esplicito prima di renderizzare la sezione integrità:
+
+- `report_view::integrity_summary()` mostra i conteggi privacy-safe quando la registrazione è attiva;
+- `report_view::integrity_disabled_summary()` spiega che registrazione e controlli focus sono disattivati;
+- `report_view::integrity_controls_without_recording_summary()` avvisa che i controlli focus sono attivi ma non
+  vengono registrati indicatori di integrità.
+
+Questi entry point modificano soltanto la presentazione. Non abilitano la registrazione, non deducono comportamenti
+scorretti e non aggirano la soglia privacy per utenti distinti. Helper privati condivisi mantengono identici titolo,
+testo esplicativo e landmark accessibile della sezione in ogni stato.
+
 ## Ciclo di vita
 
 `videotrack_integrity` è incluso in Privacy API, retention, reset, eliminazione attività e backup/restore con dati utente.

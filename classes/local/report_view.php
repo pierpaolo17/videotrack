@@ -598,22 +598,18 @@ final class report_view {
     }
 
     /**
-     * Renders privacy-safe diagnostic integrity indicators.
+     * Renders privacy-safe diagnostic integrity indicators when recording is enabled.
      *
      * The values are signals to review in context, never proof of misconduct.
      *
      * @param array $summary Per-event-type counts and suppression state.
      * @param int $minusers Privacy threshold.
-     * @param bool $recordingenabled Whether signal recording is enabled in the selected scope.
-     * @param bool $focuscontrolsenabled Whether at least one focus control is enabled in the scope.
      * @param int $enabledactivitycount Number of activities with signal recording enabled.
      * @return string Summary section.
      */
     public static function integrity_summary(
         array $summary,
         int $minusers,
-        bool $recordingenabled = true,
-        bool $focuscontrolsenabled = false,
         int $enabledactivitycount = 1
     ): string {
         global $OUTPUT;
@@ -635,28 +631,7 @@ final class report_view {
             ];
         }
 
-        $content = html_writer::tag(
-            'h4',
-            get_string('integrity:reporttitle', 'mod_videotrack'),
-            ['id' => 'videotrack-integrity-summary-title']
-        );
-        $content .= html_writer::tag(
-            'p',
-            get_string('integrity:reportintro', 'mod_videotrack'),
-            ['class' => 'text-muted small']
-        );
-
-        if (!$recordingenabled) {
-            $message = $focuscontrolsenabled
-                ? get_string('integrity:analytics_recording_disabled_controls', 'mod_videotrack')
-                : get_string('integrity:analytics_disabled', 'mod_videotrack');
-            $content .= $OUTPUT->notification($message, $focuscontrolsenabled ? 'warning' : 'info');
-            return html_writer::tag('section', $content, [
-                'class' => 'videotrack-integrity-summary mb-4',
-                'aria-labelledby' => 'videotrack-integrity-summary-title',
-            ]);
-        }
-
+        $content = self::integrity_intro();
         $content .= html_writer::tag(
             'p',
             get_string('integrity:analytics_enabled', 'mod_videotrack', max(1, $enabledactivitycount)),
@@ -687,6 +662,74 @@ final class report_view {
             }
         }
 
+        return self::integrity_section($content);
+    }
+
+    /**
+     * Renders the information state used when integrity recording is disabled.
+     *
+     * @return string Summary section.
+     */
+    public static function integrity_disabled_summary(): string {
+        return self::integrity_unavailable_summary(
+            get_string('integrity:analytics_disabled', 'mod_videotrack'),
+            'info'
+        );
+    }
+
+    /**
+     * Renders the warning used when focus controls run without integrity recording.
+     *
+     * @return string Summary section.
+     */
+    public static function integrity_controls_without_recording_summary(): string {
+        return self::integrity_unavailable_summary(
+            get_string('integrity:analytics_recording_disabled_controls', 'mod_videotrack'),
+            'warning'
+        );
+    }
+
+    /**
+     * Builds the shared heading and explanatory text for integrity summaries.
+     *
+     * @return string Summary introduction.
+     */
+    private static function integrity_intro(): string {
+        $content = html_writer::tag(
+            'h4',
+            get_string('integrity:reporttitle', 'mod_videotrack'),
+            ['id' => 'videotrack-integrity-summary-title']
+        );
+        $content .= html_writer::tag(
+            'p',
+            get_string('integrity:reportintro', 'mod_videotrack'),
+            ['class' => 'text-muted small']
+        );
+        return $content;
+    }
+
+    /**
+     * Renders an integrity state that has no event table.
+     *
+     * @param string $message Localised explanation.
+     * @param string $notificationtype Moodle notification type.
+     * @return string Summary section.
+     */
+    private static function integrity_unavailable_summary(string $message, string $notificationtype): string {
+        global $OUTPUT;
+
+        $content = self::integrity_intro();
+        $content .= $OUTPUT->notification($message, $notificationtype);
+        return self::integrity_section($content);
+    }
+
+    /**
+     * Wraps integrity summary content in its accessible landmark.
+     *
+     * @param string $content Summary content.
+     * @return string Summary section.
+     */
+    private static function integrity_section(string $content): string {
         return html_writer::tag('section', $content, [
             'class' => 'videotrack-integrity-summary mb-4',
             'aria-labelledby' => 'videotrack-integrity-summary-title',

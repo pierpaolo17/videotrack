@@ -1,5 +1,22 @@
 # VideoTrack changelog
 
+## 1.7.158 - 2026-09-26
+
+### Explicit integrity-report presentation states
+
+- Replaced the two boolean behaviour switches of `report_view::integrity_summary()` with explicit enabled,
+  disabled and focus-controls-without-recording entry points. The Analytics controller now selects the state before
+  rendering; messages, notification severity, event counts, privacy suppression and accessible section markup remain
+  unchanged.
+- Isolated the common integrity introduction, unavailable-state notification and accessible section wrapper in
+  private presentation helpers. Added PHPUnit coverage for all three public states, including the enabled privacy
+  table and the warning emitted when controls run while recording is disabled.
+- Updated the current English and Italian integrity, static-analysis and callable documentation. This refactoring
+  targets the two `BooleanArgumentFlag` findings and the `CyclomaticComplexity` finding assigned to the previous
+  composite renderer; CI remains the authoritative measurement.
+- Database schema, stored data, event collection, privacy thresholds, service signatures, capabilities, completion,
+  player adapters, AMD assets and language packs are unchanged.
+
 ## 1.7.157 - 2026-09-26
 
 ### Security re-audit and focused helper decomposition
