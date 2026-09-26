@@ -92,4 +92,33 @@ final class admin_settings_test extends advanced_testcase {
         $this->assertSame(get_string('setting:retentionunlimitedconfirm_required', 'mod_videotrack'), $result);
         $this->assertSame('730', get_config('mod_videotrack', 'retentionperioddays'));
     }
+
+    /**
+     * Confirmed unlimited retention is persisted and finite retention clears the confirmation marker.
+     */
+    public function test_retention_transition_is_persisted_after_confirmation(): void {
+        $this->resetAfterTest();
+
+        $setting = new setting_retention_days(
+            'mod_videotrack/retentionperioddays',
+            'Retention',
+            'Retention',
+            730,
+            PARAM_INT
+        );
+
+        $_POST['s_mod_videotrack_retentionunlimitedconfirmed'] = '1';
+        try {
+            set_config('retentionperioddays', 730, 'mod_videotrack');
+            $this->assertSame('', $setting->write_setting('0'));
+            $this->assertSame('0', get_config('mod_videotrack', 'retentionperioddays'));
+
+            set_config('retentionunlimitedconfirmed', 1, 'mod_videotrack');
+            $this->assertSame('', $setting->write_setting('365'));
+            $this->assertSame('365', get_config('mod_videotrack', 'retentionperioddays'));
+            $this->assertSame('0', get_config('mod_videotrack', 'retentionunlimitedconfirmed'));
+        } finally {
+            unset($_POST['s_mod_videotrack_retentionunlimitedconfirmed']);
+        }
+    }
 }

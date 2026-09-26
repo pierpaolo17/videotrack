@@ -48,6 +48,19 @@ posizione pre-seek e non deve ripetere il seek durante i retry di play.
 HTML5 offre il maggior controllo locale. YouTube e Vimeo restano soggetti a SDK, policy iframe e disponibilità del
 servizio pubblico. Le promise dei loader si azzerano dopo un errore perché un tentativo successivo possa recuperare.
 
+## Pipeline di configurazione della velocità
+
+`videotrack_get_playback_speeds()` è l'entry point pubblico della policy. Delega quattro fasi esplicite: parsing e
+normalizzazione della lista configurata, calcolo del limite positivo più restrittivo tra sito e attività,
+applicazione del limite e garanzia finale della velocità normale `1.0`. I valori devono essere finiti, maggiori di
+zero e non superiori a `4.0`; i duplicati vengono eliminati e il risultato ordinato. Un'impostazione vuota o il
+valore legacy letterale `0` usa `0.75,1,1.25,1.5,2`, mentre una lista priva di valori validi torna a `1.0`. Se il
+cambio velocità è disabilitato, la pipeline viene bypassata ed è esposta soltanto `1.0`.
+
+La telemetria usa `videotrack_get_tracking_playback_speeds()`: parte dalla lista visibile al learner e può aggiungere
+soltanto la velocità configurata per il recupero da seek bloccato. Il recupero interno resta così valido senza
+diventare una scelta ordinaria dell'utente.
+
 ## Verifica
 
 - testare parsing URL/id e input non validi/privati;

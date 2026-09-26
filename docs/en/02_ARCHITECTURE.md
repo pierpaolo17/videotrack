@@ -28,6 +28,15 @@ through a dedicated scalar/length/alphabet validator, including values decoded f
 accept numeric seconds or an anchored two/three-component colon grammar; only minute and second components are
 bounded to 0–59. Report filters remain stricter and require the colon form before using the shared timestamp parser.
 
+## Configuration and reaction presentation helpers
+
+Procedural helpers in `locallib.php` expose stable public contracts and delegate independent transformations to
+named stages. Playback-speed policy separates parsing, cap selection, filtering and the mandatory `1.0` guarantee.
+TinyMCE emoji loading separates file access from source parsing; unusable or HTML-image entries never enter the
+catalogue and an empty result uses the local fallback. The reaction picker composes independent header, type-tab and
+catalogue-body renderers. All markup continues through `html_writer`, so splitting presentation code does not create
+a raw-HTML input path.
+
 ## Player contract
 
 Each adapter must provide reliable current time, duration, play/pause, seek, rate and end callbacks. Shared modules never assume identical provider behaviour. Programmatic resume, replay and blocked-seek correction are distinguished from user seek. YouTube and Vimeo SDK limitations are handled explicitly.

@@ -29,6 +29,11 @@ records in bounded operations and rebuilds/removes derived state so it never ret
 remaining personal evidence. Unlimited retention (`0`) is accepted only with explicit
 `retentionunlimitedconfirmed` administrator confirmation.
 
+The admin setting processes that decision in three separate steps: resolve the previous value, reject an
+unconfirmed unlimited submission, then record the transition only after Moodle has persisted the new value. A
+finite value clears the confirmation marker; a newly enabled unlimited value writes the dedicated configuration
+audit entry when the Moodle logging helper is available. Validation failure never records a transition.
+
 `validationfallbackdays` is a separate bounded privacy/performance setting for legacy validation fallback; it is
 not the general retention period.
 

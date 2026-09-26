@@ -180,6 +180,18 @@ function videotrack_get_playback_speeds(stdClass $videotrack): array {
         ? $videotrack->playbackspeeds
         : (string)get_config('mod_videotrack', 'playbackspeeds');
 
+    $speeds = videotrack_normalise_playback_speeds((string)$raw);
+    $speeds = videotrack_cap_playback_speeds($speeds, videotrack_effective_playback_rate_cap($videotrack));
+    return videotrack_ensure_normal_playback_speed($speeds);
+}
+
+/**
+ * Parses and normalises a configured playback-speed list.
+ *
+ * @param string $raw Comma- or newline-separated speed values.
+ * @return float[] Sorted, unique and bounded speed values.
+ */
+function videotrack_normalise_playback_speeds(string $raw): array {
     if (empty($raw)) {
         $raw = '0.75,1,1.25,1.5,2';
     }
@@ -189,22 +201,50 @@ function videotrack_get_playback_speeds(stdClass $videotrack): array {
     sort($speeds);
     $speeds = array_values(array_unique($speeds));
     if (empty($speeds)) {
-        $speeds = [1.0];
+        return [1.0];
     }
+    return $speeds;
+}
 
+/**
+ * Returns the strictest positive site or activity playback-rate cap.
+ *
+ * @param stdClass $videotrack Instance record.
+ * @return float Zero when no cap is active.
+ */
+function videotrack_effective_playback_rate_cap(stdClass $videotrack): float {
     $sitecap = videotrack_get_max_playback_rate();
     $instancecapraw = (int)($videotrack->maxplaybackrate ?? 0);
     $instancecap = $instancecapraw > 0 ? round(max(25, min(400, $instancecapraw)) / 100.0, 4) : 0.0;
     $caps = array_values(array_filter([$sitecap, $instancecap], static function (float $cap): bool {
         return $cap > 0;
     }));
-    $effectivecap = $caps ? min($caps) : 0.0;
-    if ($effectivecap > 0) {
-        $speeds = array_values(array_filter($speeds, static function (float $speed) use ($effectivecap): bool {
-            return $speed <= ($effectivecap + 0.001);
-        }));
-    }
+    return $caps ? min($caps) : 0.0;
+}
 
+/**
+ * Applies an effective playback-rate cap to a normalised speed list.
+ *
+ * @param float[] $speeds Normalised playback speeds.
+ * @param float $effectivecap Effective cap, or zero when disabled.
+ * @return float[]
+ */
+function videotrack_cap_playback_speeds(array $speeds, float $effectivecap): array {
+    if ($effectivecap <= 0) {
+        return $speeds;
+    }
+    return array_values(array_filter($speeds, static function (float $speed) use ($effectivecap): bool {
+        return $speed <= ($effectivecap + 0.001);
+    }));
+}
+
+/**
+ * Guarantees that normal 1x playback remains available.
+ *
+ * @param float[] $speeds Capped playback speeds.
+ * @return float[] Sorted, unique playback speeds containing 1x.
+ */
+function videotrack_ensure_normal_playback_speed(array $speeds): array {
     // Normal speed is always available; site/instance settings should never make
     // a standard 1x playback request invalid.
     if (!in_array(1.0, $speeds, true)) {
@@ -567,6 +607,19 @@ function videotrack_get_moodle_reaction_emoji_catalog(): array {
         return videotrack_get_fallback_reaction_emoji_catalog();
     }
 
+    return videotrack_parse_moodle_reaction_emoji_source($source);
+}
+
+/**
+ * Parses Moodle's bundled TinyMCE emoji source into a reaction catalogue.
+ *
+ * The parser ignores TinyMCE entries represented as HTML images and falls back
+ * to the plugin catalogue when the bundled source cannot produce usable emoji.
+ *
+ * @param string $source TinyMCE emoji JavaScript source.
+ * @return array Emoji values grouped by TinyMCE category.
+ */
+function videotrack_parse_moodle_reaction_emoji_source(string $source): array {
     $matches = [];
     preg_match_all('/char:"((?:\\\\.|[^"\\\\])*)".*?category:"([a-z_]+)"/u', $source, $matches, PREG_SET_ORDER);
     if (!$matches) {
@@ -727,7 +780,23 @@ function videotrack_reaction_icon_picker(string $targetname, string $typetargetn
         'hidden' => 'hidden',
     ]);
     $html .= html_writer::start_div('videotrack-icon-picker-panel');
-    $html .= html_writer::start_div('videotrack-icon-picker-header');
+    $html .= videotrack_reaction_icon_picker_header($pickerid);
+    $html .= videotrack_reaction_icon_picker_tabs();
+    $html .= videotrack_reaction_icon_picker_body($catalogue);
+    $html .= html_writer::end_div();
+    $html .= html_writer::end_div();
+    $html .= html_writer::end_div();
+    return $html;
+}
+
+/**
+ * Builds the title, close control and search field for the reaction picker.
+ *
+ * @param string $pickerid Deterministic picker element id.
+ * @return string HTML header markup.
+ */
+function videotrack_reaction_icon_picker_header(string $pickerid): string {
+    $html = html_writer::start_div('videotrack-icon-picker-header');
     $html .= html_writer::tag(
         'h4',
         get_string('reactioniconpicker', 'mod_videotrack'),
@@ -754,6 +823,16 @@ function videotrack_reaction_icon_picker(string $targetname, string $typetargetn
         'class' => 'form-control videotrack-icon-picker-search',
         'placeholder' => get_string('reactioniconpicker:search', 'mod_videotrack'),
     ]);
+    return $html;
+}
+
+/**
+ * Builds the icon-type tabs for the reaction picker.
+ *
+ * @return string HTML tab markup.
+ */
+function videotrack_reaction_icon_picker_tabs(): string {
+    $html = '';
     $html .= html_writer::start_div('videotrack-icon-picker-tabs', ['role' => 'tablist']);
     foreach (['emoji', 'fa'] as $type) {
         $html .= html_writer::tag(
@@ -767,6 +846,17 @@ function videotrack_reaction_icon_picker(string $targetname, string $typetargetn
         );
     }
     $html .= html_writer::end_div();
+    return $html;
+}
+
+/**
+ * Builds the grouped icon options and empty-search state for the reaction picker.
+ *
+ * @param array $catalogue Icon values grouped by type and semantic category.
+ * @return string HTML catalogue markup.
+ */
+function videotrack_reaction_icon_picker_body(array $catalogue): string {
+    $html = '';
     $html .= html_writer::start_div('videotrack-icon-picker-body');
     foreach ($catalogue as $type => $categories) {
         $html .= html_writer::start_div('videotrack-icon-picker-type', ['data-icon-type' => $type]);
@@ -806,9 +896,6 @@ function videotrack_reaction_icon_picker(string $targetname, string $typetargetn
         get_string('reactioniconpicker:noresults', 'mod_videotrack'),
         ['class' => 'videotrack-icon-picker-empty', 'hidden' => 'hidden']
     );
-    $html .= html_writer::end_div();
-    $html .= html_writer::end_div();
-    $html .= html_writer::end_div();
     $html .= html_writer::end_div();
     return $html;
 }

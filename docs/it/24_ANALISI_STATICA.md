@@ -102,6 +102,9 @@ soltanto a ottenere un output verde.
   solo contratto stabile con cache per richiesta; nessuna delle due API usa uno switch booleano opzionale.
 - La lettura timed text usa metodi canonici per trascrizioni/capitoli e metodi di fallback legacy nominati
   esplicitamente. I percorsi di compatibilità mantengono la precedenza canonica senza switch booleani.
+- La policy delle velocità espone un contratto pubblico supportato da fasi nominate per parsing, limite effettivo,
+  filtro e garanzia della velocità normale. Anche parsing emoji TinyMCE e rendering di intestazione/tab/corpo del
+  selettore reazioni sono isolati, mentre il salvataggio retention separa conferma e audit successivo al salvataggio.
 - PHPMD resta consultivo. I rilievi residui riguardano complessità, dimensione, classi pubbliche ampie, parametri
   obbligatori dei callback Moodle e flag booleani che richiedono refactoring comportamentali separati. I conteggi
   correnti esatti vanno letti nell'artifact CI prodotto per la candidata in esame.

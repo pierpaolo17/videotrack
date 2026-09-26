@@ -30,6 +30,15 @@ compresi i valori decodificati dalla query. I timestamp video accettano secondi 
 ancorata a due/tre componenti; solo minuti e secondi sono limitati a 0–59. I filtri report restano più restrittivi e
 richiedono il formato con due punti prima di usare il parser condiviso.
 
+## Helper di configurazione e presentazione delle reazioni
+
+Gli helper procedurali in `locallib.php` espongono contratti pubblici stabili e delegano trasformazioni indipendenti
+a fasi nominate. La policy delle velocità separa parsing, scelta del limite, filtro e garanzia obbligatoria di `1.0`.
+Il caricamento emoji TinyMCE separa l'accesso al file dal parsing della sorgente; elementi inutilizzabili o
+rappresentati da immagini HTML non entrano nel catalogo e un risultato vuoto usa il fallback locale. Il selettore
+reazioni compone renderer indipendenti per intestazione, tab del tipo e corpo del catalogo. Tutto il markup continua
+a passare da `html_writer`, quindi la scomposizione non introduce percorsi di input HTML grezzo.
+
 ## Contratto player
 
 Ogni adapter deve fornire tempo corrente, durata, play/pausa, seek, velocità e fine. I moduli condivisi non assumono comportamenti uguali tra provider. Resume, replay e correzione seek programmatici sono distinti dal seek utente. I limiti SDK di YouTube e Vimeo sono trattati esplicitamente.
