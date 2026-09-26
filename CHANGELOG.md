@@ -1,5 +1,20 @@
 # VideoTrack changelog
 
+## 1.7.159 - 2026-09-26
+
+### Renderer-independent integrity notification contract
+
+- Replaced the PHPUnit assertion that expected the web-renderer CSS class `alert-warning`. Moodle's CLI renderer,
+  used by PHPUnit on every matrix job, serialises notifications as `!! message !!` and intentionally omits Bootstrap
+  markup. The behavioural test continues to verify the localised control-only message and the absence of an event
+  table; the controller source contract now verifies independently that the renderer is invoked with severity
+  `warning`.
+- Accepted the completed evidence from the 1.7.158 matrix outside that single test assertion: installation and
+  strict validation passed on Moodle 5.0–5.3 with MariaDB/PostgreSQL, Behat passed 24 scenarios and 357 steps,
+  PHPStan and Psalm reported no errors, and PHPMD fell from 128 to 125 reviewed findings exactly as intended.
+- Runtime code, database schema, stored data, integrity event collection, privacy thresholds, service signatures,
+  capabilities, completion, player adapters, AMD assets and language packs are unchanged.
+
 ## 1.7.158 - 2026-09-26
 
 ### Explicit integrity-report presentation states

@@ -137,7 +137,6 @@ final class report_view_test extends \advanced_testcase {
             get_string('integrity:analytics_recording_disabled_controls', 'mod_videotrack'),
             $controls
         );
-        $this->assertStringContainsString('alert-warning', $controls);
         $this->assertStringNotContainsString('<table', $controls);
     }
 }
