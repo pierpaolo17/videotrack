@@ -30,6 +30,11 @@ scaduti con operazioni limitate e ricostruisce/rimuove lo stato derivato, che no
 evidenze personali residue. Retention illimitata (`0`) è accettata soltanto con conferma esplicita
 `retentionunlimitedconfirmed` dell'amministratore.
 
+L'impostazione amministrativa elabora la decisione in tre fasi separate: risolve il valore precedente, rifiuta un
+invio illimitato non confermato e registra la transizione soltanto dopo che Moodle ha salvato il nuovo valore. Un
+valore finito azzera il marker di conferma; una nuova attivazione illimitata scrive la voce dedicata nel log di
+configurazione quando l'helper Moodle è disponibile. Un errore di validazione non registra mai una transizione.
+
 `validationfallbackdays` è un'impostazione separata e limitata per fallback di validazione legacy; non è il periodo
 generale di retention.
 

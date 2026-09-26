@@ -1,5 +1,27 @@
 # VideoTrack changelog
 
+## 1.7.157 - 2026-09-26
+
+### Security re-audit and focused helper decomposition
+
+- Repeated the source-level review of every finding in the independent security report against the stable
+  `1.7.156` tree. The reported SQL locations use fixed/internal clauses with Moodle DML parameter binding; browser
+  mutations enforce POST/sesskey at their request or shared external-service boundary; Moodle-managed lifecycle,
+  upgrade, backup and privacy callbacks must not add browser-session checks; reported output uses Moodle rendering
+  and escaping APIs. File serving, Privacy API deletion/retention, all nine AJAX services, dynamic table/select
+  sources and browser DOM sinks were also rechecked. No additional vulnerability or justified runtime security
+  change was found.
+- Split retention-setting persistence into previous-value, confirmation and post-save transition helpers, preserving
+  explicit unlimited-retention confirmation and its configuration audit entry.
+- Split playback-rate handling into parsing, effective-cap, cap-filter and mandatory-normal-speed stages; split
+  TinyMCE emoji file loading from source parsing; and compose the reaction picker from focused header, tab and body
+  renderers. Output, fallback values, caps and accessibility markup remain unchanged.
+- Added PHPUnit contracts for confirmed/finite retention transitions, playback helper stages, emoji filtering and
+  accessible picker fragments. Updated the current English and Italian architecture, media, privacy and callable
+  documentation. The refactoring targets six PHPMD findings; CI remains the authoritative measurement.
+- Database schema, stored data, service signatures, capabilities, tracking, completion, player adapters, AMD assets
+  and language packs are unchanged.
+
 ## 1.7.156 - 2026-09-25
 
 ### Scoped defence-in-depth guard exceptions

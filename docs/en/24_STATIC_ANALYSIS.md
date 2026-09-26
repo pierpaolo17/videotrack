@@ -98,6 +98,9 @@ output.
   request-cached contract; neither API uses an optional boolean behaviour switch.
 - Timed-text lookup uses canonical transcript/chapter methods plus explicitly named legacy-fallback methods. The
   compatibility paths preserve canonical precedence without boolean behaviour switches.
+- Playback-rate policy exposes one public contract backed by named parsing, effective-cap, filtering and mandatory
+  normal-speed stages. TinyMCE emoji parsing and reaction-picker header/tab/body rendering are likewise isolated,
+  while retention-setting persistence separates confirmation from post-save transition auditing.
 - PHPMD remains advisory. Its remaining reports concern reviewed complexity, size, broad public classes, required
   Moodle callback parameters and boolean switches that need separate behavioural refactoring. Exact current counts
   must be read from the CI artifact produced for the candidate under review.

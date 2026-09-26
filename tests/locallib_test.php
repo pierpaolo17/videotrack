@@ -39,7 +39,16 @@ use stdClass;
 #[CoversFunction('videotrack_parse_report_timestamp')]
 #[CoversFunction('videotrack_get_config_int')]
 #[CoversFunction('videotrack_get_playback_speeds')]
+#[CoversFunction('videotrack_normalise_playback_speeds')]
+#[CoversFunction('videotrack_effective_playback_rate_cap')]
+#[CoversFunction('videotrack_cap_playback_speeds')]
+#[CoversFunction('videotrack_ensure_normal_playback_speed')]
 #[CoversFunction('videotrack_get_tracking_playback_speeds')]
+#[CoversFunction('videotrack_parse_moodle_reaction_emoji_source')]
+#[CoversFunction('videotrack_reaction_icon_picker')]
+#[CoversFunction('videotrack_reaction_icon_picker_header')]
+#[CoversFunction('videotrack_reaction_icon_picker_tabs')]
+#[CoversFunction('videotrack_reaction_icon_picker_body')]
 #[CoversFunction('videotrack_get_compatible_forum_types')]
 #[CoversFunction('videotrack_build_replay_url')]
 #[CoversFunction('videotrack_build_forum_subject')]
@@ -178,6 +187,24 @@ final class locallib_test extends advanced_testcase {
     }
 
     /**
+     * Playback helper stages preserve defaults, filtering, caps and mandatory normal speed.
+     */
+    public function test_playback_speed_helper_stages_are_deterministic(): void {
+        $this->resetAfterTest();
+        set_config('maxplaybackrate', '175', 'mod_videotrack');
+
+        $this->assertSame([0.75, 1.0, 1.25, 1.5, 2.0], \videotrack_normalise_playback_speeds(''));
+        $this->assertSame([0.75, 1.0, 1.25, 1.5, 2.0], \videotrack_normalise_playback_speeds('0'));
+        $this->assertSame([1.0], \videotrack_normalise_playback_speeds('0,invalid,5'));
+        $this->assertSame([0.5, 1.0], \videotrack_normalise_playback_speeds('1,0.5,1'));
+
+        $videotrack = (object)['maxplaybackrate' => 125];
+        $this->assertSame(1.25, \videotrack_effective_playback_rate_cap($videotrack));
+        $this->assertSame([0.75, 1.0, 1.25], \videotrack_cap_playback_speeds([0.75, 1.0, 1.25, 1.5], 1.25));
+        $this->assertSame([0.5, 1.0], \videotrack_ensure_normal_playback_speed([0.5]));
+    }
+
+    /**
      * Tracking accepts the internal blocked-seek penalty speed without exposing it as a normal learner speed.
      */
     public function test_tracking_playback_speeds_include_blocked_seek_penalty_only_when_needed(): void {
@@ -200,6 +227,44 @@ final class locallib_test extends advanced_testcase {
         $videotrack->allowplaybackratechange = 0;
         $videotrack->blockedseekplaybackrate = 75;
         $this->assertSame([0.75, 1.0], \videotrack_get_tracking_playback_speeds($videotrack));
+    }
+
+    /**
+     * TinyMCE emoji parsing deduplicates characters and rejects HTML image entries.
+     */
+    public function test_parse_moodle_reaction_emoji_source_filters_and_groups_values(): void {
+        $source = 'char:"👍",category:"people";char:"👍",category:"people";'
+            . 'char:"💡",category:"objects";char:"<img src=x>",category:"objects";';
+
+        $this->assertSame(
+            ['people' => ['👍'], 'objects' => ['💡']],
+            \videotrack_parse_moodle_reaction_emoji_source($source)
+        );
+        $this->assertSame(
+            \videotrack_get_fallback_reaction_emoji_catalog(),
+            \videotrack_parse_moodle_reaction_emoji_source('not an emoji database')
+        );
+    }
+
+    /**
+     * Reaction picker fragments preserve the accessible dialog contract.
+     */
+    public function test_reaction_icon_picker_fragments_build_accessible_markup(): void {
+        $pickerid = 'videotrack-icon-picker-test';
+        $header = \videotrack_reaction_icon_picker_header($pickerid);
+        $tabs = \videotrack_reaction_icon_picker_tabs();
+        $body = \videotrack_reaction_icon_picker_body([
+            'emoji' => ['feedback' => ['👍']],
+            'fa' => ['feedback' => ['fa-solid fa-check']],
+        ]);
+
+        $this->assertStringContainsString('id="' . $pickerid . '-title"', $header);
+        $this->assertStringContainsString('id="' . $pickerid . '-search"', $header);
+        $this->assertStringContainsString('role="tablist"', $tabs);
+        $this->assertStringContainsString('data-icon-type="emoji"', $tabs);
+        $this->assertStringContainsString('data-icon-value="👍"', $body);
+        $this->assertStringContainsString('data-icon-value="fa-solid fa-check"', $body);
+        $this->assertStringContainsString('videotrack-icon-picker-empty', $body);
     }
 
     /**

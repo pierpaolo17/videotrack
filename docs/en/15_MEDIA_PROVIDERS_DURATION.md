@@ -47,6 +47,18 @@ pre-seek position and must not re-seek during playback retry.
 HTML5 provides the strongest local control. YouTube and Vimeo remain subject to their SDKs, iframe policies and
 public service availability. Provider loader promises reset after failure so a later attempt can recover.
 
+## Playback-rate configuration pipeline
+
+`videotrack_get_playback_speeds()` is the public policy entry point. It delegates four explicit stages: parse and
+normalise the configured list, calculate the strictest positive site/activity cap, apply that cap and finally
+guarantee normal `1.0` playback. Values must be finite, greater than zero and no greater than `4.0`; duplicates are
+removed and the result is sorted. An empty or legacy literal `0` setting uses `0.75,1,1.25,1.5,2`, while a list
+containing no valid value falls back to `1.0`. Disabling rate changes bypasses the pipeline and exposes only `1.0`.
+
+Telemetry uses `videotrack_get_tracking_playback_speeds()`, which starts from that learner-visible list and may add
+only the configured blocked-seek recovery rate. This keeps internal recovery valid without presenting it as an
+ordinary learner choice.
+
 ## Verification
 
 - test URL/id parsing and invalid/private inputs;
