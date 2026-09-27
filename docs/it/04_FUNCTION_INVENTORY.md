@@ -1,6 +1,6 @@
 # Inventario delle funzioni
 
-Generato dall’albero sorgente VideoTrack 1.7.159. Le voci PHP includono funzioni e metodi nominati; le voci AMD includono dichiarazioni nominate, espressioni funzione assegnate e funzioni-metodo di oggetti.
+Generato dall’albero sorgente VideoTrack 1.7.160. Le voci PHP includono funzioni e metodi nominati; le voci AMD includono dichiarazioni nominate, espressioni funzione assegnate e funzioni-metodo di oggetti.
 
 **Funzioni/metodi PHP:** 785. **Callable AMD nominati:** 654.
 
@@ -783,9 +783,15 @@ Generato dall’albero sorgente VideoTrack 1.7.159. Le voci PHP includono funzio
 | `classes/external/save_integrity_event.php:47` | `execute_parameters` | Callable PHP `execute_parameters`; DocBlock e chiamanti definiscono parametri, valori restituiti ed effetti. |
 | `classes/external/save_integrity_event.php:65` | `execute` | Callable PHP `execute`; DocBlock e chiamanti definiscono parametri, valori restituiti ed effetti. |
 | `classes/external/save_integrity_event.php:140` | `execute_returns` | Callable PHP `execute_returns`; DocBlock e chiamanti definiscono parametri, valori restituiti ed effetti. |
-| `classes/external/save_note.php:48` | `execute_parameters` | Callable PHP `execute_parameters`; DocBlock e chiamanti definiscono parametri, valori restituiti ed effetti. |
-| `classes/external/save_note.php:68` | `execute` | Callable PHP `execute`; DocBlock e chiamanti definiscono parametri, valori restituiti ed effetti. |
-| `classes/external/save_note.php:216` | `execute_returns` | Callable PHP `execute_returns`; DocBlock e chiamanti definiscono parametri, valori restituiti ed effetti. |
+| `classes/external/save_note.php:47` | `execute_parameters` | Dichiara i parametri external stabili delle note personali temporizzate. |
+| `classes/external/save_note.php:67` | `execute` | Orchestra validazione, accesso, guard nota, persistenza e warning nell'ordine di sicurezza. |
+| `classes/external/save_note.php:119` | `normalise_note_text` | Converte l'input AJAX in testo semplice limitato e segnala il troncamento. |
+| `classes/external/save_note.php:138` | `normalise_video_time` | Limita il punto richiesto tra zero e la durata nota del media. |
+| `classes/external/save_note.php:151` | `require_watched_position` | Richiede evidenza di visione validata dal server per il punto della nota. |
+| `classes/external/save_note.php:173` | `require_note_rate_limit` | Applica cinque note ogni dieci secondi a tutte le sessioni di learner/attività. |
+| `classes/external/save_note.php:202` | `insert_note_record` | Salva la riga nota canonica senza modificarne lo schema consolidato. |
+| `classes/external/save_note.php:246` | `collect_warnings` | Emette `note_saved` e restituisce warning non bloccanti per evento e troncamento. |
+| `classes/external/save_note.php:290` | `execute_returns` | Dichiara la risposta stabile con id evento nota e warning. |
 | `classes/external/save_reaction.php:45` | `execute_parameters` | Callable PHP `execute_parameters`; DocBlock e chiamanti definiscono parametri, valori restituiti ed effetti. |
 | `classes/external/save_reaction.php:65` | `execute` | Callable PHP `execute`; DocBlock e chiamanti definiscono parametri, valori restituiti ed effetti. |
 | `classes/external/save_reaction.php:285` | `export_reaction_for_client` | Callable PHP `export_reaction_for_client`; DocBlock e chiamanti definiscono parametri, valori restituiti ed effetti. |
@@ -1409,7 +1415,11 @@ Generato dall’albero sorgente VideoTrack 1.7.159. Le voci PHP includono funzio
 | `tests/save_bookmark_test.php:39` | `test_execute_parameters_uses_supported_moodle_parameter_types` | Callable PHP `test_execute_parameters_uses_supported_moodle_parameter_types`; DocBlock e chiamanti definiscono parametri, valori restituiti ed effetti. |
 | `tests/save_bookmark_test.php:47` | `test_bookmark_validation_prefers_existing_watched_progress` | Callable PHP `test_bookmark_validation_prefers_existing_watched_progress`; DocBlock e chiamanti definiscono parametri, valori restituiti ed effetti. |
 | `tests/save_integrity_event_test.php:37` | `test_execute_parameters_uses_supported_moodle_parameter_types` | Callable PHP `test_execute_parameters_uses_supported_moodle_parameter_types`; DocBlock e chiamanti definiscono parametri, valori restituiti ed effetti. |
-| `tests/save_note_test.php:37` | `test_execute_parameters_uses_supported_moodle_parameter_types` | Callable PHP `test_execute_parameters_uses_supported_moodle_parameter_types`; DocBlock e chiamanti definiscono parametri, valori restituiti ed effetti. |
+| `tests/save_note_test.php:39` | `source` | Carica il sorgente corrente del servizio note per i contratti sull'ordine di sicurezza. |
+| `tests/save_note_test.php:48` | `test_execute_parameters_uses_supported_moodle_parameter_types` | Verifica la dichiarazione dei parametri external Moodle. |
+| `tests/save_note_test.php:57` | `test_video_time_normalisation_clamps_to_media_bounds` | Copre timestamp negativo, valido, oltre durata e con durata ignota. |
+| `tests/save_note_test.php:72` | `test_execute_keeps_validation_and_security_guards_before_insert` | Protegge l'intero ordine di orchestrazione dalla validazione alla persistenza. |
+| `tests/save_note_test.php:103` | `test_note_rate_limit_cannot_be_bypassed_with_multiple_sessions` | Protegge il limite note globale per learner e attività. |
 | `tests/save_reaction_test.php:43` | `source` | Funzione/metodo PHP nominato `source`; vedere DocBlock e chiamanti per il contratto corrente. |
 | `tests/save_reaction_test.php:52` | `test_same_displayed_second_is_global_across_reaction_types` | Funzione/metodo PHP nominato `test_same_displayed_second_is_global_across_reaction_types`; vedere DocBlock e chiamanti per il contratto corrente. |
 | `tests/save_reaction_test.php:67` | `test_same_reaction_keeps_three_second_temporal_window` | Funzione/metodo PHP nominato `test_same_reaction_keeps_three_second_temporal_window`; vedere DocBlock e chiamanti per il contratto corrente. |

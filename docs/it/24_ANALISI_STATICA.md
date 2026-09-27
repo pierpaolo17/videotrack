@@ -107,6 +107,9 @@ soltanto a ottenere un output verde.
   selettore reazioni sono isolati, mentre il salvataggio retention separa conferma e audit successivo al salvataggio.
 - La presentazione degli indicatori di integrità usa entry point distinti per stato attivo, disattivato e controlli
   focus senza registrazione; l'API di presentazione non contiene più flag booleani di comportamento.
+- La scrittura delle note personali espone un solo entry point external supportato da fasi nominate per testo,
+  timestamp, evidenza vista, rate limit tra sessioni, persistenza e warning. I contratti su ordine dei guard e scope
+  del limite impediscono al refactoring di complessità di indebolire il confine di scrittura.
 - PHPMD resta consultivo. I rilievi residui riguardano complessità, dimensione, classi pubbliche ampie, parametri
   obbligatori dei callback Moodle e flag booleani che richiedono refactoring comportamentali separati. I conteggi
   correnti esatti vanno letti nell'artifact CI prodotto per la candidata in esame.

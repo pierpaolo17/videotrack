@@ -44,6 +44,12 @@ Reaction, note, bookmark and Forum timestamps must fall within trusted watched e
 permitted server rule. Clients flush pending progress before an interaction and use the saved server endpoint,
 but server validation remains mandatory.
 
+`save_note::execute()` keeps request orchestration separate from its internal stages without moving a guard past the
+write boundary. Sesskey, context, participation and feature checks precede plain-text normalisation, duration
+clamping, watched-position evidence and the user/activity burst limit. That rate predicate intentionally omits the
+playback session id, so parallel tabs cannot multiply the allowance. Only then is the canonical note row inserted;
+event-delivery and truncation warnings do not roll back an otherwise valid personal note.
+
 ## Permissions and ownership
 
 - participation is independent from report access;

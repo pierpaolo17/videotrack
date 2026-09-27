@@ -1,5 +1,21 @@
 # VideoTrack changelog
 
+## 1.7.160 - 2026-09-26
+
+### Personal-note write pipeline decomposition
+
+- Preserved the public `mod_videotrack_save_note` service contract while splitting its implementation into named
+  stages for note-text normalisation, timestamp clamping, watched-position evidence, the global burst limit,
+  persistence and non-fatal event/truncation warnings. Validation, sesskey, learner scope, feature gating and every
+  domain guard still run before the database insert.
+- Added behavioural coverage for timestamp clamping and source contracts that protect the complete guard order and
+  ensure the five-notes-per-ten-seconds limit cannot be bypassed by opening multiple playback sessions.
+- Updated the current English and Italian runtime, security, static-analysis, file and callable documentation. The
+  refactoring targets the three PHPMD findings previously assigned to `save_note::execute()`; the candidate CI
+  report remains authoritative for the resulting count.
+- Database schema, stored record shape, Web Service parameters and response, capabilities, privacy behaviour,
+  completion, player adapters, AMD assets and language packs are unchanged.
+
 ## 1.7.159 - 2026-09-26
 
 ### Renderer-independent integrity notification contract

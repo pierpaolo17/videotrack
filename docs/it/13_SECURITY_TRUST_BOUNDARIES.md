@@ -45,6 +45,13 @@ Timestamp di reazioni, note, bookmark e Forum devono ricadere in evidenze viste 
 esplicitamente autorizzata. I client scaricano il progresso pendente prima dell'interazione e usano l'estremo salvato,
 ma la validazione server resta obbligatoria.
 
+`save_note::execute()` mantiene separata l'orchestrazione della richiesta dalle fasi interne senza spostare alcun
+guard oltre il confine di scrittura. Sesskey, contesto, partecipazione e abilitazione precedono normalizzazione in
+testo semplice, limite alla durata, evidenza del punto visto e limite per learner/attività. Il predicato del rate
+limit omette intenzionalmente l'id della sessione di riproduzione, quindi schede parallele non moltiplicano la quota.
+Solo dopo viene inserita la riga nota canonica; consegna evento e warning di troncamento non annullano una nota
+personale altrimenti valida.
+
 ## Permessi e proprietà
 
 - partecipazione e accesso ai report sono indipendenti;

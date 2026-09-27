@@ -71,7 +71,7 @@ class save_note extends external_api {
         string $notetext,
         float $playbackrate = 1.0
     ): array {
-        global $DB, $USER;
+        global $USER;
 
         $params = self::validate_parameters(self::execute_parameters(), compact(
             'cmid',
@@ -96,62 +96,125 @@ class save_note extends external_api {
             throw new \moodle_exception('studentnotesdisabled', 'mod_videotrack');
         }
 
-        // Sanitize and truncate to the configured limit to prevent abuse.
-        // Notes are plain text in the UI and restore path; normalise AJAX input
-        // before storing it so raw HTML is never persisted in notetext.
+        [$text, $truncated] = self::normalise_note_text($params['notetext']);
+        $videotime = self::normalise_video_time($videotrack, (float)$params['videotime']);
+        self::require_watched_position($videotrack, (int)$USER->id, $params['sessionid'], $videotime);
+        self::require_note_rate_limit($videotrack, (int)$USER->id);
+
+        $record = self::insert_note_record($videotrack, $cm, (int)$USER->id, $params, $text, $videotime);
+        $warnings = self::collect_warnings($record, $context, (int)$USER->id, $truncated);
+
+        return [
+            'noteeventid' => (int)$record->id,
+            'warnings'    => $warnings,
+        ];
+    }
+
+    /**
+     * Normalises plain-text note content and applies the configured storage bound.
+     *
+     * @param string $notetext Raw note text.
+     * @return array{0: string, 1: bool} Normalised text followed by its truncation flag.
+     */
+    private static function normalise_note_text(string $notetext): array {
         $notemaxlength = \videotrack_get_config_int('notemaxlength', 2000, 100, 10000);
-        $rawtext = clean_param(trim($params['notetext']), PARAM_TEXT);
+        $rawtext = clean_param(trim($notetext), PARAM_TEXT);
         $truncated = $notemaxlength > 0 && \core_text::strlen($rawtext) > $notemaxlength;
         $text = \core_text::substr($rawtext, 0, $notemaxlength);
         if ($text === '') {
             throw new \moodle_exception('invaliddata', 'error');
         }
 
-        // Sanitize videotime: clamp to [0, durationseconds].
-        // Prevent notes at negative timestamps or beyond the end of the video.
-        $rawtime  = (float)$params['videotime'];
-        $duration = (float)($videotrack->durationseconds ?? 0);
-        $videotime = max(0.0, $duration > 0 ? min($rawtime, $duration) : $rawtime);
+        return [$text, $truncated];
+    }
 
-        // Notes are private study aids and may be saved while the player is paused.
-        // The player flushes current progress first, so the requested time must be
-        // covered by server-validated watched evidence from the applicable session
-        // policy.
+    /**
+     * Clamps the requested timestamp to the known media duration.
+     *
+     * @param \stdClass $videotrack Activity record.
+     * @param float $rawtime Requested timestamp.
+     * @return float Normalised timestamp.
+     */
+    private static function normalise_video_time(object $videotrack, float $rawtime): float {
+        $duration = (float)($videotrack->durationseconds ?? 0);
+        return max(0.0, $duration > 0 ? min($rawtime, $duration) : $rawtime);
+    }
+
+    /**
+     * Requires server-validated watched evidence for the note timestamp.
+     *
+     * @param \stdClass $videotrack Activity record.
+     * @param int $userid Current user id.
+     * @param string $sessionid Browser playback session id.
+     * @param float $videotime Normalised timestamp.
+     */
+    private static function require_watched_position(
+        object $videotrack,
+        int $userid,
+        string $sessionid,
+        float $videotime
+    ): void {
         $fallbackdays = \videotrack_get_config_int('validationfallbackdays', 30, 0, 3650);
         $maxage = $fallbackdays > 0 ? $fallbackdays * DAYSECS : 0;
-        if (
-            !tracker::interaction_timestamp_allowed(
-                $videotrack,
-                (int)$USER->id,
-                $params['sessionid'],
-                $videotime,
-                2.0,
-                $maxage
-            )
-        ) {
+        if (!tracker::interaction_timestamp_allowed($videotrack, $userid, $sessionid, $videotime, 2.0, $maxage)) {
             throw new \moodle_exception('error:playbackpositionnotwatched', 'mod_videotrack');
         }
+    }
 
-        // Global note rate limit: max 5 notes every 10 seconds per user/activity.
+    /**
+     * Enforces the global note burst limit for one user and activity.
+     *
+     * The predicate deliberately does not include sessionid, so opening multiple
+     * browser sessions cannot bypass the maximum of five notes in ten seconds.
+     *
+     * @param \stdClass $videotrack Activity record.
+     * @param int $userid Current user id.
+     */
+    private static function require_note_rate_limit(object $videotrack, int $userid): void {
+        global $DB;
+
         $recentnotes = $DB->count_records_select(
             'videotrack_reactev',
             "videotrackid = :vtid AND userid = :userid AND notetype = 'note' AND isdeleted = 0 AND timecreated >= :since",
             [
                 'vtid' => $videotrack->id,
-                'userid' => (int)$USER->id,
+                'userid' => $userid,
                 'since' => time() - 10,
             ]
         );
         if ($recentnotes >= 5) {
             throw new \moodle_exception('error:notesratelimit', 'mod_videotrack');
         }
+    }
+
+    /**
+     * Persists one normalised personal note.
+     *
+     * @param \stdClass $videotrack Activity record.
+     * @param \cm_info $cm Course-module information.
+     * @param int $userid Current user id.
+     * @param array{cmid: int, sessionid: string, videotime: float, notetext: string, playbackrate: float} $params
+     *     Validated external parameters.
+     * @param string $text Normalised note text.
+     * @param float $videotime Normalised timestamp.
+     * @return \stdClass Inserted note record.
+     */
+    private static function insert_note_record(
+        object $videotrack,
+        object $cm,
+        int $userid,
+        array $params,
+        string $text,
+        float $videotime
+    ): object {
+        global $DB;
 
         $now = time();
         $record = (object)[
             'videotrackid' => $videotrack->id,
             'courseid'     => $videotrack->course,
             'cmid'         => $cm->id,
-            'userid'       => (int)$USER->id,
+            'userid'       => $userid,
             'videoid'      => $videotrack->videoid,
             'sessionid'    => $params['sessionid'],
             'reactionid'   => 0,
@@ -168,15 +231,30 @@ class save_note extends external_api {
         ];
         $record->id = $DB->insert_record('videotrack_reactev', $record);
 
-        // M3 fix: use the dedicated note_saved event instead of reusing reaction_saved.
-        // Distinct events allow Moodle logs and reports to differentiate between
-        // reaction button clicks and personal student notes.
+        return $record;
+    }
+
+    /**
+     * Triggers the dedicated Moodle event and builds non-fatal client warnings.
+     *
+     * @param \stdClass $record Inserted note record.
+     * @param \context_module $context Activity context.
+     * @param int $userid Current user id.
+     * @param bool $truncated Whether the submitted note exceeded the configured bound.
+     * @return array External-function warnings.
+     */
+    private static function collect_warnings(
+        object $record,
+        object $context,
+        int $userid,
+        bool $truncated
+    ): array {
         $warnings = [];
         try {
             $event = note_saved::create([
                 'objectid' => $record->id,
                 'context'  => $context,
-                'userid'   => (int)$USER->id,
+                'userid'   => $userid,
                 'other'    => [
                     'videotime' => $record->videotime,
                 ],
@@ -201,10 +279,7 @@ class save_note extends external_api {
             ];
         }
 
-        return [
-            'noteeventid' => (int)$record->id,
-            'warnings'    => $warnings,
-        ];
+        return $warnings;
     }
 
     /**

@@ -1,6 +1,6 @@
 # Distributed file inventory
 
-This inventory is generated against the VideoTrack 1.7.159 repository tree. It lists every distributed
+This inventory is generated against the VideoTrack 1.7.160 repository tree. It lists every distributed
 non-documentation file plus repository-only CI/tooling files. Canonical JavaScript is under `amd/src`; files under
 `amd/build` are generated.
 
@@ -189,7 +189,7 @@ Entries: **302** — 300 distributed files and two repository-only files exclude
 | `classes/external/helper.php` | Shared helpers for VideoTrack external AJAX endpoints. |
 | `classes/external/save_bookmark.php` | Saves a private named video bookmark for the current user. |
 | `classes/external/save_integrity_event.php` | Stores a bounded diagnostic integrity signal for the current student. |
-| `classes/external/save_note.php` | External function: save a personal timestamped note for the current student. |
+| `classes/external/save_note.php` | Saves a personal timestamped note through explicit normalisation, watched-evidence, global rate-limit, persistence and warning stages. |
 | `classes/external/save_reaction.php` | External function that stores a standard reaction for the current user. |
 | `classes/external/save_segment.php` | External function that persists a watched video segment. |
 | `classes/external/start_playback.php` | AJAX service that opens a zero-credit, idempotent server playback window. |
@@ -297,7 +297,7 @@ Entries: **302** — 300 distributed files and two repository-only files exclude
 | `tests/report_view_test.php` | Behavioural PHPUnit coverage for the extracted teacher Analytics presentation helper. |
 | `tests/save_bookmark_test.php` | PHPUnit coverage for save bookmark test. |
 | `tests/save_integrity_event_test.php` | PHPUnit coverage for save integrity event test. |
-| `tests/save_note_test.php` | PHPUnit coverage for save note test. |
+| `tests/save_note_test.php` | PHPUnit coverage for note parameters, timestamp bounds, guard order and the cross-session rate-limit contract. |
 | `tests/save_reaction_test.php` | Current PHPUnit/contract test distributed with the plugin. |
 | `tests/student_view_contract_test.php` | Static learner-view contract for native personal disclosure sections. |
 | `tests/teacher_analytics_test.php` | PHPUnit coverage for teacher analytics test. |
