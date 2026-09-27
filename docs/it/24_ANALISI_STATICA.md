@@ -85,6 +85,12 @@ framework inevitabile, spiegare perché il codice non può cambiare in sicurezza
 il comportamento è rilevante. Baseline generate, ignore globali e riduzioni del perimetro non devono mai servire
 soltanto a ottenere un output verde.
 
+Quando un helper privato accetta intenzionalmente il tipo nativo `object` per non legare il contratto runtime a una
+classe implementativa Moodle, anche il tipo canonico `@param` deve essere `object`, così Moodle PHPDoc Checker vede
+la firma completa. Se gli analizzatori richiedono il tipo concreto `stdClass`, `cm_info` o del contesto per inferire
+proprietà e metodi, aggiungere accanto `@phpstan-param` e `@psalm-param`. Il tipo più stretto riservato agli
+analizzatori non deve essere inserito nel tag canonico `@param`.
+
 ## Stato corrente
 
 - PHPStan e Psalm completano l'analisi su entrambi i rami limite supportati. I riepiloghi bloccanti/errori sono

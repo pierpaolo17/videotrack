@@ -1,5 +1,21 @@
 # VideoTrack changelog
 
+## 1.7.161 - 2026-09-27
+
+### Static-contract correction after the 1.7.160 matrix
+
+- Accepted the functional and complexity evidence from the first 1.7.160 matrix: all six jobs completed, strict
+  validation passed on Moodle 5.0–5.3 with MariaDB/PostgreSQL, PHPUnit passed 291 tests with 2653 assertions,
+  Behat passed 24 scenarios and 357 steps, PHPStan and Psalm reported no errors, and PHPMD fell from 125 to 122
+  reviewed findings. `save_note.php` has no remaining PHPMD finding.
+- Corrected the five new helper DocBlocks whose framework-specific parameter types were narrower than their native
+  `object` signatures. Canonical `@param` tags now match the runtime contract, while `@phpstan-param` and
+  `@psalm-param` retain the precise `stdClass`, `cm_info` and `context_module` types used by the analysers. This
+  targets the five PHPDoc errors and the matching five-item Psalm advisory increase revealed by the full artifacts.
+- Documented the dual-layer annotation convention and updated the current English and Italian release, callable and
+  static-analysis documentation. Runtime logic, public services, database schema, stored data, security checks,
+  capabilities, completion, player adapters, AMD assets and language packs are unchanged.
+
 ## 1.7.160 - 2026-09-26
 
 ### Personal-note write pipeline decomposition

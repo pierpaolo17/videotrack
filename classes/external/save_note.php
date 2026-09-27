@@ -131,7 +131,9 @@ class save_note extends external_api {
     /**
      * Clamps the requested timestamp to the known media duration.
      *
-     * @param \stdClass $videotrack Activity record.
+     * @param object $videotrack Activity record.
+     * @phpstan-param \stdClass $videotrack Activity record shape supplied by Moodle DML.
+     * @psalm-param \stdClass $videotrack Activity record shape supplied by Moodle DML.
      * @param float $rawtime Requested timestamp.
      * @return float Normalised timestamp.
      */
@@ -143,7 +145,9 @@ class save_note extends external_api {
     /**
      * Requires server-validated watched evidence for the note timestamp.
      *
-     * @param \stdClass $videotrack Activity record.
+     * @param object $videotrack Activity record.
+     * @phpstan-param \stdClass $videotrack Activity record shape supplied by Moodle DML.
+     * @psalm-param \stdClass $videotrack Activity record shape supplied by Moodle DML.
      * @param int $userid Current user id.
      * @param string $sessionid Browser playback session id.
      * @param float $videotime Normalised timestamp.
@@ -167,7 +171,9 @@ class save_note extends external_api {
      * The predicate deliberately does not include sessionid, so opening multiple
      * browser sessions cannot bypass the maximum of five notes in ten seconds.
      *
-     * @param \stdClass $videotrack Activity record.
+     * @param object $videotrack Activity record.
+     * @phpstan-param \stdClass $videotrack Activity record shape supplied by Moodle DML.
+     * @psalm-param \stdClass $videotrack Activity record shape supplied by Moodle DML.
      * @param int $userid Current user id.
      */
     private static function require_note_rate_limit(object $videotrack, int $userid): void {
@@ -190,8 +196,12 @@ class save_note extends external_api {
     /**
      * Persists one normalised personal note.
      *
-     * @param \stdClass $videotrack Activity record.
-     * @param \cm_info $cm Course-module information.
+     * @param object $videotrack Activity record.
+     * @param object $cm Course-module information.
+     * @phpstan-param \stdClass $videotrack Activity record shape supplied by Moodle DML.
+     * @phpstan-param \cm_info $cm Moodle course-module information object.
+     * @psalm-param \stdClass $videotrack Activity record shape supplied by Moodle DML.
+     * @psalm-param \cm_info $cm Moodle course-module information object.
      * @param int $userid Current user id.
      * @param array{cmid: int, sessionid: string, videotime: float, notetext: string, playbackrate: float} $params
      *     Validated external parameters.
@@ -237,8 +247,12 @@ class save_note extends external_api {
     /**
      * Triggers the dedicated Moodle event and builds non-fatal client warnings.
      *
-     * @param \stdClass $record Inserted note record.
-     * @param \context_module $context Activity context.
+     * @param object $record Inserted note record.
+     * @param object $context Activity context.
+     * @phpstan-param \stdClass $record Inserted note record shape.
+     * @phpstan-param \context_module $context Moodle activity context.
+     * @psalm-param \stdClass $record Inserted note record shape.
+     * @psalm-param \context_module $context Moodle activity context.
      * @param int $userid Current user id.
      * @param bool $truncated Whether the submitted note exceeded the configured bound.
      * @return array External-function warnings.

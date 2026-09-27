@@ -82,6 +82,12 @@ framework contract, explain why code cannot safely change and have a regression 
 Generated baselines, global ignore patterns and reduced analysis scopes must never be used merely to obtain green
 output.
 
+When a private helper deliberately accepts native `object` to avoid coupling its runtime contract to a Moodle
+implementation class, its canonical `@param` type must also be `object` so Moodle PHPDoc Checker sees the complete
+signature. Add `@phpstan-param` and `@psalm-param` beside it when the analysers need the concrete `stdClass`,
+`cm_info` or context type for property and method inference. Do not put the narrower analyser-only type in the
+canonical `@param` tag.
+
 ## Current status
 
 - PHPStan and Psalm complete on both supported boundary branches. Their blocking/error summaries are clean; full
