@@ -101,7 +101,7 @@ class save_note extends external_api {
         self::require_watched_position($videotrack, (int)$USER->id, $params['sessionid'], $videotime);
         self::require_note_rate_limit($videotrack, (int)$USER->id);
 
-        $record = self::insert_note_record($videotrack, $cm, (int)$USER->id, $params, $text, $videotime);
+        $record = self::insert_note_record($videotrack, (int)$cm->id, (int)$USER->id, $params, $text, $videotime);
         $warnings = self::collect_warnings($record, $context, (int)$USER->id, $truncated);
 
         return [
@@ -131,12 +131,11 @@ class save_note extends external_api {
     /**
      * Clamps the requested timestamp to the known media duration.
      *
-     * @param object $videotrack Activity record.
+     * @param \stdClass $videotrack Activity record.
      * @param float $rawtime Requested timestamp.
      * @return float Normalised timestamp.
      */
-    private static function normalise_video_time(object $videotrack, float $rawtime): float {
-        /** @var \stdClass $videotrack Activity record shape supplied by Moodle DML. */
+    private static function normalise_video_time(\stdClass $videotrack, float $rawtime): float {
         $duration = (float)($videotrack->durationseconds ?? 0);
         return max(0.0, $duration > 0 ? min($rawtime, $duration) : $rawtime);
     }
@@ -144,18 +143,17 @@ class save_note extends external_api {
     /**
      * Requires server-validated watched evidence for the note timestamp.
      *
-     * @param object $videotrack Activity record.
+     * @param \stdClass $videotrack Activity record.
      * @param int $userid Current user id.
      * @param string $sessionid Browser playback session id.
      * @param float $videotime Normalised timestamp.
      */
     private static function require_watched_position(
-        object $videotrack,
+        \stdClass $videotrack,
         int $userid,
         string $sessionid,
         float $videotime
     ): void {
-        /** @var \stdClass $videotrack Activity record shape supplied by Moodle DML. */
         $fallbackdays = \videotrack_get_config_int('validationfallbackdays', 30, 0, 3650);
         $maxage = $fallbackdays > 0 ? $fallbackdays * DAYSECS : 0;
         if (!tracker::interaction_timestamp_allowed($videotrack, $userid, $sessionid, $videotime, 2.0, $maxage)) {
@@ -169,13 +167,12 @@ class save_note extends external_api {
      * The predicate deliberately does not include sessionid, so opening multiple
      * browser sessions cannot bypass the maximum of five notes in ten seconds.
      *
-     * @param object $videotrack Activity record.
+     * @param \stdClass $videotrack Activity record.
      * @param int $userid Current user id.
      */
-    private static function require_note_rate_limit(object $videotrack, int $userid): void {
+    private static function require_note_rate_limit(\stdClass $videotrack, int $userid): void {
         global $DB;
 
-        /** @var \stdClass $videotrack Activity record shape supplied by Moodle DML. */
         $recentnotes = $DB->count_records_select(
             'videotrack_reactev',
             "videotrackid = :vtid AND userid = :userid AND notetype = 'note' AND isdeleted = 0 AND timecreated >= :since",
@@ -193,8 +190,8 @@ class save_note extends external_api {
     /**
      * Persists one normalised personal note.
      *
-     * @param object $videotrack Activity record.
-     * @param object $cm Course-module information.
+     * @param \stdClass $videotrack Activity record.
+     * @param int $cmid Course-module id.
      * @param int $userid Current user id.
      * @param array $params Validated external parameters.
      * @param string $text Normalised note text.
@@ -202,26 +199,23 @@ class save_note extends external_api {
      * @return \stdClass Inserted note record.
      */
     private static function insert_note_record(
-        object $videotrack,
-        object $cm,
+        \stdClass $videotrack,
+        int $cmid,
         int $userid,
         array $params,
         string $text,
         float $videotime
-    ): object {
+    ): \stdClass {
         global $DB;
 
-        /** @var \stdClass $videotrack Activity record shape supplied by Moodle DML. */
-        /** @var \cm_info $cm Moodle course-module information object. */
-        /** @var array{cmid: int, sessionid: string, videotime: float, notetext: string, playbackrate: float} $params */
         $now = time();
         $record = (object)[
             'videotrackid' => $videotrack->id,
             'courseid'     => $videotrack->course,
-            'cmid'         => $cm->id,
+            'cmid'         => $cmid,
             'userid'       => $userid,
             'videoid'      => $videotrack->videoid,
-            'sessionid'    => $params['sessionid'],
+            'sessionid'    => (string)$params['sessionid'],
             'reactionid'   => 0,
             'reactionkey'  => 'note',
             'reactionlabel' => get_string('studentnote_label', 'mod_videotrack'),
@@ -242,20 +236,18 @@ class save_note extends external_api {
     /**
      * Triggers the dedicated Moodle event and builds non-fatal client warnings.
      *
-     * @param object $record Inserted note record.
+     * @param \stdClass $record Inserted note record.
      * @param object $context Activity context.
      * @param int $userid Current user id.
      * @param bool $truncated Whether the submitted note exceeded the configured bound.
      * @return array External-function warnings.
      */
     private static function collect_warnings(
-        object $record,
+        \stdClass $record,
         object $context,
         int $userid,
         bool $truncated
     ): array {
-        /** @var \stdClass $record Inserted note record shape. */
-        /** @var \context_module $context Moodle activity context. */
         $warnings = [];
         try {
             $event = note_saved::create([

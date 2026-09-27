@@ -1,5 +1,21 @@
 # VideoTrack changelog
 
+## 1.7.163 - 2026-09-27
+
+### Unified private type contracts after the 1.7.162 matrix
+
+- Corrected the sole failed job in the 1.7.162 matrix. Moodle 5.0/PHP 8.2/MariaDB reported eight blocking PHPCS
+  errors for local inline `@var` blocks; the other five jobs passed, Moodle PHPDoc Checker was clean, all six
+  validators, PHPUnit suites, Behat suites and Grunt builds completed, PHPStan and Psalm reported no errors, and
+  PHPMD remained at 122 reviewed findings.
+- Replaced the conflicting dual-layer annotations with one canonical private contract. Moodle DML activity and
+  inserted-row values are now accepted and returned as native `stdClass`; the persistence helper receives the
+  course-module id it actually stores instead of the complete `cm_info` object; validated scalar values are cast at
+  their storage boundary. No suppression, generated baseline or analysis-scope reduction was added.
+- Updated the English and Italian type-contract guidance, callable line inventory and every current-tree release
+  marker. Public services, validation and security order, database schema and stored values, capabilities,
+  completion, player adapters, AMD assets and language packs are unchanged.
+
 ## 1.7.162 - 2026-09-27
 
 ### Moodle-native PHPDoc and analyser type refinement
