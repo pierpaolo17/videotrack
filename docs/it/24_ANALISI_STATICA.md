@@ -85,6 +85,16 @@ framework inevitabile, spiegare perché il codice non può cambiare in sicurezza
 il comportamento è rilevante. Baseline generate, ignore globali e riduzioni del perimetro non devono mai servire
 soltanto a ottenere un output verde.
 
+Le firme degli helper privati e i relativi DocBlock canonici devono esprimere lo stesso contratto. Usare il tipo
+nativo `stdClass` per i record DML Moodle quando la forma del record è una precondizione intenzionale, e passare un
+valore primitivo invece di un oggetto framework quando l'helper usa soltanto quel valore. Conservare un vero
+contratto generico `object` quando l'helper non ispeziona membri specifici dell'implementazione. Non aggiungere
+blocchi inline `@var` destinati soltanto ai parametri, né tag `@phpstan-param`/`@psalm-param`: Moodle Code Checker
+rifiuta queste forme. Per gli array validati, mantenere il contratto canonico `array` ed eseguire i cast nel punto in
+cui il valore scalare concreto viene salvato o passato a un'API tipizzata. Un `@var` inline è riservato a una vera
+assegnazione il cui nome di variabile coincide con la riga di codice immediatamente successiva, non alla nuova
+dichiarazione di un parametro di metodo.
+
 ## Stato corrente
 
 - PHPStan e Psalm completano l'analisi su entrambi i rami limite supportati. I riepiloghi bloccanti/errori sono
@@ -107,6 +117,10 @@ soltanto a ottenere un output verde.
   selettore reazioni sono isolati, mentre il salvataggio retention separa conferma e audit successivo al salvataggio.
 - La presentazione degli indicatori di integrità usa entry point distinti per stato attivo, disattivato e controlli
   focus senza registrazione; l'API di presentazione non contiene più flag booleani di comportamento.
+- La scrittura delle note personali espone un solo entry point external supportato da fasi nominate per testo,
+  timestamp, evidenza vista, rate limit tra sessioni, persistenza e warning. I contratti su ordine dei guard e scope
+  del limite impediscono al refactoring di complessità di indebolire il confine di scrittura. I contratti privati
+  dei record DML usano il tipo nativo `stdClass`, mentre la persistenza riceve l'id scalare del modulo che salva.
 - PHPMD resta consultivo. I rilievi residui riguardano complessità, dimensione, classi pubbliche ampie, parametri
   obbligatori dei callback Moodle e flag booleani che richiedono refactoring comportamentali separati. I conteggi
   correnti esatti vanno letti nell'artifact CI prodotto per la candidata in esame.

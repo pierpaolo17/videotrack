@@ -1,6 +1,6 @@
 # Function inventory
 
-Generated from the VideoTrack 1.7.159 source tree. PHP entries include named functions and methods; AMD entries include named declarations, assigned function expressions and object-method functions.
+Generated from the VideoTrack 1.7.163 source tree. PHP entries include named functions and methods; AMD entries include named declarations, assigned function expressions and object-method functions.
 
 **PHP functions/methods:** 785. **Named AMD callables:** 654.
 
@@ -783,9 +783,15 @@ Generated from the VideoTrack 1.7.159 source tree. PHP entries include named fun
 | `classes/external/save_integrity_event.php:47` | `execute_parameters` | PHP callable `execute_parameters`; see its DocBlock and callers for parameter, return-value and side-effect details. |
 | `classes/external/save_integrity_event.php:65` | `execute` | PHP callable `execute`; see its DocBlock and callers for parameter, return-value and side-effect details. |
 | `classes/external/save_integrity_event.php:140` | `execute_returns` | PHP callable `execute_returns`; see its DocBlock and callers for parameter, return-value and side-effect details. |
-| `classes/external/save_note.php:48` | `execute_parameters` | PHP callable `execute_parameters`; see its DocBlock and callers for parameter, return-value and side-effect details. |
-| `classes/external/save_note.php:68` | `execute` | PHP callable `execute`; see its DocBlock and callers for parameter, return-value and side-effect details. |
-| `classes/external/save_note.php:216` | `execute_returns` | PHP callable `execute_returns`; see its DocBlock and callers for parameter, return-value and side-effect details. |
+| `classes/external/save_note.php:47` | `execute_parameters` | Declares the stable external parameters for timestamped personal notes. |
+| `classes/external/save_note.php:67` | `execute` | Orchestrates validation, access, note guards, persistence and warnings in security-preserving order. |
+| `classes/external/save_note.php:119` | `normalise_note_text` | Converts AJAX input to bounded plain text and reports whether truncation occurred. |
+| `classes/external/save_note.php:138` | `normalise_video_time` | Clamps the requested point to zero and the known media duration. |
+| `classes/external/save_note.php:151` | `require_watched_position` | Requires server-validated watched evidence for the requested note point. |
+| `classes/external/save_note.php:173` | `require_note_rate_limit` | Enforces five notes per ten seconds across all sessions of one learner/activity. |
+| `classes/external/save_note.php:201` | `insert_note_record` | Persists the canonical note row without changing its established schema. |
+| `classes/external/save_note.php:245` | `collect_warnings` | Triggers `note_saved` and returns non-fatal event/truncation warnings. |
+| `classes/external/save_note.php:289` | `execute_returns` | Declares the stable note-event id and warnings response. |
 | `classes/external/save_reaction.php:45` | `execute_parameters` | PHP callable `execute_parameters`; see its DocBlock and callers for parameter, return-value and side-effect details. |
 | `classes/external/save_reaction.php:65` | `execute` | PHP callable `execute`; see its DocBlock and callers for parameter, return-value and side-effect details. |
 | `classes/external/save_reaction.php:285` | `export_reaction_for_client` | PHP callable `export_reaction_for_client`; see its DocBlock and callers for parameter, return-value and side-effect details. |
@@ -1409,7 +1415,11 @@ Generated from the VideoTrack 1.7.159 source tree. PHP entries include named fun
 | `tests/save_bookmark_test.php:39` | `test_execute_parameters_uses_supported_moodle_parameter_types` | PHP callable `test_execute_parameters_uses_supported_moodle_parameter_types`; see its DocBlock and callers for parameter, return-value and side-effect details. |
 | `tests/save_bookmark_test.php:47` | `test_bookmark_validation_prefers_existing_watched_progress` | PHP callable `test_bookmark_validation_prefers_existing_watched_progress`; see its DocBlock and callers for parameter, return-value and side-effect details. |
 | `tests/save_integrity_event_test.php:37` | `test_execute_parameters_uses_supported_moodle_parameter_types` | PHP callable `test_execute_parameters_uses_supported_moodle_parameter_types`; see its DocBlock and callers for parameter, return-value and side-effect details. |
-| `tests/save_note_test.php:37` | `test_execute_parameters_uses_supported_moodle_parameter_types` | PHP callable `test_execute_parameters_uses_supported_moodle_parameter_types`; see its DocBlock and callers for parameter, return-value and side-effect details. |
+| `tests/save_note_test.php:39` | `source` | Loads the current note-service source for security-order regression contracts. |
+| `tests/save_note_test.php:48` | `test_execute_parameters_uses_supported_moodle_parameter_types` | Verifies the Moodle external-parameter declaration. |
+| `tests/save_note_test.php:57` | `test_video_time_normalisation_clamps_to_media_bounds` | Covers negative, in-range, beyond-duration and unknown-duration timestamps. |
+| `tests/save_note_test.php:72` | `test_execute_keeps_validation_and_security_guards_before_insert` | Protects the complete validation-to-persistence orchestration order. |
+| `tests/save_note_test.php:103` | `test_note_rate_limit_cannot_be_bypassed_with_multiple_sessions` | Protects the user/activity-wide note burst predicate. |
 | `tests/save_reaction_test.php:43` | `source` | Named PHP function/method `source`; see source DocBlock and callers for the current contract. |
 | `tests/save_reaction_test.php:52` | `test_same_displayed_second_is_global_across_reaction_types` | Named PHP function/method `test_same_displayed_second_is_global_across_reaction_types`; see source DocBlock and callers for the current contract. |
 | `tests/save_reaction_test.php:67` | `test_same_reaction_keeps_three_second_temporal_window` | Named PHP function/method `test_same_reaction_keeps_three_second_temporal_window`; see source DocBlock and callers for the current contract. |

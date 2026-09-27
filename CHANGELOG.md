@@ -1,5 +1,68 @@
 # VideoTrack changelog
 
+## 1.7.163 - 2026-09-27
+
+### Unified private type contracts after the 1.7.162 matrix
+
+- Corrected the sole failed job in the 1.7.162 matrix. Moodle 5.0/PHP 8.2/MariaDB reported eight blocking PHPCS
+  errors for local inline `@var` blocks; the other five jobs passed, Moodle PHPDoc Checker was clean, all six
+  validators, PHPUnit suites, Behat suites and Grunt builds completed, PHPStan and Psalm reported no errors, and
+  PHPMD remained at 122 reviewed findings.
+- Replaced the conflicting dual-layer annotations with one canonical private contract. Moodle DML activity and
+  inserted-row values are now accepted and returned as native `stdClass`; the persistence helper receives the
+  course-module id it actually stores instead of the complete `cm_info` object; validated scalar values are cast at
+  their storage boundary. No suppression, generated baseline or analysis-scope reduction was added.
+- Updated the English and Italian type-contract guidance, callable line inventory and every current-tree release
+  marker. Public services, validation and security order, database schema and stored values, capabilities,
+  completion, player adapters, AMD assets and language packs are unchanged.
+
+## 1.7.162 - 2026-09-27
+
+### Moodle-native PHPDoc and analyser type refinement
+
+- Corrected the sole failed job in the first 1.7.161 matrix. Moodle Code Checker rejected 14 analyser-specific
+  `@phpstan-param` and `@psalm-param` tags, while Moodle PHPDoc Checker still rejected the shaped-array parameter of
+  `insert_note_record()`. The other five jobs passed; all six validators, PHPUnit suites, Behat suites and Grunt
+  builds completed, PHPStan and Psalm reported no errors, and PHPMD remained at 122 reviewed findings.
+- Kept canonical method DocBlocks limited to Moodle-supported tags whose types match the native signatures. Concrete
+  `stdClass`, `cm_info`, `context_module` and validated-array shapes now use local `@var` annotations, a convention
+  already accepted elsewhere in the plugin by Moodle PHPCS and understood by PHPStan and Psalm.
+- Corrected the English and Italian static-analysis guidance and updated every current-tree release and callable
+  marker. Runtime logic, service contracts, database schema, stored data, validation and security order,
+  capabilities, completion, player adapters, AMD assets and language packs are unchanged.
+
+## 1.7.161 - 2026-09-27
+
+### Static-contract correction after the 1.7.160 matrix
+
+- Accepted the functional and complexity evidence from the first 1.7.160 matrix: all six jobs completed, strict
+  validation passed on Moodle 5.0–5.3 with MariaDB/PostgreSQL, PHPUnit passed 291 tests with 2653 assertions,
+  Behat passed 24 scenarios and 357 steps, PHPStan and Psalm reported no errors, and PHPMD fell from 125 to 122
+  reviewed findings. `save_note.php` has no remaining PHPMD finding.
+- Corrected the five new helper DocBlocks whose framework-specific parameter types were narrower than their native
+  `object` signatures. Canonical `@param` tags now match the runtime contract, while `@phpstan-param` and
+  `@psalm-param` retain the precise `stdClass`, `cm_info` and `context_module` types used by the analysers. This
+  targets the five PHPDoc errors and the matching five-item Psalm advisory increase revealed by the full artifacts.
+- Documented the dual-layer annotation convention and updated the current English and Italian release, callable and
+  static-analysis documentation. Runtime logic, public services, database schema, stored data, security checks,
+  capabilities, completion, player adapters, AMD assets and language packs are unchanged.
+
+## 1.7.160 - 2026-09-26
+
+### Personal-note write pipeline decomposition
+
+- Preserved the public `mod_videotrack_save_note` service contract while splitting its implementation into named
+  stages for note-text normalisation, timestamp clamping, watched-position evidence, the global burst limit,
+  persistence and non-fatal event/truncation warnings. Validation, sesskey, learner scope, feature gating and every
+  domain guard still run before the database insert.
+- Added behavioural coverage for timestamp clamping and source contracts that protect the complete guard order and
+  ensure the five-notes-per-ten-seconds limit cannot be bypassed by opening multiple playback sessions.
+- Updated the current English and Italian runtime, security, static-analysis, file and callable documentation. The
+  refactoring targets the three PHPMD findings previously assigned to `save_note::execute()`; the candidate CI
+  report remains authoritative for the resulting count.
+- Database schema, stored record shape, Web Service parameters and response, capabilities, privacy behaviour,
+  completion, player adapters, AMD assets and language packs are unchanged.
+
 ## 1.7.159 - 2026-09-26
 
 ### Renderer-independent integrity notification contract

@@ -82,6 +82,15 @@ framework contract, explain why code cannot safely change and have a regression 
 Generated baselines, global ignore patterns and reduced analysis scopes must never be used merely to obtain green
 output.
 
+Private helper signatures and their canonical DocBlocks must express the same contract. Use native `stdClass` for
+Moodle DML records when the record shape is an intentional precondition, and pass a primitive value instead of a
+framework object when the helper needs only that value. Keep a genuine generic `object` contract where the helper
+does not inspect implementation-specific members. Do not add parameter-only inline `@var` blocks or analyser-only
+`@phpstan-param`/`@psalm-param` tags: Moodle Code Checker rejects those forms. For validated arrays, keep the
+canonical `array` contract and cast values at the point where a concrete scalar is persisted or passed to a typed
+API. An inline `@var` is reserved for a real assignment whose variable name matches the immediately following code
+line, not for redeclaring a method parameter.
+
 ## Current status
 
 - PHPStan and Psalm complete on both supported boundary branches. Their blocking/error summaries are clean; full
@@ -103,6 +112,10 @@ output.
   while retention-setting persistence separates confirmation from post-save transition auditing.
 - Integrity-report presentation uses distinct enabled, disabled and focus-controls-without-recording entry points;
   no boolean behaviour flag remains in the presentation API.
+- Personal-note writes expose one public external-service entry point backed by named text, timestamp,
+  watched-evidence, cross-session rate-limit, persistence and warning stages. Guard-order and rate-scope contracts
+  prevent the complexity refactoring from weakening the write boundary. Private DML record contracts use native
+  `stdClass`, while persistence receives the scalar course-module id it actually stores.
 - PHPMD remains advisory. Its remaining reports concern reviewed complexity, size, broad public classes, required
   Moodle callback parameters and boolean switches that need separate behavioural refactoring. Exact current counts
   must be read from the CI artifact produced for the candidate under review.
