@@ -1,5 +1,20 @@
 # VideoTrack changelog
 
+## 1.7.162 - 2026-09-27
+
+### Moodle-native PHPDoc and analyser type refinement
+
+- Corrected the sole failed job in the first 1.7.161 matrix. Moodle Code Checker rejected 14 analyser-specific
+  `@phpstan-param` and `@psalm-param` tags, while Moodle PHPDoc Checker still rejected the shaped-array parameter of
+  `insert_note_record()`. The other five jobs passed; all six validators, PHPUnit suites, Behat suites and Grunt
+  builds completed, PHPStan and Psalm reported no errors, and PHPMD remained at 122 reviewed findings.
+- Kept canonical method DocBlocks limited to Moodle-supported tags whose types match the native signatures. Concrete
+  `stdClass`, `cm_info`, `context_module` and validated-array shapes now use local `@var` annotations, a convention
+  already accepted elsewhere in the plugin by Moodle PHPCS and understood by PHPStan and Psalm.
+- Corrected the English and Italian static-analysis guidance and updated every current-tree release and callable
+  marker. Runtime logic, service contracts, database schema, stored data, validation and security order,
+  capabilities, completion, player adapters, AMD assets and language packs are unchanged.
+
 ## 1.7.161 - 2026-09-27
 
 ### Static-contract correction after the 1.7.160 matrix

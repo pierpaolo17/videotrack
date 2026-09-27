@@ -1,6 +1,6 @@
 # Function inventory
 
-Generated from the VideoTrack 1.7.161 source tree. PHP entries include named functions and methods; AMD entries include named declarations, assigned function expressions and object-method functions.
+Generated from the VideoTrack 1.7.162 source tree. PHP entries include named functions and methods; AMD entries include named declarations, assigned function expressions and object-method functions.
 
 **PHP functions/methods:** 785. **Named AMD callables:** 654.
 
@@ -786,12 +786,12 @@ Generated from the VideoTrack 1.7.161 source tree. PHP entries include named fun
 | `classes/external/save_note.php:47` | `execute_parameters` | Declares the stable external parameters for timestamped personal notes. |
 | `classes/external/save_note.php:67` | `execute` | Orchestrates validation, access, note guards, persistence and warnings in security-preserving order. |
 | `classes/external/save_note.php:119` | `normalise_note_text` | Converts AJAX input to bounded plain text and reports whether truncation occurred. |
-| `classes/external/save_note.php:140` | `normalise_video_time` | Clamps the requested point to zero and the known media duration. |
-| `classes/external/save_note.php:155` | `require_watched_position` | Requires server-validated watched evidence for the requested note point. |
-| `classes/external/save_note.php:179` | `require_note_rate_limit` | Enforces five notes per ten seconds across all sessions of one learner/activity. |
-| `classes/external/save_note.php:212` | `insert_note_record` | Persists the canonical note row without changing its established schema. |
-| `classes/external/save_note.php:260` | `collect_warnings` | Triggers `note_saved` and returns non-fatal event/truncation warnings. |
-| `classes/external/save_note.php:304` | `execute_returns` | Declares the stable note-event id and warnings response. |
+| `classes/external/save_note.php:138` | `normalise_video_time` | Clamps the requested point to zero and the known media duration. |
+| `classes/external/save_note.php:152` | `require_watched_position` | Requires server-validated watched evidence for the requested note point. |
+| `classes/external/save_note.php:175` | `require_note_rate_limit` | Enforces five notes per ten seconds across all sessions of one learner/activity. |
+| `classes/external/save_note.php:204` | `insert_note_record` | Persists the canonical note row without changing its established schema. |
+| `classes/external/save_note.php:251` | `collect_warnings` | Triggers `note_saved` and returns non-fatal event/truncation warnings. |
+| `classes/external/save_note.php:297` | `execute_returns` | Declares the stable note-event id and warnings response. |
 | `classes/external/save_reaction.php:45` | `execute_parameters` | PHP callable `execute_parameters`; see its DocBlock and callers for parameter, return-value and side-effect details. |
 | `classes/external/save_reaction.php:65` | `execute` | PHP callable `execute`; see its DocBlock and callers for parameter, return-value and side-effect details. |
 | `classes/external/save_reaction.php:285` | `export_reaction_for_client` | PHP callable `export_reaction_for_client`; see its DocBlock and callers for parameter, return-value and side-effect details. |

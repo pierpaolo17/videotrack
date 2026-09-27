@@ -84,9 +84,10 @@ output.
 
 When a private helper deliberately accepts native `object` to avoid coupling its runtime contract to a Moodle
 implementation class, its canonical `@param` type must also be `object` so Moodle PHPDoc Checker sees the complete
-signature. Add `@phpstan-param` and `@psalm-param` beside it when the analysers need the concrete `stdClass`,
-`cm_info` or context type for property and method inference. Do not put the narrower analyser-only type in the
-canonical `@param` tag.
+signature. If an analyser needs the concrete `stdClass`, `cm_info` or context type, place a local `@var` annotation
+inside the method immediately before the value is used. Apply the same split to shaped arrays: use canonical
+`@param array`, followed by a local precise array-shape annotation. Do not use `@phpstan-param` or `@psalm-param`;
+Moodle Code Checker rejects those tags.
 
 ## Current status
 
