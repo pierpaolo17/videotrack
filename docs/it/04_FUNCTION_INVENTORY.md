@@ -1,6 +1,6 @@
 # Inventario delle funzioni
 
-Generato dall’albero sorgente VideoTrack 1.7.163. Le voci PHP includono funzioni e metodi nominati; le voci AMD includono dichiarazioni nominate, espressioni funzione assegnate e funzioni-metodo di oggetti.
+Generato dall’albero sorgente VideoTrack 1.7.164. Le voci PHP includono funzioni e metodi nominati; le voci AMD includono dichiarazioni nominate, espressioni funzione assegnate e funzioni-metodo di oggetti.
 
 **Funzioni/metodi PHP:** 785. **Callable AMD nominati:** 654.
 
@@ -777,9 +777,15 @@ Generato dall’albero sorgente VideoTrack 1.7.163. Le voci PHP includono funzio
 | `classes/external/helper.php:103` | `validate_end_reason` | Callable PHP `validate_end_reason`; DocBlock e chiamanti definiscono parametri, valori restituiti ed effetti. |
 | `classes/external/helper.php:125` | `validate_bounded_float` | Callable PHP `validate_bounded_float`; DocBlock e chiamanti definiscono parametri, valori restituiti ed effetti. |
 | `classes/external/helper.php:138` | `load_and_validate_context` | Callable PHP `load_and_validate_context`; DocBlock e chiamanti definiscono parametri, valori restituiti ed effetti. |
-| `classes/external/save_bookmark.php:45` | `execute_parameters` | Callable PHP `execute_parameters`; DocBlock e chiamanti definiscono parametri, valori restituiti ed effetti. |
-| `classes/external/save_bookmark.php:65` | `execute` | Callable PHP `execute`; DocBlock e chiamanti definiscono parametri, valori restituiti ed effetti. |
-| `classes/external/save_bookmark.php:181` | `execute_returns` | Callable PHP `execute_returns`; DocBlock e chiamanti definiscono parametri, valori restituiti ed effetti. |
+| `classes/external/save_bookmark.php:44` | `execute_parameters` | Callable PHP `execute_parameters`; DocBlock e chiamanti definiscono parametri, valori restituiti ed effetti. |
+| `classes/external/save_bookmark.php:64` | `execute` | Callable PHP `execute`; DocBlock e chiamanti definiscono parametri, valori restituiti ed effetti. |
+| `classes/external/save_bookmark.php:123` | `normalise_label` | Normalizza e limita la lunghezza dell'etichetta privata prima della persistenza. |
+| `classes/external/save_bookmark.php:140` | `normalise_video_time` | Limita il timestamp richiesto tra zero e la durata configurata del media. |
+| `classes/external/save_bookmark.php:159` | `require_watched_position` | Richiede evidenza di visione validata dal server, precedente o della sessione corrente. |
+| `classes/external/save_bookmark.php:195` | `require_bookmark_rate_limit` | Applica il limite di dieci segnalibri in dieci secondi per utente/attività tra sessioni browser. |
+| `classes/external/save_bookmark.php:220` | `insert_bookmark_record` | Salva il record segnalibro canonico normalizzato. |
+| `classes/external/save_bookmark.php:261` | `trigger_bookmark_event` | Emette l'evento Moodle dedicato dopo la persistenza riuscita. |
+| `classes/external/save_bookmark.php:274` | `execute_returns` | Callable PHP `execute_returns`; DocBlock e chiamanti definiscono parametri, valori restituiti ed effetti. |
 | `classes/external/save_integrity_event.php:47` | `execute_parameters` | Callable PHP `execute_parameters`; DocBlock e chiamanti definiscono parametri, valori restituiti ed effetti. |
 | `classes/external/save_integrity_event.php:65` | `execute` | Callable PHP `execute`; DocBlock e chiamanti definiscono parametri, valori restituiti ed effetti. |
 | `classes/external/save_integrity_event.php:140` | `execute_returns` | Callable PHP `execute_returns`; DocBlock e chiamanti definiscono parametri, valori restituiti ed effetti. |
@@ -1414,6 +1420,9 @@ Generato dall’albero sorgente VideoTrack 1.7.163. Le voci PHP includono funzio
 | `tests/report_view_test.php:109` | `test_integrity_summary_states_preserve_messages_and_privacy_table` | Contratto PHPUnit per gli stati di presentazione attivo, disattivato e controlli focus senza registrazione. |
 | `tests/save_bookmark_test.php:39` | `test_execute_parameters_uses_supported_moodle_parameter_types` | Callable PHP `test_execute_parameters_uses_supported_moodle_parameter_types`; DocBlock e chiamanti definiscono parametri, valori restituiti ed effetti. |
 | `tests/save_bookmark_test.php:47` | `test_bookmark_validation_prefers_existing_watched_progress` | Callable PHP `test_bookmark_validation_prefers_existing_watched_progress`; DocBlock e chiamanti definiscono parametri, valori restituiti ed effetti. |
+| `tests/save_bookmark_test.php:62` | `test_video_time_normalisation_clamps_to_media_bounds` | Copertura comportamentale del limite a zero/durata del timestamp del segnalibro. |
+| `tests/save_bookmark_test.php:77` | `test_execute_keeps_validation_and_security_guards_before_insert` | Contratto sorgente che preserva l'intero ordine di validazione e sicurezza prima della persistenza. |
+| `tests/save_bookmark_test.php:108` | `test_bookmark_rate_limit_cannot_be_bypassed_with_multiple_sessions` | Contratto sorgente che preserva lo scope del rate limit per utente/attività tra sessioni. |
 | `tests/save_integrity_event_test.php:37` | `test_execute_parameters_uses_supported_moodle_parameter_types` | Callable PHP `test_execute_parameters_uses_supported_moodle_parameter_types`; DocBlock e chiamanti definiscono parametri, valori restituiti ed effetti. |
 | `tests/save_note_test.php:39` | `source` | Carica il sorgente corrente del servizio note per i contratti sull'ordine di sicurezza. |
 | `tests/save_note_test.php:48` | `test_execute_parameters_uses_supported_moodle_parameter_types` | Verifica la dichiarazione dei parametri external Moodle. |

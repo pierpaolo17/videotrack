@@ -121,6 +121,10 @@ dichiarazione di un parametro di metodo.
   timestamp, evidenza vista, rate limit tra sessioni, persistenza e warning. I contratti su ordine dei guard e scope
   del limite impediscono al refactoring di complessità di indebolire il confine di scrittura. I contratti privati
   dei record DML usano il tipo nativo `stdClass`, mentre la persistenza riceve l'id scalare del modulo che salva.
+- La scrittura dei segnalibri personali espone le corrispondenti fasi nominate per etichetta, timestamp, evidenza
+  vista, rate limit tra sessioni, persistenza ed evento. I contratti sorgente mantengono l'ordine di validazione e
+  sicurezza e impediscono che il limite di dieci in dieci secondi per utente/attività venga ristretto a una sola
+  sessione browser.
 - PHPMD resta consultivo. I rilievi residui riguardano complessità, dimensione, classi pubbliche ampie, parametri
   obbligatori dei callback Moodle e flag booleani che richiedono refactoring comportamentali separati. I conteggi
   correnti esatti vanno letti nell'artifact CI prodotto per la candidata in esame.
