@@ -1,5 +1,23 @@
 # VideoTrack changelog
 
+## 1.7.164 - 2026-09-28
+
+### Personal-bookmark write pipeline and security-guard verification
+
+- Accepted the complete 1.7.163 evidence: all six GitHub jobs passed; the server ran PHPCS and PHP lint on 131
+  files, Grunt on Moodle 5.0 and 5.3, 291 PHPUnit tests with 2653 assertions on both installations, and both strict
+  validators with 10 passes, no warnings and no failures.
+- Rechecked the independent security report against the released source. Its two low-severity direct-access findings
+  remain closed: `locallib.php` and `db/repairlib.php` both require `MOODLE_INTERNAL`, while the release-hygiene test
+  requires both guards and their line-scoped PHPCS exceptions and rejects broad `phpcs:disable` suppression.
+- Preserved the public `mod_videotrack_save_bookmark` service while splitting label normalisation, timestamp
+  clamping, watched-position evidence, the cross-session burst limit, persistence and event emission into named
+  private stages. Added regression coverage for media bounds, complete guard order and the ten-bookmarks-per-ten-
+  seconds limit shared across browser sessions.
+- Updated the current English and Italian runtime, bookmark, static-analysis and callable documentation. This targets
+  the sole PHPMD `ExcessiveMethodLength` finding assigned to `save_bookmark::execute()`; schema, service signature,
+  stored record shape, AMD assets, language packs, capabilities, privacy, tracking and completion are unchanged.
+
 ## 1.7.163 - 2026-09-27
 
 ### Unified private type contracts after the 1.7.162 matrix

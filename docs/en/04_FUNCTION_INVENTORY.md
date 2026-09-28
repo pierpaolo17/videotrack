@@ -1,6 +1,6 @@
 # Function inventory
 
-Generated from the VideoTrack 1.7.163 source tree. PHP entries include named functions and methods; AMD entries include named declarations, assigned function expressions and object-method functions.
+Generated from the VideoTrack 1.7.164 source tree. PHP entries include named functions and methods; AMD entries include named declarations, assigned function expressions and object-method functions.
 
 **PHP functions/methods:** 785. **Named AMD callables:** 654.
 
@@ -777,9 +777,15 @@ Generated from the VideoTrack 1.7.163 source tree. PHP entries include named fun
 | `classes/external/helper.php:103` | `validate_end_reason` | PHP callable `validate_end_reason`; see its DocBlock and callers for parameter, return-value and side-effect details. |
 | `classes/external/helper.php:125` | `validate_bounded_float` | PHP callable `validate_bounded_float`; see its DocBlock and callers for parameter, return-value and side-effect details. |
 | `classes/external/helper.php:138` | `load_and_validate_context` | PHP callable `load_and_validate_context`; see its DocBlock and callers for parameter, return-value and side-effect details. |
-| `classes/external/save_bookmark.php:45` | `execute_parameters` | PHP callable `execute_parameters`; see its DocBlock and callers for parameter, return-value and side-effect details. |
-| `classes/external/save_bookmark.php:65` | `execute` | PHP callable `execute`; see its DocBlock and callers for parameter, return-value and side-effect details. |
-| `classes/external/save_bookmark.php:181` | `execute_returns` | PHP callable `execute_returns`; see its DocBlock and callers for parameter, return-value and side-effect details. |
+| `classes/external/save_bookmark.php:44` | `execute_parameters` | PHP callable `execute_parameters`; see its DocBlock and callers for parameter, return-value and side-effect details. |
+| `classes/external/save_bookmark.php:64` | `execute` | PHP callable `execute`; see its DocBlock and callers for parameter, return-value and side-effect details. |
+| `classes/external/save_bookmark.php:123` | `normalise_label` | Normalises and length-bounds the private bookmark label before persistence. |
+| `classes/external/save_bookmark.php:140` | `normalise_video_time` | Clamps the requested bookmark timestamp to zero and the configured media duration. |
+| `classes/external/save_bookmark.php:159` | `require_watched_position` | Requires previous or current-session server-validated watched evidence for the timestamp. |
+| `classes/external/save_bookmark.php:195` | `require_bookmark_rate_limit` | Enforces the user/activity-wide ten-in-ten-seconds bookmark limit across browser sessions. |
+| `classes/external/save_bookmark.php:220` | `insert_bookmark_record` | Persists the normalised canonical bookmark record. |
+| `classes/external/save_bookmark.php:261` | `trigger_bookmark_event` | Emits the dedicated Moodle event after successful persistence. |
+| `classes/external/save_bookmark.php:274` | `execute_returns` | PHP callable `execute_returns`; see its DocBlock and callers for parameter, return-value and side-effect details. |
 | `classes/external/save_integrity_event.php:47` | `execute_parameters` | PHP callable `execute_parameters`; see its DocBlock and callers for parameter, return-value and side-effect details. |
 | `classes/external/save_integrity_event.php:65` | `execute` | PHP callable `execute`; see its DocBlock and callers for parameter, return-value and side-effect details. |
 | `classes/external/save_integrity_event.php:140` | `execute_returns` | PHP callable `execute_returns`; see its DocBlock and callers for parameter, return-value and side-effect details. |
@@ -1414,6 +1420,9 @@ Generated from the VideoTrack 1.7.163 source tree. PHP entries include named fun
 | `tests/report_view_test.php:109` | `test_integrity_summary_states_preserve_messages_and_privacy_table` | PHPUnit contract for the enabled, disabled and focus-controls-without-recording presentation states. |
 | `tests/save_bookmark_test.php:39` | `test_execute_parameters_uses_supported_moodle_parameter_types` | PHP callable `test_execute_parameters_uses_supported_moodle_parameter_types`; see its DocBlock and callers for parameter, return-value and side-effect details. |
 | `tests/save_bookmark_test.php:47` | `test_bookmark_validation_prefers_existing_watched_progress` | PHP callable `test_bookmark_validation_prefers_existing_watched_progress`; see its DocBlock and callers for parameter, return-value and side-effect details. |
+| `tests/save_bookmark_test.php:62` | `test_video_time_normalisation_clamps_to_media_bounds` | Behavioural coverage for zero/duration bookmark timestamp clamping. |
+| `tests/save_bookmark_test.php:77` | `test_execute_keeps_validation_and_security_guards_before_insert` | Source contract that preserves the complete pre-persistence validation and security order. |
+| `tests/save_bookmark_test.php:108` | `test_bookmark_rate_limit_cannot_be_bypassed_with_multiple_sessions` | Source contract that preserves the cross-session user/activity rate-limit scope. |
 | `tests/save_integrity_event_test.php:37` | `test_execute_parameters_uses_supported_moodle_parameter_types` | PHP callable `test_execute_parameters_uses_supported_moodle_parameter_types`; see its DocBlock and callers for parameter, return-value and side-effect details. |
 | `tests/save_note_test.php:39` | `source` | Loads the current note-service source for security-order regression contracts. |
 | `tests/save_note_test.php:48` | `test_execute_parameters_uses_supported_moodle_parameter_types` | Verifies the Moodle external-parameter declaration. |

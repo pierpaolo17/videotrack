@@ -68,7 +68,7 @@ class save_bookmark extends external_api {
         string $label,
         float $playbackrate = 1.0
     ): array {
-        global $DB, $USER;
+        global $USER;
 
         $params = self::validate_parameters(self::execute_parameters(), compact(
             'cmid',
@@ -91,24 +91,82 @@ class save_bookmark extends external_api {
             throw new \moodle_exception('bookmarksdisabled', 'mod_videotrack');
         }
 
+        $label = self::normalise_label((string)$params['label']);
+        $videotime = self::normalise_video_time($videotrack, (float)$params['videotime']);
+        self::require_watched_position($videotrack, (int)$USER->id, (string)$params['sessionid'], $videotime);
+        self::require_bookmark_rate_limit($videotrack, (int)$USER->id);
+
+        $record = self::insert_bookmark_record(
+            $videotrack,
+            (int)$cm->id,
+            (int)$USER->id,
+            $params,
+            $label,
+            $videotime
+        );
+        self::trigger_bookmark_event($record, $context);
+
+        return [
+            'bookmarkeventid' => (int)$record->id,
+            'videotime' => (float)$record->videotime,
+            'label' => $label,
+            'warnings' => [],
+        ];
+    }
+
+    /**
+     * Normalises a private bookmark label.
+     *
+     * @param string $label Raw bookmark label.
+     * @return string Normalised label.
+     */
+    private static function normalise_label(string $label): string {
         $maxlength = \videotrack_get_config_int('bookmarkmaxlength', 120, 20, 255);
-        $label = \core_text::substr(clean_param(trim($params['label']), PARAM_TEXT), 0, $maxlength);
+        $label = \core_text::substr(clean_param(trim($label), PARAM_TEXT), 0, $maxlength);
         if ($label === '') {
             throw new \moodle_exception('bookmarkempty', 'mod_videotrack');
         }
 
+        return $label;
+    }
+
+    /**
+     * Clamps the requested timestamp to the known media duration.
+     *
+     * @param \stdClass $videotrack Activity record.
+     * @param float $rawtime Requested timestamp.
+     * @return float Normalised timestamp.
+     */
+    private static function normalise_video_time(\stdClass $videotrack, float $rawtime): float {
         $duration = (float)($videotrack->durationseconds ?? 0);
-        $videotime = max(0.0, $duration > 0 ? min((float)$params['videotime'], $duration) : (float)$params['videotime']);
-        // A bookmark may target any position this learner already watched, including
-        // after seeking backward to validated progress from an earlier session. If the
-        // player flushes current progress first, so a newly reached timestamp must
-        // already be covered by server-validated evidence. Unwatched positions remain
-        // rejected even when forward seeking is permitted.
+        return max(0.0, $duration > 0 ? min($rawtime, $duration) : $rawtime);
+    }
+
+    /**
+     * Requires server-validated watched evidence for the bookmark timestamp.
+     *
+     * A bookmark may target any position this learner already watched, including
+     * after seeking backward to validated progress from an earlier session. If the
+     * player flushes current progress first, a newly reached timestamp must already
+     * be covered by server-validated evidence. Forward-seek permission alone is not
+     * sufficient evidence.
+     *
+     * @param \stdClass $videotrack Activity record.
+     * @param int $userid Current user id.
+     * @param string $sessionid Browser playback session id.
+     * @param float $videotime Normalised timestamp.
+     */
+    private static function require_watched_position(
+        \stdClass $videotrack,
+        int $userid,
+        string $sessionid,
+        float $videotime
+    ): void {
         $fallbackdays = \videotrack_get_config_int('validationfallbackdays', 30, 0, 3650);
         $maxage = $fallbackdays > 0 ? $fallbackdays * DAYSECS : 0;
         $alreadywatched = tracker::has_watched_videotime_any_session(
             (int)$videotrack->id,
-            (int)$USER->id,
+            $userid,
             $videotime,
             2.0,
             $maxage
@@ -117,8 +175,8 @@ class save_bookmark extends external_api {
             !$alreadywatched
             && !tracker::interaction_timestamp_allowed(
                 $videotrack,
-                (int)$USER->id,
-                $params['sessionid'],
+                $userid,
+                $sessionid,
                 $videotime,
                 2.0,
                 $maxage
@@ -126,25 +184,57 @@ class save_bookmark extends external_api {
         ) {
             throw new \moodle_exception('error:playbackpositionnotwatched', 'mod_videotrack');
         }
+    }
+
+    /**
+     * Enforces the bookmark burst limit across all browser sessions.
+     *
+     * @param \stdClass $videotrack Activity record.
+     * @param int $userid Current user id.
+     */
+    private static function require_bookmark_rate_limit(\stdClass $videotrack, int $userid): void {
+        global $DB;
 
         $recent = $DB->count_records_select(
             'videotrack_reactev',
             "videotrackid = :vtid AND userid = :userid AND notetype = 'bookmark' " .
                 'AND isdeleted = 0 AND timecreated >= :since',
-            ['vtid' => $videotrack->id, 'userid' => (int)$USER->id, 'since' => time() - 10]
+            ['vtid' => $videotrack->id, 'userid' => $userid, 'since' => time() - 10]
         );
         if ($recent >= 10) {
             throw new \moodle_exception('error:bookmarksratelimit', 'mod_videotrack');
         }
+    }
+
+    /**
+     * Persists one normalised private bookmark.
+     *
+     * @param \stdClass $videotrack Activity record.
+     * @param int $cmid Course-module id.
+     * @param int $userid Current user id.
+     * @param array $params Validated external parameters.
+     * @param string $label Normalised bookmark label.
+     * @param float $videotime Normalised timestamp.
+     * @return \stdClass Inserted bookmark record.
+     */
+    private static function insert_bookmark_record(
+        \stdClass $videotrack,
+        int $cmid,
+        int $userid,
+        array $params,
+        string $label,
+        float $videotime
+    ): \stdClass {
+        global $DB;
 
         $now = time();
         $record = (object)[
             'videotrackid' => $videotrack->id,
             'courseid' => $videotrack->course,
-            'cmid' => $cm->id,
-            'userid' => (int)$USER->id,
+            'cmid' => $cmid,
+            'userid' => $userid,
             'videoid' => $videotrack->videoid,
-            'sessionid' => $params['sessionid'],
+            'sessionid' => (string)$params['sessionid'],
             'reactionid' => 0,
             'reactionkey' => 'bookmark',
             'reactionlabel' => get_string('bookmark_label', 'mod_videotrack'),
@@ -158,18 +248,22 @@ class save_bookmark extends external_api {
             'timemodified' => $now,
         ];
         $record->id = $DB->insert_record('videotrack_reactev', $record);
+
+        return $record;
+    }
+
+    /**
+     * Triggers the dedicated Moodle event after persistence.
+     *
+     * @param \stdClass $record Inserted bookmark record.
+     * @param object $context Activity context.
+     */
+    private static function trigger_bookmark_event(\stdClass $record, object $context): void {
         bookmark_saved::create([
             'objectid' => $record->id,
             'context' => $context,
             'other' => ['videotime' => $record->videotime],
         ])->trigger();
-
-        return [
-            'bookmarkeventid' => (int)$record->id,
-            'videotime' => (float)$record->videotime,
-            'label' => $label,
-            'warnings' => [],
-        ];
     }
 
     /**
