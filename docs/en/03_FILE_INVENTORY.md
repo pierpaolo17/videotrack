@@ -1,6 +1,6 @@
 # Distributed file inventory
 
-This inventory is generated against the VideoTrack 1.7.164 repository tree. It lists every distributed
+This inventory is generated against the VideoTrack 1.7.165 repository tree. It lists every distributed
 non-documentation file plus repository-only CI/tooling files. Canonical JavaScript is under `amd/src`; files under
 `amd/build` are generated.
 
@@ -190,7 +190,7 @@ Entries: **302** — 300 distributed files and two repository-only files exclude
 | `classes/external/save_bookmark.php` | Saves a private named video bookmark for the current user. |
 | `classes/external/save_integrity_event.php` | Stores a bounded diagnostic integrity signal for the current student. |
 | `classes/external/save_note.php` | Saves a personal timestamped note through explicit normalisation, watched-evidence, global rate-limit, persistence and warning stages. |
-| `classes/external/save_reaction.php` | External function that stores a standard reaction for the current user. |
+| `classes/external/save_reaction.php` | Stores a standard reaction through ordered validation, watched-evidence, cross-session limiting, locked duplicate/persistence and post-insert stages. |
 | `classes/external/save_segment.php` | External function that persists a watched video segment. |
 | `classes/external/start_playback.php` | AJAX service that opens a zero-credit, idempotent server playback window. |
 | `classes/form/forum_post_form.php` | Forum composer form for VideoTrack. |
@@ -298,7 +298,7 @@ Entries: **302** — 300 distributed files and two repository-only files exclude
 | `tests/save_bookmark_test.php` | PHPUnit coverage for save bookmark test. |
 | `tests/save_integrity_event_test.php` | PHPUnit coverage for save integrity event test. |
 | `tests/save_note_test.php` | PHPUnit coverage for note parameters, timestamp bounds, guard order and the cross-session rate-limit contract. |
-| `tests/save_reaction_test.php` | Current PHPUnit/contract test distributed with the plugin. |
+| `tests/save_reaction_test.php` | Source contracts for reaction duplicate windows, cross-session limiting, locking and complete pre/post-insert ordering. |
 | `tests/student_view_contract_test.php` | Static learner-view contract for native personal disclosure sections. |
 | `tests/teacher_analytics_test.php` | PHPUnit coverage for teacher analytics test. |
 | `tests/timed_text_test.php` | PHPUnit coverage for VTT validation, canonical File API areas and legacy fallback precedence. |

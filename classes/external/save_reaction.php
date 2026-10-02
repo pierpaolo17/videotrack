@@ -69,25 +69,7 @@ class save_reaction extends external_api {
         float $playbackrate = 1.0
     ): array {
         global $DB, $USER;
-        $params = self::validate_parameters(
-            self::execute_parameters(),
-            compact('cmid', 'sessionid', 'reactionid', 'videotime', 'playbackrate')
-        );
-        $params['cmid'] = helper::validate_positive_id((int)$params['cmid'], 'cmid');
-        $params['reactionid'] = helper::validate_positive_id((int)$params['reactionid'], 'reactionid');
-        $params['sessionid'] = helper::validate_session_id($params['sessionid']);
-        $params['videotime'] = helper::validate_bounded_float(
-            (float)$params['videotime'],
-            'videotime',
-            0.0,
-            86400.0
-        );
-        $params['playbackrate'] = helper::validate_bounded_float(
-            (float)$params['playbackrate'],
-            'playbackrate',
-            0.25,
-            4.0
-        );
+        $params = self::validate_request(compact('cmid', 'sessionid', 'reactionid', 'videotime', 'playbackrate'));
         helper::require_ajax_sesskey();
         $loaded = helper::load_and_validate_context((int)$params['cmid']);
         $course = $loaded['course'];
@@ -97,41 +79,12 @@ class save_reaction extends external_api {
         if (empty($videotrack->reactionsenabled)) {
             throw new \moodle_exception('reactionsdisabled', 'mod_videotrack');
         }
-        // Read the reaction after authentication and accept active reactions only.
-        $reaction = $DB->get_record('videotrack_react', [
-            'id' => $params['reactionid'],
-            'videotrackid' => $videotrack->id,
-            'isdeleted' => 0,
-        ], '*', MUST_EXIST);
+        $userid = (int)$USER->id;
+        $reaction = self::load_active_reaction($videotrack, (int)$params['reactionid']);
         $now = time();
-        $videotime = max(0.0, round((float)$params['videotime'], 3));
-        $duration = (float)($videotrack->durationseconds ?? 0);
-        if ($duration > 0) {
-            $videotime = min($videotime, $duration);
-        }
-        // Reactions are valid during playback and while paused. The player flushes
-        // current progress first, so the requested time must be covered by persisted
-        // server-validated watched evidence from the applicable session policy.
-        if (!tracker::interaction_timestamp_allowed($videotrack, (int)$USER->id, $params['sessionid'], $videotime)) {
-            throw new \moodle_exception('error:playbackpositionnotwatched', 'mod_videotrack');
-        }
-
-        // Global anti-spam throttle: limits reaction bursts per user regardless of
-        // session ID. Filtering by sessionid allowed an attacker to bypass the limit
-        // by rotating session IDs on each AJAX request (B3 fix).
-        $burstcount = $DB->count_records_select(
-            'videotrack_reactev',
-            "videotrackid = :bvtid AND userid = :buid AND isdeleted = 0 " .
-                "AND (notetype = '' OR notetype IS NULL) AND timecreated >= :bsince",
-            [
-                'bvtid'  => $videotrack->id,
-                'buid'   => $USER->id,
-                'bsince' => $now - 10,
-            ]
-        );
-        if ($burstcount >= 10) {
-            throw new \moodle_exception('error:reactionratelimit', 'mod_videotrack');
-        }
+        $videotime = self::normalise_video_time($videotrack, (float)$params['videotime']);
+        self::require_watched_position($videotrack, $userid, $params['sessionid'], $videotime);
+        self::require_burst_limit($videotrack, $userid, $now);
 
         // Rate-limit / anti-spam. Serialise all reactions for this user/activity so
         // near-simultaneous AJAX clicks are evaluated against the same latest DB state.
@@ -139,62 +92,25 @@ class save_reaction extends external_api {
         // Repeated reactions are ignored within three wall-clock seconds or within a
         // three-second window of video time.
         $reactionlockfactory = \core\lock\lock_config::get_lock_factory('mod_videotrack');
-        $reactionlockkey = 'reaction:' . $videotrack->id . ':' . (int)$USER->id;
+        $reactionlockkey = 'reaction:' . $videotrack->id . ':' . $userid;
         $reactionlock = $reactionlockfactory->get_lock($reactionlockkey, 10);
         if (!$reactionlock) {
-            $state = $DB->get_record('videotrack_state', ['videotrackid' => $videotrack->id, 'userid' => $USER->id]);
-            $summary = tracker::reaction_counts($videotrack->id, (int)$USER->id);
-            return [
-                'reactioneventid' => 0,
-                'uniquereactions' => $summary['uniquecount'],
-                'iscompleted'     => !empty($state->iscompleted),
-                'reaction'        => self::export_reaction_for_client($reaction, $context, $videotime),
-                'warnings'        => [],
-            ];
+            return self::ignored_reaction_response($videotrack, $userid, $reaction, $context, $videotime);
         }
 
         try {
-            $displaysecond = (int)round($videotime);
-            $videosecondstart = max(0.0, $displaysecond - 0.5);
-            $videosecondend = $displaysecond + 0.5;
-            $duplicatereaction = $DB->record_exists_select(
-                'videotrack_reactev',
-                'videotrackid = :vtid AND userid = :uid AND isdeleted = 0 ' .
-                    "AND (notetype = '' OR notetype IS NULL) " .
-                    'AND (' .
-                        '(videotime >= :secondstart AND videotime < :secondend) OR ' .
-                        '(reactionid = :reactionid AND (timecreated >= :since OR ABS(videotime - :videotime) < :window))' .
-                    ')',
-                [
-                    'vtid' => $videotrack->id,
-                    'uid' => $USER->id,
-                    'reactionid' => $reaction->id,
-                    'since' => $now - 3,
-                    'videotime' => $videotime,
-                    'window' => 3.0,
-                    'secondstart' => $videosecondstart,
-                    'secondend' => $videosecondend,
-                ]
-            );
+            $duplicatereaction = self::has_duplicate_reaction($videotrack, $userid, $reaction, $videotime, $now);
             if ($duplicatereaction) {
                 // Too close to an already-saved reaction. This is deliberately a soft ignore:
                 // the UI removes its optimistic row without showing an error.
-                $state = $DB->get_record('videotrack_state', ['videotrackid' => $videotrack->id, 'userid' => $USER->id]);
-                $summary = tracker::reaction_counts($videotrack->id, (int)$USER->id);
-                return [
-                    'reactioneventid' => 0,
-                    'uniquereactions' => $summary['uniquecount'],
-                    'iscompleted'     => !empty($state->iscompleted),
-                    'reaction'        => self::export_reaction_for_client($reaction, $context, $videotime),
-                    'warnings'        => [],
-                ];
+                return self::ignored_reaction_response($videotrack, $userid, $reaction, $context, $videotime);
             }
 
             $record = (object)[
             'videotrackid' => $videotrack->id,
             'courseid' => $course->id,
             'cmid' => $cm->id,
-            'userid' => $USER->id,
+            'userid' => $userid,
             'videoid' => $videotrack->videoid,
             'sessionid' => $params['sessionid'],
             'reactionid' => $reaction->id,
@@ -213,9 +129,205 @@ class save_reaction extends external_api {
             $reactionlock->release();
         }
 
+        return self::complete_reaction_write($loaded, $userid, $reaction, $eventid, $videotime);
+    }
+
+    /**
+     * Validates and normalises the public request payload.
+     *
+     * @param array $request Raw request values.
+     * @return array
+     */
+    private static function validate_request(array $request): array {
+        $params = self::validate_parameters(self::execute_parameters(), $request);
+        $params['cmid'] = helper::validate_positive_id((int)$params['cmid'], 'cmid');
+        $params['reactionid'] = helper::validate_positive_id((int)$params['reactionid'], 'reactionid');
+        $params['sessionid'] = helper::validate_session_id($params['sessionid']);
+        $params['videotime'] = helper::validate_bounded_float(
+            (float)$params['videotime'],
+            'videotime',
+            0.0,
+            86400.0
+        );
+        $params['playbackrate'] = helper::validate_bounded_float(
+            (float)$params['playbackrate'],
+            'playbackrate',
+            0.25,
+            4.0
+        );
+        return $params;
+    }
+
+    /**
+     * Loads an active reaction belonging to the current activity.
+     *
+     * @param \stdClass $videotrack Activity record.
+     * @param int $reactionid Reaction id.
+     * @return \stdClass
+     */
+    private static function load_active_reaction(\stdClass $videotrack, int $reactionid): \stdClass {
+        global $DB;
+        return $DB->get_record('videotrack_react', [
+            'id' => $reactionid,
+            'videotrackid' => $videotrack->id,
+            'isdeleted' => 0,
+        ], '*', MUST_EXIST);
+    }
+
+    /**
+     * Rounds a requested video time and clamps it to the configured duration.
+     *
+     * @param \stdClass $videotrack Activity record.
+     * @param float $requestedtime Requested video time.
+     * @return float
+     */
+    private static function normalise_video_time(\stdClass $videotrack, float $requestedtime): float {
+        $videotime = max(0.0, round($requestedtime, 3));
+        $duration = (float)($videotrack->durationseconds ?? 0);
+        return $duration > 0 ? min($videotime, $duration) : $videotime;
+    }
+
+    /**
+     * Requires server-validated watched evidence for the requested position.
+     *
+     * @param \stdClass $videotrack Activity record.
+     * @param int $userid User id.
+     * @param string $sessionid Browser session id.
+     * @param float $videotime Video time.
+     * @return void
+     */
+    private static function require_watched_position(
+        \stdClass $videotrack,
+        int $userid,
+        string $sessionid,
+        float $videotime
+    ): void {
+        if (!tracker::interaction_timestamp_allowed($videotrack, $userid, $sessionid, $videotime)) {
+            throw new \moodle_exception('error:playbackpositionnotwatched', 'mod_videotrack');
+        }
+    }
+
+    /**
+     * Enforces the cross-session reaction burst limit.
+     *
+     * @param \stdClass $videotrack Activity record.
+     * @param int $userid User id.
+     * @param int $now Current timestamp.
+     * @return void
+     */
+    private static function require_burst_limit(\stdClass $videotrack, int $userid, int $now): void {
+        global $DB;
+        $burstcount = $DB->count_records_select(
+            'videotrack_reactev',
+            "videotrackid = :bvtid AND userid = :buid AND isdeleted = 0 " .
+                "AND (notetype = '' OR notetype IS NULL) AND timecreated >= :bsince",
+            [
+                'bvtid'  => $videotrack->id,
+                'buid'   => $userid,
+                'bsince' => $now - 10,
+            ]
+        );
+        if ($burstcount >= 10) {
+            throw new \moodle_exception('error:reactionratelimit', 'mod_videotrack');
+        }
+    }
+
+    /**
+     * Checks both duplicate-reaction windows while the per-user lock is held.
+     *
+     * @param \stdClass $videotrack Activity record.
+     * @param int $userid User id.
+     * @param \stdClass $reaction Reaction definition.
+     * @param float $videotime Video time.
+     * @param int $now Current timestamp.
+     * @return bool
+     */
+    private static function has_duplicate_reaction(
+        \stdClass $videotrack,
+        int $userid,
+        \stdClass $reaction,
+        float $videotime,
+        int $now
+    ): bool {
+        global $DB;
+        $displaysecond = (int)round($videotime);
+        $videosecondstart = max(0.0, $displaysecond - 0.5);
+        $videosecondend = $displaysecond + 0.5;
+        return $DB->record_exists_select(
+            'videotrack_reactev',
+            'videotrackid = :vtid AND userid = :uid AND isdeleted = 0 ' .
+                "AND (notetype = '' OR notetype IS NULL) " .
+                'AND (' .
+                    '(videotime >= :secondstart AND videotime < :secondend) OR ' .
+                    '(reactionid = :reactionid AND (timecreated >= :since OR ABS(videotime - :videotime) < :window))' .
+                ')',
+            [
+                'vtid' => $videotrack->id,
+                'uid' => $userid,
+                'reactionid' => $reaction->id,
+                'since' => $now - 3,
+                'videotime' => $videotime,
+                'window' => 3.0,
+                'secondstart' => $videosecondstart,
+                'secondend' => $videosecondend,
+            ]
+        );
+    }
+
+    /**
+     * Builds the successful soft-ignore response used for lock and duplicate races.
+     *
+     * @param \stdClass $videotrack Activity record.
+     * @param int $userid User id.
+     * @param \stdClass $reaction Reaction definition.
+     * @param object $context Module context.
+     * @param float $videotime Video time.
+     * @return array
+     */
+    private static function ignored_reaction_response(
+        \stdClass $videotrack,
+        int $userid,
+        \stdClass $reaction,
+        object $context,
+        float $videotime
+    ): array {
+        global $DB;
+        $state = $DB->get_record('videotrack_state', ['videotrackid' => $videotrack->id, 'userid' => $userid]);
+        $summary = tracker::reaction_counts($videotrack->id, $userid);
+        return [
+            'reactioneventid' => 0,
+            'uniquereactions' => $summary['uniquecount'],
+            'iscompleted'     => !empty($state->iscompleted),
+            'reaction'        => self::export_reaction_for_client($reaction, $context, $videotime),
+            'warnings'        => [],
+        ];
+    }
+
+    /**
+     * Runs the post-insert event and completion phases and builds the response.
+     *
+     * @param array $loaded Validated course, activity, module and context records.
+     * @param int $userid User id.
+     * @param \stdClass $reaction Reaction definition.
+     * @param int $eventid Saved reaction event id.
+     * @param float $videotime Saved video time.
+     * @return array
+     */
+    private static function complete_reaction_write(
+        array $loaded,
+        int $userid,
+        \stdClass $reaction,
+        int $eventid,
+        float $videotime
+    ): array {
+        global $DB;
+        $course = $loaded['course'];
+        $videotrack = $loaded['videotrack'];
+        $cm = $loaded['cm'];
+        $context = $loaded['context'];
         // O1: invalidate per-request cache so subsequent reaction_counts() calls
         // within this request see the newly inserted record.
-        tracker::invalidate_reactioncountscache($videotrack->id, (int)$USER->id);
+        tracker::invalidate_reactioncountscache($videotrack->id, $userid);
         $warnings = [];
 
         // Log the event in Moodle logs. This is useful but must not turn an
@@ -243,17 +355,17 @@ class save_reaction extends external_api {
 
         // Read reaction counts once after insert, then pass the same summary to
         // refresh_completion() so this request does not repeat the aggregate query.
-        $summary = tracker::reaction_counts($videotrack->id, (int)$USER->id);
-        $state = $DB->get_record('videotrack_state', ['videotrackid' => $videotrack->id, 'userid' => $USER->id]);
+        $summary = tracker::reaction_counts($videotrack->id, $userid);
+        $state = $DB->get_record('videotrack_state', ['videotrackid' => $videotrack->id, 'userid' => $userid]);
         try {
             $requiredreactionids = array_keys(array_filter((array)$DB->get_records_menu('videotrack_react', [
                 'videotrackid' => $videotrack->id,
                 'requiredforcompletion' => 1,
                 'isdeleted' => 0,
             ], '', 'id,id')));
-            $state = tracker::refresh_completion($videotrack, $cm, (int)$USER->id, $summary, $requiredreactionids);
+            $state = tracker::refresh_completion($videotrack, $cm, $userid, $summary, $requiredreactionids);
             $completion = new \completion_info($course);
-            tracker::update_moodle_completion_if_changed($completion, $cm, (bool)$state->iscompleted, (int)$USER->id);
+            tracker::update_moodle_completion_if_changed($completion, $cm, (bool)$state->iscompleted, $userid);
         } catch (\Throwable $e) {
             debugging('VideoTrack reaction completion refresh failed: ' . $e->getMessage(), DEBUG_DEVELOPER);
             $warnings[] = [
@@ -277,13 +389,13 @@ class save_reaction extends external_api {
      * Exports the saved reaction definition for immediate client-side rendering.
      *
      * @param \stdClass $reaction Reaction definition.
-     * @param \context_module $context Module context.
+     * @param object $context Module context.
      * @param float $videotime Saved video time.
      * @return array
      */
     private static function export_reaction_for_client(
         \stdClass $reaction,
-        \context_module $context,
+        object $context,
         float $videotime
     ): array {
         $icontype = clean_param((string)($reaction->icontype ?? 'emoji'), PARAM_ALPHA);

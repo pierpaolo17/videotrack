@@ -1,8 +1,8 @@
 # Inventario delle funzioni
 
-Generato dall’albero sorgente VideoTrack 1.7.164. Le voci PHP includono funzioni e metodi nominati; le voci AMD includono dichiarazioni nominate, espressioni funzione assegnate e funzioni-metodo di oggetti.
+Generato dall’albero sorgente VideoTrack 1.7.165. Le voci PHP includono funzioni e metodi nominati; le voci AMD includono dichiarazioni nominate, espressioni funzione assegnate e funzioni-metodo di oggetti.
 
-**Funzioni/metodi PHP:** 785. **Callable AMD nominati:** 654.
+**Funzioni/metodi PHP:** 795. **Callable AMD nominati:** 654.
 
 | Posizione | Callable | Responsabilità |
 |---|---|---|
@@ -798,10 +798,18 @@ Generato dall’albero sorgente VideoTrack 1.7.164. Le voci PHP includono funzio
 | `classes/external/save_note.php:201` | `insert_note_record` | Salva la riga nota canonica senza modificarne lo schema consolidato. |
 | `classes/external/save_note.php:245` | `collect_warnings` | Emette `note_saved` e restituisce warning non bloccanti per evento e troncamento. |
 | `classes/external/save_note.php:289` | `execute_returns` | Dichiara la risposta stabile con id evento nota e warning. |
-| `classes/external/save_reaction.php:45` | `execute_parameters` | Callable PHP `execute_parameters`; DocBlock e chiamanti definiscono parametri, valori restituiti ed effetti. |
-| `classes/external/save_reaction.php:65` | `execute` | Callable PHP `execute`; DocBlock e chiamanti definiscono parametri, valori restituiti ed effetti. |
-| `classes/external/save_reaction.php:285` | `export_reaction_for_client` | Callable PHP `export_reaction_for_client`; DocBlock e chiamanti definiscono parametri, valori restituiti ed effetti. |
-| `classes/external/save_reaction.php:311` | `execute_returns` | Callable PHP `execute_returns`; DocBlock e chiamanti definiscono parametri, valori restituiti ed effetti. |
+| `classes/external/save_reaction.php:44` | `execute_parameters` | Dichiara i parametri external stabili delle reazioni standard. |
+| `classes/external/save_reaction.php:64` | `execute` | Orchestra validazione, guard di sicurezza, persistenza sotto lock e post-insert nell'ordine documentato. |
+| `classes/external/save_reaction.php:141` | `validate_request` | Valida e normalizza ogni valore pubblico prima del caricamento del contesto. |
+| `classes/external/save_reaction.php:168` | `load_active_reaction` | Carica soltanto una definizione non eliminata appartenente all'attività corrente. |
+| `classes/external/save_reaction.php:184` | `normalise_video_time` | Arrotonda il punto richiesto e lo limita alla durata configurata del media. |
+| `classes/external/save_reaction.php:199` | `require_watched_position` | Richiede evidenza di visione server per il timestamp della reazione. |
+| `classes/external/save_reaction.php:218` | `require_burst_limit` | Applica dieci reazioni ogni dieci secondi a tutte le sessioni di utente/attività. |
+| `classes/external/save_reaction.php:245` | `has_duplicate_reaction` | Valuta sotto lock le finestre esatte per secondo visibile e reazione ripetuta. |
+| `classes/external/save_reaction.php:287` | `ignored_reaction_response` | Costruisce la risposta riuscita comune a contesa lock e duplicati ignorati. |
+| `classes/external/save_reaction.php:316` | `complete_reaction_write` | Invalida i conteggi, emette l'evento, aggiorna completion e restituisce warning limitati. |
+| `classes/external/save_reaction.php:396` | `export_reaction_for_client` | Esporta la definizione validata per il rendering immediato nel client. |
+| `classes/external/save_reaction.php:422` | `execute_returns` | Dichiara la struttura stabile del risultato e dei warning. |
 | `classes/external/save_segment.php:48` | `execute_parameters` | Callable PHP `execute_parameters`; DocBlock e chiamanti definiscono parametri, valori restituiti ed effetti. |
 | `classes/external/save_segment.php:78` | `execute` | Callable PHP `execute`; DocBlock e chiamanti definiscono parametri, valori restituiti ed effetti. |
 | `classes/external/save_segment.php:296` | `execute_returns` | Callable PHP `execute_returns`; DocBlock e chiamanti definiscono parametri, valori restituiti ed effetti. |
@@ -1429,13 +1437,15 @@ Generato dall’albero sorgente VideoTrack 1.7.164. Le voci PHP includono funzio
 | `tests/save_note_test.php:57` | `test_video_time_normalisation_clamps_to_media_bounds` | Copre timestamp negativo, valido, oltre durata e con durata ignota. |
 | `tests/save_note_test.php:72` | `test_execute_keeps_validation_and_security_guards_before_insert` | Protegge l'intero ordine di orchestrazione dalla validazione alla persistenza. |
 | `tests/save_note_test.php:103` | `test_note_rate_limit_cannot_be_bypassed_with_multiple_sessions` | Protegge il limite note globale per learner e attività. |
-| `tests/save_reaction_test.php:43` | `source` | Funzione/metodo PHP nominato `source`; vedere DocBlock e chiamanti per il contratto corrente. |
-| `tests/save_reaction_test.php:52` | `test_same_displayed_second_is_global_across_reaction_types` | Funzione/metodo PHP nominato `test_same_displayed_second_is_global_across_reaction_types`; vedere DocBlock e chiamanti per il contratto corrente. |
-| `tests/save_reaction_test.php:67` | `test_same_reaction_keeps_three_second_temporal_window` | Funzione/metodo PHP nominato `test_same_reaction_keeps_three_second_temporal_window`; vedere DocBlock e chiamanti per il contratto corrente. |
-| `tests/save_reaction_test.php:81` | `test_different_reactions_are_not_globally_blocked_by_three_second_window` | Funzione/metodo PHP nominato `test_different_reactions_are_not_globally_blocked_by_three_second_window`; vedere DocBlock e chiamanti per il contratto corrente. |
-| `tests/save_reaction_test.php:92` | `test_burst_limit_is_ten_in_ten_seconds_and_not_session_scoped` | Funzione/metodo PHP nominato `test_burst_limit_is_ten_in_ten_seconds_and_not_session_scoped`; vedere DocBlock e chiamanti per il contratto corrente. |
-| `tests/save_reaction_test.php:109` | `test_reaction_writes_remain_serialised_per_activity_and_user` | Funzione/metodo PHP nominato `test_reaction_writes_remain_serialised_per_activity_and_user`; vedere DocBlock e chiamanti per il contratto corrente. |
-| `tests/save_reaction_test.php:123` | `test_duplicate_reaction_is_soft_ignored` | Funzione/metodo PHP nominato `test_duplicate_reaction_is_soft_ignored`; vedere DocBlock e chiamanti per il contratto corrente. |
+| `tests/save_reaction_test.php:42` | `source` | Carica il sorgente reazioni corrente per i contratti di concorrenza e ordine. |
+| `tests/save_reaction_test.php:51` | `test_same_displayed_second_is_global_across_reaction_types` | Protegge la finestra duplicati del secondo visibile tra tipi di reazione. |
+| `tests/save_reaction_test.php:66` | `test_same_reaction_keeps_three_second_temporal_window` | Protegge le finestre wall-clock e video della stessa reazione. |
+| `tests/save_reaction_test.php:80` | `test_different_reactions_are_not_globally_blocked_by_three_second_window` | Mantiene la finestra di tre secondi limitata alla stessa definizione. |
+| `tests/save_reaction_test.php:91` | `test_burst_limit_is_ten_in_ten_seconds_and_not_session_scoped` | Protegge il predicato burst per utente/attività tra sessioni. |
+| `tests/save_reaction_test.php:108` | `test_reaction_writes_remain_serialised_per_activity_and_user` | Protegge chiave e rilascio del lock Moodle. |
+| `tests/save_reaction_test.php:122` | `test_duplicate_reaction_is_soft_ignored` | Mantiene i click duplicati come soft-ignore riusciti. |
+| `tests/save_reaction_test.php:139` | `test_execute_keeps_guard_and_persistence_order` | Protegge l'ordine completo dall'ingresso validato all'insert. |
+| `tests/save_reaction_test.php:166` | `test_post_insert_pipeline_keeps_side_effect_order` | Protegge l'ordine cache, evento, aggregato e completion dopo l'insert. |
 | `tests/student_view_contract_test.php:35` | `test_personal_lists_are_native_collapsible_sections` | Protects the three native collapsed learner sections. |
 | `tests/student_view_contract_test.php:71` | `test_learner_page_has_stable_vertical_order` | Protects the learner vertical order, active composers and unboxed completion-condition presentation. |
 | `tests/teacher_analytics_test.php:35` | `test_period_bounds` | Callable PHP `test_period_bounds`; DocBlock e chiamanti definiscono parametri, valori restituiti ed effetti. |

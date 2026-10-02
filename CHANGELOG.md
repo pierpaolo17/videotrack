@@ -1,5 +1,26 @@
 # VideoTrack changelog
 
+## 1.7.165 - 2026-10-02
+
+### Reaction-write pipeline decomposition
+
+- Accepted the complete 1.7.164 evidence: all six GitHub jobs passed; PHPStan and Psalm reported no errors; PHPMD
+  reported 121 reviewed findings; the server ran PHPCS and PHP lint on 131 files, Grunt on Moodle 5.0 and 5.3,
+  294 PHPUnit tests with 2684 assertions on both installations, and both strict validators with 10 passes, no
+  warnings and no failures.
+- Preserved the public `mod_videotrack_save_reaction` service while splitting request validation, active-reaction
+  lookup, timestamp clamping, watched-position evidence, cross-session burst limiting, duplicate detection,
+  soft-ignore responses and post-insert side effects into named private stages. The per-user/activity lock, exact
+  duplicate SQL predicate, canonical inserted record, non-fatal event/completion warnings and response shape are
+  unchanged.
+- Reduced the private reaction-export context contract from `context_module` to the `object` interface it actually
+  consumes. Added source contracts for the full guard/persistence order and the cache/event/count/completion order.
+  This targets the three PHPMD findings assigned to the service: `CouplingBetweenObjects`, `NPathComplexity` and
+  `ExcessiveMethodLength`; candidate CI remains authoritative for the resulting count.
+- Updated current English and Italian runtime, security, static-analysis, file and callable documentation. Database
+  schema, stored data, external parameters and response, capabilities, privacy, player adapters, AMD assets and
+  language packs are unchanged.
+
 ## 1.7.164 - 2026-09-28
 
 ### Personal-bookmark write pipeline and security-guard verification
