@@ -1,6 +1,6 @@
 # Function inventory
 
-Generated from the VideoTrack 1.7.166 source tree. PHP entries include named functions and methods; AMD entries include named declarations, assigned function expressions and object-method functions.
+Generated from the VideoTrack 1.7.167 source tree. PHP entries include named functions and methods; AMD entries include named declarations, assigned function expressions and object-method functions.
 
 **PHP functions/methods:** 798. **Named AMD callables:** 654.
 
@@ -947,8 +947,8 @@ Generated from the VideoTrack 1.7.166 source tree. PHP entries include named fun
 | `classes/local/privacy_manager.php:503` | `earliest_retained_timestamp` | PHP callable `earliest_retained_timestamp`; see its DocBlock and callers for parameter, return-value and side-effect details. |
 | `classes/local/privacy_manager.php:545` | `delete_state` | PHP callable `delete_state`; see its DocBlock and callers for parameter, return-value and side-effect details. |
 | `classes/local/privacy_manager.php:569` | `synchronise_completion` | PHP callable `synchronise_completion`; see its DocBlock and callers for parameter, return-value and side-effect details. |
-| `classes/local/reaction_write_service.php:44` | `complete` | Runs the cache, event, aggregate and completion pipeline after a reaction row has been inserted. |
-| `classes/local/reaction_write_service.php:101` | `trigger_event` | Emits `reaction_saved` and converts event failures into the established bounded warning. |
+| `classes/local/reaction_write_service.php:46` | `complete` | Runs the cache, event, aggregate and completion pipeline after a reaction row has been inserted. |
+| `classes/local/reaction_write_service.php:103` | `trigger_event` | Emits `reaction_saved` and converts event failures into the established bounded warning. |
 | `classes/local/report_access.php:40` | `has_legacy_full_access` | PHP callable `report_access::has_legacy_full_access`; backwards-compatible full-report capability check. |
 | `classes/local/report_access.php:54` | `can_view_aggregate` | PHP callable `report_access::can_view_aggregate`; aggregate report-view policy including legacy and individual-view inheritance. |
 | `classes/local/report_access.php:67` | `can_view_individual` | PHP callable `report_access::can_view_individual`; learner-level report-view policy with legacy full-access fallback. |

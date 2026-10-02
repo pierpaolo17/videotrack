@@ -1,6 +1,6 @@
 # Inventario delle funzioni
 
-Generato dall’albero sorgente VideoTrack 1.7.166. Le voci PHP includono funzioni e metodi nominati; le voci AMD includono dichiarazioni nominate, espressioni funzione assegnate e funzioni-metodo di oggetti.
+Generato dall’albero sorgente VideoTrack 1.7.167. Le voci PHP includono funzioni e metodi nominati; le voci AMD includono dichiarazioni nominate, espressioni funzione assegnate e funzioni-metodo di oggetti.
 
 **Funzioni/metodi PHP:** 798. **Callable AMD nominati:** 654.
 
@@ -947,8 +947,8 @@ Generato dall’albero sorgente VideoTrack 1.7.166. Le voci PHP includono funzio
 | `classes/local/privacy_manager.php:503` | `earliest_retained_timestamp` | Callable PHP `earliest_retained_timestamp`; DocBlock e chiamanti definiscono parametri, valori restituiti ed effetti. |
 | `classes/local/privacy_manager.php:545` | `delete_state` | Callable PHP `delete_state`; DocBlock e chiamanti definiscono parametri, valori restituiti ed effetti. |
 | `classes/local/privacy_manager.php:569` | `synchronise_completion` | Callable PHP `synchronise_completion`; DocBlock e chiamanti definiscono parametri, valori restituiti ed effetti. |
-| `classes/local/reaction_write_service.php:44` | `complete` | Esegue la pipeline cache, evento, aggregati e completion dopo l'inserimento della reazione. |
-| `classes/local/reaction_write_service.php:101` | `trigger_event` | Emette `reaction_saved` e converte gli errori evento nel warning limitato già previsto. |
+| `classes/local/reaction_write_service.php:46` | `complete` | Esegue la pipeline cache, evento, aggregati e completion dopo l'inserimento della reazione. |
+| `classes/local/reaction_write_service.php:103` | `trigger_event` | Emette `reaction_saved` e converte gli errori evento nel warning limitato già previsto. |
 | `classes/local/report_access.php:40` | `has_legacy_full_access` | Callable PHP `report_access::has_legacy_full_access`; verifica retrocompatibile della capability completa di report. |
 | `classes/local/report_access.php:54` | `can_view_aggregate` | Callable PHP `report_access::can_view_aggregate`; policy di visualizzazione aggregata con fallback legacy e implicazione dalla vista individuale. |
 | `classes/local/report_access.php:67` | `can_view_individual` | Callable PHP `report_access::can_view_individual`; policy di visualizzazione learner-level con fallback legacy completo. |

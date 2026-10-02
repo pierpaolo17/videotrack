@@ -18,6 +18,8 @@ namespace mod_videotrack\local;
 
 use mod_videotrack\event\reaction_saved;
 
+// Keep an explicit direct-access guard on this write-side service.
+// phpcs:ignore moodle.Files.MoodleInternal.MoodleInternalNotNeeded
 defined('MOODLE_INTERNAL') || die();
 
 /**

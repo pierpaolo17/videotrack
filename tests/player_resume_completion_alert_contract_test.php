@@ -90,18 +90,18 @@ final class player_resume_completion_alert_contract_test extends advanced_testca
      */
     public function test_completion_mutations_synchronise_moodle_state(): void {
         $savesegment = file_get_contents(__DIR__ . '/../classes/external/save_segment.php');
-        $savereaction = file_get_contents(__DIR__ . '/../classes/external/save_reaction.php');
+        $reactionwrite = file_get_contents(__DIR__ . '/../classes/local/reaction_write_service.php');
         $deletereaction = file_get_contents(__DIR__ . '/../classes/external/delete_reaction.php');
         $view = file_get_contents(__DIR__ . '/../view.php');
         $this->assertIsString($savesegment);
-        $this->assertIsString($savereaction);
+        $this->assertIsString($reactionwrite);
         $this->assertIsString($deletereaction);
         $this->assertIsString($view);
 
-        foreach ([$savesegment, $savereaction, $deletereaction] as $source) {
+        foreach ([$savesegment, $reactionwrite, $deletereaction] as $source) {
             $this->assertStringContainsString('tracker::update_moodle_completion_if_changed(', $source);
         }
-        foreach ([$savereaction, $deletereaction] as $source) {
+        foreach ([$reactionwrite, $deletereaction] as $source) {
             $this->assertStringContainsString('tracker::refresh_completion(', $source);
         }
 

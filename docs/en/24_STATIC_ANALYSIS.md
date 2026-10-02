@@ -122,7 +122,10 @@ line, not for redeclaring a method parameter.
 - Reaction writes expose named request-validation, active-definition, timestamp, watched-evidence, burst-limit,
   duplicate and soft-ignore stages. The external endpoint owns every pre-insert security and concurrency decision;
   the focused `reaction_write_service` owns cache/event/count/completion work after persistence. Source contracts
-  preserve both orders, stable response mapping and the export helper's generic context contract.
+  preserve both orders, stable response mapping and the export helper's generic context contract. The cross-service
+  completion contract inspects this current owner rather than requiring the extracted calls to remain in the public
+  endpoint. Its explicit `MOODLE_INTERNAL` guard retains one line-scoped PHPCS exception because the autoloaded
+  class has no top-level side effects.
 - PHPMD remains advisory. Its remaining reports concern reviewed complexity, size, broad public classes, required
   Moodle callback parameters and boolean switches that need separate behavioural refactoring. Exact current counts
   must be read from the CI artifact produced for the candidate under review.

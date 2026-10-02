@@ -1,5 +1,21 @@
 # VideoTrack changelog
 
+## 1.7.167 - 2026-10-02
+
+### Completion contract follows the reaction write boundary
+
+- Rejected the 1.7.166 candidate after all six matrix jobs exposed the same PHPUnit source-contract failure. The
+  production flow, strict validator, Behat and Grunt completed; PHPStan and Psalm reported no errors, and PHPMD
+  decreased from 119 to 118 reviewed findings with no finding on `external\save_reaction` or
+  `local\reaction_write_service`.
+- Updated the completion-synchronisation contract to inspect the focused reaction post-write service instead of
+  requiring the extracted completion calls to remain in the public external endpoint. The test still requires
+  every completion-changing mutation to call both the VideoTrack refresh and Moodle completion synchronisation.
+- Retained the explicit `MOODLE_INTERNAL` direct-access guard on the new write-side service and documented only the
+  corresponding line with the narrow Moodle PHPCS exception. No production behaviour, database schema, AJAX
+  contract, lock, duplicate rule, AMD asset, capability or language string changed.
+- Updated the current English and Italian technical documentation and callable inventory for the corrected tree.
+
 ## 1.7.166 - 2026-10-02
 
 ### Reaction post-write responsibility boundary
