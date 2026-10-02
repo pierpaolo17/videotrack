@@ -50,6 +50,13 @@ clamping, watched-position evidence and the user/activity burst limit. That rate
 playback session id, so parallel tabs cannot multiply the allowance. Only then is the canonical note row inserted;
 event-delivery and truncation warnings do not roll back an otherwise valid personal note.
 
+`save_reaction::execute()` follows the same ordering discipline while retaining reaction-specific concurrency.
+Validation, sesskey, context, participation and feature checks precede active-reaction lookup, media-duration
+clamping, watched evidence and the cross-session burst predicate. A user/activity Moodle lock then encloses the
+exact duplicate query and insert. Failure to acquire the lock and duplicate clicks are successful soft ignores;
+only an inserted row reaches cache invalidation, event delivery, aggregate counting and completion refresh. Event
+and completion failures return bounded warnings without turning a committed reaction into a failed write.
+
 ## Permissions and ownership
 
 - participation is independent from report access;

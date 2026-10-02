@@ -52,6 +52,13 @@ limit omette intenzionalmente l'id della sessione di riproduzione, quindi schede
 Solo dopo viene inserita la riga nota canonica; consegna evento e warning di troncamento non annullano una nota
 personale altrimenti valida.
 
+`save_reaction::execute()` segue lo stesso ordine conservando la concorrenza specifica delle reazioni. Validazione,
+sesskey, contesto, partecipazione e abilitazione precedono lettura della reazione attiva, limite alla durata,
+evidenza vista e predicato burst tra sessioni. Un lock Moodle per utente/attività racchiude quindi query duplicati
+esatta e insert. Mancata acquisizione del lock e click duplicati sono soft-ignore riusciti; soltanto una riga
+inserita raggiunge invalidazione cache, consegna evento, conteggio aggregato e refresh completion. Errori di evento
+o completion restituiscono warning limitati senza trasformare una reazione già salvata in una scrittura fallita.
+
 ## Permessi e proprietà
 
 - partecipazione e accesso ai report sono indipendenti;

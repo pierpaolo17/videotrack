@@ -125,6 +125,10 @@ dichiarazione di un parametro di metodo.
   vista, rate limit tra sessioni, persistenza ed evento. I contratti sorgente mantengono l'ordine di validazione e
   sicurezza e impediscono che il limite di dieci in dieci secondi per utente/attività venga ristretto a una sola
   sessione browser.
+- La scrittura delle reazioni espone fasi nominate per validazione richiesta, definizione attiva, timestamp,
+  evidenza vista, burst limit, duplicati, soft-ignore e post-insert. I contratti sorgente preservano l'ordine
+  pre-insert completo e quello cache/evento/conteggio/completion; l'helper export accetta soltanto l'oggetto contesto
+  generico che usa realmente.
 - PHPMD resta consultivo. I rilievi residui riguardano complessità, dimensione, classi pubbliche ampie, parametri
   obbligatori dei callback Moodle e flag booleani che richiedono refactoring comportamentali separati. I conteggi
   correnti esatti vanno letti nell'artifact CI prodotto per la candidata in esame.

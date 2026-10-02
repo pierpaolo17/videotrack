@@ -1,6 +1,6 @@
 # Inventario dei file distribuiti
 
-Questo inventario è generato sull'albero repository VideoTrack 1.7.164. Elenca ogni file non documentale distribuito
+Questo inventario è generato sull'albero repository VideoTrack 1.7.165. Elenca ogni file non documentale distribuito
 e i file CI/tooling presenti soltanto nel repository. Il JavaScript canonico è in `amd/src`; i file in `amd/build`
 sono generati.
 
@@ -190,7 +190,7 @@ Voci: **302** — 300 file distribuiti e due file presenti soltanto nel reposito
 | `classes/external/save_bookmark.php` | Servizio esterno AJAX `save_bookmark` con validazione lato server. |
 | `classes/external/save_integrity_event.php` | Servizio esterno AJAX `save_integrity_event` con validazione lato server. |
 | `classes/external/save_note.php` | Salva una nota personale attraverso fasi esplicite di normalizzazione, evidenza vista, rate limit globale, persistenza e warning. |
-| `classes/external/save_reaction.php` | Servizio esterno AJAX `save_reaction` con validazione lato server. |
+| `classes/external/save_reaction.php` | Salva una reazione con fasi ordinate di validazione, evidenza vista, limite tra sessioni, duplicati/persistenza sotto lock e post-insert. |
 | `classes/external/save_segment.php` | Servizio esterno AJAX `save_segment` con validazione lato server. |
 | `classes/external/start_playback.php` | Servizio AJAX che apre una finestra server idempotente a credito zero. |
 | `classes/form/forum_post_form.php` | Form Moodle `forum_post_form`. |
@@ -298,7 +298,7 @@ Voci: **302** — 300 file distribuiti e due file presenti soltanto nel reposito
 | `tests/save_bookmark_test.php` | Copertura PHPUnit per save bookmark test. |
 | `tests/save_integrity_event_test.php` | Copertura PHPUnit per save integrity event test. |
 | `tests/save_note_test.php` | Copertura PHPUnit di parametri nota, limiti timestamp, ordine dei guard e rate limit tra sessioni. |
-| `tests/save_reaction_test.php` | Test PHPUnit/di contratto corrente distribuito con il plugin. |
+| `tests/save_reaction_test.php` | Contratti sorgente per finestre duplicati, limite tra sessioni, lock e ordine pre/post-insert delle reazioni. |
 | `tests/student_view_contract_test.php` | Contratto statico della vista learner per le sezioni personali native. |
 | `tests/teacher_analytics_test.php` | Copertura PHPUnit per teacher analytics test. |
 | `tests/timed_text_test.php` | Copertura PHPUnit per validazione VTT, aree File API canoniche e precedenza del fallback legacy. |

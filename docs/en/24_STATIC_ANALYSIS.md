@@ -119,6 +119,9 @@ line, not for redeclaring a method parameter.
 - Personal-bookmark writes expose the corresponding named label, timestamp, watched-evidence, cross-session
   rate-limit, persistence and event stages. Source contracts preserve validation and security order and prevent the
   ten-in-ten-seconds user/activity limit from being narrowed to one browser session.
+- Reaction writes expose named request-validation, active-definition, timestamp, watched-evidence, burst-limit,
+  duplicate, soft-ignore and post-insert stages. Source contracts preserve the complete pre-insert order and the
+  cache/event/count/completion order; the export helper accepts only the generic context object it actually uses.
 - PHPMD remains advisory. Its remaining reports concern reviewed complexity, size, broad public classes, required
   Moodle callback parameters and boolean switches that need separate behavioural refactoring. Exact current counts
   must be read from the CI artifact produced for the candidate under review.

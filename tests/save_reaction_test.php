@@ -23,10 +23,9 @@ use PHPUnit\Framework\Attributes\CoversClass;
 /**
  * Regression contracts for reaction anti-spam safeguards.
  *
- * These tests deliberately inspect the external function source because the
- * safeguards are implemented as one atomic DB predicate around a Moodle lock.
- * Keeping that predicate intact avoids extracting production logic merely for
- * testability while still protecting the exact server-side contract.
+ * These tests deliberately inspect the external function source because they
+ * protect the ordering and scope of the server-side guards around a Moodle
+ * lock, including the exact atomic duplicate predicate.
  *
  * @package    mod_videotrack
  * @category   test
@@ -110,7 +109,7 @@ final class save_reaction_test extends advanced_testcase {
         $source = $this->source();
 
         $this->assertStringContainsString(
-            "\$reactionlockkey = 'reaction:' . \$videotrack->id . ':' . (int)\$USER->id;",
+            "\$reactionlockkey = 'reaction:' . \$videotrack->id . ':' . \$userid;",
             $source
         );
         $this->assertStringContainsString('$reactionlockfactory->get_lock($reactionlockkey, 10);', $source);
@@ -129,7 +128,61 @@ final class save_reaction_test extends advanced_testcase {
         $this->assertNotFalse($end);
         $duplicateblock = substr($source, $start, $end - $start);
 
-        $this->assertStringContainsString("'reactioneventid' => 0,", $duplicateblock);
-        $this->assertStringContainsString("'warnings'        => [],", $duplicateblock);
+        $this->assertStringContainsString('return self::ignored_reaction_response(', $duplicateblock);
+        $this->assertStringContainsString("'reactioneventid' => 0,", $source);
+        $this->assertStringContainsString("'warnings'        => [],", $source);
+    }
+
+    /**
+     * Public execution keeps every security and consistency phase in order.
+     */
+    public function test_execute_keeps_guard_and_persistence_order(): void {
+        $source = $this->source();
+        $needles = [
+            'self::validate_request(',
+            'helper::require_ajax_sesskey();',
+            'helper::load_and_validate_context(',
+            "if (empty(\$videotrack->reactionsenabled)) {",
+            'self::load_active_reaction(',
+            'self::normalise_video_time(',
+            'self::require_watched_position(',
+            'self::require_burst_limit(',
+            "\core\lock\lock_config::get_lock_factory('mod_videotrack')",
+            'self::has_duplicate_reaction(',
+            "\$DB->insert_record('videotrack_reactev', \$record)",
+            'self::complete_reaction_write(',
+        ];
+        $cursor = 0;
+        foreach ($needles as $needle) {
+            $position = strpos($source, $needle, $cursor);
+            $this->assertNotFalse($position, 'Missing or out-of-order reaction phase: ' . $needle);
+            $cursor = $position + strlen($needle);
+        }
+    }
+
+    /**
+     * Post-insert work preserves cache, event, aggregate and completion ordering.
+     */
+    public function test_post_insert_pipeline_keeps_side_effect_order(): void {
+        $source = $this->source();
+        $start = strpos($source, 'private static function complete_reaction_write(');
+        $end = strpos($source, 'private static function export_reaction_for_client(', $start === false ? 0 : $start);
+
+        $this->assertNotFalse($start);
+        $this->assertNotFalse($end);
+        $block = substr($source, $start, $end - $start);
+        $needles = [
+            'tracker::invalidate_reactioncountscache(',
+            'reaction_saved::create(',
+            'tracker::reaction_counts(',
+            'tracker::refresh_completion(',
+            'tracker::update_moodle_completion_if_changed(',
+        ];
+        $cursor = 0;
+        foreach ($needles as $needle) {
+            $position = strpos($block, $needle, $cursor);
+            $this->assertNotFalse($position, 'Missing or out-of-order post-insert phase: ' . $needle);
+            $cursor = $position + strlen($needle);
+        }
     }
 }
