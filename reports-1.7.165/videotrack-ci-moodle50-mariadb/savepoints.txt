@@ -1,0 +1,5 @@
+ RUN  Check upgrade savepoints on mod_videotrack
+  - /home/runner/work/videotrack/videotrack/moodle/mod/videotrack/db/upgrade.php: 
+    + found 205 matching 'if' blocks and 'savepoint' calls
+    + versions in upgrade blocks properly ordered
+    + versions in savepoint calls properly matching upgrade blocks

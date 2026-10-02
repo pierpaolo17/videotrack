@@ -1,0 +1,3 @@
+Moodle root: /home/runner/work/videotrack/videotrack/moodle
+VideoTrack root: /home/runner/work/videotrack/videotrack/moodle/public/mod/videotrack
+Moodle installer: /home/runner/work/videotrack/videotrack/moodle/admin/cli/install_database.php

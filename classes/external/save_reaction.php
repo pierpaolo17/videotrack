@@ -21,8 +21,8 @@ use core_external\external_function_parameters;
 use core_external\external_single_structure;
 use core_external\external_value;
 use core_external\external_warnings;
+use mod_videotrack\local\reaction_write_service;
 use mod_videotrack\local\tracker;
-use mod_videotrack\event\reaction_saved;
 
 defined('MOODLE_INTERNAL') || die();
 
@@ -129,7 +129,14 @@ class save_reaction extends external_api {
             $reactionlock->release();
         }
 
-        return self::complete_reaction_write($loaded, $userid, $reaction, $eventid, $videotime);
+        $postwrite = reaction_write_service::complete($loaded, $userid, $reaction, $eventid, $videotime);
+        return [
+            'reactioneventid' => $eventid,
+            'uniquereactions' => $postwrite['uniquereactions'],
+            'iscompleted'     => $postwrite['iscompleted'],
+            'reaction'        => self::export_reaction_for_client($reaction, $context, $videotime),
+            'warnings'        => $postwrite['warnings'],
+        ];
     }
 
     /**
@@ -302,88 +309,6 @@ class save_reaction extends external_api {
             'warnings'        => [],
         ];
     }
-
-    /**
-     * Runs the post-insert event and completion phases and builds the response.
-     *
-     * @param array $loaded Validated course, activity, module and context records.
-     * @param int $userid User id.
-     * @param \stdClass $reaction Reaction definition.
-     * @param int $eventid Saved reaction event id.
-     * @param float $videotime Saved video time.
-     * @return array
-     */
-    private static function complete_reaction_write(
-        array $loaded,
-        int $userid,
-        \stdClass $reaction,
-        int $eventid,
-        float $videotime
-    ): array {
-        global $DB;
-        $course = $loaded['course'];
-        $videotrack = $loaded['videotrack'];
-        $cm = $loaded['cm'];
-        $context = $loaded['context'];
-        // O1: invalidate per-request cache so subsequent reaction_counts() calls
-        // within this request see the newly inserted record.
-        tracker::invalidate_reactioncountscache($videotrack->id, $userid);
-        $warnings = [];
-
-        // Log the event in Moodle logs. This is useful but must not turn an
-        // already-saved reaction into a failed AJAX response: otherwise the UI
-        // shows an error even though the record appears after page refresh.
-        try {
-            $event = reaction_saved::create([
-                'objectid' => $eventid,
-                'context'  => $context,
-                'other'    => [
-                    'reactionlabel' => $reaction->label,
-                    'videotime'     => $videotime,
-                ],
-            ]);
-            $event->trigger();
-        } catch (\Throwable $e) {
-            debugging('VideoTrack reaction event trigger failed: ' . $e->getMessage(), DEBUG_DEVELOPER);
-            $warnings[] = [
-                'item' => 'reaction',
-                'itemid' => (int)$eventid,
-                'warningcode' => 'eventtriggerfailed',
-                'message' => 'Reaction saved, but the Moodle log event could not be triggered.',
-            ];
-        }
-
-        // Read reaction counts once after insert, then pass the same summary to
-        // refresh_completion() so this request does not repeat the aggregate query.
-        $summary = tracker::reaction_counts($videotrack->id, $userid);
-        $state = $DB->get_record('videotrack_state', ['videotrackid' => $videotrack->id, 'userid' => $userid]);
-        try {
-            $requiredreactionids = array_keys(array_filter((array)$DB->get_records_menu('videotrack_react', [
-                'videotrackid' => $videotrack->id,
-                'requiredforcompletion' => 1,
-                'isdeleted' => 0,
-            ], '', 'id,id')));
-            $state = tracker::refresh_completion($videotrack, $cm, $userid, $summary, $requiredreactionids);
-            $completion = new \completion_info($course);
-            tracker::update_moodle_completion_if_changed($completion, $cm, (bool)$state->iscompleted, $userid);
-        } catch (\Throwable $e) {
-            debugging('VideoTrack reaction completion refresh failed: ' . $e->getMessage(), DEBUG_DEVELOPER);
-            $warnings[] = [
-                'item' => 'reaction',
-                'itemid' => (int)$eventid,
-                'warningcode' => 'completionrefreshfailed',
-                'message' => 'Reaction saved, but completion could not be refreshed immediately.',
-            ];
-        }
-        return [
-            'reactioneventid' => $eventid,
-            'uniquereactions' => $summary['uniquecount'],
-            'iscompleted'     => !empty($state->iscompleted),
-            'reaction'        => self::export_reaction_for_client($reaction, $context, $videotime),
-            'warnings'        => $warnings,
-        ];
-    }
-
 
     /**
      * Exports the saved reaction definition for immediate client-side rendering.

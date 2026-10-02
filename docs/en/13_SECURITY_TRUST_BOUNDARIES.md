@@ -54,7 +54,8 @@ event-delivery and truncation warnings do not roll back an otherwise valid perso
 Validation, sesskey, context, participation and feature checks precede active-reaction lookup, media-duration
 clamping, watched evidence and the cross-session burst predicate. A user/activity Moodle lock then encloses the
 exact duplicate query and insert. Failure to acquire the lock and duplicate clicks are successful soft ignores;
-only an inserted row reaches cache invalidation, event delivery, aggregate counting and completion refresh. Event
+only an inserted row reaches the focused `reaction_write_service`, which preserves cache invalidation, event
+delivery, aggregate counting and completion refresh in that order. Event
 and completion failures return bounded warnings without turning a committed reaction into a failed write.
 
 ## Permissions and ownership

@@ -56,7 +56,8 @@ personale altrimenti valida.
 sesskey, contesto, partecipazione e abilitazione precedono lettura della reazione attiva, limite alla durata,
 evidenza vista e predicato burst tra sessioni. Un lock Moodle per utente/attività racchiude quindi query duplicati
 esatta e insert. Mancata acquisizione del lock e click duplicati sono soft-ignore riusciti; soltanto una riga
-inserita raggiunge invalidazione cache, consegna evento, conteggio aggregato e refresh completion. Errori di evento
+inserita raggiunge il servizio mirato `reaction_write_service`, che conserva nell'ordine invalidazione cache,
+consegna evento, conteggio aggregato e refresh completion. Errori di evento
 o completion restituiscono warning limitati senza trasformare una reazione già salvata in una scrittura fallita.
 
 ## Permessi e proprietà

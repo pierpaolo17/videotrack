@@ -46,6 +46,17 @@ final class save_reaction_test extends advanced_testcase {
     }
 
     /**
+     * Returns the post-insert reaction service source.
+     *
+     * @return string
+     */
+    private function post_insert_source(): string {
+        $source = file_get_contents(__DIR__ . '/../classes/local/reaction_write_service.php');
+        $this->assertNotFalse($source);
+        return $source;
+    }
+
+    /**
      * Any reaction already saved in the same displayed second blocks another one.
      */
     public function test_same_displayed_second_is_global_across_reaction_types(): void {
@@ -150,7 +161,7 @@ final class save_reaction_test extends advanced_testcase {
             "\core\lock\lock_config::get_lock_factory('mod_videotrack')",
             'self::has_duplicate_reaction(',
             "\$DB->insert_record('videotrack_reactev', \$record)",
-            'self::complete_reaction_write(',
+            'reaction_write_service::complete(',
         ];
         $cursor = 0;
         foreach ($needles as $needle) {
@@ -164,25 +175,33 @@ final class save_reaction_test extends advanced_testcase {
      * Post-insert work preserves cache, event, aggregate and completion ordering.
      */
     public function test_post_insert_pipeline_keeps_side_effect_order(): void {
-        $source = $this->source();
-        $start = strpos($source, 'private static function complete_reaction_write(');
-        $end = strpos($source, 'private static function export_reaction_for_client(', $start === false ? 0 : $start);
-
-        $this->assertNotFalse($start);
-        $this->assertNotFalse($end);
-        $block = substr($source, $start, $end - $start);
+        $source = $this->post_insert_source();
         $needles = [
             'tracker::invalidate_reactioncountscache(',
-            'reaction_saved::create(',
+            'self::trigger_event(',
             'tracker::reaction_counts(',
             'tracker::refresh_completion(',
             'tracker::update_moodle_completion_if_changed(',
         ];
         $cursor = 0;
         foreach ($needles as $needle) {
-            $position = strpos($block, $needle, $cursor);
+            $position = strpos($source, $needle, $cursor);
             $this->assertNotFalse($position, 'Missing or out-of-order post-insert phase: ' . $needle);
             $cursor = $position + strlen($needle);
         }
+    }
+
+    /**
+     * The external service retains the stable response after delegating side effects.
+     */
+    public function test_external_response_wraps_post_insert_service_result(): void {
+        $source = $this->source();
+
+        $this->assertStringContainsString('use mod_videotrack\\local\\reaction_write_service;', $source);
+        $this->assertStringContainsString('$postwrite = reaction_write_service::complete(', $source);
+        $this->assertStringContainsString("'reactioneventid' => \$eventid,", $source);
+        $this->assertStringContainsString("'uniquereactions' => \$postwrite['uniquereactions'],", $source);
+        $this->assertStringContainsString("'iscompleted'     => \$postwrite['iscompleted'],", $source);
+        $this->assertStringContainsString("'warnings'        => \$postwrite['warnings'],", $source);
     }
 }
