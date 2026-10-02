@@ -37,6 +37,16 @@ catalogue and an empty result uses the local fallback. The reaction picker compo
 catalogue-body renderers. All markup continues through `html_writer`, so splitting presentation code does not create
 a raw-HTML input path.
 
+## Reaction write boundary
+
+`classes/external/save_reaction.php` owns the stable AJAX contract, request validation, watched-position and burst
+guards, the per-user/activity lock, the exact duplicate predicate and canonical insert. Once that row exists,
+`classes/local/reaction_write_service.php` owns cache invalidation, non-fatal Moodle event delivery, the single
+aggregate read and non-fatal completion refresh. The collaborator returns only the aggregate count, completion
+state and bounded warnings needed by the external service to build its unchanged response. This boundary prevents
+post-write framework dependencies from accumulating in the public endpoint without moving any security or
+concurrency decision outside it.
+
 ## Player contract
 
 Each adapter must provide reliable current time, duration, play/pause, seek, rate and end callbacks. Shared modules never assume identical provider behaviour. Programmatic resume, replay and blocked-seek correction are distinguished from user seek. YouTube and Vimeo SDK limitations are handled explicitly.

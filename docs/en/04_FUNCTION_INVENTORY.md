@@ -1,8 +1,8 @@
 # Function inventory
 
-Generated from the VideoTrack 1.7.165 source tree. PHP entries include named functions and methods; AMD entries include named declarations, assigned function expressions and object-method functions.
+Generated from the VideoTrack 1.7.166 source tree. PHP entries include named functions and methods; AMD entries include named declarations, assigned function expressions and object-method functions.
 
-**PHP functions/methods:** 795. **Named AMD callables:** 654.
+**PHP functions/methods:** 798. **Named AMD callables:** 654.
 
 | Location | Callable | Responsibility |
 |---|---|---|
@@ -800,16 +800,15 @@ Generated from the VideoTrack 1.7.165 source tree. PHP entries include named fun
 | `classes/external/save_note.php:289` | `execute_returns` | Declares the stable note-event id and warnings response. |
 | `classes/external/save_reaction.php:44` | `execute_parameters` | Declares the stable external parameters for standard reactions. |
 | `classes/external/save_reaction.php:64` | `execute` | Orchestrates validation, security guards, locked persistence and post-insert work in the documented order. |
-| `classes/external/save_reaction.php:141` | `validate_request` | Validates and normalises every public request value before context loading. |
-| `classes/external/save_reaction.php:168` | `load_active_reaction` | Loads only a non-deleted reaction definition belonging to the current activity. |
-| `classes/external/save_reaction.php:184` | `normalise_video_time` | Rounds the requested point and clamps it to the configured media duration. |
-| `classes/external/save_reaction.php:199` | `require_watched_position` | Requires server-validated watched evidence for the reaction timestamp. |
-| `classes/external/save_reaction.php:218` | `require_burst_limit` | Enforces ten reactions per ten seconds across all sessions of one user/activity. |
-| `classes/external/save_reaction.php:245` | `has_duplicate_reaction` | Evaluates the exact displayed-second and repeated-reaction windows while the lock is held. |
-| `classes/external/save_reaction.php:287` | `ignored_reaction_response` | Builds the successful response shared by lock-contention and duplicate soft ignores. |
-| `classes/external/save_reaction.php:316` | `complete_reaction_write` | Invalidates cached counts, emits the event, refreshes completion and returns bounded warnings. |
-| `classes/external/save_reaction.php:396` | `export_reaction_for_client` | Exports the validated reaction definition for immediate client rendering. |
-| `classes/external/save_reaction.php:422` | `execute_returns` | Declares the stable reaction result and warnings structure. |
+| `classes/external/save_reaction.php:148` | `validate_request` | Validates and normalises every public request value before context loading. |
+| `classes/external/save_reaction.php:175` | `load_active_reaction` | Loads only a non-deleted reaction definition belonging to the current activity. |
+| `classes/external/save_reaction.php:191` | `normalise_video_time` | Rounds the requested point and clamps it to the configured media duration. |
+| `classes/external/save_reaction.php:206` | `require_watched_position` | Requires server-validated watched evidence for the reaction timestamp. |
+| `classes/external/save_reaction.php:225` | `require_burst_limit` | Enforces ten reactions per ten seconds across all sessions of one user/activity. |
+| `classes/external/save_reaction.php:252` | `has_duplicate_reaction` | Evaluates the exact displayed-second and repeated-reaction windows while the lock is held. |
+| `classes/external/save_reaction.php:294` | `ignored_reaction_response` | Builds the successful response shared by lock-contention and duplicate soft ignores. |
+| `classes/external/save_reaction.php:321` | `export_reaction_for_client` | Exports the validated reaction definition for immediate client rendering. |
+| `classes/external/save_reaction.php:347` | `execute_returns` | Declares the stable reaction result and warnings structure. |
 | `classes/external/save_segment.php:48` | `execute_parameters` | PHP callable `execute_parameters`; see its DocBlock and callers for parameter, return-value and side-effect details. |
 | `classes/external/save_segment.php:78` | `execute` | PHP callable `execute`; see its DocBlock and callers for parameter, return-value and side-effect details. |
 | `classes/external/save_segment.php:296` | `execute_returns` | PHP callable `execute_returns`; see its DocBlock and callers for parameter, return-value and side-effect details. |
@@ -948,6 +947,8 @@ Generated from the VideoTrack 1.7.165 source tree. PHP entries include named fun
 | `classes/local/privacy_manager.php:503` | `earliest_retained_timestamp` | PHP callable `earliest_retained_timestamp`; see its DocBlock and callers for parameter, return-value and side-effect details. |
 | `classes/local/privacy_manager.php:545` | `delete_state` | PHP callable `delete_state`; see its DocBlock and callers for parameter, return-value and side-effect details. |
 | `classes/local/privacy_manager.php:569` | `synchronise_completion` | PHP callable `synchronise_completion`; see its DocBlock and callers for parameter, return-value and side-effect details. |
+| `classes/local/reaction_write_service.php:44` | `complete` | Runs the cache, event, aggregate and completion pipeline after a reaction row has been inserted. |
+| `classes/local/reaction_write_service.php:101` | `trigger_event` | Emits `reaction_saved` and converts event failures into the established bounded warning. |
 | `classes/local/report_access.php:40` | `has_legacy_full_access` | PHP callable `report_access::has_legacy_full_access`; backwards-compatible full-report capability check. |
 | `classes/local/report_access.php:54` | `can_view_aggregate` | PHP callable `report_access::can_view_aggregate`; aggregate report-view policy including legacy and individual-view inheritance. |
 | `classes/local/report_access.php:67` | `can_view_individual` | PHP callable `report_access::can_view_individual`; learner-level report-view policy with legacy full-access fallback. |
@@ -1438,14 +1439,16 @@ Generated from the VideoTrack 1.7.165 source tree. PHP entries include named fun
 | `tests/save_note_test.php:72` | `test_execute_keeps_validation_and_security_guards_before_insert` | Protects the complete validation-to-persistence orchestration order. |
 | `tests/save_note_test.php:103` | `test_note_rate_limit_cannot_be_bypassed_with_multiple_sessions` | Protects the user/activity-wide note burst predicate. |
 | `tests/save_reaction_test.php:42` | `source` | Loads the current reaction-service source for concurrency and ordering contracts. |
-| `tests/save_reaction_test.php:51` | `test_same_displayed_second_is_global_across_reaction_types` | Protects the displayed-second duplicate window across reaction types. |
-| `tests/save_reaction_test.php:66` | `test_same_reaction_keeps_three_second_temporal_window` | Protects the same-reaction wall-clock and video-time windows. |
-| `tests/save_reaction_test.php:80` | `test_different_reactions_are_not_globally_blocked_by_three_second_window` | Keeps the three-second window scoped to the same reaction definition. |
-| `tests/save_reaction_test.php:91` | `test_burst_limit_is_ten_in_ten_seconds_and_not_session_scoped` | Protects the cross-session user/activity burst predicate. |
-| `tests/save_reaction_test.php:108` | `test_reaction_writes_remain_serialised_per_activity_and_user` | Protects the Moodle lock key and release contract. |
-| `tests/save_reaction_test.php:122` | `test_duplicate_reaction_is_soft_ignored` | Keeps duplicate clicks as successful soft ignores. |
-| `tests/save_reaction_test.php:139` | `test_execute_keeps_guard_and_persistence_order` | Protects the complete validation-to-insert orchestration order. |
-| `tests/save_reaction_test.php:166` | `test_post_insert_pipeline_keeps_side_effect_order` | Protects cache, event, aggregate and completion ordering after insert. |
+| `tests/save_reaction_test.php:53` | `post_insert_source` | Loads the post-insert collaborator source for ordering and response-mapping contracts. |
+| `tests/save_reaction_test.php:62` | `test_same_displayed_second_is_global_across_reaction_types` | Protects the displayed-second duplicate window across reaction types. |
+| `tests/save_reaction_test.php:77` | `test_same_reaction_keeps_three_second_temporal_window` | Protects the same-reaction wall-clock and video-time windows. |
+| `tests/save_reaction_test.php:91` | `test_different_reactions_are_not_globally_blocked_by_three_second_window` | Keeps the three-second window scoped to the same reaction definition. |
+| `tests/save_reaction_test.php:102` | `test_burst_limit_is_ten_in_ten_seconds_and_not_session_scoped` | Protects the cross-session user/activity burst predicate. |
+| `tests/save_reaction_test.php:119` | `test_reaction_writes_remain_serialised_per_activity_and_user` | Protects the Moodle lock key and release contract. |
+| `tests/save_reaction_test.php:133` | `test_duplicate_reaction_is_soft_ignored` | Keeps duplicate clicks as successful soft ignores. |
+| `tests/save_reaction_test.php:150` | `test_execute_keeps_guard_and_persistence_order` | Protects the complete validation-to-insert orchestration order. |
+| `tests/save_reaction_test.php:177` | `test_post_insert_pipeline_keeps_side_effect_order` | Protects cache, event, aggregate and completion ordering after insert. |
+| `tests/save_reaction_test.php:197` | `test_external_response_wraps_post_insert_service_result` | Protects the stable external response mapping after delegation to the collaborator. |
 | `tests/student_view_contract_test.php:35` | `test_personal_lists_are_native_collapsible_sections` | Protects the three native collapsed learner sections. |
 | `tests/student_view_contract_test.php:71` | `test_learner_page_has_stable_vertical_order` | Protects the learner vertical order, active composers and unboxed completion-condition presentation. |
 | `tests/teacher_analytics_test.php:35` | `test_period_bounds` | PHP callable `test_period_bounds`; see its DocBlock and callers for parameter, return-value and side-effect details. |

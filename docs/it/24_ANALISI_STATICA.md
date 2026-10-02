@@ -126,9 +126,10 @@ dichiarazione di un parametro di metodo.
   sicurezza e impediscono che il limite di dieci in dieci secondi per utente/attività venga ristretto a una sola
   sessione browser.
 - La scrittura delle reazioni espone fasi nominate per validazione richiesta, definizione attiva, timestamp,
-  evidenza vista, burst limit, duplicati, soft-ignore e post-insert. I contratti sorgente preservano l'ordine
-  pre-insert completo e quello cache/evento/conteggio/completion; l'helper export accetta soltanto l'oggetto contesto
-  generico che usa realmente.
+  evidenza vista, burst limit, duplicati e soft-ignore. L'endpoint external possiede ogni decisione pre-insert di
+  sicurezza e concorrenza; il servizio mirato `reaction_write_service` possiede il lavoro
+  cache/evento/conteggio/completion successivo alla persistenza. I contratti sorgente preservano entrambi gli ordini,
+  il mapping stabile della risposta e il contratto generico del contesto usato dall'helper export.
 - PHPMD resta consultivo. I rilievi residui riguardano complessità, dimensione, classi pubbliche ampie, parametri
   obbligatori dei callback Moodle e flag booleani che richiedono refactoring comportamentali separati. I conteggi
   correnti esatti vanno letti nell'artifact CI prodotto per la candidata in esame.

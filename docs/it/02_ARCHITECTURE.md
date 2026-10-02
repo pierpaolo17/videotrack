@@ -39,6 +39,16 @@ rappresentati da immagini HTML non entrano nel catalogo e un risultato vuoto usa
 reazioni compone renderer indipendenti per intestazione, tab del tipo e corpo del catalogo. Tutto il markup continua
 a passare da `html_writer`, quindi la scomposizione non introduce percorsi di input HTML grezzo.
 
+## Confine della scrittura reazioni
+
+`classes/external/save_reaction.php` possiede il contratto AJAX stabile, la validazione della richiesta, i guard di
+posizione vista e burst, il lock per utente/attività, il predicato duplicati esatto e l'insert canonico. Dopo che la
+riga esiste, `classes/local/reaction_write_service.php` possiede invalidazione cache, consegna non bloccante
+dell'evento Moodle, unica lettura aggregata e refresh completion non bloccante. Il collaboratore restituisce
+soltanto conteggio aggregato, stato completion e warning limitati necessari al servizio external per costruire la
+risposta invariata. Questo confine impedisce l'accumulo delle dipendenze framework post-scrittura nell'endpoint
+pubblico senza spostare fuori da esso decisioni di sicurezza o concorrenza.
+
 ## Contratto player
 
 Ogni adapter deve fornire tempo corrente, durata, play/pausa, seek, velocità e fine. I moduli condivisi non assumono comportamenti uguali tra provider. Resume, replay e correzione seek programmatici sono distinti dal seek utente. I limiti SDK di YouTube e Vimeo sono trattati esplicitamente.
