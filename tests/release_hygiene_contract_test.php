@@ -282,4 +282,29 @@ final class release_hygiene_contract_test extends advanced_testcase {
 
         $this->assertSame($englishlevels, $italianlevels);
     }
+
+    /**
+     * Generated CI and server-test evidence must remain outside the release tree.
+     */
+    public function test_generated_reports_are_absent_and_export_ignored(): void {
+        $root = __DIR__ . '/..';
+        $reportdirectories = glob($root . '/reports-*', GLOB_ONLYDIR);
+        $ciarchives = glob($root . '/videotrack-ci-*.zip');
+        $serverarchives = glob($root . '/report_completo_videotrack_*.zip');
+        $this->assertIsArray($reportdirectories);
+        $this->assertIsArray($ciarchives);
+        $this->assertIsArray($serverarchives);
+        $this->assertCount(0, $reportdirectories);
+        $this->assertCount(0, $ciarchives);
+        $this->assertCount(0, $serverarchives);
+
+        $gitattributes = file_get_contents($root . '/.gitattributes');
+        $moodleignore = file_get_contents($root . '/.moodleignore');
+        $this->assertIsString($gitattributes);
+        $this->assertIsString($moodleignore);
+        foreach (['reports-*', 'videotrack-ci-*.zip', 'report_completo_videotrack_*.zip'] as $pattern) {
+            $this->assertStringContainsString($pattern, $gitattributes);
+            $this->assertStringContainsString($pattern, $moodleignore);
+        }
+    }
 }

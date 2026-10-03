@@ -1,6 +1,6 @@
 # Documentation audit
 
-Baseline: VideoTrack **1.7.167** (`2026100203`).
+Baseline: VideoTrack **1.7.168** (`2026100301`).
 
 ## Scope
 
@@ -33,7 +33,7 @@ not duplicate implementation procedures, field dictionaries or long security/pri
 ## Current-tree findings
 
 - English and Italian indexes have matching scope and ordering.
-- Documentation markers, root README files and ER artefacts identify 1.7.167 / 2026100203.
+- Documentation markers, root README files and ER artefacts identify 1.7.168 / 2026100301.
 - The activity identity includes a 1024-pixel `pix/icon.png` and an accessible native `pix/icon.svg` derived from
   the same maintainer-supplied artwork.
 - `db/install.xml` declares seven primary keys, 22 stable foreign keys and 22 explicit indexes. XMLDB generates an
@@ -77,12 +77,16 @@ not duplicate implementation procedures, field dictionaries or long security/pri
   present in the initial markup so normal activity views do not use the deprecated Bootstrap 4 `sr-only` fallback.
 - `.github/workflows/ci.yml` and its pinned analyser-tool manifest are present in the repository but excluded from
   Moodle release archives. The distributed configs and bootstrap remain available to maintainers and server gates.
+- Generated CI/server evidence is not part of the plugin tree. Repository `.gitignore`, Git archive
+  `export-ignore` rules, Moodle `.moodleignore` rules and a PHPUnit release-hygiene contract jointly prevent
+  `reports-*`, `videotrack-ci-*.zip` and `report_completo_videotrack_*.zip` from entering future releases. The
+  canonical 1.7.168 release archive therefore contains the 365 legitimate plugin files only.
 
 ## Release checks
 
 Before promotion, verify:
 
-1. no `archive/` directory or link remains in the package;
+1. no `archive/` or `reports-*` directory, generated CI/server ZIP or corresponding link remains in the package;
 2. no obsolete version narrative remains in current docs;
 3. local Markdown links resolve and the EN/IT document sets are paired;
 4. file/callable inventories match the exact tree;

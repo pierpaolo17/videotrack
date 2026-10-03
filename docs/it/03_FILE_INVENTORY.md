@@ -1,15 +1,16 @@
 # Inventario dei file distribuiti
 
-Questo inventario è generato sull'albero repository VideoTrack 1.7.167. Elenca ogni file non documentale distribuito
-e i file CI/tooling presenti soltanto nel repository. Il JavaScript canonico è in `amd/src`; i file in `amd/build`
+Questo inventario è generato sull'albero repository VideoTrack 1.7.168. Elenca ogni file non documentale distribuito
+e i file CI/tooling/igiene presenti soltanto nel repository. Il JavaScript canonico è in `amd/src`; i file in `amd/build`
 sono generati.
 
-Voci: **303** — 301 file distribuiti e due file presenti soltanto nel repository, esclusi dagli archivi di release.
+Voci: **304** — 301 file distribuiti e tre file presenti soltanto nel repository, esclusi dagli archivi di release.
 
 | File | Responsabilità |
 |---|---|
+| `.gitignore` | Impedisce il commit degli artifact CI e dei report server generati; è escluso dagli archivi di release. |
 | `.gitattributes` | Attributi testuali/binari del repository. |
-| `.moodleignore` | File esclusi dal pacchetto Moodle. |
+| `.moodleignore` | File esclusi dal pacchetto Moodle, inclusa l'evidenza CI/server generata. |
 | `.github/static-analysis/composer.json` | Ambiente strumenti PHPStan/Psalm versionato e riservato alla CI del repository. |
 | `.github/workflows/ci.yml` | Matrice GitHub Actions del repository, esclusa dagli archivi Moodle tramite `export-ignore`. |
 | `phpmd.xml` | Ruleset PHPMD di produzione revisionato; il naming Moodle resta governato da PHPCS. |

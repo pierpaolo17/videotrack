@@ -1,8 +1,8 @@
 # Inventario delle funzioni
 
-Generato dall’albero sorgente VideoTrack 1.7.167. Le voci PHP includono funzioni e metodi nominati; le voci AMD includono dichiarazioni nominate, espressioni funzione assegnate e funzioni-metodo di oggetti.
+Generato dall’albero sorgente VideoTrack 1.7.168. Le voci PHP includono funzioni e metodi nominati; le voci AMD includono dichiarazioni nominate, espressioni funzione assegnate e funzioni-metodo di oggetti.
 
-**Funzioni/metodi PHP:** 798. **Callable AMD nominati:** 654.
+**Funzioni/metodi PHP:** 799. **Callable AMD nominati:** 654.
 
 | Posizione | Callable | Responsabilità |
 |---|---|---|
@@ -1374,15 +1374,16 @@ Generato dall’albero sorgente VideoTrack 1.7.167. Le voci PHP includono funzio
 | `tests/provider_seek_snapshot_contract_test.php:56` | `test_html5_blocked_seek_snapshots_pre_seek_position_before_rollback` | Funzione/metodo PHP nominato `test_html5_blocked_seek_snapshots_pre_seek_position_before_rollback`; vedere DocBlock e chiamanti per il contratto corrente. |
 | `tests/provider_seek_snapshot_contract_test.php:77` | `test_vimeo_user_seek_retains_pre_seek_position_for_seek_resolution` | Funzione/metodo PHP nominato `test_vimeo_user_seek_retains_pre_seek_position_for_seek_resolution`; vedere DocBlock e chiamanti per il contratto corrente. |
 | `tests/provider_seek_snapshot_contract_test.php:104` | `test_all_providers_wire_rollback_safe_timestamp_to_personal_actions` | Funzione/metodo PHP nominato `test_all_providers_wire_rollback_safe_timestamp_to_personal_actions`; vedere DocBlock e chiamanti per il contratto corrente. |
-| `tests/release_hygiene_contract_test.php:35` | `test_shared_php_libraries_reject_direct_access` | Verifica che i file procedurali condivisi conservino il guard Moodle standard contro l'accesso diretto. |
-| `tests/release_hygiene_contract_test.php:46` | `test_csv_export_format_strings_have_explicit_context` | Funzione/metodo PHP nominato `test_csv_export_format_strings_have_explicit_context`; vedere DocBlock e chiamanti per il contratto corrente. |
-| `tests/release_hygiene_contract_test.php:60` | `test_environment_italian_feedback_uses_utf8` | Funzione/metodo PHP nominato `test_environment_italian_feedback_uses_utf8`; vedere DocBlock e chiamanti per il contratto corrente. |
-| `tests/release_hygiene_contract_test.php:76` | `test_readmes_and_changelog_track_current_release` | Funzione/metodo PHP nominato `test_readmes_and_changelog_track_current_release`; vedere DocBlock e chiamanti per il contratto corrente. |
-| `tests/release_hygiene_contract_test.php:116` | `test_current_documentation_tracks_release` | Funzione/metodo PHP nominato `test_current_documentation_tracks_release`; vedere DocBlock e chiamanti per il contratto corrente. |
-| `tests/release_hygiene_contract_test.php:171` | `test_activity_icon_assets_cover_png_and_svg_renderers` | Funzione/metodo PHP nominato `test_activity_icon_assets_cover_png_and_svg_renderers`; vedere DocBlock e chiamanti per il contratto corrente. |
-| `tests/release_hygiene_contract_test.php:190` | `test_phpunit_coverage_metadata_uses_attributes` | Funzione/metodo PHP nominato `test_phpunit_coverage_metadata_uses_attributes`; vedere DocBlock e chiamanti per il contratto corrente. |
-| `tests/release_hygiene_contract_test.php:211` | `test_maintained_language_packs_share_keys_and_placeholders` | Funzione/metodo PHP nominato `test_maintained_language_packs_share_keys_and_placeholders`; vedere DocBlock e chiamanti per il contratto corrente. |
-| `tests/release_hygiene_contract_test.php:263` | `test_privacy_summaries_keep_parallel_section_structure` | Funzione/metodo PHP nominato `test_privacy_summaries_keep_parallel_section_structure`; vedere DocBlock e chiamanti per il contratto corrente. |
+| `tests/release_hygiene_contract_test.php:35` | `test_shared_php_libraries_reject_direct_access` | Verifica che le librerie condivise lato scrittura conservino il guard Moodle standard contro l'accesso diretto. |
+| `tests/release_hygiene_contract_test.php:51` | `test_csv_export_format_strings_have_explicit_context` | Funzione/metodo PHP nominato `test_csv_export_format_strings_have_explicit_context`; vedere DocBlock e chiamanti per il contratto corrente. |
+| `tests/release_hygiene_contract_test.php:65` | `test_environment_italian_feedback_uses_utf8` | Funzione/metodo PHP nominato `test_environment_italian_feedback_uses_utf8`; vedere DocBlock e chiamanti per il contratto corrente. |
+| `tests/release_hygiene_contract_test.php:81` | `test_readmes_and_changelog_track_current_release` | Funzione/metodo PHP nominato `test_readmes_and_changelog_track_current_release`; vedere DocBlock e chiamanti per il contratto corrente. |
+| `tests/release_hygiene_contract_test.php:121` | `test_current_documentation_tracks_release` | Funzione/metodo PHP nominato `test_current_documentation_tracks_release`; vedere DocBlock e chiamanti per il contratto corrente. |
+| `tests/release_hygiene_contract_test.php:176` | `test_activity_icon_assets_cover_png_and_svg_renderers` | Funzione/metodo PHP nominato `test_activity_icon_assets_cover_png_and_svg_renderers`; vedere DocBlock e chiamanti per il contratto corrente. |
+| `tests/release_hygiene_contract_test.php:195` | `test_phpunit_coverage_metadata_uses_attributes` | Funzione/metodo PHP nominato `test_phpunit_coverage_metadata_uses_attributes`; vedere DocBlock e chiamanti per il contratto corrente. |
+| `tests/release_hygiene_contract_test.php:216` | `test_maintained_language_packs_share_keys_and_placeholders` | Funzione/metodo PHP nominato `test_maintained_language_packs_share_keys_and_placeholders`; vedere DocBlock e chiamanti per il contratto corrente. |
+| `tests/release_hygiene_contract_test.php:268` | `test_privacy_summaries_keep_parallel_section_structure` | Funzione/metodo PHP nominato `test_privacy_summaries_keep_parallel_section_structure`; vedere DocBlock e chiamanti per il contratto corrente. |
+| `tests/release_hygiene_contract_test.php:289` | `test_generated_reports_are_absent_and_export_ignored` | Impedisce che evidenza CI/server generata entri nell'albero di release e protegge entrambe le regole di esclusione distribuite. |
 | `tests/report_access_test.php:37` | `test_aggregate_only_role_keeps_individual_access_separate` | Callable PHP `test_aggregate_only_role_keeps_individual_access_separate`; contratto comportamentale per accesso delegato solo aggregato. |
 | `tests/report_access_test.php:59` | `test_individual_view_implies_aggregate_view_without_export_permissions` | Callable PHP `test_individual_view_implies_aggregate_view_without_export_permissions`; contratto comportamentale per separare vista ed export. |
 | `tests/report_access_test.php:79` | `test_legacy_viewreport_remains_full_access` | Callable PHP `test_legacy_viewreport_remains_full_access`; contratto di retrocompatibilità per i ruoli report storici. |

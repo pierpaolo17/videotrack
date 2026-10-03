@@ -1,6 +1,11 @@
 # Keep development-only assets out of exported Moodle Plugin Directory packages.
+.gitignore export-ignore
 .github export-ignore
 .github/** export-ignore
+reports-* export-ignore
+reports-*/** export-ignore
+videotrack-ci-*.zip export-ignore
+report_completo_videotrack_*.zip export-ignore
 tests/*.js export-ignore
 tests/*_static_test.js export-ignore
 tests/smoke_amd.js export-ignore
