@@ -1,5 +1,20 @@
 # VideoTrack changelog
 
+## 1.7.170 - 2026-10-03
+
+### Stable Moodle 5.3 CI boundary
+
+- Accepted the 1.7.169 code evidence: PHPStan and Psalm reported no errors, PHPMD decreased from 118 to 114
+  reviewed findings, PHPCS and PHP lint passed on 132 files, and all six environments completed 301 PHPUnit tests,
+  2734 assertions, 24 Behat scenarios, 357 steps and Grunt successfully.
+- Rejected promotion of the 1.7.169 candidate because its two nominal Moodle 5.3 jobs still selected upstream
+  `main`, which had advanced to Moodle 6.0dev / branch 600. Both strict validators correctly reported that branch
+  outside the supported 500–503 interval; the plugin tests themselves still passed in that unintended environment.
+- Pinned both upper-bound jobs to `MOODLE_503_STABLE` and renamed their displayed Moodle version from `5.3-dev` to
+  `5.3`. This restores the intended MariaDB/PostgreSQL boundary without broadening VideoTrack support to Moodle 6.0.
+- Updated current English and Italian release, CI-matrix and audit documentation. Runtime PHP, database schema,
+  AJAX services, capabilities, privacy behaviour, tests, AMD assets and language packs are unchanged.
+
 ## 1.7.169 - 2026-10-03
 
 ### Uploaded-media context and instance consistency

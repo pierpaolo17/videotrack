@@ -22,11 +22,12 @@ privilegiati o credenziali di deploy da questo workflow.
 | 5.0 | `MOODLE_500_STABLE` | 8.2 | PostgreSQL | portabilità database al limite inferiore |
 | 5.1 | `MOODLE_501_STABLE` | 8.3 | MariaDB | compatibilità intermedia |
 | 5.2 | `MOODLE_502_STABLE` | 8.3 | MariaDB | compatibilità intermedia |
-| 5.3 sviluppo | `main` | 8.3 | MariaDB | limite superiore finché non esiste il ramo stabile |
-| 5.3 sviluppo | `main` | 8.3 | PostgreSQL | portabilità database al limite superiore |
+| 5.3 | `MOODLE_503_STABLE` | 8.3 | MariaDB | limite superiore supportato e confine dell'analisi statica |
+| 5.3 | `MOODLE_503_STABLE` | 8.3 | PostgreSQL | portabilità database al limite superiore |
 
-`fail-fast` è disattivato: un fallimento non nasconde l'esito degli altri ambienti. Moodle 5.3 usa `main` finché
-Moodle non pubblica `MOODLE_503_STABLE`; modificare quel selettore sarà un'operazione di manutenzione esplicita.
+`fail-fast` è disattivato: un fallimento non nasconde l'esito degli altri ambienti. Entrambi i job al limite
+superiore sono fissati su `MOODLE_503_STABLE`; `main` upstream non è un selettore di versione supportata perché
+avanza al ramo di sviluppo Moodle successivo dopo la separazione del ramo stabile.
 
 ## Controlli bloccanti
 

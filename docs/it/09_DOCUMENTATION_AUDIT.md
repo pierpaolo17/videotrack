@@ -1,6 +1,6 @@
 # Audit della documentazione
 
-Baseline: VideoTrack **1.7.169** (`2026100302`).
+Baseline: VideoTrack **1.7.170** (`2026100303`).
 
 ## Perimetro
 
@@ -33,7 +33,7 @@ duplicano intenzionalmente procedure implementative, dizionari dei campi o lungh
 ## Rilievi sull'albero corrente
 
 - Gli indici inglese e italiano hanno stesso perimetro e ordinamento.
-- Marker documentali, README principali e artefatti ER identificano 1.7.169 / 2026100302.
+- Marker documentali, README principali e artefatti ER identificano 1.7.170 / 2026100303.
 - L'identità dell'attività include `pix/icon.png` da 1024 pixel e un `pix/icon.svg` nativo e accessibile derivati
   dalla stessa grafica fornita dal maintainer.
 - `db/install.xml` dichiara sette chiavi primarie, 22 foreign key stabili e 22 indici espliciti. XMLDB genera inoltre
@@ -57,6 +57,8 @@ duplicano intenzionalmente procedure implementative, dizionari dei campi o lungh
 - La guida GitHub Actions documenta trigger, permessi minimi, matrice Moodle/PHP/database a sei job, controlli
   bloccanti e consultivi, bootstrap deterministico nei layout classico/`public/`, rifiuto dei mirror `.types`,
   confronto autorevole `moodle-plugin-ci grunt`, log conservati e faildump.
+- I job MariaDB e PostgreSQL al limite superiore selezionano esplicitamente `MOODLE_503_STABLE`. Non usano mai
+  `main` upstream, che può avanzare oltre l'intervallo di supporto 500–503 dichiarato da VideoTrack.
 - PHPStan/Psalm hanno perimetri limitati alla produzione e un bootstrap Moodle installato comune. Il bootstrap
   carica i grafi di include canonici di backup/restore prima delle librerie step Moodle 2. Uno stub Psalm
   circoscritto modella soltanto il nome globale di compatibilità `renderable` e il refuso DocBlock upstream
@@ -83,7 +85,7 @@ duplicano intenzionalmente procedure implementative, dizionari dei campi o lungh
 - Le evidenze CI/server generate non fanno parte dell'albero del plugin. Il `.gitignore` del repository, le regole
   Git archive `export-ignore`, le regole Moodle `.moodleignore` e un contratto PHPUnit di release hygiene impediscono
   insieme che `reports-*`, `videotrack-ci-*.zip` e `report_completo_videotrack_*.zip` entrino nelle release future.
-  L'archivio canonico 1.7.169 contiene quindi soltanto i 365 file legittimi del plugin.
+  L'archivio canonico 1.7.170 contiene quindi soltanto i 365 file legittimi del plugin.
 
 ## Controlli di release
 
