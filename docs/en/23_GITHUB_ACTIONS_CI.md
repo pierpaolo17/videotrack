@@ -22,12 +22,12 @@ deployment credential from this workflow.
 | 5.0 | `MOODLE_500_STABLE` | 8.2 | PostgreSQL | lower-bound database portability |
 | 5.1 | `MOODLE_501_STABLE` | 8.3 | MariaDB | intermediate compatibility |
 | 5.2 | `MOODLE_502_STABLE` | 8.3 | MariaDB | intermediate compatibility |
-| 5.3 development | `main` | 8.3 | MariaDB | upper supported branch before a stable branch exists |
-| 5.3 development | `main` | 8.3 | PostgreSQL | upper-bound database portability |
+| 5.3 | `MOODLE_503_STABLE` | 8.3 | MariaDB | upper supported branch and static-analysis boundary |
+| 5.3 | `MOODLE_503_STABLE` | 8.3 | PostgreSQL | upper-bound database portability |
 
-`fail-fast` is disabled, so one failure does not hide the outcome of the other environments. Moodle 5.3 uses
-upstream `main` until Moodle publishes `MOODLE_503_STABLE`; changing that selector is an explicit maintenance
-operation.
+`fail-fast` is disabled, so one failure does not hide the outcome of the other environments. Both upper-bound jobs
+are pinned to `MOODLE_503_STABLE`; upstream `main` is not a supported-version selector because it advances to the
+next Moodle development branch after the stable branch is cut.
 
 ## Blocking checks
 

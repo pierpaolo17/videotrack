@@ -1,6 +1,6 @@
 # Documentation audit
 
-Baseline: VideoTrack **1.7.168** (`2026100301`).
+Baseline: VideoTrack **1.7.170** (`2026100303`).
 
 ## Scope
 
@@ -33,7 +33,7 @@ not duplicate implementation procedures, field dictionaries or long security/pri
 ## Current-tree findings
 
 - English and Italian indexes have matching scope and ordering.
-- Documentation markers, root README files and ER artefacts identify 1.7.168 / 2026100301.
+- Documentation markers, root README files and ER artefacts identify 1.7.170 / 2026100303.
 - The activity identity includes a 1024-pixel `pix/icon.png` and an accessible native `pix/icon.svg` derived from
   the same maintainer-supplied artwork.
 - `db/install.xml` declares seven primary keys, 22 stable foreign keys and 22 explicit indexes. XMLDB generates an
@@ -45,6 +45,9 @@ not duplicate implementation procedures, field dictionaries or long security/pri
   zero-residue uninstall verification. CRUD, AJAX, privacy and completion runtime behaviour is unchanged.
 - The activity and media guides document opt-in reaction configuration, effective learner-section visibility and
   the live `HH:MM:SS` duration equivalent.
+- Uploaded-video and poster writes resolve only module contexts tied to submitted form identifiers or the persisted
+  activity/course pair. Uploaded-media URL lookup rejects a course-module id that belongs to another VideoTrack
+  instance, and the video-field helper validates every non-null Moodle-form collaborator.
 - Reaction reads have explicit scopes: the standard helper returns active definitions, while lifecycle code can
   request active and soft-deleted definitions without a boolean behaviour flag. Activity records are filtered to
   real table columns through one request-local metadata cache before insert or update.
@@ -54,6 +57,8 @@ not duplicate implementation procedures, field dictionaries or long security/pri
 - The GitHub Actions guide documents triggers, least-privilege permissions, the six-job Moodle/PHP/database matrix,
   deterministic classic/`public/` ordinary-site bootstrap, rejection of generated `.types` mirrors, the
   authoritative `moodle-plugin-ci grunt` comparison, strict/advisory checks, retained logs and faildumps.
+- The upper-bound MariaDB and PostgreSQL jobs select `MOODLE_503_STABLE` explicitly. They never use upstream
+  `main`, which can move beyond VideoTrack's declared branch 500–503 support interval.
 - PHPStan/Psalm have production-only scopes and a shared installed-Moodle bootstrap. The bootstrap loads canonical
   backup/restore include graphs before the Moodle 2 step libraries. A narrow Psalm stub models only Moodle's global
   `renderable` compatibility name and the upstream `xmlddb_field` DocBlock typo. Five entry points document the
@@ -80,7 +85,7 @@ not duplicate implementation procedures, field dictionaries or long security/pri
 - Generated CI/server evidence is not part of the plugin tree. Repository `.gitignore`, Git archive
   `export-ignore` rules, Moodle `.moodleignore` rules and a PHPUnit release-hygiene contract jointly prevent
   `reports-*`, `videotrack-ci-*.zip` and `report_completo_videotrack_*.zip` from entering future releases. The
-  canonical 1.7.168 release archive therefore contains the 365 legitimate plugin files only.
+  canonical 1.7.170 release archive therefore contains the 365 legitimate plugin files only.
 
 ## Release checks
 

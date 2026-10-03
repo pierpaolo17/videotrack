@@ -34,6 +34,11 @@ use PHPUnit\Framework\Attributes\CoversFunction;
 #[CoversFunction('videotrack_supports')]
 #[CoversFunction('videotrack_process_player_behavior_fields')]
 #[CoversFunction('videotrack_process_captions_fields')]
+#[CoversFunction('videotrack_process_video_fields')]
+#[CoversFunction('videotrack_save_uploaded_video')]
+#[CoversFunction('videotrack_save_poster_image')]
+#[CoversFunction('videotrack_get_upload_url')]
+#[CoversFunction('videotrack_get_module_context_from_data')]
 #[CoversFunction('videotrack_whitelist_record')]
 final class lib_test extends advanced_testcase {
     /**
@@ -77,6 +82,77 @@ final class lib_test extends advanced_testcase {
      */
     public function test_unknown_feature_returns_null(): void {
         $this->assertNull(\videotrack_supports('mod_videotrack_unknown_feature'));
+    }
+
+    /**
+     * Video-source normalisation accepts only the Moodle form contract or null.
+     */
+    public function test_video_field_processing_rejects_unknown_form_objects(): void {
+        $this->expectException(\coding_exception::class);
+        \videotrack_process_video_fields((object)['videosource' => 'upload'], new \stdClass());
+    }
+
+    /**
+     * File saves can resolve the module context from the persisted instance id.
+     */
+    public function test_uploaded_files_resolve_context_without_coursemodule_form_field(): void {
+        $this->resetAfterTest();
+        $user = $this->getDataGenerator()->create_user();
+        $this->setUser($user);
+        $course = $this->getDataGenerator()->create_course();
+        $activity = $this->getDataGenerator()->create_module('videotrack', ['course' => $course->id]);
+        $usercontext = \context_user::instance((int)$user->id);
+        $fs = get_file_storage();
+
+        $videodraftid = file_get_unused_draft_itemid();
+        $fs->create_file_from_string([
+            'contextid' => $usercontext->id,
+            'component' => 'user',
+            'filearea' => 'draft',
+            'itemid' => $videodraftid,
+            'filepath' => '/',
+            'filename' => 'video.mp4',
+        ], 'video');
+        \videotrack_save_uploaded_video((int)$activity->id, (object)[
+            'course' => $course->id,
+            'videofile' => $videodraftid,
+        ]);
+
+        $posterdraftid = file_get_unused_draft_itemid();
+        $fs->create_file_from_string([
+            'contextid' => $usercontext->id,
+            'component' => 'user',
+            'filearea' => 'draft',
+            'itemid' => $posterdraftid,
+            'filepath' => '/',
+            'filename' => 'poster.png',
+        ], 'poster');
+        \videotrack_save_poster_image((int)$activity->id, (object)[
+            'course' => $course->id,
+            'posterimage' => $posterdraftid,
+        ]);
+
+        $context = \context_module::instance((int)$activity->cmid);
+        $this->assertTrue($fs->file_exists($context->id, 'mod_videotrack', 'videocontent', 0, '/', 'video.mp4'));
+        $this->assertTrue($fs->file_exists($context->id, 'mod_videotrack', 'posterimage', 0, '/', 'poster.png'));
+    }
+
+    /**
+     * Uploaded-media URLs are returned only for the matching activity instance.
+     */
+    public function test_upload_url_rejects_course_module_instance_mismatch(): void {
+        $this->resetAfterTest();
+        $course = $this->getDataGenerator()->create_course();
+        $activity = $this->getDataGenerator()->create_module('videotrack', [
+            'course' => $course->id,
+            'behathtml5fixture' => 1,
+        ]);
+
+        $this->assertInstanceOf(
+            \moodle_url::class,
+            \videotrack_get_upload_url((int)$activity->id, (int)$activity->cmid)
+        );
+        $this->assertNull(\videotrack_get_upload_url((int)$activity->id + 1, (int)$activity->cmid));
     }
 
     /**

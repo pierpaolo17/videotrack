@@ -67,7 +67,7 @@ impostare `MOODLE_ROOT` sulla root Moodle reale e usare i binari degli analizzat
 - Ciclo di vita: installazione, upgrade, backup/restore, reset, disinstallazione con gradebook popolato e Privacy API
   per codice/schema correlato.
 
-Le suite distribuite correnti contengono 298 metodi di test PHPUnit e 24 scenari Behat / 357 step per ramo Moodle
+Le suite distribuite correnti contengono 301 metodi di test PHPUnit e 24 scenari Behat / 357 step per ramo Moodle
 supportato. Il totale delle asserzioni è un'evidenza di esecuzione, non un contratto statico, e deve essere
 registrato dalla CI della candidata. I conteggi sono aspettative, non una dichiarazione di pass.
 

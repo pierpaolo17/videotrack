@@ -1,5 +1,40 @@
 # VideoTrack changelog
 
+## 1.7.170 - 2026-10-03
+
+### Stable Moodle 5.3 CI boundary
+
+- Accepted the 1.7.169 code evidence: PHPStan and Psalm reported no errors, PHPMD decreased from 118 to 114
+  reviewed findings, PHPCS and PHP lint passed on 132 files, and all six environments completed 301 PHPUnit tests,
+  2734 assertions, 24 Behat scenarios, 357 steps and Grunt successfully.
+- Rejected promotion of the 1.7.169 candidate because its two nominal Moodle 5.3 jobs still selected upstream
+  `main`, which had advanced to Moodle 6.0dev / branch 600. Both strict validators correctly reported that branch
+  outside the supported 500–503 interval; the plugin tests themselves still passed in that unintended environment.
+- Pinned both upper-bound jobs to `MOODLE_503_STABLE` and renamed their displayed Moodle version from `5.3-dev` to
+  `5.3`. This restores the intended MariaDB/PostgreSQL boundary without broadening VideoTrack support to Moodle 6.0.
+- Updated current English and Italian release, CI-matrix and audit documentation. Runtime PHP, database schema,
+  AJAX services, capabilities, privacy behaviour, tests, AMD assets and language packs are unchanged.
+
+## 1.7.169 - 2026-10-03
+
+### Uploaded-media context and instance consistency
+
+- Accepted the complete 1.7.168 evidence: release and `main` matrices passed all six jobs; PHPStan and Psalm
+  reported no errors; PHPMD reported 118 reviewed findings; the tagged package then passed the server gate and
+  both strict validators with 10 passes, no warnings and no failures.
+- Made uploaded-video and poster persistence consume the activity id by resolving the module context from either
+  form context identifiers or the persisted activity/course pair. This preserves normal form saves and supports
+  lifecycle callers whose data object does not contain `coursemodule`.
+- Required uploaded-media URL lookup to confirm that the supplied course-module id belongs to the requested
+  VideoTrack instance before reading its file area. A non-null video-field form collaborator must now be a Moodle
+  form object, while the established `null` callback path remains valid.
+- Added focused PHPUnit coverage for the form contract, instance-based file-context fallback and rejection of a
+  mismatched course-module/instance pair. These changes target four PHPMD `UnusedFormalParameter` findings; the
+  exact candidate count remains authoritative only after CI.
+- Updated current English and Italian release, media-boundary, static-analysis, audit, build and callable
+  documentation. Database schema, AJAX services, capabilities, privacy behaviour, AMD assets and language packs
+  are unchanged.
+
 ## 1.7.168 - 2026-10-03
 
 ### Deterministic release-package hygiene

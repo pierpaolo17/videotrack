@@ -133,6 +133,10 @@ dichiarazione di un parametro di metodo.
   completion tra servizi verifica questo proprietario corrente invece di imporre che le chiamate estratte restino
   nell'endpoint pubblico. Il suo guard esplicito `MOODLE_INTERNAL` mantiene una sola eccezione PHPCS sulla riga,
   perché la classe autoloaded non ha effetti collaterali top-level.
+- Quattro helper interni media/file consumano l'intera firma tramite contratti runtime: validazione del Moodle
+  form, risoluzione del contesto modulo consapevole dell'istanza e controllo di coerenza tra modulo corso e
+  istanza. I parametri richiesti dei callback Moodle restano invariati anche quando l'invocazione appartiene al
+  framework.
 - PHPMD resta consultivo. I rilievi residui riguardano complessità, dimensione, classi pubbliche ampie, parametri
   obbligatori dei callback Moodle e flag booleani che richiedono refactoring comportamentali separati. I conteggi
   correnti esatti vanno letti nell'artifact CI prodotto per la candidata in esame.

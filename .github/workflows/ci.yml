@@ -79,15 +79,15 @@ jobs:
             database: mariadb
             quality: false
           - id: moodle53-mariadb
-            moodle: "5.3-dev"
-            moodle-branch: main
+            moodle: "5.3"
+            moodle-branch: MOODLE_503_STABLE
             php: "8.3"
             database: mariadb
             quality: false
             static: true
           - id: moodle53-pgsql
-            moodle: "5.3-dev"
-            moodle-branch: main
+            moodle: "5.3"
+            moodle-branch: MOODLE_503_STABLE
             php: "8.3"
             database: pgsql
             quality: false
