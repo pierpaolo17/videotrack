@@ -14,6 +14,18 @@ comportamento condiviso; il timing specifico degli SDK resta dentro ogni adapter
 Il detector opera soltanto nel form docente. Non scrive dati di tracking learner, non rende i metadata provider
 autorevoli da soli e distrugge player temporanei/timer dopo successo, errore o timeout.
 
+## Confine di storage dei file caricati
+
+Il salvataggio di video caricati e poster risolve il `context_module` dai valori `coursemodule`/`cmid` inviati,
+quando disponibili, oppure dall'istanza VideoTrack persistita insieme al corso per le chiamate lifecycle che non
+contengono quei campi del form. Se il contesto non è risolvibile l'operazione non scrive nulla; i file non vengono
+mai salvati in un contesto di sistema o di corso ipotizzato.
+
+La risoluzione dell'URL del media caricato verifica inoltre che l'id del modulo corso appartenga all'istanza
+VideoTrack richiesta prima di leggere la file area. Un chiamante non può quindi combinare l'id di un'attività con
+un contesto modulo non correlato. La normalizzazione dei campi video accetta il collaboratore Moodle form fornito
+dai callback del modulo oppure `null`; ogni altro oggetto non nullo è un errore di programmazione.
+
 ## Parsing server di URL e timestamp
 
 `videotrack_parse_https_media_url()` è il confine neutrale rispetto al provider per gli URL multimediali esterni
@@ -64,6 +76,7 @@ diventare una scelta ordinaria dell'utente.
 ## Verifica
 
 - testare parsing URL/id e input non validi/privati;
+- testare il fallback del contesto basato sull'istanza e il rifiuto di identificatori attività/modulo incoerenti;
 - testare host maiuscoli/con punto finale, interruzioni di riga, query non scalari e componenti timestamp malformate;
 - testare metadata durata immediati e ritardati;
 - verificare probe muti, limitati e distrutti;

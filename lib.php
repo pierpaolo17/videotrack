@@ -256,6 +256,9 @@ function videotrack_process_acknowledgement_fields(stdClass $data): void {
  * @param moodleform|null $mform
  */
 function videotrack_process_video_fields(stdClass $data, $mform = null): void {
+    if ($mform !== null && !($mform instanceof moodleform)) {
+        throw new coding_exception('VideoTrack video fields require a Moodle form instance or null.');
+    }
     $source = $data->videosource ?? 'youtube';
     $allowedsources = ['youtube', 'vimeo', 'upload'];
     if (!in_array($source, $allowedsources, true)) {
@@ -327,10 +330,10 @@ function videotrack_process_playbackspeeds_field(stdClass $data): void {
  * @param stdClass $data
  */
 function videotrack_save_uploaded_video(int $instanceid, stdClass $data): void {
-    if (empty($data->coursemodule)) {
+    $context = videotrack_get_module_context_from_data($data, $instanceid);
+    if (!$context) {
         return;
     }
-    $context     = context_module::instance((int)$data->coursemodule);
     $draftitemid = (int)($data->videofile ?? 0);
     if ($draftitemid > 0) {
         file_save_draft_area_files($draftitemid, $context->id, 'mod_videotrack', 'videocontent', 0, [
@@ -365,6 +368,10 @@ function videotrack_delete_upload_source_files(int $instanceid, stdClass $data):
  * @return moodle_url|null
  */
 function videotrack_get_upload_url(int $instanceid, int $cmid): ?moodle_url {
+    $cm = get_coursemodule_from_id('videotrack', $cmid, 0, false, IGNORE_MISSING);
+    if (!$cm || (int)$cm->instance !== $instanceid) {
+        return null;
+    }
     $context = context_module::instance($cmid);
     $fs      = get_file_storage();
     $files   = $fs->get_area_files($context->id, 'mod_videotrack', 'videocontent', 0, 'id', false);
@@ -413,13 +420,13 @@ function videotrack_get_module_context_from_data(stdClass $data, int $instanceid
  * Called from add_instance and update_instance.
  *
  * @param int      $instanceid
- * @param stdClass $data        Form data (must have coursemodule and posterimage draft itemid).
+ * @param stdClass $data        Form data with context identifiers and the posterimage draft item id.
  */
 function videotrack_save_poster_image(int $instanceid, stdClass $data): void {
-    if (empty($data->coursemodule)) {
+    $context = videotrack_get_module_context_from_data($data, $instanceid);
+    if (!$context) {
         return;
     }
-    $context     = context_module::instance((int)$data->coursemodule);
     $draftitemid = (int)($data->posterimage ?? 0);
 
     // If draftitemid is 0, the teacher did not interact with the file picker:

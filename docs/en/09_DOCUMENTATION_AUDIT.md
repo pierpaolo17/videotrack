@@ -1,6 +1,6 @@
 # Documentation audit
 
-Baseline: VideoTrack **1.7.168** (`2026100301`).
+Baseline: VideoTrack **1.7.169** (`2026100302`).
 
 ## Scope
 
@@ -33,7 +33,7 @@ not duplicate implementation procedures, field dictionaries or long security/pri
 ## Current-tree findings
 
 - English and Italian indexes have matching scope and ordering.
-- Documentation markers, root README files and ER artefacts identify 1.7.168 / 2026100301.
+- Documentation markers, root README files and ER artefacts identify 1.7.169 / 2026100302.
 - The activity identity includes a 1024-pixel `pix/icon.png` and an accessible native `pix/icon.svg` derived from
   the same maintainer-supplied artwork.
 - `db/install.xml` declares seven primary keys, 22 stable foreign keys and 22 explicit indexes. XMLDB generates an
@@ -45,6 +45,9 @@ not duplicate implementation procedures, field dictionaries or long security/pri
   zero-residue uninstall verification. CRUD, AJAX, privacy and completion runtime behaviour is unchanged.
 - The activity and media guides document opt-in reaction configuration, effective learner-section visibility and
   the live `HH:MM:SS` duration equivalent.
+- Uploaded-video and poster writes resolve only module contexts tied to submitted form identifiers or the persisted
+  activity/course pair. Uploaded-media URL lookup rejects a course-module id that belongs to another VideoTrack
+  instance, and the video-field helper validates every non-null Moodle-form collaborator.
 - Reaction reads have explicit scopes: the standard helper returns active definitions, while lifecycle code can
   request active and soft-deleted definitions without a boolean behaviour flag. Activity records are filtered to
   real table columns through one request-local metadata cache before insert or update.
@@ -80,7 +83,7 @@ not duplicate implementation procedures, field dictionaries or long security/pri
 - Generated CI/server evidence is not part of the plugin tree. Repository `.gitignore`, Git archive
   `export-ignore` rules, Moodle `.moodleignore` rules and a PHPUnit release-hygiene contract jointly prevent
   `reports-*`, `videotrack-ci-*.zip` and `report_completo_videotrack_*.zip` from entering future releases. The
-  canonical 1.7.168 release archive therefore contains the 365 legitimate plugin files only.
+  canonical 1.7.169 release archive therefore contains the 365 legitimate plugin files only.
 
 ## Release checks
 

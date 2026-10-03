@@ -14,6 +14,17 @@ coordinated by the browser core; provider-specific SDK timing stays inside each 
 The detector runs only in the teacher form. It does not write learner tracking data, does not make provider
 metadata authoritative by itself and destroys temporary players/timers after success, error or timeout.
 
+## Uploaded-file storage boundary
+
+Uploaded video and poster writes resolve their `context_module` from the submitted `coursemodule`/`cmid` when
+available, or from the persisted VideoTrack instance plus course during lifecycle calls that do not carry those
+form fields. A missing context is a no-op; files are never written to a guessed system or course context.
+
+Uploaded-media URL lookup additionally verifies that the supplied course-module id belongs to the requested
+VideoTrack instance before reading its file area. This prevents a caller from combining an activity id with an
+unrelated module context. Video-field normalisation accepts the Moodle form collaborator supplied by the module
+callbacks or `null`; any other non-null object is a programming error.
+
 ## Server URL and timestamp parsing
 
 `videotrack_parse_https_media_url()` is the provider-neutral boundary for submitted external media URLs. It rejects
@@ -62,6 +73,7 @@ ordinary learner choice.
 ## Verification
 
 - test URL/id parsing and invalid/private inputs;
+- test instance-based file-context fallback and rejection of mismatched activity/course-module identifiers;
 - test uppercase/trailing-dot hosts, line breaks, non-scalar query values and malformed timestamp components;
 - test immediate and delayed duration metadata;
 - ensure probes are muted, bounded and destroyed;

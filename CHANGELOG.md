@@ -1,5 +1,25 @@
 # VideoTrack changelog
 
+## 1.7.169 - 2026-10-03
+
+### Uploaded-media context and instance consistency
+
+- Accepted the complete 1.7.168 evidence: release and `main` matrices passed all six jobs; PHPStan and Psalm
+  reported no errors; PHPMD reported 118 reviewed findings; the tagged package then passed the server gate and
+  both strict validators with 10 passes, no warnings and no failures.
+- Made uploaded-video and poster persistence consume the activity id by resolving the module context from either
+  form context identifiers or the persisted activity/course pair. This preserves normal form saves and supports
+  lifecycle callers whose data object does not contain `coursemodule`.
+- Required uploaded-media URL lookup to confirm that the supplied course-module id belongs to the requested
+  VideoTrack instance before reading its file area. A non-null video-field form collaborator must now be a Moodle
+  form object, while the established `null` callback path remains valid.
+- Added focused PHPUnit coverage for the form contract, instance-based file-context fallback and rejection of a
+  mismatched course-module/instance pair. These changes target four PHPMD `UnusedFormalParameter` findings; the
+  exact candidate count remains authoritative only after CI.
+- Updated current English and Italian release, media-boundary, static-analysis, audit, build and callable
+  documentation. Database schema, AJAX services, capabilities, privacy behaviour, AMD assets and language packs
+  are unchanged.
+
 ## 1.7.168 - 2026-10-03
 
 ### Deterministic release-package hygiene

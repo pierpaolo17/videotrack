@@ -1,6 +1,6 @@
 # Audit della documentazione
 
-Baseline: VideoTrack **1.7.168** (`2026100301`).
+Baseline: VideoTrack **1.7.169** (`2026100302`).
 
 ## Perimetro
 
@@ -33,7 +33,7 @@ duplicano intenzionalmente procedure implementative, dizionari dei campi o lungh
 ## Rilievi sull'albero corrente
 
 - Gli indici inglese e italiano hanno stesso perimetro e ordinamento.
-- Marker documentali, README principali e artefatti ER identificano 1.7.168 / 2026100301.
+- Marker documentali, README principali e artefatti ER identificano 1.7.169 / 2026100302.
 - L'identità dell'attività include `pix/icon.png` da 1024 pixel e un `pix/icon.svg` nativo e accessibile derivati
   dalla stessa grafica fornita dal maintainer.
 - `db/install.xml` dichiara sette chiavi primarie, 22 foreign key stabili e 22 indici espliciti. XMLDB genera inoltre
@@ -45,6 +45,9 @@ duplicano intenzionalmente procedure implementative, dizionari dei campi o lungh
   CLI e verifica della disinstallazione a residuo zero. Il runtime CRUD, AJAX, privacy e completion resta invariato.
 - Le guide dell'attività e dei media documentano reazioni opt-in, visibilità effettiva delle sezioni learner e
   l'equivalente live della durata in `HH:MM:SS`.
+- Il salvataggio di video caricati e poster risolve soltanto contesti modulo legati agli identificatori del form o
+  alla coppia attività/corso persistita. La risoluzione URL rifiuta un modulo corso appartenente a un'altra istanza
+  VideoTrack e l'helper dei campi video valida ogni collaboratore Moodle form non nullo.
 - Le letture delle reazioni hanno scope espliciti: l'helper standard restituisce le definizioni attive, mentre il
   codice lifecycle può richiedere definizioni attive e soft-deleted senza flag booleani. Prima di insert/update i
   record attività sono filtrati sulle vere colonne della tabella tramite una cache di metadata per richiesta.
@@ -80,7 +83,7 @@ duplicano intenzionalmente procedure implementative, dizionari dei campi o lungh
 - Le evidenze CI/server generate non fanno parte dell'albero del plugin. Il `.gitignore` del repository, le regole
   Git archive `export-ignore`, le regole Moodle `.moodleignore` e un contratto PHPUnit di release hygiene impediscono
   insieme che `reports-*`, `videotrack-ci-*.zip` e `report_completo_videotrack_*.zip` entrino nelle release future.
-  L'archivio canonico 1.7.168 contiene quindi soltanto i 365 file legittimi del plugin.
+  L'archivio canonico 1.7.169 contiene quindi soltanto i 365 file legittimi del plugin.
 
 ## Controlli di release
 
