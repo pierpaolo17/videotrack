@@ -1,6 +1,6 @@
 # User and administrator guide
 
-VideoTrack 1.7.170 is a Moodle activity for delivering video, recording server-validated watched evidence,
+VideoTrack 1.7.171 is a Moodle activity for delivering video, recording server-validated watched evidence,
 supporting study interactions and evaluating completion. Every optional collection feature must be enabled
 explicitly. Site policy can restrict which settings a teacher may override.
 
@@ -69,6 +69,11 @@ Reactions are disabled by default. Enabling them requires at least one complete 
 and rejects an empty configuration. The learner controls, player reaction integration, notice and **My reactions**
 history are rendered only when both the feature and an active definition are present. Notes, bookmarks and the
 Forum action remain independently governed by their own enablement and destination settings.
+
+A Font Awesome value is accepted only when it contains exactly one lowercase `fa-*` icon name and no more than
+three reviewed style, family, size, rotation, flip or animation decorators. The complete value is limited to four
+tokens and 160 characters and may contain only ASCII letters, digits, spaces and hyphens; every unknown token fails
+closed. Form validation and persistence use this same contract.
 
 Completion can require a minimum number of distinct reactions, every enabled reaction type, specific required
 types, or a combination. The configured `AND`/`OR` logic applies inside the single composite VideoTrack rule.

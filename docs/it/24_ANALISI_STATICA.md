@@ -137,6 +137,9 @@ dichiarazione di un parametro di metodo.
   form, risoluzione del contesto modulo consapevole dell'istanza e controllo di coerenza tra modulo corso e
   istanza. I parametri richiesti dei callback Moodle restano invariati anche quando l'invocazione appartiene al
   framework.
+- Il callback delle feature Moodle è una tabella diretta feature-valore, mentre la validazione delle reazioni Font
+  Awesome separa il sottoinsieme revisionato dei decoratori da un solo nome icona. Contratti pubblici, limiti e
+  default fail-closed sono coperti indipendentemente dalla riduzione di complessità.
 - PHPMD resta consultivo. I rilievi residui riguardano complessità, dimensione, classi pubbliche ampie, parametri
   obbligatori dei callback Moodle e flag booleani che richiedono refactoring comportamentali separati. I conteggi
   correnti esatti vanno letti nell'artifact CI prodotto per la candidata in esame.

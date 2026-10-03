@@ -1,6 +1,6 @@
 # Guida per utenti e amministratori
 
-VideoTrack 1.7.170 è un'attività Moodle per distribuire video, registrare evidenze di visione validate dal
+VideoTrack 1.7.171 è un'attività Moodle per distribuire video, registrare evidenze di visione validate dal
 server, offrire strumenti di studio e valutare il completamento. Ogni raccolta dati opzionale deve essere
 abilitata esplicitamente. Le politiche di sito possono limitare le impostazioni modificabili dal docente.
 
@@ -71,6 +71,11 @@ Le reazioni sono disabilitate per impostazione predefinita. Per abilitarle serve
 completa: il form avvisa e rifiuta una configurazione vuota. Controlli learner, integrazione col player, avviso e
 cronologia **Le mie reazioni** compaiono soltanto se sono presenti sia l'abilitazione sia una definizione attiva.
 Note, segnalibri e azione Forum restano governati indipendentemente dai rispettivi flag e dalla destinazione.
+
+Un valore Font Awesome viene accettato soltanto se contiene esattamente un nome icona `fa-*` minuscolo e non più
+di tre decoratori revisionati di stile, famiglia, dimensione, rotazione, ribaltamento o animazione. Il valore
+completo è limitato a quattro token e 160 caratteri e può contenere soltanto lettere ASCII, cifre, spazi e trattini;
+ogni token sconosciuto produce un rifiuto fail-closed. Form e persistenza usano lo stesso contratto.
 
 Il completamento può richiedere un numero minimo di reazioni distinte, tutti i tipi abilitati, tipi specifici
 obbligatori o una combinazione. La logica `AND`/`OR` configurata opera dentro l'unica regola composita VideoTrack.

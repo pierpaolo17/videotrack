@@ -129,6 +129,9 @@ line, not for redeclaring a method parameter.
 - Four internal media/file helpers consume their complete signatures through runtime contracts: Moodle-form
   validation, instance-aware module-context resolution and course-module/instance consistency checks. Required
   Moodle callback parameters remain unchanged even where the framework owns their invocation.
+- The Moodle feature callback is a direct feature-to-value table, while Font Awesome reaction validation partitions
+  the reviewed decorator subset from exactly one icon name. Their public contracts, limits and fail-closed defaults
+  are covered independently of the complexity reduction.
 - PHPMD remains advisory. Its remaining reports concern reviewed complexity, size, broad public classes, required
   Moodle callback parameters and boolean switches that need separate behavioural refactoring. Exact current counts
   must be read from the CI artifact produced for the candidate under review.

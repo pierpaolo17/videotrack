@@ -36,25 +36,20 @@ require_once(__DIR__ . '/locallib.php');
  * @return mixed Supported value, false or null when not supported.
  */
 function videotrack_supports($feature) {
-    switch ($feature) {
-        case FEATURE_MOD_INTRO:
-        case FEATURE_SHOW_DESCRIPTION:
-        case FEATURE_COMPLETION_TRACKS_VIEWS:
-        case FEATURE_COMPLETION_HAS_RULES:
-        case FEATURE_BACKUP_MOODLE2:   // Required: enables course backup/restore.
-            return true;
-        case FEATURE_GRADE_HAS_GRADE:   // Grading support enabled.
-            return true;
-        case FEATURE_MOD_ARCHETYPE:     // Activity chooser archetype for a content resource.
-            return MOD_ARCHETYPE_RESOURCE;
-        case FEATURE_GROUPS:           // Explicit: groups not supported.
-        case FEATURE_GROUPINGS:        // Explicit: groupings not supported.
-            return false;
-        case FEATURE_MOD_PURPOSE:      // Moodle 4+: activity chooser category.
-            return MOD_PURPOSE_CONTENT;
-        default:
-            return null;
-    }
+    $featuremap = [
+        FEATURE_MOD_INTRO => true,
+        FEATURE_SHOW_DESCRIPTION => true,
+        FEATURE_COMPLETION_TRACKS_VIEWS => true,
+        FEATURE_COMPLETION_HAS_RULES => true,
+        FEATURE_BACKUP_MOODLE2 => true,
+        FEATURE_GRADE_HAS_GRADE => true,
+        FEATURE_MOD_ARCHETYPE => MOD_ARCHETYPE_RESOURCE,
+        FEATURE_GROUPS => false,
+        FEATURE_GROUPINGS => false,
+        FEATURE_MOD_PURPOSE => MOD_PURPOSE_CONTENT,
+    ];
+
+    return $featuremap[$feature] ?? null;
 }
 
 /**
@@ -467,21 +462,14 @@ function videotrack_is_valid_reaction_icon_class(string $value): bool {
     if (!$parts || count($parts) > 4) {
         return false;
     }
-    $styleclasses = ['fa' => true, 'fas' => true, 'far' => true, 'fab' => true,
-        'fa-solid' => true, 'fa-regular' => true, 'fa-brands' => true];
-    $utilitypattern = '/^fa-(?:fw|lg|xs|sm|[1-9]x|2xs|xl|2xl|spin|pulse|rotate-(?:90|180|270)|flip-(?:horizontal|vertical|both))$/';
-    $iconnames = 0;
-    foreach ($parts as $part) {
-        if (isset($styleclasses[$part]) || preg_match($utilitypattern, $part)) {
-            continue;
-        }
-        if (preg_match('/^fa-[a-z0-9][a-z0-9-]{1,46}$/', $part)) {
-            $iconnames++;
-            continue;
-        }
-        return false;
-    }
-    return $iconnames === 1;
+    $decoratorpattern = '/^(?:fa|fas|far|fab|fa-(?:solid|regular|brands|fw|lg|xs|sm|[1-9]x|2xs|xl|2xl|' .
+        'spin|pulse|rotate-(?:90|180|270)|flip-(?:horizontal|vertical|both)))$/';
+    $iconpattern = '/^fa-[a-z0-9][a-z0-9-]{1,46}$/';
+    $decorators = preg_grep($decoratorpattern, $parts) ?: [];
+    $iconcandidates = array_diff($parts, $decorators);
+    $validicons = preg_grep($iconpattern, $iconcandidates) ?: [];
+
+    return count($iconcandidates) === 1 && count($validicons) === 1;
 }
 
 /**
