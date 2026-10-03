@@ -1,15 +1,16 @@
 # Distributed file inventory
 
-This inventory is generated against the VideoTrack 1.7.167 repository tree. It lists every distributed
-non-documentation file plus repository-only CI/tooling files. Canonical JavaScript is under `amd/src`; files under
+This inventory is generated against the VideoTrack 1.7.168 repository tree. It lists every distributed
+non-documentation file plus repository-only CI/tooling/hygiene files. Canonical JavaScript is under `amd/src`; files under
 `amd/build` are generated.
 
-Entries: **303** — 301 distributed files and two repository-only files excluded from release archives.
+Entries: **304** — 301 distributed files and three repository-only files excluded from release archives.
 
 | File | Responsibility |
 |---|---|
+| `.gitignore` | Keeps generated CI and server-test evidence out of repository commits; excluded from release archives. |
 | `.gitattributes` | Repository text/binary attributes. |
-| `.moodleignore` | Files excluded by Moodle packaging. |
+| `.moodleignore` | Files excluded by Moodle packaging, including generated CI/server evidence. |
 | `.github/static-analysis/composer.json` | Repository-only pinned PHPStan/Psalm tool environment used by CI. |
 | `.github/workflows/ci.yml` | Repository-only GitHub Actions matrix; export-ignored from Moodle release archives. |
 | `phpmd.xml` | Reviewed PHPMD production ruleset; Moodle naming remains governed by PHPCS. |

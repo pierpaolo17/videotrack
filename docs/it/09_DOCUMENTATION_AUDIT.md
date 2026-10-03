@@ -1,6 +1,6 @@
 # Audit della documentazione
 
-Baseline: VideoTrack **1.7.167** (`2026100203`).
+Baseline: VideoTrack **1.7.168** (`2026100301`).
 
 ## Perimetro
 
@@ -33,7 +33,7 @@ duplicano intenzionalmente procedure implementative, dizionari dei campi o lungh
 ## Rilievi sull'albero corrente
 
 - Gli indici inglese e italiano hanno stesso perimetro e ordinamento.
-- Marker documentali, README principali e artefatti ER identificano 1.7.167 / 2026100203.
+- Marker documentali, README principali e artefatti ER identificano 1.7.168 / 2026100301.
 - L'identità dell'attività include `pix/icon.png` da 1024 pixel e un `pix/icon.svg` nativo e accessibile derivati
   dalla stessa grafica fornita dal maintainer.
 - `db/install.xml` dichiara sette chiavi primarie, 22 foreign key stabili e 22 indici espliciti. XMLDB genera inoltre
@@ -77,12 +77,16 @@ duplicano intenzionalmente procedure implementative, dizionari dei campi o lungh
   player sono presenti nel markup iniziale e le normali viste attività non usano il fallback Bootstrap 4 `sr-only`.
 - `.github/workflows/ci.yml` e il manifest degli analizzatori fissati sono presenti nel repository ma esclusi dagli
   archivi Moodle. Configurazioni e bootstrap distribuiti restano disponibili ai maintainer e ai gate server.
+- Le evidenze CI/server generate non fanno parte dell'albero del plugin. Il `.gitignore` del repository, le regole
+  Git archive `export-ignore`, le regole Moodle `.moodleignore` e un contratto PHPUnit di release hygiene impediscono
+  insieme che `reports-*`, `videotrack-ci-*.zip` e `report_completo_videotrack_*.zip` entrino nelle release future.
+  L'archivio canonico 1.7.168 contiene quindi soltanto i 365 file legittimi del plugin.
 
 ## Controlli di release
 
 Prima della promozione verificare:
 
-1. assenza di directory o link `archive/` nel pacchetto;
+1. assenza nel pacchetto di directory o link `archive/` e `reports-*`, oltre agli ZIP CI/server generati;
 2. assenza di narrazioni di versioni obsolete nei documenti correnti;
 3. risoluzione dei link Markdown e parità dei set EN/IT;
 4. identità degli inventari file/callable con l'albero esatto;

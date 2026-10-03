@@ -66,8 +66,9 @@ Psalm level copies; it must not modify the plugin tree. For a direct run outside
 - Lifecycle: fresh install, upgrade, backup/restore, reset, populated-gradebook uninstall and Privacy API when
   related code/schema changes.
 
-The current distributed suites contain 281 PHPUnit tests / 2566 assertions and 24 Behat scenarios /
-357 steps per supported Moodle branch. These numbers are expectations, not a pass claim.
+The current distributed suites contain 298 PHPUnit test methods and 24 Behat scenarios / 357 steps per supported
+Moodle branch. Assertion totals are run evidence rather than a static contract and must be recorded from the
+candidate CI. These numbers are expectations, not a pass claim.
 
 ## Repository continuous integration
 
@@ -107,7 +108,11 @@ GNU `patch` cannot apply Git binary-diff records. When a delta adds or changes a
 authoritative patch path and the GNU dry run is expected to stop at that record; use the complete release ZIP when
 Git is unavailable. Also verify application, rollback, reapplication rejection and byte/mode identity with the candidate. A release
 ZIP must contain one top-level `videotrack/` directory, no unsafe/duplicate paths and no development-only files.
-Rebuild twice and require identical SHA-256 when reproducible packaging is part of the gate.
+Generated evidence directories and archives (`reports-*`, `videotrack-ci-*.zip` and
+`report_completo_videotrack_*.zip`) must remain outside both the repository and the release package. Repository
+`.gitignore` prevents accidental staging, while the distributed `.gitattributes` and `.moodleignore` protect Git
+archives and Moodle package validation respectively. Rebuild twice and require identical SHA-256 when
+reproducible packaging is part of the gate.
 
 ## Release evidence
 

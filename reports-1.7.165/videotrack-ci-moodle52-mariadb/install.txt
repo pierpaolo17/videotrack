@@ -1,19 +1,0 @@
- 0/9 [>---------------------------]   0% < 1 sec [Starting install]
- 2/9 [======>---------------------]  22% 10 secs [Moodle assets]
- 3/9 [=========>------------------]  33% 10 secs [Install plugins]
- 4/9 [============>---------------]  44% 10 secs [Installing Node.js]Found '/home/runner/work/videotrack/videotrack/moodle/.nvmrc' with version <lts/jod>
-Downloading and installing node v22.23.3...
-Downloading https://nodejs.org/dist/v22.23.3/node-v22.23.3-linux-x64.tar.xz...
-##                                                                         4.1%####                                                                       6.8%###########################################################               82.4%######################################################################## 100.0%
-Computing checksum with sha256sum
-Checksums matched!
-Now using node v22.23.3 (npm v10.9.9)
-Found '/home/runner/work/videotrack/videotrack/moodle/.nvmrc' with version <lts/jod>
-Now using node v22.23.3 (npm v10.9.9)
-NVM_BIN=/home/runner/.nvm/versions/node/v22.23.3/bin
-
- 5/9 [===============>------------]  55% 13 secs [Install global dependencies]
- 6/9 [=================>--------]  66% 17 secs [Install Moodle npm dependencies]
- 7/9 [====================>-----]  77% 34 secs [Initialize test suite]
- 8/9 [=======================>--]  88%  1 min [Building configs]
- 9/9 [==========================] 100%  1 min [Install completed]

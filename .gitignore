@@ -1,0 +1,4 @@
+# Local CI and server-test evidence must stay outside the plugin repository.
+reports-*/
+videotrack-ci-*.zip
+report_completo_videotrack_*.zip

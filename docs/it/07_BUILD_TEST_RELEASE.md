@@ -67,8 +67,9 @@ impostare `MOODLE_ROOT` sulla root Moodle reale e usare i binari degli analizzat
 - Ciclo di vita: installazione, upgrade, backup/restore, reset, disinstallazione con gradebook popolato e Privacy API
   per codice/schema correlato.
 
-Le suite distribuite correnti contengono 281 test PHPUnit / 2566 asserzioni e 24 scenari Behat /
-357 step per ramo Moodle supportato. I conteggi sono aspettative, non una dichiarazione di pass.
+Le suite distribuite correnti contengono 298 metodi di test PHPUnit e 24 scenari Behat / 357 step per ramo Moodle
+supportato. Il totale delle asserzioni è un'evidenza di esecuzione, non un contratto statico, e deve essere
+registrato dalla CI della candidata. I conteggi sono aspettative, non una dichiarazione di pass.
 
 ## Integrazione continua del repository
 
@@ -108,7 +109,11 @@ GNU `patch` non applica i record binary-diff di Git. Quando il delta aggiunge o 
 `git apply` è il percorso patch autorevole e il dry run GNU si arresta legittimamente su quel record; se Git non è
 disponibile usare lo ZIP completo. Verificare anche applicazione, rollback, rifiuto della riapplicazione e identità di contenuti/permessi con la
 candidata. Lo ZIP deve contenere una sola directory `videotrack/`, nessun path pericoloso/duplicato e nessun
-file solo di sviluppo. Se il packaging è riproducibile, due build devono avere lo stesso SHA-256.
+file solo di sviluppo. Directory e archivi di evidenza generati (`reports-*`, `videotrack-ci-*.zip` e
+`report_completo_videotrack_*.zip`) devono restare fuori sia dal repository sia dal pacchetto di release. Il
+`.gitignore` del repository previene lo staging accidentale, mentre i file distribuiti `.gitattributes` e
+`.moodleignore` proteggono rispettivamente gli archivi Git e la validazione del pacchetto Moodle. Se il packaging
+è riproducibile, due build devono avere lo stesso SHA-256.
 
 ## Evidenze di release
 

@@ -1,5 +1,22 @@
 # VideoTrack changelog
 
+## 1.7.168 - 2026-10-03
+
+### Deterministic release-package hygiene
+
+- Accepted the complete 1.7.167 code evidence: release and `main` matrices passed all six jobs; PHPStan and Psalm
+  reported no errors; PHPMD reported 118 reviewed findings; the server passed PHPCS and PHP lint on 132 files,
+  Grunt on Moodle 5.0 and 5.3, 297 PHPUnit tests with 2715 assertions on both installations, and both strict
+  validators with 10 passes, no warnings and no failures.
+- Rejected the 1.7.167 ZIP as a distributable baseline because its tag accidentally tracked 61 retained CI log
+  files under `reports-1.7.165/`. Removed that directory without changing any production, test fixture or runtime
+  asset.
+- Added repository, Git archive and Moodle-packaging exclusions for generated `reports-*` directories, CI ZIPs and
+  complete server-report ZIPs. Added a release-hygiene contract that requires those artifacts to be absent and the
+  distributed exclusion rules to remain active.
+- Updated current English and Italian release, build, audit, file and callable documentation. Database schema,
+  AJAX contracts, capabilities, privacy behaviour, player adapters, AMD assets and language packs are unchanged.
+
 ## 1.7.167 - 2026-10-02
 
 ### Completion contract follows the reaction write boundary
