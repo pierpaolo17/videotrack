@@ -40,6 +40,7 @@ use PHPUnit\Framework\Attributes\CoversFunction;
 #[CoversFunction('videotrack_get_upload_url')]
 #[CoversFunction('videotrack_get_module_context_from_data')]
 #[CoversFunction('videotrack_whitelist_record')]
+#[CoversFunction('videotrack_is_valid_reaction_icon_class')]
 final class lib_test extends advanced_testcase {
     /**
      * Load module callbacks under test.
@@ -82,6 +83,35 @@ final class lib_test extends advanced_testcase {
      */
     public function test_unknown_feature_returns_null(): void {
         $this->assertNull(\videotrack_supports('mod_videotrack_unknown_feature'));
+    }
+
+    /**
+     * Font Awesome reactions accept one icon name plus the reviewed decorator subset.
+     */
+    public function test_reaction_icon_class_validation_preserves_allowlist(): void {
+        $valid = [
+            'fa-solid fa-heart',
+            'far fa-thumbs-up fa-fw',
+            'fab fa-github fa-2xl',
+            '  fa fa-star fa-spin  ',
+        ];
+        foreach ($valid as $value) {
+            $this->assertTrue(\videotrack_is_valid_reaction_icon_class($value), $value);
+        }
+
+        $invalid = [
+            '',
+            'fa-solid',
+            'fa-heart fa-star',
+            'fa-solid fa-heart fa-fw fa-spin fa-lg',
+            'fa-solid fa-heart<script>',
+            'FA-SOLID FA-HEART',
+            'fa-a',
+            str_repeat('a', 161),
+        ];
+        foreach ($invalid as $value) {
+            $this->assertFalse(\videotrack_is_valid_reaction_icon_class($value), $value);
+        }
     }
 
     /**

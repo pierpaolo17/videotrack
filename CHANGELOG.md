@@ -1,5 +1,26 @@
 # VideoTrack changelog
 
+## 1.7.171 - 2026-10-03
+
+### Table-driven Moodle feature and reaction-icon contracts
+
+- Accepted the complete 1.7.170 release evidence: all six CI jobs installed the intended Moodle branches 500–503,
+  both upper-bound jobs used `MOODLE_503_STABLE`, all strict validators reported 10 passes, PHPUnit completed 301
+  tests with 2734 assertions, Behat completed 24 scenarios and 357 steps, Grunt completed, PHPStan and Psalm
+  reported no errors, and PHPMD retained 114 reviewed findings.
+- Replaced the branch-heavy `videotrack_supports()` switch with a direct feature-to-value table. Every declared
+  Moodle feature keeps the same boolean or chooser value, and unknown features still return `null`.
+- Replaced the procedural Font Awesome token loop with an equivalent partition between reviewed decorators and
+  exactly one validated icon name. The 160-character and four-token limits, allowed character set, case-sensitive
+  class allowlist and fail-closed behaviour are unchanged.
+- Added PHPUnit coverage for valid style, brand, size and animation decorators plus empty, decorator-only,
+  multi-icon, overlong, excessive-token, markup, uppercase and undersized icon-name rejection. These changes target
+  the two PHPMD `CyclomaticComplexity` findings assigned to the refactored functions; the candidate CI report
+  remains authoritative for the resulting count.
+- Updated the current English and Italian feature, reaction, static-analysis, audit and callable documentation.
+  Database schema, stored data, AJAX services, capabilities, privacy behaviour, completion, player adapters, AMD
+  assets and language packs are unchanged.
+
 ## 1.7.170 - 2026-10-03
 
 ### Stable Moodle 5.3 CI boundary
