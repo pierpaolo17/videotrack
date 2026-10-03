@@ -1,6 +1,6 @@
 # Inventario delle funzioni
 
-Generato dall’albero sorgente VideoTrack 1.7.171. Le voci PHP includono funzioni e metodi nominati; le voci AMD includono dichiarazioni nominate, espressioni funzione assegnate e funzioni-metodo di oggetti.
+Generato dall’albero sorgente VideoTrack 1.7.172. Le voci PHP includono funzioni e metodi nominati; le voci AMD includono dichiarazioni nominate, espressioni funzione assegnate e funzioni-metodo di oggetti.
 
 **Funzioni/metodi PHP:** 802. **Callable AMD nominati:** 654.
 
@@ -967,18 +967,20 @@ Generato dall’albero sorgente VideoTrack 1.7.171. Le voci PHP includono funzio
 | `classes/local/report_support.php:376` | `analytics_segment_condition` | PHP callable `report_support::analytics_segment_condition`; decorazione SQL Analytics dei segmenti validati con scope capability-safe e filtro provider opzionale. |
 | `classes/local/report_support.php:400` | `analytics_prefers_state_fallback` | Callable PHP `report_support::analytics_prefers_state_fallback`; selezione pura del fallback state Analytics con priorità viewer ed epsilon sui secondi unici. |
 | `classes/local/report_support.php:415` | `analytics_highlights` | Callable PHP `report_support::analytics_highlights`; selezione pura degli highlight Analytics più visti, più riprodotti e dei maggiori cali con semantica esistente di soppressione e ordinamento. |
-| `classes/local/report_support.php:473` | `acknowledgement_scope_condition` | Callable PHP `report_support::acknowledgement_scope_condition`; costruzione SQL dello scope presa visione sulla versione corrente. |
-| `classes/local/report_support.php:542` | `analytics_acknowledgement_timing_counts` | Callable PHP `report_support::analytics_acknowledgement_timing_counts`; conteggio dei bucket timing degli Analytics di presa visione con fallback timing canonico. |
-| `classes/local/report_support.php:570` | `reaction_event_condition` | Callable PHP `report_support::reaction_event_condition`; costruzione SQL/parametri degli eventi di reazione standard con scope learner e filtri report opzionali. |
-| `classes/local/report_support.php:612` | `bookmark_event_condition` | Callable PHP `report_support::bookmark_event_condition`; costruzione SQL/parametri degli eventi bookmark standard con scope learner e filtri report opzionali. |
-| `classes/local/report_support.php:648` | `integrity_event_condition` | Callable PHP `report_support::integrity_event_condition`; costruzione SQL/parametri degli eventi integrity standard con scope learner e filtri report opzionali. |
-| `classes/local/report_support.php:685` | `note_user_condition` | Callable PHP `report_support::note_user_condition`; costruzione SQL/parametri per individuare gli utenti con note personali, con scope learner e filtro studente opzionale. |
-| `classes/local/report_support.php:713` | `note_event_condition` | Callable PHP `report_support::note_event_condition`; costruzione SQL/parametri delle note personali per-studente con scope learner, filtro studente opzionale e limiti inclusivi sul tempo di creazione. |
-| `classes/local/report_support.php:747` | `state_condition` | Callable PHP `report_support::state_condition`; costruzione SQL/parametri delle righe di stato con scope learner e filtro studente opzionale. |
-| `classes/local/report_support.php:773` | `segment_user_condition` | Callable PHP `report_support::segment_user_condition`; costruzione SQL/parametri per individuare gli utenti rappresentati nei segmenti con scope learner canonico. |
-| `classes/local/report_support.php:792` | `user_options` | Callable PHP `report_support::user_options`; costruzione delle opzioni utente del report in ordine di priorità con label rispettose della privacy. |
-| `classes/local/report_support.php:824` | `cluster_reaction_events` | Callable PHP `report_support::cluster_reaction_events`; clustering limitato delle reazioni con semantica invariata per finestra, conteggio studenti e ordinamento. |
-| `classes/local/report_support.php:902` | `tabs` | Callable PHP `report_support::tabs`; costruzione dei tab report dipendente dalle capability. |
+| `classes/local/report_support.php:455` | `analytics_viewer_drops` | Fase privata pura che individua cali di viewer soltanto tra bin Analytics visibili e contigui; i confini privacy interrompono la continuità. |
+| `classes/local/report_support.php:487` | `acknowledgement_scope_condition` | Callable PHP `report_support::acknowledgement_scope_condition`; costruzione SQL dello scope presa visione sulla versione corrente. |
+| `classes/local/report_support.php:556` | `analytics_acknowledgement_timing_counts` | Callable PHP `report_support::analytics_acknowledgement_timing_counts`; conteggio dei bucket timing degli Analytics di presa visione con fallback timing canonico. |
+| `classes/local/report_support.php:584` | `reaction_event_condition` | Callable PHP `report_support::reaction_event_condition`; costruzione SQL/parametri degli eventi di reazione standard con scope learner e filtri report opzionali. |
+| `classes/local/report_support.php:626` | `bookmark_event_condition` | Callable PHP `report_support::bookmark_event_condition`; costruzione SQL/parametri degli eventi bookmark standard con scope learner e filtri report opzionali. |
+| `classes/local/report_support.php:662` | `integrity_event_condition` | Callable PHP `report_support::integrity_event_condition`; costruzione SQL/parametri degli eventi integrity standard con scope learner e filtri report opzionali. |
+| `classes/local/report_support.php:699` | `note_user_condition` | Callable PHP `report_support::note_user_condition`; costruzione SQL/parametri per individuare gli utenti con note personali, con scope learner e filtro studente opzionale. |
+| `classes/local/report_support.php:727` | `note_event_condition` | Callable PHP `report_support::note_event_condition`; costruzione SQL/parametri delle note personali per-studente con scope learner, filtro studente opzionale e limiti inclusivi sul tempo di creazione. |
+| `classes/local/report_support.php:761` | `state_condition` | Callable PHP `report_support::state_condition`; costruzione SQL/parametri delle righe di stato con scope learner e filtro studente opzionale. |
+| `classes/local/report_support.php:787` | `segment_user_condition` | Callable PHP `report_support::segment_user_condition`; costruzione SQL/parametri per individuare gli utenti rappresentati nei segmenti con scope learner canonico. |
+| `classes/local/report_support.php:806` | `user_options` | Callable PHP `report_support::user_options`; costruzione delle opzioni utente del report in ordine di priorità con label rispettose della privacy. |
+| `classes/local/report_support.php:838` | `cluster_reaction_events` | Callable PHP `report_support::cluster_reaction_events`; clustering limitato delle reazioni con semantica invariata per finestra, conteggio studenti e ordinamento. |
+| `classes/local/report_support.php:904` | `sort_reaction_clusters` | Fase privata pura di ordinamento dei cluster per etichetta reazione, numero di clic o timestamp. |
+| `classes/local/report_support.php:928` | `tabs` | Callable PHP `report_support::tabs`; costruzione dei tab report dipendente dalle capability. |
 | `classes/local/report_view.php:42` | `analytics_interval` | Callable PHP `report_view::analytics_interval`; DocBlock e chiamanti definiscono parametri, valori restituiti ed effetti. |
 | `classes/local/report_view.php:56` | `analytics_heatmap` | Callable PHP `report_view::analytics_heatmap`; DocBlock e chiamanti definiscono parametri, valori restituiti ed effetti. |
 | `classes/local/report_view.php:188` | `analytics_methodology` | Callable PHP `report_view::analytics_methodology`; DocBlock e chiamanti definiscono parametri, valori restituiti ed effetti. |

@@ -49,6 +49,15 @@ soltanto conteggio aggregato, stato completion e warning limitati necessari al s
 risposta invariata. Questo confine impedisce l'accumulo delle dipendenze framework post-scrittura nell'endpoint
 pubblico senza spostare fuori da esso decisioni di sicurezza o concorrenza.
 
+## Confine di aggregazione dei report docente
+
+`classes/local/report_support.php` conserva l'API stabile dei report docente e isola due fasi interne
+deterministiche. I cali di viewer Analytics vengono individuati soltanto tra bin visibili e contigui, quindi un bin
+soppresso o non disponibile resta un confine privacy. I cluster di reazione completati vengono ordinati
+separatamente per etichetta, numero di clic o timestamp dopo aver finalizzato finestra, insieme studenti e stato del
+limite di sicurezza. La separazione non modifica input del controller, scope di capability, regole privacy o forma
+del report restituito.
+
 ## Contratto player
 
 Ogni adapter deve fornire tempo corrente, durata, play/pausa, seek, velocità e fine. I moduli condivisi non assumono comportamenti uguali tra provider. Resume, replay e correzione seek programmatici sono distinti dal seek utente. I limiti SDK di YouTube e Vimeo sono trattati esplicitamente.

@@ -47,6 +47,14 @@ state and bounded warnings needed by the external service to build its unchanged
 post-write framework dependencies from accumulating in the public endpoint without moving any security or
 concurrency decision outside it.
 
+## Teacher-report aggregation boundary
+
+`classes/local/report_support.php` keeps the stable teacher-report API while isolating two deterministic internal
+stages. Analytics viewer drops are discovered only across contiguous visible bins, so a suppressed or unavailable
+bin remains a privacy boundary. Completed reaction clusters are ordered separately by reaction label, click count
+or timestamp after their window, student set and safety-limit state have been finalised. The separation changes no
+controller input, capability scope, privacy rule or returned report shape.
+
 ## Player contract
 
 Each adapter must provide reliable current time, duration, play/pause, seek, rate and end callbacks. Shared modules never assume identical provider behaviour. Programmatic resume, replay and blocked-seek correction are distinguished from user seek. YouTube and Vimeo SDK limitations are handled explicitly.

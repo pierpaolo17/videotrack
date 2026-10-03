@@ -1,5 +1,24 @@
 # VideoTrack changelog
 
+## 1.7.172 - 2026-10-03
+
+### Focused teacher-report aggregation stages
+
+- Accepted the complete 1.7.171 release evidence: all six GitHub jobs passed on the intended Moodle 5.0–5.3
+  matrix, PHPStan and Psalm reported no errors, and PHPMD decreased from 114 to 112 reviewed findings. The tagged
+  package then passed server PHPCS and PHP lint on 132 files, Grunt on Moodle 5.0 and 5.3, 302 PHPUnit tests with
+  2746 assertions on both installations, and both strict validators with 10 passes, no warnings and no failures.
+- Extracted contiguous viewer-drop discovery from `report_support::analytics_highlights()` into one private pure
+  stage. Suppressed or unavailable bins still break continuity, and ranking plus top-five truncation remain owned
+  by the public highlight contract.
+- Extracted completed reaction-cluster ordering into one private stage. Reaction-label, click-count and timestamp
+  modes keep their existing comparators; clustering windows, privacy scope, cluster limits and public return shape
+  are unchanged. Behavioural coverage now exercises all three ordering branches.
+- These changes target the two residual PHPMD `CyclomaticComplexity` findings assigned to the public methods; the
+  candidate CI report remains authoritative for the resulting count. Updated the current English and Italian
+  release, audit, static-analysis and callable documentation. Database schema, AJAX services, capabilities,
+  privacy policy, AMD assets and language packs are unchanged.
+
 ## 1.7.171 - 2026-10-03
 
 ### Table-driven Moodle feature and reaction-icon contracts
