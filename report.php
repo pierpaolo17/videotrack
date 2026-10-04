@@ -61,13 +61,13 @@ $reactionidfilter = optional_param('reactionid', 0, PARAM_INT);
 $notepage = max(0, optional_param('notepage', 0, PARAM_INT));
 $notecreatedfrom = videotrack_optional_iso_date_param('notecreatedfrom');
 $notecreatedto = videotrack_optional_iso_date_param('notecreatedto');
-$timefrom = \mod_videotrack\local\report_support::optional_time_param('timefrom');
-$timeto = \mod_videotrack\local\report_support::optional_time_param('timeto');
+$timefrom = \mod_videotrack\local\report_time_filter::optional_time_param('timefrom');
+$timeto = \mod_videotrack\local\report_time_filter::optional_time_param('timeto');
 if ($timefrom !== null && $timeto !== null && $timeto < $timefrom) {
     [$timefrom, $timeto] = [$timeto, $timefrom];
 }
-$notecreatedfromts = \mod_videotrack\local\report_support::date_to_timestamp($notecreatedfrom);
-$notecreatedtots = \mod_videotrack\local\report_support::end_date_to_timestamp($notecreatedto);
+$notecreatedfromts = \mod_videotrack\local\report_time_filter::date_to_timestamp($notecreatedfrom);
+$notecreatedtots = \mod_videotrack\local\report_time_filter::end_date_to_timestamp($notecreatedto);
 if ($notecreatedfromts && $notecreatedtots && $notecreatedtots < $notecreatedfromts) {
     [$notecreatedfromts, $notecreatedtots] = [$notecreatedtots, $notecreatedfromts];
 }
@@ -2290,13 +2290,13 @@ $showtimehours = $reportduration <= 0 || max(
     $timefrom ?? 0,
     $timeto ?? 0
 ) >= HOURSECS;
-echo \mod_videotrack\local\report_support::duration_filter(
+echo \mod_videotrack\local\report_time_filter::duration_filter(
     'timefrom',
     get_string('report:timefrom', 'mod_videotrack'),
     $timefrom,
     $showtimehours
 );
-echo \mod_videotrack\local\report_support::duration_filter(
+echo \mod_videotrack\local\report_time_filter::duration_filter(
     'timeto',
     get_string('report:timeto', 'mod_videotrack'),
     $timeto,

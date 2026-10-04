@@ -1,5 +1,25 @@
 # VideoTrack changelog
 
+## 1.7.174 - 2026-10-04
+
+### Focused teacher-report time-filter boundary
+
+- Accepted the complete 1.7.173 release evidence: all six GitHub jobs passed on Moodle 5.0–5.3 with MariaDB and
+  PostgreSQL, both strict server validators reported 10 passes, PHPUnit completed 302 tests with 2748 assertions,
+  Behat completed 24 scenarios and 357 steps, PHPStan and Psalm reported no errors, and PHPMD retained exactly 110
+  reviewed advisory findings.
+- Moved ISO date boundaries, structured duration request parsing, legacy colon-form compatibility and accessible
+  duration-control rendering from `local\report_support` into the focused `local\report_time_filter` service.
+  The controller's parameter names, empty-value semantics, clock bounds, exception type, timezone handling, markup
+  and backwards-compatible links are unchanged.
+- Split the structured parser into named request, presence, digit, normalisation and range stages. Added behavioural
+  coverage for numeric component composition and fail-closed minute/second bounds, while the controller contract
+  prevents the extracted API from drifting back into the broad support class.
+- Updated current English and Italian architecture, static-analysis, audit, file and callable inventories. The two
+  PHPMD findings previously assigned to `report_support::optional_time_param()` are expected to disappear; candidate
+  CI remains authoritative for the resulting count. Database schema, AJAX services, capabilities, privacy policy,
+  AMD assets and language packs are unchanged.
+
 ## 1.7.173 - 2026-10-04
 
 ### Complete release markers and bounded report aggregation service

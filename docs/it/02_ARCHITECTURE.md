@@ -49,14 +49,18 @@ soltanto conteggio aggregato, stato completion e warning limitati necessari al s
 risposta invariata. Questo confine impedisce l'accumulo delle dipendenze framework post-scrittura nell'endpoint
 pubblico senza spostare fuori da esso decisioni di sicurezza o concorrenza.
 
-## Confine di aggregazione dei report docente
+## Confini dei servizi del report docente
 
-`classes/local/report_support.php` conserva l'API stabile dei report docente mentre
+`classes/local/report_time_filter.php` possiede limiti data, parsing dei campi strutturati ore/minuti/secondi,
+compatibilità con il formato legacy a due punti e markup accessibile dei controlli durata. Il parser mantiene in fasi
+esplicite rilevamento dei componenti inviati, controllo delle cifre, normalizzazione e limiti minuti/secondi; nomi
+dei parametri, semantica dei valori vuoti, timezone ed eccezioni di validazione restano invariati.
+`classes/local/report_support.php` possiede la restante API di scope, opzioni utente e clustering reazioni, mentre
 `classes/local/report_aggregation.php` possiede due fasi pure deterministiche. I cali di viewer Analytics vengono
 individuati soltanto tra bin visibili e contigui, quindi un bin soppresso o non disponibile resta un confine privacy.
-I cluster di reazione completati vengono ordinati separatamente per etichetta, numero di clic o timestamp dopo aver
-finalizzato finestra, insieme studenti e stato del limite di sicurezza. La separazione non modifica input del
-controller, scope di capability, regole privacy o forma del report restituito.
+I cluster completati vengono ordinati separatamente dopo aver finalizzato finestra, insieme studenti e stato del
+limite di sicurezza. Le separazioni non modificano input del controller, scope di capability, regole privacy o forma
+del report restituito.
 
 ## Contratto player
 

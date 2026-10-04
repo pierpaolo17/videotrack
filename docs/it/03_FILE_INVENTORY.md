@@ -1,6 +1,6 @@
 # Inventario dei file distribuiti
 
-Questo inventario è generato sull'albero repository VideoTrack 1.7.173. Elenca ogni file non documentale distribuito
+Questo inventario è generato sull'albero repository VideoTrack 1.7.174. Elenca ogni file non documentale distribuito
 e i file CI/tooling/igiene presenti soltanto nel repository. Il JavaScript canonico è in `amd/src`; i file in `amd/build`
 sono generati.
 
@@ -212,7 +212,8 @@ Voci: **304** — 301 file distribuiti e tre file presenti soltanto nel reposito
 | `classes/local/report_access.php` | Policy centralizzata delle capability granulari dei report di attività con fallback retrocompatibile al permesso completo. |
 | `classes/local/reaction_write_service.php` | Esegue invalidazione cache, consegna evento, conteggio aggregato e refresh completion dopo la persistenza con warning limitati. |
 | `classes/local/report_aggregation.php` | Individuazione pura dei cali di viewer e ordinamento dei cluster di reazione completati per i report docente. |
-| `classes/local/report_support.php` | Supporto estratto dal controller per richiesta, filtri, scope capability-safe, opzioni utente e clustering reazioni del report docente. |
+| `classes/local/report_support.php` | Supporto estratto dal controller per scope capability-safe, opzioni utente e clustering reazioni del report docente. |
+| `classes/local/report_time_filter.php` | Limiti data, parsing strutturato/legacy e controlli durata accessibili per i report docente. |
 | `classes/local/report_view.php` | Helper di presentazione Analytics docente estratto dal controller del report. |
 | `classes/local/teacher_analytics.php` | Servizio di dominio `teacher_analytics` riusabile da pagine, report o servizi. |
 | `classes/local/timed_text.php` | Risolve file WebVTT canonici di trascrizione/capitoli e fallback sottotitoli legacy espliciti. |
@@ -297,6 +298,7 @@ Voci: **304** — 301 file distribuiti e tre file presenti soltanto nel reposito
 | `tests/report_access_test.php` | Copertura PHPUnit comportamentale della separazione tra vista/export aggregati e individuali dei report. |
 | `tests/report_contract_test.php` | Test PHPUnit/di contratto corrente distribuito con il plugin. |
 | `tests/report_support_test.php` | Copertura PHPUnit comportamentale per l'helper di supporto del report docente estratto. |
+| `tests/report_time_filter_test.php` | Copertura PHPUnit dei contratti data, durata strutturata e controlli accessibili del report docente. |
 | `tests/report_view_test.php` | Copertura PHPUnit comportamentale per l'helper di presentazione Analytics docente estratto. |
 | `tests/save_bookmark_test.php` | Copertura PHPUnit per save bookmark test. |
 | `tests/save_integrity_event_test.php` | Copertura PHPUnit per save integrity event test. |
