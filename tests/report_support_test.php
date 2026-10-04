@@ -32,38 +32,6 @@ use PHPUnit\Framework\Attributes\CoversClass;
 #[CoversClass(report_support::class)]
 final class report_support_test extends \advanced_testcase {
     /**
-     * Date-only report filters reject malformed and impossible calendar values.
-     */
-    public function test_date_to_timestamp_rejects_invalid_values(): void {
-        $this->assertSame(0, report_support::date_to_timestamp(''));
-        $this->assertSame(0, report_support::date_to_timestamp('2026-02-30'));
-        $this->assertSame(0, report_support::date_to_timestamp('17-08-2026'));
-        $this->assertSame(
-            make_timestamp(2026, 8, 17, 0, 0, 0),
-            report_support::date_to_timestamp('2026-08-17')
-        );
-        $this->assertSame(
-            make_timestamp(2026, 8, 17, 23, 59, 59),
-            report_support::end_date_to_timestamp('2026-08-17')
-        );
-        $this->assertSame(0, report_support::end_date_to_timestamp('2026-02-30'));
-    }
-
-    /**
-     * Duration filters keep the structured hours/minutes/seconds accessibility contract.
-     */
-    public function test_duration_filter_preserves_structured_controls(): void {
-        $markup = report_support::duration_filter('timefrom', 'From', 3661.0, true);
-
-        $this->assertStringContainsString('name="timefrom_hours"', $markup);
-        $this->assertStringContainsString('value="1"', $markup);
-        $this->assertStringContainsString('name="timefrom_minutes"', $markup);
-        $this->assertStringContainsString('name="timefrom_seconds"', $markup);
-        $this->assertStringContainsString('role="group"', $markup);
-        $this->assertStringContainsString('aria-labelledby="id_timefrom_group_label"', $markup);
-    }
-
-    /**
      * User labels retain privacy behaviour when email visibility is disabled.
      */
     public function test_user_label_respects_email_visibility(): void {

@@ -1,6 +1,6 @@
 # Distributed file inventory
 
-This inventory is generated against the VideoTrack 1.7.173 repository tree. It lists every distributed
+This inventory is generated against the VideoTrack 1.7.174 repository tree. It lists every distributed
 non-documentation file plus repository-only CI/tooling/hygiene files. Canonical JavaScript is under `amd/src`; files under
 `amd/build` are generated.
 
@@ -212,7 +212,8 @@ Entries: **304** — 301 distributed files and three repository-only files exclu
 | `classes/local/report_access.php` | Centralised granular activity-report capability policy with backwards-compatible full-report fallback. |
 | `classes/local/reaction_write_service.php` | Runs post-persistence reaction cache invalidation, event delivery, aggregate counting and completion refresh with bounded warnings. |
 | `classes/local/report_aggregation.php` | Pure viewer-drop discovery and completed reaction-cluster ordering for teacher reports. |
-| `classes/local/report_support.php` | Teacher-report request, filter, capability-safe scope, user-option and reaction-clustering support extracted from the report controller. |
+| `classes/local/report_support.php` | Teacher-report capability-safe scope, user-option and reaction-clustering support extracted from the report controller. |
+| `classes/local/report_time_filter.php` | Date boundaries, structured/legacy request parsing and accessible duration controls for teacher reports. |
 | `classes/local/report_view.php` | Teacher Analytics presentation helper extracted from the report controller. |
 | `classes/local/teacher_analytics.php` | Cross-course, capability-safe dashboard aggregation for report viewers. |
 | `classes/local/timed_text.php` | Resolves canonical WebVTT transcript/chapter files and explicit legacy subtitle fallbacks. |
@@ -297,6 +298,7 @@ Entries: **304** — 301 distributed files and three repository-only files exclu
 | `tests/report_access_test.php` | Behavioural PHPUnit coverage for aggregate/individual report-view and export capability separation. |
 | `tests/report_contract_test.php` | Current PHPUnit/contract test distributed with the plugin. |
 | `tests/report_support_test.php` | Behavioural PHPUnit coverage for the extracted teacher-report support helper. |
+| `tests/report_time_filter_test.php` | Behavioural PHPUnit coverage for teacher-report date, structured-duration and accessible-control contracts. |
 | `tests/report_view_test.php` | Behavioural PHPUnit coverage for the extracted teacher Analytics presentation helper. |
 | `tests/save_bookmark_test.php` | PHPUnit coverage for save bookmark test. |
 | `tests/save_integrity_event_test.php` | PHPUnit coverage for save integrity event test. |

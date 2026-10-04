@@ -231,13 +231,18 @@ final class report_contract_test extends advanced_testcase {
     /**
      * Request/filter/scope helpers stay outside the report controller.
      */
-    public function test_report_support_helpers_are_extracted_from_controller(): void {
+    public function test_report_helpers_are_extracted_from_controller(): void {
         $report = file_get_contents(__DIR__ . '/../report.php');
         $support = file_get_contents(__DIR__ . '/../classes/local/report_support.php');
+        $timefilter = file_get_contents(__DIR__ . '/../classes/local/report_time_filter.php');
         $this->assertIsString($report);
         $this->assertIsString($support);
+        $this->assertIsString($timefilter);
 
-        $this->assertStringContainsString('report_support::optional_time_param(', $report);
+        $this->assertStringContainsString('report_time_filter::optional_time_param(', $report);
+        $this->assertStringContainsString('report_time_filter::date_to_timestamp(', $report);
+        $this->assertStringContainsString('report_time_filter::end_date_to_timestamp(', $report);
+        $this->assertStringContainsString('report_time_filter::duration_filter(', $report);
         $this->assertStringContainsString('report_support::analytics_scope_condition(', $report);
         $this->assertStringContainsString('report_support::analytics_reaction_condition(', $report);
         $this->assertStringContainsString('report_support::analytics_bookmark_condition(', $report);
@@ -258,6 +263,9 @@ final class report_contract_test extends advanced_testcase {
         $this->assertStringContainsString('report_support::state_condition(', $report);
         $this->assertStringContainsString('report_support::segment_user_condition(', $report);
         $this->assertStringContainsString('final class report_support', $support);
+        $this->assertStringContainsString('final class report_time_filter', $timefilter);
+        $this->assertStringNotContainsString('function optional_time_param(', $support);
+        $this->assertStringNotContainsString('function duration_filter(', $support);
         $this->assertStringNotContainsString('function videotrack_report_user_label(', $report);
         $this->assertStringNotContainsString('function videotrack_report_tabs(', $report);
         $this->assertStringNotContainsString('$clusterize = function', $report);

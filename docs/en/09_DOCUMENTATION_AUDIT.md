@@ -1,6 +1,6 @@
 # Documentation audit
 
-Baseline: VideoTrack **1.7.173** (`2026100401`).
+Baseline: VideoTrack **1.7.174** (`2026100402`).
 
 ## Scope
 
@@ -33,7 +33,7 @@ not duplicate implementation procedures, field dictionaries or long security/pri
 ## Current-tree findings
 
 - English and Italian indexes have matching scope and ordering.
-- Documentation markers, root README files and ER artefacts identify 1.7.173 / 2026100401.
+- Documentation markers, root README files and ER artefacts identify 1.7.174 / 2026100402.
 - The activity identity includes a 1024-pixel `pix/icon.png` and an accessible native `pix/icon.svg` derived from
   the same maintainer-supplied artwork.
 - `db/install.xml` declares seven primary keys, 22 stable foreign keys and 22 explicit indexes. XMLDB generates an
@@ -73,11 +73,12 @@ not duplicate implementation procedures, field dictionaries or long security/pri
   reporting enabled.
 - The active `phpmd.xml` removes reviewed Moodle naming/framework noise, keeps selected runtime rules and
   distinguishes advisory findings from analyser/configuration errors. Production code uses explicit delimiter,
-  date-boundary, Analytics export-shape and course-percentage rendering APIs; `report_support` keeps 25 public
-  methods while the focused `report_aggregation` service owns viewer-drop discovery and reaction-cluster ordering,
-  the Moodle feature callback is table-driven, Font Awesome values contain exactly one validated icon name, and
-  rendered reaction icons always include their visible label without a boolean presentation flag. Exact finding
-  counts are read from the current candidate's CI artifact.
+  Analytics export-shape and course-percentage rendering APIs; `report_support` keeps 21 public scope/option/
+  clustering methods, `report_time_filter` owns four cohesive date/request/rendering contracts, and
+  `report_aggregation` owns viewer-drop discovery plus reaction-cluster ordering. The Moodle feature callback is
+  table-driven, Font Awesome values contain exactly one validated icon name, and rendered reaction icons always
+  include their visible label without a boolean presentation flag. Exact finding counts are read from the current
+  candidate's CI artifact.
 - The two AMD build pairs corrected in 1.7.123 are canonical Moodle Grunt output; their source maps have non-empty
   mappings and embed source content byte-identical to the distributed AMD sources.
 - Rendered accessibility helpers use Moodle 5 / Bootstrap 5 `visually-hidden` classes; player live regions are
@@ -87,7 +88,7 @@ not duplicate implementation procedures, field dictionaries or long security/pri
 - Generated CI/server evidence is not part of the plugin tree. Repository `.gitignore`, Git archive
   `export-ignore` rules, Moodle `.moodleignore` rules and a PHPUnit release-hygiene contract jointly prevent
   `reports-*`, `videotrack-ci-*.zip` and `report_completo_videotrack_*.zip` from entering future releases. The
-  canonical 1.7.173 release archive therefore contains the 366 legitimate plugin files only.
+  canonical 1.7.174 release archive therefore contains the 368 legitimate plugin files only.
 
 ## Release checks
 
