@@ -99,8 +99,10 @@ line, not for redeclaring a method parameter.
   required around their inline PHPStan declarations, and unmatched-ignore reporting remains enabled.
 - The Psalm-only legacy stub models the global `renderable` alias and Moodle's misspelled `xmlddb_field` return type.
   It does not execute runtime code, suppress issue categories or reduce the analysed production scope.
-- `report_support` exposes separate start/end date-boundary methods and contains 25 methods. CSV delimiter selection
-  likewise uses separate site and activity entry points; neither API uses a boolean behaviour switch.
+- `report_support` exposes 25 stable public methods. The focused `report_aggregation` service owns pure viewer-drop
+  discovery and reaction-cluster ordering, so the public highlight and clustering methods retain their contracts
+  below the PHPMD complexity threshold without pushing the support class above the PHPMD method-count threshold.
+  CSV delimiter selection likewise uses separate site and activity entry points; neither API uses a boolean switch.
 - `videotrack_render_reaction_icon()` always returns the icon together with its visible accessible label. Its callers
   no longer pass an unused boolean presentation flag.
 - Reaction lookup uses distinct active-only and complete-lifecycle functions. Record whitelisting has one stable

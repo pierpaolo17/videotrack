@@ -1,5 +1,41 @@
 # VideoTrack changelog
 
+## 1.7.173 - 2026-10-04
+
+### Complete release markers and bounded report aggregation service
+
+- Rejected the 1.7.172 candidate after all six jobs consistently reported two release-hygiene failures. Runtime
+  installation, Behat, Grunt, PHPCS and PHP lint completed; PHPStan and Psalm reported no errors; the two intended
+  method-complexity findings disappeared. `README_IT.md` and both generated ER renderings still identified 1.7.171,
+  so the strict validator correctly reported 9 passes and one documentation failure in every environment.
+- Updated the omitted Italian README, Mermaid ER source and SVG ER title together with every current release marker.
+  The release-hygiene test now sees the same 1.7.173 / 2026100401 identity in all documents it validates.
+- Moved viewer-drop discovery and reaction-cluster ordering from two private `report_support` methods into the
+  focused `local\report_aggregation` service. This preserves the exact 1.7.172 behaviour while returning
+  `report_support` to 25 methods and removing the new PHPMD `TooManyMethods` finding introduced by that candidate.
+- Updated current English and Italian architecture, static-analysis, audit, file and callable inventories. The
+  expected PHPMD count is 110, subject to candidate CI confirmation. Database schema, AJAX services, capabilities,
+  privacy policy, AMD assets and language packs are unchanged.
+
+## 1.7.172 - 2026-10-03
+
+### Focused teacher-report aggregation stages
+
+- Accepted the complete 1.7.171 release evidence: all six GitHub jobs passed on the intended Moodle 5.0–5.3
+  matrix, PHPStan and Psalm reported no errors, and PHPMD decreased from 114 to 112 reviewed findings. The tagged
+  package then passed server PHPCS and PHP lint on 132 files, Grunt on Moodle 5.0 and 5.3, 302 PHPUnit tests with
+  2746 assertions on both installations, and both strict validators with 10 passes, no warnings and no failures.
+- Extracted contiguous viewer-drop discovery from `report_support::analytics_highlights()` into one private pure
+  stage. Suppressed or unavailable bins still break continuity, and ranking plus top-five truncation remain owned
+  by the public highlight contract.
+- Extracted completed reaction-cluster ordering into one private stage. Reaction-label, click-count and timestamp
+  modes keep their existing comparators; clustering windows, privacy scope, cluster limits and public return shape
+  are unchanged. Behavioural coverage now exercises all three ordering branches.
+- These changes target the two residual PHPMD `CyclomaticComplexity` findings assigned to the public methods; the
+  candidate CI report remains authoritative for the resulting count. Updated the current English and Italian
+  release, audit, static-analysis and callable documentation. Database schema, AJAX services, capabilities,
+  privacy policy, AMD assets and language packs are unchanged.
+
 ## 1.7.171 - 2026-10-03
 
 ### Table-driven Moodle feature and reaction-icon contracts

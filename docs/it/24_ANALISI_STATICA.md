@@ -104,8 +104,11 @@ dichiarazione di un parametro di metodo.
   utilizzati resta attivo.
 - Lo stub legacy riservato a Psalm rappresenta l'alias globale `renderable` e il tipo di ritorno Moodle errato
   `xmlddb_field`. Non esegue codice runtime, non sopprime categorie e non riduce il perimetro analizzato.
-- `report_support` espone metodi separati per limiti data iniziale/finale e contiene 25 metodi. Anche la scelta del
-  delimitatore CSV usa entry point distinti per sito e attività; nessuna delle due API usa flag di comportamento.
+- `report_support` espone 25 metodi pubblici stabili. Il servizio mirato `report_aggregation` possiede le fasi pure
+  di individuazione dei cali di viewer e ordinamento dei cluster di reazione, quindi i metodi pubblici per highlight
+  e clustering restano sotto la soglia di complessità senza superare la soglia PHPMD sul numero di metodi della
+  classe di supporto. Anche la scelta del delimitatore CSV usa entry point distinti per sito e attività; nessuna
+  delle due API usa flag di comportamento.
 - `videotrack_render_reaction_icon()` restituisce sempre l'icona insieme alla relativa etichetta accessibile visibile.
   I chiamanti non passano più un flag booleano di presentazione inutilizzato.
 - La lettura delle reazioni usa funzioni distinte per scope attivo e lifecycle completo. Il filtro dei record ha un

@@ -436,22 +436,7 @@ final class report_support {
         });
         $topreplayed = array_slice($topreplayed, 0, 5);
 
-        $drops = [];
-        $previousbin = null;
-        foreach ($bins as $bin) {
-            if (!empty($bin['suppressed']) || $bin['viewers'] === null) {
-                $previousbin = null;
-                continue;
-            }
-            if ($previousbin !== null && (int)$previousbin['viewers'] > (int)$bin['viewers']) {
-                $drops[] = [
-                    'from' => $previousbin,
-                    'to' => $bin,
-                    'count' => (int)$previousbin['viewers'] - (int)$bin['viewers'],
-                ];
-            }
-            $previousbin = $bin;
-        }
+        $drops = report_aggregation::analytics_viewer_drops($bins);
         usort($drops, static fn(array $a, array $b): int => $b['count'] <=> $a['count']);
         $drops = array_slice($drops, 0, 5);
 
@@ -875,16 +860,7 @@ final class report_support {
         }
         unset($cluster);
 
-        if ($aggregationmode === 'type' && $sort === 'reaction') {
-            usort(
-                $clusters,
-                static fn($a, $b) => [$a['reactionlabel'], $a['timestamp']] <=> [$b['reactionlabel'], $b['timestamp']]
-            );
-        } else if ($sort === 'clicks') {
-            usort($clusters, static fn($a, $b) => $b['count'] <=> $a['count']);
-        } else {
-            usort($clusters, static fn($a, $b) => $a['timestamp'] <=> $b['timestamp']);
-        }
+        report_aggregation::sort_reaction_clusters($clusters, $aggregationmode, $sort);
         return $clusters;
     }
 

@@ -692,5 +692,27 @@ final class report_support_test extends \advanced_testcase {
         $this->assertSame(12.5, $clusters[0]['timestamp']);
         $this->assertSame($reactionone, $clusters[0]['reaction']);
         $this->assertSame(['Question', 'Question'], array_column(array_slice($clusters, 1), 'reactionlabel'));
+
+        $clickclusters = report_support::cluster_reaction_events(
+            $events,
+            10,
+            'type',
+            [1 => $reactionone, 2 => $reactiontwo],
+            'clicks',
+            context_system::instance(),
+            $limitreached
+        );
+        $this->assertSame([2, 1, 1], array_column($clickclusters, 'count'));
+
+        $timeclusters = report_support::cluster_reaction_events(
+            $events,
+            10,
+            'type',
+            [1 => $reactionone, 2 => $reactiontwo],
+            'time',
+            context_system::instance(),
+            $limitreached
+        );
+        $this->assertSame([5.0, 12.5, 20.0], array_column($timeclusters, 'timestamp'));
     }
 }
