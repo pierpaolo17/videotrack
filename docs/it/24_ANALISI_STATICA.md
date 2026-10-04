@@ -104,8 +104,10 @@ dichiarazione di un parametro di metodo.
   utilizzati resta attivo.
 - Lo stub legacy riservato a Psalm rappresenta l'alias globale `renderable` e il tipo di ritorno Moodle errato
   `xmlddb_field`. Non esegue codice runtime, non sopprime categorie e non riduce il perimetro analizzato.
-- `report_support` espone 21 metodi pubblici per scope, opzioni utente e clustering. Il servizio mirato
-  `report_time_filter` possiede quattro contratti pubblici coesi per limiti data, parsing richiesta e rendering dei
+- `report_support`, `report_analytics_query` e `report_event_query` espongono ciascuno sette contratti pubblici coesi.
+  SQL Analytics/provider/prese visione e SQL eventi/individuazione learner sono separati dal supporto per
+  presentazione, opzioni, highlight e clustering. Il servizio mirato `report_time_filter` possiede quattro contratti
+  pubblici coesi per limiti data, parsing richiesta e rendering dei
   controlli durata; il parser strutturato delega presenza, cifre, normalizzazione e limiti a fasi private nominate.
   Il servizio `report_aggregation` possiede individuazione pura dei cali di viewer e ordinamento dei cluster. Questi
   confini preservano il contratto del controller eliminando la complessità di metodo prima assegnata a

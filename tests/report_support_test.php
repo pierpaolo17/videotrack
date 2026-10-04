@@ -18,11 +18,13 @@ namespace mod_videotrack;
 
 use context_system;
 use mod_videotrack\local\acknowledgement;
+use mod_videotrack\local\report_analytics_query;
+use mod_videotrack\local\report_event_query;
 use mod_videotrack\local\report_support;
 use PHPUnit\Framework\Attributes\CoversClass;
 
 /**
- * Behavioural coverage for teacher-report request and scope helpers.
+ * Behavioural coverage for teacher-report support and query helpers.
  *
  * @package    mod_videotrack
  * @category   test
@@ -30,6 +32,8 @@ use PHPUnit\Framework\Attributes\CoversClass;
  * @license    https://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 #[CoversClass(report_support::class)]
+#[CoversClass(report_analytics_query::class)]
+#[CoversClass(report_event_query::class)]
 final class report_support_test extends \advanced_testcase {
     /**
      * User labels retain privacy behaviour when email visibility is disabled.
@@ -71,8 +75,8 @@ final class report_support_test extends \advanced_testcase {
      * Empty Analytics/acknowledgement scope sets must never broaden the SQL result.
      */
     public function test_empty_scope_conditions_remain_deny_all(): void {
-        [$analyticssql, $analyticsparams] = report_support::analytics_scope_condition([], 'analytics', 7);
-        [$acksql, $ackparams] = report_support::acknowledgement_scope_condition([], 'ack', 7);
+        [$analyticssql, $analyticsparams] = report_analytics_query::analytics_scope_condition([], 'analytics', 7);
+        [$acksql, $ackparams] = report_analytics_query::acknowledgement_scope_condition([], 'ack', 7);
 
         $this->assertSame('1 = 0', $analyticssql);
         $this->assertSame([], $analyticsparams);
@@ -161,7 +165,7 @@ final class report_support_test extends \advanced_testcase {
      * Reaction Analytics filtering preserves scope, event type and optional provider selection.
      */
     public function test_analytics_reaction_condition_preserves_scope_and_provider_filter(): void {
-        [$conditions, $params] = report_support::analytics_reaction_condition(
+        [$conditions, $params] = report_analytics_query::analytics_reaction_condition(
             'videotrackid = :analyticsreactionvt0 AND userid = :analyticsreactionlearner0',
             ['analyticsreactionvt0' => 42, 'analyticsreactionlearner0' => 7],
             'provider-video-123'
@@ -179,7 +183,7 @@ final class report_support_test extends \advanced_testcase {
             'analyticsreactionvideoid' => 'provider-video-123',
         ], $params);
 
-        [$minimalconditions, $minimalparams] = report_support::analytics_reaction_condition(
+        [$minimalconditions, $minimalparams] = report_analytics_query::analytics_reaction_condition(
             'videotrackid = :analyticsreactionvt0',
             ['analyticsreactionvt0' => 42],
             ''
@@ -196,7 +200,7 @@ final class report_support_test extends \advanced_testcase {
      * Bookmark Analytics filtering preserves scope, event type and optional provider selection.
      */
     public function test_analytics_bookmark_condition_preserves_scope_and_provider_filter(): void {
-        [$conditions, $params] = report_support::analytics_bookmark_condition(
+        [$conditions, $params] = report_analytics_query::analytics_bookmark_condition(
             'videotrackid = :analyticsbookmarkvt0 AND userid = :analyticsbookmarklearner0',
             ['analyticsbookmarkvt0' => 42, 'analyticsbookmarklearner0' => 7],
             'provider-video-123'
@@ -214,7 +218,7 @@ final class report_support_test extends \advanced_testcase {
             'analyticsbookmarkvideoid' => 'provider-video-123',
         ], $params);
 
-        [$minimalconditions, $minimalparams] = report_support::analytics_bookmark_condition(
+        [$minimalconditions, $minimalparams] = report_analytics_query::analytics_bookmark_condition(
             'videotrackid = :analyticsbookmarkvt0',
             ['analyticsbookmarkvt0' => 42],
             ''
@@ -230,7 +234,7 @@ final class report_support_test extends \advanced_testcase {
      * Integrity Analytics filtering preserves scope and optional provider selection.
      */
     public function test_analytics_integrity_condition_preserves_scope_and_provider_filter(): void {
-        [$conditions, $params] = report_support::analytics_integrity_condition(
+        [$conditions, $params] = report_analytics_query::analytics_integrity_condition(
             'videotrackid = :analyticsintegrityvt0 AND userid = :analyticsintegritylearner0',
             ['analyticsintegrityvt0' => 42, 'analyticsintegritylearner0' => 7],
             'provider-video-123'
@@ -247,7 +251,7 @@ final class report_support_test extends \advanced_testcase {
             'analyticsintegrityvideoid' => 'provider-video-123',
         ], $params);
 
-        [$minimalconditions, $minimalparams] = report_support::analytics_integrity_condition(
+        [$minimalconditions, $minimalparams] = report_analytics_query::analytics_integrity_condition(
             'videotrackid = :analyticsintegrityvt0',
             ['analyticsintegrityvt0' => 42],
             ''
@@ -260,7 +264,7 @@ final class report_support_test extends \advanced_testcase {
      * State Analytics provider filtering applies to the complete multi-activity scope.
      */
     public function test_analytics_state_condition_preserves_scope_and_provider_filter(): void {
-        [$conditions, $params] = report_support::analytics_state_condition(
+        [$conditions, $params] = report_analytics_query::analytics_state_condition(
             '(videotrackid = :analyticsstatevt0) OR (videotrackid = :analyticsstatevt1)',
             ['analyticsstatevt0' => 42, 'analyticsstatevt1' => 43],
             'provider-video-123'
@@ -277,7 +281,7 @@ final class report_support_test extends \advanced_testcase {
             'analyticsstatevideoid' => 'provider-video-123',
         ], $params);
 
-        [$minimalconditions, $minimalparams] = report_support::analytics_state_condition(
+        [$minimalconditions, $minimalparams] = report_analytics_query::analytics_state_condition(
             'videotrackid = :analyticsstatevt0',
             ['analyticsstatevt0' => 42],
             ''
@@ -290,7 +294,7 @@ final class report_support_test extends \advanced_testcase {
      * Segment Analytics filtering preserves validated rows, scope and optional provider selection.
      */
     public function test_analytics_segment_condition_preserves_scope_and_provider_filter(): void {
-        [$conditions, $params] = report_support::analytics_segment_condition(
+        [$conditions, $params] = report_analytics_query::analytics_segment_condition(
             'videotrackid = :analyticssegmentvt0 AND userid = :analyticssegmentlearner0',
             ['analyticssegmentvt0' => 42, 'analyticssegmentlearner0' => 7],
             'provider-video-123'
@@ -307,7 +311,7 @@ final class report_support_test extends \advanced_testcase {
             'analyticssegmentvideoid' => 'provider-video-123',
         ], $params);
 
-        [$minimalconditions, $minimalparams] = report_support::analytics_segment_condition(
+        [$minimalconditions, $minimalparams] = report_analytics_query::analytics_segment_condition(
             'videotrackid = :analyticssegmentvt0',
             ['analyticssegmentvt0' => 42],
             ''
@@ -323,7 +327,7 @@ final class report_support_test extends \advanced_testcase {
      * Standard reaction-event filters preserve learner scope and optional bounds.
      */
     public function test_reaction_event_condition_preserves_filters_and_scope(): void {
-        [$conditions, $params] = report_support::reaction_event_condition(
+        [$conditions, $params] = report_event_query::reaction_event_condition(
             42,
             'userid IN (:learnerone, :learnertwo)',
             ['learnerone' => 7, 'learnertwo' => 8],
@@ -350,7 +354,7 @@ final class report_support_test extends \advanced_testcase {
             'timeto' => 90.0,
         ], $params);
 
-        [$minimalconditions, $minimalparams] = report_support::reaction_event_condition(
+        [$minimalconditions, $minimalparams] = report_event_query::reaction_event_condition(
             42,
             'userid = :learner',
             ['learner' => 7],
@@ -371,7 +375,7 @@ final class report_support_test extends \advanced_testcase {
      * Bookmark-event filters preserve learner scope and optional bounds.
      */
     public function test_bookmark_event_condition_preserves_filters_and_scope(): void {
-        [$conditions, $params] = report_support::bookmark_event_condition(
+        [$conditions, $params] = report_event_query::bookmark_event_condition(
             42,
             'userid IN (:learnerone, :learnertwo)',
             ['learnerone' => 7, 'learnertwo' => 8],
@@ -396,7 +400,7 @@ final class report_support_test extends \advanced_testcase {
             'bookmarktimeto' => 90.0,
         ], $params);
 
-        [$minimalconditions, $minimalparams] = report_support::bookmark_event_condition(
+        [$minimalconditions, $minimalparams] = report_event_query::bookmark_event_condition(
             42,
             'userid = :learner',
             ['learner' => 7],
@@ -415,7 +419,7 @@ final class report_support_test extends \advanced_testcase {
      * Integrity-event filters preserve learner scope and optional bounds.
      */
     public function test_integrity_event_condition_preserves_filters_and_scope(): void {
-        [$conditions, $params] = report_support::integrity_event_condition(
+        [$conditions, $params] = report_event_query::integrity_event_condition(
             42,
             'userid IN (:learnerone, :learnertwo)',
             ['learnerone' => 7, 'learnertwo' => 8],
@@ -439,7 +443,7 @@ final class report_support_test extends \advanced_testcase {
             'integritytimeto' => 90.0,
         ], $params);
 
-        [$minimalconditions, $minimalparams] = report_support::integrity_event_condition(
+        [$minimalconditions, $minimalparams] = report_event_query::integrity_event_condition(
             42,
             'userid = :learner',
             ['learner' => 7],
@@ -458,7 +462,7 @@ final class report_support_test extends \advanced_testcase {
      * Note-user discovery preserves learner scope and optional user filtering.
      */
     public function test_note_user_condition_preserves_scope_and_optional_user(): void {
-        [$conditions, $params] = report_support::note_user_condition(
+        [$conditions, $params] = report_event_query::note_user_condition(
             42,
             'userid IN (:learnerone, :learnertwo)',
             ['learnerone' => 7, 'learnertwo' => 8],
@@ -477,7 +481,7 @@ final class report_support_test extends \advanced_testcase {
             'uid' => 7,
         ], $params);
 
-        [$minimalconditions, $minimalparams] = report_support::note_user_condition(
+        [$minimalconditions, $minimalparams] = report_event_query::note_user_condition(
             42,
             'userid = :learner',
             ['learner' => 7],
@@ -494,7 +498,7 @@ final class report_support_test extends \advanced_testcase {
      * Personal-note event filters preserve scope, learner filtering and creation-time bounds.
      */
     public function test_note_event_condition_preserves_scope_user_and_creation_bounds(): void {
-        [$conditions, $params] = report_support::note_event_condition(
+        [$conditions, $params] = report_event_query::note_event_condition(
             42,
             'userid IN (:learnerone, :learnertwo)',
             ['learnerone' => 7, 'learnertwo' => 8],
@@ -518,7 +522,7 @@ final class report_support_test extends \advanced_testcase {
             'notecreatedto' => 200,
         ], $params);
 
-        [$minimalconditions, $minimalparams] = report_support::note_event_condition(
+        [$minimalconditions, $minimalparams] = report_event_query::note_event_condition(
             42,
             'userid = :learner',
             ['learner' => 7],
@@ -537,7 +541,7 @@ final class report_support_test extends \advanced_testcase {
      * State-row filters preserve learner scope and optional user filtering.
      */
     public function test_state_condition_preserves_scope_and_optional_user(): void {
-        [$conditions, $params] = report_support::state_condition(
+        [$conditions, $params] = report_event_query::state_condition(
             42,
             'userid IN (:learnerone, :learnertwo)',
             ['learnerone' => 7, 'learnertwo' => 8],
@@ -555,7 +559,7 @@ final class report_support_test extends \advanced_testcase {
             'suid' => 7,
         ], $params);
 
-        [$minimalconditions, $minimalparams] = report_support::state_condition(
+        [$minimalconditions, $minimalparams] = report_event_query::state_condition(
             42,
             'userid = :learner',
             ['learner' => 7],
@@ -569,7 +573,7 @@ final class report_support_test extends \advanced_testcase {
      * Segment-user discovery preserves the canonical learner scope and parameter names.
      */
     public function test_segment_user_condition_preserves_scope(): void {
-        [$conditions, $params] = report_support::segment_user_condition(
+        [$conditions, $params] = report_event_query::segment_user_condition(
             42,
             'userid IN (:learnerone, :learnertwo)',
             ['learnerone' => 7, 'learnertwo' => 8]
@@ -585,7 +589,7 @@ final class report_support_test extends \advanced_testcase {
             'learnertwo' => 8,
         ], $params);
 
-        [$minimalconditions, $minimalparams] = report_support::segment_user_condition(
+        [$minimalconditions, $minimalparams] = report_event_query::segment_user_condition(
             42,
             'userid = :learner',
             ['learner' => 7]

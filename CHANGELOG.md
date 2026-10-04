@@ -1,5 +1,25 @@
 # VideoTrack changelog
 
+## 1.7.175 - 2026-10-04
+
+### Focused teacher-report query services
+
+- Accepted the complete 1.7.174 release evidence: all six GitHub jobs passed on Moodle 5.0–5.3 with MariaDB and
+  PostgreSQL, both strict server validators reported 10 passes, server PHPCS/lint/Grunt completed, PHPUnit passed
+  304 tests with 2760 assertions on Moodle 5.0 and 5.3, Behat passed 24 scenarios and 357 steps, PHPStan and Psalm
+  reported no errors, and PHPMD decreased from 110 to 108 reviewed advisory findings.
+- Moved the seven capability-safe Analytics/provider/current-acknowledgement SQL builders from the broad
+  `local\report_support` class into `local\report_analytics_query`. Moved the seven event-loading and learner-
+  discovery SQL builders into `local\report_event_query`. SQL text, named parameters, learner/group restrictions,
+  provider filters, acknowledgement hashes and inclusive time bounds are unchanged.
+- Updated the teacher-report controller, behavioural tests and source contracts to use the new owners.
+  `report_support`, `report_analytics_query` and `report_event_query` now expose seven cohesive public contracts
+  each, without introducing compatibility wrappers or duplicated runtime paths.
+- Updated current English and Italian architecture, static-analysis, audit, file and callable inventories. This
+  refactoring targets the remaining `TooManyPublicMethods` and `ExcessiveClassComplexity` findings assigned to
+  `report_support`; the expected PHPMD count is 106, subject to candidate CI confirmation. Database schema, AJAX
+  services, capabilities, privacy policy, AMD assets and language packs are unchanged.
+
 ## 1.7.174 - 2026-10-04
 
 ### Focused teacher-report time-filter boundary

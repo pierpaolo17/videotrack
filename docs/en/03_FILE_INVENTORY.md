@@ -1,10 +1,10 @@
 # Distributed file inventory
 
-This inventory is generated against the VideoTrack 1.7.174 repository tree. It lists every distributed
+This inventory is generated against the VideoTrack 1.7.175 repository tree. It lists every distributed
 non-documentation file plus repository-only CI/tooling/hygiene files. Canonical JavaScript is under `amd/src`; files under
 `amd/build` are generated.
 
-Entries: **304** — 301 distributed files and three repository-only files excluded from release archives.
+Entries: **309** — 306 distributed files and three repository-only files excluded from release archives.
 
 | File | Responsibility |
 |---|---|
@@ -212,7 +212,9 @@ Entries: **304** — 301 distributed files and three repository-only files exclu
 | `classes/local/report_access.php` | Centralised granular activity-report capability policy with backwards-compatible full-report fallback. |
 | `classes/local/reaction_write_service.php` | Runs post-persistence reaction cache invalidation, event delivery, aggregate counting and completion refresh with bounded warnings. |
 | `classes/local/report_aggregation.php` | Pure viewer-drop discovery and completed reaction-cluster ordering for teacher reports. |
-| `classes/local/report_support.php` | Teacher-report capability-safe scope, user-option and reaction-clustering support extracted from the report controller. |
+| `classes/local/report_analytics_query.php` | Capability-safe SQL builders for Analytics, provider and current-acknowledgement teacher-report queries. |
+| `classes/local/report_event_query.php` | SQL builders for event loading and learner discovery in the teacher report. |
+| `classes/local/report_support.php` | Teacher-report presentation, option, highlight and reaction-clustering support. |
 | `classes/local/report_time_filter.php` | Date boundaries, structured/legacy request parsing and accessible duration controls for teacher reports. |
 | `classes/local/report_view.php` | Teacher Analytics presentation helper extracted from the report controller. |
 | `classes/local/teacher_analytics.php` | Cross-course, capability-safe dashboard aggregation for report viewers. |
@@ -297,7 +299,7 @@ Entries: **304** — 301 distributed files and three repository-only files exclu
 | `tests/release_hygiene_contract_test.php` | Current PHPUnit/contract test distributed with the plugin. |
 | `tests/report_access_test.php` | Behavioural PHPUnit coverage for aggregate/individual report-view and export capability separation. |
 | `tests/report_contract_test.php` | Current PHPUnit/contract test distributed with the plugin. |
-| `tests/report_support_test.php` | Behavioural PHPUnit coverage for the extracted teacher-report support helper. |
+| `tests/report_support_test.php` | Behavioural PHPUnit coverage for teacher-report support and query helpers. |
 | `tests/report_time_filter_test.php` | Behavioural PHPUnit coverage for teacher-report date, structured-duration and accessible-control contracts. |
 | `tests/report_view_test.php` | Behavioural PHPUnit coverage for the extracted teacher Analytics presentation helper. |
 | `tests/save_bookmark_test.php` | PHPUnit coverage for save bookmark test. |
