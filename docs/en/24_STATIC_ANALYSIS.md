@@ -99,8 +99,10 @@ line, not for redeclaring a method parameter.
   required around their inline PHPStan declarations, and unmatched-ignore reporting remains enabled.
 - The Psalm-only legacy stub models the global `renderable` alias and Moodle's misspelled `xmlddb_field` return type.
   It does not execute runtime code, suppress issue categories or reduce the analysed production scope.
-- `report_support` exposes 21 public scope, user-option and clustering methods. The focused `report_time_filter`
-  service owns four cohesive public contracts for date boundaries, request parsing and duration-control rendering;
+- `report_support`, `report_analytics_query` and `report_event_query` each expose seven cohesive public contracts.
+  Analytics/provider/acknowledgement SQL and event/learner-discovery SQL are isolated from presentation, option,
+  highlight and clustering support. The focused `report_time_filter` service owns four cohesive public contracts
+  for date boundaries, request parsing and duration-control rendering;
   its structured parser delegates presence, digit, normalisation and range decisions to named private stages. The
   focused `report_aggregation` service owns pure viewer-drop discovery and reaction-cluster ordering. These
   boundaries preserve the controller contract while removing the method-level complexity previously assigned to

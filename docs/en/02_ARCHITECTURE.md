@@ -52,9 +52,12 @@ concurrency decision outside it.
 `classes/local/report_time_filter.php` owns report-date boundaries, structured hour/minute/second request parsing,
 legacy colon-form compatibility and accessible duration-control markup. Its parser keeps submitted-component
 detection, digit validation, normalisation and minute/second bounds in explicit stages; parameter names, empty-value
-semantics, timezone handling and validation exceptions are unchanged. `classes/local/report_support.php` owns the
-remaining scope, user-option and reaction-clustering API, while `classes/local/report_aggregation.php` owns two
-deterministic pure stages. Analytics viewer drops are discovered only across contiguous visible bins, so a
+semantics, timezone handling and validation exceptions are unchanged. `classes/local/report_analytics_query.php`
+owns capability-safe Analytics, provider and current-acknowledgement SQL construction, while
+`classes/local/report_event_query.php` owns event and learner-discovery SQL construction. Each query service exposes
+seven focused public contracts. `classes/local/report_support.php` retains seven presentation, option, highlight and
+reaction-clustering contracts, while `classes/local/report_aggregation.php` owns two deterministic pure stages.
+Analytics viewer drops are discovered only across contiguous visible bins, so a
 suppressed or unavailable bin remains a privacy boundary. Completed reaction clusters are ordered separately after
 their window, student set and safety-limit state have been finalised. These separations change no controller input,
 capability scope, privacy rule or returned report shape.

@@ -1,6 +1,6 @@
 # Audit della documentazione
 
-Baseline: VideoTrack **1.7.174** (`2026100402`).
+Baseline: VideoTrack **1.7.175** (`2026100403`).
 
 ## Perimetro
 
@@ -33,7 +33,7 @@ duplicano intenzionalmente procedure implementative, dizionari dei campi o lungh
 ## Rilievi sull'albero corrente
 
 - Gli indici inglese e italiano hanno stesso perimetro e ordinamento.
-- Marker documentali, README principali e artefatti ER identificano 1.7.174 / 2026100402.
+- Marker documentali, README principali e artefatti ER identificano 1.7.175 / 2026100403.
 - L'identità dell'attività include `pix/icon.png` da 1024 pixel e un `pix/icon.svg` nativo e accessibile derivati
   dalla stessa grafica fornita dal maintainer.
 - `db/install.xml` dichiara sette chiavi primarie, 22 foreign key stabili e 22 indici espliciti. XMLDB genera inoltre
@@ -73,9 +73,11 @@ duplicano intenzionalmente procedure implementative, dizionari dei campi o lungh
   PHPStan specifiche per percorso e nome mantengono attivo il controllo degli ignore non più utilizzati.
 - Il `phpmd.xml` attivo elimina il rumore Moodle di naming/framework già revisionato, mantiene le regole runtime
   selezionate e distingue i finding consultivi dagli errori di analizzatore/configurazione. Il codice usa API
-  esplicite per delimitatori, forma degli export Analytics e rendering delle percentuali di corso; `report_support`
-  mantiene 21 metodi pubblici per scope/opzioni/clustering, `report_time_filter` possiede quattro contratti coesi per
-  date/richiesta/rendering e `report_aggregation` possiede individuazione dei cali di viewer e ordinamento dei
+  esplicite per delimitatori, forma degli export Analytics e rendering delle percentuali di corso.
+  `report_analytics_query`, `report_event_query` e `report_support` possiedono ciascuno sette contratti pubblici coesi
+  rispettivamente per SQL Analytics, SQL eventi e lavoro residuo di presentazione/opzioni/highlight/clustering.
+  `report_time_filter` possiede quattro contratti coesi per date/richiesta/rendering e `report_aggregation` possiede
+  individuazione dei cali di viewer e ordinamento dei
   cluster. Il callback delle feature Moodle usa una tabella, i valori Font Awesome contengono esattamente un nome
   icona validato e le icone renderizzate includono sempre l'etichetta visibile senza un flag booleano di
   presentazione. I conteggi esatti si leggono nell'artifact CI della candidata corrente.
@@ -88,7 +90,7 @@ duplicano intenzionalmente procedure implementative, dizionari dei campi o lungh
 - Le evidenze CI/server generate non fanno parte dell'albero del plugin. Il `.gitignore` del repository, le regole
   Git archive `export-ignore`, le regole Moodle `.moodleignore` e un contratto PHPUnit di release hygiene impediscono
   insieme che `reports-*`, `videotrack-ci-*.zip` e `report_completo_videotrack_*.zip` entrino nelle release future.
-  L'archivio canonico 1.7.174 contiene quindi soltanto i 368 file legittimi del plugin.
+  L'archivio canonico 1.7.175 contiene quindi soltanto i 370 file legittimi del plugin.
 
 ## Controlli di release
 

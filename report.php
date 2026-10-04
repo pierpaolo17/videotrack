@@ -232,17 +232,17 @@ if ($mode === 'analytics') {
         ? \mod_videotrack\local\analytics::EXACT_REPORT_MIN_USERS
         : videotrack_get_config_int('analyticsminusers', 5, 2, 50);
 
-    [$analyticsscopewhere, $segmentparams] = \mod_videotrack\local\report_support::analytics_scope_condition(
+    [$analyticsscopewhere, $segmentparams] = \mod_videotrack\local\report_analytics_query::analytics_scope_condition(
         $analyticsinstances,
         'analyticssegment',
         (int)$USER->id
     );
-    [$statewhere, $stateparams] = \mod_videotrack\local\report_support::analytics_state_condition(
+    [$statewhere, $stateparams] = \mod_videotrack\local\report_analytics_query::analytics_state_condition(
         $analyticsscopewhere,
         $segmentparams,
         $providerdataid
     );
-    [$segmentwhere, $segmentparams] = \mod_videotrack\local\report_support::analytics_segment_condition(
+    [$segmentwhere, $segmentparams] = \mod_videotrack\local\report_analytics_query::analytics_segment_condition(
         $analyticsscopewhere,
         $segmentparams,
         $providerdataid
@@ -299,12 +299,12 @@ if ($mode === 'analytics') {
     )) > 0;
     $showreactionanalytics = $reactionanalyticsenabled && $analyticsshowreactions;
     if ($reactionanalyticsenabled) {
-        [$reactionwhere, $reactionparams] = \mod_videotrack\local\report_support::analytics_scope_condition(
+        [$reactionwhere, $reactionparams] = \mod_videotrack\local\report_analytics_query::analytics_scope_condition(
             $analyticsinstances,
             'analyticsreaction',
             (int)$USER->id
         );
-        [$reactionwhere, $reactionparams] = \mod_videotrack\local\report_support::analytics_reaction_condition(
+        [$reactionwhere, $reactionparams] = \mod_videotrack\local\report_analytics_query::analytics_reaction_condition(
             $reactionwhere,
             $reactionparams,
             $providerdataid
@@ -355,12 +355,12 @@ if ($mode === 'analytics') {
     );
     $bookmarkanalyticsenabled = !empty($bookmarkinstances);
     if ($bookmarkanalyticsenabled) {
-        [$bookmarkwhere, $bookmarkparams] = \mod_videotrack\local\report_support::analytics_scope_condition(
+        [$bookmarkwhere, $bookmarkparams] = \mod_videotrack\local\report_analytics_query::analytics_scope_condition(
             $bookmarkinstances,
             'analyticsbookmark',
             (int)$USER->id
         );
-        [$bookmarkwhere, $bookmarkparams] = \mod_videotrack\local\report_support::analytics_bookmark_condition(
+        [$bookmarkwhere, $bookmarkparams] = \mod_videotrack\local\report_analytics_query::analytics_bookmark_condition(
             $bookmarkwhere,
             $bookmarkparams,
             $providerdataid
@@ -389,7 +389,7 @@ if ($mode === 'analytics') {
         \mod_videotrack\local\report_support::analytics_acknowledgement_timing_counts($acknowledgementinstances);
     if ($acknowledgementanalyticsenabled) {
         [$acknowledgementwhere, $acknowledgementparams] =
-            \mod_videotrack\local\report_support::acknowledgement_scope_condition(
+            \mod_videotrack\local\report_analytics_query::acknowledgement_scope_condition(
                 $acknowledgementinstances,
                 'analyticsacknowledgement',
                 (int)$USER->id
@@ -429,12 +429,12 @@ if ($mode === 'analytics') {
     );
     $integrityfocuscontrolsenabled = !empty($integrityfocusinstances);
     if ($integrityanalyticsenabled) {
-        [$integritywhere, $integrityparams] = \mod_videotrack\local\report_support::analytics_scope_condition(
+        [$integritywhere, $integrityparams] = \mod_videotrack\local\report_analytics_query::analytics_scope_condition(
             $integrityinstances,
             'analyticsintegrity',
             (int)$USER->id
         );
-        [$integritywhere, $integrityparams] = \mod_videotrack\local\report_support::analytics_integrity_condition(
+        [$integritywhere, $integrityparams] = \mod_videotrack\local\report_analytics_query::analytics_integrity_condition(
             $integritywhere,
             $integrityparams,
             $providerdataid
@@ -941,7 +941,7 @@ foreach ($reactions as $reaction) {
 }
 
 // Standard reaction events only. Personal notes and bookmarks are handled separately.
-[$eventconditions, $eventparamsnamed] = \mod_videotrack\local\report_support::reaction_event_condition(
+[$eventconditions, $eventparamsnamed] = \mod_videotrack\local\report_event_query::reaction_event_condition(
     (int)$videotrack->id,
     $learnerwhere,
     $learnerparams,
@@ -989,7 +989,7 @@ $reportbookmarksummary = [
     'suppressed' => false,
 ];
 if (!empty($videotrack->bookmarksenabled)) {
-    [$bookmarkconditions, $bookmarkparams] = \mod_videotrack\local\report_support::bookmark_event_condition(
+    [$bookmarkconditions, $bookmarkparams] = \mod_videotrack\local\report_event_query::bookmark_event_condition(
         (int)$videotrack->id,
         $learnerwhere,
         $learnerparams,
@@ -1025,7 +1025,7 @@ $reportintegritysummary = \mod_videotrack\local\integrity::summarise(
     $reportminusers
 );
 if (!empty($videotrack->integrityindicatorsenabled)) {
-    [$integrityconditions, $integrityparams] = \mod_videotrack\local\report_support::integrity_event_condition(
+    [$integrityconditions, $integrityparams] = \mod_videotrack\local\report_event_query::integrity_event_condition(
         $videotrack->id,
         $learnerwhere,
         $learnerparams,
@@ -1079,7 +1079,7 @@ if (\mod_videotrack\local\acknowledgement::is_enabled($videotrack)) {
     }
 }
 
-[$stateconditions, $stateparamsnamed] = \mod_videotrack\local\report_support::state_condition(
+[$stateconditions, $stateparamsnamed] = \mod_videotrack\local\report_event_query::state_condition(
     (int)$videotrack->id,
     $learnerwhere,
     $learnerparams,
@@ -1092,7 +1092,7 @@ $stateuserids = array_map('intval', $DB->get_fieldset_select(
     $stateconditions,
     $stateparamsnamed
 ));
-[$segmentuserwhere, $segmentuserparams] = \mod_videotrack\local\report_support::segment_user_condition(
+[$segmentuserwhere, $segmentuserparams] = \mod_videotrack\local\report_event_query::segment_user_condition(
     (int)$videotrack->id,
     $learnerwhere,
     $learnerparams
@@ -1115,7 +1115,7 @@ $getstaterecordset = static function () use ($DB, $stateconditions, $stateparams
 // Collect note user ids (they may have neither state nor events).
 $noteuserids = [];
 if (!empty($videotrack->studentnotesenabled)) {
-    [$noteuidwhere, $noteuidparams] = \mod_videotrack\local\report_support::note_user_condition(
+    [$noteuidwhere, $noteuidparams] = \mod_videotrack\local\report_event_query::note_user_condition(
         (int)$videotrack->id,
         $learnerwhere,
         $learnerparams,
@@ -2904,7 +2904,7 @@ if ($mode === 'student') {
 
 // Student notes section: per-student mode only, and only when notes are enabled.
 if ($mode === 'student' && !empty($videotrack->studentnotesenabled)) {
-    [$notewhere, $noteparams] = \mod_videotrack\local\report_support::note_event_condition(
+    [$notewhere, $noteparams] = \mod_videotrack\local\report_event_query::note_event_condition(
         (int)$videotrack->id,
         $learnerwhere,
         $learnerparams,
