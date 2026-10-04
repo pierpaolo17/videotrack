@@ -1,5 +1,22 @@
 # VideoTrack changelog
 
+## 1.7.173 - 2026-10-04
+
+### Complete release markers and bounded report aggregation service
+
+- Rejected the 1.7.172 candidate after all six jobs consistently reported two release-hygiene failures. Runtime
+  installation, Behat, Grunt, PHPCS and PHP lint completed; PHPStan and Psalm reported no errors; the two intended
+  method-complexity findings disappeared. `README_IT.md` and both generated ER renderings still identified 1.7.171,
+  so the strict validator correctly reported 9 passes and one documentation failure in every environment.
+- Updated the omitted Italian README, Mermaid ER source and SVG ER title together with every current release marker.
+  The release-hygiene test now sees the same 1.7.173 / 2026100401 identity in all documents it validates.
+- Moved viewer-drop discovery and reaction-cluster ordering from two private `report_support` methods into the
+  focused `local\report_aggregation` service. This preserves the exact 1.7.172 behaviour while returning
+  `report_support` to 25 methods and removing the new PHPMD `TooManyMethods` finding introduced by that candidate.
+- Updated current English and Italian architecture, static-analysis, audit, file and callable inventories. The
+  expected PHPMD count is 110, subject to candidate CI confirmation. Database schema, AJAX services, capabilities,
+  privacy policy, AMD assets and language packs are unchanged.
+
 ## 1.7.172 - 2026-10-03
 
 ### Focused teacher-report aggregation stages

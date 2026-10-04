@@ -436,40 +436,11 @@ final class report_support {
         });
         $topreplayed = array_slice($topreplayed, 0, 5);
 
-        $drops = self::analytics_viewer_drops($bins);
+        $drops = report_aggregation::analytics_viewer_drops($bins);
         usort($drops, static fn(array $a, array $b): int => $b['count'] <=> $a['count']);
         $drops = array_slice($drops, 0, 5);
 
         return [$topwatched, $topreplayed, $drops];
-    }
-
-    /**
-     * Builds viewer-drop candidates across contiguous visible Analytics bins.
-     *
-     * A suppressed or unavailable bin breaks continuity so values on opposite
-     * sides of a privacy boundary are never compared.
-     *
-     * @param array $bins Privacy-processed Analytics bins.
-     * @return array Viewer-drop candidates.
-     */
-    private static function analytics_viewer_drops(array $bins): array {
-        $drops = [];
-        $previousbin = null;
-        foreach ($bins as $bin) {
-            if (!empty($bin['suppressed']) || $bin['viewers'] === null) {
-                $previousbin = null;
-                continue;
-            }
-            if ($previousbin !== null && (int)$previousbin['viewers'] > (int)$bin['viewers']) {
-                $drops[] = [
-                    'from' => $previousbin,
-                    'to' => $bin,
-                    'count' => (int)$previousbin['viewers'] - (int)$bin['viewers'],
-                ];
-            }
-            $previousbin = $bin;
-        }
-        return $drops;
     }
 
     /**
@@ -889,29 +860,8 @@ final class report_support {
         }
         unset($cluster);
 
-        self::sort_reaction_clusters($clusters, $aggregationmode, $sort);
+        report_aggregation::sort_reaction_clusters($clusters, $aggregationmode, $sort);
         return $clusters;
-    }
-
-    /**
-     * Applies the canonical report ordering to completed reaction clusters.
-     *
-     * @param array $clusters Completed reaction clusters, modified in place.
-     * @param string $aggregationmode Aggregation mode: type or peak.
-     * @param string $sort Report sort mode.
-     * @return void
-     */
-    private static function sort_reaction_clusters(array &$clusters, string $aggregationmode, string $sort): void {
-        if ($aggregationmode === 'type' && $sort === 'reaction') {
-            usort(
-                $clusters,
-                static fn($a, $b) => [$a['reactionlabel'], $a['timestamp']] <=> [$b['reactionlabel'], $b['timestamp']]
-            );
-        } else if ($sort === 'clicks') {
-            usort($clusters, static fn($a, $b) => $b['count'] <=> $a['count']);
-        } else {
-            usort($clusters, static fn($a, $b) => $a['timestamp'] <=> $b['timestamp']);
-        }
     }
 
     /**

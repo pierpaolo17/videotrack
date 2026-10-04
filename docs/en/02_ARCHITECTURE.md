@@ -49,11 +49,12 @@ concurrency decision outside it.
 
 ## Teacher-report aggregation boundary
 
-`classes/local/report_support.php` keeps the stable teacher-report API while isolating two deterministic internal
-stages. Analytics viewer drops are discovered only across contiguous visible bins, so a suppressed or unavailable
-bin remains a privacy boundary. Completed reaction clusters are ordered separately by reaction label, click count
-or timestamp after their window, student set and safety-limit state have been finalised. The separation changes no
-controller input, capability scope, privacy rule or returned report shape.
+`classes/local/report_support.php` keeps the stable teacher-report API while
+`classes/local/report_aggregation.php` owns two deterministic pure stages. Analytics viewer drops are discovered
+only across contiguous visible bins, so a suppressed or unavailable bin remains a privacy boundary. Completed
+reaction clusters are ordered separately by reaction label, click count or timestamp after their window, student
+set and safety-limit state have been finalised. The separation changes no controller input, capability scope,
+privacy rule or returned report shape.
 
 ## Player contract
 
