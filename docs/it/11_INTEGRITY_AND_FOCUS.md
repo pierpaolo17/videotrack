@@ -26,9 +26,9 @@ Sono indicatori diagnostici, non misure dirette dell’attenzione. Limiti provid
 
 Il controller seleziona un contratto di presentazione esplicito prima di renderizzare la sezione integrità:
 
-- `report_view::integrity_summary()` mostra i conteggi privacy-safe quando la registrazione è attiva;
-- `report_view::integrity_disabled_summary()` spiega che registrazione e controlli focus sono disattivati;
-- `report_view::integrity_controls_without_recording_summary()` avvisa che i controlli focus sono attivi ma non
+- `report_integrity_view::integrity_summary()` mostra i conteggi privacy-safe quando la registrazione è attiva;
+- `report_integrity_view::integrity_disabled_summary()` spiega che registrazione e controlli focus sono disattivati;
+- `report_integrity_view::integrity_controls_without_recording_summary()` avvisa che i controlli focus sono attivi ma non
   vengono registrati indicatori di integrità.
 
 Questi entry point modificano soltanto la presentazione. Non abilitano la registrazione, non deducono comportamenti

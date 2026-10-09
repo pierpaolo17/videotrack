@@ -1,5 +1,25 @@
 # VideoTrack changelog
 
+## 1.7.176 - 2026-10-04
+
+### Cohesive teacher-report presentation services
+
+- Accepted the complete 1.7.175 release evidence: all six GitHub jobs passed on Moodle 5.0–5.3 with MariaDB and
+  PostgreSQL, both strict server validators reported 10 passes, server PHPCS/lint/Grunt completed, PHPUnit passed
+  304 tests with 2766 assertions on Moodle 5.0 and 5.3, Behat passed 24 scenarios and 357 steps, PHPStan and Psalm
+  reported no errors, and PHPMD decreased from 108 to 106 reviewed advisory findings.
+- Split the broad teacher Analytics presentation helper by responsibility. `local\report_view` now owns shared
+  methodology, privacy-warning and download controls; `local\report_timeline_view` owns interval formatting,
+  heatmap, legend, reaction-cluster table and retention chart rendering; `local\report_summary_view` owns reaction,
+  bookmark and acknowledgement summaries; and `local\report_integrity_view` owns enabled, disabled and
+  focus-controls-without-recording integrity states.
+- Preserved every moved method body, rendered markup, localisation key, privacy threshold, accessibility attribute
+  and controller branch. Updated behavioural coverage and source contracts to assert the four current owners.
+- Updated current English and Italian architecture, integrity, static-analysis, audit, file and callable
+  inventories. This refactoring targets the `TooManyPublicMethods` and `ExcessiveClassComplexity` findings assigned
+  to the former broad `report_view`; the expected PHPMD count is 104, subject to candidate CI confirmation.
+  Database schema, AJAX services, capabilities, privacy policy, AMD assets and language packs are unchanged.
+
 ## 1.7.175 - 2026-10-04
 
 ### Focused teacher-report query services

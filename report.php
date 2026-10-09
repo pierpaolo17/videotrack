@@ -723,12 +723,12 @@ if ($mode === 'analytics') {
         );
     }
 
-    echo \mod_videotrack\local\report_view::reaction_summary($reactionsummary);
+    echo \mod_videotrack\local\report_summary_view::reaction_summary($reactionsummary);
     if ($bookmarkanalyticsenabled) {
-        echo \mod_videotrack\local\report_view::bookmark_summary($bookmarksummary, $minusers);
+        echo \mod_videotrack\local\report_summary_view::bookmark_summary($bookmarksummary, $minusers);
     }
     if ($acknowledgementanalyticsenabled) {
-        echo \mod_videotrack\local\report_view::acknowledgement_summary(
+        echo \mod_videotrack\local\report_summary_view::acknowledgement_summary(
             $acknowledgementsummary,
             $minusers,
             count($acknowledgementinstances),
@@ -737,15 +737,15 @@ if ($mode === 'analytics') {
         );
     }
     if ($integrityanalyticsenabled) {
-        echo \mod_videotrack\local\report_view::integrity_summary(
+        echo \mod_videotrack\local\report_integrity_view::integrity_summary(
             $integritysummary,
             $minusers,
             count($integrityinstances)
         );
     } else if ($integrityfocuscontrolsenabled) {
-        echo \mod_videotrack\local\report_view::integrity_controls_without_recording_summary();
+        echo \mod_videotrack\local\report_integrity_view::integrity_controls_without_recording_summary();
     } else {
-        echo \mod_videotrack\local\report_view::integrity_disabled_summary();
+        echo \mod_videotrack\local\report_integrity_view::integrity_disabled_summary();
     }
     if (
         $analyticsshowreactions
@@ -795,13 +795,13 @@ if ($mode === 'analytics') {
             get_string('report:analytics_noviewingdata_events', 'mod_videotrack'),
             'info'
         );
-        echo \mod_videotrack\local\report_view::reaction_clusters($reactionclusters, $duration);
+        echo \mod_videotrack\local\report_timeline_view::reaction_clusters($reactionclusters, $duration);
         echo $OUTPUT->footer();
         exit;
     }
     if ($viewingprivacysuppressed) {
         if ($reactionclusters) {
-            echo \mod_videotrack\local\report_view::reaction_clusters($reactionclusters, $duration);
+            echo \mod_videotrack\local\report_timeline_view::reaction_clusters($reactionclusters, $duration);
         }
         echo $OUTPUT->footer();
         exit;
@@ -813,7 +813,7 @@ if ($mode === 'analytics') {
     );
 
     $peakinterval = $topwatched
-        ? \mod_videotrack\local\report_view::analytics_interval($topwatched[0]['start'], $topwatched[0]['end'], $duration)
+        ? \mod_videotrack\local\report_timeline_view::analytics_interval($topwatched[0]['start'], $topwatched[0]['end'], $duration)
         : get_string('report:analytics_none', 'mod_videotrack');
     $privacyhidden = get_string('report:analytics_notavailable_privacy', 'mod_videotrack');
     $summarycards = [
@@ -846,19 +846,19 @@ if ($mode === 'analytics') {
     echo html_writer::end_div();
 
     echo $OUTPUT->heading(get_string('report:analytics_heatmap_title', 'mod_videotrack'), 4);
-    echo \mod_videotrack\local\report_view::analytics_heatmap(
+    echo \mod_videotrack\local\report_timeline_view::analytics_heatmap(
         $analytics['bins'],
         $duration,
         $reactionclusters,
         $minusers
     );
-    echo \mod_videotrack\local\report_view::heatmap_legend(
+    echo \mod_videotrack\local\report_timeline_view::heatmap_legend(
         $showreactionanalytics && !empty($reactionclusters),
         $hasmaskedbins
     );
-    echo \mod_videotrack\local\report_view::reaction_clusters($reactionclusters, $duration);
+    echo \mod_videotrack\local\report_timeline_view::reaction_clusters($reactionclusters, $duration);
     echo $OUTPUT->heading(get_string('report:analytics_retention_title', 'mod_videotrack'), 4);
-    echo \mod_videotrack\local\report_view::analytics_retention($analytics['bins'], $duration);
+    echo \mod_videotrack\local\report_timeline_view::analytics_retention($analytics['bins'], $duration);
 
     $lists = [
         [get_string('report:analytics_topwatched', 'mod_videotrack'), $topwatched, 'watched'],
@@ -871,7 +871,7 @@ if ($mode === 'analytics') {
         foreach ($items as $item) {
             if ($listtype === 'watched') {
                 $listitems[] = get_string('report:analytics_topwatched_item', 'mod_videotrack', [
-                    'interval' => \mod_videotrack\local\report_view::analytics_interval(
+                    'interval' => \mod_videotrack\local\report_timeline_view::analytics_interval(
                         $item['start'],
                         $item['end'],
                         $duration
@@ -880,7 +880,7 @@ if ($mode === 'analytics') {
                 ]);
             } else if ($listtype === 'replayed') {
                 $listitems[] = get_string('report:analytics_topreplayed_item', 'mod_videotrack', [
-                    'interval' => \mod_videotrack\local\report_view::analytics_interval(
+                    'interval' => \mod_videotrack\local\report_timeline_view::analytics_interval(
                         $item['start'],
                         $item['end'],
                         $duration
@@ -889,12 +889,12 @@ if ($mode === 'analytics') {
                 ]);
             } else {
                 $listitems[] = get_string('report:analytics_drop_item', 'mod_videotrack', [
-                    'from' => \mod_videotrack\local\report_view::analytics_interval(
+                    'from' => \mod_videotrack\local\report_timeline_view::analytics_interval(
                         $item['from']['start'],
                         $item['from']['end'],
                         $duration
                     ),
-                    'to' => \mod_videotrack\local\report_view::analytics_interval(
+                    'to' => \mod_videotrack\local\report_timeline_view::analytics_interval(
                         $item['to']['start'],
                         $item['to']['end'],
                         $duration
@@ -2611,13 +2611,13 @@ if ($mode === 'student') {
     echo html_writer::end_div();
 } else {
     if (!empty($videotrack->bookmarksenabled)) {
-        echo \mod_videotrack\local\report_view::bookmark_summary(
+        echo \mod_videotrack\local\report_summary_view::bookmark_summary(
             $reportbookmarksummary,
             $reportminusers
         );
     }
     if (!empty($videotrack->integrityindicatorsenabled)) {
-        echo \mod_videotrack\local\report_view::integrity_summary(
+        echo \mod_videotrack\local\report_integrity_view::integrity_summary(
             $reportintegritysummary,
             $reportminusers
         );

@@ -57,6 +57,10 @@ owns capability-safe Analytics, provider and current-acknowledgement SQL constru
 `classes/local/report_event_query.php` owns event and learner-discovery SQL construction. Each query service exposes
 seven focused public contracts. `classes/local/report_support.php` retains seven presentation, option, highlight and
 reaction-clustering contracts, while `classes/local/report_aggregation.php` owns two deterministic pure stages.
+Teacher Analytics presentation is also divided by responsibility: `report_view` owns shared methodology, privacy
+warnings and download controls; `report_timeline_view` owns intervals, charts, legends and reaction clusters;
+`report_summary_view` owns reaction, bookmark and acknowledgement summaries; and `report_integrity_view` owns the
+three explicit integrity states. These four services contain presentation only and do not select or aggregate data.
 Analytics viewer drops are discovered only across contiguous visible bins, so a
 suppressed or unavailable bin remains a privacy boundary. Completed reaction clusters are ordered separately after
 their window, student set and safety-limit state have been finalised. These separations change no controller input,

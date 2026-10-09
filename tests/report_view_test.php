@@ -16,6 +16,9 @@
 
 namespace mod_videotrack;
 
+use mod_videotrack\local\report_integrity_view;
+use mod_videotrack\local\report_summary_view;
+use mod_videotrack\local\report_timeline_view;
 use mod_videotrack\local\report_view;
 use PHPUnit\Framework\Attributes\CoversClass;
 
@@ -28,9 +31,12 @@ use PHPUnit\Framework\Attributes\CoversClass;
  * @license    https://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 #[CoversClass(report_view::class)]
+#[CoversClass(report_timeline_view::class)]
+#[CoversClass(report_summary_view::class)]
+#[CoversClass(report_integrity_view::class)]
 final class report_view_test extends \advanced_testcase {
     /**
-     * Load the shared video timestamp helpers used by the presentation helper.
+     * Load the shared video timestamp helpers used by the presentation services.
      */
     protected function setUp(): void {
         parent::setUp();
@@ -41,7 +47,7 @@ final class report_view_test extends \advanced_testcase {
      * Visible reaction totals remain rendered while privacy-suppressed totals remain hidden.
      */
     public function test_reaction_summary_preserves_privacy_contract(): void {
-        $visible = report_view::reaction_summary([
+        $visible = report_summary_view::reaction_summary([
             'hasdata' => true,
             'suppressed' => false,
             'eventcount' => 7,
@@ -50,7 +56,7 @@ final class report_view_test extends \advanced_testcase {
         $this->assertStringContainsString('7', $visible);
         $this->assertStringContainsString('3', $visible);
 
-        $suppressed = report_view::reaction_summary([
+        $suppressed = report_summary_view::reaction_summary([
             'hasdata' => true,
             'suppressed' => true,
             'eventcount' => 7,
@@ -79,7 +85,7 @@ final class report_view_test extends \advanced_testcase {
      * A fully privacy-suppressed retention series explains why no line is visible.
      */
     public function test_retention_chart_explains_full_privacy_suppression(): void {
-        $markup = report_view::analytics_retention([[
+        $markup = report_timeline_view::analytics_retention([[
             'start' => 0.0,
             'end' => 10.0,
             'viewers' => null,
@@ -99,7 +105,7 @@ final class report_view_test extends \advanced_testcase {
     public function test_analytics_interval_uses_canonical_video_timestamp_format(): void {
         $this->assertSame(
             videotrack_format_video_timestamp(5.0, 65.0) . '–' . videotrack_format_video_timestamp(15.0, 65.0),
-            report_view::analytics_interval(5.0, 15.0, 65.0)
+            report_timeline_view::analytics_interval(5.0, 15.0, 65.0)
         );
     }
 
@@ -108,7 +114,7 @@ final class report_view_test extends \advanced_testcase {
      */
     public function test_integrity_summary_states_preserve_messages_and_privacy_table(): void {
         $eventtype = \mod_videotrack\local\integrity::EVENT_TYPES[0];
-        $enabled = report_view::integrity_summary([
+        $enabled = report_integrity_view::integrity_summary([
             $eventtype => [
                 'hasdata' => true,
                 'suppressed' => false,
@@ -125,14 +131,14 @@ final class report_view_test extends \advanced_testcase {
         $this->assertStringContainsString('>7<', $enabled);
         $this->assertStringContainsString('>3<', $enabled);
 
-        $disabled = report_view::integrity_disabled_summary();
+        $disabled = report_integrity_view::integrity_disabled_summary();
         $this->assertStringContainsString(
             get_string('integrity:analytics_disabled', 'mod_videotrack'),
             $disabled
         );
         $this->assertStringNotContainsString('<table', $disabled);
 
-        $controls = report_view::integrity_controls_without_recording_summary();
+        $controls = report_integrity_view::integrity_controls_without_recording_summary();
         $this->assertStringContainsString(
             get_string('integrity:analytics_recording_disabled_controls', 'mod_videotrack'),
             $controls

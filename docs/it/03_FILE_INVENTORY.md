@@ -1,10 +1,10 @@
 # Inventario dei file distribuiti
 
-Questo inventario è generato sull'albero repository VideoTrack 1.7.175. Elenca ogni file non documentale distribuito
+Questo inventario è generato sull'albero repository VideoTrack 1.7.176. Elenca ogni file non documentale distribuito
 e i file CI/tooling/igiene presenti soltanto nel repository. Il JavaScript canonico è in `amd/src`; i file in `amd/build`
 sono generati.
 
-Voci: **309** — 306 file distribuiti e tre file presenti soltanto nel repository, esclusi dagli archivi di release.
+Voci: **312** — 309 file distribuiti e tre file presenti soltanto nel repository, esclusi dagli archivi di release.
 
 | File | Responsabilità |
 |---|---|
@@ -214,9 +214,12 @@ Voci: **309** — 306 file distribuiti e tre file presenti soltanto nel reposito
 | `classes/local/report_aggregation.php` | Individuazione pura dei cali di viewer e ordinamento dei cluster di reazione completati per i report docente. |
 | `classes/local/report_analytics_query.php` | Costruttori SQL capability-safe per query docente Analytics, provider e prese visione correnti. |
 | `classes/local/report_event_query.php` | Costruttori SQL per caricamento eventi e individuazione learner nel report docente. |
+| `classes/local/report_integrity_view.php` | Stati di presentazione integrità privacy-safe attivo, disattivato e soli controlli. |
 | `classes/local/report_support.php` | Supporto di presentazione, opzioni, highlight e clustering reazioni del report docente. |
+| `classes/local/report_summary_view.php` | Riepiloghi di presentazione privacy-safe per reazioni, segnalibri e prese visione. |
 | `classes/local/report_time_filter.php` | Limiti data, parsing strutturato/legacy e controlli durata accessibili per i report docente. |
-| `classes/local/report_view.php` | Helper di presentazione Analytics docente estratto dal controller del report. |
+| `classes/local/report_timeline_view.php` | Presentazione di intervalli, grafici, legenda e cluster reazioni Analytics docente. |
+| `classes/local/report_view.php` | Controlli condivisi per metodologia, avvisi privacy e download Analytics docente. |
 | `classes/local/teacher_analytics.php` | Servizio di dominio `teacher_analytics` riusabile da pagine, report o servizi. |
 | `classes/local/timed_text.php` | Risolve file WebVTT canonici di trascrizione/capitoli e fallback sottotitoli legacy espliciti. |
 | `classes/local/tracker.php` | Servizio di dominio `tracker` riusabile da pagine, report o servizi. |
@@ -301,7 +304,7 @@ Voci: **309** — 306 file distribuiti e tre file presenti soltanto nel reposito
 | `tests/report_contract_test.php` | Test PHPUnit/di contratto corrente distribuito con il plugin. |
 | `tests/report_support_test.php` | Copertura PHPUnit comportamentale per helper di supporto e query del report docente. |
 | `tests/report_time_filter_test.php` | Copertura PHPUnit dei contratti data, durata strutturata e controlli accessibili del report docente. |
-| `tests/report_view_test.php` | Copertura PHPUnit comportamentale per l'helper di presentazione Analytics docente estratto. |
+| `tests/report_view_test.php` | Copertura PHPUnit comportamentale per i quattro helper focalizzati di presentazione Analytics docente. |
 | `tests/save_bookmark_test.php` | Copertura PHPUnit per save bookmark test. |
 | `tests/save_integrity_event_test.php` | Copertura PHPUnit per save integrity event test. |
 | `tests/save_note_test.php` | Copertura PHPUnit di parametri nota, limiti timestamp, ordine dei guard e rate limit tra sessioni. |

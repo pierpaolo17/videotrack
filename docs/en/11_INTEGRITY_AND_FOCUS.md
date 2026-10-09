@@ -26,9 +26,9 @@ Signals are visibility/integrity diagnostics, not direct attention measurements.
 
 The controller selects one explicit presentation contract before rendering the integrity section:
 
-- `report_view::integrity_summary()` renders privacy-safe counts when recording is enabled;
-- `report_view::integrity_disabled_summary()` explains that both recording and focus controls are disabled;
-- `report_view::integrity_controls_without_recording_summary()` warns that focus controls are active but no
+- `report_integrity_view::integrity_summary()` renders privacy-safe counts when recording is enabled;
+- `report_integrity_view::integrity_disabled_summary()` explains that both recording and focus controls are disabled;
+- `report_integrity_view::integrity_controls_without_recording_summary()` warns that focus controls are active but no
   integrity signals are being recorded.
 
 These entry points change presentation only. They do not enable recording, infer misconduct or bypass the

@@ -1,10 +1,10 @@
 # Distributed file inventory
 
-This inventory is generated against the VideoTrack 1.7.175 repository tree. It lists every distributed
+This inventory is generated against the VideoTrack 1.7.176 repository tree. It lists every distributed
 non-documentation file plus repository-only CI/tooling/hygiene files. Canonical JavaScript is under `amd/src`; files under
 `amd/build` are generated.
 
-Entries: **309** — 306 distributed files and three repository-only files excluded from release archives.
+Entries: **312** — 309 distributed files and three repository-only files excluded from release archives.
 
 | File | Responsibility |
 |---|---|
@@ -214,9 +214,12 @@ Entries: **309** — 306 distributed files and three repository-only files exclu
 | `classes/local/report_aggregation.php` | Pure viewer-drop discovery and completed reaction-cluster ordering for teacher reports. |
 | `classes/local/report_analytics_query.php` | Capability-safe SQL builders for Analytics, provider and current-acknowledgement teacher-report queries. |
 | `classes/local/report_event_query.php` | SQL builders for event loading and learner discovery in the teacher report. |
+| `classes/local/report_integrity_view.php` | Privacy-safe enabled, disabled and control-only integrity presentation states. |
 | `classes/local/report_support.php` | Teacher-report presentation, option, highlight and reaction-clustering support. |
+| `classes/local/report_summary_view.php` | Privacy-safe reaction, bookmark and acknowledgement presentation summaries. |
 | `classes/local/report_time_filter.php` | Date boundaries, structured/legacy request parsing and accessible duration controls for teacher reports. |
-| `classes/local/report_view.php` | Teacher Analytics presentation helper extracted from the report controller. |
+| `classes/local/report_timeline_view.php` | Teacher Analytics interval, chart, legend and reaction-cluster presentation. |
+| `classes/local/report_view.php` | Shared teacher Analytics methodology, privacy-warning and download controls. |
 | `classes/local/teacher_analytics.php` | Cross-course, capability-safe dashboard aggregation for report viewers. |
 | `classes/local/timed_text.php` | Resolves canonical WebVTT transcript/chapter files and explicit legacy subtitle fallbacks. |
 | `classes/local/tracker.php` | Tracking and completion helper methods for VideoTrack. |
@@ -301,7 +304,7 @@ Entries: **309** — 306 distributed files and three repository-only files exclu
 | `tests/report_contract_test.php` | Current PHPUnit/contract test distributed with the plugin. |
 | `tests/report_support_test.php` | Behavioural PHPUnit coverage for teacher-report support and query helpers. |
 | `tests/report_time_filter_test.php` | Behavioural PHPUnit coverage for teacher-report date, structured-duration and accessible-control contracts. |
-| `tests/report_view_test.php` | Behavioural PHPUnit coverage for the extracted teacher Analytics presentation helper. |
+| `tests/report_view_test.php` | Behavioural PHPUnit coverage for the four focused teacher Analytics presentation helpers. |
 | `tests/save_bookmark_test.php` | PHPUnit coverage for save bookmark test. |
 | `tests/save_integrity_event_test.php` | PHPUnit coverage for save integrity event test. |
 | `tests/save_note_test.php` | PHPUnit coverage for note parameters, timestamp bounds, guard order and the cross-session rate-limit contract. |

@@ -122,8 +122,11 @@ dichiarazione di un parametro di metodo.
 - La policy delle velocità espone un contratto pubblico supportato da fasi nominate per parsing, limite effettivo,
   filtro e garanzia della velocità normale. Anche parsing emoji TinyMCE e rendering di intestazione/tab/corpo del
   selettore reazioni sono isolati, mentre il salvataggio retention separa conferma e audit successivo al salvataggio.
-- La presentazione degli indicatori di integrità usa entry point distinti per stato attivo, disattivato e controlli
-  focus senza registrazione; l'API di presentazione non contiene più flag booleani di comportamento.
+- La presentazione Analytics docente è divisa tra quattro proprietari focalizzati. `report_view` ha tre metodi per
+  controlli condivisi, `report_timeline_view` cinque metodi per intervalli/grafici, `report_summary_view` tre metodi
+  per riepiloghi aggregati e `report_integrity_view` tre stati pubblici espliciti più helper markup privati. Corpi
+  dei metodi spostati e contratti renderizzati restano invariati; la precedente classe ampia non genera più finding
+  di complessità di classe o numero di metodi pubblici.
 - La scrittura delle note personali espone un solo entry point external supportato da fasi nominate per testo,
   timestamp, evidenza vista, rate limit tra sessioni, persistenza e warning. I contratti su ordine dei guard e scope
   del limite impediscono al refactoring di complessità di indebolire il confine di scrittura. I contratti privati
@@ -147,7 +150,9 @@ dichiarazione di un parametro di metodo.
 - Il callback delle feature Moodle è una tabella diretta feature-valore, mentre la validazione delle reazioni Font
   Awesome separa il sottoinsieme revisionato dei decoratori da un solo nome icona. Contratti pubblici, limiti e
   default fail-closed sono coperti indipendentemente dalla riduzione di complessità.
-- PHPMD resta consultivo. I rilievi residui riguardano complessità, dimensione, classi pubbliche ampie, parametri
+- PHPMD resta consultivo. La baseline 1.7.175 accettata contiene 106 finding; questa candidata mira ai due finding
+  di classe prima assegnati a `report_view`. I rilievi residui riguardano complessità, dimensione, classi pubbliche
+  ampie, parametri
   obbligatori dei callback Moodle e flag booleani che richiedono refactoring comportamentali separati. I conteggi
   correnti esatti vanno letti nell'artifact CI prodotto per la candidata in esame.
 - Configurazione degli analizzatori, perimetro di produzione, schema database e asset AMD non cambiano con queste
