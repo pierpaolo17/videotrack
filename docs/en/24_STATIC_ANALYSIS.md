@@ -117,8 +117,10 @@ line, not for redeclaring a method parameter.
 - Playback-rate policy exposes one public contract backed by named parsing, effective-cap, filtering and mandatory
   normal-speed stages. TinyMCE emoji parsing and reaction-picker header/tab/body rendering are likewise isolated,
   while retention-setting persistence separates confirmation from post-save transition auditing.
-- Integrity-report presentation uses distinct enabled, disabled and focus-controls-without-recording entry points;
-  no boolean behaviour flag remains in the presentation API.
+- Teacher Analytics presentation is split into four focused owners. `report_view` has three shared control methods,
+  `report_timeline_view` has five interval/chart methods, `report_summary_view` has three aggregate-summary methods,
+  and `report_integrity_view` has three explicit public states plus private markup helpers. Moved method bodies and
+  rendered contracts are unchanged; the former broad class no longer triggers class-size or public-method findings.
 - Personal-note writes expose one public external-service entry point backed by named text, timestamp,
   watched-evidence, cross-session rate-limit, persistence and warning stages. Guard-order and rate-scope contracts
   prevent the complexity refactoring from weakening the write boundary. Private DML record contracts use native
@@ -139,7 +141,9 @@ line, not for redeclaring a method parameter.
 - The Moodle feature callback is a direct feature-to-value table, while Font Awesome reaction validation partitions
   the reviewed decorator subset from exactly one icon name. Their public contracts, limits and fail-closed defaults
   are covered independently of the complexity reduction.
-- PHPMD remains advisory. Its remaining reports concern reviewed complexity, size, broad public classes, required
+- PHPMD remains advisory. The accepted 1.7.175 baseline contains 106 findings; this candidate targets the two
+  class-level findings formerly assigned to `report_view`. Remaining reports concern reviewed complexity, size,
+  broad public classes, required
   Moodle callback parameters and boolean switches that need separate behavioural refactoring. Exact current counts
   must be read from the CI artifact produced for the candidate under review.
 - Static-analysis configuration, production scope, database schema and AMD assets are unchanged by these API

@@ -1,6 +1,6 @@
 # Audit della documentazione
 
-Baseline: VideoTrack **1.7.175** (`2026100403`).
+Baseline: VideoTrack **1.7.176** (`2026100404`).
 
 ## Perimetro
 
@@ -33,7 +33,7 @@ duplicano intenzionalmente procedure implementative, dizionari dei campi o lungh
 ## Rilievi sull'albero corrente
 
 - Gli indici inglese e italiano hanno stesso perimetro e ordinamento.
-- Marker documentali, README principali e artefatti ER identificano 1.7.175 / 2026100403.
+- Marker documentali, README principali e artefatti ER identificano 1.7.176 / 2026100404.
 - L'identità dell'attività include `pix/icon.png` da 1024 pixel e un `pix/icon.svg` nativo e accessibile derivati
   dalla stessa grafica fornita dal maintainer.
 - `db/install.xml` dichiara sette chiavi primarie, 22 foreign key stabili e 22 indici espliciti. XMLDB genera inoltre
@@ -77,8 +77,10 @@ duplicano intenzionalmente procedure implementative, dizionari dei campi o lungh
   `report_analytics_query`, `report_event_query` e `report_support` possiedono ciascuno sette contratti pubblici coesi
   rispettivamente per SQL Analytics, SQL eventi e lavoro residuo di presentazione/opzioni/highlight/clustering.
   `report_time_filter` possiede quattro contratti coesi per date/richiesta/rendering e `report_aggregation` possiede
-  individuazione dei cali di viewer e ordinamento dei
-  cluster. Il callback delle feature Moodle usa una tabella, i valori Font Awesome contengono esattamente un nome
+  individuazione dei cali di viewer e ordinamento dei cluster. Il rendering Analytics docente è diviso tra servizi
+  per controlli condivisi, timeline, riepiloghi aggregati e stati integrità, tutti sotto la soglia dei metodi
+  pubblici e separati da query e aggregazione. Il callback delle feature Moodle usa una tabella, i valori Font
+  Awesome contengono esattamente un nome
   icona validato e le icone renderizzate includono sempre l'etichetta visibile senza un flag booleano di
   presentazione. I conteggi esatti si leggono nell'artifact CI della candidata corrente.
 - Le due coppie di build AMD corrette nella 1.7.123 sono output canonico di Moodle Grunt; le source map hanno mapping
@@ -90,7 +92,7 @@ duplicano intenzionalmente procedure implementative, dizionari dei campi o lungh
 - Le evidenze CI/server generate non fanno parte dell'albero del plugin. Il `.gitignore` del repository, le regole
   Git archive `export-ignore`, le regole Moodle `.moodleignore` e un contratto PHPUnit di release hygiene impediscono
   insieme che `reports-*`, `videotrack-ci-*.zip` e `report_completo_videotrack_*.zip` entrino nelle release future.
-  L'archivio canonico 1.7.175 contiene quindi soltanto i 370 file legittimi del plugin.
+  L'archivio canonico 1.7.176 contiene quindi soltanto i 373 file legittimi del plugin.
 
 ## Controlli di release
 

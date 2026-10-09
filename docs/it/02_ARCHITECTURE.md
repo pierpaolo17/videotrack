@@ -59,7 +59,12 @@ dei parametri, semantica dei valori vuoti, timezone ed eccezioni di validazione 
 prese visione correnti, mentre `classes/local/report_event_query.php` possiede la costruzione SQL per eventi e
 individuazione learner. Ogni servizio query espone sette contratti pubblici focalizzati.
 `classes/local/report_support.php` conserva sette contratti per presentazione, opzioni, highlight e clustering
-reazioni, mentre `classes/local/report_aggregation.php` possiede due fasi pure deterministiche. I cali di viewer Analytics vengono
+reazioni, mentre `classes/local/report_aggregation.php` possiede due fasi pure deterministiche.
+Anche la presentazione Analytics docente è divisa per responsabilità: `report_view` possiede metodologia, avvisi
+privacy e controlli download condivisi; `report_timeline_view` possiede intervalli, grafici, legende e cluster;
+`report_summary_view` possiede riepiloghi di reazioni, segnalibri e prese visione; `report_integrity_view` possiede i
+tre stati espliciti dell'integrità. I quattro servizi si occupano solo di presentazione e non selezionano o aggregano dati.
+I cali di viewer Analytics vengono
 individuati soltanto tra bin visibili e contigui, quindi un bin soppresso o non disponibile resta un confine privacy.
 I cluster completati vengono ordinati separatamente dopo aver finalizzato finestra, insieme studenti e stato del
 limite di sicurezza. Le separazioni non modificano input del controller, scope di capability, regole privacy o forma

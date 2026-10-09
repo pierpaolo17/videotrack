@@ -324,28 +324,40 @@ final class report_contract_test extends advanced_testcase {
     }
 
     /**
-     * The request controller delegates Analytics presentation to the dedicated presentation helper.
+     * The request controller delegates Analytics presentation to focused presentation helpers.
      */
     public function test_analytics_rendering_is_extracted_from_report_controller(): void {
         $report = file_get_contents(__DIR__ . '/../report.php');
-        $renderer = file_get_contents(__DIR__ . '/../classes/local/report_view.php');
+        $view = file_get_contents(__DIR__ . '/../classes/local/report_view.php');
+        $timelineview = file_get_contents(__DIR__ . '/../classes/local/report_timeline_view.php');
+        $summaryview = file_get_contents(__DIR__ . '/../classes/local/report_summary_view.php');
+        $integrityview = file_get_contents(__DIR__ . '/../classes/local/report_integrity_view.php');
         $this->assertIsString($report);
-        $this->assertIsString($renderer);
+        $this->assertIsString($view);
+        $this->assertIsString($timelineview);
+        $this->assertIsString($summaryview);
+        $this->assertIsString($integrityview);
 
-        $this->assertStringContainsString('report_view::analytics_heatmap(', $report);
-        $this->assertStringContainsString('report_view::analytics_retention(', $report);
-        $this->assertStringContainsString('report_view::integrity_summary(', $report);
-        $this->assertStringContainsString('report_view::integrity_disabled_summary()', $report);
+        $this->assertStringContainsString('report_timeline_view::analytics_heatmap(', $report);
+        $this->assertStringContainsString('report_timeline_view::analytics_retention(', $report);
+        $this->assertStringContainsString('report_summary_view::reaction_summary(', $report);
+        $this->assertStringContainsString('report_summary_view::bookmark_summary(', $report);
+        $this->assertStringContainsString('report_summary_view::acknowledgement_summary(', $report);
+        $this->assertStringContainsString('report_integrity_view::integrity_summary(', $report);
+        $this->assertStringContainsString('report_integrity_view::integrity_disabled_summary()', $report);
         $this->assertStringContainsString(
-            'report_view::integrity_controls_without_recording_summary()',
+            'report_integrity_view::integrity_controls_without_recording_summary()',
             $report
         );
         $this->assertStringContainsString(
             "get_string('integrity:analytics_recording_disabled_controls', 'mod_videotrack'),\n" .
                 "            'warning'",
-            $renderer
+            $integrityview
         );
-        $this->assertStringContainsString('final class report_view', $renderer);
+        $this->assertStringContainsString('final class report_view', $view);
+        $this->assertStringContainsString('final class report_timeline_view', $timelineview);
+        $this->assertStringContainsString('final class report_summary_view', $summaryview);
+        $this->assertStringContainsString('final class report_integrity_view', $integrityview);
         $this->assertStringNotContainsString('function videotrack_report_render_analytics_heatmap(', $report);
         $this->assertStringNotContainsString('function videotrack_report_render_analytics_retention(', $report);
     }

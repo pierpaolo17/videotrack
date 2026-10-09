@@ -1,6 +1,6 @@
 # Function inventory
 
-Generated from the VideoTrack 1.7.175 source tree. PHP entries include named functions and methods; AMD entries include named declarations, assigned function expressions and object-method functions.
+Generated from the VideoTrack 1.7.176 source tree. PHP entries include named functions and methods; AMD entries include named declarations, assigned function expressions and object-method functions.
 
 **PHP functions/methods:** 802. **Named AMD callables:** 654.
 
@@ -990,23 +990,23 @@ Generated from the VideoTrack 1.7.175 source tree. PHP entries include named fun
 | `classes/local/report_support.php:137` | `user_options` | Builds source-priority report-user options with privacy-preserving labels. |
 | `classes/local/report_support.php:169` | `cluster_reaction_events` | Builds bounded reaction clusters with stable student-count and ordering semantics. |
 | `classes/local/report_support.php:238` | `tabs` | Builds capability-dependent teacher-report tabs. |
-| `classes/local/report_view.php:42` | `analytics_interval` | PHP callable `report_view::analytics_interval`; see its DocBlock and callers for parameter, return-value and side-effect details. |
-| `classes/local/report_view.php:56` | `analytics_heatmap` | PHP callable `report_view::analytics_heatmap`; see its DocBlock and callers for parameter, return-value and side-effect details. |
-| `classes/local/report_view.php:188` | `analytics_methodology` | PHP callable `report_view::analytics_methodology`; see its DocBlock and callers for parameter, return-value and side-effect details. |
-| `classes/local/report_view.php:250` | `privacy_alert` | PHP callable `report_view::privacy_alert`; see its DocBlock and callers for parameter, return-value and side-effect details. |
-| `classes/local/report_view.php:277` | `heatmap_legend` | PHP callable `report_view::heatmap_legend`; see its DocBlock and callers for parameter, return-value and side-effect details. |
-| `classes/local/report_view.php:322` | `analytics_download` | PHP callable `report_view::analytics_download`; see its DocBlock and callers for parameter, return-value and side-effect details. |
-| `classes/local/report_view.php:379` | `reaction_clusters` | PHP callable `report_view::reaction_clusters`; see its DocBlock and callers for parameter, return-value and side-effect details. |
-| `classes/local/report_view.php:414` | `reaction_summary` | PHP callable `report_view::reaction_summary`; see its DocBlock and callers for parameter, return-value and side-effect details. |
-| `classes/local/report_view.php:437` | `bookmark_summary` | PHP callable `report_view::bookmark_summary`; see its DocBlock and callers for parameter, return-value and side-effect details. |
-| `classes/local/report_view.php:503` | `acknowledgement_summary` | PHP callable `report_view::acknowledgement_summary`; see its DocBlock and callers for parameter, return-value and side-effect details. |
-| `classes/local/report_view.php:610` | `integrity_summary` | PHP callable `report_view::integrity_summary`; renders the privacy-safe enabled-recording state without boolean behaviour flags. |
-| `classes/local/report_view.php:673` | `integrity_disabled_summary` | PHP callable `report_view::integrity_disabled_summary`; renders the explicit recording-disabled information state. |
-| `classes/local/report_view.php:685` | `integrity_controls_without_recording_summary` | PHP callable `report_view::integrity_controls_without_recording_summary`; renders the explicit control-only warning state. |
-| `classes/local/report_view.php:697` | `integrity_intro` | Private PHP callable that builds the shared integrity heading and explanatory text. |
-| `classes/local/report_view.php:718` | `integrity_unavailable_summary` | Private PHP callable that renders an integrity state without an event table. |
-| `classes/local/report_view.php:732` | `integrity_section` | Private PHP callable that wraps integrity content in the accessible section landmark. |
-| `classes/local/report_view.php:746` | `analytics_retention` | PHP callable `report_view::analytics_retention`; see its DocBlock and callers for parameter, return-value and side-effect details. |
+| `classes/local/report_integrity_view.php:43` | `integrity_summary` | Renders the privacy-safe enabled-recording integrity state. |
+| `classes/local/report_integrity_view.php:106` | `integrity_disabled_summary` | Renders the explicit recording-disabled information state. |
+| `classes/local/report_integrity_view.php:118` | `integrity_controls_without_recording_summary` | Renders the explicit control-only integrity warning state. |
+| `classes/local/report_integrity_view.php:130` | `integrity_intro` | Builds the shared integrity heading and explanatory text. |
+| `classes/local/report_integrity_view.php:151` | `integrity_unavailable_summary` | Renders an integrity state without an event table. |
+| `classes/local/report_integrity_view.php:165` | `integrity_section` | Wraps integrity content in the accessible section landmark. |
+| `classes/local/report_summary_view.php:38` | `reaction_summary` | Renders privacy-safe reaction totals. |
+| `classes/local/report_summary_view.php:61` | `bookmark_summary` | Renders the privacy-safe bookmark usage summary. |
+| `classes/local/report_summary_view.php:127` | `acknowledgement_summary` | Renders privacy-safe acknowledgement aggregates and progress values. |
+| `classes/local/report_timeline_view.php:41` | `analytics_interval` | Formats one Analytics timeline interval with canonical video timestamps. |
+| `classes/local/report_timeline_view.php:55` | `analytics_heatmap` | Renders the unique-view heatmap and reaction-cluster markers. |
+| `classes/local/report_timeline_view.php:184` | `heatmap_legend` | Renders the accessible heatmap legend. |
+| `classes/local/report_timeline_view.php:233` | `reaction_clusters` | Renders privacy-safe reaction clusters independently from viewing Analytics. |
+| `classes/local/report_timeline_view.php:269` | `analytics_retention` | Renders the privacy-safe retention line chart. |
+| `classes/local/report_view.php:43` | `analytics_methodology` | Renders the expandable Analytics calculation and privacy explanation. |
+| `classes/local/report_view.php:105` | `privacy_alert` | Renders the dataset-specific Analytics privacy warning. |
+| `classes/local/report_view.php:132` | `analytics_download` | Renders the Analytics table download selector. |
 | `classes/local/teacher_analytics.php:37` | `accessible_courses` | PHP callable `accessible_courses`; see its DocBlock and callers for parameter, return-value and side-effect details. |
 | `classes/local/teacher_analytics.php:80` | `dashboard_rows` | PHP callable `dashboard_rows`; see its DocBlock and callers for parameter, return-value and side-effect details. |
 | `classes/local/teacher_analytics.php:127` | `activity_options` | PHP callable `activity_options`; see its DocBlock and callers for parameter, return-value and side-effect details. |
@@ -1439,12 +1439,12 @@ Generated from the VideoTrack 1.7.175 source tree. PHP entries include named fun
 | `tests/report_time_filter_test.php:54` | `test_structured_time_components_are_parsed` | Behavioural coverage for hour/minute/second request composition. |
 | `tests/report_time_filter_test.php:66` | `test_structured_time_rejects_out_of_range_components` | Fail-closed coverage for structured minute and second bounds. |
 | `tests/report_time_filter_test.php:79` | `test_duration_filter_preserves_structured_controls` | Accessibility and value-preservation coverage for the structured duration markup. |
-| `tests/report_view_test.php:35` | `setUp` | PHP callable `setUp`; behavioural coverage for the extracted Analytics presentation helper. |
-| `tests/report_view_test.php:43` | `test_reaction_summary_preserves_privacy_contract` | PHP callable `test_reaction_summary_preserves_privacy_contract`; behavioural coverage for the extracted Analytics presentation helper. |
-| `tests/report_view_test.php:65` | `test_exact_analytics_methodology_omits_privacy_threshold_text` | Named PHP function/method `test_exact_analytics_methodology_omits_privacy_threshold_text`; see source DocBlock and callers for the current contract. |
-| `tests/report_view_test.php:81` | `test_retention_chart_explains_full_privacy_suppression` | PHP callable `test_retention_chart_explains_full_privacy_suppression`; behavioural coverage for the extracted Analytics presentation helper. |
-| `tests/report_view_test.php:99` | `test_analytics_interval_uses_canonical_video_timestamp_format` | PHP callable `test_analytics_interval_uses_canonical_video_timestamp_format`; behavioural coverage for the extracted Analytics presentation helper. |
-| `tests/report_view_test.php:109` | `test_integrity_summary_states_preserve_messages_and_privacy_table` | PHPUnit contract for the enabled, disabled and focus-controls-without-recording presentation states. |
+| `tests/report_view_test.php:41` | `setUp` | Loads canonical video timestamp helpers for the focused presentation services. |
+| `tests/report_view_test.php:49` | `test_reaction_summary_preserves_privacy_contract` | Covers visible and suppressed reaction-summary presentation. |
+| `tests/report_view_test.php:71` | `test_exact_analytics_methodology_omits_privacy_threshold_text` | Covers exact-instance methodology without an aggregate privacy threshold. |
+| `tests/report_view_test.php:87` | `test_retention_chart_explains_full_privacy_suppression` | Covers the accessible explanation for a fully suppressed retention chart. |
+| `tests/report_view_test.php:105` | `test_analytics_interval_uses_canonical_video_timestamp_format` | Covers canonical timeline interval formatting. |
+| `tests/report_view_test.php:115` | `test_integrity_summary_states_preserve_messages_and_privacy_table` | Covers enabled, disabled and focus-controls-without-recording integrity states. |
 | `tests/save_bookmark_test.php:39` | `test_execute_parameters_uses_supported_moodle_parameter_types` | PHP callable `test_execute_parameters_uses_supported_moodle_parameter_types`; see its DocBlock and callers for parameter, return-value and side-effect details. |
 | `tests/save_bookmark_test.php:47` | `test_bookmark_validation_prefers_existing_watched_progress` | PHP callable `test_bookmark_validation_prefers_existing_watched_progress`; see its DocBlock and callers for parameter, return-value and side-effect details. |
 | `tests/save_bookmark_test.php:62` | `test_video_time_normalisation_clamps_to_media_bounds` | Behavioural coverage for zero/duration bookmark timestamp clamping. |

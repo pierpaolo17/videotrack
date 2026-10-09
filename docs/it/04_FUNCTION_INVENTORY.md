@@ -1,6 +1,6 @@
 # Inventario delle funzioni
 
-Generato dall’albero sorgente VideoTrack 1.7.175. Le voci PHP includono funzioni e metodi nominati; le voci AMD includono dichiarazioni nominate, espressioni funzione assegnate e funzioni-metodo di oggetti.
+Generato dall’albero sorgente VideoTrack 1.7.176. Le voci PHP includono funzioni e metodi nominati; le voci AMD includono dichiarazioni nominate, espressioni funzione assegnate e funzioni-metodo di oggetti.
 
 **Funzioni/metodi PHP:** 802. **Callable AMD nominati:** 654.
 
@@ -990,23 +990,23 @@ Generato dall’albero sorgente VideoTrack 1.7.175. Le voci PHP includono funzio
 | `classes/local/report_support.php:137` | `user_options` | Costruisce opzioni utente per priorità preservando la privacy. |
 | `classes/local/report_support.php:169` | `cluster_reaction_events` | Costruisce cluster di reazioni limitati con conteggio studenti e ordine stabili. |
 | `classes/local/report_support.php:238` | `tabs` | Costruisce i tab del report docente in base alle capability. |
-| `classes/local/report_view.php:42` | `analytics_interval` | Callable PHP `report_view::analytics_interval`; DocBlock e chiamanti definiscono parametri, valori restituiti ed effetti. |
-| `classes/local/report_view.php:56` | `analytics_heatmap` | Callable PHP `report_view::analytics_heatmap`; DocBlock e chiamanti definiscono parametri, valori restituiti ed effetti. |
-| `classes/local/report_view.php:188` | `analytics_methodology` | Callable PHP `report_view::analytics_methodology`; DocBlock e chiamanti definiscono parametri, valori restituiti ed effetti. |
-| `classes/local/report_view.php:250` | `privacy_alert` | Callable PHP `report_view::privacy_alert`; DocBlock e chiamanti definiscono parametri, valori restituiti ed effetti. |
-| `classes/local/report_view.php:277` | `heatmap_legend` | Callable PHP `report_view::heatmap_legend`; DocBlock e chiamanti definiscono parametri, valori restituiti ed effetti. |
-| `classes/local/report_view.php:322` | `analytics_download` | Callable PHP `report_view::analytics_download`; DocBlock e chiamanti definiscono parametri, valori restituiti ed effetti. |
-| `classes/local/report_view.php:379` | `reaction_clusters` | Callable PHP `report_view::reaction_clusters`; DocBlock e chiamanti definiscono parametri, valori restituiti ed effetti. |
-| `classes/local/report_view.php:414` | `reaction_summary` | Callable PHP `report_view::reaction_summary`; DocBlock e chiamanti definiscono parametri, valori restituiti ed effetti. |
-| `classes/local/report_view.php:437` | `bookmark_summary` | Callable PHP `report_view::bookmark_summary`; DocBlock e chiamanti definiscono parametri, valori restituiti ed effetti. |
-| `classes/local/report_view.php:503` | `acknowledgement_summary` | Callable PHP `report_view::acknowledgement_summary`; DocBlock e chiamanti definiscono parametri, valori restituiti ed effetti. |
-| `classes/local/report_view.php:610` | `integrity_summary` | Callable PHP `report_view::integrity_summary`; renderizza lo stato con registrazione attiva senza flag booleani di comportamento. |
-| `classes/local/report_view.php:673` | `integrity_disabled_summary` | Callable PHP `report_view::integrity_disabled_summary`; renderizza lo stato informativo esplicito con registrazione disattivata. |
-| `classes/local/report_view.php:685` | `integrity_controls_without_recording_summary` | Callable PHP `report_view::integrity_controls_without_recording_summary`; renderizza lo stato di avviso esplicito con soli controlli focus. |
-| `classes/local/report_view.php:697` | `integrity_intro` | Callable PHP privato che costruisce titolo e testo esplicativo condivisi della sezione integrità. |
-| `classes/local/report_view.php:718` | `integrity_unavailable_summary` | Callable PHP privato che renderizza uno stato integrità privo della tabella eventi. |
-| `classes/local/report_view.php:732` | `integrity_section` | Callable PHP privato che racchiude il contenuto nel landmark accessibile della sezione. |
-| `classes/local/report_view.php:746` | `analytics_retention` | Callable PHP `report_view::analytics_retention`; DocBlock e chiamanti definiscono parametri, valori restituiti ed effetti. |
+| `classes/local/report_integrity_view.php:43` | `integrity_summary` | Renderizza lo stato integrità privacy-safe con registrazione attiva. |
+| `classes/local/report_integrity_view.php:106` | `integrity_disabled_summary` | Renderizza lo stato informativo esplicito con registrazione disattivata. |
+| `classes/local/report_integrity_view.php:118` | `integrity_controls_without_recording_summary` | Renderizza lo stato di avviso esplicito con soli controlli focus. |
+| `classes/local/report_integrity_view.php:130` | `integrity_intro` | Costruisce titolo e testo esplicativo condivisi della sezione integrità. |
+| `classes/local/report_integrity_view.php:151` | `integrity_unavailable_summary` | Renderizza uno stato integrità privo della tabella eventi. |
+| `classes/local/report_integrity_view.php:165` | `integrity_section` | Racchiude il contenuto nel landmark accessibile della sezione integrità. |
+| `classes/local/report_summary_view.php:38` | `reaction_summary` | Renderizza i totali delle reazioni in forma privacy-safe. |
+| `classes/local/report_summary_view.php:61` | `bookmark_summary` | Renderizza il riepilogo privacy-safe dell'uso dei segnalibri. |
+| `classes/local/report_summary_view.php:127` | `acknowledgement_summary` | Renderizza aggregati e progresso privacy-safe delle prese visione. |
+| `classes/local/report_timeline_view.php:41` | `analytics_interval` | Formatta un intervallo Analytics usando i timestamp video canonici. |
+| `classes/local/report_timeline_view.php:55` | `analytics_heatmap` | Renderizza heatmap delle visualizzazioni uniche e marker dei cluster reazioni. |
+| `classes/local/report_timeline_view.php:184` | `heatmap_legend` | Renderizza la legenda accessibile della heatmap. |
+| `classes/local/report_timeline_view.php:233` | `reaction_clusters` | Renderizza cluster reazioni privacy-safe indipendentemente dalle Analytics di visione. |
+| `classes/local/report_timeline_view.php:269` | `analytics_retention` | Renderizza il grafico privacy-safe della retention. |
+| `classes/local/report_view.php:43` | `analytics_methodology` | Renderizza la spiegazione espandibile di calcoli e privacy Analytics. |
+| `classes/local/report_view.php:105` | `privacy_alert` | Renderizza l'avviso privacy specifico del dataset Analytics. |
+| `classes/local/report_view.php:132` | `analytics_download` | Renderizza il selettore di download della tabella Analytics. |
 | `classes/local/teacher_analytics.php:37` | `accessible_courses` | Callable PHP `accessible_courses`; DocBlock e chiamanti definiscono parametri, valori restituiti ed effetti. |
 | `classes/local/teacher_analytics.php:80` | `dashboard_rows` | Callable PHP `dashboard_rows`; DocBlock e chiamanti definiscono parametri, valori restituiti ed effetti. |
 | `classes/local/teacher_analytics.php:127` | `activity_options` | Callable PHP `activity_options`; DocBlock e chiamanti definiscono parametri, valori restituiti ed effetti. |
@@ -1439,12 +1439,12 @@ Generato dall’albero sorgente VideoTrack 1.7.175. Le voci PHP includono funzio
 | `tests/report_time_filter_test.php:54` | `test_structured_time_components_are_parsed` | Copertura della composizione dei componenti richiesta ore/minuti/secondi. |
 | `tests/report_time_filter_test.php:66` | `test_structured_time_rejects_out_of_range_components` | Copertura fail-closed dei limiti strutturati per minuti e secondi. |
 | `tests/report_time_filter_test.php:79` | `test_duration_filter_preserves_structured_controls` | Copertura di accessibilità e valori del markup durata strutturato. |
-| `tests/report_view_test.php:35` | `setUp` | Callable PHP `setUp`; copertura comportamentale del helper di presentazione Analytics estratto. |
-| `tests/report_view_test.php:43` | `test_reaction_summary_preserves_privacy_contract` | Callable PHP `test_reaction_summary_preserves_privacy_contract`; copertura comportamentale del helper di presentazione Analytics estratto. |
-| `tests/report_view_test.php:65` | `test_exact_analytics_methodology_omits_privacy_threshold_text` | Funzione/metodo PHP nominato `test_exact_analytics_methodology_omits_privacy_threshold_text`; vedere DocBlock e chiamanti per il contratto corrente. |
-| `tests/report_view_test.php:81` | `test_retention_chart_explains_full_privacy_suppression` | Callable PHP `test_retention_chart_explains_full_privacy_suppression`; copertura comportamentale del helper di presentazione Analytics estratto. |
-| `tests/report_view_test.php:99` | `test_analytics_interval_uses_canonical_video_timestamp_format` | Callable PHP `test_analytics_interval_uses_canonical_video_timestamp_format`; copertura comportamentale del helper di presentazione Analytics estratto. |
-| `tests/report_view_test.php:109` | `test_integrity_summary_states_preserve_messages_and_privacy_table` | Contratto PHPUnit per gli stati di presentazione attivo, disattivato e controlli focus senza registrazione. |
+| `tests/report_view_test.php:41` | `setUp` | Carica gli helper canonici dei timestamp video per i servizi di presentazione focalizzati. |
+| `tests/report_view_test.php:49` | `test_reaction_summary_preserves_privacy_contract` | Copre la presentazione visibile e soppressa del riepilogo reazioni. |
+| `tests/report_view_test.php:71` | `test_exact_analytics_methodology_omits_privacy_threshold_text` | Copre la metodologia di istanza esatta senza soglia privacy aggregata. |
+| `tests/report_view_test.php:87` | `test_retention_chart_explains_full_privacy_suppression` | Copre la spiegazione accessibile di un grafico retention interamente soppresso. |
+| `tests/report_view_test.php:105` | `test_analytics_interval_uses_canonical_video_timestamp_format` | Copre la formattazione canonica degli intervalli timeline. |
+| `tests/report_view_test.php:115` | `test_integrity_summary_states_preserve_messages_and_privacy_table` | Copre gli stati integrità attivo, disattivato e controlli focus senza registrazione. |
 | `tests/save_bookmark_test.php:39` | `test_execute_parameters_uses_supported_moodle_parameter_types` | Callable PHP `test_execute_parameters_uses_supported_moodle_parameter_types`; DocBlock e chiamanti definiscono parametri, valori restituiti ed effetti. |
 | `tests/save_bookmark_test.php:47` | `test_bookmark_validation_prefers_existing_watched_progress` | Callable PHP `test_bookmark_validation_prefers_existing_watched_progress`; DocBlock e chiamanti definiscono parametri, valori restituiti ed effetti. |
 | `tests/save_bookmark_test.php:62` | `test_video_time_normalisation_clamps_to_media_bounds` | Copertura comportamentale del limite a zero/durata del timestamp del segnalibro. |
