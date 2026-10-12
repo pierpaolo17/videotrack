@@ -1,5 +1,25 @@
 # VideoTrack changelog
 
+## 1.7.177 - 2026-10-12
+
+### Staged teacher-analytics chart and acknowledgement rendering
+
+- Accepted the complete 1.7.176 evidence: all six GitHub jobs passed on Moodle 5.0–5.3 with MariaDB and PostgreSQL,
+  both strict server validators reported 10 passes, server PHPCS and PHP lint passed on 140 files, Grunt completed
+  canonically on Moodle 5.0 and 5.3, PHPUnit passed 304 tests with 2775 assertions on both installations, Behat
+  passed 24 scenarios and 357 steps, PHPStan and Psalm reported no errors, and PHPMD reported 104 reviewed advisory
+  findings.
+- Split heatmap interval rendering, reaction-marker rendering, retention privacy-state discovery, percentage-grid
+  rendering, visible-path construction and path markup into named private stages. Split acknowledgement card-value
+  resolution and availability/privacy/legacy notices into corresponding private stages.
+- Kept the three public presentation contracts, generated SVG/HTML order, privacy thresholds, suppression gaps,
+  localised strings, accessible labels and controller calls unchanged. Added behavioural coverage for visible,
+  partially suppressed and fully suppressed chart and acknowledgement states.
+- Updated current English and Italian architecture, static-analysis, audit and callable documentation. This
+  refactoring targets seven PHPMD findings on `analytics_heatmap`, `analytics_retention` and
+  `acknowledgement_summary`; the expected candidate count is 97, subject to CI confirmation. Database schema, AJAX
+  services, capabilities, stored data, privacy policy, AMD assets and language packs are unchanged.
+
 ## 1.7.176 - 2026-10-04
 
 ### Cohesive teacher-report presentation services

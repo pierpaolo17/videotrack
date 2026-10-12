@@ -124,9 +124,9 @@ dichiarazione di un parametro di metodo.
   selettore reazioni sono isolati, mentre il salvataggio retention separa conferma e audit successivo al salvataggio.
 - La presentazione Analytics docente è divisa tra quattro proprietari focalizzati. `report_view` ha tre metodi per
   controlli condivisi, `report_timeline_view` cinque metodi per intervalli/grafici, `report_summary_view` tre metodi
-  per riepiloghi aggregati e `report_integrity_view` tre stati pubblici espliciti più helper markup privati. Corpi
-  dei metodi spostati e contratti renderizzati restano invariati; la precedente classe ampia non genera più finding
-  di complessità di classe o numero di metodi pubblici.
+  per riepiloghi aggregati e `report_integrity_view` tre stati pubblici espliciti più helper markup privati. Geometria
+  e markup di heatmap/retention e decisioni su valori/avvisi delle prese visione usano ora fasi private nominate.
+  Firme pubbliche, confini di soppressione e contratti renderizzati restano invariati.
 - La scrittura delle note personali espone un solo entry point external supportato da fasi nominate per testo,
   timestamp, evidenza vista, rate limit tra sessioni, persistenza e warning. I contratti su ordine dei guard e scope
   del limite impediscono al refactoring di complessità di indebolire il confine di scrittura. I contratti privati
@@ -150,11 +150,11 @@ dichiarazione di un parametro di metodo.
 - Il callback delle feature Moodle è una tabella diretta feature-valore, mentre la validazione delle reazioni Font
   Awesome separa il sottoinsieme revisionato dei decoratori da un solo nome icona. Contratti pubblici, limiti e
   default fail-closed sono coperti indipendentemente dalla riduzione di complessità.
-- PHPMD resta consultivo. La baseline 1.7.175 accettata contiene 106 finding; questa candidata mira ai due finding
-  di classe prima assegnati a `report_view`. I rilievi residui riguardano complessità, dimensione, classi pubbliche
-  ampie, parametri
-  obbligatori dei callback Moodle e flag booleani che richiedono refactoring comportamentali separati. I conteggi
-  correnti esatti vanno letti nell'artifact CI prodotto per la candidata in esame.
+- PHPMD resta consultivo. La baseline 1.7.176 accettata contiene 104 finding; questa candidata mira a sette finding
+  su `report_timeline_view::analytics_heatmap()`, `report_timeline_view::analytics_retention()` e
+  `report_summary_view::acknowledgement_summary()`. Il conteggio atteso è 97, ma il risultato esatto va letto
+  nell'artifact CI della candidata. I rilievi residui riguardano complessità, dimensione, classi pubbliche ampie,
+  parametri obbligatori dei callback Moodle e flag booleani che richiedono refactoring comportamentali separati.
 - Configurazione degli analizzatori, perimetro di produzione, schema database e asset AMD non cambiano con queste
   pulizie delle API. I conteggi della candidata diventano autorevoli soltanto dopo aver conservato e revisionato gli
   artifact CI completi.

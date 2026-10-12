@@ -66,6 +66,50 @@ final class report_view_test extends \advanced_testcase {
     }
 
     /**
+     * Heatmap rendering preserves visible, partially hidden and fully suppressed intervals plus reaction markers.
+     */
+    public function test_heatmap_preserves_privacy_and_reaction_marker_contracts(): void {
+        $markup = report_timeline_view::analytics_heatmap([
+            [
+                'start' => 0.0,
+                'end' => 10.0,
+                'viewers' => 4,
+                'retention' => 80.0,
+                'suppressed' => false,
+                'retentionsuppressed' => false,
+            ],
+            [
+                'start' => 10.0,
+                'end' => 20.0,
+                'viewers' => 2,
+                'retention' => null,
+                'suppressed' => false,
+                'retentionsuppressed' => true,
+            ],
+            [
+                'start' => 20.0,
+                'end' => 30.0,
+                'viewers' => null,
+                'retention' => null,
+                'suppressed' => true,
+                'retentionsuppressed' => true,
+            ],
+        ], 30.0, [[
+            'timestamp' => 15.0,
+            'reactionlabel' => 'Useful',
+            'count' => 3,
+            'students' => 2,
+        ]], 2);
+
+        $this->assertSame(3, substr_count($markup, 'class="videotrack-analytics-bin'));
+        $this->assertStringContainsString('opacity="' . format_float(1.0, 3, false, true) . '"', $markup);
+        $this->assertStringContainsString('opacity="' . format_float(0.5, 3, false, true) . '"', $markup);
+        $this->assertStringContainsString('url(#videotrack-analytics-suppressed-pattern)', $markup);
+        $this->assertStringContainsString('videotrack-analytics-reaction-cluster', $markup);
+        $this->assertStringContainsString('Useful', $markup);
+    }
+
+    /**
      * Exact instance Analytics methodology does not present a minimum-user privacy threshold.
      */
     public function test_exact_analytics_methodology_omits_privacy_threshold_text(): void {
@@ -97,6 +141,112 @@ final class report_view_test extends \advanced_testcase {
         $message = get_string('report:analytics_retention_privacy_hidden', 'mod_videotrack');
         $this->assertStringContainsString(s($message), $markup);
         $this->assertStringContainsString('videotrack-analytics-privacy-label', $markup);
+    }
+
+    /**
+     * Retention rendering keeps visible points contiguous only until a privacy gap.
+     */
+    public function test_retention_chart_preserves_visible_paths_and_privacy_gaps(): void {
+        $markup = report_timeline_view::analytics_retention([
+            [
+                'start' => 0.0,
+                'end' => 10.0,
+                'viewers' => 4,
+                'retention' => 100.0,
+                'suppressed' => false,
+                'retentionsuppressed' => false,
+            ],
+            [
+                'start' => 10.0,
+                'end' => 20.0,
+                'viewers' => 3,
+                'retention' => 75.0,
+                'suppressed' => false,
+                'retentionsuppressed' => false,
+            ],
+            [
+                'start' => 20.0,
+                'end' => 30.0,
+                'viewers' => null,
+                'retention' => null,
+                'suppressed' => true,
+                'retentionsuppressed' => true,
+            ],
+            [
+                'start' => 30.0,
+                'end' => 40.0,
+                'viewers' => 2,
+                'retention' => 50.0,
+                'suppressed' => false,
+                'retentionsuppressed' => false,
+            ],
+        ], 40.0);
+
+        $this->assertSame(3, substr_count($markup, 'videotrack-analytics-retention-point'));
+        $this->assertSame(1, substr_count($markup, 'videotrack-analytics-retention-line'));
+        $this->assertStringNotContainsString('videotrack-analytics-privacy-label', $markup);
+    }
+
+    /**
+     * Acknowledgement rendering preserves visible, progress-hidden and fully hidden states.
+     */
+    public function test_acknowledgement_summary_preserves_privacy_states(): void {
+        $visible = report_summary_view::acknowledgement_summary([
+            'hasdata' => true,
+            'suppressed' => false,
+            'progresssuppressed' => false,
+            'confirmationcount' => 4,
+            'studentcount' => 2,
+            'averageviewedseconds' => 75.0,
+            'averageviewedpercent' => 62.5,
+            'progressmissing' => 1,
+        ], 2, 3, 2, 1);
+        $this->assertStringContainsString('>4<', $visible);
+        $this->assertStringContainsString('>2<', $visible);
+        $this->assertStringContainsString(videotrack_format_seconds(75.0), $visible);
+        $this->assertStringContainsString(format_float(62.5, 1) . '%', $visible);
+        $this->assertStringContainsString(
+            get_string('report:analytics_acknowledgements_legacy', 'mod_videotrack', 1),
+            $visible
+        );
+
+        $progresshidden = report_summary_view::acknowledgement_summary([
+            'hasdata' => true,
+            'suppressed' => false,
+            'progresssuppressed' => true,
+            'confirmationcount' => 4,
+            'studentcount' => 2,
+            'averageviewedseconds' => null,
+            'averageviewedpercent' => null,
+            'progressmissing' => 0,
+        ], 2, 3, 2, 1);
+        $this->assertStringContainsString(
+            get_string('report:analytics_acknowledgements_progress_suppressed', 'mod_videotrack', 2),
+            $progresshidden
+        );
+        $this->assertStringContainsString(
+            get_string('report:analytics_notavailable_privacy', 'mod_videotrack'),
+            $progresshidden
+        );
+
+        $hidden = report_summary_view::acknowledgement_summary([
+            'hasdata' => true,
+            'suppressed' => true,
+            'progresssuppressed' => true,
+            'confirmationcount' => 4,
+            'studentcount' => 2,
+            'averageviewedseconds' => 75.0,
+            'averageviewedpercent' => 62.5,
+            'progressmissing' => 1,
+        ], 2, 3, 2, 1);
+        $this->assertStringContainsString(
+            get_string('report:analytics_acknowledgements_suppressed', 'mod_videotrack', 2),
+            $hidden
+        );
+        $this->assertStringNotContainsString(
+            get_string('report:analytics_acknowledgements_legacy', 'mod_videotrack', 1),
+            $hidden
+        );
     }
 
     /**
