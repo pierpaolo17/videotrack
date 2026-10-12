@@ -189,4 +189,60 @@ final class analytics_table_export_test extends \advanced_testcase {
         $this->assertSame($hidden, $rows[3][8]);
         $this->assertSame($hidden, $rows[3][9]);
     }
+
+    /**
+     * Combined exports keep timeline, event and acknowledgement rows aligned.
+     */
+    public function test_export_rows_preserve_combined_column_alignment(): void {
+        $columns = analytics_table_export::export_columns_with_event_summaries(false, true);
+        $rows = analytics_table_export::export_rows(
+            [[
+                'start' => 0,
+                'end' => 10,
+                'viewers' => 3,
+                'retention' => 100.0,
+                'uniqueseconds' => 30.0,
+                'suppressed' => false,
+                'repeatsuppressed' => false,
+                'retentionsuppressed' => false,
+            ]],
+            10,
+            false,
+            false,
+            2,
+            [
+                'confirmationcount' => 2,
+                'studentcount' => 2,
+                'progressmissing' => 0,
+                'averageviewedseconds' => 5.0,
+                'averageviewedpercent' => 50.0,
+                'suppressed' => false,
+                'progresssuppressed' => false,
+                'enabledactivitycount' => 1,
+                'anytimeactivitycount' => 1,
+                'videoendactivitycount' => 0,
+            ],
+            [
+                'hasdata' => true,
+                'eventcount' => 4,
+                'studentcount' => 3,
+                'suppressed' => false,
+            ]
+        );
+
+        $this->assertCount(18, $columns);
+        $this->assertCount(3, $rows);
+        foreach ($rows as $row) {
+            $this->assertCount(18, $row);
+        }
+        $this->assertSame(get_string('report:analytics_export_row_viewing', 'mod_videotrack'), $rows[0][0]);
+        $this->assertSame(get_string('report:analytics_export_row_reactions', 'mod_videotrack'), $rows[1][0]);
+        $this->assertSame(get_string('report:analytics_export_row_acknowledgement', 'mod_videotrack'), $rows[2][0]);
+        $this->assertSame(3, $rows[0][2]);
+        $this->assertSame(4, $rows[1][8]);
+        $this->assertSame(3, $rows[1][9]);
+        $this->assertSame(2, $rows[2][10]);
+        $this->assertSame(format_float(50.0, 1) . '%', $rows[2][13]);
+        $this->assertSame(0, $rows[2][17]);
+    }
 }

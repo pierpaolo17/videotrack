@@ -68,6 +68,10 @@ Nel proprietario timeline, bin e marker heatmap, stato privacy retention, grigli
 punti sono fasi private nominate. I bin soppressi continuano a separare i percorsi retention e non espongono valori
 nascosti. Nel proprietario dei riepiloghi, valori visualizzati e avvisi delle prese visione sono fasi private
 distinte che applicano le stesse decisioni di soppressione completa o del solo progresso prima del markup.
+`analytics_table_export` costruisce i download combinati tramite fasi private separate per padding della timeline,
+riepiloghi ordinati di reazioni/segnalibri/integrità e valori delle prese visione. Il contratto pubblico di export
+possiede i conteggi delle colonne selezionate e conserva larghezza delle righe, ordine e policy privacy in CSV,
+Excel e ODS.
 I cali di viewer Analytics vengono
 individuati soltanto tra bin visibili e contigui, quindi un bin soppresso o non disponibile resta un confine privacy.
 I cluster completati vengono ordinati separatamente dopo aver finalizzato finestra, insieme studenti e stato del

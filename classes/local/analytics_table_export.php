@@ -247,111 +247,210 @@ final class analytics_table_export {
         $timelinecolumncount = count(self::columns($includereactions));
         $summarycolumncount = $includeeventsummaries ? 3 : 0;
         $acknowledgementcolumncount = $acknowledgementsummary !== null ? 8 : 0;
+        $rows = self::viewing_export_rows(
+            self::rows($bins, $duration, $repeatmetricsavailable, $includereactions, $minusers),
+            $summarycolumncount,
+            $acknowledgementcolumncount
+        );
+
+        if ($includeeventsummaries) {
+            $rows = array_merge($rows, self::event_summary_rows(
+                $reactionsummary,
+                $bookmarksummary,
+                $integritysummary,
+                $timelinecolumncount,
+                $acknowledgementcolumncount
+            ));
+        }
+
+        if ($acknowledgementsummary !== null) {
+            $rows[] = self::acknowledgement_summary_row(
+                $acknowledgementsummary,
+                $timelinecolumncount,
+                $summarycolumncount
+            );
+        }
+        return $rows;
+    }
+
+    /**
+     * Prefixes timeline rows and pads them to the selected combined export shape.
+     *
+     * @param array $timelinerows Privacy-safe timeline rows.
+     * @param int $summarycolumncount Number of event-summary columns.
+     * @param int $acknowledgementcolumncount Number of acknowledgement columns.
+     * @return array Combined export rows.
+     */
+    private static function viewing_export_rows(
+        array $timelinerows,
+        int $summarycolumncount,
+        int $acknowledgementcolumncount
+    ): array {
         $rows = [];
-        foreach (self::rows($bins, $duration, $repeatmetricsavailable, $includereactions, $minusers) as $row) {
+        foreach ($timelinerows as $row) {
             $rows[] = array_merge(
                 [get_string('report:analytics_export_row_viewing', 'mod_videotrack')],
                 $row,
                 array_fill(0, $summarycolumncount + $acknowledgementcolumncount, '')
             );
         }
+        return $rows;
+    }
 
-        if ($includeeventsummaries) {
-            if ($reactionsummary !== null && !empty($reactionsummary['hasdata'])) {
-                [$eventvalue, $studentvalue] = self::count_summary_values($reactionsummary);
-                $rows[] = self::event_summary_row(
-                    get_string('report:analytics_export_row_reactions', 'mod_videotrack'),
-                    get_string('report:analytics_reactions_detected', 'mod_videotrack'),
-                    $eventvalue,
-                    $studentvalue,
-                    $timelinecolumncount,
-                    $acknowledgementcolumncount
-                );
-            }
-
-            if ($bookmarksummary !== null) {
-                [$eventvalue, $studentvalue] = self::count_summary_values($bookmarksummary);
-                $rows[] = self::event_summary_row(
-                    get_string('report:analytics_export_row_bookmarks', 'mod_videotrack'),
-                    get_string('report:analytics_bookmarks_title', 'mod_videotrack'),
-                    $eventvalue,
-                    $studentvalue,
-                    $timelinecolumncount,
-                    $acknowledgementcolumncount
-                );
-            }
-
-            if ($integritysummary !== null) {
-                $hasintegritydata = false;
-                foreach (integrity::EVENT_TYPES as $eventtype) {
-                    $item = $integritysummary[$eventtype] ?? [];
-                    if (empty($item['hasdata'])) {
-                        continue;
-                    }
-                    $hasintegritydata = true;
-                    [$eventvalue, $studentvalue] = self::count_summary_values($item);
-                    $rows[] = self::event_summary_row(
-                        get_string('report:analytics_export_row_integrity', 'mod_videotrack'),
-                        get_string(integrity::label_string($eventtype), 'mod_videotrack'),
-                        $eventvalue,
-                        $studentvalue,
-                        $timelinecolumncount,
-                        $acknowledgementcolumncount
-                    );
-                }
-                if (!$hasintegritydata) {
-                    $rows[] = self::event_summary_row(
-                        get_string('report:analytics_export_row_integrity', 'mod_videotrack'),
-                        get_string('integrity:nodata', 'mod_videotrack'),
-                        0,
-                        0,
-                        $timelinecolumncount,
-                        $acknowledgementcolumncount
-                    );
-                }
-            }
+    /**
+     * Builds reaction, bookmark and integrity summary rows in display order.
+     *
+     * @param array|null $reactionsummary Privacy-safe overall reaction summary.
+     * @param array|null $bookmarksummary Privacy-safe bookmark summary.
+     * @param array|null $integritysummary Privacy-safe per-signal integrity summary.
+     * @param int $timelinecolumncount Number of timeline columns to pad.
+     * @param int $acknowledgementcolumncount Number of acknowledgement columns to pad.
+     * @return array Event-summary rows.
+     */
+    private static function event_summary_rows(
+        ?array $reactionsummary,
+        ?array $bookmarksummary,
+        ?array $integritysummary,
+        int $timelinecolumncount,
+        int $acknowledgementcolumncount
+    ): array {
+        $rows = [];
+        if ($reactionsummary !== null && !empty($reactionsummary['hasdata'])) {
+            [$eventvalue, $studentvalue] = self::count_summary_values($reactionsummary);
+            $rows[] = self::event_summary_row(
+                get_string('report:analytics_export_row_reactions', 'mod_videotrack'),
+                get_string('report:analytics_reactions_detected', 'mod_videotrack'),
+                $eventvalue,
+                $studentvalue,
+                $timelinecolumncount,
+                $acknowledgementcolumncount
+            );
         }
 
-        if ($acknowledgementsummary !== null) {
-            $suppressed = !empty($acknowledgementsummary['suppressed']);
-            $progresssuppressed = !empty($acknowledgementsummary['progresssuppressed']);
-            $hidden = get_string('report:analytics_notavailable_privacy', 'mod_videotrack');
-            $unavailable = get_string('report:analytics_acknowledgements_unavailable', 'mod_videotrack');
-            $confirmationvalue = $suppressed
-                ? $hidden
-                : (int)($acknowledgementsummary['confirmationcount'] ?? 0);
-            $studentvalue = $suppressed
-                ? $hidden
-                : (int)($acknowledgementsummary['studentcount'] ?? 0);
-            $secondsvalue = ($suppressed || $progresssuppressed)
-                ? $hidden
-                : ($acknowledgementsummary['averageviewedseconds'] === null
-                    ? $unavailable
-                    : round((float)$acknowledgementsummary['averageviewedseconds'], 3));
-            $percentvalue = ($suppressed || $progresssuppressed)
-                ? $hidden
-                : ($acknowledgementsummary['averageviewedpercent'] === null
-                    ? $unavailable
-                    : format_float((float)$acknowledgementsummary['averageviewedpercent'], 1) . '%');
-            $missingvalue = $suppressed
-                ? $hidden
-                : (int)($acknowledgementsummary['progressmissing'] ?? 0);
-            $rows[] = array_merge(
-                [get_string('report:analytics_export_row_acknowledgement', 'mod_videotrack')],
-                array_fill(0, $timelinecolumncount + $summarycolumncount, ''),
-                [
-                    $confirmationvalue,
-                    $studentvalue,
-                    $secondsvalue,
-                    $percentvalue,
-                    $missingvalue,
-                    (int)($acknowledgementsummary['enabledactivitycount'] ?? 0),
-                    (int)($acknowledgementsummary['anytimeactivitycount'] ?? 0),
-                    (int)($acknowledgementsummary['videoendactivitycount'] ?? 0),
-                ]
+        if ($bookmarksummary !== null) {
+            [$eventvalue, $studentvalue] = self::count_summary_values($bookmarksummary);
+            $rows[] = self::event_summary_row(
+                get_string('report:analytics_export_row_bookmarks', 'mod_videotrack'),
+                get_string('report:analytics_bookmarks_title', 'mod_videotrack'),
+                $eventvalue,
+                $studentvalue,
+                $timelinecolumncount,
+                $acknowledgementcolumncount
+            );
+        }
+
+        if ($integritysummary !== null) {
+            $rows = array_merge($rows, self::integrity_summary_rows(
+                $integritysummary,
+                $timelinecolumncount,
+                $acknowledgementcolumncount
+            ));
+        }
+        return $rows;
+    }
+
+    /**
+     * Builds integrity-event rows or the explicit no-data row.
+     *
+     * @param array $integritysummary Privacy-safe per-signal integrity summary.
+     * @param int $timelinecolumncount Number of timeline columns to pad.
+     * @param int $acknowledgementcolumncount Number of acknowledgement columns to pad.
+     * @return array Integrity summary rows.
+     */
+    private static function integrity_summary_rows(
+        array $integritysummary,
+        int $timelinecolumncount,
+        int $acknowledgementcolumncount
+    ): array {
+        $rows = [];
+        foreach (integrity::EVENT_TYPES as $eventtype) {
+            $item = $integritysummary[$eventtype] ?? [];
+            if (empty($item['hasdata'])) {
+                continue;
+            }
+            [$eventvalue, $studentvalue] = self::count_summary_values($item);
+            $rows[] = self::event_summary_row(
+                get_string('report:analytics_export_row_integrity', 'mod_videotrack'),
+                get_string(integrity::label_string($eventtype), 'mod_videotrack'),
+                $eventvalue,
+                $studentvalue,
+                $timelinecolumncount,
+                $acknowledgementcolumncount
+            );
+        }
+
+        if (!$rows) {
+            $rows[] = self::event_summary_row(
+                get_string('report:analytics_export_row_integrity', 'mod_videotrack'),
+                get_string('integrity:nodata', 'mod_videotrack'),
+                0,
+                0,
+                $timelinecolumncount,
+                $acknowledgementcolumncount
             );
         }
         return $rows;
+    }
+
+    /**
+     * Builds the acknowledgement row with privacy-safe values and column padding.
+     *
+     * @param array $summary Privacy-safe acknowledgement summary.
+     * @param int $timelinecolumncount Number of timeline columns to pad.
+     * @param int $summarycolumncount Number of event-summary columns to pad.
+     * @return array Acknowledgement summary row.
+     */
+    private static function acknowledgement_summary_row(
+        array $summary,
+        int $timelinecolumncount,
+        int $summarycolumncount
+    ): array {
+        [$confirmationvalue, $studentvalue, $secondsvalue, $percentvalue, $missingvalue] =
+            self::acknowledgement_summary_values($summary);
+
+        return array_merge(
+            [get_string('report:analytics_export_row_acknowledgement', 'mod_videotrack')],
+            array_fill(0, $timelinecolumncount + $summarycolumncount, ''),
+            [
+                $confirmationvalue,
+                $studentvalue,
+                $secondsvalue,
+                $percentvalue,
+                $missingvalue,
+                (int)($summary['enabledactivitycount'] ?? 0),
+                (int)($summary['anytimeactivitycount'] ?? 0),
+                (int)($summary['videoendactivitycount'] ?? 0),
+            ]
+        );
+    }
+
+    /**
+     * Resolves acknowledgement values under full and progress-only suppression.
+     *
+     * @param array $summary Privacy-safe acknowledgement summary.
+     * @return array Confirmation, student, seconds, percentage and missing-progress values.
+     */
+    private static function acknowledgement_summary_values(array $summary): array {
+        $hidden = get_string('report:analytics_notavailable_privacy', 'mod_videotrack');
+        if (!empty($summary['suppressed'])) {
+            return [$hidden, $hidden, $hidden, $hidden, $hidden];
+        }
+
+        $confirmationvalue = (int)($summary['confirmationcount'] ?? 0);
+        $studentvalue = (int)($summary['studentcount'] ?? 0);
+        $missingvalue = (int)($summary['progressmissing'] ?? 0);
+        if (!empty($summary['progresssuppressed'])) {
+            return [$confirmationvalue, $studentvalue, $hidden, $hidden, $missingvalue];
+        }
+
+        $unavailable = get_string('report:analytics_acknowledgements_unavailable', 'mod_videotrack');
+        $secondsvalue = $summary['averageviewedseconds'] === null
+            ? $unavailable
+            : round((float)$summary['averageviewedseconds'], 3);
+        $percentvalue = $summary['averageviewedpercent'] === null
+            ? $unavailable
+            : format_float((float)$summary['averageviewedpercent'], 1) . '%';
+        return [$confirmationvalue, $studentvalue, $secondsvalue, $percentvalue, $missingvalue];
     }
 
     /**
