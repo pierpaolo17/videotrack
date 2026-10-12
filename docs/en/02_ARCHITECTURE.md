@@ -61,6 +61,10 @@ Teacher Analytics presentation is also divided by responsibility: `report_view` 
 warnings and download controls; `report_timeline_view` owns intervals, charts, legends and reaction clusters;
 `report_summary_view` owns reaction, bookmark and acknowledgement summaries; and `report_integrity_view` owns the
 three explicit integrity states. These four services contain presentation only and do not select or aggregate data.
+Within the timeline owner, heatmap bins and markers, retention privacy state, grid, contiguous paths and point
+markup are named private stages. Suppressed bins still split retention paths and never disclose hidden values.
+Within the summary owner, acknowledgement display values and notices are separate private stages that apply the
+same full-summary and progress-only suppression decisions before markup is returned.
 Analytics viewer drops are discovered only across contiguous visible bins, so a
 suppressed or unavailable bin remains a privacy boundary. Completed reaction clusters are ordered separately after
 their window, student set and safety-limit state have been finalised. These separations change no controller input,

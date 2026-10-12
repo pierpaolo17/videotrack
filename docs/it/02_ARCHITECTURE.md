@@ -64,6 +64,10 @@ Anche la presentazione Analytics docente è divisa per responsabilità: `report_
 privacy e controlli download condivisi; `report_timeline_view` possiede intervalli, grafici, legende e cluster;
 `report_summary_view` possiede riepiloghi di reazioni, segnalibri e prese visione; `report_integrity_view` possiede i
 tre stati espliciti dell'integrità. I quattro servizi si occupano solo di presentazione e non selezionano o aggregano dati.
+Nel proprietario timeline, bin e marker heatmap, stato privacy retention, griglia, percorsi contigui e markup dei
+punti sono fasi private nominate. I bin soppressi continuano a separare i percorsi retention e non espongono valori
+nascosti. Nel proprietario dei riepiloghi, valori visualizzati e avvisi delle prese visione sono fasi private
+distinte che applicano le stesse decisioni di soppressione completa o del solo progresso prima del markup.
 I cali di viewer Analytics vengono
 individuati soltanto tra bin visibili e contigui, quindi un bin soppresso o non disponibile resta un confine privacy.
 I cluster completati vengono ordinati separatamente dopo aver finalizzato finestra, insieme studenti e stato del

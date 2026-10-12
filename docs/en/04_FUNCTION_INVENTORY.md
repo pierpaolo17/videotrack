@@ -1,6 +1,6 @@
 # Function inventory
 
-Generated from the VideoTrack 1.7.176 source tree. PHP entries include named functions and methods; AMD entries include named declarations, assigned function expressions and object-method functions.
+Generated from the VideoTrack 1.7.177 source tree. PHP entries include named functions and methods; AMD entries include named declarations, assigned function expressions and object-method functions.
 
 **PHP functions/methods:** 802. **Named AMD callables:** 654.
 
@@ -999,11 +999,19 @@ Generated from the VideoTrack 1.7.176 source tree. PHP entries include named fun
 | `classes/local/report_summary_view.php:38` | `reaction_summary` | Renders privacy-safe reaction totals. |
 | `classes/local/report_summary_view.php:61` | `bookmark_summary` | Renders the privacy-safe bookmark usage summary. |
 | `classes/local/report_summary_view.php:127` | `acknowledgement_summary` | Renders privacy-safe acknowledgement aggregates and progress values. |
-| `classes/local/report_timeline_view.php:41` | `analytics_interval` | Formats one Analytics timeline interval with canonical video timestamps. |
-| `classes/local/report_timeline_view.php:55` | `analytics_heatmap` | Renders the unique-view heatmap and reaction-cluster markers. |
-| `classes/local/report_timeline_view.php:184` | `heatmap_legend` | Renders the accessible heatmap legend. |
-| `classes/local/report_timeline_view.php:233` | `reaction_clusters` | Renders privacy-safe reaction clusters independently from viewing Analytics. |
-| `classes/local/report_timeline_view.php:269` | `analytics_retention` | Renders the privacy-safe retention line chart. |
+| `classes/local/report_summary_view.php:200` | `acknowledgement_values` | Resolves acknowledgement card values under full or progress-only privacy suppression. |
+| `classes/local/report_summary_view.php:233` | `acknowledgement_notice` | Renders acknowledgement availability, privacy and legacy-progress notices. |
+| `classes/local/report_timeline_view.php:71` | `analytics_interval` | Formats one Analytics timeline interval with canonical video timestamps. |
+| `classes/local/report_timeline_view.php:85` | `analytics_heatmap` | Renders the unique-view heatmap and reaction-cluster markers. |
+| `classes/local/report_timeline_view.php:155` | `heatmap_legend` | Renders the accessible heatmap legend. |
+| `classes/local/report_timeline_view.php:204` | `reaction_clusters` | Renders privacy-safe reaction clusters independently from viewing Analytics. |
+| `classes/local/report_timeline_view.php:240` | `analytics_retention` | Renders the privacy-safe retention line chart. |
+| `classes/local/report_timeline_view.php:297` | `heatmap_bin_markup` | Renders one visible, partially hidden or suppressed heatmap interval. |
+| `classes/local/report_timeline_view.php:349` | `heatmap_reaction_marker_markup` | Renders one privacy-safe reaction marker over the heatmap. |
+| `classes/local/report_timeline_view.php:380` | `retention_privacy_state` | Detects whether privacy rules hide the complete retention series. |
+| `classes/local/report_timeline_view.php:406` | `retention_grid_markup` | Renders the retention percentage grid. |
+| `classes/local/report_timeline_view.php:436` | `retention_paths` | Groups visible retention bins into contiguous paths separated by privacy gaps. |
+| `classes/local/report_timeline_view.php:470` | `retention_paths_markup` | Renders retention paths, points and accessible tooltips. |
 | `classes/local/report_view.php:43` | `analytics_methodology` | Renders the expandable Analytics calculation and privacy explanation. |
 | `classes/local/report_view.php:105` | `privacy_alert` | Renders the dataset-specific Analytics privacy warning. |
 | `classes/local/report_view.php:132` | `analytics_download` | Renders the Analytics table download selector. |
@@ -1441,10 +1449,13 @@ Generated from the VideoTrack 1.7.176 source tree. PHP entries include named fun
 | `tests/report_time_filter_test.php:79` | `test_duration_filter_preserves_structured_controls` | Accessibility and value-preservation coverage for the structured duration markup. |
 | `tests/report_view_test.php:41` | `setUp` | Loads canonical video timestamp helpers for the focused presentation services. |
 | `tests/report_view_test.php:49` | `test_reaction_summary_preserves_privacy_contract` | Covers visible and suppressed reaction-summary presentation. |
-| `tests/report_view_test.php:71` | `test_exact_analytics_methodology_omits_privacy_threshold_text` | Covers exact-instance methodology without an aggregate privacy threshold. |
-| `tests/report_view_test.php:87` | `test_retention_chart_explains_full_privacy_suppression` | Covers the accessible explanation for a fully suppressed retention chart. |
-| `tests/report_view_test.php:105` | `test_analytics_interval_uses_canonical_video_timestamp_format` | Covers canonical timeline interval formatting. |
-| `tests/report_view_test.php:115` | `test_integrity_summary_states_preserve_messages_and_privacy_table` | Covers enabled, disabled and focus-controls-without-recording integrity states. |
+| `tests/report_view_test.php:71` | `test_heatmap_preserves_privacy_and_reaction_marker_contracts` | Covers visible, partially hidden and suppressed heatmap intervals plus reaction markers. |
+| `tests/report_view_test.php:115` | `test_exact_analytics_methodology_omits_privacy_threshold_text` | Covers exact-instance methodology without an aggregate privacy threshold. |
+| `tests/report_view_test.php:131` | `test_retention_chart_explains_full_privacy_suppression` | Covers the accessible explanation for a fully suppressed retention chart. |
+| `tests/report_view_test.php:149` | `test_retention_chart_preserves_visible_paths_and_privacy_gaps` | Covers contiguous visible retention paths separated by privacy gaps. |
+| `tests/report_view_test.php:193` | `test_acknowledgement_summary_preserves_privacy_states` | Covers visible, progress-hidden and fully hidden acknowledgement summaries. |
+| `tests/report_view_test.php:255` | `test_analytics_interval_uses_canonical_video_timestamp_format` | Covers canonical timeline interval formatting. |
+| `tests/report_view_test.php:265` | `test_integrity_summary_states_preserve_messages_and_privacy_table` | Covers enabled, disabled and focus-controls-without-recording integrity states. |
 | `tests/save_bookmark_test.php:39` | `test_execute_parameters_uses_supported_moodle_parameter_types` | PHP callable `test_execute_parameters_uses_supported_moodle_parameter_types`; see its DocBlock and callers for parameter, return-value and side-effect details. |
 | `tests/save_bookmark_test.php:47` | `test_bookmark_validation_prefers_existing_watched_progress` | PHP callable `test_bookmark_validation_prefers_existing_watched_progress`; see its DocBlock and callers for parameter, return-value and side-effect details. |
 | `tests/save_bookmark_test.php:62` | `test_video_time_normalisation_clamps_to_media_bounds` | Behavioural coverage for zero/duration bookmark timestamp clamping. |

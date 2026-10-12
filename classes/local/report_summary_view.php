@@ -131,25 +131,14 @@ final class report_summary_view {
         int $anytimeactivitycount,
         int $videoendactivitycount
     ): string {
-        global $OUTPUT;
-
         $hasdata = !empty($summary['hasdata']);
         $suppressed = $hasdata && !empty($summary['suppressed']);
         $progresssuppressed = $hasdata && !empty($summary['progresssuppressed']);
-        $hidden = get_string('report:analytics_notavailable_privacy', 'mod_videotrack');
-        $unavailable = get_string('report:analytics_acknowledgements_unavailable', 'mod_videotrack');
-        $confirmationvalue = $suppressed ? $hidden : (string)(int)($summary['confirmationcount'] ?? 0);
-        $studentvalue = $suppressed ? $hidden : (string)(int)($summary['studentcount'] ?? 0);
-        $secondsvalue = ($suppressed || $progresssuppressed)
-            ? $hidden
-            : ($summary['averageviewedseconds'] === null
-                ? $unavailable
-                : videotrack_format_seconds((float)$summary['averageviewedseconds']));
-        $percentvalue = ($suppressed || $progresssuppressed)
-            ? $hidden
-            : ($summary['averageviewedpercent'] === null
-                ? $unavailable
-                : format_float((float)$summary['averageviewedpercent'], 1) . '%');
+        [$confirmationvalue, $studentvalue, $secondsvalue, $percentvalue] = self::acknowledgement_values(
+            $summary,
+            $suppressed,
+            $progresssuppressed
+        );
 
         $cards = [
             [get_string('report:analytics_acknowledgements_confirmations', 'mod_videotrack'), $confirmationvalue],
@@ -186,25 +175,91 @@ final class report_summary_view {
             ['class' => 'text-muted small mb-2']
         );
 
+        $content .= self::acknowledgement_notice(
+            $summary,
+            $minusers,
+            $hasdata,
+            $suppressed,
+            $progresssuppressed
+        );
+
+        return html_writer::tag('section', $content, [
+            'class' => 'videotrack-analytics-acknowledgements mb-4',
+            'aria-labelledby' => 'videotrack-analytics-acknowledgements-title',
+        ]);
+    }
+
+    /**
+     * Resolves acknowledgement card values under the privacy policy.
+     *
+     * @param array $summary Confirmation counts and progress averages.
+     * @param bool $suppressed Whether all values are privacy-suppressed.
+     * @param bool $progresssuppressed Whether progress values are privacy-suppressed.
+     * @return array{0: string, 1: string, 2: string, 3: string} Display values.
+     */
+    private static function acknowledgement_values(
+        array $summary,
+        bool $suppressed,
+        bool $progresssuppressed
+    ): array {
+        $hidden = get_string('report:analytics_notavailable_privacy', 'mod_videotrack');
+        $confirmationvalue = $suppressed ? $hidden : (string)(int)($summary['confirmationcount'] ?? 0);
+        $studentvalue = $suppressed ? $hidden : (string)(int)($summary['studentcount'] ?? 0);
+
+        if ($suppressed || $progresssuppressed) {
+            return [$confirmationvalue, $studentvalue, $hidden, $hidden];
+        }
+
+        $unavailable = get_string('report:analytics_acknowledgements_unavailable', 'mod_videotrack');
+        $secondsvalue = $summary['averageviewedseconds'] === null
+            ? $unavailable
+            : videotrack_format_seconds((float)$summary['averageviewedseconds']);
+        $percentvalue = $summary['averageviewedpercent'] === null
+            ? $unavailable
+            : format_float((float)$summary['averageviewedpercent'], 1) . '%';
+        return [$confirmationvalue, $studentvalue, $secondsvalue, $percentvalue];
+    }
+
+    /**
+     * Renders the acknowledgement availability, privacy and legacy notices.
+     *
+     * @param array $summary Confirmation counts and progress averages.
+     * @param int $minusers Privacy threshold.
+     * @param bool $hasdata Whether the summary contains confirmations.
+     * @param bool $suppressed Whether all values are privacy-suppressed.
+     * @param bool $progresssuppressed Whether progress values are privacy-suppressed.
+     * @return string Notice markup.
+     */
+    private static function acknowledgement_notice(
+        array $summary,
+        int $minusers,
+        bool $hasdata,
+        bool $suppressed,
+        bool $progresssuppressed
+    ): string {
+        global $OUTPUT;
+
+        $markup = '';
         if (!$hasdata) {
-            $content .= html_writer::tag(
+            $markup .= html_writer::tag(
                 'p',
                 get_string('report:analytics_acknowledgements_none', 'mod_videotrack'),
                 ['class' => 'text-muted mb-0']
             );
         } else if ($suppressed) {
-            $content .= $OUTPUT->notification(
+            $markup .= $OUTPUT->notification(
                 get_string('report:analytics_acknowledgements_suppressed', 'mod_videotrack', $minusers),
                 'warning'
             );
         } else if ($progresssuppressed) {
-            $content .= $OUTPUT->notification(
+            $markup .= $OUTPUT->notification(
                 get_string('report:analytics_acknowledgements_progress_suppressed', 'mod_videotrack', $minusers),
                 'warning'
             );
         }
+
         if (!$suppressed && (int)($summary['progressmissing'] ?? 0) > 0) {
-            $content .= html_writer::tag(
+            $markup .= html_writer::tag(
                 'p',
                 get_string(
                     'report:analytics_acknowledgements_legacy',
@@ -214,10 +269,6 @@ final class report_summary_view {
                 ['class' => 'text-muted small mb-0']
             );
         }
-
-        return html_writer::tag('section', $content, [
-            'class' => 'videotrack-analytics-acknowledgements mb-4',
-            'aria-labelledby' => 'videotrack-analytics-acknowledgements-title',
-        ]);
+        return $markup;
     }
 }
