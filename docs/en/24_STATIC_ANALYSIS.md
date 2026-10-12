@@ -122,6 +122,9 @@ line, not for redeclaring a method parameter.
   and `report_integrity_view` has three explicit public states plus private markup helpers. Heatmap and retention
   geometry/markup and acknowledgement value/notice decisions now use named private stages. Public signatures,
   suppression boundaries and rendered contracts are unchanged.
+- Combined Analytics export rows use named private stages for timeline padding, event-summary ordering, integrity
+  fallback and acknowledgement values. The public signature, selected columns, privacy masking and row order remain
+  unchanged, with a combined-shape regression contract covering all three row families.
 - Personal-note writes expose one public external-service entry point backed by named text, timestamp,
   watched-evidence, cross-session rate-limit, persistence and warning stages. Guard-order and rate-scope contracts
   prevent the complexity refactoring from weakening the write boundary. Private DML record contracts use native
@@ -142,10 +145,9 @@ line, not for redeclaring a method parameter.
 - The Moodle feature callback is a direct feature-to-value table, while Font Awesome reaction validation partitions
   the reviewed decorator subset from exactly one icon name. Their public contracts, limits and fail-closed defaults
   are covered independently of the complexity reduction.
-- PHPMD remains advisory. The accepted 1.7.176 baseline contains 104 findings; this candidate targets seven findings
-  on `report_timeline_view::analytics_heatmap()`, `report_timeline_view::analytics_retention()` and
-  `report_summary_view::acknowledgement_summary()`. The expected count is 97, but the exact result must be read from
-  the candidate CI artifact. Remaining reports concern reviewed complexity, size, broad public classes, required
+- PHPMD remains advisory. The accepted 1.7.177 baseline contains 97 findings; this candidate targets the three
+  complexity/length findings on `analytics_table_export::export_rows()`. The expected count is 94, but the exact
+  result must be read from the candidate CI artifact. Remaining reports concern reviewed complexity, size, broad public classes, required
   Moodle callback parameters and boolean switches that need separate behavioural refactoring.
 - Static-analysis configuration, production scope, database schema and AMD assets are unchanged by these API
   cleanups. Candidate counts remain authoritative only after the complete CI artifacts are retained and reviewed.

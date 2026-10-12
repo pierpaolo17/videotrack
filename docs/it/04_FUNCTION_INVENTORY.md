@@ -1,6 +1,6 @@
 # Inventario delle funzioni
 
-Generato dall’albero sorgente VideoTrack 1.7.177. Le voci PHP includono funzioni e metodi nominati; le voci AMD includono dichiarazioni nominate, espressioni funzione assegnate e funzioni-metodo di oggetti.
+Generato dall’albero sorgente VideoTrack 1.7.178. Le voci PHP includono funzioni e metodi nominati; le voci AMD includono dichiarazioni nominate, espressioni funzione assegnate e funzioni-metodo di oggetti.
 
 **Funzioni/metodi PHP:** 802. **Callable AMD nominati:** 654.
 
@@ -857,9 +857,14 @@ Generato dall’albero sorgente VideoTrack 1.7.177. Le voci PHP includono funzio
 | `classes/local/analytics_table_export.php:86` | `export_columns_with_event_summaries` | Callable PHP `export_columns_with_event_summaries`; costruisce le intestazioni degli export con riepiloghi evento aggregati. |
 | `classes/local/analytics_table_export.php:109` | `build_export_columns` | Costruttore interno condiviso dalle due forme export esplicite. |
 | `classes/local/analytics_table_export.php:153` | `rows` | Callable PHP `rows`; DocBlock e chiamanti definiscono parametri, valori restituiti ed effetti. |
-| `classes/local/analytics_table_export.php:229` | `export_rows` | Callable PHP `export_rows`; DocBlock e chiamanti definiscono parametri, valori restituiti ed effetti. |
-| `classes/local/analytics_table_export.php:363` | `count_summary_values` | Funzione/metodo PHP nominato `count_summary_values`; vedere DocBlock e chiamanti per il contratto corrente. |
-| `classes/local/analytics_table_export.php:385` | `event_summary_row` | Funzione/metodo PHP nominato `event_summary_row`; vedere DocBlock e chiamanti per il contratto corrente. |
+| `classes/local/analytics_table_export.php:229` | `export_rows` | Costruisce la forma combinata selezionata conservando ordine pubblico delle righe e contratti privacy. |
+| `classes/local/analytics_table_export.php:284` | `viewing_export_rows` | Prefissa e allinea righe timeline già privacy-safe. |
+| `classes/local/analytics_table_export.php:310` | `event_summary_rows` | Aggiunge riepiloghi reazioni, segnalibri e integrità nell'ordine visualizzato. |
+| `classes/local/analytics_table_export.php:360` | `integrity_summary_rows` | Costruisce righe integrità visibili o il fallback esplicito senza dati. |
+| `classes/local/analytics_table_export.php:403` | `acknowledgement_summary_row` | Costruisce la riga allineata e privacy-safe delle prese visione. |
+| `classes/local/analytics_table_export.php:433` | `acknowledgement_summary_values` | Risolve valori delle prese visione visibili, soppressi totalmente o solo nel progresso. |
+| `classes/local/analytics_table_export.php:462` | `count_summary_values` | Risolve conteggi evento e studenti privacy-safe. |
+| `classes/local/analytics_table_export.php:484` | `event_summary_row` | Allinea un riepilogo evento aggregato alle colonne dell'export combinato. |
 | `classes/local/completion_config.php:39` | `required_reaction_ids` | Funzione/metodo PHP nominato `required_reaction_ids`; vedere DocBlock e chiamanti per il contratto corrente. |
 | `classes/local/completion_config.php:61` | `has_custom_rules` | Funzione/metodo PHP nominato `has_custom_rules`; vedere DocBlock e chiamanti per il contratto corrente. |
 | `classes/local/completion_config.php:89` | `has_required_reactions` | Funzione/metodo PHP nominato `has_required_reactions`; vedere DocBlock e chiamanti per il contratto corrente. |
@@ -1229,6 +1234,7 @@ Generato dall’albero sorgente VideoTrack 1.7.177. Le voci PHP includono funzio
 | `tests/analytics_table_export_test.php:81` | `test_rows_mark_unavailable_replay_metrics` | Callable PHP `test_rows_mark_unavailable_replay_metrics`; DocBlock e chiamanti definiscono parametri, valori restituiti ed effetti. |
 | `tests/analytics_table_export_test.php:100` | `test_export_rows_include_acknowledgement_summary` | Callable PHP `test_export_rows_include_acknowledgement_summary`; DocBlock e chiamanti definiscono parametri, valori restituiti ed effetti. |
 | `tests/analytics_table_export_test.php:138` | `test_export_rows_include_event_summaries_with_privacy_masking` | Funzione/metodo PHP nominato `test_export_rows_include_event_summaries_with_privacy_masking`; vedere DocBlock e chiamanti per il contratto corrente. |
+| `tests/analytics_table_export_test.php:196` | `test_export_rows_preserve_combined_column_alignment` | Protegge larghezza, ordine e valori delle righe combinate timeline, eventi e prese visione. |
 | `tests/analytics_test.php:36` | `test_bin_size_is_normalised_for_duration` | Callable PHP `test_bin_size_is_normalised_for_duration`; DocBlock e chiamanti definiscono parametri, valori restituiti ed effetti. |
 | `tests/analytics_test.php:45` | `test_build_separates_unique_and_repeated_viewing` | Callable PHP `test_build_separates_unique_and_repeated_viewing`; DocBlock e chiamanti definiscono parametri, valori restituiti ed effetti. |
 | `tests/analytics_test.php:72` | `test_exact_reporting_threshold_preserves_single_user_aggregates` | Funzione/metodo PHP nominato `test_exact_reporting_threshold_preserves_single_user_aggregates`; vedere DocBlock e chiamanti per il contratto corrente. |

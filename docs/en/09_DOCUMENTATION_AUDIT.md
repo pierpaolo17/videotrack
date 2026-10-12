@@ -1,6 +1,6 @@
 # Documentation audit
 
-Baseline: VideoTrack **1.7.177** (`2026101201`).
+Baseline: VideoTrack **1.7.178** (`2026101202`).
 
 ## Scope
 
@@ -33,7 +33,7 @@ not duplicate implementation procedures, field dictionaries or long security/pri
 ## Current-tree findings
 
 - English and Italian indexes have matching scope and ordering.
-- Documentation markers, root README files and ER artefacts identify 1.7.177 / 2026101201.
+- Documentation markers, root README files and ER artefacts identify 1.7.178 / 2026101202.
 - The activity identity includes a 1024-pixel `pix/icon.png` and an accessible native `pix/icon.svg` derived from
   the same maintainer-supplied artwork.
 - `db/install.xml` declares seven primary keys, 22 stable foreign keys and 22 explicit indexes. XMLDB generates an
@@ -80,6 +80,8 @@ not duplicate implementation procedures, field dictionaries or long security/pri
   rendering is divided among shared-control, timeline, aggregate-summary and integrity-state view services, each
   below the public-method threshold and isolated from query or aggregation responsibilities. Timeline chart stages
   preserve privacy gaps and SVG order, while acknowledgement stages preserve full and progress-only suppression.
+  Combined export construction separately owns timeline padding, ordered event summaries, integrity fallback and
+  acknowledgement values while preserving the public row and privacy contracts.
   The Moodle feature callback is
   table-driven, Font Awesome values contain exactly one validated icon name, and rendered reaction icons always
   include their visible label without a boolean presentation flag. Exact finding counts are read from the current
@@ -93,7 +95,7 @@ not duplicate implementation procedures, field dictionaries or long security/pri
 - Generated CI/server evidence is not part of the plugin tree. Repository `.gitignore`, Git archive
   `export-ignore` rules, Moodle `.moodleignore` rules and a PHPUnit release-hygiene contract jointly prevent
   `reports-*`, `videotrack-ci-*.zip` and `report_completo_videotrack_*.zip` from entering future releases. The
-  canonical 1.7.177 release archive therefore contains the 373 legitimate plugin files only.
+  canonical 1.7.178 release archive therefore contains the 373 legitimate plugin files only.
 
 ## Release checks
 

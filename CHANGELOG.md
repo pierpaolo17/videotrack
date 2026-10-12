@@ -1,5 +1,23 @@
 # VideoTrack changelog
 
+## 1.7.178 - 2026-10-12
+
+### Staged privacy-safe Analytics export rows
+
+- Accepted the complete 1.7.177 evidence: all six GitHub jobs passed across Moodle 5.0–5.3 with MariaDB and
+  PostgreSQL; PHPStan and Psalm reported no errors; PHPMD reported 97 reviewed advisory findings; server PHPCS and
+  PHP lint passed on 140 files; Grunt completed canonically on Moodle 5.0 and 5.3; and PHPUnit passed 307 tests with
+  2793 assertions on both server installations. Both strict validators reported 10 passes, zero warnings and zero
+  failures.
+- Split combined Analytics export construction into named stages for timeline padding, ordered event-summary rows,
+  integrity rows and acknowledgement values. The public `export_rows()` signature, row order, column alignment,
+  privacy masking and controller integration are unchanged.
+- Added a behavioural contract for the complete timeline + event + acknowledgement export shape and updated the
+  current English and Italian architecture, runtime, static-analysis, audit and callable documentation. The change
+  targets the cyclomatic-complexity, NPath-complexity and excessive-method-length findings on `export_rows()`; the
+  expected PHPMD count is 94, subject to CI confirmation. Database schema, capabilities, AJAX services, AMD assets
+  and language packs are unchanged.
+
 ## 1.7.177 - 2026-10-12
 
 ### Staged teacher-analytics chart and acknowledgement rendering

@@ -65,6 +65,9 @@ Within the timeline owner, heatmap bins and markers, retention privacy state, gr
 markup are named private stages. Suppressed bins still split retention paths and never disclose hidden values.
 Within the summary owner, acknowledgement display values and notices are separate private stages that apply the
 same full-summary and progress-only suppression decisions before markup is returned.
+`analytics_table_export` builds combined downloads through separate private stages for timeline padding, ordered
+reaction/bookmark/integrity summaries and acknowledgement values. The public export contract owns the selected
+column counts and preserves one row width, display order and privacy policy across CSV, Excel and ODS.
 Analytics viewer drops are discovered only across contiguous visible bins, so a
 suppressed or unavailable bin remains a privacy boundary. Completed reaction clusters are ordered separately after
 their window, student set and safety-limit state have been finalised. These separations change no controller input,
