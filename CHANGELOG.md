@@ -1,5 +1,47 @@
 # VideoTrack changelog
 
+## 1.7.182 - 2026-10-13
+
+### Complete backup contract test literal correction
+
+- Five available 1.7.181 CI artifacts show the same single PHPUnit failure: the backup contract test
+  interpolated `$retentioncutoff` in another expected source fragment, producing a warning and a mismatch.
+  The Moodle 5.3/MariaDB artifact was unavailable for inspection at the time of this correction.
+- Quote that fragment literally. Review all assertions in the test for PHP interpolation; the only
+  remaining interpolated value is the defined `$filearea` loop variable. Backup and restore code,
+  database schema, services, AMD, language packs and runtime behaviour are unchanged.
+  Re-run the full CI matrix before accepting this release.
+
+## 1.7.181 - 2026-10-13
+
+### Backup contract test correction
+
+- The six 1.7.180 CI jobs installed and validated the plugin and passed all 24 Behat scenarios, but each
+  failed the same PHPUnit assertion in `backup_structure_contract_test.php`: double-quoted test text
+  interpolated `$name`, producing an undefined-variable warning and a mismatched literal.
+- Quote the expected source fragment literally so the test checks the existing canonical backup order.
+  Backup, restore, database schema, services, AMD, language packs and runtime behaviour are unchanged.
+  Re-run the complete CI matrix before accepting the release.
+
+## 1.7.180 - 2026-10-13
+
+### Staged backup structure construction
+
+- Accepted the complete 1.7.179 evidence: all six GitHub jobs passed across Moodle 5.0–5.3 with MariaDB and
+  PostgreSQL; PHPStan and Psalm reported no errors; PHPMD decreased from 94 to 91 reviewed advisory findings;
+  server PHPCS and PHP lint passed on 141 files; Grunt completed canonically on Moodle 5.0 and 5.3; PHPUnit passed
+  311 tests with 2822 assertions on both installations; both strict validators reported 10 passes, zero warnings
+  and zero failures; and the tagged 374-file archive was verified independently.
+- Split `backup_videotrack_activity_structure_step::define_structure()` into named stages for the activity root,
+  reaction nodes, user-data nodes, canonical attachment order, source queries and file-area annotations. The Moodle
+  backup hook, XML element names, nesting, database sources, retention cutoff, positive-user filter, identifier
+  annotations and file areas are unchanged.
+- Added source contracts for stage order, user-data privacy boundaries, source tables, Forum annotation and every
+  backed-up file area. Updated the current English and Italian lifecycle, static-analysis, audit and callable
+  documentation. This change targets the remaining PHPMD `ExcessiveMethodLength` finding on `define_structure()`;
+  the expected count is 90, subject to candidate CI confirmation. Database schema, restore behaviour, capabilities,
+  AJAX services, AMD assets and language packs are unchanged.
+
 ## 1.7.179 - 2026-10-12
 
 ### Focused capability-safe Analytics scope matcher

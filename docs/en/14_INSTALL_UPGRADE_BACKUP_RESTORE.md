@@ -46,6 +46,10 @@ Runtime consumers obtain active definitions through `videotrack_get_reactions()`
 lifecycle collection can call `videotrack_get_all_reactions()` explicitly; no include-deleted behaviour flag is
 part of either contract.
 
+The backup structure hook is deliberately orchestration-only. Focused stages create the activity, reaction and
+optional user-data nodes, attach them in canonical order, configure sources and retention filters, and register file
+areas. This separation must not change XML element names or nesting: restore paths depend on that exact contract.
+
 ## Restore behaviour
 
 Restore creates the activity, remaps the optional Forum, reactions and users, restores files and retained granular
