@@ -1,5 +1,18 @@
 # VideoTrack changelog
 
+## 1.7.184 - 2026-10-13
+
+### Privacy-safe acknowledgement Analytics summary stages
+
+- Accepted the real 1.7.183 release archive and the complete six-job CI evidence, including PHPDoc,
+  plus the Moodle 5.0/5.3 server gates and strict validators. PHPMD reports 90 advisory findings.
+- Split acknowledgement Analytics record counting and privacy-safe count masking into focused private
+  methods. Preserve valid-user filtering, legacy snapshot handling, distinct-user thresholds, clamped
+  progress, output shape and rounding. Add a runtime regression for empty data and repeated user ids.
+  This targets the cyclomatic and NPath findings on `analytics_summary()`; an expected count of 88
+  is subject to PHPMD confirmation in candidate CI. Database schema, backup/restore, services, AMD
+  assets and language packs are unchanged.
+
 ## 1.7.183 - 2026-10-13
 
 ### Moodle PHPDoc checker compatibility

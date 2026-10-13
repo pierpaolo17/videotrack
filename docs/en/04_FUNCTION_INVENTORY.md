@@ -1,6 +1,6 @@
 # Function inventory
 
-Generated from the VideoTrack 1.7.183 source tree. PHP entries include named functions and methods; AMD entries include named declarations, assigned function expressions and object-method functions.
+Generated from the VideoTrack 1.7.184 source tree. PHP entries include named functions and methods; AMD entries include named declarations, assigned function expressions and object-method functions.
 
 **PHP functions/methods:** 802. **Named AMD callables:** 654.
 
@@ -832,9 +832,11 @@ Generated from the VideoTrack 1.7.183 source tree. PHP entries include named fun
 | `classes/local/acknowledgement.php:133` | `has_reached_video_end` | PHP callable `has_reached_video_end`; see its DocBlock and callers for parameter, return-value and side-effect details. |
 | `classes/local/acknowledgement.php:156` | `can_confirm` | PHP callable `can_confirm`; see its DocBlock and callers for parameter, return-value and side-effect details. |
 | `classes/local/acknowledgement.php:172` | `analytics_summary` | PHP callable `analytics_summary`; see its DocBlock and callers for parameter, return-value and side-effect details. |
-| `classes/local/acknowledgement.php:232` | `current_record` | PHP callable `current_record`; see its DocBlock and callers for parameter, return-value and side-effect details. |
-| `classes/local/acknowledgement.php:256` | `confirm` | PHP callable `confirm`; see its DocBlock and callers for parameter, return-value and side-effect details. |
-| `classes/local/acknowledgement.php:316` | `current_records` | PHP callable `current_records`; see its DocBlock and callers for parameter, return-value and side-effect details. |
+| `classes/local/acknowledgement.php:217` | `count_analytics_records` | Counts valid confirmations, distinct learners and immutable progress snapshots. |
+| `classes/local/acknowledgement.php:261` | `mask_counts` | Masks exact counts for a nonempty population below the privacy threshold. |
+| `classes/local/acknowledgement.php:275` | `current_record` | PHP callable `current_record`; see its DocBlock and callers for parameter, return-value and side-effect details. |
+| `classes/local/acknowledgement.php:299` | `confirm` | PHP callable `confirm`; see its DocBlock and callers for parameter, return-value and side-effect details. |
+| `classes/local/acknowledgement.php:359` | `current_records` | PHP callable `current_records`; see its DocBlock and callers for parameter, return-value and side-effect details. |
 | `classes/local/analytics.php:51` | `resolve_duration` | PHP callable `resolve_duration`; see its DocBlock and callers for parameter, return-value and side-effect details. |
 | `classes/local/analytics.php:69` | `default_bin_size` | PHP callable `default_bin_size`; see its DocBlock and callers for parameter, return-value and side-effect details. |
 | `classes/local/analytics.php:96` | `restrict_to_own_groups` | PHP callable `restrict_to_own_groups`; see its DocBlock and callers for parameter, return-value and side-effect details. |
@@ -1213,6 +1215,7 @@ Generated from the VideoTrack 1.7.183 source tree. PHP entries include named fun
 | `tests/acknowledgement_test.php:163` | `test_enabled_state_requires_nonempty_visible_text` | PHP callable `test_enabled_state_requires_nonempty_visible_text`; see its DocBlock and callers for parameter, return-value and side-effect details. |
 | `tests/acknowledgement_test.php:183` | `test_analytics_summary_supports_exact_single_user_reporting` | Named PHP function/method `test_analytics_summary_supports_exact_single_user_reporting`; see source DocBlock and callers for the current contract. |
 | `tests/acknowledgement_test.php:201` | `test_analytics_summary_preserves_legacy_and_privacy_rules` | PHP callable `test_analytics_summary_preserves_legacy_and_privacy_rules`; see its DocBlock and callers for parameter, return-value and side-effect details. |
+| `tests/acknowledgement_test.php:231` | `test_analytics_summary_preserves_empty_and_repeat_user_boundaries` | Checks empty results, invalid users, repeat users and privacy masking. |
 | `tests/admin_settings_test.php:40` | `setUp` | PHP callable `setUp`; see its DocBlock and callers for parameter, return-value and side-effect details. |
 | `tests/admin_settings_test.php:50` | `test_nonnegative_int_validation_accepts_zero_and_rejects_invalid_values` | PHP callable `test_nonnegative_int_validation_accepts_zero_and_rejects_invalid_values`; see its DocBlock and callers for parameter, return-value and side-effect details. |
 | `tests/admin_settings_test.php:63` | `test_int_range_validation_enforces_configured_bounds` | PHP callable `test_int_range_validation_enforces_configured_bounds`; see its DocBlock and callers for parameter, return-value and side-effect details. |

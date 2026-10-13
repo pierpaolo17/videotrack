@@ -1,6 +1,6 @@
 # Inventario delle funzioni
 
-Generato dall’albero sorgente VideoTrack 1.7.183. Le voci PHP includono funzioni e metodi nominati; le voci AMD includono dichiarazioni nominate, espressioni funzione assegnate e funzioni-metodo di oggetti.
+Generato dall’albero sorgente VideoTrack 1.7.184. Le voci PHP includono funzioni e metodi nominati; le voci AMD includono dichiarazioni nominate, espressioni funzione assegnate e funzioni-metodo di oggetti.
 
 **Funzioni/metodi PHP:** 802. **Callable AMD nominati:** 654.
 
@@ -832,9 +832,11 @@ Generato dall’albero sorgente VideoTrack 1.7.183. Le voci PHP includono funzio
 | `classes/local/acknowledgement.php:133` | `has_reached_video_end` | Callable PHP `has_reached_video_end`; DocBlock e chiamanti definiscono parametri, valori restituiti ed effetti. |
 | `classes/local/acknowledgement.php:156` | `can_confirm` | Callable PHP `can_confirm`; DocBlock e chiamanti definiscono parametri, valori restituiti ed effetti. |
 | `classes/local/acknowledgement.php:172` | `analytics_summary` | Callable PHP `analytics_summary`; DocBlock e chiamanti definiscono parametri, valori restituiti ed effetti. |
-| `classes/local/acknowledgement.php:232` | `current_record` | Callable PHP `current_record`; DocBlock e chiamanti definiscono parametri, valori restituiti ed effetti. |
-| `classes/local/acknowledgement.php:256` | `confirm` | Callable PHP `confirm`; DocBlock e chiamanti definiscono parametri, valori restituiti ed effetti. |
-| `classes/local/acknowledgement.php:316` | `current_records` | Callable PHP `current_records`; DocBlock e chiamanti definiscono parametri, valori restituiti ed effetti. |
+| `classes/local/acknowledgement.php:217` | `count_analytics_records` | Conta conferme valide, utenti distinti e snapshot immutabili del progresso. |
+| `classes/local/acknowledgement.php:261` | `mask_counts` | Nasconde i conteggi esatti per una popolazione non vuota sotto la soglia privacy. |
+| `classes/local/acknowledgement.php:275` | `current_record` | Callable PHP `current_record`; DocBlock e chiamanti definiscono parametri, valori restituiti ed effetti. |
+| `classes/local/acknowledgement.php:299` | `confirm` | Callable PHP `confirm`; DocBlock e chiamanti definiscono parametri, valori restituiti ed effetti. |
+| `classes/local/acknowledgement.php:359` | `current_records` | Callable PHP `current_records`; DocBlock e chiamanti definiscono parametri, valori restituiti ed effetti. |
 | `classes/local/analytics.php:51` | `resolve_duration` | Callable PHP `resolve_duration`; DocBlock e chiamanti definiscono parametri, valori restituiti ed effetti. |
 | `classes/local/analytics.php:69` | `default_bin_size` | Callable PHP `default_bin_size`; DocBlock e chiamanti definiscono parametri, valori restituiti ed effetti. |
 | `classes/local/analytics.php:96` | `restrict_to_own_groups` | Callable PHP `restrict_to_own_groups`; DocBlock e chiamanti definiscono parametri, valori restituiti ed effetti. |
@@ -1213,6 +1215,7 @@ Generato dall’albero sorgente VideoTrack 1.7.183. Le voci PHP includono funzio
 | `tests/acknowledgement_test.php:163` | `test_enabled_state_requires_nonempty_visible_text` | Callable PHP `test_enabled_state_requires_nonempty_visible_text`; DocBlock e chiamanti definiscono parametri, valori restituiti ed effetti. |
 | `tests/acknowledgement_test.php:183` | `test_analytics_summary_supports_exact_single_user_reporting` | Funzione/metodo PHP nominato `test_analytics_summary_supports_exact_single_user_reporting`; vedere DocBlock e chiamanti per il contratto corrente. |
 | `tests/acknowledgement_test.php:201` | `test_analytics_summary_preserves_legacy_and_privacy_rules` | Callable PHP `test_analytics_summary_preserves_legacy_and_privacy_rules`; DocBlock e chiamanti definiscono parametri, valori restituiti ed effetti. |
+| `tests/acknowledgement_test.php:231` | `test_analytics_summary_preserves_empty_and_repeat_user_boundaries` | Verifica risultati vuoti, utenti non validi, utenti ripetuti e mascheramento privacy. |
 | `tests/admin_settings_test.php:40` | `setUp` | Callable PHP `setUp`; DocBlock e chiamanti definiscono parametri, valori restituiti ed effetti. |
 | `tests/admin_settings_test.php:50` | `test_nonnegative_int_validation_accepts_zero_and_rejects_invalid_values` | Callable PHP `test_nonnegative_int_validation_accepts_zero_and_rejects_invalid_values`; DocBlock e chiamanti definiscono parametri, valori restituiti ed effetti. |
 | `tests/admin_settings_test.php:63` | `test_int_range_validation_enforces_configured_bounds` | Callable PHP `test_int_range_validation_enforces_configured_bounds`; DocBlock e chiamanti definiscono parametri, valori restituiti ed effetti. |

@@ -152,8 +152,9 @@ line, not for redeclaring a method parameter.
   the reviewed decorator subset from exactly one icon name. Their public contracts, limits and fail-closed defaults
   are covered independently of the complexity reduction.
 - PHPMD remains advisory. The accepted 1.7.179 baseline contains 91 findings; this candidate targets the remaining
-  `ExcessiveMethodLength` finding on the backup `define_structure()` hook. The expected count is 90, but the exact
-  result must be read from the candidate CI artifact. Remaining reports concern reviewed complexity, size, broad public classes, required
+  `ExcessiveMethodLength` finding on the backup `define_structure()` hook. The 1.7.183 CI confirmed 90 findings.
+  This 1.7.184 candidate targets the cyclomatic and NPath findings on acknowledgement
+  `analytics_summary()`; 88 is an estimate until the candidate CI artifact is reviewed. Remaining reports concern reviewed complexity, size, broad public classes, required
   Moodle callback parameters and boolean switches that need separate behavioural refactoring.
 - Static-analysis configuration, production scope, database schema and AMD assets are unchanged by these API
   cleanups. Candidate counts remain authoritative only after the complete CI artifacts are retained and reviewed.
