@@ -102,6 +102,9 @@ line, not for redeclaring a method parameter.
 - `analytics_scope::matching_accessible_instances()` remains the public facade while `analytics_scope_matcher`
   separates candidate SQL, source predicates, external-URL filtering, capability filtering, current fallback and
   ordering. The split preserves every trust boundary while removing three PHPMD findings from the facade class.
+- The backup structure hook delegates root, reaction and user-data node creation, canonical attachment, source
+  configuration and file-area annotation to named private stages. Source contracts preserve XML nesting, retention
+  and positive-user filters, identifier annotations and file areas independently of the method-length reduction.
 - `report_support`, `report_analytics_query` and `report_event_query` each expose seven cohesive public contracts.
   Analytics/provider/acknowledgement SQL and event/learner-discovery SQL are isolated from presentation, option,
   highlight and clustering support. The focused `report_time_filter` service owns four cohesive public contracts
@@ -148,8 +151,8 @@ line, not for redeclaring a method parameter.
 - The Moodle feature callback is a direct feature-to-value table, while Font Awesome reaction validation partitions
   the reviewed decorator subset from exactly one icon name. Their public contracts, limits and fail-closed defaults
   are covered independently of the complexity reduction.
-- PHPMD remains advisory. The accepted 1.7.177 baseline contains 97 findings; this candidate targets the three
-  complexity/length findings on `analytics_table_export::export_rows()`. The expected count is 94, but the exact
+- PHPMD remains advisory. The accepted 1.7.179 baseline contains 91 findings; this candidate targets the remaining
+  `ExcessiveMethodLength` finding on the backup `define_structure()` hook. The expected count is 90, but the exact
   result must be read from the candidate CI artifact. Remaining reports concern reviewed complexity, size, broad public classes, required
   Moodle callback parameters and boolean switches that need separate behavioural refactoring.
 - Static-analysis configuration, production scope, database schema and AMD assets are unchanged by these API

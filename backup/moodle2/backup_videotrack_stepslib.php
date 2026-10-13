@@ -32,10 +32,32 @@ class backup_videotrack_activity_structure_step extends backup_activity_structur
      * @return backup_nested_element
      */
     protected function define_structure() {
-        $userinfo = $this->get_setting_value('userinfo');
+        $userinfo = (bool) $this->get_setting_value('userinfo');
         $retentioncutoff = \mod_videotrack\local\privacy_manager::retention_cutoff_timestamp();
 
-        $videotrack = new backup_nested_element('videotrack', ['id'], [
+        $videotrack = $this->create_activity_element();
+        [$reactions, $reaction] = $this->create_reaction_elements();
+        $userelements = $this->create_user_elements();
+
+        $videotrack->add_child($reactions);
+        $reactions->add_child($reaction);
+        if ($userinfo) {
+            $this->attach_user_elements($videotrack, $userelements);
+        }
+
+        $this->configure_sources($videotrack, $reaction, $userelements, $userinfo, $retentioncutoff);
+        $this->annotate_files($videotrack, $reaction);
+
+        return $this->prepare_activity_structure($videotrack);
+    }
+
+    /**
+     * Create the root activity element.
+     *
+     * @return backup_nested_element
+     */
+    private function create_activity_element(): backup_nested_element {
+        return new backup_nested_element('videotrack', ['id'], [
             'name', 'intro', 'introformat', 'youtubeurl', 'videoid',
             'videosource', 'videourl', 'playbackspeeds',
             'autoplay', 'loopenabled', 'startmuted', 'allowdownload', 'html5controls',
@@ -57,50 +79,84 @@ class backup_videotrack_activity_structure_step extends backup_activity_structur
             'grade', 'gradepass', 'showgradeto',
             'timemodified', 'timecreated',
         ]);
+    }
 
+    /**
+     * Create the reaction wrapper and row elements.
+     *
+     * @return array{0: backup_nested_element, 1: backup_nested_element}
+     */
+    private function create_reaction_elements(): array {
         $reactions = new backup_nested_element('reactions');
         $reaction = new backup_nested_element('reaction', ['id'], [
             'reactionkey', 'label', 'description', 'icontype', 'iconvalue',
             'requiredforcompletion', 'sortorder', 'isdeleted', 'timecreated', 'timemodified',
         ]);
 
-        $segments = new backup_nested_element('segments');
-        $segment = new backup_nested_element('segment', ['id'], [
-            'userid', 'videoid', 'sessionid', 'requestid', 'wallclockstart', 'wallclockend',
-            'videotimestart', 'videotimeend', 'playbackrate', 'endreason', 'servervalidated', 'timecreated',
-        ]);
+        return [$reactions, $reaction];
+    }
 
-        $reactionevents = new backup_nested_element('reactionevents');
-        $reactionevent = new backup_nested_element('reactionevent', ['id'], [
-            'userid', 'videoid', 'sessionid', 'reactionid', 'reactionkey', 'reactionlabel',
-            'reactiondesc', 'notetext', 'notetype',
-            'videotime', 'playbackrate', 'isdeleted', 'timecreated', 'timemodified',
-        ]);
+    /**
+     * Create the elements that contain user data.
+     *
+     * @return array<string, backup_nested_element>
+     */
+    private function create_user_elements(): array {
+        return [
+            'segments' => new backup_nested_element('segments'),
+            'segment' => new backup_nested_element('segment', ['id'], [
+                'userid', 'videoid', 'sessionid', 'requestid', 'wallclockstart', 'wallclockend',
+                'videotimestart', 'videotimeend', 'playbackrate', 'endreason', 'servervalidated', 'timecreated',
+            ]),
+            'reactionevents' => new backup_nested_element('reactionevents'),
+            'reactionevent' => new backup_nested_element('reactionevent', ['id'], [
+                'userid', 'videoid', 'sessionid', 'reactionid', 'reactionkey', 'reactionlabel',
+                'reactiondesc', 'notetext', 'notetype', 'videotime', 'playbackrate', 'isdeleted',
+                'timecreated', 'timemodified',
+            ]),
+            'integrityevents' => new backup_nested_element('integrityevents'),
+            'integrityevent' => new backup_nested_element('integrityevent', ['id'], [
+                'userid', 'videoid', 'sessionid', 'eventtype', 'videotime', 'timecreated',
+            ]),
+            'acknowledgements' => new backup_nested_element('acknowledgements'),
+            'acknowledgement' => new backup_nested_element('acknowledgement', ['id'], [
+                'userid', 'statementhash', 'instanceversion', 'viewedseconds', 'viewedpercent', 'timeconfirmed',
+            ]),
+        ];
+    }
 
-        $integrityevents = new backup_nested_element('integrityevents');
-        $integrityevent = new backup_nested_element('integrityevent', ['id'], [
-            'userid', 'videoid', 'sessionid', 'eventtype', 'videotime', 'timecreated',
-        ]);
-
-        $acknowledgements = new backup_nested_element('acknowledgements');
-        $acknowledgement = new backup_nested_element('acknowledgement', ['id'], [
-            'userid', 'statementhash', 'instanceversion', 'viewedseconds', 'viewedpercent', 'timeconfirmed',
-        ]);
-
-        $videotrack->add_child($reactions);
-        $reactions->add_child($reaction);
-
-        if ($userinfo) {
-            $videotrack->add_child($segments);
-            $segments->add_child($segment);
-            $videotrack->add_child($reactionevents);
-            $reactionevents->add_child($reactionevent);
-            $videotrack->add_child($integrityevents);
-            $integrityevents->add_child($integrityevent);
-            $videotrack->add_child($acknowledgements);
-            $acknowledgements->add_child($acknowledgement);
+    /**
+     * Attach user-data elements in their canonical backup order.
+     *
+     * @param backup_nested_element $videotrack Root activity element.
+     * @param array<string, backup_nested_element> $elements User-data elements.
+     * @return void
+     */
+    private function attach_user_elements(backup_nested_element $videotrack, array $elements): void {
+        foreach (['segment', 'reactionevent', 'integrityevent', 'acknowledgement'] as $name) {
+            $wrapper = $name . 's';
+            $videotrack->add_child($elements[$wrapper]);
+            $elements[$wrapper]->add_child($elements[$name]);
         }
+    }
 
+    /**
+     * Configure activity, reaction and retained user-data sources.
+     *
+     * @param backup_nested_element $videotrack Root activity element.
+     * @param backup_nested_element $reaction Reaction row element.
+     * @param array<string, backup_nested_element> $elements User-data elements.
+     * @param bool $userinfo Whether user data is included.
+     * @param int $retentioncutoff Earliest retained event timestamp.
+     * @return void
+     */
+    private function configure_sources(
+        backup_nested_element $videotrack,
+        backup_nested_element $reaction,
+        array $elements,
+        bool $userinfo,
+        int $retentioncutoff
+    ): void {
         $videotrack->set_source_table('videotrack', ['id' => backup::VAR_ACTIVITYID]);
         // Include all reactions (isdeleted=0 and isdeleted=1): historic reaction events in
         // videotrack_reactev may point to soft-deleted reactions. Excluding them from
@@ -112,7 +168,7 @@ class backup_videotrack_activity_structure_step extends backup_activity_structur
                 'videotrackid' => backup::VAR_PARENTID,
                 'cutoff' => backup_helper::is_sqlparam($retentioncutoff),
             ];
-            $segment->set_source_sql(
+            $elements['segment']->set_source_sql(
                 "SELECT *
                    FROM {videotrack_seg}
                   WHERE videotrackid = :videotrackid
@@ -120,11 +176,11 @@ class backup_videotrack_activity_structure_step extends backup_activity_structur
                     AND timecreated >= :cutoff",
                 $retentionparams
             );
-            $segment->annotate_ids('user', 'userid');
+            $elements['segment']->annotate_ids('user', 'userid');
 
             // Aggregate state is derived and is intentionally not backed up. Restore
             // rebuilds it from retained server-validated segments and completion inputs.
-            $reactionevent->set_source_sql(
+            $elements['reactionevent']->set_source_sql(
                 "SELECT *
                    FROM {videotrack_reactev}
                   WHERE videotrackid = :videotrackid
@@ -132,9 +188,9 @@ class backup_videotrack_activity_structure_step extends backup_activity_structur
                     AND timecreated >= :cutoff",
                 $retentionparams
             );
-            $reactionevent->annotate_ids('user', 'userid');
+            $elements['reactionevent']->annotate_ids('user', 'userid');
 
-            $integrityevent->set_source_sql(
+            $elements['integrityevent']->set_source_sql(
                 "SELECT *
                    FROM {videotrack_integrity}
                   WHERE videotrackid = :videotrackid
@@ -142,9 +198,9 @@ class backup_videotrack_activity_structure_step extends backup_activity_structur
                     AND timecreated >= :cutoff",
                 $retentionparams
             );
-            $integrityevent->annotate_ids('user', 'userid');
+            $elements['integrityevent']->annotate_ids('user', 'userid');
 
-            $acknowledgement->set_source_sql(
+            $elements['acknowledgement']->set_source_sql(
                 "SELECT *
                    FROM {videotrack_acknowledge}
                   WHERE videotrackid = :videotrackid
@@ -152,11 +208,20 @@ class backup_videotrack_activity_structure_step extends backup_activity_structur
                     AND timeconfirmed >= :cutoff",
                 $retentionparams
             );
-            $acknowledgement->annotate_ids('user', 'userid');
+            $elements['acknowledgement']->annotate_ids('user', 'userid');
         }
 
         $videotrack->annotate_ids('forum', 'linkedforumid');
+    }
 
+    /**
+     * Register every activity and reaction file area in the backup structure.
+     *
+     * @param backup_nested_element $videotrack Root activity element.
+     * @param backup_nested_element $reaction Reaction row element.
+     * @return void
+     */
+    private function annotate_files(backup_nested_element $videotrack, backup_nested_element $reaction): void {
         $videotrack->annotate_files('mod_videotrack', 'intro', null);
         $videotrack->annotate_files('mod_videotrack', 'videocontent', null);
         $videotrack->annotate_files('mod_videotrack', 'subtitles', null);
@@ -164,7 +229,5 @@ class backup_videotrack_activity_structure_step extends backup_activity_structur
         $videotrack->annotate_files('mod_videotrack', 'chapters', null);
         $videotrack->annotate_files('mod_videotrack', 'posterimage', null);
         $reaction->annotate_files('mod_videotrack', 'reactionicon', 'id');
-
-        return $this->prepare_activity_structure($videotrack);
     }
 }

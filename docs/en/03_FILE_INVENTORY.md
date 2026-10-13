@@ -1,6 +1,6 @@
 # Distributed file inventory
 
-This inventory is generated against the VideoTrack 1.7.179 repository tree. It lists every distributed
+This inventory is generated against the VideoTrack 1.7.181 repository tree. It lists every distributed
 non-documentation file plus repository-only CI/tooling/hygiene files. Canonical JavaScript is under `amd/src`; files under
 `amd/build` are generated.
 
@@ -267,6 +267,7 @@ Entries: **312** — 309 distributed files and three repository-only files exclu
 | `tests/analytics_scope_test.php` | PHPUnit coverage for analytics scope test. |
 | `tests/analytics_table_export_test.php` | PHPUnit coverage for analytics table export test. |
 | `tests/analytics_test.php` | PHPUnit coverage for analytics test. |
+| `tests/backup_structure_contract_test.php` | Source contracts for backup-stage order, privacy filters, identifiers and file areas. |
 | `tests/behat/behat_mod_videotrack.php` | Deterministic Behat steps for local HTML5 and provider readiness, controls, timestamps, rollback and bounded watched-evidence assertions. |
 | `tests/behat/completion_requirements_layout.feature` | Browser regression for grouping the composite VideoTrack logic label above a shared Moodle completion-requirements list. |
 | `tests/behat/focus_exception_policy.feature` | Browser contract for strict focus policy with and without hidden exception-group membership. |

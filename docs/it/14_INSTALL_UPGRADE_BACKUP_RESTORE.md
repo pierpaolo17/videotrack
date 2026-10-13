@@ -46,6 +46,11 @@ I consumatori runtime ottengono le definizioni attive tramite `videotrack_get_re
 la collezione lifecycle completa può chiamare esplicitamente `videotrack_get_all_reactions()`; nessuno dei due
 contratti espone un flag di comportamento include-deleted.
 
+L'hook della struttura di backup svolge intenzionalmente soltanto orchestrazione. Fasi mirate creano i nodi
+dell'attività, delle reazioni e dei dati utente opzionali, li collegano nell'ordine canonico, configurano sorgenti e
+filtri di retention e registrano le aree file. La separazione non deve cambiare nomi o annidamento degli elementi
+XML: i percorsi di restore dipendono da questo contratto esatto.
+
 ## Comportamento del restore
 
 Il restore crea l'attività, rimappa Forum opzionale, reazioni e utenti, ripristina file ed eventi granulari
