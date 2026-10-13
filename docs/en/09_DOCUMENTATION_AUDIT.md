@@ -1,6 +1,6 @@
 # Documentation audit
 
-Baseline: VideoTrack **1.7.178** (`2026101202`).
+Baseline: VideoTrack **1.7.179** (`2026101203`).
 
 ## Scope
 
@@ -33,7 +33,9 @@ not duplicate implementation procedures, field dictionaries or long security/pri
 ## Current-tree findings
 
 - English and Italian indexes have matching scope and ordering.
-- Documentation markers, root README files and ER artefacts identify 1.7.178 / 2026101202.
+- Documentation markers, root README files and ER artefacts identify 1.7.179 / 2026101203.
+- Cross-course Analytics documents the stable `analytics_scope` facade and the focused matcher that owns candidate
+  selection, technical-identity predicates, capability filtering, current-instance fallback and ordering.
 - The activity identity includes a 1024-pixel `pix/icon.png` and an accessible native `pix/icon.svg` derived from
   the same maintainer-supplied artwork.
 - `db/install.xml` declares seven primary keys, 22 stable foreign keys and 22 explicit indexes. XMLDB generates an
@@ -82,6 +84,8 @@ not duplicate implementation procedures, field dictionaries or long security/pri
   preserve privacy gaps and SVG order, while acknowledgement stages preserve full and progress-only suppression.
   Combined export construction separately owns timeline padding, ordered event summaries, integrity fallback and
   acknowledgement values while preserving the public row and privacy contracts.
+  Same-video candidate discovery is isolated in `analytics_scope_matcher`; its focused stages preserve provider-id,
+  upload-hash and canonical-URL identity plus per-module aggregate-report capability checks.
   The Moodle feature callback is
   table-driven, Font Awesome values contain exactly one validated icon name, and rendered reaction icons always
   include their visible label without a boolean presentation flag. Exact finding counts are read from the current
@@ -95,7 +99,7 @@ not duplicate implementation procedures, field dictionaries or long security/pri
 - Generated CI/server evidence is not part of the plugin tree. Repository `.gitignore`, Git archive
   `export-ignore` rules, Moodle `.moodleignore` rules and a PHPUnit release-hygiene contract jointly prevent
   `reports-*`, `videotrack-ci-*.zip` and `report_completo_videotrack_*.zip` from entering future releases. The
-  canonical 1.7.178 release archive therefore contains the 373 legitimate plugin files only.
+  canonical 1.7.179 release archive therefore contains the 374 legitimate plugin files only.
 
 ## Release checks
 

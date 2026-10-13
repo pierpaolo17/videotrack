@@ -1,6 +1,6 @@
 # Function inventory
 
-Generated from the VideoTrack 1.7.178 source tree. PHP entries include named functions and methods; AMD entries include named declarations, assigned function expressions and object-method functions.
+Generated from the VideoTrack 1.7.179 source tree. PHP entries include named functions and methods; AMD entries include named declarations, assigned function expressions and object-method functions.
 
 **PHP functions/methods:** 802. **Named AMD callables:** 654.
 
@@ -842,15 +842,22 @@ Generated from the VideoTrack 1.7.178 source tree. PHP entries include named fun
 | `classes/local/analytics.php:432` | `append_visible_reaction_cluster` | PHP callable `append_visible_reaction_cluster`; see its DocBlock and callers for parameter, return-value and side-effect details. |
 | `classes/local/analytics.php:461` | `add_user_intervals` | PHP callable `add_user_intervals`; see its DocBlock and callers for parameter, return-value and side-effect details. |
 | `classes/local/analytics.php:497` | `add_interval_to_map` | PHP callable `add_interval_to_map`; see its DocBlock and callers for parameter, return-value and side-effect details. |
-| `classes/local/analytics_scope.php:42` | `matching_accessible_instances` | PHP callable `matching_accessible_instances`; see its DocBlock and callers for parameter, return-value and side-effect details. |
-| `classes/local/analytics_scope.php:144` | `effective_groupmode` | PHP callable `effective_groupmode`; see its DocBlock and callers for parameter, return-value and side-effect details. |
-| `classes/local/analytics_scope.php:176` | `accessible_group_ids` | PHP callable `accessible_group_ids`; see its DocBlock and callers for parameter, return-value and side-effect details. |
-| `classes/local/analytics_scope.php:214` | `technical_identity` | PHP callable `technical_identity`; see its DocBlock and callers for parameter, return-value and side-effect details. |
-| `classes/local/analytics_scope.php:265` | `normalise_external_url` | PHP callable `normalise_external_url`; see its DocBlock and callers for parameter, return-value and side-effect details. |
-| `classes/local/analytics_scope.php:288` | `normalise_external_authority` | Builds the lowercase host and preserves only non-default ports for canonical external-media identity. |
-| `classes/local/analytics_scope.php:303` | `normalise_external_path` | Produces a non-empty canonical path with repeated separators collapsed. |
-| `classes/local/analytics_scope.php:314` | `normalise_external_query` | Sorts top-level query keys and encodes the canonical query using RFC 3986 rules. |
-| `classes/local/analytics_scope.php:330` | `get_instance_record` | PHP callable `get_instance_record`; see its DocBlock and callers for parameter, return-value and side-effect details. |
+| `classes/local/analytics_scope.php:42` | `matching_accessible_instances` | Stable public facade for capability-safe same-video scope discovery. |
+| `classes/local/analytics_scope.php:59` | `effective_groupmode` | Resolves the effective Moodle group mode for an Analytics scope. |
+| `classes/local/analytics_scope.php:91` | `accessible_group_ids` | Resolves the learner groups visible to one report viewer. |
+| `classes/local/analytics_scope.php:129` | `technical_identity` | Produces provider-id, upload-hash or canonical-URL identity. |
+| `classes/local/analytics_scope.php:180` | `normalise_external_url` | Produces the canonical external-media URL identity. |
+| `classes/local/analytics_scope.php:203` | `normalise_external_authority` | Builds the lowercase host and preserves only non-default ports for canonical external-media identity. |
+| `classes/local/analytics_scope.php:218` | `normalise_external_path` | Produces a non-empty canonical path with repeated separators collapsed. |
+| `classes/local/analytics_scope.php:229` | `normalise_external_query` | Sorts top-level query keys and encodes the canonical query using RFC 3986 rules. |
+| `classes/local/analytics_scope_matcher.php:38` | `matching_accessible_instances` | Coordinates identity matching, capability filtering, current fallback and ordering. |
+| `classes/local/analytics_scope_matcher.php:63` | `matching_candidates` | Loads source-specific same-video candidates. |
+| `classes/local/analytics_scope_matcher.php:95` | `candidate_query_parts` | Builds source-specific candidate joins, predicates and parameters. |
+| `classes/local/analytics_scope_matcher.php:135` | `filter_external_candidates` | Enforces canonical URL equality for external HTML5 sources. |
+| `classes/local/analytics_scope_matcher.php:151` | `accessible_candidates` | Retains candidate modules with aggregate-report capability. |
+| `classes/local/analytics_scope_matcher.php:174` | `include_accessible_current` | Restores an accessible current activity absent from candidate results. |
+| `classes/local/analytics_scope_matcher.php:199` | `sort_current_first` | Applies deterministic current/course/name/id ordering. |
+| `classes/local/analytics_scope_matcher.php:214` | `get_instance_record` | Loads the complete current Analytics scope record. |
 | `classes/local/analytics_table_export.php:35` | `enabled_formats` | PHP callable `enabled_formats`; see its DocBlock and callers for parameter, return-value and side-effect details. |
 | `classes/local/analytics_table_export.php:46` | `columns` | PHP callable `columns`; see its DocBlock and callers for parameter, return-value and side-effect details. |
 | `classes/local/analytics_table_export.php:72` | `export_columns` | PHP callable `export_columns`; builds headings for the standard export shape without event summaries. |
@@ -1226,9 +1233,12 @@ Generated from the VideoTrack 1.7.178 source tree. PHP entries include named fun
 | `tests/analytics_performance_contract_test.php:35` | `test_teacher_activity_options_use_lightweight_modinfo_path` | Named PHP function/method `test_teacher_activity_options_use_lightweight_modinfo_path`; see source DocBlock and callers for the current contract. |
 | `tests/analytics_performance_contract_test.php:52` | `test_course_dashboard_batches_event_summaries_and_group_scope` | Named PHP function/method `test_course_dashboard_batches_event_summaries_and_group_scope`; see source DocBlock and callers for the current contract. |
 | `tests/analytics_performance_contract_test.php:71` | `test_course_dashboard_batches_state_and_period_reads` | Named PHP function/method `test_course_dashboard_batches_state_and_period_reads`; see source DocBlock and callers for the current contract. |
-| `tests/analytics_scope_test.php:36` | `test_provider_identity_uses_exact_video_id` | PHP callable `test_provider_identity_uses_exact_video_id`; see its DocBlock and callers for parameter, return-value and side-effect details. |
-| `tests/analytics_scope_test.php:55` | `test_external_url_identity_is_normalised` | PHP callable `test_external_url_identity_is_normalised`; see its DocBlock and callers for parameter, return-value and side-effect details. |
-| `tests/analytics_scope_test.php:82` | `test_effective_groupmode_satisfies_moodle_course_module_contract` | PHP callable `test_effective_groupmode_satisfies_moodle_course_module_contract`; see its DocBlock and callers for parameter, return-value and side-effect details. |
+| `tests/analytics_scope_test.php:38` | `test_matching_scope_api_delegates_to_focused_service` | Verifies delegation and the security-relevant matcher boundaries. |
+| `tests/analytics_scope_test.php:57` | `test_matcher_preserves_source_specific_identity_contracts` | Verifies provider-id, upload-hash and canonical-URL candidate stages. |
+| `tests/analytics_scope_test.php:86` | `test_matcher_orders_current_instance_first_deterministically` | Verifies stable current/course/name/id ordering. |
+| `tests/analytics_scope_test.php:102` | `test_provider_identity_uses_exact_video_id` | Verifies exact provider-id identity. |
+| `tests/analytics_scope_test.php:121` | `test_external_url_identity_is_normalised` | Verifies canonical external-URL identity. |
+| `tests/analytics_scope_test.php:148` | `test_effective_groupmode_satisfies_moodle_course_module_contract` | Verifies Moodle's synthetic course-module group-mode contract. |
 | `tests/analytics_table_export_test.php:34` | `setUp` | PHP callable `setUp`; see its DocBlock and callers for parameter, return-value and side-effect details. |
 | `tests/analytics_table_export_test.php:42` | `test_rows_match_accessible_table_privacy_rules` | PHP callable `test_rows_match_accessible_table_privacy_rules`; see its DocBlock and callers for parameter, return-value and side-effect details. |
 | `tests/analytics_table_export_test.php:81` | `test_rows_mark_unavailable_replay_metrics` | PHP callable `test_rows_mark_unavailable_replay_metrics`; see its DocBlock and callers for parameter, return-value and side-effect details. |

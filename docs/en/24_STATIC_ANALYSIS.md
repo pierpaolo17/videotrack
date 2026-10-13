@@ -99,6 +99,9 @@ line, not for redeclaring a method parameter.
   required around their inline PHPStan declarations, and unmatched-ignore reporting remains enabled.
 - The Psalm-only legacy stub models the global `renderable` alias and Moodle's misspelled `xmlddb_field` return type.
   It does not execute runtime code, suppress issue categories or reduce the analysed production scope.
+- `analytics_scope::matching_accessible_instances()` remains the public facade while `analytics_scope_matcher`
+  separates candidate SQL, source predicates, external-URL filtering, capability filtering, current fallback and
+  ordering. The split preserves every trust boundary while removing three PHPMD findings from the facade class.
 - `report_support`, `report_analytics_query` and `report_event_query` each expose seven cohesive public contracts.
   Analytics/provider/acknowledgement SQL and event/learner-discovery SQL are isolated from presentation, option,
   highlight and clustering support. The focused `report_time_filter` service owns four cohesive public contracts

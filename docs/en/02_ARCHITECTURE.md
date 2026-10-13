@@ -99,7 +99,7 @@ that compatibility contract only when the legacy caption source exists.
 
 ## Identity and scope
 
-Course-module context and Moodle capabilities are authoritative. `mod/videotrack:participate` explicitly identifies users whose learner telemetry and personal study tools may be written; report access is independent. Group visibility is resolved with the effective activity group mode. Cross-course Analytics recomputes participation, report and group scope for every included activity and identifies the same technical video by provider id, uploaded-file content hash or a canonical external URL. External URL identity has one public contract; private authority, path and query normalisers make its default-port, separator, fragment and query-order rules explicit.
+Course-module context and Moodle capabilities are authoritative. `mod/videotrack:participate` explicitly identifies users whose learner telemetry and personal study tools may be written; report access is independent. Group visibility is resolved with the effective activity group mode. Cross-course Analytics recomputes participation, report and group scope for every included activity and identifies the same technical video by provider id, uploaded-file content hash or a canonical external URL. `analytics_scope` owns the stable public identity and group contracts, while `analytics_scope_matcher` owns candidate SQL, source-specific identity predicates, canonical external-URL filtering, per-module report capability checks, current-instance fallback and deterministic current-first ordering. External URL identity has one public contract; private authority, path and query normalisers make its default-port, separator, fragment and query-order rules explicit.
 
 ## Playback ledger trust boundary
 
