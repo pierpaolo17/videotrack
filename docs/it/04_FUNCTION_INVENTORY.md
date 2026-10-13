@@ -1,6 +1,6 @@
 # Inventario delle funzioni
 
-Generato dall’albero sorgente VideoTrack 1.7.179. Le voci PHP includono funzioni e metodi nominati; le voci AMD includono dichiarazioni nominate, espressioni funzione assegnate e funzioni-metodo di oggetti.
+Generato dall’albero sorgente VideoTrack 1.7.180. Le voci PHP includono funzioni e metodi nominati; le voci AMD includono dichiarazioni nominate, espressioni funzione assegnate e funzioni-metodo di oggetti.
 
 **Funzioni/metodi PHP:** 802. **Callable AMD nominati:** 654.
 
@@ -664,6 +664,12 @@ Generato dall’albero sorgente VideoTrack 1.7.179. Le voci PHP includono funzio
 | `backup/moodle2/backup_videotrack_activity_task.class.php:42` | `define_my_steps` | Callable PHP `define_my_steps`; DocBlock e chiamanti definiscono parametri, valori restituiti ed effetti. |
 | `backup/moodle2/backup_videotrack_activity_task.class.php:52` | `encode_content_links` | Callable PHP `encode_content_links`; DocBlock e chiamanti definiscono parametri, valori restituiti ed effetti. |
 | `backup/moodle2/backup_videotrack_stepslib.php:34` | `define_structure` | Callable PHP `define_structure`; DocBlock e chiamanti definiscono parametri, valori restituiti ed effetti. |
+| `backup/moodle2/backup_videotrack_stepslib.php:59` | `create_activity_element` | Crea l'elemento radice del backup attività con il contratto completo dei campi. |
+| `backup/moodle2/backup_videotrack_stepslib.php:89` | `create_reaction_elements` | Crea wrapper ed elemento riga delle reazioni. |
+| `backup/moodle2/backup_videotrack_stepslib.php:104` | `create_user_elements` | Crea wrapper ed elementi riga opzionali dei dati utente. |
+| `backup/moodle2/backup_videotrack_stepslib.php:135` | `attach_user_elements` | Collega gli elementi opzionali dei dati utente nell'ordine XML canonico. |
+| `backup/moodle2/backup_videotrack_stepslib.php:153` | `configure_sources` | Configura sorgenti attività, reazioni e dati utente conservabili con le annotazioni degli identificatori. |
+| `backup/moodle2/backup_videotrack_stepslib.php:224` | `annotate_files` | Registra le aree file dell'attività e delle reazioni. |
 | `backup/moodle2/restore_videotrack_activity_task.class.php:36` | `define_my_settings` | Callable PHP `define_my_settings`; DocBlock e chiamanti definiscono parametri, valori restituiti ed effetti. |
 | `backup/moodle2/restore_videotrack_activity_task.class.php:42` | `define_my_steps` | Callable PHP `define_my_steps`; DocBlock e chiamanti definiscono parametri, valori restituiti ed effetti. |
 | `backup/moodle2/restore_videotrack_activity_task.class.php:51` | `define_decode_contents` | Callable PHP `define_decode_contents`; DocBlock e chiamanti definiscono parametri, valori restituiti ed effetti. |
@@ -1233,6 +1239,10 @@ Generato dall’albero sorgente VideoTrack 1.7.179. Le voci PHP includono funzio
 | `tests/analytics_performance_contract_test.php:35` | `test_teacher_activity_options_use_lightweight_modinfo_path` | Funzione/metodo PHP nominato `test_teacher_activity_options_use_lightweight_modinfo_path`; vedere DocBlock e chiamanti per il contratto corrente. |
 | `tests/analytics_performance_contract_test.php:52` | `test_course_dashboard_batches_event_summaries_and_group_scope` | Funzione/metodo PHP nominato `test_course_dashboard_batches_event_summaries_and_group_scope`; vedere DocBlock e chiamanti per il contratto corrente. |
 | `tests/analytics_performance_contract_test.php:71` | `test_course_dashboard_batches_state_and_period_reads` | Funzione/metodo PHP nominato `test_course_dashboard_batches_state_and_period_reads`; vedere DocBlock e chiamanti per il contratto corrente. |
+| `tests/backup_structure_contract_test.php:35` | `test_structure_hook_delegates_to_ordered_stages` | Verifica l'orchestrazione ordinata della struttura di backup. |
+| `tests/backup_structure_contract_test.php:64` | `test_user_data_sources_keep_privacy_boundaries` | Verifica filtri e annotazioni dei dati utente conservabili. |
+| `tests/backup_structure_contract_test.php:80` | `test_activity_and_file_contracts_remain_complete` | Verifica tabelle sorgente, mapping Forum e aree file. |
+| `tests/backup_structure_contract_test.php:106` | `source` | Legge il sorgente canonico della struttura di backup per le asserzioni contrattuali. |
 | `tests/analytics_scope_test.php:38` | `test_matching_scope_api_delegates_to_focused_service` | Verifica delega e confini matcher rilevanti per la sicurezza. |
 | `tests/analytics_scope_test.php:57` | `test_matcher_preserves_source_specific_identity_contracts` | Verifica gli stadi candidati per id provider, hash upload e URL canonico. |
 | `tests/analytics_scope_test.php:86` | `test_matcher_orders_current_instance_first_deterministically` | Verifica l’ordine stabile corrente/corso/nome/id. |
