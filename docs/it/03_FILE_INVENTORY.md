@@ -1,6 +1,6 @@
 # Inventario dei file distribuiti
 
-Questo inventario è generato sull'albero repository VideoTrack 1.7.178. Elenca ogni file non documentale distribuito
+Questo inventario è generato sull'albero repository VideoTrack 1.7.179. Elenca ogni file non documentale distribuito
 e i file CI/tooling/igiene presenti soltanto nel repository. Il JavaScript canonico è in `amd/src`; i file in `amd/build`
 sono generati.
 
@@ -198,6 +198,7 @@ Voci: **312** — 309 file distribuiti e tre file presenti soltanto nel reposito
 | `classes/local/acknowledgement.php` | Servizio di dominio `acknowledgement` riusabile da pagine, report o servizi. |
 | `classes/local/analytics.php` | Servizio di dominio `analytics` riusabile da pagine, report o servizi. |
 | `classes/local/analytics_scope.php` | Servizio di dominio `analytics_scope` riusabile da pagine, report o servizi. |
+| `classes/local/analytics_scope_matcher.php` | Trova candidati Analytics per lo stesso video e applica l’accesso aggregato per modulo. |
 | `classes/local/analytics_table_export.php` | Servizio di dominio `analytics_table_export` riusabile da pagine, report o servizi. |
 | `classes/local/completion_config.php` | Classe locale di dominio/servizio corrente; vedere il DocBlock sorgente per il contratto runtime. |
 | `classes/local/course_analytics.php` | Servizio di dominio `course_analytics` riusabile da pagine, report o servizi. |

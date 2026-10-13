@@ -18,6 +18,7 @@ namespace mod_videotrack;
 
 use advanced_testcase;
 use mod_videotrack\local\analytics_scope;
+use mod_videotrack\local\analytics_scope_matcher;
 use PHPUnit\Framework\Attributes\CoversClass;
 
 /**
@@ -29,7 +30,72 @@ use PHPUnit\Framework\Attributes\CoversClass;
  * @license    https://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 #[CoversClass(analytics_scope::class)]
+#[CoversClass(analytics_scope_matcher::class)]
 final class analytics_scope_test extends advanced_testcase {
+    /**
+     * The stable public scope API delegates matching to the focused service.
+     */
+    public function test_matching_scope_api_delegates_to_focused_service(): void {
+        $scopesource = file_get_contents(__DIR__ . '/../classes/local/analytics_scope.php');
+        $matchersource = file_get_contents(__DIR__ . '/../classes/local/analytics_scope_matcher.php');
+
+        $this->assertStringContainsString(
+            'return analytics_scope_matcher::matching_accessible_instances($videotrack, $cm, $userid);',
+            $scopesource
+        );
+        $this->assertStringContainsString('analytics_scope::technical_identity(', $matchersource);
+        $this->assertStringContainsString('self::get_instance_record(', $matchersource);
+        $this->assertStringContainsString('report_access::can_view_aggregate(', $matchersource);
+        $this->assertStringContainsString('cm.deletioninprogress = 0', $matchersource);
+        $this->assertStringContainsString('vf.contenthash = :contenthash', $matchersource);
+        $this->assertStringContainsString('analytics_scope::normalise_external_url(', $matchersource);
+    }
+
+    /**
+     * Matcher query stages preserve provider-id, upload-hash and canonical-URL identity.
+     */
+    public function test_matcher_preserves_source_specific_identity_contracts(): void {
+        $queryparts = new \ReflectionMethod(analytics_scope_matcher::class, 'candidate_query_parts');
+        [$joins, $where, $params] = $queryparts->invoke(null, 'youtube', 'provider-id');
+        $this->assertSame('', $joins);
+        $this->assertStringContainsString('vt.videoid = :videoid', $where);
+        $this->assertSame('provider-id', $params['videoid']);
+
+        [$joins, $where, $params] = $queryparts->invoke(null, 'upload', 'content-hash');
+        $this->assertStringContainsString('JOIN {files} vf', $joins);
+        $this->assertStringContainsString('vf.contenthash = :contenthash', $where);
+        $this->assertSame('content-hash', $params['contenthash']);
+
+        $filter = new \ReflectionMethod(analytics_scope_matcher::class, 'filter_external_candidates');
+        $candidates = [
+            7 => (object)['videourl' => 'HTTPS://Media.Example.test:443/video.mp4?b=2&a=1#part'],
+            8 => (object)['videourl' => 'https://media.example.test/other.mp4?a=1&b=2'],
+        ];
+        $filtered = $filter->invoke(
+            null,
+            $candidates,
+            'external',
+            'https://media.example.test/video.mp4?a=1&b=2'
+        );
+        $this->assertSame([7], array_keys($filtered));
+    }
+
+    /**
+     * Matcher ordering keeps the current instance first and then uses stable labels and ids.
+     */
+    public function test_matcher_orders_current_instance_first_deterministically(): void {
+        $accessible = [
+            8 => (object)['id' => 8, 'coursefullname' => 'Beta', 'name' => 'Video'],
+            7 => (object)['id' => 7, 'coursefullname' => 'Zulu', 'name' => 'Current'],
+            9 => (object)['id' => 9, 'coursefullname' => 'Alpha', 'name' => 'Video'],
+        ];
+        $sort = new \ReflectionMethod(analytics_scope_matcher::class, 'sort_current_first');
+        $arguments = [&$accessible, 7];
+        $sort->invokeArgs(null, $arguments);
+
+        $this->assertSame([7, 9, 8], array_keys($accessible));
+    }
+
     /**
      * Provider identities use the exact provider video id, not the activity name.
      */

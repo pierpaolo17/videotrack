@@ -1,6 +1,6 @@
 # Inventario delle funzioni
 
-Generato dall’albero sorgente VideoTrack 1.7.178. Le voci PHP includono funzioni e metodi nominati; le voci AMD includono dichiarazioni nominate, espressioni funzione assegnate e funzioni-metodo di oggetti.
+Generato dall’albero sorgente VideoTrack 1.7.179. Le voci PHP includono funzioni e metodi nominati; le voci AMD includono dichiarazioni nominate, espressioni funzione assegnate e funzioni-metodo di oggetti.
 
 **Funzioni/metodi PHP:** 802. **Callable AMD nominati:** 654.
 
@@ -842,15 +842,22 @@ Generato dall’albero sorgente VideoTrack 1.7.178. Le voci PHP includono funzio
 | `classes/local/analytics.php:432` | `append_visible_reaction_cluster` | Callable PHP `append_visible_reaction_cluster`; DocBlock e chiamanti definiscono parametri, valori restituiti ed effetti. |
 | `classes/local/analytics.php:461` | `add_user_intervals` | Callable PHP `add_user_intervals`; DocBlock e chiamanti definiscono parametri, valori restituiti ed effetti. |
 | `classes/local/analytics.php:497` | `add_interval_to_map` | Callable PHP `add_interval_to_map`; DocBlock e chiamanti definiscono parametri, valori restituiti ed effetti. |
-| `classes/local/analytics_scope.php:42` | `matching_accessible_instances` | Callable PHP `matching_accessible_instances`; DocBlock e chiamanti definiscono parametri, valori restituiti ed effetti. |
-| `classes/local/analytics_scope.php:144` | `effective_groupmode` | Callable PHP `effective_groupmode`; DocBlock e chiamanti definiscono parametri, valori restituiti ed effetti. |
-| `classes/local/analytics_scope.php:176` | `accessible_group_ids` | Callable PHP `accessible_group_ids`; DocBlock e chiamanti definiscono parametri, valori restituiti ed effetti. |
-| `classes/local/analytics_scope.php:214` | `technical_identity` | Callable PHP `technical_identity`; DocBlock e chiamanti definiscono parametri, valori restituiti ed effetti. |
-| `classes/local/analytics_scope.php:265` | `normalise_external_url` | Callable PHP `normalise_external_url`; DocBlock e chiamanti definiscono parametri, valori restituiti ed effetti. |
-| `classes/local/analytics_scope.php:288` | `normalise_external_authority` | Costruisce host minuscolo e conserva soltanto le porte non predefinite per l'identità media esterna canonica. |
-| `classes/local/analytics_scope.php:303` | `normalise_external_path` | Produce un percorso canonico non vuoto comprimendo i separatori ripetuti. |
-| `classes/local/analytics_scope.php:314` | `normalise_external_query` | Ordina le chiavi query di primo livello e codifica la query canonica secondo RFC 3986. |
-| `classes/local/analytics_scope.php:330` | `get_instance_record` | Callable PHP `get_instance_record`; DocBlock e chiamanti definiscono parametri, valori restituiti ed effetti. |
+| `classes/local/analytics_scope.php:42` | `matching_accessible_instances` | Facciata pubblica stabile per la scoperta scope stesso-video capability-safe. |
+| `classes/local/analytics_scope.php:59` | `effective_groupmode` | Risolve la modalità gruppi Moodle effettiva per uno scope Analytics. |
+| `classes/local/analytics_scope.php:91` | `accessible_group_ids` | Risolve i gruppi learner visibili a un report viewer. |
+| `classes/local/analytics_scope.php:129` | `technical_identity` | Produce identità per id provider, hash upload o URL canonico. |
+| `classes/local/analytics_scope.php:180` | `normalise_external_url` | Produce l’identità URL canonica dei media esterni. |
+| `classes/local/analytics_scope.php:203` | `normalise_external_authority` | Costruisce host minuscolo e conserva soltanto le porte non predefinite per l'identità media esterna canonica. |
+| `classes/local/analytics_scope.php:218` | `normalise_external_path` | Produce un percorso canonico non vuoto comprimendo i separatori ripetuti. |
+| `classes/local/analytics_scope.php:229` | `normalise_external_query` | Ordina le chiavi query di primo livello e codifica la query canonica secondo RFC 3986. |
+| `classes/local/analytics_scope_matcher.php:38` | `matching_accessible_instances` | Coordina identità, filtro capability, fallback corrente e ordinamento. |
+| `classes/local/analytics_scope_matcher.php:63` | `matching_candidates` | Carica i candidati stesso-video specifici della sorgente. |
+| `classes/local/analytics_scope_matcher.php:95` | `candidate_query_parts` | Costruisce join, predicati e parametri specifici della sorgente. |
+| `classes/local/analytics_scope_matcher.php:135` | `filter_external_candidates` | Impone uguaglianza URL canonica alle sorgenti HTML5 esterne. |
+| `classes/local/analytics_scope_matcher.php:151` | `accessible_candidates` | Mantiene i moduli candidati con capability report aggregato. |
+| `classes/local/analytics_scope_matcher.php:174` | `include_accessible_current` | Ripristina l’attività corrente accessibile assente dai candidati. |
+| `classes/local/analytics_scope_matcher.php:199` | `sort_current_first` | Applica l’ordine deterministico corrente/corso/nome/id. |
+| `classes/local/analytics_scope_matcher.php:214` | `get_instance_record` | Carica il record completo dello scope Analytics corrente. |
 | `classes/local/analytics_table_export.php:35` | `enabled_formats` | Callable PHP `enabled_formats`; DocBlock e chiamanti definiscono parametri, valori restituiti ed effetti. |
 | `classes/local/analytics_table_export.php:46` | `columns` | Callable PHP `columns`; DocBlock e chiamanti definiscono parametri, valori restituiti ed effetti. |
 | `classes/local/analytics_table_export.php:72` | `export_columns` | Callable PHP `export_columns`; costruisce le intestazioni della forma export standard senza riepiloghi evento. |
@@ -1226,9 +1233,12 @@ Generato dall’albero sorgente VideoTrack 1.7.178. Le voci PHP includono funzio
 | `tests/analytics_performance_contract_test.php:35` | `test_teacher_activity_options_use_lightweight_modinfo_path` | Funzione/metodo PHP nominato `test_teacher_activity_options_use_lightweight_modinfo_path`; vedere DocBlock e chiamanti per il contratto corrente. |
 | `tests/analytics_performance_contract_test.php:52` | `test_course_dashboard_batches_event_summaries_and_group_scope` | Funzione/metodo PHP nominato `test_course_dashboard_batches_event_summaries_and_group_scope`; vedere DocBlock e chiamanti per il contratto corrente. |
 | `tests/analytics_performance_contract_test.php:71` | `test_course_dashboard_batches_state_and_period_reads` | Funzione/metodo PHP nominato `test_course_dashboard_batches_state_and_period_reads`; vedere DocBlock e chiamanti per il contratto corrente. |
-| `tests/analytics_scope_test.php:36` | `test_provider_identity_uses_exact_video_id` | Callable PHP `test_provider_identity_uses_exact_video_id`; DocBlock e chiamanti definiscono parametri, valori restituiti ed effetti. |
-| `tests/analytics_scope_test.php:55` | `test_external_url_identity_is_normalised` | Callable PHP `test_external_url_identity_is_normalised`; DocBlock e chiamanti definiscono parametri, valori restituiti ed effetti. |
-| `tests/analytics_scope_test.php:82` | `test_effective_groupmode_satisfies_moodle_course_module_contract` | Callable PHP `test_effective_groupmode_satisfies_moodle_course_module_contract`; DocBlock e chiamanti definiscono parametri, valori restituiti ed effetti. |
+| `tests/analytics_scope_test.php:38` | `test_matching_scope_api_delegates_to_focused_service` | Verifica delega e confini matcher rilevanti per la sicurezza. |
+| `tests/analytics_scope_test.php:57` | `test_matcher_preserves_source_specific_identity_contracts` | Verifica gli stadi candidati per id provider, hash upload e URL canonico. |
+| `tests/analytics_scope_test.php:86` | `test_matcher_orders_current_instance_first_deterministically` | Verifica l’ordine stabile corrente/corso/nome/id. |
+| `tests/analytics_scope_test.php:102` | `test_provider_identity_uses_exact_video_id` | Verifica l’identità esatta per id provider. |
+| `tests/analytics_scope_test.php:121` | `test_external_url_identity_is_normalised` | Verifica l’identità URL esterna canonica. |
+| `tests/analytics_scope_test.php:148` | `test_effective_groupmode_satisfies_moodle_course_module_contract` | Verifica il contratto Moodle di group mode del course-module sintetico. |
 | `tests/analytics_table_export_test.php:34` | `setUp` | Callable PHP `setUp`; DocBlock e chiamanti definiscono parametri, valori restituiti ed effetti. |
 | `tests/analytics_table_export_test.php:42` | `test_rows_match_accessible_table_privacy_rules` | Callable PHP `test_rows_match_accessible_table_privacy_rules`; DocBlock e chiamanti definiscono parametri, valori restituiti ed effetti. |
 | `tests/analytics_table_export_test.php:81` | `test_rows_mark_unavailable_replay_metrics` | Callable PHP `test_rows_mark_unavailable_replay_metrics`; DocBlock e chiamanti definiscono parametri, valori restituiti ed effetti. |

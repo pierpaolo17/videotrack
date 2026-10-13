@@ -1,6 +1,6 @@
 # Distributed file inventory
 
-This inventory is generated against the VideoTrack 1.7.178 repository tree. It lists every distributed
+This inventory is generated against the VideoTrack 1.7.179 repository tree. It lists every distributed
 non-documentation file plus repository-only CI/tooling/hygiene files. Canonical JavaScript is under `amd/src`; files under
 `amd/build` are generated.
 
@@ -198,6 +198,7 @@ Entries: **312** — 309 distributed files and three repository-only files exclu
 | `classes/local/acknowledgement.php` | Versioned learner acknowledgement helpers. |
 | `classes/local/analytics.php` | Server-side aggregation for instance analytics. |
 | `classes/local/analytics_scope.php` | Resolves capability-safe Analytics scopes for the same technical video. |
+| `classes/local/analytics_scope_matcher.php` | Finds same-video Analytics candidates and enforces per-module aggregate-report access. |
 | `classes/local/analytics_table_export.php` | Builds privacy-safe rows for the accessible analytics table export. |
 | `classes/local/completion_config.php` | Current local domain/service class; see source DocBlock for its runtime contract. |
 | `classes/local/course_analytics.php` | Privacy-safe aggregation for the course-level VideoTrack dashboard. |

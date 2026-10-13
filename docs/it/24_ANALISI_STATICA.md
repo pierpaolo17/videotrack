@@ -104,6 +104,9 @@ dichiarazione di un parametro di metodo.
   utilizzati resta attivo.
 - Lo stub legacy riservato a Psalm rappresenta l'alias globale `renderable` e il tipo di ritorno Moodle errato
   `xmlddb_field`. Non esegue codice runtime, non sopprime categorie e non riduce il perimetro analizzato.
+- `analytics_scope::matching_accessible_instances()` resta la facciata pubblica, mentre `analytics_scope_matcher`
+  separa SQL dei candidati, predicati della sorgente, filtro URL esterni, filtro capability, fallback corrente e
+  ordinamento. La separazione conserva ogni confine di fiducia eliminando tre finding PHPMD dalla classe facciata.
 - `report_support`, `report_analytics_query` e `report_event_query` espongono ciascuno sette contratti pubblici coesi.
   SQL Analytics/provider/prese visione e SQL eventi/individuazione learner sono separati dal supporto per
   presentazione, opzioni, highlight e clustering. Il servizio mirato `report_time_filter` possiede quattro contratti

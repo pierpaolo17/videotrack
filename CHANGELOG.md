@@ -1,5 +1,24 @@
 # VideoTrack changelog
 
+## 1.7.179 - 2026-10-12
+
+### Focused capability-safe Analytics scope matcher
+
+- Accepted the complete 1.7.178 evidence: all six GitHub jobs passed across Moodle 5.0–5.3 with MariaDB and
+  PostgreSQL; PHPStan and Psalm reported no errors; PHPMD decreased from 97 to 94 reviewed advisory findings;
+  server PHPCS and PHP lint passed on 140 files; Grunt completed canonically on Moodle 5.0 and 5.3; PHPUnit passed
+  308 tests with 2807 assertions on both installations; and both strict validators reported 10 passes, zero
+  warnings and zero failures.
+- Kept `analytics_scope::matching_accessible_instances()` as the stable public API and moved candidate SQL,
+  source-specific identity predicates, canonical external-URL filtering, capability checks, current-instance
+  fallback and deterministic ordering into the focused `local\analytics_scope_matcher` service.
+- Preserved provider-id, uploaded-file content-hash and external-URL identity, deletion filtering, module-context
+  capability checks, current-activity-first ordering and returned record shape. Added a source contract for the
+  delegation and every security-relevant matcher boundary, and updated the current English and Italian technical
+  documentation. The change targets the method cyclomatic/NPath findings and the class-complexity finding assigned
+  to `analytics_scope`; the expected PHPMD count is 91, subject to CI confirmation. Database schema, capabilities,
+  AJAX services, privacy thresholds, AMD assets and language packs are unchanged.
+
 ## 1.7.178 - 2026-10-12
 
 ### Staged privacy-safe Analytics export rows

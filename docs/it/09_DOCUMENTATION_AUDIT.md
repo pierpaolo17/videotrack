@@ -1,6 +1,6 @@
 # Audit della documentazione
 
-Baseline: VideoTrack **1.7.178** (`2026101202`).
+Baseline: VideoTrack **1.7.179** (`2026101203`).
 
 ## Perimetro
 
@@ -33,7 +33,9 @@ duplicano intenzionalmente procedure implementative, dizionari dei campi o lungh
 ## Rilievi sull'albero corrente
 
 - Gli indici inglese e italiano hanno stesso perimetro e ordinamento.
-- Marker documentali, README principali e artefatti ER identificano 1.7.178 / 2026101202.
+- Marker documentali, README principali e artefatti ER identificano 1.7.179 / 2026101203.
+- Le Analytics tra corsi documentano la facciata stabile `analytics_scope` e il matcher focalizzato che possiede
+  selezione candidati, predicati dell’identità tecnica, filtro capability, fallback dell’istanza corrente e ordine.
 - L'identità dell'attività include `pix/icon.png` da 1024 pixel e un `pix/icon.svg` nativo e accessibile derivati
   dalla stessa grafica fornita dal maintainer.
 - `db/install.xml` dichiara sette chiavi primarie, 22 foreign key stabili e 22 indici espliciti. XMLDB genera inoltre
@@ -82,7 +84,9 @@ duplicano intenzionalmente procedure implementative, dizionari dei campi o lungh
   pubblici e separati da query e aggregazione. Le fasi dei grafici timeline preservano gap privacy e ordine SVG,
   mentre le fasi delle prese visione preservano la soppressione completa e del solo progresso. La costruzione
   dell'export combinato possiede separatamente padding timeline, riepiloghi evento ordinati, fallback integrità e
-  valori delle prese visione, conservando i contratti pubblici delle righe e della privacy. Il callback delle
+  valori delle prese visione, conservando i contratti pubblici delle righe e della privacy. La scoperta dei candidati
+  per lo stesso video è isolata in `analytics_scope_matcher`; le sue fasi conservano identità per id provider, hash
+  upload e URL canonico insieme ai controlli capability aggregati per modulo. Il callback delle
   feature Moodle usa una tabella, i valori Font
   Awesome contengono esattamente un nome
   icona validato e le icone renderizzate includono sempre l'etichetta visibile senza un flag booleano di
@@ -96,7 +100,7 @@ duplicano intenzionalmente procedure implementative, dizionari dei campi o lungh
 - Le evidenze CI/server generate non fanno parte dell'albero del plugin. Il `.gitignore` del repository, le regole
   Git archive `export-ignore`, le regole Moodle `.moodleignore` e un contratto PHPUnit di release hygiene impediscono
   insieme che `reports-*`, `videotrack-ci-*.zip` e `report_completo_videotrack_*.zip` entrino nelle release future.
-  L'archivio canonico 1.7.178 contiene quindi soltanto i 373 file legittimi del plugin.
+  L'archivio canonico 1.7.179 contiene quindi soltanto i 374 file legittimi del plugin.
 
 ## Controlli di release
 

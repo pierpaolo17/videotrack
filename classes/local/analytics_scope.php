@@ -44,92 +44,7 @@ final class analytics_scope {
         stdClass $cm,
         int $userid
     ): array {
-        global $DB;
-
-        $identity = self::technical_identity($videotrack, (int)$cm->id);
-        $current = self::get_instance_record((int)$videotrack->id);
-        if (!$identity || !$current) {
-            return $current ? [(int)$current->id => $current] : [];
-        }
-
-        $source = (string)$videotrack->videosource;
-        $params = ['modname' => 'videotrack', 'source' => $source];
-        $joins = '';
-        $where = 'vt.videosource = :source';
-
-        if ($source === 'youtube' || $source === 'vimeo') {
-            $where .= ' AND vt.videoid = :videoid';
-            $params['videoid'] = $identity['key'];
-        } else if ($source === 'upload') {
-            $joins = "
-                JOIN {context} filectx
-                  ON filectx.contextlevel = :modulecontext
-                 AND filectx.instanceid = cm.id
-                JOIN {files} vf
-                  ON vf.contextid = filectx.id
-                 AND vf.component = :filecomponent
-                 AND vf.filearea = :filearea
-                 AND vf.itemid = 0
-                 AND vf.filename <> :directoryfilename";
-            $where .= ' AND vf.contenthash = :contenthash';
-            $params += [
-                'modulecontext' => \core\context\module::LEVEL,
-                'filecomponent' => 'mod_videotrack',
-                'filearea' => 'videocontent',
-                'directoryfilename' => '.',
-                'contenthash' => $identity['key'],
-            ];
-        }
-
-        $sql = "SELECT vt.id, vt.course, vt.name, vt.videosource, vt.videoid, vt.videourl,
-                               vt.durationseconds, vt.reactionsenabled, vt.bookmarksenabled,
-                       vt.acknowledgementenabled, vt.acknowledgementtext,
-                       vt.acknowledgementformat, vt.acknowledgementtiming,
-                       vt.integrityindicatorsenabled, vt.pauseonfocusloss,
-                       vt.preventpictureinpicture, vt.randomfocuspauses, vt.clusterwindow,
-                               cm.id AS cmid, cm.groupmode, cm.groupingid,
-                               c.fullname AS coursefullname, c.groupmode AS coursegroupmode,
-                               c.groupmodeforce
-                  FROM {videotrack} vt
-                  JOIN {course_modules} cm ON cm.instance = vt.id
-                  JOIN {modules} m ON m.id = cm.module AND m.name = :modname
-                  JOIN {course} c ON c.id = vt.course
-                       {$joins}
-                 WHERE cm.deletioninprogress = 0
-                   AND {$where}";
-        $candidates = $DB->get_records_sql($sql, $params);
-
-        if ($source !== 'youtube' && $source !== 'vimeo' && $source !== 'upload') {
-            $candidates = array_filter($candidates, static function (stdClass $candidate) use ($identity): bool {
-                return self::normalise_external_url((string)$candidate->videourl) === $identity['key'];
-            });
-        }
-
-        $accessible = [];
-        foreach ($candidates as $candidate) {
-            $candidatecontext = context_module::instance((int)$candidate->cmid, IGNORE_MISSING);
-            if (!$candidatecontext || !report_access::can_view_aggregate($candidatecontext, $userid)) {
-                continue;
-            }
-            $candidate->contextid = (int)$candidatecontext->id;
-            $accessible[(int)$candidate->id] = $candidate;
-        }
-
-        if (!isset($accessible[(int)$videotrack->id])) {
-            $currentcontext = context_module::instance((int)$cm->id, IGNORE_MISSING);
-            if ($currentcontext && report_access::can_view_aggregate($currentcontext, $userid)) {
-                $current->contextid = (int)$currentcontext->id;
-                $accessible[(int)$current->id] = $current;
-            }
-        }
-
-        uasort($accessible, static function (stdClass $left, stdClass $right) use ($videotrack): int {
-            $leftcurrent = (int)$left->id === (int)$videotrack->id ? 0 : 1;
-            $rightcurrent = (int)$right->id === (int)$videotrack->id ? 0 : 1;
-            return [$leftcurrent, (string)$left->coursefullname, (string)$left->name, (int)$left->id]
-                <=> [$rightcurrent, (string)$right->coursefullname, (string)$right->name, (int)$right->id];
-        });
-        return $accessible;
+        return analytics_scope_matcher::matching_accessible_instances($videotrack, $cm, $userid);
     }
 
     /**
@@ -319,32 +234,5 @@ final class analytics_scope {
         parse_str((string)$parts['query'], $queryparts);
         ksort($queryparts);
         return http_build_query($queryparts, '', '&', PHP_QUERY_RFC3986);
-    }
-
-    /**
-     * Loads one instance together with course-module fields needed by Analytics.
-     *
-     * @param int $instanceid VideoTrack instance id.
-     * @return stdClass|null Scope record.
-     */
-    private static function get_instance_record(int $instanceid): ?stdClass {
-        global $DB;
-
-        $sql = "SELECT vt.id, vt.course, vt.name, vt.videosource, vt.videoid, vt.videourl,
-                       vt.durationseconds, vt.reactionsenabled, vt.bookmarksenabled,
-                       vt.acknowledgementenabled, vt.acknowledgementtext,
-                       vt.acknowledgementformat, vt.acknowledgementtiming,
-                       vt.integrityindicatorsenabled, vt.pauseonfocusloss,
-                       vt.preventpictureinpicture, vt.randomfocuspauses, vt.clusterwindow,
-                       cm.id AS cmid, cm.groupmode, cm.groupingid,
-                       c.fullname AS coursefullname, c.groupmode AS coursegroupmode,
-                       c.groupmodeforce
-                  FROM {videotrack} vt
-                  JOIN {course_modules} cm ON cm.instance = vt.id
-                  JOIN {modules} m ON m.id = cm.module AND m.name = :modname
-                  JOIN {course} c ON c.id = vt.course
-                 WHERE vt.id = :instanceid
-                   AND cm.deletioninprogress = 0";
-        return $DB->get_record_sql($sql, ['modname' => 'videotrack', 'instanceid' => $instanceid]) ?: null;
     }
 }
