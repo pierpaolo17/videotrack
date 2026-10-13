@@ -224,4 +224,34 @@ final class acknowledgement_test extends advanced_testcase {
         $this->assertNull($suppressed['confirmationcount']);
         $this->assertNull($suppressed['averageviewedpercent']);
     }
+
+    /**
+     * Empty results remain empty while repeat confirmations count one distinct learner.
+     */
+    public function test_analytics_summary_preserves_empty_and_repeat_user_boundaries(): void {
+        $empty = acknowledgement::analytics_summary([], 2);
+        $this->assertFalse($empty['hasdata']);
+        $this->assertFalse($empty['suppressed']);
+        $this->assertSame(0, $empty['confirmationcount']);
+        $this->assertSame(0, $empty['studentcount']);
+        $this->assertSame(0, $empty['progressmissing']);
+
+        $records = [
+            (object)['userid' => 0, 'viewedseconds' => 100.0, 'viewedpercent' => 100.0],
+            (object)['userid' => 17, 'viewedseconds' => 20.0, 'viewedpercent' => 25.0],
+            (object)['userid' => 17, 'viewedseconds' => null, 'viewedpercent' => null],
+        ];
+        $exact = acknowledgement::analytics_summary($records, 1);
+        $this->assertSame(2, $exact['confirmationcount']);
+        $this->assertSame(1, $exact['studentcount']);
+        $this->assertSame(1, $exact['progresscount']);
+        $this->assertSame(1, $exact['progressstudentcount']);
+        $this->assertSame(1, $exact['progressmissing']);
+        $this->assertSame(20.0, $exact['averageviewedseconds']);
+
+        $suppressed = acknowledgement::analytics_summary($records, 2);
+        $this->assertTrue($suppressed['suppressed']);
+        $this->assertNull($suppressed['confirmationcount']);
+        $this->assertNull($suppressed['progressmissing']);
+    }
 }

@@ -170,6 +170,51 @@ final class acknowledgement {
      * @return array Aggregate confirmation metrics and suppression state.
      */
     public static function analytics_summary(iterable $records, int $minusers): array {
+        $totals = self::count_analytics_records($records);
+        $confirmationcount = $totals['confirmationcount'];
+        $studentcount = $totals['studentcount'];
+        $progresscount = $totals['progresscount'];
+        $progressstudentcount = $totals['progressstudentcount'];
+
+        $hasdata = $confirmationcount > 0;
+        $minusers = max(1, $minusers);
+        $suppressed = $hasdata && $studentcount < $minusers;
+        $progresssuppressed = !$suppressed && $progresscount > 0 && $progressstudentcount < $minusers;
+        $averageviewedseconds = null;
+        $averageviewedpercent = null;
+        if ($progresscount > 0) {
+            $averageviewedseconds = round($totals['viewedsecondssum'] / $progresscount, 3);
+            $averageviewedpercent = round($totals['viewedpercentsum'] / $progresscount, 2);
+        }
+        $counts = self::mask_counts([
+            'confirmationcount' => $confirmationcount,
+            'studentcount' => $studentcount,
+            'progresscount' => $progresscount,
+            'progressstudentcount' => $progressstudentcount,
+            'progressmissing' => $confirmationcount - $progresscount,
+        ], $studentcount, $minusers);
+
+        return [
+            'hasdata' => $hasdata,
+            'confirmationcount' => $counts['confirmationcount'],
+            'studentcount' => $counts['studentcount'],
+            'progresscount' => $counts['progresscount'],
+            'progressstudentcount' => $counts['progressstudentcount'],
+            'progressmissing' => $counts['progressmissing'],
+            'averageviewedseconds' => ($suppressed || $progresssuppressed) ? null : $averageviewedseconds,
+            'averageviewedpercent' => ($suppressed || $progresssuppressed) ? null : $averageviewedpercent,
+            'suppressed' => $suppressed,
+            'progresssuppressed' => $progresssuppressed,
+        ];
+    }
+
+    /**
+     * Count confirmations and progress snapshots without exposing individual records.
+     *
+     * @param iterable $records Current confirmation records.
+     * @return array Counts and sums used by the privacy-safe summary.
+     */
+    private static function count_analytics_records(iterable $records): array {
         $confirmationcount = 0;
         $userids = [];
         $progresscount = 0;
@@ -195,31 +240,29 @@ final class acknowledgement {
             $viewedpercentsum += min(100.0, max(0.0, (float)$viewedpercent));
         }
 
-        $studentcount = count($userids);
-        $progressstudentcount = count($progressuserids);
-        $hasdata = $confirmationcount > 0;
-        $minusers = max(1, $minusers);
-        $suppressed = $hasdata && $studentcount < $minusers;
-        $progresssuppressed = !$suppressed && $progresscount > 0 && $progressstudentcount < $minusers;
-        $averageviewedseconds = $progresscount > 0
-            ? round($viewedsecondssum / $progresscount, 3)
-            : null;
-        $averageviewedpercent = $progresscount > 0
-            ? round($viewedpercentsum / $progresscount, 2)
-            : null;
-
         return [
-            'hasdata' => $hasdata,
-            'confirmationcount' => $suppressed ? null : $confirmationcount,
-            'studentcount' => $suppressed ? null : $studentcount,
-            'progresscount' => $suppressed ? null : $progresscount,
-            'progressstudentcount' => $suppressed ? null : $progressstudentcount,
-            'progressmissing' => $suppressed ? null : $confirmationcount - $progresscount,
-            'averageviewedseconds' => ($suppressed || $progresssuppressed) ? null : $averageviewedseconds,
-            'averageviewedpercent' => ($suppressed || $progresssuppressed) ? null : $averageviewedpercent,
-            'suppressed' => $suppressed,
-            'progresssuppressed' => $progresssuppressed,
+            'confirmationcount' => $confirmationcount,
+            'studentcount' => count($userids),
+            'progresscount' => $progresscount,
+            'progressstudentcount' => count($progressuserids),
+            'viewedsecondssum' => $viewedsecondssum,
+            'viewedpercentsum' => $viewedpercentsum,
         ];
+    }
+
+    /**
+     * Suppress exact counts when a nonempty activity is below the privacy threshold.
+     *
+     * @param array $counts Exact counts keyed by summary field.
+     * @param int $studentcount Distinct users with confirmations.
+     * @param int $minusers Minimum distinct users required for exact values.
+     * @return array Exact counts or null values when suppressed.
+     */
+    private static function mask_counts(array $counts, int $studentcount, int $minusers): array {
+        if ($studentcount > 0 && $studentcount < $minusers) {
+            return array_fill_keys(array_keys($counts), null);
+        }
+        return $counts;
     }
 
     /**

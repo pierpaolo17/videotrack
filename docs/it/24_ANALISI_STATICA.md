@@ -161,8 +161,9 @@ dichiarazione di un parametro di metodo.
   Awesome separa il sottoinsieme revisionato dei decoratori da un solo nome icona. Contratti pubblici, limiti e
   default fail-closed sono coperti indipendentemente dalla riduzione di complessità.
 - PHPMD resta consultivo. La baseline 1.7.179 accettata contiene 91 finding; questa candidata mira al finding
-  `ExcessiveMethodLength` residuo sull'hook di backup `define_structure()`. Il conteggio atteso è 90, ma il risultato
-  va letto nell'artifact CI della candidata. I rilievi residui riguardano complessità, dimensione, classi pubbliche ampie,
+  `ExcessiveMethodLength` residuo sull'hook di backup `define_structure()`. La CI 1.7.183 ha confermato 90 finding.
+  La candidata 1.7.184 mira ai finding ciclomatico e NPath di `analytics_summary()`; 88 è una stima
+  fino alla verifica dell'artifact CI della candidata. I rilievi residui riguardano complessità, dimensione, classi pubbliche ampie,
   parametri obbligatori dei callback Moodle e flag booleani che richiedono refactoring comportamentali separati.
 - Configurazione degli analizzatori, perimetro di produzione, schema database e asset AMD non cambiano con queste
   pulizie delle API. I conteggi della candidata diventano autorevoli soltanto dopo aver conservato e revisionato gli
