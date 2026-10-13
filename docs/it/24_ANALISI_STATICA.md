@@ -107,6 +107,10 @@ dichiarazione di un parametro di metodo.
 - `analytics_scope::matching_accessible_instances()` resta la facciata pubblica, mentre `analytics_scope_matcher`
   separa SQL dei candidati, predicati della sorgente, filtro URL esterni, filtro capability, fallback corrente e
   ordinamento. La separazione conserva ogni confine di fiducia eliminando tre finding PHPMD dalla classe facciata.
+- L'hook della struttura di backup delega a fasi private nominate la creazione dei nodi radice, reazioni e dati
+  utente, il collegamento canonico, la configurazione delle sorgenti e le annotazioni delle aree file. I contratti
+  sorgente preservano annidamento XML, filtri retention/utente positivo, annotazioni degli identificatori e aree file
+  indipendentemente dalla riduzione della lunghezza del metodo.
 - `report_support`, `report_analytics_query` e `report_event_query` espongono ciascuno sette contratti pubblici coesi.
   SQL Analytics/provider/prese visione e SQL eventi/individuazione learner sono separati dal supporto per
   presentazione, opzioni, highlight e clustering. Il servizio mirato `report_time_filter` possiede quattro contratti
@@ -156,8 +160,8 @@ dichiarazione di un parametro di metodo.
 - Il callback delle feature Moodle è una tabella diretta feature-valore, mentre la validazione delle reazioni Font
   Awesome separa il sottoinsieme revisionato dei decoratori da un solo nome icona. Contratti pubblici, limiti e
   default fail-closed sono coperti indipendentemente dalla riduzione di complessità.
-- PHPMD resta consultivo. La baseline 1.7.177 accettata contiene 97 finding; questa candidata mira ai tre finding di
-  complessità/lunghezza su `analytics_table_export::export_rows()`. Il conteggio atteso è 94, ma il risultato esatto
+- PHPMD resta consultivo. La baseline 1.7.179 accettata contiene 91 finding; questa candidata mira al finding
+  `ExcessiveMethodLength` residuo sull'hook di backup `define_structure()`. Il conteggio atteso è 90, ma il risultato
   va letto nell'artifact CI della candidata. I rilievi residui riguardano complessità, dimensione, classi pubbliche ampie,
   parametri obbligatori dei callback Moodle e flag booleani che richiedono refactoring comportamentali separati.
 - Configurazione degli analizzatori, perimetro di produzione, schema database e asset AMD non cambiano con queste
