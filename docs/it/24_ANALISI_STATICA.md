@@ -160,11 +160,11 @@ dichiarazione di un parametro di metodo.
 - Il callback delle feature Moodle è una tabella diretta feature-valore, mentre la validazione delle reazioni Font
   Awesome separa il sottoinsieme revisionato dei decoratori da un solo nome icona. Contratti pubblici, limiti e
   default fail-closed sono coperti indipendentemente dalla riduzione di complessità.
-- PHPMD resta consultivo. La baseline 1.7.179 accettata contiene 91 finding; questa candidata mira al finding
-  `ExcessiveMethodLength` residuo sull'hook di backup `define_structure()`. La CI 1.7.183 ha confermato 90 finding.
-  La candidata 1.7.184 mira ai finding ciclomatico e NPath di `analytics_summary()`; 88 è una stima
-  fino alla verifica dell'artifact CI della candidata. I rilievi residui riguardano complessità, dimensione, classi pubbliche ampie,
-  parametri obbligatori dei callback Moodle e flag booleani che richiedono refactoring comportamentali separati.
+- PHPMD resta consultivo. La CI completa 1.7.184 ha confermato 88 finding, contro i 90 della 1.7.183.
+  La candidata 1.7.185 estrae l'aggregazione degli intervalli per utente da `analytics::build()` per
+  affrontare i suoi finding ciclomatico e NPath. La stima di 86 richiede conferma nella CI della candidata.
+  I rilievi residui riguardano complessità, dimensione, classi pubbliche ampie, parametri obbligatori
+  dei callback Moodle e flag booleani che richiedono refactoring comportamentali separati.
 - Configurazione degli analizzatori, perimetro di produzione, schema database e asset AMD non cambiano con queste
   pulizie delle API. I conteggi della candidata diventano autorevoli soltanto dopo aver conservato e revisionato gli
   artifact CI completi.

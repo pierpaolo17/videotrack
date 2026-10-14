@@ -1,8 +1,8 @@
 # Function inventory
 
-Generated from the VideoTrack 1.7.184 source tree. PHP entries include named functions and methods; AMD entries include named declarations, assigned function expressions and object-method functions.
+Generated from the VideoTrack 1.7.185 source tree. PHP entries include named functions and methods; AMD entries include named declarations, assigned function expressions and object-method functions.
 
-**PHP functions/methods:** 802. **Named AMD callables:** 654.
+**PHP functions/methods:** 805. **Named AMD callables:** 654.
 
 | Location | Callable | Responsibility |
 |---|---|---|
@@ -842,14 +842,15 @@ Generated from the VideoTrack 1.7.184 source tree. PHP entries include named fun
 | `classes/local/analytics.php:96` | `restrict_to_own_groups` | PHP callable `restrict_to_own_groups`; see its DocBlock and callers for parameter, return-value and side-effect details. |
 | `classes/local/analytics.php:107` | `normalise_bin_size` | PHP callable `normalise_bin_size`; see its DocBlock and callers for parameter, return-value and side-effect details. |
 | `classes/local/analytics.php:135` | `build` | PHP callable `build`; see its DocBlock and callers for parameter, return-value and side-effect details. |
-| `classes/local/analytics.php:238` | `build_from_states` | PHP callable `build_from_states`; see its DocBlock and callers for parameter, return-value and side-effect details. |
-| `classes/local/analytics.php:276` | `apply_privacy_threshold` | PHP callable `apply_privacy_threshold`; see its DocBlock and callers for parameter, return-value and side-effect details. |
-| `classes/local/analytics.php:336` | `count_summary` | PHP callable `count_summary`; see its DocBlock and callers for parameter, return-value and side-effect details. |
-| `classes/local/analytics.php:359` | `reaction_summary` | PHP callable `reaction_summary`; see its DocBlock and callers for parameter, return-value and side-effect details. |
-| `classes/local/analytics.php:371` | `cluster_reactions` | PHP callable `cluster_reactions`; see its DocBlock and callers for parameter, return-value and side-effect details. |
-| `classes/local/analytics.php:432` | `append_visible_reaction_cluster` | PHP callable `append_visible_reaction_cluster`; see its DocBlock and callers for parameter, return-value and side-effect details. |
-| `classes/local/analytics.php:461` | `add_user_intervals` | PHP callable `add_user_intervals`; see its DocBlock and callers for parameter, return-value and side-effect details. |
-| `classes/local/analytics.php:497` | `add_interval_to_map` | PHP callable `add_interval_to_map`; see its DocBlock and callers for parameter, return-value and side-effect details. |
+| `classes/local/analytics.php:209` | `accumulate_segments` | PHP callable `accumulate_segments`; see its DocBlock and callers for parameter, return-value and side-effect details. |
+| `classes/local/analytics.php:252` | `build_from_states` | PHP callable `build_from_states`; see its DocBlock and callers for parameter, return-value and side-effect details. |
+| `classes/local/analytics.php:290` | `apply_privacy_threshold` | PHP callable `apply_privacy_threshold`; see its DocBlock and callers for parameter, return-value and side-effect details. |
+| `classes/local/analytics.php:350` | `count_summary` | PHP callable `count_summary`; see its DocBlock and callers for parameter, return-value and side-effect details. |
+| `classes/local/analytics.php:373` | `reaction_summary` | PHP callable `reaction_summary`; see its DocBlock and callers for parameter, return-value and side-effect details. |
+| `classes/local/analytics.php:385` | `cluster_reactions` | PHP callable `cluster_reactions`; see its DocBlock and callers for parameter, return-value and side-effect details. |
+| `classes/local/analytics.php:446` | `append_visible_reaction_cluster` | PHP callable `append_visible_reaction_cluster`; see its DocBlock and callers for parameter, return-value and side-effect details. |
+| `classes/local/analytics.php:475` | `add_user_intervals` | PHP callable `add_user_intervals`; see its DocBlock and callers for parameter, return-value and side-effect details. |
+| `classes/local/analytics.php:511` | `add_interval_to_map` | PHP callable `add_interval_to_map`; see its DocBlock and callers for parameter, return-value and side-effect details. |
 | `classes/local/analytics_scope.php:42` | `matching_accessible_instances` | Stable public facade for capability-safe same-video scope discovery. |
 | `classes/local/analytics_scope.php:59` | `effective_groupmode` | Resolves the effective Moodle group mode for an Analytics scope. |
 | `classes/local/analytics_scope.php:91` | `accessible_group_ids` | Resolves the learner groups visible to one report viewer. |
@@ -1260,18 +1261,20 @@ Generated from the VideoTrack 1.7.184 source tree. PHP entries include named fun
 | `tests/analytics_table_export_test.php:196` | `test_export_rows_preserve_combined_column_alignment` | Protects combined timeline, event and acknowledgement row widths, order and values. |
 | `tests/analytics_test.php:36` | `test_bin_size_is_normalised_for_duration` | PHP callable `test_bin_size_is_normalised_for_duration`; see its DocBlock and callers for parameter, return-value and side-effect details. |
 | `tests/analytics_test.php:45` | `test_build_separates_unique_and_repeated_viewing` | PHP callable `test_build_separates_unique_and_repeated_viewing`; see its DocBlock and callers for parameter, return-value and side-effect details. |
-| `tests/analytics_test.php:72` | `test_exact_reporting_threshold_preserves_single_user_aggregates` | Named PHP function/method `test_exact_reporting_threshold_preserves_single_user_aggregates`; see source DocBlock and callers for the current contract. |
-| `tests/analytics_test.php:119` | `test_privacy_threshold_masks_small_values` | PHP callable `test_privacy_threshold_masks_small_values`; see its DocBlock and callers for parameter, return-value and side-effect details. |
-| `tests/analytics_test.php:170` | `test_privacy_threshold_keeps_zero_intervals_visible` | PHP callable `test_privacy_threshold_keeps_zero_intervals_visible`; see its DocBlock and callers for parameter, return-value and side-effect details. |
-| `tests/analytics_test.php:199` | `test_privacy_threshold_keeps_total_when_only_replays_are_suppressed` | PHP callable `test_privacy_threshold_keeps_total_when_only_replays_are_suppressed`; see its DocBlock and callers for parameter, return-value and side-effect details. |
-| `tests/analytics_test.php:223` | `test_reaction_cluster_limit_is_reported` | PHP callable `test_reaction_cluster_limit_is_reported`; see its DocBlock and callers for parameter, return-value and side-effect details. |
-| `tests/analytics_test.php:250` | `test_reaction_clusters_apply_student_threshold` | PHP callable `test_reaction_clusters_apply_student_threshold`; see its DocBlock and callers for parameter, return-value and side-effect details. |
-| `tests/analytics_test.php:274` | `test_reaction_clusters_use_stable_reaction_keys` | PHP callable `test_reaction_clusters_use_stable_reaction_keys`; see its DocBlock and callers for parameter, return-value and side-effect details. |
-| `tests/analytics_test.php:327` | `test_reaction_privacy_is_independent_from_viewing_privacy` | PHP callable `test_reaction_privacy_is_independent_from_viewing_privacy`; see its DocBlock and callers for parameter, return-value and side-effect details. |
-| `tests/analytics_test.php:355` | `test_group_scope_restriction_uses_effective_activity_mode` | PHP callable `test_group_scope_restriction_uses_effective_activity_mode`; see its DocBlock and callers for parameter, return-value and side-effect details. |
-| `tests/analytics_test.php:365` | `test_reaction_summary_masks_small_populations` | PHP callable `test_reaction_summary_masks_small_populations`; see its DocBlock and callers for parameter, return-value and side-effect details. |
-| `tests/analytics_test.php:386` | `test_build_from_states_recovers_unique_viewers` | PHP callable `test_build_from_states_recovers_unique_viewers`; see its DocBlock and callers for parameter, return-value and side-effect details. |
-| `tests/analytics_test.php:406` | `test_resolve_duration_uses_best_persisted_source` | PHP callable `test_resolve_duration_uses_best_persisted_source`; see its DocBlock and callers for parameter, return-value and side-effect details. |
+| `tests/analytics_test.php:72` | `test_build_streams_user_boundaries_and_ignores_invalid_intervals` | PHP callable `test_build_streams_user_boundaries_and_ignores_invalid_intervals`; see its DocBlock and callers for parameter, return-value and side-effect details. |
+| `tests/analytics_test.php:95` | `test_build_with_zero_duration_does_not_consume_segments` | PHP callable `test_build_with_zero_duration_does_not_consume_segments`; see its DocBlock and callers for parameter, return-value and side-effect details. |
+| `tests/analytics_test.php:113` | `test_exact_reporting_threshold_preserves_single_user_aggregates` | Named PHP function/method `test_exact_reporting_threshold_preserves_single_user_aggregates`; see source DocBlock and callers for the current contract. |
+| `tests/analytics_test.php:160` | `test_privacy_threshold_masks_small_values` | PHP callable `test_privacy_threshold_masks_small_values`; see its DocBlock and callers for parameter, return-value and side-effect details. |
+| `tests/analytics_test.php:211` | `test_privacy_threshold_keeps_zero_intervals_visible` | PHP callable `test_privacy_threshold_keeps_zero_intervals_visible`; see its DocBlock and callers for parameter, return-value and side-effect details. |
+| `tests/analytics_test.php:240` | `test_privacy_threshold_keeps_total_when_only_replays_are_suppressed` | PHP callable `test_privacy_threshold_keeps_total_when_only_replays_are_suppressed`; see its DocBlock and callers for parameter, return-value and side-effect details. |
+| `tests/analytics_test.php:264` | `test_reaction_cluster_limit_is_reported` | PHP callable `test_reaction_cluster_limit_is_reported`; see its DocBlock and callers for parameter, return-value and side-effect details. |
+| `tests/analytics_test.php:291` | `test_reaction_clusters_apply_student_threshold` | PHP callable `test_reaction_clusters_apply_student_threshold`; see its DocBlock and callers for parameter, return-value and side-effect details. |
+| `tests/analytics_test.php:315` | `test_reaction_clusters_use_stable_reaction_keys` | PHP callable `test_reaction_clusters_use_stable_reaction_keys`; see its DocBlock and callers for parameter, return-value and side-effect details. |
+| `tests/analytics_test.php:368` | `test_reaction_privacy_is_independent_from_viewing_privacy` | PHP callable `test_reaction_privacy_is_independent_from_viewing_privacy`; see its DocBlock and callers for parameter, return-value and side-effect details. |
+| `tests/analytics_test.php:396` | `test_group_scope_restriction_uses_effective_activity_mode` | PHP callable `test_group_scope_restriction_uses_effective_activity_mode`; see its DocBlock and callers for parameter, return-value and side-effect details. |
+| `tests/analytics_test.php:406` | `test_reaction_summary_masks_small_populations` | PHP callable `test_reaction_summary_masks_small_populations`; see its DocBlock and callers for parameter, return-value and side-effect details. |
+| `tests/analytics_test.php:427` | `test_build_from_states_recovers_unique_viewers` | PHP callable `test_build_from_states_recovers_unique_viewers`; see its DocBlock and callers for parameter, return-value and side-effect details. |
+| `tests/analytics_test.php:447` | `test_resolve_duration_uses_best_persisted_source` | PHP callable `test_resolve_duration_uses_best_persisted_source`; see its DocBlock and callers for parameter, return-value and side-effect details. |
 | `tests/behat/behat_mod_videotrack.php:42` | `the_videotrack_focus_policy_is` | Asserts the effective focus policy exposed by the real player JSON. |
 | `tests/behat/behat_mod_videotrack.php:65` | `the_videotrack_html5_media_is_ready` | Waits for local HTML5 fixture metadata in Behat. |
 | `tests/behat/behat_mod_videotrack.php:85` | `i_seek_the_videotrack_html5_media_to_seconds` | Drives a deterministic HTML5 seek in the browser test harness. |

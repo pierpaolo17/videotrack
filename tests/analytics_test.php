@@ -67,6 +67,47 @@ final class analytics_test extends advanced_testcase {
     }
 
     /**
+     * Streaming aggregation skips invalid intervals and flushes the final valid user.
+     */
+    public function test_build_streams_user_boundaries_and_ignores_invalid_intervals(): void {
+        $segments = (static function (): \Generator {
+            yield (object)['userid' => 0, 'videotimestart' => 0, 'videotimeend' => 30];
+            yield (object)['userid' => 1, 'videotimestart' => 0, 'videotimeend' => 10];
+            yield (object)['userid' => 1, 'videotimestart' => 7, 'videotimeend' => 7];
+            yield (object)['userid' => 2, 'videotimestart' => 20, 'videotimeend' => 30];
+            yield (object)['userid' => 2, 'videotimestart' => 24, 'videotimeend' => 29];
+            yield (object)['userid' => 3, 'videotimestart' => 0, 'videotimeend' => 0];
+        })();
+
+        $result = analytics::build($segments, 40, 10);
+
+        $this->assertSame(2, $result['viewers']);
+        $this->assertSame(25.0, $result['rawseconds']);
+        $this->assertSame(20.0, $result['uniqueseconds']);
+        $this->assertSame(5.0, $result['repeatseconds']);
+        $this->assertSame(1, $result['bins'][0]['viewers']);
+        $this->assertSame(1, $result['bins'][2]['repeatviewers']);
+    }
+
+    /**
+     * Zero-duration analytics preserve their empty response without consuming segments.
+     */
+    public function test_build_with_zero_duration_does_not_consume_segments(): void {
+        $consumed = false;
+        $segments = (static function () use (&$consumed): \Generator {
+            $consumed = true;
+            yield (object)['userid' => 1, 'videotimestart' => 0, 'videotimeend' => 10];
+        })();
+
+        $result = analytics::build($segments, 0.0, 10);
+
+        $this->assertFalse($consumed);
+        $this->assertSame(0, $result['viewers']);
+        $this->assertSame([], $result['bins']);
+        $this->assertSame(0.0, $result['rawseconds']);
+    }
+
+    /**
      * Authorised exact reporting can expose aggregates from a single contributing user.
      */
     public function test_exact_reporting_threshold_preserves_single_user_aggregates(): void {
