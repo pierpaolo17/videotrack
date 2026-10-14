@@ -45,26 +45,7 @@ final class course_analytics_loader {
         require_once($CFG->libdir . '/enrollib.php');
         require_once($CFG->libdir . '/grouplib.php');
 
-        $sql = "SELECT vt.id, vt.course, vt.name, vt.videosource, vt.durationseconds,
-                       vt.bookmarksenabled, cm.id AS cmid, cm.groupmode, cm.groupingid,
-                       c.groupmode AS coursegroupmode, c.groupmodeforce
-                  FROM {videotrack} vt
-                  JOIN {course_modules} cm ON cm.instance = vt.id
-                  JOIN {modules} m ON m.id = cm.module AND m.name = :modname
-                  JOIN {course} c ON c.id = vt.course
-                 WHERE vt.course = :courseid
-                   AND cm.course = :cmcourseid
-                   AND cm.deletioninprogress = 0";
-        $params = [
-            'modname' => 'videotrack',
-            'courseid' => (int)$course->id,
-            'cmcourseid' => (int)$course->id,
-        ];
-        if ($activityid > 0) {
-            $sql .= " AND vt.id = :activityid";
-            $params['activityid'] = $activityid;
-        }
-        $instances = $DB->get_records_sql($sql, $params);
+        $instances = self::course_instances($course, $activityid);
         if (!$instances) {
             return [];
         }
@@ -112,6 +93,38 @@ final class course_analytics_loader {
             ];
         }
         return $scopes;
+    }
+
+    /**
+     * Reads course activities before per-module visibility and learner-scope checks.
+     *
+     * @param stdClass $course Course record.
+     * @param int $activityid Optional activity filter.
+     * @return array Matching activity records.
+     */
+    private static function course_instances(stdClass $course, int $activityid): array {
+        global $DB;
+
+        $sql = "SELECT vt.id, vt.course, vt.name, vt.videosource, vt.durationseconds,
+                       vt.bookmarksenabled, cm.id AS cmid, cm.groupmode, cm.groupingid,
+                       c.groupmode AS coursegroupmode, c.groupmodeforce
+                  FROM {videotrack} vt
+                  JOIN {course_modules} cm ON cm.instance = vt.id
+                  JOIN {modules} m ON m.id = cm.module AND m.name = :modname
+                  JOIN {course} c ON c.id = vt.course
+                 WHERE vt.course = :courseid
+                   AND cm.course = :cmcourseid
+                   AND cm.deletioninprogress = 0";
+        $params = [
+            'modname' => 'videotrack',
+            'courseid' => (int)$course->id,
+            'cmcourseid' => (int)$course->id,
+        ];
+        if ($activityid > 0) {
+            $sql .= " AND vt.id = :activityid";
+            $params['activityid'] = $activityid;
+        }
+        return $DB->get_records_sql($sql, $params);
     }
 
     /**

@@ -1,5 +1,20 @@
 # VideoTrack changelog
 
+## 1.7.189 - 2026-10-14
+
+### Course dashboard CI correction
+
+- All six first-push 1.7.188 CI jobs installed and validated the plugin, passed 24 Behat
+  scenarios, but failed the same new PHPUnit test: `advanced_testcase` has no `getAdminUser()`
+  method. PHPDoc, PHPCS, lint, PHPStan and Psalm reported no blocking errors; PHPMD fell
+  from 82 to 79 findings, with a new cyclomatic finding on the loader's `scopes()` method.
+- Set the admin user through Moodle's existing `setAdminUser()` fixture and use the current
+  user id in the activity-filter regression. Move the unchanged activity-selection SQL into
+  a private loader method so `scopes()` focuses on visibility and capability checks. Preserve
+  public signatures, SQL, filters and query count. The PHPMD impact and test outcome require
+  confirmation in the full CI matrix. Database schema, upgrade/restore, services, AMD and
+  languages are unchanged.
+
 ## 1.7.188 - 2026-10-14
 
 ### Course dashboard scope and batched-record loader

@@ -151,12 +151,11 @@ line, not for redeclaring a method parameter.
 - The Moodle feature callback is a direct feature-to-value table, while Font Awesome reaction validation partitions
   the reviewed decorator subset from exactly one icon name. Their public contracts, limits and fail-closed defaults
   are covered independently of the complexity reduction.
-- PHPMD remains advisory. The 1.7.187 CI confirmed 82 findings, down from 84 in 1.7.186;
-  `summarise_states()` and `summarise_period_segments()` no longer trigger cyclomatic findings.
-  The `course_analytics` class metric rose from 74 to 76. The 1.7.188 candidate moves
-  visibility/group scope and batched SQL reads into `course_analytics_loader`, keeping the
-  existing summary entry point and contract. The method-level and class-level impact requires
-  confirmation from the full candidate CI report.
+- PHPMD remains advisory. The 1.7.188 first-push CI confirmed 79 findings, down from 82
+  in 1.7.187. It removed the three `get_course_rows()` findings and the `course_analytics`
+  class-level finding, but introduced one cyclomatic finding on `course_analytics_loader::scopes()`.
+  The 1.7.189 candidate isolates the unchanged course activity SQL in a private method and
+  corrects the failing admin-user PHPUnit fixture. The final finding count requires CI confirmation.
   Remaining reports concern reviewed complexity, size, broad public classes, required Moodle callback
   parameters and boolean switches that need separate behavioural refactoring.
 - Static-analysis configuration, production scope, database schema and AMD assets are unchanged by these API
