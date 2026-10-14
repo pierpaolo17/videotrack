@@ -67,6 +67,25 @@ final class course_analytics_test extends advanced_testcase {
     }
 
     /**
+     * The last state for each learner replaces earlier snapshots; invalid users do not count.
+     */
+    public function test_state_summary_uses_last_valid_state_per_learner(): void {
+        $states = [
+            $this->state(1, 100, true, '[[0,40]]', 40),
+            $this->state(0, 100, true, '[[0,40]]', 40),
+            $this->state(1, 25, false, '[[0,10]]', 40),
+            $this->state(2, 50, true, '[[0,20]]', 40),
+        ];
+
+        $summary = course_analytics::summarise_states($states, 40, analytics::EXACT_REPORT_MIN_USERS);
+
+        $this->assertSame(2, $summary['started']['eventcount']);
+        $this->assertSame(37.5, $summary['averagepercent']);
+        $this->assertSame(37.5, $summary['medianpercent']);
+        $this->assertSame(1, $summary['completions']['eventcount']);
+    }
+
+    /**
      * A suppressed positive timeline bin hides the retention denominator and main drop.
      */
     public function test_state_summary_hides_drop_when_retention_denominator_is_suppressed(): void {
@@ -198,6 +217,70 @@ final class course_analytics_test extends advanced_testcase {
         $this->assertNull($summary['completions']['eventcount']);
         $this->assertTrue($summary['noncompleted']['suppressed']);
         $this->assertNull($summary['noncompleted']['eventcount']);
+    }
+
+    /**
+     * Period endpoints are inclusive while unvalidated, out-of-period and invalid-user rows are ignored.
+     */
+    public function test_period_summary_keeps_both_boundaries_and_ignores_invalid_rows(): void {
+        $segments = [
+            (object)[
+                'userid' => 11,
+                'servervalidated' => 1,
+                'timecreated' => 99,
+                'videotimestart' => 0.0,
+                'videotimeend' => 100.0,
+            ],
+            (object)[
+                'userid' => 11,
+                'servervalidated' => 1,
+                'timecreated' => 100,
+                'videotimestart' => 0.0,
+                'videotimeend' => 20.0,
+            ],
+            (object)[
+                'userid' => 0,
+                'servervalidated' => 1,
+                'timecreated' => 150,
+                'videotimestart' => 0.0,
+                'videotimeend' => 100.0,
+            ],
+            (object)[
+                'userid' => 12,
+                'servervalidated' => 0,
+                'timecreated' => 150,
+                'videotimestart' => 0.0,
+                'videotimeend' => 100.0,
+            ],
+            (object)[
+                'userid' => 12,
+                'servervalidated' => 1,
+                'timecreated' => 200,
+                'videotimestart' => 20.0,
+                'videotimeend' => 50.0,
+            ],
+            (object)[
+                'userid' => 12,
+                'servervalidated' => 1,
+                'timecreated' => 201,
+                'videotimestart' => 0.0,
+                'videotimeend' => 100.0,
+            ],
+        ];
+
+        $summary = course_analytics::summarise_period_segments(
+            $segments,
+            [11 => true, 12 => false],
+            100.0,
+            2,
+            100,
+            200
+        );
+
+        $this->assertSame(2, $summary['started']['eventcount']);
+        $this->assertSame(25.0, $summary['averagepercent']);
+        $this->assertSame(25.0, $summary['medianpercent']);
+        $this->assertTrue($summary['completions']['suppressed']);
     }
 
     /**
