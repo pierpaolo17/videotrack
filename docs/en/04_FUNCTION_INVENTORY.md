@@ -1,8 +1,8 @@
 # Function inventory
 
-Generated from the VideoTrack 1.7.190 source tree. PHP entries include named functions and methods; AMD entries include named declarations, assigned function expressions and object-method functions.
+Generated from the VideoTrack 1.7.191 source tree. PHP entries include named functions and methods; AMD entries include named declarations, assigned function expressions and object-method functions.
 
-**PHP functions/methods:** 911. **Named AMD callables:** 654.
+**PHP functions/methods:** 913. **Named AMD callables:** 654.
 
 | Location | Callable | Responsibility |
 |---|---|---|
@@ -885,13 +885,14 @@ Generated from the VideoTrack 1.7.190 source tree. PHP entries include named fun
 | `classes/local/analytics_table_export.php:484` | `event_summary_row` | Aligns one aggregate event summary with the combined export columns. |
 | `classes/local/completion_config.php:39` | `required_reaction_ids` | Named PHP function/method `required_reaction_ids`; see source DocBlock and callers for the current contract. |
 | `classes/local/completion_config.php:62` | `reaction_checks` | Evaluates only enabled reaction conditions before AND/OR completion aggregation. |
-| `classes/local/completion_config.php:101` | `has_custom_rules` | Named PHP function/method `has_custom_rules`; see source DocBlock and callers for the current contract. |
-| `classes/local/completion_config.php:129` | `has_required_reactions` | Named PHP function/method `has_required_reactions`; see source DocBlock and callers for the current contract. |
-| `classes/local/completion_config.php:149` | `required_reaction_activity_set` | Named PHP function/method `required_reaction_activity_set`; see source DocBlock and callers for the current contract. |
-| `classes/local/completion_config.php:170` | `reset_required_reaction_cache` | Named PHP function/method `reset_required_reaction_cache`; see source DocBlock and callers for the current contract. |
-| `classes/local/completion_config.php:185` | `active_condition_descriptions` | Named PHP function/method `active_condition_descriptions`; see source DocBlock and callers for the current contract. |
-| `classes/local/completion_config.php:218` | `reaction_condition_descriptions` | Builds the ordered descriptions of active reaction-based completion conditions for the composite public description. |
-| `classes/local/completion_config.php:263` | `signature` | Named PHP function/method `signature`; see source DocBlock and callers for the current contract. |
+| `classes/local/completion_config.php:102` | `combine_checks` | Combines active completion checks under the existing strict AND/OR policy. |
+| `classes/local/completion_config.php:119` | `has_custom_rules` | Named PHP function/method `has_custom_rules`; see source DocBlock and callers for the current contract. |
+| `classes/local/completion_config.php:147` | `has_required_reactions` | Named PHP function/method `has_required_reactions`; see source DocBlock and callers for the current contract. |
+| `classes/local/completion_config.php:167` | `required_reaction_activity_set` | Named PHP function/method `required_reaction_activity_set`; see source DocBlock and callers for the current contract. |
+| `classes/local/completion_config.php:188` | `reset_required_reaction_cache` | Named PHP function/method `reset_required_reaction_cache`; see source DocBlock and callers for the current contract. |
+| `classes/local/completion_config.php:203` | `active_condition_descriptions` | Named PHP function/method `active_condition_descriptions`; see source DocBlock and callers for the current contract. |
+| `classes/local/completion_config.php:236` | `reaction_condition_descriptions` | Builds the ordered descriptions of active reaction-based completion conditions for the composite public description. |
+| `classes/local/completion_config.php:281` | `signature` | Named PHP function/method `signature`; see source DocBlock and callers for the current contract. |
 | `classes/local/course_analytics.php:45` | `get_course_rows` | PHP callable `get_course_rows`; see its DocBlock and callers for parameter, return-value and side-effect details. |
 | `classes/local/course_analytics.php:124` | `summarise_states` | PHP callable `summarise_states`; see its DocBlock and callers for parameter, return-value and side-effect details. |
 | `classes/local/course_analytics.php:167` | `latest_states_by_user` | PHP callable `latest_states_by_user`; see its DocBlock and callers for parameter, return-value and side-effect details. |
@@ -1062,29 +1063,30 @@ Generated from the VideoTrack 1.7.190 source tree. PHP entries include named fun
 | `classes/local/tracker.php:57` | `current_state_snapshot` | PHP callable `current_state_snapshot`; see its DocBlock and callers for parameter, return-value and side-effect details. |
 | `classes/local/tracker.php:76` | `normalise_interval` | PHP callable `normalise_interval`; see its DocBlock and callers for parameter, return-value and side-effect details. |
 | `classes/local/tracker.php:96` | `decode_intervals` | PHP callable `decode_intervals`; see its DocBlock and callers for parameter, return-value and side-effect details. |
-| `classes/local/tracker.php:129` | `encode_intervals` | PHP callable `encode_intervals`; see its DocBlock and callers for parameter, return-value and side-effect details. |
-| `classes/local/tracker.php:139` | `merge_intervals` | PHP callable `merge_intervals`; see its DocBlock and callers for parameter, return-value and side-effect details. |
-| `classes/local/tracker.php:166` | `cap_intervals` | PHP callable `cap_intervals`; see its DocBlock and callers for parameter, return-value and side-effect details. |
-| `classes/local/tracker.php:189` | `simplify_intervals` | PHP callable `simplify_intervals`; see its DocBlock and callers for parameter, return-value and side-effect details. |
-| `classes/local/tracker.php:212` | `covered_seconds` | PHP callable `covered_seconds`; see its DocBlock and callers for parameter, return-value and side-effect details. |
-| `classes/local/tracker.php:233` | `normalise_start_boundary` | PHP callable `normalise_start_boundary`; see its DocBlock and callers for parameter, return-value and side-effect details. |
-| `classes/local/tracker.php:257` | `normalise_natural_end` | PHP callable `normalise_natural_end`; see its DocBlock and callers for parameter, return-value and side-effect details. |
-| `classes/local/tracker.php:275` | `reaction_counts` | PHP callable `reaction_counts`; see its DocBlock and callers for parameter, return-value and side-effect details. |
-| `classes/local/tracker.php:317` | `invalidate_reactioncountscache` | PHP callable `invalidate_reactioncountscache`; see its DocBlock and callers for parameter, return-value and side-effect details. |
-| `classes/local/tracker.php:338` | `has_watched_videotime` | PHP callable `has_watched_videotime`; see its DocBlock and callers for parameter, return-value and side-effect details. |
-| `classes/local/tracker.php:394` | `has_watched_videotime_any_session` | Named PHP function/method `has_watched_videotime_any_session`; see source DocBlock and callers for the current contract. |
-| `classes/local/tracker.php:463` | `completion_satisfied` | PHP callable `completion_satisfied`; see its DocBlock and callers for parameter, return-value and side-effect details. |
-| `classes/local/tracker.php:517` | `interaction_timestamp_allowed` | Named PHP function/method `interaction_timestamp_allowed`; see source DocBlock and callers for the current contract. |
-| `classes/local/tracker.php:543` | `create_default_state` | PHP callable `create_default_state`; see its DocBlock and callers for parameter, return-value and side-effect details. |
-| `classes/local/tracker.php:581` | `advance_server_credit_budget` | PHP callable `advance_server_credit_budget`; see its DocBlock and callers for parameter, return-value and side-effect details. |
-| `classes/local/tracker.php:639` | `same_segment_request` | PHP callable `same_segment_request`; see its DocBlock and callers for parameter, return-value and side-effect details. |
-| `classes/local/tracker.php:659` | `begin_playback` | PHP callable `begin_playback`; see its DocBlock and callers for parameter, return-value and side-effect details. |
-| `classes/local/tracker.php:756` | `forward_interval_allowed` | PHP callable `forward_interval_allowed`; see its DocBlock and callers for parameter, return-value and side-effect details. |
-| `classes/local/tracker.php:789` | `update_state` | PHP callable `update_state`; see its DocBlock and callers for parameter, return-value and side-effect details. |
-| `classes/local/tracker.php:1035` | `update_moodle_completion_if_changed` | PHP callable `update_moodle_completion_if_changed`; see its DocBlock and callers for parameter, return-value and side-effect details. |
-| `classes/local/tracker.php:1059` | `aggregate_segments` | PHP callable `aggregate_segments`; see its DocBlock and callers for parameter, return-value and side-effect details. |
-| `classes/local/tracker.php:1105` | `rebuild_state_from_segments` | PHP callable `rebuild_state_from_segments`; see its DocBlock and callers for parameter, return-value and side-effect details. |
-| `classes/local/tracker.php:1200` | `refresh_completion` | PHP callable `refresh_completion`; see its DocBlock and callers for parameter, return-value and side-effect details. |
+| `classes/local/tracker.php:121` | `normalise_decoded_interval` | Validates and normalises one decoded playback interval without changing accepted ranges. |
+| `classes/local/tracker.php:139` | `encode_intervals` | PHP callable `encode_intervals`; see its DocBlock and callers for parameter, return-value and side-effect details. |
+| `classes/local/tracker.php:149` | `merge_intervals` | PHP callable `merge_intervals`; see its DocBlock and callers for parameter, return-value and side-effect details. |
+| `classes/local/tracker.php:176` | `cap_intervals` | PHP callable `cap_intervals`; see its DocBlock and callers for parameter, return-value and side-effect details. |
+| `classes/local/tracker.php:199` | `simplify_intervals` | PHP callable `simplify_intervals`; see its DocBlock and callers for parameter, return-value and side-effect details. |
+| `classes/local/tracker.php:222` | `covered_seconds` | PHP callable `covered_seconds`; see its DocBlock and callers for parameter, return-value and side-effect details. |
+| `classes/local/tracker.php:243` | `normalise_start_boundary` | PHP callable `normalise_start_boundary`; see its DocBlock and callers for parameter, return-value and side-effect details. |
+| `classes/local/tracker.php:267` | `normalise_natural_end` | PHP callable `normalise_natural_end`; see its DocBlock and callers for parameter, return-value and side-effect details. |
+| `classes/local/tracker.php:285` | `reaction_counts` | PHP callable `reaction_counts`; see its DocBlock and callers for parameter, return-value and side-effect details. |
+| `classes/local/tracker.php:327` | `invalidate_reactioncountscache` | PHP callable `invalidate_reactioncountscache`; see its DocBlock and callers for parameter, return-value and side-effect details. |
+| `classes/local/tracker.php:348` | `has_watched_videotime` | PHP callable `has_watched_videotime`; see its DocBlock and callers for parameter, return-value and side-effect details. |
+| `classes/local/tracker.php:404` | `has_watched_videotime_any_session` | Named PHP function/method `has_watched_videotime_any_session`; see source DocBlock and callers for the current contract. |
+| `classes/local/tracker.php:473` | `completion_satisfied` | PHP callable `completion_satisfied`; see its DocBlock and callers for parameter, return-value and side-effect details. |
+| `classes/local/tracker.php:519` | `interaction_timestamp_allowed` | Named PHP function/method `interaction_timestamp_allowed`; see source DocBlock and callers for the current contract. |
+| `classes/local/tracker.php:545` | `create_default_state` | PHP callable `create_default_state`; see its DocBlock and callers for parameter, return-value and side-effect details. |
+| `classes/local/tracker.php:583` | `advance_server_credit_budget` | PHP callable `advance_server_credit_budget`; see its DocBlock and callers for parameter, return-value and side-effect details. |
+| `classes/local/tracker.php:641` | `same_segment_request` | PHP callable `same_segment_request`; see its DocBlock and callers for parameter, return-value and side-effect details. |
+| `classes/local/tracker.php:661` | `begin_playback` | PHP callable `begin_playback`; see its DocBlock and callers for parameter, return-value and side-effect details. |
+| `classes/local/tracker.php:758` | `forward_interval_allowed` | PHP callable `forward_interval_allowed`; see its DocBlock and callers for parameter, return-value and side-effect details. |
+| `classes/local/tracker.php:791` | `update_state` | PHP callable `update_state`; see its DocBlock and callers for parameter, return-value and side-effect details. |
+| `classes/local/tracker.php:1037` | `update_moodle_completion_if_changed` | PHP callable `update_moodle_completion_if_changed`; see its DocBlock and callers for parameter, return-value and side-effect details. |
+| `classes/local/tracker.php:1061` | `aggregate_segments` | PHP callable `aggregate_segments`; see its DocBlock and callers for parameter, return-value and side-effect details. |
+| `classes/local/tracker.php:1107` | `rebuild_state_from_segments` | PHP callable `rebuild_state_from_segments`; see its DocBlock and callers for parameter, return-value and side-effect details. |
+| `classes/local/tracker.php:1202` | `refresh_completion` | PHP callable `refresh_completion`; see its DocBlock and callers for parameter, return-value and side-effect details. |
 | `classes/privacy/provider.php:48` | `format_interval_second` | PHP callable `format_interval_second`; see its DocBlock and callers for parameter, return-value and side-effect details. |
 | `classes/privacy/provider.php:59` | `get_metadata` | PHP callable `get_metadata`; see its DocBlock and callers for parameter, return-value and side-effect details. |
 | `classes/privacy/provider.php:167` | `get_contexts_for_userid` | PHP callable `get_contexts_for_userid`; see its DocBlock and callers for parameter, return-value and side-effect details. |

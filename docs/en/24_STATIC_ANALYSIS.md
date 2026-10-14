@@ -151,11 +151,13 @@ line, not for redeclaring a method parameter.
 - The Moodle feature callback is a direct feature-to-value table, while Font Awesome reaction validation partitions
   the reviewed decorator subset from exactly one icon name. Their public contracts, limits and fail-closed defaults
   are covered independently of the complexity reduction.
-- PHPMD remains advisory. The 1.7.189 CI confirmed 78 findings, down from 79 in 1.7.188,
-  with the `course_analytics_loader::scopes()` finding removed. The 1.7.190 candidate moves
-  enabled-reaction condition checks into `completion_config::reaction_checks()`, preserving
-  the tracker's final AND/OR aggregation. The two `completion_satisfied()` method findings
-  remain targets until the full candidate CI confirms their removal.
+- PHPMD remains advisory. The 1.7.190 CI confirmed 77 findings, down from 78 in 1.7.189:
+  the NPath finding on `tracker::completion_satisfied()` is gone, while its cyclomatic
+  complexity fell from 17 to 11 and still exceeds the threshold of 10. The 1.7.191
+  candidate shares the existing AND/OR decision through `completion_config::combine_checks()`
+  and isolates decoded-interval validation in `tracker::normalise_decoded_interval()`.
+  The remaining cyclomatic findings on `completion_satisfied()` and `decode_intervals()`
+  are targets; candidate CI must confirm the actual finding count.
   Remaining reports concern reviewed complexity, size, broad public classes, required Moodle callback
   parameters and boolean switches that need separate behavioural refactoring.
 - Static-analysis configuration, production scope, database schema and AMD assets are unchanged by these API

@@ -89,6 +89,24 @@ final class completion_config {
     }
 
     /**
+     * Applies the configured AND/OR policy to a non-empty list of completion checks.
+     *
+     * Called once for enabled reaction conditions and again for all enabled
+     * custom conditions. The caller handles an empty list separately so that
+     * Moodle can fall back to page-view completion when no rule is enabled.
+     *
+     * @param bool[] $checks Enabled completion checks.
+     * @param string $logic Completion policy; only "or" selects OR.
+     * @return bool Whether the checks satisfy the policy.
+     */
+    public static function combine_checks(array $checks, string $logic): bool {
+        if ($logic === 'or') {
+            return in_array(true, $checks, true);
+        }
+        return !in_array(false, $checks, true);
+    }
+
+    /**
      * Returns whether the activity has at least one active VideoTrack custom rule.
      *
      * Reaction rules only participate while reactions are enabled. This prevents
