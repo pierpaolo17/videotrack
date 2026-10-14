@@ -1,8 +1,8 @@
 # Function inventory
 
-Generated from the VideoTrack 1.7.188 source tree. PHP entries include named functions and methods; AMD entries include named declarations, assigned function expressions and object-method functions.
+Generated from the VideoTrack 1.7.189 source tree. PHP entries include named functions and methods; AMD entries include named declarations, assigned function expressions and object-method functions.
 
-**PHP functions/methods:** 908. **Named AMD callables:** 654.
+**PHP functions/methods:** 909. **Named AMD callables:** 654.
 
 | Location | Callable | Responsibility |
 |---|---|---|
@@ -899,9 +899,10 @@ Generated from the VideoTrack 1.7.188 source tree. PHP entries include named fun
 | `classes/local/course_analytics.php:248` | `summarise_period_segments` | Named PHP function/method `summarise_period_segments`; see source DocBlock and callers for the current contract. |
 | `classes/local/course_analytics.php:285` | `segments_by_user_in_period` | PHP callable `segments_by_user_in_period`; see its DocBlock and callers for parameter, return-value and side-effect details. |
 | `classes/local/course_analytics_loader.php:42` | `scopes` | Selects visible course activity and capability-filtered learner scopes. |
-| `classes/local/course_analytics_loader.php:123` | `load_states_for_scopes` | Named PHP function/method `load_states_for_scopes`; see source DocBlock and callers for the current contract. |
-| `classes/local/course_analytics_loader.php:159` | `load_period_segments_for_scopes` | Named PHP function/method `load_period_segments_for_scopes`; see source DocBlock and callers for the current contract. |
-| `classes/local/course_analytics_loader.php:220` | `load_event_summaries_for_scopes` | Named PHP function/method `load_event_summaries_for_scopes`; see source DocBlock and callers for the current contract. |
+| `classes/local/course_analytics_loader.php:105` | `course_instances` | Loads course activities with the optional activity filter before visibility checks. |
+| `classes/local/course_analytics_loader.php:136` | `load_states_for_scopes` | Named PHP function/method `load_states_for_scopes`; see source DocBlock and callers for the current contract. |
+| `classes/local/course_analytics_loader.php:172` | `load_period_segments_for_scopes` | Named PHP function/method `load_period_segments_for_scopes`; see source DocBlock and callers for the current contract. |
+| `classes/local/course_analytics_loader.php:233` | `load_event_summaries_for_scopes` | Named PHP function/method `load_event_summaries_for_scopes`; see source DocBlock and callers for the current contract. |
 | `classes/local/csv_event_writer.php:74` | `__construct` | PHP callable `__construct`; see its DocBlock and callers for parameter, return-value and side-effect details. |
 | `classes/local/csv_event_writer.php:113` | `write` | PHP callable `write`; see its DocBlock and callers for parameter, return-value and side-effect details. |
 | `classes/local/csv_export.php:78` | `delimiter_options` | PHP callable `delimiter_options`; see its DocBlock and callers for parameter, return-value and side-effect details. |
@@ -1317,22 +1318,22 @@ Generated from the VideoTrack 1.7.188 source tree. PHP entries include named fun
 | `tests/completion_contract_test.php:319` | `test_activity_header_groups_composite_completion_description_safely` | Verifies the exact server-to-AMD grouping contract, safe text handling and presence of the generated build. |
 | `tests/completion_contract_test.php:353` | `test_active_condition_descriptions_preserve_composite_contract` | Verifies the public ordering, formatting and OR composition of percentage and reaction completion descriptions. |
 | `tests/course_analytics_test.php:41` | `test_course_rows_keep_activity_filter_and_empty_aggregates` | Checks real dashboard activity filtering and empty aggregate shape. |
-| `tests/course_analytics_test.php:60` | `test_median_handles_common_dataset_shapes` | PHP callable `test_median_handles_common_dataset_shapes`; see its DocBlock and callers for parameter, return-value and side-effect details. |
-| `tests/course_analytics_test.php:69` | `test_state_summary_reuses_timeline_analytics` | PHP callable `test_state_summary_reuses_timeline_analytics`; see its DocBlock and callers for parameter, return-value and side-effect details. |
-| `tests/course_analytics_test.php:93` | `test_state_summary_uses_last_valid_state_per_learner` | PHP callable `test_state_summary_uses_last_valid_state_per_learner`; see its DocBlock and callers for parameter, return-value and side-effect details. |
-| `tests/course_analytics_test.php:112` | `test_state_summary_hides_drop_when_retention_denominator_is_suppressed` | PHP callable `test_state_summary_hides_drop_when_retention_denominator_is_suppressed`; see its DocBlock and callers for parameter, return-value and side-effect details. |
-| `tests/course_analytics_test.php:130` | `test_state_summary_masks_small_activity_population` | PHP callable `test_state_summary_masks_small_activity_population`; see its DocBlock and callers for parameter, return-value and side-effect details. |
-| `tests/course_analytics_test.php:151` | `test_state_summary_masks_small_completion_subgroups` | PHP callable `test_state_summary_masks_small_completion_subgroups`; see its DocBlock and callers for parameter, return-value and side-effect details. |
-| `tests/course_analytics_test.php:172` | `test_largest_drop_ignores_suppressed_bins` | PHP callable `test_largest_drop_ignores_suppressed_bins`; see its DocBlock and callers for parameter, return-value and side-effect details. |
-| `tests/course_analytics_test.php:187` | `test_period_summary_uses_only_segments_created_inside_period` | PHP callable `test_period_summary_uses_only_segments_created_inside_period`; see its DocBlock and callers for parameter, return-value and side-effect details. |
-| `tests/course_analytics_test.php:246` | `test_period_summary_keeps_both_boundaries_and_ignores_invalid_rows` | PHP callable `test_period_summary_keeps_both_boundaries_and_ignores_invalid_rows`; see its DocBlock and callers for parameter, return-value and side-effect details. |
-| `tests/course_analytics_test.php:310` | `test_period_loader_uses_segment_creation_time` | PHP callable `test_period_loader_uses_segment_creation_time`; see its DocBlock and callers for parameter, return-value and side-effect details. |
-| `tests/course_analytics_test.php:322` | `test_participation_scope_is_independent_from_report_access` | PHP callable `test_participation_scope_is_independent_from_report_access`; see its DocBlock and callers for parameter, return-value and side-effect details. |
-| `tests/course_analytics_test.php:358` | `test_course_analytics_reuses_canonical_learner_scope_sql` | PHP callable `test_course_analytics_reuses_canonical_learner_scope_sql`; see its DocBlock and callers for parameter, return-value and side-effect details. |
-| `tests/course_analytics_test.php:370` | `test_exact_report_threshold_exposes_single_learner_state_summary` | PHP callable `test_exact_report_threshold_exposes_single_learner_state_summary`; see its DocBlock and callers for parameter, return-value and side-effect details. |
-| `tests/course_analytics_test.php:391` | `test_exact_report_threshold_exposes_single_learner_period_summary` | PHP callable `test_exact_report_threshold_exposes_single_learner_period_summary`; see its DocBlock and callers for parameter, return-value and side-effect details. |
-| `tests/course_analytics_test.php:420` | `test_course_report_controller_requests_exact_aggregates` | PHP callable `test_course_report_controller_requests_exact_aggregates`; see its DocBlock and callers for parameter, return-value and side-effect details. |
-| `tests/course_analytics_test.php:442` | `state` | PHP callable `state`; see its DocBlock and callers for parameter, return-value and side-effect details. |
+| `tests/course_analytics_test.php:63` | `test_median_handles_common_dataset_shapes` | PHP callable `test_median_handles_common_dataset_shapes`; see its DocBlock and callers for parameter, return-value and side-effect details. |
+| `tests/course_analytics_test.php:72` | `test_state_summary_reuses_timeline_analytics` | PHP callable `test_state_summary_reuses_timeline_analytics`; see its DocBlock and callers for parameter, return-value and side-effect details. |
+| `tests/course_analytics_test.php:96` | `test_state_summary_uses_last_valid_state_per_learner` | PHP callable `test_state_summary_uses_last_valid_state_per_learner`; see its DocBlock and callers for parameter, return-value and side-effect details. |
+| `tests/course_analytics_test.php:115` | `test_state_summary_hides_drop_when_retention_denominator_is_suppressed` | PHP callable `test_state_summary_hides_drop_when_retention_denominator_is_suppressed`; see its DocBlock and callers for parameter, return-value and side-effect details. |
+| `tests/course_analytics_test.php:133` | `test_state_summary_masks_small_activity_population` | PHP callable `test_state_summary_masks_small_activity_population`; see its DocBlock and callers for parameter, return-value and side-effect details. |
+| `tests/course_analytics_test.php:154` | `test_state_summary_masks_small_completion_subgroups` | PHP callable `test_state_summary_masks_small_completion_subgroups`; see its DocBlock and callers for parameter, return-value and side-effect details. |
+| `tests/course_analytics_test.php:175` | `test_largest_drop_ignores_suppressed_bins` | PHP callable `test_largest_drop_ignores_suppressed_bins`; see its DocBlock and callers for parameter, return-value and side-effect details. |
+| `tests/course_analytics_test.php:190` | `test_period_summary_uses_only_segments_created_inside_period` | PHP callable `test_period_summary_uses_only_segments_created_inside_period`; see its DocBlock and callers for parameter, return-value and side-effect details. |
+| `tests/course_analytics_test.php:249` | `test_period_summary_keeps_both_boundaries_and_ignores_invalid_rows` | PHP callable `test_period_summary_keeps_both_boundaries_and_ignores_invalid_rows`; see its DocBlock and callers for parameter, return-value and side-effect details. |
+| `tests/course_analytics_test.php:313` | `test_period_loader_uses_segment_creation_time` | PHP callable `test_period_loader_uses_segment_creation_time`; see its DocBlock and callers for parameter, return-value and side-effect details. |
+| `tests/course_analytics_test.php:325` | `test_participation_scope_is_independent_from_report_access` | PHP callable `test_participation_scope_is_independent_from_report_access`; see its DocBlock and callers for parameter, return-value and side-effect details. |
+| `tests/course_analytics_test.php:361` | `test_course_analytics_reuses_canonical_learner_scope_sql` | PHP callable `test_course_analytics_reuses_canonical_learner_scope_sql`; see its DocBlock and callers for parameter, return-value and side-effect details. |
+| `tests/course_analytics_test.php:373` | `test_exact_report_threshold_exposes_single_learner_state_summary` | PHP callable `test_exact_report_threshold_exposes_single_learner_state_summary`; see its DocBlock and callers for parameter, return-value and side-effect details. |
+| `tests/course_analytics_test.php:394` | `test_exact_report_threshold_exposes_single_learner_period_summary` | PHP callable `test_exact_report_threshold_exposes_single_learner_period_summary`; see its DocBlock and callers for parameter, return-value and side-effect details. |
+| `tests/course_analytics_test.php:423` | `test_course_report_controller_requests_exact_aggregates` | PHP callable `test_course_report_controller_requests_exact_aggregates`; see its DocBlock and callers for parameter, return-value and side-effect details. |
+| `tests/course_analytics_test.php:445` | `state` | PHP callable `state`; see its DocBlock and callers for parameter, return-value and side-effect details. |
 | `tests/csv_event_writer_test.php:36` | `test_write_detailed_event_row` | PHP callable `test_write_detailed_event_row`; see its DocBlock and callers for parameter, return-value and side-effect details. |
 | `tests/csv_event_writer_test.php:69` | `test_write_overall_event_row` | PHP callable `test_write_overall_event_row`; see its DocBlock and callers for parameter, return-value and side-effect details. |
 | `tests/csv_event_writer_test.php:97` | `test_write_skips_unknown_positive_user` | PHP callable `test_write_skips_unknown_positive_user`; see its DocBlock and callers for parameter, return-value and side-effect details. |

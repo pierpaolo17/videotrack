@@ -39,11 +39,14 @@ final class course_analytics_test extends advanced_testcase {
      * The dashboard loader keeps the requested activity and its empty aggregate shape.
      */
     public function test_course_rows_keep_activity_filter_and_empty_aggregates(): void {
+        global $USER;
+
         $this->resetAfterTest();
+        $this->setAdminUser();
         $course = $this->getDataGenerator()->create_course();
         $first = $this->getDataGenerator()->create_module('videotrack', ['course' => $course->id]);
         $second = $this->getDataGenerator()->create_module('videotrack', ['course' => $course->id]);
-        $viewerid = (int)$this->getAdminUser()->id;
+        $viewerid = (int)$USER->id;
 
         $rows = course_analytics::get_course_rows($course, $viewerid, 2, (int)$second->id);
 

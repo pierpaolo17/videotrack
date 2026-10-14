@@ -1,6 +1,6 @@
 # Audit della documentazione
 
-Baseline: VideoTrack **1.7.188** (`2026101403`).
+Baseline: VideoTrack **1.7.189** (`2026101404`).
 
 ## Perimetro
 
@@ -33,7 +33,7 @@ duplicano intenzionalmente procedure implementative, dizionari dei campi o lungh
 ## Rilievi sull'albero corrente
 
 - Gli indici inglese e italiano hanno stesso perimetro e ordinamento.
-- Marker documentali, README principali e artefatti ER identificano 1.7.188 / 2026101403.
+- Marker documentali, README principali e artefatti ER identificano 1.7.189 / 2026101404.
 - Le Analytics tra corsi documentano la facciata stabile `analytics_scope` e il matcher focalizzato che possiede
   selezione candidati, predicati dell’identità tecnica, filtro capability, fallback dell’istanza corrente e ordine.
 - Le Analytics del corso delegano gli scope delle attività visibili e le letture batchate di stati, segmenti nel
@@ -102,7 +102,7 @@ duplicano intenzionalmente procedure implementative, dizionari dei campi o lungh
 - Le evidenze CI/server generate non fanno parte dell'albero del plugin. Il `.gitignore` del repository, le regole
   Git archive `export-ignore`, le regole Moodle `.moodleignore` e un contratto PHPUnit di release hygiene impediscono
   insieme che `reports-*`, `videotrack-ci-*.zip` e `report_completo_videotrack_*.zip` entrino nelle release future.
-  L'archivio canonico 1.7.188 contiene quindi soltanto i 376 file legittimi del plugin.
+  L'archivio canonico 1.7.189 contiene quindi soltanto i 376 file legittimi del plugin.
 
 ## Controlli di release
 
