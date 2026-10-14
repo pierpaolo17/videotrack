@@ -1,5 +1,24 @@
 # VideoTrack changelog
 
+## 1.7.188 - 2026-10-14
+
+### Course dashboard scope and batched-record loader
+
+- Accepted the real 1.7.187 release ZIP byte-for-byte against the candidate, the six first-push
+  CI artifacts and the Moodle 5.0/5.3 server report. The report passed PHPCS, lint, Grunt and
+  320 PHPUnit tests on both installations; both strict validators passed ten checks without
+  warnings or failures. PHPMD confirmed 82 advisory findings; the course Analytics class
+  complexity metric rose from 74 to 76 despite removing two method-level findings.
+- Move course activity SQL, visibility/capability/group scopes and batched state, segment and
+  event reads into the dedicated `course_analytics_loader`. Keep `get_course_rows()` as the
+  stable public entry point for summary and privacy-safe row assembly. Preserve SQL, filters,
+  inclusive time bounds, query batching, output shape and row ordering. Update source contracts
+  and cover activity filtering and empty aggregates through the real dashboard entry point.
+  This targets the three remaining method findings on `get_course_rows()` and the class-level
+  complexity finding; confirm the actual count and metrics in CI before merging. Database
+  schema, upgrade/restore, services, AMD and languages are unchanged. Correct the displayed
+  EN/IT inventory totals to match their enumerated entries.
+
 ## 1.7.187 - 2026-10-14
 
 ### Course Analytics input selection stages

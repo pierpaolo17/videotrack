@@ -1,8 +1,8 @@
 # Inventario delle funzioni
 
-Generato dall’albero sorgente VideoTrack 1.7.187. Le voci PHP includono funzioni e metodi nominati; le voci AMD includono dichiarazioni nominate, espressioni funzione assegnate e funzioni-metodo di oggetti.
+Generato dall’albero sorgente VideoTrack 1.7.188. Le voci PHP includono funzioni e metodi nominati; le voci AMD includono dichiarazioni nominate, espressioni funzione assegnate e funzioni-metodo di oggetti.
 
-**Funzioni/metodi PHP:** 812. **Callable AMD nominati:** 654.
+**Funzioni/metodi PHP:** 908. **Callable AMD nominati:** 654.
 
 | Posizione | Callable | Responsabilità |
 |---|---|---|
@@ -891,16 +891,17 @@ Generato dall’albero sorgente VideoTrack 1.7.187. Le voci PHP includono funzio
 | `classes/local/completion_config.php:145` | `active_condition_descriptions` | Funzione/metodo PHP nominato `active_condition_descriptions`; vedere DocBlock e chiamanti per il contratto corrente. |
 | `classes/local/completion_config.php:178` | `reaction_condition_descriptions` | Costruisce le descrizioni ordinate delle condizioni di completamento basate sulle reazioni per la descrizione composita pubblica. |
 | `classes/local/completion_config.php:223` | `signature` | Funzione/metodo PHP nominato `signature`; vedere DocBlock e chiamanti per il contratto corrente. |
-| `classes/local/course_analytics.php:49` | `get_course_rows` | Callable PHP `get_course_rows`; DocBlock e chiamanti definiscono parametri, valori restituiti ed effetti. |
-| `classes/local/course_analytics.php:198` | `summarise_states` | Callable PHP `summarise_states`; DocBlock e chiamanti definiscono parametri, valori restituiti ed effetti. |
-| `classes/local/course_analytics.php:241` | `latest_states_by_user` | Callable PHP `latest_states_by_user`; DocBlock e chiamanti definiscono parametri, valori restituiti ed effetti. |
-| `classes/local/course_analytics.php:259` | `median` | Callable PHP `median`; DocBlock e chiamanti definiscono parametri, valori restituiti ed effetti. |
-| `classes/local/course_analytics.php:279` | `largest_adjacent_drop` | Callable PHP `largest_adjacent_drop`; DocBlock e chiamanti definiscono parametri, valori restituiti ed effetti. |
-| `classes/local/course_analytics.php:322` | `summarise_period_segments` | Funzione/metodo PHP nominato `summarise_period_segments`; vedere DocBlock e chiamanti per il contratto corrente. |
-| `classes/local/course_analytics.php:359` | `segments_by_user_in_period` | Callable PHP `segments_by_user_in_period`; DocBlock e chiamanti definiscono parametri, valori restituiti ed effetti. |
-| `classes/local/course_analytics.php:384` | `load_states_for_scopes` | Funzione/metodo PHP nominato `load_states_for_scopes`; vedere DocBlock e chiamanti per il contratto corrente. |
-| `classes/local/course_analytics.php:420` | `load_period_segments_for_scopes` | Funzione/metodo PHP nominato `load_period_segments_for_scopes`; vedere DocBlock e chiamanti per il contratto corrente. |
-| `classes/local/course_analytics.php:481` | `load_event_summaries_for_scopes` | Funzione/metodo PHP nominato `load_event_summaries_for_scopes`; vedere DocBlock e chiamanti per il contratto corrente. |
+| `classes/local/course_analytics.php:45` | `get_course_rows` | Callable PHP `get_course_rows`; DocBlock e chiamanti definiscono parametri, valori restituiti ed effetti. |
+| `classes/local/course_analytics.php:124` | `summarise_states` | Callable PHP `summarise_states`; DocBlock e chiamanti definiscono parametri, valori restituiti ed effetti. |
+| `classes/local/course_analytics.php:167` | `latest_states_by_user` | Callable PHP `latest_states_by_user`; DocBlock e chiamanti definiscono parametri, valori restituiti ed effetti. |
+| `classes/local/course_analytics.php:185` | `median` | Callable PHP `median`; DocBlock e chiamanti definiscono parametri, valori restituiti ed effetti. |
+| `classes/local/course_analytics.php:205` | `largest_adjacent_drop` | Callable PHP `largest_adjacent_drop`; DocBlock e chiamanti definiscono parametri, valori restituiti ed effetti. |
+| `classes/local/course_analytics.php:248` | `summarise_period_segments` | Funzione/metodo PHP nominato `summarise_period_segments`; vedere DocBlock e chiamanti per il contratto corrente. |
+| `classes/local/course_analytics.php:285` | `segments_by_user_in_period` | Callable PHP `segments_by_user_in_period`; DocBlock e chiamanti definiscono parametri, valori restituiti ed effetti. |
+| `classes/local/course_analytics_loader.php:42` | `scopes` | Seleziona attività visibili e scope dei learner filtrati per capability. |
+| `classes/local/course_analytics_loader.php:123` | `load_states_for_scopes` | Funzione/metodo PHP nominato `load_states_for_scopes`; vedere DocBlock e chiamanti per il contratto corrente. |
+| `classes/local/course_analytics_loader.php:159` | `load_period_segments_for_scopes` | Funzione/metodo PHP nominato `load_period_segments_for_scopes`; vedere DocBlock e chiamanti per il contratto corrente. |
+| `classes/local/course_analytics_loader.php:220` | `load_event_summaries_for_scopes` | Funzione/metodo PHP nominato `load_event_summaries_for_scopes`; vedere DocBlock e chiamanti per il contratto corrente. |
 | `classes/local/csv_event_writer.php:74` | `__construct` | Callable PHP `__construct`; DocBlock e chiamanti definiscono parametri, valori restituiti ed effetti. |
 | `classes/local/csv_event_writer.php:113` | `write` | Callable PHP `write`; DocBlock e chiamanti definiscono parametri, valori restituiti ed effetti. |
 | `classes/local/csv_export.php:78` | `delimiter_options` | Callable PHP `delimiter_options`; DocBlock e chiamanti definiscono parametri, valori restituiti ed effetti. |
@@ -1315,22 +1316,23 @@ Generato dall’albero sorgente VideoTrack 1.7.187. Le voci PHP includono funzio
 | `tests/completion_contract_test.php:304` | `test_activity_header_completion_badges_have_readable_contrast` | Funzione/metodo PHP nominato `test_activity_header_completion_badges_have_readable_contrast`; vedere DocBlock e chiamanti per il contratto corrente. |
 | `tests/completion_contract_test.php:319` | `test_activity_header_groups_composite_completion_description_safely` | Verifica il contratto esatto server-AMD per il raggruppamento, la gestione sicura del testo e la presenza della build generata. |
 | `tests/completion_contract_test.php:353` | `test_active_condition_descriptions_preserve_composite_contract` | Verifica ordine pubblico, formattazione e composizione OR delle descrizioni di completamento percentuale e per reazioni. |
-| `tests/course_analytics_test.php:39` | `test_median_handles_common_dataset_shapes` | Callable PHP `test_median_handles_common_dataset_shapes`; DocBlock e chiamanti definiscono parametri, valori restituiti ed effetti. |
-| `tests/course_analytics_test.php:48` | `test_state_summary_reuses_timeline_analytics` | Callable PHP `test_state_summary_reuses_timeline_analytics`; DocBlock e chiamanti definiscono parametri, valori restituiti ed effetti. |
-| `tests/course_analytics_test.php:72` | `test_state_summary_uses_last_valid_state_per_learner` | Callable PHP `test_state_summary_uses_last_valid_state_per_learner`; DocBlock e chiamanti definiscono parametri, valori restituiti ed effetti. |
-| `tests/course_analytics_test.php:91` | `test_state_summary_hides_drop_when_retention_denominator_is_suppressed` | Callable PHP `test_state_summary_hides_drop_when_retention_denominator_is_suppressed`; DocBlock e chiamanti definiscono parametri, valori restituiti ed effetti. |
-| `tests/course_analytics_test.php:109` | `test_state_summary_masks_small_activity_population` | Callable PHP `test_state_summary_masks_small_activity_population`; DocBlock e chiamanti definiscono parametri, valori restituiti ed effetti. |
-| `tests/course_analytics_test.php:130` | `test_state_summary_masks_small_completion_subgroups` | Callable PHP `test_state_summary_masks_small_completion_subgroups`; DocBlock e chiamanti definiscono parametri, valori restituiti ed effetti. |
-| `tests/course_analytics_test.php:151` | `test_largest_drop_ignores_suppressed_bins` | Callable PHP `test_largest_drop_ignores_suppressed_bins`; DocBlock e chiamanti definiscono parametri, valori restituiti ed effetti. |
-| `tests/course_analytics_test.php:166` | `test_period_summary_uses_only_segments_created_inside_period` | Callable PHP `test_period_summary_uses_only_segments_created_inside_period`; DocBlock e chiamanti definiscono parametri, valori restituiti ed effetti. |
-| `tests/course_analytics_test.php:225` | `test_period_summary_keeps_both_boundaries_and_ignores_invalid_rows` | Callable PHP `test_period_summary_keeps_both_boundaries_and_ignores_invalid_rows`; DocBlock e chiamanti definiscono parametri, valori restituiti ed effetti. |
-| `tests/course_analytics_test.php:289` | `test_period_loader_uses_segment_creation_time` | Callable PHP `test_period_loader_uses_segment_creation_time`; DocBlock e chiamanti definiscono parametri, valori restituiti ed effetti. |
-| `tests/course_analytics_test.php:301` | `test_participation_scope_is_independent_from_report_access` | Callable PHP `test_participation_scope_is_independent_from_report_access`; DocBlock e chiamanti definiscono parametri, valori restituiti ed effetti. |
-| `tests/course_analytics_test.php:337` | `test_course_analytics_reuses_canonical_learner_scope_sql` | Callable PHP `test_course_analytics_reuses_canonical_learner_scope_sql`; DocBlock e chiamanti definiscono parametri, valori restituiti ed effetti. |
-| `tests/course_analytics_test.php:349` | `test_exact_report_threshold_exposes_single_learner_state_summary` | Callable PHP `test_exact_report_threshold_exposes_single_learner_state_summary`; DocBlock e chiamanti definiscono parametri, valori restituiti ed effetti. |
-| `tests/course_analytics_test.php:370` | `test_exact_report_threshold_exposes_single_learner_period_summary` | Callable PHP `test_exact_report_threshold_exposes_single_learner_period_summary`; DocBlock e chiamanti definiscono parametri, valori restituiti ed effetti. |
-| `tests/course_analytics_test.php:399` | `test_course_report_controller_requests_exact_aggregates` | Callable PHP `test_course_report_controller_requests_exact_aggregates`; DocBlock e chiamanti definiscono parametri, valori restituiti ed effetti. |
-| `tests/course_analytics_test.php:421` | `state` | Callable PHP `state`; DocBlock e chiamanti definiscono parametri, valori restituiti ed effetti. |
+| `tests/course_analytics_test.php:41` | `test_course_rows_keep_activity_filter_and_empty_aggregates` | Verifica sul dashboard reale filtro per attività e forma degli aggregati vuoti. |
+| `tests/course_analytics_test.php:60` | `test_median_handles_common_dataset_shapes` | Callable PHP `test_median_handles_common_dataset_shapes`; DocBlock e chiamanti definiscono parametri, valori restituiti ed effetti. |
+| `tests/course_analytics_test.php:69` | `test_state_summary_reuses_timeline_analytics` | Callable PHP `test_state_summary_reuses_timeline_analytics`; DocBlock e chiamanti definiscono parametri, valori restituiti ed effetti. |
+| `tests/course_analytics_test.php:93` | `test_state_summary_uses_last_valid_state_per_learner` | Callable PHP `test_state_summary_uses_last_valid_state_per_learner`; DocBlock e chiamanti definiscono parametri, valori restituiti ed effetti. |
+| `tests/course_analytics_test.php:112` | `test_state_summary_hides_drop_when_retention_denominator_is_suppressed` | Callable PHP `test_state_summary_hides_drop_when_retention_denominator_is_suppressed`; DocBlock e chiamanti definiscono parametri, valori restituiti ed effetti. |
+| `tests/course_analytics_test.php:130` | `test_state_summary_masks_small_activity_population` | Callable PHP `test_state_summary_masks_small_activity_population`; DocBlock e chiamanti definiscono parametri, valori restituiti ed effetti. |
+| `tests/course_analytics_test.php:151` | `test_state_summary_masks_small_completion_subgroups` | Callable PHP `test_state_summary_masks_small_completion_subgroups`; DocBlock e chiamanti definiscono parametri, valori restituiti ed effetti. |
+| `tests/course_analytics_test.php:172` | `test_largest_drop_ignores_suppressed_bins` | Callable PHP `test_largest_drop_ignores_suppressed_bins`; DocBlock e chiamanti definiscono parametri, valori restituiti ed effetti. |
+| `tests/course_analytics_test.php:187` | `test_period_summary_uses_only_segments_created_inside_period` | Callable PHP `test_period_summary_uses_only_segments_created_inside_period`; DocBlock e chiamanti definiscono parametri, valori restituiti ed effetti. |
+| `tests/course_analytics_test.php:246` | `test_period_summary_keeps_both_boundaries_and_ignores_invalid_rows` | Callable PHP `test_period_summary_keeps_both_boundaries_and_ignores_invalid_rows`; DocBlock e chiamanti definiscono parametri, valori restituiti ed effetti. |
+| `tests/course_analytics_test.php:310` | `test_period_loader_uses_segment_creation_time` | Callable PHP `test_period_loader_uses_segment_creation_time`; DocBlock e chiamanti definiscono parametri, valori restituiti ed effetti. |
+| `tests/course_analytics_test.php:322` | `test_participation_scope_is_independent_from_report_access` | Callable PHP `test_participation_scope_is_independent_from_report_access`; DocBlock e chiamanti definiscono parametri, valori restituiti ed effetti. |
+| `tests/course_analytics_test.php:358` | `test_course_analytics_reuses_canonical_learner_scope_sql` | Callable PHP `test_course_analytics_reuses_canonical_learner_scope_sql`; DocBlock e chiamanti definiscono parametri, valori restituiti ed effetti. |
+| `tests/course_analytics_test.php:370` | `test_exact_report_threshold_exposes_single_learner_state_summary` | Callable PHP `test_exact_report_threshold_exposes_single_learner_state_summary`; DocBlock e chiamanti definiscono parametri, valori restituiti ed effetti. |
+| `tests/course_analytics_test.php:391` | `test_exact_report_threshold_exposes_single_learner_period_summary` | Callable PHP `test_exact_report_threshold_exposes_single_learner_period_summary`; DocBlock e chiamanti definiscono parametri, valori restituiti ed effetti. |
+| `tests/course_analytics_test.php:420` | `test_course_report_controller_requests_exact_aggregates` | Callable PHP `test_course_report_controller_requests_exact_aggregates`; DocBlock e chiamanti definiscono parametri, valori restituiti ed effetti. |
+| `tests/course_analytics_test.php:442` | `state` | Callable PHP `state`; DocBlock e chiamanti definiscono parametri, valori restituiti ed effetti. |
 | `tests/csv_event_writer_test.php:36` | `test_write_detailed_event_row` | Callable PHP `test_write_detailed_event_row`; DocBlock e chiamanti definiscono parametri, valori restituiti ed effetti. |
 | `tests/csv_event_writer_test.php:69` | `test_write_overall_event_row` | Callable PHP `test_write_overall_event_row`; DocBlock e chiamanti definiscono parametri, valori restituiti ed effetti. |
 | `tests/csv_event_writer_test.php:97` | `test_write_skips_unknown_positive_user` | Callable PHP `test_write_skips_unknown_positive_user`; DocBlock e chiamanti definiscono parametri, valori restituiti ed effetti. |

@@ -160,11 +160,12 @@ dichiarazione di un parametro di metodo.
 - Il callback delle feature Moodle è una tabella diretta feature-valore, mentre la validazione delle reazioni Font
   Awesome separa il sottoinsieme revisionato dei decoratori da un solo nome icona. Contratti pubblici, limiti e
   default fail-closed sono coperti indipendentemente dalla riduzione di complessità.
-- PHPMD resta consultivo. La CI completa 1.7.186 ha confermato 84 finding, contro gli 86 della 1.7.185.
-  Resta il rilievo sulla complessità complessiva della classe `analytics`, con metrica salita a 77.
-  La candidata 1.7.187 separa la selezione degli stati per corso e il raggruppamento dei segmenti validi nel periodo,
-  puntando ai finding ciclomatici di `summarise_states()` e `summarise_period_segments()`.
-  La stima di 82 richiede conferma nella CI della candidata.
+- PHPMD resta consultivo. La CI 1.7.187 ha confermato 82 rilievi contro gli 84 della 1.7.186;
+  `summarise_states()` e `summarise_period_segments()` non segnalano più complessità ciclomatica.
+  La metrica della classe `course_analytics` è salita da 74 a 76. La candidata 1.7.188 sposta
+  scope di visibilità/gruppo e letture SQL batchate in `course_analytics_loader`, lasciando
+  invariato il punto di ingresso dei riepiloghi e il suo contratto. L'effetto sui rilievi
+  di metodo e di classe richiede conferma con la CI completa della candidata.
   I rilievi residui riguardano complessità, dimensione, classi pubbliche ampie, parametri obbligatori
   dei callback Moodle e flag booleani che richiedono refactoring comportamentali separati.
 - Configurazione degli analizzatori, perimetro di produzione, schema database e asset AMD non cambiano con queste

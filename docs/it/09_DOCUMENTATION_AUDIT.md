@@ -1,6 +1,6 @@
 # Audit della documentazione
 
-Baseline: VideoTrack **1.7.187** (`2026101402`).
+Baseline: VideoTrack **1.7.188** (`2026101403`).
 
 ## Perimetro
 
@@ -33,9 +33,11 @@ duplicano intenzionalmente procedure implementative, dizionari dei campi o lungh
 ## Rilievi sull'albero corrente
 
 - Gli indici inglese e italiano hanno stesso perimetro e ordinamento.
-- Marker documentali, README principali e artefatti ER identificano 1.7.187 / 2026101402.
+- Marker documentali, README principali e artefatti ER identificano 1.7.188 / 2026101403.
 - Le Analytics tra corsi documentano la facciata stabile `analytics_scope` e il matcher focalizzato che possiede
   selezione candidati, predicati dell’identità tecnica, filtro capability, fallback dell’istanza corrente e ordine.
+- Le Analytics del corso delegano gli scope delle attività visibili e le letture batchate di stati, segmenti nel
+  periodo ed eventi a `course_analytics_loader`; `course_analytics` conserva riepiloghi e righe protette dalla privacy.
 - L'identità dell'attività include `pix/icon.png` da 1024 pixel e un `pix/icon.svg` nativo e accessibile derivati
   dalla stessa grafica fornita dal maintainer.
 - `db/install.xml` dichiara sette chiavi primarie, 22 foreign key stabili e 22 indici espliciti. XMLDB genera inoltre
@@ -100,7 +102,7 @@ duplicano intenzionalmente procedure implementative, dizionari dei campi o lungh
 - Le evidenze CI/server generate non fanno parte dell'albero del plugin. Il `.gitignore` del repository, le regole
   Git archive `export-ignore`, le regole Moodle `.moodleignore` e un contratto PHPUnit di release hygiene impediscono
   insieme che `reports-*`, `videotrack-ci-*.zip` e `report_completo_videotrack_*.zip` entrino nelle release future.
-  L'archivio canonico 1.7.187 contiene quindi soltanto i 375 file legittimi del plugin.
+  L'archivio canonico 1.7.188 contiene quindi soltanto i 376 file legittimi del plugin.
 
 ## Controlli di release
 

@@ -50,7 +50,7 @@ final class analytics_performance_contract_test extends advanced_testcase {
      * Course Analytics must batch event aggregates and preload course group existence.
      */
     public function test_course_dashboard_batches_event_summaries_and_group_scope(): void {
-        $source = file_get_contents(__DIR__ . '/../classes/local/course_analytics.php');
+        $source = file_get_contents(__DIR__ . '/../classes/local/course_analytics_loader.php');
         $this->assertIsString($source);
 
         $this->assertStringContainsString('private const SCOPE_BATCH_SIZE = 20;', $source);
@@ -69,11 +69,20 @@ final class analytics_performance_contract_test extends advanced_testcase {
      * State, period-segment and completion reads must be batched across activity scopes.
      */
     public function test_course_dashboard_batches_state_and_period_reads(): void {
-        $source = file_get_contents(__DIR__ . '/../classes/local/course_analytics.php');
+        $source = file_get_contents(__DIR__ . '/../classes/local/course_analytics_loader.php');
         $this->assertIsString($source);
+        $dashboard = file_get_contents(__DIR__ . '/../classes/local/course_analytics.php');
+        $this->assertIsString($dashboard);
 
-        $this->assertStringContainsString('load_states_for_scopes($scopes)', $source);
-        $this->assertStringContainsString('load_period_segments_for_scopes($scopes, $timestart, $timeend)', $source);
+        $this->assertStringContainsString(
+            'course_analytics_loader::scopes($course, $viewerid, $activityid, $groupid)',
+            $dashboard
+        );
+        $this->assertStringContainsString('course_analytics_loader::load_states_for_scopes($scopes)', $dashboard);
+        $this->assertStringContainsString(
+            'course_analytics_loader::load_period_segments_for_scopes($scopes, $timestart, $timeend)',
+            $dashboard
+        );
         $this->assertStringContainsString('COALESCE(st.iscompleted, 0) AS iscompleted', $source);
         $this->assertStringContainsString("'seg.userid'", $source);
         $this->assertStringContainsString('array_chunk($scopes, self::SCOPE_BATCH_SIZE, true)', $source);

@@ -19,6 +19,7 @@ namespace mod_videotrack;
 use advanced_testcase;
 use mod_videotrack\local\analytics;
 use mod_videotrack\local\course_analytics;
+use mod_videotrack\local\course_analytics_loader;
 use mod_videotrack\local\learner_scope;
 use PHPUnit\Framework\Attributes\CoversClass;
 
@@ -31,8 +32,28 @@ use PHPUnit\Framework\Attributes\CoversClass;
  * @license    https://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 #[CoversClass(course_analytics::class)]
+#[CoversClass(course_analytics_loader::class)]
 #[CoversClass(learner_scope::class)]
 final class course_analytics_test extends advanced_testcase {
+    /**
+     * The dashboard loader keeps the requested activity and its empty aggregate shape.
+     */
+    public function test_course_rows_keep_activity_filter_and_empty_aggregates(): void {
+        $this->resetAfterTest();
+        $course = $this->getDataGenerator()->create_course();
+        $first = $this->getDataGenerator()->create_module('videotrack', ['course' => $course->id]);
+        $second = $this->getDataGenerator()->create_module('videotrack', ['course' => $course->id]);
+        $viewerid = (int)$this->getAdminUser()->id;
+
+        $rows = course_analytics::get_course_rows($course, $viewerid, 2, (int)$second->id);
+
+        $this->assertCount(1, $rows);
+        $this->assertArrayNotHasKey((int)$first->id, $rows);
+        $this->assertArrayHasKey((int)$second->id, $rows);
+        $this->assertSame(0, $rows[$second->id]->summary['started']['eventcount']);
+        $this->assertSame(0, $rows[$second->id]->reactions['eventcount']);
+    }
+
     /**
      * Median supports odd, even and empty datasets.
      */
@@ -287,7 +308,7 @@ final class course_analytics_test extends advanced_testcase {
      * Period loading is anchored to validated segment creation time, not state modification time.
      */
     public function test_period_loader_uses_segment_creation_time(): void {
-        $source = file_get_contents(__DIR__ . '/../classes/local/course_analytics.php');
+        $source = file_get_contents(__DIR__ . '/../classes/local/course_analytics_loader.php');
         $this->assertIsString($source);
         $this->assertStringContainsString('AND seg.servervalidated = 1', $source);
         $this->assertStringContainsString('seg.timecreated >= :segmenttimestart', $source);
@@ -335,7 +356,7 @@ final class course_analytics_test extends advanced_testcase {
      * Course Analytics delegates participant SQL to the canonical learner scope helper.
      */
     public function test_course_analytics_reuses_canonical_learner_scope_sql(): void {
-        $source = file_get_contents(__DIR__ . '/../classes/local/course_analytics.php');
+        $source = file_get_contents(__DIR__ . '/../classes/local/course_analytics_loader.php');
         $this->assertIsString($source);
         $this->assertStringContainsString('learner_scope::sql_for_group_ids(', $source);
         $this->assertStringContainsString("'course' . (int)\$instance->id", $source);
