@@ -1,5 +1,18 @@
 # VideoTrack changelog
 
+## 1.7.185 - 2026-10-13
+
+### Streaming timeline aggregation stages
+
+- Accepted the byte-for-byte 1.7.184 release archive, all six green post-merge CI jobs and the Moodle
+  5.0/5.3 server report. The strict validators each reported ten passes; PHPMD confirmed 88 advisory
+  findings, including cyclomatic and NPath findings on `analytics::build()`.
+- Extract consecutive-user segment accumulation into a private streaming stage without changing the
+  public API, duration and interval bounds, final-user flush, bin arithmetic or privacy output. Add
+  regressions for invalid user/interval input and zero-duration lazy iteration. This targets two
+  PHPMD findings; the candidate count of 86 requires confirmation in CI. Database schema,
+  backup/restore, AJAX services, AMD builds and language packs are unchanged.
+
 ## 1.7.184 - 2026-10-13
 
 ### Privacy-safe acknowledgement Analytics summary stages

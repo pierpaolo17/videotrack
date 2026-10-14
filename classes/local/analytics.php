@@ -169,6 +169,44 @@ final class analytics {
             ];
         }
 
+        $viewers = self::accumulate_segments($segments, $bins, $binsize, $duration);
+
+        $rawseconds = 0.0;
+        $uniqueseconds = 0.0;
+        foreach ($bins as &$bin) {
+            $bin['repeatseconds'] = max(0.0, $bin['rawseconds'] - $bin['uniqueseconds']);
+            $bin['retention'] = $viewers > 0 ? round(($bin['viewers'] / $viewers) * 100, 2) : 0.0;
+            $bin['rawseconds'] = round($bin['rawseconds'], 3);
+            $bin['uniqueseconds'] = round($bin['uniqueseconds'], 3);
+            $bin['repeatseconds'] = round($bin['repeatseconds'], 3);
+            $rawseconds += $bin['rawseconds'];
+            $uniqueseconds += $bin['uniqueseconds'];
+        }
+        unset($bin);
+
+        return [
+            'duration' => $duration,
+            'binsize' => $binsize,
+            'viewers' => $viewers,
+            'rawseconds' => round($rawseconds, 3),
+            'uniqueseconds' => round($uniqueseconds, 3),
+            'repeatseconds' => round(max(0.0, $rawseconds - $uniqueseconds), 3),
+            'repeatmetricsavailable' => true,
+            'totalsuppressed' => false,
+            'bins' => $bins,
+        ];
+    }
+
+    /**
+     * Streams consecutive user intervals into bins, flushing the final user too.
+     *
+     * @param iterable $segments Segment records ordered by userid.
+     * @param array $bins Global bins, modified in place.
+     * @param int $binsize Bin size in seconds.
+     * @param float $duration Video duration in seconds.
+     * @return int Number of users with at least one valid interval.
+     */
+    private static function accumulate_segments(iterable $segments, array &$bins, int $binsize, float $duration): int {
         $currentuserid = null;
         $userintervals = [];
         $viewers = 0;
@@ -196,31 +234,7 @@ final class analytics {
         if ($currentuserid !== null && self::add_user_intervals($userintervals, $bins, $binsize, $duration)) {
             $viewers++;
         }
-
-        $rawseconds = 0.0;
-        $uniqueseconds = 0.0;
-        foreach ($bins as &$bin) {
-            $bin['repeatseconds'] = max(0.0, $bin['rawseconds'] - $bin['uniqueseconds']);
-            $bin['retention'] = $viewers > 0 ? round(($bin['viewers'] / $viewers) * 100, 2) : 0.0;
-            $bin['rawseconds'] = round($bin['rawseconds'], 3);
-            $bin['uniqueseconds'] = round($bin['uniqueseconds'], 3);
-            $bin['repeatseconds'] = round($bin['repeatseconds'], 3);
-            $rawseconds += $bin['rawseconds'];
-            $uniqueseconds += $bin['uniqueseconds'];
-        }
-        unset($bin);
-
-        return [
-            'duration' => $duration,
-            'binsize' => $binsize,
-            'viewers' => $viewers,
-            'rawseconds' => round($rawseconds, 3),
-            'uniqueseconds' => round($uniqueseconds, 3),
-            'repeatseconds' => round(max(0.0, $rawseconds - $uniqueseconds), 3),
-            'repeatmetricsavailable' => true,
-            'totalsuppressed' => false,
-            'bins' => $bins,
-        ];
+        return $viewers;
     }
 
     /**
