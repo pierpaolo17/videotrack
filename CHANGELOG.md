@@ -1,5 +1,23 @@
 # VideoTrack changelog
 
+## 1.7.191 - 2026-10-14
+
+### Completion and interval complexity cleanup
+
+- Accepted the real 376-file 1.7.190 release ZIP byte-for-byte against the tested candidate.
+  All six post-merge CI jobs passed 322 PHPUnit tests and 24 Behat scenarios each; the
+  Moodle 5.0/5.3 server report passed PHPCS, lint, Grunt and 322 PHPUnit tests per site,
+  and both strict validators passed ten checks without warnings or failures. PHPMD
+  confirmed 77 advisory findings, one fewer than in 1.7.189: the completion NPath
+  finding disappeared; its cyclomatic finding remains at 11 against a threshold of 10.
+- Share the existing reaction-level and activity-level AND/OR decision through
+  `completion_config::combine_checks()`. Keep the no-custom-rules page-view fallback in
+  `tracker::completion_satisfied()` and the strict boolean comparisons. Isolate each
+  decoded interval's existing validation in `tracker::normalise_decoded_interval()`.
+  The existing completion and interval behaviour is preserved; these changes target
+  two cyclomatic findings and require candidate CI confirmation. Database schema,
+  upgrade/restore, services, AMD and languages are unchanged.
+
 ## 1.7.190 - 2026-10-14
 
 ### Focused reaction checks for custom completion

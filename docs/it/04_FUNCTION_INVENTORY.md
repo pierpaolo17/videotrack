@@ -1,8 +1,8 @@
 # Inventario delle funzioni
 
-Generato dall’albero sorgente VideoTrack 1.7.190. Le voci PHP includono funzioni e metodi nominati; le voci AMD includono dichiarazioni nominate, espressioni funzione assegnate e funzioni-metodo di oggetti.
+Generato dall’albero sorgente VideoTrack 1.7.191. Le voci PHP includono funzioni e metodi nominati; le voci AMD includono dichiarazioni nominate, espressioni funzione assegnate e funzioni-metodo di oggetti.
 
-**Funzioni/metodi PHP:** 911. **Callable AMD nominati:** 654.
+**Funzioni/metodi PHP:** 913. **Callable AMD nominati:** 654.
 
 | Posizione | Callable | Responsabilità |
 |---|---|---|
@@ -885,13 +885,14 @@ Generato dall’albero sorgente VideoTrack 1.7.190. Le voci PHP includono funzio
 | `classes/local/analytics_table_export.php:484` | `event_summary_row` | Allinea un riepilogo evento aggregato alle colonne dell'export combinato. |
 | `classes/local/completion_config.php:39` | `required_reaction_ids` | Funzione/metodo PHP nominato `required_reaction_ids`; vedere DocBlock e chiamanti per il contratto corrente. |
 | `classes/local/completion_config.php:62` | `reaction_checks` | Valuta soltanto le condizioni reazione attive prima dell’aggregazione AND/OR. |
-| `classes/local/completion_config.php:101` | `has_custom_rules` | Funzione/metodo PHP nominato `has_custom_rules`; vedere DocBlock e chiamanti per il contratto corrente. |
-| `classes/local/completion_config.php:129` | `has_required_reactions` | Funzione/metodo PHP nominato `has_required_reactions`; vedere DocBlock e chiamanti per il contratto corrente. |
-| `classes/local/completion_config.php:149` | `required_reaction_activity_set` | Funzione/metodo PHP nominato `required_reaction_activity_set`; vedere DocBlock e chiamanti per il contratto corrente. |
-| `classes/local/completion_config.php:170` | `reset_required_reaction_cache` | Funzione/metodo PHP nominato `reset_required_reaction_cache`; vedere DocBlock e chiamanti per il contratto corrente. |
-| `classes/local/completion_config.php:185` | `active_condition_descriptions` | Funzione/metodo PHP nominato `active_condition_descriptions`; vedere DocBlock e chiamanti per il contratto corrente. |
-| `classes/local/completion_config.php:218` | `reaction_condition_descriptions` | Costruisce le descrizioni ordinate delle condizioni di completamento basate sulle reazioni per la descrizione composita pubblica. |
-| `classes/local/completion_config.php:263` | `signature` | Funzione/metodo PHP nominato `signature`; vedere DocBlock e chiamanti per il contratto corrente. |
+| `classes/local/completion_config.php:102` | `combine_checks` | Combina le condizioni di completamento attive con la policy AND/OR rigorosa esistente. |
+| `classes/local/completion_config.php:119` | `has_custom_rules` | Funzione/metodo PHP nominato `has_custom_rules`; vedere DocBlock e chiamanti per il contratto corrente. |
+| `classes/local/completion_config.php:147` | `has_required_reactions` | Funzione/metodo PHP nominato `has_required_reactions`; vedere DocBlock e chiamanti per il contratto corrente. |
+| `classes/local/completion_config.php:167` | `required_reaction_activity_set` | Funzione/metodo PHP nominato `required_reaction_activity_set`; vedere DocBlock e chiamanti per il contratto corrente. |
+| `classes/local/completion_config.php:188` | `reset_required_reaction_cache` | Funzione/metodo PHP nominato `reset_required_reaction_cache`; vedere DocBlock e chiamanti per il contratto corrente. |
+| `classes/local/completion_config.php:203` | `active_condition_descriptions` | Funzione/metodo PHP nominato `active_condition_descriptions`; vedere DocBlock e chiamanti per il contratto corrente. |
+| `classes/local/completion_config.php:236` | `reaction_condition_descriptions` | Costruisce le descrizioni ordinate delle condizioni di completamento basate sulle reazioni per la descrizione composita pubblica. |
+| `classes/local/completion_config.php:281` | `signature` | Funzione/metodo PHP nominato `signature`; vedere DocBlock e chiamanti per il contratto corrente. |
 | `classes/local/course_analytics.php:45` | `get_course_rows` | Callable PHP `get_course_rows`; DocBlock e chiamanti definiscono parametri, valori restituiti ed effetti. |
 | `classes/local/course_analytics.php:124` | `summarise_states` | Callable PHP `summarise_states`; DocBlock e chiamanti definiscono parametri, valori restituiti ed effetti. |
 | `classes/local/course_analytics.php:167` | `latest_states_by_user` | Callable PHP `latest_states_by_user`; DocBlock e chiamanti definiscono parametri, valori restituiti ed effetti. |
@@ -1062,29 +1063,30 @@ Generato dall’albero sorgente VideoTrack 1.7.190. Le voci PHP includono funzio
 | `classes/local/tracker.php:57` | `current_state_snapshot` | Callable PHP `current_state_snapshot`; DocBlock e chiamanti definiscono parametri, valori restituiti ed effetti. |
 | `classes/local/tracker.php:76` | `normalise_interval` | Callable PHP `normalise_interval`; DocBlock e chiamanti definiscono parametri, valori restituiti ed effetti. |
 | `classes/local/tracker.php:96` | `decode_intervals` | Callable PHP `decode_intervals`; DocBlock e chiamanti definiscono parametri, valori restituiti ed effetti. |
-| `classes/local/tracker.php:129` | `encode_intervals` | Callable PHP `encode_intervals`; DocBlock e chiamanti definiscono parametri, valori restituiti ed effetti. |
-| `classes/local/tracker.php:139` | `merge_intervals` | Callable PHP `merge_intervals`; DocBlock e chiamanti definiscono parametri, valori restituiti ed effetti. |
-| `classes/local/tracker.php:166` | `cap_intervals` | Callable PHP `cap_intervals`; DocBlock e chiamanti definiscono parametri, valori restituiti ed effetti. |
-| `classes/local/tracker.php:189` | `simplify_intervals` | Callable PHP `simplify_intervals`; DocBlock e chiamanti definiscono parametri, valori restituiti ed effetti. |
-| `classes/local/tracker.php:212` | `covered_seconds` | Callable PHP `covered_seconds`; DocBlock e chiamanti definiscono parametri, valori restituiti ed effetti. |
-| `classes/local/tracker.php:233` | `normalise_start_boundary` | Callable PHP `normalise_start_boundary`; DocBlock e chiamanti definiscono parametri, valori restituiti ed effetti. |
-| `classes/local/tracker.php:257` | `normalise_natural_end` | Callable PHP `normalise_natural_end`; DocBlock e chiamanti definiscono parametri, valori restituiti ed effetti. |
-| `classes/local/tracker.php:275` | `reaction_counts` | Callable PHP `reaction_counts`; DocBlock e chiamanti definiscono parametri, valori restituiti ed effetti. |
-| `classes/local/tracker.php:317` | `invalidate_reactioncountscache` | Callable PHP `invalidate_reactioncountscache`; DocBlock e chiamanti definiscono parametri, valori restituiti ed effetti. |
-| `classes/local/tracker.php:338` | `has_watched_videotime` | Callable PHP `has_watched_videotime`; DocBlock e chiamanti definiscono parametri, valori restituiti ed effetti. |
-| `classes/local/tracker.php:394` | `has_watched_videotime_any_session` | Funzione/metodo PHP nominato `has_watched_videotime_any_session`; vedere DocBlock e chiamanti per il contratto corrente. |
-| `classes/local/tracker.php:463` | `completion_satisfied` | Callable PHP `completion_satisfied`; DocBlock e chiamanti definiscono parametri, valori restituiti ed effetti. |
-| `classes/local/tracker.php:517` | `interaction_timestamp_allowed` | Funzione/metodo PHP nominato `interaction_timestamp_allowed`; vedere DocBlock e chiamanti per il contratto corrente. |
-| `classes/local/tracker.php:543` | `create_default_state` | Callable PHP `create_default_state`; DocBlock e chiamanti definiscono parametri, valori restituiti ed effetti. |
-| `classes/local/tracker.php:581` | `advance_server_credit_budget` | Callable PHP `advance_server_credit_budget`; DocBlock e chiamanti definiscono parametri, valori restituiti ed effetti. |
-| `classes/local/tracker.php:639` | `same_segment_request` | Callable PHP `same_segment_request`; DocBlock e chiamanti definiscono parametri, valori restituiti ed effetti. |
-| `classes/local/tracker.php:659` | `begin_playback` | Callable PHP `begin_playback`; DocBlock e chiamanti definiscono parametri, valori restituiti ed effetti. |
-| `classes/local/tracker.php:756` | `forward_interval_allowed` | Callable PHP `forward_interval_allowed`; DocBlock e chiamanti definiscono parametri, valori restituiti ed effetti. |
-| `classes/local/tracker.php:789` | `update_state` | Callable PHP `update_state`; DocBlock e chiamanti definiscono parametri, valori restituiti ed effetti. |
-| `classes/local/tracker.php:1035` | `update_moodle_completion_if_changed` | Callable PHP `update_moodle_completion_if_changed`; DocBlock e chiamanti definiscono parametri, valori restituiti ed effetti. |
-| `classes/local/tracker.php:1059` | `aggregate_segments` | Callable PHP `aggregate_segments`; DocBlock e chiamanti definiscono parametri, valori restituiti ed effetti. |
-| `classes/local/tracker.php:1105` | `rebuild_state_from_segments` | Callable PHP `rebuild_state_from_segments`; DocBlock e chiamanti definiscono parametri, valori restituiti ed effetti. |
-| `classes/local/tracker.php:1200` | `refresh_completion` | Callable PHP `refresh_completion`; DocBlock e chiamanti definiscono parametri, valori restituiti ed effetti. |
+| `classes/local/tracker.php:121` | `normalise_decoded_interval` | Valida e normalizza un intervallo di riproduzione decodificato senza modificare gli intervalli ammessi. |
+| `classes/local/tracker.php:139` | `encode_intervals` | Callable PHP `encode_intervals`; DocBlock e chiamanti definiscono parametri, valori restituiti ed effetti. |
+| `classes/local/tracker.php:149` | `merge_intervals` | Callable PHP `merge_intervals`; DocBlock e chiamanti definiscono parametri, valori restituiti ed effetti. |
+| `classes/local/tracker.php:176` | `cap_intervals` | Callable PHP `cap_intervals`; DocBlock e chiamanti definiscono parametri, valori restituiti ed effetti. |
+| `classes/local/tracker.php:199` | `simplify_intervals` | Callable PHP `simplify_intervals`; DocBlock e chiamanti definiscono parametri, valori restituiti ed effetti. |
+| `classes/local/tracker.php:222` | `covered_seconds` | Callable PHP `covered_seconds`; DocBlock e chiamanti definiscono parametri, valori restituiti ed effetti. |
+| `classes/local/tracker.php:243` | `normalise_start_boundary` | Callable PHP `normalise_start_boundary`; DocBlock e chiamanti definiscono parametri, valori restituiti ed effetti. |
+| `classes/local/tracker.php:267` | `normalise_natural_end` | Callable PHP `normalise_natural_end`; DocBlock e chiamanti definiscono parametri, valori restituiti ed effetti. |
+| `classes/local/tracker.php:285` | `reaction_counts` | Callable PHP `reaction_counts`; DocBlock e chiamanti definiscono parametri, valori restituiti ed effetti. |
+| `classes/local/tracker.php:327` | `invalidate_reactioncountscache` | Callable PHP `invalidate_reactioncountscache`; DocBlock e chiamanti definiscono parametri, valori restituiti ed effetti. |
+| `classes/local/tracker.php:348` | `has_watched_videotime` | Callable PHP `has_watched_videotime`; DocBlock e chiamanti definiscono parametri, valori restituiti ed effetti. |
+| `classes/local/tracker.php:404` | `has_watched_videotime_any_session` | Funzione/metodo PHP nominato `has_watched_videotime_any_session`; vedere DocBlock e chiamanti per il contratto corrente. |
+| `classes/local/tracker.php:473` | `completion_satisfied` | Callable PHP `completion_satisfied`; DocBlock e chiamanti definiscono parametri, valori restituiti ed effetti. |
+| `classes/local/tracker.php:519` | `interaction_timestamp_allowed` | Funzione/metodo PHP nominato `interaction_timestamp_allowed`; vedere DocBlock e chiamanti per il contratto corrente. |
+| `classes/local/tracker.php:545` | `create_default_state` | Callable PHP `create_default_state`; DocBlock e chiamanti definiscono parametri, valori restituiti ed effetti. |
+| `classes/local/tracker.php:583` | `advance_server_credit_budget` | Callable PHP `advance_server_credit_budget`; DocBlock e chiamanti definiscono parametri, valori restituiti ed effetti. |
+| `classes/local/tracker.php:641` | `same_segment_request` | Callable PHP `same_segment_request`; DocBlock e chiamanti definiscono parametri, valori restituiti ed effetti. |
+| `classes/local/tracker.php:661` | `begin_playback` | Callable PHP `begin_playback`; DocBlock e chiamanti definiscono parametri, valori restituiti ed effetti. |
+| `classes/local/tracker.php:758` | `forward_interval_allowed` | Callable PHP `forward_interval_allowed`; DocBlock e chiamanti definiscono parametri, valori restituiti ed effetti. |
+| `classes/local/tracker.php:791` | `update_state` | Callable PHP `update_state`; DocBlock e chiamanti definiscono parametri, valori restituiti ed effetti. |
+| `classes/local/tracker.php:1037` | `update_moodle_completion_if_changed` | Callable PHP `update_moodle_completion_if_changed`; DocBlock e chiamanti definiscono parametri, valori restituiti ed effetti. |
+| `classes/local/tracker.php:1061` | `aggregate_segments` | Callable PHP `aggregate_segments`; DocBlock e chiamanti definiscono parametri, valori restituiti ed effetti. |
+| `classes/local/tracker.php:1107` | `rebuild_state_from_segments` | Callable PHP `rebuild_state_from_segments`; DocBlock e chiamanti definiscono parametri, valori restituiti ed effetti. |
+| `classes/local/tracker.php:1202` | `refresh_completion` | Callable PHP `refresh_completion`; DocBlock e chiamanti definiscono parametri, valori restituiti ed effetti. |
 | `classes/privacy/provider.php:48` | `format_interval_second` | Callable PHP `format_interval_second`; DocBlock e chiamanti definiscono parametri, valori restituiti ed effetti. |
 | `classes/privacy/provider.php:59` | `get_metadata` | Callable PHP `get_metadata`; DocBlock e chiamanti definiscono parametri, valori restituiti ed effetti. |
 | `classes/privacy/provider.php:167` | `get_contexts_for_userid` | Callable PHP `get_contexts_for_userid`; DocBlock e chiamanti definiscono parametri, valori restituiti ed effetti. |

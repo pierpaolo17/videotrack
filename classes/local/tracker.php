@@ -104,20 +104,30 @@ class tracker {
 
         $intervals = [];
         foreach ($data as $interval) {
-            if (!is_array($interval) || count($interval) < 2 || !is_numeric($interval[0]) || !is_numeric($interval[1])) {
-                continue;
-            }
-            $start = (float) $interval[0];
-            $end = (float) $interval[1];
-            if (!is_finite($start) || !is_finite($end)) {
-                continue;
-            }
-            $normalised = self::normalise_interval($start, $end);
+            $normalised = self::normalise_decoded_interval($interval);
             if ($normalised !== null) {
                 $intervals[] = $normalised;
             }
         }
         return $intervals;
+    }
+
+    /**
+     * Validates one decoded JSON entry before normalising its interval.
+     *
+     * @param mixed $interval Decoded JSON entry.
+     * @return array|null Normalised interval or null when invalid.
+     */
+    private static function normalise_decoded_interval($interval): ?array {
+        if (!is_array($interval) || count($interval) < 2 || !is_numeric($interval[0]) || !is_numeric($interval[1])) {
+            return null;
+        }
+        $start = (float) $interval[0];
+        $end = (float) $interval[1];
+        if (!is_finite($start) || !is_finite($end)) {
+            return null;
+        }
+        return self::normalise_interval($start, $end);
     }
 
     /**
@@ -472,13 +482,9 @@ class tracker {
         }
 
         $reactionchecks = completion_config::reaction_checks($videotrack, $reactionsummary, $requiredreactionids);
+        $completionlogic = $videotrack->completionlogic ?? 'and';
         if ($reactionchecks) {
-            $reactionlogic = $videotrack->completionlogic ?? 'and';
-            if ($reactionlogic === 'or') {
-                $checks[] = in_array(true, $reactionchecks, true);
-            } else {
-                $checks[] = !in_array(false, $reactionchecks, true);
-            }
+            $checks[] = completion_config::combine_checks($reactionchecks, $completionlogic);
         }
 
         if (!empty($videotrack->completionacknowledgement) && acknowledgement::is_enabled($videotrack)) {
@@ -491,11 +497,7 @@ class tracker {
             // and treats the page visit as the completion condition at framework level.
             return false;
         }
-        $completionlogic = $videotrack->completionlogic ?? 'and';
-        if ($completionlogic === 'or') {
-            return in_array(true, $checks, true);
-        }
-        return !in_array(false, $checks, true);
+        return completion_config::combine_checks($checks, $completionlogic);
     }
 
     /**
