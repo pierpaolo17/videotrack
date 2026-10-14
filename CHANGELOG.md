@@ -1,5 +1,19 @@
 # VideoTrack changelog
 
+## 1.7.187 - 2026-10-14
+
+### Course Analytics input selection stages
+
+- Accepted the real 1.7.186 release ZIP, the six post-merge CI artifacts and the Moodle
+  5.0/5.3 server report. Both strict validators passed all ten checks; PHPMD confirmed
+  84 advisory findings. The Analytics class-level complexity remains a separate finding.
+- Isolate latest-state selection by valid learner and server-validated segment selection
+  within inclusive period bounds. The public course summary APIs, aggregate calculations,
+  completion snapshots, participant filtering and privacy thresholds are unchanged.
+  Add regressions for repeated learner states and both inclusive period boundaries.
+  This targets two cyclomatic findings; the projected PHPMD count of 82 requires CI
+  confirmation. Database schema, upgrade/restore, services, AMD and languages are unchanged.
+
 ## 1.7.186 - 2026-10-14
 
 ### Timeline privacy and reaction identity stages

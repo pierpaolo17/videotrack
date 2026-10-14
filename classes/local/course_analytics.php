@@ -197,18 +197,10 @@ final class course_analytics {
      */
     public static function summarise_states(iterable $states, float $instanceduration, int $minusers): array {
         $minusers = max(analytics::EXACT_REPORT_MIN_USERS, $minusers);
-        $statesbyuser = [];
+        $statesbyuser = self::latest_states_by_user($states);
         $percentages = [];
         $completions = 0;
         $stateduration = 0.0;
-
-        foreach ($states as $state) {
-            $userid = (int)($state->userid ?? 0);
-            if ($userid <= 0) {
-                continue;
-            }
-            $statesbyuser[$userid] = $state;
-        }
 
         foreach ($statesbyuser as $state) {
             $percentages[] = max(0.0, min(100.0, (float)($state->completionpercent ?? 0)));
@@ -238,6 +230,24 @@ final class course_analytics {
             'datasetsuppressed' => $datasetsuppressed,
             'minusers' => $minusers,
         ];
+    }
+
+    /**
+     * Keeps the last state per valid learner id, preserving input order.
+     *
+     * @param iterable $states State records for capability-filtered learners.
+     * @return array State records keyed by learner id.
+     */
+    private static function latest_states_by_user(iterable $states): array {
+        $statesbyuser = [];
+        foreach ($states as $state) {
+            $userid = (int)($state->userid ?? 0);
+            if ($userid <= 0) {
+                continue;
+            }
+            $statesbyuser[$userid] = $state;
+        }
+        return $statesbyuser;
     }
 
     /**
@@ -317,21 +327,7 @@ final class course_analytics {
         int $timestart,
         int $timeend
     ): array {
-        $byuser = [];
-        foreach ($segments as $segment) {
-            if (empty($segment->servervalidated)) {
-                continue;
-            }
-            $timecreated = (int)($segment->timecreated ?? 0);
-            if (($timestart > 0 && $timecreated < $timestart) || ($timeend > 0 && $timecreated > $timeend)) {
-                continue;
-            }
-            $userid = (int)($segment->userid ?? 0);
-            if ($userid <= 0) {
-                continue;
-            }
-            $byuser[$userid][] = $segment;
-        }
+        $byuser = self::segments_by_user_in_period($segments, $timestart, $timeend);
 
         $states = [];
         foreach ($byuser as $userid => $usersegments) {
@@ -350,6 +346,33 @@ final class course_analytics {
         }
 
         return self::summarise_states($states, $duration, $minusers);
+    }
+
+    /**
+     * Groups only server-validated segments whose creation time is in the inclusive period.
+     *
+     * @param iterable $segments Candidate segment rows.
+     * @param int $timestart Inclusive period start timestamp.
+     * @param int $timeend Inclusive period end timestamp.
+     * @return array Segment records grouped by valid learner id.
+     */
+    private static function segments_by_user_in_period(iterable $segments, int $timestart, int $timeend): array {
+        $byuser = [];
+        foreach ($segments as $segment) {
+            if (empty($segment->servervalidated)) {
+                continue;
+            }
+            $timecreated = (int)($segment->timecreated ?? 0);
+            if (($timestart > 0 && $timecreated < $timestart) || ($timeend > 0 && $timecreated > $timeend)) {
+                continue;
+            }
+            $userid = (int)($segment->userid ?? 0);
+            if ($userid <= 0) {
+                continue;
+            }
+            $byuser[$userid][] = $segment;
+        }
+        return $byuser;
     }
 
     /**

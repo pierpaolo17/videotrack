@@ -160,10 +160,11 @@ dichiarazione di un parametro di metodo.
 - Il callback delle feature Moodle è una tabella diretta feature-valore, mentre la validazione delle reazioni Font
   Awesome separa il sottoinsieme revisionato dei decoratori da un solo nome icona. Contratti pubblici, limiti e
   default fail-closed sono coperti indipendentemente dalla riduzione di complessità.
-- PHPMD resta consultivo. La CI completa 1.7.185 ha confermato 86 finding, contro gli 88 della 1.7.184.
-  La candidata 1.7.186 estrae il masking dei bin della timeline e l'identità validata dei cluster di reazioni
-  da `analytics`, puntando ai finding ciclomatici residui di `apply_privacy_threshold()` e
-  `cluster_reactions()`. La stima di 84 richiede conferma nella CI della candidata.
+- PHPMD resta consultivo. La CI completa 1.7.186 ha confermato 84 finding, contro gli 86 della 1.7.185.
+  Resta il rilievo sulla complessità complessiva della classe `analytics`, con metrica salita a 77.
+  La candidata 1.7.187 separa la selezione degli stati per corso e il raggruppamento dei segmenti validi nel periodo,
+  puntando ai finding ciclomatici di `summarise_states()` e `summarise_period_segments()`.
+  La stima di 82 richiede conferma nella CI della candidata.
   I rilievi residui riguardano complessità, dimensione, classi pubbliche ampie, parametri obbligatori
   dei callback Moodle e flag booleani che richiedono refactoring comportamentali separati.
 - Configurazione degli analizzatori, perimetro di produzione, schema database e asset AMD non cambiano con queste
