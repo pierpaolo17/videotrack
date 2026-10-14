@@ -1,8 +1,8 @@
 # Function inventory
 
-Generated from the VideoTrack 1.7.185 source tree. PHP entries include named functions and methods; AMD entries include named declarations, assigned function expressions and object-method functions.
+Generated from the VideoTrack 1.7.186 source tree. PHP entries include named functions and methods; AMD entries include named declarations, assigned function expressions and object-method functions.
 
-**PHP functions/methods:** 805. **Named AMD callables:** 654.
+**PHP functions/methods:** 808. **Named AMD callables:** 654.
 
 | Location | Callable | Responsibility |
 |---|---|---|
@@ -845,12 +845,14 @@ Generated from the VideoTrack 1.7.185 source tree. PHP entries include named fun
 | `classes/local/analytics.php:209` | `accumulate_segments` | PHP callable `accumulate_segments`; see its DocBlock and callers for parameter, return-value and side-effect details. |
 | `classes/local/analytics.php:252` | `build_from_states` | PHP callable `build_from_states`; see its DocBlock and callers for parameter, return-value and side-effect details. |
 | `classes/local/analytics.php:290` | `apply_privacy_threshold` | PHP callable `apply_privacy_threshold`; see its DocBlock and callers for parameter, return-value and side-effect details. |
-| `classes/local/analytics.php:350` | `count_summary` | PHP callable `count_summary`; see its DocBlock and callers for parameter, return-value and side-effect details. |
-| `classes/local/analytics.php:373` | `reaction_summary` | PHP callable `reaction_summary`; see its DocBlock and callers for parameter, return-value and side-effect details. |
-| `classes/local/analytics.php:385` | `cluster_reactions` | PHP callable `cluster_reactions`; see its DocBlock and callers for parameter, return-value and side-effect details. |
-| `classes/local/analytics.php:446` | `append_visible_reaction_cluster` | PHP callable `append_visible_reaction_cluster`; see its DocBlock and callers for parameter, return-value and side-effect details. |
-| `classes/local/analytics.php:475` | `add_user_intervals` | PHP callable `add_user_intervals`; see its DocBlock and callers for parameter, return-value and side-effect details. |
-| `classes/local/analytics.php:511` | `add_interval_to_map` | PHP callable `add_interval_to_map`; see its DocBlock and callers for parameter, return-value and side-effect details. |
+| `classes/local/analytics.php:310` | `mask_timeline_bins` | PHP callable `mask_timeline_bins`; see its DocBlock and callers for parameter, return-value and side-effect details. |
+| `classes/local/analytics.php:360` | `count_summary` | PHP callable `count_summary`; see its DocBlock and callers for parameter, return-value and side-effect details. |
+| `classes/local/analytics.php:383` | `reaction_summary` | PHP callable `reaction_summary`; see its DocBlock and callers for parameter, return-value and side-effect details. |
+| `classes/local/analytics.php:395` | `cluster_reactions` | PHP callable `cluster_reactions`; see its DocBlock and callers for parameter, return-value and side-effect details. |
+| `classes/local/analytics.php:455` | `validated_cluster_key` | PHP callable `validated_cluster_key`; see its DocBlock and callers for parameter, return-value and side-effect details. |
+| `classes/local/analytics.php:477` | `append_visible_reaction_cluster` | PHP callable `append_visible_reaction_cluster`; see its DocBlock and callers for parameter, return-value and side-effect details. |
+| `classes/local/analytics.php:506` | `add_user_intervals` | PHP callable `add_user_intervals`; see its DocBlock and callers for parameter, return-value and side-effect details. |
+| `classes/local/analytics.php:542` | `add_interval_to_map` | PHP callable `add_interval_to_map`; see its DocBlock and callers for parameter, return-value and side-effect details. |
 | `classes/local/analytics_scope.php:42` | `matching_accessible_instances` | Stable public facade for capability-safe same-video scope discovery. |
 | `classes/local/analytics_scope.php:59` | `effective_groupmode` | Resolves the effective Moodle group mode for an Analytics scope. |
 | `classes/local/analytics_scope.php:91` | `accessible_group_ids` | Resolves the learner groups visible to one report viewer. |
@@ -1269,12 +1271,13 @@ Generated from the VideoTrack 1.7.185 source tree. PHP entries include named fun
 | `tests/analytics_test.php:240` | `test_privacy_threshold_keeps_total_when_only_replays_are_suppressed` | PHP callable `test_privacy_threshold_keeps_total_when_only_replays_are_suppressed`; see its DocBlock and callers for parameter, return-value and side-effect details. |
 | `tests/analytics_test.php:264` | `test_reaction_cluster_limit_is_reported` | PHP callable `test_reaction_cluster_limit_is_reported`; see its DocBlock and callers for parameter, return-value and side-effect details. |
 | `tests/analytics_test.php:291` | `test_reaction_clusters_apply_student_threshold` | PHP callable `test_reaction_clusters_apply_student_threshold`; see its DocBlock and callers for parameter, return-value and side-effect details. |
-| `tests/analytics_test.php:315` | `test_reaction_clusters_use_stable_reaction_keys` | PHP callable `test_reaction_clusters_use_stable_reaction_keys`; see its DocBlock and callers for parameter, return-value and side-effect details. |
-| `tests/analytics_test.php:368` | `test_reaction_privacy_is_independent_from_viewing_privacy` | PHP callable `test_reaction_privacy_is_independent_from_viewing_privacy`; see its DocBlock and callers for parameter, return-value and side-effect details. |
-| `tests/analytics_test.php:396` | `test_group_scope_restriction_uses_effective_activity_mode` | PHP callable `test_group_scope_restriction_uses_effective_activity_mode`; see its DocBlock and callers for parameter, return-value and side-effect details. |
-| `tests/analytics_test.php:406` | `test_reaction_summary_masks_small_populations` | PHP callable `test_reaction_summary_masks_small_populations`; see its DocBlock and callers for parameter, return-value and side-effect details. |
-| `tests/analytics_test.php:427` | `test_build_from_states_recovers_unique_viewers` | PHP callable `test_build_from_states_recovers_unique_viewers`; see its DocBlock and callers for parameter, return-value and side-effect details. |
-| `tests/analytics_test.php:447` | `test_resolve_duration_uses_best_persisted_source` | PHP callable `test_resolve_duration_uses_best_persisted_source`; see its DocBlock and callers for parameter, return-value and side-effect details. |
+| `tests/analytics_test.php:315` | `test_reaction_clusters_retain_stable_keys_and_reject_invalid_events` | PHP callable `test_reaction_clusters_retain_stable_keys_and_reject_invalid_events`; see its DocBlock and callers for parameter, return-value and side-effect details. |
+| `tests/analytics_test.php:336` | `test_reaction_clusters_use_stable_reaction_keys` | PHP callable `test_reaction_clusters_use_stable_reaction_keys`; see its DocBlock and callers for parameter, return-value and side-effect details. |
+| `tests/analytics_test.php:389` | `test_reaction_privacy_is_independent_from_viewing_privacy` | PHP callable `test_reaction_privacy_is_independent_from_viewing_privacy`; see its DocBlock and callers for parameter, return-value and side-effect details. |
+| `tests/analytics_test.php:417` | `test_group_scope_restriction_uses_effective_activity_mode` | PHP callable `test_group_scope_restriction_uses_effective_activity_mode`; see its DocBlock and callers for parameter, return-value and side-effect details. |
+| `tests/analytics_test.php:427` | `test_reaction_summary_masks_small_populations` | PHP callable `test_reaction_summary_masks_small_populations`; see its DocBlock and callers for parameter, return-value and side-effect details. |
+| `tests/analytics_test.php:448` | `test_build_from_states_recovers_unique_viewers` | PHP callable `test_build_from_states_recovers_unique_viewers`; see its DocBlock and callers for parameter, return-value and side-effect details. |
+| `tests/analytics_test.php:468` | `test_resolve_duration_uses_best_persisted_source` | PHP callable `test_resolve_duration_uses_best_persisted_source`; see its DocBlock and callers for parameter, return-value and side-effect details. |
 | `tests/behat/behat_mod_videotrack.php:42` | `the_videotrack_focus_policy_is` | Asserts the effective focus policy exposed by the real player JSON. |
 | `tests/behat/behat_mod_videotrack.php:65` | `the_videotrack_html5_media_is_ready` | Waits for local HTML5 fixture metadata in Behat. |
 | `tests/behat/behat_mod_videotrack.php:85` | `i_seek_the_videotrack_html5_media_to_seconds` | Drives a deterministic HTML5 seek in the browser test harness. |

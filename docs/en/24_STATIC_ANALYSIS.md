@@ -151,9 +151,10 @@ line, not for redeclaring a method parameter.
 - The Moodle feature callback is a direct feature-to-value table, while Font Awesome reaction validation partitions
   the reviewed decorator subset from exactly one icon name. Their public contracts, limits and fail-closed defaults
   are covered independently of the complexity reduction.
-- PHPMD remains advisory. The complete 1.7.184 CI confirmed 88 findings, down from 90 in 1.7.183.
-  This 1.7.185 candidate extracts consecutive-user segment accumulation from `analytics::build()` to
-  address its cyclomatic and NPath findings. The projected count of 86 requires candidate CI confirmation.
+- PHPMD remains advisory. The complete 1.7.185 CI confirmed 86 findings, down from 88 in 1.7.184.
+  This 1.7.186 candidate extracts timeline-bin masking and validated reaction-cluster identity
+  from `analytics`, targeting the remaining cyclomatic findings in `apply_privacy_threshold()` and
+  `cluster_reactions()`. The projected count of 84 requires candidate CI confirmation.
   Remaining reports concern reviewed complexity, size, broad public classes, required Moodle callback
   parameters and boolean switches that need separate behavioural refactoring.
 - Static-analysis configuration, production scope, database schema and AMD assets are unchanged by these API

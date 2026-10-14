@@ -1,5 +1,21 @@
 # VideoTrack changelog
 
+## 1.7.186 - 2026-10-14
+
+### Timeline privacy and reaction identity stages
+
+- Accepted the real 1.7.185 release ZIP, six post-merge CI artifacts and the Moodle 5.0/5.3
+  server report. PHPMD confirmed 86 advisory findings; both strict validators reported ten
+  passes without warnings or failures.
+- Extract privacy masking of individual timeline bins into a private stage, preserving the
+  whole-dataset threshold, zero-bin handling, hidden replay values and suppression of
+  retention beside hidden bins. Extract reaction-event validity and stable/legacy clustering
+  identity into another private stage, preserving group boundaries, timestamps and distinct
+  contributor thresholds. Cover a valid key without a legacy reaction id and invalid events.
+  This targets two PHPMD cyclomatic-complexity findings; the expected count of 84 requires
+  candidate CI confirmation. Database schema, upgrade/restore, services, AMD and languages
+  are unchanged.
+
 ## 1.7.185 - 2026-10-13
 
 ### Streaming timeline aggregation stages
