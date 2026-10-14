@@ -1,5 +1,21 @@
 # VideoTrack changelog
 
+## 1.7.190 - 2026-10-14
+
+### Focused reaction checks for custom completion
+
+- Accepted the real 376-file 1.7.189 release ZIP byte-for-byte against the tested candidate.
+  All six post-merge CI combinations passed after the transient Moodle 5.0/PostgreSQL npm
+  installation failure was resolved by rerunning the job. PHPMD confirmed 78 advisory
+  findings. The Moodle 5.0/5.3 server report passed PHPCS, lint, Grunt and 321 PHPUnit
+  tests; both strict validators passed ten checks without warnings or failures.
+- Move the existing enabled-reaction checks from `tracker::completion_satisfied()` into
+  `completion_config::reaction_checks()` without changing individual checks, their order,
+  active-definition SQL, disabled-reaction handling or AND/OR aggregation. Add a runtime
+  regression for active and deleted reaction types. This targets the two complexity
+  findings on `completion_satisfied()`; the PHPMD impact requires candidate CI confirmation.
+  Database schema, upgrade/restore, services, AMD and languages are unchanged.
+
 ## 1.7.189 - 2026-10-14
 
 ### Course dashboard CI correction

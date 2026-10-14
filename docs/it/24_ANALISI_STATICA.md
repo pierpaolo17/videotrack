@@ -160,11 +160,11 @@ dichiarazione di un parametro di metodo.
 - Il callback delle feature Moodle è una tabella diretta feature-valore, mentre la validazione delle reazioni Font
   Awesome separa il sottoinsieme revisionato dei decoratori da un solo nome icona. Contratti pubblici, limiti e
   default fail-closed sono coperti indipendentemente dalla riduzione di complessità.
-- PHPMD resta consultivo. La CI del primo push 1.7.188 ha confermato 79 rilievi contro gli
-  82 della 1.7.187. Sono spariti tre finding di `get_course_rows()` e quello sulla classe
-  `course_analytics`, ma è apparso un finding ciclomatico su `course_analytics_loader::scopes()`.
-  La candidata 1.7.189 isola la query invariata delle attività del corso in un metodo privato
-  e corregge il fixture PHPUnit dell'utente amministratore. Il conteggio finale richiede la CI.
+- PHPMD resta consultivo. La CI 1.7.189 ha confermato 78 rilievi contro i 79 della 1.7.188;
+  è scomparso il finding su `course_analytics_loader::scopes()`. La candidata 1.7.190 sposta
+  le verifiche delle condizioni sulle reazioni abilitate in `completion_config::reaction_checks()`,
+  preservando l'aggregazione finale AND/OR di tracker. I due finding su
+  `completion_satisfied()` restano obiettivi finché la CI completa non ne conferma la rimozione.
   I rilievi residui riguardano complessità, dimensione, classi pubbliche ampie, parametri obbligatori
   dei callback Moodle e flag booleani che richiedono refactoring comportamentali separati.
 - Configurazione degli analizzatori, perimetro di produzione, schema database e asset AMD non cambiano con queste

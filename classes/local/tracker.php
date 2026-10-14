@@ -466,32 +466,12 @@ class tracker {
         array $reactionsummary,
         array $requiredreactionids
     ): bool {
-        global $DB;
-
         $checks = [];
         if (!empty($videotrack->completionpercent)) {
             $checks[] = !empty($state) && (float)$state->completionpercent >= (float)$videotrack->completionpercent;
         }
 
-        $reactionchecks = [];
-        if (!empty($videotrack->reactionsenabled)) {
-            if (!empty($videotrack->reactionsrequired) && !empty($videotrack->minreactions)) {
-                $reactionchecks[] = $reactionsummary['uniquecount'] >= (int)$videotrack->minreactions;
-            }
-            foreach ($requiredreactionids as $reactionid) {
-                $reactionchecks[] = in_array((int)$reactionid, $reactionsummary['uniqueids'], true);
-            }
-            if (!empty($videotrack->requireallreactiontypes)) {
-                $allreactionids = array_map('intval', array_keys((array)$DB->get_records_menu('videotrack_react', [
-                    'videotrackid' => $videotrack->id,
-                    'isdeleted' => 0,
-                ], '', 'id,id')));
-                if ($allreactionids) {
-                    $matchingids = array_intersect($allreactionids, array_map('intval', $reactionsummary['uniqueids']));
-                    $reactionchecks[] = count($matchingids) === count($allreactionids);
-                }
-            }
-        }
+        $reactionchecks = completion_config::reaction_checks($videotrack, $reactionsummary, $requiredreactionids);
         if ($reactionchecks) {
             $reactionlogic = $videotrack->completionlogic ?? 'and';
             if ($reactionlogic === 'or') {
