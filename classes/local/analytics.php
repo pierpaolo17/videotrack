@@ -297,6 +297,17 @@ final class analytics {
             return $result;
         }
 
+        self::mask_timeline_bins($result, $minusers);
+        return $result;
+    }
+
+    /**
+     * Masks small bin populations and the retention of bins beside hidden populations.
+     *
+     * @param array $result Timeline result, modified in place.
+     * @param int $minusers Minimum number of users required for exact values.
+     */
+    private static function mask_timeline_bins(array &$result, int $minusers): void {
         foreach ($result['bins'] as &$bin) {
             $bin['retentionsuppressed'] = false;
             $viewers = (int)$bin['viewers'];
@@ -333,7 +344,6 @@ final class analytics {
             }
             unset($bin);
         }
-        return $result;
     }
 
     /**
@@ -394,12 +404,10 @@ final class analytics {
             $reactionid = (int)($event->reactionid ?? 0);
             $reactionkey = trim((string)($event->reactionkey ?? ''));
             $videotrackid = (int)($event->videotrackid ?? 0);
-            if ($userid === 0 || ($reactionid <= 0 && $reactionkey === '')) {
+            $clusterkey = self::validated_cluster_key($userid, $reactionid, $reactionkey, $videotrackid);
+            if ($clusterkey === null) {
                 continue;
             }
-            $clusterkey = $reactionkey !== ''
-                ? 'key:' . $reactionkey
-                : ($videotrackid > 0 ? 'activity:' . $videotrackid . ':id:' . $reactionid : 'id:' . $reactionid);
             $time = max(0.0, (float)($event->videotime ?? 0));
             if (isset($active[$clusterkey]) && ($time - $active[$clusterkey]['anchor']) <= $windowseconds) {
                 $active[$clusterkey]['count']++;
@@ -433,6 +441,29 @@ final class analytics {
             'clusters' => $visible,
             'truncated' => $truncated,
         ];
+    }
+
+    /**
+     * Validates a reaction event and selects its stable or legacy cluster identity.
+     *
+     * @param int $userid Reaction author id.
+     * @param int $reactionid Saved reaction definition id.
+     * @param string $reactionkey Stable reaction key, if present.
+     * @param int $videotrackid Activity id for legacy definition identities.
+     * @return string|null Cluster identity, or null for an invalid event.
+     */
+    private static function validated_cluster_key(
+        int $userid,
+        int $reactionid,
+        string $reactionkey,
+        int $videotrackid
+    ): ?string {
+        if ($userid === 0 || ($reactionid <= 0 && $reactionkey === '')) {
+            return null;
+        }
+        return $reactionkey !== ''
+            ? 'key:' . $reactionkey
+            : ($videotrackid > 0 ? 'activity:' . $videotrackid . ':id:' . $reactionid : 'id:' . $reactionid);
     }
 
     /**

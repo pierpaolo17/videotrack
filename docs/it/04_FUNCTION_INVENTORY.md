@@ -1,8 +1,8 @@
 # Inventario delle funzioni
 
-Generato dall’albero sorgente VideoTrack 1.7.185. Le voci PHP includono funzioni e metodi nominati; le voci AMD includono dichiarazioni nominate, espressioni funzione assegnate e funzioni-metodo di oggetti.
+Generato dall’albero sorgente VideoTrack 1.7.186. Le voci PHP includono funzioni e metodi nominati; le voci AMD includono dichiarazioni nominate, espressioni funzione assegnate e funzioni-metodo di oggetti.
 
-**Funzioni/metodi PHP:** 805. **Callable AMD nominati:** 654.
+**Funzioni/metodi PHP:** 808. **Callable AMD nominati:** 654.
 
 | Posizione | Callable | Responsabilità |
 |---|---|---|
@@ -845,12 +845,14 @@ Generato dall’albero sorgente VideoTrack 1.7.185. Le voci PHP includono funzio
 | `classes/local/analytics.php:209` | `accumulate_segments` | Callable PHP `accumulate_segments`; DocBlock e chiamanti definiscono parametri, valori restituiti ed effetti. |
 | `classes/local/analytics.php:252` | `build_from_states` | Callable PHP `build_from_states`; DocBlock e chiamanti definiscono parametri, valori restituiti ed effetti. |
 | `classes/local/analytics.php:290` | `apply_privacy_threshold` | Callable PHP `apply_privacy_threshold`; DocBlock e chiamanti definiscono parametri, valori restituiti ed effetti. |
-| `classes/local/analytics.php:350` | `count_summary` | Callable PHP `count_summary`; DocBlock e chiamanti definiscono parametri, valori restituiti ed effetti. |
-| `classes/local/analytics.php:373` | `reaction_summary` | Callable PHP `reaction_summary`; DocBlock e chiamanti definiscono parametri, valori restituiti ed effetti. |
-| `classes/local/analytics.php:385` | `cluster_reactions` | Callable PHP `cluster_reactions`; DocBlock e chiamanti definiscono parametri, valori restituiti ed effetti. |
-| `classes/local/analytics.php:446` | `append_visible_reaction_cluster` | Callable PHP `append_visible_reaction_cluster`; DocBlock e chiamanti definiscono parametri, valori restituiti ed effetti. |
-| `classes/local/analytics.php:475` | `add_user_intervals` | Callable PHP `add_user_intervals`; DocBlock e chiamanti definiscono parametri, valori restituiti ed effetti. |
-| `classes/local/analytics.php:511` | `add_interval_to_map` | Callable PHP `add_interval_to_map`; DocBlock e chiamanti definiscono parametri, valori restituiti ed effetti. |
+| `classes/local/analytics.php:310` | `mask_timeline_bins` | Callable PHP `mask_timeline_bins`; DocBlock e chiamanti definiscono parametri, valori restituiti ed effetti. |
+| `classes/local/analytics.php:360` | `count_summary` | Callable PHP `count_summary`; DocBlock e chiamanti definiscono parametri, valori restituiti ed effetti. |
+| `classes/local/analytics.php:383` | `reaction_summary` | Callable PHP `reaction_summary`; DocBlock e chiamanti definiscono parametri, valori restituiti ed effetti. |
+| `classes/local/analytics.php:395` | `cluster_reactions` | Callable PHP `cluster_reactions`; DocBlock e chiamanti definiscono parametri, valori restituiti ed effetti. |
+| `classes/local/analytics.php:455` | `validated_cluster_key` | Callable PHP `validated_cluster_key`; DocBlock e chiamanti definiscono parametri, valori restituiti ed effetti. |
+| `classes/local/analytics.php:477` | `append_visible_reaction_cluster` | Callable PHP `append_visible_reaction_cluster`; DocBlock e chiamanti definiscono parametri, valori restituiti ed effetti. |
+| `classes/local/analytics.php:506` | `add_user_intervals` | Callable PHP `add_user_intervals`; DocBlock e chiamanti definiscono parametri, valori restituiti ed effetti. |
+| `classes/local/analytics.php:542` | `add_interval_to_map` | Callable PHP `add_interval_to_map`; DocBlock e chiamanti definiscono parametri, valori restituiti ed effetti. |
 | `classes/local/analytics_scope.php:42` | `matching_accessible_instances` | Facciata pubblica stabile per la scoperta scope stesso-video capability-safe. |
 | `classes/local/analytics_scope.php:59` | `effective_groupmode` | Risolve la modalità gruppi Moodle effettiva per uno scope Analytics. |
 | `classes/local/analytics_scope.php:91` | `accessible_group_ids` | Risolve i gruppi learner visibili a un report viewer. |
@@ -1269,12 +1271,13 @@ Generato dall’albero sorgente VideoTrack 1.7.185. Le voci PHP includono funzio
 | `tests/analytics_test.php:240` | `test_privacy_threshold_keeps_total_when_only_replays_are_suppressed` | Callable PHP `test_privacy_threshold_keeps_total_when_only_replays_are_suppressed`; DocBlock e chiamanti definiscono parametri, valori restituiti ed effetti. |
 | `tests/analytics_test.php:264` | `test_reaction_cluster_limit_is_reported` | Callable PHP `test_reaction_cluster_limit_is_reported`; DocBlock e chiamanti definiscono parametri, valori restituiti ed effetti. |
 | `tests/analytics_test.php:291` | `test_reaction_clusters_apply_student_threshold` | Callable PHP `test_reaction_clusters_apply_student_threshold`; DocBlock e chiamanti definiscono parametri, valori restituiti ed effetti. |
-| `tests/analytics_test.php:315` | `test_reaction_clusters_use_stable_reaction_keys` | Callable PHP `test_reaction_clusters_use_stable_reaction_keys`; DocBlock e chiamanti definiscono parametri, valori restituiti ed effetti. |
-| `tests/analytics_test.php:368` | `test_reaction_privacy_is_independent_from_viewing_privacy` | Callable PHP `test_reaction_privacy_is_independent_from_viewing_privacy`; DocBlock e chiamanti definiscono parametri, valori restituiti ed effetti. |
-| `tests/analytics_test.php:396` | `test_group_scope_restriction_uses_effective_activity_mode` | Callable PHP `test_group_scope_restriction_uses_effective_activity_mode`; DocBlock e chiamanti definiscono parametri, valori restituiti ed effetti. |
-| `tests/analytics_test.php:406` | `test_reaction_summary_masks_small_populations` | Callable PHP `test_reaction_summary_masks_small_populations`; DocBlock e chiamanti definiscono parametri, valori restituiti ed effetti. |
-| `tests/analytics_test.php:427` | `test_build_from_states_recovers_unique_viewers` | Callable PHP `test_build_from_states_recovers_unique_viewers`; DocBlock e chiamanti definiscono parametri, valori restituiti ed effetti. |
-| `tests/analytics_test.php:447` | `test_resolve_duration_uses_best_persisted_source` | Callable PHP `test_resolve_duration_uses_best_persisted_source`; DocBlock e chiamanti definiscono parametri, valori restituiti ed effetti. |
+| `tests/analytics_test.php:315` | `test_reaction_clusters_retain_stable_keys_and_reject_invalid_events` | Callable PHP `test_reaction_clusters_retain_stable_keys_and_reject_invalid_events`; DocBlock e chiamanti definiscono parametri, valori restituiti ed effetti. |
+| `tests/analytics_test.php:336` | `test_reaction_clusters_use_stable_reaction_keys` | Callable PHP `test_reaction_clusters_use_stable_reaction_keys`; DocBlock e chiamanti definiscono parametri, valori restituiti ed effetti. |
+| `tests/analytics_test.php:389` | `test_reaction_privacy_is_independent_from_viewing_privacy` | Callable PHP `test_reaction_privacy_is_independent_from_viewing_privacy`; DocBlock e chiamanti definiscono parametri, valori restituiti ed effetti. |
+| `tests/analytics_test.php:417` | `test_group_scope_restriction_uses_effective_activity_mode` | Callable PHP `test_group_scope_restriction_uses_effective_activity_mode`; DocBlock e chiamanti definiscono parametri, valori restituiti ed effetti. |
+| `tests/analytics_test.php:427` | `test_reaction_summary_masks_small_populations` | Callable PHP `test_reaction_summary_masks_small_populations`; DocBlock e chiamanti definiscono parametri, valori restituiti ed effetti. |
+| `tests/analytics_test.php:448` | `test_build_from_states_recovers_unique_viewers` | Callable PHP `test_build_from_states_recovers_unique_viewers`; DocBlock e chiamanti definiscono parametri, valori restituiti ed effetti. |
+| `tests/analytics_test.php:468` | `test_resolve_duration_uses_best_persisted_source` | Callable PHP `test_resolve_duration_uses_best_persisted_source`; DocBlock e chiamanti definiscono parametri, valori restituiti ed effetti. |
 | `tests/behat/behat_mod_videotrack.php:42` | `the_videotrack_focus_policy_is` | Verifica la policy focus effettiva esposta dal JSON reale del player. |
 | `tests/behat/behat_mod_videotrack.php:65` | `the_videotrack_html5_media_is_ready` | Waits for local HTML5 fixture metadata in Behat. |
 | `tests/behat/behat_mod_videotrack.php:85` | `i_seek_the_videotrack_html5_media_to_seconds` | Drives a deterministic HTML5 seek in the browser test harness. |

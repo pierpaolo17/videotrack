@@ -310,6 +310,27 @@ final class analytics_test extends advanced_testcase {
     }
 
     /**
+     * Stable reaction keys remain valid without a legacy id; malformed events cannot contribute.
+     */
+    public function test_reaction_clusters_retain_stable_keys_and_reject_invalid_events(): void {
+        $events = [
+            (object)['userid' => 0, 'reactionid' => 5, 'reactionkey' => 'question', 'videotime' => 9],
+            (object)['userid' => 1, 'reactionid' => 0, 'reactionkey' => ' question ', 'videotime' => 10],
+            (object)['userid' => 2, 'reactionid' => 0, 'reactionkey' => 'question', 'videotime' => 11],
+            (object)['userid' => 3, 'reactionid' => 0, 'reactionkey' => ' ', 'videotime' => 12],
+        ];
+
+        $result = analytics::cluster_reactions($events, 10, 2);
+
+        $this->assertFalse($result['truncated']);
+        $this->assertCount(1, $result['clusters']);
+        $this->assertSame('question', $result['clusters'][0]['reactionkey']);
+        $this->assertSame(2, $result['clusters'][0]['count']);
+        $this->assertSame(2, $result['clusters'][0]['students']);
+        $this->assertSame(10.5, $result['clusters'][0]['timestamp']);
+    }
+
+    /**
      * Cross-course clusters use the saved reaction key instead of local database ids.
      */
     public function test_reaction_clusters_use_stable_reaction_keys(): void {
