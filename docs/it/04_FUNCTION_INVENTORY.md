@@ -1,8 +1,8 @@
 # Inventario delle funzioni
 
-Generato dall’albero sorgente VideoTrack 1.7.189. Le voci PHP includono funzioni e metodi nominati; le voci AMD includono dichiarazioni nominate, espressioni funzione assegnate e funzioni-metodo di oggetti.
+Generato dall’albero sorgente VideoTrack 1.7.190. Le voci PHP includono funzioni e metodi nominati; le voci AMD includono dichiarazioni nominate, espressioni funzione assegnate e funzioni-metodo di oggetti.
 
-**Funzioni/metodi PHP:** 909. **Callable AMD nominati:** 654.
+**Funzioni/metodi PHP:** 911. **Callable AMD nominati:** 654.
 
 | Posizione | Callable | Responsabilità |
 |---|---|---|
@@ -884,13 +884,14 @@ Generato dall’albero sorgente VideoTrack 1.7.189. Le voci PHP includono funzio
 | `classes/local/analytics_table_export.php:462` | `count_summary_values` | Risolve conteggi evento e studenti privacy-safe. |
 | `classes/local/analytics_table_export.php:484` | `event_summary_row` | Allinea un riepilogo evento aggregato alle colonne dell'export combinato. |
 | `classes/local/completion_config.php:39` | `required_reaction_ids` | Funzione/metodo PHP nominato `required_reaction_ids`; vedere DocBlock e chiamanti per il contratto corrente. |
-| `classes/local/completion_config.php:61` | `has_custom_rules` | Funzione/metodo PHP nominato `has_custom_rules`; vedere DocBlock e chiamanti per il contratto corrente. |
-| `classes/local/completion_config.php:89` | `has_required_reactions` | Funzione/metodo PHP nominato `has_required_reactions`; vedere DocBlock e chiamanti per il contratto corrente. |
-| `classes/local/completion_config.php:109` | `required_reaction_activity_set` | Funzione/metodo PHP nominato `required_reaction_activity_set`; vedere DocBlock e chiamanti per il contratto corrente. |
-| `classes/local/completion_config.php:130` | `reset_required_reaction_cache` | Funzione/metodo PHP nominato `reset_required_reaction_cache`; vedere DocBlock e chiamanti per il contratto corrente. |
-| `classes/local/completion_config.php:145` | `active_condition_descriptions` | Funzione/metodo PHP nominato `active_condition_descriptions`; vedere DocBlock e chiamanti per il contratto corrente. |
-| `classes/local/completion_config.php:178` | `reaction_condition_descriptions` | Costruisce le descrizioni ordinate delle condizioni di completamento basate sulle reazioni per la descrizione composita pubblica. |
-| `classes/local/completion_config.php:223` | `signature` | Funzione/metodo PHP nominato `signature`; vedere DocBlock e chiamanti per il contratto corrente. |
+| `classes/local/completion_config.php:62` | `reaction_checks` | Valuta soltanto le condizioni reazione attive prima dell’aggregazione AND/OR. |
+| `classes/local/completion_config.php:101` | `has_custom_rules` | Funzione/metodo PHP nominato `has_custom_rules`; vedere DocBlock e chiamanti per il contratto corrente. |
+| `classes/local/completion_config.php:129` | `has_required_reactions` | Funzione/metodo PHP nominato `has_required_reactions`; vedere DocBlock e chiamanti per il contratto corrente. |
+| `classes/local/completion_config.php:149` | `required_reaction_activity_set` | Funzione/metodo PHP nominato `required_reaction_activity_set`; vedere DocBlock e chiamanti per il contratto corrente. |
+| `classes/local/completion_config.php:170` | `reset_required_reaction_cache` | Funzione/metodo PHP nominato `reset_required_reaction_cache`; vedere DocBlock e chiamanti per il contratto corrente. |
+| `classes/local/completion_config.php:185` | `active_condition_descriptions` | Funzione/metodo PHP nominato `active_condition_descriptions`; vedere DocBlock e chiamanti per il contratto corrente. |
+| `classes/local/completion_config.php:218` | `reaction_condition_descriptions` | Costruisce le descrizioni ordinate delle condizioni di completamento basate sulle reazioni per la descrizione composita pubblica. |
+| `classes/local/completion_config.php:263` | `signature` | Funzione/metodo PHP nominato `signature`; vedere DocBlock e chiamanti per il contratto corrente. |
 | `classes/local/course_analytics.php:45` | `get_course_rows` | Callable PHP `get_course_rows`; DocBlock e chiamanti definiscono parametri, valori restituiti ed effetti. |
 | `classes/local/course_analytics.php:124` | `summarise_states` | Callable PHP `summarise_states`; DocBlock e chiamanti definiscono parametri, valori restituiti ed effetti. |
 | `classes/local/course_analytics.php:167` | `latest_states_by_user` | Callable PHP `latest_states_by_user`; DocBlock e chiamanti definiscono parametri, valori restituiti ed effetti. |
@@ -1073,17 +1074,17 @@ Generato dall’albero sorgente VideoTrack 1.7.189. Le voci PHP includono funzio
 | `classes/local/tracker.php:338` | `has_watched_videotime` | Callable PHP `has_watched_videotime`; DocBlock e chiamanti definiscono parametri, valori restituiti ed effetti. |
 | `classes/local/tracker.php:394` | `has_watched_videotime_any_session` | Funzione/metodo PHP nominato `has_watched_videotime_any_session`; vedere DocBlock e chiamanti per il contratto corrente. |
 | `classes/local/tracker.php:463` | `completion_satisfied` | Callable PHP `completion_satisfied`; DocBlock e chiamanti definiscono parametri, valori restituiti ed effetti. |
-| `classes/local/tracker.php:536` | `interaction_timestamp_allowed` | Funzione/metodo PHP nominato `interaction_timestamp_allowed`; vedere DocBlock e chiamanti per il contratto corrente. |
-| `classes/local/tracker.php:562` | `create_default_state` | Callable PHP `create_default_state`; DocBlock e chiamanti definiscono parametri, valori restituiti ed effetti. |
-| `classes/local/tracker.php:600` | `advance_server_credit_budget` | Callable PHP `advance_server_credit_budget`; DocBlock e chiamanti definiscono parametri, valori restituiti ed effetti. |
-| `classes/local/tracker.php:658` | `same_segment_request` | Callable PHP `same_segment_request`; DocBlock e chiamanti definiscono parametri, valori restituiti ed effetti. |
-| `classes/local/tracker.php:678` | `begin_playback` | Callable PHP `begin_playback`; DocBlock e chiamanti definiscono parametri, valori restituiti ed effetti. |
-| `classes/local/tracker.php:775` | `forward_interval_allowed` | Callable PHP `forward_interval_allowed`; DocBlock e chiamanti definiscono parametri, valori restituiti ed effetti. |
-| `classes/local/tracker.php:808` | `update_state` | Callable PHP `update_state`; DocBlock e chiamanti definiscono parametri, valori restituiti ed effetti. |
-| `classes/local/tracker.php:1054` | `update_moodle_completion_if_changed` | Callable PHP `update_moodle_completion_if_changed`; DocBlock e chiamanti definiscono parametri, valori restituiti ed effetti. |
-| `classes/local/tracker.php:1078` | `aggregate_segments` | Callable PHP `aggregate_segments`; DocBlock e chiamanti definiscono parametri, valori restituiti ed effetti. |
-| `classes/local/tracker.php:1124` | `rebuild_state_from_segments` | Callable PHP `rebuild_state_from_segments`; DocBlock e chiamanti definiscono parametri, valori restituiti ed effetti. |
-| `classes/local/tracker.php:1219` | `refresh_completion` | Callable PHP `refresh_completion`; DocBlock e chiamanti definiscono parametri, valori restituiti ed effetti. |
+| `classes/local/tracker.php:517` | `interaction_timestamp_allowed` | Funzione/metodo PHP nominato `interaction_timestamp_allowed`; vedere DocBlock e chiamanti per il contratto corrente. |
+| `classes/local/tracker.php:543` | `create_default_state` | Callable PHP `create_default_state`; DocBlock e chiamanti definiscono parametri, valori restituiti ed effetti. |
+| `classes/local/tracker.php:581` | `advance_server_credit_budget` | Callable PHP `advance_server_credit_budget`; DocBlock e chiamanti definiscono parametri, valori restituiti ed effetti. |
+| `classes/local/tracker.php:639` | `same_segment_request` | Callable PHP `same_segment_request`; DocBlock e chiamanti definiscono parametri, valori restituiti ed effetti. |
+| `classes/local/tracker.php:659` | `begin_playback` | Callable PHP `begin_playback`; DocBlock e chiamanti definiscono parametri, valori restituiti ed effetti. |
+| `classes/local/tracker.php:756` | `forward_interval_allowed` | Callable PHP `forward_interval_allowed`; DocBlock e chiamanti definiscono parametri, valori restituiti ed effetti. |
+| `classes/local/tracker.php:789` | `update_state` | Callable PHP `update_state`; DocBlock e chiamanti definiscono parametri, valori restituiti ed effetti. |
+| `classes/local/tracker.php:1035` | `update_moodle_completion_if_changed` | Callable PHP `update_moodle_completion_if_changed`; DocBlock e chiamanti definiscono parametri, valori restituiti ed effetti. |
+| `classes/local/tracker.php:1059` | `aggregate_segments` | Callable PHP `aggregate_segments`; DocBlock e chiamanti definiscono parametri, valori restituiti ed effetti. |
+| `classes/local/tracker.php:1105` | `rebuild_state_from_segments` | Callable PHP `rebuild_state_from_segments`; DocBlock e chiamanti definiscono parametri, valori restituiti ed effetti. |
+| `classes/local/tracker.php:1200` | `refresh_completion` | Callable PHP `refresh_completion`; DocBlock e chiamanti definiscono parametri, valori restituiti ed effetti. |
 | `classes/privacy/provider.php:48` | `format_interval_second` | Callable PHP `format_interval_second`; DocBlock e chiamanti definiscono parametri, valori restituiti ed effetti. |
 | `classes/privacy/provider.php:59` | `get_metadata` | Callable PHP `get_metadata`; DocBlock e chiamanti definiscono parametri, valori restituiti ed effetti. |
 | `classes/privacy/provider.php:167` | `get_contexts_for_userid` | Callable PHP `get_contexts_for_userid`; DocBlock e chiamanti definiscono parametri, valori restituiti ed effetti. |
@@ -1304,19 +1305,20 @@ Generato dall’albero sorgente VideoTrack 1.7.189. Le voci PHP includono funzio
 | `tests/cli_contract_test.php:87` | `test_cli_tools_are_documented_for_admins_and_maintainers` | Funzione/metodo PHP nominato `test_cli_tools_are_documented_for_admins_and_maintainers`; vedere DocBlock e chiamanti per il contratto corrente. |
 | `tests/completion_contract_test.php:39` | `test_required_reactions_activate_custom_completion` | Funzione/metodo PHP nominato `test_required_reactions_activate_custom_completion`; vedere DocBlock e chiamanti per il contratto corrente. |
 | `tests/completion_contract_test.php:59` | `test_required_reaction_or_semantics_match_tracker` | Funzione/metodo PHP nominato `test_required_reaction_or_semantics_match_tracker`; vedere DocBlock e chiamanti per il contratto corrente. |
-| `tests/completion_contract_test.php:80` | `test_disabled_acknowledgement_is_excluded_from_tracker_completion` | Funzione/metodo PHP nominato `test_disabled_acknowledgement_is_excluded_from_tracker_completion`; vedere DocBlock e chiamanti per il contratto corrente. |
-| `tests/completion_contract_test.php:105` | `test_disabled_reactions_are_excluded_from_tracker_completion` | Funzione/metodo PHP nominato `test_disabled_reactions_are_excluded_from_tracker_completion`; vedere DocBlock e chiamanti per il contratto corrente. |
-| `tests/completion_contract_test.php:125` | `test_moodle_completion_uses_composite_rule_contract` | Funzione/metodo PHP nominato `test_moodle_completion_uses_composite_rule_contract`; vedere DocBlock e chiamanti per il contratto corrente. |
-| `tests/completion_contract_test.php:141` | `test_form_includes_required_reactions_in_completion_contract` | Funzione/metodo PHP nominato `test_form_includes_required_reactions_in_completion_contract`; vedere DocBlock e chiamanti per il contratto corrente. |
-| `tests/completion_contract_test.php:162` | `test_instance_update_recalculates_changed_completion_configuration` | Funzione/metodo PHP nominato `test_instance_update_recalculates_changed_completion_configuration`; vedere DocBlock e chiamanti per il contratto corrente. |
-| `tests/completion_contract_test.php:189` | `test_acknowledgement_policy_changes_completion_signature_behaviorally` | Funzione/metodo PHP nominato `test_acknowledgement_policy_changes_completion_signature_behaviorally`; vedere DocBlock e chiamanti per il contratto corrente. |
-| `tests/completion_contract_test.php:224` | `test_empty_acknowledgement_is_not_a_custom_rule` | Funzione/metodo PHP nominato `test_empty_acknowledgement_is_not_a_custom_rule`; vedere DocBlock e chiamanti per il contratto corrente. |
-| `tests/completion_contract_test.php:243` | `test_completion_adapters_preserve_userid_without_state_row` | Funzione/metodo PHP nominato `test_completion_adapters_preserve_userid_without_state_row`; vedere DocBlock e chiamanti per il contratto corrente. |
-| `tests/completion_contract_test.php:256` | `test_custom_completion_sort_order_covers_standard_conditions` | Funzione/metodo PHP nominato `test_custom_completion_sort_order_covers_standard_conditions`; vedere DocBlock e chiamanti per il contratto corrente. |
-| `tests/completion_contract_test.php:268` | `test_reaction_or_logic_can_be_alternative_to_viewing_percentage` | Funzione/metodo PHP nominato `test_reaction_or_logic_can_be_alternative_to_viewing_percentage`; vedere DocBlock e chiamanti per il contratto corrente. |
-| `tests/completion_contract_test.php:304` | `test_activity_header_completion_badges_have_readable_contrast` | Funzione/metodo PHP nominato `test_activity_header_completion_badges_have_readable_contrast`; vedere DocBlock e chiamanti per il contratto corrente. |
-| `tests/completion_contract_test.php:319` | `test_activity_header_groups_composite_completion_description_safely` | Verifica il contratto esatto server-AMD per il raggruppamento, la gestione sicura del testo e la presenza della build generata. |
-| `tests/completion_contract_test.php:353` | `test_active_condition_descriptions_preserve_composite_contract` | Verifica ordine pubblico, formattazione e composizione OR delle descrizioni di completamento percentuale e per reazioni. |
+| `tests/completion_contract_test.php:80` | `test_all_reaction_types_check_uses_only_active_definitions` | Verifica il completamento con tipi di reazione attivi e cancellati logicamente. |
+| `tests/completion_contract_test.php:115` | `test_disabled_acknowledgement_is_excluded_from_tracker_completion` | Funzione/metodo PHP nominato `test_disabled_acknowledgement_is_excluded_from_tracker_completion`; vedere DocBlock e chiamanti per il contratto corrente. |
+| `tests/completion_contract_test.php:140` | `test_disabled_reactions_are_excluded_from_tracker_completion` | Funzione/metodo PHP nominato `test_disabled_reactions_are_excluded_from_tracker_completion`; vedere DocBlock e chiamanti per il contratto corrente. |
+| `tests/completion_contract_test.php:160` | `test_moodle_completion_uses_composite_rule_contract` | Funzione/metodo PHP nominato `test_moodle_completion_uses_composite_rule_contract`; vedere DocBlock e chiamanti per il contratto corrente. |
+| `tests/completion_contract_test.php:176` | `test_form_includes_required_reactions_in_completion_contract` | Funzione/metodo PHP nominato `test_form_includes_required_reactions_in_completion_contract`; vedere DocBlock e chiamanti per il contratto corrente. |
+| `tests/completion_contract_test.php:197` | `test_instance_update_recalculates_changed_completion_configuration` | Funzione/metodo PHP nominato `test_instance_update_recalculates_changed_completion_configuration`; vedere DocBlock e chiamanti per il contratto corrente. |
+| `tests/completion_contract_test.php:224` | `test_acknowledgement_policy_changes_completion_signature_behaviorally` | Funzione/metodo PHP nominato `test_acknowledgement_policy_changes_completion_signature_behaviorally`; vedere DocBlock e chiamanti per il contratto corrente. |
+| `tests/completion_contract_test.php:259` | `test_empty_acknowledgement_is_not_a_custom_rule` | Funzione/metodo PHP nominato `test_empty_acknowledgement_is_not_a_custom_rule`; vedere DocBlock e chiamanti per il contratto corrente. |
+| `tests/completion_contract_test.php:278` | `test_completion_adapters_preserve_userid_without_state_row` | Funzione/metodo PHP nominato `test_completion_adapters_preserve_userid_without_state_row`; vedere DocBlock e chiamanti per il contratto corrente. |
+| `tests/completion_contract_test.php:291` | `test_custom_completion_sort_order_covers_standard_conditions` | Funzione/metodo PHP nominato `test_custom_completion_sort_order_covers_standard_conditions`; vedere DocBlock e chiamanti per il contratto corrente. |
+| `tests/completion_contract_test.php:303` | `test_reaction_or_logic_can_be_alternative_to_viewing_percentage` | Funzione/metodo PHP nominato `test_reaction_or_logic_can_be_alternative_to_viewing_percentage`; vedere DocBlock e chiamanti per il contratto corrente. |
+| `tests/completion_contract_test.php:339` | `test_activity_header_completion_badges_have_readable_contrast` | Funzione/metodo PHP nominato `test_activity_header_completion_badges_have_readable_contrast`; vedere DocBlock e chiamanti per il contratto corrente. |
+| `tests/completion_contract_test.php:354` | `test_activity_header_groups_composite_completion_description_safely` | Verifica il contratto esatto server-AMD per il raggruppamento, la gestione sicura del testo e la presenza della build generata. |
+| `tests/completion_contract_test.php:388` | `test_active_condition_descriptions_preserve_composite_contract` | Verifica ordine pubblico, formattazione e composizione OR delle descrizioni di completamento percentuale e per reazioni. |
 | `tests/course_analytics_test.php:41` | `test_course_rows_keep_activity_filter_and_empty_aggregates` | Verifica sul dashboard reale filtro per attività e forma degli aggregati vuoti. |
 | `tests/course_analytics_test.php:63` | `test_median_handles_common_dataset_shapes` | Callable PHP `test_median_handles_common_dataset_shapes`; DocBlock e chiamanti definiscono parametri, valori restituiti ed effetti. |
 | `tests/course_analytics_test.php:72` | `test_state_summary_reuses_timeline_analytics` | Callable PHP `test_state_summary_reuses_timeline_analytics`; DocBlock e chiamanti definiscono parametri, valori restituiti ed effetti. |

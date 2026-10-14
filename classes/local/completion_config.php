@@ -49,6 +49,46 @@ final class completion_config {
     }
 
     /**
+     * Evaluate enabled reaction rules before the activity's AND/OR completion policy.
+     *
+     * Disabled reactions contribute no checks. The all-types rule reads only active
+     * definitions and is omitted when no active reaction types exist.
+     *
+     * @param stdClass $videotrack Activity instance.
+     * @param array $reactionsummary Distinct reaction counts and ids for this learner.
+     * @param array $requiredreactionids Individually required reaction ids.
+     * @return array Individual active reaction checks in their original order.
+     */
+    public static function reaction_checks(
+        stdClass $videotrack,
+        array $reactionsummary,
+        array $requiredreactionids
+    ): array {
+        global $DB;
+
+        $reactionchecks = [];
+        if (!empty($videotrack->reactionsenabled)) {
+            if (!empty($videotrack->reactionsrequired) && !empty($videotrack->minreactions)) {
+                $reactionchecks[] = $reactionsummary['uniquecount'] >= (int)$videotrack->minreactions;
+            }
+            foreach ($requiredreactionids as $reactionid) {
+                $reactionchecks[] = in_array((int)$reactionid, $reactionsummary['uniqueids'], true);
+            }
+            if (!empty($videotrack->requireallreactiontypes)) {
+                $allreactionids = array_map('intval', array_keys((array)$DB->get_records_menu('videotrack_react', [
+                    'videotrackid' => $videotrack->id,
+                    'isdeleted' => 0,
+                ], '', 'id,id')));
+                if ($allreactionids) {
+                    $matchingids = array_intersect($allreactionids, array_map('intval', $reactionsummary['uniqueids']));
+                    $reactionchecks[] = count($matchingids) === count($allreactionids);
+                }
+            }
+        }
+        return $reactionchecks;
+    }
+
+    /**
      * Returns whether the activity has at least one active VideoTrack custom rule.
      *
      * Reaction rules only participate while reactions are enabled. This prevents

@@ -75,6 +75,41 @@ final class completion_contract_test extends advanced_testcase {
     }
 
     /**
+     * The all-types rule counts active definitions and ignores a deleted reaction.
+     */
+    public function test_all_reaction_types_check_uses_only_active_definitions(): void {
+        global $DB;
+
+        $this->resetAfterTest();
+        $this->setAdminUser();
+        $course = $this->getDataGenerator()->create_course();
+        $activity = $this->getDataGenerator()->get_plugin_generator('mod_videotrack')->create_instance([
+            'course' => $course->id,
+            'reactionsenabled' => 1,
+        ]);
+        $first = $DB->get_record('videotrack_react', [
+            'videotrackid' => $activity->id,
+            'isdeleted' => 0,
+        ], '*', MUST_EXIST);
+        $second = clone $first;
+        unset($second->id);
+        $second->reactionkey = 'all_types_second_reaction';
+        $second->sortorder = (int)$first->sortorder + 1;
+        $secondid = $DB->insert_record('videotrack_react', $second);
+        $activity->requireallreactiontypes = 1;
+
+        $summary = ['uniquecount' => 1, 'uniqueids' => [(int)$first->id]];
+        $this->assertFalse(tracker::completion_satisfied($activity, null, $summary, []));
+
+        $summary = ['uniquecount' => 2, 'uniqueids' => [(int)$first->id, (int)$secondid]];
+        $this->assertTrue(tracker::completion_satisfied($activity, null, $summary, []));
+
+        $DB->set_field('videotrack_react', 'isdeleted', 1, ['id' => $secondid]);
+        $summary = ['uniquecount' => 1, 'uniqueids' => [(int)$first->id]];
+        $this->assertTrue(tracker::completion_satisfied($activity, null, $summary, []));
+    }
+
+    /**
      * Disabled acknowledgement cannot leave a stale acknowledgement rule blocking completion.
      */
     public function test_disabled_acknowledgement_is_excluded_from_tracker_completion(): void {
