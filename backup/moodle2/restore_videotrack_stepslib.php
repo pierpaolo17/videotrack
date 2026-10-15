@@ -124,8 +124,8 @@ class restore_videotrack_activity_structure_step extends restore_activity_struct
     protected function process_videotrack_segment($data) {
         global $DB;
         $data = (object)$data;
-        $oldid = isset($data->id) ? (int)$data->id : 0;
-        $timecreated = isset($data->timecreated) ? (int)$data->timecreated : time();
+        $oldid = (int)($data->id ?? 0);
+        $timecreated = (int)($data->timecreated ?? time());
         if (
             (int)($data->userid ?? 0) <= 0
             || !\mod_videotrack\local\privacy_manager::timestamp_is_retained($timecreated)
@@ -147,29 +147,29 @@ class restore_videotrack_activity_structure_step extends restore_activity_struct
             $requestid = 'restore' . substr(hash('sha256', implode(':', [
                 $oldid,
                 (int)$data->videotrackid,
-                isset($data->userid) ? (int)$data->userid : 0,
-                isset($data->sessionid) ? (string)$data->sessionid : '',
-                isset($data->videotimestart) ? (float)$data->videotimestart : 0.0,
-                isset($data->videotimeend) ? (float)$data->videotimeend : 0.0,
-                isset($data->endreason) ? (string)$data->endreason : '',
-                isset($data->timecreated) ? (int)$data->timecreated : 0,
+                (int)($data->userid ?? 0),
+                (string)($data->sessionid ?? ''),
+                (float)($data->videotimestart ?? 0.0),
+                (float)($data->videotimeend ?? 0.0),
+                (string)($data->endreason ?? ''),
+                (int)($data->timecreated ?? 0),
             ])), 0, 57);
         }
         $record = (object)[
             'videotrackid' => (int)$data->videotrackid,
             'courseid' => (int)$data->courseid,
             'cmid' => (int)$data->cmid,
-            'userid' => isset($data->userid) ? (int)$data->userid : 0,
-            'videoid' => isset($data->videoid) ? clean_param($data->videoid, PARAM_ALPHANUMEXT) : '',
-            'sessionid' => isset($data->sessionid) ? clean_param($data->sessionid, PARAM_ALPHANUMEXT) : '',
+            'userid' => (int)($data->userid ?? 0),
+            'videoid' => clean_param($data->videoid ?? '', PARAM_ALPHANUMEXT),
+            'sessionid' => clean_param($data->sessionid ?? '', PARAM_ALPHANUMEXT),
             'requestid' => $requestid,
-            'wallclockstart' => isset($data->wallclockstart) ? (int)$data->wallclockstart : 0,
-            'wallclockend' => isset($data->wallclockend) ? (int)$data->wallclockend : 0,
-            'videotimestart' => isset($data->videotimestart) ? (float)$data->videotimestart : 0.0,
-            'videotimeend' => isset($data->videotimeend) ? (float)$data->videotimeend : 0.0,
-            'playbackrate' => isset($data->playbackrate) ? (float)$data->playbackrate : 1.0,
-            'endreason' => isset($data->endreason) ? clean_param($data->endreason, PARAM_ALPHANUMEXT) : 'unknown',
-            'servervalidated' => isset($data->servervalidated) ? (int)$data->servervalidated : 0,
+            'wallclockstart' => (int)($data->wallclockstart ?? 0),
+            'wallclockend' => (int)($data->wallclockend ?? 0),
+            'videotimestart' => (float)($data->videotimestart ?? 0.0),
+            'videotimeend' => (float)($data->videotimeend ?? 0.0),
+            'playbackrate' => (float)($data->playbackrate ?? 1.0),
+            'endreason' => clean_param($data->endreason ?? 'unknown', PARAM_ALPHANUMEXT),
+            'servervalidated' => (int)($data->servervalidated ?? 0),
             'timecreated' => $timecreated,
         ];
         $newitemid = $DB->insert_record('videotrack_seg', $record);
