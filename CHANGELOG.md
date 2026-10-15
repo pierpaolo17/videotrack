@@ -1,5 +1,23 @@
 # VideoTrack changelog
 
+## 1.7.195 - 2026-10-15
+
+### Retention completion and tracker state boundaries
+
+- Accepted the real 376-file 1.7.194 release ZIP byte-for-byte against the tested candidate.
+  All six post-merge CI jobs passed 322 PHPUnit tests and 24 Behat scenarios each;
+  PHPMD confirmed 70 advisory findings, down from 71 in 1.7.193 without new findings.
+  The Moodle 5.0/5.3 server report passed PHPCS, lint, Grunt and 322 PHPUnit tests
+  per site; both strict validators passed ten checks without warnings or failures.
+- Isolate the existing best-effort Moodle completion synchronisation after the retention
+  transaction commits, while still holding the state lock and preserving error counts.
+  Reuse the existing state snapshot in `tracker::rebuild_state_from_segments()` and
+  retain its update-or-insert operations inside the delegated transaction. Keep
+  persistence within the rebuild method so the tracker stays below PHPMD's
+  method-count threshold; release the optional lock after commit.
+  These changes target two cyclomatic findings; corrected candidate CI must confirm
+  their impact. Database schema, upgrade/restore, services, AMD and languages are unchanged.
+
 ## 1.7.194 - 2026-10-15
 
 ### Tracked-learner discovery and retention state rebuild
