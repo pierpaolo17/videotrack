@@ -1,5 +1,21 @@
 # VideoTrack changelog
 
+## 1.7.192 - 2026-10-15
+
+### CSV field and acknowledgement complexity cleanup
+
+- Accepted the real 376-file 1.7.191 release ZIP byte-for-byte against the tested candidate.
+  All six post-merge CI jobs passed 322 PHPUnit tests and 24 Behat scenarios each;
+  PHPMD confirmed 75 advisory findings, down from 77 in 1.7.190 without new findings.
+  The Moodle 5.0/5.3 server report passed PHPCS, lint, Grunt and 322 PHPUnit tests
+  per site; both strict validators passed ten checks without warnings or failures.
+- Separate user-specific CSV field sanitisation and country-name formatting from
+  activity-specific field handling without changing exported values. Keep the
+  acknowledgement availability guard before record lookup while moving its exact
+  conditions into a dedicated helper. These changes target two cyclomatic findings;
+  the PHPMD impact requires candidate CI confirmation. Database schema,
+  upgrade/restore, services, AMD and languages are unchanged.
+
 ## 1.7.191 - 2026-10-14
 
 ### Completion and interval complexity cleanup

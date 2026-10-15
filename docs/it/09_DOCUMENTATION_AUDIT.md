@@ -1,6 +1,6 @@
 # Audit della documentazione
 
-Baseline: VideoTrack **1.7.191** (`2026101406`).
+Baseline: VideoTrack **1.7.192** (`2026101501`).
 
 ## Perimetro
 
@@ -33,7 +33,7 @@ duplicano intenzionalmente procedure implementative, dizionari dei campi o lungh
 ## Rilievi sull'albero corrente
 
 - Gli indici inglese e italiano hanno stesso perimetro e ordinamento.
-- Marker documentali, README principali e artefatti ER identificano 1.7.191 / 2026101406.
+- Marker documentali, README principali e artefatti ER identificano 1.7.192 / 2026101501.
 - Le Analytics tra corsi documentano la facciata stabile `analytics_scope` e il matcher focalizzato che possiede
   selezione candidati, predicati dell’identità tecnica, filtro capability, fallback dell’istanza corrente e ordine.
 - Le Analytics del corso delegano gli scope delle attività visibili e le letture batchate di stati, segmenti nel
@@ -41,6 +41,8 @@ duplicano intenzionalmente procedure implementative, dizionari dei campi o lungh
 - Il completamento personalizzato legge le condizioni delle reazioni abilitate tramite
   `completion_config::reaction_checks()`; le decisioni AND/OR delle reazioni e dell'attività
   usano entrambe `completion_config::combine_checks()`.
+- L'export CSV personalizzato separa la formattazione dei campi attività dalla pulizia dei campi utente;
+  la conferma della presa visione verifica la disponibilità prima di cercare o creare il record learner.
 - L'identità dell'attività include `pix/icon.png` da 1024 pixel e un `pix/icon.svg` nativo e accessibile derivati
   dalla stessa grafica fornita dal maintainer.
 - `db/install.xml` dichiara sette chiavi primarie, 22 foreign key stabili e 22 indici espliciti. XMLDB genera inoltre

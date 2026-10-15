@@ -1,8 +1,8 @@
 # Function inventory
 
-Generated from the VideoTrack 1.7.191 source tree. PHP entries include named functions and methods; AMD entries include named declarations, assigned function expressions and object-method functions.
+Generated from the VideoTrack 1.7.192 source tree. PHP entries include named functions and methods; AMD entries include named declarations, assigned function expressions and object-method functions.
 
-**PHP functions/methods:** 913. **Named AMD callables:** 654.
+**PHP functions/methods:** 915. **Named AMD callables:** 654.
 
 | Location | Callable | Responsibility |
 |---|---|---|
@@ -836,7 +836,8 @@ Generated from the VideoTrack 1.7.191 source tree. PHP entries include named fun
 | `classes/local/acknowledgement.php:261` | `mask_counts` | Masks exact counts for a nonempty population below the privacy threshold. |
 | `classes/local/acknowledgement.php:275` | `current_record` | PHP callable `current_record`; see its DocBlock and callers for parameter, return-value and side-effect details. |
 | `classes/local/acknowledgement.php:299` | `confirm` | PHP callable `confirm`; see its DocBlock and callers for parameter, return-value and side-effect details. |
-| `classes/local/acknowledgement.php:359` | `current_records` | PHP callable `current_records`; see its DocBlock and callers for parameter, return-value and side-effect details. |
+| `classes/local/acknowledgement.php:357` | `require_available_confirmation` | Rejects confirmation if the statement is disabled or the learner/module id is invalid. |
+| `classes/local/acknowledgement.php:370` | `current_records` | PHP callable `current_records`; see its DocBlock and callers for parameter, return-value and side-effect details. |
 | `classes/local/analytics.php:51` | `resolve_duration` | PHP callable `resolve_duration`; see its DocBlock and callers for parameter, return-value and side-effect details. |
 | `classes/local/analytics.php:69` | `default_bin_size` | PHP callable `default_bin_size`; see its DocBlock and callers for parameter, return-value and side-effect details. |
 | `classes/local/analytics.php:96` | `restrict_to_own_groups` | PHP callable `restrict_to_own_groups`; see its DocBlock and callers for parameter, return-value and side-effect details. |
@@ -928,7 +929,8 @@ Generated from the VideoTrack 1.7.191 source tree. PHP entries include named fun
 | `classes/local/csv_export.php:511` | `normalise_field_list` | PHP callable `normalise_field_list`; see its DocBlock and callers for parameter, return-value and side-effect details. |
 | `classes/local/csv_export.php:525` | `field_label` | PHP callable `field_label`; see its DocBlock and callers for parameter, return-value and side-effect details. |
 | `classes/local/csv_export.php:543` | `field_value` | PHP callable `field_value`; see its DocBlock and callers for parameter, return-value and side-effect details. |
-| `classes/local/csv_export.php:580` | `video_url` | PHP callable `video_url`; see its DocBlock and callers for parameter, return-value and side-effect details. |
+| `classes/local/csv_export.php:573` | `user_field_value` | Sanitises a configured user value and formats a recognised country name for CSV. |
+| `classes/local/csv_export.php:591` | `video_url` | PHP callable `video_url`; see its DocBlock and callers for parameter, return-value and side-effect details. |
 | `classes/local/focus_policy.php:39` | `exception_group` | Returns the course-local hidden focus-exception group when it exists. |
 | `classes/local/focus_policy.php:60` | `ensure_exception_group` | Idempotently creates or repairs the hidden, non-participating exception group. |
 | `classes/local/focus_policy.php:97` | `user_has_exception` | Resolves direct core group membership without exposing hidden membership. |

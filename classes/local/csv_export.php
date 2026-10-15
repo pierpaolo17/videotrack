@@ -560,6 +560,17 @@ final class csv_export {
             case 'videolink':
                 return self::video_url($videotrack, $cmid);
         }
+        return self::user_field_value($field, $user);
+    }
+
+    /**
+     * Returns a configured user field with its existing country-name formatting.
+     *
+     * @param string $field Field key.
+     * @param stdClass|null $user User record, if available.
+     * @return string Sanitised value for a user field.
+     */
+    private static function user_field_value(string $field, ?stdClass $user): string {
         if (!$user || !property_exists($user, $field)) {
             return '';
         }
