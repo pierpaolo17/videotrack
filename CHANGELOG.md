@@ -1,5 +1,21 @@
 # VideoTrack changelog
 
+## 1.7.198 - 2026-10-15
+
+### Restore integrity event numeric defaults
+
+- Accepted the real 376-file 1.7.197 release ZIP byte-for-byte against the
+  tested candidate. All six post-merge CI jobs passed 322 PHPUnit tests,
+  24 Behat scenarios and ten validator checks each. PHPMD confirmed 64
+  advisory findings, down from 66 in 1.7.196 with no new findings. The Moodle
+  5.0/5.3 server report passed PHPCS, lint, Grunt and 322 PHPUnit tests per
+  site; both strict validators passed ten checks without warnings or failures.
+- Preserve missing/null defaults for integrity event id, user id, creation time
+  and clamped video time while simplifying their restore expressions. This
+  targets the cyclomatic and NPath findings in `process_videotrack_integrityevent()`;
+  candidate CI must confirm the result. Integrity event type validation, schema,
+  runtime writes, AMD and languages are unchanged.
+
 ## 1.7.197 - 2026-10-15
 
 ### Restore acknowledgement defaults
