@@ -328,9 +328,9 @@ class restore_videotrack_activity_structure_step extends restore_activity_struct
         global $DB;
 
         $data = (object)$data;
-        $oldid = isset($data->id) ? (int)$data->id : 0;
-        $userid = isset($data->userid) ? (int)$data->userid : 0;
-        $timeconfirmed = isset($data->timeconfirmed) ? (int)$data->timeconfirmed : time();
+        $oldid = (int)($data->id ?? 0);
+        $userid = (int)($data->userid ?? 0);
+        $timeconfirmed = (int)($data->timeconfirmed ?? time());
         if (
             $userid <= 0
             || !\mod_videotrack\local\privacy_manager::timestamp_is_retained($timeconfirmed)
@@ -351,7 +351,7 @@ class restore_videotrack_activity_structure_step extends restore_activity_struct
             'cmid' => (int)$this->get_restored_cmid(),
             'userid' => $userid,
             'statementhash' => $statementhash,
-            'instanceversion' => isset($data->instanceversion) ? (int)$data->instanceversion : 0,
+            'instanceversion' => (int)($data->instanceversion ?? 0),
             'viewedseconds' => isset($data->viewedseconds) ? max(0.0, (float)$data->viewedseconds) : null,
             'viewedpercent' => isset($data->viewedpercent)
                 ? min(100.0, max(0.0, (float)$data->viewedpercent))
