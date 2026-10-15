@@ -139,6 +139,17 @@ class provider implements
             'timecreated'   => 'privacy:metadata:common:timecreated',
         ], 'privacy:metadata:videotrack_reactev');
 
+        self::add_external_location_metadata($collection);
+
+        return $collection;
+    }
+
+    /**
+     * Describes the external video providers referenced by the activity.
+     *
+     * @param collection $collection Metadata collection.
+     */
+    private static function add_external_location_metadata(collection $collection): void {
         $collection->add_external_location_link('youtube', [
             'videoid' => 'privacy:metadata:youtube:videoid',
             'url' => 'privacy:metadata:youtube:url',
@@ -154,8 +165,6 @@ class provider implements
             'cookies' => 'privacy:metadata:external:cookies',
             'useragent' => 'privacy:metadata:external:useragent',
         ], 'privacy:metadata:vimeo');
-
-        return $collection;
     }
 
     /**

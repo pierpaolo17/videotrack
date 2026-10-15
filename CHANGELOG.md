@@ -1,5 +1,21 @@
 # VideoTrack changelog
 
+## 1.7.193 - 2026-10-15
+
+### Privacy metadata and retention method boundaries
+
+- Accepted the real 376-file 1.7.192 release ZIP byte-for-byte against the tested candidate.
+  All six post-merge CI jobs passed 322 PHPUnit tests and 24 Behat scenarios each;
+  PHPMD confirmed 73 advisory findings, down from 75 in 1.7.191 without new findings.
+  The Moodle 5.0/5.3 server report passed PHPCS, lint, Grunt and 322 PHPUnit tests
+  per site; both strict validators passed ten checks without warnings or failures.
+- Keep the privacy metadata declarations in their original order while moving the YouTube
+  and Vimeo external-location descriptors into a dedicated helper. Keep the four existing
+  retention deletions and their counters in the same lock and delegated transaction,
+  before reaction-cache invalidation and state rebuilding. These changes target two
+  method-length findings; the PHPMD impact requires candidate CI confirmation.
+  Database schema, upgrade/restore, services, AMD and languages are unchanged.
+
 ## 1.7.192 - 2026-10-15
 
 ### CSV field and acknowledgement complexity cleanup

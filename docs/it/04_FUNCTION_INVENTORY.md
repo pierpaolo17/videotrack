@@ -1,8 +1,8 @@
 # Inventario delle funzioni
 
-Generato dall’albero sorgente VideoTrack 1.7.192. Le voci PHP includono funzioni e metodi nominati; le voci AMD includono dichiarazioni nominate, espressioni funzione assegnate e funzioni-metodo di oggetti.
+Generato dall’albero sorgente VideoTrack 1.7.193. Le voci PHP includono funzioni e metodi nominati; le voci AMD includono dichiarazioni nominate, espressioni funzione assegnate e funzioni-metodo di oggetti.
 
-**Funzioni/metodi PHP:** 915. **Callable AMD nominati:** 654.
+**Funzioni/metodi PHP:** 917. **Callable AMD nominati:** 654.
 
 | Posizione | Callable | Responsabilità |
 |---|---|---|
@@ -971,13 +971,14 @@ Generato dall’albero sorgente VideoTrack 1.7.192. Le voci PHP includono funzio
 | `classes/local/privacy_manager.php:157` | `delete_expired_records` | Callable PHP `delete_expired_records`; DocBlock e chiamanti definiscono parametri, valori restituiti ed effetti. |
 | `classes/local/privacy_manager.php:244` | `delete_legacy_pseudonymous_records` | Callable PHP `delete_legacy_pseudonymous_records`; DocBlock e chiamanti definiscono parametri, valori restituiti ed effetti. |
 | `classes/local/privacy_manager.php:283` | `delete_expired_pair` | Callable PHP `delete_expired_pair`; DocBlock e chiamanti definiscono parametri, valori restituiti ed effetti. |
-| `classes/local/privacy_manager.php:399` | `server_guard_is_recent` | Callable PHP `server_guard_is_recent`; DocBlock e chiamanti definiscono parametri, valori restituiti ed effetti. |
-| `classes/local/privacy_manager.php:423` | `count_and_delete` | Callable PHP `count_and_delete`; DocBlock e chiamanti definiscono parametri, valori restituiti ed effetti. |
-| `classes/local/privacy_manager.php:440` | `load_activity` | Callable PHP `load_activity`; DocBlock e chiamanti definiscono parametri, valori restituiti ed effetti. |
-| `classes/local/privacy_manager.php:466` | `has_retained_state_inputs` | Callable PHP `has_retained_state_inputs`; DocBlock e chiamanti definiscono parametri, valori restituiti ed effetti. |
-| `classes/local/privacy_manager.php:503` | `earliest_retained_timestamp` | Callable PHP `earliest_retained_timestamp`; DocBlock e chiamanti definiscono parametri, valori restituiti ed effetti. |
-| `classes/local/privacy_manager.php:545` | `delete_state` | Callable PHP `delete_state`; DocBlock e chiamanti definiscono parametri, valori restituiti ed effetti. |
-| `classes/local/privacy_manager.php:569` | `synchronise_completion` | Callable PHP `synchronise_completion`; DocBlock e chiamanti definiscono parametri, valori restituiti ed effetti. |
+| `classes/local/privacy_manager.php:378` | `delete_expired_personal_rows` | Cancella segmenti, reazioni, eventi di integrità e prese visione scaduti nel lock e nella transazione del chiamante. |
+| `classes/local/privacy_manager.php:418` | `server_guard_is_recent` | Callable PHP `server_guard_is_recent`; DocBlock e chiamanti definiscono parametri, valori restituiti ed effetti. |
+| `classes/local/privacy_manager.php:442` | `count_and_delete` | Callable PHP `count_and_delete`; DocBlock e chiamanti definiscono parametri, valori restituiti ed effetti. |
+| `classes/local/privacy_manager.php:459` | `load_activity` | Callable PHP `load_activity`; DocBlock e chiamanti definiscono parametri, valori restituiti ed effetti. |
+| `classes/local/privacy_manager.php:485` | `has_retained_state_inputs` | Callable PHP `has_retained_state_inputs`; DocBlock e chiamanti definiscono parametri, valori restituiti ed effetti. |
+| `classes/local/privacy_manager.php:522` | `earliest_retained_timestamp` | Callable PHP `earliest_retained_timestamp`; DocBlock e chiamanti definiscono parametri, valori restituiti ed effetti. |
+| `classes/local/privacy_manager.php:564` | `delete_state` | Callable PHP `delete_state`; DocBlock e chiamanti definiscono parametri, valori restituiti ed effetti. |
+| `classes/local/privacy_manager.php:588` | `synchronise_completion` | Callable PHP `synchronise_completion`; DocBlock e chiamanti definiscono parametri, valori restituiti ed effetti. |
 | `classes/local/reaction_write_service.php:46` | `complete` | Esegue la pipeline cache, evento, aggregati e completion dopo l'inserimento della reazione. |
 | `classes/local/reaction_write_service.php:103` | `trigger_event` | Emette `reaction_saved` e converte gli errori evento nel warning limitato già previsto. |
 | `classes/local/report_access.php:40` | `has_legacy_full_access` | Callable PHP `report_access::has_legacy_full_access`; verifica retrocompatibile della capability completa di report. |
@@ -1091,13 +1092,14 @@ Generato dall’albero sorgente VideoTrack 1.7.192. Le voci PHP includono funzio
 | `classes/local/tracker.php:1202` | `refresh_completion` | Callable PHP `refresh_completion`; DocBlock e chiamanti definiscono parametri, valori restituiti ed effetti. |
 | `classes/privacy/provider.php:48` | `format_interval_second` | Callable PHP `format_interval_second`; DocBlock e chiamanti definiscono parametri, valori restituiti ed effetti. |
 | `classes/privacy/provider.php:59` | `get_metadata` | Callable PHP `get_metadata`; DocBlock e chiamanti definiscono parametri, valori restituiti ed effetti. |
-| `classes/privacy/provider.php:167` | `get_contexts_for_userid` | Callable PHP `get_contexts_for_userid`; DocBlock e chiamanti definiscono parametri, valori restituiti ed effetti. |
-| `classes/privacy/provider.php:206` | `get_users_in_context` | Callable PHP `get_users_in_context`; DocBlock e chiamanti definiscono parametri, valori restituiti ed effetti. |
-| `classes/privacy/provider.php:239` | `export_user_data` | Callable PHP `export_user_data`; DocBlock e chiamanti definiscono parametri, valori restituiti ed effetti. |
-| `classes/privacy/provider.php:593` | `delete_data_for_all_users_in_context` | Callable PHP `delete_data_for_all_users_in_context`; DocBlock e chiamanti definiscono parametri, valori restituiti ed effetti. |
-| `classes/privacy/provider.php:606` | `delete_data_for_user` | Callable PHP `delete_data_for_user`; DocBlock e chiamanti definiscono parametri, valori restituiti ed effetti. |
-| `classes/privacy/provider.php:618` | `delete_data_for_users` | Callable PHP `delete_data_for_users`; DocBlock e chiamanti definiscono parametri, valori restituiti ed effetti. |
-| `classes/privacy/provider.php:631` | `delete_records_for_users_in_context` | Callable PHP `delete_records_for_users_in_context`; DocBlock e chiamanti definiscono parametri, valori restituiti ed effetti. |
+| `classes/privacy/provider.php:152` | `add_external_location_metadata` | Dichiara i metadati dei servizi esterni YouTube e Vimeo dopo le tabelle database del plugin. |
+| `classes/privacy/provider.php:176` | `get_contexts_for_userid` | Callable PHP `get_contexts_for_userid`; DocBlock e chiamanti definiscono parametri, valori restituiti ed effetti. |
+| `classes/privacy/provider.php:213` | `get_users_in_context` | Callable PHP `get_users_in_context`; DocBlock e chiamanti definiscono parametri, valori restituiti ed effetti. |
+| `classes/privacy/provider.php:246` | `export_user_data` | Callable PHP `export_user_data`; DocBlock e chiamanti definiscono parametri, valori restituiti ed effetti. |
+| `classes/privacy/provider.php:600` | `delete_data_for_all_users_in_context` | Callable PHP `delete_data_for_all_users_in_context`; DocBlock e chiamanti definiscono parametri, valori restituiti ed effetti. |
+| `classes/privacy/provider.php:613` | `delete_data_for_user` | Callable PHP `delete_data_for_user`; DocBlock e chiamanti definiscono parametri, valori restituiti ed effetti. |
+| `classes/privacy/provider.php:625` | `delete_data_for_users` | Callable PHP `delete_data_for_users`; DocBlock e chiamanti definiscono parametri, valori restituiti ed effetti. |
+| `classes/privacy/provider.php:638` | `delete_records_for_users_in_context` | Callable PHP `delete_records_for_users_in_context`; DocBlock e chiamanti definiscono parametri, valori restituiti ed effetti. |
 | `classes/task/cleanup_task.php:38` | `get_name` | Callable PHP `get_name`; DocBlock e chiamanti definiscono parametri, valori restituiti ed effetti. |
 | `classes/task/cleanup_task.php:45` | `execute` | Callable PHP `execute`; DocBlock e chiamanti definiscono parametri, valori restituiti ed effetti. |
 | `db/install.php:38` | `xmldb_videotrack_install` | Funzione/metodo PHP nominato `xmldb_videotrack_install`; vedere DocBlock e chiamanti per il contratto corrente. |
