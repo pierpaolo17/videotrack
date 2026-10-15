@@ -1,5 +1,22 @@
 # VideoTrack changelog
 
+## 1.7.199 - 2026-10-15
+
+### Restore playback segment defaults
+
+- Accepted the real 376-file 1.7.198 release ZIP byte-for-byte against the
+  tested candidate. All six post-merge CI jobs passed 322 PHPUnit tests,
+  24 Behat scenarios and ten validator checks each. PHPMD confirmed 62
+  advisory findings, down from 64 in 1.7.197 with no new findings. The Moodle
+  5.0/5.3 server report passed PHPCS, lint, Grunt and 322 PHPUnit tests per
+  site; both strict validators passed ten checks without warnings or failures.
+- Preserve optional playback segment field defaults, sanitation and fallback
+  request-id inputs while simplifying their restore expressions. Retention,
+  user mapping, idempotency and server-validation decisions remain in place.
+  This targets the cyclomatic and NPath findings in `process_videotrack_segment()`;
+  candidate CI must confirm the result. Schema, runtime tracking, AMD and
+  languages are unchanged.
+
 ## 1.7.198 - 2026-10-15
 
 ### Restore integrity event numeric defaults
