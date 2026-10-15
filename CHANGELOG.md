@@ -1,5 +1,20 @@
 # VideoTrack changelog
 
+## 1.7.196 - 2026-10-15
+
+### Restore reaction field defaults
+
+- Accepted the real 376-file 1.7.195 release ZIP byte-for-byte against the
+  corrected candidate. All six CI jobs for the merged commit passed 322 PHPUnit
+  tests, 24 Behat scenarios and ten validator checks each. PHPMD confirmed 68
+  advisory findings, down from 70 in 1.7.194 with no new findings. The Moodle
+  5.0/5.3 server report passed PHPCS, lint, Grunt and 322 PHPUnit tests per site;
+  both strict validators passed ten checks without warnings or failures.
+- Preserve reaction restore defaults and sanitisation while expressing optional
+  backup fields with null coalescing. This targets the cyclomatic and NPath
+  findings in `process_videotrack_reaction()`; candidate CI must confirm the
+  result. Database schema, runtime reaction writes, AMD and languages are unchanged.
+
 ## 1.7.195 - 2026-10-15
 
 ### Retention completion and tracker state boundaries

@@ -1,6 +1,6 @@
 # Documentation audit
 
-Baseline: VideoTrack **1.7.195** (`2026101504`).
+Baseline: VideoTrack **1.7.196** (`2026101505`).
 
 ## Scope
 
@@ -33,7 +33,7 @@ not duplicate implementation procedures, field dictionaries or long security/pri
 ## Current-tree findings
 
 - English and Italian indexes have matching scope and ordering.
-- Documentation markers, root README files and ER artefacts identify 1.7.195 / 2026101504.
+- Documentation markers, root README files and ER artefacts identify 1.7.196 / 2026101505.
 - Cross-course Analytics documents the stable `analytics_scope` facade and the focused matcher that owns candidate
   selection, technical-identity predicates, capability filtering, current-instance fallback and ordering.
 - Course dashboard Analytics delegates visible activity scopes and batched state, period segment and event reads

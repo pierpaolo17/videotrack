@@ -1,6 +1,6 @@
 # VideoTrack database and Entity–Relationship reference
 
-- **Current tree / albero corrente:** VideoTrack 1.7.195 / 2026101504
+- **Current tree / albero corrente:** VideoTrack 1.7.196 / 2026101505
 - **XMLDB source / sorgente XMLDB:** `db/install.xml` (`2026082901`)
 - **Supported Moodle / Moodle supportato:** 5.0–5.3
 
