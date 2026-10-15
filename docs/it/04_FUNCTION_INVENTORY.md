@@ -1,8 +1,8 @@
 # Inventario delle funzioni
 
-Generato dall’albero sorgente VideoTrack 1.7.191. Le voci PHP includono funzioni e metodi nominati; le voci AMD includono dichiarazioni nominate, espressioni funzione assegnate e funzioni-metodo di oggetti.
+Generato dall’albero sorgente VideoTrack 1.7.192. Le voci PHP includono funzioni e metodi nominati; le voci AMD includono dichiarazioni nominate, espressioni funzione assegnate e funzioni-metodo di oggetti.
 
-**Funzioni/metodi PHP:** 913. **Callable AMD nominati:** 654.
+**Funzioni/metodi PHP:** 915. **Callable AMD nominati:** 654.
 
 | Posizione | Callable | Responsabilità |
 |---|---|---|
@@ -836,7 +836,8 @@ Generato dall’albero sorgente VideoTrack 1.7.191. Le voci PHP includono funzio
 | `classes/local/acknowledgement.php:261` | `mask_counts` | Nasconde i conteggi esatti per una popolazione non vuota sotto la soglia privacy. |
 | `classes/local/acknowledgement.php:275` | `current_record` | Callable PHP `current_record`; DocBlock e chiamanti definiscono parametri, valori restituiti ed effetti. |
 | `classes/local/acknowledgement.php:299` | `confirm` | Callable PHP `confirm`; DocBlock e chiamanti definiscono parametri, valori restituiti ed effetti. |
-| `classes/local/acknowledgement.php:359` | `current_records` | Callable PHP `current_records`; DocBlock e chiamanti definiscono parametri, valori restituiti ed effetti. |
+| `classes/local/acknowledgement.php:357` | `require_available_confirmation` | Rifiuta la conferma se la dichiarazione è disabilitata o gli id di utente/modulo sono invalidi. |
+| `classes/local/acknowledgement.php:370` | `current_records` | Callable PHP `current_records`; DocBlock e chiamanti definiscono parametri, valori restituiti ed effetti. |
 | `classes/local/analytics.php:51` | `resolve_duration` | Callable PHP `resolve_duration`; DocBlock e chiamanti definiscono parametri, valori restituiti ed effetti. |
 | `classes/local/analytics.php:69` | `default_bin_size` | Callable PHP `default_bin_size`; DocBlock e chiamanti definiscono parametri, valori restituiti ed effetti. |
 | `classes/local/analytics.php:96` | `restrict_to_own_groups` | Callable PHP `restrict_to_own_groups`; DocBlock e chiamanti definiscono parametri, valori restituiti ed effetti. |
@@ -928,7 +929,8 @@ Generato dall’albero sorgente VideoTrack 1.7.191. Le voci PHP includono funzio
 | `classes/local/csv_export.php:511` | `normalise_field_list` | Callable PHP `normalise_field_list`; DocBlock e chiamanti definiscono parametri, valori restituiti ed effetti. |
 | `classes/local/csv_export.php:525` | `field_label` | Callable PHP `field_label`; DocBlock e chiamanti definiscono parametri, valori restituiti ed effetti. |
 | `classes/local/csv_export.php:543` | `field_value` | Callable PHP `field_value`; DocBlock e chiamanti definiscono parametri, valori restituiti ed effetti. |
-| `classes/local/csv_export.php:580` | `video_url` | Callable PHP `video_url`; DocBlock e chiamanti definiscono parametri, valori restituiti ed effetti. |
+| `classes/local/csv_export.php:573` | `user_field_value` | Pulisce un valore utente configurato e formatta il nome di un paese riconosciuto per il CSV. |
+| `classes/local/csv_export.php:591` | `video_url` | Callable PHP `video_url`; DocBlock e chiamanti definiscono parametri, valori restituiti ed effetti. |
 | `classes/local/focus_policy.php:39` | `exception_group` | Restituisce il gruppo corso nascosto per le eccezioni focus, quando esiste. |
 | `classes/local/focus_policy.php:60` | `ensure_exception_group` | Crea o ripara in modo idempotente il gruppo nascosto e non partecipante. |
 | `classes/local/focus_policy.php:97` | `user_has_exception` | Risolve la membership core diretta senza esporre l’appartenenza nascosta. |

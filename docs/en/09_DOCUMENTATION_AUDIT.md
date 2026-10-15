@@ -1,6 +1,6 @@
 # Documentation audit
 
-Baseline: VideoTrack **1.7.191** (`2026101406`).
+Baseline: VideoTrack **1.7.192** (`2026101501`).
 
 ## Scope
 
@@ -33,13 +33,15 @@ not duplicate implementation procedures, field dictionaries or long security/pri
 ## Current-tree findings
 
 - English and Italian indexes have matching scope and ordering.
-- Documentation markers, root README files and ER artefacts identify 1.7.191 / 2026101406.
+- Documentation markers, root README files and ER artefacts identify 1.7.192 / 2026101501.
 - Cross-course Analytics documents the stable `analytics_scope` facade and the focused matcher that owns candidate
   selection, technical-identity predicates, capability filtering, current-instance fallback and ordering.
 - Course dashboard Analytics delegates visible activity scopes and batched state, period segment and event reads
   to `course_analytics_loader`, while `course_analytics` retains summaries and privacy-safe row assembly.
 - Custom completion reads enabled reaction conditions through `completion_config::reaction_checks()`;
   both reaction-level and top-level decisions use `completion_config::combine_checks()`.
+- The custom CSV exporter separates activity-field formatting from user-field sanitisation; acknowledgement
+  confirmation checks availability before looking up or creating a learner record.
 - The activity identity includes a 1024-pixel `pix/icon.png` and an accessible native `pix/icon.svg` derived from
   the same maintainer-supplied artwork.
 - `db/install.xml` declares seven primary keys, 22 stable foreign keys and 22 explicit indexes. XMLDB generates an

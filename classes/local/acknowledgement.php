@@ -299,9 +299,7 @@ final class acknowledgement {
     public static function confirm(stdClass $instance, int $cmid, int $userid): stdClass {
         global $DB;
 
-        if (!self::is_enabled($instance) || $userid <= 0 || $cmid <= 0) {
-            throw new moodle_exception('acknowledgement:unavailable', 'mod_videotrack');
-        }
+        self::require_available_confirmation($instance, $cmid, $userid);
         $existing = self::current_record($instance, $userid);
         if ($existing) {
             return $existing;
@@ -347,6 +345,19 @@ final class acknowledgement {
         $event->trigger();
 
         return $record;
+    }
+
+    /**
+     * Rejects a confirmation without an enabled statement and valid subject/context ids.
+     *
+     * @param stdClass $instance Activity instance.
+     * @param int $cmid Course module id.
+     * @param int $userid User id.
+     */
+    private static function require_available_confirmation(stdClass $instance, int $cmid, int $userid): void {
+        if (!self::is_enabled($instance) || $userid <= 0 || $cmid <= 0) {
+            throw new moodle_exception('acknowledgement:unavailable', 'mod_videotrack');
+        }
     }
 
     /**
