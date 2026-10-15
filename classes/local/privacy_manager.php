@@ -330,22 +330,43 @@ class privacy_manager {
             throw $e;
         }
 
-        if ($completionpayload !== null) {
-            try {
-                [$videotrack, $cm, $course, $iscompleted] = $completionpayload;
-                self::synchronise_completion($videotrack, $cm, $course, $iscompleted, $userid);
-            } catch (\Throwable $e) {
-                $counts['completionerrors']++;
-                debugging(
-                    'VideoTrack retention could not synchronise completion for activity ' .
-                    $videotrackid . ', user ' . $userid . ' (' . get_class($e) . ')',
-                    DEBUG_DEVELOPER
-                );
-            }
-        }
+        self::synchronise_completion_safely($completionpayload, $videotrackid, $userid, $counts);
 
         $lock->release();
         return true;
+    }
+
+    /**
+     * Synchronises Moodle completion after the retention transaction commits.
+     *
+     * The caller still holds the state lock while this best-effort step runs.
+     *
+     * @param array|null $completionpayload Activity, module, course and completion flag.
+     * @param int $videotrackid Activity id for diagnostics.
+     * @param int $userid User id.
+     * @param array $counts Running counters updated on synchronisation failure.
+     */
+    private static function synchronise_completion_safely(
+        ?array $completionpayload,
+        int $videotrackid,
+        int $userid,
+        array &$counts
+    ): void {
+        if ($completionpayload === null) {
+            return;
+        }
+
+        try {
+            [$videotrack, $cm, $course, $iscompleted] = $completionpayload;
+            self::synchronise_completion($videotrack, $cm, $course, $iscompleted, $userid);
+        } catch (\Throwable $e) {
+            $counts['completionerrors']++;
+            debugging(
+                'VideoTrack retention could not synchronise completion for activity ' .
+                $videotrackid . ', user ' . $userid . ' (' . get_class($e) . ')',
+                DEBUG_DEVELOPER
+            );
+        }
     }
 
     /**

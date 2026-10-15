@@ -46,8 +46,8 @@ class tracker {
 
     /**
      * Returns the current persisted state, or a safe in-memory default when no
-     * state row exists yet. Used as a non-fatal fallback when the per-user state
-     * lock is temporarily contended.
+     * state row exists yet. Used by rebuilds and as a non-fatal fallback when the
+     * per-user state lock is temporarily contended.
      *
      * @param \stdClass $videotrack Activity instance.
      * @param \cm_info $cm Course module info.
@@ -1123,13 +1123,7 @@ class tracker {
 
         $transaction = $DB->start_delegated_transaction();
         try {
-            $state = $DB->get_record('videotrack_state', [
-                'videotrackid' => $videotrack->id,
-                'userid' => $userid,
-            ]);
-            if (!$state) {
-                $state = self::create_default_state($videotrack, $cm, $userid);
-            }
+            $state = self::current_state_snapshot($videotrack, $cm, $userid);
 
             $configuredduration = max(0.0, (float)($videotrack->durationseconds ?? 0));
             // Only the teacher-configured activity duration is authoritative for
@@ -1169,11 +1163,7 @@ class tracker {
             ) ? 1 : 0;
             $state->timemodified = time();
 
-            if (!empty($state->id)) {
-                $DB->update_record('videotrack_state', $state);
-            } else {
-                $state->id = $DB->insert_record('videotrack_state', $state);
-            }
+            self::persist_rebuilt_state($state);
             $transaction->allow_commit();
             if ($lock) {
                 $lock->release();
@@ -1186,6 +1176,21 @@ class tracker {
             }
             $transaction->rollback($e);
             throw $e;
+        }
+    }
+
+    /**
+     * Persists a rebuilt aggregate state inside the caller's delegated transaction.
+     *
+     * @param \stdClass $state Rebuilt user state; receives its id on first insert.
+     */
+    private static function persist_rebuilt_state(\stdClass $state): void {
+        global $DB;
+
+        if (!empty($state->id)) {
+            $DB->update_record('videotrack_state', $state);
+        } else {
+            $state->id = $DB->insert_record('videotrack_state', $state);
         }
     }
 

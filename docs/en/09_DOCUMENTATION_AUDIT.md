@@ -1,6 +1,6 @@
 # Documentation audit
 
-Baseline: VideoTrack **1.7.194** (`2026101503`).
+Baseline: VideoTrack **1.7.195** (`2026101504`).
 
 ## Scope
 
@@ -33,7 +33,7 @@ not duplicate implementation procedures, field dictionaries or long security/pri
 ## Current-tree findings
 
 - English and Italian indexes have matching scope and ordering.
-- Documentation markers, root README files and ER artefacts identify 1.7.194 / 2026101503.
+- Documentation markers, root README files and ER artefacts identify 1.7.195 / 2026101504.
 - Cross-course Analytics documents the stable `analytics_scope` facade and the focused matcher that owns candidate
   selection, technical-identity predicates, capability filtering, current-instance fallback and ordering.
 - Course dashboard Analytics delegates visible activity scopes and batched state, period segment and event reads
@@ -46,6 +46,8 @@ not duplicate implementation procedures, field dictionaries or long security/pri
   before rebuilding state, within the same state lock and delegated transaction.
 - Recalculation discovers tracked learner ids from the same four tables; retention rebuilds retained state
   under its existing lock and transaction before native completion synchronisation.
+- Tracker reuses its existing state snapshot on rebuild and persists inside the delegated transaction;
+  retention synchronises native completion after commit while still holding its state lock.
 - The activity identity includes a 1024-pixel `pix/icon.png` and an accessible native `pix/icon.svg` derived from
   the same maintainer-supplied artwork.
 - `db/install.xml` declares seven primary keys, 22 stable foreign keys and 22 explicit indexes. XMLDB generates an
