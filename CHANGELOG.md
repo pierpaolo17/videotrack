@@ -1,5 +1,21 @@
 # VideoTrack changelog
 
+## 1.7.194 - 2026-10-15
+
+### Tracked-learner discovery and retention state rebuild
+
+- Accepted the real 376-file 1.7.193 release ZIP byte-for-byte against the tested candidate.
+  All six post-merge CI jobs passed 322 PHPUnit tests and 24 Behat scenarios each;
+  PHPMD confirmed 71 advisory findings, down from 73 in 1.7.192 without new findings.
+  The Moodle 5.0/5.3 server report passed PHPCS, lint, Grunt and 322 PHPUnit tests
+  per site; both strict validators passed ten checks without warnings or failures.
+- Isolate the existing four-table learner-id discovery in `videotrack_recalculation_userids()`
+  while retaining the public recalculation signature and row order. Move the unchanged
+  retained-state rebuild into `privacy_manager::rebuild_retained_state()` inside the same
+  state lock and delegated transaction, before the original completion synchronisation.
+  These changes target two cyclomatic findings; candidate CI must confirm their impact.
+  Database schema, upgrade/restore, services, AMD and languages are unchanged.
+
 ## 1.7.193 - 2026-10-15
 
 ### Privacy metadata and retention method boundaries

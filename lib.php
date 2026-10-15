@@ -1690,27 +1690,15 @@ function videotrack_pluginfile($course, $cm, $context, $filearea, $args, $forced
 }
 
 /**
- * Recalculate the aggregate state (completionpercent, iscompleted) for all users
- * in a single VideoTrack instance from raw segments.
- * Useful after changing the video duration or completion criteria.
+ * Collects the learners with persisted state, segments, reactions or acknowledgements.
  *
- * @param  int      $videotrackid   VideoTrack instance id.
- * @param  cm_info  $cm             Course module info.
- * @param  int      $userid          Optional user id; zero recalculates every tracked user.
- * @param  bool     $synchronisemoodle Whether to ask Moodle to re-evaluate native completion too.
- * @return int                      Number of updated state records.
+ * @param int $videotrackid VideoTrack instance id.
+ * @param int $userid Optional user id; zero includes all tracked users.
+ * @return array<int, bool> Set of learner ids to recalculate.
  */
-function videotrack_recalculate_all_states(
-    int $videotrackid,
-    cm_info $cm,
-    int $userid = 0,
-    bool $synchronisemoodle = true
-): int {
+function videotrack_recalculation_userids(int $videotrackid, int $userid = 0): array {
     global $DB;
 
-    $videotrack = $DB->get_record('videotrack', ['id' => $videotrackid], '*', MUST_EXIST);
-    $completion = $synchronisemoodle ? new completion_info(get_course($videotrack->course)) : null;
-    $hascustomcompletion = $synchronisemoodle && completion_config::has_custom_rules($videotrack);
     $userids = [];
     if ($userid > 0) {
         foreach (['videotrack_state', 'videotrack_seg', 'videotrack_reactev', 'videotrack_acknowledge'] as $table) {
@@ -1735,6 +1723,33 @@ function videotrack_recalculate_all_states(
             }
         }
     }
+
+    return $userids;
+}
+
+/**
+ * Recalculate the aggregate state (completionpercent, iscompleted) for all users
+ * in a single VideoTrack instance from raw segments.
+ * Useful after changing the video duration or completion criteria.
+ *
+ * @param  int      $videotrackid   VideoTrack instance id.
+ * @param  cm_info  $cm             Course module info.
+ * @param  int      $userid          Optional user id; zero recalculates every tracked user.
+ * @param  bool     $synchronisemoodle Whether to ask Moodle to re-evaluate native completion too.
+ * @return int                      Number of updated state records.
+ */
+function videotrack_recalculate_all_states(
+    int $videotrackid,
+    cm_info $cm,
+    int $userid = 0,
+    bool $synchronisemoodle = true
+): int {
+    global $DB;
+
+    $videotrack = $DB->get_record('videotrack', ['id' => $videotrackid], '*', MUST_EXIST);
+    $completion = $synchronisemoodle ? new completion_info(get_course($videotrack->course)) : null;
+    $hascustomcompletion = $synchronisemoodle && completion_config::has_custom_rules($videotrack);
+    $userids = videotrack_recalculation_userids($videotrackid, $userid);
 
     $updated = 0;
     foreach (array_keys($userids) as $userid) {

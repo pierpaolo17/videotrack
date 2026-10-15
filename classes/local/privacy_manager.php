@@ -311,25 +311,7 @@ class privacy_manager {
                 $counts['statesdeleted'] += self::delete_state($videotrackid, $userid, $cmid);
             } else if (self::has_retained_state_inputs($videotrackid, $userid)) {
                 [$videotrack, $cm, $course] = $activity;
-                $state = tracker::rebuild_state_from_segments($videotrack, $cm, $userid, true);
-                if ($state === null) {
-                    throw new \coding_exception('State rebuild unexpectedly failed while the retention lock was held.');
-                }
-
-                if (!self::server_guard_is_recent($state, $now)) {
-                    $state->serverlastactivity = 0;
-                    $state->serverplaybacksessionid = '';
-                    $state->serverbudgetseconds = 0.0;
-                    $state->servercreditedseconds = 0.0;
-                }
-                $state->timecreated = self::earliest_retained_timestamp(
-                    $videotrackid,
-                    $userid,
-                    $cmid,
-                    $now
-                );
-                $state->timemodified = $now;
-                $DB->update_record('videotrack_state', $state);
+                $state = self::rebuild_retained_state($videotrack, $cm, $videotrackid, $userid, $cmid, $now);
                 $counts['statesrebuilt']++;
                 $completionpayload = [$videotrack, $cm, $course, !empty($state->iscompleted)];
             } else {
@@ -364,6 +346,49 @@ class privacy_manager {
 
         $lock->release();
         return true;
+    }
+
+    /**
+     * Rebuilds retained aggregate state while the caller holds the state lock and transaction.
+     *
+     * @param \stdClass $videotrack Activity instance.
+     * @param \cm_info $cm Course module info.
+     * @param int $videotrackid Activity id.
+     * @param int $userid User id.
+     * @param int $cmid Course module id.
+     * @param int $now Current task timestamp.
+     * @return \stdClass Rebuilt and persisted state.
+     */
+    private static function rebuild_retained_state(
+        \stdClass $videotrack,
+        \cm_info $cm,
+        int $videotrackid,
+        int $userid,
+        int $cmid,
+        int $now
+    ): \stdClass {
+        global $DB;
+
+        $state = tracker::rebuild_state_from_segments($videotrack, $cm, $userid, true);
+        if ($state === null) {
+            throw new \coding_exception('State rebuild unexpectedly failed while the retention lock was held.');
+        }
+
+        if (!self::server_guard_is_recent($state, $now)) {
+            $state->serverlastactivity = 0;
+            $state->serverplaybacksessionid = '';
+            $state->serverbudgetseconds = 0.0;
+            $state->servercreditedseconds = 0.0;
+        }
+        $state->timecreated = self::earliest_retained_timestamp(
+            $videotrackid,
+            $userid,
+            $cmid,
+            $now
+        );
+        $state->timemodified = $now;
+        $DB->update_record('videotrack_state', $state);
+        return $state;
     }
 
     /**
