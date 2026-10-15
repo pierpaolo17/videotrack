@@ -303,26 +303,7 @@ class privacy_manager {
         $completionpayload = null;
         $transaction = $DB->start_delegated_transaction();
         try {
-            $counts['segments'] += self::count_and_delete(
-                'videotrack_seg',
-                'videotrackid = ? AND userid = ? AND cmid = ? AND timecreated < ?',
-                [$videotrackid, $userid, $cmid, $cutoff]
-            );
-            $counts['events'] += self::count_and_delete(
-                'videotrack_reactev',
-                'videotrackid = ? AND userid = ? AND cmid = ? AND timecreated < ?',
-                [$videotrackid, $userid, $cmid, $cutoff]
-            );
-            $counts['integrity'] += self::count_and_delete(
-                'videotrack_integrity',
-                'videotrackid = ? AND userid = ? AND cmid = ? AND timecreated < ?',
-                [$videotrackid, $userid, $cmid, $cutoff]
-            );
-            $counts['acknowledgements'] += self::count_and_delete(
-                'videotrack_acknowledge',
-                'videotrackid = ? AND userid = ? AND cmid = ? AND timeconfirmed < ?',
-                [$videotrackid, $userid, $cmid, $cutoff]
-            );
+            self::delete_expired_personal_rows($videotrackid, $userid, $cmid, $cutoff, $counts);
             tracker::invalidate_reactioncountscache($videotrackid, $userid);
 
             $activity = self::load_activity($videotrackid, $cmid);
@@ -383,6 +364,44 @@ class privacy_manager {
 
         $lock->release();
         return true;
+    }
+
+    /**
+     * Deletes expired personal rows while the caller holds the state lock and transaction.
+     *
+     * @param int $videotrackid Activity id.
+     * @param int $userid User id.
+     * @param int $cmid Course module id.
+     * @param int $cutoff Retention cutoff.
+     * @param array $counts Running counters updated in place.
+     */
+    private static function delete_expired_personal_rows(
+        int $videotrackid,
+        int $userid,
+        int $cmid,
+        int $cutoff,
+        array &$counts
+    ): void {
+        $counts['segments'] += self::count_and_delete(
+            'videotrack_seg',
+            'videotrackid = ? AND userid = ? AND cmid = ? AND timecreated < ?',
+            [$videotrackid, $userid, $cmid, $cutoff]
+        );
+        $counts['events'] += self::count_and_delete(
+            'videotrack_reactev',
+            'videotrackid = ? AND userid = ? AND cmid = ? AND timecreated < ?',
+            [$videotrackid, $userid, $cmid, $cutoff]
+        );
+        $counts['integrity'] += self::count_and_delete(
+            'videotrack_integrity',
+            'videotrackid = ? AND userid = ? AND cmid = ? AND timecreated < ?',
+            [$videotrackid, $userid, $cmid, $cutoff]
+        );
+        $counts['acknowledgements'] += self::count_and_delete(
+            'videotrack_acknowledge',
+            'videotrackid = ? AND userid = ? AND cmid = ? AND timeconfirmed < ?',
+            [$videotrackid, $userid, $cmid, $cutoff]
+        );
     }
 
     /**
