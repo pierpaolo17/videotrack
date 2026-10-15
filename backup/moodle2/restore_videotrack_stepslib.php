@@ -94,23 +94,23 @@ class restore_videotrack_activity_structure_step extends restore_activity_struct
         global $DB;
         $data = (object)$data;
         $oldid = (int)$data->id;
-        $timecreated = isset($data->timecreated) ? (int)$data->timecreated : time();
-        $icontype = isset($data->icontype) ? clean_param($data->icontype, PARAM_ALPHANUMEXT) : 'emoji';
+        $timecreated = (int)($data->timecreated ?? time());
+        $icontype = clean_param($data->icontype ?? 'emoji', PARAM_ALPHANUMEXT);
         if (!in_array($icontype, ['emoji', 'file', 'fa', 'text'], true)) {
             $icontype = 'emoji';
         }
         $record = (object)[
             'videotrackid' => $this->get_new_parentid('videotrack'),
-            'reactionkey' => isset($data->reactionkey) ? clean_param($data->reactionkey, PARAM_ALPHANUMEXT) : '',
-            'label' => isset($data->label) ? clean_param($data->label, PARAM_TEXT) : '',
-            'description' => isset($data->description) ? clean_param($data->description, PARAM_TEXT) : '',
+            'reactionkey' => clean_param($data->reactionkey ?? '', PARAM_ALPHANUMEXT),
+            'label' => clean_param($data->label ?? '', PARAM_TEXT),
+            'description' => clean_param($data->description ?? '', PARAM_TEXT),
             'icontype' => $icontype,
-            'iconvalue' => isset($data->iconvalue) ? clean_param($data->iconvalue, PARAM_TEXT) : '',
+            'iconvalue' => clean_param($data->iconvalue ?? '', PARAM_TEXT),
             'requiredforcompletion' => empty($data->requiredforcompletion) ? 0 : 1,
-            'sortorder' => isset($data->sortorder) ? (int)$data->sortorder : 0,
+            'sortorder' => (int)($data->sortorder ?? 0),
             'isdeleted' => empty($data->isdeleted) ? 0 : 1,
             'timecreated' => $timecreated,
-            'timemodified' => isset($data->timemodified) ? (int)$data->timemodified : time(),
+            'timemodified' => (int)($data->timemodified ?? time()),
         ];
         $newitemid = $DB->insert_record('videotrack_react', $record);
         $this->set_mapping('videotrack_react', $oldid, $newitemid, true);

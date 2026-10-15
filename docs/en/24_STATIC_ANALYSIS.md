@@ -151,13 +151,11 @@ line, not for redeclaring a method parameter.
 - The Moodle feature callback is a direct feature-to-value table, while Font Awesome reaction validation partitions
   the reviewed decorator subset from exactly one icon name. Their public contracts, limits and fail-closed defaults
   are covered independently of the complexity reduction.
-- PHPMD remains advisory. The 1.7.194 CI confirmed 70 findings, down from 71 in
-  1.7.193: the cyclomatic finding on `videotrack_recalculate_all_states()` disappeared;
-  `privacy_manager::delete_expired_pair()` fell from complexity 12 to 10 and is still
-  reported at the configured threshold. The 1.7.195 candidate isolates post-commit
-  Moodle completion synchronisation while preserving the retention lock, and reuses
-  the existing state snapshot helper before persisting a rebuilt tracker state.
-  Two cyclomatic findings are targets; candidate CI must confirm the actual count.
+- PHPMD remains advisory. The corrected 1.7.195 CI confirmed 68 findings, down
+  from 70 in 1.7.194: two cyclomatic findings disappeared, with no new findings.
+  The 1.7.196 candidate keeps the same reaction restore field defaults and
+  sanitisation while simplifying optional-field expressions. Its cyclomatic and
+  NPath findings remain targets until candidate CI confirms the actual count.
   Remaining reports concern reviewed complexity, size, broad public classes, required Moodle callback
   parameters and boolean switches that need separate behavioural refactoring.
 - Static-analysis configuration, production scope, database schema and AMD assets are unchanged by these API

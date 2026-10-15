@@ -160,13 +160,11 @@ dichiarazione di un parametro di metodo.
 - Il callback delle feature Moodle è una tabella diretta feature-valore, mentre la validazione delle reazioni Font
   Awesome separa il sottoinsieme revisionato dei decoratori da un solo nome icona. Contratti pubblici, limiti e
   default fail-closed sono coperti indipendentemente dalla riduzione di complessità.
-- PHPMD resta consultivo. La CI 1.7.194 ha confermato 70 rilievi contro i 71 della
-  1.7.193: è scomparso il finding ciclomatico su `videotrack_recalculate_all_states()`;
-  `privacy_manager::delete_expired_pair()` è sceso da complessità 12 a 10 e resta
-  segnalato sulla soglia configurata. La candidata 1.7.195 isola la sincronizzazione
-  del completamento Moodle dopo il commit, conservando il lock della retention, e
-  riusa lo snapshot esistente prima di persistere lo stato ricostruito in tracker.
-  I due rilievi ciclomatici restano obiettivi: la CI confermerà il conteggio effettivo.
+- PHPMD resta consultivo. La CI corretta della 1.7.195 ha confermato 68 rilievi,
+  contro i 70 della 1.7.194: due rilievi ciclomatici sono scomparsi, senza nuovi
+  finding. La candidata 1.7.196 conserva i default e la sanitizzazione dei campi
+  opzionali nel ripristino delle reazioni e ne semplifica le espressioni. I rilievi
+  ciclomatico e NPath restano obiettivi finché la CI non conferma il conteggio.
   I rilievi residui riguardano complessità, dimensione, classi pubbliche ampie, parametri obbligatori
   dei callback Moodle e flag booleani che richiedono refactoring comportamentali separati.
 - Configurazione degli analizzatori, perimetro di produzione, schema database e asset AMD non cambiano con queste
