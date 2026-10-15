@@ -1,5 +1,21 @@
 # VideoTrack changelog
 
+## 1.7.197 - 2026-10-15
+
+### Restore acknowledgement defaults
+
+- Accepted the real 376-file 1.7.196 release ZIP byte-for-byte against the tested
+  candidate. All six post-merge CI jobs passed 322 PHPUnit tests, 24 Behat
+  scenarios and ten validator checks each. PHPMD confirmed 66 advisory findings,
+  down from 68 in 1.7.195 with no new findings. The Moodle 5.0/5.3 server
+  report passed PHPCS, lint, Grunt and 322 PHPUnit tests per site; both strict
+  validators passed ten checks without warnings or failures.
+- Preserve missing/null defaults for acknowledgement ids, user id, confirmation
+  time and instance version while simplifying their restore expressions. Nullable
+  viewing evidence remains unchanged. This targets the cyclomatic and NPath
+  findings in `process_videotrack_acknowledgement()`; candidate CI must confirm
+  the result. Schema, runtime acknowledgement writes, AMD and languages are unchanged.
+
 ## 1.7.196 - 2026-10-15
 
 ### Restore reaction field defaults
