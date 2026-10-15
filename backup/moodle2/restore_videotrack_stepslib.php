@@ -285,9 +285,9 @@ class restore_videotrack_activity_structure_step extends restore_activity_struct
     protected function process_videotrack_integrityevent($data) {
         global $DB;
         $data = (object)$data;
-        $oldid = isset($data->id) ? (int)$data->id : 0;
-        $userid = isset($data->userid) ? (int)$data->userid : 0;
-        $timecreated = isset($data->timecreated) ? (int)$data->timecreated : time();
+        $oldid = (int)($data->id ?? 0);
+        $userid = (int)($data->userid ?? 0);
+        $timecreated = (int)($data->timecreated ?? time());
         if (
             $userid <= 0
             || !\mod_videotrack\local\privacy_manager::timestamp_is_retained($timecreated)
@@ -310,7 +310,7 @@ class restore_videotrack_activity_structure_step extends restore_activity_struct
             'videoid' => isset($data->videoid) ? clean_param($data->videoid, PARAM_ALPHANUMEXT) : '',
             'sessionid' => isset($data->sessionid) ? clean_param($data->sessionid, PARAM_ALPHANUMEXT) : '',
             'eventtype' => $eventtype,
-            'videotime' => isset($data->videotime) ? max(0.0, (float)$data->videotime) : 0.0,
+            'videotime' => max(0.0, (float)($data->videotime ?? 0.0)),
             'timecreated' => $timecreated,
         ];
         $newitemid = $DB->insert_record('videotrack_integrity', $record);
