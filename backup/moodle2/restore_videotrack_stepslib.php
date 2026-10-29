@@ -198,8 +198,8 @@ class restore_videotrack_activity_structure_step extends restore_activity_struct
     protected function process_videotrack_reactionevent($data) {
         global $DB;
         $data = (object)$data;
-        $oldid = isset($data->id) ? (int)$data->id : 0;
-        $timecreated = isset($data->timecreated) ? (int)$data->timecreated : time();
+        $oldid = (int)($data->id ?? 0);
+        $timecreated = (int)($data->timecreated ?? time());
         if (
             (int)($data->userid ?? 0) <= 0
             || !\mod_videotrack\local\privacy_manager::timestamp_is_retained($timecreated)
@@ -220,32 +220,7 @@ class restore_videotrack_activity_structure_step extends restore_activity_struct
             $mappedreactionid = $this->get_mappingid('videotrack_react', $oldreactionid);
             if (empty($mappedreactionid)) {
                 $transaction = $DB->start_delegated_transaction();
-                // Very defensive fallback: normally all referenced reactions are backed up.
-                // If a malformed/partial backup omits one, preserve the historical relation
-                // by creating a hidden placeholder instead of storing reactionid = 0.
-                $this->log(get_string('restore_missing_reaction_mapping', 'mod_videotrack', $oldreactionid), backup::LOG_WARNING);
-                $now = time();
-                $placeholder = (object)[
-                    'videotrackid' => $data->videotrackid,
-                    'reactionkey' => !empty($data->reactionkey)
-                        ? clean_param($data->reactionkey, PARAM_ALPHANUMEXT)
-                        : ('restored_' . $oldreactionid),
-                    'label' => !empty($data->reactionlabel)
-                        ? clean_param($data->reactionlabel, PARAM_TEXT)
-                        : get_string('restore_placeholder_reaction', 'mod_videotrack'),
-                    'description' => !empty($data->reactiondesc)
-                        ? clean_param($data->reactiondesc, PARAM_TEXT)
-                        : '',
-                    'icontype' => 'emoji',
-                    'iconvalue' => '',
-                    'requiredforcompletion' => 0,
-                    'sortorder' => 9999,
-                    'isdeleted' => 1,
-                    'timecreated' => $timecreated,
-                    'timemodified' => $now,
-                ];
-                $mappedreactionid = $DB->insert_record('videotrack_react', $placeholder);
-                $this->set_mapping('videotrack_react', $oldreactionid, $mappedreactionid, true);
+                $mappedreactionid = $this->restore_missing_reaction($data, $oldreactionid, $timecreated);
             }
             $data->reactionid = $mappedreactionid;
         }
@@ -253,20 +228,20 @@ class restore_videotrack_activity_structure_step extends restore_activity_struct
             'videotrackid' => (int)$data->videotrackid,
             'courseid' => (int)$data->courseid,
             'cmid' => (int)$data->cmid,
-            'userid' => isset($data->userid) ? (int)$data->userid : 0,
-            'videoid' => isset($data->videoid) ? clean_param($data->videoid, PARAM_ALPHANUMEXT) : '',
-            'sessionid' => isset($data->sessionid) ? clean_param($data->sessionid, PARAM_ALPHANUMEXT) : '',
-            'reactionid' => isset($data->reactionid) ? (int)$data->reactionid : 0,
-            'reactionkey' => isset($data->reactionkey) ? clean_param($data->reactionkey, PARAM_ALPHANUMEXT) : '',
-            'reactionlabel' => isset($data->reactionlabel) ? clean_param($data->reactionlabel, PARAM_TEXT) : '',
-            'reactiondesc' => isset($data->reactiondesc) ? clean_param($data->reactiondesc, PARAM_TEXT) : '',
-            'notetext' => isset($data->notetext) ? clean_param($data->notetext, PARAM_TEXT) : '',
-            'notetype' => isset($data->notetype) ? clean_param($data->notetype, PARAM_ALPHANUMEXT) : '',
-            'videotime' => isset($data->videotime) ? (float)$data->videotime : 0.0,
-            'playbackrate' => isset($data->playbackrate) ? (float)$data->playbackrate : 1.0,
+            'userid' => (int)($data->userid ?? 0),
+            'videoid' => clean_param($data->videoid ?? '', PARAM_ALPHANUMEXT),
+            'sessionid' => clean_param($data->sessionid ?? '', PARAM_ALPHANUMEXT),
+            'reactionid' => (int)($data->reactionid ?? 0),
+            'reactionkey' => clean_param($data->reactionkey ?? '', PARAM_ALPHANUMEXT),
+            'reactionlabel' => clean_param($data->reactionlabel ?? '', PARAM_TEXT),
+            'reactiondesc' => clean_param($data->reactiondesc ?? '', PARAM_TEXT),
+            'notetext' => clean_param($data->notetext ?? '', PARAM_TEXT),
+            'notetype' => clean_param($data->notetype ?? '', PARAM_ALPHANUMEXT),
+            'videotime' => (float)($data->videotime ?? 0.0),
+            'playbackrate' => (float)($data->playbackrate ?? 1.0),
             'isdeleted' => empty($data->isdeleted) ? 0 : 1,
             'timecreated' => $timecreated,
-            'timemodified' => isset($data->timemodified) ? (int)$data->timemodified : time(),
+            'timemodified' => (int)($data->timemodified ?? time()),
         ];
         $newitemid = $DB->insert_record('videotrack_reactev', $record);
         if ($oldid > 0) {
@@ -275,6 +250,47 @@ class restore_videotrack_activity_structure_step extends restore_activity_struct
         if ($transaction !== null) {
             $transaction->allow_commit();
         }
+    }
+
+    /**
+     * Create a hidden reaction for an event whose original reaction was omitted from the backup.
+     *
+     * The caller starts the delegated transaction before invoking this fallback.
+     *
+     * @param stdClass $data Restored event data with its new parent id.
+     * @param int $oldreactionid Original reaction id.
+     * @param int $timecreated Original event creation time.
+     * @return int New reaction id.
+     */
+    private function restore_missing_reaction(stdClass $data, int $oldreactionid, int $timecreated): int {
+        global $DB;
+
+        // Normally all referenced reactions are backed up. Preserve the historical
+        // relation for malformed or partial backups instead of storing reactionid = 0.
+        $this->log(get_string('restore_missing_reaction_mapping', 'mod_videotrack', $oldreactionid), backup::LOG_WARNING);
+        $now = time();
+        $placeholder = (object)[
+            'videotrackid' => $data->videotrackid,
+            'reactionkey' => !empty($data->reactionkey)
+                ? clean_param($data->reactionkey, PARAM_ALPHANUMEXT)
+                : ('restored_' . $oldreactionid),
+            'label' => !empty($data->reactionlabel)
+                ? clean_param($data->reactionlabel, PARAM_TEXT)
+                : get_string('restore_placeholder_reaction', 'mod_videotrack'),
+            'description' => !empty($data->reactiondesc)
+                ? clean_param($data->reactiondesc, PARAM_TEXT)
+                : '',
+            'icontype' => 'emoji',
+            'iconvalue' => '',
+            'requiredforcompletion' => 0,
+            'sortorder' => 9999,
+            'isdeleted' => 1,
+            'timecreated' => $timecreated,
+            'timemodified' => $now,
+        ];
+        $mappedreactionid = $DB->insert_record('videotrack_react', $placeholder);
+        $this->set_mapping('videotrack_react', $oldreactionid, $mappedreactionid, true);
+        return (int)$mappedreactionid;
     }
 
     /**

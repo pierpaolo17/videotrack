@@ -1,5 +1,23 @@
 # VideoTrack changelog
 
+## 1.7.200 - 2026-10-28
+
+### Restore reaction event defaults and missing reaction mapping
+
+- Accepted the 1.7.199 server-tested `main` commit `2b63f1c30ffcc0f64cdf0e21f1ad092e738e54eb`
+  byte-for-byte against the 376 distributed source files. All six post-merge CI
+  jobs passed 322 PHPUnit tests, 24 Behat scenarios and ten validator checks
+  each. PHPMD confirmed 60 advisory findings, down from 62 in 1.7.198 with no
+  new findings. The Moodle 5.0/5.3 server report passed PHPCS, lint, Grunt and
+  322 PHPUnit tests per site; both strict validators passed ten checks without
+  warnings or failures.
+- Preserve missing/null reaction event field defaults, sanitation, retention,
+  user/reaction mappings, and the delegated transaction around a missing
+  reaction placeholder. Isolate the existing placeholder creation and mapping
+  in a private method. This targets reaction-event cyclomatic and NPath
+  findings and possibly class complexity; candidate CI must confirm the result.
+  Schema, services, AMD and languages are unchanged.
+
 ## 1.7.199 - 2026-10-15
 
 ### Restore playback segment defaults
