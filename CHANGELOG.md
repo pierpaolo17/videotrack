@@ -1,5 +1,21 @@
 # VideoTrack changelog
 
+## 1.7.201 - 2026-10-29
+
+### Restore integrity event optional fields
+
+- Accepted the real 376-file 1.7.200 release ZIP byte-for-byte against the
+  tested candidate. All six post-merge CI jobs passed 322 PHPUnit tests,
+  24 Behat scenarios and ten validator checks each. PHPMD confirmed 58
+  advisory findings, down from 60 in 1.7.199 with no new findings. The Moodle
+  5.0/5.3 server report passed PHPCS, lint, Grunt and 322 PHPUnit tests per
+  site; both strict validators passed ten checks without warnings or failures.
+- Preserve missing/null defaults and sanitation for integrity event type,
+  video identifier and session identifier while simplifying their restore
+  expressions. The restore class has complexity 52 against PHPMD's threshold
+  of 50; candidate CI must confirm whether the change removes that finding.
+  Event validation, privacy retention, database schema, AMD and languages are unchanged.
+
 ## 1.7.200 - 2026-10-28
 
 ### Restore reaction event defaults and missing reaction mapping
