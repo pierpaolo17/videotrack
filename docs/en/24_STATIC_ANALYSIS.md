@@ -151,11 +151,12 @@ line, not for redeclaring a method parameter.
 - The Moodle feature callback is a direct feature-to-value table, while Font Awesome reaction validation partitions
   the reviewed decorator subset from exactly one icon name. Their public contracts, limits and fail-closed defaults
   are covered independently of the complexity reduction.
-- PHPMD remains advisory. The 1.7.201 CI confirmed 57 findings, down from 58
-  in 1.7.200: the restore class complexity finding disappeared without new
-  findings. The 1.7.202 candidate keeps the Moodle uninstall callback signature
-  and extracts the existing activity/context eligibility check for Grade API
-  deletion. Candidate CI must confirm its cyclomatic-complexity result.
+- PHPMD remains advisory. The 1.7.202 CI confirmed 56 findings, down from 57
+  in 1.7.201: the uninstall callback cyclomatic finding disappeared without new
+  findings. The 1.7.203 candidate extracts the existing grade-item eligibility
+  check from the pre-production repair routine, preserving instance, course,
+  module context and item-number requirements. Candidate CI must confirm its
+  cyclomatic-complexity result.
   Remaining reports concern reviewed complexity, size, broad public classes, required Moodle callback
   parameters and boolean switches that need separate behavioural refactoring.
 - Static-analysis configuration, production scope, database schema and AMD assets are unchanged by these API
