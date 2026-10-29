@@ -1,5 +1,22 @@
 # VideoTrack changelog
 
+## 1.7.202 - 2026-10-29
+
+### Uninstall grade item context boundary
+
+- Accepted the real 376-file 1.7.201 release ZIP byte-for-byte against the
+  tested candidate. All six post-merge CI jobs passed 322 PHPUnit tests,
+  24 Behat scenarios and ten validator checks each. PHPMD confirmed 57
+  advisory findings, down from 58 in 1.7.200 with no new findings. The Moodle
+  5.0/5.3 server report passed PHPCS, lint, Grunt and 322 PHPUnit tests per
+  site; both strict validators passed ten checks without warnings or failures.
+- Keep Moodle's uninstall callback signature and the exact canonical-context
+  requirements for grade items. Extract the existing VideoTrack instance and
+  course-module lookup into a named helper before Grade API deletion. Orphan
+  items retain their DML cleanup and course regrade paths. The existing PHPUnit
+  test covers valid and orphan grade items; candidate CI must confirm the
+  cyclomatic-complexity result. Schema, AMD and language packs are unchanged.
+
 ## 1.7.201 - 2026-10-29
 
 ### Restore integrity event optional fields

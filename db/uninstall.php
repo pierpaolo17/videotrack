@@ -54,29 +54,7 @@ function xmldb_videotrack_uninstall(): bool {
     $fallbackcourses = [];
 
     foreach ($gradeitems as $gradeitem) {
-        $instancecourse = false;
-        if ($hasactivitytable) {
-            $instancecourse = $DB->get_field(
-                'videotrack',
-                'course',
-                ['id' => (int)$gradeitem->iteminstance],
-                IGNORE_MISSING
-            );
-        }
-
-        $coursemodulecount = 0;
-        if ($moduleid > 0 && $instancecourse !== false) {
-            $coursemodulecount = $DB->count_records('course_modules', [
-                'module' => $moduleid,
-                'instance' => (int)$gradeitem->iteminstance,
-                'course' => (int)$gradeitem->courseid,
-            ]);
-        }
-
-        $hasvalidcontext = $instancecourse !== false
-            && (int)$instancecourse === (int)$gradeitem->courseid
-            && $coursemodulecount === 1;
-        if (!$hasvalidcontext) {
+        if (!videotrack_uninstall_has_canonical_grade_context($gradeitem, $hasactivitytable, $moduleid)) {
             $fallbackids[] = (int)$gradeitem->id;
             $fallbackcourses[] = (int)$gradeitem->courseid;
             continue;
@@ -97,4 +75,39 @@ function xmldb_videotrack_uninstall(): bool {
     }
 
     return true;
+}
+
+/**
+ * Check whether a grade item belongs to exactly one activity context before calling the Grade API.
+ *
+ * @param stdClass $gradeitem Gradebook item being removed.
+ * @param bool $hasactivitytable Whether the VideoTrack table still exists.
+ * @param int $moduleid VideoTrack module id, or zero when missing.
+ * @return bool Whether the item has one canonical activity context.
+ */
+function videotrack_uninstall_has_canonical_grade_context(stdClass $gradeitem, bool $hasactivitytable, int $moduleid): bool {
+    global $DB;
+
+    $instancecourse = false;
+    if ($hasactivitytable) {
+        $instancecourse = $DB->get_field(
+            'videotrack',
+            'course',
+            ['id' => (int)$gradeitem->iteminstance],
+            IGNORE_MISSING
+        );
+    }
+
+    $coursemodulecount = 0;
+    if ($moduleid > 0 && $instancecourse !== false) {
+        $coursemodulecount = $DB->count_records('course_modules', [
+            'module' => $moduleid,
+            'instance' => (int)$gradeitem->iteminstance,
+            'course' => (int)$gradeitem->courseid,
+        ]);
+    }
+
+    return $instancecourse !== false
+        && (int)$instancecourse === (int)$gradeitem->courseid
+        && $coursemodulecount === 1;
 }

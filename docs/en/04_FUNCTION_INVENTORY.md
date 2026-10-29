@@ -1,8 +1,8 @@
 # Function inventory
 
-Generated from the VideoTrack 1.7.201 source tree. PHP entries include named functions and methods; AMD entries include named declarations, assigned function expressions and object-method functions.
+Generated from the VideoTrack 1.7.202 source tree. PHP entries include named functions and methods; AMD entries include named declarations, assigned function expressions and object-method functions.
 
-**PHP functions/methods:** 921. **Named AMD callables:** 654.
+**PHP functions/methods:** 922. **Named AMD callables:** 654.
 
 | Location | Callable | Responsibility |
 |---|---|---|
@@ -1115,6 +1115,7 @@ Generated from the VideoTrack 1.7.201 source tree. PHP entries include named fun
 | `db/repairlib.php:294` | `videotrack_repair_preproduction_requestids` | Named PHP function/method `videotrack_repair_preproduction_requestids`; see source DocBlock and callers for the current contract. |
 | `db/repairlib.php:335` | `videotrack_repair_preproduction_deduplicate` | Named PHP function/method `videotrack_repair_preproduction_deduplicate`; see source DocBlock and callers for the current contract. |
 | `db/uninstall.php:36` | `xmldb_videotrack_uninstall` | Removes VideoTrack gradebook data before Moodle core deletes module contexts, with a scoped fallback for malformed rows. |
+| `db/uninstall.php:88` | `videotrack_uninstall_has_canonical_grade_context` | Checks the original activity and course-module references before deleting a grade item through the Grade API. |
 | `db/upgrade.php:35` | `xmldb_videotrack_upgrade` | PHP callable `xmldb_videotrack_upgrade`; see its DocBlock and callers for parameter, return-value and side-effect details. |
 | `lib.php:38` | `videotrack_supports` | PHP callable `videotrack_supports`; see its DocBlock and callers for parameter, return-value and side-effect details. |
 | `lib.php:64` | `videotrack_whitelist_record` | PHP callable `videotrack_whitelist_record`; see its DocBlock and callers for parameter, return-value and side-effect details. |
