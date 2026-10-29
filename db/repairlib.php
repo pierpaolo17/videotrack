@@ -77,11 +77,13 @@ function videotrack_repair_preproduction_gradebook_rows(): void {
 
     foreach ($gradeitems as $gradeitem) {
         $instanceid = (int)$gradeitem->iteminstance;
-        if (!videotrack_repair_preproduction_grade_item_has_canonical_context(
-            $gradeitem,
-            $instances,
-            $coursemodulecounts
-        )) {
+        if (
+            !videotrack_repair_preproduction_grade_item_has_canonical_context(
+                $gradeitem,
+                $instances,
+                $coursemodulecounts
+            )
+        ) {
             $deleteids[] = (int)$gradeitem->id;
             continue;
         }
