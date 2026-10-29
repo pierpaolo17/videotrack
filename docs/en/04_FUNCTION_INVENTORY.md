@@ -1,8 +1,8 @@
 # Function inventory
 
-Generated from the VideoTrack 1.7.199 source tree. PHP entries include named functions and methods; AMD entries include named declarations, assigned function expressions and object-method functions.
+Generated from the VideoTrack 1.7.200 source tree. PHP entries include named functions and methods; AMD entries include named declarations, assigned function expressions and object-method functions.
 
-**PHP functions/methods:** 920. **Named AMD callables:** 654.
+**PHP functions/methods:** 921. **Named AMD callables:** 654.
 
 | Location | Callable | Responsibility |
 |---|---|---|
@@ -681,10 +681,11 @@ Generated from the VideoTrack 1.7.199 source tree. PHP entries include named fun
 | `backup/moodle2/restore_videotrack_stepslib.php:124` | `process_videotrack_segment` | PHP callable `process_videotrack_segment`; see its DocBlock and callers for parameter, return-value and side-effect details. |
 | `backup/moodle2/restore_videotrack_stepslib.php:186` | `process_videotrack_state` | PHP callable `process_videotrack_state`; see its DocBlock and callers for parameter, return-value and side-effect details. |
 | `backup/moodle2/restore_videotrack_stepslib.php:198` | `process_videotrack_reactionevent` | PHP callable `process_videotrack_reactionevent`; see its DocBlock and callers for parameter, return-value and side-effect details. |
-| `backup/moodle2/restore_videotrack_stepslib.php:285` | `process_videotrack_integrityevent` | PHP callable `process_videotrack_integrityevent`; see its DocBlock and callers for parameter, return-value and side-effect details. |
-| `backup/moodle2/restore_videotrack_stepslib.php:327` | `process_videotrack_acknowledgement` | PHP callable `process_videotrack_acknowledgement`; see its DocBlock and callers for parameter, return-value and side-effect details. |
-| `backup/moodle2/restore_videotrack_stepslib.php:372` | `get_restored_cmid` | PHP callable `get_restored_cmid`; see its DocBlock and callers for parameter, return-value and side-effect details. |
-| `backup/moodle2/restore_videotrack_stepslib.php:385` | `after_execute` | PHP callable `after_execute`; see its DocBlock and callers for parameter, return-value and side-effect details. |
+| `backup/moodle2/restore_videotrack_stepslib.php:265` | `restore_missing_reaction` | Creates and maps a hidden placeholder for an omitted reaction inside the restore transaction. |
+| `backup/moodle2/restore_videotrack_stepslib.php:301` | `process_videotrack_integrityevent` | PHP callable `process_videotrack_integrityevent`; see its DocBlock and callers for parameter, return-value and side-effect details. |
+| `backup/moodle2/restore_videotrack_stepslib.php:343` | `process_videotrack_acknowledgement` | PHP callable `process_videotrack_acknowledgement`; see its DocBlock and callers for parameter, return-value and side-effect details. |
+| `backup/moodle2/restore_videotrack_stepslib.php:388` | `get_restored_cmid` | PHP callable `get_restored_cmid`; see its DocBlock and callers for parameter, return-value and side-effect details. |
+| `backup/moodle2/restore_videotrack_stepslib.php:401` | `after_execute` | PHP callable `after_execute`; see its DocBlock and callers for parameter, return-value and side-effect details. |
 | `classes/admin/setting_int_range.php:43` | `__construct` | PHP callable `__construct`; see its DocBlock and callers for parameter, return-value and side-effect details. |
 | `classes/admin/setting_int_range.php:61` | `validate` | PHP callable `validate`; see its DocBlock and callers for parameter, return-value and side-effect details. |
 | `classes/admin/setting_nonnegative_int.php:36` | `validate` | PHP callable `validate`; see its DocBlock and callers for parameter, return-value and side-effect details. |

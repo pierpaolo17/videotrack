@@ -1,8 +1,8 @@
 # Inventario delle funzioni
 
-Generato dall’albero sorgente VideoTrack 1.7.199. Le voci PHP includono funzioni e metodi nominati; le voci AMD includono dichiarazioni nominate, espressioni funzione assegnate e funzioni-metodo di oggetti.
+Generato dall’albero sorgente VideoTrack 1.7.200. Le voci PHP includono funzioni e metodi nominati; le voci AMD includono dichiarazioni nominate, espressioni funzione assegnate e funzioni-metodo di oggetti.
 
-**Funzioni/metodi PHP:** 920. **Callable AMD nominati:** 654.
+**Funzioni/metodi PHP:** 921. **Callable AMD nominati:** 654.
 
 | Posizione | Callable | Responsabilità |
 |---|---|---|
@@ -681,10 +681,11 @@ Generato dall’albero sorgente VideoTrack 1.7.199. Le voci PHP includono funzio
 | `backup/moodle2/restore_videotrack_stepslib.php:124` | `process_videotrack_segment` | Callable PHP `process_videotrack_segment`; DocBlock e chiamanti definiscono parametri, valori restituiti ed effetti. |
 | `backup/moodle2/restore_videotrack_stepslib.php:186` | `process_videotrack_state` | Callable PHP `process_videotrack_state`; DocBlock e chiamanti definiscono parametri, valori restituiti ed effetti. |
 | `backup/moodle2/restore_videotrack_stepslib.php:198` | `process_videotrack_reactionevent` | Callable PHP `process_videotrack_reactionevent`; DocBlock e chiamanti definiscono parametri, valori restituiti ed effetti. |
-| `backup/moodle2/restore_videotrack_stepslib.php:285` | `process_videotrack_integrityevent` | Callable PHP `process_videotrack_integrityevent`; DocBlock e chiamanti definiscono parametri, valori restituiti ed effetti. |
-| `backup/moodle2/restore_videotrack_stepslib.php:327` | `process_videotrack_acknowledgement` | Callable PHP `process_videotrack_acknowledgement`; DocBlock e chiamanti definiscono parametri, valori restituiti ed effetti. |
-| `backup/moodle2/restore_videotrack_stepslib.php:372` | `get_restored_cmid` | Callable PHP `get_restored_cmid`; DocBlock e chiamanti definiscono parametri, valori restituiti ed effetti. |
-| `backup/moodle2/restore_videotrack_stepslib.php:385` | `after_execute` | Callable PHP `after_execute`; DocBlock e chiamanti definiscono parametri, valori restituiti ed effetti. |
+| `backup/moodle2/restore_videotrack_stepslib.php:265` | `restore_missing_reaction` | Crea e mappa un placeholder nascosto per una reazione omessa nella transazione di ripristino. |
+| `backup/moodle2/restore_videotrack_stepslib.php:301` | `process_videotrack_integrityevent` | Callable PHP `process_videotrack_integrityevent`; DocBlock e chiamanti definiscono parametri, valori restituiti ed effetti. |
+| `backup/moodle2/restore_videotrack_stepslib.php:343` | `process_videotrack_acknowledgement` | Callable PHP `process_videotrack_acknowledgement`; DocBlock e chiamanti definiscono parametri, valori restituiti ed effetti. |
+| `backup/moodle2/restore_videotrack_stepslib.php:388` | `get_restored_cmid` | Callable PHP `get_restored_cmid`; DocBlock e chiamanti definiscono parametri, valori restituiti ed effetti. |
+| `backup/moodle2/restore_videotrack_stepslib.php:401` | `after_execute` | Callable PHP `after_execute`; DocBlock e chiamanti definiscono parametri, valori restituiti ed effetti. |
 | `classes/admin/setting_int_range.php:43` | `__construct` | Callable PHP `__construct`; DocBlock e chiamanti definiscono parametri, valori restituiti ed effetti. |
 | `classes/admin/setting_int_range.php:61` | `validate` | Callable PHP `validate`; DocBlock e chiamanti definiscono parametri, valori restituiti ed effetti. |
 | `classes/admin/setting_nonnegative_int.php:36` | `validate` | Callable PHP `validate`; DocBlock e chiamanti definiscono parametri, valori restituiti ed effetti. |
