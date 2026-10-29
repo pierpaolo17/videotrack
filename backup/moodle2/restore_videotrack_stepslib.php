@@ -314,7 +314,7 @@ class restore_videotrack_activity_structure_step extends restore_activity_struct
         if ($userid <= 0) {
             return;
         }
-        $eventtype = isset($data->eventtype) ? clean_param($data->eventtype, PARAM_ALPHANUMEXT) : '';
+        $eventtype = clean_param($data->eventtype ?? '', PARAM_ALPHANUMEXT);
         if (!in_array($eventtype, \mod_videotrack\local\integrity::EVENT_TYPES, true)) {
             return;
         }
@@ -323,8 +323,8 @@ class restore_videotrack_activity_structure_step extends restore_activity_struct
             'courseid' => (int)$this->get_courseid(),
             'cmid' => (int)$this->get_restored_cmid(),
             'userid' => $userid,
-            'videoid' => isset($data->videoid) ? clean_param($data->videoid, PARAM_ALPHANUMEXT) : '',
-            'sessionid' => isset($data->sessionid) ? clean_param($data->sessionid, PARAM_ALPHANUMEXT) : '',
+            'videoid' => clean_param($data->videoid ?? '', PARAM_ALPHANUMEXT),
+            'sessionid' => clean_param($data->sessionid ?? '', PARAM_ALPHANUMEXT),
             'eventtype' => $eventtype,
             'videotime' => max(0.0, (float)($data->videotime ?? 0.0)),
             'timecreated' => $timecreated,
