@@ -1,5 +1,21 @@
 # VideoTrack changelog
 
+## 1.7.203 - 2026-10-29
+
+### Gradebook repair canonical context check
+
+- Accepted the real 376-file 1.7.202 release ZIP byte-for-byte against the
+  tested candidate. All six post-merge CI jobs passed 322 PHPUnit tests,
+  24 Behat scenarios and ten validator checks each. PHPMD confirmed 56
+  advisory findings, down from 57 in 1.7.201 with no new findings. The Moodle
+  5.0/5.3 server report passed PHPCS, lint, Grunt and 322 PHPUnit tests per
+  site; both strict validators passed ten checks without warnings or failures.
+- Isolate the existing grade item canonical-context check in pre-production
+  repair. Keep instance, course, unique course-module and itemnumber requirements,
+  followed by the unchanged duplicate merge and DML cleanup. Existing PHPUnit
+  tests exercise duplicate grade items and missing module contexts. Candidate CI
+  must confirm the cyclomatic-complexity result; schema, AMD and languages are unchanged.
+
 ## 1.7.202 - 2026-10-29
 
 ### Uninstall grade item context boundary

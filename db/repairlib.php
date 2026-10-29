@@ -77,13 +77,13 @@ function videotrack_repair_preproduction_gradebook_rows(): void {
 
     foreach ($gradeitems as $gradeitem) {
         $instanceid = (int)$gradeitem->iteminstance;
-        $validinstance = isset($instances[$instanceid]);
-        $validcourse = $validinstance && (int)$gradeitem->courseid === (int)$instances[$instanceid]->course;
-        $contextkey = $instanceid . ':' . (int)$gradeitem->courseid;
-        $validcontext = $validcourse && ($coursemodulecounts[$contextkey] ?? 0) === 1;
-        $validitemnumber = isset($gradeitem->itemnumber) && (int)$gradeitem->itemnumber === 0;
-
-        if (!$validinstance || !$validcourse || !$validcontext || !$validitemnumber) {
+        if (
+            !videotrack_repair_preproduction_grade_item_has_canonical_context(
+                $gradeitem,
+                $instances,
+                $coursemodulecounts
+            )
+        ) {
             $deleteids[] = (int)$gradeitem->id;
             continue;
         }
@@ -105,6 +105,29 @@ function videotrack_repair_preproduction_gradebook_rows(): void {
     }
 
     videotrack_repair_preproduction_delete_grade_items($deleteids);
+}
+
+/**
+ * Verify that one grade item belongs to an existing instance and exactly one matching course module.
+ *
+ * @param stdClass $gradeitem Gradebook row being checked.
+ * @param stdClass[] $instances VideoTrack activities keyed by instance id.
+ * @param int[] $coursemodulecounts Matching course module counts keyed by instance and course.
+ * @return bool Whether the item belongs to a canonical activity context.
+ */
+function videotrack_repair_preproduction_grade_item_has_canonical_context(
+    stdClass $gradeitem,
+    array $instances,
+    array $coursemodulecounts
+): bool {
+    $instanceid = (int)$gradeitem->iteminstance;
+    $validinstance = isset($instances[$instanceid]);
+    $validcourse = $validinstance && (int)$gradeitem->courseid === (int)$instances[$instanceid]->course;
+    $contextkey = $instanceid . ':' . (int)$gradeitem->courseid;
+    $validcontext = $validcourse && ($coursemodulecounts[$contextkey] ?? 0) === 1;
+    $validitemnumber = isset($gradeitem->itemnumber) && (int)$gradeitem->itemnumber === 0;
+
+    return $validinstance && $validcourse && $validcontext && $validitemnumber;
 }
 
 /**

@@ -160,11 +160,12 @@ dichiarazione di un parametro di metodo.
 - Il callback delle feature Moodle è una tabella diretta feature-valore, mentre la validazione delle reazioni Font
   Awesome separa il sottoinsieme revisionato dei decoratori da un solo nome icona. Contratti pubblici, limiti e
   default fail-closed sono coperti indipendentemente dalla riduzione di complessità.
-- PHPMD resta consultivo. La CI della 1.7.201 ha confermato 57 rilievi contro
-  i 58 della 1.7.200: è scomparso il finding sulla complessità della classe di
-  ripristino, senza nuovi finding. La candidata 1.7.202 mantiene la firma del
-  callback Moodle di disinstallazione e isola il controllo esistente del contesto
-  per la rimozione delle voci tramite Grade API. La CI deve confermare l'esito.
+- PHPMD resta consultivo. La CI della 1.7.202 ha confermato 56 rilievi contro
+  i 57 della 1.7.201: è scomparso il finding ciclomatico della disinstallazione,
+  senza nuovi finding. La candidata 1.7.203 isola il controllo esistente delle
+  voci di valutazione nella riparazione pre-produzione, conservando i requisiti
+  di istanza, corso, contesto del modulo e numero della voce. La CI deve
+  confermare l'esito sulla complessità ciclomatica.
   I rilievi residui riguardano complessità, dimensione, classi pubbliche ampie, parametri obbligatori
   dei callback Moodle e flag booleani che richiedono refactoring comportamentali separati.
 - Configurazione degli analizzatori, perimetro di produzione, schema database e asset AMD non cambiano con queste
