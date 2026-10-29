@@ -1,8 +1,8 @@
 # Inventario delle funzioni
 
-Generato dall’albero sorgente VideoTrack 1.7.201. Le voci PHP includono funzioni e metodi nominati; le voci AMD includono dichiarazioni nominate, espressioni funzione assegnate e funzioni-metodo di oggetti.
+Generato dall’albero sorgente VideoTrack 1.7.202. Le voci PHP includono funzioni e metodi nominati; le voci AMD includono dichiarazioni nominate, espressioni funzione assegnate e funzioni-metodo di oggetti.
 
-**Funzioni/metodi PHP:** 921. **Callable AMD nominati:** 654.
+**Funzioni/metodi PHP:** 922. **Callable AMD nominati:** 654.
 
 | Posizione | Callable | Responsabilità |
 |---|---|---|
@@ -1115,6 +1115,7 @@ Generato dall’albero sorgente VideoTrack 1.7.201. Le voci PHP includono funzio
 | `db/repairlib.php:294` | `videotrack_repair_preproduction_requestids` | Funzione/metodo PHP nominato `videotrack_repair_preproduction_requestids`; vedere DocBlock e chiamanti per il contratto corrente. |
 | `db/repairlib.php:335` | `videotrack_repair_preproduction_deduplicate` | Funzione/metodo PHP nominato `videotrack_repair_preproduction_deduplicate`; vedere DocBlock e chiamanti per il contratto corrente. |
 | `db/uninstall.php:36` | `xmldb_videotrack_uninstall` | Elimina i dati gradebook prima che il core rimuova i contesti modulo, con fallback circoscritto per record incoerenti. |
+| `db/uninstall.php:88` | `videotrack_uninstall_has_canonical_grade_context` | Verifica riferimenti ad attività e modulo corso prima della rimozione di una voce tramite Grade API. |
 | `db/upgrade.php:35` | `xmldb_videotrack_upgrade` | Callable PHP `xmldb_videotrack_upgrade`; DocBlock e chiamanti definiscono parametri, valori restituiti ed effetti. |
 | `lib.php:38` | `videotrack_supports` | Callable PHP `videotrack_supports`; DocBlock e chiamanti definiscono parametri, valori restituiti ed effetti. |
 | `lib.php:64` | `videotrack_whitelist_record` | Callable PHP `videotrack_whitelist_record`; DocBlock e chiamanti definiscono parametri, valori restituiti ed effetti. |

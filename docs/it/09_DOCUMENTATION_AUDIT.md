@@ -1,6 +1,6 @@
 # Audit della documentazione
 
-Baseline: VideoTrack **1.7.201** (`2026102901`).
+Baseline: VideoTrack **1.7.202** (`2026102902`).
 
 ## Perimetro
 
@@ -33,7 +33,7 @@ duplicano intenzionalmente procedure implementative, dizionari dei campi o lungh
 ## Rilievi sull'albero corrente
 
 - Gli indici inglese e italiano hanno stesso perimetro e ordinamento.
-- Marker documentali, README principali e artefatti ER identificano 1.7.201 / 2026102901.
+- Marker documentali, README principali e artefatti ER identificano 1.7.202 / 2026102902.
 - Le Analytics tra corsi documentano la facciata stabile `analytics_scope` e il matcher focalizzato che possiede
   selezione candidati, predicati dell’identità tecnica, filtro capability, fallback dell’istanza corrente e ordine.
 - Le Analytics del corso delegano gli scope delle attività visibili e le letture batchate di stati, segmenti nel
