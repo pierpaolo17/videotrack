@@ -1,5 +1,23 @@
 # VideoTrack changelog
 
+## 1.7.208 - 2026-10-30
+
+### Deferred reaction icon operation selection
+
+- Accepted the real 376-file 1.7.207 ZIP byte-for-byte against the tested
+  candidate and merged main tree. All six post-merge CI jobs passed 323 PHPUnit
+  tests, 24 Behat scenarios and ten validator checks each. PHPMD confirmed
+  49 advisory findings, down from 50 in 1.7.206 without new findings. The
+  Moodle 5.0/5.3 server report passed PHPCS, lint, Grunt under Node 22.23.4
+  and 323 PHPUnit tests per site; both strict validators passed ten checks.
+- Isolate the existing selection of deferred icon file operations from the
+  reaction definition save loop. Preserve transaction boundaries, draft-file
+  inspection only for uploaded icons, and existing icon files when no new
+  draft was submitted. Switching to emoji or Font Awesome continues to clear
+  the old icon after commit. Add a focused file-area test for these cases.
+  Candidate CI must confirm cyclomatic and NPath results. XMLDB, AMD,
+  services and languages are unchanged.
+
 ## 1.7.207 - 2026-10-30
 
 ### Reaction definition record preparation

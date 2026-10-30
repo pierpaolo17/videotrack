@@ -563,6 +563,42 @@ function videotrack_apply_reaction_icon_file_operations(array $fileops): void {
 }
 
 /**
+ * Queues the existing icon file operation for one saved reaction definition.
+ *
+ * Draft-file inspection belongs inside the database transaction; file changes
+ * themselves are applied only after it commits.
+ *
+ * @param stdClass $data Submitted form data.
+ * @param int|string $idx Reaction row index in the form.
+ * @param int $reactionid Saved reaction definition id.
+ * @param string $icontype Validated icon type.
+ * @param context_module $context Activity context.
+ * @param array $fileops Deferred operations, updated in place.
+ */
+function videotrack_queue_reaction_icon_file_operation(
+    stdClass $data,
+    int|string $idx,
+    int $reactionid,
+    string $icontype,
+    context_module $context,
+    array &$fileops
+): void {
+    // File_get_draft_area_info() is needed only for uploaded icons.
+    if ($icontype === 'file') {
+        $fieldname = 'reactioniconfile_' . $idx;
+        $draftitemid = isset($data->{$fieldname}) ? (int)$data->{$fieldname} : 0;
+        $draftinfo = $draftitemid > 0 ? file_get_draft_area_info($draftitemid) : ['filecount' => 0];
+        if ($draftitemid > 0 && !empty($draftinfo['filecount'])) {
+            $fileops[] = ['reactionid' => $reactionid, 'context' => $context,
+                          'draftitemid' => $draftitemid, 'clear' => true];
+        }
+    } else if ($reactionid > 0) {
+        $fileops[] = ['reactionid' => $reactionid, 'context' => $context,
+                      'draftitemid' => 0, 'clear' => true];
+    }
+}
+
+/**
  * Saves the configured reaction definitions for a VideoTrack activity.
  *
  * @param int $videotrackid VideoTrack instance id.
@@ -600,7 +636,6 @@ function videotrack_save_reaction_definitions(int $videotrackid, stdClass $data)
 
         $reactionid = (int)($reactionids[$idx] ?? 0);
         $record = videotrack_build_reaction_definition_record($videotrackid, $data, $idx, $label, $sort, $now);
-        $icontype = $record->icontype;
 
         if ($reactionid > 0 && isset($existing[$reactionid])) {
             $record->id = $reactionid;
@@ -614,19 +649,7 @@ function videotrack_save_reaction_definitions(int $videotrackid, stdClass $data)
 
         // O1 fix: collect file operations — defer until after DB commit.
         // File_get_draft_area_info() is called only for 'file' icontype.
-        if ($icontype === 'file') {
-            $fieldname   = 'reactioniconfile_' . $idx;
-            $draftitemid = isset($data->{$fieldname}) ? (int)$data->{$fieldname} : 0;
-            // O1 fix: file_get_draft_area_info() now called only for 'file' reactions.
-            $draftinfo   = $draftitemid > 0 ? file_get_draft_area_info($draftitemid) : ['filecount' => 0];
-            if ($draftitemid > 0 && !empty($draftinfo['filecount'])) {
-                $fileops[] = ['reactionid' => $reactionid, 'context' => $context,
-                              'draftitemid' => $draftitemid, 'clear' => true];
-            }
-        } else if ($reactionid > 0) {
-            $fileops[] = ['reactionid' => $reactionid, 'context' => $context,
-                          'draftitemid' => 0, 'clear' => true];
-        }
+        videotrack_queue_reaction_icon_file_operation($data, $idx, $reactionid, $record->icontype, $context, $fileops);
 
         $sort++;
     }

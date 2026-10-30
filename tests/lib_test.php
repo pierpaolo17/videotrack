@@ -42,6 +42,8 @@ use PHPUnit\Framework\Attributes\CoversFunction;
 #[CoversFunction('videotrack_whitelist_record')]
 #[CoversFunction('videotrack_is_valid_reaction_icon_class')]
 #[CoversFunction('videotrack_build_reaction_definition_record')]
+#[CoversFunction('videotrack_queue_reaction_icon_file_operation')]
+#[CoversFunction('videotrack_apply_reaction_icon_file_operations')]
 final class lib_test extends advanced_testcase {
     /**
      * Load module callbacks under test.
@@ -138,6 +140,35 @@ final class lib_test extends advanced_testcase {
         $this->assertSame('', $second->iconvalue);
         $this->assertSame(0, $second->requiredforcompletion);
         $this->assertNotSame($first->reactionkey, $second->reactionkey);
+    }
+
+    /**
+     * Switching away from an uploaded icon clears its old file after commit;
+     * an untouched file picker does not erase the existing uploaded icon.
+     */
+    public function test_reaction_icon_file_operations_preserve_missing_draft_and_clear_on_switch(): void {
+        $this->resetAfterTest();
+        $course = $this->getDataGenerator()->create_course();
+        $activity = $this->getDataGenerator()->create_module('videotrack', ['course' => $course->id]);
+        $context = \context_module::instance((int)$activity->cmid);
+        $fs = get_file_storage();
+        $fs->create_file_from_string([
+            'contextid' => $context->id,
+            'component' => 'mod_videotrack',
+            'filearea' => 'reactionicon',
+            'itemid' => 47,
+            'filepath' => '/',
+            'filename' => 'reaction.png',
+        ], 'not-processed-image');
+
+        $fileops = [];
+        \videotrack_queue_reaction_icon_file_operation((object)[], 0, 47, 'file', $context, $fileops);
+        $this->assertSame([], $fileops);
+        $this->assertTrue($fs->file_exists($context->id, 'mod_videotrack', 'reactionicon', 47, '/', 'reaction.png'));
+
+        \videotrack_queue_reaction_icon_file_operation((object)[], 0, 47, 'emoji', $context, $fileops);
+        \videotrack_apply_reaction_icon_file_operations($fileops);
+        $this->assertFalse($fs->file_exists($context->id, 'mod_videotrack', 'reactionicon', 47, '/', 'reaction.png'));
     }
 
     /**
