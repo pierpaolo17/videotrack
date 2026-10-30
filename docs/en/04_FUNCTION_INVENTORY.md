@@ -1,8 +1,8 @@
 # Function inventory
 
-Generated from the VideoTrack 1.7.204 source tree. PHP entries include named functions and methods; AMD entries include named declarations, assigned function expressions and object-method functions.
+Generated from the VideoTrack 1.7.205 source tree. PHP entries include named functions and methods; AMD entries include named declarations, assigned function expressions and object-method functions.
 
-**PHP functions/methods:** 926. **Named AMD callables:** 654.
+**PHP functions/methods:** 928. **Named AMD callables:** 654.
 
 | Location | Callable | Responsibility |
 |---|---|---|
@@ -1213,17 +1213,19 @@ Generated from the VideoTrack 1.7.204 source tree. PHP entries include named fun
 | `locallib.php:1054` | `videotrack_is_compatible_forum` | PHP callable `videotrack_is_compatible_forum`; see its DocBlock and callers for parameter, return-value and side-effect details. |
 | `locallib.php:1070` | `videotrack_build_forum_subject` | PHP callable `videotrack_build_forum_subject`; see its DocBlock and callers for parameter, return-value and side-effect details. |
 | `locallib.php:1099` | `videotrack_build_replay_url` | PHP callable `videotrack_build_replay_url`; see its DocBlock and callers for parameter, return-value and side-effect details. |
-| `mod_form.php:46` | `definition` | PHP callable `definition`; see its DocBlock and callers for parameter, return-value and side-effect details. |
-| `mod_form.php:1127` | `apply_default_section_expansion` | PHP callable `apply_default_section_expansion`; see its DocBlock and callers for parameter, return-value and side-effect details. |
-| `mod_form.php:1164` | `require_filepicker_accept_filter` | PHP callable `require_filepicker_accept_filter`; see its DocBlock and callers for parameter, return-value and side-effect details. |
-| `mod_form.php:1210` | `add_reaction_elements` | PHP callable `add_reaction_elements`; see its DocBlock and callers for parameter, return-value and side-effect details. |
-| `mod_form.php:1389` | `get_reaction_repeat_count` | PHP callable `get_reaction_repeat_count`; see its DocBlock and callers for parameter, return-value and side-effect details. |
-| `mod_form.php:1416` | `add_completion_rules` | PHP callable `add_completion_rules`; see its DocBlock and callers for parameter, return-value and side-effect details. |
-| `mod_form.php:1485` | `completion_rule_enabled` | PHP callable `completion_rule_enabled`; see its DocBlock and callers for parameter, return-value and side-effect details. |
-| `mod_form.php:1497` | `data_preprocessing` | PHP callable `data_preprocessing`; see its DocBlock and callers for parameter, return-value and side-effect details. |
-| `mod_form.php:1760` | `draft_area_contains_only_reaction_images` | PHP callable `draft_area_contains_only_reaction_images`; see its DocBlock and callers for parameter, return-value and side-effect details. |
-| `mod_form.php:1796` | `draft_area_contains_only_vtt` | PHP callable `draft_area_contains_only_vtt`; see its DocBlock and callers for parameter, return-value and side-effect details. |
-| `mod_form.php:1828` | `validation` | PHP callable `validation`; see its DocBlock and callers for parameter, return-value and side-effect details. |
+| `mod_form.php:47` | `definition` | PHP callable `definition`; see its DocBlock and callers for parameter, return-value and side-effect details. |
+| `mod_form.php:1128` | `apply_default_section_expansion` | PHP callable `apply_default_section_expansion`; see its DocBlock and callers for parameter, return-value and side-effect details. |
+| `mod_form.php:1165` | `require_filepicker_accept_filter` | PHP callable `require_filepicker_accept_filter`; see its DocBlock and callers for parameter, return-value and side-effect details. |
+| `mod_form.php:1211` | `add_reaction_elements` | PHP callable `add_reaction_elements`; see its DocBlock and callers for parameter, return-value and side-effect details. |
+| `mod_form.php:1251` | `add_reaction_row_fields` | Adds the current row fields and icon picker in their original order. |
+| `mod_form.php:1349` | `add_reaction_row_visibility` | Applies the existing icon visibility and disabling rules after the fields. |
+| `mod_form.php:1412` | `get_reaction_repeat_count` | PHP callable `get_reaction_repeat_count`; see its DocBlock and callers for parameter, return-value and side-effect details. |
+| `mod_form.php:1440` | `add_completion_rules` | PHP callable `add_completion_rules`; see its DocBlock and callers for parameter, return-value and side-effect details. |
+| `mod_form.php:1509` | `completion_rule_enabled` | PHP callable `completion_rule_enabled`; see its DocBlock and callers for parameter, return-value and side-effect details. |
+| `mod_form.php:1521` | `data_preprocessing` | PHP callable `data_preprocessing`; see its DocBlock and callers for parameter, return-value and side-effect details. |
+| `mod_form.php:1784` | `draft_area_contains_only_reaction_images` | PHP callable `draft_area_contains_only_reaction_images`; see its DocBlock and callers for parameter, return-value and side-effect details. |
+| `mod_form.php:1820` | `draft_area_contains_only_vtt` | PHP callable `draft_area_contains_only_vtt`; see its DocBlock and callers for parameter, return-value and side-effect details. |
+| `mod_form.php:1852` | `validation` | PHP callable `validation`; see its DocBlock and callers for parameter, return-value and side-effect details. |
 | `reports_course.php:34` | `videotrack_course_report_count_cell` | PHP callable `videotrack_course_report_count_cell`; see its DocBlock and callers for parameter, return-value and side-effect details. |
 | `reports_course.php:48` | `videotrack_course_report_percentage_cell` | PHP callable `videotrack_course_report_percentage_cell`; renders the text-only aggregate percentage. |
 | `reports_course.php:67` | `videotrack_course_report_percentage_bar_cell` | PHP callable `videotrack_course_report_percentage_bar_cell`; renders the aggregate percentage with its accessible compact bar. |
