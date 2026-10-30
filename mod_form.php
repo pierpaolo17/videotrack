@@ -1227,149 +1227,8 @@ JS);
         ];
 
         for ($i = 0; $i < $repeatcount; $i++) {
-            $mform->addElement(
-                'html',
-                html_writer::tag(
-                    'h4',
-                    get_string('reactionx', 'mod_videotrack', $i + 1),
-                    ['class' => 'h5 mt-4 mb-2 videotrack-reaction-config-heading']
-                )
-            );
-
-            $mform->addElement('hidden', 'reactionid[' . $i . ']', 0);
-            $mform->setType('reactionid[' . $i . ']', PARAM_INT);
-
-            $mform->addElement(
-                'text',
-                'reactionlabel[' . $i . ']',
-                get_string('reactionlabel', 'mod_videotrack'),
-                ['size' => 24]
-            );
-            $mform->setType('reactionlabel[' . $i . ']', PARAM_TEXT);
-
-            $mform->addElement(
-                'text',
-                'reactiondescription[' . $i . ']',
-                get_string('reactiondescription', 'mod_videotrack'),
-                ['size' => 36]
-            );
-            $mform->setType('reactiondescription[' . $i . ']', PARAM_TEXT);
-
-            $mform->addElement(
-                'select',
-                'reactionicontype[' . $i . ']',
-                get_string('reactionicontype', 'mod_videotrack'),
-                [
-                    '' => get_string('choosedots'),
-                    'emoji' => get_string('icontype:emoji', 'mod_videotrack'),
-                    'fa' => get_string('icontype:fa', 'mod_videotrack'),
-                    'file' => get_string('icontype:file', 'mod_videotrack'),
-                ]
-            );
-            $mform->setType('reactionicontype[' . $i . ']', PARAM_ALPHA);
-
-            $iconlistid = 'videotrack-reactioniconvalue-suggestions-' . $i;
-            $mform->addElement(
-                'text',
-                'reactioniconvalue[' . $i . ']',
-                get_string('reactioniconvalue', 'mod_videotrack'),
-                [
-                    'size' => 24,
-                    'list' => $iconlistid,
-                    'class' => 'videotrack-icon-value-input',
-                ]
-            );
-            $mform->setType('reactioniconvalue[' . $i . ']', PARAM_TEXT);
-            $mform->addHelpButton('reactioniconvalue[' . $i . ']', 'reactioniconvalue', 'mod_videotrack');
-            $mform->addElement(
-                'static',
-                'reactioniconvalue_suggestions_' . $i,
-                '',
-                videotrack_reaction_icon_datalist($iconlistid)
-                    . videotrack_reaction_icon_picker('reactioniconvalue[' . $i . ']', 'reactionicontype[' . $i . ']')
-            );
-
-            $mform->addElement(
-                'filemanager',
-                'reactioniconfile_' . $i,
-                get_string('reactioniconfile', 'mod_videotrack'),
-                null,
-                $options
-            );
-            $mform->addHelpButton('reactioniconfile_' . $i, 'reactioniconfile', 'mod_videotrack');
-            // Warn teachers about square proportions and automatic resizing.
-            $mform->addElement(
-                'static',
-                'reactioniconfile_notice_' . $i,
-                '',
-                html_writer::tag(
-                    'small',
-                    get_string('reactioniconfile_notice', 'mod_videotrack'),
-                    ['class' => 'text-muted form-text']
-                )
-            );
-
-            $mform->addElement(
-                'advcheckbox',
-                'reactionrequired[' . $i . ']',
-                get_string('reactionrequired', 'mod_videotrack')
-            );
-            $mform->setType('reactionrequired[' . $i . ']', PARAM_BOOL);
-
-            $mform->disabledIf(
-                'reactioniconvalue[' . $i . ']',
-                'reactionicontype[' . $i . ']',
-                'eq',
-                'file'
-            );
-            $mform->disabledIf(
-                'reactioniconvalue[' . $i . ']',
-                'reactionicontype[' . $i . ']',
-                'eq',
-                ''
-            );
-            $mform->hideIf(
-                'reactioniconvalue[' . $i . ']',
-                'reactionicontype[' . $i . ']',
-                'eq',
-                'file'
-            );
-            $mform->hideIf(
-                'reactioniconvalue[' . $i . ']',
-                'reactionicontype[' . $i . ']',
-                'eq',
-                ''
-            );
-            $mform->hideIf(
-                'reactioniconvalue_suggestions_' . $i,
-                'reactionicontype[' . $i . ']',
-                'eq',
-                'file'
-            );
-            $mform->hideIf(
-                'reactioniconvalue_suggestions_' . $i,
-                'reactionicontype[' . $i . ']',
-                'eq',
-                ''
-            );
-            $mform->disabledIf(
-                'reactioniconfile_' . $i,
-                'reactionicontype[' . $i . ']',
-                'neq',
-                'file'
-            );
-            $mform->hideIf(
-                'reactioniconfile_' . $i,
-                'reactionicontype[' . $i . ']',
-                'neq',
-                'file'
-            );
-            $mform->hideIf(
-                'reactioniconfile_notice_' . $i,
-                'reactionicontype[' . $i . ']',
-                'neq',
-                'file'
-            );
+            $this->add_reaction_row_fields($i, $options);
+            $this->add_reaction_row_visibility($i);
         }
 
         if ($repeatcount < self::MAX_REACTION_ROWS) {
@@ -1380,6 +1239,169 @@ JS);
                 get_string('addreaction', 'mod_videotrack')
             );
         }
+    }
+
+    /**
+     * Add one reaction's editable fields in their current form order.
+     *
+     * @param int $i Zero-based reaction row index.
+     * @param array $options File manager options for reaction icons.
+     * @return void
+     */
+    private function add_reaction_row_fields(int $i, array $options): void {
+        $mform = $this->_form;
+        $mform->addElement(
+            'html',
+            html_writer::tag(
+                'h4',
+                get_string('reactionx', 'mod_videotrack', $i + 1),
+                ['class' => 'h5 mt-4 mb-2 videotrack-reaction-config-heading']
+            )
+        );
+
+        $mform->addElement('hidden', 'reactionid[' . $i . ']', 0);
+        $mform->setType('reactionid[' . $i . ']', PARAM_INT);
+
+        $mform->addElement(
+            'text',
+            'reactionlabel[' . $i . ']',
+            get_string('reactionlabel', 'mod_videotrack'),
+            ['size' => 24]
+        );
+        $mform->setType('reactionlabel[' . $i . ']', PARAM_TEXT);
+
+        $mform->addElement(
+            'text',
+            'reactiondescription[' . $i . ']',
+            get_string('reactiondescription', 'mod_videotrack'),
+            ['size' => 36]
+        );
+        $mform->setType('reactiondescription[' . $i . ']', PARAM_TEXT);
+
+        $mform->addElement(
+            'select',
+            'reactionicontype[' . $i . ']',
+            get_string('reactionicontype', 'mod_videotrack'),
+            [
+                '' => get_string('choosedots'),
+                'emoji' => get_string('icontype:emoji', 'mod_videotrack'),
+                'fa' => get_string('icontype:fa', 'mod_videotrack'),
+                'file' => get_string('icontype:file', 'mod_videotrack'),
+            ]
+        );
+        $mform->setType('reactionicontype[' . $i . ']', PARAM_ALPHA);
+
+        $iconlistid = 'videotrack-reactioniconvalue-suggestions-' . $i;
+        $mform->addElement(
+            'text',
+            'reactioniconvalue[' . $i . ']',
+            get_string('reactioniconvalue', 'mod_videotrack'),
+            [
+                'size' => 24,
+                'list' => $iconlistid,
+                'class' => 'videotrack-icon-value-input',
+            ]
+        );
+        $mform->setType('reactioniconvalue[' . $i . ']', PARAM_TEXT);
+        $mform->addHelpButton('reactioniconvalue[' . $i . ']', 'reactioniconvalue', 'mod_videotrack');
+        $mform->addElement(
+            'static',
+            'reactioniconvalue_suggestions_' . $i,
+            '',
+            videotrack_reaction_icon_datalist($iconlistid)
+                . videotrack_reaction_icon_picker('reactioniconvalue[' . $i . ']', 'reactionicontype[' . $i . ']')
+        );
+
+        $mform->addElement(
+            'filemanager',
+            'reactioniconfile_' . $i,
+            get_string('reactioniconfile', 'mod_videotrack'),
+            null,
+            $options
+        );
+        $mform->addHelpButton('reactioniconfile_' . $i, 'reactioniconfile', 'mod_videotrack');
+        // Warn teachers about square proportions and automatic resizing.
+        $mform->addElement(
+            'static',
+            'reactioniconfile_notice_' . $i,
+            '',
+            html_writer::tag(
+                'small',
+                get_string('reactioniconfile_notice', 'mod_videotrack'),
+                ['class' => 'text-muted form-text']
+            )
+        );
+
+        $mform->addElement(
+            'advcheckbox',
+            'reactionrequired[' . $i . ']',
+            get_string('reactionrequired', 'mod_videotrack')
+        );
+        $mform->setType('reactionrequired[' . $i . ']', PARAM_BOOL);
+    }
+
+    /**
+     * Apply the existing icon input visibility rules after adding the row fields.
+     *
+     * @param int $i Zero-based reaction row index.
+     * @return void
+     */
+    private function add_reaction_row_visibility(int $i): void {
+        $mform = $this->_form;
+        $mform->disabledIf(
+            'reactioniconvalue[' . $i . ']',
+            'reactionicontype[' . $i . ']',
+            'eq',
+            'file'
+        );
+        $mform->disabledIf(
+            'reactioniconvalue[' . $i . ']',
+            'reactionicontype[' . $i . ']',
+            'eq',
+            ''
+        );
+        $mform->hideIf(
+            'reactioniconvalue[' . $i . ']',
+            'reactionicontype[' . $i . ']',
+            'eq',
+            'file'
+        );
+        $mform->hideIf(
+            'reactioniconvalue[' . $i . ']',
+            'reactionicontype[' . $i . ']',
+            'eq',
+            ''
+        );
+        $mform->hideIf(
+            'reactioniconvalue_suggestions_' . $i,
+            'reactionicontype[' . $i . ']',
+            'eq',
+            'file'
+        );
+        $mform->hideIf(
+            'reactioniconvalue_suggestions_' . $i,
+            'reactionicontype[' . $i . ']',
+            'eq',
+            ''
+        );
+        $mform->disabledIf(
+            'reactioniconfile_' . $i,
+            'reactionicontype[' . $i . ']',
+            'neq',
+            'file'
+        );
+        $mform->hideIf(
+            'reactioniconfile_' . $i,
+            'reactionicontype[' . $i . ']',
+            'neq',
+            'file'
+        );
+        $mform->hideIf(
+            'reactioniconfile_notice_' . $i,
+            'reactionicontype[' . $i . ']',
+            'neq',
+            'file'
+        );
     }
 
     /**

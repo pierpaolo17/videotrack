@@ -160,13 +160,12 @@ dichiarazione di un parametro di metodo.
 - Il callback delle feature Moodle è una tabella diretta feature-valore, mentre la validazione delle reazioni Font
   Awesome separa il sottoinsieme revisionato dei decoratori da un solo nome icona. Contratti pubblici, limiti e
   default fail-closed sono coperti indipendentemente dalla riduzione di complessità.
-- PHPMD resta consultivo. La CI della 1.7.203 ha confermato 55 rilievi,
-  contro i 56 della 1.7.202: è scomparso il finding ciclomatico del controllo
-  canonico delle voci di valutazione, senza nuovi rilievi. La candidata 1.7.204
-  separa la riparazione pre-produzione dello schema in fasi ordinate per tabella,
-  campi e indici, preservando le verifiche e le operazioni XMLDB. La CI deve
-  confermare i due rilievi di complessità residui della funzione e l'assenza di
-  nuovi rilievi.
+- PHPMD resta consultivo. La CI della 1.7.204 ha confermato 53 rilievi,
+  contro i 55 della 1.7.203: i due rilievi di complessità della riparazione
+  dello schema sono scomparsi senza nuovi rilievi. La candidata 1.7.205 sposta
+  in metodi privati i campi di ogni reazione e le regole di visibilità delle
+  icone, preservando ordine e contratti del form. La CI deve confermare il
+  rilievo residuo sulla lunghezza del metodo senza introdurne di nuovi.
   I rilievi residui riguardano complessità, dimensione, classi pubbliche ampie, parametri obbligatori
   dei callback Moodle e flag booleani che richiedono refactoring comportamentali separati.
 - Configurazione degli analizzatori, perimetro di produzione, schema database e asset AMD non cambiano con queste

@@ -1,5 +1,23 @@
 # VideoTrack changelog
 
+## 1.7.205 - 2026-10-30
+
+### Reaction form row construction
+
+- Accepted the real 376-file 1.7.204 release ZIP byte-for-byte against the
+  tested candidate and merged main tree. All six post-merge CI jobs passed
+  322 PHPUnit tests, 24 Behat scenarios and ten validator checks each. PHPMD
+  confirmed 53 advisory findings, down from 55 in 1.7.203 with no new findings.
+  The Moodle 5.0/5.3 server report passed PHPCS, lint and 322 PHPUnit tests per
+  site; Grunt initially could not start under unsupported Node 26.13.0. A
+  targeted rerun passed Grunt on both sites under security-updated Node 22.23.4
+  with unchanged AMD build hashes. Both strict validators passed ten checks.
+- Extract the existing reaction-row fields and their icon visibility rules from
+  `mod_videotrack_mod_form::add_reaction_elements()` into two private methods.
+  Preserve the form element order, filemanager options, required checkbox,
+  conditional visibility and repeat/add-button behaviour. Candidate CI must
+  confirm the method-length finding. XMLDB, AMD, services and languages are unchanged.
+
 ## 1.7.204 - 2026-10-29
 
 ### Pre-production schema repair by table
