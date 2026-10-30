@@ -18,6 +18,7 @@ namespace mod_videotrack;
 
 use advanced_testcase;
 use mod_videotrack\local\acknowledgement;
+use mod_videotrack\local\acknowledgement_analytics;
 use PHPUnit\Framework\Attributes\CoversClass;
 
 /**
@@ -29,6 +30,7 @@ use PHPUnit\Framework\Attributes\CoversClass;
  * @license    https://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 #[CoversClass(acknowledgement::class)]
+#[CoversClass(acknowledgement_analytics::class)]
 final class acknowledgement_test extends advanced_testcase {
     /**
      * Statement identity changes when content, format or the end-gating policy changes.

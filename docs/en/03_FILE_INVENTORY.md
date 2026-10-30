@@ -1,10 +1,10 @@
 # Distributed file inventory
 
-This inventory is generated against the VideoTrack 1.7.208 repository tree. It lists every distributed
+This inventory is generated against the VideoTrack 1.7.209 repository tree. It lists every distributed
 non-documentation file plus repository-only CI/tooling/hygiene files. Canonical JavaScript is under `amd/src`; files under
 `amd/build` are generated.
 
-Entries: **315** — 312 distributed files and three repository-only files excluded from release archives.
+Entries: **316** — 313 distributed files and three repository-only files excluded from release archives.
 
 | File | Responsibility |
 |---|---|
@@ -196,6 +196,7 @@ Entries: **315** — 312 distributed files and three repository-only files exclu
 | `classes/external/start_playback.php` | AJAX service that opens a zero-credit, idempotent server playback window. |
 | `classes/form/forum_post_form.php` | Forum composer form for VideoTrack. |
 | `classes/local/acknowledgement.php` | Versioned learner acknowledgement helpers. |
+| `classes/local/acknowledgement_analytics.php` | Privacy-safe acknowledgement analytics and suppression calculations. |
 | `classes/local/analytics.php` | Server-side aggregation for instance analytics. |
 | `classes/local/analytics_scope.php` | Resolves capability-safe Analytics scopes for the same technical video. |
 | `classes/local/analytics_scope_matcher.php` | Finds same-video Analytics candidates and enforces per-module aggregate-report access. |

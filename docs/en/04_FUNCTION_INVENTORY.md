@@ -1,8 +1,8 @@
 # Function inventory
 
-Generated from the VideoTrack 1.7.208 source tree. PHP entries include named functions and methods; AMD entries include named declarations, assigned function expressions and object-method functions.
+Generated from the VideoTrack 1.7.209 source tree. PHP entries include named functions and methods; AMD entries include named declarations, assigned function expressions and object-method functions.
 
-**PHP functions/methods:** 934. **Named AMD callables:** 654.
+**PHP functions/methods:** 935. **Named AMD callables:** 654.
 
 | Location | Callable | Responsibility |
 |---|---|---|
@@ -833,13 +833,14 @@ Generated from the VideoTrack 1.7.208 source tree. PHP entries include named fun
 | `classes/local/acknowledgement.php:108` | `progress_snapshot` | PHP callable `progress_snapshot`; see its DocBlock and callers for parameter, return-value and side-effect details. |
 | `classes/local/acknowledgement.php:133` | `has_reached_video_end` | PHP callable `has_reached_video_end`; see its DocBlock and callers for parameter, return-value and side-effect details. |
 | `classes/local/acknowledgement.php:156` | `can_confirm` | PHP callable `can_confirm`; see its DocBlock and callers for parameter, return-value and side-effect details. |
-| `classes/local/acknowledgement.php:172` | `analytics_summary` | PHP callable `analytics_summary`; see its DocBlock and callers for parameter, return-value and side-effect details. |
-| `classes/local/acknowledgement.php:217` | `count_analytics_records` | Counts valid confirmations, distinct learners and immutable progress snapshots. |
-| `classes/local/acknowledgement.php:261` | `mask_counts` | Masks exact counts for a nonempty population below the privacy threshold. |
-| `classes/local/acknowledgement.php:275` | `current_record` | PHP callable `current_record`; see its DocBlock and callers for parameter, return-value and side-effect details. |
-| `classes/local/acknowledgement.php:299` | `confirm` | PHP callable `confirm`; see its DocBlock and callers for parameter, return-value and side-effect details. |
-| `classes/local/acknowledgement.php:357` | `require_available_confirmation` | Rejects confirmation if the statement is disabled or the learner/module id is invalid. |
-| `classes/local/acknowledgement.php:370` | `current_records` | PHP callable `current_records`; see its DocBlock and callers for parameter, return-value and side-effect details. |
+| `classes/local/acknowledgement.php:168` | `analytics_summary` | Delegates privacy-safe reporting to the focused acknowledgement analytics service. |
+| `classes/local/acknowledgement.php:179` | `current_record` | PHP callable `current_record`; see its DocBlock and callers for parameter, return-value and side-effect details. |
+| `classes/local/acknowledgement.php:203` | `confirm` | PHP callable `confirm`; see its DocBlock and callers for parameter, return-value and side-effect details. |
+| `classes/local/acknowledgement.php:261` | `require_available_confirmation` | Rejects confirmation if the statement is disabled or the learner/module id is invalid. |
+| `classes/local/acknowledgement.php:274` | `current_records` | PHP callable `current_records`; see its DocBlock and callers for parameter, return-value and side-effect details. |
+| `classes/local/acknowledgement_analytics.php:38` | `summary` | Calculates privacy-safe counts, progress averages and suppression indicators. |
+| `classes/local/acknowledgement_analytics.php:83` | `count_analytics_records` | Counts valid confirmations, distinct learners and immutable progress snapshots. |
+| `classes/local/acknowledgement_analytics.php:127` | `mask_counts` | Masks exact counts below the configured privacy threshold. |
 | `classes/local/analytics.php:51` | `resolve_duration` | PHP callable `resolve_duration`; see its DocBlock and callers for parameter, return-value and side-effect details. |
 | `classes/local/analytics.php:69` | `default_bin_size` | PHP callable `default_bin_size`; see its DocBlock and callers for parameter, return-value and side-effect details. |
 | `classes/local/analytics.php:96` | `restrict_to_own_groups` | PHP callable `restrict_to_own_groups`; see its DocBlock and callers for parameter, return-value and side-effect details. |
@@ -1236,15 +1237,15 @@ Generated from the VideoTrack 1.7.208 source tree. PHP entries include named fun
 | `reports_course.php:90` | `videotrack_course_report_drop_cell` | PHP callable `videotrack_course_report_drop_cell`; see its DocBlock and callers for parameter, return-value and side-effect details. |
 | `tests/accessibility_contract_test.php:35` | `test_chapter_buttons_have_visible_keyboard_focus_contract` | PHP callable `test_chapter_buttons_have_visible_keyboard_focus_contract`; verifies explicit keyboard focus and forced-colour chapter styling. |
 | `tests/accessibility_contract_test.php:50` | `test_chapter_navigation_keeps_native_button_semantics` | PHP callable `test_chapter_navigation_keeps_native_button_semantics`; verifies native button semantics and accessible chapter labels. |
-| `tests/acknowledgement_test.php:36` | `test_statement_hash_versions_the_statement_content` | PHP callable `test_statement_hash_versions_the_statement_content`; see its DocBlock and callers for parameter, return-value and side-effect details. |
-| `tests/acknowledgement_test.php:58` | `test_current_record_rejects_superseded_statement_versions` | PHP callable `test_current_record_rejects_superseded_statement_versions`; see its DocBlock and callers for parameter, return-value and side-effect details. |
-| `tests/acknowledgement_test.php:95` | `test_video_end_requirement_uses_persisted_intervals` | PHP callable `test_video_end_requirement_uses_persisted_intervals`; see its DocBlock and callers for parameter, return-value and side-effect details. |
-| `tests/acknowledgement_test.php:120` | `test_progress_snapshot_uses_unique_coverage` | PHP callable `test_progress_snapshot_uses_unique_coverage`; see its DocBlock and callers for parameter, return-value and side-effect details. |
-| `tests/acknowledgement_test.php:138` | `test_video_end_requires_teacher_configured_duration` | PHP callable `test_video_end_requires_teacher_configured_duration`; see its DocBlock and callers for parameter, return-value and side-effect details. |
-| `tests/acknowledgement_test.php:163` | `test_enabled_state_requires_nonempty_visible_text` | PHP callable `test_enabled_state_requires_nonempty_visible_text`; see its DocBlock and callers for parameter, return-value and side-effect details. |
-| `tests/acknowledgement_test.php:183` | `test_analytics_summary_supports_exact_single_user_reporting` | Named PHP function/method `test_analytics_summary_supports_exact_single_user_reporting`; see source DocBlock and callers for the current contract. |
-| `tests/acknowledgement_test.php:201` | `test_analytics_summary_preserves_legacy_and_privacy_rules` | PHP callable `test_analytics_summary_preserves_legacy_and_privacy_rules`; see its DocBlock and callers for parameter, return-value and side-effect details. |
-| `tests/acknowledgement_test.php:231` | `test_analytics_summary_preserves_empty_and_repeat_user_boundaries` | Checks empty results, invalid users, repeat users and privacy masking. |
+| `tests/acknowledgement_test.php:38` | `test_statement_hash_versions_the_statement_content` | PHP callable `test_statement_hash_versions_the_statement_content`; see its DocBlock and callers for parameter, return-value and side-effect details. |
+| `tests/acknowledgement_test.php:60` | `test_current_record_rejects_superseded_statement_versions` | PHP callable `test_current_record_rejects_superseded_statement_versions`; see its DocBlock and callers for parameter, return-value and side-effect details. |
+| `tests/acknowledgement_test.php:97` | `test_video_end_requirement_uses_persisted_intervals` | PHP callable `test_video_end_requirement_uses_persisted_intervals`; see its DocBlock and callers for parameter, return-value and side-effect details. |
+| `tests/acknowledgement_test.php:122` | `test_progress_snapshot_uses_unique_coverage` | PHP callable `test_progress_snapshot_uses_unique_coverage`; see its DocBlock and callers for parameter, return-value and side-effect details. |
+| `tests/acknowledgement_test.php:140` | `test_video_end_requires_teacher_configured_duration` | PHP callable `test_video_end_requires_teacher_configured_duration`; see its DocBlock and callers for parameter, return-value and side-effect details. |
+| `tests/acknowledgement_test.php:165` | `test_enabled_state_requires_nonempty_visible_text` | PHP callable `test_enabled_state_requires_nonempty_visible_text`; see its DocBlock and callers for parameter, return-value and side-effect details. |
+| `tests/acknowledgement_test.php:185` | `test_analytics_summary_supports_exact_single_user_reporting` | Named PHP function/method `test_analytics_summary_supports_exact_single_user_reporting`; see source DocBlock and callers for the current contract. |
+| `tests/acknowledgement_test.php:203` | `test_analytics_summary_preserves_legacy_and_privacy_rules` | PHP callable `test_analytics_summary_preserves_legacy_and_privacy_rules`; see its DocBlock and callers for parameter, return-value and side-effect details. |
+| `tests/acknowledgement_test.php:233` | `test_analytics_summary_preserves_empty_and_repeat_user_boundaries` | Checks empty results, invalid users, repeat users and privacy masking. |
 | `tests/admin_settings_test.php:40` | `setUp` | PHP callable `setUp`; see its DocBlock and callers for parameter, return-value and side-effect details. |
 | `tests/admin_settings_test.php:50` | `test_nonnegative_int_validation_accepts_zero_and_rejects_invalid_values` | PHP callable `test_nonnegative_int_validation_accepts_zero_and_rejects_invalid_values`; see its DocBlock and callers for parameter, return-value and side-effect details. |
 | `tests/admin_settings_test.php:63` | `test_int_range_validation_enforces_configured_bounds` | PHP callable `test_int_range_validation_enforces_configured_bounds`; see its DocBlock and callers for parameter, return-value and side-effect details. |

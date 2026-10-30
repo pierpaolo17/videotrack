@@ -1,5 +1,23 @@
 # VideoTrack changelog
 
+## 1.7.209 - 2026-10-30
+
+### Acknowledgement analytics ownership
+
+- Accepted the real 376-file 1.7.208 ZIP byte-for-byte against the tested
+  candidate and merged main tree. All six post-merge CI jobs passed 324 PHPUnit
+  tests, 24 Behat scenarios and ten validator checks each. PHPMD confirmed
+  47 advisory findings, down from 49 in 1.7.207 without new findings. The
+  Moodle 5.0/5.3 server report passed PHPCS, lint, Grunt on Node 22.23.4 and
+  324 PHPUnit tests per site; both strict validators passed ten checks.
+- Give privacy-safe acknowledgement summary calculations their own local
+  service while retaining the existing public acknowledgement API. Move the
+  exact aggregation and privacy-threshold logic without changing counts,
+  progress snapshots, legacy-record treatment or suppressed results. Existing
+  behavioural tests cover empty, duplicate-user, legacy and suppression cases.
+  Candidate CI must confirm the class-complexity result. XMLDB, AMD, services
+  and languages are unchanged.
+
 ## 1.7.208 - 2026-10-30
 
 ### Deferred reaction icon operation selection
