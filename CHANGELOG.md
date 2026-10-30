@@ -1,5 +1,23 @@
 # VideoTrack changelog
 
+## 1.7.206 - 2026-10-30
+
+### Segment playback-rate validation boundary
+
+- Accepted the real 376-file 1.7.205 release ZIP byte-for-byte against the
+  tested candidate and merged main tree. All six post-merge CI jobs passed
+  322 PHPUnit tests, 24 Behat scenarios and ten validator checks each. PHPMD
+  confirmed 52 advisory findings, down from 53 in 1.7.204 with no new rule
+  findings; the form class remains over its length and complexity thresholds.
+  The Moodle 5.0/5.3 server report passed PHPCS, lint, Grunt under Node 22.23.4
+  and 322 PHPUnit tests per site; both strict validators passed ten checks.
+- Isolate the existing configured tracking-speed check from the segment AJAX
+  endpoint in a private method. Keep validation after interval normalization
+  and before any state or segment write, preserving the 0.001 rate tolerance,
+  blocked-seek recovery rates, and the same invalid-parameter error. The public
+  external signature and request/response shapes remain unchanged. Candidate CI
+  must confirm cyclomatic and NPath results. XMLDB, AMD and languages are unchanged.
+
 ## 1.7.205 - 2026-10-30
 
 ### Reaction form row construction

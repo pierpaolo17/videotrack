@@ -161,17 +161,7 @@ class save_segment extends external_api {
         }
 
         $playbackrate = (float)$params['playbackrate'];
-        $allowedspeeds = \videotrack_get_tracking_playback_speeds($videotrack);
-        $rateallowed = false;
-        foreach ($allowedspeeds as $allowedspeed) {
-            if (abs((float)$allowedspeed - $playbackrate) <= 0.001) {
-                $rateallowed = true;
-                break;
-            }
-        }
-        if (!$rateallowed) {
-            throw new \invalid_parameter_exception('Playback rate is not allowed for this activity');
-        }
+        self::require_allowed_playback_rate($videotrack, $playbackrate);
 
         $now = time();
         $nowmilliseconds = (int)round(microtime(true) * 1000);
@@ -285,6 +275,28 @@ class save_segment extends external_api {
             'savedvideotimeend'    => (float)$interval[1],
             'warnings'             => [],
         ];
+    }
+
+    /**
+     * Reject a playback rate outside the configured tracking speeds.
+     *
+     * @param \stdClass $videotrack Activity configuration.
+     * @param float $playbackrate Validated playback rate from the request.
+     * @return void
+     * @throws \invalid_parameter_exception When the rate is not allowed.
+     */
+    private static function require_allowed_playback_rate(\stdClass $videotrack, float $playbackrate): void {
+        $allowedspeeds = \videotrack_get_tracking_playback_speeds($videotrack);
+        $rateallowed = false;
+        foreach ($allowedspeeds as $allowedspeed) {
+            if (abs((float)$allowedspeed - $playbackrate) <= 0.001) {
+                $rateallowed = true;
+                break;
+            }
+        }
+        if (!$rateallowed) {
+            throw new \invalid_parameter_exception('Playback rate is not allowed for this activity');
+        }
     }
 
     /**

@@ -1,8 +1,8 @@
 # Inventario delle funzioni
 
-Generato dall’albero sorgente VideoTrack 1.7.205. Le voci PHP includono funzioni e metodi nominati; le voci AMD includono dichiarazioni nominate, espressioni funzione assegnate e funzioni-metodo di oggetti.
+Generato dall’albero sorgente VideoTrack 1.7.206. Le voci PHP includono funzioni e metodi nominati; le voci AMD includono dichiarazioni nominate, espressioni funzione assegnate e funzioni-metodo di oggetti.
 
-**Funzioni/metodi PHP:** 928. **Callable AMD nominati:** 654.
+**Funzioni/metodi PHP:** 929. **Callable AMD nominati:** 654.
 
 | Posizione | Callable | Responsabilità |
 |---|---|---|
@@ -816,9 +816,10 @@ Generato dall’albero sorgente VideoTrack 1.7.205. Le voci PHP includono funzio
 | `classes/external/save_reaction.php:294` | `ignored_reaction_response` | Costruisce la risposta riuscita comune a contesa lock e duplicati ignorati. |
 | `classes/external/save_reaction.php:321` | `export_reaction_for_client` | Esporta la definizione validata per il rendering immediato nel client. |
 | `classes/external/save_reaction.php:347` | `execute_returns` | Dichiara la struttura stabile del risultato e dei warning. |
-| `classes/external/save_segment.php:48` | `execute_parameters` | Callable PHP `execute_parameters`; DocBlock e chiamanti definiscono parametri, valori restituiti ed effetti. |
-| `classes/external/save_segment.php:78` | `execute` | Callable PHP `execute`; DocBlock e chiamanti definiscono parametri, valori restituiti ed effetti. |
-| `classes/external/save_segment.php:296` | `execute_returns` | Callable PHP `execute_returns`; DocBlock e chiamanti definiscono parametri, valori restituiti ed effetti. |
+| `classes/external/save_segment.php:47` | `execute_parameters` | Callable PHP `execute_parameters`; DocBlock e chiamanti definiscono parametri, valori restituiti ed effetti. |
+| `classes/external/save_segment.php:77` | `execute` | Callable PHP `execute`; DocBlock e chiamanti definiscono parametri, valori restituiti ed effetti. |
+| `classes/external/save_segment.php:288` | `require_allowed_playback_rate` | Verifica le velocità ammesse prima di salvare un segmento, includendo il recupero dopo salti bloccati. |
+| `classes/external/save_segment.php:307` | `execute_returns` | Callable PHP `execute_returns`; DocBlock e chiamanti definiscono parametri, valori restituiti ed effetti. |
 | `classes/external/start_playback.php:42` | `execute_parameters` | Callable PHP `execute_parameters`; DocBlock e chiamanti definiscono parametri, valori restituiti ed effetti. |
 | `classes/external/start_playback.php:60` | `execute` | Callable PHP `execute`; DocBlock e chiamanti definiscono parametri, valori restituiti ed effetti. |
 | `classes/external/start_playback.php:115` | `execute_returns` | Callable PHP `execute_returns`; DocBlock e chiamanti definiscono parametri, valori restituiti ed effetti. |
