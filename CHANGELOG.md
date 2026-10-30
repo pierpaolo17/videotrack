@@ -1,5 +1,23 @@
 # VideoTrack changelog
 
+## 1.7.207 - 2026-10-30
+
+### Reaction definition record preparation
+
+- Accepted the real 376-file 1.7.206 ZIP byte-for-byte against the tested
+  candidate and merged main tree. All six post-merge CI jobs passed 322 PHPUnit
+  tests, 24 Behat scenarios and ten validator checks each. PHPMD confirmed
+  50 advisory findings, down from 52 in 1.7.205 without new findings. The
+  Moodle 5.0/5.3 server report passed PHPCS, lint, Grunt on Node 22.23.4 and
+  322 PHPUnit tests per site; both strict validators passed ten checks.
+- Extract reaction record construction and icon sanitisation from the definition
+  save loop, and move deferred icon file operations into a focused function.
+  Preserve stable reporting keys, form row order, icon fallbacks and required
+  values. Keep transactions, soft deletion and the post-commit file ordering
+  unchanged. Add a focused test for invalid icons and file icon values.
+  Candidate CI must confirm the method-length result. XMLDB, AMD, services
+  and languages are unchanged.
+
 ## 1.7.206 - 2026-10-30
 
 ### Segment playback-rate validation boundary

@@ -1,8 +1,8 @@
 # Function inventory
 
-Generated from the VideoTrack 1.7.206 source tree. PHP entries include named functions and methods; AMD entries include named declarations, assigned function expressions and object-method functions.
+Generated from the VideoTrack 1.7.207 source tree. PHP entries include named functions and methods; AMD entries include named declarations, assigned function expressions and object-method functions.
 
-**PHP functions/methods:** 929. **Named AMD callables:** 654.
+**PHP functions/methods:** 932. **Named AMD callables:** 654.
 
 | Location | Callable | Responsibility |
 |---|---|---|
@@ -1136,40 +1136,42 @@ Generated from the VideoTrack 1.7.206 source tree. PHP entries include named fun
 | `lib.php:397` | `videotrack_get_module_context_from_data` | PHP callable `videotrack_get_module_context_from_data`; see its DocBlock and callers for parameter, return-value and side-effect details. |
 | `lib.php:420` | `videotrack_save_poster_image` | PHP callable `videotrack_save_poster_image`; see its DocBlock and callers for parameter, return-value and side-effect details. |
 | `lib.php:453` | `videotrack_is_valid_reaction_icon_class` | PHP callable `videotrack_is_valid_reaction_icon_class`; see its DocBlock and callers for parameter, return-value and side-effect details. |
-| `lib.php:481` | `videotrack_save_reaction_definitions` | PHP callable `videotrack_save_reaction_definitions`; see its DocBlock and callers for parameter, return-value and side-effect details. |
-| `lib.php:628` | `videotrack_user_outline` | PHP callable `videotrack_user_outline`; see its DocBlock and callers for parameter, return-value and side-effect details. |
-| `lib.php:657` | `videotrack_user_complete` | PHP callable `videotrack_user_complete`; see its DocBlock and callers for parameter, return-value and side-effect details. |
-| `lib.php:698` | `videotrack_extend_settings_navigation` | PHP callable `videotrack_extend_settings_navigation`; see its DocBlock and callers for parameter, return-value and side-effect details. |
-| `lib.php:728` | `videotrack_extend_navigation_course` | PHP callable `videotrack_extend_navigation_course`; see its DocBlock and callers for parameter, return-value and side-effect details. |
-| `lib.php:761` | `videotrack_get_html5controls` | PHP callable `videotrack_get_html5controls`; see its DocBlock and callers for parameter, return-value and side-effect details. |
-| `lib.php:777` | `videotrack_process_html5controls_field` | PHP callable `videotrack_process_html5controls_field`; see its DocBlock and callers for parameter, return-value and side-effect details. |
-| `lib.php:808` | `videotrack_process_player_behavior_fields` | PHP callable `videotrack_process_player_behavior_fields`; see its DocBlock and callers for parameter, return-value and side-effect details. |
-| `lib.php:845` | `videotrack_get_player_width` | PHP callable `videotrack_get_player_width`; see its DocBlock and callers for parameter, return-value and side-effect details. |
-| `lib.php:860` | `videotrack_get_rewind_step` | PHP callable `videotrack_get_rewind_step`; see its DocBlock and callers for parameter, return-value and side-effect details. |
-| `lib.php:881` | `videotrack_get_fastforward_step` | PHP callable `videotrack_get_fastforward_step`; see its DocBlock and callers for parameter, return-value and side-effect details. |
-| `lib.php:902` | `videotrack_get_vtt_url` | PHP callable `videotrack_get_vtt_url`; see its DocBlock and callers for parameter, return-value and side-effect details. |
-| `lib.php:925` | `videotrack_process_captions_fields` | PHP callable `videotrack_process_captions_fields`; see its DocBlock and callers for parameter, return-value and side-effect details. |
-| `lib.php:968` | `videotrack_process_grade_fields` | PHP callable `videotrack_process_grade_fields`; see its DocBlock and callers for parameter, return-value and side-effect details. |
-| `lib.php:996` | `videotrack_grade_item_update` | PHP callable `videotrack_grade_item_update`; see its DocBlock and callers for parameter, return-value and side-effect details. |
-| `lib.php:1070` | `videotrack_update_grades` | PHP callable `videotrack_update_grades`; see its DocBlock and callers for parameter, return-value and side-effect details. |
-| `lib.php:1082` | `videotrack_set_user_grade` | PHP callable `videotrack_set_user_grade`; see its DocBlock and callers for parameter, return-value and side-effect details. |
-| `lib.php:1099` | `videotrack_get_user_grade` | PHP callable `videotrack_get_user_grade`; see its DocBlock and callers for parameter, return-value and side-effect details. |
-| `lib.php:1125` | `videotrack_get_poster_url` | PHP callable `videotrack_get_poster_url`; see its DocBlock and callers for parameter, return-value and side-effect details. |
-| `lib.php:1165` | `videotrack_delete_user_progress` | PHP callable `videotrack_delete_user_progress`; see its DocBlock and callers for parameter, return-value and side-effect details. |
-| `lib.php:1197` | `videotrack_grade_item_delete` | PHP callable `videotrack_grade_item_delete`; see its DocBlock and callers for parameter, return-value and side-effect details. |
-| `lib.php:1218` | `videotrack_delete_instance` | PHP callable `videotrack_delete_instance`; see its DocBlock and callers for parameter, return-value and side-effect details. |
-| `lib.php:1274` | `videotrack_get_coursemodule_info` | PHP callable `videotrack_get_coursemodule_info`; see its DocBlock and callers for parameter, return-value and side-effect details. |
-| `lib.php:1301` | `videotrack_view` | PHP callable `videotrack_view`; see its DocBlock and callers for parameter, return-value and side-effect details. |
-| `lib.php:1327` | `videotrack_get_completion_state` | Named PHP function/method `videotrack_get_completion_state`; see source DocBlock and callers for the current contract. |
-| `lib.php:1365` | `videotrack_get_completion_active_rule_descriptions` | PHP callable `videotrack_get_completion_active_rule_descriptions`; see its DocBlock and callers for parameter, return-value and side-effect details. |
-| `lib.php:1397` | `videotrack_update_completion_for_user` | PHP callable `videotrack_update_completion_for_user`; see its DocBlock and callers for parameter, return-value and side-effect details. |
-| `lib.php:1413` | `videotrack_reset_course_userdata` | PHP callable `videotrack_reset_course_userdata`; see its DocBlock and callers for parameter, return-value and side-effect details. |
-| `lib.php:1462` | `videotrack_reset_course_form_definition` | PHP callable `videotrack_reset_course_form_definition`; see its DocBlock and callers for parameter, return-value and side-effect details. |
-| `lib.php:1482` | `videotrack_reset_course_form_defaults` | PHP callable `videotrack_reset_course_form_defaults`; see its DocBlock and callers for parameter, return-value and side-effect details. |
-| `lib.php:1498` | `videotrack_resize_reaction_icon` | PHP callable `videotrack_resize_reaction_icon`; see its DocBlock and callers for parameter, return-value and side-effect details. |
-| `lib.php:1593` | `videotrack_pluginfile` | PHP callable `videotrack_pluginfile`; see its DocBlock and callers for parameter, return-value and side-effect details. |
-| `lib.php:1699` | `videotrack_recalculation_userids` | Discovers learners with persisted tracking data in the same four activity tables. |
-| `lib.php:1741` | `videotrack_recalculate_all_states` | PHP callable `videotrack_recalculate_all_states`; see its DocBlock and callers for parameter, return-value and side-effect details. |
+| `lib.php:486` | `videotrack_build_reaction_definition_record` | Builds a sanitised reaction definition record before it enters the database transaction. |
+| `lib.php:540` | `videotrack_apply_reaction_icon_file_operations` | Applies queued icon changes after the reaction definition transaction commits. |
+| `lib.php:571` | `videotrack_save_reaction_definitions` | PHP callable `videotrack_save_reaction_definitions`; see its DocBlock and callers for parameter, return-value and side-effect details. |
+| `lib.php:662` | `videotrack_user_outline` | PHP callable `videotrack_user_outline`; see its DocBlock and callers for parameter, return-value and side-effect details. |
+| `lib.php:691` | `videotrack_user_complete` | PHP callable `videotrack_user_complete`; see its DocBlock and callers for parameter, return-value and side-effect details. |
+| `lib.php:732` | `videotrack_extend_settings_navigation` | PHP callable `videotrack_extend_settings_navigation`; see its DocBlock and callers for parameter, return-value and side-effect details. |
+| `lib.php:762` | `videotrack_extend_navigation_course` | PHP callable `videotrack_extend_navigation_course`; see its DocBlock and callers for parameter, return-value and side-effect details. |
+| `lib.php:795` | `videotrack_get_html5controls` | PHP callable `videotrack_get_html5controls`; see its DocBlock and callers for parameter, return-value and side-effect details. |
+| `lib.php:811` | `videotrack_process_html5controls_field` | PHP callable `videotrack_process_html5controls_field`; see its DocBlock and callers for parameter, return-value and side-effect details. |
+| `lib.php:842` | `videotrack_process_player_behavior_fields` | PHP callable `videotrack_process_player_behavior_fields`; see its DocBlock and callers for parameter, return-value and side-effect details. |
+| `lib.php:879` | `videotrack_get_player_width` | PHP callable `videotrack_get_player_width`; see its DocBlock and callers for parameter, return-value and side-effect details. |
+| `lib.php:894` | `videotrack_get_rewind_step` | PHP callable `videotrack_get_rewind_step`; see its DocBlock and callers for parameter, return-value and side-effect details. |
+| `lib.php:915` | `videotrack_get_fastforward_step` | PHP callable `videotrack_get_fastforward_step`; see its DocBlock and callers for parameter, return-value and side-effect details. |
+| `lib.php:936` | `videotrack_get_vtt_url` | PHP callable `videotrack_get_vtt_url`; see its DocBlock and callers for parameter, return-value and side-effect details. |
+| `lib.php:959` | `videotrack_process_captions_fields` | PHP callable `videotrack_process_captions_fields`; see its DocBlock and callers for parameter, return-value and side-effect details. |
+| `lib.php:1002` | `videotrack_process_grade_fields` | PHP callable `videotrack_process_grade_fields`; see its DocBlock and callers for parameter, return-value and side-effect details. |
+| `lib.php:1030` | `videotrack_grade_item_update` | PHP callable `videotrack_grade_item_update`; see its DocBlock and callers for parameter, return-value and side-effect details. |
+| `lib.php:1104` | `videotrack_update_grades` | PHP callable `videotrack_update_grades`; see its DocBlock and callers for parameter, return-value and side-effect details. |
+| `lib.php:1116` | `videotrack_set_user_grade` | PHP callable `videotrack_set_user_grade`; see its DocBlock and callers for parameter, return-value and side-effect details. |
+| `lib.php:1133` | `videotrack_get_user_grade` | PHP callable `videotrack_get_user_grade`; see its DocBlock and callers for parameter, return-value and side-effect details. |
+| `lib.php:1159` | `videotrack_get_poster_url` | PHP callable `videotrack_get_poster_url`; see its DocBlock and callers for parameter, return-value and side-effect details. |
+| `lib.php:1199` | `videotrack_delete_user_progress` | PHP callable `videotrack_delete_user_progress`; see its DocBlock and callers for parameter, return-value and side-effect details. |
+| `lib.php:1231` | `videotrack_grade_item_delete` | PHP callable `videotrack_grade_item_delete`; see its DocBlock and callers for parameter, return-value and side-effect details. |
+| `lib.php:1252` | `videotrack_delete_instance` | PHP callable `videotrack_delete_instance`; see its DocBlock and callers for parameter, return-value and side-effect details. |
+| `lib.php:1308` | `videotrack_get_coursemodule_info` | PHP callable `videotrack_get_coursemodule_info`; see its DocBlock and callers for parameter, return-value and side-effect details. |
+| `lib.php:1335` | `videotrack_view` | PHP callable `videotrack_view`; see its DocBlock and callers for parameter, return-value and side-effect details. |
+| `lib.php:1361` | `videotrack_get_completion_state` | Named PHP function/method `videotrack_get_completion_state`; see source DocBlock and callers for the current contract. |
+| `lib.php:1399` | `videotrack_get_completion_active_rule_descriptions` | PHP callable `videotrack_get_completion_active_rule_descriptions`; see its DocBlock and callers for parameter, return-value and side-effect details. |
+| `lib.php:1431` | `videotrack_update_completion_for_user` | PHP callable `videotrack_update_completion_for_user`; see its DocBlock and callers for parameter, return-value and side-effect details. |
+| `lib.php:1447` | `videotrack_reset_course_userdata` | PHP callable `videotrack_reset_course_userdata`; see its DocBlock and callers for parameter, return-value and side-effect details. |
+| `lib.php:1496` | `videotrack_reset_course_form_definition` | PHP callable `videotrack_reset_course_form_definition`; see its DocBlock and callers for parameter, return-value and side-effect details. |
+| `lib.php:1516` | `videotrack_reset_course_form_defaults` | PHP callable `videotrack_reset_course_form_defaults`; see its DocBlock and callers for parameter, return-value and side-effect details. |
+| `lib.php:1532` | `videotrack_resize_reaction_icon` | PHP callable `videotrack_resize_reaction_icon`; see its DocBlock and callers for parameter, return-value and side-effect details. |
+| `lib.php:1627` | `videotrack_pluginfile` | PHP callable `videotrack_pluginfile`; see its DocBlock and callers for parameter, return-value and side-effect details. |
+| `lib.php:1733` | `videotrack_recalculation_userids` | Discovers learners with persisted tracking data in the same four activity tables. |
+| `lib.php:1775` | `videotrack_recalculate_all_states` | PHP callable `videotrack_recalculate_all_states`; see its DocBlock and callers for parameter, return-value and side-effect details. |
 | `locallib.php:40` | `videotrack_get_config_int` | PHP callable `videotrack_get_config_int`; see its DocBlock and callers for parameter, return-value and side-effect details. |
 | `locallib.php:64` | `videotrack_parse_https_media_url` | Normalises an absolute HTTPS media URL before provider-specific host and path validation. |
 | `locallib.php:92` | `videotrack_normalise_youtube_video_id` | Accepts only a scalar 11-character YouTube identifier with the provider alphabet. |
@@ -1403,18 +1405,19 @@ Generated from the VideoTrack 1.7.206 source tree. PHP entries include named fun
 | `tests/integrity_test.php:91` | `test_focus_policy_defaults_and_strict_override` | PHP callable `test_focus_policy_defaults_and_strict_override`; see its DocBlock and callers for parameter, return-value and side-effect details. |
 | `tests/learner_scope_test.php:36` | `test_can_participate_is_independent_from_report_access` | Named PHP function/method `test_can_participate_is_independent_from_report_access`; see source DocBlock and callers for the current contract. |
 | `tests/learner_scope_test.php:63` | `test_participation_entrypoints_reuse_canonical_helper` | Named PHP function/method `test_participation_entrypoints_reuse_canonical_helper`; see source DocBlock and callers for the current contract. |
-| `tests/lib_test.php:48` | `setUp` | PHP callable `setUp`; see its DocBlock and callers for parameter, return-value and side-effect details. |
-| `tests/lib_test.php:56` | `test_supports_expected_core_features` | PHP callable `test_supports_expected_core_features`; see its DocBlock and callers for parameter, return-value and side-effect details. |
-| `tests/lib_test.php:68` | `test_groups_are_explicitly_not_supported` | PHP callable `test_groups_are_explicitly_not_supported`; see its DocBlock and callers for parameter, return-value and side-effect details. |
-| `tests/lib_test.php:76` | `test_activity_chooser_metadata_is_reported` | PHP callable `test_activity_chooser_metadata_is_reported`; see its DocBlock and callers for parameter, return-value and side-effect details. |
-| `tests/lib_test.php:84` | `test_unknown_feature_returns_null` | PHP callable `test_unknown_feature_returns_null`; see its DocBlock and callers for parameter, return-value and side-effect details. |
-| `tests/lib_test.php:91` | `test_reaction_icon_class_validation_preserves_allowlist` | Verifies accepted Font Awesome decorators and fail-closed rejection of malformed, ambiguous or oversized class lists. |
-| `tests/lib_test.php:120` | `test_video_field_processing_rejects_unknown_form_objects` | Verifies that video-field normalisation rejects non-null collaborators that are not Moodle form instances. |
-| `tests/lib_test.php:128` | `test_uploaded_files_resolve_context_without_coursemodule_form_field` | Verifies instance-based module-context fallback when video and poster form data omit `coursemodule`. |
-| `tests/lib_test.php:173` | `test_upload_url_rejects_course_module_instance_mismatch` | Verifies that uploaded-media URL lookup rejects a course-module id belonging to another activity instance. |
-| `tests/lib_test.php:191` | `test_player_behavior_fields_normalise_bookmark_setting` | PHP callable `test_player_behavior_fields_normalise_bookmark_setting`; see its DocBlock and callers for parameter, return-value and side-effect details. |
-| `tests/lib_test.php:217` | `test_caption_normalisation_preserves_provider_timed_text_settings` | PHP callable `test_caption_normalisation_preserves_provider_timed_text_settings`; see its DocBlock and callers for parameter, return-value and side-effect details. |
-| `tests/lib_test.php:236` | `test_whitelist_record_discards_non_table_fields` | Verifies that activity-record whitelisting retains table columns and discards form-only values. |
+| `tests/lib_test.php:49` | `setUp` | PHP callable `setUp`; see its DocBlock and callers for parameter, return-value and side-effect details. |
+| `tests/lib_test.php:57` | `test_supports_expected_core_features` | PHP callable `test_supports_expected_core_features`; see its DocBlock and callers for parameter, return-value and side-effect details. |
+| `tests/lib_test.php:69` | `test_groups_are_explicitly_not_supported` | PHP callable `test_groups_are_explicitly_not_supported`; see its DocBlock and callers for parameter, return-value and side-effect details. |
+| `tests/lib_test.php:77` | `test_activity_chooser_metadata_is_reported` | PHP callable `test_activity_chooser_metadata_is_reported`; see its DocBlock and callers for parameter, return-value and side-effect details. |
+| `tests/lib_test.php:85` | `test_unknown_feature_returns_null` | PHP callable `test_unknown_feature_returns_null`; see its DocBlock and callers for parameter, return-value and side-effect details. |
+| `tests/lib_test.php:92` | `test_reaction_icon_class_validation_preserves_allowlist` | Verifies accepted Font Awesome decorators and fail-closed rejection of malformed, ambiguous or oversized class lists. |
+| `tests/lib_test.php:121` | `test_reaction_definition_record_keeps_icon_and_completion_boundaries` | Checks the invalid icon fallback, uploaded icon boundary and reaction ordering. |
+| `tests/lib_test.php:146` | `test_video_field_processing_rejects_unknown_form_objects` | Verifies that video-field normalisation rejects non-null collaborators that are not Moodle form instances. |
+| `tests/lib_test.php:154` | `test_uploaded_files_resolve_context_without_coursemodule_form_field` | Verifies instance-based module-context fallback when video and poster form data omit `coursemodule`. |
+| `tests/lib_test.php:199` | `test_upload_url_rejects_course_module_instance_mismatch` | Verifies that uploaded-media URL lookup rejects a course-module id belonging to another activity instance. |
+| `tests/lib_test.php:217` | `test_player_behavior_fields_normalise_bookmark_setting` | PHP callable `test_player_behavior_fields_normalise_bookmark_setting`; see its DocBlock and callers for parameter, return-value and side-effect details. |
+| `tests/lib_test.php:243` | `test_caption_normalisation_preserves_provider_timed_text_settings` | PHP callable `test_caption_normalisation_preserves_provider_timed_text_settings`; see its DocBlock and callers for parameter, return-value and side-effect details. |
+| `tests/lib_test.php:262` | `test_whitelist_record_discards_non_table_fields` | Verifies that activity-record whitelisting retains table columns and discards form-only values. |
 | `tests/locallib_test.php:62` | `setUp` | PHP callable `setUp`; see its DocBlock and callers for parameter, return-value and side-effect details. |
 | `tests/locallib_test.php:70` | `test_extract_videoid_accepts_supported_youtube_urls` | PHP callable `test_extract_videoid_accepts_supported_youtube_urls`; see its DocBlock and callers for parameter, return-value and side-effect details. |
 | `tests/locallib_test.php:87` | `test_extract_vimeo_id_accepts_supported_vimeo_urls` | PHP callable `test_extract_vimeo_id_accepts_supported_vimeo_urls`; see its DocBlock and callers for parameter, return-value and side-effect details. |
