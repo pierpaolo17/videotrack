@@ -1,8 +1,8 @@
 # Inventario delle funzioni
 
-Generato dall’albero sorgente VideoTrack 1.7.203. Le voci PHP includono funzioni e metodi nominati; le voci AMD includono dichiarazioni nominate, espressioni funzione assegnate e funzioni-metodo di oggetti.
+Generato dall’albero sorgente VideoTrack 1.7.204. Le voci PHP includono funzioni e metodi nominati; le voci AMD includono dichiarazioni nominate, espressioni funzione assegnate e funzioni-metodo di oggetti.
 
-**Funzioni/metodi PHP:** 923. **Callable AMD nominati:** 654.
+**Funzioni/metodi PHP:** 926. **Callable AMD nominati:** 654.
 
 | Posizione | Callable | Responsabilità |
 |---|---|---|
@@ -1111,10 +1111,13 @@ Generato dall’albero sorgente VideoTrack 1.7.203. Le voci PHP includono funzio
 | `db/repairlib.php:144` | `videotrack_repair_preproduction_merge_grade_grades` | Funzione/metodo PHP nominato `videotrack_repair_preproduction_merge_grade_grades`; vedere DocBlock e chiamanti per il contratto corrente. |
 | `db/repairlib.php:174` | `videotrack_repair_preproduction_delete_grade_items` | Funzione/metodo PHP nominato `videotrack_repair_preproduction_delete_grade_items`; vedere DocBlock e chiamanti per il contratto corrente. |
 | `db/repairlib.php:195` | `videotrack_repair_preproduction_schema` | Funzione/metodo PHP nominato `videotrack_repair_preproduction_schema`; vedere DocBlock e chiamanti per il contratto corrente. |
-| `db/repairlib.php:262` | `videotrack_repair_preproduction_add_field` | Funzione/metodo PHP nominato `videotrack_repair_preproduction_add_field`; vedere DocBlock e chiamanti per il contratto corrente. |
-| `db/repairlib.php:298` | `videotrack_repair_preproduction_unique_index_data` | Funzione/metodo PHP nominato `videotrack_repair_preproduction_unique_index_data`; vedere DocBlock e chiamanti per il contratto corrente. |
-| `db/repairlib.php:319` | `videotrack_repair_preproduction_requestids` | Funzione/metodo PHP nominato `videotrack_repair_preproduction_requestids`; vedere DocBlock e chiamanti per il contratto corrente. |
-| `db/repairlib.php:360` | `videotrack_repair_preproduction_deduplicate` | Funzione/metodo PHP nominato `videotrack_repair_preproduction_deduplicate`; vedere DocBlock e chiamanti per il contratto corrente. |
+| `db/repairlib.php:222` | `videotrack_repair_preproduction_table` | Crea le tabelle mancanti o ripara la tabella vuota senza campo id. |
+| `db/repairlib.php:256` | `videotrack_repair_preproduction_table_fields` | Aggiunge i campi mancanti e normalizza gli ID richiesta prima degli indici. |
+| `db/repairlib.php:280` | `videotrack_repair_preproduction_table_indexes` | Aggiunge gli indici XMLDB nell’ordine dichiarato dopo la preparazione dei dati unici. |
+| `db/repairlib.php:300` | `videotrack_repair_preproduction_add_field` | Funzione/metodo PHP nominato `videotrack_repair_preproduction_add_field`; vedere DocBlock e chiamanti per il contratto corrente. |
+| `db/repairlib.php:336` | `videotrack_repair_preproduction_unique_index_data` | Funzione/metodo PHP nominato `videotrack_repair_preproduction_unique_index_data`; vedere DocBlock e chiamanti per il contratto corrente. |
+| `db/repairlib.php:357` | `videotrack_repair_preproduction_requestids` | Funzione/metodo PHP nominato `videotrack_repair_preproduction_requestids`; vedere DocBlock e chiamanti per il contratto corrente. |
+| `db/repairlib.php:398` | `videotrack_repair_preproduction_deduplicate` | Funzione/metodo PHP nominato `videotrack_repair_preproduction_deduplicate`; vedere DocBlock e chiamanti per il contratto corrente. |
 | `db/uninstall.php:36` | `xmldb_videotrack_uninstall` | Elimina i dati gradebook prima che il core rimuova i contesti modulo, con fallback circoscritto per record incoerenti. |
 | `db/uninstall.php:88` | `videotrack_uninstall_has_canonical_grade_context` | Verifica riferimenti ad attività e modulo corso prima della rimozione di una voce tramite Grade API. |
 | `db/upgrade.php:35` | `xmldb_videotrack_upgrade` | Callable PHP `xmldb_videotrack_upgrade`; DocBlock e chiamanti definiscono parametri, valori restituiti ed effetti. |
