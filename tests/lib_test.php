@@ -41,6 +41,7 @@ use PHPUnit\Framework\Attributes\CoversFunction;
 #[CoversFunction('videotrack_get_module_context_from_data')]
 #[CoversFunction('videotrack_whitelist_record')]
 #[CoversFunction('videotrack_is_valid_reaction_icon_class')]
+#[CoversFunction('videotrack_build_reaction_definition_record')]
 final class lib_test extends advanced_testcase {
     /**
      * Load module callbacks under test.
@@ -112,6 +113,31 @@ final class lib_test extends advanced_testcase {
         foreach ($invalid as $value) {
             $this->assertFalse(\videotrack_is_valid_reaction_icon_class($value), $value);
         }
+    }
+
+    /**
+     * Saved reaction definitions keep their form order and reject unsafe icon values.
+     */
+    public function test_reaction_definition_record_keeps_icon_and_completion_boundaries(): void {
+        $data = (object)[
+            'reactiondescription' => ['  First reaction  ', '  Second reaction  '],
+            'reactionicontype' => ['fa', 'file'],
+            'reactioniconvalue' => ['fa-solid fa-heart fa-star', 'untrusted-file-name.svg'],
+            'reactionrequired' => [1, 0],
+        ];
+
+        $first = \videotrack_build_reaction_definition_record(17, $data, 0, 'Like', 1, 123);
+        $this->assertSame('fa-regular fa-circle', $first->iconvalue);
+        $this->assertSame('First reaction', $first->description);
+        $this->assertSame(1, $first->requiredforcompletion);
+        $this->assertSame(1, $first->sortorder);
+        $this->assertSame(17, $first->videotrackid);
+
+        $second = \videotrack_build_reaction_definition_record(17, $data, 1, 'Like', 2, 123);
+        $this->assertSame('file', $second->icontype);
+        $this->assertSame('', $second->iconvalue);
+        $this->assertSame(0, $second->requiredforcompletion);
+        $this->assertNotSame($first->reactionkey, $second->reactionkey);
     }
 
     /**

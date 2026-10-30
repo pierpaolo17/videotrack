@@ -473,6 +473,96 @@ function videotrack_is_valid_reaction_icon_class(string $value): bool {
 }
 
 /**
+ * Builds one reaction definition from the submitted form values.
+ *
+ * @param int $videotrackid VideoTrack instance id.
+ * @param stdClass $data Submitted form data.
+ * @param int|string $idx Reaction row index in the form.
+ * @param string $label Non-empty trimmed label.
+ * @param int $sort Order of this non-empty reaction.
+ * @param int $now Modification timestamp.
+ * @return stdClass Record ready for insertion or update.
+ */
+function videotrack_build_reaction_definition_record(
+    int $videotrackid,
+    stdClass $data,
+    int|string $idx,
+    string $label,
+    int $sort,
+    int $now
+): stdClass {
+    $icontypes = $data->reactionicontype ?? [];
+    $descriptions = $data->reactiondescription ?? [];
+    $iconvalues = $data->reactioniconvalue ?? [];
+    $requireds = $data->reactionrequired ?? [];
+    $icontype = in_array(($icontypes[$idx] ?? 'emoji'), ['emoji', 'fa', 'file'], true)
+        ? $icontypes[$idx]
+        : 'emoji';
+    $basekey = clean_param(core_text::strtolower(preg_replace('/[^a-zA-Z0-9_]+/', '_', $label)), PARAM_ALPHANUMEXT);
+    $basekey = trim($basekey, '_');
+    if ($basekey === '') {
+        $basekey = 'reaction';
+    }
+    // Keep keys stable enough for reporting but avoid collisions such as "like!" vs "like_".
+    $reactionkey = core_text::substr($basekey, 0, 80) . '_' . $sort . '_' . substr(hash('sha256', $label . ':' . $sort), 0, 8);
+
+    $record = (object)[
+        'videotrackid' => $videotrackid,
+        'reactionkey' => $reactionkey,
+        'label' => $label,
+        'description' => trim((string)($descriptions[$idx] ?? '')),
+        'icontype' => $icontype,
+        'iconvalue' => trim((string)($iconvalues[$idx] ?? '')),
+        'requiredforcompletion' => empty($requireds[$idx]) ? 0 : 1,
+        'sortorder' => $sort,
+        'isdeleted' => 0, // Explicitly reset soft-delete when a reaction is reactivated.
+        'timemodified' => $now,
+    ];
+    if ($icontype === 'file') {
+        $record->iconvalue = '';
+    } else if ($icontype === 'emoji') {
+        $record->iconvalue = clean_param($record->iconvalue, PARAM_TEXT);
+    } else if ($icontype === 'fa') {
+        $record->iconvalue = clean_param($record->iconvalue, PARAM_NOTAGS);
+        if (!videotrack_is_valid_reaction_icon_class($record->iconvalue)) {
+            $record->iconvalue = 'fa-regular fa-circle';
+        }
+    }
+
+    return $record;
+}
+
+/**
+ * Applies deferred reaction icon file changes after the database transaction commits.
+ *
+ * @param array $fileops File operations collected while saving reaction rows.
+ */
+function videotrack_apply_reaction_icon_file_operations(array $fileops): void {
+    if ($fileops) {
+        $fs = get_file_storage();
+        foreach ($fileops as $op) {
+            $fs->delete_area_files($op['context']->id, 'mod_videotrack', 'reactionicon', $op['reactionid']);
+            if ($op['draftitemid'] > 0) {
+                file_save_draft_area_files(
+                    $op['draftitemid'],
+                    $op['context']->id,
+                    'mod_videotrack',
+                    'reactionicon',
+                    $op['reactionid'],
+                    [
+                        'subdirs' => 0,
+                        'maxfiles' => 1,
+                        'accepted_types' => ['.jpg', '.jpeg', '.png', '.gif', '.webp'],
+                    ]
+                );
+                // Resize to 64x64px with a centred crop after saving.
+                videotrack_resize_reaction_icon($op['context'], $op['reactionid'], $fs);
+            }
+        }
+    }
+}
+
+/**
  * Saves the configured reaction definitions for a VideoTrack activity.
  *
  * @param int $videotrackid VideoTrack instance id.
@@ -488,10 +578,6 @@ function videotrack_save_reaction_definitions(int $videotrackid, stdClass $data)
     }
     $existing = $DB->get_records('videotrack_react', ['videotrackid' => $videotrackid], '', 'id, sortorder');
     $labels = $data->reactionlabel ?? [];
-    $descriptions = $data->reactiondescription ?? [];
-    $icontypes = $data->reactionicontype ?? [];
-    $iconvalues = $data->reactioniconvalue ?? [];
-    $requireds = $data->reactionrequired ?? [];
     $reactionids = $data->reactionid ?? [];
 
     // Wrap all DB writes in a delegated transaction.
@@ -512,40 +598,9 @@ function videotrack_save_reaction_definitions(int $videotrackid, stdClass $data)
             continue;
         }
 
-        $icontype = in_array(($icontypes[$idx] ?? 'emoji'), ['emoji', 'fa', 'file'], true)
-            ? $icontypes[$idx]
-            : 'emoji';
         $reactionid = (int)($reactionids[$idx] ?? 0);
-        $basekey = clean_param(core_text::strtolower(preg_replace('/[^a-zA-Z0-9_]+/', '_', $label)), PARAM_ALPHANUMEXT);
-        $basekey = trim($basekey, '_');
-        if ($basekey === '') {
-            $basekey = 'reaction';
-        }
-        // Keep keys stable enough for reporting but avoid collisions such as "like!" vs "like_".
-        $reactionkey = core_text::substr($basekey, 0, 80) . '_' . $sort . '_' . substr(hash('sha256', $label . ':' . $sort), 0, 8);
-
-        $record = (object)[
-            'videotrackid' => $videotrackid,
-            'reactionkey' => $reactionkey,
-            'label' => $label,
-            'description' => trim((string)($descriptions[$idx] ?? '')),
-            'icontype' => $icontype,
-            'iconvalue' => trim((string)($iconvalues[$idx] ?? '')),
-            'requiredforcompletion' => empty($requireds[$idx]) ? 0 : 1,
-            'sortorder' => $sort,
-            'isdeleted' => 0, // Explicitly reset soft-delete when a reaction is reactivated.
-            'timemodified' => $now,
-        ];
-        if ($icontype === 'file') {
-            $record->iconvalue = '';
-        } else if ($icontype === 'emoji') {
-            $record->iconvalue = clean_param($record->iconvalue, PARAM_TEXT);
-        } else if ($icontype === 'fa') {
-            $record->iconvalue = clean_param($record->iconvalue, PARAM_NOTAGS);
-            if (!videotrack_is_valid_reaction_icon_class($record->iconvalue)) {
-                $record->iconvalue = 'fa-regular fa-circle';
-            }
-        }
+        $record = videotrack_build_reaction_definition_record($videotrackid, $data, $idx, $label, $sort, $now);
+        $icontype = $record->icontype;
 
         if ($reactionid > 0 && isset($existing[$reactionid])) {
             $record->id = $reactionid;
@@ -591,28 +646,7 @@ function videotrack_save_reaction_definitions(int $videotrackid, stdClass $data)
     completion_config::reset_required_reaction_cache((int)$data->course);
 
     // Execute file-area operations after the DB commit.
-    if ($fileops) {
-        $fs = get_file_storage();
-        foreach ($fileops as $op) {
-            $fs->delete_area_files($op['context']->id, 'mod_videotrack', 'reactionicon', $op['reactionid']);
-            if ($op['draftitemid'] > 0) {
-                file_save_draft_area_files(
-                    $op['draftitemid'],
-                    $op['context']->id,
-                    'mod_videotrack',
-                    'reactionicon',
-                    $op['reactionid'],
-                    [
-                        'subdirs' => 0,
-                        'maxfiles' => 1,
-                        'accepted_types' => ['.jpg', '.jpeg', '.png', '.gif', '.webp'],
-                    ]
-                );
-                // Resize to 64x64px with a centred crop after saving.
-                videotrack_resize_reaction_icon($op['context'], $op['reactionid'], $fs);
-            }
-        }
-    }
+    videotrack_apply_reaction_icon_file_operations($fileops);
 }
 
 /**
