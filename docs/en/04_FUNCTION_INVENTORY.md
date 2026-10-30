@@ -1,8 +1,8 @@
 # Function inventory
 
-Generated from the VideoTrack 1.7.205 source tree. PHP entries include named functions and methods; AMD entries include named declarations, assigned function expressions and object-method functions.
+Generated from the VideoTrack 1.7.206 source tree. PHP entries include named functions and methods; AMD entries include named declarations, assigned function expressions and object-method functions.
 
-**PHP functions/methods:** 928. **Named AMD callables:** 654.
+**PHP functions/methods:** 929. **Named AMD callables:** 654.
 
 | Location | Callable | Responsibility |
 |---|---|---|
@@ -816,9 +816,10 @@ Generated from the VideoTrack 1.7.205 source tree. PHP entries include named fun
 | `classes/external/save_reaction.php:294` | `ignored_reaction_response` | Builds the successful response shared by lock-contention and duplicate soft ignores. |
 | `classes/external/save_reaction.php:321` | `export_reaction_for_client` | Exports the validated reaction definition for immediate client rendering. |
 | `classes/external/save_reaction.php:347` | `execute_returns` | Declares the stable reaction result and warnings structure. |
-| `classes/external/save_segment.php:48` | `execute_parameters` | PHP callable `execute_parameters`; see its DocBlock and callers for parameter, return-value and side-effect details. |
-| `classes/external/save_segment.php:78` | `execute` | PHP callable `execute`; see its DocBlock and callers for parameter, return-value and side-effect details. |
-| `classes/external/save_segment.php:296` | `execute_returns` | PHP callable `execute_returns`; see its DocBlock and callers for parameter, return-value and side-effect details. |
+| `classes/external/save_segment.php:47` | `execute_parameters` | PHP callable `execute_parameters`; see its DocBlock and callers for parameter, return-value and side-effect details. |
+| `classes/external/save_segment.php:77` | `execute` | PHP callable `execute`; see its DocBlock and callers for parameter, return-value and side-effect details. |
+| `classes/external/save_segment.php:288` | `require_allowed_playback_rate` | Enforces configured tracking speeds before segment persistence, including recovery rates. |
+| `classes/external/save_segment.php:307` | `execute_returns` | PHP callable `execute_returns`; see its DocBlock and callers for parameter, return-value and side-effect details. |
 | `classes/external/start_playback.php:42` | `execute_parameters` | PHP callable `execute_parameters`; see its DocBlock and callers for parameter, return-value and side-effect details. |
 | `classes/external/start_playback.php:60` | `execute` | PHP callable `execute`; see its DocBlock and callers for parameter, return-value and side-effect details. |
 | `classes/external/start_playback.php:115` | `execute_returns` | PHP callable `execute_returns`; see its DocBlock and callers for parameter, return-value and side-effect details. |

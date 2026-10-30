@@ -151,12 +151,13 @@ line, not for redeclaring a method parameter.
 - The Moodle feature callback is a direct feature-to-value table, while Font Awesome reaction validation partitions
   the reviewed decorator subset from exactly one icon name. Their public contracts, limits and fail-closed defaults
   are covered independently of the complexity reduction.
-- PHPMD remains advisory. The 1.7.204 CI confirmed 53 findings, down from 55
-  in 1.7.203: both complexity findings in the schema repair disappeared without
-  new findings. The 1.7.205 candidate moves existing reaction form row fields
-  and icon visibility rules into private methods, preserving their order and
-  form contracts. Candidate CI must confirm the remaining method-length finding
-  without introducing any new findings.
+- PHPMD remains advisory. The 1.7.205 CI confirmed 52 findings, down from 53
+  in 1.7.204: the reaction-row method-length finding disappeared without a new
+  rule finding. The form class still exceeds the length and complexity limits;
+  its measured values increased because two private methods were added. The
+  1.7.206 candidate isolates configured playback-rate validation in the segment
+  endpoint, preserving the security check before persistence and the existing
+  error contract. Candidate CI must confirm cyclomatic and NPath outcomes.
   Remaining reports concern reviewed complexity, size, broad public classes, required Moodle callback
   parameters and boolean switches that need separate behavioural refactoring.
 - Static-analysis configuration, production scope, database schema and AMD assets are unchanged by these API
