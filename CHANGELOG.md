@@ -1,5 +1,23 @@
 # VideoTrack changelog
 
+## 1.7.204 - 2026-10-29
+
+### Pre-production schema repair by table
+
+- Accepted the real 376-file 1.7.203 release ZIP byte-for-byte against the
+  tested candidate and the merged main tree. All six post-merge CI jobs passed
+  322 PHPUnit tests, 24 Behat scenarios and ten validator checks each. PHPMD
+  confirmed 55 advisory findings, down from 56 in 1.7.202 with no new findings.
+  The Moodle 5.0/5.3 server report passed PHPCS, lint, Grunt and 322 PHPUnit
+  tests per site; both strict validators passed ten checks without warnings
+  or failures.
+- Move each existing pre-production XMLDB table repair into named stages for
+  table creation, missing id recovery, missing fields, segment request ids and
+  missing indexes. Preserve the order, DDL error for a non-empty id-less table
+  and early return after creating a table. The existing upgrade contract tests
+  retain the source and DDL checks; candidate CI must confirm the complexity
+  findings. Schema declarations, AMD, services and languages are unchanged.
+
 ## 1.7.203 - 2026-10-29
 
 ### Gradebook repair canonical context check

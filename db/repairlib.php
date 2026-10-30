@@ -209,46 +209,84 @@ function videotrack_repair_preproduction_schema(): void {
     }
 
     foreach ($structure->getTables() as $table) {
-        $tablename = $table->getName();
-        if (!$dbman->table_exists($table)) {
-            $dbman->create_table($table);
+        videotrack_repair_preproduction_table($table);
+    }
+}
+
+/**
+ * Repair one XMLDB table while leaving existing non-empty tables intact.
+ *
+ * @param xmldb_table $table Expected table definition.
+ * @return void
+ */
+function videotrack_repair_preproduction_table(xmldb_table $table): void {
+    global $DB;
+
+    $dbman = $DB->get_manager();
+    $tablename = $table->getName();
+    if (!$dbman->table_exists($table)) {
+        $dbman->create_table($table);
+        return;
+    }
+
+    $idfield = $table->getField('id');
+    if ($idfield && !$dbman->field_exists($table, $idfield)) {
+        if ($DB->count_records($tablename) > 0) {
+            throw new ddl_exception(
+                'ddlunknownerror',
+                null,
+                'Cannot repair non-empty table ' . $tablename . ' without its id field'
+            );
+        }
+        $dbman->drop_table($table);
+        $dbman->create_table($table);
+        return;
+    }
+
+    videotrack_repair_preproduction_table_fields($table);
+    videotrack_repair_preproduction_table_indexes($table);
+}
+
+/**
+ * Add missing XMLDB fields and normalize the segment request id before indexes.
+ *
+ * @param xmldb_table $table Expected table definition.
+ * @return void
+ */
+function videotrack_repair_preproduction_table_fields(xmldb_table $table): void {
+    global $DB;
+
+    $dbman = $DB->get_manager();
+    foreach ($table->getFields() as $field) {
+        if (!$dbman->field_exists($table, $field)) {
+            videotrack_repair_preproduction_add_field($table, $field);
+        }
+    }
+
+    if ($table->getName() === 'videotrack_seg') {
+        $columns = $DB->get_columns('videotrack_seg', false);
+        if (isset($columns['requestid']) && !$columns['requestid']->not_null) {
+            videotrack_repair_preproduction_requestids();
+        }
+    }
+}
+
+/**
+ * Prepare missing XMLDB indexes and add them in the declared order.
+ *
+ * @param xmldb_table $table Expected table definition.
+ * @return void
+ */
+function videotrack_repair_preproduction_table_indexes(xmldb_table $table): void {
+    global $DB;
+
+    $dbman = $DB->get_manager();
+    foreach ($table->getIndexes() as $index) {
+        if ($dbman->index_exists($table, $index)) {
             continue;
         }
-
-        $idfield = $table->getField('id');
-        if ($idfield && !$dbman->field_exists($table, $idfield)) {
-            if ($DB->count_records($tablename) > 0) {
-                throw new ddl_exception(
-                    'ddlunknownerror',
-                    null,
-                    'Cannot repair non-empty table ' . $tablename . ' without its id field'
-                );
-            }
-            $dbman->drop_table($table);
-            $dbman->create_table($table);
-            continue;
-        }
-
-        foreach ($table->getFields() as $field) {
-            if (!$dbman->field_exists($table, $field)) {
-                videotrack_repair_preproduction_add_field($table, $field);
-            }
-        }
-
-        if ($tablename === 'videotrack_seg') {
-            $columns = $DB->get_columns($tablename, false);
-            if (isset($columns['requestid']) && !$columns['requestid']->not_null) {
-                videotrack_repair_preproduction_requestids();
-            }
-        }
-
-        foreach ($table->getIndexes() as $index) {
-            if ($dbman->index_exists($table, $index)) {
-                continue;
-            }
-            videotrack_repair_preproduction_unique_index_data($table, $index);
-            $dbman->add_index($table, $index);
-        }
+        videotrack_repair_preproduction_unique_index_data($table, $index);
+        $dbman->add_index($table, $index);
     }
 }
 
