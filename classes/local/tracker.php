@@ -1170,16 +1170,14 @@ class tracker {
                 $state->id = $DB->insert_record('videotrack_state', $state);
             }
             $transaction->allow_commit();
+            return $state;
+        } catch (\Throwable $e) {
+            $transaction->rollback($e);
+            throw $e;
+        } finally {
             if ($ownedlock) {
                 $lock->release();
             }
-            return $state;
-        } catch (\Throwable $e) {
-            if ($ownedlock && $lock) {
-                $lock->release();
-            }
-            $transaction->rollback($e);
-            throw $e;
         }
     }
 

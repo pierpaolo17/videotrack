@@ -14,7 +14,8 @@
 - Pass the actual canonical lock object to the state rebuild used by retention,
   which already owns that lock. Standalone rebuilds continue to acquire and
   release their own lock. Keep one rebuild method, the existing transaction,
-  segment aggregation, state fields, completion decisions and rollback order.
+  segment aggregation, state fields and completion decisions. The locally
+  acquired lock is released once after commit or rollback.
   Existing tracker and retention tests cover both call paths. Candidate CI
   must confirm removal of the PHPMD boolean-flag finding without introducing
   a new method-count finding. XMLDB, AMD, services and languages are unchanged.
