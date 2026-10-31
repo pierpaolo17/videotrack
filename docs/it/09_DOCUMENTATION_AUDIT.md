@@ -1,6 +1,6 @@
 # Audit della documentazione
 
-Baseline: VideoTrack **1.7.209** (`2026103005`).
+Baseline: VideoTrack **1.7.210** (`2026103006`).
 
 ## Perimetro
 
@@ -33,7 +33,7 @@ duplicano intenzionalmente procedure implementative, dizionari dei campi o lungh
 ## Rilievi sull'albero corrente
 
 - Gli indici inglese e italiano hanno stesso perimetro e ordinamento.
-- Marker documentali, README principali e artefatti ER identificano 1.7.209 / 2026103005.
+- Marker documentali, README principali e artefatti ER identificano 1.7.210 / 2026103006.
 - Le Analytics tra corsi documentano la facciata stabile `analytics_scope` e il matcher focalizzato che possiede
   selezione candidati, predicati dell’identità tecnica, filtro capability, fallback dell’istanza corrente e ordine.
 - Le Analytics del corso delegano gli scope delle attività visibili e le letture batchate di stati, segmenti nel
@@ -49,6 +49,8 @@ duplicano intenzionalmente procedure implementative, dizionari dei campi o lungh
   trattenuto con il lock e la transazione esistenti prima di sincronizzare il completamento Moodle.
 - Il tracker riusa lo snapshot esistente e persiste lo stato ricostruito nella transazione delegata;
   la retention sincronizza il completamento Moodle dopo il commit mentre mantiene il lock dello stato.
+- Le ricostruzioni autonome acquisiscono e rilasciano il lock canonico; la retention passa al medesimo metodo
+  l'oggetto lock già detenuto e ne mantiene la proprietà durante la transazione e la sincronizzazione.
 - L'identità dell'attività include `pix/icon.png` da 1024 pixel e un `pix/icon.svg` nativo e accessibile derivati
   dalla stessa grafica fornita dal maintainer.
 - `db/install.xml` dichiara sette chiavi primarie, 22 foreign key stabili e 22 indici espliciti. XMLDB genera inoltre

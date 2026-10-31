@@ -1,6 +1,6 @@
 # Inventario delle funzioni
 
-Generato dall’albero sorgente VideoTrack 1.7.209. Le voci PHP includono funzioni e metodi nominati; le voci AMD includono dichiarazioni nominate, espressioni funzione assegnate e funzioni-metodo di oggetti.
+Generato dall’albero sorgente VideoTrack 1.7.210. Le voci PHP includono funzioni e metodi nominati; le voci AMD includono dichiarazioni nominate, espressioni funzione assegnate e funzioni-metodo di oggetti.
 
 **Funzioni/metodi PHP:** 935. **Callable AMD nominati:** 654.
 
@@ -975,15 +975,15 @@ Generato dall’albero sorgente VideoTrack 1.7.209. Le voci PHP includono funzio
 | `classes/local/privacy_manager.php:244` | `delete_legacy_pseudonymous_records` | Callable PHP `delete_legacy_pseudonymous_records`; DocBlock e chiamanti definiscono parametri, valori restituiti ed effetti. |
 | `classes/local/privacy_manager.php:283` | `delete_expired_pair` | Callable PHP `delete_expired_pair`; DocBlock e chiamanti definiscono parametri, valori restituiti ed effetti. |
 | `classes/local/privacy_manager.php:349` | `synchronise_completion_safely` | Sincronizza il completamento dopo il commit con il lock esistente e conteggia gli errori. |
-| `classes/local/privacy_manager.php:383` | `rebuild_retained_state` | Ricostruisce lo stato trattenuto nel lock e nella transazione del chiamante. |
-| `classes/local/privacy_manager.php:424` | `delete_expired_personal_rows` | Cancella segmenti, reazioni, eventi di integrità e prese visione scaduti nel lock e nella transazione del chiamante. |
-| `classes/local/privacy_manager.php:464` | `server_guard_is_recent` | Callable PHP `server_guard_is_recent`; DocBlock e chiamanti definiscono parametri, valori restituiti ed effetti. |
-| `classes/local/privacy_manager.php:488` | `count_and_delete` | Callable PHP `count_and_delete`; DocBlock e chiamanti definiscono parametri, valori restituiti ed effetti. |
-| `classes/local/privacy_manager.php:505` | `load_activity` | Callable PHP `load_activity`; DocBlock e chiamanti definiscono parametri, valori restituiti ed effetti. |
-| `classes/local/privacy_manager.php:531` | `has_retained_state_inputs` | Callable PHP `has_retained_state_inputs`; DocBlock e chiamanti definiscono parametri, valori restituiti ed effetti. |
-| `classes/local/privacy_manager.php:568` | `earliest_retained_timestamp` | Callable PHP `earliest_retained_timestamp`; DocBlock e chiamanti definiscono parametri, valori restituiti ed effetti. |
-| `classes/local/privacy_manager.php:610` | `delete_state` | Callable PHP `delete_state`; DocBlock e chiamanti definiscono parametri, valori restituiti ed effetti. |
-| `classes/local/privacy_manager.php:634` | `synchronise_completion` | Callable PHP `synchronise_completion`; DocBlock e chiamanti definiscono parametri, valori restituiti ed effetti. |
+| `classes/local/privacy_manager.php:384` | `rebuild_retained_state` | Ricostruisce lo stato trattenuto nel lock e nella transazione del chiamante. |
+| `classes/local/privacy_manager.php:426` | `delete_expired_personal_rows` | Cancella segmenti, reazioni, eventi di integrità e prese visione scaduti nel lock e nella transazione del chiamante. |
+| `classes/local/privacy_manager.php:466` | `server_guard_is_recent` | Callable PHP `server_guard_is_recent`; DocBlock e chiamanti definiscono parametri, valori restituiti ed effetti. |
+| `classes/local/privacy_manager.php:490` | `count_and_delete` | Callable PHP `count_and_delete`; DocBlock e chiamanti definiscono parametri, valori restituiti ed effetti. |
+| `classes/local/privacy_manager.php:507` | `load_activity` | Callable PHP `load_activity`; DocBlock e chiamanti definiscono parametri, valori restituiti ed effetti. |
+| `classes/local/privacy_manager.php:533` | `has_retained_state_inputs` | Callable PHP `has_retained_state_inputs`; DocBlock e chiamanti definiscono parametri, valori restituiti ed effetti. |
+| `classes/local/privacy_manager.php:570` | `earliest_retained_timestamp` | Callable PHP `earliest_retained_timestamp`; DocBlock e chiamanti definiscono parametri, valori restituiti ed effetti. |
+| `classes/local/privacy_manager.php:612` | `delete_state` | Callable PHP `delete_state`; DocBlock e chiamanti definiscono parametri, valori restituiti ed effetti. |
+| `classes/local/privacy_manager.php:636` | `synchronise_completion` | Callable PHP `synchronise_completion`; DocBlock e chiamanti definiscono parametri, valori restituiti ed effetti. |
 | `classes/local/reaction_write_service.php:46` | `complete` | Esegue la pipeline cache, evento, aggregati e completion dopo l'inserimento della reazione. |
 | `classes/local/reaction_write_service.php:103` | `trigger_event` | Emette `reaction_saved` e converte gli errori evento nel warning limitato già previsto. |
 | `classes/local/report_access.php:40` | `has_legacy_full_access` | Callable PHP `report_access::has_legacy_full_access`; verifica retrocompatibile della capability completa di report. |

@@ -1101,19 +1101,20 @@ class tracker {
      * @param \stdClass $videotrack Activity instance.
      * @param \cm_info $cm Course module info.
      * @param int $userid User id.
-     * @param bool $lockheld Whether the caller already holds the canonical state lock.
+     * @param \core\lock\lock|null $heldlock Canonical state lock already owned by the caller, if any.
      * @return \stdClass|null Rebuilt state, or null when the state lock is busy.
      */
     public static function rebuild_state_from_segments(
         \stdClass $videotrack,
         \cm_info $cm,
         int $userid,
-        bool $lockheld = false
+        ?\core\lock\lock $heldlock = null
     ): ?\stdClass {
         global $DB;
 
-        $lock = null;
-        if (!$lockheld) {
+        $ownedlock = $heldlock === null;
+        $lock = $heldlock;
+        if ($ownedlock) {
             $lockfactory = \core\lock\lock_config::get_lock_factory('mod_videotrack');
             $lock = $lockfactory->get_lock('state:' . $videotrack->id . ':' . $userid, 10);
             if (!$lock) {
@@ -1169,15 +1170,14 @@ class tracker {
                 $state->id = $DB->insert_record('videotrack_state', $state);
             }
             $transaction->allow_commit();
-            $lock?->release();
-            $lock = null;
             return $state;
         } catch (\Throwable $e) {
-            if ($lock) {
-                $lock->release();
-            }
             $transaction->rollback($e);
             throw $e;
+        } finally {
+            if ($ownedlock) {
+                $lock->release();
+            }
         }
     }
 

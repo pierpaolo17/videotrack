@@ -311,7 +311,7 @@ class privacy_manager {
                 $counts['statesdeleted'] += self::delete_state($videotrackid, $userid, $cmid);
             } else if (self::has_retained_state_inputs($videotrackid, $userid)) {
                 [$videotrack, $cm, $course] = $activity;
-                $state = self::rebuild_retained_state($videotrack, $cm, $videotrackid, $userid, $cmid, $now);
+                $state = self::rebuild_retained_state($videotrack, $cm, $videotrackid, $userid, $cmid, $now, $lock);
                 $counts['statesrebuilt']++;
                 $completionpayload = [$videotrack, $cm, $course, !empty($state->iscompleted)];
             } else {
@@ -378,6 +378,7 @@ class privacy_manager {
      * @param int $userid User id.
      * @param int $cmid Course module id.
      * @param int $now Current task timestamp.
+     * @param \core\lock\lock $lock Canonical state lock owned by the caller.
      * @return \stdClass Rebuilt and persisted state.
      */
     private static function rebuild_retained_state(
@@ -386,11 +387,12 @@ class privacy_manager {
         int $videotrackid,
         int $userid,
         int $cmid,
-        int $now
+        int $now,
+        \core\lock\lock $lock
     ): \stdClass {
         global $DB;
 
-        $state = tracker::rebuild_state_from_segments($videotrack, $cm, $userid, true);
+        $state = tracker::rebuild_state_from_segments($videotrack, $cm, $userid, $lock);
         if ($state === null) {
             throw new \coding_exception('State rebuild unexpectedly failed while the retention lock was held.');
         }

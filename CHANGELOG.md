@@ -1,5 +1,25 @@
 # VideoTrack changelog
 
+## 1.7.210 - 2026-10-30
+
+### Explicit state rebuild ownership under the retention lock
+
+- Accepted the real 377-file 1.7.209 ZIP byte-for-byte against the merged main
+  tree. All six post-merge CI jobs passed: 324 PHPUnit tests, 24 Behat
+  scenarios and ten validator checks each. PHPMD confirmed 46 advisory
+  findings, down from 47 in 1.7.208 without new findings. The Moodle 5.0/5.3
+  server report passed PHPCS (zero errors and warnings), lint, Grunt under
+  Node 22.23.4 and 324 PHPUnit tests per site; both strict validators passed
+  ten checks with no warnings or failures.
+- Pass the actual canonical lock object to the state rebuild used by retention,
+  which already owns that lock. Standalone rebuilds continue to acquire and
+  release their own lock. Keep one rebuild method, the existing transaction,
+  segment aggregation, state fields and completion decisions. The locally
+  acquired lock is released once after commit or rollback.
+  Existing tracker and retention tests cover both call paths. Candidate CI
+  must confirm removal of the PHPMD boolean-flag finding without introducing
+  a new method-count finding. XMLDB, AMD, services and languages are unchanged.
+
 ## 1.7.209 - 2026-10-30
 
 ### Acknowledgement analytics ownership

@@ -1,6 +1,6 @@
 # Function inventory
 
-Generated from the VideoTrack 1.7.209 source tree. PHP entries include named functions and methods; AMD entries include named declarations, assigned function expressions and object-method functions.
+Generated from the VideoTrack 1.7.210 source tree. PHP entries include named functions and methods; AMD entries include named declarations, assigned function expressions and object-method functions.
 
 **PHP functions/methods:** 935. **Named AMD callables:** 654.
 
@@ -975,15 +975,15 @@ Generated from the VideoTrack 1.7.209 source tree. PHP entries include named fun
 | `classes/local/privacy_manager.php:244` | `delete_legacy_pseudonymous_records` | PHP callable `delete_legacy_pseudonymous_records`; see its DocBlock and callers for parameter, return-value and side-effect details. |
 | `classes/local/privacy_manager.php:283` | `delete_expired_pair` | PHP callable `delete_expired_pair`; see its DocBlock and callers for parameter, return-value and side-effect details. |
 | `classes/local/privacy_manager.php:349` | `synchronise_completion_safely` | Synchronises completion after commit under the existing state lock and counts failures. |
-| `classes/local/privacy_manager.php:383` | `rebuild_retained_state` | Rebuilds retained state within the caller’s lock and transaction. |
-| `classes/local/privacy_manager.php:424` | `delete_expired_personal_rows` | Deletes expired segment, reaction, integrity and acknowledgement rows within the caller’s lock and transaction. |
-| `classes/local/privacy_manager.php:464` | `server_guard_is_recent` | PHP callable `server_guard_is_recent`; see its DocBlock and callers for parameter, return-value and side-effect details. |
-| `classes/local/privacy_manager.php:488` | `count_and_delete` | PHP callable `count_and_delete`; see its DocBlock and callers for parameter, return-value and side-effect details. |
-| `classes/local/privacy_manager.php:505` | `load_activity` | PHP callable `load_activity`; see its DocBlock and callers for parameter, return-value and side-effect details. |
-| `classes/local/privacy_manager.php:531` | `has_retained_state_inputs` | PHP callable `has_retained_state_inputs`; see its DocBlock and callers for parameter, return-value and side-effect details. |
-| `classes/local/privacy_manager.php:568` | `earliest_retained_timestamp` | PHP callable `earliest_retained_timestamp`; see its DocBlock and callers for parameter, return-value and side-effect details. |
-| `classes/local/privacy_manager.php:610` | `delete_state` | PHP callable `delete_state`; see its DocBlock and callers for parameter, return-value and side-effect details. |
-| `classes/local/privacy_manager.php:634` | `synchronise_completion` | PHP callable `synchronise_completion`; see its DocBlock and callers for parameter, return-value and side-effect details. |
+| `classes/local/privacy_manager.php:384` | `rebuild_retained_state` | Rebuilds retained state within the caller’s lock and transaction. |
+| `classes/local/privacy_manager.php:426` | `delete_expired_personal_rows` | Deletes expired segment, reaction, integrity and acknowledgement rows within the caller’s lock and transaction. |
+| `classes/local/privacy_manager.php:466` | `server_guard_is_recent` | PHP callable `server_guard_is_recent`; see its DocBlock and callers for parameter, return-value and side-effect details. |
+| `classes/local/privacy_manager.php:490` | `count_and_delete` | PHP callable `count_and_delete`; see its DocBlock and callers for parameter, return-value and side-effect details. |
+| `classes/local/privacy_manager.php:507` | `load_activity` | PHP callable `load_activity`; see its DocBlock and callers for parameter, return-value and side-effect details. |
+| `classes/local/privacy_manager.php:533` | `has_retained_state_inputs` | PHP callable `has_retained_state_inputs`; see its DocBlock and callers for parameter, return-value and side-effect details. |
+| `classes/local/privacy_manager.php:570` | `earliest_retained_timestamp` | PHP callable `earliest_retained_timestamp`; see its DocBlock and callers for parameter, return-value and side-effect details. |
+| `classes/local/privacy_manager.php:612` | `delete_state` | PHP callable `delete_state`; see its DocBlock and callers for parameter, return-value and side-effect details. |
+| `classes/local/privacy_manager.php:636` | `synchronise_completion` | PHP callable `synchronise_completion`; see its DocBlock and callers for parameter, return-value and side-effect details. |
 | `classes/local/reaction_write_service.php:46` | `complete` | Runs the cache, event, aggregate and completion pipeline after a reaction row has been inserted. |
 | `classes/local/reaction_write_service.php:103` | `trigger_event` | Emits `reaction_saved` and converts event failures into the established bounded warning. |
 | `classes/local/report_access.php:40` | `has_legacy_full_access` | PHP callable `report_access::has_legacy_full_access`; backwards-compatible full-report capability check. |
