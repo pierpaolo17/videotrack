@@ -390,10 +390,7 @@ class privacy_manager {
     ): \stdClass {
         global $DB;
 
-        $state = tracker::rebuild_state_from_segments($videotrack, $cm, $userid, true);
-        if ($state === null) {
-            throw new \coding_exception('State rebuild unexpectedly failed while the retention lock was held.');
-        }
+        $state = tracker::rebuild_state_from_segments_with_lock_held($videotrack, $cm, $userid);
 
         if (!self::server_guard_is_recent($state, $now)) {
             $state->serverlastactivity = 0;

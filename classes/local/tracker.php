@@ -1101,25 +1101,41 @@ class tracker {
      * @param \stdClass $videotrack Activity instance.
      * @param \cm_info $cm Course module info.
      * @param int $userid User id.
-     * @param bool $lockheld Whether the caller already holds the canonical state lock.
      * @return \stdClass|null Rebuilt state, or null when the state lock is busy.
      */
     public static function rebuild_state_from_segments(
         \stdClass $videotrack,
         \cm_info $cm,
-        int $userid,
-        bool $lockheld = false
+        int $userid
     ): ?\stdClass {
-        global $DB;
-
-        $lock = null;
-        if (!$lockheld) {
-            $lockfactory = \core\lock\lock_config::get_lock_factory('mod_videotrack');
-            $lock = $lockfactory->get_lock('state:' . $videotrack->id . ':' . $userid, 10);
-            if (!$lock) {
-                return null;
-            }
+        $lockfactory = \core\lock\lock_config::get_lock_factory('mod_videotrack');
+        $lock = $lockfactory->get_lock('state:' . $videotrack->id . ':' . $userid, 10);
+        if (!$lock) {
+            return null;
         }
+        try {
+            return self::rebuild_state_from_segments_with_lock_held($videotrack, $cm, $userid);
+        } finally {
+            $lock->release();
+        }
+    }
+
+    /**
+     * Rebuilds one user's aggregate state while the caller holds the canonical state lock.
+     *
+     * The caller retains ownership of the lock and must release it after the transaction.
+     *
+     * @param \stdClass $videotrack Activity instance.
+     * @param \cm_info $cm Course module info.
+     * @param int $userid User id.
+     * @return \stdClass Rebuilt state.
+     */
+    public static function rebuild_state_from_segments_with_lock_held(
+        \stdClass $videotrack,
+        \cm_info $cm,
+        int $userid
+    ): \stdClass {
+        global $DB;
 
         $transaction = $DB->start_delegated_transaction();
         try {
@@ -1169,13 +1185,8 @@ class tracker {
                 $state->id = $DB->insert_record('videotrack_state', $state);
             }
             $transaction->allow_commit();
-            $lock?->release();
-            $lock = null;
             return $state;
         } catch (\Throwable $e) {
-            if ($lock) {
-                $lock->release();
-            }
             $transaction->rollback($e);
             throw $e;
         }
