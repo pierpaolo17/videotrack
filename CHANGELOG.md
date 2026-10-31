@@ -1,5 +1,24 @@
 # VideoTrack changelog
 
+## 1.7.211 - 2026-10-31
+
+### Stable context for teacher CSV event rows
+
+- Accepted the real 377-file 1.7.210 ZIP byte-for-byte against the merged
+  main tree. All six post-merge CI jobs passed 324 PHPUnit tests, 24 Behat
+  scenarios and ten validator checks each. PHPMD confirmed 45 advisory
+  findings, down from 46 in 1.7.209 without new findings. The Moodle 5.0/5.3
+  server report passed PHPCS (zero errors and warnings), lint, Grunt under
+  Node 22.23.4 and 324 PHPUnit tests per site; both strict validators passed
+  ten checks with no warnings or failures.
+- Group stable course, activity, learner, module, duration and export-format
+  inputs in a typed context for the custom teacher CSV event writer. Preserve
+  the same row builder and output fields, including privacy-safe user filtering,
+  timestamps and detailed versus overall formatting. Existing CSV writer tests
+  cover detailed, overall and unknown-user rows. Candidate CI must confirm the
+  PHPMD constructor-parameter result; XMLDB, AMD, services and languages are
+  unchanged.
+
 ## 1.7.210 - 2026-10-30
 
 ### Explicit state rebuild ownership under the retention lock

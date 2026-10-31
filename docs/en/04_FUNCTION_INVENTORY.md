@@ -1,8 +1,8 @@
 # Function inventory
 
-Generated from the VideoTrack 1.7.210 source tree. PHP entries include named functions and methods; AMD entries include named declarations, assigned function expressions and object-method functions.
+Generated from the VideoTrack 1.7.211 source tree. PHP entries include named functions and methods; AMD entries include named declarations, assigned function expressions and object-method functions.
 
-**PHP functions/methods:** 935. **Named AMD callables:** 654.
+**PHP functions/methods:** 936. **Named AMD callables:** 654.
 
 | Location | Callable | Responsibility |
 |---|---|---|
@@ -909,8 +909,9 @@ Generated from the VideoTrack 1.7.210 source tree. PHP entries include named fun
 | `classes/local/course_analytics_loader.php:136` | `load_states_for_scopes` | Named PHP function/method `load_states_for_scopes`; see source DocBlock and callers for the current contract. |
 | `classes/local/course_analytics_loader.php:172` | `load_period_segments_for_scopes` | Named PHP function/method `load_period_segments_for_scopes`; see source DocBlock and callers for the current contract. |
 | `classes/local/course_analytics_loader.php:233` | `load_event_summaries_for_scopes` | Named PHP function/method `load_event_summaries_for_scopes`; see source DocBlock and callers for the current contract. |
-| `classes/local/csv_event_writer.php:74` | `__construct` | PHP callable `__construct`; see its DocBlock and callers for parameter, return-value and side-effect details. |
-| `classes/local/csv_event_writer.php:113` | `write` | PHP callable `write`; see its DocBlock and callers for parameter, return-value and side-effect details. |
+| `classes/local/csv_event_context.php:62` | `__construct` | Captures stable activity, learner and CSV-format inputs for event rows. |
+| `classes/local/csv_event_writer.php:68` | `__construct` | PHP callable `__construct`; see its DocBlock and callers for parameter, return-value and side-effect details. |
+| `classes/local/csv_event_writer.php:101` | `write` | PHP callable `write`; see its DocBlock and callers for parameter, return-value and side-effect details. |
 | `classes/local/csv_export.php:78` | `delimiter_options` | PHP callable `delimiter_options`; see its DocBlock and callers for parameter, return-value and side-effect details. |
 | `classes/local/csv_export.php:93` | `delimiter_options_with_inherit` | PHP callable `delimiter_options_with_inherit`; returns the activity selector choices with explicit site-default inheritance. |
 | `classes/local/csv_export.php:106` | `delimiter` | PHP callable `delimiter`; see its DocBlock and callers for parameter, return-value and side-effect details. |
@@ -1358,9 +1359,9 @@ Generated from the VideoTrack 1.7.210 source tree. PHP entries include named fun
 | `tests/course_analytics_test.php:394` | `test_exact_report_threshold_exposes_single_learner_period_summary` | PHP callable `test_exact_report_threshold_exposes_single_learner_period_summary`; see its DocBlock and callers for parameter, return-value and side-effect details. |
 | `tests/course_analytics_test.php:423` | `test_course_report_controller_requests_exact_aggregates` | PHP callable `test_course_report_controller_requests_exact_aggregates`; see its DocBlock and callers for parameter, return-value and side-effect details. |
 | `tests/course_analytics_test.php:445` | `state` | PHP callable `state`; see its DocBlock and callers for parameter, return-value and side-effect details. |
-| `tests/csv_event_writer_test.php:36` | `test_write_detailed_event_row` | PHP callable `test_write_detailed_event_row`; see its DocBlock and callers for parameter, return-value and side-effect details. |
-| `tests/csv_event_writer_test.php:69` | `test_write_overall_event_row` | PHP callable `test_write_overall_event_row`; see its DocBlock and callers for parameter, return-value and side-effect details. |
-| `tests/csv_event_writer_test.php:97` | `test_write_skips_unknown_positive_user` | PHP callable `test_write_skips_unknown_positive_user`; see its DocBlock and callers for parameter, return-value and side-effect details. |
+| `tests/csv_event_writer_test.php:37` | `test_write_detailed_event_row` | PHP callable `test_write_detailed_event_row`; see its DocBlock and callers for parameter, return-value and side-effect details. |
+| `tests/csv_event_writer_test.php:72` | `test_write_overall_event_row` | PHP callable `test_write_overall_event_row`; see its DocBlock and callers for parameter, return-value and side-effect details. |
+| `tests/csv_event_writer_test.php:102` | `test_write_skips_unknown_positive_user` | PHP callable `test_write_skips_unknown_positive_user`; see its DocBlock and callers for parameter, return-value and side-effect details. |
 | `tests/csv_export_test.php:37` | `test_delimiter_options_are_scope_specific` | PHP callable `test_delimiter_options_are_scope_specific`; verifies the explicit site and activity delimiter option sets. |
 | `tests/csv_export_test.php:49` | `test_delimiter_resolution` | PHP callable `test_delimiter_resolution`; see its DocBlock and callers for parameter, return-value and side-effect details. |
 | `tests/csv_export_test.php:72` | `test_process_form_fields` | PHP callable `test_process_form_fields`; see its DocBlock and callers for parameter, return-value and side-effect details. |
