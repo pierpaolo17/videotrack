@@ -153,9 +153,10 @@ line, not for redeclaring a method parameter.
   are covered independently of the complexity reduction.
 - PHPMD remains advisory. The 1.7.209 CI confirmed 46 findings, down from
   47 in 1.7.208: acknowledgement analytics no longer triggers class complexity.
-  The 1.7.210 candidate separates canonical state-lock acquisition from the
-  retention entry point that runs with the lock held. Candidate CI must confirm
-  removal of the rebuild boolean-flag finding. Remaining reports concern
+  The 1.7.210 candidate passes the actual canonical lock object from
+  retention to the existing rebuild method. Standalone calls acquire their own
+  lock. Candidate CI must confirm removal of the boolean-flag finding without
+  introducing a method-count finding. Remaining reports concern
   reviewed complexity, size, broad public classes, required Moodle callback
   parameters and boolean switches.
 - Static-analysis configuration, production scope, database schema and AMD assets are unchanged by these API

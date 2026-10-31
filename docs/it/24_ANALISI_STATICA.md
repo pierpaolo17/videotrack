@@ -163,9 +163,10 @@ dichiarazione di un parametro di metodo.
 - PHPMD resta consultivo. La CI della 1.7.209 ha confermato 46 rilievi,
   contro i 47 della 1.7.208: il calcolo aggregato delle prese visione non
   presenta più il rilievo di complessità della classe. La candidata 1.7.210
-  separa l'acquisizione del lock canonico dalla ricostruzione eseguita con il
-  lock già detenuto durante la retention. La CI deve confermare la rimozione
-  del rilievo sul flag booleano. Restano complessità, dimensione, classi
+  passa il vero oggetto lock canonico dalla retention al metodo di
+  ricostruzione esistente; le chiamate autonome acquisiscono il proprio lock.
+  La CI deve confermare l'eliminazione del flag booleano senza introdurre un
+  rilievo sul numero di metodi. Restano complessità, dimensione, classi
   pubbliche ampie, parametri obbligatori dei callback Moodle e flag booleani.
 - Configurazione degli analizzatori, perimetro di produzione, schema database e asset AMD non cambiano con queste
   pulizie delle API. I conteggi della candidata diventano autorevoli soltanto dopo aver conservato e revisionato gli

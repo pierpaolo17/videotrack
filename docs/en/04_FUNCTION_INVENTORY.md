@@ -2,7 +2,7 @@
 
 Generated from the VideoTrack 1.7.210 source tree. PHP entries include named functions and methods; AMD entries include named declarations, assigned function expressions and object-method functions.
 
-**PHP functions/methods:** 936. **Named AMD callables:** 654.
+**PHP functions/methods:** 935. **Named AMD callables:** 654.
 
 | Location | Callable | Responsibility |
 |---|---|---|
@@ -975,15 +975,15 @@ Generated from the VideoTrack 1.7.210 source tree. PHP entries include named fun
 | `classes/local/privacy_manager.php:244` | `delete_legacy_pseudonymous_records` | PHP callable `delete_legacy_pseudonymous_records`; see its DocBlock and callers for parameter, return-value and side-effect details. |
 | `classes/local/privacy_manager.php:283` | `delete_expired_pair` | PHP callable `delete_expired_pair`; see its DocBlock and callers for parameter, return-value and side-effect details. |
 | `classes/local/privacy_manager.php:349` | `synchronise_completion_safely` | Synchronises completion after commit under the existing state lock and counts failures. |
-| `classes/local/privacy_manager.php:383` | `rebuild_retained_state` | Rebuilds retained state within the caller’s lock and transaction. |
-| `classes/local/privacy_manager.php:421` | `delete_expired_personal_rows` | Deletes expired segment, reaction, integrity and acknowledgement rows within the caller’s lock and transaction. |
-| `classes/local/privacy_manager.php:461` | `server_guard_is_recent` | PHP callable `server_guard_is_recent`; see its DocBlock and callers for parameter, return-value and side-effect details. |
-| `classes/local/privacy_manager.php:485` | `count_and_delete` | PHP callable `count_and_delete`; see its DocBlock and callers for parameter, return-value and side-effect details. |
-| `classes/local/privacy_manager.php:502` | `load_activity` | PHP callable `load_activity`; see its DocBlock and callers for parameter, return-value and side-effect details. |
-| `classes/local/privacy_manager.php:528` | `has_retained_state_inputs` | PHP callable `has_retained_state_inputs`; see its DocBlock and callers for parameter, return-value and side-effect details. |
-| `classes/local/privacy_manager.php:565` | `earliest_retained_timestamp` | PHP callable `earliest_retained_timestamp`; see its DocBlock and callers for parameter, return-value and side-effect details. |
-| `classes/local/privacy_manager.php:607` | `delete_state` | PHP callable `delete_state`; see its DocBlock and callers for parameter, return-value and side-effect details. |
-| `classes/local/privacy_manager.php:631` | `synchronise_completion` | PHP callable `synchronise_completion`; see its DocBlock and callers for parameter, return-value and side-effect details. |
+| `classes/local/privacy_manager.php:384` | `rebuild_retained_state` | Rebuilds retained state within the caller’s lock and transaction. |
+| `classes/local/privacy_manager.php:426` | `delete_expired_personal_rows` | Deletes expired segment, reaction, integrity and acknowledgement rows within the caller’s lock and transaction. |
+| `classes/local/privacy_manager.php:466` | `server_guard_is_recent` | PHP callable `server_guard_is_recent`; see its DocBlock and callers for parameter, return-value and side-effect details. |
+| `classes/local/privacy_manager.php:490` | `count_and_delete` | PHP callable `count_and_delete`; see its DocBlock and callers for parameter, return-value and side-effect details. |
+| `classes/local/privacy_manager.php:507` | `load_activity` | PHP callable `load_activity`; see its DocBlock and callers for parameter, return-value and side-effect details. |
+| `classes/local/privacy_manager.php:533` | `has_retained_state_inputs` | PHP callable `has_retained_state_inputs`; see its DocBlock and callers for parameter, return-value and side-effect details. |
+| `classes/local/privacy_manager.php:570` | `earliest_retained_timestamp` | PHP callable `earliest_retained_timestamp`; see its DocBlock and callers for parameter, return-value and side-effect details. |
+| `classes/local/privacy_manager.php:612` | `delete_state` | PHP callable `delete_state`; see its DocBlock and callers for parameter, return-value and side-effect details. |
+| `classes/local/privacy_manager.php:636` | `synchronise_completion` | PHP callable `synchronise_completion`; see its DocBlock and callers for parameter, return-value and side-effect details. |
 | `classes/local/reaction_write_service.php:46` | `complete` | Runs the cache, event, aggregate and completion pipeline after a reaction row has been inserted. |
 | `classes/local/reaction_write_service.php:103` | `trigger_event` | Emits `reaction_saved` and converts event failures into the established bounded warning. |
 | `classes/local/report_access.php:40` | `has_legacy_full_access` | PHP callable `report_access::has_legacy_full_access`; backwards-compatible full-report capability check. |
@@ -1093,9 +1093,8 @@ Generated from the VideoTrack 1.7.210 source tree. PHP entries include named fun
 | `classes/local/tracker.php:791` | `update_state` | PHP callable `update_state`; see its DocBlock and callers for parameter, return-value and side-effect details. |
 | `classes/local/tracker.php:1037` | `update_moodle_completion_if_changed` | PHP callable `update_moodle_completion_if_changed`; see its DocBlock and callers for parameter, return-value and side-effect details. |
 | `classes/local/tracker.php:1061` | `aggregate_segments` | PHP callable `aggregate_segments`; see its DocBlock and callers for parameter, return-value and side-effect details. |
-| `classes/local/tracker.php:1106` | `rebuild_state_from_segments` | PHP callable `rebuild_state_from_segments`; see its DocBlock and callers for parameter, return-value and side-effect details. |
-| `classes/local/tracker.php:1133` | `rebuild_state_from_segments_with_lock_held` | Rebuilds state within the lock and transaction owned by the caller. |
-| `classes/local/tracker.php:1205` | `refresh_completion` | PHP callable `refresh_completion`; see its DocBlock and callers for parameter, return-value and side-effect details. |
+| `classes/local/tracker.php:1107` | `rebuild_state_from_segments` | PHP callable `rebuild_state_from_segments`; see its DocBlock and callers for parameter, return-value and side-effect details. |
+| `classes/local/tracker.php:1196` | `refresh_completion` | PHP callable `refresh_completion`; see its DocBlock and callers for parameter, return-value and side-effect details. |
 | `classes/privacy/provider.php:48` | `format_interval_second` | PHP callable `format_interval_second`; see its DocBlock and callers for parameter, return-value and side-effect details. |
 | `classes/privacy/provider.php:59` | `get_metadata` | PHP callable `get_metadata`; see its DocBlock and callers for parameter, return-value and side-effect details. |
 | `classes/privacy/provider.php:152` | `add_external_location_metadata` | Declares YouTube and Vimeo external-location metadata after plugin database tables. |

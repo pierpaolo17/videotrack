@@ -48,8 +48,8 @@ not duplicate implementation procedures, field dictionaries or long security/pri
   under its existing lock and transaction before native completion synchronisation.
 - Tracker reuses its existing state snapshot on rebuild and persists inside the delegated transaction;
   retention synchronises native completion after commit while still holding its state lock.
-- Tracker acquires and releases its state lock for standalone rebuilds; retention calls the explicitly named
-  rebuild entry point under its existing lock, with rollback completed before that lock is released.
+- Standalone state rebuilds acquire and release the canonical lock; retention passes its actual held lock to
+  the same rebuild method and retains ownership through the transaction and native completion sync.
 - The activity identity includes a 1024-pixel `pix/icon.png` and an accessible native `pix/icon.svg` derived from
   the same maintainer-supplied artwork.
 - `db/install.xml` declares seven primary keys, 22 stable foreign keys and 22 explicit indexes. XMLDB generates an
