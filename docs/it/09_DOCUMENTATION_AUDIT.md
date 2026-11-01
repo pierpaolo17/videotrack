@@ -1,6 +1,6 @@
 # Audit della documentazione
 
-Baseline: VideoTrack **1.7.213** (`2026110102`).
+Baseline: VideoTrack **1.7.214** (`2026110103`).
 
 ## Perimetro
 
@@ -33,7 +33,7 @@ duplicano intenzionalmente procedure implementative, dizionari dei campi o lungh
 ## Rilievi sull'albero corrente
 
 - Gli indici inglese e italiano hanno stesso perimetro e ordinamento.
-- Marker documentali, README principali e artefatti ER identificano 1.7.213 / 2026110102.
+- Marker documentali, README principali e artefatti ER identificano 1.7.214 / 2026110103.
 - Le Analytics tra corsi documentano la facciata stabile `analytics_scope` e il matcher focalizzato che possiede
   selezione candidati, predicati dell’identità tecnica, filtro capability, fallback dell’istanza corrente e ordine.
 - Le Analytics del corso delegano gli scope delle attività visibili e le letture batchate di stati, segmenti nel
@@ -46,6 +46,8 @@ duplicano intenzionalmente procedure implementative, dizionari dei campi o lungh
   la conferma della presa visione verifica la disponibilità prima di cercare o creare il record learner.
 - Le righe evento CSV trasportano tre timestamp video nullable in un valore tipizzato; il riepilogo dei segnalibri
   conserva le celle dei tempi vuote e la colonna del numero di studenti.
+- Il servizio segmenti valida i dieci campi originali prima dei controlli sesskey e contesto,
+  persiste tramite la stessa transazione del tracker ed emette eventi e completion solo per i segmenti nuovi accettati.
 - L’export privacy Moodle resta accessibile da `provider::export_user_data()`, che delega
   a `exporter`; formattazione intervalli, chunk da 500 record e sanitizzazione restano invariati.
 - I metadati privacy elencano i servizi esterni dopo le tabelle database; la retention cancella le righe

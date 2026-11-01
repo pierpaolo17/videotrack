@@ -160,16 +160,16 @@ dichiarazione di un parametro di metodo.
 - Il callback delle feature Moodle è una tabella diretta feature-valore, mentre la validazione delle reazioni Font
   Awesome separa il sottoinsieme revisionato dei decoratori da un solo nome icona. Contratti pubblici, limiti e
   default fail-closed sono coperti indipendentemente dalla riduzione di complessità.
-- PHPMD resta consultivo. La CI della 1.7.212 ha confermato 44 rilievi,
-  contro i 45 della 1.7.211 senza nuovi rilievi. La candidata 1.7.213
-  delega il corpo invariato dell’export privacy Moodle alla classe autoloaded
-  `privacy\exporter`, mantenendo il callback obbligatorio
-  `provider::export_user_data()`. La nuova classe contiene solo l’export e la
-  formattazione MM:SS; la CI dovrà confermare la rimozione del rilievo sulla
-  complessità della classe provider senza introdurne altri. Il metodo export
-  lungo e i relativi rilievi vengono trasferiti senza modifiche. Restano
-  complessità e dimensioni, classi pubbliche ampie, parametri obbligatori dei
-  callback Moodle e flag booleani.
+- PHPMD resta consultivo. La CI della 1.7.213 ha confermato 43 rilievi,
+  contro i 44 della 1.7.212 senza nuovi rilievi: è scomparso il rilievo sulla
+  complessità della classe provider privacy mentre il metodo export conserva
+  i rilievi preesistenti nella classe dedicata. La candidata 1.7.214 suddivide
+  il lungo endpoint segmenti in fasi di validazione dei parametri, persistenza
+  nel tracker e finalizzazione del risultato accettato. La firma AJAX Moodle
+  conserva i dieci campi dichiarati. La CI dovrà confermare la rimozione del
+  rilievo sulla lunghezza di execute senza nuovi rilievi. Restano rilievi
+  esaminati su complessità e dimensioni, classi pubbliche ampie, parametri
+  obbligatori dei callback Moodle e flag booleani.
 - Configurazione degli analizzatori, perimetro di produzione, schema database e asset AMD non cambiano con queste
   pulizie delle API. I conteggi della candidata diventano autorevoli soltanto dopo aver conservato e revisionato gli
   artifact CI completi.

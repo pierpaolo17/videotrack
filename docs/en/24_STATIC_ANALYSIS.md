@@ -151,14 +151,15 @@ line, not for redeclaring a method parameter.
 - The Moodle feature callback is a direct feature-to-value table, while Font Awesome reaction validation partitions
   the reviewed decorator subset from exactly one icon name. Their public contracts, limits and fail-closed defaults
   are covered independently of the complexity reduction.
-- PHPMD remains advisory. The 1.7.212 CI confirmed 44 findings, down from
-  45 in 1.7.211 without new findings. The 1.7.213 candidate delegates the
-  unchanged Moodle privacy export body to an autoloaded `privacy\exporter`
-  while retaining the required `provider::export_user_data()` callback. The
-  new class owns only the export and MM:SS formatting; candidate CI must
-  confirm whether the provider-class complexity finding disappears without
-  new findings. The long export method and its existing findings move intact.
-  Remaining reports concern reviewed complexity, size, broad public classes,
-  required Moodle callback parameters and boolean switches.
+- PHPMD remains advisory. The 1.7.213 CI confirmed 43 findings, down from
+  44 in 1.7.212 without new findings: the privacy-provider class complexity
+  finding disappeared while the long export method retained its existing
+  findings in the dedicated exporter. The 1.7.214 candidate divides the long
+  segment endpoint into validated-parameter, tracker-persistence and
+  accepted-result stages. Its Moodle AJAX signature remains unchanged with
+  ten declared fields. Candidate CI must confirm removal of the execute-method
+  length finding without adding any findings. Other reviewed findings concern
+  complexity, size, broad public classes, required Moodle callback parameters
+  and boolean switches.
 - Static-analysis configuration, production scope, database schema and AMD assets are unchanged by these API
   cleanups. Candidate counts remain authoritative only after the complete CI artifacts are retained and reviewed.

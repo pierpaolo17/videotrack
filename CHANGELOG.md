@@ -1,5 +1,24 @@
 # VideoTrack changelog
 
+## 1.7.214 - 2026-11-01
+
+### Bounded segment endpoint with unchanged AJAX contract
+
+- Accepted the real 380-file 1.7.213 ZIP byte-for-byte against the
+  post-merge main tree. All six post-merge CI jobs passed 325 PHPUnit tests,
+  24 Behat scenarios and ten validator checks each. PHPMD confirmed 43
+  advisory findings, down from 44 in 1.7.212 without new findings. The
+  Moodle 5.0/5.3 server report passed PHPCS (zero errors and warnings),
+  lint, Grunt under Node 22.23.4 and 325 PHPUnit tests per site; both
+  strict validators passed ten checks without warnings or failures.
+- Divide the segment endpoint into validation, tracker persistence and
+  accepted-result finalisation helpers while preserving its public ten-field
+  Moodle AJAX signature. Reject invalid intervals before the playback-rate
+  check, retain the same idempotent and suspicious responses, and emit events
+  and native completion only for accepted segments as before. Candidate CI
+  must confirm removal of the execute-method length finding without new
+  findings. XMLDB, AMD, services and languages remain unchanged.
+
 ## 1.7.213 - 2026-11-01
 
 ### Focused Moodle privacy export service

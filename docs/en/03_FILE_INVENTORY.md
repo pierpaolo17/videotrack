@@ -1,6 +1,6 @@
 # Distributed file inventory
 
-This inventory is generated against the VideoTrack 1.7.213 repository tree. It lists every distributed
+This inventory is generated against the VideoTrack 1.7.214 repository tree. It lists every distributed
 non-documentation file plus repository-only CI/tooling/hygiene files. Canonical JavaScript is under `amd/src`; files under
 `amd/build` are generated.
 
@@ -192,7 +192,7 @@ Entries: **319** — 316 distributed files and three repository-only files exclu
 | `classes/external/save_integrity_event.php` | Stores a bounded diagnostic integrity signal for the current student. |
 | `classes/external/save_note.php` | Saves a personal timestamped note through explicit normalisation, watched-evidence, global rate-limit, persistence and warning stages. |
 | `classes/external/save_reaction.php` | Stores a standard reaction through ordered validation, watched-evidence, cross-session limiting and locked duplicate/persistence stages, then maps the post-write result to the stable response. |
-| `classes/external/save_segment.php` | External function that persists a watched video segment. |
+| `classes/external/save_segment.php` | Validates and persists watched segments through the tracker; keeps the public AJAX payload and result contract. |
 | `classes/external/start_playback.php` | AJAX service that opens a zero-credit, idempotent server playback window. |
 | `classes/form/forum_post_form.php` | Forum composer form for VideoTrack. |
 | `classes/local/acknowledgement.php` | Versioned learner acknowledgement helpers. |
