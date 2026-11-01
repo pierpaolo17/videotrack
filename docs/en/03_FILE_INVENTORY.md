@@ -1,10 +1,10 @@
 # Distributed file inventory
 
-This inventory is generated against the VideoTrack 1.7.216 repository tree. It lists every distributed
+This inventory is generated against the VideoTrack 1.7.217 repository tree. It lists every distributed
 non-documentation file plus repository-only CI/tooling/hygiene files. Canonical JavaScript is under `amd/src`; files under
 `amd/build` are generated.
 
-Entries: **321** — 318 distributed files and three repository-only files excluded from release archives.
+Entries: **323** — 320 distributed files and three repository-only files excluded from release archives.
 
 | File | Responsibility |
 |---|---|
@@ -209,6 +209,8 @@ Entries: **321** — 318 distributed files and three repository-only files exclu
 | `classes/local/csv_event_timestamps.php` | Typed representative, first and last video timestamps for teacher-report CSV event rows. |
 | `classes/local/csv_event_writer.php` | Stateful writer for custom teacher-report CSV event rows. |
 | `classes/local/csv_export.php` | CSV export configuration and formatting helpers. |
+| `classes/local/csv_export_fields.php` | Resolves configured CSV fields, visible identity choices and selected user records. |
+| `classes/local/csv_export_identity.php` | Formats CSV identity columns, Moodle field labels and video links. |
 | `classes/local/focus_policy.php` | Course-local strict-focus accessibility exception backed by a hidden Moodle core group. |
 | `classes/local/form_validation.php` | Autonomous scalar/JSON validation policy for the activity settings form. |
 | `classes/local/forum_bridge.php` | Forum integration adapter for VideoTrack. |
