@@ -90,9 +90,7 @@ final class csv_event_writer {
      * @param string $eventtype Localised event type.
      * @param string $reactionlabel Reaction label.
      * @param string $comment Note/comment text.
-     * @param float|null $timestamp Representative video timestamp.
-     * @param float|null $firsttimestamp First timestamp in the aggregate.
-     * @param float|null $lasttimestamp Last timestamp in the aggregate.
+     * @param csv_event_timestamps $times Representative, first and last video timestamps.
      * @param int $count Event count.
      * @param string $created Localised creation time for non-overall exports.
      * @param int $studentcount Distinct student count for overall exports.
@@ -103,9 +101,7 @@ final class csv_event_writer {
         string $eventtype,
         string $reactionlabel,
         string $comment,
-        ?float $timestamp,
-        ?float $firsttimestamp,
-        ?float $lasttimestamp,
+        csv_event_timestamps $times,
         int $count,
         string $created,
         int $studentcount = 1
@@ -114,6 +110,10 @@ final class csv_event_writer {
         if ($userid > 0 && !$user) {
             return;
         }
+
+        $timestamp = $times->timestamp;
+        $firsttimestamp = $times->firsttimestamp;
+        $lasttimestamp = $times->lasttimestamp;
 
         $row = csv_export::identity_values(
             $this->fields,

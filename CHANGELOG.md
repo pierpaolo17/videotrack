@@ -1,5 +1,24 @@
 # VideoTrack changelog
 
+## 1.7.212 - 2026-11-01
+
+### Explicit video-time fields in custom teacher CSV events
+
+- Accepted the real 378-file 1.7.211 ZIP byte-for-byte against the merged
+  main tree. All six post-merge CI jobs passed 324 PHPUnit tests, 24 Behat
+  scenarios and ten validator checks each. PHPMD confirmed 44 advisory
+  findings, down from 45 in 1.7.210 without new findings. The Moodle 5.0/5.3
+  server report passed PHPCS (zero errors and warnings), lint, Grunt under
+  Node 22.23.4 and 324 PHPUnit tests per site; both strict validators passed
+  ten checks with no warnings or failures.
+- Group each custom teacher CSV event's representative, first and last
+  nullable video timestamps in a typed value. Preserve their values, existing
+  formatting, column order, user filtering and the detailed/overall distinction.
+  Existing writer tests cover both export formats and unknown users; a new
+  bookmark-count test checks that absent timestamps produce empty CSV cells.
+  Candidate CI must confirm the PHPMD writer-parameter result. XMLDB, AMD,
+  services and languages are unchanged.
+
 ## 1.7.211 - 2026-10-31
 
 ### Stable context for teacher CSV event rows
