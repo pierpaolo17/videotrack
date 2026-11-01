@@ -1,10 +1,10 @@
 # Inventario dei file distribuiti
 
-Questo inventario è generato sull'albero repository VideoTrack 1.7.212. Elenca ogni file non documentale distribuito
+Questo inventario è generato sull'albero repository VideoTrack 1.7.213. Elenca ogni file non documentale distribuito
 e i file CI/tooling/igiene presenti soltanto nel repository. Il JavaScript canonico è in `amd/src`; i file in `amd/build`
 sono generati.
 
-Voci: **318** — 315 file distribuiti e tre file presenti soltanto nel repository, esclusi dagli archivi di release.
+Voci: **319** — 316 file distribuiti e tre file presenti soltanto nel repository, esclusi dagli archivi di release.
 
 | File | Responsabilità |
 |---|---|
@@ -228,6 +228,7 @@ Voci: **318** — 315 file distribuiti e tre file presenti soltanto nel reposito
 | `classes/local/teacher_analytics.php` | Servizio di dominio `teacher_analytics` riusabile da pagine, report o servizi. |
 | `classes/local/timed_text.php` | Risolve file WebVTT canonici di trascrizione/capitoli e fallback sottotitoli legacy espliciti. |
 | `classes/local/tracker.php` | Servizio di dominio `tracker` riusabile da pagine, report o servizi. |
+| `classes/privacy/exporter.php` | Esporta i dati degli utenti approvati tramite Privacy API Moodle mantenendo chunking e regole di sanitizzazione. |
 | `classes/privacy/provider.php` | Provider Moodle Privacy API del plugin. |
 | `classes/task/cleanup_task.php` | Task pianificato per retention e pulizia. |
 | `cli/benchmark_course_analytics.php` | Benchmark CLI in sola lettura per query e tempi dell’aggregazione Course Analytics batchata. |

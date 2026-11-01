@@ -1,10 +1,10 @@
 # Distributed file inventory
 
-This inventory is generated against the VideoTrack 1.7.212 repository tree. It lists every distributed
+This inventory is generated against the VideoTrack 1.7.213 repository tree. It lists every distributed
 non-documentation file plus repository-only CI/tooling/hygiene files. Canonical JavaScript is under `amd/src`; files under
 `amd/build` are generated.
 
-Entries: **318** — 315 distributed files and three repository-only files excluded from release archives.
+Entries: **319** — 316 distributed files and three repository-only files excluded from release archives.
 
 | File | Responsibility |
 |---|---|
@@ -228,6 +228,7 @@ Entries: **318** — 315 distributed files and three repository-only files exclu
 | `classes/local/teacher_analytics.php` | Cross-course, capability-safe dashboard aggregation for report viewers. |
 | `classes/local/timed_text.php` | Resolves canonical WebVTT transcript/chapter files and explicit legacy subtitle fallbacks. |
 | `classes/local/tracker.php` | Tracking and completion helper methods for VideoTrack. |
+| `classes/privacy/exporter.php` | Streams the approved learner data through Moodle Privacy API with the existing chunking and sanitisation rules. |
 | `classes/privacy/provider.php` | Privacy provider for tracking, reactions, notes, bookmarks, integrity signals and acknowledgements. |
 | `classes/task/cleanup_task.php` | Scheduled GDPR retention cleanup task. |
 | `cli/benchmark_course_analytics.php` | Read-only CLI benchmark for batched course Analytics query and timing behaviour. |

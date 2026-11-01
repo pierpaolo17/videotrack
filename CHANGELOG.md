@@ -1,5 +1,24 @@
 # VideoTrack changelog
 
+## 1.7.213 - 2026-11-01
+
+### Focused Moodle privacy export service
+
+- Accepted the real 379-file 1.7.212 ZIP byte-for-byte against the merged
+  main tree. All six post-merge CI jobs passed 325 PHPUnit tests, 24 Behat
+  scenarios and ten validator checks each. PHPMD confirmed 44 advisory
+  findings, down from 45 in 1.7.211 with no new findings. The Moodle 5.0/5.3
+  server report passed PHPCS (zero errors and warnings), lint, Grunt under
+  Node 22.23.4 and 325 PHPUnit tests per site; both strict validators passed
+  ten checks without warnings or failures.
+- Keep the public Moodle privacy provider interface and delegate approved user
+  exports to an autoloaded, dedicated exporter. Move the existing export and
+  interval-formatting bodies without changing their contents: records, field
+  sanitisation, 500-row chunk boundaries, language strings and export paths
+  remain identical. Candidate CI must confirm removal of the provider-class
+  complexity finding without any new findings; XMLDB, AMD, services and
+  languages are unchanged.
+
 ## 1.7.212 - 2026-11-01
 
 ### Explicit video-time fields in custom teacher CSV events
