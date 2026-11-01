@@ -1,6 +1,6 @@
 # Audit della documentazione
 
-Baseline: VideoTrack **1.7.215** (`2026110104`).
+Baseline: VideoTrack **1.7.216** (`2026110105`).
 
 ## Perimetro
 
@@ -33,7 +33,9 @@ duplicano intenzionalmente procedure implementative, dizionari dei campi o lungh
 ## Rilievi sull'albero corrente
 
 - Gli indici inglese e italiano hanno stesso perimetro e ordinamento.
-- Marker documentali, README principali e artefatti ER identificano 1.7.215 / 2026110104.
+- Marker documentali, README principali e artefatti ER identificano 1.7.216 / 2026110105.
+- `privacy_retention_pair` elabora ogni coppia con gli stessi lock, transazione e completamento
+  successivo al commit; `privacy_manager` mantiene le API pubbliche di cancellazione e batch.
 - La facciata Analytics di istanza delega durata, scelta dei bin e aggregazione della timeline
   da segmenti/stati a `analytics_timeline`; privacy masking e cluster delle reazioni restano nella facciata.
 - Le Analytics tra corsi documentano la facciata stabile `analytics_scope` e il matcher focalizzato che possiede
@@ -124,7 +126,7 @@ duplicano intenzionalmente procedure implementative, dizionari dei campi o lungh
 - Le evidenze CI/server generate non fanno parte dell'albero del plugin. Il `.gitignore` del repository, le regole
   Git archive `export-ignore`, le regole Moodle `.moodleignore` e un contratto PHPUnit di release hygiene impediscono
   insieme che `reports-*`, `videotrack-ci-*.zip` e `report_completo_videotrack_*.zip` entrino nelle release future.
-  L'archivio canonico di release deve contenere quindi soltanto i 381 file legittimi del plugin.
+  L'archivio canonico di release deve contenere quindi soltanto i 382 file legittimi del plugin.
 
 ## Controlli di release
 

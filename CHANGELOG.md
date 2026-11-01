@@ -1,13 +1,34 @@
 # VideoTrack changelog
 
+## 1.7.216 - 2026-11-01
+
+### Per-user retention processing under the canonical state lock
+
+- Accepted the real 381-file 1.7.215 ZIP byte-for-byte against the merged
+  candidate. All six post-merge CI jobs passed 325 PHPUnit tests, 24 Behat
+  scenarios and ten validator checks each. PHPMD confirmed 40 advisory
+  findings, down from 41 in 1.7.214 without new findings. The Moodle 5.0/5.3
+  server report passed PHPCS (zero errors and warnings), lint, Grunt under
+  Node 22.23.4 and 325 PHPUnit tests per site; both manual strict validators
+  passed ten checks with no warnings or failures.
+- Move the per-user/activity retention pair operation and its private helpers
+  to an autoloaded service while keeping public `privacy_manager` callbacks
+  and the existing batch limit. Preserve the lock and transaction boundaries,
+  post-commit completion sync, counter updates and row-deletion order. The
+  existing privacy retention tests exercise rebuilt state, expired rows,
+  completion and erasure. Candidate CI must confirm the PHPMD class-complexity
+  result without new findings. XMLDB, AMD, services and languages are unchanged.
+- Correct the PHPMD baseline figures for the 1.7.213–1.7.215 changelog
+  entries using their retained Moodle 5.0 MariaDB CI artifacts.
+
 ## 1.7.215 - 2026-11-01
 
 ### Focused timeline aggregation for instance Analytics
 
 - Accepted the real 380-file 1.7.214 ZIP byte-for-byte against the merged
   main tree. All six post-merge CI jobs passed 325 PHPUnit tests, 24 Behat
-  scenarios and ten validator checks each. PHPMD confirmed 42 advisory
-  findings, down from 43 in 1.7.213 without new findings. The Moodle 5.0/5.3
+  scenarios and ten validator checks each. PHPMD confirmed 41 advisory
+  findings, down from 42 in 1.7.213 without new findings. The Moodle 5.0/5.3
   server report passed PHPCS (zero errors and warnings), lint, Grunt under
   Node 22.23.4 and 325 PHPUnit tests per site.
 - Keep the public instance Analytics methods and constants stable while moving
@@ -25,8 +46,8 @@
 
 - Accepted the real 380-file 1.7.213 ZIP byte-for-byte against the
   post-merge main tree. All six post-merge CI jobs passed 325 PHPUnit tests,
-  24 Behat scenarios and ten validator checks each. PHPMD confirmed 43
-  advisory findings, down from 44 in 1.7.212 without new findings. The
+  24 Behat scenarios and ten validator checks each. PHPMD confirmed 42
+  advisory findings, down from 43 in 1.7.212 without new findings. The
   Moodle 5.0/5.3 server report passed PHPCS (zero errors and warnings),
   lint, Grunt under Node 22.23.4 and 325 PHPUnit tests per site; both
   strict validators passed ten checks without warnings or failures.
@@ -44,8 +65,8 @@
 
 - Accepted the real 379-file 1.7.212 ZIP byte-for-byte against the merged
   main tree. All six post-merge CI jobs passed 325 PHPUnit tests, 24 Behat
-  scenarios and ten validator checks each. PHPMD confirmed 44 advisory
-  findings, down from 45 in 1.7.211 with no new findings. The Moodle 5.0/5.3
+  scenarios and ten validator checks each. PHPMD confirmed 43 advisory
+  findings, down from 44 in 1.7.211 with no new findings. The Moodle 5.0/5.3
   server report passed PHPCS (zero errors and warnings), lint, Grunt under
   Node 22.23.4 and 325 PHPUnit tests per site; both strict validators passed
   ten checks without warnings or failures.
