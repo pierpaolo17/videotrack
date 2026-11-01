@@ -151,14 +151,14 @@ line, not for redeclaring a method parameter.
 - The Moodle feature callback is a direct feature-to-value table, while Font Awesome reaction validation partitions
   the reviewed decorator subset from exactly one icon name. Their public contracts, limits and fail-closed defaults
   are covered independently of the complexity reduction.
-- PHPMD remains advisory. The 1.7.213 CI confirmed 43 findings, down from
-  44 in 1.7.212 without new findings: the privacy-provider class complexity
-  finding disappeared while the long export method retained its existing
-  findings in the dedicated exporter. The 1.7.214 candidate divides the long
-  segment endpoint into validated-parameter, tracker-persistence and
-  accepted-result stages. Its Moodle AJAX signature remains unchanged with
-  ten declared fields. Candidate CI must confirm removal of the execute-method
-  length finding without adding any findings. Other reviewed findings concern
+- PHPMD remains advisory. The 1.7.214 CI confirmed 42 findings, down from
+  43 in 1.7.213 without new findings: the segment endpoint is below the
+  method-length threshold, while its ten-field Moodle AJAX signature is
+  preserved. The 1.7.215 candidate moves timeline-only methods to an
+  autoloaded `analytics_timeline` service and retains stable public facades
+  in `analytics`. The original class-complexity finding should disappear only
+  if both resulting classes remain below the configured threshold; candidate
+  CI must confirm this without new findings. Other reviewed findings concern
   complexity, size, broad public classes, required Moodle callback parameters
   and boolean switches.
 - Static-analysis configuration, production scope, database schema and AMD assets are unchanged by these API

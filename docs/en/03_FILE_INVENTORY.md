@@ -1,10 +1,10 @@
 # Distributed file inventory
 
-This inventory is generated against the VideoTrack 1.7.214 repository tree. It lists every distributed
+This inventory is generated against the VideoTrack 1.7.215 repository tree. It lists every distributed
 non-documentation file plus repository-only CI/tooling/hygiene files. Canonical JavaScript is under `amd/src`; files under
 `amd/build` are generated.
 
-Entries: **319** — 316 distributed files and three repository-only files excluded from release archives.
+Entries: **320** — 317 distributed files and three repository-only files excluded from release archives.
 
 | File | Responsibility |
 |---|---|
@@ -197,10 +197,11 @@ Entries: **319** — 316 distributed files and three repository-only files exclu
 | `classes/form/forum_post_form.php` | Forum composer form for VideoTrack. |
 | `classes/local/acknowledgement.php` | Versioned learner acknowledgement helpers. |
 | `classes/local/acknowledgement_analytics.php` | Privacy-safe acknowledgement analytics and suppression calculations. |
-| `classes/local/analytics.php` | Server-side aggregation for instance analytics. |
+| `classes/local/analytics.php` | Stable instance Analytics API, privacy-safe summaries and reaction clusters. |
 | `classes/local/analytics_scope.php` | Resolves capability-safe Analytics scopes for the same technical video. |
 | `classes/local/analytics_scope_matcher.php` | Finds same-video Analytics candidates and enforces per-module aggregate-report access. |
 | `classes/local/analytics_table_export.php` | Builds privacy-safe rows for the accessible analytics table export. |
+| `classes/local/analytics_timeline.php` | Calculates timeline bins, unique viewing and replay from raw segments or retained state intervals. |
 | `classes/local/completion_config.php` | Current local domain/service class; see source DocBlock for its runtime contract. |
 | `classes/local/course_analytics.php` | Privacy-safe aggregation for the course-level VideoTrack dashboard. |
 | `classes/local/course_analytics_loader.php` | Carica scope delle attività visibili, filtrati per capability, e record batchati di stato, segmenti e eventi. |

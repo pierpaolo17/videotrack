@@ -1,10 +1,10 @@
 # Inventario dei file distribuiti
 
-Questo inventario è generato sull'albero repository VideoTrack 1.7.214. Elenca ogni file non documentale distribuito
+Questo inventario è generato sull'albero repository VideoTrack 1.7.215. Elenca ogni file non documentale distribuito
 e i file CI/tooling/igiene presenti soltanto nel repository. Il JavaScript canonico è in `amd/src`; i file in `amd/build`
 sono generati.
 
-Voci: **319** — 316 file distribuiti e tre file presenti soltanto nel repository, esclusi dagli archivi di release.
+Voci: **320** — 317 file distribuiti e tre file presenti soltanto nel repository, esclusi dagli archivi di release.
 
 | File | Responsabilità |
 |---|---|
@@ -197,10 +197,11 @@ Voci: **319** — 316 file distribuiti e tre file presenti soltanto nel reposito
 | `classes/form/forum_post_form.php` | Form Moodle `forum_post_form`. |
 | `classes/local/acknowledgement.php` | Servizio di dominio `acknowledgement` riusabile da pagine, report o servizi. |
 | `classes/local/acknowledgement_analytics.php` | Calcolo aggregato delle prese visione con soglia privacy e dati legacy. |
-| `classes/local/analytics.php` | Servizio di dominio `analytics` riusabile da pagine, report o servizi. |
+| `classes/local/analytics.php` | API Analytics stabile, riepiloghi protetti dalla privacy e cluster delle reazioni. |
 | `classes/local/analytics_scope.php` | Servizio di dominio `analytics_scope` riusabile da pagine, report o servizi. |
 | `classes/local/analytics_scope_matcher.php` | Trova candidati Analytics per lo stesso video e applica l’accesso aggregato per modulo. |
 | `classes/local/analytics_table_export.php` | Servizio di dominio `analytics_table_export` riusabile da pagine, report o servizi. |
+| `classes/local/analytics_timeline.php` | Calcola bin temporali, visione unica e replay da segmenti grezzi o intervalli di stato conservati. |
 | `classes/local/completion_config.php` | Classe locale di dominio/servizio corrente; vedere il DocBlock sorgente per il contratto runtime. |
 | `classes/local/course_analytics.php` | Servizio di dominio `course_analytics` riusabile da pagine, report o servizi. |
 | `classes/local/course_analytics_loader.php` | Carica scope delle attività visibili, filtrati per capability, e record batchati di stato, segmenti e eventi. |
