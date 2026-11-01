@@ -1,6 +1,6 @@
 # Inventario dei file distribuiti
 
-Questo inventario è generato sull'albero repository VideoTrack 1.7.213. Elenca ogni file non documentale distribuito
+Questo inventario è generato sull'albero repository VideoTrack 1.7.214. Elenca ogni file non documentale distribuito
 e i file CI/tooling/igiene presenti soltanto nel repository. Il JavaScript canonico è in `amd/src`; i file in `amd/build`
 sono generati.
 
@@ -192,7 +192,7 @@ Voci: **319** — 316 file distribuiti e tre file presenti soltanto nel reposito
 | `classes/external/save_integrity_event.php` | Servizio esterno AJAX `save_integrity_event` con validazione lato server. |
 | `classes/external/save_note.php` | Salva una nota personale attraverso fasi esplicite di normalizzazione, evidenza vista, rate limit globale, persistenza e warning. |
 | `classes/external/save_reaction.php` | Salva una reazione con fasi ordinate di validazione, evidenza vista, limite tra sessioni e duplicati/persistenza sotto lock, poi mappa il risultato post-scrittura nella risposta stabile. |
-| `classes/external/save_segment.php` | Servizio esterno AJAX `save_segment` con validazione lato server. |
+| `classes/external/save_segment.php` | Valida e salva i segmenti visti tramite tracker, mantenendo payload e risposta del servizio AJAX. |
 | `classes/external/start_playback.php` | Servizio AJAX che apre una finestra server idempotente a credito zero. |
 | `classes/form/forum_post_form.php` | Form Moodle `forum_post_form`. |
 | `classes/local/acknowledgement.php` | Servizio di dominio `acknowledgement` riusabile da pagine, report o servizi. |

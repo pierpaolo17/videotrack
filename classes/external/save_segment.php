@@ -87,52 +87,12 @@ class save_segment extends external_api {
         float $durationseconds = 0.0
     ): array {
         global $USER;
-        $params = self::validate_parameters(self::execute_parameters(), compact(
-            'cmid',
-            'sessionid',
-            'requestid',
-            'videotimestart',
-            'videotimeend',
-            'wallclockstart',
-            'wallclockend',
-            'playbackrate',
-            'endreason',
-            'durationseconds'
-        ));
-        $params['cmid'] = helper::validate_positive_id((int)$params['cmid'], 'cmid');
-        $params['sessionid'] = helper::validate_session_id($params['sessionid']);
-        $params['requestid'] = helper::validate_request_id($params['requestid']);
-        $params['endreason'] = helper::validate_end_reason($params['endreason']);
-        $params['videotimestart'] = helper::validate_bounded_float(
-            (float)$params['videotimestart'],
-            'videotimestart',
-            0.0,
-            self::MAX_DURATION_SECONDS
-        );
-        $params['videotimeend'] = helper::validate_bounded_float(
-            (float)$params['videotimeend'],
-            'videotimeend',
-            0.0,
-            self::MAX_DURATION_SECONDS
-        );
-        $params['playbackrate'] = helper::validate_bounded_float(
-            (float)$params['playbackrate'],
-            'playbackrate',
-            0.25,
-            4.0
-        );
-        $params['durationseconds'] = helper::validate_bounded_float(
-            (float)$params['durationseconds'],
-            'durationseconds',
-            0.0,
-            self::MAX_DURATION_SECONDS
-        );
+        $input = compact('cmid', 'sessionid', 'requestid', 'videotimestart', 'videotimeend');
+        $input += compact('wallclockstart', 'wallclockend', 'playbackrate', 'endreason', 'durationseconds');
+        $params = self::validated_parameters($input);
         helper::require_ajax_sesskey();
         $loaded = helper::load_and_validate_context((int)$params['cmid']);
-        $course = $loaded['course'];
         $videotrack = $loaded['videotrack'];
-        $cm = $loaded['cm'];
-        $context = $loaded['context'];
 
         // The activity duration is authoritative only when configured by the teacher.
         // Client-reported duration is diagnostic input and must never unlock completion.
@@ -163,51 +123,8 @@ class save_segment extends external_api {
         $playbackrate = (float)$params['playbackrate'];
         self::require_allowed_playback_rate($videotrack, $playbackrate);
 
-        $now = time();
-        $nowmilliseconds = (int)round(microtime(true) * 1000);
-        // Client wallclock values remain diagnostic only.
-        $wstart = max(0, min($params['wallclockstart'], $now + 5));
-        $wend = max($wstart, min($params['wallclockend'], $now + 5));
-        $heartbeat = \videotrack_get_config_int('heartbeatinterval', 30, 5, 300);
-
-        $segment = (object)[
-            'videotrackid' => $videotrack->id,
-            'courseid'     => $course->id,
-            'cmid'         => $cm->id,
-            'userid'       => $USER->id,
-            'videoid'      => $videotrack->videoid,
-            'sessionid'    => $params['sessionid'],
-            'requestid'    => $params['requestid'],
-            'wallclockstart' => $wstart,
-            'wallclockend'   => $wend,
-            'videotimestart' => $interval[0],
-            'videotimeend'   => $interval[1],
-            'playbackrate'   => $playbackrate, // Already clamped to [0.25, 4.0] above.
-            'endreason'      => $params['endreason'],
-            'servervalidated' => 1,
-            'timecreated'    => $now,
-        ];
-        // Insert the raw segment and update the aggregate state in a single atomic
-        // transaction managed by update_state. If update_state fails, rollback also
-        // removes the inserted segment, leaving no orphan records.
-        $segmentid = null;
-        $requestreplayed = false;
-        $state = tracker::update_state(
-            $videotrack,
-            $cm,
-            (int)$USER->id,
-            $interval,
-            $interval[1],
-            $segment,
-            $segmentid,
-            [
-                'nowmilliseconds' => $nowmilliseconds,
-                'heartbeat' => $heartbeat,
-                'playbackrate' => $playbackrate,
-                'allowseekforward' => !empty($videotrack->allowseekforward),
-            ],
-            $requestreplayed
-        );
+        $persistence = self::persist_segment($params, $interval, $loaded, $USER, $playbackrate);
+        [$state, $segmentid, $requestreplayed] = $persistence;
 
         if ($segmentid === -1) {
             return [
@@ -244,6 +161,140 @@ class save_segment extends external_api {
             ];
         }
 
+        return self::finalise_accepted_segment($params, $interval, $loaded, $persistence, $USER);
+    }
+
+    /**
+     * Validates all service fields before checking the sesskey and loading context.
+     *
+     * @param array $input Raw external-service fields.
+     * @return array Sanitised segment fields.
+     */
+    private static function validated_parameters(array $input): array {
+        $params = self::validate_parameters(self::execute_parameters(), $input);
+        $params['cmid'] = helper::validate_positive_id((int)$params['cmid'], 'cmid');
+        $params['sessionid'] = helper::validate_session_id($params['sessionid']);
+        $params['requestid'] = helper::validate_request_id($params['requestid']);
+        $params['endreason'] = helper::validate_end_reason($params['endreason']);
+        $params['videotimestart'] = helper::validate_bounded_float(
+            (float)$params['videotimestart'],
+            'videotimestart',
+            0.0,
+            self::MAX_DURATION_SECONDS
+        );
+        $params['videotimeend'] = helper::validate_bounded_float(
+            (float)$params['videotimeend'],
+            'videotimeend',
+            0.0,
+            self::MAX_DURATION_SECONDS
+        );
+        $params['playbackrate'] = helper::validate_bounded_float(
+            (float)$params['playbackrate'],
+            'playbackrate',
+            0.25,
+            4.0
+        );
+        $params['durationseconds'] = helper::validate_bounded_float(
+            (float)$params['durationseconds'],
+            'durationseconds',
+            0.0,
+            self::MAX_DURATION_SECONDS
+        );
+        return $params;
+    }
+
+    /**
+     * Persists one validated segment through the tracker transaction.
+     *
+     * @param array $params Validated service fields.
+     * @param array $interval Normalised start and end times.
+     * @param array $loaded Course, activity and module loaded by the endpoint.
+     * @param \stdClass $user Current Moodle user.
+     * @param float $playbackrate Validated and permitted playback rate.
+     * @return array State, segment id and idempotent replay flag.
+     */
+    private static function persist_segment(
+        array $params,
+        array $interval,
+        array $loaded,
+        \stdClass $user,
+        float $playbackrate
+    ): array {
+        $course = $loaded['course'];
+        $videotrack = $loaded['videotrack'];
+        $cm = $loaded['cm'];
+
+        $now = time();
+        $nowmilliseconds = (int)round(microtime(true) * 1000);
+        // Client wallclock values remain diagnostic only.
+        $wstart = max(0, min($params['wallclockstart'], $now + 5));
+        $wend = max($wstart, min($params['wallclockend'], $now + 5));
+        $heartbeat = \videotrack_get_config_int('heartbeatinterval', 30, 5, 300);
+
+        $segment = (object)[
+            'videotrackid' => $videotrack->id,
+            'courseid'     => $course->id,
+            'cmid'         => $cm->id,
+            'userid'       => $user->id,
+            'videoid'      => $videotrack->videoid,
+            'sessionid'    => $params['sessionid'],
+            'requestid'    => $params['requestid'],
+            'wallclockstart' => $wstart,
+            'wallclockend'   => $wend,
+            'videotimestart' => $interval[0],
+            'videotimeend'   => $interval[1],
+            'playbackrate'   => $playbackrate, // Already clamped to [0.25, 4.0] above.
+            'endreason'      => $params['endreason'],
+            'servervalidated' => 1,
+            'timecreated'    => $now,
+        ];
+        // Insert the raw segment and update the aggregate state in a single atomic
+        // transaction managed by update_state. If update_state fails, rollback also
+        // removes the inserted segment, leaving no orphan records.
+        $segmentid = null;
+        $requestreplayed = false;
+        $state = tracker::update_state(
+            $videotrack,
+            $cm,
+            (int)$user->id,
+            $interval,
+            $interval[1],
+            $segment,
+            $segmentid,
+            [
+                'nowmilliseconds' => $nowmilliseconds,
+                'heartbeat' => $heartbeat,
+                'playbackrate' => $playbackrate,
+                'allowseekforward' => !empty($videotrack->allowseekforward),
+            ],
+            $requestreplayed
+        );
+
+        return [$state, $segmentid, $requestreplayed];
+    }
+
+    /**
+     * Emits significant segment events and synchronises native completion after persistence.
+     *
+     * @param array $params Validated service fields.
+     * @param array $interval Normalised start and end times.
+     * @param array $loaded Course, module and context loaded by the endpoint.
+     * @param array $persistence Updated state, stored segment id and replay flag.
+     * @param \stdClass $user Current Moodle user.
+     * @return array Accepted external-service response.
+     */
+    private static function finalise_accepted_segment(
+        array $params,
+        array $interval,
+        array $loaded,
+        array $persistence,
+        \stdClass $user
+    ): array {
+        [$state, $segmentid, $requestreplayed] = $persistence;
+        $course = $loaded['course'];
+        $cm = $loaded['cm'];
+        $context = $loaded['context'];
+
         // Log only significant actions; heartbeats produce too many log entries.
         $loggable = ['pause', 'seek', 'ended', 'beforeunload', 'pagehide'];
         if (!$requestreplayed && $segmentid !== null && in_array($params['endreason'], $loggable, true)) {
@@ -261,7 +312,7 @@ class save_segment extends external_api {
 
         $completion = new \completion_info($course);
         if (!$requestreplayed) {
-            tracker::update_moodle_completion_if_changed($completion, $cm, (bool)$state->iscompleted, (int)$USER->id);
+            tracker::update_moodle_completion_if_changed($completion, $cm, (bool)$state->iscompleted, (int)$user->id);
         }
         return [
             'accepted'             => true,
