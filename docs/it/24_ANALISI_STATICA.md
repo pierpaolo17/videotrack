@@ -160,16 +160,16 @@ dichiarazione di un parametro di metodo.
 - Il callback delle feature Moodle è una tabella diretta feature-valore, mentre la validazione delle reazioni Font
   Awesome separa il sottoinsieme revisionato dei decoratori da un solo nome icona. Contratti pubblici, limiti e
   default fail-closed sono coperti indipendentemente dalla riduzione di complessità.
-- PHPMD resta consultivo. La CI della 1.7.214 ha confermato 42 rilievi,
-  contro i 43 della 1.7.213 senza nuovi rilievi: l’endpoint segmenti è sotto
-  la soglia di lunghezza del metodo, mantenendo la firma AJAX Moodle con dieci
-  campi. La candidata 1.7.215 sposta i metodi della timeline nel servizio
-  autoloaded `analytics_timeline` e conserva le facciate pubbliche stabili
-  in `analytics`. Il rilievo sulla complessità della classe originale scompare
-  soltanto se entrambe le classi risultano sotto la soglia configurata; la CI
-  dovrà verificarlo senza nuovi rilievi. Restano rilievi esaminati su
-  complessità e dimensioni, classi pubbliche ampie, parametri obbligatori dei
-  callback Moodle e flag booleani.
+- PHPMD resta consultivo. La CI della 1.7.215 ha confermato 40 rilievi,
+  contro i 41 della 1.7.214 senza nuovi rilievi: il servizio timeline resta
+  sotto la soglia di complessità della classe e la facciata pubblica Analytics
+  è conservata. La candidata 1.7.216 sposta l'elaborazione di una coppia
+  utente/attività e i suoi metodi privati nel servizio autoloaded
+  `privacy_retention_pair`; l'API pubblica di `privacy_manager` conserva gli
+  stessi input e risultati. La CI dovrà confermare che entrambe le classi
+  restano sotto la soglia di complessità, senza nuovi rilievi. Rimangono i
+  rilievi revisionati su complessità, dimensioni, classi pubbliche ampie,
+  parametri obbligatori dei callback Moodle e flag booleani.
 - Configurazione degli analizzatori, perimetro di produzione, schema database e asset AMD non cambiano con queste
   pulizie delle API. I conteggi della candidata diventano autorevoli soltanto dopo aver conservato e revisionato gli
   artifact CI completi.

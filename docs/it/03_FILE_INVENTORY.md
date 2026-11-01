@@ -1,10 +1,10 @@
 # Inventario dei file distribuiti
 
-Questo inventario è generato sull'albero repository VideoTrack 1.7.215. Elenca ogni file non documentale distribuito
+Questo inventario è generato sull'albero repository VideoTrack 1.7.216. Elenca ogni file non documentale distribuito
 e i file CI/tooling/igiene presenti soltanto nel repository. Il JavaScript canonico è in `amd/src`; i file in `amd/build`
 sono generati.
 
-Voci: **320** — 317 file distribuiti e tre file presenti soltanto nel repository, esclusi dagli archivi di release.
+Voci: **321** — 318 file distribuiti e tre file presenti soltanto nel repository, esclusi dagli archivi di release.
 
 | File | Responsabilità |
 |---|---|
@@ -215,6 +215,7 @@ Voci: **320** — 317 file distribuiti e tre file presenti soltanto nel reposito
 | `classes/local/integrity.php` | Servizio di dominio `integrity` riusabile da pagine, report o servizi. |
 | `classes/local/learner_scope.php` | Regole canoniche di visibilità learner/report per ruoli e gruppi. |
 | `classes/local/privacy_manager.php` | Servizio di dominio `privacy_manager` riusabile da pagine, report o servizi. |
+| `classes/local/privacy_retention_pair.php` | Elimina i dati personali scaduti e ricostruisce lo stato di un utente e attività sotto il lock canonico. |
 | `classes/local/report_access.php` | Policy centralizzata delle capability granulari dei report di attività con fallback retrocompatibile al permesso completo. |
 | `classes/local/reaction_write_service.php` | Esegue invalidazione cache, consegna evento, conteggio aggregato e refresh completion dopo la persistenza con warning limitati. |
 | `classes/local/report_aggregation.php` | Individuazione pura dei cali di viewer e ordinamento dei cluster di reazione completati per i report docente. |

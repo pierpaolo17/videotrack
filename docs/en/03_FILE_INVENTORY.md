@@ -1,10 +1,10 @@
 # Distributed file inventory
 
-This inventory is generated against the VideoTrack 1.7.215 repository tree. It lists every distributed
+This inventory is generated against the VideoTrack 1.7.216 repository tree. It lists every distributed
 non-documentation file plus repository-only CI/tooling/hygiene files. Canonical JavaScript is under `amd/src`; files under
 `amd/build` are generated.
 
-Entries: **320** — 317 distributed files and three repository-only files excluded from release archives.
+Entries: **321** — 318 distributed files and three repository-only files excluded from release archives.
 
 | File | Responsibility |
 |---|---|
@@ -215,6 +215,7 @@ Entries: **320** — 317 distributed files and three repository-only files exclu
 | `classes/local/integrity.php` | Integrity-indicator definitions and privacy-safe aggregation helpers. |
 | `classes/local/learner_scope.php` | Canonical learner/report visibility rules for role and group-safe reporting. |
 | `classes/local/privacy_manager.php` | Privacy helpers for VideoTrack. |
+| `classes/local/privacy_retention_pair.php` | Rebuilds derived state and deletes expired personal rows for one learner and activity while holding the state lock. |
 | `classes/local/report_access.php` | Centralised granular activity-report capability policy with backwards-compatible full-report fallback. |
 | `classes/local/reaction_write_service.php` | Runs post-persistence reaction cache invalidation, event delivery, aggregate counting and completion refresh with bounded warnings. |
 | `classes/local/report_aggregation.php` | Pure viewer-drop discovery and completed reaction-cluster ordering for teacher reports. |
