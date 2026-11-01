@@ -17,6 +17,7 @@
 namespace mod_videotrack;
 
 use advanced_testcase;
+use mod_videotrack\local\csv_event_context;
 use mod_videotrack\local\csv_event_writer;
 use PHPUnit\Framework\Attributes\CoversClass;
 
@@ -44,13 +45,15 @@ final class csv_event_writer_test extends advanced_testcase {
             $handle,
             ',',
             [],
-            (object)['id' => 7, 'fullname' => 'Course', 'shortname' => 'C'],
-            (object)['name' => 'Video'],
-            [$user->id => $user],
-            21,
-            \context_system::instance(),
-            120.0,
-            false
+            new csv_event_context(
+                (object)['id' => 7, 'fullname' => 'Course', 'shortname' => 'C'],
+                (object)['name' => 'Video'],
+                [$user->id => $user],
+                21,
+                \context_system::instance(),
+                120.0,
+                false
+            )
         );
 
         $writer->write((int)$user->id, 'Reaction', 'Like', '', 65.0, 60.0, 70.0, 3, 'Created');
@@ -72,13 +75,15 @@ final class csv_event_writer_test extends advanced_testcase {
             $handle,
             ',',
             [],
-            (object)['id' => 7, 'fullname' => 'Course', 'shortname' => 'C'],
-            (object)['name' => 'Video'],
-            [],
-            21,
-            \context_system::instance(),
-            120.0,
-            true
+            new csv_event_context(
+                (object)['id' => 7, 'fullname' => 'Course', 'shortname' => 'C'],
+                (object)['name' => 'Video'],
+                [],
+                21,
+                \context_system::instance(),
+                120.0,
+                true
+            )
         );
 
         $writer->write(0, 'Reaction', 'Like', '', 65.0, 60.0, 70.0, 3, '', 2);
@@ -100,13 +105,15 @@ final class csv_event_writer_test extends advanced_testcase {
             $handle,
             ',',
             [],
-            (object)['id' => 7, 'fullname' => 'Course', 'shortname' => 'C'],
-            (object)['name' => 'Video'],
-            [],
-            21,
-            \context_system::instance(),
-            120.0,
-            false
+            new csv_event_context(
+                (object)['id' => 7, 'fullname' => 'Course', 'shortname' => 'C'],
+                (object)['name' => 'Video'],
+                [],
+                21,
+                \context_system::instance(),
+                120.0,
+                false
+            )
         );
 
         $writer->write(99, 'Reaction', 'Like', '', 65.0, 65.0, 65.0, 1, 'Created');

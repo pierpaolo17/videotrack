@@ -160,14 +160,14 @@ dichiarazione di un parametro di metodo.
 - Il callback delle feature Moodle è una tabella diretta feature-valore, mentre la validazione delle reazioni Font
   Awesome separa il sottoinsieme revisionato dei decoratori da un solo nome icona. Contratti pubblici, limiti e
   default fail-closed sono coperti indipendentemente dalla riduzione di complessità.
-- PHPMD resta consultivo. La CI della 1.7.209 ha confermato 46 rilievi,
-  contro i 47 della 1.7.208: il calcolo aggregato delle prese visione non
-  presenta più il rilievo di complessità della classe. La candidata 1.7.210
-  passa il vero oggetto lock canonico dalla retention al metodo di
-  ricostruzione esistente; le chiamate autonome acquisiscono il proprio lock.
-  La CI deve confermare l'eliminazione del flag booleano senza introdurre un
-  rilievo sul numero di metodi. Restano complessità, dimensione, classi
-  pubbliche ampie, parametri obbligatori dei callback Moodle e flag booleani.
+- PHPMD resta consultivo. La CI della 1.7.210 ha confermato 45 rilievi,
+  contro i 46 della 1.7.209: la ricostruzione dello stato non presenta più il
+  rilievo sul flag booleano e non sono rimasti nuovi rilievi sul numero o sulla
+  complessità dei metodi. La candidata 1.7.211 raccoglie gli input stabili
+  dell'export CSV docente in un contesto tipizzato senza alterare le righe.
+  La CI deve confermare la riduzione dei parametri del costruttore senza nuovi
+  rilievi. Restano complessità, dimensione, classi pubbliche ampie, parametri
+  obbligatori dei callback Moodle e flag booleani.
 - Configurazione degli analizzatori, perimetro di produzione, schema database e asset AMD non cambiano con queste
   pulizie delle API. I conteggi della candidata diventano autorevoli soltanto dopo aver conservato e revisionato gli
   artifact CI completi.

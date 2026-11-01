@@ -63,36 +63,24 @@ final class csv_event_writer {
      * @param resource $handle Output stream.
      * @param string $delimiter CSV delimiter.
      * @param array $fields Selected identity/context fields.
-     * @param stdClass $course Course record.
-     * @param stdClass $videotrack Activity record.
-     * @param array $usermap Export users keyed by id.
-     * @param int $cmid Course-module id.
-     * @param context $context Module context.
-     * @param float $duration Video duration in seconds.
-     * @param bool $overall Whether the export is the aggregate overall format.
+     * @param csv_event_context $exportcontext Stable activity, learner and export context.
      */
     public function __construct(
         $handle,
         string $delimiter,
         array $fields,
-        stdClass $course,
-        stdClass $videotrack,
-        array $usermap,
-        int $cmid,
-        context $context,
-        float $duration,
-        bool $overall
+        csv_event_context $exportcontext
     ) {
         $this->handle = $handle;
         $this->delimiter = $delimiter;
         $this->fields = $fields;
-        $this->course = $course;
-        $this->videotrack = $videotrack;
-        $this->usermap = $usermap;
-        $this->cmid = $cmid;
-        $this->context = $context;
-        $this->duration = $duration;
-        $this->overall = $overall;
+        $this->course = $exportcontext->course;
+        $this->videotrack = $exportcontext->videotrack;
+        $this->usermap = $exportcontext->usermap;
+        $this->cmid = $exportcontext->cmid;
+        $this->context = $exportcontext->context;
+        $this->duration = $exportcontext->duration;
+        $this->overall = $exportcontext->overall;
     }
 
     /**

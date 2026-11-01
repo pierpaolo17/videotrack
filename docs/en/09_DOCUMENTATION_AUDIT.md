@@ -1,6 +1,6 @@
 # Documentation audit
 
-Baseline: VideoTrack **1.7.210** (`2026103006`).
+Baseline: VideoTrack **1.7.211** (`2026103101`).
 
 ## Scope
 
@@ -33,14 +33,15 @@ not duplicate implementation procedures, field dictionaries or long security/pri
 ## Current-tree findings
 
 - English and Italian indexes have matching scope and ordering.
-- Documentation markers, root README files and ER artefacts identify 1.7.210 / 2026103006.
+- Documentation markers, root README files and ER artefacts identify 1.7.211 / 2026103101.
 - Cross-course Analytics documents the stable `analytics_scope` facade and the focused matcher that owns candidate
   selection, technical-identity predicates, capability filtering, current-instance fallback and ordering.
 - Course dashboard Analytics delegates visible activity scopes and batched state, period segment and event reads
   to `course_analytics_loader`, while `course_analytics` retains summaries and privacy-safe row assembly.
 - Custom completion reads enabled reaction conditions through `completion_config::reaction_checks()`;
   both reaction-level and top-level decisions use `completion_config::combine_checks()`.
-- The custom CSV exporter separates activity-field formatting from user-field sanitisation; acknowledgement
+- The custom CSV event writer receives a typed activity and learner context; row formatting and user filtering
+  stay in the writer. The exporter separates activity-field formatting from user-field sanitisation; acknowledgement
   confirmation checks availability before looking up or creating a learner record.
 - Privacy metadata lists external locations after the database tables; retention deletes expired personal rows
   before rebuilding state, within the same state lock and delegated transaction.
@@ -113,7 +114,7 @@ not duplicate implementation procedures, field dictionaries or long security/pri
 - Generated CI/server evidence is not part of the plugin tree. Repository `.gitignore`, Git archive
   `export-ignore` rules, Moodle `.moodleignore` rules and a PHPUnit release-hygiene contract jointly prevent
   `reports-*`, `videotrack-ci-*.zip` and `report_completo_videotrack_*.zip` from entering future releases. The
-  canonical release archive must therefore contain the 377 legitimate plugin files only.
+  canonical release archive must therefore contain the 378 legitimate plugin files only.
 
 ## Release checks
 

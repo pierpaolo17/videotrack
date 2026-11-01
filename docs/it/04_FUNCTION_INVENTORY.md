@@ -1,8 +1,8 @@
 # Inventario delle funzioni
 
-Generato dall’albero sorgente VideoTrack 1.7.210. Le voci PHP includono funzioni e metodi nominati; le voci AMD includono dichiarazioni nominate, espressioni funzione assegnate e funzioni-metodo di oggetti.
+Generato dall’albero sorgente VideoTrack 1.7.211. Le voci PHP includono funzioni e metodi nominati; le voci AMD includono dichiarazioni nominate, espressioni funzione assegnate e funzioni-metodo di oggetti.
 
-**Funzioni/metodi PHP:** 935. **Callable AMD nominati:** 654.
+**Funzioni/metodi PHP:** 936. **Callable AMD nominati:** 654.
 
 | Posizione | Callable | Responsabilità |
 |---|---|---|
@@ -909,8 +909,9 @@ Generato dall’albero sorgente VideoTrack 1.7.210. Le voci PHP includono funzio
 | `classes/local/course_analytics_loader.php:136` | `load_states_for_scopes` | Funzione/metodo PHP nominato `load_states_for_scopes`; vedere DocBlock e chiamanti per il contratto corrente. |
 | `classes/local/course_analytics_loader.php:172` | `load_period_segments_for_scopes` | Funzione/metodo PHP nominato `load_period_segments_for_scopes`; vedere DocBlock e chiamanti per il contratto corrente. |
 | `classes/local/course_analytics_loader.php:233` | `load_event_summaries_for_scopes` | Funzione/metodo PHP nominato `load_event_summaries_for_scopes`; vedere DocBlock e chiamanti per il contratto corrente. |
-| `classes/local/csv_event_writer.php:74` | `__construct` | Callable PHP `__construct`; DocBlock e chiamanti definiscono parametri, valori restituiti ed effetti. |
-| `classes/local/csv_event_writer.php:113` | `write` | Callable PHP `write`; DocBlock e chiamanti definiscono parametri, valori restituiti ed effetti. |
+| `classes/local/csv_event_context.php:62` | `__construct` | Raccoglie gli input stabili per attività, utenti e formato CSV delle righe evento. |
+| `classes/local/csv_event_writer.php:68` | `__construct` | Callable PHP `__construct`; DocBlock e chiamanti definiscono parametri, valori restituiti ed effetti. |
+| `classes/local/csv_event_writer.php:101` | `write` | Callable PHP `write`; DocBlock e chiamanti definiscono parametri, valori restituiti ed effetti. |
 | `classes/local/csv_export.php:78` | `delimiter_options` | Callable PHP `delimiter_options`; DocBlock e chiamanti definiscono parametri, valori restituiti ed effetti. |
 | `classes/local/csv_export.php:93` | `delimiter_options_with_inherit` | Callable PHP `delimiter_options_with_inherit`; restituisce le opzioni dell'attività con ereditarietà esplicita dal sito. |
 | `classes/local/csv_export.php:106` | `delimiter` | Callable PHP `delimiter`; DocBlock e chiamanti definiscono parametri, valori restituiti ed effetti. |
@@ -1358,9 +1359,9 @@ Generato dall’albero sorgente VideoTrack 1.7.210. Le voci PHP includono funzio
 | `tests/course_analytics_test.php:394` | `test_exact_report_threshold_exposes_single_learner_period_summary` | Callable PHP `test_exact_report_threshold_exposes_single_learner_period_summary`; DocBlock e chiamanti definiscono parametri, valori restituiti ed effetti. |
 | `tests/course_analytics_test.php:423` | `test_course_report_controller_requests_exact_aggregates` | Callable PHP `test_course_report_controller_requests_exact_aggregates`; DocBlock e chiamanti definiscono parametri, valori restituiti ed effetti. |
 | `tests/course_analytics_test.php:445` | `state` | Callable PHP `state`; DocBlock e chiamanti definiscono parametri, valori restituiti ed effetti. |
-| `tests/csv_event_writer_test.php:36` | `test_write_detailed_event_row` | Callable PHP `test_write_detailed_event_row`; DocBlock e chiamanti definiscono parametri, valori restituiti ed effetti. |
-| `tests/csv_event_writer_test.php:69` | `test_write_overall_event_row` | Callable PHP `test_write_overall_event_row`; DocBlock e chiamanti definiscono parametri, valori restituiti ed effetti. |
-| `tests/csv_event_writer_test.php:97` | `test_write_skips_unknown_positive_user` | Callable PHP `test_write_skips_unknown_positive_user`; DocBlock e chiamanti definiscono parametri, valori restituiti ed effetti. |
+| `tests/csv_event_writer_test.php:37` | `test_write_detailed_event_row` | Callable PHP `test_write_detailed_event_row`; DocBlock e chiamanti definiscono parametri, valori restituiti ed effetti. |
+| `tests/csv_event_writer_test.php:72` | `test_write_overall_event_row` | Callable PHP `test_write_overall_event_row`; DocBlock e chiamanti definiscono parametri, valori restituiti ed effetti. |
+| `tests/csv_event_writer_test.php:102` | `test_write_skips_unknown_positive_user` | Callable PHP `test_write_skips_unknown_positive_user`; DocBlock e chiamanti definiscono parametri, valori restituiti ed effetti. |
 | `tests/csv_export_test.php:37` | `test_delimiter_options_are_scope_specific` | Callable PHP `test_delimiter_options_are_scope_specific`; verifica gli insiemi espliciti di opzioni delimitatore di sito e attività. |
 | `tests/csv_export_test.php:49` | `test_delimiter_resolution` | Callable PHP `test_delimiter_resolution`; DocBlock e chiamanti definiscono parametri, valori restituiti ed effetti. |
 | `tests/csv_export_test.php:72` | `test_process_form_fields` | Callable PHP `test_process_form_fields`; DocBlock e chiamanti definiscono parametri, valori restituiti ed effetti. |

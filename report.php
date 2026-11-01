@@ -1295,13 +1295,15 @@ if ($export === 'custom_csv') {
         $fh,
         $csvdelimiter,
         $csvfields,
-        $course,
-        $videotrack,
-        $exportusermap,
-        (int)$cm->id,
-        $context,
-        $videoduration,
-        $csvformat === 'overall'
+        new \mod_videotrack\local\csv_event_context(
+            $course,
+            $videotrack,
+            $exportusermap,
+            (int)$cm->id,
+            $context,
+            $videoduration,
+            $csvformat === 'overall'
+        )
     );
 
     $scopewhere = "videotrackid = :vtid AND isdeleted = 0 AND {$learnerwhere}";

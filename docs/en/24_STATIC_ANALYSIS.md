@@ -151,12 +151,12 @@ line, not for redeclaring a method parameter.
 - The Moodle feature callback is a direct feature-to-value table, while Font Awesome reaction validation partitions
   the reviewed decorator subset from exactly one icon name. Their public contracts, limits and fail-closed defaults
   are covered independently of the complexity reduction.
-- PHPMD remains advisory. The 1.7.209 CI confirmed 46 findings, down from
-  47 in 1.7.208: acknowledgement analytics no longer triggers class complexity.
-  The 1.7.210 candidate passes the actual canonical lock object from
-  retention to the existing rebuild method. Standalone calls acquire their own
-  lock. Candidate CI must confirm removal of the boolean-flag finding without
-  introducing a method-count finding. Remaining reports concern
+- PHPMD remains advisory. The 1.7.210 CI confirmed 45 findings, down from
+  46 in 1.7.209: the canonical state rebuild no longer triggers a boolean-flag
+  finding, and no new method-count or complexity finding remains. The 1.7.211
+  candidate groups stable teacher CSV export inputs in a typed context while
+  leaving the event-row writer unchanged. Candidate CI must confirm the
+  constructor-parameter result without new findings. Remaining reports concern
   reviewed complexity, size, broad public classes, required Moodle callback
   parameters and boolean switches.
 - Static-analysis configuration, production scope, database schema and AMD assets are unchanged by these API
