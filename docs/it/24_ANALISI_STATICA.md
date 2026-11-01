@@ -160,8 +160,8 @@ dichiarazione di un parametro di metodo.
 - Il callback delle feature Moodle è una tabella diretta feature-valore, mentre la validazione delle reazioni Font
   Awesome separa il sottoinsieme revisionato dei decoratori da un solo nome icona. Contratti pubblici, limiti e
   default fail-closed sono coperti indipendentemente dalla riduzione di complessità.
-- PHPMD resta consultivo. La CI della 1.7.212 ha confermato 43 rilievi,
-  contro i 44 della 1.7.211 senza nuovi rilievi. La candidata 1.7.213
+- PHPMD resta consultivo. La CI della 1.7.212 ha confermato 44 rilievi,
+  contro i 45 della 1.7.211 senza nuovi rilievi. La candidata 1.7.213
   delega il corpo invariato dell’export privacy Moodle alla classe autoloaded
   `privacy\exporter`, mantenendo il callback obbligatorio
   `provider::export_user_data()`. La nuova classe contiene solo l’export e la

@@ -6,8 +6,8 @@
 
 - Accepted the real 379-file 1.7.212 ZIP byte-for-byte against the merged
   main tree. All six post-merge CI jobs passed 325 PHPUnit tests, 24 Behat
-  scenarios and ten validator checks each. PHPMD confirmed 43 advisory
-  findings, down from 44 in 1.7.211 with no new findings. The Moodle 5.0/5.3
+  scenarios and ten validator checks each. PHPMD confirmed 44 advisory
+  findings, down from 45 in 1.7.211 with no new findings. The Moodle 5.0/5.3
   server report passed PHPCS (zero errors and warnings), lint, Grunt under
   Node 22.23.4 and 325 PHPUnit tests per site; both strict validators passed
   ten checks without warnings or failures.
