@@ -1336,9 +1336,11 @@ if ($export === 'custom_csv') {
                     get_string($isnote ? 'report:eventtype_note' : 'report:eventtype_reaction', 'mod_videotrack'),
                     $isnote ? '' : format_string($record->reactionlabel, true, ['context' => $context]),
                     $isnote ? (string)$record->notetext : '',
-                    (float)$record->videotime,
-                    (float)$record->videotime,
-                    (float)$record->videotime,
+                    new \mod_videotrack\local\csv_event_timestamps(
+                        (float)$record->videotime,
+                        (float)$record->videotime,
+                        (float)$record->videotime
+                    ),
                     1,
                     userdate((int)$record->timecreated)
                 );
@@ -1371,9 +1373,11 @@ if ($export === 'custom_csv') {
                         get_string('report:eventtype_reaction', 'mod_videotrack'),
                         (string)$cluster['reactionlabel'],
                         '',
-                        (float)$cluster['timestamp'],
-                        (float)$cluster['first'],
-                        (float)$cluster['last'],
+                        new \mod_videotrack\local\csv_event_timestamps(
+                            (float)$cluster['timestamp'],
+                            (float)$cluster['first'],
+                            (float)$cluster['last']
+                        ),
                         (int)$cluster['count'],
                         '',
                         (int)$cluster['students']
@@ -1412,9 +1416,11 @@ if ($export === 'custom_csv') {
                             get_string('report:eventtype_reaction', 'mod_videotrack'),
                             (string)$cluster['reactionlabel'],
                             '',
-                            (float)$cluster['timestamp'],
-                            (float)$cluster['first'],
-                            (float)$cluster['last'],
+                            new \mod_videotrack\local\csv_event_timestamps(
+                                (float)$cluster['timestamp'],
+                                (float)$cluster['first'],
+                                (float)$cluster['last']
+                            ),
                             (int)$cluster['count'],
                             ''
                         );
@@ -1450,9 +1456,11 @@ if ($export === 'custom_csv') {
                         get_string('report:eventtype_note', 'mod_videotrack'),
                         '',
                         (string)$cluster['comment'],
-                        (float)$cluster['timestamp'],
-                        (float)$cluster['first'],
-                        (float)$cluster['last'],
+                        new \mod_videotrack\local\csv_event_timestamps(
+                            (float)$cluster['timestamp'],
+                            (float)$cluster['first'],
+                            (float)$cluster['last']
+                        ),
                         (int)$cluster['count'],
                         '',
                         (int)$cluster['students']
@@ -1465,9 +1473,11 @@ if ($export === 'custom_csv') {
                         get_string('report:eventtype_note', 'mod_videotrack'),
                         '',
                         (string)$note->notetext,
-                        (float)$note->videotime,
-                        (float)$note->videotime,
-                        (float)$note->videotime,
+                        new \mod_videotrack\local\csv_event_timestamps(
+                            (float)$note->videotime,
+                            (float)$note->videotime,
+                            (float)$note->videotime
+                        ),
                         1,
                         userdate((int)$note->timecreated)
                     );
@@ -1493,9 +1503,11 @@ if ($export === 'custom_csv') {
                     get_string('report:bookmarks_count', 'mod_videotrack'),
                     '',
                     '',
-                    null,
-                    null,
-                    null,
+                    new \mod_videotrack\local\csv_event_timestamps(
+                        null,
+                        null,
+                        null
+                    ),
                     $bookmarkcount,
                     '',
                     (int)($bookmarksummary->studentcount ?? 0)
@@ -1516,9 +1528,11 @@ if ($export === 'custom_csv') {
                     get_string('report:bookmarks_count', 'mod_videotrack'),
                     '',
                     '',
-                    null,
-                    null,
-                    null,
+                    new \mod_videotrack\local\csv_event_timestamps(
+                        null,
+                        null,
+                        null
+                    ),
                     (int)$bookmarkrow->eventcount,
                     ''
                 );

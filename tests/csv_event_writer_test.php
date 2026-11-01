@@ -18,6 +18,7 @@ namespace mod_videotrack;
 
 use advanced_testcase;
 use mod_videotrack\local\csv_event_context;
+use mod_videotrack\local\csv_event_timestamps;
 use mod_videotrack\local\csv_event_writer;
 use PHPUnit\Framework\Attributes\CoversClass;
 
@@ -56,7 +57,15 @@ final class csv_event_writer_test extends advanced_testcase {
             )
         );
 
-        $writer->write((int)$user->id, 'Reaction', 'Like', '', 65.0, 60.0, 70.0, 3, 'Created');
+        $writer->write(
+            (int)$user->id,
+            'Reaction',
+            'Like',
+            '',
+            new csv_event_timestamps(65.0, 60.0, 70.0),
+            3,
+            'Created'
+        );
         rewind($handle);
 
         $this->assertSame(
@@ -86,7 +95,7 @@ final class csv_event_writer_test extends advanced_testcase {
             )
         );
 
-        $writer->write(0, 'Reaction', 'Like', '', 65.0, 60.0, 70.0, 3, '', 2);
+        $writer->write(0, 'Reaction', 'Like', '', new csv_event_timestamps(65.0, 60.0, 70.0), 3, '', 2);
         rewind($handle);
 
         $this->assertSame(
@@ -116,10 +125,37 @@ final class csv_event_writer_test extends advanced_testcase {
             )
         );
 
-        $writer->write(99, 'Reaction', 'Like', '', 65.0, 65.0, 65.0, 1, 'Created');
+        $writer->write(99, 'Reaction', 'Like', '', new csv_event_timestamps(65.0, 65.0, 65.0), 1, 'Created');
         rewind($handle);
 
         $this->assertSame('', stream_get_contents($handle));
+        fclose($handle);
+    }
+
+    /**
+     * Overall bookmark counts keep empty video timestamps and the student-count column.
+     */
+    public function test_write_overall_bookmark_count_without_timestamps(): void {
+        $handle = fopen('php://temp', 'w+');
+        $writer = new csv_event_writer(
+            $handle,
+            ',',
+            [],
+            new csv_event_context(
+                (object)['id' => 7, 'fullname' => 'Course', 'shortname' => 'C'],
+                (object)['name' => 'Video'],
+                [],
+                21,
+                \context_system::instance(),
+                120.0,
+                true
+            )
+        );
+
+        $writer->write(0, 'Bookmarks', '', '', new csv_event_timestamps(null, null, null), 3, '', 2);
+        rewind($handle);
+
+        $this->assertSame(",,Bookmarks,,,,,,3,2\n", stream_get_contents($handle));
         fclose($handle);
     }
 }
