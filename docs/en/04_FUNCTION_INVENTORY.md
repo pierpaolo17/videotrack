@@ -818,11 +818,11 @@ Generated from the VideoTrack 1.7.214 source tree. PHP entries include named fun
 | `classes/external/save_reaction.php:347` | `execute_returns` | Declares the stable reaction result and warnings structure. |
 | `classes/external/save_segment.php:47` | `execute_parameters` | PHP callable `execute_parameters`; see its DocBlock and callers for parameter, return-value and side-effect details. |
 | `classes/external/save_segment.php:77` | `execute` | PHP callable `execute`; see its DocBlock and callers for parameter, return-value and side-effect details. |
-| `classes/external/save_segment.php:178` | `validated_parameters` | Validates the external payload before the sesskey and context checks. |
-| `classes/external/save_segment.php:221` | `persist_segment` | Builds the trusted segment and atomically updates its state through the tracker. |
-| `classes/external/save_segment.php:291` | `finalise_accepted_segment` | Emits significant events, synchronises completion and returns the accepted response. |
-| `classes/external/save_segment.php:344` | `require_allowed_playback_rate` | Enforces configured tracking speeds before segment persistence, including recovery rates. |
-| `classes/external/save_segment.php:363` | `execute_returns` | PHP callable `execute_returns`; see its DocBlock and callers for parameter, return-value and side-effect details. |
+| `classes/external/save_segment.php:173` | `validated_parameters` | Validates the external payload before the sesskey and context checks. |
+| `classes/external/save_segment.php:216` | `persist_segment` | Builds the trusted segment and atomically updates its state through the tracker. |
+| `classes/external/save_segment.php:286` | `finalise_accepted_segment` | Emits significant events, synchronises completion and returns the accepted response. |
+| `classes/external/save_segment.php:339` | `require_allowed_playback_rate` | Enforces configured tracking speeds before segment persistence, including recovery rates. |
+| `classes/external/save_segment.php:358` | `execute_returns` | PHP callable `execute_returns`; see its DocBlock and callers for parameter, return-value and side-effect details. |
 | `classes/external/start_playback.php:42` | `execute_parameters` | PHP callable `execute_parameters`; see its DocBlock and callers for parameter, return-value and side-effect details. |
 | `classes/external/start_playback.php:60` | `execute` | PHP callable `execute`; see its DocBlock and callers for parameter, return-value and side-effect details. |
 | `classes/external/start_playback.php:115` | `execute_returns` | PHP callable `execute_returns`; see its DocBlock and callers for parameter, return-value and side-effect details. |

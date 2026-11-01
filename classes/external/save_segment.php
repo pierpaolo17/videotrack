@@ -87,10 +87,9 @@ class save_segment extends external_api {
         float $durationseconds = 0.0
     ): array {
         global $USER;
-        $params = self::validated_parameters(compact(
-            'cmid', 'sessionid', 'requestid', 'videotimestart', 'videotimeend',
-            'wallclockstart', 'wallclockend', 'playbackrate', 'endreason', 'durationseconds'
-        ));
+        $input = compact('cmid', 'sessionid', 'requestid', 'videotimestart', 'videotimeend');
+        $input += compact('wallclockstart', 'wallclockend', 'playbackrate', 'endreason', 'durationseconds');
+        $params = self::validated_parameters($input);
         helper::require_ajax_sesskey();
         $loaded = helper::load_and_validate_context((int)$params['cmid']);
         $videotrack = $loaded['videotrack'];
@@ -124,9 +123,7 @@ class save_segment extends external_api {
         $playbackrate = (float)$params['playbackrate'];
         self::require_allowed_playback_rate($videotrack, $playbackrate);
 
-        $persistence = self::persist_segment(
-            $params, $interval, $loaded, $USER, $playbackrate
-        );
+        $persistence = self::persist_segment($params, $interval, $loaded, $USER, $playbackrate);
         [$state, $segmentid, $requestreplayed] = $persistence;
 
         if ($segmentid === -1) {
@@ -164,9 +161,7 @@ class save_segment extends external_api {
             ];
         }
 
-        return self::finalise_accepted_segment(
-            $params, $interval, $loaded, $persistence, $USER
-        );
+        return self::finalise_accepted_segment($params, $interval, $loaded, $persistence, $USER);
     }
 
     /**
