@@ -1,5 +1,24 @@
 # VideoTrack changelog
 
+## 1.7.215 - 2026-11-01
+
+### Focused timeline aggregation for instance Analytics
+
+- Accepted the real 380-file 1.7.214 ZIP byte-for-byte against the merged
+  main tree. All six post-merge CI jobs passed 325 PHPUnit tests, 24 Behat
+  scenarios and ten validator checks each. PHPMD confirmed 42 advisory
+  findings, down from 43 in 1.7.213 without new findings. The Moodle 5.0/5.3
+  server report passed PHPCS (zero errors and warnings), lint, Grunt under
+  Node 22.23.4 and 325 PHPUnit tests per site.
+- Keep the public instance Analytics methods and constants stable while moving
+  timeline duration, binning, raw-segment aggregation and retained-state
+  fallback to an autoloaded timeline service. Its calculations and streaming
+  generator remain the same; the facade continues to own privacy masking,
+  event summaries and reaction clusters. Existing Analytics tests cover raw
+  segments, interval boundaries, empty timelines, bin choices and retained
+  state fallback. Candidate CI must confirm the class-complexity result
+  without new findings. XMLDB, AMD, services and languages are unchanged.
+
 ## 1.7.214 - 2026-11-01
 
 ### Bounded segment endpoint with unchanged AJAX contract

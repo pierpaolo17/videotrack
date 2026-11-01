@@ -160,16 +160,16 @@ dichiarazione di un parametro di metodo.
 - Il callback delle feature Moodle è una tabella diretta feature-valore, mentre la validazione delle reazioni Font
   Awesome separa il sottoinsieme revisionato dei decoratori da un solo nome icona. Contratti pubblici, limiti e
   default fail-closed sono coperti indipendentemente dalla riduzione di complessità.
-- PHPMD resta consultivo. La CI della 1.7.213 ha confermato 43 rilievi,
-  contro i 44 della 1.7.212 senza nuovi rilievi: è scomparso il rilievo sulla
-  complessità della classe provider privacy mentre il metodo export conserva
-  i rilievi preesistenti nella classe dedicata. La candidata 1.7.214 suddivide
-  il lungo endpoint segmenti in fasi di validazione dei parametri, persistenza
-  nel tracker e finalizzazione del risultato accettato. La firma AJAX Moodle
-  conserva i dieci campi dichiarati. La CI dovrà confermare la rimozione del
-  rilievo sulla lunghezza di execute senza nuovi rilievi. Restano rilievi
-  esaminati su complessità e dimensioni, classi pubbliche ampie, parametri
-  obbligatori dei callback Moodle e flag booleani.
+- PHPMD resta consultivo. La CI della 1.7.214 ha confermato 42 rilievi,
+  contro i 43 della 1.7.213 senza nuovi rilievi: l’endpoint segmenti è sotto
+  la soglia di lunghezza del metodo, mantenendo la firma AJAX Moodle con dieci
+  campi. La candidata 1.7.215 sposta i metodi della timeline nel servizio
+  autoloaded `analytics_timeline` e conserva le facciate pubbliche stabili
+  in `analytics`. Il rilievo sulla complessità della classe originale scompare
+  soltanto se entrambe le classi risultano sotto la soglia configurata; la CI
+  dovrà verificarlo senza nuovi rilievi. Restano rilievi esaminati su
+  complessità e dimensioni, classi pubbliche ampie, parametri obbligatori dei
+  callback Moodle e flag booleani.
 - Configurazione degli analizzatori, perimetro di produzione, schema database e asset AMD non cambiano con queste
   pulizie delle API. I conteggi della candidata diventano autorevoli soltanto dopo aver conservato e revisionato gli
   artifact CI completi.

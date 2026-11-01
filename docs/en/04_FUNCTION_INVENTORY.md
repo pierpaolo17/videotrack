@@ -1,8 +1,8 @@
 # Function inventory
 
-Generated from the VideoTrack 1.7.214 source tree. PHP entries include named functions and methods; AMD entries include named declarations, assigned function expressions and object-method functions.
+Generated from the VideoTrack 1.7.215 source tree. PHP entries include named functions and methods; AMD entries include named declarations, assigned function expressions and object-method functions.
 
-**PHP functions/methods:** 942. **Named AMD callables:** 654.
+**PHP functions/methods:** 947. **Named AMD callables:** 654.
 
 | Location | Callable | Responsibility |
 |---|---|---|
@@ -845,21 +845,18 @@ Generated from the VideoTrack 1.7.214 source tree. PHP entries include named fun
 | `classes/local/acknowledgement_analytics.php:83` | `count_analytics_records` | Counts valid confirmations, distinct learners and immutable progress snapshots. |
 | `classes/local/acknowledgement_analytics.php:127` | `mask_counts` | Masks exact counts below the configured privacy threshold. |
 | `classes/local/analytics.php:51` | `resolve_duration` | PHP callable `resolve_duration`; see its DocBlock and callers for parameter, return-value and side-effect details. |
-| `classes/local/analytics.php:69` | `default_bin_size` | PHP callable `default_bin_size`; see its DocBlock and callers for parameter, return-value and side-effect details. |
-| `classes/local/analytics.php:96` | `restrict_to_own_groups` | PHP callable `restrict_to_own_groups`; see its DocBlock and callers for parameter, return-value and side-effect details. |
-| `classes/local/analytics.php:107` | `normalise_bin_size` | PHP callable `normalise_bin_size`; see its DocBlock and callers for parameter, return-value and side-effect details. |
-| `classes/local/analytics.php:135` | `build` | PHP callable `build`; see its DocBlock and callers for parameter, return-value and side-effect details. |
-| `classes/local/analytics.php:209` | `accumulate_segments` | PHP callable `accumulate_segments`; see its DocBlock and callers for parameter, return-value and side-effect details. |
-| `classes/local/analytics.php:252` | `build_from_states` | PHP callable `build_from_states`; see its DocBlock and callers for parameter, return-value and side-effect details. |
-| `classes/local/analytics.php:290` | `apply_privacy_threshold` | PHP callable `apply_privacy_threshold`; see its DocBlock and callers for parameter, return-value and side-effect details. |
-| `classes/local/analytics.php:310` | `mask_timeline_bins` | PHP callable `mask_timeline_bins`; see its DocBlock and callers for parameter, return-value and side-effect details. |
-| `classes/local/analytics.php:360` | `count_summary` | PHP callable `count_summary`; see its DocBlock and callers for parameter, return-value and side-effect details. |
-| `classes/local/analytics.php:383` | `reaction_summary` | PHP callable `reaction_summary`; see its DocBlock and callers for parameter, return-value and side-effect details. |
-| `classes/local/analytics.php:395` | `cluster_reactions` | PHP callable `cluster_reactions`; see its DocBlock and callers for parameter, return-value and side-effect details. |
-| `classes/local/analytics.php:455` | `validated_cluster_key` | PHP callable `validated_cluster_key`; see its DocBlock and callers for parameter, return-value and side-effect details. |
-| `classes/local/analytics.php:477` | `append_visible_reaction_cluster` | PHP callable `append_visible_reaction_cluster`; see its DocBlock and callers for parameter, return-value and side-effect details. |
-| `classes/local/analytics.php:506` | `add_user_intervals` | PHP callable `add_user_intervals`; see its DocBlock and callers for parameter, return-value and side-effect details. |
-| `classes/local/analytics.php:542` | `add_interval_to_map` | PHP callable `add_interval_to_map`; see its DocBlock and callers for parameter, return-value and side-effect details. |
+| `classes/local/analytics.php:65` | `default_bin_size` | PHP callable `default_bin_size`; see its DocBlock and callers for parameter, return-value and side-effect details. |
+| `classes/local/analytics.php:80` | `restrict_to_own_groups` | PHP callable `restrict_to_own_groups`; see its DocBlock and callers for parameter, return-value and side-effect details. |
+| `classes/local/analytics.php:91` | `normalise_bin_size` | PHP callable `normalise_bin_size`; see its DocBlock and callers for parameter, return-value and side-effect details. |
+| `classes/local/analytics.php:106` | `build` | PHP callable `build`; see its DocBlock and callers for parameter, return-value and side-effect details. |
+| `classes/local/analytics.php:122` | `build_from_states` | PHP callable `build_from_states`; see its DocBlock and callers for parameter, return-value and side-effect details. |
+| `classes/local/analytics.php:133` | `apply_privacy_threshold` | PHP callable `apply_privacy_threshold`; see its DocBlock and callers for parameter, return-value and side-effect details. |
+| `classes/local/analytics.php:153` | `mask_timeline_bins` | PHP callable `mask_timeline_bins`; see its DocBlock and callers for parameter, return-value and side-effect details. |
+| `classes/local/analytics.php:203` | `count_summary` | PHP callable `count_summary`; see its DocBlock and callers for parameter, return-value and side-effect details. |
+| `classes/local/analytics.php:226` | `reaction_summary` | PHP callable `reaction_summary`; see its DocBlock and callers for parameter, return-value and side-effect details. |
+| `classes/local/analytics.php:238` | `cluster_reactions` | PHP callable `cluster_reactions`; see its DocBlock and callers for parameter, return-value and side-effect details. |
+| `classes/local/analytics.php:298` | `validated_cluster_key` | PHP callable `validated_cluster_key`; see its DocBlock and callers for parameter, return-value and side-effect details. |
+| `classes/local/analytics.php:320` | `append_visible_reaction_cluster` | PHP callable `append_visible_reaction_cluster`; see its DocBlock and callers for parameter, return-value and side-effect details. |
 | `classes/local/analytics_scope.php:42` | `matching_accessible_instances` | Stable public facade for capability-safe same-video scope discovery. |
 | `classes/local/analytics_scope.php:59` | `effective_groupmode` | Resolves the effective Moodle group mode for an Analytics scope. |
 | `classes/local/analytics_scope.php:91` | `accessible_group_ids` | Resolves the learner groups visible to one report viewer. |
@@ -890,6 +887,14 @@ Generated from the VideoTrack 1.7.214 source tree. PHP entries include named fun
 | `classes/local/analytics_table_export.php:433` | `acknowledgement_summary_values` | Resolves full, progress-only and visible acknowledgement values. |
 | `classes/local/analytics_table_export.php:462` | `count_summary_values` | Resolves privacy-safe event and student counts. |
 | `classes/local/analytics_table_export.php:484` | `event_summary_row` | Aligns one aggregate event summary with the combined export columns. |
+| `classes/local/analytics_timeline.php:39` | `resolve_duration` | PHP callable `resolve_duration`; see its DocBlock and callers for parameter, return-value and side-effect details. |
+| `classes/local/analytics_timeline.php:57` | `default_bin_size` | PHP callable `default_bin_size`; see its DocBlock and callers for parameter, return-value and side-effect details. |
+| `classes/local/analytics_timeline.php:80` | `normalise_bin_size` | PHP callable `normalise_bin_size`; see its DocBlock and callers for parameter, return-value and side-effect details. |
+| `classes/local/analytics_timeline.php:108` | `build` | PHP callable `build`; see its DocBlock and callers for parameter, return-value and side-effect details. |
+| `classes/local/analytics_timeline.php:182` | `accumulate_segments` | PHP callable `accumulate_segments`; see its DocBlock and callers for parameter, return-value and side-effect details. |
+| `classes/local/analytics_timeline.php:225` | `build_from_states` | PHP callable `build_from_states`; see its DocBlock and callers for parameter, return-value and side-effect details. |
+| `classes/local/analytics_timeline.php:265` | `add_user_intervals` | PHP callable `add_user_intervals`; see its DocBlock and callers for parameter, return-value and side-effect details. |
+| `classes/local/analytics_timeline.php:301` | `add_interval_to_map` | PHP callable `add_interval_to_map`; see its DocBlock and callers for parameter, return-value and side-effect details. |
 | `classes/local/completion_config.php:39` | `required_reaction_ids` | Named PHP function/method `required_reaction_ids`; see source DocBlock and callers for the current contract. |
 | `classes/local/completion_config.php:62` | `reaction_checks` | Evaluates only enabled reaction conditions before AND/OR completion aggregation. |
 | `classes/local/completion_config.php:102` | `combine_checks` | Combines active completion checks under the existing strict AND/OR policy. |

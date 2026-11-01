@@ -1,8 +1,8 @@
 # Inventario delle funzioni
 
-Generato dall’albero sorgente VideoTrack 1.7.214. Le voci PHP includono funzioni e metodi nominati; le voci AMD includono dichiarazioni nominate, espressioni funzione assegnate e funzioni-metodo di oggetti.
+Generato dall’albero sorgente VideoTrack 1.7.215. Le voci PHP includono funzioni e metodi nominati; le voci AMD includono dichiarazioni nominate, espressioni funzione assegnate e funzioni-metodo di oggetti.
 
-**Funzioni/metodi PHP:** 942. **Callable AMD nominati:** 654.
+**Funzioni/metodi PHP:** 947. **Callable AMD nominati:** 654.
 
 | Posizione | Callable | Responsabilità |
 |---|---|---|
@@ -845,21 +845,18 @@ Generato dall’albero sorgente VideoTrack 1.7.214. Le voci PHP includono funzio
 | `classes/local/acknowledgement_analytics.php:83` | `count_analytics_records` | Conta conferme valide, studenti distinti e snapshot di avanzamento immutabili. |
 | `classes/local/acknowledgement_analytics.php:127` | `mask_counts` | Nasconde i conteggi esatti al di sotto della soglia privacy configurata. |
 | `classes/local/analytics.php:51` | `resolve_duration` | Callable PHP `resolve_duration`; DocBlock e chiamanti definiscono parametri, valori restituiti ed effetti. |
-| `classes/local/analytics.php:69` | `default_bin_size` | Callable PHP `default_bin_size`; DocBlock e chiamanti definiscono parametri, valori restituiti ed effetti. |
-| `classes/local/analytics.php:96` | `restrict_to_own_groups` | Callable PHP `restrict_to_own_groups`; DocBlock e chiamanti definiscono parametri, valori restituiti ed effetti. |
-| `classes/local/analytics.php:107` | `normalise_bin_size` | Callable PHP `normalise_bin_size`; DocBlock e chiamanti definiscono parametri, valori restituiti ed effetti. |
-| `classes/local/analytics.php:135` | `build` | Callable PHP `build`; DocBlock e chiamanti definiscono parametri, valori restituiti ed effetti. |
-| `classes/local/analytics.php:209` | `accumulate_segments` | Callable PHP `accumulate_segments`; DocBlock e chiamanti definiscono parametri, valori restituiti ed effetti. |
-| `classes/local/analytics.php:252` | `build_from_states` | Callable PHP `build_from_states`; DocBlock e chiamanti definiscono parametri, valori restituiti ed effetti. |
-| `classes/local/analytics.php:290` | `apply_privacy_threshold` | Callable PHP `apply_privacy_threshold`; DocBlock e chiamanti definiscono parametri, valori restituiti ed effetti. |
-| `classes/local/analytics.php:310` | `mask_timeline_bins` | Callable PHP `mask_timeline_bins`; DocBlock e chiamanti definiscono parametri, valori restituiti ed effetti. |
-| `classes/local/analytics.php:360` | `count_summary` | Callable PHP `count_summary`; DocBlock e chiamanti definiscono parametri, valori restituiti ed effetti. |
-| `classes/local/analytics.php:383` | `reaction_summary` | Callable PHP `reaction_summary`; DocBlock e chiamanti definiscono parametri, valori restituiti ed effetti. |
-| `classes/local/analytics.php:395` | `cluster_reactions` | Callable PHP `cluster_reactions`; DocBlock e chiamanti definiscono parametri, valori restituiti ed effetti. |
-| `classes/local/analytics.php:455` | `validated_cluster_key` | Callable PHP `validated_cluster_key`; DocBlock e chiamanti definiscono parametri, valori restituiti ed effetti. |
-| `classes/local/analytics.php:477` | `append_visible_reaction_cluster` | Callable PHP `append_visible_reaction_cluster`; DocBlock e chiamanti definiscono parametri, valori restituiti ed effetti. |
-| `classes/local/analytics.php:506` | `add_user_intervals` | Callable PHP `add_user_intervals`; DocBlock e chiamanti definiscono parametri, valori restituiti ed effetti. |
-| `classes/local/analytics.php:542` | `add_interval_to_map` | Callable PHP `add_interval_to_map`; DocBlock e chiamanti definiscono parametri, valori restituiti ed effetti. |
+| `classes/local/analytics.php:65` | `default_bin_size` | Callable PHP `default_bin_size`; DocBlock e chiamanti definiscono parametri, valori restituiti ed effetti. |
+| `classes/local/analytics.php:80` | `restrict_to_own_groups` | Callable PHP `restrict_to_own_groups`; DocBlock e chiamanti definiscono parametri, valori restituiti ed effetti. |
+| `classes/local/analytics.php:91` | `normalise_bin_size` | Callable PHP `normalise_bin_size`; DocBlock e chiamanti definiscono parametri, valori restituiti ed effetti. |
+| `classes/local/analytics.php:106` | `build` | Callable PHP `build`; DocBlock e chiamanti definiscono parametri, valori restituiti ed effetti. |
+| `classes/local/analytics.php:122` | `build_from_states` | Callable PHP `build_from_states`; DocBlock e chiamanti definiscono parametri, valori restituiti ed effetti. |
+| `classes/local/analytics.php:133` | `apply_privacy_threshold` | Callable PHP `apply_privacy_threshold`; DocBlock e chiamanti definiscono parametri, valori restituiti ed effetti. |
+| `classes/local/analytics.php:153` | `mask_timeline_bins` | Callable PHP `mask_timeline_bins`; DocBlock e chiamanti definiscono parametri, valori restituiti ed effetti. |
+| `classes/local/analytics.php:203` | `count_summary` | Callable PHP `count_summary`; DocBlock e chiamanti definiscono parametri, valori restituiti ed effetti. |
+| `classes/local/analytics.php:226` | `reaction_summary` | Callable PHP `reaction_summary`; DocBlock e chiamanti definiscono parametri, valori restituiti ed effetti. |
+| `classes/local/analytics.php:238` | `cluster_reactions` | Callable PHP `cluster_reactions`; DocBlock e chiamanti definiscono parametri, valori restituiti ed effetti. |
+| `classes/local/analytics.php:298` | `validated_cluster_key` | Callable PHP `validated_cluster_key`; DocBlock e chiamanti definiscono parametri, valori restituiti ed effetti. |
+| `classes/local/analytics.php:320` | `append_visible_reaction_cluster` | Callable PHP `append_visible_reaction_cluster`; DocBlock e chiamanti definiscono parametri, valori restituiti ed effetti. |
 | `classes/local/analytics_scope.php:42` | `matching_accessible_instances` | Facciata pubblica stabile per la scoperta scope stesso-video capability-safe. |
 | `classes/local/analytics_scope.php:59` | `effective_groupmode` | Risolve la modalità gruppi Moodle effettiva per uno scope Analytics. |
 | `classes/local/analytics_scope.php:91` | `accessible_group_ids` | Risolve i gruppi learner visibili a un report viewer. |
@@ -890,6 +887,14 @@ Generato dall’albero sorgente VideoTrack 1.7.214. Le voci PHP includono funzio
 | `classes/local/analytics_table_export.php:433` | `acknowledgement_summary_values` | Risolve valori delle prese visione visibili, soppressi totalmente o solo nel progresso. |
 | `classes/local/analytics_table_export.php:462` | `count_summary_values` | Risolve conteggi evento e studenti privacy-safe. |
 | `classes/local/analytics_table_export.php:484` | `event_summary_row` | Allinea un riepilogo evento aggregato alle colonne dell'export combinato. |
+| `classes/local/analytics_timeline.php:39` | `resolve_duration` | Callable PHP `resolve_duration`; DocBlock e chiamanti definiscono parametri, valori restituiti ed effetti. |
+| `classes/local/analytics_timeline.php:57` | `default_bin_size` | Callable PHP `default_bin_size`; DocBlock e chiamanti definiscono parametri, valori restituiti ed effetti. |
+| `classes/local/analytics_timeline.php:80` | `normalise_bin_size` | Callable PHP `normalise_bin_size`; DocBlock e chiamanti definiscono parametri, valori restituiti ed effetti. |
+| `classes/local/analytics_timeline.php:108` | `build` | Callable PHP `build`; DocBlock e chiamanti definiscono parametri, valori restituiti ed effetti. |
+| `classes/local/analytics_timeline.php:182` | `accumulate_segments` | Callable PHP `accumulate_segments`; DocBlock e chiamanti definiscono parametri, valori restituiti ed effetti. |
+| `classes/local/analytics_timeline.php:225` | `build_from_states` | Callable PHP `build_from_states`; DocBlock e chiamanti definiscono parametri, valori restituiti ed effetti. |
+| `classes/local/analytics_timeline.php:265` | `add_user_intervals` | Callable PHP `add_user_intervals`; DocBlock e chiamanti definiscono parametri, valori restituiti ed effetti. |
+| `classes/local/analytics_timeline.php:301` | `add_interval_to_map` | Callable PHP `add_interval_to_map`; DocBlock e chiamanti definiscono parametri, valori restituiti ed effetti. |
 | `classes/local/completion_config.php:39` | `required_reaction_ids` | Funzione/metodo PHP nominato `required_reaction_ids`; vedere DocBlock e chiamanti per il contratto corrente. |
 | `classes/local/completion_config.php:62` | `reaction_checks` | Valuta soltanto le condizioni reazione attive prima dell’aggregazione AND/OR. |
 | `classes/local/completion_config.php:102` | `combine_checks` | Combina le condizioni di completamento attive con la policy AND/OR rigorosa esistente. |
