@@ -165,6 +165,8 @@ line, not for redeclaring a method parameter.
   required Moodle callback parameters and boolean switches.
 - The final 1.7.218 CI confirmed 36 PHPMD findings without new findings. The 1.7.219 candidate splits the long
   activity-form validation method into source, timed-text, stored-icon and forum checks while retaining existing
-  Moodle entry points; its PHPMD count awaits CI.
+  Moodle entry points. Its first CI passed all blocking checks but increased PHPMD to 38: the source helper
+  acquired cyclomatic complexity and timed-text checking acquired cyclomatic and NPath findings. The incremental
+  correction splits URL/upload checks, draft validation and required-file checks; the corrected count awaits CI.
 - Static-analysis configuration, production scope, database schema and AMD assets are unchanged by these API
   cleanups. Candidate counts remain authoritative only after the complete CI artifacts are retained and reviewed.

@@ -175,7 +175,9 @@ dichiarazione di un parametro di metodo.
   ampie, parametri obbligatori dei callback Moodle e flag booleani.
 - La CI finale 1.7.218 ha confermato 36 rilievi PHPMD senza nuovi rilievi. La candidata 1.7.219 suddivide la
   validazione del form in controlli per sorgenti, file VTT, icone salvate e forum, mantenendo le API Moodle;
-  il conteggio PHPMD attende la CI.
+  la prima CI supera tutti i controlli bloccanti ma sale a 38 rilievi: un CyclomaticComplexity sulla sorgente
+  e CyclomaticComplexity/NPathComplexity sul testo temporizzato. La correzione incrementale separa URL/upload,
+  validazione dei draft e obbligo dei file; il nuovo conteggio attende la CI.
 - Configurazione degli analizzatori, perimetro di produzione, schema database e asset AMD non cambiano con queste
   pulizie delle API. I conteggi della candidata diventano autorevoli soltanto dopo aver conservato e revisionato gli
   artifact CI completi.

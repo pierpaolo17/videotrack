@@ -18,6 +18,13 @@
   rejected media, missing timed text and reaction icon requirements. The
   remaining PHPMD findings and all new checks require CI confirmation. Schema,
   AMD, services and languages are unchanged.
+- All six first-push CI jobs passed 330 PHPUnit tests, 2,956 assertions, 24 Behat
+  scenarios and ten validator checks, but PHPMD found 38 advisory findings:
+  `validation()` lost its length finding while the new source and timed-text
+  helpers gained three complexity findings. Split the URL and upload cases,
+  WebVTT draft checks and required-file checks into smaller private helpers.
+  Preserve draft lookup order, error precedence and public form behaviour;
+  measure the corrected count in CI before merging.
 
 ## 1.7.218 - 2026-11-02
 

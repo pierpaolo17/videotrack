@@ -1849,29 +1849,61 @@ JS);
      * @return array Source validation errors.
      */
     protected function source_errors(array $data): array {
-        $errors = [];
         $source = $data['videosource'] ?? 'youtube';
         if ($source === 'youtube') {
-            if (empty($data['youtubeurl']) || !videotrack_extract_videoid((string)$data['youtubeurl'])) {
-                $errors['youtubeurl'] = get_string('invalidyoutubeurl', 'mod_videotrack');
-            }
-        } else if ($source === 'vimeo') {
-            if (empty($data['vimeourl']) || !videotrack_extract_vimeo_id((string)$data['vimeourl'])) {
-                $errors['vimeourl'] = get_string('invalidvimeourl', 'mod_videotrack');
-            }
-        } else if ($source === 'upload') {
-            // For new activities, the video file is required.
-            // For edits, the existing file is kept even when the file picker is empty.
-            $draftitemid = (int)($data['videofile'] ?? 0);
-            $fileinfo    = $draftitemid > 0 ? file_get_draft_area_info($draftitemid) : [];
-            $isnew       = empty($data['instance']); // The instance value is zero for a new activity.
-            if ($isnew && empty($fileinfo['filecount'])) {
-                $errors['videofile'] = get_string('required');
-            }
-        } else {
-            $errors['videosource'] = get_string('invalidvideosource', 'mod_videotrack');
+            return self::youtube_source_errors($data);
         }
-        return $errors;
+        if ($source === 'vimeo') {
+            return self::vimeo_source_errors($data);
+        }
+        if ($source === 'upload') {
+            return self::upload_source_errors($data);
+        }
+        return ['videosource' => get_string('invalidvideosource', 'mod_videotrack')];
+    }
+
+    /**
+     * Checks the required YouTube URL.
+     *
+     * @param array $data Submitted form data.
+     * @return array YouTube validation errors.
+     */
+    private static function youtube_source_errors(array $data): array {
+        if (empty($data['youtubeurl']) || !videotrack_extract_videoid((string)$data['youtubeurl'])) {
+            return ['youtubeurl' => get_string('invalidyoutubeurl', 'mod_videotrack')];
+        }
+        return [];
+    }
+
+    /**
+     * Checks the required Vimeo URL.
+     *
+     * @param array $data Submitted form data.
+     * @return array Vimeo validation errors.
+     */
+    private static function vimeo_source_errors(array $data): array {
+        if (empty($data['vimeourl']) || !videotrack_extract_vimeo_id((string)$data['vimeourl'])) {
+            return ['vimeourl' => get_string('invalidvimeourl', 'mod_videotrack')];
+        }
+        return [];
+    }
+
+    /**
+     * Checks a new upload while preserving the file on edit.
+     *
+     * @param array $data Submitted form data.
+     * @return array Upload validation errors.
+     */
+    private static function upload_source_errors(array $data): array {
+        // For new activities, the video file is required.
+        // For edits, the existing file is kept even when the file picker is empty.
+        $draftitemid = (int)($data['videofile'] ?? 0);
+        $fileinfo    = $draftitemid > 0 ? file_get_draft_area_info($draftitemid) : [];
+        $isnew       = empty($data['instance']); // The instance value is zero for a new activity.
+        if ($isnew && empty($fileinfo['filecount'])) {
+            return ['videofile' => get_string('required')];
+        }
+        return [];
     }
 
     /**
@@ -1882,7 +1914,6 @@ JS);
      * @return array Timed-text validation errors.
      */
     protected function timed_text_errors(array $data, string $source): array {
-        $errors = [];
         $transcriptdraft = (int)($data['transcriptfiles'] ?? 0);
         $chapterdraft = (int)($data['chapterfile'] ?? 0);
         $subtitleid = (int)($data['vttfile'] ?? 0);
@@ -1891,12 +1922,54 @@ JS);
         $subtitleinfo = $subtitleid > 0 ? file_get_draft_area_info($subtitleid) : [];
         $haslegacytimedtext = $source === 'upload' && !empty($data['captions']) && !empty($subtitleinfo['filecount']);
 
+        $errors = $this->timed_text_draft_errors($transcriptdraft, $chapterdraft, $transcriptinfo, $chapterinfo);
+        return array_replace(
+            $errors,
+            self::timed_text_required_errors($data, $transcriptinfo, $chapterinfo, $haslegacytimedtext)
+        );
+    }
+
+    /**
+     * Checks the content types in populated transcript and chapter drafts.
+     *
+     * @param int $transcriptdraft Transcript draft item id.
+     * @param int $chapterdraft Chapter draft item id.
+     * @param array $transcriptinfo Transcript draft information.
+     * @param array $chapterinfo Chapter draft information.
+     * @return array Invalid draft errors.
+     */
+    private function timed_text_draft_errors(
+        int $transcriptdraft,
+        int $chapterdraft,
+        array $transcriptinfo,
+        array $chapterinfo
+    ): array {
+        $errors = [];
         if (!empty($transcriptinfo['filecount']) && !$this->draft_area_contains_only_vtt($transcriptdraft)) {
             $errors['transcriptfiles'] = get_string('err:invalidvttfile', 'mod_videotrack');
         }
         if (!empty($chapterinfo['filecount']) && !$this->draft_area_contains_only_vtt($chapterdraft)) {
             $errors['chapterfile'] = get_string('err:invalidvttfile', 'mod_videotrack');
         }
+        return $errors;
+    }
+
+    /**
+     * Requires a timed-text file when its activity option is enabled.
+     *
+     * @param array $data Submitted form data.
+     * @param array $transcriptinfo Transcript draft information.
+     * @param array $chapterinfo Chapter draft information.
+     * @param bool $haslegacytimedtext Whether a legacy upload VTT can satisfy the requirement.
+     * @return array Missing-file errors.
+     */
+    private static function timed_text_required_errors(
+        array $data,
+        array $transcriptinfo,
+        array $chapterinfo,
+        bool $haslegacytimedtext
+    ): array {
+        $errors = [];
         if (!empty($data['showtranscript']) && empty($transcriptinfo['filecount']) && !$haslegacytimedtext) {
             $errors['transcriptfiles'] = get_string('err:transcriptfilerequired', 'mod_videotrack');
         }
