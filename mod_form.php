@@ -2123,12 +2123,20 @@ JS);
             );
         } else {
             $icon = \mod_videotrack\local\reaction_form_validation::reaction_text_icon_errors(
-                $data, $i, $type, $reactionsenabled, $rowhastext
+                $data,
+                $i,
+                $type,
+                $reactionsenabled,
+                $rowhastext
             );
         }
 
         $details = \mod_videotrack\local\reaction_form_validation::reaction_details_errors(
-            $label, $description, $reactionsenabled, $icon['hasicon'], $i
+            $label,
+            $description,
+            $reactionsenabled,
+            $icon['hasicon'],
+            $i
         );
         return [
             'errors' => array_replace($icon['errors'], $details['errors']),

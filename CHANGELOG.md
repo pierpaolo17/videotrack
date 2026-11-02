@@ -24,6 +24,14 @@
   Move the two pure reaction icon-value and required-field checks to a
   focused autoloaded `reaction_form_validation` policy class, retaining the
   original method bodies and error ordering. The corrected PHPMD count awaits CI.
+- In all six correction CI jobs, PHPUnit passed 331 tests and 2,960 assertions;
+  Behat passed 24 scenarios and the validator passed ten checks each. PHPMD confirmed 33
+  advisory findings without new ones, removing both `validation()` complexity
+  findings and the new `TooManyMethods` finding. The Moodle 5.0/MariaDB quality
+  job reported nine blocking PHPCS formatting errors in two multiline calls
+  and the new class closing brace. Format those calls with one argument per
+  line and remove the blank line before the class brace; rerun CI to confirm
+  the PHPCS result before merging.
 
 ## 1.7.219 - 2026-11-02
 

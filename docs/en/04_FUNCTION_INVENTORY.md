@@ -1270,7 +1270,7 @@ Generated from the VideoTrack 1.7.220 source tree. PHP entries include named fun
 | `mod_form.php:2055` | `forum_errors` | PHP callable `forum_errors`; see its DocBlock and callers for parameter, return-value and side-effect details. |
 | `mod_form.php:2076` | `reaction_errors` | PHP callable `reaction_errors`; see its DocBlock and callers for parameter, return-value and side-effect details. |
 | `mod_form.php:2100` | `reaction_row_errors` | PHP callable `reaction_row_errors`; see its DocBlock and callers for parameter, return-value and side-effect details. |
-| `mod_form.php:2146` | `validation` | PHP callable `validation`; see its DocBlock and callers for parameter, return-value and side-effect details. |
+| `mod_form.php:2154` | `validation` | PHP callable `validation`; see its DocBlock and callers for parameter, return-value and side-effect details. |
 | `reports_course.php:34` | `videotrack_course_report_count_cell` | PHP callable `videotrack_course_report_count_cell`; see its DocBlock and callers for parameter, return-value and side-effect details. |
 | `reports_course.php:48` | `videotrack_course_report_percentage_cell` | PHP callable `videotrack_course_report_percentage_cell`; renders the text-only aggregate percentage. |
 | `reports_course.php:67` | `videotrack_course_report_percentage_bar_cell` | PHP callable `videotrack_course_report_percentage_bar_cell`; renders the aggregate percentage with its accessible compact bar. |

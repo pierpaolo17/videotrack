@@ -84,5 +84,4 @@ final class reaction_form_validation {
         }
         return ['errors' => $errors, 'configured' => $configured];
     }
-
 }

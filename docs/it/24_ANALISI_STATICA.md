@@ -181,7 +181,9 @@ dichiarazione di un parametro di metodo.
   novità. La candidata 1.7.220 separa validazione delle righe, del valore icona e dei campi obbligatori,
   mantenendo l'ordine degli errori. La prima CI supera tutti i sei job e riporta 34 rilievi, tra cui il nuovo
   `TooManyMethods` sul form. Una correzione incrementale sposta i due controlli puri in una classe dedicata
-  `reaction_form_validation`; il nuovo risultato PHPMD attende la CI.
+  `reaction_form_validation`. I sei job CI confermano 33 rilievi senza novità, ma il job qualità Moodle
+  5.0/MariaDB trova nove errori PHPCS di formattazione. Una seconda correzione incrementale sistema le
+  chiamate multilinea e la chiusura della classe; ripetere la CI prima del merge.
 - Configurazione degli analizzatori, perimetro di produzione, schema database e asset AMD non cambiano con queste
   pulizie delle API. I conteggi della candidata diventano autorevoli soltanto dopo aver conservato e revisionato gli
   artifact CI completi.
