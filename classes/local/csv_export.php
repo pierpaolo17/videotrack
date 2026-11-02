@@ -17,8 +17,6 @@
 namespace mod_videotrack\local;
 
 use context;
-use context_system;
-use core_user\fields;
 use stdClass;
 
 /**
@@ -46,29 +44,6 @@ final class csv_export {
 
     /** Pipe separator. */
     public const DELIMITER_PIPE = 'pipe';
-
-    /** Optional course and activity fields. */
-    private const CONTEXT_FIELDS = [
-        'coursefullname',
-        'courseshortname',
-        'courseid',
-        'instancename',
-        'videolink',
-    ];
-
-    /** Optional standard Moodle user fields requested by the activity. */
-    private const STANDARD_USER_FIELDS = [
-        'username',
-        'email',
-        'city',
-        'country',
-        'idnumber',
-        'institution',
-        'department',
-        'phone1',
-        'phone2',
-        'address',
-    ];
 
     /**
      * Returns site-level delimiter options stored as symbolic values.
@@ -128,41 +103,7 @@ final class csv_export {
      * @return array Export-field labels keyed by field name.
      */
     public static function field_options(?context $context = null): array {
-        global $DB;
-
-        $options = [
-            'coursefullname' => get_string('report:csvfield_coursefullname', 'mod_videotrack'),
-            'courseshortname' => get_string('report:csvfield_courseshortname', 'mod_videotrack'),
-            'courseid' => get_string('report:csvfield_courseid', 'mod_videotrack'),
-            'instancename' => get_string('report:csvfield_instancename', 'mod_videotrack'),
-            'videolink' => get_string('report:csvfield_videolink', 'mod_videotrack'),
-        ];
-
-        $allowedidentity = $context === null ? null : fields::get_identity_fields($context, true);
-        foreach (self::STANDARD_USER_FIELDS as $field) {
-            if ($allowedidentity !== null && !in_array($field, $allowedidentity, true)) {
-                continue;
-            }
-            $options[$field] = get_string('report:csvfield_' . $field, 'mod_videotrack');
-        }
-
-        if ($context === null) {
-            $formatcontext = context_system::instance();
-            $customfields = $DB->get_records('user_info_field', null, 'sortorder ASC, id ASC', 'id, shortname, name');
-            foreach ($customfields as $customfield) {
-                $key = 'profile_field_' . \core_text::strtolower((string)$customfield->shortname);
-                $options[$key] = format_string($customfield->name, true, ['context' => $formatcontext]);
-            }
-        } else {
-            foreach ($allowedidentity as $field) {
-                if (strpos($field, 'profile_field_') !== 0) {
-                    continue;
-                }
-                $options[$field] = fields::get_display_name($field);
-            }
-        }
-
-        return $options;
+        return csv_export_fields::field_options($context);
     }
 
     /**
@@ -177,24 +118,7 @@ final class csv_export {
      * @return array Form field labels keyed by field name.
      */
     public static function form_field_options(context $context): array {
-        global $DB;
-
-        $options = [
-            'coursefullname' => get_string('report:csvfield_coursefullname', 'mod_videotrack'),
-            'courseshortname' => get_string('report:csvfield_courseshortname', 'mod_videotrack'),
-            'courseid' => get_string('report:csvfield_courseid', 'mod_videotrack'),
-            'instancename' => get_string('report:csvfield_instancename', 'mod_videotrack'),
-            'videolink' => get_string('report:csvfield_videolink', 'mod_videotrack'),
-        ];
-        foreach (self::STANDARD_USER_FIELDS as $field) {
-            $options[$field] = get_string('report:csvfield_' . $field, 'mod_videotrack');
-        }
-        $customfields = $DB->get_records('user_info_field', null, 'sortorder ASC, id ASC', 'id, shortname, name');
-        foreach ($customfields as $customfield) {
-            $key = 'profile_field_' . \core_text::strtolower((string)$customfield->shortname);
-            $options[$key] = format_string($customfield->name, true, ['context' => $context]);
-        }
-        return $options;
+        return csv_export_fields::form_field_options($context);
     }
 
     /**
@@ -203,11 +127,7 @@ final class csv_export {
      * @return string[]
      */
     public static function site_default_fields(): array {
-        $configured = get_config('mod_videotrack', 'csvexportfields');
-        if ($configured === false || $configured === null || $configured === '') {
-            return ['coursefullname', 'instancename', 'username', 'email'];
-        }
-        return self::normalise_field_list((string)$configured, array_keys(self::field_options(null)));
+        return csv_export_fields::site_default_fields();
     }
 
     /**
@@ -218,12 +138,7 @@ final class csv_export {
      * @return string[]
      */
     public static function activity_fields(stdClass $videotrack, context $context): array {
-        $raw = trim((string)($videotrack->csvexportfields ?? ''));
-        if ($raw === 'none') {
-            return [];
-        }
-        $selected = $raw === '' ? self::site_default_fields() : self::normalise_field_list($raw);
-        return array_values(array_intersect($selected, array_keys(self::field_options($context))));
+        return csv_export_fields::activity_fields($videotrack, $context);
     }
 
     /**
@@ -233,7 +148,7 @@ final class csv_export {
      * @return string
      */
     public static function form_element_name(string $field): string {
-        return 'csvexportfield_' . substr(sha1($field), 0, 16);
+        return csv_export_fields::form_element_name($field);
     }
 
     /**
@@ -244,17 +159,7 @@ final class csv_export {
      * @return void
      */
     public static function process_form_fields(stdClass $data, ?context $context = null): void {
-        $selected = [];
-        $allowed = array_keys(self::field_options($context));
-        $formoptions = $context === null ? self::field_options(null) : self::form_field_options($context);
-        foreach (array_keys($formoptions) as $field) {
-            $elementname = self::form_element_name($field);
-            if (!empty($data->{$elementname}) && in_array($field, $allowed, true)) {
-                $selected[] = $field;
-            }
-            unset($data->{$elementname});
-        }
-        $data->csvexportfields = $selected ? implode(',', $selected) : 'none';
+        csv_export_fields::process_form_fields($data, $context);
     }
 
     /**
@@ -264,9 +169,7 @@ final class csv_export {
      * @return string[]
      */
     public static function selected_user_fields(array $selected): array {
-        return array_values(array_filter($selected, static function (string $field): bool {
-            return in_array($field, self::STANDARD_USER_FIELDS, true) || strpos($field, 'profile_field_') === 0;
-        }));
+        return csv_export_fields::selected_user_fields($selected);
     }
 
     /**
@@ -277,31 +180,7 @@ final class csv_export {
      * @return array User records keyed by id.
      */
     public static function load_users(array $userids, array $selected): array {
-        global $DB;
-
-        $userids = array_values(array_unique(array_filter(array_map('intval', $userids), static function (int $id): bool {
-            return $id > 0;
-        })));
-        if (!$userids) {
-            return [];
-        }
-
-        $required = array_values(array_unique(array_merge(
-            ['id'],
-            fields::get_name_fields(),
-            self::selected_user_fields($selected)
-        )));
-        $fieldapi = fields::empty()->including(...$required);
-        $fieldsql = $fieldapi->get_sql('u', true, '', '', false);
-        [$insql, $inparams] = $DB->get_in_or_equal($userids, SQL_PARAMS_NAMED, 'csvuid');
-        $params = array_merge($fieldsql->params, $inparams);
-        return $DB->get_records_sql(
-            "SELECT {$fieldsql->selects}
-               FROM {user} u
-                    {$fieldsql->joins}
-              WHERE u.id {$insql}",
-            $params
-        );
+        return csv_export_fields::load_users($userids, $selected);
     }
 
     /**
@@ -334,21 +213,7 @@ final class csv_export {
      * @return string[]
      */
     public static function identity_headers(array $selected): array {
-        $headers = [];
-        foreach ($selected as $field) {
-            if (in_array($field, self::CONTEXT_FIELDS, true)) {
-                $headers[] = self::field_label($field);
-            }
-        }
-        $headers[] = get_string('lastname');
-        $headers[] = get_string('firstname');
-        foreach ($selected as $field) {
-            if (in_array($field, self::CONTEXT_FIELDS, true)) {
-                continue;
-            }
-            $headers[] = self::field_label($field);
-        }
-        return $headers;
+        return csv_export_identity::identity_headers($selected);
     }
 
     /**
@@ -372,26 +237,15 @@ final class csv_export {
         int $cmid,
         context $context
     ): array {
-        $values = [];
-        foreach ($selected as $field) {
-            if (in_array($field, self::CONTEXT_FIELDS, true)) {
-                $values[] = self::field_value($field, $course, $videotrack, $user, $cmid, $context);
-            }
-        }
-        if ($user) {
-            $values[] = trim((string)($user->lastname ?? ''));
-            $values[] = trim((string)($user->firstname ?? ''));
-        } else {
-            $values[] = '';
-            $values[] = $userlabel;
-        }
-        foreach ($selected as $field) {
-            if (in_array($field, self::CONTEXT_FIELDS, true)) {
-                continue;
-            }
-            $values[] = self::field_value($field, $course, $videotrack, $user, $cmid, $context);
-        }
-        return $values;
+        return csv_export_identity::identity_values(
+            $selected,
+            $course,
+            $videotrack,
+            $user,
+            $userlabel,
+            $cmid,
+            $context
+        );
     }
 
     /**
@@ -499,120 +353,5 @@ final class csv_export {
             return "'" . $value;
         }
         return $value;
-    }
-
-    /**
-     * Normalises a comma-separated field list.
-     *
-     * @param string $raw Raw field list.
-     * @param array|null $allowed Optional allowed keys.
-     * @return string[]
-     */
-    private static function normalise_field_list(string $raw, ?array $allowed = null): array {
-        $fields = array_values(array_unique(array_filter(array_map('trim', explode(',', $raw)))));
-        if ($allowed !== null) {
-            $fields = array_values(array_intersect($fields, $allowed));
-        }
-        return $fields;
-    }
-
-    /**
-     * Returns a field label.
-     *
-     * @param string $field Field key.
-     * @return string
-     */
-    private static function field_label(string $field): string {
-        if (strpos($field, 'profile_field_') === 0) {
-            return fields::get_display_name($field);
-        }
-        return get_string('report:csvfield_' . $field, 'mod_videotrack');
-    }
-
-    /**
-     * Returns one configured field value.
-     *
-     * @param string $field Field key.
-     * @param stdClass $course Course record.
-     * @param stdClass $videotrack Activity record.
-     * @param stdClass|null $user User record.
-     * @param int $cmid Course module id.
-     * @param context $context Module context used by Moodle text filters.
-     * @return mixed
-     */
-    private static function field_value(
-        string $field,
-        stdClass $course,
-        stdClass $videotrack,
-        ?stdClass $user,
-        int $cmid,
-        context $context
-    ) {
-        switch ($field) {
-            case 'coursefullname':
-                return format_string($course->fullname, true, ['context' => $context]);
-            case 'courseshortname':
-                return format_string($course->shortname, true, ['context' => $context]);
-            case 'courseid':
-                return (int)$course->id;
-            case 'instancename':
-                return format_string($videotrack->name, true, ['context' => $context]);
-            case 'videolink':
-                return self::video_url($videotrack, $cmid);
-        }
-        return self::user_field_value($field, $user);
-    }
-
-    /**
-     * Returns a configured user field with its existing country-name formatting.
-     *
-     * @param string $field Field key.
-     * @param stdClass|null $user User record, if available.
-     * @return string Sanitised value for a user field.
-     */
-    private static function user_field_value(string $field, ?stdClass $user): string {
-        if (!$user || !property_exists($user, $field)) {
-            return '';
-        }
-        $value = trim(strip_tags((string)$user->{$field}));
-        if ($field === 'country' && $value !== '' && get_string_manager()->string_exists($value, 'countries')) {
-            return get_string($value, 'countries');
-        }
-        return $value;
-    }
-
-    /**
-     * Returns the configured video URL for CSV exports.
-     *
-     * @param stdClass $videotrack Activity record.
-     * @param int $cmid Course module id.
-     * @return string
-     */
-    private static function video_url(stdClass $videotrack, int $cmid): string {
-        $source = (string)($videotrack->videosource ?? 'youtube');
-        if ($source === 'upload') {
-            $context = \context_module::instance($cmid);
-            $files = get_file_storage()->get_area_files(
-                $context->id,
-                'mod_videotrack',
-                'videocontent',
-                0,
-                'id',
-                false
-            );
-            if (!$files) {
-                return '';
-            }
-            $file = reset($files);
-            return \moodle_url::make_pluginfile_url(
-                $context->id,
-                'mod_videotrack',
-                'videocontent',
-                0,
-                $file->get_filepath(),
-                $file->get_filename()
-            )->out(false);
-        }
-        return trim((string)($videotrack->videourl ?? $videotrack->youtubeurl ?? ''));
     }
 }

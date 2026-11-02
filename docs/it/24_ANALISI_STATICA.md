@@ -160,16 +160,16 @@ dichiarazione di un parametro di metodo.
 - Il callback delle feature Moodle è una tabella diretta feature-valore, mentre la validazione delle reazioni Font
   Awesome separa il sottoinsieme revisionato dei decoratori da un solo nome icona. Contratti pubblici, limiti e
   default fail-closed sono coperti indipendentemente dalla riduzione di complessità.
-- PHPMD resta consultivo. La CI della 1.7.215 ha confermato 40 rilievi,
-  contro i 41 della 1.7.214 senza nuovi rilievi: il servizio timeline resta
-  sotto la soglia di complessità della classe e la facciata pubblica Analytics
-  è conservata. La candidata 1.7.216 sposta l'elaborazione di una coppia
-  utente/attività e i suoi metodi privati nel servizio autoloaded
-  `privacy_retention_pair`; l'API pubblica di `privacy_manager` conserva gli
-  stessi input e risultati. La CI dovrà confermare che entrambe le classi
-  restano sotto la soglia di complessità, senza nuovi rilievi. Rimangono i
-  rilievi revisionati su complessità, dimensioni, classi pubbliche ampie,
-  parametri obbligatori dei callback Moodle e flag booleani.
+- PHPMD resta consultivo. La CI della 1.7.216 ha confermato 39 rilievi,
+  contro i 40 della 1.7.215 senza nuovi rilievi: `privacy_manager` e il
+  servizio delle coppie di conservazione restano sotto la soglia di
+  complessità della classe. La candidata 1.7.217 separa selezione dei campi
+  CSV e formattazione dell'identità in servizi dedicati, conservando i metodi
+  pubblici e i simboli dei delimitatori di `csv_export`. La CI dovrà
+  confermare che tutte e tre le classi restino sotto la soglia di complessità
+  senza nuovi rilievi. Rimangono quelli revisionati su complessità,
+  dimensioni, classi pubbliche ampie, parametri obbligatori dei callback
+  Moodle e flag booleani.
 - Configurazione degli analizzatori, perimetro di produzione, schema database e asset AMD non cambiano con queste
   pulizie delle API. I conteggi della candidata diventano autorevoli soltanto dopo aver conservato e revisionato gli
   artifact CI completi.

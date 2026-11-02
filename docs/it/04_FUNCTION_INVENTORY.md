@@ -1,8 +1,8 @@
 # Inventario delle funzioni
 
-Generato dall’albero sorgente VideoTrack 1.7.216. Le voci PHP includono funzioni e metodi nominati; le voci AMD includono dichiarazioni nominate, espressioni funzione assegnate e funzioni-metodo di oggetti.
+Generato dall’albero sorgente VideoTrack 1.7.217. Le voci PHP includono funzioni e metodi nominati; le voci AMD includono dichiarazioni nominate, espressioni funzione assegnate e funzioni-metodo di oggetti.
 
-**Funzioni/metodi PHP:** 947. **Callable AMD nominati:** 654.
+**Funzioni/metodi PHP:** 957. **Callable AMD nominati:** 654.
 
 | Posizione | Callable | Responsabilità |
 |---|---|---|
@@ -921,29 +921,39 @@ Generato dall’albero sorgente VideoTrack 1.7.216. Le voci PHP includono funzio
 | `classes/local/csv_event_timestamps.php:43` | `__construct` | Raccoglie il tempo rappresentativo e gli estremi di una riga evento CSV. |
 | `classes/local/csv_event_writer.php:68` | `__construct` | Callable PHP `__construct`; DocBlock e chiamanti definiscono parametri, valori restituiti ed effetti. |
 | `classes/local/csv_event_writer.php:99` | `write` | Callable PHP `write`; DocBlock e chiamanti definiscono parametri, valori restituiti ed effetti. |
-| `classes/local/csv_export.php:78` | `delimiter_options` | Callable PHP `delimiter_options`; DocBlock e chiamanti definiscono parametri, valori restituiti ed effetti. |
-| `classes/local/csv_export.php:93` | `delimiter_options_with_inherit` | Callable PHP `delimiter_options_with_inherit`; restituisce le opzioni dell'attività con ereditarietà esplicita dal sito. |
-| `classes/local/csv_export.php:106` | `delimiter` | Callable PHP `delimiter`; DocBlock e chiamanti definiscono parametri, valori restituiti ed effetti. |
-| `classes/local/csv_export.php:130` | `field_options` | Callable PHP `field_options`; DocBlock e chiamanti definiscono parametri, valori restituiti ed effetti. |
-| `classes/local/csv_export.php:179` | `form_field_options` | Callable PHP `form_field_options`; DocBlock e chiamanti definiscono parametri, valori restituiti ed effetti. |
-| `classes/local/csv_export.php:205` | `site_default_fields` | Callable PHP `site_default_fields`; DocBlock e chiamanti definiscono parametri, valori restituiti ed effetti. |
-| `classes/local/csv_export.php:220` | `activity_fields` | Callable PHP `activity_fields`; DocBlock e chiamanti definiscono parametri, valori restituiti ed effetti. |
-| `classes/local/csv_export.php:235` | `form_element_name` | Callable PHP `form_element_name`; DocBlock e chiamanti definiscono parametri, valori restituiti ed effetti. |
-| `classes/local/csv_export.php:246` | `process_form_fields` | Callable PHP `process_form_fields`; DocBlock e chiamanti definiscono parametri, valori restituiti ed effetti. |
-| `classes/local/csv_export.php:266` | `selected_user_fields` | Callable PHP `selected_user_fields`; DocBlock e chiamanti definiscono parametri, valori restituiti ed effetti. |
-| `classes/local/csv_export.php:279` | `load_users` | Callable PHP `load_users`; DocBlock e chiamanti definiscono parametri, valori restituiti ed effetti. |
-| `classes/local/csv_export.php:313` | `event_headers` | Callable PHP `event_headers`; DocBlock e chiamanti definiscono parametri, valori restituiti ed effetti. |
-| `classes/local/csv_export.php:336` | `identity_headers` | Callable PHP `identity_headers`; DocBlock e chiamanti definiscono parametri, valori restituiti ed effetti. |
-| `classes/local/csv_export.php:366` | `identity_values` | Callable PHP `identity_values`; DocBlock e chiamanti definiscono parametri, valori restituiti ed effetti. |
-| `classes/local/csv_export.php:407` | `cluster_notes` | Callable PHP `cluster_notes`; DocBlock e chiamanti definiscono parametri, valori restituiti ed effetti. |
-| `classes/local/csv_export.php:457` | `write_utf8_bom` | Callable PHP `write_utf8_bom`; DocBlock e chiamanti definiscono parametri, valori restituiti ed effetti. |
-| `classes/local/csv_export.php:469` | `write_row` | Callable PHP `write_row`; DocBlock e chiamanti definiscono parametri, valori restituiti ed effetti. |
-| `classes/local/csv_export.php:494` | `safe_value` | Callable PHP `safe_value`; DocBlock e chiamanti definiscono parametri, valori restituiti ed effetti. |
-| `classes/local/csv_export.php:511` | `normalise_field_list` | Callable PHP `normalise_field_list`; DocBlock e chiamanti definiscono parametri, valori restituiti ed effetti. |
-| `classes/local/csv_export.php:525` | `field_label` | Callable PHP `field_label`; DocBlock e chiamanti definiscono parametri, valori restituiti ed effetti. |
-| `classes/local/csv_export.php:543` | `field_value` | Callable PHP `field_value`; DocBlock e chiamanti definiscono parametri, valori restituiti ed effetti. |
-| `classes/local/csv_export.php:573` | `user_field_value` | Pulisce un valore utente configurato e formatta il nome di un paese riconosciuto per il CSV. |
-| `classes/local/csv_export.php:591` | `video_url` | Callable PHP `video_url`; DocBlock e chiamanti definiscono parametri, valori restituiti ed effetti. |
+| `classes/local/csv_export.php:53` | `delimiter_options` | Callable PHP `delimiter_options`; DocBlock e chiamanti definiscono parametri, valori restituiti ed effetti. |
+| `classes/local/csv_export.php:68` | `delimiter_options_with_inherit` | Callable PHP `delimiter_options_with_inherit`; restituisce le opzioni dell'attività con ereditarietà esplicita dal sito. |
+| `classes/local/csv_export.php:81` | `delimiter` | Callable PHP `delimiter`; DocBlock e chiamanti definiscono parametri, valori restituiti ed effetti. |
+| `classes/local/csv_export.php:105` | `field_options` | Callable PHP `field_options`; DocBlock e chiamanti definiscono parametri, valori restituiti ed effetti. |
+| `classes/local/csv_export.php:120` | `form_field_options` | Callable PHP `form_field_options`; DocBlock e chiamanti definiscono parametri, valori restituiti ed effetti. |
+| `classes/local/csv_export.php:129` | `site_default_fields` | Callable PHP `site_default_fields`; DocBlock e chiamanti definiscono parametri, valori restituiti ed effetti. |
+| `classes/local/csv_export.php:140` | `activity_fields` | Callable PHP `activity_fields`; DocBlock e chiamanti definiscono parametri, valori restituiti ed effetti. |
+| `classes/local/csv_export.php:150` | `form_element_name` | Callable PHP `form_element_name`; DocBlock e chiamanti definiscono parametri, valori restituiti ed effetti. |
+| `classes/local/csv_export.php:161` | `process_form_fields` | Callable PHP `process_form_fields`; DocBlock e chiamanti definiscono parametri, valori restituiti ed effetti. |
+| `classes/local/csv_export.php:171` | `selected_user_fields` | Callable PHP `selected_user_fields`; DocBlock e chiamanti definiscono parametri, valori restituiti ed effetti. |
+| `classes/local/csv_export.php:182` | `load_users` | Callable PHP `load_users`; DocBlock e chiamanti definiscono parametri, valori restituiti ed effetti. |
+| `classes/local/csv_export.php:192` | `event_headers` | Callable PHP `event_headers`; DocBlock e chiamanti definiscono parametri, valori restituiti ed effetti. |
+| `classes/local/csv_export.php:215` | `identity_headers` | Callable PHP `identity_headers`; DocBlock e chiamanti definiscono parametri, valori restituiti ed effetti. |
+| `classes/local/csv_export.php:231` | `identity_values` | Callable PHP `identity_values`; DocBlock e chiamanti definiscono parametri, valori restituiti ed effetti. |
+| `classes/local/csv_export.php:261` | `cluster_notes` | Callable PHP `cluster_notes`; DocBlock e chiamanti definiscono parametri, valori restituiti ed effetti. |
+| `classes/local/csv_export.php:311` | `write_utf8_bom` | Callable PHP `write_utf8_bom`; DocBlock e chiamanti definiscono parametri, valori restituiti ed effetti. |
+| `classes/local/csv_export.php:323` | `write_row` | Callable PHP `write_row`; DocBlock e chiamanti definiscono parametri, valori restituiti ed effetti. |
+| `classes/local/csv_export.php:348` | `safe_value` | Callable PHP `safe_value`; DocBlock e chiamanti definiscono parametri, valori restituiti ed effetti. |
+| `classes/local/csv_export_fields.php:56` | `field_options` | Callable PHP `field_options`; DocBlock e chiamanti definiscono parametri, valori restituiti ed effetti. |
+| `classes/local/csv_export_fields.php:105` | `form_field_options` | Callable PHP `form_field_options`; DocBlock e chiamanti definiscono parametri, valori restituiti ed effetti. |
+| `classes/local/csv_export_fields.php:131` | `site_default_fields` | Callable PHP `site_default_fields`; DocBlock e chiamanti definiscono parametri, valori restituiti ed effetti. |
+| `classes/local/csv_export_fields.php:146` | `activity_fields` | Callable PHP `activity_fields`; DocBlock e chiamanti definiscono parametri, valori restituiti ed effetti. |
+| `classes/local/csv_export_fields.php:161` | `form_element_name` | Callable PHP `form_element_name`; DocBlock e chiamanti definiscono parametri, valori restituiti ed effetti. |
+| `classes/local/csv_export_fields.php:172` | `process_form_fields` | Callable PHP `process_form_fields`; DocBlock e chiamanti definiscono parametri, valori restituiti ed effetti. |
+| `classes/local/csv_export_fields.php:192` | `selected_user_fields` | Callable PHP `selected_user_fields`; DocBlock e chiamanti definiscono parametri, valori restituiti ed effetti. |
+| `classes/local/csv_export_fields.php:205` | `load_users` | Callable PHP `load_users`; DocBlock e chiamanti definiscono parametri, valori restituiti ed effetti. |
+| `classes/local/csv_export_fields.php:240` | `normalise_field_list` | Callable PHP `normalise_field_list`; DocBlock e chiamanti definiscono parametri, valori restituiti ed effetti. |
+| `classes/local/csv_export_identity.php:46` | `identity_headers` | Callable PHP `identity_headers`; DocBlock e chiamanti definiscono parametri, valori restituiti ed effetti. |
+| `classes/local/csv_export_identity.php:76` | `identity_values` | Callable PHP `identity_values`; DocBlock e chiamanti definiscono parametri, valori restituiti ed effetti. |
+| `classes/local/csv_export_identity.php:113` | `field_label` | Callable PHP `field_label`; DocBlock e chiamanti definiscono parametri, valori restituiti ed effetti. |
+| `classes/local/csv_export_identity.php:131` | `field_value` | Callable PHP `field_value`; DocBlock e chiamanti definiscono parametri, valori restituiti ed effetti. |
+| `classes/local/csv_export_identity.php:161` | `user_field_value` | Pulisce un valore utente configurato e formatta il nome di un paese riconosciuto per il CSV. |
+| `classes/local/csv_export_identity.php:179` | `video_url` | Callable PHP `video_url`; DocBlock e chiamanti definiscono parametri, valori restituiti ed effetti. |
 | `classes/local/focus_policy.php:39` | `exception_group` | Restituisce il gruppo corso nascosto per le eccezioni focus, quando esiste. |
 | `classes/local/focus_policy.php:60` | `ensure_exception_group` | Crea o ripara in modo idempotente il gruppo nascosto e non partecipante. |
 | `classes/local/focus_policy.php:97` | `user_has_exception` | Risolve la membership core diretta senza esporre l’appartenenza nascosta. |

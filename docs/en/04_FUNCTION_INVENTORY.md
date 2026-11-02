@@ -1,8 +1,8 @@
 # Function inventory
 
-Generated from the VideoTrack 1.7.216 source tree. PHP entries include named functions and methods; AMD entries include named declarations, assigned function expressions and object-method functions.
+Generated from the VideoTrack 1.7.217 source tree. PHP entries include named functions and methods; AMD entries include named declarations, assigned function expressions and object-method functions.
 
-**PHP functions/methods:** 947. **Named AMD callables:** 654.
+**PHP functions/methods:** 957. **Named AMD callables:** 654.
 
 | Location | Callable | Responsibility |
 |---|---|---|
@@ -921,29 +921,39 @@ Generated from the VideoTrack 1.7.216 source tree. PHP entries include named fun
 | `classes/local/csv_event_timestamps.php:43` | `__construct` | Captures the representative and range endpoints of a CSV event. |
 | `classes/local/csv_event_writer.php:68` | `__construct` | PHP callable `__construct`; see its DocBlock and callers for parameter, return-value and side-effect details. |
 | `classes/local/csv_event_writer.php:99` | `write` | PHP callable `write`; see its DocBlock and callers for parameter, return-value and side-effect details. |
-| `classes/local/csv_export.php:78` | `delimiter_options` | PHP callable `delimiter_options`; see its DocBlock and callers for parameter, return-value and side-effect details. |
-| `classes/local/csv_export.php:93` | `delimiter_options_with_inherit` | PHP callable `delimiter_options_with_inherit`; returns the activity selector choices with explicit site-default inheritance. |
-| `classes/local/csv_export.php:106` | `delimiter` | PHP callable `delimiter`; see its DocBlock and callers for parameter, return-value and side-effect details. |
-| `classes/local/csv_export.php:130` | `field_options` | PHP callable `field_options`; see its DocBlock and callers for parameter, return-value and side-effect details. |
-| `classes/local/csv_export.php:179` | `form_field_options` | PHP callable `form_field_options`; see its DocBlock and callers for parameter, return-value and side-effect details. |
-| `classes/local/csv_export.php:205` | `site_default_fields` | PHP callable `site_default_fields`; see its DocBlock and callers for parameter, return-value and side-effect details. |
-| `classes/local/csv_export.php:220` | `activity_fields` | PHP callable `activity_fields`; see its DocBlock and callers for parameter, return-value and side-effect details. |
-| `classes/local/csv_export.php:235` | `form_element_name` | PHP callable `form_element_name`; see its DocBlock and callers for parameter, return-value and side-effect details. |
-| `classes/local/csv_export.php:246` | `process_form_fields` | PHP callable `process_form_fields`; see its DocBlock and callers for parameter, return-value and side-effect details. |
-| `classes/local/csv_export.php:266` | `selected_user_fields` | PHP callable `selected_user_fields`; see its DocBlock and callers for parameter, return-value and side-effect details. |
-| `classes/local/csv_export.php:279` | `load_users` | PHP callable `load_users`; see its DocBlock and callers for parameter, return-value and side-effect details. |
-| `classes/local/csv_export.php:313` | `event_headers` | PHP callable `event_headers`; see its DocBlock and callers for parameter, return-value and side-effect details. |
-| `classes/local/csv_export.php:336` | `identity_headers` | PHP callable `identity_headers`; see its DocBlock and callers for parameter, return-value and side-effect details. |
-| `classes/local/csv_export.php:366` | `identity_values` | PHP callable `identity_values`; see its DocBlock and callers for parameter, return-value and side-effect details. |
-| `classes/local/csv_export.php:407` | `cluster_notes` | PHP callable `cluster_notes`; see its DocBlock and callers for parameter, return-value and side-effect details. |
-| `classes/local/csv_export.php:457` | `write_utf8_bom` | PHP callable `write_utf8_bom`; see its DocBlock and callers for parameter, return-value and side-effect details. |
-| `classes/local/csv_export.php:469` | `write_row` | PHP callable `write_row`; see its DocBlock and callers for parameter, return-value and side-effect details. |
-| `classes/local/csv_export.php:494` | `safe_value` | PHP callable `safe_value`; see its DocBlock and callers for parameter, return-value and side-effect details. |
-| `classes/local/csv_export.php:511` | `normalise_field_list` | PHP callable `normalise_field_list`; see its DocBlock and callers for parameter, return-value and side-effect details. |
-| `classes/local/csv_export.php:525` | `field_label` | PHP callable `field_label`; see its DocBlock and callers for parameter, return-value and side-effect details. |
-| `classes/local/csv_export.php:543` | `field_value` | PHP callable `field_value`; see its DocBlock and callers for parameter, return-value and side-effect details. |
-| `classes/local/csv_export.php:573` | `user_field_value` | Sanitises a configured user value and formats a recognised country name for CSV. |
-| `classes/local/csv_export.php:591` | `video_url` | PHP callable `video_url`; see its DocBlock and callers for parameter, return-value and side-effect details. |
+| `classes/local/csv_export.php:53` | `delimiter_options` | PHP callable `delimiter_options`; see its DocBlock and callers for parameter, return-value and side-effect details. |
+| `classes/local/csv_export.php:68` | `delimiter_options_with_inherit` | PHP callable `delimiter_options_with_inherit`; returns the activity selector choices with explicit site-default inheritance. |
+| `classes/local/csv_export.php:81` | `delimiter` | PHP callable `delimiter`; see its DocBlock and callers for parameter, return-value and side-effect details. |
+| `classes/local/csv_export.php:105` | `field_options` | PHP callable `field_options`; see its DocBlock and callers for parameter, return-value and side-effect details. |
+| `classes/local/csv_export.php:120` | `form_field_options` | PHP callable `form_field_options`; see its DocBlock and callers for parameter, return-value and side-effect details. |
+| `classes/local/csv_export.php:129` | `site_default_fields` | PHP callable `site_default_fields`; see its DocBlock and callers for parameter, return-value and side-effect details. |
+| `classes/local/csv_export.php:140` | `activity_fields` | PHP callable `activity_fields`; see its DocBlock and callers for parameter, return-value and side-effect details. |
+| `classes/local/csv_export.php:150` | `form_element_name` | PHP callable `form_element_name`; see its DocBlock and callers for parameter, return-value and side-effect details. |
+| `classes/local/csv_export.php:161` | `process_form_fields` | PHP callable `process_form_fields`; see its DocBlock and callers for parameter, return-value and side-effect details. |
+| `classes/local/csv_export.php:171` | `selected_user_fields` | PHP callable `selected_user_fields`; see its DocBlock and callers for parameter, return-value and side-effect details. |
+| `classes/local/csv_export.php:182` | `load_users` | PHP callable `load_users`; see its DocBlock and callers for parameter, return-value and side-effect details. |
+| `classes/local/csv_export.php:192` | `event_headers` | PHP callable `event_headers`; see its DocBlock and callers for parameter, return-value and side-effect details. |
+| `classes/local/csv_export.php:215` | `identity_headers` | PHP callable `identity_headers`; see its DocBlock and callers for parameter, return-value and side-effect details. |
+| `classes/local/csv_export.php:231` | `identity_values` | PHP callable `identity_values`; see its DocBlock and callers for parameter, return-value and side-effect details. |
+| `classes/local/csv_export.php:261` | `cluster_notes` | PHP callable `cluster_notes`; see its DocBlock and callers for parameter, return-value and side-effect details. |
+| `classes/local/csv_export.php:311` | `write_utf8_bom` | PHP callable `write_utf8_bom`; see its DocBlock and callers for parameter, return-value and side-effect details. |
+| `classes/local/csv_export.php:323` | `write_row` | PHP callable `write_row`; see its DocBlock and callers for parameter, return-value and side-effect details. |
+| `classes/local/csv_export.php:348` | `safe_value` | PHP callable `safe_value`; see its DocBlock and callers for parameter, return-value and side-effect details. |
+| `classes/local/csv_export_fields.php:56` | `field_options` | PHP callable `field_options`; see its DocBlock and callers for parameter, return-value and side-effect details. |
+| `classes/local/csv_export_fields.php:105` | `form_field_options` | PHP callable `form_field_options`; see its DocBlock and callers for parameter, return-value and side-effect details. |
+| `classes/local/csv_export_fields.php:131` | `site_default_fields` | PHP callable `site_default_fields`; see its DocBlock and callers for parameter, return-value and side-effect details. |
+| `classes/local/csv_export_fields.php:146` | `activity_fields` | PHP callable `activity_fields`; see its DocBlock and callers for parameter, return-value and side-effect details. |
+| `classes/local/csv_export_fields.php:161` | `form_element_name` | PHP callable `form_element_name`; see its DocBlock and callers for parameter, return-value and side-effect details. |
+| `classes/local/csv_export_fields.php:172` | `process_form_fields` | PHP callable `process_form_fields`; see its DocBlock and callers for parameter, return-value and side-effect details. |
+| `classes/local/csv_export_fields.php:192` | `selected_user_fields` | PHP callable `selected_user_fields`; see its DocBlock and callers for parameter, return-value and side-effect details. |
+| `classes/local/csv_export_fields.php:205` | `load_users` | PHP callable `load_users`; see its DocBlock and callers for parameter, return-value and side-effect details. |
+| `classes/local/csv_export_fields.php:240` | `normalise_field_list` | PHP callable `normalise_field_list`; see its DocBlock and callers for parameter, return-value and side-effect details. |
+| `classes/local/csv_export_identity.php:46` | `identity_headers` | PHP callable `identity_headers`; see its DocBlock and callers for parameter, return-value and side-effect details. |
+| `classes/local/csv_export_identity.php:76` | `identity_values` | PHP callable `identity_values`; see its DocBlock and callers for parameter, return-value and side-effect details. |
+| `classes/local/csv_export_identity.php:113` | `field_label` | PHP callable `field_label`; see its DocBlock and callers for parameter, return-value and side-effect details. |
+| `classes/local/csv_export_identity.php:131` | `field_value` | PHP callable `field_value`; see its DocBlock and callers for parameter, return-value and side-effect details. |
+| `classes/local/csv_export_identity.php:161` | `user_field_value` | Sanitises a configured user value and formats a recognised country name for CSV. |
+| `classes/local/csv_export_identity.php:179` | `video_url` | PHP callable `video_url`; see its DocBlock and callers for parameter, return-value and side-effect details. |
 | `classes/local/focus_policy.php:39` | `exception_group` | Returns the course-local hidden focus-exception group when it exists. |
 | `classes/local/focus_policy.php:60` | `ensure_exception_group` | Idempotently creates or repairs the hidden, non-participating exception group. |
 | `classes/local/focus_policy.php:97` | `user_has_exception` | Resolves direct core group membership without exposing hidden membership. |

@@ -1,5 +1,25 @@
 # VideoTrack changelog
 
+## 1.7.217 - 2026-11-01
+
+### Focused CSV field selection and identity formatting
+
+- Accepted the real 382-file 1.7.216 ZIP byte-for-byte against the merged
+  candidate. All six post-merge CI jobs passed 325 PHPUnit tests, 24 Behat
+  scenarios and ten validator checks each. PHPMD confirmed 39 advisory
+  findings, down from 40 in 1.7.215 without new findings. The Moodle 5.0/5.3
+  server report passed PHPCS (zero errors and warnings), lint, Grunt under
+  Node 22.23.4 and 325 PHPUnit tests per site; both manual strict validators
+  passed ten checks with no warnings or failures.
+- Keep the existing CSV export API and symbolic delimiters while moving field
+  selection and identity-column formatting into two autoloaded services. The
+  original method bodies, Moodle identity permissions, UTF-8 values, video
+  links and spreadsheet formula protection are unchanged. Update the existing
+  contract test to check all three files for an explicit Moodle formatting
+  context. Candidate CI must confirm removal of the CSV facade's class-
+  complexity finding without any new findings. XMLDB, AMD, services and
+  languages are unchanged.
+
 ## 1.7.216 - 2026-11-01
 
 ### Per-user retention processing under the canonical state lock

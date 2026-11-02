@@ -1,10 +1,10 @@
 # Inventario dei file distribuiti
 
-Questo inventario è generato sull'albero repository VideoTrack 1.7.216. Elenca ogni file non documentale distribuito
+Questo inventario è generato sull'albero repository VideoTrack 1.7.217. Elenca ogni file non documentale distribuito
 e i file CI/tooling/igiene presenti soltanto nel repository. Il JavaScript canonico è in `amd/src`; i file in `amd/build`
 sono generati.
 
-Voci: **321** — 318 file distribuiti e tre file presenti soltanto nel repository, esclusi dagli archivi di release.
+Voci: **323** — 320 file distribuiti e tre file presenti soltanto nel repository, esclusi dagli archivi di release.
 
 | File | Responsabilità |
 |---|---|
@@ -209,6 +209,8 @@ Voci: **321** — 318 file distribuiti e tre file presenti soltanto nel reposito
 | `classes/local/csv_event_timestamps.php` | Timestamp video rappresentativo, iniziale e finale, tipizzati per le righe evento CSV del report docente. |
 | `classes/local/csv_event_writer.php` | Writer contestuale per le righe evento CSV personalizzate del report docente. |
 | `classes/local/csv_export.php` | Servizio di dominio `csv_export` riusabile da pagine, report o servizi. |
+| `classes/local/csv_export_fields.php` | Risolve campi CSV configurati, identità visibili e record utente selezionati. |
+| `classes/local/csv_export_identity.php` | Formatta colonne di identità CSV, etichette Moodle e link video. |
 | `classes/local/focus_policy.php` | Eccezione di accessibilità al focus rigido per corso basata su un gruppo core Moodle nascosto. |
 | `classes/local/form_validation.php` | Policy autonoma di validazione scalare/JSON per il form delle impostazioni attività. |
 | `classes/local/forum_bridge.php` | Servizio di dominio `forum_bridge` riusabile da pagine, report o servizi. |

@@ -1,6 +1,6 @@
 # Documentation audit
 
-Baseline: VideoTrack **1.7.216** (`2026110105`).
+Baseline: VideoTrack **1.7.217** (`2026110106`).
 
 ## Scope
 
@@ -33,7 +33,7 @@ not duplicate implementation procedures, field dictionaries or long security/pri
 ## Current-tree findings
 
 - English and Italian indexes have matching scope and ordering.
-- Documentation markers, root README files and ER artefacts identify 1.7.216 / 2026110105.
+- Documentation markers, root README files and ER artefacts identify 1.7.217 / 2026110106.
 - Retention pairs are processed by `privacy_retention_pair` using the existing state lock, transaction and
   post-commit completion sequence; `privacy_manager` retains the public erasure and batch APIs.
 - The stable instance Analytics facade delegates duration, bin selection and segment/state timeline
@@ -44,6 +44,8 @@ not duplicate implementation procedures, field dictionaries or long security/pri
   to `course_analytics_loader`, while `course_analytics` retains summaries and privacy-safe row assembly.
 - Custom completion reads enabled reaction conditions through `completion_config::reaction_checks()`;
   both reaction-level and top-level decisions use `completion_config::combine_checks()`.
+- The CSV export facade keeps its public methods and delegates context-aware field selection to
+  `csv_export_fields` and identity formatting to `csv_export_identity`.
 - The custom CSV event writer receives a typed activity and learner context; row formatting and user filtering
   stay in the writer. The exporter separates activity-field formatting from user-field sanitisation; acknowledgement
   confirmation checks availability before looking up or creating a learner record.
@@ -124,7 +126,7 @@ not duplicate implementation procedures, field dictionaries or long security/pri
 - Generated CI/server evidence is not part of the plugin tree. Repository `.gitignore`, Git archive
   `export-ignore` rules, Moodle `.moodleignore` rules and a PHPUnit release-hygiene contract jointly prevent
   `reports-*`, `videotrack-ci-*.zip` and `report_completo_videotrack_*.zip` from entering future releases. The
-  canonical release archive must therefore contain the 382 legitimate plugin files only.
+  canonical release archive must therefore contain the 384 legitimate plugin files only.
 
 ## Release checks
 

@@ -49,12 +49,16 @@ final class release_hygiene_contract_test extends advanced_testcase {
      * CSV export formatting must always specify a Moodle context.
      */
     public function test_csv_export_format_strings_have_explicit_context(): void {
-        $source = file_get_contents(__DIR__ . '/../classes/local/csv_export.php');
-        $this->assertIsString($source);
+        $lines = [];
+        foreach (['csv_export.php', 'csv_export_fields.php', 'csv_export_identity.php'] as $filename) {
+            $source = file_get_contents(__DIR__ . '/../classes/local/' . $filename);
+            $this->assertIsString($source);
+            preg_match_all('/^.*format_string\(.*$/m', $source, $matches);
+            $lines = array_merge($lines, $matches[0]);
+        }
 
-        preg_match_all('/^.*format_string\(.*$/m', $source, $matches);
-        $this->assertCount(5, $matches[0]);
-        foreach ($matches[0] as $line) {
+        $this->assertCount(5, $lines);
+        foreach ($lines as $line) {
             $this->assertStringContainsString("['context' =>", $line);
         }
     }
