@@ -4,7 +4,7 @@ This inventory is generated against the VideoTrack 1.7.220 repository tree. It l
 non-documentation file plus repository-only CI/tooling/hygiene files. Canonical JavaScript is under `amd/src`; files under
 `amd/build` are generated.
 
-Entries: **324** — 321 distributed files and three repository-only files excluded from release archives.
+Entries: **325** — 322 distributed files and three repository-only files excluded from release archives.
 
 | File | Responsibility |
 |---|---|
@@ -219,6 +219,7 @@ Entries: **324** — 321 distributed files and three repository-only files exclu
 | `classes/local/privacy_manager.php` | Privacy helpers for VideoTrack. |
 | `classes/local/privacy_retention_pair.php` | Rebuilds derived state and deletes expired personal rows for one learner and activity while holding the state lock. |
 | `classes/local/report_access.php` | Centralised granular activity-report capability policy with backwards-compatible full-report fallback. |
+| `classes/local/reaction_form_validation.php` | Pure reaction icon-value and required-field validation policy for activity form rows. |
 | `classes/local/reaction_write_service.php` | Runs post-persistence reaction cache invalidation, event delivery, aggregate counting and completion refresh with bounded warnings. |
 | `classes/local/report_aggregation.php` | Pure viewer-drop discovery and completed reaction-cluster ordering for teacher reports. |
 | `classes/local/report_analytics_query.php` | Capability-safe SQL builders for Analytics, provider and current-acknowledgement teacher-report queries. |

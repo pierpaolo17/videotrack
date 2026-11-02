@@ -35,7 +35,8 @@ duplicano intenzionalmente procedure implementative, dizionari dei campi o lungh
 - Gli indici inglese e italiano hanno stesso perimetro e ordinamento.
 - Marker documentali, README principali e artefatti ER identificano 1.7.220 / 2026110203.
 - I controlli del form per sorgenti, file VTT, icone delle reazioni e forum mantengono l'ordine originale tramite
-  helper dedicati; le righe delle reazioni conservano ordine degli errori e requisiti della configurazione.
+  helper dedicati; le righe delle reazioni conservano ordine degli errori e requisiti della configurazione;
+  i controlli puri per valore icona e campi obbligatori risiedono in `reaction_form_validation`.
 - `videotrack_pluginfile()` mantiene firma e ordine dei controlli del callback Moodle; helper dedicati
   verificano aree, percorsi, estensione/MIME/contenuto WebVTT e regole di download/cache.
 - `privacy_retention_pair` elabora ogni coppia con gli stessi lock, transazione e completamento

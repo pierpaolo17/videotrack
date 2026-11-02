@@ -18,6 +18,12 @@
   test for multiple invalid rows, a valid configured row and disabled file
   icons. The PHPMD result and all runtime gates require candidate CI confirmation.
   Database schema, AMD assets, AJAX services and language keys are unchanged.
+- The first 1.7.220 CI passed all six jobs with 331 PHPUnit tests, 2,960
+  assertions, 24 Behat scenarios and ten validator checks each. PHPMD fell
+  from 35 to 34 findings, but the form gained a `TooManyMethods` finding.
+  Move the two pure reaction icon-value and required-field checks to a
+  focused autoloaded `reaction_form_validation` policy class, retaining the
+  original method bodies and error ordering. The corrected PHPMD count awaits CI.
 
 ## 1.7.219 - 2026-11-02
 

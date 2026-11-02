@@ -1004,6 +1004,8 @@ Generated from the VideoTrack 1.7.220 source tree. PHP entries include named fun
 | `classes/local/privacy_retention_pair.php:325` | `earliest_retained_timestamp` | PHP callable `earliest_retained_timestamp`; see its DocBlock and callers for parameter, return-value and side-effect details. |
 | `classes/local/privacy_retention_pair.php:367` | `delete_state` | PHP callable `delete_state`; see its DocBlock and callers for parameter, return-value and side-effect details. |
 | `classes/local/privacy_retention_pair.php:391` | `synchronise_completion` | PHP callable `synchronise_completion`; see its DocBlock and callers for parameter, return-value and side-effect details. |
+| `classes/local/reaction_form_validation.php:37` | `reaction_text_icon_errors` | PHP callable `reaction_text_icon_errors`; see its DocBlock and callers for parameter, return-value and side-effect details. |
+| `classes/local/reaction_form_validation.php:65` | `reaction_details_errors` | PHP callable `reaction_details_errors`; see its DocBlock and callers for parameter, return-value and side-effect details. |
 | `classes/local/reaction_write_service.php:46` | `complete` | Runs the cache, event, aggregate and completion pipeline after a reaction row has been inserted. |
 | `classes/local/reaction_write_service.php:103` | `trigger_event` | Emits `reaction_saved` and converts event failures into the established bounded warning. |
 | `classes/local/report_access.php:40` | `has_legacy_full_access` | PHP callable `report_access::has_legacy_full_access`; backwards-compatible full-report capability check. |
@@ -1268,9 +1270,7 @@ Generated from the VideoTrack 1.7.220 source tree. PHP entries include named fun
 | `mod_form.php:2055` | `forum_errors` | PHP callable `forum_errors`; see its DocBlock and callers for parameter, return-value and side-effect details. |
 | `mod_form.php:2076` | `reaction_errors` | PHP callable `reaction_errors`; see its DocBlock and callers for parameter, return-value and side-effect details. |
 | `mod_form.php:2100` | `reaction_row_errors` | PHP callable `reaction_row_errors`; see its DocBlock and callers for parameter, return-value and side-effect details. |
-| `mod_form.php:2145` | `reaction_text_icon_errors` | PHP callable `reaction_text_icon_errors`; see its DocBlock and callers for parameter, return-value and side-effect details. |
-| `mod_form.php:2173` | `reaction_details_errors` | PHP callable `reaction_details_errors`; see its DocBlock and callers for parameter, return-value and side-effect details. |
-| `mod_form.php:2203` | `validation` | PHP callable `validation`; see its DocBlock and callers for parameter, return-value and side-effect details. |
+| `mod_form.php:2146` | `validation` | PHP callable `validation`; see its DocBlock and callers for parameter, return-value and side-effect details. |
 | `reports_course.php:34` | `videotrack_course_report_count_cell` | PHP callable `videotrack_course_report_count_cell`; see its DocBlock and callers for parameter, return-value and side-effect details. |
 | `reports_course.php:48` | `videotrack_course_report_percentage_cell` | PHP callable `videotrack_course_report_percentage_cell`; renders the text-only aggregate percentage. |
 | `reports_course.php:67` | `videotrack_course_report_percentage_bar_cell` | PHP callable `videotrack_course_report_percentage_bar_cell`; renders the aggregate percentage with its accessible compact bar. |

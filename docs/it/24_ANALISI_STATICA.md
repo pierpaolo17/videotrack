@@ -179,7 +179,9 @@ dichiarazione di un parametro di metodo.
   e CyclomaticComplexity/NPathComplexity sul testo temporizzato. La correzione incrementale separa URL/upload,
   validazione dei draft e obbligo dei file; la CI corretta e i sei job dopo il merge confermano 35 rilievi senza
   novità. La candidata 1.7.220 separa validazione delle righe, del valore icona e dei campi obbligatori,
-  mantenendo l'ordine degli errori; il risultato PHPMD attende la CI.
+  mantenendo l'ordine degli errori. La prima CI supera tutti i sei job e riporta 34 rilievi, tra cui il nuovo
+  `TooManyMethods` sul form. Una correzione incrementale sposta i due controlli puri in una classe dedicata
+  `reaction_form_validation`; il nuovo risultato PHPMD attende la CI.
 - Configurazione degli analizzatori, perimetro di produzione, schema database e asset AMD non cambiano con queste
   pulizie delle API. I conteggi della candidata diventano autorevoli soltanto dopo aver conservato e revisionato gli
   artifact CI completi.

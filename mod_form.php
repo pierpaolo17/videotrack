@@ -2122,75 +2122,18 @@ JS);
                 $rowhastext
             );
         } else {
-            $icon = self::reaction_text_icon_errors($data, $i, $type, $reactionsenabled, $rowhastext);
+            $icon = \mod_videotrack\local\reaction_form_validation::reaction_text_icon_errors(
+                $data, $i, $type, $reactionsenabled, $rowhastext
+            );
         }
 
-        $details = self::reaction_details_errors($label, $description, $reactionsenabled, $icon['hasicon'], $i);
+        $details = \mod_videotrack\local\reaction_form_validation::reaction_details_errors(
+            $label, $description, $reactionsenabled, $icon['hasicon'], $i
+        );
         return [
             'errors' => array_replace($icon['errors'], $details['errors']),
             'configured' => $details['configured'],
         ];
-    }
-
-    /**
-     * Validates an emoji or Font Awesome icon value.
-     *
-     * @param array $data Submitted form data.
-     * @param int $i Reaction row index.
-     * @param string $type Icon type.
-     * @param bool $reactionsenabled Whether reactions are enabled.
-     * @param bool $rowhastext Whether this row contains a label or description.
-     * @return array Icon presence and validation errors.
-     */
-    private static function reaction_text_icon_errors(
-        array $data,
-        int $i,
-        string $type,
-        bool $reactionsenabled,
-        bool $rowhastext
-    ): array {
-        $iconvalue = trim((string)($data['reactioniconvalue'][$i] ?? ''));
-        $hasicon = $iconvalue !== '';
-        $errors = [];
-        if ($reactionsenabled && $rowhastext && !$hasicon) {
-            $errors['reactioniconvalue[' . $i . ']'] = get_string('err:reactioniconvaluerequired', 'mod_videotrack');
-        } else if ($hasicon && $type === 'fa' && !videotrack_is_valid_reaction_icon_class($iconvalue)) {
-            $errors['reactioniconvalue[' . $i . ']'] = get_string('err:reactioniconvalueinvalidfa', 'mod_videotrack');
-        }
-        return ['hasicon' => $hasicon, 'errors' => $errors];
-    }
-
-    /**
-     * Requires labels and descriptions for enabled reactions with an icon.
-     *
-     * @param string $label Reaction label.
-     * @param string $description Reaction description.
-     * @param bool $reactionsenabled Whether reactions are enabled.
-     * @param bool $hasicon Whether this row has an icon.
-     * @param int $i Reaction row index.
-     * @return array Errors and whether this row configures a reaction.
-     */
-    private static function reaction_details_errors(
-        string $label,
-        string $description,
-        bool $reactionsenabled,
-        bool $hasicon,
-        int $i
-    ): array {
-        $errors = [];
-        $configured = false;
-        if ($reactionsenabled && $hasicon) {
-            if ($label === '') {
-                $errors['reactionlabel[' . $i . ']'] = get_string('required');
-            }
-            if ($description === '') {
-                $errors['reactiondescription[' . $i . ']'] = get_string('required');
-            }
-            if ($label !== '' && $description !== '') {
-                $configured = true;
-            }
-        }
-        return ['errors' => $errors, 'configured' => $configured];
     }
 
     /**

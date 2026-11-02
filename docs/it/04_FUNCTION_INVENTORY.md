@@ -1004,6 +1004,8 @@ Generato dall’albero sorgente VideoTrack 1.7.220. Le voci PHP includono funzio
 | `classes/local/privacy_retention_pair.php:325` | `earliest_retained_timestamp` | Callable PHP `earliest_retained_timestamp`; DocBlock e chiamanti definiscono parametri, valori restituiti ed effetti. |
 | `classes/local/privacy_retention_pair.php:367` | `delete_state` | Callable PHP `delete_state`; DocBlock e chiamanti definiscono parametri, valori restituiti ed effetti. |
 | `classes/local/privacy_retention_pair.php:391` | `synchronise_completion` | Callable PHP `synchronise_completion`; DocBlock e chiamanti definiscono parametri, valori restituiti ed effetti. |
+| `classes/local/reaction_form_validation.php:37` | `reaction_text_icon_errors` | Callable PHP `reaction_text_icon_errors`; DocBlock e chiamanti definiscono parametri, valori restituiti ed effetti. |
+| `classes/local/reaction_form_validation.php:65` | `reaction_details_errors` | Callable PHP `reaction_details_errors`; DocBlock e chiamanti definiscono parametri, valori restituiti ed effetti. |
 | `classes/local/reaction_write_service.php:46` | `complete` | Esegue la pipeline cache, evento, aggregati e completion dopo l'inserimento della reazione. |
 | `classes/local/reaction_write_service.php:103` | `trigger_event` | Emette `reaction_saved` e converte gli errori evento nel warning limitato già previsto. |
 | `classes/local/report_access.php:40` | `has_legacy_full_access` | Callable PHP `report_access::has_legacy_full_access`; verifica retrocompatibile della capability completa di report. |
@@ -1268,9 +1270,7 @@ Generato dall’albero sorgente VideoTrack 1.7.220. Le voci PHP includono funzio
 | `mod_form.php:2055` | `forum_errors` | Callable PHP `forum_errors`; DocBlock e chiamanti definiscono parametri, valori restituiti ed effetti. |
 | `mod_form.php:2076` | `reaction_errors` | Callable PHP `reaction_errors`; DocBlock e chiamanti definiscono parametri, valori restituiti ed effetti. |
 | `mod_form.php:2100` | `reaction_row_errors` | Callable PHP `reaction_row_errors`; DocBlock e chiamanti definiscono parametri, valori restituiti ed effetti. |
-| `mod_form.php:2145` | `reaction_text_icon_errors` | Callable PHP `reaction_text_icon_errors`; DocBlock e chiamanti definiscono parametri, valori restituiti ed effetti. |
-| `mod_form.php:2173` | `reaction_details_errors` | Callable PHP `reaction_details_errors`; DocBlock e chiamanti definiscono parametri, valori restituiti ed effetti. |
-| `mod_form.php:2203` | `validation` | Callable PHP `validation`; DocBlock e chiamanti definiscono parametri, valori restituiti ed effetti. |
+| `mod_form.php:2146` | `validation` | Callable PHP `validation`; DocBlock e chiamanti definiscono parametri, valori restituiti ed effetti. |
 | `reports_course.php:34` | `videotrack_course_report_count_cell` | Callable PHP `videotrack_course_report_count_cell`; DocBlock e chiamanti definiscono parametri, valori restituiti ed effetti. |
 | `reports_course.php:48` | `videotrack_course_report_percentage_cell` | Callable PHP `videotrack_course_report_percentage_cell`; renderizza la percentuale aggregata in forma testuale. |
 | `reports_course.php:67` | `videotrack_course_report_percentage_bar_cell` | Callable PHP `videotrack_course_report_percentage_bar_cell`; renderizza la percentuale aggregata con barra compatta accessibile. |

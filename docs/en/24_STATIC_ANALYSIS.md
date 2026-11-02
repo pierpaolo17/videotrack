@@ -169,6 +169,8 @@ line, not for redeclaring a method parameter.
   acquired cyclomatic complexity and timed-text checking acquired cyclomatic and NPath findings. The incremental
   correction split URL/upload checks, draft validation and required-file checks; the corrected CI and six
   post-merge jobs confirmed 35 findings without new ones. The 1.7.220 candidate separates reaction-row,
-  icon-value and required-field validation while preserving error order; its PHPMD result awaits CI.
+  icon-value and required-field validation while preserving error order. The first CI passed all six jobs
+  and reported 34 findings, including a new `TooManyMethods` on the form. An incremental correction moves
+  both pure checks into a focused `reaction_form_validation` class; the corrected PHPMD result awaits CI.
 - Static-analysis configuration, production scope, database schema and AMD assets are unchanged by these API
   cleanups. Candidate counts remain authoritative only after the complete CI artifacts are retained and reviewed.
