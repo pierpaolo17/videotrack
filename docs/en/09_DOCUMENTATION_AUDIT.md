@@ -1,6 +1,6 @@
 # Documentation audit
 
-Baseline: VideoTrack **1.7.217** (`2026110106`).
+Baseline: VideoTrack **1.7.218** (`2026110201`).
 
 ## Scope
 
@@ -33,7 +33,9 @@ not duplicate implementation procedures, field dictionaries or long security/pri
 ## Current-tree findings
 
 - English and Italian indexes have matching scope and ordering.
-- Documentation markers, root README files and ER artefacts identify 1.7.217 / 2026110106.
+- Documentation markers, root README files and ER artefacts identify 1.7.218 / 2026110201.
+- `videotrack_pluginfile()` retains the Moodle callback signature and guard order; focused helpers check
+  activity areas, stored paths, extension/MIME/WebVTT content and upload download/cache rules.
 - Retention pairs are processed by `privacy_retention_pair` using the existing state lock, transaction and
   post-commit completion sequence; `privacy_manager` retains the public erasure and batch APIs.
 - The stable instance Analytics facade delegates duration, bin selection and segment/state timeline

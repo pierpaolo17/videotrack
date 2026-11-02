@@ -1636,47 +1636,15 @@ function videotrack_resize_reaction_icon(context_module $context, int $reactioni
 }
 
 /**
- * Serves files from the reactionicon filearea.
+ * Check whether the current activity exposes the requested file area.
  *
- * @param stdClass      $course
- * @param stdClass      $cm
- * @param context       $context
- * @param string        $filearea
- * @param array         $args
- * @param bool          $forcedownload
- * @param array         $options
- * @return bool|void    False if file not found, otherwise sends the file.
+ * @param stdClass $cm Course module record.
+ * @param string $filearea Requested file area.
+ * @return bool True when the activity settings permit serving the area.
  */
-function videotrack_pluginfile($course, $cm, $context, $filearea, $args, $forcedownload, array $options = []) {
+function videotrack_pluginfile_area_available($cm, string $filearea): bool {
     global $DB;
 
-    if ($context->contextlevel !== CONTEXT_MODULE) {
-        return false;
-    }
-    $allowedfileareas = [
-        'intro',
-        'reactionicon',
-        'videocontent',
-        'subtitles',
-        'transcripts',
-        'chapters',
-        'posterimage',
-    ];
-    if (!in_array($filearea, $allowedfileareas, true)) {
-        return false;
-    }
-    $allowedextensions = [
-        'reactionicon' => ['jpg', 'jpeg', 'png', 'gif', 'webp'],
-        'posterimage' => ['jpg', 'jpeg', 'png', 'gif', 'webp'],
-        'subtitles' => ['vtt'],
-        'transcripts' => ['vtt'],
-        'chapters' => ['vtt'],
-        'videocontent' => ['mp4', 'webm', 'mp3', 'm4v', 'mov', 'aac', 'm4a'],
-    ];
-    require_login($course, true, $cm);
-    if (!has_capability('mod/videotrack:view', $context)) {
-        return false;
-    }
     if (in_array($filearea, ['videocontent', 'subtitles'], true)) {
         $instance = $DB->get_record('videotrack', ['id' => $cm->instance], 'id, videosource, captions', MUST_EXIST);
         if ((string)$instance->videosource !== 'upload') {
@@ -1696,6 +1664,18 @@ function videotrack_pluginfile($course, $cm, $context, $filearea, $args, $forced
             return false;
         }
     }
+    return true;
+}
+
+/**
+ * Resolve the requested stored file after the access and activity checks.
+ *
+ * @param context $context Module context.
+ * @param string $filearea Requested file area.
+ * @param array $args File path components.
+ * @return stored_file|false The requested file, or false for an invalid path.
+ */
+function videotrack_pluginfile_find_file(context $context, string $filearea, array $args) {
     $itemid   = (int)array_shift($args);
     $filepath = count($args) > 1 ? ('/' . implode('/', array_slice($args, 0, -1)) . '/') : '/';
     $filename = end($args);
@@ -1707,12 +1687,25 @@ function videotrack_pluginfile($course, $cm, $context, $filearea, $args, $forced
     if (!$file || $file->is_directory()) {
         return false;
     }
-    if ($filearea === 'intro') {
-        // Intro files are managed by Moodle core editor/filepicker controls.
-        // They intentionally follow the standard module intro serving path.
-        // The stricter checks below apply only to VideoTrack-specific uploads.
-        return send_stored_file($file, 0, 0, $forcedownload, $options);
-    }
+    return $file;
+}
+
+/**
+ * Validate the extension and content of a VideoTrack-specific upload.
+ *
+ * @param string $filearea Requested file area.
+ * @param stored_file $file Stored upload.
+ * @return bool True when the file meets the area's extension and content rules.
+ */
+function videotrack_pluginfile_content_allowed(string $filearea, stored_file $file): bool {
+    $allowedextensions = [
+        'reactionicon' => ['jpg', 'jpeg', 'png', 'gif', 'webp'],
+        'posterimage' => ['jpg', 'jpeg', 'png', 'gif', 'webp'],
+        'subtitles' => ['vtt'],
+        'transcripts' => ['vtt'],
+        'chapters' => ['vtt'],
+        'videocontent' => ['mp4', 'webm', 'mp3', 'm4v', 'mov', 'aac', 'm4a'],
+    ];
     $extension = strtolower(pathinfo($file->get_filename(), PATHINFO_EXTENSION));
     if (!in_array($extension, $allowedextensions[$filearea], true)) {
         return false;
@@ -1734,6 +1727,22 @@ function videotrack_pluginfile($course, $cm, $context, $filearea, $args, $forced
             return false;
         }
     }
+    return true;
+}
+
+/**
+ * Serve a validated upload with its area-specific download and cache policy.
+ *
+ * @param stdClass $cm Course module record.
+ * @param stored_file $file Validated upload.
+ * @param string $filearea Requested file area.
+ * @param bool $forcedownload Whether Moodle requested an attachment.
+ * @param array $options Additional Moodle file-serving options.
+ * @return bool|void False when downloads are forbidden, otherwise sends the file.
+ */
+function videotrack_pluginfile_send_media($cm, stored_file $file, string $filearea, $forcedownload, array $options) {
+    global $DB;
+
     if ($filearea === 'videocontent') {
         $allowdownload = (int)$DB->get_field('videotrack', 'allowdownload', ['id' => $cm->instance], MUST_EXIST);
         if (empty($allowdownload) && $forcedownload) {
@@ -1744,6 +1753,57 @@ function videotrack_pluginfile($course, $cm, $context, $filearea, $args, $forced
     // Uploaded videos: allow 1 hour browser caching. Poster: 5 min. Icons: no cache.
     $lifetime = ($filearea === 'videocontent') ? 3600 : (($filearea === 'posterimage') ? 300 : 0);
     send_stored_file($file, $lifetime, 0, $forcedownload, $options);
+}
+
+/**
+ * Serves files from the reactionicon filearea.
+ *
+ * @param stdClass      $course
+ * @param stdClass      $cm
+ * @param context       $context
+ * @param string        $filearea
+ * @param array         $args
+ * @param bool          $forcedownload
+ * @param array         $options
+ * @return bool|void    False if file not found, otherwise sends the file.
+ */
+function videotrack_pluginfile($course, $cm, $context, $filearea, $args, $forcedownload, array $options = []) {
+    if ($context->contextlevel !== CONTEXT_MODULE) {
+        return false;
+    }
+    $allowedfileareas = [
+        'intro',
+        'reactionicon',
+        'videocontent',
+        'subtitles',
+        'transcripts',
+        'chapters',
+        'posterimage',
+    ];
+    if (!in_array($filearea, $allowedfileareas, true)) {
+        return false;
+    }
+    require_login($course, true, $cm);
+    if (!has_capability('mod/videotrack:view', $context)) {
+        return false;
+    }
+    if (!videotrack_pluginfile_area_available($cm, $filearea)) {
+        return false;
+    }
+    $file = videotrack_pluginfile_find_file($context, $filearea, $args);
+    if (!$file) {
+        return false;
+    }
+    if ($filearea === 'intro') {
+        // Intro files are managed by Moodle core editor/filepicker controls.
+        // They intentionally follow the standard module intro serving path.
+        // The stricter checks below apply only to VideoTrack-specific uploads.
+        return send_stored_file($file, 0, 0, $forcedownload, $options);
+    }
+    if (!videotrack_pluginfile_content_allowed($filearea, $file)) {
+        return false;
+    }
+    return videotrack_pluginfile_send_media($cm, $file, $filearea, $forcedownload, $options);
 }
 
 /**
