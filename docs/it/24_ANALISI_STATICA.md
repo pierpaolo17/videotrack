@@ -160,16 +160,19 @@ dichiarazione di un parametro di metodo.
 - Il callback delle feature Moodle è una tabella diretta feature-valore, mentre la validazione delle reazioni Font
   Awesome separa il sottoinsieme revisionato dei decoratori da un solo nome icona. Contratti pubblici, limiti e
   default fail-closed sono coperti indipendentemente dalla riduzione di complessità.
-- PHPMD resta consultivo. La CI della 1.7.216 ha confermato 39 rilievi,
-  contro i 40 della 1.7.215 senza nuovi rilievi: `privacy_manager` e il
-  servizio delle coppie di conservazione restano sotto la soglia di
-  complessità della classe. La candidata 1.7.217 separa selezione dei campi
-  CSV e formattazione dell'identità in servizi dedicati, conservando i metodi
-  pubblici e i simboli dei delimitatori di `csv_export`. La CI dovrà
-  confermare che tutte e tre le classi restino sotto la soglia di complessità
-  senza nuovi rilievi. Rimangono quelli revisionati su complessità,
-  dimensioni, classi pubbliche ampie, parametri obbligatori dei callback
-  Moodle e flag booleani.
+- PHPMD resta consultivo. La CI della 1.7.217 ha confermato 38 rilievi,
+  contro i 39 della 1.7.216 senza nuovi rilievi: la facciata CSV e i due
+  servizi dedicati restano sotto la soglia di complessità della classe.
+  La candidata 1.7.218 separa disponibilità delle aree, ricerca dei file,
+  validazione del contenuto e regole di download/cache del callback Moodle
+  mantenendone firma pubblica e ordine dei controlli di accesso. La CI dovrà
+  confermare la rimozione dei due rilievi di complessità senza nuovi rilievi.
+  La prima CI della candidata ha rilevato 37 rilievi totali, incluso un nuovo
+  rilievo di complessità nell’helper delle aree; la correzione separa i
+  controlli delle aree e del testo temporizzato e richiede la conferma CI
+  dei 36 attesi senza nuovi rilievi.
+  Rimangono quelli revisionati su complessità, dimensioni, classi pubbliche
+  ampie, parametri obbligatori dei callback Moodle e flag booleani.
 - Configurazione degli analizzatori, perimetro di produzione, schema database e asset AMD non cambiano con queste
   pulizie delle API. I conteggi della candidata diventano autorevoli soltanto dopo aver conservato e revisionato gli
   artifact CI completi.

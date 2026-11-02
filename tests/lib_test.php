@@ -44,6 +44,10 @@ use PHPUnit\Framework\Attributes\CoversFunction;
 #[CoversFunction('videotrack_build_reaction_definition_record')]
 #[CoversFunction('videotrack_queue_reaction_icon_file_operation')]
 #[CoversFunction('videotrack_apply_reaction_icon_file_operations')]
+#[CoversFunction('videotrack_pluginfile_area_available')]
+#[CoversFunction('videotrack_pluginfile_timed_text_available')]
+#[CoversFunction('videotrack_pluginfile_find_file')]
+#[CoversFunction('videotrack_pluginfile_content_allowed')]
 final class lib_test extends advanced_testcase {
     /**
      * Load module callbacks under test.
@@ -169,6 +173,70 @@ final class lib_test extends advanced_testcase {
         \videotrack_queue_reaction_icon_file_operation((object)[], 0, 47, 'emoji', $context, $fileops);
         \videotrack_apply_reaction_icon_file_operations($fileops);
         $this->assertFalse($fs->file_exists($context->id, 'mod_videotrack', 'reactionicon', 47, '/', 'reaction.png'));
+    }
+
+    /**
+     * Uploaded media and timed text remain hidden unless the activity enables their areas.
+     */
+    public function test_file_serving_respects_activity_source_and_timed_text_settings(): void {
+        global $DB;
+
+        $this->resetAfterTest();
+        $course = $this->getDataGenerator()->create_course();
+        $activity = $this->getDataGenerator()->create_module('videotrack', ['course' => $course->id]);
+        $cm = (object)['instance' => (int)$activity->id];
+
+        $this->assertFalse(\videotrack_pluginfile_area_available($cm, 'videocontent'));
+        $this->assertFalse(\videotrack_pluginfile_area_available($cm, 'subtitles'));
+
+        $DB->set_field('videotrack', 'videosource', 'upload', ['id' => $activity->id]);
+        $DB->set_field('videotrack', 'captions', 0, ['id' => $activity->id]);
+        $DB->set_field('videotrack', 'showtranscript', 0, ['id' => $activity->id]);
+        $DB->set_field('videotrack', 'showchapters', 0, ['id' => $activity->id]);
+        $this->assertTrue(\videotrack_pluginfile_area_available($cm, 'videocontent'));
+        $this->assertFalse(\videotrack_pluginfile_area_available($cm, 'subtitles'));
+        $this->assertFalse(\videotrack_pluginfile_area_available($cm, 'transcripts'));
+        $this->assertFalse(\videotrack_pluginfile_area_available($cm, 'chapters'));
+
+        $DB->set_field('videotrack', 'captions', 1, ['id' => $activity->id]);
+        $DB->set_field('videotrack', 'showtranscript', 1, ['id' => $activity->id]);
+        $DB->set_field('videotrack', 'showchapters', 1, ['id' => $activity->id]);
+        $this->assertTrue(\videotrack_pluginfile_area_available($cm, 'subtitles'));
+        $this->assertTrue(\videotrack_pluginfile_area_available($cm, 'transcripts'));
+        $this->assertTrue(\videotrack_pluginfile_area_available($cm, 'chapters'));
+    }
+
+    /**
+     * Stored uploads reject unsafe extensions, wrong media types and invalid VTT contents.
+     */
+    public function test_file_serving_checks_stored_file_content_before_delivery(): void {
+        $this->resetAfterTest();
+        $course = $this->getDataGenerator()->create_course();
+        $activity = $this->getDataGenerator()->create_module('videotrack', ['course' => $course->id]);
+        $context = \context_module::instance((int)$activity->cmid);
+        $fs = get_file_storage();
+        $files = [
+            ['safe.png', 'image/png', 'image', true, 'posterimage'],
+            ['unsafe.svg', 'image/svg+xml', 'image', false, 'posterimage'],
+            ['wrong.png', 'text/plain', 'text', false, 'posterimage'],
+            ['valid.vtt', 'text/vtt', "WEBVTT\n\n00:00.000 --> 00:01.000\nText", true, 'transcripts'],
+            ['invalid.vtt', 'text/vtt', 'not a VTT', false, 'transcripts'],
+        ];
+        foreach ($files as [$name, $mimetype, $content, $expected, $area]) {
+            $fs->create_file_from_string([
+                'contextid' => $context->id,
+                'component' => 'mod_videotrack',
+                'filearea' => $area,
+                'itemid' => 0,
+                'filepath' => '/',
+                'filename' => $name,
+                'mimetype' => $mimetype,
+            ], $content);
+            $file = \videotrack_pluginfile_find_file($context, $area, [0, $name]);
+            $this->assertInstanceOf(\stored_file::class, $file);
+            $this->assertSame($expected, \videotrack_pluginfile_content_allowed($area, $file), $name);
+        }
+        $this->assertFalse(\videotrack_pluginfile_find_file($context, 'posterimage', [0]));
     }
 
     /**

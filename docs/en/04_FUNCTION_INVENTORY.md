@@ -1,8 +1,8 @@
 # Function inventory
 
-Generated from the VideoTrack 1.7.217 source tree. PHP entries include named functions and methods; AMD entries include named declarations, assigned function expressions and object-method functions.
+Generated from the VideoTrack 1.7.218 source tree. PHP entries include named functions and methods; AMD entries include named declarations, assigned function expressions and object-method functions.
 
-**PHP functions/methods:** 957. **Named AMD callables:** 654.
+**PHP functions/methods:** 964. **Named AMD callables:** 654.
 
 | Location | Callable | Responsibility |
 |---|---|---|
@@ -1192,9 +1192,14 @@ Generated from the VideoTrack 1.7.217 source tree. PHP entries include named fun
 | `lib.php:1519` | `videotrack_reset_course_form_definition` | PHP callable `videotrack_reset_course_form_definition`; see its DocBlock and callers for parameter, return-value and side-effect details. |
 | `lib.php:1539` | `videotrack_reset_course_form_defaults` | PHP callable `videotrack_reset_course_form_defaults`; see its DocBlock and callers for parameter, return-value and side-effect details. |
 | `lib.php:1555` | `videotrack_resize_reaction_icon` | PHP callable `videotrack_resize_reaction_icon`; see its DocBlock and callers for parameter, return-value and side-effect details. |
-| `lib.php:1650` | `videotrack_pluginfile` | PHP callable `videotrack_pluginfile`; see its DocBlock and callers for parameter, return-value and side-effect details. |
-| `lib.php:1756` | `videotrack_recalculation_userids` | Discovers learners with persisted tracking data in the same four activity tables. |
-| `lib.php:1798` | `videotrack_recalculate_all_states` | PHP callable `videotrack_recalculate_all_states`; see its DocBlock and callers for parameter, return-value and side-effect details. |
+| `lib.php:1645` | `videotrack_pluginfile_area_available` | Checks the current activity source and timed-text settings before file lookup. |
+| `lib.php:1667` | `videotrack_pluginfile_timed_text_available` | Checks transcript and chapter settings before serving their files. |
+| `lib.php:1691` | `videotrack_pluginfile_find_file` | Resolves a stored file after access checks, rejecting missing paths and directories. |
+| `lib.php:1713` | `videotrack_pluginfile_content_allowed` | Validates extension, image MIME and WebVTT MIME, size and contents. |
+| `lib.php:1756` | `videotrack_pluginfile_send_media` | Applies download and cache rules to the validated upload. |
+| `lib.php:1783` | `videotrack_pluginfile` | PHP callable `videotrack_pluginfile`; see its DocBlock and callers for parameter, return-value and side-effect details. |
+| `lib.php:1829` | `videotrack_recalculation_userids` | Discovers learners with persisted tracking data in the same four activity tables. |
+| `lib.php:1871` | `videotrack_recalculate_all_states` | PHP callable `videotrack_recalculate_all_states`; see its DocBlock and callers for parameter, return-value and side-effect details. |
 | `locallib.php:40` | `videotrack_get_config_int` | PHP callable `videotrack_get_config_int`; see its DocBlock and callers for parameter, return-value and side-effect details. |
 | `locallib.php:64` | `videotrack_parse_https_media_url` | Normalises an absolute HTTPS media URL before provider-specific host and path validation. |
 | `locallib.php:92` | `videotrack_normalise_youtube_video_id` | Accepts only a scalar 11-character YouTube identifier with the provider alphabet. |
@@ -1429,20 +1434,22 @@ Generated from the VideoTrack 1.7.217 source tree. PHP entries include named fun
 | `tests/integrity_test.php:91` | `test_focus_policy_defaults_and_strict_override` | PHP callable `test_focus_policy_defaults_and_strict_override`; see its DocBlock and callers for parameter, return-value and side-effect details. |
 | `tests/learner_scope_test.php:36` | `test_can_participate_is_independent_from_report_access` | Named PHP function/method `test_can_participate_is_independent_from_report_access`; see source DocBlock and callers for the current contract. |
 | `tests/learner_scope_test.php:63` | `test_participation_entrypoints_reuse_canonical_helper` | Named PHP function/method `test_participation_entrypoints_reuse_canonical_helper`; see source DocBlock and callers for the current contract. |
-| `tests/lib_test.php:51` | `setUp` | PHP callable `setUp`; see its DocBlock and callers for parameter, return-value and side-effect details. |
-| `tests/lib_test.php:59` | `test_supports_expected_core_features` | PHP callable `test_supports_expected_core_features`; see its DocBlock and callers for parameter, return-value and side-effect details. |
-| `tests/lib_test.php:71` | `test_groups_are_explicitly_not_supported` | PHP callable `test_groups_are_explicitly_not_supported`; see its DocBlock and callers for parameter, return-value and side-effect details. |
-| `tests/lib_test.php:79` | `test_activity_chooser_metadata_is_reported` | PHP callable `test_activity_chooser_metadata_is_reported`; see its DocBlock and callers for parameter, return-value and side-effect details. |
-| `tests/lib_test.php:87` | `test_unknown_feature_returns_null` | PHP callable `test_unknown_feature_returns_null`; see its DocBlock and callers for parameter, return-value and side-effect details. |
-| `tests/lib_test.php:94` | `test_reaction_icon_class_validation_preserves_allowlist` | Verifies accepted Font Awesome decorators and fail-closed rejection of malformed, ambiguous or oversized class lists. |
-| `tests/lib_test.php:123` | `test_reaction_definition_record_keeps_icon_and_completion_boundaries` | Checks the invalid icon fallback, uploaded icon boundary and reaction ordering. |
-| `tests/lib_test.php:149` | `test_reaction_icon_file_operations_preserve_missing_draft_and_clear_on_switch` | Verifies retained uploaded icons with no draft and deletion after an emoji switch. |
-| `tests/lib_test.php:177` | `test_video_field_processing_rejects_unknown_form_objects` | Verifies that video-field normalisation rejects non-null collaborators that are not Moodle form instances. |
-| `tests/lib_test.php:185` | `test_uploaded_files_resolve_context_without_coursemodule_form_field` | Verifies instance-based module-context fallback when video and poster form data omit `coursemodule`. |
-| `tests/lib_test.php:230` | `test_upload_url_rejects_course_module_instance_mismatch` | Verifies that uploaded-media URL lookup rejects a course-module id belonging to another activity instance. |
-| `tests/lib_test.php:248` | `test_player_behavior_fields_normalise_bookmark_setting` | PHP callable `test_player_behavior_fields_normalise_bookmark_setting`; see its DocBlock and callers for parameter, return-value and side-effect details. |
-| `tests/lib_test.php:274` | `test_caption_normalisation_preserves_provider_timed_text_settings` | PHP callable `test_caption_normalisation_preserves_provider_timed_text_settings`; see its DocBlock and callers for parameter, return-value and side-effect details. |
-| `tests/lib_test.php:293` | `test_whitelist_record_discards_non_table_fields` | Verifies that activity-record whitelisting retains table columns and discards form-only values. |
+| `tests/lib_test.php:55` | `setUp` | PHP callable `setUp`; see its DocBlock and callers for parameter, return-value and side-effect details. |
+| `tests/lib_test.php:63` | `test_supports_expected_core_features` | PHP callable `test_supports_expected_core_features`; see its DocBlock and callers for parameter, return-value and side-effect details. |
+| `tests/lib_test.php:75` | `test_groups_are_explicitly_not_supported` | PHP callable `test_groups_are_explicitly_not_supported`; see its DocBlock and callers for parameter, return-value and side-effect details. |
+| `tests/lib_test.php:83` | `test_activity_chooser_metadata_is_reported` | PHP callable `test_activity_chooser_metadata_is_reported`; see its DocBlock and callers for parameter, return-value and side-effect details. |
+| `tests/lib_test.php:91` | `test_unknown_feature_returns_null` | PHP callable `test_unknown_feature_returns_null`; see its DocBlock and callers for parameter, return-value and side-effect details. |
+| `tests/lib_test.php:98` | `test_reaction_icon_class_validation_preserves_allowlist` | Verifies accepted Font Awesome decorators and fail-closed rejection of malformed, ambiguous or oversized class lists. |
+| `tests/lib_test.php:127` | `test_reaction_definition_record_keeps_icon_and_completion_boundaries` | Checks the invalid icon fallback, uploaded icon boundary and reaction ordering. |
+| `tests/lib_test.php:153` | `test_reaction_icon_file_operations_preserve_missing_draft_and_clear_on_switch` | Verifies retained uploaded icons with no draft and deletion after an emoji switch. |
+| `tests/lib_test.php:181` | `test_file_serving_respects_activity_source_and_timed_text_settings` | Covers source and timed-text gating for uploaded files. |
+| `tests/lib_test.php:212` | `test_file_serving_checks_stored_file_content_before_delivery` | Covers rejected extensions, image MIME and invalid WebVTT. |
+| `tests/lib_test.php:245` | `test_video_field_processing_rejects_unknown_form_objects` | Verifies that video-field normalisation rejects non-null collaborators that are not Moodle form instances. |
+| `tests/lib_test.php:253` | `test_uploaded_files_resolve_context_without_coursemodule_form_field` | Verifies instance-based module-context fallback when video and poster form data omit `coursemodule`. |
+| `tests/lib_test.php:298` | `test_upload_url_rejects_course_module_instance_mismatch` | Verifies that uploaded-media URL lookup rejects a course-module id belonging to another activity instance. |
+| `tests/lib_test.php:316` | `test_player_behavior_fields_normalise_bookmark_setting` | PHP callable `test_player_behavior_fields_normalise_bookmark_setting`; see its DocBlock and callers for parameter, return-value and side-effect details. |
+| `tests/lib_test.php:342` | `test_caption_normalisation_preserves_provider_timed_text_settings` | PHP callable `test_caption_normalisation_preserves_provider_timed_text_settings`; see its DocBlock and callers for parameter, return-value and side-effect details. |
+| `tests/lib_test.php:361` | `test_whitelist_record_discards_non_table_fields` | Verifies that activity-record whitelisting retains table columns and discards form-only values. |
 | `tests/locallib_test.php:62` | `setUp` | PHP callable `setUp`; see its DocBlock and callers for parameter, return-value and side-effect details. |
 | `tests/locallib_test.php:70` | `test_extract_videoid_accepts_supported_youtube_urls` | PHP callable `test_extract_videoid_accepts_supported_youtube_urls`; see its DocBlock and callers for parameter, return-value and side-effect details. |
 | `tests/locallib_test.php:87` | `test_extract_vimeo_id_accepts_supported_vimeo_urls` | PHP callable `test_extract_vimeo_id_accepts_supported_vimeo_urls`; see its DocBlock and callers for parameter, return-value and side-effect details. |

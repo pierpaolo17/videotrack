@@ -1,6 +1,6 @@
 # Audit della documentazione
 
-Baseline: VideoTrack **1.7.217** (`2026110106`).
+Baseline: VideoTrack **1.7.218** (`2026110201`).
 
 ## Perimetro
 
@@ -33,7 +33,9 @@ duplicano intenzionalmente procedure implementative, dizionari dei campi o lungh
 ## Rilievi sull'albero corrente
 
 - Gli indici inglese e italiano hanno stesso perimetro e ordinamento.
-- Marker documentali, README principali e artefatti ER identificano 1.7.217 / 2026110106.
+- Marker documentali, README principali e artefatti ER identificano 1.7.218 / 2026110201.
+- `videotrack_pluginfile()` mantiene firma e ordine dei controlli del callback Moodle; helper dedicati
+  verificano aree, percorsi, estensione/MIME/contenuto WebVTT e regole di download/cache.
 - `privacy_retention_pair` elabora ogni coppia con gli stessi lock, transazione e completamento
   successivo al commit; `privacy_manager` mantiene le API pubbliche di cancellazione e batch.
 - La facciata Analytics di istanza delega durata, scelta dei bin e aggregazione della timeline

@@ -151,14 +151,17 @@ line, not for redeclaring a method parameter.
 - The Moodle feature callback is a direct feature-to-value table, while Font Awesome reaction validation partitions
   the reviewed decorator subset from exactly one icon name. Their public contracts, limits and fail-closed defaults
   are covered independently of the complexity reduction.
-- PHPMD remains advisory. The 1.7.216 CI confirmed 39 findings, down from
-  40 in 1.7.215 without new findings: `privacy_manager` and its retention-pair
-  service are below the class-complexity threshold. The 1.7.217 candidate
-  separates CSV field selection and identity formatting into focused services
-  while keeping `csv_export` public methods and delimiter symbols stable.
-  Candidate CI must confirm that all three classes remain below the configured
-  class-complexity threshold without new findings. Other reviewed findings
-  concern complexity, size, broad public classes, required Moodle callback
-  parameters and boolean switches.
+- PHPMD remains advisory. The 1.7.217 CI confirmed 38 findings, down from 39 in
+  1.7.216 without new findings: the CSV facade and its two focused services
+  remain below the configured class-complexity threshold. The 1.7.218
+  candidate separates Moodle file-serving area eligibility, stored-file
+  lookup, content validation and download/cache policy while preserving the
+  callback's public signature and access-check order. Candidate CI must
+  confirm removal of its two complexity findings without new findings.
+  The first candidate CI found 37 total, including one new complexity finding
+  in the area helper; the follow-up divides area and timed-text checks and
+  requires CI confirmation of the expected 36 without new findings.
+  Other reviewed findings concern complexity, size, broad public classes,
+  required Moodle callback parameters and boolean switches.
 - Static-analysis configuration, production scope, database schema and AMD assets are unchanged by these API
   cleanups. Candidate counts remain authoritative only after the complete CI artifacts are retained and reviewed.

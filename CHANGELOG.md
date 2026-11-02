@@ -1,5 +1,27 @@
 # VideoTrack changelog
 
+## 1.7.218 - 2026-11-02
+
+### Focused validation of Moodle file serving
+
+- Accepted the real 384-file 1.7.217 ZIP byte-for-byte against the merged
+  candidate. All six post-merge CI jobs passed 325 PHPUnit tests, 24 Behat
+  scenarios and ten validator checks each. PHPMD confirmed 38 advisory
+  findings, down from 39 in 1.7.216 without new findings. The server report
+  passed PHPCS (zero errors and warnings), lint, Grunt and Moodle 5.3 PHPUnit;
+  after rebuilding the interrupted Moodle 5.0 test environment, the focused
+  PHPUnit rerun passed 325 tests and 2,925 assertions. Both manual strict
+  validators passed ten checks without warnings or failures.
+- Keep the Moodle file-serving callback signature and guard order while
+  separating activity-area eligibility, stored-file lookup, extension and MIME
+  checks, WebVTT validation, and the download/cache policy into focused
+  helpers. Add runtime tests for activity settings and rejected stored files.
+  The first candidate CI passed its blocking checks but reported 37 PHPMD
+  findings: the callback lost both complexity findings, while the area
+  helper introduced one. Split the area and timed-text checks into two
+  focused functions; rerun CI to confirm the anticipated 36 findings without
+  new findings. Schema, AMD, services and languages remain unchanged.
+
 ## 1.7.217 - 2026-11-01
 
 ### Focused CSV field selection and identity formatting
