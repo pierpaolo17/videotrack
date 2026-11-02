@@ -1,10 +1,10 @@
 # Inventario dei file distribuiti
 
-Questo inventario è generato sull'albero repository VideoTrack 1.7.218. Elenca ogni file non documentale distribuito
+Questo inventario è generato sull'albero repository VideoTrack 1.7.219. Elenca ogni file non documentale distribuito
 e i file CI/tooling/igiene presenti soltanto nel repository. Il JavaScript canonico è in `amd/src`; i file in `amd/build`
 sono generati.
 
-Voci: **323** — 320 file distribuiti e tre file presenti soltanto nel repository, esclusi dagli archivi di release.
+Voci: **324** — 321 file distribuiti e tre file presenti soltanto nel repository, esclusi dagli archivi di release.
 
 | File | Responsabilità |
 |---|---|
@@ -306,6 +306,7 @@ Voci: **323** — 320 file distribuiti e tre file presenti soltanto nel reposito
 | `tests/learner_scope_test.php` | Test PHPUnit/di contratto corrente distribuito con il plugin. |
 | `tests/lib_test.php` | Copertura PHPUnit per lib test. |
 | `tests/locallib_test.php` | Copertura PHPUnit per locallib test. |
+| `tests/mod_form_validation_test.php` | Copertura PHPUnit per sorgenti non valide, file VTT mancanti e requisiti delle icone delle reazioni. |
 | `tests/player_resume_completion_alert_contract_test.php` | Contratti cross-provider per resume, completion e avvisi; le asserzioni completion seguono il proprietario corrente della mutazione, incluso il servizio post-scrittura reazioni. |
 | `tests/privacy_manager_test.php` | Copertura PHPUnit per retention GDPR basata sulla cancellazione, ricostruzione dello stato e cancellazione utente. |
 | `tests/provider_loader_contract_test.php` | Test PHPUnit/di contratto corrente distribuito con il plugin. |

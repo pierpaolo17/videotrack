@@ -1,10 +1,10 @@
 # Distributed file inventory
 
-This inventory is generated against the VideoTrack 1.7.218 repository tree. It lists every distributed
+This inventory is generated against the VideoTrack 1.7.219 repository tree. It lists every distributed
 non-documentation file plus repository-only CI/tooling/hygiene files. Canonical JavaScript is under `amd/src`; files under
 `amd/build` are generated.
 
-Entries: **323** — 320 distributed files and three repository-only files excluded from release archives.
+Entries: **324** — 321 distributed files and three repository-only files excluded from release archives.
 
 | File | Responsibility |
 |---|---|
@@ -306,6 +306,7 @@ Entries: **323** — 320 distributed files and three repository-only files exclu
 | `tests/learner_scope_test.php` | Current PHPUnit/contract test distributed with the plugin. |
 | `tests/lib_test.php` | PHPUnit coverage for lib test. |
 | `tests/locallib_test.php` | PHPUnit coverage for locallib test. |
+| `tests/mod_form_validation_test.php` | PHPUnit coverage for rejected media, missing timed text and reaction file requirements. |
 | `tests/player_resume_completion_alert_contract_test.php` | Cross-provider resume, completion and alert contracts; completion assertions follow the current mutation owner, including the reaction post-write service. |
 | `tests/privacy_manager_test.php` | PHPUnit coverage for deletion-based GDPR retention, state rebuilding and user erasure. |
 | `tests/provider_loader_contract_test.php` | Current PHPUnit/contract test distributed with the plugin. |

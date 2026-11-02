@@ -1,8 +1,8 @@
 # Inventario delle funzioni
 
-Generato dall’albero sorgente VideoTrack 1.7.218. Le voci PHP includono funzioni e metodi nominati; le voci AMD includono dichiarazioni nominate, espressioni funzione assegnate e funzioni-metodo di oggetti.
+Generato dall’albero sorgente VideoTrack 1.7.219. Le voci PHP includono funzioni e metodi nominati; le voci AMD includono dichiarazioni nominate, espressioni funzione assegnate e funzioni-metodo di oggetti.
 
-**Funzioni/metodi PHP:** 964. **Callable AMD nominati:** 654.
+**Funzioni/metodi PHP:** 977. **Callable AMD nominati:** 654.
 
 | Posizione | Callable | Responsabilità |
 |---|---|---|
@@ -1256,7 +1256,17 @@ Generato dall’albero sorgente VideoTrack 1.7.218. Le voci PHP includono funzio
 | `mod_form.php:1521` | `data_preprocessing` | Callable PHP `data_preprocessing`; DocBlock e chiamanti definiscono parametri, valori restituiti ed effetti. |
 | `mod_form.php:1784` | `draft_area_contains_only_reaction_images` | Callable PHP `draft_area_contains_only_reaction_images`; DocBlock e chiamanti definiscono parametri, valori restituiti ed effetti. |
 | `mod_form.php:1820` | `draft_area_contains_only_vtt` | Callable PHP `draft_area_contains_only_vtt`; DocBlock e chiamanti definiscono parametri, valori restituiti ed effetti. |
-| `mod_form.php:1852` | `validation` | Callable PHP `validation`; DocBlock e chiamanti definiscono parametri, valori restituiti ed effetti. |
+| `mod_form.php:1851` | `source_errors` | Callable PHP `source_errors`; DocBlock e chiamanti definiscono parametri, valori restituiti ed effetti. |
+| `mod_form.php:1871` | `youtube_source_errors` | Callable PHP `youtube_source_errors`; DocBlock e chiamanti definiscono parametri, valori restituiti ed effetti. |
+| `mod_form.php:1884` | `vimeo_source_errors` | Callable PHP `vimeo_source_errors`; DocBlock e chiamanti definiscono parametri, valori restituiti ed effetti. |
+| `mod_form.php:1897` | `upload_source_errors` | Callable PHP `upload_source_errors`; DocBlock e chiamanti definiscono parametri, valori restituiti ed effetti. |
+| `mod_form.php:1916` | `timed_text_errors` | Callable PHP `timed_text_errors`; DocBlock e chiamanti definiscono parametri, valori restituiti ed effetti. |
+| `mod_form.php:1941` | `timed_text_draft_errors` | Callable PHP `timed_text_draft_errors`; DocBlock e chiamanti definiscono parametri, valori restituiti ed effetti. |
+| `mod_form.php:1966` | `timed_text_required_errors` | Callable PHP `timed_text_required_errors`; DocBlock e chiamanti definiscono parametri, valori restituiti ed effetti. |
+| `mod_form.php:1994` | `reaction_file_icon_errors` | Callable PHP `reaction_file_icon_errors`; DocBlock e chiamanti definiscono parametri, valori restituiti ed effetti. |
+| `mod_form.php:2032` | `existing_reaction_icon_file` | Callable PHP `existing_reaction_icon_file`; DocBlock e chiamanti definiscono parametri, valori restituiti ed effetti. |
+| `mod_form.php:2055` | `forum_errors` | Callable PHP `forum_errors`; DocBlock e chiamanti definiscono parametri, valori restituiti ed effetti. |
+| `mod_form.php:2077` | `validation` | Callable PHP `validation`; DocBlock e chiamanti definiscono parametri, valori restituiti ed effetti. |
 | `reports_course.php:34` | `videotrack_course_report_count_cell` | Callable PHP `videotrack_course_report_count_cell`; DocBlock e chiamanti definiscono parametri, valori restituiti ed effetti. |
 | `reports_course.php:48` | `videotrack_course_report_percentage_cell` | Callable PHP `videotrack_course_report_percentage_cell`; renderizza la percentuale aggregata in forma testuale. |
 | `reports_course.php:67` | `videotrack_course_report_percentage_bar_cell` | Callable PHP `videotrack_course_report_percentage_bar_cell`; renderizza la percentuale aggregata con barra compatta accessibile. |
@@ -1470,6 +1480,9 @@ Generato dall’albero sorgente VideoTrack 1.7.218. Le voci PHP includono funzio
 | `tests/locallib_test.php:308` | `test_build_forum_subject_uses_default_template` | Callable PHP `test_build_forum_subject_uses_default_template`; DocBlock e chiamanti definiscono parametri, valori restituiti ed effetti. |
 | `tests/locallib_test.php:319` | `test_render_reaction_icon_includes_visible_label` | Verifica che le icone di reazione includano sempre l'etichetta accessibile visibile. |
 | `tests/locallib_test.php:336` | `test_reaction_collections_use_explicit_deletion_scopes` | Verifica le collezioni distinte per reazioni attive e lifecycle completo. |
+| `tests/mod_form_validation_test.php:34` | `test_media_source_errors_preserve_required_inputs` | Funzione/metodo PHP `test_media_source_errors_preserve_required_inputs`; DocBlock e chiamanti definiscono il contratto corrente. |
+| `tests/mod_form_validation_test.php:59` | `test_missing_timed_text_files_have_distinct_errors` | Funzione/metodo PHP `test_missing_timed_text_files_have_distinct_errors`; DocBlock e chiamanti definiscono il contratto corrente. |
+| `tests/mod_form_validation_test.php:74` | `test_reaction_file_error_depends_on_enablement` | Funzione/metodo PHP `test_reaction_file_error_depends_on_enablement`; DocBlock e chiamanti definiscono il contratto corrente. |
 | `tests/player_resume_completion_alert_contract_test.php:37` | `test_all_providers_clamp_resume_to_validated_frontier` | Funzione/metodo PHP nominato `test_all_providers_clamp_resume_to_validated_frontier`; vedere DocBlock sorgente e chiamanti per il contratto corrente. |
 | `tests/player_resume_completion_alert_contract_test.php:57` | `test_direct_replay_precedes_automatic_resume_for_all_providers` | Funzione/metodo PHP nominato `test_direct_replay_precedes_automatic_resume_for_all_providers`; vedere DocBlock sorgente e chiamanti per il contratto corrente. |
 | `tests/player_resume_completion_alert_contract_test.php:91` | `test_completion_mutations_synchronise_moodle_state` | Funzione/metodo PHP nominato `test_completion_mutations_synchronise_moodle_state`; vedere DocBlock sorgente e chiamanti per il contratto corrente. |

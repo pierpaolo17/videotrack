@@ -1843,36 +1843,77 @@ JS);
     }
 
     /**
-     * Validates submitted activity settings.
+     * Checks the selected video source and its required media.
      *
      * @param array $data Submitted form data.
-     * @param array $files Submitted files.
-     * @return array Validation errors indexed by form element name.
+     * @return array Source validation errors.
      */
-    public function validation($data, $files) {
-        global $COURSE;
-        $errors = parent::validation($data, $files);
+    protected function source_errors(array $data): array {
         $source = $data['videosource'] ?? 'youtube';
         if ($source === 'youtube') {
-            if (empty($data['youtubeurl']) || !videotrack_extract_videoid((string)$data['youtubeurl'])) {
-                $errors['youtubeurl'] = get_string('invalidyoutubeurl', 'mod_videotrack');
-            }
-        } else if ($source === 'vimeo') {
-            if (empty($data['vimeourl']) || !videotrack_extract_vimeo_id((string)$data['vimeourl'])) {
-                $errors['vimeourl'] = get_string('invalidvimeourl', 'mod_videotrack');
-            }
-        } else if ($source === 'upload') {
-            // For new activities, the video file is required.
-            // For edits, the existing file is kept even when the file picker is empty.
-            $draftitemid = (int)($data['videofile'] ?? 0);
-            $fileinfo    = $draftitemid > 0 ? file_get_draft_area_info($draftitemid) : [];
-            $isnew       = empty($data['instance']); // The instance value is zero for a new activity.
-            if ($isnew && empty($fileinfo['filecount'])) {
-                $errors['videofile'] = get_string('required');
-            }
-        } else {
-            $errors['videosource'] = get_string('invalidvideosource', 'mod_videotrack');
+            return self::youtube_source_errors($data);
         }
+        if ($source === 'vimeo') {
+            return self::vimeo_source_errors($data);
+        }
+        if ($source === 'upload') {
+            return self::upload_source_errors($data);
+        }
+        return ['videosource' => get_string('invalidvideosource', 'mod_videotrack')];
+    }
+
+    /**
+     * Checks the required YouTube URL.
+     *
+     * @param array $data Submitted form data.
+     * @return array YouTube validation errors.
+     */
+    private static function youtube_source_errors(array $data): array {
+        if (empty($data['youtubeurl']) || !videotrack_extract_videoid((string)$data['youtubeurl'])) {
+            return ['youtubeurl' => get_string('invalidyoutubeurl', 'mod_videotrack')];
+        }
+        return [];
+    }
+
+    /**
+     * Checks the required Vimeo URL.
+     *
+     * @param array $data Submitted form data.
+     * @return array Vimeo validation errors.
+     */
+    private static function vimeo_source_errors(array $data): array {
+        if (empty($data['vimeourl']) || !videotrack_extract_vimeo_id((string)$data['vimeourl'])) {
+            return ['vimeourl' => get_string('invalidvimeourl', 'mod_videotrack')];
+        }
+        return [];
+    }
+
+    /**
+     * Checks a new upload while preserving the file on edit.
+     *
+     * @param array $data Submitted form data.
+     * @return array Upload validation errors.
+     */
+    private static function upload_source_errors(array $data): array {
+        // For new activities, the video file is required.
+        // For edits, the existing file is kept even when the file picker is empty.
+        $draftitemid = (int)($data['videofile'] ?? 0);
+        $fileinfo    = $draftitemid > 0 ? file_get_draft_area_info($draftitemid) : [];
+        $isnew       = empty($data['instance']); // The instance value is zero for a new activity.
+        if ($isnew && empty($fileinfo['filecount'])) {
+            return ['videofile' => get_string('required')];
+        }
+        return [];
+    }
+
+    /**
+     * Checks draft WebVTT files and enabled timed-text options.
+     *
+     * @param array $data Submitted form data.
+     * @param string $source Selected video source.
+     * @return array Timed-text validation errors.
+     */
+    protected function timed_text_errors(array $data, string $source): array {
         $transcriptdraft = (int)($data['transcriptfiles'] ?? 0);
         $chapterdraft = (int)($data['chapterfile'] ?? 0);
         $subtitleid = (int)($data['vttfile'] ?? 0);
@@ -1881,18 +1922,163 @@ JS);
         $subtitleinfo = $subtitleid > 0 ? file_get_draft_area_info($subtitleid) : [];
         $haslegacytimedtext = $source === 'upload' && !empty($data['captions']) && !empty($subtitleinfo['filecount']);
 
+        $errors = $this->timed_text_draft_errors($transcriptdraft, $chapterdraft, $transcriptinfo, $chapterinfo);
+        return array_replace(
+            $errors,
+            self::timed_text_required_errors($data, $transcriptinfo, $chapterinfo, $haslegacytimedtext)
+        );
+    }
+
+    /**
+     * Checks the content types in populated transcript and chapter drafts.
+     *
+     * @param int $transcriptdraft Transcript draft item id.
+     * @param int $chapterdraft Chapter draft item id.
+     * @param array $transcriptinfo Transcript draft information.
+     * @param array $chapterinfo Chapter draft information.
+     * @return array Invalid draft errors.
+     */
+    private function timed_text_draft_errors(
+        int $transcriptdraft,
+        int $chapterdraft,
+        array $transcriptinfo,
+        array $chapterinfo
+    ): array {
+        $errors = [];
         if (!empty($transcriptinfo['filecount']) && !$this->draft_area_contains_only_vtt($transcriptdraft)) {
             $errors['transcriptfiles'] = get_string('err:invalidvttfile', 'mod_videotrack');
         }
         if (!empty($chapterinfo['filecount']) && !$this->draft_area_contains_only_vtt($chapterdraft)) {
             $errors['chapterfile'] = get_string('err:invalidvttfile', 'mod_videotrack');
         }
+        return $errors;
+    }
+
+    /**
+     * Requires a timed-text file when its activity option is enabled.
+     *
+     * @param array $data Submitted form data.
+     * @param array $transcriptinfo Transcript draft information.
+     * @param array $chapterinfo Chapter draft information.
+     * @param bool $haslegacytimedtext Whether a legacy upload VTT can satisfy the requirement.
+     * @return array Missing-file errors.
+     */
+    private static function timed_text_required_errors(
+        array $data,
+        array $transcriptinfo,
+        array $chapterinfo,
+        bool $haslegacytimedtext
+    ): array {
+        $errors = [];
         if (!empty($data['showtranscript']) && empty($transcriptinfo['filecount']) && !$haslegacytimedtext) {
             $errors['transcriptfiles'] = get_string('err:transcriptfilerequired', 'mod_videotrack');
         }
         if (!empty($data['showchapters']) && empty($chapterinfo['filecount']) && !$haslegacytimedtext) {
             $errors['chapterfile'] = get_string('err:chapterfilerequired', 'mod_videotrack');
         }
+
+        return $errors;
+    }
+
+    /**
+     * Validates a reaction icon file, including an existing icon during edits.
+     *
+     * @param array $data Submitted form data.
+     * @param int $i Reaction row index.
+     * @param int $reactionid Existing reaction id.
+     * @param array $allowedimageextensions Image extensions allowed in a draft.
+     * @param bool $reactionsenabled Whether reactions are enabled.
+     * @param bool $rowhastext Whether this row contains a label or description.
+     * @return array Icon presence and file validation errors.
+     */
+    protected function reaction_file_icon_errors(
+        array $data,
+        int $i,
+        int $reactionid,
+        array $allowedimageextensions,
+        bool $reactionsenabled,
+        bool $rowhastext
+    ): array {
+        $errors = [];
+        $draftitemid = (int)($data['reactioniconfile_' . $i] ?? 0);
+        $fileinfo    = $draftitemid > 0 ? file_get_draft_area_info($draftitemid) : [];
+        $hasfile     = !empty($fileinfo['filecount']);
+
+        if (!$hasfile) {
+            $hasfile = $this->existing_reaction_icon_file($reactionid);
+        }
+
+        $hasicon = $hasfile;
+        $hasvalidimagefile = $this->draft_area_contains_only_reaction_images(
+            $draftitemid,
+            $allowedimageextensions
+        );
+        if ($reactionsenabled && $rowhastext && !$hasfile) {
+            $errors['reactioniconfile_' . $i] =
+                get_string('err:reactioniconfilerequired', 'mod_videotrack');
+        } else if ($hasfile && !$hasvalidimagefile) {
+            $errors['reactioniconfile_' . $i] =
+                get_string('err:reactioniconfileinvalid', 'mod_videotrack');
+        }
+        return ['hasicon' => $hasicon, 'errors' => $errors];
+    }
+
+    /**
+     * Keeps an existing icon when an edit has no populated draft area.
+     *
+     * @param int $reactionid Existing reaction id.
+     * @return bool Whether the reaction has a stored icon.
+     */
+    protected function existing_reaction_icon_file(int $reactionid): bool {
+        if ($reactionid <= 0 || empty($this->_instance)) {
+            return false;
+        }
+        $cm = get_coursemodule_from_instance('videotrack', $this->_instance, 0, false, IGNORE_MISSING);
+        if (!$cm) {
+            return false;
+        }
+        $context = context_module::instance($cm->id);
+        return !get_file_storage()->is_area_empty(
+            $context->id,
+            'mod_videotrack',
+            'reactionicon',
+            $reactionid
+        );
+    }
+
+    /**
+     * Checks the selected forum when forum posting is enabled.
+     *
+     * @param array $data Submitted form data.
+     * @return array Forum validation errors.
+     */
+    protected function forum_errors(array $data): array {
+        global $COURSE;
+        $errors = [];
+        if (!empty($data['forumpostingenabled'])) {
+            $forumid = isset($data['linkedforumid']) ? (int)$data['linkedforumid'] : 0;
+            if ($forumid <= 0) {
+                $errors['linkedforumid'] = get_string('forum:errorforumrequired', 'mod_videotrack');
+            } else if (!videotrack_is_compatible_forum((int)$COURSE->id, $forumid)) {
+                $errors['linkedforumid'] = get_string('forum:errorinvaliddestination', 'mod_videotrack');
+            }
+        }
+
+        return $errors;
+    }
+
+    /**
+     * Validates submitted activity settings.
+     *
+     * @param array $data Submitted form data.
+     * @param array $files Submitted files.
+     * @return array Validation errors indexed by form element name.
+     */
+    public function validation($data, $files) {
+        $errors = parent::validation($data, $files);
+        $source = $data['videosource'] ?? 'youtube';
+        $errors = array_replace($errors, $this->source_errors($data));
+        $errors = array_replace($errors, $this->timed_text_errors($data, $source));
 
         $errors = array_replace(
             $errors,
@@ -1922,38 +2108,16 @@ JS);
             }
 
             if ($type === 'file') {
-                $draftitemid = (int)($data['reactioniconfile_' . $i] ?? 0);
-                $fileinfo    = $draftitemid > 0 ? file_get_draft_area_info($draftitemid) : [];
-                $hasfile     = !empty($fileinfo['filecount']);
-
-                // In edit mode, do not block saving if an existing icon file is still.
-                // Associated with this reaction and the draft area was not populated.
-                $reactionid  = (int)($reactionids[$i] ?? 0);
-                if (!$hasfile && $reactionid > 0 && !empty($this->_instance)) {
-                    $cm = get_coursemodule_from_instance('videotrack', $this->_instance, 0, false, IGNORE_MISSING);
-                    if ($cm) {
-                        $context = context_module::instance($cm->id);
-                        $hasfile = !get_file_storage()->is_area_empty(
-                            $context->id,
-                            'mod_videotrack',
-                            'reactionicon',
-                            $reactionid
-                        );
-                    }
-                }
-
-                $hasicon = $hasfile;
-                $hasvalidimagefile = $draftitemid <= 0 || $this->draft_area_contains_only_reaction_images(
-                    $draftitemid,
-                    $allowedimageextensions
+                $filevalidation = $this->reaction_file_icon_errors(
+                    $data,
+                    $i,
+                    (int)($reactionids[$i] ?? 0),
+                    $allowedimageextensions,
+                    $reactionsenabled,
+                    $rowhastext
                 );
-                if ($reactionsenabled && $rowhastext && !$hasfile) {
-                    $errors['reactioniconfile_' . $i] =
-                        get_string('err:reactioniconfilerequired', 'mod_videotrack');
-                } else if ($hasfile && !$hasvalidimagefile) {
-                    $errors['reactioniconfile_' . $i] =
-                        get_string('err:reactioniconfileinvalid', 'mod_videotrack');
-                }
+                $hasicon = $filevalidation['hasicon'];
+                $errors = array_replace($errors, $filevalidation['errors']);
             } else {
                 $hasicon = $iconvalue !== '';
                 if ($reactionsenabled && $rowhastext && !$hasicon) {
@@ -1984,14 +2148,7 @@ JS);
             \mod_videotrack\local\form_validation::acknowledgement_errors($data)
         );
 
-        if (!empty($data['forumpostingenabled'])) {
-            $forumid = isset($data['linkedforumid']) ? (int)$data['linkedforumid'] : 0;
-            if ($forumid <= 0) {
-                $errors['linkedforumid'] = get_string('forum:errorforumrequired', 'mod_videotrack');
-            } else if (!videotrack_is_compatible_forum((int)$COURSE->id, $forumid)) {
-                $errors['linkedforumid'] = get_string('forum:errorinvaliddestination', 'mod_videotrack');
-            }
-        }
+        $errors = array_replace($errors, $this->forum_errors($data));
 
         $errors = array_replace(
             $errors,
