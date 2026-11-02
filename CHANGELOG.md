@@ -1,5 +1,24 @@
 # VideoTrack changelog
 
+## 1.7.219 - 2026-11-02
+
+### Focused form-validation responsibilities
+
+- Accepted the real 384-file 1.7.218 ZIP byte-for-byte against the approved
+  candidate (SHA-256 `0b1beec36a0e80c85e7691f3e8dae8adaa2f4d74c418e7f599b75ae4749df9df`).
+  Six post-merge CI jobs passed 327 PHPUnit tests, 24 Behat scenarios and ten
+  validator checks each. PHPMD confirmed 36 advisory findings without new ones.
+  The server checks passed PHPCS, lint, Grunt and PHPUnit on Moodle 5.0/5.3;
+  the repaired Moodle 5.1/5.2 PHPUnit environments each passed 327 tests and
+  2,945 assertions. The strict Moodle 5.0/5.3 validators passed ten checks.
+- Extract source selection, timed-text drafts, existing reaction icon files and
+  linked-forum checks from `mod_form::validation()` into focused protected
+  helpers. Preserve the parent validation call, error-key order, edit-mode
+  icon retention and public method signatures. Add focused runtime tests for
+  rejected media, missing timed text and reaction icon requirements. The
+  remaining PHPMD findings and all new checks require CI confirmation. Schema,
+  AMD, services and languages are unchanged.
+
 ## 1.7.218 - 2026-11-02
 
 ### Focused validation of Moodle file serving
