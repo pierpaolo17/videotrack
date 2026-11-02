@@ -177,7 +177,9 @@ dichiarazione di un parametro di metodo.
   validazione del form in controlli per sorgenti, file VTT, icone salvate e forum, mantenendo le API Moodle;
   la prima CI supera tutti i controlli bloccanti ma sale a 38 rilievi: un CyclomaticComplexity sulla sorgente
   e CyclomaticComplexity/NPathComplexity sul testo temporizzato. La correzione incrementale separa URL/upload,
-  validazione dei draft e obbligo dei file; il nuovo conteggio attende la CI.
+  validazione dei draft e obbligo dei file; la CI corretta e i sei job dopo il merge confermano 35 rilievi senza
+  novità. La candidata 1.7.220 separa validazione delle righe, del valore icona e dei campi obbligatori,
+  mantenendo l'ordine degli errori; il risultato PHPMD attende la CI.
 - Configurazione degli analizzatori, perimetro di produzione, schema database e asset AMD non cambiano con queste
   pulizie delle API. I conteggi della candidata diventano autorevoli soltanto dopo aver conservato e revisionato gli
   artifact CI completi.

@@ -1,5 +1,24 @@
 # VideoTrack changelog
 
+## 1.7.220 - 2026-11-02
+
+### Reaction-row form validation
+
+- Accepted the real 385-file 1.7.219 server ZIP byte-for-byte against the corrected
+  candidate (SHA-256 `66cc8619cbed9164825e4eedc446b11f7b02172c04ce17787155ce0b1eedbd28`).
+  All six post-merge CI jobs passed 330 PHPUnit tests, 2,956 assertions,
+  24 Behat scenarios and ten validator checks each; PHPMD confirmed 35
+  advisory findings without new ones. The Moodle 5.0/5.3 server report passed
+  PHPCS, lint, Grunt and PHPUnit (330 tests and 2,956 assertions per site).
+  Both manual strict validators passed ten checks without warnings or failures.
+- Split repeated reaction-row validation from `mod_form::validation()` into
+  focused row, icon-value and required-field helpers. Preserve the order of
+  error keys, stored file-icon checks, enabled/disabled rules, the configured
+  reaction count and the public Moodle form contract. Add a runtime regression
+  test for multiple invalid rows, a valid configured row and disabled file
+  icons. The PHPMD result and all runtime gates require candidate CI confirmation.
+  Database schema, AMD assets, AJAX services and language keys are unchanged.
+
 ## 1.7.219 - 2026-11-02
 
 ### Focused form-validation responsibilities
