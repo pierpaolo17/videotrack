@@ -2068,6 +2068,83 @@ JS);
     }
 
     /**
+     * Validates the repeated reaction rows and the enabled configuration.
+     *
+     * @param array $data Submitted form data.
+     * @return array Validation errors indexed by form element name.
+     */
+    protected function reaction_errors(array $data): array {
+        $errors = [];
+        $configuredreactioncount = 0;
+        for ($i = 0; $i < $this->reactionrepeatcount; $i++) {
+            $row = $this->reaction_row_errors($data, $i);
+            $errors = array_replace($errors, $row['errors']);
+            if ($row['configured']) {
+                $configuredreactioncount++;
+            }
+        }
+        if (!empty($data['reactionsenabled']) && $configuredreactioncount === 0) {
+            $errors['reactionsenabled'] = get_string('err:reactionconfigurationrequired', 'mod_videotrack');
+        }
+
+        return $errors;
+    }
+
+    /**
+     * Validates the icon and required fields of one repeated reaction.
+     *
+     * @param array $data Submitted form data.
+     * @param int $i Reaction row index.
+     * @return array Errors and whether this row configures a reaction.
+     */
+    private function reaction_row_errors(array $data, int $i): array {
+        $label = trim((string)($data['reactionlabel'][$i] ?? ''));
+        $description = trim((string)($data['reactiondescription'][$i] ?? ''));
+        $type = (string)($data['reactionicontype'][$i] ?? '');
+        $rowhastext = $label !== '' || $description !== '';
+        $reactionsenabled = !empty($data['reactionsenabled']);
+
+        if (!in_array($type, ['emoji', 'fa', 'file'], true)) {
+            $errors = [];
+            if ($reactionsenabled && $rowhastext) {
+                $errors['reactionicontype[' . $i . ']'] = get_string('err:reactionicontyperequired', 'mod_videotrack');
+            }
+            return ['errors' => $errors, 'configured' => false];
+        }
+
+        if ($type === 'file') {
+            $icon = $this->reaction_file_icon_errors(
+                $data,
+                $i,
+                (int)($data['reactionid'][$i] ?? 0),
+                ['jpg', 'jpeg', 'png', 'webp', 'gif'],
+                $reactionsenabled,
+                $rowhastext
+            );
+        } else {
+            $icon = \mod_videotrack\local\reaction_form_validation::reaction_text_icon_errors(
+                $data,
+                $i,
+                $type,
+                $reactionsenabled,
+                $rowhastext
+            );
+        }
+
+        $details = \mod_videotrack\local\reaction_form_validation::reaction_details_errors(
+            $label,
+            $description,
+            $reactionsenabled,
+            $icon['hasicon'],
+            $i
+        );
+        return [
+            'errors' => array_replace($icon['errors'], $details['errors']),
+            'configured' => $details['configured'],
+        ];
+    }
+
+    /**
      * Validates submitted activity settings.
      *
      * @param array $data Submitted form data.
@@ -2085,63 +2162,7 @@ JS);
             \mod_videotrack\local\form_validation::scalar_settings_errors($data, $this->get_suffix())
         );
 
-        $labels = $data['reactionlabel'] ?? [];
-        $descriptions = $data['reactiondescription'] ?? [];
-        $types  = $data['reactionicontype'] ?? [];
-        $reactionids = $data['reactionid'] ?? [];
-        $allowedimageextensions = ['jpg', 'jpeg', 'png', 'webp', 'gif'];
-        $reactionsenabled = !empty($data['reactionsenabled']);
-        $configuredreactioncount = 0;
-        for ($i = 0; $i < $this->reactionrepeatcount; $i++) {
-            $label = trim((string)($labels[$i] ?? ''));
-            $description = trim((string)($descriptions[$i] ?? ''));
-            $type  = (string)($types[$i] ?? '');
-            $iconvalue = trim((string)($data['reactioniconvalue'][$i] ?? ''));
-            $rowhastext = $label !== '' || $description !== '';
-            $hasicon = false;
-
-            if (!in_array($type, ['emoji', 'fa', 'file'], true)) {
-                if ($reactionsenabled && $rowhastext) {
-                    $errors['reactionicontype[' . $i . ']'] = get_string('err:reactionicontyperequired', 'mod_videotrack');
-                }
-                continue;
-            }
-
-            if ($type === 'file') {
-                $filevalidation = $this->reaction_file_icon_errors(
-                    $data,
-                    $i,
-                    (int)($reactionids[$i] ?? 0),
-                    $allowedimageextensions,
-                    $reactionsenabled,
-                    $rowhastext
-                );
-                $hasicon = $filevalidation['hasicon'];
-                $errors = array_replace($errors, $filevalidation['errors']);
-            } else {
-                $hasicon = $iconvalue !== '';
-                if ($reactionsenabled && $rowhastext && !$hasicon) {
-                    $errors['reactioniconvalue[' . $i . ']'] = get_string('err:reactioniconvaluerequired', 'mod_videotrack');
-                } else if ($hasicon && $type === 'fa' && !videotrack_is_valid_reaction_icon_class($iconvalue)) {
-                    $errors['reactioniconvalue[' . $i . ']'] = get_string('err:reactioniconvalueinvalidfa', 'mod_videotrack');
-                }
-            }
-
-            if ($reactionsenabled && $hasicon) {
-                if ($label === '') {
-                    $errors['reactionlabel[' . $i . ']'] = get_string('required');
-                }
-                if ($description === '') {
-                    $errors['reactiondescription[' . $i . ']'] = get_string('required');
-                }
-                if ($label !== '' && $description !== '') {
-                    $configuredreactioncount++;
-                }
-            }
-        }
-        if ($reactionsenabled && $configuredreactioncount === 0) {
-            $errors['reactionsenabled'] = get_string('err:reactionconfigurationrequired', 'mod_videotrack');
-        }
+        $errors = array_replace($errors, $this->reaction_errors($data));
 
         $errors = array_replace(
             $errors,

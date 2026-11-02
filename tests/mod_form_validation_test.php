@@ -87,4 +87,48 @@ final class mod_form_validation_test extends \advanced_testcase {
             'errors' => [],
         ], $icon->invoke($form, [], 0, 0, $allowed, false, true));
     }
+
+    /**
+     * Reaction rows preserve icon, label and type error order and require a complete row.
+     */
+    public function test_reaction_rows_preserve_error_order_and_configuration_requirement(): void {
+        global $CFG;
+        require_once($CFG->dirroot . '/mod/videotrack/mod_form.php');
+
+        $form = (new \ReflectionClass(\mod_videotrack_mod_form::class))->newInstanceWithoutConstructor();
+        $repeatcount = new \ReflectionProperty(\mod_videotrack_mod_form::class, 'reactionrepeatcount');
+        $repeatcount->setValue($form, 4);
+        $reactions = new \ReflectionMethod(\mod_videotrack_mod_form::class, 'reaction_errors');
+
+        $errors = $reactions->invoke($form, [
+            'reactionsenabled' => 1,
+            'reactionicontype' => ['emoji', 'emoji', 'invalid', 'file'],
+            'reactionlabel' => ['First', '', 'Third', 'Fourth'],
+            'reactiondescription' => ['First description', '', '', 'Fourth description'],
+            'reactioniconvalue' => ['', '🙂'],
+        ]);
+        $this->assertSame([
+            'reactioniconvalue[0]',
+            'reactionlabel[1]',
+            'reactiondescription[1]',
+            'reactionicontype[2]',
+            'reactioniconfile_3',
+            'reactionsenabled',
+        ], array_keys($errors));
+        $this->assertSame(get_string('err:reactionconfigurationrequired', 'mod_videotrack'), $errors['reactionsenabled']);
+
+        $repeatcount->setValue($form, 1);
+        $this->assertSame([], $reactions->invoke($form, [
+            'reactionsenabled' => 1,
+            'reactionicontype' => ['emoji'],
+            'reactionlabel' => ['First'],
+            'reactiondescription' => ['First description'],
+            'reactioniconvalue' => ['🙂'],
+        ]));
+        $this->assertSame([], $reactions->invoke($form, [
+            'reactionsenabled' => 0,
+            'reactionicontype' => ['file'],
+            'reactionlabel' => ['First'],
+        ]));
+    }
 }

@@ -1,5 +1,38 @@
 # VideoTrack changelog
 
+## 1.7.220 - 2026-11-02
+
+### Reaction-row form validation
+
+- Accepted the real 385-file 1.7.219 server ZIP byte-for-byte against the corrected
+  candidate (SHA-256 `66cc8619cbed9164825e4eedc446b11f7b02172c04ce17787155ce0b1eedbd28`).
+  All six post-merge CI jobs passed 330 PHPUnit tests, 2,956 assertions,
+  24 Behat scenarios and ten validator checks each; PHPMD confirmed 35
+  advisory findings without new ones. The Moodle 5.0/5.3 server report passed
+  PHPCS, lint, Grunt and PHPUnit (330 tests and 2,956 assertions per site).
+  Both manual strict validators passed ten checks without warnings or failures.
+- Split repeated reaction-row validation from `mod_form::validation()` into
+  focused row, icon-value and required-field helpers. Preserve the order of
+  error keys, stored file-icon checks, enabled/disabled rules, the configured
+  reaction count and the public Moodle form contract. Add a runtime regression
+  test for multiple invalid rows, a valid configured row and disabled file
+  icons. The PHPMD result and all runtime gates require candidate CI confirmation.
+  Database schema, AMD assets, AJAX services and language keys are unchanged.
+- The first 1.7.220 CI passed all six jobs with 331 PHPUnit tests, 2,960
+  assertions, 24 Behat scenarios and ten validator checks each. PHPMD fell
+  from 35 to 34 findings, but the form gained a `TooManyMethods` finding.
+  Move the two pure reaction icon-value and required-field checks to a
+  focused autoloaded `reaction_form_validation` policy class, retaining the
+  original method bodies and error ordering. The corrected PHPMD count awaits CI.
+- In all six correction CI jobs, PHPUnit passed 331 tests and 2,960 assertions;
+  Behat passed 24 scenarios and the validator passed ten checks each. PHPMD confirmed 33
+  advisory findings without new ones, removing both `validation()` complexity
+  findings and the new `TooManyMethods` finding. The Moodle 5.0/MariaDB quality
+  job reported nine blocking PHPCS formatting errors in two multiline calls
+  and the new class closing brace. Format those calls with one argument per
+  line and remove the blank line before the class brace; rerun CI to confirm
+  the PHPCS result before merging.
+
 ## 1.7.219 - 2026-11-02
 
 ### Focused form-validation responsibilities
