@@ -167,6 +167,10 @@ dichiarazione di un parametro di metodo.
   validazione del contenuto e regole di download/cache del callback Moodle
   mantenendone firma pubblica e ordine dei controlli di accesso. La CI dovrà
   confermare la rimozione dei due rilievi di complessità senza nuovi rilievi.
+  La prima CI della candidata ha rilevato 37 rilievi totali, incluso un nuovo
+  rilievo di complessità nell’helper delle aree; la correzione separa i
+  controlli delle aree e del testo temporizzato e richiede la conferma CI
+  dei 36 attesi senza nuovi rilievi.
   Rimangono quelli revisionati su complessità, dimensioni, classi pubbliche
   ampie, parametri obbligatori dei callback Moodle e flag booleani.
 - Configurazione degli analizzatori, perimetro di produzione, schema database e asset AMD non cambiano con queste

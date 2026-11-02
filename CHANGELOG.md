@@ -16,9 +16,11 @@
   separating activity-area eligibility, stored-file lookup, extension and MIME
   checks, WebVTT validation, and the download/cache policy into focused
   helpers. Add runtime tests for activity settings and rejected stored files.
-  Candidate CI must confirm removal of the callback's two PHPMD complexity
-  findings without introducing new ones. Schema, AMD, services and languages
-  remain unchanged.
+  The first candidate CI passed its blocking checks but reported 37 PHPMD
+  findings: the callback lost both complexity findings, while the area
+  helper introduced one. Split the area and timed-text checks into two
+  focused functions; rerun CI to confirm the anticipated 36 findings without
+  new findings. Schema, AMD, services and languages remain unchanged.
 
 ## 1.7.217 - 2026-11-01
 

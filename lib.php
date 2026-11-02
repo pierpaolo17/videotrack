@@ -1654,6 +1654,19 @@ function videotrack_pluginfile_area_available($cm, string $filearea): bool {
             return false;
         }
     }
+    return videotrack_pluginfile_timed_text_available($cm, $filearea);
+}
+
+/**
+ * Check whether transcript and chapter files are enabled for this activity.
+ *
+ * @param stdClass $cm Course module record.
+ * @param string $filearea Requested file area.
+ * @return bool True when this timed-text area is enabled or not requested.
+ */
+function videotrack_pluginfile_timed_text_available($cm, string $filearea): bool {
+    global $DB;
+
     if (in_array($filearea, ['transcripts', 'chapters'], true)) {
         $fields = 'id, showtranscript, showchapters';
         $instance = $DB->get_record('videotrack', ['id' => $cm->instance], $fields, MUST_EXIST);

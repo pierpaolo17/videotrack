@@ -158,6 +158,9 @@ line, not for redeclaring a method parameter.
   lookup, content validation and download/cache policy while preserving the
   callback's public signature and access-check order. Candidate CI must
   confirm removal of its two complexity findings without new findings.
+  The first candidate CI found 37 total, including one new complexity finding
+  in the area helper; the follow-up divides area and timed-text checks and
+  requires CI confirmation of the expected 36 without new findings.
   Other reviewed findings concern complexity, size, broad public classes,
   required Moodle callback parameters and boolean switches.
 - Static-analysis configuration, production scope, database schema and AMD assets are unchanged by these API

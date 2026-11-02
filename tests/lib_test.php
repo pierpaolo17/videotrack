@@ -45,6 +45,7 @@ use PHPUnit\Framework\Attributes\CoversFunction;
 #[CoversFunction('videotrack_queue_reaction_icon_file_operation')]
 #[CoversFunction('videotrack_apply_reaction_icon_file_operations')]
 #[CoversFunction('videotrack_pluginfile_area_available')]
+#[CoversFunction('videotrack_pluginfile_timed_text_available')]
 #[CoversFunction('videotrack_pluginfile_find_file')]
 #[CoversFunction('videotrack_pluginfile_content_allowed')]
 final class lib_test extends advanced_testcase {
