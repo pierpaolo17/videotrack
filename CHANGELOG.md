@@ -1,5 +1,26 @@
 # VideoTrack changelog
 
+## 1.7.224 - 2026-11-03
+
+### Course-scoped Forum form construction
+
+- Accepted the real 390-file 1.7.223 ZIP against the merged commit
+  `42b8b472440ecdf8913ecf9ebbf866a2c09d7694`. All six post-merge CI jobs passed
+  337 PHPUnit tests, 3,033 assertions, 24 Behat scenarios and ten validator checks
+  each. The Moodle 5.0/5.3 server report passed PHPCS, lint, Grunt and the same
+  PHPUnit suite; both manual strict validators reported ten passes, zero
+  warnings and zero failures. The canonical CI confirmed 27 advisory PHPMD findings.
+- Move the optional Forum settings block from `mod_form::definition()` to
+  `form_forum_definition`, preserving its position between reactions and study
+  tools. Keep the existing course/type/deletion filters, option order, hidden
+  and restricted status labels, unavailable saved destination, default values,
+  field dependencies and empty-course behaviour. Add three runtime tests using
+  Moodle QuickForm and real course/Forum records.
+- This bounded extraction targets maintainability and testability; the expected
+  PHPMD count remains 27 and requires candidate CI confirmation. The Moodle
+  callbacks, submitted Forum validation, XMLDB schema, AJAX services, AMD assets
+  and language keys are unchanged. Run the complete CI matrix before merging.
+
 ## 1.7.223 - 2026-11-03
 
 ### Bounded privacy export by data category

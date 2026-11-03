@@ -886,66 +886,10 @@ class mod_videotrack_mod_form extends moodleform_mod {
             }
         }
 
-        // Optional link to a Forum activity in the same course.
-        $mform->addElement('header', 'forumlinkheader', get_string('forum:settingsheader', 'mod_videotrack'));
-        $forumoptions = videotrack_get_compatible_forum_options((int)$COURSE->id);
-        $currentforumid = isset($this->current->linkedforumid) ? (int)$this->current->linkedforumid : 0;
-        if ($currentforumid > 0 && !isset($forumoptions[$currentforumid])) {
-            $forumoptions[$currentforumid] = get_string('forum:configuredunavailable', 'mod_videotrack');
-        }
-        $enableattributes = [];
-        if (!$forumoptions) {
-            $enableattributes['disabled'] = 'disabled';
-        }
-        $mform->addElement(
-            'advcheckbox',
-            'forumpostingenabled',
-            get_string('forum:enable', 'mod_videotrack'),
-            get_string('forum:enable_help', 'mod_videotrack'),
-            $enableattributes
-        );
-        $mform->setDefault('forumpostingenabled', 0);
-        $mform->setType('forumpostingenabled', PARAM_BOOL);
-
-        $selectoptions = [0 => get_string('forum:selectforum', 'mod_videotrack')] + $forumoptions;
-        $mform->addElement(
-            'select',
-            'linkedforumid',
-            get_string('forum:linkedforum', 'mod_videotrack'),
-            $selectoptions
-        );
-        $mform->setType('linkedforumid', PARAM_INT);
-        $mform->setDefault('linkedforumid', 0);
-        $mform->hideIf('linkedforumid', 'forumpostingenabled', 'notchecked');
-        $mform->disabledIf('linkedforumid', 'forumpostingenabled', 'notchecked');
-
-        $mform->addElement(
-            'text',
-            'forumsubjecttemplate',
-            get_string('forum:subjecttemplate', 'mod_videotrack'),
-            ['size' => 64, 'maxlength' => 255]
-        );
-        $mform->setType('forumsubjecttemplate', PARAM_TEXT);
-        $mform->setDefault(
-            'forumsubjecttemplate',
-            get_string('forum:subjecttemplatedefault', 'mod_videotrack')
-        );
-        $mform->addHelpButton('forumsubjecttemplate', 'forum:subjecttemplate', 'mod_videotrack');
-        $mform->hideIf('forumsubjecttemplate', 'forumpostingenabled', 'notchecked');
-        if (!$forumoptions) {
-            $mform->freeze('linkedforumid');
-            $mform->addElement(
-                'static',
-                'forumnoneavailable',
-                '',
-                get_string('forum:nocompatibleforums', 'mod_videotrack')
-            );
-        }
-        $mform->addElement(
-            'static',
-            'forumprivacyinfo',
-            '',
-            get_string('forum:privacyinfo', 'mod_videotrack')
+        \mod_videotrack\local\form_forum_definition::add_elements(
+            $mform,
+            (int)$COURSE->id,
+            $this->current ?? null
         );
 
         // Personal study tools.

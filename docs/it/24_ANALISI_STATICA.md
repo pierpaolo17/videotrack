@@ -201,3 +201,7 @@ dichiarazione di un parametro di metodo.
 - La prima CI 1.7.223 supera tutti i sei job bloccanti e riduce PHPMD a 28 rilievi,
   ma aggiunge un rilievo ciclomatico in `format_intervals()`. La correzione estrae
   il controllo degli estremi numerici invariato; il nuovo conteggio attende la CI.
+- La CI corretta dopo il merge della 1.7.223 conferma 27 rilievi PHPMD consultivi; nessuno resta nei due exporter
+  privacy. La candidata 1.7.224 estrae il gruppo Forum del corso in `form_forum_definition` senza aggiungere metodi
+  al form dell’attività. Il confine migliora la testabilità, con conteggio atteso invariato a 27;
+  i tre nuovi test runtime e l’elenco completo dei rilievi richiedono conferma nella CI della candidata.

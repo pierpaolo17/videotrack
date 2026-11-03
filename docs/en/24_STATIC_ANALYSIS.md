@@ -191,3 +191,7 @@ line, not for redeclaring a method parameter.
 - The first 1.7.223 CI passed all six blocking jobs and reduced PHPMD to 28 findings,
   but introduced one cyclomatic finding in `format_intervals()`. The follow-up extracts
   the unchanged numeric-bound guard; the corrected PHPMD count awaits CI.
+- The corrected 1.7.223 post-merge CI confirms 27 advisory PHPMD findings; no finding remains in either privacy
+  exporter. Candidate 1.7.224 extracts the course-scoped Forum form group into `form_forum_definition` without
+  adding methods to the activity form. This is a testability boundary, with an unchanged expected count of 27;
+  the three new runtime tests and the complete finding list require candidate CI confirmation.
