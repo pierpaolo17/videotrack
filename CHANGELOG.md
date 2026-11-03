@@ -1,5 +1,29 @@
 # VideoTrack changelog
 
+## 1.7.225 - 2026-11-03
+
+### Context-aware CSV form construction
+
+- Accepted the real 392-file 1.7.224 ZIP byte-for-byte against the approved
+  candidate and merged commit `fb22d91c7590df254bb4d8bba754a100a603aebd`.
+  Its SHA-256 is `d3e9da8d273e0015048777273416f079a7c3c0a80631f489747e272d467cbd8c`.
+  All six post-merge CI jobs passed 341 PHPUnit tests, 3,076 assertions,
+  24 Behat scenarios and ten validator checks each. PHPMD confirmed 27
+  advisory findings without new findings. The Moodle 5.0/5.3 server report
+  passed PHPCS, lint, Grunt and the same PHPUnit suite; both strict validators
+  reported ten passes, zero warnings and zero failures.
+- Move the CSV settings group from `mod_form::definition()` to the existing
+  `form_definition` owner. Preserve the module/course context fallback,
+  delimiter inheritance, flat checkbox names, field order and disabled-state
+  labels for unavailable Moodle identity fields. The original CSV configuration
+  and export APIs retain ownership of field permissions and persisted values.
+- Add two runtime QuickForm tests for delimiter choices and field order, plus
+  course-scoped identity permissions and hidden/unconfigured user fields.
+  The form gains no methods or direct class dependencies. The expected PHPMD
+  count remains 27; candidate CI must confirm behaviour and the complete finding
+  list before merging. XMLDB schema, AJAX services, AMD assets and language
+  keys are unchanged.
+
 ## 1.7.224 - 2026-11-03
 
 ### Focused Forum and acknowledgement form construction

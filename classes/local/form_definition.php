@@ -16,14 +16,80 @@
 
 namespace mod_videotrack\local;
 
+use html_writer;
+
 /**
- * Builds self-contained Forum and acknowledgement groups in the activity form.
+ * Builds self-contained CSV, Forum and acknowledgement groups in the activity form.
  *
  * @package    mod_videotrack
  * @copyright  2026 videotrack contributors
  * @license    https://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 final class form_definition {
+    /**
+     * Add CSV choices with identity fields enabled only when allowed by Moodle.
+     *
+     * @param \MoodleQuickForm $mform Activity settings form.
+     * @param \context $csvcontext Effective activity or course context.
+     */
+    public static function add_csv_elements(\MoodleQuickForm $mform, \context $csvcontext): void {
+        // CSV export settings.
+        $mform->addElement(
+            'header',
+            'csvexportheader',
+            get_string('setting:heading_csvexport', 'mod_videotrack')
+        );
+        $mform->addElement(
+            'select',
+            'csvdelimiter',
+            get_string('setting:csvdelimiter', 'mod_videotrack'),
+            \mod_videotrack\local\csv_export::delimiter_options_with_inherit()
+        );
+        $mform->setType('csvdelimiter', PARAM_ALPHA);
+        $mform->setDefault('csvdelimiter', \mod_videotrack\local\csv_export::DELIMITER_INHERIT);
+        $mform->addHelpButton('csvdelimiter', 'setting:csvdelimiter', 'mod_videotrack');
+        $mform->addElement(
+            'static',
+            'csvexportfields_desc',
+            '',
+            html_writer::tag(
+                'small',
+                get_string('setting:csvexportfields_teacher_desc', 'mod_videotrack'),
+                ['class' => 'text-muted']
+            )
+        );
+        $csvfieldoptions = \mod_videotrack\local\csv_export::form_field_options($csvcontext);
+        $allowedcsvfields = array_keys(\mod_videotrack\local\csv_export::field_options($csvcontext));
+        $csvfieldcheckboxes = [];
+        foreach ($csvfieldoptions as $field => $label) {
+            $elementname = \mod_videotrack\local\csv_export::form_element_name($field);
+            $isallowedcsvfield = in_array($field, $allowedcsvfields, true);
+            $attributes = [];
+            if (!$isallowedcsvfield) {
+                $label .= ' (' . get_string('notavailable') . ')';
+                $attributes['disabled'] = 'disabled';
+            }
+            $csvfieldcheckboxes[] = $mform->createElement(
+                'advcheckbox',
+                $elementname,
+                '',
+                $label,
+                $attributes,
+                [0, 1]
+            );
+            $mform->setType($elementname, PARAM_BOOL);
+        }
+        if ($csvfieldcheckboxes) {
+            $mform->addGroup(
+                $csvfieldcheckboxes,
+                'csvexportfieldsgroup',
+                get_string('setting:csvexportfields', 'mod_videotrack'),
+                ' ',
+                false
+            );
+        }
+    }
+
     /**
      * Add Forum fields while retaining unavailable saved destinations and field order.
      *
