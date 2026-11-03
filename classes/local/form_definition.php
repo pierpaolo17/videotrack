@@ -17,13 +17,13 @@
 namespace mod_videotrack\local;
 
 /**
- * Builds the optional course Forum settings in the activity form.
+ * Builds self-contained Forum and acknowledgement groups in the activity form.
  *
  * @package    mod_videotrack
  * @copyright  2026 videotrack contributors
  * @license    https://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
-final class form_forum_definition {
+final class form_definition {
     /**
      * Add Forum fields while retaining unavailable saved destinations and field order.
      *
@@ -31,7 +31,7 @@ final class form_forum_definition {
      * @param int $courseid Course whose compatible forums are offered.
      * @param \stdClass|null $current Current activity settings, or null for a new activity.
      */
-    public static function add_elements(\MoodleQuickForm $mform, int $courseid, ?\stdClass $current): void {
+    public static function add_forum_elements(\MoodleQuickForm $mform, int $courseid, ?\stdClass $current): void {
         // Optional link to a Forum activity in the same course.
         $mform->addElement('header', 'forumlinkheader', get_string('forum:settingsheader', 'mod_videotrack'));
         $forumoptions = videotrack_get_compatible_forum_options($courseid);
@@ -93,5 +93,63 @@ final class form_forum_definition {
             '',
             get_string('forum:privacyinfo', 'mod_videotrack')
         );
+    }
+
+    /**
+     * Add acknowledgement settings with the current activity context and safe editor options.
+     *
+     * @param \MoodleQuickForm $mform Activity settings form.
+     * @param \context $context Activity form context.
+     */
+    public static function add_acknowledgement_elements(\MoodleQuickForm $mform, \context $context): void {
+        $mform->addElement(
+            'header',
+            'acknowledgementheader',
+            get_string('acknowledgement:header', 'mod_videotrack')
+        );
+        $mform->setExpanded('acknowledgementheader', false);
+        $mform->addElement(
+            'advcheckbox',
+            'acknowledgementenabled',
+            get_string('acknowledgement:enabled', 'mod_videotrack'),
+            get_string('acknowledgement:enabled_desc', 'mod_videotrack')
+        );
+        $mform->setType('acknowledgementenabled', PARAM_BOOL);
+        $mform->setDefault('acknowledgementenabled', 0);
+
+        $mform->addElement(
+            'select',
+            'acknowledgementtiming',
+            get_string('acknowledgement:timing', 'mod_videotrack'),
+            [
+                \mod_videotrack\local\acknowledgement::TIMING_ANYTIME =>
+                    get_string('acknowledgement:timing_anytime', 'mod_videotrack'),
+                \mod_videotrack\local\acknowledgement::TIMING_VIDEO_END =>
+                    get_string('acknowledgement:timing_videoend', 'mod_videotrack'),
+            ]
+        );
+        $mform->setType('acknowledgementtiming', PARAM_INT);
+        $mform->setDefault(
+            'acknowledgementtiming',
+            \mod_videotrack\local\acknowledgement::TIMING_ANYTIME
+        );
+        $mform->addHelpButton('acknowledgementtiming', 'acknowledgement:timing', 'mod_videotrack');
+        $mform->disabledIf('acknowledgementtiming', 'acknowledgementenabled', 'notchecked');
+        $acknowledgementoptions = [
+            'context' => $context,
+            'maxfiles' => 0,
+            'maxbytes' => 0,
+            'trusttext' => false,
+            'noclean' => false,
+        ];
+        $mform->addElement(
+            'editor',
+            'acknowledgement_editor',
+            get_string('acknowledgement:text', 'mod_videotrack'),
+            null,
+            $acknowledgementoptions
+        );
+        $mform->addHelpButton('acknowledgement_editor', 'acknowledgement:text', 'mod_videotrack');
+        $mform->disabledIf('acknowledgement_editor', 'acknowledgementenabled', 'notchecked');
     }
 }

@@ -16,19 +16,19 @@
 
 namespace mod_videotrack;
 
-use mod_videotrack\local\form_forum_definition;
+use mod_videotrack\local\form_definition;
 use PHPUnit\Framework\Attributes\CoversClass;
 
 /**
- * Behavioural checks for course-scoped Forum choices in the activity form.
+ * Behavioural checks for delegated Forum and acknowledgement form groups.
  *
  * @package    mod_videotrack
  * @category   test
  * @copyright  2026 videotrack contributors
  * @license    https://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
-#[CoversClass(form_forum_definition::class)]
-final class form_forum_definition_test extends \advanced_testcase {
+#[CoversClass(form_definition::class)]
+final class form_definition_test extends \advanced_testcase {
     /**
      * Load the real QuickForm and the shared VideoTrack Forum queries.
      */
@@ -49,7 +49,7 @@ final class form_forum_definition_test extends \advanced_testcase {
         $course = $this->getDataGenerator()->create_course();
         $form = new \MoodleQuickForm('videotrack_forum_empty', 'post', '');
 
-        form_forum_definition::add_elements($form, (int)$course->id, null);
+        form_definition::add_forum_elements($form, (int)$course->id, null);
 
         $this->assertSame('disabled', $form->getElement('forumpostingenabled')->getAttribute('disabled'));
         $this->assertTrue($form->getElement('linkedforumid')->isFrozen());
@@ -79,7 +79,7 @@ final class form_forum_definition_test extends \advanced_testcase {
         $DB->set_field('course_modules', 'deletioninprogress', 1, ['id' => $deleting->cmid]);
         $form = new \MoodleQuickForm('videotrack_forum_choices', 'post', '');
 
-        form_forum_definition::add_elements($form, (int)$course->id, (object)[]);
+        form_definition::add_forum_elements($form, (int)$course->id, (object)[]);
 
         $destination = $form->getElement('linkedforumid');
         $html = $destination->toHtml();
@@ -113,7 +113,7 @@ final class form_forum_definition_test extends \advanced_testcase {
         ]);
         $form = new \MoodleQuickForm('videotrack_forum_saved', 'post', '');
 
-        form_forum_definition::add_elements($form, (int)$course->id, (object)['linkedforumid' => $saved->id]);
+        form_definition::add_forum_elements($form, (int)$course->id, (object)['linkedforumid' => $saved->id]);
 
         $destination = $form->getElement('linkedforumid');
         $html = $destination->toHtml();
@@ -123,5 +123,42 @@ final class form_forum_definition_test extends \advanced_testcase {
         $this->assertStringContainsString('value="' . $saved->id . '"', $html);
         $this->assertStringContainsString(get_string('forum:configuredunavailable', 'mod_videotrack'), $html);
         $this->assertStringNotContainsString('Other course private label', $html);
+    }
+
+    /**
+     * Acknowledgement choices and editor options retain the actual activity context.
+     */
+    public function test_acknowledgement_fields_keep_context_and_safe_editor_options(): void {
+        $this->resetAfterTest();
+        $this->setAdminUser();
+        $course = $this->getDataGenerator()->create_course();
+        $forum = $this->getDataGenerator()->create_module('forum', ['course' => $course->id]);
+        $contexts = [
+            \context_course::instance($course->id),
+            \context_module::instance($forum->cmid),
+        ];
+        $timings = [
+            \mod_videotrack\local\acknowledgement::TIMING_ANYTIME,
+            \mod_videotrack\local\acknowledgement::TIMING_VIDEO_END,
+        ];
+        foreach ($contexts as $context) {
+            $form = new \MoodleQuickForm('videotrack_acknowledgement_' . $context->id, 'post', '');
+
+            form_definition::add_acknowledgement_elements($form, $context);
+
+            $this->assertTrue($form->elementExists('acknowledgementheader'));
+            $this->assertTrue($form->elementExists('acknowledgementenabled'));
+            $html = $form->getElement('acknowledgementtiming')->toHtml();
+            foreach ($timings as $timing) {
+                $this->assertStringContainsString('value="' . $timing . '"', $html);
+            }
+            $editor = $form->getElement('acknowledgement_editor');
+            $options = (new \ReflectionProperty($editor, '_options'))->getValue($editor);
+            $this->assertSame($context, $options['context']);
+            $this->assertSame(0, $options['maxfiles']);
+            $this->assertSame(0, $options['maxbytes']);
+            $this->assertFalse($options['trusttext']);
+            $this->assertFalse($options['noclean']);
+        }
     }
 }

@@ -32,8 +32,9 @@ not duplicate implementation procedures, field dictionaries or long security/pri
 
 ## Current-tree findings
 
-- `form_forum_definition` owns Forum field construction and unavailable saved choices; the activity form retains
-  submitted validation, reaction/study-tool order and section expansion.
+- `form_definition` owns Forum and acknowledgement field construction in their existing positions;
+  course-scoped choices, saved placeholders and the editor context/options remain explicit. The activity form
+  retains submitted validation and section expansion without a direct acknowledgement-class dependency.
 - English and Italian indexes have matching scope and ordering.
 - Documentation markers, root README files and ER artefacts identify 1.7.224 / 2026110304.
 - The Moodle privacy export delegates state, segment, event, integrity and acknowledgement sections in order;

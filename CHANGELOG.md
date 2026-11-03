@@ -2,7 +2,7 @@
 
 ## 1.7.224 - 2026-11-03
 
-### Course-scoped Forum form construction
+### Focused Forum and acknowledgement form construction
 
 - Accepted the real 390-file 1.7.223 ZIP against the merged commit
   `42b8b472440ecdf8913ecf9ebbf866a2c09d7694`. All six post-merge CI jobs passed
@@ -10,16 +10,20 @@
   each. The Moodle 5.0/5.3 server report passed PHPCS, lint, Grunt and the same
   PHPUnit suite; both manual strict validators reported ten passes, zero
   warnings and zero failures. The canonical CI confirmed 27 advisory PHPMD findings.
-- Move the optional Forum settings block from `mod_form::definition()` to
-  `form_forum_definition`, preserving its position between reactions and study
-  tools. Keep the existing course/type/deletion filters, option order, hidden
-  and restricted status labels, unavailable saved destination, default values,
-  field dependencies and empty-course behaviour. Add three runtime tests using
-  Moodle QuickForm and real course/Forum records.
-- This bounded extraction targets maintainability and testability; the expected
-  PHPMD count remains 27 and requires candidate CI confirmation. The Moodle
-  callbacks, submitted Forum validation, XMLDB schema, AJAX services, AMD assets
-  and language keys are unchanged. Run the complete CI matrix before merging.
+- Move the optional Forum and acknowledgement settings from `mod_form::definition()`
+  to `form_definition`, preserving their original positions, field order, defaults
+  and dependencies. Keep the course/type/deletion filters, unavailable saved Forum
+  destination and context-scoped acknowledgement editor options. Four runtime
+  tests use Moodle QuickForm and real course/Forum records.
+- The first six candidate CI jobs passed 340 PHPUnit tests, 3,058 assertions,
+  24 Behat scenarios and ten validator checks each. PHPCS, PHPDoc, lint,
+  Grunt, PHPStan and Psalm passed their configured gates, but PHPMD reported
+  28 findings: the new Forum builder raised the form's object coupling to 13.
+  Rename the shared form-construction owner and delegate acknowledgement fields
+  to it, removing the form's direct acknowledgement-class dependency without
+  changing field construction. Add the editor-context test and rerun all six
+  jobs to confirm the expected 27 findings without new findings. Release and
+  version code remain 1.7.224 / 2026110304; merge only after corrected CI.
 
 ## 1.7.223 - 2026-11-03
 

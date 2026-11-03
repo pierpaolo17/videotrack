@@ -20,12 +20,13 @@ stesso modo tre predicati espliciti: la percentuale richiede durata e valore pos
 richiedono che le reazioni siano abilitate; la presa visione richiede sia la funzione sia il relativo flag di
 completamento. I campi Moodle con suffisso usano come fallback i corrispondenti valori senza suffisso.
 
-## Costruzione dei campi Forum
+## Confine di costruzione del form
 
-`form_forum_definition` costruisce il gruppo Forum opzionale nella posizione prevista fra impostazioni delle
-reazioni e strumenti di studio personali. Usa le opzioni condivise filtrate per corso, tipo e cancellazione,
-con etichette per visibilità e restrizioni, e conserva il Forum salvato non disponibile come segnaposto esplicito.
-Il form dell’attività mantiene la validazione del Forum inviato e la politica finale di espansione delle sezioni.
+`form_definition` costruisce i gruppi Forum e presa visione nelle posizioni previste nel form dell’attività.
+Il Forum usa opzioni condivise filtrate per corso, tipo e cancellazione, con etichette di stato e un segnaposto
+esplicito per la destinazione salvata non disponibile. La presa visione conserva tempi, default, dipendenze
+e contesto dell’attività, con allegati e HTML attendibile disabilitati nell’editor.
+Il form dell’attività mantiene la validazione in invio e la politica finale di espansione delle sezioni.
 
 ## Confine di parsing degli input multimediali
 

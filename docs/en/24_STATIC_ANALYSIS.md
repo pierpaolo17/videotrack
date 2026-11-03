@@ -192,6 +192,11 @@ line, not for redeclaring a method parameter.
   but introduced one cyclomatic finding in `format_intervals()`. The follow-up extracts
   the unchanged numeric-bound guard; the corrected PHPMD count awaits CI.
 - The corrected 1.7.223 post-merge CI confirms 27 advisory PHPMD findings; no finding remains in either privacy
-  exporter. Candidate 1.7.224 extracts the course-scoped Forum form group into `form_forum_definition` without
+  exporter. Candidate 1.7.224 extracts the course-scoped Forum form group into `form_definition` without
   adding methods to the activity form. This is a testability boundary, with an unchanged expected count of 27;
   the three new runtime tests and the complete finding list require candidate CI confirmation.
+- Initial 1.7.224 CI passes the six runtime jobs (340 PHPUnit tests, 3,058 assertions and 24 Behat scenarios)
+  but reports 28 PHPMD findings: form object coupling reaches 13 after adding the Forum builder. The corrected
+  `form_definition` also owns acknowledgement field construction, removing the form's direct dependency on
+  `acknowledgement` while retaining both groups' statements and positions. Four behavioural tests cover these
+  groups. The expected 27 findings and the added editor-context test require corrected candidate CI.

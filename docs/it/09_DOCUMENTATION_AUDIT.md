@@ -32,8 +32,9 @@ duplicano intenzionalmente procedure implementative, dizionari dei campi o lungh
 
 ## Rilievi sull'albero corrente
 
-- `form_forum_definition` possiede la costruzione dei campi Forum e i segnaposto salvati non disponibili; il form
-  conserva validazione in invio, ordine fra reazioni e strumenti di studio ed espansione delle sezioni.
+- `form_definition` costruisce i campi Forum e presa visione nelle posizioni previste;
+  opzioni del corso, segnaposto salvati e contesto/opzioni dell’editor restano espliciti. Il form conserva
+  validazione in invio ed espansione delle sezioni senza dipendenza diretta dalla classe delle prese visione.
 - Gli indici inglese e italiano hanno stesso perimetro e ordinamento.
 - Marker documentali, README principali e artefatti ER identificano 1.7.224 / 2026110304.
 - L’export privacy Moodle delega stato, segmenti, eventi, integrità e prese visione nello stesso ordine;
