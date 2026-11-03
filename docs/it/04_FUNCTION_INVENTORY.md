@@ -2,7 +2,7 @@
 
 Generato dall’albero sorgente VideoTrack 1.7.223. Le voci PHP includono funzioni e metodi nominati; le voci AMD includono dichiarazioni nominate, espressioni funzione assegnate e funzioni-metodo di oggetti.
 
-**Funzioni/metodi PHP:** 1006. **Callable AMD nominati:** 654.
+**Funzioni/metodi PHP:** 1007. **Callable AMD nominati:** 654.
 
 | Posizione | Callable | Responsabilità |
 |---|---|---|
@@ -1132,9 +1132,10 @@ Generato dall’albero sorgente VideoTrack 1.7.223. Le voci PHP includono funzio
 | `classes/privacy/exporter.php:48` | `export_user_data` | Delega le sezioni dell’export autorizzato nello stesso ordine. |
 | `classes/privacy/exporter.php:72` | `export_state` | Esporta lo stato con date e intervalli leggibili. |
 | `classes/privacy/exporter.php:116` | `format_intervals` | Formatta gli intervalli validi e i messaggi di ripiego. |
-| `classes/privacy/exporter.php:150` | `export_segments` | Esporta i segmenti visti in blocchi da 500. |
-| `classes/privacy/exporter.php:206` | `export_integrity` | Esporta i segnali di integrità in blocchi da 500. |
-| `classes/privacy/exporter.php:254` | `export_acknowledgements` | Esporta lo storico delle prese visione. |
+| `classes/privacy/exporter.php:149` | `has_interval_bounds` | Verifica i due estremi numerici prima di formattare l’intervallo. |
+| `classes/privacy/exporter.php:160` | `export_segments` | Esporta i segmenti visti in blocchi da 500. |
+| `classes/privacy/exporter.php:216` | `export_integrity` | Esporta i segnali di integrità in blocchi da 500. |
+| `classes/privacy/exporter.php:264` | `export_acknowledgements` | Esporta lo storico delle prese visione. |
 | `classes/privacy/provider.php:44` | `get_metadata` | Callable PHP `get_metadata`; DocBlock e chiamanti definiscono parametri, valori restituiti ed effetti. |
 | `classes/privacy/provider.php:137` | `add_external_location_metadata` | Dichiara i metadati dei servizi esterni YouTube e Vimeo dopo le tabelle database del plugin. |
 | `classes/privacy/provider.php:161` | `get_contexts_for_userid` | Callable PHP `get_contexts_for_userid`; DocBlock e chiamanti definiscono parametri, valori restituiti ed effetti. |

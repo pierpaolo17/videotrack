@@ -18,6 +18,12 @@
   runtime export tests for user isolation, category paths, transformations and
   the chunk boundary. Candidate CI must confirm behaviour and the PHPMD
   result; XMLDB schema, AMD, services and language keys remain unchanged.
+- All six initial candidate CI jobs passed 337 PHPUnit tests (3,033 assertions),
+  24 Behat scenarios and ten strict validator checks each. The Moodle 5.0
+  canonical job passed PHPCS, lint and Grunt; PHPStan and Psalm found no errors.
+  PHPMD decreased from 30 to 28 findings, but reported a new cyclomatic
+  finding in `format_intervals()`. Extract the existing numeric-bound guard
+  into a focused helper; corrected CI must confirm removal of this new finding.
 
 ## 1.7.222 - 2026-11-03
 

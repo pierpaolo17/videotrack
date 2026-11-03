@@ -119,7 +119,7 @@ final class exporter {
             if (is_array($intervals)) {
                 $readable = [];
                 foreach ($intervals as $seg) {
-                    if (!is_array($seg) || count($seg) < 2 || !is_numeric($seg[0]) || !is_numeric($seg[1])) {
+                    if (!self::has_interval_bounds($seg)) {
                         continue;
                     }
                     $start = (float)$seg[0];
@@ -138,6 +138,16 @@ final class exporter {
         } else {
             return get_string('privacy:intervals_none', 'mod_videotrack');
         }
+    }
+
+    /**
+     * Check that an interval supplies two numeric bounds.
+     *
+     * @param mixed $segment Decoded JSON entry.
+     * @return bool Whether both bounds can be formatted.
+     */
+    private static function has_interval_bounds($segment): bool {
+        return is_array($segment) && count($segment) >= 2 && is_numeric($segment[0]) && is_numeric($segment[1]);
     }
 
     /**

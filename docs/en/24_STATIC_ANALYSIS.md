@@ -188,3 +188,6 @@ line, not for redeclaring a method parameter.
   343-line privacy exporter and six event categories while retaining the writer paths, field transformations,
   bounded 500-row chunks and final category order. Two PHPUnit cases check the actual export and boundary;
   the PHPMD result and all runtime gates await candidate CI.
+- The first 1.7.223 CI passed all six blocking jobs and reduced PHPMD to 28 findings,
+  but introduced one cyclomatic finding in `format_intervals()`. The follow-up extracts
+  the unchanged numeric-bound guard; the corrected PHPMD count awaits CI.

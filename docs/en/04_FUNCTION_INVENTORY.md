@@ -2,7 +2,7 @@
 
 Generated from the VideoTrack 1.7.223 source tree. PHP entries include named functions and methods; AMD entries include named declarations, assigned function expressions and object-method functions.
 
-**PHP functions/methods:** 1006. **Named AMD callables:** 654.
+**PHP functions/methods:** 1007. **Named AMD callables:** 654.
 
 | Location | Callable | Responsibility |
 |---|---|---|
@@ -1132,9 +1132,10 @@ Generated from the VideoTrack 1.7.223 source tree. PHP entries include named fun
 | `classes/privacy/exporter.php:48` | `export_user_data` | Delegates the approved module export in the historical section order. |
 | `classes/privacy/exporter.php:72` | `export_state` | Exports playback state with readable timestamps and intervals. |
 | `classes/privacy/exporter.php:116` | `format_intervals` | Formats valid watched intervals and localised fallbacks. |
-| `classes/privacy/exporter.php:150` | `export_segments` | Streams watched segments in 500-row chunks. |
-| `classes/privacy/exporter.php:206` | `export_integrity` | Streams labelled integrity signals in 500-row chunks. |
-| `classes/privacy/exporter.php:254` | `export_acknowledgements` | Exports the learner acknowledgement history. |
+| `classes/privacy/exporter.php:149` | `has_interval_bounds` | Checks both interval bounds before formatting. |
+| `classes/privacy/exporter.php:160` | `export_segments` | Streams watched segments in 500-row chunks. |
+| `classes/privacy/exporter.php:216` | `export_integrity` | Streams labelled integrity signals in 500-row chunks. |
+| `classes/privacy/exporter.php:264` | `export_acknowledgements` | Exports the learner acknowledgement history. |
 | `classes/privacy/provider.php:44` | `get_metadata` | PHP callable `get_metadata`; see its DocBlock and callers for parameter, return-value and side-effect details. |
 | `classes/privacy/provider.php:137` | `add_external_location_metadata` | Declares YouTube and Vimeo external-location metadata after plugin database tables. |
 | `classes/privacy/provider.php:161` | `get_contexts_for_userid` | PHP callable `get_contexts_for_userid`; see its DocBlock and callers for parameter, return-value and side-effect details. |

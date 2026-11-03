@@ -198,3 +198,6 @@ dichiarazione di un parametro di metodo.
 - La CI e il server della 1.7.222 confermano 30 rilievi PHPMD. La candidata 1.7.223 suddivide
   l’exporter privacy di 343 righe e le sei categorie, conservando percorsi, trasformazioni, blocchi da 500
   e ordine di svuotamento. Due test PHPUnit verificano export e limite; PHPMD e gate runtime attendono la CI.
+- La prima CI 1.7.223 supera tutti i sei job bloccanti e riduce PHPMD a 28 rilievi,
+  ma aggiunge un rilievo ciclomatico in `format_intervals()`. La correzione estrae
+  il controllo degli estremi numerici invariato; il nuovo conteggio attende la CI.
