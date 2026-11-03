@@ -1,5 +1,24 @@
 # VideoTrack changelog
 
+## 1.7.221 - 2026-11-03
+
+### Activity form defaults and edit drafts
+
+- Accepted the real 386-file 1.7.220 server ZIP byte-for-byte against the
+  approved candidate (SHA-256 `6ab4531ad2f6c64c2e93f99cc550242417e02a2917656ead8dc4f23c9d6c78b2`).
+  All six post-merge CI jobs passed 331 PHPUnit tests, 2,960 assertions,
+  24 Behat scenarios and ten validator checks each. PHPMD confirmed the same
+  33 advisory findings with none added. The Moodle 5.0/5.3 server report
+  passed PHPCS, lint, Grunt and PHPUnit (331 tests and 2,960 assertions per
+  site). Both manual strict validators passed ten checks without warnings.
+- Move existing reaction drafts, completion fields, playback settings, CSV
+  selections and site defaults from `mod_form::data_preprocessing()` into a
+  dedicated autoloaded helper. Preserve the parent call, helper call order,
+  edit-mode draft preparation, context fallback and all form field names.
+  Add behavioural tests for completion, playback and CSV defaults. Candidate
+  CI must verify runtime behaviour and the PHPMD findings. XMLDB schema, AMD
+  assets, services and language keys remain unchanged.
+
 ## 1.7.220 - 2026-11-02
 
 ### Reaction-row form validation

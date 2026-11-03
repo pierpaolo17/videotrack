@@ -1,6 +1,6 @@
 # Documentation audit
 
-Baseline: VideoTrack **1.7.220** (`2026110203`).
+Baseline: VideoTrack **1.7.221** (`2026110301`).
 
 ## Scope
 
@@ -33,10 +33,12 @@ not duplicate implementation procedures, field dictionaries or long security/pri
 ## Current-tree findings
 
 - English and Italian indexes have matching scope and ordering.
-- Documentation markers, root README files and ER artefacts identify 1.7.220 / 2026110203.
+- Documentation markers, root README files and ER artefacts identify 1.7.221 / 2026110301.
 - Activity-form source, timed-text, reaction-file and forum checks remain in their original order behind focused helpers;
   reaction-row checks retain error ordering and configured-row requirements; pure reaction icon-value and
   required-field policy resides in `reaction_form_validation`.
+- Reaction, completion, playback, CSV and site defaults retain their edit-form order in `form_preprocessing`;
+  timed-text and poster drafts remain in the activity form after Moodle's parent preprocessing call.
 - `videotrack_pluginfile()` retains the Moodle callback signature and guard order; focused helpers check
   activity areas, stored paths, extension/MIME/WebVTT content and upload download/cache rules.
 - Retention pairs are processed by `privacy_retention_pair` using the existing state lock, transaction and

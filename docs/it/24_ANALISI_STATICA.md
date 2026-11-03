@@ -183,7 +183,10 @@ dichiarazione di un parametro di metodo.
   `TooManyMethods` sul form. Una correzione incrementale sposta i due controlli puri in una classe dedicata
   `reaction_form_validation`. I sei job CI confermano 33 rilievi senza novità, ma il job qualità Moodle
   5.0/MariaDB trova nove errori PHPCS di formattazione. Una seconda correzione incrementale sistema le
-  chiamate multilinea e la chiusura della classe; ripetere la CI prima del merge.
+  chiamate multilinea e la chiusura della classe. I sei job corretti e i sei job dopo il merge passano
+  con gli stessi 33 rilievi e senza novità. La candidata 1.7.221 sposta i default del form in una
+  classe dedicata mantenendo chiamata al parent e ordine delle bozze; la CI deve confermare i rilievi
+  di lunghezza, complessità ciclomatica e NPath senza nuovi rilievi.
 - Configurazione degli analizzatori, perimetro di produzione, schema database e asset AMD non cambiano con queste
   pulizie delle API. I conteggi della candidata diventano autorevoli soltanto dopo aver conservato e revisionato gli
   artifact CI completi.
