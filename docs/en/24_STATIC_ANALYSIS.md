@@ -178,7 +178,9 @@ line, not for redeclaring a method parameter.
   edit-default preparation into a focused class while retaining Moodle's parent call and draft order;
   CI must confirm the method-length, cyclomatic and NPath results without new findings.
 - The first 1.7.221 CI found 32 PHPMD findings: two form-method complexity findings disappeared, while a new
-  cyclomatic finding appeared in the extracted completion helper. A follow-up separates grade and Vimeo defaults
-  from completion rules and corrects two runtime-test problems; CI must confirm the corrected result.
+  cyclomatic finding appeared in the extracted completion helper. A follow-up separated grade and Vimeo defaults
+  from completion rules and corrected two runtime-test problems. Six corrected and six post-merge jobs confirmed
+  31 findings with no new ones. The 1.7.222 candidate moves reaction notice and preset defaults into the existing
+  helper after timed-text drafts; CI must confirm removal of the 101-line method-length finding.
 - Static-analysis configuration, production scope, database schema and AMD assets are unchanged by these API
   cleanups. Candidate counts remain authoritative only after the complete CI artifacts are retained and reviewed.

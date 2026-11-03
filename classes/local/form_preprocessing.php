@@ -91,6 +91,25 @@ final class form_preprocessing {
     }
 
     /**
+     * Prepare the reaction notice editor and preset data for the form.
+     *
+     * @param array $defaultvalues Moodle form default values, updated in place.
+     */
+    public static function reaction_notice_defaults(array &$defaultvalues): void {
+        if (
+            !isset($defaultvalues['reactionnotice_editor'])
+            && isset($defaultvalues['reactionnotice'])
+        ) {
+            $defaultvalues['reactionnotice_editor'] = [
+                'text'   => $defaultvalues['reactionnotice'],
+                'format' => $defaultvalues['reactionnoticeformat'] ?? FORMAT_HTML,
+            ];
+        }
+        $defaultvalues['reactionpreset_json'] =
+            json_encode(\videotrack_get_all_presets_for_js());
+    }
+
+    /**
      * Prepare completion, grade and Vimeo defaults.
      *
      * @param array $defaultvalues Moodle form default values, updated in place.
