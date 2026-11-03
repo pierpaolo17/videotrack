@@ -187,6 +187,9 @@ dichiarazione di un parametro di metodo.
   con gli stessi 33 rilievi e senza novità. La candidata 1.7.221 sposta i default del form in una
   classe dedicata mantenendo chiamata al parent e ordine delle bozze; la CI deve confermare i rilievi
   di lunghezza, complessità ciclomatica e NPath senza nuovi rilievi.
+- La prima CI 1.7.221 riporta 32 rilievi PHPMD: spariscono due rilievi di complessità sul form, ma nasce un
+  CyclomaticComplexity nel nuovo helper di completamento. La correzione separa i default di voto e Vimeo dalle
+  regole di completamento e risolve due problemi nei test runtime; il risultato attende una nuova CI.
 - Configurazione degli analizzatori, perimetro di produzione, schema database e asset AMD non cambiano con queste
   pulizie delle API. I conteggi della candidata diventano autorevoli soltanto dopo aver conservato e revisionato gli
   artifact CI completi.

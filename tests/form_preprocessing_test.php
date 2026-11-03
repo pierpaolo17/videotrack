@@ -43,7 +43,7 @@ final class form_preprocessing_test extends \advanced_testcase {
         ];
         form_preprocessing::completion_defaults($values, 'custom', 0);
 
-        $this->assertSame(['text' => '<p>Read</p>', 'format' => FORMAT_HTML], $values['acknowledgement_editor']);
+        $this->assertSame(['text' => '<p>Read</p>', 'format' => (int)FORMAT_HTML], $values['acknowledgement_editor']);
         $this->assertSame(70, $values['completionpercentcustom']);
         $this->assertSame(0, $values['completionacknowledgementcustom']);
         $this->assertSame('or', $values['completionlogiccustom']);
@@ -74,6 +74,7 @@ final class form_preprocessing_test extends \advanced_testcase {
      * CSV field selections and the explicit none sentinel keep distinct defaults.
      */
     public function test_csv_defaults_respect_explicit_and_empty_field_sets(): void {
+        $this->resetAfterTest();
         $course = $this->getDataGenerator()->create_course();
         $context = \context_course::instance($course->id);
         $values = ['csvexportfields' => 'coursefullname,email', 'csvdelimiter' => csv_export::DELIMITER_COMMA];

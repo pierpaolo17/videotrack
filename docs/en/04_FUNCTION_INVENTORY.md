@@ -2,7 +2,7 @@
 
 Generated from the VideoTrack 1.7.221 source tree. PHP entries include named functions and methods; AMD entries include named declarations, assigned function expressions and object-method functions.
 
-**PHP functions/methods:** 990. **Named AMD callables:** 654.
+**PHP functions/methods:** 991. **Named AMD callables:** 654.
 
 | Location | Callable | Responsibility |
 |---|---|---|
@@ -960,9 +960,10 @@ Generated from the VideoTrack 1.7.221 source tree. PHP entries include named fun
 | `classes/local/focus_policy.php:121` | `effective_policy` | Downgrades only strict window-blur handling for authorised group members. |
 | `classes/local/form_preprocessing.php:36` | `reaction_defaults` | PHP callable `reaction_defaults`; see its DocBlock and callers for parameter, return-value and side-effect details. |
 | `classes/local/form_preprocessing.php:100` | `completion_defaults` | PHP callable `completion_defaults`; see its DocBlock and callers for parameter, return-value and side-effect details. |
-| `classes/local/form_preprocessing.php:140` | `playback_defaults` | PHP callable `playback_defaults`; see its DocBlock and callers for parameter, return-value and side-effect details. |
-| `classes/local/form_preprocessing.php:185` | `csv_defaults` | PHP callable `csv_defaults`; see its DocBlock and callers for parameter, return-value and side-effect details. |
-| `classes/local/form_preprocessing.php:212` | `site_defaults` | PHP callable `site_defaults`; see its DocBlock and callers for parameter, return-value and side-effect details. |
+| `classes/local/form_preprocessing.php:128` | `grade_and_media_defaults` | PHP callable `grade_and_media_defaults`; see its DocBlock and callers for parameter, return-value and side-effect details. |
+| `classes/local/form_preprocessing.php:150` | `playback_defaults` | PHP callable `playback_defaults`; see its DocBlock and callers for parameter, return-value and side-effect details. |
+| `classes/local/form_preprocessing.php:195` | `csv_defaults` | PHP callable `csv_defaults`; see its DocBlock and callers for parameter, return-value and side-effect details. |
+| `classes/local/form_preprocessing.php:222` | `site_defaults` | PHP callable `site_defaults`; see its DocBlock and callers for parameter, return-value and side-effect details. |
 | `classes/local/form_validation.php:36` | `scalar_settings_errors` | Named PHP function/method `scalar_settings_errors`; see source DocBlock and callers for the current contract. |
 | `classes/local/form_validation.php:69` | `completion_percent_errors` | Validates the optional suffixed or fallback completion percentage and returns its group error. |
 | `classes/local/form_validation.php:91` | `bounded_integer_errors` | Validates one optional integer setting against inclusive bounds. |

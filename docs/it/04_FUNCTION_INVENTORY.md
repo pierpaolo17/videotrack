@@ -2,7 +2,7 @@
 
 Generato dall’albero sorgente VideoTrack 1.7.221. Le voci PHP includono funzioni e metodi nominati; le voci AMD includono dichiarazioni nominate, espressioni funzione assegnate e funzioni-metodo di oggetti.
 
-**Funzioni/metodi PHP:** 990. **Callable AMD nominati:** 654.
+**Funzioni/metodi PHP:** 991. **Callable AMD nominati:** 654.
 
 | Posizione | Callable | Responsabilità |
 |---|---|---|
@@ -960,9 +960,10 @@ Generato dall’albero sorgente VideoTrack 1.7.221. Le voci PHP includono funzio
 | `classes/local/focus_policy.php:121` | `effective_policy` | Riduce soltanto il blur strict per i membri autorizzati del gruppo. |
 | `classes/local/form_preprocessing.php:36` | `reaction_defaults` | Callable PHP `reaction_defaults`; DocBlock e chiamanti definiscono parametri, valori restituiti ed effetti. |
 | `classes/local/form_preprocessing.php:100` | `completion_defaults` | Callable PHP `completion_defaults`; DocBlock e chiamanti definiscono parametri, valori restituiti ed effetti. |
-| `classes/local/form_preprocessing.php:140` | `playback_defaults` | Callable PHP `playback_defaults`; DocBlock e chiamanti definiscono parametri, valori restituiti ed effetti. |
-| `classes/local/form_preprocessing.php:185` | `csv_defaults` | Callable PHP `csv_defaults`; DocBlock e chiamanti definiscono parametri, valori restituiti ed effetti. |
-| `classes/local/form_preprocessing.php:212` | `site_defaults` | Callable PHP `site_defaults`; DocBlock e chiamanti definiscono parametri, valori restituiti ed effetti. |
+| `classes/local/form_preprocessing.php:128` | `grade_and_media_defaults` | Callable PHP `grade_and_media_defaults`; DocBlock e chiamanti definiscono parametri, valori restituiti ed effetti. |
+| `classes/local/form_preprocessing.php:150` | `playback_defaults` | Callable PHP `playback_defaults`; DocBlock e chiamanti definiscono parametri, valori restituiti ed effetti. |
+| `classes/local/form_preprocessing.php:195` | `csv_defaults` | Callable PHP `csv_defaults`; DocBlock e chiamanti definiscono parametri, valori restituiti ed effetti. |
+| `classes/local/form_preprocessing.php:222` | `site_defaults` | Callable PHP `site_defaults`; DocBlock e chiamanti definiscono parametri, valori restituiti ed effetti. |
 | `classes/local/form_validation.php:36` | `scalar_settings_errors` | Funzione/metodo PHP nominato `scalar_settings_errors`; vedere DocBlock e chiamanti per il contratto corrente. |
 | `classes/local/form_validation.php:69` | `completion_percent_errors` | Valida la percentuale di completamento opzionale con suffisso o fallback e restituisce l'errore del gruppo. |
 | `classes/local/form_validation.php:91` | `bounded_integer_errors` | Valida un'impostazione intera opzionale rispetto a limiti inclusivi. |

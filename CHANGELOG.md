@@ -18,6 +18,13 @@
   Add behavioural tests for completion, playback and CSV defaults. Candidate
   CI must verify runtime behaviour and the PHPMD findings. XMLDB schema, AMD
   assets, services and language keys remain unchanged.
+- The first six CI jobs passed 24 Behat scenarios and ten validator checks
+  each, but PHPUnit reported one failure and one error among 334 tests. Correct
+  the editor-format assertion to compare Moodle's integer value, and enable
+  database reset before the test creates a course. PHPMD reported 32 findings,
+  including a new complexity finding in `completion_defaults()`. Separate the
+  grade and Vimeo defaults into a focused private helper; rerun CI to confirm
+  removal of the new finding and the two test problems before merging.
 
 ## 1.7.220 - 2026-11-02
 

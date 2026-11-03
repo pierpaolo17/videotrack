@@ -98,8 +98,6 @@ final class form_preprocessing {
      * @param int $instanceid Activity instance id, or zero for a new activity.
      */
     public static function completion_defaults(array &$defaultvalues, string $suffix, int $instanceid): void {
-        global $DB;
-
         $defaultvalues['acknowledgement_editor'] = [
             'text' => (string)($defaultvalues['acknowledgementtext'] ?? ''),
             'format' => (int)($defaultvalues['acknowledgementformat'] ?? FORMAT_HTML),
@@ -117,6 +115,18 @@ final class form_preprocessing {
         foreach (['completionpercent', 'completionacknowledgement', 'completionlogic'] as $field) {
             $defaultvalues[$field . $suffix] = $defaultvalues[$field];
         }
+
+        self::grade_and_media_defaults($defaultvalues, $instanceid);
+    }
+
+    /**
+     * Load the stored passing grade and mirror an existing Vimeo source URL.
+     *
+     * @param array $defaultvalues Moodle form default values, updated in place.
+     * @param int $instanceid Activity instance id, or zero for a new activity.
+     */
+    private static function grade_and_media_defaults(array &$defaultvalues, int $instanceid): void {
+        global $DB;
 
         // Pre-populate gradepass from the database when editing an existing activity.
         if (!isset($defaultvalues['gradepass']) && !empty($instanceid)) {
