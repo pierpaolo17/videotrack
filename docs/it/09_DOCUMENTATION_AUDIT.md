@@ -1,6 +1,6 @@
 # Audit della documentazione
 
-Baseline: VideoTrack **1.7.222** (`2026110302`).
+Baseline: VideoTrack **1.7.223** (`2026110303`).
 
 ## Perimetro
 
@@ -33,7 +33,9 @@ duplicano intenzionalmente procedure implementative, dizionari dei campi o lungh
 ## Rilievi sull'albero corrente
 
 - Gli indici inglese e italiano hanno stesso perimetro e ordinamento.
-- Marker documentali, README principali e artefatti ER identificano 1.7.222 / 2026110302.
+- Marker documentali, README principali e artefatti ER identificano 1.7.223 / 2026110303.
+- L’export privacy Moodle delega stato, segmenti, eventi, integrità e prese visione nello stesso ordine;
+  sei categorie di eventi conservano percorsi, pulizia dei dati, blocchi da 500 e ordine finale.
 - I controlli del form per sorgenti, file VTT, icone delle reazioni e forum mantengono l'ordine originale tramite
   helper dedicati; le righe delle reazioni conservano ordine degli errori e requisiti della configurazione;
   i controlli puri per valore icona e campi obbligatori risiedono in `reaction_form_validation`.

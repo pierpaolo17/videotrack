@@ -1,8 +1,8 @@
 # Function inventory
 
-Generated from the VideoTrack 1.7.222 source tree. PHP entries include named functions and methods; AMD entries include named declarations, assigned function expressions and object-method functions.
+Generated from the VideoTrack 1.7.223 source tree. PHP entries include named functions and methods; AMD entries include named declarations, assigned function expressions and object-method functions.
 
-**PHP functions/methods:** 993. **Named AMD callables:** 654.
+**PHP functions/methods:** 1006. **Named AMD callables:** 654.
 
 | Location | Callable | Responsibility |
 |---|---|---|
@@ -1124,8 +1124,17 @@ Generated from the VideoTrack 1.7.222 source tree. PHP entries include named fun
 | `classes/local/tracker.php:1061` | `aggregate_segments` | PHP callable `aggregate_segments`; see its DocBlock and callers for parameter, return-value and side-effect details. |
 | `classes/local/tracker.php:1107` | `rebuild_state_from_segments` | PHP callable `rebuild_state_from_segments`; see its DocBlock and callers for parameter, return-value and side-effect details. |
 | `classes/local/tracker.php:1194` | `refresh_completion` | PHP callable `refresh_completion`; see its DocBlock and callers for parameter, return-value and side-effect details. |
-| `classes/privacy/exporter.php:37` | `format_interval_second` | Formats video seconds as MM:SS for the approved learner export. |
-| `classes/privacy/exporter.php:47` | `export_user_data` | Streams approved tracking, reactions, integrity signals and acknowledgements using the Moodle privacy writer. |
+| `classes/privacy/event_exporter.php:44` | `export` | Streams six separate interaction categories in bounded chunks. |
+| `classes/privacy/event_exporter.php:85` | `prepare_event` | Transforms events and removes internal identifiers. |
+| `classes/privacy/event_exporter.php:109` | `category` | Selects the original reaction, note or bookmark category. |
+| `classes/privacy/event_exporter.php:128` | `write_chunk` | Writes the original translated path and category-specific payload. |
+| `classes/privacy/exporter.php:38` | `format_interval_second` | Formats video seconds as MM:SS for the approved learner export. |
+| `classes/privacy/exporter.php:48` | `export_user_data` | Delegates the approved module export in the historical section order. |
+| `classes/privacy/exporter.php:72` | `export_state` | Exports playback state with readable timestamps and intervals. |
+| `classes/privacy/exporter.php:116` | `format_intervals` | Formats valid watched intervals and localised fallbacks. |
+| `classes/privacy/exporter.php:150` | `export_segments` | Streams watched segments in 500-row chunks. |
+| `classes/privacy/exporter.php:206` | `export_integrity` | Streams labelled integrity signals in 500-row chunks. |
+| `classes/privacy/exporter.php:254` | `export_acknowledgements` | Exports the learner acknowledgement history. |
 | `classes/privacy/provider.php:44` | `get_metadata` | PHP callable `get_metadata`; see its DocBlock and callers for parameter, return-value and side-effect details. |
 | `classes/privacy/provider.php:137` | `add_external_location_metadata` | Declares YouTube and Vimeo external-location metadata after plugin database tables. |
 | `classes/privacy/provider.php:161` | `get_contexts_for_userid` | PHP callable `get_contexts_for_userid`; see its DocBlock and callers for parameter, return-value and side-effect details. |
@@ -1504,6 +1513,10 @@ Generated from the VideoTrack 1.7.222 source tree. PHP entries include named fun
 | `tests/player_resume_completion_alert_contract_test.php:91` | `test_completion_mutations_synchronise_moodle_state` | Named PHP function/method `test_completion_mutations_synchronise_moodle_state`; see source DocBlock and callers for the current contract. |
 | `tests/player_resume_completion_alert_contract_test.php:120` | `test_completion_transitions_avoid_redundant_events_and_writes` | Named PHP function/method `test_completion_transitions_avoid_redundant_events_and_writes`; see source DocBlock and callers for the current contract. |
 | `tests/player_resume_completion_alert_contract_test.php:136` | `test_persistent_notices_coexist_with_transient_status_messages` | Named PHP function/method `test_persistent_notices_coexist_with_transient_status_messages`; see source DocBlock and callers for the current contract. |
+| `tests/privacy_exporter_test.php:40` | `test_state_segments_and_deleted_event_categories_are_exported_for_approved_user` | Checks user isolation, state, segments and all six event export paths. |
+| `tests/privacy_exporter_test.php:120` | `test_event_chunks_keep_insertion_order_and_separate_counters` | Checks the 500-row boundary and independent category numbering. |
+| `tests/privacy_exporter_test.php:152` | `create_activity` | Creates a real course module context for privacy tests. |
+| `tests/privacy_exporter_test.php:183` | `insert_event` | Inserts an interaction with the requested owner, type and deletion state. |
 | `tests/privacy_manager_test.php:37` | `test_cleanup_deletes_expired_rows_and_rebuilds_state` | PHP callable `test_cleanup_deletes_expired_rows_and_rebuilds_state`; see its DocBlock and callers for parameter, return-value and side-effect details. |
 | `tests/privacy_manager_test.php:138` | `test_cleanup_removes_state_when_no_retained_inputs_remain` | PHP callable `test_cleanup_removes_state_when_no_retained_inputs_remain`; see its DocBlock and callers for parameter, return-value and side-effect details. |
 | `tests/privacy_manager_test.php:178` | `test_cleanup_preserves_recent_playback_guard` | PHP callable `test_cleanup_preserves_recent_playback_guard`; see its DocBlock and callers for parameter, return-value and side-effect details. |

@@ -195,3 +195,6 @@ dichiarazione di un parametro di metodo.
 - Configurazione degli analizzatori, perimetro di produzione, schema database e asset AMD non cambiano con queste
   pulizie delle API. I conteggi della candidata diventano autorevoli soltanto dopo aver conservato e revisionato gli
   artifact CI completi.
+- La CI e il server della 1.7.222 confermano 30 rilievi PHPMD. La candidata 1.7.223 suddivide
+  l’exporter privacy di 343 righe e le sei categorie, conservando percorsi, trasformazioni, blocchi da 500
+  e ordine di svuotamento. Due test PHPUnit verificano export e limite; PHPMD e gate runtime attendono la CI.

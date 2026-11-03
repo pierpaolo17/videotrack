@@ -1,5 +1,24 @@
 # VideoTrack changelog
 
+## 1.7.223 - 2026-11-03
+
+### Bounded privacy export by data category
+
+- Accepted the real 388-file 1.7.222 server ZIP byte-for-byte against the
+  approved candidate (SHA-256 `73cb0465f9fc100ce27ce0de1278da3a2af7e7e2bc27134729bf9498294e700d`).
+  Six post-merge CI jobs passed; the Moodle 5.0/5.3 server report passed
+  PHPCS, lint, Grunt and PHPUnit (335 tests and 2,986 assertions per site).
+  Both strict validators passed ten checks without warnings. PHPMD confirmed
+  30 advisory findings, with none added.
+- Separate state, segment, event, integrity and acknowledgement exports into
+  focused methods, and stream active/deleted reactions, notes and bookmarks
+  through six independently numbered 500-row buffers. Preserve existing
+  translation keys, section and final-flush order, timestamps, identifiers
+  removed from exported data and the Moodle privacy writer paths. Add two
+  runtime export tests for user isolation, category paths, transformations and
+  the chunk boundary. Candidate CI must confirm behaviour and the PHPMD
+  result; XMLDB schema, AMD, services and language keys remain unchanged.
+
 ## 1.7.222 - 2026-11-03
 
 ### Reaction notice defaults after timed-text drafts
