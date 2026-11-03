@@ -18,6 +18,7 @@ namespace mod_videotrack\privacy;
 
 use core_privacy\local\request\approved_contextlist;
 use core_privacy\local\request\transform;
+use core_privacy\local\request\content_writer;
 use core_privacy\local\request\writer;
 
 /**
@@ -45,112 +46,143 @@ final class exporter {
      * @param approved_contextlist $contextlist Approved context list.
      */
     public static function export_user_data(approved_contextlist $contextlist): void {
-        global $DB;
-
         $userid = $contextlist->get_user()->id;
         foreach ($contextlist->get_contexts() as $context) {
             if ($context->contextlevel != \core\context\module::LEVEL) {
                 continue;
             }
 
+            $cmid = $context->instanceid;
             $writer = writer::with_context($context);
+            self::export_state($cmid, $userid, $writer);
+            self::export_segments($cmid, $userid, $writer);
+            event_exporter::export($cmid, $userid, $writer);
+            self::export_integrity($cmid, $userid, $writer);
+            self::export_acknowledgements($cmid, $userid, $writer);
+        }
+    }
 
-            $state = $DB->get_record('videotrack_state', [
-                'cmid'   => $context->instanceid,
-                'userid' => $userid,
-            ]);
-            if ($state) {
-                $state->timemodified = transform::datetime($state->timemodified);
-                $state->timecreated  = transform::datetime($state->timecreated);
-                if (!empty($state->serverlastactivity)) {
-                    $state->serverlastactivity = transform::datetime((int)floor($state->serverlastactivity / 1000));
-                }
-                $state->iscompleted  = transform::yesno((bool)$state->iscompleted);
-                // Convert intervaljson from raw JSON to a human-readable string.
-                // So exported data remains understandable without technical knowledge.
-                // Example: "0:00-1:23, 2:45-3:10" instead of "[[0,83],[165,190]]".
-                if (!empty($state->intervaljson)) {
-                    $intervals = json_decode($state->intervaljson, true);
-                    if (is_array($intervals)) {
-                        $readable = [];
-                        foreach ($intervals as $seg) {
-                            if (!is_array($seg) || count($seg) < 2 || !is_numeric($seg[0]) || !is_numeric($seg[1])) {
-                                continue;
-                            }
-                            $start = (float)$seg[0];
-                            $end = (float)$seg[1];
-                            if ($end <= $start) {
-                                continue;
-                            }
-                            $readable[] = self::format_interval_second($start) . '-' . self::format_interval_second($end);
-                        }
-                        $state->intervaljson = $readable
-                            ? implode(', ', $readable)
-                            : get_string('privacy:intervals_none', 'mod_videotrack');
-                    } else {
-                        $state->intervaljson = get_string('privacy:intervals_unavailable', 'mod_videotrack');
+    /**
+     * Export the stored playback state and its readable watched intervals.
+     *
+     * @param int $cmid Course module ID.
+     * @param int $userid User ID.
+     * @param content_writer $writer Context-scoped privacy writer.
+     */
+    private static function export_state(int $cmid, int $userid, content_writer $writer): void {
+        global $DB;
+
+        $state = $DB->get_record('videotrack_state', [
+            'cmid'   => $cmid,
+            'userid' => $userid,
+        ]);
+        if ($state) {
+            $state->timemodified = transform::datetime($state->timemodified);
+            $state->timecreated  = transform::datetime($state->timecreated);
+            if (!empty($state->serverlastactivity)) {
+                $state->serverlastactivity = transform::datetime((int)floor($state->serverlastactivity / 1000));
+            }
+            $state->iscompleted  = transform::yesno((bool)$state->iscompleted);
+            $state->intervaljson = self::format_intervals($state->intervaljson);
+            if (!empty($state->videoid)) {
+                $state->videoid = get_string('privacy:videoid_export_note', 'mod_videotrack', $state->videoid);
+            }
+            unset(
+                $state->id,
+                $state->videotrackid,
+                $state->courseid,
+                $state->cmid,
+                $state->userid,
+                $state->sessionid
+            );
+        }
+        if ($state) {
+            $writer->export_data(
+                [
+                    get_string('watch', 'mod_videotrack'),
+                    get_string('privacy:state', 'mod_videotrack'),
+                ],
+                (object)['state' => $state]
+            );
+        }
+    }
+
+    /**
+     * Render stored watched intervals with the same fallback labels as the existing export.
+     *
+     * @param string|null $intervaljson Raw stored intervals.
+     * @return string Formatted intervals or a localised fallback.
+     */
+    private static function format_intervals(?string $intervaljson): string {
+        if (!empty($intervaljson)) {
+            $intervals = json_decode($intervaljson, true);
+            if (is_array($intervals)) {
+                $readable = [];
+                foreach ($intervals as $seg) {
+                    if (!self::has_interval_bounds($seg)) {
+                        continue;
                     }
-                } else {
-                    $state->intervaljson = get_string('privacy:intervals_none', 'mod_videotrack');
+                    $start = (float)$seg[0];
+                    $end = (float)$seg[1];
+                    if ($end <= $start) {
+                        continue;
+                    }
+                    $readable[] = self::format_interval_second($start) . '-' . self::format_interval_second($end);
                 }
-                if (!empty($state->videoid)) {
-                    $state->videoid = get_string('privacy:videoid_export_note', 'mod_videotrack', $state->videoid);
-                }
-                unset(
-                    $state->id,
-                    $state->videotrackid,
-                    $state->courseid,
-                    $state->cmid,
-                    $state->userid,
-                    $state->sessionid
-                );
+                return $readable
+                    ? implode(', ', $readable)
+                    : get_string('privacy:intervals_none', 'mod_videotrack');
+            } else {
+                return get_string('privacy:intervals_unavailable', 'mod_videotrack');
             }
-            if ($state) {
-                $writer->export_data(
-                    [
-                        get_string('watch', 'mod_videotrack'),
-                        get_string('privacy:state', 'mod_videotrack'),
-                    ],
-                    (object)['state' => $state]
-                );
-            }
+        } else {
+            return get_string('privacy:intervals_none', 'mod_videotrack');
+        }
+    }
 
-            $segmentrs = $DB->get_recordset('videotrack_seg', [
-                'cmid'   => $context->instanceid,
-                'userid' => $userid,
-            ], 'timecreated ASC');
-            $segments = [];
-            $chunk = 1;
-            foreach ($segmentrs as $segment) {
-                $segment->timecreated    = transform::datetime($segment->timecreated);
-                $segment->wallclockstart = transform::datetime($segment->wallclockstart);
-                $segment->wallclockend   = transform::datetime($segment->wallclockend);
-                if (!empty($segment->videoid)) {
-                    $segment->videoid = get_string('privacy:videoid_export_note', 'mod_videotrack', $segment->videoid);
-                }
-                unset(
-                    $segment->id,
-                    $segment->videotrackid,
-                    $segment->courseid,
-                    $segment->cmid,
-                    $segment->userid,
-                    $segment->sessionid
-                );
-                $segments[] = $segment;
-                if (count($segments) >= 500) {
-                    $writer->export_data(
-                        [
-                            get_string('watch', 'mod_videotrack'),
-                            get_string('privacy:segmentschunk', 'mod_videotrack', $chunk),
-                        ],
-                        (object)['segments' => $segments]
-                    );
-                    $segments = [];
-                    $chunk++;
-                }
+    /**
+     * Check that an interval supplies two numeric bounds.
+     *
+     * @param mixed $segment Decoded JSON entry.
+     * @return bool Whether both bounds can be formatted.
+     */
+    private static function has_interval_bounds($segment): bool {
+        return is_array($segment) && count($segment) >= 2 && is_numeric($segment[0]) && is_numeric($segment[1]);
+    }
+
+    /**
+     * Stream watched segments in 500-row chunks.
+     *
+     * @param int $cmid Course module ID.
+     * @param int $userid User ID.
+     * @param content_writer $writer Context-scoped privacy writer.
+     */
+    private static function export_segments(int $cmid, int $userid, content_writer $writer): void {
+        global $DB;
+
+        $segmentrs = $DB->get_recordset('videotrack_seg', [
+            'cmid'   => $cmid,
+            'userid' => $userid,
+        ], 'timecreated ASC');
+        $segments = [];
+        $chunk = 1;
+        foreach ($segmentrs as $segment) {
+            $segment->timecreated    = transform::datetime($segment->timecreated);
+            $segment->wallclockstart = transform::datetime($segment->wallclockstart);
+            $segment->wallclockend   = transform::datetime($segment->wallclockend);
+            if (!empty($segment->videoid)) {
+                $segment->videoid = get_string('privacy:videoid_export_note', 'mod_videotrack', $segment->videoid);
             }
-            $segmentrs->close();
-            if (!empty($segments)) {
+            unset(
+                $segment->id,
+                $segment->videotrackid,
+                $segment->courseid,
+                $segment->cmid,
+                $segment->userid,
+                $segment->sessionid
+            );
+            $segments[] = $segment;
+            if (count($segments) >= 500) {
                 $writer->export_data(
                     [
                         get_string('watch', 'mod_videotrack'),
@@ -158,211 +190,47 @@ final class exporter {
                     ],
                     (object)['segments' => $segments]
                 );
+                $segments = [];
+                $chunk++;
             }
+        }
+        $segmentrs->close();
+        if (!empty($segments)) {
+            $writer->export_data(
+                [
+                    get_string('watch', 'mod_videotrack'),
+                    get_string('privacy:segmentschunk', 'mod_videotrack', $chunk),
+                ],
+                (object)['segments' => $segments]
+            );
+        }
+    }
 
-            $eventrs = $DB->get_recordset('videotrack_reactev', [
-                'cmid'   => $context->instanceid,
-                'userid' => $userid,
-            ], 'timecreated ASC');
-            $active = [];
-            $deleted = [];
-            $notes = [];
-            $deletednotes = [];
-            $bookmarks = [];
-            $deletedbookmarks = [];
-            $activechunk = 1;
-            $deletedchunk = 1;
-            $noteschunk = 1;
-            $deletednoteschunk = 1;
-            $bookmarkschunk = 1;
-            $deletedbookmarkschunk = 1;
-            foreach ($eventrs as $reactionevent) {
-                $reactionevent->timecreated  = transform::datetime($reactionevent->timecreated);
-                $reactionevent->timemodified = transform::datetime($reactionevent->timemodified);
-                $isdeleted = !empty($reactionevent->isdeleted);
-                $reactionevent->isdeleted = transform::yesno($isdeleted);
-                if (!empty($reactionevent->videoid)) {
-                    $reactionevent->videoid = get_string('privacy:videoid_export_note', 'mod_videotrack', $reactionevent->videoid);
-                }
-                unset(
-                    $reactionevent->id,
-                    $reactionevent->videotrackid,
-                    $reactionevent->courseid,
-                    $reactionevent->cmid,
-                    $reactionevent->userid,
-                    $reactionevent->reactionid,
-                    $reactionevent->sessionid
-                );
+    /**
+     * Stream diagnostic signals in 500-row chunks.
+     *
+     * @param int $cmid Course module ID.
+     * @param int $userid User ID.
+     * @param content_writer $writer Context-scoped privacy writer.
+     */
+    private static function export_integrity(int $cmid, int $userid, content_writer $writer): void {
+        global $DB;
 
-                if (($reactionevent->notetype ?? '') === 'note') {
-                    if ($isdeleted) {
-                        $deletednotes[] = $reactionevent;
-                        if (count($deletednotes) >= 500) {
-                            $writer->export_data(
-                                [
-                                    get_string('studentnotes_title', 'mod_videotrack'),
-                                    get_string('privacy:notesdeletedchunk', 'mod_videotrack', $deletednoteschunk),
-                                ],
-                                (object)['notes' => $deletednotes]
-                            );
-                            $deletednotes = [];
-                            $deletednoteschunk++;
-                        }
-                    } else {
-                        $notes[] = $reactionevent;
-                        if (count($notes) >= 500) {
-                            $writer->export_data(
-                                [
-                                    get_string('studentnotes_title', 'mod_videotrack'),
-                                    get_string('privacy:notesactivechunk', 'mod_videotrack', $noteschunk),
-                                ],
-                                (object)['notes' => $notes]
-                            );
-                            $notes = [];
-                            $noteschunk++;
-                        }
-                    }
-                } else if (($reactionevent->notetype ?? '') === 'bookmark') {
-                    if ($isdeleted) {
-                        $deletedbookmarks[] = $reactionevent;
-                        if (count($deletedbookmarks) >= 500) {
-                            $writer->export_data(
-                                [
-                                    get_string('bookmarks_title', 'mod_videotrack'),
-                                    get_string('privacy:bookmarksdeletedchunk', 'mod_videotrack', $deletedbookmarkschunk),
-                                ],
-                                (object)['bookmarks' => $deletedbookmarks]
-                            );
-                            $deletedbookmarks = [];
-                            $deletedbookmarkschunk++;
-                        }
-                    } else {
-                        $bookmarks[] = $reactionevent;
-                        if (count($bookmarks) >= 500) {
-                            $writer->export_data(
-                                [
-                                    get_string('bookmarks_title', 'mod_videotrack'),
-                                    get_string('privacy:bookmarksactivechunk', 'mod_videotrack', $bookmarkschunk),
-                                ],
-                                (object)['bookmarks' => $bookmarks]
-                            );
-                            $bookmarks = [];
-                            $bookmarkschunk++;
-                        }
-                    }
-                } else if ($isdeleted) {
-                    $deleted[] = $reactionevent;
-                    if (count($deleted) >= 500) {
-                        $writer->export_data(
-                            [
-                                get_string('reactionsheader', 'mod_videotrack'),
-                                get_string('privacy:reactionsdeletedchunk', 'mod_videotrack', $deletedchunk),
-                            ],
-                            (object)['events' => $deleted]
-                        );
-                        $deleted = [];
-                        $deletedchunk++;
-                    }
-                } else {
-                    $active[] = $reactionevent;
-                    if (count($active) >= 500) {
-                        $writer->export_data(
-                            [
-                                get_string('reactionsheader', 'mod_videotrack'),
-                                get_string('privacy:reactionsactivechunk', 'mod_videotrack', $activechunk),
-                            ],
-                            (object)['events' => $active]
-                        );
-                        $active = [];
-                        $activechunk++;
-                    }
-                }
-            }
-            $eventrs->close();
-
-            if (!empty($active)) {
-                $writer->export_data(
-                    [
-                        get_string('reactionsheader', 'mod_videotrack'),
-                        get_string('privacy:reactionsactivechunk', 'mod_videotrack', $activechunk),
-                    ],
-                    (object)['events' => $active]
-                );
-            }
-            if (!empty($deleted)) {
-                $writer->export_data(
-                    [
-                        get_string('reactionsheader', 'mod_videotrack'),
-                        get_string('privacy:reactionsdeletedchunk', 'mod_videotrack', $deletedchunk),
-                    ],
-                    (object)['events' => $deleted]
-                );
-            }
-            if (!empty($notes)) {
-                $writer->export_data(
-                    [
-                        get_string('studentnotes_title', 'mod_videotrack'),
-                        get_string('privacy:notesactivechunk', 'mod_videotrack', $noteschunk),
-                    ],
-                    (object)['notes' => $notes]
-                );
-            }
-            if (!empty($deletednotes)) {
-                $writer->export_data(
-                    [
-                        get_string('studentnotes_title', 'mod_videotrack'),
-                        get_string('privacy:notesdeletedchunk', 'mod_videotrack', $deletednoteschunk),
-                    ],
-                    (object)['notes' => $deletednotes]
-                );
-            }
-            if (!empty($bookmarks)) {
-                $writer->export_data(
-                    [
-                        get_string('bookmarks_title', 'mod_videotrack'),
-                        get_string('privacy:bookmarksactivechunk', 'mod_videotrack', $bookmarkschunk),
-                    ],
-                    (object)['bookmarks' => $bookmarks]
-                );
-            }
-            if (!empty($deletedbookmarks)) {
-                $writer->export_data(
-                    [
-                        get_string('bookmarks_title', 'mod_videotrack'),
-                        get_string('privacy:bookmarksdeletedchunk', 'mod_videotrack', $deletedbookmarkschunk),
-                    ],
-                    (object)['bookmarks' => $deletedbookmarks]
-                );
-            }
-
-            $integrityrs = $DB->get_recordset('videotrack_integrity', [
-                'cmid' => $context->instanceid,
-                'userid' => $userid,
-            ], 'timecreated ASC', 'id, eventtype, videotime, timecreated');
-            $integrityevents = [];
-            $integritychunk = 1;
-            foreach ($integrityrs as $integrityevent) {
-                $integrityevent->eventtype = get_string(
-                    \mod_videotrack\local\integrity::label_string((string)$integrityevent->eventtype),
-                    'mod_videotrack'
-                );
-                $integrityevent->videotime = self::format_interval_second((float)$integrityevent->videotime);
-                $integrityevent->timecreated = transform::datetime((int)$integrityevent->timecreated);
-                $integrityevents[] = $integrityevent;
-                if (count($integrityevents) >= 500) {
-                    $writer->export_data(
-                        [
-                            get_string('integrity:reporttitle', 'mod_videotrack'),
-                            get_string('privacy:integritychunk', 'mod_videotrack', $integritychunk),
-                        ],
-                        (object)['signals' => $integrityevents]
-                    );
-                    $integrityevents = [];
-                    $integritychunk++;
-                }
-            }
-            $integrityrs->close();
-            if ($integrityevents) {
+        $integrityrs = $DB->get_recordset('videotrack_integrity', [
+            'cmid' => $cmid,
+            'userid' => $userid,
+        ], 'timecreated ASC', 'id, eventtype, videotime, timecreated');
+        $integrityevents = [];
+        $integritychunk = 1;
+        foreach ($integrityrs as $integrityevent) {
+            $integrityevent->eventtype = get_string(
+                \mod_videotrack\local\integrity::label_string((string)$integrityevent->eventtype),
+                'mod_videotrack'
+            );
+            $integrityevent->videotime = self::format_interval_second((float)$integrityevent->videotime);
+            $integrityevent->timecreated = transform::datetime((int)$integrityevent->timecreated);
+            $integrityevents[] = $integrityevent;
+            if (count($integrityevents) >= 500) {
                 $writer->export_data(
                     [
                         get_string('integrity:reporttitle', 'mod_videotrack'),
@@ -370,21 +238,44 @@ final class exporter {
                     ],
                     (object)['signals' => $integrityevents]
                 );
+                $integrityevents = [];
+                $integritychunk++;
             }
+        }
+        $integrityrs->close();
+        if ($integrityevents) {
+            $writer->export_data(
+                [
+                    get_string('integrity:reporttitle', 'mod_videotrack'),
+                    get_string('privacy:integritychunk', 'mod_videotrack', $integritychunk),
+                ],
+                (object)['signals' => $integrityevents]
+            );
+        }
+    }
 
-            $acknowledgements = $DB->get_records('videotrack_acknowledge', [
-                'cmid' => $context->instanceid,
-                'userid' => $userid,
-            ], 'timeconfirmed ASC', 'id, statementhash, instanceversion, viewedseconds, viewedpercent, timeconfirmed');
-            foreach ($acknowledgements as $acknowledgement) {
-                $acknowledgement->timeconfirmed = transform::datetime((int)$acknowledgement->timeconfirmed);
-            }
-            if ($acknowledgements) {
-                $writer->export_data(
-                    [get_string('acknowledgement:privacyexport', 'mod_videotrack')],
-                    (object)['confirmations' => array_values($acknowledgements)]
-                );
-            }
+    /**
+     * Export the learner acknowledgement history.
+     *
+     * @param int $cmid Course module ID.
+     * @param int $userid User ID.
+     * @param content_writer $writer Context-scoped privacy writer.
+     */
+    private static function export_acknowledgements(int $cmid, int $userid, content_writer $writer): void {
+        global $DB;
+
+        $acknowledgements = $DB->get_records('videotrack_acknowledge', [
+            'cmid' => $cmid,
+            'userid' => $userid,
+        ], 'timeconfirmed ASC', 'id, statementhash, instanceversion, viewedseconds, viewedpercent, timeconfirmed');
+        foreach ($acknowledgements as $acknowledgement) {
+            $acknowledgement->timeconfirmed = transform::datetime((int)$acknowledgement->timeconfirmed);
+        }
+        if ($acknowledgements) {
+            $writer->export_data(
+                [get_string('acknowledgement:privacyexport', 'mod_videotrack')],
+                (object)['confirmations' => array_values($acknowledgements)]
+            );
         }
     }
 }
