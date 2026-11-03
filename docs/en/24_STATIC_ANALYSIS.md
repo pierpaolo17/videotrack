@@ -173,6 +173,12 @@ line, not for redeclaring a method parameter.
   and reported 34 findings, including a new `TooManyMethods` on the form. An incremental correction moves
   both pure checks into a focused `reaction_form_validation` class. Its six CI jobs confirmed 33 findings
   with no new ones, but the Moodle 5.0/MariaDB quality job found nine PHPCS formatting errors. A further
-  incremental patch fixes multiline call formatting and the class closing brace; rerun CI before merging.
+  incremental patch fixed multiline call formatting and the class closing brace. Six corrected and six
+  post-merge CI jobs passed with the same 33 findings and no new ones. The 1.7.221 candidate moves form
+  edit-default preparation into a focused class while retaining Moodle's parent call and draft order;
+  CI must confirm the method-length, cyclomatic and NPath results without new findings.
+- The first 1.7.221 CI found 32 PHPMD findings: two form-method complexity findings disappeared, while a new
+  cyclomatic finding appeared in the extracted completion helper. A follow-up separates grade and Vimeo defaults
+  from completion rules and corrects two runtime-test problems; CI must confirm the corrected result.
 - Static-analysis configuration, production scope, database schema and AMD assets are unchanged by these API
   cleanups. Candidate counts remain authoritative only after the complete CI artifacts are retained and reviewed.
