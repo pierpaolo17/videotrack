@@ -1,6 +1,6 @@
 # Distributed file inventory
 
-This inventory is generated against the VideoTrack 1.7.221 repository tree. It lists every distributed
+This inventory is generated against the VideoTrack 1.7.222 repository tree. It lists every distributed
 non-documentation file plus repository-only CI/tooling/hygiene files. Canonical JavaScript is under `amd/src`; files under
 `amd/build` are generated.
 
@@ -212,7 +212,7 @@ Entries: **327** — 324 distributed files and three repository-only files exclu
 | `classes/local/csv_export_fields.php` | Resolves configured CSV fields, visible identity choices and selected user records. |
 | `classes/local/csv_export_identity.php` | Formats CSV identity columns, Moodle field labels and video links. |
 | `classes/local/focus_policy.php` | Course-local strict-focus accessibility exception backed by a hidden Moodle core group. |
-| `classes/local/form_preprocessing.php` | Prepares reaction drafts, completion, playback, CSV and site defaults before form rendering. |
+| `classes/local/form_preprocessing.php` | Prepares reaction drafts, notice/preset, completion, playback, CSV and site defaults before form rendering. |
 | `classes/local/form_validation.php` | Autonomous scalar/JSON validation policy for the activity settings form. |
 | `classes/local/forum_bridge.php` | Forum integration adapter for VideoTrack. |
 | `classes/local/integrity.php` | Integrity-indicator definitions and privacy-safe aggregation helpers. |

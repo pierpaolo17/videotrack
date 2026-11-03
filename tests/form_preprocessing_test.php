@@ -56,6 +56,30 @@ final class form_preprocessing_test extends \advanced_testcase {
     }
 
     /**
+     * An existing notice editor takes precedence, while presets are always prepared.
+     */
+    public function test_reaction_notice_defaults_preserve_editors_and_presets(): void {
+        $values = [
+            'reactionnotice' => 'Saved notice',
+            'reactionnoticeformat' => FORMAT_HTML,
+        ];
+        form_preprocessing::reaction_notice_defaults($values);
+        $this->assertSame([
+            'text' => 'Saved notice',
+            'format' => FORMAT_HTML,
+        ], $values['reactionnotice_editor']);
+        $this->assertIsArray(json_decode($values['reactionpreset_json'], true));
+
+        $existing = [
+            'reactionnotice' => 'Saved notice',
+            'reactionnotice_editor' => ['text' => 'Unsubmitted edit', 'format' => FORMAT_HTML],
+        ];
+        form_preprocessing::reaction_notice_defaults($existing);
+        $this->assertSame('Unsubmitted edit', $existing['reactionnotice_editor']['text']);
+        $this->assertIsArray(json_decode($existing['reactionpreset_json'], true));
+    }
+
+    /**
      * Explicit playback settings select only their speed and control checkboxes.
      */
     public function test_playback_defaults_preserve_selected_controls(): void {

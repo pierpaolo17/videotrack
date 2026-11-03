@@ -1,5 +1,24 @@
 # VideoTrack changelog
 
+## 1.7.222 - 2026-11-03
+
+### Reaction notice defaults after timed-text drafts
+
+- Accepted the real 388-file 1.7.221 server ZIP byte-for-byte against the
+  approved candidate (SHA-256 `b514c7f2af76c7c345ad2cec6f4a2a8c6d27640d9d9602c5b083d4a44225082b`).
+  All six post-merge CI jobs passed 334 PHPUnit tests, 2,982 assertions,
+  24 Behat scenarios and ten validator checks each. PHPMD confirmed 31
+  advisory findings without new ones. The Moodle 5.0/5.3 server report
+  passed PHPCS, lint, Grunt and PHPUnit (334 tests and 2,982 assertions per
+  site). Both manual strict validators passed ten checks without warnings.
+- Move reaction notice editor and preset defaults to `form_preprocessing` while
+  retaining their order after timed-text draft preparation and before the
+  poster draft. Preserve submitted editor precedence and preset JSON content;
+  add a focused runtime test for both cases. This targets the remaining
+  `ExcessiveMethodLength` finding on `mod_form::data_preprocessing()` (101
+  lines in the 1.7.221 CI). Candidate CI must confirm the result without new
+  findings. XMLDB schema, AMD, AJAX services and language keys are unchanged.
+
 ## 1.7.221 - 2026-11-03
 
 ### Activity form defaults and edit drafts

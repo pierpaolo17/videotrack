@@ -1592,17 +1592,7 @@ JS);
                 }
             }
         }
-        if (
-            !isset($defaultvalues['reactionnotice_editor'])
-            && isset($defaultvalues['reactionnotice'])
-        ) {
-            $defaultvalues['reactionnotice_editor'] = [
-                'text'   => $defaultvalues['reactionnotice'],
-                'format' => $defaultvalues['reactionnoticeformat'] ?? FORMAT_HTML,
-            ];
-        }
-        $defaultvalues['reactionpreset_json'] =
-            json_encode(videotrack_get_all_presets_for_js());
+        \mod_videotrack\local\form_preprocessing::reaction_notice_defaults($defaultvalues);
 
         // Prepare the poster image draft area for all video sources.
         if (!empty($this->_instance)) {

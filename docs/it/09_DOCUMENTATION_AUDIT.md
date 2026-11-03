@@ -1,6 +1,6 @@
 # Audit della documentazione
 
-Baseline: VideoTrack **1.7.221** (`2026110301`).
+Baseline: VideoTrack **1.7.222** (`2026110302`).
 
 ## Perimetro
 
@@ -33,12 +33,14 @@ duplicano intenzionalmente procedure implementative, dizionari dei campi o lungh
 ## Rilievi sull'albero corrente
 
 - Gli indici inglese e italiano hanno stesso perimetro e ordinamento.
-- Marker documentali, README principali e artefatti ER identificano 1.7.221 / 2026110301.
+- Marker documentali, README principali e artefatti ER identificano 1.7.222 / 2026110302.
 - I controlli del form per sorgenti, file VTT, icone delle reazioni e forum mantengono l'ordine originale tramite
   helper dedicati; le righe delle reazioni conservano ordine degli errori e requisiti della configurazione;
   i controlli puri per valore icona e campi obbligatori risiedono in `reaction_form_validation`.
 - `form_preprocessing` mantiene l'ordine dei default per reazioni, completamento, playback, CSV e sito;
   le bozze VTT e poster restano nel form dopo la chiamata al parent Moodle.
+- L'editor dell'avviso reazioni e il JSON dei preset sono preparati dopo i draft VTT e prima della bozza poster;
+  un editor già presente viene mantenuto quando esiste un avviso salvato.
 - `videotrack_pluginfile()` mantiene firma e ordine dei controlli del callback Moodle; helper dedicati
   verificano aree, percorsi, estensione/MIME/contenuto WebVTT e regole di download/cache.
 - `privacy_retention_pair` elabora ogni coppia con gli stessi lock, transazione e completamento
