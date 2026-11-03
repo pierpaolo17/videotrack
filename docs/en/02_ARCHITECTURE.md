@@ -19,6 +19,14 @@ private validators. Custom completion enablement similarly combines three explic
 a duration and positive percentage; reaction rules require reactions to be enabled; acknowledgement requires both
 the feature and its completion flag. Suffixed Moodle completion fields fall back to their unsuffixed values.
 
+## Form construction boundary
+
+`form_definition` builds Forum and acknowledgement groups at their existing positions in the activity form.
+The Forum group uses the shared course/type/deletion-filtered options, including status labels and an explicit
+placeholder for an unavailable saved destination. Acknowledgement fields retain timing choices, defaults,
+dependencies and the activity context with file attachments and trusted HTML disabled in the editor.
+The activity form keeps submitted validation and the final section-expansion policy.
+
 ## Media input parsing boundary
 
 Server-side YouTube and Vimeo URL handling starts in `locallib.php` with one provider-neutral HTTPS normaliser.

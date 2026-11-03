@@ -1,6 +1,6 @@
 # Documentation audit
 
-Baseline: VideoTrack **1.7.223** (`2026110303`).
+Baseline: VideoTrack **1.7.224** (`2026110304`).
 
 ## Scope
 
@@ -32,8 +32,11 @@ not duplicate implementation procedures, field dictionaries or long security/pri
 
 ## Current-tree findings
 
+- `form_definition` owns Forum and acknowledgement field construction in their existing positions;
+  course-scoped choices, saved placeholders and the editor context/options remain explicit. The activity form
+  retains submitted validation and section expansion without a direct acknowledgement-class dependency.
 - English and Italian indexes have matching scope and ordering.
-- Documentation markers, root README files and ER artefacts identify 1.7.223 / 2026110303.
+- Documentation markers, root README files and ER artefacts identify 1.7.224 / 2026110304.
 - The Moodle privacy export delegates state, segment, event, integrity and acknowledgement sections in order;
   six event categories preserve the original paths, sanitisation, 500-row streaming and final flush order.
 - Activity-form source, timed-text, reaction-file and forum checks remain in their original order behind focused helpers;

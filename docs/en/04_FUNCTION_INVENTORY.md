@@ -1,8 +1,8 @@
 # Function inventory
 
-Generated from the VideoTrack 1.7.223 source tree. PHP entries include named functions and methods; AMD entries include named declarations, assigned function expressions and object-method functions.
+Generated from the VideoTrack 1.7.224 source tree. PHP entries include named functions and methods; AMD entries include named declarations, assigned function expressions and object-method functions.
 
-**PHP functions/methods:** 1007. **Named AMD callables:** 654.
+**PHP functions/methods:** 1014. **Named AMD callables:** 654.
 
 | Location | Callable | Responsibility |
 |---|---|---|
@@ -958,6 +958,8 @@ Generated from the VideoTrack 1.7.223 source tree. PHP entries include named fun
 | `classes/local/focus_policy.php:60` | `ensure_exception_group` | Idempotently creates or repairs the hidden, non-participating exception group. |
 | `classes/local/focus_policy.php:97` | `user_has_exception` | Resolves direct core group membership without exposing hidden membership. |
 | `classes/local/focus_policy.php:121` | `effective_policy` | Downgrades only strict window-blur handling for authorised group members. |
+| `classes/local/form_definition.php:34` | `add_forum_elements` | Adds the optional Forum group using course-scoped choices and saved activity settings. |
+| `classes/local/form_definition.php:104` | `add_acknowledgement_elements` | Adds acknowledgement fields with the original context, timing and editor options. |
 | `classes/local/form_preprocessing.php:36` | `reaction_defaults` | PHP callable `reaction_defaults`; see its DocBlock and callers for parameter, return-value and side-effect details. |
 | `classes/local/form_preprocessing.php:98` | `reaction_notice_defaults` | PHP callable `reaction_notice_defaults`; see its DocBlock and callers for parameter, return-value and side-effect details. |
 | `classes/local/form_preprocessing.php:119` | `completion_defaults` | PHP callable `completion_defaults`; see its DocBlock and callers for parameter, return-value and side-effect details. |
@@ -1264,30 +1266,30 @@ Generated from the VideoTrack 1.7.223 source tree. PHP entries include named fun
 | `locallib.php:1070` | `videotrack_build_forum_subject` | PHP callable `videotrack_build_forum_subject`; see its DocBlock and callers for parameter, return-value and side-effect details. |
 | `locallib.php:1099` | `videotrack_build_replay_url` | PHP callable `videotrack_build_replay_url`; see its DocBlock and callers for parameter, return-value and side-effect details. |
 | `mod_form.php:47` | `definition` | PHP callable `definition`; see its DocBlock and callers for parameter, return-value and side-effect details. |
-| `mod_form.php:1128` | `apply_default_section_expansion` | PHP callable `apply_default_section_expansion`; see its DocBlock and callers for parameter, return-value and side-effect details. |
-| `mod_form.php:1165` | `require_filepicker_accept_filter` | PHP callable `require_filepicker_accept_filter`; see its DocBlock and callers for parameter, return-value and side-effect details. |
-| `mod_form.php:1211` | `add_reaction_elements` | PHP callable `add_reaction_elements`; see its DocBlock and callers for parameter, return-value and side-effect details. |
-| `mod_form.php:1251` | `add_reaction_row_fields` | Adds the current row fields and icon picker in their original order. |
-| `mod_form.php:1349` | `add_reaction_row_visibility` | Applies the existing icon visibility and disabling rules after the fields. |
-| `mod_form.php:1412` | `get_reaction_repeat_count` | PHP callable `get_reaction_repeat_count`; see its DocBlock and callers for parameter, return-value and side-effect details. |
-| `mod_form.php:1440` | `add_completion_rules` | PHP callable `add_completion_rules`; see its DocBlock and callers for parameter, return-value and side-effect details. |
-| `mod_form.php:1509` | `completion_rule_enabled` | PHP callable `completion_rule_enabled`; see its DocBlock and callers for parameter, return-value and side-effect details. |
-| `mod_form.php:1521` | `data_preprocessing` | PHP callable `data_preprocessing`; see its DocBlock and callers for parameter, return-value and side-effect details. |
-| `mod_form.php:1620` | `draft_area_contains_only_reaction_images` | PHP callable `draft_area_contains_only_reaction_images`; see its DocBlock and callers for parameter, return-value and side-effect details. |
-| `mod_form.php:1656` | `draft_area_contains_only_vtt` | PHP callable `draft_area_contains_only_vtt`; see its DocBlock and callers for parameter, return-value and side-effect details. |
-| `mod_form.php:1687` | `source_errors` | PHP callable `source_errors`; see its DocBlock and callers for parameter, return-value and side-effect details. |
-| `mod_form.php:1707` | `youtube_source_errors` | PHP callable `youtube_source_errors`; see its DocBlock and callers for parameter, return-value and side-effect details. |
-| `mod_form.php:1720` | `vimeo_source_errors` | PHP callable `vimeo_source_errors`; see its DocBlock and callers for parameter, return-value and side-effect details. |
-| `mod_form.php:1733` | `upload_source_errors` | PHP callable `upload_source_errors`; see its DocBlock and callers for parameter, return-value and side-effect details. |
-| `mod_form.php:1752` | `timed_text_errors` | PHP callable `timed_text_errors`; see its DocBlock and callers for parameter, return-value and side-effect details. |
-| `mod_form.php:1777` | `timed_text_draft_errors` | PHP callable `timed_text_draft_errors`; see its DocBlock and callers for parameter, return-value and side-effect details. |
-| `mod_form.php:1802` | `timed_text_required_errors` | PHP callable `timed_text_required_errors`; see its DocBlock and callers for parameter, return-value and side-effect details. |
-| `mod_form.php:1830` | `reaction_file_icon_errors` | PHP callable `reaction_file_icon_errors`; see its DocBlock and callers for parameter, return-value and side-effect details. |
-| `mod_form.php:1868` | `existing_reaction_icon_file` | PHP callable `existing_reaction_icon_file`; see its DocBlock and callers for parameter, return-value and side-effect details. |
-| `mod_form.php:1891` | `forum_errors` | PHP callable `forum_errors`; see its DocBlock and callers for parameter, return-value and side-effect details. |
-| `mod_form.php:1912` | `reaction_errors` | PHP callable `reaction_errors`; see its DocBlock and callers for parameter, return-value and side-effect details. |
-| `mod_form.php:1936` | `reaction_row_errors` | PHP callable `reaction_row_errors`; see its DocBlock and callers for parameter, return-value and side-effect details. |
-| `mod_form.php:1990` | `validation` | PHP callable `validation`; see its DocBlock and callers for parameter, return-value and side-effect details. |
+| `mod_form.php:1027` | `apply_default_section_expansion` | PHP callable `apply_default_section_expansion`; see its DocBlock and callers for parameter, return-value and side-effect details. |
+| `mod_form.php:1064` | `require_filepicker_accept_filter` | PHP callable `require_filepicker_accept_filter`; see its DocBlock and callers for parameter, return-value and side-effect details. |
+| `mod_form.php:1110` | `add_reaction_elements` | PHP callable `add_reaction_elements`; see its DocBlock and callers for parameter, return-value and side-effect details. |
+| `mod_form.php:1150` | `add_reaction_row_fields` | Adds the current row fields and icon picker in their original order. |
+| `mod_form.php:1248` | `add_reaction_row_visibility` | Applies the existing icon visibility and disabling rules after the fields. |
+| `mod_form.php:1311` | `get_reaction_repeat_count` | PHP callable `get_reaction_repeat_count`; see its DocBlock and callers for parameter, return-value and side-effect details. |
+| `mod_form.php:1339` | `add_completion_rules` | PHP callable `add_completion_rules`; see its DocBlock and callers for parameter, return-value and side-effect details. |
+| `mod_form.php:1408` | `completion_rule_enabled` | PHP callable `completion_rule_enabled`; see its DocBlock and callers for parameter, return-value and side-effect details. |
+| `mod_form.php:1420` | `data_preprocessing` | PHP callable `data_preprocessing`; see its DocBlock and callers for parameter, return-value and side-effect details. |
+| `mod_form.php:1519` | `draft_area_contains_only_reaction_images` | PHP callable `draft_area_contains_only_reaction_images`; see its DocBlock and callers for parameter, return-value and side-effect details. |
+| `mod_form.php:1555` | `draft_area_contains_only_vtt` | PHP callable `draft_area_contains_only_vtt`; see its DocBlock and callers for parameter, return-value and side-effect details. |
+| `mod_form.php:1586` | `source_errors` | PHP callable `source_errors`; see its DocBlock and callers for parameter, return-value and side-effect details. |
+| `mod_form.php:1606` | `youtube_source_errors` | PHP callable `youtube_source_errors`; see its DocBlock and callers for parameter, return-value and side-effect details. |
+| `mod_form.php:1619` | `vimeo_source_errors` | PHP callable `vimeo_source_errors`; see its DocBlock and callers for parameter, return-value and side-effect details. |
+| `mod_form.php:1632` | `upload_source_errors` | PHP callable `upload_source_errors`; see its DocBlock and callers for parameter, return-value and side-effect details. |
+| `mod_form.php:1651` | `timed_text_errors` | PHP callable `timed_text_errors`; see its DocBlock and callers for parameter, return-value and side-effect details. |
+| `mod_form.php:1676` | `timed_text_draft_errors` | PHP callable `timed_text_draft_errors`; see its DocBlock and callers for parameter, return-value and side-effect details. |
+| `mod_form.php:1701` | `timed_text_required_errors` | PHP callable `timed_text_required_errors`; see its DocBlock and callers for parameter, return-value and side-effect details. |
+| `mod_form.php:1729` | `reaction_file_icon_errors` | PHP callable `reaction_file_icon_errors`; see its DocBlock and callers for parameter, return-value and side-effect details. |
+| `mod_form.php:1767` | `existing_reaction_icon_file` | PHP callable `existing_reaction_icon_file`; see its DocBlock and callers for parameter, return-value and side-effect details. |
+| `mod_form.php:1790` | `forum_errors` | PHP callable `forum_errors`; see its DocBlock and callers for parameter, return-value and side-effect details. |
+| `mod_form.php:1811` | `reaction_errors` | PHP callable `reaction_errors`; see its DocBlock and callers for parameter, return-value and side-effect details. |
+| `mod_form.php:1835` | `reaction_row_errors` | PHP callable `reaction_row_errors`; see its DocBlock and callers for parameter, return-value and side-effect details. |
+| `mod_form.php:1889` | `validation` | PHP callable `validation`; see its DocBlock and callers for parameter, return-value and side-effect details. |
 | `reports_course.php:34` | `videotrack_course_report_count_cell` | PHP callable `videotrack_course_report_count_cell`; see its DocBlock and callers for parameter, return-value and side-effect details. |
 | `reports_course.php:48` | `videotrack_course_report_percentage_cell` | PHP callable `videotrack_course_report_percentage_cell`; renders the text-only aggregate percentage. |
 | `reports_course.php:67` | `videotrack_course_report_percentage_bar_cell` | PHP callable `videotrack_course_report_percentage_bar_cell`; renders the aggregate percentage with its accessible compact bar. |
@@ -1434,6 +1436,11 @@ Generated from the VideoTrack 1.7.223 source tree. PHP entries include named fun
 | `tests/focus_policy_test.php:83` | `test_non_member_keeps_strict_policy` | Verifies strict policy remains effective outside the exception group. |
 | `tests/focus_policy_test.php:104` | `test_hidden_only_site_policy_is_unchanged` | Verifies the exception never weakens the normal hidden-only policy. |
 | `tests/focus_policy_test.php:123` | `test_activity_lifecycle_and_view_are_wired_to_focus_policy` | Verifies add, update, restore and view integration contracts. |
+| `tests/form_definition_test.php:35` | `setUp` | Loads Moodle QuickForm and the shared Forum queries. |
+| `tests/form_definition_test.php:46` | `test_empty_course_disables_posting_and_freezes_destination` | Checks the disabled empty-course state and destination freeze. |
+| `tests/form_definition_test.php:64` | `test_choices_keep_course_scope_and_module_status` | Checks course, type and deletion filters, choice order and hidden status. |
+| `tests/form_definition_test.php:105` | `test_unavailable_saved_forum_remains_an_editable_placeholder` | Checks the saved unavailable placeholder without exposing another course’s label. |
+| `tests/form_definition_test.php:131` | `test_acknowledgement_fields_keep_context_and_safe_editor_options` | Checks acknowledgement timing choices and the original context and editor safety options. |
 | `tests/form_preprocessing_test.php:36` | `test_completion_defaults_preserve_edit_values` | PHP callable `test_completion_defaults_preserve_edit_values`; see its DocBlock and callers for parameter, return-value and side-effect details. |
 | `tests/form_preprocessing_test.php:61` | `test_reaction_notice_defaults_preserve_editors_and_presets` | PHP callable `test_reaction_notice_defaults_preserve_editors_and_presets`; see its DocBlock and callers for parameter, return-value and side-effect details. |
 | `tests/form_preprocessing_test.php:85` | `test_playback_defaults_preserve_selected_controls` | PHP callable `test_playback_defaults_preserve_selected_controls`; see its DocBlock and callers for parameter, return-value and side-effect details. |

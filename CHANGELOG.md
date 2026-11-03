@@ -1,5 +1,30 @@
 # VideoTrack changelog
 
+## 1.7.224 - 2026-11-03
+
+### Focused Forum and acknowledgement form construction
+
+- Accepted the real 390-file 1.7.223 ZIP against the merged commit
+  `42b8b472440ecdf8913ecf9ebbf866a2c09d7694`. All six post-merge CI jobs passed
+  337 PHPUnit tests, 3,033 assertions, 24 Behat scenarios and ten validator checks
+  each. The Moodle 5.0/5.3 server report passed PHPCS, lint, Grunt and the same
+  PHPUnit suite; both manual strict validators reported ten passes, zero
+  warnings and zero failures. The canonical CI confirmed 27 advisory PHPMD findings.
+- Move the optional Forum and acknowledgement settings from `mod_form::definition()`
+  to `form_definition`, preserving their original positions, field order, defaults
+  and dependencies. Keep the course/type/deletion filters, unavailable saved Forum
+  destination and context-scoped acknowledgement editor options. Four runtime
+  tests use Moodle QuickForm and real course/Forum records.
+- The first six candidate CI jobs passed 340 PHPUnit tests, 3,058 assertions,
+  24 Behat scenarios and ten validator checks each. PHPCS, PHPDoc, lint,
+  Grunt, PHPStan and Psalm passed their configured gates, but PHPMD reported
+  28 findings: the new Forum builder raised the form's object coupling to 13.
+  Rename the shared form-construction owner and delegate acknowledgement fields
+  to it, removing the form's direct acknowledgement-class dependency without
+  changing field construction. Add the editor-context test and rerun all six
+  jobs to confirm the expected 27 findings without new findings. Release and
+  version code remain 1.7.224 / 2026110304; merge only after corrected CI.
+
 ## 1.7.223 - 2026-11-03
 
 ### Bounded privacy export by data category
