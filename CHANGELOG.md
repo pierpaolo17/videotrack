@@ -1,5 +1,32 @@
 # VideoTrack changelog
 
+## 1.7.228 - 2026-11-04
+
+### Course-scoped player behaviour in the activity form
+
+- Accepted the real 392-file 1.7.227 ZIP byte-for-byte against the approved
+  candidate and merged commit `8d6b2584bc68d759d6c165f546e44c17afab8fd8`.
+  Its SHA-256 is `700efdc41dfcd8ec72cf1c73aee30b276024350dd0bffc2ff38c8f8f876b5e9c`.
+  All six corrected and post-merge CI jobs passed 348 PHPUnit tests, 3,152
+  assertions, 24 Behat scenarios and ten validator checks each. PHPMD confirmed
+  the same 27 advisory findings without new findings. The Moodle 5.0/5.3 server
+  report passed PHPCS, lint, Grunt and the same PHPUnit suite; both strict
+  validators reported ten passes, zero warnings and zero failures.
+- Move width, autoplay, loop, initial mute, seek-step and download field
+  construction from `mod_form::definition()` to the existing `form_definition`
+  owner. Keep the original position before captions, numeric zero inheritance,
+  boolean site defaults, field names/order/help, upload-only download visibility,
+  width-description association and seven-field course override lock. Read the
+  four site booleans directly through the same boolean/integer conversion, which
+  preserves the original zero fallback for missing or empty values.
+- Add three runtime QuickForm tests for mixed/default/empty/zero site values,
+  inherited numeric settings, editable saved values, download visibility,
+  width-description accessibility and real permissions across courses. The
+  activity form retains 25 methods and gains no class dependencies or boolean
+  behaviour flags. The expected PHPMD count remains 27; candidate CI must confirm
+  the complete finding list and runtime behaviour. XMLDB schema, AJAX services,
+  AMD assets, language keys and playback/tracking behaviour are unchanged.
+
 ## 1.7.227 - 2026-11-04
 
 ### Site-permitted playback choices in the activity form

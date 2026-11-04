@@ -1,6 +1,6 @@
 # Documentation audit
 
-Baseline: VideoTrack **1.7.227** (`2026110402`).
+Baseline: VideoTrack **1.7.228** (`2026110403`).
 
 ## Scope
 
@@ -40,11 +40,14 @@ not duplicate implementation procedures, field dictionaries or long security/pri
 - HTML5 control and playback-speed groups use the original course override capability, site-permitted choices,
   flat checkbox names/values and canonical order. Upload-only visibility and frozen groups remain explicit;
   empty allowed-choice sets omit their groups and missing site values use the original API defaults.
-- `form_definition` owns playback choices, CSV, Forum, integrity and acknowledgement field construction in their existing positions;
+- Player behaviour preserves boolean site defaults, zero-valued numeric inheritance, saved editable values,
+  upload-only download visibility and the seven-field course override lock. The width-description association
+  remains conditional on edit permission. Missing/empty boolean defaults still normalise to zero.
+- `form_definition` owns player behaviour/choices, CSV, Forum, integrity and acknowledgement field construction in their existing positions;
   course-scoped choices, saved placeholders and the editor context/options remain explicit. The activity form
   retains submitted validation and section expansion without a direct acknowledgement-class dependency.
 - English and Italian indexes have matching scope and ordering.
-- Documentation markers, root README files and ER artefacts identify 1.7.227 / 2026110402.
+- Documentation markers, root README files and ER artefacts identify 1.7.228 / 2026110403.
 - The Moodle privacy export delegates state, segment, event, integrity and acknowledgement sections in order;
   six event categories preserve the original paths, sanitisation, 500-row streaming and final flush order.
 - Activity-form source, timed-text, reaction-file and forum checks remain in their original order behind focused helpers;

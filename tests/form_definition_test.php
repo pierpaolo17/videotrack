@@ -21,7 +21,7 @@ use mod_videotrack\local\form_definition;
 use PHPUnit\Framework\Attributes\CoversClass;
 
 /**
- * Behavioural checks for delegated playback, CSV, Forum, integrity and acknowledgement form groups.
+ * Behavioural checks for delegated player, CSV, Forum, integrity and acknowledgement form groups.
  *
  * @package    mod_videotrack
  * @category   test
@@ -40,6 +40,121 @@ final class form_definition_test extends \advanced_testcase {
         require_once($CFG->libdir . '/formslib.php');
         require_once(__DIR__ . '/../locallib.php');
         require_once(__DIR__ . '/../lib.php');
+    }
+
+    /**
+     * Player behaviour keeps site boolean defaults, inherited numeric values and editable saved values.
+     */
+    public function test_player_behavior_keeps_defaults_inheritance_and_editable_values(): void {
+        $this->resetAfterTest();
+        $this->setAdminUser();
+        set_config('default_autoplay', 1, 'mod_videotrack');
+        set_config('default_loop', 0, 'mod_videotrack');
+        set_config('default_startmuted', 1, 'mod_videotrack');
+        set_config('default_allowdownload', 0, 'mod_videotrack');
+        set_config('playerwidth', 1280, 'mod_videotrack');
+        set_config('rewindstep', 10, 'mod_videotrack');
+        set_config('fastforwardstep', 30, 'mod_videotrack');
+        $course = $this->getDataGenerator()->create_course();
+        $context = \context_course::instance($course->id);
+        $form = new \MoodleQuickForm('videotrack_player_behavior_defaults', 'post', '');
+
+        form_definition::add_player_behavior_elements($form, $context);
+
+        $defaults = [
+            'playerwidth' => 0, 'autoplay' => 1, 'loopenabled' => 0, 'startmuted' => 1,
+            'rewindstep' => 0, 'fastforwardstep' => 0, 'allowdownload' => 0,
+        ];
+        foreach ($defaults as $field => $value) {
+            $this->assertSame($value, (int)$form->getElement($field)->getValue());
+            $this->assertFalse($form->getElement($field)->isFrozen());
+        }
+        $this->assertTrue($form->elementExists('playerbehaviorheader'));
+        $this->assertStringContainsString(
+            get_string('playerwidth_zero_note', 'mod_videotrack'),
+            $form->getElement('playerwidthnote')->toHtml()
+        );
+        $this->assertSame('id_playerwidthnote', $form->getElement('playerwidth')->getAttribute('aria-describedby'));
+        $hideifs = (new \ReflectionProperty($form, '_hideifs'))->getValue($form);
+        $this->assertSame(['allowdownload'], $hideifs['videosource']['neq']['upload']);
+
+        $saved = ['playerwidth' => 960, 'rewindstep' => 5, 'fastforwardstep' => 15, 'autoplay' => 0, 'loopenabled' => 1];
+        $form->setDefaults($saved);
+        foreach ($saved as $field => $value) {
+            $this->assertSame($value, (int)$form->getElement($field)->getValue());
+        }
+    }
+
+    /**
+     * Missing, empty and explicit zero site values retain disabled boolean defaults.
+     */
+    public function test_player_behavior_defaults_preserve_missing_empty_and_zero(): void {
+        $this->resetAfterTest();
+        $this->setAdminUser();
+        $course = $this->getDataGenerator()->create_course();
+        $context = \context_course::instance($course->id);
+        $settings = ['default_autoplay', 'default_loop', 'default_startmuted', 'default_allowdownload'];
+        foreach ([null, '', '0'] as $index => $value) {
+            foreach ($settings as $setting) {
+                if ($value === null) {
+                    unset_config($setting, 'mod_videotrack');
+                } else {
+                    set_config($setting, $value, 'mod_videotrack');
+                }
+            }
+            $form = new \MoodleQuickForm('videotrack_player_behavior_fallback_' . $index, 'post', '');
+
+            form_definition::add_player_behavior_elements($form, $context);
+
+            foreach (['autoplay', 'loopenabled', 'startmuted', 'allowdownload'] as $field) {
+                $this->assertSame(0, (int)$form->getElement($field)->getValue());
+            }
+        }
+    }
+
+    /**
+     * Course override permissions control all seven fields and the editable width description.
+     */
+    public function test_player_behavior_respects_course_override_permissions(): void {
+        $this->resetAfterTest();
+        set_config('default_autoplay', 1, 'mod_videotrack');
+        set_config('default_loop', 0, 'mod_videotrack');
+        set_config('default_startmuted', 0, 'mod_videotrack');
+        set_config('default_allowdownload', 1, 'mod_videotrack');
+        $generator = $this->getDataGenerator();
+        $course = $generator->create_course();
+        $othercourse = $generator->create_course();
+        $context = \context_course::instance($course->id);
+        $othercontext = \context_course::instance($othercourse->id);
+        $user = $generator->create_user();
+        $roleid = create_role('VideoTrack behaviour editor', 'videotrackbehavioreditor', '');
+        role_assign($roleid, $user->id, $context->id);
+        assign_capability('mod/videotrack:overrideplayersettings', CAP_ALLOW, $roleid, $context->id);
+        $this->setUser($user);
+
+        $this->assertTrue(has_capability('mod/videotrack:overrideplayersettings', $context));
+        $this->assertFalse(has_capability('mod/videotrack:overrideplayersettings', $othercontext));
+        foreach ([$context, $othercontext] as $scope) {
+            $form = new \MoodleQuickForm('videotrack_player_behavior_permissions_' . $scope->id, 'post', '');
+
+            form_definition::add_player_behavior_elements($form, $scope);
+
+            $defaults = [
+                'playerwidth' => 0, 'autoplay' => 1, 'loopenabled' => 0, 'startmuted' => 0,
+                'rewindstep' => 0, 'fastforwardstep' => 0, 'allowdownload' => 1,
+            ];
+            foreach ($defaults as $field => $value) {
+                $element = $form->getElement($field);
+                $this->assertSame($scope->id !== $context->id, $element->isFrozen());
+                $this->assertSame($value, (int)$element->getValue());
+            }
+            $description = $form->getElement('playerwidth')->getAttribute('aria-describedby');
+            if ($scope->id === $context->id) {
+                $this->assertSame('id_playerwidthnote', $description);
+            } else {
+                $this->assertEmpty($description);
+            }
+        }
     }
 
     /**
