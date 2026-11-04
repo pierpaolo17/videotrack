@@ -215,3 +215,8 @@ dichiarazione di un parametro di metodo.
   dipendenza diretta del form dalla classe CSV. Il conteggio atteso resta 27; due nuovi casi runtime verificano
   ordine, ereditarietà e permessi effettivi del contesto e delle identità nascoste.
   L’elenco completo dei rilievi e tutti i gate runtime richiedono conferma nella CI della candidata.
+- La prima CI e quella dopo il merge della 1.7.225 confermano gli stessi 27 rilievi: complessità di `definition()`
+  da 29 a 26, NPath da 27.648.000 a 4.608.000 e lunghezza da 974 a 922 righe. La candidata 1.7.226 delega i campi
+  integrità al servizio `form_definition` esistente senza aggiungere metodi al form. Due casi runtime verificano
+  default disabilitati e presentazione della policy effettiva del sito. Il conteggio atteso resta 27;
+  l’elenco completo dei rilievi e il comportamento runtime richiedono la CI della candidata.

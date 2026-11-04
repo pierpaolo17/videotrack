@@ -21,7 +21,7 @@ use mod_videotrack\local\form_definition;
 use PHPUnit\Framework\Attributes\CoversClass;
 
 /**
- * Behavioural checks for delegated CSV, Forum and acknowledgement form groups.
+ * Behavioural checks for delegated CSV, Forum, integrity and acknowledgement form groups.
  *
  * @package    mod_videotrack
  * @category   test
@@ -236,6 +236,62 @@ final class form_definition_test extends \advanced_testcase {
             }
             $coursefield = $checkboxes[csv_export::form_element_name('coursefullname')];
             $this->assertEmpty($coursefield->getAttribute('disabled'));
+        }
+    }
+
+    /**
+     * Integrity options start disabled and show the default accessible site policy.
+     */
+    public function test_integrity_fields_keep_disabled_defaults_and_accessible_policy(): void {
+        $this->resetAfterTest();
+        $this->setAdminUser();
+        foreach (['randompauseminseconds', 'randompausemaxseconds', 'focuslosspolicy', 'focuslossgraceseconds'] as $setting) {
+            unset_config($setting, 'mod_videotrack');
+        }
+        $form = new \MoodleQuickForm('videotrack_integrity_defaults', 'post', '');
+
+        form_definition::add_integrity_elements($form);
+
+        $this->assertTrue($form->elementExists('integritysettingsheader'));
+        $this->assertTrue($form->elementExists('integritysettingsintro'));
+        foreach (['integrityindicatorsenabled', 'pauseonfocusloss', 'preventpictureinpicture', 'randomfocuspauses'] as $field) {
+            $this->assertSame(0, (int)$form->getElement($field)->getValue());
+        }
+        $expected = get_string('integrity:sitepolicy_desc', 'mod_videotrack', (object)[
+            'minimum' => 300,
+            'maximum' => 1800,
+            'policy' => get_string('setting:focuslosspolicy_hiddenonly', 'mod_videotrack'),
+            'grace' => 5,
+        ]);
+        $this->assertStringContainsString($expected, $form->getElement('integritysitepolicy')->toHtml());
+    }
+
+    /**
+     * The displayed policy uses canonical bounds, grace limits and policy fallback.
+     */
+    public function test_integrity_summary_uses_effective_site_settings(): void {
+        $this->resetAfterTest();
+        $this->setAdminUser();
+        $cases = [
+            [1800, 300, 'strict', 12, 300, 1800, 'setting:focuslosspolicy_strict', 12],
+            [1, 99999, 'invalid', 999, 60, 7200, 'setting:focuslosspolicy_hiddenonly', 30],
+        ];
+        foreach ($cases as $index => [$minimum, $maximum, $policy, $grace, $low, $high, $label, $effectivegrace]) {
+            set_config('randompauseminseconds', $minimum, 'mod_videotrack');
+            set_config('randompausemaxseconds', $maximum, 'mod_videotrack');
+            set_config('focuslosspolicy', $policy, 'mod_videotrack');
+            set_config('focuslossgraceseconds', $grace, 'mod_videotrack');
+            $form = new \MoodleQuickForm('videotrack_integrity_policy_' . $index, 'post', '');
+
+            form_definition::add_integrity_elements($form);
+
+            $expected = get_string('integrity:sitepolicy_desc', 'mod_videotrack', (object)[
+                'minimum' => $low,
+                'maximum' => $high,
+                'policy' => get_string($label, 'mod_videotrack'),
+                'grace' => $effectivegrace,
+            ]);
+            $this->assertStringContainsString($expected, $form->getElement('integritysitepolicy')->toHtml());
         }
     }
 }

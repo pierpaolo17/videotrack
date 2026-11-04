@@ -205,3 +205,8 @@ line, not for redeclaring a method parameter.
   `form_definition` owner and removes the form's direct CSV-class dependency. The expected count remains 27;
   two new runtime cases cover field order, inheritance and actual context/hidden-identity permissions.
   The complete finding list and all runtime gates require candidate CI confirmation.
+- Initial and post-merge 1.7.225 CI confirm the same 27 findings: `definition()` complexity falls from 29 to 26,
+  NPath from 27,648,000 to 4,608,000 and length from 974 to 922 lines. Candidate 1.7.226 delegates integrity-field
+  construction to the existing `form_definition` owner without adding activity-form methods. Two runtime cases
+  cover disabled defaults and effective site-policy presentation. The expected count remains 27;
+  the complete finding list and runtime behaviour require candidate CI confirmation.

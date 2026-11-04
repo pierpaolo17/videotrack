@@ -1,6 +1,6 @@
 # Audit della documentazione
 
-Baseline: VideoTrack **1.7.225** (`2026110305`).
+Baseline: VideoTrack **1.7.226** (`2026110401`).
 
 ## Perimetro
 
@@ -32,13 +32,16 @@ duplicano intenzionalmente procedure implementative, dizionari dei campi o lungh
 
 ## Rilievi sull'albero corrente
 
+- I campi integrità conservano default disabilitati e posizione fra strumenti di studio e presa visione;
+  la policy mostrata usa le API integrità canoniche per fallback, limiti e tolleranza. Il form non dipende più
+  direttamente dalla classe integrità.
 - I campi CSV del form usano il contesto effettivo modulo/corso e le API esistenti per i permessi di identità;
   ereditarietà del delimitatore, nomi dei checkbox, ordine ed etichette non disponibili restano espliciti.
-- `form_definition` costruisce i campi CSV, Forum e presa visione nelle posizioni previste;
+- `form_definition` costruisce i campi CSV, Forum, integrità e presa visione nelle posizioni previste;
   opzioni del corso, segnaposto salvati e contesto/opzioni dell’editor restano espliciti. Il form conserva
   validazione in invio ed espansione delle sezioni senza dipendenza diretta dalla classe delle prese visione.
 - Gli indici inglese e italiano hanno stesso perimetro e ordinamento.
-- Marker documentali, README principali e artefatti ER identificano 1.7.225 / 2026110305.
+- Marker documentali, README principali e artefatti ER identificano 1.7.226 / 2026110401.
 - L’export privacy Moodle delega stato, segmenti, eventi, integrità e prese visione nello stesso ordine;
   sei categorie di eventi conservano percorsi, pulizia dei dati, blocchi da 500 e ordine finale.
 - I controlli del form per sorgenti, file VTT, icone delle reazioni e forum mantengono l'ordine originale tramite
