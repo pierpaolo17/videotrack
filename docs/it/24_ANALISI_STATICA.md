@@ -220,3 +220,12 @@ dichiarazione di un parametro di metodo.
   integrità al servizio `form_definition` esistente senza aggiungere metodi al form. Due casi runtime verificano
   default disabilitati e presentazione della policy effettiva del sito. Il conteggio atteso resta 27;
   l’elenco completo dei rilievi e il comportamento runtime richiedono la CI della candidata.
+
+- La CI iniziale e post-merge 1.7.226 conferma le stesse 27 segnalazioni senza nuove voci. `definition()` scende
+  a complessità 25, NPath 2.304.000 e lunghezza 860 righe. Lo ZIP reale e i controlli server Moodle 5.0/5.3
+  confermano 345 test, 3.109 asserzioni e dieci PASS in entrambi i validator strict. La candidata 1.7.227 delega
+  i gruppi controlli HTML5 e velocità consentiti dal sito al proprietario esistente `form_definition`. Ogni
+  helper usa il contesto corso originale per i permessi di override; non aggiunge flag booleani di comportamento.
+  Tre test runtime coprono ordine e valori piatti, visibilità per upload, permessi reali per corso,
+  configurazione assente e scelte vuote. Il form mantiene 25 metodi. Il conteggio PHPMD atteso resta 27;
+  elenco completo delle segnalazioni e comportamento runtime richiedono conferma nella CI della candidata.

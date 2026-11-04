@@ -1,5 +1,31 @@
 # VideoTrack changelog
 
+## 1.7.227 - 2026-11-04
+
+### Site-permitted playback choices in the activity form
+
+- Accepted the real 392-file 1.7.226 ZIP byte-for-byte against the approved
+  candidate and merged commit `fcde6586f6583dd164700ac698f07a743a5db848`.
+  Its SHA-256 is `d7bf3d79519f60f61afa2fa6bed6d94a29619a60a8725eeb0898efae7db82202`.
+  All six post-merge CI jobs passed 345 PHPUnit tests, 3,109 assertions,
+  24 Behat scenarios and ten validator checks each. PHPMD confirmed the same
+  27 advisory findings without new findings. The Moodle 5.0/5.3 server report
+  passed PHPCS, lint, Grunt and the same PHPUnit suite; both strict validators
+  reported ten passes, zero warnings and zero failures.
+- Move HTML5 control and playback-speed choice construction from
+  `mod_form::definition()` to the existing `form_definition` owner. Preserve
+  their positions, canonical order, flat checkbox names and values, site-choice
+  filtering, fallback APIs and upload-only control visibility. Each helper uses
+  the original course context for the override capability and freezes its group
+  when permission is missing, without introducing a boolean behaviour flag.
+- Add three runtime QuickForm tests for allowed choices and values, provider
+  visibility, real permissions across courses, default configuration and omitted
+  empty groups. Refresh the English/Italian callable locations against the real
+  source tree. The activity form retains 25 methods. The expected PHPMD count
+  remains 27; candidate CI must confirm the complete finding list and runtime
+  behaviour. XMLDB schema, AJAX services, AMD assets, language keys and
+  playback/tracking behaviour are unchanged.
+
 ## 1.7.226 - 2026-11-04
 
 ### Effective integrity-policy form construction
