@@ -1,5 +1,32 @@
 # VideoTrack changelog
 
+## 1.7.229 - 2026-11-04
+
+### Provider-aware caption and timed-text form construction
+
+- Accepted the real 392-file 1.7.228 ZIP byte-for-byte against the approved
+  candidate and merged commit `a2512575b9b7d4e39a41328f62d6ebc350bf7c1f`.
+  Its SHA-256 is `456130f8d9105c095d660645a40043961244a462ea3cf071f2e939edefc2fc01`.
+  All six initial and post-merge CI jobs passed 351 PHPUnit tests, 3,219
+  assertions, 24 Behat scenarios and ten validator checks each. PHPMD confirmed
+  the same 27 advisory findings without new findings. The Moodle 5.0/5.3 server
+  report passed PHPCS, lint, Grunt and the same PHPUnit suite; both strict
+  validators reported ten passes, zero warnings and zero failures.
+- Move caption-field construction from `mod_form::definition()` to the existing
+  `form_definition` owner, with a private stage for provider-independent
+  transcript/chapter files. Preserve the original position between player
+  behaviour and HTML5 control choices, field order, help, defaults, WebVTT
+  options, provider dependencies and course override lock. Missing caption
+  defaults still normalise to zero/empty; explicit language "0" remains intact.
+  Keep upload-only caption VTT fields distinct from independent transcript and
+  chapter tools, and retain Vimeo notices after those tools.
+- Add three runtime QuickForm tests for site-default fallback, provider
+  dependencies, actual file options and effective size limits for an ordinary
+  user, plus course-scoped permissions. The activity form retains 25 methods;
+  the expected PHPMD count remains 27. Candidate CI must confirm complete
+  findings and runtime behaviour. XMLDB schema, AJAX services, AMD assets,
+  language keys and playback/tracking behaviour are unchanged.
+
 ## 1.7.228 - 2026-11-04
 
 ### Course-scoped player behaviour in the activity form

@@ -1,6 +1,6 @@
 # Audit della documentazione
 
-Baseline: VideoTrack **1.7.228** (`2026110403`).
+Baseline: VideoTrack **1.7.229** (`2026110404`).
 
 ## Perimetro
 
@@ -43,11 +43,14 @@ duplicano intenzionalmente procedure implementative, dizionari dei campi o lungh
 - Il comportamento del player conserva default booleani sito, ereditarietà numerica con zero, valori salvati
   modificabili, download visibile per upload e blocco dei sette campi per corso. L'associazione alla descrizione
   della larghezza dipende ancora dal permesso di modifica. Default booleani assenti/vuoti restano zero.
-- `form_definition` costruisce comportamento/scelte del player, campi CSV, Forum, integrità e presa visione nelle posizioni previste;
+- I sottotitoli conservano default booleani/lingua del sito, incluso il valore lingua letterale "0", dipendenze
+  VTT per upload e avvisi Vimeo. Trascrizioni/capitoli restano indipendenti dal provider con opzioni file canoniche,
+  tra i campi sottotitoli e l'avviso Vimeo; il blocco per corso riguarda solo sottotitoli/lingua.
+- `form_definition` costruisce player/testo temporizzato, campi CSV, Forum, integrità e presa visione nelle posizioni previste;
   opzioni del corso, segnaposto salvati e contesto/opzioni dell’editor restano espliciti. Il form conserva
   validazione in invio ed espansione delle sezioni senza dipendenza diretta dalla classe delle prese visione.
 - Gli indici inglese e italiano hanno stesso perimetro e ordinamento.
-- Marker documentali, README principali e artefatti ER identificano 1.7.228 / 2026110403.
+- Marker documentali, README principali e artefatti ER identificano 1.7.229 / 2026110404.
 - L’export privacy Moodle delega stato, segmenti, eventi, integrità e prese visione nello stesso ordine;
   sei categorie di eventi conservano percorsi, pulizia dei dati, blocchi da 500 e ordine finale.
 - I controlli del form per sorgenti, file VTT, icone delle reazioni e forum mantengono l'ordine originale tramite

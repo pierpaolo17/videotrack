@@ -233,3 +233,12 @@ line, not for redeclaring a method parameter.
   runtime tests cover defaults, saved values, inheritance, upload visibility, width-description accessibility
   and actual course override permissions. The activity form retains 25 methods. The expected PHPMD count
   remains 27; the complete findings and runtime gates require candidate CI confirmation.
+- Initial and post-merge 1.7.228 CI confirm the same 27 findings without new findings. `definition()` complexity
+  falls from 19 to 16, NPath from 92,160 to 15,360 and length from 713 to 632 lines. The real ZIP and Moodle
+  5.0/5.3 server checks pass PHPCS, lint, Grunt and 351 tests with 3,219 assertions; both strict validators pass
+  ten checks without warnings. Candidate 1.7.229 delegates the caption group to `form_definition`, with a focused
+  private stage for provider-independent transcripts/chapters. The two stages retain the original field order,
+  site-default fallback, provider dependencies, WebVTT options and course override lock. Three runtime tests
+  cover defaults, dependencies, effective upload options for an ordinary user and actual course permissions.
+  The activity form retains 25 methods. The expected PHPMD count remains 27; candidate CI must confirm the
+  complete findings and all runtime gates.
