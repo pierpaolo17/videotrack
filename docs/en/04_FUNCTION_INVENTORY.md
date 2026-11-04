@@ -1,8 +1,8 @@
 # Function inventory
 
-Generated from the VideoTrack 1.7.229 source tree. PHP entries include named functions and methods; AMD entries include named declarations, assigned function expressions and object-method functions.
+Generated from the VideoTrack 1.7.230 source tree. PHP entries include named functions and methods; AMD entries include named declarations, assigned function expressions and object-method functions.
 
-**PHP functions/methods:** 1034. **Named AMD callables:** 654.
+**PHP functions/methods:** 1037. **Named AMD callables:** 654.
 
 | Location | Callable | Responsibility |
 |---|---|---|
@@ -958,15 +958,16 @@ Generated from the VideoTrack 1.7.229 source tree. PHP entries include named fun
 | `classes/local/focus_policy.php:60` | `ensure_exception_group` | Idempotently creates or repairs the hidden, non-participating exception group. |
 | `classes/local/focus_policy.php:97` | `user_has_exception` | Resolves direct core group membership without exposing hidden membership. |
 | `classes/local/focus_policy.php:121` | `effective_policy` | Downgrades only strict window-blur handling for authorised group members. |
-| `classes/local/form_definition.php:35` | `add_caption_elements` | Builds caption/timed-text fields with original site defaults, provider dependencies and course override permissions. |
-| `classes/local/form_definition.php:115` | `add_transcript_and_chapter_elements` | Builds provider-independent transcript/chapter fields with canonical WebVTT file options. |
-| `classes/local/form_definition.php:197` | `add_player_behavior_elements` | Builds player behaviour with site boolean defaults, numeric inheritance, accessible width note and course override permissions. |
-| `classes/local/form_definition.php:289` | `add_html5_control_elements` | Builds site-permitted HTML5 control choices with upload-only visibility and course-scoped override permissions. |
-| `classes/local/form_definition.php:367` | `add_playback_speed_elements` | Builds site-permitted speed choices with flat values and course-scoped override permissions. |
-| `classes/local/form_definition.php:427` | `add_csv_elements` | Builds CSV delimiter and field choices with the effective Moodle permission context. |
-| `classes/local/form_definition.php:492` | `add_forum_elements` | Adds the optional Forum group using course-scoped choices and saved activity settings. |
-| `classes/local/form_definition.php:561` | `add_integrity_elements` | Adds disabled integrity controls and the effective site focus-policy summary. |
-| `classes/local/form_definition.php:633` | `add_acknowledgement_elements` | Adds acknowledgement fields with the original context, timing and editor options. |
+| `classes/local/form_definition.php:35` | `add_duration_elements` | Builds duration input/status fields and hex-escaped DOM configuration, registering AMD init on the supplied page. |
+| `classes/local/form_definition.php:132` | `add_caption_elements` | Builds caption/timed-text fields with original site defaults, provider dependencies and course override permissions. |
+| `classes/local/form_definition.php:212` | `add_transcript_and_chapter_elements` | Builds provider-independent transcript/chapter fields with canonical WebVTT file options. |
+| `classes/local/form_definition.php:294` | `add_player_behavior_elements` | Builds player behaviour with site boolean defaults, numeric inheritance, accessible width note and course override permissions. |
+| `classes/local/form_definition.php:386` | `add_html5_control_elements` | Builds site-permitted HTML5 control choices with upload-only visibility and course-scoped override permissions. |
+| `classes/local/form_definition.php:464` | `add_playback_speed_elements` | Builds site-permitted speed choices with flat values and course-scoped override permissions. |
+| `classes/local/form_definition.php:524` | `add_csv_elements` | Builds CSV delimiter and field choices with the effective Moodle permission context. |
+| `classes/local/form_definition.php:589` | `add_forum_elements` | Adds the optional Forum group using course-scoped choices and saved activity settings. |
+| `classes/local/form_definition.php:658` | `add_integrity_elements` | Adds disabled integrity controls and the effective site focus-policy summary. |
+| `classes/local/form_definition.php:730` | `add_acknowledgement_elements` | Adds acknowledgement fields with the original context, timing and editor options. |
 | `classes/local/form_preprocessing.php:36` | `reaction_defaults` | PHP callable `reaction_defaults`; see its DocBlock and callers for parameter, return-value and side-effect details. |
 | `classes/local/form_preprocessing.php:98` | `reaction_notice_defaults` | PHP callable `reaction_notice_defaults`; see its DocBlock and callers for parameter, return-value and side-effect details. |
 | `classes/local/form_preprocessing.php:119` | `completion_defaults` | PHP callable `completion_defaults`; see its DocBlock and callers for parameter, return-value and side-effect details. |
@@ -1273,30 +1274,30 @@ Generated from the VideoTrack 1.7.229 source tree. PHP entries include named fun
 | `locallib.php:1070` | `videotrack_build_forum_subject` | PHP callable `videotrack_build_forum_subject`; see its DocBlock and callers for parameter, return-value and side-effect details. |
 | `locallib.php:1099` | `videotrack_build_replay_url` | PHP callable `videotrack_build_replay_url`; see its DocBlock and callers for parameter, return-value and side-effect details. |
 | `mod_form.php:47` | `definition` | PHP callable `definition`; see its DocBlock and callers for parameter, return-value and side-effect details. |
-| `mod_form.php:543` | `apply_default_section_expansion` | PHP callable `apply_default_section_expansion`; see its DocBlock and callers for parameter, return-value and side-effect details. |
-| `mod_form.php:580` | `require_filepicker_accept_filter` | PHP callable `require_filepicker_accept_filter`; see its DocBlock and callers for parameter, return-value and side-effect details. |
-| `mod_form.php:626` | `add_reaction_elements` | PHP callable `add_reaction_elements`; see its DocBlock and callers for parameter, return-value and side-effect details. |
-| `mod_form.php:666` | `add_reaction_row_fields` | Adds the current row fields and icon picker in their original order. |
-| `mod_form.php:764` | `add_reaction_row_visibility` | Applies the existing icon visibility and disabling rules after the fields. |
-| `mod_form.php:827` | `get_reaction_repeat_count` | PHP callable `get_reaction_repeat_count`; see its DocBlock and callers for parameter, return-value and side-effect details. |
-| `mod_form.php:855` | `add_completion_rules` | PHP callable `add_completion_rules`; see its DocBlock and callers for parameter, return-value and side-effect details. |
-| `mod_form.php:924` | `completion_rule_enabled` | PHP callable `completion_rule_enabled`; see its DocBlock and callers for parameter, return-value and side-effect details. |
-| `mod_form.php:936` | `data_preprocessing` | PHP callable `data_preprocessing`; see its DocBlock and callers for parameter, return-value and side-effect details. |
-| `mod_form.php:1035` | `draft_area_contains_only_reaction_images` | PHP callable `draft_area_contains_only_reaction_images`; see its DocBlock and callers for parameter, return-value and side-effect details. |
-| `mod_form.php:1071` | `draft_area_contains_only_vtt` | PHP callable `draft_area_contains_only_vtt`; see its DocBlock and callers for parameter, return-value and side-effect details. |
-| `mod_form.php:1102` | `source_errors` | PHP callable `source_errors`; see its DocBlock and callers for parameter, return-value and side-effect details. |
-| `mod_form.php:1122` | `youtube_source_errors` | PHP callable `youtube_source_errors`; see its DocBlock and callers for parameter, return-value and side-effect details. |
-| `mod_form.php:1135` | `vimeo_source_errors` | PHP callable `vimeo_source_errors`; see its DocBlock and callers for parameter, return-value and side-effect details. |
-| `mod_form.php:1148` | `upload_source_errors` | PHP callable `upload_source_errors`; see its DocBlock and callers for parameter, return-value and side-effect details. |
-| `mod_form.php:1167` | `timed_text_errors` | PHP callable `timed_text_errors`; see its DocBlock and callers for parameter, return-value and side-effect details. |
-| `mod_form.php:1192` | `timed_text_draft_errors` | PHP callable `timed_text_draft_errors`; see its DocBlock and callers for parameter, return-value and side-effect details. |
-| `mod_form.php:1217` | `timed_text_required_errors` | PHP callable `timed_text_required_errors`; see its DocBlock and callers for parameter, return-value and side-effect details. |
-| `mod_form.php:1245` | `reaction_file_icon_errors` | PHP callable `reaction_file_icon_errors`; see its DocBlock and callers for parameter, return-value and side-effect details. |
-| `mod_form.php:1283` | `existing_reaction_icon_file` | PHP callable `existing_reaction_icon_file`; see its DocBlock and callers for parameter, return-value and side-effect details. |
-| `mod_form.php:1306` | `forum_errors` | PHP callable `forum_errors`; see its DocBlock and callers for parameter, return-value and side-effect details. |
-| `mod_form.php:1327` | `reaction_errors` | PHP callable `reaction_errors`; see its DocBlock and callers for parameter, return-value and side-effect details. |
-| `mod_form.php:1351` | `reaction_row_errors` | PHP callable `reaction_row_errors`; see its DocBlock and callers for parameter, return-value and side-effect details. |
-| `mod_form.php:1405` | `validation` | PHP callable `validation`; see its DocBlock and callers for parameter, return-value and side-effect details. |
+| `mod_form.php:456` | `apply_default_section_expansion` | PHP callable `apply_default_section_expansion`; see its DocBlock and callers for parameter, return-value and side-effect details. |
+| `mod_form.php:493` | `require_filepicker_accept_filter` | PHP callable `require_filepicker_accept_filter`; see its DocBlock and callers for parameter, return-value and side-effect details. |
+| `mod_form.php:539` | `add_reaction_elements` | PHP callable `add_reaction_elements`; see its DocBlock and callers for parameter, return-value and side-effect details. |
+| `mod_form.php:579` | `add_reaction_row_fields` | Adds the current row fields and icon picker in their original order. |
+| `mod_form.php:677` | `add_reaction_row_visibility` | Applies the existing icon visibility and disabling rules after the fields. |
+| `mod_form.php:740` | `get_reaction_repeat_count` | PHP callable `get_reaction_repeat_count`; see its DocBlock and callers for parameter, return-value and side-effect details. |
+| `mod_form.php:768` | `add_completion_rules` | PHP callable `add_completion_rules`; see its DocBlock and callers for parameter, return-value and side-effect details. |
+| `mod_form.php:837` | `completion_rule_enabled` | PHP callable `completion_rule_enabled`; see its DocBlock and callers for parameter, return-value and side-effect details. |
+| `mod_form.php:849` | `data_preprocessing` | PHP callable `data_preprocessing`; see its DocBlock and callers for parameter, return-value and side-effect details. |
+| `mod_form.php:948` | `draft_area_contains_only_reaction_images` | PHP callable `draft_area_contains_only_reaction_images`; see its DocBlock and callers for parameter, return-value and side-effect details. |
+| `mod_form.php:984` | `draft_area_contains_only_vtt` | PHP callable `draft_area_contains_only_vtt`; see its DocBlock and callers for parameter, return-value and side-effect details. |
+| `mod_form.php:1015` | `source_errors` | PHP callable `source_errors`; see its DocBlock and callers for parameter, return-value and side-effect details. |
+| `mod_form.php:1035` | `youtube_source_errors` | PHP callable `youtube_source_errors`; see its DocBlock and callers for parameter, return-value and side-effect details. |
+| `mod_form.php:1048` | `vimeo_source_errors` | PHP callable `vimeo_source_errors`; see its DocBlock and callers for parameter, return-value and side-effect details. |
+| `mod_form.php:1061` | `upload_source_errors` | PHP callable `upload_source_errors`; see its DocBlock and callers for parameter, return-value and side-effect details. |
+| `mod_form.php:1080` | `timed_text_errors` | PHP callable `timed_text_errors`; see its DocBlock and callers for parameter, return-value and side-effect details. |
+| `mod_form.php:1105` | `timed_text_draft_errors` | PHP callable `timed_text_draft_errors`; see its DocBlock and callers for parameter, return-value and side-effect details. |
+| `mod_form.php:1130` | `timed_text_required_errors` | PHP callable `timed_text_required_errors`; see its DocBlock and callers for parameter, return-value and side-effect details. |
+| `mod_form.php:1158` | `reaction_file_icon_errors` | PHP callable `reaction_file_icon_errors`; see its DocBlock and callers for parameter, return-value and side-effect details. |
+| `mod_form.php:1196` | `existing_reaction_icon_file` | PHP callable `existing_reaction_icon_file`; see its DocBlock and callers for parameter, return-value and side-effect details. |
+| `mod_form.php:1219` | `forum_errors` | PHP callable `forum_errors`; see its DocBlock and callers for parameter, return-value and side-effect details. |
+| `mod_form.php:1240` | `reaction_errors` | PHP callable `reaction_errors`; see its DocBlock and callers for parameter, return-value and side-effect details. |
+| `mod_form.php:1264` | `reaction_row_errors` | PHP callable `reaction_row_errors`; see its DocBlock and callers for parameter, return-value and side-effect details. |
+| `mod_form.php:1318` | `validation` | PHP callable `validation`; see its DocBlock and callers for parameter, return-value and side-effect details. |
 | `reports_course.php:34` | `videotrack_course_report_count_cell` | PHP callable `videotrack_course_report_count_cell`; see its DocBlock and callers for parameter, return-value and side-effect details. |
 | `reports_course.php:48` | `videotrack_course_report_percentage_cell` | PHP callable `videotrack_course_report_percentage_cell`; renders the text-only aggregate percentage. |
 | `reports_course.php:67` | `videotrack_course_report_percentage_bar_cell` | PHP callable `videotrack_course_report_percentage_bar_cell`; renders the aggregate percentage with its accessible compact bar. |
@@ -1444,23 +1445,25 @@ Generated from the VideoTrack 1.7.229 source tree. PHP entries include named fun
 | `tests/focus_policy_test.php:104` | `test_hidden_only_site_policy_is_unchanged` | Verifies the exception never weakens the normal hidden-only policy. |
 | `tests/focus_policy_test.php:123` | `test_activity_lifecycle_and_view_are_wired_to_focus_policy` | Verifies add, update, restore and view integration contracts. |
 | `tests/form_definition_test.php:36` | `setUp` | Loads Moodle QuickForm and the shared Forum and HTML5-control APIs. |
-| `tests/form_definition_test.php:48` | `test_caption_defaults_and_provider_dependencies_are_preserved` | Checks missing/empty/zero/configured caption defaults and exact provider visibility/dependency contracts. |
-| `tests/form_definition_test.php:99` | `test_caption_file_options_keep_webvtt_limits_for_a_normal_user` | Checks real QuickForm WebVTT types, transcript count, internal picker files and effective size limits for an ordinary user. |
-| `tests/form_definition_test.php:136` | `test_caption_override_permissions_are_course_scoped` | Checks actual course permissions freeze only captions/language and retain independent timed-text tools. |
-| `tests/form_definition_test.php:177` | `test_player_behavior_keeps_defaults_inheritance_and_editable_values` | Checks mixed site defaults, zero numeric inheritance, saved editable values, width description and upload-only download visibility. |
-| `tests/form_definition_test.php:220` | `test_player_behavior_defaults_preserve_missing_empty_and_zero` | Checks disabled boolean defaults for missing, empty and explicit zero site values. |
-| `tests/form_definition_test.php:247` | `test_player_behavior_respects_course_override_permissions` | Checks all seven fields and the width-description association under actual cross-course permissions. |
-| `tests/form_definition_test.php:292` | `test_playback_choices_keep_site_scope_order_and_flat_values` | Checks site-choice filtering, canonical order, flat checkbox values and upload-only visibility. |
-| `tests/form_definition_test.php:333` | `test_playback_choices_respect_course_override_permissions` | Checks actual course-scoped override permissions and frozen groups/children in an unauthorised course. |
-| `tests/form_definition_test.php:367` | `test_playback_choices_keep_site_fallback_and_empty_groups` | Checks default site choices and omission of unsupported empty control and speed groups. |
-| `tests/form_definition_test.php:406` | `test_empty_course_disables_posting_and_freezes_destination` | Checks the disabled empty-course state and destination freeze. |
-| `tests/form_definition_test.php:424` | `test_choices_keep_course_scope_and_module_status` | Checks course, type and deletion filters, choice order and hidden status. |
-| `tests/form_definition_test.php:465` | `test_unavailable_saved_forum_remains_an_editable_placeholder` | Checks the saved unavailable placeholder without exposing another course’s label. |
-| `tests/form_definition_test.php:491` | `test_acknowledgement_fields_keep_context_and_safe_editor_options` | Checks acknowledgement timing choices and the original context and editor safety options. |
-| `tests/form_definition_test.php:528` | `test_csv_fields_keep_delimiters_names_and_order` | Checks delimiter inheritance, available options and stable flat checkbox names/order. |
-| `tests/form_definition_test.php:560` | `test_csv_identity_fields_respect_context_and_hidden_field_permissions` | Checks context-scoped identity access and disabled hidden or unconfigured fields. |
-| `tests/form_definition_test.php:604` | `test_integrity_fields_keep_disabled_defaults_and_accessible_policy` | Checks disabled integrity defaults and the default accessible policy summary. |
-| `tests/form_definition_test.php:631` | `test_integrity_summary_uses_effective_site_settings` | Checks strict/fallback labels and normalised bounds and grace in the displayed site policy. |
+| `tests/form_definition_test.php:48` | `test_duration_fields_keep_defaults_decimal_values_and_status_descriptions` | Checks zero/manual decimal duration, editable input and accessible live status descriptions. |
+| `tests/form_definition_test.php:86` | `test_duration_dom_config_matches_the_supplied_page_amd_init` | Checks the decoded DOM JSON, message/field contracts and matching AMD init only on the supplied page. |
+| `tests/form_definition_test.php:144` | `test_caption_defaults_and_provider_dependencies_are_preserved` | Checks missing/empty/zero/configured caption defaults and exact provider visibility/dependency contracts. |
+| `tests/form_definition_test.php:195` | `test_caption_file_options_keep_webvtt_limits_for_a_normal_user` | Checks real QuickForm WebVTT types, transcript count, internal picker files and effective size limits for an ordinary user. |
+| `tests/form_definition_test.php:232` | `test_caption_override_permissions_are_course_scoped` | Checks actual course permissions freeze only captions/language and retain independent timed-text tools. |
+| `tests/form_definition_test.php:273` | `test_player_behavior_keeps_defaults_inheritance_and_editable_values` | Checks mixed site defaults, zero numeric inheritance, saved editable values, width description and upload-only download visibility. |
+| `tests/form_definition_test.php:316` | `test_player_behavior_defaults_preserve_missing_empty_and_zero` | Checks disabled boolean defaults for missing, empty and explicit zero site values. |
+| `tests/form_definition_test.php:343` | `test_player_behavior_respects_course_override_permissions` | Checks all seven fields and the width-description association under actual cross-course permissions. |
+| `tests/form_definition_test.php:388` | `test_playback_choices_keep_site_scope_order_and_flat_values` | Checks site-choice filtering, canonical order, flat checkbox values and upload-only visibility. |
+| `tests/form_definition_test.php:429` | `test_playback_choices_respect_course_override_permissions` | Checks actual course-scoped override permissions and frozen groups/children in an unauthorised course. |
+| `tests/form_definition_test.php:463` | `test_playback_choices_keep_site_fallback_and_empty_groups` | Checks default site choices and omission of unsupported empty control and speed groups. |
+| `tests/form_definition_test.php:502` | `test_empty_course_disables_posting_and_freezes_destination` | Checks the disabled empty-course state and destination freeze. |
+| `tests/form_definition_test.php:520` | `test_choices_keep_course_scope_and_module_status` | Checks course, type and deletion filters, choice order and hidden status. |
+| `tests/form_definition_test.php:561` | `test_unavailable_saved_forum_remains_an_editable_placeholder` | Checks the saved unavailable placeholder without exposing another course’s label. |
+| `tests/form_definition_test.php:587` | `test_acknowledgement_fields_keep_context_and_safe_editor_options` | Checks acknowledgement timing choices and the original context and editor safety options. |
+| `tests/form_definition_test.php:624` | `test_csv_fields_keep_delimiters_names_and_order` | Checks delimiter inheritance, available options and stable flat checkbox names/order. |
+| `tests/form_definition_test.php:656` | `test_csv_identity_fields_respect_context_and_hidden_field_permissions` | Checks context-scoped identity access and disabled hidden or unconfigured fields. |
+| `tests/form_definition_test.php:700` | `test_integrity_fields_keep_disabled_defaults_and_accessible_policy` | Checks disabled integrity defaults and the default accessible policy summary. |
+| `tests/form_definition_test.php:727` | `test_integrity_summary_uses_effective_site_settings` | Checks strict/fallback labels and normalised bounds and grace in the displayed site policy. |
 | `tests/form_preprocessing_test.php:36` | `test_completion_defaults_preserve_edit_values` | PHP callable `test_completion_defaults_preserve_edit_values`; see its DocBlock and callers for parameter, return-value and side-effect details. |
 | `tests/form_preprocessing_test.php:61` | `test_reaction_notice_defaults_preserve_editors_and_presets` | PHP callable `test_reaction_notice_defaults_preserve_editors_and_presets`; see its DocBlock and callers for parameter, return-value and side-effect details. |
 | `tests/form_preprocessing_test.php:85` | `test_playback_defaults_preserve_selected_controls` | PHP callable `test_playback_defaults_preserve_selected_controls`; see its DocBlock and callers for parameter, return-value and side-effect details. |
@@ -1558,8 +1561,8 @@ Generated from the VideoTrack 1.7.229 source tree. PHP entries include named fun
 | `tests/provider_loader_contract_test.php:35` | `test_vimeo_loaders_use_requirejs_without_global_define_mutation` | Named PHP function/method `test_vimeo_loaders_use_requirejs_without_global_define_mutation`; see source DocBlock and callers for the current contract. |
 | `tests/provider_loader_contract_test.php:51` | `test_provider_loader_promises_reset_after_rejection` | Named PHP function/method `test_provider_loader_promises_reset_after_rejection`; see source DocBlock and callers for the current contract. |
 | `tests/provider_loader_contract_test.php:66` | `test_youtube_duration_probe_waits_for_metadata_after_ready` | Verifies that YouTube form-duration detection waits for delayed metadata and cleans up its polling probe. |
-| `tests/provider_loader_contract_test.php:91` | `test_vimeo_requirejs_result_is_used_as_player_constructor` | Named PHP function/method `test_vimeo_requirejs_result_is_used_as_player_constructor`; see source DocBlock and callers for the current contract. |
-| `tests/provider_loader_contract_test.php:107` | `test_provider_behat_sdk_doubles_are_strictly_gated_and_loaded_first` | Verifies that local YouTube/Vimeo SDK doubles are Behat-only, identifier-bound and loaded before their production adapters. |
+| `tests/provider_loader_contract_test.php:94` | `test_vimeo_requirejs_result_is_used_as_player_constructor` | Named PHP function/method `test_vimeo_requirejs_result_is_used_as_player_constructor`; see source DocBlock and callers for the current contract. |
+| `tests/provider_loader_contract_test.php:110` | `test_provider_behat_sdk_doubles_are_strictly_gated_and_loaded_first` | Verifies that local YouTube/Vimeo SDK doubles are Behat-only, identifier-bound and loaded before their production adapters. |
 | `tests/provider_seek_snapshot_contract_test.php:35` | `test_youtube_blocked_seek_snapshots_pre_seek_position_before_rollback` | Named PHP function/method `test_youtube_blocked_seek_snapshots_pre_seek_position_before_rollback`; see source DocBlock and callers for the current contract. |
 | `tests/provider_seek_snapshot_contract_test.php:56` | `test_html5_blocked_seek_snapshots_pre_seek_position_before_rollback` | Named PHP function/method `test_html5_blocked_seek_snapshots_pre_seek_position_before_rollback`; see source DocBlock and callers for the current contract. |
 | `tests/provider_seek_snapshot_contract_test.php:77` | `test_vimeo_user_seek_retains_pre_seek_position_for_seek_resolution` | Named PHP function/method `test_vimeo_user_seek_retains_pre_seek_position_for_seek_resolution`; see source DocBlock and callers for the current contract. |

@@ -21,7 +21,7 @@ use mod_videotrack\local\form_definition;
 use PHPUnit\Framework\Attributes\CoversClass;
 
 /**
- * Behavioural checks for delegated player/timed-text, CSV, Forum, integrity and acknowledgement groups.
+ * Behavioural checks for delegated duration, player/timed-text, CSV, Forum, integrity and acknowledgement groups.
  *
  * @package    mod_videotrack
  * @category   test
@@ -40,6 +40,102 @@ final class form_definition_test extends \advanced_testcase {
         require_once($CFG->libdir . '/formslib.php');
         require_once(__DIR__ . '/../locallib.php');
         require_once(__DIR__ . '/../lib.php');
+    }
+
+    /**
+     * The manual duration field retains its zero default, decimal values and accessible status descriptions.
+     */
+    public function test_duration_fields_keep_defaults_decimal_values_and_status_descriptions(): void {
+        global $PAGE;
+
+        $this->resetAfterTest();
+        $this->setAdminUser();
+        $PAGE = new \moodle_page();
+        $PAGE->set_context(\context_system::instance());
+        $form = new \MoodleQuickForm('videotrack_duration_fields', 'post', '');
+
+        form_definition::add_duration_elements($form, $PAGE);
+
+        $duration = $form->getElement('durationseconds');
+        $this->assertSame(0.0, (float)$duration->getValue());
+        $this->assertFalse($duration->isFrozen());
+        $this->assertSame(
+            'videotrack-durationseconds-auto-note videotrack-durationseconds-human',
+            $duration->getAttribute('aria-describedby')
+        );
+        $statusfields = [
+            'durationseconds_auto_note' => 'videotrack-durationseconds-auto-note',
+            'durationseconds_human' => 'videotrack-durationseconds-human',
+        ];
+        foreach ($statusfields as $field => $id) {
+            $html = $form->getElement($field)->toHtml();
+            $this->assertStringContainsString('id="' . $id . '"', $html);
+            $this->assertStringContainsString('role="status"', $html);
+            $this->assertStringContainsString('aria-live="polite"', $html);
+        }
+        $human = $form->getElement('durationseconds_human')->toHtml();
+        $this->assertStringContainsString('aria-atomic="true"', $human);
+        $this->assertStringContainsString(get_string('durationseconds_human', 'mod_videotrack', '00:00:00'), $human);
+        $form->setDefaults(['durationseconds' => '123.456']);
+        $this->assertSame(123.456, (float)$duration->getValue());
+    }
+
+    /**
+     * The rendered DOM configuration and AMD init share one identifier on the supplied page.
+     */
+    public function test_duration_dom_config_matches_the_supplied_page_amd_init(): void {
+        global $PAGE;
+
+        $this->resetAfterTest();
+        $this->setAdminUser();
+        $PAGE = new \moodle_page();
+        $PAGE->set_context(\context_system::instance());
+        $page = new \moodle_page();
+        $page->set_context(\context_system::instance());
+        $form = new \MoodleQuickForm('videotrack_duration_config', 'post', '');
+
+        form_definition::add_duration_elements($form, $page);
+
+        $scripts = [];
+        $elements = (new \ReflectionProperty($form, '_elements'))->getValue($form);
+        foreach ($elements as $element) {
+            if ($element->getType() === 'html') {
+                $scripts[] = $element->toHtml();
+            }
+        }
+        $this->assertCount(1, $scripts);
+        $document = new \DOMDocument();
+        $this->assertTrue($document->loadXML(trim($scripts[0])));
+        $script = $document->documentElement;
+        $this->assertSame('script', $script->nodeName);
+        $this->assertSame('application/json', $script->getAttribute('type'));
+        $this->assertSame('videotrack-duration-config', $script->getAttribute('id'));
+        $config = json_decode($script->textContent, true, 512, JSON_THROW_ON_ERROR);
+        $this->assertSame([
+            'sourceid' => 'id_videosource',
+            'youtubeid' => 'id_youtubeurl',
+            'vimeoid' => 'id_vimeourl',
+            'fileid' => 'id_videofile',
+            'durationid' => 'id_durationseconds',
+            'noteid' => 'videotrack-durationseconds-auto-note',
+            'humanid' => 'videotrack-durationseconds-human',
+            'maximum' => 86400,
+            'messages' => [
+                'idle' => get_string('durationseconds_auto_note', 'mod_videotrack'),
+                'detecting' => get_string('durationseconds_auto_detecting', 'mod_videotrack'),
+                'success' => get_string('durationseconds_auto_success', 'mod_videotrack', '__VIDEOTRACK_DURATION__'),
+                'manual' => get_string('durationseconds_auto_manual', 'mod_videotrack', '__VIDEOTRACK_DURATION__'),
+                'unavailable' => get_string('durationseconds_auto_unavailable', 'mod_videotrack'),
+                'human' => get_string('durationseconds_human', 'mod_videotrack', '__VIDEOTRACK_DURATION_HUMAN__'),
+            ],
+        ], $config);
+        $endcode = $page->requires->get_end_code();
+        $this->assertStringContainsString("require(['mod_videotrack/form/duration']", $endcode);
+        $this->assertStringContainsString(
+            'amd.init(' . json_encode(['configid' => $script->getAttribute('id')]) . ');',
+            $endcode
+        );
+        $this->assertStringNotContainsString('mod_videotrack/form/duration', $PAGE->requires->get_end_code());
     }
 
     /**

@@ -242,3 +242,11 @@ line, not for redeclaring a method parameter.
   cover defaults, dependencies, effective upload options for an ordinary user and actual course permissions.
   The activity form retains 25 methods. The expected PHPMD count remains 27; candidate CI must confirm the
   complete findings and all runtime gates.
+- Initial and post-merge 1.7.229 CI confirm the same 27 findings without new findings. `definition()` complexity
+  falls to 15, NPath to 7,680 and length to 490 lines. The real ZIP and Moodle 5.0/5.3 server checks pass PHPCS,
+  lint, Grunt and 354 tests with 3,292 assertions; both strict validators pass ten checks without warnings.
+  Candidate 1.7.230 delegates the duration field, accessible status markup, DOM JSON and AMD init to the existing
+  `form_definition` owner, using the original page. Two runtime tests cover manual decimals, accessibility,
+  decoded DOM configuration and registration on the supplied page. The provider-loader source contract follows
+  the delegation while retaining its duration-message assertions. The activity form retains 25 methods. The
+  expected PHPMD count remains 27; candidate CI must confirm the complete findings and all runtime gates.

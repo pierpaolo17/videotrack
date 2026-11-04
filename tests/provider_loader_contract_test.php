@@ -80,9 +80,12 @@ final class provider_loader_contract_test extends advanced_testcase {
         $this->assertStringContainsString('formatHumanDuration: formatHumanDuration', $duration);
 
         $form = file_get_contents(__DIR__ . '/../mod_form.php');
+        $definition = file_get_contents(__DIR__ . '/../classes/local/form_definition.php');
         $this->assertIsString($form);
-        $this->assertStringContainsString("'humanid' => 'videotrack-durationseconds-human'", $form);
-        $this->assertStringContainsString("get_string('durationseconds_human'", $form);
+        $this->assertIsString($definition);
+        $this->assertStringContainsString('form_definition::add_duration_elements($mform, $PAGE);', $form);
+        $this->assertStringContainsString("'humanid' => 'videotrack-durationseconds-human'", $definition);
+        $this->assertStringContainsString("get_string('durationseconds_human'", $definition);
     }
 
     /**
