@@ -1,8 +1,8 @@
 # Inventario delle funzioni
 
-Generato dall’albero sorgente VideoTrack 1.7.226. Le voci PHP includono funzioni e metodi nominati; le voci AMD includono dichiarazioni nominate, espressioni funzione assegnate e funzioni-metodo di oggetti.
+Generato dall’albero sorgente VideoTrack 1.7.227. Le voci PHP includono funzioni e metodi nominati; le voci AMD includono dichiarazioni nominate, espressioni funzione assegnate e funzioni-metodo di oggetti.
 
-**Funzioni/metodi PHP:** 1020. **Callable AMD nominati:** 654.
+**Funzioni/metodi PHP:** 1025. **Callable AMD nominati:** 654.
 
 | Posizione | Callable | Responsabilità |
 |---|---|---|
@@ -660,9 +660,9 @@ Generato dall’albero sorgente VideoTrack 1.7.226. Le voci PHP includono funzio
 | `amd/src/vimeo_player.js:2095` | `_posterCleanup` | Callable AMD nominato `_posterCleanup`; vedere JSDoc e chiamanti per il contratto corrente. |
 | `amd/src/vimeo_player.js:2113` | `init` | Callable `init` del modulo; JSDoc e chiamanti definiscono parametri ed effetti. |
 | `amd/src/vimeo_player.js:2147` | `getDuration` | Callable `getDuration` del modulo; JSDoc e chiamanti definiscono parametri ed effetti. |
-| `backup/moodle2/backup_videotrack_activity_task.class.php:36` | `define_my_settings` | Callable PHP `define_my_settings`; DocBlock e chiamanti definiscono parametri, valori restituiti ed effetti. |
-| `backup/moodle2/backup_videotrack_activity_task.class.php:42` | `define_my_steps` | Callable PHP `define_my_steps`; DocBlock e chiamanti definiscono parametri, valori restituiti ed effetti. |
-| `backup/moodle2/backup_videotrack_activity_task.class.php:52` | `encode_content_links` | Callable PHP `encode_content_links`; DocBlock e chiamanti definiscono parametri, valori restituiti ed effetti. |
+| `backup/moodle2/backup_videotrack_activity_task.class.php:37` | `define_my_settings` | Callable PHP `define_my_settings`; DocBlock e chiamanti definiscono parametri, valori restituiti ed effetti. |
+| `backup/moodle2/backup_videotrack_activity_task.class.php:43` | `define_my_steps` | Callable PHP `define_my_steps`; DocBlock e chiamanti definiscono parametri, valori restituiti ed effetti. |
+| `backup/moodle2/backup_videotrack_activity_task.class.php:53` | `encode_content_links` | Callable PHP `encode_content_links`; DocBlock e chiamanti definiscono parametri, valori restituiti ed effetti. |
 | `backup/moodle2/backup_videotrack_stepslib.php:34` | `define_structure` | Callable PHP `define_structure`; DocBlock e chiamanti definiscono parametri, valori restituiti ed effetti. |
 | `backup/moodle2/backup_videotrack_stepslib.php:59` | `create_activity_element` | Crea l'elemento radice del backup attività con il contratto completo dei campi. |
 | `backup/moodle2/backup_videotrack_stepslib.php:89` | `create_reaction_elements` | Crea wrapper ed elemento riga delle reazioni. |
@@ -670,11 +670,11 @@ Generato dall’albero sorgente VideoTrack 1.7.226. Le voci PHP includono funzio
 | `backup/moodle2/backup_videotrack_stepslib.php:135` | `attach_user_elements` | Collega gli elementi opzionali dei dati utente nell'ordine XML canonico. |
 | `backup/moodle2/backup_videotrack_stepslib.php:153` | `configure_sources` | Configura sorgenti attività, reazioni e dati utente conservabili con le annotazioni degli identificatori. |
 | `backup/moodle2/backup_videotrack_stepslib.php:224` | `annotate_files` | Registra le aree file dell'attività e delle reazioni. |
-| `backup/moodle2/restore_videotrack_activity_task.class.php:36` | `define_my_settings` | Callable PHP `define_my_settings`; DocBlock e chiamanti definiscono parametri, valori restituiti ed effetti. |
-| `backup/moodle2/restore_videotrack_activity_task.class.php:42` | `define_my_steps` | Callable PHP `define_my_steps`; DocBlock e chiamanti definiscono parametri, valori restituiti ed effetti. |
-| `backup/moodle2/restore_videotrack_activity_task.class.php:51` | `define_decode_contents` | Callable PHP `define_decode_contents`; DocBlock e chiamanti definiscono parametri, valori restituiti ed effetti. |
-| `backup/moodle2/restore_videotrack_activity_task.class.php:60` | `define_decode_rules` | Callable PHP `define_decode_rules`; DocBlock e chiamanti definiscono parametri, valori restituiti ed effetti. |
-| `backup/moodle2/restore_videotrack_activity_task.class.php:73` | `after_restore` | Callable PHP `after_restore`; DocBlock e chiamanti definiscono parametri, valori restituiti ed effetti. |
+| `backup/moodle2/restore_videotrack_activity_task.class.php:37` | `define_my_settings` | Callable PHP `define_my_settings`; DocBlock e chiamanti definiscono parametri, valori restituiti ed effetti. |
+| `backup/moodle2/restore_videotrack_activity_task.class.php:43` | `define_my_steps` | Callable PHP `define_my_steps`; DocBlock e chiamanti definiscono parametri, valori restituiti ed effetti. |
+| `backup/moodle2/restore_videotrack_activity_task.class.php:52` | `define_decode_contents` | Callable PHP `define_decode_contents`; DocBlock e chiamanti definiscono parametri, valori restituiti ed effetti. |
+| `backup/moodle2/restore_videotrack_activity_task.class.php:61` | `define_decode_rules` | Callable PHP `define_decode_rules`; DocBlock e chiamanti definiscono parametri, valori restituiti ed effetti. |
+| `backup/moodle2/restore_videotrack_activity_task.class.php:74` | `after_restore` | Callable PHP `after_restore`; DocBlock e chiamanti definiscono parametri, valori restituiti ed effetti. |
 | `backup/moodle2/restore_videotrack_stepslib.php:34` | `define_structure` | Callable PHP `define_structure`; DocBlock e chiamanti definiscono parametri, valori restituiti ed effetti. |
 | `backup/moodle2/restore_videotrack_stepslib.php:59` | `process_videotrack` | Callable PHP `process_videotrack`; DocBlock e chiamanti definiscono parametri, valori restituiti ed effetti. |
 | `backup/moodle2/restore_videotrack_stepslib.php:93` | `process_videotrack_reaction` | Callable PHP `process_videotrack_reaction`; DocBlock e chiamanti definiscono parametri, valori restituiti ed effetti. |
@@ -768,22 +768,22 @@ Generato dall’albero sorgente VideoTrack 1.7.226. Le voci PHP includono funzio
 | `classes/event/student_progress_reset.php:65` | `validate_data` | Callable PHP `validate_data`; DocBlock e chiamanti definiscono parametri, valori restituiti ed effetti. |
 | `classes/event/student_progress_reset.php:82` | `get_url` | Callable PHP `get_url`; DocBlock e chiamanti definiscono parametri, valori restituiti ed effetti. |
 | `classes/event/student_progress_reset.php:91` | `get_objectid_mapping` | Callable PHP `get_objectid_mapping`; DocBlock e chiamanti definiscono parametri, valori restituiti ed effetti. |
-| `classes/external/delete_bookmark.php:44` | `execute_parameters` | Callable PHP `execute_parameters`; DocBlock e chiamanti definiscono parametri, valori restituiti ed effetti. |
-| `classes/external/delete_bookmark.php:58` | `execute` | Callable PHP `execute`; DocBlock e chiamanti definiscono parametri, valori restituiti ed effetti. |
-| `classes/external/delete_bookmark.php:91` | `execute_returns` | Callable PHP `execute_returns`; DocBlock e chiamanti definiscono parametri, valori restituiti ed effetti. |
-| `classes/external/delete_note.php:44` | `execute_parameters` | Callable PHP `execute_parameters`; DocBlock e chiamanti definiscono parametri, valori restituiti ed effetti. |
-| `classes/external/delete_note.php:65` | `execute` | Callable PHP `execute`; DocBlock e chiamanti definiscono parametri, valori restituiti ed effetti. |
-| `classes/external/delete_note.php:118` | `execute_returns` | Callable PHP `execute_returns`; DocBlock e chiamanti definiscono parametri, valori restituiti ed effetti. |
-| `classes/external/delete_reaction.php:45` | `execute_parameters` | Callable PHP `execute_parameters`; DocBlock e chiamanti definiscono parametri, valori restituiti ed effetti. |
-| `classes/external/delete_reaction.php:62` | `execute` | Callable PHP `execute`; DocBlock e chiamanti definiscono parametri, valori restituiti ed effetti. |
-| `classes/external/delete_reaction.php:133` | `execute_returns` | Callable PHP `execute_returns`; DocBlock e chiamanti definiscono parametri, valori restituiti ed effetti. |
-| `classes/external/helper.php:43` | `require_ajax_sesskey` | Callable PHP `require_ajax_sesskey`; DocBlock e chiamanti definiscono parametri, valori restituiti ed effetti. |
-| `classes/external/helper.php:55` | `validate_positive_id` | Callable PHP `validate_positive_id`; DocBlock e chiamanti definiscono parametri, valori restituiti ed effetti. |
-| `classes/external/helper.php:75` | `validate_session_id` | Callable PHP `validate_session_id`; DocBlock e chiamanti definiscono parametri, valori restituiti ed effetti. |
-| `classes/external/helper.php:88` | `validate_request_id` | Callable PHP `validate_request_id`; DocBlock e chiamanti definiscono parametri, valori restituiti ed effetti. |
-| `classes/external/helper.php:103` | `validate_end_reason` | Callable PHP `validate_end_reason`; DocBlock e chiamanti definiscono parametri, valori restituiti ed effetti. |
-| `classes/external/helper.php:125` | `validate_bounded_float` | Callable PHP `validate_bounded_float`; DocBlock e chiamanti definiscono parametri, valori restituiti ed effetti. |
-| `classes/external/helper.php:138` | `load_and_validate_context` | Callable PHP `load_and_validate_context`; DocBlock e chiamanti definiscono parametri, valori restituiti ed effetti. |
+| `classes/external/delete_bookmark.php:43` | `execute_parameters` | Callable PHP `execute_parameters`; DocBlock e chiamanti definiscono parametri, valori restituiti ed effetti. |
+| `classes/external/delete_bookmark.php:57` | `execute` | Callable PHP `execute`; DocBlock e chiamanti definiscono parametri, valori restituiti ed effetti. |
+| `classes/external/delete_bookmark.php:90` | `execute_returns` | Callable PHP `execute_returns`; DocBlock e chiamanti definiscono parametri, valori restituiti ed effetti. |
+| `classes/external/delete_note.php:43` | `execute_parameters` | Callable PHP `execute_parameters`; DocBlock e chiamanti definiscono parametri, valori restituiti ed effetti. |
+| `classes/external/delete_note.php:64` | `execute` | Callable PHP `execute`; DocBlock e chiamanti definiscono parametri, valori restituiti ed effetti. |
+| `classes/external/delete_note.php:117` | `execute_returns` | Callable PHP `execute_returns`; DocBlock e chiamanti definiscono parametri, valori restituiti ed effetti. |
+| `classes/external/delete_reaction.php:44` | `execute_parameters` | Callable PHP `execute_parameters`; DocBlock e chiamanti definiscono parametri, valori restituiti ed effetti. |
+| `classes/external/delete_reaction.php:61` | `execute` | Callable PHP `execute`; DocBlock e chiamanti definiscono parametri, valori restituiti ed effetti. |
+| `classes/external/delete_reaction.php:132` | `execute_returns` | Callable PHP `execute_returns`; DocBlock e chiamanti definiscono parametri, valori restituiti ed effetti. |
+| `classes/external/helper.php:42` | `require_ajax_sesskey` | Callable PHP `require_ajax_sesskey`; DocBlock e chiamanti definiscono parametri, valori restituiti ed effetti. |
+| `classes/external/helper.php:54` | `validate_positive_id` | Callable PHP `validate_positive_id`; DocBlock e chiamanti definiscono parametri, valori restituiti ed effetti. |
+| `classes/external/helper.php:74` | `validate_session_id` | Callable PHP `validate_session_id`; DocBlock e chiamanti definiscono parametri, valori restituiti ed effetti. |
+| `classes/external/helper.php:87` | `validate_request_id` | Callable PHP `validate_request_id`; DocBlock e chiamanti definiscono parametri, valori restituiti ed effetti. |
+| `classes/external/helper.php:102` | `validate_end_reason` | Callable PHP `validate_end_reason`; DocBlock e chiamanti definiscono parametri, valori restituiti ed effetti. |
+| `classes/external/helper.php:124` | `validate_bounded_float` | Callable PHP `validate_bounded_float`; DocBlock e chiamanti definiscono parametri, valori restituiti ed effetti. |
+| `classes/external/helper.php:137` | `load_and_validate_context` | Callable PHP `load_and_validate_context`; DocBlock e chiamanti definiscono parametri, valori restituiti ed effetti. |
 | `classes/external/save_bookmark.php:44` | `execute_parameters` | Callable PHP `execute_parameters`; DocBlock e chiamanti definiscono parametri, valori restituiti ed effetti. |
 | `classes/external/save_bookmark.php:64` | `execute` | Callable PHP `execute`; DocBlock e chiamanti definiscono parametri, valori restituiti ed effetti. |
 | `classes/external/save_bookmark.php:123` | `normalise_label` | Normalizza e limita la lunghezza dell'etichetta privata prima della persistenza. |
@@ -793,9 +793,9 @@ Generato dall’albero sorgente VideoTrack 1.7.226. Le voci PHP includono funzio
 | `classes/external/save_bookmark.php:220` | `insert_bookmark_record` | Salva il record segnalibro canonico normalizzato. |
 | `classes/external/save_bookmark.php:261` | `trigger_bookmark_event` | Emette l'evento Moodle dedicato dopo la persistenza riuscita. |
 | `classes/external/save_bookmark.php:274` | `execute_returns` | Callable PHP `execute_returns`; DocBlock e chiamanti definiscono parametri, valori restituiti ed effetti. |
-| `classes/external/save_integrity_event.php:47` | `execute_parameters` | Callable PHP `execute_parameters`; DocBlock e chiamanti definiscono parametri, valori restituiti ed effetti. |
-| `classes/external/save_integrity_event.php:65` | `execute` | Callable PHP `execute`; DocBlock e chiamanti definiscono parametri, valori restituiti ed effetti. |
-| `classes/external/save_integrity_event.php:140` | `execute_returns` | Callable PHP `execute_returns`; DocBlock e chiamanti definiscono parametri, valori restituiti ed effetti. |
+| `classes/external/save_integrity_event.php:46` | `execute_parameters` | Callable PHP `execute_parameters`; DocBlock e chiamanti definiscono parametri, valori restituiti ed effetti. |
+| `classes/external/save_integrity_event.php:64` | `execute` | Callable PHP `execute`; DocBlock e chiamanti definiscono parametri, valori restituiti ed effetti. |
+| `classes/external/save_integrity_event.php:139` | `execute_returns` | Callable PHP `execute_returns`; DocBlock e chiamanti definiscono parametri, valori restituiti ed effetti. |
 | `classes/external/save_note.php:47` | `execute_parameters` | Dichiara i parametri external stabili delle note personali temporizzate. |
 | `classes/external/save_note.php:67` | `execute` | Orchestra validazione, accesso, guard nota, persistenza e warning nell'ordine di sicurezza. |
 | `classes/external/save_note.php:119` | `normalise_note_text` | Converte l'input AJAX in testo semplice limitato e segnala il troncamento. |
@@ -958,10 +958,12 @@ Generato dall’albero sorgente VideoTrack 1.7.226. Le voci PHP includono funzio
 | `classes/local/focus_policy.php:60` | `ensure_exception_group` | Crea o ripara in modo idempotente il gruppo nascosto e non partecipante. |
 | `classes/local/focus_policy.php:97` | `user_has_exception` | Risolve la membership core diretta senza esporre l’appartenenza nascosta. |
 | `classes/local/focus_policy.php:121` | `effective_policy` | Riduce soltanto il blur strict per i membri autorizzati del gruppo. |
-| `classes/local/form_definition.php:35` | `add_csv_elements` | Costruisce opzioni di delimitatore e campi CSV con il contesto effettivo dei permessi Moodle. |
-| `classes/local/form_definition.php:100` | `add_forum_elements` | Aggiunge il gruppo Forum con opzioni del corso e impostazioni salvate dell’attività. |
-| `classes/local/form_definition.php:169` | `add_integrity_elements` | Aggiunge i controlli integrità inizialmente disabilitati e il riepilogo della policy focus effettiva del sito. |
-| `classes/local/form_definition.php:241` | `add_acknowledgement_elements` | Aggiunge i campi presa visione con contesto, tempi e opzioni editor originali. |
+| `classes/local/form_definition.php:35` | `add_html5_control_elements` | Costruisce i controlli HTML5 consentiti dal sito con visibilità per upload e permessi di override per corso. |
+| `classes/local/form_definition.php:113` | `add_playback_speed_elements` | Costruisce le velocità consentite dal sito con valori piatti e permessi di override per corso. |
+| `classes/local/form_definition.php:173` | `add_csv_elements` | Costruisce opzioni di delimitatore e campi CSV con il contesto effettivo dei permessi Moodle. |
+| `classes/local/form_definition.php:238` | `add_forum_elements` | Aggiunge il gruppo Forum con opzioni del corso e impostazioni salvate dell’attività. |
+| `classes/local/form_definition.php:307` | `add_integrity_elements` | Aggiunge i controlli integrità inizialmente disabilitati e il riepilogo della policy focus effettiva del sito. |
+| `classes/local/form_definition.php:379` | `add_acknowledgement_elements` | Aggiunge i campi presa visione con contesto, tempi e opzioni editor originali. |
 | `classes/local/form_preprocessing.php:36` | `reaction_defaults` | Callable PHP `reaction_defaults`; DocBlock e chiamanti definiscono parametri, valori restituiti ed effetti. |
 | `classes/local/form_preprocessing.php:98` | `reaction_notice_defaults` | Callable PHP `reaction_notice_defaults`; DocBlock e chiamanti definiscono parametri, valori restituiti ed effetti. |
 | `classes/local/form_preprocessing.php:119` | `completion_defaults` | Callable PHP `completion_defaults`; DocBlock e chiamanti definiscono parametri, valori restituiti ed effetti. |
@@ -1268,30 +1270,30 @@ Generato dall’albero sorgente VideoTrack 1.7.226. Le voci PHP includono funzio
 | `locallib.php:1070` | `videotrack_build_forum_subject` | Callable PHP `videotrack_build_forum_subject`; DocBlock e chiamanti definiscono parametri, valori restituiti ed effetti. |
 | `locallib.php:1099` | `videotrack_build_replay_url` | Callable PHP `videotrack_build_replay_url`; DocBlock e chiamanti definiscono parametri, valori restituiti ed effetti. |
 | `mod_form.php:47` | `definition` | Callable PHP `definition`; DocBlock e chiamanti definiscono parametri, valori restituiti ed effetti. |
-| `mod_form.php:913` | `apply_default_section_expansion` | Callable PHP `apply_default_section_expansion`; DocBlock e chiamanti definiscono parametri, valori restituiti ed effetti. |
-| `mod_form.php:950` | `require_filepicker_accept_filter` | Callable PHP `require_filepicker_accept_filter`; DocBlock e chiamanti definiscono parametri, valori restituiti ed effetti. |
-| `mod_form.php:996` | `add_reaction_elements` | Callable PHP `add_reaction_elements`; DocBlock e chiamanti definiscono parametri, valori restituiti ed effetti. |
-| `mod_form.php:1036` | `add_reaction_row_fields` | Aggiunge i campi e il selettore icona della riga nell’ordine originale. |
-| `mod_form.php:1134` | `add_reaction_row_visibility` | Applica le regole esistenti di visibilità e disabilitazione delle icone dopo i campi. |
-| `mod_form.php:1197` | `get_reaction_repeat_count` | Callable PHP `get_reaction_repeat_count`; DocBlock e chiamanti definiscono parametri, valori restituiti ed effetti. |
-| `mod_form.php:1225` | `add_completion_rules` | Callable PHP `add_completion_rules`; DocBlock e chiamanti definiscono parametri, valori restituiti ed effetti. |
-| `mod_form.php:1294` | `completion_rule_enabled` | Callable PHP `completion_rule_enabled`; DocBlock e chiamanti definiscono parametri, valori restituiti ed effetti. |
-| `mod_form.php:1306` | `data_preprocessing` | Callable PHP `data_preprocessing`; DocBlock e chiamanti definiscono parametri, valori restituiti ed effetti. |
-| `mod_form.php:1405` | `draft_area_contains_only_reaction_images` | Callable PHP `draft_area_contains_only_reaction_images`; DocBlock e chiamanti definiscono parametri, valori restituiti ed effetti. |
-| `mod_form.php:1441` | `draft_area_contains_only_vtt` | Callable PHP `draft_area_contains_only_vtt`; DocBlock e chiamanti definiscono parametri, valori restituiti ed effetti. |
-| `mod_form.php:1472` | `source_errors` | Callable PHP `source_errors`; DocBlock e chiamanti definiscono parametri, valori restituiti ed effetti. |
-| `mod_form.php:1492` | `youtube_source_errors` | Callable PHP `youtube_source_errors`; DocBlock e chiamanti definiscono parametri, valori restituiti ed effetti. |
-| `mod_form.php:1505` | `vimeo_source_errors` | Callable PHP `vimeo_source_errors`; DocBlock e chiamanti definiscono parametri, valori restituiti ed effetti. |
-| `mod_form.php:1518` | `upload_source_errors` | Callable PHP `upload_source_errors`; DocBlock e chiamanti definiscono parametri, valori restituiti ed effetti. |
-| `mod_form.php:1537` | `timed_text_errors` | Callable PHP `timed_text_errors`; DocBlock e chiamanti definiscono parametri, valori restituiti ed effetti. |
-| `mod_form.php:1562` | `timed_text_draft_errors` | Callable PHP `timed_text_draft_errors`; DocBlock e chiamanti definiscono parametri, valori restituiti ed effetti. |
-| `mod_form.php:1587` | `timed_text_required_errors` | Callable PHP `timed_text_required_errors`; DocBlock e chiamanti definiscono parametri, valori restituiti ed effetti. |
-| `mod_form.php:1615` | `reaction_file_icon_errors` | Callable PHP `reaction_file_icon_errors`; DocBlock e chiamanti definiscono parametri, valori restituiti ed effetti. |
-| `mod_form.php:1653` | `existing_reaction_icon_file` | Callable PHP `existing_reaction_icon_file`; DocBlock e chiamanti definiscono parametri, valori restituiti ed effetti. |
-| `mod_form.php:1676` | `forum_errors` | Callable PHP `forum_errors`; DocBlock e chiamanti definiscono parametri, valori restituiti ed effetti. |
-| `mod_form.php:1697` | `reaction_errors` | Callable PHP `reaction_errors`; DocBlock e chiamanti definiscono parametri, valori restituiti ed effetti. |
-| `mod_form.php:1721` | `reaction_row_errors` | Callable PHP `reaction_row_errors`; DocBlock e chiamanti definiscono parametri, valori restituiti ed effetti. |
-| `mod_form.php:1775` | `validation` | Callable PHP `validation`; DocBlock e chiamanti definiscono parametri, valori restituiti ed effetti. |
+| `mod_form.php:766` | `apply_default_section_expansion` | Callable PHP `apply_default_section_expansion`; DocBlock e chiamanti definiscono parametri, valori restituiti ed effetti. |
+| `mod_form.php:803` | `require_filepicker_accept_filter` | Callable PHP `require_filepicker_accept_filter`; DocBlock e chiamanti definiscono parametri, valori restituiti ed effetti. |
+| `mod_form.php:849` | `add_reaction_elements` | Callable PHP `add_reaction_elements`; DocBlock e chiamanti definiscono parametri, valori restituiti ed effetti. |
+| `mod_form.php:889` | `add_reaction_row_fields` | Aggiunge i campi e il selettore icona della riga nell’ordine originale. |
+| `mod_form.php:987` | `add_reaction_row_visibility` | Applica le regole esistenti di visibilità e disabilitazione delle icone dopo i campi. |
+| `mod_form.php:1050` | `get_reaction_repeat_count` | Callable PHP `get_reaction_repeat_count`; DocBlock e chiamanti definiscono parametri, valori restituiti ed effetti. |
+| `mod_form.php:1078` | `add_completion_rules` | Callable PHP `add_completion_rules`; DocBlock e chiamanti definiscono parametri, valori restituiti ed effetti. |
+| `mod_form.php:1147` | `completion_rule_enabled` | Callable PHP `completion_rule_enabled`; DocBlock e chiamanti definiscono parametri, valori restituiti ed effetti. |
+| `mod_form.php:1159` | `data_preprocessing` | Callable PHP `data_preprocessing`; DocBlock e chiamanti definiscono parametri, valori restituiti ed effetti. |
+| `mod_form.php:1258` | `draft_area_contains_only_reaction_images` | Callable PHP `draft_area_contains_only_reaction_images`; DocBlock e chiamanti definiscono parametri, valori restituiti ed effetti. |
+| `mod_form.php:1294` | `draft_area_contains_only_vtt` | Callable PHP `draft_area_contains_only_vtt`; DocBlock e chiamanti definiscono parametri, valori restituiti ed effetti. |
+| `mod_form.php:1325` | `source_errors` | Callable PHP `source_errors`; DocBlock e chiamanti definiscono parametri, valori restituiti ed effetti. |
+| `mod_form.php:1345` | `youtube_source_errors` | Callable PHP `youtube_source_errors`; DocBlock e chiamanti definiscono parametri, valori restituiti ed effetti. |
+| `mod_form.php:1358` | `vimeo_source_errors` | Callable PHP `vimeo_source_errors`; DocBlock e chiamanti definiscono parametri, valori restituiti ed effetti. |
+| `mod_form.php:1371` | `upload_source_errors` | Callable PHP `upload_source_errors`; DocBlock e chiamanti definiscono parametri, valori restituiti ed effetti. |
+| `mod_form.php:1390` | `timed_text_errors` | Callable PHP `timed_text_errors`; DocBlock e chiamanti definiscono parametri, valori restituiti ed effetti. |
+| `mod_form.php:1415` | `timed_text_draft_errors` | Callable PHP `timed_text_draft_errors`; DocBlock e chiamanti definiscono parametri, valori restituiti ed effetti. |
+| `mod_form.php:1440` | `timed_text_required_errors` | Callable PHP `timed_text_required_errors`; DocBlock e chiamanti definiscono parametri, valori restituiti ed effetti. |
+| `mod_form.php:1468` | `reaction_file_icon_errors` | Callable PHP `reaction_file_icon_errors`; DocBlock e chiamanti definiscono parametri, valori restituiti ed effetti. |
+| `mod_form.php:1506` | `existing_reaction_icon_file` | Callable PHP `existing_reaction_icon_file`; DocBlock e chiamanti definiscono parametri, valori restituiti ed effetti. |
+| `mod_form.php:1529` | `forum_errors` | Callable PHP `forum_errors`; DocBlock e chiamanti definiscono parametri, valori restituiti ed effetti. |
+| `mod_form.php:1550` | `reaction_errors` | Callable PHP `reaction_errors`; DocBlock e chiamanti definiscono parametri, valori restituiti ed effetti. |
+| `mod_form.php:1574` | `reaction_row_errors` | Callable PHP `reaction_row_errors`; DocBlock e chiamanti definiscono parametri, valori restituiti ed effetti. |
+| `mod_form.php:1628` | `validation` | Callable PHP `validation`; DocBlock e chiamanti definiscono parametri, valori restituiti ed effetti. |
 | `reports_course.php:34` | `videotrack_course_report_count_cell` | Callable PHP `videotrack_course_report_count_cell`; DocBlock e chiamanti definiscono parametri, valori restituiti ed effetti. |
 | `reports_course.php:48` | `videotrack_course_report_percentage_cell` | Callable PHP `videotrack_course_report_percentage_cell`; renderizza la percentuale aggregata in forma testuale. |
 | `reports_course.php:67` | `videotrack_course_report_percentage_bar_cell` | Callable PHP `videotrack_course_report_percentage_bar_cell`; renderizza la percentuale aggregata con barra compatta accessibile. |
@@ -1438,15 +1440,18 @@ Generato dall’albero sorgente VideoTrack 1.7.226. Le voci PHP includono funzio
 | `tests/focus_policy_test.php:83` | `test_non_member_keeps_strict_policy` | Verifica che la policy strict resti effettiva fuori dal gruppo. |
 | `tests/focus_policy_test.php:104` | `test_hidden_only_site_policy_is_unchanged` | Verifica che l’eccezione non indebolisca la normale policy hidden-only. |
 | `tests/focus_policy_test.php:123` | `test_activity_lifecycle_and_view_are_wired_to_focus_policy` | Verifica i contratti di integrazione add, update, restore e view. |
-| `tests/form_definition_test.php:36` | `setUp` | Carica Moodle QuickForm e le query Forum condivise. |
-| `tests/form_definition_test.php:47` | `test_empty_course_disables_posting_and_freezes_destination` | Verifica la disabilitazione in un corso vuoto e il blocco della destinazione. |
-| `tests/form_definition_test.php:65` | `test_choices_keep_course_scope_and_module_status` | Verifica filtri per corso, tipo e cancellazione, ordine e stato nascosto. |
-| `tests/form_definition_test.php:106` | `test_unavailable_saved_forum_remains_an_editable_placeholder` | Verifica il segnaposto salvato non disponibile senza esporre l’etichetta di un altro corso. |
-| `tests/form_definition_test.php:132` | `test_acknowledgement_fields_keep_context_and_safe_editor_options` | Verifica tempi della presa visione, contesto originale e opzioni di sicurezza dell’editor. |
-| `tests/form_definition_test.php:169` | `test_csv_fields_keep_delimiters_names_and_order` | Verifica ereditarietà del delimitatore, opzioni e nomi/ordine stabili dei checkbox. |
-| `tests/form_definition_test.php:201` | `test_csv_identity_fields_respect_context_and_hidden_field_permissions` | Verifica accesso alle identità per contesto e disabilitazione di campi nascosti o non configurati. |
-| `tests/form_definition_test.php:245` | `test_integrity_fields_keep_disabled_defaults_and_accessible_policy` | Verifica i default integrità disabilitati e il riepilogo della policy accessibile predefinita. |
-| `tests/form_definition_test.php:272` | `test_integrity_summary_uses_effective_site_settings` | Verifica etichette strict/fallback e limiti/intervallo di tolleranza normalizzati nella policy mostrata. |
+| `tests/form_definition_test.php:36` | `setUp` | Carica Moodle QuickForm e le API condivise Forum e controlli HTML5. |
+| `tests/form_definition_test.php:48` | `test_playback_choices_keep_site_scope_order_and_flat_values` | Verifica filtro sito, ordine canonico, valori checkbox piatti e visibilità per upload. |
+| `tests/form_definition_test.php:89` | `test_playback_choices_respect_course_override_permissions` | Verifica permessi di override reali per corso e gruppi/figli congelati nel corso non autorizzato. |
+| `tests/form_definition_test.php:123` | `test_playback_choices_keep_site_fallback_and_empty_groups` | Verifica default sito e omissione dei gruppi controlli e velocità senza scelte supportate. |
+| `tests/form_definition_test.php:162` | `test_empty_course_disables_posting_and_freezes_destination` | Verifica la disabilitazione in un corso vuoto e il blocco della destinazione. |
+| `tests/form_definition_test.php:180` | `test_choices_keep_course_scope_and_module_status` | Verifica filtri per corso, tipo e cancellazione, ordine e stato nascosto. |
+| `tests/form_definition_test.php:221` | `test_unavailable_saved_forum_remains_an_editable_placeholder` | Verifica il segnaposto salvato non disponibile senza esporre l’etichetta di un altro corso. |
+| `tests/form_definition_test.php:247` | `test_acknowledgement_fields_keep_context_and_safe_editor_options` | Verifica tempi della presa visione, contesto originale e opzioni di sicurezza dell’editor. |
+| `tests/form_definition_test.php:284` | `test_csv_fields_keep_delimiters_names_and_order` | Verifica ereditarietà del delimitatore, opzioni e nomi/ordine stabili dei checkbox. |
+| `tests/form_definition_test.php:316` | `test_csv_identity_fields_respect_context_and_hidden_field_permissions` | Verifica accesso alle identità per contesto e disabilitazione di campi nascosti o non configurati. |
+| `tests/form_definition_test.php:360` | `test_integrity_fields_keep_disabled_defaults_and_accessible_policy` | Verifica i default integrità disabilitati e il riepilogo della policy accessibile predefinita. |
+| `tests/form_definition_test.php:387` | `test_integrity_summary_uses_effective_site_settings` | Verifica etichette strict/fallback e limiti/intervallo di tolleranza normalizzati nella policy mostrata. |
 | `tests/form_preprocessing_test.php:36` | `test_completion_defaults_preserve_edit_values` | Callable PHP `test_completion_defaults_preserve_edit_values`; DocBlock e chiamanti definiscono parametri, valori restituiti ed effetti. |
 | `tests/form_preprocessing_test.php:61` | `test_reaction_notice_defaults_preserve_editors_and_presets` | Callable PHP `test_reaction_notice_defaults_preserve_editors_and_presets`; DocBlock e chiamanti definiscono parametri, valori restituiti ed effetti. |
 | `tests/form_preprocessing_test.php:85` | `test_playback_defaults_preserve_selected_controls` | Callable PHP `test_playback_defaults_preserve_selected_controls`; DocBlock e chiamanti definiscono parametri, valori restituiti ed effetti. |
@@ -1552,14 +1557,14 @@ Generato dall’albero sorgente VideoTrack 1.7.226. Le voci PHP includono funzio
 | `tests/provider_seek_snapshot_contract_test.php:104` | `test_all_providers_wire_rollback_safe_timestamp_to_personal_actions` | Funzione/metodo PHP nominato `test_all_providers_wire_rollback_safe_timestamp_to_personal_actions`; vedere DocBlock e chiamanti per il contratto corrente. |
 | `tests/release_hygiene_contract_test.php:35` | `test_shared_php_libraries_reject_direct_access` | Verifica che le librerie condivise lato scrittura conservino il guard Moodle standard contro l'accesso diretto. |
 | `tests/release_hygiene_contract_test.php:51` | `test_csv_export_format_strings_have_explicit_context` | Funzione/metodo PHP nominato `test_csv_export_format_strings_have_explicit_context`; vedere DocBlock e chiamanti per il contratto corrente. |
-| `tests/release_hygiene_contract_test.php:65` | `test_environment_italian_feedback_uses_utf8` | Funzione/metodo PHP nominato `test_environment_italian_feedback_uses_utf8`; vedere DocBlock e chiamanti per il contratto corrente. |
-| `tests/release_hygiene_contract_test.php:81` | `test_readmes_and_changelog_track_current_release` | Funzione/metodo PHP nominato `test_readmes_and_changelog_track_current_release`; vedere DocBlock e chiamanti per il contratto corrente. |
-| `tests/release_hygiene_contract_test.php:121` | `test_current_documentation_tracks_release` | Funzione/metodo PHP nominato `test_current_documentation_tracks_release`; vedere DocBlock e chiamanti per il contratto corrente. |
-| `tests/release_hygiene_contract_test.php:176` | `test_activity_icon_assets_cover_png_and_svg_renderers` | Funzione/metodo PHP nominato `test_activity_icon_assets_cover_png_and_svg_renderers`; vedere DocBlock e chiamanti per il contratto corrente. |
-| `tests/release_hygiene_contract_test.php:195` | `test_phpunit_coverage_metadata_uses_attributes` | Funzione/metodo PHP nominato `test_phpunit_coverage_metadata_uses_attributes`; vedere DocBlock e chiamanti per il contratto corrente. |
-| `tests/release_hygiene_contract_test.php:216` | `test_maintained_language_packs_share_keys_and_placeholders` | Funzione/metodo PHP nominato `test_maintained_language_packs_share_keys_and_placeholders`; vedere DocBlock e chiamanti per il contratto corrente. |
-| `tests/release_hygiene_contract_test.php:268` | `test_privacy_summaries_keep_parallel_section_structure` | Funzione/metodo PHP nominato `test_privacy_summaries_keep_parallel_section_structure`; vedere DocBlock e chiamanti per il contratto corrente. |
-| `tests/release_hygiene_contract_test.php:289` | `test_generated_reports_are_absent_and_export_ignored` | Impedisce che evidenza CI/server generata entri nell'albero di release e protegge entrambe le regole di esclusione distribuite. |
+| `tests/release_hygiene_contract_test.php:69` | `test_environment_italian_feedback_uses_utf8` | Funzione/metodo PHP nominato `test_environment_italian_feedback_uses_utf8`; vedere DocBlock e chiamanti per il contratto corrente. |
+| `tests/release_hygiene_contract_test.php:85` | `test_readmes_and_changelog_track_current_release` | Funzione/metodo PHP nominato `test_readmes_and_changelog_track_current_release`; vedere DocBlock e chiamanti per il contratto corrente. |
+| `tests/release_hygiene_contract_test.php:125` | `test_current_documentation_tracks_release` | Funzione/metodo PHP nominato `test_current_documentation_tracks_release`; vedere DocBlock e chiamanti per il contratto corrente. |
+| `tests/release_hygiene_contract_test.php:180` | `test_activity_icon_assets_cover_png_and_svg_renderers` | Funzione/metodo PHP nominato `test_activity_icon_assets_cover_png_and_svg_renderers`; vedere DocBlock e chiamanti per il contratto corrente. |
+| `tests/release_hygiene_contract_test.php:199` | `test_phpunit_coverage_metadata_uses_attributes` | Funzione/metodo PHP nominato `test_phpunit_coverage_metadata_uses_attributes`; vedere DocBlock e chiamanti per il contratto corrente. |
+| `tests/release_hygiene_contract_test.php:220` | `test_maintained_language_packs_share_keys_and_placeholders` | Funzione/metodo PHP nominato `test_maintained_language_packs_share_keys_and_placeholders`; vedere DocBlock e chiamanti per il contratto corrente. |
+| `tests/release_hygiene_contract_test.php:272` | `test_privacy_summaries_keep_parallel_section_structure` | Funzione/metodo PHP nominato `test_privacy_summaries_keep_parallel_section_structure`; vedere DocBlock e chiamanti per il contratto corrente. |
+| `tests/release_hygiene_contract_test.php:293` | `test_generated_reports_are_absent_and_export_ignored` | Impedisce che evidenza CI/server generata entri nell'albero di release e protegge entrambe le regole di esclusione distribuite. |
 | `tests/report_access_test.php:37` | `test_aggregate_only_role_keeps_individual_access_separate` | Callable PHP `test_aggregate_only_role_keeps_individual_access_separate`; contratto comportamentale per accesso delegato solo aggregato. |
 | `tests/report_access_test.php:59` | `test_individual_view_implies_aggregate_view_without_export_permissions` | Callable PHP `test_individual_view_implies_aggregate_view_without_export_permissions`; contratto comportamentale per separare vista ed export. |
 | `tests/report_access_test.php:79` | `test_legacy_viewreport_remains_full_access` | Callable PHP `test_legacy_viewreport_remains_full_access`; contratto di retrocompatibilità per i ruoli report storici. |
@@ -1575,27 +1580,27 @@ Generato dall’albero sorgente VideoTrack 1.7.226. Le voci PHP includono funzio
 | `tests/report_contract_test.php:207` | `test_student_grade_label_uses_plugin_string` | Callable PHP `test_student_grade_label_uses_plugin_string`; contratto statico di regressione per il controller del report docente. |
 | `tests/report_contract_test.php:217` | `test_provider_and_integrity_notices_share_one_alert` | Callable PHP `test_provider_and_integrity_notices_share_one_alert`; contratto statico di regressione per il controller del report docente. |
 | `tests/report_contract_test.php:234` | `test_report_helpers_are_extracted_from_controller` | Contratto statico per i confini mirati di supporto e filtro temporale del report. |
-| `tests/report_contract_test.php:321` | `test_analytics_rendering_is_extracted_from_report_controller` | Callable PHP `test_analytics_rendering_is_extracted_from_report_controller`; contratto statico di regressione per il controller del report docente. |
-| `tests/report_support_test.php:37` | `test_user_label_respects_email_visibility` | Callable PHP `test_user_label_respects_email_visibility`; copertura comportamentale degli helper di supporto report estratti. |
-| `tests/report_support_test.php:57` | `test_tabs_preserve_capability_dependent_set` | Callable PHP `test_tabs_preserve_capability_dependent_set`; copertura comportamentale degli helper di supporto report estratti. |
-| `tests/report_support_test.php:73` | `test_empty_scope_conditions_remain_deny_all` | Callable PHP `test_empty_scope_conditions_remain_deny_all`; copertura comportamentale degli helper di supporto report estratti. |
-| `tests/report_support_test.php:86` | `test_analytics_prefers_state_fallback_preserves_selection_rules` | Callable PHP `test_analytics_prefers_state_fallback_preserves_selection_rules`; copertura comportamentale della priorità viewer e dell'epsilon stretto nella selezione fallback state. |
-| `tests/report_support_test.php:111` | `test_analytics_highlights_preserve_report_semantics` | Callable PHP `test_analytics_highlights_preserve_report_semantics`; copertura comportamentale per filtro, ordinamento, discontinuità e limite top-five degli highlight Analytics estratti. |
-| `tests/report_support_test.php:143` | `test_analytics_acknowledgement_timing_counts_preserve_policy_buckets` | Callable PHP `test_analytics_acknowledgement_timing_counts_preserve_policy_buckets`; copertura comportamentale del conteggio timing estratto per la presa visione. |
-| `tests/report_support_test.php:163` | `test_analytics_reaction_condition_preserves_scope_and_provider_filter` | Callable PHP `test_analytics_reaction_condition_preserves_scope_and_provider_filter`; copertura comportamentale del filtro scope/evento/provider estratto per le reazioni Analytics. |
-| `tests/report_support_test.php:198` | `test_analytics_bookmark_condition_preserves_scope_and_provider_filter` | Callable PHP `test_analytics_bookmark_condition_preserves_scope_and_provider_filter`; copertura comportamentale del filtro scope/evento/provider estratto per i bookmark Analytics. |
-| `tests/report_support_test.php:232` | `test_analytics_integrity_condition_preserves_scope_and_provider_filter` | Callable PHP `test_analytics_integrity_condition_preserves_scope_and_provider_filter`; copertura comportamentale del filtro scope/provider estratto per gli Analytics integrity. |
-| `tests/report_support_test.php:262` | `test_analytics_state_condition_preserves_scope_and_provider_filter` | Callable PHP `test_analytics_state_condition_preserves_scope_and_provider_filter`; copertura comportamentale che vincola la parentesizzazione dell'intero scope per il filtro provider Analytics state. |
-| `tests/report_support_test.php:292` | `test_analytics_segment_condition_preserves_scope_and_provider_filter` | PHP callable `test_analytics_segment_condition_preserves_scope_and_provider_filter`; copertura comportamentale per lo scope/filtro provider Analytics dei segmenti validati estratto. |
-| `tests/report_support_test.php:325` | `test_reaction_event_condition_preserves_filters_and_scope` | Callable PHP `test_reaction_event_condition_preserves_filters_and_scope`; copertura comportamentale della costruzione SQL/parametri estratta per gli eventi di reazione standard. |
-| `tests/report_support_test.php:373` | `test_bookmark_event_condition_preserves_filters_and_scope` | Callable PHP `test_bookmark_event_condition_preserves_filters_and_scope`; copertura comportamentale della costruzione SQL/parametri estratta per gli eventi bookmark standard. |
-| `tests/report_support_test.php:417` | `test_integrity_event_condition_preserves_filters_and_scope` | Callable PHP `test_integrity_event_condition_preserves_filters_and_scope`; copertura comportamentale della costruzione SQL/parametri estratta per gli eventi integrity standard. |
-| `tests/report_support_test.php:460` | `test_note_user_condition_preserves_scope_and_optional_user` | Callable PHP `test_note_user_condition_preserves_scope_and_optional_user`; copertura comportamentale della costruzione SQL/parametri estratta per individuare gli utenti con note personali. |
-| `tests/report_support_test.php:496` | `test_note_event_condition_preserves_scope_user_and_creation_bounds` | Callable PHP `test_note_event_condition_preserves_scope_user_and_creation_bounds`; copertura comportamentale della costruzione SQL/parametri estratta per le note personali per-studente. |
-| `tests/report_support_test.php:539` | `test_state_condition_preserves_scope_and_optional_user` | Callable PHP `test_state_condition_preserves_scope_and_optional_user`; copertura comportamentale della costruzione SQL/parametri delle righe di stato estratta. |
-| `tests/report_support_test.php:571` | `test_segment_user_condition_preserves_scope` | Callable PHP `test_segment_user_condition_preserves_scope`; copertura comportamentale della costruzione SQL/parametri estratta per individuare gli utenti rappresentati nei segmenti. |
-| `tests/report_support_test.php:600` | `test_user_options_preserve_source_priority_and_privacy` | Callable PHP `test_user_options_preserve_source_priority_and_privacy`; copertura comportamentale della costruzione estratta delle opzioni utente. |
-| `tests/report_support_test.php:632` | `test_cluster_reaction_events_preserves_report_semantics` | Callable PHP `test_cluster_reaction_events_preserves_report_semantics`; copertura comportamentale del clustering reazioni estratto. |
+| `tests/report_contract_test.php:329` | `test_analytics_rendering_is_extracted_from_report_controller` | Callable PHP `test_analytics_rendering_is_extracted_from_report_controller`; contratto statico di regressione per il controller del report docente. |
+| `tests/report_support_test.php:41` | `test_user_label_respects_email_visibility` | Callable PHP `test_user_label_respects_email_visibility`; copertura comportamentale degli helper di supporto report estratti. |
+| `tests/report_support_test.php:61` | `test_tabs_preserve_capability_dependent_set` | Callable PHP `test_tabs_preserve_capability_dependent_set`; copertura comportamentale degli helper di supporto report estratti. |
+| `tests/report_support_test.php:77` | `test_empty_scope_conditions_remain_deny_all` | Callable PHP `test_empty_scope_conditions_remain_deny_all`; copertura comportamentale degli helper di supporto report estratti. |
+| `tests/report_support_test.php:90` | `test_analytics_prefers_state_fallback_preserves_selection_rules` | Callable PHP `test_analytics_prefers_state_fallback_preserves_selection_rules`; copertura comportamentale della priorità viewer e dell'epsilon stretto nella selezione fallback state. |
+| `tests/report_support_test.php:115` | `test_analytics_highlights_preserve_report_semantics` | Callable PHP `test_analytics_highlights_preserve_report_semantics`; copertura comportamentale per filtro, ordinamento, discontinuità e limite top-five degli highlight Analytics estratti. |
+| `tests/report_support_test.php:147` | `test_analytics_acknowledgement_timing_counts_preserve_policy_buckets` | Callable PHP `test_analytics_acknowledgement_timing_counts_preserve_policy_buckets`; copertura comportamentale del conteggio timing estratto per la presa visione. |
+| `tests/report_support_test.php:167` | `test_analytics_reaction_condition_preserves_scope_and_provider_filter` | Callable PHP `test_analytics_reaction_condition_preserves_scope_and_provider_filter`; copertura comportamentale del filtro scope/evento/provider estratto per le reazioni Analytics. |
+| `tests/report_support_test.php:202` | `test_analytics_bookmark_condition_preserves_scope_and_provider_filter` | Callable PHP `test_analytics_bookmark_condition_preserves_scope_and_provider_filter`; copertura comportamentale del filtro scope/evento/provider estratto per i bookmark Analytics. |
+| `tests/report_support_test.php:236` | `test_analytics_integrity_condition_preserves_scope_and_provider_filter` | Callable PHP `test_analytics_integrity_condition_preserves_scope_and_provider_filter`; copertura comportamentale del filtro scope/provider estratto per gli Analytics integrity. |
+| `tests/report_support_test.php:266` | `test_analytics_state_condition_preserves_scope_and_provider_filter` | Callable PHP `test_analytics_state_condition_preserves_scope_and_provider_filter`; copertura comportamentale che vincola la parentesizzazione dell'intero scope per il filtro provider Analytics state. |
+| `tests/report_support_test.php:296` | `test_analytics_segment_condition_preserves_scope_and_provider_filter` | PHP callable `test_analytics_segment_condition_preserves_scope_and_provider_filter`; copertura comportamentale per lo scope/filtro provider Analytics dei segmenti validati estratto. |
+| `tests/report_support_test.php:329` | `test_reaction_event_condition_preserves_filters_and_scope` | Callable PHP `test_reaction_event_condition_preserves_filters_and_scope`; copertura comportamentale della costruzione SQL/parametri estratta per gli eventi di reazione standard. |
+| `tests/report_support_test.php:377` | `test_bookmark_event_condition_preserves_filters_and_scope` | Callable PHP `test_bookmark_event_condition_preserves_filters_and_scope`; copertura comportamentale della costruzione SQL/parametri estratta per gli eventi bookmark standard. |
+| `tests/report_support_test.php:421` | `test_integrity_event_condition_preserves_filters_and_scope` | Callable PHP `test_integrity_event_condition_preserves_filters_and_scope`; copertura comportamentale della costruzione SQL/parametri estratta per gli eventi integrity standard. |
+| `tests/report_support_test.php:464` | `test_note_user_condition_preserves_scope_and_optional_user` | Callable PHP `test_note_user_condition_preserves_scope_and_optional_user`; copertura comportamentale della costruzione SQL/parametri estratta per individuare gli utenti con note personali. |
+| `tests/report_support_test.php:500` | `test_note_event_condition_preserves_scope_user_and_creation_bounds` | Callable PHP `test_note_event_condition_preserves_scope_user_and_creation_bounds`; copertura comportamentale della costruzione SQL/parametri estratta per le note personali per-studente. |
+| `tests/report_support_test.php:543` | `test_state_condition_preserves_scope_and_optional_user` | Callable PHP `test_state_condition_preserves_scope_and_optional_user`; copertura comportamentale della costruzione SQL/parametri delle righe di stato estratta. |
+| `tests/report_support_test.php:575` | `test_segment_user_condition_preserves_scope` | Callable PHP `test_segment_user_condition_preserves_scope`; copertura comportamentale della costruzione SQL/parametri estratta per individuare gli utenti rappresentati nei segmenti. |
+| `tests/report_support_test.php:604` | `test_user_options_preserve_source_priority_and_privacy` | Callable PHP `test_user_options_preserve_source_priority_and_privacy`; copertura comportamentale della costruzione estratta delle opzioni utente. |
+| `tests/report_support_test.php:636` | `test_cluster_reaction_events_preserves_report_semantics` | Callable PHP `test_cluster_reaction_events_preserves_report_semantics`; copertura comportamentale del clustering reazioni estratto. |
 | `tests/report_time_filter_test.php:36` | `test_date_to_timestamp_rejects_invalid_values` | Copertura comportamentale per limiti data report validi, malformati e impossibili. |
 | `tests/report_time_filter_test.php:54` | `test_structured_time_components_are_parsed` | Copertura della composizione dei componenti richiesta ore/minuti/secondi. |
 | `tests/report_time_filter_test.php:66` | `test_structured_time_rejects_out_of_range_components` | Copertura fail-closed dei limiti strutturati per minuti e secondi. |

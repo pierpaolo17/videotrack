@@ -21,7 +21,7 @@ use mod_videotrack\local\form_definition;
 use PHPUnit\Framework\Attributes\CoversClass;
 
 /**
- * Behavioural checks for delegated CSV, Forum, integrity and acknowledgement form groups.
+ * Behavioural checks for delegated playback, CSV, Forum, integrity and acknowledgement form groups.
  *
  * @package    mod_videotrack
  * @category   test
@@ -39,6 +39,121 @@ final class form_definition_test extends \advanced_testcase {
         parent::setUp();
         require_once($CFG->libdir . '/formslib.php');
         require_once(__DIR__ . '/../locallib.php');
+        require_once(__DIR__ . '/../lib.php');
+    }
+
+    /**
+     * Only site-permitted choices are offered, in canonical order, with flat checkbox values.
+     */
+    public function test_playback_choices_keep_site_scope_order_and_flat_values(): void {
+        $this->resetAfterTest();
+        $this->setAdminUser();
+        set_config('html5controls', 'download,play,speed,unsupported,play', 'mod_videotrack');
+        set_config('playbackspeeds', '4,0.25,2,1.25,unsupported,1', 'mod_videotrack');
+        $course = $this->getDataGenerator()->create_course();
+        $context = \context_course::instance($course->id);
+        $form = new \MoodleQuickForm('videotrack_playback_choices', 'post', '');
+
+        form_definition::add_html5_control_elements($form, $context);
+        form_definition::add_playback_speed_elements($form, $context);
+
+        $expected = [
+            'html5controlsgroup' => ['html5ctrl_play', 'html5ctrl_speed', 'html5ctrl_download'],
+            'playbackspeedsgroup' => [
+                'playbackspeed_0.25', 'playbackspeed_1', 'playbackspeed_1.25', 'playbackspeed_2', 'playbackspeed_4',
+            ],
+        ];
+        $form->setDefaults(['html5ctrl_download' => 'download', 'playbackspeed_1.25' => '1.25']);
+        foreach ($expected as $groupname => $names) {
+            $group = $form->getElement($groupname);
+            $elements = $group->getElements();
+            $this->assertFalse($group->isFrozen());
+            $this->assertSame($names, array_map(static fn($element): string => $element->getName(), $elements));
+            foreach ($elements as $element) {
+                $name = $element->getName();
+                $selected = ['html5ctrl_download' => 'download', 'playbackspeed_1.25' => '1.25'];
+                $this->assertSame((string)($selected[$name] ?? 0), (string)$element->getValue());
+                $this->assertStringContainsString('name="' . $name . '"', $element->toHtml());
+            }
+        }
+        $hideifs = (new \ReflectionProperty($form, '_hideifs'))->getValue($form);
+        $this->assertSame([
+            'html5controlsheader', 'html5controls_desc', 'html5ctrl_play', 'html5ctrl_speed',
+            'html5ctrl_download', 'html5controlsgroup',
+        ], $hideifs['videosource']['neq']['upload']);
+    }
+
+    /**
+     * The course capability unlocks both choice groups only in the authorised course.
+     */
+    public function test_playback_choices_respect_course_override_permissions(): void {
+        $this->resetAfterTest();
+        set_config('html5controls', 'play,speed', 'mod_videotrack');
+        set_config('playbackspeeds', '1,1.5', 'mod_videotrack');
+        $generator = $this->getDataGenerator();
+        $course = $generator->create_course();
+        $othercourse = $generator->create_course();
+        $context = \context_course::instance($course->id);
+        $othercontext = \context_course::instance($othercourse->id);
+        $user = $generator->create_user();
+        $roleid = create_role('VideoTrack player settings editor', 'videotrackplayersettingseditor', '');
+        role_assign($roleid, $user->id, $context->id);
+        assign_capability('mod/videotrack:overrideplayersettings', CAP_ALLOW, $roleid, $context->id);
+        $this->setUser($user);
+
+        $this->assertTrue(has_capability('mod/videotrack:overrideplayersettings', $context));
+        $this->assertFalse(has_capability('mod/videotrack:overrideplayersettings', $othercontext));
+        foreach ([$context, $othercontext] as $scope) {
+            $form = new \MoodleQuickForm('videotrack_playback_permissions_' . $scope->id, 'post', '');
+            form_definition::add_html5_control_elements($form, $scope);
+            form_definition::add_playback_speed_elements($form, $scope);
+            foreach (['html5controlsgroup', 'playbackspeedsgroup'] as $groupname) {
+                $group = $form->getElement($groupname);
+                $this->assertSame($scope->id !== $context->id, $group->isFrozen());
+                foreach ($group->getElements() as $element) {
+                    $this->assertSame($scope->id !== $context->id, $element->isFrozen());
+                }
+            }
+        }
+    }
+
+    /**
+     * Missing site configuration keeps defaults; unsupported choices cannot create extra controls.
+     */
+    public function test_playback_choices_keep_site_fallback_and_empty_groups(): void {
+        $this->resetAfterTest();
+        $this->setAdminUser();
+        unset_config('html5controls', 'mod_videotrack');
+        unset_config('playbackspeeds', 'mod_videotrack');
+        $course = $this->getDataGenerator()->create_course();
+        $context = \context_course::instance($course->id);
+        $form = new \MoodleQuickForm('videotrack_playback_defaults', 'post', '');
+
+        form_definition::add_html5_control_elements($form, $context);
+        form_definition::add_playback_speed_elements($form, $context);
+
+        $controls = $form->getElement('html5controlsgroup')->getElements();
+        $speeds = $form->getElement('playbackspeedsgroup')->getElements();
+        $this->assertSame([
+            'html5ctrl_play', 'html5ctrl_progress', 'html5ctrl_current', 'html5ctrl_duration',
+            'html5ctrl_mute', 'html5ctrl_volume', 'html5ctrl_speed', 'html5ctrl_fullscreen',
+        ], array_map(static fn($element): string => $element->getName(), $controls));
+        $this->assertSame([
+            'playbackspeed_0.75', 'playbackspeed_1', 'playbackspeed_1.25', 'playbackspeed_1.5', 'playbackspeed_2',
+        ], array_map(static fn($element): string => $element->getName(), $speeds));
+
+        set_config('html5controls', 'unsupported', 'mod_videotrack');
+        set_config('playbackspeeds', '1.1', 'mod_videotrack');
+        $empty = new \MoodleQuickForm('videotrack_playback_empty', 'post', '');
+        form_definition::add_html5_control_elements($empty, $context);
+        form_definition::add_playback_speed_elements($empty, $context);
+        $omittedgroups = [
+            'html5controlsheader', 'html5controls_desc', 'html5controlsgroup',
+            'playbackspeedsheader', 'playbackspeeds_desc', 'playbackspeedsgroup',
+        ];
+        foreach ($omittedgroups as $name) {
+            $this->assertFalse($empty->elementExists($name));
+        }
     }
 
     /**

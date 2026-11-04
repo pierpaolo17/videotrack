@@ -19,13 +19,151 @@ namespace mod_videotrack\local;
 use html_writer;
 
 /**
- * Builds self-contained CSV, Forum, integrity and acknowledgement groups in the activity form.
+ * Builds course-scoped playback choices, CSV, Forum, integrity and acknowledgement form groups.
  *
  * @package    mod_videotrack
  * @copyright  2026 videotrack contributors
  * @license    https://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 final class form_definition {
+    /**
+     * Add site-permitted HTML5 controls with course-scoped override permissions.
+     *
+     * @param \MoodleQuickForm $mform Activity settings form.
+     * @param \context_course $coursecontext Original course context used by the activity form.
+     */
+    public static function add_html5_control_elements(\MoodleQuickForm $mform, \context_course $coursecontext): void {
+        // HTML5 player controls visible only for upload source.
+        $sitecontrols     = videotrack_get_html5controls((object)['html5controls' => '']);
+        $allctrl          = [
+            'play'        => get_string('ctrl:play', 'mod_videotrack'),
+            'rewind'      => get_string('ctrl:rewind', 'mod_videotrack'),
+            'fastforward' => get_string('ctrl:fastforward', 'mod_videotrack'),
+            'progress'    => get_string('ctrl:progress', 'mod_videotrack'),
+            'current'     => get_string('ctrl:current', 'mod_videotrack'),
+            'duration'    => get_string('ctrl:duration', 'mod_videotrack'),
+            'mute'        => get_string('ctrl:mute', 'mod_videotrack'),
+            'volume'      => get_string('ctrl:volume', 'mod_videotrack'),
+            'speed'       => get_string('ctrl:speed', 'mod_videotrack'),
+            'pip'         => get_string('ctrl:pip', 'mod_videotrack'),
+            'fullscreen' => get_string('ctrl:fullscreen', 'mod_videotrack'),
+            'download'    => get_string('ctrl:download', 'mod_videotrack'),
+        ];
+        // Only show controls that admin enabled at site level.
+        $availablectrl = array_filter(
+            $allctrl,
+            fn($k) => in_array($k, $sitecontrols),
+            ARRAY_FILTER_USE_KEY
+        );
+
+        if (!empty($availablectrl)) {
+            $mform->addElement(
+                'header',
+                'html5controlsheader',
+                get_string('setting:heading_html5controls', 'mod_videotrack')
+            );
+            $mform->hideIf('html5controlsheader', 'videosource', 'neq', 'upload');
+
+            $mform->addElement(
+                'static',
+                'html5controls_desc',
+                '',
+                html_writer::tag(
+                    'small',
+                    get_string('setting:html5controls_teacher_desc', 'mod_videotrack'),
+                    ['class' => 'text-muted']
+                )
+            );
+            $mform->hideIf('html5controls_desc', 'videosource', 'neq', 'upload');
+
+            $ctrlgroup = [];
+            foreach ($availablectrl as $key => $label) {
+                $ctrlgroup[] = $mform->createElement(
+                    'advcheckbox',
+                    "html5ctrl_{$key}",
+                    '',
+                    $label,
+                    [],
+                    [0, $key]
+                );
+                $mform->setType("html5ctrl_{$key}", PARAM_TEXT);
+                $mform->hideIf("html5ctrl_{$key}", 'videosource', 'neq', 'upload');
+            }
+            $mform->addGroup(
+                $ctrlgroup,
+                'html5controlsgroup',
+                get_string('setting:html5controls', 'mod_videotrack'),
+                ' ',
+                false
+            );
+            $mform->hideIf('html5controlsgroup', 'videosource', 'neq', 'upload');
+
+            if (!has_capability('mod/videotrack:overrideplayersettings', $coursecontext)) {
+                $mform->freeze('html5controlsgroup');
+            }
+        }
+    }
+
+    /**
+     * Add site-permitted playback speeds with stable flat field names and course permissions.
+     *
+     * @param \MoodleQuickForm $mform Activity settings form.
+     * @param \context_course $coursecontext Original course context used by the activity form.
+     */
+    public static function add_playback_speed_elements(\MoodleQuickForm $mform, \context_course $coursecontext): void {
+        // Playback speeds available from the site configuration.
+        $allspeeds = [
+            '0.25' => '0.25×', '0.5' => '0.5×', '0.75' => '0.75×',
+            '1'    => '1× (' . get_string('setting:speed_normal', 'mod_videotrack') . ')',
+            '1.25' => '1.25×', '1.5' => '1.5×', '1.75' => '1.75×',
+            '2' => '2×', '3' => '3×', '4' => '4×',
+        ];
+        // Only show speeds that admin has enabled at site level.
+        $sitespeeds = videotrack_get_site_playback_speeds();
+        $availablespeeds = array_filter($allspeeds, fn($k) => in_array((float)$k, $sitespeeds), ARRAY_FILTER_USE_KEY);
+
+        if (!empty($availablespeeds)) {
+            $mform->addElement(
+                'header',
+                'playbackspeedsheader',
+                get_string('setting:playbackspeeds', 'mod_videotrack')
+            );
+            $mform->addElement(
+                'static',
+                'playbackspeeds_desc',
+                '',
+                html_writer::tag(
+                    'small',
+                    get_string('setting:playbackspeeds_teacher_desc', 'mod_videotrack'),
+                    ['class' => 'text-muted']
+                )
+            );
+            $checkboxgroup = [];
+            foreach ($availablespeeds as $val => $label) {
+                $checkboxgroup[] = $mform->createElement(
+                    'advcheckbox',
+                    "playbackspeed_{$val}",
+                    '',
+                    $label,
+                    [],
+                    [0, $val]
+                );
+                $mform->setType("playbackspeed_{$val}", PARAM_TEXT);
+            }
+            $mform->addGroup(
+                $checkboxgroup,
+                'playbackspeedsgroup',
+                get_string('setting:playbackspeeds', 'mod_videotrack'),
+                ' ',
+                false
+            );
+
+            if (!has_capability('mod/videotrack:overrideplayersettings', $coursecontext)) {
+                $mform->freeze('playbackspeedsgroup');
+            }
+        }
+    }
+
     /**
      * Add CSV choices with identity fields enabled only when allowed by Moodle.
      *
