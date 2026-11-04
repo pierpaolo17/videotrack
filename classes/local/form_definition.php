@@ -19,13 +19,105 @@ namespace mod_videotrack\local;
 use html_writer;
 
 /**
- * Builds course-scoped playback choices, CSV, Forum, integrity and acknowledgement form groups.
+ * Builds course-scoped player settings, CSV, Forum, integrity and acknowledgement form groups.
  *
  * @package    mod_videotrack
  * @copyright  2026 videotrack contributors
  * @license    https://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 final class form_definition {
+    /**
+     * Add player behaviour with inherited numeric defaults and course-scoped override permissions.
+     *
+     * @param \MoodleQuickForm $mform Activity settings form.
+     * @param \context_course $coursecontext Original course context used by the activity form.
+     */
+    public static function add_player_behavior_elements(\MoodleQuickForm $mform, \context_course $coursecontext): void {
+        $canoverrideplayer = has_capability('mod/videotrack:overrideplayersettings', $coursecontext);
+        // Additional player behaviour: autoplay, loop, mute and download.
+        $mform->addElement(
+            'header',
+            'playerbehaviorheader',
+            get_string('setting:heading_playerbehavior', 'mod_videotrack')
+        );
+
+        // Maximum player width in pixels. Zero uses the site default.
+        $playerwidthelement = $mform->addElement(
+            'text',
+            'playerwidth',
+            get_string('setting:playerwidth', 'mod_videotrack'),
+            ['size' => 6]
+        );
+        $mform->setType('playerwidth', PARAM_INT);
+        $mform->setDefault('playerwidth', 0);
+        $mform->addHelpButton('playerwidth', 'playerwidth', 'mod_videotrack');
+        $mform->addElement('static', 'playerwidthnote', '', get_string('playerwidth_zero_note', 'mod_videotrack'));
+        if ($canoverrideplayer) {
+            $playerwidthelement->updateAttributes(['aria-describedby' => 'id_playerwidthnote']);
+        }
+
+        $mform->addElement('advcheckbox', 'autoplay', get_string('autoplay', 'mod_videotrack'));
+
+        $mform->setType('autoplay', PARAM_BOOL);
+        $mform->setDefault('autoplay', (int)(bool)get_config('mod_videotrack', 'default_autoplay'));
+        $mform->addHelpButton('autoplay', 'autoplay', 'mod_videotrack');
+
+        $mform->addElement('advcheckbox', 'loopenabled', get_string('loop', 'mod_videotrack'));
+
+        $mform->setType('loopenabled', PARAM_BOOL);
+        $mform->setDefault('loopenabled', (int)(bool)get_config('mod_videotrack', 'default_loop'));
+
+        $mform->addElement('advcheckbox', 'startmuted', get_string('startmuted', 'mod_videotrack'));
+
+        $mform->setType('startmuted', PARAM_BOOL);
+        $mform->setDefault('startmuted', (int)(bool)get_config('mod_videotrack', 'default_startmuted'));
+        $mform->addHelpButton('startmuted', 'startmuted', 'mod_videotrack');
+
+        // Rewind step in seconds. Zero uses the site default.
+        $mform->addElement(
+            'text',
+            'rewindstep',
+            get_string('setting:rewindstep', 'mod_videotrack'),
+            ['size' => 4]
+        );
+        $mform->setType('rewindstep', PARAM_INT);
+        $mform->setDefault('rewindstep', 0);
+        $mform->addHelpButton('rewindstep', 'rewindstep', 'mod_videotrack');
+
+        // Fast-forward step in seconds. Zero uses the site default.
+        $mform->addElement(
+            'text',
+            'fastforwardstep',
+            get_string('setting:fastforwardstep', 'mod_videotrack'),
+            ['size' => 4]
+        );
+        $mform->setType('fastforwardstep', PARAM_INT);
+        $mform->setDefault('fastforwardstep', 0);
+        $mform->addHelpButton('fastforwardstep', 'fastforwardstep', 'mod_videotrack');
+
+        // Allow download is visible only for uploaded videos.
+        $mform->addElement('advcheckbox', 'allowdownload', get_string('allowdownload', 'mod_videotrack'));
+
+        $mform->setType('allowdownload', PARAM_BOOL);
+        $mform->setDefault('allowdownload', (int)(bool)get_config('mod_videotrack', 'default_allowdownload'));
+        $mform->hideIf('allowdownload', 'videosource', 'neq', 'upload');
+
+        if (!$canoverrideplayer) {
+            $lockedfields = [
+                'playerwidth',
+                'autoplay',
+                'loopenabled',
+                'startmuted',
+                'rewindstep',
+                'fastforwardstep',
+                'allowdownload',
+            ];
+            foreach ($lockedfields as $field) {
+                $mform->freeze($field);
+            }
+        }
+    }
+
     /**
      * Add site-permitted HTML5 controls with course-scoped override permissions.
      *

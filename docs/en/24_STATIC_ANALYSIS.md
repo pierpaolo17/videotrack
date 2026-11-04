@@ -225,3 +225,11 @@ line, not for redeclaring a method parameter.
   inline multiline array in the new empty-group test. The incremental correction uses a named local list
   without changing assertions or production code. Release/version remain 1.7.227 / 2026110402;
   corrected candidate CI must pass before merge.
+- Corrected and post-merge 1.7.227 CI confirm all six jobs and the same 27 PHPMD findings. The real ZIP and
+  Moodle 5.0/5.3 server checks pass PHPCS, lint, Grunt and 348 tests with 3,152 assertions; both strict validators
+  report ten passes without warnings. Candidate 1.7.228 delegates the player-behaviour group to the existing
+  `form_definition` owner using the original course context. Boolean site defaults retain their false/empty
+  fallback after the existing boolean/integer conversion; numeric zero continues to mean inheritance. Three
+  runtime tests cover defaults, saved values, inheritance, upload visibility, width-description accessibility
+  and actual course override permissions. The activity form retains 25 methods. The expected PHPMD count
+  remains 27; the complete findings and runtime gates require candidate CI confirmation.

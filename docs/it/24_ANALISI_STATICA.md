@@ -235,3 +235,11 @@ dichiarazione di un parametro di metodo.
   multilinea nel nuovo test dei gruppi vuoti. La correzione incrementale usa una lista locale nominata senza
   modificare asserzioni o codice di produzione. Release/version restano 1.7.227 / 2026110402;
   la CI corretta della candidata deve passare prima del merge.
+- La CI corretta e post-merge 1.7.227 conferma i sei job e le stesse 27 segnalazioni PHPMD. Lo ZIP reale e
+  i controlli server Moodle 5.0/5.3 superano PHPCS, lint, Grunt e 348 test con 3.152 asserzioni; entrambi i
+  validator strict danno dieci PASS senza warning. La candidata 1.7.228 delega il gruppo comportamento del
+  player al proprietario esistente `form_definition` usando il contesto corso originale. I default booleani
+  sito conservano il fallback per false/vuoto dopo la conversione booleana/intera già presente; lo zero numerico
+  continua a indicare ereditarietà. Tre test runtime coprono default, valori salvati, ereditarietà, visibilità
+  per upload, accessibilità della descrizione larghezza e permessi reali di override per corso. Il form mantiene
+  25 metodi. Il conteggio PHPMD atteso resta 27; elenco completo e gate runtime richiedono conferma nella CI.

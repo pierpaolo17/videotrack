@@ -1,8 +1,8 @@
 # Inventario delle funzioni
 
-Generato dall’albero sorgente VideoTrack 1.7.227. Le voci PHP includono funzioni e metodi nominati; le voci AMD includono dichiarazioni nominate, espressioni funzione assegnate e funzioni-metodo di oggetti.
+Generato dall’albero sorgente VideoTrack 1.7.228. Le voci PHP includono funzioni e metodi nominati; le voci AMD includono dichiarazioni nominate, espressioni funzione assegnate e funzioni-metodo di oggetti.
 
-**Funzioni/metodi PHP:** 1025. **Callable AMD nominati:** 654.
+**Funzioni/metodi PHP:** 1029. **Callable AMD nominati:** 654.
 
 | Posizione | Callable | Responsabilità |
 |---|---|---|
@@ -958,12 +958,13 @@ Generato dall’albero sorgente VideoTrack 1.7.227. Le voci PHP includono funzio
 | `classes/local/focus_policy.php:60` | `ensure_exception_group` | Crea o ripara in modo idempotente il gruppo nascosto e non partecipante. |
 | `classes/local/focus_policy.php:97` | `user_has_exception` | Risolve la membership core diretta senza esporre l’appartenenza nascosta. |
 | `classes/local/focus_policy.php:121` | `effective_policy` | Riduce soltanto il blur strict per i membri autorizzati del gruppo. |
-| `classes/local/form_definition.php:35` | `add_html5_control_elements` | Costruisce i controlli HTML5 consentiti dal sito con visibilità per upload e permessi di override per corso. |
-| `classes/local/form_definition.php:113` | `add_playback_speed_elements` | Costruisce le velocità consentite dal sito con valori piatti e permessi di override per corso. |
-| `classes/local/form_definition.php:173` | `add_csv_elements` | Costruisce opzioni di delimitatore e campi CSV con il contesto effettivo dei permessi Moodle. |
-| `classes/local/form_definition.php:238` | `add_forum_elements` | Aggiunge il gruppo Forum con opzioni del corso e impostazioni salvate dell’attività. |
-| `classes/local/form_definition.php:307` | `add_integrity_elements` | Aggiunge i controlli integrità inizialmente disabilitati e il riepilogo della policy focus effettiva del sito. |
-| `classes/local/form_definition.php:379` | `add_acknowledgement_elements` | Aggiunge i campi presa visione con contesto, tempi e opzioni editor originali. |
+| `classes/local/form_definition.php:35` | `add_player_behavior_elements` | Costruisce il comportamento player con default booleani sito, ereditarietà numerica, nota larghezza accessibile e permessi per corso. |
+| `classes/local/form_definition.php:127` | `add_html5_control_elements` | Costruisce i controlli HTML5 consentiti dal sito con visibilità per upload e permessi di override per corso. |
+| `classes/local/form_definition.php:205` | `add_playback_speed_elements` | Costruisce le velocità consentite dal sito con valori piatti e permessi di override per corso. |
+| `classes/local/form_definition.php:265` | `add_csv_elements` | Costruisce opzioni di delimitatore e campi CSV con il contesto effettivo dei permessi Moodle. |
+| `classes/local/form_definition.php:330` | `add_forum_elements` | Aggiunge il gruppo Forum con opzioni del corso e impostazioni salvate dell’attività. |
+| `classes/local/form_definition.php:399` | `add_integrity_elements` | Aggiunge i controlli integrità inizialmente disabilitati e il riepilogo della policy focus effettiva del sito. |
+| `classes/local/form_definition.php:471` | `add_acknowledgement_elements` | Aggiunge i campi presa visione con contesto, tempi e opzioni editor originali. |
 | `classes/local/form_preprocessing.php:36` | `reaction_defaults` | Callable PHP `reaction_defaults`; DocBlock e chiamanti definiscono parametri, valori restituiti ed effetti. |
 | `classes/local/form_preprocessing.php:98` | `reaction_notice_defaults` | Callable PHP `reaction_notice_defaults`; DocBlock e chiamanti definiscono parametri, valori restituiti ed effetti. |
 | `classes/local/form_preprocessing.php:119` | `completion_defaults` | Callable PHP `completion_defaults`; DocBlock e chiamanti definiscono parametri, valori restituiti ed effetti. |
@@ -1270,30 +1271,30 @@ Generato dall’albero sorgente VideoTrack 1.7.227. Le voci PHP includono funzio
 | `locallib.php:1070` | `videotrack_build_forum_subject` | Callable PHP `videotrack_build_forum_subject`; DocBlock e chiamanti definiscono parametri, valori restituiti ed effetti. |
 | `locallib.php:1099` | `videotrack_build_replay_url` | Callable PHP `videotrack_build_replay_url`; DocBlock e chiamanti definiscono parametri, valori restituiti ed effetti. |
 | `mod_form.php:47` | `definition` | Callable PHP `definition`; DocBlock e chiamanti definiscono parametri, valori restituiti ed effetti. |
-| `mod_form.php:766` | `apply_default_section_expansion` | Callable PHP `apply_default_section_expansion`; DocBlock e chiamanti definiscono parametri, valori restituiti ed effetti. |
-| `mod_form.php:803` | `require_filepicker_accept_filter` | Callable PHP `require_filepicker_accept_filter`; DocBlock e chiamanti definiscono parametri, valori restituiti ed effetti. |
-| `mod_form.php:849` | `add_reaction_elements` | Callable PHP `add_reaction_elements`; DocBlock e chiamanti definiscono parametri, valori restituiti ed effetti. |
-| `mod_form.php:889` | `add_reaction_row_fields` | Aggiunge i campi e il selettore icona della riga nell’ordine originale. |
-| `mod_form.php:987` | `add_reaction_row_visibility` | Applica le regole esistenti di visibilità e disabilitazione delle icone dopo i campi. |
-| `mod_form.php:1050` | `get_reaction_repeat_count` | Callable PHP `get_reaction_repeat_count`; DocBlock e chiamanti definiscono parametri, valori restituiti ed effetti. |
-| `mod_form.php:1078` | `add_completion_rules` | Callable PHP `add_completion_rules`; DocBlock e chiamanti definiscono parametri, valori restituiti ed effetti. |
-| `mod_form.php:1147` | `completion_rule_enabled` | Callable PHP `completion_rule_enabled`; DocBlock e chiamanti definiscono parametri, valori restituiti ed effetti. |
-| `mod_form.php:1159` | `data_preprocessing` | Callable PHP `data_preprocessing`; DocBlock e chiamanti definiscono parametri, valori restituiti ed effetti. |
-| `mod_form.php:1258` | `draft_area_contains_only_reaction_images` | Callable PHP `draft_area_contains_only_reaction_images`; DocBlock e chiamanti definiscono parametri, valori restituiti ed effetti. |
-| `mod_form.php:1294` | `draft_area_contains_only_vtt` | Callable PHP `draft_area_contains_only_vtt`; DocBlock e chiamanti definiscono parametri, valori restituiti ed effetti. |
-| `mod_form.php:1325` | `source_errors` | Callable PHP `source_errors`; DocBlock e chiamanti definiscono parametri, valori restituiti ed effetti. |
-| `mod_form.php:1345` | `youtube_source_errors` | Callable PHP `youtube_source_errors`; DocBlock e chiamanti definiscono parametri, valori restituiti ed effetti. |
-| `mod_form.php:1358` | `vimeo_source_errors` | Callable PHP `vimeo_source_errors`; DocBlock e chiamanti definiscono parametri, valori restituiti ed effetti. |
-| `mod_form.php:1371` | `upload_source_errors` | Callable PHP `upload_source_errors`; DocBlock e chiamanti definiscono parametri, valori restituiti ed effetti. |
-| `mod_form.php:1390` | `timed_text_errors` | Callable PHP `timed_text_errors`; DocBlock e chiamanti definiscono parametri, valori restituiti ed effetti. |
-| `mod_form.php:1415` | `timed_text_draft_errors` | Callable PHP `timed_text_draft_errors`; DocBlock e chiamanti definiscono parametri, valori restituiti ed effetti. |
-| `mod_form.php:1440` | `timed_text_required_errors` | Callable PHP `timed_text_required_errors`; DocBlock e chiamanti definiscono parametri, valori restituiti ed effetti. |
-| `mod_form.php:1468` | `reaction_file_icon_errors` | Callable PHP `reaction_file_icon_errors`; DocBlock e chiamanti definiscono parametri, valori restituiti ed effetti. |
-| `mod_form.php:1506` | `existing_reaction_icon_file` | Callable PHP `existing_reaction_icon_file`; DocBlock e chiamanti definiscono parametri, valori restituiti ed effetti. |
-| `mod_form.php:1529` | `forum_errors` | Callable PHP `forum_errors`; DocBlock e chiamanti definiscono parametri, valori restituiti ed effetti. |
-| `mod_form.php:1550` | `reaction_errors` | Callable PHP `reaction_errors`; DocBlock e chiamanti definiscono parametri, valori restituiti ed effetti. |
-| `mod_form.php:1574` | `reaction_row_errors` | Callable PHP `reaction_row_errors`; DocBlock e chiamanti definiscono parametri, valori restituiti ed effetti. |
-| `mod_form.php:1628` | `validation` | Callable PHP `validation`; DocBlock e chiamanti definiscono parametri, valori restituiti ed effetti. |
+| `mod_form.php:685` | `apply_default_section_expansion` | Callable PHP `apply_default_section_expansion`; DocBlock e chiamanti definiscono parametri, valori restituiti ed effetti. |
+| `mod_form.php:722` | `require_filepicker_accept_filter` | Callable PHP `require_filepicker_accept_filter`; DocBlock e chiamanti definiscono parametri, valori restituiti ed effetti. |
+| `mod_form.php:768` | `add_reaction_elements` | Callable PHP `add_reaction_elements`; DocBlock e chiamanti definiscono parametri, valori restituiti ed effetti. |
+| `mod_form.php:808` | `add_reaction_row_fields` | Aggiunge i campi e il selettore icona della riga nell’ordine originale. |
+| `mod_form.php:906` | `add_reaction_row_visibility` | Applica le regole esistenti di visibilità e disabilitazione delle icone dopo i campi. |
+| `mod_form.php:969` | `get_reaction_repeat_count` | Callable PHP `get_reaction_repeat_count`; DocBlock e chiamanti definiscono parametri, valori restituiti ed effetti. |
+| `mod_form.php:997` | `add_completion_rules` | Callable PHP `add_completion_rules`; DocBlock e chiamanti definiscono parametri, valori restituiti ed effetti. |
+| `mod_form.php:1066` | `completion_rule_enabled` | Callable PHP `completion_rule_enabled`; DocBlock e chiamanti definiscono parametri, valori restituiti ed effetti. |
+| `mod_form.php:1078` | `data_preprocessing` | Callable PHP `data_preprocessing`; DocBlock e chiamanti definiscono parametri, valori restituiti ed effetti. |
+| `mod_form.php:1177` | `draft_area_contains_only_reaction_images` | Callable PHP `draft_area_contains_only_reaction_images`; DocBlock e chiamanti definiscono parametri, valori restituiti ed effetti. |
+| `mod_form.php:1213` | `draft_area_contains_only_vtt` | Callable PHP `draft_area_contains_only_vtt`; DocBlock e chiamanti definiscono parametri, valori restituiti ed effetti. |
+| `mod_form.php:1244` | `source_errors` | Callable PHP `source_errors`; DocBlock e chiamanti definiscono parametri, valori restituiti ed effetti. |
+| `mod_form.php:1264` | `youtube_source_errors` | Callable PHP `youtube_source_errors`; DocBlock e chiamanti definiscono parametri, valori restituiti ed effetti. |
+| `mod_form.php:1277` | `vimeo_source_errors` | Callable PHP `vimeo_source_errors`; DocBlock e chiamanti definiscono parametri, valori restituiti ed effetti. |
+| `mod_form.php:1290` | `upload_source_errors` | Callable PHP `upload_source_errors`; DocBlock e chiamanti definiscono parametri, valori restituiti ed effetti. |
+| `mod_form.php:1309` | `timed_text_errors` | Callable PHP `timed_text_errors`; DocBlock e chiamanti definiscono parametri, valori restituiti ed effetti. |
+| `mod_form.php:1334` | `timed_text_draft_errors` | Callable PHP `timed_text_draft_errors`; DocBlock e chiamanti definiscono parametri, valori restituiti ed effetti. |
+| `mod_form.php:1359` | `timed_text_required_errors` | Callable PHP `timed_text_required_errors`; DocBlock e chiamanti definiscono parametri, valori restituiti ed effetti. |
+| `mod_form.php:1387` | `reaction_file_icon_errors` | Callable PHP `reaction_file_icon_errors`; DocBlock e chiamanti definiscono parametri, valori restituiti ed effetti. |
+| `mod_form.php:1425` | `existing_reaction_icon_file` | Callable PHP `existing_reaction_icon_file`; DocBlock e chiamanti definiscono parametri, valori restituiti ed effetti. |
+| `mod_form.php:1448` | `forum_errors` | Callable PHP `forum_errors`; DocBlock e chiamanti definiscono parametri, valori restituiti ed effetti. |
+| `mod_form.php:1469` | `reaction_errors` | Callable PHP `reaction_errors`; DocBlock e chiamanti definiscono parametri, valori restituiti ed effetti. |
+| `mod_form.php:1493` | `reaction_row_errors` | Callable PHP `reaction_row_errors`; DocBlock e chiamanti definiscono parametri, valori restituiti ed effetti. |
+| `mod_form.php:1547` | `validation` | Callable PHP `validation`; DocBlock e chiamanti definiscono parametri, valori restituiti ed effetti. |
 | `reports_course.php:34` | `videotrack_course_report_count_cell` | Callable PHP `videotrack_course_report_count_cell`; DocBlock e chiamanti definiscono parametri, valori restituiti ed effetti. |
 | `reports_course.php:48` | `videotrack_course_report_percentage_cell` | Callable PHP `videotrack_course_report_percentage_cell`; renderizza la percentuale aggregata in forma testuale. |
 | `reports_course.php:67` | `videotrack_course_report_percentage_bar_cell` | Callable PHP `videotrack_course_report_percentage_bar_cell`; renderizza la percentuale aggregata con barra compatta accessibile. |
@@ -1441,17 +1442,20 @@ Generato dall’albero sorgente VideoTrack 1.7.227. Le voci PHP includono funzio
 | `tests/focus_policy_test.php:104` | `test_hidden_only_site_policy_is_unchanged` | Verifica che l’eccezione non indebolisca la normale policy hidden-only. |
 | `tests/focus_policy_test.php:123` | `test_activity_lifecycle_and_view_are_wired_to_focus_policy` | Verifica i contratti di integrazione add, update, restore e view. |
 | `tests/form_definition_test.php:36` | `setUp` | Carica Moodle QuickForm e le API condivise Forum e controlli HTML5. |
-| `tests/form_definition_test.php:48` | `test_playback_choices_keep_site_scope_order_and_flat_values` | Verifica filtro sito, ordine canonico, valori checkbox piatti e visibilità per upload. |
-| `tests/form_definition_test.php:89` | `test_playback_choices_respect_course_override_permissions` | Verifica permessi di override reali per corso e gruppi/figli congelati nel corso non autorizzato. |
-| `tests/form_definition_test.php:123` | `test_playback_choices_keep_site_fallback_and_empty_groups` | Verifica default sito e omissione dei gruppi controlli e velocità senza scelte supportate. |
-| `tests/form_definition_test.php:162` | `test_empty_course_disables_posting_and_freezes_destination` | Verifica la disabilitazione in un corso vuoto e il blocco della destinazione. |
-| `tests/form_definition_test.php:180` | `test_choices_keep_course_scope_and_module_status` | Verifica filtri per corso, tipo e cancellazione, ordine e stato nascosto. |
-| `tests/form_definition_test.php:221` | `test_unavailable_saved_forum_remains_an_editable_placeholder` | Verifica il segnaposto salvato non disponibile senza esporre l’etichetta di un altro corso. |
-| `tests/form_definition_test.php:247` | `test_acknowledgement_fields_keep_context_and_safe_editor_options` | Verifica tempi della presa visione, contesto originale e opzioni di sicurezza dell’editor. |
-| `tests/form_definition_test.php:284` | `test_csv_fields_keep_delimiters_names_and_order` | Verifica ereditarietà del delimitatore, opzioni e nomi/ordine stabili dei checkbox. |
-| `tests/form_definition_test.php:316` | `test_csv_identity_fields_respect_context_and_hidden_field_permissions` | Verifica accesso alle identità per contesto e disabilitazione di campi nascosti o non configurati. |
-| `tests/form_definition_test.php:360` | `test_integrity_fields_keep_disabled_defaults_and_accessible_policy` | Verifica i default integrità disabilitati e il riepilogo della policy accessibile predefinita. |
-| `tests/form_definition_test.php:387` | `test_integrity_summary_uses_effective_site_settings` | Verifica etichette strict/fallback e limiti/intervallo di tolleranza normalizzati nella policy mostrata. |
+| `tests/form_definition_test.php:48` | `test_player_behavior_keeps_defaults_inheritance_and_editable_values` | Verifica default sito misti, ereditarietà con zero, valori salvati modificabili, descrizione larghezza e download per upload. |
+| `tests/form_definition_test.php:91` | `test_player_behavior_defaults_preserve_missing_empty_and_zero` | Verifica default booleani disabilitati per valori sito assenti, vuoti e zero espliciti. |
+| `tests/form_definition_test.php:118` | `test_player_behavior_respects_course_override_permissions` | Verifica i sette campi e la descrizione larghezza con permessi reali tra corsi diversi. |
+| `tests/form_definition_test.php:163` | `test_playback_choices_keep_site_scope_order_and_flat_values` | Verifica filtro sito, ordine canonico, valori checkbox piatti e visibilità per upload. |
+| `tests/form_definition_test.php:204` | `test_playback_choices_respect_course_override_permissions` | Verifica permessi di override reali per corso e gruppi/figli congelati nel corso non autorizzato. |
+| `tests/form_definition_test.php:238` | `test_playback_choices_keep_site_fallback_and_empty_groups` | Verifica default sito e omissione dei gruppi controlli e velocità senza scelte supportate. |
+| `tests/form_definition_test.php:277` | `test_empty_course_disables_posting_and_freezes_destination` | Verifica la disabilitazione in un corso vuoto e il blocco della destinazione. |
+| `tests/form_definition_test.php:295` | `test_choices_keep_course_scope_and_module_status` | Verifica filtri per corso, tipo e cancellazione, ordine e stato nascosto. |
+| `tests/form_definition_test.php:336` | `test_unavailable_saved_forum_remains_an_editable_placeholder` | Verifica il segnaposto salvato non disponibile senza esporre l’etichetta di un altro corso. |
+| `tests/form_definition_test.php:362` | `test_acknowledgement_fields_keep_context_and_safe_editor_options` | Verifica tempi della presa visione, contesto originale e opzioni di sicurezza dell’editor. |
+| `tests/form_definition_test.php:399` | `test_csv_fields_keep_delimiters_names_and_order` | Verifica ereditarietà del delimitatore, opzioni e nomi/ordine stabili dei checkbox. |
+| `tests/form_definition_test.php:431` | `test_csv_identity_fields_respect_context_and_hidden_field_permissions` | Verifica accesso alle identità per contesto e disabilitazione di campi nascosti o non configurati. |
+| `tests/form_definition_test.php:475` | `test_integrity_fields_keep_disabled_defaults_and_accessible_policy` | Verifica i default integrità disabilitati e il riepilogo della policy accessibile predefinita. |
+| `tests/form_definition_test.php:502` | `test_integrity_summary_uses_effective_site_settings` | Verifica etichette strict/fallback e limiti/intervallo di tolleranza normalizzati nella policy mostrata. |
 | `tests/form_preprocessing_test.php:36` | `test_completion_defaults_preserve_edit_values` | Callable PHP `test_completion_defaults_preserve_edit_values`; DocBlock e chiamanti definiscono parametri, valori restituiti ed effetti. |
 | `tests/form_preprocessing_test.php:61` | `test_reaction_notice_defaults_preserve_editors_and_presets` | Callable PHP `test_reaction_notice_defaults_preserve_editors_and_presets`; DocBlock e chiamanti definiscono parametri, valori restituiti ed effetti. |
 | `tests/form_preprocessing_test.php:85` | `test_playback_defaults_preserve_selected_controls` | Callable PHP `test_playback_defaults_preserve_selected_controls`; DocBlock e chiamanti definiscono parametri, valori restituiti ed effetti. |
