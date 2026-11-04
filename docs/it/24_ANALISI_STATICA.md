@@ -229,3 +229,9 @@ dichiarazione di un parametro di metodo.
   Tre test runtime coprono ordine e valori piatti, visibilità per upload, permessi reali per corso,
   configurazione assente e scelte vuote. Il form mantiene 25 metodi. Il conteggio PHPMD atteso resta 27;
   elenco completo delle segnalazioni e comportamento runtime richiedono conferma nella CI della candidata.
+- La CI iniziale 1.7.227 conferma le stesse 27 segnalazioni senza nuove voci: `definition()` ha complessità 19,
+  NPath 92.160 e lunghezza 713 righe. I sei ambienti superano 348 test PHPUnit, 3.152 asserzioni, 24 scenari
+  Behat e dieci controlli strict; PHPStan e Psalm non rilevano errori. PHPCS canonico rifiuta l'array inline
+  multilinea nel nuovo test dei gruppi vuoti. La correzione incrementale usa una lista locale nominata senza
+  modificare asserzioni o codice di produzione. Release/version restano 1.7.227 / 2026110402;
+  la CI corretta della candidata deve passare prima del merge.

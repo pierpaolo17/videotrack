@@ -1444,14 +1444,14 @@ Generato dall’albero sorgente VideoTrack 1.7.227. Le voci PHP includono funzio
 | `tests/form_definition_test.php:48` | `test_playback_choices_keep_site_scope_order_and_flat_values` | Verifica filtro sito, ordine canonico, valori checkbox piatti e visibilità per upload. |
 | `tests/form_definition_test.php:89` | `test_playback_choices_respect_course_override_permissions` | Verifica permessi di override reali per corso e gruppi/figli congelati nel corso non autorizzato. |
 | `tests/form_definition_test.php:123` | `test_playback_choices_keep_site_fallback_and_empty_groups` | Verifica default sito e omissione dei gruppi controlli e velocità senza scelte supportate. |
-| `tests/form_definition_test.php:161` | `test_empty_course_disables_posting_and_freezes_destination` | Verifica la disabilitazione in un corso vuoto e il blocco della destinazione. |
-| `tests/form_definition_test.php:179` | `test_choices_keep_course_scope_and_module_status` | Verifica filtri per corso, tipo e cancellazione, ordine e stato nascosto. |
-| `tests/form_definition_test.php:220` | `test_unavailable_saved_forum_remains_an_editable_placeholder` | Verifica il segnaposto salvato non disponibile senza esporre l’etichetta di un altro corso. |
-| `tests/form_definition_test.php:246` | `test_acknowledgement_fields_keep_context_and_safe_editor_options` | Verifica tempi della presa visione, contesto originale e opzioni di sicurezza dell’editor. |
-| `tests/form_definition_test.php:283` | `test_csv_fields_keep_delimiters_names_and_order` | Verifica ereditarietà del delimitatore, opzioni e nomi/ordine stabili dei checkbox. |
-| `tests/form_definition_test.php:315` | `test_csv_identity_fields_respect_context_and_hidden_field_permissions` | Verifica accesso alle identità per contesto e disabilitazione di campi nascosti o non configurati. |
-| `tests/form_definition_test.php:359` | `test_integrity_fields_keep_disabled_defaults_and_accessible_policy` | Verifica i default integrità disabilitati e il riepilogo della policy accessibile predefinita. |
-| `tests/form_definition_test.php:386` | `test_integrity_summary_uses_effective_site_settings` | Verifica etichette strict/fallback e limiti/intervallo di tolleranza normalizzati nella policy mostrata. |
+| `tests/form_definition_test.php:162` | `test_empty_course_disables_posting_and_freezes_destination` | Verifica la disabilitazione in un corso vuoto e il blocco della destinazione. |
+| `tests/form_definition_test.php:180` | `test_choices_keep_course_scope_and_module_status` | Verifica filtri per corso, tipo e cancellazione, ordine e stato nascosto. |
+| `tests/form_definition_test.php:221` | `test_unavailable_saved_forum_remains_an_editable_placeholder` | Verifica il segnaposto salvato non disponibile senza esporre l’etichetta di un altro corso. |
+| `tests/form_definition_test.php:247` | `test_acknowledgement_fields_keep_context_and_safe_editor_options` | Verifica tempi della presa visione, contesto originale e opzioni di sicurezza dell’editor. |
+| `tests/form_definition_test.php:284` | `test_csv_fields_keep_delimiters_names_and_order` | Verifica ereditarietà del delimitatore, opzioni e nomi/ordine stabili dei checkbox. |
+| `tests/form_definition_test.php:316` | `test_csv_identity_fields_respect_context_and_hidden_field_permissions` | Verifica accesso alle identità per contesto e disabilitazione di campi nascosti o non configurati. |
+| `tests/form_definition_test.php:360` | `test_integrity_fields_keep_disabled_defaults_and_accessible_policy` | Verifica i default integrità disabilitati e il riepilogo della policy accessibile predefinita. |
+| `tests/form_definition_test.php:387` | `test_integrity_summary_uses_effective_site_settings` | Verifica etichette strict/fallback e limiti/intervallo di tolleranza normalizzati nella policy mostrata. |
 | `tests/form_preprocessing_test.php:36` | `test_completion_defaults_preserve_edit_values` | Callable PHP `test_completion_defaults_preserve_edit_values`; DocBlock e chiamanti definiscono parametri, valori restituiti ed effetti. |
 | `tests/form_preprocessing_test.php:61` | `test_reaction_notice_defaults_preserve_editors_and_presets` | Callable PHP `test_reaction_notice_defaults_preserve_editors_and_presets`; DocBlock e chiamanti definiscono parametri, valori restituiti ed effetti. |
 | `tests/form_preprocessing_test.php:85` | `test_playback_defaults_preserve_selected_controls` | Callable PHP `test_playback_defaults_preserve_selected_controls`; DocBlock e chiamanti definiscono parametri, valori restituiti ed effetti. |

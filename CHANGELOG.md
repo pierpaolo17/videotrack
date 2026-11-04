@@ -25,6 +25,14 @@
   remains 27; candidate CI must confirm the complete finding list and runtime
   behaviour. XMLDB schema, AJAX services, AMD assets, language keys and
   playback/tracking behaviour are unchanged.
+- Initial candidate CI passed 348 PHPUnit tests, 3,152 assertions, 24 Behat
+  scenarios and ten strict validator checks on all six environments. PHPStan
+  and Psalm found no errors; PHPMD retained the same 27 findings, with
+  `definition()` complexity 19, NPath 92,160 and length 713 lines. The canonical
+  quality job failed three PHPCS spacing rules on the inline multiline array
+  in the new empty-group test. Assign that array to a named local list before
+  iterating, preserving all assertions and runtime code. Keep release/version
+  1.7.227 / 2026110402 and rerun the full candidate CI before merging.
 
 ## 1.7.226 - 2026-11-04
 

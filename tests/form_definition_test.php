@@ -147,10 +147,11 @@ final class form_definition_test extends \advanced_testcase {
         $empty = new \MoodleQuickForm('videotrack_playback_empty', 'post', '');
         form_definition::add_html5_control_elements($empty, $context);
         form_definition::add_playback_speed_elements($empty, $context);
-        foreach ([
+        $omittedgroups = [
             'html5controlsheader', 'html5controls_desc', 'html5controlsgroup',
             'playbackspeedsheader', 'playbackspeeds_desc', 'playbackspeedsgroup',
-        ] as $name) {
+        ];
+        foreach ($omittedgroups as $name) {
             $this->assertFalse($empty->elementExists($name));
         }
     }

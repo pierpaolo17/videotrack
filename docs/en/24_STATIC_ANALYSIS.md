@@ -219,3 +219,9 @@ line, not for redeclaring a method parameter.
   Three runtime tests cover allowed-choice order and flat values, upload visibility, actual course-scoped
   permissions, missing configuration and empty choice sets. The activity form retains 25 methods. The expected
   PHPMD count remains 27; complete findings and runtime behaviour require candidate CI confirmation.
+- Initial 1.7.227 CI confirms the same 27 findings with no new findings: `definition()` complexity is 19,
+  NPath 92,160 and length 713 lines. All six environments pass 348 PHPUnit tests, 3,152 assertions, 24 Behat
+  scenarios and ten strict validator checks; PHPStan and Psalm find no errors. Canonical PHPCS rejects the
+  inline multiline array in the new empty-group test. The incremental correction uses a named local list
+  without changing assertions or production code. Release/version remain 1.7.227 / 2026110402;
+  corrected candidate CI must pass before merge.
