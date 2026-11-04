@@ -21,7 +21,7 @@ use mod_videotrack\local\form_definition;
 use PHPUnit\Framework\Attributes\CoversClass;
 
 /**
- * Behavioural checks for delegated player, CSV, Forum, integrity and acknowledgement form groups.
+ * Behavioural checks for delegated player/timed-text, CSV, Forum, integrity and acknowledgement groups.
  *
  * @package    mod_videotrack
  * @category   test
@@ -40,6 +40,135 @@ final class form_definition_test extends \advanced_testcase {
         require_once($CFG->libdir . '/formslib.php');
         require_once(__DIR__ . '/../locallib.php');
         require_once(__DIR__ . '/../lib.php');
+    }
+
+    /**
+     * Caption defaults and provider dependencies preserve false, empty, zero and configured values.
+     */
+    public function test_caption_defaults_and_provider_dependencies_are_preserved(): void {
+        global $PAGE;
+
+        $this->resetAfterTest();
+        $this->setAdminUser();
+        $course = $this->getDataGenerator()->create_course();
+        $context = \context_course::instance($course->id);
+        $PAGE = new \moodle_page();
+        $PAGE->set_course($course);
+        $PAGE->set_context($context);
+        $cases = [
+            [null, null, 0, ''],
+            ['', '', 0, ''],
+            ['0', '0', 0, '0'],
+            ['1', 'it', 1, 'it'],
+        ];
+        foreach ($cases as $index => [$enabled, $language, $expectedenabled, $expectedlanguage]) {
+            if ($enabled === null) {
+                unset_config('default_captions', 'mod_videotrack');
+                unset_config('default_captionslang', 'mod_videotrack');
+            } else {
+                set_config('default_captions', $enabled, 'mod_videotrack');
+                set_config('default_captionslang', $language, 'mod_videotrack');
+            }
+            $form = new \MoodleQuickForm('videotrack_caption_defaults_' . $index, 'post', '');
+
+            form_definition::add_caption_elements($form, $context);
+
+            $this->assertSame($expectedenabled, (int)$form->getElement('captions')->getValue());
+            $this->assertSame($expectedlanguage, (string)$form->getElement('captionslang')->getValue());
+            $this->assertFalse($form->getElement('captions')->isFrozen());
+            $this->assertFalse($form->getElement('captionslang')->isFrozen());
+            $this->assertSame(0, (int)$form->getElement('showtranscript')->getValue());
+            $this->assertSame(0, (int)$form->getElement('showchapters')->getValue());
+            $this->assertTrue($form->elementExists('captionsheader'));
+            $dependencies = (new \ReflectionProperty($form, '_dependencies'))->getValue($form);
+            $this->assertSame(['captions' => ['notchecked' => ['1' => ['captionslang']]]], $dependencies);
+            $hideifs = (new \ReflectionProperty($form, '_hideifs'))->getValue($form);
+            $this->assertSame([
+                'videosource' => [
+                    'neq' => ['upload' => ['vttfile', 'vttfile_notice'], 'vimeo' => ['vimeo_captions_notice']],
+                    'eq' => ['upload' => ['transcriptfiles_provider_notice']],
+                ],
+                'captions' => ['notchecked' => ['1' => ['vttfile', 'vttfile_notice', 'vimeo_captions_notice']]],
+            ], $hideifs);
+        }
+    }
+
+    /**
+     * Real QuickForm upload elements retain WebVTT types, transcript count and effective size limits.
+     */
+    public function test_caption_file_options_keep_webvtt_limits_for_a_normal_user(): void {
+        global $PAGE;
+
+        $this->resetAfterTest();
+        $generator = $this->getDataGenerator();
+        $course = $generator->create_course();
+        $context = \context_course::instance($course->id);
+        $this->setUser($generator->create_user());
+        $PAGE = new \moodle_page();
+        $PAGE->set_course($course);
+        $PAGE->set_context($context);
+        $this->assertFalse(has_capability('moodle/course:ignorefilesizelimits', $context));
+        $form = new \MoodleQuickForm('videotrack_caption_file_options', 'post', '');
+
+        form_definition::add_caption_elements($form, $context);
+
+        foreach (['vttfile', 'transcriptfiles', 'chapterfile'] as $field) {
+            $element = $form->getElement($field);
+            $options = (new \ReflectionProperty($element, '_options'))->getValue($element);
+            $this->assertSame(['.vtt'], $options['accepted_types']);
+            $this->assertFalse($element->isFrozen());
+            if ($field === 'transcriptfiles') {
+                $this->assertSame(10, $options['maxfiles']);
+                $this->assertFalse($options['subdirs']);
+            } else {
+                $this->assertSame(FILE_INTERNAL, $options['return_types']);
+            }
+            if ($field !== 'vttfile') {
+                $this->assertGreaterThan(0, $options['maxbytes']);
+                $this->assertLessThanOrEqual(1048576, $options['maxbytes']);
+            }
+        }
+    }
+
+    /**
+     * The original course permission freezes only captions and language, leaving timed-text tools editable.
+     */
+    public function test_caption_override_permissions_are_course_scoped(): void {
+        global $PAGE;
+
+        $this->resetAfterTest();
+        set_config('default_captions', 1, 'mod_videotrack');
+        set_config('default_captionslang', 'en', 'mod_videotrack');
+        $generator = $this->getDataGenerator();
+        $course = $generator->create_course();
+        $othercourse = $generator->create_course();
+        $context = \context_course::instance($course->id);
+        $othercontext = \context_course::instance($othercourse->id);
+        $user = $generator->create_user();
+        $roleid = create_role('VideoTrack caption editor', 'videotrackcaptioneditor', '');
+        role_assign($roleid, $user->id, $context->id);
+        assign_capability('mod/videotrack:overrideplayersettings', CAP_ALLOW, $roleid, $context->id);
+        $this->setUser($user);
+
+        $this->assertTrue(has_capability('mod/videotrack:overrideplayersettings', $context));
+        $this->assertFalse(has_capability('mod/videotrack:overrideplayersettings', $othercontext));
+        foreach ([$context, $othercontext] as $scope) {
+            $PAGE = new \moodle_page();
+            $PAGE->set_course($scope->id === $context->id ? $course : $othercourse);
+            $PAGE->set_context($scope);
+            $form = new \MoodleQuickForm('videotrack_caption_permissions_' . $scope->id, 'post', '');
+
+            form_definition::add_caption_elements($form, $scope);
+
+            foreach (['captions', 'captionslang'] as $field) {
+                $this->assertSame($scope->id !== $context->id, $form->getElement($field)->isFrozen());
+            }
+            $this->assertSame(1, (int)$form->getElement('captions')->getValue());
+            $this->assertSame('en', (string)$form->getElement('captionslang')->getValue());
+            foreach (['vttfile', 'transcriptfiles', 'chapterfile', 'showtranscript', 'showchapters'] as $field) {
+                $this->assertFalse($form->getElement($field)->isFrozen());
+            }
+        }
     }
 
     /**

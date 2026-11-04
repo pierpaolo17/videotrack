@@ -19,13 +19,175 @@ namespace mod_videotrack\local;
 use html_writer;
 
 /**
- * Builds course-scoped player settings, CSV, Forum, integrity and acknowledgement form groups.
+ * Builds course-scoped player/timed-text settings, CSV, Forum, integrity and acknowledgement groups.
  *
  * @package    mod_videotrack
  * @copyright  2026 videotrack contributors
  * @license    https://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 final class form_definition {
+    /**
+     * Add captions and timed-text fields with provider visibility and course override permissions.
+     *
+     * @param \MoodleQuickForm $mform Activity settings form.
+     * @param \context_course $coursecontext Original course context used by the activity form.
+     */
+    public static function add_caption_elements(\MoodleQuickForm $mform, \context_course $coursecontext): void {
+        // Captions and subtitles.
+        $mform->addElement(
+            'header',
+            'captionsheader',
+            get_string('captionsheader', 'mod_videotrack')
+        );
+
+        $mform->addElement('advcheckbox', 'captions', get_string('captions', 'mod_videotrack'));
+
+        $mform->setType('captions', PARAM_BOOL);
+        $mform->setDefault('captions', (int)(bool)get_config('mod_videotrack', 'default_captions'));
+        $mform->addHelpButton('captions', 'captions', 'mod_videotrack');
+
+        $mform->addElement(
+            'text',
+            'captionslang',
+            get_string('captionslang', 'mod_videotrack'),
+            ['size' => 8]
+        );
+        $mform->setType('captionslang', PARAM_NOTAGS);
+        $captionslang = get_config('mod_videotrack', 'default_captionslang');
+        $mform->setDefault('captionslang', $captionslang === false ? '' : $captionslang);
+        $mform->addHelpButton('captionslang', 'captionslang', 'mod_videotrack');
+        $mform->disabledIf('captionslang', 'captions', 'notchecked');
+
+        // VTT file upload is available only for uploaded videos.
+        $vttopt = ['subdirs' => false, 'maxfiles' => 1, 'accepted_types' => ['.vtt']];
+        $mform->addElement(
+            'filepicker',
+            'vttfile',
+            get_string('vttfile', 'mod_videotrack'),
+            null,
+            $vttopt
+        );
+        $mform->setType('vttfile', PARAM_INT);
+        $mform->addHelpButton('vttfile', 'vttfile', 'mod_videotrack');
+        $mform->addElement(
+            'static',
+            'vttfile_notice',
+            '',
+            html_writer::tag('small', get_string('vttfile_notice', 'mod_videotrack'), ['class' => 'text-muted form-text'])
+        );
+        $mform->hideIf(
+            'vttfile',
+            'videosource',
+            'neq',
+            'upload'
+        );
+        $mform->hideIf('vttfile_notice', 'videosource', 'neq', 'upload');
+        $mform->hideIf(
+            'vttfile',
+            'captions',
+            'notchecked'
+        );
+        $mform->hideIf('vttfile_notice', 'captions', 'notchecked');
+
+        self::add_transcript_and_chapter_elements($mform);
+
+        // Notice for Vimeo: captions must be pre-loaded on Vimeo.com.
+        $mform->addElement(
+            'static',
+            'vimeo_captions_notice',
+            '',
+            html_writer::tag('div', get_string('vimeo_captions_notice', 'mod_videotrack'), ['class' => 'alert alert-info'])
+        );
+        $mform->hideIf('vimeo_captions_notice', 'videosource', 'neq', 'vimeo');
+        $mform->hideIf('vimeo_captions_notice', 'captions', 'notchecked');
+
+        if (!has_capability('mod/videotrack:overrideplayersettings', $coursecontext)) {
+            $mform->freeze('captions');
+            $mform->freeze('captionslang');
+        }
+    }
+
+    /**
+     * Add provider-independent transcript and chapter files with the canonical WebVTT options.
+     *
+     * @param \MoodleQuickForm $mform Activity settings form.
+     */
+    private static function add_transcript_and_chapter_elements(\MoodleQuickForm $mform): void {
+        // Interactive transcript files are independent from the player provider.
+        $mform->addElement(
+            'filemanager',
+            'transcriptfiles',
+            get_string('transcriptfiles', 'mod_videotrack'),
+            null,
+            \mod_videotrack\local\timed_text::file_options(
+                \mod_videotrack\local\timed_text::MAX_TRANSCRIPT_FILES
+            )
+        );
+        $mform->setType('transcriptfiles', PARAM_INT);
+        $mform->addHelpButton('transcriptfiles', 'transcriptfiles', 'mod_videotrack');
+        $mform->addElement(
+            'static',
+            'transcriptfiles_notice',
+            '',
+            html_writer::tag(
+                'small',
+                get_string('transcriptfiles_notice', 'mod_videotrack'),
+                ['class' => 'text-muted form-text']
+            )
+        );
+        $mform->addElement(
+            'static',
+            'transcriptfiles_provider_notice',
+            '',
+            html_writer::tag(
+                'small',
+                get_string('transcriptfiles_provider_notice', 'mod_videotrack'),
+                ['class' => 'text-muted form-text']
+            )
+        );
+        $mform->hideIf('transcriptfiles_provider_notice', 'videosource', 'eq', 'upload');
+
+        $mform->addElement(
+            'advcheckbox',
+            'showtranscript',
+            get_string('showtranscript', 'mod_videotrack'),
+            get_string('showtranscript_desc', 'mod_videotrack')
+        );
+        $mform->setType('showtranscript', PARAM_BOOL);
+        $mform->setDefault('showtranscript', 0);
+        $mform->addHelpButton('showtranscript', 'showtranscript', 'mod_videotrack');
+
+        // Chapters use a dedicated WebVTT file; each cue represents one chapter.
+        $mform->addElement(
+            'filepicker',
+            'chapterfile',
+            get_string('chapterfile', 'mod_videotrack'),
+            null,
+            \mod_videotrack\local\timed_text::file_options(1)
+        );
+        $mform->setType('chapterfile', PARAM_INT);
+        $mform->addHelpButton('chapterfile', 'chapterfile', 'mod_videotrack');
+        $mform->addElement(
+            'static',
+            'chapterfile_notice',
+            '',
+            html_writer::tag(
+                'small',
+                get_string('chapterfile_notice', 'mod_videotrack'),
+                ['class' => 'text-muted form-text']
+            )
+        );
+        $mform->addElement(
+            'advcheckbox',
+            'showchapters',
+            get_string('showchapters', 'mod_videotrack'),
+            get_string('showchapters_desc', 'mod_videotrack')
+        );
+        $mform->setType('showchapters', PARAM_BOOL);
+        $mform->setDefault('showchapters', 0);
+        $mform->addHelpButton('showchapters', 'showchapters', 'mod_videotrack');
+    }
+
     /**
      * Add player behaviour with inherited numeric defaults and course-scoped override permissions.
      *

@@ -1,6 +1,6 @@
 # Inventario dei file distribuiti
 
-Questo inventario è generato sull'albero repository VideoTrack 1.7.228. Elenca ogni file non documentale distribuito
+Questo inventario è generato sull'albero repository VideoTrack 1.7.229. Elenca ogni file non documentale distribuito
 e i file CI/tooling/igiene presenti soltanto nel repository. Il JavaScript canonico è in `amd/src`; i file in `amd/build`
 sono generati.
 
@@ -212,7 +212,7 @@ Voci: **331** — 328 file distribuiti e tre file presenti soltanto nel reposito
 | `classes/local/csv_export_fields.php` | Risolve campi CSV configurati, identità visibili e record utente selezionati. |
 | `classes/local/csv_export_identity.php` | Formatta colonne di identità CSV, etichette Moodle e link video. |
 | `classes/local/focus_policy.php` | Eccezione di accessibilità al focus rigido per corso basata su un gruppo core Moodle nascosto. |
-| `classes/local/form_definition.php` | Costruisce comportamento e scelte del player per corso, gruppi CSV, Forum, integrità e presa visione. |
+| `classes/local/form_definition.php` | Costruisce impostazioni player/testo temporizzato per corso, gruppi CSV, Forum, integrità e presa visione. |
 | `classes/local/form_preprocessing.php` | Prepara bozze reazioni e default di avviso/preset, completamento, playback, CSV e sito prima del rendering del form. |
 | `classes/local/form_validation.php` | Policy autonoma di validazione scalare/JSON per il form delle impostazioni attività. |
 | `classes/local/forum_bridge.php` | Servizio di dominio `forum_bridge` riusabile da pagine, report o servizi. |
@@ -301,7 +301,7 @@ Voci: **331** — 328 file distribuiti e tre file presenti soltanto nel reposito
 | `tests/fixtures/behat-vimeo-player.js` | Doppio deterministico test-only dell’SDK Vimeo caricato esclusivamente dal fixture Behat riservato. |
 | `tests/fixtures/behat-youtube-player.js` | Doppio deterministico test-only dell’SDK YouTube caricato esclusivamente dal fixture Behat riservato. |
 | `tests/focus_policy_test.php` | Copertura PHPUnit per creazione gruppo nascosto, membership e policy focus effettiva. |
-| `tests/form_definition_test.php` | Test runtime QuickForm su default/ereditarietà/accessibilità del player, permessi riproduzione e CSV, Forum, integrità e presa visione. |
+| `tests/form_definition_test.php` | Test runtime QuickForm su default player/testo temporizzato, opzioni file e permessi, CSV, Forum, integrità e presa visione. |
 | `tests/form_preprocessing_test.php` | Test runtime dei default del form per completamento, playback e CSV. |
 | `tests/form_validation_test.php` | Copertura comportamentale e di delega per la validazione autonoma del form attività. |
 | `tests/forum_bridge_test.php` | Copertura PHPUnit per forum bridge test. |

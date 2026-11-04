@@ -243,3 +243,11 @@ dichiarazione di un parametro di metodo.
   continua a indicare ereditarietà. Tre test runtime coprono default, valori salvati, ereditarietà, visibilità
   per upload, accessibilità della descrizione larghezza e permessi reali di override per corso. Il form mantiene
   25 metodi. Il conteggio PHPMD atteso resta 27; elenco completo e gate runtime richiedono conferma nella CI.
+- La CI iniziale e post-merge 1.7.228 conferma le stesse 27 segnalazioni senza nuove voci. `definition()` scende
+  da complessità 19 a 16, NPath da 92.160 a 15.360 e lunghezza da 713 a 632 righe. Lo ZIP reale e i controlli
+  server Moodle 5.0/5.3 superano PHPCS, lint, Grunt e 351 test con 3.219 asserzioni; entrambi i validator strict
+  superano dieci controlli senza warning. La candidata 1.7.229 delega i sottotitoli a `form_definition`, con uno
+  stadio privato dedicato a trascrizioni/capitoli indipendenti dal provider. I due stadi conservano ordine dei
+  campi, fallback sito, dipendenze provider, opzioni WebVTT e blocco di override per corso. Tre test runtime
+  coprono default, dipendenze, opzioni upload effettive per un utente ordinario e permessi reali per corso.
+  Il form mantiene 25 metodi. Il conteggio PHPMD atteso resta 27; la CI deve confermare elenco completo e gate runtime.
