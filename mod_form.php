@@ -714,62 +714,10 @@ class mod_videotrack_mod_form extends moodleform_mod {
         $mform->addHelpButton('countbyvideotime', 'countbyvideotime', 'mod_videotrack');
         $mform->setDefault('countbyvideotime', 1);
 
-        // CSV export settings.
-        $mform->addElement(
-            'header',
-            'csvexportheader',
-            get_string('setting:heading_csvexport', 'mod_videotrack')
+        \mod_videotrack\local\form_definition::add_csv_elements(
+            $mform,
+            $this->context ?: $coursecontext
         );
-        $mform->addElement(
-            'select',
-            'csvdelimiter',
-            get_string('setting:csvdelimiter', 'mod_videotrack'),
-            \mod_videotrack\local\csv_export::delimiter_options_with_inherit()
-        );
-        $mform->setType('csvdelimiter', PARAM_ALPHA);
-        $mform->setDefault('csvdelimiter', \mod_videotrack\local\csv_export::DELIMITER_INHERIT);
-        $mform->addHelpButton('csvdelimiter', 'setting:csvdelimiter', 'mod_videotrack');
-        $mform->addElement(
-            'static',
-            'csvexportfields_desc',
-            '',
-            html_writer::tag(
-                'small',
-                get_string('setting:csvexportfields_teacher_desc', 'mod_videotrack'),
-                ['class' => 'text-muted']
-            )
-        );
-        $csvcontext = $this->context ?: $coursecontext;
-        $csvfieldoptions = \mod_videotrack\local\csv_export::form_field_options($csvcontext);
-        $allowedcsvfields = array_keys(\mod_videotrack\local\csv_export::field_options($csvcontext));
-        $csvfieldcheckboxes = [];
-        foreach ($csvfieldoptions as $field => $label) {
-            $elementname = \mod_videotrack\local\csv_export::form_element_name($field);
-            $isallowedcsvfield = in_array($field, $allowedcsvfields, true);
-            $attributes = [];
-            if (!$isallowedcsvfield) {
-                $label .= ' (' . get_string('notavailable') . ')';
-                $attributes['disabled'] = 'disabled';
-            }
-            $csvfieldcheckboxes[] = $mform->createElement(
-                'advcheckbox',
-                $elementname,
-                '',
-                $label,
-                $attributes,
-                [0, 1]
-            );
-            $mform->setType($elementname, PARAM_BOOL);
-        }
-        if ($csvfieldcheckboxes) {
-            $mform->addGroup(
-                $csvfieldcheckboxes,
-                'csvexportfieldsgroup',
-                get_string('setting:csvexportfields', 'mod_videotrack'),
-                ' ',
-                false
-            );
-        }
 
         // Reactions section.
         $mform->addElement('header', 'reactionsheader', get_string('reactionsheader', 'mod_videotrack'));

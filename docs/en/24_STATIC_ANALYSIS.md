@@ -200,3 +200,8 @@ line, not for redeclaring a method parameter.
   `form_definition` also owns acknowledgement field construction, removing the form's direct dependency on
   `acknowledgement` while retaining both groups' statements and positions. Four behavioural tests cover these
   groups. The expected 27 findings and the added editor-context test require corrected candidate CI.
+- Corrected and post-merge 1.7.224 CI confirm 27 findings without new findings; object coupling is no longer
+  reported for the activity form. Candidate 1.7.225 moves CSV field construction into the existing
+  `form_definition` owner and removes the form's direct CSV-class dependency. The expected count remains 27;
+  two new runtime cases cover field order, inheritance and actual context/hidden-identity permissions.
+  The complete finding list and all runtime gates require candidate CI confirmation.

@@ -16,11 +16,12 @@
 
 namespace mod_videotrack;
 
+use mod_videotrack\local\csv_export;
 use mod_videotrack\local\form_definition;
 use PHPUnit\Framework\Attributes\CoversClass;
 
 /**
- * Behavioural checks for delegated Forum and acknowledgement form groups.
+ * Behavioural checks for delegated CSV, Forum and acknowledgement form groups.
  *
  * @package    mod_videotrack
  * @category   test
@@ -159,6 +160,82 @@ final class form_definition_test extends \advanced_testcase {
             $this->assertSame(0, $options['maxbytes']);
             $this->assertFalse($options['trusttext']);
             $this->assertFalse($options['noclean']);
+        }
+    }
+
+    /**
+     * CSV choices retain delimiter inheritance, flat field names and visible field order.
+     */
+    public function test_csv_fields_keep_delimiters_names_and_order(): void {
+        $this->resetAfterTest();
+        $this->setAdminUser();
+        set_config('showuseridentity', 'email,idnumber');
+        set_config('hiddenuserfields', '');
+        $course = $this->getDataGenerator()->create_course();
+        $context = \context_course::instance($course->id);
+        $form = new \MoodleQuickForm('videotrack_csv_fields', 'post', '');
+
+        form_definition::add_csv_elements($form, $context);
+
+        $delimiter = $form->getElement('csvdelimiter');
+        $this->assertSame([csv_export::DELIMITER_INHERIT], $delimiter->getSelected());
+        $html = $delimiter->toHtml();
+        foreach (['inherit', 'comma', 'semicolon', 'section', 'hash', 'pipe'] as $value) {
+            $this->assertStringContainsString('value="' . $value . '"', $html);
+        }
+        $fields = [
+            'coursefullname', 'courseshortname', 'courseid', 'instancename', 'videolink',
+            'username', 'email', 'city', 'country', 'idnumber', 'institution', 'department',
+            'phone1', 'phone2', 'address',
+        ];
+        $checkboxes = $form->getElement('csvexportfieldsgroup')->getElements();
+        $names = array_map(static fn($checkbox): string => $checkbox->getName(), $checkboxes);
+        $this->assertSame(array_map([csv_export::class, 'form_element_name'], $fields), $names);
+        $this->assertTrue($form->elementExists('csvexportheader'));
+        $this->assertTrue($form->elementExists('csvexportfields_desc'));
+    }
+
+    /**
+     * The actual context and hidden-identity permissions control enabled CSV checkboxes.
+     */
+    public function test_csv_identity_fields_respect_context_and_hidden_field_permissions(): void {
+        $this->resetAfterTest();
+        set_config('showuseridentity', 'email,idnumber');
+        set_config('hiddenuserfields', 'idnumber');
+        $generator = $this->getDataGenerator();
+        $course = $generator->create_course();
+        $othercourse = $generator->create_course();
+        $context = \context_course::instance($course->id);
+        $othercontext = \context_course::instance($othercourse->id);
+        $user = $generator->create_user();
+        $roleid = create_role('VideoTrack CSV identity viewer', 'videotrackcsvidentityviewer', '');
+        role_assign($roleid, $user->id, $context->id);
+        assign_capability('moodle/site:viewuseridentity', CAP_ALLOW, $roleid, $context->id);
+        assign_capability('moodle/course:viewhiddenuserfields', CAP_PREVENT, $roleid, $context->id);
+        $this->setUser($user);
+
+        $this->assertTrue(has_capability('moodle/site:viewuseridentity', $context));
+        $this->assertFalse(has_capability('moodle/site:viewuseridentity', $othercontext));
+        foreach ([$context, $othercontext] as $scope) {
+            $form = new \MoodleQuickForm('videotrack_csv_permissions_' . $scope->id, 'post', '');
+            form_definition::add_csv_elements($form, $scope);
+            $checkboxes = [];
+            foreach ($form->getElement('csvexportfieldsgroup')->getElements() as $checkbox) {
+                $checkboxes[$checkbox->getName()] = $checkbox;
+            }
+            $email = $checkboxes[csv_export::form_element_name('email')];
+            if ($scope->id === $context->id) {
+                $this->assertEmpty($email->getAttribute('disabled'));
+            } else {
+                $this->assertSame('disabled', $email->getAttribute('disabled'));
+            }
+            foreach (['idnumber', 'phone1'] as $field) {
+                $element = $checkboxes[csv_export::form_element_name($field)];
+                $this->assertSame('disabled', $element->getAttribute('disabled'));
+                $this->assertStringContainsString(get_string('notavailable'), $element->toHtml());
+            }
+            $coursefield = $checkboxes[csv_export::form_element_name('coursefullname')];
+            $this->assertEmpty($coursefield->getAttribute('disabled'));
         }
     }
 }

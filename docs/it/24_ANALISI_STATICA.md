@@ -210,3 +210,8 @@ dichiarazione di un parametro di metodo.
   corretto `form_definition` costruisce anche la presa visione, rimuovendo la dipendenza diretta del form da
   `acknowledgement` e conservando istruzioni e posizioni dei due gruppi. Quattro test comportamentali coprono
   questi gruppi. I 27 rilievi attesi e il nuovo test sul contesto dell’editor richiedono la CI corretta.
+- La CI corretta e dopo il merge della 1.7.224 conferma 27 rilievi senza novità; il coupling del form non è più
+  segnalato. La candidata 1.7.225 sposta i campi CSV nel servizio `form_definition` esistente e rimuove la
+  dipendenza diretta del form dalla classe CSV. Il conteggio atteso resta 27; due nuovi casi runtime verificano
+  ordine, ereditarietà e permessi effettivi del contesto e delle identità nascoste.
+  L’elenco completo dei rilievi e tutti i gate runtime richiedono conferma nella CI della candidata.

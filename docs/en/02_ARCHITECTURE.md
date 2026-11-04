@@ -21,10 +21,12 @@ the feature and its completion flag. Suffixed Moodle completion fields fall back
 
 ## Form construction boundary
 
-`form_definition` builds Forum and acknowledgement groups at their existing positions in the activity form.
+`form_definition` builds CSV, Forum and acknowledgement groups at their existing positions in the activity form.
 The Forum group uses the shared course/type/deletion-filtered options, including status labels and an explicit
 placeholder for an unavailable saved destination. Acknowledgement fields retain timing choices, defaults,
 dependencies and the activity context with file attachments and trusted HTML disabled in the editor.
+The CSV group receives the effective module/course context, retains delimiter inheritance and flat checkbox
+names, and uses the existing CSV APIs to show identity fields read-only when Moodle permissions exclude them.
 The activity form keeps submitted validation and the final section-expansion policy.
 
 ## Media input parsing boundary
