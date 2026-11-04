@@ -1,5 +1,29 @@
 # VideoTrack changelog
 
+## 1.7.226 - 2026-11-04
+
+### Effective integrity-policy form construction
+
+- Accepted the real 392-file 1.7.225 ZIP byte-for-byte against the approved
+  candidate and merged commit `7d17fa862760988f787b04885249f4ca7b925c78`.
+  Its SHA-256 is `7658a34fd4dbada68d76c77dd323c57fc8c3a2a99722f91ed559bd45ac076082`.
+  All six post-merge CI jobs passed 343 PHPUnit tests, 3,100 assertions,
+  24 Behat scenarios and ten validator checks each. PHPMD confirmed the same
+  27 advisory findings. The Moodle 5.0/5.3 server report passed PHPCS, lint,
+  Grunt and the same PHPUnit suite; both strict validators reported ten passes,
+  zero warnings and zero failures.
+- Move integrity/focus field construction from `mod_form::definition()` to the
+  existing `form_definition` owner, preserving its position between personal
+  study tools and acknowledgement settings. Keep the original field names,
+  disabled defaults, help strings and effective site-policy summary. The
+  `integrity` service still owns policy fallback, bounds and grace normalisation.
+- Add two runtime QuickForm tests for disabled defaults, the accessible default
+  policy, strict policy, reversed/clamped pause bounds and invalid-policy/grace
+  fallback. The activity form retains its 25 methods and no longer directly
+  depends on the integrity service. The expected PHPMD count remains 27 and
+  requires candidate CI confirmation. XMLDB schema, AJAX services, AMD assets,
+  language keys and playback/tracking behaviour are unchanged.
+
 ## 1.7.225 - 2026-11-03
 
 ### Context-aware CSV form construction

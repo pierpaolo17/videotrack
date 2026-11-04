@@ -19,7 +19,7 @@ namespace mod_videotrack\local;
 use html_writer;
 
 /**
- * Builds self-contained CSV, Forum and acknowledgement groups in the activity form.
+ * Builds self-contained CSV, Forum, integrity and acknowledgement groups in the activity form.
  *
  * @package    mod_videotrack
  * @copyright  2026 videotrack contributors
@@ -158,6 +158,77 @@ final class form_definition {
             'forumprivacyinfo',
             '',
             get_string('forum:privacyinfo', 'mod_videotrack')
+        );
+    }
+
+    /**
+     * Add integrity controls and the effective site focus-policy summary.
+     *
+     * @param \MoodleQuickForm $mform Activity settings form.
+     */
+    public static function add_integrity_elements(\MoodleQuickForm $mform): void {
+        // Integrity indicators and optional focus controls.
+        $mform->addElement(
+            'header',
+            'integritysettingsheader',
+            get_string('integrity:settingsheader', 'mod_videotrack')
+        );
+        $mform->addElement(
+            'static',
+            'integritysettingsintro',
+            '',
+            get_string('integrity:settingsintro', 'mod_videotrack')
+        );
+        $mform->addElement(
+            'advcheckbox',
+            'integrityindicatorsenabled',
+            get_string('integrity:enable', 'mod_videotrack'),
+            get_string('integrity:enable_desc', 'mod_videotrack')
+        );
+        $mform->setType('integrityindicatorsenabled', PARAM_BOOL);
+        $mform->setDefault('integrityindicatorsenabled', 0);
+        $mform->addHelpButton('integrityindicatorsenabled', 'integrity:enable', 'mod_videotrack');
+        $mform->addElement(
+            'advcheckbox',
+            'pauseonfocusloss',
+            get_string('integrity:pauseonfocusloss', 'mod_videotrack'),
+            get_string('integrity:pauseonfocusloss_desc', 'mod_videotrack')
+        );
+        $mform->setType('pauseonfocusloss', PARAM_BOOL);
+        $mform->setDefault('pauseonfocusloss', 0);
+        $mform->addElement(
+            'advcheckbox',
+            'preventpictureinpicture',
+            get_string('integrity:preventpip', 'mod_videotrack'),
+            get_string('integrity:preventpip_desc', 'mod_videotrack')
+        );
+        $mform->setType('preventpictureinpicture', PARAM_BOOL);
+        $mform->setDefault('preventpictureinpicture', 0);
+        $mform->addElement(
+            'advcheckbox',
+            'randomfocuspauses',
+            get_string('integrity:randompauses', 'mod_videotrack'),
+            get_string('integrity:randompauses_desc', 'mod_videotrack')
+        );
+        $mform->setType('randomfocuspauses', PARAM_BOOL);
+        $mform->setDefault('randomfocuspauses', 0);
+
+        $randompausebounds = \mod_videotrack\local\integrity::random_pause_bounds();
+        $focuslosspolicy = \mod_videotrack\local\integrity::focus_loss_policy();
+        $focuslossgrace = \mod_videotrack\local\integrity::focus_loss_grace_seconds();
+        $focuspolicylabel = $focuslosspolicy === \mod_videotrack\local\integrity::FOCUS_POLICY_STRICT
+            ? get_string('setting:focuslosspolicy_strict', 'mod_videotrack')
+            : get_string('setting:focuslosspolicy_hiddenonly', 'mod_videotrack');
+        $mform->addElement(
+            'static',
+            'integritysitepolicy',
+            get_string('integrity:sitepolicy', 'mod_videotrack'),
+            get_string('integrity:sitepolicy_desc', 'mod_videotrack', (object)[
+                'minimum' => $randompausebounds['min'],
+                'maximum' => $randompausebounds['max'],
+                'policy' => $focuspolicylabel,
+                'grace' => $focuslossgrace,
+            ])
         );
     }
 

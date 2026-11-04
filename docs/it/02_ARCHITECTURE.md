@@ -22,12 +22,15 @@ completamento. I campi Moodle con suffisso usano come fallback i corrispondenti 
 
 ## Confine di costruzione del form
 
-`form_definition` costruisce i gruppi CSV, Forum e presa visione nelle posizioni previste nel form dell’attività.
+`form_definition` costruisce i gruppi CSV, Forum, integrità e presa visione nelle posizioni previste nel form dell’attività.
 Il Forum usa opzioni condivise filtrate per corso, tipo e cancellazione, con etichette di stato e un segnaposto
 esplicito per la destinazione salvata non disponibile. La presa visione conserva tempi, default, dipendenze
 e contesto dell’attività, con allegati e HTML attendibile disabilitati nell’editor.
 Il gruppo CSV riceve il contesto effettivo modulo/corso, conserva ereditarietà del delimitatore e nomi dei
 checkbox e usa le API CSV esistenti per rendere non modificabili i campi di identità esclusi dai permessi Moodle.
+I controlli integrità mantengono default disabilitati e mostrano policy focus, tolleranza e limiti delle pause
+tramite le API integrità esistenti. La costruzione resta fra strumenti di studio personali e presa visione;
+calcolo della policy e runtime focus/tracking mantengono i proprietari esistenti.
 Il form dell’attività mantiene la validazione in invio e la politica finale di espansione delle sezioni.
 
 ## Confine di parsing degli input multimediali
