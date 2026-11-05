@@ -277,3 +277,14 @@ dichiarazione di un parametro di metodo.
   sorgente esistenti mantengono le asserzioni sul nuovo proprietario e verificano l'ordine delle deleghe.
   Il conteggio PHPMD atteso è 25, mirando alle segnalazioni ciclomatiche/NPath residue su `definition()`;
   la CI deve confermare elenco completo e tutti i gate runtime.
+- La CI iniziale e post-merge 1.7.232 conferma 25 segnalazioni, prima 27, senza nuove voci. Scompaiono entrambe
+  le segnalazioni di complessità su `definition()`, la cui lunghezza riportata è 192 righe. ZIP reale e controlli
+  server Moodle 5.0/5.3 superano PHPCS, lint, Grunt e 362 test con 3.553 asserzioni; entrambi gli strict danno dieci
+  PASS senza warning. La candidata 1.7.233 trasferisce campi delle righe e visibilità icone al proprietario reaction
+  esistente, con un ingresso pubblico per riga e uno stadio privato di visibilità. Il form mantiene conteggio,
+  limiti, filtro upload, pulsante Aggiungi senza invio e registrazione preset, poi blocca il completamento usando
+  il numero effettivo. Tre test runtime aggiuntivi coprono contratto righe/selettore/file, dipendenze isolate e
+  valori salvati, oltre a conteggio/aggiunta/limite del form reale. I casi di permesso ora usano righe reali.
+  Il form ha 23 metodi e il proprietario tre metodi pubblici. Il conteggio PHPMD atteso è 24; la CI deve confermare
+  elenco completo e tutti i gate runtime. Non sono previste altre estrazioni dal form prima dell'audit di uscita
+  U-017 su responsabilità tracker/player, effetti critici sullo stato e segnalazioni residue motivate.

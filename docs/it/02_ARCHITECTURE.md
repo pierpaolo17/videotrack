@@ -27,9 +27,10 @@ velocità nella posizione originale fra durata e comportamento aggiuntivo del pl
 la capability del corso originale e congela esattamente sette campi se manca il permesso di override. Resume e
 velocità massima restano modificabili e i default sito false/vuoti restano distinti dallo zero.
 `form_reaction_settings` costruisce controlli generali reaction, editor avviso sicuro nel contesto,
-finestra cluster e selettore preset prima che il form crei le righe ripetute. Poi applica i blocchi originali di
-completamento con numero effettivo delle righe e capability di completamento nel corso. Campi delle righe,
-scelta del numero e registrazione AMD dei preset restano nel form.
+finestra cluster e selettore preset. Il suo ingresso per riga aggiunge campi, selettore icone e poi le regole
+originali di visibilità, usando indice e opzioni file ricevuti. I blocchi di completamento seguono tutte le
+righe con conteggio effettivo e capability del corso. Il form conserva scelta del numero, limiti da 4 a 30
+righe, pulsante Aggiungi senza invio, registrazione del filtro upload e registrazione AMD dei preset.
 
 `form_definition` conserva nove ingressi pubblici per durata, comportamento aggiuntivo del player,
 sottotitoli/testo temporizzato, controlli HTML5, velocità, CSV, Forum, integrità e presa visione.

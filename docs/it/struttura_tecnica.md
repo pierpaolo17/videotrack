@@ -7,7 +7,7 @@ Questa pagina è una mappa di navigazione. Per il contratto completo usare i doc
 | Entrypoint Moodle | `view.php`, `index.php`, `report.php`, `course_report.php`, `teacher_report.php` | Accesso, contesto, rendering e routing report. |
 | Ciclo attività | `lib.php`, `mod_form.php`, `classes/local/form_validation.php`, `db/install.xml`, `db/upgrade.php` | Creazione/modifica/cancellazione, validazione contestuale e autonoma del form, file, voti e schema. |
 | Costruzione form attività | `mod_form.php`, `classes/local/form_definition.php`, `classes/local/form_playback_settings.php` | Gruppi QuickForm ordinati, default sito, blocchi di override per corso e configurazione DOM/AMD. |
-| Impostazioni form reaction | `classes/local/form_reaction_settings.php`, `mod_form.php` | Controlli generali reaction/avviso/preset prima delle righe, seguiti dai blocchi di completamento per corso. |
+| Impostazioni form reaction | `classes/local/form_reaction_settings.php`, `mod_form.php` | Controlli generali, campi delle singole righe e visibilità icone; conteggio/pulsante restano nel form prima dei blocchi completamento. |
 | Helper input multimediali | `locallib.php`, `docs/it/15_MEDIA_PROVIDERS_DURATION.md` | Normalizzazione URL HTTPS, estrazione identificatori provider, parsing timestamp e helper condivisi di presentazione. |
 | Servizi dominio | `classes/local/` | Tracking, analytics, privacy, export, scope report, Forum e configurazione. |
 | Completion | `classes/completion/custom_completion.php`, `classes/local/completion_config.php` | Regola composita VideoTrack, descrizioni ordinate delle condizioni, firme di configurazione e sincronizzazione Moodle. |

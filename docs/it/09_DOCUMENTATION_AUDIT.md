@@ -1,6 +1,6 @@
 # Audit della documentazione
 
-Baseline: VideoTrack **1.7.232** (`2026110502`).
+Baseline: VideoTrack **1.7.233** (`2026110503`).
 
 ## Perimetro
 
@@ -46,10 +46,11 @@ duplicano intenzionalmente procedure implementative, dizionari dei campi o lungh
 - I sottotitoli conservano default booleani/lingua del sito, incluso il valore lingua letterale "0", dipendenze
   VTT per upload e avvisi Vimeo. Trascrizioni/capitoli restano indipendenti dal provider con opzioni file canoniche,
   tra i campi sottotitoli e l'avviso Vimeo; il blocco per corso riguarda solo sottotitoli/lingua.
-- `form_reaction_settings` costruisce impostazioni generali, avviso sicuro nel contesto e preset prima delle righe
-  ripetute. Il form crea ancora le righe e delega poi il blocco originale di completamento con il numero effettivo.
-  Il permesso di completamento nel corso resta distinto da quello del player. I contratti sorgente esistenti
-  seguono il nuovo proprietario e verificano esplicitamente la sequenza impostazioni/righe/blocco.
+- `form_reaction_settings` possiede impostazioni generali, avviso/preset nel contesto e campi delle singole righe,
+  seguiti dalle regole di visibilità delle icone. Il form mantiene conteggio, limiti, registrazione filtro upload
+  e pulsante Aggiungi senza invio, poi delega i blocchi completamento con il conteggio effettivo. Il permesso di
+  completamento resta distinto da quello del player. Test runtime coprono ordine, tipi, target univoci del
+  selettore, opzioni file originali, valori salvati, dipendenze esatte, conteggi del form reale e blocchi su righe reali.
 - `form_playback_settings` possiede il gruppo riproduzione controllato dal sito con un ingresso pubblico e uno
   stadio privato per le velocità limite. Il fallback false/vuoto conserva lo zero esplicito e il blocco per corso
   congela gli stessi sette campi; resume/velocità massima restano modificabili. `form_definition` mantiene nove metodi pubblici.
@@ -60,7 +61,7 @@ duplicano intenzionalmente procedure implementative, dizionari dei campi o lungh
   opzioni del corso, segnaposto salvati e contesto/opzioni dell’editor restano espliciti. Il form conserva
   validazione in invio ed espansione delle sezioni senza dipendenza diretta dalla classe delle prese visione.
 - Gli indici inglese e italiano hanno stesso perimetro e ordinamento.
-- Marker documentali, README principali e artefatti ER identificano 1.7.232 / 2026110502.
+- Marker documentali, README principali e artefatti ER identificano 1.7.233 / 2026110503.
 - L’export privacy Moodle delega stato, segmenti, eventi, integrità e prese visione nello stesso ordine;
   sei categorie di eventi conservano percorsi, pulizia dei dati, blocchi da 500 e ordine finale.
 - I controlli del form per sorgenti, file VTT, icone delle reazioni e forum mantengono l'ordine originale tramite
@@ -166,7 +167,7 @@ duplicano intenzionalmente procedure implementative, dizionari dei campi o lungh
 - Le evidenze CI/server generate non fanno parte dell'albero del plugin. Il `.gitignore` del repository, le regole
   Git archive `export-ignore`, le regole Moodle `.moodleignore` e un contratto PHPUnit di release hygiene impediscono
   insieme che `reports-*`, `videotrack-ci-*.zip` e `report_completo_videotrack_*.zip` entrino nelle release future.
-  L'archivio canonico di release deve contenere quindi soltanto i 384 file legittimi del plugin.
+  L'archivio canonico di release deve contenere quindi soltanto i 396 file legittimi del plugin.
 
 ## Controlli di release
 

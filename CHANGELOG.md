@@ -1,5 +1,36 @@
 # VideoTrack changelog
 
+## 1.7.233 - 2026-11-05
+
+### Reaction row construction and explicit form orchestration
+
+- Accepted the real 396-file 1.7.232 ZIP byte-for-byte against merged commit
+  `81d1f005d2a6b1f949d30e3bf2b00d8ae5e65db1`. Its SHA-256 is
+  `a86b32001d6269b99b999eec9bbbd8f0377249cdc0ac708f6ed5f5246eaafd0f`.
+  All six initial and post-merge CI jobs passed 362 PHPUnit tests, 3,553
+  assertions, 24 Behat scenarios and ten validator checks each. PHPMD confirmed
+  25 findings, down from 27: both complexity findings on `definition()` were
+  removed, without new findings. The Moodle 5.0/5.3 server report passed PHPCS,
+  lint, Grunt and the same PHPUnit suite; both strict validators reported ten
+  passes, zero warnings and zero failures.
+- Move individual reaction fields and their icon visibility rules to the
+  existing `form_reaction_settings` owner. Its row entry point receives the
+  original QuickForm, row index and file-manager options; the private visibility
+  stage runs after field creation. Preserve field order, cleaning types, help,
+  picker identifiers/targets, internal-only image options and dependencies.
+  The activity form retains repeat-count selection, the 4-to-30-row bounds,
+  upload-filter registration, no-submit Add reaction button and preset AMD
+  registration. Completion locking still follows row creation with the actual
+  count and original course capability.
+- Add three runtime QuickForm tests for row field/picker/upload contracts,
+  isolated visibility with saved values, and the real form's count/add/cap
+  orchestration. Existing course-permission tests now lock real reaction rows.
+  The activity form has 23 methods; the existing owner has three public methods.
+  The expected PHPMD count is 24, subject to complete candidate CI. Update EN/IT
+  ownership and callable inventories for the unchanged 396-file package.
+  XMLDB schema, AJAX services, AMD assets, translations and tracking/playback
+  policies are unchanged.
+
 ## 1.7.232 - 2026-11-05
 
 ### Reaction settings and ordered completion locks

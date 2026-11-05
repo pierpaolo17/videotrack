@@ -266,3 +266,14 @@ line, not for redeclaring a method parameter.
   preset guards and completion-only course/row permissions. Existing source contracts retain their assertions
   on the new owner and check delegation order. The expected PHPMD count is 25, targeting the remaining cyclomatic
   and NPath findings on `definition()`; candidate CI must confirm complete findings and all runtime gates.
+- The initial and post-merge 1.7.232 CI jobs confirm 25 findings, down from 27 with no additions. Both
+  complexity findings on `definition()` are gone; its reported length is 192 lines. The real ZIP and Moodle 5.0/5.3
+  server gates pass PHPCS, lint, Grunt and 362 tests with 3,553 assertions; both strict validators pass ten checks
+  without warnings. Candidate 1.7.233 moves row fields and icon visibility into the existing reaction owner, using
+  one public row entry point and a private visibility stage. The form retains count selection, bounds, upload
+  filtering, no-submit Add reaction and preset registration, then locks completion with the actual count.
+  Three additional runtime tests cover row/picker/file contracts, isolated dependencies and saved values, plus
+  real form count/add/cap orchestration. Existing permission cases now use real rows. The form has 23 methods and
+  the owner three public methods. The expected PHPMD count is 24; candidate CI must confirm the full finding list
+  and all runtime gates. No further form extraction is planned before the U-017 exit audit of tracker/player
+  responsibilities, critical state effects and justified residual findings.
