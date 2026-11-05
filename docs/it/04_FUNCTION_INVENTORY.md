@@ -1,8 +1,8 @@
 # Inventario delle funzioni
 
-Generato dall’albero sorgente VideoTrack 1.7.233. Le voci PHP includono funzioni e metodi nominati; le voci AMD includono dichiarazioni nominate, espressioni funzione assegnate e funzioni-metodo di oggetti.
+Generato dall’albero sorgente VideoTrack 1.7.234. Le voci PHP includono funzioni e metodi nominati; le voci AMD includono dichiarazioni nominate, espressioni funzione assegnate e funzioni-metodo di oggetti.
 
-**Funzioni/metodi PHP:** 1053. **Callable AMD nominati:** 654.
+**Funzioni/metodi PHP:** 1061. **Callable AMD nominati:** 654.
 
 | Posizione | Callable | Responsabilità |
 |---|---|---|
@@ -1699,6 +1699,14 @@ Generato dall’albero sorgente VideoTrack 1.7.233. Le voci PHP includono funzio
 | `tests/tracker_test.php:835` | `test_any_session_watched_time_validation_uses_validated_segments` | Funzione/metodo PHP nominato `test_any_session_watched_time_validation_uses_validated_segments`; vedere DocBlock e chiamanti per il contratto corrente. |
 | `tests/tracker_test.php:866` | `test_allowed_forward_seek_requires_validated_interaction_timestamp` | Funzione/metodo PHP nominato `test_allowed_forward_seek_requires_validated_interaction_timestamp`; vedere DocBlock e chiamanti per il contratto corrente. |
 | `tests/tracker_test.php:919` | `test_allowed_forward_seek_rejects_stale_or_different_session_interaction` | Funzione/metodo PHP nominato `test_allowed_forward_seek_rejects_stale_or_different_session_interaction`; vedere DocBlock e chiamanti per il contratto corrente. |
+| `tests/tracking_effects_test.php:37` | `test_budget_rejection_retry_preserves_state_and_audit_row` | Verifica che il replay rifiutato mantenga credito/stato e una sola riga di audit non validata. |
+| `tests/tracking_effects_test.php:78` | `test_forward_rejection_keeps_frontier_and_does_not_replay_its_budget_reset` | Verifica frontiera conservata dopo seek rifiutato e replay incapace di azzerare un budget valido successivo. |
+| `tests/tracking_effects_test.php:118` | `test_live_interval_cap_rebuild_preserves_exact_validated_coverage` | Verifica ricostruzione reale dello stato limitato da registro validato, copertura esatta e replay idempotente. |
+| `tests/tracking_effects_test.php:165` | `test_external_completion_retry_keeps_persisted_effects_and_events_once` | Esegue due volte l’endpoint segmenti autenticato e verifica completamento nativo, registro ed eventi non duplicati. |
+| `tests/tracking_effects_test.php:218` | `fixture` | Crea attività reale, studente iscritto e finestra esplicita del credito di riproduzione. |
+| `tests/tracking_effects_test.php:247` | `segment` | Costruisce un segmento grezzo con identificatori reali della fixture e chiave richiesta stabile. |
+| `tests/tracking_effects_test.php:266` | `persist` | Invoca il tracker reale con tempo deterministico e restituisce stato, esito segmento e flag replay. |
+| `tests/tracking_effects_test.php:287` | `significant_events` | Conta eventi canonici di completamento/segmento VideoTrack escludendo eventi core estranei. |
 | `tests/upgrade_contract_test.php:35` | `test_modern_schema_fast_forward_precedes_legacy_steps` | Funzione/metodo PHP nominato `test_modern_schema_fast_forward_precedes_legacy_steps`; vedere DocBlock e chiamanti per il contratto corrente. |
 | `tests/upgrade_contract_test.php:84` | `test_failed_install_schema_recovery_supersedes_obsolete_lineage` | Funzione/metodo PHP nominato `test_failed_install_schema_recovery_supersedes_obsolete_lineage`; vedere DocBlock e chiamanti per il contratto corrente. |
 | `tests/upgrade_contract_test.php:114` | `test_gradebook_recovery_uses_dml_only` | Funzione/metodo PHP nominato `test_gradebook_recovery_uses_dml_only`; vedere DocBlock e chiamanti per il contratto corrente. |

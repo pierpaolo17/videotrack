@@ -277,3 +277,8 @@ line, not for redeclaring a method parameter.
   the owner three public methods. The expected PHPMD count is 24; candidate CI must confirm the full finding list
   and all runtime gates. No further form extraction is planned before the U-017 exit audit of tracker/player
   responsibilities, critical state effects and justified residual findings.
+- The 1.7.233 CI/server acceptance confirms 24 findings, 365 tests and 3,920 assertions. The 1.7.234
+  [exit audit](25_MAINTAINABILITY_EXIT.md) accepts the documented residual ownership and stops the planned structural sequence
+  after consolidation, subject to real candidate acceptance. Four new persisted-effect tests cover budget/seek
+  rejection replays, live interval-cap rebuilding and authenticated completion/event idempotence. All production
+  implementations and analyser rules remain unchanged; the expected PHPMD count is 24, to be confirmed in CI.

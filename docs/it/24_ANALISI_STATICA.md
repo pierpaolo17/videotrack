@@ -288,3 +288,7 @@ dichiarazione di un parametro di metodo.
   Il form ha 23 metodi e il proprietario tre metodi pubblici. Il conteggio PHPMD atteso è 24; la CI deve confermare
   elenco completo e tutti i gate runtime. Non sono previste altre estrazioni dal form prima dell'audit di uscita
   U-017 su responsabilità tracker/player, effetti critici sullo stato e segnalazioni residue motivate.
+- L’accettazione CI/server 1.7.233 conferma 24 segnalazioni, 365 test e 3.920 asserzioni. L’[audit di uscita](25_USCITA_MANUTENIBILITA.md) della 1.7.234 motiva il debito residuo e ferma la sequenza strutturale pianificata dopo il
+  consolidamento, subordinato all’accettazione reale della candidata. Quattro nuovi test sugli effetti persistiti
+  coprono replay dei rifiuti budget/seek, ricostruzione al limite intervalli e idempotenza completamento/eventi
+  dell’endpoint autenticato. Produzione e regole restano invariati: PHPMD atteso 24, da confermare in CI.

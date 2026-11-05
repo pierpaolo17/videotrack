@@ -1,6 +1,6 @@
 # Documentation audit
 
-Baseline: VideoTrack **1.7.233** (`2026110503`).
+Baseline: VideoTrack **1.7.234** (`2026110504`).
 
 ## Scope
 
@@ -32,6 +32,10 @@ not duplicate implementation procedures, field dictionaries or long security/pri
 
 ## Current-tree findings
 
+- The [U-017 exit audit](25_MAINTAINABILITY_EXIT.md) records ownership, the 24 reviewed residual findings and four new persisted-effect
+  tests. Its closure is conditional on the exact candidate CI and server evidence; manual/browser/production
+  roadmap gates remain separate. Production implementations and analysis scope are unchanged.
+
 - `form_reaction_settings` owns general reaction settings, context-safe notice/preset fields and individual row
   fields followed by their icon visibility rules. The form retains row count, bounds, upload-filter registration
   and no-submit Add reaction control, then delegates completion locks with the actual count. Course completion
@@ -61,7 +65,7 @@ not duplicate implementation procedures, field dictionaries or long security/pri
   course-scoped choices, saved placeholders and the editor context/options remain explicit. The activity form
   retains submitted validation and section expansion without a direct acknowledgement-class dependency.
 - English and Italian indexes have matching scope and ordering.
-- Documentation markers, root README files and ER artefacts identify 1.7.233 / 2026110503.
+- Documentation markers, root README files and ER artefacts identify 1.7.234 / 2026110504.
 - The Moodle privacy export delegates state, segment, event, integrity and acknowledgement sections in order;
   six event categories preserve the original paths, sanitisation, 500-row streaming and final flush order.
 - Activity-form source, timed-text, reaction-file and forum checks remain in their original order behind focused helpers;
@@ -165,7 +169,7 @@ not duplicate implementation procedures, field dictionaries or long security/pri
 - Generated CI/server evidence is not part of the plugin tree. Repository `.gitignore`, Git archive
   `export-ignore` rules, Moodle `.moodleignore` rules and a PHPUnit release-hygiene contract jointly prevent
   `reports-*`, `videotrack-ci-*.zip` and `report_completo_videotrack_*.zip` from entering future releases. The
-  canonical release archive must therefore contain the 396 legitimate plugin files only.
+  canonical release archive must therefore contain the 399 legitimate plugin files only.
 
 ## Release checks
 
