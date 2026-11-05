@@ -21,7 +21,12 @@ the feature and its completion flag. Suffixed Moodle completion fields fall back
 
 ## Form construction boundary
 
-`form_definition` builds CSV, Forum, integrity and acknowledgement groups at their existing positions in the activity form.
+`form_playback_settings` builds site-controlled playback defaults, the lock notice and rate-limit choices
+at their existing position between duration and additional player behaviour. Its single public entry point uses
+the original course capability; exactly seven fields are frozen when override permission is missing. Resume and
+maximum playback rate keep their existing editable state, while false/empty site defaults remain distinct from zero.
+`form_definition` retains nine public construction entry points for duration, additional player behaviour,
+caption/timed-text fields, HTML5 controls, speed choices, CSV, Forum, integrity and acknowledgement groups.
 The Forum group uses the shared course/type/deletion-filtered options, including status labels and an explicit
 placeholder for an unavailable saved destination. Acknowledgement fields retain timing choices, defaults,
 dependencies and the activity context with file attachments and trusted HTML disabled in the editor.

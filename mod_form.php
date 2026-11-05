@@ -50,7 +50,6 @@ class mod_videotrack_mod_form extends moodleform_mod {
 
         // Capability checks for admin-controlled overrides.
         $coursecontext = context_course::instance($COURSE->id);
-        $canoverrideplayer     = has_capability('mod/videotrack:overrideplayersettings', $coursecontext);
         $canoverridecompleting = has_capability('mod/videotrack:overridecompletionsettings', $coursecontext);
 
         // Read defaults configured by the site administrator.
@@ -142,104 +141,7 @@ class mod_videotrack_mod_form extends moodleform_mod {
 
         \mod_videotrack\local\form_definition::add_duration_elements($mform, $PAGE);
 
-        // Player settings locked when teacher lacks overrideplayersettings.
-        if (!$canoverrideplayer) {
-            $mform->addElement(
-                'static',
-                'playersettings_locked_notice',
-                '',
-                html_writer::tag('div', get_string('setting:lockedbyAdmin', 'mod_videotrack'), ['class' => 'alert alert-info'])
-            );
-        }
-
-        $mform->addElement('advcheckbox', 'showcontrols', get_string('showcontrols', 'mod_videotrack'));
-
-        $mform->setType('showcontrols', PARAM_BOOL);
-        $mform->setDefault('showcontrols', (int)(bool)$cfg('default_showcontrols', 1));
-
-        $mform->addElement('advcheckbox', 'disablekeyboard', get_string('disablekeyboard', 'mod_videotrack'));
-
-        $mform->setType('disablekeyboard', PARAM_BOOL);
-        $mform->setDefault('disablekeyboard', (int)(bool)$cfg('default_disablekeyboard', 0));
-
-        $mform->addElement('advcheckbox', 'showfullscreen', get_string('showfullscreen', 'mod_videotrack'));
-
-        $mform->setType('showfullscreen', PARAM_BOOL);
-        $mform->setDefault('showfullscreen', (int)(bool)$cfg('default_showfullscreen', 1));
-
-        $mform->addElement('advcheckbox', 'allowseekforward', get_string('allowseekforward', 'mod_videotrack'));
-
-        $mform->setType('allowseekforward', PARAM_BOOL);
-        $mform->setDefault('allowseekforward', (int)(bool)$cfg('default_allowseekforward', 1));
-
-        $mform->addElement('advcheckbox', 'allowseekbackward', get_string('allowseekbackward', 'mod_videotrack'));
-
-        $mform->setType('allowseekbackward', PARAM_BOOL);
-        $mform->setDefault('allowseekbackward', (int)(bool)$cfg('default_allowseekbackward', 1));
-
-        $mform->addElement('advcheckbox', 'allowplaybackratechange', get_string('allowplaybackratechange', 'mod_videotrack'));
-
-        $mform->setType('allowplaybackratechange', PARAM_BOOL);
-        $mform->setDefault('allowplaybackratechange', (int)(bool)$cfg('default_allowplaybackratechange', 1));
-
-        // Resume playback from the last saved position.
-        $mform->addElement(
-            'advcheckbox',
-            'resumeplayback',
-            get_string('resumeplayback', 'mod_videotrack'),
-            get_string('resumeplayback_desc', 'mod_videotrack')
-        );
-
-        $mform->setType('resumeplayback', PARAM_BOOL);
-        $mform->setDefault('resumeplayback', (int)get_config('mod_videotrack', 'resumeplayback'));
-        $mform->addHelpButton('resumeplayback', 'resumeplayback', 'mod_videotrack');
-
-        // Maximum playback rate limit (0 = no limit).
-        $maxspeedoptions = [
-            0   => get_string('maxplaybackrate_nolimit', 'mod_videotrack'),
-            100 => '1×', 125 => '1.25×', 150 => '1.5×', 175 => '1.75×',
-            200 => '2×', 300 => '3×', 400 => '4×',
-        ];
-        $mform->addElement(
-            'select',
-            'maxplaybackrate',
-            get_string('maxplaybackrate', 'mod_videotrack'),
-            $maxspeedoptions
-        );
-        $mform->setType('maxplaybackrate', PARAM_INT);
-        $mform->setDefault('maxplaybackrate', (int)get_config('mod_videotrack', 'maxplaybackrate'));
-        $mform->addHelpButton('maxplaybackrate', 'maxplaybackrate', 'mod_videotrack');
-
-        $blockedseekrateoptions = [
-            50 => '0.5×',
-            75 => '0.75×',
-            100 => '1×',
-        ];
-        $mform->addElement(
-            'select',
-            'blockedseekplaybackrate',
-            get_string('blockedseekplaybackrate', 'mod_videotrack'),
-            $blockedseekrateoptions
-        );
-        $mform->setType('blockedseekplaybackrate', PARAM_INT);
-        $mform->setDefault('blockedseekplaybackrate', 50);
-        $mform->addHelpButton('blockedseekplaybackrate', 'blockedseekplaybackrate', 'mod_videotrack');
-
-        // Lock player fields if the teacher does not have the override capability.
-        if (!$canoverrideplayer) {
-            $lockedfields = [
-                'showcontrols',
-                'disablekeyboard',
-                'showfullscreen',
-                'allowseekforward',
-                'allowseekbackward',
-                'allowplaybackratechange',
-                'blockedseekplaybackrate',
-            ];
-            foreach ($lockedfields as $field) {
-                $mform->freeze($field);
-            }
-        }
+        \mod_videotrack\local\form_playback_settings::add_elements($mform, $coursecontext);
 
         \mod_videotrack\local\form_definition::add_player_behavior_elements($mform, $coursecontext);
 

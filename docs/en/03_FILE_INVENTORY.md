@@ -1,10 +1,10 @@
 # Distributed file inventory
 
-This inventory is generated against the VideoTrack 1.7.230 repository tree. It lists every distributed
+This inventory is generated against the VideoTrack 1.7.231 repository tree. It lists every distributed
 non-documentation file plus repository-only CI/tooling/hygiene files. Canonical JavaScript is under `amd/src`; files under
 `amd/build` are generated.
 
-Entries: **331** — 328 distributed files and three repository-only files excluded from release archives.
+Entries: **333** — 330 distributed files and three repository-only files excluded from release archives.
 
 | File | Responsibility |
 |---|---|
@@ -213,6 +213,7 @@ Entries: **331** — 328 distributed files and three repository-only files exclu
 | `classes/local/csv_export_identity.php` | Formats CSV identity columns, Moodle field labels and video links. |
 | `classes/local/focus_policy.php` | Course-local strict-focus accessibility exception backed by a hidden Moodle core group. |
 | `classes/local/form_definition.php` | Builds duration, player/timed-text, CSV, Forum, integrity and acknowledgement groups. |
+| `classes/local/form_playback_settings.php` | Builds site-controlled playback fields with exact defaults, course override locks and rate-limit choices. |
 | `classes/local/form_preprocessing.php` | Prepares reaction drafts, notice/preset, completion, playback, CSV and site defaults before form rendering. |
 | `classes/local/form_validation.php` | Autonomous scalar/JSON validation policy for the activity settings form. |
 | `classes/local/forum_bridge.php` | Forum integration adapter for VideoTrack. |
@@ -302,6 +303,7 @@ Entries: **331** — 328 distributed files and three repository-only files exclu
 | `tests/fixtures/behat-youtube-player.js` | Test-only deterministic YouTube SDK double loaded exclusively for the reserved Behat fixture. |
 | `tests/focus_policy_test.php` | PHPUnit coverage for hidden-group creation, membership and effective focus policy. |
 | `tests/form_definition_test.php` | Runtime QuickForm tests for duration DOM/AMD, player/timed-text defaults, file options and permissions, CSV, Forum, integrity and acknowledgement. |
+| `tests/form_playback_settings_test.php` | Runtime QuickForm tests for missing/empty/zero defaults, course override locks, unlocked controls and saved rate selections. |
 | `tests/form_preprocessing_test.php` | Runtime tests for completion, playback and CSV edit-form defaults. |
 | `tests/form_validation_test.php` | Behavioural and delegation coverage for autonomous activity-form validation policy. |
 | `tests/forum_bridge_test.php` | PHPUnit coverage for forum bridge test. |

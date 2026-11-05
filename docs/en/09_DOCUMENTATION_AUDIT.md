@@ -1,6 +1,6 @@
 # Documentation audit
 
-Baseline: VideoTrack **1.7.230** (`2026110405`).
+Baseline: VideoTrack **1.7.231** (`2026110501`).
 
 ## Scope
 
@@ -32,6 +32,9 @@ not duplicate implementation procedures, field dictionaries or long security/pri
 
 ## Current-tree findings
 
+- `form_playback_settings` owns the site-controlled playback group with one public entry point and a private
+  rate-choice stage. False/empty fallback preserves explicit zero, the course lock still freezes exactly seven
+  fields, and resume/maximum rate retain their existing editable state. `form_definition` keeps nine public methods.
 - Integrity fields retain their disabled defaults and their place between study tools and acknowledgement;
   the displayed policy uses canonical integrity APIs for fallback, bounds and grace. The activity form no longer
   has a direct integrity-class dependency.
@@ -53,7 +56,7 @@ not duplicate implementation procedures, field dictionaries or long security/pri
   course-scoped choices, saved placeholders and the editor context/options remain explicit. The activity form
   retains submitted validation and section expansion without a direct acknowledgement-class dependency.
 - English and Italian indexes have matching scope and ordering.
-- Documentation markers, root README files and ER artefacts identify 1.7.230 / 2026110405.
+- Documentation markers, root README files and ER artefacts identify 1.7.231 / 2026110501.
 - The Moodle privacy export delegates state, segment, event, integrity and acknowledgement sections in order;
   six event categories preserve the original paths, sanitisation, 500-row streaming and final flush order.
 - Activity-form source, timed-text, reaction-file and forum checks remain in their original order behind focused helpers;
