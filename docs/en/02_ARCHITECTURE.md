@@ -25,6 +25,11 @@ the feature and its completion flag. Suffixed Moodle completion fields fall back
 at their existing position between duration and additional player behaviour. Its single public entry point uses
 the original course capability; exactly seven fields are frozen when override permission is missing. Resume and
 maximum playback rate keep their existing editable state, while false/empty site defaults remain distinct from zero.
+`form_reaction_settings` builds general reaction controls, the safe context-bound notice editor, cluster
+window and preset selector before the activity form creates repeated rows. It then applies the original completion
+locks using the actual row count and course completion capability. Row fields, row-count selection and preset AMD
+registration stay in the form.
+
 `form_definition` retains nine public construction entry points for duration, additional player behaviour,
 caption/timed-text fields, HTML5 controls, speed choices, CSV, Forum, integrity and acknowledgement groups.
 The Forum group uses the shared course/type/deletion-filtered options, including status labels and an explicit

@@ -155,7 +155,9 @@ final class form_validation_test extends \advanced_testcase {
      */
     public function test_mod_form_delegates_autonomous_validation_policy(): void {
         $source = file_get_contents(dirname(__DIR__) . '/mod_form.php');
+        $reactionsettings = file_get_contents(dirname(__DIR__) . '/classes/local/form_reaction_settings.php');
         $this->assertIsString($source);
+        $this->assertIsString($reactionsettings);
 
         $this->assertStringContainsString('form_validation::scalar_settings_errors(', $source);
         $this->assertStringContainsString('form_validation::acknowledgement_errors(', $source);
@@ -166,8 +168,12 @@ final class form_validation_test extends \advanced_testcase {
         $this->assertStringNotContainsString("json_decode((string)\$data['reactionpreset_json']", $source);
         $this->assertStringContainsString('file_get_draft_area_info(', $source);
         $this->assertStringContainsString('videotrack_is_compatible_forum(', $source);
-        $this->assertStringContainsString("setDefault('reactionsenabled', 0)", $source);
-        $this->assertStringContainsString("hideIf('reactionconfiguration_note', 'reactionsenabled', 'notchecked')", $source);
+        $this->assertStringContainsString('form_reaction_settings::add_elements(', $source);
+        $this->assertStringContainsString("setDefault('reactionsenabled', 0)", $reactionsettings);
+        $this->assertStringContainsString(
+            "hideIf('reactionconfiguration_note', 'reactionsenabled', 'notchecked')",
+            $reactionsettings
+        );
         $this->assertStringContainsString('$configuredreactioncount = 0;', $source);
         $this->assertStringContainsString('$configuredreactioncount++;', $source);
         $this->assertStringContainsString("\$errors['reactionsenabled'] = get_string(", $source);

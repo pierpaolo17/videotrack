@@ -48,15 +48,8 @@ class mod_videotrack_mod_form extends moodleform_mod {
         global $COURSE, $PAGE;
         $mform = $this->_form;
 
-        // Capability checks for admin-controlled overrides.
+        // Course context for settings and per-course override permissions.
         $coursecontext = context_course::instance($COURSE->id);
-        $canoverridecompleting = has_capability('mod/videotrack:overridecompletionsettings', $coursecontext);
-
-        // Read defaults configured by the site administrator.
-        $cfg = function (string $key, $fallback) {
-            $val = get_config('mod_videotrack', $key);
-            return ($val !== false && $val !== '') ? $val : $fallback;
-        };
 
         $mform->addElement('text', 'name', get_string('videoname', 'mod_videotrack'), ['size' => '64']);
         $mform->setType('name', PARAM_TEXT);
@@ -164,120 +157,14 @@ class mod_videotrack_mod_form extends moodleform_mod {
             $this->context ?: $coursecontext
         );
 
-        // Reactions section.
-        $mform->addElement('header', 'reactionsheader', get_string('reactionsheader', 'mod_videotrack'));
-        $mform->addElement('advcheckbox', 'reactionsenabled', get_string('reactionsenabled', 'mod_videotrack'));
-
-        $mform->setType('reactionsenabled', PARAM_BOOL);
-        $mform->setDefault('reactionsenabled', 0);
-        $mform->addElement(
-            'static',
-            'reactionconfiguration_note',
-            '',
-            html_writer::tag(
-                'div',
-                get_string('err:reactionconfigurationrequired', 'mod_videotrack'),
-                ['class' => 'alert alert-info mb-0']
-            )
-        );
-        $mform->hideIf('reactionconfiguration_note', 'reactionsenabled', 'notchecked');
-
-        $mform->addElement('advcheckbox', 'showreactionnotice', get_string('showreactionnotice', 'mod_videotrack'));
-        $mform->setType('showreactionnotice', PARAM_BOOL);
-        $mform->setDefault('showreactionnotice', 1);
-        $mform->disabledIf('showreactionnotice', 'reactionsenabled', 'notchecked');
-        $reactionnoticeoptions = [
-            'context' => $this->context,
-            'maxfiles' => 0,
-            'maxbytes' => 0,
-            'trusttext' => false,
-            'noclean' => false,
-        ];
-        $mform->addElement(
-            'editor',
-            'reactionnotice_editor',
-            get_string('reactionnotice', 'mod_videotrack'),
-            null,
-            $reactionnoticeoptions
-        );
-        $mform->disabledIf('reactionnotice_editor', 'reactionsenabled', 'notchecked');
-        $mform->disabledIf('reactionnotice_editor', 'showreactionnotice', 'notchecked');
-        $mform->addElement('advcheckbox', 'reactionsrequired', get_string('reactionsrequired', 'mod_videotrack'));
-
-        $mform->setType('reactionsrequired', PARAM_BOOL);
-        $mform->setDefault('reactionsrequired', 0);
-        $mform->addElement('text', 'minreactions', get_string('minreactions', 'mod_videotrack'), ['size' => 3]);
-        $mform->setType('minreactions', PARAM_INT);
-        $mform->setDefault('minreactions', 0);
-        $mform->addElement('advcheckbox', 'requireallreactiontypes', get_string('requireallreactiontypes', 'mod_videotrack'));
-
-        $mform->setType('requireallreactiontypes', PARAM_BOOL);
-        $mform->setDefault('requireallreactiontypes', 0);
-        $mform->disabledIf('reactionsrequired', 'reactionsenabled', 'notchecked');
-        $mform->disabledIf('minreactions', 'reactionsenabled', 'notchecked');
-        $mform->disabledIf('minreactions', 'reactionsrequired', 'notchecked');
-        $mform->disabledIf('requireallreactiontypes', 'reactionsenabled', 'notchecked');
-        $mform->addElement(
-            'static',
-            'reactioncompletionguide',
-            get_string('completionreactionrules', 'mod_videotrack'),
-            get_string('completionreactionrules_desc', 'mod_videotrack')
-        );
-        // Completion settings locked when teacher lacks overridecompletionsettings.
-        if (!$canoverridecompleting) {
-            $mform->addElement(
-                'static',
-                'completionsettings_locked_notice',
-                '',
-                html_writer::tag('div', get_string('setting:lockedbyAdmin', 'mod_videotrack'), ['class' => 'alert alert-info'])
-            );
-        }
-
-        $mform->addElement(
-            'select',
-            'clusterwindow',
-            get_string('clusterwindow', 'mod_videotrack'),
-            [10 => 10, 15 => 15, 20 => 20, 30 => 30, 60 => 60]
-        );
-        $mform->setType('clusterwindow', PARAM_INT);
-        $mform->setDefault('clusterwindow', (int)$cfg('default_clusterwindow', 30));
-
-        if (!$canoverridecompleting) {
-            $mform->freeze('clusterwindow');
-        }
-
-        $mform->addElement('advcheckbox', 'showstudentreport', get_string('showstudentreport', 'mod_videotrack'));
-
-        $mform->setType('showstudentreport', PARAM_BOOL);
-        $mform->setDefault('showstudentreport', 1);
-
-        // Reaction preset selector.
-        $presetoptions = videotrack_get_preset_select_options();
-        if (count($presetoptions) > 1) {
-            // Only show the selector if at least one preset has been configured.
-            $mform->addElement(
-                'select',
-                'reactionpreset',
-                get_string('reactionpreset', 'mod_videotrack'),
-                $presetoptions
-            );
-            $mform->setType('reactionpreset', PARAM_ALPHANUMEXT);
-            $mform->setDefault('reactionpreset', '');
-            $mform->addHelpButton('reactionpreset', 'reactionpreset', 'mod_videotrack');
-            // Hidden field used by JS to carry preset JSON to the client.
-            $mform->addElement('hidden', 'reactionpreset_json', '');
-            $mform->setType('reactionpreset_json', PARAM_RAW_TRIMMED);
-        }
+        \mod_videotrack\local\form_reaction_settings::add_elements($mform, $this->context, $coursecontext);
 
         $this->add_reaction_elements();
-        if (!$canoverridecompleting) {
-            foreach (['reactionsrequired', 'minreactions', 'requireallreactiontypes'] as $field) {
-                $mform->freeze($field);
-            }
-            for ($i = 0; $i < $this->reactionrepeatcount; $i++) {
-                $mform->freeze('reactionrequired[' . $i . ']');
-            }
-        }
+        \mod_videotrack\local\form_reaction_settings::apply_completion_lock(
+            $mform,
+            $coursecontext,
+            $this->reactionrepeatcount
+        );
 
         \mod_videotrack\local\form_definition::add_forum_elements(
             $mform,
