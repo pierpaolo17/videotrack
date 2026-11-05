@@ -299,3 +299,6 @@ dichiarazione di un parametro di metodo.
   e le stesse 24 segnalazioni PHPMD revisionate. La candidata 1.7.235 avvia U-007 con tre scenari di completamento
   dal browser e due asserzioni Behat in sola lettura. Produzione e regole restano invariati: PHPMD atteso 24,
   da verificare con la CI completa della candidata.
+- La CI release/main 1.7.235 accettata conserva le 24 segnalazioni PHPMD revisionate, PHPCS canonico pulito
+  e gli esiti PHPStan/Psalm nello scope configurato. La candidata 1.7.236 aggiunge soltanto controlli Behat
+  e documentazione/marker correnti: confrontare ancora i report completi. Nessun corpo di produzione o regola cambia.

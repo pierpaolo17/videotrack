@@ -1,10 +1,11 @@
 # Behat browser automation
 
 The plugin ships a Moodle activity generator in `tests/generator/lib.php`, component steps in
-`tests/behat/behat_mod_videotrack.php` and feature files in `tests/behat/`. The current suite contains
-**27 scenarios and 417 steps expected from source** for 1.7.235. The accepted 1.7.234 baseline passed 24 scenarios
-and 357 steps on all six CI jobs. The three additional cases require actual candidate CI; source counts are not
-a claim that those new scenarios have passed.
+`tests/behat/behat_mod_videotrack.php` and feature files in `tests/behat/`. The 1.7.236 source contains
+**30 scenarios and 489 steps expected from source**, pending actual candidate CI. Accepted 1.7.235 passed
+27 scenarios / 417 steps in all six release and main CI jobs, alongside 369 PHPUnit tests / 3,988 assertions.
+Its Moodle 5.0/5.3 server report passed PHPCS, lint, Grunt and PHPUnit; both supplied strict outputs passed
+all ten checks. Behat was not included in that server report. These CI results do not certify the new cases.
 
 ## Setup and execution
 
@@ -64,14 +65,34 @@ The older `html5_completion_contract.feature` viewing case deliberately seeds ev
 from an existing state. Its scenario name now states that purpose. It remains useful alongside the new live
 browser-to-AJAX-to-database checks and is not evidence of browser-generated viewing by itself.
 
+## Allowed forward seek without gap credit
+
+`browser_allowed_seek_tracking.feature` adds one unseeded case for each provider. The fixture explicitly
+enables forward seeking, uses a 60-second duration and automatic 50% viewing completion, and disables
+autoplay/resume and view-only/acknowledgement completion. The browser starts from no validated evidence,
+plays into the 4-10 second range, seeks to 30 while playing, continues into the 33-39 second range and pauses.
+HTML5 uses the real local media; YouTube and Vimeo use production adapters against the unchanged SDK doubles.
+
+The new read-only assertion polls the actual database for at most five seconds. It requires a positive
+validated seek row before 12 seconds and a later positive validated pause starting at or after 29.5 seconds,
+both from the same session. Every validated ledger interval and persisted aggregate interval must leave the
+deliberately unwatched 12-29.5 second middle uncovered. Aggregate unique seconds must equal the sum of its
+intervals and remain below 30 seconds; the resume position must advance beyond 33 seconds without completing
+the viewing requirement. Native Moodle completion remains incomplete, including after reload.
+
+The 12-second boundary allows the normal polling/seek tolerance around the first playback window; 29.5 seconds
+allows the provider seek tolerance around the 30-second target. No progress, ledger row, completion state or
+AJAX response is seeded by these cases. Existing browser bindings and SDK fixtures are unchanged.
+
 ## U-007 coverage matrix
 
 | Contract | HTML5 | YouTube | Vimeo |
 |---|---|---|---|
 | Play/pause and accepted terminal ledger write | Existing | Existing SDK-double case | Existing SDK-double case |
 | Resume, backward seek, blocked forward seek/frontier | Existing | Existing SDK-double case | Existing SDK-double case |
-| Unseeded playback to native viewing completion | New 1.7.235 case, CI pending | New 1.7.235 case, CI pending | New 1.7.235 case, CI pending |
-| Allowed forward seek and post-rollback interactions | Existing HTML5 cases | Remaining parity review | Remaining parity review |
+| Unseeded playback to native viewing completion | Accepted 1.7.235 case | Accepted 1.7.235 case | Accepted 1.7.235 case |
+| Allowed forward seek, gap exclusion and incomplete completion | New 1.7.236 case, CI pending | New 1.7.236 case, CI pending | New 1.7.236 case, CI pending |
+| Post-rollback learner interactions | Existing HTML5 case | Remaining parity review | Remaining parity review |
 | Ended/replay/rate changes and relevant group scopes | Remaining matrix review | Remaining matrix review | Remaining matrix review |
 
 Learner, teacher-only and dual-role page controls already have shared scenarios. Their existence does not fill

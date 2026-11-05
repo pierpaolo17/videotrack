@@ -1,10 +1,10 @@
 # Inventario dei file distribuiti
 
-Questo inventario è generato sull'albero repository VideoTrack 1.7.235. Elenca ogni file non documentale distribuito
+Questo inventario è generato sull'albero repository VideoTrack 1.7.236. Elenca ogni file non documentale distribuito
 e i file CI/tooling/igiene presenti soltanto nel repository. Il JavaScript canonico è in `amd/src`; i file in `amd/build`
 sono generati.
 
-Voci: **337** — 334 file distribuiti e tre file presenti soltanto nel repository, esclusi dagli archivi di release.
+Voci: **338** — 335 file distribuiti e tre file presenti soltanto nel repository, esclusi dagli archivi di release.
 
 | File | Responsabilità |
 |---|---|
@@ -284,6 +284,7 @@ Voci: **337** — 334 file distribuiti e tre file presenti soltanto nel reposito
 | `tests/analytics_test.php` | Copertura PHPUnit per analytics test. |
 | `tests/backup_structure_contract_test.php` | Contratti sorgente per ordine delle fasi di backup, filtri privacy, identificatori e aree file. |
 | `tests/behat/behat_mod_videotrack.php` | Step Behat deterministici per readiness, controlli, timestamp, rollback e watched evidence dei player HTML5 e provider. |
+| `tests/behat/browser_allowed_seek_tracking.feature` | Casi browser di seek consentito senza seed: intervalli validati separati e nessun completamento dai gap saltati. |
 | `tests/behat/browser_tracking_completion.feature` | Scenari browser HTML5/YouTube/Vimeo senza progresso predisposto: pause accettate e completamento nativo da visione. |
 | `tests/behat/completion_requirements_layout.feature` | Regressione browser per il raggruppamento dell’etichetta logica composita VideoTrack sopra l’elenco condiviso dei requisiti Moodle. |
 | `tests/behat/focus_exception_policy.feature` | Contratto browser per la policy focus rigida con e senza membership nel gruppo eccezioni nascosto. |

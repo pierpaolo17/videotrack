@@ -1,8 +1,8 @@
 # Function inventory
 
-Generated from the VideoTrack 1.7.235 source tree. PHP entries include named functions and methods; AMD entries include named declarations, assigned function expressions and object-method functions.
+Generated from the VideoTrack 1.7.236 source tree. PHP entries include named functions and methods; AMD entries include named declarations, assigned function expressions and object-method functions.
 
-**PHP functions/methods:** 1063. **Named AMD callables:** 654.
+**PHP functions/methods:** 1065. **Named AMD callables:** 654.
 
 | Location | Callable | Responsibility |
 |---|---|---|
@@ -1391,11 +1391,13 @@ Generated from the VideoTrack 1.7.235 source tree. PHP entries include named fun
 | `tests/behat/behat_mod_videotrack.php:348` | `the_playback_credit_window_is_closed_by_an_accepted_pause` | Verifies that a real browser play/pause cycle uses one server-bound session and closes its credit window. |
 | `tests/behat/behat_mod_videotrack.php:417` | `no_validated_playback_exists` | Checks that a browser completion case starts with no server-validated ledger rows for its learner/activity. |
 | `tests/behat/behat_mod_videotrack.php:442` | `browser_playback_completes_moodle_tracking` | Polls actual state, accepted browser pause and native Moodle completion without injecting progress or completion. |
-| `tests/behat/behat_mod_videotrack.php:512` | `the_user_has_watched_videotrack_through_seconds` | Seeds bounded validated watched evidence for deterministic post-seek Behat interaction scenarios. |
-| `tests/behat/behat_mod_videotrack.php:606` | `the_moodle_completion_state_for_videotrack_is` | Asserts the persisted Moodle core completion state after a VideoTrack browser interaction. |
-| `tests/behat/behat_mod_videotrack.php:647` | `the_videotrack_forum_time_should_be_between` | Asserts the linked Forum composer keeps a timestamp inside the expected validated range after rollback. |
-| `tests/behat/behat_mod_videotrack.php:670` | `the_latest_seek_segment_matches_the_pre_seek_browser_time` | Verifies the raw pre-seek endpoint and rejects any aggregate credit or resume position inside the skipped gap. |
-| `tests/behat/behat_mod_videotrack.php:744` | `the_videotrack_completion_requirements_are_stacked_vertically` | Verifies computed column layout and non-overlapping vertical geometry for grouped Moodle completion items. |
+| `tests/behat/behat_mod_videotrack.php:511` | `allowed_forward_seek_preserves_unwatched_gap` | Reads actual browser ledger/state/native completion to require allowed-seek playback before and after an uncredited gap. |
+| `tests/behat/behat_mod_videotrack.php:595` | `seek_intervals_exclude_unwatched_gap` | Checks positive persisted intervals stay outside the deliberately skipped middle of the 60-second browser fixture. |
+| `tests/behat/behat_mod_videotrack.php:620` | `the_user_has_watched_videotrack_through_seconds` | Seeds bounded validated watched evidence for deterministic post-seek Behat interaction scenarios. |
+| `tests/behat/behat_mod_videotrack.php:714` | `the_moodle_completion_state_for_videotrack_is` | Asserts the persisted Moodle core completion state after a VideoTrack browser interaction. |
+| `tests/behat/behat_mod_videotrack.php:755` | `the_videotrack_forum_time_should_be_between` | Asserts the linked Forum composer keeps a timestamp inside the expected validated range after rollback. |
+| `tests/behat/behat_mod_videotrack.php:778` | `the_latest_seek_segment_matches_the_pre_seek_browser_time` | Verifies the raw pre-seek endpoint and rejects any aggregate credit or resume position inside the skipped gap. |
+| `tests/behat/behat_mod_videotrack.php:852` | `the_videotrack_completion_requirements_are_stacked_vertically` | Verifies computed column layout and non-overlapping vertical geometry for grouped Moodle completion items. |
 | `tests/cli_contract_test.php:35` | `test_validator_is_read_only_and_covers_release_contracts` | Named PHP function/method `test_validator_is_read_only_and_covers_release_contracts`; see source DocBlock and callers for the current contract. |
 | `tests/cli_contract_test.php:65` | `test_course_analytics_benchmark_uses_real_read_only_metrics` | Named PHP function/method `test_course_analytics_benchmark_uses_real_read_only_metrics`; see source DocBlock and callers for the current contract. |
 | `tests/cli_contract_test.php:87` | `test_cli_tools_are_documented_for_admins_and_maintainers` | Named PHP function/method `test_cli_tools_are_documented_for_admins_and_maintainers`; see source DocBlock and callers for the current contract. |

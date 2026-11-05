@@ -502,6 +502,114 @@ class behat_mod_videotrack extends behat_base {
     }
 
     /**
+     * Check actual allowed-seek evidence without crediting the deliberately skipped middle of the fixture.
+     *
+     * @Then /^the allowed forward seek for "(?P<username>[^"]+)" in "(?P<activityname>[^"]+)" preserves the unwatched gap$/
+     * @param string $username Moodle username.
+     * @param string $activityname VideoTrack activity name.
+     */
+    public function allowed_forward_seek_preserves_unwatched_gap(string $username, string $activityname): void {
+        global $DB;
+
+        $user = $DB->get_record('user', ['username' => $username], '*', MUST_EXIST);
+        $activity = $DB->get_record('videotrack', ['name' => $activityname], '*', MUST_EXIST);
+        $cm = get_coursemodule_from_instance('videotrack', (int)$activity->id, (int)$activity->course, false, MUST_EXIST);
+        if (
+            empty($activity->allowseekforward)
+            || (int)$activity->durationseconds !== 60
+            || (int)$activity->completionpercent !== 50
+            || (int)$cm->completion !== COMPLETION_TRACKING_AUTOMATIC
+        ) {
+            throw new \coding_exception('Allowed-seek assertions require a 60-second fixture with a 50% viewing threshold.');
+        }
+        $conditions = ['videotrackid' => (int)$activity->id, 'userid' => (int)$user->id];
+        $deadline = microtime(true) + 5.0;
+        $state = false;
+        $native = false;
+        $segments = [];
+        do {
+            $state = $DB->get_record('videotrack_state', $conditions);
+            $native = $DB->get_record('course_modules_completion', [
+                'coursemoduleid' => (int)$cm->id,
+                'userid' => (int)$user->id,
+            ]);
+            $segments = $DB->get_records('videotrack_seg', $conditions + ['servervalidated' => 1], 'id ASC');
+            $ledgerintervals = [];
+            $seek = false;
+            $pause = false;
+            foreach ($segments as $segment) {
+                $start = (float)$segment->videotimestart;
+                $end = (float)$segment->videotimeend;
+                $ledgerintervals[] = [$start, $end];
+                if ((string)$segment->endreason === 'seek' && $start < 3.0 && $end >= 3.0 && $end <= 12.0) {
+                    $seek = $segment;
+                }
+                if ((string)$segment->endreason === 'pause' && $start >= 29.5 && $end >= 33.0) {
+                    $pause = $segment;
+                }
+            }
+            $intervals = $state ? json_decode((string)$state->intervaljson, true) : null;
+            $safegap = $this->seek_intervals_exclude_unwatched_gap($ledgerintervals)
+                && is_array($intervals) && $this->seek_intervals_exclude_unwatched_gap($intervals);
+            $covered = 0.0;
+            if ($safegap) {
+                foreach ($intervals as $interval) {
+                    $covered += (float)$interval[1] - (float)$interval[0];
+                }
+            }
+            if (
+                $state
+                && $seek
+                && $pause
+                && $safegap
+                && (int)$pause->id > (int)$seek->id
+                && hash_equals((string)$seek->sessionid, (string)$pause->sessionid)
+                && $covered > 0.0 && $covered < 30.0
+                && abs((float)$state->uniquecoveredseconds - $covered) <= 0.01
+                && abs((float)$state->completionpercent - $covered * 100 / 60) <= 0.1
+                && (float)$state->lastposition >= 33.0
+                && (int)$state->iscompleted === 0
+                && (!$native || (int)$native->completionstate === COMPLETION_INCOMPLETE)
+            ) {
+                return;
+            }
+            usleep(100000);
+        } while (microtime(true) < $deadline);
+
+        throw new ExpectationException(
+            'The allowed forward seek in "' . $activityname . '" did not retain separate played intervals '
+                . 'before 12s and after 29.5s without crossing the 50% viewing threshold. '
+                . 'state=' . ($state ? json_encode($state) : 'missing')
+                . '; native=' . ($native ? json_encode($native) : 'missing')
+                . '; segments=' . json_encode(array_values($segments)) . '.',
+            $this->getSession()
+        );
+    }
+
+    /**
+     * Validate the two played regions around the deliberately unwatched 12-29.5 second fixture gap.
+     *
+     * @param array $intervals Persisted ledger or aggregate intervals.
+     * @return bool Whether all intervals are positive, bounded and outside the skipped middle.
+     */
+    private function seek_intervals_exclude_unwatched_gap(array $intervals): bool {
+        if (count($intervals) < 2) {
+            return false;
+        }
+        foreach ($intervals as $interval) {
+            if (!is_array($interval) || count($interval) !== 2 || !is_numeric($interval[0]) || !is_numeric($interval[1])) {
+                return false;
+            }
+            $start = (float)$interval[0];
+            $end = (float)$interval[1];
+            if ($start < 0.0 || $end <= $start || $end > 60.0 || ($start < 29.5 && $end > 12.0)) {
+                return false;
+            }
+        }
+        return true;
+    }
+
+    /**
      * Seed validated watched evidence for a learner before a browser interaction scenario.
      *
      * @Given /^"(?P<username>[^"]+)" watched "(?P<activityname>[^"]+)" through "(?P<seconds>[0-9.]+)" seconds$/
