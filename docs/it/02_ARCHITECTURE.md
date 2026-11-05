@@ -26,6 +26,11 @@ completamento. I campi Moodle con suffisso usano come fallback i corrispondenti 
 velocità nella posizione originale fra durata e comportamento aggiuntivo del player. L'unico ingresso pubblico usa
 la capability del corso originale e congela esattamente sette campi se manca il permesso di override. Resume e
 velocità massima restano modificabili e i default sito false/vuoti restano distinti dallo zero.
+`form_reaction_settings` costruisce controlli generali reaction, editor avviso sicuro nel contesto,
+finestra cluster e selettore preset prima che il form crei le righe ripetute. Poi applica i blocchi originali di
+completamento con numero effettivo delle righe e capability di completamento nel corso. Campi delle righe,
+scelta del numero e registrazione AMD dei preset restano nel form.
+
 `form_definition` conserva nove ingressi pubblici per durata, comportamento aggiuntivo del player,
 sottotitoli/testo temporizzato, controlli HTML5, velocità, CSV, Forum, integrità e presa visione.
 Il Forum usa opzioni condivise filtrate per corso, tipo e cancellazione, con etichette di stato e un segnaposto

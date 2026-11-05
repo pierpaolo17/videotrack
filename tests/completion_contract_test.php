@@ -176,9 +176,23 @@ final class completion_contract_test extends advanced_testcase {
     public function test_form_includes_required_reactions_in_completion_contract(): void {
         $source = file_get_contents(dirname(__DIR__) . '/mod_form.php');
         $validation = file_get_contents(dirname(__DIR__) . '/classes/local/form_validation.php');
+        $settings = file_get_contents(dirname(__DIR__) . '/classes/local/form_reaction_settings.php');
 
+        $this->assertIsString($source);
+        $this->assertIsString($settings);
         $this->assertStringContainsString("(array)(\$data['reactionrequired'] ?? [])", $validation);
-        $this->assertStringContainsString("\$mform->freeze('reactionrequired[' . \$i . ']');", $source);
+        $this->assertStringContainsString("\$mform->freeze('reactionrequired[' . \$i . ']');", $settings);
+        $this->assertStringContainsString('form_reaction_settings::add_elements(', $source);
+        $this->assertStringContainsString('$this->add_reaction_elements();', $source);
+        $this->assertStringContainsString('form_reaction_settings::apply_completion_lock(', $source);
+        $this->assertLessThan(
+            strpos($source, '$this->add_reaction_elements();'),
+            strpos($source, 'form_reaction_settings::add_elements(')
+        );
+        $this->assertLessThan(
+            strpos($source, 'form_reaction_settings::apply_completion_lock('),
+            strpos($source, '$this->add_reaction_elements();')
+        );
         $this->assertStringContainsString('$suffix = $this->get_suffix();', $source);
         $this->assertStringContainsString("'completionreactionrules' . \$suffix", $source);
         $this->assertStringContainsString("'completionlogic' . \$suffix", $source);

@@ -258,3 +258,11 @@ line, not for redeclaring a method parameter.
   preserves field order, hundredths-based values, defaults and the seven-field course lock. Three runtime tests
   cover false/empty/zero site values, actual course permissions, unlocked controls and saved rate selections.
   The expected PHPMD count remains 27; candidate CI must confirm the complete findings and all runtime gates.
+- Initial and post-merge 1.7.231 CI confirm the same 27 findings without new findings. `definition()` complexity
+  is 11, NPath 640 and length 305 lines. The real ZIP and Moodle 5.0/5.3 server checks pass PHPCS, lint, Grunt
+  and 359 tests with 3,427 assertions; both strict validators pass ten checks without warnings. Candidate 1.7.232
+  separates general reaction settings and the post-row completion lock into `form_reaction_settings`, leaving
+  repeated-row construction and its actual count in the form. Three runtime tests cover defaults, editor context,
+  preset guards and completion-only course/row permissions. Existing source contracts retain their assertions
+  on the new owner and check delegation order. The expected PHPMD count is 25, targeting the remaining cyclomatic
+  and NPath findings on `definition()`; candidate CI must confirm complete findings and all runtime gates.

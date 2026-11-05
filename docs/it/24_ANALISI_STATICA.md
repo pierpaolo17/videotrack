@@ -268,3 +268,12 @@ dichiarazione di un parametro di metodo.
   dei sette campi per corso. Tre test runtime coprono valori sito false/vuoti/zero, permessi reali per corso,
   controlli modificabili e selezioni salvate. Il conteggio PHPMD atteso resta 27; la CI deve confermare elenco
   completo e tutti i gate runtime.
+- La CI iniziale e post-merge 1.7.231 conferma le stesse 27 segnalazioni senza nuove voci. `definition()` ha
+  complessità 11, NPath 640 e lunghezza 305 righe. Lo ZIP reale e i controlli server Moodle 5.0/5.3 superano
+  PHPCS, lint, Grunt e 359 test con 3.427 asserzioni; entrambi i validator strict danno dieci PASS senza warning.
+  La candidata 1.7.232 separa impostazioni generali reaction e blocco completamento dopo le righe in
+  `form_reaction_settings`; il form mantiene costruzione e conteggio effettivo delle righe. Tre test runtime
+  coprono default, contesto editor, guardia preset e permessi di completamento per corso/numero righe. I contratti
+  sorgente esistenti mantengono le asserzioni sul nuovo proprietario e verificano l'ordine delle deleghe.
+  Il conteggio PHPMD atteso è 25, mirando alle segnalazioni ciclomatiche/NPath residue su `definition()`;
+  la CI deve confermare elenco completo e tutti i gate runtime.

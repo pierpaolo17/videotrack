@@ -1,5 +1,34 @@
 # VideoTrack changelog
 
+## 1.7.232 - 2026-11-05
+
+### Reaction settings and ordered completion locks
+
+- Accepted the real 394-file 1.7.231 ZIP byte-for-byte against the approved
+  candidate and merged commit `ca1423550a321d1e7644b78463c85c95ae914ab1`.
+  Its SHA-256 is `c15b97f3362d17db9e7fbfee2f518ec8c4ded930f42126602d1f9fa39b29e1da`.
+  All six initial and post-merge CI jobs passed 359 PHPUnit tests, 3,427
+  assertions, 24 Behat scenarios and ten validator checks each. PHPMD confirmed
+  the same 27 advisory findings without new findings. The Moodle 5.0/5.3 server
+  report passed PHPCS, lint, Grunt and the same PHPUnit suite; both strict
+  validators reported ten passes, zero warnings and zero failures.
+- Move general reaction, notice-editor, cluster and preset fields to the focused
+  `form_reaction_settings` owner. Keep the original activity editor context,
+  course completion capability, defaults, dependencies, preset guard and field
+  order. The form still creates its repeated rows before delegating their
+  completion lock with the actual row count. Remove the caller's unused
+  completion-capability local and site-default closure; the original accessor
+  moves with its cluster setting. Row creation and preset AMD registration
+  remain in their existing positions.
+- Add three runtime QuickForm tests for defaults/dependencies/editor safety,
+  preset guards and saved values, plus course completion permissions independent
+  of player permission with zero/limited row counts. Existing validation and
+  completion source contracts follow the new owner while retaining assertions
+  and checking delegation order. The form retains 25 methods; the expected
+  PHPMD count is 25, subject to complete candidate CI. Refresh EN/IT architecture
+  and inventories for the 396-file tree. XMLDB schema, AJAX services, AMD assets,
+  language keys and playback/tracking behaviour are unchanged.
+
 ## 1.7.231 - 2026-11-05
 
 ### Focused site-controlled playback form settings
