@@ -295,3 +295,7 @@ dichiarazione di un parametro di metodo.
 - La CI iniziale 1.7.234 conferma le stesse 24 segnalazioni e 369 test con 3.988 asserzioni su tutte le configurazioni.
   Una chiamata multilinea al tracker nel nuovo test causa sei errori di formattazione PHPCS canonico. La correzione
   incrementale della stessa versione cambia solo disposizione degli argomenti e documentazione; CI corretta attesa.
+- CI corretta/post-merge 1.7.234 e gate reali server/strict chiudono U-017 con 369 test, 3.988 asserzioni
+  e le stesse 24 segnalazioni PHPMD revisionate. La candidata 1.7.235 avvia U-007 con tre scenari di completamento
+  dal browser e due asserzioni Behat in sola lettura. Produzione e regole restano invariati: PHPMD atteso 24,
+  da verificare con la CI completa della candidata.

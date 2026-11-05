@@ -20,7 +20,7 @@ Feature: VideoTrack conditions synchronise Moodle completion in the browser
       | videotrack | C1     | Completion by acknowledgement | 1                 | 2          | 0                 | 1                      | I acknowledge this statement | 0                     | 1                         | and             |
       | videotrack | C1     | Completion by viewing and acknowledgement | 1       | 2          | 50                | 1                      | I acknowledge this statement | 0                     | 1                         | and             |
 
-  Scenario: Validated viewing crosses the Moodle completion threshold
+  Scenario: Seeded viewing evidence is reflected in Moodle completion
     Given "student1" watched "Completion by viewing" through "10" seconds
     And I log in as "student1"
     And I am on "Course 1" course homepage

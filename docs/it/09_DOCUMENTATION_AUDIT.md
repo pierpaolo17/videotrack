@@ -1,6 +1,6 @@
 # Audit della documentazione
 
-Baseline: VideoTrack **1.7.234** (`2026110504`).
+Baseline: VideoTrack **1.7.235** (`2026110505`).
 
 ## Perimetro
 
@@ -32,9 +32,10 @@ duplicano intenzionalmente procedure implementative, dizionari dei campi o lungh
 
 ## Rilievi sull'albero corrente
 
-- L’[audit di uscita U-017](25_USCITA_MANUTENIBILITA.md) registra responsabilità, 24 segnalazioni residue revisionate e quattro nuovi
-  test sugli effetti persistiti. La chiusura dipende da CI e verifiche server della candidata esatta; i gate
-  manuali/browser/produzione restano distinti. Implementazioni di produzione e scope analisi sono invariati.
+- L’[audit di uscita U-017](25_USCITA_MANUTENIBILITA.md) è chiuso sullo ZIP reale 1.7.234, CI corretta/post-merge e controlli server/strict.
+  U-007 aggiunge tre scenari browser di completamento senza progresso predisposto e asserzioni in sola lettura
+  su registro/stato/completamento nativo. Conteggi sorgente: 369 metodi PHPUnit e 27 scenari / 417 step Behat,
+  da confermare in CI. Produzione, double SDK e scope analisi restano invariati; la matrice browser/manuale è aperta.
 
 - I campi integrità conservano default disabilitati e posizione fra strumenti di studio e presa visione;
   la policy mostrata usa le API integrità canoniche per fallback, limiti e tolleranza. Il form non dipende più
@@ -65,7 +66,7 @@ duplicano intenzionalmente procedure implementative, dizionari dei campi o lungh
   opzioni del corso, segnaposto salvati e contesto/opzioni dell’editor restano espliciti. Il form conserva
   validazione in invio ed espansione delle sezioni senza dipendenza diretta dalla classe delle prese visione.
 - Gli indici inglese e italiano hanno stesso perimetro e ordinamento.
-- Marker documentali, README principali e artefatti ER identificano 1.7.234 / 2026110504.
+- Marker documentali, README principali e artefatti ER identificano 1.7.235 / 2026110505.
 - L’export privacy Moodle delega stato, segmenti, eventi, integrità e prese visione nello stesso ordine;
   sei categorie di eventi conservano percorsi, pulizia dei dati, blocchi da 500 e ordine finale.
 - I controlli del form per sorgenti, file VTT, icone delle reazioni e forum mantengono l'ordine originale tramite
@@ -171,7 +172,7 @@ duplicano intenzionalmente procedure implementative, dizionari dei campi o lungh
 - Le evidenze CI/server generate non fanno parte dell'albero del plugin. Il `.gitignore` del repository, le regole
   Git archive `export-ignore`, le regole Moodle `.moodleignore` e un contratto PHPUnit di release hygiene impediscono
   insieme che `reports-*`, `videotrack-ci-*.zip` e `report_completo_videotrack_*.zip` entrino nelle release future.
-  L'archivio canonico di release deve contenere quindi soltanto i 399 file legittimi del plugin.
+  L'archivio canonico di release deve contenere quindi soltanto i 400 file legittimi del plugin.
 
 ## Controlli di release
 

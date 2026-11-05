@@ -285,3 +285,7 @@ line, not for redeclaring a method parameter.
 - Initial 1.7.234 CI confirms the exact 24 findings and 369 tests with 3,988 assertions on all six configurations.
   One multiline tracker call in the new test causes six canonical PHPCS formatting errors. The same-version
   incremental correction changes only argument layout and corresponding documentation; corrected CI remains pending.
+- Corrected/post-merge 1.7.234 CI and the real server/strict gates close U-017 with 369 tests, 3,988 assertions
+  and the exact 24 reviewed PHPMD findings. Candidate 1.7.235 starts U-007 with three browser-driven
+  viewing-completion scenarios and two read-only Behat assertions. Production bodies and rules remain unchanged;
+  PHPMD is expected to stay at 24, with the full candidate CI required.

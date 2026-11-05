@@ -408,6 +408,100 @@ class behat_mod_videotrack extends behat_base {
     }
 
     /**
+     * Assert that browser completion scenarios start without validated ledger evidence.
+     *
+     * @Then /^no validated playback exists for "(?P<username>[^"]+)" in "(?P<activityname>[^"]+)"$/
+     * @param string $username Moodle username.
+     * @param string $activityname VideoTrack activity name.
+     */
+    public function no_validated_playback_exists(string $username, string $activityname): void {
+        global $DB;
+
+        $user = $DB->get_record('user', ['username' => $username], '*', MUST_EXIST);
+        $activity = $DB->get_record('videotrack', ['name' => $activityname], '*', MUST_EXIST);
+        $conditions = [
+            'videotrackid' => (int)$activity->id,
+            'userid' => (int)$user->id,
+            'servervalidated' => 1,
+        ];
+        if ($DB->record_exists('videotrack_seg', $conditions)) {
+            throw new ExpectationException(
+                'Validated VideoTrack evidence already exists before browser playback in "' . $activityname . '".',
+                $this->getSession()
+            );
+        }
+    }
+
+    /**
+     * Wait for actual browser writes to complete both aggregate and native Moodle completion.
+     *
+     * @Then /^browser playback completes Moodle tracking for "(?P<username>[^"]+)" in "(?P<activityname>[^"]+)"$/
+     * @param string $username Moodle username.
+     * @param string $activityname VideoTrack activity name.
+     */
+    public function browser_playback_completes_moodle_tracking(string $username, string $activityname): void {
+        global $DB;
+
+        $user = $DB->get_record('user', ['username' => $username], '*', MUST_EXIST);
+        $activity = $DB->get_record('videotrack', ['name' => $activityname], '*', MUST_EXIST);
+        $cm = get_coursemodule_from_instance(
+            'videotrack',
+            (int)$activity->id,
+            (int)$activity->course,
+            false,
+            MUST_EXIST
+        );
+        $required = (float)$activity->durationseconds * (float)$activity->completionpercent / 100;
+        if ($required <= 0 || (int)$cm->completion !== COMPLETION_TRACKING_AUTOMATIC) {
+            throw new \coding_exception('Browser completion assertions require a positive automatic viewing threshold.');
+        }
+        $conditions = ['videotrackid' => (int)$activity->id, 'userid' => (int)$user->id];
+        $deadline = microtime(true) + 5.0;
+        $state = false;
+        $native = false;
+        $pause = false;
+        do {
+            $state = $DB->get_record('videotrack_state', $conditions);
+            $native = $DB->get_record('course_modules_completion', [
+                'coursemoduleid' => (int)$cm->id,
+                'userid' => (int)$user->id,
+            ]);
+            $pauses = $DB->get_records(
+                'videotrack_seg',
+                $conditions + ['servervalidated' => 1, 'endreason' => 'pause'],
+                'id DESC',
+                '*',
+                0,
+                1
+            );
+            $pause = $pauses ? reset($pauses) : false;
+            if (
+                $state
+                && $native
+                && $pause
+                && (int)$state->iscompleted === 1
+                && (float)$state->uniquecoveredseconds >= $required
+                && (float)$state->completionpercent >= (float)$activity->completionpercent
+                && (int)$native->completionstate === COMPLETION_COMPLETE
+                && (float)$pause->videotimeend > (float)$pause->videotimestart
+                && preg_match('/^(?:[a-f0-9]{32}|sess[0-9a-z]{16,48})$/', (string)$pause->sessionid) === 1
+            ) {
+                return;
+            }
+            usleep(100000);
+        } while (microtime(true) < $deadline);
+
+        throw new ExpectationException(
+            'Browser playback did not persist validated viewing and native Moodle completion in "' . $activityname . '". '
+                . 'required=' . $required
+                . '; state=' . ($state ? json_encode($state) : 'missing')
+                . '; native=' . ($native ? json_encode($native) : 'missing')
+                . '; pause=' . ($pause ? json_encode($pause) : 'missing') . '.',
+            $this->getSession()
+        );
+    }
+
+    /**
      * Seed validated watched evidence for a learner before a browser interaction scenario.
      *
      * @Given /^"(?P<username>[^"]+)" watched "(?P<activityname>[^"]+)" through "(?P<seconds>[0-9.]+)" seconds$/

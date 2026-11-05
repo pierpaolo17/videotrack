@@ -1,27 +1,23 @@
 # U-017 maintainability exit audit
 
-Current tree: VideoTrack **1.7.234** (`2026110504`).
+Current tree: VideoTrack **1.7.235** (`2026110505`).
 
-## Decision and evidence status
+## Decision and accepted evidence
 
-This tree is the U-017 exit candidate. Stop the planned structural extraction sequence after this consolidation;
-retain the residual findings below with explicit ownership and reasons. No production implementation, AMD asset,
-public service signature, schema or analysis rule changes in this release. Four additional persisted-effect tests
-close specific coverage gaps in the existing tracker and real segment endpoint.
+**U-017 is closed.** The planned structural extraction sequence ended with accepted 1.7.234. Retain the 24 reviewed
+findings below with explicit owners and reopening conditions. Further structural work requires a concrete defect
+or functional benefit; it is not an automatic prerequisite for the next roadmap phase.
 
-The accepted baseline is the real 396-file 1.7.233 ZIP, SHA-256
-`5d23832480f34395e233fcfaaf1a7a1c5054d3cab3b668ad320640b56c7ac7e7`, identical to merged commit
-`6554576e60651cdd295b826eb00ccf2bd3b97adf`. Its six initial and six post-merge CI jobs pass 365 PHPUnit tests,
-3,920 assertions, 24 Behat scenarios and ten strict checks each. The server report for Moodle 5.0/5.3 passes
-PHPCS, PHP lint, Grunt and the same PHPUnit suite. Both supplied server strict results are 10 PASS / 0 WARN / 0 FAIL.
+The accepted exit baseline is the real 399-file 1.7.234 ZIP, SHA-256
+`91c06840b8f832887e44f4ae737c59bb095d36233afecbfd00aa99a6aa870c54`, identical to merged commit
+`4fa98cf9bcfabc4a411515af3678b3981f181538`. Corrected candidate and post-merge CI pass all six jobs with 369
+PHPUnit tests, 3,988 assertions, 24 Behat scenarios / 357 steps, ten strict checks and 24 unchanged PHPMD findings.
+PHPCS and PHP lint are clean on 164 files. The exact server report on Moodle 5.0/5.3 passes PHPCS, lint, Grunt and
+the same PHPUnit suite. Both supplied strict outputs are 10 PASS / 0 WARN / 0 FAIL. All exit gates are satisfied.
 
-Initial 1.7.234 CI on commit `05e37d201b93c79354a4203d0c56c2a44440521d` passes 369 tests and 3,988 assertions,
-24 Behat scenarios, Grunt and ten strict checks on all six configurations. The canonical job fails PHPCS with six
-formatting errors in one multiline tracker call inside the new test. The incremental correction puts one argument
-per line without changing executable tokens and refreshes callable locations. Corrected-candidate CI is pending;
-PHP is unavailable in the patch-generation environment, so no local PHPCS pass is claimed. Mark U-017 closed only
-after the exact corrected candidate's six CI jobs, post-merge artifacts, real ZIP and proportionate server/strict
-gates pass. A failure keeps this exit candidate open. No fixed number of further refactoring releases is required.
+The 1.7.235 candidate starts U-007 with browser-driven viewing-completion cases and read-only assertions. Its
+27-scenario / 417-step source expectation still requires real CI. No production implementation or analysis rule
+is changed by this browser-coverage tranche; manual accessibility and the final production audit remain separate.
 
 ## Ownership review
 
@@ -65,16 +61,15 @@ production/lifecycle audit. No mutation order is rewritten merely to reduce comp
 | Authenticated segment retry preserves the native completion row and emits significant/completion events once | New `tracking_effects_test::test_external_completion_retry_keeps_persisted_effects_and_events_once()`. |
 | Lock, commit, rollback and side-effect boundaries | Source review; retained source contracts and existing lifecycle/privacy tests. No new concurrency/fault-injection claim. |
 
-New tests use real activities, enrolled learners, ledger/state tables and Moodle's event sink. They use a supplied
+The exit tests use real activities, enrolled learners, ledger/state tables and Moodle's event sink. They use a supplied
 server clock for tracker cases; the real endpoint case uses its production clock after an explicit older handshake.
 No sleep or provider network request is needed. Rejected rows remain audit evidence and do not enter validated
 coverage. The cap case checks the live database rebuild, not only the pure aggregation helper.
 
 ## Reviewed PHPMD residuals
 
-The actual 1.7.233 report contains **24** findings, confirmed unchanged by initial 1.7.234 CI. The incremental
-correction leaves every analysed production body and ruleset unchanged; verify the full corrected report in CI.
-This is an explicit debt register, not a suppression, zero-finding claim or blanket acceptance of future findings.
+Accepted 1.7.234 CI confirms **24** unchanged findings. The 1.7.235 candidate preserves production bodies
+and rulesets, so compare the full report again in candidate CI. This is an explicit debt register, not a suppression, zero-finding claim or blanket acceptance of future findings.
 
 | File/owner | Findings | Reason to retain and condition for reopening |
 |---|---:|---|
@@ -86,19 +81,16 @@ This is an explicit debt register, not a suppression, zero-finding claim or blan
 | `mod_form.php` | 2 | Class complexity and `definition()` length remain after field, validation and preprocessing separation. The form has 23 methods and retains framework orchestration. Reopen for a functional form change with a useful new boundary. |
 | **Total** | **24** | No analyser rule, scope or baseline file is weakened. |
 
-## Promotion and next phase
+## Current roadmap phase
 
-1. Candidate CI must pass the complete six-job matrix and compare all PHPMD findings; PHPStan/Psalm retain their
-   current production scope and reviewed advisory/deprecation output.
-2. Check the merged tree and all six post-merge artifact digests against the approved candidate.
-3. Accept the real release ZIP, server PHPCS/lint/Grunt/PHPUnit results on Moodle 5.0/5.3 and both strict outputs.
-4. If these gates pass, close U-017 with this debt register and stop structural micro-releases until new evidence
-   warrants one. A production defect always overrides the stop decision.
+U-007 remains open. The new browser cases prove actual play/pause-to-AJAX-to-native-completion persistence only
+after candidate CI succeeds. Review the remaining playback, interaction, role/group and provider-parity cells in
+[browser coverage](22_BEHAT_BROWSER_TESTS.md). Chrome CI is a browser execution on six Moodle/PHP/database jobs;
+it is not a six-browser matrix. Public SDK/network smoke and other browser coverage remain explicit later checks.
 
-Then continue the web roadmap: U-007 browser/provider/role matrix, U-020 manual accessibility, semantic translation
-review and the final production/lifecycle/privacy/benchmark audit on one exact ZIP. Automation does not certify
-manual accessibility, every browser/SDK or production operations. Evaluate Moodle App after those web gates;
-OneDrive/SharePoint, Zoom Cloud Recording and Google Drive remain later phases in that order.
+After U-007, continue U-020 manual accessibility, semantic translation review and the final production/lifecycle/
+privacy/benchmark audit on one exact ZIP. Evaluate Moodle App after the web gates. OneDrive/SharePoint, Zoom Cloud
+Recording and Google Drive remain later phases in that order. A real production defect can reopen U-017.
 
-See [static-analysis policy](24_STATIC_ANALYSIS.md), [browser coverage](22_BEHAT_BROWSER_TESTS.md),
-[release gates](07_BUILD_TEST_RELEASE.md) and [accessibility](19_ACCESSIBILITY.md).
+See [static-analysis policy](24_STATIC_ANALYSIS.md), [release gates](07_BUILD_TEST_RELEASE.md) and
+[accessibility](19_ACCESSIBILITY.md).

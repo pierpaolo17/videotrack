@@ -1,5 +1,34 @@
 # VideoTrack changelog
 
+## 1.7.235 - 2026-11-05
+
+### Browser-to-Moodle viewing completion and U-017 closure
+
+- Accepted the real 399-file 1.7.234 ZIP byte-for-byte against merged commit
+  `4fa98cf9bcfabc4a411515af3678b3981f181538`. Its SHA-256 is
+  `91c06840b8f832887e44f4ae737c59bb095d36233afecbfd00aa99a6aa870c54`.
+  Corrected candidate and post-merge CI passed all six jobs with 369 PHPUnit
+  tests, 3,988 assertions, 24 Behat scenarios and ten strict checks each. PHPCS
+  and lint are clean on 164 files; PHPMD retains the exact 24 reviewed findings.
+  The Moodle 5.0/5.3 server report passes PHPCS, lint, Grunt and the same PHPUnit
+  suite, with unchanged AMD build hashes. Both supplied strict results are
+  ten passes, zero warnings and zero failures. Close U-017 with its documented
+  residual-debt register and move to U-007 browser/provider coverage.
+- Add three browser scenarios for HTML5, YouTube and Vimeo. Each starts with
+  zero validated evidence and incomplete native completion, drives real
+  production play/pause paths, checks the accepted same-session pause, then
+  requires both persisted VideoTrack viewing completion and native Moodle
+  completion before reload. Provider SDK doubles remain local; no progress,
+  AJAX response or completion row is injected by the new scenarios/assertions.
+- Add two read-only Behat assertions for absent validated evidence and bounded
+  polling of actual state/native completion/accepted pause. Rename the older
+  seeded viewing scenario to state its fixture-based purpose, retaining its
+  steps. Refresh EN/IT coverage/matrix and source counts: 369 PHPUnit methods,
+  27 Behat scenarios and 417 steps expected, subject to real candidate CI.
+  U-007 remains open for its remaining playback/role/provider matrix. Production
+  implementations, AMD sources/builds, schema, service contracts, translations
+  and analyser rules are unchanged; PHPMD is expected to remain at 24.
+
 ## 1.7.234 - 2026-11-05
 
 ### Maintainability exit audit and persisted tracking effects

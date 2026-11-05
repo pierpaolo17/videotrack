@@ -1,27 +1,23 @@
 # Audit di uscita U-017: manutenibilità
 
-Albero corrente: VideoTrack **1.7.234** (`2026110504`).
+Albero corrente: VideoTrack **1.7.235** (`2026110505`).
 
-## Decisione e stato delle evidenze
+## Decisione ed evidenze accettate
 
-Questo albero è la candidata di uscita U-017. Fermare la sequenza pianificata di estrazioni strutturali dopo il
-consolidamento, mantenendo le segnalazioni residue sotto elencate con proprietari e motivazioni espliciti. Questa
-release non cambia implementazioni di produzione, AMD, firme pubbliche dei servizi, schema o regole di analisi.
-Quattro test aggiuntivi sugli effetti persistiti colmano lacune specifiche del tracker e dell'endpoint segmenti reale.
+**U-017 è chiuso.** La sequenza pianificata di estrazioni strutturali termina con la 1.7.234 accettata. Conservare
+le 24 segnalazioni revisionate sotto elencate con proprietari e condizioni di riapertura. Ulteriore lavoro
+strutturale richiede un difetto concreto o un beneficio funzionale, non è un prerequisito automatico della fase successiva.
 
-La baseline accettata è lo ZIP reale 1.7.233 di 396 file, SHA-256
-`5d23832480f34395e233fcfaaf1a7a1c5054d3cab3b668ad320640b56c7ac7e7`, identico al commit unito
-`6554576e60651cdd295b826eb00ccf2bd3b97adf`. I sei job iniziali e i sei post-merge superano ciascuno 365 test
-PHPUnit, 3.920 asserzioni, 24 scenari Behat e dieci controlli strict. Il report server Moodle 5.0/5.3 supera PHPCS,
-lint PHP, Grunt e la stessa suite PHPUnit. Entrambi gli strict server forniti danno 10 PASS / 0 WARN / 0 FAIL.
+La baseline di uscita accettata è lo ZIP reale 1.7.234 di 399 file, SHA-256
+`91c06840b8f832887e44f4ae737c59bb095d36233afecbfd00aa99a6aa870c54`, identico al commit unito
+`4fa98cf9bcfabc4a411515af3678b3981f181538`. CI corretta e post-merge superano tutti i sei job con 369 test PHPUnit,
+3.988 asserzioni, 24 scenari Behat / 357 step, dieci strict e 24 segnalazioni PHPMD invariate. PHPCS e lint PHP sono
+puliti su 164 file. Il report server esatto su Moodle 5.0/5.3 supera PHPCS, lint, Grunt e la stessa suite PHPUnit.
+Entrambi gli strict forniti danno 10 PASS / 0 WARN / 0 FAIL. Tutti i gate di uscita sono soddisfatti.
 
-La CI iniziale 1.7.234 sul commit `05e37d201b93c79354a4203d0c56c2a44440521d` supera 369 test e 3.988 asserzioni,
-24 scenari Behat, Grunt e dieci strict su tutte le sei configurazioni. Il job canonico fallisce PHPCS con sei errori
-di formattazione in una chiamata multilinea al tracker nel nuovo test. La correzione incrementale dispone un
-argomento per riga senza cambiare token eseguibili e aggiorna le posizioni dei callable. La CI corretta è attesa;
-PHP non è disponibile nell'ambiente di generazione patch e non si dichiara PHPCS locale verde. Marcare U-017 chiuso
-solo dopo esito positivo dei sei job della candidata corretta esatta, artifact post-merge, ZIP reale e gate
-server/strict proporzionati. Un errore mantiene aperta la candidata. Non è richiesto un numero fisso di refactor.
+La candidata 1.7.235 avvia U-007 con casi di completamento guidati dal browser e asserzioni in sola lettura.
+L'aspettativa sorgente di 27 scenari / 417 step richiede ancora la CI reale. Questa tranche non cambia produzione
+o regole di analisi; accessibilità manuale e audit finale di produzione restano fasi distinte.
 
 ## Revisione delle responsabilità
 
@@ -65,16 +61,15 @@ nell'audit di produzione/lifecycle. L'ordine delle mutazioni non viene riscritto
 | Il retry autenticato conserva la riga completamento Moodle ed emette una volta gli eventi significativi/completamento | Nuovo `tracking_effects_test::test_external_completion_retry_keeps_persisted_effects_and_events_once()`. |
 | Confini lock, commit, rollback ed effetti successivi | Revisione sorgente; contratti sorgente e test lifecycle/privacy esistenti mantenuti. Nessuna nuova dichiarazione su concorrenza/guasti iniettati. |
 
-I nuovi test usano attività reali, studenti iscritti, tabelle registro/stato e sink eventi Moodle. I casi tracker
+I test di uscita usano attività reali, studenti iscritti, tabelle registro/stato e sink eventi Moodle. I casi tracker
 usano un tempo server fornito; il caso endpoint usa il tempo di produzione dopo un handshake esplicito precedente.
 Non servono sleep o richieste di rete ai provider. Le righe rifiutate restano evidenze di audit e non entrano nella
 copertura validata. Il caso limite intervalli verifica la ricostruzione database reale, non soltanto l'helper puro.
 
 ## Segnalazioni PHPMD residue revisionate
 
-Il report reale 1.7.233 contiene **24** segnalazioni, confermate invariate dalla CI iniziale 1.7.234. La correzione
-incrementale mantiene invariati corpi di produzione analizzati e ruleset; verificare l'intero report CI corretto.
-Questo è un registro esplicito del debito, non una soppressione, una dichiarazione di zero finding o un'accettazione
+La CI 1.7.234 accettata conferma **24** segnalazioni invariate. La candidata 1.7.235 conserva corpi di produzione
+e ruleset: confrontare nuovamente l’intero report CI. Questo è un registro esplicito del debito, non una soppressione, una dichiarazione di zero finding o un'accettazione
 generica di segnalazioni future.
 
 | File/proprietario | Segnalazioni | Motivo del mantenimento e condizione di riapertura |
@@ -87,19 +82,16 @@ generica di segnalazioni future.
 | `mod_form.php` | 2 | Complessità della classe e lunghezza di `definition()` dopo la separazione di campi, validazione e preprocessing. Il form ha 23 metodi e conserva orchestrazione del framework. Riaprire per una modifica funzionale con un confine utile. |
 | **Totale** | **24** | Nessuna riduzione di regole, perimetro o baseline degli analizzatori. |
 
-## Promozione e fase successiva
+## Fase corrente della roadmap
 
-1. La CI candidata deve superare tutti i sei job e confrontare tutte le segnalazioni PHPMD; PHPStan/Psalm mantengono
-   scope di produzione e output consultivo/deprecazioni revisionati.
-2. Confrontare albero unito e digest dei sei artifact post-merge con la candidata approvata.
-3. Accettare ZIP reale, controlli server PHPCS/lint/Grunt/PHPUnit su Moodle 5.0/5.3 ed entrambi gli strict.
-4. Se questi gate passano, chiudere U-017 con questo registro e fermare le micro-release strutturali finché nuove
-   evidenze non ne motivano una. Un difetto di produzione prevale sempre sulla decisione di stop.
+U-007 resta aperto. I nuovi casi provano persistenza play/pausa → AJAX → completamento nativo soltanto dopo CI
+positiva della candidata. Verificare le celle residue playback, interazioni, ruoli/gruppi e parità provider nella
+[copertura browser](22_TEST_BROWSER_BEHAT.md). La CI Chrome esegue il browser su sei ambienti Moodle/PHP/database:
+non è una matrice di sei browser. Smoke su SDK/rete pubblici e altri browser restano verifiche successive esplicite.
 
-Proseguire quindi la roadmap web: matrice browser/provider/ruoli U-007, accessibilità manuale U-020, revisione
-semantica delle traduzioni e audit finale produzione/lifecycle/privacy/benchmark su uno ZIP esatto. L'automazione
-non certifica accessibilità manuale, ogni browser/SDK o operazioni di produzione. Valutare Moodle App dopo i gate
-web; OneDrive/SharePoint, Zoom Cloud Recording e Google Drive restano fasi successive in quest'ordine.
+Dopo U-007 proseguire con U-020 accessibilità manuale, revisione semantica traduzioni e audit finale produzione/
+lifecycle/privacy/benchmark su uno ZIP esatto. Valutare Moodle App dopo i gate web. OneDrive/SharePoint, Zoom Cloud
+Recording e Google Drive restano fasi successive in quest'ordine. Un difetto reale può riaprire U-017.
 
-Vedere [analisi statica](24_ANALISI_STATICA.md), [copertura browser](22_TEST_BROWSER_BEHAT.md),
-[gate di release](07_BUILD_TEST_RELEASE.md) e [accessibilità](19_ACCESSIBILITY.md).
+Vedere [analisi statica](24_ANALISI_STATICA.md), [gate di release](07_BUILD_TEST_RELEASE.md) e
+[accessibilità](19_ACCESSIBILITY.md).
