@@ -1,10 +1,10 @@
 # Distributed file inventory
 
-This inventory is generated against the VideoTrack 1.7.233 repository tree. It lists every distributed
+This inventory is generated against the VideoTrack 1.7.234 repository tree. It lists every distributed
 non-documentation file plus repository-only CI/tooling/hygiene files. Canonical JavaScript is under `amd/src`; files under
 `amd/build` are generated.
 
-Entries: **335** — 332 distributed files and three repository-only files excluded from release archives.
+Entries: **336** — 333 distributed files and three repository-only files excluded from release archives.
 
 | File | Responsibility |
 |---|---|
@@ -336,6 +336,7 @@ Entries: **335** — 332 distributed files and three repository-only files exclu
 | `tests/teacher_analytics_test.php` | PHPUnit coverage for teacher analytics test. |
 | `tests/timed_text_test.php` | PHPUnit coverage for VTT validation, canonical File API areas and legacy fallback precedence. |
 | `tests/tracker_test.php` | PHPUnit coverage for tracker test. |
+| `tests/tracking_effects_test.php` | Persisted-effect tests for budget/seek rejection retries, live interval-cap rebuilding and authenticated completion/event idempotence. |
 | `tests/upgrade_contract_test.php` | Current PHPUnit/contract test distributed with the plugin. |
 | `tests/vimeo_seek_contract_test.php` | Current PHPUnit/contract test distributed with the plugin. |
 | `tests/xmldb_relationship_contract_test.php` | XMLDB foreign-key, sentinel-reference and generated-index contracts. |

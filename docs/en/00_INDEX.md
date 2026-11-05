@@ -1,6 +1,6 @@
 # VideoTrack documentation index
 
-This is the authoritative English documentation for VideoTrack **1.7.233** (`2026110503`),
+This is the authoritative English documentation for VideoTrack **1.7.234** (`2026110504`),
 supporting Moodle 5.0–5.3. It describes the current tree only. Release history belongs in the
 root `CHANGELOG.md` and in the source tag for the relevant version.
 
@@ -35,6 +35,8 @@ root `CHANGELOG.md` and in the source tag for the relevant version.
 24. [`22_BEHAT_BROWSER_TESTS.md`](22_BEHAT_BROWSER_TESTS.md) — deterministic browser coverage.
 25. [`23_GITHUB_ACTIONS_CI.md`](23_GITHUB_ACTIONS_CI.md) — repository CI matrix, gates, artifacts and diagnostics.
 26. [`24_STATIC_ANALYSIS.md`](24_STATIC_ANALYSIS.md) — PHPStan, Psalm and PHPMD scope, execution and remediation policy.
+
+27. [`25_MAINTAINABILITY_EXIT.md`](25_MAINTAINABILITY_EXIT.md) — U-017 exit decision, residual debt and acceptance gates.
 
 ## Database and ER artefacts
 

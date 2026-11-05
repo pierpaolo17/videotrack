@@ -1,5 +1,42 @@
 # VideoTrack changelog
 
+## 1.7.234 - 2026-11-05
+
+### Maintainability exit audit and persisted tracking effects
+
+- Accepted the real 396-file 1.7.233 ZIP byte-for-byte against merged commit
+  `6554576e60651cdd295b826eb00ccf2bd3b97adf`. Its SHA-256 is
+  `5d23832480f34395e233fcfaaf1a7a1c5054d3cab3b668ad320640b56c7ac7e7`.
+  All six initial and post-merge CI jobs passed 365 PHPUnit tests, 3,920
+  assertions, 24 Behat scenarios and ten validator checks each. PHPMD confirmed
+  24 findings without additions. The Moodle 5.0/5.3 server report passed PHPCS,
+  lint, Grunt and the same PHPUnit suite; both strict validators reported ten
+  passes, zero warnings and zero failures.
+- Record the U-017 exit review of controller/form/export ownership, the cohesive
+  tracker transaction, shared browser helpers and concrete provider lifecycles.
+  Classify all 24 PHPMD residuals with compatibility/risk reasons and explicit
+  reopening conditions. Stop planned structural micro-extractions after this
+  consolidation; formal closure still requires the exact candidate's real CI,
+  post-merge and server/strict gates. Browser/provider coverage, manual
+  accessibility, translations and the final production audit remain separate
+  web-roadmap work before Moodle App and new remote providers.
+- Add four runtime tests using real activities, enrolled learners and persisted
+  rows: rejected budget retries, rejected forward-seek retries, the live
+  interval-cap rebuild with rejected evidence excluded, and an authenticated
+  segment endpoint retry that preserves native completion and emits its events
+  once. Update EN/IT guides and inventories for 399 distributed files. The
+  expected PHPMD count remains 24. Production implementations, existing tests,
+  schema, service contracts, AMD assets, translations and analyser rules are
+  unchanged; new runtime outcomes must be confirmed by candidate CI.
+- Initial 1.7.234 CI on commit `05e37d201b93c79354a4203d0c56c2a44440521d`
+  passes 369 tests with 3,988 assertions, 24 Behat scenarios, Grunt and ten
+  strict checks on all six configurations. PHPMD retains the exact 24 findings;
+  PHPStan/Psalm summaries and reviewed advisories are unchanged. The canonical
+  job is blocked by six PHPCS errors in one multiline tracker call in the new
+  test. Put each argument on its own line and refresh callable locations.
+  This same-version incremental correction changes no test or production
+  semantics; the corrected candidate still requires a complete green CI run.
+
 ## 1.7.233 - 2026-11-05
 
 ### Reaction row construction and explicit form orchestration

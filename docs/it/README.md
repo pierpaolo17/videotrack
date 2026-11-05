@@ -1,7 +1,7 @@
 # Documentazione VideoTrack
 
 Questa directory contiene la documentazione italiana corrente per utenti, amministratori e sviluppatori
-di VideoTrack 1.7.233. Il punto di ingresso è [`00_INDEX.md`](00_INDEX.md).
+di VideoTrack 1.7.234. Il punto di ingresso è [`00_INDEX.md`](00_INDEX.md).
 
 La documentazione è intenzionalmente legata alla versione: spiega il codice distribuito in questa release
 e non incorpora l'evoluzione delle release precedenti. Per una cronologia sintetica usare il `CHANGELOG.md`
@@ -12,3 +12,5 @@ nelle stesse evidenze di release delle modifiche al codice.
 
 Per configurare o interpretare l'automazione del repository consultare
 [`23_GITHUB_ACTIONS_CI.md`](23_GITHUB_ACTIONS_CI.md).
+
+Decisione di uscita e registro del debito di manutenibilità sono in [`25_USCITA_MANUTENIBILITA.md`](25_USCITA_MANUTENIBILITA.md).

@@ -1,8 +1,8 @@
 # Function inventory
 
-Generated from the VideoTrack 1.7.233 source tree. PHP entries include named functions and methods; AMD entries include named declarations, assigned function expressions and object-method functions.
+Generated from the VideoTrack 1.7.234 source tree. PHP entries include named functions and methods; AMD entries include named declarations, assigned function expressions and object-method functions.
 
-**PHP functions/methods:** 1053. **Named AMD callables:** 654.
+**PHP functions/methods:** 1061. **Named AMD callables:** 654.
 
 | Location | Callable | Responsibility |
 |---|---|---|
@@ -1699,6 +1699,14 @@ Generated from the VideoTrack 1.7.233 source tree. PHP entries include named fun
 | `tests/tracker_test.php:835` | `test_any_session_watched_time_validation_uses_validated_segments` | Named PHP function/method `test_any_session_watched_time_validation_uses_validated_segments`; see source DocBlock and callers for the current contract. |
 | `tests/tracker_test.php:866` | `test_allowed_forward_seek_requires_validated_interaction_timestamp` | Named PHP function/method `test_allowed_forward_seek_requires_validated_interaction_timestamp`; see source DocBlock and callers for the current contract. |
 | `tests/tracker_test.php:919` | `test_allowed_forward_seek_rejects_stale_or_different_session_interaction` | Named PHP function/method `test_allowed_forward_seek_rejects_stale_or_different_session_interaction`; see source DocBlock and callers for the current contract. |
+| `tests/tracking_effects_test.php:37` | `test_budget_rejection_retry_preserves_state_and_audit_row` | Checks rejected request replay leaves credit/state unchanged and stores one unvalidated audit row. |
+| `tests/tracking_effects_test.php:78` | `test_forward_rejection_keeps_frontier_and_does_not_replay_its_budget_reset` | Checks rejected seek retains the watched frontier and its retry cannot reset a later valid budget. |
+| `tests/tracking_effects_test.php:118` | `test_live_interval_cap_rebuild_preserves_exact_validated_coverage` | Checks live capped-state rebuilding uses validated ledger evidence, exact coverage and idempotent replay. |
+| `tests/tracking_effects_test.php:165` | `test_external_completion_retry_keeps_persisted_effects_and_events_once` | Executes the authenticated segment endpoint twice and checks stable native completion, ledger and once-only events. |
+| `tests/tracking_effects_test.php:218` | `fixture` | Creates a real activity, enrolled learner and explicit playback-credit window. |
+| `tests/tracking_effects_test.php:247` | `segment` | Builds a raw segment using actual fixture identifiers and a stable request key. |
+| `tests/tracking_effects_test.php:266` | `persist` | Invokes the real tracker with a deterministic clock and returns state, segment result and replay flag. |
+| `tests/tracking_effects_test.php:293` | `significant_events` | Counts canonical VideoTrack completion/segment events while excluding unrelated core events. |
 | `tests/upgrade_contract_test.php:35` | `test_modern_schema_fast_forward_precedes_legacy_steps` | Named PHP function/method `test_modern_schema_fast_forward_precedes_legacy_steps`; see source DocBlock and callers for the current contract. |
 | `tests/upgrade_contract_test.php:84` | `test_failed_install_schema_recovery_supersedes_obsolete_lineage` | Named PHP function/method `test_failed_install_schema_recovery_supersedes_obsolete_lineage`; see source DocBlock and callers for the current contract. |
 | `tests/upgrade_contract_test.php:114` | `test_gradebook_recovery_uses_dml_only` | Named PHP function/method `test_gradebook_recovery_uses_dml_only`; see source DocBlock and callers for the current contract. |
