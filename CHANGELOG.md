@@ -28,6 +28,14 @@
   expected PHPMD count remains 24. Production implementations, existing tests,
   schema, service contracts, AMD assets, translations and analyser rules are
   unchanged; new runtime outcomes must be confirmed by candidate CI.
+- Initial 1.7.234 CI on commit `05e37d201b93c79354a4203d0c56c2a44440521d`
+  passes 369 tests with 3,988 assertions, 24 Behat scenarios, Grunt and ten
+  strict checks on all six configurations. PHPMD retains the exact 24 findings;
+  PHPStan/Psalm summaries and reviewed advisories are unchanged. The canonical
+  job is blocked by six PHPCS errors in one multiline tracker call in the new
+  test. Put each argument on its own line and refresh callable locations.
+  This same-version incremental correction changes no test or production
+  semantics; the corrected candidate still requires a complete green CI run.
 
 ## 1.7.233 - 2026-11-05
 

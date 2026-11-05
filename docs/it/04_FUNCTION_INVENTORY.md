@@ -1706,7 +1706,7 @@ Generato dall’albero sorgente VideoTrack 1.7.234. Le voci PHP includono funzio
 | `tests/tracking_effects_test.php:218` | `fixture` | Crea attività reale, studente iscritto e finestra esplicita del credito di riproduzione. |
 | `tests/tracking_effects_test.php:247` | `segment` | Costruisce un segmento grezzo con identificatori reali della fixture e chiave richiesta stabile. |
 | `tests/tracking_effects_test.php:266` | `persist` | Invoca il tracker reale con tempo deterministico e restituisce stato, esito segmento e flag replay. |
-| `tests/tracking_effects_test.php:287` | `significant_events` | Conta eventi canonici di completamento/segmento VideoTrack escludendo eventi core estranei. |
+| `tests/tracking_effects_test.php:293` | `significant_events` | Conta eventi canonici di completamento/segmento VideoTrack escludendo eventi core estranei. |
 | `tests/upgrade_contract_test.php:35` | `test_modern_schema_fast_forward_precedes_legacy_steps` | Funzione/metodo PHP nominato `test_modern_schema_fast_forward_precedes_legacy_steps`; vedere DocBlock e chiamanti per il contratto corrente. |
 | `tests/upgrade_contract_test.php:84` | `test_failed_install_schema_recovery_supersedes_obsolete_lineage` | Funzione/metodo PHP nominato `test_failed_install_schema_recovery_supersedes_obsolete_lineage`; vedere DocBlock e chiamanti per il contratto corrente. |
 | `tests/upgrade_contract_test.php:114` | `test_gradebook_recovery_uses_dml_only` | Funzione/metodo PHP nominato `test_gradebook_recovery_uses_dml_only`; vedere DocBlock e chiamanti per il contratto corrente. |

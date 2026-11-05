@@ -292,3 +292,6 @@ dichiarazione di un parametro di metodo.
   consolidamento, subordinato all’accettazione reale della candidata. Quattro nuovi test sugli effetti persistiti
   coprono replay dei rifiuti budget/seek, ricostruzione al limite intervalli e idempotenza completamento/eventi
   dell’endpoint autenticato. Produzione e regole restano invariati: PHPMD atteso 24, da confermare in CI.
+- La CI iniziale 1.7.234 conferma le stesse 24 segnalazioni e 369 test con 3.988 asserzioni su tutte le configurazioni.
+  Una chiamata multilinea al tracker nel nuovo test causa sei errori di formattazione PHPCS canonico. La correzione
+  incrementale della stessa versione cambia solo disposizione degli argomenti e documentazione; CI corretta attesa.

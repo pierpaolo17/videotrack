@@ -15,10 +15,13 @@ La baseline accettata è lo ZIP reale 1.7.233 di 396 file, SHA-256
 PHPUnit, 3.920 asserzioni, 24 scenari Behat e dieci controlli strict. Il report server Moodle 5.0/5.3 supera PHPCS,
 lint PHP, Grunt e la stessa suite PHPUnit. Entrambi gli strict server forniti danno 10 PASS / 0 WARN / 0 FAIL.
 
-I nuovi test 1.7.234 non sono stati eseguiti nell'ambiente di generazione patch, dove PHP non è disponibile. Sono
-requisiti di accettazione, non evidenze dichiarate verdi. Marcare U-017 chiuso solo dopo esito positivo dei sei job
-CI della candidata esatta, artifact post-merge, ZIP reale e gate server/strict proporzionati. Un errore mantiene
-aperta la candidata e richiede una correzione circoscritta. Non è richiesto un numero fisso di ulteriori refactor.
+La CI iniziale 1.7.234 sul commit `05e37d201b93c79354a4203d0c56c2a44440521d` supera 369 test e 3.988 asserzioni,
+24 scenari Behat, Grunt e dieci strict su tutte le sei configurazioni. Il job canonico fallisce PHPCS con sei errori
+di formattazione in una chiamata multilinea al tracker nel nuovo test. La correzione incrementale dispone un
+argomento per riga senza cambiare token eseguibili e aggiorna le posizioni dei callable. La CI corretta è attesa;
+PHP non è disponibile nell'ambiente di generazione patch e non si dichiara PHPCS locale verde. Marcare U-017 chiuso
+solo dopo esito positivo dei sei job della candidata corretta esatta, artifact post-merge, ZIP reale e gate
+server/strict proporzionati. Un errore mantiene aperta la candidata. Non è richiesto un numero fisso di refactor.
 
 ## Revisione delle responsabilità
 
@@ -69,8 +72,8 @@ copertura validata. Il caso limite intervalli verifica la ricostruzione database
 
 ## Segnalazioni PHPMD residue revisionate
 
-Il report reale 1.7.233 contiene **24** segnalazioni. La candidata 1.7.234 mantiene invariati tutti i corpi di
-produzione analizzati e i ruleset: il totale atteso resta 24, da verificare sull'intero report CI, senza aggiunte.
+Il report reale 1.7.233 contiene **24** segnalazioni, confermate invariate dalla CI iniziale 1.7.234. La correzione
+incrementale mantiene invariati corpi di produzione analizzati e ruleset; verificare l'intero report CI corretto.
 Questo è un registro esplicito del debito, non una soppressione, una dichiarazione di zero finding o un'accettazione
 generica di segnalazioni future.
 

@@ -282,3 +282,6 @@ line, not for redeclaring a method parameter.
   after consolidation, subject to real candidate acceptance. Four new persisted-effect tests cover budget/seek
   rejection replays, live interval-cap rebuilding and authenticated completion/event idempotence. All production
   implementations and analyser rules remain unchanged; the expected PHPMD count is 24, to be confirmed in CI.
+- Initial 1.7.234 CI confirms the exact 24 findings and 369 tests with 3,988 assertions on all six configurations.
+  One multiline tracker call in the new test causes six canonical PHPCS formatting errors. The same-version
+  incremental correction changes only argument layout and corresponding documentation; corrected CI remains pending.

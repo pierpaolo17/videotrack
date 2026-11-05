@@ -271,9 +271,15 @@ final class tracking_effects_test extends \advanced_testcase {
             'playbackrate' => 1.0, 'allowseekforward' => $allowseekforward,
         ];
         $state = tracker::update_state(
-            $fixture['activity'], $fixture['cm'], (int)$fixture['user']->id,
-            [(float)$segment->videotimestart, (float)$segment->videotimeend], (float)$segment->videotimeend,
-            $segment, $id, $guard, $replayed
+            $fixture['activity'],
+            $fixture['cm'],
+            (int)$fixture['user']->id,
+            [(float)$segment->videotimestart, (float)$segment->videotimeend],
+            (float)$segment->videotimeend,
+            $segment,
+            $id,
+            $guard,
+            $replayed
         );
         return [$state, $id, $replayed];
     }

@@ -15,10 +15,13 @@ The accepted baseline is the real 396-file 1.7.233 ZIP, SHA-256
 3,920 assertions, 24 Behat scenarios and ten strict checks each. The server report for Moodle 5.0/5.3 passes
 PHPCS, PHP lint, Grunt and the same PHPUnit suite. Both supplied server strict results are 10 PASS / 0 WARN / 0 FAIL.
 
-The new 1.7.234 tests have not been executed in the patch-generation environment because PHP is unavailable there.
-They are acceptance requirements, not claimed passing evidence. Mark U-017 closed only after the exact candidate's
-six CI jobs, post-merge artifacts, real ZIP and proportionate server/strict gates have passed. A failure keeps this
-exit candidate open and requires a bounded correction. No fixed number of further refactoring releases is required.
+Initial 1.7.234 CI on commit `05e37d201b93c79354a4203d0c56c2a44440521d` passes 369 tests and 3,988 assertions,
+24 Behat scenarios, Grunt and ten strict checks on all six configurations. The canonical job fails PHPCS with six
+formatting errors in one multiline tracker call inside the new test. The incremental correction puts one argument
+per line without changing executable tokens and refreshes callable locations. Corrected-candidate CI is pending;
+PHP is unavailable in the patch-generation environment, so no local PHPCS pass is claimed. Mark U-017 closed only
+after the exact corrected candidate's six CI jobs, post-merge artifacts, real ZIP and proportionate server/strict
+gates pass. A failure keeps this exit candidate open. No fixed number of further refactoring releases is required.
 
 ## Ownership review
 
@@ -69,8 +72,8 @@ coverage. The cap case checks the live database rebuild, not only the pure aggre
 
 ## Reviewed PHPMD residuals
 
-The actual 1.7.233 report contains **24** findings. Candidate 1.7.234 leaves every analysed production body and
-ruleset unchanged, so the expected total remains 24; verify the full report in CI, including absence of additions.
+The actual 1.7.233 report contains **24** findings, confirmed unchanged by initial 1.7.234 CI. The incremental
+correction leaves every analysed production body and ruleset unchanged; verify the full corrected report in CI.
 This is an explicit debt register, not a suppression, zero-finding claim or blanket acceptance of future findings.
 
 | File/owner | Findings | Reason to retain and condition for reopening |
