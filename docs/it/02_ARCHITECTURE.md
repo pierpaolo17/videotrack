@@ -22,7 +22,12 @@ completamento. I campi Moodle con suffisso usano come fallback i corrispondenti 
 
 ## Confine di costruzione del form
 
-`form_definition` costruisce i gruppi CSV, Forum, integrità e presa visione nelle posizioni previste nel form dell’attività.
+`form_playback_settings` costruisce default di riproduzione controllati dal sito, avviso di blocco e limiti
+velocità nella posizione originale fra durata e comportamento aggiuntivo del player. L'unico ingresso pubblico usa
+la capability del corso originale e congela esattamente sette campi se manca il permesso di override. Resume e
+velocità massima restano modificabili e i default sito false/vuoti restano distinti dallo zero.
+`form_definition` conserva nove ingressi pubblici per durata, comportamento aggiuntivo del player,
+sottotitoli/testo temporizzato, controlli HTML5, velocità, CSV, Forum, integrità e presa visione.
 Il Forum usa opzioni condivise filtrate per corso, tipo e cancellazione, con etichette di stato e un segnaposto
 esplicito per la destinazione salvata non disponibile. La presa visione conserva tempi, default, dipendenze
 e contesto dell’attività, con allegati e HTML attendibile disabilitati nell’editor.

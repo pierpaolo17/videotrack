@@ -1,5 +1,31 @@
 # VideoTrack changelog
 
+## 1.7.231 - 2026-11-05
+
+### Focused site-controlled playback form settings
+
+- Accepted the real 392-file 1.7.230 ZIP byte-for-byte against the approved
+  candidate and merged commit `ecfd6b6288476dc4d0a9b03f25ea8687bab8abd9`.
+  Its SHA-256 is `71c411cde754f2e501e0f76efc8fce65c0c5af663a89c88a12a6644e68242b8f`.
+  All six initial and post-merge CI jobs passed 356 PHPUnit tests, 3,315
+  assertions, 24 Behat scenarios and ten validator checks each. PHPMD confirmed
+  the same 27 advisory findings without new findings. The Moodle 5.0/5.3 server
+  report passed PHPCS, lint, Grunt and the same PHPUnit suite; both strict
+  validators reported ten passes, zero warnings and zero failures.
+- Move the site-controlled playback group from `mod_form::definition()` to
+  `form_playback_settings`, with one public entry point and a private rate-choice
+  stage. Preserve the original course override capability, false/empty versus
+  explicit-zero defaults, lock notice, field order, help, seven-field freeze
+  mask and hundredths-based rate values. Resume and maximum playback rate retain
+  their original editable state. Remove the caller's now-unused player-capability
+  local; the existing builder retains nine public methods and the activity form 25.
+- Add three runtime QuickForm tests for missing/empty/zero/one site defaults,
+  actual permissions across courses, unlocked controls, rate choices and saved
+  selections. Refresh architecture, ownership and English/Italian inventories
+  for the 394-file tree. The expected PHPMD count remains 27; candidate CI must
+  confirm complete findings and runtime behaviour. XMLDB schema, AJAX services,
+  AMD assets, language keys and playback/tracking behaviour are unchanged.
+
 ## 1.7.230 - 2026-11-04
 
 ### Duration form and DOM-to-AMD configuration boundary

@@ -250,3 +250,11 @@ line, not for redeclaring a method parameter.
   decoded DOM configuration and registration on the supplied page. The provider-loader source contract follows
   the delegation while retaining its duration-message assertions. The activity form retains 25 methods. The
   expected PHPMD count remains 27; candidate CI must confirm the complete findings and all runtime gates.
+- Initial and post-merge 1.7.230 CI confirm the same 27 findings without new findings. `definition()` complexity
+  is 14, NPath 3,840 and length 403 lines. The real ZIP and Moodle 5.0/5.3 server checks pass PHPCS, lint, Grunt
+  and 356 tests with 3,315 assertions; both strict validators pass ten checks without warnings. Candidate 1.7.231
+  gives the site-controlled playback group its focused `form_playback_settings` owner with one public entry point.
+  The existing builder stays at nine public methods; the activity form stays at 25. The private rate-choice stage
+  preserves field order, hundredths-based values, defaults and the seven-field course lock. Three runtime tests
+  cover false/empty/zero site values, actual course permissions, unlocked controls and saved rate selections.
+  The expected PHPMD count remains 27; candidate CI must confirm the complete findings and all runtime gates.

@@ -1,6 +1,6 @@
 # Audit della documentazione
 
-Baseline: VideoTrack **1.7.230** (`2026110405`).
+Baseline: VideoTrack **1.7.231** (`2026110501`).
 
 ## Perimetro
 
@@ -46,6 +46,9 @@ duplicano intenzionalmente procedure implementative, dizionari dei campi o lungh
 - I sottotitoli conservano default booleani/lingua del sito, incluso il valore lingua letterale "0", dipendenze
   VTT per upload e avvisi Vimeo. Trascrizioni/capitoli restano indipendenti dal provider con opzioni file canoniche,
   tra i campi sottotitoli e l'avviso Vimeo; il blocco per corso riguarda solo sottotitoli/lingua.
+- `form_playback_settings` possiede il gruppo riproduzione controllato dal sito con un ingresso pubblico e uno
+  stadio privato per le velocità limite. Il fallback false/vuoto conserva lo zero esplicito e il blocco per corso
+  congela gli stessi sette campi; resume/velocità massima restano modificabili. `form_definition` mantiene nove metodi pubblici.
 - La costruzione della durata conserva campo numerico, regioni di stato accessibili, identificatori, limite
   di 86.400 secondi, token dei messaggi e JSON DOM con escape esadecimale. L'init AMD riceve solo l'identificatore
   corrispondente sulla pagina fornita dal form; il contratto provider esistente segue la delega esplicita.
@@ -53,7 +56,7 @@ duplicano intenzionalmente procedure implementative, dizionari dei campi o lungh
   opzioni del corso, segnaposto salvati e contesto/opzioni dell’editor restano espliciti. Il form conserva
   validazione in invio ed espansione delle sezioni senza dipendenza diretta dalla classe delle prese visione.
 - Gli indici inglese e italiano hanno stesso perimetro e ordinamento.
-- Marker documentali, README principali e artefatti ER identificano 1.7.230 / 2026110405.
+- Marker documentali, README principali e artefatti ER identificano 1.7.231 / 2026110501.
 - L’export privacy Moodle delega stato, segmenti, eventi, integrità e prese visione nello stesso ordine;
   sei categorie di eventi conservano percorsi, pulizia dei dati, blocchi da 500 e ordine finale.
 - I controlli del form per sorgenti, file VTT, icone delle reazioni e forum mantengono l'ordine originale tramite
