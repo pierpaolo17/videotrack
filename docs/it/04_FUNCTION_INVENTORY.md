@@ -1,8 +1,8 @@
 # Inventario delle funzioni
 
-Generato dall’albero sorgente VideoTrack 1.7.232. Le voci PHP includono funzioni e metodi nominati; le voci AMD includono dichiarazioni nominate, espressioni funzione assegnate e funzioni-metodo di oggetti.
+Generato dall’albero sorgente VideoTrack 1.7.233. Le voci PHP includono funzioni e metodi nominati; le voci AMD includono dichiarazioni nominate, espressioni funzione assegnate e funzioni-metodo di oggetti.
 
-**Funzioni/metodi PHP:** 1050. **Callable AMD nominati:** 654.
+**Funzioni/metodi PHP:** 1053. **Callable AMD nominati:** 654.
 
 | Posizione | Callable | Responsabilità |
 |---|---|---|
@@ -978,8 +978,10 @@ Generato dall’albero sorgente VideoTrack 1.7.232. Le voci PHP includono funzio
 | `classes/local/form_preprocessing.php:214` | `csv_defaults` | Callable PHP `csv_defaults`; DocBlock e chiamanti definiscono parametri, valori restituiti ed effetti. |
 | `classes/local/form_preprocessing.php:241` | `site_defaults` | Callable PHP `site_defaults`; DocBlock e chiamanti definiscono parametri, valori restituiti ed effetti. |
 | `classes/local/form_reaction_settings.php:36` | `add_elements` | Costruisce controlli reaction generali, editor avviso, default cluster e selettore preset prima delle righe ripetute. |
-| `classes/local/form_reaction_settings.php:138` | `apply_completion_lock` | Applica il blocco originale di completamento per corso ai campi generali e al numero effettivo delle righe. |
-| `classes/local/form_reaction_settings.php:159` | `add_notice_elements` | Costruisce l'editor avviso nel contesto originale con allegati e HTML fidato disabilitati. |
+| `classes/local/form_reaction_settings.php:138` | `add_row_elements` | Costruisce la riga reaction nell’ordine canonico con opzioni immagini sicure, poi registra le regole di visibilità icone. |
+| `classes/local/form_reaction_settings.php:236` | `add_row_visibility` | Mantiene controlli valore/selettore/file dipendenti dal tipo icona selezionato nella stessa riga. |
+| `classes/local/form_reaction_settings.php:300` | `apply_completion_lock` | Applica il blocco originale di completamento per corso ai campi generali e al numero effettivo delle righe. |
+| `classes/local/form_reaction_settings.php:321` | `add_notice_elements` | Costruisce l'editor avviso nel contesto originale con allegati e HTML fidato disabilitati. |
 | `classes/local/form_validation.php:36` | `scalar_settings_errors` | Funzione/metodo PHP nominato `scalar_settings_errors`; vedere DocBlock e chiamanti per il contratto corrente. |
 | `classes/local/form_validation.php:69` | `completion_percent_errors` | Valida la percentuale di completamento opzionale con suffisso o fallback e restituisce l'errore del gruppo. |
 | `classes/local/form_validation.php:91` | `bounded_integer_errors` | Valida un'impostazione intera opzionale rispetto a limiti inclusivi. |
@@ -1037,19 +1039,6 @@ Generato dall’albero sorgente VideoTrack 1.7.232. Le voci PHP includono funzio
 | `classes/local/report_access.php:91` | `can_export_individual` | Callable PHP `report_access::can_export_individual`; policy di download learner-level con fallback legacy completo. |
 | `classes/local/report_aggregation.php:36` | `analytics_viewer_drops` | Individuazione pura dei cali di viewer tra bin Analytics visibili e contigui; bin soppressi o non disponibili interrompono la continuità. |
 | `classes/local/report_aggregation.php:64` | `sort_reaction_clusters` | Ordinamento puro in-place dei cluster di reazione completati per etichetta, numero di clic o timestamp. |
-| `classes/local/report_time_filter.php:36` | `date_to_timestamp` | Converte una data ISO valida nell'inizio giornata del fuso utente, altrimenti restituisce zero. |
-| `classes/local/report_time_filter.php:55` | `end_date_to_timestamp` | Converte una data ISO valida nel limite inclusivo di fine giornata, altrimenti restituisce zero. |
-| `classes/local/report_time_filter.php:77` | `optional_time_param` | Seleziona i componenti strutturati quando presenti e conserva altrimenti il parsing legacy a due punti. |
-| `classes/local/report_time_filter.php:94` | `duration_filter` | Renderizza il controllo report accessibile per ore/minuti/secondi. |
-| `classes/local/report_time_filter.php:151` | `request_components` | Legge i tre componenti strutturati distinguendo valori assenti e vuoti. |
-| `classes/local/report_time_filter.php:165` | `has_submitted_components` | Rileva se la richiesta ha selezionato il parsing strutturato. |
-| `classes/local/report_time_filter.php:175` | `structured_time` | Compone componenti validati in secondi non negativi. |
-| `classes/local/report_time_filter.php:193` | `has_component_value` | Distingue un filtro strutturato interamente vuoto dal valore numerico zero. |
-| `classes/local/report_time_filter.php:206` | `validate_component_digits` | Rifiuta componenti durata strutturati non decimali. |
-| `classes/local/report_time_filter.php:220` | `component_integer` | Normalizza un componente vuoto a zero e uno validato a intero. |
-| `classes/local/report_time_filter.php:231` | `validate_minute_second_range` | Impone i limiti canonici 0–59 per minuti e secondi. |
-| `classes/local/report_time_filter.php:243` | `legacy_time` | Conserva il parsing retrocompatibile MM:SS e HH:MM:SS. |
-| `classes/local/report_time_filter.php:257` | `throw_invalid_time` | Solleva l'eccezione canonica per un parametro temporale report invalido. |
 | `classes/local/report_analytics_query.php:41` | `analytics_scope_condition` | Costruisce SQL scope Analytics capability-safe con restrizioni learner e gruppi canoniche. |
 | `classes/local/report_analytics_query.php:106` | `analytics_reaction_condition` | Aggiunge vincoli per reazioni standard e provider opzionale a uno scope Analytics. |
 | `classes/local/report_analytics_query.php:131` | `analytics_bookmark_condition` | Aggiunge vincoli bookmark e provider opzionale a uno scope Analytics. |
@@ -1064,13 +1053,6 @@ Generato dall’albero sorgente VideoTrack 1.7.232. Le voci PHP includono funzio
 | `classes/local/report_event_query.php:184` | `note_event_condition` | Costruisce SQL delle note personali con scope learner e limiti inclusivi di creazione. |
 | `classes/local/report_event_query.php:218` | `state_condition` | Costruisce SQL delle righe state con scope learner e filtro learner opzionale. |
 | `classes/local/report_event_query.php:244` | `segment_user_condition` | Costruisce SQL per individuare utenti segmenti con scope learner canonico. |
-| `classes/local/report_support.php:39` | `user_label` | Formatta le etichette utente rispettando la visibilità email. |
-| `classes/local/report_support.php:60` | `analytics_prefers_state_fallback` | Seleziona il fallback state per priorità viewer ed epsilon sui secondi unici. |
-| `classes/local/report_support.php:75` | `analytics_highlights` | Seleziona highlight Analytics più visti, più riprodotti e maggiori cali. |
-| `classes/local/report_support.php:115` | `analytics_acknowledgement_timing_counts` | Conta i bucket timing delle prese visione con fallback canonico. |
-| `classes/local/report_support.php:137` | `user_options` | Costruisce opzioni utente per priorità preservando la privacy. |
-| `classes/local/report_support.php:169` | `cluster_reaction_events` | Costruisce cluster di reazioni limitati con conteggio studenti e ordine stabili. |
-| `classes/local/report_support.php:238` | `tabs` | Costruisce i tab del report docente in base alle capability. |
 | `classes/local/report_integrity_view.php:43` | `integrity_summary` | Renderizza lo stato integrità privacy-safe con registrazione attiva. |
 | `classes/local/report_integrity_view.php:106` | `integrity_disabled_summary` | Renderizza lo stato informativo esplicito con registrazione disattivata. |
 | `classes/local/report_integrity_view.php:118` | `integrity_controls_without_recording_summary` | Renderizza lo stato di avviso esplicito con soli controlli focus. |
@@ -1082,6 +1064,26 @@ Generato dall’albero sorgente VideoTrack 1.7.232. Le voci PHP includono funzio
 | `classes/local/report_summary_view.php:127` | `acknowledgement_summary` | Renderizza aggregati e progresso privacy-safe delle prese visione. |
 | `classes/local/report_summary_view.php:200` | `acknowledgement_values` | Risolve i valori delle schede sotto soppressione privacy completa o del solo progresso. |
 | `classes/local/report_summary_view.php:233` | `acknowledgement_notice` | Renderizza avvisi di disponibilità, privacy e progresso legacy delle prese visione. |
+| `classes/local/report_support.php:39` | `user_label` | Formatta le etichette utente rispettando la visibilità email. |
+| `classes/local/report_support.php:60` | `analytics_prefers_state_fallback` | Seleziona il fallback state per priorità viewer ed epsilon sui secondi unici. |
+| `classes/local/report_support.php:75` | `analytics_highlights` | Seleziona highlight Analytics più visti, più riprodotti e maggiori cali. |
+| `classes/local/report_support.php:115` | `analytics_acknowledgement_timing_counts` | Conta i bucket timing delle prese visione con fallback canonico. |
+| `classes/local/report_support.php:137` | `user_options` | Costruisce opzioni utente per priorità preservando la privacy. |
+| `classes/local/report_support.php:169` | `cluster_reaction_events` | Costruisce cluster di reazioni limitati con conteggio studenti e ordine stabili. |
+| `classes/local/report_support.php:238` | `tabs` | Costruisce i tab del report docente in base alle capability. |
+| `classes/local/report_time_filter.php:36` | `date_to_timestamp` | Converte una data ISO valida nell'inizio giornata del fuso utente, altrimenti restituisce zero. |
+| `classes/local/report_time_filter.php:55` | `end_date_to_timestamp` | Converte una data ISO valida nel limite inclusivo di fine giornata, altrimenti restituisce zero. |
+| `classes/local/report_time_filter.php:77` | `optional_time_param` | Seleziona i componenti strutturati quando presenti e conserva altrimenti il parsing legacy a due punti. |
+| `classes/local/report_time_filter.php:94` | `duration_filter` | Renderizza il controllo report accessibile per ore/minuti/secondi. |
+| `classes/local/report_time_filter.php:151` | `request_components` | Legge i tre componenti strutturati distinguendo valori assenti e vuoti. |
+| `classes/local/report_time_filter.php:165` | `has_submitted_components` | Rileva se la richiesta ha selezionato il parsing strutturato. |
+| `classes/local/report_time_filter.php:175` | `structured_time` | Compone componenti validati in secondi non negativi. |
+| `classes/local/report_time_filter.php:193` | `has_component_value` | Distingue un filtro strutturato interamente vuoto dal valore numerico zero. |
+| `classes/local/report_time_filter.php:206` | `validate_component_digits` | Rifiuta componenti durata strutturati non decimali. |
+| `classes/local/report_time_filter.php:220` | `component_integer` | Normalizza un componente vuoto a zero e uno validato a intero. |
+| `classes/local/report_time_filter.php:231` | `validate_minute_second_range` | Impone i limiti canonici 0–59 per minuti e secondi. |
+| `classes/local/report_time_filter.php:243` | `legacy_time` | Conserva il parsing retrocompatibile MM:SS e HH:MM:SS. |
+| `classes/local/report_time_filter.php:257` | `throw_invalid_time` | Solleva l'eccezione canonica per un parametro temporale report invalido. |
 | `classes/local/report_timeline_view.php:71` | `analytics_interval` | Formatta un intervallo Analytics usando i timestamp video canonici. |
 | `classes/local/report_timeline_view.php:85` | `analytics_heatmap` | Renderizza heatmap delle visualizzazioni uniche e marker dei cluster reazioni. |
 | `classes/local/report_timeline_view.php:155` | `heatmap_legend` | Renderizza la legenda accessibile della heatmap. |
@@ -1282,27 +1284,25 @@ Generato dall’albero sorgente VideoTrack 1.7.232. Le voci PHP includono funzio
 | `mod_form.php:245` | `apply_default_section_expansion` | Callable PHP `apply_default_section_expansion`; DocBlock e chiamanti definiscono parametri, valori restituiti ed effetti. |
 | `mod_form.php:282` | `require_filepicker_accept_filter` | Callable PHP `require_filepicker_accept_filter`; DocBlock e chiamanti definiscono parametri, valori restituiti ed effetti. |
 | `mod_form.php:328` | `add_reaction_elements` | Callable PHP `add_reaction_elements`; DocBlock e chiamanti definiscono parametri, valori restituiti ed effetti. |
-| `mod_form.php:368` | `add_reaction_row_fields` | Aggiunge i campi e il selettore icona della riga nell’ordine originale. |
-| `mod_form.php:466` | `add_reaction_row_visibility` | Applica le regole esistenti di visibilità e disabilitazione delle icone dopo i campi. |
-| `mod_form.php:529` | `get_reaction_repeat_count` | Callable PHP `get_reaction_repeat_count`; DocBlock e chiamanti definiscono parametri, valori restituiti ed effetti. |
-| `mod_form.php:557` | `add_completion_rules` | Callable PHP `add_completion_rules`; DocBlock e chiamanti definiscono parametri, valori restituiti ed effetti. |
-| `mod_form.php:626` | `completion_rule_enabled` | Callable PHP `completion_rule_enabled`; DocBlock e chiamanti definiscono parametri, valori restituiti ed effetti. |
-| `mod_form.php:638` | `data_preprocessing` | Callable PHP `data_preprocessing`; DocBlock e chiamanti definiscono parametri, valori restituiti ed effetti. |
-| `mod_form.php:737` | `draft_area_contains_only_reaction_images` | Callable PHP `draft_area_contains_only_reaction_images`; DocBlock e chiamanti definiscono parametri, valori restituiti ed effetti. |
-| `mod_form.php:773` | `draft_area_contains_only_vtt` | Callable PHP `draft_area_contains_only_vtt`; DocBlock e chiamanti definiscono parametri, valori restituiti ed effetti. |
-| `mod_form.php:804` | `source_errors` | Callable PHP `source_errors`; DocBlock e chiamanti definiscono parametri, valori restituiti ed effetti. |
-| `mod_form.php:824` | `youtube_source_errors` | Callable PHP `youtube_source_errors`; DocBlock e chiamanti definiscono parametri, valori restituiti ed effetti. |
-| `mod_form.php:837` | `vimeo_source_errors` | Callable PHP `vimeo_source_errors`; DocBlock e chiamanti definiscono parametri, valori restituiti ed effetti. |
-| `mod_form.php:850` | `upload_source_errors` | Callable PHP `upload_source_errors`; DocBlock e chiamanti definiscono parametri, valori restituiti ed effetti. |
-| `mod_form.php:869` | `timed_text_errors` | Callable PHP `timed_text_errors`; DocBlock e chiamanti definiscono parametri, valori restituiti ed effetti. |
-| `mod_form.php:894` | `timed_text_draft_errors` | Callable PHP `timed_text_draft_errors`; DocBlock e chiamanti definiscono parametri, valori restituiti ed effetti. |
-| `mod_form.php:919` | `timed_text_required_errors` | Callable PHP `timed_text_required_errors`; DocBlock e chiamanti definiscono parametri, valori restituiti ed effetti. |
-| `mod_form.php:947` | `reaction_file_icon_errors` | Callable PHP `reaction_file_icon_errors`; DocBlock e chiamanti definiscono parametri, valori restituiti ed effetti. |
-| `mod_form.php:985` | `existing_reaction_icon_file` | Callable PHP `existing_reaction_icon_file`; DocBlock e chiamanti definiscono parametri, valori restituiti ed effetti. |
-| `mod_form.php:1008` | `forum_errors` | Callable PHP `forum_errors`; DocBlock e chiamanti definiscono parametri, valori restituiti ed effetti. |
-| `mod_form.php:1029` | `reaction_errors` | Callable PHP `reaction_errors`; DocBlock e chiamanti definiscono parametri, valori restituiti ed effetti. |
-| `mod_form.php:1053` | `reaction_row_errors` | Callable PHP `reaction_row_errors`; DocBlock e chiamanti definiscono parametri, valori restituiti ed effetti. |
-| `mod_form.php:1107` | `validation` | Callable PHP `validation`; DocBlock e chiamanti definiscono parametri, valori restituiti ed effetti. |
+| `mod_form.php:365` | `get_reaction_repeat_count` | Callable PHP `get_reaction_repeat_count`; DocBlock e chiamanti definiscono parametri, valori restituiti ed effetti. |
+| `mod_form.php:393` | `add_completion_rules` | Callable PHP `add_completion_rules`; DocBlock e chiamanti definiscono parametri, valori restituiti ed effetti. |
+| `mod_form.php:462` | `completion_rule_enabled` | Callable PHP `completion_rule_enabled`; DocBlock e chiamanti definiscono parametri, valori restituiti ed effetti. |
+| `mod_form.php:474` | `data_preprocessing` | Callable PHP `data_preprocessing`; DocBlock e chiamanti definiscono parametri, valori restituiti ed effetti. |
+| `mod_form.php:573` | `draft_area_contains_only_reaction_images` | Callable PHP `draft_area_contains_only_reaction_images`; DocBlock e chiamanti definiscono parametri, valori restituiti ed effetti. |
+| `mod_form.php:609` | `draft_area_contains_only_vtt` | Callable PHP `draft_area_contains_only_vtt`; DocBlock e chiamanti definiscono parametri, valori restituiti ed effetti. |
+| `mod_form.php:640` | `source_errors` | Callable PHP `source_errors`; DocBlock e chiamanti definiscono parametri, valori restituiti ed effetti. |
+| `mod_form.php:660` | `youtube_source_errors` | Callable PHP `youtube_source_errors`; DocBlock e chiamanti definiscono parametri, valori restituiti ed effetti. |
+| `mod_form.php:673` | `vimeo_source_errors` | Callable PHP `vimeo_source_errors`; DocBlock e chiamanti definiscono parametri, valori restituiti ed effetti. |
+| `mod_form.php:686` | `upload_source_errors` | Callable PHP `upload_source_errors`; DocBlock e chiamanti definiscono parametri, valori restituiti ed effetti. |
+| `mod_form.php:705` | `timed_text_errors` | Callable PHP `timed_text_errors`; DocBlock e chiamanti definiscono parametri, valori restituiti ed effetti. |
+| `mod_form.php:730` | `timed_text_draft_errors` | Callable PHP `timed_text_draft_errors`; DocBlock e chiamanti definiscono parametri, valori restituiti ed effetti. |
+| `mod_form.php:755` | `timed_text_required_errors` | Callable PHP `timed_text_required_errors`; DocBlock e chiamanti definiscono parametri, valori restituiti ed effetti. |
+| `mod_form.php:783` | `reaction_file_icon_errors` | Callable PHP `reaction_file_icon_errors`; DocBlock e chiamanti definiscono parametri, valori restituiti ed effetti. |
+| `mod_form.php:821` | `existing_reaction_icon_file` | Callable PHP `existing_reaction_icon_file`; DocBlock e chiamanti definiscono parametri, valori restituiti ed effetti. |
+| `mod_form.php:844` | `forum_errors` | Callable PHP `forum_errors`; DocBlock e chiamanti definiscono parametri, valori restituiti ed effetti. |
+| `mod_form.php:865` | `reaction_errors` | Callable PHP `reaction_errors`; DocBlock e chiamanti definiscono parametri, valori restituiti ed effetti. |
+| `mod_form.php:889` | `reaction_row_errors` | Callable PHP `reaction_row_errors`; DocBlock e chiamanti definiscono parametri, valori restituiti ed effetti. |
+| `mod_form.php:943` | `validation` | Callable PHP `validation`; DocBlock e chiamanti definiscono parametri, valori restituiti ed effetti. |
 | `reports_course.php:34` | `videotrack_course_report_count_cell` | Callable PHP `videotrack_course_report_count_cell`; DocBlock e chiamanti definiscono parametri, valori restituiti ed effetti. |
 | `reports_course.php:48` | `videotrack_course_report_percentage_cell` | Callable PHP `videotrack_course_report_percentage_cell`; renderizza la percentuale aggregata in forma testuale. |
 | `reports_course.php:67` | `videotrack_course_report_percentage_bar_cell` | Callable PHP `videotrack_course_report_percentage_bar_cell`; renderizza la percentuale aggregata con barra compatta accessibile. |
@@ -1344,10 +1344,6 @@ Generato dall’albero sorgente VideoTrack 1.7.232. Le voci PHP includono funzio
 | `tests/analytics_performance_contract_test.php:35` | `test_teacher_activity_options_use_lightweight_modinfo_path` | Funzione/metodo PHP nominato `test_teacher_activity_options_use_lightweight_modinfo_path`; vedere DocBlock e chiamanti per il contratto corrente. |
 | `tests/analytics_performance_contract_test.php:52` | `test_course_dashboard_batches_event_summaries_and_group_scope` | Funzione/metodo PHP nominato `test_course_dashboard_batches_event_summaries_and_group_scope`; vedere DocBlock e chiamanti per il contratto corrente. |
 | `tests/analytics_performance_contract_test.php:71` | `test_course_dashboard_batches_state_and_period_reads` | Funzione/metodo PHP nominato `test_course_dashboard_batches_state_and_period_reads`; vedere DocBlock e chiamanti per il contratto corrente. |
-| `tests/backup_structure_contract_test.php:35` | `test_structure_hook_delegates_to_ordered_stages` | Verifica l'orchestrazione ordinata della struttura di backup. |
-| `tests/backup_structure_contract_test.php:64` | `test_user_data_sources_keep_privacy_boundaries` | Verifica filtri e annotazioni dei dati utente conservabili. |
-| `tests/backup_structure_contract_test.php:80` | `test_activity_and_file_contracts_remain_complete` | Verifica tabelle sorgente, mapping Forum e aree file. |
-| `tests/backup_structure_contract_test.php:106` | `source` | Legge il sorgente canonico della struttura di backup per le asserzioni contrattuali. |
 | `tests/analytics_scope_test.php:38` | `test_matching_scope_api_delegates_to_focused_service` | Verifica delega e confini matcher rilevanti per la sicurezza. |
 | `tests/analytics_scope_test.php:57` | `test_matcher_preserves_source_specific_identity_contracts` | Verifica gli stadi candidati per id provider, hash upload e URL canonico. |
 | `tests/analytics_scope_test.php:86` | `test_matcher_orders_current_instance_first_deterministically` | Verifica l’ordine stabile corrente/corso/nome/id. |
@@ -1377,6 +1373,10 @@ Generato dall’albero sorgente VideoTrack 1.7.232. Le voci PHP includono funzio
 | `tests/analytics_test.php:427` | `test_reaction_summary_masks_small_populations` | Callable PHP `test_reaction_summary_masks_small_populations`; DocBlock e chiamanti definiscono parametri, valori restituiti ed effetti. |
 | `tests/analytics_test.php:448` | `test_build_from_states_recovers_unique_viewers` | Callable PHP `test_build_from_states_recovers_unique_viewers`; DocBlock e chiamanti definiscono parametri, valori restituiti ed effetti. |
 | `tests/analytics_test.php:468` | `test_resolve_duration_uses_best_persisted_source` | Callable PHP `test_resolve_duration_uses_best_persisted_source`; DocBlock e chiamanti definiscono parametri, valori restituiti ed effetti. |
+| `tests/backup_structure_contract_test.php:35` | `test_structure_hook_delegates_to_ordered_stages` | Verifica l'orchestrazione ordinata della struttura di backup. |
+| `tests/backup_structure_contract_test.php:64` | `test_user_data_sources_keep_privacy_boundaries` | Verifica filtri e annotazioni dei dati utente conservabili. |
+| `tests/backup_structure_contract_test.php:80` | `test_activity_and_file_contracts_remain_complete` | Verifica tabelle sorgente, mapping Forum e aree file. |
+| `tests/backup_structure_contract_test.php:106` | `source` | Legge il sorgente canonico della struttura di backup per le asserzioni contrattuali. |
 | `tests/behat/behat_mod_videotrack.php:42` | `the_videotrack_focus_policy_is` | Verifica la policy focus effettiva esposta dal JSON reale del player. |
 | `tests/behat/behat_mod_videotrack.php:65` | `the_videotrack_html5_media_is_ready` | Waits for local HTML5 fixture metadata in Behat. |
 | `tests/behat/behat_mod_videotrack.php:85` | `i_seek_the_videotrack_html5_media_to_seconds` | Drives a deterministic HTML5 seek in the browser test harness. |
@@ -1481,6 +1481,9 @@ Generato dall’albero sorgente VideoTrack 1.7.232. Le voci PHP includono funzio
 | `tests/form_reaction_settings_test.php:46` | `test_defaults_dependencies_and_notice_editor_context_are_preserved` | Verifica default generali, dipendenze esatte e opzioni sicure dell'editor nei contesti corso/modulo. |
 | `tests/form_reaction_settings_test.php:101` | `test_preset_selector_keeps_configuration_guard_and_saved_values` | Verifica guardia senza preset, scelte con nome, default cluster e valori salvati del selettore/JSON. |
 | `tests/form_reaction_settings_test.php:139` | `test_completion_lock_respects_course_permission_and_row_count` | Verifica permessi di completamento distinti dal player, con zero righe e blocchi limitati al conteggio effettivo. |
+| `tests/form_reaction_settings_test.php:193` | `test_row_fields_preserve_order_types_picker_targets_and_file_options` | Verifica ordine di righe non consecutive, tipi di pulizia, target univoci e opzioni immagini interne originali. |
+| `tests/form_reaction_settings_test.php:273` | `test_row_visibility_is_isolated_and_saved_icon_values_are_preserved` | Verifica dipendenze esatte per riga e valori salvati vuoti/emoji/Font Awesome/file senza interferenze fra righe. |
+| `tests/form_reaction_settings_test.php:323` | `test_activity_form_retains_repeat_count_add_button_and_upload_options` | Esegue il ciclo righe del form reale per verificare conteggi minimo/limitato, pulsante Aggiungi senza invio e opzioni immagini. |
 | `tests/form_validation_test.php:36` | `test_scalar_settings_errors_preserve_existing_rules` | Funzione/metodo PHP nominato `test_scalar_settings_errors_preserve_existing_rules`; vedere DocBlock e chiamanti per il contratto corrente. |
 | `tests/form_validation_test.php:72` | `test_acknowledgement_errors_preserve_existing_rules` | Funzione/metodo PHP nominato `test_acknowledgement_errors_preserve_existing_rules`; vedere DocBlock e chiamanti per il contratto corrente. |
 | `tests/form_validation_test.php:91` | `test_completion_rule_enabled_preserves_existing_rules` | Funzione/metodo PHP nominato `test_completion_rule_enabled_preserves_existing_rules`; vedere DocBlock e chiamanti per il contratto corrente. |
@@ -1701,12 +1704,12 @@ Generato dall’albero sorgente VideoTrack 1.7.232. Le voci PHP includono funzio
 | `tests/upgrade_contract_test.php:114` | `test_gradebook_recovery_uses_dml_only` | Funzione/metodo PHP nominato `test_gradebook_recovery_uses_dml_only`; vedere DocBlock e chiamanti per il contratto corrente. |
 | `tests/upgrade_contract_test.php:136` | `test_preproduction_gradebook_repair_covers_install_and_upgrade` | Funzione/metodo PHP nominato `test_preproduction_gradebook_repair_covers_install_and_upgrade`; vedere DocBlock e chiamanti per il contratto corrente. |
 | `tests/upgrade_contract_test.php:160` | `test_duplicate_grade_item_repair_is_upgrade_safe` | Funzione/metodo PHP nominato `test_duplicate_grade_item_repair_is_upgrade_safe`; vedere DocBlock e chiamanti per il contratto corrente. |
-| `tests/xmldb_relationship_contract_test.php:35` | `test_stable_foreign_keys_are_declared` | Verifica le 22 dichiarazioni esatte delle foreign key XMLDB stabili. |
-| `tests/xmldb_relationship_contract_test.php:94` | `test_conditional_references_are_not_declared_as_foreign_keys` | Protegge i riferimenti Forum e reazione con sentinella zero legittima. |
-| `tests/xmldb_relationship_contract_test.php:121` | `test_foreign_key_indexes_are_not_duplicated_explicitly` | Impedisce la duplicazione esplicita degli indici generati da XMLDB. |
 | `tests/vimeo_seek_contract_test.php:35` | `test_blocked_seek_resume_does_not_wait_for_penalty_promise` | Funzione/metodo PHP nominato `test_blocked_seek_resume_does_not_wait_for_penalty_promise`; vedere DocBlock e chiamanti per il contratto corrente. |
 | `tests/vimeo_seek_contract_test.php:56` | `test_blocked_seek_clears_forward_guard_after_rollback` | Funzione/metodo PHP nominato `test_blocked_seek_clears_forward_guard_after_rollback`; vedere DocBlock e chiamanti per il contratto corrente. |
 | `tests/vimeo_seek_contract_test.php:74` | `test_blocked_seek_resume_retries_never_reseek` | Funzione/metodo PHP nominato `test_blocked_seek_resume_retries_never_reseek`; vedere DocBlock e chiamanti per il contratto corrente. |
 | `tests/vimeo_seek_contract_test.php:93` | `test_transient_pause_does_not_cancel_blocked_seek_playback` | Funzione/metodo PHP nominato `test_transient_pause_does_not_cancel_blocked_seek_playback`; vedere DocBlock e chiamanti per il contratto corrente. |
 | `tests/vimeo_seek_contract_test.php:117` | `test_blocked_seek_resume_is_generation_scoped` | Funzione/metodo PHP nominato `test_blocked_seek_resume_is_generation_scoped`; vedere DocBlock e chiamanti per il contratto corrente. |
 | `tests/vimeo_seek_contract_test.php:131` | `test_seeked_fallback_uses_vimeo_playback_resolver_and_penalty` | Funzione/metodo PHP nominato `test_seeked_fallback_uses_vimeo_playback_resolver_and_penalty`; vedere DocBlock e chiamanti per il contratto corrente. |
+| `tests/xmldb_relationship_contract_test.php:35` | `test_stable_foreign_keys_are_declared` | Verifica le 22 dichiarazioni esatte delle foreign key XMLDB stabili. |
+| `tests/xmldb_relationship_contract_test.php:94` | `test_conditional_references_are_not_declared_as_foreign_keys` | Protegge i riferimenti Forum e reazione con sentinella zero legittima. |
+| `tests/xmldb_relationship_contract_test.php:121` | `test_foreign_key_indexes_are_not_duplicated_explicitly` | Impedisce la duplicazione esplicita degli indici generati da XMLDB. |

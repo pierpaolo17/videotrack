@@ -1,6 +1,6 @@
 # Documentation audit
 
-Baseline: VideoTrack **1.7.232** (`2026110502`).
+Baseline: VideoTrack **1.7.233** (`2026110503`).
 
 ## Scope
 
@@ -32,10 +32,11 @@ not duplicate implementation procedures, field dictionaries or long security/pri
 
 ## Current-tree findings
 
-- `form_reaction_settings` builds general reaction settings and context-safe notice/preset fields before repeated
-  rows are created. The form retains row construction and then delegates the original top-level/row completion
-  lock with its actual row count. Course completion permission remains independent of player override permission.
-  Existing source contracts follow the new owner and explicitly check the construction/row/lock sequence.
+- `form_reaction_settings` owns general reaction settings, context-safe notice/preset fields and individual row
+  fields followed by their icon visibility rules. The form retains row count, bounds, upload-filter registration
+  and no-submit Add reaction control, then delegates completion locks with the actual count. Course completion
+  permission remains independent of player override permission. Runtime tests cover field order, types, unique
+  picker targets, original file options, saved values, exact dependencies, real form counts and real row locks.
 - `form_playback_settings` owns the site-controlled playback group with one public entry point and a private
   rate-choice stage. False/empty fallback preserves explicit zero, the course lock still freezes exactly seven
   fields, and resume/maximum rate retain their existing editable state. `form_definition` keeps nine public methods.
@@ -60,7 +61,7 @@ not duplicate implementation procedures, field dictionaries or long security/pri
   course-scoped choices, saved placeholders and the editor context/options remain explicit. The activity form
   retains submitted validation and section expansion without a direct acknowledgement-class dependency.
 - English and Italian indexes have matching scope and ordering.
-- Documentation markers, root README files and ER artefacts identify 1.7.232 / 2026110502.
+- Documentation markers, root README files and ER artefacts identify 1.7.233 / 2026110503.
 - The Moodle privacy export delegates state, segment, event, integrity and acknowledgement sections in order;
   six event categories preserve the original paths, sanitisation, 500-row streaming and final flush order.
 - Activity-form source, timed-text, reaction-file and forum checks remain in their original order behind focused helpers;
@@ -164,7 +165,7 @@ not duplicate implementation procedures, field dictionaries or long security/pri
 - Generated CI/server evidence is not part of the plugin tree. Repository `.gitignore`, Git archive
   `export-ignore` rules, Moodle `.moodleignore` rules and a PHPUnit release-hygiene contract jointly prevent
   `reports-*`, `videotrack-ci-*.zip` and `report_completo_videotrack_*.zip` from entering future releases. The
-  canonical release archive must therefore contain the 384 legitimate plugin files only.
+  canonical release archive must therefore contain the 396 legitimate plugin files only.
 
 ## Release checks
 

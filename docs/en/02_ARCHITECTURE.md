@@ -26,9 +26,10 @@ at their existing position between duration and additional player behaviour. Its
 the original course capability; exactly seven fields are frozen when override permission is missing. Resume and
 maximum playback rate keep their existing editable state, while false/empty site defaults remain distinct from zero.
 `form_reaction_settings` builds general reaction controls, the safe context-bound notice editor, cluster
-window and preset selector before the activity form creates repeated rows. It then applies the original completion
-locks using the actual row count and course completion capability. Row fields, row-count selection and preset AMD
-registration stay in the form.
+window and preset selector. Its row entry point adds each row's fields, icon picker and then the original
+visibility rules using the supplied index and file-manager options. Completion locks follow all rows using
+the actual count and course completion capability. The activity form retains count selection, the 4-to-30-row
+bounds, no-submit Add reaction button, upload-filter registration and preset AMD registration.
 
 `form_definition` retains nine public construction entry points for duration, additional player behaviour,
 caption/timed-text fields, HTML5 controls, speed choices, CSV, Forum, integrity and acknowledgement groups.

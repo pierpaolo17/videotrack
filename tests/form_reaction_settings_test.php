@@ -20,7 +20,7 @@ use mod_videotrack\local\form_reaction_settings;
 use PHPUnit\Framework\Attributes\CoversClass;
 
 /**
- * Behavioural checks for general reaction fields, notice context, presets and completion locks.
+ * Behavioural checks for reaction fields, repeated icon controls, presets and completion locks.
  *
  * @package    mod_videotrack
  * @category   test
@@ -163,8 +163,7 @@ final class form_reaction_settings_test extends \advanced_testcase {
                 form_reaction_settings::add_elements($form, $scope, $scope);
                 for ($i = 0; $i < 3; $i++) {
                     $field = 'reactionrequired[' . $i . ']';
-                    $form->addElement('advcheckbox', $field, 'Reaction ' . $i);
-                    $form->setType($field, PARAM_BOOL);
+                    form_reaction_settings::add_row_elements($form, $i, ['return_types' => FILE_INTERNAL]);
                     $form->setDefault($field, 1);
                 }
                 $form->setDefaults(['reactionsrequired' => 1, 'minreactions' => 2, 'requireallreactiontypes' => 1]);
@@ -185,6 +184,187 @@ final class form_reaction_settings_test extends \advanced_testcase {
                 $this->assertSame(2, (int)$form->getElement('minreactions')->getValue());
                 $this->assertSame($scope->id !== $context->id, $form->elementExists('completionsettings_locked_notice'));
             }
+        }
+    }
+
+    /**
+     * Nonconsecutive rows retain field order, cleaning types, unique picker targets and internal image options.
+     */
+    public function test_row_fields_preserve_order_types_picker_targets_and_file_options(): void {
+        global $PAGE;
+
+        $this->resetAfterTest();
+        $this->setAdminUser();
+        $course = $this->getDataGenerator()->create_course();
+        $PAGE = new \moodle_page();
+        $PAGE->set_course($course);
+        $PAGE->set_context(\context_course::instance($course->id));
+        $form = new \MoodleQuickForm('videotrack_reaction_row_contract', 'post', '');
+        $options = [
+            'subdirs' => 0, 'maxfiles' => 1, 'accepted_types' => ['.jpg', '.jpeg', '.png', '.webp', '.gif'],
+            'maxbytes' => 0, 'return_types' => FILE_INTERNAL,
+        ];
+        foreach ([0, 3, 29] as $i) {
+            form_reaction_settings::add_row_elements($form, $i, $options);
+
+            $elements = (new \ReflectionProperty($form, '_elements'))->getValue($form);
+            $row = array_slice($elements, -10);
+            $this->assertCount(10, $row);
+            $this->assertSame('html', $row[0]->getType());
+            $this->assertStringContainsString(get_string('reactionx', 'mod_videotrack', $i + 1), $row[0]->toHtml());
+            $this->assertStringContainsString('videotrack-reaction-config-heading', $row[0]->toHtml());
+            $expected = [
+                'reactionid[' . $i . ']' => 'hidden',
+                'reactionlabel[' . $i . ']' => 'text',
+                'reactiondescription[' . $i . ']' => 'text',
+                'reactionicontype[' . $i . ']' => 'select',
+                'reactioniconvalue[' . $i . ']' => 'text',
+                'reactioniconvalue_suggestions_' . $i => 'static',
+                'reactioniconfile_' . $i => 'filemanager',
+                'reactioniconfile_notice_' . $i => 'static',
+                'reactionrequired[' . $i . ']' => 'advcheckbox',
+            ];
+            $actual = [];
+            foreach (array_slice($row, 1) as $element) {
+                $actual[$element->getName()] = $element->getType();
+                $this->assertFalse($element->isFrozen());
+            }
+            $this->assertSame($expected, $actual);
+            $types = (new \ReflectionProperty($form, '_types'))->getValue($form);
+            $expectedtypes = [
+                'reactionid' => PARAM_INT, 'reactionlabel' => PARAM_TEXT, 'reactiondescription' => PARAM_TEXT,
+                'reactionicontype' => PARAM_ALPHA, 'reactioniconvalue' => PARAM_TEXT, 'reactionrequired' => PARAM_BOOL,
+            ];
+            foreach ($expectedtypes as $field => $type) {
+                $this->assertSame($type, $types[$field . '[' . $i . ']']);
+            }
+            $iconvalue = $form->getElement('reactioniconvalue[' . $i . ']');
+            $listid = 'videotrack-reactioniconvalue-suggestions-' . $i;
+            $this->assertSame($listid, $iconvalue->getAttribute('list'));
+            $this->assertSame('videotrack-icon-value-input', $iconvalue->getAttribute('class'));
+            $this->assertSame(24, (int)$iconvalue->getAttribute('size'));
+            $suggestions = $form->getElement('reactioniconvalue_suggestions_' . $i)->toHtml();
+            $this->assertStringContainsString('<datalist id="' . $listid . '">', $suggestions);
+            $this->assertStringContainsString('data-videotrack-icon-target="reactioniconvalue[' . $i . ']"', $suggestions);
+            $this->assertStringContainsString('data-videotrack-icon-type-target="reactionicontype[' . $i . ']"', $suggestions);
+            $this->assertStringContainsString('aria-haspopup="dialog"', $suggestions);
+            $notice = $form->getElement('reactioniconfile_notice_' . $i)->toHtml();
+            $this->assertStringContainsString(get_string('reactioniconfile_notice', 'mod_videotrack'), $notice);
+            $file = $form->getElement('reactioniconfile_' . $i);
+            $actualoptions = (new \ReflectionProperty($file, '_options'))->getValue($file);
+            foreach ($options as $key => $value) {
+                $this->assertSame($value, $actualoptions[$key]);
+            }
+            $this->assertNotEmpty($file->getHelpButton());
+            $this->assertSame(0, (int)$form->getElement('reactionid[' . $i . ']')->getValue());
+            $selecthtml = $form->getElement('reactionicontype[' . $i . ']')->toHtml();
+            foreach (['', 'emoji', 'fa', 'file'] as $value) {
+                $this->assertStringContainsString('value="' . $value . '"', $selecthtml);
+            }
+        }
+        $this->assertFalse($form->elementExists('reactionid[1]'));
+        $this->assertFalse($form->elementExists('reaction_add_fields'));
+        $this->assertFalse($form->elementExists('reaction_repeats'));
+    }
+
+    /**
+     * Empty, emoji, Font Awesome and file choices preserve saved values and exact per-row dependencies.
+     */
+    public function test_row_visibility_is_isolated_and_saved_icon_values_are_preserved(): void {
+        $this->resetAfterTest();
+        $this->setAdminUser();
+        $form = new \MoodleQuickForm('videotrack_reaction_row_visibility', 'post', '');
+        $expecteddependencies = [];
+        $expectedhideifs = [];
+        $defaults = [];
+        $iconvalues = ['', '🙂', 'fa-solid fa-star', ''];
+        foreach (['', 'emoji', 'fa', 'file'] as $i => $icontype) {
+            form_reaction_settings::add_row_elements($form, $i, ['return_types' => FILE_INTERNAL]);
+            $iconfield = 'reactioniconvalue[' . $i . ']';
+            $typefield = 'reactionicontype[' . $i . ']';
+            $filefield = 'reactioniconfile_' . $i;
+            $suggestions = 'reactioniconvalue_suggestions_' . $i;
+            $expecteddependencies[$typefield] = [
+                'eq' => ['file' => [$iconfield], '' => [$iconfield]],
+                'neq' => ['file' => [$filefield]],
+            ];
+            $expectedhideifs[$typefield] = [
+                'eq' => ['file' => [$iconfield, $suggestions], '' => [$iconfield, $suggestions]],
+                'neq' => ['file' => [$filefield, 'reactioniconfile_notice_' . $i]],
+            ];
+            $defaults['reactionid'][$i] = 100 + $i;
+            $defaults['reactionlabel'][$i] = 'Saved label ' . $i;
+            $defaults['reactiondescription'][$i] = 'Saved description ' . $i;
+            $defaults['reactionicontype'][$i] = $icontype;
+            $defaults['reactioniconvalue'][$i] = $iconvalues[$i];
+            $defaults['reactionrequired'][$i] = 1;
+            $defaults[$filefield] = 200 + $i;
+        }
+        $form->setDefaults($defaults);
+        $dependencies = (new \ReflectionProperty($form, '_dependencies'))->getValue($form);
+        $hideifs = (new \ReflectionProperty($form, '_hideifs'))->getValue($form);
+        $this->assertSame($expecteddependencies, $dependencies);
+        $this->assertSame($expectedhideifs, $hideifs);
+        foreach (['', 'emoji', 'fa', 'file'] as $i => $icontype) {
+            $this->assertSame([$icontype], $form->getElement('reactionicontype[' . $i . ']')->getSelected());
+            $this->assertSame(100 + $i, (int)$form->getElement('reactionid[' . $i . ']')->getValue());
+            $this->assertSame('Saved label ' . $i, $form->getElement('reactionlabel[' . $i . ']')->getValue());
+            $this->assertSame('Saved description ' . $i, $form->getElement('reactiondescription[' . $i . ']')->getValue());
+            $this->assertSame($iconvalues[$i], $form->getElement('reactioniconvalue[' . $i . ']')->getValue());
+            $this->assertSame(200 + $i, (int)$form->getElement('reactioniconfile_' . $i)->getValue());
+            $this->assertSame(1, (int)$form->getElement('reactionrequired[' . $i . ']')->getValue());
+            $this->assertFalse($form->getElement('reactionrequired[' . $i . ']')->isFrozen());
+        }
+    }
+
+    /**
+     * The activity form retains minimum/capped counts, the no-submit add button and the actual row count.
+     */
+    public function test_activity_form_retains_repeat_count_add_button_and_upload_options(): void {
+        global $CFG, $PAGE;
+
+        $this->resetAfterTest();
+        $this->setAdminUser();
+        require_once($CFG->dirroot . '/mod/videotrack/mod_form.php');
+        $course = $this->getDataGenerator()->create_course();
+        $PAGE = new \moodle_page();
+        $PAGE->set_course($course);
+        $PAGE->set_context(\context_course::instance($course->id));
+        $originalpost = $_POST;
+        $originalget = $_GET;
+        try {
+            $cases = [[1, '', 4], [4, 'Add', 5], [31, 'Add', 30]];
+            foreach ($cases as [$requested, $add, $expected]) {
+                unset($_GET['reaction_repeats'], $_GET['reaction_add_fields']);
+                $_POST['reaction_repeats'] = $requested;
+                $_POST['reaction_add_fields'] = $add;
+                $quickform = new \MoodleQuickForm('videotrack_reaction_repeat_' . $expected, 'post', '');
+                $form = (new \ReflectionClass(\mod_videotrack_mod_form::class))->newInstanceWithoutConstructor();
+                (new \ReflectionProperty($form, '_form'))->setValue($form, $quickform);
+                (new \ReflectionProperty($form, '_instance'))->setValue($form, 0);
+
+                (new \ReflectionMethod($form, 'add_reaction_elements'))->invoke($form);
+
+                $count = (new \ReflectionProperty($form, 'reactionrepeatcount'))->getValue($form);
+                $this->assertSame($expected, $count);
+                $this->assertSame($expected, (int)$quickform->getElement('reaction_repeats')->getValue());
+                $this->assertSame($expected < 30, $quickform->elementExists('reaction_add_fields'));
+                $this->assertSame($expected < 30, $quickform->isNoSubmitButton('reaction_add_fields'));
+                for ($i = 0; $i < $expected; $i++) {
+                    $this->assertTrue($quickform->elementExists('reactionrequired[' . $i . ']'));
+                    $file = $quickform->getElement('reactioniconfile_' . $i);
+                    $options = (new \ReflectionProperty($file, '_options'))->getValue($file);
+                    $this->assertSame(FILE_INTERNAL, $options['return_types']);
+                    $this->assertSame(1, $options['maxfiles']);
+                    $this->assertSame(0, $options['subdirs']);
+                    $this->assertSame(['.jpg', '.jpeg', '.png', '.webp', '.gif'], $options['accepted_types']);
+                }
+                $this->assertFalse($quickform->elementExists('reactionid[' . $expected . ']'));
+                $this->assertFalse($quickform->elementExists('reactioniconfile_' . $expected));
+            }
+        } finally {
+            $_POST = $originalpost;
+            $_GET = $originalget;
         }
     }
 }

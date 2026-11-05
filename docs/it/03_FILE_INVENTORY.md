@@ -1,6 +1,6 @@
 # Inventario dei file distribuiti
 
-Questo inventario è generato sull'albero repository VideoTrack 1.7.232. Elenca ogni file non documentale distribuito
+Questo inventario è generato sull'albero repository VideoTrack 1.7.233. Elenca ogni file non documentale distribuito
 e i file CI/tooling/igiene presenti soltanto nel repository. Il JavaScript canonico è in `amd/src`; i file in `amd/build`
 sono generati.
 
@@ -215,7 +215,7 @@ Voci: **335** — 332 file distribuiti e tre file presenti soltanto nel reposito
 | `classes/local/form_definition.php` | Costruisce durata, impostazioni player/testo temporizzato, gruppi CSV, Forum, integrità e presa visione. |
 | `classes/local/form_playback_settings.php` | Costruisce campi riproduzione controllati dal sito con default esatti, blocchi per corso e opzioni dei limiti di velocità. |
 | `classes/local/form_preprocessing.php` | Prepara bozze reazioni e default di avviso/preset, completamento, playback, CSV e sito prima del rendering del form. |
-| `classes/local/form_reaction_settings.php` | Costruisce campi generali reaction, editor avviso e preset sicuri, poi applica i blocchi completamento per corso dopo le righe. |
+| `classes/local/form_reaction_settings.php` | Costruisce controlli reaction generali e campi/visibilità icone delle singole righe, poi applica i blocchi completamento per corso. |
 | `classes/local/form_validation.php` | Policy autonoma di validazione scalare/JSON per il form delle impostazioni attività. |
 | `classes/local/forum_bridge.php` | Servizio di dominio `forum_bridge` riusabile da pagine, report o servizi. |
 | `classes/local/integrity.php` | Servizio di dominio `integrity` riusabile da pagine, report o servizi. |
@@ -306,7 +306,7 @@ Voci: **335** — 332 file distribuiti e tre file presenti soltanto nel reposito
 | `tests/form_definition_test.php` | Test runtime QuickForm su DOM/AMD durata, default player/testo temporizzato, opzioni file e permessi, CSV, Forum, integrità e presa visione. |
 | `tests/form_playback_settings_test.php` | Test runtime QuickForm per default assenti/vuoti/zero, blocchi per corso, controlli modificabili e selezioni di velocità salvate. |
 | `tests/form_preprocessing_test.php` | Test runtime dei default del form per completamento, playback e CSV. |
-| `tests/form_reaction_settings_test.php` | Test runtime QuickForm per default/editor reaction, guardia preset e blocchi di completamento per corso e numero righe. |
+| `tests/form_reaction_settings_test.php` | Test runtime QuickForm per default/editor/preset reaction, righe/selettore/upload, dipendenze, valori salvati, conteggi del form e blocchi per corso. |
 | `tests/form_validation_test.php` | Copertura comportamentale e di delega per la validazione autonoma del form attività. |
 | `tests/forum_bridge_test.php` | Copertura PHPUnit per forum bridge test. |
 | `tests/generator/lib.php` | Generator del modulo Moodle usato dalle fixture PHPUnit e Behat. |

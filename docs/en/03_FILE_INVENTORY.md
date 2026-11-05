@@ -1,6 +1,6 @@
 # Distributed file inventory
 
-This inventory is generated against the VideoTrack 1.7.232 repository tree. It lists every distributed
+This inventory is generated against the VideoTrack 1.7.233 repository tree. It lists every distributed
 non-documentation file plus repository-only CI/tooling/hygiene files. Canonical JavaScript is under `amd/src`; files under
 `amd/build` are generated.
 
@@ -215,7 +215,7 @@ Entries: **335** — 332 distributed files and three repository-only files exclu
 | `classes/local/form_definition.php` | Builds duration, player/timed-text, CSV, Forum, integrity and acknowledgement groups. |
 | `classes/local/form_playback_settings.php` | Builds site-controlled playback fields with exact defaults, course override locks and rate-limit choices. |
 | `classes/local/form_preprocessing.php` | Prepares reaction drafts, notice/preset, completion, playback, CSV and site defaults before form rendering. |
-| `classes/local/form_reaction_settings.php` | Builds general reaction fields and safe notice editor/preset controls, then applies course completion locks after row creation. |
+| `classes/local/form_reaction_settings.php` | Builds general reaction controls and individual row fields/icon visibility, then applies course completion locks after row creation. |
 | `classes/local/form_validation.php` | Autonomous scalar/JSON validation policy for the activity settings form. |
 | `classes/local/forum_bridge.php` | Forum integration adapter for VideoTrack. |
 | `classes/local/integrity.php` | Integrity-indicator definitions and privacy-safe aggregation helpers. |
@@ -306,7 +306,7 @@ Entries: **335** — 332 distributed files and three repository-only files exclu
 | `tests/form_definition_test.php` | Runtime QuickForm tests for duration DOM/AMD, player/timed-text defaults, file options and permissions, CSV, Forum, integrity and acknowledgement. |
 | `tests/form_playback_settings_test.php` | Runtime QuickForm tests for missing/empty/zero defaults, course override locks, unlocked controls and saved rate selections. |
 | `tests/form_preprocessing_test.php` | Runtime tests for completion, playback and CSV edit-form defaults. |
-| `tests/form_reaction_settings_test.php` | Runtime QuickForm tests for reaction defaults/editor context, preset guards and completion-only course/row locks. |
+| `tests/form_reaction_settings_test.php` | Runtime QuickForm tests for reaction defaults/editor/presets, row/picker/upload contracts, dependencies, saved values, form counts and course locks. |
 | `tests/form_validation_test.php` | Behavioural and delegation coverage for autonomous activity-form validation policy. |
 | `tests/forum_bridge_test.php` | PHPUnit coverage for forum bridge test. |
 | `tests/generator/lib.php` | Moodle module generator used by PHPUnit and Behat fixtures. |
