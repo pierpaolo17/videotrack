@@ -1,5 +1,32 @@
 # VideoTrack changelog
 
+## 1.7.236 - 2026-11-05
+
+### Allowed forward-seek browser tracking across all three providers
+
+- Accept the actual 400-file 1.7.235 ZIP, SHA-256
+  `9e0948e4d874713e5ac51057185fddc3c6cafd1c1571c8a9e5c4086cd62d8a2a`,
+  matching commit `72d14ef669ad98ff88a8f8841d8551d74cefc378` on both release
+  and main. All six release and main CI jobs pass 369 PHPUnit tests / 3,988
+  assertions, 27 Behat scenarios / 417 steps and ten strict checks each. The
+  actual Moodle 5.0/5.3 server report passes canonical PHPCS, lint, Grunt and
+  PHPUnit with unchanged AMD hashes; both supplied strict outputs are ten
+  passes, zero warnings and zero failures. That server report did not run
+  Behat; browser evidence belongs to the six CI environments.
+- Add one unseeded allowed-forward-seek scenario per HTML5/YouTube/Vimeo.
+  Each plays from zero, seeks to 30 seconds while playing, continues past
+  33 seconds and pauses through the real player/provider surface. A read-only
+  assertion requires separate validated pre-seek and post-seek ledger rows
+  from the same session, matching aggregate coverage, an unwatched middle
+  gap and incomplete native Moodle completion before and after reload.
+- Keep the local SDK doubles, generator, existing Behat steps/scenarios,
+  production implementations, PHPUnit tests, AMD source/build pairs, XMLDB,
+  services, translations and analyser rules unchanged. Source expectations
+  become 30 Behat scenarios / 489 steps and 369 PHPUnit methods, pending
+  actual candidate CI. PHPMD is expected to retain the 24 reviewed findings.
+  U-017 remains closed; U-007 stays open for the remaining provider playback,
+  post-rollback interaction, role/group and browser checks.
+
 ## 1.7.235 - 2026-11-05
 
 ### Browser-to-Moodle viewing completion and U-017 closure

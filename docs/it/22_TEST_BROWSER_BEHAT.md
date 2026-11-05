@@ -1,10 +1,11 @@
 # Automazione browser Behat
 
 Il plugin distribuisce un generator attività Moodle in `tests/generator/lib.php`, step componente in
-`tests/behat/behat_mod_videotrack.php` e feature in `tests/behat/`. La suite corrente contiene
-**27 scenari e 417 step attesi dal sorgente** per la 1.7.235. La baseline 1.7.234 accettata supera 24 scenari e
-357 step su tutti i sei job CI. I tre casi aggiuntivi richiedono la CI reale della candidata: i conteggi sorgente
-non dichiarano che i nuovi scenari siano già passati.
+`tests/behat/behat_mod_videotrack.php` e feature in `tests/behat/`. Il sorgente 1.7.236 contiene
+**30 scenari e 489 step attesi dal sorgente**, da confermare con la CI reale della candidata. La 1.7.235
+accettata supera 27 scenari / 417 step nei sei job CI della release e di main, insieme a 369 test PHPUnit /
+3.988 asserzioni. Il report server Moodle 5.0/5.3 supera PHPCS, lint, Grunt e PHPUnit; entrambi gli strict
+superano tutti i dieci controlli. Il report server non include Behat. La CI precedente non certifica i nuovi casi.
 
 ## Setup ed esecuzione
 
@@ -64,14 +65,35 @@ Il caso di visione in `html5_completion_contract.feature` predispone deliberatam
 sincronizzazione da uno stato esistente. Il nome dello scenario ora lo dichiara. Resta utile accanto ai nuovi casi
 browser → AJAX → database e da solo non dimostra una visione generata dal browser.
 
+## Seek avanti consentito senza credito sul gap
+
+`browser_allowed_seek_tracking.feature` aggiunge un caso senza seed per provider. La fixture abilita
+esplicitamente il seek avanti, usa durata di 60 secondi e completamento automatico per il 50% di visione,
+disabilitando autoplay/resume e completamento per sola vista/presa visione. Il browser parte senza evidenze
+validate, riproduce fino alla finestra 4-10 secondi, salta a 30 mentre riproduce, prosegue nella finestra
+33-39 secondi e mette in pausa. HTML5 usa il media locale reale; YouTube e Vimeo gli adapter di produzione
+con i double SDK invariati.
+
+La nuova asserzione in sola lettura attende il database reale per al massimo cinque secondi. Richiede una
+riga seek validata positiva prima di 12 secondi e una successiva pausa validata positiva che inizi da almeno
+29,5 secondi, entrambe della stessa sessione. Tutti gli intervalli validati del registro e quelli aggregati
+persistiti devono lasciare scoperto il tratto centrale deliberatamente non visto 12-29,5 secondi. I secondi
+unici aggregati devono coincidere con la somma degli intervalli e restare sotto 30; la posizione di resume
+deve avanzare oltre 33 secondi senza soddisfare la soglia. Il completamento nativo resta incompleto anche al reload.
+
+Il confine di 12 secondi ammette la normale tolleranza polling/seek della prima finestra di riproduzione;
+29,5 secondi ammette la tolleranza provider attorno al target di 30 secondi. Questi casi non predispongono
+progresso, registro, completamento o risposte AJAX. Binding browser e fixture SDK esistenti restano invariati.
+
 ## Matrice di copertura U-007
 
 | Contratto | HTML5 | YouTube | Vimeo |
 |---|---|---|---|
 | Play/pausa e scrittura terminale accettata | Esistente | Caso SDK double esistente | Caso SDK double esistente |
 | Resume, seek indietro, seek avanti bloccato/frontiera | Esistente | Caso SDK double esistente | Caso SDK double esistente |
-| Riproduzione senza seed fino al completamento nativo | Nuovo caso 1.7.235, CI attesa | Nuovo caso 1.7.235, CI attesa | Nuovo caso 1.7.235, CI attesa |
-| Seek avanti consentito e interazioni dopo rollback | Casi HTML5 esistenti | Revisione parità residua | Revisione parità residua |
+| Riproduzione senza seed fino al completamento nativo | Caso 1.7.235 accettato | Caso 1.7.235 accettato | Caso 1.7.235 accettato |
+| Seek avanti consentito, gap escluso e completamento incompleto | Nuovo caso 1.7.236, CI attesa | Nuovo caso 1.7.236, CI attesa | Nuovo caso 1.7.236, CI attesa |
+| Interazioni learner dopo rollback | Caso HTML5 esistente | Revisione parità residua | Revisione parità residua |
 | Ended/replay/velocità e scope gruppi pertinenti | Revisione matrice residua | Revisione matrice residua | Revisione matrice residua |
 
 Controlli learner, solo docente e doppio ruolo hanno già scenari condivisi sulla pagina. Questo non copre ogni

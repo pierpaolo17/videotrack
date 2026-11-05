@@ -1,6 +1,6 @@
 # U-017 maintainability exit audit
 
-Current tree: VideoTrack **1.7.235** (`2026110505`).
+Current tree: VideoTrack **1.7.236** (`2026110506`).
 
 ## Decision and accepted evidence
 
@@ -15,9 +15,11 @@ PHPUnit tests, 3,988 assertions, 24 Behat scenarios / 357 steps, ten strict chec
 PHPCS and PHP lint are clean on 164 files. The exact server report on Moodle 5.0/5.3 passes PHPCS, lint, Grunt and
 the same PHPUnit suite. Both supplied strict outputs are 10 PASS / 0 WARN / 0 FAIL. All exit gates are satisfied.
 
-The 1.7.235 candidate starts U-007 with browser-driven viewing-completion cases and read-only assertions. Its
-27-scenario / 417-step source expectation still requires real CI. No production implementation or analysis rule
-is changed by this browser-coverage tranche; manual accessibility and the final production audit remain separate.
+Accepted 1.7.235 starts U-007 with browser-driven viewing-completion cases and read-only assertions.
+Its 27 scenarios / 417 steps pass all six release and main CI jobs. The actual server report passes
+PHPCS, lint, Grunt and PHPUnit on 5.0/5.3; both supplied strict outputs pass all ten checks. That report
+does not run Behat. Candidate 1.7.236 adds allowed-seek gap checks: 30 scenarios / 489 steps expected,
+pending actual CI. Production implementations and analysis rules remain unchanged.
 
 ## Ownership review
 
@@ -68,7 +70,7 @@ coverage. The cap case checks the live database rebuild, not only the pure aggre
 
 ## Reviewed PHPMD residuals
 
-Accepted 1.7.234 CI confirms **24** unchanged findings. The 1.7.235 candidate preserves production bodies
+Accepted 1.7.235 CI confirms **24** unchanged findings. Candidate 1.7.236 preserves production bodies
 and rulesets, so compare the full report again in candidate CI. This is an explicit debt register, not a suppression, zero-finding claim or blanket acceptance of future findings.
 
 | File/owner | Findings | Reason to retain and condition for reopening |
@@ -83,8 +85,8 @@ and rulesets, so compare the full report again in candidate CI. This is an expli
 
 ## Current roadmap phase
 
-U-007 remains open. The new browser cases prove actual play/pause-to-AJAX-to-native-completion persistence only
-after candidate CI succeeds. Review the remaining playback, interaction, role/group and provider-parity cells in
+U-007 remains open. Accepted 1.7.235 proves the three browser play/pause-to-native-completion paths in CI.
+The 1.7.236 allowed-seek gap cases still require actual candidate CI. Review the remaining playback, interaction, role/group and provider-parity cells in
 [browser coverage](22_BEHAT_BROWSER_TESTS.md). Chrome CI is a browser execution on six Moodle/PHP/database jobs;
 it is not a six-browser matrix. Public SDK/network smoke and other browser coverage remain explicit later checks.
 

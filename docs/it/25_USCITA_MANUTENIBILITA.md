@@ -1,6 +1,6 @@
 # Audit di uscita U-017: manutenibilità
 
-Albero corrente: VideoTrack **1.7.235** (`2026110505`).
+Albero corrente: VideoTrack **1.7.236** (`2026110506`).
 
 ## Decisione ed evidenze accettate
 
@@ -15,9 +15,11 @@ La baseline di uscita accettata è lo ZIP reale 1.7.234 di 399 file, SHA-256
 puliti su 164 file. Il report server esatto su Moodle 5.0/5.3 supera PHPCS, lint, Grunt e la stessa suite PHPUnit.
 Entrambi gli strict forniti danno 10 PASS / 0 WARN / 0 FAIL. Tutti i gate di uscita sono soddisfatti.
 
-La candidata 1.7.235 avvia U-007 con casi di completamento guidati dal browser e asserzioni in sola lettura.
-L'aspettativa sorgente di 27 scenari / 417 step richiede ancora la CI reale. Questa tranche non cambia produzione
-o regole di analisi; accessibilità manuale e audit finale di produzione restano fasi distinte.
+La 1.7.235 accettata avvia U-007 con completamento da browser e asserzioni in sola lettura.
+I suoi 27 scenari / 417 step passano nei sei job CI della release e di main. Il report server supera
+PHPCS, lint, Grunt e PHPUnit su 5.0/5.3; i due strict superano tutti i dieci controlli. Quel report non
+esegue Behat. La candidata 1.7.236 aggiunge controlli gap sul seek consentito: 30 scenari / 489 step
+attesi, da confermare in CI. Implementazioni di produzione e regole di analisi restano invariate.
 
 ## Revisione delle responsabilità
 
@@ -68,7 +70,7 @@ copertura validata. Il caso limite intervalli verifica la ricostruzione database
 
 ## Segnalazioni PHPMD residue revisionate
 
-La CI 1.7.234 accettata conferma **24** segnalazioni invariate. La candidata 1.7.235 conserva corpi di produzione
+La CI 1.7.235 accettata conferma **24** segnalazioni invariate. La candidata 1.7.236 conserva corpi di produzione
 e ruleset: confrontare nuovamente l’intero report CI. Questo è un registro esplicito del debito, non una soppressione, una dichiarazione di zero finding o un'accettazione
 generica di segnalazioni future.
 
@@ -84,8 +86,8 @@ generica di segnalazioni future.
 
 ## Fase corrente della roadmap
 
-U-007 resta aperto. I nuovi casi provano persistenza play/pausa → AJAX → completamento nativo soltanto dopo CI
-positiva della candidata. Verificare le celle residue playback, interazioni, ruoli/gruppi e parità provider nella
+U-007 resta aperto. La 1.7.235 accettata prova in CI i tre percorsi play/pausa → completamento nativo.
+I casi gap del seek consentito 1.7.236 richiedono ancora la CI reale della candidata. Verificare le celle residue playback, interazioni, ruoli/gruppi e parità provider nella
 [copertura browser](22_TEST_BROWSER_BEHAT.md). La CI Chrome esegue il browser su sei ambienti Moodle/PHP/database:
 non è una matrice di sei browser. Smoke su SDK/rete pubblici e altri browser restano verifiche successive esplicite.
 

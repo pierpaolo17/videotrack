@@ -289,3 +289,6 @@ line, not for redeclaring a method parameter.
   and the exact 24 reviewed PHPMD findings. Candidate 1.7.235 starts U-007 with three browser-driven
   viewing-completion scenarios and two read-only Behat assertions. Production bodies and rules remain unchanged;
   PHPMD is expected to stay at 24, with the full candidate CI required.
+- Accepted 1.7.235 release/main CI preserves all 24 reviewed PHPMD findings, canonical PHPCS cleanliness
+  and the configured PHPStan/Psalm results. Candidate 1.7.236 adds only Behat evidence checks and current
+  documentation/version markers; compare the complete candidate reports again. No production body or rule changes.
