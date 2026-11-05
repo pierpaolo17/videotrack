@@ -1,5 +1,31 @@
 # VideoTrack changelog
 
+## 1.7.230 - 2026-11-04
+
+### Duration form and DOM-to-AMD configuration boundary
+
+- Accepted the real 392-file 1.7.229 ZIP byte-for-byte against the approved
+  candidate and merged commit `b5c2c06cc2278b5b5bb9ff7bff9c7d688c6f4f49`.
+  Its SHA-256 is `44171d79a3bf389cca9464322deacfbb39fea0fe29ee270097a51452f2120a2b`.
+  All six initial and post-merge CI jobs passed 354 PHPUnit tests, 3,292
+  assertions, 24 Behat scenarios and ten validator checks each. PHPMD confirmed
+  the same 27 advisory findings without new findings. The Moodle 5.0/5.3 server
+  report passed PHPCS, lint, Grunt and the same PHPUnit suite; both strict
+  validators reported ten passes, zero warnings and zero failures.
+- Move duration-field construction from `mod_form::definition()` to the existing
+  `form_definition` owner. Preserve its position after source uploads, numeric
+  zero default, accessible live regions and descriptions, every field/config
+  identifier, the 86,400-second maximum, message tokens, JSON hex-escaping and
+  empty-object fallback. Register the unchanged AMD init on the original page,
+  passing only the DOM configuration identifier.
+- Add two runtime QuickForm tests for manual decimal duration, accessible status
+  markup, the decoded DOM configuration and AMD registration on the supplied
+  page. Update the provider-loader source contract to follow the delegation
+  while retaining its human-duration checks. The activity form retains 25
+  methods; the expected PHPMD count remains 27. Candidate CI must confirm the
+  complete finding list and runtime behaviour. XMLDB schema, AJAX services,
+  AMD assets, language keys and playback/tracking behaviour are unchanged.
+
 ## 1.7.229 - 2026-11-04
 
 ### Provider-aware caption and timed-text form construction

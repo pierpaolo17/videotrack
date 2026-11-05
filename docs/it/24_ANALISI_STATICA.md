@@ -251,3 +251,11 @@ dichiarazione di un parametro di metodo.
   campi, fallback sito, dipendenze provider, opzioni WebVTT e blocco di override per corso. Tre test runtime
   coprono default, dipendenze, opzioni upload effettive per un utente ordinario e permessi reali per corso.
   Il form mantiene 25 metodi. Il conteggio PHPMD atteso resta 27; la CI deve confermare elenco completo e gate runtime.
+- La CI iniziale e post-merge 1.7.229 conferma le stesse 27 segnalazioni senza nuove voci. `definition()` scende
+  a complessità 15, NPath 7.680 e lunghezza 490 righe. Lo ZIP reale e i controlli server Moodle 5.0/5.3 superano
+  PHPCS, lint, Grunt e 354 test con 3.292 asserzioni; entrambi i validator strict danno dieci PASS senza warning.
+  La candidata 1.7.230 delega campo durata, stati accessibili, JSON DOM e init AMD al proprietario esistente
+  `form_definition` con la pagina originale. Due test runtime coprono decimali manuali, accessibilità,
+  configurazione DOM decodificata e registrazione sulla pagina fornita. Il contratto sorgente provider segue
+  la delega mantenendo le asserzioni sui messaggi della durata. Il form mantiene 25 metodi. Il conteggio PHPMD
+  atteso resta 27; la CI deve confermare elenco completo e tutti i gate runtime.

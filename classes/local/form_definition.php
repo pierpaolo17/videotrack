@@ -19,13 +19,110 @@ namespace mod_videotrack\local;
 use html_writer;
 
 /**
- * Builds course-scoped player/timed-text settings, CSV, Forum, integrity and acknowledgement groups.
+ * Builds duration, player/timed-text, CSV, Forum, integrity and acknowledgement form groups.
  *
  * @package    mod_videotrack
  * @copyright  2026 videotrack contributors
  * @license    https://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 final class form_definition {
+    /**
+     * Add duration fields and register the matching DOM JSON configuration on the supplied page.
+     *
+     * @param \MoodleQuickForm $mform Activity settings form.
+     * @param \moodle_page $page Original activity form page.
+     */
+    public static function add_duration_elements(\MoodleQuickForm $mform, \moodle_page $page): void {
+        $durationelement = $mform->addElement(
+            'text',
+            'durationseconds',
+            get_string('durationseconds', 'mod_videotrack'),
+            ['size' => 10]
+        );
+        $mform->setType('durationseconds', PARAM_FLOAT);
+        $mform->setDefault('durationseconds', 0);
+        $mform->addHelpButton('durationseconds', 'durationseconds', 'mod_videotrack');
+        $mform->addElement(
+            'static',
+            'durationseconds_auto_note',
+            '',
+            html_writer::tag(
+                'small',
+                get_string('durationseconds_auto_note', 'mod_videotrack'),
+                [
+                    'id' => 'videotrack-durationseconds-auto-note',
+                    'class' => 'text-muted form-text',
+                    'role' => 'status',
+                    'aria-live' => 'polite',
+                ]
+            )
+        );
+        $durationhumantoken = '__VIDEOTRACK_DURATION_HUMAN__';
+        $mform->addElement(
+            'static',
+            'durationseconds_human',
+            '',
+            html_writer::tag(
+                'small',
+                get_string('durationseconds_human', 'mod_videotrack', '00:00:00'),
+                [
+                    'id' => 'videotrack-durationseconds-human',
+                    'class' => 'text-muted form-text',
+                    'role' => 'status',
+                    'aria-live' => 'polite',
+                    'aria-atomic' => 'true',
+                ]
+            )
+        );
+        $durationelement->updateAttributes([
+            'aria-describedby' => 'videotrack-durationseconds-auto-note videotrack-durationseconds-human',
+        ]);
+
+        $durationtoken = '__VIDEOTRACK_DURATION__';
+        $durationconfigid = 'videotrack-duration-config';
+        $durationconfig = [
+            'sourceid' => 'id_videosource',
+            'youtubeid' => 'id_youtubeurl',
+            'vimeoid' => 'id_vimeourl',
+            'fileid' => 'id_videofile',
+            'durationid' => 'id_durationseconds',
+            'noteid' => 'videotrack-durationseconds-auto-note',
+            'humanid' => 'videotrack-durationseconds-human',
+            'maximum' => 86400,
+            'messages' => [
+                'idle' => get_string('durationseconds_auto_note', 'mod_videotrack'),
+                'detecting' => get_string('durationseconds_auto_detecting', 'mod_videotrack'),
+                'success' => get_string('durationseconds_auto_success', 'mod_videotrack', $durationtoken),
+                'manual' => get_string('durationseconds_auto_manual', 'mod_videotrack', $durationtoken),
+                'unavailable' => get_string('durationseconds_auto_unavailable', 'mod_videotrack'),
+                'human' => get_string('durationseconds_human', 'mod_videotrack', $durationhumantoken),
+            ],
+        ];
+        $durationconfigjson = json_encode(
+            $durationconfig,
+            JSON_HEX_TAG | JSON_HEX_AMP | JSON_HEX_APOS | JSON_HEX_QUOT
+        );
+        if ($durationconfigjson === false) {
+            $durationconfigjson = '{}';
+        }
+        $mform->addElement(
+            'html',
+            html_writer::tag(
+                'script',
+                $durationconfigjson,
+                [
+                    'type' => 'application/json',
+                    'id' => $durationconfigid,
+                ]
+            )
+        );
+        $page->requires->js_call_amd(
+            'mod_videotrack/form/duration',
+            'init',
+            [['configid' => $durationconfigid]]
+        );
+    }
+
     /**
      * Add captions and timed-text fields with provider visibility and course override permissions.
      *
