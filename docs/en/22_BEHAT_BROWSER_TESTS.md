@@ -1,11 +1,6 @@
 # Behat browser automation
 
-The plugin ships a Moodle activity generator in `tests/generator/lib.php`, component steps in
-`tests/behat/behat_mod_videotrack.php` and feature files in `tests/behat/`. The 1.7.237 source contains
-**33 scenarios and 618 steps expected from source**, pending actual candidate CI. Accepted 1.7.236 passed
-30 scenarios / 489 steps in all six release and main CI jobs, alongside 369 PHPUnit tests / 3,988 assertions.
-Its actual Moodle 5.0/5.3 server report passes PHPCS, lint, Grunt and PHPUnit, and both supplied strict outputs
-pass all ten checks. That report does not run Behat. Earlier CI results do not certify the new cases.
+Accepted 1.7.237 passes **33 scenarios / 618 steps** and 369 PHPUnit tests / 3,988 assertions in all six release/main CI environments. Its exact ZIP and server/strict evidence are accepted; server Behat was not executed. Candidate **1.7.238** contains **41 scenarios / 722 steps expected from source**, pending real candidate CI. Six environments use one Chrome profile, not six browsers.
 
 ## Setup and execution
 
@@ -150,7 +145,7 @@ active-seek snapshot and idle-pause behaviour. This is an isolated JavaScript ch
 Actual Moodle Grunt AMD with Node 22.23.4 / Grunt 1.6.1 reproduces all 96 old build files byte-for-byte, then
 passes ESLint/Rollup for the fix; only the HTML5 minified file/map change, with exact source content in the map.
 The 33-scenario / 618-step suite, terminal-pause, relative timestamp, session/scope and completion assertions are
-unchanged. All six corrected CI jobs must pass before merge. U-007 remains open.
+unchanged. All six corrected 1.7.237 CI jobs passed before merge and again on main. U-007 remains open.
 
 ## U-007 coverage matrix
 
@@ -160,7 +155,7 @@ unchanged. All six corrected CI jobs must pass before merge. U-007 remains open.
 | Resume, backward seek, blocked forward seek/frontier | Existing | Existing SDK-double case | Existing SDK-double case |
 | Unseeded playback to native viewing completion | Accepted 1.7.235 case | Accepted 1.7.235 case | Accepted 1.7.235 case |
 | Allowed forward seek, gap exclusion and incomplete completion | Accepted 1.7.236 case | Accepted 1.7.236 case | Accepted 1.7.236 case |
-| Post-rollback interactions and preserved viewing completion | New unseeded 1.7.237 case, CI pending | New SDK-double 1.7.237 case, CI pending | New SDK-double 1.7.237 case, CI pending |
+| Post-rollback interactions and preserved viewing completion | Accepted unseeded 1.7.237 case | Accepted SDK-double 1.7.237 case | Accepted SDK-double 1.7.237 case |
 | Ended/replay/rate changes and relevant group scopes | Remaining matrix review | Remaining matrix review | Remaining matrix review |
 
 Learner, teacher-only and dual-role page controls already have shared scenarios. Their existence does not fill
@@ -182,3 +177,9 @@ bounded timing tolerances and wait for asynchronous writes rather than fixed sle
 Local SDK doubles verify adapter contracts but not public iframe availability, consent, cookies or provider UI.
 Behat does not replace manual keyboard/screen-reader perception tests or real-provider smoke tests. Results apply
 only to the exact plugin tree, Moodle branch, browser and driver recorded by the run.
+
+## 1.7.238 attention interval cases
+
+Five read-only browser configuration cases cover automatic thirds, minimum-only, maximum-only, disabled control and zero-duration site fallback. Three additional provider scenarios use explicit 60–60 seconds and play the unchanged 60-second media/SDK fixtures at 0.5x so their end cannot pre-empt the real one-minute attention deadline. No timer or server-clock acceleration is used. Each observes the student pause notice, an accepted pause closing server credit and a stable paused frontier; then it resumes to 31–38 video seconds and pauses again through the provider, requiring a fresh accepted play/pause lifecycle. Existing scenarios and assertions remain intact. Candidate CI must confirm all cases; real public provider and multi-browser smoke remain separate U-007 work.
+
+The corrected 1.7.238 cases explicitly select 0.5x and 1x through `playbackspeed_0.5` / `playbackspeed_1`. The driver refuses to force half speed unless the effective player allowlist contains it. Initial CI paused all three providers but correctly rejected writes because half speed was not authorised. The one-minute wait, accepted-pause, stable-frontier and resume checks are unchanged.

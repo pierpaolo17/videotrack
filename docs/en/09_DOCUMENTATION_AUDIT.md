@@ -1,6 +1,6 @@
 # Documentation audit
 
-Baseline: VideoTrack **1.7.237** (`2026110507`).
+Baseline: VideoTrack **1.7.238** (`2026110601`).
 
 ## Scope
 
@@ -32,13 +32,11 @@ not duplicate implementation procedures, field dictionaries or long security/pri
 
 ## Current-tree findings
 
-- The [U-017 exit audit](25_MAINTAINABILITY_EXIT.md) remains closed against accepted 1.7.234 evidence.
-  Accepted 1.7.236 has 369 PHPUnit tests / 3,988 assertions and 30 Behat scenarios / 489 steps in all
-  six release/main CI jobs, with the actual server/strict evidence recorded in browser coverage. Candidate
-  1.7.237 adds the rollback cases and corrects HTML5 recovery so a closed window obtains server
-  authorisation before a segment opens. Real Grunt reproduces all 96 baseline builds and regenerates only
-  the HTML5 minified/map pair. Production PHP, SDK doubles and analyser scope stay unchanged. The same
-  33 scenarios / 618 steps still require all six corrected CI jobs; U-007 remains open.
+- The [U-017 exit audit](25_MAINTAINABILITY_EXIT.md) remains closed. Accepted 1.7.237
+  release/main CI passes 369 PHPUnit tests / 3,988 assertions and 33 Behat scenarios / 618 steps
+  in all six environments; the actual ZIP, server report and both strict outputs are accepted.
+  Candidate 1.7.238 adds teacher attention settings, with 379 PHPUnit methods and 41/722 Behat
+  expected from source. Candidate CI is pending; U-007 remains open.
 
 - `form_reaction_settings` owns general reaction settings, context-safe notice/preset fields and individual row
   fields followed by their icon visibility rules. The form retains row count, bounds, upload-filter registration
@@ -69,7 +67,7 @@ not duplicate implementation procedures, field dictionaries or long security/pri
   course-scoped choices, saved placeholders and the editor context/options remain explicit. The activity form
   retains submitted validation and section expansion without a direct acknowledgement-class dependency.
 - English and Italian indexes have matching scope and ordering.
-- Documentation markers, root README files and ER artefacts identify 1.7.237 / 2026110507.
+- Documentation markers, root README files and ER artefacts identify 1.7.238 / 2026110601.
 - The Moodle privacy export delegates state, segment, event, integrity and acknowledgement sections in order;
   six event categories preserve the original paths, sanitisation, 500-row streaming and final flush order.
 - Activity-form source, timed-text, reaction-file and forum checks remain in their original order behind focused helpers;
@@ -186,3 +184,9 @@ Before promotion, verify:
 5. XMLDB/ER counts and conditional-reference labels match `db/install.xml`;
 6. release-hygiene, XMLDB relationship and uninstall/gradebook PHPUnit contracts plus the proportionate server gate pass;
 7. GitHub workflow syntax, action versions, matrix selectors, permissions and links match the repository file.
+
+## 1.7.238 functional update
+
+Accepted baseline: actual 1.7.237 ZIP/main/server/strict, with CI-only browser evidence. The new policy, two fields, upgrade/backup, all eight language packs (997 keys) and three ER formats describe the same seconds/zero/thirds contract. Candidate expectations are 379 PHPUnit methods, 41 Behat scenarios / 722 steps and 166 PHP files, not executed results. AMD code/builds, services, capabilities and analysis rules are unchanged. After acceptance return to U-007.
+
+The initial candidate exposed language ordering and formatting defects, one extra class-complexity advisory and an unauthorised half-speed test setup. The correction preserves all language values and tracking assertions, moves validation into `random_pause_policy::form_errors()` and uses the current duplication API on supported core versions. Candidate counts are 379 PHPUnit methods and 41/722 Behat; corrected CI is still required.

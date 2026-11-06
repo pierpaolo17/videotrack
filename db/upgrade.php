@@ -2122,5 +2122,19 @@ function xmldb_videotrack_upgrade($oldversion) {
         upgrade_mod_savepoint(true, 2026082901, 'videotrack');
     }
 
+    if ($oldversion < 2026110601) {
+        // Teacher attention-pause overrides. Zero keeps the duration-derived policy.
+        $table = new xmldb_table('videotrack');
+        $previous = 'randomfocuspauses';
+        foreach (['randompauseminseconds', 'randompausemaxseconds'] as $name) {
+            $field = new xmldb_field($name, XMLDB_TYPE_INTEGER, '4', null, XMLDB_NOTNULL, null, '0', $previous);
+            if (!$dbman->field_exists($table, $field)) {
+                $dbman->add_field($table, $field);
+            }
+            $previous = $name;
+        }
+        upgrade_mod_savepoint(true, 2026110601, 'videotrack');
+    }
+
     return true;
 }

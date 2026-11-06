@@ -1,10 +1,10 @@
 # Distributed file inventory
 
-This inventory is generated against the VideoTrack 1.7.237 repository tree. It lists every distributed
+This inventory is generated against the VideoTrack 1.7.238 repository tree. It lists every distributed
 non-documentation file plus repository-only CI/tooling/hygiene files. Canonical JavaScript is under `amd/src`; files under
 `amd/build` are generated.
 
-Entries: **339** — 336 distributed files and three repository-only files excluded from release archives.
+Entries: **342** — 339 distributed files and three repository-only files excluded from release archives.
 
 | File | Responsibility |
 |---|---|
@@ -347,3 +347,6 @@ Entries: **339** — 336 distributed files and three repository-only files exclu
 | `tools/static-analysis/moodle-legacy-aliases.phpstub` | Psalm-only static declaration of Moodle 5.0's global `renderable` compatibility name. |
 | `version.php` | Plugin metadata, version, maturity and supported Moodle branches. |
 | `view.php` | Student-facing activity page: authorisation, state loading, privacy-safe DOM configuration and player bootstrapping. |
+| `classes/local/random_pause_policy.php` | Resolves duration-derived attention intervals, independently optional teacher bounds and safe import values. |
+| `tests/random_pause_policy_test.php` | Behavioural policy/form/save tests and actual Moodle activity duplication for attention settings. |
+| `tests/behat/random_attention_policy.feature` | Effective attention configuration and real one-minute HTML5/YouTube/Vimeo automatic pause/resume contracts. |

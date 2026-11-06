@@ -53,6 +53,7 @@ final class form_validation {
             );
         }
 
+        $errors += random_pause_policy::form_errors($data);
         $errors += self::reaction_requirement_errors($data);
         $errors += self::reaction_preset_errors($data);
 

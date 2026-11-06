@@ -1,6 +1,6 @@
 # U-017 maintainability exit audit
 
-Current tree: VideoTrack **1.7.237** (`2026110507`).
+Current tree: VideoTrack **1.7.238** (`2026110601`).
 
 ## Decision and accepted evidence
 
@@ -15,11 +15,11 @@ PHPUnit tests, 3,988 assertions, 24 Behat scenarios / 357 steps, ten strict chec
 PHPCS and PHP lint are clean on 164 files. The exact server report on Moodle 5.0/5.3 passes PHPCS, lint, Grunt and
 the same PHPUnit suite. Both supplied strict outputs are 10 PASS / 0 WARN / 0 FAIL. All exit gates are satisfied.
 
-Accepted 1.7.236 extends U-007 with unseeded allowed-seek gap cases after 1.7.235 viewing completion.
-All 30 scenarios / 489 steps pass the six release and main CI jobs, with 369 PHPUnit tests / 3,988 assertions.
-Its actual 5.0/5.3 server report passes PHPCS, lint, Grunt and PHPUnit, without Behat; both supplied strict
-outputs pass all ten checks. Candidate 1.7.237 adds post-rollback interaction and preserved-completion cases:
-33 scenarios / 618 steps expected, pending actual CI. Production PHP and analysis rules are unchanged; the HTML5 recovery correction fixes a concrete U-007 runtime defect.
+Accepted 1.7.237 includes viewing completion, allowed-seek gaps and post-rollback learner interactions
+for all three providers. All six release/main CI jobs pass 33 Behat scenarios / 618 steps and
+369 PHPUnit tests / 3,988 assertions. Its actual ZIP matches the main commit and server/strict gates pass.
+Candidate 1.7.238 adds the requested teacher attention configuration; it does not reopen structural U-017.
+Its new policy/form/backup/browser tests still require actual CI.
 
 ## Ownership review
 
@@ -86,7 +86,7 @@ and rulesets, so compare the full report again in candidate CI. This is an expli
 ## Current roadmap phase
 
 U-007 remains open. Accepted 1.7.236 confirms viewing-completion and allowed-seek gap cases for all three providers.
-The 1.7.237 post-rollback interaction cases still require actual candidate CI. Review the remaining playback, interaction, role/group and provider-parity cells in
+The 1.7.237 post-rollback interaction cases are accepted; the new 1.7.238 attention cases require candidate CI. Review the remaining playback, interaction, role/group and provider-parity cells in
 [browser coverage](22_BEHAT_BROWSER_TESTS.md). Chrome CI is a browser execution on six Moodle/PHP/database jobs;
 it is not a six-browser matrix. Public SDK/network smoke and other browser coverage remain explicit later checks.
 
@@ -96,3 +96,9 @@ Recording and Google Drive remain later phases in that order. A real production 
 
 See [static-analysis policy](24_STATIC_ANALYSIS.md), [release gates](07_BUILD_TEST_RELEASE.md) and
 [accessibility](19_ACCESSIBILITY.md).
+
+## Accepted 1.7.237 and the 1.7.238 functional tranche
+
+The actual 402-file 1.7.237 ZIP matches main commit `baa07ab580c15f8924ecb812a5832231e981bed2`. All six corrected release/main jobs pass 33/618 Behat and 369/3988 PHPUnit; server PHPCS/lint/Grunt/PHPUnit and both strict outputs pass. U-017 remains closed. The requested teacher attention settings form one functional tranche in 1.7.238; after acceptance resume the residual U-007 matrix (ended/replay/rate, relevant roles/groups, real providers and other browsers), then U-020/manual accessibility, semantic translations and the final integrated web gate. App and remote provider phases keep their order.
+
+Initial 1.7.238 CI remains unaccepted. Correct the packaging and fixture defects within this version; U-017 stays closed, and U-007 resumes only after the functional tranche is accepted.

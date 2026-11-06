@@ -701,6 +701,7 @@ final class form_definition {
         );
         $mform->setType('randomfocuspauses', PARAM_BOOL);
         $mform->setDefault('randomfocuspauses', 0);
+        self::add_random_pause_override_elements($mform);
 
         $randompausebounds = \mod_videotrack\local\integrity::random_pause_bounds();
         $focuslosspolicy = \mod_videotrack\local\integrity::focus_loss_policy();
@@ -718,6 +719,35 @@ final class form_definition {
                 'policy' => $focuspolicylabel,
                 'grace' => $focuslossgrace,
             ])
+        );
+    }
+
+    /**
+     * Add optional whole-second bounds using the existing site-setting labels.
+     *
+     * @param \MoodleQuickForm $mform Activity settings form.
+     */
+    private static function add_random_pause_override_elements(\MoodleQuickForm $mform): void {
+        foreach (['randompauseminseconds', 'randompausemaxseconds'] as $field) {
+            $mform->addElement('text', $field, get_string('setting:' . $field, 'mod_videotrack'), [
+                'size' => 8,
+                'aria-describedby' => 'videotrack-randompause-automatic-info',
+            ]);
+            // Preserve raw input so server validation can reject fractions and malformed values.
+            $mform->setType($field, PARAM_RAW_TRIMMED);
+            $mform->setDefault($field, 0);
+            $mform->addHelpButton($field, 'setting:' . $field, 'mod_videotrack');
+            $mform->hideIf($field, 'randomfocuspauses', 'notchecked');
+        }
+        $mform->addElement(
+            'static',
+            'randompauseautomaticinfo',
+            '',
+            html_writer::span(
+                get_string('integrity:randompauseautomatic', 'mod_videotrack'),
+                '',
+                ['id' => 'videotrack-randompause-automatic-info']
+            )
         );
     }
 

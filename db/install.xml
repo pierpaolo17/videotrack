@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8" ?>
-<XMLDB PATH="mod/videotrack/db" VERSION="2026082901" COMMENT="XMLDB file for mod_videotrack"
+<XMLDB PATH="mod/videotrack/db" VERSION="2026110601" COMMENT="XMLDB file for mod_videotrack"
     xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
     xsi:noNamespaceSchemaLocation="../../../lib/xmldb/xmldb.xsd"
 >
@@ -44,6 +44,8 @@
         <FIELD NAME="pauseonfocusloss" TYPE="int" LENGTH="1" NOTNULL="true" DEFAULT="0" COMMENT="Pause when the page is hidden; window-focus behaviour follows the site accessibility policy"/>
         <FIELD NAME="preventpictureinpicture" TYPE="int" LENGTH="1" NOTNULL="true" DEFAULT="0" COMMENT="Best-effort prevention of Picture-in-Picture playback"/>
         <FIELD NAME="randomfocuspauses" TYPE="int" LENGTH="1" NOTNULL="true" DEFAULT="0" COMMENT="Pause playback after a random active interval to prompt learner attention"/>
+        <FIELD NAME="randompauseminseconds" TYPE="int" LENGTH="4" NOTNULL="true" DEFAULT="0" COMMENT="Minimum attention-pause seconds; 0 = automatic from saved duration or site fallback"/>
+        <FIELD NAME="randompausemaxseconds" TYPE="int" LENGTH="4" NOTNULL="true" DEFAULT="0" COMMENT="Maximum attention-pause seconds; 0 = automatic from saved duration or site fallback"/>
         <FIELD NAME="acknowledgementenabled" TYPE="int" LENGTH="1" NOTNULL="true" DEFAULT="0" COMMENT="Require an explicit learner acknowledgement for the configured statement"/>
         <FIELD NAME="acknowledgementtext" TYPE="text" NOTNULL="false" COMMENT="Teacher-authored acknowledgement statement"/>
         <FIELD NAME="acknowledgementformat" TYPE="int" LENGTH="4" NOTNULL="true" DEFAULT="1" COMMENT="Text format for acknowledgement statement"/>

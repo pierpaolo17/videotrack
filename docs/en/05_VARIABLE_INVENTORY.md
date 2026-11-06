@@ -54,6 +54,8 @@ Main table for videotrack instances
 | `pauseonfocusloss` | `int`(1) | NOT NULL; default `0` | Pause when the page is hidden; window-focus behaviour follows the site accessibility policy |
 | `preventpictureinpicture` | `int`(1) | NOT NULL; default `0` | Best-effort prevention of Picture-in-Picture playback |
 | `randomfocuspauses` | `int`(1) | NOT NULL; default `0` | Pause playback after a random active interval to prompt learner attention |
+| `randompauseminseconds` | `int`(4) | NOT NULL; default `0` | Attention-pause seconds; 0 = dynamic automatic value from saved duration/site fallback |
+| `randompausemaxseconds` | `int`(4) | NOT NULL; default `0` | Attention-pause seconds; 0 = dynamic automatic value from saved duration/site fallback |
 | `acknowledgementenabled` | `int`(1) | NOT NULL; default `0` | Require an explicit learner acknowledgement for the configured statement |
 | `acknowledgementtext` | `text` | nullable | Teacher-authored acknowledgement statement |
 | `acknowledgementformat` | `int`(4) | NOT NULL; default `1` | Text format for acknowledgement statement |

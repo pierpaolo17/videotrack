@@ -92,3 +92,9 @@ do not reinstall over a partially removed module without first measuring the res
 - reset, activity deletion, gradebook and completion consistency;
 - full plugin uninstall with populated gradebook data and a zero-residue database check;
 - Privacy API export/delete and scheduled retention after restore.
+
+## 1.7.238 attention settings
+
+XMLDB `2026110601` adds two NOT NULL integer fields with default `0` to `videotrack`. The guarded upgrade adds only missing fields and keeps existing rows. Zero selects the new duration-derived policy; it does not freeze the previous site interval. Backup includes both raw overrides; restore normalises them and assigns automatic defaults to older backups. Actual Moodle duplication is covered by a new candidate test. No new user data, index or relationship is introduced.
+
+The duplication regression uses `core_courseformat\formatactions::cm()->duplicate()` when `cmactions::duplicate()` exists; Moodle 5.0/5.1 retain the supported `duplicate_module()` helper. Both paths perform actual backup/restore and retain the same setting assertions; no deprecation suppression is introduced.

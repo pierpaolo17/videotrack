@@ -22,7 +22,7 @@ Teacher-uploaded WebVTT is parsed by `local\timed_text`. Native YouTube/Vimeo ca
 
 ## Focus and integrity
 
-`focus_guard` applies enabled controls. Hidden-document pause is the accessibility-oriented default. Window blur is delayed and only pauses in strict policy. Random pauses use administrator-defined minimum/maximum bounds and reset after learner/player actions. Allowed diagnostic events are written through `save_integrity_event`; the server rate-limits and validates their type.
+`focus_guard` applies enabled controls. Hidden-document pause is the accessibility-oriented default. Window blur is delayed and only pauses in strict policy. Random pauses receive `random_pause_policy::activity_bounds()` from `view.php`: bounded thirds of saved duration with independent teacher overrides, or site fallback for duration zero. Recognised learner/player actions restart the unchanged timer. Allowed diagnostic events are written through `save_integrity_event`; the server rate-limits and validates their type.
 
 ## Acknowledgement
 

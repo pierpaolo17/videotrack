@@ -71,6 +71,7 @@ class backup_videotrack_activity_structure_step extends backup_activity_structur
             'showreactionnotice', 'reactionnoticeformat', 'reactionnotice',
             'showtranscript', 'showchapters', 'studentnotesenabled', 'bookmarksenabled',
             'integrityindicatorsenabled', 'pauseonfocusloss', 'preventpictureinpicture', 'randomfocuspauses',
+            'randompauseminseconds', 'randompausemaxseconds',
             'acknowledgementenabled', 'acknowledgementtext', 'acknowledgementformat',
             'acknowledgementtiming', 'completionacknowledgement',
             'forumpostingenabled', 'linkedforumid',

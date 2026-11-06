@@ -1,10 +1,10 @@
 # Inventario dei file distribuiti
 
-Questo inventario è generato sull'albero repository VideoTrack 1.7.237. Elenca ogni file non documentale distribuito
+Questo inventario è generato sull'albero repository VideoTrack 1.7.238. Elenca ogni file non documentale distribuito
 e i file CI/tooling/igiene presenti soltanto nel repository. Il JavaScript canonico è in `amd/src`; i file in `amd/build`
 sono generati.
 
-Voci: **339** — 336 file distribuiti e tre file presenti soltanto nel repository, esclusi dagli archivi di release.
+Voci: **342** — 339 file distribuiti e tre file presenti soltanto nel repository, esclusi dagli archivi di release.
 
 | File | Responsabilità |
 |---|---|
@@ -347,3 +347,6 @@ Voci: **339** — 336 file distribuiti e tre file presenti soltanto nel reposito
 | `tools/static-analysis/moodle-legacy-aliases.phpstub` | Dichiarazione statica riservata a Psalm del nome globale di compatibilità `renderable` di Moodle 5.0. |
 | `version.php` | Metadati, versione, maturità e rami Moodle supportati. |
 | `view.php` | Pagina studente dell’attività: autorizzazione, caricamento stato, configurazione DOM privacy-safe e avvio del player. |
+| `classes/local/random_pause_policy.php` | Risolve intervalli di attenzione dalla durata, limiti docente indipendenti e valori importati sicuri. |
+| `tests/random_pause_policy_test.php` | Test comportamentali policy/form/salvataggio e duplicazione Moodle reale delle impostazioni di attenzione. |
+| `tests/behat/random_attention_policy.feature` | Configurazione effettiva e contratti di pausa automatica/ripresa HTML5/YouTube/Vimeo con un minuto reale. |

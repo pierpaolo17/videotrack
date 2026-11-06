@@ -83,3 +83,7 @@ accesso individuale. Gli eventi di integrità sono limitati e diagnostici.
 Disponibilità, cookie, consenso e iframe YouTube/Vimeo sono esterni. Vincoli UI come il blocco Picture-in-Picture
 sono best effort. Le decisioni di sicurezza si basano quindi su credito server e permessi Moodle, non sul presunto
 controllo completo di un player esterno.
+
+## Configurazione degli intervalli di attenzione
+
+Solo la durata salvata dal docente e i limiti dell’attività determinano gli intervalli. I metadati browser/provider non cambiano denominatore o configurazione effettiva server. L’interruttore learner esistente governa il controllo client. Pause e diagnostica opzionale non concedono credito di riproduzione né alterano voto/completamento. La validazione raw rifiuta frazioni, valori fuori intervallo e coppie esplicite invertite; la normalizzazione degli import è difensiva.

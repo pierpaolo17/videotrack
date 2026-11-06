@@ -2,7 +2,7 @@
 
 ## Controlli
 
-Per istanza il docente può abilitare registrazione indicatori, pausa per scheda/focus, prevenzione Picture-in-Picture best effort e pause casuali. Le impostazioni sito definiscono intervallo casuale (default 300–1800 secondi), politica focus e tolleranza. Tutti i controlli sono disabilitati per default nell’attività.
+Per istanza il docente può abilitare registrazione indicatori, pausa per scheda/focus, prevenzione Picture-in-Picture best effort e pause casuali. Le impostazioni sito definiscono i limiti di riserva con durata non definita (default 300–1800 secondi), politica focus e tolleranza. Default dell’attività e limiti docente sono descritti sotto. Tutti i controlli sono disabilitati per default nell’attività.
 
 ## Politica focus accessibile
 
@@ -38,3 +38,28 @@ testo esplicativo e landmark accessibile della sezione in ogni stato.
 ## Ciclo di vita
 
 `videotrack_integrity` è incluso in Privacy API, retention, reset, eliminazione attività e backup/restore con dati utente.
+
+## Intervalli di attenzione scelti dal docente
+
+L’interruttore **Abilita pause casuali di attenzione** resta disattivato per default. L’attività riusa le etichette
+minimo/massimo del sito, ma i due campi facoltativi sono espressi in **secondi interi**, non minuti. Vuoto o `0`
+significa automatico. I limiti espliciti devono essere tra **60 e 7200 secondi** e, se entrambi specificati,
+rispettare minimo ≤ massimo. Valori uguali producono un intervallo fisso. Spegnere il controllo conserva i valori.
+
+I valori automatici sono un terzo e due terzi di `durationseconds` salvato, arrotondati al secondo più vicino
+e limitati a 60–7200. Con durata `0` o durata importata non valida si usano i limiti canonici del sito come
+riserva. Un’attività da 900 secondi usa quindi 300–600 secondi; una da 30 secondi usa 60–60 e può terminare prima
+della pausa. La durata usata per la percentuale vista non viene mai modificata per regolare questa funzione.
+
+I due valori sono indipendenti. Se il solo minimo esplicito supera il massimo automatico, quest’ultimo viene
+alzato al minimo esplicito. Se il solo massimo esplicito è inferiore al minimo automatico, quest’ultimo viene
+abbassato al massimo esplicito. Modificare la durata ricalcola solo i limiti automatici: nel database resta `0`,
+non una fotografia dell’intervallo calcolato. Il docente può riportare ciascun campo in automatico.
+
+Si tratta di **tempo reale dall’ultima interazione riconosciuta durante la riproduzione**, non di posizioni a
+1/3 e 2/3 della barra video. Il `focus_guard` condiviso, invariato, riavvia il timer sulle azioni riconosciute e
+lo annulla su pausa/fine/distruzione. I soli callback di avanzamento non lo azzerano. La registrazione degli
+indicatori è indipendente dall’abilitazione della pausa. La pausa del provider deve chiudere normalmente il
+credito server; la ripresa richiede un nuovo handshake. Nessun tempo viene attribuito alla pausa; seek,
+velocità, completamento e controllo scheda nascosta conservano i propri contratti. Le pause non provano
+direttamente attenzione o comportamento scorretto.
