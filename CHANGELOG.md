@@ -1,5 +1,33 @@
 # VideoTrack changelog
 
+## 1.7.237 - 2026-11-05
+
+### Post-rollback learner interactions and preserved viewing completion
+
+- Accept the actual 401-file 1.7.236 ZIP, SHA-256
+  `31b809c6c1710d2b8031a9205c194b812889f5aa8288e389e760e1b80f997cd3`,
+  identical to merged commit `caf9a7bc9c7d245091b80139156ab1aee4bf5c59`.
+  All six release and main CI jobs pass 369 PHPUnit tests / 3,988 assertions,
+  30 Behat scenarios / 489 steps and ten strict checks each. The actual Moodle
+  5.0/5.3 server report passes canonical PHPCS, lint, Grunt and PHPUnit with
+  unchanged AMD build hashes; both supplied strict outputs are 10/0/0. That
+  server report does not execute Behat; browser evidence belongs to CI.
+- Add one unseeded HTML5/YouTube/Vimeo scenario each. Real production playback
+  earns native viewing completion before a paused forward seek is refused.
+  Require rollback to the validated frontier, then save a reaction, a note
+  and a bookmark through their browser controls and open the Forum composer.
+  Read actual persisted events and the composer URL: their timestamps must
+  match the frontier within tolerance and retain the accepted playback
+  session. Aggregate coverage stays bounded and native completion survives
+  rollback, interactions and reload. No Forum discussion is submitted.
+- Add two read-only Behat assertions for a stable paused frontier and persisted
+  post-rollback interaction evidence. Keep production code, existing Behat
+  methods/features, generators, SDK doubles, PHPUnit tests, AMD builds, schema,
+  services, translations and analyser rules unchanged. Source expectations
+  are 33 Behat scenarios / 612 steps and 369 PHPUnit methods, pending actual
+  candidate CI. PHPMD should retain 24 reviewed findings. U-017 remains closed;
+  U-007 still requires the remaining playback, role/group and browser cells.
+
 ## 1.7.236 - 2026-11-05
 
 ### Allowed forward-seek browser tracking across all three providers

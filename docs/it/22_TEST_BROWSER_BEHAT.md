@@ -1,11 +1,11 @@
 # Automazione browser Behat
 
 Il plugin distribuisce un generator attività Moodle in `tests/generator/lib.php`, step componente in
-`tests/behat/behat_mod_videotrack.php` e feature in `tests/behat/`. Il sorgente 1.7.236 contiene
-**30 scenari e 489 step attesi dal sorgente**, da confermare con la CI reale della candidata. La 1.7.235
-accettata supera 27 scenari / 417 step nei sei job CI della release e di main, insieme a 369 test PHPUnit /
-3.988 asserzioni. Il report server Moodle 5.0/5.3 supera PHPCS, lint, Grunt e PHPUnit; entrambi gli strict
-superano tutti i dieci controlli. Il report server non include Behat. La CI precedente non certifica i nuovi casi.
+`tests/behat/behat_mod_videotrack.php` e feature in `tests/behat/`. Il sorgente 1.7.237 contiene
+**33 scenari e 612 step attesi dal sorgente**, da confermare con la CI reale della candidata. La 1.7.236
+accettata supera 30 scenari / 489 step nei sei job CI della release e di main, con 369 test PHPUnit / 3.988
+asserzioni. Il report server reale Moodle 5.0/5.3 supera PHPCS, lint, Grunt e PHPUnit; i due strict superano
+tutti i dieci controlli. Quel report non esegue Behat. La CI precedente non certifica i nuovi casi.
 
 ## Setup ed esecuzione
 
@@ -85,6 +85,30 @@ Il confine di 12 secondi ammette la normale tolleranza polling/seek della prima 
 29,5 secondi ammette la tolleranza provider attorno al target di 30 secondi. Questi casi non predispongono
 progresso, registro, completamento o risposte AJAX. Binding browser e fixture SDK esistenti restano invariati.
 
+## Interazioni dopo rollback e completamento conservato
+
+`browser_rollback_interactions.feature` aggiunge un caso senza seed per provider, con media HTML5 locale e
+double SDK YouTube/Vimeo locali invariati. Ogni attività disabilita autoplay/resume, seek avanti, completamento
+da reazioni e presa visione; la soglia automatica del 5% richiede tre secondi validati della fixture da 60 secondi.
+Play/pausa deve ottenere completamento aggregato e nativo reale prima del tentativo di salto a 30 secondi.
+Lo stesso caso combina quindi completamento guadagnato nel browser, rollback e contratti delle interazioni.
+
+La prima nuova asserzione in sola lettura richiede player in pausa entro 1,25 secondi dalla frontiera persistita
+per 750ms, con attesa massima di sette secondi. Reazione, nota e bookmark vengono salvati dai controlli visibili
+e verificati nelle rispettive cronologie. Il browser apre il composer Forum collegato: il test verifica il form
+visibile e il suo URL reale, senza pubblicare una discussione.
+
+La seconda asserzione attende al massimo cinque secondi. Legge esattamente una reazione attiva, una nota e un
+bookmark, controllandone etichette/tipi, timestamp, scope del modulo e sessione della pausa accettata. Timestamp
+degli eventi e timestamp arrotondato nell'URL Forum devono coincidere con la frontiera entro 1,25 secondi;
+l'URL deve riferirsi a questa attività e alla stessa sessione. Frontiera e secondi unici restano sotto 12 secondi,
+lontani dal target rifiutato di 30. Completamento aggregato e nativo devono restare completi, anche al rientro
+nell'attività. Non vengono inseriti registro, stato, interazioni, completamento o risposte AJAX dal test.
+
+Il vecchio caso HTML5 con seed resta invariato e conserva il proprio scopo basato su fixture. I nuovi casi
+esercitano evidenze generate dal browser per i tre provider. Ended/replay/velocità e combinazioni pertinenti
+ruoli/gruppi/browser restano lavoro U-007 esplicito; questi casi da soli non chiudono la fase.
+
 ## Matrice di copertura U-007
 
 | Contratto | HTML5 | YouTube | Vimeo |
@@ -92,8 +116,8 @@ progresso, registro, completamento o risposte AJAX. Binding browser e fixture SD
 | Play/pausa e scrittura terminale accettata | Esistente | Caso SDK double esistente | Caso SDK double esistente |
 | Resume, seek indietro, seek avanti bloccato/frontiera | Esistente | Caso SDK double esistente | Caso SDK double esistente |
 | Riproduzione senza seed fino al completamento nativo | Caso 1.7.235 accettato | Caso 1.7.235 accettato | Caso 1.7.235 accettato |
-| Seek avanti consentito, gap escluso e completamento incompleto | Nuovo caso 1.7.236, CI attesa | Nuovo caso 1.7.236, CI attesa | Nuovo caso 1.7.236, CI attesa |
-| Interazioni learner dopo rollback | Caso HTML5 esistente | Revisione parità residua | Revisione parità residua |
+| Seek avanti consentito, gap escluso e completamento incompleto | Caso 1.7.236 accettato | Caso 1.7.236 accettato | Caso 1.7.236 accettato |
+| Interazioni dopo rollback e completamento conservato | Nuovo caso senza seed 1.7.237, CI attesa | Nuovo caso SDK double 1.7.237, CI attesa | Nuovo caso SDK double 1.7.237, CI attesa |
 | Ended/replay/velocità e scope gruppi pertinenti | Revisione matrice residua | Revisione matrice residua | Revisione matrice residua |
 
 Controlli learner, solo docente e doppio ruolo hanno già scenari condivisi sulla pagina. Questo non copre ogni

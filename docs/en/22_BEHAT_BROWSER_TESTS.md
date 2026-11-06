@@ -1,11 +1,11 @@
 # Behat browser automation
 
 The plugin ships a Moodle activity generator in `tests/generator/lib.php`, component steps in
-`tests/behat/behat_mod_videotrack.php` and feature files in `tests/behat/`. The 1.7.236 source contains
-**30 scenarios and 489 steps expected from source**, pending actual candidate CI. Accepted 1.7.235 passed
-27 scenarios / 417 steps in all six release and main CI jobs, alongside 369 PHPUnit tests / 3,988 assertions.
-Its Moodle 5.0/5.3 server report passed PHPCS, lint, Grunt and PHPUnit; both supplied strict outputs passed
-all ten checks. Behat was not included in that server report. These CI results do not certify the new cases.
+`tests/behat/behat_mod_videotrack.php` and feature files in `tests/behat/`. The 1.7.237 source contains
+**33 scenarios and 612 steps expected from source**, pending actual candidate CI. Accepted 1.7.236 passed
+30 scenarios / 489 steps in all six release and main CI jobs, alongside 369 PHPUnit tests / 3,988 assertions.
+Its actual Moodle 5.0/5.3 server report passes PHPCS, lint, Grunt and PHPUnit, and both supplied strict outputs
+pass all ten checks. That report does not run Behat. Earlier CI results do not certify the new cases.
 
 ## Setup and execution
 
@@ -84,6 +84,30 @@ The 12-second boundary allows the normal polling/seek tolerance around the first
 allows the provider seek tolerance around the 30-second target. No progress, ledger row, completion state or
 AJAX response is seeded by these cases. Existing browser bindings and SDK fixtures are unchanged.
 
+## Post-rollback interactions and preserved completion
+
+`browser_rollback_interactions.feature` adds one unseeded case per provider, with local HTML5 media and the
+unchanged local YouTube/Vimeo SDK doubles. Each activity disables autoplay/resume, forward seeking, reaction-based
+completion and acknowledgement completion; its automatic 5% viewing threshold requires three validated seconds
+of the 60-second fixture. Play/pause must earn actual aggregate and native completion before the attempted
+30-second seek. This combines browser-earned completion with rollback and interaction contracts in one case.
+
+The first new read-only assertion requires the player to remain paused within 1.25 seconds of the persisted
+frontier for 750ms, with a seven-second polling bound. Reaction, note and bookmark are then saved through their
+visible controls and verified in the corresponding history lists. The browser opens the linked Forum composer;
+the test verifies the visible form and its actual URL rather than submitting a discussion.
+
+The second assertion polls for at most five seconds. It reads exactly one active reaction, one note and one
+bookmark, checks their labels/types and timestamps, the course-module scope and the session of the accepted
+pause. Event timestamps and the rounded Forum URL timestamp must match the actual frontier within 1.25 seconds;
+the composer URL must target this activity and the same session. Frontier and unique coverage remain below
+12 seconds, far from the refused 30-second target. Aggregate and native completion must still be complete,
+including after returning to the activity. No ledger, state, interaction, completion or AJAX result is injected.
+
+The older seeded HTML5 rollback case remains unchanged and still covers its original fixture-based purpose.
+The new cases exercise browser-generated evidence for all three providers. Ended/replay/rate changes and relevant
+role/group/browser combinations remain explicit U-007 work; these cases do not close the phase by themselves.
+
 ## U-007 coverage matrix
 
 | Contract | HTML5 | YouTube | Vimeo |
@@ -91,8 +115,8 @@ AJAX response is seeded by these cases. Existing browser bindings and SDK fixtur
 | Play/pause and accepted terminal ledger write | Existing | Existing SDK-double case | Existing SDK-double case |
 | Resume, backward seek, blocked forward seek/frontier | Existing | Existing SDK-double case | Existing SDK-double case |
 | Unseeded playback to native viewing completion | Accepted 1.7.235 case | Accepted 1.7.235 case | Accepted 1.7.235 case |
-| Allowed forward seek, gap exclusion and incomplete completion | New 1.7.236 case, CI pending | New 1.7.236 case, CI pending | New 1.7.236 case, CI pending |
-| Post-rollback learner interactions | Existing HTML5 case | Remaining parity review | Remaining parity review |
+| Allowed forward seek, gap exclusion and incomplete completion | Accepted 1.7.236 case | Accepted 1.7.236 case | Accepted 1.7.236 case |
+| Post-rollback interactions and preserved viewing completion | New unseeded 1.7.237 case, CI pending | New SDK-double 1.7.237 case, CI pending | New SDK-double 1.7.237 case, CI pending |
 | Ended/replay/rate changes and relevant group scopes | Remaining matrix review | Remaining matrix review | Remaining matrix review |
 
 Learner, teacher-only and dual-role page controls already have shared scenarios. Their existence does not fill

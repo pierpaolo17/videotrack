@@ -1,6 +1,6 @@
 # Documentation audit
 
-Baseline: VideoTrack **1.7.236** (`2026110506`).
+Baseline: VideoTrack **1.7.237** (`2026110507`).
 
 ## Scope
 
@@ -33,11 +33,11 @@ not duplicate implementation procedures, field dictionaries or long security/pri
 ## Current-tree findings
 
 - The [U-017 exit audit](25_MAINTAINABILITY_EXIT.md) remains closed against accepted 1.7.234 evidence.
-  Accepted 1.7.235 passes 369 PHPUnit tests / 3,988 assertions and 27 Behat scenarios / 417 steps in all
-  six release and main CI jobs. Its 5.0/5.3 server report passes PHPCS, lint, Grunt and PHPUnit, without
-  Behat; both supplied strict outputs pass all ten checks. Candidate 1.7.236 adds three unseeded allowed-seek
-  gap cases with a read-only assertion/helper: 30 scenarios / 489 steps expected, pending real CI.
-  Production code, SDK doubles and analyser scope are unchanged. U-007 remains open.
+  Accepted 1.7.236 passes 369 PHPUnit tests / 3,988 assertions and 30 Behat scenarios / 489 steps in
+  the six release/main CI environments. The actual 5.0/5.3 server report passes PHPCS, lint, Grunt and
+  PHPUnit without Behat; both strict outputs pass all ten checks. Candidate 1.7.237 adds three unseeded
+  post-rollback interaction/completion cases and two read-only assertions: 33 scenarios / 612 steps
+  expected, pending actual CI. Production, SDK doubles and analysis scope are unchanged; U-007 is open.
 
 - `form_reaction_settings` owns general reaction settings, context-safe notice/preset fields and individual row
   fields followed by their icon visibility rules. The form retains row count, bounds, upload-filter registration
@@ -68,7 +68,7 @@ not duplicate implementation procedures, field dictionaries or long security/pri
   course-scoped choices, saved placeholders and the editor context/options remain explicit. The activity form
   retains submitted validation and section expansion without a direct acknowledgement-class dependency.
 - English and Italian indexes have matching scope and ordering.
-- Documentation markers, root README files and ER artefacts identify 1.7.236 / 2026110506.
+- Documentation markers, root README files and ER artefacts identify 1.7.237 / 2026110507.
 - The Moodle privacy export delegates state, segment, event, integrity and acknowledgement sections in order;
   six event categories preserve the original paths, sanitisation, 500-row streaming and final flush order.
 - Activity-form source, timed-text, reaction-file and forum checks remain in their original order behind focused helpers;

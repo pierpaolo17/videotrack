@@ -1,6 +1,6 @@
 # Audit della documentazione
 
-Baseline: VideoTrack **1.7.236** (`2026110506`).
+Baseline: VideoTrack **1.7.237** (`2026110507`).
 
 ## Perimetro
 
@@ -33,11 +33,11 @@ duplicano intenzionalmente procedure implementative, dizionari dei campi o lungh
 ## Rilievi sull'albero corrente
 
 - L’[audit di uscita U-017](25_USCITA_MANUTENIBILITA.md) resta chiuso sulle evidenze della 1.7.234 accettata.
-  La 1.7.235 accettata supera 369 test PHPUnit / 3.988 asserzioni e 27 scenari Behat / 417 step nei sei
-  job CI della release e di main. Il report server 5.0/5.3 supera PHPCS, lint, Grunt e PHPUnit senza
-  Behat; i due strict superano tutti i dieci controlli. La candidata 1.7.236 aggiunge tre casi gap di seek
-  consentito senza seed con asserzione/helper in sola lettura: 30 scenari / 489 step attesi, CI reale pendente.
-  Produzione, double SDK e scope analisi restano invariati. U-007 resta aperto.
+  La 1.7.236 accettata supera 369 test PHPUnit / 3.988 asserzioni e 30 scenari Behat / 489 step nei
+  sei ambienti CI release/main. Il report server reale 5.0/5.3 supera PHPCS, lint, Grunt e PHPUnit
+  senza Behat; i due strict superano tutti i dieci controlli. La candidata 1.7.237 aggiunge tre casi senza
+  seed di interazioni/completamento dopo rollback e due asserzioni in sola lettura: 33 scenari / 612 step
+  attesi, CI reale pendente. Produzione, double SDK e scope analisi invariati; U-007 resta aperto.
 
 - I campi integrità conservano default disabilitati e posizione fra strumenti di studio e presa visione;
   la policy mostrata usa le API integrità canoniche per fallback, limiti e tolleranza. Il form non dipende più
@@ -68,7 +68,7 @@ duplicano intenzionalmente procedure implementative, dizionari dei campi o lungh
   opzioni del corso, segnaposto salvati e contesto/opzioni dell’editor restano espliciti. Il form conserva
   validazione in invio ed espansione delle sezioni senza dipendenza diretta dalla classe delle prese visione.
 - Gli indici inglese e italiano hanno stesso perimetro e ordinamento.
-- Marker documentali, README principali e artefatti ER identificano 1.7.236 / 2026110506.
+- Marker documentali, README principali e artefatti ER identificano 1.7.237 / 2026110507.
 - L’export privacy Moodle delega stato, segmenti, eventi, integrità e prese visione nello stesso ordine;
   sei categorie di eventi conservano percorsi, pulizia dei dati, blocchi da 500 e ordine finale.
 - I controlli del form per sorgenti, file VTT, icone delle reazioni e forum mantengono l'ordine originale tramite

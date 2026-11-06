@@ -302,3 +302,6 @@ dichiarazione di un parametro di metodo.
 - La CI release/main 1.7.235 accettata conserva le 24 segnalazioni PHPMD revisionate, PHPCS canonico pulito
   e gli esiti PHPStan/Psalm nello scope configurato. La candidata 1.7.236 aggiunge soltanto controlli Behat
   e documentazione/marker correnti: confrontare ancora i report completi. Nessun corpo di produzione o regola cambia.
+- La CI release/main 1.7.236 accettata conserva le esatte 24 segnalazioni PHPMD revisionate e gli
+  esiti PHPStan/Psalm configurati, con PHPCS/lint puliti su 164 file PHP. La candidata 1.7.237 aggiunge
+  soltanto asserzioni Behat in sola lettura e scenari browser; corpi di produzione e ruleset restano invariati.
