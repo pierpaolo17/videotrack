@@ -1,6 +1,6 @@
 # Audit della documentazione
 
-Baseline: VideoTrack **1.7.238** (`2026110601`).
+Baseline: VideoTrack **1.7.239** (`2026110602`).
 
 ## Perimetro
 
@@ -32,11 +32,10 @@ duplicano intenzionalmente procedure implementative, dizionari dei campi o lungh
 
 ## Rilievi sull'albero corrente
 
-- L’[audit di uscita U-017](25_USCITA_MANUTENIBILITA.md) resta chiuso. La CI release/main
-  1.7.237 accettata supera 369 test PHPUnit / 3.988 asserzioni e 33 scenari Behat / 618 step
-  nei sei ambienti; ZIP reale, report server e due strict sono accettati. La candidata 1.7.238
-  aggiunge intervalli di attenzione docente: 379 metodi PHPUnit e Behat 41/722 attesi dal
-  sorgente. La CI candidata è pendente; U-007 resta aperto.
+- L’[audit di uscita U-017](25_USCITA_MANUTENIBILITA.md) resta chiuso. ZIP reale/main/server/strict
+  1.7.238 sono accettati; i sei job CI main superano PHPUnit 379/4076 e Behat 41/722.
+  La candidata 1.7.239 aggiunge tre casi fine/replay/velocità: 44/830 attesi, CI reale pendente.
+  Runtime, policy attenzione, schema, lingue, AMD e regole analisi sono invariati. U-007 resta aperto.
 
 - I campi integrità conservano default disabilitati e posizione fra strumenti di studio e presa visione;
   la policy mostrata usa le API integrità canoniche per fallback, limiti e tolleranza. Il form non dipende più
@@ -67,7 +66,7 @@ duplicano intenzionalmente procedure implementative, dizionari dei campi o lungh
   opzioni del corso, segnaposto salvati e contesto/opzioni dell’editor restano espliciti. Il form conserva
   validazione in invio ed espansione delle sezioni senza dipendenza diretta dalla classe delle prese visione.
 - Gli indici inglese e italiano hanno stesso perimetro e ordinamento.
-- Marker documentali, README principali e artefatti ER identificano 1.7.238 / 2026110601.
+- Marker documentali, README principali e artefatti ER identificano 1.7.239 / 2026110602.
 - L’export privacy Moodle delega stato, segmenti, eventi, integrità e prese visione nello stesso ordine;
   sei categorie di eventi conservano percorsi, pulizia dei dati, blocchi da 500 e ordine finale.
 - I controlli del form per sorgenti, file VTT, icone delle reazioni e forum mantengono l'ordine originale tramite
@@ -187,8 +186,23 @@ Prima della promozione verificare:
 6. contratti PHPUnit di release hygiene, relazioni XMLDB e uninstall/gradebook, più gate server proporzionato, verdi;
 7. corrispondenza di sintassi, versioni action, selettori della matrice, permessi e link del workflow GitHub.
 
-## Aggiornamento funzionale 1.7.238
+## Tranche funzionale accettata e candidata U-007 corrente
 
-Baseline accettata: ZIP reale/main/server/strict 1.7.237, con evidenze browser solo CI. Nuova policy, due campi, upgrade/backup, otto pacchetti lingua (997 chiavi) e tre formati ER descrivono lo stesso contratto secondi/zero/terzi. Le aspettative candidate sono 379 metodi PHPUnit, 41 scenari Behat / 722 step e 166 file PHP, non risultati eseguiti. Codice/build AMD, servizi, capability e regole analisi sono invariati. Dopo l’accettazione riprendere U-007.
+La baseline reale 1.7.238 conferma il contratto secondi/zero/terzi tra 151 campi schema, backup/restore,
+otto pacchetti lingua da 997 chiavi e tutti i formati ER. La CI main supera PHPUnit 379/4076 e Behat 41/722;
+il report server non esegue Behat. I difetti iniziali di confezionamento, complessità classe e fixture velocità
+sono stati corretti nella 1.7.238 senza indebolire le asserzioni di tracking.
 
-La prima candidata ha evidenziato difetti di ordinamento/stile, una segnalazione aggiuntiva sulla complessità della classe e una configurazione test con 0,5x non autorizzato. La correzione conserva valori delle stringhe e asserzioni tracking, sposta la validazione in `random_pause_policy::form_errors()` e usa l’API corrente di duplicazione dove disponibile. I conteggi candidati sono 379 metodi PHPUnit e Behat 41/722; serve ancora la CI corretta.
+La 1.7.239 corrente aggiunge solo otto helper test e una feature da tre scenari, oltre a versione/documentazione.
+L’inventario file ha 343 righe non documentali; PHP ha 1.095 callable nominati e AMD 654. Scenari precedenti,
+file di produzione e SDK double coincidono byte per byte. Behat atteso è 44/830, da confermare in CI; non si
+dichiara esecuzione PHP locale o browser Moodle completo. U-007 resta aperto per matrice essenziale e smoke residui.
+
+## Evidenze prima CI 1.7.239 e correzione
+
+Il commit `79b7b5b` supera le sei suite runtime Behat 44/830 e PHPUnit 379/4076, strict 10/0/0 e Grunt.
+Moodle 5.0 MariaDB fallisce PHPCS con sei errori di spaziatura in tre nuove condizioni multilinea; gli altri
+cinque job passano. La correzione mantiene release 1.7.239 / 2026110602 e ogni token PHP invariato, aggiornando
+solo spazi delle condizioni e documenti di evidenze/posizioni callable. Gli informativi Psalm restano 732/760
+e PHPMD conserva 24 segnalazioni. Gli scope configurati passano. CI corretta completa e accettazione release/
+server reale restano pendenti; U-007 non si chiude con questo primo successo funzionale.

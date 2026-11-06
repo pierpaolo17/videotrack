@@ -306,3 +306,11 @@ dichiarazione di un parametro di metodo.
   esiti PHPStan/Psalm configurati, con PHPCS/lint puliti su 164 file PHP. La candidata 1.7.237 aggiunge
   asserzioni Behat in sola lettura e scenari browser; PHP di produzione e ruleset restano invariati.
   La successiva correzione del recupero HTML5 modifica soltanto AMD, con build Grunt reali e CI corretta obbligatoria.
+
+## Baseline 1.7.238 accettata e tranche di soli test 1.7.239
+
+La CI main accettata conserva le stesse 24 segnalazioni PHPMD revisionate. Le metriche di complessità upgrade
+aumentano con i due campi; il gate configurato passa. Gli informativi Psalm sono 732/760 (+5 rispetto alla
+1.7.237, invariati nella 1.7.238 corretta), con scope configurato superato: non sono risultati senza advisory.
+La candidata 1.7.239 non cambia sorgenti di produzione né regole analisi. Le aggiunte Behat richiedono i normali
+PHPCS/lint e CI completa; l’ispezione statica locale non sostituisce questi controlli.

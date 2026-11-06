@@ -1,6 +1,6 @@
 # Behat browser automation
 
-Accepted 1.7.237 passes **33 scenarios / 618 steps** and 369 PHPUnit tests / 3,988 assertions in all six release/main CI environments. Its exact ZIP and server/strict evidence are accepted; server Behat was not executed. Candidate **1.7.238** contains **41 scenarios / 722 steps expected from source**, pending real candidate CI. Six environments use one Chrome profile, not six browsers.
+Accepted 1.7.238 passes **41 scenarios / 722 steps** and **379 PHPUnit tests / 4,076 assertions** in all six post-merge CI environments. Its exact ZIP, server report and both strict outputs are accepted. The server report runs PHPCS/lint, Grunt and PHPUnit, not Behat. Initial **1.7.239** CI passes **44 scenarios / 830 steps** and **379 PHPUnit tests / 4,076 assertions** in all six environments, but the overall gate fails on six PHPCS formatting errors. The formatting-only correction still requires candidate CI. Six environments use one Chrome profile, not six browsers.
 
 ## Setup and execution
 
@@ -100,8 +100,8 @@ the composer URL must target this activity and the same session. Frontier and un
 including after returning to the activity. No ledger, state, interaction, completion or AJAX result is injected.
 
 The older seeded HTML5 rollback case remains unchanged and still covers its original fixture-based purpose.
-The new cases exercise browser-generated evidence for all three providers. Ended/replay/rate changes and relevant
-role/group/browser combinations remain explicit U-007 work; these cases do not close the phase by themselves.
+The new cases exercise browser-generated evidence for all three providers. The 1.7.239 candidate adds ended/replay/rate coverage below. Relevant role/group/browser combinations remain
+explicit U-007 work; these cases do not close the phase by themselves.
 
 ## Initial 1.7.237 CI correction
 
@@ -156,7 +156,9 @@ unchanged. All six corrected 1.7.237 CI jobs passed before merge and again on ma
 | Unseeded playback to native viewing completion | Accepted 1.7.235 case | Accepted 1.7.235 case | Accepted 1.7.235 case |
 | Allowed forward seek, gap exclusion and incomplete completion | Accepted 1.7.236 case | Accepted 1.7.236 case | Accepted 1.7.236 case |
 | Post-rollback interactions and preserved viewing completion | Accepted unseeded 1.7.237 case | Accepted SDK-double 1.7.237 case | Accepted SDK-double 1.7.237 case |
-| Ended/replay/rate changes and relevant group scopes | Remaining matrix review | Remaining matrix review | Remaining matrix review |
+| Attention configuration and real automatic pause/resume | Accepted 1.7.238 case | Accepted 1.7.238 SDK-double case | Accepted 1.7.238 SDK-double case |
+| Natural end, watched replay, allowed rate and above-cap fallback | New 1.7.239 case, CI pending | New 1.7.239 SDK-double case, CI pending | New 1.7.239 SDK-double case, CI pending |
+| Relevant roles and group boundaries | Remaining matrix review | Remaining matrix review | Remaining matrix review |
 
 Learner, teacher-only and dual-role page controls already have shared scenarios. Their existence does not fill
 every provider/lifecycle/group combination. U-007 remains open until the roadmap's essential cells and boundary
@@ -180,6 +182,46 @@ only to the exact plugin tree, Moodle branch, browser and driver recorded by the
 
 ## 1.7.238 attention interval cases
 
-Five read-only browser configuration cases cover automatic thirds, minimum-only, maximum-only, disabled control and zero-duration site fallback. Three additional provider scenarios use explicit 60–60 seconds and play the unchanged 60-second media/SDK fixtures at 0.5x so their end cannot pre-empt the real one-minute attention deadline. No timer or server-clock acceleration is used. Each observes the student pause notice, an accepted pause closing server credit and a stable paused frontier; then it resumes to 31–38 video seconds and pauses again through the provider, requiring a fresh accepted play/pause lifecycle. Existing scenarios and assertions remain intact. Candidate CI must confirm all cases; real public provider and multi-browser smoke remain separate U-007 work.
+Five read-only browser configuration cases cover automatic thirds, minimum-only, maximum-only, disabled control and zero-duration site fallback. Three additional provider scenarios use explicit 60–60 seconds and play the unchanged 60-second media/SDK fixtures at 0.5x so their end cannot pre-empt the real one-minute attention deadline. No timer or server-clock acceleration is used. Each observes the student pause notice, an accepted pause closing server credit and a stable paused frontier; then it resumes to 31–38 video seconds and pauses again through the provider, requiring a fresh accepted play/pause lifecycle. Existing scenarios and assertions remain intact. All cases passed the accepted 1.7.238 main CI. Real public-provider and multi-browser smoke remain separate U-007 work.
 
 The corrected 1.7.238 cases explicitly select 0.5x and 1x through `playbackspeed_0.5` / `playbackspeed_1`. The driver refuses to force half speed unless the effective player allowlist contains it. Initial CI paused all three providers but correctly rejected writes because half speed was not authorised. The one-minute wait, accepted-pause, stable-frontier and resume checks are unchanged.
+
+## 1.7.239 natural end, replay and rate cases
+
+`browser_ended_replay_rate.feature` adds three unseeded cases. The teacher fixture explicitly selects 1x/2x,
+sets the cap to 2x and its authorised fallback to 1x, and disables autoplay/resume, loop, attention pauses
+and acknowledgement completion. Automatic viewed completion requires 95% of the real 60-second duration.
+After playing at 1x, the browser requests 4x and observes the existing cap restore 1x; it then requests and
+observes authorised 2x. A bounded 45-second media observation waits for natural end, without a seek to the
+end or altered runtime clocks. The Vimeo rate assertion waits for a numeric asynchronous result rather
+than accepting a Promise as truthy.
+
+Read-only database polling requires the actual same-session `playstart` and accepted `ended` rows, positive
+terminal playback, cleared server credit, end/resume positions within 59–60.001 seconds, unique coverage
+within 58–60.001 and complete aggregate/native Moodle state. One persisted interval must cover seconds
+5–20. The driver snapshots only unique coverage, percent and terminal/session identifiers in test memory.
+It then selects 1x, seeks back to second five, plays to seconds 8–12 and pauses through the real surface.
+The fresh handshake must follow the accepted end, and a positive accepted pause must close credit in the
+same browser session. Unique seconds and percent must match the snapshot within 0.001, with completion
+still complete after reload. Replay is deliberately inside validated coverage: an initially uncredited
+handshake fraction at second zero must not be confused with double-counting. Resume position may correctly
+move backwards; it is not asserted to remain at the end after replay.
+
+The shipped cases use real time and real AJAX writes; assertions cannot seed ledger/state/completion or
+forge a response. Existing scenarios, adapters, SDK doubles and guards are unchanged. Local extracted-driver
+checks cover controls, cap functions and async observation only; the initial Moodle 44/830 run passes on all six jobs; the formatting correction needs fresh CI.
+These SDK contracts do not establish live public iframe, cookie/consent or other-browser availability.
+
+## Initial 1.7.239 CI formatting correction
+
+All six uploaded artifacts match the official digests for commit
+`79b7b5bac5c6680f760c67595780b7b1c7f11857` (workflow 42270208398). The uploaded Moodle 5.0 MariaDB file is
+from the second attempt; it still reports the same six CodeSniffer errors. Each environment passes the
+44/830 Behat suite, 379/4076 PHPUnit, ten strict checks and Grunt. Five jobs are green; Moodle 5.0 MariaDB
+fails only the Moodle Code Checker step. This is functional evidence, not an accepted overall candidate.
+
+The three new multiline `if` conditions must put the first expression below `if (` and the closing `)`
+on its own line, using the existing Moodle/PSR-12 indentation. The incremental correction changes only
+whitespace in those conditions and updates documentation/callable positions. Every PHP token, JavaScript
+string, assertion, timeout, fixture and scenario is identical. No production code, analysis rule or version
+changes. All six corrected CI jobs are still required before merge.

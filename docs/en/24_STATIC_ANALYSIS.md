@@ -296,3 +296,11 @@ line, not for redeclaring a method parameter.
   PHPStan/Psalm results, with canonical PHPCS/lint clean on 164 PHP files. Candidate 1.7.237 adds
   read-only Behat assertions and browser scenarios; production PHP and rulesets stay unchanged. The later
   HTML5 recovery fix changes AMD only, with real Grunt outputs and the full corrected CI still required.
+
+## Accepted 1.7.238 baseline and 1.7.239 test-only tranche
+
+Accepted main CI retains the same 24 reviewed PHPMD finding identities. Upgrade complexity metrics increase
+with the two new fields; the configured gate passes. Psalm's informational totals are 732/760 (+5 versus
+1.7.237, unchanged within corrected 1.7.238), with the configured scope passing; these are not zero-advisory
+results. Candidate 1.7.239 changes no production source or analysis rules. Its Behat test additions require
+normal PHPCS/lint and full CI; local static inspection does not replace those checks.

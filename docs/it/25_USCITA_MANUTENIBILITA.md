@@ -1,6 +1,6 @@
 # Audit di uscita U-017: manutenibilità
 
-Albero corrente: VideoTrack **1.7.238** (`2026110601`).
+Albero corrente: VideoTrack **1.7.239** (`2026110602`).
 
 ## Decisione ed evidenze accettate
 
@@ -18,8 +18,9 @@ Entrambi gli strict forniti danno 10 PASS / 0 WARN / 0 FAIL. Tutti i gate di usc
 La 1.7.237 accettata include completamento da visione, gap del seek consentito e interazioni dopo rollback
 sui tre provider. I sei job CI release/main superano 33 scenari Behat / 618 step e
 369 test PHPUnit / 3.988 asserzioni. Lo ZIP reale coincide con main e i gate server/strict passano.
-La candidata 1.7.238 aggiunge la configurazione di attenzione docente richiesta, senza riaprire U-017.
-I nuovi test policy/form/backup/browser richiedono ancora la CI reale.
+La 1.7.238 accettata aggiunge la configurazione di attenzione docente richiesta. I sei job CI main superano
+379 test PHPUnit / 4.076 asserzioni e 41 scenari Behat / 722 step; ZIP reale/server/strict sono accettati.
+La candidata 1.7.239 riprende U-007 con fine naturale, replay e velocità; U-017 resta chiuso.
 
 ## Revisione delle responsabilità
 
@@ -87,7 +88,7 @@ generica di segnalazioni future.
 ## Fase corrente della roadmap
 
 U-007 resta aperto. La 1.7.236 accettata conferma completamento da visione e gap del seek consentito sui tre provider.
-I casi di interazioni dopo rollback 1.7.237 sono accettati; i nuovi casi di attenzione 1.7.238 richiedono la CI candidata. Verificare le celle residue playback, interazioni, ruoli/gruppi e parità provider nella
+I casi di interazioni dopo rollback 1.7.237 sono accettati; i casi di attenzione 1.7.238 sono accettati; i nuovi casi fine/replay/velocità 1.7.239 richiedono la CI candidata. Verificare le celle residue playback, interazioni, ruoli/gruppi e parità provider nella
 [copertura browser](22_TEST_BROWSER_BEHAT.md). La CI Chrome esegue il browser su sei ambienti Moodle/PHP/database:
 non è una matrice di sei browser. Smoke su SDK/rete pubblici e altri browser restano verifiche successive esplicite.
 
@@ -98,8 +99,16 @@ Recording e Google Drive restano fasi successive in quest'ordine. Un difetto rea
 Vedere [analisi statica](24_ANALISI_STATICA.md), [gate di release](07_BUILD_TEST_RELEASE.md) e
 [accessibilità](19_ACCESSIBILITY.md).
 
-## 1.7.237 accettata e tranche funzionale 1.7.238
+## Accettazione corrente e roadmap residua
 
-Lo ZIP reale 1.7.237 da 402 file coincide con main `baa07ab580c15f8924ecb812a5832231e981bed2`. I sei job release/main corretti superano Behat 33/618 e PHPUnit 369/3988; PHPCS/lint/Grunt/PHPUnit server e i due strict passano. U-017 resta chiuso. Le impostazioni di attenzione docente richieste costituiscono una tranche funzionale 1.7.238; dopo l’accettazione riprendere la matrice residua U-007 (ended/replay/velocità, ruoli/gruppi pertinenti, provider reali e altri browser), quindi U-020/accessibilità manuale, traduzioni semantiche e gate web finale integrato. App e provider remoti mantengono il loro ordine.
+Lo ZIP reale 1.7.238 da 405 file coincide con main `27299bc43e5d63dd6e18dda7325412551fa95a14`.
+I sei job main superano Behat 41/722 e PHPUnit 379/4076. PHPCS/lint/Grunt/PHPUnit server e i due strict passano;
+il report server non esegue Behat. I difetti candidati iniziali sono stati corretti nella 1.7.238 e superati
+da questa baseline accettata. Nessun gate strutturale viene riaperto.
 
-La prima CI 1.7.238 resta non accettata. Correggere confezionamento e fixture nella stessa versione; U-017 resta chiuso e U-007 riprende dopo l’accettazione della tranche funzionale.
+La candidata 1.7.239 aggiunge tre casi browser fine/replay/velocità (44/830 attesi), con codice di produzione
+invariato. Dopo CI candidata e accettazione della release reale, valutare ruoli/confini gruppi pertinenti e
+controlli espliciti su altri browser/provider pubblici. U-007 resta aperto. Seguono U-020/WCAG manuale,
+traduzioni semantiche e gate integrato produzione/lifecycle/privacy/benchmark sullo ZIP esatto.
+Ordine successivo: valutazione Moodle App, base comune provider autenticati, OneDrive/SharePoint,
+Zoom Cloud Recording, Google Drive e consolidamento tra provider.
