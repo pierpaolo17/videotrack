@@ -106,4 +106,29 @@ final class random_pause_policy {
             (int)round(min(86400.0, $duration) * 2 / 3)
         );
     }
+    /**
+     * Validate independently optional attention-pause bounds before integer cleaning.
+     *
+     * @param array $data Submitted activity data.
+     * @return array Field-specific errors; only two explicit bounds require ordering.
+     */
+    public static function form_errors(array $data): array {
+        $values = [];
+        $errors = [];
+        foreach (['randompauseminseconds', 'randompausemaxseconds'] as $field) {
+            $values[$field] = self::parse_override($data[$field] ?? null);
+            if ($values[$field] === null) {
+                $errors[$field] = get_string('integrity:randompauseinvalid', 'mod_videotrack');
+            }
+        }
+        if ($errors) {
+            return $errors;
+        }
+        $minimum = $values['randompauseminseconds'];
+        $maximum = $values['randompausemaxseconds'];
+        if ($minimum > 0 && $maximum > 0 && $minimum > $maximum) {
+            $errors['randompausemaxseconds'] = get_string('integrity:randompauseorder', 'mod_videotrack');
+        }
+        return $errors;
+    }
 }

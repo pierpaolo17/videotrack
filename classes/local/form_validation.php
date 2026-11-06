@@ -53,36 +53,10 @@ final class form_validation {
             );
         }
 
-        $errors += self::random_pause_errors($data);
+        $errors += random_pause_policy::form_errors($data);
         $errors += self::reaction_requirement_errors($data);
         $errors += self::reaction_preset_errors($data);
 
-        return $errors;
-    }
-
-    /**
-     * Validate independently optional attention-pause bounds before integer cleaning.
-     *
-     * @param array $data Submitted activity data.
-     * @return array Field-specific errors; only two explicit bounds require ordering.
-     */
-    public static function random_pause_errors(array $data): array {
-        $values = [];
-        $errors = [];
-        foreach (['randompauseminseconds', 'randompausemaxseconds'] as $field) {
-            $values[$field] = random_pause_policy::parse_override($data[$field] ?? null);
-            if ($values[$field] === null) {
-                $errors[$field] = get_string('integrity:randompauseinvalid', 'mod_videotrack');
-            }
-        }
-        if ($errors) {
-            return $errors;
-        }
-        $minimum = $values['randompauseminseconds'];
-        $maximum = $values['randompausemaxseconds'];
-        if ($minimum > 0 && $maximum > 0 && $minimum > $maximum) {
-            $errors['randompausemaxseconds'] = get_string('integrity:randompauseorder', 'mod_videotrack');
-        }
         return $errors;
     }
 

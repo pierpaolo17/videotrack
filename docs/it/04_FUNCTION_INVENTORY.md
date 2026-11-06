@@ -2,7 +2,7 @@
 
 Generato dall’albero sorgente VideoTrack 1.7.238. Le voci PHP includono funzioni e metodi nominati; le voci AMD includono dichiarazioni nominate, espressioni funzione assegnate e funzioni-metodo di oggetti.
 
-**Funzioni/metodi PHP:** 1086. **Callable AMD nominati:** 654.
+**Funzioni/metodi PHP:** 1087. **Callable AMD nominati:** 654.
 
 | Posizione | Callable | Responsabilità |
 |---|---|---|
@@ -984,17 +984,16 @@ Generato dall’albero sorgente VideoTrack 1.7.238. Le voci PHP includono funzio
 | `classes/local/form_reaction_settings.php:300` | `apply_completion_lock` | Applica il blocco originale di completamento per corso ai campi generali e al numero effettivo delle righe. |
 | `classes/local/form_reaction_settings.php:321` | `add_notice_elements` | Costruisce l'editor avviso nel contesto originale con allegati e HTML fidato disabilitati. |
 | `classes/local/form_validation.php:36` | `scalar_settings_errors` | Funzione/metodo PHP nominato `scalar_settings_errors`; vedere DocBlock e chiamanti per il contratto corrente. |
-| `classes/local/form_validation.php:69` | `random_pause_errors` | Valida ciascun limite prima della conversione intera e segnala una coppia esplicita invertita. |
-| `classes/local/form_validation.php:96` | `completion_percent_errors` | Valida la percentuale di completamento opzionale con suffisso o fallback e restituisce l'errore del gruppo. |
-| `classes/local/form_validation.php:118` | `bounded_integer_errors` | Valida un'impostazione intera opzionale rispetto a limiti inclusivi. |
-| `classes/local/form_validation.php:143` | `reaction_requirement_errors` | Valida la dipendenza tra requisiti reazioni abilitati, numero minimo e modalità tutti-i-tipi. |
-| `classes/local/form_validation.php:161` | `reaction_preset_errors` | Valida il JSON opzionale non vuoto del preset reazioni. |
-| `classes/local/form_validation.php:185` | `acknowledgement_errors` | Funzione/metodo PHP nominato `acknowledgement_errors`; vedere DocBlock e chiamanti per il contratto corrente. |
-| `classes/local/form_validation.php:226` | `completion_rule_enabled` | Combina i predicati espliciti di completamento percentuale, reazioni e presa visione. |
-| `classes/local/form_validation.php:239` | `percentage_completion_rule_enabled` | Rileva una regola percentuale positiva sostenuta da una durata configurata. |
-| `classes/local/form_validation.php:254` | `reaction_completion_rule_enabled` | Rileva regole attive su minimo, tutti i tipi o singole reazioni obbligatorie. |
-| `classes/local/form_validation.php:272` | `acknowledgement_completion_rule_enabled` | Rileva una regola attiva di completamento per presa visione. |
-| `classes/local/form_validation.php:285` | `duration_errors` | Funzione/metodo PHP nominato `duration_errors`; vedere DocBlock e chiamanti per il contratto corrente. |
+| `classes/local/form_validation.php:70` | `completion_percent_errors` | Valida la percentuale di completamento opzionale con suffisso o fallback e restituisce l'errore del gruppo. |
+| `classes/local/form_validation.php:92` | `bounded_integer_errors` | Valida un'impostazione intera opzionale rispetto a limiti inclusivi. |
+| `classes/local/form_validation.php:117` | `reaction_requirement_errors` | Valida la dipendenza tra requisiti reazioni abilitati, numero minimo e modalità tutti-i-tipi. |
+| `classes/local/form_validation.php:135` | `reaction_preset_errors` | Valida il JSON opzionale non vuoto del preset reazioni. |
+| `classes/local/form_validation.php:159` | `acknowledgement_errors` | Funzione/metodo PHP nominato `acknowledgement_errors`; vedere DocBlock e chiamanti per il contratto corrente. |
+| `classes/local/form_validation.php:200` | `completion_rule_enabled` | Combina i predicati espliciti di completamento percentuale, reazioni e presa visione. |
+| `classes/local/form_validation.php:213` | `percentage_completion_rule_enabled` | Rileva una regola percentuale positiva sostenuta da una durata configurata. |
+| `classes/local/form_validation.php:228` | `reaction_completion_rule_enabled` | Rileva regole attive su minimo, tutti i tipi o singole reazioni obbligatorie. |
+| `classes/local/form_validation.php:246` | `acknowledgement_completion_rule_enabled` | Rileva una regola attiva di completamento per presa visione. |
+| `classes/local/form_validation.php:259` | `duration_errors` | Funzione/metodo PHP nominato `duration_errors`; vedere DocBlock e chiamanti per il contratto corrente. |
 | `classes/local/forum_bridge.php:47` | `resolve_destination` | Callable PHP `resolve_destination`; DocBlock e chiamanti definiscono parametri, valori restituiti ed effetti. |
 | `classes/local/forum_bridge.php:99` | `get_group_options` | Callable PHP `get_group_options`; DocBlock e chiamanti definiscono parametri, valori restituiti ed effetti. |
 | `classes/local/forum_bridge.php:135` | `can_choose_subscription` | Callable PHP `can_choose_subscription`; DocBlock e chiamanti definiscono parametri, valori restituiti ed effetti. |
@@ -1034,6 +1033,7 @@ Generato dall’albero sorgente VideoTrack 1.7.238. Le voci PHP includono funzio
 | `classes/local/random_pause_policy.php:57` | `normalise_overrides` | Normalizza i due valori salvati/importati conservando gli zeri automatici e ordinando coppie esplicite invertite. |
 | `classes/local/random_pause_policy.php:77` | `activity_bounds` | Risolve terzi della durata o riserva sito e applica ciascun limite docente senza invertire quello automatico. |
 | `classes/local/random_pause_policy.php:100` | `automatic_bounds` | Calcola terzi arrotondati della durata salvata entro 60–7200 secondi, con riserva sito se durata non valida. |
+| `classes/local/random_pause_policy.php:115` | `form_errors` | Valida ciascun limite prima della conversione intera e segnala una coppia esplicita invertita. |
 | `classes/local/reaction_form_validation.php:37` | `reaction_text_icon_errors` | Callable PHP `reaction_text_icon_errors`; DocBlock e chiamanti definiscono parametri, valori restituiti ed effetti. |
 | `classes/local/reaction_form_validation.php:65` | `reaction_details_errors` | Callable PHP `reaction_details_errors`; DocBlock e chiamanti definiscono parametri, valori restituiti ed effetti. |
 | `classes/local/reaction_write_service.php:46` | `complete` | Esegue la pipeline cache, evento, aggregati e completion dopo l'inserimento della reazione. |
@@ -1385,31 +1385,31 @@ Generato dall’albero sorgente VideoTrack 1.7.238. Le voci PHP includono funzio
 | `tests/backup_structure_contract_test.php:106` | `source` | Legge il sorgente canonico della struttura di backup per le asserzioni contrattuali. |
 | `tests/behat/behat_mod_videotrack.php:44` | `the_videotrack_attention_policy_is` | Legge il JSON reale della pagina e confronta abilitazione e limiti effettivi senza modificarli. |
 | `tests/behat/behat_mod_videotrack.php:66` | `i_use_half_speed_for_the_videotrack_attention_check` | Imposta 0,5x sulle fixture native/SDK invariate per attendere un minuto reale prima della fine del video. |
-| `tests/behat/behat_mod_videotrack.php:84` | `the_videotrack_attention_check_pauses_playback` | Attende pausa reale e messaggio di attenzione vicino a 30 secondi video, senza accelerare timer o tracking. |
-| `tests/behat/behat_mod_videotrack.php:107` | `the_videotrack_focus_policy_is` | Verifica la policy focus effettiva esposta dal JSON reale del player. |
-| `tests/behat/behat_mod_videotrack.php:130` | `the_videotrack_html5_media_is_ready` | Waits for local HTML5 fixture metadata in Behat. |
-| `tests/behat/behat_mod_videotrack.php:150` | `i_seek_the_videotrack_html5_media_to_seconds` | Drives a deterministic HTML5 seek in the browser test harness. |
-| `tests/behat/behat_mod_videotrack.php:168` | `the_videotrack_html5_media_time_should_be_between` | Asserts the HTML5 media timestamp is inside the expected browser-test range. |
-| `tests/behat/behat_mod_videotrack.php:194` | `the_videotrack_html5_media_playback_is` | Asserts deterministic HTML5 play/pause state in the Behat browser harness. |
-| `tests/behat/behat_mod_videotrack.php:219` | `the_deterministic_videotrack_provider_is_ready` | Attende il doppio SDK deterministico del provider e l’adapter di produzione selezionati. |
-| `tests/behat/behat_mod_videotrack.php:238` | `i_control_the_deterministic_videotrack_provider` | Aziona play/pausa attraverso la superficie SDK usata in produzione. |
-| `tests/behat/behat_mod_videotrack.php:265` | `the_deterministic_videotrack_provider_playback_is` | Verifica lo stato play/pausa provider dopo un recovery asincrono dell’adapter di produzione. |
-| `tests/behat/behat_mod_videotrack.php:286` | `i_seek_the_deterministic_videotrack_provider_to_seconds` | Aziona un seek deterministico al confine dell’adapter di produzione. |
-| `tests/behat/behat_mod_videotrack.php:308` | `the_deterministic_videotrack_provider_time_is_between` | Richiede che il timestamp provider resti nell’intervallo atteso per una finestra di polling. |
-| `tests/behat/behat_mod_videotrack.php:349` | `the_deterministic_videotrack_provider_time_matches_the_validated_frontier` | Verifica il rollback bloccato rispetto a una frontiera validata persistita dinamicamente stabile. |
-| `tests/behat/behat_mod_videotrack.php:413` | `the_playback_credit_window_is_closed_by_an_accepted_pause` | Verifica che un ciclo play/pause browser reale usi una sessione vincolata dal server e chiuda la relativa finestra di credito. |
-| `tests/behat/behat_mod_videotrack.php:482` | `no_validated_playback_exists` | Verifica che il caso browser inizi senza righe validate nel registro per attività/studente. |
-| `tests/behat/behat_mod_videotrack.php:507` | `browser_playback_completes_moodle_tracking` | Attende stato reale, pausa browser accettata e completamento Moodle senza inserire progresso o completamento. |
-| `tests/behat/behat_mod_videotrack.php:576` | `allowed_forward_seek_preserves_unwatched_gap` | Legge registro/stato/completamento reali per richiedere visione prima e dopo il seek consentito senza credito sul gap. |
-| `tests/behat/behat_mod_videotrack.php:660` | `seek_intervals_exclude_unwatched_gap` | Verifica che intervalli persistiti positivi lascino scoperto il tratto centrale saltato della fixture browser di 60 secondi. |
-| `tests/behat/behat_mod_videotrack.php:682` | `i_pause_the_videotrack_player_after_rollback_recovery` | Osserva il recupero rollback nativo/SDK entro limiti definiti e mette in pausa dal media prima delle asserzioni sulla frontiera persistita. |
-| `tests/behat/behat_mod_videotrack.php:744` | `paused_player_matches_validated_frontier` | Attende che il media nativo/SDK double in pausa coincida stabilmente con la frontiera validata persistita. |
-| `tests/behat/behat_mod_videotrack.php:791` | `post_rollback_interactions_retain_safe_timestamps` | Legge azioni learner salvate e URL reale del composer Forum per verificare timestamp di frontiera, sessione e completamento conservato. |
-| `tests/behat/behat_mod_videotrack.php:885` | `the_user_has_watched_videotrack_through_seconds` | Seeds bounded validated watched evidence for deterministic post-seek Behat interaction scenarios. |
-| `tests/behat/behat_mod_videotrack.php:979` | `the_moodle_completion_state_for_videotrack_is` | Verifica lo stato completion core Moodle persistito dopo un’interazione browser VideoTrack. |
-| `tests/behat/behat_mod_videotrack.php:1020` | `the_videotrack_forum_time_should_be_between` | Verifica che il composer Forum collegato mantenga un timestamp nell’intervallo validato atteso dopo il rollback. |
-| `tests/behat/behat_mod_videotrack.php:1043` | `the_latest_seek_segment_matches_the_pre_seek_browser_time` | Verifica l’estremo pre-seek grezzo e rifiuta credito aggregato o resume all’interno del gap saltato. |
-| `tests/behat/behat_mod_videotrack.php:1117` | `the_videotrack_completion_requirements_are_stacked_vertically` | Verifica layout a colonna calcolato e geometria verticale non sovrapposta per i requisiti Moodle raggruppati. |
+| `tests/behat/behat_mod_videotrack.php:92` | `the_videotrack_attention_check_pauses_playback` | Attende pausa reale e messaggio di attenzione vicino a 30 secondi video, senza accelerare timer o tracking. |
+| `tests/behat/behat_mod_videotrack.php:115` | `the_videotrack_focus_policy_is` | Verifica la policy focus effettiva esposta dal JSON reale del player. |
+| `tests/behat/behat_mod_videotrack.php:138` | `the_videotrack_html5_media_is_ready` | Waits for local HTML5 fixture metadata in Behat. |
+| `tests/behat/behat_mod_videotrack.php:158` | `i_seek_the_videotrack_html5_media_to_seconds` | Drives a deterministic HTML5 seek in the browser test harness. |
+| `tests/behat/behat_mod_videotrack.php:176` | `the_videotrack_html5_media_time_should_be_between` | Asserts the HTML5 media timestamp is inside the expected browser-test range. |
+| `tests/behat/behat_mod_videotrack.php:202` | `the_videotrack_html5_media_playback_is` | Asserts deterministic HTML5 play/pause state in the Behat browser harness. |
+| `tests/behat/behat_mod_videotrack.php:227` | `the_deterministic_videotrack_provider_is_ready` | Attende il doppio SDK deterministico del provider e l’adapter di produzione selezionati. |
+| `tests/behat/behat_mod_videotrack.php:246` | `i_control_the_deterministic_videotrack_provider` | Aziona play/pausa attraverso la superficie SDK usata in produzione. |
+| `tests/behat/behat_mod_videotrack.php:273` | `the_deterministic_videotrack_provider_playback_is` | Verifica lo stato play/pausa provider dopo un recovery asincrono dell’adapter di produzione. |
+| `tests/behat/behat_mod_videotrack.php:294` | `i_seek_the_deterministic_videotrack_provider_to_seconds` | Aziona un seek deterministico al confine dell’adapter di produzione. |
+| `tests/behat/behat_mod_videotrack.php:316` | `the_deterministic_videotrack_provider_time_is_between` | Richiede che il timestamp provider resti nell’intervallo atteso per una finestra di polling. |
+| `tests/behat/behat_mod_videotrack.php:357` | `the_deterministic_videotrack_provider_time_matches_the_validated_frontier` | Verifica il rollback bloccato rispetto a una frontiera validata persistita dinamicamente stabile. |
+| `tests/behat/behat_mod_videotrack.php:421` | `the_playback_credit_window_is_closed_by_an_accepted_pause` | Verifica che un ciclo play/pause browser reale usi una sessione vincolata dal server e chiuda la relativa finestra di credito. |
+| `tests/behat/behat_mod_videotrack.php:490` | `no_validated_playback_exists` | Verifica che il caso browser inizi senza righe validate nel registro per attività/studente. |
+| `tests/behat/behat_mod_videotrack.php:515` | `browser_playback_completes_moodle_tracking` | Attende stato reale, pausa browser accettata e completamento Moodle senza inserire progresso o completamento. |
+| `tests/behat/behat_mod_videotrack.php:584` | `allowed_forward_seek_preserves_unwatched_gap` | Legge registro/stato/completamento reali per richiedere visione prima e dopo il seek consentito senza credito sul gap. |
+| `tests/behat/behat_mod_videotrack.php:668` | `seek_intervals_exclude_unwatched_gap` | Verifica che intervalli persistiti positivi lascino scoperto il tratto centrale saltato della fixture browser di 60 secondi. |
+| `tests/behat/behat_mod_videotrack.php:690` | `i_pause_the_videotrack_player_after_rollback_recovery` | Osserva il recupero rollback nativo/SDK entro limiti definiti e mette in pausa dal media prima delle asserzioni sulla frontiera persistita. |
+| `tests/behat/behat_mod_videotrack.php:752` | `paused_player_matches_validated_frontier` | Attende che il media nativo/SDK double in pausa coincida stabilmente con la frontiera validata persistita. |
+| `tests/behat/behat_mod_videotrack.php:799` | `post_rollback_interactions_retain_safe_timestamps` | Legge azioni learner salvate e URL reale del composer Forum per verificare timestamp di frontiera, sessione e completamento conservato. |
+| `tests/behat/behat_mod_videotrack.php:893` | `the_user_has_watched_videotrack_through_seconds` | Seeds bounded validated watched evidence for deterministic post-seek Behat interaction scenarios. |
+| `tests/behat/behat_mod_videotrack.php:987` | `the_moodle_completion_state_for_videotrack_is` | Verifica lo stato completion core Moodle persistito dopo un’interazione browser VideoTrack. |
+| `tests/behat/behat_mod_videotrack.php:1028` | `the_videotrack_forum_time_should_be_between` | Verifica che il composer Forum collegato mantenga un timestamp nell’intervallo validato atteso dopo il rollback. |
+| `tests/behat/behat_mod_videotrack.php:1051` | `the_latest_seek_segment_matches_the_pre_seek_browser_time` | Verifica l’estremo pre-seek grezzo e rifiuta credito aggregato o resume all’interno del gap saltato. |
+| `tests/behat/behat_mod_videotrack.php:1125` | `the_videotrack_completion_requirements_are_stacked_vertically` | Verifica layout a colonna calcolato e geometria verticale non sovrapposta per i requisiti Moodle raggruppati. |
 | `tests/cli_contract_test.php:35` | `test_validator_is_read_only_and_covers_release_contracts` | Funzione/metodo PHP nominato `test_validator_is_read_only_and_covers_release_contracts`; vedere DocBlock e chiamanti per il contratto corrente. |
 | `tests/cli_contract_test.php:65` | `test_course_analytics_benchmark_uses_real_read_only_metrics` | Funzione/metodo PHP nominato `test_course_analytics_benchmark_uses_real_read_only_metrics`; vedere DocBlock e chiamanti per il contratto corrente. |
 | `tests/cli_contract_test.php:87` | `test_cli_tools_are_documented_for_admins_and_maintainers` | Funzione/metodo PHP nominato `test_cli_tools_are_documented_for_admins_and_maintainers`; vedere DocBlock e chiamanti per il contratto corrente. |
@@ -1608,6 +1608,7 @@ Generato dall’albero sorgente VideoTrack 1.7.238. Le voci PHP includono funzio
 | `tests/random_pause_policy_test.php:124` | `test_import_normalisation_preserves_automatic_and_orders_manual_values` | Verifica riparazione difensiva import con valori automatici conservati e coppie manuali ordinate. |
 | `tests/random_pause_policy_test.php:137` | `test_activity_create_and_update_persist_policy_without_changing_duration` | Esegue creazione/aggiornamento attività e verifica persistenza senza cambiare durata o soglia di completamento. |
 | `tests/random_pause_policy_test.php:167` | `test_activity_duplication_preserves_manual_and_automatic_policy` | Esegue la duplicazione Moodle con backup/restore reale e controlla limiti manuali/automatici conservati. |
+| `tests/random_pause_policy_test.php:196` | `test_attention_fixture_half_speed_requires_an_explicit_allowed_rate` | Verifica sulla persistenza reale che 0,5x richieda la selezione esplicita fra le velocità autorizzate. |
 | `tests/release_hygiene_contract_test.php:35` | `test_shared_php_libraries_reject_direct_access` | Verifica che le librerie condivise lato scrittura conservino il guard Moodle standard contro l'accesso diretto. |
 | `tests/release_hygiene_contract_test.php:51` | `test_csv_export_format_strings_have_explicit_context` | Funzione/metodo PHP nominato `test_csv_export_format_strings_have_explicit_context`; vedere DocBlock e chiamanti per il contratto corrente. |
 | `tests/release_hygiene_contract_test.php:69` | `test_environment_italian_feedback_uses_utf8` | Funzione/metodo PHP nominato `test_environment_italian_feedback_uses_utf8`; vedere DocBlock e chiamanti per il contratto corrente. |

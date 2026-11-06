@@ -2,7 +2,7 @@
 
 Generated from the VideoTrack 1.7.238 source tree. PHP entries include named functions and methods; AMD entries include named declarations, assigned function expressions and object-method functions.
 
-**PHP functions/methods:** 1086. **Named AMD callables:** 654.
+**PHP functions/methods:** 1087. **Named AMD callables:** 654.
 
 | Location | Callable | Responsibility |
 |---|---|---|
@@ -984,17 +984,16 @@ Generated from the VideoTrack 1.7.238 source tree. PHP entries include named fun
 | `classes/local/form_reaction_settings.php:300` | `apply_completion_lock` | Applies the original course completion lock to top-level fields and the actual number of repeated rows. |
 | `classes/local/form_reaction_settings.php:321` | `add_notice_elements` | Builds the context-bound reaction notice editor with attachments and trusted HTML disabled. |
 | `classes/local/form_validation.php:36` | `scalar_settings_errors` | Named PHP function/method `scalar_settings_errors`; see source DocBlock and callers for the current contract. |
-| `classes/local/form_validation.php:69` | `random_pause_errors` | Validate independently optional attention-pause bounds before integer cleaning. |
-| `classes/local/form_validation.php:96` | `completion_percent_errors` | Validates the optional suffixed or fallback completion percentage and returns its group error. |
-| `classes/local/form_validation.php:118` | `bounded_integer_errors` | Validates one optional integer setting against inclusive bounds. |
-| `classes/local/form_validation.php:143` | `reaction_requirement_errors` | Validates the dependency between enabled reaction requirements, minimum count and all-types mode. |
-| `classes/local/form_validation.php:161` | `reaction_preset_errors` | Validates non-empty optional reaction-preset JSON. |
-| `classes/local/form_validation.php:185` | `acknowledgement_errors` | Named PHP function/method `acknowledgement_errors`; see source DocBlock and callers for the current contract. |
-| `classes/local/form_validation.php:226` | `completion_rule_enabled` | Combines the explicit percentage, reaction and acknowledgement completion predicates. |
-| `classes/local/form_validation.php:239` | `percentage_completion_rule_enabled` | Detects a positive percentage rule backed by a configured duration. |
-| `classes/local/form_validation.php:254` | `reaction_completion_rule_enabled` | Detects active minimum, all-types or individually required reaction rules. |
-| `classes/local/form_validation.php:272` | `acknowledgement_completion_rule_enabled` | Detects an active acknowledgement completion rule. |
-| `classes/local/form_validation.php:285` | `duration_errors` | Named PHP function/method `duration_errors`; see source DocBlock and callers for the current contract. |
+| `classes/local/form_validation.php:70` | `completion_percent_errors` | Validates the optional suffixed or fallback completion percentage and returns its group error. |
+| `classes/local/form_validation.php:92` | `bounded_integer_errors` | Validates one optional integer setting against inclusive bounds. |
+| `classes/local/form_validation.php:117` | `reaction_requirement_errors` | Validates the dependency between enabled reaction requirements, minimum count and all-types mode. |
+| `classes/local/form_validation.php:135` | `reaction_preset_errors` | Validates non-empty optional reaction-preset JSON. |
+| `classes/local/form_validation.php:159` | `acknowledgement_errors` | Named PHP function/method `acknowledgement_errors`; see source DocBlock and callers for the current contract. |
+| `classes/local/form_validation.php:200` | `completion_rule_enabled` | Combines the explicit percentage, reaction and acknowledgement completion predicates. |
+| `classes/local/form_validation.php:213` | `percentage_completion_rule_enabled` | Detects a positive percentage rule backed by a configured duration. |
+| `classes/local/form_validation.php:228` | `reaction_completion_rule_enabled` | Detects active minimum, all-types or individually required reaction rules. |
+| `classes/local/form_validation.php:246` | `acknowledgement_completion_rule_enabled` | Detects an active acknowledgement completion rule. |
+| `classes/local/form_validation.php:259` | `duration_errors` | Named PHP function/method `duration_errors`; see source DocBlock and callers for the current contract. |
 | `classes/local/forum_bridge.php:47` | `resolve_destination` | PHP callable `resolve_destination`; see its DocBlock and callers for parameter, return-value and side-effect details. |
 | `classes/local/forum_bridge.php:99` | `get_group_options` | PHP callable `get_group_options`; see its DocBlock and callers for parameter, return-value and side-effect details. |
 | `classes/local/forum_bridge.php:135` | `can_choose_subscription` | PHP callable `can_choose_subscription`; see its DocBlock and callers for parameter, return-value and side-effect details. |
@@ -1034,6 +1033,7 @@ Generated from the VideoTrack 1.7.238 source tree. PHP entries include named fun
 | `classes/local/random_pause_policy.php:57` | `normalise_overrides` | Normalise stored overrides without materialising automatic values. |
 | `classes/local/random_pause_policy.php:77` | `activity_bounds` | Resolve teacher overrides over duration-derived or site fallback bounds. |
 | `classes/local/random_pause_policy.php:100` | `automatic_bounds` | Calculate rounded thirds within operational limits or use the site fallback. |
+| `classes/local/random_pause_policy.php:115` | `form_errors` | Validate independently optional attention-pause bounds before integer cleaning. |
 | `classes/local/reaction_form_validation.php:37` | `reaction_text_icon_errors` | PHP callable `reaction_text_icon_errors`; see its DocBlock and callers for parameter, return-value and side-effect details. |
 | `classes/local/reaction_form_validation.php:65` | `reaction_details_errors` | PHP callable `reaction_details_errors`; see its DocBlock and callers for parameter, return-value and side-effect details. |
 | `classes/local/reaction_write_service.php:46` | `complete` | Runs the cache, event, aggregate and completion pipeline after a reaction row has been inserted. |
@@ -1385,31 +1385,31 @@ Generated from the VideoTrack 1.7.238 source tree. PHP entries include named fun
 | `tests/backup_structure_contract_test.php:106` | `source` | Read the canonical backup structure source for contract assertions. |
 | `tests/behat/behat_mod_videotrack.php:44` | `the_videotrack_attention_policy_is` | Read the effective per-activity attention configuration without changing it. |
 | `tests/behat/behat_mod_videotrack.php:66` | `i_use_half_speed_for_the_videotrack_attention_check` | Slow the unchanged 60-second fixtures so the real one-minute deadline precedes video end. |
-| `tests/behat/behat_mod_videotrack.php:84` | `the_videotrack_attention_check_pauses_playback` | Observe the actual timer-driven provider pause and student notice, without clock overrides. |
-| `tests/behat/behat_mod_videotrack.php:107` | `the_videotrack_focus_policy_is` | Asserts the effective focus policy exposed by the real player JSON. |
-| `tests/behat/behat_mod_videotrack.php:130` | `the_videotrack_html5_media_is_ready` | Waits for local HTML5 fixture metadata in Behat. |
-| `tests/behat/behat_mod_videotrack.php:150` | `i_seek_the_videotrack_html5_media_to_seconds` | Drives a deterministic HTML5 seek in the browser test harness. |
-| `tests/behat/behat_mod_videotrack.php:168` | `the_videotrack_html5_media_time_should_be_between` | Asserts the HTML5 media timestamp is inside the expected browser-test range. |
-| `tests/behat/behat_mod_videotrack.php:194` | `the_videotrack_html5_media_playback_is` | Asserts deterministic HTML5 play/pause state in the Behat browser harness. |
-| `tests/behat/behat_mod_videotrack.php:219` | `the_deterministic_videotrack_provider_is_ready` | Waits for the selected deterministic provider SDK double and production adapter. |
-| `tests/behat/behat_mod_videotrack.php:238` | `i_control_the_deterministic_videotrack_provider` | Drives provider play/pause through the SDK surface used by production. |
-| `tests/behat/behat_mod_videotrack.php:265` | `the_deterministic_videotrack_provider_playback_is` | Asserts provider play/pause state after an asynchronous production-adapter recovery. |
-| `tests/behat/behat_mod_videotrack.php:286` | `i_seek_the_deterministic_videotrack_provider_to_seconds` | Drives a deterministic provider seek through the production adapter boundary. |
-| `tests/behat/behat_mod_videotrack.php:308` | `the_deterministic_videotrack_provider_time_is_between` | Requires a provider timestamp to remain inside the expected range for one polling window. |
-| `tests/behat/behat_mod_videotrack.php:349` | `the_deterministic_videotrack_provider_time_matches_the_validated_frontier` | Verifies blocked provider rollback against a dynamically stable persisted validated frontier. |
-| `tests/behat/behat_mod_videotrack.php:413` | `the_playback_credit_window_is_closed_by_an_accepted_pause` | Verifies that a real browser play/pause cycle uses one server-bound session and closes its credit window. |
-| `tests/behat/behat_mod_videotrack.php:482` | `no_validated_playback_exists` | Checks that a browser completion case starts with no server-validated ledger rows for its learner/activity. |
-| `tests/behat/behat_mod_videotrack.php:507` | `browser_playback_completes_moodle_tracking` | Polls actual state, accepted browser pause and native Moodle completion without injecting progress or completion. |
-| `tests/behat/behat_mod_videotrack.php:576` | `allowed_forward_seek_preserves_unwatched_gap` | Reads actual browser ledger/state/native completion to require allowed-seek playback before and after an uncredited gap. |
-| `tests/behat/behat_mod_videotrack.php:660` | `seek_intervals_exclude_unwatched_gap` | Checks positive persisted intervals stay outside the deliberately skipped middle of the 60-second browser fixture. |
-| `tests/behat/behat_mod_videotrack.php:682` | `i_pause_the_videotrack_player_after_rollback_recovery` | Observes bounded native/SDK rollback recovery and explicitly pauses via the media surface before persisted frontier assertions. |
-| `tests/behat/behat_mod_videotrack.php:744` | `paused_player_matches_validated_frontier` | Polls paused native/SDK-double media until its time stably matches the actual persisted validated frontier. |
-| `tests/behat/behat_mod_videotrack.php:791` | `post_rollback_interactions_retain_safe_timestamps` | Reads saved learner actions and the real Forum composer URL to check frontier timestamps, session scope and preserved completion. |
-| `tests/behat/behat_mod_videotrack.php:885` | `the_user_has_watched_videotrack_through_seconds` | Seeds bounded validated watched evidence for deterministic post-seek Behat interaction scenarios. |
-| `tests/behat/behat_mod_videotrack.php:979` | `the_moodle_completion_state_for_videotrack_is` | Asserts the persisted Moodle core completion state after a VideoTrack browser interaction. |
-| `tests/behat/behat_mod_videotrack.php:1020` | `the_videotrack_forum_time_should_be_between` | Asserts the linked Forum composer keeps a timestamp inside the expected validated range after rollback. |
-| `tests/behat/behat_mod_videotrack.php:1043` | `the_latest_seek_segment_matches_the_pre_seek_browser_time` | Verifies the raw pre-seek endpoint and rejects any aggregate credit or resume position inside the skipped gap. |
-| `tests/behat/behat_mod_videotrack.php:1117` | `the_videotrack_completion_requirements_are_stacked_vertically` | Verifies computed column layout and non-overlapping vertical geometry for grouped Moodle completion items. |
+| `tests/behat/behat_mod_videotrack.php:92` | `the_videotrack_attention_check_pauses_playback` | Observe the actual timer-driven provider pause and student notice, without clock overrides. |
+| `tests/behat/behat_mod_videotrack.php:115` | `the_videotrack_focus_policy_is` | Asserts the effective focus policy exposed by the real player JSON. |
+| `tests/behat/behat_mod_videotrack.php:138` | `the_videotrack_html5_media_is_ready` | Waits for local HTML5 fixture metadata in Behat. |
+| `tests/behat/behat_mod_videotrack.php:158` | `i_seek_the_videotrack_html5_media_to_seconds` | Drives a deterministic HTML5 seek in the browser test harness. |
+| `tests/behat/behat_mod_videotrack.php:176` | `the_videotrack_html5_media_time_should_be_between` | Asserts the HTML5 media timestamp is inside the expected browser-test range. |
+| `tests/behat/behat_mod_videotrack.php:202` | `the_videotrack_html5_media_playback_is` | Asserts deterministic HTML5 play/pause state in the Behat browser harness. |
+| `tests/behat/behat_mod_videotrack.php:227` | `the_deterministic_videotrack_provider_is_ready` | Waits for the selected deterministic provider SDK double and production adapter. |
+| `tests/behat/behat_mod_videotrack.php:246` | `i_control_the_deterministic_videotrack_provider` | Drives provider play/pause through the SDK surface used by production. |
+| `tests/behat/behat_mod_videotrack.php:273` | `the_deterministic_videotrack_provider_playback_is` | Asserts provider play/pause state after an asynchronous production-adapter recovery. |
+| `tests/behat/behat_mod_videotrack.php:294` | `i_seek_the_deterministic_videotrack_provider_to_seconds` | Drives a deterministic provider seek through the production adapter boundary. |
+| `tests/behat/behat_mod_videotrack.php:316` | `the_deterministic_videotrack_provider_time_is_between` | Requires a provider timestamp to remain inside the expected range for one polling window. |
+| `tests/behat/behat_mod_videotrack.php:357` | `the_deterministic_videotrack_provider_time_matches_the_validated_frontier` | Verifies blocked provider rollback against a dynamically stable persisted validated frontier. |
+| `tests/behat/behat_mod_videotrack.php:421` | `the_playback_credit_window_is_closed_by_an_accepted_pause` | Verifies that a real browser play/pause cycle uses one server-bound session and closes its credit window. |
+| `tests/behat/behat_mod_videotrack.php:490` | `no_validated_playback_exists` | Checks that a browser completion case starts with no server-validated ledger rows for its learner/activity. |
+| `tests/behat/behat_mod_videotrack.php:515` | `browser_playback_completes_moodle_tracking` | Polls actual state, accepted browser pause and native Moodle completion without injecting progress or completion. |
+| `tests/behat/behat_mod_videotrack.php:584` | `allowed_forward_seek_preserves_unwatched_gap` | Reads actual browser ledger/state/native completion to require allowed-seek playback before and after an uncredited gap. |
+| `tests/behat/behat_mod_videotrack.php:668` | `seek_intervals_exclude_unwatched_gap` | Checks positive persisted intervals stay outside the deliberately skipped middle of the 60-second browser fixture. |
+| `tests/behat/behat_mod_videotrack.php:690` | `i_pause_the_videotrack_player_after_rollback_recovery` | Observes bounded native/SDK rollback recovery and explicitly pauses via the media surface before persisted frontier assertions. |
+| `tests/behat/behat_mod_videotrack.php:752` | `paused_player_matches_validated_frontier` | Polls paused native/SDK-double media until its time stably matches the actual persisted validated frontier. |
+| `tests/behat/behat_mod_videotrack.php:799` | `post_rollback_interactions_retain_safe_timestamps` | Reads saved learner actions and the real Forum composer URL to check frontier timestamps, session scope and preserved completion. |
+| `tests/behat/behat_mod_videotrack.php:893` | `the_user_has_watched_videotrack_through_seconds` | Seeds bounded validated watched evidence for deterministic post-seek Behat interaction scenarios. |
+| `tests/behat/behat_mod_videotrack.php:987` | `the_moodle_completion_state_for_videotrack_is` | Asserts the persisted Moodle core completion state after a VideoTrack browser interaction. |
+| `tests/behat/behat_mod_videotrack.php:1028` | `the_videotrack_forum_time_should_be_between` | Asserts the linked Forum composer keeps a timestamp inside the expected validated range after rollback. |
+| `tests/behat/behat_mod_videotrack.php:1051` | `the_latest_seek_segment_matches_the_pre_seek_browser_time` | Verifies the raw pre-seek endpoint and rejects any aggregate credit or resume position inside the skipped gap. |
+| `tests/behat/behat_mod_videotrack.php:1125` | `the_videotrack_completion_requirements_are_stacked_vertically` | Verifies computed column layout and non-overlapping vertical geometry for grouped Moodle completion items. |
 | `tests/cli_contract_test.php:35` | `test_validator_is_read_only_and_covers_release_contracts` | Named PHP function/method `test_validator_is_read_only_and_covers_release_contracts`; see source DocBlock and callers for the current contract. |
 | `tests/cli_contract_test.php:65` | `test_course_analytics_benchmark_uses_real_read_only_metrics` | Named PHP function/method `test_course_analytics_benchmark_uses_real_read_only_metrics`; see source DocBlock and callers for the current contract. |
 | `tests/cli_contract_test.php:87` | `test_cli_tools_are_documented_for_admins_and_maintainers` | Named PHP function/method `test_cli_tools_are_documented_for_admins_and_maintainers`; see source DocBlock and callers for the current contract. |
@@ -1608,6 +1608,7 @@ Generated from the VideoTrack 1.7.238 source tree. PHP entries include named fun
 | `tests/random_pause_policy_test.php:124` | `test_import_normalisation_preserves_automatic_and_orders_manual_values` | Import normalisation repairs invalid values but keeps automatic values as zero. |
 | `tests/random_pause_policy_test.php:137` | `test_activity_create_and_update_persist_policy_without_changing_duration` | Actual module create/update persist overrides without changing duration or completion settings. |
 | `tests/random_pause_policy_test.php:167` | `test_activity_duplication_preserves_manual_and_automatic_policy` | Moodle's actual duplication runs the backup/restore plan and retains manual and automatic settings. |
+| `tests/random_pause_policy_test.php:196` | `test_attention_fixture_half_speed_requires_an_explicit_allowed_rate` | Proves half speed is rejected unless explicitly selected through the real activity save path. |
 | `tests/release_hygiene_contract_test.php:35` | `test_shared_php_libraries_reject_direct_access` | Ensures shared write-side libraries retain the standard Moodle direct-access guard. |
 | `tests/release_hygiene_contract_test.php:51` | `test_csv_export_format_strings_have_explicit_context` | Named PHP function/method `test_csv_export_format_strings_have_explicit_context`; see source DocBlock and callers for the current contract. |
 | `tests/release_hygiene_contract_test.php:69` | `test_environment_italian_feedback_uses_utf8` | Named PHP function/method `test_environment_italian_feedback_uses_utf8`; see source DocBlock and callers for the current contract. |

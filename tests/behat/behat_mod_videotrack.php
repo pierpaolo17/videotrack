@@ -36,7 +36,7 @@ class behat_mod_videotrack extends behat_base {
     /**
      * Read the effective per-activity attention configuration without changing it.
      *
-     * @Then /^the VideoTrack attention policy is "(?P<state>enabled|disabled)" from "(?P<minimum>[0-9]+)" to "(?P<maximum>[0-9]+)" seconds$/
+     * @Then /^the VideoTrack attention policy is "(enabled|disabled)" from "([0-9]+)" to "([0-9]+)" seconds$/
      * @param string $state Expected switch state.
      * @param int $minimum Expected effective minimum seconds.
      * @param int $maximum Expected effective maximum seconds.
@@ -65,14 +65,22 @@ class behat_mod_videotrack extends behat_base {
      */
     public function i_use_half_speed_for_the_videotrack_attention_check(): void {
         $applied = $this->getSession()->evaluateScript(
-            "(function() {var media = document.querySelector('#mod-videotrack-player video');"
+            "(function() {var node = document.querySelector('script[id^=\"mod-videotrack-player-config-\"]');"
+                . "if (!node) {return false;} var config = JSON.parse(node.textContent);"
+                . "var speeds = config.playbackspeeds;"
+                . "if (!Array.isArray(speeds) || speeds.map(Number).indexOf(0.5) === -1"
+                . "|| config.allowplaybackratechange === false) {return false;}"
+                . "var media = document.querySelector('#mod-videotrack-player video');"
                 . "if (media) {media.playbackRate = 0.5; return media.playbackRate === 0.5;}"
                 . "var fixture = window.__videotrackBehatProvider;"
                 . "if (!fixture || !fixture.player) {return false;}"
                 . "fixture.player.setPlaybackRate(0.5); return true;}())"
         );
         if (!$applied) {
-            throw new ExpectationException('Could not set half speed for the attention check.', $this->getSession());
+            throw new ExpectationException(
+                'Half speed must be allowed by the activity before the attention check.',
+                $this->getSession()
+            );
         }
     }
 

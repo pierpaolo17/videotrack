@@ -65,8 +65,8 @@ Feature: Teacher attention intervals preserve the provider tracking lifecycle
 
   Scenario: HTML5 attention pause closes server credit and permits a validated resume
     Given the following "activities" exist:
-      | activity | course | name | behathtml5fixture | behatproviderfixture | durationseconds | randomfocuspauses | randompauseminseconds | randompausemaxseconds | allowplaybackratechange | maxplaybackrate | autoplay | resumeplayback |
-      | videotrack | C1 | HTML5 attention pause | 1 |  | 1800 | 1 | 60 | 60 | 1 | 100 | 0 | 0 |
+      | activity | course | name | behathtml5fixture | behatproviderfixture | durationseconds | randomfocuspauses | randompauseminseconds | randompausemaxseconds | allowplaybackratechange | maxplaybackrate | playbackspeed_0.5 | playbackspeed_1 | autoplay | resumeplayback |
+      | videotrack | C1 | HTML5 attention pause | 1 |  | 1800 | 1 | 60 | 60 | 1 | 100 | 0.5 | 1 | 0 | 0 |
     And I log in as "student1"
     And I am on "Course 1" course homepage
     When I click on "HTML5 attention pause" "link"
@@ -87,8 +87,8 @@ Feature: Teacher attention intervals preserve the provider tracking lifecycle
 
   Scenario: YOUTUBE attention pause closes server credit and permits a validated resume
     Given the following "activities" exist:
-      | activity | course | name | behathtml5fixture | behatproviderfixture | durationseconds | randomfocuspauses | randompauseminseconds | randompausemaxseconds | allowplaybackratechange | maxplaybackrate | autoplay | resumeplayback |
-      | videotrack | C1 | YOUTUBE attention pause |  | youtube | 1800 | 1 | 60 | 60 | 1 | 100 | 0 | 0 |
+      | activity | course | name | behathtml5fixture | behatproviderfixture | durationseconds | randomfocuspauses | randompauseminseconds | randompausemaxseconds | allowplaybackratechange | maxplaybackrate | playbackspeed_0.5 | playbackspeed_1 | autoplay | resumeplayback |
+      | videotrack | C1 | YOUTUBE attention pause |  | youtube | 1800 | 1 | 60 | 60 | 1 | 100 | 0.5 | 1 | 0 | 0 |
     And I log in as "student1"
     And I am on "Course 1" course homepage
     When I click on "YOUTUBE attention pause" "link"
@@ -109,8 +109,8 @@ Feature: Teacher attention intervals preserve the provider tracking lifecycle
 
   Scenario: VIMEO attention pause closes server credit and permits a validated resume
     Given the following "activities" exist:
-      | activity | course | name | behathtml5fixture | behatproviderfixture | durationseconds | randomfocuspauses | randompauseminseconds | randompausemaxseconds | allowplaybackratechange | maxplaybackrate | autoplay | resumeplayback |
-      | videotrack | C1 | VIMEO attention pause |  | vimeo | 1800 | 1 | 60 | 60 | 1 | 100 | 0 | 0 |
+      | activity | course | name | behathtml5fixture | behatproviderfixture | durationseconds | randomfocuspauses | randompauseminseconds | randompausemaxseconds | allowplaybackratechange | maxplaybackrate | playbackspeed_0.5 | playbackspeed_1 | autoplay | resumeplayback |
+      | videotrack | C1 | VIMEO attention pause |  | vimeo | 1800 | 1 | 60 | 60 | 1 | 100 | 0.5 | 1 | 0 | 0 |
     And I log in as "student1"
     And I am on "Course 1" course homepage
     When I click on "VIMEO attention pause" "link"

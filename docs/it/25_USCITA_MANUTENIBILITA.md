@@ -101,3 +101,5 @@ Vedere [analisi statica](24_ANALISI_STATICA.md), [gate di release](07_BUILD_TEST
 ## 1.7.237 accettata e tranche funzionale 1.7.238
 
 Lo ZIP reale 1.7.237 da 402 file coincide con main `baa07ab580c15f8924ecb812a5832231e981bed2`. I sei job release/main corretti superano Behat 33/618 e PHPUnit 369/3988; PHPCS/lint/Grunt/PHPUnit server e i due strict passano. U-017 resta chiuso. Le impostazioni di attenzione docente richieste costituiscono una tranche funzionale 1.7.238; dopo l’accettazione riprendere la matrice residua U-007 (ended/replay/velocità, ruoli/gruppi pertinenti, provider reali e altri browser), quindi U-020/accessibilità manuale, traduzioni semantiche e gate web finale integrato. App e provider remoti mantengono il loro ordine.
+
+La prima CI 1.7.238 resta non accettata. Correggere confezionamento e fixture nella stessa versione; U-017 resta chiuso e U-007 riprende dopo l’accettazione della tranche funzionale.

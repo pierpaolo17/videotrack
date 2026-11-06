@@ -772,5 +772,4 @@ final class form_definition_test extends \advanced_testcase {
         $this->assertSame(120, (int)$form->getElement('randompauseminseconds')->getValue());
         $this->assertSame(600, (int)$form->getElement('randompausemaxseconds')->getValue());
     }
-
 }

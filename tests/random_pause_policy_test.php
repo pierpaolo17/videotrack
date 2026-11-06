@@ -104,13 +104,13 @@ final class random_pause_policy_test extends \advanced_testcase {
      * The real form validation reports invalid fields and inverted explicit values.
      */
     public function test_form_validation_preserves_optional_bounds_and_reports_errors(): void {
-        $this->assertSame([], form_validation::random_pause_errors([]));
-        $this->assertSame([], form_validation::random_pause_errors(['randompauseminseconds' => '900']));
-        $this->assertSame([], form_validation::random_pause_errors(['randompausemaxseconds' => '60']));
+        $this->assertSame([], random_pause_policy::form_errors([]));
+        $this->assertSame([], random_pause_policy::form_errors(['randompauseminseconds' => '900']));
+        $this->assertSame([], random_pause_policy::form_errors(['randompausemaxseconds' => '60']));
         $this->assertSame(['randompauseminseconds', 'randompausemaxseconds'], array_keys(
-            form_validation::random_pause_errors(['randompauseminseconds' => '60.5', 'randompausemaxseconds' => -1])
+            random_pause_policy::form_errors(['randompauseminseconds' => '60.5', 'randompausemaxseconds' => -1])
         ));
-        $this->assertSame(['randompausemaxseconds'], array_keys(form_validation::random_pause_errors([
+        $this->assertSame(['randompausemaxseconds'], array_keys(random_pause_policy::form_errors([
             'randompauseminseconds' => 600, 'randompausemaxseconds' => 120,
         ])));
         $this->assertArrayHasKey('randompauseminseconds', form_validation::scalar_settings_errors([
@@ -177,7 +177,11 @@ final class random_pause_policy_test extends \advanced_testcase {
                 'randompauseminseconds' => $minimum, 'randompausemaxseconds' => $maximum,
             ]);
             $cm = get_fast_modinfo($course)->get_cm($activity->cmid);
-            $copy = \duplicate_module($course, $cm);
+            if (method_exists(\core_courseformat\local\cmactions::class, 'duplicate')) {
+                $copy = \core_courseformat\formatactions::cm((int)$course->id)->duplicate((int)$cm->id);
+            } else {
+                $copy = \duplicate_module($course, $cm);
+            }
             $this->assertNotNull($copy);
             $stored = $DB->get_record('videotrack', ['id' => $copy->instance], '*', MUST_EXIST);
             $this->assertSame($minimum, (int)$stored->randompauseminseconds);
@@ -185,5 +189,36 @@ final class random_pause_policy_test extends \advanced_testcase {
             $this->assertSame(1, (int)$stored->randomfocuspauses);
             $this->assertEquals(900, $stored->durationseconds);
         }
+    }
+    /**
+     * The attention fixture must authorise half speed through the real activity save path.
+     */
+    public function test_attention_fixture_half_speed_requires_an_explicit_allowed_rate(): void {
+        global $DB;
+
+        $this->resetAfterTest();
+        $this->setAdminUser();
+        set_config('playbackspeeds', '0.75,1', 'mod_videotrack');
+        $course = $this->getDataGenerator()->create_course();
+        $settings = [
+            'course' => $course->id,
+            'durationseconds' => 1800,
+            'allowplaybackratechange' => 1,
+            'allowseekforward' => 1,
+            'maxplaybackrate' => 100,
+            'randomfocuspauses' => 1,
+            'randompauseminseconds' => 60,
+            'randompausemaxseconds' => 60,
+        ];
+        $unselected = $this->getDataGenerator()->create_module('videotrack', $settings);
+        $unselected = $DB->get_record('videotrack', ['id' => $unselected->id], '*', MUST_EXIST);
+        $this->assertNotContains(0.5, \videotrack_get_tracking_playback_speeds($unselected));
+        $selected = $this->getDataGenerator()->create_module('videotrack', $settings + [
+            'playbackspeed_0.5' => '0.5',
+            'playbackspeed_1' => '1',
+        ]);
+        $selected = $DB->get_record('videotrack', ['id' => $selected->id], '*', MUST_EXIST);
+        $this->assertContains(0.5, \videotrack_get_tracking_playback_speeds($selected));
+        $this->assertSame(['min' => 60, 'max' => 60], random_pause_policy::activity_bounds($selected));
     }
 }

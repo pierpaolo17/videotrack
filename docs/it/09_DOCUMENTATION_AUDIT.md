@@ -35,7 +35,7 @@ duplicano intenzionalmente procedure implementative, dizionari dei campi o lungh
 - L’[audit di uscita U-017](25_USCITA_MANUTENIBILITA.md) resta chiuso. La CI release/main
   1.7.237 accettata supera 369 test PHPUnit / 3.988 asserzioni e 33 scenari Behat / 618 step
   nei sei ambienti; ZIP reale, report server e due strict sono accettati. La candidata 1.7.238
-  aggiunge intervalli di attenzione docente: 378 metodi PHPUnit e Behat 41/722 attesi dal
+  aggiunge intervalli di attenzione docente: 379 metodi PHPUnit e Behat 41/722 attesi dal
   sorgente. La CI candidata è pendente; U-007 resta aperto.
 
 - I campi integrità conservano default disabilitati e posizione fra strumenti di studio e presa visione;
@@ -189,4 +189,6 @@ Prima della promozione verificare:
 
 ## Aggiornamento funzionale 1.7.238
 
-Baseline accettata: ZIP reale/main/server/strict 1.7.237, con evidenze browser solo CI. Nuova policy, due campi, upgrade/backup, otto pacchetti lingua (997 chiavi) e tre formati ER descrivono lo stesso contratto secondi/zero/terzi. Le aspettative candidate sono 378 metodi PHPUnit, 41 scenari Behat / 722 step e 166 file PHP, non risultati eseguiti. Codice/build AMD, servizi, capability e regole analisi sono invariati. Dopo l’accettazione riprendere U-007.
+Baseline accettata: ZIP reale/main/server/strict 1.7.237, con evidenze browser solo CI. Nuova policy, due campi, upgrade/backup, otto pacchetti lingua (997 chiavi) e tre formati ER descrivono lo stesso contratto secondi/zero/terzi. Le aspettative candidate sono 379 metodi PHPUnit, 41 scenari Behat / 722 step e 166 file PHP, non risultati eseguiti. Codice/build AMD, servizi, capability e regole analisi sono invariati. Dopo l’accettazione riprendere U-007.
+
+La prima candidata ha evidenziato difetti di ordinamento/stile, una segnalazione aggiuntiva sulla complessità della classe e una configurazione test con 0,5x non autorizzato. La correzione conserva valori delle stringhe e asserzioni tracking, sposta la validazione in `random_pause_policy::form_errors()` e usa l’API corrente di duplicazione dove disponibile. I conteggi candidati sono 379 metodi PHPUnit e Behat 41/722; serve ancora la CI corretta.

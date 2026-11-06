@@ -35,7 +35,7 @@ not duplicate implementation procedures, field dictionaries or long security/pri
 - The [U-017 exit audit](25_MAINTAINABILITY_EXIT.md) remains closed. Accepted 1.7.237
   release/main CI passes 369 PHPUnit tests / 3,988 assertions and 33 Behat scenarios / 618 steps
   in all six environments; the actual ZIP, server report and both strict outputs are accepted.
-  Candidate 1.7.238 adds teacher attention settings, with 378 PHPUnit methods and 41/722 Behat
+  Candidate 1.7.238 adds teacher attention settings, with 379 PHPUnit methods and 41/722 Behat
   expected from source. Candidate CI is pending; U-007 remains open.
 
 - `form_reaction_settings` owns general reaction settings, context-safe notice/preset fields and individual row
@@ -187,4 +187,6 @@ Before promotion, verify:
 
 ## 1.7.238 functional update
 
-Accepted baseline: actual 1.7.237 ZIP/main/server/strict, with CI-only browser evidence. The new policy, two fields, upgrade/backup, all eight language packs (997 keys) and three ER formats describe the same seconds/zero/thirds contract. Candidate expectations are 378 PHPUnit methods, 41 Behat scenarios / 722 steps and 166 PHP files, not executed results. AMD code/builds, services, capabilities and analysis rules are unchanged. After acceptance return to U-007.
+Accepted baseline: actual 1.7.237 ZIP/main/server/strict, with CI-only browser evidence. The new policy, two fields, upgrade/backup, all eight language packs (997 keys) and three ER formats describe the same seconds/zero/thirds contract. Candidate expectations are 379 PHPUnit methods, 41 Behat scenarios / 722 steps and 166 PHP files, not executed results. AMD code/builds, services, capabilities and analysis rules are unchanged. After acceptance return to U-007.
+
+The initial candidate exposed language ordering and formatting defects, one extra class-complexity advisory and an unauthorised half-speed test setup. The correction preserves all language values and tracking assertions, moves validation into `random_pause_policy::form_errors()` and uses the current duplication API on supported core versions. Candidate counts are 379 PHPUnit methods and 41/722 Behat; corrected CI is still required.

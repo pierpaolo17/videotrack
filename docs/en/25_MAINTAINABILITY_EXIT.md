@@ -100,3 +100,5 @@ See [static-analysis policy](24_STATIC_ANALYSIS.md), [release gates](07_BUILD_TE
 ## Accepted 1.7.237 and the 1.7.238 functional tranche
 
 The actual 402-file 1.7.237 ZIP matches main commit `baa07ab580c15f8924ecb812a5832231e981bed2`. All six corrected release/main jobs pass 33/618 Behat and 369/3988 PHPUnit; server PHPCS/lint/Grunt/PHPUnit and both strict outputs pass. U-017 remains closed. The requested teacher attention settings form one functional tranche in 1.7.238; after acceptance resume the residual U-007 matrix (ended/replay/rate, relevant roles/groups, real providers and other browsers), then U-020/manual accessibility, semantic translations and the final integrated web gate. App and remote provider phases keep their order.
+
+Initial 1.7.238 CI remains unaccepted. Correct the packaging and fixture defects within this version; U-017 stays closed, and U-007 resumes only after the functional tranche is accepted.

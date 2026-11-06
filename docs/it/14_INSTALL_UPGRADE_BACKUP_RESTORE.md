@@ -99,3 +99,5 @@ procedura basata su backup; non reinstallare sopra un modulo rimosso parzialment
 ## Impostazioni di attenzione 1.7.238
 
 XMLDB `2026110601` aggiunge due campi interi NOT NULL con default `0` a `videotrack`. L’upgrade protetto aggiunge soltanto i campi mancanti e conserva i record. Zero seleziona la nuova policy proporzionale alla durata, senza congelare il precedente intervallo di sito. Il backup include entrambi i valori grezzi; il restore li normalizza e assegna default automatici ai vecchi backup. Una nuova prova candidata copre la duplicazione Moodle reale. Non vengono introdotti dati utente, indici o relazioni.
+
+La regressione di duplicazione usa `core_courseformat\formatactions::cm()->duplicate()` quando esiste `cmactions::duplicate()`; Moodle 5.0/5.1 mantengono l’helper supportato `duplicate_module()`. Entrambi eseguono backup/restore reale con le stesse asserzioni sulle impostazioni; nessuna deprecazione viene soppressa.
