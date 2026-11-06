@@ -304,3 +304,11 @@ with the two new fields; the configured gate passes. Psalm's informational total
 1.7.237, unchanged within corrected 1.7.238), with the configured scope passing; these are not zero-advisory
 results. Candidate 1.7.239 changes no production source or analysis rules. Its Behat test additions require
 normal PHPCS/lint and full CI; local static inspection does not replace those checks.
+
+## Accepted 1.7.239 and the 1.7.240 role/group tranche
+
+All six corrected release/main jobs pass configured analysis gates. PHPCS/lint are clean on 166 PHP files;
+PHPMD retains the same 24 reviewed findings and Psalm informational totals remain 732/760. These advisory
+counts are retained, not hidden or treated as zero. Candidate 1.7.240 changes only test helpers/features,
+version and documentation; production scopes/rules are unchanged. New helper multiline conditions follow
+the existing Moodle/PSR-12 layout. Native PHP/PHPCS and full browser execution require actual candidate CI.

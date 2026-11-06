@@ -37,6 +37,100 @@ class behat_mod_videotrack extends behat_base {
     private array $endedbaselines = [];
 
     /**
+     * Observe the effective learner-tracking switch exposed by the actual activity page.
+     *
+     * @Then /^the VideoTrack learner tracking policy is "(enabled|disabled)"$/
+     * @param string $policy Expected effective tracking switch.
+     */
+    public function the_videotrack_learner_tracking_policy_is(string $policy): void {
+        $actual = $this->getSession()->evaluateScript(
+            "(function() {var node = document.querySelector('script[id^=\"mod-videotrack-player-config-\"]');"
+                . "return node ? JSON.parse(node.textContent).trackingenabled : null;}())"
+        );
+        if ($actual !== ($policy === 'enabled')) {
+            throw new ExpectationException('Unexpected effective VideoTrack learner-tracking policy.', $this->getSession());
+        }
+    }
+
+    /**
+     * Require staff preview to leave no plugin playback records or completed native viewing state.
+     *
+     * @Then /^preview creates no learner tracking for "([^"]+)" in "([^"]+)"$/
+     * @param string $username Previewing Moodle username.
+     * @param string $activityname VideoTrack activity name.
+     */
+    public function preview_creates_no_learner_tracking(string $username, string $activityname): void {
+        global $DB;
+
+        $conditions = $this->browser_activity_conditions($username, $activityname);
+        $native = $DB->get_record('course_modules_completion', [
+            'coursemoduleid' => $conditions['cmid'],
+            'userid' => $conditions['userid'],
+        ]);
+        if (
+            $DB->record_exists('videotrack_seg', $conditions)
+            || $DB->record_exists('videotrack_state', $conditions)
+            || ($native && (int)$native->completionstate !== COMPLETION_INCOMPLETE)
+        ) {
+            throw new ExpectationException('Staff preview created learner playback or completion records.', $this->getSession());
+        }
+    }
+
+    /**
+     * Visit the real report endpoint, including deliberate out-of-scope learner requests.
+     *
+     * @When /^I open the VideoTrack report for "([^"]+)" and learner "([^"]+)"$/
+     * @param string $activityname VideoTrack activity name.
+     * @param string $username Learner username, or all for the unfiltered report.
+     */
+    public function i_open_the_videotrack_report_for_learner(string $activityname, string $username): void {
+        global $DB;
+
+        $activity = $DB->get_record('videotrack', ['name' => $activityname], '*', MUST_EXIST);
+        $cm = get_coursemodule_from_instance('videotrack', (int)$activity->id, (int)$activity->course, false, MUST_EXIST);
+        $params = ['id' => (int)$cm->id, 'mode' => 'student'];
+        if ($username !== 'all') {
+            $params['userid'] = (int)$DB->get_field('user', 'id', ['username' => $username], MUST_EXIST);
+        }
+        $url = new moodle_url('/mod/videotrack/report.php', $params);
+        $this->getSession()->visit($this->locate_path($url->out_as_local_url(false)));
+    }
+
+    /**
+     * Compare actual rendered report choices with the exact expected learner ids.
+     *
+     * @Then /^the VideoTrack report learner choices are "([^"]+)"$/
+     * @param string $usernames Comma-separated usernames, or none for no visible learners.
+     */
+    public function the_videotrack_report_learner_choices_are(string $usernames): void {
+        global $DB;
+
+        $select = $this->getSession()->getPage()->find('css', '#id_userid');
+        if (!$select) {
+            throw new ExpectationException('The report learner selector is missing.', $this->getSession());
+        }
+        $actual = [];
+        foreach ($select->findAll('css', 'option') as $option) {
+            $id = (int)$option->getAttribute('value');
+            if ($id > 0) {
+                $actual[] = $id;
+            }
+        }
+        $expected = [];
+        foreach ($usernames === 'none' ? [] : explode(',', $usernames) as $username) {
+            $expected[] = (int)$DB->get_field('user', 'id', ['username' => trim($username)], MUST_EXIST);
+        }
+        sort($actual, SORT_NUMERIC);
+        sort($expected, SORT_NUMERIC);
+        if ($actual !== $expected) {
+            throw new ExpectationException(
+                'Report learner ids differ: expected ' . json_encode($expected) . '; actual ' . json_encode($actual) . '.',
+                $this->getSession()
+            );
+        }
+    }
+
+    /**
      * Request a real media/SDK rate selected by the fixture, or an intentional above-cap probe.
      *
      * @When /^I request VideoTrack playback rate "([0-9.]+)"$/

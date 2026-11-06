@@ -1,5 +1,36 @@
 # VideoTrack changelog
 
+## 1.7.240 - 2026-11-06
+
+### U-007 browser role and separate-group report boundaries
+
+- Accept the actual 406-file 1.7.239 ZIP, SHA-256
+  `959ca57bb7fcba4e9f913bccc167fbe7f1ca2a350b53b9a3ea7a8b2ea6443ed9`,
+  identical to merged main `12b6bce78cdab893e5eb0946245ccd42c4092a29`.
+  All six corrected release/main CI jobs pass 379 PHPUnit tests / 4,076 assertions,
+  44 Behat scenarios / 830 steps and ten strict checks. Actual Moodle 5.0/5.3
+  server PHPCS/lint, Grunt and PHPUnit pass, with both strict outputs 10/0/0.
+  Browser evidence comes from CI; the server report does not execute Behat.
+- Add three unseeded browser cases: HTML5/YouTube/Vimeo teacher-only preview
+  plays and pauses without plugin segment/state or completed native viewing
+  records. A user with both student and teacher roles then obtains an accepted
+  play/pause cycle and native viewing completion, retained after reload.
+- Add three separate-group report cases with actual browser-earned progress
+  from two HTML5 learners. Check exact learner-selector ids, positive authorised
+  detail, denial of direct out-of-group ids, no-membership empty scope and the
+  explicit all-groups permission. Staff report access alone does not add learners.
+- Four new read-only/navigation helpers observe effective configuration and real
+  persisted records, visit the production report and inspect rendered choices.
+  No progress, ledger, completion or AJAX response is seeded. Moodle's standard
+  generators configure enrolments, role assignments, groups and capability overrides.
+- Source expectations: 379 PHPUnit methods and 50 Behat scenarios / 1,072 steps.
+  Actual candidate CI is required. Local extracted observer/API preview checks and
+  exact patch-application checks do not constitute PHP/Moodle/browser execution.
+  Production source, schema, services, eight language packs, AMD/builds, existing
+  fixtures/scenarios and analysis rules are unchanged. Update bilingual inventories
+  and ER current-tree labels. U-017 stays closed; U-007 awaits candidate evidence
+  and explicit additional-browser/public-provider checks before exit assessment.
+
 ## 1.7.239 - 2026-11-06
 
 ### U-007 natural end, replay and playback-rate browser contracts

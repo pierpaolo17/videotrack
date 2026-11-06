@@ -314,3 +314,11 @@ aumentano con i due campi; il gate configurato passa. Gli informativi Psalm sono
 1.7.237, invariati nella 1.7.238 corretta), con scope configurato superato: non sono risultati senza advisory.
 La candidata 1.7.239 non cambia sorgenti di produzione né regole analisi. Le aggiunte Behat richiedono i normali
 PHPCS/lint e CI completa; l’ispezione statica locale non sostituisce questi controlli.
+
+## 1.7.239 accettata e tranche ruoli/gruppi 1.7.240
+
+I sei job release/main corretti superano i gate analisi configurati. PHPCS/lint sono puliti su 166 file PHP;
+PHPMD conserva le stesse 24 segnalazioni revisionate e gli informativi Psalm restano 732/760. Questi conteggi
+restano espliciti, senza nasconderli o considerarli zero. La candidata 1.7.240 cambia solo helper/feature test,
+versione e documentazione; scope/regole produzione sono invariati. Le nuove condizioni multilinea seguono
+il layout Moodle/PSR-12 esistente. PHP/PHPCS nativi e browser completo richiedono la CI candidata reale.

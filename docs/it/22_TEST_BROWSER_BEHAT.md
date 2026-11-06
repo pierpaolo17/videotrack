@@ -1,6 +1,6 @@
 # Automazione browser Behat
 
-La 1.7.238 accettata supera **41 scenari / 722 step** e **379 test PHPUnit / 4.076 asserzioni** nei sei ambienti CI dopo il merge. ZIP esatto, report server e due strict sono accettati. Il report server esegue PHPCS/lint, Grunt e PHPUnit, non Behat. La prima CI **1.7.239** supera **44 scenari / 830 step** e **379 test PHPUnit / 4.076 asserzioni** nei sei ambienti, ma il gate complessivo fallisce per sei errori di formattazione PHPCS. La correzione di soli spazi richiede ancora la CI candidata. I sei ambienti usano un profilo Chrome, non sei browser.
+La **1.7.239 accettata** supera **44 scenari / 830 step** e **379 test PHPUnit / 4.076 asserzioni** nei sei job CI release/main corretti. ZIP reale, report server e due strict sono accettati. PHPCS/lint, Grunt e PHPUnit server passano; il report non esegue Behat. La candidata **1.7.240** prevede dal sorgente **50 scenari / 1.072 step**, da confermare nella CI candidata reale. I sei ambienti usano un profilo Chrome, non sei browser.
 
 ## Setup ed esecuzione
 
@@ -159,8 +159,9 @@ invariati. I sei job CI corretti 1.7.237 sono passati prima del merge e su main.
 | Seek avanti consentito, gap escluso e completamento incompleto | Caso 1.7.236 accettato | Caso 1.7.236 accettato | Caso 1.7.236 accettato |
 | Interazioni dopo rollback e completamento conservato | Caso senza seed 1.7.237 accettato | Caso SDK double 1.7.237 accettato | Caso SDK double 1.7.237 accettato |
 | Configurazione attenzione e pausa automatica/ripresa reale | Caso 1.7.238 accettato | Caso SDK double 1.7.238 accettato | Caso SDK double 1.7.238 accettato |
-| Fine naturale, replay, velocità consentita e riserva oltre tetto | Nuovo caso 1.7.239, CI attesa | Nuovo caso SDK double 1.7.239, CI attesa | Nuovo caso SDK double 1.7.239, CI attesa |
-| Ruoli e confini gruppi pertinenti | Revisione matrice residua | Revisione matrice residua | Revisione matrice residua |
+| Fine naturale, replay, velocità consentita e riserva oltre tetto | Caso 1.7.239 accettato | Caso SDK double 1.7.239 accettato | Caso SDK double 1.7.239 accettato |
+| Anteprima docente senza tracking e completamento con doppio ruolo | Nuovo caso 1.7.240, CI attesa | Nuovo caso SDK double 1.7.240, CI attesa | Nuovo caso SDK double 1.7.240, CI attesa |
+| Confini gruppi separati su selettore e id studente diretto nei report | Nuovi casi endpoint comune 1.7.240, dati HTML5 | Stessa policy PHP; vedere casi comuni | Stessa policy PHP; vedere casi comuni |
 
 Controlli learner, solo docente e doppio ruolo hanno già scenari condivisi sulla pagina. Questo non copre ogni
 combinazione provider/lifecycle/gruppo. U-007 resta aperto fino alle evidenze sulle celle essenziali e sui rami
@@ -212,7 +213,7 @@ conteggio. La posizione resume può correttamente arretrare; dopo replay non si 
 I casi distribuiti usano tempo reale e scritture AJAX reali; le asserzioni non inseriscono ledger/stato/
 completamento né risposte simulate. Scenari precedenti, adapter, SDK double e guardie restano invariati.
 Le verifiche locali dei driver estratti coprono controlli, funzioni del tetto e osservazioni asincrone;
-la prima esecuzione Moodle 44/830 passa nei sei job; la correzione di formato richiede una nuova CI. Questi contratti SDK non provano disponibilità degli iframe
+la prima esecuzione Moodle 44/830 passa nei sei job; la correzione di formato ha superato i sei job release/main corretti. Questi contratti SDK non provano disponibilità degli iframe
 pubblici, cookie/consenso o compatibilità con altri browser.
 
 ## Correzione formattazione della prima CI 1.7.239
@@ -227,4 +228,47 @@ Le tre nuove condizioni `if` multilinea devono avere la prima espressione sotto 
 su una riga propria, con l’indentazione Moodle/PSR-12 già usata. La correzione incrementale cambia solo
 spazi nelle condizioni e aggiorna documentazione/posizioni dei callable. Ogni token PHP, stringa JavaScript,
 asserzione, timeout, fixture e scenario resta identico. Nessun cambiamento a produzione, regole analisi o
-versione. Prima del merge servono ancora tutti e sei i job CI corretti.
+versione. I sei job della candidata corretta e dopo merge sono passati; il difetto storico di formato è risolto nella baseline 1.7.239 accettata.
+
+## Anteprima docente e riproduzione con doppio ruolo 1.7.240
+
+`browser_role_tracking.feature` aggiunge un caso senza seed per provider. Un utente solo docente riproduce
+fino a 5–10 secondi e mette in pausa; il JSON reale deve esporre `trackingenabled=false`. L’asserzione in sola
+lettura richiede assenza di righe `videotrack_seg` (incluso handshake iniziale), assenza di `videotrack_state`
+e nessuno stato nativo Moodle completato nello scope utente/attività/modulo corso. È ammessa una riga nativa
+assente o incompleta. Si ripete dopo reload e dopo la riproduzione di un altro utente. Il normale evento
+Moodle di apertura attività resta legittimo ed è esterno a questa verifica del tracking studente.
+
+Iscrizione studente più assegnazione del ruolo docente con modifica devono invece esporre
+`trackingenabled=true`. Senza evidenze validate iniziali e con completamento incompleto, l’utente con doppio
+ruolo riproduce fino a 5–10 secondi e mette in pausa dalla superficie reale. Le asserzioni esistenti richiedono
+pausa accettata della stessa sessione con credito chiuso, soglia positiva di tre secondi e completamento
+nativo persistito, conservato dopo reload. Le fixture disabilitano esplicitamente autoplay/resume, loop,
+pause attenzione/focus e completamento solo per apertura/presa visione, con velocità 1x autorizzata.
+SDK double e tutti gli scenari precedenti restano invariati.
+
+## Confini dei report con gruppi separati 1.7.240
+
+`browser_report_groups.feature` usa i generatori Moodle standard per iscrizioni, ruoli, override permessi,
+gruppi e attività. Il corso forza gruppi separati; due studenti appartengono a gruppi diversi. Per il ruolo
+docente senza modifica si previene `moodle/site:accessallgroups` nel contesto corso; un docente con modifica
+lo conserva esplicitamente. Un revisore limitato condivide il Gruppo A e un secondo non appartiene a gruppi.
+La sola capability report non può quindi sostituire l’accesso al gruppo.
+
+Ciascuno dei tre casi ottiene visione accettata/completamento nativo per entrambi gli studenti tramite
+riproduzione HTML5 locale reale prima di aprire i report. Nessun dato aggregato/ledger/completamento viene
+inserito dal test. L’helper di navigazione risolve gli id delle fixture ma delega ogni decisione di permesso
+al controller HTTP reale: non prefiltra né simula la risposta. L’asserzione confronta tutti i valori positivi
+delle opzioni `#id_userid` con gli id esatti attesi, ignorando solo la normale opzione Tutti.
+
+Il revisore del Gruppo A seleziona/richiede il proprio studente ma non vede opzione o nome del Gruppo B;
+la richiesta diretta di quest’ultimo restituisce `Invalid user`, senza selettore né nome studente. Il revisore
+senza gruppi ha selettore vuoto e lo stesso rifiuto diretto. Il permesso su tutti i gruppi consente entrambi
+gli studenti reali e i rispettivi report, senza includere lo staff che ha solo accesso report. Sono contratti
+comuni del report PHP/ACL Moodle con dati ottenuti da HTML5; non attestano smoke separati SDK o download CSV.
+
+Aspettative dal sorgente: 50 scenari / 1.072 step e 379 metodi PHPUnit. I controlli locali isolati coprono
+l’osservatore dell’interruttore estratto e i rami anteprima API invariati, con stato congelato e senza trasporto;
+riproduzione abilitata reale, asserzioni database e confini gruppi richiedono ancora tutti i sei job CI. U-007
+resta aperto per revisione evidenze e controlli espliciti altri browser/provider pubblici; U-020/WCAG manuale,
+traduzioni semantiche e gate finali integrati produzione/lifecycle/privacy/benchmark restano distinti.

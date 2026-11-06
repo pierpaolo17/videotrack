@@ -1,6 +1,6 @@
 # Behat browser automation
 
-Accepted 1.7.238 passes **41 scenarios / 722 steps** and **379 PHPUnit tests / 4,076 assertions** in all six post-merge CI environments. Its exact ZIP, server report and both strict outputs are accepted. The server report runs PHPCS/lint, Grunt and PHPUnit, not Behat. Initial **1.7.239** CI passes **44 scenarios / 830 steps** and **379 PHPUnit tests / 4,076 assertions** in all six environments, but the overall gate fails on six PHPCS formatting errors. The formatting-only correction still requires candidate CI. Six environments use one Chrome profile, not six browsers.
+Accepted **1.7.239** passes **44 scenarios / 830 steps** and **379 PHPUnit tests / 4,076 assertions** in all six corrected release/main CI jobs. Its actual ZIP, server report and both strict outputs are accepted. Server PHPCS/lint, Grunt and PHPUnit pass; the report does not execute Behat. Candidate **1.7.240** expects **50 scenarios / 1,072 steps** from source, pending actual candidate CI. Six environments use one Chrome profile, not six browsers.
 
 ## Setup and execution
 
@@ -157,8 +157,9 @@ unchanged. All six corrected 1.7.237 CI jobs passed before merge and again on ma
 | Allowed forward seek, gap exclusion and incomplete completion | Accepted 1.7.236 case | Accepted 1.7.236 case | Accepted 1.7.236 case |
 | Post-rollback interactions and preserved viewing completion | Accepted unseeded 1.7.237 case | Accepted SDK-double 1.7.237 case | Accepted SDK-double 1.7.237 case |
 | Attention configuration and real automatic pause/resume | Accepted 1.7.238 case | Accepted 1.7.238 SDK-double case | Accepted 1.7.238 SDK-double case |
-| Natural end, watched replay, allowed rate and above-cap fallback | New 1.7.239 case, CI pending | New 1.7.239 SDK-double case, CI pending | New 1.7.239 SDK-double case, CI pending |
-| Relevant roles and group boundaries | Remaining matrix review | Remaining matrix review | Remaining matrix review |
+| Natural end, watched replay, allowed rate and above-cap fallback | Accepted 1.7.239 case | Accepted 1.7.239 SDK-double case | Accepted 1.7.239 SDK-double case |
+| Staff preview without tracking and dual-role earned completion | New 1.7.240 case, CI pending | New 1.7.240 SDK-double case, CI pending | New 1.7.240 SDK-double case, CI pending |
+| Separate-group report selector and direct learner-id boundaries | New shared-endpoint 1.7.240 cases, HTML5 data | Same PHP policy; see shared cases | Same PHP policy; see shared cases |
 
 Learner, teacher-only and dual-role page controls already have shared scenarios. Their existence does not fill
 every provider/lifecycle/group combination. U-007 remains open until the roadmap's essential cells and boundary
@@ -209,7 +210,7 @@ move backwards; it is not asserted to remain at the end after replay.
 
 The shipped cases use real time and real AJAX writes; assertions cannot seed ledger/state/completion or
 forge a response. Existing scenarios, adapters, SDK doubles and guards are unchanged. Local extracted-driver
-checks cover controls, cap functions and async observation only; the initial Moodle 44/830 run passes on all six jobs; the formatting correction needs fresh CI.
+checks cover controls, cap functions and async observation only; the initial Moodle 44/830 run passes on all six jobs; the formatting correction passed all six corrected release/main jobs.
 These SDK contracts do not establish live public iframe, cookie/consent or other-browser availability.
 
 ## Initial 1.7.239 CI formatting correction
@@ -224,4 +225,46 @@ The three new multiline `if` conditions must put the first expression below `if 
 on its own line, using the existing Moodle/PSR-12 indentation. The incremental correction changes only
 whitespace in those conditions and updates documentation/callable positions. Every PHP token, JavaScript
 string, assertion, timeout, fixture and scenario is identical. No production code, analysis rule or version
-changes. All six corrected CI jobs are still required before merge.
+changes. All six corrected candidate and post-merge jobs passed; this historical formatting defect is resolved in the accepted 1.7.239 baseline.
+
+## 1.7.240 staff preview and dual-role playback
+
+`browser_role_tracking.feature` adds one unseeded case per provider. A teacher-only user plays to 5–10
+seconds and pauses, while the actual page JSON must expose `trackingenabled=false`. The read-only assertion
+requires no plugin `videotrack_seg` row (including a start handshake), no `videotrack_state` row and no
+completed native Moodle state for that user/activity/course-module scope. An absent or incomplete native
+row is permitted. Assertions repeat after reload and after another user plays. Moodle's normal activity
+view event remains legitimate and is outside this learner-tracking assertion.
+
+A student enrolment plus an editing-teacher role assignment must instead expose `trackingenabled=true`.
+Starting without validated evidence/incomplete completion, this dual-role user plays to 5–10 seconds and
+pauses through the real surface. Existing assertions require an accepted same-session pause closing credit,
+a positive three-second viewing threshold and persisted native completion, retained after reload. Activity
+fixtures explicitly disable autoplay/resume, loop, attention/focus pauses and view-only/acknowledgement
+completion, with one authorised 1x rate. Existing SDK doubles and all previous scenarios remain unchanged.
+
+## 1.7.240 separate-group report boundaries
+
+`browser_report_groups.feature` uses Moodle's standard enrolment, role, permission-override, group and
+activity generators. The course forces separate groups; two students belong to different groups. For the
+teacher role, `moodle/site:accessallgroups` is prevented at course context; an editing teacher explicitly
+retains it. One restricted reviewer shares Group A and a second has no group membership. Report capability
+alone therefore cannot substitute for group access.
+
+Each of the three cases earns accepted viewing/native completion for both students through actual local
+HTML5 playback before opening reports. No aggregate/ledger/completion data is seeded. The navigation helper
+resolves fixture ids but delegates every permission decision to the real HTTP report controller; it never
+pre-filters or fakes the response. The choice assertion compares all positive `#id_userid` option values
+with the exact expected user ids, ignoring only the standard All option.
+
+The Group A reviewer can select/request its learner but sees no Group B option or name; directly requesting
+that learner returns Moodle's `Invalid user` page with no selector or learner name. The ungrouped reviewer
+has an empty selector and the same direct-request denial. All-groups permission permits both actual learners
+and their individual reports, without adding report-only staff. These are shared PHP report/Moodle ACL
+contracts using HTML5-generated data; they do not claim separate SDK or CSV-download group smoke coverage.
+
+Source expectations are 50 scenarios / 1,072 steps and 379 PHPUnit methods. Local isolated checks cover the
+extracted tracking-switch observer and unchanged API preview short-circuits with frozen state/no transport;
+actual enabled playback, database assertions and group enforcement still require all six CI jobs. U-007
+remains open for evidence review and explicit additional-browser/public-provider checks; U-020/manual WCAG,
+semantic translations and final integrated production/lifecycle/privacy/benchmark gates remain distinct.
