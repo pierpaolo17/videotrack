@@ -127,8 +127,31 @@ limitata, senza sleep fisso o scritture ai dati di tracking. Seguono frontiera i
 Il limite superiore delle evidenze diventa 22 secondi per includere la riproduzione reale durante il recupero,
 restando sotto il target rifiutato di 30. Restano tolleranza relativa timestamp (1,25 secondi), sessione/scope,
 conteggio/tipi eventi e completamento nativo. Sei step aggiunti portano l'attesa sorgente a **33 scenari / 618 step**.
-Adapter di produzione, AMD generati e workflow restano invariati. Servono tutti i sei job CI della candidata
+Quella prima correzione lasciava adapter, AMD e workflow invariati; la correzione runtime HTML5 sotto aggiorna
+sorgente e build Grunt corrispondenti, mantenendo double SDK e workflow. Servono tutti i sei job CI della candidata
 corretta; anche l'interruzione HTTP Moodle 5.2 deve essere assente prima del merge.
+
+## Autorizzazione della riproduzione HTML5 dopo il recupero
+
+La candidata successiva, `52a371c0ce821b508f3107477f0c158273164cfb`, supera 32/33 scenari in tutti i sei
+job. Vimeo e la precedente interruzione HTTP Moodle 5.2 risultano risolti in quel run. Resta HTML5: dopo la pausa
+esplicita il media è circa a 11,8 secondi, ma la frontiera persistita resta circa a 5,3. È un difetto reale di
+autorizzazione esposto dall'asserzione invariata, non un motivo per allargarne la tolleranza.
+
+Il recupero HTML5 della riproduzione recente può riavviare il media dopo una pausa che ha chiuso la finestra
+server. Prima, `blockForwardSeek()` apriva un segmento client sulla sola intenzione di recupero; `state.playing`
+faceva poi saltare `Api.beginPlayback()` al vero gestore play. La correzione rileva se un segmento tracciato era
+già aperto e salva/ruota soltanto quello. Un recupero da pausa deve ottenere una nuova finestra server prima di
+aprire il segmento o avviare l'heartbeat. Una finestra già attiva conserva il proprio percorso. L'id di sessione
+browser resta invariato e un'autorizzazione negata non può creare un segmento tracciato.
+
+Le vere funzioni di recupero e gestione eventi sono state provate localmente con i confini media/server
+strumentati: il vecchio sorgente riproduce l'handshake mancante, quello corretto attende l'autorizzazione e
+conserva snapshot del seek attivo e pausa inattiva. È un controllo JavaScript isolato, non runtime Moodle completo.
+Il vero Grunt AMD Moodle con Node 22.23.4 / Grunt 1.6.1 riproduce identici tutti i 96 vecchi build, poi supera
+ESLint/Rollup sulla correzione: cambiano soltanto minificato/mappa HTML5, con sorgente esatto nella mappa.
+Suite da 33 scenari / 618 step e asserzioni pausa, timestamp relativi, sessione/scope e completamento restano
+invariati. Servono tutti i sei job CI corretti prima del merge. U-007 resta aperto.
 
 ## Matrice di copertura U-007
 

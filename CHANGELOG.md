@@ -2,50 +2,41 @@
 
 ## 1.7.237 - 2026-11-05
 
-### Post-rollback learner interactions and preserved viewing completion
+### Browser rollback interactions and authorised HTML5 recovery
 
-- Accept the actual 401-file 1.7.236 ZIP, SHA-256
+- Accept the real 401-file 1.7.236 ZIP, SHA-256
   `31b809c6c1710d2b8031a9205c194b812889f5aa8288e389e760e1b80f997cd3`,
-  identical to merged commit `caf9a7bc9c7d245091b80139156ab1aee4bf5c59`.
-  All six release and main CI jobs pass 369 PHPUnit tests / 3,988 assertions,
-  30 Behat scenarios / 489 steps and ten strict checks each. The actual Moodle
-  5.0/5.3 server report passes canonical PHPCS, lint, Grunt and PHPUnit with
-  unchanged AMD build hashes; both supplied strict outputs are 10/0/0. That
-  server report does not execute Behat; browser evidence belongs to CI.
-- Add one unseeded HTML5/YouTube/Vimeo scenario each. Real production playback
-  earns native viewing completion before a paused forward seek is refused.
-  Require rollback to the validated frontier, then save a reaction, a note
-  and a bookmark through their browser controls and open the Forum composer.
-  Read actual persisted events and the composer URL: their timestamps must
-  match the frontier within tolerance and retain the accepted playback
-  session. Aggregate coverage stays bounded and native completion survives
-  rollback, interactions and reload. No Forum discussion is submitted.
-- Add two read-only Behat assertions for a stable paused frontier and persisted
-  post-rollback interaction evidence, plus an explicit pause action after media
-  recovery settles. Keep production code, existing Behat
-  methods/features, generators, SDK doubles, PHPUnit tests, AMD builds, schema,
-  services, translations and analyser rules unchanged. Source expectations
-  are 33 Behat scenarios / 618 steps and 369 PHPUnit methods, pending actual
-  candidate CI. PHPMD should retain 24 reviewed findings. U-017 remains closed;
-  U-007 still requires the remaining playback, role/group and browser cells.
-
-### Incremental correction after initial 1.7.237 CI (2026-11-06)
-
-- The initial candidate `04b2fc284b62752a4a3bdeb113031049d46a060e` passed
-  PHPUnit, strict validation and static/build gates, but HTML5 and Vimeo failed
-  the new paused-frontier assertion in all six CI environments. Existing
-  recovery can resume playback after a recently paused blocked seek; the test
-  incorrectly required that the player would remain paused automatically.
-  Moodle 5.2 also lost its local HTTP server (`ERR_CONNECTION_REFUSED`) later
-  in the suite; that separate interruption requires confirmation in the rerun.
-- Observe a stable paused or advancing media phase past the existing recovery
-  guards, then pause through the real native media/SDK surface. Require the
-  accepted terminal pause before checking the persisted frontier and actions.
-  Allow the genuinely played recovery interval below 22 seconds while keeping
-  the refused 30-second target, 1.25-second relative timestamp tolerance,
-  session/scope checks and preserved completion. No production or workflow
-  change, suppression, progress injection or version-code increment. All six
-  corrected CI jobs remain required; 33 scenarios / 618 steps are expectations.
+  matching merged commit `caf9a7bc9c7d245091b80139156ab1aee4bf5c59`.
+  All six release/main CI jobs passed 369 PHPUnit tests / 3,988 assertions,
+  30 Behat scenarios / 489 steps and ten strict checks each. The actual server
+  report passed PHPCS, lint, Grunt and PHPUnit on Moodle 5.0/5.3; both supplied
+  strict outputs are 10/0/0. That report did not run Behat; browser evidence is CI.
+- Add one unseeded rollback-interaction case per HTML5/YouTube/Vimeo. Actual
+  play/pause must earn native viewing completion before a refused 30-second
+  seek. Observe recovery, explicitly pause through the native/SDK surface and
+  require an accepted terminal pause and stable validated frontier. Save a
+  reaction, note and bookmark from their controls and open the Forum composer.
+  Read persisted timestamps, scope and session against the frontier within
+  1.25 seconds. Completion must survive rollback, interactions and reload.
+  The Forum discussion is not submitted. The two assertions only read; the
+  bounded recovery action drives the real player without injecting progress.
+- Correct the HTML5 defect exposed by CI commit
+  `52a371c0ce821b508f3107477f0c158273164cfb`: a recently paused player can
+  auto-resume after rollback, but pre-opening a client segment made its play
+  handler skip the fresh server playback handshake. Snapshot/rotate only an
+  already-open tracked segment. A closed window stays closed until resumed
+  play obtains authorisation. Active-playback snapshot/rotation and idle pause
+  behaviour remain intact; tracking session identifiers are unchanged.
+- Run actual Moodle Grunt AMD with Node 22.23.4 / Grunt 1.6.1 and the supplied
+  server dependencies. The baseline reproduces all 96 build files byte-for-byte;
+  the fixed ESLint/Rollup run changes only the HTML5 minified file and source map,
+  whose source content matches exactly. An isolated test of the actual recovery
+  and tracking-event functions reproduces the old failure and checks the fixed
+  handshake ordering with media/server boundaries instrumented. Full corrected
+  CI is still required: 33 scenarios / 618 steps and 369 PHPUnit methods expected.
+  Production PHP, existing Behat cases, SDK doubles, schema, services, translations
+  and analyser rules remain unchanged; PHPMD should retain 24 reviewed findings.
+  Keep 1.7.237 / 2026110507. U-017 stays closed and U-007 remains open.
 
 ## 1.7.236 - 2026-11-05
 

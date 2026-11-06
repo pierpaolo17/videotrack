@@ -19,7 +19,7 @@ La 1.7.236 accettata estende U-007 con casi gap di seek consentito dopo il compl
 Tutti i 30 scenari / 489 step passano nei sei job CI release e main, con 369 test PHPUnit / 3.988 asserzioni.
 Il report server reale 5.0/5.3 supera PHPCS, lint, Grunt e PHPUnit senza Behat; i due strict superano
 tutti i dieci controlli. La candidata 1.7.237 aggiunge interazioni dopo rollback e completamento conservato:
-33 scenari / 618 step attesi, da confermare in CI. Produzione e regole di analisi restano invariate.
+33 scenari / 618 step attesi, da confermare in CI. Produzione PHP e regole restano invariate; la correzione del recupero HTML5 risolve un difetto runtime concreto U-007.
 
 ## Revisione delle responsabilità
 
@@ -70,7 +70,7 @@ copertura validata. Il caso limite intervalli verifica la ricostruzione database
 
 ## Segnalazioni PHPMD residue revisionate
 
-La CI 1.7.236 accettata conferma **24** segnalazioni invariate. La candidata 1.7.237 conserva corpi di produzione
+La CI 1.7.236 accettata conferma **24** segnalazioni invariate. La candidata 1.7.237 conserva corpi PHP di produzione
 e ruleset: confrontare nuovamente l’intero report CI. Questo è un registro esplicito del debito, non una soppressione, una dichiarazione di zero finding o un'accettazione
 generica di segnalazioni future.
 

@@ -126,8 +126,31 @@ or a write to tracking data. The existing read-only frontier assertion and an ac
 The upper evidence bound becomes 22 seconds to include real recovery playback, still below the refused target
 of 30 seconds. Relative timestamp tolerance (1.25 seconds), session/scope, event count/types and native completion
 checks are retained. Six added assertion/action steps make the source expectation **33 scenarios / 618 steps**.
-Production adapters, generated AMD and workflow are unchanged. The corrected candidate requires all six CI jobs;
+That first correction left production adapters, AMD and workflow unchanged; the HTML5 runtime correction below
+updates its source and matching Grunt builds while preserving SDK doubles and workflow. The corrected candidate requires all six CI jobs;
 the Moodle 5.2 HTTP interruption must also be absent before merge.
+
+## HTML5 recovery playback authorisation
+
+The next candidate, `52a371c0ce821b508f3107477f0c158273164cfb`, passes 32/33 scenarios on all six jobs.
+Vimeo and the prior Moodle 5.2 HTTP interruption are resolved in that run. Only HTML5 remains: after explicit
+pause the media is near 11.8 seconds while the persisted frontier stays near 5.3 seconds. This is a real
+playback-authorisation defect exposed by the unchanged frontier assertion, not a reason to relax its tolerance.
+
+HTML5 recent-playback recovery may resume media after a pause has closed the server window. Previously,
+`blockForwardSeek()` opened a client segment based on recovery intent alone; `state.playing` then caused the
+actual play handler to skip `Api.beginPlayback()`. The fix captures whether a tracked segment was already open
+and snapshots/rotates only that segment. A paused recovery must obtain a new server playback window before
+opening a segment or starting the heartbeat. An already-active playback window retains its original path.
+The browser tracking session id is preserved, and declined authorisation cannot create a tracked segment.
+
+The actual recovery and tracking-event functions were tested locally with media/server boundaries instrumented:
+the old source reproduces the missing handshake, while the fixed source waits for authorisation and retains
+active-seek snapshot and idle-pause behaviour. This is an isolated JavaScript check, not full Moodle runtime.
+Actual Moodle Grunt AMD with Node 22.23.4 / Grunt 1.6.1 reproduces all 96 old build files byte-for-byte, then
+passes ESLint/Rollup for the fix; only the HTML5 minified file/map change, with exact source content in the map.
+The 33-scenario / 618-step suite, terminal-pause, relative timestamp, session/scope and completion assertions are
+unchanged. All six corrected CI jobs must pass before merge. U-007 remains open.
 
 ## U-007 coverage matrix
 

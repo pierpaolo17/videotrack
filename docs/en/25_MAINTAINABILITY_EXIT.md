@@ -19,7 +19,7 @@ Accepted 1.7.236 extends U-007 with unseeded allowed-seek gap cases after 1.7.23
 All 30 scenarios / 489 steps pass the six release and main CI jobs, with 369 PHPUnit tests / 3,988 assertions.
 Its actual 5.0/5.3 server report passes PHPCS, lint, Grunt and PHPUnit, without Behat; both supplied strict
 outputs pass all ten checks. Candidate 1.7.237 adds post-rollback interaction and preserved-completion cases:
-33 scenarios / 618 steps expected, pending actual CI. Production bodies and analysis rules are unchanged.
+33 scenarios / 618 steps expected, pending actual CI. Production PHP and analysis rules are unchanged; the HTML5 recovery correction fixes a concrete U-007 runtime defect.
 
 ## Ownership review
 
@@ -70,7 +70,7 @@ coverage. The cap case checks the live database rebuild, not only the pure aggre
 
 ## Reviewed PHPMD residuals
 
-Accepted 1.7.236 CI confirms **24** unchanged findings. Candidate 1.7.237 preserves production bodies
+Accepted 1.7.236 CI confirms **24** unchanged findings. Candidate 1.7.237 preserves production PHP bodies
 and rulesets, so compare the full report again in candidate CI. This is an explicit debt register, not a suppression, zero-finding claim or blanket acceptance of future findings.
 
 | File/owner | Findings | Reason to retain and condition for reopening |

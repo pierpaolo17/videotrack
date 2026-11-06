@@ -33,11 +33,12 @@ duplicano intenzionalmente procedure implementative, dizionari dei campi o lungh
 ## Rilievi sull'albero corrente
 
 - L’[audit di uscita U-017](25_USCITA_MANUTENIBILITA.md) resta chiuso sulle evidenze della 1.7.234 accettata.
-  La 1.7.236 accettata supera 369 test PHPUnit / 3.988 asserzioni e 30 scenari Behat / 489 step nei
-  sei ambienti CI release/main. Il report server reale 5.0/5.3 supera PHPCS, lint, Grunt e PHPUnit
-  senza Behat; i due strict superano tutti i dieci controlli. La candidata 1.7.237 aggiunge tre casi senza
-  seed dopo rollback, un’azione di pausa dopo recupero e due asserzioni in sola lettura: 33 scenari / 618 step
-  attesi, CI reale pendente. Produzione, double SDK e scope analisi invariati; U-007 resta aperto.
+  La 1.7.236 accettata ha 369 test PHPUnit / 3.988 asserzioni e 30 scenari Behat / 489 step nei sei
+  job CI release/main, con evidenze reali server/strict registrate nella copertura browser. La candidata
+  1.7.237 aggiunge i casi rollback e corregge HTML5: una finestra chiusa deve ottenere autorizzazione
+  server prima di aprire un segmento. Il vero Grunt riproduce i 96 build baseline e rigenera soltanto
+  minificato/mappa HTML5. Produzione PHP, double SDK e scope analisi restano invariati. Gli stessi
+  33 scenari / 618 step richiedono ancora i sei job CI corretti; U-007 resta aperto.
 
 - I campi integrità conservano default disabilitati e posizione fra strumenti di studio e presa visione;
   la policy mostrata usa le API integrità canoniche per fallback, limiti e tolleranza. Il form non dipende più

@@ -33,11 +33,12 @@ not duplicate implementation procedures, field dictionaries or long security/pri
 ## Current-tree findings
 
 - The [U-017 exit audit](25_MAINTAINABILITY_EXIT.md) remains closed against accepted 1.7.234 evidence.
-  Accepted 1.7.236 passes 369 PHPUnit tests / 3,988 assertions and 30 Behat scenarios / 489 steps in
-  the six release/main CI environments. The actual 5.0/5.3 server report passes PHPCS, lint, Grunt and
-  PHPUnit without Behat; both strict outputs pass all ten checks. Candidate 1.7.237 adds three unseeded
-  post-rollback interaction/completion cases, a recovery pause action and two read-only assertions: 33 scenarios / 618 steps
-  expected, pending actual CI. Production, SDK doubles and analysis scope are unchanged; U-007 is open.
+  Accepted 1.7.236 has 369 PHPUnit tests / 3,988 assertions and 30 Behat scenarios / 489 steps in all
+  six release/main CI jobs, with the actual server/strict evidence recorded in browser coverage. Candidate
+  1.7.237 adds the rollback cases and corrects HTML5 recovery so a closed window obtains server
+  authorisation before a segment opens. Real Grunt reproduces all 96 baseline builds and regenerates only
+  the HTML5 minified/map pair. Production PHP, SDK doubles and analyser scope stay unchanged. The same
+  33 scenarios / 618 steps still require all six corrected CI jobs; U-007 remains open.
 
 - `form_reaction_settings` owns general reaction settings, context-safe notice/preset fields and individual row
   fields followed by their icon visibility rules. The form retains row count, bounds, upload-filter registration
