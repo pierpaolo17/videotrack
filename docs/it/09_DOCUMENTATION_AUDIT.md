@@ -197,3 +197,12 @@ La 1.7.239 corrente aggiunge solo otto helper test e una feature da tre scenari,
 L’inventario file ha 343 righe non documentali; PHP ha 1.095 callable nominati e AMD 654. Scenari precedenti,
 file di produzione e SDK double coincidono byte per byte. Behat atteso è 44/830, da confermare in CI; non si
 dichiara esecuzione PHP locale o browser Moodle completo. U-007 resta aperto per matrice essenziale e smoke residui.
+
+## Evidenze prima CI 1.7.239 e correzione
+
+Il commit `79b7b5b` supera le sei suite runtime Behat 44/830 e PHPUnit 379/4076, strict 10/0/0 e Grunt.
+Moodle 5.0 MariaDB fallisce PHPCS con sei errori di spaziatura in tre nuove condizioni multilinea; gli altri
+cinque job passano. La correzione mantiene release 1.7.239 / 2026110602 e ogni token PHP invariato, aggiornando
+solo spazi delle condizioni e documenti di evidenze/posizioni callable. Gli informativi Psalm restano 732/760
+e PHPMD conserva 24 segnalazioni. Gli scope configurati passano. CI corretta completa e accettazione release/
+server reale restano pendenti; U-007 non si chiude con questo primo successo funzionale.

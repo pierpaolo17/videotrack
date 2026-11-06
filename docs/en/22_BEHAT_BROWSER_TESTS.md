@@ -1,6 +1,6 @@
 # Behat browser automation
 
-Accepted 1.7.238 passes **41 scenarios / 722 steps** and **379 PHPUnit tests / 4,076 assertions** in all six post-merge CI environments. Its exact ZIP, server report and both strict outputs are accepted. The server report runs PHPCS/lint, Grunt and PHPUnit, not Behat. Candidate **1.7.239** expects **44 scenarios / 830 steps** from source; actual candidate CI is pending. Six environments use one Chrome profile, not six browsers.
+Accepted 1.7.238 passes **41 scenarios / 722 steps** and **379 PHPUnit tests / 4,076 assertions** in all six post-merge CI environments. Its exact ZIP, server report and both strict outputs are accepted. The server report runs PHPCS/lint, Grunt and PHPUnit, not Behat. Initial **1.7.239** CI passes **44 scenarios / 830 steps** and **379 PHPUnit tests / 4,076 assertions** in all six environments, but the overall gate fails on six PHPCS formatting errors. The formatting-only correction still requires candidate CI. Six environments use one Chrome profile, not six browsers.
 
 ## Setup and execution
 
@@ -209,5 +209,19 @@ move backwards; it is not asserted to remain at the end after replay.
 
 The shipped cases use real time and real AJAX writes; assertions cannot seed ledger/state/completion or
 forge a response. Existing scenarios, adapters, SDK doubles and guards are unchanged. Local extracted-driver
-checks cover controls, cap functions and async observation only; actual 44/830 Moodle execution requires CI.
+checks cover controls, cap functions and async observation only; the initial Moodle 44/830 run passes on all six jobs; the formatting correction needs fresh CI.
 These SDK contracts do not establish live public iframe, cookie/consent or other-browser availability.
+
+## Initial 1.7.239 CI formatting correction
+
+All six uploaded artifacts match the official digests for commit
+`79b7b5bac5c6680f760c67595780b7b1c7f11857` (workflow 42270208398). The uploaded Moodle 5.0 MariaDB file is
+from the second attempt; it still reports the same six CodeSniffer errors. Each environment passes the
+44/830 Behat suite, 379/4076 PHPUnit, ten strict checks and Grunt. Five jobs are green; Moodle 5.0 MariaDB
+fails only the Moodle Code Checker step. This is functional evidence, not an accepted overall candidate.
+
+The three new multiline `if` conditions must put the first expression below `if (` and the closing `)`
+on its own line, using the existing Moodle/PSR-12 indentation. The incremental correction changes only
+whitespace in those conditions and updates documentation/callable positions. Every PHP token, JavaScript
+string, assertion, timeout, fixture and scenario is identical. No production code, analysis rule or version
+changes. All six corrected CI jobs are still required before merge.

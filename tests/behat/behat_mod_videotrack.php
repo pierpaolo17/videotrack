@@ -115,17 +115,21 @@ class behat_mod_videotrack extends behat_base {
             $intervals = json_decode((string)($state->intervaljson ?? '[]'), true);
             $coversreplay = false;
             foreach (is_array($intervals) ? $intervals : [] as $interval) {
-                if (is_array($interval) && count($interval) >= 2
-                        && (float)$interval[0] <= 5.0 && (float)$interval[1] >= 20.0) {
+                if (
+                    is_array($interval) && count($interval) >= 2
+                    && (float)$interval[0] <= 5.0 && (float)$interval[1] >= 20.0
+                ) {
                     $coversreplay = true;
                 }
             }
-            if ($this->browser_playback_cycle_is_closed($start, $end, $state)
-                    && (float)$end->videotimeend >= 59.0 && (float)$end->videotimeend <= 60.001
-                    && (float)$state->lastposition >= 59.0 && (float)$state->lastposition <= 60.001
-                    && (float)$state->uniquecoveredseconds >= 58.0 && (float)$state->uniquecoveredseconds <= 60.001
-                    && (float)$state->completionpercent >= 95.0 && (float)$state->completionpercent <= 100.0
-                    && (int)$state->iscompleted === 1 && $coversreplay) {
+            if (
+                $this->browser_playback_cycle_is_closed($start, $end, $state)
+                && (float)$end->videotimeend >= 59.0 && (float)$end->videotimeend <= 60.001
+                && (float)$state->lastposition >= 59.0 && (float)$state->lastposition <= 60.001
+                && (float)$state->uniquecoveredseconds >= 58.0 && (float)$state->uniquecoveredseconds <= 60.001
+                && (float)$state->completionpercent >= 95.0 && (float)$state->completionpercent <= 100.0
+                && (int)$state->iscompleted === 1 && $coversreplay
+            ) {
                 $key = $conditions['videotrackid'] . ':' . $conditions['userid'];
                 $this->endedbaselines[$key] = [
                     'unique' => (float)$state->uniquecoveredseconds,
@@ -160,14 +164,16 @@ class behat_mod_videotrack extends behat_base {
         $deadline = microtime(true) + 8.0;
         do {
             [$start, $pause, $state] = $this->read_browser_playback_cycle($conditions, 'pause');
-            if ($this->browser_playback_cycle_is_closed($start, $pause, $state)
-                    && (int)$start->id > $baseline['endedid']
-                    && hash_equals($baseline['sessionid'], (string)$start->sessionid)
-                    && (float)$start->videotimeend >= 4.75 && (float)$start->videotimeend <= 6.25
-                    && (float)$pause->videotimeend >= 7.5 && (float)$pause->videotimeend <= 15.0
-                    && abs((float)$state->uniquecoveredseconds - $baseline['unique']) <= 0.001
-                    && abs((float)$state->completionpercent - $baseline['percent']) <= 0.001
-                    && (int)$state->iscompleted === 1) {
+            if (
+                $this->browser_playback_cycle_is_closed($start, $pause, $state)
+                && (int)$start->id > $baseline['endedid']
+                && hash_equals($baseline['sessionid'], (string)$start->sessionid)
+                && (float)$start->videotimeend >= 4.75 && (float)$start->videotimeend <= 6.25
+                && (float)$pause->videotimeend >= 7.5 && (float)$pause->videotimeend <= 15.0
+                && abs((float)$state->uniquecoveredseconds - $baseline['unique']) <= 0.001
+                && abs((float)$state->completionpercent - $baseline['percent']) <= 0.001
+                && (int)$state->iscompleted === 1
+            ) {
                 return;
             }
             usleep(100000);

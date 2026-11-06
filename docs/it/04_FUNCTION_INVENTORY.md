@@ -1387,37 +1387,37 @@ Generato dall’albero sorgente VideoTrack 1.7.239. Le voci PHP includono funzio
 | `tests/behat/behat_mod_videotrack.php:69` | `the_videotrack_playback_rate_is` | Osserva la velocità effettiva media/SDK, inclusi i risultati asincroni Vimeo. |
 | `tests/behat/behat_mod_videotrack.php:92` | `the_videotrack_player_reaches_its_natural_end` | Attende la fine naturale della fixture da 60 secondi senza seek o alterazioni dell’orologio. |
 | `tests/behat/behat_mod_videotrack.php:110` | `an_accepted_end_closes_playback` | Legge fine accettata e credito chiuso e conserva la copertura ottenuta dal browser per verificare il replay. |
-| `tests/behat/behat_mod_videotrack.php:153` | `replaying_watched_footage_adds_no_coverage` | Legge un nuovo ciclo replay accettato e verifica copertura unica e completamento invariati. |
-| `tests/behat/behat_mod_videotrack.php:188` | `browser_activity_conditions` | Risolve lo scope esatto utente/attività/modulo corso per asserzioni browser in sola lettura. |
-| `tests/behat/behat_mod_videotrack.php:209` | `read_browser_playback_cycle` | Legge ultimo avvio reale, evento terminale richiesto e stato aggregato. |
-| `tests/behat/behat_mod_videotrack.php:229` | `browser_playback_cycle_is_closed` | Verifica intervallo terminale positivo accettato dopo handshake della stessa sessione e credito chiuso. |
-| `tests/behat/behat_mod_videotrack.php:246` | `the_videotrack_attention_policy_is` | Legge il JSON reale della pagina e confronta abilitazione e limiti effettivi senza modificarli. |
-| `tests/behat/behat_mod_videotrack.php:268` | `i_use_half_speed_for_the_videotrack_attention_check` | Imposta 0,5x sulle fixture native/SDK invariate per attendere un minuto reale prima della fine del video. |
-| `tests/behat/behat_mod_videotrack.php:294` | `the_videotrack_attention_check_pauses_playback` | Attende pausa reale e messaggio di attenzione vicino a 30 secondi video, senza accelerare timer o tracking. |
-| `tests/behat/behat_mod_videotrack.php:317` | `the_videotrack_focus_policy_is` | Verifica la policy focus effettiva esposta dal JSON reale del player. |
-| `tests/behat/behat_mod_videotrack.php:340` | `the_videotrack_html5_media_is_ready` | Waits for local HTML5 fixture metadata in Behat. |
-| `tests/behat/behat_mod_videotrack.php:360` | `i_seek_the_videotrack_html5_media_to_seconds` | Drives a deterministic HTML5 seek in the browser test harness. |
-| `tests/behat/behat_mod_videotrack.php:378` | `the_videotrack_html5_media_time_should_be_between` | Asserts the HTML5 media timestamp is inside the expected browser-test range. |
-| `tests/behat/behat_mod_videotrack.php:404` | `the_videotrack_html5_media_playback_is` | Asserts deterministic HTML5 play/pause state in the Behat browser harness. |
-| `tests/behat/behat_mod_videotrack.php:429` | `the_deterministic_videotrack_provider_is_ready` | Attende il doppio SDK deterministico del provider e l’adapter di produzione selezionati. |
-| `tests/behat/behat_mod_videotrack.php:448` | `i_control_the_deterministic_videotrack_provider` | Aziona play/pausa attraverso la superficie SDK usata in produzione. |
-| `tests/behat/behat_mod_videotrack.php:475` | `the_deterministic_videotrack_provider_playback_is` | Verifica lo stato play/pausa provider dopo un recovery asincrono dell’adapter di produzione. |
-| `tests/behat/behat_mod_videotrack.php:496` | `i_seek_the_deterministic_videotrack_provider_to_seconds` | Aziona un seek deterministico al confine dell’adapter di produzione. |
-| `tests/behat/behat_mod_videotrack.php:518` | `the_deterministic_videotrack_provider_time_is_between` | Richiede che il timestamp provider resti nell’intervallo atteso per una finestra di polling. |
-| `tests/behat/behat_mod_videotrack.php:559` | `the_deterministic_videotrack_provider_time_matches_the_validated_frontier` | Verifica il rollback bloccato rispetto a una frontiera validata persistita dinamicamente stabile. |
-| `tests/behat/behat_mod_videotrack.php:623` | `the_playback_credit_window_is_closed_by_an_accepted_pause` | Verifica che un ciclo play/pause browser reale usi una sessione vincolata dal server e chiuda la relativa finestra di credito. |
-| `tests/behat/behat_mod_videotrack.php:692` | `no_validated_playback_exists` | Verifica che il caso browser inizi senza righe validate nel registro per attività/studente. |
-| `tests/behat/behat_mod_videotrack.php:717` | `browser_playback_completes_moodle_tracking` | Attende stato reale, pausa browser accettata e completamento Moodle senza inserire progresso o completamento. |
-| `tests/behat/behat_mod_videotrack.php:786` | `allowed_forward_seek_preserves_unwatched_gap` | Legge registro/stato/completamento reali per richiedere visione prima e dopo il seek consentito senza credito sul gap. |
-| `tests/behat/behat_mod_videotrack.php:870` | `seek_intervals_exclude_unwatched_gap` | Verifica che intervalli persistiti positivi lascino scoperto il tratto centrale saltato della fixture browser di 60 secondi. |
-| `tests/behat/behat_mod_videotrack.php:892` | `i_pause_the_videotrack_player_after_rollback_recovery` | Osserva il recupero rollback nativo/SDK entro limiti definiti e mette in pausa dal media prima delle asserzioni sulla frontiera persistita. |
-| `tests/behat/behat_mod_videotrack.php:954` | `paused_player_matches_validated_frontier` | Attende che il media nativo/SDK double in pausa coincida stabilmente con la frontiera validata persistita. |
-| `tests/behat/behat_mod_videotrack.php:1001` | `post_rollback_interactions_retain_safe_timestamps` | Legge azioni learner salvate e URL reale del composer Forum per verificare timestamp di frontiera, sessione e completamento conservato. |
-| `tests/behat/behat_mod_videotrack.php:1095` | `the_user_has_watched_videotrack_through_seconds` | Seeds bounded validated watched evidence for deterministic post-seek Behat interaction scenarios. |
-| `tests/behat/behat_mod_videotrack.php:1189` | `the_moodle_completion_state_for_videotrack_is` | Verifica lo stato completion core Moodle persistito dopo un’interazione browser VideoTrack. |
-| `tests/behat/behat_mod_videotrack.php:1230` | `the_videotrack_forum_time_should_be_between` | Verifica che il composer Forum collegato mantenga un timestamp nell’intervallo validato atteso dopo il rollback. |
-| `tests/behat/behat_mod_videotrack.php:1253` | `the_latest_seek_segment_matches_the_pre_seek_browser_time` | Verifica l’estremo pre-seek grezzo e rifiuta credito aggregato o resume all’interno del gap saltato. |
-| `tests/behat/behat_mod_videotrack.php:1327` | `the_videotrack_completion_requirements_are_stacked_vertically` | Verifica layout a colonna calcolato e geometria verticale non sovrapposta per i requisiti Moodle raggruppati. |
+| `tests/behat/behat_mod_videotrack.php:157` | `replaying_watched_footage_adds_no_coverage` | Legge un nuovo ciclo replay accettato e verifica copertura unica e completamento invariati. |
+| `tests/behat/behat_mod_videotrack.php:194` | `browser_activity_conditions` | Risolve lo scope esatto utente/attività/modulo corso per asserzioni browser in sola lettura. |
+| `tests/behat/behat_mod_videotrack.php:215` | `read_browser_playback_cycle` | Legge ultimo avvio reale, evento terminale richiesto e stato aggregato. |
+| `tests/behat/behat_mod_videotrack.php:235` | `browser_playback_cycle_is_closed` | Verifica intervallo terminale positivo accettato dopo handshake della stessa sessione e credito chiuso. |
+| `tests/behat/behat_mod_videotrack.php:252` | `the_videotrack_attention_policy_is` | Legge il JSON reale della pagina e confronta abilitazione e limiti effettivi senza modificarli. |
+| `tests/behat/behat_mod_videotrack.php:274` | `i_use_half_speed_for_the_videotrack_attention_check` | Imposta 0,5x sulle fixture native/SDK invariate per attendere un minuto reale prima della fine del video. |
+| `tests/behat/behat_mod_videotrack.php:300` | `the_videotrack_attention_check_pauses_playback` | Attende pausa reale e messaggio di attenzione vicino a 30 secondi video, senza accelerare timer o tracking. |
+| `tests/behat/behat_mod_videotrack.php:323` | `the_videotrack_focus_policy_is` | Verifica la policy focus effettiva esposta dal JSON reale del player. |
+| `tests/behat/behat_mod_videotrack.php:346` | `the_videotrack_html5_media_is_ready` | Waits for local HTML5 fixture metadata in Behat. |
+| `tests/behat/behat_mod_videotrack.php:366` | `i_seek_the_videotrack_html5_media_to_seconds` | Drives a deterministic HTML5 seek in the browser test harness. |
+| `tests/behat/behat_mod_videotrack.php:384` | `the_videotrack_html5_media_time_should_be_between` | Asserts the HTML5 media timestamp is inside the expected browser-test range. |
+| `tests/behat/behat_mod_videotrack.php:410` | `the_videotrack_html5_media_playback_is` | Asserts deterministic HTML5 play/pause state in the Behat browser harness. |
+| `tests/behat/behat_mod_videotrack.php:435` | `the_deterministic_videotrack_provider_is_ready` | Attende il doppio SDK deterministico del provider e l’adapter di produzione selezionati. |
+| `tests/behat/behat_mod_videotrack.php:454` | `i_control_the_deterministic_videotrack_provider` | Aziona play/pausa attraverso la superficie SDK usata in produzione. |
+| `tests/behat/behat_mod_videotrack.php:481` | `the_deterministic_videotrack_provider_playback_is` | Verifica lo stato play/pausa provider dopo un recovery asincrono dell’adapter di produzione. |
+| `tests/behat/behat_mod_videotrack.php:502` | `i_seek_the_deterministic_videotrack_provider_to_seconds` | Aziona un seek deterministico al confine dell’adapter di produzione. |
+| `tests/behat/behat_mod_videotrack.php:524` | `the_deterministic_videotrack_provider_time_is_between` | Richiede che il timestamp provider resti nell’intervallo atteso per una finestra di polling. |
+| `tests/behat/behat_mod_videotrack.php:565` | `the_deterministic_videotrack_provider_time_matches_the_validated_frontier` | Verifica il rollback bloccato rispetto a una frontiera validata persistita dinamicamente stabile. |
+| `tests/behat/behat_mod_videotrack.php:629` | `the_playback_credit_window_is_closed_by_an_accepted_pause` | Verifica che un ciclo play/pause browser reale usi una sessione vincolata dal server e chiuda la relativa finestra di credito. |
+| `tests/behat/behat_mod_videotrack.php:698` | `no_validated_playback_exists` | Verifica che il caso browser inizi senza righe validate nel registro per attività/studente. |
+| `tests/behat/behat_mod_videotrack.php:723` | `browser_playback_completes_moodle_tracking` | Attende stato reale, pausa browser accettata e completamento Moodle senza inserire progresso o completamento. |
+| `tests/behat/behat_mod_videotrack.php:792` | `allowed_forward_seek_preserves_unwatched_gap` | Legge registro/stato/completamento reali per richiedere visione prima e dopo il seek consentito senza credito sul gap. |
+| `tests/behat/behat_mod_videotrack.php:876` | `seek_intervals_exclude_unwatched_gap` | Verifica che intervalli persistiti positivi lascino scoperto il tratto centrale saltato della fixture browser di 60 secondi. |
+| `tests/behat/behat_mod_videotrack.php:898` | `i_pause_the_videotrack_player_after_rollback_recovery` | Osserva il recupero rollback nativo/SDK entro limiti definiti e mette in pausa dal media prima delle asserzioni sulla frontiera persistita. |
+| `tests/behat/behat_mod_videotrack.php:960` | `paused_player_matches_validated_frontier` | Attende che il media nativo/SDK double in pausa coincida stabilmente con la frontiera validata persistita. |
+| `tests/behat/behat_mod_videotrack.php:1007` | `post_rollback_interactions_retain_safe_timestamps` | Legge azioni learner salvate e URL reale del composer Forum per verificare timestamp di frontiera, sessione e completamento conservato. |
+| `tests/behat/behat_mod_videotrack.php:1101` | `the_user_has_watched_videotrack_through_seconds` | Seeds bounded validated watched evidence for deterministic post-seek Behat interaction scenarios. |
+| `tests/behat/behat_mod_videotrack.php:1195` | `the_moodle_completion_state_for_videotrack_is` | Verifica lo stato completion core Moodle persistito dopo un’interazione browser VideoTrack. |
+| `tests/behat/behat_mod_videotrack.php:1236` | `the_videotrack_forum_time_should_be_between` | Verifica che il composer Forum collegato mantenga un timestamp nell’intervallo validato atteso dopo il rollback. |
+| `tests/behat/behat_mod_videotrack.php:1259` | `the_latest_seek_segment_matches_the_pre_seek_browser_time` | Verifica l’estremo pre-seek grezzo e rifiuta credito aggregato o resume all’interno del gap saltato. |
+| `tests/behat/behat_mod_videotrack.php:1333` | `the_videotrack_completion_requirements_are_stacked_vertically` | Verifica layout a colonna calcolato e geometria verticale non sovrapposta per i requisiti Moodle raggruppati. |
 | `tests/cli_contract_test.php:35` | `test_validator_is_read_only_and_covers_release_contracts` | Funzione/metodo PHP nominato `test_validator_is_read_only_and_covers_release_contracts`; vedere DocBlock e chiamanti per il contratto corrente. |
 | `tests/cli_contract_test.php:65` | `test_course_analytics_benchmark_uses_real_read_only_metrics` | Funzione/metodo PHP nominato `test_course_analytics_benchmark_uses_real_read_only_metrics`; vedere DocBlock e chiamanti per il contratto corrente. |
 | `tests/cli_contract_test.php:87` | `test_cli_tools_are_documented_for_admins_and_maintainers` | Funzione/metodo PHP nominato `test_cli_tools_are_documented_for_admins_and_maintainers`; vedere DocBlock e chiamanti per il contratto corrente. |

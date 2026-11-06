@@ -195,3 +195,12 @@ Current 1.7.239 adds only eight test helper methods and one three-scenario featu
 The file inventory has 343 non-documentary rows; PHP has 1,095 named callables and AMD 654. Existing scenarios,
 production files and SDK doubles are byte-identical. Expected Behat count is 44/830, pending CI; no local PHP
 or full Moodle browser execution is claimed. U-007 stays open for the remaining essential matrix and smoke checks.
+
+## 1.7.239 initial CI evidence and correction
+
+Commit `79b7b5b` passes all six runtime suites at Behat 44/830 and PHPUnit 379/4076, strict 10/0/0 and Grunt.
+Moodle 5.0 MariaDB fails PHPCS with six spacing errors in three newly added multiline conditions; the other
+five jobs pass. The correction keeps release 1.7.239 / 2026110602 and every PHP token unchanged, updating only
+condition whitespace and these evidence/callable-position documents. Psalm informative totals stay 732/760
+and PHPMD retains 24 findings. Configured scopes pass. Full corrected CI and actual release/server acceptance
+remain pending; U-007 is not closed by this initial functional success.

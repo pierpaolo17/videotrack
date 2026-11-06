@@ -20,9 +20,14 @@
   validated portion from second five at 1x: require a new playback handshake,
   accepted pause and unchanged unique coverage/completion, including reload.
   No tracking, completion, AJAX result or runtime clock is injected.
-- Source expectations: 379 PHPUnit methods; 44 Behat scenarios / 830 steps.
-  Candidate Moodle CI remains required. Isolated driver checks and exact
-  patch-application checks do not constitute Moodle/browser execution.
+- Initial candidate `79b7b5bac5c6680f760c67595780b7b1c7f11857`, workflow
+  42270208398, passes 379 PHPUnit tests / 4,076 assertions, 44 Behat scenarios /
+  830 steps, Grunt and ten strict checks in all six environments. The overall
+  workflow is blocked by six PHPCS errors: opening/closing parenthesis spacing
+  in three new multiline Behat conditions. Correct only that whitespace within
+  1.7.239; all PHP tokens, assertions, time bounds and scenarios are preserved.
+  Corrected candidate CI remains required before merge. Local inspection and
+  exact patch-application checks do not constitute a local PHPCS execution.
 - Update bilingual guides, inventories and ER current-tree labels. Production
   PHP/AMD, generated builds, SDK fixtures, schema (151 fields), eight language
   packs (997 keys), services, capabilities and analysis rules are unchanged.
