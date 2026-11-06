@@ -347,6 +347,7 @@ define([
         var previous = Tracker.normaliseTime(state.lasttime);
         var fallback = typeof fallbackTime === 'number' ? fallbackTime : getAllowedForwardLimit();
         var wasPlaying = resolveHTML5SeekWasPlaying();
+        var hadOpenSegment = state.playing && state.segmentstart !== null;
         var penaltyRate;
         fallback = Math.max(0, Tracker.normaliseTime(fallback));
         if (Tracker.normaliseTime(target) <= fallback + 0.75) {
@@ -356,7 +357,7 @@ define([
             focusGuard.noteAction('forwardseek');
             focusGuard.record('forwardseek');
         }
-        if (wasPlaying && state.segmentstart !== null) {
+        if (hadOpenSegment) {
             // Persist only the naturally played portion before the forbidden
             // jump. A farther rollback frontier may come from older watched
             // intervals and must not be credited as part of this segment.
@@ -371,7 +372,9 @@ define([
         Tracker.blockSeek(state, 900);
         media.currentTime = fallback;
         Tracker.syncTime(state, fallback, penaltyRate);
-        if (wasPlaying) {
+        // A recently paused player resumes through play's server handshake.
+        // Rotate only an already-open segment, so it cannot bypass that handshake.
+        if (hadOpenSegment) {
             Tracker.openSegment(state, fallback, Math.floor(Date.now() / 1000), penaltyRate);
         }
         markAllowedForwardTime(fallback);

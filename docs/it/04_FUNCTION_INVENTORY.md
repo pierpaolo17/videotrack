@@ -1,8 +1,8 @@
 # Inventario delle funzioni
 
-Generato dall’albero sorgente VideoTrack 1.7.236. Le voci PHP includono funzioni e metodi nominati; le voci AMD includono dichiarazioni nominate, espressioni funzione assegnate e funzioni-metodo di oggetti.
+Generato dall’albero sorgente VideoTrack 1.7.237. Le voci PHP includono funzioni e metodi nominati; le voci AMD includono dichiarazioni nominate, espressioni funzione assegnate e funzioni-metodo di oggetti.
 
-**Funzioni/metodi PHP:** 1065. **Callable AMD nominati:** 654.
+**Funzioni/metodi PHP:** 1068. **Callable AMD nominati:** 654.
 
 | Posizione | Callable | Responsabilità |
 |---|---|---|
@@ -395,61 +395,61 @@ Generato dall’albero sorgente VideoTrack 1.7.236. Le voci PHP includono funzio
 | `amd/src/html5_player.js:325` | `rotatePlayingSegmentForSeek` | Callable AMD nominato `rotatePlayingSegmentForSeek`; vedere JSDoc e chiamanti per il contratto corrente. |
 | `amd/src/html5_player.js:338` | `startProgrammaticSeek` | Callable `startProgrammaticSeek` del modulo; JSDoc e chiamanti definiscono parametri ed effetti. |
 | `amd/src/html5_player.js:346` | `blockForwardSeek` | Callable `blockForwardSeek` del modulo; JSDoc e chiamanti definiscono parametri ed effetti. |
-| `amd/src/html5_player.js:388` | `saveSegment` | Callable `saveSegment` del modulo; JSDoc e chiamanti definiscono parametri ed effetti. |
-| `amd/src/html5_player.js:398` | `hasMedia` | Callable `hasMedia` del modulo; JSDoc e chiamanti definiscono parametri ed effetti. |
-| `amd/src/html5_player.js:405` | `saveCurrentProgress` | Callable `saveCurrentProgress` del modulo; JSDoc e chiamanti definiscono parametri ed effetti. |
-| `amd/src/html5_player.js:415` | `updateProgress` | Callable `updateProgress` del modulo; JSDoc e chiamanti definiscono parametri ed effetti. |
-| `amd/src/html5_player.js:426` | `resolveReactionTime` | Callable `resolveReactionTime` del modulo; JSDoc e chiamanti definiscono parametri ed effetti. |
-| `amd/src/html5_player.js:435` | `isDefinitiveReactionFailure` | Callable `isDefinitiveReactionFailure` del modulo; JSDoc e chiamanti definiscono parametri ed effetti. |
-| `amd/src/html5_player.js:449` | `removeReactionRow` | Callable `removeReactionRow` del modulo; JSDoc e chiamanti definiscono parametri ed effetti. |
-| `amd/src/html5_player.js:457` | `startSegment` | Callable `startSegment` del modulo; JSDoc e chiamanti definiscono parametri ed effetti. |
-| `amd/src/html5_player.js:476` | `closeSegment` | Callable `closeSegment` del modulo; JSDoc e chiamanti definiscono parametri ed effetti. |
-| `amd/src/html5_player.js:484` | `startHeartbeat` | Callable `startHeartbeat` del modulo; JSDoc e chiamanti definiscono parametri ed effetti. |
-| `amd/src/html5_player.js:489` | `getCurrentTime` | Callable `getCurrentTime` del modulo; JSDoc e chiamanti definiscono parametri ed effetti. |
-| `amd/src/html5_player.js:493` | `hasPlayer` | Callable `hasPlayer` del modulo; JSDoc e chiamanti definiscono parametri ed effetti. |
-| `amd/src/html5_player.js:496` | `shouldSkip` | Callable `shouldSkip` del modulo; JSDoc e chiamanti definiscono parametri ed effetti. |
-| `amd/src/html5_player.js:504` | `stopHeartbeat` | Callable `stopHeartbeat` del modulo; JSDoc e chiamanti definiscono parametri ed effetti. |
-| `amd/src/html5_player.js:508` | `showResumeNotice` | Callable `showResumeNotice` del modulo; JSDoc e chiamanti definiscono parametri ed effetti. |
-| `amd/src/html5_player.js:521` | `replayHTML5Fragment` | Callable `replayHTML5Fragment` del modulo; JSDoc e chiamanti definiscono parametri ed effetti. |
-| `amd/src/html5_player.js:536` | `installGlobalListeners` | Callable `installGlobalListeners` del modulo; JSDoc e chiamanti definiscono parametri ed effetti. |
-| `amd/src/html5_player.js:540` | `hasPlayer` | Callable `hasPlayer` del modulo; JSDoc e chiamanti definiscono parametri ed effetti. |
-| `amd/src/html5_player.js:541` | `sendBeacon` | Callable `sendBeacon` del modulo; JSDoc e chiamanti definiscono parametri ed effetti. |
-| `amd/src/html5_player.js:544` | `hasPlayer` | Callable `hasPlayer` del modulo; JSDoc e chiamanti definiscono parametri ed effetti. |
-| `amd/src/html5_player.js:546` | `sendSegment` | Callable `sendSegment` del modulo; JSDoc e chiamanti definiscono parametri ed effetti. |
-| `amd/src/html5_player.js:556` | `handleReplayClick` | Callable `handleReplayClick` del modulo; JSDoc e chiamanti definiscono parametri ed effetti. |
-| `amd/src/html5_player.js:580` | `buildPlayer` | Callable `buildPlayer` del modulo; JSDoc e chiamanti definiscono parametri ed effetti. |
-| `amd/src/html5_player.js:670` | `formatElapsedTime` | Callable `formatElapsedTime` del modulo; JSDoc e chiamanti definiscono parametri ed effetti. |
-| `amd/src/html5_player.js:686` | `updateElapsedDisplays` | Callable `updateElapsedDisplays` del modulo; JSDoc e chiamanti definiscono parametri ed effetti. |
-| `amd/src/html5_player.js:697` | `buildControlBar` | Callable `buildControlBar` del modulo; JSDoc e chiamanti definiscono parametri ed effetti. |
-| `amd/src/html5_player.js:923` | `updatePipPressed` | Callable `updatePipPressed` del modulo; JSDoc e chiamanti definiscono parametri ed effetti. |
-| `amd/src/html5_player.js:933` | `cleanupPipHandler` | Callable `cleanupPipHandler` del modulo; JSDoc e chiamanti definiscono parametri ed effetti. |
-| `amd/src/html5_player.js:951` | `updateFullscreenPressed` | Callable `updateFullscreenPressed` del modulo; JSDoc e chiamanti definiscono parametri ed effetti. |
-| `amd/src/html5_player.js:954` | `cleanupFullscreenHandler` | Callable `cleanupFullscreenHandler` del modulo; JSDoc e chiamanti definiscono parametri ed effetti. |
-| `amd/src/html5_player.js:1070` | `makeBtn` | Callable `makeBtn` del modulo; JSDoc e chiamanti definiscono parametri ed effetti. |
-| `amd/src/html5_player.js:1083` | `attachTrackingEvents` | Callable `attachTrackingEvents` del modulo; JSDoc e chiamanti definiscono parametri ed effetti. |
-| `amd/src/html5_player.js:1224` | `setReactionButtons` | Callable `setReactionButtons` del modulo; JSDoc e chiamanti definiscono parametri ed effetti. |
-| `amd/src/html5_player.js:1229` | `announceReactionUnavailable` | Callable `announceReactionUnavailable` del modulo; JSDoc e chiamanti definiscono parametri ed effetti. |
-| `amd/src/html5_player.js:1237` | `installReactionHandler` | Callable `installReactionHandler` del modulo; JSDoc e chiamanti definiscono parametri ed effetti. |
-| `amd/src/html5_player.js:1241` | `appendReactionRow` | Callable `appendReactionRow` del modulo; JSDoc e chiamanti definiscono parametri ed effetti. |
-| `amd/src/html5_player.js:1311` | `reactionKeydownHandler` | Callable `reactionKeydownHandler` del modulo; JSDoc e chiamanti definiscono parametri ed effetti. |
-| `amd/src/html5_player.js:1320` | `reactionClickHandler` | Callable `reactionClickHandler` del modulo; JSDoc e chiamanti definiscono parametri ed effetti. |
-| `amd/src/html5_player.js:1454` | `cleanupReactionRootHandlers` | Callable `cleanupReactionRootHandlers` del modulo; JSDoc e chiamanti definiscono parametri ed effetti. |
-| `amd/src/html5_player.js:1470` | `getCurrentVideoTime` | Callable `getCurrentVideoTime` del modulo; JSDoc e chiamanti definiscono parametri ed effetti. |
-| `amd/src/html5_player.js:1481` | `getInteractionVideoTime` | Callable AMD nominato `getInteractionVideoTime`; vedere JSDoc e chiamanti per il contratto corrente. |
-| `amd/src/html5_player.js:1489` | `initialiseFocusGuard` | Callable `initialiseFocusGuard` del modulo; JSDoc e chiamanti definiscono parametri ed effetti. |
-| `amd/src/html5_player.js:1494` | `pause` | Callable `pause` del modulo; JSDoc e chiamanti definiscono parametri ed effetti. |
-| `amd/src/html5_player.js:1497` | `showMessage` | Callable `showMessage` del modulo; JSDoc e chiamanti definiscono parametri ed effetti. |
-| `amd/src/html5_player.js:1506` | `installNotesToggle` | Callable `installNotesToggle` del modulo; JSDoc e chiamanti definiscono parametri ed effetti. |
-| `amd/src/html5_player.js:1515` | `installNoteHandler` | Callable `installNoteHandler` del modulo; JSDoc e chiamanti definiscono parametri ed effetti. |
-| `amd/src/html5_player.js:1530` | `installBookmarkHandler` | Callable `installBookmarkHandler` del modulo; JSDoc e chiamanti definiscono parametri ed effetti. |
-| `amd/src/html5_player.js:1548` | `navigateTimedText` | Callable `navigateTimedText` del modulo; JSDoc e chiamanti definiscono parametri ed effetti. |
-| `amd/src/html5_player.js:1569` | `installPosterHandler` | Callable `installPosterHandler` del modulo; JSDoc e chiamanti definiscono parametri ed effetti. |
-| `amd/src/html5_player.js:1573` | `removePoster` | Callable `removePoster` del modulo; JSDoc e chiamanti definiscono parametri ed effetti. |
-| `amd/src/html5_player.js:1578` | `posterClickHandler` | Callable `posterClickHandler` del modulo; JSDoc e chiamanti definiscono parametri ed effetti. |
-| `amd/src/html5_player.js:1593` | `_posterPlayListener` | Callable AMD nominato `_posterPlayListener`; vedere JSDoc e chiamanti per il contratto corrente. |
-| `amd/src/html5_player.js:1598` | `_posterCleanup` | Callable AMD nominato `_posterCleanup`; vedere JSDoc e chiamanti per il contratto corrente. |
-| `amd/src/html5_player.js:1616` | `init` | Callable `init` del modulo; JSDoc e chiamanti definiscono parametri ed effetti. |
-| `amd/src/html5_player.js:1649` | `getDuration` | Callable `getDuration` del modulo; JSDoc e chiamanti definiscono parametri ed effetti. |
+| `amd/src/html5_player.js:391` | `saveSegment` | Callable `saveSegment` del modulo; JSDoc e chiamanti definiscono parametri ed effetti. |
+| `amd/src/html5_player.js:401` | `hasMedia` | Callable `hasMedia` del modulo; JSDoc e chiamanti definiscono parametri ed effetti. |
+| `amd/src/html5_player.js:408` | `saveCurrentProgress` | Callable `saveCurrentProgress` del modulo; JSDoc e chiamanti definiscono parametri ed effetti. |
+| `amd/src/html5_player.js:418` | `updateProgress` | Callable `updateProgress` del modulo; JSDoc e chiamanti definiscono parametri ed effetti. |
+| `amd/src/html5_player.js:429` | `resolveReactionTime` | Callable `resolveReactionTime` del modulo; JSDoc e chiamanti definiscono parametri ed effetti. |
+| `amd/src/html5_player.js:438` | `isDefinitiveReactionFailure` | Callable `isDefinitiveReactionFailure` del modulo; JSDoc e chiamanti definiscono parametri ed effetti. |
+| `amd/src/html5_player.js:452` | `removeReactionRow` | Callable `removeReactionRow` del modulo; JSDoc e chiamanti definiscono parametri ed effetti. |
+| `amd/src/html5_player.js:460` | `startSegment` | Callable `startSegment` del modulo; JSDoc e chiamanti definiscono parametri ed effetti. |
+| `amd/src/html5_player.js:479` | `closeSegment` | Callable `closeSegment` del modulo; JSDoc e chiamanti definiscono parametri ed effetti. |
+| `amd/src/html5_player.js:487` | `startHeartbeat` | Callable `startHeartbeat` del modulo; JSDoc e chiamanti definiscono parametri ed effetti. |
+| `amd/src/html5_player.js:492` | `getCurrentTime` | Callable `getCurrentTime` del modulo; JSDoc e chiamanti definiscono parametri ed effetti. |
+| `amd/src/html5_player.js:496` | `hasPlayer` | Callable `hasPlayer` del modulo; JSDoc e chiamanti definiscono parametri ed effetti. |
+| `amd/src/html5_player.js:499` | `shouldSkip` | Callable `shouldSkip` del modulo; JSDoc e chiamanti definiscono parametri ed effetti. |
+| `amd/src/html5_player.js:507` | `stopHeartbeat` | Callable `stopHeartbeat` del modulo; JSDoc e chiamanti definiscono parametri ed effetti. |
+| `amd/src/html5_player.js:511` | `showResumeNotice` | Callable `showResumeNotice` del modulo; JSDoc e chiamanti definiscono parametri ed effetti. |
+| `amd/src/html5_player.js:524` | `replayHTML5Fragment` | Callable `replayHTML5Fragment` del modulo; JSDoc e chiamanti definiscono parametri ed effetti. |
+| `amd/src/html5_player.js:539` | `installGlobalListeners` | Callable `installGlobalListeners` del modulo; JSDoc e chiamanti definiscono parametri ed effetti. |
+| `amd/src/html5_player.js:543` | `hasPlayer` | Callable `hasPlayer` del modulo; JSDoc e chiamanti definiscono parametri ed effetti. |
+| `amd/src/html5_player.js:544` | `sendBeacon` | Callable `sendBeacon` del modulo; JSDoc e chiamanti definiscono parametri ed effetti. |
+| `amd/src/html5_player.js:547` | `hasPlayer` | Callable `hasPlayer` del modulo; JSDoc e chiamanti definiscono parametri ed effetti. |
+| `amd/src/html5_player.js:549` | `sendSegment` | Callable `sendSegment` del modulo; JSDoc e chiamanti definiscono parametri ed effetti. |
+| `amd/src/html5_player.js:559` | `handleReplayClick` | Callable `handleReplayClick` del modulo; JSDoc e chiamanti definiscono parametri ed effetti. |
+| `amd/src/html5_player.js:583` | `buildPlayer` | Callable `buildPlayer` del modulo; JSDoc e chiamanti definiscono parametri ed effetti. |
+| `amd/src/html5_player.js:673` | `formatElapsedTime` | Callable `formatElapsedTime` del modulo; JSDoc e chiamanti definiscono parametri ed effetti. |
+| `amd/src/html5_player.js:689` | `updateElapsedDisplays` | Callable `updateElapsedDisplays` del modulo; JSDoc e chiamanti definiscono parametri ed effetti. |
+| `amd/src/html5_player.js:700` | `buildControlBar` | Callable `buildControlBar` del modulo; JSDoc e chiamanti definiscono parametri ed effetti. |
+| `amd/src/html5_player.js:926` | `updatePipPressed` | Callable `updatePipPressed` del modulo; JSDoc e chiamanti definiscono parametri ed effetti. |
+| `amd/src/html5_player.js:936` | `cleanupPipHandler` | Callable `cleanupPipHandler` del modulo; JSDoc e chiamanti definiscono parametri ed effetti. |
+| `amd/src/html5_player.js:954` | `updateFullscreenPressed` | Callable `updateFullscreenPressed` del modulo; JSDoc e chiamanti definiscono parametri ed effetti. |
+| `amd/src/html5_player.js:957` | `cleanupFullscreenHandler` | Callable `cleanupFullscreenHandler` del modulo; JSDoc e chiamanti definiscono parametri ed effetti. |
+| `amd/src/html5_player.js:1073` | `makeBtn` | Callable `makeBtn` del modulo; JSDoc e chiamanti definiscono parametri ed effetti. |
+| `amd/src/html5_player.js:1086` | `attachTrackingEvents` | Callable `attachTrackingEvents` del modulo; JSDoc e chiamanti definiscono parametri ed effetti. |
+| `amd/src/html5_player.js:1227` | `setReactionButtons` | Callable `setReactionButtons` del modulo; JSDoc e chiamanti definiscono parametri ed effetti. |
+| `amd/src/html5_player.js:1232` | `announceReactionUnavailable` | Callable `announceReactionUnavailable` del modulo; JSDoc e chiamanti definiscono parametri ed effetti. |
+| `amd/src/html5_player.js:1240` | `installReactionHandler` | Callable `installReactionHandler` del modulo; JSDoc e chiamanti definiscono parametri ed effetti. |
+| `amd/src/html5_player.js:1244` | `appendReactionRow` | Callable `appendReactionRow` del modulo; JSDoc e chiamanti definiscono parametri ed effetti. |
+| `amd/src/html5_player.js:1314` | `reactionKeydownHandler` | Callable `reactionKeydownHandler` del modulo; JSDoc e chiamanti definiscono parametri ed effetti. |
+| `amd/src/html5_player.js:1323` | `reactionClickHandler` | Callable `reactionClickHandler` del modulo; JSDoc e chiamanti definiscono parametri ed effetti. |
+| `amd/src/html5_player.js:1457` | `cleanupReactionRootHandlers` | Callable `cleanupReactionRootHandlers` del modulo; JSDoc e chiamanti definiscono parametri ed effetti. |
+| `amd/src/html5_player.js:1473` | `getCurrentVideoTime` | Callable `getCurrentVideoTime` del modulo; JSDoc e chiamanti definiscono parametri ed effetti. |
+| `amd/src/html5_player.js:1484` | `getInteractionVideoTime` | Callable AMD nominato `getInteractionVideoTime`; vedere JSDoc e chiamanti per il contratto corrente. |
+| `amd/src/html5_player.js:1492` | `initialiseFocusGuard` | Callable `initialiseFocusGuard` del modulo; JSDoc e chiamanti definiscono parametri ed effetti. |
+| `amd/src/html5_player.js:1497` | `pause` | Callable `pause` del modulo; JSDoc e chiamanti definiscono parametri ed effetti. |
+| `amd/src/html5_player.js:1500` | `showMessage` | Callable `showMessage` del modulo; JSDoc e chiamanti definiscono parametri ed effetti. |
+| `amd/src/html5_player.js:1509` | `installNotesToggle` | Callable `installNotesToggle` del modulo; JSDoc e chiamanti definiscono parametri ed effetti. |
+| `amd/src/html5_player.js:1518` | `installNoteHandler` | Callable `installNoteHandler` del modulo; JSDoc e chiamanti definiscono parametri ed effetti. |
+| `amd/src/html5_player.js:1533` | `installBookmarkHandler` | Callable `installBookmarkHandler` del modulo; JSDoc e chiamanti definiscono parametri ed effetti. |
+| `amd/src/html5_player.js:1551` | `navigateTimedText` | Callable `navigateTimedText` del modulo; JSDoc e chiamanti definiscono parametri ed effetti. |
+| `amd/src/html5_player.js:1572` | `installPosterHandler` | Callable `installPosterHandler` del modulo; JSDoc e chiamanti definiscono parametri ed effetti. |
+| `amd/src/html5_player.js:1576` | `removePoster` | Callable `removePoster` del modulo; JSDoc e chiamanti definiscono parametri ed effetti. |
+| `amd/src/html5_player.js:1581` | `posterClickHandler` | Callable `posterClickHandler` del modulo; JSDoc e chiamanti definiscono parametri ed effetti. |
+| `amd/src/html5_player.js:1596` | `_posterPlayListener` | Callable AMD nominato `_posterPlayListener`; vedere JSDoc e chiamanti per il contratto corrente. |
+| `amd/src/html5_player.js:1601` | `_posterCleanup` | Callable AMD nominato `_posterCleanup`; vedere JSDoc e chiamanti per il contratto corrente. |
+| `amd/src/html5_player.js:1619` | `init` | Callable `init` del modulo; JSDoc e chiamanti definiscono parametri ed effetti. |
+| `amd/src/html5_player.js:1652` | `getDuration` | Callable `getDuration` del modulo; JSDoc e chiamanti definiscono parametri ed effetti. |
 | `amd/src/player.js:42` | `resolveConfig` | Callable `resolveConfig` del modulo; JSDoc e chiamanti definiscono parametri ed effetti. |
 | `amd/src/player.js:53` | `uuid` | Callable `uuid` del modulo; JSDoc e chiamanti definiscono parametri ed effetti. |
 | `amd/src/player.js:57` | `loadApi` | Callable `loadApi` del modulo; JSDoc e chiamanti definiscono parametri ed effetti. |
@@ -1393,11 +1393,14 @@ Generato dall’albero sorgente VideoTrack 1.7.236. Le voci PHP includono funzio
 | `tests/behat/behat_mod_videotrack.php:442` | `browser_playback_completes_moodle_tracking` | Attende stato reale, pausa browser accettata e completamento Moodle senza inserire progresso o completamento. |
 | `tests/behat/behat_mod_videotrack.php:511` | `allowed_forward_seek_preserves_unwatched_gap` | Legge registro/stato/completamento reali per richiedere visione prima e dopo il seek consentito senza credito sul gap. |
 | `tests/behat/behat_mod_videotrack.php:595` | `seek_intervals_exclude_unwatched_gap` | Verifica che intervalli persistiti positivi lascino scoperto il tratto centrale saltato della fixture browser di 60 secondi. |
-| `tests/behat/behat_mod_videotrack.php:620` | `the_user_has_watched_videotrack_through_seconds` | Seeds bounded validated watched evidence for deterministic post-seek Behat interaction scenarios. |
-| `tests/behat/behat_mod_videotrack.php:714` | `the_moodle_completion_state_for_videotrack_is` | Verifica lo stato completion core Moodle persistito dopo un’interazione browser VideoTrack. |
-| `tests/behat/behat_mod_videotrack.php:755` | `the_videotrack_forum_time_should_be_between` | Verifica che il composer Forum collegato mantenga un timestamp nell’intervallo validato atteso dopo il rollback. |
-| `tests/behat/behat_mod_videotrack.php:778` | `the_latest_seek_segment_matches_the_pre_seek_browser_time` | Verifica l’estremo pre-seek grezzo e rifiuta credito aggregato o resume all’interno del gap saltato. |
-| `tests/behat/behat_mod_videotrack.php:852` | `the_videotrack_completion_requirements_are_stacked_vertically` | Verifica layout a colonna calcolato e geometria verticale non sovrapposta per i requisiti Moodle raggruppati. |
+| `tests/behat/behat_mod_videotrack.php:617` | `i_pause_the_videotrack_player_after_rollback_recovery` | Osserva il recupero rollback nativo/SDK entro limiti definiti e mette in pausa dal media prima delle asserzioni sulla frontiera persistita. |
+| `tests/behat/behat_mod_videotrack.php:679` | `paused_player_matches_validated_frontier` | Attende che il media nativo/SDK double in pausa coincida stabilmente con la frontiera validata persistita. |
+| `tests/behat/behat_mod_videotrack.php:726` | `post_rollback_interactions_retain_safe_timestamps` | Legge azioni learner salvate e URL reale del composer Forum per verificare timestamp di frontiera, sessione e completamento conservato. |
+| `tests/behat/behat_mod_videotrack.php:820` | `the_user_has_watched_videotrack_through_seconds` | Seeds bounded validated watched evidence for deterministic post-seek Behat interaction scenarios. |
+| `tests/behat/behat_mod_videotrack.php:914` | `the_moodle_completion_state_for_videotrack_is` | Verifica lo stato completion core Moodle persistito dopo un’interazione browser VideoTrack. |
+| `tests/behat/behat_mod_videotrack.php:955` | `the_videotrack_forum_time_should_be_between` | Verifica che il composer Forum collegato mantenga un timestamp nell’intervallo validato atteso dopo il rollback. |
+| `tests/behat/behat_mod_videotrack.php:978` | `the_latest_seek_segment_matches_the_pre_seek_browser_time` | Verifica l’estremo pre-seek grezzo e rifiuta credito aggregato o resume all’interno del gap saltato. |
+| `tests/behat/behat_mod_videotrack.php:1052` | `the_videotrack_completion_requirements_are_stacked_vertically` | Verifica layout a colonna calcolato e geometria verticale non sovrapposta per i requisiti Moodle raggruppati. |
 | `tests/cli_contract_test.php:35` | `test_validator_is_read_only_and_covers_release_contracts` | Funzione/metodo PHP nominato `test_validator_is_read_only_and_covers_release_contracts`; vedere DocBlock e chiamanti per il contratto corrente. |
 | `tests/cli_contract_test.php:65` | `test_course_analytics_benchmark_uses_real_read_only_metrics` | Funzione/metodo PHP nominato `test_course_analytics_benchmark_uses_real_read_only_metrics`; vedere DocBlock e chiamanti per il contratto corrente. |
 | `tests/cli_contract_test.php:87` | `test_cli_tools_are_documented_for_admins_and_maintainers` | Funzione/metodo PHP nominato `test_cli_tools_are_documented_for_admins_and_maintainers`; vedere DocBlock e chiamanti per il contratto corrente. |

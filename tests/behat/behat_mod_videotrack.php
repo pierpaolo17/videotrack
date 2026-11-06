@@ -610,6 +610,206 @@ class behat_mod_videotrack extends behat_base {
     }
 
     /**
+     * Observe rollback recovery through native/SDK media APIs, then explicitly pause through the same surface.
+     *
+     * @When /^I pause the VideoTrack player after rollback recovery$/
+     */
+    public function i_pause_the_videotrack_player_after_rollback_recovery(): void {
+        $deadline = microtime(true) + 15.0;
+        $phasebegan = null;
+        $phasetime = null;
+        $lasttime = null;
+        $waspaused = null;
+        $observed = null;
+        do {
+            $raw = $this->getSession()->evaluateScript(
+                "(function() {var media = document.querySelector('#mod-videotrack-player video');"
+                    . "if (media) {return JSON.stringify({time: media.currentTime, paused: media.paused,"
+                    . "playing: !media.paused && !media.ended});}"
+                    . "var fixture = window.__videotrackBehatProvider;"
+                    . "if (!fixture) {return null;}"
+                    . "var state = fixture.getState();"
+                    . "return JSON.stringify({time: fixture.getTime(), paused: state === 2, playing: state === 1});}())"
+            );
+            $observed = is_string($raw) ? json_decode($raw, true) : null;
+            $time = is_array($observed) && is_numeric($observed['time'] ?? null) ? (float)$observed['time'] : null;
+            $paused = !empty($observed['paused']);
+            $playing = !empty($observed['playing']);
+            if ($time !== null && $time >= 0.0 && $time < 25.0 && ($paused || $playing)) {
+                if ($phasebegan === null || $waspaused !== $paused || ($lasttime !== null && $time < $lasttime - 0.25)) {
+                    $phasebegan = microtime(true);
+                    $phasetime = $time;
+                }
+                // Existing recovery guards last up to six seconds. Observe a stable media phase past that window.
+                if (microtime(true) - $phasebegan >= 6.5 && ($paused || $time >= $phasetime + 6.0)) {
+                    $this->getSession()->executeScript(
+                        "(function() {var media = document.querySelector('#mod-videotrack-player video');"
+                            . "if (media) {media.pause(); return;}"
+                            . "var fixture = window.__videotrackBehatProvider;"
+                            . "if (!fixture) {throw new Error('VideoTrack rollback player not found');}"
+                            . "fixture.pause();}())"
+                    );
+                    return;
+                }
+                $lasttime = $time;
+                $waspaused = $paused;
+            } else {
+                $phasebegan = null;
+                $phasetime = null;
+                $lasttime = null;
+                $waspaused = null;
+            }
+            usleep(100000);
+        } while (microtime(true) < $deadline);
+
+        throw new ExpectationException(
+            'VideoTrack rollback recovery did not reach a stable paused or advancing playback phase before '
+                . 'the refused 30-second target. media=' . json_encode($observed) . '.',
+            $this->getSession()
+        );
+    }
+
+    /**
+     * Require a paused native media or SDK-double player to settle at the actual validated frontier.
+     *
+     * @Then /^the paused VideoTrack player matches "(?P<username>[^"]+)" frontier in "(?P<activityname>[^"]+)"$/
+     * @param string $username Moodle username.
+     * @param string $activityname VideoTrack activity name.
+     */
+    public function paused_player_matches_validated_frontier(string $username, string $activityname): void {
+        global $DB;
+
+        $user = $DB->get_record('user', ['username' => $username], '*', MUST_EXIST);
+        $activity = $DB->get_record('videotrack', ['name' => $activityname], '*', MUST_EXIST);
+        $conditions = ['videotrackid' => (int)$activity->id, 'userid' => (int)$user->id];
+        $deadline = microtime(true) + 7.0;
+        $stablefrontier = null;
+        $stablesince = null;
+        $time = null;
+        $frontier = null;
+        do {
+            $frontier = (float)$DB->get_field('videotrack_state', 'lastposition', $conditions, MUST_EXIST);
+            $time = $this->getSession()->evaluateScript(
+                "(function() {var media = document.querySelector('#mod-videotrack-player video');"
+                    . "if (media) {return media.paused ? media.currentTime : null;}"
+                    . "var fixture = window.__videotrackBehatProvider;"
+                    . "return fixture && fixture.getState() === 2 ? fixture.getTime() : null;}())"
+            );
+            if (is_numeric($time) && abs((float)$time - $frontier) <= 1.25) {
+                if ($stablefrontier === null || abs($stablefrontier - $frontier) > 0.001) {
+                    $stablefrontier = $frontier;
+                    $stablesince = microtime(true);
+                } else if ($stablesince !== null && microtime(true) - $stablesince >= 0.75) {
+                    return;
+                }
+            } else {
+                $stablefrontier = null;
+                $stablesince = null;
+            }
+            usleep(100000);
+        } while (microtime(true) < $deadline);
+
+        throw new ExpectationException(
+            'The paused VideoTrack player in "' . $activityname . '" did not settle at validated frontier '
+                . var_export($frontier, true) . '; paused media time=' . var_export($time, true) . '.',
+            $this->getSession()
+        );
+    }
+
+    /**
+     * Read persisted interactions and the actual Forum composer URL after rollback without changing completion.
+     *
+     * @Then /^post-rollback interactions for "(?P<username>[^"]+)" in "(?P<activityname>[^"]+)" retain safe timestamps$/
+     * @param string $username Moodle username.
+     * @param string $activityname VideoTrack activity name.
+     */
+    public function post_rollback_interactions_retain_safe_timestamps(string $username, string $activityname): void {
+        global $DB;
+
+        $user = $DB->get_record('user', ['username' => $username], '*', MUST_EXIST);
+        $activity = $DB->get_record('videotrack', ['name' => $activityname], '*', MUST_EXIST);
+        $cm = get_coursemodule_from_instance('videotrack', (int)$activity->id, (int)$activity->course, false, MUST_EXIST);
+        if (
+            !empty($activity->allowseekforward)
+            || (int)$activity->durationseconds !== 60
+            || (int)$activity->completionpercent !== 5
+            || (int)$cm->completion !== COMPLETION_TRACKING_AUTOMATIC
+        ) {
+            throw new \coding_exception('Rollback assertions require a blocked-seek 60-second fixture with 5% completion.');
+        }
+        $url = $this->getSession()->getCurrentUrl();
+        $forumparams = [];
+        $query = parse_url($url, PHP_URL_QUERY);
+        if (is_string($query)) {
+            parse_str($query, $forumparams);
+        }
+        $forumtime = isset($forumparams['time']) && is_numeric($forumparams['time']) ? (float)$forumparams['time'] : null;
+        $forumvalid = basename((string)parse_url($url, PHP_URL_PATH)) === 'forum_post.php'
+            && (int)($forumparams['id'] ?? 0) === (int)$cm->id && $forumtime !== null;
+        $expected = ['behat_test_reaction' => '', 'note' => 'Post-rollback note', 'bookmark' => 'Post-rollback bookmark'];
+        $conditions = ['videotrackid' => (int)$activity->id, 'userid' => (int)$user->id];
+        $deadline = microtime(true) + 5.0;
+        $state = false;
+        $native = false;
+        $events = [];
+        do {
+            $state = $DB->get_record('videotrack_state', $conditions);
+            $native = $DB->get_record('course_modules_completion', [
+                'coursemoduleid' => (int)$cm->id,
+                'userid' => (int)$user->id,
+            ]);
+            $events = $DB->get_records('videotrack_reactev', $conditions + ['isdeleted' => 0], 'id ASC');
+            $pauses = $DB->get_records(
+                'videotrack_seg',
+                $conditions + ['servervalidated' => 1, 'endreason' => 'pause'],
+                'id DESC',
+                '*',
+                0,
+                1
+            );
+            $pause = $pauses ? reset($pauses) : false;
+            $safe = $state && $pause && count($events) === 3 && $forumvalid
+                && abs($forumtime - (float)$state->lastposition) <= 1.25
+                && hash_equals((string)$pause->sessionid, (string)($forumparams['sessionid'] ?? ''));
+            $found = [];
+            foreach ($events as $event) {
+                $key = (string)$event->reactionkey;
+                $found[$key] = true;
+                $safe = $safe && array_key_exists($key, $expected)
+                    && (int)$event->cmid === (int)$cm->id
+                    && (float)$event->videotime >= 0.0
+                    && abs((float)$event->videotime - (float)$state->lastposition) <= 1.25
+                    && (float)$event->videotime < 22.0
+                    && hash_equals((string)$pause->sessionid, (string)$event->sessionid);
+                if ($key === 'behat_test_reaction') {
+                    $safe = $safe && (int)$event->reactionid > 0 && (string)$event->reactionlabel === 'Test reaction';
+                } else {
+                    $safe = $safe && (string)$event->notetext === ($expected[$key] ?? null)
+                        && (string)$event->notetype === $key;
+                }
+            }
+            if (
+                $safe && count($found) === 3 && $native
+                && (float)$state->lastposition >= 3.0 && (float)$state->lastposition < 22.0
+                && (float)$state->uniquecoveredseconds >= 3.0 && (float)$state->uniquecoveredseconds < 22.0
+                && (float)$state->completionpercent >= 5.0 && (int)$state->iscompleted === 1
+                && (int)$native->completionstate === COMPLETION_COMPLETE
+            ) {
+                return;
+            }
+            usleep(100000);
+        } while (microtime(true) < $deadline);
+
+        throw new ExpectationException(
+            'Post-rollback interactions in "' . $activityname . '" did not retain three same-session safe timestamps '
+                . 'and completed viewing state. state=' . ($state ? json_encode($state) : 'missing')
+                . '; native=' . ($native ? json_encode($native) : 'missing')
+                . '; events=' . json_encode(array_values($events)) . '; forum=' . json_encode($forumparams) . '.',
+            $this->getSession()
+        );
+    }
+
+    /**
      * Seed validated watched evidence for a learner before a browser interaction scenario.
      *
      * @Given /^"(?P<username>[^"]+)" watched "(?P<activityname>[^"]+)" through "(?P<seconds>[0-9.]+)" seconds$/

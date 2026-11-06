@@ -1,5 +1,43 @@
 # VideoTrack changelog
 
+## 1.7.237 - 2026-11-05
+
+### Browser rollback interactions and authorised HTML5 recovery
+
+- Accept the real 401-file 1.7.236 ZIP, SHA-256
+  `31b809c6c1710d2b8031a9205c194b812889f5aa8288e389e760e1b80f997cd3`,
+  matching merged commit `caf9a7bc9c7d245091b80139156ab1aee4bf5c59`.
+  All six release/main CI jobs passed 369 PHPUnit tests / 3,988 assertions,
+  30 Behat scenarios / 489 steps and ten strict checks each. The actual server
+  report passed PHPCS, lint, Grunt and PHPUnit on Moodle 5.0/5.3; both supplied
+  strict outputs are 10/0/0. That report did not run Behat; browser evidence is CI.
+- Add one unseeded rollback-interaction case per HTML5/YouTube/Vimeo. Actual
+  play/pause must earn native viewing completion before a refused 30-second
+  seek. Observe recovery, explicitly pause through the native/SDK surface and
+  require an accepted terminal pause and stable validated frontier. Save a
+  reaction, note and bookmark from their controls and open the Forum composer.
+  Read persisted timestamps, scope and session against the frontier within
+  1.25 seconds. Completion must survive rollback, interactions and reload.
+  The Forum discussion is not submitted. The two assertions only read; the
+  bounded recovery action drives the real player without injecting progress.
+- Correct the HTML5 defect exposed by CI commit
+  `52a371c0ce821b508f3107477f0c158273164cfb`: a recently paused player can
+  auto-resume after rollback, but pre-opening a client segment made its play
+  handler skip the fresh server playback handshake. Snapshot/rotate only an
+  already-open tracked segment. A closed window stays closed until resumed
+  play obtains authorisation. Active-playback snapshot/rotation and idle pause
+  behaviour remain intact; tracking session identifiers are unchanged.
+- Run actual Moodle Grunt AMD with Node 22.23.4 / Grunt 1.6.1 and the supplied
+  server dependencies. The baseline reproduces all 96 build files byte-for-byte;
+  the fixed ESLint/Rollup run changes only the HTML5 minified file and source map,
+  whose source content matches exactly. An isolated test of the actual recovery
+  and tracking-event functions reproduces the old failure and checks the fixed
+  handshake ordering with media/server boundaries instrumented. Full corrected
+  CI is still required: 33 scenarios / 618 steps and 369 PHPUnit methods expected.
+  Production PHP, existing Behat cases, SDK doubles, schema, services, translations
+  and analyser rules remain unchanged; PHPMD should retain 24 reviewed findings.
+  Keep 1.7.237 / 2026110507. U-017 stays closed and U-007 remains open.
+
 ## 1.7.236 - 2026-11-05
 
 ### Allowed forward-seek browser tracking across all three providers

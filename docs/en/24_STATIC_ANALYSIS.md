@@ -292,3 +292,7 @@ line, not for redeclaring a method parameter.
 - Accepted 1.7.235 release/main CI preserves all 24 reviewed PHPMD findings, canonical PHPCS cleanliness
   and the configured PHPStan/Psalm results. Candidate 1.7.236 adds only Behat evidence checks and current
   documentation/version markers; compare the complete candidate reports again. No production body or rule changes.
+- Accepted 1.7.236 release/main CI retains the exact 24 reviewed PHPMD findings and configured
+  PHPStan/Psalm results, with canonical PHPCS/lint clean on 164 PHP files. Candidate 1.7.237 adds
+  read-only Behat assertions and browser scenarios; production PHP and rulesets stay unchanged. The later
+  HTML5 recovery fix changes AMD only, with real Grunt outputs and the full corrected CI still required.

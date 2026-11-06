@@ -1,6 +1,6 @@
 # Audit di uscita U-017: manutenibilità
 
-Albero corrente: VideoTrack **1.7.236** (`2026110506`).
+Albero corrente: VideoTrack **1.7.237** (`2026110507`).
 
 ## Decisione ed evidenze accettate
 
@@ -15,11 +15,11 @@ La baseline di uscita accettata è lo ZIP reale 1.7.234 di 399 file, SHA-256
 puliti su 164 file. Il report server esatto su Moodle 5.0/5.3 supera PHPCS, lint, Grunt e la stessa suite PHPUnit.
 Entrambi gli strict forniti danno 10 PASS / 0 WARN / 0 FAIL. Tutti i gate di uscita sono soddisfatti.
 
-La 1.7.235 accettata avvia U-007 con completamento da browser e asserzioni in sola lettura.
-I suoi 27 scenari / 417 step passano nei sei job CI della release e di main. Il report server supera
-PHPCS, lint, Grunt e PHPUnit su 5.0/5.3; i due strict superano tutti i dieci controlli. Quel report non
-esegue Behat. La candidata 1.7.236 aggiunge controlli gap sul seek consentito: 30 scenari / 489 step
-attesi, da confermare in CI. Implementazioni di produzione e regole di analisi restano invariate.
+La 1.7.236 accettata estende U-007 con casi gap di seek consentito dopo il completamento browser 1.7.235.
+Tutti i 30 scenari / 489 step passano nei sei job CI release e main, con 369 test PHPUnit / 3.988 asserzioni.
+Il report server reale 5.0/5.3 supera PHPCS, lint, Grunt e PHPUnit senza Behat; i due strict superano
+tutti i dieci controlli. La candidata 1.7.237 aggiunge interazioni dopo rollback e completamento conservato:
+33 scenari / 618 step attesi, da confermare in CI. Produzione PHP e regole restano invariate; la correzione del recupero HTML5 risolve un difetto runtime concreto U-007.
 
 ## Revisione delle responsabilità
 
@@ -70,7 +70,7 @@ copertura validata. Il caso limite intervalli verifica la ricostruzione database
 
 ## Segnalazioni PHPMD residue revisionate
 
-La CI 1.7.235 accettata conferma **24** segnalazioni invariate. La candidata 1.7.236 conserva corpi di produzione
+La CI 1.7.236 accettata conferma **24** segnalazioni invariate. La candidata 1.7.237 conserva corpi PHP di produzione
 e ruleset: confrontare nuovamente l’intero report CI. Questo è un registro esplicito del debito, non una soppressione, una dichiarazione di zero finding o un'accettazione
 generica di segnalazioni future.
 
@@ -86,8 +86,8 @@ generica di segnalazioni future.
 
 ## Fase corrente della roadmap
 
-U-007 resta aperto. La 1.7.235 accettata prova in CI i tre percorsi play/pausa → completamento nativo.
-I casi gap del seek consentito 1.7.236 richiedono ancora la CI reale della candidata. Verificare le celle residue playback, interazioni, ruoli/gruppi e parità provider nella
+U-007 resta aperto. La 1.7.236 accettata conferma completamento da visione e gap del seek consentito sui tre provider.
+I casi di interazioni dopo rollback 1.7.237 richiedono ancora la CI reale della candidata. Verificare le celle residue playback, interazioni, ruoli/gruppi e parità provider nella
 [copertura browser](22_TEST_BROWSER_BEHAT.md). La CI Chrome esegue il browser su sei ambienti Moodle/PHP/database:
 non è una matrice di sei browser. Smoke su SDK/rete pubblici e altri browser restano verifiche successive esplicite.
 
