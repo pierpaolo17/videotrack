@@ -33,6 +33,208 @@ use Behat\Mink\Exception\ExpectationException;
  * @license    https://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 class behat_mod_videotrack extends behat_base {
+    /** @var array End-of-video observations used only by read-only replay assertions. */
+    private array $endedbaselines = [];
+
+    /**
+     * Request a real media/SDK rate selected by the fixture, or an intentional above-cap probe.
+     *
+     * @When /^I request VideoTrack playback rate "([0-9.]+)"$/
+     * @param float $rate Requested media playback rate.
+     */
+    public function i_request_videotrack_playback_rate(float $rate): void {
+        $target = json_encode($rate, JSON_THROW_ON_ERROR);
+        $script = "(function() {var requested = " . $target . ";"
+            . "var node = document.querySelector('script[id^=\"mod-videotrack-player-config-\"]');"
+            . "if (!node) {throw new Error('VideoTrack configuration missing');}"
+            . "var config = JSON.parse(node.textContent); var speeds = config.playbackspeeds;"
+            . "var cap = Number(config.maxplaybackrate) / 100;"
+            . "if (!config.allowplaybackratechange || !Array.isArray(speeds)"
+            . "|| (speeds.map(Number).indexOf(requested) === -1 && !(cap > 0 && requested > cap)))"
+            . "{throw new Error('Test rate must be selected or intentionally above the configured cap');}"
+            . "var media = document.querySelector('#mod-videotrack-player video');"
+            . "if (media) {media.playbackRate = requested; return;}"
+            . "var fixture = window.__videotrackBehatProvider;"
+            . "if (!fixture || !fixture.player) {throw new Error('VideoTrack SDK fixture missing');}"
+            . "fixture.player.setPlaybackRate(requested);}())";
+        $this->getSession()->executeScript($script);
+    }
+
+    /**
+     * Observe a native or asynchronous SDK rate without treating a Promise as a boolean.
+     *
+     * @Then /^the VideoTrack playback rate is "([0-9.]+)"$/
+     * @param float $rate Expected effective media rate.
+     */
+    public function the_videotrack_playback_rate_is(float $rate): void {
+        $target = json_encode($rate, JSON_THROW_ON_ERROR);
+        $this->getSession()->executeScript('window.__videotrackRateProbe = {value: null};');
+        $condition = "(function() {var expected = " . $target . ";"
+            . "var media = document.querySelector('#mod-videotrack-player video');"
+            . "if (media) {return Math.abs(media.playbackRate - expected) <= 0.001;}"
+            . "var fixture = window.__videotrackBehatProvider; var probe = window.__videotrackRateProbe;"
+            . "if (!fixture || !fixture.player || !probe) {return false;}"
+            . "var value = fixture.player.getPlaybackRate();"
+            . "if (value && typeof value.then === 'function') {"
+            . "value.then(function(actual) {probe.value = Number(actual);});"
+            . "return typeof probe.value === 'number' && Math.abs(probe.value - expected) <= 0.001;}"
+            . "return Math.abs(Number(value) - expected) <= 0.001;}())";
+        if (!$this->getSession()->wait(5000, $condition)) {
+            throw new ExpectationException('VideoTrack rate did not settle at ' . $rate . '.', $this->getSession());
+        }
+    }
+
+    /**
+     * Wait for natural fixture end without seeking to it or accelerating the clock.
+     *
+     * @Then /^the VideoTrack player reaches its natural end$/
+     */
+    public function the_videotrack_player_reaches_its_natural_end(): void {
+        $condition = "(function() {var media = document.querySelector('#mod-videotrack-player video');"
+            . "if (media) {return media.ended && media.paused && media.currentTime >= 59.75;}"
+            . "var fixture = window.__videotrackBehatProvider; if (!fixture) {return false;}"
+            . "var time = fixture.getTime(); var state = fixture.getState();"
+            . "return time >= 59.75 && (state === 0 || state === 2);}())";
+        if (!$this->getSession()->wait(45000, $condition)) {
+            throw new ExpectationException('VideoTrack did not reach the natural 60-second end.', $this->getSession());
+        }
+    }
+
+    /**
+     * Require an accepted end, closed credit and nearly complete browser-earned coverage.
+     *
+     * @Then /^an accepted end closes playback for "([^"]+)" in "([^"]+)"$/
+     * @param string $username Moodle username.
+     * @param string $activityname VideoTrack activity name.
+     */
+    public function an_accepted_end_closes_playback(string $username, string $activityname): void {
+        $conditions = $this->browser_activity_conditions($username, $activityname);
+        $deadline = microtime(true) + 8.0;
+        do {
+            [$start, $end, $state] = $this->read_browser_playback_cycle($conditions, 'ended');
+            $intervals = json_decode((string)($state->intervaljson ?? '[]'), true);
+            $coversreplay = false;
+            foreach (is_array($intervals) ? $intervals : [] as $interval) {
+                if (is_array($interval) && count($interval) >= 2
+                        && (float)$interval[0] <= 5.0 && (float)$interval[1] >= 20.0) {
+                    $coversreplay = true;
+                }
+            }
+            if ($this->browser_playback_cycle_is_closed($start, $end, $state)
+                    && (float)$end->videotimeend >= 59.0 && (float)$end->videotimeend <= 60.001
+                    && (float)$state->lastposition >= 59.0 && (float)$state->lastposition <= 60.001
+                    && (float)$state->uniquecoveredseconds >= 58.0 && (float)$state->uniquecoveredseconds <= 60.001
+                    && (float)$state->completionpercent >= 95.0 && (float)$state->completionpercent <= 100.0
+                    && (int)$state->iscompleted === 1 && $coversreplay) {
+                $key = $conditions['videotrackid'] . ':' . $conditions['userid'];
+                $this->endedbaselines[$key] = [
+                    'unique' => (float)$state->uniquecoveredseconds,
+                    'percent' => (float)$state->completionpercent,
+                    'endedid' => (int)$end->id,
+                    'sessionid' => (string)$end->sessionid,
+                ];
+                return;
+            }
+            usleep(100000);
+        } while (microtime(true) < $deadline);
+        throw new ExpectationException(
+            'Natural end did not persist accepted closed credit and bounded complete coverage in ' . $activityname . '.',
+            $this->getSession()
+        );
+    }
+
+    /**
+     * Require a fresh replay handshake and accepted pause without counting watched footage twice.
+     *
+     * @Then /^replaying watched footage adds no coverage for "([^"]+)" in "([^"]+)"$/
+     * @param string $username Moodle username.
+     * @param string $activityname VideoTrack activity name.
+     */
+    public function replaying_watched_footage_adds_no_coverage(string $username, string $activityname): void {
+        $conditions = $this->browser_activity_conditions($username, $activityname);
+        $key = $conditions['videotrackid'] . ':' . $conditions['userid'];
+        $baseline = $this->endedbaselines[$key] ?? null;
+        if ($baseline === null) {
+            throw new ExpectationException('An accepted natural-end snapshot is required before replay.', $this->getSession());
+        }
+        $deadline = microtime(true) + 8.0;
+        do {
+            [$start, $pause, $state] = $this->read_browser_playback_cycle($conditions, 'pause');
+            if ($this->browser_playback_cycle_is_closed($start, $pause, $state)
+                    && (int)$start->id > $baseline['endedid']
+                    && hash_equals($baseline['sessionid'], (string)$start->sessionid)
+                    && (float)$start->videotimeend >= 4.75 && (float)$start->videotimeend <= 6.25
+                    && (float)$pause->videotimeend >= 7.5 && (float)$pause->videotimeend <= 15.0
+                    && abs((float)$state->uniquecoveredseconds - $baseline['unique']) <= 0.001
+                    && abs((float)$state->completionpercent - $baseline['percent']) <= 0.001
+                    && (int)$state->iscompleted === 1) {
+                return;
+            }
+            usleep(100000);
+        } while (microtime(true) < $deadline);
+        throw new ExpectationException(
+            'Replay did not retain unique coverage/completion with a fresh accepted playback cycle in ' . $activityname . '.',
+            $this->getSession()
+        );
+    }
+
+    /**
+     * Resolve one exact activity/user/course-module scope without writing test progress.
+     *
+     * @param string $username Moodle username.
+     * @param string $activityname VideoTrack activity name.
+     * @return array Database conditions for this playback scope.
+     */
+    private function browser_activity_conditions(string $username, string $activityname): array {
+        global $DB;
+
+        $user = $DB->get_record('user', ['username' => $username], '*', MUST_EXIST);
+        $activity = $DB->get_record('videotrack', ['name' => $activityname], '*', MUST_EXIST);
+        $cm = get_coursemodule_from_instance('videotrack', (int)$activity->id, (int)$activity->course, false, MUST_EXIST);
+        return [
+            'videotrackid' => (int)$activity->id,
+            'userid' => (int)$user->id,
+            'courseid' => (int)$activity->course,
+            'cmid' => (int)$cm->id,
+        ];
+    }
+
+    /**
+     * Read the latest real handshake, requested terminal event and aggregate state.
+     *
+     * @param array $conditions Exact playback scope.
+     * @param string $reason Terminal reason to observe.
+     * @return array Latest start, terminal and state records, or false for absent records.
+     */
+    private function read_browser_playback_cycle(array $conditions, string $reason): array {
+        global $DB;
+
+        $starts = $DB->get_records('videotrack_seg', $conditions + ['endreason' => 'playstart'], 'id DESC', '*', 0, 1);
+        $terminals = $DB->get_records('videotrack_seg', $conditions + ['endreason' => $reason], 'id DESC', '*', 0, 1);
+        return [
+            $starts ? reset($starts) : false,
+            $terminals ? reset($terminals) : false,
+            $DB->get_record('videotrack_state', $conditions),
+        ];
+    }
+
+    /**
+     * Check a positive same-session terminal write after its start with no active server credit.
+     *
+     * @param \stdClass|false $start Latest playback start.
+     * @param \stdClass|false $terminal Latest requested terminal row.
+     * @param \stdClass|false $state Actual aggregate state.
+     * @return bool Whether this exact playback cycle was accepted and closed.
+     */
+    private function browser_playback_cycle_is_closed($start, $terminal, $state): bool {
+        return $start && $terminal && $state
+            && (int)$start->servervalidated === 0 && (int)$terminal->servervalidated === 1
+            && (int)$terminal->id > (int)$start->id
+            && hash_equals((string)$start->sessionid, (string)$terminal->sessionid)
+            && (float)$terminal->videotimeend > (float)$terminal->videotimestart
+            && (string)$state->serverplaybacksessionid === '' && (int)$state->serverlastactivity === 0;
+    }
+
     /**
      * Read the effective per-activity attention configuration without changing it.
      *

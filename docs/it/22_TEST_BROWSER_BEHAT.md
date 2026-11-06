@@ -1,6 +1,6 @@
 # Automazione browser Behat
 
-La 1.7.237 accettata supera **33 scenari / 618 step** e 369 test PHPUnit / 3.988 asserzioni nei sei ambienti CI release/main. ZIP esatto e report server/strict sono accettati; il server non ha eseguito Behat. La candidata **1.7.238** contiene **41 scenari / 722 step attesi dal sorgente**, da confermare in CI reale. I sei ambienti usano un profilo Chrome, non sei browser.
+La 1.7.238 accettata supera **41 scenari / 722 step** e **379 test PHPUnit / 4.076 asserzioni** nei sei ambienti CI dopo il merge. ZIP esatto, report server e due strict sono accettati. Il report server esegue PHPCS/lint, Grunt e PHPUnit, non Behat. La candidata **1.7.239** prevede dal sorgente **44 scenari / 830 step**; serve la CI candidata reale. I sei ambienti usano un profilo Chrome, non sei browser.
 
 ## Setup ed esecuzione
 
@@ -101,8 +101,9 @@ sotto il target rifiutato di 30. Completamento aggregato e nativo devono restare
 nell'attività. Non vengono inseriti registro, stato, interazioni, completamento o risposte AJAX dal test.
 
 Il vecchio caso HTML5 con seed resta invariato e conserva il proprio scopo basato su fixture. I nuovi casi
-esercitano evidenze generate dal browser per i tre provider. Ended/replay/velocità e combinazioni pertinenti
-ruoli/gruppi/browser restano lavoro U-007 esplicito; questi casi da soli non chiudono la fase.
+esercitano evidenze generate dal browser per i tre provider. La candidata 1.7.239 aggiunge fine/replay/velocità
+come descritto sotto. Le combinazioni pertinenti ruoli/gruppi/browser restano lavoro U-007 esplicito;
+questi casi da soli non chiudono la fase.
 
 ## Correzione della prima CI 1.7.237
 
@@ -157,7 +158,9 @@ invariati. I sei job CI corretti 1.7.237 sono passati prima del merge e su main.
 | Riproduzione senza seed fino al completamento nativo | Caso 1.7.235 accettato | Caso 1.7.235 accettato | Caso 1.7.235 accettato |
 | Seek avanti consentito, gap escluso e completamento incompleto | Caso 1.7.236 accettato | Caso 1.7.236 accettato | Caso 1.7.236 accettato |
 | Interazioni dopo rollback e completamento conservato | Caso senza seed 1.7.237 accettato | Caso SDK double 1.7.237 accettato | Caso SDK double 1.7.237 accettato |
-| Ended/replay/velocità e scope gruppi pertinenti | Revisione matrice residua | Revisione matrice residua | Revisione matrice residua |
+| Configurazione attenzione e pausa automatica/ripresa reale | Caso 1.7.238 accettato | Caso SDK double 1.7.238 accettato | Caso SDK double 1.7.238 accettato |
+| Fine naturale, replay, velocità consentita e riserva oltre tetto | Nuovo caso 1.7.239, CI attesa | Nuovo caso SDK double 1.7.239, CI attesa | Nuovo caso SDK double 1.7.239, CI attesa |
+| Ruoli e confini gruppi pertinenti | Revisione matrice residua | Revisione matrice residua | Revisione matrice residua |
 
 Controlli learner, solo docente e doppio ruolo hanno già scenari condivisi sulla pagina. Questo non copre ogni
 combinazione provider/lifecycle/gruppo. U-007 resta aperto fino alle evidenze sulle celle essenziali e sui rami
@@ -181,6 +184,33 @@ valgono soltanto per albero plugin, ramo Moodle, browser e driver esatti registr
 
 ## Casi intervallo di attenzione 1.7.238
 
-Cinque casi browser in sola lettura coprono terzi automatici, solo minimo, solo massimo, controllo spento e riserva sito con durata zero. Tre ulteriori scenari provider usano 60–60 secondi espliciti e riproducono a 0,5x le fixture media/SDK da 60 secondi invariate, così la fine non anticipa la vera scadenza di un minuto. Nessun timer o orologio server viene accelerato. Ogni caso osserva messaggio di pausa, pausa accettata con chiusura del credito server e frontiera stabile; poi riprende fino a 31–38 secondi video e mette nuovamente in pausa dal provider, richiedendo un nuovo ciclo play/pausa accettato. Scenari e asserzioni precedenti restano integri. La CI candidata deve confermare tutti i casi; smoke con provider pubblici e altri browser restano lavoro U-007 distinto.
+Cinque casi browser in sola lettura coprono terzi automatici, solo minimo, solo massimo, controllo spento e riserva sito con durata zero. Tre ulteriori scenari provider usano 60–60 secondi espliciti e riproducono a 0,5x le fixture media/SDK da 60 secondi invariate, così la fine non anticipa la vera scadenza di un minuto. Nessun timer o orologio server viene accelerato. Ogni caso osserva messaggio di pausa, pausa accettata con chiusura del credito server e frontiera stabile; poi riprende fino a 31–38 secondi video e mette nuovamente in pausa dal provider, richiedendo un nuovo ciclo play/pausa accettato. Scenari e asserzioni precedenti restano integri. Tutti i casi sono passati nella CI main 1.7.238 accettata. Smoke con provider pubblici e altri browser restano lavoro U-007 distinto.
 
 I casi 1.7.238 corretti selezionano esplicitamente 0,5x e 1x tramite `playbackspeed_0.5` / `playbackspeed_1`. Il driver rifiuta di forzare 0,5x se la lista effettiva del player non la contiene. La CI iniziale metteva in pausa i tre provider ma rifiutava correttamente le scritture a velocità non autorizzata. Attesa di un minuto, pausa accettata, frontiera stabile e ripresa restano invariati.
+
+## Casi fine naturale, replay e velocità 1.7.239
+
+`browser_ended_replay_rate.feature` aggiunge tre casi senza seed. La fixture docente seleziona esplicitamente
+1x/2x, tetto 2x e riserva autorizzata 1x; disabilita autoplay/resume, loop, pause di attenzione e completamento
+per presa visione. Il completamento automatico richiede il 95% della durata reale di 60 secondi.
+Dopo l’avvio a 1x, il browser richiede 4x e osserva il ritorno a 1x imposto dal tetto esistente; richiede poi
+2x autorizzato e lo verifica. Un’osservazione media limitata a 45 secondi attende la fine naturale, senza
+seek alla fine né orologi runtime alterati. Per Vimeo si attende il risultato numerico asincrono della
+velocità, senza considerare una Promise come esito positivo.
+
+Il polling database in sola lettura richiede righe reali `playstart` e `ended` accettato della stessa sessione,
+intervallo terminale positivo, credito server chiuso, posizioni finali/resume tra 59 e 60,001 secondi, copertura
+unica tra 58 e 60,001 e stato aggregato/completamento Moodle completo. Un intervallo persistito deve coprire
+5–20 secondi. Il driver conserva solo copertura, percentuale e identificatori terminale/sessione nella
+memoria del test. Seleziona poi 1x, torna al secondo cinque, riproduce fino a 8–12 secondi e mette in pausa
+dalla superficie reale. Il nuovo handshake deve seguire la fine accettata; una pausa positiva accettata deve
+chiudere il credito nella stessa sessione browser. Copertura unica e percentuale devono coincidere con la
+fotografia entro 0,001, con completamento ancora completo dopo reload. Il replay è interno alla copertura
+validata: una frazione iniziale non accreditata per l’handshake al secondo zero non va confusa con un doppio
+conteggio. La posizione resume può correttamente arretrare; dopo replay non si richiede che resti alla fine.
+
+I casi distribuiti usano tempo reale e scritture AJAX reali; le asserzioni non inseriscono ledger/stato/
+completamento né risposte simulate. Scenari precedenti, adapter, SDK double e guardie restano invariati.
+Le verifiche locali dei driver estratti coprono controlli, funzioni del tetto e osservazioni asincrone;
+l’esecuzione Moodle 44/830 richiede la CI. Questi contratti SDK non provano disponibilità degli iframe
+pubblici, cookie/consenso o compatibilità con altri browser.

@@ -1,10 +1,10 @@
 # Distributed file inventory
 
-This inventory is generated against the VideoTrack 1.7.238 repository tree. It lists every distributed
+This inventory is generated against the VideoTrack 1.7.239 repository tree. It lists every distributed
 non-documentation file plus repository-only CI/tooling/hygiene files. Canonical JavaScript is under `amd/src`; files under
 `amd/build` are generated.
 
-Entries: **342** — 339 distributed files and three repository-only files excluded from release archives.
+Entries: **343** — 340 distributed files and three repository-only files excluded from release archives.
 
 | File | Responsibility |
 |---|---|
@@ -350,3 +350,4 @@ Entries: **342** — 339 distributed files and three repository-only files exclu
 | `classes/local/random_pause_policy.php` | Resolves duration-derived attention intervals, independently optional teacher bounds and safe import values. |
 | `tests/random_pause_policy_test.php` | Behavioural policy/form/save tests and actual Moodle activity duplication for attention settings. |
 | `tests/behat/random_attention_policy.feature` | Effective attention configuration and real one-minute HTML5/YouTube/Vimeo automatic pause/resume contracts. |
+| `tests/behat/browser_ended_replay_rate.feature` | Unseeded natural end, watched replay, authorised 2x and above-cap fallback for HTML5/YouTube/Vimeo. |

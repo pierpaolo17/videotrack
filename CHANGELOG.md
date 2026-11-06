@@ -1,5 +1,34 @@
 # VideoTrack changelog
 
+## 1.7.239 - 2026-11-06
+
+### U-007 natural end, replay and playback-rate browser contracts
+
+- Accept the actual 405-file 1.7.238 ZIP, SHA-256
+  `045f70da98bb60fc5ffbcb7ddf8df55b5eb915e58c4c2efb663102f2f23f3dfe`,
+  identical to merged main `27299bc43e5d63dd6e18dda7325412551fa95a14`.
+  All six post-merge CI jobs pass 379 PHPUnit tests / 4,076 assertions,
+  41 Behat scenarios / 722 steps and ten strict checks. Moodle 5.0/5.3 server
+  PHPCS/lint, Grunt and PHPUnit pass; both supplied strict outputs are 10/0/0.
+  That server report does not execute Behat; browser evidence comes from CI.
+- Add one unseeded natural-end/replay case per provider using the unchanged
+  60-second HTML5 fixture and YouTube/Vimeo SDK doubles. Explicitly select
+  1x and 2x, observe fallback from an above-cap 4x request to 1x, then reach
+  natural end at the authorised 2x speed without seeking to the end.
+- Read actual ledger/state/native completion to require an accepted terminal
+  end, closed server credit and bounded complete coverage. Replay an already
+  validated portion from second five at 1x: require a new playback handshake,
+  accepted pause and unchanged unique coverage/completion, including reload.
+  No tracking, completion, AJAX result or runtime clock is injected.
+- Source expectations: 379 PHPUnit methods; 44 Behat scenarios / 830 steps.
+  Candidate Moodle CI remains required. Isolated driver checks and exact
+  patch-application checks do not constitute Moodle/browser execution.
+- Update bilingual guides, inventories and ER current-tree labels. Production
+  PHP/AMD, generated builds, SDK fixtures, schema (151 fields), eight language
+  packs (997 keys), services, capabilities and analysis rules are unchanged.
+  U-017 remains closed; U-007 still requires relevant roles/groups and explicit
+  additional-browser/public-provider evidence before its exit can be assessed.
+
 ## 1.7.238 - 2026-11-06
 
 ### Teacher attention intervals with duration-derived defaults
