@@ -2,7 +2,7 @@
 
 ## Controls
 
-Per activity, a teacher may enable integrity recording, hidden/focus pause, best-effort Picture-in-Picture prevention and random attention pauses. Site settings define random-pause bounds (default 300–1800 seconds), focus policy and grace period. All controls are disabled by default at activity level.
+Per activity, a teacher may enable integrity recording, hidden/focus pause, best-effort Picture-in-Picture prevention and random attention pauses. Site settings define fallback bounds for unknown duration (default 300–1800 seconds), focus policy and grace period. Activity defaults and teacher overrides are described below. All controls are disabled by default at activity level.
 
 ## Accessible focus policy
 
@@ -38,3 +38,27 @@ landmark identical in every state.
 ## Lifecycle
 
 `videotrack_integrity` is included in Privacy API export/erasure, retention, reset, activity deletion and user-data backup/restore.
+
+## Teacher attention intervals
+
+The existing **Enable random attention pauses** switch remains off by default. The activity reuses the site
+minimum/maximum labels, but its two optional fields are **whole seconds**, not minutes. Empty or `0` means
+automatic. Explicit bounds must be within **60–7200 seconds**; two explicit bounds must satisfy minimum ≤ maximum.
+Equal values give a fixed interval. The settings stay saved when the switch is off.
+
+Automatic values are one third and two thirds of the saved `durationseconds`, rounded to the nearest whole
+second and clamped to 60–7200. With duration `0` or an invalid imported duration, the canonical site interval is
+the fallback. A 900-second activity therefore defaults to 300–600 seconds; a 30-second activity uses 60–60 and
+may finish before a pause occurs. The duration used for watched percentage is never changed to tune this feature.
+
+Each override is independent. If only the minimum is explicit and exceeds the automatic maximum, that maximum
+is raised to the explicit minimum. If only the maximum is explicit and is below the automatic minimum, that
+minimum is lowered to the explicit maximum. Editing duration recalculates only automatic values: the database
+stores `0`, not a snapshot of the calculated interval. A teacher may return either field to automatic.
+
+These are **wall-clock delays since a recognised interaction while playing**, not 1/3 and 2/3 timeline markers.
+The unchanged shared `focus_guard` restarts its timer on recognised actions and cancels it on pause/end/destroy.
+Progress callbacks alone do not reset it. Recording integrity signals is independent of enabling the pause.
+The provider pause must close server credit normally; resuming must obtain a fresh server handshake. No time
+is awarded for the pause, and seek/rate guards, completion and hidden-tab controls retain their own contracts.
+Pauses are diagnostic prompts and do not prove attention or misconduct.

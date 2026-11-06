@@ -1,7 +1,7 @@
 # VideoTrack database and Entity–Relationship reference
 
-- **Current tree / albero corrente:** VideoTrack 1.7.237 / 2026110507
-- **XMLDB source / sorgente XMLDB:** `db/install.xml` (`2026082901`)
+- **Current tree / albero corrente:** VideoTrack 1.7.238 / 2026110601
+- **XMLDB source / sorgente XMLDB:** `db/install.xml` (`2026110601`)
 - **Supported Moodle / Moodle supportato:** 5.0–5.3
 
 Visual artefacts / artefatti visuali: [Mermaid source](VIDEOTRACK_DB_ER_SCHEMA.mmd) ·
@@ -73,3 +73,14 @@ Cancellazione attività e reset eliminano i record figli del plugin tramite DML/
 per utente/contesto; la retention elimina dati granulari scaduti e ricostruisce lo stato derivato. Backup e restore
 rimappano utenti, Forum e reazioni. Le chiavi XMLDB documentano e indicizzano le relazioni stabili; il validatore
 CLI verifica inoltre orfani, coerenza corso/course module e riferimenti condizionali senza modificare dati.
+
+## Attention configuration / Configurazione attenzione
+
+The seven tables now contain **151 fields**, with the same 22 explicit indexes and 22 foreign keys.
+`videotrack.randompauseminseconds` and `videotrack.randompausemaxseconds` are NOT NULL `int(4)`, default `0`.
+Zero means dynamic thirds of the saved activity duration, or the site fallback for duration zero; explicit
+values are whole seconds from 60 to 7200. These activity settings add no personal data or new relationships.
+
+Le sette tabelle contengono ora **151 campi**, con gli stessi 22 indici espliciti e 22 foreign key.
+I due campi sono interi NOT NULL con default `0`: terzi dinamici della durata salvata, oppure riserva sito con
+durata zero. I valori espliciti sono secondi interi da 60 a 7200. Nessun nuovo dato personale o relazione.

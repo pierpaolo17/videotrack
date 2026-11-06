@@ -80,6 +80,7 @@ class restore_videotrack_activity_structure_step extends restore_activity_struct
             $data->forumpostingenabled = 0;
             $data->linkedforumid = 0;
         }
+        \mod_videotrack\local\random_pause_policy::normalise_overrides($data);
         $newitemid = $DB->insert_record('videotrack', videotrack_whitelist_record($data));
         $this->apply_activity_instance($newitemid);
         $this->set_mapping('videotrack', $oldid, $newitemid);

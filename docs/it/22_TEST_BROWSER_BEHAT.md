@@ -1,11 +1,6 @@
 # Automazione browser Behat
 
-Il plugin distribuisce un generator attività Moodle in `tests/generator/lib.php`, step componente in
-`tests/behat/behat_mod_videotrack.php` e feature in `tests/behat/`. Il sorgente 1.7.237 contiene
-**33 scenari e 618 step attesi dal sorgente**, da confermare con la CI reale della candidata. La 1.7.236
-accettata supera 30 scenari / 489 step nei sei job CI della release e di main, con 369 test PHPUnit / 3.988
-asserzioni. Il report server reale Moodle 5.0/5.3 supera PHPCS, lint, Grunt e PHPUnit; i due strict superano
-tutti i dieci controlli. Quel report non esegue Behat. La CI precedente non certifica i nuovi casi.
+La 1.7.237 accettata supera **33 scenari / 618 step** e 369 test PHPUnit / 3.988 asserzioni nei sei ambienti CI release/main. ZIP esatto e report server/strict sono accettati; il server non ha eseguito Behat. La candidata **1.7.238** contiene **41 scenari / 722 step attesi dal sorgente**, da confermare in CI reale. I sei ambienti usano un profilo Chrome, non sei browser.
 
 ## Setup ed esecuzione
 
@@ -151,7 +146,7 @@ conserva snapshot del seek attivo e pausa inattiva. È un controllo JavaScript i
 Il vero Grunt AMD Moodle con Node 22.23.4 / Grunt 1.6.1 riproduce identici tutti i 96 vecchi build, poi supera
 ESLint/Rollup sulla correzione: cambiano soltanto minificato/mappa HTML5, con sorgente esatto nella mappa.
 Suite da 33 scenari / 618 step e asserzioni pausa, timestamp relativi, sessione/scope e completamento restano
-invariati. Servono tutti i sei job CI corretti prima del merge. U-007 resta aperto.
+invariati. I sei job CI corretti 1.7.237 sono passati prima del merge e su main. U-007 resta aperto.
 
 ## Matrice di copertura U-007
 
@@ -161,7 +156,7 @@ invariati. Servono tutti i sei job CI corretti prima del merge. U-007 resta aper
 | Resume, seek indietro, seek avanti bloccato/frontiera | Esistente | Caso SDK double esistente | Caso SDK double esistente |
 | Riproduzione senza seed fino al completamento nativo | Caso 1.7.235 accettato | Caso 1.7.235 accettato | Caso 1.7.235 accettato |
 | Seek avanti consentito, gap escluso e completamento incompleto | Caso 1.7.236 accettato | Caso 1.7.236 accettato | Caso 1.7.236 accettato |
-| Interazioni dopo rollback e completamento conservato | Nuovo caso senza seed 1.7.237, CI attesa | Nuovo caso SDK double 1.7.237, CI attesa | Nuovo caso SDK double 1.7.237, CI attesa |
+| Interazioni dopo rollback e completamento conservato | Caso senza seed 1.7.237 accettato | Caso SDK double 1.7.237 accettato | Caso SDK double 1.7.237 accettato |
 | Ended/replay/velocità e scope gruppi pertinenti | Revisione matrice residua | Revisione matrice residua | Revisione matrice residua |
 
 Controlli learner, solo docente e doppio ruolo hanno già scenari condivisi sulla pagina. Questo non copre ogni
@@ -183,3 +178,7 @@ usano tolleranze limitate e attendono le scritture asincrone invece di sleep fis
 I doppi SDK locali verificano il contratto adapter ma non disponibilità iframe pubblici, consenso, cookie o UI del
 provider. Behat non sostituisce test percettivi con tastiera/screen reader né smoke su provider reale. I risultati
 valgono soltanto per albero plugin, ramo Moodle, browser e driver esatti registrati.
+
+## Casi intervallo di attenzione 1.7.238
+
+Cinque casi browser in sola lettura coprono terzi automatici, solo minimo, solo massimo, controllo spento e riserva sito con durata zero. Tre ulteriori scenari provider usano 60–60 secondi espliciti e riproducono a 0,5x le fixture media/SDK da 60 secondi invariate, così la fine non anticipa la vera scadenza di un minuto. Nessun timer o orologio server viene accelerato. Ogni caso osserva messaggio di pausa, pausa accettata con chiusura del credito server e frontiera stabile; poi riprende fino a 31–38 secondi video e mette nuovamente in pausa dal provider, richiedendo un nuovo ciclo play/pausa accettato. Scenari e asserzioni precedenti restano integri. La CI candidata deve confermare tutti i casi; smoke con provider pubblici e altri browser restano lavoro U-007 distinto.

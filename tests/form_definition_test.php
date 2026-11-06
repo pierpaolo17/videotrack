@@ -749,4 +749,28 @@ final class form_definition_test extends \advanced_testcase {
             $this->assertStringContainsString($expected, $form->getElement('integritysitepolicy')->toHtml());
         }
     }
+    /**
+     * Teacher bounds reuse site labels and preserve automatic or explicit form values.
+     */
+    public function test_random_pause_overrides_keep_optional_defaults_and_reused_labels(): void {
+        $this->resetAfterTest();
+        $this->setAdminUser();
+        $form = new \MoodleQuickForm('videotrack_random_pause_overrides', 'post', '');
+        form_definition::add_integrity_elements($form);
+        foreach (['randompauseminseconds', 'randompausemaxseconds'] as $field) {
+            $element = $form->getElement($field);
+            $this->assertSame(0, (int)$element->getValue());
+            $this->assertSame(get_string('setting:' . $field, 'mod_videotrack'), $element->getLabel());
+            $this->assertFalse($element->isFrozen());
+            $this->assertSame('videotrack-randompause-automatic-info', $element->getAttribute('aria-describedby'));
+        }
+        $this->assertStringContainsString(
+            get_string('integrity:randompauseautomatic', 'mod_videotrack'),
+            $form->getElement('randompauseautomaticinfo')->toHtml()
+        );
+        $form->setDefaults(['randompauseminseconds' => '120', 'randompausemaxseconds' => '600']);
+        $this->assertSame(120, (int)$form->getElement('randompauseminseconds')->getValue());
+        $this->assertSame(600, (int)$form->getElement('randompausemaxseconds')->getValue());
+    }
+
 }

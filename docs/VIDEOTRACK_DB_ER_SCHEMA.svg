@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 2160 1260" width="2160" height="1260" role="img" aria-labelledby="title desc">
 <title id="title">Schema ER VideoTrack e integrazioni Moodle core</title>
-<desc id="desc">Sette tabelle VideoTrack con 22 foreign key XMLDB stabili, due riferimenti applicativi condizionali e integrazioni Moodle core.</desc>
+<desc id="desc">Sette tabelle VideoTrack con 151 campi, inclusi i limiti opzionali delle pause di attenzione, 22 foreign key XMLDB stabili, due riferimenti applicativi condizionali e integrazioni Moodle core.</desc>
 <defs>
   <marker id="arrow" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M 0 0 L 10 5 L 0 10 z"/></marker>
   <marker id="conditionalarrow" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M 0 0 L 10 5 L 0 10 z" fill="#8b3fa8"/></marker>
@@ -16,8 +16,8 @@
   </style>
 </defs>
 <rect class="background" x="0" y="0" width="2160" height="1260"/>
-<text class="title" x="40" y="52">VideoTrack 1.7.237 / 2026110507 — database ER and Moodle core integrations</text>
-<text class="subtitle" x="40" y="82">XMLDB 2026082901 · FK = metadata XMLDB + indice; REF(C) = riferimento condizionale</text>
+<text class="title" x="40" y="52">VideoTrack 1.7.238 / 2026110601 — database ER and Moodle core integrations</text>
+<text class="subtitle" x="40" y="82">XMLDB 2026110601 · FK = metadata XMLDB + indice; REF(C) = riferimento condizionale</text>
 <line class="relation" x1="40" y1="110" x2="105" y2="110"/><text class="legend" x="115" y="115">foreign key XMLDB stabile</text>
 <line class="indirect" x1="345" y1="110" x2="410" y2="110"/><text class="legend" x="420" y="115">integrazione gestita dalle API Moodle</text>
 <line class="conditional" x1="730" y1="110" x2="795" y2="110"/><text class="legend" x="805" y="115">riferimento condizionale REF(C)</text>
@@ -95,8 +95,8 @@
 <text class="entity-row" x="833" y="485">REF(C) linkedforumid → forum.id or 0</text>
 <text class="entity-row" x="833" y="509">source / video / player policy</text>
 <text class="entity-row" x="833" y="533">completion / reactions / acknowledgement</text>
-<text class="entity-row" x="833" y="557">grade / gradepass</text>
-<text class="entity-row" x="833" y="581">timestamps</text>
+<text class="entity-row" x="833" y="557">randompauseminseconds / randompausemaxseconds</text>
+<text class="entity-row" x="833" y="581">grade / gradepass / timestamps</text>
 </g>
 <g class="entity core">
 <rect x="815" y="1015" width="500" height="145" rx="14"/>

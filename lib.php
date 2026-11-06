@@ -883,6 +883,7 @@ function videotrack_process_player_behavior_fields(stdClass $data): void {
     foreach ($behaviourfields as $field) {
         $data->{$field} = empty($data->{$field}) ? 0 : 1;
     }
+    \mod_videotrack\local\random_pause_policy::normalise_overrides($data);
     // Playback rates are stored as integers in hundredths (50=0.5x, 100=1x).
     $data->maxplaybackrate = (int)($data->maxplaybackrate ?? 0);
     $blockedseekrate = (int)($data->blockedseekplaybackrate ?? 50);

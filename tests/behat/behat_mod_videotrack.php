@@ -34,6 +34,71 @@ use Behat\Mink\Exception\ExpectationException;
  */
 class behat_mod_videotrack extends behat_base {
     /**
+     * Read the effective per-activity attention configuration without changing it.
+     *
+     * @Then /^the VideoTrack attention policy is "(?P<state>enabled|disabled)" from "(?P<minimum>[0-9]+)" to "(?P<maximum>[0-9]+)" seconds$/
+     * @param string $state Expected switch state.
+     * @param int $minimum Expected effective minimum seconds.
+     * @param int $maximum Expected effective maximum seconds.
+     */
+    public function the_videotrack_attention_policy_is(string $state, int $minimum, int $maximum): void {
+        $actual = $this->getSession()->evaluateScript(
+            "(function() {var node = document.querySelector('script[id^=\"mod-videotrack-player-config-\"]');"
+                . "if (!node) {return null;} var config = JSON.parse(node.textContent);"
+                . "return {enabled: !!config.randomfocuspauses, min: config.randompauseminseconds,"
+                . "max: config.randompausemaxseconds};}())"
+        );
+        $expected = ['enabled' => $state === 'enabled', 'min' => $minimum, 'max' => $maximum];
+        if ($actual != $expected) {
+            throw new ExpectationException(
+                'Effective VideoTrack attention policy does not match ' . json_encode($expected)
+                    . '; actual=' . json_encode($actual),
+                $this->getSession()
+            );
+        }
+    }
+
+    /**
+     * Slow the unchanged 60-second fixtures so the real one-minute deadline precedes video end.
+     *
+     * @When /^I use half speed for the VideoTrack attention check$/
+     */
+    public function i_use_half_speed_for_the_videotrack_attention_check(): void {
+        $applied = $this->getSession()->evaluateScript(
+            "(function() {var media = document.querySelector('#mod-videotrack-player video');"
+                . "if (media) {media.playbackRate = 0.5; return media.playbackRate === 0.5;}"
+                . "var fixture = window.__videotrackBehatProvider;"
+                . "if (!fixture || !fixture.player) {return false;}"
+                . "fixture.player.setPlaybackRate(0.5); return true;}())"
+        );
+        if (!$applied) {
+            throw new ExpectationException('Could not set half speed for the attention check.', $this->getSession());
+        }
+    }
+
+    /**
+     * Observe the actual timer-driven provider pause and student notice, without clock overrides.
+     *
+     * @Then /^the VideoTrack attention check pauses playback$/
+     */
+    public function the_videotrack_attention_check_pauses_playback(): void {
+        $condition = "(function() {var node = document.querySelector('script[id^=\"mod-videotrack-player-config-\"]');"
+            . "if (!node) {return false;} var config = JSON.parse(node.textContent);"
+            . "var media = document.querySelector('#mod-videotrack-player video');"
+            . "var fixture = window.__videotrackBehatProvider;"
+            . "var paused = media ? media.paused : fixture && fixture.getState() === 2;"
+            . "var time = media ? media.currentTime : fixture && fixture.getTime();"
+            . "return !!paused && time >= 20 && time <= 40"
+            . "&& document.body.textContent.indexOf(config.randompausedlabel) !== -1;}())";
+        if (!$this->getSession()->wait(75000, $condition)) {
+            throw new ExpectationException(
+                'The real one-minute attention deadline did not pause playback near 30 video seconds.',
+                $this->getSession()
+            );
+        }
+    }
+
+    /**
      * Assert the effective focus policy exposed by the real player JSON.
      *
      * @Then /^the VideoTrack focus policy is "(?P<policy>strict|hiddenonly)"$/

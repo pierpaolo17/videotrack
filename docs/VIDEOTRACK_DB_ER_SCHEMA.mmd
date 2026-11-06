@@ -1,4 +1,4 @@
-%% VideoTrack 1.7.237 / 2026110507 / XMLDB 2026082901
+%% VideoTrack 1.7.238 / 2026110601 / XMLDB 2026110601
 %% FK = stable XMLDB foreign key metadata; REF(C) = conditional application reference.
 %% Moodle generates backing indexes for XMLDB foreign keys but no physical database constraints.
 erDiagram
@@ -54,6 +54,8 @@ erDiagram
         string videosource
         string videoid
         decimal durationseconds
+        int randompauseminseconds "0=automatic; otherwise 60..7200 seconds"
+        int randompausemaxseconds "0=automatic; otherwise 60..7200 seconds"
         int completionpercent
         string completionlogic
         int grade

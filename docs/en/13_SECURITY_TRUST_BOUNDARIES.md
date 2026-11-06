@@ -81,3 +81,7 @@ the viewer has individual access. Integrity events are bounded and diagnostic.
 YouTube/Vimeo availability, cookies, consent and iframe behaviour are external. UI restrictions such as
 Picture-in-Picture prevention are best effort. Security decisions therefore rely on server-side credit and Moodle
 permissions, not on assuming complete control of an external player.
+
+## Attention interval configuration
+
+Only the saved teacher-controlled duration and activity overrides determine attention bounds. Browser/provider metadata does not change the denominator or effective server configuration. The existing learner switch gates the client control. Attention prompts and their optional diagnostics never grant playback credit or alter grades/completion. Raw form validation rejects fractions, out-of-range values and inverted explicit pairs; import normalisation is defensive.

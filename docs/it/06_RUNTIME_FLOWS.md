@@ -24,7 +24,7 @@ Il WebVTT caricato è analizzato da `local\timed_text`. I sottotitoli nativi You
 
 ## Focus e integrità
 
-`focus_guard` applica i controlli abilitati. La pausa su documento nascosto è il default accessibile. Il blur finestra è ritardato e mette in pausa solo in modalità rigida. Le pause casuali usano limiti amministrativi e si azzerano dopo azioni studente/player. Gli eventi ammessi sono salvati da `save_integrity_event`, con validazione e rate limit server.
+`focus_guard` applica i controlli abilitati. La pausa su documento nascosto è il default accessibile. Il blur finestra è ritardato e mette in pausa solo in modalità rigida. Le pause casuali ricevono `random_pause_policy::activity_bounds()` da `view.php`: terzi della durata salvata con limiti operativi e valori docente indipendenti, oppure riserva del sito con durata zero. Le azioni riconosciute studente/player riavviano il timer invariato. Gli eventi ammessi sono salvati da `save_integrity_event`, con validazione e rate limit server.
 
 ## Presa visione
 

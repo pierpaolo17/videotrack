@@ -54,6 +54,8 @@ Main table for videotrack instances
 | `pauseonfocusloss` | `int`(1) | NOT NULL; default `0` | Metti in pausa quando la pagina è nascosta; il focus finestra segue la policy accessibilità sito |
 | `preventpictureinpicture` | `int`(1) | NOT NULL; default `0` | Prevenzione best effort del Picture-in-Picture |
 | `randomfocuspauses` | `int`(1) | NOT NULL; default `0` | Pausa dopo un intervallo casuale attivo per richiamare l’attenzione |
+| `randompauseminseconds` | `int`(4) | NOT NULL; default `0` | Secondi pausa di attenzione; 0 = valore automatico dinamico da durata salvata/riserva sito |
+| `randompausemaxseconds` | `int`(4) | NOT NULL; default `0` | Secondi pausa di attenzione; 0 = valore automatico dinamico da durata salvata/riserva sito |
 | `acknowledgementenabled` | `int`(1) | NOT NULL; default `0` | Richiedi una presa visione esplicita della dichiarazione configurata |
 | `acknowledgementtext` | `text` | nullable | Dichiarazione di presa visione scritta dal docente |
 | `acknowledgementformat` | `int`(4) | NOT NULL; default `1` | Formato del testo della dichiarazione |

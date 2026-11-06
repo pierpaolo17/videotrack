@@ -95,3 +95,7 @@ procedura basata su backup; non reinstallare sopra un modulo rimosso parzialment
 - reset, cancellazione attività, coerenza gradebook e completion;
 - disinstallazione completa con gradebook popolato e controllo database a residuo zero;
 - export/delete Privacy API e retention pianificata dopo il restore.
+
+## Impostazioni di attenzione 1.7.238
+
+XMLDB `2026110601` aggiunge due campi interi NOT NULL con default `0` a `videotrack`. L’upgrade protetto aggiunge soltanto i campi mancanti e conserva i record. Zero seleziona la nuova policy proporzionale alla durata, senza congelare il precedente intervallo di sito. Il backup include entrambi i valori grezzi; il restore li normalizza e assegna default automatici ai vecchi backup. Una nuova prova candidata copre la duplicazione Moodle reale. Non vengono introdotti dati utente, indici o relazioni.

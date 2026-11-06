@@ -183,7 +183,7 @@ $notemaxlength = videotrack_get_config_int('notemaxlength', 2000, 100, 10000);
 $notesmaxrendered = 200;
 $bookmarkmaxlength = videotrack_get_config_int('bookmarkmaxlength', 120, 20, 255);
 $bookmarksmaxrendered = 200;
-$randompausebounds = \mod_videotrack\local\integrity::random_pause_bounds();
+$randompausebounds = \mod_videotrack\local\random_pause_policy::activity_bounds($videotrack);
 $focuslosspolicy = \mod_videotrack\local\focus_policy::effective_policy(
     (int)$course->id,
     (int)$USER->id,

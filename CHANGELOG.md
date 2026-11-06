@@ -1,5 +1,41 @@
 # VideoTrack changelog
 
+## 1.7.238 - 2026-11-06
+
+### Teacher attention intervals with duration-derived defaults
+
+- Accept actual 1.7.237 ZIP (402 files), SHA-256
+  `2fd1bb42353f939e2fb4f8fe8115b2a6e4dab1d27682a9fe90215664f3295f1a`,
+  identical to merged commit `baa07ab580c15f8924ecb812a5832231e981bed2`.
+  All six release/main CI environments pass 369 PHPUnit tests / 3,988 assertions,
+  33 Behat scenarios / 618 steps and ten strict checks. Actual Moodle 5.0/5.3
+  server PHPCS/lint, Grunt and PHPUnit pass; both supplied strict outputs are 10/0/0.
+  The uploaded server report does not run Behat; browser evidence is from CI.
+- Keep the existing activity on/off switch. Automatic random-pause bounds now
+  use one third and two thirds of the saved teacher-authoritative duration,
+  rounded to whole wall seconds and bounded to 60–7200. Duration zero uses the
+  existing site interval. Optional activity `randompauseminseconds` and
+  `randompausemaxseconds` overrides accept empty/zero as automatic; one explicit
+  bound adjusts only its automatic counterpart if ordering requires it. Equal
+  bounds give a fixed interval; the form rejects inverted explicit pairs.
+- Add a bounded policy resolver, raw form validation, canonical save/import
+  normalisation and two XMLDB integer fields, with an idempotent upgrade and
+  explicit backup/restore support. Keep zero values dynamic after duration edits.
+  Existing rows and older backups acquire automatic defaults. Reuse the site
+  labels and add five corresponding keys in every language pack (997 each).
+- Add behavioural policy/form/persistence tests and an actual Moodle duplication
+  round trip for manual and automatic settings. Add five browser configuration
+  cases and three real one-minute provider pause/resume cases. The latter use
+  unchanged 60-second fixtures at half speed; no clock, ledger or AJAX injection.
+  Expected source counts: 378 PHPUnit methods and 41 Behat scenarios /
+  722 steps, pending candidate CI. Local Grunt/source-map and isolated controller
+  checks are recorded separately and do not certify Moodle runtime.
+- Update English/Italian guides, inventories, lifecycle/security notes and all
+  ER formats. Seven tables now contain 151 fields, with the same 22 explicit
+  indexes and 22 foreign keys. AMD/player/tracker code and builds, services,
+  capabilities and analyser rules are unchanged. U-017 stays closed; resume
+  U-007 after this functional release is accepted.
+
 ## 1.7.237 - 2026-11-05
 
 ### Browser rollback interactions and authorised HTML5 recovery
