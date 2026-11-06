@@ -19,7 +19,7 @@ La 1.7.236 accettata estende U-007 con casi gap di seek consentito dopo il compl
 Tutti i 30 scenari / 489 step passano nei sei job CI release e main, con 369 test PHPUnit / 3.988 asserzioni.
 Il report server reale 5.0/5.3 supera PHPCS, lint, Grunt e PHPUnit senza Behat; i due strict superano
 tutti i dieci controlli. La candidata 1.7.237 aggiunge interazioni dopo rollback e completamento conservato:
-33 scenari / 612 step attesi, da confermare in CI. Produzione e regole di analisi restano invariate.
+33 scenari / 618 step attesi, da confermare in CI. Produzione e regole di analisi restano invariate.
 
 ## Revisione delle responsabilità
 

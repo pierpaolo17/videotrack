@@ -21,12 +21,31 @@
   session. Aggregate coverage stays bounded and native completion survives
   rollback, interactions and reload. No Forum discussion is submitted.
 - Add two read-only Behat assertions for a stable paused frontier and persisted
-  post-rollback interaction evidence. Keep production code, existing Behat
+  post-rollback interaction evidence, plus an explicit pause action after media
+  recovery settles. Keep production code, existing Behat
   methods/features, generators, SDK doubles, PHPUnit tests, AMD builds, schema,
   services, translations and analyser rules unchanged. Source expectations
-  are 33 Behat scenarios / 612 steps and 369 PHPUnit methods, pending actual
+  are 33 Behat scenarios / 618 steps and 369 PHPUnit methods, pending actual
   candidate CI. PHPMD should retain 24 reviewed findings. U-017 remains closed;
   U-007 still requires the remaining playback, role/group and browser cells.
+
+### Incremental correction after initial 1.7.237 CI (2026-11-06)
+
+- The initial candidate `04b2fc284b62752a4a3bdeb113031049d46a060e` passed
+  PHPUnit, strict validation and static/build gates, but HTML5 and Vimeo failed
+  the new paused-frontier assertion in all six CI environments. Existing
+  recovery can resume playback after a recently paused blocked seek; the test
+  incorrectly required that the player would remain paused automatically.
+  Moodle 5.2 also lost its local HTTP server (`ERR_CONNECTION_REFUSED`) later
+  in the suite; that separate interruption requires confirmation in the rerun.
+- Observe a stable paused or advancing media phase past the existing recovery
+  guards, then pause through the real native media/SDK surface. Require the
+  accepted terminal pause before checking the persisted frontier and actions.
+  Allow the genuinely played recovery interval below 22 seconds while keeping
+  the refused 30-second target, 1.25-second relative timestamp tolerance,
+  session/scope checks and preserved completion. No production or workflow
+  change, suppression, progress injection or version-code increment. All six
+  corrected CI jobs remain required; 33 scenarios / 618 steps are expectations.
 
 ## 1.7.236 - 2026-11-05
 

@@ -66,7 +66,7 @@ Psalm level copies; it must not modify the plugin tree. For a direct run outside
 - Lifecycle: fresh install, upgrade, backup/restore, reset, populated-gradebook uninstall and Privacy API when
   related code/schema changes.
 
-The current distributed suites contain 369 PHPUnit test methods and 33 Behat scenarios / 612 steps per supported
+The current distributed suites contain 369 PHPUnit test methods and 33 Behat scenarios / 618 steps per supported
 Moodle branch. Assertion totals are run evidence rather than a static contract and must be recorded from the
 candidate CI. These numbers are expectations, not a pass claim.
 

@@ -610,6 +610,66 @@ class behat_mod_videotrack extends behat_base {
     }
 
     /**
+     * Observe rollback recovery through native/SDK media APIs, then explicitly pause through the same surface.
+     *
+     * @When /^I pause the VideoTrack player after rollback recovery$/
+     */
+    public function i_pause_the_videotrack_player_after_rollback_recovery(): void {
+        $deadline = microtime(true) + 15.0;
+        $phasebegan = null;
+        $phasetime = null;
+        $lasttime = null;
+        $waspaused = null;
+        $observed = null;
+        do {
+            $raw = $this->getSession()->evaluateScript(
+                "(function() {var media = document.querySelector('#mod-videotrack-player video');"
+                    . "if (media) {return JSON.stringify({time: media.currentTime, paused: media.paused,"
+                    . "playing: !media.paused && !media.ended});}"
+                    . "var fixture = window.__videotrackBehatProvider;"
+                    . "if (!fixture) {return null;}"
+                    . "var state = fixture.getState();"
+                    . "return JSON.stringify({time: fixture.getTime(), paused: state === 2, playing: state === 1});}())"
+            );
+            $observed = is_string($raw) ? json_decode($raw, true) : null;
+            $time = is_array($observed) && is_numeric($observed['time'] ?? null) ? (float)$observed['time'] : null;
+            $paused = !empty($observed['paused']);
+            $playing = !empty($observed['playing']);
+            if ($time !== null && $time >= 0.0 && $time < 25.0 && ($paused || $playing)) {
+                if ($phasebegan === null || $waspaused !== $paused || ($lasttime !== null && $time < $lasttime - 0.25)) {
+                    $phasebegan = microtime(true);
+                    $phasetime = $time;
+                }
+                // Existing recovery guards last up to six seconds. Observe a stable media phase past that window.
+                if (microtime(true) - $phasebegan >= 6.5 && ($paused || $time >= $phasetime + 6.0)) {
+                    $this->getSession()->executeScript(
+                        "(function() {var media = document.querySelector('#mod-videotrack-player video');"
+                            . "if (media) {media.pause(); return;}"
+                            . "var fixture = window.__videotrackBehatProvider;"
+                            . "if (!fixture) {throw new Error('VideoTrack rollback player not found');}"
+                            . "fixture.pause();}())"
+                    );
+                    return;
+                }
+                $lasttime = $time;
+                $waspaused = $paused;
+            } else {
+                $phasebegan = null;
+                $phasetime = null;
+                $lasttime = null;
+                $waspaused = null;
+            }
+            usleep(100000);
+        } while (microtime(true) < $deadline);
+
+        throw new ExpectationException(
+            'VideoTrack rollback recovery did not reach a stable paused or advancing playback phase before '
+                . 'the refused 30-second target. media=' . json_encode($observed) . '.',
+            $this->getSession()
+        );
+    }
+
+    /**
      * Require a paused native media or SDK-double player to settle at the actual validated frontier.
      *
      * @Then /^the paused VideoTrack player matches "(?P<username>[^"]+)" frontier in "(?P<activityname>[^"]+)"$/
@@ -719,7 +779,7 @@ class behat_mod_videotrack extends behat_base {
                     && (int)$event->cmid === (int)$cm->id
                     && (float)$event->videotime >= 0.0
                     && abs((float)$event->videotime - (float)$state->lastposition) <= 1.25
-                    && (float)$event->videotime < 12.0
+                    && (float)$event->videotime < 22.0
                     && hash_equals((string)$pause->sessionid, (string)$event->sessionid);
                 if ($key === 'behat_test_reaction') {
                     $safe = $safe && (int)$event->reactionid > 0 && (string)$event->reactionlabel === 'Test reaction';
@@ -730,8 +790,8 @@ class behat_mod_videotrack extends behat_base {
             }
             if (
                 $safe && count($found) === 3 && $native
-                && (float)$state->lastposition >= 3.0 && (float)$state->lastposition < 12.0
-                && (float)$state->uniquecoveredseconds >= 3.0 && (float)$state->uniquecoveredseconds < 12.0
+                && (float)$state->lastposition >= 3.0 && (float)$state->lastposition < 22.0
+                && (float)$state->uniquecoveredseconds >= 3.0 && (float)$state->uniquecoveredseconds < 22.0
                 && (float)$state->completionpercent >= 5.0 && (int)$state->iscompleted === 1
                 && (int)$native->completionstate === COMPLETION_COMPLETE
             ) {

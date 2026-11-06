@@ -19,7 +19,7 @@ Accepted 1.7.236 extends U-007 with unseeded allowed-seek gap cases after 1.7.23
 All 30 scenarios / 489 steps pass the six release and main CI jobs, with 369 PHPUnit tests / 3,988 assertions.
 Its actual 5.0/5.3 server report passes PHPCS, lint, Grunt and PHPUnit, without Behat; both supplied strict
 outputs pass all ten checks. Candidate 1.7.237 adds post-rollback interaction and preserved-completion cases:
-33 scenarios / 612 steps expected, pending actual CI. Production bodies and analysis rules are unchanged.
+33 scenarios / 618 steps expected, pending actual CI. Production bodies and analysis rules are unchanged.
 
 ## Ownership review
 

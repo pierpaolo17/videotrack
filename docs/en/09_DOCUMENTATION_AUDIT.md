@@ -36,7 +36,7 @@ not duplicate implementation procedures, field dictionaries or long security/pri
   Accepted 1.7.236 passes 369 PHPUnit tests / 3,988 assertions and 30 Behat scenarios / 489 steps in
   the six release/main CI environments. The actual 5.0/5.3 server report passes PHPCS, lint, Grunt and
   PHPUnit without Behat; both strict outputs pass all ten checks. Candidate 1.7.237 adds three unseeded
-  post-rollback interaction/completion cases and two read-only assertions: 33 scenarios / 612 steps
+  post-rollback interaction/completion cases, a recovery pause action and two read-only assertions: 33 scenarios / 618 steps
   expected, pending actual CI. Production, SDK doubles and analysis scope are unchanged; U-007 is open.
 
 - `form_reaction_settings` owns general reaction settings, context-safe notice/preset fields and individual row

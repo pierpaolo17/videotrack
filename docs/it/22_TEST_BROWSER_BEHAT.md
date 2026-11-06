@@ -2,7 +2,7 @@
 
 Il plugin distribuisce un generator attività Moodle in `tests/generator/lib.php`, step componente in
 `tests/behat/behat_mod_videotrack.php` e feature in `tests/behat/`. Il sorgente 1.7.237 contiene
-**33 scenari e 612 step attesi dal sorgente**, da confermare con la CI reale della candidata. La 1.7.236
+**33 scenari e 618 step attesi dal sorgente**, da confermare con la CI reale della candidata. La 1.7.236
 accettata supera 30 scenari / 489 step nei sei job CI della release e di main, con 369 test PHPUnit / 3.988
 asserzioni. Il report server reale Moodle 5.0/5.3 supera PHPCS, lint, Grunt e PHPUnit; i due strict superano
 tutti i dieci controlli. Quel report non esegue Behat. La CI precedente non certifica i nuovi casi.
@@ -101,13 +101,34 @@ visibile e il suo URL reale, senza pubblicare una discussione.
 La seconda asserzione attende al massimo cinque secondi. Legge esattamente una reazione attiva, una nota e un
 bookmark, controllandone etichette/tipi, timestamp, scope del modulo e sessione della pausa accettata. Timestamp
 degli eventi e timestamp arrotondato nell'URL Forum devono coincidere con la frontiera entro 1,25 secondi;
-l'URL deve riferirsi a questa attività e alla stessa sessione. Frontiera e secondi unici restano sotto 12 secondi,
-lontani dal target rifiutato di 30. Completamento aggregato e nativo devono restare completi, anche al rientro
+l'URL deve riferirsi a questa attività e alla stessa sessione. Frontiera e secondi unici restano sotto 22 secondi,
+sotto il target rifiutato di 30. Completamento aggregato e nativo devono restare completi, anche al rientro
 nell'attività. Non vengono inseriti registro, stato, interazioni, completamento o risposte AJAX dal test.
 
 Il vecchio caso HTML5 con seed resta invariato e conserva il proprio scopo basato su fixture. I nuovi casi
 esercitano evidenze generate dal browser per i tre provider. Ended/replay/velocità e combinazioni pertinenti
 ruoli/gruppi/browser restano lavoro U-007 esplicito; questi casi da soli non chiudono la fase.
+
+## Correzione della prima CI 1.7.237
+
+Il commit iniziale `04b2fc284b62752a4a3bdeb113031049d46a060e` fallisce la nuova asserzione di frontiera
+in pausa per HTML5 e Vimeo in ogni job CI. Cinque job terminano con 31/33 scenari passati; Moodle 5.2 perde anche
+il servizio HTTP locale con `ERR_CONNECTION_REFUSED` più avanti nella suite. PHPUnit resta a 369 test / 3.988
+asserzioni, strict a 10/0/0 e i gate statici/build configurati passano. Sono evidenze di una candidata non approvata.
+
+Il test presumeva che il recupero conservasse la pausa. Il rilevamento HTML5 della riproduzione recente e il
+recupero Vimeo del seek utente possono invece riavviare il video. La nuova azione di pausa esplicita osserva stato
+e tempo tramite API native o double SDK invariati: una fase in pausa o in avanzamento deve restare stabile per
+6,5 secondi, oltre le guardie di recupero esistenti di sei secondi. Una fase in riproduzione deve avanzare anche
+di almeno sei secondi video. Cambio di stato o salto indietro riavviano l'osservazione; il limite totale è 15 secondi
+e il media deve restare sotto 25 secondi. L'azione chiama poi una volta la vera API di pausa. È osservazione media
+limitata, senza sleep fisso o scritture ai dati di tracking. Seguono frontiera in sola lettura e pausa accettata.
+
+Il limite superiore delle evidenze diventa 22 secondi per includere la riproduzione reale durante il recupero,
+restando sotto il target rifiutato di 30. Restano tolleranza relativa timestamp (1,25 secondi), sessione/scope,
+conteggio/tipi eventi e completamento nativo. Sei step aggiunti portano l'attesa sorgente a **33 scenari / 618 step**.
+Adapter di produzione, AMD generati e workflow restano invariati. Servono tutti i sei job CI della candidata
+corretta; anche l'interruzione HTTP Moodle 5.2 deve essere assente prima del merge.
 
 ## Matrice di copertura U-007
 

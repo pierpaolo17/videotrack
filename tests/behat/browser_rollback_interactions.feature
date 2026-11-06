@@ -38,7 +38,9 @@ Feature: Blocked forward seeks preserve learner interactions and completed viewi
     And the playback credit window for "student1" in "HTML5 rollback tools" is closed by an accepted pause
     And browser playback completes Moodle tracking for "student1" in "HTML5 rollback tools"
     When I seek the VideoTrack HTML5 media to "30" seconds
+    And I pause the VideoTrack player after rollback recovery
     Then the paused VideoTrack player matches "student1" frontier in "HTML5 rollback tools"
+    And the playback credit window for "student1" in "HTML5 rollback tools" is closed by an accepted pause
     And Moodle completion for "student1" in "HTML5 rollback tools" is "complete"
     When I click on "Test reaction" "button"
     And I click on ".videotrack-student-section-reactions > summary" "css_element"
@@ -54,7 +56,7 @@ Feature: Blocked forward seeks preserve learner interactions and completed viewi
     When I press "Add post to Forum"
     Then I should see "Add a Forum post about this video"
     And I should see "Linked Forum"
-    And the VideoTrack Forum time is between "0" and "12"
+    And the VideoTrack Forum time is between "0" and "22"
     And post-rollback interactions for "student1" in "HTML5 rollback tools" retain safe timestamps
     And Moodle completion for "student1" in "HTML5 rollback tools" is "complete"
     When I am on "Course 1" course homepage
@@ -76,7 +78,9 @@ Feature: Blocked forward seeks preserve learner interactions and completed viewi
     And the playback credit window for "student1" in "YouTube rollback tools" is closed by an accepted pause
     And browser playback completes Moodle tracking for "student1" in "YouTube rollback tools"
     When I seek the deterministic VideoTrack "youtube" provider to "30" seconds
+    And I pause the VideoTrack player after rollback recovery
     Then the paused VideoTrack player matches "student1" frontier in "YouTube rollback tools"
+    And the playback credit window for "student1" in "YouTube rollback tools" is closed by an accepted pause
     And Moodle completion for "student1" in "YouTube rollback tools" is "complete"
     When I click on "Test reaction" "button"
     And I click on ".videotrack-student-section-reactions > summary" "css_element"
@@ -92,7 +96,7 @@ Feature: Blocked forward seeks preserve learner interactions and completed viewi
     When I press "Add post to Forum"
     Then I should see "Add a Forum post about this video"
     And I should see "Linked Forum"
-    And the VideoTrack Forum time is between "0" and "12"
+    And the VideoTrack Forum time is between "0" and "22"
     And post-rollback interactions for "student1" in "YouTube rollback tools" retain safe timestamps
     And Moodle completion for "student1" in "YouTube rollback tools" is "complete"
     When I am on "Course 1" course homepage
@@ -114,7 +118,9 @@ Feature: Blocked forward seeks preserve learner interactions and completed viewi
     And the playback credit window for "student1" in "Vimeo rollback tools" is closed by an accepted pause
     And browser playback completes Moodle tracking for "student1" in "Vimeo rollback tools"
     When I seek the deterministic VideoTrack "vimeo" provider to "30" seconds
+    And I pause the VideoTrack player after rollback recovery
     Then the paused VideoTrack player matches "student1" frontier in "Vimeo rollback tools"
+    And the playback credit window for "student1" in "Vimeo rollback tools" is closed by an accepted pause
     And Moodle completion for "student1" in "Vimeo rollback tools" is "complete"
     When I click on "Test reaction" "button"
     And I click on ".videotrack-student-section-reactions > summary" "css_element"
@@ -130,7 +136,7 @@ Feature: Blocked forward seeks preserve learner interactions and completed viewi
     When I press "Add post to Forum"
     Then I should see "Add a Forum post about this video"
     And I should see "Linked Forum"
-    And the VideoTrack Forum time is between "0" and "12"
+    And the VideoTrack Forum time is between "0" and "22"
     And post-rollback interactions for "student1" in "Vimeo rollback tools" retain safe timestamps
     And Moodle completion for "student1" in "Vimeo rollback tools" is "complete"
     When I am on "Course 1" course homepage

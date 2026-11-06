@@ -36,7 +36,7 @@ duplicano intenzionalmente procedure implementative, dizionari dei campi o lungh
   La 1.7.236 accettata supera 369 test PHPUnit / 3.988 asserzioni e 30 scenari Behat / 489 step nei
   sei ambienti CI release/main. Il report server reale 5.0/5.3 supera PHPCS, lint, Grunt e PHPUnit
   senza Behat; i due strict superano tutti i dieci controlli. La candidata 1.7.237 aggiunge tre casi senza
-  seed di interazioni/completamento dopo rollback e due asserzioni in sola lettura: 33 scenari / 612 step
+  seed dopo rollback, un’azione di pausa dopo recupero e due asserzioni in sola lettura: 33 scenari / 618 step
   attesi, CI reale pendente. Produzione, double SDK e scope analisi invariati; U-007 resta aperto.
 
 - I campi integrità conservano default disabilitati e posizione fra strumenti di studio e presa visione;

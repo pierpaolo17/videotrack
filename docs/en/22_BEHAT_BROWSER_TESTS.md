@@ -2,7 +2,7 @@
 
 The plugin ships a Moodle activity generator in `tests/generator/lib.php`, component steps in
 `tests/behat/behat_mod_videotrack.php` and feature files in `tests/behat/`. The 1.7.237 source contains
-**33 scenarios and 612 steps expected from source**, pending actual candidate CI. Accepted 1.7.236 passed
+**33 scenarios and 618 steps expected from source**, pending actual candidate CI. Accepted 1.7.236 passed
 30 scenarios / 489 steps in all six release and main CI jobs, alongside 369 PHPUnit tests / 3,988 assertions.
 Its actual Moodle 5.0/5.3 server report passes PHPCS, lint, Grunt and PHPUnit, and both supplied strict outputs
 pass all ten checks. That report does not run Behat. Earlier CI results do not certify the new cases.
@@ -101,12 +101,33 @@ The second assertion polls for at most five seconds. It reads exactly one active
 bookmark, checks their labels/types and timestamps, the course-module scope and the session of the accepted
 pause. Event timestamps and the rounded Forum URL timestamp must match the actual frontier within 1.25 seconds;
 the composer URL must target this activity and the same session. Frontier and unique coverage remain below
-12 seconds, far from the refused 30-second target. Aggregate and native completion must still be complete,
+22 seconds, below the refused 30-second target. Aggregate and native completion must still be complete,
 including after returning to the activity. No ledger, state, interaction, completion or AJAX result is injected.
 
 The older seeded HTML5 rollback case remains unchanged and still covers its original fixture-based purpose.
 The new cases exercise browser-generated evidence for all three providers. Ended/replay/rate changes and relevant
 role/group/browser combinations remain explicit U-007 work; these cases do not close the phase by themselves.
+
+## Initial 1.7.237 CI correction
+
+Initial commit `04b2fc284b62752a4a3bdeb113031049d46a060e` fails the new paused-frontier assertion for
+HTML5 and Vimeo on every CI job. Five jobs finish with 31/33 scenarios passed; Moodle 5.2 also loses the local
+HTTP service with `ERR_CONNECTION_REFUSED` later in the suite. PHPUnit remains 369 tests / 3,988 assertions,
+strict validation is 10/0/0 and the configured static/build gates pass. This is failed candidate evidence.
+
+The test assumed recovery would retain a pause. Existing HTML5 recent-playback detection and Vimeo user-seek
+recovery may instead resume playback. The new explicit pause action observes media state and time through native
+or unchanged SDK-double APIs: a paused or advancing phase must remain stable for 6.5 seconds, past the existing
+six-second recovery guards. An advancing phase must also advance by at least six media seconds. A playback-state
+change or backward jump resets the observation; the overall bound is 15 seconds and the media must stay below
+25 seconds. The action then calls the real pause surface once. This is bounded media observation, not a fixed sleep
+or a write to tracking data. The existing read-only frontier assertion and an accepted-pause assertion follow.
+
+The upper evidence bound becomes 22 seconds to include real recovery playback, still below the refused target
+of 30 seconds. Relative timestamp tolerance (1.25 seconds), session/scope, event count/types and native completion
+checks are retained. Six added assertion/action steps make the source expectation **33 scenarios / 618 steps**.
+Production adapters, generated AMD and workflow are unchanged. The corrected candidate requires all six CI jobs;
+the Moodle 5.2 HTTP interruption must also be absent before merge.
 
 ## U-007 coverage matrix
 
