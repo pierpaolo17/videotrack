@@ -197,3 +197,12 @@ Inventories contain 345 non-documentary rows, 1,099 PHP callables and 654 AMD ca
 bodies, test features, production code and SDK fixtures are preserved. Native Moodle generators configure
 roles/groups; no tracking/completion result is injected. Expected Behat is 50/1072, pending real CI. Schema
 remains seven tables/151 fields/22 explicit indexes/22 foreign keys; languages remain eight packs/997 keys.
+
+## 1.7.240 initial CI and fixture-id correction
+
+Actual commit `d427dd9` matches all 408 prepared distributed files. Twelve official report/faildump digests
+are verified. All six jobs pass the existing 44 cases and three new role cases, with only the shared
+report-group fixture failing on an unresolved `Group A` idnumber. The intended groups exist as `A`/`B`.
+Three membership cells now use those ids; every step/action/assertion and all PHP/AMD remain byte-identical.
+Schema, language keys, function inventories and version 1.7.240 / 2026110603 stay unchanged. Source counts
+remain 50 scenarios / 1,072 steps. No local Moodle execution is claimed; corrected CI remains required.

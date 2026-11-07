@@ -32,9 +32,9 @@ Feature: Separate-group reports expose only browser-earned evidence in the viewe
       | Group B | C1 | B |
     And the following "group members" exist:
       | group | user |
-      | Group A | student1 |
-      | Group A | reviewer1 |
-      | Group B | student2 |
+      | A | student1 |
+      | A | reviewer1 |
+      | B | student2 |
     And the following "activities" exist:
       | activity | course | name | behathtml5fixture | behatproviderfixture | durationseconds | autoplay | resumeplayback | loopenabled | randomfocuspauses | pauseonfocusloss | allowseekforward | allowseekbackward | allowplaybackratechange | maxplaybackrate | blockedseekplaybackrate | playbackspeed_1 | completion | completionview | completionpercent | acknowledgementenabled | completionacknowledgement | groupmode |
       | videotrack | C1 | Grouped viewing | 1 |  | 60 | 0 | 0 | 0 | 0 | 0 | 1 | 1 | 0 | 100 | 100 | 1 | 2 | 0 | 5 | 0 | 0 | 1 |

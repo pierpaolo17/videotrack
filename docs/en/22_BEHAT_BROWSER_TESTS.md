@@ -268,3 +268,19 @@ extracted tracking-switch observer and unchanged API preview short-circuits with
 actual enabled playback, database assertions and group enforcement still require all six CI jobs. U-007
 remains open for evidence review and explicit additional-browser/public-provider checks; U-020/manual WCAG,
 semantic translations and final integrated production/lifecycle/privacy/benchmark gates remain distinct.
+
+## Initial 1.7.240 group-fixture correction
+
+All six reports and six faildumps match official artifact digests for commit
+`d427dd9de1312cc421f41fb48ce670546311d5a9` (workflow 42301083539). The initial full suite reports 47 passed
+and three failed scenarios; 962 steps pass, three fail and 107 are skipped. The three role/provider cases
+and all 44 existing cases pass. All failures occur while creating the shared group-member fixture, before
+any report/browser assertions in the three new group cases; those report contracts are not yet evidenced.
+PHPUnit remains 379/4076, strict is 10/0/0, PHPCS is clean and Grunt/configured analysis gates pass.
+
+Moodle's standard `group members` generator resolves `group` by `groups.idnumber`. The groups are named
+`Group A` / `Group B`, with explicit idnumbers `A` / `B`. The three membership rows must therefore use
+`A` for student1/reviewer1 and `B` for student2. The correction changes only these three cell values and
+documentation. Names, role/capability overrides, actual playback, every action/assertion/time bound and
+50/1072 source counts remain unchanged. No production, PHP helper, schema, language or version change.
+Corrected six-environment CI must execute the previously skipped report assertions before merge.

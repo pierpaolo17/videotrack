@@ -272,3 +272,19 @@ l’osservatore dell’interruttore estratto e i rami anteprima API invariati, c
 riproduzione abilitata reale, asserzioni database e confini gruppi richiedono ancora tutti i sei job CI. U-007
 resta aperto per revisione evidenze e controlli espliciti altri browser/provider pubblici; U-020/WCAG manuale,
 traduzioni semantiche e gate finali integrati produzione/lifecycle/privacy/benchmark restano distinti.
+
+## Correzione fixture gruppi della prima 1.7.240
+
+I sei report e sei faildump coincidono con i digest ufficiali del commit
+`d427dd9de1312cc421f41fb48ce670546311d5a9` (workflow 42301083539). La prima suite completa riporta 47 scenari
+passati e tre falliti; 962 step passano, tre falliscono e 107 vengono saltati. Passano i tre casi ruoli/
+provider e tutti i 44 casi precedenti. I fallimenti avvengono nella creazione condivisa delle appartenenze,
+prima delle asserzioni report/browser dei tre nuovi casi gruppi: quei contratti non sono ancora verificati.
+PHPUnit resta 379/4076, strict 10/0/0, PHPCS pulito e Grunt/gate analisi configurati superati.
+
+Il generatore Moodle standard `group members` risolve `group` tramite `groups.idnumber`. I gruppi si chiamano
+`Group A` / `Group B`, con identificativi espliciti `A` / `B`. Le tre righe di appartenenza devono quindi
+usare `A` per student1/reviewer1 e `B` per student2. La correzione cambia solo queste tre celle e la
+documentazione. Nomi, override ruoli/capability, riproduzione reale, ogni azione/asserzione/timeout e conteggi
+50/1072 restano invariati. Nessuna modifica a produzione, helper PHP, schema, lingue o versione. La CI
+corretta sui sei ambienti deve eseguire le asserzioni report prima saltate, prima del merge.

@@ -199,3 +199,12 @@ versione/docs. Inventari: 345 righe non documentali, 1.099 callable PHP e 654 AM
 feature esistenti, produzione e SDK sono conservati. I generatori nativi Moodle configurano ruoli/gruppi;
 nessun risultato tracking/completamento viene inserito. Behat atteso: 50/1072, da confermare in CI reale.
 Schema invariato: sette tabelle/151 campi/22 indici espliciti/22 foreign key; otto pacchetti lingua/997 chiavi.
+
+## Prima CI 1.7.240 e correzione identificativi fixture
+
+Il commit reale `d427dd9` coincide con tutti i 408 file distribuiti preparati. Verificati dodici digest
+ufficiali report/faildump. I sei job superano i 44 casi precedenti e tre nuovi casi ruoli; fallisce solo
+la fixture condivisa dei report gruppi perché non trova l’idnumber `Group A`. I gruppi previsti esistono
+come `A`/`B`. Tre celle di appartenenza usano ora questi id; ogni step/azione/asserzione e tutto PHP/AMD
+restano identici. Schema, chiavi lingua, inventari funzioni e versione 1.7.240 / 2026110603 sono invariati.
+Restano 50 scenari / 1.072 step dal sorgente. Nessuna esecuzione Moodle locale dichiarata; serve la CI corretta.

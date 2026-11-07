@@ -23,6 +23,13 @@
   persisted records, visit the production report and inspect rendered choices.
   No progress, ledger, completion or AJAX response is seeded. Moodle's standard
   generators configure enrolments, role assignments, groups and capability overrides.
+- Initial candidate `d427dd9de1312cc421f41fb48ce670546311d5a9` passes
+  47/50 Behat scenarios in all six environments, including all three role/provider
+  cases. The three report-group cases fail in shared fixture creation: Moodle
+  resolves group members by group idnumber, while the fixture supplied display
+  names. Replace only those three references with the declared `A`/`B` ids.
+  Preserve group names, permissions, playback, assertions, scenario/step counts
+  and production code. Full corrected CI is required before merge.
 - Source expectations: 379 PHPUnit methods and 50 Behat scenarios / 1,072 steps.
   Actual candidate CI is required. Local extracted observer/API preview checks and
   exact patch-application checks do not constitute PHP/Moodle/browser execution.
