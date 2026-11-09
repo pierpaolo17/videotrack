@@ -322,3 +322,10 @@ PHPMD conserva le stesse 24 segnalazioni revisionate e gli informativi Psalm res
 restano espliciti, senza nasconderli o considerarli zero. La candidata 1.7.240 cambia solo helper/feature test,
 versione e documentazione; scope/regole produzione sono invariati. Le nuove condizioni multilinea seguono
 il layout Moodle/PSR-12 esistente. PHP/PHPCS nativi e browser completo richiedono la CI candidata reale.
+
+## 1.7.240 accettata e 1.7.241 documentale
+
+I sei job release/main finali superano i gate configurati, inclusi PHPCS/lint puliti su 166 file. PHPMD
+conserva 24 segnalazioni revisionate e gli informativi Psalm restano 732/760. Il delta 1.7.241 cambia solo
+documentazione/metadati versione; regole analisi, corpi produzione/test e CI sono identici. Nessuna nuova
+bonifica o dichiarazione advisory zero. Registrare la CI 1.7.241 separatamente dalle evidenze 1.7.240 accettate.

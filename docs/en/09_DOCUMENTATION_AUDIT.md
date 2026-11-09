@@ -1,6 +1,6 @@
 # Documentation audit
 
-Baseline: VideoTrack **1.7.240** (`2026110603`).
+Baseline: VideoTrack **1.7.241** (`2026110901`).
 
 ## Scope
 
@@ -32,10 +32,10 @@ not duplicate implementation procedures, field dictionaries or long security/pri
 
 ## Current-tree findings
 
-- The [U-017 exit audit](25_MAINTAINABILITY_EXIT.md) stays closed. Actual 1.7.239 ZIP/main/server/strict
-  are accepted; all six corrected release/main jobs pass Behat 44/830 and PHPUnit 379/4076.
-  Candidate 1.7.240 adds six role/group cases: 50/1074 expected, with actual CI pending.
-  Production runtime, schema, languages, AMD and analysis rules are unchanged. U-007 remains open.
+- [U-017](25_MAINTAINABILITY_EXIT.md) and [U-007](26_BROWSER_EXIT_AUDIT.md) are closed on accepted
+  evidence. Actual 1.7.240 ZIP/main/server/strict match; six release/main jobs pass Behat 50/1074
+  and PHPUnit 379/4076. Candidate 1.7.241 consolidates documentation/version metadata only.
+  Runtime, tests, schema, languages, AMD and CI/analysis rules are unchanged. U-020 manual audit remains open.
 
 - `form_reaction_settings` owns general reaction settings, context-safe notice/preset fields and individual row
   fields followed by their icon visibility rules. The form retains row count, bounds, upload-filter registration
@@ -66,7 +66,7 @@ not duplicate implementation procedures, field dictionaries or long security/pri
   course-scoped choices, saved placeholders and the editor context/options remain explicit. The activity form
   retains submitted validation and section expansion without a direct acknowledgement-class dependency.
 - English and Italian indexes have matching scope and ordering.
-- Documentation markers, root README files and ER artefacts identify 1.7.240 / 2026110603.
+- Documentation markers, root README files and ER artefacts identify 1.7.241 / 2026110901.
 - The Moodle privacy export delegates state, segment, event, integrity and acknowledgement sections in order;
   six event categories preserve the original paths, sanitisation, 500-row streaming and final flush order.
 - Activity-form source, timed-text, reaction-file and forum checks remain in their original order behind focused helpers;
@@ -184,34 +184,18 @@ Before promotion, verify:
 6. release-hygiene, XMLDB relationship and uninstall/gradebook PHPUnit contracts plus the proportionate server gate pass;
 7. GitHub workflow syntax, action versions, matrix selectors, permissions and links match the repository file.
 
-## Accepted 1.7.239 and current role/group candidate
+## 1.7.241 U-007 evidence consolidation
 
-The actual 406-file ZIP matches main `12b6bce78cdab893e5eb0946245ccd42c4092a29`; its SHA-256 is
-`959ca57bb7fcba4e9f913bccc167fbe7f1ca2a350b53b9a3ea7a8b2ea6443ed9`. Corrected release and main CI pass all six
-jobs at 44/830 Behat and 379/4076 PHPUnit, strict 10/0/0, clean PHPCS/lint and Grunt. Server gates and both
-strict outputs pass; the server report has no Behat execution. The initial three-condition PHPCS defect
-was corrected by whitespace only within 1.7.239 and is resolved in the accepted baseline.
+Accepted baseline is the actual 408-file 1.7.240 ZIP matching main `2d047f5c59792e4c8798a31209f19cfa9ecc15f7`.
+The paired browser exit audits record exact hashes, candidate/main provenance, all five original exit
+criteria and real six-environment 50/1074 and 379/4076 results. The server report has no Behat/full-preset run.
+Current browser guides retain technical contracts and remove obsolete failed-candidate narratives. Release
+guides now state the actual 379/50/1074 suite counts. U-017 stays closed with 24 reviewed PHPMD findings.
 
-Candidate 1.7.240 adds six observation/navigation methods and two features with six cases, plus version/docs.
-Inventories contain 345 non-documentary rows, 1,101 PHP callables and 654 AMD callables. All existing method
-bodies, test features, production code and SDK fixtures are preserved. Native Moodle generators configure
-roles/groups; no tracking/completion result is injected. Expected Behat is 50/1074, pending real CI. Schema
-remains seven tables/151 fields/22 explicit indexes/22 foreign keys; languages remain eight packs/997 keys.
-
-## 1.7.240 initial CI and fixture-id correction
-
-Actual commit `d427dd9` matches all 408 prepared distributed files. Twelve official report/faildump digests
-are verified. All six jobs pass the existing 44 cases and three new role cases, with only the shared
-report-group fixture failing on an unresolved `Group A` idnumber. The intended groups exist as `A`/`B`.
-Three membership cells now use those ids; every step/action/assertion and all PHP/AMD remain byte-identical.
-Schema, language keys, function inventories and version 1.7.240 / 2026110603 stay unchanged. Source counts
-remain 50 scenarios / 1,072 steps. No local Moodle execution is claimed; corrected CI remains required.
-
-## Follow-up report-harness evidence
-
-All six `ccbe192` runs pass 1,061/1,072 steps but fail on two expected fatal pages and one incorrect
-selector expectation. Actual HTML shows the intended group denials and a correctly filtered single-user
-progress row. The correction verifies the expected denial atomically without disabling Moodle's automatic
-error checks, and separates available learner scope from selected id/rendered data. Two added helpers bring
-PHP named callables to 1,101; source expectations are now 50 scenarios / 1,074 steps. Prior method bodies,
-role/provider cases, permission settings and all production files stay unchanged. Six-job CI remains pending.
+Candidate 1.7.241 adds only two Markdown audit files and updates current documentation/version metadata.
+There are 410 distributed files, 345 non-documentary inventory rows, 1,101 PHP callables and 654 AMD callables.
+All runtime PHP except version metadata, existing test/fixture/AMD/language/schema/service/ruleset bytes are
+preserved. ER changes are current-tree labels only: XMLDB remains 2026110601, seven tables/151 fields/22
+indexes/22 foreign keys. Eight language packs retain 997 keys. U-020's eight manual rows are explicitly
+NOT RUN; semantic language review, live deployment checks and the final integrated gate remain separate.
+Actual 1.7.241 CI/package acceptance is still required; no manual pass is inferred from automation.

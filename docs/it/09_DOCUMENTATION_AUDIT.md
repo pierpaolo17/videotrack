@@ -1,6 +1,6 @@
 # Audit della documentazione
 
-Baseline: VideoTrack **1.7.240** (`2026110603`).
+Baseline: VideoTrack **1.7.241** (`2026110901`).
 
 ## Perimetro
 
@@ -32,10 +32,10 @@ duplicano intenzionalmente procedure implementative, dizionari dei campi o lungh
 
 ## Rilievi sull'albero corrente
 
-- L’[audit di uscita U-017](25_USCITA_MANUTENIBILITA.md) resta chiuso. ZIP reale/main/server/strict
-  1.7.239 sono accettati; i sei job release/main corretti superano Behat 44/830 e PHPUnit 379/4076.
-  La candidata 1.7.240 aggiunge sei casi ruoli/gruppi: 50/1074 attesi, CI reale pendente.
-  Runtime, schema, lingue, AMD e regole analisi sono invariati. U-007 resta aperto.
+- [U-017](25_USCITA_MANUTENIBILITA.md) e [U-007](26_USCITA_BROWSER.md) sono chiusi su evidenze
+  accettate. ZIP reale/main/server/strict 1.7.240 coincidono; i sei job release/main superano Behat
+  50/1074 e PHPUnit 379/4076. La candidata 1.7.241 consolida solo documentazione/metadati versione.
+  Runtime, test, schema, lingue, AMD e regole CI/analisi restano invariati. U-020 manuale resta aperto.
 
 - I campi integrità conservano default disabilitati e posizione fra strumenti di studio e presa visione;
   la policy mostrata usa le API integrità canoniche per fallback, limiti e tolleranza. Il form non dipende più
@@ -66,7 +66,7 @@ duplicano intenzionalmente procedure implementative, dizionari dei campi o lungh
   opzioni del corso, segnaposto salvati e contesto/opzioni dell’editor restano espliciti. Il form conserva
   validazione in invio ed espansione delle sezioni senza dipendenza diretta dalla classe delle prese visione.
 - Gli indici inglese e italiano hanno stesso perimetro e ordinamento.
-- Marker documentali, README principali e artefatti ER identificano 1.7.240 / 2026110603.
+- Marker documentali, README principali e artefatti ER identificano 1.7.241 / 2026110901.
 - L’export privacy Moodle delega stato, segmenti, eventi, integrità e prese visione nello stesso ordine;
   sei categorie di eventi conservano percorsi, pulizia dei dati, blocchi da 500 e ordine finale.
 - I controlli del form per sorgenti, file VTT, icone delle reazioni e forum mantengono l'ordine originale tramite
@@ -186,34 +186,18 @@ Prima della promozione verificare:
 6. contratti PHPUnit di release hygiene, relazioni XMLDB e uninstall/gradebook, più gate server proporzionato, verdi;
 7. corrispondenza di sintassi, versioni action, selettori della matrice, permessi e link del workflow GitHub.
 
-## 1.7.239 accettata e candidata ruoli/gruppi corrente
+## Consolidamento evidenze U-007 nella 1.7.241
 
-Lo ZIP reale da 406 file coincide con main `12b6bce78cdab893e5eb0946245ccd42c4092a29`; SHA-256:
-`959ca57bb7fcba4e9f913bccc167fbe7f1ca2a350b53b9a3ea7a8b2ea6443ed9`. Le CI release corretta e main superano
-sei job con Behat 44/830 e PHPUnit 379/4076, strict 10/0/0, PHPCS/lint puliti e Grunt. Gate server e due strict
-passano; il report server non esegue Behat. Il difetto PHPCS iniziale sulle tre condizioni è stato corretto
-con soli spazi nella 1.7.239 ed è risolto nella baseline accettata.
+Baseline accettata: ZIP reale 1.7.240 da 408 file coincidente con main `2d047f5c59792e4c8798a31209f19cfa9ecc15f7`.
+Gli audit browser EN/IT registrano hash esatti, provenienza candidata/main, cinque criteri di uscita originari
+e risultati reali 50/1074 e 379/4076 sui sei ambienti. Il report server non esegue Behat/full-preset. Le guide
+browser conservano i contratti tecnici e rimuovono narrative candidate fallite obsolete. Le guide release
+riportano ora gli effettivi conteggi suite 379/50/1074. U-017 resta chiuso con 24 segnalazioni PHPMD revisionate.
 
-La candidata 1.7.240 aggiunge sei metodi di osservazione/navigazione e due feature da sei casi, oltre a
-versione/docs. Inventari: 345 righe non documentali, 1.101 callable PHP e 654 AMD. Corpi dei metodi precedenti,
-feature esistenti, produzione e SDK sono conservati. I generatori nativi Moodle configurano ruoli/gruppi;
-nessun risultato tracking/completamento viene inserito. Behat atteso: 50/1074, da confermare in CI reale.
-Schema invariato: sette tabelle/151 campi/22 indici espliciti/22 foreign key; otto pacchetti lingua/997 chiavi.
-
-## Prima CI 1.7.240 e correzione identificativi fixture
-
-Il commit reale `d427dd9` coincide con tutti i 408 file distribuiti preparati. Verificati dodici digest
-ufficiali report/faildump. I sei job superano i 44 casi precedenti e tre nuovi casi ruoli; fallisce solo
-la fixture condivisa dei report gruppi perché non trova l’idnumber `Group A`. I gruppi previsti esistono
-come `A`/`B`. Tre celle di appartenenza usano ora questi id; ogni step/azione/asserzione e tutto PHP/AMD
-restano identici. Schema, chiavi lingua, inventari funzioni e versione 1.7.240 / 2026110603 sono invariati.
-Restano 50 scenari / 1.072 step dal sorgente. Nessuna esecuzione Moodle locale dichiarata; serve la CI corretta.
-
-## Evidenze successive sul test dei report
-
-I sei run `ccbe192` superano 1.061/1.072 step, ma falliscono su due pagine fatali attese e un’aspettativa
-errata del selettore. Gli HTML mostrano i rifiuti previsti e una riga progressi correttamente filtrata.
-La correzione verifica atomicamente il rifiuto senza disattivare i controlli automatici Moodle e distingue
-scope delle opzioni da id selezionato/dati renderizzati. Due helper aggiunti portano i callable PHP a 1.101;
-aspettative sorgente: 50 scenari / 1.074 step. Corpi dei metodi precedenti, casi ruoli/provider, permessi e
-tutti i file di produzione restano invariati. La nuova CI sui sei job rimane pendente.
+La candidata 1.7.241 aggiunge solo due audit Markdown e aggiorna documentazione/metadati versione correnti.
+Ci sono 410 file distribuiti, 345 righe inventario non documentale, 1.101 callable PHP e 654 AMD. Tutti i byte
+PHP runtime salvo metadati versione, test/fixture/AMD/lingue/schema/servizi/regole sono conservati. ER cambia
+solo etichette albero: XMLDB resta 2026110601, sette tabelle/151 campi/22 indici/22 foreign key. Gli otto
+pacchetti lingua conservano 997 chiavi. Le otto righe manuali U-020 sono NON ESEGUITE; review semantica,
+controlli deploy reale e gate integrato finale restano separati. Serve ancora accettazione CI/pacchetto reale
+1.7.241; nessun esito manuale viene dedotto dall’automazione.

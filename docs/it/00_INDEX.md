@@ -1,6 +1,6 @@
 # Indice della documentazione VideoTrack
 
-Questa è la documentazione italiana autorevole di VideoTrack **1.7.240** (`2026110603`), compatibile
+Questa è la documentazione italiana autorevole di VideoTrack **1.7.241** (`2026110901`), compatibile
 con Moodle 5.0–5.3. Descrive esclusivamente l'albero corrente. La cronologia delle release appartiene
 al `CHANGELOG.md` principale e al tag sorgente della versione interessata.
 
@@ -37,6 +37,8 @@ al `CHANGELOG.md` principale e al tag sorgente della versione interessata.
 26. [`24_ANALISI_STATICA.md`](24_ANALISI_STATICA.md) — perimetro, esecuzione e risanamento PHPStan, Psalm e PHPMD.
 
 27. [`25_USCITA_MANUTENIBILITA.md`](25_USCITA_MANUTENIBILITA.md) — decisione di uscita U-017, debito residuo e gate di accettazione.
+
+28. [`26_USCITA_BROWSER.md`](26_USCITA_BROWSER.md) — evidenze uscita U-007, scope copertura e passaggio a U-020 manuale.
 
 ## Artefatti database ed ER
 
