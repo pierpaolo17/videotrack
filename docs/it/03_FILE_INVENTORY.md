@@ -1,10 +1,10 @@
 # Inventario dei file distribuiti
 
-Questo inventario è generato sull'albero repository VideoTrack 1.7.239. Elenca ogni file non documentale distribuito
+Questo inventario è generato sull'albero repository VideoTrack 1.7.240. Elenca ogni file non documentale distribuito
 e i file CI/tooling/igiene presenti soltanto nel repository. Il JavaScript canonico è in `amd/src`; i file in `amd/build`
 sono generati.
 
-Voci: **343** — 340 file distribuiti e tre file presenti soltanto nel repository, esclusi dagli archivi di release.
+Voci: **345** — 342 file distribuiti e tre file presenti soltanto nel repository, esclusi dagli archivi di release.
 
 | File | Responsabilità |
 |---|---|
@@ -351,3 +351,5 @@ Voci: **343** — 340 file distribuiti e tre file presenti soltanto nel reposito
 | `tests/random_pause_policy_test.php` | Test comportamentali policy/form/salvataggio e duplicazione Moodle reale delle impostazioni di attenzione. |
 | `tests/behat/random_attention_policy.feature` | Configurazione effettiva e contratti di pausa automatica/ripresa HTML5/YouTube/Vimeo con un minuto reale. |
 | `tests/behat/browser_ended_replay_rate.feature` | Fine naturale, replay già visto, 2x autorizzato e riserva oltre tetto senza seed su HTML5/YouTube/Vimeo. |
+| `tests/behat/browser_role_tracking.feature` | Esclusione tracking anteprima docente e completamento con doppio ruolo senza seed su HTML5/YouTube/Vimeo. |
+| `tests/behat/browser_report_groups.feature` | Evidenze ottenute dal browser, scelte studente esatte e confini gruppi separati sulle richieste dirette dei report. |

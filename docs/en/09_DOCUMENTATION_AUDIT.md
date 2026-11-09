@@ -1,6 +1,6 @@
 # Documentation audit
 
-Baseline: VideoTrack **1.7.239** (`2026110602`).
+Baseline: VideoTrack **1.7.240** (`2026110603`).
 
 ## Scope
 
@@ -32,10 +32,10 @@ not duplicate implementation procedures, field dictionaries or long security/pri
 
 ## Current-tree findings
 
-- The [U-017 exit audit](25_MAINTAINABILITY_EXIT.md) stays closed. Actual 1.7.238 ZIP/main/server/strict
-  are accepted; six main CI jobs pass 379 PHPUnit tests / 4,076 assertions and 41/722 Behat.
-  Candidate 1.7.239 adds three end/replay/rate cases: 44/830 expected, with actual CI pending.
-  Production runtime, attention policy, schema, languages, AMD and analysis rules are unchanged. U-007 remains open.
+- The [U-017 exit audit](25_MAINTAINABILITY_EXIT.md) stays closed. Actual 1.7.239 ZIP/main/server/strict
+  are accepted; all six corrected release/main jobs pass Behat 44/830 and PHPUnit 379/4076.
+  Candidate 1.7.240 adds six role/group cases: 50/1074 expected, with actual CI pending.
+  Production runtime, schema, languages, AMD and analysis rules are unchanged. U-007 remains open.
 
 - `form_reaction_settings` owns general reaction settings, context-safe notice/preset fields and individual row
   fields followed by their icon visibility rules. The form retains row count, bounds, upload-filter registration
@@ -66,7 +66,7 @@ not duplicate implementation procedures, field dictionaries or long security/pri
   course-scoped choices, saved placeholders and the editor context/options remain explicit. The activity form
   retains submitted validation and section expansion without a direct acknowledgement-class dependency.
 - English and Italian indexes have matching scope and ordering.
-- Documentation markers, root README files and ER artefacts identify 1.7.239 / 2026110602.
+- Documentation markers, root README files and ER artefacts identify 1.7.240 / 2026110603.
 - The Moodle privacy export delegates state, segment, event, integrity and acknowledgement sections in order;
   six event categories preserve the original paths, sanitisation, 500-row streaming and final flush order.
 - Activity-form source, timed-text, reaction-file and forum checks remain in their original order behind focused helpers;
@@ -184,23 +184,34 @@ Before promotion, verify:
 6. release-hygiene, XMLDB relationship and uninstall/gradebook PHPUnit contracts plus the proportionate server gate pass;
 7. GitHub workflow syntax, action versions, matrix selectors, permissions and links match the repository file.
 
-## Accepted functional tranche and current U-007 candidate
+## Accepted 1.7.239 and current role/group candidate
 
-The actual 1.7.238 baseline confirms the seconds/zero/thirds contract across 151 schema fields, backup/restore,
-eight language packs with 997 keys and all ER formats. Main CI is 379/4076 PHPUnit and 41/722 Behat; the server
-report has no Behat execution. Initial candidate packaging, class complexity and rate-fixture defects were
-corrected within 1.7.238 without relaxing tracking assertions.
+The actual 406-file ZIP matches main `12b6bce78cdab893e5eb0946245ccd42c4092a29`; its SHA-256 is
+`959ca57bb7fcba4e9f913bccc167fbe7f1ca2a350b53b9a3ea7a8b2ea6443ed9`. Corrected release and main CI pass all six
+jobs at 44/830 Behat and 379/4076 PHPUnit, strict 10/0/0, clean PHPCS/lint and Grunt. Server gates and both
+strict outputs pass; the server report has no Behat execution. The initial three-condition PHPCS defect
+was corrected by whitespace only within 1.7.239 and is resolved in the accepted baseline.
 
-Current 1.7.239 adds only eight test helper methods and one three-scenario feature, plus version/documentation.
-The file inventory has 343 non-documentary rows; PHP has 1,095 named callables and AMD 654. Existing scenarios,
-production files and SDK doubles are byte-identical. Expected Behat count is 44/830, pending CI; no local PHP
-or full Moodle browser execution is claimed. U-007 stays open for the remaining essential matrix and smoke checks.
+Candidate 1.7.240 adds six observation/navigation methods and two features with six cases, plus version/docs.
+Inventories contain 345 non-documentary rows, 1,101 PHP callables and 654 AMD callables. All existing method
+bodies, test features, production code and SDK fixtures are preserved. Native Moodle generators configure
+roles/groups; no tracking/completion result is injected. Expected Behat is 50/1074, pending real CI. Schema
+remains seven tables/151 fields/22 explicit indexes/22 foreign keys; languages remain eight packs/997 keys.
 
-## 1.7.239 initial CI evidence and correction
+## 1.7.240 initial CI and fixture-id correction
 
-Commit `79b7b5b` passes all six runtime suites at Behat 44/830 and PHPUnit 379/4076, strict 10/0/0 and Grunt.
-Moodle 5.0 MariaDB fails PHPCS with six spacing errors in three newly added multiline conditions; the other
-five jobs pass. The correction keeps release 1.7.239 / 2026110602 and every PHP token unchanged, updating only
-condition whitespace and these evidence/callable-position documents. Psalm informative totals stay 732/760
-and PHPMD retains 24 findings. Configured scopes pass. Full corrected CI and actual release/server acceptance
-remain pending; U-007 is not closed by this initial functional success.
+Actual commit `d427dd9` matches all 408 prepared distributed files. Twelve official report/faildump digests
+are verified. All six jobs pass the existing 44 cases and three new role cases, with only the shared
+report-group fixture failing on an unresolved `Group A` idnumber. The intended groups exist as `A`/`B`.
+Three membership cells now use those ids; every step/action/assertion and all PHP/AMD remain byte-identical.
+Schema, language keys, function inventories and version 1.7.240 / 2026110603 stay unchanged. Source counts
+remain 50 scenarios / 1,072 steps. No local Moodle execution is claimed; corrected CI remains required.
+
+## Follow-up report-harness evidence
+
+All six `ccbe192` runs pass 1,061/1,072 steps but fail on two expected fatal pages and one incorrect
+selector expectation. Actual HTML shows the intended group denials and a correctly filtered single-user
+progress row. The correction verifies the expected denial atomically without disabling Moodle's automatic
+error checks, and separates available learner scope from selected id/rendered data. Two added helpers bring
+PHP named callables to 1,101; source expectations are now 50 scenarios / 1,074 steps. Prior method bodies,
+role/provider cases, permission settings and all production files stay unchanged. Six-job CI remains pending.

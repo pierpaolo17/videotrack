@@ -1,6 +1,6 @@
 # U-017 maintainability exit audit
 
-Current tree: VideoTrack **1.7.239** (`2026110602`).
+Current tree: VideoTrack **1.7.240** (`2026110603`).
 
 ## Decision and accepted evidence
 
@@ -20,7 +20,8 @@ for all three providers. All six release/main CI jobs pass 33 Behat scenarios / 
 369 PHPUnit tests / 3,988 assertions. Its actual ZIP matches the main commit and server/strict gates pass.
 Accepted 1.7.238 adds the requested teacher attention configuration. All six main CI jobs pass
 379 PHPUnit tests / 4,076 assertions and 41 Behat scenarios / 722 steps; actual ZIP/server/strict are accepted.
-Candidate 1.7.239 resumes U-007 with natural end, replay and rates; U-017 remains closed.
+Accepted 1.7.239 validates natural end, replay and rates at Behat 44/830 and PHPUnit 379/4076.
+Candidate 1.7.240 adds role/group boundaries; U-017 remains closed.
 
 ## Ownership review
 
@@ -87,7 +88,7 @@ and rulesets, so compare the full report again in candidate CI. This is an expli
 ## Current roadmap phase
 
 U-007 remains open. Accepted 1.7.236 confirms viewing-completion and allowed-seek gap cases for all three providers.
-The 1.7.237 post-rollback interaction cases are accepted; the 1.7.238 attention cases are accepted; the new 1.7.239 end/replay/rate cases require candidate CI. Review the remaining playback, interaction, role/group and provider-parity cells in
+The 1.7.237 post-rollback interaction cases are accepted; the 1.7.238 attention cases are accepted; the 1.7.239 end/replay/rate cases are accepted; the new 1.7.240 role/group cases require candidate CI. Review the remaining playback, interaction, role/group and provider-parity cells in
 [browser coverage](22_BEHAT_BROWSER_TESTS.md). Chrome CI is a browser execution on six Moodle/PHP/database jobs;
 it is not a six-browser matrix. Public SDK/network smoke and other browser coverage remain explicit later checks.
 
@@ -100,14 +101,14 @@ See [static-analysis policy](24_STATIC_ANALYSIS.md), [release gates](07_BUILD_TE
 
 ## Current acceptance and remaining roadmap
 
-The actual 405-file 1.7.238 ZIP matches main `27299bc43e5d63dd6e18dda7325412551fa95a14`.
-Six main jobs pass Behat 41/722 and PHPUnit 379/4076. Server PHPCS/lint/Grunt/PHPUnit and both strict outputs
-pass; the server report does not execute Behat. Initial candidate defects were corrected in 1.7.238 and are
-superseded by this accepted baseline. No structural gate is reopened.
+The actual 406-file 1.7.239 ZIP matches main `12b6bce78cdab893e5eb0946245ccd42c4092a29`. All six corrected
+release/main jobs pass Behat 44/830 and PHPUnit 379/4076. PHPCS/lint/Grunt/PHPUnit server and both strict
+outputs pass; the server report does not execute Behat. U-017 remains closed.
 
-Candidate 1.7.239 adds three end/replay/rate browser cases (44/830 expected), with production code unchanged.
-After candidate CI and actual release acceptance, assess relevant roles/group boundaries and the explicit
-additional-browser/public-provider checks. U-007 remains open. Then follow U-020/manual WCAG, semantic
-translations and the integrated production/lifecycle/privacy/benchmark gate on the exact release ZIP.
-Subsequent order: Moodle App evaluation, shared authenticated-provider foundation, OneDrive/SharePoint,
-Zoom Cloud Recording, Google Drive and cross-provider hardening.
+Candidate 1.7.240 adds staff-preview/dual-role playback for each provider and shared separate-group report
+boundaries, with 50 scenarios / 1,074 steps expected. Production code and previous scenarios remain unchanged.
+After six-job CI and actual release acceptance, review these essential automated matrix cells and obtain
+the explicit additional-browser/public-provider evidence. U-007 remains open until its evidence is complete.
+Then follow U-020/manual WCAG, semantic translations and the integrated production/lifecycle/privacy/benchmark
+gate on the exact ZIP. Subsequent order: Moodle App evaluation, shared authenticated-provider foundation,
+OneDrive/SharePoint, Zoom Cloud Recording, Google Drive and cross-provider hardening.

@@ -1,6 +1,6 @@
 # Audit della documentazione
 
-Baseline: VideoTrack **1.7.239** (`2026110602`).
+Baseline: VideoTrack **1.7.240** (`2026110603`).
 
 ## Perimetro
 
@@ -33,9 +33,9 @@ duplicano intenzionalmente procedure implementative, dizionari dei campi o lungh
 ## Rilievi sull'albero corrente
 
 - L’[audit di uscita U-017](25_USCITA_MANUTENIBILITA.md) resta chiuso. ZIP reale/main/server/strict
-  1.7.238 sono accettati; i sei job CI main superano PHPUnit 379/4076 e Behat 41/722.
-  La candidata 1.7.239 aggiunge tre casi fine/replay/velocità: 44/830 attesi, CI reale pendente.
-  Runtime, policy attenzione, schema, lingue, AMD e regole analisi sono invariati. U-007 resta aperto.
+  1.7.239 sono accettati; i sei job release/main corretti superano Behat 44/830 e PHPUnit 379/4076.
+  La candidata 1.7.240 aggiunge sei casi ruoli/gruppi: 50/1074 attesi, CI reale pendente.
+  Runtime, schema, lingue, AMD e regole analisi sono invariati. U-007 resta aperto.
 
 - I campi integrità conservano default disabilitati e posizione fra strumenti di studio e presa visione;
   la policy mostrata usa le API integrità canoniche per fallback, limiti e tolleranza. Il form non dipende più
@@ -66,7 +66,7 @@ duplicano intenzionalmente procedure implementative, dizionari dei campi o lungh
   opzioni del corso, segnaposto salvati e contesto/opzioni dell’editor restano espliciti. Il form conserva
   validazione in invio ed espansione delle sezioni senza dipendenza diretta dalla classe delle prese visione.
 - Gli indici inglese e italiano hanno stesso perimetro e ordinamento.
-- Marker documentali, README principali e artefatti ER identificano 1.7.239 / 2026110602.
+- Marker documentali, README principali e artefatti ER identificano 1.7.240 / 2026110603.
 - L’export privacy Moodle delega stato, segmenti, eventi, integrità e prese visione nello stesso ordine;
   sei categorie di eventi conservano percorsi, pulizia dei dati, blocchi da 500 e ordine finale.
 - I controlli del form per sorgenti, file VTT, icone delle reazioni e forum mantengono l'ordine originale tramite
@@ -186,23 +186,34 @@ Prima della promozione verificare:
 6. contratti PHPUnit di release hygiene, relazioni XMLDB e uninstall/gradebook, più gate server proporzionato, verdi;
 7. corrispondenza di sintassi, versioni action, selettori della matrice, permessi e link del workflow GitHub.
 
-## Tranche funzionale accettata e candidata U-007 corrente
+## 1.7.239 accettata e candidata ruoli/gruppi corrente
 
-La baseline reale 1.7.238 conferma il contratto secondi/zero/terzi tra 151 campi schema, backup/restore,
-otto pacchetti lingua da 997 chiavi e tutti i formati ER. La CI main supera PHPUnit 379/4076 e Behat 41/722;
-il report server non esegue Behat. I difetti iniziali di confezionamento, complessità classe e fixture velocità
-sono stati corretti nella 1.7.238 senza indebolire le asserzioni di tracking.
+Lo ZIP reale da 406 file coincide con main `12b6bce78cdab893e5eb0946245ccd42c4092a29`; SHA-256:
+`959ca57bb7fcba4e9f913bccc167fbe7f1ca2a350b53b9a3ea7a8b2ea6443ed9`. Le CI release corretta e main superano
+sei job con Behat 44/830 e PHPUnit 379/4076, strict 10/0/0, PHPCS/lint puliti e Grunt. Gate server e due strict
+passano; il report server non esegue Behat. Il difetto PHPCS iniziale sulle tre condizioni è stato corretto
+con soli spazi nella 1.7.239 ed è risolto nella baseline accettata.
 
-La 1.7.239 corrente aggiunge solo otto helper test e una feature da tre scenari, oltre a versione/documentazione.
-L’inventario file ha 343 righe non documentali; PHP ha 1.095 callable nominati e AMD 654. Scenari precedenti,
-file di produzione e SDK double coincidono byte per byte. Behat atteso è 44/830, da confermare in CI; non si
-dichiara esecuzione PHP locale o browser Moodle completo. U-007 resta aperto per matrice essenziale e smoke residui.
+La candidata 1.7.240 aggiunge sei metodi di osservazione/navigazione e due feature da sei casi, oltre a
+versione/docs. Inventari: 345 righe non documentali, 1.101 callable PHP e 654 AMD. Corpi dei metodi precedenti,
+feature esistenti, produzione e SDK sono conservati. I generatori nativi Moodle configurano ruoli/gruppi;
+nessun risultato tracking/completamento viene inserito. Behat atteso: 50/1074, da confermare in CI reale.
+Schema invariato: sette tabelle/151 campi/22 indici espliciti/22 foreign key; otto pacchetti lingua/997 chiavi.
 
-## Evidenze prima CI 1.7.239 e correzione
+## Prima CI 1.7.240 e correzione identificativi fixture
 
-Il commit `79b7b5b` supera le sei suite runtime Behat 44/830 e PHPUnit 379/4076, strict 10/0/0 e Grunt.
-Moodle 5.0 MariaDB fallisce PHPCS con sei errori di spaziatura in tre nuove condizioni multilinea; gli altri
-cinque job passano. La correzione mantiene release 1.7.239 / 2026110602 e ogni token PHP invariato, aggiornando
-solo spazi delle condizioni e documenti di evidenze/posizioni callable. Gli informativi Psalm restano 732/760
-e PHPMD conserva 24 segnalazioni. Gli scope configurati passano. CI corretta completa e accettazione release/
-server reale restano pendenti; U-007 non si chiude con questo primo successo funzionale.
+Il commit reale `d427dd9` coincide con tutti i 408 file distribuiti preparati. Verificati dodici digest
+ufficiali report/faildump. I sei job superano i 44 casi precedenti e tre nuovi casi ruoli; fallisce solo
+la fixture condivisa dei report gruppi perché non trova l’idnumber `Group A`. I gruppi previsti esistono
+come `A`/`B`. Tre celle di appartenenza usano ora questi id; ogni step/azione/asserzione e tutto PHP/AMD
+restano identici. Schema, chiavi lingua, inventari funzioni e versione 1.7.240 / 2026110603 sono invariati.
+Restano 50 scenari / 1.072 step dal sorgente. Nessuna esecuzione Moodle locale dichiarata; serve la CI corretta.
+
+## Evidenze successive sul test dei report
+
+I sei run `ccbe192` superano 1.061/1.072 step, ma falliscono su due pagine fatali attese e un’aspettativa
+errata del selettore. Gli HTML mostrano i rifiuti previsti e una riga progressi correttamente filtrata.
+La correzione verifica atomicamente il rifiuto senza disattivare i controlli automatici Moodle e distingue
+scope delle opzioni da id selezionato/dati renderizzati. Due helper aggiunti portano i callable PHP a 1.101;
+aspettative sorgente: 50 scenari / 1.074 step. Corpi dei metodi precedenti, casi ruoli/provider, permessi e
+tutti i file di produzione restano invariati. La nuova CI sui sei job rimane pendente.

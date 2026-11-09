@@ -1,6 +1,6 @@
 # Audit di uscita U-017: manutenibilità
 
-Albero corrente: VideoTrack **1.7.239** (`2026110602`).
+Albero corrente: VideoTrack **1.7.240** (`2026110603`).
 
 ## Decisione ed evidenze accettate
 
@@ -20,7 +20,8 @@ sui tre provider. I sei job CI release/main superano 33 scenari Behat / 618 step
 369 test PHPUnit / 3.988 asserzioni. Lo ZIP reale coincide con main e i gate server/strict passano.
 La 1.7.238 accettata aggiunge la configurazione di attenzione docente richiesta. I sei job CI main superano
 379 test PHPUnit / 4.076 asserzioni e 41 scenari Behat / 722 step; ZIP reale/server/strict sono accettati.
-La candidata 1.7.239 riprende U-007 con fine naturale, replay e velocità; U-017 resta chiuso.
+La 1.7.239 accettata valida fine naturale, replay e velocità con Behat 44/830 e PHPUnit 379/4076.
+La candidata 1.7.240 aggiunge i confini ruoli/gruppi; U-017 resta chiuso.
 
 ## Revisione delle responsabilità
 
@@ -88,7 +89,7 @@ generica di segnalazioni future.
 ## Fase corrente della roadmap
 
 U-007 resta aperto. La 1.7.236 accettata conferma completamento da visione e gap del seek consentito sui tre provider.
-I casi di interazioni dopo rollback 1.7.237 sono accettati; i casi di attenzione 1.7.238 sono accettati; i nuovi casi fine/replay/velocità 1.7.239 richiedono la CI candidata. Verificare le celle residue playback, interazioni, ruoli/gruppi e parità provider nella
+I casi di interazioni dopo rollback 1.7.237 sono accettati; i casi di attenzione 1.7.238 sono accettati; i casi fine/replay/velocità 1.7.239 sono accettati; i nuovi casi ruoli/gruppi 1.7.240 richiedono la CI candidata. Verificare le celle residue playback, interazioni, ruoli/gruppi e parità provider nella
 [copertura browser](22_TEST_BROWSER_BEHAT.md). La CI Chrome esegue il browser su sei ambienti Moodle/PHP/database:
 non è una matrice di sei browser. Smoke su SDK/rete pubblici e altri browser restano verifiche successive esplicite.
 
@@ -101,14 +102,14 @@ Vedere [analisi statica](24_ANALISI_STATICA.md), [gate di release](07_BUILD_TEST
 
 ## Accettazione corrente e roadmap residua
 
-Lo ZIP reale 1.7.238 da 405 file coincide con main `27299bc43e5d63dd6e18dda7325412551fa95a14`.
-I sei job main superano Behat 41/722 e PHPUnit 379/4076. PHPCS/lint/Grunt/PHPUnit server e i due strict passano;
-il report server non esegue Behat. I difetti candidati iniziali sono stati corretti nella 1.7.238 e superati
-da questa baseline accettata. Nessun gate strutturale viene riaperto.
+Lo ZIP reale 1.7.239 da 406 file coincide con main `12b6bce78cdab893e5eb0946245ccd42c4092a29`. I sei job
+release/main corretti superano Behat 44/830 e PHPUnit 379/4076. PHPCS/lint/Grunt/PHPUnit server e due strict
+passano; il report server non esegue Behat. U-017 resta chiuso.
 
-La candidata 1.7.239 aggiunge tre casi browser fine/replay/velocità (44/830 attesi), con codice di produzione
-invariato. Dopo CI candidata e accettazione della release reale, valutare ruoli/confini gruppi pertinenti e
-controlli espliciti su altri browser/provider pubblici. U-007 resta aperto. Seguono U-020/WCAG manuale,
-traduzioni semantiche e gate integrato produzione/lifecycle/privacy/benchmark sullo ZIP esatto.
-Ordine successivo: valutazione Moodle App, base comune provider autenticati, OneDrive/SharePoint,
+La candidata 1.7.240 aggiunge anteprima docente/doppio ruolo sui tre provider e confini comuni dei report con
+gruppi separati, con 50 scenari / 1.074 step attesi. Produzione e scenari precedenti restano invariati.
+Dopo CI su sei job e accettazione reale della release, revisionare queste celle automatiche essenziali e
+acquisire le evidenze esplicite su altri browser/provider pubblici. U-007 resta aperto fino a evidenze complete.
+Seguono U-020/WCAG manuale, traduzioni semantiche e gate integrato produzione/lifecycle/privacy/benchmark sullo
+ZIP esatto. Ordine successivo: valutazione Moodle App, base comune provider autenticati, OneDrive/SharePoint,
 Zoom Cloud Recording, Google Drive e consolidamento tra provider.
