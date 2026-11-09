@@ -107,7 +107,7 @@ release/main corretti superano Behat 44/830 e PHPUnit 379/4076. PHPCS/lint/Grunt
 passano; il report server non esegue Behat. U-017 resta chiuso.
 
 La candidata 1.7.240 aggiunge anteprima docente/doppio ruolo sui tre provider e confini comuni dei report con
-gruppi separati, con 50 scenari / 1.072 step attesi. Produzione e scenari precedenti restano invariati.
+gruppi separati, con 50 scenari / 1.074 step attesi. Produzione e scenari precedenti restano invariati.
 Dopo CI su sei job e accettazione reale della release, revisionare queste celle automatiche essenziali e
 acquisire le evidenze esplicite su altri browser/provider pubblici. U-007 resta aperto fino a evidenze complete.
 Seguono U-020/WCAG manuale, traduzioni semantiche e gate integrato produzione/lifecycle/privacy/benchmark sullo

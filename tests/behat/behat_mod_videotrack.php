@@ -37,6 +37,68 @@ class behat_mod_videotrack extends behat_base {
     private array $endedbaselines = [];
 
     /**
+     * Verify only the expected denial before restoring a valid page for Moodle's automatic error hook.
+     *
+     * @When /^I request the VideoTrack report for "([^"]+)" and forbidden learner "([^"]+)"$/
+     * @param string $activityname VideoTrack activity name.
+     * @param string $username Deliberately out-of-scope learner username.
+     */
+    public function i_request_the_videotrack_report_for_forbidden_learner(string $activityname, string $username): void {
+        global $DB;
+
+        $user = $DB->get_record('user', ['username' => $username], '*', MUST_EXIST);
+        $this->i_open_the_videotrack_report_for_learner($activityname, $username);
+        $page = $this->getSession()->getPage();
+        $fatal = $page->findAll('css', '[data-rel="fatalerror"]');
+        $link = $page->find('css', '.errorcode a[href]');
+        $path = $link ? parse_url($link->getAttribute('href'), PHP_URL_PATH) : '';
+        if (
+            count($fatal) !== 1
+            || strpos($fatal[0]->getText(), get_string('invaliduser', 'error')) === false
+            || !is_string($path) || preg_match('~/invaliduser/?$~', $path) !== 1
+            || $page->find('css', '#id_userid') !== null
+            || $page->find('css', 'table.generaltable') !== null
+            || strpos($page->getText(), fullname($user)) !== false
+            || $page->find('css', '[data-rel="debugging"], [data-rel="phpdebugmessage"]') !== null
+        ) {
+            throw new ExpectationException('Expected an isolated invaliduser denial without learner data.', $this->getSession());
+        }
+        // Keep Moodle's automatic exception checks active on a normal, authorised report page.
+        $this->i_open_the_videotrack_report_for_learner($activityname, 'all');
+    }
+
+    /**
+     * Verify the selected learner and the sole rendered progress row independently from available choices.
+     *
+     * @Then /^the VideoTrack report shows only learner "([^"]+)"$/
+     * @param string $username Expected selected learner username.
+     */
+    public function the_videotrack_report_shows_only_learner(string $username): void {
+        global $DB;
+
+        $user = $DB->get_record('user', ['username' => $username], '*', MUST_EXIST);
+        $page = $this->getSession()->getPage();
+        $select = $page->find('css', '#id_userid');
+        $tables = [];
+        foreach ($page->findAll('css', 'table') as $table) {
+            $caption = $table->find('css', 'caption');
+            if ($caption && trim($caption->getText()) === get_string('report:perstudent', 'mod_videotrack')) {
+                $tables[] = $table;
+            }
+        }
+        if (!$select || (int)$select->getValue() !== (int)$user->id || count($tables) !== 1) {
+            throw new ExpectationException('The report selection or per-student progress table is incorrect.', $this->getSession());
+        }
+        $rows = $tables[0]->findAll('css', 'tbody tr');
+        $label = count($rows) === 1 ? $rows[0]->find('css', 'td') : null;
+        $name = fullname($user);
+        $allowed = [$name, $name . ' (' . $user->email . ')'];
+        if (!$label || !in_array(trim($label->getText()), $allowed, true)) {
+            throw new ExpectationException('Filtered progress must contain exactly the selected learner.', $this->getSession());
+        }
+    }
+
+    /**
      * Observe the effective learner-tracking switch exposed by the actual activity page.
      *
      * @Then /^the VideoTrack learner tracking policy is "(enabled|disabled)"$/

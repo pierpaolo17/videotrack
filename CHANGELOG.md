@@ -19,7 +19,7 @@
   from two HTML5 learners. Check exact learner-selector ids, positive authorised
   detail, denial of direct out-of-group ids, no-membership empty scope and the
   explicit all-groups permission. Staff report access alone does not add learners.
-- Four new read-only/navigation helpers observe effective configuration and real
+- Six read-only/navigation helpers observe effective configuration and real
   persisted records, visit the production report and inspect rendered choices.
   No progress, ledger, completion or AJAX response is seeded. Moodle's standard
   generators configure enrolments, role assignments, groups and capability overrides.
@@ -30,7 +30,14 @@
   names. Replace only those three references with the declared `A`/`B` ids.
   Preserve group names, permissions, playback, assertions, scenario/step counts
   and production code. Full corrected CI is required before merge.
-- Source expectations: 379 PHPUnit methods and 50 Behat scenarios / 1,072 steps.
+- The next candidate `ccbe192f5b746dc5e12b6e8675e39caf9fd9f9e1` reaches the real
+  report checks. Two expected `invaliduser` pages trigger Moodle's automatic error
+  hook; a third case wrongly expects the all-groups learner selector to shrink
+  after filtering, although its actual data table correctly contains one learner.
+  Add an atomic expected-denial check that verifies exact error/message/no data
+  and restores a valid report before the unchanged hook runs. Check selector scope
+  separately from selected value and the sole rendered per-student row.
+- Source expectations: 379 PHPUnit methods and 50 Behat scenarios / 1,074 steps.
   Actual candidate CI is required. Local extracted observer/API preview checks and
   exact patch-application checks do not constitute PHP/Moodle/browser execution.
   Production source, schema, services, eight language packs, AMD/builds, existing

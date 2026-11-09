@@ -106,7 +106,7 @@ release/main jobs pass Behat 44/830 and PHPUnit 379/4076. PHPCS/lint/Grunt/PHPUn
 outputs pass; the server report does not execute Behat. U-017 remains closed.
 
 Candidate 1.7.240 adds staff-preview/dual-role playback for each provider and shared separate-group report
-boundaries, with 50 scenarios / 1,072 steps expected. Production code and previous scenarios remain unchanged.
+boundaries, with 50 scenarios / 1,074 steps expected. Production code and previous scenarios remain unchanged.
 After six-job CI and actual release acceptance, review these essential automated matrix cells and obtain
 the explicit additional-browser/public-provider evidence. U-007 remains open until its evidence is complete.
 Then follow U-020/manual WCAG, semantic translations and the integrated production/lifecycle/privacy/benchmark

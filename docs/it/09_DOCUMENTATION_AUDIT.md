@@ -34,7 +34,7 @@ duplicano intenzionalmente procedure implementative, dizionari dei campi o lungh
 
 - L’[audit di uscita U-017](25_USCITA_MANUTENIBILITA.md) resta chiuso. ZIP reale/main/server/strict
   1.7.239 sono accettati; i sei job release/main corretti superano Behat 44/830 e PHPUnit 379/4076.
-  La candidata 1.7.240 aggiunge sei casi ruoli/gruppi: 50/1072 attesi, CI reale pendente.
+  La candidata 1.7.240 aggiunge sei casi ruoli/gruppi: 50/1074 attesi, CI reale pendente.
   Runtime, schema, lingue, AMD e regole analisi sono invariati. U-007 resta aperto.
 
 - I campi integrità conservano default disabilitati e posizione fra strumenti di studio e presa visione;
@@ -194,10 +194,10 @@ sei job con Behat 44/830 e PHPUnit 379/4076, strict 10/0/0, PHPCS/lint puliti e 
 passano; il report server non esegue Behat. Il difetto PHPCS iniziale sulle tre condizioni è stato corretto
 con soli spazi nella 1.7.239 ed è risolto nella baseline accettata.
 
-La candidata 1.7.240 aggiunge quattro metodi di osservazione/navigazione e due feature da sei casi, oltre a
-versione/docs. Inventari: 345 righe non documentali, 1.099 callable PHP e 654 AMD. Corpi dei metodi precedenti,
+La candidata 1.7.240 aggiunge sei metodi di osservazione/navigazione e due feature da sei casi, oltre a
+versione/docs. Inventari: 345 righe non documentali, 1.101 callable PHP e 654 AMD. Corpi dei metodi precedenti,
 feature esistenti, produzione e SDK sono conservati. I generatori nativi Moodle configurano ruoli/gruppi;
-nessun risultato tracking/completamento viene inserito. Behat atteso: 50/1072, da confermare in CI reale.
+nessun risultato tracking/completamento viene inserito. Behat atteso: 50/1074, da confermare in CI reale.
 Schema invariato: sette tabelle/151 campi/22 indici espliciti/22 foreign key; otto pacchetti lingua/997 chiavi.
 
 ## Prima CI 1.7.240 e correzione identificativi fixture
@@ -208,3 +208,12 @@ la fixture condivisa dei report gruppi perché non trova l’idnumber `Group A`.
 come `A`/`B`. Tre celle di appartenenza usano ora questi id; ogni step/azione/asserzione e tutto PHP/AMD
 restano identici. Schema, chiavi lingua, inventari funzioni e versione 1.7.240 / 2026110603 sono invariati.
 Restano 50 scenari / 1.072 step dal sorgente. Nessuna esecuzione Moodle locale dichiarata; serve la CI corretta.
+
+## Evidenze successive sul test dei report
+
+I sei run `ccbe192` superano 1.061/1.072 step, ma falliscono su due pagine fatali attese e un’aspettativa
+errata del selettore. Gli HTML mostrano i rifiuti previsti e una riga progressi correttamente filtrata.
+La correzione verifica atomicamente il rifiuto senza disattivare i controlli automatici Moodle e distingue
+scope delle opzioni da id selezionato/dati renderizzati. Due helper aggiunti portano i callable PHP a 1.101;
+aspettative sorgente: 50 scenari / 1.074 step. Corpi dei metodi precedenti, casi ruoli/provider, permessi e
+tutti i file di produzione restano invariati. La nuova CI sui sei job rimane pendente.

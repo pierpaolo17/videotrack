@@ -72,9 +72,9 @@ Feature: Separate-group reports expose only browser-earned evidence in the viewe
     And I should not see "Outside Learner"
     When I open the VideoTrack report for "Grouped viewing" and learner "student1"
     Then the VideoTrack report learner choices are "student1"
-    When I open the VideoTrack report for "Grouped viewing" and learner "student2"
-    Then I should see "Invalid user"
-    And "#id_userid" "css_element" should not exist
+    And the VideoTrack report shows only learner "student1"
+    When I request the VideoTrack report for "Grouped viewing" and forbidden learner "student2"
+    Then the VideoTrack report learner choices are "student1"
     And I should not see "Outside Learner"
 
   Scenario: A report-capable reviewer without group membership sees no learner data
@@ -83,16 +83,18 @@ Feature: Separate-group reports expose only browser-earned evidence in the viewe
     Then the VideoTrack report learner choices are "none"
     And I should not see "Inside Learner"
     And I should not see "Outside Learner"
-    When I open the VideoTrack report for "Grouped viewing" and learner "student1"
-    Then I should see "Invalid user"
-    And "#id_userid" "css_element" should not exist
+    When I request the VideoTrack report for "Grouped viewing" and forbidden learner "student1"
+    Then the VideoTrack report learner choices are "none"
     And I should not see "Inside Learner"
+    And I should not see "Outside Learner"
 
   Scenario: All-groups permission permits both actual learners without including report-only staff
     Given I log in as "reviewer3"
     When I open the VideoTrack report for "Grouped viewing" and learner "all"
     Then the VideoTrack report learner choices are "student1,student2"
     When I open the VideoTrack report for "Grouped viewing" and learner "student1"
-    Then the VideoTrack report learner choices are "student1"
+    Then the VideoTrack report learner choices are "student1,student2"
+    And the VideoTrack report shows only learner "student1"
     When I open the VideoTrack report for "Grouped viewing" and learner "student2"
-    Then the VideoTrack report learner choices are "student2"
+    Then the VideoTrack report learner choices are "student1,student2"
+    And the VideoTrack report shows only learner "student2"

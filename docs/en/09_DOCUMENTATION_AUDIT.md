@@ -34,7 +34,7 @@ not duplicate implementation procedures, field dictionaries or long security/pri
 
 - The [U-017 exit audit](25_MAINTAINABILITY_EXIT.md) stays closed. Actual 1.7.239 ZIP/main/server/strict
   are accepted; all six corrected release/main jobs pass Behat 44/830 and PHPUnit 379/4076.
-  Candidate 1.7.240 adds six role/group cases: 50/1072 expected, with actual CI pending.
+  Candidate 1.7.240 adds six role/group cases: 50/1074 expected, with actual CI pending.
   Production runtime, schema, languages, AMD and analysis rules are unchanged. U-007 remains open.
 
 - `form_reaction_settings` owns general reaction settings, context-safe notice/preset fields and individual row
@@ -192,10 +192,10 @@ jobs at 44/830 Behat and 379/4076 PHPUnit, strict 10/0/0, clean PHPCS/lint and G
 strict outputs pass; the server report has no Behat execution. The initial three-condition PHPCS defect
 was corrected by whitespace only within 1.7.239 and is resolved in the accepted baseline.
 
-Candidate 1.7.240 adds four observation/navigation methods and two features with six cases, plus version/docs.
-Inventories contain 345 non-documentary rows, 1,099 PHP callables and 654 AMD callables. All existing method
+Candidate 1.7.240 adds six observation/navigation methods and two features with six cases, plus version/docs.
+Inventories contain 345 non-documentary rows, 1,101 PHP callables and 654 AMD callables. All existing method
 bodies, test features, production code and SDK fixtures are preserved. Native Moodle generators configure
-roles/groups; no tracking/completion result is injected. Expected Behat is 50/1072, pending real CI. Schema
+roles/groups; no tracking/completion result is injected. Expected Behat is 50/1074, pending real CI. Schema
 remains seven tables/151 fields/22 explicit indexes/22 foreign keys; languages remain eight packs/997 keys.
 
 ## 1.7.240 initial CI and fixture-id correction
@@ -206,3 +206,12 @@ report-group fixture failing on an unresolved `Group A` idnumber. The intended g
 Three membership cells now use those ids; every step/action/assertion and all PHP/AMD remain byte-identical.
 Schema, language keys, function inventories and version 1.7.240 / 2026110603 stay unchanged. Source counts
 remain 50 scenarios / 1,072 steps. No local Moodle execution is claimed; corrected CI remains required.
+
+## Follow-up report-harness evidence
+
+All six `ccbe192` runs pass 1,061/1,072 steps but fail on two expected fatal pages and one incorrect
+selector expectation. Actual HTML shows the intended group denials and a correctly filtered single-user
+progress row. The correction verifies the expected denial atomically without disabling Moodle's automatic
+error checks, and separates available learner scope from selected id/rendered data. Two added helpers bring
+PHP named callables to 1,101; source expectations are now 50 scenarios / 1,074 steps. Prior method bodies,
+role/provider cases, permission settings and all production files stay unchanged. Six-job CI remains pending.

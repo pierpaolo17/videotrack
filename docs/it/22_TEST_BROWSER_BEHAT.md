@@ -1,6 +1,6 @@
 # Automazione browser Behat
 
-La **1.7.239 accettata** supera **44 scenari / 830 step** e **379 test PHPUnit / 4.076 asserzioni** nei sei job CI release/main corretti. ZIP reale, report server e due strict sono accettati. PHPCS/lint, Grunt e PHPUnit server passano; il report non esegue Behat. La candidata **1.7.240** prevede dal sorgente **50 scenari / 1.072 step**, da confermare nella CI candidata reale. I sei ambienti usano un profilo Chrome, non sei browser.
+La **1.7.239 accettata** supera **44 scenari / 830 step** e **379 test PHPUnit / 4.076 asserzioni** nei sei job CI release/main corretti. ZIP reale, report server e due strict sono accettati. PHPCS/lint, Grunt e PHPUnit server passano; il report non esegue Behat. La candidata **1.7.240** prevede dal sorgente **50 scenari / 1.074 step**, da confermare nella CI candidata reale. I sei ambienti usano un profilo Chrome, non sei browser.
 
 ## Setup ed esecuzione
 
@@ -267,7 +267,7 @@ senza gruppi ha selettore vuoto e lo stesso rifiuto diretto. Il permesso su tutt
 gli studenti reali e i rispettivi report, senza includere lo staff che ha solo accesso report. Sono contratti
 comuni del report PHP/ACL Moodle con dati ottenuti da HTML5; non attestano smoke separati SDK o download CSV.
 
-Aspettative dal sorgente: 50 scenari / 1.072 step e 379 metodi PHPUnit. I controlli locali isolati coprono
+Aspettative dal sorgente: 50 scenari / 1.074 step e 379 metodi PHPUnit. I controlli locali isolati coprono
 l’osservatore dell’interruttore estratto e i rami anteprima API invariati, con stato congelato e senza trasporto;
 riproduzione abilitata reale, asserzioni database e confini gruppi richiedono ancora tutti i sei job CI. U-007
 resta aperto per revisione evidenze e controlli espliciti altri browser/provider pubblici; U-020/WCAG manuale,
@@ -288,3 +288,33 @@ usare `A` per student1/reviewer1 e `B` per student2. La correzione cambia solo q
 documentazione. Nomi, override ruoli/capability, riproduzione reale, ogni azione/asserzione/timeout e conteggi
 50/1072 restano invariati. Nessuna modifica a produzione, helper PHP, schema, lingue o versione. La CI
 corretta sui sei ambienti deve eseguire le asserzioni report prima saltate, prima del merge.
+
+## Correzione rifiuto atteso e righe filtrate 1.7.240
+
+Il commit `ccbe192f5b746dc5e12b6e8675e39caf9fd9f9e1` (workflow 42358541350) corregge gli id delle fixture.
+I sei run completi arrivano a 1.061 step passati, tre falliti e otto saltati, con 47/50 scenari passati.
+PHPUnit 379/4076, strict 10/0/0, PHPCS/lint, Grunt e gate analisi configurati passano. Coincidono dodici
+digest ufficiali report/faildump. L’analisi offline dei 54 HTML conferma 36 pagine di rifiuto atteso e 18
+pagine filtrate positive, inclusi i retry del framework: non sono 54 scenari browser indipendenti.
+
+Le due richieste vietate restituiscono effettivamente `invaliduser`, senza selettore, tabella progressi o
+nome dello studente escluso. Il controllo automatico Moodle dopo lo step fallisce subito su quella pagina,
+prima della successiva asserzione testuale generica. Lo step atomico dedicato visita ora lo stesso endpoint
+HTTP reale, richiede un solo box fatale con messaggio atteso e codice documentale `invaliduser`, verifica
+assenza di selettore/tabella/nome studente e avvisi PHP/debug, poi riapre il normale report Tutti autorizzato
+prima di terminare. Nessun hook, tag, criterio eccezioni o protezione produzione viene cambiato o disattivato.
+Errore diverso, risposta con dati o avviso aggiuntivo fanno ancora fallire lo step. Le successive asserzioni
+su selettore esatto e nomi esclusi verificano che il report ripristinato mantenga lo stesso scope.
+
+Per il revisore con accesso a tutti i gruppi, il selettore mantiene correttamente entrambi gli studenti
+autorizzati dopo il filtro. La pagina acquisita seleziona l’utente richiesto e mostra solo lui nella tabella.
+Si mantengono le asserzioni esatte sulle due opzioni e si richiedono separatamente id selezionato, una sola
+tabella con caption Per studente localizzata, una sola riga e nome corrispondente (con sola email propria
+facoltativa). Si verificano entrambi gli studenti filtrati; anche il dettaglio positivo del revisore limitato
+usa questo controllo di riga. Un nome presente solo fra le opzioni non viene scambiato per dati di visione.
+
+La correzione aggiunge due metodi in sola lettura/navigazione conservando corpi dei metodi precedenti,
+riproduzione e fixture permessi. Restano cinquanta scenari; due asserzioni aggiuntive portano a 1.074 step.
+I controlli offline HTML/sorgente non eseguono PHP/Moodle né il ripristino atomico; servono sei job CI nuovi
+per confermare la correzione completa prima del merge. Produzione, schema, lingue, AMD e versione
+1.7.240 / 2026110603 restano invariati.

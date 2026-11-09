@@ -1,6 +1,6 @@
 # Behat browser automation
 
-Accepted **1.7.239** passes **44 scenarios / 830 steps** and **379 PHPUnit tests / 4,076 assertions** in all six corrected release/main CI jobs. Its actual ZIP, server report and both strict outputs are accepted. Server PHPCS/lint, Grunt and PHPUnit pass; the report does not execute Behat. Candidate **1.7.240** expects **50 scenarios / 1,072 steps** from source, pending actual candidate CI. Six environments use one Chrome profile, not six browsers.
+Accepted **1.7.239** passes **44 scenarios / 830 steps** and **379 PHPUnit tests / 4,076 assertions** in all six corrected release/main CI jobs. Its actual ZIP, server report and both strict outputs are accepted. Server PHPCS/lint, Grunt and PHPUnit pass; the report does not execute Behat. Candidate **1.7.240** expects **50 scenarios / 1,074 steps** from source, pending actual candidate CI. Six environments use one Chrome profile, not six browsers.
 
 ## Setup and execution
 
@@ -263,7 +263,7 @@ has an empty selector and the same direct-request denial. All-groups permission 
 and their individual reports, without adding report-only staff. These are shared PHP report/Moodle ACL
 contracts using HTML5-generated data; they do not claim separate SDK or CSV-download group smoke coverage.
 
-Source expectations are 50 scenarios / 1,072 steps and 379 PHPUnit methods. Local isolated checks cover the
+Source expectations are 50 scenarios / 1,074 steps and 379 PHPUnit methods. Local isolated checks cover the
 extracted tracking-switch observer and unchanged API preview short-circuits with frozen state/no transport;
 actual enabled playback, database assertions and group enforcement still require all six CI jobs. U-007
 remains open for evidence review and explicit additional-browser/public-provider checks; U-020/manual WCAG,
@@ -284,3 +284,33 @@ Moodle's standard `group members` generator resolves `group` by `groups.idnumber
 documentation. Names, role/capability overrides, actual playback, every action/assertion/time bound and
 50/1072 source counts remain unchanged. No production, PHP helper, schema, language or version change.
 Corrected six-environment CI must execute the previously skipped report assertions before merge.
+
+## 1.7.240 expected-denial and filtered-row correction
+
+Commit `ccbe192f5b746dc5e12b6e8675e39caf9fd9f9e1` (workflow 42358541350) fixes fixture ids. All six full runs
+reach 1,061 passed steps, three failed and eight skipped, with 47/50 scenarios passed. PHPUnit 379/4076,
+strict 10/0/0, PHPCS/lint, Grunt and configured analysis gates pass. Twelve official report/faildump digests
+match. Offline inspection of all 54 HTML snapshots confirms 36 expected denial pages and 18 positive
+filtered pages, including framework retries; these are observations, not 54 independent browser scenarios.
+
+The two forbidden learner requests actually return the intended `invaliduser` error without a selector,
+progress table or forbidden learner name. Moodle's after-step exception hook fails immediately on that
+page, before the following generic text assertion. The dedicated atomic step now visits the same real
+HTTP endpoint, requires exactly one fatal box with the expected message and an `invaliduser` documentation
+code, checks absence of selector/progress table/learner name and PHP/debugging notices, then revisits the
+normal authorised All report before returning. No hook, tag, exception policy or production guard is
+changed or disabled. A wrong error, successful data response or extra notice still fails the step.
+The following exact selector/hidden-name assertions check that the restored report keeps the same scope.
+
+For the all-groups viewer, the available selector correctly retains both authorised learners after filtering.
+The captured page has the requested learner selected and only that learner in its progress table. Keep
+exact selector-scope assertions for both ids, and separately require the selected id, exactly one table
+with the localised Per student caption, exactly one body row and the matching learner name (with only its
+own optional email suffix). Both filtered learners are tested; the restricted viewer's positive detail also
+uses this row check. Names appearing only as available options are not mistaken for leaked progress rows.
+
+The correction adds two read-only/navigation methods while preserving all prior method bodies, real
+playback and permission fixtures. Fifty scenarios remain; two added row assertions yield 1,074 steps.
+The offline HTML/source checks do not execute PHP/Moodle or the atomic restore flow; fresh six-job CI
+must confirm the complete correction before merge. Production, schema, language packs, AMD and version
+1.7.240 / 2026110603 remain unchanged.
