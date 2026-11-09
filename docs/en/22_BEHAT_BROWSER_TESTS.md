@@ -1,316 +1,125 @@
-# Behat browser automation
+# Browser coverage and U-007 exit
 
-Accepted **1.7.239** passes **44 scenarios / 830 steps** and **379 PHPUnit tests / 4,076 assertions** in all six corrected release/main CI jobs. Its actual ZIP, server report and both strict outputs are accepted. Server PHPCS/lint, Grunt and PHPUnit pass; the report does not execute Behat. Candidate **1.7.240** expects **50 scenarios / 1,074 steps** from source, pending actual candidate CI. Six environments use one Chrome profile, not six browsers.
+**U-007 is closed on accepted 1.7.240.** The actual package matches main
+`2d047f5c59792e4c8798a31209f19cfa9ecc15f7`. All six corrected release/main jobs pass **50 scenarios /
+1,074 steps** and **379 PHPUnit tests / 4,076 assertions**. Server PHPCS/lint, Grunt, PHPUnit and both strict
+outputs pass; the server report does not execute Behat. See the [exit audit](26_BROWSER_EXIT_AUDIT.md).
+Candidate 1.7.241 changes documentation/version metadata only; its own CI/package gates remain required.
 
 ## Setup and execution
 
-Configure Moodle's isolated Behat site (`behat_wwwroot`, `behat_dataroot`, `behat_prefix`) and initialise it after
-changes to generators, steps or feature files:
+Configure the isolated Moodle Behat site (`behat_wwwroot`, `behat_dataroot`, `behat_prefix`), then run from
+Moodle root after changing generators, steps or features:
 
 ```bash
 php admin/tool/behat/cli/init.php
 php admin/tool/behat/cli/run.php --tags='@mod_videotrack'
 ```
 
-Never point Behat at production data.
+Use an isolated test database. The repository workflow runs the `chrome` profile on six Moodle/PHP/database
+jobs. That is one browser profile across six environments. It is not evidence for other browser engines.
 
-## Deterministic fixtures
+## Deterministic fixtures and evidence
 
-- `behathtml5fixture=1` creates an upload activity backed by the local 60-second MP4 fixture.
-- `behatproviderfixture=youtube` uses a reserved id and local YouTube SDK double only under Behat.
-- `behatproviderfixture=vimeo` uses a reserved id and local Vimeo SDK double only under Behat.
-- `behatlinkedforum=<name>` maps a Forum fixture in the same course.
+- `behathtml5fixture=1`: uploaded local 60-second MP4.
+- `behatproviderfixture=youtube` / `vimeo`: reserved ids and local SDK doubles, enabled only under Behat.
+- `behatlinkedforum=<name>`: actual Forum fixture in the same course.
+- Production adapters, normal AJAX endpoints, server credit and native Moodle completion stay in use.
+- Unseeded viewing cases read actual persisted rows; they do not fabricate progress or responses.
+- Seeded resume/UI cases deliberately test an existing state and remain distinct from earned-viewing evidence.
 
-Production provider code paths remain in use; only external SDK/network behaviour is replaced, keeping scenarios
-repeatable without public-provider availability.
+The roadmap's external-provider objective is the adapter contract. Public iframe/network availability is
+outside the deterministic U-007 gate. Live-provider checks remain part of deployment/content acceptance;
+manual keyboard/screen-reader perception belongs to [U-020](19_ACCESSIBILITY.md).
 
-## Current coverage
+## Essential coverage matrix
 
-The suite verifies:
+| Contract | HTML5 evidence | YouTube/Vimeo evidence |
+|---|---|---|
+| Play/pause, saved resume and backward/blocked seek | `html5_playback_contract.feature`, `html5_seek_policy.feature` | `youtube_provider_contract.feature`, `vimeo_provider_contract.feature` |
+| Browser-earned viewed completion and reload | `browser_tracking_completion.feature` | Same feature, one case per adapter |
+| Allowed forward seek and excluded gap | `browser_allowed_seek_tracking.feature` | Same feature, one case per adapter |
+| Post-rollback reactions/notes/bookmarks/Forum timestamps | `browser_rollback_interactions.feature` | Same feature, one case per adapter |
+| Natural end, watched replay, authorised rate and above-cap fallback | `browser_ended_replay_rate.feature` | Same feature, one case per adapter |
+| Effective attention policy, real pause and new resume handshake | `random_attention_policy.feature` | Same feature, one timed case per adapter |
+| Staff preview and dual-role earned completion | `browser_role_tracking.feature` | Same feature, one case per adapter |
+| Group-limited, ungrouped and all-groups reports | `browser_report_groups.feature`, browser-earned HTML5 data | Shared PHP report/Moodle ACL boundary; no repeated SDK claim |
+| Acknowledgement, completion combinations and status notices | `html5_acknowledgement_contract.feature`, `html5_completion_contract.feature`, `html5_playback_contract.feature` | Shared UI/server contracts; no claim that every combination is repeated per adapter |
+| Role controls, optional histories and completion layout | `learner_role_controls.feature`, `student_personal_sections.feature`, `completion_requirements_layout.feature` | Shared rendered controls |
+| Focus exception-group resolution | `focus_exception_policy.feature` | Shared effective player policy |
 
-- learner, teacher-only and dual-role participation behaviour;
-- visible reaction/note/bookmark composers and independently collapsible saved histories;
-- absence of reaction, note, bookmark and Forum sections when their effective configuration is unavailable;
-- HTML5 play/pause session lifecycle and accepted terminal ledger write;
-- trusted resume, backward seek and allowed/blocked forward seek;
-- pre-seek snapshot persistence and exclusion of skipped gaps from coverage/resume;
-- reaction, note, bookmark and linked-Forum timestamps after rollback;
-- acknowledgement at any time and after validated final-second coverage;
-- Moodle completion persistence for viewing, interactions and acknowledgement;
-- stacked persistent/transient status notices;
-- strict focus policy and course exception-group resolution;
-- deterministic YouTube and Vimeo resume/seek/recovery/terminal pause contracts;
-- grouped completion requirements and vertical layout across Moodle's native/ARIA list variants.
+Every row has real Chrome execution in the accepted six-environment milestone. The table states the actual
+scope; it does not turn a shared PHP/UI case into separate public-provider or browser-engine evidence.
 
-## Browser-driven viewing completion
+## Credit, completion and seek assertions
 
-`browser_tracking_completion.feature` adds one case for HTML5 and one each for the production YouTube/Vimeo
-adapters with local SDK doubles. Each fixture disables autoplay/resume and view-only/acknowledgement completion,
-uses a 60-second duration and a 5% viewing threshold, and starts with no server-validated ledger row and incomplete
-native completion. The browser plays for about five seconds, pauses through the actual player/provider surface,
-then the assertions require an accepted same-session pause, completed aggregate viewing state and the persisted
-`course_modules_completion` row. Reload must retain completion. Short playback makes the case practical while
-still requiring a positive three-second server-validated threshold; no seek or progress seed crosses that threshold.
+The unseeded completion fixtures disable autoplay/resume and view-only/acknowledgement completion, use a
+60-second duration and 5% threshold, and begin without validated evidence/native completion. Play to 5–10
+seconds and pause must persist an accepted same-session terminal row, closed server credit and native
+completion, retained after reload. Read-only polling waits for asynchronous writes.
 
-The two new assertions read only. They cannot insert/update ledger, state or completion records, invoke the segment
-endpoint directly, fabricate AJAX responses or mark a row complete. Database polling waits at most five seconds
-with short retries for asynchronous writes, following the existing pause-lifecycle assertion.
+Allowed-seek cases play into 4–10 seconds, seek to 30, continue into 33–39 and pause. Validated ledger and
+aggregate intervals must leave 12–29.5 seconds uncovered, unique coverage must stay below 30, and native
+completion must remain incomplete after reload. Bounds account for polling and provider seek tolerance.
 
-The older `html5_completion_contract.feature` viewing case deliberately seeds evidence to test synchronisation
-from an existing state. Its scenario name now states that purpose. It remains useful alongside the new live
-browser-to-AJAX-to-database checks and is not evidence of browser-generated viewing by itself.
+Post-rollback cases first earn the 5% completion threshold, then refuse a seek to 30. Recovery is observed
+until a pause or advancing phase remains stable for 6.5 seconds; advancement must reach at least six media seconds,
+with a 15-second observation bound and media below 25. The real pause follows. Persisted frontier/coverage
+stay below 22; reaction, note, bookmark and Forum URL timestamps match the frontier within 1.25 seconds,
+with exact activity/session scope. The Forum composer is opened, not submitted. Completion remains complete.
 
-## Allowed forward seek without gap credit
+## End, replay and rates
 
-`browser_allowed_seek_tracking.feature` adds one unseeded case for each provider. The fixture explicitly
-enables forward seeking, uses a 60-second duration and automatic 50% viewing completion, and disables
-autoplay/resume and view-only/acknowledgement completion. The browser starts from no validated evidence,
-plays into the 4-10 second range, seeks to 30 while playing, continues into the 33-39 second range and pauses.
-HTML5 uses the real local media; YouTube and Vimeo use production adapters against the unchanged SDK doubles.
+The teacher fixture explicitly selects 1x/2x, cap 2x, authorised fallback 1x and a 95% viewed threshold. A 4x request must restore 1x;
+a selected 2x request then reaches the natural 60-second end within a 45-second observation bound, without
+seeking to the end or overriding clocks. Vimeo's numeric asynchronous rate result is awaited.
 
-The new read-only assertion polls the actual database for at most five seconds. It requires a positive
-validated seek row before 12 seconds and a later positive validated pause starting at or after 29.5 seconds,
-both from the same session. Every validated ledger interval and persisted aggregate interval must leave the
-deliberately unwatched 12-29.5 second middle uncovered. Aggregate unique seconds must equal the sum of its
-intervals and remain below 30 seconds; the resume position must advance beyond 33 seconds without completing
-the viewing requirement. Native Moodle completion remains incomplete, including after reload.
+Actual `playstart`/accepted `ended` rows must close credit, end/resume positions must be within 59–60.001,
+unique coverage within 58–60.001 and native completion complete. A merged interval must cover 5–20 seconds.
+Replay from second five at 1x plays to 8–12 and pauses: a new start must follow the accepted end, with a
+positive accepted pause in the same browser session. Unique seconds and percent must stay within 0.001 of
+the end snapshot, including reload. Resume position may move backwards. Replaying inside known coverage
+avoids confusing an initially uncredited handshake fraction with double-counting.
 
-The 12-second boundary allows the normal polling/seek tolerance around the first playback window; 29.5 seconds
-allows the provider seek tolerance around the 30-second target. No progress, ledger row, completion state or
-AJAX response is seeded by these cases. Existing browser bindings and SDK fixtures are unchanged.
+Request-id retries and completion effects also have behavioural PHPUnit coverage in `tracker_test.php`
+and `tracking_effects_test.php`; no forced network-timeout browser test is claimed.
 
-## Post-rollback interactions and preserved completion
+## Attention and participation
 
-`browser_rollback_interactions.feature` adds one unseeded case per provider, with local HTML5 media and the
-unchanged local YouTube/Vimeo SDK doubles. Each activity disables autoplay/resume, forward seeking, reaction-based
-completion and acknowledgement completion; its automatic 5% viewing threshold requires three validated seconds
-of the 60-second fixture. Play/pause must earn actual aggregate and native completion before the attempted
-30-second seek. This combines browser-earned completion with rollback and interaction contracts in one case.
+Five configuration cases cover automatic duration thirds, one-sided overrides, disabled control and zero-duration
+site fallback. Three timed cases explicitly select 0.5x/1x and use unchanged 60-second fixtures at half speed,
+so natural end cannot pre-empt the real 60–60 wall-second attention deadline. They observe the pause notice,
+accepted pause/closed credit and stable frontier, then manually resume to 31–38 media seconds and pause with
+a fresh handshake. No runtime clock is accelerated.
 
-The first new read-only assertion requires the player to remain paused within 1.25 seconds of the persisted
-frontier for 750ms, with a seven-second polling bound. Reaction, note and bookmark are then saved through their
-visible controls and verified in the corresponding history lists. The browser opens the linked Forum composer;
-the test verifies the visible form and its actual URL rather than submitting a discussion.
+Staff preview must expose `trackingenabled=false`, create no plugin segment/state rows and no completed
+native state after playback/reload. Absent or incomplete native rows are permitted; the normal Moodle view
+event is legitimate. A student enrolment plus editing-teacher role instead exposes tracking enabled and
+must earn accepted playback/native completion through the existing positive assertions.
 
-The second assertion polls for at most five seconds. It reads exactly one active reaction, one note and one
-bookmark, checks their labels/types and timestamps, the course-module scope and the session of the accepted
-pause. Event timestamps and the rounded Forum URL timestamp must match the actual frontier within 1.25 seconds;
-the composer URL must target this activity and the same session. Frontier and unique coverage remain below
-22 seconds, below the refused 30-second target. Aggregate and native completion must still be complete,
-including after returning to the activity. No ledger, state, interaction, completion or AJAX result is injected.
+## Group report and expected-denial contracts
 
-The older seeded HTML5 rollback case remains unchanged and still covers its original fixture-based purpose.
-The new cases exercise browser-generated evidence for all three providers. The 1.7.239 candidate adds ended/replay/rate coverage below. Relevant role/group/browser combinations remain
-explicit U-007 work; these cases do not close the phase by themselves.
+The course forces separate groups. Standard Moodle generators create `Group A`/`Group B` with idnumbers
+`A`/`B`; group-member references use those idnumbers. A teacher's `moodle/site:accessallgroups` is prevented
+at course context; an editing teacher explicitly retains it. Two learners earn actual HTML5 progress.
 
-## Initial 1.7.237 CI correction
+The restricted reviewer sees only its group's exact learner ids; the ungrouped reviewer sees none; the
+all-groups reviewer sees both actual learners and no report-only staff. Selector choices retain the full
+authorised population after filtering. A separate assertion requires the selected id and exactly one
+matching progress row in the table with the localised Per student caption, with only its own optional email.
 
-Initial commit `04b2fc284b62752a4a3bdeb113031049d46a060e` fails the new paused-frontier assertion for
-HTML5 and Vimeo on every CI job. Five jobs finish with 31/33 scenarios passed; Moodle 5.2 also loses the local
-HTTP service with `ERR_CONNECTION_REFUSED` later in the suite. PHPUnit remains 369 tests / 3,988 assertions,
-strict validation is 10/0/0 and the configured static/build gates pass. This is failed candidate evidence.
+Forbidden requests visit the real report endpoint. The atomic assertion requires one expected `invaliduser`
+fatal box/documentation code, no selector/progress table/forbidden name and no extra PHP/debugging notices.
+It then restores the authorised All report before Moodle's normal after-step hook runs. Hooks are never
+disabled. The restored selector/hidden-name assertions retain the same scope. Unexpected errors or data fail.
 
-The test assumed recovery would retain a pause. Existing HTML5 recent-playback detection and Vimeo user-seek
-recovery may instead resume playback. The new explicit pause action observes media state and time through native
-or unchanged SDK-double APIs: a paused or advancing phase must remain stable for 6.5 seconds, past the existing
-six-second recovery guards. An advancing phase must also advance by at least six media seconds. A playback-state
-change or backward jump resets the observation; the overall bound is 15 seconds and the media must stay below
-25 seconds. The action then calls the real pause surface once. This is bounded media observation, not a fixed sleep
-or a write to tracking data. The existing read-only frontier assertion and an accepted-pause assertion follow.
+## Maintenance and remaining work
 
-The upper evidence bound becomes 22 seconds to include real recovery playback, still below the refused target
-of 30 seconds. Relative timestamp tolerance (1.25 seconds), session/scope, event count/types and native completion
-checks are retained. Six added assertion/action steps make the source expectation **33 scenarios / 618 steps**.
-That first correction left production adapters, AMD and workflow unchanged; the HTML5 runtime correction below
-updates its source and matching Grunt builds while preserving SDK doubles and workflow. The corrected candidate requires all six CI jobs;
-the Moodle 5.2 HTTP interruption must also be absent before merge.
+Use stable CSS/data selectors, exact ids and localised captions where needed. Keep bounded polling rather
+than fixed sleeps, preserve read-only assertions and keep SDK/network fixtures separate from production.
+All prior cases remain in the suite. Run six-job CI after changes; retain exact commit/package provenance.
 
-## HTML5 recovery playback authorisation
-
-The next candidate, `52a371c0ce821b508f3107477f0c158273164cfb`, passes 32/33 scenarios on all six jobs.
-Vimeo and the prior Moodle 5.2 HTTP interruption are resolved in that run. Only HTML5 remains: after explicit
-pause the media is near 11.8 seconds while the persisted frontier stays near 5.3 seconds. This is a real
-playback-authorisation defect exposed by the unchanged frontier assertion, not a reason to relax its tolerance.
-
-HTML5 recent-playback recovery may resume media after a pause has closed the server window. Previously,
-`blockForwardSeek()` opened a client segment based on recovery intent alone; `state.playing` then caused the
-actual play handler to skip `Api.beginPlayback()`. The fix captures whether a tracked segment was already open
-and snapshots/rotates only that segment. A paused recovery must obtain a new server playback window before
-opening a segment or starting the heartbeat. An already-active playback window retains its original path.
-The browser tracking session id is preserved, and declined authorisation cannot create a tracked segment.
-
-The actual recovery and tracking-event functions were tested locally with media/server boundaries instrumented:
-the old source reproduces the missing handshake, while the fixed source waits for authorisation and retains
-active-seek snapshot and idle-pause behaviour. This is an isolated JavaScript check, not full Moodle runtime.
-Actual Moodle Grunt AMD with Node 22.23.4 / Grunt 1.6.1 reproduces all 96 old build files byte-for-byte, then
-passes ESLint/Rollup for the fix; only the HTML5 minified file/map change, with exact source content in the map.
-The 33-scenario / 618-step suite, terminal-pause, relative timestamp, session/scope and completion assertions are
-unchanged. All six corrected 1.7.237 CI jobs passed before merge and again on main. U-007 remains open.
-
-## U-007 coverage matrix
-
-| Contract | HTML5 | YouTube | Vimeo |
-|---|---|---|---|
-| Play/pause and accepted terminal ledger write | Existing | Existing SDK-double case | Existing SDK-double case |
-| Resume, backward seek, blocked forward seek/frontier | Existing | Existing SDK-double case | Existing SDK-double case |
-| Unseeded playback to native viewing completion | Accepted 1.7.235 case | Accepted 1.7.235 case | Accepted 1.7.235 case |
-| Allowed forward seek, gap exclusion and incomplete completion | Accepted 1.7.236 case | Accepted 1.7.236 case | Accepted 1.7.236 case |
-| Post-rollback interactions and preserved viewing completion | Accepted unseeded 1.7.237 case | Accepted SDK-double 1.7.237 case | Accepted SDK-double 1.7.237 case |
-| Attention configuration and real automatic pause/resume | Accepted 1.7.238 case | Accepted 1.7.238 SDK-double case | Accepted 1.7.238 SDK-double case |
-| Natural end, watched replay, allowed rate and above-cap fallback | Accepted 1.7.239 case | Accepted 1.7.239 SDK-double case | Accepted 1.7.239 SDK-double case |
-| Staff preview without tracking and dual-role earned completion | New 1.7.240 case, CI pending | New 1.7.240 SDK-double case, CI pending | New 1.7.240 SDK-double case, CI pending |
-| Separate-group report selector and direct learner-id boundaries | New shared-endpoint 1.7.240 cases, HTML5 data | Same PHP policy; see shared cases | Same PHP policy; see shared cases |
-
-Learner, teacher-only and dual-role page controls already have shared scenarios. Their existence does not fill
-every provider/lifecycle/group combination. U-007 remains open until the roadmap's essential cells and boundary
-Moodle runs are evidenced; this tranche does not declare complete provider or browser coverage.
-
-The current workflow invokes the `chrome` Behat profile on six Moodle/PHP/database environments. These are six
-environment jobs using one browser profile. Other-browser and live-public-provider smoke results must be recorded
-separately, not inferred from that count. U-020 manual accessibility and final production gates also remain separate.
-
-## Selector and assertion rules
-
-Prefer stable component CSS/data markers over translated visible text for interaction targets; assert visible labels
-separately. Read persisted Moodle/plugin state when markup varies across supported branches. Media assertions use
-bounded timing tolerances and wait for asynchronous writes rather than fixed sleeps.
-
-## Limits
-
-Local SDK doubles verify adapter contracts but not public iframe availability, consent, cookies or provider UI.
-Behat does not replace manual keyboard/screen-reader perception tests or real-provider smoke tests. Results apply
-only to the exact plugin tree, Moodle branch, browser and driver recorded by the run.
-
-## 1.7.238 attention interval cases
-
-Five read-only browser configuration cases cover automatic thirds, minimum-only, maximum-only, disabled control and zero-duration site fallback. Three additional provider scenarios use explicit 60–60 seconds and play the unchanged 60-second media/SDK fixtures at 0.5x so their end cannot pre-empt the real one-minute attention deadline. No timer or server-clock acceleration is used. Each observes the student pause notice, an accepted pause closing server credit and a stable paused frontier; then it resumes to 31–38 video seconds and pauses again through the provider, requiring a fresh accepted play/pause lifecycle. Existing scenarios and assertions remain intact. All cases passed the accepted 1.7.238 main CI. Real public-provider and multi-browser smoke remain separate U-007 work.
-
-The corrected 1.7.238 cases explicitly select 0.5x and 1x through `playbackspeed_0.5` / `playbackspeed_1`. The driver refuses to force half speed unless the effective player allowlist contains it. Initial CI paused all three providers but correctly rejected writes because half speed was not authorised. The one-minute wait, accepted-pause, stable-frontier and resume checks are unchanged.
-
-## 1.7.239 natural end, replay and rate cases
-
-`browser_ended_replay_rate.feature` adds three unseeded cases. The teacher fixture explicitly selects 1x/2x,
-sets the cap to 2x and its authorised fallback to 1x, and disables autoplay/resume, loop, attention pauses
-and acknowledgement completion. Automatic viewed completion requires 95% of the real 60-second duration.
-After playing at 1x, the browser requests 4x and observes the existing cap restore 1x; it then requests and
-observes authorised 2x. A bounded 45-second media observation waits for natural end, without a seek to the
-end or altered runtime clocks. The Vimeo rate assertion waits for a numeric asynchronous result rather
-than accepting a Promise as truthy.
-
-Read-only database polling requires the actual same-session `playstart` and accepted `ended` rows, positive
-terminal playback, cleared server credit, end/resume positions within 59–60.001 seconds, unique coverage
-within 58–60.001 and complete aggregate/native Moodle state. One persisted interval must cover seconds
-5–20. The driver snapshots only unique coverage, percent and terminal/session identifiers in test memory.
-It then selects 1x, seeks back to second five, plays to seconds 8–12 and pauses through the real surface.
-The fresh handshake must follow the accepted end, and a positive accepted pause must close credit in the
-same browser session. Unique seconds and percent must match the snapshot within 0.001, with completion
-still complete after reload. Replay is deliberately inside validated coverage: an initially uncredited
-handshake fraction at second zero must not be confused with double-counting. Resume position may correctly
-move backwards; it is not asserted to remain at the end after replay.
-
-The shipped cases use real time and real AJAX writes; assertions cannot seed ledger/state/completion or
-forge a response. Existing scenarios, adapters, SDK doubles and guards are unchanged. Local extracted-driver
-checks cover controls, cap functions and async observation only; the initial Moodle 44/830 run passes on all six jobs; the formatting correction passed all six corrected release/main jobs.
-These SDK contracts do not establish live public iframe, cookie/consent or other-browser availability.
-
-## Initial 1.7.239 CI formatting correction
-
-All six uploaded artifacts match the official digests for commit
-`79b7b5bac5c6680f760c67595780b7b1c7f11857` (workflow 42270208398). The uploaded Moodle 5.0 MariaDB file is
-from the second attempt; it still reports the same six CodeSniffer errors. Each environment passes the
-44/830 Behat suite, 379/4076 PHPUnit, ten strict checks and Grunt. Five jobs are green; Moodle 5.0 MariaDB
-fails only the Moodle Code Checker step. This is functional evidence, not an accepted overall candidate.
-
-The three new multiline `if` conditions must put the first expression below `if (` and the closing `)`
-on its own line, using the existing Moodle/PSR-12 indentation. The incremental correction changes only
-whitespace in those conditions and updates documentation/callable positions. Every PHP token, JavaScript
-string, assertion, timeout, fixture and scenario is identical. No production code, analysis rule or version
-changes. All six corrected candidate and post-merge jobs passed; this historical formatting defect is resolved in the accepted 1.7.239 baseline.
-
-## 1.7.240 staff preview and dual-role playback
-
-`browser_role_tracking.feature` adds one unseeded case per provider. A teacher-only user plays to 5–10
-seconds and pauses, while the actual page JSON must expose `trackingenabled=false`. The read-only assertion
-requires no plugin `videotrack_seg` row (including a start handshake), no `videotrack_state` row and no
-completed native Moodle state for that user/activity/course-module scope. An absent or incomplete native
-row is permitted. Assertions repeat after reload and after another user plays. Moodle's normal activity
-view event remains legitimate and is outside this learner-tracking assertion.
-
-A student enrolment plus an editing-teacher role assignment must instead expose `trackingenabled=true`.
-Starting without validated evidence/incomplete completion, this dual-role user plays to 5–10 seconds and
-pauses through the real surface. Existing assertions require an accepted same-session pause closing credit,
-a positive three-second viewing threshold and persisted native completion, retained after reload. Activity
-fixtures explicitly disable autoplay/resume, loop, attention/focus pauses and view-only/acknowledgement
-completion, with one authorised 1x rate. Existing SDK doubles and all previous scenarios remain unchanged.
-
-## 1.7.240 separate-group report boundaries
-
-`browser_report_groups.feature` uses Moodle's standard enrolment, role, permission-override, group and
-activity generators. The course forces separate groups; two students belong to different groups. For the
-teacher role, `moodle/site:accessallgroups` is prevented at course context; an editing teacher explicitly
-retains it. One restricted reviewer shares Group A and a second has no group membership. Report capability
-alone therefore cannot substitute for group access.
-
-Each of the three cases earns accepted viewing/native completion for both students through actual local
-HTML5 playback before opening reports. No aggregate/ledger/completion data is seeded. The navigation helper
-resolves fixture ids but delegates every permission decision to the real HTTP report controller; it never
-pre-filters or fakes the response. The choice assertion compares all positive `#id_userid` option values
-with the exact expected user ids, ignoring only the standard All option.
-
-The Group A reviewer can select/request its learner but sees no Group B option or name; directly requesting
-that learner returns Moodle's `Invalid user` page with no selector or learner name. The ungrouped reviewer
-has an empty selector and the same direct-request denial. All-groups permission permits both actual learners
-and their individual reports, without adding report-only staff. These are shared PHP report/Moodle ACL
-contracts using HTML5-generated data; they do not claim separate SDK or CSV-download group smoke coverage.
-
-Source expectations are 50 scenarios / 1,074 steps and 379 PHPUnit methods. Local isolated checks cover the
-extracted tracking-switch observer and unchanged API preview short-circuits with frozen state/no transport;
-actual enabled playback, database assertions and group enforcement still require all six CI jobs. U-007
-remains open for evidence review and explicit additional-browser/public-provider checks; U-020/manual WCAG,
-semantic translations and final integrated production/lifecycle/privacy/benchmark gates remain distinct.
-
-## Initial 1.7.240 group-fixture correction
-
-All six reports and six faildumps match official artifact digests for commit
-`d427dd9de1312cc421f41fb48ce670546311d5a9` (workflow 42301083539). The initial full suite reports 47 passed
-and three failed scenarios; 962 steps pass, three fail and 107 are skipped. The three role/provider cases
-and all 44 existing cases pass. All failures occur while creating the shared group-member fixture, before
-any report/browser assertions in the three new group cases; those report contracts are not yet evidenced.
-PHPUnit remains 379/4076, strict is 10/0/0, PHPCS is clean and Grunt/configured analysis gates pass.
-
-Moodle's standard `group members` generator resolves `group` by `groups.idnumber`. The groups are named
-`Group A` / `Group B`, with explicit idnumbers `A` / `B`. The three membership rows must therefore use
-`A` for student1/reviewer1 and `B` for student2. The correction changes only these three cell values and
-documentation. Names, role/capability overrides, actual playback, every action/assertion/time bound and
-50/1072 source counts remain unchanged. No production, PHP helper, schema, language or version change.
-Corrected six-environment CI must execute the previously skipped report assertions before merge.
-
-## 1.7.240 expected-denial and filtered-row correction
-
-Commit `ccbe192f5b746dc5e12b6e8675e39caf9fd9f9e1` (workflow 42358541350) fixes fixture ids. All six full runs
-reach 1,061 passed steps, three failed and eight skipped, with 47/50 scenarios passed. PHPUnit 379/4076,
-strict 10/0/0, PHPCS/lint, Grunt and configured analysis gates pass. Twelve official report/faildump digests
-match. Offline inspection of all 54 HTML snapshots confirms 36 expected denial pages and 18 positive
-filtered pages, including framework retries; these are observations, not 54 independent browser scenarios.
-
-The two forbidden learner requests actually return the intended `invaliduser` error without a selector,
-progress table or forbidden learner name. Moodle's after-step exception hook fails immediately on that
-page, before the following generic text assertion. The dedicated atomic step now visits the same real
-HTTP endpoint, requires exactly one fatal box with the expected message and an `invaliduser` documentation
-code, checks absence of selector/progress table/learner name and PHP/debugging notices, then revisits the
-normal authorised All report before returning. No hook, tag, exception policy or production guard is
-changed or disabled. A wrong error, successful data response or extra notice still fails the step.
-The following exact selector/hidden-name assertions check that the restored report keeps the same scope.
-
-For the all-groups viewer, the available selector correctly retains both authorised learners after filtering.
-The captured page has the requested learner selected and only that learner in its progress table. Keep
-exact selector-scope assertions for both ids, and separately require the selected id, exactly one table
-with the localised Per student caption, exactly one body row and the matching learner name (with only its
-own optional email suffix). Both filtered learners are tested; the restricted viewer's positive detail also
-uses this row check. Names appearing only as available options are not mistaken for leaked progress rows.
-
-The correction adds two read-only/navigation methods while preserving all prior method bodies, real
-playback and permission fixtures. Fifty scenarios remain; two added row assertions yield 1,074 steps.
-The offline HTML/source checks do not execute PHP/Moodle or the atomic restore flow; fresh six-job CI
-must confirm the complete correction before merge. Production, schema, language packs, AMD and version
-1.7.240 / 2026110603 remain unchanged.
+The original U-007 matrix and boundary-version milestone are complete on 1.7.240. Additional engines, public
+iframes, consent/cookies and assistive-technology results are recorded separately when exercised; none are
+inferred from Chrome/SDK doubles. U-020 manual audit, semantic translation review and the final integrated
+production/lifecycle/privacy/benchmark gate remain open. An evidenced regression can reopen the affected cell.

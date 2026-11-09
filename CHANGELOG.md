@@ -1,5 +1,36 @@
 # VideoTrack changelog
 
+## 1.7.241 - 2026-11-09
+
+### U-007 exit evidence and U-020 manual-audit handoff
+
+- Accept the actual 408-file 1.7.240 ZIP, SHA-256
+  `be83a2bbf806c6e95bc05d971b9a12d291575e8909b2b9a1f45af5930e71ae1e`,
+  identical to main `2d047f5c59792e4c8798a31209f19cfa9ecc15f7` and the final
+  candidate tree. Corrected release/main CI pass all six jobs with 50 Behat
+  scenarios / 1,074 steps, 379 PHPUnit tests / 4,076 assertions and strict 10/0/0.
+  Server PHPCS/lint, Grunt and PHPUnit pass on Moodle 5.0/5.3; both supplied
+  strict outputs are 10/0/0. Server Behat/full-preset execution is not claimed.
+- Close U-007 on that accepted baseline against the original essential
+  playback/interactions/tracking/roles matrix and multi-version CI milestone.
+  Add paired exit audits with exact provenance, criteria mapping and limits.
+  The roadmap deliberately uses deterministic local external-provider adapters;
+  public-network availability and other browser engines are separate evidence,
+  not newly imposed prerequisites for its original automation exit.
+- Consolidate current English/Italian browser guides, removing obsolete failed
+  candidate narratives while retaining timing, scope, expected-denial and
+  selector/data contracts. Correct stale current-suite counts in release guides
+  and update indexes, inventories and ER current-tree labels.
+- Add an unexecuted U-020 manual evidence protocol for keyboard, focus, reflow,
+  forced colours, screen readers and media/content flows. Every result remains
+  NOT RUN until observed; green CI does not certify accessibility. A manual
+  audit alone does not automatically generate a functional release.
+- Documentation/version metadata only. All runtime PHP/AMD, builds, 50 scenarios,
+  379 PHPUnit methods, schema, services, eight language packs and analysis/CI
+  rules remain unchanged. U-017 stays closed; U-020, semantic translation review
+  and integrated production/lifecycle/privacy/benchmark gates remain open.
+  Candidate 1.7.241 still requires its own ordinary CI/package acceptance.
+
 ## 1.7.240 - 2026-11-06
 
 ### U-007 browser role and separate-group report boundaries

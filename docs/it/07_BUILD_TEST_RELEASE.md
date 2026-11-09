@@ -67,7 +67,7 @@ impostare `MOODLE_ROOT` sulla root Moodle reale e usare i binari degli analizzat
 - Ciclo di vita: installazione, upgrade, backup/restore, reset, disinstallazione con gradebook popolato e Privacy API
   per codice/schema correlato.
 
-Le suite distribuite correnti contengono 369 metodi di test PHPUnit e 33 scenari Behat / 618 step per ramo Moodle
+Le suite distribuite correnti contengono 379 metodi di test PHPUnit e 50 scenari Behat / 1.074 step per ramo Moodle
 supportato. Il totale delle asserzioni è un'evidenza di esecuzione, non un contratto statico, e deve essere
 registrato dalla CI della candidata. I conteggi sono aspettative, non una dichiarazione di pass.
 
@@ -124,3 +124,12 @@ Il validatore in sola lettura `cli/validate.php` e il benchmark Analytics
 `cli/benchmark_course_analytics.php` sono in [`21_CLI_DIAGNOSTICS.md`](21_CLI_DIAGNOSTICS.md);
 la copertura browser è in [`22_TEST_BROWSER_BEHAT.md`](22_TEST_BROWSER_BEHAT.md) e l'automazione del repository è
 in [`23_GITHUB_ACTIONS_CI.md`](23_GITHUB_ACTIONS_CI.md).
+
+## Uscita browser accettata e modifiche documentali
+
+L’[uscita U-007](26_USCITA_BROWSER.md) è accettata sulle evidenze esatte 1.7.240. La milestone completa Chrome
+su sei job copre Moodle 5.0–5.3. Disponibilità provider pubblici e altri motori si registrano separatamente
+quando provati, senza imporli retroattivamente come prerequisiti automatici. U-020 percettivo resta aperto.
+La candidata 1.7.241 cambia solo documentazione/metadati versione, conservando workflow su sei job, runtime,
+test e conteggi. Registrare separatamente la sua CI reale e ZIP/server/strict finali; gli hash dei pacchetti
+precedenti non identificano la release documentale nuova. Sorgenti AMD invariati non richiedono ricompilazione.

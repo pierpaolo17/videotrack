@@ -1,6 +1,6 @@
 # U-017 maintainability exit audit
 
-Current tree: VideoTrack **1.7.240** (`2026110603`).
+Current tree: VideoTrack **1.7.241** (`2026110901`).
 
 ## Decision and accepted evidence
 
@@ -15,13 +15,9 @@ PHPUnit tests, 3,988 assertions, 24 Behat scenarios / 357 steps, ten strict chec
 PHPCS and PHP lint are clean on 164 files. The exact server report on Moodle 5.0/5.3 passes PHPCS, lint, Grunt and
 the same PHPUnit suite. Both supplied strict outputs are 10 PASS / 0 WARN / 0 FAIL. All exit gates are satisfied.
 
-Accepted 1.7.237 includes viewing completion, allowed-seek gaps and post-rollback learner interactions
-for all three providers. All six release/main CI jobs pass 33 Behat scenarios / 618 steps and
-369 PHPUnit tests / 3,988 assertions. Its actual ZIP matches the main commit and server/strict gates pass.
-Accepted 1.7.238 adds the requested teacher attention configuration. All six main CI jobs pass
-379 PHPUnit tests / 4,076 assertions and 41 Behat scenarios / 722 steps; actual ZIP/server/strict are accepted.
-Accepted 1.7.239 validates natural end, replay and rates at Behat 44/830 and PHPUnit 379/4076.
-Candidate 1.7.240 adds role/group boundaries; U-017 remains closed.
+Current accepted runtime evidence is 1.7.240: six release/main jobs pass Behat 50/1074,
+PHPUnit 379/4076 and strict 10/0/0; actual ZIP/server/strict are accepted. U-007 is closed in its
+[own exit audit](26_BROWSER_EXIT_AUDIT.md). Candidate 1.7.241 is documentation/version metadata only.
 
 ## Ownership review
 
@@ -72,8 +68,8 @@ coverage. The cap case checks the live database rebuild, not only the pure aggre
 
 ## Reviewed PHPMD residuals
 
-Accepted 1.7.236 CI confirms **24** unchanged findings. Candidate 1.7.237 preserves production PHP bodies
-and rulesets, so compare the full report again in candidate CI. This is an explicit debt register, not a suppression, zero-finding claim or blanket acceptance of future findings.
+Accepted 1.7.240 release/main CI confirms **24** reviewed findings, with the same report identities and
+configured analysis scopes. Candidate 1.7.241 preserves all production bodies and rulesets. This is an explicit debt register, not a suppression, zero-finding claim or blanket acceptance of future findings.
 
 | File/owner | Findings | Reason to retain and condition for reopening |
 |---|---:|---|
@@ -87,28 +83,14 @@ and rulesets, so compare the full report again in candidate CI. This is an expli
 
 ## Current roadmap phase
 
-U-007 remains open. Accepted 1.7.236 confirms viewing-completion and allowed-seek gap cases for all three providers.
-The 1.7.237 post-rollback interaction cases are accepted; the 1.7.238 attention cases are accepted; the 1.7.239 end/replay/rate cases are accepted; the new 1.7.240 role/group cases require candidate CI. Review the remaining playback, interaction, role/group and provider-parity cells in
-[browser coverage](22_BEHAT_BROWSER_TESTS.md). Chrome CI is a browser execution on six Moodle/PHP/database jobs;
-it is not a six-browser matrix. Public SDK/network smoke and other browser coverage remain explicit later checks.
+U-017 remains closed; U-007 is closed on the actual accepted 1.7.240 multi-version browser milestone.
+See [browser exit evidence](26_BROWSER_EXIT_AUDIT.md). Public-network availability was not an original
+prerequisite for deterministic adapter automation; other engines and live deployment results remain explicit
+separate evidence. No runtime, test, provider or analysis gate is removed by this documentary decision.
 
-After U-007, continue U-020 manual accessibility, semantic translation review and the final production/lifecycle/
-privacy/benchmark audit on one exact ZIP. Evaluate Moodle App after the web gates. OneDrive/SharePoint, Zoom Cloud
-Recording and Google Drive remain later phases in that order. A real production defect can reopen U-017.
-
-See [static-analysis policy](24_STATIC_ANALYSIS.md), [release gates](07_BUILD_TEST_RELEASE.md) and
-[accessibility](19_ACCESSIBILITY.md).
-
-## Current acceptance and remaining roadmap
-
-The actual 406-file 1.7.239 ZIP matches main `12b6bce78cdab893e5eb0946245ccd42c4092a29`. All six corrected
-release/main jobs pass Behat 44/830 and PHPUnit 379/4076. PHPCS/lint/Grunt/PHPUnit server and both strict
-outputs pass; the server report does not execute Behat. U-017 remains closed.
-
-Candidate 1.7.240 adds staff-preview/dual-role playback for each provider and shared separate-group report
-boundaries, with 50 scenarios / 1,074 steps expected. Production code and previous scenarios remain unchanged.
-After six-job CI and actual release acceptance, review these essential automated matrix cells and obtain
-the explicit additional-browser/public-provider evidence. U-007 remains open until its evidence is complete.
-Then follow U-020/manual WCAG, semantic translations and the integrated production/lifecycle/privacy/benchmark
-gate on the exact ZIP. Subsequent order: Moodle App evaluation, shared authenticated-provider foundation,
-OneDrive/SharePoint, Zoom Cloud Recording, Google Drive and cross-provider hardening.
+Next is [U-020 manual accessibility](19_ACCESSIBILITY.md#manual-evidence-protocol-u-020), then semantic
+language review and the integrated production/lifecycle/privacy/benchmark gate on one exact ZIP. An audit
+alone does not trigger a functional release; concrete findings do. Candidate 1.7.241 packages this evidence
+and protocol with its own CI/package gates pending. Moodle App evaluation and authenticated-provider
+foundation follow the web gates, then OneDrive/SharePoint, Zoom Cloud Recording, Google Drive and hardening.
+See also [analysis policy](24_STATIC_ANALYSIS.md) and [release gates](07_BUILD_TEST_RELEASE.md).

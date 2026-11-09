@@ -6,7 +6,7 @@ VideoTrack is a Moodle activity module for HTML5/uploaded, YouTube and Vimeo vid
 server-validated watched progress, study interactions, custom completion, gradebook integration and
 privacy-aware reporting.
 
-Current release documented by this tree: **1.7.240**. Supported Moodle branches: **5.0–5.3**.
+Current release documented by this tree: **1.7.241**. Supported Moodle branches: **5.0–5.3**.
 
 - Italian overview: [`README_IT.md`](README_IT.md)
 - Complete English guide: [`docs/en/funzionalita.md`](docs/en/funzionalita.md)
@@ -84,6 +84,12 @@ Moodle Grunt build and source maps are mandatory.
 
 Repository CI, its Moodle/PHP/database matrix, blocking/advisory checks and downloadable artifacts are documented
 in [`docs/en/23_GITHUB_ACTIONS_CI.md`](docs/en/23_GITHUB_ACTIONS_CI.md).
+
+## Project milestones
+
+U-017 maintainability and U-007 essential browser automation are closed on accepted release evidence.
+The [browser exit audit](docs/en/26_BROWSER_EXIT_AUDIT.md) records scope and provenance. U-020 manual
+accessibility remains open; use the [manual protocol](docs/en/19_ACCESSIBILITY.md#manual-evidence-protocol-u-020).
 
 ## License
 

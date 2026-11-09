@@ -66,7 +66,7 @@ Psalm level copies; it must not modify the plugin tree. For a direct run outside
 - Lifecycle: fresh install, upgrade, backup/restore, reset, populated-gradebook uninstall and Privacy API when
   related code/schema changes.
 
-The current distributed suites contain 369 PHPUnit test methods and 33 Behat scenarios / 618 steps per supported
+The current distributed suites contain 379 PHPUnit test methods and 50 Behat scenarios / 1,074 steps per supported
 Moodle branch. Assertion totals are run evidence rather than a static contract and must be recorded from the
 candidate CI. These numbers are expectations, not a pass claim.
 
@@ -124,3 +124,12 @@ The read-only `cli/validate.php` installation validator and
 [`21_CLI_DIAGNOSTICS.md`](21_CLI_DIAGNOSTICS.md); browser coverage is in
 [`22_BEHAT_BROWSER_TESTS.md`](22_BEHAT_BROWSER_TESTS.md), and repository automation is in
 [`23_GITHUB_ACTIONS_CI.md`](23_GITHUB_ACTIONS_CI.md).
+
+## Accepted browser exit and documentary changes
+
+The [U-007 exit](26_BROWSER_EXIT_AUDIT.md) is accepted on exact 1.7.240 evidence. Its complete six-job Chrome
+milestone covers Moodle 5.0–5.3. Live-provider availability and other engines are recorded separately when
+exercised; they are not retroactively imposed automation prerequisites. U-020 manual perception remains open.
+Candidate 1.7.241 changes documentation/version metadata only and retains the ordinary six-job workflow,
+all runtime/tests and their counts. Record its actual CI and final ZIP/server/strict evidence separately;
+prior package hashes do not identify the new documentary release. No AMD rebuild is needed for unchanged sources.
