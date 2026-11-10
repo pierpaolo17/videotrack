@@ -26,3 +26,17 @@ senza garantire una vista completa. Disabilitare la sovrapposizione nasconde i c
 omessi. Non si promettono il primo sottoinsieme cronologico tra tipi di reazione o un export completo.
 Conteggi riepilogativi e filtri privacy/accesso conservano il comportamento esistente. Le correzioni dei
 testi non modificano la logica dei report.
+
+## Fonti delle visioni, conteggi zero e riepiloghi indipendenti
+
+Gli Analytics possono usare segmenti grezzi o ricostruire la copertura unica dagli intervalli dello stato
+aggregato conservato, quando questo mantiene più evidenze di visione. La ricostruzione dallo stato non
+fornisce metriche di revisione. L’oscuramento privacy protegge sottogruppi non vuoti sotto soglia effettiva;
+i conteggi zero possono restare visibili. Quando popolazioni di intervallo protette rivelerebbero il
+denominatore, vengono nascoste anche le percentuali di retention.
+
+In assenza di intervalli validi, i riepiloghi di eventi restano indipendenti dalla copertura di visione.
+Riepiloghi reazioni, segnalibri, prese visione e integrità dipendono dai propri dati/funzioni, permessi e
+regole privacy. Diversi riepiloghi precedono l’avviso senza visioni; una tabella cluster può seguirlo. Il
+testo non promette quindi posizione o disponibilità. Sono comportamenti esistenti: la patch linguistica
+non cambia scelta delle fonti, oscuramento, metriche, export o disposizione del report.

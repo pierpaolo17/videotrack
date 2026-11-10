@@ -24,3 +24,16 @@ appears, additional eligible clusters have been omitted. Narrowing the report sc
 does not guarantee a complete view. Disabling the overlay hides clusters and does not recover omitted ones.
 Neither the earliest subset across reaction types nor a complete export is promised. Summary counts and
 privacy/access filters retain their existing behaviour. These wording corrections change no report logic.
+
+## Viewing sources, zero counts and independent summaries
+
+Analytics can use raw segments or reconstruct unique coverage from retained aggregate state intervals when
+that state preserves more viewing evidence. State reconstruction does not supply replay metrics. Privacy
+masking protects non-empty subgroups below the effective threshold; zero counts can remain visible. When
+protected interval populations would expose the denominator, retention percentages are masked as well.
+
+If no valid viewing interval is available, event summaries remain independent of viewing coverage. Reaction,
+bookmark, acknowledgement and integrity summaries depend on their own data/features, permissions and privacy
+rules. Several summaries precede the no-viewing notice, while a reaction-cluster table can follow it. The
+notice therefore does not promise their page position or availability. These are existing behaviours; the
+language patch changes neither source selection nor masking, metrics, exports or report layout.
