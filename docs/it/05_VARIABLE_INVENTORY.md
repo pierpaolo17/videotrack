@@ -98,8 +98,8 @@ Richieste di riproduzione e segmenti visti validati dal server
 | `videoid` | `char`(32) | NOT NULL |  |
 | `sessionid` | `char`(64) | NOT NULL |  |
 | `requestid` | `char`(64) | NOT NULL | Identificativo di idempotenza generato una sola volta per richiesta browser |
-| `wallclockstart` | `int`(10) | NOT NULL; default `0` |  |
-| `wallclockend` | `int`(10) | NOT NULL; default `0` |  |
+| `wallclockstart` | `int`(10) | NOT NULL; default `0` | Inizio diagnostico: tempo browser limitato per segmenti playback, server per playstart; non orologio del credito |
+| `wallclockend` | `int`(10) | NOT NULL; default `0` | Fine diagnostica: tempo browser limitato per segmenti playback, server per playstart; non orologio del credito |
 | `videotimestart` | `number`(10) | NOT NULL; default `0.000` |  |
 | `videotimeend` | `number`(10) | NOT NULL; default `0.000` |  |
 | `playbackrate` | `number`(6) | NOT NULL; default `1.000` |  |
@@ -128,7 +128,7 @@ Aggregated unique coverage per user and activity
 | `uniquecoveredseconds` | `number`(10) | NOT NULL; default `0.000` |  |
 | `completionpercent` | `number`(6) | NOT NULL; default `0.00` |  |
 | `intervaljson` | `text` | nullable |  |
-| `iscompleted` | `int`(1) | NOT NULL; default `0` |  |
+| `iscompleted` | `int`(1) | NOT NULL; default `0` | Esito memorizzato della regola custom VideoTrack; distinto dal completamento complessivo Moodle |
 | `timemodified` | `int`(10) | NOT NULL; default `0` |  |
 | `timecreated` | `int`(10) | NOT NULL; default `0` |  |
 

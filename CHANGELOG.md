@@ -1,5 +1,31 @@
 # VideoTrack changelog
 
+## 1.7.244 - 2026-11-10
+
+### Completion and privacy-export wording
+
+- Accept the actual 412-file 1.7.243 ZIP, SHA-256
+  `b42316ad2be7bdef46b9c39ed88c431bd6329426add8ee47a96660107c1e94d3`,
+  identical to main `942bf5965d7209673dfa8da2772928179c952052`.
+  Six candidate/main jobs pass PHPUnit 379/4076, Behat 50/1074 and strict
+  10/0/0. Both Moodle 5.0/5.3 server reports pass PHPCS/lint 166, Grunt and
+  PHPUnit 379/4076; both supplied strict outputs are 10/0/0.
+- Review all 88 privacy/completion keys in eight packs (704 values).
+  The cumulative review covers 134 unique keys per pack (1,072 distinct
+  values), with 863 keys per pack outside the claimed semantic scope.
+- Correct five keys per pack (40 values). Explain that acknowledgement
+  participates in the configured VideoTrack AND/OR rule, and broaden the
+  combination label beyond percentage/reactions. Distinguish diagnostic
+  segment wall-clock fields from authoritative playback-credit timestamps,
+  including the server-generated playback-start row. Describe the stored
+  custom-completion flag separately from Moodle overall completion.
+- Preserve all keys/placeholders, runtime logic, completion rules, gradebook,
+  permissions, data storage, schema, services, AMD, tests and CI. Update the
+  paired review/administrator/privacy guides and ER current-tree labels.
+  Candidate 1.7.244 native gates are pending; no previous result is reused
+  as its execution evidence. U-020 remains deferred; native linguistic
+  quality and the remaining semantic scope are not certified.
+
 ## 1.7.243 - 2026-11-10
 
 ### Integrity and historical-evidence policy wording
