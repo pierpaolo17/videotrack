@@ -70,3 +70,10 @@ con il tempo server. Il credito autorevole usa il registro del tempo server sepa
 `serverlastactivity`, senza fidarsi di quei valori browser. Le descrizioni degli export conservano questa
 distinzione tra tipi di record. Il flag custom `iscompleted` è distinto dal completamento Moodle complessivo;
 vedere [presa visione e AND/OR](12_ACKNOWLEDGEMENT.md).
+
+## Percentuale predefinita del sito
+
+`default_completionpercent` fornisce la soglia percentuale per una nuova attività. Zero disabilita soltanto
+quella condizione, non tutti gli altri requisiti custom o nativi Moodle. La condizione percentuale abilitata
+partecipa alla combinazione AND/OR configurata nell’attività e il docente può cambiarne la soglia. Il testo
+aggiornato non modifica valori predefiniti salvati o codice di completamento.

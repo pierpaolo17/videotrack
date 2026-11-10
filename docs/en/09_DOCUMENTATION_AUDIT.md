@@ -1,6 +1,6 @@
 # Documentation audit
 
-Baseline: VideoTrack **1.7.244** (`2026111003`).
+Baseline: VideoTrack **1.7.245** (`2026111004`).
 
 ## Scope
 
@@ -35,9 +35,9 @@ not duplicate implementation procedures, field dictionaries or long security/pri
 - [U-017](25_MAINTAINABILITY_EXIT.md) and [U-007](26_BROWSER_EXIT_AUDIT.md) are closed on accepted
   evidence. Actual 1.7.240 ZIP/main/server/strict match; six release/main jobs pass Behat 50/1074
   and PHPUnit 379/4076. Actual 1.7.241 ZIP/server/strict and release/main CI are accepted.
-  Actual 1.7.242 and 1.7.243 ZIP/server/strict and release/main CI are accepted. Candidate 1.7.244 corrects
-  five completion/privacy keys per pack and related guides; runtime logic, tests, schema, AMD and CI/analysis
-  rules are unchanged. Manual U-020 is deferred and remains open.
+  Actual 1.7.244 ZIP/server/strict and six-job release/main CI are accepted. Candidate 1.7.245 corrects
+  four policy descriptions in all eight packs plus orthography/localisation findings (98 values in total).
+  Runtime logic, tests, schema, AMD and CI/analysis rules are unchanged. Manual U-020 is deferred and open.
 
 - `form_reaction_settings` owns general reaction settings, context-safe notice/preset fields and individual row
   fields followed by their icon visibility rules. The form retains row count, bounds, upload-filter registration
@@ -68,7 +68,7 @@ not duplicate implementation procedures, field dictionaries or long security/pri
   course-scoped choices, saved placeholders and the editor context/options remain explicit. The activity form
   retains submitted validation and section expansion without a direct acknowledgement-class dependency.
 - English and Italian indexes have matching scope and ordering.
-- Documentation markers, root README files and ER artefacts identify 1.7.244 / 2026111003.
+- Documentation markers, root README files and ER artefacts identify 1.7.245 / 2026111004.
 - The Moodle privacy export delegates state, segment, event, integrity and acknowledgement sections in order;
   six event categories preserve the original paths, sanitisation, 500-row streaming and final flush order.
 - Activity-form source, timed-text, reaction-file and forum checks remain in their original order behind focused helpers;
@@ -222,3 +222,11 @@ All 88 privacy/completion keys per pack were reviewed (704 values); five keys pe
 (40 values). Cumulative review scope is 134 unique keys per pack / 1072 distinct values; the other 863 keys
 are outside the claim. Runtime/schema/AMD/tests/CI remain unchanged; native candidate gates remain pending.
 See [review evidence](27_LANGUAGE_REVIEW.md). U-020 remains open/deferred.
+
+## Consolidated site-setting and privacy review in 1.7.245
+
+The current pass covers 110 site-setting keys plus eight privacy descriptions (118 keys / 944 values).
+Cumulative semantic scope is 232 unique keys per pack / 1856 distinct values; 765 keys remain outside the
+claim. 98 values across 21 existing keys are corrected, with per-language counts in the
+[review record](27_LANGUAGE_REVIEW.md). Runtime/DB/AMD/tests/CI are unchanged. U-020 remains deferred;
+native candidate gates and human linguistic sign-off are not inferred.

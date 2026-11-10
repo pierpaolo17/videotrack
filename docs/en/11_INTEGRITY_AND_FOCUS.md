@@ -70,3 +70,12 @@ operate without recording. A sustained window blur pauses only when the activity
 and the site chooses strict mode. Report visibility/masking follows actual capabilities and learner/group
 scope: aggregate-only activity viewers retain the privacy threshold; authorised individual-report viewers
 may see exact scoped values. Diagnostic signals remain contextual and are not proof of misconduct.
+
+## Site descriptions and independent activity gates
+
+Site random-pause bounds are fallbacks when saved activity duration is not positive. A positive duration
+supplies the automatic bounds, unless the teacher supplies activity overrides. Site focus/grace settings
+do not enable activity controls or diagnostic recording. A signal is recorded only with recording enabled;
+a sustained window blur may pause only under the strict policy with activity focus control enabled.
+Hidden-tab pausing still requires that activity control. Existing approved focus exceptions remain intact.
+The site descriptions explain these existing gates; no defaults or behaviour change.
