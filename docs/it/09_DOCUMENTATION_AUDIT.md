@@ -1,6 +1,6 @@
 # Audit della documentazione
 
-Baseline: VideoTrack **1.7.245** (`2026111004`).
+Baseline: VideoTrack **1.7.246** (`2026111005`).
 
 ## Perimetro
 
@@ -32,12 +32,10 @@ duplicano intenzionalmente procedure implementative, dizionari dei campi o lungh
 
 ## Rilievi sull'albero corrente
 
-- [U-017](25_USCITA_MANUTENIBILITA.md) e [U-007](26_USCITA_BROWSER.md) sono chiusi su evidenze
-  accettate. ZIP reale/main/server/strict 1.7.240 coincidono; i sei job release/main superano Behat
-  50/1074 e PHPUnit 379/4076. ZIP reale/server/strict e CI release/main della 1.7.241 sono accettati.
-  ZIP reale/server/strict e sei job CI release/main della 1.7.244 sono accettati. La candidata 1.7.245 corregge
-  quattro descrizioni di policy negli otto pacchetti e rilievi ortografici/localizzazione (98 valori totali).
-  Logica runtime, test, schema, AMD e regole CI/analisi sono invariati. U-020 manuale è rinviato e aperto.
+- [U-017](25_USCITA_MANUTENIBILITA.md) e [U-007](26_USCITA_BROWSER.md) restano chiusi.
+  ZIP reale/server/strict e sei job CI candidata/main della 1.7.245 sono accettati. La candidata 1.7.246 corregge
+  due testi Analytics delle reazioni per pacchetto (16 valori); runtime, test, schema, AMD e regole CI invariati.
+  U-020 manuale resta aperto/rinviato. La [review corrente](27_REVISIONE_LINGUE.md) riporta il perimetro esatto.
 
 - I campi integrità conservano default disabilitati e posizione fra strumenti di studio e presa visione;
   la policy mostrata usa le API integrità canoniche per fallback, limiti e tolleranza. Il form non dipende più
@@ -68,7 +66,7 @@ duplicano intenzionalmente procedure implementative, dizionari dei campi o lungh
   opzioni del corso, segnaposto salvati e contesto/opzioni dell’editor restano espliciti. Il form conserva
   validazione in invio ed espansione delle sezioni senza dipendenza diretta dalla classe delle prese visione.
 - Gli indici inglese e italiano hanno stesso perimetro e ordinamento.
-- Marker documentali, README principali e artefatti ER identificano 1.7.245 / 2026111004.
+- Marker documentali, README principali e artefatti ER identificano 1.7.246 / 2026111005.
 - L’export privacy Moodle delega stato, segmenti, eventi, integrità e prese visione nello stesso ordine;
   sei categorie di eventi conservano percorsi, pulizia dei dati, blocchi da 500 e ordine finale.
 - I controlli del form per sorgenti, file VTT, icone delle reazioni e forum mantengono l'ordine originale tramite
@@ -174,7 +172,7 @@ duplicano intenzionalmente procedure implementative, dizionari dei campi o lungh
 - Le evidenze CI/server generate non fanno parte dell'albero del plugin. Il `.gitignore` del repository, le regole
   Git archive `export-ignore`, le regole Moodle `.moodleignore` e un contratto PHPUnit di release hygiene impediscono
   insieme che `reports-*`, `videotrack-ci-*.zip` e `report_completo_videotrack_*.zip` entrino nelle release future.
-  L'archivio canonico di release deve contenere quindi soltanto i 400 file legittimi del plugin.
+  L'archivio canonico di release deve contenere quindi soltanto i 412 file legittimi del plugin.
 
 ## Controlli di release
 
@@ -188,47 +186,17 @@ Prima della promozione verificare:
 6. contratti PHPUnit di release hygiene, relazioni XMLDB e uninstall/gradebook, più gate server proporzionato, verdi;
 7. corrispondenza di sintassi, versioni action, selettori della matrice, permessi e link del workflow GitHub.
 
-## Consolidamento evidenze U-007 nella 1.7.241
+## Baseline accettata e candidata linguistica correnti
 
-Baseline accettata: ZIP reale 1.7.240 da 408 file coincidente con main `2d047f5c59792e4c8798a31209f19cfa9ecc15f7`.
-Gli audit browser EN/IT registrano hash esatti, provenienza candidata/main, cinque criteri di uscita originari
-e risultati reali 50/1074 e 379/4076 sui sei ambienti. Il report server non esegue Behat/full-preset. Le guide
-browser conservano i contratti tecnici e rimuovono narrative candidate fallite obsolete. Le guide release
-riportano ora gli effettivi conteggi suite 379/50/1074. U-017 resta chiuso con 24 segnalazioni PHPMD revisionate.
+Pacchetto reale/server/strict e sei job CI candidata/main della 1.7.245 sono accettati. La candidata 1.7.246
+conserva 412 file, 31 documenti EN/IT ciascuno, 345 righe inventario non documentale e 1101 callable PHP/654 AMD.
+XMLDB resta 2026110601 con 7 tabelle/151 campi/22 indici/22 foreign key; ER cambia soltanto le etichette
+release correnti. Il changelog principale conserva la storia delle release.
 
-La candidata 1.7.241 aggiunge solo due audit Markdown e aggiorna documentazione/metadati versione correnti.
-Ci sono 410 file distribuiti, 345 righe inventario non documentale, 1.101 callable PHP e 654 AMD. Tutti i byte
-PHP runtime salvo metadati versione, test/fixture/AMD/lingue/schema/servizi/regole sono conservati. ER cambia
-solo etichette albero: XMLDB resta 2026110601, sette tabelle/151 campi/22 indici/22 foreign key. Gli otto
-pacchetti lingua conservano 997 chiavi. Le otto righe manuali U-020 sono NON ESEGUITE; review semantica,
-controlli deploy reale e gate integrato finale restano separati. Serve ancora accettazione CI/pacchetto reale
-1.7.241; nessun esito manuale viene dedotto dall’automazione.
-
-## Review linguistica mirata nella 1.7.242
-
-19 chiavi / 152 valori revisionati; sei chiavi per pacchetto / 48 valori corretti. Chiavi/placeholder e
-logica runtime/test/AMD/schema/regole sono conservati. La candidata ha 412 file distribuiti e 31 documenti
-per lingua. Vedere le [evidenze review](27_REVISIONE_LINGUE.md). U-020 è rinviato; tutte le righe manuali
-restano NON ESEGUITE. I gate runtime della 1.7.242 restano da eseguire.
-
-## Review help delle policy nella 1.7.243
-
-31 chiavi / 248 valori revisionati in questa tranche; quattro chiavi per pacchetto / 32 valori corretti.
-Il perimetro semantico cumulativo è 48 chiavi univoche per pacchetto; 949 restano fuori dalla review dichiarata.
-La candidata di 412 file conserva runtime/test/AMD/schema/CI e 997 chiavi/placeholder in ogni pacchetto.
-U-020 resta rinviato. Vedere le [evidenze review](27_REVISIONE_LINGUE.md). Gate runtime candidata pendenti.
-
-## Review testi privacy/completamento nella 1.7.244
-
-Sono riviste tutte le 88 chiavi privacy/completamento per pacchetto (704 valori); cinque chiavi per pacchetto
-sono corrette (40 valori). Perimetro cumulativo: 134 chiavi univoche per pacchetto / 1072 valori distinti;
-le altre 863 chiavi restano fuori dalla dichiarazione. Runtime/schema/AMD/test/CI invariati; gate candidata
-nativi pendenti. Vedere le [evidenze review](27_REVISIONE_LINGUE.md). U-020 resta aperto/rinviato.
-
-## Review accorpata impostazioni sito e privacy nella 1.7.245
-
-La tranche copre 110 chiavi di impostazione sito e otto descrizioni privacy (118 chiavi / 944 valori).
-Perimetro semantico cumulativo: 232 chiavi univoche per pacchetto / 1856 valori distinti; 765 chiavi restano
-fuori dalla dichiarazione. Sono corretti 98 valori su 21 chiavi esistenti, con conteggi per lingua nel
-[registro review](27_REVISIONE_LINGUE.md). Runtime/DB/AMD/test/CI invariati. U-020 resta rinviato;
-non si deducono gate nativi candidata o approvazione linguistica madrelingua.
+La tranche Analytics reazioni verifica 21 chiavi / 168 valori e corregge due chiavi per pacchetto (16 valori).
+Perimetro semantico cumulativo: 253 chiavi univoche per pacchetto / 2024 valori distinti; 744 chiavi fuori dalla
+dichiarazione. Tutte le 997 chiavi/placeholder per pacchetto sono conservate. Il [registro review](27_REVISIONE_LINGUE.md)
+riporta manifesto esatto e rilievi dal codice. I controlli locali di contratto/applicabilità non implicano
+esecuzione nativa candidata: servono sei job CI e poi ZIP reale dopo merge/server/strict. Le otto osservazioni
+manuali U-020 restano NON ESEGUITE su richiesta del manutentore; produzione integrata e approvazione madrelingua
+restano distinte.

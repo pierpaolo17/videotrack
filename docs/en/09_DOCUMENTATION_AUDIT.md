@@ -1,6 +1,6 @@
 # Documentation audit
 
-Baseline: VideoTrack **1.7.245** (`2026111004`).
+Baseline: VideoTrack **1.7.246** (`2026111005`).
 
 ## Scope
 
@@ -32,12 +32,10 @@ not duplicate implementation procedures, field dictionaries or long security/pri
 
 ## Current-tree findings
 
-- [U-017](25_MAINTAINABILITY_EXIT.md) and [U-007](26_BROWSER_EXIT_AUDIT.md) are closed on accepted
-  evidence. Actual 1.7.240 ZIP/main/server/strict match; six release/main jobs pass Behat 50/1074
-  and PHPUnit 379/4076. Actual 1.7.241 ZIP/server/strict and release/main CI are accepted.
-  Actual 1.7.244 ZIP/server/strict and six-job release/main CI are accepted. Candidate 1.7.245 corrects
-  four policy descriptions in all eight packs plus orthography/localisation findings (98 values in total).
-  Runtime logic, tests, schema, AMD and CI/analysis rules are unchanged. Manual U-020 is deferred and open.
+- [U-017](25_MAINTAINABILITY_EXIT.md) and [U-007](26_BROWSER_EXIT_AUDIT.md) remain closed.
+  Actual 1.7.245 ZIP/server/strict and six-job candidate/main CI are accepted. Candidate 1.7.246 corrects
+  two reaction Analytics texts per pack (16 values); runtime, tests, schema, AMD and CI rules are unchanged.
+  U-020 manual checks remain open/deferred. See the [current review](27_LANGUAGE_REVIEW.md) for exact scope.
 
 - `form_reaction_settings` owns general reaction settings, context-safe notice/preset fields and individual row
   fields followed by their icon visibility rules. The form retains row count, bounds, upload-filter registration
@@ -68,7 +66,7 @@ not duplicate implementation procedures, field dictionaries or long security/pri
   course-scoped choices, saved placeholders and the editor context/options remain explicit. The activity form
   retains submitted validation and section expansion without a direct acknowledgement-class dependency.
 - English and Italian indexes have matching scope and ordering.
-- Documentation markers, root README files and ER artefacts identify 1.7.245 / 2026111004.
+- Documentation markers, root README files and ER artefacts identify 1.7.246 / 2026111005.
 - The Moodle privacy export delegates state, segment, event, integrity and acknowledgement sections in order;
   six event categories preserve the original paths, sanitisation, 500-row streaming and final flush order.
 - Activity-form source, timed-text, reaction-file and forum checks remain in their original order behind focused helpers;
@@ -172,7 +170,7 @@ not duplicate implementation procedures, field dictionaries or long security/pri
 - Generated CI/server evidence is not part of the plugin tree. Repository `.gitignore`, Git archive
   `export-ignore` rules, Moodle `.moodleignore` rules and a PHPUnit release-hygiene contract jointly prevent
   `reports-*`, `videotrack-ci-*.zip` and `report_completo_videotrack_*.zip` from entering future releases. The
-  canonical release archive must therefore contain the 400 legitimate plugin files only.
+  canonical release archive must therefore contain the 412 legitimate plugin files only.
 
 ## Release checks
 
@@ -186,47 +184,17 @@ Before promotion, verify:
 6. release-hygiene, XMLDB relationship and uninstall/gradebook PHPUnit contracts plus the proportionate server gate pass;
 7. GitHub workflow syntax, action versions, matrix selectors, permissions and links match the repository file.
 
-## 1.7.241 U-007 evidence consolidation
+## Current accepted baseline and language candidate
 
-Accepted baseline is the actual 408-file 1.7.240 ZIP matching main `2d047f5c59792e4c8798a31209f19cfa9ecc15f7`.
-The paired browser exit audits record exact hashes, candidate/main provenance, all five original exit
-criteria and real six-environment 50/1074 and 379/4076 results. The server report has no Behat/full-preset run.
-Current browser guides retain technical contracts and remove obsolete failed-candidate narratives. Release
-guides now state the actual 379/50/1074 suite counts. U-017 stays closed with 24 reviewed PHPMD findings.
+The actual 1.7.245 package/server/strict and six-job candidate/main CI are accepted. The current 1.7.246
+candidate preserves the 412-file package, 31 EN/IT documents each, 345 non-documentary inventory rows and
+1101 PHP/654 AMD callables. XMLDB remains 2026110601 with 7 tables/151 fields/22 indexes/22 foreign keys;
+ER changes only the current release labels. The root changelog retains release history.
 
-Candidate 1.7.241 adds only two Markdown audit files and updates current documentation/version metadata.
-There are 410 distributed files, 345 non-documentary inventory rows, 1,101 PHP callables and 654 AMD callables.
-All runtime PHP except version metadata, existing test/fixture/AMD/language/schema/service/ruleset bytes are
-preserved. ER changes are current-tree labels only: XMLDB remains 2026110601, seven tables/151 fields/22
-indexes/22 foreign keys. Eight language packs retain 997 keys. U-020's eight manual rows are explicitly
-NOT RUN; semantic language review, live deployment checks and the final integrated gate remain separate.
-Actual 1.7.241 CI/package acceptance is still required; no manual pass is inferred from automation.
-
-## Targeted language review in 1.7.242
-
-19 keys / 152 values reviewed; six keys per pack / 48 values corrected. Keys/placeholders and runtime
-logic/tests/AMD/schema/rules are preserved. The candidate has 412 distributed files and 31 documents per
-language. See [review evidence](27_LANGUAGE_REVIEW.md). U-020 is deferred; every manual row remains
-NOT RUN. Native runtime gates for 1.7.242 remain pending.
-
-## Policy-help review in 1.7.243
-
-31 keys / 248 values reviewed in this pass; four keys per pack / 32 values corrected. The cumulative
-semantic scope is 48 unique keys per pack; 949 remain outside the claimed review. The 412-file candidate
-preserves runtime/tests/AMD/schema/CI and 997 keys/placeholders in each pack. U-020 stays deferred.
-See [review evidence](27_LANGUAGE_REVIEW.md). Candidate runtime gates remain pending.
-
-## Privacy/completion wording review in 1.7.244
-
-All 88 privacy/completion keys per pack were reviewed (704 values); five keys per pack were corrected
-(40 values). Cumulative review scope is 134 unique keys per pack / 1072 distinct values; the other 863 keys
-are outside the claim. Runtime/schema/AMD/tests/CI remain unchanged; native candidate gates remain pending.
-See [review evidence](27_LANGUAGE_REVIEW.md). U-020 remains open/deferred.
-
-## Consolidated site-setting and privacy review in 1.7.245
-
-The current pass covers 110 site-setting keys plus eight privacy descriptions (118 keys / 944 values).
-Cumulative semantic scope is 232 unique keys per pack / 1856 distinct values; 765 keys remain outside the
-claim. 98 values across 21 existing keys are corrected, with per-language counts in the
-[review record](27_LANGUAGE_REVIEW.md). Runtime/DB/AMD/tests/CI are unchanged. U-020 remains deferred;
-native candidate gates and human linguistic sign-off are not inferred.
+The reaction Analytics pass reviews 21 keys / 168 values, correcting two keys in each pack (16 values).
+Cumulative semantic scope is 253 unique keys per pack / 2024 distinct values; 744 keys remain outside the
+claim. All 997 keys/placeholders per pack are preserved. The [review record](27_LANGUAGE_REVIEW.md) gives
+the exact manifest and source findings. Local contract/applicability checks do not imply candidate native
+execution: six CI jobs and subsequent actual merged ZIP/server/strict gates remain required. U-020’s eight
+manual observations remain NOT RUN at the maintainer’s request; integrated production and native linguistic
+sign-off remain separate.
